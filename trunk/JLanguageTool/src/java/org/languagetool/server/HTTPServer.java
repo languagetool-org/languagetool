@@ -50,11 +50,6 @@ public class HTTPServer {
   private final HttpServer server;
   
   /**
-   * True if the server was started from the GUI.
-   */
-  private boolean runInternally = false;
-  
-  /**
    * Prepare a server on the given port - use run() to start it. Accepts
    * connections from localhost only.
    */
@@ -152,7 +147,7 @@ public class HTTPServer {
       System.exit(1);
     }
     boolean verbose = false;
-    boolean runInternal = false;
+    final boolean runInternal = false;
     int port = DEFAULT_PORT;
     for (int i = 0; i < args.length; i++) {
       if ("-p".equals(args[i]) || "--port".equals(args[i])) {
