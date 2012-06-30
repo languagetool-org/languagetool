@@ -9,7 +9,8 @@ Homepage: http://www.languagetool.org
 Requirements:
  -Java 6.0 or later (Oracle Java or IcedTea; GIJ is not supported)
  -For OpenOffice.org/LibreOffice integration: OpenOffice 3.0.1 or later
-  or LibreOffice.
+  or LibreOffice. We recommend LibreOffice 3.5.4 or later because
+  it contains an important bug fix.
 
 Usage:
  -To integrate LanguageTool into OpenOffice.org or LibreOffice, you
@@ -22,8 +23,8 @@ Usage:
   Manager > Add... in OpenOffice.org/LibreOffice and browse for the
   LanguageTool-###VERSION###.oxt file. 
   
-  Close and restart OpenOffice.org Writer. Remember to close the
-  OpenOffice.org QuickStarter as well if you use it. Type text with 
+  Close and restart OpenOffice.org/LibreOffice Writer. Remember to close
+  the QuickStarter as well if you use it. Type text with
   an error, e.g. "This is an test." - make sure the text language 
   is set to English for this example.
   You should see a blue underline under the word "an". Opening
@@ -35,10 +36,9 @@ Usage:
   LightProof and enable LanguageTool for English.
   
   Note that there will also be a new menu item "LanguageTool"
-  under the "Tools" menu which you might need to use if 
-  on-the-fly checking doesn't properly work. If the native
-  spelling and grammar dialog doesn't check grammar, make
-  sure that the check box "Check Grammar" is checked in it
+  under the "Tools" menu.
+  If the native spelling and grammar dialog doesn't check grammar,
+  make sure that the check box "Check Grammar" is checked in it
   (if the window closes because of no mistakes in the document,
   simply make any spelling mistake to make it open for a longer
   time, and check the box). Check also if LanguageTool is visible
@@ -50,10 +50,11 @@ Usage:
   Please see http://www.languagetool.org/issues/ if you
   experience problems
   
- -To use the simple demo GUI, first rename the .oxt file
-  to .zip, then unzip it to a new directory and double click on 
-  the LanguageToolGUI.jar file or call
-  java -jar LanguageToolGUI.jar
+ -To use the simple demo GUI:
+  -if you downloaded the *.oxt: rename it to *.zip
+  -unzip the file to a new directory
+  -double click on the LanguageToolGUI.jar file
+   or call 'java -jar LanguageToolGUI.jar'
 
  -To check plain text files from the command line:
   java -jar LanguageTool.jar <filename>
