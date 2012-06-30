@@ -30,16 +30,16 @@ Internal documentation on LanguageTool
  and work in that branch
 -set version number in build.properties
 -set JLanguageTool.VERSION in JLanguageTool.java
--use ltdiff.bash to create a rule diff between this version and the previous one
+-go to src/dev/tools/ltdiff and use ./ltdiff.bash to create a rule diff between this version and the previous one
 -update CHANGES files, also making sure it matches the rule diff report
--update README file (e.g. list of supported languages)
+-update README file
 -make sure there are no other local changes left that are not committed
 -run "ant test"
 -run "ant dist"
 -make sure no warnings (like "warning: [options] bootstrap class path not set in conjunction
  with -source 1.6") appear - if they do, make sure to compile with Java 1.6
--TODO: document "ant dist-standalone"
--test command line application, OOo integration, and stand-alone GUI version
+-run "ant dist-standalone"
+-test command line application, LibreOffice/OO integration, and stand-alone GUI version
  with at least these test sentences: 
     I've got allot of questions to you. (en)
     Seit 10 Jahre. (de)
@@ -51,8 +51,8 @@ Internal documentation on LanguageTool
     Стоимость работ составила 10 тыс рублей. (ru)
 -copy LT to a path with a space and test some sentences
 -upload to the server:
-    -dist/*.oxt, dist/README.txt and dist/CHANGES.txt to "download"
-    -link the release:
+    -*.oxt, *.zip, dist/README.txt and dist/CHANGES.txt to "download"
+    -link the release on the server:
      cd /home/languagetool/languagetool.org/www/download && rm LanguageTool-stable.oxt && ln -s LanguageTool-1.X.oxt LanguageTool-stable.oxt
     -run "ant javadoc" and upload dist/docs/api/* to "development"
 -run "ant jnlp" (note you need file myalias.p12 with the certificate to do this;
