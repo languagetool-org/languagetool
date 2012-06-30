@@ -25,6 +25,7 @@ import org.languagetool.Language;
  */
 public class CommandLineOptions {
 
+  private boolean printVersion = false;
   private boolean verbose = false;
   private boolean recursive = false;
   private boolean taggerOnly = false;
@@ -41,6 +42,14 @@ public class CommandLineOptions {
   private String filename = null;
   private String[] disabledRules = new String[0];
   private String[] enabledRules = new String[0];
+
+  public boolean isPrintVersion() {
+    return printVersion;
+  }
+
+  public void setPrintVersion(boolean printVersion) {
+    this.printVersion = printVersion;
+  }
 
   public boolean isVerbose() {
     return verbose;
@@ -169,4 +178,5 @@ public class CommandLineOptions {
   public void setEnabledRules(String[] enabledRules) {
     this.enabledRules = enabledRules;
   }
+
 }

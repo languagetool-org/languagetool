@@ -451,6 +451,10 @@ class Main {
       commandLineParser.printUsage();
       System.exit(1);
     }
+    if (options.isPrintVersion()) {
+      System.out.println("LanguageTool version " + JLanguageTool.VERSION);
+      System.exit(0);
+    }
 
     if (options.getFilename() == null) {
       options.setFilename("-");

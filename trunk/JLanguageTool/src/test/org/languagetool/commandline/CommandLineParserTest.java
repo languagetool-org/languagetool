@@ -68,6 +68,9 @@ public class CommandLineParserTest extends TestCase {
     assertEquals(Language.GERMAN, options.getLanguage());
     assertEquals("filename.txt", options.getFilename());
     assertTrue(options.isVerbose());
+
+    options = parser.parseOptions(new String[]{"--version"});
+    assertTrue(options.isPrintVersion());
   }
 
 }

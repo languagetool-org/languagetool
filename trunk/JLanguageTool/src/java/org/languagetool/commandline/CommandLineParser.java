@@ -35,7 +35,9 @@ public class CommandLineParser {
     }
     final CommandLineOptions options = new CommandLineOptions();
     for (int i = 0; i < args.length; i++) {
-      if (args[i].equals("-h") || args[i].equals("-help") || args[i].equals("--help") || args[i].equals("--?")) {
+      if (args[i].equals("--version")) {
+        options.setPrintVersion(true);
+      } else if (args[i].equals("-h") || args[i].equals("-help") || args[i].equals("--help") || args[i].equals("--?")) {
         throw new IllegalArgumentException();
       } else if (args[i].equals("-adl") || args[i].equals("--autoDetect")) {    // set autoDetect flag
         // also initialize the other language profiles for the LanguageIdentifier
@@ -137,6 +139,7 @@ public class CommandLineParser {
             + "  --api                    print results as XML\n"
             + "  -p, --profile            print performance measurements\n"
             + "  -v, --verbose            print text analysis (sentences, part-of-speech tags) to STDERR\n"
+            + "  --version                print LanguageTool version number and exit\n"
             + "  -a, --apply              automatically apply suggestions if available, printing result to STDOUT");
   }
 
