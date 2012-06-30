@@ -168,8 +168,8 @@ public class JLanguageToolTest extends TestCase {
     //and let's test other feats
     AnalyzedSentence sent = tool.getAnalyzedSentence("Z powodu pogody dobre buty są wskazane.");
     assertEquals("Disambiguator log: "
-            + "\nMULTIWORD_CHUNKER: Z[z/prep:gen.inst] -> Z[z/prep:gen.inst,Z powodu/<PREP:GEN>]"
-            + "\n\nMULTIWORD_CHUNKER: powodu[powód/subst:sg:gen:m3] -> Z[z/prep:gen.inst,Z powodu/<PREP:GEN>]\n",
+            + "\n\nMULTIWORD_CHUNKER: Z[z/prep:gen.inst] -> Z[z/prep:gen.inst,Z powodu/<PREP:GEN>]"
+            + "\n\nMULTIWORD_CHUNKER: powodu[powód/subst:sg:gen:m3] -> powodu[powód/subst:sg:gen:m3,Z powodu/</PREP:GEN>]\n",
             sent.getAnnotations());
     sent = tool.getAnalyzedSentence("Nie mamy żadnej ryby.");
     assertEquals("Disambiguator log: "

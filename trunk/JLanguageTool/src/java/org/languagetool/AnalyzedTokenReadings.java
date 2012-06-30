@@ -64,7 +64,7 @@ public class AnalyzedTokenReadings {
     this.startPos = startPos;
     init();
   }
-  
+    
   public AnalyzedTokenReadings(final List<AnalyzedToken> tokens, final int startPos) {
     anTokReadings = tokens.toArray(new AnalyzedToken[tokens.size()]);
     this.startPos = startPos;
@@ -162,6 +162,10 @@ public class AnalyzedTokenReadings {
     return found;
   }
 
+  /**
+   * Add a new reading.
+   * @param token - new reading, given as {@link AnalyzedToken}  
+   */
   public final void addReading(final AnalyzedToken token) {
     final ArrayList<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
     for (int i = 0; i < anTokReadings.length - 1; i++) {
