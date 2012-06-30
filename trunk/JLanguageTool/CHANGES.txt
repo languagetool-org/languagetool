@@ -1,6 +1,6 @@
 LanguageTool Change Log
 
-1.8-dev (release planned for around 2012-06-30)
+1.8 (2012-06-30)
 
  -Greek:
    -initial support for Greek with few rules for now (Panagiotis Minos)
@@ -36,7 +36,7 @@ LanguageTool Change Log
    -fixed a few false alarms
    -added URL element for some rules with URL with more information about this rule
    -added spellcheck dictionary for standalone version.
-   -several rule improvements 
+   -several rule improvements (adding links, improving messages)
    -new Java rule "repeat word in sentence" (disabled by default)
 
  -Italian:
@@ -49,22 +49,22 @@ LanguageTool Change Log
    -added spellcheck dictionary for the standalone version
     using Dicollecte-4.5 «classique & réforme 1990».
 
- -Breton
+ -Breton:
    -updated dictionary to use Apertium svn r38896.
    -several new rules and fixed false alarms
    -added some references to the Breton grammar:
     "La grammaire bretonne pour tous (Eugène CHALM)".
    -added spellcheck dictionary for the standalone version
 
- -Polish
+ -Polish:
    -added spellcheck dictionary for the standalone version
    -some new rules and fixed false alarms
    -major update of the tagger dictionary
 
- -Portuguese
+ -Portuguese:
    -initial support by Marco A.G. Pinto
 
- -Esperanto
+ -Esperanto:
    -several new rules and fixed false alarms
    -added <url> for further information about errors with links to
     PMEG (Plena Manlibro de Esperanto) with permission of its
@@ -76,17 +76,18 @@ LanguageTool Change Log
  -LibreOffice / OpenOffice integration:
    -If a LanguageTool rule has an URL with more information, the
     grammar checking dialog in LibreOffice will now offer a "More..." link
-    to that URL in LibreOffice, as well as on the command line and
+    to that URL. That URL is also displayed on the command line and stand-alone
     user interface as "More info:", and as "url" attribute of the <error>
-    element in the XML API format. This makes possible to have external
+    element in the XML API format. This makes it possible to have external
     documentation about rules.
-   -bugfix #3526635: SingletonFactory now implements XServiceInfo (Stephan Bergmann)
-   -bugfix #3534637: Fixed false alarm about word being uppercase when the previous sentence ended with a footnote - Sourceforge
+   -Bugfix #3526635: SingletonFactory now implements XServiceInfo (Stephan Bergmann)
+   -Bugfix #3534637: Fixed false alarm about word being uppercase when the previous
+    sentence ended with a footnote
 
  -GUI:
-   -made the result of "Tag Text" more readable
-   -Bugfix: when LT was hidden in the tray, two very fast mouse clicks could activate the check
-    twice, and that caused errors. Right now only one checking thread is active.
+   -made the result of "Tag Text" a bit more readable
+   -Bugfix: when LT was hidden in the tray, two very fast mouse clicks could activate
+    the check twice, and that caused errors. Right now only one checking thread is active.
 
  -Command line:
    -In verbose mode, the log of the rule-based disambiguator actions is displayed.
@@ -94,17 +95,8 @@ LanguageTool Change Log
     and disable rules.
 
  -API:
-   -Deprecated some methods and the SentenceTokenizer class (SRXSentenceTokenizer should be
-    used instead)
-
- -LanguageTool supports now separate rules for different local variants of a language,
-  for example American English and British English. To use them from the command line,
-  simply use "en-US" or "en-GB" as the language code. This implements sf.net feature
-  suggestion #3287388.
-
- -The configuration file now stores settings individually for all languages. This means
-  that you can enable spellcheck for American English, disable it for Polish, and British
-  English, and all this settings will be saved separately.
+   -Deprecated some methods and the SentenceTokenizer class (SRXSentenceTokenizer
+    should be used instead)
 
  -LanguageTool in the standalone version now supports spell-checking. Some of the languages
   use hunspell (http://hunspell.sourceforge.net), some use LanguageTool-specific code.
@@ -113,6 +105,15 @@ LanguageTool Change Log
   LanguageTool, except for Chinese, have spelling dictionaries bundled with the standalone
   version. Spell-checking errors appear in red in the LanguageTool standalone
   version, other errors appear in blue.
+
+ -LanguageTool now supports separate rules for different local variants of a language,
+  for example American English and British English. To use them from the command line,
+  simply use "en-US" or "en-GB" as the language code. This implements sf.net feature
+  suggestion #3287388.
+
+ -The configuration file now stores settings individually for all languages. This means
+  that you can enable spellcheck for American English, disable it for Polish, and British
+  English, and all these settings will be saved separately.
 
  -If you start the HTTP Server from the GUI, it now reads the configuration files
   that are configured in the GUI (if the appropriate checkbox is set).
