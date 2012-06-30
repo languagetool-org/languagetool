@@ -425,7 +425,6 @@ public final class Tools {
    * rule takes most time.
    * @param contents - text to check 
    * @param lt - instance of LanguageTool
-   * @return number of matches
    * @throws IOException
    */
   public static void profileRulesOnText(final String contents, 

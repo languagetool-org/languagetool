@@ -22,8 +22,6 @@ import org.languagetool.rules.Rule;
 
 /**
  * Abstract base class for rules for the Russian language.
- * 
- * @author 
  */
 public abstract class RussianRule extends Rule {
 

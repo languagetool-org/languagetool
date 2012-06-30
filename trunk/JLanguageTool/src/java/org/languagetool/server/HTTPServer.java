@@ -32,7 +32,7 @@ import com.sun.net.httpserver.HttpServer;
  * localhost for security reasons.
  * 
  * @author Daniel Naber
- * @modified by Ankit
+ * @author Ankit
  */
 public class HTTPServer {
 

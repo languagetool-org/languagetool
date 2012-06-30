@@ -169,8 +169,7 @@ public class Element {
   /**
    * Checks whether the rule element matches the token given as a parameter.
    * 
-   * @param token
-   * @AnalyzedToken to check matching against
+   * @param token AnalyzedToken to check matching against
    * @return True if token matches, false otherwise.
    */
   public final boolean isMatched(final AnalyzedToken token) {
@@ -194,8 +193,7 @@ public class Element {
   /**
    * Checks whether an exception matches.
    * 
-   * @param token
-   * @AnalyzedToken to check matching against
+   * @param token AnalyzedToken to check matching against
    * @return True if any of the exceptions matches (logical disjunction).
    */
   public final boolean isExceptionMatched(final AnalyzedToken token) {
@@ -316,8 +314,7 @@ public class Element {
   /**
    * Checks whether a previously set exception matches (in case the exception had scope == "next").
    * 
-   * @param token
-   * @AnalyzedToken to check matching against.
+   * @param token AnalyzedToken to check matching against.
    * @return True if any of the exceptions matches.
    */
   public final boolean isMatchedByScopeNextException(final AnalyzedToken token) {

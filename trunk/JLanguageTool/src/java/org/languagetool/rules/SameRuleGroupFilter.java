@@ -32,7 +32,6 @@ public class SameRuleGroupFilter implements RuleMatchFilter {
 
   /**
    * @param ruleMatches list of matches
-   * @return
    */
   public List<RuleMatch> filter(List<RuleMatch> ruleMatches) {
     Collections.sort(ruleMatches);

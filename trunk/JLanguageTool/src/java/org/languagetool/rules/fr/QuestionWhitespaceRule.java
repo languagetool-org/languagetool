@@ -34,7 +34,7 @@ import org.languagetool.tools.StringTools;
  * A rule that matches spaces before ?,:,; and ! (required for correct French
  * punctuation).
  *
- * @see http://unicode.org/udhr/n/notes_fra.html
+ * @see <a href="http://unicode.org/udhr/n/notes_fra.html">http://unicode.org/udhr/n/notes_fra.html</a>
  * 
  * @author Marcin Miłkowski
  */

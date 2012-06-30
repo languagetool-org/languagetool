@@ -178,20 +178,19 @@ public class AnalyzedSentence {
   }
 
   /**
-   * Used to display disambiguator actions log.
-   * @return
+   * Get disambiguator actions log.
    */
   public final String getAnnotations() {
-      final StringBuilder sb = new StringBuilder();
-      sb.append("Disambiguator log: \n");
-      for (final AnalyzedTokenReadings element : tokens) {
-          if (!element.isWhitespace() && 
-                  !"".equals(element.getHistoricalAnnotations())) {              
-              sb.append(element.getHistoricalAnnotations());
-              sb.append("\n");
-          }
+    final StringBuilder sb = new StringBuilder();
+    sb.append("Disambiguator log: \n");
+    for (final AnalyzedTokenReadings element : tokens) {
+      if (!element.isWhitespace() &&
+              !"".equals(element.getHistoricalAnnotations())) {
+        sb.append(element.getHistoricalAnnotations());
+        sb.append("\n");
       }
-      return sb.toString();
+    }
+    return sb.toString();
   }
   
   /**
