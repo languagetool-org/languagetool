@@ -30,7 +30,7 @@ import org.languagetool.rules.Rule;
 import org.languagetool.rules.UppercaseSentenceStartRule;
 import org.languagetool.rules.WhitespaceRule;
 import org.languagetool.rules.WordRepeatRule;
-import org.languagetool.rules.spelling.hunspell.HunspellNoSuggestionRule;
+import org.languagetool.rules.ml.MorfologikMalayalamSpellerRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.ml.MalayalamTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
@@ -100,7 +100,7 @@ public class Malayalam extends Language {
             CommaWhitespaceRule.class,
             DoublePunctuationRule.class,
             GenericUnpairedBracketsRule.class,
-            HunspellNoSuggestionRule.class,
+            MorfologikMalayalamSpellerRule.class,
             UppercaseSentenceStartRule.class,
             WordRepeatRule.class,
             WhitespaceRule.class
