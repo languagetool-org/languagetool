@@ -2829,6 +2829,21 @@ $Id$
     <!-- ====================================================================== -->
     <category name="Leicht zu verwechselnde Wörter">
         <!-- TODO emphatisch/empathisch -->
+        <rule id="SPURTEN_SPUTEN" name="Mögliche Wortverwechslung: spurten/sputen">
+            <pattern>
+                <token regexp="yes" skip="2">mich|dich|sich|uns|euch</token>
+                <marker>
+                    <token>spurten</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion>sputen</suggestion>?</message>
+            <example type="incorrect">Ich muss mich <marker>spurten</marker>!</example>
+            <example type="incorrect">Ich muss mich jetzt <marker>spurten</marker>!</example>
+            <example type="incorrect">Ich muss mich jetzt aber <marker>spurten</marker>!</example>
+            <example type="correct">Ich muss mich sputen!</example>
+            <example type="correct">Ich muss mich jetzt sputen!</example>
+            <example type="correct">Ich muss mich jetzt aber sputen!</example>
+        </rule>
         <rulegroup id="ZU_RECHT" name="Mögliche Wortverwechslung: zurecht/zu Recht">
             <rule>
                 <pattern case_sensitive="no">
