@@ -6400,6 +6400,18 @@ $Id$
     <!-- Redundanz -->
     <!-- ====================================================================== -->
     <category name="Redundanz">
+        <rule id="DOPPELUNG_YYXXER_JAHRE" name="Verdoppelung: 19XXer Jahre des vorigen Jahrhunderts">
+            <pattern>
+                <token regexp="yes">19[1-9]0er</token>
+                <token regexp="yes">Jahren?</token>
+                <token>des</token>
+                <token regexp="yes">letzten|vorigen</token>
+                <token regexp="yes">Jahrhunderts|Jahrtausends</token>
+            </pattern>
+            <message>Verdoppelung: Meinten Sie <suggestion>\1 \2</suggestion> oder <suggestion><match no="1" regexp_match="19([0-9][0-9])er" regexp_replace="$1er"/> \2 \3 \4 \5</suggestion>?</message>
+            <example type="incorrect">In den <marker>1970er Jahren des vorigen Jahrhunderts</marker>.</example>
+            <example type="correct">In den 70er Jahren des vorigen Jahrhunderts.</example>
+        </rule>
         <!-- Jan: TODO – Add more stuff like "Haarfrisur, Fußpedal, Altveteran, langsam kriechen, schnell rasen ..." -->
         <rulegroup id="FUER_UMSONST" name="Umgangssprachliche Verdoppelung: 'für umsonst'" default="off">
             <!-- Recherchieren: Sagt das überhaupt irgendwer außerhalb des Ruhrgebiets? -->
