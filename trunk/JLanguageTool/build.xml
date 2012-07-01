@@ -464,7 +464,7 @@
     <target name="dist" depends="ooo-internal" description="Builds LibreOffice/ApacheOpenOffice extension">
         <zip compress="yes" destfile="${dist.dir}/LanguageTool-${version}.oxt" basedir="${dist.dir}" includes="**"
              excludes="deploy.sh,undeploy.sh,turn.sh,printlocales.jar,**/hunspell/**,${bliki.lib},junit.jar,Rule*.jar,
-        lucene*.jar,testwikipedia.*,LanguageTool.jar,LanguageToolGUI.jar,*.xsl,${jna.lib},hunspell-*.jnilib,hunspell-*.dll,libhunspell-*.so" />
+        lucene*.jar,testrules.*,testwikipedia.*,LanguageTool.jar,LanguageToolGUI.jar,*.xsl,${jna.lib},hunspell-*.jnilib,hunspell-*.dll,libhunspell-*.so" />
     </target>
 
     <target name="fast" depends="ooo-internal" description="like dist, but without ZIP compression (for development only)">
@@ -480,12 +480,9 @@
         <copy file="./README.txt" todir="${dist.dir}" />
         <copy file="./CHANGES.txt" todir="${dist.dir}" />
         <copy file="./COPYING.txt" todir="${dist.dir}" />
-        <replace file="${dist.dir}/README.txt" token="###VERSION###" value="${version}">
-        </replace>
-        <replace file="${dist.dir}/README.txt" token="###DATE###" value="${date}">
-        </replace>
-        <replace file="${dist.dir}/README.txt" token="###morfologik.lib###" value="${morfologik.fsa.lib}:${morfologik.stemming.lib}">
-        </replace>
+        <replace file="${dist.dir}/README.txt" token="###VERSION###" value="${version}"></replace>
+        <replace file="${dist.dir}/README.txt" token="###DATE###" value="${date}"></replace>
+        <replace file="${dist.dir}/README.txt" token="###morfologik.lib###" value="${morfologik.fsa.lib}:${morfologik.stemming.lib}"></replace>
         <copy file="${ext.dir}/LGPL.txt" todir="${dist.dir}" />
         <copy file="${ext.dir}/Morfologik-license.txt" tofile="${dist.dir}/Morfologik-license.txt" />
         <copy file="${ext.dir}/CPL.txt" tofile="${dist.dir}/junit-license.txt" />
