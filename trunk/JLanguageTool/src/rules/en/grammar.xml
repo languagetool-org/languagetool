@@ -525,6 +525,19 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
                 <example type="correct">I can now say something more.</example>
                 <example correction="now" type="incorrect">I can <marker>know</marker> say something more.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token>for</token>
+                    <token>letting</token>
+                    <token regexp="yes">me|us</token>
+                    <marker>
+                        <token>now</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>know</suggestion>?</message>
+                <example type="incorrect">Thanks for letting us <marker>now</marker>.</example>
+                <example type="correct">Thanks for letting us know.</example>
+            </rule>
         </rulegroup>
         <rule id="VE_GO_TO" name="I've go to (I've got to)">
             <pattern>
