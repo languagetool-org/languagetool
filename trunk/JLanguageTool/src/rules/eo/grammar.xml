@@ -3263,6 +3263,49 @@ $Id$
       <example type="incorrect"><marker>Ankaǔ</marker> mi venos.</example>
       <example type="correct">Ankaŭ mi venos.</example>
     </rule>
+    <rulegroup id="KONCERNE_N" name="koncerne + akuzativo">
+      <rule>
+        <pattern>
+          <token regexp="yes">escepte|inkluzive|koncerne|responde|rilate|spite</token>
+          <marker><token postag_regexp="yes" postag="[OART] nak.*"/></marker>
+        </pattern>
+        <message>Rolvortaĵoj, kiuj devenas de objekta ago, povas konsisti el E-vorto + N-finaĵo. Oni uzas N-finaĵon, kiu tiam anstataŭas «de» aŭ «al». Ĉu vi intencis skribi <suggestion><match no="2" regexp_match="$" regexp_replace="n"/></suggestion>?</message>
+
+        <url>http://bertilow.com/pmeg/gramatiko/rolmontriloj/rolvortetoj/rolvortajhoj.html#i-o9b</url>
+        <example type="incorrect">Inkluzive <marker>ili</marker></example>
+        <example type="correct">Inkluzive ilin</example>
+        <example type="incorrect">Escepte <marker>tiu</marker> homo</example>
+        <example type="correct">Escepte tiun homon</example>
+        <example type="correct">Escepte de tiu homon</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">escepte|inkluzive|koncerne|responde|rilate|spite</token>
+          <token regexp="yes">la|ambaŭ</token>
+          <marker><token postag="[OART] nak.*" postag_regexp="yes"/></marker>
+        </pattern>
+        <message>Rolvortaĵoj, kiuj devenas de objekta ago, povas konsisti el E-vorto + N-finaĵo. Oni uzas N-finaĵon, kiu tiam anstataŭas «de» aŭ «al». Ĉu vi intencis skribi <suggestion><match no="3" regexp_match="$" regexp_replace="n"/></suggestion>?</message>
+
+        <url>http://bertilow.com/pmeg/gramatiko/rolmontriloj/rolvortetoj/rolvortajhoj.html#i-o9b</url>
+        <example type="incorrect">Koncerne la <marker>riskoj</marker></example>
+        <example type="correct">Koncerne la riskojn</example>
+        <example type="incorrect">Inkluzive la <marker>studentoj</marker></example>
+        <example type="correct">Inkluzive la studentojn</example>
+        <example type="correct">Inkluzive de la studentoj</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">escepte|inkluzive|koncerne|responde|rilate|spite</token>
+          <token postag="N"/>
+          <marker><token postag="[OAT] nak.*" postag_regexp="yes"/></marker>
+        </pattern>
+        <message>Rolvortaĵoj, kiuj devenas de objekta ago, povas konsisti el E-vorto + N-finaĵo. Oni uzas N-finaĵon, kiu tiam anstataŭas «de» aŭ «al». Ĉu vi intencis skribi <suggestion><match no="3" regexp_match="$" regexp_replace="n"/></suggestion>?</message>
+
+        <url>http://bertilow.com/pmeg/gramatiko/rolmontriloj/rolvortetoj/rolvortajhoj.html#i-o9b</url>
+        <example type="incorrect">Escepte tri <marker>studentoj</marker></example>
+        <example type="correct">Escepte tri studentojn</example>
+      </rule>
+    </rulegroup>
   </category>
   <!-- vim: foldmethod=marker foldmarker=<category,</category:
   -->
