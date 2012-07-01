@@ -63,7 +63,8 @@ public class AgreementRuleTest extends TestCase {
     assertGood("Das Auto von einem Mann.");
     assertGood("Das Auto eines Mannes.");
     assertGood("Des großen Mannes.");
-    
+    assertGood("Und nach der Nummerierung kommt die Überschrift.");
+
     assertGood("Das Dach von meinem Auto.");
     assertGood("Das Dach von meinen Autos.");
 
