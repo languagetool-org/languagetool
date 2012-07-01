@@ -34,7 +34,7 @@ import org.languagetool.rules.patterns.Unifier;
 import org.languagetool.rules.ro.CompoundRule;
 import org.languagetool.rules.ro.RomanianWordRepeatBeginningRule;
 import org.languagetool.rules.ro.SimpleReplaceRule;
-import org.languagetool.rules.spelling.hunspell.HunspellRule;
+import org.languagetool.rules.ro.MorfologikRomanianSpellerRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.ro.RomanianSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -113,10 +113,10 @@ public class Romanian extends Language {
             DoublePunctuationRule.class,
             UppercaseSentenceStartRule.class,
             WhitespaceRule.class,
-            GenericUnpairedBracketsRule.class,
-            HunspellRule.class,
+            GenericUnpairedBracketsRule.class,            
             WordRepeatRule.class,
             // specific to Romanian:
+            MorfologikRomanianSpellerRule.class,
             RomanianWordRepeatBeginningRule.class,
             SimpleReplaceRule.class,
             CompoundRule.class

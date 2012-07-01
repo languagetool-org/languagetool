@@ -30,7 +30,7 @@ import org.languagetool.rules.Rule;
 import org.languagetool.rules.UppercaseSentenceStartRule;
 import org.languagetool.rules.WhitespaceRule;
 import org.languagetool.rules.WordRepeatRule;
-import org.languagetool.rules.spelling.hunspell.HunspellRule;
+import org.languagetool.rules.it.MorfologikItalianSpellerRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.it.ItalianTagger;
 
@@ -88,7 +88,7 @@ public class Italian extends Language {
             CommaWhitespaceRule.class,
             DoublePunctuationRule.class,
             GenericUnpairedBracketsRule.class,
-            HunspellRule.class,
+            MorfologikItalianSpellerRule.class,
             UppercaseSentenceStartRule.class,
             WordRepeatRule.class,
             WhitespaceRule.class

@@ -109,7 +109,7 @@ public class HunspellRuleTest {
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Barrek-tre eo LanguageTool")).length);
   }
 
-  @Ignore("just for internal performance testing, thus ignored by default")
+//  @Ignore("just for internal performance testing, thus ignored by default")
   @Test
   public void testPerformance() throws Exception {
     final List<Language> allLanguages = Language.getAllLanguages();

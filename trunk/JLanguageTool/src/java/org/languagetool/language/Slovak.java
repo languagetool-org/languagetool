@@ -31,7 +31,7 @@ import org.languagetool.rules.UppercaseSentenceStartRule;
 import org.languagetool.rules.WhitespaceRule;
 import org.languagetool.rules.WordRepeatRule;
 import org.languagetool.rules.sk.CompoundRule;
-import org.languagetool.rules.spelling.hunspell.HunspellNoSuggestionRule;
+import org.languagetool.rules.sk.MorfologikSlovakSpellerRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.sk.SlovakSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -111,13 +111,13 @@ public class Slovak extends Language {
     return Arrays.asList(
             CommaWhitespaceRule.class,
             DoublePunctuationRule.class,
-            GenericUnpairedBracketsRule.class,
-            HunspellNoSuggestionRule.class,
+            GenericUnpairedBracketsRule.class,            
             UppercaseSentenceStartRule.class,
             WordRepeatRule.class,
             WhitespaceRule.class,
             // specific to Slovak:
-            CompoundRule.class
+            CompoundRule.class,
+            MorfologikSlovakSpellerRule.class
             //SlovakVesRule.class
     );
   }
