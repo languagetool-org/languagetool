@@ -29,6 +29,7 @@
         <pathelement location="${ext.ictclas4j.lib}" />
         <pathelement location="${ext.CJFtransform.lib}" />
         <pathelement location="${ext.commons-validator.lib}" />
+    	<pathelement location="${ext.lucene-gosen.lib}"/>
         <!-- -->
         <pathelement location="${ext.ooo.juh.lib}" />
         <pathelement location="${ext.ooo.unoil.lib}" />
@@ -334,7 +335,7 @@
         <jar jarfile="${dist.dir}/${final.name}.jar" basedir="${build.classes}" excludes="**/*.java">
             <manifest>
                 <attribute name="Main-Class" value="org.languagetool.Main" />
-                <attribute name="Class-Path" value="./ ./rules ./resource ./${morfologik.fsa.lib} ./${morfologik.stemming.lib} ./${morfologik.speller.lib} ./jWordSplitter.jar ./${segment.lib} ./${logging.lib} ./${tika.lib} ./${ictclas4j.lib} ./${CJFtransform.lib} ./${commons-validator.lib} ./${commons.lang.lib} ./${jna.lib}" />
+                <attribute name="Class-Path" value="./ ./rules ./resource ./${morfologik.fsa.lib} ./${morfologik.stemming.lib} ./${morfologik.speller.lib} ./jWordSplitter.jar ./${segment.lib} ./${logging.lib} ./${tika.lib} ./${ictclas4j.lib} ./${lucene-gosen.lib} ./${CJFtransform.lib} ./${commons-validator.lib} ./${commons.lang.lib} ./${jna.lib}" />
                 <attribute name="Implementation-Version" value="${version}" />
                 <attribute name="Implementation-Date" value="${date}" />
             </manifest>
@@ -343,7 +344,7 @@
         <jar jarfile="${dist.dir}/${final.name.gui}.jar" basedir="${build.classes}" includes="org/languagetool/gui/*.class">
             <manifest>
                 <attribute name="Main-Class" value="org.languagetool.gui.Main" />
-                <attribute name="Class-Path" value="./LanguageTool.jar ./ ./resource ./rules ./${morfologik.fsa.lib} ./${morfologik.stemming.lib} ./${morfologik.speller.lib} ./jWordSplitter.jar ./${segment.lib} ./${logging.lib} ./${tika.lib} ./${ictclas4j.lib} ./${CJFtransform.lib} ./${commons-validator.lib} ./${commons.lang.lib} ./${jna.lib}" />
+                <attribute name="Class-Path" value="./LanguageTool.jar ./ ./resource ./rules ./${morfologik.fsa.lib} ./${morfologik.stemming.lib} ./${morfologik.speller.lib} ./jWordSplitter.jar ./${segment.lib} ./${logging.lib} ./${tika.lib} ./${ictclas4j.lib} ././${lucene-gosen.lib} ./${CJFtransform.lib} ./${commons-validator.lib} ./${commons.lang.lib} ./${jna.lib}" />
                 <attribute name="Implementation-Version" value="${version}" />
                 <attribute name="Implementation-Date" value="${date}" />
             </manifest>
@@ -420,7 +421,7 @@
                 <attribute name="RegistrationClassName" value="org.languagetool.openoffice.Main" />
                 <attribute name="Implementation-Version" value="${version}" />
                 <attribute name="Implementation-Date" value="${date}" />
-                <attribute name="Class-Path" value=". ./rules ./resource ./${morfologik.fsa.lib} ./${morfologik.stemming.lib} ./jWordSplitter.jar ./${segment.lib} ./${logging.lib} ./${tika.lib} ./${ictclas4j.lib} ./${CJFtransform.lib} ./${commons-validator.lib} ${commons.lang.lib}" />
+                <attribute name="Class-Path" value=". ./rules ./resource ./${morfologik.fsa.lib} ./${morfologik.stemming.lib} ./jWordSplitter.jar ./${segment.lib} ./${logging.lib} ./${tika.lib} ./${ictclas4j.lib} ./${CJFtransform.lib} ./${lucene-gosen.lib} ./${commons-validator.lib} ${commons.lang.lib}" />
                 <attribute name="Uno-Type-Path" value="" />
             </manifest>
         </jar>
@@ -488,7 +489,7 @@
         <copy file="${ext.dir}/CPL.txt" tofile="${dist.dir}/junit-license.txt" />
         <copy file="${ext.dir}/Apache-License.txt" tofile="${dist.dir}/jWordSplitter-license.txt" />
         <copy file="${ext.dir}/segment-license.txt" tofile="${dist.dir}/segment-license.txt" />
-        <copy file="${ext.dir}/ictclas4j-license.txt" tofile="${dist.dir}/ictclas4j-license.txt" />
+        <copy file="${ext.dir}/ictclas4j-license.txt" tofile="${dist.dir}/ictclas4j-license.txt" />    	
 
         <filter filtersFile="build.properties" />
         <copy file="${ext.dir}/README" tofile="${dist.dir}/README-license.txt" filtering="true" encoding="${encoding}" />
@@ -507,6 +508,7 @@
 
         <copy file="${ext.ictclas4j.lib}" todir="${dist.dir}" />
         <copy file="${ext.CJFtransform.lib}" todir="${dist.dir}" />
+    	<copy file="${ext.lucene-gosen.lib}" todir="${dist.dir}" />
         <copy file="${ext.commons-validator.lib}" todir="${dist.dir}" />
         <copy file="${ext.lucene-core.lib}" todir="${dist.dir}" />
         <copy file="${ext.lucene-queries.lib}" todir="${dist.dir}" />

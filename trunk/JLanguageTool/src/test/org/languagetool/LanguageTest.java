@@ -125,7 +125,7 @@ public class LanguageTest {
         assertEquals(Language.GERMANY_GERMAN, Language.getLanguageForLocale(new Locale("de")));
         assertEquals(Language.POLISH, Language.getLanguageForLocale(new Locale("pl")));
         // final fallback is everything else fails:
-        assertEquals(Language.AMERICAN_ENGLISH, Language.getLanguageForLocale(Locale.JAPANESE));
+        assertEquals(Language.AMERICAN_ENGLISH, Language.getLanguageForLocale(Locale.KOREAN));
         assertEquals(Language.AMERICAN_ENGLISH, Language.getLanguageForLocale(new Locale("zz")));
     }
 

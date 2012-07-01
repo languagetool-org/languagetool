@@ -51,6 +51,7 @@ import org.languagetool.language.German;
 import org.languagetool.language.GermanyGerman;
 import org.languagetool.language.Greek;
 import org.languagetool.language.Icelandic;
+import org.languagetool.language.Japanese;
 import org.languagetool.language.Italian;
 import org.languagetool.language.Khmer;
 import org.languagetool.language.Lithuanian;
@@ -130,6 +131,7 @@ public abstract class Language {
   public static final Language PORTUGUESE = new Portuguese();
   public static final Language PORTUGUESE_PORTUGAL = new PortuguesePortugal();
   public static final Language PORTUGUESE_BRAZIL = new PortugueseBrazil();
+  public static final Language JAPANESE = new Japanese();
   
   public static final Language DEMO = new Demo();
   
@@ -143,7 +145,7 @@ public abstract class Language {
     SLOVAK, SLOVENIAN, /*SWEDISH,*/ ROMANIAN, ICELANDIC, GALICIAN, CATALAN, DANISH,
     MALAYALAM, BELARUSIAN, ESPERANTO, CHINESE, ASTURIAN, TAGALOG, BRETON, GREEK,
     AMERICAN_ENGLISH, BRITISH_ENGLISH, CANADIAN_ENGLISH, SOUTH_AFRICAN_ENGLISH, NEW_ZEALAND_ENGLISH, AUSTRALIAN_ENGLISH,
-    GERMANY_GERMAN, AUSTRIAN_GERMAN, SWISS_GERMAN, PORTUGUESE, PORTUGUESE_PORTUGAL, PORTUGUESE_BRAZIL,
+    GERMANY_GERMAN, AUSTRIAN_GERMAN, SWISS_GERMAN, PORTUGUESE, PORTUGUESE_PORTUGAL, PORTUGUESE_BRAZIL, JAPANESE,
     DEMO
   };
 

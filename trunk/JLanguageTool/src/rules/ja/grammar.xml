@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../print.xsl" ?>
+<?xml-stylesheet type="text/css" href="../rules.css" 
+title="Easy editing stylesheet" ?>
+<!--
+Japanese Grammar and Typo Rules file for LanguageTool
+-->
+<rules lang="en" xsi:noNamespaceSchemaLocation="../rules.xsd"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <!-- ============================== -->
+  <!-- 文法 -->
+  <!-- ============================== -->
+  <category name="文法">
+  	<rule id="DOUSI_WO" name="動詞+を">
+  	  <pattern case_sensitive="no">
+  	    <token postag="動詞.*" postag_regexp="yes"></token>
+  	    <token>を</token>
+  	  </pattern>
+  	  <message>のを</message>
+  	  <example type="correct"><marker>見るのを</marker>ためらう</example>
+  	  <example type="incorrect"><marker>見るを</marker>ためらう</example>
+  	</rule>
+  </category>
+  <!-- ============================== -->
+  <!-- 誤字 -->
+  <!-- ============================== -->
+  <category name="誤字">
+    <rule id="SONJASOKORA" name="そんじゃそこら">
+      <pattern case_sensitive="no">
+		<token>そん</token>
+        <token>じゃ</token>
+        <token>そこら</token>
+      </pattern>
+	  <message>そんじょそこら</message>
+      <example type="correct"><marker>そんじょそこら</marker>で手に入る</example>
+      <example type="incorrect"><marker>そんじゃそこら</marker>で手に入る</example>
+    </rule>
+	<rule id="KIMONIMEIJIRU" name="肝に命じる">
+      <pattern case_sensitive="no">
+		<token>肝</token>
+        <token>に</token>
+        <token>命じる</token>
+      </pattern>
+	  <message>肝に銘じる</message>
+      <example type="correct"><marker>肝に銘じる</marker></example>
+      <example type="incorrect"><marker>肝に命じる</marker></example>
+    </rule>
+	<rule id="TAKAMINOKENBUTU" name="高見の見物">
+      <pattern case_sensitive="no">
+		<token>高見</token>
+		<token>の</token>
+		<token>見物</token>
+      </pattern>
+	  <message>高みの見物</message>
+      <example type="correct"><marker>高みの見物</marker></example>
+      <example type="incorrect"><marker>高見の見物</marker></example>
+    </rule>
+	<rule id="JINJIIDOU" name="人事移動">
+      <pattern case_sensitive="no">
+		<token>人事</token>
+		<token>移動</token>
+      </pattern>
+	  <message>人事異動</message>
+      <example type="correct"><marker>人事異動</marker>のお知らせ</example>
+      <example type="incorrect"><marker>人事移動</marker>のお知らせ</example>
+    </rule>
+	<rule id="MOTOZUKU" name="基ずく">
+      <pattern case_sensitive="no">
+		<token>基</token>
+		<token>ずく</token>
+      </pattern>
+	  <message>基づく</message>
+      <example type="correct">事実に<marker>基づく</marker>話</example>
+      <example type="incorrect">事実に<marker>基ずく</marker>話</example>
+    </rule>
+	<rule id="TUKUZUKU" name="つくずく">
+      <pattern case_sensitive="no">
+		<token>つく</token>
+		<token>ずく</token>
+      </pattern>
+	  <message>つくずく</message>
+      <example type="correct"><marker>つくづく</marker>思案する</example>
+      <example type="incorrect"><marker>つくずく</marker>思案する</example>
+    </rule>
+	<rule id="TUREZURE" name="つれずれ">
+      <pattern case_sensitive="no">
+		<token>つれ</token>
+		<token>ずれ</token>
+      </pattern>
+	  <message>つれづれ</message>
+      <example type="correct"><marker>つれづれ</marker>を慰める</example>
+      <example type="incorrect"><marker>つれずれ</marker>を慰める</example>
+    </rule>
+	<rule id="ZURAI" name="ずらい">
+      <pattern case_sensitive="no">
+		<token>ず</token>
+		<token>らい</token>
+      </pattern>
+	  <message>づらい</message>
+      <example type="correct">読み<marker>づらい</marker>字</example>
+      <example type="incorrect">読み<marker>ずらい</marker>字</example>
+    </rule>
+	<rule id="AKUDOI" name="悪どい">
+      <pattern case_sensitive="no">
+		<token>悪</token>
+		<token>ど</token>
+		<token>い</token>
+      </pattern>
+	  <message>あくどい</message>
+      <example type="correct"><marker>あくどい</marker>手口</example>
+      <example type="incorrect"><marker>悪どい</marker>手口</example>
+    </rule>
+	<rule id="UTYOUTEN" name="有頂点">
+      <pattern case_sensitive="no">
+		<token>有</token>
+		<token>頂点</token>
+      </pattern>
+	  <message>有頂天</message>
+      <example type="correct"><marker>有頂天</marker>になる</example>
+      <example type="incorrect"><marker>有頂点</marker>になる</example>
+    </rule>
+	<rule id="URABURERU" name="裏ぶれる">
+      <pattern case_sensitive="no">
+		<token>裏</token>
+		<token regexp="yes">ぶれる|ぶれ</token>
+      </pattern>
+	  <message>うらぶれる</message>
+      <example type="correct"><marker>うらぶれ</marker>た生活</example>
+      <example type="incorrect"><marker>裏ぶれ</marker>た生活</example>
+    </rule>
+	<rule id="UWATUKU" name="浮わつく">
+      <pattern case_sensitive="no">
+		<token>浮</token>
+		<token>わ</token>
+      </pattern>
+      <message>浮つく</message>
+      <example type="correct">気持ちが<marker>浮</marker>つく</example>
+      <example type="incorrect">気持ちが<marker>浮わ</marker>つく</example>
+    </rule>
+    <rule id="OUGI" name="奥技">
+      <pattern case_sensitive="no">
+		<token>奥</token>
+		<token>技</token>
+      </pattern>
+      <message>奥義</message>
+      <example type="correct"><marker>奥義</marker>をきわめる</example>
+      <example type="incorrect"><marker>奥技</marker>をきわめる</example>
+    </rule>
+    <rule id="KATAHIJIHARU" name="片肘張る">
+      <pattern case_sensitive="no">
+		<token>片</token>
+		<token>肘</token>
+		<token regexp="yes">張る|張っ</token>
+      </pattern>
+      <message>肩肘張る</message>
+      <example type="correct"><marker>肩肘張っ</marker>て暮らす</example>
+      <example type="incorrect"><marker>片肘張っ</marker>て暮らす</example>
+    </rule>
+    <rule id="KANNNINN" name="勘忍">
+      <pattern case_sensitive="no">
+		<token>勘</token>
+		<token>忍</token>
+      </pattern>
+      <message>堪忍</message>
+      <example type="correct"><marker>堪忍</marker>は一生の宝</example>
+      <example type="incorrect"><marker>勘忍</marker>は一生の宝</example>
+    </rule>
+	<rule id="KANBEN" name="堪弁">
+      <pattern case_sensitive="no">
+		<token>堪</token>
+		<token>弁</token>
+      </pattern>
+	  <message>勘弁</message>
+      <example type="correct"><marker>勘弁</marker>ならない</example>
+      <example type="incorrect"><marker>堪弁</marker>ならない</example>
+    </rule>
+	<rule id="O" name="お">
+      <pattern case_sensitive="no">
+		<token postag="名詞.*" postag_regexp="yes"></token>
+		<token>お</token>
+      </pattern>
+	  <message>を</message>
+      <example type="correct"><marker>上を</marker>見る</example>
+      <example type="incorrect"><marker>上お</marker>見る</example>
+    </rule>
+  </category>
+  <!-- ============================== -->
+  <!-- コロケーション -->
+  <!-- ============================== -->
+  <category name="コロケーション">
+	<rule id="AINOTE" name="合いの手">
+      <pattern case_sensitive="no">
+		<token>合いの手</token>
+		<token>を</token>
+		<token>打つ</token>
+      </pattern>
+	  <message>合いの手を入れる</message>
+      <example type="correct"><marker>合いの手を入れる</marker></example>
+      <example type="incorrect"><marker>合いの手を打つ</marker></example>
+    </rule>
+	<rule id="ITIDOU" name="一同">
+      <pattern case_sensitive="no">
+		<token>一同</token>
+		<token>に</token>
+		<token regexp="yes">会|会し|会す</token>
+      </pattern>
+	  <message>一堂に会する。</message>
+      <example type="correct"><marker>一堂に会</marker>する。</example>
+      <example type="incorrect"><marker>一同に会</marker>する。</example>
+    </rule>
+	<rule id="ISSI" name="一矢">
+      <pattern case_sensitive="no">
+		<token>一矢</token>
+		<token>を</token>
+		<token>返す</token>
+      </pattern>
+	  <message>一矢を報いる</message>
+      <example type="correct"><marker>一矢を報いる</marker></example>
+      <example type="incorrect"><marker>一矢を返す</marker></example>
+    </rule>
+  </category>
+</rules>
