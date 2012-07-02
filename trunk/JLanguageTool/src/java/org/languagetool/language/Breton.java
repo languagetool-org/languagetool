@@ -29,7 +29,7 @@ import org.languagetool.rules.Rule;
 import org.languagetool.rules.UppercaseSentenceStartRule;
 import org.languagetool.rules.WhitespaceRule;
 import org.languagetool.rules.br.TopoReplaceRule;
-import org.languagetool.rules.spelling.hunspell.HunspellNoSuggestionRule;
+import org.languagetool.rules.br.MorfologikBretonSpellerRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.br.BretonTagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
@@ -103,7 +103,7 @@ public class Breton extends Language {
     return Arrays.asList(
             CommaWhitespaceRule.class,
             DoublePunctuationRule.class,
-            HunspellNoSuggestionRule.class,
+            MorfologikBretonSpellerRule.class,
             UppercaseSentenceStartRule.class,
             WhitespaceRule.class,
             TopoReplaceRule.class

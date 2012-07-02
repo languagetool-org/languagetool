@@ -21,10 +21,12 @@ package org.languagetool.rules.spelling.morfologik;
 
 import java.io.IOException;
 import java.net.URL;
+import java.nio.charset.CharacterCodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 import morfologik.speller.Speller;
 import morfologik.stemming.Dictionary;
@@ -45,6 +47,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     private Locale conversionLocale = Locale.getDefault();
     
     private final static String LANGUAGETOOL = "LanguageTool";
+    
     
     /**
      * Get the filename, e.g., <tt>/resource/pl/spelling.dict</tt>.
@@ -84,32 +87,49 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
         }
         for (AnalyzedTokenReadings token : tokens) {
             final String word = token.getToken();
-            boolean isAlphabetic = true;
-            if (word.length() == 1) { // dictionaries usually do not contain punctuation               
-                isAlphabetic = StringTools.isAlphabetic(word.charAt(0));
-              }              
-            if (word.length() > 0 && isAlphabetic && !token.isImmunized()
-                    && !containsDigit(word)
-                    && !LANGUAGETOOL.equals(word)
-                    && !speller.isInDictionary(word)
-                    && !speller.isInDictionary(word.toLowerCase(conversionLocale))) {
-                final List<String> suggestions = new ArrayList<String>();                
-                suggestions.addAll(speller.findReplacements(word));
-                if (!word.toLowerCase(conversionLocale).equals(word)) {
-                    suggestions.addAll(speller.findReplacements(word.toLowerCase(conversionLocale)));
+            if (!token.isImmunized()) {
+            if (tokenizingPattern() == null) {                
+                ruleMatches.addAll(getRuleMatch(word, token.getStartPos()));                
+            } else {
+                int i = 0;
+                for (final String internalSplit : tokenizingPattern().split(word)) {
+                    ruleMatches.addAll(getRuleMatch(internalSplit, token.getStartPos() + i));
+                    i += internalSplit.length() + separatorLength();
                 }
-                suggestions.addAll(speller.replaceRunOnWords(word));
-                final RuleMatch ruleMatch = new RuleMatch(this, 
-                        token.getStartPos(), token.getStartPos() + word.length(),
-                        messages.getString("spelling"),
-                        messages.getString("desc_spelling_short"));
-                if (!suggestions.isEmpty()) {
-                    ruleMatch.setSuggestedReplacements(suggestions);
-                }
-                ruleMatches.add(ruleMatch);
+            }
             }
         }
         return toRuleMatchArray(ruleMatches);
+    }
+    
+    private List<RuleMatch> getRuleMatch(final String word, final int startPos) throws CharacterCodingException {
+        boolean isAlphabetic = true;
+        final List<RuleMatch> ruleM = new ArrayList<RuleMatch>();
+        if (word.length() == 1) { // dictionaries usually do not contain punctuation               
+            isAlphabetic = StringTools.isAlphabetic(word.charAt(0));
+          }              
+        if (word.length() > 0 && isAlphabetic
+                && !containsDigit(word)
+                && !LANGUAGETOOL.equals(word)
+                && !speller.isInDictionary(word)
+                && !speller.isInDictionary(word.toLowerCase(conversionLocale))) {
+            final List<String> suggestions = new ArrayList<String>();                
+            suggestions.addAll(speller.findReplacements(word));
+            if (!word.toLowerCase(conversionLocale).equals(word)) {
+                suggestions.addAll(speller.findReplacements(word.toLowerCase(conversionLocale)));
+            }
+            suggestions.addAll(speller.replaceRunOnWords(word));
+            
+            final RuleMatch ruleMatch = new RuleMatch(this, 
+                    startPos, startPos + word.length(),
+                    messages.getString("spelling"),
+                    messages.getString("desc_spelling_short"));
+            if (!suggestions.isEmpty()) {
+                ruleMatch.setSuggestedReplacements(suggestions);
+            }
+            ruleM.add(ruleMatch);
+        }
+        return ruleM;
     }
     
     private final boolean containsDigit(final String s) {        
@@ -119,6 +139,14 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
             }
         }
         return false;
+    }
+    
+    public Pattern tokenizingPattern() {
+        return null;
+    }
+    
+    public int separatorLength() {
+        return 0;
     }
 
 }

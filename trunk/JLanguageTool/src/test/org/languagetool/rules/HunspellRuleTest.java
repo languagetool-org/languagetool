@@ -101,7 +101,6 @@ public class HunspellRuleTest {
     final HunspellRule rule = new HunspellRule(TestTools.getMessages("Breton"), Language.BRETON);
     final JLanguageTool langTool = new JLanguageTool(Language.BRETON);
 
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Penaos emañ kont ganit?")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("C'hwerc'h merc'h gwerc'h war c'hwerc'h marc'h kalloc'h")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("C’hwerc’h merc’h gwerc‘h war c‘hwerc‘h marc'h kalloc‘h")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Evel-just")).length);
