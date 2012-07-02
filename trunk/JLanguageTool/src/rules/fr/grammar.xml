@@ -2617,7 +2617,9 @@ though, and has since been slightly modified)-->
         <rulegroup id="FAIRE_VPPA" name="Comment + verb ppa">
             <rule>
                 <pattern>
-                    <token inflected="yes" regexp="yes" postag="V.*" postag_regexp="yes">aimer|aller|désirer|devoir|esperer|faire|pouvoir|savoir|souhaiter|vouloir</token>
+                    <token inflected="yes" regexp="yes" postag="V.*" postag_regexp="yes">aimer|aller|désirer|devoir|esperer|faire|pouvoir|savoir|souhaiter|vouloir
+                      <exception postag="V ind pres 1 s">puis</exception>
+                    </token>
                     <marker>
                         <token postag="V.*" postag_regexp="yes" regexp="yes">.*ée?s?</token>
                     </marker>
@@ -2626,6 +2628,7 @@ though, and has since been slightly modified)-->
                 <example type="incorrect">J’aimerais <marker>changé</marker> de travail.</example>
                 <example type="correct">J’aimerais changer de travail.</example>
                 <example type="correct">Je l’ai tout à fait oublié.</example>
+                <example type="correct">Puis assigné à résidence.</example>
             </rule>
             <rule>
                 <pattern>
