@@ -970,7 +970,7 @@ though, and has since been slightly modified)-->
                     <marker>
                         <token regexp="yes">d[eé]s</token>
                     </marker>
-                    <token regexp="yes">que?|[lmst]a|[mts]on|[lmst]es|le?[nv]os|cette|lors|après|maintenant|à|toujours|midi|minuit|aujourd|hier|demain|une?|janvier|f[eé]vrier|mars|avril|mai|juin|juillet|a[uû]ot|septembre|octobre|novembre|d[eé]cembre|vendémiaire|brumaire|frimaire|nivôse|pluviôse|ventôse|germinal|floréal|prairial|messidor|thermidor|fructidor|lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche|P[âa]ques|No[ëe]l|[12]?\d\d\d</token>
+                    <token regexp="yes">que?|[lmst]a|[mts]on|[lmst]es|le?[nv]os|cette|lors|après|maintenant|à|toujours|midi|minuit|aujourd|hier|demain|une?|janvier|f[eé]vrier|mars|avril|mai|juin|juillet|a[uû]ot|septembre|octobre|novembre|d[eé]cembre|vendémiaire|brumaire|frimaire|nivôse|pluviôse|ventôse|germinal|floréal|prairial|messidor|thermidor|fructidor|lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche|P[âa]ques|No[ëe]l|1\d\d\d|20\d\d</token>
                 </pattern>
                 <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="(.).." regexp_replace="$1ès"></match></suggestion> ?</message>
                 <example type="incorrect">Tu repars <marker>des</marker> qu’il arrive.</example>
@@ -3463,7 +3463,7 @@ though, and has since been slightly modified)-->
             <rule name="il/elle/on + 0 tokens + Verbe">
                 <pattern>
                     <token postag="R pers suj 3 .* s|R dem . s" postag_regexp="yes">
-                        <exception regexp="yes">ce|(celui|celle)(-ci)?</exception>
+                        <exception regexp="yes">ce(la|ci)?|(celui|celle)(-ci)?</exception>
                         <exception scope="previous" postag="&lt;/DE&gt;"></exception>
                         <exception scope="previous" postag="P"></exception>
                     </token>
@@ -3480,6 +3480,7 @@ though, and has since been slightly modified)-->
                 <example type="correct">Celle adressée à mon ami</example>
                 <example type="correct">À elle reviennent toutes les maisons.</example>
                 <example type="correct">Des polluants comme celui-ci viennent de la combustion.</example>
+                <example type="correct">Je trouve cela passionnant.</example>
             </rule>
             <rule name="il/elle/on + 1 token + Verbe">
                 <pattern>
