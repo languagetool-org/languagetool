@@ -5330,6 +5330,18 @@ $Id$
                 <example type="correct"><marker>Nach dem</marker> Essen zwei Tabletten.</example>
             </rule>
         </rulegroup>
+        <rule id="AUS_AN_DEREN" name="Zusammen-/Getrenntschreibung: 'aus an deren (anderen)'">
+            <pattern case_sensitive="no">
+                <token regexp="yes">in|aus</token>
+                <marker>
+                    <token>an</token>
+                    <token>deren</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion>anderen</suggestion>?</message>
+            <example type="correct">Buchmacher in <marker>anderen</marker> Bundesländern haben eine Genehmigung.</example>
+            <example type="incorrect">Buchmacher in <marker>an deren</marker> Bundesländern haben eine Genehmigung.</example>
+        </rule>
         <rule id="JE_NACH_DEM" name="Zusammen-/Getrenntschreibung: 'je nach dem (je nachdem)'">
             <pattern case_sensitive="no">
                 <marker>

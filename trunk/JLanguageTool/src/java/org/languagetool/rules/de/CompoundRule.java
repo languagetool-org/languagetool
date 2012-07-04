@@ -34,10 +34,10 @@ public class CompoundRule extends AbstractCompoundRule {
  
   public CompoundRule(final ResourceBundle messages) throws IOException {    
     super(messages, FILE_NAME,
-            "Dieses Kompositum wird mit Bindestrich geschrieben.",
-            "Dieses Kompositum wird zusammengeschrieben.",
-            "Dieses Kompositum wird zusammen oder mit Bindestrich geschrieben.");
-    super.setShort("Zusammenschreibung von Komposita");
+            "Dieses Wort wird mit Bindestrich geschrieben.",
+            "Dieses Wort wird zusammengeschrieben.",
+            "Dieses Wort wird zusammen oder mit Bindestrich geschrieben.");
+    super.setShort("Zusammenschreibung von Wörtern");
   }
 
 
@@ -48,6 +48,6 @@ public class CompoundRule extends AbstractCompoundRule {
 
   @Override
   public String getDescription() {
-    return "Zusammenschreibung von Komposita, z.B. 'CD-ROM' statt 'CD ROM'";
+    return "Zusammenschreibung von Wörtern, z.B. 'CD-ROM' statt 'CD ROM'";
   }
 }
