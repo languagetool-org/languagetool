@@ -42,12 +42,12 @@ import org.languagetool.tools.StringTools;
 
 public abstract class MorfologikSpellerRule extends SpellingCheckRule {
 
-    private Speller speller;
-    
-    private Locale conversionLocale = Locale.getDefault();
-    
     private final static String LANGUAGETOOL = "LanguageTool";
-    
+
+    private Speller speller;
+
+    private Locale conversionLocale = Locale.getDefault();
+
     
     /**
      * Get the filename, e.g., <tt>/resource/pl/spelling.dict</tt>.
@@ -88,15 +88,15 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
         for (AnalyzedTokenReadings token : tokens) {
             final String word = token.getToken();
             if (!token.isImmunized()) {
-            if (tokenizingPattern() == null) {                
-                ruleMatches.addAll(getRuleMatch(word, token.getStartPos()));                
-            } else {
-                int i = 0;
-                for (final String internalSplit : tokenizingPattern().split(word)) {
-                    ruleMatches.addAll(getRuleMatch(internalSplit, token.getStartPos() + i));
-                    i += internalSplit.length() + separatorLength();
+                if (tokenizingPattern() == null) {
+                    ruleMatches.addAll(getRuleMatch(word, token.getStartPos()));
+                } else {
+                    int i = 0;
+                    for (final String internalSplit : tokenizingPattern().split(word)) {
+                        ruleMatches.addAll(getRuleMatch(internalSplit, token.getStartPos() + i));
+                        i += internalSplit.length() + separatorLength();
+                    }
                 }
-            }
             }
         }
         return toRuleMatchArray(ruleMatches);
@@ -104,10 +104,10 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     
     private List<RuleMatch> getRuleMatch(final String word, final int startPos) throws CharacterCodingException {
         boolean isAlphabetic = true;
-        final List<RuleMatch> ruleM = new ArrayList<RuleMatch>();
+        final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
         if (word.length() == 1) { // dictionaries usually do not contain punctuation               
             isAlphabetic = StringTools.isAlphabetic(word.charAt(0));
-          }              
+        }
         if (word.length() > 0 && isAlphabetic
                 && !containsDigit(word)
                 && !LANGUAGETOOL.equals(word)
@@ -127,12 +127,12 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
             if (!suggestions.isEmpty()) {
                 ruleMatch.setSuggestedReplacements(suggestions);
             }
-            ruleM.add(ruleMatch);
+            ruleMatches.add(ruleMatch);
         }
-        return ruleM;
+        return ruleMatches;
     }
     
-    private final boolean containsDigit(final String s) {        
+    private boolean containsDigit(final String s) {
         for (int k = 0; k < s.length(); k++) {
             if (Character.isDigit(s.charAt(k))) {
                 return true;

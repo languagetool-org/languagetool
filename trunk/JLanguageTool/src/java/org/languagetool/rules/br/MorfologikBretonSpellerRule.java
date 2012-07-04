@@ -27,30 +27,33 @@ import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 
 public final class MorfologikBretonSpellerRule extends MorfologikSpellerRule {
 
-    private static final String RESOURCE_FILENAME = "/br/hunspell/br_FR.dict";
-    
-    private static final Pattern BRETON_TOKENIZING_CHARS = Pattern.compile("-");
-    
-    public MorfologikBretonSpellerRule(ResourceBundle messages,
-            Language language) {
-        super(messages, language);
-    }
+  private static final String RESOURCE_FILENAME = "/br/hunspell/br_FR.dict";
 
-    @Override
-    public String getFileName() {
-        return RESOURCE_FILENAME;
-    }
-    
-    public String getId() {
-        return "MORFOLOGIK_RULE_BR_FR";
-    }
-    
-    public Pattern tokenizingPattern() {
-     return BRETON_TOKENIZING_CHARS;   
-    }
-    
-    public int separatorLength() {
-        return 1;
-    }
+  private static final Pattern BRETON_TOKENIZING_CHARS = Pattern.compile("-");
+
+  public MorfologikBretonSpellerRule(ResourceBundle messages,
+                                     Language language) {
+    super(messages, language);
+  }
+
+  @Override
+  public String getFileName() {
+    return RESOURCE_FILENAME;
+  }
+
+  @Override
+  public String getId() {
+    return "MORFOLOGIK_RULE_BR_FR";
+  }
+
+  @Override
+  public Pattern tokenizingPattern() {
+    return BRETON_TOKENIZING_CHARS;
+  }
+
+  @Override
+  public int separatorLength() {
+    return 1;
+  }
 
 }
