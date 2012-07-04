@@ -705,7 +705,95 @@ $Id$
         <example type="correct">En em <marker>vagañ</marker> a ra e-unan.</example>
       </rule>
     </rulegroup>
-
+    <rulegroup id="KLANV_PE_GLANVOCH" name="klañv pe klañvoc’h → klañv pe glañvoc’h">
+      <rule>
+        <pattern>
+          <token postag="J" regexp="yes">k.*</token>
+          <token>pe</token>
+          <marker><token postag="J cmp.*" postag_regexp="yes" regexp="yes"><match no="0" regexp_match="^.(.*)" regexp_replace="(k|c’h)$1oc’h"/></token></marker>
+        </pattern>
+        <message>Ur c’hemmadur de vlotaat a zlefe bezañ goude «pe». Ha fellout a rae deoc’h skrivañ <suggestion><match no="3" regexp_match="^(?i)(k|c’h)" regexp_replace="g"/></suggestion>? (CHALM Sb 1.4)</message>
+        <example type="incorrect">Klañv pe <marker>klañvoc’h</marker>.</example>
+        <example type="incorrect">Klañv pe <marker>c’hlañvoc’h</marker>.</example>
+        <example type="correct">Klañv pe <marker>glañvoc’h</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="J" regexp="yes">t.*</token>
+          <token>pe</token>
+          <marker><token postag="J cmp.*" postag_regexp="yes" regexp="yes"><match no="0" regexp_match=".(.*)" regexp_replace="[tz]$1oc’h"/></token></marker>
+        </pattern>
+        <message>Ur c’hemmadur de vlotaat a zlefe bezañ goude «pe». Ha fellout a rae deoc’h skrivañ <suggestion><match no="3" regexp_match="^(?i)[tz]" regexp_replace="d"/></suggestion>? (CHALM Sb 1.4)</message>
+        <example type="incorrect">Tev pe <marker>tevoc’h</marker>.</example>
+        <example type="incorrect">Tev pe <marker>zevoc’h</marker>.</example>
+        <example type="correct">Tev pe <marker>devo’h</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="J" regexp="yes">p.*</token>
+          <token>pe</token>
+          <marker><token postag="J cmp.*" postag_regexp="yes" regexp="yes"><match no="0" regexp_match=".(.*)" regexp_replace="[pf]$1oc’h"/></token></marker>
+        </pattern>
+        <message>Ur c’hemmadur de vlotaat a zlefe bezañ goude «pe». Ha fellout a rae deoc’h skrivañ <suggestion><match no="3" regexp_match="^." regexp_replace="b"/></suggestion>? (CHALM Sb 1.4)</message>
+        <example type="incorrect">Pounner pe <marker>pounneroc’h</marker>.</example>
+        <example type="incorrect">Pounner pe <marker>founneroc’h</marker>.</example>
+        <example type="correct">Pounner pe <marker>bounneroc’h</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="J" regexp="yes">g[^w].*</token>
+          <token>pe</token>
+          <marker><token postag="J cmp.*" postag_regexp="yes" regexp="yes"><match no="0" regexp_match=".(.*)" regexp_replace="[gk]$1oc’h"/></token></marker>
+        </pattern>
+        <message>Ur c’hemmadur de vlotaat a zlefe bezañ goude «pe». Ha fellout a rae deoc’h skrivañ <suggestion><match no="3" regexp_match="^(?i)." regexp_replace="c’h"/></suggestion>? (CHALM Sb 1.4)</message>
+        <example type="incorrect">Gell pe <marker>gelloc’h</marker>.</example>
+        <example type="incorrect">Gell pe <marker>kelloc’h</marker>.</example>
+        <example type="correct">Gell pe <marker>c’helloc’h</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="J" regexp="yes">gw.*</token>
+          <token>pe</token>
+          <marker><token postag="J cmp.*" postag_regexp="yes" regexp="yes"><match no="0" regexp_match=".(.*)" regexp_replace="[gk]$1oc’h"/></token></marker>
+        </pattern>
+        <message>Ur c’hemmadur de vlotaat a zlefe bezañ goude «pe». Ha fellout a rae deoc’h skrivañ <suggestion><match no="3" regexp_match="^(?i)." regexp_replace=""/></suggestion>? (CHALM Sb 1.4)</message>
+        <example type="incorrect">Gwell pe <marker>gwelloc’h</marker>.</example>
+        <example type="incorrect">Gwell pe <marker>kwelloc’h</marker>.</example>
+        <example type="correct">Gwell pe <marker>welloc’h</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="J" regexp="yes">d.*</token>
+          <token>pe</token>
+          <marker><token postag="J cmp.*" postag_regexp="yes" regexp="yes"><match no="0" regexp_match=".(.*)" regexp_replace="[dt]$1oc’h"/></token></marker>
+        </pattern>
+        <message>Ur c’hemmadur de vlotaat a zlefe bezañ goude «pe». Ha fellout a rae deoc’h skrivañ <suggestion><match no="3" regexp_match="^." regexp_replace="z"/></suggestion>? (CHALM Sb 1.4)</message>
+        <example type="incorrect">Droch pe <marker>drochoc’h</marker>.</example>
+        <example type="incorrect">Droch pe <marker>trochoc’h</marker>.</example>
+        <example type="correct">Droch pe <marker>zrochoc’h</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="J" regexp="yes">b.*</token>
+          <token>pe</token>
+          <marker><token postag="J cmp.*" postag_regexp="yes" regexp="yes"><match no="0" regexp_match=".(.*)" regexp_replace="[bp]$1oc’h"/></token></marker>
+        </pattern>
+        <message>Ur c’hemmadur de vlotaat a zlefe bezañ goude «pe». Ha fellout a rae deoc’h skrivañ <suggestion><match no="3" regexp_match="^." regexp_replace="v"/></suggestion>? (CHALM Sb 1.4)</message>
+        <example type="incorrect">Brav pe <marker>bravoc’h</marker>.</example>
+        <example type="incorrect">Brav pe <marker>pravoc’h</marker>.</example>
+        <example type="correct">Brav pe <marker>vravoc’h</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="J" regexp="yes">m.*</token>
+          <token>pe</token>
+          <marker><token postag="J cmp.*" postag_regexp="yes"><match no="0" regexp_match="$" regexp_replace="oc’h"/></token></marker>
+        </pattern>
+        <message>Ur c’hemmadur de vlotaat a zlefe bezañ goude «pe». Ha fellout a rae deoc’h skrivañ <suggestion><match no="3" regexp_match="^." regexp_replace="v"/></suggestion>? (CHALM Sb 1.4)</message>
+        <example type="incorrect">Melen pe <marker>melenoc’h</marker>.</example>
+        <example type="correct">Melen pe <marker>velenoc’h</marker>.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="KEMM_HEMAN_VLOTAAT" name="kemmadur dre vlotaat goude hemañ.">
       <rule>
         <pattern>
@@ -3197,7 +3285,7 @@ $Id$
       <rule>
         <pattern>
           <token postag="J cmp" regexp="yes">.*oc’h</token>
-          <token postag="J sup"><match no="1" regexp_match="oc’h$" regexp_replace="añ"/></token>
+          <token postag="J sup"><match no="0" regexp_match="oc’h$" regexp_replace="añ"/></token>
         </pattern>
         <message>Implijit <suggestion>\1-\2</suggestion>.</message>
         <example type="incorrect"><marker>Diaesoc’h diaesañ</marker> eo kavout labour.</example>
@@ -3206,7 +3294,7 @@ $Id$
       <rule>
         <pattern>
           <token postag="J cmp" regexp="yes">.*oc’h</token>
-          <token postag="J"><match no="1" regexp_match="oc’h$" regexp_replace=""/></token>
+          <token postag="J"><match no="0" regexp_match="oc’h$" regexp_replace=""/></token>
         </pattern>
         <message>Implijit <suggestion>\1-\2</suggestion>.</message>
         <example type="incorrect"><marker>Gwelloc’h gwell</marker></example>
