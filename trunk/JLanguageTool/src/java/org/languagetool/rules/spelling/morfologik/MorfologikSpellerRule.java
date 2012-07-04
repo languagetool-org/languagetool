@@ -82,6 +82,8 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
                 final URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(getFileName());
                 speller = new Speller(Dictionary.read(url));
             } else {
+                // should not happen, as we only configure this rule (or rather its subclasses)
+                // when we have the resources:
                 return toRuleMatchArray(ruleMatches);
             }
         }
