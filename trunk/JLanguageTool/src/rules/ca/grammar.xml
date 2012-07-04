@@ -989,6 +989,44 @@ $Id$
                 <example type="correct">El llum esquerre.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="CONCORDANCES_ADJECTIUS_NEUTRES" name="concordances amb adjectius neutres">
+            <rule>
+                <pattern>
+                    <and>
+                        <token postag="_GN_M." postag_regexp="yes"><exception postag="_GN_F." postag_regexp="yes"/></token>
+                        <token postag="D.*" postag_regexp="yes" />
+                    </and>
+                    <and>
+                        <token postag="AQ.C.*" postag_regexp="yes"/>
+                        <token postag="_GN_M." postag_regexp="yes"/>
+                        <token postag="_GN_F." postag_regexp="yes"/>
+                    </and>
+                    <token postag="_GN_F." postag_regexp="yes" regexp="yes">\p{Ll}[\p{Ll}·]+<exception postag="_GN_M.|D.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Error de concordança.</message>
+                <short>Error de concordança.</short>
+                <example type="incorrect"><marker>els principals pomeres</marker>.</example>
+                <example type="correct">les principals pomeres.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <and>
+                        <token postag="_GN_F." postag_regexp="yes"><exception postag="_GN_M." postag_regexp="yes"/></token>
+                        <token postag="D.*" postag_regexp="yes" />
+                    </and>
+                    <and>
+                        <token postag="AQ.C.*" postag_regexp="yes"/>
+                        <token postag="_GN_M." postag_regexp="yes"/>
+                        <token postag="_GN_F." postag_regexp="yes"/>
+                    </and>
+                    <token postag="_GN_M." postag_regexp="yes" regexp="yes">\p{Ll}[\p{Ll}·]+<exception postag="_GN_F.|D.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Error de concordança.</message>
+                <short>Error de concordança.</short>
+                <example type="incorrect"><marker>les principals ganivets</marker>.</example>
+                <example type="correct">els principals ganivets.</example>
+            </rule>
+        </rulegroup>        
     </category>
     <category name="Verbs">
         <rulegroup id="VERBS_NO_REFLEXIUS" name="Verbs no reflexius">
@@ -1876,6 +1914,18 @@ $Id$
                 <short>Expressió incorrecta.</short>
                 <example type="incorrect"><marker>Fins</marker> aquest matí.</example>
                 <example type="correct"><marker>Fins a</marker> aquest matí.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">fins|cap</token>
+                    </marker>
+                    <token regexp="yes">açò|això|allò|ço</token>
+                </pattern>
+                <message>Escrivim <suggestion><match no="1"></match> a</suggestion> davant de pronom.</message>
+                <short>Expressió incorrecta.</short>
+                <example type="incorrect">L'home tendeix <marker>cap</marker> allò infinit.</example>
+                <example type="correct">L'home tendeix cap a allò infinit.</example>
             </rule>
             <!-- Fins avui-->
             <rule>
@@ -2860,7 +2910,7 @@ $Id$
             <rule>
                 <pattern>
                     <token postag="DA.*" postag_regexp="yes" />
-                    <token regexp="yes">(m|t|s)e(u|us|ua|ues|va|ves)</token>
+                    <token regexp="yes">[mts]e(u|us|ua|ues|va|ves)|[nv]ostres?</token>
                     <marker>
                         <token inflected="yes">net</token>
                     </marker>
@@ -2868,6 +2918,7 @@ $Id$
                 <message>S'accentua quan és nom: <suggestion><match no="3" regexp_match="ne(.+)" regexp_replace="né$1"></match></suggestion>.</message>
                 <short>S'accentua quan és nom.</short>
                 <example type="incorrect">El meu <marker>net</marker>.</example>
+                <example type="incorrect">Les vostres <marker>netes</marker>.</example>
                 <example type="correct">El meu nét.</example>
             </rule>
             <rule>
@@ -4793,7 +4844,8 @@ $Id$
                 <example type="correct">Molt diferents actuacions.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="noms_genere_dubtos" name="Marca tots els noms de gènere dubtós">
+<!--  Cal introduir una llista dels noms desitjats
+       <rulegroup id="noms_genere_dubtos" name="Marca tots els noms de gènere dubtós">
             <rule>
                 <pattern>
                     <and>
@@ -4807,7 +4859,7 @@ $Id$
                 <example type="incorrect">Els <marker>ordres</marker>.</example>
                 <example type="correct">La taula.</example>
             </rule>
-        </rulegroup>
+        </rulegroup> 
         <rulegroup id="noms_nombre_dubtos" name="Marca tots els noms de nombre dubtós">
             <rule>
                 <pattern>
@@ -4822,7 +4874,7 @@ $Id$
                 <example type="incorrect">Els <marker>pis</marker>.</example>
                 <example type="correct">La taula.</example>
             </rule>
-        </rulegroup>
+        </rulegroup>-->
         <rulegroup id="LA_SEU2" name="Revisa la concordança de «la seu/les seus»">
             <rule>
                 <pattern>
@@ -4848,7 +4900,7 @@ $Id$
         <rulegroup id="EL_SEU2" name="Revisa la concordança de «el seu/els seus»">
             <rule>
                 <pattern>
-                    <token regexp="yes">el|al|del|pel|cal</token>
+                    <token regexp="yes">el|l</token>
                     <token>seu</token>
                 </pattern>
                 <message>Possible falta de concordança entre «\1» i «\2».</message>
@@ -4858,7 +4910,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">els|als|dels|pels|cals</token>
+                    <token regexp="yes">els|ls</token>
                     <token>seus</token>
                 </pattern>
                 <message>Possible falta de concordança entre «\1» i «\2».</message>
@@ -5303,7 +5355,7 @@ $Id$
             <rule>
                 <pattern>
                     <token>a</token>
-                    <token>dia</token>
+                    <token regexp="yes">dia|data</token>
                     <token>d'</token>
                     <token>avui</token>
                 </pattern>
@@ -5315,7 +5367,7 @@ $Id$
             <rule>
                 <pattern>
                     <token>a</token>
-                    <token>dia</token>
+                    <token regexp="yes">dia|data</token>
                     <token>de</token>
                     <token>hui</token>
                 </pattern>
