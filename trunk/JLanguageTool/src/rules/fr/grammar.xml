@@ -970,15 +970,27 @@ though, and has since been slightly modified)-->
                     <marker>
                         <token regexp="yes">d[eé]s</token>
                     </marker>
-                    <token regexp="yes">que?|[lmst]a|[mts]on|[lmst]es|le?[nv]os|cette|lors|après|maintenant|à|toujours|midi|minuit|aujourd|hier|demain|une?|janvier|f[eé]vrier|mars|avril|mai|juin|juillet|a[uû]ot|septembre|octobre|novembre|d[eé]cembre|vendémiaire|brumaire|frimaire|nivôse|pluviôse|ventôse|germinal|floréal|prairial|messidor|thermidor|fructidor|lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche|P[âa]ques|No[ëe]l|1\d\d\d|20\d\d</token>
+                    <token regexp="yes">que?|[lmst]a|[mts]on|[lmst]es|le?[nv]os|cette|lors|après|maintenant|à|toujours|midi|minuit|aujourd|hier|demain|une?|janvier|f[eé]vrier|mars|avril|mai|juin|juillet|a[uû]ot|septembre|octobre|novembre|d[eé]cembre|vendémiaire|brumaire|frimaire|nivôse|pluviôse|ventôse|germinal|floréal|prairial|messidor|thermidor|fructidor|lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche|P[âa]ques|No[ëe]l</token>
                 </pattern>
                 <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="(.).." regexp_replace="$1ès"></match></suggestion> ?</message>
                 <example type="incorrect">Tu repars <marker>des</marker> qu’il arrive.</example>
                 <example type="correct">Tu repars <marker>dès</marker> qu’il arrive.</example>
                 <example type="incorrect"><marker>Des</marker> à présent</example>
+                <example type="correct">C’est un des leurs.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">d[eé]s</token>
+                    </marker>
+                    <token regexp="yes">1\d\d\d|20\d\d</token>
+                    <token><exception postag="N . s?p|V ppa . p" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="(.).." regexp_replace="$1ès"></match></suggestion> ?</message>
                 <example type="incorrect"><marker>Des</marker> 1980, le pays était en crise.</example>
                 <example type="correct"><marker>Dès</marker> 1980, le pays était en crise.</example>
-                <example type="correct">C’est un des leurs.</example>
+                <example type="correct"><marker>Des</marker> 2000 participants, seuls 1000 sont venus.</example>
+                <example type="correct"><marker>Des</marker> 2000 invités, seuls 1000 sont venus.</example>
             </rule>
             <rule>
                 <pattern>
