@@ -18,66 +18,34 @@
  */
 package org.languagetool.gui;
 
-import java.awt.AWTException;
-import java.awt.Container;
-import java.awt.Cursor;
-import java.awt.Desktop;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Image;
-import java.awt.Insets;
-import java.awt.MenuItem;
-import java.awt.PopupMenu;
-import java.awt.Toolkit;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.Reader;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.Set;
-
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextPane;
-import javax.swing.UIManager;
-import javax.swing.WindowConstants;
-import javax.swing.event.HyperlinkEvent;
-import javax.swing.event.HyperlinkListener;
-import javax.swing.filechooser.FileFilter;
-
-import org.apache.commons.lang.StringUtils;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.language.RuleFilenameException;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.server.HTTPServer;
 import org.languagetool.server.PortBindingException;
 import org.languagetool.tools.LanguageIdentifierTools;
 import org.languagetool.tools.StringTools;
+
+import javax.swing.*;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
+import javax.swing.filechooser.FileFilter;
+import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.event.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.Reader;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.*;
+import java.util.List;
 
 /**
  * A simple GUI to check texts with.
@@ -87,14 +55,11 @@ import org.languagetool.tools.StringTools;
 public final class Main implements ActionListener {
 
   static final String EXTERNAL_LANGUAGE_SUFFIX = " (ext.)";
-  
-  private static final String HTML_FONT_START = "<font face='Arial,Helvetica'>";
-  private static final String HTML_GREY_FONT_START = "<font face='Arial,Helvetica' color='#666666'>";
+  static final String HTML_FONT_START = "<font face='Arial,Helvetica'>";
+  static final String HTML_FONT_END = "</font>";
+  static final String DEACTIVATE_URL = "http://languagetool.org/deactivate/";
+  static final String HTML_GREY_FONT_START = "<font face='Arial,Helvetica' color='#666666'>";
 
-  private static final String LT_ERROR_MARKER_START = "<b><font bgcolor=\"#d7d7ff\">";
-  private static final String SPELL_ERROR_MARKER_START = "<b><font bgcolor=\"#ffd7d7\">";
-
-  private static final String HTML_FONT_END = "</font>";
   private static final String SYSTEM_TRAY_ICON_NAME = "/TrayIcon.png";
 
   private static final String SYSTEM_TRAY_TOOLTIP = "LanguageTool";
@@ -104,11 +69,13 @@ public final class Main implements ActionListener {
 
   private final ResourceBundle messages;
 
+  private List<RuleMatch> ruleMatches;
+
   private Configuration config;
 
   private JFrame frame;
   private JTextArea textArea;
-  private JTextPane resultArea;
+  private ResultArea resultArea;
   private JButton checkTextButton;
   private LanguageComboBox languageBox;
   private LanguageDetectionCheckbox autoDetectBox;
@@ -146,7 +113,7 @@ public final class Main implements ActionListener {
     textArea.setLineWrap(true);
     textArea.setWrapStyleWord(true);
     textArea.addKeyListener(new ControlReturnTextCheckingListener());
-    resultArea = new JTextPane();
+    resultArea = new ResultArea(messages);
     resultArea.setContentType("text/html");
     resultArea.setText(HTML_GREY_FONT_START + messages.getString("resultAreaText") + HTML_FONT_END);
     resultArea.setEditable(false);
@@ -512,25 +479,21 @@ public final class Main implements ActionListener {
                                   Tools.makeTexti18n(messages, "startChecking", new Object[]{langName}) + "..." + HTML_FONT_END;
                           resultArea.setText(startCheckText);
                           resultArea.repaint();
-                          final StringBuilder sb = new StringBuilder();
-                          sb.append(startCheckText);
-                          sb.append("<br>\n");
-                          int matches = 0;
                           try {
-                              final JLanguageTool langTool = getCurrentLanguageTool(lang);
-                              matches = checkText(langTool, textArea.getText(), sb);
+                            final JLanguageTool langTool = getCurrentLanguageTool(lang);
+                            final long startTime = System.currentTimeMillis();
+                            ruleMatches = langTool.check(textArea.getText());
+                            resultArea.setStartText(startCheckText);
+                            resultArea.setInputText(textArea.getText());
+                            resultArea.setRuleMatches(ruleMatches);
+                            resultArea.setRunTime(System.currentTimeMillis() - startTime);
+                            resultArea.displayResult();
                           } catch (final Exception e) {
-                              sb.append("<br><br><b><font color=\"red\">");
-                              sb.append(org.languagetool.tools.Tools.getFullStackTrace(e).replace("\n", "<br/>"));
-                              sb.append("</font></b><br>");
+                            final String error = "<br><br><b><font color=\"red\">"
+                               + org.languagetool.tools.Tools.getFullStackTrace(e).replace("\n", "<br/>")
+                               + "</font></b><br>";
+                            resultArea.displayText(error);
                           }
-                          final String checkDone = Tools.makeTexti18n(messages, "checkDone", new Object[] {matches});
-                          sb.append(HTML_GREY_FONT_START);
-                          sb.append(checkDone);
-                          sb.append(HTML_FONT_END);
-                          sb.append("<br>\n");
-                          resultArea.setText(HTML_FONT_START + sb.toString() + HTML_FONT_END);
-                          resultArea.setCaretPosition(0);
                       } finally {
                           checkTextButton.setEnabled(true);
                           unsetWaitCursor();
@@ -577,54 +540,6 @@ public final class Main implements ActionListener {
       }
       resultArea.setText(HTML_FONT_START + sb.toString() + HTML_FONT_END);
     }
-  }
-
-  private int checkText(final JLanguageTool langTool, final String text,
-      final StringBuilder sb) throws IOException {
-    final long startTime = System.currentTimeMillis();
-    
-    final List<RuleMatch> ruleMatches = langTool.check(text);
-    final long startTimeMatching = System.currentTimeMillis();
-    final ContextTools contextTools = new ContextTools();
-    int i = 0;
-    for (final RuleMatch match : ruleMatches) {
-      final String output = Tools.makeTexti18n(messages, "result1",
-          new Object[] {i + 1, match.getLine() + 1, match.getColumn()});
-      sb.append(output);
-      String msg = match.getMessage();
-      msg = msg.replaceAll("<suggestion>", "<b>");
-      msg = msg.replaceAll("</suggestion>", "</b>");
-      msg = msg.replaceAll("<old>", "<b>");
-      msg = msg.replaceAll("</old>", "</b>");
-      sb.append("<b>" + messages.getString("errorMessage") + "</b> " + msg + "<br>\n");
-      if (match.getSuggestedReplacements().size() > 0) {
-        final String repl = StringTools.listToString(match.getSuggestedReplacements(), "; ");
-        sb.append("<b>" + messages.getString("correctionMessage") + "</b> " + repl + "<br>\n");
-      }
-      if (match.getRule() instanceof SpellingCheckRule) {
-        contextTools.setErrorMarkerStart(SPELL_ERROR_MARKER_START);
-      } else {
-        contextTools.setErrorMarkerStart(LT_ERROR_MARKER_START);
-      }
-      final String context = contextTools.getContext(match.getFromPos(), match.getToPos(), text);
-      sb.append("<b>" + messages.getString("errorContext") + "</b> " + context);
-      sb.append("<br>\n");
-      if (match.getRule().getUrl() != null && Desktop.isDesktopSupported()) {
-    	  sb.append("<b>" + messages.getString("moreInfo") + "</b> <a href=\"");
-        final String url = match.getRule().getUrl().toString();
-        sb.append(url);
-        final String shortUrl = StringUtils.abbreviate(url, 60);
-    	  sb.append("\">" + shortUrl +"</a><br>\n");
-      }
-      i++;
-    }
-    final long endTime = System.currentTimeMillis();
-    sb.append(HTML_GREY_FONT_START);
-    sb.append(Tools.makeTexti18n(messages, "resultTime", new Object[] {
-            endTime - startTime,
-            endTime - startTimeMatching}));
-    sb.append(HTML_FONT_END);
-    return ruleMatches.size();
   }
 
   private void setTrayMode(boolean trayMode) {
@@ -676,12 +591,47 @@ public final class Main implements ActionListener {
   private class MyHyperlinkListener implements HyperlinkListener {
     @Override
     public void hyperlinkUpdate(HyperlinkEvent e) {
-      if (Desktop.isDesktopSupported() && e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-        final Desktop desktop = java.awt.Desktop.getDesktop();
+      if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
+        final URL url = e.getURL();
         try {
-          desktop.browse(e.getURL().toURI());
+          final String uri= url.toURI().toString();
+          if (uri.startsWith(DEACTIVATE_URL)) {
+            final String ruleId = uri.substring(DEACTIVATE_URL.length());
+            // TODO: store in member var
+            final Set<String> disabledRuleIds = config.getDisabledRuleIds();
+            disabledRuleIds.add(ruleId);
+            config.setDisabledRuleIds(disabledRuleIds);
+            ruleMatches = filterRuleMatches();
+            resultArea.setInputText(textArea.getText());
+            resultArea.setRuleMatches(ruleMatches);
+            resultArea.displayResult();
+          } else {
+            handleHttpClick(url);
+          }
+        } catch (URISyntaxException e1) {
+          throw new RuntimeException("Could not handle URL click: " + url, e1);
+        }
+      }
+    }
+
+    private List<RuleMatch> filterRuleMatches() {
+      final List<RuleMatch> filtered = new ArrayList<RuleMatch>();
+      final Set<String> disabledRuleIds = config.getDisabledRuleIds();
+      for (RuleMatch ruleMatch : ruleMatches) {
+        if (!disabledRuleIds.contains(ruleMatch.getRule().getId())) {
+          filtered.add(ruleMatch);
+        }
+      }
+      return filtered;
+    }
+
+    private void handleHttpClick(URL url) {
+      if (Desktop.isDesktopSupported()) {
+        try {
+          final Desktop desktop = Desktop.getDesktop();
+          desktop.browse(url.toURI());
         } catch (Exception ex) {
-          throw new RuntimeException("Could not open URL: " + e.getURL(), ex);
+          throw new RuntimeException("Could not open URL: " + url, ex);
         }
       }
     }
