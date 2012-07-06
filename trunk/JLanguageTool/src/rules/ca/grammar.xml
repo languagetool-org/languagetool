@@ -4329,7 +4329,7 @@ $Id$
         <rulegroup id="EVITA_ACCENTUACIO_NO_VALENCIANA" name="Evita l'accentuació general no valenciana (cafè, sotmès, conèixer)">
             <rule>
                 <pattern>
-                    <token regexp="yes">.+è|.+ès|.+èn<exception regexp="yes">perquè|què|Novetlè</exception></token>
+                    <token regexp="yes">.+è|.+ès|.+èn<exception regexp="yes">perquès?|quès?|Novetlè</exception></token>
                 </pattern>
                 <message>Accentuació no valenciana. Substituïu per: <suggestion><match no="1" regexp_match="^(.+)è(s|n)?" regexp_replace="$1é$2"></match></suggestion></message>
                 <short>Accentuació no valenciana.</short>
@@ -6366,7 +6366,7 @@ $Id$
                 </example>
             </rule>
         </rulegroup>
-        <rule id="DONAR_A_LABAST" name="donar l'abast">
+        <rule id="DONAR_LABAST" name="*donar a l'abast/donar l'abast">
             <pattern>
                 <token inflected="yes">donar</token>
                 <token>a</token>
@@ -6377,6 +6377,16 @@ $Id$
             <short>Expressió incorrecta</short>
             <example type="incorrect">No <marker>dono a l'abast</marker></example>
             <example type="correct">No <marker>dono l'abast</marker></example>
+        </rule>
+        <rule id="STATU_QUO" name="statu/*estatus quo">
+            <pattern>
+                <token>estatus</token>
+                <token>quo</token>
+            </pattern>
+            <message>Cal dir <suggestion>statu quo</suggestion>.</message>
+            <short>Expressió incorrecta</short>
+            <example type="incorrect"><marker>estatus quo</marker></example>
+            <example type="correct">statu quo</example>
         </rule>
     </category>
 <!--     <category name="Sintaxi">
