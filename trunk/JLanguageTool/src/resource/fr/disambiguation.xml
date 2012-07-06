@@ -963,7 +963,10 @@ RB => Règles Brutes
         <pattern>
             <token regexp="yes">aux?</token>
             <marker>
-                <token postag_regexp="yes" postag="V.*"/>
+                <and>
+                  <token postag_regexp="yes" postag="V.*"/>
+                  <token postag_regexp="yes" postag="N.*"/>
+                </and>
             </marker>
         </pattern>
         <disambig action="filter"><match no="2" postag="N.*" postag_regexp="yes"/></disambig>

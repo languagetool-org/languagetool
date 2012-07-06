@@ -1178,7 +1178,7 @@ though, and has since been slightly modified)-->
                     <token>à</token>
                     <token regexp="yes">posteriori|priori</token>
                 </pattern>
-                <message>Il est recommandé d’écrire la locution <suggestion>a \2</suggestion> sans accent.</message>
+                <message>Il est recommandé d’écrire la locution <suggestion>a \2</suggestion> sans accent.</message>
                 <example type="incorrect">Il est facile de décider <marker>à posteriori</marker>.</example>
                 <example type="correct">Il est facile de décider a posteriori.</example>
             </rule>
@@ -1211,7 +1211,7 @@ though, and has since been slightly modified)-->
                 </pattern>
                 <message>Voulez-vous écrire <suggestion>où</suggestion> ?</message>
                 <example type="incorrect"><marker>Ou</marker> sont mes affaires ?</example>
-                <example type="correct">Où sont mes affaires ?</example>
+                <example type="correct">Où sont mes affaires ?</example>
                 <example type="correct">Manger ou être mangé, c’est la loi de la nature.</example>
             </rule>
             <rule>
@@ -1988,7 +1988,7 @@ though, and has since been slightly modified)-->
               <marker><token>voix</token></marker>
               <token regexp="yes">(carrossable|communale|privée|publique|interdite|piétonne|principale|prioritaire|souterraine|urbaine|déserte|romaine|appienne|flaminienne|ferrée|ferroviaire|lactée|aérienne|maritime|fluviale|terrestre|navigable|détournée|déviée|buccale|intramusculaire|intraveineuse|abdominale|anale|disgestive|urinaire|respiratoire|parallèle|administrative|diplomatique|gouvernementale|législative|hiérarchique|rectiligne|sinueuse)s?|express</token>
             </pattern>
-            <message>Voulez-vous écrire <suggestion>voie</suggestion> ou <suggestion>voies</suggestion> ?</message>
+            <message>Voulez-vous écrire <suggestion>voie</suggestion> ou <suggestion>voies</suggestion> ?</message>
             <example type="incorrect">La <marker>voix</marker> piétonne est férmée.</example>
             <example type="correct">La voie piétonne est férmée.</example>
           </rule>
@@ -2014,6 +2014,367 @@ though, and has since been slightly modified)-->
             <example type="correct">Un animal en voie d’extinction.</example>
             <example type="incorrect">Les pays en <marker>voix</marker> de dévelopment</example>
             <example type="correct">Les pays en voie de dévelopment</example>
+          </rule>
+        </rulegroup>
+        <rulegroup id="NOM_MAL_EPELE" name="Jimmy Hendrix → Jimi Hendrix (etc.)">
+          <rule>
+            <pattern>
+              <token regexp="yes">Jimm?y|Jimmi</token>
+              <token regexp="yes">Hendrix|Hendricks</token>
+            </pattern>
+            <message>Écrivez <suggestion>Jimi Hendrix</suggestion> s’il s’agit du guitariste.</message>
+            <example type="incorrect"><marker>Jimmy Hendrix</marker> est né à Seattle.</example>
+            <example type="correct">Jimi Hendrix est né à Seattle.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token regexp="yes">Jimm?[iy]</token>
+              <token>Page</token>
+            </pattern>
+            <message>Écrivez <suggestion>Jimmy Paige</suggestion> s’il s’agit du guitariste de Led Zeppelin.</message>
+            <example type="incorrect"><marker>Jimmy Page</marker> est le guitariste de Led Zeppelin.</example>
+            <example type="correct">Jimmy Paige est le guitariste de Led Zeppelin.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token regexp="yes">Ozz?y</token>
+              <token regexp="yes">Osbou?rne?s?<exception>Osbourne</exception></token>
+            </pattern>
+            <message>Écrivez <suggestion>Ozzy Osbourne</suggestion> s’il s’agit du chanteur de Black Sabbath.</message>
+            <example type="incorrect">Connais-tu <marker>Ozzy Osbourn</marker> ?</example>
+            <example type="correct">Connais-tu Ozzy Osbourne ?</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token>Janice</token>
+              <token regexp="yes">Jopp?line?</token>
+            </pattern>
+            <message>Écrivez <suggestion>Janis Joplin</suggestion> s’il s’agit de la chanteuse américaine.</message>
+            <example type="incorrect"><marker>Janice Joplin</marker> est une chanteuse rock américaine.</example>
+            <example type="correct">Janis Joplin est une chanteuse rock américaine.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token>Sid</token>
+              <token>Viscious</token>
+            </pattern>
+            <message>Écrivez <suggestion>Sid Vicious</suggestion>.</message>
+            <example type="incorrect"><marker>Sid Viscious</marker> est né en 1957.</example>
+            <example type="correct">Sid Vicious est né en 1957.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token>Donna</token>
+              <token regexp="yes">S[uo]mmers</token>
+            </pattern>
+            <message>Écrivez <suggestion>Donna Summer</suggestion> s’il s’agit de la chanteuse américaine.</message>
+            <example type="incorrect"><marker>Donna Summers</marker></example>
+            <example type="correct"><marker>Donna Summer</marker></example>
+          </rule>
+          <rule>
+            <pattern>
+              <token regexp="yes">Megg?a-?death</token>
+            </pattern>
+            <message>Écrivez <suggestion>Megadeth</suggestion> s‘il s‘agit du groupe métal américain.</message>
+            <example type="incorrect">J‘aime beaucoup <marker>Megadeath</marker>.</example>
+            <example type="correct">J‘aime beaucoup <marker>Megadeth</marker>.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token>Greatful</token>
+              <token>Dead</token>
+            </pattern>
+            <message>Écrivez <suggestion>Grateful Dead</suggestion> s’il s’agit du groupe rock.</message>
+            <example type="incorrect">Un disque des <marker>Greatful Dead</marker>.</example>
+            <example type="correct">Un disque des <marker>Grateful Dead</marker>.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token regexp="yes">Fredd?y</token>
+              <token>Mercury</token>
+            </pattern>
+            <message>Écrivez <suggestion>Freddie Mercury</suggestion> s’il s’agit du chanteur du groupe Queen.</message>
+            <example type="incorrect"><marker>Freddy Mercury</marker> était le chanteur du groupe Queen.</example>
+            <example type="correct"><marker>Freddie Mercury</marker> était le chanteur du groupe Queen.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token>Art</token>
+              <token regexp="yes">Garfunkle?</token>
+            </pattern>
+            <message>Écrivez <suggestion>Art Garfunkel</suggestion> s’il s’agit du chanteur américain.</message>
+            <example type="incorrect"><marker>Art Garfunkle</marker></example>
+            <example type="correct"><marker>Art Garfunkel</marker></example>
+          </rule>
+          <rule>
+            <pattern>
+              <token>Alanis</token>
+              <token regexp="yes">Morriss?ett?e</token>
+            </pattern>
+            <message>Écrivez <suggestion>Alanis Morissette</suggestion> s’il s’agit de la chanteuse canadienne.</message>
+            <example type="incorrect"><marker>Alanis Morrissette</marker></example>
+            <example type="correct"><marker>Alanis Morissette</marker></example>
+          </rule>
+          <rule>
+            <pattern>
+              <token>Barbara</token>
+              <token>Streisand</token>
+            </pattern>
+            <message>Écrivez <suggestion>Barbra Streisand</suggestion> s’il s’agit de la chanteuse américaine.</message>
+            <example type="incorrect"><marker>Barbara Streisand</marker></example>
+            <example type="correct"><marker>Barbra Straisand</marker></example>
+          </rule>
+          <rule>
+            <pattern>
+              <token>Edgar</token>
+              <token regexp="yes">Al[ae]n|Allen</token>
+              <token regexp="yes">Poe?</token>
+            </pattern>
+            <message>Écrivez <suggestion>Edgar Allan Poe</suggestion> s’il s’agit de l’écrivain américain.</message>
+            <example type="incorrect"><marker>Edgar Alan Poe</marker></example>
+            <example type="correct"><marker>Edgar Allan Poe</marker></example>
+          </rule>
+          <rule>
+            <pattern>
+              <token>Charlotte</token>
+              <token>Bronte</token>
+            </pattern>
+            <message>Écrivez <suggestion>Charlotte Brontë</suggestion> s’il s’agit de l’auteur anglaise.</message>
+            <example type="incorrect"><marker>Charlotte Bronte</marker></example>
+            <example type="correct"><marker>Charlotte Brontë</marker></example>
+          </rule>
+          <rule>
+            <pattern>
+              <token regexp="yes">St[eé](f|ph)[ea]nie?<exception>Stephenie</exception></token>
+              <token>Meyer</token>
+            </pattern>
+            <message>Écrivez <suggestion>Stephenie Meyer</suggestion> s’il s’agit de l’auteur américaine.</message>
+            <example type="incorrect"><marker>Stephanie Meyer</marker></example>
+            <example type="correct"><marker>Stephenie Meyer</marker></example>
+          </rule>
+          <rule>
+            <pattern>
+              <token regexp="yes">Jonath?an</token>
+              <token>Fransen</token>
+            </pattern>
+            <message>Écrivez <suggestion>Jonathan Franzen</suggestion> s’il s’agit de l’auteur américain.</message>
+            <example type="incorrect"><marker>Jonathan Fransen</marker></example>
+            <example type="correct"><marker>Jonathan Franzen</marker></example>
+          </rule>
+          <rule>
+            <pattern>
+              <token>Jane</token>
+              <token>Austin</token>
+            </pattern>
+            <message>Écrivez <suggestion>Jane Austen</suggestion> s’il s’agit de l’écrivain anglaise.</message>
+            <example type="incorrect"><marker>Jane Austin</marker></example>
+            <example type="correct"><marker>Jane Austen</marker></example>
+          </rule>
+          <rule>
+            <pattern>
+              <token>Warren</token>
+              <token regexp="yes">Buff?et|Bufett</token>
+            </pattern>
+            <message>Écrivez <suggestion>Warren Buffett</suggestion> s’il de l’homme d’affaires américain.</message>
+            <example type="incorrect"><marker>Warren Buffet</marker></example>
+            <example type="correct"><marker>Warren Buffett</marker></example>
+          </rule>
+          <rule>
+            <pattern>
+              <token regexp="yes">Joel|Ethan</token>
+              <token>Cohen</token>
+            </pattern>
+            <message>Écrivez <suggestion>\1 Coen</suggestion> s’il s’agit du cinéaste américain.</message>
+            <example type="incorrect">Joel and <marker>Ethan Cohen</marker></example>
+            <example type="correct">Joel and <marker>Ethan Coen</marker></example>
+          </rule>
+          <rule>
+            <pattern>
+              <token regexp="yes">Nich?olas?<exception>Nicolas</exception></token>
+              <token>Cage</token>
+            </pattern>
+            <message>Écrivez <suggestion>Nicolas Cage</suggestion> s’il s’agit de l’acteur américain.</message>
+            <example type="incorrect"><marker>Nicholas Cage</marker></example>
+            <example type="correct"><marker>Nicolas Cage</marker></example>
+          </rule>
+          <rule>
+            <pattern>
+              <token>John</token>
+              <token regexp="yes">Stewar[td]</token>
+            </pattern>
+            <message>Écrivez <suggestion>Jon Stewart</suggestion> s’il s’agit de l’humoriste américain.</message>
+            <example type="incorrect"><marker>John Stewart</marker></example>
+            <example type="correct"><marker>Jon Stewart</marker></example>
+          </rule>
+          <rule>
+            <pattern>
+              <token regexp="yes">Ghandh?i</token>
+            </pattern>
+            <message>Écrivez <suggestion>Gandhi</suggestion> s’il du dirigeant politique et guide spirituel de l’Inde.</message>
+            <example type="incorrect"><marker>Ghandi</marker></example>
+            <example type="correct"><marker>Gandhi</marker></example>
+          </rule>
+          <rule>
+            <pattern>
+              <token regexp="yes">Barr?a[ck]</token>
+              <token regexp="yes">Obb?amm?a</token>
+            </pattern>
+            <message>Écrivez <suggestion>Barrack Obama</suggestion> s’il s’agit du président des États-Unis.</message>
+            <example type="incorrect"><marker>Barak Obama</marker></example>
+            <example type="correct"><marker>Barack Obama</marker></example>
+          </rule>
+          <rule>
+            <pattern>
+              <token>Selma</token>
+              <token regexp="yes">Ha[yj]ec?k</token>
+            </pattern>
+            <message>Écrivez <suggestion>Salma Hayek</suggestion> de l’acrice mexico-americaine.</message>
+            <example type="incorrect"><marker>Selma Hayek</marker></example>
+            <example type="correct"><marker>Salma Hayek</marker></example>
+          </rule>
+          <rule>
+            <pattern>
+              <token regexp="yes">Jerr?y</token>
+              <token>Seinfield</token>
+            </pattern>
+            <message>Écrivez <suggestion>Jerry Seinfeld</suggestion> de l’humoriste américain.</message>
+            <example type="incorrect"><marker>Jerry Seinfield</marker></example>
+            <example type="correct"><marker>Jerry Seinfeld</marker></example>
+          </rule>
+          <rule>
+            <pattern>
+              <token>Kayne</token>
+              <token>West</token>
+            </pattern>
+            <message>Écrivez <suggestion>Kanye West</suggestion> s’il s’agit du musicien américain.</message>
+            <example type="incorrect"><marker>Kayne West</marker></example>
+            <example type="correct"><marker>Kanye West</marker></example>
+          </rule>
+          <rule>
+            <pattern>
+              <token>Linux</token>
+              <token regexp="yes">Torvalds?</token>
+            </pattern>
+            <message>Écrivez <suggestion>Linus Torvalds</suggestion> s’il s’agit du créateur de Linux.</message>
+            <example type="incorrect"><marker>Linux Torvalds</marker></example>
+            <example type="correct"><marker>Linus Torvalds</marker></example>
+          </rule>
+          <rule>
+            <pattern>
+              <token regexp="yes">Fran[cç]ois</token>
+              <token>Holland</token>
+            </pattern>
+            <message>Écrivez <suggestion>François Hollande</suggestion> s’il s’agit du président de la république.</message>
+            <example type="incorrect"><marker>François Holland</marker></example>
+            <example type="correct"><marker>François Hollande</marker></example>
+          </rule>
+          <rule>
+            <pattern>
+              <token regexp="yes">Fran[cç]ois</token>
+              <token regexp="yes">Miterrand|Mitterand</token>
+            </pattern>
+            <message>Écrivez <suggestion>François Mitterrand</suggestion> s’il s’agit du président de la république.</message>
+            <example type="incorrect"><marker>François Mitterand</marker></example>
+            <example type="correct"><marker>François Mitterrand</marker></example>
+          </rule>
+          <rule>
+            <pattern>
+              <token regexp="yes">Nich?olas?</token>
+              <token regexp="yes">Sar[kc]o[sz][yi]e?<exception>Sarkozy</exception></token>
+            </pattern>
+            <message>Écrivez <suggestion>Nicolas Sarkozy</suggestion> s’il s’agit du président de la république.</message>
+            <example type="incorrect"><marker>Nicolas Sarkozi</marker></example>
+            <example type="correct"><marker>Nicolas Sarkozy</marker></example>
+          </rule>
+          <rule>
+            <pattern>
+              <token>de</token>
+              <token regexp="yes">Gaules?|Gaulles</token>
+            </pattern>
+            <message>Écrivez <suggestion>de Gaulle</suggestion> s’il s’agit du président de la république.</message>
+            <example type="incorrect">Charles <marker>de Gaule</marker></example>
+            <example type="correct">Charles <marker>de Gaulle</marker></example>
+          </rule>
+          <rule>
+            <pattern>
+              <token regexp="yes">Co?u?rte?ney<exception>Courteney</exception></token>
+              <token>Cox</token>
+            </pattern>
+            <message>Écrivez <suggestion>Courteney Cox</suggestion> s’il s’agit de l’actrice américaine.</message>
+            <example type="incorrect"><marker>Courtney Cox</marker></example>
+            <example type="correct"><marker>Courteney Cox</marker></example>
+          </rule>
+          <rule>
+            <pattern>
+              <token>Alissa</token>
+              <token regexp="yes">Mill?ann?o</token>
+            </pattern>
+            <message>Écrivez <suggestion>Alyssa Milano</suggestion> s’il s’agit de l’actrice américaine.</message>
+            <example type="incorrect"><marker>Alissa Milano</marker></example>
+            <example type="correct"><marker>Alyssa Milano</marker></example>
+          </rule>
+          <rule>
+            <pattern>
+              <token regexp="yes">Bro[ou]ke?</token>
+              <token>Shield</token>
+            </pattern>
+            <message>Écrivez <suggestion>Brooke Shields</suggestion> s’il s’agit de l’actrice américaine.</message>
+            <example type="incorrect"><marker>Brooke Shield</marker></example>
+            <example type="correct"><marker>Brooke Shields</marker></example>
+          </rule>
+          <rule>
+            <pattern>
+              <token regexp="yes">J[uo]dd?[iy]e?<exception>Jodie</exception></token>
+              <token>Foster</token>
+            </pattern>
+            <message>Écrivez <suggestion>Jodie Foster</suggestion> s’il s’agit de l’actrice américaine.</message>
+            <example type="incorrect"><marker>Joddie Foster</marker></example>
+            <example type="correct"><marker>Jodie Foster</marker></example>
+          </rule>
+          <rule>
+            <pattern>
+              <token>Allan</token>
+              <token>Stivell</token>
+            </pattern>
+            <message>Écrivez <suggestion>Alan Stivell</suggestion> s’il s’agit du musicien breton.</message>
+            <example type="incorrect"><marker>Allan Stivell</marker></example>
+            <example type="correct"><marker>Alan Stivell</marker></example>
+          </rule>
+          <rule>
+            <pattern>
+              <token regexp="yes">Britt?ann?(y|ie?)|Brittney</token>
+              <token>Spears</token>
+            </pattern>
+            <message>Écrivez <suggestion>Britney Spears</suggestion> s’il s’agit de la chanteuse américaine.</message>
+            <example type="incorrect"><marker>Brittany Spears</marker></example>
+            <example type="correct"><marker>Britney Spears</marker></example>
+          </rule>
+          <rule>
+            <pattern>
+              <token regexp="yes">[KC]arl</token>
+              <token>Lagarfield</token>
+            </pattern>
+            <message>Écrivez <suggestion>Karl Lagarfeld</suggestion> s’il s’agit du couturier allemand.</message>
+            <example type="incorrect"><marker>Karl Lagarfield</marker></example>
+            <example type="correct"><marker>Karl Lagarfeld</marker></example>
+          </rule>
+          <rule>
+            <pattern>
+              <token>Merryl</token>
+              <token>Streep</token>
+            </pattern>
+            <message>Écrivez <suggestion>Meryl Streep</suggestion> s’il s’agit de l’actice américaine.</message>
+            <example type="incorrect"><marker>Merryl Streep</marker></example>
+            <example type="correct"><marker>Meryl Streep</marker></example>
+          </rule>
+          <rule>
+            <pattern>
+              <token regexp="yes">C[iy]nd[yi]e<exception>Cyndi</exception></token>
+              <token>Lauper</token>
+            </pattern>
+            <message>Écrivez <suggestion>Cyndi Lauper</suggestion> s’il s’agit de l’actice américaine.</message>
+            <example type="incorrect"><marker>Cyndie Lauper</marker></example>
+            <example type="correct"><marker>Cyndi Lauper</marker></example>
           </rule>
         </rulegroup>
     </category>
@@ -2801,8 +3162,27 @@ though, and has since been slightly modified)-->
                 <message>« \5 » n’est pas un verbe.</message>
                 <example type="incorrect">Je ne l’<marker>abandon</marker> pas.</example>
                 <example type="correct">Je ne l’<marker>abandonne</marker> pas.</example>
-                <example type="correct">Il ne l'<marker>est</marker> que durant l'élection.</example>
+                <example type="correct">Il ne l'<marker>est</marker> que durant l’élection.</example>
             </rule>
+        </rulegroup>
+        <rulegroup id="N_V" name="pas de verbe après : au, de, du…">
+          <rule>
+            <pattern>
+              <token regexp="yes">aux?|des|du</token>
+              <marker>
+                <token postag="V.*" postag_regexp="yes">
+                  <exception postag="N.*|V pp[ar].*" postag_regexp="yes"/>
+                  <exception>revoir</exception>
+                  <exception regexp="yes">(?-i)\p{Lu}+</exception>
+                </token>
+              </marker>
+            </pattern>
+            <message>Le mot « \2 » ne peut pas être un verbe après « \1 ».</message>
+            <example type="incorrect">Le chef du <marker>restaurent</marker>.</example>
+            <example type="correct">Le chef du <marker>restaurant</marker>.</example>
+            <example type="correct">Au revoir.</example>
+            <example type="correct">Partir aux USA.</example>
+          </rule>
         </rulegroup>
         <rulegroup id="ETRE_VPPA_OU_ADJ" name="être + participe présent">
             <rule>
@@ -19634,6 +20014,15 @@ though, and has since been slightly modified)-->
             </rule>
             <rule>
                 <pattern>
+                    <token>sèche</token>
+                    <token>cheveux</token>
+                </pattern>
+                <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+                <example type="incorrect">Le <marker>sèche cheveux</marker>.</example>
+                <example type="correct">Le <marker>sèche-cheveux</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token regexp="yes">états?</token>
                     <token regexp="yes">majors?</token>
                 </pattern>
@@ -20557,7 +20946,7 @@ though, and has since been slightly modified)-->
                     <token>en</token>
                     <token>cap</token>
                 </pattern>
-                <message>« \1 \2 \3 \4 » est un tour critiqué. Employez <suggestion>\1 pied \3 \4</suggestion>.</message>
+                <message>« \1 \2 \3 \4 » est un tour critiqué. Employez <suggestion>\1 pied \3 \4</suggestion>.</message>
                 <example type="incorrect">Il s’est habillé <marker>de pieds en cap</marker> comme un militaire.</example>
                 <example type="correct">Il s’est habillé de pied en cap comme un militaire.</example>
             </rule>
@@ -20567,7 +20956,7 @@ though, and has since been slightly modified)-->
                     <token>pieds</token>
                     <token regexp="yes">fermes?</token>
                 </pattern>
-                <message>« \1 \2 \3 » est un tour critiqué. Employez <suggestion>\1 pied ferme</suggestion>.</message>
+                <message>« \1 \2 \3 » est un tour critiqué. Employez <suggestion>\1 pied ferme</suggestion>.</message>
                 <example type="incorrect">Je l’attend <marker>de pieds fermes</marker>.</example>
                 <example type="correct">Je l’attend de pied ferme.</example>
             </rule>
