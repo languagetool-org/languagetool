@@ -724,7 +724,7 @@ though, and has since been slightly modified)-->
                 <example type="correct">Il part bientôt pour Venise.</example>
             </rule>
         </rulegroup>
-        <rule id="GENE" name="Gène au lieu de Gêne">
+        <rule id="GENE" name="Gène et gêne">
             <pattern>
                 <token>sans</token>
                 <marker>
@@ -732,6 +732,7 @@ though, and has since been slightly modified)-->
                 </marker>
             </pattern>
             <message>Voulez-vous écrire <suggestion>gêne</suggestion> ?</message>
+            <url>http://grammaire.reverso.net/2_1_44_gene_gene.shtml</url>
             <example type="incorrect">Il est sans <marker>gène</marker>.</example>
             <example type="correct">Il est sans gêne.</example>
         </rule>
@@ -758,6 +759,7 @@ though, and has since been slightly modified)-->
                     </marker>
                 </pattern>
                 <message>Voulez-vous écrire <suggestion>peut-être</suggestion> ?</message>
+                <url>http://grammaire.reverso.net/2_1_71_peut_etre_peut-etre.shtml</url>
                 <example type="incorrect">Il partira <marker>peut être</marker> demain.</example>
                 <example type="correct">Il partira peut-être demain.</example>
                 <example type="correct">Cela peut être vrai.</example>
@@ -773,6 +775,7 @@ though, and has since been slightly modified)-->
                     </marker>
                 </pattern>
                 <message>Voulez-vous écrire <suggestion>Peut-être</suggestion> ?</message>
+                <url>http://grammaire.reverso.net/2_1_71_peut_etre_peut-etre.shtml</url>
                 <example type="incorrect"><marker>Peut être</marker> viendra-t-il ?</example>
                 <example type="correct">Peut-être viendra-t-il ?</example>
             </rule>
@@ -889,7 +892,7 @@ though, and has since been slightly modified)-->
                 <example type="correct">Est-ce <marker>forcément</marker> grave ?</example>
             </rule>
         </rulegroup>
-        <rulegroup id="AMENDE" name="Amende au lieu de amande">
+        <rulegroup id="AMENDE_AMANDE" name="Amende ou amande">
             <rule>
                 <pattern>
                     <token regexp="yes">en|aux<exception scope="previous">face</exception></token>
@@ -899,6 +902,7 @@ though, and has since been slightly modified)-->
                     <token negate="yes">honorable</token>
                 </pattern>
                 <message>Voulez-vous écrire <suggestion>amande</suggestion> ?</message>
+                <url>http://grammaire.reverso.net/2_1_05_amande_amende.shtml</url>
                 <example type="incorrect">Des yeux en <marker>amende</marker>.</example>
                 <example type="correct">Des yeux en <marker>amande</marker>.</example>
                 <example type="incorrect">Un gâteau aux <marker>amendes</marker>.</example>
@@ -906,8 +910,6 @@ though, and has since been slightly modified)-->
                 <example type="correct">Face aux amendes à payer</example>
                 <example type="correct">En amende honorable</example>
             </rule>
-        </rulegroup>
-        <rulegroup id="AMANDE" name="Amande au lieu de amende">
             <rule>
                 <pattern>
                     <token inflected="yes" regexp="yes" skip="3">payer|recevoir|condamner</token>
@@ -916,6 +918,7 @@ though, and has since been slightly modified)-->
                     </marker>
                 </pattern>
                 <message>Voulez-vous écrire <suggestion>amende</suggestion> ?</message>
+                <url>http://grammaire.reverso.net/2_1_05_amande_amende.shtml</url>
                 <example type="incorrect">J’ai été condamné à une forte <marker>amande</marker>.</example>
                 <example type="correct">J’ai été condamné à une forte amende.</example>
             </rule>
@@ -930,9 +933,33 @@ though, and has since been slightly modified)-->
                     </marker>
                 </pattern>
                 <message>Voulez-vous écrire <suggestion>amende</suggestion> ?</message>
+                <url>http://grammaire.reverso.net/2_1_05_amande_amende.shtml</url>
                 <example type="incorrect">J’ai été mis à l’<marker>amande</marker>.</example>
                 <example type="correct">J’ai été mis à l’amende.</example>
             </rule>
+        </rulegroup>
+        <rulegroup id="COEUR_CHOEUR" name="cœur et chœur">
+          <rule>
+            <pattern>
+              <token regexp="yes">enfants?|chefs?</token>
+              <token>de</token>
+              <token regexp="yes">coeurs?|cœurs?</token>
+            </pattern>
+            <message>Vouliez-vous écrire <suggestion>\1 de chœur</suggestion> ?</message>
+            <url>http://grammaire.reverso.net/2_1_23_chour_cour.shtml</url>
+            <example type="incorrect">Un <marker>enfant de cœur</marker>.</example>
+            <example type="correct">Un enfant de chœur.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <marker><token regexp="yes">coeurs?|cœurs?</token></marker>
+              <token regexp="yes" inflected="yes">philarmonique|polyphonique|mixte|interpreter|chanter</token>
+            </pattern>
+            <message>Vouliez-vous écrire <suggestion>chœur<match no="1" regexp_match="(s?)$" regexp_replace="$1"/></suggestion> ?</message>
+            <url>http://grammaire.reverso.net/2_1_23_chour_cour.shtml</url>
+            <example type="incorrect">Le <marker>cœur</marker> philarmonique.</example>
+            <example type="correct">Le chœur philarmonique.</example>
+          </rule>
         </rulegroup>
         <rulegroup id="PECHE" name="Pêcher au lieu de péché">
             <rule>
@@ -2019,9 +2046,53 @@ though, and has since been slightly modified)-->
         <rulegroup id="TACHE" name="tache et tâche">
           <rule>
             <pattern>
+              <marker><token inflected="yes">tacher</token></marker>
+              <token>de</token>
+              <token postag="V inf"><exception postag="V inf" negate_pos="yes"/></token>
+            </pattern>
+            <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="a" regexp_replace="â"/></suggestion> ?</message>
+            <url>http://grammaire.reverso.net/2_1_97_tache_tache.shtml</url>
+            <example type="incorrect"><marker>Tache</marker> de partir tôt.</example>
+            <example type="correct"><marker>Tâche</marker> de partir tôt.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <marker><token inflected="yes">tacher</token></marker>
+              <token>d</token>
+              <token regexp="yes">[’´'‛′‘]</token>
+              <token postag="V inf"><exception postag="V (etre |avoir )?inf" postag_regexp="yes" negate_pos="yes"/></token>
+            </pattern>
+            <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="a" regexp_replace="â"/></suggestion> ?</message>
+            <url>http://grammaire.reverso.net/2_1_97_tache_tache.shtml</url>
+            <example type="incorrect"><marker>Tachez</marker> d’arriver à l’heure.</example>
+            <example type="correct"><marker>Tâchez</marker> d’arriver à l’heure.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <marker><token inflected="yes">tacher</token></marker>
+              <token>de</token>
+              <token>ne</token>
+            </pattern>
+            <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="a" regexp_replace="â"/></suggestion> ?</message>
+            <url>http://grammaire.reverso.net/2_1_97_tache_tache.shtml</url>
+            <example type="incorrect"><marker>Tache</marker> de ne pas faire trop de bruit.</example>
+            <example type="correct">Tâche de ne pas faire trop de bruit.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <marker><token regexp="yes">tâches?</token></marker>
+              <token regexp="yes">claires?|indélébiles?|jaunes?|noires?|rouges?|solaires?|sombres?|vertes?</token>
+            </pattern>
+            <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="â" regexp_replace="a"/></suggestion> ?</message>
+            <url>http://grammaire.reverso.net/2_1_97_tache_tache.shtml</url>
+            <example type="incorrect">Une <marker>tâche</marker> indélébile.</example>
+            <example type="correct">Une <marker>tache</marker> indélébile.</example>
+          </rule>
+          <rule>
+            <pattern>
               <marker><token regexp="yes">tâches?</token></marker>
               <token regexp="yes" skip="1">de?</token>
-              <token regexp="yes">betteraves?|beurre|beauté|boissons?|boue|bougie|blanco|brulure|café|ceurises?|cambouis|carottes?|chewing(-?gum)?|cire|colle|couleurchocolat|confiture|cirage|crayons?|cr[eê]mes?|curry|décoloration|dentifrice|encre|éosine|essence|excréments?|déodorant|fer|feutres?|fientes?|fluo|fruits?|fuel|goudron|gras|graisse|harissa|henné|herbe|huile|javel|ketchup|jus|lait|légumes?|léopard|maquillage|marqueur|mascara|massala|moisi|moisissure|matières?|mazout|mercurochrome|merde|moutarde|naissance|oeuf|œuf|orange|parfum|peinture|pollen|résine|rouille|rouge|rousseur|roussi|sauce|sang|s[ée]bum|s[èe]ve|sperme|sombre|soupe|stabilo|stylo(-bille|feutre)?|suie|sueur|terre|transpiration|tipp-ex|tomates?|teintures?|urine|vernis|vieillesse|vomit?|vomissure|vin</token>
+              <token regexp="yes">betteraves?|beurre|beauté|boissons?|boue|bougie|blanco|brulure|café|ceurises?|cambouis|carottes?|chewing(-?gum)?|cire|colle|couleur|caca|chocolat|confiture|cirage|crayons?|cr[eê]mes?|curry|décoloration|dentifrice|encre|éosine|essence|excréments?|déodorant|fer|feutres?|fientes?|fluo|fruits?|fuel|goudron|gras|graisse|harissa|henné|herbe|huile|javel|ketchup|jus|lait|légumes?|léopard|maquillage|marqueur|mascara|massala|moisi|moisissure|matières?|mazout|mercurochrome|merde|moutarde|naissance|oeuf|œuf|orange|parfum|peinture|pipi|pollen|résine|rouille|rouge|rousseur|roussi|sauce|sang|s[ée]bum|s[èe]ve|sperme|sombre|soupe|stabilo|stylo(-bille|feutre)?|suie|sueur|terre|transpiration|tipp-ex|tomates?|teintures?|urine|vernis|vieillesse|vomit?|vomissure|vin</token>
             </pattern>
             <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="â" regexp_replace="a"/></suggestion> ?</message>
             <url>http://grammaire.reverso.net/2_1_97_tache_tache.shtml</url>
