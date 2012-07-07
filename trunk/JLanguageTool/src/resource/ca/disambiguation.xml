@@ -1901,9 +1901,9 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <disambig action="filter" postag="A.*"></disambig>
     </rule>
     <rule id="adv_adjverb" name="adverbi + adjectiu/verb">
-        <!-- tan complexa -->
+        <!-- tan complexa, tant planes de sabana com regions de jungla; tan baixa com  -->
         <pattern>
-            <token postag="RG"></token>
+            <token postag="RG" regexp="yes">tant?</token>
             <marker>
                 <and>
                     <token postag="V.[MIS].*" postag_regexp="yes"></token>
@@ -1912,7 +1912,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </and>
             </marker>
         </pattern>
-        <disambig action="filter" postag="A.*"></disambig>
+        <disambig action="filter" postag="[^V].*"></disambig>
     </rule>
     <rule id="DA_PX" name="article + possessiu(nostre)">
         <pattern>
@@ -3100,7 +3100,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <pattern>
             <unify>
                 <feature id="nombre"/>
-                <token postag="D[^R].*" postag_regexp="yes"></token>
+                <token postag="D[AD].*" postag_regexp="yes"></token>
                 <and>
                     <token postag="N.*" postag_regexp="yes"><exception postag="V.[MSI].*" postag_regexp="yes"/></token>
                     <token postag="AQ.CS.*" postag_regexp="yes"></token>
@@ -3518,7 +3518,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <disambig action="filter" postag="[^V].*"></disambig>
     </rule>
     <!-- gerundi/adj + nom  "Ocupant llocs" Canviat de lloc per: "D'eixa important època" -->
-    <rule id="adv_gerundi_adjectiu" name="adverbi + gerundi/adjectiu + nom">
+    <rule id="adv_geradj_nom" name="adverbi + gerundi/adjectiu + nom">
         <pattern>
             <token postag="RG"></token>
             <marker>
@@ -4614,6 +4614,18 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="A.*|V.P.*"></disambig>
     </rule>   
+    <rule id="tant_nom_com_nom" name="desambigua tant+nom+com+nom">
+    <!-- tant grecs com romans. És excep. de la regla següent -->
+        <pattern>
+            <token>tant</token>
+            <token postag="NC.*" postag_regexp="yes"/>
+            <token>com</token>
+            <marker>
+                <token postag="NC.*" postag_regexp="yes"/>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="[^V].*"></disambig>
+    </rule>
     <rule id="VerbNomAdj" name="verb i adjectiu i nom: verb">
         <pattern>
             <marker>
@@ -4694,8 +4706,9 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="[^V].*"></disambig>
     </rule>
-    <rule id="VerbAdjectiu" name="verb i adjectiu que no ha concordat"> <!-- fer exàmens -->
+    <rule id="VerbAdjectiu" name="verb i adjectiu que no ha concordat"> <!-- fer exàmens. excep: tan regular (adj) -->
         <pattern>
+            <token postag="RG" negate_pos="yes"/>
             <marker>
                 <and>
                     <token postag="A.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes" /><exception regexp="yes">\p{Lu}+[\p{Ll}·]*</exception><exception regexp="yes">[\p{Ll}·]+(e|[aei]sses|[ae]res|era)</exception></token>
@@ -4981,18 +4994,22 @@ Copyright (C) 2012 Jaume Ortolà i Font
 
     -->
     <rule id="InfGer_Nom" name="infinitiu o gerundi / nom que no ha concordat">
-        <!-- ser, deixant, etc.-->
+        <!-- ser, deixant, etc. excep: tan regular (adj)-->
         <pattern>
-            <and>
-                <token postag="V.[NG].*" postag_regexp="yes"></token>
-                <token postag="N.*" postag_regexp="yes"><exception postag="_GN.*" postag_regexp="yes"/></token>
-            </and>
+            <token postag="RG" negate_pos="yes"/>
+            <marker>
+                <and>
+                    <token postag="V.[NG].*" postag_regexp="yes"></token>
+                    <token postag="N.*" postag_regexp="yes"><exception postag="_GN.*" postag_regexp="yes"/></token>
+                </and>
+            </marker>
         </pattern>
         <disambig action="filter" postag="V.*"></disambig>
     </rule>
     <rule id="Adv_Nom" name="adverbi i nom: adverbi">
-        <!-- llavors company-->
+        <!-- llavors company. Excepció: tant com, tant (de) mal com  -->
         <pattern>
+            <token negate="yes">tant</token>
             <marker>
                 <and>
                     <token postag="RG" postag_regexp="yes"></token>
@@ -5000,10 +5017,11 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </and>
             </marker>
         </pattern>
-        <disambig action="filter" postag="RG"></disambig>
+        <disambig action="filter" postag="[^N].*"></disambig>
     </rule>
-    <rule id="AdjAdv" name="adjectiu i adverbi"> <!-- correctament primer -->
+    <rule id="AdjAdv" name="adjectiu i adverbi"> <!-- correctament primer. Excep: tant (de) mal -->
         <pattern>
+            <token negate="yes">tant</token>
             <marker>
                 <and>
                     <token postag="RG" postag_regexp="yes"></token>
@@ -5143,7 +5161,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="SPS00"></disambig>
     </rule>
-    <rule id="tant_x_com" name="tant + __ + com">
+<!--     <rule id="tant_x_com" name="tant + __ + com">
         <pattern>
             <marker>
                 <token>tant</token>
@@ -5154,7 +5172,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <disambig>
             <match no="1" postag_regexp="yes" postag="RG"></match>
         </disambig>
-    </rule>
+    </rule> -->
     <rule id="elsuns_x_elsaltres" name=" (els) uns + prep + els altres">
         <pattern>
             <token skip="1">uns</token>
@@ -5310,6 +5328,92 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token postag="NPFSG00"/>    
             </pattern>
             <disambig action="add"><wd pos="allow_masculine"></wd></disambig>
+        </rule>
+    </rulegroup>
+    <rulegroup id="tant_x_com" name="tant + __ + com + __">
+        <rule>
+        <!-- Dificultats: és tan(t) important com bonic -->
+            <pattern>
+                <marker>
+                    <token>tant</token>
+                </marker>
+                <token postag="A.*|V.P.*" postag_regexp="yes" skip="10"/>
+                <token>com</token>
+                <token postag="A.*|V.P.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="add"><wd pos="allow_tant"></wd></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>tant</token>
+                </marker>
+                <token postag="A.*|V.P.*" postag_regexp="yes" skip="10"/>
+                <token>com</token>
+                <token>no</token>
+                <token postag="A.*|V.P.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="add"><wd pos="allow_tant"></wd></disambig>
+        </rule>
+        <rule>
+        <!-- tant partidaris com opositors -->
+            <pattern>
+                <marker>
+                    <token>tant</token>
+                </marker>
+                <token postag="NC.*" postag_regexp="yes" skip="10"/>
+                <token>com</token>
+                <token postag="NC.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="add"><wd pos="allow_tant"></wd></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>tant</token>
+                </marker>
+                <token postag="NC.*" postag_regexp="yes" skip="10"/>
+                <token>com</token>
+                <token>no</token>
+                <token postag="NC.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="add"><wd pos="allow_tant"></wd></disambig>
+        </rule>
+        <rule>
+        <!-- Tant fora com dins del Japó -->
+            <pattern>
+                <marker>
+                    <token>tant</token>
+                </marker>
+                <token postag="RG" skip="10"/>
+                <token>com</token>
+                <token postag="RG"/>
+            </pattern>
+            <disambig action="add"><wd pos="allow_tant"></wd></disambig>
+        </rule>
+        <rule>
+        <!-- Tant jurídicament com en la realitat -->
+            <pattern>
+                <marker>
+                    <token>tant</token>
+                </marker>
+                <token postag="RG" skip="10"/>
+                <token>com</token>
+                <token postag="SPS00"/>
+            </pattern>
+            <disambig action="add"><wd pos="allow_tant"></wd></disambig>
+        </rule>
+         <rule>
+        <!--  coneixements tant científics com de les més variades disciplines-->
+            <pattern>
+                <marker>
+                    <token>tant</token>
+                </marker>
+                <token postag="A.*|V.P.*" postag_regexp="yes" skip="10"/>
+                <token>com</token>
+                <token inflected="yes">de</token>
+            </pattern>
+            <disambig action="add"><wd pos="allow_tant"></wd></disambig>
         </rule>
     </rulegroup>
 </rules>

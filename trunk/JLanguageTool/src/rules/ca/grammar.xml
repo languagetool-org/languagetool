@@ -1705,18 +1705,58 @@ $Id$
             </rule>
         </rulegroup>
         <rulegroup id="TANT_TAN" name="Comprova: «tan/tant»">
-            <!-- cal controlar les exp. tant ... com-->
             <rule>
                 <pattern>
                     <marker>
+                        <token>un</token>
                         <token>tant</token>
                     </marker>
-                    <token postag="[AR].*" postag_regexp="yes"><exception>com</exception><exception postag="N.[MC][SN].*" postag_regexp="yes"></exception></token>
+                    <token postag="AQ.*|V.P.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Hauria de ser: <suggestion>una mica</suggestion>, <suggestion>més o menys</suggestion>
+                , <suggestion>més aviat</suggestion>, <suggestion>poc o molt</suggestion>
+                , <suggestion>un pèl</suggestion>.</message>
+                <short>Expressió errònia.</short>
+                <example type="incorrect">Una qüestió <marker>un tant</marker> particular.</example>
+                <example type="correct">Una qüestió una mica particular.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>tan</token>
+                    <token>punt</token>
+                </pattern>
+                <message>Hauria de ser: <suggestion>tan bon punt</suggestion> o <suggestion>bon punt</suggestion>.</message>
+                <short>Expressió errònia.</short>
+                <example type="incorrect"><marker>tan punt</marker> va arribar</example>
+                <example type="correct">tan bon punt va arribar</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token negate="yes">per</token>
+                    <marker>
+                        <token>tant<exception postag="allow_tant"/></token>
+                    </marker>
+                    <token postag="[AR].*" postag_regexp="yes"><exception regexp="yes">abans|ja|on|quan|que|com|menys|doncs|però|ara|emperò|ans</exception><exception postag="N.[MC][SN].*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>'Tan' davant d'adjectiu o adverbi. Podria ser: <suggestion>tan</suggestion>.</message>
                 <short>'Tan' i no 'tant' davant d'adjectiu o adverbi.</short>
                 <example type="incorrect">És <marker>tant</marker> bonic.</example>
                 <example type="correct">És tan bonic.</example>
+                <example type="correct">Tant quan sigui així com quan no ho sigui.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>per</token>
+                    <marker>
+                        <token>tant</token>
+                    </marker>
+                    <token postag="AQ.*|V.P.*" postag_regexp="yes"/>
+                    <token postag="NC.*" postag_regexp="yes"/>
+                </pattern>
+                <message>'Tan' davant d'adjectiu o adverbi. Podria ser: <suggestion>tan</suggestion>.</message>
+                <short>'Tan' i no 'tant' davant d'adjectiu o adverbi.</short>
+                <example type="incorrect">Felicitats per <marker>tant</marker> noble tasca.</example>
+                <example type="correct">Felicitats per tan noble tasca.</example>
             </rule>
             <rule>
                 <pattern>
@@ -1748,7 +1788,7 @@ $Id$
                     <marker>
                         <token>tan</token>
                     </marker>
-                    <token postag="N.*" postag_regexp="yes"><exception postag="A.*" postag_regexp="yes"></exception></token>
+                    <token postag="N.*" postag_regexp="yes"><exception postag="A.*|V.P.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>'Tant' davant de nom. Podria ser: <suggestion>tant</suggestion>.</message>
                 <short>'Tant' i no 'tan' davant de nom.</short>
@@ -1773,15 +1813,33 @@ $Id$
                     <marker>
                         <token>tan</token>
                     </marker>
-                    <token>com</token>
+                    <token regexp="yes">abans|ja|on|quan|que|com|menys|doncs|però|ara|emperò|ans</token>
                 </pattern>
-                <message>'Tant com'. Podria ser: <suggestion>tant</suggestion>.</message>
-                <short>'Tant com'.</short>
+                <message>Podria ser: <suggestion>tant</suggestion>.</message>
+                <short>Confusió.</short>
                 <example type="incorrect">Menja <marker>tan</marker> com vulguis.</example>
                 <example type="correct">Menja tant com vulguis.</example>
+                <example type="incorrect">M'agrada <marker>tan</marker> que me l'enduc.</example>
+                <example type="correct">M'agrada tant que me l'enduc.</example>
+                <example type="incorrect"><marker>Tan</marker> quan sigui així com quan no ho sigui.</example>
+                <example type="correct">Tant quan sigui així com quan no ho sigui.</example>
             </rule>
             <rule>
                 <pattern>
+                    <marker>
+                        <token>tan</token>
+                    </marker>
+                    <token>,</token>
+                    <token>que</token>
+                </pattern>
+                <message>Hauria de ser: <suggestion>tant</suggestion>.</message>
+                <short>Confusió.</short>
+                <example type="incorrect">M'agrada <marker>tan</marker>, que me l'enduc.</example>
+                <example type="correct">M'agrada tant, que me l'enduc.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token negate="yes">per</token>
                     <marker>
                         <token>tant</token>
                     </marker>
@@ -1803,31 +1861,95 @@ $Id$
                 <short>'Tant' quan indica quantitat.</short>
                 <example type="incorrect"><marker>Tan</marker> de bo!</example>
                 <example type="correct">Tant de bo!</example>
+                <example type="correct">Anava tan de pressa!</example>
             </rule>
             <rule>
                 <pattern>
-                    <marker>
-                        <token>tan</token>
-                    </marker>
-                    <token>que</token>
-                </pattern>
-                <message>Hauria de ser: <suggestion>tant</suggestion>.</message>
-                <short>Confusió.</short>
-                <example type="incorrect">M'agrada <marker>tan</marker> que me l'enduc.</example>
-                <example type="correct">M'agrada <marker>tant</marker> que me l'enduc.</example>
-            </rule>
-            <rule>
-                <pattern>
+                    <token>per</token>
                     <marker>
                         <token>tan</token>
                     </marker>
                     <token>,</token>
-                    <token>que</token>
                 </pattern>
                 <message>Hauria de ser: <suggestion>tant</suggestion>.</message>
                 <short>Confusió.</short>
-                <example type="incorrect">M'agrada <marker>tan</marker>, que me l'enduc.</example>
-                <example type="correct">M'agrada <marker>tant</marker>, que me l'enduc.</example>
+                <example type="incorrect">Per <marker>tan</marker>, és correcte.</example>
+                <example type="correct">Per tant, és correcte.</example>
+            </rule>
+            <!-- tan(t) en frases distributives tant + __ +com +__ -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>tan</token>
+                    </marker>
+                    <token postag="AQ.*|V.P.*" postag_regexp="yes" skip="10"/>
+                    <token>com</token>
+                    <token postag="AQ.*|V.P.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Hauria de ser: <suggestion>tant</suggestion>.</message>
+                <short>Confusió.</short>
+                <example type="incorrect"><marker>tan</marker> físiques com estètiques.</example>
+                <example type="correct">Tant físiques com estètiques.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>tan</token>
+                    </marker>
+                    <token postag="AQ.*|V.P.*" postag_regexp="yes" skip="10"/>
+                    <token>com</token>
+                    <token>no</token>
+                    <token postag="AQ.*|V.P.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Hauria de ser: <suggestion>tant</suggestion>.</message>
+                <short>Confusió.</short>
+                <example type="incorrect"><marker>tan</marker> físiques com no físiques.</example>
+                <example type="correct">Tant físiques com no físiques.</example>
+            </rule>
+            <rule>
+            <!-- Tant fora com dins del Japó -->
+                <pattern>
+                    <marker>
+                        <token>tan</token>
+                    </marker>
+                    <token postag="RG" skip="10"><exception regexp="yes">abans|ja|on|quan|que|com|menys|doncs|però|ara|emperò|ans</exception></token>
+                    <token>com</token>
+                    <token postag="RG"><exception regexp="yes">abans|ja|on|quan|que|com|menys|doncs|però|ara|emperò|ans</exception></token>
+                </pattern>
+                <message>Hauria de ser: <suggestion>tant</suggestion>.</message>
+                <short>Confusió.</short>
+                <example type="incorrect"><marker>tan</marker> dins com fora del Japó.</example>
+                <example type="correct">Tant dins com fora del Japó.</example>
+            </rule>
+            <rule>
+            <!--  coneixements tant científics com de les més variades disciplines-->
+                <pattern>
+                    <marker>
+                        <token>tan</token>
+                    </marker>
+                    <token postag="A.*|V.P.*" postag_regexp="yes" skip="10"/>
+                    <token>com</token>
+                    <token inflected="yes">de</token>
+                    <token postag="NC.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Hauria de ser: <suggestion>tant</suggestion>.</message>
+                <short>Confusió.</short>
+                <example type="incorrect">coneixements <marker>tan</marker> científics com de sentit comú</example>
+                <example type="correct">coneixements tant científics com de sentit comú</example>
+            </rule>
+            <!--  'tan' davant d'article  -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>tan</token>
+                    </marker>
+                    <token postag="D.*" postag_regexp="yes"><exception inflected="yes">poc</exception></token>
+                </pattern>
+                <message>Hauria de ser: <suggestion>tant</suggestion>.</message>
+                <short>Confusió.</short>
+                <example type="incorrect"><marker>tan</marker> l'un com l'altre</example>
+                <example type="incorrect"><marker>tan</marker> aquest com aquell</example>
+                <example type="correct">tant aquest com aquell</example>
             </rule>
         </rulegroup>
         <rulegroup id="ADV_MENT" name="dos adverbis acabats en -ment">
@@ -6281,7 +6403,7 @@ $Id$
             <example type="incorrect"><marker>quant més</marker> en portin, millor</example>
             <example type="correct"><marker>com més</marker> en portin, millor</example>
         </rule>
-        <rule id="SEMBLA_SER" name="sembla ser">
+        <rule id="SEMBLA_SER" name="*sembla/pareix ser">
             <pattern>
                 <marker>
                     <token inflected="yes" regexp="yes">semblar|parèixer</token>
@@ -6305,7 +6427,17 @@ $Id$
             <example type="incorrect"><marker>tal i com</marker> vam quedar ahir</example>
             <example type="correct"><marker>tal com</marker> vam quedar ahir</example>
         </rule>
-        <rulegroup id="UN_A_UN" name="un a un">
+        <rule id="TANMATEIX" name="*tan(t) mateix/tanmateix">
+            <pattern>
+                <token regexp="yes">tant?</token>
+                <token>mateix</token>
+            </pattern>
+            <message>Cal dir <suggestion>tanmateix</suggestion>.</message>
+            <short>Expressió incorrecta</short>
+            <example type="incorrect"><marker>Tant mateix</marker> cal fer-ho.</example>
+            <example type="correct">Tanmateix cal fer-ho.</example>
+        </rule>
+        <rulegroup id="UN_A_UN" name="*un a un">
             <rule>
                 <pattern>
                     <token negate="yes">d'</token>
@@ -6335,7 +6467,7 @@ $Id$
                 <example type="correct">passeu <marker>d'una a una</marker></example>
             </rule>
         </rulegroup>
-        <rulegroup id="ALS_TEMPS" name="als + expr. de temps">
+        <rulegroup id="ALS_TEMPS" name="*als + expr. de temps">
             <rule>
                 <pattern>
                     <token>a</token>
