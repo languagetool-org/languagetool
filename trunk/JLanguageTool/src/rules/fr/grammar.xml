@@ -1978,8 +1978,8 @@ though, and has since been slightly modified)-->
               <marker><token regexp="yes">voies?</token></marker>
             </pattern>
             <message>Voulez-vous écrire <suggestion>voix</suggestion> ?</message>
-            <example type="incorrect">Il y avait un émotion dans sa <marker>voie</marker>.</example>
-            <example type="correct">Il y avait un émotion dans sa voix.</example>
+            <example type="incorrect">Il y avait une émotion dans sa <marker>voie</marker>.</example>
+            <example type="correct">Il y avait une émotion dans sa voix.</example>
           </rule>
         </rulegroup>
         <rulegroup id="VOIX_VOIE" name="voix → voie">
@@ -1989,8 +1989,8 @@ though, and has since been slightly modified)-->
               <token regexp="yes">(carrossable|communale|privée|publique|interdite|piétonne|principale|prioritaire|souterraine|urbaine|déserte|romaine|appienne|flaminienne|ferrée|ferroviaire|lactée|aérienne|maritime|fluviale|terrestre|navigable|détournée|déviée|buccale|intramusculaire|intraveineuse|abdominale|anale|disgestive|urinaire|respiratoire|parallèle|administrative|diplomatique|gouvernementale|législative|hiérarchique|rectiligne|sinueuse)s?|express</token>
             </pattern>
             <message>Voulez-vous écrire <suggestion>voie</suggestion> ou <suggestion>voies</suggestion> ?</message>
-            <example type="incorrect">La <marker>voix</marker> piétonne est férmée.</example>
-            <example type="correct">La voie piétonne est férmée.</example>
+            <example type="incorrect">La <marker>voix</marker> piétonne est fermée.</example>
+            <example type="correct">La voie piétonne est fermée.</example>
           </rule>
           <rule>
             <pattern>
@@ -2012,8 +2012,32 @@ though, and has since been slightly modified)-->
             <message>Voulez-vous écrire <suggestion>voie</suggestion> ?</message>
             <example type="incorrect">Un animal en <marker>voix</marker> d’extinction.</example>
             <example type="correct">Un animal en voie d’extinction.</example>
-            <example type="incorrect">Les pays en <marker>voix</marker> de dévelopment</example>
-            <example type="correct">Les pays en voie de dévelopment</example>
+            <example type="incorrect">Les pays en <marker>voix</marker> de développment</example>
+            <example type="correct">Les pays en voie de développment</example>
+          </rule>
+        </rulegroup>
+        <rulegroup id="TACHE" name="tache et tâche">
+          <rule>
+            <pattern>
+              <marker><token regexp="yes">tâches?</token></marker>
+              <token regexp="yes" skip="1">de?</token>
+              <token regexp="yes">betteraves?|beurre|beauté|boissons?|boue|bougie|blanco|brulure|café|ceurises?|cambouis|carottes?|chewing(-?gum)?|cire|colle|couleurchocolat|confiture|cirage|crayons?|cr[eê]mes?|curry|décoloration|dentifrice|encre|éosine|essence|excréments?|déodorant|fer|feutres?|fientes?|fluo|fruits?|fuel|goudron|gras|graisse|harissa|henné|herbe|huile|javel|ketchup|jus|lait|légumes?|léopard|maquillage|marqueur|mascara|massala|moisi|moisissure|matières?|mazout|mercurochrome|merde|moutarde|naissance|oeuf|œuf|orange|parfum|peinture|pollen|résine|rouille|rouge|rousseur|roussi|sauce|sang|s[ée]bum|s[èe]ve|sperme|sombre|soupe|stabilo|stylo(-bille|feutre)?|suie|sueur|terre|transpiration|tipp-ex|tomates?|teintures?|urine|vernis|vieillesse|vomit?|vomissure|vin</token>
+            </pattern>
+            <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="â" regexp_replace="a"/></suggestion> ?</message>
+            <url>http://grammaire.reverso.net/2_1_97_tache_tache.shtml</url>
+            <example type="incorrect">Une <marker>tâche</marker> de ketchup sur la chemise.</example>
+            <example type="correct">Une <marker>tache</marker> de ketchup sur la chemise.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <marker><token regexp="yes">tâches?</token></marker>
+              <token skip="1">sur</token>
+              <token regexp="yes">blouse|blouson|bois|bras|canapé|carrelage|col|corps|chemises?|chemisiers?|cravate|conscience|costume|cuir|CV|documents?|dos|feulles|habits?|jean|joue|jupe|linge|l[yi]no|mains?|marbre|meubles?|moquette|mur|nappe|ongles?|pantalons?|papier|parquet|peau|photos?|pénis|pieds?|pulls?|réputation|robes?|sexe|skaï|siège|sol|simili|tapis|tissus|t(ee)?-shirts?|vestes?|vêtements?|visage</token>
+            </pattern>
+            <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="â" regexp_replace="a"/></suggestion> ?</message>
+            <url>http://grammaire.reverso.net/2_1_97_tache_tache.shtml</url>
+            <example type="incorrect">Une <marker>tâche</marker> sur ma chemise.</example>
+            <example type="correct">Une <marker>tache</marker> sur ma chemise.</example>
           </rule>
         </rulegroup>
         <rulegroup id="NOM_MAL_EPELE" name="Jimmy Hendrix → Jimi Hendrix (etc.)">
@@ -2312,6 +2336,15 @@ though, and has since been slightly modified)-->
             <message>Écrivez <suggestion>Alyssa Milano</suggestion> s’il s’agit de l’actrice américaine.</message>
             <example type="incorrect"><marker>Alissa Milano</marker></example>
             <example type="correct"><marker>Alyssa Milano</marker></example>
+          </rule>
+          <rule>
+            <pattern>
+              <token>Lisa</token>
+              <token regexp="yes">Minn?ell?i</token>
+            </pattern>
+            <message>Écrivez <suggestion>Liza Minnelli</suggestion> s’il s’agit de l’actrice américaine.</message>
+            <example type="incorrect"><marker>Lisa Minnelli</marker></example>
+            <example type="correct"><marker>Liza Minnelli</marker></example>
           </rule>
           <rule>
             <pattern>
@@ -22030,7 +22063,7 @@ though, and has since been slightly modified)-->
                 <example type="correct">Écrit dans un anglais facile</example>
                 <example type="incorrect">Les <marker>américaines</marker> aiment venir ici.</example>
                 <example type="correct">Les <marker>Américaines</marker> aiment venir ici.</example>
-                <example type="correct">Le numéro un <marker>fraņçais</marker> a gagné à Roland-Garos aujourd’hui.</example>
+                <example type="correct">Le numéro un <marker>français</marker> a gagné à Roland-Garos aujourd’hui.</example>
                 <example type="correct">Il s’est exprimé dans un français approximatif.</example>
             </rule>
         </rulegroup>
@@ -22057,8 +22090,8 @@ though, and has since been slightly modified)-->
                 <example type="incorrect">L’<marker>église</marker> catholique</example>
                 <example type="correct">L’Église catholique</example>
                 <example type="correct">Le clocher de l’église</example>
-                <example type="incorrect">L’<marker>église</marker> grècque orthodoxe</example>
-                <example type="correct">L’<marker>Église</marker> grècque orthodoxe</example>
+                <example type="incorrect">L’<marker>église</marker> grecque orthodoxe</example>
+                <example type="correct">L’<marker>Église</marker> grecque orthodoxe</example>
             </rule>
             <rule>
                 <pattern>
