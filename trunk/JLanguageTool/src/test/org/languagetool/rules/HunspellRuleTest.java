@@ -95,19 +95,7 @@ public class HunspellRuleTest {
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("L’Allemagne et l’Italie.")).length);
     assertEquals(2, rule.match(langTool.getAnalyzedSentence("L’allemagne et l’italie.")).length);
   }
-
-  @Test
-  public void testRuleWithBreton() throws Exception {
-    final HunspellRule rule = new HunspellRule(TestTools.getMessages("Breton"), Language.BRETON);
-    final JLanguageTool langTool = new JLanguageTool(Language.BRETON);
-
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("C'hwerc'h merc'h gwerc'h war c'hwerc'h marc'h kalloc'h")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("C’hwerc’h merc’h gwerc‘h war c‘hwerc‘h marc'h kalloc‘h")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Evel-just")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Evel-juste")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Barrek-tre eo LanguageTool")).length);
-  }
-
+  
 //  @Ignore("just for internal performance testing, thus ignored by default")
   @Test
   public void testPerformance() throws Exception {
