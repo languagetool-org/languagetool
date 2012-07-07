@@ -27,7 +27,7 @@ public class MorfologikBretonSpellerRuleTest {
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("C'hwerc'h merc'h gwerc'h war c'hwerc'h marc'h kalloc'h")).length);
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("C’hwerc’h merc’h gwerc‘h war c‘hwerc‘h marc'h kalloc‘h")).length);
         
-        //does not work: words with hyphens are not in the dictionary...
+        //words with hyphens are tokenized internally...
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("Evel-just")).length);
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("Barrek-tre eo LanguageTool")).length);
 
