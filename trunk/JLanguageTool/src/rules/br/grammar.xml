@@ -6433,6 +6433,54 @@ $Id$
       <example type="incorrect"><marker>An niver ar</marker> c’hentelioù</example>
       <example type="correct">An niver a gentelioù</example>
     </rule>
+
+    <rulegroup id="KELENNER_WAR_AR" name="kelenner brezhoneg → kelenner war ar brezhoneg">
+      <rule>
+        <pattern>
+          <token inflected="yes">kelenner</token>
+          <token regexp="yes">brezhoneg|filozofiezh|fizik|gallaoueg|galleg|gitar|gouezeleg|gresianek|gwir|gregach|jedoniezh|prederouriezh|matematik(où)?|psikologiezh|saozneg|skiantoù|sañskriteg|sonerezh|sport(où)?|yezhoniezh|yezh(où)?</token>
+        </pattern>
+        <message>Implijit <suggestion>\1 war ar \2</suggestion>.</message>
+        <example type="incorrect"><marker>Kelennerez brezhoneg</marker> e oa.</example>
+        <example type="correct">Kelennerez war ar brezhoneg e oa.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">kelenner</token>
+          <token>latin</token>
+        </pattern>
+        <message>Implijit <suggestion>\1 war al latin</suggestion>.</message>
+        <example type="incorrect"><marker>Kelennerez latin</marker> e oa.</example>
+        <example type="correct">Kelenner war al latin e oa.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">kelenner</token>
+          <token regexp="yes">kan|kastillaneg|kembraeg|keltieg</token>
+        </pattern>
+        <message>Implijit <suggestion>\1 war ar <match no="2" regexp_match="^." regexp_replace="c’h"/></suggestion>.</message>
+        <example type="incorrect"><marker>Kelennerez kan</marker> e oa.</example>
+        <example type="correct">Kelenner war ar c’han e oa.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">kelenner</token>
+          <token>bevoniezh</token>
+        </pattern>
+        <message>Implijit <suggestion>\1 war ar <match no="2" regexp_match="^." regexp_replace="v"/></suggestion>.</message>
+        <example type="incorrect"><marker>Kelenner bevoniezh</marker> e oa.</example>
+        <example type="correct">Kelenner war ar vevoniezh e oa.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">kelenner</token>
+          <token>prederouriezh</token>
+        </pattern>
+        <message>Implijit <suggestion>\1 war ar brederouriezh</suggestion>.</message>
+        <example type="incorrect"><marker>Kelennerez prederouriezh</marker> e oa.</example>
+        <example type="correct">Kelennerez war ar brederouriezh e oa.</example>
+      </rule>
+    </rulegroup>
   </category>
   <!-- vim: foldmethod=marker foldmarker=<category,</category:
   -->
