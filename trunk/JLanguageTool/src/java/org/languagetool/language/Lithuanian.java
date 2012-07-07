@@ -29,7 +29,7 @@ import org.languagetool.rules.GenericUnpairedBracketsRule;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.UppercaseSentenceStartRule;
 import org.languagetool.rules.WhitespaceRule;
-import org.languagetool.rules.spelling.hunspell.HunspellRule;
+import org.languagetool.rules.lt.MorfologikLithuanianSpellerRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.xx.DemoTagger;
 
@@ -76,7 +76,7 @@ public class Lithuanian extends Language {
             CommaWhitespaceRule.class,
             DoublePunctuationRule.class,
             GenericUnpairedBracketsRule.class,
-            HunspellRule.class,
+            MorfologikLithuanianSpellerRule.class,
             UppercaseSentenceStartRule.class,
             WhitespaceRule.class
     );

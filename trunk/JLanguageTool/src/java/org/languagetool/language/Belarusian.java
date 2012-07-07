@@ -28,7 +28,7 @@ import org.languagetool.rules.DoublePunctuationRule;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.UppercaseSentenceStartRule;
 import org.languagetool.rules.WhitespaceRule;
-import org.languagetool.rules.spelling.hunspell.HunspellRule;
+import org.languagetool.rules.be.MorfologikBelarusianSpellerRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.be.BelarusianTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
@@ -92,7 +92,7 @@ public class Belarusian extends Language {
       return Arrays.asList(
               CommaWhitespaceRule.class,
               DoublePunctuationRule.class,
-              HunspellRule.class,
+              MorfologikBelarusianSpellerRule.class,
               UppercaseSentenceStartRule.class,
               WhitespaceRule.class
       );

@@ -96,7 +96,7 @@ public class HunspellRuleTest {
     assertEquals(2, rule.match(langTool.getAnalyzedSentence("L’allemagne et l’italie.")).length);
   }
   
-//  @Ignore("just for internal performance testing, thus ignored by default")
+@Ignore("just for internal performance testing, thus ignored by default")
   @Test
   public void testPerformance() throws Exception {
     final List<Language> allLanguages = Language.getAllLanguages();
