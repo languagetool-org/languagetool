@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import morfologik.speller.Speller;
@@ -73,7 +74,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     
     @Override
     public RuleMatch[] match(AnalyzedSentence text) throws IOException {
-        
+
         final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
         final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
         //lazy init
@@ -93,14 +94,22 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
                 if (tokenizingPattern() == null) {
                     ruleMatches.addAll(getRuleMatch(word, token.getStartPos()));
                 } else {
-                    int i = 0;
-                    for (final String internalSplit : tokenizingPattern().split(word)) {
-                        ruleMatches.addAll(getRuleMatch(internalSplit, token.getStartPos() + i));
-                        i += internalSplit.length() + separatorLength();
+                    int index = 0;
+                    final Matcher m = tokenizingPattern().matcher(word);
+                    while(m.find()) {
+                        final String match = word.subSequence(index, m.start()).toString();
+                        index = m.end();
+                        ruleMatches.addAll(getRuleMatch(match, token.getStartPos() + index));
+                    }
+                    if (index == 0) { // tokenizing char not found
+                        ruleMatches.addAll(getRuleMatch(word, token.getStartPos()));
+                    } else {
+                        ruleMatches.addAll(getRuleMatch(word.subSequence(
+                                index, word.length()).toString(), token.getStartPos() + index)); 
                     }
                 }
             }
-        }
+        }        
         return toRuleMatchArray(ruleMatches);
     }
     
@@ -142,13 +151,16 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
         }
         return false;
     }
-    
+               
+    /**
+     * Get the regular expression pattern used to tokenize
+     * the words as in the source dictionary. For example,
+     * it may contain a hyphen, if the words with hyphens are
+     * not included in the dictionary
+     * @return A compiled {@link #Pattern} that is used to tokenize words. 
+     */
     public Pattern tokenizingPattern() {
         return null;
     }
     
-    public int separatorLength() {
-        return 0;
-    }
-
 }

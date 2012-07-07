@@ -51,9 +51,4 @@ public final class MorfologikBretonSpellerRule extends MorfologikSpellerRule {
     return BRETON_TOKENIZING_CHARS;
   }
 
-  @Override
-  public int separatorLength() {
-    return 1;
-  }
-
 }
