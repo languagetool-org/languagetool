@@ -336,12 +336,13 @@ though, and has since been slightly modified)-->
         </rule>
         <rule id="HEURE_DE_TEMPS" name="heure de temps">
             <pattern>
-                <token regexp="yes" skip="2">heures?</token>
+                <token regexp="yes" skip="1">heures?</token>
                 <token>temps</token>
             </pattern>
             <message>« Heure de temps » est un pléonasme. Employez <suggestion>\1</suggestion>.</message>
             <example type="correct"><marker>heure</marker></example>
             <example type="incorrect"><marker>heure de temps</marker></example>
+            <example type="correct">Il regarde l’heure tout le temps.</example>
         </rule>
         <rule id="HEMORRAGIE_DE_SANG" name="hémorragie de sang">
             <pattern>
@@ -2143,6 +2144,41 @@ though, and has since been slightly modified)-->
             <url>http://grammaire.reverso.net/2_1_97_tache_tache.shtml</url>
             <example type="incorrect">Une <marker>tâche</marker> sur ma chemise.</example>
             <example type="correct">Une <marker>tache</marker> sur ma chemise.</example>
+          </rule>
+        </rulegroup>
+        <rulegroup id="CENSE_SENSE" name="sensé et censé">
+          <rule>
+            <pattern>
+              <marker><token regexp="yes">sensée?s?</token></marker>
+              <token postag="V.* inf" postag_regexp="yes"/>
+            </pattern>
+            <message>Voulez-vous écrire <suggestion><match no="1" regexp_match=".*(e?s?)$" regexp_replace="sensé$1"/></suggestion> ?</message>
+            <url>http://grammaire.reverso.net/2_1_15_cense_sense.shtml</url>
+            <example type="incorrect">Je suis <marker>sensée</marker> avoir reçu une lettre de rappel.</example>
+            <example type="correct">Je suis censée avoir reçu une lettre de rappel.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <marker><token regexp="yes">sensée?s?</token></marker>
+              <token regexp="yes">[mts]e|lui|[nv]vous|leur</token>
+              <token postag="V.* inf" postag_regexp="yes"/>
+            </pattern>
+            <message>Voulez-vous écrire <suggestion><match no="1" regexp_match=".*(e?s?)$" regexp_replace="sensé$1"/></suggestion> ?</message>
+            <url>http://grammaire.reverso.net/2_1_15_cense_sense.shtml</url>
+            <example type="incorrect">Il était <marker>sensé</marker> me reconduire à la maison.</example>
+            <example type="correct">Il était <marker>censé</marker> me reconduire à la maison.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <marker><token regexp="yes">sensée?s?</token></marker>
+              <token regexp="yes">[mtsl]</token>
+              <token regexp="yes">[’´'‛′‘]</token>
+              <token postag="V.* inf" postag_regexp="yes"/>
+            </pattern>
+            <message>Voulez-vous écrire <suggestion><match no="1" regexp_match=".*(e?s?)$" regexp_replace="sensé$1"/></suggestion> ?</message>
+            <url>http://grammaire.reverso.net/2_1_15_cense_sense.shtml</url>
+            <example type="incorrect">Il était <marker>sensé</marker> l’accompagner.</example>
+            <example type="correct">Il était <marker>censé</marker> l’accompagner.</example>
           </rule>
         </rulegroup>
         <rulegroup id="NOM_MAL_EPELE" name="Jimmy Hendrix → Jimi Hendrix (etc.)">
@@ -4750,7 +4786,7 @@ though, and has since been slightly modified)-->
                         </token>
                     </marker>
                 </pattern>
-                <message>Le participe « \5 » devrait être au pluriel.</message>
+                <message>Le participe « \5 » devrait être au singulier masculin.</message>
                 <example type="incorrect">Nous lui avons <marker>donnée</marker> un cadeau.</example>
                 <example type="incorrect">Nous lui avons <marker>donnés</marker> un cadeau.</example>
                 <example type="incorrect">Nous lui avons <marker>données</marker> un cadeau.</example>
@@ -4811,7 +4847,7 @@ though, and has since been slightly modified)-->
                         </token>
                     </marker>
                 </pattern>
-                <message>Le participe « \7 » devrait être au singulier.</message>
+                <message>Le participe « \7 » devrait être au pluriel.</message>
                 <example type="incorrect">Nous ne les avons pas <marker>écouté</marker>.</example>
                 <example type="incorrect">Nous ne les avons pas <marker>écoutée</marker>.</example>
                 <example type="correct">Nous ne les avons pas écoutés.</example>
@@ -12102,16 +12138,6 @@ though, and has since been slightly modified)-->
             <example type="incorrect"><marker>pare-choc à pare-choc</marker>.</example>
             <example type="correct"><marker>pare-choc contre pare-choc</marker>.</example>
         </rule>
-        <rule id="MONOXYDE_DE_CARBONE" name="monoxyde de carbone">
-            <pattern>
-                <token>monoxyde</token>
-                <token>de</token>
-                <token>carbone</token>
-            </pattern>
-            <message>« Monoxyde de carbone » est un anglicisme (carbon monoxyde). Employez <suggestion>oxyde de carbone</suggestion></message>
-            <example type="incorrect"><marker>monoxyde de carbone</marker>.</example>
-            <example type="correct"><marker>oxyde de carbone</marker>.</example>
-        </rule>
         <rule id="RETOURNER_UN_APPEL" name="retourner un appel">
             <pattern>
                 <token inflected="yes" skip="2">retourner</token>
@@ -17460,25 +17486,6 @@ though, and has since been slightly modified)-->
                 <example type="correct"><marker>redressement assis</marker></example>
             </rule>
         </rulegroup>
-        <rulegroup id="PICKPOCKET" name="pickpocket">
-            <rule>
-                <pattern>
-                    <token regexp="yes">pick-pocket|pick-pockets|pickpocket|pickpockets</token>
-                </pattern>
-                <message>« Pickpocket » est un anglicisme. Employez <suggestion>voleur à la tire</suggestion>.</message>
-                <example type="incorrect"><marker>pickpocket</marker></example>
-                <example type="correct"><marker>voleur à la tire</marker></example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>pick</token>
-                    <token regexp="yes">pocket|pockets</token>
-                </pattern>
-                <message>« Pickpocket » est un anglicisme. Employez <suggestion>voleur à la tire</suggestion>.</message>
-                <example type="incorrect"><marker>pick pocket</marker></example>
-                <example type="correct"><marker>voleur à la tire</marker></example>
-            </rule>
-        </rulegroup>
         <rulegroup id="STORY-BOARD" name="story-board">
             <rule>
                 <pattern>
@@ -21022,7 +21029,7 @@ though, and has since been slightly modified)-->
                 </marker>
                 <token regexp="yes">coiffeur|coiffeuse|médecin|dentiste|boulanger|boulangère|boucher|bouchère|pharmacien|pharmacienne</token>
             </pattern>
-            <message>« \1 \2 \3 » est un tour critiqué. Employez <suggestion>chez</suggestion>.</message>
+            <message>« \1 \2 \3 » est une expression fautive. Employez <suggestion>chez</suggestion>.</message>
             <example type="incorrect">Il va <marker>au</marker> coiffeur tous les mois.</example>
             <example type="correct">Il va chez le coiffeur tous les mois.</example>
         </rule>
@@ -21035,7 +21042,7 @@ though, and has since been slightly modified)-->
                     </marker>
                     <token><exception>joints</exception></token>
                 </pattern>
-                <message>« \1 \2 » est un tour critiqué. Employez <suggestion>à pied</suggestion>.</message>
+                <message>« \1 \2 » est une expression fautive. Employez <suggestion>à pied</suggestion>.</message>
                 <example type="incorrect">Il est arrivé <marker>à pieds</marker>.</example>
                 <example type="correct">Il est arrivé à pied.</example>
                 <example type="correct">Il a sauté à pieds joints.</example>
@@ -21045,7 +21052,7 @@ though, and has since been slightly modified)-->
                     <token inflected="yes" regexp="yes">avoir|perdre</token>
                     <token>pieds</token>
                 </pattern>
-                <message>« \1 \2 » est un tour critiqué. Employez <suggestion>\1 pied</suggestion>.</message>
+                <message>« \1 \2 » est une expression fautive. Employez <suggestion>\1 pied</suggestion>.</message>
                 <example type="incorrect">Il <marker>a pieds</marker> dans ce bassin.</example>
                 <example type="correct">Il a pied dans ce bassin.</example>
             </rule>
@@ -21055,7 +21062,7 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">pas|plus|bon</token>
                     <token>pieds</token>
                 </pattern>
-                <message>« \1 \2 \3 » est un tour critiqué. Employez <suggestion>\1 \2 pied</suggestion>.</message>
+                <message>« \1 \2 \3 » est une expression fautive. Employez <suggestion>\1 \2 pied</suggestion>.</message>
                 <example type="incorrect">Je n’<marker>ai pas pieds</marker> dans ce bassin.</example>
                 <example type="correct">Je n’ai pas pied dans ce bassin.</example>
             </rule>
@@ -21065,7 +21072,7 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">[aà]</token>
                     <token>pieds</token>
                 </pattern>
-                <message>« \1 \2 \3 » est un tour critiqué. Employez <suggestion>\1 à pied</suggestion>.</message>
+                <message>« \1 \2 \3 » est une expression fautive. Employez <suggestion>\1 à pied</suggestion>.</message>
                 <example type="incorrect">L’entreprise l’a <marker>mis à pieds</marker>.</example>
                 <example type="correct">L’entreprise l’a mis à pied.</example>
             </rule>
@@ -21075,7 +21082,7 @@ though, and has since been slightly modified)-->
                     <token>sur</token>
                     <token>pieds</token>
                 </pattern>
-                <message>« \1 \2 \3 » est un tour critiqué. Employez <suggestion>\1 \2 pied</suggestion>.</message>
+                <message>« \1 \2 \3 » est une expression fautive. Employez <suggestion>\1 \2 pied</suggestion>.</message>
                 <example type="incorrect">Le projet que j’ai <marker>mis sur pieds</marker> est en bonne voie.</example>
                 <example type="correct">Le projet que j’ai mis sur pied est en bonne voie.</example>
             </rule>
@@ -21086,7 +21093,7 @@ though, and has since been slightly modified)-->
                     <token>en</token>
                     <token>cap</token>
                 </pattern>
-                <message>« \1 \2 \3 \4 » est un tour critiqué. Employez <suggestion>\1 pied \3 \4</suggestion>.</message>
+                <message>« \1 \2 \3 \4 » est une expression fautive. Employez <suggestion>\1 pied \3 \4</suggestion>.</message>
                 <example type="incorrect">Il s’est habillé <marker>de pieds en cap</marker> comme un militaire.</example>
                 <example type="correct">Il s’est habillé de pied en cap comme un militaire.</example>
             </rule>
@@ -21096,7 +21103,7 @@ though, and has since been slightly modified)-->
                     <token>pieds</token>
                     <token regexp="yes">fermes?</token>
                 </pattern>
-                <message>« \1 \2 \3 » est un tour critiqué. Employez <suggestion>\1 pied ferme</suggestion>.</message>
+                <message>« \1 \2 \3 » est une expression fautive. Employez <suggestion>\1 pied ferme</suggestion>.</message>
                 <example type="incorrect">Je l’attend <marker>de pieds fermes</marker>.</example>
                 <example type="correct">Je l’attend de pied ferme.</example>
             </rule>
@@ -21116,7 +21123,7 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">aux?</token>
                     <token regexp="yes">dépends?</token>
                 </pattern>
-                <message>« \1 \2 » est un tour critiqué. Employez <suggestion>aux dépens</suggestion>.</message>
+                <message>« \1 \2 » est une expression fautive. Employez <suggestion>aux dépens</suggestion>.</message>
                 <example type="incorrect">Il vit <marker>aux dépends</marker> de ses parents.</example>
                 <example type="correct">Il vit <marker>aux dépens</marker> de ses parents.</example>
             </rule>
@@ -21127,7 +21134,7 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">[aà]</token>
                     <token>autres</token>
                 </pattern>
-                <message>« \1 \2 \3 \4 » est un tour critiqué. Employez <suggestion>de temps à autre</suggestion></message>
+                <message>« \1 \2 \3 \4 » est une expression fautive. Employez <suggestion>de temps à autre</suggestion></message>
                 <example type="incorrect">Il vient me voir <marker>de temps à autres</marker>.</example>
                 <example type="correct">Il vient me voir <marker>de temps à autre</marker>.</example>
             </rule>
@@ -21137,7 +21144,7 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">[mts](es|on)|leurs?|[nv]os|[nv]otre</token>
                     <token regexp="yes">dépends?</token>
                 </pattern>
-                <message>« \1 \2 \3 » est un tour critiqué. Employez <suggestion>\1 \2 dépens</suggestion></message>
+                <message>« \1 \2 \3 » est une expression fautive. Employez <suggestion>\1 \2 dépens</suggestion></message>
                 <example type="incorrect">Il vit <marker>à nos dépends</marker>.</example>
                 <example type="correct">Il vit <marker>à nos dépens</marker>.</example>
             </rule>
@@ -21176,7 +21183,7 @@ though, and has since been slightly modified)-->
                 <token regexp="yes">espèces?</token>
                 <token>de</token>
             </pattern>
-            <message>« Un espèce de » est un tour critiqué. Employez <suggestion>une espèce de</suggestion>, peu importe le genre du complément (donc : « une espèce de manteau »).</message>
+            <message>« Un espèce de » est une expression fautive. Employez <suggestion>une espèce de</suggestion>, peu importe le genre du complément (donc : « une espèce de manteau »).</message>
             <example type="incorrect"><marker>un espèce de</marker></example>
             <example type="correct"><marker>une espèce de</marker></example>
         </rule>
@@ -21185,7 +21192,7 @@ though, and has since been slightly modified)-->
       <pattern>
         <token>1ier|ière|iers|ières</token>
       </pattern>
-      <message>«&#160;1er/1ers/1ère/1ères&#160;» est un tour critiqué (impropriété). Employez <suggestion>1er</suggestion> <suggestion>1ers</suggestion>, <suggestion>1ère</suggestion>, <suggestion>1ères</suggestion>.</message>
+      <message>«&#160;1er/1ers/1ère/1ères&#160;» est une expression fautive (impropriété). Employez <suggestion>1er</suggestion> <suggestion>1ers</suggestion>, <suggestion>1ère</suggestion>, <suggestion>1ères</suggestion>.</message>
       <example type="incorrect"><marker>1ier</marker></example>
       <example type="correct"><marker>1er</marker></example>
     </rule>
@@ -21195,7 +21202,7 @@ though, and has since been slightly modified)-->
                 <token skip="2">peut</token>
                 <token inflected="yes">importer</token>
             </pattern>
-            <message>« Peut importe » est un tour critiqué (impropriété). Employez <suggestion>peu importe</suggestion>.</message>
+            <message>« Peut importe » est une expression fautive (impropriété). Employez <suggestion>peu importe</suggestion>.</message>
             <example type="incorrect"><marker>peut importe</marker></example>
             <example type="correct"><marker>peu importe</marker></example>
         </rule>
@@ -21206,7 +21213,7 @@ though, and has since been slightly modified)-->
                 <token regexp="yes">une|des</token>
                 <token inflected="yes">échalote</token>
             </pattern>
-            <message>« Maigre comme un échalote » est un tour critiqué. Employez <suggestion>maigre comme un échalas</suggestion>.</message>
+            <message>« Maigre comme un échalote » est une expression fautive. Employez <suggestion>maigre comme un échalas</suggestion>.</message>
             <example type="incorrect"><marker>maigre comme une échalote</marker></example>
             <example type="correct"><marker>maigre comme un échalas</marker></example>
         </rule>
@@ -21216,7 +21223,7 @@ though, and has since been slightly modified)-->
                 <token regexp="yes">[’´'‛′‘]</token>
                 <token>hydro-québec</token>
             </pattern>
-            <message>« L’Hydro-Québec » est un tour critiqué. Employez <suggestion>Hydro-Québec</suggestion>.</message>
+            <message>« L’Hydro-Québec » est une expression fautive. Employez <suggestion>Hydro-Québec</suggestion>.</message>
             <example type="incorrect"><marker>l’Hydro-Québec</marker></example>
             <example type="correct"><marker>Hydro-Québec</marker></example>
         </rule>
@@ -21229,7 +21236,7 @@ though, and has since been slightly modified)-->
                 <token regexp="yes">ans?</token>
                 <token regexp="yes">40|quarante</token>
             </pattern>
-            <message>« Comme dans l’an 40 » est un tour critiqué. Employez <suggestion>comme de l’an 40</suggestion> (se moquer de quelque chose).</message>
+            <message>« Comme dans l’an 40 » est une expression fautive. Employez <suggestion>comme de l’an 40</suggestion> (se moquer de quelque chose).</message>
             <example type="incorrect"><marker>comme dans l’an 40</marker></example>
             <example type="correct"><marker>comme de l’an 40</marker></example>
         </rule>
@@ -21241,7 +21248,7 @@ though, and has since been slightly modified)-->
                 <token>plaisir</token>
                 <token>de</token>
             </pattern>
-            <message>« Il me fait plaisir de » est un tour critiqué (solécisme). Employez <suggestion>c’est avec plaisir que</suggestion>.</message>
+            <message>« Il me fait plaisir de » est une expression fautive (solécisme). Employez <suggestion>c’est avec plaisir que</suggestion>.</message>
             <example type="incorrect"><marker>il me fait plaisir de</marker></example>
             <example type="correct"><marker>c’est avec plaisir que</marker></example>
         </rule>
@@ -21253,7 +21260,7 @@ though, and has since been slightly modified)-->
                 <token regexp="yes">[’´'‛′‘]</token>
                 <token regexp="yes">inaptitudes?</token>
             </pattern>
-            <message>« Perdre des points d’inaptitude » est un tour critiqué. Employez <suggestion>accumuler des points d’inaptitude</suggestion>.</message>
+            <message>« Perdre des points d’inaptitude » est une expression fautive. Employez <suggestion>accumuler des points d’inaptitude</suggestion>.</message>
             <example type="incorrect"><marker>perdre des points d’inaptitude</marker></example>
             <example type="correct"><marker>accumuler des points d’inaptitude</marker></example>
         </rule>
@@ -21266,7 +21273,7 @@ though, and has since been slightly modified)-->
                 <token regexp="yes">[’´'‛′‘]</token>
                 <token regexp="yes">ondes?</token>
             </pattern>
-            <message>« Payer rubis sur l’ongle » est un tour critiqué. Employez <suggestion>payer rubis sur l’ongle</suggestion>.</message>
+            <message>« Payer rubis sur l’ongle » est une expression fautive. Employez <suggestion>payer rubis sur l’ongle</suggestion>.</message>
             <example type="incorrect"><marker>payer rubis sur l’onde</marker></example>
             <example type="correct"><marker>payer rubis sur l’ongle</marker></example>
         </rule>
@@ -21275,7 +21282,7 @@ though, and has since been slightly modified)-->
                 <token skip="3">levée</token>
                 <token regexp="yes">rideaux?</token>
             </pattern>
-            <message>« Levée de rideau » est un tour critiqué. Employez <suggestion>lever de rideau</suggestion>.</message>
+            <message>« Levée de rideau » est une expression fautive. Employez <suggestion>lever de rideau</suggestion>.</message>
             <example type="incorrect"><marker>levée de rideau</marker></example>
             <example type="correct"><marker>lever de rideau</marker></example>
         </rule>
@@ -21283,7 +21290,7 @@ though, and has since been slightly modified)-->
             <pattern>
                 <token regexp="yes">pécuniers?</token>
             </pattern>
-            <message>« Pécunier » est un tour critiqué. Employez <suggestion>pécuniaire</suggestion>.</message>
+            <message>« Pécunier » est une expression fautive. Employez <suggestion>pécuniaire</suggestion>.</message>
             <example type="incorrect"><marker>pécunier</marker></example>
             <example type="correct"><marker>pécunière</marker></example>
         </rule>
@@ -21292,7 +21299,7 @@ though, and has since been slightly modified)-->
                 <token>no</token>
                 <token>.</token>
             </pattern>
-            <message>« No. » est un tour critiqué. Employez <suggestion>nº</suggestion> (abréviation de numéro).</message>
+            <message>« No. » est une expression fautive. Employez <suggestion>nº</suggestion> (abréviation de numéro).</message>
             <example type="incorrect"><marker>no.</marker></example>
             <example type="correct"><marker>nº</marker></example>
         </rule>
@@ -21301,7 +21308,7 @@ though, and has since been slightly modified)-->
                 <token inflected="yes">pallier</token>
                 <token regexp="yes">à|aux?</token>
             </pattern>
-            <message>« Pallier à quelque chose » est un tour critiqué. Employez <suggestion>\1</suggestion> (sans « à »).</message>
+            <message>« Pallier à quelque chose » est une expression fautive. Employez <suggestion>\1</suggestion> (sans « à »).</message>
             <example type="incorrect"><marker>pallier à</marker> quelque chose</example>
             <example type="correct"><marker>pallier</marker> quelque chose</example>
         </rule>
@@ -21310,7 +21317,7 @@ though, and has since been slightly modified)-->
                 <token regexp="yes">la|les</token>
                 <token regexp="yes">madames?|mesdames</token>
             </pattern>
-            <message>« La madame » est un tour critiqué. Employez <suggestion>la dame</suggestion>.</message>
+            <message>« La madame » est une expression fautive. Employez <suggestion>la dame</suggestion>.</message>
             <example type="incorrect"><marker>la madame</marker></example>
             <example type="correct"><marker>la damer</marker></example>
         </rule>
@@ -21322,7 +21329,7 @@ though, and has since been slightly modified)-->
                 <token>en</token>
                 <token inflected="yes">falloir</token>
             </pattern>
-            <message>« Loin s’en faut » est un tour critiqué. Employez <suggestion>tant s’en faut</suggestion>, <suggestion>loin de là</suggestion>.</message>
+            <message>« Loin s’en faut » est une expression fautive. Employez <suggestion>tant s’en faut</suggestion>, <suggestion>loin de là</suggestion>.</message>
             <example type="incorrect"><marker>loin s’en faut</marker></example>
             <example type="correct"><marker>loin de là</marker></example>
         </rule>
@@ -21333,7 +21340,7 @@ though, and has since been slightly modified)-->
                 </marker>
                 <token regexp="yes">candidatures?</token>
             </pattern>
-            <message>« Mousser une candidature » est un tour critiqué. Employez <suggestion>favoriser</suggestion> une candidature.</message>
+            <message>« Mousser une candidature » est une expression fautive. Employez <suggestion>favoriser</suggestion> une candidature.</message>
             <example type="incorrect"><marker>mousser</marker> une candidature</example>
             <example type="correct"><marker>favoriser une candidature</marker></example>
         </rule>
@@ -21342,7 +21349,7 @@ though, and has since been slightly modified)-->
                 <token>aussi</token>
                 <token regexp="yes">pires?</token>
             </pattern>
-            <message>« Aussi pire » est un tour critiqué. Employez <suggestion>aussi mauvais</suggestion>, <suggestion>aussi grave</suggestion>.</message>
+            <message>« Aussi pire » est une expression fautive. Employez <suggestion>aussi mauvais</suggestion>, <suggestion>aussi grave</suggestion>.</message>
             <example type="incorrect"><marker>aussi pire</marker></example>
             <example type="correct"><marker>aussi mauvais</marker></example>
         </rule>
@@ -21353,7 +21360,7 @@ though, and has since been slightly modified)-->
                 </marker>
                 <token>gré</token>
             </pattern>
-            <message>« Être gré » est un tour critiqué. Employez <suggestion>savoir</suggestion>.</message>
+            <message>« Être gré » est une expression fautive. Employez <suggestion>savoir</suggestion>.</message>
             <example type="incorrect"><marker>être</marker> gré</example>
             <example type="correct"><marker>savoir gré</marker></example>
             <example type="correct">Le contrat est négocié de gré à gré.</example>
@@ -21364,7 +21371,7 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">pires?</token>
                     <token regexp="yes">allers?</token>
                 </pattern>
-                <message>« Pire aller » est un tour critiqué. Employez <suggestion>pis aller</suggestion>.</message>
+                <message>« Pire aller » est une expression fautive. Employez <suggestion>pis aller</suggestion>.</message>
                 <example type="incorrect"><marker>pire aller</marker></example>
                 <example type="correct"><marker>pis aller</marker></example>
             </rule>
@@ -21372,7 +21379,7 @@ though, and has since been slightly modified)-->
                 <pattern>
                     <token regexp="yes">pires?-allers?</token>
                 </pattern>
-                <message>« Pire-aller » est un tour critiqué. Employez <suggestion>pis-aller</suggestion>.</message>
+                <message>« Pire-aller » est une expression fautive. Employez <suggestion>pis-aller</suggestion>.</message>
                 <example type="incorrect"><marker>pire-aller</marker></example>
                 <example type="correct"><marker>pis-aller</marker></example>
             </rule>
@@ -21383,7 +21390,7 @@ though, and has since been slightly modified)-->
                     <token inflected="yes" skip="2">avérer</token>
                     <token regexp="yes">faux|fausses?</token>
                 </pattern>
-                <message>« S’avérer faux » est un tour critiqué. Employez <suggestion>se révéler faux</suggestion>.</message>
+                <message>« S’avérer faux » est une expression fautive. Employez <suggestion>se révéler faux</suggestion>.</message>
                 <example type="incorrect"><marker>avérer faux</marker></example>
                 <example type="correct"><marker>se révéler faux</marker></example>
             </rule>
@@ -21396,7 +21403,7 @@ though, and has since been slightly modified)-->
                     <token inflected="yes" skip="3">accaparer</token>
                     <token regexp="yes">de|d|du</token>
                 </pattern>
-                <message>« S’accaparer de quelque chose » est un tour critiqué. Employez <suggestion>accaparer quelque chose</suggestion>.</message>
+                <message>« S’accaparer de quelque chose » est une expression fautive. Employez <suggestion>accaparer quelque chose</suggestion>.</message>
                 <example type="incorrect"><marker>s’accaparer de</marker></example>
                 <example type="correct"><marker>accaparer quelque chose</marker></example>
             </rule>
@@ -21406,7 +21413,7 @@ though, and has since been slightly modified)-->
                     <token inflected="yes" skip="3">être</token>
                     <token regexp="yes">accaparée?s?</token>
                 </pattern>
-                <message>« S’accaparer de quelque chose » est un tour critiqué. Employez <suggestion>accaparer quelque chose</suggestion>.</message>
+                <message>« S’accaparer de quelque chose » est une expression fautive. Employez <suggestion>accaparer quelque chose</suggestion>.</message>
                 <example type="incorrect">ils <marker>en être accaparé</marker></example>
                 <example type="correct"><marker>accaparer quelque chose</marker></example>
             </rule>
@@ -21415,7 +21422,7 @@ though, and has since been slightly modified)-->
             <pattern>
                 <token>assis-toi</token>
             </pattern>
-            <message>« Assis-toi » est un tour critiqué. Employez <suggestion>assieds-toi</suggestion>, <suggestion>assois-toi</suggestion>.</message>
+            <message>« Assis-toi » est une expression fautive. Employez <suggestion>assieds-toi</suggestion>, <suggestion>assois-toi</suggestion>.</message>
             <example type="incorrect"><marker>assis-toi</marker></example>
             <example type="correct"><marker>assieds-toi</marker>.</example>
         </rule>
@@ -21423,7 +21430,7 @@ though, and has since been slightly modified)-->
             <pattern>
                 <token>assisez-vous</token>
             </pattern>
-            <message>« Assisez-vous » est un tour critiqué. Employez <suggestion>asseyez-vous</suggestion>, <suggestion>assoyez-vous</suggestion>.</message>
+            <message>« Assisez-vous » est une expression fautive. Employez <suggestion>asseyez-vous</suggestion>, <suggestion>assoyez-vous</suggestion>.</message>
             <example type="incorrect"><marker>assisez-vous</marker></example>
             <example type="correct"><marker>asseyez-vous</marker>.</example>
         </rule>
@@ -21435,7 +21442,7 @@ though, and has since been slightly modified)-->
                 <token>sans</token>
                 <token>ignorer</token>
             </pattern>
-            <message>« N’être pas sans ignorer » est un tour critiqué. Employez <suggestion>n’être pas sans savoir</suggestion>.</message>
+            <message>« N’être pas sans ignorer » est une expression fautive. Employez <suggestion>n’être pas sans savoir</suggestion>.</message>
             <example type="incorrect"><marker>n’être pas sans ignorer</marker></example>
             <example type="correct"><marker>n’être pas sans savoir</marker>.</example>
         </rule>
@@ -21444,7 +21451,7 @@ though, and has since been slightly modified)-->
                 <token>en</token>
                 <token regexp="yes">motos?|motocyclettes?</token>
             </pattern>
-            <message>« En moto(cyclette) » est un tour critiqué. Employez <suggestion>à moto</suggestion>, <suggestion>à motocyclette</suggestion>.</message>
+            <message>« En moto(cyclette) » est une expression fautive. Employez <suggestion>à moto</suggestion>, <suggestion>à motocyclette</suggestion>.</message>
             <example type="incorrect"><marker>en motocyclette</marker></example>
             <example type="correct"><marker>à motocyclette</marker>.</example>
         </rule>
@@ -21452,7 +21459,7 @@ though, and has since been slightly modified)-->
             <pattern>
                 <token regexp="yes">assire?</token>
             </pattern>
-            <message>« Assir » est un tour critiqué. Employez <suggestion>asseoir</suggestion>.</message>
+            <message>« Assir » est une expression fautive. Employez <suggestion>asseoir</suggestion>.</message>
             <example type="incorrect"><marker>assir</marker></example>
             <example type="correct"><marker>asseoir</marker>.</example>
         </rule>
@@ -21463,7 +21470,7 @@ though, and has since been slightly modified)-->
                 <token regexp="yes">contredites?</token>
                 <token>pas</token>
             </pattern>
-            <message>« Ne me contredites pas » est un tour critiqué. Employez <suggestion>ne me contredisez pas</suggestion>.</message>
+            <message>« Ne me contredites pas » est une expression fautive. Employez <suggestion>ne me contredisez pas</suggestion>.</message>
             <example type="incorrect"><marker>ne me contredites pas</marker></example>
             <example type="correct"><marker>ne me contredisez pas</marker>.</example>
         </rule>
@@ -21472,7 +21479,7 @@ though, and has since been slightly modified)-->
                 <token regexp="yes">clientèles?</token>
                 <token regexp="yes">scolaires?</token>
             </pattern>
-            <message>« Clientèle scolaire » est un tour critiqué. Employez <suggestion>effectif scolaire</suggestion>.</message>
+            <message>« Clientèle scolaire » est une expression fautive. Employez <suggestion>effectif scolaire</suggestion>.</message>
             <example type="incorrect"><marker>clientèle scolaire</marker></example>
             <example type="correct"><marker>effectif scolaire</marker>.</example>
         </rule>
@@ -21481,7 +21488,7 @@ though, and has since been slightly modified)-->
                 <token regexp="yes">clientèles?</token>
                 <token regexp="yes">étudiantes?</token>
             </pattern>
-            <message>« Clientèle étudiante » est un tour critiqué. Employez <suggestion>effectif étudiant</suggestion>.</message>
+            <message>« Clientèle étudiante » est une expression fautive. Employez <suggestion>effectif étudiant</suggestion>.</message>
             <example type="incorrect"><marker>clientèle étudiante</marker></example>
             <example type="correct"><marker>effectif étudiant</marker>.</example>
         </rule>
@@ -21490,7 +21497,7 @@ though, and has since been slightly modified)-->
                 <token>moins</token>
                 <token regexp="yes">pires?</token>
             </pattern>
-            <message>« Moins pire » est un tour critiqué. Employez <suggestion>moins mauvais</suggestion>, <suggestion>meilleur</suggestion>.</message>
+            <message>« Moins pire » est une expression fautive. Employez <suggestion>moins mauvais</suggestion>, <suggestion>meilleur</suggestion>.</message>
             <example type="incorrect"><marker>moins pire</marker></example>
             <example type="correct"><marker>moins mauvais</marker>.</example>
         </rule>
@@ -21499,7 +21506,7 @@ though, and has since been slightly modified)-->
                 <token>au</token>
                 <token>Lac-Beauport</token>
             </pattern>
-            <message>« Au Lac-Beauport » est un tour critiqué. Employez <suggestion>à Lac-Beaport</suggestion> (en parlant de la municipalité, et non du lac lui-même).</message>
+            <message>« Au Lac-Beauport » est une expression fautive. Employez <suggestion>à Lac-Beaport</suggestion> (en parlant de la municipalité, et non du lac lui-même).</message>
             <example type="incorrect"><marker>au Lac-Beauport</marker></example>
             <example type="correct"><marker>à Lac-Beauport</marker>.</example>
         </rule>
@@ -21509,7 +21516,7 @@ though, and has since been slightly modified)-->
                 <token>de</token>
                 <token regexp="yes">scies?</token>
             </pattern>
-            <message>« Brin de scie » est un tour critiqué. Employez <suggestion>bran de scie</suggestion>, <suggestion>sciure de bois</suggestion>.</message>
+            <message>« Brin de scie » est une expression fautive. Employez <suggestion>bran de scie</suggestion>, <suggestion>sciure de bois</suggestion>.</message>
             <example type="incorrect"><marker>brin de scie</marker></example>
             <example type="correct"><marker>bran de scie</marker>.</example>
         </rule>
@@ -21518,7 +21525,7 @@ though, and has since been slightly modified)-->
                 <token>au</token>
                 <token>Cap-de-la-Madeleine</token>
             </pattern>
-            <message>« Au Cap-de-la-Madeleine » est un tour critiqué. Employez <suggestion>à Cap-de-la-Madeleine</suggestion> (en parlant de la municipalité, et non du cap lui-même). Depuis 2002, cette municipalité n’existe plus en tant qu’entité indépendante. Elle fait maintenant partie de Trois-Rivières.</message>
+            <message>« Au Cap-de-la-Madeleine » est une expression fautive. Employez <suggestion>à Cap-de-la-Madeleine</suggestion> (en parlant de la municipalité, et non du cap lui-même). Depuis 2002, cette municipalité n’existe plus en tant qu’entité indépendante. Elle fait maintenant partie de Trois-Rivières.</message>
             <example type="incorrect"><marker>au Cap-de-la-Madeleine</marker></example>
             <example type="correct"><marker>à Cap-de-la-Madeleine</marker>.</example>
         </rule>
@@ -21529,7 +21536,7 @@ though, and has since been slightly modified)-->
                 <token regexp="yes">les?</token>
                 <token inflected="yes">journal</token>
             </pattern>
-            <message>« Lire sur le journal » est un tour critiqué. Employez <suggestion>lire dans le journal</suggestion>.</message>
+            <message>« Lire sur le journal » est une expression fautive. Employez <suggestion>lire dans le journal</suggestion>.</message>
             <example type="incorrect"><marker>lire sur le journal</marker></example>
             <example type="correct"><marker>lire dans le journal</marker>.</example>
         </rule>
@@ -21539,7 +21546,7 @@ though, and has since been slightly modified)-->
                     <token inflected="yes" skip="4">rue</token>
                     <token inflected="yes">passager</token>
                 </pattern>
-                <message>« Rue passagère » est un tour critiqué. Employez <suggestion>rue passante</suggestion>, <suggestion>rue fréquentée</suggestion>. L’adjectif « passager » signifie « de brève durée ».</message>
+                <message>« Rue passagère » est une expression fautive. Employez <suggestion>rue passante</suggestion>, <suggestion>rue fréquentée</suggestion>. L’adjectif « passager » signifie « de brève durée ».</message>
                 <example type="incorrect"><marker>rue passagère</marker></example>
                 <example type="correct"><marker>rue passante</marker>.</example>
             </rule>
@@ -21548,7 +21555,7 @@ though, and has since been slightly modified)-->
                     <token inflected="yes" skip="4">artère</token>
                     <token inflected="yes">passager</token>
                 </pattern>
-                <message>« Artère passagère » est un tour critiqué. Employez <suggestion>artère passante</suggestion>, <suggestion>artère fréquentée</suggestion>. L’adjectif « passager » signifie « de brève durée ».</message>
+                <message>« Artère passagère » est une expression fautive. Employez <suggestion>artère passante</suggestion>, <suggestion>artère fréquentée</suggestion>. L’adjectif « passager » signifie « de brève durée ».</message>
                 <example type="incorrect"><marker>artère passagère</marker></example>
                 <example type="correct"><marker>artère passante</marker>.</example>
             </rule>
@@ -21557,7 +21564,7 @@ though, and has since been slightly modified)-->
                     <token inflected="yes" skip="4">avenue</token>
                     <token inflected="yes">passager</token>
                 </pattern>
-                <message>« Avenue passagère » est un tour critiqué. Employez <suggestion>avenue passante</suggestion>, <suggestion>avenue fréquentée</suggestion>. L’adjectif « passager » signifie « de brève durée ».</message>
+                <message>« Avenue passagère » est une expression fautive. Employez <suggestion>avenue passante</suggestion>, <suggestion>avenue fréquentée</suggestion>. L’adjectif « passager » signifie « de brève durée ».</message>
                 <example type="incorrect"><marker>avenue passagère</marker></example>
                 <example type="correct"><marker>avenue passante</marker>.</example>
             </rule>
@@ -21566,7 +21573,7 @@ though, and has since been slightly modified)-->
                     <token inflected="yes" skip="4">boulevard</token>
                     <token inflected="yes">passager</token>
                 </pattern>
-                <message>« Boulevard passager » est un tour critiqué. Employez <suggestion>boulevard passant</suggestion>, <suggestion>boulevard fréquenté</suggestion>. L’adjectif « passager » signifie « de brève durée ».</message>
+                <message>« Boulevard passager » est une expression fautive. Employez <suggestion>boulevard passant</suggestion>, <suggestion>boulevard fréquenté</suggestion>. L’adjectif « passager » signifie « de brève durée ».</message>
                 <example type="incorrect"><marker>boulevard passager</marker></example>
                 <example type="correct"><marker>boulevard passant</marker>.</example>
             </rule>
@@ -21575,7 +21582,7 @@ though, and has since been slightly modified)-->
             <pattern>
                 <token regexp="yes">courriéls?</token>
             </pattern>
-            <message>« Courriél » est un tour critiqué. Employez <suggestion>courriel</suggestion>.</message>
+            <message>« Courriél » est une expression fautive. Employez <suggestion>courriel</suggestion>.</message>
             <example type="incorrect"><marker>courriél</marker>.</example>
             <example type="correct"><marker>courriel</marker>.</example>
         </rule>
@@ -21584,7 +21591,7 @@ though, and has since been slightly modified)-->
                 <token inflected="yes">aire</token>
                 <token inflected="yes">glaciaire</token>
             </pattern>
-            <message>« \1 \2 » est un tour critiqué. Employez <suggestion><match no="1" regexp_match=".*e(s?)" regexp_replace="ère$1"></match> \2</suggestion>.</message>
+            <message>« \1 \2 » est une expression fautive. Employez <suggestion><match no="1" regexp_match=".*e(s?)" regexp_replace="ère$1"></match> \2</suggestion>.</message>
             <example type="incorrect">L’<marker>aire glaciaire</marker>.</example>
             <example type="correct">L’ère glaciaire.</example>
         </rule>
@@ -21593,7 +21600,7 @@ though, and has since been slightly modified)-->
                 <token inflected="yes">pareil</token>
                 <token>comme</token>
             </pattern>
-            <message>« \1 \2 » est un tour critiqué. Employez <suggestion>\1 à</suggestion>.</message>
+            <message>« \1 \2 » est une expression fautive. Employez <suggestion>\1 à</suggestion>.</message>
             <example type="incorrect"><marker>pareil comme</marker></example>
             <example type="correct"><marker>pareil à</marker></example>
         </rule>
@@ -21602,7 +21609,7 @@ though, and has since been slightly modified)-->
                 <token inflected="yes">pareil</token>
                 <token>que</token>
             </pattern>
-            <message>« Pareil que » est un tour critiqué. Employez <suggestion>pareil à</suggestion>.</message>
+            <message>« Pareil que » est une expression fautive. Employez <suggestion>pareil à</suggestion>.</message>
             <example type="incorrect"><marker>pareil que</marker></example>
             <example type="correct"><marker>pareil à</marker></example>
         </rule>
@@ -21612,7 +21619,7 @@ though, and has since been slightly modified)-->
                 <token regexp="yes">moyens?</token>
                 <token regexp="yes">de?|que?</token>
             </pattern>
-            <message>« Tâcher moyen de/que » est un tour critiqué. Employez <suggestion>tâcher de</suggestion>, <suggestion>tâcher que</suggestion>.</message>
+            <message>« Tâcher moyen de/que » est une expression fautive. Employez <suggestion>tâcher de</suggestion>, <suggestion>tâcher que</suggestion>.</message>
             <example type="incorrect"><marker>tâcher moyen que</marker></example>
             <example type="correct"><marker>tâcher que</marker></example>
         </rule>
@@ -21626,7 +21633,7 @@ though, and has since been slightly modified)-->
                     <token>intention</token>
                     <token regexp="yes">de?</token>
                 </pattern>
-                <message>« à l’intention de » est un tour critiqué (impropriété). Employez <suggestion>à l’attention de</suggestion>.</message>
+                <message>« à l’intention de » est une expression fautive (impropriété). Employez <suggestion>à l’attention de</suggestion>.</message>
                 <example type="incorrect"><marker>À l’intention de</marker></example>
                 <example type="incorrect"><marker>À l’aimable intention de</marker></example>
                 <example type="correct"><marker>À l’attention de</marker></example>
@@ -21640,7 +21647,7 @@ though, and has since been slightly modified)-->
                 <token skip="1">diable</token>
                 <token>vert</token>
             </pattern>
-            <message>« Au diable vert/au diable au vert » est un tour critiqué. Employez <suggestion>au diable Vauvert</suggestion>.</message>
+            <message>« Au diable vert/au diable au vert » est une expression fautive. Employez <suggestion>au diable Vauvert</suggestion>.</message>
             <example type="incorrect"><marker>au diable vert</marker></example>
             <example type="correct"><marker>au diable Vauvert</marker></example>
         </rule>
@@ -21651,7 +21658,7 @@ though, and has since been slightly modified)-->
                 <token>bonne</token>
                 <token>flanquette</token>
             </pattern>
-            <message>« À la bonne flanquette » est un tour critiqué. Employez <suggestion>à la bonne franquette</suggestion>.</message>
+            <message>« À la bonne flanquette » est une expression fautive. Employez <suggestion>à la bonne franquette</suggestion>.</message>
             <example type="incorrect"><marker>à la bonne flanquette</marker></example>
             <example type="correct"><marker>à la bonne franquette</marker></example>
         </rule>
@@ -21664,7 +21671,7 @@ though, and has since been slightly modified)-->
                 <token regexp="yes" skip="3">je|j|tu|il|nous|vous|ils</token>
                 <token inflected="yes">parler</token>
             </pattern>
-            <message>« C’est de lui dont je parle » est un tour critiqué. Employez <suggestion>c’est de lui que je parle</suggestion>, <suggestion>c’est lui dont je parle</suggestion>.</message>
+            <message>« C’est de lui dont je parle » est une expression fautive. Employez <suggestion>c’est de lui que je parle</suggestion>, <suggestion>c’est lui dont je parle</suggestion>.</message>
             <example type="incorrect">c’<marker>être de lui dont je parler</marker></example>
             <example type="correct"><marker>c’est de lui que je parle</marker></example>
         </rule>
@@ -21674,7 +21681,7 @@ though, and has since been slightly modified)-->
                 <token>à</token>
                 <token>brasse-corps</token>
             </pattern>
-            <message>« Prendre à brasse-corps » est un tour critiqué. Employez <suggestion>prendre à bras-le-corps</suggestion>.</message>
+            <message>« Prendre à brasse-corps » est une expression fautive. Employez <suggestion>prendre à bras-le-corps</suggestion>.</message>
             <example type="incorrect"><marker>prendre à brasse-corps</marker></example>
             <example type="correct"><marker>prendre à bras-le-corps</marker></example>
         </rule>
@@ -21684,7 +21691,7 @@ though, and has since been slightly modified)-->
                 <token regexp="yes">pieds?</token>
                 <token regexp="yes">levés?</token>
             </pattern>
-            <message>« À pied levé » est un tour critiqué. Employez <suggestion>au pied levé</suggestion>.</message>
+            <message>« À pied levé » est une expression fautive. Employez <suggestion>au pied levé</suggestion>.</message>
             <example type="incorrect"><marker>à pied levé</marker></example>
             <example type="correct"><marker>au pied levé</marker></example>
         </rule>
@@ -21695,7 +21702,7 @@ though, and has since been slightly modified)-->
                 <token>une</token>
                 <token>chique</token>
             </pattern>
-            <message>« Mou comme un chique » est un tour critiqué. Employez <suggestion>mou comme une chiffe</suggestion>.</message>
+            <message>« Mou comme un chique » est une expression fautive. Employez <suggestion>mou comme une chiffe</suggestion>.</message>
             <example type="incorrect"><marker>mou comme une chique</marker></example>
             <example type="correct"><marker>mou comme une chiffe</marker></example>
         </rule>
@@ -21706,7 +21713,7 @@ though, and has since been slightly modified)-->
                 <token regexp="yes">coupes?</token>
                 <token regexp="yes">sombres?</token>
             </pattern>
-            <message>« Faire des coupes sombres » est un tour critiqué. Employez <suggestion>faire des coupes claires</suggestion>.</message>
+            <message>« Faire des coupes sombres » est une expression fautive. Employez <suggestion>faire des coupes claires</suggestion>.</message>
             <example type="incorrect"><marker>faire des coupes sombres</marker></example>
             <example type="correct"><marker>faire des coupes claires</marker></example>
         </rule>
@@ -21717,7 +21724,7 @@ though, and has since been slightly modified)-->
                 <token>les</token>
                 <token>pommes</token>
             </pattern>
-            <message>« Tomber dans les pommes » est un tour critiqué. Employez <suggestion>tomber dans les pâmes</suggestion>, <suggestion>perdre connaissance</suggestion>.</message>
+            <message>« Tomber dans les pommes » est une expression fautive. Employez <suggestion>tomber dans les pâmes</suggestion>, <suggestion>perdre connaissance</suggestion>.</message>
             <example type="incorrect"><marker>tomber dans les pommes</marker></example>
             <example type="correct"><marker>tomber dans les pâmes</marker></example>
         </rule>
@@ -21727,7 +21734,7 @@ though, and has since been slightly modified)-->
                 <token regexp="yes">des|une</token>
                 <token regexp="yes">rebiffades?</token>
             </pattern>
-            <message>« Essuyer des rebiffades » est un tour critiqué. Employez <suggestion>essuyer des rebuffades</suggestion>. La « rebiffade » est l’action de se rebiffer (marquer son refus ou protester contre quelqu’un ou quelque chose) et la « rebuffade » est un refus brutal marqué de paroles dures et méprisantes.</message>
+            <message>« Essuyer des rebiffades » est une expression fautive. Employez <suggestion>essuyer des rebuffades</suggestion>. La « rebiffade » est l’action de se rebiffer (marquer son refus ou protester contre quelqu’un ou quelque chose) et la « rebuffade » est un refus brutal marqué de paroles dures et méprisantes.</message>
             <example type="incorrect"><marker>essuyer des rebiffades</marker></example>
             <example type="correct"><marker>essuyer des rebuffades</marker></example>
         </rule>
@@ -21737,7 +21744,7 @@ though, and has since been slightly modified)-->
                 <token>les</token>
                 <token>oreilles</token>
             </pattern>
-            <message>« Rabattre les oreilles » est un tour critiqué. Employez <suggestion>rebattre les oreilles</suggestion> « Rabattre » désigne l’action d’abaisser et « rebattre » désigne au figuré l’action de répéter inutilement de manière ennuyeuse.</message>
+            <message>« Rabattre les oreilles » est une expression fautive. Employez <suggestion>rebattre les oreilles</suggestion> « Rabattre » désigne l’action d’abaisser et « rebattre » désigne au figuré l’action de répéter inutilement de manière ennuyeuse.</message>
             <example type="incorrect"><marker>rabattre les oreilles</marker></example>
             <example type="correct"><marker>rebattre les oreilles</marker></example>
         </rule>
@@ -21747,7 +21754,7 @@ though, and has since been slightly modified)-->
                 <token skip="1">comme</token>
                 <token>geai</token>
             </pattern>
-            <message>« Noir comme (le) geai » est un tour critiqué. Employez <suggestion>noir comme jais</suggestion>. Le « geai » est un oiseau gris et bleu et le « jais » est une pierre noire.</message>
+            <message>« Noir comme (le) geai » est une expression fautive. Employez <suggestion>noir comme jais</suggestion>. Le « geai » est un oiseau gris et bleu et le « jais » est une pierre noire.</message>
             <example type="incorrect"><marker>noir comme geai</marker></example>
             <example type="correct"><marker>noir comme jais</marker></example>
         </rule>
@@ -21757,7 +21764,7 @@ though, and has since been slightly modified)-->
                 <token>dessus</token>
                 <token>dessous</token>
             </pattern>
-            <message>« Sans dessus dessous » est un tour critiqué. Employez <suggestion>sens dessus dessous</suggestion> (mais on prononce bien « sens » comme « sans » dans cette locution, d’où l’erreur).</message>
+            <message>« Sans dessus dessous » est une expression fautive. Employez <suggestion>sens dessus dessous</suggestion> (mais on prononce bien « sens » comme « sans » dans cette locution, d’où l’erreur).</message>
             <example type="incorrect"><marker>sans dessus dessous</marker></example>
             <example type="correct"><marker>sens dessus dessous</marker></example>
         </rule>
@@ -21768,7 +21775,7 @@ though, and has since been slightly modified)-->
                 <token>pleine</token>
                 <token>dent</token>
             </pattern>
-            <message>« Mordre à pleine dent » est un tour critiqué (expression invariable). Employez <suggestion>mordre à pleines dents</suggestion>.</message>
+            <message>« Mordre à pleine dent » est une expression fautive (expression invariable). Employez <suggestion>mordre à pleines dents</suggestion>.</message>
             <example type="incorrect"><marker>mordre à pleine dent</marker></example>
             <example type="correct"><marker>mordre à pleines dents</marker></example>
         </rule>
@@ -21777,7 +21784,7 @@ though, and has since been slightly modified)-->
                 <token>quelques</token>
                 <token>temps</token>
             </pattern>
-            <message>« Quelques temps » est un tour critiqué (expression invariable). Employez <suggestion>quelque temps</suggestion>.</message>
+            <message>« Quelques temps » est une expression fautive (expression invariable). Employez <suggestion>quelque temps</suggestion>.</message>
             <example type="incorrect"><marker>quelques temps</marker></example>
             <example type="correct"><marker>quelque temps</marker></example>
         </rule>
@@ -21787,7 +21794,7 @@ though, and has since been slightly modified)-->
                 <token>de</token>
                 <token>renseignement</token>
             </pattern>
-            <message>« Service de renseignement » est un tour critiqué (expression invariable). Employez <suggestion>service de renseignements</suggestion>.</message>
+            <message>« Service de renseignement » est une expression fautive (expression invariable). Employez <suggestion>service de renseignements</suggestion>.</message>
             <example type="incorrect"><marker>service de renseignement</marker></example>
             <example type="correct"><marker>service de renseignements</marker></example>
         </rule>
@@ -21797,7 +21804,7 @@ though, and has since been slightly modified)-->
                 <token>de</token>
                 <token>boisson</token>
             </pattern>
-            <message>« Débit de boisson » est un tour critiqué (expression invariable). Employez <suggestion>débit de boissons</suggestion>.</message>
+            <message>« Débit de boisson » est une expression fautive (expression invariable). Employez <suggestion>débit de boissons</suggestion>.</message>
             <example type="incorrect"><marker>débit de boisson</marker></example>
             <example type="correct"><marker>débit de boissons</marker></example>
         </rule>
@@ -21807,7 +21814,7 @@ though, and has since been slightly modified)-->
                 <token>sans</token>
                 <token>défenses</token>
             </pattern>
-            <message>« Sans défenses » est un tour critiqué (expression invariable). Employez <suggestion>sans défense</suggestion>.</message>
+            <message>« Sans défenses » est une expression fautive (expression invariable). Employez <suggestion>sans défense</suggestion>.</message>
             <example type="incorrect"><marker>sans défenses</marker></example>
             <example type="correct"><marker>sans défense</marker></example>
         </rule>
@@ -21817,7 +21824,7 @@ though, and has since been slightly modified)-->
                 <token>sans</token>
                 <token>craintes</token>
             </pattern>
-            <message>« Sans craintes » est un tour critiqué (expression invariable). Employez <suggestion>sans crainte</suggestion>.</message>
+            <message>« Sans craintes » est une expression fautive (expression invariable). Employez <suggestion>sans crainte</suggestion>.</message>
             <example type="incorrect"><marker>sans craintes</marker></example>
             <example type="correct"><marker>sans crainte</marker></example>
         </rule>
@@ -21829,7 +21836,7 @@ though, and has since been slightly modified)-->
                 <token regexp="yes">['´‘’′]</token>
                 <token>abris</token>
             </pattern>
-            <message>« À l’abris » est un tour critiqué (expression invariable). Employez <suggestion>à l’abri</suggestion>.</message>
+            <message>« À l’abris » est une expression fautive (expression invariable). Employez <suggestion>à l’abri</suggestion>.</message>
             <example type="incorrect"><marker>à l’abris</marker></example>
             <example type="correct"><marker>à l’abri</marker></example>
         </rule>
@@ -21838,7 +21845,7 @@ though, and has since been slightly modified)-->
             <pattern>
                 <token>supers</token>
             </pattern>
-            <message>« Supers » est un tour critiqué (expression invariable). Employez <suggestion>super</suggestion>.</message>
+            <message>« Supers » est une expression fautive (expression invariable). Employez <suggestion>super</suggestion>.</message>
             <example type="incorrect"><marker>supers</marker></example>
             <example type="correct"><marker>super</marker></example>
         </rule>
@@ -21849,7 +21856,7 @@ though, and has since been slightly modified)-->
                 <token>de</token>
                 <token regexp="yes">consciences?</token>
             </pattern>
-            <message>« Par acquis de conscience » est un tour critiqué (impropriété). Employez <suggestion>par acquit de conscience</suggestion>.</message>
+            <message>« Par acquis de conscience » est une expression fautive (impropriété). Employez <suggestion>par acquit de conscience</suggestion>.</message>
             <example type="incorrect"><marker>par acquis de conscience</marker></example>
             <example type="correct"><marker>par acquit de conscience</marker>.</example>
         </rule>
@@ -21860,7 +21867,7 @@ though, and has since been slightly modified)-->
                     <token>parti</token>
                 </marker>
             </pattern>
-            <message>« Faire parti » est un tour critiqué (impropriété). Employez <suggestion>partie</suggestion>.</message>
+            <message>« Faire parti » est une expression fautive (impropriété). Employez <suggestion>partie</suggestion>.</message>
             <example correction="partie" type="incorrect">Tu fais <marker>parti</marker> ma vie.</example>
             <example type="correct"><marker>faire partie de</marker></example>
         </rule>
@@ -21871,7 +21878,7 @@ though, and has since been slightly modified)-->
                     <token>partie</token>
                 </marker>
             </pattern>
-            <message>« Tirer partie » est un tour critiqué (impropriété). Employez <suggestion>parti</suggestion>.</message>
+            <message>« Tirer partie » est une expression fautive (impropriété). Employez <suggestion>parti</suggestion>.</message>
             <example correction="parti" type="incorrect">tirer <marker>partie</marker></example>
             <example type="correct"><marker>tirer parti</marker></example>
         </rule>
@@ -21882,7 +21889,7 @@ though, and has since been slightly modified)-->
                     <token>partie</token>
                 </marker>
             </pattern>
-            <message>« Prendre partie pour » est un tour critiqué (impropriété). Employez <suggestion>parti</suggestion>.</message>
+            <message>« Prendre partie pour » est une expression fautive (impropriété). Employez <suggestion>parti</suggestion>.</message>
             <example correction="parti" type="incorrect">prendre <marker>partie</marker></example>
             <example type="correct"><marker>prendre parti</marker></example>
             <example type="correct">J’ai pris une partie de l’argent.</example>
@@ -21894,7 +21901,7 @@ though, and has since been slightly modified)-->
                     <token>parti</token>
                 </marker>
             </pattern>
-            <message>« En partie » est un tour critiqué (impropriété). Employez <suggestion>partie</suggestion>.</message>
+            <message>« En partie » est une expression fautive (impropriété). Employez <suggestion>partie</suggestion>.</message>
             <example type="incorrect">Le site a été en <marker>parti</marker> traduit.</example>
             <example type="correct">Le site a été en partie traduit.</example>
         </rule>
@@ -21905,7 +21912,7 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">générale|continue</token>
                 </marker>
             </pattern>
-            <message>« En \2 » est un tour critiqué (impropriété). Employez <suggestion><match no="1" regexp_match="(.*)e" regexp_replace="$1"></match></suggestion>.</message>
+            <message>« En \2 » est une expression fautive (impropriété). Employez <suggestion><match no="1" regexp_match="(.*)e" regexp_replace="$1"></match></suggestion>.</message>
             <example type="incorrect">Il arrive en <marker>générale</marker> assez tard.</example>
             <example type="correct">Il arrive en général assez tard.</example>
         </rule>
@@ -21917,7 +21924,7 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">paires?</token>
                 </marker>
             </pattern>
-            <message>« aller de \3 » est un tour critiqué (impropriété). Employez <suggestion>pair</suggestion>.</message>
+            <message>« aller de \3 » est une expression fautive (impropriété). Employez <suggestion>pair</suggestion>.</message>
             <example type="incorrect">Travail et talent vont de <marker>paire</marker>.</example>
             <example type="correct">Travail et talent vont de <marker>pair</marker>.</example>
         </rule>
@@ -21929,7 +21936,7 @@ though, and has since been slightly modified)-->
                     <token>avec</token>
                 </marker>
             </pattern>
-            <message>« Faire affaires avec » est un tour critiqué (expression invariable). Employez <suggestion>affaire avec</suggestion>.</message>
+            <message>« Faire affaires avec » est une expression fautive (expression invariable). Employez <suggestion>affaire avec</suggestion>.</message>
             <example correction="affaire avec" type="incorrect">faire <marker>affaires avec</marker></example>
             <example type="correct"><marker>faire affaire avec</marker></example>
         </rule>
@@ -21941,7 +21948,7 @@ though, and has since been slightly modified)-->
                     <token>acquit</token>
                 </marker>
             </pattern>
-            <message>« Tenir pour acquit » est un tour critiqué (impropriété). Employez <suggestion>pour acquis</suggestion>.</message>
+            <message>« Tenir pour acquit » est une expression fautive (impropriété). Employez <suggestion>pour acquis</suggestion>.</message>
             <example type="incorrect">tenir <marker>pour acquit</marker></example>
             <example type="correct"><marker>tenir pour acquis</marker></example>
         </rule>
@@ -21955,7 +21962,7 @@ though, and has since been slightly modified)-->
                     <token>campagne</token>
                 </marker>
             </pattern>
-            <message>« En pleine campagne » est un tour critiqué (impropriété). Employez <suggestion>en plaine campagne</suggestion>.</message>
+            <message>« En pleine campagne » est une expression fautive (impropriété). Employez <suggestion>en plaine campagne</suggestion>.</message>
             <example type="incorrect">Des maisons perdues <marker>en pleine campagne</marker>.</example>
             <example type="incorrect">J’habite <marker>en pleine campagne</marker>.</example>
             <example type="correct">J’habite <marker>en plaine campagne</marker>.</example>
@@ -21966,7 +21973,7 @@ though, and has since been slightly modified)-->
                 <token inflected="yes">postuler</token>
                 <token regexp="yes">à|pour</token>
             </pattern>
-            <message>« postuler \2 » est un tour critiqué (impropriété). Employez <suggestion>postuler</suggestion>.</message>
+            <message>« postuler \2 » est une expression fautive (impropriété). Employez <suggestion>postuler</suggestion>.</message>
             <example type="incorrect">Il a <marker>postulé à</marker> cet emploi.</example>
             <example type="incorrect">Il a <marker>postulé pour</marker> cet emploi.</example>
             <example type="correct">Il a <marker>postulé</marker> cet emploi.</example>
@@ -21978,7 +21985,7 @@ though, and has since been slightly modified)-->
                 <token>en</token>
                 <token>pire</token>
             </pattern>
-            <message>« de map en pire » est un tour critiqué (impropriété). Employez <suggestion>en mal en pis</suggestion>.</message>
+            <message>« de map en pire » est une expression fautive (impropriété). Employez <suggestion>en mal en pis</suggestion>.</message>
             <example type="incorrect">Les choses vont <marker>de mal en pire</marker>.</example>
             <example type="correct">Les choses vont <marker>de mal en pis</marker>.</example>
         </rule>
@@ -21988,7 +21995,7 @@ though, and has since been slightly modified)-->
                 <token>en</token>
                 <token regexp="yes">patt?es?</token>
             </pattern>
-            <message>« coq en patte » est un tour critiqué (impropriété). Employez <suggestion>\1 en pâte</suggestion>.</message>
+            <message>« coq en patte » est une expression fautive (impropriété). Employez <suggestion>\1 en pâte</suggestion>.</message>
             <example type="incorrect">Il vit comme un <marker>coq en patte</marker>.</example>
             <example type="correct">Il vit comme un <marker>coq en pâte</marker>.</example>
         </rule>
