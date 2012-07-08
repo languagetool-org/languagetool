@@ -824,6 +824,18 @@ though, and has since been slightly modified)-->
                 <example type="correct">La pale de l’hélice est cassée.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="REPERE_REPAIRE" name="repère et repaire">
+          <rule>
+            <pattern>
+              <marker><token regexp="yes">repères?</token></marker>
+              <token regexp="yes" skip="1">des?|du</token>
+              <token regexp="yes">bandits?|brigants?|cambrioleur?|corsaires?|criminels?|dragons?|escrocs?|filous?|flibustiers?|flibuste|gangsters?|lions?|loups?|maff?iosi|maff?ioso|maff?ia|malfaiteurs?|malfrats?|maraudeurs?|monstres?|murènes?|ours|pick-?pockets?|pillards?|pirates?|scélérats?|taupes?|tigres?|truands?|voleurs?|voleuses?|voyous?|yéti</token>
+            </pattern>
+            <message>Voulez-vous écrire <suggestion>repaire<match no="1" regexp_match=".*(s?)$" regexp_replace="$1"/></suggestion> ?</message>
+            <example type="incorrect">Le <marker>repère</marker> des pirates.</example>
+            <example type="correct">Le repaire des pirates.</example>
+          </rule>
+        </rulegroup>
         <rulegroup id="RIZ_RIS" name="Riz au lieu de ris">
             <rule>
                 <pattern>
@@ -959,6 +971,28 @@ though, and has since been slightly modified)-->
             <url>http://grammaire.reverso.net/2_1_23_chour_cour.shtml</url>
             <example type="incorrect">Le <marker>cœur</marker> philarmonique.</example>
             <example type="correct">Le chœur philarmonique.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token inflected="yes" regexp="yes" skip="1">chanter|répéter</token>
+              <token>en</token>
+              <marker><token regexp="yes">coeurs?|cœurs?</token></marker>
+            </pattern>
+            <message>Vouliez-vous écrire <suggestion>chœur<match no="1" regexp_match="(s?)$" regexp_replace="$1"/></suggestion> ?</message>
+            <url>http://grammaire.reverso.net/2_1_23_chour_cour.shtml</url>
+            <example type="incorrect">Nous chantions tous en <marker>cœur</marker>.</example>
+            <example type="correct">Nous chantions tous en <marker>chœur</marker>.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token inflected="yes" regexp="yes" skip="2">apprendre|connaître|répéter|réciter|savoir</token>
+              <token>par</token>
+              <marker><token regexp="yes">choeurs?|chœurs?</token></marker>
+            </pattern>
+            <message>Vouliez-vous écrire <suggestion>chœur<match no="1" regexp_match="(s?)$" regexp_replace="$1"/></suggestion> ?</message>
+            <url>http://grammaire.reverso.net/2_1_23_chour_cour.shtml</url>
+            <example type="incorrect">Il sait tout par <marker>chœur</marker>.</example>
+            <example type="correct">Il sait tout par <marker>cœur</marker>.</example>
           </rule>
         </rulegroup>
         <rulegroup id="PECHE" name="Pêcher au lieu de péché">
@@ -2776,6 +2810,7 @@ though, and has since been slightly modified)-->
                             <exception postag=".* sp?" postag_regexp="yes" scope="current"></exception>
                             <!-- Following exception skip words both singular/plural as well as adverbs -->
                             <exception negate_pos="yes" postag="A|[JN] . sp?|SENT_END" postag_regexp="yes" scope="next"></exception>
+                            <exception>ayants</exception>
                         </token>
                         <token postag="[JN] .* s" postag_regexp="yes">
                             <exception postag="V .*|.* sp" postag_regexp="yes"></exception>
@@ -2814,6 +2849,7 @@ though, and has since been slightly modified)-->
                 <example type="correct">Vos nom et prénom, s’il vous plaît.</example>
                 <example type="incorrect"><marker>Des faute</marker>.</example>
                 <example type="correct">Des fautes.</example>
+                <example type="correct">Les ayants droit.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ACCORD_GENRE" name="Accord en genre">
