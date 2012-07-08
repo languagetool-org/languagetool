@@ -219,20 +219,26 @@ class ResultArea extends JTextPane {
     }
 
     private void handleRuleLinkClick(String uri) throws IOException {
-      final RuleLink ruleLink = RuleLink.getFromString(uri);
-      final String ruleId = ruleLink.getId();
-      final Set<String> disabledRuleIds = config.getDisabledRuleIds();
-      if (uri.startsWith(DEACTIVATE_URL)) {
-        disabledRuleIds.add(ruleId);
-        languageTool.disableRule(ruleId);
-      } else {
-        disabledRuleIds.remove(ruleId);
-        languageTool.enableRule(ruleId);
+      final Cursor prevCursor = getCursor();
+      setCursor(new Cursor(Cursor.WAIT_CURSOR));
+      try {
+        final RuleLink ruleLink = RuleLink.getFromString(uri);
+        final String ruleId = ruleLink.getId();
+        final Set<String> disabledRuleIds = config.getDisabledRuleIds();
+        if (uri.startsWith(DEACTIVATE_URL)) {
+          disabledRuleIds.add(ruleId);
+          languageTool.disableRule(ruleId);
+        } else {
+          disabledRuleIds.remove(ruleId);
+          languageTool.enableRule(ruleId);
+        }
+        config.setDisabledRuleIds(disabledRuleIds);
+        config.saveConfiguration(languageTool.getLanguage());
+        allRuleMatches = languageTool.check(textArea.getText());
+        reDisplayRuleMatches();
+      } finally {
+        setCursor(prevCursor);
       }
-      config.setDisabledRuleIds(disabledRuleIds);
-      config.saveConfiguration(languageTool.getLanguage());
-      allRuleMatches = languageTool.check(textArea.getText());
-      reDisplayRuleMatches();
     }
 
     private void reDisplayRuleMatches() {

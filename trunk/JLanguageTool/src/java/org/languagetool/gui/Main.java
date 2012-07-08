@@ -461,6 +461,7 @@ public final class Main implements ActionListener {
               langName = lang.getTranslatedName(messages);
           }
           new Thread() {
+              @Override
               public void run() {
                   if (!isAlreadyChecking) {              
                       isAlreadyChecking = true;
