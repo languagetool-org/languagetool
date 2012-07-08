@@ -3278,6 +3278,60 @@ $Id$
         <example type="correct">Sec’hed am beze atav.</example>
       </rule>
     </rulegroup>
+
+    <rulegroup id="NEBEUT_NACHAN" name="nebeud/nebeut gant an nac’hañ">
+      <rule>
+        <pattern>
+          <token postag="SENT_START"/>
+          <token>nebeut</token>
+          <token>a</token>
+          <token postag="N . p.*" postag_regexp="yes"/>
+          <token regexp="yes">n[e’]</token>
+          <marker>
+            <token postag="V.*" postag_regexp="yes">
+              <exception postag="V .* 3 p.*" postag_regexp="yes"/>
+            </token>
+          </marker>
+        </pattern>
+        <message>Ret eo implij ur verb lies goude «\2 \3 \4 \5» e penn an frazenn. (CHALM R1.5.1)</message>
+        <example type="incorrect">Nebeut a dud ne <marker>gomze</marker> ket.</example>
+        <example type="correct">Nebeut a dud ne gomzent ket.</example>
+        <example type="incorrect">Nebeut a dud n’<marker>eo</marker> ket gwisket e ruz.</example>
+        <example type="correct">Nebeut a dud n’<marker>int</marker> ket gwisket e ruz.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="SENT_START"/>
+          <token>Un</token>
+          <token>nebeud</token>
+          <token postag="N . p.*" postag_regexp="yes"/>
+          <token regexp="yes">n[e’]</token>
+          <marker>
+            <token postag="V.*" postag_regexp="yes">
+              <exception postag="V .* 3 p.*" postag_regexp="yes"/>
+            </token>
+          </marker>
+        </pattern>
+        <message>Ret eo implij ur verb lies goude «\2 \3 \4 \5» e penn an frazenn. (CHALM R1.5.1)</message>
+        <example type="incorrect">Un nebeud traoù ne <marker>oa</marker> ket bet graet.</example>
+        <example type="correct">Un nebeud traoù ne <marker>oant</marker> ket bet graet.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="SENT_START"/>
+          <token>nebeut</token>
+          <token regexp="yes">n[e’]</token>
+          <marker>
+            <token postag="V.*" postag_regexp="yes">
+              <exception postag="V .* 3 p.*" postag_regexp="yes"/>
+            </token>
+          </marker>
+        </pattern>
+        <message>Ret eo implij ur verb lies goude «\2 \3» e penn an frazenn. (CHALM R1.5.1)</message>
+        <example type="incorrect">Nebeut ne <marker>c’hoarzhe</marker> ket.</example>
+        <example type="correct">Nebeut ne <marker>c’hoarzhent</marker> ket.</example>
+      </rule>
+    </rulegroup>
   </category>
 
   <category name="Barrennig-stagañ">
