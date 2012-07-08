@@ -30,8 +30,6 @@ import org.languagetool.tools.LanguageIdentifierTools;
 import org.languagetool.tools.StringTools;
 
 import javax.swing.*;
-import javax.swing.event.HyperlinkEvent;
-import javax.swing.event.HyperlinkListener;
 import javax.swing.filechooser.FileFilter;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
@@ -42,8 +40,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.Reader;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.*;
 import java.util.List;
 
@@ -57,7 +53,6 @@ public final class Main implements ActionListener {
   static final String EXTERNAL_LANGUAGE_SUFFIX = " (ext.)";
   static final String HTML_FONT_START = "<font face='Arial,Helvetica'>";
   static final String HTML_FONT_END = "</font>";
-  static final String DEACTIVATE_URL = "http://languagetool.org/deactivate/";
   static final String HTML_GREY_FONT_START = "<font face='Arial,Helvetica' color='#666666'>";
 
   private static final String SYSTEM_TRAY_ICON_NAME = "/TrayIcon.png";
@@ -113,11 +108,7 @@ public final class Main implements ActionListener {
     textArea.setLineWrap(true);
     textArea.setWrapStyleWord(true);
     textArea.addKeyListener(new ControlReturnTextCheckingListener());
-    resultArea = new ResultArea(messages);
-    resultArea.setContentType("text/html");
-    resultArea.setText(HTML_GREY_FONT_START + messages.getString("resultAreaText") + HTML_FONT_END);
-    resultArea.setEditable(false);
-    resultArea.addHyperlinkListener(new MyHyperlinkListener());
+    resultArea = new ResultArea(messages, textArea, config);
     checkTextButton = new JButton(StringTools.getLabel(messages.getString("checkText")));
     checkTextButton.setMnemonic(StringTools.getMnemonic(messages.getString("checkText")));
     checkTextButton.addActionListener(this);
@@ -427,18 +418,19 @@ public final class Main implements ActionListener {
     final JLanguageTool langTool;
     try {
       config = new Configuration(new File(System.getProperty("user.home")), CONFIG_FILE, currentLanguage);
+      resultArea.setConfiguration(config);
       final ConfigurationDialog configDialog = getCurrentConfigDialog(currentLanguage);
       langTool = new JLanguageTool(currentLanguage, configDialog.getMotherTongue());
       langTool.activateDefaultPatternRules();
       langTool.activateDefaultFalseFriendRules();
+      resultArea.setLanguageTool(langTool);
       final Set<String> disabledRules = configDialog.getDisabledRuleIds();
       if (disabledRules != null) {
         for (final String ruleId : disabledRules) {
           langTool.disableRule(ruleId);
         }
       }
-      final Set<String> disabledCategories = configDialog
-          .getDisabledCategoryNames();
+      final Set<String> disabledCategories = configDialog.getDisabledCategoryNames();
       if (disabledCategories != null) {
         for (final String categoryName : disabledCategories) {
           langTool.disableCategory(categoryName);
@@ -487,6 +479,7 @@ public final class Main implements ActionListener {
                             resultArea.setInputText(textArea.getText());
                             resultArea.setRuleMatches(ruleMatches);
                             resultArea.setRunTime(System.currentTimeMillis() - startTime);
+                            resultArea.setLanguageTool(langTool);
                             resultArea.displayResult();
                           } catch (final Exception e) {
                             final String error = "<br><br><b><font color=\"red\">"
@@ -585,55 +578,6 @@ public final class Main implements ActionListener {
       }
     } catch (final Exception e) {
       Tools.showError(e);
-    }
-  }
-
-  private class MyHyperlinkListener implements HyperlinkListener {
-    @Override
-    public void hyperlinkUpdate(HyperlinkEvent e) {
-      if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-        final URL url = e.getURL();
-        try {
-          final String uri= url.toURI().toString();
-          if (uri.startsWith(DEACTIVATE_URL)) {
-            final String ruleId = uri.substring(DEACTIVATE_URL.length());
-            // TODO: store in member var
-            final Set<String> disabledRuleIds = config.getDisabledRuleIds();
-            disabledRuleIds.add(ruleId);
-            config.setDisabledRuleIds(disabledRuleIds);
-            ruleMatches = filterRuleMatches();
-            resultArea.setInputText(textArea.getText());
-            resultArea.setRuleMatches(ruleMatches);
-            resultArea.displayResult();
-          } else {
-            handleHttpClick(url);
-          }
-        } catch (URISyntaxException e1) {
-          throw new RuntimeException("Could not handle URL click: " + url, e1);
-        }
-      }
-    }
-
-    private List<RuleMatch> filterRuleMatches() {
-      final List<RuleMatch> filtered = new ArrayList<RuleMatch>();
-      final Set<String> disabledRuleIds = config.getDisabledRuleIds();
-      for (RuleMatch ruleMatch : ruleMatches) {
-        if (!disabledRuleIds.contains(ruleMatch.getRule().getId())) {
-          filtered.add(ruleMatch);
-        }
-      }
-      return filtered;
-    }
-
-    private void handleHttpClick(URL url) {
-      if (Desktop.isDesktopSupported()) {
-        try {
-          final Desktop desktop = Desktop.getDesktop();
-          desktop.browse(url.toURI());
-        } catch (Exception ex) {
-          throw new RuntimeException("Could not open URL: " + url, ex);
-        }
-      }
     }
   }
 
