@@ -68,6 +68,7 @@ public final class Main implements ActionListener {
 
   private Configuration config;
 
+  private JLanguageTool langTool;
   private JFrame frame;
   private JTextArea textArea;
   private ResultArea resultArea;
@@ -125,6 +126,12 @@ public final class Main implements ActionListener {
     buttonCons.anchor = GridBagConstraints.WEST;
     insidePanel.add(new JLabel(" " + messages.getString("textLanguage") + " "), buttonCons);
     languageBox = new LanguageComboBox(messages);
+    languageBox.addItemListener(new ItemListener() {
+      @Override
+      public void itemStateChanged(ItemEvent e) {
+        langTool = null;  // we cannot re-use the existing LT object anymore
+      }
+    });
     buttonCons.gridx = 1;
     buttonCons.gridy = 0;
     insidePanel.add(languageBox, buttonCons);
@@ -415,36 +422,37 @@ public final class Main implements ActionListener {
   }
 
   private JLanguageTool getCurrentLanguageTool(Language currentLanguage) {
-    final JLanguageTool langTool;
-    try {
-      config = new Configuration(new File(System.getProperty("user.home")), CONFIG_FILE, currentLanguage);
-      resultArea.setConfiguration(config);
-      final ConfigurationDialog configDialog = getCurrentConfigDialog(currentLanguage);
-      langTool = new JLanguageTool(currentLanguage, configDialog.getMotherTongue());
-      langTool.activateDefaultPatternRules();
-      langTool.activateDefaultFalseFriendRules();
-      resultArea.setLanguageTool(langTool);
-      final Set<String> disabledRules = configDialog.getDisabledRuleIds();
-      if (disabledRules != null) {
-        for (final String ruleId : disabledRules) {
-          langTool.disableRule(ruleId);
+    if (langTool == null) {
+      try {
+        config = new Configuration(new File(System.getProperty("user.home")), CONFIG_FILE, currentLanguage);
+        resultArea.setConfiguration(config);
+        final ConfigurationDialog configDialog = getCurrentConfigDialog(currentLanguage);
+        langTool = new JLanguageTool(currentLanguage, configDialog.getMotherTongue());
+        langTool.activateDefaultPatternRules();
+        langTool.activateDefaultFalseFriendRules();
+        resultArea.setLanguageTool(langTool);
+        final Set<String> disabledRules = configDialog.getDisabledRuleIds();
+        if (disabledRules != null) {
+          for (final String ruleId : disabledRules) {
+            langTool.disableRule(ruleId);
+          }
         }
-      }
-      final Set<String> disabledCategories = configDialog.getDisabledCategoryNames();
-      if (disabledCategories != null) {
-        for (final String categoryName : disabledCategories) {
-          langTool.disableCategory(categoryName);
+        final Set<String> disabledCategories = configDialog.getDisabledCategoryNames();
+        if (disabledCategories != null) {
+          for (final String categoryName : disabledCategories) {
+            langTool.disableCategory(categoryName);
+          }
         }
-      }
-      final Set<String> enabledRules = configDialog.getEnabledRuleIds();
-      if (enabledRules != null) {
-        for (String ruleName : enabledRules) {
-          langTool.enableDefaultOffRule(ruleName);
-          langTool.enableRule(ruleName);
+        final Set<String> enabledRules = configDialog.getEnabledRuleIds();
+        if (enabledRules != null) {
+          for (String ruleName : enabledRules) {
+            langTool.enableDefaultOffRule(ruleName);
+            langTool.enableRule(ruleName);
+          }
         }
+      } catch (final Exception e) {
+        throw new RuntimeException(e);
       }
-    } catch (final Exception e) {
-      throw new RuntimeException(e);
     }
     return langTool;
   }
@@ -468,13 +476,13 @@ public final class Main implements ActionListener {
                       setWaitCursor();
                       checkTextButton.setEnabled(false);
                       try {
+                          final long startTime = System.currentTimeMillis();
                           final String startCheckText = HTML_GREY_FONT_START +
                                   Tools.makeTexti18n(messages, "startChecking", new Object[]{langName}) + "..." + HTML_FONT_END;
                           resultArea.setText(startCheckText);
                           resultArea.repaint();
                           try {
                             final JLanguageTool langTool = getCurrentLanguageTool(lang);
-                            final long startTime = System.currentTimeMillis();
                             ruleMatches = langTool.check(textArea.getText());
                             resultArea.setStartText(startCheckText);
                             resultArea.setInputText(textArea.getText());
@@ -559,10 +567,8 @@ public final class Main implements ActionListener {
           }
         });
       } else if (args.length >= 1) {
-        System.out
-            .println("Usage: java org.languagetool.gui.Main [-t|--tray]");
-        System.out
-            .println("  -t, --tray: dock LanguageTool to system tray on startup");
+        System.out.println("Usage: java org.languagetool.gui.Main [-t|--tray]");
+        System.out.println("  -t, --tray: dock LanguageTool to system tray on startup");
         prg.stopServer();
       } else {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
