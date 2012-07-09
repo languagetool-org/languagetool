@@ -7410,6 +7410,32 @@ $Id$
             <example type="incorrect">Wegen des starken <marker>Zahnwehs</marker>...</example>
         </rule>
         
+        <rule id="TAUCHERBRILLE" name="'Taucherbrille (Schwimmbrille, Tauchermaske)'">
+            <pattern>
+                <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes">Lok.*|Baureihe|Spitzname.*|478|754</exception></token>
+                    <marker>
+                        <token regexp="yes" skip="-1">Tauch(er)?brillen?<exception scope="next" regexp="yes">Lok.*|Baureihe|Spitzname.*|478|754</exception></token>
+                    </marker>
+                <token postag="SENT_END"/>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="2" regexp_match="brille" regexp_replace="maske"/></suggestion> (umschließt die Nase) oder <suggestion><match no="2" regexp_match="Tauch(er)?" regexp_replace="Schwimm"/></suggestion> (umschließt nur die Augen)?</message>
+            <url>http://de.wikipedia.org/wiki/Taucherbrille</url>
+            <example type="correct">Ich schwimme immer mit einer <marker>Schwimmbrille</marker>.</example>
+            <example type="incorrect" correction="Tauchermasken|Schwimmbrillen">Wir schwimmen nur mit <marker>Taucherbrillen</marker>.</example>
+            <example type="correct">Die ČSD-Baureihe T 478.4 hat den Spitznamen <marker>Taucherbrille</marker>.</example>
+        </rule>
+        <rulegroup id="GOTTESTEILCHEN" name="'Gottesteilchen (Higgs-Boson)'">
+            <rule>
+                <pattern>
+                    <token regexp="yes">Gottes\-?teilchen</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Higgs-Boson</suggestion>? Der Begriff '\1' wird in der seriösen Wissenschaft nicht verwendet.</message>
+                <url>http://www.scienceblogs.de/astrodicticum-simplex/2012/07/liebe-medien-das-higgs-boson-ist-kein-gottesteilchen.php</url>
+                <example type="incorrect">Das <marker>Gottesteilchen</marker> wurde gefunden!</example>
+                <example type="incorrect">Das <marker>Gottes-Teilchen</marker> wurde gefunden!</example>
+                <example type="correct">Das <marker>Higgs-Boson</marker> wurde nachgewiesen.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AUF_OFFEN" name="Umgangssprache: 'auf (offen)'">
             <rule>
                 <pattern>
@@ -13168,6 +13194,33 @@ $Id$
                 <short>&prgk;.</short>
                 <example type="correct">Michael Jackson fasste sich auf der Bühne in den <marker>Schritt</marker>.</example>
                 <example type="incorrect">Michael Jackson fasste sich auf der Bühne in den <marker>schritt</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[Dd]er|[Dd]en|[Dd]em|[Ii]m</token>
+                    <token regexp="yes">ersten?|zweiten?|dritten?|vierten?|fünften?|sechsten?|siebten?|achten?|neunten?|letzten?</token>
+                    <marker>
+                        <token>schritt</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Schritt</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Jedem Token werden im dritten <marker>Schritt</marker> POS-Tags zugeordnet.</example>
+                <example type="incorrect" correction="Schritt">Jedem Token werden im dritten <marker>schritt</marker> POS-Tags zugeordnet.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[Dd]er|[Dd]en|[Dd]em|[Ii]m</token>
+                    <token regexp="yes">[0-9]+</token>
+                    <token>.</token>
+                    <marker>
+                        <token>schritt</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Schritt</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Jedem Token werden im 3. <marker>Schritt</marker> POS-Tags zugeordnet.</example>
+                <example type="incorrect" correction="Schritt">Jedem Token werden im 3. <marker>schritt</marker> POS-Tags zugeordnet.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
