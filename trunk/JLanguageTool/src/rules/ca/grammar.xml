@@ -1968,6 +1968,19 @@ $Id$
                 <example type="correct"><marker>únicament</marker> i exclusivament</example>
             </rule>
         </rulegroup>
+        <rule id="SI_QUE" name="*sí m'agrada/sí que m'agrada">
+            <pattern>
+                <marker>
+                    <token skip="3">sí<exception postag="_GN_MS"/><exception postag="PP.*|P0.*|V.*|_GV_|SENT_END" scope="next" postag_regexp="yes" negate_pos="yes"/></token>
+                </marker>
+                <token postag="V.[MIS].*" postag_regexp="yes"/>
+            </pattern>
+            <message>Cal dir: <suggestion>sí que</suggestion>.</message>
+            <example type="incorrect">Tu <marker>sí</marker> hauries respost bé.</example>
+            <example type="incorrect">Tu <marker>sí</marker> li hauries respost bé.</example>
+            <example type="correct">Tu sí que hauries respost bé.</example>
+            <example type="correct">El sí va acompanyat de dubtes.</example>
+        </rule>
     </category>
     <category name="Preposicions">
         <rulegroup id="MALGRAT" name="malgrat (que)">
