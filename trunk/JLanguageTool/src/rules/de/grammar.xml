@@ -8045,15 +8045,16 @@ $Id$
                 <pattern>
                     <token regexp="yes">rum(albern|alberten|ärgern|balgen|balgten|ballern|ballerten|basteln|bastelten|brüllen|brüllten|bummeln|bummelten|doktern|drucksen|drucksten|drückten|dümpeln|dümpelten|erzählen|erzählten|fingern|fingerten|fuchteln|fummeln|fummelten|gammeln|gammelten|gealbert|gebastelt|gebohrt|gebrüllt|gebummelt|gefuchtelt|gegammelt|gegangen|gehackt|gehüpft|gehurt|geknobelt|geknutscht|gekramt|gekriegt|gekrittelt|gekritzelt|gekrochen|gekurvt|gelaufen|gelegen|gelungert|gepaddelt|gepfuscht|geplagt|gequält|gerannt|geraten|gerätselt|gereicht|geschickt|geschleppt|geschnüffelt|geschraubt|geschubst|gespielt|gestanden|gestänkert|gestümpert|getrampelt|getrieben|getrödelt|geturnt|gewinselt|gewirbelt|geworfen|gewühlt|gewurstelt|gezankt|gezappelt|hacken|hämmern|hängen|hantieren|hingen|hocken|hockten|hüpfen|hüpften|huren|hurten|jammern|jammerten|knobeln|knutschen|kommandieren|kommandierten|kramen|kramten|krochen|kurven|kurvten|lagen|lästern|lästerten|laufen|liefen|liegen|lümmeln|lümmelten|lungern|lungerten|machen|machten|meckern|meckerten|motzen|motzten|murksen|murksten|nörgeln|probieren|probierten|rannten|schleppen|schleppten|schnüffeln|schnüffelten|schrauben|schraubten|schreien|schubsen|schubsten|sitzen|spazieren|spazierten|spielen|spielten|sprangen|springen|spritzen|spritzten|spukten|standen|stänkern|stänkerten|stehen|stöbern|stöberten|stochern|stocherten|stümpern|stümperten|suchen|suchten|toben|tobten|tollen|tollten|trödeln|trödelten|wandern|wanderten|winseln|wühlen|wursteln|zanken|zankten|zappeln)</token>
                 </pattern>
-                <message>'\1' ist umgangssprachlich. Vorschläge: <suggestion><match no="1" regexp_match="^rum" regexp_replace="herum"/></suggestion>.</message>
-                <example type="incorrect">Ich will mich damit nicht immer <marker>rumärgern</marker> müssen.</example>
+                <message>'\1' ist umgangssprachlich. Vorschläge: <suggestion><match no="1" regexp_match="^[Rr]um" regexp_replace="herum"/></suggestion>.</message>
+                <example type="incorrect" correction="herumärgern">Ich will mich damit nicht immer <marker>rumärgern</marker> müssen.</example>
+                <example type="incorrect" correction="Herumspielen">Es ist mehr zum <marker>Rumspielen</marker> gedacht.</example>
                 <example type="correct">Ich bin es leid, mich damit <marker>herumzuärgern</marker>.</example>
             </rule>
             <rule>
                 <pattern>
                     <token regexp="yes">rumzu(albern|ärgern|basteln|bohren|brüllen|fummeln|gammeln|hüpfen|huren|knobeln|knutschen|kramen|kriegen|kurven|laufen|liegen|pfuschen|quälen|schnüffeln|schrauben|schreien|schubsen|sitzen|spielen|spionieren|springen|spuken|stänkern|stehen|stochern|stoßen|streunen|stümpern|suchen|tappen|tasten|toben|tollen|tragen|trampeln|vagabundieren|wälzen|wandern|werfen|werkeln|wickeln|wühlen|wursteln|zanken)</token>
                 </pattern>
-                <message>'\1' ist umgangssprachlich. Vorschläge: <suggestion><match no="1" regexp_match="^rum" regexp_replace="herum"/></suggestion>.</message>
+                <message>'\1' ist umgangssprachlich. Vorschläge: <suggestion><match no="1" regexp_match="^[Rr]um" regexp_replace="herum"/></suggestion>.</message>
                 <example type="incorrect">Ich bin es leid, mich damit immer <marker>rumzuärgern</marker>.</example>
                 <example type="correct">Ich bin es leid, mich damit <marker>herumzuärgern</marker>.</example>
             </rule>
@@ -17311,7 +17312,7 @@ $Id$
             <example type="correct"><marker>Das Auto.</marker></example>
         </rule>
         <rulegroup id="ER_BIST" name="Grammatik: Kongruenz von Subjekt und Prädikat (nur 1. u. 2. Person), z.B. 'Er bist (ist)'">
-            <!-- TODO the same for 1:SIN, 2:PLU, and 3:PLU -->
+            <!-- TODO the same for 1:SIN, 2:PLU, and 3:PLU, maybe a Java-rule would be easier -->
             <rule>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START" skip="5"><exception scope="next" regexp="yes">[Dd]u</exception></token>
@@ -17323,6 +17324,7 @@ $Id$
                 <message>Möglicherweise fehlende grammatische Übereinstimmung zwischen Subjekt und Prädikat (\2) bezüglich Person oder Numerus (Einzahl, Mehrzahl - Beispiel: 'er bist' statt 'er ist').</message>
                 <example type="correct">Die Unterlagen <marker>solltet</marker> ihr gründlich durcharbeiten.</example>
                 <example type="incorrect">Die Unterlagen <marker>solltest</marker> ihr gründlich durcharbeiten.</example>
+<!--                 <example type="incorrect"><marker>Solltest</marker> ihr das machen?</example> TODO -->
                 <example type="correct">Er reagierte <marker>äußerst</marker> negativ.</example>
             </rule>
         </rulegroup>
