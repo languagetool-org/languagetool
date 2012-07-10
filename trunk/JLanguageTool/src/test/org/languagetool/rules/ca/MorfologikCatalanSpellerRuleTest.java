@@ -61,12 +61,12 @@ public class MorfologikCatalanSpellerRuleTest {
 
         //incorrect sentences:
 
-        matches = rule.match(langTool.getAnalyzedSentence("Abatusats"));
+        matches = rule.match(langTool.getAnalyzedSentence("abatusats"));
         // check match positions:
         assertEquals(1, matches.length);
         assertEquals(0, matches[0].getFromPos());
         assertEquals(9, matches[0].getToPos());
-        assertEquals("Abatussats", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("abatussats", matches[0].getSuggestedReplacements().get(0));
 
       //incorrect sentences:
         matches = rule.match(langTool.getAnalyzedSentence("Pecra"));
