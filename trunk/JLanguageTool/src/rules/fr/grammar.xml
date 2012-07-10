@@ -3274,6 +3274,7 @@ though, and has since been slightly modified)-->
             <example type="correct">Il y a un mois, Benoît XVI a <marker>institué</marker> une commission formée de trois cardinaux.</example>
             <example type="correct">Je l’ai à peine vue.</example>
             <example type="correct"><marker>Compte tenu</marker> du retard.</example>
+            <example type="correct">Il est sans doute arrivé.</example>
         </rule>
         <rulegroup id="NON_V" name="pronom sujet + nom/adj">
             <rule>
@@ -22165,6 +22166,17 @@ though, and has since been slightly modified)-->
                 <example type="correct">Avez-vous un guide touristique en <marker>français</marker> ?</example>
                 <example type="correct">Napoléon est né en Corse.</example>
             </rule>
+        </rulegroup>
+        <rulegroup id="MAJUSCULE_NOM_PROPRE" name="majuscule aux noms propres">
+          <rule>
+            <pattern>
+              <token regexp="yes">fermetures?</token>
+              <token regexp="yes">(?-i)éclair</token>
+            </pattern>
+            <message>Utilisez une majuscule à <suggestion>\1 Éclair</suggestion> car le terme dérive d’un nom propre.</message>
+            <example type="incorrect">J’ai cassé ma <marker>fermeture éclair</marker>.</example>
+            <example type="correct">J’ai cassé ma fermeture Éclair.</example>
+          </rule>
         </rulegroup>
         <rulegroup id="GENTILE" name="gentilés">
             <rule>
