@@ -51,7 +51,17 @@ public class MorfologikBretonSpellerRuleTest {
         // check match positions:
         assertEquals(1, matches.length);
         assertEquals(5, matches[0].getFromPos());
+        assertEquals(10, matches[0].getToPos());               
+
+        matches = rule.match(langTool.getAnalyzedSentence("C’hreizhig-don"));
+
+        assertEquals(1, matches.length);
+        
+        // check match positions:
+        assertEquals(1, matches.length);
+        assertEquals(0, matches[0].getFromPos());
         assertEquals(10, matches[0].getToPos());
+
         
         assertEquals(1, rule.match(langTool.getAnalyzedSentence("aõh")).length);
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("a")).length);

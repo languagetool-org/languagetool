@@ -97,9 +97,9 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
                     int index = 0;
                     final Matcher m = tokenizingPattern().matcher(word);
                     while(m.find()) {
-                        final String match = word.subSequence(index, m.start()).toString();
-                        index = m.end();
+                        final String match = word.subSequence(index, m.start()).toString();                        
                         ruleMatches.addAll(getRuleMatch(match, token.getStartPos() + index));
+                        index = m.end();
                     }
                     if (index == 0) { // tokenizing char not found
                         ruleMatches.addAll(getRuleMatch(word, token.getStartPos()));
