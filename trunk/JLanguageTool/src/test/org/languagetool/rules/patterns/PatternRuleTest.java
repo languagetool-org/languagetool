@@ -121,6 +121,10 @@ public class PatternRuleTest extends TestCase {
       for (final Element element : rule.getElements()) {
         i++;
 
+        if (element.isReferenceElement()) {
+            continue;
+        }
+        
         // Check whether token value is consistent with regexp="..."
         warnIfElementNotKosher(
           element.getString(),
