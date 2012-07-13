@@ -14730,6 +14730,20 @@ $Id$
                 <example type="incorrect">Voller <marker>stolz</marker> präsentierte er sein neues Auto.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="VERHALTEN_SUBST" name="Groß-/Kleinschreibung: 'verhalten (Verhalten)'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[Dd]iese[sm]</token>
+                    <marker>
+                        <token>verhalten</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Verhalten</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Verhalten">Dieses <marker>verhalten</marker> ist sinnvoll.</example>
+                <example type="correct">Dieses <marker>Verhalten</marker> ist sinnvoll.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="NOTFALLS_SUBST" name="Groß-/Kleinschreibung: 'notfalls (Notfalls)'">
             <rule>
                 <pattern case_sensitive="yes">
@@ -18684,7 +18698,7 @@ $Id$
         <rulegroup id="EINHEIT_LEERZEICHEN" name="Zeichensetzung: Falsches/Fehlendes Leerzeichen zwischen Zahl und Einheit">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">(\-)?[0-9]{1,}(°C|°F|°Ra|°De|°D|°Ré|°Re|°R|°Rø|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?m|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?N|(k|K|M|G|T|P|E|Z|Y){1}(i)?B|(k|m|µ|n|p)g|(M|k)t|kWh|GWa|MWd|MWh)</token>
+                    <token regexp="yes">(\-)?[0-9]{1,}(%|°C|°F|°Ra|°De|°D|°Ré|°Re|°R|°Rø|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?m|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?N|(k|K|M|G|T|P|E|Z|Y){1}(i)?B|(k|m|µ|n|p)g|(M|k)t|kWh|GWa|MWd|MWh)</token>
                 </pattern>
                 <message>Vor Einheitenzeichen sollte ein Leerzeichen gesetzt werden. Vorschlag: <suggestion><match no="1" regexp_match="((\-)?[0-9]{1,})" regexp_replace="$1 "/></suggestion></message>
                 <example type="correct">Es ist <marker>25 °C</marker> warm.</example>
@@ -18708,6 +18722,8 @@ $Id$
                 <example type="correct">Bd. 1b</example>
                 <example type="correct">Erster bemannter Start der Saturn 1B</example>
                 <example type="incorrect">Wie verbrauchen 2.<marker>000kWh</marker></example>
+                <example type="correct">Die Steigung beträgt <marker>5 %</marker>.</example>
+                <example type="incorrect" correction="5 %">Die Steigung beträgt <marker>5%</marker>.</example>
             </rule>
             <rule>
                 <pattern><!-- TODO problem with nbsp -->
@@ -18801,6 +18817,22 @@ $Id$
             <example type="incorrect" correction="3a = 2"><marker>3a=2</marker></example>
             <example type="incorrect" correction="5 * 5 = 25"><marker>5*5=25</marker></example>
         </rule>
+        <rulegroup id="KOMMA_AUFZAEHLUNG" name="Zeichensetzung: Falsches Komma vor Konjunktion in Aufzählung (nur wenige Fälle)">
+            <rule>
+                <pattern>
+                    <token regexp="yes">[a-z]+\-</token>
+                    <marker>
+                        <token>,</token>
+                        <token regexp="yes">und|oder</token>
+                    </marker>
+                </pattern>
+                <message>Bei Aufzählungen steht vor Wörtern oder Wortgruppen, die mit '\3' verbunden sind, in der Regel kein Komma. Vorschlag: <suggestion> \3</suggestion>.</message>
+                <url>http://www.duden.de/rechtschreibregeln/komma#K100</url>
+                <example type="incorrect" correction=" und">LanguageTool kann Grammatik-, Zeichensetzungs-<marker>, und</marker> Tippfehler finden.</example>
+                <example type="correct">LanguageTool kann Grammatik-, Zeichensetzungs-<marker> und</marker> Tippfehler finden.</example>
+                <example type="correct">LanguageTool kann Grammatikfehler, die von einer Rechtschreibprüfung nicht erkannt werden,<marker> und</marker> andere Fehler finden.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="KOMMA_ALS_KOMPARATIV" name="Zeichensetzung: Komma bei 'als' mit Komparativ">
             <!-- TODO needs work -->
             <rule>
@@ -19268,7 +19300,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes" negate="yes">&nbsp;|&nnbsp;|&thinsp;|&klamauf;|&anfauf;|[a-zäöüÄÖÜ]</token>
+                    <token regexp="yes" negate="yes" negate_pos="yes" postag="SENT_START">&nbsp;|&nnbsp;|&thinsp;|&klamauf;|&anfauf;|[a-zäöüÄÖÜ]</token>
                     <marker>
                         <token spacebefore="no">…</token>
                     </marker>
@@ -19279,6 +19311,7 @@ $Id$
                 <example type="correct">Er geht […] nach Hause.</example>
                 <example type="correct">Er geht nach Hause&nbsp;…</example>
                 <example type="correct">Du bist ein A…!</example>
+                <example type="correct">… Nein.</example>
                 <example type="incorrect" correction="&nbsp;…">Er geht nach Hause<marker>…</marker></example>
             </rule>
         </rulegroup>
