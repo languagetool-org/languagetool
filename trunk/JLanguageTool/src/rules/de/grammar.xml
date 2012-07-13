@@ -8955,6 +8955,20 @@ $Id$
             <example type="correct">Zum <marker>Angriff</marker>!</example>
             <example type="incorrect" correction="Angriff">Zum <marker>angriff</marker>!</example>
         </rule>
+        <rule id="ZWEIFEL_SUBST" name="Groß-/Kleinschreibung: 'zweifel (Zweifel)'">
+            <pattern case_sensitive="yes">
+                <token regexp="yes">(?iu)beim|im|in|ohne|vom|von</token>
+                <marker>
+                    <token regexp="yes">zweifeln?</token>
+                </marker>
+            </pattern>
+            <message>&subanfang;<suggestion><match no="2"  case_conversion="startupper"/></suggestion>&subende;</message>
+            <short>&prgk;.</short>
+            <example type="correct">Im <marker>Zweifel</marker> für den Angeklagten.</example>
+            <example type="incorrect" correction="Zweifel">Im <marker>zweifel</marker> für den Angeklagten.</example>
+            <example type="correct">Er ist von <marker>Zweifeln</marker> geplagt.</example>
+            <example type="incorrect" correction="Zweifeln">Er ist von <marker>zweifeln</marker> geplagt.</example>
+        </rule>
         <rule id="LUEFTE_SUBST" name="Groß-/Kleinschreibung: 'durch die lüfte (Lüfte)'">
             <pattern case_sensitive="yes">
                 <token regexp="yes">[dD]urch|[iI]n</token>
@@ -16891,6 +16905,31 @@ $Id$
                 <short>&prgk;.</short>
                 <example type="correct">Das Stück ist in <marker>C-Dur</marker>.</example>
                 <example type="incorrect" correction="C-Dur">Das Stück ist in <marker>c-Dur</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="WLAN" name="Groß-/Kleinschreibung: 'Wlan (WLAN)' etc.">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">(?iu)w\-?lan<exception regexp="yes">W\-?LAN</exception></token>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="1" regexp_match="(?iu)w(\-)?lan" regexp_replace="W$1LAN"/></suggestion>.</message>
+                <short>&prgk;.</short>
+                <example type="correct">Wir haben kein <marker>WLAN</marker>.</example>
+                <example type="correct">Wir haben kein <marker>W-LAN</marker>.</example>
+                <example type="incorrect" correction="W-LAN">Wir haben kein <marker>W-Lan</marker>.</example>
+                <example type="incorrect" correction="WLAN">Wir haben kein <marker>Wlan</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">(?iu)w\-?lans<exception regexp="yes">W\-?LANs</exception></token>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="1" regexp_match="(?iu)w(\-)?lans" regexp_replace="W$1LANs"/></suggestion>.</message>
+                <short>&prgk;.</short>
+                <example type="correct">Wir haben kein <marker>WLANs</marker>.</example>
+                <example type="correct">Wir haben kein <marker>W-LANs</marker>.</example>
+                <example type="incorrect" correction="W-LANs">Wir haben kein <marker>W-Lans</marker>.</example>
+                <example type="incorrect" correction="WLANs">Wir haben kein <marker>Wlans</marker>.</example>
+                <example type="incorrect" correction="WLANs">Wir haben kein <marker>WLANS</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SONDERFAELLE" name="Sonderfälle der Groß-/Kleinschreibung: 'I-Punkt (i-Punkt)' usw.">
