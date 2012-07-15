@@ -2078,6 +2078,26 @@ though, and has since been slightly modified)-->
             <example type="correct">Les pays en voie de développment</example>
           </rule>
         </rulegroup>
+        <rulegroup id="ASCETIQUE_ACETIQUE" name="ascétique et acétique">
+          <rule>
+            <pattern>
+              <token regexp="yes">(acide|aldéhyde|anhydride|bactérie|éther|ferment|fermentation|indole|piqûre|silicone)s?|voix</token>
+              <marker><token regexp="yes">ascétiques?</token></marker>
+            </pattern>
+            <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="^(.).(.*)" regexp_replace="$1$2"/></suggestion> ?</message>
+            <example type="incorrect">Un acide <marker>ascétique</marker>.</example>
+            <example type="correct">Un acide <marker>acétique</marker>.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token regexp="yes">(auteur|démarche|conduite|hédonisme|littérature|philosophe|pratique|privation|rigueur|tradition|théologie|vie)s?|idéal|idéaux</token>
+              <marker><token regexp="yes">acétiques?</token></marker>
+            </pattern>
+            <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="^(.)(.*)" regexp_replace="$1s$2"/></suggestion> ?</message>
+            <example type="incorrect">La tradition <marker>acétique</marker> de l'Église.</example>
+            <example type="correct">La tradition ascétique de l'Église.</example>
+          </rule>
+        </rulegroup>
         <rulegroup id="TACHE" name="tache et tâche">
           <rule>
             <pattern>
@@ -22171,9 +22191,9 @@ though, and has since been slightly modified)-->
           <rule>
             <pattern>
               <token regexp="yes">fermetures?</token>
-              <token regexp="yes">(?-i)éclair</token>
+              <token regexp="yes">(?-i)éclair|velcro</token>
             </pattern>
-            <message>Utilisez une majuscule à <suggestion>\1 Éclair</suggestion> car le terme dérive d’un nom propre.</message>
+            <message>Utilisez une majuscule à <suggestion>\1 <match no="2" case_conversion="startupper"/></suggestion> car le terme dérive d’un nom propre.</message>
             <example type="incorrect">J’ai cassé ma <marker>fermeture éclair</marker>.</example>
             <example type="correct">J’ai cassé ma fermeture Éclair.</example>
           </rule>
