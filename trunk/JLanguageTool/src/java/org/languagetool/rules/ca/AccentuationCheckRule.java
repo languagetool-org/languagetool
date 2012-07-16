@@ -67,10 +67,10 @@ public class AccentuationCheckRule extends CatalanRule {
   private static final Pattern NOM_FS = Pattern.compile("NC[FC][SN].*");
   private static final Pattern NOM_MP = Pattern.compile("NC[MC][PN].*");
   private static final Pattern NOM_FP = Pattern.compile("NC[FC][PN].*");
-  private static final Pattern ADJECTIU_MS = Pattern.compile("AQ.[MC][SN].*|V.P..SM");
-  private static final Pattern ADJECTIU_FS = Pattern.compile("AQ.[FC][SN].*|V.P..SF");
-  private static final Pattern ADJECTIU_MP = Pattern.compile("AQ.[MC][PN].*|V.P..PM");
-  private static final Pattern ADJECTIU_FP = Pattern.compile("AQ.[FC][PN].*|V.P..PF");
+  private static final Pattern ADJECTIU_MS = Pattern.compile("AQ.[MC][SN].*|V.P..SM|PX.MS.*");
+  private static final Pattern ADJECTIU_FS = Pattern.compile("AQ.[FC][SN].*|V.P..SF|PX.FS.*");
+  private static final Pattern ADJECTIU_MP = Pattern.compile("AQ.[MC][PN].*|V.P..PM|PX.MP.*");
+  private static final Pattern ADJECTIU_FP = Pattern.compile("AQ.[FC][PN].*|V.P..PF|PX.FP.*");
   private static final Pattern INFINITIU = Pattern.compile("V.N.*");
   private static final Pattern VERB_CONJUGAT = Pattern.compile("V.[^NGP].*");
   private static final Pattern NOT_IN_PREV_TOKEN = Pattern.compile("VA.*|PP.*|P0.*|VSP.*");
@@ -188,6 +188,7 @@ public class AccentuationCheckRule extends CatalanRule {
       	//circumstancies extraordinàries
       	else if ( !token.equals("pronuncia") && !token.equals("pronuncies") && !token.equals("venia") && !token.equals("venies")
       	          && !token.equals("tenia") && !token.equals("tenies") && !token.equals("continua") && !token.equals("continues")
+      	          && !token.equals("genera")
       	          && (i<tokens.length-1) &&
       	          (
       	            (matchPostagRegexp(relevantWords.get(token),NOM_MS) && matchPostagRegexp(tokens[i+1],ADJECTIU_MS))
@@ -196,6 +197,17 @@ public class AccentuationCheckRule extends CatalanRule {
       	            || (matchPostagRegexp(relevantWords.get(token),NOM_FP) && matchPostagRegexp(tokens[i+1],ADJECTIU_FP))
       	          )
       	            )
+      	{
+      		replacement = relevantWords.get(token).getToken();
+      	}
+      	//les seves contraries
+      	else if (
+      	            (matchPostagRegexp(relevantWords.get(token),NOM_MS) && matchPostagRegexp(tokens[i-1],ADJECTIU_MS))
+      	            || (matchPostagRegexp(relevantWords.get(token),NOM_FS) && matchPostagRegexp(tokens[i-1],ADJECTIU_FS) 
+      	            		&& !token.equals("venia") && !token.equals("tenia") && !token.equals("continua") && !token.equals("genera") )
+      	            || (matchPostagRegexp(relevantWords.get(token),NOM_MP) && matchPostagRegexp(tokens[i-1],ADJECTIU_MP))
+      	            || (matchPostagRegexp(relevantWords.get(token),NOM_FP) && matchPostagRegexp(tokens[i-1],ADJECTIU_FP))
+      	          )
       	{
       		replacement = relevantWords.get(token).getToken();
       	}

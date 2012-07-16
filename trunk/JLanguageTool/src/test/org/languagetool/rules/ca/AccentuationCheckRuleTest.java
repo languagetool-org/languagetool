@@ -43,6 +43,8 @@ public class AccentuationCheckRuleTest extends TestCase {
   public void testRule() throws IOException {
 
     // correct sentences:
+	assertCorrect("El cos genera suficient pressió interna.");
+	assertCorrect("Les seues contràries.");
     assertCorrect("Això és una frase de prova.");
     assertCorrect("Amb renúncies i esforç.");
     assertCorrect("He vingut per a cantar");
@@ -67,6 +69,7 @@ public class AccentuationCheckRuleTest extends TestCase {
     assertCorrect("La magnífica conservació del palau.");
 
     // errors:
+    assertIncorrect("Les seues contraries.");
     assertIncorrect("Amb renuncies i esforç.");
     assertIncorrect("La renuncia del president.");
     assertIncorrect("Són circumstancies d'un altre caire.");
