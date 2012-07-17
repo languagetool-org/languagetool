@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -35,7 +35,7 @@ import org.languagetool.tools.StringTools;
  * punctuation).
  *
  * @see <a href="http://unicode.org/udhr/n/notes_fra.html">http://unicode.org/udhr/n/notes_fra.html</a>
- * 
+ *
  * @author Marcin Miłkowski
  */
 public class QuestionWhitespaceRule extends FrenchRule {
@@ -63,10 +63,10 @@ public class QuestionWhitespaceRule extends FrenchRule {
   public RuleMatch[] match(final AnalyzedSentence text) {
     final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     final AnalyzedTokenReadings[] tokens = text.getTokens();
-    String prevToken = "";    
+    String prevToken = "";
     for (int i = 1; i < tokens.length; i++) {
       final String token = tokens[i].getToken();
-      final boolean isWhiteBefore = tokens[i].isWhitespaceBefore();      
+      final boolean isWhiteBefore = tokens[i].isWhitespaceBefore();
       String msg = null;
       final int fixPos = 0;
       int fixLen = 0;
@@ -81,7 +81,7 @@ public class QuestionWhitespaceRule extends FrenchRule {
           msg = "Point d'exclamation est précédé d'une espace fine insécable.";
           // non-breaking space
           suggestionText = " !";
-          fixLen = 1; 
+          fixLen = 1;
         } else if (token.equals("»")) {
           msg = "Le guillemet fermant est précédé d'une espace fine insécable.";
           // non-breaking space
@@ -97,7 +97,7 @@ public class QuestionWhitespaceRule extends FrenchRule {
           // non-breaking space
           suggestionText = " :";
           fixLen = 1;
-        }        
+        }
       } else {
         // Strictly speaking, the character before ?!;: should be an
         // "espace fine insécable" (U+202f).  In practise, an
@@ -136,21 +136,21 @@ public class QuestionWhitespaceRule extends FrenchRule {
           // non-breaking space
           suggestionText = prevToken + " »";
           fixLen = 1;
-        }             
-      } 
-      
+        }
+      }
+
       if (StringTools.isEmpty(token) && prevToken.equals("«")) {
         msg = "Le guillemet ouvrant est suivi d'une espace fine insécable.";
         // non-breaking space
         suggestionText = "« ";
         fixLen = 1;
-      }  else if (!StringTools.isEmpty(token) && !token.equals("\u00a0")
-          && prevToken.equals("«")) {
+      }  else if (!StringTools.isEmpty(token) && prevToken.equals("«")
+          && !token.equals("\u00a0") & !token.equals("\u202f")) {
         msg = "Le guillemet ouvrant est suivi d'une espace fine insécable.";
         // non-breaking space
         suggestionText = "« ";
         fixLen = 0;
-      } 
+      }
 
       if (msg != null) {
         final int fromPos = tokens[i - 1].getStartPos() + fixPos;
