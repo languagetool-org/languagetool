@@ -26,6 +26,7 @@ import org.languagetool.Language;
 import org.languagetool.rules.DoublePunctuationRule;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.WhitespaceRule;
+import org.languagetool.rules.zh.ChineseWordRepeatBeginningRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.zh.ChineseTagger;
 import org.languagetool.tokenizers.SentenceTokenizer;
@@ -72,7 +73,7 @@ public class Chinese extends Language {
 
 	@Override
 	public List<Class<? extends Rule>> getRelevantRules() {
-		return Arrays.asList(DoublePunctuationRule.class, WhitespaceRule.class);
+		return Arrays.asList(DoublePunctuationRule.class, WhitespaceRule.class, ChineseWordRepeatBeginningRule.class);
 	}
 
 	@Override
