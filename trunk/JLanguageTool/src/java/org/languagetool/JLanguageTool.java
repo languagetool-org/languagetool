@@ -65,8 +65,7 @@ import org.xml.sax.SAXException;
  * {@link #addRule(Rule)}
  * </ul>
  * 
- * <p>
- * Note that the constructors create a language checker that uses the built-in
+ * <p>Note that the constructors create a language checker that uses the built-in
  * rules only. Other rules (e.g. from XML) need to be added explicitly.
  * 
  * @author Daniel Naber
