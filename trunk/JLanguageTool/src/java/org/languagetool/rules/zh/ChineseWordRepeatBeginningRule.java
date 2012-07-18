@@ -24,7 +24,7 @@ public class ChineseWordRepeatBeginningRule extends Rule{
 
 	  @Override
 	  public String getId() {
-	    return "WORD_REPEAT_BEGINNING_RULE";
+	    return "CHINESE_WORD_REPEAT_BEGINNING_RULE";
 	  }
 
 	  @Override

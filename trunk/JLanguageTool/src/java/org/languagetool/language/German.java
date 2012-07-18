@@ -36,6 +36,7 @@ import org.languagetool.rules.de.GermanDoublePunctuationRule;
 import org.languagetool.rules.de.GermanWordRepeatBeginningRule;
 import org.languagetool.rules.de.GermanWordRepeatRule;
 import org.languagetool.rules.de.GermanWrongWordInContextRule;
+import org.languagetool.rules.de.VerbAgreementRule;
 import org.languagetool.rules.de.WiederVsWiderRule;
 import org.languagetool.rules.de.WordCoherencyRule;
 import org.languagetool.rules.spelling.hunspell.HunspellNoSuggestionRule;
@@ -126,6 +127,7 @@ public class German extends Language {
             CaseRule.class,
             CompoundRule.class,
             DashRule.class,
+            VerbAgreementRule.class,
             WordCoherencyRule.class,
             WiederVsWiderRule.class
     );

@@ -2237,7 +2237,7 @@ $Id$
             </rule>
         </rulegroup>
         <rulegroup id="DU_WUENSCHT" name="Möglicher Tippfehler: 'du wünscht (wünschst)'">
-            <!-- TODO this should becovered by ICH_BIST but isn't fully. -->
+            <!-- TODO this should be covered by VerbAgreementRule but isn't fully. -->
             <rule>
                 <pattern>
                     <token>du</token>
@@ -2259,30 +2259,6 @@ $Id$
                 <message>Meinten Sie <suggestion><match no="1" regexp_match="scht$" regexp_replace="schst"/></suggestion>?</message>
                 <example type="correct"><marker>Wünschst</marker> du dir mehr Zeit?</example>
                 <example type="incorrect"><marker>Wünscht</marker> du dir mehr Zeit?</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="DU_ERHAELST" name="Möglicher Tippfehler: 'du erhälst (erhältst)'">
-            <rule>
-                <pattern>
-                    <token>du</token>
-                    <marker>
-                        <token>erhälst</token>
-                    </marker>
-                </pattern>
-                <message>Meinten Sie <suggestion>erhältst</suggestion>?</message>
-                <example type="correct">Du <marker>erhältst</marker> als Anlage mein Testament.</example>
-                <example type="incorrect">Du <marker>erhälst</marker> als Anlage mein Testament.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>erhälst</token>
-                    </marker>
-                    <token>du</token>
-                </pattern>
-                <message>Meinten Sie <suggestion>erhältst</suggestion>?</message>
-                <example type="correct">Als Anlage <marker>erhältst</marker> Du mein Testament.</example>
-                <example type="incorrect">Als Anlage <marker>erhälst</marker> Du mein Testament.</example>
             </rule>
         </rulegroup>
         <rule id="HIN_UNS_WIEDER" name="Möglicher Tippfehler: 'hin uns (und) wieder/her'">
@@ -17364,170 +17340,6 @@ $Id$
             <example type="correct"><marker>Das Konzept eines intelligenten Autos ist nicht neu.</marker></example>
             <example type="correct"><marker>Das Auto.</marker></example>
         </rule>
-        <rulegroup id="ER_BIST" name="Grammatik: Kongruenz von Subjekt und Prädikat (nur 1. u. 2. Person), z.B. 'Er bist (ist)'">
-            <!-- TODO the same for 1:SIN, 2:PLU, and 3:PLU, maybe a Java-rule would be easier -->
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token postag="SENT_START" skip="5"><exception scope="next" regexp="yes">[Dd]u</exception></token>
-                    <marker>
-                        <token postag="VER.*:2:SIN.*" postag_regexp="yes" regexp="yes" skip="-1">[a-zäüö].*<exception scope="current" postag="VER.*:2:SIN.*" postag_regexp="yes" negate_pos="yes"/><exception scope="next" regexp="yes">[Dd]u</exception></token>
-                    </marker>
-                    <token postag="SENT_END"></token>
-                </pattern>
-                <message>Möglicherweise fehlende grammatische Übereinstimmung zwischen Subjekt und Prädikat (\2) bezüglich Person oder Numerus (Einzahl, Mehrzahl - Beispiel: 'er bist' statt 'er ist').</message>
-                <example type="correct">Die Unterlagen <marker>solltet</marker> ihr gründlich durcharbeiten.</example>
-                <example type="incorrect">Die Unterlagen <marker>solltest</marker> ihr gründlich durcharbeiten.</example>
-<!--                 <example type="incorrect"><marker>Solltest</marker> ihr das machen?</example> TODO -->
-                <example type="correct">Er reagierte <marker>äußerst</marker> negativ.</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="ICH_BIST" name="Grammatik: Kongruenz von Subjekt (nur Personalpronomen!) und Prädikat, z.B. 'Ich bist (bin)'">
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token postag="SENT_START"></token>
-                    <marker>
-                        <token>Ich</token>
-                        <token postag="VER.*:[123]:.*" postag_regexp="yes" regexp="yes">[a-zäüö].*<exception postag="VER.*:1:SIN.*" postag_regexp="yes"/></token>
-                    </marker>
-                </pattern>
-                <message>Möglicherweise fehlende grammatische Übereinstimmung zwischen Subjekt (\2) und Prädikat (\3) bezüglich Person oder Numerus (Einzahl, Mehrzahl - Beispiel: 'ich sind' statt 'ich bin').</message>
-                <example type="correct"><marker>Ich bin</marker> nett.</example>
-                <example type="incorrect"><marker>Ich bist</marker> nett.</example>
-                <example type="correct"><marker>Ich kann</marker> heute leider nicht kommen.</example>
-                <example type="incorrect"><marker>Ich kannst</marker> heute leider nicht kommen.</example>
-                <example type="correct"><marker>Ich lebe</marker>.</example>
-                <example type="incorrect"><marker>Ich leben</marker>.</example>
-                <example type="correct">Er und <marker>ich leben</marker>.</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token postag="SENT_START"></token>
-                    <token skip="1"></token>
-                    <marker>
-                        <token postag="VER.*:[123]:.*" postag_regexp="yes" regexp="yes">[a-zäüö].*<exception postag="VER.*:1:SIN.*" postag_regexp="yes"/></token>
-                        <token skip="-1">ich<exception scope="next">und</exception></token>
-                    </marker>
-                    <token postag="SENT_END"></token>
-                </pattern>
-                <message>Möglicherweise fehlende grammatische Übereinstimmung zwischen Subjekt (\4) und Prädikat (\3) bezüglich Person oder Numerus (Einzahl, Mehrzahl - Beispiel: 'ich sind' statt 'ich bin').</message>
-                <example type="correct">Nett <marker>bin ich</marker>.</example>
-                <example type="incorrect">Nett <marker>bist ich</marker> nicht.</example>
-                <example type="correct">Auch morgen <marker>lebe ich</marker>.</example>
-                <example type="incorrect">Auch morgen <marker>leben ich</marker>.</example>
-                <example type="correct">Morgen <marker>kommen ich</marker> und sie.</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token postag="SENT_START"></token>
-                    <marker>
-                        <token>Du</token>
-                        <token postag="VER.*:[123]:.*" postag_regexp="yes" regexp="yes">[a-zäüö].*<exception postag="VER.*:2:SIN.*" postag_regexp="yes"/></token>
-                    </marker>
-                </pattern>
-                <message>Möglicherweise fehlende grammatische Übereinstimmung zwischen Subjekt (\2) und Prädikat (\3) bezüglich Person oder Numerus (Einzahl, Mehrzahl - Beispiel: 'du seid' statt 'du bist').</message>
-                <example type="correct"><marker>Du bist</marker> nett.</example>
-                <example type="incorrect"><marker>Du bin</marker> nett.</example>
-                <example type="correct"><marker>Du kannst</marker> heute leider nicht kommen.</example>
-                <example type="incorrect"><marker>Du können</marker> heute leider nicht kommen.</example>
-                <example type="correct"><marker>Du lebst</marker>.</example>
-                <example type="incorrect"><marker>Du leben</marker>.</example>
-                <example type="correct">Er und <marker>du leben</marker>.</example>
-                <example type="correct"><marker>Du wünschst</marker> dir so viel.</example>
-                <example type="incorrect"><marker>Du wünscht</marker> dir so viel.</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token postag="SENT_START" skip="2"></token>
-                    <token skip="1"></token>
-                    <marker>
-                        <token postag="VER.*:[123]:.*" postag_regexp="yes" regexp="yes">[a-zäüö].*<exception postag="VER.*:2:SIN.*" postag_regexp="yes"/></token>
-                        <token skip="-1">du<exception scope="next">und</exception></token>
-                    </marker>
-                    <token postag="SENT_END"></token>
-                </pattern>
-                <message>Möglicherweise fehlende grammatische Übereinstimmung zwischen Subjekt (\4) und Prädikat (\3) bezüglich Person oder Numerus (Einzahl, Mehrzahl - Beispiel: 'du seid' statt 'du bist').</message>
-                <example type="correct">Nett <marker>bist du</marker>.</example>
-                <example type="incorrect">Nett <marker>sind du</marker>.</example>
-                <example type="correct">Auch morgen <marker>lebst du</marker>.</example>
-                <example type="incorrect">Auch morgen <marker>leben du</marker>.</example>
-                <example type="correct">Morgen <marker>kommen du</marker> und ich.</example>
-                <example type="correct"><marker>Wünschst du</marker> dir mehr Zeit?</example>
-                <!-- <example type="incorrect"><marker>Wünscht du</marker> dir mehr Zeit?</example> -->
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token postag="SENT_START"></token>
-                    <marker>
-                        <token>Er</token>
-                        <token postag="VER.*:[123]:.*" postag_regexp="yes" regexp="yes">[a-zäüö].*<exception postag="VER.*:3:SIN.*" postag_regexp="yes"/></token>
-                    </marker>
-                </pattern>
-                <message>Möglicherweise fehlende grammatische Übereinstimmung zwischen Subjekt (\2) und Prädikat (\3) bezüglich Person oder Numerus (Einzahl, Mehrzahl - Beispiel: 'er sind' statt 'er ist').</message>
-                <example type="correct"><marker>Er ist</marker> nett.</example>
-                <example type="incorrect"><marker>Er bin</marker> nett.</example>
-                <example type="correct"><marker>Er kann</marker> heute leider nicht kommen.</example>
-                <example type="incorrect"><marker>Er können</marker> heute leider nicht kommen.</example>
-                <example type="correct"><marker>Er lebt</marker>.</example>
-                <example type="incorrect"><marker>Er lebst</marker>.</example>
-                <example type="correct"><marker>Er geht</marker> zu ihr.</example>
-                <example type="incorrect"><marker>Er gelangst</marker> zu ihr.</example>
-                <example type="correct">Sie und <marker>er leben</marker>.</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token postag="SENT_START" skip="2"></token>
-                    <token skip="1"></token>
-                    <marker>
-                        <token postag="VER.*:[123]:.*" postag_regexp="yes" regexp="yes">[a-zäüö].*<exception postag="VER.*:3:SIN.*" postag_regexp="yes"/></token>
-                        <token skip="-1">er<exception scope="next">und</exception></token>
-                    </marker>
-                    <token postag="SENT_END"></token>
-                </pattern>
-                <message>Möglicherweise fehlende grammatische Übereinstimmung zwischen Subjekt (\4) und Prädikat (\3) bezüglich Person oder Numerus (Einzahl, Mehrzahl - Beispiel: 'er sind' statt 'er ist').</message>
-                <example type="correct">Nett <marker>ist er</marker>.</example>
-                <example type="incorrect">Nett <marker>sind er</marker>.</example>
-                <example type="correct">Auch morgen <marker>lebt er</marker>.</example>
-                <example type="incorrect">Auch morgen <marker>leben er</marker>.</example>
-                <example type="correct">Morgen <marker>kommen er</marker> und ich.</example>
-                <example type="correct">Morgen <marker>kommen er</marker>, den ich sehr mag, und ich.</example>
-                <example type="correct">Welche <marker>Aufgaben er</marker> dabei tatsächlich übernehmen könnte</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token postag="SENT_START"></token>
-                    <marker>
-                        <token>Wir</token>
-                        <token postag="VER.*:[123]:.*" postag_regexp="yes" regexp="yes">[a-zäüö].*<exception postag="VER.*:1:PLU.*" postag_regexp="yes"/></token>
-                    </marker>
-                </pattern>
-                <message>Möglicherweise fehlende grammatische Übereinstimmung zwischen Subjekt (\2) und Prädikat (\3) bezüglich Person oder Numerus (Einzahl, Mehrzahl - Beispiel: 'wir ist' statt 'wir sind').</message>
-                <example type="correct"><marker>Wir sind</marker> nett.</example>
-                <example type="incorrect"><marker>Wir bin</marker> nett.</example>
-                <example type="correct"><marker>Wir können</marker> heute leider nicht kommen.</example>
-                <example type="incorrect"><marker>Wir könnt</marker> heute leider nicht kommen.</example>
-                <example type="correct"><marker>Wir leben</marker> noch.</example>
-                <example type="incorrect"><marker>Wir lebst</marker> noch.</example>
-                <example type="correct"><marker>Wir gelangen</marker> zu dir.</example>
-                <example type="incorrect"><marker>Wir gelangst</marker> zu ihr.</example>
-                <example type="correct">Sie lebt und <marker>wir leben</marker>.</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token postag="SENT_START" skip="2"></token>
-                    <token skip="1"></token>
-                    <marker>
-                        <token postag="VER.*:[123]:.*" postag_regexp="yes" regexp="yes">[a-zäüö].*<exception postag="VER.*:1:PLU.*" postag_regexp="yes"/></token>
-                        <token skip="-1">wir</token>
-                    </marker>
-                </pattern>
-                <message>Möglicherweise fehlende grammatische Übereinstimmung zwischen Subjekt (\4) und Prädikat (\3) bezüglich Person oder Numerus (Einzahl, Mehrzahl - Beispiel: 'wir ist' statt 'wir sind').</message>
-                <example type="correct">Nett <marker>sind wir</marker>.</example>
-                <example type="incorrect">Nett <marker>warst wir</marker>.</example>
-                <example type="correct">Auch morgen <marker>leben wir</marker> noch.</example>
-                <example type="incorrect">Auch morgen <marker>lebte wir</marker> noch.</example>
-                <example type="correct">Morgen <marker>kommen wir</marker> und sie.</example>
-            </rule>
-        </rulegroup>
         <rulegroup id="NACHDEM_PRAETERITUM" name="Grammatik: 'nachdem' mit Präteritum">
             <rule>
                 <pattern case_sensitive="yes">
