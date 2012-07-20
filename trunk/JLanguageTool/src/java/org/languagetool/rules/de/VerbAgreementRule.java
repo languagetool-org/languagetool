@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker 
- * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+ * Copyright (C) 2012 Markus Brenneis
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,7 +18,6 @@
  */
 package org.languagetool.rules.de;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -27,13 +26,9 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.tools.StringTools;
 
 /**
  * Simple agreement checker for German verbs and subject. Checks agreement in:
@@ -66,8 +61,9 @@ public class VerbAgreementRule extends GermanRule {
   ));
     
   public VerbAgreementRule(final ResourceBundle messages) {
-    if (messages != null)
+    if (messages != null) {
       super.setCategory(new Category(messages.getString("category_grammar")));
+    }
   }
   
   @Override
@@ -84,7 +80,7 @@ public class VerbAgreementRule extends GermanRule {
   public RuleMatch[] match(final AnalyzedSentence text) {
     
     final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
-    AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
+    final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
     
     if (tokens.length < 4) // ignore one-word sentences (3 tokens: SENT_START, one word, SENT_END)
       return toRuleMatchArray(ruleMatches);
@@ -100,7 +96,7 @@ public class VerbAgreementRule extends GermanRule {
     for (int i = 1; i < tokens.length; ++i) { // ignore SENT_START
       
       String strToken = tokens[i].getToken().toLowerCase();
-      strToken = strToken.replace("‚","");
+      strToken = strToken.replace("‚", "");
       
       if (strToken.equals("ich")) {
         posIch = i;
@@ -150,7 +146,7 @@ public class VerbAgreementRule extends GermanRule {
     } else if (posIch > 0 && !isNear(posPossibleVer1Sin, posIch) // check whether verb next to "ich" is 1st pers sg
                && (tokens[posIch].getToken().equals("ich") || tokens[posIch].getStartPos() == 0) // ignore "lyrisches Ich" etc.
                && !isQuotationMark(tokens[posIch-1])) {
-      int plus1 = ((posIch + 1) == tokens.length) ? 0 : +1; // prevent posIch+1 segfault
+      final int plus1 = ((posIch + 1) == tokens.length) ? 0 : +1; // prevent posIch+1 segfault
       if (!verbDoesMatchPersonAndNumber(tokens[posIch-1], tokens[posIch+plus1], "1", "SIN")) {
         ruleMatches.add(ruleMatchWrongVerbSubject(tokens[posIch], finiteVerb));
       }
@@ -159,14 +155,14 @@ public class VerbAgreementRule extends GermanRule {
     if (posVer2Sin != -1 && posDu == -1 && !isQuotationMark(tokens[posVer2Sin-1])) {
       ruleMatches.add(ruleMatchWrongVerb(tokens[posVer2Sin]));
     } else if (posDu > 0 && !isNear(posPossibleVer2Sin, posDu) && !isQuotationMark(tokens[posDu-1])) {
-      int plus1 = ((posDu + 1) == tokens.length) ? 0 : +1;
+      final int plus1 = ((posDu + 1) == tokens.length) ? 0 : +1;
       if (!verbDoesMatchPersonAndNumber(tokens[posDu-1], tokens[posDu+plus1], "2", "SIN")) {
         ruleMatches.add(ruleMatchWrongVerbSubject(tokens[posDu], finiteVerb));
       }
     }
     
     if (posEr > 0 && !isNear(posPossibleVer3Sin, posEr) && !isQuotationMark(tokens[posEr-1])) {
-      int plus1 = ((posEr + 1) == tokens.length) ? 0 : +1;
+      final int plus1 = ((posEr + 1) == tokens.length) ? 0 : +1;
       if (!verbDoesMatchPersonAndNumber(tokens[posEr-1], tokens[posEr+plus1], "3", "SIN")) {
         ruleMatches.add(ruleMatchWrongVerbSubject(tokens[posEr], finiteVerb));
       }
@@ -175,7 +171,7 @@ public class VerbAgreementRule extends GermanRule {
     if (posVer1Plu != -1 && posWir == -1 && !isQuotationMark(tokens[posVer1Plu-1])) {
       ruleMatches.add(ruleMatchWrongVerb(tokens[posVer1Plu]));
     } else if (posWir > 0 && !isNear(posPossibleVer1Plu, posWir) && !isQuotationMark(tokens[posWir-1])) {
-      int plus1 = ((posWir + 1) == tokens.length) ? 0 : +1;
+      final int plus1 = ((posWir + 1) == tokens.length) ? 0 : +1;
       if (!verbDoesMatchPersonAndNumber(tokens[posWir-1], tokens[posWir+plus1], "1", "PLU")) {
         ruleMatches.add(ruleMatchWrongVerbSubject(tokens[posWir], finiteVerb));
       }
@@ -207,7 +203,7 @@ public class VerbAgreementRule extends GermanRule {
       return false;
     
     for (int i = 0; i < token.getReadingsLength(); ++i) {
-      String postag = token.getReadings().get(i).getPOSTag();
+      final String postag = token.getReadings().get(i).getPOSTag();
       if (postag.contains("_END")) // ignore SENT_END and PARA_END
         continue;
       if (!postag.contains(":" + person + ":" + number))

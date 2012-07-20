@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker 
- * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+ * Copyright (C) 2012 Markus Brenneis
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,13 +19,11 @@
 package org.languagetool.rules.de;
 
 import java.io.IOException;
-import java.util.List;
 
 import junit.framework.TestCase;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
-import org.languagetool.rules.RuleMatch;
 
 /**
  * @author Markus Brenneis
