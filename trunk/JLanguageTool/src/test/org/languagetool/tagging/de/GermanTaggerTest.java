@@ -54,7 +54,10 @@ public class GermanTaggerTest extends TestCase {
     
     aToken = tagger.lookup("Groß");
     assertNull(aToken);
-    
+
+    aToken = tagger.lookup("Lieblingsbuchstabe");
+    assertEquals("Lieblingsbuchstabe[Lieblingsbuchstabe/SUB:NOM:SIN:MAS]", aToken.toSortedString());
+
     aToken = tagger.lookup("großer");
     assertEquals("großer[groß/ADJ:DAT:SIN:FEM:GRU:SOL, groß/ADJ:GEN:PLU:FEM:GRU:SOL, groß/ADJ:GEN:PLU:MAS:GRU:SOL, " +
             "groß/ADJ:GEN:PLU:NEU:GRU:SOL, groß/ADJ:GEN:SIN:FEM:GRU:SOL, groß/ADJ:NOM:SIN:MAS:GRU:IND, " +
