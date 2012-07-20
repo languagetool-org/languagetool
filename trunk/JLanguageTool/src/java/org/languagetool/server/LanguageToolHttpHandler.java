@@ -198,7 +198,6 @@ class LanguageToolHttpHandler implements HttpHandler {
         } else {
           value = URLDecoder.decode(pair.substring(pair.indexOf("=") + 1), "UTF-8");
         }
-        value = value.replaceAll("\\+", " ");
         parameters.put(key, value);
       }
     }
