@@ -1168,8 +1168,8 @@ $Id$
                 <example type="correct">Кошка грелась на солнышке.</example>
                 <example type="incorrect"><marker>Кошка грелся</marker> на солнышке.</example>
             </rule>
-                <!--           NN:Neut:Sin:Nom   VB:Past:Neut    -->
-                <!--
+            <!--           NN:Neut:Sin:Nom   VB:Past:Neut    -->
+            <!--
             <rule>
                 
                 <pattern>                
@@ -1250,9 +1250,9 @@ $Id$
                 <example type="incorrect"><marker>Кошка грелись</marker> на солнышке.</example>
             </rule>
             
-                    <!--           NN:Neut:Sin:.*   VB:Past:!PL   -->
-                    <!--           NN:Neut:Sin:Nom   VB:Past:!PL   -->
-                 <!--  
+            <!--           NN:Neut:Sin:.*   VB:Past:!PL   -->
+            <!--           NN:Neut:Sin:Nom   VB:Past:!PL   -->
+            <!--  
                 <rule>
                 <pattern>                          
                 <token postag="SENT_START" skip="-1"><exception scope="next" postag_regexp="yes" postag="NN:.*:PL:Nom"></exception><exception scope="next" postag_regexp="yes" postag="PNN:.*"></exception><exception scope="next" regexp = "yes" >и|или</exception></token>
@@ -2129,6 +2129,28 @@ $Id$
         </rule>
         
         
+        <rule id="V_TECHENII" name="Словосочетание “в течении реки”">
+            <pattern>
+                <token>в</token>
+                <token>течение</token>
+                <token  regexp="yes">реки|потока|воды|ручья</token>
+            </pattern>
+            <message>Должно быть: <suggestion>\1 течении \3</suggestion></message>
+            <short>В течении (воды, реки, ...)</short>
+            <example type="incorrect">Там <marker>в течение реки</marker> много изгибов.</example>
+            <example type="correct">Там в течении реки много изгибов.</example>
+        </rule>
+        <rule id="V_TECHENIЕ" name="Словосочетание “в течение времени”">
+            <pattern>
+                <token>в</token>
+                <token>течении</token>
+                <token regexp="yes">часа|минуты|промежутка|секунды|дня|времени|недели|месяца|года|столетия|тысячелетия</token>
+            </pattern>
+            <message>Должно быть: <suggestion>\1 течение \3</suggestion></message>
+            <short>В течение (времени, часа, ...)</short>
+            <example type="incorrect">Работа должна быть выполнена <marker>в течении часа</marker>.</example>
+            <example type="correct">Работа должна быть выполнена в течение часа.</example>
+        </rule>
     </category>
     <category name="Стиль">
         
