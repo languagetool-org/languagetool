@@ -11,9 +11,9 @@ import org.languagetool.rules.Category;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 
-public class ChineseWordRepeatBeginningRule extends Rule{
+public class ChineseWordRepeatBeginningRule extends Rule {
 
-	  private String lastEndToken ="" ;
+	  private String lastEndToken = "" ;
 	  private String lastToken = "";
 	  private String beforeLastToken = "";
 	  
@@ -57,7 +57,7 @@ public class ChineseWordRepeatBeginningRule extends Rule{
 	    
 	   
 	    
-	    if (tokens.length>3) {
+	    if (tokens.length > 3) {
 	      final AnalyzedTokenReadings analyzedToken = tokens[1];
 	      final String token = analyzedToken.getToken();
 	      // avoid "..." etc. to be matched:
