@@ -20,7 +20,333 @@
 	<!-- 拼写： 词语错误 -->
 	<!-- ====================================================================== -->
 	<category name="词语错误">
-
+		<rulegroup id="REN1_REN2" name="人/仁">
+			<rule>
+				<pattern>
+					<token postag="nr">仁参</token>
+				</pattern>
+				<message>
+					您的意思是"
+					<suggestion>人参</suggestion>
+					"吗？
+				</message>
+				<short>词语错误</short>
+				<example type="incorrect" correction="人参">
+					<marker>仁参</marker>
+					是好东西。
+				</example>
+				<example type="correct">人参是好东西。</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token postag="nr">人仁</token>
+				</pattern>
+				<message>
+					您的意思是"
+					<suggestion>仁人</suggestion>
+					"吗？
+				</message>
+				<short>词语错误</short>
+				<example type="incorrect" correction="仁人">
+					我们需要有
+					<marker>人仁</marker>
+					之心。
+				</example>
+				<example type="correct">我们需要有仁人之心。</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="DIE1_DIE2_DIE3_DIE4" name="碟/谍/牒/喋">
+			<rule>
+				<pattern>
+					<token postag="f">间</token>
+					<marker>
+						<token>碟</token>
+					</marker>
+				</pattern>
+				<message>
+					您的意思是“\1
+					<suggestion>谍</suggestion>
+					”吗？
+				</message>
+				<short>词语错误</short>
+				<example type="incorrect" correction="谍">
+					间
+					<marker>碟</marker>
+				</example>
+				<example type="correct">间谍</example>
+			</rule>
+			<rule>
+				<pattern>
+					<marker>
+						<token>碟</token>
+					</marker>
+					<token postag="v">查</token>
+				</pattern>
+				<message>
+					您的意思是“
+					<suggestion>谍</suggestion>
+					\2”吗？
+				</message>
+				<short>词语错误</short>
+				<example type="incorrect" correction="谍">
+					他曾经在成都警备司令部
+					<marker>碟</marker>
+					查队长唐毅手下当差。
+				</example>
+				<example type="correct">他曾经在成都警备司令部谍查队长唐毅手下当差</example>
+			</rule>
+		</rulegroup>
+		<rule id="FANG1_FANG2" name="防/妨">
+			<pattern>
+				<marker>
+					<token>妨</token>
+				</marker>
+				<token regexp="yes" postag="nr|j" postag_regexp="yes">范|卫</token>
+			</pattern>
+			<message>
+				您的意思是“
+				<suggestion>防</suggestion>
+				\2”吗？
+			</message>
+			<short>词语错误</short>
+			<example type="incorrect" correction="防">
+				我们必须严加
+				<marker>妨</marker>
+				卫。
+			</example>
+			<example type="correct">我们必须严加防卫。</example>
+		</rule>
+		<rulegroup id="FAN1_FAN2" name="番/翻">
+			<rule>
+				<pattern>
+					<marker>
+						<token postag="v">翻</token>
+					</marker>
+					<token regexp="yes" postag="n">茄|薯|瓜</token>
+				</pattern>
+				<message>
+					您的意思是“
+					<suggestion>番</suggestion>
+					\2”吗？
+				</message>
+				<short>词语错误</short>
+				<example type="incorrect" correction="番">
+					<marker>翻</marker>
+					瓜是不是在那个市场可以买到？
+				</example>
+				<example type="correct">番瓜是不是在那个市场可以买到？</example>
+			</rule>
+			<rule>
+				<pattern>
+					<marker>
+						<token postag="q">番</token>
+					</marker>
+					<token regexp="yes" postag="ng|n|v" postag_regexp="yes">案|跟斗|译
+					</token>
+				</pattern>
+				<message>
+					您的意思是“
+					<suggestion>翻</suggestion>
+					\2”吗？
+				</message>
+				<short>词语错误</short>
+				<example type="incorrect" correction="翻">
+					孩子们在床上
+					<marker>番</marker>
+					跟斗。
+				</example>
+				<example type="correct">孩子们在床上翻跟斗</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="FU1_FU2" name="副/幅 ">
+			<rule>
+				<pattern>
+					<marker>
+						<token postag="q">幅</token>
+					</marker>
+					<token regexp="yes" postag="n|v|ng" postag_regexp="yes">作用|食|教授|标题|产品|业
+					</token>
+				</pattern>
+				<message>
+					您的意思是“
+					<suggestion>副</suggestion>
+					\2”吗？
+				</message>
+				<short>词语错误</short>
+				<example type="incorrect" correction="副">
+					这药的
+					<marker>幅</marker>
+					作用很大。
+				</example>
+				<example type="correct">这药的副作用很大。</example>
+			</rule>
+			<rule>
+				<pattern>
+					<marker>
+						<token postag="b">副</token>
+					</marker>
+					<token regexp="yes" postag="ng|n" postag_regexp="yes">度|员</token>
+				</pattern>
+				<message>
+					您的意思是“
+					<suggestion>幅</suggestion>
+					\2”吗？
+				</message>
+				<short>词语错误</short>
+				<example type="incorrect" correction="幅">
+					疆域有广狭及四至,所以称疆域
+					<marker>副</marker>
+					员。
+				</example>
+				<example type="correct">疆域有广狭及四至,所以称疆域幅员。</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="GAN1_GAN2_GAN3" name="杆/竿/干">
+			<rule>
+				<pattern>
+					<marker>
+						<token postag="v">干</token>
+					</marker>
+					<token regexp="yes" postag="n|ng" postag_regexp="yes">菌|秤</token>
+				</pattern>
+				<message>
+					您的意思是“
+					<suggestion>杆</suggestion>
+					\2”吗？
+				</message>
+				<short>词语错误</short>
+				<example type="incorrect" correction="杆">
+					这是一种新发现的
+					<marker>干</marker>
+					菌。
+				</example>
+				<example type="correct">这是一种新发现的杆菌。</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token regexp="yes" postag="n|ng " postag_regexp="yes">电线|桅</token>
+					<marker>
+						<token postag="v">干</token>
+					</marker>
+				</pattern>
+				<message>
+					您的意思是“\1
+					<suggestion>杆</suggestion>
+					”吗？
+				</message>
+				<short>词语错误</short>
+				<example type="incorrect" correction="杆">
+					电线
+					<marker>干</marker>
+				</example>
+				<example type="correct">电线杆</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token postag="v|n" regexp="yes" postag_regexp="yes">鱼|钓鱼</token>
+					<marker>
+						<token postag="v|ng" regexp="yes" postag_regexp="yes">干|杆</token>
+					</marker>
+				</pattern>
+				<message>
+					您的意思是“\1
+					<suggestion>竿</suggestion>
+					”吗？
+				</message>
+				<short>词语错误</short>
+				<example type="incorrect" correction="竿">
+					这根鱼
+					<marker>干</marker>
+					韧性很好。
+				</example>
+				<example type="correct">这根鱼竿韧性很好。</example>
+			</rule>
+			<rule>
+				<pattern>
+					<marker>
+						<token postag="ng|q" postag_regexp="yes">杆</token>
+					</marker>
+					<token postag="n">粮</token>
+				</pattern>
+				<message>
+					您的意思是“
+					<suggestion>干</suggestion>
+					\2”吗？
+				</message>
+				<short>词语错误</short>
+				<example type="incorrect" correction="干">
+					战士们的
+					<marker>杆</marker>
+					粮都吃完了。
+				</example>
+				<example type="correct">战士们干粮都吃完了。</example>
+			</rule>
+		</rulegroup>
+		<rule id="GANG1_GANG2" name="刚/钢">
+			<pattern>
+				<marker>
+					<token postag="ag">刚</token>
+				</marker>
+				<token regexp="yes" postag="n|ng|v" postag_regexp="yes">笔|板|鞭|材|管|筋|琴|丝|铁|纸|水
+				</token>
+			</pattern>
+			<message>
+				您的意思是“
+				<suggestion>钢</suggestion>
+				\2”吗？
+			</message>
+			<short>词语错误</short>
+			<example type="incorrect" correction="钢">
+				这支
+				<marker>刚</marker>
+				笔写起来很顺手。
+			</example>
+			<example type="correct">这支钢笔写起来很顺手。</example>
+		</rule>
+		<rulegroup id="HU1_HU2" name="胡/糊">
+			<rule>
+				<pattern>
+					<marker>
+						<token postag="d">胡</token>
+					</marker>
+					<token regexp="yes" postag="ng|vg|n|f" postag_regexp="yes">剂|精|口
+					</token>
+				</pattern>
+				<message>
+					您的意思是“
+					<suggestion>糊</suggestion>
+					\2”吗？
+				</message>
+				<short>词语错误</short>
+				<example type="incorrect" correction="糊">
+					养家
+					<marker>胡</marker>
+					口，压力很大。
+				</example>
+				<example type="correct">养家糊口，压力很大。</example>
+			</rule>
+			<rule>
+				<pattern>
+					<marker>
+						<token postag="v">糊</token>
+					</marker>
+					<token regexp="yes" postag="vg|v|ng|a|n" postag_regexp="yes">须|吹|匪|混|乱|闹|说|萝卜
+					</token>
+				</pattern>
+				<message>
+					您的意思是“
+					<suggestion>胡</suggestion>
+					\2”吗？
+				</message>
+				<short>词语错误</short>
+				<example type="incorrect" correction="胡">
+					这简直是
+					<marker>糊</marker>
+					闹！
+				</example>
+				<example type="correct">这简直是胡闹！</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="ZHEN1_ZHEN2" name="震/振">
 			<rule>
 				<pattern>
@@ -1349,7 +1675,9 @@
 		<rulegroup id="YI11_YI2" name="意/义">
 			<rule>
 				<pattern>
-					<marker><token>义</token></marker>
+					<marker>
+						<token>义</token>
+					</marker>
 					<token regexp="yes" postag="n">境|料|图</token>
 				</pattern>
 				<message>
