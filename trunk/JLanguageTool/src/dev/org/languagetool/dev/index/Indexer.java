@@ -43,7 +43,7 @@ import org.languagetool.tokenizers.SentenceTokenizer;
 /**
  * A class with a main() method that takes a text file and indexes its sentences, including POS tags
  * 
- * @author Tao Lin
+ * @author Tao Lin, Miaojuan Dai
  */
 public class Indexer {
 
@@ -64,19 +64,20 @@ public class Indexer {
 
   public static void main(String[] args) throws IOException {
     ensureCorrectUsageOrExit(args);
-    run(args[0], args[1]);
+    run(args[0], args[1], args[2]);
   }
 
   private static void ensureCorrectUsageOrExit(String[] args) {
-    if (args.length != 2) {
-      System.err.println("Usage: Indexer <textFile> <indexDir>");
+    if (args.length != 3) {
+      System.err.println("Usage: Indexer <textFile> <indexDir> <languageCode>");
       System.err.println("\ttextFile path to a text file to be indexed");
       System.err.println("\tindexDir path to a directory storing the index");
+      System.err.println("\tlanguageCode short language code, e.g. en for English");
       System.exit(1);
     }
   }
 
-  private static void run(String textFile, String indexDir) throws IOException {
+  private static void run(String textFile, String indexDir, String languageCode) throws IOException {
     final File file = new File(textFile);
     if (!file.exists() || !file.canRead()) {
       System.out.println("Text file '" + file.getAbsolutePath()
@@ -87,7 +88,11 @@ public class Indexer {
     System.out.println("Indexing to directory '" + indexDir + "'...");
     final FSDirectory directory = FSDirectory.open(new File(indexDir));
     try {
-      final Indexer indexer = new Indexer(directory, Language.ENGLISH);
+      final Language language = Language.getLanguageForShortName(languageCode);
+      if (language == null) {
+        throw new RuntimeException("Unknown language code '" + languageCode + "'");
+      }
+      final Indexer indexer = new Indexer(directory, language);
       try {
         run(reader, indexer, false);
       } finally {
