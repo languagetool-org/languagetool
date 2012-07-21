@@ -39,6 +39,20 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
     <!-- Possible typos -->
     <!-- ====================================================================== -->
     <category name="Possible Typos">
+        <rule id="EASIEST_WAS_TO" name="easiest was (way) to">
+            <pattern>
+                <token postag="JJS"/>
+                <marker>
+                    <token>was</token>
+                </marker>
+                <token>to</token>
+            </pattern>
+            <message>Did you mean <suggestion>way</suggestion>?</message>
+            <example type="incorrect">What is the fastest <marker>was</marker> to learn Spanish?</example>
+            <example type="incorrect">What is the easiest <marker>was</marker> to learn Spanish?</example>
+            <example type="correct">What is the fastest <marker>way</marker> to learn Spanish?</example>
+            <example type="correct">What is the easiest <marker>way</marker> to learn Spanish?</example>
+        </rule>
         <rule id="ARE_STILL_THE_SOME" name="are still the some (same)">
             <pattern>
                 <token regexp="yes">are|is|was|were</token>
