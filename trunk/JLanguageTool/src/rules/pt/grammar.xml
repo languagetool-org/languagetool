@@ -21,18 +21,45 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.016 2012-06-08 16:30:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.017 2012-07-22 11:28:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
 
 <!--
-************************************
-           MISCELÂNEA
-************************************
+****************************************
+           POSSÍVEIS ERROS GRAMATICAIS
+****************************************
 -->
 
-<category name="Miscelânea">
+<category name="Gramática">
+
+    <!-- A A a -->
+    <rule id="A_A" name="a">
+      <pattern>
+        <token>a</token>
+        <token>a</token>
+      </pattern>
+      <message>Substituir «a a» por <suggestion>a</suggestion>.</message>
+      <short>"Gramática".</short>
+      <example type="incorrect">Tenho <marker>a a</marker> data marcada.</example>
+      <example type="correct">Tenho <marker>a</marker> data marcada.</example>
+    </rule>
+
+
+
+    <!-- À BOCADO há bocado -->
+    <rule id="À_BOCADO" name="há bocado">
+      <pattern>
+        <token>à</token>
+        <token>bocado</token>
+      </pattern>
+      <message>Substituir «à bocado» por <suggestion>há bocado</suggestion>.</message>
+      <short>"Gramática".</short>
+      <example type="incorrect">Cheguei <marker>à bocado</marker> do Algarve.</example>
+      <example type="correct">Cheguei <marker>há bocado</marker> do Algarve.</example>
+    </rule>
+
 
 
     <!-- ABORDO DA a bordo da -->
@@ -42,7 +69,7 @@ $Id: grammar.xml,v 1.016 2012-06-08 16:30:00 marcoagpinto Exp $
         <token>da</token>
       </pattern>
       <message>Substituir «abordo da» por <suggestion>a bordo da</suggestion>.</message>
-      <short>"Miscelânea".</short>
+      <short>"Gramática".</short>
       <example type="incorrect">Vai uma pessoa importante <marker>abordo da</marker> fragata.</example>
       <example type="correct">Vai uma pessoa importante <marker>a bordo da</marker> fragata.</example>
     </rule>
@@ -56,7 +83,7 @@ $Id: grammar.xml,v 1.016 2012-06-08 16:30:00 marcoagpinto Exp $
         <token>do</token>
       </pattern>
       <message>Substituir «abordo do» por <suggestion>a bordo do</suggestion>.</message>
-      <short>"Miscelânea".</short>
+      <short>"Gramática".</short>
       <example type="incorrect">Vai uma pessoa importante <marker>abordo do</marker> avião.</example>
       <example type="correct">Vai uma pessoa importante <marker>a bordo do</marker> avião.</example>
     </rule>
@@ -70,23 +97,52 @@ $Id: grammar.xml,v 1.016 2012-06-08 16:30:00 marcoagpinto Exp $
         <token>bracelete</token>
       </pattern>
       <message>Substituir «a bracelete» por <suggestion>o bracelete</suggestion>.</message>
-      <short>"Miscelânea".</short>
+      <short>"Gramática".</short>
       <example type="incorrect">Coloca <marker>a bracelete</marker>.</example>
       <example type="correct">Coloca <marker>o bracelete</marker>.</example>
     </rule>
 
 
 
-    <!-- À MAIS há mais -->
-    <rule id="À_MAIS" name="há mais">
+    <!-- À MAIS EM há mais em -->
+    <rule id="À_MAIS_EM" name="há mais em">
       <pattern>
         <token>à</token>
         <token>mais</token>
+        <token>em</token>        
       </pattern>
-      <message>Substituir «à mais» por <suggestion>há mais</suggestion>.</message>
-      <short>"Miscelânea".</short>
-      <example type="incorrect">Amanhã <marker>à mais</marker> em jogo.</example>
-      <example type="correct">Amanhã <marker>há mais</marker> em jogo.</example>
+      <message>Substituir «à mais em» por <suggestion>há mais em</suggestion>.</message>
+      <short>"Gramática".</short>
+      <example type="incorrect">Amanhã <marker>à mais em</marker> jogo.</example>
+      <example type="correct">Amanhã <marker>há mais em</marker> jogo.</example>
+    </rule>
+
+
+
+    <!-- À QUE há que -->
+    <rule id="À_QUE" name="há que">
+      <pattern>
+        <token>à</token>
+        <token>que</token>
+      </pattern>
+      <message>Substituir «à que» por <suggestion>há que</suggestion>.</message>
+      <short>"Gramática".</short>
+      <example type="incorrect">Mas <marker>à que</marker> saber estudar.</example>
+      <example type="correct">Mas <marker>há que</marker> saber estudar.</example>
+    </rule>
+
+
+
+    <!-- ALÉM FRONTEIRAS além-fronteiras -->
+    <rule id="ALÉM_FRONTEIRAS" name="além-fronteiras">
+      <pattern>
+        <token>além</token>
+        <token>fronteiras</token>
+      </pattern>
+      <message>Substituir «além fronteiras» por <suggestion>além-fronteiras</suggestion>.</message>
+      <short>"Gramática".</short>
+      <example type="incorrect">O perigo encontra-se <marker>além fronteiras</marker>.</example>
+      <example type="correct">O perigo encontra-se <marker>além-fronteiras</marker>.</example>
     </rule>
 
 
@@ -98,7 +154,7 @@ $Id: grammar.xml,v 1.016 2012-06-08 16:30:00 marcoagpinto Exp $
         <token>vírus</token>
       </pattern>
       <message>Substituir «anti vírus» por <suggestion>antivírus</suggestion>.</message>
-      <short>"Miscelânea".</short>
+      <short>"Gramática".</short>
       <example type="incorrect">Actualiza sempre o <marker>anti vírus</marker>.</example>
       <example type="correct">Actualiza sempre o <marker>antivírus</marker>.</example>
     </rule>
@@ -112,7 +168,7 @@ $Id: grammar.xml,v 1.016 2012-06-08 16:30:00 marcoagpinto Exp $
         <token>braceletes</token>
       </pattern>
       <message>Substituir «as braceletes» por <suggestion>os braceletes</suggestion>.</message>
-      <short>"Miscelânea".</short>
+      <short>"Gramática".</short>
       <example type="incorrect">Coloca <marker>as braceletes</marker>.</example>
       <example type="correct">Coloca <marker>os braceletes</marker>.</example>
     </rule>
@@ -127,7 +183,7 @@ $Id: grammar.xml,v 1.016 2012-06-08 16:30:00 marcoagpinto Exp $
         <token>conserto</token>
       </pattern>
       <message>Substituir «a um conserto» por <suggestion>a um concerto</suggestion>.</message>
-      <short>"Miscelânea".</short>
+      <short>"Gramática".</short>
       <example type="incorrect">Vou <marker>a um conserto</marker>.</example>
       <example type="correct">Vou <marker>a um concerto</marker>.</example>
     </rule>
@@ -142,7 +198,7 @@ $Id: grammar.xml,v 1.016 2012-06-08 16:30:00 marcoagpinto Exp $
         <token>que</token>
       </pattern>
       <message>Substituir «antes de que» por <suggestion>antes que</suggestion>.</message>
-      <short>"Miscelânea".</short>
+      <short>"Gramática".</short>
       <example type="incorrect">Tratar de algo <marker>antes de que</marker> seja tarde.</example>
       <example type="correct">Tratar de algo <marker>antes que</marker> seja tarde.</example>
     </rule>
@@ -156,7 +212,7 @@ $Id: grammar.xml,v 1.016 2012-06-08 16:30:00 marcoagpinto Exp $
         <token>quando</token>
       </pattern>
       <message>Substituir «a quando» por <suggestion>aquando</suggestion>.</message>
-      <short>"Miscelânea".</short>
+      <short>"Gramática".</short>
       <example type="incorrect">Vamos tratar disso <marker>a quando</marker> da ida do Rui.</example>
       <example type="correct">Vamos tratar disso <marker>aquando</marker> da ida do Rui.</example>
     </rule>
@@ -171,7 +227,7 @@ $Id: grammar.xml,v 1.016 2012-06-08 16:30:00 marcoagpinto Exp $
         <token>usado</token>
       </pattern>
       <message>Substituir «ao serem usado» por <suggestion>ao serem usados</suggestion>.</message>
-      <short>"Miscelânea".</short>
+      <short>"Gramática".</short>
       <example type="incorrect">Há produtos que <marker>ao serem usado</marker> fazem-nos sentir bem.</example>
       <example type="correct">Há produtos que <marker>ao serem usados</marker> fazem-nos sentir bem.</example>
     </rule>
@@ -185,9 +241,24 @@ $Id: grammar.xml,v 1.016 2012-06-08 16:30:00 marcoagpinto Exp $
         <token>milhares</token>
       </pattern>
       <message>Substituir «as milhares» por <suggestion>os milhares</suggestion>.</message>
-      <short>"Miscelânea".</short>
+      <short>"Gramática".</short>
       <example type="incorrect">Vejam <marker>as milhares</marker> de mulheres.</example>
       <example type="correct">Vejam <marker>os milhares</marker> de mulheres.</example>
+    </rule>
+
+
+
+    <!-- ATAQUES EM MASSA ataques em grande escala -->
+    <rule id="ATAQUES_EM_MASSA" name="ataques em grande escala">
+      <pattern>
+        <token>ataques</token>
+        <token>em</token>
+        <token>massa</token>
+      </pattern>
+      <message>Substituir «ataques em massa» por <suggestion>ataques em grande escala</suggestion>.</message>
+      <short>"Gramática".</short>
+      <example type="incorrect">As botnets fazem <marker>ataques em massa</marker>.</example>
+      <example type="correct">As botnets fazem <marker>ataques em grande escala</marker>.</example>
     </rule>
 
 
@@ -199,9 +270,23 @@ $Id: grammar.xml,v 1.016 2012-06-08 16:30:00 marcoagpinto Exp $
         <token>manhã</token>
       </pattern>
       <message>Substituir «até manhã» por <suggestion>até amanhã</suggestion>.</message>
-      <short>"Miscelânea".</short>
+      <short>"Gramática".</short>
       <example type="incorrect">Boa noite e <marker>até manhã</marker> cedo.</example>
       <example type="correct">Boa noite e <marker>até amanhã</marker> cedo.</example>
+    </rule>
+
+
+
+    <!-- AUTO ESTIMA auto-estima -->
+    <rule id="AUTO_ESTIMA" name="auto-estima">
+      <pattern>
+        <token>auto</token>
+        <token>estima</token>
+      </pattern>
+      <message>Substituir «auto estima» por <suggestion>auto-estima</suggestion>.</message>
+      <short>"Gramática".</short>
+      <example type="incorrect">Melhora a <marker>auto estima</marker> confiando em ti próprio.</example>
+      <example type="correct">Melhora a <marker>auto-estima</marker> confiando em ti próprio.</example>
     </rule>
 
 
@@ -213,7 +298,7 @@ $Id: grammar.xml,v 1.016 2012-06-08 16:30:00 marcoagpinto Exp $
         <token>vindo</token>
       </pattern>
       <message>Substituir «bem vindo» por <suggestion>bem-vindo</suggestion>.</message>
-      <short>"Miscelânea".</short>
+      <short>"Gramática".</short>
       <example type="incorrect">O Miguel é sempre <marker>bem vindo</marker>.</example>
       <example type="correct">O Miguel é sempre <marker>bem-vindo</marker>.</example>
     </rule>
@@ -228,9 +313,23 @@ $Id: grammar.xml,v 1.016 2012-06-08 16:30:00 marcoagpinto Exp $
         <token>milhar</token>
       </pattern>
       <message>Substituir «centenas de milhar» por <suggestion>centenas de milhares</suggestion>.</message>
-      <short>"Miscelânea".</short>
+      <short>"Gramática".</short>
       <example type="incorrect">Existem várias <marker>centenas de milhar</marker> de militantes.</example>
       <example type="correct">Existem várias <marker>centenas de milhares</marker> de militantes.</example>
+    </rule>
+
+
+
+    <!-- COCA COLA coca-cola -->
+    <rule id="COCA_COLA" name="coca-cola">
+      <pattern>
+        <token>coca</token>
+        <token>cola</token>
+      </pattern>
+      <message>Substituir «coca cola» por <suggestion>coca-cola</suggestion>.</message>
+      <short>"Gramática".</short>
+      <example type="incorrect">Bebo <marker>coca cola</marker> regularmente.</example>
+      <example type="correct">Bebo <marker>coca-cola</marker> regularmente.</example>
     </rule>
 
 
@@ -243,7 +342,7 @@ $Id: grammar.xml,v 1.016 2012-06-08 16:30:00 marcoagpinto Exp $
         <token>almoço</token>
       </pattern>
       <message>Substituir «comer o almoço» por <suggestion>almoçar</suggestion>.</message>
-      <short>"Miscelânea".</short>
+      <short>"Gramática".</short>
       <example type="incorrect">Vou <marker>comer o almoço</marker> daqui a pouco.</example>
       <example type="correct">Vou <marker>almoçar</marker> daqui a pouco.</example>
     </rule>
@@ -259,7 +358,7 @@ $Id: grammar.xml,v 1.016 2012-06-08 16:30:00 marcoagpinto Exp $
         <token>dias</token>
       </pattern>
       <message>Substituir «dar os bons dias» por <suggestion>dar os bons-dias</suggestion>.</message>
-      <short>"Miscelânea".</short>
+      <short>"Gramática".</short>
       <example type="incorrect">Vou <marker>dar os bons dias</marker> ao Miguel.</example>
       <example type="correct">Vou <marker>dar os bons-dias</marker> ao Miguel.</example>
     </rule>
@@ -275,7 +374,7 @@ $Id: grammar.xml,v 1.016 2012-06-08 16:30:00 marcoagpinto Exp $
         <token>que</token>
       </pattern>
       <message>Substituir «de forma a que» por <suggestion>para que</suggestion>.</message>
-      <short>"Miscelânea".</short>
+      <short>"Gramática".</short>
       <example type="incorrect">Isto é feito <marker>de forma a que</marker> os cidadãos possam ser livres.</example>
       <example type="correct">Isto é feito <marker>para que</marker> os cidadãos possam ser livres.</example>
     </rule>
@@ -291,7 +390,7 @@ $Id: grammar.xml,v 1.016 2012-06-08 16:30:00 marcoagpinto Exp $
         <token>quando</token>
       </pattern>
       <message>Substituir «de vês em quando» por <suggestion>de vez em quando</suggestion>.</message>
-      <short>"Miscelânea".</short>
+      <short>"Gramática".</short>
       <example type="incorrect">Ela aparece <marker>de vês em quando</marker>.</example>
       <example type="correct">Ela aparece <marker>de vez em quando</marker>.</example>
     </rule>
@@ -305,7 +404,7 @@ $Id: grammar.xml,v 1.016 2012-06-08 16:30:00 marcoagpinto Exp $
         <token>te</token>
       </pattern>
       <message>Substituir «digo te» por <suggestion>digo-te</suggestion>.</message>
-      <short>"Miscelânea".</short>
+      <short>"Gramática".</short>
       <example type="incorrect">Amanhã <marker>digo te</marker> o segredo.</example>
       <example type="correct">Amanhã <marker>digo-te</marker> o segredo.</example>
     </rule>
@@ -319,7 +418,7 @@ $Id: grammar.xml,v 1.016 2012-06-08 16:30:00 marcoagpinto Exp $
         <token>me</token>
       </pattern>
       <message>Substituir «diverti me» por <suggestion>diverti-me</suggestion>.</message>
-      <short>"Miscelânea".</short>
+      <short>"Gramática".</short>
       <example type="incorrect">Hoje <marker>diverti me</marker> imenso.</example>
       <example type="correct">Hoje <marker>diverti-me</marker> imenso.</example>
     </rule>
@@ -332,7 +431,7 @@ $Id: grammar.xml,v 1.016 2012-06-08 16:30:00 marcoagpinto Exp $
         <token>dum</token>
       </pattern>
       <message>Substituir «dum» por <suggestion>de um</suggestion>.</message>
-      <short>"Miscelânea".</short>
+      <short>"Gramática".</short>
       <example type="incorrect">A venda <marker>dum</marker> apartamento.</example>
       <example type="correct">A venda <marker>de um</marker> apartamento.</example>
     </rule>
@@ -345,7 +444,7 @@ $Id: grammar.xml,v 1.016 2012-06-08 16:30:00 marcoagpinto Exp $
         <token>duma</token>
       </pattern>
       <message>Substituir «duma» por <suggestion>de uma</suggestion>.</message>
-      <short>"Miscelânea".</short>
+      <short>"Gramática".</short>
       <example type="incorrect">A venda <marker>duma</marker> casa.</example>
       <example type="correct">A venda <marker>de uma</marker> casa.</example>
     </rule>
@@ -359,7 +458,7 @@ $Id: grammar.xml,v 1.016 2012-06-08 16:30:00 marcoagpinto Exp $
         <token>um</token>
       </pattern>
       <message>Substituir «em um» por <suggestion>num</suggestion>.</message>
-      <short>"Miscelânea".</short>
+      <short>"Gramática".</short>
       <example type="incorrect">Está <marker>em um</marker> armário.</example>
       <example type="correct">Está <marker>num</marker> armário.</example>
     </rule>
@@ -373,7 +472,7 @@ $Id: grammar.xml,v 1.016 2012-06-08 16:30:00 marcoagpinto Exp $
         <token>uma</token>
       </pattern>
       <message>Substituir «em uma» por <suggestion>numa</suggestion>.</message>
-      <short>"Miscelânea".</short>
+      <short>"Gramática".</short>
       <example type="incorrect">Está <marker>em uma</marker> gaveta.</example>
       <example type="correct">Está <marker>numa</marker> gaveta.</example>
     </rule>
@@ -387,9 +486,23 @@ $Id: grammar.xml,v 1.016 2012-06-08 16:30:00 marcoagpinto Exp $
         <token>melhor</token>
       </pattern>
       <message>Substituir «esta melhor» por <suggestion>está melhor</suggestion>.</message>
-      <short>"Miscelânea".</short>
+      <short>"Gramática".</short>
       <example type="incorrect">Assim <marker>esta melhor</marker> que no passado.</example>
       <example type="correct">Assim <marker>está melhor</marker> que no passado.</example>
+    </rule>
+
+
+
+    <!-- ESTÁ TÉCNICA esta técnica -->
+    <rule id="ESTÁ_TÉCNICA" name="esta técnica">
+      <pattern>
+        <token>está</token>
+        <token>técnica</token>
+      </pattern>
+      <message>Substituir «está técnica» por <suggestion>esta técnica</suggestion>.</message>
+      <short>"Gramática".</short>
+      <example type="incorrect">Os primeiros a usar <marker>está técnica</marker> foram eles.</example>
+      <example type="correct">Os primeiros a usar <marker>esta técnica</marker> foram eles.</example>
     </rule>
 
 
@@ -401,9 +514,38 @@ $Id: grammar.xml,v 1.016 2012-06-08 16:30:00 marcoagpinto Exp $
         <token>melhor</token>
       </pattern>
       <message>Substituir «estas melhor» por <suggestion>estás melhor</suggestion>.</message>
-      <short>"Miscelânea".</short>
+      <short>"Gramática".</short>
       <example type="incorrect">Assim <marker>estas melhor</marker>.</example>
       <example type="correct">Assim <marker>estás melhor</marker>.</example>
+    </rule>
+
+
+
+    <!-- FURTO DE IDENTIDADE usurpação de identidade -->
+    <rule id="FURTO_DE_IDENTIDADE" name="usurpação de identidade">
+      <pattern>
+        <token>furto</token>
+        <token>de</token>
+        <token>identidade</token>
+      </pattern>
+      <message>Substituir «furto de identidade» por <suggestion>usurpação de identidade</suggestion>.</message>
+      <short>"Gramática".</short>
+      <example type="incorrect">É comum ser alvo de <marker>furto de identidade</marker> na Internet.</example>
+      <example type="correct">É comum ser alvo de <marker>usurpação de identidade</marker> na Internet.</example>
+    </rule>
+
+
+
+    <!-- HÁS VEZES às vezes -->
+    <rule id="HÁS_VEZES" name="às vezes">
+      <pattern>
+        <token>hás</token>
+        <token>vezes</token>
+      </pattern>
+      <message>Substituir «hás vezes» por <suggestion>às vezes</suggestion>.</message>
+      <short>"Gramática".</short>
+      <example type="incorrect">É que <marker>hás vezes</marker> temos de tomar decisões.</example>
+      <example type="correct">É que <marker>às vezes</marker> temos de tomar decisões.</example>
     </rule>
 
 
@@ -416,7 +558,7 @@ $Id: grammar.xml,v 1.016 2012-06-08 16:30:00 marcoagpinto Exp $
         <token>praia</token>
       </pattern>
       <message>Substituir «na» por <suggestion>à</suggestion>.</message>
-      <short>"Miscelânea".</short>
+      <short>"Gramática".</short>
       <example type="incorrect">Tenho de <marker>ir na praia</marker>.</example>
       <example type="correct">Tenho de <marker>ir à praia</marker>.</example>
     </rule>
@@ -431,7 +573,7 @@ $Id: grammar.xml,v 1.016 2012-06-08 16:30:00 marcoagpinto Exp $
         <token>ginásio</token>
       </pattern>
       <message>Substituir «no» por <suggestion>ao</suggestion>.</message>
-      <short>"Miscelânea".</short>
+      <short>"Gramática".</short>
       <example type="incorrect">Tenho de <marker>ir no ginásio</marker>.</example>
       <example type="correct">Tenho de <marker>ir ao ginásio</marker>.</example>
     </rule>
@@ -445,7 +587,7 @@ $Id: grammar.xml,v 1.016 2012-06-08 16:30:00 marcoagpinto Exp $
         <token>grande</token>
       </pattern>
       <message>Substituir «mais grande» por <suggestion>maior</suggestion>.</message>
-      <short>"Miscelânea".</short>
+      <short>"Gramática".</short>
       <example type="incorrect">Aquele artigo é <marker>mais grande</marker> que o outro.</example>
       <example type="correct">Aquele artigo é <marker>maior</marker> que o outro.</example>
     </rule>
@@ -459,7 +601,7 @@ $Id: grammar.xml,v 1.016 2012-06-08 16:30:00 marcoagpinto Exp $
         <token>prima</token>
       </pattern>
       <message>Substituir «matéria prima» por <suggestion>matéria-prima</suggestion>.</message>
-      <short>"Miscelânea".</short>
+      <short>"Gramática".</short>
       <example type="incorrect">Os dados são a <marker>matéria prima</marker> da Informação.</example>
       <example type="correct">Os dados são a <marker>matéria-prima</marker> da Informação.</example>
     </rule>
@@ -473,7 +615,7 @@ $Id: grammar.xml,v 1.016 2012-06-08 16:30:00 marcoagpinto Exp $
         <token>ambiente</token>
       </pattern>
       <message>Substituir «meio ambiente» por <suggestion>meio-ambiente</suggestion>.</message>
-      <short>"Miscelânea".</short>
+      <short>"Gramática".</short>
       <example type="incorrect">Preservar o <marker>meio ambiente</marker> é importante.</example>
       <example type="correct">Preservar o <marker>meio-ambiente</marker> é importante.</example>
     </rule>
@@ -488,9 +630,24 @@ $Id: grammar.xml,v 1.016 2012-06-08 16:30:00 marcoagpinto Exp $
         <token>é</token>
       </pattern>
       <message>Substituir «muito pelo é» por <suggestion>muito pêlo é</suggestion>.</message>
-      <short>"Miscelânea".</short>
+      <short>"Gramática".</short>
       <example type="incorrect">Para quem tem animais com <marker>muito pelo é</marker> bom.</example>
       <example type="correct">Para quem tem animais com <marker>muito pêlo é</marker> bom.</example>
+    </rule>
+
+
+
+    <!-- NÃO ESTA FÁCIL não está fácil -->
+    <rule id="NÃO_ESTA_FÁCIL" name="não está fácil">
+      <pattern>
+        <token>não</token>
+        <token>esta</token>
+        <token>fácil</token>
+      </pattern>
+      <message>Substituir «não esta fácil» por <suggestion>não está fácil</suggestion>.</message>
+      <short>"Gramática".</short>
+      <example type="incorrect">A vida <marker>não esta fácil</marker> para a população mundial.</example>
+      <example type="correct">A vida <marker>não está fácil</marker> para a população mundial.</example>
     </rule>
 
 
@@ -503,7 +660,7 @@ $Id: grammar.xml,v 1.016 2012-06-08 16:30:00 marcoagpinto Exp $
         <token>falta</token>
       </pattern>
       <message>Substituir «no faz falta» por <suggestion>não faz falta</suggestion>.</message>
-      <short>"Miscelânea".</short>
+      <short>"Gramática".</short>
       <example type="incorrect">Isso <marker>no faz falta</marker> às pessoas.</example>
       <example type="correct">Isso <marker>não faz falta</marker> às pessoas.</example>
     </rule>
@@ -517,9 +674,37 @@ $Id: grammar.xml,v 1.016 2012-06-08 16:30:00 marcoagpinto Exp $
         <token>sei</token>
       </pattern>
       <message>Substituir «num sei» por <suggestion>não sei</suggestion>.</message>
-      <short>"Miscelânea".</short>
+      <short>"Gramática".</short>
       <example type="incorrect">Como podes ver, <marker>num sei</marker> a resposta.</example>
       <example type="correct">Como podes ver, <marker>não sei</marker> a resposta.</example>
+    </rule>
+
+
+
+    <!-- O O -->
+    <rule id="O_O" name="o">
+      <pattern>
+        <token>o</token>
+        <token>o</token>
+      </pattern>
+      <message>Substituir «o o» por <suggestion>o</suggestion>.</message>
+      <short>"Gramática".</short>
+      <example type="incorrect">Tenho <marker>o o</marker> encontro marcado.</example>
+      <example type="correct">Tenho <marker>o</marker> encontro marcado.</example>
+    </rule>
+
+
+
+    <!-- PARA DE pára de -->
+    <rule id="PARA_DE" name="pára de">
+      <pattern>
+        <token>para</token>
+        <token>de</token>
+      </pattern>
+      <message>Substituir «para de» por <suggestion>pára de</suggestion>.</message>
+      <short>"Gramática".</short>
+      <example type="incorrect">Por favor <marker>para de</marker> me aborrecer.</example>
+      <example type="correct">Por favor <marker>pára de</marker> me aborrecer.</example>
     </rule>
 
 
@@ -532,9 +717,22 @@ $Id: grammar.xml,v 1.016 2012-06-08 16:30:00 marcoagpinto Exp $
         <token>concelho</token>
       </pattern>
       <message>Substituir «pedir um concelho» por <suggestion>pedir um conselho</suggestion>.</message>
-      <short>"Miscelânea".</short>
+      <short>"Gramática".</short>
       <example type="incorrect">Devemos <marker>pedir um concelho</marker> ao padre.</example>
       <example type="correct">Devemos <marker>pedir um conselho</marker> ao padre.</example>
+    </rule>
+
+
+
+    <!-- PODERIAM-SE poder-se-iam -->
+    <rule id="PODERIAM-SE" name="poder-se-iam">
+      <pattern>
+        <token>poderiam-se</token>
+      </pattern>
+      <message>Substituir «poderiam-se» por <suggestion>poder-se-iam</suggestion>.</message>
+      <short>"Gramática".</short>
+      <example type="incorrect">Assim <marker>poderiam-se</marker> escrever livros sobre o assunto.</example>
+      <example type="correct">Assim <marker>poder-se-iam</marker> escrever livros sobre o assunto.</example>
     </rule>
 
 
@@ -548,7 +746,7 @@ $Id: grammar.xml,v 1.016 2012-06-08 16:30:00 marcoagpinto Exp $
         <token>puder</token>
       </pattern>
       <message>Substituir «por dinheiro e puder» por <suggestion>por dinheiro e poder</suggestion>.</message>
-      <short>"Miscelânea".</short>
+      <short>"Gramática".</short>
       <example type="incorrect">Eles fazem tudo <marker>por dinheiro e puder</marker>.</example>
       <example type="correct">Eles fazem tudo <marker>por dinheiro e poder</marker>.</example>
     </rule>
@@ -562,7 +760,7 @@ $Id: grammar.xml,v 1.016 2012-06-08 16:30:00 marcoagpinto Exp $
         <token>poder</token>
       </pattern>
       <message>Substituir «quando poder» por <suggestion>quando puder</suggestion>.</message>
-      <short>"Miscelânea".</short>
+      <short>"Gramática".</short>
       <example type="incorrect">Irei lanchar <marker>quando poder</marker>.</example>
       <example type="correct">Irei lanchar <marker>quando puder</marker>.</example>
     </rule>
@@ -576,7 +774,7 @@ $Id: grammar.xml,v 1.016 2012-06-08 16:30:00 marcoagpinto Exp $
         <token>vez</token>
       </pattern>
       <message>Substituir «tal vez» por <suggestion>talvez</suggestion>.</message>
-      <short>"Miscelânea".</short>
+      <short>"Gramática".</short>
       <example type="incorrect">Amanhã <marker>tal vez</marker> seja possível.</example>
       <example type="correct">Amanhã <marker>talvez</marker> seja possível.</example>
     </rule>
@@ -590,7 +788,7 @@ $Id: grammar.xml,v 1.016 2012-06-08 16:30:00 marcoagpinto Exp $
         <token>secreta</token>
       </pattern>
       <message>Substituir «ultra secreta» por <suggestion>ultra-secreta</suggestion>.</message>
-      <short>"Miscelânea".</short>
+      <short>"Gramática".</short>
       <example type="incorrect">Aquela arma <marker>ultra secreta</marker> é perigosa.</example>
       <example type="correct">Aquela arma <marker>ultra-secreta</marker> é perigosa.</example>
     </rule>
@@ -604,7 +802,7 @@ $Id: grammar.xml,v 1.016 2012-06-08 16:30:00 marcoagpinto Exp $
         <token>secreto</token>
       </pattern>
       <message>Substituir «ultra secreto» por <suggestion>ultra-secreto</suggestion>.</message>
-      <short>"Miscelânea".</short>
+      <short>"Gramática".</short>
       <example type="incorrect">Aquele armamento <marker>ultra secreto</marker> é perigoso.</example>
       <example type="correct">Aquele armamento <marker>ultra-secreto</marker> é perigoso.</example>
     </rule>
@@ -618,7 +816,7 @@ $Id: grammar.xml,v 1.016 2012-06-08 16:30:00 marcoagpinto Exp $
         <token>baixo-assinado</token>
       </pattern>
       <message>Substituir «um baixo-assinado» por <suggestion>um abaixo-assinado</suggestion>.</message>
-      <short>"Miscelânea".</short>
+      <short>"Gramática".</short>
       <example type="incorrect">As pessoas fizeram <marker>um baixo-assinado</marker>.</example>
       <example type="correct">As pessoas fizeram <marker>um abaixo-assinado</marker>.</example>
     </rule>
@@ -633,9 +831,23 @@ $Id: grammar.xml,v 1.016 2012-06-08 16:30:00 marcoagpinto Exp $
         <token>dor</token>
       </pattern>
       <message>Substituir «um terrível dor» por <suggestion>uma terrível dor</suggestion>.</message>
-      <short>"Miscelânea".</short>
+      <short>"Gramática".</short>
       <example type="incorrect">Tenho <marker>um terrível dor</marker> de cabeça.</example>
       <example type="correct">Tenho <marker>uma terrível dor</marker> de cabeça.</example>
+    </rule>
+
+
+
+    <!-- VÍDEO CONFERÊNCIA videoconferência -->
+    <rule id="VÍDEO_CONFERÊNCIA" name="videoconferência">
+      <pattern>
+        <token>vídeo</token>
+        <token>conferência</token>
+      </pattern>
+      <message>Substituir «vídeo conferência» por <suggestion>videoconferência</suggestion>.</message>
+      <short>"Gramática".</short>
+      <example type="incorrect">Vou realizar uma <marker>vídeo conferência</marker> no Skype.</example>
+      <example type="correct">Vou realizar uma <marker>videoconferência</marker> no Skype.</example>
     </rule>
 
 
@@ -648,134 +860,9 @@ $Id: grammar.xml,v 1.016 2012-06-08 16:30:00 marcoagpinto Exp $
         <token>ver</token>
       </pattern>
       <message>Substituir «vir me ver» por <suggestion>vir-me ver</suggestion>.</message>
-      <short>"Miscelânea".</short>
+      <short>"Gramática".</short>
       <example type="incorrect">Quando puderes <marker>vir me ver</marker> ficarei contente.</example>
       <example type="correct">Quando puderes <marker>vir-me ver</marker> ficarei contente.</example>
-    </rule>
-
-
-
-</category>
-
-
-
-
-<!--
-************************************
-           ERROS ORTOGRÁFICOS
-************************************
--->
-
- 
-<category name="Erros ortográficos">
-    <!-- A A a -->
-    <rule id="A_A" name="a">
-      <pattern>
-        <token>a</token>
-        <token>a</token>
-      </pattern>
-      <message>Substituir «a a» por <suggestion>a</suggestion>.</message>
-      <short>"Repetição de palavra".</short>
-      <example type="incorrect">Tenho <marker>a a</marker> data marcada.</example>
-      <example type="correct">Tenho <marker>a</marker> data marcada.</example>
-    </rule>
-
-
-
-    <!-- À BOCADO há bocado -->
-    <rule id="À_BOCADO" name="há bocado">
-      <pattern>
-        <token>à</token>
-        <token>bocado</token>
-      </pattern>
-      <message>Substituir «à bocado» por <suggestion>há bocado</suggestion>.</message>
-      <short>"Erro ortográfico".</short>
-      <example type="incorrect">Cheguei <marker>à bocado</marker> do Algarve.</example>
-      <example type="correct">Cheguei <marker>há bocado</marker> do Algarve.</example>
-    </rule>
-
-
-
-    <!-- À QUE há que -->
-    <rule id="À_QUE" name="há que">
-      <pattern>
-        <token>à</token>
-        <token>que</token>
-      </pattern>
-      <message>Substituir «à que» por <suggestion>há que</suggestion>.</message>
-      <short>"Erro ortográfico".</short>
-      <example type="incorrect">Mas <marker>à que</marker> saber estudar.</example>
-      <example type="correct">Mas <marker>há que</marker> saber estudar.</example>
-    </rule>
-  
-  
-
-    <!-- ALÉM FRONTEIRAS além-fronteiras -->
-    <rule id="ALÉM_FRONTEIRAS" name="além-fronteiras">
-      <pattern>
-        <token>além</token>
-        <token>fronteiras</token>
-      </pattern>
-      <message>Substituir «além fronteiras» por <suggestion>além-fronteiras</suggestion>.</message>
-      <short>"Erro ortográfico".</short>
-      <example type="incorrect">O perigo encontra-se <marker>além fronteiras</marker>.</example>
-      <example type="correct">O perigo encontra-se <marker>além-fronteiras</marker>.</example>
-    </rule>
-
-
-
-    <!-- ESTÁ TÉCNICA esta técnica -->
-    <rule id="ESTÁ_TÉCNICA" name="esta técnica">
-      <pattern>
-        <token>está</token>
-        <token>técnica</token>
-      </pattern>
-      <message>Substituir «está técnica» por <suggestion>esta técnica</suggestion>.</message>
-      <short>"Erro ortográfico".</short>
-      <example type="incorrect">Os primeiros a usar <marker>está técnica</marker> foram eles.</example>
-      <example type="correct">Os primeiros a usar <marker>esta técnica</marker> foram eles.</example>
-    </rule>
-
-
- 
- 
-    <!-- HÁS VEZES às vezes -->
-    <rule id="HÁS_VEZES" name="às vezes">
-      <pattern>
-        <token>hás</token>
-        <token>vezes</token>
-      </pattern>
-      <message>Substituir «hás vezes» por <suggestion>às vezes</suggestion>.</message>
-      <short>"Erro ortográfico".</short>
-      <example type="incorrect">É que <marker>hás vezes</marker> temos de tomar decisões.</example>
-      <example type="correct">É que <marker>às vezes</marker> temos de tomar decisões.</example>
-    </rule>
-
-
-
-    <!-- O O -->
-    <rule id="O_O" name="o">
-      <pattern>
-        <token>o</token>
-        <token>o</token>
-      </pattern>
-      <message>Substituir «o o» por <suggestion>o</suggestion>.</message>
-      <short>"Repetição de palavra".</short>
-      <example type="incorrect">Tenho <marker>o o</marker> encontro marcado.</example>
-      <example type="correct">Tenho <marker>o</marker> encontro marcado.</example>
-    </rule>
-
-
-
-    <!-- PODERIAM-SE poder-se-iam -->
-    <rule id="PODERIAM-SE" name="poder-se-iam">
-      <pattern>
-        <token>poderiam-se</token>
-      </pattern>
-      <message>Substituir «poderiam-se» por <suggestion>poder-se-iam</suggestion>.</message>
-      <short>"Erro ortográfico".</short>
-      <example type="incorrect">Assim <marker>poderiam-se</marker> escrever livros sobre o assunto.</example>
-      <example type="correct">Assim <marker>poder-se-iam</marker> escrever livros sobre o assunto.</example>
     </rule>
 
 
