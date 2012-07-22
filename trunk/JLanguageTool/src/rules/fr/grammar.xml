@@ -23,11 +23,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 $Id$
 -->
 <rules lang="fr" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-    <phrases>
-        <phrase id="V_NON_NR">
-            <token postag="V.*" postag_regexp="yes"><exception postag="[NR].*" postag_regexp="yes"/></token>
-        </phrase>
-    </phrases>
     <category name="Pléonasmes">
         <!--The following rules were created by Hugo Voisard
 (the rule on "ajouter en plus"
@@ -1411,12 +1406,15 @@ though, and has since been slightly modified)-->
                 <marker>
                     <token>ma</token>
                 </marker>
-                <phraseref idref="V_NON_NR"/>
+                <token postag="V.*" postag_regexp="yes">
+                  <exception postag="[NR].*|V ppa [fe] s" postag_regexp="yes"/>
+                </token>
             </pattern>
             <message>Voulez-vous écrire <suggestion>m’a</suggestion>?</message>
             <example type="incorrect">Il <marker>ma</marker> répondu.</example>
             <example type="correct">Il <marker>m’a</marker> répondu.</example>
             <example type="correct">C’est ma voiture.</example>
+            <example type="correct">C'est ma préférée.</example>
         </rule>
         <!-- mis en default="off" car cette règle génère des fausses alertes sur toutes les phrases avec un attribut du sujet, etc. -->
         <rule default="off" id="SONT_SON" name="SONT au lieu de SON">
@@ -1527,7 +1525,7 @@ though, and has since been slightly modified)-->
                 </marker>
                 <token postag="V.*" postag_regexp="yes">
                     <exception postag="V.* ppa .*" postag_regexp="yes"/>
-                    <exception regexp="yes">envie|confiance|force</exception>
+                    <exception regexp="yes">envie|confiance|force|recours</exception>
                 </token>
             </pattern>
             <message>Voulez-vous écrire <suggestion>on</suggestion> ?</message>
@@ -1535,6 +1533,7 @@ though, and has since been slightly modified)-->
             <example type="incorrect"><marker>Ont</marker> a tendance à ralentir.</example>
             <example type="correct">Ceux qui ont envie de voir le film</example>
             <example type="correct">Les décrets ont force de loi.</example>
+            <example type="correct">Les enfants ont recours au suicide.</example>
         </rule>
         <rule id="SEPTIQUE" name="septique au lieu de sceptique">
             <pattern>
@@ -2164,6 +2163,16 @@ though, and has since been slightly modified)-->
             <url>http://grammaire.reverso.net/2_1_97_tache_tache.shtml</url>
             <example type="incorrect">Une <marker>tâche</marker> sur ma chemise.</example>
             <example type="correct">Une <marker>tache</marker> sur ma chemise.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token>à</token>
+              <token>la</token>
+              <marker><token>tache</token></marker>
+            </pattern>
+            <message>Voulez-vous écrire <suggestion>tâche</suggestion> ?</message>
+            <example type="incorrect">Il s'épuise à la <marker>tache</marker>.</example>
+            <example type="correct">Il s'épuise à la tâche.</example>
           </rule>
         </rulegroup>
         <rulegroup id="CENSE_SENSE" name="sensé et censé">
