@@ -52,6 +52,7 @@ $Id$
     <!ENTITY subanfang "Bitte prüfen Sie, ob ">
     <!ENTITY subende " hier als Substantiv gebraucht wird und daher großgeschrieben werden muss.">
     <!ENTITY advende " hier als Adverb gebraucht wird und daher kleingeschrieben werden muss.">
+    <!ENTITY adjende " hier als Adjektiv gebraucht wird und daher kleingeschrieben werden muss.">
     <!ENTITY inwend "In der Wendung ">
     <!ENTITY getrennt "Bitte prüfen Sie die Getrenntschreibung">
     <!ENTITY umgangsspr " ist eine umgangssprachliche Ausdrucksweise.">
@@ -12888,6 +12889,21 @@ $Id$
             <message>&subanfang;<suggestion>Recht</suggestion>&subende;</message>
             <example type="incorrect" correction="Recht">Umstritten ist jedoch die Frage, ob sich aus dem <marker>recht</marker> auf Leben auch ein Recht auf den Tod ergibt.</example>
             <example type="correct">Ein <marker>Recht</marker> auf einen gnädigen Tod.</example>
+        </rule>
+        <rule id="RECHT_ADJ" name="Groß-/Kleinschreibung: 'gehe ich Recht (recht) in der Annahme' etc.">
+            <pattern case_sensitive="yes">
+                <token inflected="yes" regexp="yes" skip="1">[gG]ehen</token>
+                <marker>
+                    <token>Recht</token>
+                </marker>
+                <token>in</token>
+                <token>der</token>
+            </pattern>
+            <message>&subanfang;<suggestion><match no="2" case_conversion="startlower"/></suggestion>&adjende;</message>
+            <url>http://www.duden.de/rechtschreibung/recht</url>
+            <example type="incorrect" correction="recht">Gehe ich <marker>Recht</marker> in der Annahme, dass sie schlau ist?</example>
+            <example type="incorrect" correction="recht">Ich gehe <marker>Recht</marker> in der Annahme, dass sie schlau ist.</example>
+            <example type="correct">Gehe ich <marker>recht</marker> in der Annahme, dass sie schlau ist?</example>
         </rule>
         <rule id="LAUFE_SUBST" name="Groß-/Kleinschreibung: 'im laufe (Laufe) des Tages'">
             <pattern case_sensitive="yes">
