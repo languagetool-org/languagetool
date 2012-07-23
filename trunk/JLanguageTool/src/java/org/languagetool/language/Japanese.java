@@ -31,7 +31,6 @@ import org.languagetool.tagging.ja.JapaneseTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.Tokenizer;
-import org.languagetool.tokenizers.ja.JapaneseSentenceTokenizer;
 import org.languagetool.tokenizers.ja.JapaneseWordTokenizer;
 
 public class Japanese extends Language {
