@@ -3,8 +3,8 @@
 <header segmentsubflows="yes" cascade="yes">
 <formathandle type="start" include="no"></formathandle>
 <formathandle type="end" include="yes"></formathandle>
-<formathandle type="isolated" include="yes"></formathandle>
-<okpsrx:options oneSegmentIncludesAll="no" trimLeadingWhitespaces="no" trimTrailingWhitespaces="no"></okpsrx:options>
+<formathandle type="isolated" include="no"></formathandle>
+<okpsrx:options oneSegmentIncludesAll="no" trimLeadingWhitespaces="no" trimTrailingWhitespaces="no" useJavaRegex="no"></okpsrx:options>
 <okpsrx:sample language="pl_two" useMappedRules="no">Ingevolge paragraaf 4.7.4. van het SGR is ...
 Jestem zły, bo... (wpisz własną odpowiedź) drażni mnie krowa.
 Kierownictwo toleruje pracę z konieczności ("Skąd wezmę innego pracownika?") i jest zadowolone. Józek D. (45 l.) T.Love
@@ -25,7 +25,6 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 </header>
 <body>
 <languagerules>
-
 <languagerule languagerulename="Greek">
 <!--κ.λπ. - και λοιπά-->
 <rule break="no">
@@ -55,7 +54,6 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <afterbreak>\p{Lu}\p{Ll}</afterbreak>
 </rule>
 </languagerule>
-
 <languagerule languagerulename="Polish">
 <rule break="no">
 <beforebreak>\badw\.\s</beforebreak>
@@ -4697,7 +4695,6 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <afterbreak>\p{Lu}\p{Ll}</afterbreak>
 </rule>
 </languagerule>
-
 <languagerule languagerulename="Ukrainian">
 <rule break="no">
 <beforebreak>\b\d+\.\s</beforebreak>
@@ -4837,7 +4834,6 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <afterbreak>\p{Lu}\p{Ll}</afterbreak>
 </rule>
 </languagerule>
-
 <languagerule languagerulename="Belarusian">
 <rule break="no">
 <beforebreak>\b\d+\.\s</beforebreak>
@@ -4925,7 +4921,6 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <afterbreak>\p{Lu}\p{Ll}</afterbreak>
 </rule>
 </languagerule>
-
 <languagerule languagerulename="Galician">
 <!-- s. XIX; s.IX; sec. XX; séc. XX -->
 <rule break="no">
@@ -5028,7 +5023,6 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <beforebreak>(…|\.\.\.)\s</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
-
 <rule break="yes">
 <beforebreak>[\.…][\u00BB\u2019\u201D\u203A"'\u0002]*\s</beforebreak>
 <afterbreak></afterbreak>
@@ -5042,8 +5036,40 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <afterbreak>['"«¡¿\p{Ps}\p{Pi}]?\p{Lu}\p{Ll}*</afterbreak>
 </rule>
 </languagerule>
-
-
+<languagerule languagerulename="Japanese">
+<rule break="no">
+<beforebreak>[:]+[\p{Pe}\p{Pf}\p{Po}"-[\u002C\u003A\u003B\u055D\u060C\u061B\u0703\u0704\u0705\u0706\u0707\u0708\u0709\u07F8\u1363\u1364\u1365\u1366\u1802\u1804\u1808\u204F\u205D\u3001\uA60D\uFE10\uFE11\uFE13\uFE14\uFE50\uFE51\uFE54\uFE55\uFF0C\uFF1A\uFF1B\uFF64]]*</beforebreak>
+<afterbreak>\s+\P{Lu}</afterbreak>
+</rule>
+<rule break="yes">
+<beforebreak>[:]+[\p{Pe}\p{Pf}\p{Po}"-[\u002C\u003A\u003B\u055D\u060C\u061B\u0703\u0704\u0705\u0706\u0707\u0708\u0709\u07F8\u1363\u1364\u1365\u1366\u1802\u1804\u1808\u204F\u205D\u3001\uA60D\uFE10\uFE11\uFE13\uFE14\uFE50\uFE51\uFE54\uFE55\uFF0C\uFF1A\uFF1B\uFF64]]*</beforebreak>
+<afterbreak>\s</afterbreak>
+</rule>
+<rule break="yes">
+<beforebreak>[。．！？…]+</beforebreak>
+<afterbreak>.</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\.\.\.</beforebreak>
+<afterbreak>\s+\P{Lu}</afterbreak>
+</rule>
+<rule break="yes">
+<beforebreak>^\s*\p{Nd}+[\p{Nd}\.\)\]]+\s+</beforebreak>
+<afterbreak>\p{Lu}</afterbreak>
+</rule>
+<rule break="yes">
+<beforebreak>[\.\?\!]+</beforebreak>
+<afterbreak>\s</afterbreak>
+</rule>
+<rule break="yes">
+<beforebreak>[\.!?…][\u00BB\u2019\u201D\u203A"'\p{Pe}\u0002]*\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="yes">
+<beforebreak>\s\p{L}[\.!?…]\s</beforebreak>
+<afterbreak>\p{Lu}\p{Ll}</afterbreak>
+</rule>
+</languagerule>
 </languagerules>
 <maprules>
 <languagemap languagepattern="[a-z]{2}_one" languagerulename="ByLineBreak"></languagemap>
@@ -5065,6 +5091,7 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <languagemap languagepattern="(UK|uk).*" languagerulename="Ukrainian"></languagemap>
 <languagemap languagepattern="(BE|be).*" languagerulename="Belarusian"></languagemap>
 <languagemap languagepattern="(GL|gl).*" languagerulename="Galician"></languagemap>
+<languagemap languagepattern="(JA|ja).*" languagerulename="Japanese"></languagemap>
 <languagemap languagepattern=".*" languagerulename="Default"></languagemap>
 </maprules>
 </body>

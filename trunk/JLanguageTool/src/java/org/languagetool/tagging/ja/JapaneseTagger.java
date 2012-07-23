@@ -57,11 +57,11 @@ public class JapaneseTagger implements Tagger {
   }
 
   private AnalyzedToken asAnalyzedToken(final String word) {
-    if (word.indexOf("/") < 0) {
+    if (word.indexOf(" ") < 0) {
       return new AnalyzedToken(" ", null, null);
     }
-    String[] parts = word.split("/");
-    return new AnalyzedToken(parts[0], parts[1], null);
+    String[] parts = word.split(" ");
+    return new AnalyzedToken(parts[0], parts[1], parts[2]);
   }
 
   public static final String arrayToString(byte[] bytes) {

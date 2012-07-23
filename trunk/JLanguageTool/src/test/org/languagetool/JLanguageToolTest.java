@@ -185,6 +185,14 @@ public class JLanguageToolTest extends TestCase {
     assertEquals(1, tool.check("Kupil je npr. jajca, moko in mleko.").size());
   }
   
+
+  public void testJapanese() throws IOException {
+	final JLanguageTool tool = new JLanguageTool(Language.JAPANESE);
+	tool.activateDefaultPatternRules();
+	assertEquals(0, tool.check("エラーを含まないテスト文です。").size());
+	assertEquals(1, tool.check("エラーお含むテスト文です。").size());
+  }
+  
   public void testCountLines() {
     assertEquals(0, JLanguageTool.countLineBreaks(""));
     assertEquals(1, JLanguageTool.countLineBreaks("Hallo,\nnächste Zeile"));

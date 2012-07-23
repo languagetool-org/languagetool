@@ -29,7 +29,7 @@ import org.languagetool.JLanguageTool;
 
 public class LanguageIdentifierTools {
 
-  public static final String[] ADDITIONAL_LANGUAGES = {"be", "ca", "eo", "gl", "ro", "sk", "sl", "uk", "ast", "tl"};
+  public static final String[] ADDITIONAL_LANGUAGES = {"be", "ca", "eo", "gl", "ro", "sk", "sl", "uk", "ast", "tl", "ja"};
 
   public static void addLtProfiles() {
     for (String language : ADDITIONAL_LANGUAGES) {

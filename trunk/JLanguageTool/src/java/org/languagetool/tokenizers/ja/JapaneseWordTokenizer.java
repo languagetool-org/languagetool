@@ -41,6 +41,7 @@ public class JapaneseWordTokenizer implements Tokenizer {
 	  init();
 	  final ArrayList<String> ret = new ArrayList<String>();
 	  List<Token> tokens = new ArrayList<Token>();
+	  String basicForm;
 	  try {
 		  stringtagger.analyze(text, tokens);
 	  } catch (Exception e) {
@@ -48,7 +49,12 @@ public class JapaneseWordTokenizer implements Tokenizer {
 	  }
 	  
 	  for(Token token : tokens){
-		  ret.add(token.getSurface()+"/"+token.getMorpheme().getPartOfSpeech());
+		  if(token.getMorpheme().getBasicForm().equalsIgnoreCase("*")){
+			  basicForm = token.getSurface();
+		  } else {
+			  basicForm = token.getMorpheme().getBasicForm();
+		  }
+		  ret.add(token.getSurface()+" "+token.getMorpheme().getPartOfSpeech()+" "+basicForm);
 	  }
 	  return ret;
   }

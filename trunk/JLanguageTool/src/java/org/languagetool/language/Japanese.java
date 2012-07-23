@@ -28,6 +28,7 @@ import org.languagetool.rules.Rule;
 import org.languagetool.rules.WhitespaceRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.ja.JapaneseTagger;
+import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.ja.JapaneseSentenceTokenizer;
@@ -92,9 +93,11 @@ public class Japanese extends Language {
 	@Override
 	public final SentenceTokenizer getSentenceTokenizer() {
 		if (sentenceTokenizer == null) {
-			sentenceTokenizer = new JapaneseSentenceTokenizer();
+			//sentenceTokenizer = new JapaneseSentenceTokenizer();
+			sentenceTokenizer = new SRXSentenceTokenizer(this);
+
 		}
 		return sentenceTokenizer;
 	}
-	
+
 }
