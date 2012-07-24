@@ -20,6 +20,513 @@
 	<!-- 拼写： 词语错误 -->
 	<!-- ====================================================================== -->
 	<category name="词语错误">
+		<rulegroup id="HUA1_HAU2" name="猾/滑">
+			<rule>
+				<pattern>
+					<marker>
+						<token postag="g">猾</token>
+					</marker>
+					<token regexp="yes" postag="j|a|ng|nr" postag_regexp="yes">冰|步|车|道|动|竿|稽|梯|行
+					</token>
+				</pattern>
+				<message>
+					您的意思是“
+					<suggestion>滑</suggestion>
+					\2”吗？
+				</message>
+				<short>词语错误</short>
+				<example type="incorrect" correction="滑">
+					这个丑角的表演非常
+					<marker>猾</marker>
+					稽。
+				</example>
+				<example type="correct">这个丑角的表演非常滑稽。</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="JI1_JI2" name="藉/籍">
+			<rule>
+				<pattern>
+					<token postag="v|vg|n|ng" regexp="yes" postag_regexp="yes">枕|蕴|慰|狼
+					</token>
+					<marker>
+						<token>籍</token>
+					</marker>
+				</pattern>
+				<message>
+					您的意思是“\1
+					<suggestion>藉</suggestion>
+					”吗？
+				</message>
+				<short>词语错误</short>
+				<example type="incorrect">
+					除了漫漫游荡和不染利禄，你说还有什么足以慰
+					<marker>籍</marker>
+					灵魂？
+				</example>
+				<example type="correct">除了漫漫游荡和不染利禄，你说还有什么足以慰藉灵魂？</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token postag="n|ng|v" regexp="yes" postag_regexp="yes">书|典|户|国|学
+					</token>
+					<marker>
+						<token>藉</token>
+					</marker>
+				</pattern>
+				<message>
+					您的意思是“\1
+					<suggestion>籍</suggestion>
+					”吗？
+				</message>
+				<short>词语错误</short>
+				<example type="incorrect">
+					西藏不断加强对宗教典
+					<marker>藉</marker>
+					的收集、整理、出版和研究工作。
+				</example>
+				<example type="correct">西藏不断加强对宗教典籍的收集、整理、出版和研究工作。</example>
+			</rule>
+			<rule>
+				<pattern>
+					<marker>
+						<token>藉</token>
+					</marker>
+					<token postag="nr|v|vg" regexp="yes" postag_regexp="yes">贯|没
+					</token>
+				</pattern>
+				<message>
+					您的意思是“
+					<suggestion>籍</suggestion>
+					\2”吗？
+				</message>
+				<short>词语错误</short>
+				<example type="incorrect">
+					在中国人填写的表格中，有一项是
+					<marker>藉</marker>
+					贯，你知道是什么意思吗？
+				</example>
+				<example type="correct">在中国人填写的表格中，有一项是籍贯，你知道是什么意思吗？</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="JING1_JING2" name="竟/竞">
+			<rule>
+				<pattern>
+					<token>毕</token>
+					<marker>
+						<token>竞</token>
+					</marker>
+				</pattern>
+				<message>
+					您的意思是“
+					<suggestion>毕</suggestion>
+					竟”吗？
+				</message>
+				<short>词语错误</short>
+				<example type="incorrect">
+					不要责备他，他毕
+					<marker>竞</marker>
+					是个新手。
+				</example>
+				<example type="correct">这种事情毕竟属于个别情况。</example>
+			</rule>
+			<rule>
+				<pattern>
+					<marker>
+						<token>竞</token>
+					</marker>
+					<token postag="v|ng|c" regexp="yes" postag_regexp="yes">至|日|而
+					</token>
+				</pattern>
+				<message>
+					您的意思是“
+					<suggestion>竟</suggestion>
+					\2”吗？
+				</message>
+				<short>词语错误</short>
+				<example type="incorrect">
+					越发增添了心中的忧虑，一时
+					<marker>竞</marker>
+					至忧心如焚。
+				</example>
+				<example type="correct">在柜台上招呼主顾的时候，他这种矛盾的心理有时竟至几乎使他发晕。</example>
+			</rule>
+			<rule>
+				<pattern>
+					<marker>
+						<token>竟</token>
+					</marker>
+					<token postag="v|ng|nr|c" regexp="yes" postag_regexp="yes">渡|技|赛|选|争|走
+					</token>
+				</pattern>
+				<message>
+					您的意思是“
+					<suggestion>竞</suggestion>
+					\2”吗？
+				</message>
+				<short>词语错误</short>
+				<example type="incorrect">
+					运动员在赛跑前进入了
+					<marker>竟</marker>
+					技状态。
+				</example>
+				<example type="correct">全队经过六个月的训练竞技状态极佳。</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="JI11_JI2" name="既/即">
+			<rule>
+				<pattern>
+					<marker>
+						<token>即</token>
+					</marker>
+					<token postag="c|v|p|r" regexp="yes" postag_regexp="yes">定|而|是|往|有|然
+					</token>
+				</pattern>
+				<message>
+					您的意思是“
+					<suggestion>既</suggestion>
+					\2”吗？
+				</message>
+				<short>词语错误</short>
+				<example type="incorrect">
+					人们应学会以目标为指导和为达到
+					<marker>即</marker>
+					定目标而工作。
+				</example>
+				<example type="correct">我们的部队撤回到既定阵地。</example>
+			</rule>
+			<rule>
+				<pattern>
+					<marker>
+						<token>既</token>
+					</marker>
+					<token postag="v|nr|q|p|j|d|ng" regexp="yes" postag_regexp="yes">
+						日|刻|景|便|将|使|若|位|兴|行</token>
+				</pattern>
+				<message>
+					您的意思是“
+					<suggestion>即</suggestion>
+					\2”吗？
+				</message>
+				<short>词语错误</short>
+				<example type="incorrect">
+					<marker>既</marker>
+					便人口保持稳定,消费亦大幅增加。
+				</example>
+				<example type="correct">即便是最狡猾的罪犯也会留下一些做案的痕迹。</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token postag="p|v" regexp="yes" postag_regexp="yes">在|立</token>
+					<marker>
+						<token>既</token>
+					</marker>
+				</pattern>
+				<message>
+					您的意思是“\1
+					<suggestion>即</suggestion>
+					”吗？
+				</message>
+				<short>词语错误</short>
+				<example type="incorrect">
+					大选在
+					<marker>既</marker>
+					, 主要政党间的论战愈演愈烈。
+				</example>
+				<example type="correct">选举在即，各界出花招以增加曝光率实在不足为奇。</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="JU1_JU2" name="具/俱">
+			<rule>
+				<pattern>
+					<marker>
+						<token>俱</token>
+					</marker>
+					<token postag="v|q|n|ag" regexp="yes" postag_regexp="yes">备|有|结|名|体
+					</token>
+				</pattern>
+				<message>
+					您的意思是“
+					<suggestion>具</suggestion>
+					\2”吗？
+				</message>
+				<short>词语错误</short>
+				<example type="incorrect">
+					他被命令
+					<marker>俱</marker>
+					结保证维持治安。
+				</example>
+				<example type="correct">他想我一定会按照法律所规定的办法做去，他暂时叫他具结。</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token>家</token>
+					<marker>
+						<token>俱</token>
+					</marker>
+				</pattern>
+				<message>
+					您的意思是“\1
+					<suggestion>具</suggestion>
+					”吗？
+				</message>
+				<short>词语错误</short>
+				<example type="incorrect">
+					我愿意你把家
+					<marker>俱</marker>
+					拿走四分之三。
+				</example>
+				<example type="correct">他无法赎回典当的家具。</example>
+			</rule>
+			<rule>
+				<pattern>
+					<marker>
+						<token>具</token>
+					</marker>
+					<token postag="v|a" regexp="yes" postag_regexp="yes">全|兴</token>
+				</pattern>
+				<message>
+					您的意思是“
+					<suggestion>俱</suggestion>
+					\2”吗？
+				</message>
+				<short>词语错误</short>
+				<example type="incorrect">
+					中国烹饪色、香、味
+					<marker>具</marker>
+					全。
+				</example>
+				<example type="correct">背上了那个背囊，如今他就样样俱全了。</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="JUN1_JUN2_JUN3_JUN4" name="俊/峻/竣/骏">
+			<rule>
+				<pattern>
+					<marker>
+						<token regexp="yes">峻|竣|骏</token>
+					</marker>
+					<token postag="nr|a|ag" regexp="yes" postag_regexp="yes">杰|丽|美|秀|雅|逸|伟|俏
+					</token>
+				</pattern>
+				<message>
+					您的意思是“
+					<suggestion>俊</suggestion>
+					\2”吗？
+				</message>
+				<short>词语错误</short>
+				<example type="incorrect">
+					她已经长成一个
+					<marker>竣</marker>
+					俏的女郎。
+				</example>
+				<example type="correct">她迷恋上他那俊俏的外貌了。</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token postag="d|j" regexp="yes" postag_regexp="yes">英|才</token>
+					<marker>
+						<token regexp="yes">峻|竣</token>
+					</marker>
+				</pattern>
+				<message>
+					您的意思是“\1
+					<suggestion>俊</suggestion>
+					”吗？
+				</message>
+				<short>词语错误</short>
+				<example type="incorrect">
+					渴求各方才
+					<marker>峻</marker>
+					加入我们的行列，共同打造学校的未来。
+				</example>
+				<example type="correct">众多青年才俊放弃稳定的工作而加入网络竞赛。</example>
+			</rule>
+			<rule>
+				<pattern>
+					<marker>
+						<token regexp="yes">俊|竣|骏</token>
+					</marker>
+					<token postag="v|n|d|ag" regexp="yes" postag_regexp="yes">拔|笔|刻|直|峭
+					</token>
+				</pattern>
+				<message>
+					您的意思是“
+					<suggestion>峻</suggestion>
+					\2”吗？
+				</message>
+				<short>词语错误</short>
+				<example type="incorrect">
+					泰山雄伟壮观，
+					<marker>竣</marker>
+					拔突兀，最高峰玉皇顶为峡谷和险峰环绕。
+				</example>
+				<example type="correct">古准平原化地形被不规则的峻峭的山谷所切割。</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token postag="a" regexp="yes">险|高</token>
+					<marker>
+						<token regexp="yes">骏|竣|俊</token>
+					</marker>
+				</pattern>
+				<message>
+					您的意思是“\1
+					<suggestion>峻</suggestion>
+					”吗？
+				</message>
+				<short>词语错误</short>
+				<example type="incorrect">
+					景色的险
+					<marker>骏</marker>
+					与陡峭给我们留下了深刻印象。
+				</example>
+				<example type="correct">我们从险峻的高处眺望铺展在下面的城镇。</example>
+			</rule>
+			<rule>
+				<pattern>
+					<marker>
+						<token regexp="yes">峻|骏|俊</token>
+					</marker>
+					<token>工</token>
+				</pattern>
+				<message>
+					您的意思是“
+					<suggestion>竣</suggestion>
+					\2”吗？
+				</message>
+				<short>词语错误</short>
+				<example type="incorrect">
+					他天天孜孜不倦地埋头苦干，直到工程
+					<marker>俊</marker>
+					工为止。
+				</example>
+				<example type="correct">这幢房子是5个月前竣工的。</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token postag="v" regexp="yes">完|告</token>
+					<marker>
+						<token regexp="yes">峻|骏|俊</token>
+					</marker>
+				</pattern>
+				<message>
+					您的意思是“\1
+					<suggestion>竣</suggestion>
+					”吗？
+				</message>
+				<short>词语错误</short>
+				<example type="incorrect">
+					港岛南部的主要污水收集工程已经完
+					<marker>骏</marker>
+					。
+				</example>
+				<example type="correct">公元803年，在韦皋的主持下，千万个匠师经过15年的辛勤劳动，使建佛工程终于告竣。
+				</example>
+			</rule>
+			<rule>
+				<pattern>
+					<marker>
+						<token regexp="yes">峻|竣</token>
+					</marker>
+					<token>马</token>
+				</pattern>
+				<message>
+					您的意思是“
+					<suggestion>骏</suggestion>
+					\2”吗？
+				</message>
+				<short>词语错误</short>
+				<example type="incorrect">
+					那是一匹
+					<marker>竣</marker>
+					马，我一时难以找到比它更好的。
+				</example>
+				<example type="correct">夏威夷最肥美的芒果，最鲜艳的木槿和最纯种的骏马都在海那卡伊。</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="LAN1_LAN2_LAN3" name="蓝/兰/篮">
+			<rule>
+				<pattern>
+					<marker>
+						<token regexp="yes">兰|篮</token>
+					</marker>
+					<token postag="n" regexp="yes">桥|天|田|玉|图|皮|本</token>
+				</pattern>
+				<message>
+					您的意思是"
+					<suggestion>蓝</suggestion>
+					\2"？
+				</message>
+				<short>词语错误</short>
+				<example type="incorrect" correction="蓝">
+					她把她一家人的经历作为她小说的
+					<marker>篮</marker>
+					本。
+				</example>
+				<example type="correct">美国的教育制度原以英国和德国为蓝本。</example>
+			</rule>
+			<rule>
+				<pattern>
+					<marker>
+						<token regexp="yes">蓝|篮</token>
+					</marker>
+					<token postag="v|vg|n" regexp="yes" postag_regexp="yes">若|言|谱|章
+					</token>
+				</pattern>
+				<message>
+					您的意思是"
+					<suggestion>兰</suggestion>
+					\2"？
+				</message>
+				<short>词语错误</short>
+				<example type="incorrect" correction="兰">
+					<marker>蓝</marker>
+					言断金。
+				</example>
+				<example type="correct">兰章忽有赠,持用慰所思。</example>
+			</rule>
+			<rule>
+				<pattern>
+					<marker>
+						<token regexp="yes">兰|蓝</token>
+					</marker>
+					<token postag="n|ng" regexp="yes" postag_regexp="yes">筐|球|子</token>
+				</pattern>
+				<message>
+					您的意思是"
+					<suggestion>篮</suggestion>
+					\2"？
+				</message>
+				<short>词语错误</short>
+				<example type="incorrect" correction="篮">
+					妇女们拔了草，用
+					<marker>蓝</marker>
+					筐子挎回家去喂羊。
+				</example>
+				<example type="correct">场地（或球场）的两端各有一个篮筐。</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token postag="v|n|nr|ng" regexp="yes" postag_regexp="yes">投|网|竹|藤|花
+					</token>
+					<marker>
+						<token regexp="yes">兰|蓝</token>
+					</marker>
+				</pattern>
+				<message>
+					您的意思是"\1
+					<suggestion>篮</suggestion>
+					"？
+				</message>
+				<short>词语错误</short>
+				<example type="incorrect" correction="篮">
+					这只竹
+					<marker>蓝</marker>
+					是我自己编的。
+				</example>
+				<example type="correct">他们把竹篮背在身后，或夹在臂下。</example>
+			</rule>
+		</rulegroup>
+
 		<rulegroup id="REN1_REN2" name="人/仁">
 			<rule>
 				<pattern>
