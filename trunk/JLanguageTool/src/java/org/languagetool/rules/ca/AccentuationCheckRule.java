@@ -58,7 +58,7 @@ public class AccentuationCheckRule extends CatalanRule {
   private static final Pattern ARTICLE_EL_FS = Pattern.compile("la|l'|La|L'");
   private static final Pattern ARTICLE_EL_MP = Pattern.compile("els|Els");
   private static final Pattern ARTICLE_EL_FP = Pattern.compile("les|Les");
-//  private static final Pattern DETERMINANT = Pattern.compile("D[^R].*");
+  private static final Pattern DETERMINANT = Pattern.compile("D[^R].*");
   private static final Pattern DETERMINANT_MS = Pattern.compile("D[^R].[MC][SN].*");
   private static final Pattern DETERMINANT_FS = Pattern.compile("D[^R].[FC][SN].*");
   private static final Pattern DETERMINANT_MP = Pattern.compile("D[^R].[MC][PN].*");
@@ -72,7 +72,7 @@ public class AccentuationCheckRule extends CatalanRule {
   private static final Pattern ADJECTIU_MP = Pattern.compile("AQ.[MC][PN].*|V.P..PM|PX.MP.*");
   private static final Pattern ADJECTIU_FP = Pattern.compile("AQ.[FC][PN].*|V.P..PF|PX.FP.*");
   private static final Pattern INFINITIU = Pattern.compile("V.N.*");
-  private static final Pattern VERB_CONJUGAT = Pattern.compile("V.[^NGP].*");
+  private static final Pattern VERB_CONJUGAT = Pattern.compile("V.[^NGP].*|_GV_");
   private static final Pattern NOT_IN_PREV_TOKEN = Pattern.compile("VA.*|PP.*|P0.*|VSP.*");
   private static final Pattern BEFORE_ADJECTIVE_MS = Pattern.compile("SPS00|D[^R].[MC][SN].*|V.[^NGP].*|PX.*");
   private static final Pattern BEFORE_ADJECTIVE_FS = Pattern.compile("SPS00|D[^R].[FC][SN].*|V.[^NGP].*|PX.*");
@@ -146,8 +146,8 @@ public class AccentuationCheckRule extends CatalanRule {
       // verb without accent -> noun with accent   
       if (isRelevantWord)
       {
-      	//amb renuncies
-        if (tokens[i-1].hasPosTag("SPS00") && !matchPostagRegexp(tokens[i],INFINITIU) )
+      	//amb renuncies DETERMINANT
+        if (tokens[i-1].hasPosTag("SPS00") && !matchPostagRegexp(tokens[i-1],DETERMINANT) && !matchPostagRegexp(tokens[i],INFINITIU) )
       	{
       		replacement = relevantWords.get(token).getToken();
       	}
@@ -157,13 +157,23 @@ public class AccentuationCheckRule extends CatalanRule {
       	           && !token.equals("cantar") )
       	        ||(matchPostagRegexp(tokens[i-1],DETERMINANT_MP) && matchPostagRegexp(relevantWords.get(token),NOM_MP))
       	        ||(matchPostagRegexp(tokens[i-1],DETERMINANT_FS) && matchPostagRegexp(relevantWords.get(token),NOM_FS)
-      	           && !token.equals("venia") && !token.equals("tenia") && !token.equals("continua") && !token.equals("genera") )
+      	           && !token.equals("venia") && !token.equals("tenia") && !token.equals("continua") && !token.equals("genera") && !token.equals("faria"))
       	        ||(matchPostagRegexp(tokens[i-1],DETERMINANT_FP) && matchPostagRegexp(relevantWords.get(token),NOM_FP)) ) )
       	{
       		replacement = relevantWords.get(token).getToken();
       	}
+      	//fumaré una faria (correct: fària)
+      	else if ( i>2 && matchPostagRegexp(tokens[i-2],VERB_CONJUGAT) &&
+      	         ((matchPostagRegexp(tokens[i-1],DETERMINANT_MS) && matchPostagRegexp(relevantWords.get(token),NOM_MS))
+      	        ||(matchPostagRegexp(tokens[i-1],DETERMINANT_MP) && matchPostagRegexp(relevantWords.get(token),NOM_MP))
+      	        ||(matchPostagRegexp(tokens[i-1],DETERMINANT_FS) && matchPostagRegexp(relevantWords.get(token),NOM_FS))
+      	        ||(matchPostagRegexp(tokens[i-1],DETERMINANT_FP) && matchPostagRegexp(relevantWords.get(token),NOM_FP)) ) )
+      	{
+      		replacement = relevantWords.get(token).getToken();
+      	}    
       	//circumstancies d'un altre caire
       	else if  ( !token.equals("venia") && !token.equals("venies") && !token.equals("tenia") && !token.equals("tenies")
+      			   && !token.equals("faria") && !token.equals("faries")
       	           && !token.equals("continua") && !token.equals("continues") && !token.equals("cantar")
       	           && mPreposicioDE.matches() && !matchPostagRegexp(tokens[i-1],NOT_IN_PREV_TOKEN)
       	           && (i<tokens.length-2) && !matchPostagRegexp(tokens[i+2],INFINITIU)
@@ -173,6 +183,7 @@ public class AccentuationCheckRule extends CatalanRule {
       	}
       	//la renuncia del president.
       	else if ( !token.equals("venia") && !token.equals("venies") && !token.equals("tenia") && !token.equals("tenies")
+      			   && !token.equals("faria") && !token.equals("faries")
       	           && !token.equals("continua") && !token.equals("continues") && !token.equals("cantar")
       	           && !token.equals("diferencia") && !token.equals("diferencies") && !token.equals("distancia") && !token.equals("distancies")
       	         &&(  ( mArticleELMS.matches() && matchPostagRegexp(relevantWords.get(token),NOM_MS) )
@@ -188,6 +199,7 @@ public class AccentuationCheckRule extends CatalanRule {
       	//circumstancies extraordinàries
       	else if ( !token.equals("pronuncia") && !token.equals("pronuncies") && !token.equals("venia") && !token.equals("venies")
       	          && !token.equals("tenia") && !token.equals("tenies") && !token.equals("continua") && !token.equals("continues")
+      	          && !token.equals("faria") && !token.equals("faries")
       	          && !token.equals("genera")
       	          && (i<tokens.length-1) &&
       	          (
@@ -204,7 +216,7 @@ public class AccentuationCheckRule extends CatalanRule {
       	else if (
       	            (matchPostagRegexp(relevantWords.get(token),NOM_MS) && matchPostagRegexp(tokens[i-1],ADJECTIU_MS))
       	            || (matchPostagRegexp(relevantWords.get(token),NOM_FS) && matchPostagRegexp(tokens[i-1],ADJECTIU_FS) 
-      	            		&& !token.equals("venia") && !token.equals("tenia") && !token.equals("continua") && !token.equals("genera") )
+      	            		&& !token.equals("venia") && !token.equals("tenia") && !token.equals("continua") && !token.equals("genera") && !token.equals("faria"))
       	            || (matchPostagRegexp(relevantWords.get(token),NOM_MP) && matchPostagRegexp(tokens[i-1],ADJECTIU_MP))
       	            || (matchPostagRegexp(relevantWords.get(token),NOM_FP) && matchPostagRegexp(tokens[i-1],ADJECTIU_FP))
       	          )

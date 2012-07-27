@@ -43,6 +43,7 @@ public class AccentuationCheckRuleTest extends TestCase {
   public void testRule() throws IOException {
 
     // correct sentences:
+	assertCorrect("Cap faria una cosa així.");
 	assertCorrect("El cos genera suficient pressió interna.");
 	assertCorrect("Les seues contràries.");
     assertCorrect("Això és una frase de prova.");
@@ -69,6 +70,8 @@ public class AccentuationCheckRuleTest extends TestCase {
     assertCorrect("La magnífica conservació del palau.");
 
     // errors:
+    assertIncorrect("No em fumaré cap faria com feia abans.");
+    assertIncorrect("M'he fumat una faria.");
     assertIncorrect("Les seues contraries.");
     assertIncorrect("Amb renuncies i esforç.");
     assertIncorrect("La renuncia del president.");
