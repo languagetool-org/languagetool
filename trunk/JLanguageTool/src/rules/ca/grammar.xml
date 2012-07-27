@@ -1983,6 +1983,39 @@ $Id$
         </rule>
     </category>
     <category name="Preposicions">
+        <rulegroup id="DACI_A" name="d'ací a">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>d'</token>
+                        <token regexp="yes">ací|aquí</token>
+                    </marker>
+                    <token postag="D[IN].*" postag_regexp="yes"/>
+                    <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">segon|minut|hora|dia|setmana|mes|(tri|quadri|se)mestre|any|lustre|dècada|segle|mil·leni|moment|instant|temps</token>
+                </pattern>
+                <message>Expressió incorrecta <suggestion>d'<match no="2"/> a</suggestion>.</message>
+                <short>Expressió incorrecta.</short>
+                <example type="incorrect"><marker>d'ací</marker> algun temps.</example>
+                <example type="incorrect"><marker>d'ací</marker> tres mesos.</example>
+                <example type="incorrect"><marker>d'ací</marker> vint-i-quatre hores.</example>
+                <example type="correct">D'ací a algun temps.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>d'</token>
+                        <token regexp="yes">ací|aquí</token>
+                    </marker>
+                    <token postag="DN.*" postag_regexp="yes" skip="-1"><exception postag="DN.*|NC.*|_GN.*|SENT_END" scope="next" postag_regexp="yes" negate_pos="yes" /></token>
+                    <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">segon|minut|hora|dia|setmana|mes|(tri|quadri|se)mestre|any|lustre|dècada|segle|mil·leni|moment|instant|temps</token>
+                </pattern>
+                <message>Expressió incorrecta <suggestion>d'<match no="2"/> a</suggestion>.</message>
+                <short>Expressió incorrecta.</short>
+                <example type="incorrect"><marker>d'ací</marker> mil tres-cents anys.</example>
+                <example type="incorrect"><marker>d'ací</marker> vint-i-tres mil tres-cents anys.</example>
+                <example type="correct">D'ací a mil tres-cents anys.</example>
+            </rule> 
+        </rulegroup>    
         <rulegroup id="MALGRAT" name="malgrat (que)">
             <rule>
                 <pattern>
@@ -2305,7 +2338,6 @@ $Id$
                 <short>Confusió.</short>
                 <example type="incorrect">Van pujar <marker>d'alt</marker> la terrassa.</example>
                 <example type="correct">Van pujar dalt la terrassa.</example>
-                <example type="correct">Feia tres metres d'alt de punta a punta.</example>
             </rule>
             <rule>
                 <pattern>
@@ -2822,6 +2854,27 @@ $Id$
             <example type="incorrect"><marker>sènia</marker>.</example>
             <example type="correct"><marker>sénia</marker>.</example>
         </rule>
+        <rulegroup id="MOTS_SENSE_GUIONETS" name="mots sense guionets: *gin-tònic, *vist-i-plau,...">
+        <!-- This rulegroup would be unnecessary if LibreOffice/OpenOffice tokenized the words containing hyphens like LanguageTool -->
+            <rule>
+                <pattern>
+                    <token regexp="yes">gin-tònics?</token>
+                </pattern>
+                <message>Error ortogràfic <suggestion><match no="1" regexp_match="gin-(.+)" regexp_replace="gin$1"/></suggestion>.</message>
+                <short>Error ortogràfic</short>
+                <example type="incorrect">Posa'm tres <marker>gin-tònics</marker></example>
+                <example type="correct">Posa'm tres gintònics</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">vist-i-plaus?</token>
+                </pattern>
+                <message>Error ortogràfic <suggestion><match no="1" regexp_match="vist-i-(.+)" regexp_replace="visti$1"/></suggestion>.</message>
+                <short>Error ortogràfic</short>
+                <example type="incorrect">El <marker>vist-i-plau</marker> del president</example>
+                <example type="correct">El vistiplau del president</example>
+            </rule>
+        </rulegroup>    
         <rulegroup id="CONTRACCIONS" name="contraccions">
             <rule>
                 <pattern>
@@ -3077,16 +3130,29 @@ $Id$
             <rule>
                 <pattern>
                     <token postag="DA.*" postag_regexp="yes" />
-                    <token regexp="yes">[mts]e(u|us|ua|ues|va|ves)|[nv]ostres?</token>
+                    <token regexp="yes">[mts]e(u|us|ua|ues|va|ves)|[nv]ostres?|nous?|últim(s|a|es)?|darrer(s|a|es)?</token>
                     <marker>
                         <token inflected="yes">net</token>
                     </marker>
                 </pattern>
-                <message>S'accentua quan és nom: <suggestion><match no="3" regexp_match="ne(.+)" regexp_replace="né$1"></match></suggestion>.</message>
+                <message>S'accentua quan és nom: <suggestion><match no="3" regexp_match="ne(.+)" regexp_replace="né$1"/></suggestion>.</message>
                 <short>S'accentua quan és nom.</short>
                 <example type="incorrect">El meu <marker>net</marker>.</example>
                 <example type="incorrect">Les vostres <marker>netes</marker>.</example>
                 <example type="correct">El meu nét.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="DA.*" postag_regexp="yes" />
+                    <token postag="AO.*" postag_regexp="yes" />
+                    <marker>
+                        <token inflected="yes">net</token>
+                    </marker>
+                </pattern>
+                <message>S'accentua quan és nom: <suggestion><match no="3" regexp_match="ne(.+)" regexp_replace="né$1"/></suggestion>.</message>
+                <short>S'accentua quan és nom.</short>
+                <example type="incorrect">El primer <marker>net</marker>.</example>
+                <example type="correct">La primera néta.</example>
             </rule>
             <rule>
                 <pattern>
@@ -3096,7 +3162,7 @@ $Id$
                     </marker>
                     <token inflected="yes">de</token>
                 </pattern>
-                <message>S'accentua quan és nom: <suggestion><match no="2" regexp_match="ne(.+)" regexp_replace="né$1"></match></suggestion>.</message>
+                <message>S'accentua quan és nom: <suggestion><match no="2" regexp_match="ne(.+)" regexp_replace="né$1"/></suggestion>.</message>
                 <short>S'accentua quan és nom.</short>
                 <example type="incorrect">El <marker>net</marker> d'ell.</example>
                 <example type="correct">El nét d'ell.</example>
@@ -5383,7 +5449,7 @@ $Id$
             <short>Expressió incorrecta.</short>
             <example type="incorrect">Roba <marker>d'abric</marker>.</example>
             <example type="correct">Roba d'abrigar.</example>
-        </rule>
+        </rule>        
         <rule id="MENTRE" name="mentre">
             <pattern>
                 <marker>
