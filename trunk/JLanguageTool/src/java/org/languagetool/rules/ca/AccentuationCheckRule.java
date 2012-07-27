@@ -146,7 +146,7 @@ public class AccentuationCheckRule extends CatalanRule {
       // verb without accent -> noun with accent   
       if (isRelevantWord)
       {
-      	//amb renuncies DETERMINANT
+      	//amb renuncies
         if (tokens[i-1].hasPosTag("SPS00") && !matchPostagRegexp(tokens[i-1],DETERMINANT) && !matchPostagRegexp(tokens[i],INFINITIU) )
       	{
       		replacement = relevantWords.get(token).getToken();

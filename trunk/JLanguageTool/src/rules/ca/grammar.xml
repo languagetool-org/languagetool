@@ -2278,19 +2278,47 @@ $Id$
                 <example type="correct">Va estar a punt de morir.</example>
             </rule>
         </rulegroup>
-        <rule id="DALT" name="d'alt/dalt">
-            <pattern>
-                <token regexp="yes">a|fins|de</token>
-                <marker>
-                    <token>d'</token>
-                    <token>alt</token>
-                </marker>
-            </pattern>
-            <message>Potser és: <suggestion>dalt</suggestion>.</message>
-            <short>Confusió.</short>
-            <example type="incorrect">Van pujar fins <marker>d'alt</marker>.</example>
-            <example type="correct">Van pujar fins <marker>dalt</marker>.</example>
-        </rule>
+        <rulegroup id="DALT" name="*d'alt/dalt">
+            <rule>
+                <pattern>
+                    <token regexp="yes">a|fins|de</token>
+                    <marker>
+                        <token>d'</token>
+                        <token>alt</token>
+                    </marker>
+                </pattern>
+                <message>Potser és: <suggestion>dalt</suggestion>.</message>
+                <short>Confusió.</short>
+                <example type="incorrect">Van pujar fins <marker>d'alt</marker>.</example>
+                <example type="correct">Van pujar fins <marker>dalt</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>d'</token>
+                        <token>alt</token>
+                    </marker>
+                    <token postag="D[AID].*" postag_regexp="yes"></token>
+                </pattern>
+                <message>Potser és: <suggestion>dalt</suggestion>.</message>
+                <short>Confusió.</short>
+                <example type="incorrect">Van pujar <marker>d'alt</marker> la terrassa.</example>
+                <example type="correct">Van pujar dalt la terrassa.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>d'</token>
+                        <token>alt</token>
+                    </marker>
+                    <token inflected="yes">de</token>
+                </pattern>
+                <message>Potser és: <suggestion>dalt</suggestion>.</message>
+                <short>Confusió.</short>
+                <example type="incorrect">Van pujar <marker>d'alt</marker> de tot.</example>
+                <example type="correct">Van pujar dalt de tot.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="DARRERA" name="darrera/darrere">
             <rule>
                 <pattern>
