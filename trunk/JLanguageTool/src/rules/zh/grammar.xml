@@ -20,6 +20,1066 @@
 	<!-- 拼写： 词语错误 -->
 	<!-- ====================================================================== -->
 	<category name="词语错误">
+		<rulegroup id="LIAN1_LIAN2_JIAN3" name="练/炼/拣">
+			<rule>
+				<pattern>
+					<marker>
+						<token regexp="yes">炼|拣</token>
+					</marker>
+					<token postag="q|n|v|nr|vg|ag" regexp="yes" postag_regexp="yes">笔|兵|达|功|武|习
+					</token>
+				</pattern>
+				<message>
+					您的意思是"
+					<suggestion>练</suggestion>
+					\2"？
+				</message>
+				<short>词语错误</short>
+				<example type="incorrect" correction="练">
+					我出差以前需要
+					<marker>炼</marker>
+					习一下意大利语.
+				</example>
+				<example type="correct">她指导实习护士练习注射。</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token postag="v|a|ad" regexp="yes" postag_regexp="yes">训|老|熟|干
+					</token>
+					<marker>
+						<token regexp="yes">炼|拣</token>
+					</marker>
+				</pattern>
+				<message>
+					您的意思是"\1
+					<suggestion>练</suggestion>
+					"？
+				</message>
+				<short>词语错误</short>
+				<example type="incorrect" correction="练">
+					实际上，她对他的干
+					<marker>拣</marker>
+					再一次觉得很值得佩服。
+				</example>
+				<example type="correct">他是一个以干练与干劲闻名的军官。</example>
+			</rule>
+			<rule>
+				<pattern>
+					<marker>
+						<token regexp="yes">练|拣</token>
+					</marker>
+					<token postag="ng|n" regexp="yes" postag_regexp="yes">丹|钢|铁|焦|乳|油|狱
+					</token>
+				</pattern>
+				<message>
+					您的意思是"
+					<suggestion>炼</suggestion>
+					\2"？
+				</message>
+				<short>词语错误</short>
+				<example type="incorrect" correction="炼">
+					漂亮的女人是眼睛的天堂、灵魂的地狱、钱包的
+					<marker>练</marker>
+					狱。
+				</example>
+				<example type="correct">漂亮的女人是眼睛的天堂、灵魂的地狱、钱包的炼狱。</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token>冶</token>
+					<marker>
+						<token regexp="yes">练|拣</token>
+					</marker>
+				</pattern>
+				<message>
+					您的意思是"\1
+					<suggestion>炼</suggestion>
+					"？
+				</message>
+				<short>词语错误</short>
+				<example type="incorrect" correction="炼">
+					将溶液倒入容器中进行冶
+					<marker>练</marker>
+					。
+				</example>
+				<example type="correct">许多金属冶炼操作中需要碳作为还原剂。</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token>挑</token>
+					<marker>
+						<token regexp="yes">练|炼</token>
+					</marker>
+				</pattern>
+				<message>
+					您的意思是"\1
+					<suggestion>拣</suggestion>
+					"？
+				</message>
+				<short>词语错误</short>
+				<example type="incorrect" correction="拣">
+					主妇们在决定买水果之前仔细地挑
+					<marker>练</marker>
+					一番。
+				</example>
+				<example type="correct">我从来不是爱挑拣的人。</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="LIANG1_LIANG2" name="梁/粱">
+			<rule>
+				<pattern>
+					<marker>
+						<token>粱</token>
+					</marker>
+					<token>山</token>
+				</pattern>
+				<message>
+					您的意思是"
+					<suggestion>梁</suggestion>
+					\2"？
+				</message>
+				<short>词语错误</short>
+				<example type="incorrect" correction="梁">
+					后来，林冲也成了
+					<marker>粱</marker>
+					山义军的重要首领。
+				</example>
+				<example type="correct">他准备了一杯毒酒，让浪花儿送给梁山伯，而浪花儿并不知情。</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token postag="n|j|ng" regexp="yes" postag_regexp="yes">房|桥|山|津|鼻
+					</token>
+					<marker>
+						<token>粱</token>
+					</marker>
+				</pattern>
+				<message>
+					您的意思是"\1
+					<suggestion>梁</suggestion>
+					"？
+				</message>
+				<short>词语错误</short>
+				<example type="incorrect" correction="梁">
+					他有一些桥
+					<marker>粱</marker>
+					的设计图纸。
+				</example>
+				<example type="correct">他有一些桥梁的设计图纸。</example>
+			</rule>
+			<rule>
+				<pattern>
+					<marker>
+						<token>梁</token>
+					</marker>
+					<token>肉</token>
+				</pattern>
+				<message>
+					您的意思是"
+					<suggestion>粱</suggestion>
+					\2"？
+				</message>
+				<short>词语错误</short>
+				<example type="incorrect" correction="粱">
+					<marker>梁</marker>
+					肉是指美食佳肴。
+				</example>
+				<example type="correct">粱肉是指美食佳肴。</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="LIN1_LIN2" name="麟/鳞">
+			<rule>
+				<pattern>
+					<marker>
+						<token>鳞</token>
+					</marker>
+					<token>角</token>
+				</pattern>
+				<message>
+					您的意思是"
+					<suggestion>麟</suggestion>
+					\2"？
+				</message>
+				<short>词语错误</short>
+				<example type="incorrect" correction="麟">
+					有爱情基础的婚姻是凤毛
+					<marker>鳞</marker>
+					角吗？
+				</example>
+				<example type="correct">有爱情基础的婚姻是凤毛麟角吗？</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token postag="b|n" regexp="yes" postag_regexp="yes">金|麒</token>
+					<marker>
+						<token>鳞</token>
+					</marker>
+				</pattern>
+				<message>
+					您的意思是"\1
+					<suggestion>麟</suggestion>
+					"？
+				</message>
+				<short>词语错误</short>
+				<example type="incorrect" correction="麟">
+					金
+					<marker>鳞</marker>
+					岂是池中物，一遇风云便化龙。
+				</example>
+				<example type="correct">龙、风、龟、麒麟、狮子、仙鹤等是人们想象中的瑞禽仁兽。</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="FU_LV" name="覆/履">
+			<rule>
+				<pattern>
+					<marker>
+						<token postag="vg">履</token>
+					</marker>
+					<token postag="v|vg|n" regexp="yes" postag_regexp="yes">盖|裹|罩|灭|没|压|问|亡|庇|辙|手|水|信|函|音|案|国|邦|杯
+					</token>
+				</pattern>
+				<message>
+					您的意思是"
+					<suggestion>覆</suggestion>
+					\2"？
+				</message>
+				<short>词语错误</short>
+				<example correction="覆" type="incorrect">
+					此次战役中，日军全军
+					<marker>履</marker>
+					没。
+				</example>
+				<example type="correct">
+					此次战役中，日军全军
+					<marker>覆</marker>
+					没。
+				</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token postag="v">颠</token>
+					<marker>
+						<token postag="vg">履</token>
+					</marker>
+				</pattern>
+				<message>
+					您的意思是"\1
+					<suggestion>覆</suggestion>
+					"？
+				</message>
+				<short>词语错误</short>
+				<example correction="覆" type="incorrect">
+					他因颠
+					<marker>履</marker>
+					国家政权而被处死。
+				</example>
+				<example type="correct">
+					他因颠
+					<marker>覆</marker>
+					国家政权而被处死。
+				</example>
+			</rule>
+			<rule>
+				<pattern>
+					<marker>
+						<token postag="vg">覆</token>
+					</marker>
+					<token postag="v|vg|ng|d" regexp="yes" postag_regexp="yes">任|带|历|践|行|约
+					</token>
+				</pattern>
+				<message>
+					您的意思是"
+					<suggestion>履</suggestion>
+					\2"？
+				</message>
+				<short>词语错误</short>
+				<example correction="履" type="incorrect">
+					微软中国新CEO
+					<marker>覆</marker>
+					任。
+				</example>
+				<example type="correct">
+					微软中国新CEO
+					<marker>履</marker>
+					任。
+				</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="MAN1_MAN2_MAN3" name="慢/漫/曼">
+			<rule>
+				<pattern>
+					<marker>
+						<token regexp="yes">漫|曼</token>
+					</marker>
+					<token postag="n" regexp="yes">性子|动作</token>
+				</pattern>
+				<message>
+					您的意思是"
+					<suggestion>慢</suggestion>
+					\2"？
+				</message>
+				<short>词语错误</short>
+				<example correction="慢" type="incorrect">
+					回放一下
+					<marker>漫</marker>
+					动作。
+				</example>
+				<example type="correct">
+					回放一下
+					<marker>慢</marker>
+					动作。
+				</example>
+			</rule>
+			<rule>
+				<pattern>
+					<marker>
+						<token regexp="yes">
+							漫|曼
+							<exception>动漫</exception>
+						</token>
+					</marker>
+					<token postag="p|v|ng|k" regexp="yes" postag_regexp="yes">待|走|性|行
+					</token>
+				</pattern>
+				<message>
+					您的意思是"
+					<suggestion>慢</suggestion>
+					\2"？
+				</message>
+				<short>词语错误</short>
+				<example correction="慢" type="incorrect">
+					不要
+					<marker>漫</marker>
+					待了这位先生。
+				</example>
+				<example type="correct">
+					不要
+					<marker>慢</marker>
+					待了这位先生。
+				</example>
+			</rule>
+			<rule>
+				<pattern>
+					<marker>
+						<token regexp="yes">漫|曼</token>
+					</marker>
+					<token regexp="yes">腾腾|悠悠|吞吞</token>
+				</pattern>
+				<message>
+					您的意思是"
+					<suggestion>慢</suggestion>
+					\2"？
+				</message>
+				<short>词语错误</short>
+				<example correction="慢" type="incorrect">
+					她说话总是
+					<marker>漫</marker>
+					吞吞的。
+				</example>
+				<example type="correct">
+					她说话总是
+					<marker>慢</marker>
+					吞吞的。
+				</example>
+			</rule>
+			<rule>
+				<pattern>
+					<marker>
+						<token regexp="yes">漫漫|曼曼</token>
+					</marker>
+					<token postag="n|u" postag_regexp="yes">地</token>
+				</pattern>
+				<message>
+					您的意思是"
+					<suggestion>慢慢</suggestion>
+					\2"？
+				</message>
+				<short>词语错误</short>
+				<example correction="慢慢" type="incorrect">
+					太阳
+					<marker>漫漫</marker>
+					地落山了。
+				</example>
+				<example type="correct">
+					太阳
+					<marker>慢慢</marker>
+					地落山了。
+				</example>
+			</rule>
+			<rule>
+				<pattern>
+					<marker>
+						<token regexp="yes">慢|曼</token>
+					</marker>
+					<token postag="a|n|ng|v" regexp="yes" postag_regexp="yes">长|画|谈|言
+					</token>
+				</pattern>
+				<message>
+					您的意思是"
+					<suggestion>漫</suggestion>
+					\2"？
+				</message>
+				<short>词语错误</short>
+				<example correction="漫" type="incorrect">
+					那是一个
+					<marker>慢</marker>
+					长的夜晚。
+				</example>
+				<example type="correct">
+					那是一个
+					<marker>漫</marker>
+					长的夜晚。
+				</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token postag="ag|ad" regexp="yes" postag_regexp="yes">弥|迷</token>
+					<marker>
+						<token regexp="yes">慢|曼</token>
+					</marker>
+				</pattern>
+				<message>
+					您的意思是"\1
+					<suggestion>漫</suggestion>
+					"？
+				</message>
+				<short>词语错误</short>
+				<example correction="漫" type="incorrect">
+					空气中弥
+					<marker>曼</marker>
+					着硝烟的味道。
+				</example>
+				<example type="correct">
+					空气中弥
+					<marker>漫</marker>
+					着硝烟的味道。
+				</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token postag="n|tg" regexp="yes" postag_regexp="yes">路|夜</token>
+					<marker>
+						<token regexp="yes">慢慢|曼曼</token>
+					</marker>
+				</pattern>
+				<message>
+					您的意思是"\1
+					<suggestion>漫漫</suggestion>
+					"？
+				</message>
+				<short>词语错误</short>
+				<example correction="漫漫" type="incorrect">
+					风萧萧兮夜
+					<marker>曼曼</marker>
+					。
+				</example>
+				<example type="correct">
+					风萧萧兮夜
+					<marker>漫漫</marker>
+					。
+				</example>
+			</rule>
+			<rule>
+				<pattern>
+					<marker>
+						<token regexp="yes">
+							慢|漫
+							<exception>动漫</exception>
+						</token>
+					</marker>
+					<token postag="a|ag|ng" regexp="yes" postag_regexp="yes">妙|丽|声
+					</token>
+				</pattern>
+				<message>
+					您的意思是"
+					<suggestion>曼</suggestion>
+					\2"？
+				</message>
+				<short>词语错误</short>
+				<example correction="曼" type="incorrect">
+					窗外传来
+					<marker>漫</marker>
+					妙的歌声。
+				</example>
+				<example type="correct">
+					窗外传来
+					<marker>曼</marker>
+					妙的歌声。
+				</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="MIAN1_MIAN2" name="绵/棉">
+			<rule>
+				<pattern>
+					<marker>
+						<token>棉</token>
+					</marker>
+					<token postag="a|n|vg" regexp="yes" postag_regexp="yes">延|亘|羊|薄
+					</token>
+				</pattern>
+				<message>
+					您的意思是"
+					<suggestion>绵</suggestion>
+					\2"？
+				</message>
+				<short>词语错误</short>
+				<example correction="绵" type="incorrect">
+					愿尽
+					<marker>棉</marker>
+					薄之力。
+				</example>
+				<example type="correct">
+					愿尽
+					<marker>绵</marker>
+					薄之力。
+				</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token postag="u|d" postag_regexp="yes">连</token>
+					<marker>
+						<token>棉</token>
+					</marker>
+				</pattern>
+				<message>
+					您的意思是"\1
+					<suggestion>绵</suggestion>
+					"？
+				</message>
+				<short>词语错误</short>
+				<example correction="绵" type="incorrect">
+					阴雨连
+					<marker>棉</marker>
+					不断。
+				</example>
+				<example type="correct">
+					阴雨连
+					<marker>绵</marker>
+					不断。
+				</example>
+			</rule>
+			<rule>
+				<pattern>
+					<marker>
+						<token>绵</token>
+					</marker>
+					<token postag="n|ng|v|p" regexp="yes" postag_regexp="yes">花|桃|药|签|衣|裤|袄|被|鞋|絮
+					</token>
+				</pattern>
+				<message>
+					您的意思是"
+					<suggestion>棉</suggestion>
+					\2"？
+				</message>
+				<short>词语错误</short>
+				<example correction="棉" type="incorrect">
+					背着
+					<marker>绵</marker>
+					絮过河——越背越重。
+				</example>
+				<example type="correct">
+					背着
+					<marker>棉</marker>
+					絮过河——越背越重。
+				</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="MIAO1_MIAO2" name="渺/缈">
+			<rule>
+				<pattern>
+					<marker>
+						<token>缈</token>
+					</marker>
+					<token postag="a|ag" regexp="yes" postag_regexp="yes">远|茫|小</token>
+				</pattern>
+				<message>
+					您的意思是"
+					<suggestion>渺</suggestion>
+					\2"？
+				</message>
+				<short>词语错误</short>
+				<example correction="渺" type="incorrect">
+					幸存者生还的希望
+					<marker>缈</marker>
+					茫。
+				</example>
+				<example type="correct">
+					幸存者生还的希望
+					<marker>渺</marker>
+					茫。
+				</example>
+			</rule>
+			<rule>
+				<pattern>
+					<marker>
+						<token regexp="yes">飘|漂</token>
+					</marker>
+					<token postag="x">缈</token>
+				</pattern>
+				<message>
+					您的意思是"
+					<suggestion>缥</suggestion>
+					\2"？
+				</message>
+				<short>词语错误</short>
+				<example correction="缥" type="incorrect">
+					山在虚无
+					<marker>飘</marker>
+					缈间。
+				</example>
+				<example type="correct">
+					山在虚无
+					<marker>缥</marker>
+					缈间。
+				</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token>飘</token>
+					<marker>
+						<token postag="x">缈</token>
+					</marker>
+				</pattern>
+				<message>
+					您的意思是"\1
+					<suggestion>渺</suggestion>
+					"？
+				</message>
+				<short>词语错误</short>
+				<example correction="渺" type="incorrect">
+					问人天何事，最飘
+					<marker>缈</marker>
+					，最销沉？
+				</example>
+				<example type="correct">
+					问人天何事，最飘
+					<marker>渺</marker>
+					，最销沉？
+				</example>
+			</rule>
+			<rule>
+				<pattern>
+					<marker>
+						<token regexp="yes">漂|缥</token>
+					</marker>
+					<token postag="v|vg|ag|m" regexp="yes" postag_regexp="yes">扬|摆|洒|逸|摇|零|带
+					</token>
+				</pattern>
+				<message>
+					您的意思是"
+					<suggestion>飘</suggestion>
+					\2"？
+				</message>
+				<short>词语错误</short>
+				<example correction="飘" type="incorrect">
+					大清江山风雨
+					<marker>漂</marker>
+					摇。
+				</example>
+				<example type="correct">
+					大清江山风雨
+					<marker>飘</marker>
+					摇。
+				</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="MU1_MU2_MU3_MU4" name="暮/幕/慕/募">
+			<rule>
+				<pattern>
+					<marker>
+						<token regexp="yes">幕|慕|募</token>
+					</marker>
+					<token postag="n|ng|v|a" regexp="yes" postag_regexp="yes">色|霭|雨
+					</token>
+				</pattern>
+				<message>
+					您的意思是"
+					<suggestion>暮</suggestion>
+					\2"？
+				</message>
+				<short>词语错误</short>
+				<example correction="暮" type="incorrect">
+					<marker>幕</marker>
+					霭沈沈楚天阔。
+				</example>
+				<example type="correct">暮霭沈沈楚天阔。</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token postag="j">日</token>
+					<marker>
+						<token regexp="yes">幕|慕|募</token>
+					</marker>
+				</pattern>
+				<message>
+					您的意思是"\1
+					<suggestion>暮</suggestion>
+					"？
+				</message>
+				<short>词语错误</short>
+				<example correction="暮" type="incorrect">
+					日
+					<marker>幕</marker>
+					东风怨啼鸟，落花犹似堕楼人。
+				</example>
+				<example type="correct">日暮东风怨啼鸟，落花犹似堕楼人。</example>
+			</rule>
+			<rule>
+				<pattern>
+					<marker>
+						<token regexp="yes">暮|慕|募</token>
+					</marker>
+					<token postag="n|j" regexp="yes" postag_regexp="yes">布|府</token>
+				</pattern>
+				<message>
+					您的意思是"
+					<suggestion>幕</suggestion>
+					\2"？
+				</message>
+				<short>词语错误</short>
+				<example correction="幕" type="incorrect">
+					<marker>募</marker>
+					府是古时日本一种权力曾一度凌驾于天皇之上的中央政府机构。
+				</example>
+				<example type="correct">幕府是古时日本一种权力曾一度凌驾于天皇之上的中央政府机构。</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token postag="j|v|ng|tg" regexp="yes" postag_regexp="yes">夜|开|银|帷
+					</token>
+					<marker>
+						<token regexp="yes">暮|慕|募</token>
+					</marker>
+				</pattern>
+				<message>
+					您的意思是"\1
+					<suggestion>幕</suggestion>
+					"？
+				</message>
+				<short>词语错误</short>
+				<example correction="幕" type="incorrect">
+					夜
+					<marker>暮</marker>
+					徐徐降临。
+				</example>
+				<example type="correct">夜幕徐徐降临。</example>
+			</rule>
+			<rule>
+				<pattern>
+					<marker>
+						<token regexp="yes">暮|幕|募</token>
+					</marker>
+					<token postag="ng|ag|q" postag_regexp="yes">名</token>
+				</pattern>
+				<message>
+					您的意思是"
+					<suggestion>慕</suggestion>
+					\2"？
+				</message>
+				<short>词语错误</short>
+				<example correction="慕" type="incorrect">
+					我是
+					<marker>幕</marker>
+					名而来的。
+				</example>
+				<example type="correct">我是慕名而来的。</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token postag="v|vg|nr" regexp="yes" postag_regexp="yes">仰|羡|爱|思
+					</token>
+					<marker>
+						<token regexp="yes">暮|幕|募</token>
+					</marker>
+				</pattern>
+				<message>
+					您的意思是"\1
+					<suggestion>慕</suggestion>
+					"？
+				</message>
+				<short>词语错误</short>
+				<example correction="慕" type="incorrect">
+					我已经仰
+					<marker>幕</marker>
+					你很久了。
+				</example>
+				<example type="correct">我已经仰慕你很久了。</example>
+			</rule>
+			<rule>
+				<pattern>
+					<marker>
+						<token regexp="yes">暮|幕|慕</token>
+					</marker>
+					<token postag="v|vg|n|ng" regexp="yes" postag_regexp="yes">集|捐|款
+					</token>
+				</pattern>
+				<message>
+					您的意思是"
+					<suggestion>募</suggestion>
+					\2"？
+				</message>
+				<short>词语错误</short>
+				<example correction="募" type="incorrect">
+					同学们在为灾区人民
+					<marker>幕</marker>
+					集捐款。
+				</example>
+				<example type="correct">同学们在为灾区人民募集捐款。</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token postag="v|n" regexp="yes" postag_regexp="yes">招|征</token>
+					<marker>
+						<token regexp="yes">暮|幕|慕</token>
+					</marker>
+				</pattern>
+				<message>
+					您的意思是"\1
+					<suggestion>募</suggestion>
+					"？
+				</message>
+				<short>词语错误</short>
+				<example correction="募" type="incorrect">
+					2012年伦敦奥运会主办方正在招
+					<marker>幕</marker>
+					志愿者。
+				</example>
+				<example type="correct">2012年伦敦奥运会主办方正在招募志愿者。</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="MI1_MI2" name="迷/谜">
+			<rule>
+				<pattern>
+					<marker>
+						<token>谜</token>
+					</marker>
+					<token postag="v|vg|n|ng|nr|ag" regexp="yes" postag_regexp="yes">
+						信|糊|津|蒙|离|惑|恋|途|宫|魂|路|失|雾</token>
+				</pattern>
+				<message>
+					您的意思是"
+					<suggestion>迷</suggestion>
+					\2"？
+				</message>
+				<short>词语错误</short>
+				<example correction="迷" type="incorrect">
+					中宣部正在大力推广破除
+					<marker>谜</marker>
+					信的主题活动。
+				</example>
+				<example type="correct">中宣部正在大力推广破除迷信的主题活动。</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token postag="n|vg" regexp="yes" postag_regexp="yes">球|书|棋|车|影|歌|戏
+					</token>
+					<marker>
+						<token>谜</token>
+					</marker>
+				</pattern>
+				<message>
+					您的意思是"\1
+					<suggestion>迷</suggestion>
+					"？
+				</message>
+				<short>词语错误</short>
+				<example correction="迷" type="incorrect">
+					世界杯期间的慕尼黑，球
+					<marker>谜</marker>
+					人潮涌动。
+				</example>
+				<example type="correct">世界杯期间的慕尼黑，球迷人潮涌动。</example>
+			</rule>
+			<rule>
+				<pattern>
+					<marker>
+						<token>迷</token>
+					</marker>
+					<token postag="n|ng|f" regexp="yes" postag_regexp="yes">语|底|团
+					</token>
+				</pattern>
+				<message>
+					您的意思是"
+					<suggestion>谜</suggestion>
+					\2"？
+				</message>
+				<short>词语错误</short>
+				<example correction="谜" type="incorrect">
+					每一个
+					<marker>迷</marker>
+					语都是有答案的。
+				</example>
+				<example type="correct">每一个谜语都是有答案的。</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token postag="n|v|o" regexp="yes" postag_regexp="yes">灯|猜|哑|字
+					</token>
+					<marker>
+						<token>迷</token>
+					</marker>
+				</pattern>
+				<message>
+					您的意思是"\1
+					<suggestion>谜</suggestion>
+					"？
+				</message>
+				<short>词语错误</short>
+				<example correction="谜" type="incorrect">
+					在中国，元宵节有猜灯
+					<marker>迷</marker>
+					的习俗。
+				</example>
+				<example type="correct">在中国，元宵节有猜灯谜的习俗。</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="NAO1_NAO2" name="恼/恼">
+			<rule>
+				<pattern>
+					<marker>
+						<token>脑</token>
+					</marker>
+					<token postag="v|vg|n" regexp="yes" postag_regexp="yes">恨|怒|火
+					</token>
+				</pattern>
+				<message>
+					您的意思是"
+					<suggestion>恼</suggestion>
+					\2"？
+				</message>
+				<short>词语错误</short>
+				<example correction="恼" type="incorrect">
+					小王的失误使领导非常
+					<marker>脑</marker>
+					火。
+				</example>
+				<example type="correct">小王的失误使领导非常恼火。</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token postag="a|n" regexp="yes" postag_regexp="yes">烦|苦|懊</token>
+					<marker>
+						<token>脑</token>
+					</marker>
+				</pattern>
+				<message>
+					您的意思是"\1
+					<suggestion>恼</suggestion>
+					"？
+				</message>
+				<short>词语错误</short>
+				<example correction="恼" type="incorrect">
+					懊
+					<marker>脑</marker>
+					掌握着时间的锉刀，蚕食着内心每个角落。
+				</example>
+				<example type="correct">懊恼掌握着时间的锉刀，蚕食着内心每个角落。</example>
+			</rule>
+			<rule>
+				<pattern>
+					<marker>
+						<token>恼</token>
+					</marker>
+					<token postag="n|an|v|j|g|k" regexp="yes" postag_regexp="yes">子|袋|壳|门|瓜|髓|浆|筋|海|力
+					</token>
+				</pattern>
+				<message>
+					您的意思是"
+					<suggestion>脑</suggestion>
+					\2"？
+				</message>
+				<short>词语错误</short>
+				<example correction="脑" type="incorrect">
+					你的
+					<marker>恼</marker>
+					袋被门夹住啦。
+				</example>
+				<example type="correct">你的脑袋被门夹住啦。</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token postag="n|v" regexp="yes" postag_regexp="yes">人|电|樟</token>
+					<marker>
+						<token>恼</token>
+					</marker>
+				</pattern>
+				<message>
+					您的意思是"\1
+					<suggestion>脑</suggestion>
+					"？
+				</message>
+				<short>词语错误</short>
+				<example correction="脑" type="incorrect">
+					目前为止，人
+					<marker>恼</marker>
+					还是医学界正在探索的领域。
+				</example>
+				<example type="correct">目前为止，人脑还是医学界正在探索的领域。</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="PENG1_PENG2" name="篷/蓬">
+			<rule>
+				<pattern>
+					<token postag="n|ng" regexp="yes" postag_regexp="yes">帐|车|船</token>
+					<marker>
+						<token>蓬</token>
+					</marker>
+				</pattern>
+				<message>
+					您的意思是"\1
+					<suggestion>篷</suggestion>
+					"？
+				</message>
+				<short>词语错误</short>
+				<example correction="篷" type="incorrect">
+					帐
+					<marker>蓬</marker>
+					是户外露营的必备物品。
+				</example>
+				<example type="correct">帐篷是户外露营的必备物品。</example>
+			</rule>
+			<rule>
+				<pattern>
+					<marker>
+						<token>篷</token>
+					</marker>
+					<token postag="n|ng|nr|ag|d|x" regexp="yes" postag_regexp="yes">门|松|乱|头|勃|蒿|荜|莱
+					</token>
+				</pattern>
+				<message>
+					您的意思是"
+					<suggestion>蓬</suggestion>
+					\2"？
+				</message>
+				<short>词语错误</short>
+				<example correction="蓬" type="incorrect">
+					花径不曾缘客扫，
+					<marker>篷</marker>
+					门今始为君开。
+				</example>
+				<example type="correct">花径不曾缘客扫，蓬门今始为君开。</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token>莲</token>
+					<marker>
+						<token>篷</token>
+					</marker>
+				</pattern>
+				<message>
+					您的意思是"\1
+					<suggestion>蓬</suggestion>
+					"？
+				</message>
+				<short>词语错误</short>
+				<example correction="蓬" type="incorrect">
+					莲
+					<marker>篷</marker>
+					只是荷花的花心，娇小嫩黄，藏于美丽繁荣花瓣之中。
+				</example>
+				<example type="correct">莲蓬只是荷花的花心，娇小嫩黄，藏于美丽繁荣花瓣之中。</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="HUA1_HAU2" name="猾/滑">
 			<rule>
 				<pattern>
