@@ -3051,10 +3051,8 @@ $Id$
                 </pattern>
                 <message>Cal dir <suggestion>el <match no="2"></match></suggestion>.</message>
                 <short>Error ortogràfic</short>
-                <example type="incorrect"><marker>l'iogurt</marker>
-                </example>
-                <example type="correct"><marker>el iogurt</marker>
-                </example>
+                <example type="incorrect"><marker>l'iogurt</marker></example>
+                <example type="correct"><marker>el iogurt</marker></example>
             </rule>
             <rule>
                 <pattern>
@@ -3063,12 +3061,9 @@ $Id$
                 </pattern>
                 <message>Cal dir <suggestion>la <match no="2"></match></suggestion>.</message>
                 <short>Error ortogràfic</short>
-                <example type="incorrect"><marker>l'universitat</marker>
-                </example>
-                <example type="correct"><marker>la universitat</marker>
-                </example>
+                <example type="incorrect"><marker>l'universitat</marker></example>
+                <example type="correct"><marker>la universitat</marker></example>
                 <example type="correct">l'intel·lectual valencià</example>
-                <example type="correct">la intel·lectual valenciana</example>
             </rule>
             <rule>
                 <pattern>
@@ -3079,12 +3074,14 @@ $Id$
                             <token postag="_GN_MS" />
                         </and>
                     </marker>
-                    <token postag="_GN_FS" />
+                    <token postag="_GN_FS"><exception postag="_GN_MS"/></token>
                 </pattern>
                 <message>Cal dir <suggestion>la <match no="2"></match></suggestion>.</message>
                 <short>Error ortogràfic</short>
                 <example type="incorrect"><marker>l'intel·lectual</marker> valenciana</example>
                 <example type="correct">la intel·lectual valenciana</example>
+                <example type="correct">l'insondable mar</example>
+                <example type="correct">la insondable mar</example>
             </rule>
             <rule>
                 <pattern>
@@ -4276,7 +4273,7 @@ $Id$
         <rulegroup id="EVITA_VERBS_VALENCIANS" name="Evita verbs valencians (pense, diga, patisca, patesca, patix, cantara)">
             <rule>
                 <pattern>
-                    <token postag="V.[^N].*" postag_regexp="yes" regexp="yes">.+e<exception postag="_GN.*|V.N.*|N.*" postag_regexp="yes" /><exception regexp="yes">he|ve|.*obre|.*omple|.*corre</exception></token>
+                    <token postag="V.[^N].*" postag_regexp="yes" regexp="yes">.+e<exception postag="_GN.*|V.N.*|N.*" postag_regexp="yes" /><exception regexp="yes">he|ve|.*obre|.*omple|.*corre|vine</exception></token>
                 </pattern>
                 <message>Forma verbal pròpia del valencià.</message>
                 <!-- per a fer suggeriments cal mirar les conjugacions-->
@@ -4291,12 +4288,13 @@ $Id$
                 <message>Forma verbal pròpia del valencià.</message>
                 <short>Forma valenciana.</short>
                 <example type="incorrect">Que ells ho <marker>diguen</marker>.</example>
+                <example type="incorrect">Que se'n <marker>vaja</marker>.</example>
                 <example type="correct">Que ells ho diguin.</example>
                 <example type="correct">Cal que sàpiguen com va.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token postag="V.M.*" postag_regexp="yes" regexp="yes">.+en?<exception postag="_GN.*|N.*|V.I.*" postag_regexp="yes" /><exception regexp="yes">(s|c)àpig(a|uen)</exception></token>
+                    <token postag="V.M.*" postag_regexp="yes" regexp="yes">.+en?<exception postag="_GN.*|N.*|V.I.*" postag_regexp="yes" /><exception regexp="yes">(s|c)àpig(a|uen)|vine</exception></token>
                 </pattern>
                 <message>Forma verbal pròpia del valencià.</message>
                 <short>Forma valenciana.</short>
@@ -4311,7 +4309,9 @@ $Id$
                 <message>Forma verbal pròpia del valencià.</message>
                 <short>Forma valenciana.</short>
                 <example type="incorrect"><marker>Diga</marker>'n tres.</example>
+                <example type="incorrect"><marker>Vaja</marker> on vulgui.</example>
                 <example type="correct"><marker>Digui</marker>'n tres.</example>
+                <example type="correct">Vaja, com li agrada.</example>
             </rule>
             <rule>
                 <pattern>
@@ -4404,11 +4404,12 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="VM[MI].[12]P0" postag_regexp="yes" regexp="yes">.+a[um]<exception>cau</exception></token>
+                    <token postag="VM[MI].[12]P0" postag_regexp="yes" regexp="yes">.+a[um]<exception regexp="yes" inflected="yes">.*caure</exception></token>
                 </pattern>
                 <message>Forma verbal pròpia del balear.</message>
                 <short>Forma balear.</short>
                 <example type="incorrect">Vosaltres <marker>cantau</marker>.</example>
+                <example type="correct">No escau fer-ho així.</example>
                 <example type="correct">Vosaltres canteu.</example>
             </rule>
         </rulegroup>
@@ -4659,7 +4660,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="VM[MI].[12]P0" postag_regexp="yes" regexp="yes">.+a[um]<exception>cau</exception></token>
+                    <token postag="VM[MI].[12]P0" postag_regexp="yes" regexp="yes">.+a[um]<exception regexp="yes" inflected="yes">.*caure</exception></token>
                 </pattern>
                 <message>Forma verbal pròpia del balear.</message>
                 <short>Forma balear.</short>
