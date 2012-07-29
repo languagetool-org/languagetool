@@ -80,6 +80,9 @@ public class CaseRule extends GermanRule {
   private static final Set<String> exceptions = new HashSet<String>();
   static {
     exceptions.add("Hr");   // Hr. = Abkürzung für Herr
+    exceptions.add("Auftrieb");
+    exceptions.add("Vortrieb");
+    exceptions.add("Abtrieb");
     exceptions.add("Gesandter");
     exceptions.add("Durchfahrt");
     exceptions.add("Durchgriff");
