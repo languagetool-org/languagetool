@@ -33,6 +33,7 @@ import org.apache.lucene.search.TimeLimitingCollector;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.TopFieldCollector;
 import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.util.Counter;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.Rule;
@@ -99,7 +100,7 @@ public class Searcher {
 
   private PossiblyLimitedTopDocs getTopDocs(IndexSearcher indexSearcher, PossiblyRelaxedQuery query, Sort sort) throws IOException {
     final TopFieldCollector topCollector = TopFieldCollector.create(sort, maxHits, true, false, false, false);
-    final TimeLimitingCollector collector = new TimeLimitingCollector(topCollector, maxSearchTimeMillis);
+    final TimeLimitingCollector collector = new TimeLimitingCollector(topCollector, Counter.newCounter(), maxSearchTimeMillis);
     boolean timeLimitActivated = false;
     try {
       indexSearcher.search(query.query, collector);

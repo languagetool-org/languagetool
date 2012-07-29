@@ -50,7 +50,7 @@ public class RigidNearSpansOrdered extends Spans {
   private int matchStart = -1;
   private int matchEnd = -1;
 
-  private List<byte[]> matchPayload;
+  private final List<byte[]> matchPayload;
 
   private final Spans[] subSpansByDoc;
 
@@ -60,7 +60,7 @@ public class RigidNearSpansOrdered extends Spans {
     }
   };
 
-  private RigidSpanNearQuery query;
+  private final RigidSpanNearQuery query;
 
   private boolean collectPayloads = true;
 
@@ -215,7 +215,7 @@ public class RigidNearSpansOrdered extends Spans {
    * @return true iff spans1 starts before spans2 or the spans start at the same position, and
    *         spans1 ends before spans2.
    */
-  static final boolean docSpansOrdered(Spans spans1, Spans spans2, int allowedSlop) {
+  static boolean docSpansOrdered(Spans spans1, Spans spans2, int allowedSlop) {
     assert spans1.doc() == spans2.doc() : "doc1 " + spans1.doc() + " != doc2 " + spans2.doc();
     final int start1 = spans1.start();
     final int start2 = spans2.start();
@@ -229,9 +229,9 @@ public class RigidNearSpansOrdered extends Spans {
   }
 
   /**
-   * Like {@link #docSpansOrdered(Spans,Spans)}, but use the spans starts and ends as parameters.
+   * Like {@link #docSpansOrdered(Spans,Spans,int)}, but use the spans starts and ends as parameters.
    */
-  private static final boolean docSpansOrdered(int start1, int end1, int start2, int end2,
+  private static boolean docSpansOrdered(int start1, int end1, int start2, int end2,
       int allowedSlop) {
     if (allowedSlop == 0) {
       return (start1 == start2) ? (end1 <= end2) : (start1 < start2);
