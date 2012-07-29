@@ -2678,12 +2678,12 @@ $Id$
         </rulegroup>
     </category>
     <category name="Errors gramaticals">
-        <rule id="TOT_I" name="tot i">
+        <rule id="TOT_I_GERUNDI" name="tot i + *gerundi/infinitiu">
             <pattern>
                 <token>tot</token>
                 <token>i</token>
                 <marker>
-                    <token postag="V.[^N].*" postag_regexp="yes"></token>
+                    <token postag="V.G.*" postag_regexp="yes"></token>
                 </marker>
             </pattern>
             <message>El verb ha d'anar en infinitiu:<suggestion><match no="3" postag="V.N.*" postag_regexp="yes"></match></suggestion>.</message>
@@ -3137,6 +3137,62 @@ $Id$
     <category name="Accents diacrítics">
         <rulegroup id="ACCENTS_DIACRITICS" name="Comprova accents diacrítics diversos: rés, bé, és">
             <!--si que -->
+             <rule>
+                <pattern>
+                    <marker>
+                        <token>ves</token>
+                    </marker>
+                    <token negate="yes" regexp="yes">per|si|que</token>
+                </pattern>
+                <message>S'accentua quan és del verb anar: <suggestion>vés</suggestion>.</message>
+                <short>S'accentua quan és del verb anar.</short>
+                <example type="incorrect"><marker>ves</marker> cap allà</example>
+                <example type="correct">vés cap allà</example>
+                <example type="correct">Ves que no ho facis!</example>
+                <example type="correct">Ves si n'he tinguda, de mala sort.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>ves</token>
+                    </marker>
+                    <token>per</token>
+                    <token negate="yes">on</token>
+                </pattern>
+                <message>S'accentua quan és del verb anar: <suggestion>vés</suggestion>.</message>
+                <short>S'accentua quan és del verb anar.</short>
+                <example type="incorrect"><marker>Ves</marker> per allà.</example>
+                <example type="correct">Vés per allà.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>ves</token>
+                    </marker>
+                    <token>per</token>
+                    <token>on</token>
+                    <token negate="yes">,</token>
+                </pattern>
+                <message>S'accentua quan és del verb anar: <suggestion>vés</suggestion>.</message>
+                <short>S'accentua quan és del verb anar.</short>
+                <example type="incorrect"><marker>Ves</marker> per on vulgues.</example>
+                <example type="correct">Ves per on, això m'agrada.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>vés</token>
+                    </marker>
+                    <token>per</token>
+                    <token>on</token>
+                    <token>,</token>
+                </pattern>
+                <message>No s'accentua quan és del verb veure: <suggestion>ves</suggestion>.</message>
+                <short>No s'accentua.</short>
+                <example type="incorrect"><marker>Vés</marker> per on, això m'agrada.</example>
+                <example type="correct">Ves per on, això m'agrada.</example>
+            </rule>            
+                        
             <rule>
                 <pattern>
                     <token postag="DA.*" postag_regexp="yes" />
@@ -5429,6 +5485,34 @@ $Id$
         </rule>
     </category>
     <category name="Expressions">
+        <rule id="CARA_A" name="*cara a/de cara a">    
+            <pattern>
+                <token negate="yes" inflected="yes" regexp="yes">plantar|fer<exception>de</exception></token>
+                <marker>
+                    <token>cara</token>
+                    <token>a</token>
+                </marker>
+            </pattern>
+            <message>Expressió incorrecta: <suggestion>de cara a</suggestion>.</message>
+            <short>Expressió incorrecta.</short>
+            <example type="incorrect">Cal pensar-hi <marker>cara a</marker> l'estiu.</example>
+            <example type="correct">Cal pensar-hi de cara a l'estiu.</example>
+            <example type="correct">Cal plantar cara a l'adversitat.</example>
+        </rule>
+        <rule id="CORRER_A_CARREC" name="*córrer a càrrec de">    
+            <pattern>
+                <marker>
+                    <token inflected="yes">córrer</token>
+                </marker>
+                <token>a</token>
+                <token>càrrec</token>
+                <token regexp="yes">d'|de|meu|teu|seu|nostre|vostre|llur</token>
+            </pattern>
+            <message>Cal escriure: <suggestion><match no="1" postag="V.(.*)" postag_regexp="yes" postag_replace="VM$1">anar</match> o <match no="1" postag="V.(.*)" postag_regexp="yes" postag_replace="VS$1">ser</match></suggestion>.</message>
+            <short>Expressió incorrecta.</short>
+            <example type="incorrect">Les despeses <marker>correran</marker> a càrrec meu.</example>
+            <example type="correct">Les despeses seran a càrrec meu.</example>
+        </rule>
         <rule id="ENMIG" name="enmig de">
             <pattern>
                 <marker>
