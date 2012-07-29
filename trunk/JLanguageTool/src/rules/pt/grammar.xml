@@ -21,7 +21,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.018 2012-07-27 01:08:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.019 2012-07-29 11:27:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -129,6 +129,22 @@ $Id: grammar.xml,v 1.018 2012-07-27 01:08:00 marcoagpinto Exp $
       <short>"Gramática".</short>
       <example type="incorrect">Mas <marker>à que</marker> saber estudar.</example>
       <example type="correct">Mas <marker>há que</marker> saber estudar.</example>
+    </rule>
+
+
+
+    <!-- À ÚLTIMA DA HORA à última hora -->
+    <rule id="À_ÚLTIMA_DA_HORA" name="à última hora">
+      <pattern>
+        <token>à</token>
+        <token>última</token>
+        <token>da</token>
+        <token>hora</token>
+      </pattern>
+      <message>Substituir «à última da hora» por <suggestion>à última hora</suggestion>.</message>
+      <short>"Gramática".</short>
+      <example type="incorrect">Eles decidiram tudo <marker>à última da hora</marker>.</example>
+      <example type="correct">Eles decidiram tudo <marker>à última hora</marker>.</example>
     </rule>
 
 
@@ -739,6 +755,20 @@ $Id: grammar.xml,v 1.018 2012-07-27 01:08:00 marcoagpinto Exp $
 
 
 
+    <!-- PARA FICA para ficar -->
+    <rule id="PARA_FICA" name="para ficar">
+      <pattern>
+        <token>para</token>
+        <token>fica</token>
+      </pattern>
+      <message>Substituir «para fica» por <suggestion>para ficar</suggestion>.</message>
+      <short>"Gramática".</short>
+      <example type="incorrect">Esforça-te <marker>para fica</marker> bem.</example>
+      <example type="correct">Esforça-te <marker>para ficar</marker> bem.</example>
+    </rule>
+
+
+
     <!-- PEDIR UM CONCELHO pedir um conselho -->
     <rule id="PEDIR_UM_CONCELHO" name="pedir um conselho">
       <pattern>
@@ -779,6 +809,20 @@ $Id: grammar.xml,v 1.018 2012-07-27 01:08:00 marcoagpinto Exp $
       <short>"Gramática".</short>
       <example type="incorrect">Eles fazem tudo <marker>por dinheiro e puder</marker>.</example>
       <example type="correct">Eles fazem tudo <marker>por dinheiro e poder</marker>.</example>
+    </rule>
+
+
+
+    <!-- PRÉ AVISO pré-aviso -->
+    <rule id="PRÉ_AVISO" name="pré-aviso">
+      <pattern>
+        <token>pré</token>
+        <token>aviso</token>
+      </pattern>
+      <message>Substituir «pré aviso» por <suggestion>pré-aviso</suggestion>.</message>
+      <short>"Gramática".</short>
+      <example type="incorrect">O período de <marker>pré aviso</marker> é de uma semana.</example>
+      <example type="correct">O período de <marker>pré-aviso</marker> é de uma semana.</example>
     </rule>
 
 
