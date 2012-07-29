@@ -593,13 +593,15 @@ though, and has since been slightly modified)-->
                     <marker>
                         <token>sa</token>
                     </marker>
-                    <token postag="[VR].*" postag_regexp="yes"><exception postag="N.*|V ppa [fe] sp?" postag_regexp="yes"/></token>
+                    <token postag="[VR].*" postag_regexp="yes">
+                      <exception postag="N.*|V ppa [fe] sp?" postag_regexp="yes"/>
+                    </token>
                 </pattern>
                 <message>Voulez-vous écrire <suggestion>ça</suggestion> ?</message>
                 <example type="correct">Ça va ?</example>
                 <example type="incorrect"><marker>Sa</marker> va ?</example>
                 <example type="correct">Ça voiture est en panne.</example>
-                <example type="correct">C’est ma préférée.</example>
+                <example type="correct">C’est sa préférée.</example>
             </rule>
         </rulegroup>
         <rule id="QUAND_QUANT" name="Quand au lien de quant">
@@ -721,17 +723,26 @@ though, and has since been slightly modified)-->
                 <example type="correct">Il part bientôt pour Venise.</example>
             </rule>
         </rulegroup>
-        <rule id="GENE" name="Gène et gêne">
+        <rulegroup id="GENE" name="Gène et gêne">
+          <rule>
             <pattern>
-                <token>sans</token>
-                <marker>
-                    <token>gène</token>
-                </marker>
+                <token regexp="yes">avec|sans|[mt]e|[nv]ous</token>
+                <marker><token>gène</token></marker>
             </pattern>
             <message>Voulez-vous écrire <suggestion>gêne</suggestion> ?</message>
             <example type="incorrect">Il est sans <marker>gène</marker>.</example>
             <example type="correct">Il est sans gêne.</example>
-        </rule>
+          </rule>
+          <rule>
+            <pattern>
+              <token regexp="yes">[mts]es|[nv]os|leurs</token>
+              <marker><token>gênes</token></marker>
+            </pattern>
+            <message>Voulez-vous écrire <suggestion>gènes</suggestion> ?</message>
+            <example type="incorrect">Nos <marker>gênes</marker> déterminent ce que nous sommes.</example>
+            <example type="correct">Nos <marker>gènes</marker> déterminent ce que nous sommes.</example>
+          </rule>
+        </rulegroup>
         <rulegroup id="PEUT_ETRE" name="Peut-être au lieu de peut être">
             <rule>
                 <pattern>
@@ -1398,7 +1409,7 @@ though, and has since been slightly modified)-->
                     <token>ma</token>
                 </marker>
                 <token postag="V.*" postag_regexp="yes">
-                  <exception postag="[NR].*|V ppa [fe] s" postag_regexp="yes"/>
+                  <exception postag="[NR].*|V ppa [fe] sp?" postag_regexp="yes"/>
                 </token>
             </pattern>
             <message>Voulez-vous écrire <suggestion>m’a</suggestion>?</message>
@@ -3295,7 +3306,8 @@ though, and has since been slightly modified)-->
             <example type="correct">Il y a un mois, Benoît XVI a <marker>institué</marker> une commission formée de trois cardinaux.</example>
             <example type="correct">Je l’ai à peine vue.</example>
             <example type="correct"><marker>Compte tenu</marker> du retard.</example>
-            <example type="correct">Il est sans doute arrivé.</example>
+            <example type="correct">Il est sans <marker>doute arrivé</marker>.</example>
+            <example type="correct">Le monde est sans <marker>cesse menacé</marker>.</example>
         </rule>
         <rulegroup id="NON_V" name="pronom sujet + nom/adj">
             <rule>
@@ -3365,7 +3377,7 @@ though, and has since been slightly modified)-->
                 <example type="correct">Il ne l'<marker>est</marker> que durant l’élection.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="N_V" name="pas de verbe après : au, de, du…">
+        <rulegroup id="N_V" name="pas de verbe après : au, de, du…">
           <rule>
             <pattern>
               <token regexp="yes">aux?|des|du</token>
