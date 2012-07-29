@@ -1645,7 +1645,7 @@ $Id$
             <example type="incorrect">No <marker>composa</marker> mai.</example>
             <example type="correct">No <marker>compon</marker> mai.</example>
         </rule>
-        <rule id="VAREM_INFINITIU" name="Errors en el passat compost">
+        <rule id="VAREM_INFINITIU" name="Errors d'accentuació en el passat compost (*varem/vàrem)">
             <pattern>
                 <marker>
                     <token regexp="yes">varem|vareu</token>
@@ -1656,6 +1656,19 @@ $Id$
             <short>Error en el passat compost</short>
             <example type="incorrect"><marker>Varem</marker> dir.</example>
             <example type="correct"><marker>Vàrem</marker> dir.</example>
+        </rule>
+        <rule id="CONFUSIO_PARTICIPI_INFINITIU" name="Nom + adverbi + participi: un país secularment *humanitzar/humanitzat">
+            <pattern>
+                <token postag="N.[MC][SN].*" postag_regexp="yes"/>
+                <token postag="RG"/>
+                <marker>
+                    <token postag="V.[GN].*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <message>Potser vols dir <suggestion><match no="3" postag="VMP00SM"/></suggestion>.</message>
+            <short>Possible confusió</short>
+            <example type="incorrect">un país secularment <marker>humanitzar</marker> com el nostre</example>
+            <example type="correct">un país secularment humanitzat com el nostre</example>
         </rule>
         <!-- Només funciona per a algunes situacions: van beguts, considerin oportú. <rulegroup id="concorda_verb_objecte" name="Comprova concordança: verb + participi/adjectiu">
 <rule>
