@@ -2044,6 +2044,19 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="V.*"></disambig>
     </rule>
+    <rule id="PronomNom" name="nom i pronom">
+        <!-- jo, mi, la, te, ens  -->
+        <pattern>
+            <token><exception postag="D[AID].*" postag_regexp="yes" /></token> 
+            <marker>
+                <and>
+                    <token postag="PP.*" postag_regexp="yes"/>
+                    <token postag="N.*" postag_regexp="yes"/>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="[^N].*"></disambig>
+    </rule>
     <rulegroup id="DNA" name="Det + Nom + Adj/Possessiu/participi">
         <!--Falla amb nom neutre?: Aquest art expressa
         -->
