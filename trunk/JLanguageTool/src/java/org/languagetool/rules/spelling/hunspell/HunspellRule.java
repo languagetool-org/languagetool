@@ -54,39 +54,39 @@ public class HunspellRule extends SpellingCheckRule {
   private final static String NON_ALPHABETIC = "[^\\p{L}]";
 
   /** The dictionary file */
- 	private Hunspell.Dictionary dictionary = null;
+  private Hunspell.Dictionary dictionary = null;
   private Pattern nonWordPattern;
   private boolean needsInit = true;
 
-	public HunspellRule(final ResourceBundle messages, final Language language)
-			throws UnsatisfiedLinkError, UnsupportedOperationException, IOException {
-		super(messages, language);
-		super.setCategory(new Category(messages.getString("category_typo")));
-	}
+  public HunspellRule(final ResourceBundle messages, final Language language)
+          throws UnsatisfiedLinkError, UnsupportedOperationException, IOException {
+    super(messages, language);
+    super.setCategory(new Category(messages.getString("category_typo")));
+  }
 
-	@Override
-	public String getId() {
-		return RULE_ID;
-	}
+  @Override
+  public String getId() {
+    return RULE_ID;
+  }
 
-	@Override
-	public String getDescription() {
-		return messages.getString("desc_spelling");
-	}
+  @Override
+  public String getDescription() {
+    return messages.getString("desc_spelling");
+  }
 
-	@Override
-	public RuleMatch[] match(AnalyzedSentence text) throws IOException {
+  @Override
+  public RuleMatch[] match(AnalyzedSentence text) throws IOException {
     final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     if (needsInit) {
       init();
     }
-		if (dictionary == null) {
-  		// some languages might not have a dictionary, be silent about it
-			return toRuleMatchArray(ruleMatches);
+    if (dictionary == null) {
+      // some languages might not have a dictionary, be silent about it
+      return toRuleMatchArray(ruleMatches);
     }
-		final String[] tokens = tokenizeText(getSentenceText(text));
+    final String[] tokens = tokenizeText(getSentenceText(text));
 
-		// starting with the first token to skip the zero-length START_SENT
+    // starting with the first token to skip the zero-length START_SENT
     int len = text.getTokens()[1].getStartPos();
     for (final String word : tokens) {
       boolean isAlphabetic = true;
@@ -109,8 +109,8 @@ public class HunspellRule extends SpellingCheckRule {
       len += word.length() + 1;
     }
 
-		return toRuleMatchArray(ruleMatches);
-	}
+    return toRuleMatchArray(ruleMatches);
+  }
 
   protected boolean offerSuggestions() {
     return true;
@@ -129,33 +129,33 @@ public class HunspellRule extends SpellingCheckRule {
   }
 
   private void init() throws IOException {
-      final String langCountry = language.getShortName()
-              + "_"
-              + language.getCountryVariants()[0];
-      final String shortDicPath = "/"
-              + language.getShortName()
-              + "/hunspell/"
-              + langCountry
-              + ".dic";
-      String wordChars = "";
-      // set dictionary only if there are dictionary files:
-      if (JLanguageTool.getDataBroker().resourceExists(shortDicPath)) {
-          final String path = getDictionaryPath(langCountry, shortDicPath);
-          if ("".equals(path)) {
-              dictionary = null;
-          } else {
-              dictionary = Hunspell.getInstance().
-                      getDictionary(path);
+    final String langCountry = language.getShortName()
+            + "_"
+            + language.getCountryVariants()[0];
+    final String shortDicPath = "/"
+            + language.getShortName()
+            + "/hunspell/"
+            + langCountry
+            + ".dic";
+    String wordChars = "";
+    // set dictionary only if there are dictionary files:
+    if (JLanguageTool.getDataBroker().resourceExists(shortDicPath)) {
+      final String path = getDictionaryPath(langCountry, shortDicPath);
+      if ("".equals(path)) {
+        dictionary = null;
+      } else {
+        dictionary = Hunspell.getInstance().
+                getDictionary(path);
 
-              if (!"".equals(dictionary.getWordChars())) {
-                  wordChars = "(?![" + dictionary.getWordChars().replace("-", "\\-") + "])";
-              }
+        if (!"".equals(dictionary.getWordChars())) {
+          wordChars = "(?![" + dictionary.getWordChars().replace("-", "\\-") + "])";
+        }
 
-              dictionary.addWord("LanguageTool"); // to make demo text check 4 times faster...
-          }
+        dictionary.addWord("LanguageTool"); // to make demo text check 4 times faster...
       }
-      nonWordPattern = Pattern.compile(wordChars + NON_ALPHABETIC);
-      needsInit = false;
+    }
+    nonWordPattern = Pattern.compile(wordChars + NON_ALPHABETIC);
+    needsInit = false;
   }
 
   private String getDictionaryPath(final String dicName,
@@ -184,9 +184,9 @@ public class HunspellRule extends SpellingCheckRule {
       try {
         dictionaryPath = new File(dictURL.toURI()).getAbsolutePath();
         dictionaryPath = dictionaryPath.substring(0, dictionaryPath.length() - suffixLength);
-    } catch (URISyntaxException e) {
-       return "";
-    }
+      } catch (URISyntaxException e) {
+        return "";
+      }
     }
     return dictionaryPath;
   }
