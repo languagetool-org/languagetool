@@ -24,8 +24,7 @@ public class HunspellNoSuggestionRule extends HunspellRule {
 
   @Override
   public String getDescription() {
-    // TODO: make i18n after LT 1.8
-    return messages.getString("desc_spelling") + " (no suggestions)";
+    return messages.getString("desc_spelling_no_suggestions");
   }
 
   @Override
