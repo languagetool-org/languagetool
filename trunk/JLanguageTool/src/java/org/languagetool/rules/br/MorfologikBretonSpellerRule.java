@@ -19,6 +19,7 @@
 
 package org.languagetool.rules.br;
 
+import java.io.IOException;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
@@ -32,7 +33,7 @@ public final class MorfologikBretonSpellerRule extends MorfologikSpellerRule {
   private static final Pattern BRETON_TOKENIZING_CHARS = Pattern.compile("-");
 
   public MorfologikBretonSpellerRule(ResourceBundle messages,
-                                     Language language) {
+                                     Language language) throws IOException {
     super(messages, language);
   }
 

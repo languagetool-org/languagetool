@@ -19,6 +19,7 @@
 
 package org.languagetool.rules.ca;
 
+import java.io.IOException;
 import java.util.ResourceBundle;
 
 import org.languagetool.Language;
@@ -29,7 +30,7 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
     private static final String RESOURCE_FILENAME = "/ca/hunspell/ca_ES.dict";
     
     public MorfologikCatalanSpellerRule(ResourceBundle messages,
-            Language language) {
+            Language language) throws IOException {
         super(messages, language);
     }
 

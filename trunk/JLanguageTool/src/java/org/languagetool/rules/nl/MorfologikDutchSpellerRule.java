@@ -19,6 +19,7 @@
 
 package org.languagetool.rules.nl;
 
+import java.io.IOException;
 import java.util.ResourceBundle;
 
 import org.languagetool.Language;
@@ -29,7 +30,7 @@ public final class MorfologikDutchSpellerRule extends MorfologikSpellerRule {
     private static final String RESOURCE_FILENAME = "/nl/hunspell/nl_NL.dict";
     
     public MorfologikDutchSpellerRule(ResourceBundle messages,
-            Language language) {
+            Language language) throws IOException {
         super(messages, language);
     }
 

@@ -49,15 +49,15 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
 
     private Locale conversionLocale = Locale.getDefault();
 
-    
     /**
      * Get the filename, e.g., <tt>/resource/pl/spelling.dict</tt>.
      */
     public abstract String getFileName();        
     
-    public MorfologikSpellerRule(ResourceBundle messages, Language language) {
+    public MorfologikSpellerRule(ResourceBundle messages, Language language) throws IOException {
         super(messages, language);
         super.setCategory(new Category(messages.getString("category_typo")));
+        init();
     }
 
     @Override
@@ -90,13 +90,16 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
         }
         for (AnalyzedTokenReadings token : tokens) {
             final String word = token.getToken();
+            if (ignoreWord(word)) {
+                continue;
+            }
             if (!token.isImmunized()) {
                 if (tokenizingPattern() == null) {
                     ruleMatches.addAll(getRuleMatch(word, token.getStartPos()));
                 } else {
                     int index = 0;
                     final Matcher m = tokenizingPattern().matcher(word);
-                    while(m.find()) {
+                    while (m.find()) {
                         final String match = word.subSequence(index, m.start()).toString();                        
                         ruleMatches.addAll(getRuleMatch(match, token.getStartPos() + index));
                         index = m.end();
@@ -157,7 +160,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
      * the words as in the source dictionary. For example,
      * it may contain a hyphen, if the words with hyphens are
      * not included in the dictionary
-     * @return A compiled {@link #Pattern} that is used to tokenize words. 
+     * @return A compiled {@link Pattern} that is used to tokenize words or null.
      */
     public Pattern tokenizingPattern() {
         return null;

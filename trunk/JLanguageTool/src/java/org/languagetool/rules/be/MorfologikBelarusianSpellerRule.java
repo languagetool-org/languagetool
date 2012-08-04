@@ -19,6 +19,7 @@
 
 package org.languagetool.rules.be;
 
+import java.io.IOException;
 import java.util.ResourceBundle;
 
 import org.languagetool.Language;
@@ -29,7 +30,7 @@ public final class MorfologikBelarusianSpellerRule extends MorfologikSpellerRule
   private static final String RESOURCE_FILENAME = "/be/hunspell/be_BY.dict";
 
   public MorfologikBelarusianSpellerRule(ResourceBundle messages,
-                                     Language language) {
+                                     Language language) throws IOException {
     super(messages, language);
   }
 

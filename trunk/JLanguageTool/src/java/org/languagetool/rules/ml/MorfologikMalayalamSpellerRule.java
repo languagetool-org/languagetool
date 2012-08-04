@@ -19,6 +19,7 @@
 
 package org.languagetool.rules.ml;
 
+import java.io.IOException;
 import java.util.ResourceBundle;
 
 import org.languagetool.Language;
@@ -29,7 +30,7 @@ public final class MorfologikMalayalamSpellerRule extends MorfologikSpellerRule 
     private static final String RESOURCE_FILENAME = "/ml/hunspell/ml_IN.dict";
     
     public MorfologikMalayalamSpellerRule(ResourceBundle messages,
-            Language language) {
+            Language language) throws IOException {
         super(messages, language);
     }
 

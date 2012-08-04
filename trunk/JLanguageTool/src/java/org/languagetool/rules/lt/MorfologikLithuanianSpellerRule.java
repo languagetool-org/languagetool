@@ -19,6 +19,7 @@
 
 package org.languagetool.rules.lt;
 
+import java.io.IOException;
 import java.util.ResourceBundle;
 
 import org.languagetool.Language;
@@ -29,7 +30,7 @@ public final class MorfologikLithuanianSpellerRule extends MorfologikSpellerRule
     private static final String RESOURCE_FILENAME = "/lt/hunspell/lt_LT.dict";
     
     public MorfologikLithuanianSpellerRule(ResourceBundle messages,
-            Language language) {
+            Language language) throws IOException {
         super(messages, language);
     }
 

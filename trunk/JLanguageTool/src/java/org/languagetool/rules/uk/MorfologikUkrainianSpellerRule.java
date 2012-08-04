@@ -19,6 +19,7 @@
 
 package org.languagetool.rules.uk;
 
+import java.io.IOException;
 import java.util.ResourceBundle;
 
 import org.languagetool.Language;
@@ -29,7 +30,7 @@ public final class MorfologikUkrainianSpellerRule extends MorfologikSpellerRule 
     private static final String RESOURCE_FILENAME = "/uk/hunspell/uk_UA.dict";
     
     public MorfologikUkrainianSpellerRule(ResourceBundle messages,
-            Language language) {
+            Language language) throws IOException {
         super(messages, language);
     }
 

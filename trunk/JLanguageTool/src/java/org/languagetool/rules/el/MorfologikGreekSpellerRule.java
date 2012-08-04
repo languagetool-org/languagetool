@@ -19,6 +19,7 @@
 
 package org.languagetool.rules.el;
 
+import java.io.IOException;
 import java.util.ResourceBundle;
 
 import org.languagetool.Language;
@@ -29,7 +30,7 @@ public final class MorfologikGreekSpellerRule extends MorfologikSpellerRule {
     private static final String RESOURCE_FILENAME = "/el/hunspell/el_GR.dict";
     
     public MorfologikGreekSpellerRule(ResourceBundle messages,
-            Language language) {
+            Language language) throws IOException {
         super(messages, language);
     }
 

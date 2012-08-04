@@ -89,6 +89,10 @@ public class HunspellRule extends SpellingCheckRule {
     // starting with the first token to skip the zero-length START_SENT
     int len = text.getTokens()[1].getStartPos();
     for (final String word : tokens) {
+      if (ignoreWord(word)) {
+        len += word.length() + 1;
+        continue;
+      }
       boolean isAlphabetic = true;
       if (word.length() == 1) { // hunspell dictionaries usually do not contain punctuation
         isAlphabetic = StringTools.isAlphabetic(word.charAt(0));
@@ -128,7 +132,8 @@ public class HunspellRule extends SpellingCheckRule {
     return sb.toString();
   }
 
-  private void init() throws IOException {
+  protected void init() throws IOException {
+    super.init();
     final String langCountry = language.getShortName()
             + "_"
             + language.getCountryVariants()[0];

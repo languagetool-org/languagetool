@@ -19,6 +19,7 @@
 
 package org.languagetool.rules.pl;
 
+import java.io.IOException;
 import java.util.ResourceBundle;
 
 import org.languagetool.Language;
@@ -29,7 +30,7 @@ public final class MorfologikPolishSpellerRule extends MorfologikSpellerRule {
     private static final String RESOURCE_FILENAME = "/pl/hunspell/pl_PL.dict";
     
     public MorfologikPolishSpellerRule(ResourceBundle messages,
-            Language language) {
+            Language language) throws IOException {
         super(messages, language);
     }
 

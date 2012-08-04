@@ -19,6 +19,7 @@
 
 package org.languagetool.rules.sk;
 
+import java.io.IOException;
 import java.util.ResourceBundle;
 
 import org.languagetool.Language;
@@ -29,7 +30,7 @@ public final class MorfologikSlovakSpellerRule extends MorfologikSpellerRule {
     private static final String RESOURCE_FILENAME = "/sk/hunspell/sk_SK.dict";
     
     public MorfologikSlovakSpellerRule(ResourceBundle messages,
-            Language language) {
+            Language language) throws IOException {
         super(messages, language);
     }
 

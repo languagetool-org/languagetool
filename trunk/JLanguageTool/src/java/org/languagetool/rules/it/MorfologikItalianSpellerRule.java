@@ -19,6 +19,7 @@
 
 package org.languagetool.rules.it;
 
+import java.io.IOException;
 import java.util.ResourceBundle;
 
 import org.languagetool.Language;
@@ -29,7 +30,7 @@ public final class MorfologikItalianSpellerRule extends MorfologikSpellerRule {
     private static final String RESOURCE_FILENAME = "/it/hunspell/it_IT.dict";
     
     public MorfologikItalianSpellerRule(ResourceBundle messages,
-            Language language) {
+            Language language) throws IOException {
         super(messages, language);
     }
 
