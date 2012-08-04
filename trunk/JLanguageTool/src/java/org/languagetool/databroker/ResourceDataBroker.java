@@ -70,8 +70,8 @@ public interface ResourceDataBroker {
    * Gets any resource from the grammar checker's {@code /resource} directory.
    *
    * @param path Path to an item from the {@code /resource} directory.
-   * @return An {@link URL} object to the requested item or {@code null} if it
-   *         wasn't found.
+   * @return An {@link URL} object to the requested item
+   * @throws RuntimeException if path cannot be found
    */
   public URL getFromResourceDirAsUrl(String path);
   
@@ -93,8 +93,8 @@ public interface ResourceDataBroker {
    * Gets any resource from the grammar checker's {@code /resource} directory.
    *
    * @param path Path to an item from the {@code /resource} directory.
-   * @return An {@link InputStream} object to the requested item or {@code null}
-   *         if it wasn't found.
+   * @return An {@link InputStream} object to the requested item
+   * @throws RuntimeException if path cannot be found
    */
   public InputStream getFromResourceDirAsStream(String path);
 
@@ -103,8 +103,8 @@ public interface ResourceDataBroker {
    *
    * @param path
    *            Path to an item from the {@code /rules} directory.
-   * @return An {@link URL} object to the requested item or {@code null} if it
-   *         wasn't found.
+   * @return An {@link URL} object to the requested item
+   * @throws RuntimeException if path cannot be found
    */
   public URL getFromRulesDirAsUrl(String path);
 
@@ -112,8 +112,8 @@ public interface ResourceDataBroker {
    * Gets any resource from the grammar checker's {@code /rules} directory.
    *
    * @param path Path to an item from the {@code /rules} directory.
-   * @return An {@link InputStream} object to the requested item or {@code
-   *         null} if it wasn't found.
+   * @return An {@link InputStream} object to the requested item
+   * @throws RuntimeException if path cannot be found
    */
   public InputStream getFromRulesDirAsStream(String path);
 

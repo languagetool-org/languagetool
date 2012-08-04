@@ -131,8 +131,8 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
    *            directory. Please start your path information with {@code /}
    *            because it will be concatenated with the directory's name:
    *            /resource<b>/yourpath</b>.
-   * @return An {@link InputStream} object to the requested item or {@code
-   *         null} if it wasn't found.
+   * @return An {@link InputStream} object to the requested item
+   * @throws RuntimeException if path cannot be found
    */
   @Override
   public InputStream getFromResourceDirAsStream(final String path) {
@@ -151,8 +151,8 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
    *            directory. Please start your path information with {@code /}
    *            because it will be concatenated with the directory's name:
    *            /resource<b>/yourpath</b>.
-   * @return An {@link URL} object to the requested item or {@code null} if it
-   *         wasn't found.
+   * @return An {@link URL} object to the requested item
+   * @throws RuntimeException if path cannot be found
    */
   @Override
   public URL getFromResourceDirAsUrl(final String path) {
@@ -198,8 +198,8 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
    *            directory. Please start your path information with {@code /}
    *            because it will be concatenated with the directory's name:
    *            /rules<b>/yourpath</b>.
-   * @return An {@link InputStream} object to the requested item or {@code
-   *         null} if it wasn't found.
+   * @return An {@link InputStream} object to the requested item
+   * @throws RuntimeException if path cannot be found
    */
   @Override
   public InputStream getFromRulesDirAsStream(final String path) {
@@ -217,8 +217,8 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
    *            directory. Please start your path information with {@code /}
    *            because it will be concatenated with the directory's name:
    *            /rules<b>/yourpath</b>.
-   * @return An {@link URL} object to the requested item or {@code null} if it
-   *         wasn't found.
+   * @return An {@link URL} object to the requested item
+   * @throws RuntimeException if path cannot be found
    */
   @Override
   public URL getFromRulesDirAsUrl(final String path) {
