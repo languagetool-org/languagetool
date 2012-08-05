@@ -56,8 +56,7 @@ public class HunspellRuleTest {
     final HunspellRule rule = new HunspellRule(TestTools.getMessages("German"), Language.SWISS_GERMAN);
     final JLanguageTool langTool = new JLanguageTool(Language.GERMAN);
     commonGermanAsserts(rule, langTool);
-    //TODO: the error is not found as "äußere" is in ignore.txt:
-    //assertEquals(1, rule.match(langTool.getAnalyzedSentence("Der äußere Übeltäter.")).length);  // ß not allowed in Swiss
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Der äußere Übeltäter.")).length);  // ß not allowed in Swiss
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Der äussere Übeltäter.")).length);  // ss is used instead of ß
   }
 
