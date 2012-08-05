@@ -2941,7 +2941,7 @@ $Id$
         <marker>
           <token>eñ</token>
         </marker>
-        <token regexp="yes">deus|doa?|deze?</token>
+        <token regexp="yes">deus|do[ae]?|de[fz]e?|dije|devezet?|devezo|devoe</token>
       </pattern>
       <message>Ha fellout a rae doc’h skrivañ <suggestion><match no="1" regexp_match="(.)." regexp_replace="$1n"/></suggestion>?</message>
       <example type="incorrect">Naon <marker>eñ</marker> deus.</example>
@@ -3097,7 +3097,7 @@ $Id$
         <pattern>
           <token regexp="yes">[ae]z|ho</token>
           <marker>
-            <token regexp="yes">dez|bez|doa?|boa?|deus</token>
+            <token regexp="yes">[bd]eze?|[bd]o[ae]?|deus</token>
           </marker>
         </pattern>
         <message>Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="p$1"/></suggestion>?</message>
@@ -3109,7 +3109,7 @@ $Id$
         <pattern>
           <token regexp="yes">en|o</token>
           <marker>
-            <token regexp="yes">bez|pez|boa?|poa?|peus</token>
+            <token regexp="yes">[bp]e[fz]e?|[bp]o[ae]?|peus|[bp]ije</token>
           </marker>
         </pattern>
         <message>Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="d$1"/></suggestion>?</message>
@@ -3329,6 +3329,20 @@ $Id$
         <message>Ret eo implij ur verb lies goude «\2 \3» e penn an frazenn. (CHALM R1.5.1)</message>
         <example type="incorrect">Nebeut ne <marker>c’hoarzhe</marker> ket.</example>
         <example type="correct">Nebeut ne <marker>c’hoarzhent</marker> ket.</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="PA_BEZAN" name="pa + bezañ">
+      <rule>
+        <pattern>
+          <token>pa</token>
+          <marker><token regexp="yes">eo|zo</token></marker>
+        </pattern>
+        <message>Ret eo implij <suggestion>vez</suggestion> goude «pa» (CHALM C71.4.3).</message>
+        <example type="incorrect">Pa <marker>eo</marker> brav an amzer</example>
+        <example type="correct">Pa <marker>vez</marker> brav an amzer.</example>
+        <example type="incorrect">Pa <marker>zo</marker> amzer</example>
+        <example type="correct">Pa <marker>vez</marker> amzer</example>
       </rule>
     </rulegroup>
   </category>
