@@ -390,7 +390,6 @@ public final class JLanguageTool {
    */
   public void addRule(final Rule rule) {
     userRules.add(rule);
-    // TODO: not on first start - too slow:
     final SuggestionExtractor extractor = new SuggestionExtractor(language);
     final List<String> suggestionTokens = extractor.getSuggestionTokens(rule);
     final List<Rule> allActiveRules = getAllActiveRules();
