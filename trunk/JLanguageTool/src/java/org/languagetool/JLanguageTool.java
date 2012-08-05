@@ -50,6 +50,8 @@ import org.languagetool.rules.SameRuleGroupFilter;
 import org.languagetool.rules.patterns.FalseFriendRuleLoader;
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.rules.patterns.PatternRuleLoader;
+import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.languagetool.rules.spelling.SuggestionExtractor;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tokenizers.Tokenizer;
@@ -388,28 +390,65 @@ public final class JLanguageTool {
    */
   public void addRule(final Rule rule) {
     userRules.add(rule);
+    // TODO: not on first start - too slow:
+    final SuggestionExtractor extractor = new SuggestionExtractor(language);
+    final List<String> suggestionTokens = extractor.getSuggestionTokens(rule);
+    final List<Rule> allActiveRules = getAllActiveRules();
+    addIgnoreWords(suggestionTokens, allActiveRules);
+  }
+
+  private void addIgnoreWords(List<String> suggestionTokens, List<Rule> allActiveRules) {
+    for (Rule activeRule : allActiveRules) {
+      if (activeRule instanceof SpellingCheckRule) {
+        ((SpellingCheckRule)activeRule).addIgnoreTokens(suggestionTokens);
+      }
+    }
+  }
+
+  private void setIgnoreWords(List<String> suggestionTokens, List<Rule> allActiveRules) {
+    for (Rule activeRule : allActiveRules) {
+      if (activeRule instanceof SpellingCheckRule) {
+        ((SpellingCheckRule)activeRule).resetIgnoreTokens();
+        ((SpellingCheckRule)activeRule).addIgnoreTokens(suggestionTokens);
+      }
+    }
   }
 
   /**
    * Disable a given rule so {@link #check(String)} won't use it.
    * 
-   * @param ruleId
-   *          the id of the rule to disable
+   * @param ruleId the id of the rule to disable - no error will be given if the id does not exist
    */
   public void disableRule(final String ruleId) {
-    // TODO: check if such a rule exists
     disabledRules.add(ruleId);
+    reInitSpellCheckIgnoreWords();
+  }
+
+  private void reInitSpellCheckIgnoreWords() {
+    final List<Rule> allActiveRules = getAllActiveRules();
+    final List<String> ignoreTokens = getAllIgnoreWords(allActiveRules);
+    setIgnoreWords(ignoreTokens, allActiveRules);
+  }
+
+  private List<String> getAllIgnoreWords(List<Rule> allActiveRules) {
+    final List<String> suggestionTokens = new ArrayList<String>();
+    for (Rule activeRule : allActiveRules) {
+      if (activeRule instanceof PatternRule) {
+        final SuggestionExtractor extractor = new SuggestionExtractor(language);
+        suggestionTokens.addAll(extractor.getSuggestionTokens(activeRule));
+      }
+    }
+    return suggestionTokens;
   }
 
   /**
    * Disable a given category so {@link #check(String)} won't use it.
    * 
-   * @param categoryName
-   *          the id of the category to disable
+   * @param categoryName the id of the category to disable - no error will be given if the id does not exist
    */
   public void disableCategory(final String categoryName) {
-    // TODO: check if such a rule exists
     disabledCategories.add(categoryName);
+    reInitSpellCheckIgnoreWords();
   }
 
   /**

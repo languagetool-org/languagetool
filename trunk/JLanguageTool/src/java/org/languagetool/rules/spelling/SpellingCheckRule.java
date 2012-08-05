@@ -63,6 +63,25 @@ public abstract class SpellingCheckRule extends Rule {
   public void reset() {
   }
 
+  /**
+   * Add the given words to the list of words to be ignored during spell check.
+   */
+  public void addIgnoreTokens(List<String> tokens) {
+    wordsToBeIgnored.addAll(tokens);
+  }
+
+  /**
+   * Reset the list of words to be ignored, by re-loading it from the "ignore.txt" file.
+   */
+  public void resetIgnoreTokens() {
+    wordsToBeIgnored.clear();
+    try {
+      init();
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
   protected boolean ignoreWord(String word) throws IOException {
     // TODO?: this is needed at least for German as Hunspell tokenization includes the dot:
     final String cleanWord = word.endsWith(".") ? word.substring(0, word.length() - 1) : word;
@@ -71,7 +90,6 @@ public abstract class SpellingCheckRule extends Rule {
 
   protected void init() throws IOException {
     loadFileIfExists(language.getShortName() + SPELLING_IGNORE_FILE);
-    loadFileIfExists(language.getShortNameWithVariant() + SPELLING_IGNORE_FILE);
   }
 
   private void loadFileIfExists(String filename) throws IOException {
