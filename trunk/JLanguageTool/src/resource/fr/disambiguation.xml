@@ -82,7 +82,15 @@ RB => Règles Brutes
     <!-- So that word "faute" (etc) as in "des faute", "une fautes" is marked as
  a noun and not a verb, otherwise we don't find the incorrect
  accord in number -->
-    <rule name="nom" id="N">
+    <rulegroup name="nom" id="N">
+      <rule>
+        <pattern>
+          <token regexp="yes">une|quelques|plusieurs</token>
+          <marker><token regexp="yes">étranges?|larges?</token></marker>
+        </pattern>
+        <disambig action="filter" postag="J [ef] .*"/>
+      </rule>
+      <rule>
         <pattern>
             <token regexp="yes">aucune?s?|chaque|certaine?s?|des?|différents|divers|maint|mêmes?|moult|nombreuses|nul|nulle|plusieurs|quelques|tels?|telles?|toute?s?|une?<exception scope="previous" regexp="yes">[’´'‛′‘]</exception></token>
             <marker>
@@ -90,8 +98,8 @@ RB => Règles Brutes
             </marker>
         </pattern>
         <disambig action="filter" postag="N.*"/>
-    </rule>
-
+      </rule>
+    </rulegroup>
     <rulegroup name="été (nom)" id="ETE">
         <rule>
             <pattern>
