@@ -127,6 +127,14 @@
     </target>
 
     <!-- ================================================================== -->
+    <!-- Generate the "ignore.txt" files -->
+    <!-- ================================================================== -->
+    <target name="generate-ignore-files" depends="clean,init,build">
+        <java classname="org.languagetool.rules.spelling.SuggestionExtractor" fork="true"
+              classpath="${build.classes}:src" classpathref="common.classpath"/>
+    </target>
+
+    <!-- ================================================================== -->
     <!-- TEST -->
     <!-- ================================================================== -->
 

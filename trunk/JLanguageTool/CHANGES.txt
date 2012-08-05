@@ -40,6 +40,11 @@ LanguageTool Change Log
  -introduced a file resources/<lang>/hunspell/ignore.txt with words that the spell checker
   will ignore
 
+ -development: new ant target generate-ignore-files: call "ant generate-ignore-files" if you
+  want to re-generate the ignore.txt files, populated with suggestions from the grammar files.
+  In other words, this makes sure "simple" suggestions (i.e. those without back references) made
+  by the LanguageTool rules are never considered spelling mistakes.
+
  -stand-alone GUI: rules can now be disabled and enabled again with a single click
 
  -HTTP API: "+" was incorrectly removed from input (sf bug #3543914), patch by
