@@ -1419,15 +1419,26 @@ $Id$
       <example type="correct">Mi ŝatis ĉi libron.</example>
       <example type="correct">Mi ŝatis ĉi tiun libron.</example>
     </rule>
-    <rule id="CXI-TIU" name="ĉi-tiu (ĉi tiu)">
-      <pattern>
-        <token regexp="yes">ĉi-ti(([aeou]j?n?)|el|am|es|om)</token>
-      </pattern>
-      <message>Ĉu vi intencis skribi <suggestion><match no="1" regexp_match="(..)-(.*)" regexp_replace="$1 $2"/></suggestion> sen streketo?</message>
-      <url>http://eo.lernu.net/lernado/gramatiko/demandoj/oe-cxi2.php</url>
-      <example type="incorrect">Mi deziras <marker>ĉi-tiun</marker>.</example>
-      <example type="correct">Mi deziras ĉi tiun.</example>
-    </rule>
+    <rulegroup id="CXI-TIU" name="ĉi-tiu (ĉi tiu)">
+      <rule>
+        <pattern>
+          <token regexp="yes">ĉi-ti(([aeou]j?n?)|el|am|es|om)</token>
+        </pattern>
+        <message>Ĉu vi intencis skribi <suggestion><match no="1" regexp_match="-" regexp_replace=" "/></suggestion> sen streketo?</message>
+        <url>http://eo.lernu.net/lernado/gramatiko/demandoj/oe-cxi2.php</url>
+        <example type="incorrect">Mi deziras <marker>ĉi-tiun</marker>.</example>
+        <example type="correct">Mi deziras ĉi tiun.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">ti(([aeou]j?n?)|el|am|es|om)-ĉi</token>
+        </pattern>
+        <message>Ĉu vi intencis skribi <suggestion><match no="1" regexp_match="-" regexp_replace=" "/></suggestion> sen streketo?</message>
+        <url>http://eo.lernu.net/lernado/gramatiko/demandoj/oe-cxi2.php</url>
+        <example type="incorrect">Mi deziras <marker>tiun-ĉi</marker>.</example>
+        <example type="correct">Mi deziras tiun ĉi.</example>
+      </rule>
+    </rulegroup>
     <rule id="JA_JES" name="ja jes (jes ja)">
       <pattern>
         <token>ja</token>
