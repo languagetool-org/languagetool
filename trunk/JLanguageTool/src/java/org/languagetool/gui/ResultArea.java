@@ -63,6 +63,7 @@ class ResultArea extends JTextPane {
     setText(Main.HTML_GREY_FONT_START + messages.getString("resultAreaText") + Main.HTML_FONT_END);
     setEditable(false);
     addHyperlinkListener(new MyHyperlinkListener());
+    setTransferHandler(new RetainLineBreakTransferHandler());
   }
 
   String getRuleMatchHtml(List<RuleMatch> ruleMatches, String text, String startCheckText) {
