@@ -40,6 +40,8 @@ public abstract class SpellingCheckRule extends Rule {
   private static final String SPELLING_IGNORE_FILE = "/hunspell/ignore.txt";
   private final Set<String> wordsToBeIgnored = new HashSet<String>();
 
+  private boolean considerIgnoreWords = true;
+
   public SpellingCheckRule(final ResourceBundle messages, final Language language) {
     super(messages);
     this.language = language;
@@ -71,6 +73,13 @@ public abstract class SpellingCheckRule extends Rule {
   }
 
   /**
+   * Set whether the list of words to be explicitly ignored is considered at all.
+   */
+  public void setConsiderIgnoreWords(boolean considerIgnoreWords) {
+    this.considerIgnoreWords = considerIgnoreWords;
+  }
+
+  /**
    * Reset the list of words to be ignored, by re-loading it from the "ignore.txt" file.
    */
   public void resetIgnoreTokens() {
@@ -83,6 +92,9 @@ public abstract class SpellingCheckRule extends Rule {
   }
 
   protected boolean ignoreWord(String word) throws IOException {
+    if (!considerIgnoreWords) {
+      return false;
+    }
     // TODO?: this is needed at least for German as Hunspell tokenization includes the dot:
     final String cleanWord = word.endsWith(".") ? word.substring(0, word.length() - 1) : word;
     return wordsToBeIgnored.contains(cleanWord);

@@ -18,9 +18,11 @@
  */
 package org.languagetool.rules.spelling;
 
+import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.Rule;
+import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.PatternRule;
 
 import java.io.File;
@@ -37,6 +39,7 @@ public class SuggestionExtractor {
 
   private final static Pattern SUGGESTION_PATTERN = Pattern.compile("<suggestion.*?>(.*?)</suggestion>");
   private final static Pattern BACK_REFERENCE_PATTERN = Pattern.compile("\\\\" + "\\d+");
+
   private final Language language;
 
   public SuggestionExtractor(Language language) {
@@ -147,11 +150,30 @@ public class SuggestionExtractor {
     for (Language lang : Language.REAL_LANGUAGES) {
       final Set<String> suggestionTokens = new HashSet<String>();
       final JLanguageTool languageTool = new JLanguageTool(lang);
+      final Rule spellcheckRule = getSpellcheckRule(languageTool);
+      if (spellcheckRule == null) {
+        System.out.println("No spellchecker rule found for " + lang);
+        continue;
+      }
       languageTool.activateDefaultPatternRules();
       final List<Rule> rules = languageTool.getAllRules();
+      int tokenCount = 0;
+      int noErrorCount = 0;
       for (Rule rule : rules) {
-        suggestionTokens.addAll(getSuggestionTokens(rule));
+        final List<String> tokens = getSuggestionTokens(rule);
+        tokenCount += tokens.size();
+        for (String token : tokens) {
+          final AnalyzedSentence analyzedToken = languageTool.getAnalyzedSentence(token);
+          final RuleMatch[] matches = spellcheckRule.match(analyzedToken);
+          if (matches.length > 0) {
+            suggestionTokens.add(token);
+          } else {
+            //System.out.println("No error matches for " + lang + ": " + token);
+            noErrorCount++;
+          }
+        }
       }
+      System.out.println(lang + ": " + noErrorCount + " out of " + tokenCount + " words ignored because they are known to spellchecker anyway");
       final Language noVariantLanguage = lang.getDefaultVariant() == null ? lang : lang.getDefaultVariant();
       final Set<String> existingTokens = langToIgnoreTokens.get(noVariantLanguage);
       if (existingTokens != null) {
@@ -172,6 +194,17 @@ public class SuggestionExtractor {
       final File sourceDir = new File("src", "resource");
       return new File(sourceDir, language.getShortName());
     }
+  }
+
+  private Rule getSpellcheckRule(JLanguageTool languageTool) throws IOException {
+    final List<Rule> allActiveRules = languageTool.getAllActiveRules();
+    for (Rule activeRule : allActiveRules) {
+      if (activeRule instanceof SpellingCheckRule) {
+        ((SpellingCheckRule) activeRule).setConsiderIgnoreWords(false);
+        return activeRule;
+      }
+    }
+    return null;
   }
 
   public static void main(String[] args) throws IOException {
