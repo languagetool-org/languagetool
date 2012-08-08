@@ -26,7 +26,7 @@ import java.io.IOException;
 public class SuggestionExtractorTest extends TestCase {
 
   public void testGetSuggestions() throws IOException {
-    final SuggestionExtractor extractor = new SuggestionExtractor(Language.ENGLISH);
+    final SuggestionExtractor extractor = new SuggestionExtractor();
     assertEquals("[]", extractor.getSimpleSuggestions("Did you mean foo?").toString());
     assertEquals("[foo bla]", extractor.getSimpleSuggestions("Did you mean <suggestion>foo bla</suggestion>?").toString());
     assertEquals("[foo bla, xxx]", extractor.getSimpleSuggestions("Did you mean <suggestion>foo bla</suggestion> or <suggestion>xxx</suggestion>?").toString());

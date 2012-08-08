@@ -40,22 +40,19 @@ public class SuggestionExtractor {
   private final static Pattern SUGGESTION_PATTERN = Pattern.compile("<suggestion.*?>(.*?)</suggestion>");
   private final static Pattern BACK_REFERENCE_PATTERN = Pattern.compile("\\\\" + "\\d+");
 
-  private final Language language;
-
-  public SuggestionExtractor(Language language) {
-    this.language = language;
+  public SuggestionExtractor() {
   }
 
   /**
    * Get the tokens of simple suggestions, i.e. those that don't use back references.
    */
-  public List<String> getSuggestionTokens(Rule rule) {
+  public List<String> getSuggestionTokens(Rule rule, Language language) {
     final List<String> wordsToBeIgnored = new ArrayList<String>();
     if (rule instanceof PatternRule) {
       final PatternRule patternRule = (PatternRule) rule;
       final String message = patternRule.getMessage();
       final List<String> suggestions = getSimpleSuggestions(message);
-      final List<String> tokens = getSuggestionTokens(suggestions);
+      final List<String> tokens = getSuggestionTokens(suggestions, language);
       wordsToBeIgnored.addAll(tokens);
     }
     return wordsToBeIgnored;
@@ -88,7 +85,7 @@ public class SuggestionExtractor {
     return !matcher.find();
   }
 
-  private List<String> getSuggestionTokens(List<String> suggestions) {
+  private List<String> getSuggestionTokens(List<String> suggestions, Language language) {
     final List<String> tokens = new ArrayList<String>();
     for (String suggestion : suggestions) {
       final List<String> suggestionTokens = language.getWordTokenizer().tokenize(suggestion);
@@ -113,24 +110,22 @@ public class SuggestionExtractor {
       }
       final File ignoreFile = new File(hunspellDir, "ignore.txt");
       final Set<String> tokens = entry.getValue();
-      if (tokens.size() > 0) {
-        final FileWriter writer = new FileWriter(ignoreFile);
-        try {
-          writeIntro(writer, language);
-          for (String token : tokens) {
-            writer.write(token);
-            writer.write("\n");
-          }
-        } finally {
-          writer.close();
+      final FileWriter writer = new FileWriter(ignoreFile);
+      try {
+        writeIntro(writer, language);
+        for (String token : tokens) {
+          writer.write(token);
+          writer.write("\n");
         }
-        System.out.println("Wrote " + tokens.size() + " words to " + ignoreFile);
+      } finally {
+        writer.close();
       }
+      System.out.println("Wrote " + tokens.size() + " words to " + ignoreFile);
     }
   }
 
   private void writeIntro(FileWriter writer, Language language) throws IOException {
-    writer.write("# words to be ignored by the spellchecker (auto-generated " + new Date() + ")\n");
+    writer.write("# words to be ignored by the spellchecker (auto-generated)\n");
     writeArtificialTestCaseItems(writer, language);
   }
 
@@ -160,7 +155,7 @@ public class SuggestionExtractor {
       int tokenCount = 0;
       int noErrorCount = 0;
       for (Rule rule : rules) {
-        final List<String> tokens = getSuggestionTokens(rule);
+        final List<String> tokens = getSuggestionTokens(rule, lang);
         tokenCount += tokens.size();
         for (String token : tokens) {
           final AnalyzedSentence analyzedToken = languageTool.getAnalyzedSentence(token);
@@ -208,7 +203,7 @@ public class SuggestionExtractor {
   }
 
   public static void main(String[] args) throws IOException {
-    final SuggestionExtractor extractor = new SuggestionExtractor(/*not used:*/Language.ENGLISH);
+    final SuggestionExtractor extractor = new SuggestionExtractor();
     extractor.writeIgnoreTokensForLanguages();
   }
 

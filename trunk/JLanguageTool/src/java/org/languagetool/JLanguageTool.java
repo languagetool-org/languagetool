@@ -390,8 +390,8 @@ public final class JLanguageTool {
    */
   public void addRule(final Rule rule) {
     userRules.add(rule);
-    final SuggestionExtractor extractor = new SuggestionExtractor(language);
-    final List<String> suggestionTokens = extractor.getSuggestionTokens(rule);
+    final SuggestionExtractor extractor = new SuggestionExtractor();
+    final List<String> suggestionTokens = extractor.getSuggestionTokens(rule, language);
     final List<Rule> allActiveRules = getAllActiveRules();
     addIgnoreWords(suggestionTokens, allActiveRules);
   }
@@ -433,8 +433,8 @@ public final class JLanguageTool {
     final List<String> suggestionTokens = new ArrayList<String>();
     for (Rule activeRule : allActiveRules) {
       if (activeRule instanceof PatternRule) {
-        final SuggestionExtractor extractor = new SuggestionExtractor(language);
-        suggestionTokens.addAll(extractor.getSuggestionTokens(activeRule));
+        final SuggestionExtractor extractor = new SuggestionExtractor();
+        suggestionTokens.addAll(extractor.getSuggestionTokens(activeRule, language));
       }
     }
     return suggestionTokens;
