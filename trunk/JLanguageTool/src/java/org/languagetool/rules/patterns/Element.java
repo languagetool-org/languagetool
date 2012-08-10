@@ -39,26 +39,24 @@ import org.languagetool.tools.StringTools;
  */
 public class Element {
 
-  private String stringToken;
+  /** Matches only tokens without any POS tag. **/
+  public static final String UNKNOWN_TAG = "UNKNOWN";
 
-  private String posToken;
-
-  private String regToken;
-
-  private boolean posRegExp;
-
-  private boolean negation;
-
-  private boolean posNegation;
+  /**
+   * Parameter passed to regular expression matcher to enable case insensitive Unicode matching.
+   */
+  private static final String CASE_INSENSITIVE = "(?iu)";
 
   private final boolean caseSensitive;
-
   private final boolean stringRegExp;
 
+  private String stringToken;
+  private String posToken;
+  private boolean posRegExp;
+  private boolean negation;
+  private boolean posNegation;
   private boolean inflected;
-
   private boolean testWhitespace;
-
   private boolean whitespaceBefore;
 
   /**
@@ -66,24 +64,16 @@ public class Element {
    */
   private List<Element> exceptionList;
 
-  /**
-   * True if scope=="next".
-   */
+  /** True if scope=="next". */
   private boolean exceptionValidNext;
 
-  /**
-   * True if any exception with a scope=="current" or scope=="next" is set for the element.
-   */
+  /** True if any exception with a scope=="current" or scope=="next" is set for the element. */
   private boolean exceptionSet;
 
-  /**
-   * True if attribute scope=="previous".
-   */
+  /** True if attribute scope=="previous". */
   private boolean exceptionValidPrevious;
 
-  /**
-   * List of exceptions that are valid for a previous token.
-   */
+  /** List of exceptions that are valid for a previous token. */
   private List<Element> previousExceptionList;
 
   private List<Element> andGroupList;
@@ -95,28 +85,15 @@ public class Element {
   private int skip;
 
   private Pattern p;
-
   private Pattern pPos;
-
   private Matcher m;
-
   private Matcher mPos;
 
   /** The reference to another element in the pattern. **/
   private Match tokenReference;
 
-  /**
-   * True when the element stores a formatted reference to another element of the pattern.
-   */
+  /** True when the element stores a formatted reference to another element of the pattern. */
   private boolean containsMatches;
-
-  /** Matches only tokens without any POS tag. **/
-  public static final String UNKNOWN_TAG = "UNKNOWN";
-
-  /**
-   * Parameter passed to regular expression matcher to enable case insensitive Unicode matching.
-   */
-  private static final String CASE_INSENSITIVE = "(?iu)";
 
   private String referenceString;
 
@@ -129,9 +106,7 @@ public class Element {
    **/
   private boolean testString;
 
-  /**
-   * Tells if the element is inside the unification, so that {@link Unifier} tests it.
-   */
+  /** Tells if the element is inside the unification, so that {@link Unifier} tests it.  */
   private boolean unified;
 
   private boolean uniNegation;
@@ -140,7 +115,6 @@ public class Element {
   
   private boolean posUnknown;
 
-  
   /**
    * Set to true on tokens that close the unification block. 
    */
@@ -176,7 +150,7 @@ public class Element {
     if (testWhitespace && !isWhitespaceBefore(token)) {
       return false;
     }
-    boolean matched = false;
+    final boolean matched;
     if (testString) {
       matched = (isStringTokenMatched(token) ^ negation)
           && (isPosTokenMatched(token) ^ posNegation);
@@ -215,8 +189,7 @@ public class Element {
    * Works as logical AND operator only if preceded with {@link #setupAndGroup()}, and followed by
    * {@link #checkAndGroup(boolean)}.
    * 
-   * @param token
-   *          AnalyzedToken - the token checked.
+   * @param token the token checked.
    */
   public final void addMemberAndGroup(final AnalyzedToken token) {
     if (andGroupSet) {
@@ -251,11 +224,9 @@ public class Element {
 
   /**
    * Enables testing multiple conditions specified by multiple element exceptions.
-   * 
    * Works as logical AND operator.
    * 
-   * @param token
-   *          AnalyzedToken - the token checked for exceptions.
+   * @param token the token checked for exceptions.
    * @return true if all conditions are met, false otherwise.
    */
   public final boolean isAndExceptionGroupMatched(final AnalyzedToken token) {
@@ -272,8 +243,7 @@ public class Element {
   /**
    * This method checks exceptions both in AND-group and the token. Introduced to for clarity.
    * 
-   * @param token
-   *          Token to match
+   * @param token Token to match
    * @return True if matched.
    */
   public final boolean isExceptionMatchedCompletely(final AnalyzedToken token) {
@@ -334,8 +304,7 @@ public class Element {
    * Checks whether an exception for a previous token matches (in case the exception had scope ==
    * "previous").
    * 
-   * @param token
-   *          {@link AnalyzedToken} to check matching against.
+   * @param token {@link AnalyzedToken} to check matching against.
    * @return True if any of the exceptions matches.
    */
   public final boolean isMatchedByPreviousException(final AnalyzedToken token) {
@@ -355,8 +324,7 @@ public class Element {
    * Checks whether an exception for a previous token matches all readings of a given token (in case
    * the exception had scope == "previous").
    * 
-   * @param prevToken
-   *          {@link AnalyzedTokenReadings} to check matching against.
+   * @param prevToken {@link AnalyzedTokenReadings} to check matching against.
    * @return true if any of the exceptions matches.
    */
   public final boolean isMatchedByPreviousException(final AnalyzedTokenReadings prevToken) {
@@ -425,7 +393,7 @@ public class Element {
     this.stringToken = token;
     testString = !StringTools.isEmpty(stringToken);
     if (testString && stringRegExp) {
-      regToken = stringToken;
+      String regToken = stringToken;
       if (!caseSensitive) {
         regToken = CASE_INSENSITIVE + stringToken;
       }
@@ -438,25 +406,15 @@ public class Element {
   /**
    * Sets a string and/or pos exception for matching string tokens.
    * 
-   * @param token
-   *          The string in the exception.
-   * @param regExp
-   *          True if the string is specified as a regular expression.
-   * @param inflected
-   *          True if the string is a base form (lemma).
-   * @param negation
-   *          True if the exception is negated.
-   * @param scopeNext
-   *          True if the exception scope is next tokens.
-   * @param scopePrevious
-   *          True if the exception should match only a single previous token.
-   * @param posToken
-   *          The part of the speech tag in the exception.
-   * @param posRegExp
-   *          True if the POS is specified as a regular expression.
-   * @param posNegation
-   *          True if the POS exception is negated.
-   *
+   * @param token The string in the exception.
+   * @param regExp True if the string is specified as a regular expression.
+   * @param inflected True if the string is a base form (lemma).
+   * @param negation True if the exception is negated.
+   * @param scopeNext True if the exception scope is next tokens.
+   * @param scopePrevious True if the exception should match only a single previous token.
+   * @param posToken The part of the speech tag in the exception.
+   * @param posRegExp True if the POS is specified as a regular expression.
+   * @param posNegation True if the POS exception is negated.
    */
   public final void setStringPosException(
       final String token, final boolean regExp, final boolean inflected,
@@ -485,21 +443,16 @@ public class Element {
       if (!exceptionSet) {
         exceptionSet = true;
       }
-      if (exceptionSet) {
-        exceptionList.add(elem);
-      }
+      exceptionList.add(elem);
     }
   }
 
   /**
    * Tests if part of speech matches a given string.
-   * 
-   * @param token
-   *          Token to test.
+   * Special value UNKNOWN_TAG matches null POS tags.
+   *
+   * @param token Token to test.
    * @return true if matches
-   * 
-   *         Special value UNKNOWN_TAG matches null POS tags.
-   * 
    */
   private boolean isPosTokenMatched(final AnalyzedToken token) {
     // if no POS set
@@ -603,8 +556,7 @@ public class Element {
   /**
    * Negates the meaning of match().
    * 
-   * @param negation
-   *          - true if the meaning of match() is to be negated.
+   * @param negation  true if the meaning of match() is to be negated.
    */
   public final void setNegation(final boolean negation) {
     this.negation = negation;
@@ -630,8 +582,7 @@ public class Element {
   /**
    * Sets the reference to another token.
    * 
-   * @param match
-   *          Formatting object for the token reference.
+   * @param match Formatting object for the token reference.
    */
   public final void setMatch(final Match match) {
     tokenReference = match;
@@ -646,11 +597,8 @@ public class Element {
    * Prepare Element for matching by formatting its string token and POS (if the Element is supposed
    * to refer to some other token).
    * 
-   * @param token
-   *          the token specified as {@link AnalyzedTokenReadings}
-   * @param synth
-   *          the language synthesizer ({@link Synthesizer})
-   * 
+   * @param token the token specified as {@link AnalyzedTokenReadings}
+   * @param synth the language synthesizer ({@link Synthesizer})
    */
   public final void compile(final AnalyzedTokenReadings token, final Synthesizer synth)
       throws IOException {
@@ -682,8 +630,7 @@ public class Element {
   /**
    * Sets the phrase the element is in.
    * 
-   * @param s
-   *          ID of the phrase.
+   * @param s ID of the phrase.
    */
   public final void setPhraseName(final String s) {
     phraseName = s;
@@ -824,16 +771,14 @@ public class Element {
   }
 
   /**
-   * Since 1.0.0
-   * 
    * @return A List of Exceptions. Used for testing.
+   * @since 1.0.0
    */
   public final List<Element> getExceptionList() {
     return exceptionList;
   }
   
   /**
-   * 
    * @return List of previous exceptions. Used for testing.
    */
   public final List<Element> getPreviousExceptionList() {
