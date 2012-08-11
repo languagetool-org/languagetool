@@ -257,6 +257,9 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
     assertMatches(makeRule("<token>X</token> <token>.</token> <token>G</token> <token>.</token>"), 0);
     assertMatches(makeRule("<token>E</token> <token>,</token> <token>G</token> <token>.</token>"), 0);
 
+    assertMatches(makeRule("<token>E</token> <token>.</token> <token>G</token> <token>.</token> <token>LanguageTool</token>"), 1);
+    assertMatches(makeRule("<token>E</token> <token>.</token> <token>G</token> <token>.</token> <token>foo</token>"), 0);
+
     assertRelaxedMatches(makeCaseSensitiveRule("<token>The</token> <token inflected=\"yes\">is</token>"), 1);
 
     // negation:

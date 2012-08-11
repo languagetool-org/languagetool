@@ -72,7 +72,7 @@ public class Searcher {
     final Term searchTerm = new Term(MAX_DOC_COUNT_FIELD, MAX_DOC_COUNT_FIELD_VAL);
     final TopDocs search = indexSearcher.search(new TermQuery(searchTerm), 1);
     if (search.totalHits != 1) {
-      throw new RuntimeException("Got " + search.totalHits + " hits for the docCount query in " + indexSearcher.getIndexReader() + ", expected 1");
+      return -1;
     }
     final ScoreDoc scoreDoc = search.scoreDocs[0];
     final Document doc = indexSearcher.doc(scoreDoc.doc);

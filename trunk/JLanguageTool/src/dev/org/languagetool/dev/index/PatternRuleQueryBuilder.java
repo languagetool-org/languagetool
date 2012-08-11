@@ -69,6 +69,7 @@ public class PatternRuleQueryBuilder {
     SpanQuery query = null;
     Element prevElement = null;
     int position = 0;
+    int skipCount = 0;
     for (Element element : patternRule.getElements()) {
 
       SpanQuery spanQuery;
@@ -93,7 +94,14 @@ public class PatternRuleQueryBuilder {
         if (element.getNegation()) {
           query = new SpanNotQuery(query, spanQuery);
         } else {
-          query = new SpanNearQuery(new SpanQuery[] { query, spanQuery }, getSkip(prevElement), true);
+          final int skip = getSkip(prevElement);
+          if (skip == 0) {
+            // we need to increase the skip because counting start from the beginning of a span query match:
+            skipCount++;
+          } else {
+            skipCount = 0;
+          }
+          query = new SpanNearQuery(new SpanQuery[] { query, spanQuery }, getSkip(prevElement) + skipCount, true);
         }
       }
       prevElement = element;
