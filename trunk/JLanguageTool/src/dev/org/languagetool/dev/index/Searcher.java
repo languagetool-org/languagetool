@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.lucene.document.Document;
-import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
@@ -61,8 +61,13 @@ public class Searcher {
 
   public SearcherResult findRuleMatchesOnIndex(PatternRule rule, Language language, File indexDir) throws IOException {
     final FSDirectory directory = FSDirectory.open(indexDir);
-    final IndexSearcher indexSearcher = new IndexSearcher(IndexReader.open(directory));
-    return findRuleMatchesOnIndex(rule, language, indexSearcher);
+    final DirectoryReader reader = DirectoryReader.open(directory);
+    try {
+      final IndexSearcher indexSearcher = new IndexSearcher(reader);
+      return findRuleMatchesOnIndex(rule, language, indexSearcher);
+    } finally {
+      reader.close();
+    }
   }
 
   public int getMaxHits() {
