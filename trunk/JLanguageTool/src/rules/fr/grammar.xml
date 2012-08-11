@@ -2815,7 +2815,7 @@ though, and has since been slightly modified)-->
             </rule>
             <rule name="nombre pluriel suivi du singulier">
                 <pattern>
-                    <token regexp="yes">[2-9]|[1-9][0-9]+<exception regexp="yes">[12][0-9][0-9][0-9]</exception><exception scope="previous">,</exception></token>
+                    <token regexp="yes">[2-9]|[1-9]\d+<exception regexp="yes">[12]\d\d\d</exception><exception scope="previous">,</exception></token>
                     <token postag="[JN] .* s" postag_regexp="yes">
                         <exception regexp="yes">allée|avenue|balade|boulevard|chaussée|chemin|cour|impasse|place|route|rue|ruelle|quai|sentier|square|janvier|février|avril|mai|juin|juillet|ao[uû]t|septembre|octobre|novembre|décembre|vendémiaire|brumaire|frimaire|nivôse|pluviôse|ventôse|germinal|floréal|prairial|messidor|thermidor|fructidor</exception>
                     </token>
@@ -6390,7 +6390,20 @@ though, and has since been slightly modified)-->
             <example type="incorrect">Plusieurs <marker>des ces</marker> langues vont disparaitre.</example>
             <example type="correct">Plusieurs de ces langues vont disparaitre.</example>
         </rule>
-
+        <rule id="QUELQUE" name="quelque invariable devant nombre">
+          <pattern>
+            <marker><token>quelques</token></marker>
+            <token regexp="yes">\d+|(deux|trois|quatre|cinq|six|sept|huit|neuf|dix|vingt|trente|quarante|cinquante|soixante|septante|huitante|octante|nonante|cents?|mille)(-.*)?|onze|douze|treize|quatorze|quinze|seize</token>
+          </pattern>
+          <message>Le mot <suggestion>quelque</suggestion> est invariable devant un nombre et a une fonction d’adverbe signifiant « environ » ou « à peu près ».</message>
+          <example type="incorrect">Il y a <marker>quelques</marker> 10 ans.</example>
+          <example type="correct">Il y a <marker>quelque</marker> 10 ans.</example>
+          <example type="incorrect">Il y a <marker>quelques</marker> dix ans.</example>
+          <example type="correct">Il y a <marker>quelque</marker> dix ans.</example>
+          <example type="incorrect">Il y a <marker>quelques</marker> deux-cents ans.</example>
+          <example type="correct">Il y a <marker>quelque</marker> deux-cents ans.</example>
+          <example type="correct">J’ai quelques ennuis.</example>
+        </rule>
         <rulegroup id="ATTENDU" name="Accord des participes attendu, compris, entendu…">
           <rule>
             <pattern>
@@ -20769,7 +20782,7 @@ though, and has since been slightly modified)-->
         <rulegroup id="XXieme" name="XXième">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">([IVXLCM]+|[0-9]+)-?(i?[eèé]mes?|è)</token>
+                    <token regexp="yes">([IVXLCM]+|\d+)-?(i?[eèé]mes?|è)</token>
                 </pattern>
                 <message>« \1 » est un faut de typographie. Employez <suggestion><match no="1" regexp_match="(.*?)-?(i?[eèéê]mes?|è)" regexp_replace="$1e"/></suggestion>.</message>
                 <example type="incorrect">Un écrivain du <marker>XIX-ième</marker> siècle</example>
@@ -20780,7 +20793,7 @@ though, and has since been slightly modified)-->
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">[IVXLCM]+|[0-9]+</token>
+                    <token regexp="yes">[IVXLCM]+|\d+</token>
                     <token regexp="yes">i?[eèé]mes?|è</token>
                 </pattern>
                 <message>« \1 \2 » est un faut de typographie. Employez <suggestion><match no="1" regexp_match="(.*?)-?(i?[eèéê]mes?|è)" regexp_replace="$1e"/></suggestion>.</message>
@@ -22204,7 +22217,7 @@ though, and has since been slightly modified)-->
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">en|[1-9][0-9]*</token>
+                    <token regexp="yes">en|[1-9]\d*</token>
                     <marker>
                         <token regexp="yes">(?-i)Mars</token>
                     </marker>
