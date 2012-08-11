@@ -21,7 +21,7 @@ package org.languagetool.dev.index;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.FieldType;
-import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.search.IndexSearcher;
@@ -48,7 +48,7 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
   private static final Version LUCENE_VERSION = Version.LUCENE_40;
 
   private IndexSearcher searcher;
-  private IndexReader reader;
+  private DirectoryReader reader;
   private Directory directory;
 
   @Override
@@ -71,7 +71,7 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
     } finally {
       writer.close();
     }
-    reader = IndexReader.open(directory);
+    reader = DirectoryReader.open(directory);
     searcher = newSearcher(reader);
   }
 

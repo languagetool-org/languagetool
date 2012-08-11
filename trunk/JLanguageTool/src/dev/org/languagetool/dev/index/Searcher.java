@@ -95,7 +95,7 @@ public class Searcher {
     final PossiblyLimitedTopDocs limitedTopDocs = getTopDocs(indexSearcher, query, sort);
     final JLanguageTool languageTool = getLanguageToolWithOneRule(language, rule);
     final List<MatchingSentence> matchingSentences = findMatchingSentences(indexSearcher, limitedTopDocs.topDocs, languageTool);
-    final int sentencesChecked = getSentenceCheckCount(query, limitedTopDocs.topDocs, indexSearcher);
+    final int sentencesChecked = getSentenceCheckCount(query, indexSearcher);
     final SearcherResult searcherResult = new SearcherResult(matchingSentences, sentencesChecked, query);
     searcherResult.setResultIsTimeLimited(limitedTopDocs.resultIsTimeLimited);
     return searcherResult;
@@ -124,7 +124,7 @@ public class Searcher {
     throw new PatternRuleNotFoundException(ruleId, xmlRuleFile);
   }
 
-  private int getSentenceCheckCount(PossiblyRelaxedQuery query, TopDocs topDocs, IndexSearcher indexSearcher) {
+  private int getSentenceCheckCount(PossiblyRelaxedQuery query, IndexSearcher indexSearcher) {
     final int sentencesChecked;
     final int indexSize = indexSearcher.getIndexReader().numDocs();
     if (query.isRelaxed) {

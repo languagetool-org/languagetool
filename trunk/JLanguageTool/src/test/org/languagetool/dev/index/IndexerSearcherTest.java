@@ -28,7 +28,6 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.FieldType;
 import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.RAMDirectory;
@@ -82,7 +81,7 @@ public class IndexerSearcherTest extends LuceneTestCase {
     int ruleProblems = 0;
     int relaxedQueryCount = 0;
 
-    final DirectoryReader reader = IndexReader.open(directory);
+    final DirectoryReader reader = DirectoryReader.open(directory);
     try {
       searcher = new IndexSearcher(reader);
       final List<Rule> rules = lt.getAllActiveRules();
@@ -232,7 +231,7 @@ public class IndexerSearcherTest extends LuceneTestCase {
             new Element("back", false, false, false)
     );
     final PatternRule rule1 = new PatternRule("RULE1", Language.ENGLISH, elements, "desc", "msg", "shortMsg");
-    final DirectoryReader reader = IndexReader.open(directory);
+    final DirectoryReader reader = DirectoryReader.open(directory);
     try {
       final IndexSearcher indexSearcher = new IndexSearcher(reader);
       final SearcherResult searcherResult = errorSearcher.findRuleMatchesOnIndex(rule1, Language.ENGLISH, indexSearcher);
@@ -257,7 +256,7 @@ public class IndexerSearcherTest extends LuceneTestCase {
     );
     final PatternRule rule1 = new PatternRule("RULE1", Language.ENGLISH, elements, "desc", "msg", "shortMsg");
     System.out.println(directory);
-    final DirectoryReader reader = IndexReader.open(directory);
+    final DirectoryReader reader = DirectoryReader.open(directory);
     try {
       final IndexSearcher indexSearcher = new IndexSearcher(reader);
       final SearcherResult searcherResult = errorSearcher.findRuleMatchesOnIndex(rule1, Language.ENGLISH, indexSearcher);
@@ -289,7 +288,7 @@ public class IndexerSearcherTest extends LuceneTestCase {
     );
     final PatternRule rule2 = new PatternRule("RULE", Language.ENGLISH, elements2, "desc", "msg", "shortMsg");
 
-    final DirectoryReader reader = IndexReader.open(directory);
+    final DirectoryReader reader = DirectoryReader.open(directory);
     try {
       final IndexSearcher indexSearcher = new IndexSearcher(reader);
       final SearcherResult searcherResult1 = errorSearcher.findRuleMatchesOnIndex(rule1, Language.ENGLISH, indexSearcher);
@@ -317,7 +316,7 @@ public class IndexerSearcherTest extends LuceneTestCase {
             exceptionElem
     );
     final PatternRule rule1 = new PatternRule("RULE1", Language.ENGLISH, elements, "desc", "msg", "shortMsg");
-    final DirectoryReader reader = IndexReader.open(directory);
+    final DirectoryReader reader = DirectoryReader.open(directory);
     try {
       final IndexSearcher indexSearcher = new IndexSearcher(reader);
       final SearcherResult searcherResult = errorSearcher.findRuleMatchesOnIndex(rule1, Language.ENGLISH, indexSearcher);
@@ -343,7 +342,7 @@ public class IndexerSearcherTest extends LuceneTestCase {
             new Element("How", false, false, false)
     );
     final PatternRule rule1 = new PatternRule("RULE1", Language.ENGLISH, elements, "desc", "msg", "shortMsg");
-    final DirectoryReader reader = IndexReader.open(directory);
+    final DirectoryReader reader = DirectoryReader.open(directory);
     try {
       final IndexSearcher indexSearcher = new IndexSearcher(reader);
       final SearcherResult searcherResult = errorSearcher.findRuleMatchesOnIndex(rule1, Language.ENGLISH, indexSearcher);
@@ -368,7 +367,7 @@ public class IndexerSearcherTest extends LuceneTestCase {
             exceptionElem
     );
     final PatternRule rule1 = new PatternRule("RULE1", Language.ENGLISH, elements, "desc", "msg", "shortMsg");
-    final DirectoryReader reader = IndexReader.open(directory);
+    final DirectoryReader reader = DirectoryReader.open(directory);
     try {
       final IndexSearcher indexSearcher = new IndexSearcher(reader);
       final SearcherResult searcherResult = errorSearcher.findRuleMatchesOnIndex(rule1, Language.ENGLISH, indexSearcher);
@@ -388,7 +387,7 @@ public class IndexerSearcherTest extends LuceneTestCase {
     directory = new RAMDirectory();
     //directory = FSDirectory.open(new File("/tmp/lucenetest"));  // for debugging
     Indexer.run(content, directory, Language.ENGLISH, false);
-    searcher = new IndexSearcher(IndexReader.open(directory));
+    searcher = new IndexSearcher(DirectoryReader.open(directory));
   }
 
   /*public void testForManualDebug() throws Exception {
