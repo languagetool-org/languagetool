@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.lucene.document.Document;
+import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
@@ -59,12 +60,9 @@ public class Searcher {
   }
 
   public SearcherResult findRuleMatchesOnIndex(PatternRule rule, Language language, File indexDir) throws IOException {
-    final IndexSearcher indexSearcher = new IndexSearcher(FSDirectory.open(indexDir));
-    try {
-      return findRuleMatchesOnIndex(rule, language, indexSearcher);
-    } finally {
-      indexSearcher.close();
-    }
+    final FSDirectory directory = FSDirectory.open(indexDir);
+    final IndexSearcher indexSearcher = new IndexSearcher(IndexReader.open(directory));
+    return findRuleMatchesOnIndex(rule, language, indexSearcher);
   }
 
   public int getMaxHits() {
@@ -85,7 +83,7 @@ public class Searcher {
 
   public SearcherResult findRuleMatchesOnIndex(PatternRule rule, Language language, IndexSearcher indexSearcher) throws IOException {
     final PossiblyRelaxedQuery query = createQuery(rule);
-    final Sort sort = new Sort(new SortField("docCount", SortField.INT));  // do not sort by relevance as this will move the shortest documents to the top
+    final Sort sort = new Sort(new SortField("docCount", SortField.Type.INT));  // do not sort by relevance as this will move the shortest documents to the top
     if (query.query == null) {
       throw new NullPointerException("Cannot search on null query for rule: " + rule);
     }

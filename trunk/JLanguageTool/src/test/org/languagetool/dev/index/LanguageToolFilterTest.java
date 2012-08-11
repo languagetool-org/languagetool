@@ -36,11 +36,11 @@ public class LanguageToolFilterTest extends BaseTokenStreamTestCase {
     String input = "How do you thin?";
 
     TokenStream stream = new AnyCharTokenizer(TEST_VERSION_CURRENT, new StringReader(input));
-    LanguageToolFilter filter = new LanguageToolFilter(stream, new JLanguageTool(Language.ENGLISH));
+    LanguageToolFilter filter;
     //displayTokensWithFullDetails(filter);
 
     stream = new AnyCharTokenizer(TEST_VERSION_CURRENT, new StringReader(input));
-    filter = new LanguageToolFilter(stream, new JLanguageTool(Language.ENGLISH));
+    filter = new LanguageToolFilter(stream, new JLanguageTool(Language.ENGLISH), false);
 
     assertTokenStreamContents(filter, new String[] { "_POS_SENT_START", "How", "_POS_WRB", "do",
         "_POS_VBP", "_POS_VB", "you", "_POS_PRP", "thin", "_POS_VBP", "_POS_VB", "_POS_JJ", "?",

@@ -22,6 +22,7 @@ import java.io.Reader;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.util.Version;
 import org.languagetool.JLanguageTool;
 
@@ -34,20 +35,21 @@ import org.languagetool.JLanguageTool;
 public final class LanguageToolAnalyzer extends Analyzer {
 
   private final JLanguageTool languageTool;
-
+  private final boolean toLowerCase;
   private final Version matchVersion;
 
-  public LanguageToolAnalyzer(Version matchVersion, JLanguageTool languageTool) {
+  public LanguageToolAnalyzer(Version matchVersion, JLanguageTool languageTool, boolean toLowerCase) {
     super();
     this.matchVersion = matchVersion;
     this.languageTool = languageTool;
+    this.toLowerCase = toLowerCase;
   }
 
   @Override
-  public TokenStream tokenStream(String fieldName, Reader reader) {
-    TokenStream result = new AnyCharTokenizer(this.matchVersion, reader);
-    result = new LanguageToolFilter(result, languageTool);
-    return result;
+  protected TokenStreamComponents createComponents(String s, Reader reader) {
+    final Tokenizer tokenizer = new AnyCharTokenizer(this.matchVersion, reader);
+    final TokenStream result = new LanguageToolFilter(tokenizer, languageTool, toLowerCase);
+    return new TokenStreamComponents(tokenizer, result);
   }
 
 }

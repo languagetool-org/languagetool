@@ -33,7 +33,7 @@ import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tools.StringTools;
 
 /**
- * A part of a pattern.
+ * A part of a pattern, represents the 'token' element of the grammar.xml.
  * 
  * @author Daniel Naber
  */
@@ -363,6 +363,10 @@ public class Element {
     if (posToken != null) {
       sb.append('/');
       sb.append(posToken);
+    }
+    if (exceptionList != null) {
+      sb.append("/exceptions=");
+      sb.append(exceptionList);
     }
     return sb.toString();
   }

@@ -30,7 +30,7 @@ public class AnyCharTokenizerTest extends TestCase {
   public void testAnyCharTokenizer() throws Exception {
     StringReader sr = new StringReader("It's a good day, I liked it!");
 
-    AnyCharTokenizer tokenizer = new AnyCharTokenizer(Version.LUCENE_31, sr);
+    AnyCharTokenizer tokenizer = new AnyCharTokenizer(Version.LUCENE_40, sr);
     CharTermAttribute termAtt = tokenizer.addAttribute(CharTermAttribute.class);
 
     assertTrue(tokenizer.incrementToken());

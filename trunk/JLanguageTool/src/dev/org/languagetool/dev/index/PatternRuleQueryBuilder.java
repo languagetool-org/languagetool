@@ -18,126 +18,194 @@
  */
 package org.languagetool.dev.index;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.regex.Pattern;
-
 import org.apache.lucene.index.Term;
+import org.apache.lucene.sandbox.queries.regex.JavaUtilRegexCapabilities;
+import org.apache.lucene.sandbox.queries.regex.RegexQuery;
 import org.apache.lucene.search.Query;
-import org.apache.lucene.search.regex.JavaUtilRegexCapabilities;
-import org.apache.lucene.search.spans.SpanQuery;
+import org.apache.lucene.search.RegexpQuery;
+import org.apache.lucene.search.spans.*;
 import org.languagetool.rules.patterns.Element;
 import org.languagetool.rules.patterns.PatternRule;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.languagetool.dev.index.LanguageToolFilter.POS_PREFIX;
 
 /**
  * A factory class for building a Query from a PatternRule.
  * 
  * @author Tao Lin
+ * @author Daniel Naber
  */
 public class PatternRuleQueryBuilder {
 
   public static final String FIELD_NAME = "field";
+  public static final String FIELD_NAME_LOWERCASE = "fieldLowercase";
 
   private static final int MAX_SKIP = 1000;
 
-  public Query buildQuery(PatternRule rule)
-      throws UnsupportedPatternRuleException {
-    return next(rule.getElements().iterator(), true);
+  public Query buildQuery(PatternRule rule) throws UnsupportedPatternRuleException {
+    try {
+      return makeQuery(rule, true);
+    } catch (UnsupportedPatternRuleException e) {
+      throw e;
+    } catch (Exception e) {
+      throw new RuntimeException("Could not convert rule " + rule, e);
+    }
   }
 
   public Query buildPossiblyRelaxedQuery(PatternRule rule) {
     try {
-      return next(rule.getElements().iterator(), false);
+      return makeQuery(rule, false);
     } catch (UnsupportedPatternRuleException e) {
-      throw new RuntimeException(e);
+      throw new RuntimeException("Internal error, exception thrown although it was disabled", e);
+    } catch (Exception e) {
+      throw new RuntimeException("Could not convert rule " + rule, e);
     }
   }
 
-  private SpanQuery next(Iterator<Element> it, boolean throwExceptionOnUnsupportedRule)
-          throws UnsupportedPatternRuleException {
-    return next(it, throwExceptionOnUnsupportedRule, 0);
-  }
+  private Query makeQuery(PatternRule patternRule, boolean throwExceptionOnUnsupportedElement) throws UnsupportedPatternRuleException {
+    SpanQuery query = null;
+    Element prevElement = null;
+    int position = 0;
+    for (Element element : patternRule.getElements()) {
 
-  // create the next SpanQuery from the top Element in the Iterator.
-  private SpanQuery next(Iterator<Element> it, boolean throwExceptionOnUnsupportedRule, int position)
-      throws UnsupportedPatternRuleException {
-
-    // no more Element
-    if (!it.hasNext()) {
-      return null;
-    }
-
-    final Element patternElement = it.next();
-
-    SpanQuery tokenQuery;
-    SpanQuery posQuery = null;
-    try {
-      checkUnsupportedRule(patternElement, position);
-      final boolean caseSensitive = patternElement.getCaseSensitive();
-
-      tokenQuery = createTokenQuery(patternElement.getString(), patternElement.getNegation(),
-          patternElement.isRegularExpression(), caseSensitive);
-
-      posQuery = createPOSQuery(patternElement.getPOStag(), patternElement.getPOSNegation(),
-          patternElement.isPOStagRegularExpression());
-
-    } catch (UnsupportedPatternRuleException e) {
-      if (throwExceptionOnUnsupportedRule) {
-        throw e;
-      } else {
-        // create an empty token for the unsupported token, so that it can match any term with any
-        // POS tag.
-        if (patternElement.hasExceptionList() && !patternElement.isInflected() && !patternElement.getString().isEmpty()) {
-          // having an exception causes the rule not to be supported but we can ignore it
-          // and search for the token to get a super set of matches:
-          tokenQuery = createTokenQuery(patternElement.getString(), patternElement.getNegation(),
-                  patternElement.isRegularExpression(), patternElement.getCaseSensitive());
+      SpanQuery spanQuery;
+      try {
+        spanQuery = makeQuery(element, position, true);
+      } catch (UnsupportedPatternRuleException e) {
+        if (throwExceptionOnUnsupportedElement) {
+          throw e;
         } else {
-          if (position == 0 && patternElement.getNegation()) {
-            tokenQuery = null;
-          } else {
-            tokenQuery = new POSAwaredSpanRegexQuery(new Term(FIELD_NAME, ".*"), false);
-          }
+          spanQuery = getMatchAllQuery(element);
         }
       }
-
+      if (query == null) {
+        if (element.getNegation()) {
+          query = null;
+        } else {
+          query = spanQuery;
+        }
+      } else {
+        // attach the new query to the existing query - only this way
+        // we can have per-query skips:
+        if (element.getNegation()) {
+          query = new SpanNotQuery(query, spanQuery);
+        } else {
+          query = new SpanNearQuery(new SpanQuery[] { query, spanQuery }, getSkip(prevElement), true);
+        }
+      }
+      prevElement = element;
+      position++;
     }
-    final ArrayList<SpanQuery> list = new ArrayList<SpanQuery>();
+    return query;
+  }
 
+  private int getSkip(Element element) {
     int skip = 0;
-
-    if (tokenQuery != null && posQuery != null) {
-      final RigidSpanNearQuery q = new RigidSpanNearQuery(new SpanQuery[] { tokenQuery, posQuery },
-          0, true);
-      list.add(q);
-    } else if (tokenQuery != null) {
-      list.add(tokenQuery);
-    } else if (posQuery != null) {
-      list.add(posQuery);
-    } else {
-      skip++;
-    }
-    if (patternElement.getSkipNext() >= 0) {
-      skip += patternElement.getSkipNext();
+    if (element.getSkipNext() >= 0) {
+      skip += element.getSkipNext();
     } else {
       skip = MAX_SKIP;
     }
+    return skip;
+  }
 
-    // recursion invoke
-    final SpanQuery next = next(it, throwExceptionOnUnsupportedRule, position + 1);
+  private SpanQuery makeQuery(Element element, int position, boolean throwExceptionOnUnsupportedElement) throws UnsupportedPatternRuleException {
+    if (throwExceptionOnUnsupportedElement) {
+      checkUnsupportedElement(element, position);
+    }
+    final List<SpanQuery> queries = new ArrayList<SpanQuery>();
 
-    if (next != null) {
-      list.add(next);
-      return new RigidSpanNearQuery(list.toArray(new SpanQuery[list.size()]), skip + 1, true);
-    } else if (list.size() > 0) {
-      return list.get(0);
+    SpanQuery termQuery = null;
+    final String str = element.getString();
+    if (str != null && !str.isEmpty()) {
+      if (element.isRegularExpression()) {
+        //final RegexpQuery regexpQuery = getWrappedRegexQuery(element, str);
+        //termQuery = new SpanMultiTermQueryWrapper<RegexpQuery>(regexpQuery);
+        termQuery = getWrappedRegexQuery(element, str);
+      } else {
+        if (element.getCaseSensitive()) {
+          termQuery = new SpanTermQuery(new Term(FIELD_NAME, str));
+        } else {
+          termQuery = new SpanTermQuery(new Term(FIELD_NAME_LOWERCASE, str.toLowerCase()));
+        }
+      }
+      queries.add(termQuery);
+    }
+
+    SpanQuery posQuery = null;
+    final String pos = element.getPOStag();
+    if (pos != null) {
+      if (element.isPOStagRegularExpression()) {
+        // TODO: this is not correct, but POS tags are probably always uppercase so we ignore
+        // this to avoid the exception that all fields need to have the same field
+        // when constructing the SpanNearQuery:
+        //final RegexpQuery regexpQuery = getCaseSensitiveRegexQuery(POS_PREFIX + pos);
+        posQuery = getWrappedRegexQuery(element, POS_PREFIX + pos);
+        //posQuery = new SpanMultiTermQueryWrapper<RegexpQuery>(regexpQuery);
+      } else {
+        if (element.getCaseSensitive()) {
+          posQuery = new SpanTermQuery(new Term(FIELD_NAME, POS_PREFIX + pos));
+        } else {
+          posQuery = new SpanTermQuery(new Term(FIELD_NAME_LOWERCASE, POS_PREFIX.toLowerCase() + pos.toLowerCase()));
+        }
+      }
+      queries.add(posQuery);
+    }
+
+    if (termQuery == null && posQuery == null) {
+      if (str != null && str.isEmpty() && pos == null) {
+        // this is an actually empty token that can match any term:
+        return getMatchAllQuery(element);
+      } else if (throwExceptionOnUnsupportedElement) {
+        throw new UnsupportedPatternRuleException("Internal error: both term and POS query are null for element '" + element + "'");
+      }
+      return getMatchAllQuery(element);
+    }
+
+    if (queries.size() > 1) {
+      return new SpanNearQuery(queries.toArray(new SpanQuery[queries.size()]), 0, false);
     } else {
-      return null;
+      return queries.get(0);
     }
 
   }
 
-  private void checkUnsupportedRule(Element patternElement, int position)
+  private SpanMultiTermQueryWrapper<RegexpQuery> getMatchAllQuery(Element element) {
+    final RegexpQuery query;
+    if (element.getCaseSensitive()) {
+      // the field name is relevant because all parts of a SpanQuery must refer to the same field:
+      query = new RegexpQuery(new Term(FIELD_NAME, ".*"));
+    } else {
+      query = new RegexpQuery(new Term(FIELD_NAME_LOWERCASE, ".*"));
+    }
+    return new SpanMultiTermQueryWrapper<RegexpQuery>(query);
+  }
+
+  private SpanMultiTermQueryWrapper<? extends org.apache.lucene.search.MultiTermQuery> getWrappedRegexQuery(Element element, String str) {
+    if (element.getCaseSensitive()) {
+      final RegexpQuery query = getCaseSensitiveRegexQuery(str);
+      return new SpanMultiTermQueryWrapper<RegexpQuery>(query);
+    } else {
+      try {
+        final RegexpQuery query = new RegexpQuery(new Term(FIELD_NAME_LOWERCASE, str.toLowerCase()));
+        return new SpanMultiTermQueryWrapper<RegexpQuery>(query);
+      } catch (IllegalArgumentException e) {
+        // fallback for special constructs like "\p{Punct}" not supported by Lucene RegExp:
+        final RegexQuery query = new RegexQuery(new Term(FIELD_NAME_LOWERCASE, str));
+        query.setRegexImplementation(new JavaUtilRegexCapabilities(JavaUtilRegexCapabilities.FLAG_CASE_INSENSITIVE));
+        return new SpanMultiTermQueryWrapper<RegexQuery>(query);
+      }
+    }
+  }
+
+  private RegexpQuery getCaseSensitiveRegexQuery(String str) {
+    return new RegexpQuery(new Term(FIELD_NAME, str));
+  }
+
+  private void checkUnsupportedElement(Element patternElement, int position)
       throws UnsupportedPatternRuleException {
     if (position == 0 && patternElement.getNegation()) {
       throw new UnsupportedPatternRuleException("Pattern rules with negation in first element are not supported.");
@@ -163,45 +231,4 @@ public class PatternRuleQueryBuilder {
     // TODO: exception for <match no="0"/> etc. (patternElement.getMatch()?)
   }
 
-  private SpanQuery createTokenQuery(String token, boolean isNegation,
-      boolean isRegularExpression, boolean caseSensitive) {
-    SpanQuery q = null;
-    if (token != null && !token.equals("")) {
-      if (!isNegation) {
-        final String text = isRegularExpression ? token : Pattern.quote(token);
-        final Term term = new Term(FIELD_NAME, text);
-        q = new POSAwaredSpanRegexQuery(term, false);
-        if (!caseSensitive) {
-          ((POSAwaredSpanRegexQuery) q).setRegexImplementation(new JavaUtilRegexCapabilities(
-              JavaUtilRegexCapabilities.FLAG_CASE_INSENSITIVE));
-        }
-      } else {
-        final String text = isRegularExpression ? token : Pattern.quote(token);
-        final Term term = new Term(FIELD_NAME, text);
-        q = new POSAwaredSpanRegexNotQuery(term, false);
-        if (!caseSensitive) {
-          ((POSAwaredSpanRegexNotQuery) q).setRegexImplementation(new JavaUtilRegexCapabilities(
-              JavaUtilRegexCapabilities.FLAG_CASE_INSENSITIVE));
-        }
-      }
-    }
-    return q;
-  }
-
-  private SpanQuery createPOSQuery(String token, boolean isNegation, boolean isRegularExpression) {
-    SpanQuery q = null;
-    if (token != null && !token.equals("")) {
-      if (!isNegation) {
-        final String text = isRegularExpression ? token : Pattern.quote(token);
-        final Term term = new Term(FIELD_NAME, text);
-        q = new POSAwaredSpanRegexQuery(term, true);
-      } else {
-        final String text = isRegularExpression ? token : Pattern.quote(token);
-        final Term term = new Term(FIELD_NAME, text);
-        q = new POSAwaredSpanRegexNotQuery(term, true);
-      }
-    }
-    return q;
-  }
-  
 }

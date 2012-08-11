@@ -37,7 +37,7 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 
 /**
- * A filter that index the tokens with POS tags.
+ * A filter that indexes the tokens with POS tags.
  * 
  * @author Tao Lin
  */
@@ -46,6 +46,7 @@ public final class LanguageToolFilter extends TokenFilter {
   static final String POS_PREFIX = "_POS_";
 
   private final JLanguageTool languageTool;
+  private final boolean toLowerCase;
   private final Stack<String> posStack;
   private final CharTermAttribute termAtt;
   private final OffsetAttribute offsetAtt;
@@ -55,9 +56,10 @@ public final class LanguageToolFilter extends TokenFilter {
   private AttributeSource.State current;
   private Iterator<AnalyzedTokenReadings> tokenIter;
 
-  protected LanguageToolFilter(TokenStream input, JLanguageTool languageTool) {
+  protected LanguageToolFilter(TokenStream input, JLanguageTool languageTool, boolean toLowerCase) {
     super(input);
     this.languageTool = languageTool;
+    this.toLowerCase = toLowerCase;
     posStack = new Stack<String>();
     termAtt = addAttribute(CharTermAttribute.class);
     offsetAtt = addAttribute(OffsetAttribute.class);
@@ -108,7 +110,11 @@ public final class LanguageToolFilter extends TokenFilter {
       // but breaks other cases:
       //termAtt.append("SENT_START");
       typeAtt.setType("pos");
-      termAtt.append(POS_PREFIX + tr.getAnalyzedToken(0).getPOSTag());
+      if (toLowerCase) {
+        termAtt.append(POS_PREFIX.toLowerCase() + tr.getAnalyzedToken(0).getPOSTag().toLowerCase());
+      } else {
+        termAtt.append(POS_PREFIX + tr.getAnalyzedToken(0).getPOSTag());
+      }
       return true;
     }
 
@@ -122,7 +128,11 @@ public final class LanguageToolFilter extends TokenFilter {
     for (int i = 0; i < tr.getReadingsLength(); i++) {
       at = tr.getAnalyzedToken(i);
       if (at.getPOSTag() != null) {
-        posStack.push(POS_PREFIX + at.getPOSTag());
+        if (toLowerCase) {
+          posStack.push(POS_PREFIX.toLowerCase() + at.getPOSTag().toLowerCase());
+        } else {
+          posStack.push(POS_PREFIX + at.getPOSTag());
+        }
       }
     }
 

@@ -18,18 +18,16 @@
  */
 package org.languagetool.dev.index;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.StringReader;
+import java.io.*;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.miscellaneous.PerFieldAnalyzerWrapper;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
-import org.apache.lucene.document.Field.Index;
-import org.apache.lucene.document.Field.Store;
+import org.apache.lucene.document.FieldType;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
@@ -40,6 +38,9 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.tokenizers.SentenceTokenizer;
 
+import static org.languagetool.dev.index.PatternRuleQueryBuilder.FIELD_NAME;
+import static org.languagetool.dev.index.PatternRuleQueryBuilder.FIELD_NAME_LOWERCASE;
+
 /**
  * A class with a main() method that takes a text file and indexes its sentences, including POS tags
  * 
@@ -47,15 +48,20 @@ import org.languagetool.tokenizers.SentenceTokenizer;
  */
 public class Indexer {
 
+  private static final Version LUCENE_VERSION = Version.LUCENE_40;
+
   private final IndexWriter writer;
   private final SentenceTokenizer sentenceTokenizer;
 
   public Indexer(Directory dir, Language language) {
     try {
-      final Analyzer analyzer = new LanguageToolAnalyzer(Version.LUCENE_31, new JLanguageTool(language));
-      final IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_31, analyzer);
-      iwc.setOpenMode(OpenMode.CREATE);
-      writer = new IndexWriter(dir, iwc);
+      final Map<String, Analyzer> analyzerMap = new HashMap<String, Analyzer>();
+      analyzerMap.put(FIELD_NAME, new LanguageToolAnalyzer(LUCENE_VERSION, new JLanguageTool(language), false));
+      analyzerMap.put(FIELD_NAME_LOWERCASE, new LanguageToolAnalyzer(LUCENE_VERSION, new JLanguageTool(language), true));
+      final Analyzer analyzer = new PerFieldAnalyzerWrapper(new DoNotUseAnalyzer(), analyzerMap);
+      final IndexWriterConfig writerConfig = new IndexWriterConfig(LUCENE_VERSION, analyzer);
+      writerConfig.setOpenMode(OpenMode.CREATE);
+      writer = new IndexWriter(dir, writerConfig);
       sentenceTokenizer = language.getSentenceTokenizer();
     } catch (Exception e) {
       throw new RuntimeException(e);
@@ -143,16 +149,29 @@ public class Indexer {
 
   private void add(int docCount, String sentence) throws IOException {
     final Document doc = new Document();
-    doc.add(new Field(PatternRuleQueryBuilder.FIELD_NAME, sentence, Store.YES, Index.ANALYZED));
+    final FieldType type = new FieldType();
+    type.setStored(true);
+    type.setIndexed(true);
+    type.setTokenized(true);
+    doc.add(new Field(FIELD_NAME, sentence, type));
+    doc.add(new Field(FIELD_NAME_LOWERCASE, sentence.toLowerCase(), type));
     if (docCount != -1) {
-      doc.add(new Field("docCount", docCount + "", Store.YES, Index.NO));
+      final FieldType countType = new FieldType();
+      countType.setStored(true);
+      countType.setIndexed(false);
+      doc.add(new Field("docCount", docCount + "", countType));
     }
     writer.addDocument(doc);
   }
 
   public void close() throws IOException {
-    writer.optimize();
     writer.close();
   }
-  
+
+  class DoNotUseAnalyzer extends Analyzer {
+    @Override
+    protected TokenStreamComponents createComponents(String s, Reader reader) {
+      throw new RuntimeException("This analyzer is not supposed to be called");
+    }
+  }
 }
