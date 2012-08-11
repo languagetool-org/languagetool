@@ -25,14 +25,8 @@ import java.util.List;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.Query;
-import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.Sort;
-import org.apache.lucene.search.SortField;
-import org.apache.lucene.search.TimeLimitingCollector;
-import org.apache.lucene.search.TopDocs;
-import org.apache.lucene.search.TopFieldCollector;
+import org.apache.lucene.index.Term;
+import org.apache.lucene.search.*;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Counter;
 import org.languagetool.JLanguageTool;
@@ -41,6 +35,10 @@ import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.rules.patterns.PatternRuleLoader;
+
+import static org.languagetool.dev.wikipedia.WikipediaIndexHandler.MAX_DOC_COUNT_FIELD;
+import static org.languagetool.dev.wikipedia.WikipediaIndexHandler.MAX_DOC_COUNT_FIELD_VAL;
+import static org.languagetool.dev.wikipedia.WikipediaIndexHandler.MAX_DOC_COUNT_VALUE;
 
 /**
  * A class with a main() method that takes a rule id  and the location of the
@@ -70,6 +68,17 @@ public class Searcher {
     }
   }
 
+  private int getDocCount(IndexSearcher indexSearcher) throws IOException {
+    final Term searchTerm = new Term(MAX_DOC_COUNT_FIELD, MAX_DOC_COUNT_FIELD_VAL);
+    final TopDocs search = indexSearcher.search(new TermQuery(searchTerm), 1);
+    if (search.totalHits != 1) {
+      throw new RuntimeException("Got " + search.totalHits + " hits for the docCount query in " + indexSearcher.getIndexReader() + ", expected 1");
+    }
+    final ScoreDoc scoreDoc = search.scoreDocs[0];
+    final Document doc = indexSearcher.doc(scoreDoc.doc);
+    return Integer.parseInt(doc.get(MAX_DOC_COUNT_VALUE));
+  }
+
   public int getMaxHits() {
     return maxHits;
   }
@@ -97,6 +106,7 @@ public class Searcher {
     final List<MatchingSentence> matchingSentences = findMatchingSentences(indexSearcher, limitedTopDocs.topDocs, languageTool);
     final int sentencesChecked = getSentenceCheckCount(query, indexSearcher);
     final SearcherResult searcherResult = new SearcherResult(matchingSentences, sentencesChecked, query);
+    searcherResult.setDocCount(getDocCount(indexSearcher));
     searcherResult.setResultIsTimeLimited(limitedTopDocs.resultIsTimeLimited);
     return searcherResult;
   }

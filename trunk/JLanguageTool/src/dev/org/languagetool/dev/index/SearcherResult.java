@@ -30,6 +30,7 @@ public class SearcherResult {
   private final Searcher.PossiblyRelaxedQuery possiblyRelaxedQuery;
 
   private boolean resultIsTimeLimited;
+  private int docCount;
 
   public SearcherResult(List<MatchingSentence> matchingSentences, int checkedSentences, Searcher.PossiblyRelaxedQuery relaxedQuery) {
     this.matchingSentences = matchingSentences;
@@ -59,5 +60,13 @@ public class SearcherResult {
 
   public void setResultIsTimeLimited(boolean resultIsTimeLimited) {
     this.resultIsTimeLimited = resultIsTimeLimited;
+  }
+
+  public void setDocCount(int docCount) {
+    this.docCount = docCount;
+  }
+
+  public int getDocCount() {
+    return docCount;
   }
 }

@@ -20,10 +20,14 @@ package org.languagetool.dev.wikipedia;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.document.StringField;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.languagetool.Language;
@@ -35,14 +39,18 @@ import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * 
- * Wikipedia handler for indexing.
+ * Wikipedia handler for indexing. See {@link org.languagetool.dev.index.Searcher} for a
+ * class that lets you use this index.
  * 
  * @author Tao Lin
  */
 public class WikipediaIndexHandler extends DefaultHandler {
 
-  private final Indexer indexer;
+  public static final String MAX_DOC_COUNT_VALUE = "maxDocCountValue";
+  public static final String MAX_DOC_COUNT_FIELD = "maxDocCount";
+  public static final String MAX_DOC_COUNT_FIELD_VAL = "1";
 
+  private final Indexer indexer;
   private int articleCount = 0;
   
   // the number of the wiki page to start indexing
@@ -51,9 +59,7 @@ public class WikipediaIndexHandler extends DefaultHandler {
   private int end = 0;
 
   private boolean inText = false;
-
   private StringBuilder text = new StringBuilder();
-
   private TextFilter textFilter = new BlikiWikipediaTextFilter();
 
   // ===========================================================
@@ -118,6 +124,13 @@ public class WikipediaIndexHandler extends DefaultHandler {
     indexer.close();
   }
 
+  private void writeMetaDocuments() throws IOException {
+    final Document doc = new Document();
+    doc.add(new StringField(MAX_DOC_COUNT_FIELD, MAX_DOC_COUNT_FIELD_VAL, Field.Store.YES));
+    doc.add(new StringField(MAX_DOC_COUNT_VALUE, articleCount + "", Field.Store.YES));
+    indexer.add(doc);
+  }
+
   public static void main(String... args) throws Exception {
     if (args.length != 4) {
       System.out.println("Usage: " + WikipediaIndexHandler.class.getSimpleName() + " <wikipediaDump> <indexDir> <languageCode> <maxDocs>");
@@ -127,28 +140,37 @@ public class WikipediaIndexHandler extends DefaultHandler {
       System.out.println("\t<maxDocs> maximum number of documents to be indexed, use 0 for no limit");
       System.exit(1);
     }
+    final File dumpFile = new File(args[0]);
+    final File indexDir = new File(args[1]);
     final String languageCode = args[2];
+    final int maxDocs = Integer.parseInt(args[3]);
+
     final Language language = Language.getLanguageForShortName(languageCode);
     if (language == null) {
       throw new RuntimeException("Could not find language '" + languageCode + "'");
     }
-    final int maxDocs = Integer.parseInt(args[3]);
     if (maxDocs == 0) {
-      System.out.println("Going to index all documents from input");
+      System.out.println("Going to index all documents from " + dumpFile);
     } else {
-      System.out.println("Going to index up to " + maxDocs + " documents");
+      System.out.println("Going to index up to " + maxDocs + " documents from " + dumpFile);
     }
+    System.out.println("Output index dir: " + indexDir);
     final long start = System.currentTimeMillis();
     final SAXParserFactory factory = SAXParserFactory.newInstance();
     final SAXParser saxParser = factory.newSAXParser();
-    final FSDirectory fsDirectory = FSDirectory.open(new File(args[1]));
-    final WikipediaIndexHandler handler = new WikipediaIndexHandler(fsDirectory, language, 1, maxDocs);
+    final FSDirectory fsDirectory = FSDirectory.open(indexDir);
     try {
-      saxParser.parse(new FileInputStream(new File(args[0])), handler);
-    } catch (DocumentLimitReachedException e) {
-      System.out.println("Document limit (" + e.limit + ") reached, stopping indexing");
+      final WikipediaIndexHandler handler = new WikipediaIndexHandler(fsDirectory, language, 1, maxDocs);
+      try {
+        saxParser.parse(new FileInputStream(dumpFile), handler);
+      } catch (DocumentLimitReachedException e) {
+        System.out.println("Document limit (" + e.limit + ") reached, stopping indexing");
+      } finally {
+        handler.writeMetaDocuments();
+        handler.close();
+      }
     } finally {
-      handler.close();
+      fsDirectory.close();
     }
     final long end = System.currentTimeMillis();
     final float minutes = (end - start) / (float)(1000 * 60);
