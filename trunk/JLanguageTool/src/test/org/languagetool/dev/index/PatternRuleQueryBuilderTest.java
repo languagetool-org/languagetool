@@ -289,7 +289,7 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
     } catch (UnsupportedPatternRuleException e) {
       query = queryBuilder.buildPossiblyRelaxedQuery(patternRule);
     }
-    System.out.println("QUERY: " + query);
+    //System.out.println("QUERY: " + query);
     final int matches = searcher.search(query, null, 1000).totalHits;
     assertEquals("Query failed: " + query, expectedMatches, matches);
   }
