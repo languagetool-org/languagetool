@@ -95,19 +95,37 @@ public class Searcher {
     this.maxSearchTimeMillis = maxSearchTimeMillis;
   }
 
-  public SearcherResult findRuleMatchesOnIndex(PatternRule rule, Language language, IndexSearcher indexSearcher) throws IOException {
+  public SearcherResult findRuleMatchesOnIndex(PatternRule rule, Language language, final IndexSearcher indexSearcher) throws IOException {
     final PossiblyRelaxedQuery query = createQuery(rule);
-    final Sort sort = new Sort(new SortField("docCount", SortField.Type.INT));  // do not sort by relevance as this will move the shortest documents to the top
     if (query.query == null) {
       throw new NullPointerException("Cannot search on null query for rule: " + rule);
     }
-    final PossiblyLimitedTopDocs limitedTopDocs = getTopDocs(indexSearcher, query, sort);
-    final JLanguageTool languageTool = getLanguageToolWithOneRule(language, rule);
-    final List<MatchingSentence> matchingSentences = findMatchingSentences(indexSearcher, limitedTopDocs.topDocs, languageTool);
+
+    final SearchRunnable runnable = new SearchRunnable(indexSearcher, query, language, rule);
+    final Thread searchThread = new Thread(runnable);
+    searchThread.start();
+    try {
+      searchThread.join(maxSearchTimeMillis);
+      searchThread.interrupt();
+    } catch (InterruptedException e) {
+      throw new RuntimeException("Search thread got interrupted for query " + query, e);
+    }
+
+    if (searchThread.isInterrupted()) {
+      throw new SearchTimeoutException("Search timeout of " + maxSearchTimeMillis + "ms reached");
+    }
+
+    final Exception exception = runnable.getException();
+    if (exception != null) {
+      throw new RuntimeException("Exception during search for query " + query, exception);
+    }
+
+    final List<MatchingSentence> matchingSentences = runnable.getMatchingSentences();
     final int sentencesChecked = getSentenceCheckCount(query, indexSearcher);
     final SearcherResult searcherResult = new SearcherResult(matchingSentences, sentencesChecked, query);
     searcherResult.setDocCount(getDocCount(indexSearcher));
-    searcherResult.setResultIsTimeLimited(limitedTopDocs.resultIsTimeLimited);
+    //TODO: the search itself could also timeout, don't just ignore that:
+    //searcherResult.setResultIsTimeLimited(limitedTopDocs.resultIsTimeLimited);
     return searcherResult;
   }
 
@@ -221,6 +239,44 @@ public class Searcher {
       System.err.println("\tlanguageCode short language code, e.g. en for English");
       System.err.println("\tindexDir     path to a directory containing the index");
       System.exit(1);
+    }
+  }
+
+  class SearchRunnable implements Runnable {
+
+    private final IndexSearcher indexSearcher;
+    private final PossiblyRelaxedQuery query;
+    private final Language language;
+    private final PatternRule rule;
+
+    private List<MatchingSentence> matchingSentences;
+    private Exception exception;
+
+    SearchRunnable(IndexSearcher indexSearcher, PossiblyRelaxedQuery query, Language language, PatternRule rule) {
+      this.indexSearcher = indexSearcher;
+      this.query = query;
+      this.language = language;
+      this.rule = rule;
+    }
+
+    @Override
+    public void run() {
+      try {
+        final Sort sort = new Sort(new SortField("docCount", SortField.Type.INT));  // do not sort by relevance as this will move the shortest documents to the top
+        final PossiblyLimitedTopDocs limitedTopDocs = getTopDocs(indexSearcher, query, sort);
+        final JLanguageTool languageTool = getLanguageToolWithOneRule(language, rule);
+        matchingSentences = findMatchingSentences(indexSearcher, limitedTopDocs.topDocs, languageTool);
+      } catch (Exception e) {
+        exception = e;
+      }
+    }
+
+    Exception getException() {
+      return exception;
+    }
+
+    List<MatchingSentence> getMatchingSentences() {
+      return matchingSentences;
     }
   }
 
