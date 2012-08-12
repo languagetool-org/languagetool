@@ -36,6 +36,7 @@ public class CommandLineOptions {
   private boolean profile = false;
   private boolean bitext = false;
   private boolean autoDetect = false;
+  private boolean xmlFiltering = false;
   private Language language = null;
   private Language motherTongue = null;
   private String encoding = null;
@@ -179,4 +180,11 @@ public class CommandLineOptions {
     this.enabledRules = enabledRules;
   }
 
+  public boolean isXmlFiltering() {
+    return xmlFiltering;
+  }
+
+  public void setXmlFiltering(boolean xmlFiltering) {
+    this.xmlFiltering = xmlFiltering;
+  }
 }

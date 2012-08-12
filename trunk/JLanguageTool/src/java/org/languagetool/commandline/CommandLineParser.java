@@ -111,7 +111,9 @@ public class CommandLineParser {
         if (options.isTaggerOnly()) {
           throw new IllegalArgumentException("Tagging makes no sense for profiling.");
         }
-      }  else if (i == args.length - 1) {
+      } else if (args[i].equals("--xmlfilter")) {
+        options.setXmlFiltering(true);
+      } else if (i == args.length - 1) {
         options.setFilename(args[i]);
       } else {
         throw new IllegalArgumentException("Unknown option: " + args[i]);
@@ -140,7 +142,8 @@ public class CommandLineParser {
             + "  -p, --profile            print performance measurements\n"
             + "  -v, --verbose            print text analysis (sentences, part-of-speech tags) to STDERR\n"
             + "  --version                print LanguageTool version number and exit\n"
-            + "  -a, --apply              automatically apply suggestions if available, printing result to STDOUT");
+            + "  -a, --apply              automatically apply suggestions if available, printing result to STDOUT"
+            + "  --xmlfilter              remove XML/HTML elements from input before checking");
   }
 
   private void checkArguments(String option, int argParsingPos, String[] args) {

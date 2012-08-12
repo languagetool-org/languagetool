@@ -470,4 +470,31 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(output.contains("MORFOLOGIK_RULE_EN_US"));
   }
 
+  public void testNoXmlFilteringByDefault() throws Exception {
+    File input = populateFile("This < is is > filtered.");
+    String[] args = new String[] {input.getAbsolutePath()};
+    Main.main(args);
+    String output = new String(this.out.toByteArray());
+    assertTrue(output.contains("ENGLISH_WORD_REPEAT_RULE"));
+  }
+
+  public void testXmlFiltering() throws Exception {
+    File input = populateFile("This < is is > filtered.");
+    String[] args = new String[] {"--xmlfilter", input.getAbsolutePath()};
+    Main.main(args);
+    String output = new String(this.out.toByteArray());
+    assertFalse(output.contains("ENGLISH_WORD_REPEAT_RULE"));
+  }
+
+  private File populateFile(String content) throws IOException {
+    File tempFile = createTempFile();
+    PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(tempFile), "UTF-8"));
+    try {
+      writer.println(content);
+    } finally {
+      writer.close();
+    }
+    return tempFile;
+  }
+
 }

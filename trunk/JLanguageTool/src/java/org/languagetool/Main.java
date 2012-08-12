@@ -146,7 +146,7 @@ class Main {
   }
 
   private void runOnFile(final String filename, final String encoding,
-      final boolean listUnknownWords) throws IOException {
+      final boolean listUnknownWords, final boolean xmlFiltering) throws IOException {
     boolean oneTime = false;
     if (!"-".equals(filename)) {
       if (autoDetect) {
@@ -165,24 +165,23 @@ class Main {
       oneTime = file.length() < MAX_FILE_SIZE || bitextMode;
     }
     if (oneTime) {
-      runOnFileInOneGo(filename, encoding, listUnknownWords);
+      runOnFileInOneGo(filename, encoding, listUnknownWords, xmlFiltering);
     } else {
       runOnFileLineByLine(filename, encoding, listUnknownWords);
     }
   }
 
-  private void runOnFileInOneGo(String filename, String encoding, boolean listUnknownWords) throws IOException {
+  private void runOnFileInOneGo(String filename, String encoding, boolean listUnknownWords, boolean xmlFiltering) throws IOException {
     if (bitextMode) {
       //TODO: add parameter to set different readers
       final TabBitextReader reader = new TabBitextReader(filename, encoding);
       if (applySuggestions) {
         Tools.correctBitext(reader, srcLt, lt, bRules);
       } else {
-        Tools.checkBitext(reader, srcLt, lt, bRules,
-          apiFormat);
+        Tools.checkBitext(reader, srcLt, lt, bRules, apiFormat);
       }
     } else {
-      final String text = getFilteredText(filename, encoding);
+      final String text = getFilteredText(filename, encoding, xmlFiltering);
       if (applySuggestions) {
         System.out.print(Tools.correctText(text, lt));
       } else if (profileRules) {
@@ -389,18 +388,17 @@ class Main {
   }
 
   private void runRecursive(final String filename, final String encoding,
-      final boolean listUnknown) throws IOException, ParserConfigurationException, SAXException {
+      final boolean listUnknown, final boolean xmlFiltering) throws IOException, ParserConfigurationException, SAXException {
     final File dir = new File(filename);
     if (!dir.isDirectory()) {
-      throw new IllegalArgumentException(dir.getAbsolutePath()
-          + " is not a directory, cannot use recursion");
+      throw new IllegalArgumentException(dir.getAbsolutePath() + " is not a directory, cannot use recursion");
     }
     final File[] files = dir.listFiles();
     for (final File file : files) {
       if (file.isDirectory()) {
-        runRecursive(file.getAbsolutePath(), encoding, listUnknown);
+        runRecursive(file.getAbsolutePath(), encoding, listUnknown, xmlFiltering);
       } else {
-        runOnFile(file.getAbsolutePath(), encoding, listUnknown);
+        runOnFile(file.getAbsolutePath(), encoding, listUnknown, xmlFiltering);
       }
     }    
   }
@@ -409,16 +407,19 @@ class Main {
    * Loads filename and filters out XML. Note that the XML
    * filtering can lead to incorrect positions in the list of matching rules.
    */
-  private String getFilteredText(final String filename, final String encoding) throws IOException {
+  private String getFilteredText(final String filename, final String encoding, boolean xmlFiltering) throws IOException {
     if (verbose) {
       lt.setOutput(System.err);
     }
     if (!apiFormat && !applySuggestions) {
       System.out.println("Working on " + filename + "...");
     }
-    final String fileContents = StringTools.readFile(new FileInputStream(
-        filename), encoding);
-    return StringTools.filterXML(fileContents);
+    final String fileContents = StringTools.readFile(new FileInputStream(filename), encoding);
+    if (xmlFiltering) {
+      return StringTools.filterXML(fileContents);
+    } else {
+      return fileContents;
+    }
   }
 
   private void changeLanguage(Language language, Language motherTongue,
@@ -485,9 +486,9 @@ class Main {
       prg.setBitextMode(options.getMotherTongue(), options.getDisabledRules(), options.getEnabledRules());
     }
     if (options.isRecursive()) {
-      prg.runRecursive(options.getFilename(), options.getEncoding(), options.isListUnknown());
+      prg.runRecursive(options.getFilename(), options.getEncoding(), options.isListUnknown(), options.isXmlFiltering());
     } else {
-      prg.runOnFile(options.getFilename(), options.getEncoding(), options.isListUnknown());
+      prg.runOnFile(options.getFilename(), options.getEncoding(), options.isListUnknown(), options.isXmlFiltering());
     }
     prg.cleanUp();
   }
