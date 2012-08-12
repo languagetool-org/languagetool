@@ -2151,6 +2151,18 @@ $Id$
             <example type="incorrect">Работа должна быть выполнена <marker>в течении часа</marker>.</example>
             <example type="correct">Работа должна быть выполнена в течение часа.</example>
         </rule>
+         <rule id="V_PRODOLJENIЕ" name="Словосочетание “в продолжение (отрезка времени)”">
+            <pattern>
+                <token>в</token>
+                <token>продолжении</token>
+                <token regexp="yes">часа|минуты|промежутка|секунды|дня|времени|недели|месяца|года|столетия|тысячелетия|разговора|беседы</token>
+            </pattern>
+            <message>Должно быть: <suggestion>\1 продолжение \3</suggestion></message>
+            <short>В продолжение (времени, часа, ...)</short>
+            <example type="incorrect">Работа была выполнена <marker>в продолжении дня</marker>.</example>
+            <example type="correct">Работа была выполнена в продолжение дня.</example>
+        </rule>
+        <!-- TO DO:  в продолжении (существительное) -->
     </category>
     <category name="Стиль">
         
