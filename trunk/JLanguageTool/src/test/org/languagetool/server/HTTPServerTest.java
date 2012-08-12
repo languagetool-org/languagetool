@@ -28,16 +28,22 @@ import java.util.HashSet;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import junit.framework.TestCase;
-
+import org.junit.Ignore;
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.XMLValidator;
 import org.languagetool.tools.StringTools;
 import org.xml.sax.SAXException;
 
-public class HTTPServerTest extends TestCase {
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
+public class HTTPServerTest {
+
+  @Ignore("already gets tested by HTTPServerLoadTest")
+  @Test
   public void testHTTPServer() throws Exception {
     final HTTPServer server = new HTTPServer();
     try {
@@ -142,6 +148,7 @@ public class HTTPServerTest extends TestCase {
     
   }
 
+  @Test
   public void testAccessDenied() throws Exception {
     final HTTPServer server = new HTTPServer(HTTPServer.DEFAULT_PORT, false, false, new HashSet<String>());
     try {
@@ -226,14 +233,14 @@ public class HTTPServerTest extends TestCase {
       wr.close();
     }
   }
-  
+
   private static String join(String[] s, String delimiter) {
-	    if (s == null || s.length == 0 ) return "";
-	    StringBuilder builder = new StringBuilder(s[0]);
-	    for (int i = 1; i < s.length; i++) {
-	        builder.append(delimiter).append(s[i]);
-	    }
-	    return builder.toString();
-	}
+    if (s == null || s.length == 0 ) return "";
+    final StringBuilder builder = new StringBuilder(s[0]);
+    for (int i = 1; i < s.length; i++) {
+      builder.append(delimiter).append(s[i]);
+    }
+    return builder.toString();
+  }
   
 }

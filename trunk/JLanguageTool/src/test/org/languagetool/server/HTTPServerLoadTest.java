@@ -1,5 +1,7 @@
 package org.languagetool.server;
 
+import org.junit.Test;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -12,9 +14,10 @@ import java.util.concurrent.Future;
 public class HTTPServerLoadTest extends HTTPServerTest {
 
   // we keep these numbers low so "ant test" stays fast - increase them for serious testing:
-  private static final int REPEAT_COUNT = 2;
+  private static final int REPEAT_COUNT = 1;
   private static final int THREAD_COUNT = 2;
 
+  @Test
   @Override
   public void testHTTPServer() throws Exception {
     final long startTime = System.currentTimeMillis();
