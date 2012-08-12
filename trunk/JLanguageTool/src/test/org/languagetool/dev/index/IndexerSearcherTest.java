@@ -87,6 +87,7 @@ public class IndexerSearcherTest extends LuceneTestCase {
       final List<Rule> rules = lt.getAllActiveRules();
       for (Rule rule : rules) {
         if (rule instanceof PatternRule && !rule.isDefaultOff()) {
+          //final long startTime = System.currentTimeMillis();
           final PatternRule patternRule = (PatternRule) rule;
           try {
             ruleCounter++;
@@ -112,6 +113,9 @@ public class IndexerSearcherTest extends LuceneTestCase {
               System.out.println("Examples: " + rule.getIncorrectExamples());
               System.out.println();
               ruleProblems++;
+            } else {
+              //final long time = System.currentTimeMillis() - startTime;
+              //System.out.println("Tested " + matchingSentences.size() + " sentences in " + time + "ms for rule " + patternRule);
             }
           } catch (NullPointerException e) {
             // happens when a rule has only inflected tokens or only tokens with exceptions
