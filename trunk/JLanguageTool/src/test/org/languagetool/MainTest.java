@@ -179,11 +179,8 @@ public class MainTest extends AbstractSecurityTestCase {
       Main.main(args);
       String output = new String(this.out.toByteArray());
       assertTrue(output.contains("<error fromy=\"4\" fromx=\"5\" toy=\"4\" tox=\"10\" ruleId=\"ENGLISH_WORD_REPEAT_RULE\" msg=\"Possible typo: you repeated a word\" replacements=\"is\" context=\"This is is a test of language tool. \" contextoffset=\"5\" errorlength=\"5\"/>"));
-    
   }
     
-      
-  
   //test line mode vs. para mode
   //first line mode
   public void testEnglishLineMode() throws Exception {
@@ -285,12 +282,7 @@ public class MainTest extends AbstractSecurityTestCase {
   }
   
   public void testGermanFileWithURL() throws Exception {
-
-	    File input = createTempFile();
-	    // Populate the file with data.
-	    PrintWriter w = new PrintWriter(new OutputStreamWriter(new FileOutputStream(input), "UTF-8"));
-	    w.println("Ward ihr zufrieden damit?");
-	    w.close();
+      File input = populateFile("Ward ihr zufrieden damit?");
 
 	    String[] args = new String[] {"-l", "de", "--api", input.getAbsolutePath()};
 
@@ -310,12 +302,7 @@ public class MainTest extends AbstractSecurityTestCase {
  
   
   public void testPolishFileAPI() throws Exception {
-    File input = createTempFile();
-
-    // Populate the file with data.
-    PrintWriter w = new PrintWriter(new OutputStreamWriter(new FileOutputStream(input), "UTF-8"));
-    w.println("To jest świnia która się ślini.");
-    w.close();
+    File input = populateFile("To jest świnia która się ślini.");
 
     String[] args = new String[] {"-l", "pl", "--api", "-c", "utf-8", input.getAbsolutePath()};
 
@@ -329,19 +316,16 @@ public class MainTest extends AbstractSecurityTestCase {
   }
   
   public void testPolishLineNumbers() throws Exception {
-    File input = createTempFile();
 
-    // Populate the file with data.
-    PrintWriter w = new PrintWriter(new OutputStreamWriter(new FileOutputStream(input), "UTF-8"));
-    w.println("Test.");
-    w.println("Test.");
-    w.println("Test.");
-    w.println("Test.");
-    w.println("Test.");
-    w.println("Test.");
-    w.println("");
-    w.println("Test który wykaże błąd.");
-    w.close();
+    File input = populateFile(
+      "Test.\n" +
+      "Test.\n" +
+      "Test.\n" +
+      "Test.\n" +
+      "Test.\n" +
+      "Test.\n" +
+      "\n" +
+      "Test który wykaże błąd.");
 
     String[] args = new String[] {"-l", "pl", "-c", "utf-8", input.getAbsolutePath()};
 
@@ -368,14 +352,10 @@ public class MainTest extends AbstractSecurityTestCase {
   }
 
   public void testBitextMode() throws Exception {
-    File input = createTempFile();
-
-    // Populate the file with data.
-    PrintWriter w = new PrintWriter(new OutputStreamWriter(new FileOutputStream(input), "UTF-8"));
-    w.println("This is not actual.\tTo nie jest aktualne.");
-    w.println("Test\tTest");
-    w.println("ab\tVery strange data indeed, much longer than input");
-    w.close();
+    File input = populateFile(
+      "This is not actual.\tTo nie jest aktualne.\n" +
+      "Test\tTest\n" +
+      "ab\tVery strange data indeed, much longer than input");
 
     String[] args = new String[] {"-l", "pl", "--bitext", "-m", "en", input.getAbsolutePath()};
     Main.main(args);
@@ -387,14 +367,10 @@ public class MainTest extends AbstractSecurityTestCase {
   }
   
   public void testBitextModeWithDisabledRule() throws Exception {
-    File input = createTempFile();
-
-    // Populate the file with data.
-    PrintWriter w = new PrintWriter(new OutputStreamWriter(new FileOutputStream(input), "UTF-8"));
-    w.println("this is not actual.\tTo nie jest aktualne.");
-    w.println("test\tTest");
-    w.println("ab\tVery strange data indeed, much longer than input");
-    w.close();
+    File input = populateFile(
+      "this is not actual.\tTo nie jest aktualne.\n" +
+      "test\tTest\n" +
+      "ab\tVery strange data indeed, much longer than input");
 
     String[] args = new String[] {"-l", "pl", "--bitext", "-m", "en", "-d", "UPPERCASE_SENTENCE_START,TRANSLATION_LENGTH", input.getAbsolutePath()};
     Main.main(args);
@@ -406,14 +382,10 @@ public class MainTest extends AbstractSecurityTestCase {
   }
   
   public void testBitextModeWithEnabledRule() throws Exception {
-    File input = createTempFile();
-
-    // Populate the file with data.
-    PrintWriter w = new PrintWriter(new OutputStreamWriter(new FileOutputStream(input), "UTF-8"));
-    w.println("this is not actual.\tTo nie jest aktualne.");
-    w.println("test\tTest");
-    w.println("ab\tVery strange data indeed, much longer than input");
-    w.close();
+    File input = populateFile(
+      "this is not actual.\tTo nie jest aktualne.\n" +
+      "test\tTest\n" +
+      "ab\tVery strange data indeed, much longer than input");
 
     String[] args = new String[] {"-l", "pl", "--bitext", "-m", "en", "-e", "TRANSLATION_LENGTH", input.getAbsolutePath()};
     Main.main(args);
@@ -425,12 +397,7 @@ public class MainTest extends AbstractSecurityTestCase {
   }
   
   public void testBitextModeApply() throws Exception {
-    File input = createTempFile();
-    // Populate the file with data.
-    PrintWriter w = new PrintWriter(new OutputStreamWriter(new FileOutputStream(input), "UTF-8"));
-    w.println("There is a dog.\tNie ma psa.");    
-    w.close();
-
+    File input = populateFile("There is a dog.\tNie ma psa.");
     String[] args = new String[] {"-l", "pl", "--bitext", "-m", "en", "--apply", input.getAbsolutePath()};
     Main.main(args);
     String output = new String(this.out.toByteArray());
@@ -458,11 +425,7 @@ public class MainTest extends AbstractSecurityTestCase {
   }
   
   public void testLangWithCountryVariant() throws Exception {
-    File input = createTempFile();
-    // Populate the file with data.
-    PrintWriter w = new PrintWriter(new OutputStreamWriter(new FileOutputStream(input), "UTF-8"));
-    w.println("This is modelling.");
-    w.close();
+    File input = populateFile("This is modelling.");
     String[] args = new String[] {"-l", "en-US", input.getAbsolutePath()};
     Main.main(args);
     String output = new String(this.out.toByteArray());
