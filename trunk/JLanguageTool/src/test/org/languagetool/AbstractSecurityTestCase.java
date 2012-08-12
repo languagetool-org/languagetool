@@ -28,53 +28,52 @@ import junit.framework.TestCase;
  * @author Charlie Collins (Maven Test Example from
  * http://www.screaming-penguin.com/node/7570)
  */
-
 public class AbstractSecurityTestCase extends TestCase {
 
   public AbstractSecurityTestCase(String name) {
-     super(name);
+    super(name);
   }
 
   protected static class ExitException extends SecurityException {
     private static final long serialVersionUID = 1L;
     public final int status;
-     public ExitException(int status) {
-        super("There is no escape!");
-        this.status = status;
-     }
+    public ExitException(int status) {
+      super("There is no escape!");
+      this.status = status;
+    }
   }
 
   private static class NoExitSecurityManager extends SecurityManager {
-     @Override
-     public void checkPermission(@SuppressWarnings("unused") Permission perm) {
-        // allow anything.
-     }
+    @Override
+    public void checkPermission(@SuppressWarnings("unused") Permission perm) {
+      // allow anything.
+    }
 
-     @Override
-     @SuppressWarnings("unused")
-     public void checkPermission(Permission perm, Object context) {
-        // allow anything.
-     }
+    @Override
+    @SuppressWarnings("unused")
+    public void checkPermission(Permission perm, Object context) {
+      // allow anything.
+    }
 
-     @Override
-     public void checkExit(int status) {
-        super.checkExit(status);
-        throw new ExitException(status);
-     }
+    @Override
+    public void checkExit(int status) {
+      super.checkExit(status);
+      throw new ExitException(status);
+    }
   }
 
   @Override
   protected void setUp() throws Exception {
-     super.setUp();
-     System.setSecurityManager(new NoExitSecurityManager());
+    super.setUp();
+    System.setSecurityManager(new NoExitSecurityManager());
   }
 
   @Override
   protected void tearDown() throws Exception {
-     System.setSecurityManager(null); 
-     super.tearDown();
+    System.setSecurityManager(null);
+    super.tearDown();
   }
-  
+
   //get rid of JUnit warning for this helper class
   public void testSomething() {
   }
