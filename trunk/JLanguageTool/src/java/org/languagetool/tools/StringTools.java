@@ -30,6 +30,7 @@ import java.util.regex.Pattern;
 
 import org.languagetool.Language;
 import org.languagetool.gui.ContextTools;
+import org.languagetool.rules.Category;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.PatternRule;
 
@@ -369,6 +370,10 @@ public final class StringTools {
           xml.append(" url=\""
               + escapeXMLForAPIOutput(match.getRule().getUrl().toString())
               + "\"");
+      }
+      final Category category = match.getRule().getCategory();
+      if (category != null) {
+        xml.append(" category=\"" + category.getName() + "\"");
       }
       xml.append("/>\n");
     }

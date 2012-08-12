@@ -24,13 +24,18 @@ import java.io.StringReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import junit.framework.TestCase;
 
 import org.languagetool.Language;
+import org.languagetool.rules.Category;
+import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.en.AvsAnRule;
+import org.languagetool.rules.patterns.Element;
+import org.languagetool.rules.patterns.PatternRule;
 
 /**
  * @author Daniel Naber
@@ -168,6 +173,25 @@ public class StringToolsTest extends TestCase {
     assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
         "<matches>\n" +
         "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"EN_A_VS_AN\" msg=\"myMessage\" replacements=\"\" context=\"...s is an test...\" contextoffset=\"8\" errorlength=\"2\"/>\n" +
+        "</matches>\n", xml);
+  }
+
+  public void testRuleMatchesToXMLWithCategory() throws IOException {
+    final List<RuleMatch> matches = new ArrayList<RuleMatch>();
+    final String text = "This is a test sentence.";
+    final List<Element> elements = Collections.emptyList();
+    final Rule patternRule = new PatternRule("MY_ID", Language.GERMAN, elements, "my description", "my message", "short message");
+    patternRule.setCategory(new Category("MyCategory"));
+    final RuleMatch match = new RuleMatch(patternRule, 8, 10, "myMessage");
+    match.setColumn(99);
+    match.setEndColumn(100);
+    match.setLine(44);
+    match.setEndLine(45);
+    matches.add(match);
+    final String xml = StringTools.ruleMatchesToXML(matches, text, 5, StringTools.XmlPrintMode.NORMAL_XML);
+    assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+        "<matches>\n" +
+        "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"MY_ID\" msg=\"myMessage\" replacements=\"\" context=\"...s is a test ...\" contextoffset=\"8\" errorlength=\"2\" category=\"MyCategory\"/>\n" +
         "</matches>\n", xml);
   }
 
