@@ -89,18 +89,21 @@ public class PatternRuleQueryBuilder {
           query = spanQuery;
         }
       } else {
+        final int skip = getSkip(prevElement);
+        if (skip == 0) {
+          // we need to increase the skip because counting start from the beginning of a span query match:
+          skipCount++;
+        } else {
+          skipCount = 0;
+        }
         // attach the new query to the existing query - only this way
         // we can have per-query skips:
         if (element.getNegation()) {
-          query = new SpanNotQuery(query, spanQuery);
+          // SpanNotQuery(A,B) means: match spans A that don't overlap with spans B, thus for negation
+          // construct an "overlap" match of the previous and current span and keep only the previous matches:
+          final SpanNearQuery excludeQuery = new SpanNearQuery(new SpanQuery[] { query, spanQuery }, getSkip(prevElement) + skipCount, true);
+          query = new SpanNotQuery(query, excludeQuery);
         } else {
-          final int skip = getSkip(prevElement);
-          if (skip == 0) {
-            // we need to increase the skip because counting start from the beginning of a span query match:
-            skipCount++;
-          } else {
-            skipCount = 0;
-          }
           query = new SpanNearQuery(new SpanQuery[] { query, spanQuery }, getSkip(prevElement) + skipCount, true);
         }
       }

@@ -264,8 +264,12 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
 
     // negation:
     assertMatches(makeRule("<token>How</token> <token negate=\"yes\">foo</token>"), 1);
-    // TODO: add tests
-    //assertMatches(makeRule("<token>How</token> <token negate=\"yes\">do</token>"), 0);
+    assertMatches(makeRule("<token>How</token> <token negate=\"yes\">do</token>"), 0);
+    assertMatches(makeRule("<token>How</token> <token>do</token> <token negate=\"yes\">foo</token>"), 1);
+    assertMatches(makeRule("<token>How</token> <token negate=\"yes\">foo</token> <token>you</token>"), 1);
+    assertMatches(makeRule("<token>How</token> <token>do</token> <token negate=\"yes\">you</token>"), 0);
+    assertMatches(makeRule("<token>How</token> <token negate=\"yes\">do</token> <token>you</token>"), 0);
+    assertMatches(makeRule("<token>How</token> <token negate=\"yes\">do</token> <token negate=\"yes\">you</token>"), 0);
   }
 
   private void assertMatches(PatternRule patternRule, int expectedMatches) throws Exception {
