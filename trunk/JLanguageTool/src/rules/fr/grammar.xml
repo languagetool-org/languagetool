@@ -2112,6 +2112,29 @@ though, and has since been slightly modified)-->
             <example type="correct">La tradition ascétique de l'Église.</example>
           </rule>
         </rulegroup>
+        <rulegroup id="COLON" name="colon et côlon">
+          <rule>
+            <pattern>
+              <token regexp="yes">(cancer|cellule|chirurgie|endoscopie|hydrothérapie|inflammation|irrigation|intérieur|lésion|maladie|nettoyage|pathologie|muqueuse|occlusion|opération|spasme|syndrome|tissu|tumeur)s?</token>
+              <token>du</token>
+              <marker><token>colon</token></marker>
+            </pattern>
+            <message>Voulez-vous écrire <suggestion><match no="3" regexp_match="(.)." regexp_replace="$1ô"/></suggestion> ?</message>
+            <example type="incorrect">Cancer du <marker>colon</marker>.</example>
+            <example type="correct">Cancer dur <marker>côlon</marker>.</example>
+          </rule>
+        </rulegroup>
+        <rulegroup id="DIFFEREND" name="différend et différent">
+          <rule>
+            <pattern>
+              <token regexp="yes">assez|pas|peu|si|très|vraiment</token>
+              <marker><token regexp="yes">différends?</token></marker>
+            </pattern>
+            <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="(..*)d" regexp_replace="$1t"/></suggestion> ?</message>
+            <example type="incorrect">Ils ne sont pas si <marker>différends</marker>.</example>
+            <example type="correct">Ils ne sont pas si différents.</example>
+          </rule>
+        </rulegroup>
         <rulegroup id="TACHE" name="tache et tâche">
           <rule>
             <pattern>
@@ -2157,7 +2180,7 @@ though, and has since been slightly modified)-->
             <pattern>
               <marker><token regexp="yes">tâches?</token></marker>
               <token regexp="yes" skip="1">de?</token>
-              <token regexp="yes">betteraves?|beurre|beauté|boissons?|boue|bougie|blanco|brulure|café|ceurises?|cambouis|carottes?|chewing(-?gum)?|cire|colle|couleur|caca|chocolat|confiture|cirage|crayons?|cr[eê]mes?|curry|décoloration|dentifrice|encre|éosine|essence|excréments?|déodorant|fer|feutres?|fientes?|fluo|fruits?|fuel|goudron|gras|graisse|harissa|henné|herbe|huile|javel|ketchup|jus|lait|légumes?|léopard|maquillage|marqueur|mascara|massala|moisi|moisissure|matières?|mazout|mercurochrome|merde|moutarde|naissance|oeuf|œuf|orange|parfum|peinture|pipi|pollen|résine|rouelle|rouge|rousseur|roussi|sauce|sang|s[ée]bum|s[èe]ve|sperme|sombre|soupe|stabilo|stylo(-bille|feutre)?|suie|sueur|terre|transpiration|tipp-ex|tomates?|teintures?|urine|vernis|vieillesse|vomit?|vomissure|vin</token>
+              <token regexp="yes">betteraves?|beurre|beauté|boissons?|boue|bougie|blanco|br[uû]lure|café|ceurises?|cambouis|carottes?|chewing(-?gum)?|cire|colle|couleur|caca|chocolat|confiture|cirage|crayons?|cr[eê]mes?|curry|décoloration|dentifrice|encre|éosine|essence|excréments?|déodorant|fer|feutres?|fientes?|fluo|fruits?|fuel|goudron|gras|graisse|harissa|henné|herbe|huile|javel|ketchup|jus|lait|légumes?|léopard|maquillage|marqueur|mascara|massala|moisi|moisissure|matières?|mazout|mercurochrome|merde|moutarde|naissance|oeuf|œuf|orange|parfum|peinture|pipi|pollen|résine|rouelle|rouge|rousseur|roussi|sauce|sang|s[ée]bum|s[èe]ve|sperme|sombre|soupe|stabilo|stylo(-bille|feutre)?|suie|sueur|terre|transpiration|tipp-ex|tomates?|teintures?|urine|vernis|vieillesse|vomit?|vomissure|vin</token>
             </pattern>
             <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="â" regexp_replace="a"/></suggestion> ?</message>
             <example type="incorrect">Une <marker>tâche</marker> de ketchup sur la chemise.</example>
@@ -6437,6 +6460,16 @@ though, and has since been slightly modified)-->
           <message>Employez <suggestion>mis</suggestion>, <suggestion>mise</suggestion> ou <suggestion>mises</suggestion> selon le contexte.</message>
           <example type="incorrect">Le serveur a été <marker>mi</marker> à jour.</example>
           <example type="correct">Le serveur a été mis à jour.</example>
+        </rule>
+        <rule id="ETRE_EN_ALLE" name="être en allé → en être allé">
+          <pattern>
+            <token inflected="yes">être</token>
+            <token>en</token>
+            <token regexp="yes">allée?s?</token>
+          </pattern>
+          <message>Employez <suggestion>\2 \1 \3</suggestion>.</message>
+          <example type="incorrect">Elle s’<marker>est en allée</marker>.</example>
+          <example type="correct">Elle s’<marker>en est allée</marker>.</example>
         </rule>
         <rule id="MI_EN" name="mi en service → mis en service">
           <pattern>
