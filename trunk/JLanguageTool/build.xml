@@ -465,8 +465,9 @@
     <!-- LanguageTool standalone with hunspell, without OpenOffice.org integration -->
     <!-- ========================================================================= -->
     <target name="dist-standalone" depends="common" description="Builds a ZIP for stand-alone use">
-        <zip compress="yes" destfile="${dist.dir}/LanguageTool-${version}.zip" basedir="${dist.dir}" includes="**"
-             excludes="deploy.sh,undeploy.sh,turn.sh,printlocales.jar,LanguageTool.uno.jar" />
+        <zip compress="yes" destfile="${dist.dir}/LanguageTool-${version}.zip">
+            <zipfileset prefix="LanguageTool" dir="${dist.dir}" excludes="deploy.sh,undeploy.sh,turn.sh,printlocales.jar,LanguageTool.uno.jar"/>
+        </zip>
     </target>
 
     <!-- ================================================================== -->
