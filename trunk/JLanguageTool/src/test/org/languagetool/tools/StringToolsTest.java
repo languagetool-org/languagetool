@@ -26,9 +26,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import junit.framework.TestCase;
 
+import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.Rule;
@@ -170,10 +173,14 @@ public class StringToolsTest extends TestCase {
     match.setEndLine(45);
     matches.add(match);
     final String xml = StringTools.ruleMatchesToXML(matches, text, 5, StringTools.XmlPrintMode.NORMAL_XML);
-    assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-        "<matches>\n" +
-        "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"EN_A_VS_AN\" msg=\"myMessage\" replacements=\"\" context=\"...s is an test...\" contextoffset=\"8\" errorlength=\"2\"/>\n" +
-        "</matches>\n", xml);
+    assertTrue(xml.startsWith("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"));
+    final Pattern matchesPattern =
+            Pattern.compile(".*<matches software=\"LanguageTool\" version=\"" + JLanguageTool.VERSION + "\" buildDate=\".*?\">.*", Pattern.DOTALL);
+    final Matcher matcher = matchesPattern.matcher(xml);
+    assertTrue(matcher.matches());
+    assertTrue(xml.contains(">\n" +
+            "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"EN_A_VS_AN\" msg=\"myMessage\" replacements=\"\" context=\"...s is an test...\" contextoffset=\"8\" errorlength=\"2\"/>\n" +
+            "</matches>\n"));
   }
 
   public void testRuleMatchesToXMLWithCategory() throws IOException {
@@ -189,10 +196,9 @@ public class StringToolsTest extends TestCase {
     match.setEndLine(45);
     matches.add(match);
     final String xml = StringTools.ruleMatchesToXML(matches, text, 5, StringTools.XmlPrintMode.NORMAL_XML);
-    assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-        "<matches>\n" +
-        "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"MY_ID\" msg=\"myMessage\" replacements=\"\" context=\"...s is a test ...\" contextoffset=\"8\" errorlength=\"2\" category=\"MyCategory\"/>\n" +
-        "</matches>\n", xml);
+    assertTrue(xml.contains(">\n" +
+            "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"MY_ID\" msg=\"myMessage\" replacements=\"\" context=\"...s is a test ...\" contextoffset=\"8\" errorlength=\"2\" category=\"MyCategory\"/>\n" +
+            "</matches>\n"));
   }
 
   public void testRuleMatchesWithUrlToXML() throws IOException {
@@ -214,10 +220,9 @@ public class StringToolsTest extends TestCase {
     match.setEndLine(45);
     matches.add(match);
     final String xml = StringTools.ruleMatchesToXML(matches, text, 5, StringTools.XmlPrintMode.NORMAL_XML);
-    assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-            "<matches>\n" +
+    assertTrue(xml.contains(">\n" +
             "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"EN_A_VS_AN\" msg=\"myMessage\" replacements=\"\" context=\"...s is an test...\" contextoffset=\"8\" errorlength=\"2\" url=\"http://server.org?id=1&amp;foo=bar\"/>\n" +
-            "</matches>\n", xml);
+            "</matches>\n"));
   }
 
   public void testRuleMatchesToXMLEscapeBug() throws IOException {
@@ -230,10 +235,9 @@ public class StringToolsTest extends TestCase {
     match.setEndLine(45);
     matches.add(match);
     final String xml = StringTools.ruleMatchesToXML(matches, text, 5, StringTools.XmlPrintMode.NORMAL_XML);
-    assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-        "<matches>\n" +
-        "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"EN_A_VS_AN\" msg=\"myMessage\" replacements=\"\" context=\"... is &quot;an test...\" contextoffset=\"8\" errorlength=\"2\"/>\n" +
-        "</matches>\n", xml);
+    assertTrue(xml.contains(">\n" +
+            "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"EN_A_VS_AN\" msg=\"myMessage\" replacements=\"\" context=\"... is &quot;an test...\" contextoffset=\"8\" errorlength=\"2\"/>\n" +
+            "</matches>\n"));
   }
 
   public void testListToString() {

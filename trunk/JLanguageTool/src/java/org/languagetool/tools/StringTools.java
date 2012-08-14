@@ -28,6 +28,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.gui.ContextTools;
 import org.languagetool.rules.Category;
@@ -330,7 +331,8 @@ public final class StringTools {
 
     if (xmlMode == XmlPrintMode.NORMAL_XML || xmlMode == XmlPrintMode.START_XML) {
       xml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-      xml.append("<matches>\n");
+      xml.append("<matches software=\"LanguageTool\" version=\"" + JLanguageTool.VERSION + "\"" +
+              " buildDate=\"" + JLanguageTool.BUILD_DATE + "\">\n");
     }
 
     final ContextTools contextTools = new ContextTools();

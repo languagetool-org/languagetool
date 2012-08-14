@@ -56,9 +56,12 @@ public class HTTPServerTest {
 
   void runTests() throws IOException, SAXException, ParserConfigurationException {
     // no error:
-    final String enc = "UTF-8";
-    assertEquals("<?xml version=\"1.0\" encoding=\""+enc+"\"?>\n<matches>\n</matches>\n", check(Language.GERMAN, ""));
-    assertEquals("<?xml version=\"1.0\" encoding=\""+enc+"\"?>\n<matches>\n</matches>\n", check(Language.GERMAN, "Ein kleiner test"));
+    final String matchAttr = "software=\"LanguageTool\" version=\"" + JLanguageTool.VERSION + "\" buildDate=\".*?\"";
+    final String emptyResultPattern = "<\\?xml version=\"1.0\" encoding=\"UTF-8\"\\?>\n<matches " + matchAttr + ">\n</matches>\n";
+    final String result1 = check(Language.GERMAN, "");
+    assertTrue("Got " + result1 + ", expected " + emptyResultPattern, result1.matches(emptyResultPattern));
+    final String result2 = check(Language.GERMAN, "Ein kleiner test");
+    assertTrue("Got " + result2 + ", expected " + emptyResultPattern, result2.matches(emptyResultPattern));
     // one error:
     assertTrue(check(Language.GERMAN, "ein kleiner test").contains("UPPERCASE_SENTENCE_START"));
     // two errors:
