@@ -265,7 +265,7 @@ public class StringToolsTest extends TestCase {
     assertEquals("", StringTools.trimWhitespace(""));
     assertEquals("", StringTools.trimWhitespace(" "));
     assertEquals("XXY", StringTools.trimWhitespace(" \nXX\t Y"));
-    // TODO: make this work assertEquals("XXY", StringTools.trimWhitespace(" \r\nXX\t Y"));
+    assertEquals("XXY", StringTools.trimWhitespace(" \r\nXX\t Y"));
     assertEquals("word", StringTools.trimWhitespace("word"));
   }
 

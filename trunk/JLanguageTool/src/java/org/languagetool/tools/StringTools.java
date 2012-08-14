@@ -457,7 +457,7 @@ public final class StringTools {
     final StringBuilder filter = new StringBuilder();
     for (int i = 0; i < str.length(); i++) {
       final char c = str.charAt(i);
-      if (c != '\n' && c != ' ' && c != '\t') {
+      if (c != '\n' && c != ' ' && c != '\t' && c != '\r') {
         filter.append(c);
       }
     }
