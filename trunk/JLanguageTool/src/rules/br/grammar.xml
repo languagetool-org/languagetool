@@ -3724,7 +3724,7 @@ $Id$
     <rule id="A_DREUZ" name="a dreuz → a-dreuz (hag all)">
       <pattern>
         <token>a<exception scope="previous" regexp="yes">kement|meur|nag</exception></token>
-        <token regexp="yes">barzh|beban|belec’h|benn(adoù|-kaer)?|bik|bil|blad|blaen|blom|boan|bouez(-penn)?|boullad|c’houde(vezh)?|c’hwenn|dal|dammoù|denn-askell|dizh|douez|doulladoù|drak|dreist|drek|dreñv|dreuz|drugarez|du|enep|feson|fet|feur|flav|fourch|fuilh|geñver|gleiz|greiz(-holl)?|grenn|hed(-all)?|herr|hervez|istribilh|led|leizh|nevez|ouez|raok|ratozh|skouer|stlabez|viskoazh|vremañ|walc’h|wechoù|wezhioù|zehou|zevri|ziabarzh|ziabell|ziadreñv|ziagent|ziaraok|ziavaez|zindan(on|out|nañ|ni|nomp|noc’h|nor?)?|zioc’h|ziouzh|zivout|ziwar(non|nout|nañ|nezhañ|ni|nezhi|nomp|noc’h|nezho|nor?|-(c’horre|dro|laez|lerc’h))?|zoare</token>
+        <token regexp="yes">barzh|beban|belec’h|benn(adoù|-kaer)?|bik|bil|blad|blaen|blom|boan|bouez(-penn)?|boullad|c’houde(vezh)?|c’hwenn|dal|dammoù|denn-askell|dizh|douez|doulladoù|drak|dreist|drek|dreñv|dreuz|drugarez|du|enep|feson|fet|feur|flav|fourch|fuilh|geñver|gevret|gleiz|greiz(-holl)?|grenn|hed(-all)?|herr|hervez|istribilh|led|leizh|nevez|ouez|raok|ratozh|skouer|stlabez|viskoazh|vremañ|walc’h|wechoù|wezhioù|zehou|zevri|ziabarzh|ziabell|ziadreñv|ziagent|ziaraok|ziavaez|zindan(on|out|nañ|ni|nomp|noc’h|nor?)?|zioc’h|ziouzh|zivout|ziwar(non|nout|nañ|nezhañ|ni|nezhi|nomp|noc’h|nezho|nor?|-(c’horre|dro|laez|lerc’h))?|zoare</token>
       </pattern>
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
       <example type="incorrect">Amzer <marker>a walc’h</marker> am eus.</example>
@@ -6600,6 +6600,27 @@ $Id$
       <example type="incorrect"><marker>Ne ket</marker> diaes koulskoude.</example>
       <example type="correct">N’eo ket diaes koulskoude.</example>
     </rule>
+    <rulegroup id="A_GEVRED" name="a-gevred → a-gevret">
+      <rule>
+        <pattern>
+          <marker>
+            <token>a</token>
+            <token>gevred</token>
+          </marker>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>\1-gevret</suggestion> ?</message>
+        <example type="incorrect">Holl <marker>a gevred</marker> gant gouel al labourerien!</example>
+        <example type="correct">Holl a-gevret gant gouel al labourerien!</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token>a-gevred</token></marker>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>a-gevret</suggestion> ?</message>
+        <example type="incorrect">Holl <marker>a-gevred</marker> gant gouel al labourerien!</example>
+        <example type="correct">Holl a-gevret gant gouel al labourerien!</example>
+      </rule>
+    </rulegroup>
   </category>
   <!-- vim: foldmethod=marker foldmarker=<category,</category:
   -->
