@@ -1120,13 +1120,17 @@ though, and has since been slightly modified)-->
             </rule>
             <rule>
               <pattern>
-                <token>pas</token>
+                <token regexp="yes">pas|.*-(tu|ils?|elles?|on|[nv]ous)</token>
                 <marker><token>a</token></marker>
-                <token>pas</token>
               </pattern>
               <message>Voulez-vous écrire <suggestion>à</suggestion> ?</message>
+
+              <example type="incorrect">Ne joue pas <marker>a</marker> ça.</example>
+              <example type="correct">Ne joue pas <marker>à</marker> ça.</example>
               <example type="incorrect">Pas <marker>a</marker> pas</example>
               <example type="correct">Pas <marker>à</marker> pas</example>
+              <example type="incorrect">Venez-vous <marker>a</marker> la fête ?</example>
+              <example type="correct">Venez-vous <marker>à</marker> la fête ?</example>
             </rule>
             <rule>
               <pattern>
@@ -2052,10 +2056,12 @@ though, and has since been slightly modified)-->
               <token>dans</token>
               <token regexp="yes">[mtsl]a|leurs?|[vn]os</token>
               <marker><token regexp="yes">voies?</token></marker>
+              <token><exception>Lactée</exception></token>
             </pattern>
             <message>Voulez-vous écrire <suggestion>voix</suggestion> ?</message>
             <example type="incorrect">Il y avait une émotion dans sa <marker>voie</marker>.</example>
             <example type="correct">Il y avait une émotion dans sa voix.</example>
+            <example type="correct">Combien y a-t-il d’étoiles dans la Voie Lactée ?</example>
           </rule>
         </rulegroup>
         <rulegroup id="VOIX_VOIE" name="voix → voie">
@@ -20789,7 +20795,7 @@ though, and has since been slightly modified)-->
         </rulegroup>
         <rule id="QUASI_NOM" name="Quasi + nom">
             <pattern>
-                <token regexp="yes">quasi|non</token>
+                <token regexp="yes">quasi|non<exception scope="previous">ou</exception></token>
                 <token postag="N.*|V.* inf" postag_regexp="yes">
                     <exception negate_pos="yes" postag="N.*|V.* inf" postag_regexp="yes"/>
                     <exception regexp="yes">pas|merci</exception>
@@ -20802,6 +20808,7 @@ though, and has since been slightly modified)-->
             <example type="incorrect">Une fin de <marker>non recevoir</marker>.</example>
             <example type="correct">Une fin de non-recevoir.</example>
             <example type="correct">Non merci.</example>
+            <example type="correct">Je me demande s’il avait ou <marker>non conscience</marker> que son arme était chargée.</example>
         </rule>
         <rule id="ETC..." name="etc...">
             <pattern>
