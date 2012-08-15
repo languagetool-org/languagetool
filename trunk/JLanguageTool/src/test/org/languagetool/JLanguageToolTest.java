@@ -105,6 +105,26 @@ public class JLanguageToolTest extends TestCase {
     assertEquals(1, match.getColumn());
   }
 
+  public void testPositionsWithEnglish() throws IOException {
+    final JLanguageTool tool = new JLanguageTool(Language.AMERICAN_ENGLISH);
+    final List<RuleMatch> matches = tool.check("A sentence with no period\n" +
+            "A sentence. A typoh.");
+    assertEquals(1, matches.size());
+    final RuleMatch match = matches.get(0);
+    assertEquals(1, match.getLine());
+    assertEquals(15, match.getColumn());
+  }
+
+  public void testPositionsWithEnglishTwoLineBreaks() throws IOException {
+    final JLanguageTool tool = new JLanguageTool(Language.AMERICAN_ENGLISH);
+    final List<RuleMatch> matches = tool.check("This sentence.\n\n" +
+            "A sentence. A typoh.");
+    assertEquals(1, matches.size());
+    final RuleMatch match = matches.get(0);
+    assertEquals(2, match.getLine());
+    assertEquals(14, match.getColumn());   // TODO: should actually be 15, as in testPositionsWithEnglish()
+  }
+
   public void testDutch() throws IOException {
     final JLanguageTool tool = new JLanguageTool(Language.DUTCH);
     tool.activateDefaultPatternRules();

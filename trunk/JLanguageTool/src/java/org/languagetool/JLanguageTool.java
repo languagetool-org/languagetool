@@ -571,7 +571,7 @@ public final class JLanguageTool {
       lineCount += countLineBreaks(sentence);
       
       // calculate matching column:      
-      final int lineBreakPos = sentence.indexOf('\n');
+      final int lineBreakPos = sentence.lastIndexOf('\n');
       if (lineBreakPos == -1) {
         columnCount += sentence.length();
       } else {
@@ -581,7 +581,7 @@ public final class JLanguageTool {
             columnCount--;
           }
         } else {
-          columnCount = 1;
+          columnCount = sentence.length() - lineBreakPos;
         }
       }      
     }
@@ -658,21 +658,15 @@ public final class JLanguageTool {
    * @param columnCount Current column number
    * @param lineCount Current line number
    * @param sentence  The text being checked
-   * @return
-   * The RuleMatch object with adjustments.
+   * @return The RuleMatch object with adjustments.
    */
   public RuleMatch adjustRuleMatchPos(final RuleMatch rm, int sentLen,
       int columnCount, int lineCount, final String sentence) {    
     final RuleMatch thisMatch = new RuleMatch(rm.getRule(),
-        rm.getFromPos() + sentLen, rm.getToPos()
-            + sentLen, rm.getMessage(), rm
-            .getShortMessage());
-    thisMatch.setSuggestedReplacements(rm
-        .getSuggestedReplacements());
-    final String sentencePartToError = sentence.substring(0, rm
-        .getFromPos());
-    final String sentencePartToEndOfError = sentence.substring(0,
-        rm.getToPos());
+        rm.getFromPos() + sentLen, rm.getToPos() + sentLen, rm.getMessage(), rm.getShortMessage());
+    thisMatch.setSuggestedReplacements(rm.getSuggestedReplacements());
+    final String sentencePartToError = sentence.substring(0, rm.getFromPos());
+    final String sentencePartToEndOfError = sentence.substring(0,rm.getToPos());
     final int lastLineBreakPos = sentencePartToError.lastIndexOf('\n');
     final int column;
     final int endColumn;
@@ -681,8 +675,7 @@ public final class JLanguageTool {
     } else {
       column = sentencePartToError.length() - lastLineBreakPos;
     }
-    final int lastLineBreakPosInError = sentencePartToEndOfError
-        .lastIndexOf('\n');
+    final int lastLineBreakPosInError = sentencePartToEndOfError.lastIndexOf('\n');
     if (lastLineBreakPosInError == -1) {
       endColumn = sentencePartToEndOfError.length() + columnCount;
     } else {
