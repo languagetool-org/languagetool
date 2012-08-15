@@ -271,9 +271,25 @@ $Id$
       <pattern>
         <token inflected="yes" regexp="yes">re(bel|cel|cev|fuĝ|fuz|gard|kolt|laks|lati|mark|mors|par|pet|poz|proĉ|verenc|volu)(ad|et|eg|aĉ)?[aeio]</token>
       </pattern>
-      <message>Uzo de «\1» estas sufiĉe neverŝajna. Ĉu vi intencis skribi <suggestion><match no="1" regexp_match="(.).(.*)" regexp_replace="$1i$2"/></suggestion>.</message>
+      <message>Uzo de «\1» estas sufiĉe neverŝajna. Ĉu vi intencis skribi <suggestion><match no="1" regexp_match="(.).(.*)" regexp_replace="$1i$2"/></suggestion>?</message>
       <example type="incorrect">Ŝi <marker>regardis</marker> lin.</example>
       <example type="correct">Ŝi <marker>rigardis</marker> lin.</example>
+    </rule>
+    <rule id="DIFEKTO" name="defekto → difekto">
+      <pattern>
+        <token inflected="yes" regexp="yes">de(fekt|fin)[aeio]</token>
+      </pattern>
+      <message>La vorto «\1» ŝajnas esti eraro pro influo de nacia lingvo. Ĉu vi intencis skribi <suggestion><match no="1" regexp_match="(.).(.*)" regexp_replace="$1i$2"/></suggestion>?</message>
+      <example type="incorrect">Mi havas neniu <marker>defektojn</marker>.</example>
+      <example type="correct">Mi havas neniu <marker>difektojn</marker>.</example>
+    </rule>
+    <rule id="ENLOGANTO" name="enloĝanto → loĝanto">
+      <pattern>
+        <token inflected="yes">enloĝanto</token>
+      </pattern>
+      <message>La vorto «\1» ŝajnas esti eraro pro influo de nacia lingvo. Ĉu vi intencis skribi <suggestion><match no="1" regexp_match="..(.*)" regexp_replace="$1"/></suggestion>?</message>
+      <example type="incorrect">La <marker>enloĝantoj</marker>.</example>
+      <example type="correct">La <marker>loĝantoj</marker>.</example>
     </rule>
     <rulegroup id="ADULTO_ADOLTO" name="adulto kaj adolto">
       <rule>
@@ -3245,6 +3261,15 @@ $Id$
       <example type="incorrect">Mi preferas vojaĝi per trajno <marker>al per</marker> aviadilo.</example>
       <example type="correct">Mi preferas vojaĝi per trajno ol per aviadilo.</example>
       <example type="correct">Danke al ĉirkaŭ 2 miliardoj da dolaroj</example>
+    </rule>
+    <rule id="UNUN" name="navalida vorto unun">
+      <pattern>
+        <token>unun</token>
+      </pattern>
+      <message>La vorto unu ne povas ricevi akuzativon.</message>
+      <url>http://bertilow.com/pmeg/gramatiko/nombroj/vortetoj/unu_specialaj_uzoj.html#i-7hj</url>
+      <example type="incorrect">Mi aĉetis <marker>unun</marker> panon.</example>
+      <example type="correct">Mi aĉetis <marker>unu</marker> panon.</example>
     </rule>
     <rule id="TIOJ" name="navalidaj vortoj tioj, kioj, ktp.">
       <pattern>
