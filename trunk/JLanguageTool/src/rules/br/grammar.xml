@@ -1490,10 +1490,11 @@ $Id$
           <token regexp="yes">[au]r</token>
           <marker>
             <and>
-              <token postag="N f s.*|N m p t.*" postag_regexp="yes" regexp="yes">c’h.*
-                <exception postag="N f s.*|N m p t.*" postag_regexp="yes" regexp="yes" inflected="yes">(g|c’h).*</exception>
+              <token postag="N f s M:.*|N m p t M:.*" postag_regexp="yes" regexp="yes">c’h.*
+                <exception postag="N f s M:.*|N m p t M:.*" postag_regexp="yes" regexp="yes" inflected="yes">g.*</exception>
+                <exception postag="N[^M]*" postag_regexp="yes" regexp="yes" inflected="yes">c’h.*</exception>
               </token>
-              <token postag="N f s.*|N m p t.*" postag_regexp="yes" regexp="yes" inflected="yes">k.*
+              <token postag="N f s M:.*|N m p t M:.*" postag_regexp="yes" regexp="yes" inflected="yes">k.*
                 <exception postag="N m s.*|N f p.*" postag_regexp="yes" regexp="yes" inflected="yes">k.*</exception>
               </token>
             </and>
@@ -1528,6 +1529,27 @@ $Id$
         <example type="correct">Ar <marker>c’hoar</marker>.</example>
         <example type="correct">Ar <marker>c’houst</marker>.</example>
         <example type="correct">Ar <marker>goust</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">[au]r</token>
+          <marker>
+            <and>
+              <token postag="N f p M:.*|N m . M:.*" postag_regexp="yes" regexp="yes">c’h.*
+                <exception postag="N f s.*|N m p t.*" postag_regexp="yes" regexp="yes" inflected="yes">g.*</exception>
+                <exception postag="N[^M]*" postag_regexp="yes" regexp="yes" inflected="yes">c’h.*</exception>
+              </token>
+              <token postag="N f p M:.*|N m . M:.*" postag_regexp="yes" regexp="yes" inflected="yes">g.*</token>
+            </and>
+          </marker>
+        </pattern>
+        <message>Direizh eo ober ur c’hemmadur dre vlotaat er ger «\2» amañ. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="...(.*)" regexp_replace="g$1"/></suggestion>?</message>
+        <example type="incorrect">Ar <marker>c’herioù</marker>.</example>
+        <example type="correct">Ar <marker>gerioù</marker>.</example>
+        <example type="correct">Ar <marker>ger</marker>.</example>
+        <example type="incorrect">Ar <marker>c’hizioù</marker>.</example>
+        <example type="correct">Ar <marker>gizioù</marker>.</example>
+        <example type="correct">Ar <marker>C’hallaoued</marker>.</example>
       </rule>
       <rule>
         <pattern>
