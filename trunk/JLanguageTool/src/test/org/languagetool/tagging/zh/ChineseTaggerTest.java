@@ -31,6 +31,7 @@ import org.languagetool.tokenizers.zh.ChineseWordTokenizer;
  * @author Minshan Chen
  * @author Xiaohui Wu
  * @author Jiamin Zheng
+ * @author Zihao Li
  */
 public class ChineseTaggerTest extends TestCase {
 

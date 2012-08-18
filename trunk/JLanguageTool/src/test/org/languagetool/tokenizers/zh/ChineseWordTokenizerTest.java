@@ -29,6 +29,7 @@ import junit.framework.TestCase;
  * @author Minshan Chen
  * @author Xiaohui Wu
  * @author Jiamin Zheng
+ * @author Zihao Li
  */
 public class ChineseWordTokenizerTest extends TestCase {
 
