@@ -1960,13 +1960,14 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
                         <token spacebefore="no" regexp="yes">['’]</token>
                         <token>s</token>
                     </marker>
-                    <token><exception postag="VB|RB?" postag_regexp="yes"></exception><exception regexp="yes">all|just</exception></token>
+                    <token><exception postag="VB|RB?" postag_regexp="yes"></exception><exception regexp="yes">all|first|just</exception></token>
                 </pattern>
                 <message>Did you mean <suggestion>\1s</suggestion> or <suggestion>\1</suggestion>?</message>
                 <short>Possible typo</short>
                 <example correction="lets|let" type="incorrect">It <marker>let's</marker> you quickly search for the product.</example>
                 <example type="correct">Let's go home!</example>
                 <example type="correct">Let's all go home!</example>
+                <example type="correct">Let's first go home!</example>
                 <example type="correct">Let's just say that I never wanted to kill him.</example>
                 <example type="correct">It lets you quickly search for the product,</example>
             </rule>
@@ -2030,7 +2031,7 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
                         <token spacebefore="no" regexp="yes">['’]</token>
                         <token>s</token>
                     </marker>
-                    <token postag="NN"><exception>still</exception></token>
+                    <token postag="NN"><exception regexp="yes">fast|still</exception></token>
                 </pattern>
                 <message>Did you mean <suggestion>its</suggestion> (possessive pronoun) instead of 'it's' (=it is)?</message>
                 <short>Possible typo</short>
@@ -2038,6 +2039,7 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
                 <example type="correct">I can’t remember <marker>its</marker> name.</example>
                 <example type="correct">It's nice.</example>
                 <example type="correct">I think it's still valid.</example>
+                <example type="correct">I think it's fast enough.</example>
             </rule>
             <rule>
                 <pattern>
@@ -7289,13 +7291,14 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
                     <marker>
                         <token>as</token>
                     </marker>
-                    <token><exception regexp="yes">to|if|follows|early|much|though</exception></token>
+                    <token><exception regexp="yes">to|if|follows|early|much|though|well</exception></token>
                 </pattern>
                 <message>Comparison requires <suggestion>than</suggestion>, not 'then' nor 'as'.</message>
                 <short>Grammatical problem</short>
                 <example type="correct">The tagger will return more <marker>than</marker> one tag.</example>
                 <example type="incorrect">The tagger will return more <marker>as</marker> one tag.</example>
                 <example type="triggers_error">Think of it more <marker>as</marker> activity.</example>
+                <example type="correct">It is faster as well.</example>
             </rule>
             <rule>
                 <pattern>
