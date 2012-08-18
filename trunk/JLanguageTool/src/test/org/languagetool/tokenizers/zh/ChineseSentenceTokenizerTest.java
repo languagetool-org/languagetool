@@ -48,7 +48,8 @@ public class ChineseSentenceTokenizerTest extends TestCase {
 			testSplit(t2 + i + t3);// 例子：我们是中国人_中国人很好
 		}
 
-		char[] punctuation2 = { '，', '：', '…', '！', '？', '、', '；', '。' };
+		//char[] punctuation2 = { '，', '：', '…', '！', '？', '、', '；', '。' };
+		char[] punctuation2 = { '\uff0c', '\uff1a', '\u2026', '\uff01', '\uff1f', '\u3001', '\uff1b', '\u3002' };
 		for (char i : punctuation2) {
 			testSplit(t2 + i, t3);// 例子：我们是中国人，/中国人很好
 		}
