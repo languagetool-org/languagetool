@@ -175,13 +175,14 @@ public abstract class Language {
 
   /**
    * Get this language's two character code, e.g. <code>en</code> for English.
-   * The variant ("US"), if any, is not returned.
+   * The variant (e.g. "US"), if any, is not returned.
    * @return language code
    */
   public abstract String getShortName();
 
   /**
-   * Get this language's name in English, e.g. <code>English</code> or <code>German</code>.
+   * Get this language's name in English, e.g. <code>English</code> or
+   * <code>German (Germany)</code>.
    * @return language name
    */
   public abstract String getName();
