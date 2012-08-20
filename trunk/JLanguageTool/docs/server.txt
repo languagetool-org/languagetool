@@ -1,0 +1,46 @@
+
+*** Server Documentation ***
+
+This is an internal documentation for those members of the LanguageTool team
+that have ssh access to our server. Please document paths and standard
+procedures here, but (obviously) don't provide any passwords etc.
+
+People responsible for the server:
+  Daniel Naber
+  Dominique Pellé
+
+The server is a virtual server from Host Europe, running at 176.28.12.50
+
+
+=== www.languagetool.org ===
+
+This is still hosted on the old server where only Daniel has
+access. The plan is to move it soon. The website content gets
+updated from SVN every 5 minutes via cronjob.
+
+
+=== community.languagetool.org ===
+
+Update the data (Wikipedia examples) on community.lt.org for a given language:
+./update.sh en
+This will download a fraction of the latest Wikipedia XML dump, unzip it and run LT on it,
+storing the rule matches in the database.
+
+Update the data (Wikipedia examples) on community.lt.org for all languages:
+./update-all.sh
+
+
+=== Rule Editor ===
+
+Update data for Rule Editor for a given language:
+cd /home/languagetool/ltcommunity/corpus
+./index.sh en
+
+Update data for Rule Editor for all languages:
+cd /home/languagetool/ltcommunity/corpus
+./index-all.sh
+
+
+=== DNS ===
+
+Daniel manages the domain names at http://www.df.eu
