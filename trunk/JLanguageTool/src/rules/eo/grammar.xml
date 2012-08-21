@@ -31,7 +31,7 @@ $Id$
   <category name="Konfuzoj">
     <rule id="ESPERANTO" name="esperanto (Esperanto)">
       <pattern>
-        <token inflected="yes" regexp="yes" skip="1">.*(legi|skribi|paroli|scipovi|lerni|studi|instrui|verki|lingvo|kurso|leciono|libro)</token>
+        <token inflected="yes" regexp="yes" skip="1">.*(?:legi|skribi|paroli|scipovi|lerni|studi|instrui|verki|lingvo|kurso|leciono|libro)</token>
         <marker>
           <token regexp="yes">(?-i)esperanton?</token>
         </marker>
@@ -162,9 +162,9 @@ $Id$
     </rulegroup>
     <rule id="LITERO_LETERO" name="Litero (Letero)">
       <pattern>
-        <token skip="2" inflected="yes" regexp="yes">.*(adres|send|redakt|leg|ricev)i</token>
+        <token skip="2" inflected="yes" regexp="yes">.*(?:adres|send|redakt|leg|ricev)i</token>
         <marker>
-          <token regexp="yes">literoj?n?<exception scope="previous" regexp="yes">((mal)?(grand|et)aj?n)|(ĉin|japan)aj?n?</exception></token>
+          <token regexp="yes">literoj?n?<exception scope="previous" regexp="yes">(?:(?:mal)?(?:grand|et)aj?n)|(?:ĉin|japan)aj?n?</exception></token>
         </marker>
       </pattern>
       <message>Ĉu vi intencis <suggestion><match no="2" regexp_match="(.).(.*)" regexp_replace="$1e$2"/></suggestion> anstataŭ «\2»?</message>
@@ -236,7 +236,7 @@ $Id$
       <pattern>
         <token inflected="yes" skip="1" regexp="yes">ludi|lerni|studi</token>
         <marker>
-          <token inflected="yes" regexp="yes">viol(in)?o</token>
+          <token inflected="yes" regexp="yes">viol(?:in)?o</token>
         </marker>
       </pattern>
       <message>Laŭ la kunteksto, ŝajnas, ke vi intencis diri <suggestion><match no="2" regexp_match="li" regexp_replace="lo"/></suggestion>.</message>
@@ -246,7 +246,7 @@ $Id$
     <rulegroup id="POLUCIO_POLUO" name="polucio kaj poluo">
       <rule>
         <pattern>
-          <token skip="-1" regexp="yes" inflected="yes">aer[ao]|akvo|oceano|planedo|fiŝo|besto|naturo|tero|grundo|maro|.*mond[ao]|grava|problemo|homaro|malsan(ig)?[aoi]|radioaktiv.*|[ĥj]emi[ao]|atmosfero|urb[oa]</token>
+          <token skip="-1" regexp="yes" inflected="yes">aer[ao]|akvo|oceano|planedo|fiŝo|besto|naturo|tero|grundo|maro|.*mond[ao]|grava|problemo|homaro|malsan(?:ig)?[aoi]|radioaktiv.*|[ĥj]emi[ao]|atmosfero|urb[oa]</token>
           <marker>
             <token regexp="yes" inflected="yes">.*polucio</token>
           </marker>
@@ -260,7 +260,7 @@ $Id$
           <marker>
             <token regexp="yes" inflected="yes" skip="-1">.*polucio</token>
           </marker>
-          <token regexp="yes" inflected="yes">aer[ao]|akvo|oceano|planedo|fiŝo|besto|naturo|tero|grundo|maro|.*mond[ao]|grava|problemo|homaro|malsan(ig)?[aoi]|radioaktiv.*|[ĥk]emi[ao]|atmosfero|urb[oa]</token>
+          <token regexp="yes" inflected="yes">aer[ao]|akvo|oceano|planedo|fiŝo|besto|naturo|tero|grundo|maro|.*mond[ao]|grava|problemo|homaro|malsan(?:ig)?[aoi]|radioaktiv.*|[ĥk]emi[ao]|atmosfero|urb[oa]</token>
         </pattern>
         <message>Laŭ la kuntekso, ŝajnas, ke vi intencis diri <suggestion><match no="1" regexp_match="ci" regexp_replace=""/></suggestion>.</message>
         <example type="incorrect"><marker>Aerpolucio</marker> en la urboj malsanigas la homojn.</example>
@@ -269,7 +269,7 @@ $Id$
     </rulegroup>
     <rule id="REGARDI" name="regardi kaj rigardi">
       <pattern>
-        <token inflected="yes" regexp="yes">re(bel|cel|cev|fuĝ|fuz|gard|kolt|laks|lati|mark|mors|par|pet|poz|proĉ|verenc|volu)(ad|et|eg|aĉ)?[aeio]</token>
+        <token inflected="yes" regexp="yes">re(?:bel|cel|cev|fuĝ|fuz|gard|kolt|laks|lati|mark|mors|par|pet|poz|proĉ|verenc|volu)(?:ad|et|eg|aĉ)?[aeio]</token>
       </pattern>
       <message>Uzo de «\1» estas sufiĉe neverŝajna. Ĉu vi intencis skribi <suggestion><match no="1" regexp_match="(.).(.*)" regexp_replace="$1i$2"/></suggestion>?</message>
       <example type="incorrect">Ŝi <marker>regardis</marker> lin.</example>
@@ -277,7 +277,7 @@ $Id$
     </rule>
     <rule id="DIFEKTO" name="defekto → difekto">
       <pattern>
-        <token inflected="yes" regexp="yes">de(fekt|fin)[aeio]</token>
+        <token inflected="yes" regexp="yes">de(?:fekt|fin)[aeio]</token>
       </pattern>
       <message>La vorto «\1» ŝajnas esti eraro pro influo de nacia lingvo. Ĉu vi intencis skribi <suggestion><match no="1" regexp_match="(.).(.*)" regexp_replace="$1i$2"/></suggestion>?</message>
       <example type="incorrect">Mi havas neniu <marker>defektojn</marker>.</example>
@@ -295,7 +295,7 @@ $Id$
       <rule>
         <pattern>
           <token regexp="yes">[mcvlŝnv]i|ili</token>
-          <token inflected="yes" regexp="yes" skip="1">esti|(far)?iĝi</token>
+          <token inflected="yes" regexp="yes" skip="1">esti|(?:far)?iĝi</token>
           <marker>
             <token regexp="yes">adultoj?</token>
           </marker>
@@ -310,7 +310,7 @@ $Id$
             <token inflected="yes">adulto</token>
           </marker>
           <token regexp="yes" skip="1">,|kaj|aŭ</token>
-          <token regexp="yes" inflected="yes">(ge)?(infan|junul|beb|knab|fil)(in)?o</token>
+          <token regexp="yes" inflected="yes">(?:ge)?(?:infan|junul|beb|knab|fil)(?:in)?o</token>
         </pattern>
         <message>Ĉu vi intencis skribi <suggestion><match no="1" regexp_match="u" regexp_replace="o"/></suggestion>?</message>
         <example type="incorrect"><marker>Adultoj</marker> kaj liaj infanoj rajtas partopreni.</example>
@@ -318,7 +318,7 @@ $Id$
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes" inflected="yes">(ge)?(infan|junul|beb|knab|fil)(in)?o</token>
+          <token regexp="yes" inflected="yes">(?:ge)?(?:infan|junul|beb|knab|fil)(?:in)?o</token>
           <token regexp="yes">,|kaj|aŭ</token>
           <marker>
             <token inflected="yes">adulto</token>
@@ -330,7 +330,7 @@ $Id$
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes" inflected="yes">geadult(in)?o|(ge)?adultino</token>
+          <token regexp="yes" inflected="yes">geadult(?:in)?o|(?:ge)?adultino</token>
         </pattern>
         <message>Ĉu vi intencis skribi <suggestion><match no="3" regexp_match="u" regexp_replace="o"/></suggestion>?</message>
         <example type="incorrect">Maria baldaŭ fariĝos <marker>adultino</marker>.</example>
@@ -360,7 +360,7 @@ $Id$
     </rule>
     <rule id="PASI_EKZAMENON" name="pasi ekzamenon (trapasi ekzamenon)">
       <pattern>
-        <token regexp="yes" skip="2">pas(i|u|as|is|us|os|([aoi]n?t[ea]j?n?))</token>
+        <token regexp="yes" skip="2">pas(?:i|u|as|is|us|os|(?:[aoi]n?t[ea]j?n?))</token>
         <token regexp="yes">ekzamenoj?n?</token>
       </pattern>
       <message>«Pasi ekzamenon» evitindas. Preferu «sukcesi en ekzameno» aŭ «trapasi ekzamenon» laŭ tion, kion vi intencas.</message>
@@ -385,7 +385,7 @@ $Id$
     </rule>
     <rule id="DARFI" name="darfi (rajti)">
       <pattern>
-        <token inflected="yes" regexp="yes">(mal|ne)?darf(eg)?i</token>
+        <token inflected="yes" regexp="yes">(?:mal|ne)?darf(?:eg)?i</token>
       </pattern>
       <message>Laŭ PMEG, la verbo «darfi» estas superflua. Uzu <suggestion><match no="1" regexp_match="darf" regexp_replace="rajt"/></suggestion>.</message>
       <url>http://bertilow.com/pmeg/gramatiko/gravaj_verboj/povi_devi_voli/povi.html</url>
@@ -456,7 +456,7 @@ $Id$
         <marker>
           <token inflected="yes" skip="1">kodigo</token>
         </marker>
-        <token regexp="yes">(utf.*)|latin\d+|ASCII|big.*|CP-?\d+|windows.*|ISO.*|UCS.*|IBM.*|EBCDIC.*|ECMA.*|ANSI.*|8859.*</token>
+        <token regexp="yes">utf.*|latin\d+|ASCII|big.*|CP-?\d+|windows.*|ISO.*|UCS.*|IBM.*|EBCDIC.*|ECMA.*|ANSI.*|8859.*</token>
       </pattern>
       <message>Ne uzu «kodigo» tiusence. Uzu <suggestion>kodoprezento</suggestion>.</message>
       <example type="incorrect">Dosiero en la <marker>kodigo</marker> utf-8.</example>
@@ -464,7 +464,7 @@ $Id$
     </rule>
     <rule id="BLANKKOLUMULO" name="blankkolumulo">
       <pattern>
-        <token inflected="yes" regexp="yes">(blank|blu)a?kolumulo</token>
+        <token inflected="yes" regexp="yes">(?:blank|blu)a?kolumulo</token>
       </pattern>
       <message>Iuj rigardas la idiomaĵon «\1» malklara, malmoderna kaj evitinda.</message>
       <example type="incorrect">Li estas <marker>blankkolumulo</marker>.</example>
@@ -494,7 +494,7 @@ $Id$
           <token inflected="yes">lerni</token>
         </marker>
         <token regexp="yes">la|.*aj?n</token>
-        <token regexp="yes">(novaĵ|ver)oj?n</token>
+        <token regexp="yes">(?:novaĵ|ver)oj?n</token>
       </pattern>
       <message>Tiu uzo de «\1» evitindas. Ŝajnas laŭ la kunteksto, ke vi intencis diri <suggestion><match no="1" regexp_match=".*n(.*)" regexp_replace="eksci$1"/></suggestion>.</message>
       <example type="incorrect">Mi ĵus <marker>lernis</marker> la novaĵon.</example>
@@ -565,8 +565,8 @@ $Id$
     </rule>
     <rule id="ALTA_TAJDO" name="alta tajdo (altmaro)">
       <pattern>
-        <token regexp="yes">(mal)?altaj?n?</token>
-        <token regexp="yes">tajd(eg|et)?on?</token>
+        <token regexp="yes">(?:mal)?altaj?n?</token>
+        <token regexp="yes">tajd(?:eg|et)?on?</token>
       </pattern>
       <message>Laŭ Revo, «\1 \2» estas evitinda. Uzu <match no="1" regexp_match="(.*)a(.*)" regexp_replace="$1maro$2"/>?</message>
       <url>http://www.reta-vortaro.de/revo/art/tajd.html#tajd.alta0o</url>
@@ -587,7 +587,7 @@ $Id$
         <marker>
           <token regexp="yes">unikaj?n?</token>
         </marker>
-        <token regexp="yes">(ge)?(fil|infan|beb)(et)?(in)?oj?n?</token>
+        <token regexp="yes">(?:ge)?(?:fil|infan|beb)(?:et)?(?:in)?oj?n?</token>
       </pattern>
       <message>Laŭ Revo, «\1» estas evitinda en tiu kunteksto. Uzu <suggestion><match no="1" regexp_match=".*a(.*)" regexp_replace="ununura"/> \2</suggestion>.</message>
       <url>http://www.reta-vortaro.de/revo/art/unik.html#unik.0a</url>
@@ -710,7 +710,7 @@ $Id$
       </rule>
       <rule>
         <pattern>
-          <token inflected="yes" regexp="yes">amovendist(in)?o</token>
+          <token inflected="yes" regexp="yes">amovendist(?:in)?o</token>
         </pattern>
         <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*t(in)?(.*)" regexp_replace="amorits$1$2"/></suggestion>.</message>
         <example type="incorrect">Ŝi estas <marker>amovendistino</marker>.</example>
@@ -750,7 +750,7 @@ $Id$
       </rule>
       <rule>
         <pattern>
-          <token inflected="yes" regexp="yes">(mal)?dekstrano</token>
+          <token inflected="yes" regexp="yes">(?:mal)?dekstrano</token>
         </pattern>
         <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match="dekstran" regexp_replace="dekstrul"/></suggestion>.</message>
         <example type="incorrect">Li estas <marker>dekstrano</marker></example>
@@ -870,7 +870,7 @@ $Id$
       </rule>
       <rule>
         <pattern>
-          <token inflected="yes" regexp="yes">(brul|fajr)o?estingisto</token>
+          <token inflected="yes" regexp="yes">(?:brul|fajr)o?estingisto</token>
         </pattern>
         <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*t(.*)" regexp_replace="fajrobrigradist$1"/></suggestion> aŭ <suggestion><match no="1" regexp_match=".*t(.*)" regexp_replace="fajrobrigradan$1"/></suggestion>.</message>
         <example type="incorrect">Li volas fariĝi <marker>fajroestingisto</marker>.</example>
@@ -1401,7 +1401,7 @@ $Id$
     </rule>
     <rule id="NEOFIC_TABELVORTO" name="neoficialaj tabelvortoj">
       <pattern>
-        <token regexp="yes">(inter)?(alia[lm]|alie[ls]|aliom|aliuj?n?)|sam(el|[oa]m)</token>
+        <token regexp="yes">(?:inter)?(?:alia[lm]|alie[ls]|aliom|aliuj?n?)|sam(?:el|[oa]m)</token>
       </pattern>
       <message>«\1» estas neoficiala tabelvorto, kiu estas do evintinda.</message>
       <url>http://bertilow.com/pmeg/gramatiko/neoficialaj_vortetoj.html#i-356</url>
@@ -1454,7 +1454,7 @@ $Id$
     <rulegroup id="CXI-TIU" name="ĉi-tiu (ĉi tiu)">
       <rule>
         <pattern>
-          <token regexp="yes">ĉi-ti(([aeou]j?n?)|el|am|es|om)</token>
+          <token regexp="yes">ĉi-ti(?:(?:[aeou]j?n?)|el|am|es|om)</token>
         </pattern>
         <message>Ĉu vi intencis skribi <suggestion><match no="1" regexp_match="-" regexp_replace=" "/></suggestion> sen streketo?</message>
         <url>http://eo.lernu.net/lernado/gramatiko/demandoj/oe-cxi2.php</url>
@@ -1463,7 +1463,7 @@ $Id$
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">ti(([aeou]j?n?)|el|am|es|om)-ĉi</token>
+          <token regexp="yes">ti(?:(?:[aeou]j?n?)|el|am|es|om)-ĉi</token>
         </pattern>
         <message>Ĉu vi intencis skribi <suggestion><match no="1" regexp_match="-" regexp_replace=" "/></suggestion> sen streketo?</message>
         <url>http://eo.lernu.net/lernado/gramatiko/demandoj/oe-cxi2.php</url>
@@ -1511,7 +1511,7 @@ $Id$
     </rule>
     <rule id="KILO_DE" name="kilogramo de">
       <pattern>
-        <token regexp="yes">((kilo)?gramoj?n?)|(litr|tun)oj?n?</token>
+        <token regexp="yes">(?:kilo)?gramoj?n?|(?:litr|tun)oj?n?</token>
         <marker>
           <token>de</token>
         </marker>
@@ -1536,7 +1536,7 @@ $Id$
     <rule id="PO" name="misuzo de po">
       <pattern>
         <token>po</token>
-        <token regexp="yes">(((kilo)?metr)|((ge)?(person|hom))|(.*ul)|(jarmil|jarcent|jardek|jar|monat|semajn|tag|hor|minut|sekond))oj?</token>
+        <token regexp="yes">(?:(?:(?:kilo)?metr)|(?:(?:ge)?(?:person|hom))|(?:.*ul)|(?:jarmil|jarcent|jardek|jar|monat|semajn|tag|hor|minut|sekond))oj?</token>
       </pattern>
       <message>Misuzo de la vorto «po».</message>
       <url>http://eo.lernu.net/lernado/gramatiko/demandoj/oe-po.php</url>
@@ -1671,15 +1671,15 @@ $Id$
         </token>
         <marker>
           <token postag="[OA] akz.*|T akz .*[uoa]" postag_regexp="yes">
-            <exception inflected="yes" regexp="yes">(duono?)?(jarcent|jardek|jar|somer|vintr|printemp|aŭtun|sezon|monat|semajn|tag|maten|vesper|(post?)tagmez|nokt|hor|minut|sekund|moment|.*metr|mejl|marmejl|fut|col|paŝ|lund|mard|merkred|ĵaŭd|vendred|sabat|dimanĉ|foj|temp|.*gram|funt|tun)o?(fin)?(e[tg])?o</exception>
-            <exception regexp="yes">([0-9]+-?an)|(\p{Lu}.*)</exception>
+            <exception inflected="yes" regexp="yes">(?:duono?)?(?:jarcent|jardek|jar|somer|vintr|printemp|aŭtun|sezon|monat|semajn|tag|maten|vesper|(?:post?)tagmez|nokt|hor|minut|sekund|moment|.*metr|mejl|marmejl|fut|col|paŝ|lund|mard|merkred|ĵaŭd|vendred|sabat|dimanĉ|foj|temp|.*gram|funt|tun)o?(?:fin)?(e[tg])?o</exception>
+            <exception regexp="yes">(?:[0-9]+-?an)|(?:\p{Lu}.*)</exception>
             <exception postag="T akz .. k .*" postag_regexp="yes"/>
           </token>
         </marker>
         <token>
           <exception postag="V t[rn] .*" postag_regexp="yes"/>
           <exception postag="C ... .. .. . n ." postag_regexp="yes"/>
-          <exception inflected="yes" regexp="yes">(duono?)?(jarcent|jardek|jar|somer|vintr|printemp|aŭtun|sezon|monat|semajn|tag|maten|vesper|(post?)tagmez|nokt|hor|minut|sekund|moment|.*metr|mejl|marmejl|fut|col|paŝ|lund|mard|merkred|ĵaŭd|vendred|sabat|dimanĉ|foj|temp|.*gram)o?(fin)?(e[tg])?o</exception>
+          <exception inflected="yes" regexp="yes">(?:duono?)?(?:jarcent|jardek|jar|somer|vintr|printemp|aŭtun|sezon|monat|semajn|tag|maten|vesper|(?:post?)tagmez|nokt|hor|minut|sekund|moment|.*metr|mejl|marmejl|fut|col|paŝ|lund|mard|merkred|ĵaŭd|vendred|sabat|dimanĉ|foj|temp|.*gram)o?(?:fin)?(?:e[tg])?o</exception>
         </token>
       </pattern>
       <message>Netransitiva verbo «\1» kun akuzativo: akuzativo povas anstataŭigi prepozicion, sed konsideru uzi prepozicion por pli da klareco.</message>
@@ -1708,6 +1708,9 @@ $Id$
       <example type="correct">Jen estas vorto kies signifon mi ne komprenas.</example>
       <example type="correct">Li estas ĉion leginta.</example>
       <example type="correct">La bebo pezis sep funtojn.</example>
+      <example type="correct">Mi havis <marker>agrablajn</marker> feriojn.</example>
+      <example type="incorrect">Mi vivis <marker>agrablajn</marker> feriojn.</example>
+      <example type="correct">Mi vivis <marker>agrablan</marker> vivon.</example>
     </rule>
     <rulegroup id="SENSUBJEKTA_V" name="sensubjekta verbo">
       <rule>
@@ -1715,7 +1718,7 @@ $Id$
           <token postag="R nak.*" postag_regexp="yes">
             <exception scope="previous" postag="P .*" postag_regexp="yes"/>
           </token>
-          <token inflected="yes" regexp="yes">(ek)?(fulm|frost|hajl|neĝ|pluv|tondr|tem|tagiĝ|vent|ŝtorm)(ad)?(et|eg)?i</token>
+          <token inflected="yes" regexp="yes">(?:ek)?(?:fulm|frost|hajl|neĝ|pluv|tondr|tem|tagiĝ|vent|ŝtorm)(?:ad)?(?:et|eg)?i</token>
         </pattern>
         <message>La verbo «\2» estas sensubjekta verbo, do ne uzu «\1». Skribu <suggestion>\2</suggestion>.</message>
         <url>http://bertilow.com/pmeg/gramatiko/verboj_frazroloj/sensubjektaj.html</url>
@@ -1729,7 +1732,7 @@ $Id$
             <exception scope="previous" postag="P .*" postag_regexp="yes"/>
           </token>
           <token postag="E.*" postag_regexp="yes"/>
-          <token inflected="yes" regexp="yes">(ek)?(fulm|fros|hajl|neĝ|pluv|tondr|tem|tagiĝ|vent|ŝtorm)(et|eg)?i</token>
+          <token inflected="yes" regexp="yes">(?:ek)?(?:fulm|fros|hajl|neĝ|pluv|tondr|tem|tagiĝ|vent|ŝtorm)(?:et|eg)?i</token>
         </pattern>
         <message>La verbo «\3» estas sensubjekta verbo, do ne uzu «\1». Skribu <suggestion>\2 \3</suggestion>.</message>
         <url>http://bertilow.com/pmeg/gramatiko/verboj_frazroloj/sensubjektaj.html</url>
@@ -1966,7 +1969,7 @@ $Id$
           </token>
           <marker>
             <token postag="[OA] .* np" postag_regexp="yes">
-              <exception regexp="yes">(unu|(du|tri|kvar|kvin|ses|sep|ok|naŭ)(dek)?|dek)an?</exception>
+              <exception regexp="yes">(?:unu|(?:du|tri|kvar|kvin|ses|sep|ok|naŭ)(?:dek|cent)?|dek)an?</exception>
             </token>
           </marker>
         </pattern>
@@ -2082,7 +2085,7 @@ $Id$
       <pattern>
         <marker>
           <token>la</token>
-          <token regexp="yes">([mcvlŝĝn]|il)iaj?n?</token>
+          <token regexp="yes">(?:[mcvlŝĝn]|il)iaj?n?</token>
         </marker>
         <token postag="[OA] .*" postag_regexp="yes"/>
       </pattern>
@@ -2095,7 +2098,7 @@ $Id$
     <rule id="LA_MI" name="La + pronomo">
       <pattern>
         <token>la</token>
-        <token regexp="yes">([mcvlŝĝn]|il)i</token>
+        <token regexp="yes">(?:[mcvlŝĝn]|il)i</token>
       </pattern>
       <message>«\1» ne povas stari kune kun pronomo «\2».</message>
       <example type="incorrect">Ĉu <marker>la vi</marker> estas multekara?</example>
@@ -2105,7 +2108,7 @@ $Id$
       <pattern>
         <token postag="SENT_START|K" postag_regexp="yes"/>
         <marker>
-          <token regexp="yes">([mcvlŝĝn]|il)i</token>
+          <token regexp="yes">(?:[mcvlŝĝn]|il)i</token>
         </marker>
         <token postag="O nak .*" postag_regexp="yes"/>
         <token>
@@ -2167,7 +2170,7 @@ $Id$
         </marker>
         <token negate_pos="yes" postag_regexp="yes" postag="[AOET] .*|SENT_END"/>
       </pattern>
-      <message>Tiu uzo de «\2» ne eblas.  Ĉu vi eblis intencis skribi <suggestion>ĉu</suggestion>?</message>
+      <message>Tiu uzo de «\2» ne eblas. Ĉu vi eblis intencis skribi <suggestion>ĉu</suggestion>?</message>
       <example type="incorrect">Mi scivolas <marker>ĉi</marker> li venos.</example>
       <example type="correct">Mi scivolas ĉu vinon li alvenis.</example>
       <example type="correct">Mi deziras ĉi tiun.</example>
@@ -2176,13 +2179,13 @@ $Id$
     </rule>
     <rule id="VOLAS_KE_V" name="Volas ke + verbo">
       <pattern>
-        <token regexp="yes" skip="1">(admon|bezoni|dezir|konsil|neces|ordon|pet|postul|vol)(et|eg)?[aiou]s</token>
+        <token regexp="yes" skip="1">(?:admon|bezoni|dezir|konsil|neces|ordon|pet|postul|vol)(?:et|eg)?[aiou]s</token>
         <token skip="4">ke<exception scope="next" negate_pos="yes" postag="[RO] nak.*|E.*|T .* t e|V .*[^u]" postag_regexp="yes"/></token>
         <marker>
           <token postag="V .*[^u]" postag_regexp="yes"/>
         </marker>
       </pattern>
-      <message>Oni preskaŭ ĉiu uzu u-verbon kun ke-frazo kiam la verbo de ĉeffrazo estas «\1». Ĉu vi intencis skribi <suggestion><match no="3" regexp_match="(.*)([aiou]s|i)" regexp_replace="$1u"/></suggestion>?</message>
+      <message>Oni preskaŭ ĉiu uzu u-verbon kun ke-frazo kiam la verbo de ĉeffrazo estas «\1». Ĉu vi intencis skribi <suggestion><match no="3" regexp_match="(.*)(?:[aiou]s|i)" regexp_replace="$1u"/></suggestion>?</message>
       <url>http://bertilow.com/pmeg/gramatiko/verboj/vola.html#i-zd8</url>
       <example type="incorrect">Mi volas, ke vi tien <marker>iras</marker>.</example>
       <example type="correct">Mi volas, ke vi tien iru.</example>
@@ -2292,7 +2295,7 @@ $Id$
       <pattern>
         <token>la</token>
         <marker>
-          <token regexp="yes">(urbo|ŝtato|lando)n?</token>
+          <token regexp="yes">(?:urbo|ŝtato|lando)n?</token>
           <token>de</token>
           <token regexp="yes">(?-i)[A-ZĈĜĴĤŜ].*</token>
         </marker>
@@ -2460,7 +2463,7 @@ $Id$
         <marker>
           <token>la</token>
         </marker>
-        <token regexp="yes">(fraŭl|doktor|sinjor|s-r|profesor|baron)(in)?o</token>
+        <token regexp="yes">(?:fraŭl|doktor|sinjor|s-r|profesor|baron)(?:in)?o</token>
         <token regexp="yes">(?-i)[A-ZĈĜĴĤŜ].*</token>
       </pattern>
       <message>Oni ne uzas «\1» antaŭ titolo sekvita de propra nomo, uzu <suggestion>\2 \3</suggestion>.</message>
@@ -2626,7 +2629,7 @@ $Id$
       <pattern>
         <marker>
           <token>la</token>
-          <token regexp="yes" skip="-1">(mal)?pli<exception scope="next" regexp="yes">ambaŭ|du|paro</exception></token>
+          <token regexp="yes" skip="-1">(?:mal)?pli<exception scope="next" regexp="yes">ambaŭ|du|paro</exception></token>
         </marker>
         <token postag="SENT_END"/>
       </pattern>
@@ -2641,7 +2644,7 @@ $Id$
         <marker>
           <token>kiel</token>
           <token postag="[OA] nak .*" postag_regexp="yes">
-            <exception regexp="yes">.*([aio]nt|ul|ist|an|em)[ao]j?</exception>
+            <exception regexp="yes">.*(?:[aio]nt|ul|ist|an|em)[ao]j?</exception>
           </token>
         </marker>
       </pattern>
@@ -2659,7 +2662,7 @@ $Id$
             <exception scope="next" postag="[ROAT] akz.*" postag_regexp="yes"/>
           </token>
           <marker>
-            <token regexp="yes" skip="-1">(mal|ne|re|mis|fi)?(balanc|ban|bukl|etend|fleks|klin|kolekt|interes|komunik|mov|nask|paŝt|renkont|renvers|romp|rul|sku|streĉ|sufok|sving|ŝanĝ|ŝiri|ŝut|ted|tren|turn|vek|vend|venĝ|verŝ|vind|uz)(ad|aĉ|et|eg)?([ui]|[aiuo]s)<exception scope="next" regexp="yes">.*n|da|nek</exception><exception scope="next" postag="V.* i" postag_regexp="yes"/></token>
+            <token regexp="yes" skip="-1">(?:mal|ne|re|mis|fi)?(?:balanc|ban|bukl|etend|fleks|klin|kolekt|interes|komunik|mov|nask|paŝt|renkont|renvers|romp|rul|sku|streĉ|sufok|sving|ŝanĝ|ŝiri|ŝut|ted|tren|turn|vek|vend|venĝ|verŝ|vind|uz)(?:ad|aĉ|et|eg)?(?:[ui]|[aiuo]s)<exception scope="next" regexp="yes">.*n|da|nek</exception><exception scope="next" postag="V.* i" postag_regexp="yes"/></token>
           </marker>
           <token postag="SENT_END|T.* k .*" postag_regexp="yes"/>
         </pattern>
@@ -2680,7 +2683,7 @@ $Id$
             <exception scope="next" postag="[ROAT] akz.*" postag_regexp="yes"/>
           </token>
           <marker>
-            <token regexp="yes" skip="-1">(ne|re)?(fin|komenc)[aiou]s<exception scope="previous" regexp="yes">[mcvlŝn]i|ili|oni</exception><exception scope="next" regexp="yes">.*n</exception><exception scope="next" postag="V.* i" postag_regexp="yes"/>
+            <token regexp="yes" skip="-1">(?:ne|re)?(?:fin|komenc)[aiou]s<exception scope="previous" regexp="yes">[mcvlŝn]i|ili|oni</exception><exception scope="next" regexp="yes">.*n</exception><exception scope="next" postag="V.* i" postag_regexp="yes"/>
                         </token>
           </marker>
           <token postag="SENT_END|K|T.* k .*" postag_regexp="yes"/>
@@ -2811,7 +2814,7 @@ $Id$
           <token postag="R nak .*" postag_regexp="yes" skip="3">
             <exception scope="next" negate="yes" regexp="yes">tiom|tro|pli|malpli|.*e|.*aŭ|jam|nur|.*[ui]|.*[aiuo]s</exception>
           </token>
-          <token inflected="yes" regexp="yes">(ne|mal)?plaĉ(et|eg)?i</token>
+          <token inflected="yes" regexp="yes">(?:ne|mal)?plaĉ(?:et|eg)?i</token>
         </marker>
         <token negate="yes">al</token>
       </pattern>
@@ -2827,7 +2830,7 @@ $Id$
       <rule>
         <pattern>
           <marker>
-            <token inflected="yes" regexp="yes">(mal|ne)?ŝat(et|eg)?i</token>
+            <token inflected="yes" regexp="yes">(?:mal|ne)?ŝat(?:et|eg)?i</token>
           </marker>
           <token>al</token>
         </pattern>
@@ -2840,7 +2843,7 @@ $Id$
           <token>al</token>
           <token/>
           <marker>
-            <token inflected="yes" regexp="yes">(mal|ne)?ŝat(et|eg)?i</token>
+            <token inflected="yes" regexp="yes">(?:mal|ne)?ŝat(?:et|eg)?i</token>
           </marker>
         </pattern>
         <message>La prepozicio «al» ne povas stari kun la verbo «\3». Ĉu vi intencis uzi la verbon <suggestion><match no="3" regexp_match="ŝat" regexp_replace="plaĉ"/></suggestion>?</message>
@@ -2853,7 +2856,7 @@ $Id$
           <token/>
           <token>ne</token>
           <marker>
-            <token inflected="yes" regexp="yes">(mal|ne)?ŝat(et|eg)?i</token>
+            <token inflected="yes" regexp="yes">(?:mal|ne)?ŝat(?:et|eg)?i</token>
           </marker>
         </pattern>
         <message>La prepozicio «al» ne povas stari kun la verbo «\4». Ĉu vi intencis uzi la verbon <suggestion><match no="4" regexp_match="ŝat" regexp_replace="plaĉ"/></suggestion>?</message>
@@ -2866,7 +2869,7 @@ $Id$
           <token/>
           <token postag="E ..." postag_regexp="yes"/>
           <marker>
-            <token inflected="yes" regexp="yes">(mal|ne)?ŝat(et|eg)?i</token>
+            <token inflected="yes" regexp="yes">(?:mal|ne)?ŝat(?:et|eg)?i</token>
           </marker>
         </pattern>
         <message>La prepozicio «al» ne povas stari kun la verbo «\4». Ĉu vi intencis uzi la verbon <suggestion><match no="4" regexp_match="ŝat" regexp_replace="plaĉ"/></suggestion>?</message>
@@ -2880,7 +2883,7 @@ $Id$
           <token postag="E ..." postag_regexp="yes"/>
           <token>ne</token>
           <marker>
-            <token inflected="yes" regexp="yes">(mal|ne)?ŝat(et|eg)?i</token>
+            <token inflected="yes" regexp="yes">(?:mal|ne)?ŝat(?:et|eg)?i</token>
           </marker>
         </pattern>
         <message>La prepozicio «al» ne povas stari kun la verbo «\5». Ĉu vi intencis uzi la verbon <suggestion><match no="5" regexp_match="ŝat" regexp_replace="plaĉ"/></suggestion>?</message>
@@ -2931,7 +2934,7 @@ $Id$
           <token regexp="yes" skip="1">morgaŭ|venont.*</token>
           <marker>
             <token postag="V .*[ai]s" postag_regexp="yes">
-              <exception regexp="yes">(antaŭĝoj|plan|intenc|esper|dezir|vol)(et|eg)?as</exception>
+              <exception regexp="yes">(?:antaŭĝoj|plan|intenc|esper|dezir|vol)(?:e[gt])?as</exception>
             </token>
           </marker>
         </pattern>
@@ -2944,7 +2947,7 @@ $Id$
         <pattern>
           <marker>
             <token postag="V .*[ai]s" postag_regexp="yes">
-              <exception regexp="yes">(antaŭĝoj|plan|intenc|esper|dezir|vol)(et|eg)?as</exception>
+              <exception regexp="yes">(?:antaŭĝoj|plan|intenc|esper|dezir|vol)(?:e[gt])?as</exception>
             </token>
           </marker>
           <token regexp="yes">morgaŭ|venont.*</token>
@@ -2959,7 +2962,7 @@ $Id$
       <rule>
         <pattern>
           <token postag="SENT_START"/>
-          <token regexp="yes">ĉu|ki[eo]n?|ki[au]j?n?|ki(el|[ao]m)</token>
+          <token regexp="yes">ĉu|ki[eo]n?|ki[au]j?n?|ki(?:el|[ao]m)</token>
           <marker>
             <token postag="V .*u" postag_regexp="yes" skip="-1">
               <exception scope="next" negate_pos="yes" postag="E.*|SENT_END" postag_regexp="yes"/>
@@ -2974,7 +2977,7 @@ $Id$
       <rule>
         <pattern>
           <token postag="SENT_START"/>
-          <token regexp="yes">ĉu|ki[eo]|ki[au]j?|ki(el|[ao]m)</token>
+          <token regexp="yes">ĉu|ki[eo]|ki[au]j?|ki(?:el|[ao]m)</token>
           <marker>
             <token postag="V tr u" skip="-1"/>
           </marker>
@@ -3101,7 +3104,7 @@ $Id$
           <marker>
             <token inflected="yes">demandi</token>
           </marker>
-          <token regexp="yes">(akv|aliĝ|almoz|atent|inform|help|klarig|kompat|koment|kompren|konsil|mon|pardon|permes|pac|pan|protekt|rifuĝej|subten|vin)oj?n|ke</token>
+          <token regexp="yes">(?:akv|aliĝ|almoz|atent|inform|help|klarig|kompat|koment|kompren|konsil|mon|pardon|permes|pac|pan|protekt|rifuĝej|subten|vin)oj?n|ke</token>
         </pattern>
         <message>Laŭ la kunteksto, ŝajnas ke vi intencis diri <suggestion><match no="1" regexp_match=".*d(.*)" regexp_replace="pet$1"/></suggestion> anstataŭ «\1».</message>
         <example type="incorrect">Mi <marker>demandas</marker> pardonon.</example>
@@ -3114,7 +3117,7 @@ $Id$
           </marker>
           <token>al</token>
           <token/>
-          <token regexp="yes">(akv|aliĝ|almoz|atent|inform|help|klarig|kompat|koment|kompren|konsil|mon|pardon|permes|pac|pan|protekt|rifuĝej|subten|vin)oj?n|ke</token>
+          <token regexp="yes">(?:akv|aliĝ|almoz|atent|inform|help|klarig|kompat|koment|kompren|konsil|mon|pardon|permes|pac|pan|protekt|rifuĝej|subten|vin)oj?n|ke</token>
         </pattern>
         <message>Laŭ la kunteksto, ŝajnas ke vi intencis diri <suggestion><match no="1" regexp_match=".*d(.*)" regexp_replace="pet$1"/></suggestion> anstataŭ «\1».</message>
         <example type="incorrect">Mi <marker>demandas</marker> al vi pardonon.</example>
@@ -3128,7 +3131,7 @@ $Id$
           <token>al</token>
           <token regexp="yes">la|ĉ?iuj|.*aj?</token>
           <token/>
-          <token regexp="yes">(akv|aliĝ|almoz|atent|inform|help|klarig|kompat|koment|kompren|konsil|mon|pardon|permes|pac|pan|protekton|rifuĝej|subten|vin)oj?n|ke</token>
+          <token regexp="yes">(?:akv|aliĝ|almoz|atent|inform|help|klarig|kompat|koment|kompren|konsil|mon|pardon|permes|pac|pan|protekton|rifuĝej|subten|vin)oj?n|ke</token>
         </pattern>
         <message>Laŭ la kunteksto, ŝajnas ke vi intencis diri <suggestion><match no="1" regexp_match=".*d(.*)" regexp_replace="pet$1"/></suggestion> anstataŭ «\1».</message>
         <example type="incorrect">Mi <marker>demandas</marker> al la instruisto pardonon.</example>
@@ -3215,7 +3218,7 @@ $Id$
     <rulegroup id="DUOBLA_NEADO" name="duobla neado">
       <rule>
         <pattern>
-          <token regexp="yes">neni([ou]j?|[ao]m|el|e)</token>
+          <token regexp="yes">neni(?:[ou]j?|[ao]m|el|e)</token>
           <token>ne</token>
         </pattern>
         <message>Evitu duoblan neadon.</message>
@@ -3230,7 +3233,7 @@ $Id$
           <marker>
             <token>ne</token>
             <token postag="V.*" postag_regexp="yes"/>
-            <token regexp="yes">neni([aou]j?n?|[ao]m|el|e)</token>
+            <token regexp="yes">neni(?:[aou]j?n?|[ao]m|el|e)</token>
           </marker>
           <token><exception postag="V .* i" postag_regexp="yes"/></token>
         </pattern>
@@ -3268,7 +3271,7 @@ $Id$
     </rulegroup>
     <rule id="P_P" name="prepozicio + prepozicio">
       <pattern>
-        <token regexp="yes">al|je|(mal)?graŭ</token>
+        <token regexp="yes">al|je|(?:mal)?graŭ</token>
         <token postag="P.*" postag_regexp="yes">
           <exception>ĉirkaŭ</exception>
         </token>
@@ -3298,7 +3301,7 @@ $Id$
     <rule id="E_VORT_PLUR" name="navalida pluralo ĉe e-vorto.">
       <pattern>
         <token regexp="yes">.*ejn?
-                    <exception regexp="yes">(mal)?plej|h?ej|okej</exception>
+                    <exception regexp="yes">(?:mal)?plej|h?ej|okej</exception>
                     <exception regexp="yes">\p{Lu}.*</exception></token>
       </pattern>
       <message>Pluralo ne eblas kun e-vorto «\1».</message>
@@ -3319,7 +3322,7 @@ $Id$
     <rulegroup id="KONCERNE_N" name="koncerne + akuzativo">
       <rule>
         <pattern>
-          <token regexp="yes">escepte|(mal)?dekstre|fronte|inkluzive|kaŭze|koncerne|(mal)?proksime|responde|rilate|spite</token>
+          <token regexp="yes">escepte|(?:mal)?dekstre|fronte|inkluzive|kaŭze|koncerne|(?:mal)?proksime|responde|rilate|spite</token>
           <marker><token postag_regexp="yes" postag="[OART] nak.*"/></marker>
         </pattern>
         <message>Rolvortaĵoj, kiuj devenas de objekta ago, povas konsisti el E-vorto + N-finaĵo. Oni uzas N-finaĵon, kiu tiam anstataŭas «de» aŭ «al». Ĉu vi intencis skribi <suggestion><match no="2" regexp_match="$" regexp_replace="n"/></suggestion>?</message>
@@ -3333,7 +3336,7 @@ $Id$
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">escepte|(mal)?dekstre|fronte|inkluzive|kaŭze|koncerne|(mal)?proksime|responde|rilate|spite</token>
+          <token regexp="yes">escepte|(?:mal)?dekstre|fronte|inkluzive|kaŭze|koncerne|(?:mal)?proksime|responde|rilate|spite</token>
           <token regexp="yes">la|ambaŭ</token>
           <marker><token postag="[OART] nak.*" postag_regexp="yes"/></marker>
         </pattern>
@@ -3348,7 +3351,7 @@ $Id$
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">escepte|(mal)?dekstre|fronte|inkluzive|kaŭze|koncerne|(mal)?proksime|responde|rilate|spite</token>
+          <token regexp="yes">escepte|(?:mal)?dekstre|fronte|inkluzive|kaŭze|koncerne|(?:mal)?proksime|responde|rilate|spite</token>
           <token postag="N"/>
           <marker><token postag="[OAT] nak.*" postag_regexp="yes"/></marker>
         </pattern>
@@ -3359,6 +3362,20 @@ $Id$
         <example type="correct">Escepte tri studentojn</example>
       </rule>
     </rulegroup>
+    <rule id="X_SISTEMO" name="x-sistemo → Unikodo">
+      <pattern>
+        <token regexp="yes">[\-a-zĉĝĥĵŝŭ&amp;&amp;[^qy]]*(?:[cghjs]x|u[xw])[\-a-zĉĝĥĵŝŭ&amp;&amp;[^qy]]*(?:[ui]|[aiou]s|[oa]j?n?|en?|aŭ|au[xw])|[sg]xin|cxar|ec[xw]|nau[xw]dek|nau[xw]cent|(?:adi|almen|amb|(?:anta(?:ŭ|u[xw]))?hier|apen|anstat|ank|ankor|ant|bald|ĉirk|hodi|kaj|malant|morg|pl|postmorg|kontr|kvaz|malgr|mi|gr|[ln])?au[xw]</token>
+      </pattern>
+      <message>La vorto «\1» ŝajnas skibita per la x-sistemo. Preferu uzi Unikodon. La kontrolilo pli bone funkcios kun Unikoda teksto.</message>
+      <url>http://eo.wikipedia.org/wiki/X-sistemo</url>
+      <example type="incorrect"><marker>Cxi</marker> tiu frazo ne uzas Unikodon.</example>
+      <example type="incorrect"><marker>CXi</marker> tiu frazo ne uzas Unikodon.</example>
+      <example type="correct"><marker>Ĉi</marker> tiu frazo uzas Unikodon.</example>
+      <example type="correct">Ĉi tiu frazo uzas enhavas framdan vorton: <marker>saxophone</marker>.</example>
+      <example type="incorrect"><marker>Ankaux</marker>.</example>
+      <example type="incorrect"><marker>Ankaux</marker>.</example>
+      <example type="correct"><marker>Ankaŭ</marker>.</example>
+    </rule>
   </category>
   <!-- vim: foldmethod=marker foldmarker=<category,</category:
   -->
