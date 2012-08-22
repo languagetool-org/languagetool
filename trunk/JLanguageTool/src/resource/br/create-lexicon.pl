@@ -279,6 +279,7 @@ my @anv_lies_tud = (
   "bargederion",        "vargederion",    "pargederion",
   "barnerien",          "varnerien",      "parnerien",
   "barnerion",          "varnerion",      "parnerion",
+  "baroned",            "varoned",        "paroned",
   "barverien",          "varverien",      "parverien",
   "barverion",          "varverion",      "parverion",
   "barzhed",            "varzhed",        "parzhed",
