@@ -887,26 +887,14 @@ RB => Règles Brutes
         </pattern>
         <disambig postag="R rel e sp"/>
     </rule>
-    <rulegroup name="RD : nombres" id="RD-NOMBRES">
-        <rule name="nombres 1">
-            <pattern>
-                <token postag=".*" postag_regexp="yes"/>
-                <marker>
-                    <token regexp="yes">[0-9][0-9]*</token>
-                </marker>
-            </pattern>
-            <disambig postag="Y"/>
-        </rule>
-        <rule name="nombres 1">
-            <pattern>
-                <marker>
-                    <token regexp="yes">[0-9][0-9]*</token>
-                </marker>
-                <token postag=".*" postag_regexp="yes"/>
-            </pattern>
-            <disambig postag="Y"/>
-        </rule>
-    </rulegroup>
+    <rule name="RD : nombres" id="RD-NOMBRES">
+        <pattern>
+            <marker>
+                <token regexp="yes">\d+</token>
+            </marker>
+        </pattern>
+        <disambig postag="Y"/>
+    </rule>
     <rule name="RP : gens" id="RP-GENS">
         <pattern>
             <marker>
@@ -1138,6 +1126,22 @@ RB => Règles Brutes
         <pattern>
           <token>du</token>
           <marker><token>tout</token></marker>
+        </pattern>
+        <disambig postag="A"/>
+      </rule>
+    </rulegroup>
+    <rulegroup id="EN_REVANCHE" name="en revanche">
+      <rule>
+        <pattern>
+          <marker><token>en</token></marker>
+          <token>revanche</token>
+        </pattern>
+        <disambig postag="A"/>
+      </rule>
+      <rule>
+        <pattern>
+          <token>en</token>
+          <marker><token>revanche</token></marker>
         </pattern>
         <disambig postag="A"/>
       </rule>
