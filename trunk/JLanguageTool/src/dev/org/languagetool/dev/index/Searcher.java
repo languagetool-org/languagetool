@@ -68,6 +68,17 @@ public class Searcher {
     }
   }
 
+  public int getDocCount(File indexDir) throws IOException {
+    final FSDirectory directory = FSDirectory.open(indexDir);
+    final DirectoryReader reader = DirectoryReader.open(directory);
+    try {
+      final IndexSearcher indexSearcher = new IndexSearcher(reader);
+      return getDocCount(indexSearcher);
+    } finally {
+      reader.close();
+    }
+  }
+
   private int getDocCount(IndexSearcher indexSearcher) throws IOException {
     final Term searchTerm = new Term(MAX_DOC_COUNT_FIELD, MAX_DOC_COUNT_FIELD_VAL);
     final TopDocs search = indexSearcher.search(new TermQuery(searchTerm), 1);
