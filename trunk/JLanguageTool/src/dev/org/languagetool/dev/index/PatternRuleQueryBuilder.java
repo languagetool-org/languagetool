@@ -154,7 +154,7 @@ public class PatternRuleQueryBuilder {
         // this to avoid the exception that all fields need to have the same field
         // when constructing the SpanNearQuery:
         //final RegexpQuery regexpQuery = getCaseSensitiveRegexQuery(POS_PREFIX + pos);
-        posQuery = getWrappedRegexQuery(element, POS_PREFIX + pos);
+        posQuery = getWrappedRegexQuery(element, POS_PREFIX + "(" + pos + ")");
         //posQuery = new SpanMultiTermQueryWrapper<RegexpQuery>(regexpQuery);
       } else {
         if (element.getCaseSensitive()) {

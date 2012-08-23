@@ -222,6 +222,8 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
     assertMatches(makeRule("<token postag=\"FOO\"></token>"), 0);
 
     assertMatches(makeRule("<token postag=\"[XW]RB\" postag_regexp=\"yes\"></token>"), 1);
+    assertMatches(makeRule("<token postag=\"FOO|WRB\" postag_regexp=\"yes\"></token>"), 1);
+    assertMatches(makeRule("<token postag=\"WRB|FOO\" postag_regexp=\"yes\"></token>"), 1);
     assertMatches(makeRule("<token postag=\"[XY]OO\" postag_regexp=\"yes\"></token>"), 0);
 
     // combine term and POS tag:

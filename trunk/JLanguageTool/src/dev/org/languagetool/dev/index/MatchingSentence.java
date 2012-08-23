@@ -42,4 +42,9 @@ public class MatchingSentence {
   public List<RuleMatch> getRuleMatches() {
     return ruleMatches;
   }
+
+  @Override
+  public String toString() {
+    return sentence;
+  }
 }
