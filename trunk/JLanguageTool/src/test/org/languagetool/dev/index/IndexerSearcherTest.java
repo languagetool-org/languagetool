@@ -74,7 +74,7 @@ public class IndexerSearcherTest extends LuceneTestCase {
     final JLanguageTool lt = new JLanguageTool(language);
     lt.activateDefaultPatternRules();
     System.out.println("Creating index...");
-    final int ruleCount = createIndex(language, lt);
+    final int ruleCount = createIndex(lt);
     System.out.println("Index created with " + ruleCount + " rules");
 
     int ruleCounter = 0;
@@ -147,8 +147,8 @@ public class IndexerSearcherTest extends LuceneTestCase {
     return ids;
   }
 
-  private int createIndex(Language language, JLanguageTool lt) throws IOException {
-    final Indexer indexer = new Indexer(directory, language);
+  private int createIndex(JLanguageTool lt) throws IOException {
+    final Indexer indexer = new Indexer(directory, lt.getLanguage());
     int ruleCount = 0;
     try {
       final List<Rule> rules = lt.getAllActiveRules();
