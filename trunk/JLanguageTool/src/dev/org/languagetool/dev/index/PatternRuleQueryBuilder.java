@@ -239,6 +239,9 @@ public class PatternRuleQueryBuilder {
     if (patternElement.isInflected()) {
       throw new UnsupportedPatternRuleException("Pattern rules with inflected tokens are not supported.");
     }
+    if (patternElement.getString().matches("\\\\\\d+")) { // e.g. "\1"
+      throw new UnsupportedPatternRuleException("Pattern rules with only match references are not supported.");
+    }
     // TODO: exception for <match no="0"/> etc. (patternElement.getMatch()?)
   }
 
