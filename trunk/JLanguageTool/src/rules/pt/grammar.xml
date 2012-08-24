@@ -21,7 +21,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.021 2012-08-17 20:11:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.022 2012-08-24 11:36:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -173,6 +173,21 @@ $Id: grammar.xml,v 1.021 2012-08-17 20:11:00 marcoagpinto Exp $
       <short>"Gramática".</short>
       <example type="incorrect">Actualiza sempre o <marker>anti vírus</marker>.</example>
       <example type="correct">Actualiza sempre o <marker>antivírus</marker>.</example>
+    </rule>
+
+
+
+    <!-- AO MEU VER a meu ver -->
+    <rule id="AO_MEU_VER" name="a meu ver">
+      <pattern>
+        <token>ao</token>
+        <token>meu</token>
+        <token>ver</token>
+      </pattern>
+      <message>Substituir «ao meu ver» por <suggestion>a meu ver</suggestion>.</message>
+      <short>"Gramática".</short>
+      <example type="incorrect">Isto é, <marker>ao meu ver</marker>, muito importante.</example>
+      <example type="correct">Isto é, <marker>a meu ver</marker>, muito importante.</example>
     </rule>
 
 
@@ -654,6 +669,20 @@ $Id: grammar.xml,v 1.021 2012-08-17 20:11:00 marcoagpinto Exp $
 
 
 
+    <!-- HOUVERAM MUITOS houve muitos -->
+    <rule id="HOUVERAM_MUITOS" name="houve muitos">
+      <pattern>
+        <token>houveram</token>
+        <token>muitos</token>
+      </pattern>
+      <message>Substituir «houveram muitos» por <suggestion>houve muitos</suggestion>.</message>
+      <short>"Gramática".</short>
+      <example type="incorrect">No passado <marker>houveram muitos</marker> muitos acidentes.</example>
+      <example type="correct">No passado <marker>houve muitos</marker> muitos acidentes.</example>
+    </rule>
+
+
+
     <!-- IR NA PRAIA ir à praia -->
     <rule id="IR_NA_PRAIA" name="ir à praia">
       <pattern>
@@ -879,6 +908,21 @@ $Id: grammar.xml,v 1.021 2012-08-17 20:11:00 marcoagpinto Exp $
       <short>"Gramática".</short>
       <example type="incorrect">Assim <marker>poderiam-se</marker> escrever livros sobre o assunto.</example>
       <example type="correct">Assim <marker>poder-se-iam</marker> escrever livros sobre o assunto.</example>
+    </rule>
+
+
+
+    <!-- POR CAUSA QUE porque -->
+    <rule id="POR_CAUSA_QUE" name="porque">
+      <pattern>
+        <token>por</token>
+        <token>causa</token>
+        <token>que</token>
+      </pattern>
+      <message>Substituir «por causa que» por <suggestion>porque</suggestion>.</message>
+      <short>"Gramática".</short>
+      <example type="incorrect">Fiquei contente <marker>por causa que</marker> ninguém se feriu.</example>
+      <example type="correct">Fiquei contente <marker>porque</marker> ninguém se feriu.</example>
     </rule>
 
 
