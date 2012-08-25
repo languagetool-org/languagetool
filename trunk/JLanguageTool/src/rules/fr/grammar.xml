@@ -3221,12 +3221,14 @@ though, and has since been slightly modified)-->
                 <marker>
                     <token postag="[NJAKZ].*" postag_regexp="yes">
                         <exception postag="[^NJAKZ].*" postag_regexp="yes"/>
+                        <exception>bien</exception>
                     </token>
                 </marker>
             </pattern>
             <message>Le mot « \2 » ne peut pas suivre le mot « \1 ».</message>
             <example type="incorrect">Ça te <marker>gène</marker> si je fume ?</example>
             <example type="correct">Ça te gêne si je fume ?</example>
+            <example type="correct">Il faut se bien connaître soit-même.</example>
         </rule>
         <rule id="MON_NFS" name="mon/ton/son suivi d’un nom féminin singulier">
             <pattern>
@@ -6326,7 +6328,7 @@ though, and has since been slightly modified)-->
               <token regexp="yes">clair|exacte|certaine?s?|sûre?s?|évident|probable|vrai|vraisemblable</token>
               <token>que</token>
               <token postag="R pers suj.*|Z.*" postag_regexp="yes"/>
-              <marker><token postag="V.* sub.*" postag_regexp="yes"><exception postag="V.* (ind|con).*" postag_regexp="yes"/></token></marker>
+              <marker><token postag="V.* sub.*" postag_regexp="yes"><exception postag="V.* (?:ind|con).*" postag_regexp="yes"/></token></marker>
             </pattern>
             <message>Le verbe « \5 » devrait être à l’indicatif ou au conditionnel (et non au subjonctif) après « \1 \2 \3 \4 » qui exprime la certitude ou une forte vraisemblance de manière positive.</message>
             <example type="incorrect">Elle est certaine que vous <marker>soyez</marker> un espion.</example>
@@ -6434,7 +6436,7 @@ though, and has since been slightly modified)-->
         <rule id="QUELQUE" name="quelque invariable devant nombre">
           <pattern>
             <marker><token>quelques</token></marker>
-            <token regexp="yes">\d+|(deux|trois|quatre|cinq|six|sept|huit|neuf|dix|vingt|trente|quarante|cinquante|soixante|septante|huitante|octante|nonante|cents?|mille)(-.*)?|onze|douze|treize|quatorze|quinze|seize</token>
+            <token regexp="yes">\d+|(?:deux|trois|quatre|cinq|six|sept|huit|neuf|dix|vingt|trente|quarante|cinquante|soixante|septante|huitante|octante|nonante|cents?|mille)(?:-.*)?|onze|douze|treize|quatorze|quinze|seize</token>
           </pattern>
           <message>Le mot <suggestion>quelque</suggestion> est invariable devant un nombre et a une fonction d’adverbe signifiant « environ » ou « à peu près ».</message>
           <example type="incorrect">Il y a <marker>quelques</marker> 10 ans.</example>
@@ -6449,7 +6451,7 @@ though, and has since been slightly modified)-->
           <rule>
             <pattern>
               <token postag="SENT_START"/>
-              <marker><token regexp="yes">(attendu|entendu|excepté|ôté|ouï|passé|supposé|vu)(es?|e?s)|(non-)?comprises?</token></marker>
+              <marker><token regexp="yes">(?:attendu|entendu|excepté|ôté|ouï|passé|supposé|vu)(?:es?|e?s)|(?:non-)?comprises?</token></marker>
               <token postag="D.*" postag_regexp="yes"/>
               <token postag="[JN].*" postag_regexp="yes"/>
             </pattern>
@@ -6488,6 +6490,28 @@ though, and has since been slightly modified)-->
           <message>Employez <suggestion>mis</suggestion>, <suggestion>mise</suggestion> ou <suggestion>mises</suggestion> selon le contexte.</message>
           <example type="incorrect">Le serveur a été <marker>mi</marker> en place.</example>
           <example type="correct">Le serveur a été <marker>mis</marker> en place.</example>
+        </rule>
+        <rule id="PLUS_QUE_PREVU" name="plus que prévue → plus que prévu">
+          <pattern>
+            <token regexp="yes">plus|mois</token>
+            <token postag="V ppa.*|J.*" postag_regexp="yes"/>
+            <token>que</token>
+            <marker><token regexp="yes">prévues?|prévus</token></marker>
+          </pattern>
+          <message>Le mot « prévu » doit être invariable après «\1 \2 \3» Voulez-vous écrire <suggestion>prévu</suggestion> ?</message>
+          <example type="incorrect">Les températures sont plus froides que <marker>prévues</marker>.</example>
+          <example type="correct">Les températures sont plus froides que prévu.</example>
+          <example type="incorrect">La facture est plus élevée que <marker>prévue</marker>.</example>
+          <example type="correct">La facture est plus élevée que prévu.</example>
+        </rule>
+        <rule id="COMME_PREVU" name="comme prévue → comme prévu">
+          <pattern>
+            <token>comme</token>
+            <marker><token regexp="yes">(?:annoncé|convenu|prévu)(?:es?|s)</token></marker>
+          </pattern>
+          <message>Le mot «\2» doit être invariable après « comme » Voulez-vous écrire <suggestion><match no="2" regexp_match="e?s?$" regexp_replace=""/></suggestion> ?</message>
+          <example type="incorrect">La rencontre s’est déroulée comme <marker>prévues</marker>.</example>
+          <example type="correct">La rencontre s’est déroulée comme <marker>prévu</marker>.</example>
         </rule>
     </category>
     <category default="off" name="Régionalismes">
@@ -10758,15 +10782,6 @@ though, and has since been slightly modified)-->
             <message>« Forger une signature » est un anglicisme (to forge a signature). Employez <suggestion>contrefaire une signature</suggestion>, <suggestion>imiter une signature</suggestion>.</message>
             <example type="incorrect"><marker>forger une signature</marker></example>
             <example type="correct"><marker>contrefaire une signature</marker></example>
-        </rule>
-        <rule id="DECISION_FINALE" name="décision finale">
-            <pattern>
-                <token regexp="yes">décisions?</token>
-                <token regexp="yes">finale?s?|finaux</token>
-            </pattern>
-            <message>« Décision finale » est un anglicisme. Employez <suggestion>décision définitive</suggestion>.</message>
-            <example type="incorrect"><marker>décision finale</marker></example>
-            <example type="correct"><marker>décision définitive</marker></example>
         </rule>
         <rule id="RIZ_SAUVAGE" name="riz sauvage">
             <pattern>
