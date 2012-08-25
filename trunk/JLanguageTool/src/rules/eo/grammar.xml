@@ -283,6 +283,14 @@ $Id$
       <example type="incorrect">Mi havas neniu <marker>defektojn</marker>.</example>
       <example type="correct">Mi havas neniu <marker>difektojn</marker>.</example>
     </rule>
+    <rule id="EKSTERNE" name="eksterne → ekstere">
+      <pattern>
+        <token inflected="yes" regexp="yes">(mal|ne)?ekstern[oae]</token>
+      </pattern>
+      <message>La vorto «\1» ŝajnas esti eraro pro influo de nacia lingvo. Ĉu vi intencis skribi <suggestion><match no="1" regexp_match="rn" regexp_replace="r"/></suggestion>?</message>
+      <example type="incorrect">Li ludas <marker>eksterne</marker>.</example>
+      <example type="correct">Li ludas <marker>ekstere</marker>.</example>
+    </rule>
     <rule id="ENLOGANTO" name="enloĝanto → loĝanto">
       <pattern>
         <token inflected="yes">enloĝanto</token>
@@ -2624,19 +2632,6 @@ $Id$
       <example type="correct">Mi manĝis ĉion, kion mi trovis.</example>
       <example type="incorrect">Estis <marker>tio, kiu</marker> misfunkciis.</example>
       <example type="correct">Estis tio, kio misfunkciis.</example>
-    </rule>
-    <rule id="LA_PLI" name="La pli (la plej)">
-      <pattern>
-        <marker>
-          <token>la</token>
-          <token regexp="yes" skip="-1">(?:mal)?pli<exception scope="next" regexp="yes">ambaŭ|du|paro</exception></token>
-        </marker>
-        <token postag="SENT_END"/>
-      </pattern>
-      <message>Ĉu vi intencis <suggestion>\1 <match no="2" regexp_match="(.*)i" regexp_replace="$1ej"/></suggestion>?</message>
-      <example type="incorrect">Li estas <marker>la pli</marker> rapida.</example>
-      <example type="correct">Li estas la plej rapida.</example>
-      <example type="correct">Li estas <marker>la pli</marker> rapida el la du knaboj.</example>
     </rule>
     <rule id="AKZ_KIEL_NAK" name="akuzativo + kiel + neakuzativo">
       <pattern>
