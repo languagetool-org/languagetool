@@ -1257,6 +1257,18 @@ $Id$
             </rule>
         </rulegroup>
         <rulegroup id="PERIFRASIS" name="Perífrasis d'obligació i de dubte">
+            <rule id="ACABAR_GERUNDI" name="*acabà fer/acabà fent">
+                <pattern>
+                    <token inflected="yes">acabar</token>
+                    <marker>
+                        <token postag="V.N.*" postag_regexp="yes"></token>
+                    </marker>
+                </pattern>
+                <message>Perífrasi verbal incorrecta: <suggestion><match no="2" postag="(..)(.+)" postag_regexp="yes" postag_replace="$1G0000"></match></suggestion>.</message>
+                <example type="incorrect">Va acabar <marker>dedicar</marker>-li l'obra.</example>
+                <example type="correct">Acabà dedicant-li l'obra.</example>
+                <example type="correct">Per acabar farem això.</example>
+            </rule>
             <rule id="HI_HA_QUE" name="Incorrecte: «haver-hi que»">
                 <pattern>
                     <marker>
