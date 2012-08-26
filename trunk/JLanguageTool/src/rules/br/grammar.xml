@@ -2488,7 +2488,7 @@ $Id$
     </rule>
 
     <!-- [CHALM] L-3, page L-118 recommande "ar tsar" mais l’usage en pratique
-     est souvent "an tsar".  LanguageTool autorise les 2 possibilités. -->
+     est souvent "an tsar". LanguageTool autorise les 2 possibilités. -->
     <rule id="AR_TSAR" name="ar + tsar, tsunami, etc.">
       <pattern>
         <marker>
@@ -3419,6 +3419,22 @@ $Id$
         <message>Ret eo implij <suggestion>pez</suggestion> goude «pa» (CHALM C71.4.3).</message>
         <example type="incorrect">Pa ho <marker>peus</marker> sec’hed</example>
         <example type="correct">Pa ho <marker>pez</marker> sec’hed</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="NACHAN" name="nac’han"> 
+      <rule>
+        <pattern>
+          <token postag="SENT_START"/>
+          <token>N’</token>
+          <marker><token>emaint</token></marker>
+          <token>ket</token>
+          <token postag="D . .*" postag_regexp="yes"/>
+          <token postag="N . p.*" postag_regexp="yes"/>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>emañ</suggestion>? (CHALM V1.2)</message>
+        <example type="incorrect">N’<marker>emaint</marker> ket ma c'hoarezed o c'hoari.</example>
+        <example type="correct">N’emañ ket ma c'hoarezed o c'hoari.</example>
       </rule>
     </rulegroup>
   </category>
