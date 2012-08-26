@@ -6444,15 +6444,16 @@ $Id$
                 <example type="correct">No tenia cap dubte que sí.</example>
             </rule>
         </rulegroup>
-        <rule id="NO_CAL_OBLIDAR" name="no cal oblidat/cal no oblidar">
+        <rule id="NO_CAL_OBLIDAR" name="*no cal oblidar/cal no oblidar">
             <pattern>
                 <token>no</token>
                 <token inflected="yes">caldre</token>
-                <token>oblidar</token>
+                <token regexp="yes">oblidar|confondre</token>
             </pattern>
             <message>Potser volíeu dir <suggestion><match no="2" /> <match no="1" case_conversion="alllower" /> <match no="3" /></suggestion>.</message>
             <short>Suggeriment</short>
             <example type="incorrect"><marker>No cal oblidar</marker> que les coses són així.</example>
+            <example type="incorrect"><marker>No cal confondre</marker> les coses.</example>
             <example type="correct"><marker>Cal no oblidar</marker> que les coses són així.</example>
         </rule>
         <rule id="PAPER_SECANT" name="paper secant">
