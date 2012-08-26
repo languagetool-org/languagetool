@@ -1054,7 +1054,7 @@ though, and has since been slightly modified)-->
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">d[eé]s<exception inflected="yes" scope="previous" regexp="yes">approcher|anniversaire|cap</exception></token>
+                        <token regexp="yes">d[eé]s<exception inflected="yes" scope="previous" regexp="yes">approcher|anniversaire|cap|programme</exception></token>
                     </marker>
                     <token regexp="yes">\d+|(une?|deux|trois|quatre|cinq|six|sept|huit|neuf|dix|vingt|trente|quarante|cinquante|soixante|septante|octante|huitante|nonante)(-.*)?|onze|douze|treize|quatorze|quinze|seize|cent</token>
                     <token regexp="yes">ans?|heures?</token>
@@ -3074,6 +3074,7 @@ though, and has since been slightly modified)-->
                 <example type="correct">La justice est <marker>une si</marker> belle chose.</example>
                 <example type="correct"><marker>Telle est</marker> la question.</example>
                 <example type="correct"><marker>La plus forte</marker> progression.</example>
+                <example type="correct">C’est une sale affaire.</example>
             </rule>
             <rule name="nom féminin suivi du masculin">
                 <pattern>
@@ -3111,6 +3112,32 @@ though, and has since been slightly modified)-->
                 <example type="correct"><marker>Une large</marker> majorité.</example>
                 <example type="correct"><marker>Une étrange</marker> expérience.</example>
             </rule>
+        </rulegroup>
+        <rulegroup id="ACCORD_COULEUR" name="accord couleur">
+          <rule>
+            <pattern>
+              <token postag="D . s?p" postag_regexp="yes"/>
+              <token postag="N . p" postag_regexp="yes"/>
+              <marker><token regexp="yes">abricots|acajous|anthracites|argents|aubergines|azurs|bistres|briques|bronzes|cachous|caramels|carmins|cerises|chocolats|corails|crèmes|cuivres|ébènes|émeraudes|fraises|garances|grenats|indigos|isabelles|ivoires|lavandes|magentas|marrons|moutardes|nacres|noisettes|ocres|olives|ors|oranges|outremers|pailles|pastels|pervenches|pies|pistaches|pivoines|rouilles|sables|safrans|sépias|tabacs|taupes|tomates|turquoises|vermillons</token></marker>
+            </pattern>
+            <message>Quand la couleur est exprimée par un nom de plante, de fruit, d’animal, de pierre ou de personne, l’invariabilité est alors de rigueur car il s’agit de tours elliptique (de la couleur de). Voulez-vous écrire <suggestion><match no="3" regexp_match="s$" regexp_replace=""/></suggestion> ?</message>
+            <example type="incorrect">Des yeux <marker>marrons</marker>.</example>
+            <example type="correct">Des yeux <marker>marron</marker>.</example>
+            <example type="correct">Des créature <marker>maries</marker>.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token postag="D . s?p" postag_regexp="yes"/>
+              <token postag="N . p" postag_regexp="yes"/>
+              <marker><token regexp="yes">alezane?|aubère|baie?|basanée?|beige|bigarrée?|bis|blafarde?|blanc(he)?|blême|bleue?|blonde?|brune?|châtaine?|cramoisie?|dorée?|écrue?|glauque|jaune|livide|louvet(?:te)?|mate?|mordorée?|noire?|opaline?|perse?|rouge|rousse|vairon|verte?|violet(?:te)|zain|zinzoline?</token></marker>
+              <token><exception postag="[NJ] .*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Quand la couleur est exprimée par un adjectif simple, l’accord doit se faire. Voulez-vous écrire <suggestion><match no="3" regexp_match="$" regexp_replace="s"/></suggestion> ?</message>
+            <example type="incorrect">Des yeux <marker>vert</marker>.</example>
+            <example type="correct">Des yeux <marker>verts</marker>.</example>
+            <example type="correct">Des yeux <marker>vert</marker> clair.</example>
+            <example type="correct">Des yeux <marker>vert</marker> olive.</example>
+          </rule>
         </rulegroup>
         <rulegroup id="A_LAQUELLE" name="accord avec lequel, laquelle, lesquels, etc.">
             <rule>
