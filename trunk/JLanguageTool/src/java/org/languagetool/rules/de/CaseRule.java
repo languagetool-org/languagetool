@@ -81,6 +81,7 @@ public class CaseRule extends GermanRule {
   static {
     exceptions.add("Hr");   // Hr. = Abkürzung für Herr
     exceptions.add("Auftrieb");
+    exceptions.add("Zuschnitt");
     exceptions.add("Geschossen");
     exceptions.add("Vortrieb");
     exceptions.add("Abtrieb");
