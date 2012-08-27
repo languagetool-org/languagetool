@@ -1028,6 +1028,81 @@ $Id$
             </rule>
         </rulegroup>        
     </category>
+    <category name="Possessius">
+        <rulegroup id="POSSESSIU_SENSE_ARTICLE" name="possessiu sense article: de meua casa">
+            <rule>
+                <pattern>
+                    <token><exception postag="D[AIN].*|N.*" postag_regexp="yes"/></token> 
+                    <marker>
+                        <token regexp="yes">[mts]e(u|us|ua|ues|va|ves)|[nv]ostr(a|es?)<exception postag="LOC_ADV"/><exception regexp="yes">seus?|nostr(e|a)</exception></token>
+                    </marker>
+                    <token postag="N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Falta un article.</message>
+                <example type="incorrect">Això és de <marker>meu</marker> avi.</example>
+                <example type="incorrect">són coneguts per <marker>seua</marker> força</example>
+                <example type="correct">Això és del meu avi.</example>
+                <example type="correct">en la seva majoria</example>
+                <example type="correct">La mort i resurrecció de Nostre Senyor Jesucrist.</example>
+                <example type="correct">a la sortida de casa seva Francesc Layret</example>
+                <example type="correct">com a seu oficial dels Jocs</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception postag="D[AIN].*|N.*" postag_regexp="yes"/></token> 
+                    <marker>
+                        <token regexp="yes">seus?<exception postag="LOC_ADV"/></token>
+                    </marker>
+                    <token postag="N.*" postag_regexp="yes"><exception postag="A..[FC].*|V.P00.F" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Falta un article.</message>
+                <example type="incorrect">Això és de <marker>seu</marker> avi.</example>
+                <example type="correct">com a seu oficial dels Jocs</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception postag="D[AIN].*" postag_regexp="yes"/></token> 
+                    <marker>
+                        <token regexp="yes">[mts]e(u|us|ua|ues|va|ves)|[nv]ostr(a|es?)<exception postag="LOC_ADV"/><exception regexp="yes">nostr(e|a)</exception></token>
+                    </marker>
+                    <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                    <token postag="N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Falta un article.</message>
+                <example type="incorrect">desplaçant <marker>seus</marker> anteriors alfabets</example>
+                <example type="correct">desplaçant els seus anteriors alfabets</example>
+                <example type="correct">Publica la Passió de Nostre Senyor Jesucrist.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception postag="D[AIN].*|N.*" postag_regexp="yes"/></token> 
+                    <marker>
+                        <token regexp="yes">nostr(a|e)<exception postag="LOC_ADV"/></token>
+                    </marker>
+                    <token postag="N.*" postag_regexp="yes"><exception regexp="yes">(?-i)(Senyora?|Pare)</exception></token>
+                </pattern>
+                <message>Falta un article.</message>
+                <example type="incorrect">Això és de <marker>nostre</marker> pare.</example>
+                <example type="incorrect">semblant a <marker>nostre</marker> terme actual.</example>
+                <example type="correct">Això és del nostre pare.</example>
+                <example type="correct">La mort i resurrecció de Nostre Pare.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception postag="D[AIN].*|N.*" postag_regexp="yes"/></token> 
+                    <marker>
+                        <token regexp="yes">nostr(a|e)<exception postag="LOC_ADV"/></token>
+                    </marker>
+                    <token postag="A.*|V.P.*" postag_regexp="yes"><exception regexp="yes">(?-i)Senyora?</exception></token>
+                    <token postag="N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Falta un article.</message>
+                <example type="incorrect">Això és de <marker>nostre</marker> estimat avi.</example>
+                <example type="correct">La mort i resurrecció de Nostre Senyor Jesucrist.</example>
+            </rule>            
+                        
+        </rulegroup>
+    </category>
     <category name="Verbs">
         <rulegroup id="VERBS_NO_REFLEXIUS" name="Verbs no reflexius">
             <rule>
@@ -2009,6 +2084,16 @@ $Id$
         </rule>
     </category>
     <category name="Preposicions">
+        <rule id="CAP_ELS_CAP_ALS" name="*cap els/cap als">
+        <!-- Falten excepcions... -->
+            <pattern>
+                <token>cap</token>
+                <token>els</token>
+            </pattern>
+            <message>Volíeu dir <suggestion>cap als</suggestion>?</message>
+            <example type="incorrect">la confiança <marker>cap els</marker> partits</example>
+            <example type="correct">la confiança cap als partits</example>
+        </rule>
         <rulegroup id="DACI_A" name="d'ací a">
             <rule>
                 <pattern>
@@ -2824,6 +2909,15 @@ $Id$
                 <example type="correct">No volia res més que mirar i mirar i mirar.</example>
                 <example type="correct">A més a més, ho va fer a poc a poc.</example>
                 <example type="correct">A diferència dels dels ocells.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">de|d'</token>
+                    <token regexp="yes">de|d'</token>
+                </pattern>
+                <message>Elimina la duplicació: <suggestion><match no="1"/></suggestion> o <suggestion><match no="2"/></suggestion>.</message>
+                <example type="incorrect">Una altra manera <marker>de d'</marker>analitzar .</example>
+                <example type="correct">No volia res més que mirar i mirar i mirar.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SUBSTANTIUS_JUNTS" name="Dos noms comuns junts">
@@ -5500,7 +5594,7 @@ $Id$
     <category name="Expressions">
         <rule id="CARA_A" name="*cara a/de cara a">    
             <pattern>
-                <token negate="yes" inflected="yes" regexp="yes">plantar|fer<exception>de</exception></token>
+                <token negate="yes" inflected="yes" regexp="yes">plantar|fer<exception regexp="yes">de|la</exception></token>
                 <marker>
                     <token>cara</token>
                     <token>a</token>
@@ -5511,8 +5605,9 @@ $Id$
             <example type="incorrect">Cal pensar-hi <marker>cara a</marker> l'estiu.</example>
             <example type="correct">Cal pensar-hi de cara a l'estiu.</example>
             <example type="correct">Cal plantar cara a l'adversitat.</example>
+            <example type="correct">Va girar la cara al bisbe.</example>
         </rule>
-        <rule id="CORRER_A_CARREC" name="*córrer a càrrec de">    
+        <rule id="CORRER_A_CARREC" name="*córrer/anar/ser a càrrec de">    
             <pattern>
                 <marker>
                     <token inflected="yes">córrer</token>
@@ -6584,20 +6679,36 @@ $Id$
             <example type="incorrect"><marker>poc a poc</marker> remuntarem el riu</example>
             <example type="correct"><marker>a poc a poc</marker> remuntarem el riu</example>
         </rule>
-        <rule id="QUAN_NO" name="quan no">
-            <pattern>
-                <marker>
-                    <token>quan</token>
-                    <token>no</token>
-                </marker>
-                <token postag="A.*|V.P.*" postag_regexp="yes"></token>
-            </pattern>
-            <message>Cal dir <suggestion>si no</suggestion> o <suggestion>més encara,</suggestion>.</message>
-            <short>Expressió incorrecta</short>
-            <example type="incorrect">un eco social molt tebi, <marker>quan no</marker> refractari</example>
-            <example type="correct">un eco social molt tebi, <marker>si no</marker> refractari</example>
-        </rule>
-        <rule id="QUANT_ABANS_MILLOR" name="quant abans millor">
+        <rulegroup id="QUAN_NO" name="*quan no + adjectiu">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>quan</token>
+                        <token>no</token>
+                    </marker>
+                    <token postag="A.*|V.P.*" postag_regexp="yes"></token>
+                </pattern>
+                <message>Cal dir <suggestion>si no</suggestion> o <suggestion>més encara</suggestion>.</message>
+                <short>Expressió incorrecta</short>
+                <example type="incorrect">un eco social molt tebi, <marker>quan no</marker> refractari</example>
+                <example type="correct">un eco social molt tebi, <marker>si no</marker> refractari</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>quan</token>
+                        <token>no</token>
+                    </marker>
+                    <token postag="RG"/>
+                    <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Cal dir <suggestion>si no</suggestion> o <suggestion>més encara</suggestion>.</message>
+                <short>Expressió incorrecta</short>
+                <example type="incorrect">vulgars, <marker>quan no</marker> realment espantosos</example>
+                <example type="correct">vulgars, si no realment espantosos</example>
+            </rule>
+        </rulegroup>
+        <rule id="QUANT_ABANS_MILLOR" name="*quant abans millor">
             <pattern>
                 <token regexp="yes">quant?</token>
                 <token>abans</token>
