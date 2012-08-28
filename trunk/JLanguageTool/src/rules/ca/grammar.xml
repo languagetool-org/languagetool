@@ -2085,14 +2085,36 @@ $Id$
     </category>
     <category name="Preposicions">
         <rule id="CAP_ELS_CAP_ALS" name="*cap els/cap als">
-        <!-- Falten excepcions... -->
+        <!-- Falten excepcions!! -->
             <pattern>
-                <token>cap</token>
-                <token>els</token>
+                <token negate="yes">a<exception postag="V.*" postag_regexp="yes" inflected="yes">fer</exception></token>
+                <marker>
+                    <token>cap<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                    <token>els</token>
+                </marker>
             </pattern>
             <message>Volíeu dir <suggestion>cap als</suggestion>?</message>
             <example type="incorrect">la confiança <marker>cap els</marker> partits</example>
             <example type="correct">la confiança cap als partits</example>
+            <example type="correct">que portaren a cap els comtes</example>
+            <example type="correct">on fan cap els comtes</example>
+            <example type="correct">tocar amb el cap els esquís de la gent</example>
+        </rule>
+        <rule id="CAP_EL_CAP_AL" name="*cap el/cap al">
+        <!-- Falten excepcions!! -->
+            <pattern>
+                <token negate="yes">a<exception postag="V.*" postag_regexp="yes" inflected="yes">fer</exception></token>
+                <marker>
+                    <token>cap<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                    <token>el</token>
+                </marker>
+            </pattern>
+            <message>Volíeu dir <suggestion>cap al</suggestion>?</message>
+            <example type="incorrect">la confiança <marker>cap el</marker> partit</example>
+            <example type="correct">la confiança cap al partit</example>
+            <example type="correct">que tingué com a cap el Comte d'Espanya</example>
+            <example type="correct">on fa cap el Comte</example>
+            <example type="correct">la Colònia del Cap el 1788</example>
         </rule>
         <rulegroup id="DACI_A" name="d'ací a">
             <rule>
