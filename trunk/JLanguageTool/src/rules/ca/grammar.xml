@@ -6039,6 +6039,58 @@ $Id$
             <example type="incorrect">aquest exercici s'ha de fer <marker>boca amunt</marker></example>
             <example type="correct">aquest exercici s'ha de fer <marker>de cara enlaire</marker></example>
         </rule>
+        <rulegroup id="CAS_DE" name="*cas de">
+            <rule>
+                <pattern>
+                    <token negate="yes" regexp="yes">en|donat|fos|fóra<exception postag="D.*" postag_regexp="yes" /><exception postag="V.*" postag_regexp="yes" inflected="yes">fer</exception></token>
+                    <marker>
+                        <token>cas<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                        <token regexp="yes">de|d'</token>
+                    </marker>
+                    <token>no</token>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Potser volíeu dir: <suggestion>en cas <match no="3"/></suggestion>.</message>
+                <short>Expressió incorrecta</short>
+                <example type="incorrect"><marker>Cas de</marker> no poder venir, digueu-ho.</example>
+                <example type="correct">En cas de no poder venir, digueu-ho.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token negate="yes" regexp="yes">en|donat|fos|fóra<exception postag="D.*" postag_regexp="yes" /><exception postag="V.*" postag_regexp="yes" inflected="yes">fer</exception></token>
+                    <marker>
+                        <token>cas</token>
+                        <token regexp="yes">de|d'</token>
+                    </marker>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Potser volíeu dir: <suggestion>en cas <match no="3"/></suggestion>.</message>
+                <short>Expressió incorrecta</short>
+                <example type="incorrect">engegada del motor <marker>cas d'</marker>haver-n'hi.</example>
+                <example type="correct">engegada del motor en cas d'haver-n'hi.</example>
+                <example type="incorrect"><marker>Cas de</marker> ser així, d'acord.</example>
+                <example type="correct">En cas de ser així, d'acord.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token negate="yes" regexp="yes">en|donat|fos|fóra<exception postag="D.*" postag_regexp="yes" /><exception postag="V.*" postag_regexp="yes" inflected="yes">fer</exception></token>
+                    <marker>
+                        <token>cas<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                        <token skip="3">que</token>
+                    </marker>
+                    <token postag="V.S.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Potser volíeu dir: <suggestion>en cas <match no="3"/></suggestion>.</message>
+                <short>Expressió incorrecta</short>
+                <example type="incorrect">, <marker>cas que</marker> aquest no fos bisbe.</example>
+                <example type="incorrect">, <marker>cas que</marker> admeti diferents interpretacions.</example>
+                <example type="correct">, un cas que admeti diferents interpretacions.</example>
+                <example type="correct">, cas que admet diferents interpretacions.</example>
+                <example type="correct">, en cas que aquest no fos bisbe.</example>
+                <example type="incorrect">o, <marker>cas que</marker> no ho fossin,</example>
+                <example type="correct">o, en cas que no ho fossin,</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="DE_PEU" name="de peu">
             <rule>
                 <pattern>
@@ -6499,6 +6551,16 @@ $Id$
                 <example type="correct">fa <marker>olor de</marker> maduixa</example>
             </rule>
         </rulegroup>
+        <rule id="JUNT_A" name="*junt a">
+            <pattern>
+                <token>junt</token>
+                <token>a</token>
+            </pattern>
+            <message>Potser volíeu dir: <suggestion>al costat de</suggestion>, <suggestion>tocant a</suggestion>, <suggestion>a prop de</suggestion>, <suggestion>junt amb</suggestion>, <suggestion>juntament amb</suggestion>, <suggestion>amb</suggestion>.</message>
+            <short>Expressió incorrecta</short>
+            <example type="incorrect">Puccini retornà <marker>junt a</marker> Elvira</example>
+            <example type="correct">Puccini retornà al costat d'Elvira</example>
+        </rule>
         <rule id="MATERIA_GRIS" name="matèria gris">
             <pattern>
                 <token>matèria</token>
