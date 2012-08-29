@@ -3014,7 +3014,7 @@ though, and has since been slightly modified)-->
                         <exception scope="previous" postag="&lt;/DE&gt;"/>
                         <exception scope="previous" regexp="yes">des?|du|aux?</exception>
                         <exception postag="[NJ] [fe] .*|V .*" postag_regexp="yes"/>
-                        <exception regexp="yes">non|air|car</exception>
+                        <exception regexp="yes">non|air|car|pas</exception>
                         <!-- Following exception is to skip an adverb -->
                         <exception negate_pos="yes" postag="A|J f .*|V .* f .*|SENT_END" postag_regexp="yes" scope="next"/>
                     </token>
@@ -3042,6 +3042,7 @@ though, and has since been slightly modified)-->
                 <example type="correct">Une maquette d’avion jolie</example>
                 <example type="correct">Elle a l’air jolie.</example>
                 <example type="correct">Les pâtes ne sont pas bonnes car trop cuites.</example>
+                <example type="correct">Une peine <marker>pas si lourde</marker>.</example>
             </rule>
             <rule name="féminin suivi du masculin">
                 <pattern>
@@ -3052,7 +3053,7 @@ though, and has since been slightly modified)-->
                     </token>
                     <token postag="[JNZ] m .*" postag_regexp="yes">
                         <exception postag="V .*|C coor|[NJZ] e .*" postag_regexp="yes"/>
-                        <exception regexp="yes">.</exception>
+                        <exception regexp="yes">.|fait</exception>
                     </token>
                 </pattern>
                 <message>« \1 » et « \2 » ne semblent pas bien accordés en genre.</message>
@@ -3076,6 +3077,7 @@ though, and has since been slightly modified)-->
                 <example type="correct"><marker>La plus forte</marker> progression.</example>
                 <example type="correct">C’est une sale affaire.</example>
                 <example type="correct">Il est <marker>torse nu</marker>.</example>
+                <example type="correct">La plus <marker>grande fait</marker> dix centimètres.</example>
             </rule>
             <rule name="nom féminin suivi du masculin">
                 <pattern>
