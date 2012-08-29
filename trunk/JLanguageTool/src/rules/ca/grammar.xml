@@ -2339,6 +2339,34 @@ $Id$
         </rulegroup>
     </category>
     <category name="Confusions">
+        <rule id="UN_A" name="*un a/una">
+            <pattern>
+                <marker>
+                    <token regexp="yes">algun|aquest|un</token>
+                    <token>a</token>
+                </marker>
+                <token postag="NC[FC]S.*|A..[FC]S.*|V.P00SF" postag_regexp="yes"><exception>sota</exception></token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1"/><match no="2"/></suggestion>?</message>
+            <example type="incorrect"><marker>algun a</marker> cosa</example>
+            <example type="correct">alguna cosa</example>
+            <example type="correct">L'augment d'aquest a mesura que creix l'altre.</example>
+        </rule>
+        <rulegroup id="APART" name="*apart/a part">
+            <rule>
+                <pattern>
+                    <token><exception postag="D[DAI]0[MC]S0" postag_regexp="yes"/></token>
+                    <marker>
+                        <token>apart</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>a part</suggestion>?</message>
+                <example type="incorrect"><marker>Apart</marker> del nostre país</example>
+                <example type="incorrect">Deixant <marker>apart</marker> l'estil dels trobadors</example>
+                <example type="correct">A part del nostre país</example>
+                <example type="correct">Llavors va fer un apart</example>
+            </rule>
+        </rulegroup>    
         <rulegroup id="MOL_MOLT" name="*mol(s)/molt(s)">
             <rule>
                 <pattern>
@@ -5645,21 +5673,6 @@ $Id$
         </rule>
     </category>
     <category name="Expressions">
-        <rulegroup id="APART" name="*apart/a part">
-            <rule>
-                <pattern>
-                    <token><exception postag="D[DAI]0[MC]S0" postag_regexp="yes"/></token>
-                    <marker>
-                        <token>apart</token>
-                    </marker>
-                </pattern>
-                <message>¿Volíeu dir <suggestion>a part</suggestion>?</message>
-                <example type="incorrect"><marker>Apart</marker> del nostre país</example>
-                <example type="incorrect">Deixant <marker>apart</marker> l'estil dels trobadors</example>
-                <example type="correct">A part del nostre país</example>
-                <example type="correct">Llavors va fer un apart</example>
-            </rule>
-        </rulegroup>
         <rule id="CARA_A" name="*cara a/de cara a">    
             <pattern>
                 <token negate="yes" inflected="yes" regexp="yes">plantar|fer<exception regexp="yes">de|la</exception></token>
@@ -7015,8 +7028,8 @@ $Id$
             </rule>
         </rulegroup>        
     </category>
-<!--     <category name="Sintaxi">
-        <rulegroup id="ordre_dubtos" name="ordres de frase dubtosos">
+    <!--<category name="Sintaxi">
+         <rulegroup id="ordre_dubtos" name="ordres de frase dubtosos">
             <rule>
                 <pattern>
                     <token postag="DA.*" postag_regexp="yes"/>
