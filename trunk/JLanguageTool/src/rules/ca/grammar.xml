@@ -2339,6 +2339,44 @@ $Id$
         </rulegroup>
     </category>
     <category name="Confusions">
+        <rulegroup id="DESPRES" name="un any *desprès/després">
+        <!--  Possible false alarms: és molt desprès (generós); un home desprès... -->
+            <rule>
+                <pattern>
+                    <token negate="yes" inflected="yes">haver</token>
+                    <marker>
+                        <token>desprès</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>després</suggestion>?</message>
+                <example type="incorrect">uns anys <marker>desprès</marker></example>
+                <example type="correct">uns anys després</example>
+                <example type="correct">s'ha desprès de tot</example>
+            </rule>
+<!--             <rule>
+                <pattern>
+                    <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">segon|minut|hora|dia|setmana|mes|(tri|quadri|se)mestre|any|lustre|dècada|segle|mil·leni|moment|instant|temps</token>
+                    <marker>
+                        <token>desprès</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>després</suggestion>?</message>
+                <example type="incorrect">uns <marker>anys desprès</marker></example>
+                <example type="correct">uns anys després</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>desprès</token>
+                    </marker>
+                    <token regexp="yes">de|d'</token>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>després</suggestion>?</message>
+                <example type="incorrect"><marker>desprès de cantar</marker></example>
+                <example type="correct">després de cantar</example>
+            </rule> -->
+        </rulegroup>
         <rule id="UN_A" name="*un a/una">
             <pattern>
                 <marker>
