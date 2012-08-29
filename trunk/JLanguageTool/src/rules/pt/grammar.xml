@@ -21,7 +21,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.023 2012-08-26 10:12:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.024 2012-08-29 09:31:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -113,6 +113,20 @@ $Id: grammar.xml,v 1.023 2012-08-26 10:12:00 marcoagpinto Exp $
 
 
 
+    <!-- À MEIA NOITE à meia-noite -->
+    <rule id="À_MEIA_NOITE" name="à meia-noite">
+      <pattern>
+        <token>à</token>
+        <token>meia</token>
+        <token>noite</token>        
+      </pattern>
+      <message>Substituir «à meia noite» por <suggestion>à meia-noite</suggestion>.</message>
+      <example type="incorrect">O encontro é <marker>à meia noite</marker>.</example>
+      <example type="correct">O encontro é <marker>à meia-noite</marker>.</example>
+    </rule>
+
+
+
     <!-- À QUE há que -->
     <rule id="À_QUE" name="há que">
       <pattern>
@@ -192,6 +206,19 @@ $Id: grammar.xml,v 1.023 2012-08-26 10:12:00 marcoagpinto Exp $
       <example type="correct">Coloca <marker>os braceletes</marker>.</example>
     </rule>
  
+
+
+    <!-- AFIM DE a fim de -->
+    <rule id="AFIM_DE" name="a fim de">
+      <pattern>
+        <token>afim</token>
+        <token>de</token>
+      </pattern>
+      <message>Substituir «afim de» por <suggestion>a fim de</suggestion>.</message>
+      <example type="incorrect">Isto é feito <marker>afim de</marker> proteger as testemunhas.</example>
+      <example type="correct">Isto é feito <marker>a fim de</marker> proteger as testemunhas.</example>
+    </rule>
+
 
 
     <!-- A UM CONSERTO a um concerto -->
@@ -624,6 +651,32 @@ $Id: grammar.xml,v 1.023 2012-08-26 10:12:00 marcoagpinto Exp $
 
 
 
+    <!-- FOI ACEITADA foi aceite -->
+    <rule id="FOI_ACEITADA" name="foi aceite">
+      <pattern>
+        <token>foi</token>
+        <token>aceitada</token>
+      </pattern>
+      <message>Substituir «foi aceitada» por <suggestion>foi aceite</suggestion>.</message>
+      <example type="incorrect">A proposta <marker>foi aceitada</marker> hoje.</example>
+      <example type="correct">A proposta <marker>foi aceite</marker> hoje.</example>
+    </rule>
+
+
+
+    <!-- FOI ACEITADO foi aceite -->
+    <rule id="FOI_ACEITADO" name="foi aceite">
+      <pattern>
+        <token>foi</token>
+        <token>aceitado</token>
+      </pattern>
+      <message>Substituir «foi aceitado» por <suggestion>foi aceite</suggestion>.</message>
+      <example type="incorrect">O acordo <marker>foi aceitado</marker> hoje.</example>
+      <example type="correct">O acordo <marker>foi aceite</marker> hoje.</example>
+    </rule>
+
+
+
     <!-- FURTO DE IDENTIDADE usurpação de identidade -->
     <rule id="FURTO_DE_IDENTIDADE" name="usurpação de identidade">
       <pattern>
@@ -825,7 +878,7 @@ $Id: grammar.xml,v 1.023 2012-08-26 10:12:00 marcoagpinto Exp $
 
 
 
-    <!-- O O -->
+    <!-- O o -->
     <rule id="O_O" name="o">
       <pattern>
         <token>o</token>
@@ -834,6 +887,19 @@ $Id: grammar.xml,v 1.023 2012-08-26 10:12:00 marcoagpinto Exp $
       <message>Substituir «o o» por <suggestion>o</suggestion>.</message>
       <example type="incorrect">Tenho <marker>o o</marker> encontro marcado.</example>
       <example type="correct">Tenho <marker>o</marker> encontro marcado.</example>
+    </rule>
+
+
+
+    <!-- PALAVRAS CHAVE palavras-chave -->
+    <rule id="PALAVRAS_CHAVE" name="palavras-chave">
+      <pattern>
+        <token>palavras</token>
+        <token>chave</token>
+      </pattern>
+      <message>Substituir «palavras chave» por <suggestion>palavras-chave</suggestion>.</message>
+      <example type="incorrect">Escolhe as <marker>palavras chave</marker> o melhor possível.</example>
+      <example type="correct">Escolhe as <marker>palavras-chave</marker> o melhor possível.</example>
     </rule>
 
 
@@ -1062,7 +1128,6 @@ $Id: grammar.xml,v 1.023 2012-08-26 10:12:00 marcoagpinto Exp $
         <token>banner</token>
       </pattern>
       <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
-      <short>Estrangeirismos e latinismos.</short>
       <example type="incorrect">O <marker>banner</marker> é bonito.</example>
       <example type="correct">O <marker>banner</marker> é bonito.</example>
     </rule>
@@ -1075,7 +1140,6 @@ $Id: grammar.xml,v 1.023 2012-08-26 10:12:00 marcoagpinto Exp $
         <token>banners</token>
       </pattern>
       <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
-      <short>Estrangeirismos e latinismos.</short>
       <example type="incorrect">Os <marker>banners</marker> são bonitos.</example>
       <example type="correct">Os <marker>banners</marker> são bonitos.</example>
     </rule>
@@ -1088,7 +1152,6 @@ $Id: grammar.xml,v 1.023 2012-08-26 10:12:00 marcoagpinto Exp $
         <token>design</token>
       </pattern>
       <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
-      <short>Estrangeirismos e latinismos.</short>
       <example type="incorrect">O <marker>design</marker> está bonito.</example>
       <example type="correct">O <marker>design</marker> está bonito.</example>
     </rule>
@@ -1101,7 +1164,6 @@ $Id: grammar.xml,v 1.023 2012-08-26 10:12:00 marcoagpinto Exp $
         <token>download</token>
       </pattern>
       <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
-      <short>Estrangeirismos e latinismos.</short>
       <example type="incorrect">Vou fazer <marker>download</marker> de um ficheiro.</example>
       <example type="correct">Vou fazer <marker>download</marker> de um ficheiro.</example>
     </rule>
@@ -1114,7 +1176,6 @@ $Id: grammar.xml,v 1.023 2012-08-26 10:12:00 marcoagpinto Exp $
         <token>e-mail</token>
       </pattern>
       <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
-      <short>Estrangeirismos e latinismos.</short>
       <example type="incorrect">O <marker>e-mail</marker> vai ser enviado.</example>
       <example type="correct">O <marker>e-mail</marker> vai ser enviado.</example>
     </rule>
@@ -1127,7 +1188,6 @@ $Id: grammar.xml,v 1.023 2012-08-26 10:12:00 marcoagpinto Exp $
         <token>e-mails</token>
       </pattern>
       <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
-      <short>Estrangeirismos e latinismos.</short>
       <example type="incorrect">Os <marker>e-mails</marker> vão ser enviados.</example>
       <example type="correct">Os <marker>e-mails</marker> vão ser enviados.</example>
     </rule>
@@ -1140,7 +1200,6 @@ $Id: grammar.xml,v 1.023 2012-08-26 10:12:00 marcoagpinto Exp $
         <token>feedback</token>
       </pattern>
       <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
-      <short>Estrangeirismos e latinismos.</short>
       <example type="incorrect">Espero o <marker>feedback</marker> do Professor.</example>
       <example type="correct">Espero o <marker>feedback</marker> do Professor.</example>
     </rule>
@@ -1153,7 +1212,6 @@ $Id: grammar.xml,v 1.023 2012-08-26 10:12:00 marcoagpinto Exp $
         <token>firewall</token>
       </pattern>
       <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
-      <short>Estrangeirismos e latinismos.</short>
       <example type="incorrect">A <marker>firewall</marker> está bem configurada.</example>
       <example type="correct">A <marker>firewall</marker> está bem configurada.</example>     
     </rule>
@@ -1166,7 +1224,6 @@ $Id: grammar.xml,v 1.023 2012-08-26 10:12:00 marcoagpinto Exp $
         <token>firewalls</token>
       </pattern>
       <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
-      <short>Estrangeirismos e latinismos.</short>
       <example type="incorrect">As <marker>firewalls</marker> estão bem configuradas.</example>
       <example type="correct">As <marker>firewalls</marker> estão bem configuradas.</example>
     </rule>
@@ -1179,7 +1236,6 @@ $Id: grammar.xml,v 1.023 2012-08-26 10:12:00 marcoagpinto Exp $
         <token>firmware</token>
       </pattern>
       <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
-      <short>Estrangeirismos e latinismos.</short>
       <example type="incorrect">O <marker>firmware</marker> é o mais recente.</example>
       <example type="correct">O <marker>firmware</marker> é o mais recente.</example>     
     </rule>
@@ -1192,7 +1248,6 @@ $Id: grammar.xml,v 1.023 2012-08-26 10:12:00 marcoagpinto Exp $
         <token>franchising</token>
       </pattern>
       <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
-      <short>Estrangeirismos e latinismos.</short>
       <example type="incorrect">O <marker>franchising</marker> é um bom negócio.</example>
       <example type="correct">O <marker>franchising</marker> é um bom negócio.</example>
     </rule>
@@ -1205,7 +1260,6 @@ $Id: grammar.xml,v 1.023 2012-08-26 10:12:00 marcoagpinto Exp $
         <token>franchisings</token>
       </pattern>
       <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
-      <short>Estrangeirismos e latinismos.</short>
       <example type="incorrect">Os <marker>franchisings</marker> são bons negócios.</example>
       <example type="correct">Os <marker>franchisings</marker> são bons negócios.</example>
     </rule>
@@ -1218,7 +1272,6 @@ $Id: grammar.xml,v 1.023 2012-08-26 10:12:00 marcoagpinto Exp $
         <token>hacker</token>
       </pattern>
       <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
-      <short>Estrangeirismos e latinismos.</short>
       <example type="incorrect">Aquele <marker>hacker</marker> é perigoso.</example>
       <example type="correct">Aquele <marker>hacker</marker> é perigoso.</example>    
     </rule>
@@ -1231,7 +1284,6 @@ $Id: grammar.xml,v 1.023 2012-08-26 10:12:00 marcoagpinto Exp $
         <token>hackers</token>
       </pattern>
       <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
-      <short>Estrangeirismos e latinismos.</short>
       <example type="incorrect">Aqueles <marker>hackers</marker> são perigosos.</example>
       <example type="correct">Aqueles <marker>hackers</marker> são perigosos.</example>
     </rule>
@@ -1244,7 +1296,6 @@ $Id: grammar.xml,v 1.023 2012-08-26 10:12:00 marcoagpinto Exp $
         <token>hobby</token>
       </pattern>
       <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
-      <short>Estrangeirismos e latinismos.</short>
       <example type="incorrect">Aquele <marker>hobby</marker> é engraçado.</example>
       <example type="correct">Aquele <marker>hobby</marker> é engraçado.</example>    
     </rule>
@@ -1257,7 +1308,6 @@ $Id: grammar.xml,v 1.023 2012-08-26 10:12:00 marcoagpinto Exp $
         <token>know-how</token>
       </pattern>
       <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
-      <short>Estrangeirismos e latinismos.</short>
       <example type="incorrect">O <marker>know-how</marker> empresarial deve ser partilhado.</example>
       <example type="correct">O <marker>know-how</marker> empresarial deve ser partilhado.</example>   
     </rule>
@@ -1270,7 +1320,6 @@ $Id: grammar.xml,v 1.023 2012-08-26 10:12:00 marcoagpinto Exp $
         <token>link</token>
       </pattern>
       <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
-      <short>Estrangeirismos e latinismos.</short>
       <example type="incorrect">Tenho um <marker>link</marker> engraçado.</example>
       <example type="correct">Tenho um <marker>link</marker> engraçado.</example> 
     </rule>
@@ -1283,7 +1332,6 @@ $Id: grammar.xml,v 1.023 2012-08-26 10:12:00 marcoagpinto Exp $
         <token>links</token>
       </pattern>
       <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
-      <short>Estrangeirismos e latinismos.</short>
       <example type="incorrect">Tenho <marker>links</marker> engraçados.</example>
       <example type="correct">Tenho <marker>links</marker> engraçados.</example>
     </rule>
@@ -1296,7 +1344,6 @@ $Id: grammar.xml,v 1.023 2012-08-26 10:12:00 marcoagpinto Exp $
         <token>macros</token>
       </pattern>
       <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
-      <short>Estrangeirismos e latinismos.</short>
       <example type="incorrect">Existem <marker>macros</marker> no documento.</example>
       <example type="correct">Existem <marker>macros</marker> no documento.</example>   
     </rule>
@@ -1309,7 +1356,6 @@ $Id: grammar.xml,v 1.023 2012-08-26 10:12:00 marcoagpinto Exp $
         <token>malware</token>
       </pattern>
       <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
-      <short>Estrangeirismos e latinismos.</short>
       <example type="incorrect">O <marker>malware</marker> é perigoso.</example>
       <example type="correct">O <marker>malware</marker> é perigoso.</example>
     </rule>
@@ -1322,7 +1368,6 @@ $Id: grammar.xml,v 1.023 2012-08-26 10:12:00 marcoagpinto Exp $
         <token>motherboard</token>
       </pattern>
       <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
-      <short>Estrangeirismos e latinismos.</short>
       <example type="incorrect">A <marker>motherboard</marker> está avariada.</example>
       <example type="correct">A <marker>motherboard</marker> está avariada.</example>
     </rule>
@@ -1335,7 +1380,6 @@ $Id: grammar.xml,v 1.023 2012-08-26 10:12:00 marcoagpinto Exp $
         <token>on-line</token>
       </pattern>
       <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
-      <short>Estrangeirismos e latinismos.</short>
       <example type="incorrect">A página está <marker>on-line</marker>.</example>
       <example type="correct">A página está <marker>on-line</marker>.</example>
     </rule>
@@ -1348,7 +1392,6 @@ $Id: grammar.xml,v 1.023 2012-08-26 10:12:00 marcoagpinto Exp $
         <token>phishing</token>
       </pattern>
       <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
-      <short>Estrangeirismos e latinismos.</short>
       <example type="incorrect">O <marker>phishing</marker> é um perigo.</example>
       <example type="correct">O <marker>phishing</marker> é um perigo.</example>
     </rule>
@@ -1361,7 +1404,6 @@ $Id: grammar.xml,v 1.023 2012-08-26 10:12:00 marcoagpinto Exp $
         <token>scripts</token>
       </pattern>
       <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
-      <short>Estrangeirismos e latinismos.</short>
       <example type="incorrect">Existem <marker>scripts</marker> nos documentos.</example>
       <example type="correct">Existem <marker>scripts</marker> nos documentos.</example>   
     </rule>
@@ -1374,7 +1416,6 @@ $Id: grammar.xml,v 1.023 2012-08-26 10:12:00 marcoagpinto Exp $
         <token>software</token>
       </pattern>
       <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
-      <short>Estrangeirismos e latinismos.</short>
       <example type="incorrect">O <marker>software</marker> é excelente.</example>
       <example type="correct">O <marker>software</marker> é excelente.</example>  
     </rule>
@@ -1387,7 +1428,6 @@ $Id: grammar.xml,v 1.023 2012-08-26 10:12:00 marcoagpinto Exp $
         <token>spyware</token>
       </pattern>
       <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
-      <short>Estrangeirismos e latinismos.</short>
       <example type="incorrect">O <marker>spyware</marker> é um perigo.</example>
       <example type="correct">O <marker>spyware</marker> é um perigo.</example>
     </rule>
@@ -1400,7 +1440,6 @@ $Id: grammar.xml,v 1.023 2012-08-26 10:12:00 marcoagpinto Exp $
         <token>standard</token>
       </pattern>
       <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
-      <short>Estrangeirismos e latinismos.</short>
       <example type="incorrect">O novo <marker>standard</marker> é o ideal.</example>
       <example type="correct">O novo <marker>standard</marker> é o ideal.</example>
     </rule>
@@ -1413,7 +1452,6 @@ $Id: grammar.xml,v 1.023 2012-08-26 10:12:00 marcoagpinto Exp $
         <token>stress</token>
       </pattern>
       <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
-      <short>Estrangeirismos e latinismos.</short>
       <example type="incorrect">O <marker>stress</marker> é imenso.</example>
       <example type="correct">O <marker>stress</marker> é imenso.</example>     
     </rule>
@@ -1426,7 +1464,6 @@ $Id: grammar.xml,v 1.023 2012-08-26 10:12:00 marcoagpinto Exp $
         <token>trojan</token>
       </pattern>
       <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
-      <short>Estrangeirismos e latinismos.</short>
       <example type="incorrect">Aquele <marker>trojan</marker> é um perigo.</example>
       <example type="correct">Aquele <marker>trojan</marker> é um perigo.</example>
     </rule>
@@ -1439,7 +1476,6 @@ $Id: grammar.xml,v 1.023 2012-08-26 10:12:00 marcoagpinto Exp $
         <token>trojans</token>
       </pattern>
       <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
-      <short>Estrangeirismos e latinismos.</short>
       <example type="incorrect">Aqueles <marker>trojans</marker> são um perigo.</example>
       <example type="correct">Aqueles <marker>trojans</marker> são um perigo.</example>
     </rule>
@@ -1452,7 +1488,6 @@ $Id: grammar.xml,v 1.023 2012-08-26 10:12:00 marcoagpinto Exp $
         <token>upload</token>
       </pattern>
       <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
-      <short>Estrangeirismos e latinismos.</short>
       <example type="incorrect">Vou fazer <marker>upload</marker> de um ficheiro.</example>
       <example type="correct">Vou fazer <marker>upload</marker> de um ficheiro.</example> 
     </rule>
@@ -1465,7 +1500,6 @@ $Id: grammar.xml,v 1.023 2012-08-26 10:12:00 marcoagpinto Exp $
         <token>Website</token>
       </pattern>
       <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
-      <short>Estrangeirismos e latinismos.</short>
       <example type="incorrect">Vou visitar o <marker>Website</marker> do Marco.</example>
       <example type="correct">Vou visitar o <marker>Website</marker> do Marco.</example> 
     </rule>
@@ -1478,7 +1512,6 @@ $Id: grammar.xml,v 1.023 2012-08-26 10:12:00 marcoagpinto Exp $
         <token>Websites</token>
       </pattern>
       <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
-      <short>Estrangeirismos e latinismos.</short>
       <example type="incorrect">Vou visitar os <marker>Websites</marker> do Marco.</example>
       <example type="correct">Vou visitar os <marker>Websites</marker> do Marco.</example>
     </rule>
@@ -1491,7 +1524,6 @@ $Id: grammar.xml,v 1.023 2012-08-26 10:12:00 marcoagpinto Exp $
         <token>worm</token>
       </pattern>
       <message>Verificar se os estrangeirismos/latinismos estão em itálico.</message>
-      <short>Estrangeirismos e latinismos.</short>
       <example type="incorrect">Aquele <marker>worm</marker> é um perigo.</example>
       <example type="correct">Aquele <marker>worm</marker> é um perigo.</example>
     </rule>
