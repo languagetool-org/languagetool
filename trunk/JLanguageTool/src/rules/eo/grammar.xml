@@ -3420,6 +3420,34 @@ $Id$
         <example type="correct">Tio okazas dum mi estas hejme.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="TUTA_LA" name="tuta la → la tuta">
+      <rule>
+        <pattern>
+          <marker>
+            <token>tuta</token>
+            <token>la</token>
+          </marker>
+          <token postag="O nak np"/>
+        </pattern>
+        <message>Ne diru «\1 \2» sed <suggestion>\2 \1</suggestion>.</message>
+        <url>http://bertilow.com/pmeg/gramatiko/difiniloj/la/bazaj_reguloj.html</url>
+        <example type="incorrect">Li ronkis dum <marker>tuta la</marker> nokto.</example>
+        <example type="correct">Li ronkis dum <marker>la tuta</marker> nokto.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token>tutan</token>
+            <token>la</token>
+          </marker>
+          <token postag="O akz np"/>
+        </pattern>
+        <message>Ne diru «\1 \2» sed <suggestion>\2 \1</suggestion>.</message>
+        <url>http://bertilow.com/pmeg/gramatiko/difiniloj/la/bazaj_reguloj.html</url>
+        <example type="incorrect">Li ronkis <marker>tutan la</marker> nokton.</example>
+        <example type="correct">Li ronkis <marker>la tutan</marker> nokton.</example>
+      </rule>
+    </rulegroup>
   </category>
   <!-- vim: foldmethod=marker foldmarker=<category,</category:
   -->
