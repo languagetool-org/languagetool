@@ -10435,36 +10435,6 @@ though, and has since been slightly modified)-->
             <example type="incorrect"><marker>bureau des gouverneurs</marker></example>
             <example type="correct"><marker>conseil d’administration</marker></example>
         </rule>
-        <rulegroup id="BENEFICIER_A" name="bénéficier à">
-            <rule>
-                <pattern>
-                    <token inflected="yes" skip="2">bénéficier</token>
-                    <token regexp="yes">[aà]</token>
-                </pattern>
-                <message>« Bénéficier à » est un anglicisme (to benefit to). Employez <suggestion>profiter à</suggestion>.</message>
-                <example type="incorrect"><marker>bénéficier à</marker></example>
-                <example type="correct"><marker>profiter à</marker></example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="ASSURANCE-SANTE" name="assurance-santé">
-            <rule>
-                <pattern>
-                    <token regexp="yes">assurances?-santés?</token>
-                </pattern>
-                <message>« Assurance santé » est un anglicisme (health insurance). Employez <suggestion>assurance-maladie</suggestion>.</message>
-                <example type="incorrect"><marker>assurance-santé</marker></example>
-                <example type="correct"><marker>assurance-maladie</marker></example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">assurances?</token>
-                    <token regexp="yes">santés?</token>
-                </pattern>
-                <message>« Assurance santé » est un anglicisme (health insurance). Employez <suggestion>assurance-maladie</suggestion>.</message>
-                <example type="incorrect"><marker>assurance santé</marker></example>
-                <example type="correct"><marker>assurance-maladie</marker></example>
-            </rule>
-        </rulegroup>
         <rulegroup id="UN_BON_MINUTES" name="un bon [X] minutes, jours, etc.">
             <rule>
                 <pattern>
@@ -22594,6 +22564,17 @@ though, and has since been slightly modified)-->
                 <example type="correct">Les chiens aboient à qui mieux mieux.</example>
             </rule>
         </rulegroup>
+        <rule id="ORGE_PERLE" name="orge perlée → orge perlé">
+          <pattern>
+            <token>orge</token>
+            <token regexp="yes">perlée|mondée</token>
+          </pattern>
+          <message>Bien que « orge » soit un substantif féminin, on écrit <suggestion>\1 <match no="2" regexp_match="e$" regexp_replace=""/></suggestion>.</message>
+          <example type="incorrect">De l’<marker>orge perlée</marker>.</example>
+          <example type="incorrect">De l’<marker>orge mondée</marker>.</example>
+          <example type="correct">De l’orge perlé.</example>
+          <example type="correct">De l’orge mondé.</example>
+        </rule>
     </category>
     <!-- vim: foldmethod=marker foldmarker=<category,</category:
   -->
