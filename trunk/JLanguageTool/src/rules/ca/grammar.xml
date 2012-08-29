@@ -1317,7 +1317,7 @@ $Id$
                 <example type="correct">No vaig <marker>telefonar-li</marker></example>
             </rule>
         </rulegroup>
-        <rulegroup id="cabre" name="cabre (incorrecte)">
+        <rulegroup id="cabre" name="*cabre + infinitiu">
             <rule>
                 <pattern>
                     <marker>
@@ -5645,6 +5645,21 @@ $Id$
         </rule>
     </category>
     <category name="Expressions">
+        <rulegroup id="APART" name="*apart/a part">
+            <rule>
+                <pattern>
+                    <token><exception postag="D[DAI]0[MC]S0" postag_regexp="yes"/></token>
+                    <marker>
+                        <token>apart</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>a part</suggestion>?</message>
+                <example type="incorrect"><marker>Apart</marker> del nostre país</example>
+                <example type="incorrect">Deixant <marker>apart</marker> l'estil dels trobadors</example>
+                <example type="correct">A part del nostre país</example>
+                <example type="correct">Llavors va fer un apart</example>
+            </rule>
+        </rulegroup>
         <rule id="CARA_A" name="*cara a/de cara a">    
             <pattern>
                 <token negate="yes" inflected="yes" regexp="yes">plantar|fer<exception regexp="yes">de|la</exception></token>
