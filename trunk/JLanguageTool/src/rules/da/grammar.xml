@@ -23,26 +23,237 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
 $Id$
 -->
+<!-- Please use indenting with 2 spaces, no tabs -->
 <rules lang="da" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../rules.xsd">
   <!-- ====================================================================== -->
   <!-- Diverse - Misc -->
   <!-- ====================================================================== -->
   <category name="Diverse">
-     <rulegroup id="Ordgentagelse" name="Ordgentagelse">
-        <rule id="Ordgentagelse1">
-           <pattern>
-              <token><exception postag="SENT_START"/></token>
-              <token><match no="0"/><exception regexp="yes">.|000|av|bang|bred|bib|bip|bling|bom|bro|Cha|det|duer|fars|faster|fatter|gak|grynt|ha|he|hej|hi|hip|ho|hopper|hurra|kvier|led|marie|men|mobil|mors|normal|original|piller|rap|ren|ride|sej|smed|så|taget|takker|tik-tak|tog|tut|uniform|vov|øf</exception></token>
-           </pattern>
-           <message>Ordgentagelse: Du har gentaget <suggestion>\1</suggestion>.</message>
-           <short>Ordgentagelse</short>
-           <example type="incorrect">Nu har <marker>jeg jeg</marker> aldrig hørt magen.</example>
-           <example type="correct">Så så drengen en drage.</example>
-           <example type="correct">Han har taget taget af hundehuset.</example>
-           <example type="correct">"Rap rap" sagde anden.</example>
-        </rule>
-     </rulegroup>
+    <rulegroup id="Ordgentagelse" name="Ordgentagelse"> <!--
+      <rule> Burde være overflødig nu, de andre rules bør håndtere hvad denne håndtere.
+         <pattern>
+            <token><exception postag="SENT_START"/><exception scope="previous">'</exception></token>
+            <token><match no="0"/><exception regexp="yes">.|000|av|bang|bla|bred|bib|bip|bling|bom|bro|Cha|det|duer|fars|faster|fatter|gak|grynt|ha|he|hej|hi|hip|ho|hopper|hurra|ja|kvier|klask|led|marie|men|mobil|mors|normal|original|piller|rap|ren|ride|sej|smed|så|taget|takker|tik-tak|tog|tut|uniform|vov|wiki|øf</exception></token>
+         </pattern>
+         <message>Ordgentagelse: Du har gentaget <suggestion>\1</suggestion>.</message>
+         <url>https://wiki.documentfoundation.org/DA/LanguageTool/Regler#Ordgentagelse</url>
+         <short>Ordgentagelse</short>
+         <example type="incorrect">Nu har <marker>jeg jeg</marker> aldrig hørt magen.</example>
+         <example type="correct">Men så så drengen en drage.</example>
+         <example type="correct">Han har taget taget af hundehuset.</example>
+         <example type="correct">"Rap rap" sagde anden.</example>
+         <example type="correct">En pc'er er besværlig.</example>
+         <example type="correct">Ha ha sagde manden.</example>
+         <example type="correct">Hun sagde ja ja.</example>
+      </rule>-->
+      <rule>
+         <pattern> <!-- Skal fjerne mange exceptions, når tagger virker korrekt, da de bliver fanget andetsteds -->
+            <token postag_regexp="yes" postag="sub:.*"><exception postag="SENT_START"/><exception scope="previous">'</exception></token>
+            <and>
+              <token><match no="0"/><exception regexp="yes">.|000|av|bang|bla|bred|bib|bip|bling|bom|bro|Cha|det|duer|fars|faster|fatter|gak|grynt|ha|he|hej|hi|hip|ho|hopper|hurra|ja|kvier|klask|led|marie|men|mobil|mors|normal|original|piller|rap|ren|ride|sej|smed|så|takker|tik-tak|taget|tog|tut|uniform|vov|wiki|øf</exception></token>
+              <token postag_regexp="yes" postag="sub:.*"><exception postag_regexp="yes" postag="sub:.*:gen"/></token>
+            </and>
+         </pattern>
+         <message>Ordgentagelse: Du har gentaget <suggestion>\1</suggestion>.</message>
+         <url>https://wiki.documentfoundation.org/DA/LanguageTool/Regler#Ordgentagelse</url>
+         <short>Ordgentagelse</short>
+         <example type="incorrect">Nu har <marker>hunden hunden</marker> aldrig gået så meget.</example>
+        <!-- <example type="correct">Kommer I i aften?</example> -->
+         <example type="correct">Men så så drengen en drage.</example>
+         <example type="correct">En skal skal op af havet.</example>
+         <example type="correct">En hunds hunds hale er lang.</example>
+         <example type="correct">Hundens skal skal fikses.</example>
+      </rule>
+      <rule>
+         <pattern> <!-- Skal fjerne mange exceptions, når tagger virker korrekt. -->
+            <token postag_regexp="yes" postag="ver:.*"><exception postag="SENT_START"/><exception scope="previous">'</exception></token>
+            <and>
+              <token><match no="0"/><exception regexp="yes">.|000|av|bang|bla|bred|bib|bip|bling|bom|bro|Cha|det|duer|fars|faster|fatter|gak|grynt|ha|he|hej|hi|hip|ho|hopper|hurra|ja|kvier|klask|led|marie|men|mobil|mors|normal|original|piller|rap|ren|ride|sej|smed|så|takker|tik-tak|taget|tog|tut|uniform|vov|wiki|øf</exception></token>
+              <token postag_regexp="yes" postag="ver:.*"/>
+            </and>
+         </pattern>
+         <message>Ordgentagelse: Du har gentaget <suggestion>\1</suggestion>.</message>
+         <url>https://wiki.documentfoundation.org/DA/LanguageTool/Regler#Ordgentagelse</url>
+         <short>Ordgentagelse</short>
+         <example type="incorrect">Nu <marker>er er</marker> aldrig gået så meget.</example>
+         <example type="correct">Men så så drengen en drage.</example>
+         <example type="correct">En skal skal op af havet.</example>
+      </rule>
+      <rule>
+         <pattern> <!-- Skal fjerne mange exceptions, når tagger virker korrekt. -->
+            <token postag_regexp="yes" postag="pron:.*"><exception postag="SENT_START"/><exception scope="previous">'</exception></token>
+            <and>
+              <token><match no="0"/><exception regexp="yes">.|000|av|bang|bla|bred|bib|bip|bling|bom|bro|Cha|det|duer|fars|faster|fatter|gak|grynt|ha|he|hej|hi|hip|ho|hopper|hurra|ja|kvier|klask|led|marie|men|mobil|mors|normal|original|piller|rap|ren|ride|sej|smed|så|takker|tik-tak|taget|tog|tut|uniform|vov|wiki|øf</exception></token>
+              <token postag_regexp="yes" postag="pron:.*"/>
+            </and>
+         </pattern>
+         <message>Ordgentagelse: Du har gentaget <suggestion>\1</suggestion>.</message>
+         <url>https://wiki.documentfoundation.org/DA/LanguageTool/Regler#Ordgentagelse</url>
+         <short>Ordgentagelse</short>
+         <example type="incorrect">Nu er <marker>jeg jeg</marker> meget træt.</example>
+         <example type="correct">Men så så drengen en drage.</example>
+         <example type="correct">En skal skal op af havet.</example>
+      </rule>
+      <rule>
+         <pattern> <!-- Skal fjerne mange exceptions, når tagger virker korrekt. -->
+            <token postag_regexp="yes" postag="pro:.*"><exception postag="SENT_START"/><exception scope="previous">'</exception></token>
+            <and>
+              <token><match no="0"/><exception regexp="yes">.|000|av|bang|bla|bred|bib|bip|bling|bom|bro|Cha|det|duer|fars|faster|fatter|gak|grynt|ha|he|hej|hi|hip|ho|hopper|hurra|ja|kvier|klask|led|marie|men|mobil|mors|normal|original|piller|rap|ren|ride|sej|smed|så|takker|tik-tak|taget|tog|tut|uniform|vov|wiki|øf</exception></token>
+              <token postag_regexp="yes" postag="pro:.*"/>
+            </and>
+         </pattern>
+         <message>Ordgentagelse: Du har gentaget <suggestion>\1</suggestion>.</message>
+         <url>https://wiki.documentfoundation.org/DA/LanguageTool/Regler#Ordgentagelse</url>
+         <short>Ordgentagelse</short>
+         <example type="incorrect">Nu er <marker>min min</marker> hals meget træt.</example>
+         <example type="correct">Men så så drengen en drage.</example>
+         <example type="correct">En skal skal op af havet.</example>
+      </rule>
+      <rule>
+         <pattern> <!-- Skal fjerne mange exceptions, når tagger virker korrekt. -->
+            <token postag_regexp="yes" postag="adj:.*"><exception postag="SENT_START"/><exception scope="previous">'</exception></token>
+            <and>
+              <token><match no="0"/><exception regexp="yes">.|000|av|bang|bla|bred|bib|bip|bling|bom|bro|Cha|det|duer|fars|faster|fatter|gak|grynt|ha|he|hej|hi|hip|ho|hopper|hurra|ja|kvier|klask|led|marie|men|mobil|mors|normal|original|piller|rap|ren|ride|sej|smed|så|takker|tik-tak|taget|tog|tut|uniform|vov|wiki|øf</exception></token>
+              <token postag_regexp="yes" postag="adj:.*"/>
+            </and>
+         </pattern>
+         <message>Ordgentagelse: Du har gentaget <suggestion>\1</suggestion>.</message>
+         <url>https://wiki.documentfoundation.org/DA/LanguageTool/Regler#Ordgentagelse</url>
+         <short>Ordgentagelse</short>
+         <example type="incorrect">Den mark er meget <marker>stor stor</marker>.</example>
+         <example type="correct">En skal skal op af havet.</example>
+      </rule> <!-- Mangler pga. manglende taggede ord.
+      <rule>
+         <pattern>
+            <token postag_regexp="yes" postag="art:.*|kon:.*|int:.*|præ:.*|adv:.*"><exception postag="SENT_START"/><exception scope="previous">'</exception></token>
+            <and>
+              <token><match no="0"/><exception regexp="yes">.|000|av|bang|bla|bred|bib|bip|bling|bom|bro|Cha|det|duer|fars|faster|fatter|gak|grynt|ha|he|hej|hi|hip|ho|hopper|hurra|ja|kvier|klask|led|marie|men|mobil|mors|normal|original|piller|rap|ren|ride|sej|smed|så|takker|tik-tak|taget|tog|tut|uniform|vov|wiki|øf</exception></token>
+              <token postag_regexp="yes" postag="art:.*|kon:.*|int:.*|præ:.*|adv:.*"/>
+            </and>
+         </pattern>
+         <message>Ordgentagelse: Du har gentaget <suggestion>\1</suggestion>.</message>
+         <url>https://wiki.documentfoundation.org/DA/LanguageTool/Regler#Ordgentagelse</url>
+         <short>Ordgentagelse</short>
+         <example type="correct">En skal skal op af havet.</example>
+      </rule> -->
+    </rulegroup>
+    <rulegroup id="Tal-bindestreger" name="Ord, tal og bindestreger">
+      <rule>
+        <pattern>
+          <token regexp="yes">.*([0-9]|\.)</token>
+          <token regexp="yes">årig(|t)|års-(.*)|tallet</token>
+        </pattern>
+        <message>Det skal muligvis skrives med bindestreg: <suggestion><match no="1"/>-<match no="2"/></suggestion>.</message>
+        <url>https://wiki.documentfoundation.org/DA/LanguageTool/Regler#Tal.2C_ord_og_bindestreger</url>
+        <short>Mulig manglende bindestreg</short>
+        <example correction="1700-tallet" type="incorrect">I <marker>1700 tallet</marker> fandtes ingen fly.</example>
+        <example correction="30-års-krigen" type="incorrect"><marker>30 års-krigen</marker> varede 30 år.</example>
+        <example correction="3-årigt" type="incorrect">Han er et <marker>3 årigt</marker> barn.</example>
+        <example type="correct">Det er hans 70-års-fødselsdag.</example>
+        <example type="correct">Pesten hærgede i 1300-tallet.</example>
+      </rule>
+    </rulegroup>
+    <rule id="Tal_appostrof" name="Ord, tal og appostrof">
+      <pattern>
+        <token regexp="yes">.*([0-9])(er|erne|eren|s)</token>
+      </pattern>
+      <message>Mangler muligvis appostrof mellem tallet og endelsen: <suggestion><match no="1" regexp_match="(.*([0-9]))(er|erne|eren|s)" regexp_replace="$1'$3"/></suggestion>.</message>
+      <url>https://wiki.documentfoundation.org/DA/LanguageTool/Regler#Tal.2C_ord_og_appostroffer</url>
+      <short>Muligvis manglende appostrof.</short>
+      <example correction="1970'erne" type="incorrect">I <marker>1970erne</marker> opstod metalgenren.</example>
+      <example correction="20'er" type="incorrect">Han betalte med en <marker>20er</marker>.</example>
+      <example type="correct">Han blev født i 1920'erne.</example>
+      <example type="correct">Agent 007's bil er funktionel.</example>
+    </rule>
+    <rulegroup id="Et_to_ord" name="Et eller to ord" default="off"> <!-- TODO: Default=off indtil tags er fyldestgørende -->
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes">(inden)(for|under|i)|(oven)(på|over|i|for)|(uden)(på|over|for)|(neden)(under|for)</token>
+          </marker>
+          <token regexp="yes">den|det|en|et|nogen|noget</token>
+          <token><exception regexp="yes">øjeblik|tid</exception></token>
+        </pattern>
+        <message>Når <match no="1"/> henviser til, hvad det pårøere, skrives det i to ord, f.eks. <suggestion><match no="1" regexp_match="(?iu)(inden)(for|under|i)|(oven)(på|over|i|for)|(uden)(på|over|for)|(neden)(under|for)" regexp_replace="$1$3$5$7 $2$4$6$8"/></suggestion>.</message>
+        <url>https://wiki.documentfoundation.org/DA/LanguageTool/Regler#Indenfor_eller_inden_for</url>
+        <short>Muligvis to ord</short>
+        <example correction="inden i" type="incorrect">Det lå <marker>indeni</marker> et skab.</example>
+        <example correction="uden for" type="incorrect">Det lå <marker>udenfor</marker> et hus.</example>
+        <example correction="oven på" type="incorrect">Det lå <marker>ovenpå</marker> et træ.</example>
+        <example type="correct">Vi går indenfor.</example>
+        <example type="correct">Inden for et lands grænser.</example>
+        <example type="correct">Vi gik udenfor et øjeblik.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes">(inden)(for|under|i)|(oven)(på|over|i|for)|(uden)(på|over|for)|(neden)(under|for)</token>
+          </marker>
+          <token postag="sub:.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="sub:.*" /></token>
+        </pattern>
+        <message>Når <match no="1"/> henviser til, hvad det pårøere, skrives det i to ord: <suggestion><match no="1" regexp_match="(?iu)(inden)(for|under|i)|(oven)(på|over|i|for)|(uden)(på|over|for)|(neden)(under|for)" regexp_replace="$1$3$5$7 $2$4$6$8"/></suggestion>.</message>
+        <short>Muligvis to ord</short>
+        <example correction="uden for" type="incorrect">De legede <marker>udenfor</marker> kanoen.</example>
+        <!-- <example correction="inden i" type="incorrect">De legede <marker>indeni</marker> huset.</example> -->
+        <example type="correct">Pengene ligger indeni.</example>
+        <example type="correct">De gik oven på taget.</example>
+        <!-- <example type="correct">Udenfor stod faderen.</example> (mangler tags)-->
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes">(inden)(for|under|i)|(oven)(på|over|i|for)|(uden)(på|over|for)|(neden)(under|for)</token>
+          </marker>
+          <token skip="-1" postag_regexp="yes" postag="adj:.*"><exception scope="next" negate_pos="yes" postag_regexp="yes" postag="sub:.*|adj:.*"/></token>
+          <token postag="sub:.*" postag_regexp="yes"/>
+        </pattern>
+        <message>Når <match no="1"/> henviser til, hvad det pårøere, skrives det i to ord: <suggestion><match no="1" regexp_match="(?iu)(inden)(for|under|i)|(oven)(på|over|i|for)|(uden)(på|over|for)|(neden)(under|for)" regexp_replace="$1$3$5$7 $2$4$6$8"/></suggestion>.</message>
+        <short>Muligvis to ord</short>
+        <example correction="uden for" type="incorrect">De legede <marker>udenfor</marker> store kanoer.</example>
+        <example type="correct">Pengene ligger indeni.</example>
+        <example type="correct">De gik oven på taget.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="talord" name="Talord" default="on">
+      <rule> <!-- Talord over 100 med 'og' -->
+        <pattern>
+          <token regexp="yes">((en|et|to|tre|fire|fem|seks|syv|otte|ni|ti|elleve|tolv|tretten|fjorten|femten|seksten|sytten|atten|nitten|tyve|tredive|tredve|fyrre|halvtreds|tres|halvfjers|firs|halvfems|hundred(|e)|tusind(|e|er)|million(|er)|milliard(|er))
+            (hundred(|e)|tusind(|e|er)|million(|er)|milliard(|er))
+            .*(hundred(|e)|tusind(|e|er)|million(|er)|milliard(|er)|og|en|et|to|tre|fire|fem|seks|syv|otte|ni|ti|elleve|tolv|tretten|fjorten|femten|seksten|sytten|atten|nitten|tyve|tredive|tredve|fyrre|halvtreds|tres|halvfjers|firs|halvfems))
+          <exception negate="yes" regexp="yes">.*[a-s,u-å]og.*[a-s,u-å]</exception></token>
+        </pattern>
+        <message>Talord over hundrede skrives i flere ord: <suggestion><match no="1" regexp_match="(?iu)((og)((en|et|to|tre|fire|fem|seks|syv|otte|ni)og(tyve|tredive|tredve|fyrre|halvtreds|tres|halvfjers|firs|halvfems)))|((og)(en|et|to|tre|fire|fem|seks|syv|otte|ni|ti|elleve|tolv|tretten|fjorten|femten|seksten|sytten|atten|nitten|tyve|tredive|tredve|fyrre|halvtreds|tres|halvfjers|firs|halvfems)(?!((hundred|tusind|million|milliard)(er|e|))))|(og)|(en|et|to|tre|fire|fem|seks|syv|otte|ni|ti|elleve|tolv|tretten|fjorten|femten|seksten|sytten|atten|nitten|tyve|tredive|tredve|fyrre|halvtreds|tres|halvfjers|firs|halvfems|(hundred|tusind|million|milliard)(er|e|))" regexp_replace="$2$7$12$13 $3$8"/></suggestion>.</message>
+        <url>https://wiki.documentfoundation.org/DA/LanguageTool/Regler#Talord</url>
+        <short>Talord skrevet forkert</short>
+        <example correction="fem tusinde og treoghalvtreds" type="incorrect">Der var <marker>femtusindeogtreoghalvtreds</marker> kanoer.</example>
+        <example correction="fem tusinde og halvtreds" type="incorrect">Der var <marker>femtusindeoghalvtreds</marker> kanoer.</example>
+        <example correction="fem millioner fem tusinde tre hundrede og halvtreds" type="incorrect">Der var <marker>femmillionerfemtusindetrehundredeoghalvtreds</marker> kanoer.</example>
+        <example correction="fem millioner og ti tusind og tre hundrede og halvtreds" type="incorrect">Der var <marker>femmillionerogtitusindogtrehundredeoghalvtreds</marker> kanoer.</example>
+        <example correction="Tre hundrede og tres" type="incorrect"><marker>Trehundredeogtres</marker> er en test.</example>
+        <example type="correct">Dette er en test.</example>
+        <example type="correct">Her er et tusinde.</example>
+        <example type="correct">Her er trehundrede som er stavet forkert, men ikke fanges her.</example>
+        <example type="correct">Treoghalvtreds er korrekt stavet og fanges ikke.</example>
+        <example type="correct">Tretusindetohundrede er forkert korrekt stavet, men fanges ikke her.</example>
+      </rule>
+      <rule> <!-- Talord over 100 uden 'og' (kun to talord) -->
+        <pattern>
+          <token regexp="yes">
+            (en|et|to|tre|fire|fem|seks|syv|otte|ni|ti|elleve|tolv|tretten|fjorten|femten|seksten|sytten|atten|nitten|tyve|tredive|tredve|fyrre|halvtreds|tres|halvfjers|firs|halvfems|hundred(|e)|tusind(|e|er)|million(|er)|milliard(|er))
+            (hundred(|e)|tusind(|e|er)|million(|er)|milliard(|er)) </token>
+        </pattern>
+        <message>Talord over hundrede skrives i flere ord: <suggestion><match no="1" regexp_match="(?iu)(en|et|to|tre|fire|fem|seks|syv|otte|ni|ti|elleve|tolv|tretten|fjorten|femten|seksten|sytten|atten|nitten|tyve|tredive|tredve|fyrre|halvtreds|tres|halvfjers|firs|halvfems|(hundred|tusind|million|milliard)(er|e|))((hundred|tusind|million|milliard)(er|e|))" regexp_replace="$1 $4"/></suggestion>.</message>
+        <url>https://wiki.documentfoundation.org/DA/LanguageTool/Regler#Talord</url>
+        <short>Talord skrevet forkert</short>
+        <example correction="tre tusinde" type="incorrect">Der var <marker>tretusinde</marker> kanoer.</example>
+        <example correction="fem hundrede" type="incorrect">Der var <marker>femhundrede</marker> kanoer.</example>
+        <example type="correct">Dette er en test.</example>
+        <example type="correct">Her er et tusinde.</example>
+        <example type="correct">Treoghalvtreds.</example>
+        <example type="correct">Trehundredeoghalvtreds fanges ikke her, men er forket stavet.</example>
+      </rule>
+    </rulegroup>
   </category>
   <!-- ====================================================================== -->
   <!-- Mulig slåfejl - Possible Typos -->
@@ -52,7 +263,7 @@ $Id$
       <pattern>
         <token regexp="yes">(.*)-(og|eller)</token>
       </pattern>
-      <message>Mulig slåfejl manglende mellemrum efter bindestreg: <suggestion><match no="1" regexp_match="(.*)-(og|eller)" regexp_replace="$1- $2"/></suggestion>.</message>
+      <message>Mulig slåfejl manglende mellemrum efter bindestreg: <suggestion><match no="1" regexp_match="(?iu)(.*)-(og|eller)" regexp_replace="$1- $2"/></suggestion>.</message>
       <short>Mulig slåfejl</short>
       <example type="correct">Vi skal på oplevelses- eller badeferie.</example>
       <example correction="oplevelses- eller" type="incorrect">Vi skal på <marker>oplevelses-eller</marker> badeferie.</example>
@@ -69,7 +280,7 @@ $Id$
         <pattern>
           <token regexp="yes">(aftens|alter|anretter|arbejds|billard|bridge|cafe|camping|computer|eksamens|frokost|gave|have|jule|kaffe|kage|konference|konsol|køkken|middags|morgen|møde|nadver|nat|omstillings|pusle|pølse|salat|senge|skole|sminke|sofa|spille|spise|stue|stam|styr|sy|tagselv|te|.*tennis|terminal|toilet|udtræks|vindues)(bor)(|et|e|ene|s|ets|es|enes)</token>
         </pattern>
-        <message>Et bord sidder man ved, et bor laver man huller med: <suggestion><match no="1" regexp_match="(aftens|alter|anretter|arbejds|billard|bridge|cafe|camping|computer|eksamens|frokost|gave|have|jule|kaffe|kage|konference|konsol|køkken|middags|morgen|møde|nadver|nat|omstillings|pusle|pølse|salat|senge|skole|sminke|sofa|spille|spise|stue|stam|styr|sy|tagselv|te|.*tennis|terminal|toilet|udtræks|vindues)(bor)(|et|e|ene|s|ets|es|enes)" regexp_replace="$1$2d$3"/></suggestion>.</message>
+        <message>Et bord sidder man ved, et bor laver man huller med: <suggestion><match no="1" regexp_match="(?iu)(aftens|alter|anretter|arbejds|billard|bridge|cafe|camping|computer|eksamens|frokost|gave|have|jule|kaffe|kage|konference|konsol|køkken|middags|morgen|møde|nadver|nat|omstillings|pusle|pølse|salat|senge|skole|sminke|sofa|spille|spise|stue|stam|styr|sy|tagselv|te|.*tennis|terminal|toilet|udtræks|vindues)(bor)(|et|e|ene|s|ets|es|enes)" regexp_replace="$1$2d$3"/></suggestion>.</message>
         <short>Mulige ordforveksling - stumt d</short>
         <example correction="havebordet" type="incorrect">Jeg sætter <marker>haveboret</marker> ud.</example>        
         <example type="correct">Eleven sidder ved skolebordet.</example>
@@ -78,7 +289,7 @@ $Id$
         <pattern>
           <token regexp="yes">(diamant|dril|kaliber|.*luft|.*lufts|næse|slag)(bord)(|et|ene|s|ets|enes)</token>
         </pattern>
-        <message>Et bord sidder man ved, et bor laver man huller med: <suggestion><match no="1" regexp_match="(diamant|dril|kaliber|.*luft|.*lufts|næse|slag)(bord)(|et|ene|s|ets|enes)" regexp_replace="$1bor$3"/></suggestion>.</message>
+        <message>Et bord sidder man ved, et bor laver man huller med: <suggestion><match no="1" regexp_match="(?iu)(diamant|dril|kaliber|.*luft|.*lufts|næse|slag)(bord)(|et|ene|s|ets|enes)" regexp_replace="$1bor$3"/></suggestion>.</message>
         <short>Mulige ordforveksling - uden stumt d</short>
         <example correction="slagbor" type="incorrect">Muren bruger et <marker>slagbord</marker> til at lave huller med.</example>        
         <example type="correct">Vejen bliver brudt op med et trykluftsbor.</example>
@@ -88,7 +299,7 @@ $Id$
       <!-- heder_hedder mønster -->
       <rule>
         <pattern>
-          <token regexp="yes">I|jeg|du|vi|de|den|det|han|hun|hvad|nu</token>
+          <token regexp="yes">I|jeg|du|vi|de|den|det|han|hun|hvad|nu|en</token>
           <marker>
             <token>heder</token>
           </marker>
@@ -141,7 +352,7 @@ $Id$
         <short>Mulige ordforveksling</short>
         <example correction="hedder" type="incorrect">Peder <marker>heder</marker> Sørnsen til efternavn.</example>
         <example type="correct">Peter hedder Sørnsen til efternavn.</example>
-        <example type="correct">Peters heder er vel plejet.</example>      
+        <example type="correct">Peters heder er vel plejet.</example>
       </rule>
     </rulegroup>
     <!-- kunne_kunde -->
@@ -151,7 +362,7 @@ $Id$
           <marker>
             <token>kunne</token>
           </marker>
-          <token regexp="yes">har|købte</token>
+          <token regexp="yes">har|købte|sagde|er</token>
         </pattern>
         <message>Mente du: <suggestion>kunde</suggestion>=butikskunde eller kunne=kan</message>
         <short>Mulige ordforveksling - stumt d</short>
@@ -184,7 +395,7 @@ $Id$
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">det|hvornår</token>
+          <token regexp="yes">det|hvornår|de|at|skal</token>
           <marker>
             <token>kunde</token>
           </marker>
@@ -240,15 +451,240 @@ $Id$
         <example type="correct">Opskrifter som indeholder Yoghurt naturel.</example> 
       </rule>
     </rulegroup>
+    <!-- Altid to ord: -->
+    <rule id="fuldtud" name="fuldtud→fuldt ud">
+      <pattern>
+        <token>fuldtud</token>
+      </pattern>
+      <message>Det skal skrives i to ord <suggestion>fuldt ud</suggestion>.</message>  
+      <url>https://wiki.documentfoundation.org/DA/LanguageTool/Regler#Et_eller_flere_ord</url>    
+      <short>Fuldt ud er i to ord</short>
+      <example correction="fuldt ud" type="incorrect">Han var <marker>fuldtud</marker> tilfreds.</example>
+      <example type="correct">Han levede livet fuldt ud.</example>
+    </rule>
+    <rule id="hvorlænge" name="hvorlænge→hvor længe">
+      <pattern>
+        <token>hvorlænge</token>
+      </pattern>
+      <message>Det skal skrives i to ord <suggestion>hvor længe</suggestion>.</message>  
+      <url>https://wiki.documentfoundation.org/DA/LanguageTool/Regler#Et_eller_flere_ord</url>    
+      <short>Hvor længe er i to ord</short>
+      <example correction="Hvor længe" type="incorrect"><marker>Hvorlænge</marker> skal vi vente?</example>
+      <example type="correct">Han vidste ikke hvor længe det varede.</example>
+    </rule>
     <rule id="ombord" name="ombord→om bord">
       <pattern>
         <token>ombord</token>
       </pattern>
-      <message>Det skal skrives i to ord <suggestion>om bord</suggestion>.</message>      
+      <message>Det skal skrives i to ord <suggestion>om bord</suggestion>.</message>  
+      <url>https://wiki.documentfoundation.org/DA/LanguageTool/Regler#Et_eller_flere_ord</url>    
       <short>Om bord er i to ord</short>
       <example correction="om bord" type="incorrect">Kaptajnen gik <marker>ombord</marker> på skibet.</example>
       <example type="correct">Han havde været om bord på skibet længe.</example>
     </rule>
+    <rule id="tilsidst" name="tilsidst→til sidst">
+      <pattern>
+        <token>tilsidst</token>
+      </pattern>
+      <message>Det skal skrives i to ord <suggestion>til sidst</suggestion>.</message>  
+      <url>https://wiki.documentfoundation.org/DA/LanguageTool/Regler#Et_eller_flere_ord</url>    
+      <short>Til sidst er i to ord</short>
+      <example correction="Til sidst" type="incorrect"><marker>Tilsidst</marker> var der ikke flere tilbage på skibet.</example>
+      <example type="correct">Han ventede for til sidst at gå hjem.</example>
+    </rule>
+    <!-- Altid et ord: -->
+    <rule id="alting" name="al ting→alting">
+      <pattern>
+        <token>al</token>
+        <token>ting</token>
+      </pattern>
+      <message>Det skal skrives i et ord: <suggestion>alting</suggestion>.</message>  
+      <url>https://wiki.documentfoundation.org/DA/LanguageTool/Regler#Et_eller_flere_ord</url>    
+      <short>Alting er i et ord</short>
+      <example correction="alting" type="incorrect">Butikken havde <marker>al ting</marker>.</example>
+      <example type="correct">Han havde købt hende alting.</example>
+    </rule>
+    
+    <rule id="ekstra" name="extra->ekstra">
+      <pattern>
+        <token>extra</token>
+      </pattern>
+      <message>Extra er engelsk, på dansk staves det: <suggestion>ekstra</suggestion>.</message>  
+      <short>Staves ekstra</short>
+      <example correction="ekstra" type="incorrect">Kaptajnen gik <marker>extra</marker> meget ind for fiskeri.</example>
+      <example type="correct">Han havde været ekstra meget om bord på skibet.</example>
+    </rule>
+    <rulegroup id="leje_lege" name="lege←→leje">
+      <rule>
+        <pattern>
+          <marker>
+            <token>lege</token>
+          </marker>
+          <token regexp="yes">en|et|1</token>
+          <token postag="sub:ube:sin:utr:nom" regexp="yes">.*[a-s,u-å]<exception>leg</exception></token>
+        </pattern>
+        <message>Man kan <suggestion>leje</suggestion> noget for penge og lege en leg for sjov.</message>
+        <short>Mulig ordforveksling</short>
+        <example correction="leje" type="incorrect">Vi kan <marker>lege</marker> en slidbane.</example>
+        <example type="correct">Vi kan lege en leg.</example>
+        <example type="correct">Skal vi leje en bil?</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token>leje</token>
+          </marker>
+          <token>en</token>
+          <token>leg</token>
+        </pattern>
+        <message>Man kan <suggestion>lege</suggestion> en leg og leje noget for penge.</message>
+        <short>Mulig ordforveksling</short>
+        <example correction="lege" type="incorrect">Vi kan <marker>leje</marker> en leg.</example>
+        <example type="correct">Vi kan lege en leg.</example>
+        <example type="correct">Skal vi leje en bil?</example>
+      </rule>
+      <!-- <rule> TODO: Fix sub:ube:plu:utr:nom før denne regel vil virke.
+        <pattern>
+          <marker>
+            <token>lege</token>
+          </marker>
+          <token regexp="yes">(|flere|mange|ekstra|nogle|.*[0-9])</token>
+          <token postag="sub:ube:plu:utr:nom" regexp="yes">.*[a-s,u-å]<exception>lege</exception></token>
+        </pattern>
+        <message>Man kan <suggestion>leje</suggestion> flere kanoer for penge og lege flere lege for sjov.</message>
+        <short>Mulig ordforveksling</short>
+        <example correction="leje" type="incorrect">Vi kan <marker>lege</marker> mange slidbaner.</example>
+        <example type="correct">Vi kan lege flere lege.</example>
+        <example type="correct">Skal vi leje 10 biler?</example>
+      </rule> -->
+    </rulegroup>
+    
+    <rulegroup id="af_ad" name="af→ad"> <!-- Bemærk: fanger ikke alle tilfælde, specielt ikke sætninger med tillægsord -->
+      <rule>
+        <pattern>
+          <token regexp="yes">hen|ned|op|frem|tilbage|gennem|nord|syd|øst|vest|nordøst|nordvest|sydøst|sydvest</token>
+          <marker>
+            <token>af</token>
+          </marker>
+          <token regexp="yes">vejen|stien|gangen|trappen|floden|gelæneret</token>
+        </pattern>
+        <message>Han gik hen<suggestion>ad</suggestion> vejen.</message>
+        <url>https://wiki.documentfoundation.org/DA/LanguageTool/Regler#Ad_eller_af</url>
+        <short>Mulig ordforveksling</short>
+        <example correction="ad" type="incorrect">Du gik op <marker>af</marker> trappen.</example>
+        <example type="correct">Du går ned ad trappen.</example>
+        <example type="correct">Han går hen ad vejen.</example>
+        <example type="correct">Hun bakkes op af sociologen.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">hen|ned|op|frem|tilbage|nord|syd|øst|vest|nordøst|nordvest|sydøst|sydvest</token>
+          <marker>
+            <token>af</token>
+          </marker>
+          <token regexp="yes">en|et</token>
+          <token regexp="yes">vej|sti|gang|trappe|flod</token>
+        </pattern>
+        <message>Han gik hen<suggestion>ad</suggestion> vejen.</message>
+        <url>https://wiki.documentfoundation.org/DA/LanguageTool/Regler#Ad_eller_af</url>
+        <short>Mulig ordforveksling</short>
+        <example correction="ad" type="incorrect">Du gik op <marker>af</marker> en trappe.</example>
+        <example type="correct">Du går ned ad trappen.</example>
+        <example type="correct">Han går hen ad en vej.</example>
+        <example type="correct">Hun bakkes op af sociologen.</example>
+      </rule>
+    </rulegroup>
+    <!-- nogle→nogen --> <!-- "Har du ikke nogle æbler til mig?" kan referer til -et par- æbler-->
+    <rulegroup id="nogle_nogen" name="nogle->nogen" default="off">
+      <rule>
+        <pattern>
+          <token regexp="yes">ikke|aldrig</token>
+          <marker>
+            <token>nogle</token>
+          </marker>
+        </pattern>
+        <message>Nægtede sætninger skrives <suggestion>nogen</suggestion>, ikke nogle</message>
+        <url>https://wiki.documentfoundation.org/DA/LanguageTool/Regler#Nogen_eller_nogle</url>
+        <short>Mulig ordforveksling</short>
+        <example correction="nogen" type="incorrect">De fandt ikke <marker>nogle</marker> bananer.</example>
+        <example type="correct">De fandt ikke nogen bananer.</example>
+        <example type="correct">De så ikke nogen film.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="besøgstid_besøgelsestid" name="kende besøgstid→besøgelsestid">
+      <rule>
+        <pattern>
+          <token regexp="yes">kend(|e|er|te)</token>
+          <token/>
+          <marker>
+            <token>besøgstid</token>
+          </marker>
+        </pattern>
+        <message>I vendingen "At kende sin besøgelsestid" skrives <suggestion>besøgelsestid</suggestion>, ikke besøgstid</message>
+        <url>https://wiki.documentfoundation.org/DA/LanguageTool/Regler#Bes.C3.B8gelsestid</url>
+        <short>Mulig ordforveksling</short>
+        <example correction="besøgelsestid" type="incorrect">De kendte deres <marker>besøgstid</marker>.</example>
+        <example type="correct">Jeg kender min besøgelsestid.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">kende(|r)|kendte</token>
+          <token regexp="yes">ikke|aldrig</token>
+          <token/>
+          <marker>
+            <token>besøgstid</token>
+          </marker>
+        </pattern>
+        <message>I vendingen "At kende sin besøgelsestid" skrives <suggestion>besøgelsestid</suggestion>, ikke besøgstid</message>
+        <url>https://wiki.documentfoundation.org/DA/LanguageTool/Regler#Bes.C3.B8gelsestid</url>
+        <short>Mulig ordforveksling</short>
+        <example correction="besøgelsestid" type="incorrect">De kendte ikke deres <marker>besøgstid</marker>.</example>
+        <example type="correct">Jeg kender aldrig min besøgelsestid.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">kend(|e|er|te)</token>
+          <token regexp="yes">ikke|aldrig</token>
+          <token/>
+          <marker>
+            <token regexp="yes">besøgstid(|en|er|erne)</token>
+          </marker>
+        </pattern>
+        <message>I vendingen "At kende sin besøgelsestid" skrives <suggestion>besøgelsestid</suggestion>, ikke besøgstid</message>
+        <url>https://wiki.documentfoundation.org/DA/LanguageTool/Regler#Bes.C3.B8gelsestid</url>
+        <short>Mulig ordforveksling</short>
+        <example correction="besøgelsestid" type="incorrect">De kendte aldrig deres <marker>besøgstid</marker>.</example>
+        <example type="correct">Vi kender ikke vores besøgelsestid.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">kend(|e|er|te)</token>
+          <token regexp="yes">ikke|aldrig</token>
+          <marker>
+            <token regexp="yes">besøgstid(|en|er|erne)</token>
+          </marker>
+        </pattern>
+        <message>I vendingen "At kende sin besøgelsestid" skrives <suggestion>besøgelsestid</suggestion>, ikke besøgstid</message>
+        <url>https://wiki.documentfoundation.org/DA/LanguageTool/Regler#Bes.C3.B8gelsestid</url>
+        <short>Mulig ordforveksling</short>
+        <example correction="besøgelsestid" type="incorrect">De kender ikke <marker>besøgstiderne</marker>.</example>
+        <example type="correct">Jeg kender aldrig besøgelsestiden.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes">besøgstid(|en|er|erne)</token>
+          </marker>
+          <token regexp="yes">kend(te|er)</token>
+          <token/>
+        </pattern>
+        <message>I vendingen "At kende sin besøgelsestid" skrives <suggestion>besøgelsestid</suggestion>, ikke besøgstid</message>
+        <url>https://wiki.documentfoundation.org/DA/LanguageTool/Regler#Bes.C3.B8gelsestid</url>
+        <short>Mulig ordforveksling</short>
+        <example correction="Besøgelsestid" type="incorrect"><marker>Besøgstiden</marker> kendte vi ikke.</example>
+        <example type="correct">Besøgelsestiderne kendte jeg ikke.</example>
+      </rule>
+    </rulegroup>
   </category>
   <!-- ====================================================================== -->
   <!-- Mulig ordforveksling med sjældent ord - Possible word confusion with rare words -->
@@ -258,7 +694,7 @@ $Id$
       <pattern>
         <token regexp="yes">(egenavn)(|et|e|ene|s|ets|es|enes)</token>
       </pattern>
-      <message>Et egenavn er navnet på et specifik egetræ, f.eks. Dun-Eg og Vinter-Eg. Hvor <suggestion><match no="1" regexp_match="(egenavn)(|et|e|ene|s|ets|es|enes)" regexp_replace="egennavn$2"/></suggestion> er alle navne f.eks. Jens, Sørnsen, Odense, og Vestas.</message>      
+      <message>Et egenavn er navnet på et specifik egetræ, f.eks. Dun-Eg og Vinter-Eg. Hvor <suggestion><match no="1" regexp_match="(?iu)(egenavn)(|et|e|ene|s|ets|es|enes)" regexp_replace="egennavn$2"/></suggestion> er alle navne f.eks. Jens, Sørnsen, Odense, og Vestas.</message>      
       <short>Mulige ordforveksling</short>
       <example correction="egennavn" type="incorrect">Jens er et <marker>egenavn</marker>.</example>
       <example type="correct">Et egennavn skrives med stort begyndelsesbogstav.</example>
@@ -277,7 +713,7 @@ $Id$
       <pattern>
         <token regexp="yes">.*standart.*</token>
       </pattern>
-      <message>Mente du: <suggestion><match no="1" regexp_match="(.*)standart(.*)" regexp_replace="$1standard$2"/></suggestion> som standard=niveau, procedure, el. norm eller standart=fane</message>
+      <message>Mente du: <suggestion><match no="1" regexp_match="(.*)standart(.*)" regexp_replace="$1standard$2"/></suggestion> som standard=niveau, procedure, el. norm eller standart=fane?</message>
       <short>Mulige ordforveksling</short>
       <example correction="dokumentstandard" type="incorrect">Den der <marker>dokumentstandart</marker> følger vi.</example>
       <example type="correct">Den der dokumentstandard følger vi.</example>
@@ -294,23 +730,349 @@ $Id$
       <example correction="hvad" type="incorrect">Den er fundet, <marker>vad</marker> så nu.</example>
       <example type="correct">Hvad end de gjorde, så havde de held med det.</example>
     </rule>
+    <rulegroup id="unde" name="onde→unde">
+      <rule id="undt" name="ondt→undt">
+        <pattern>
+          <token postag_regexp="yes" postag="pron:.*"/>
+          <token>vel</token>
+          <marker>
+            <token>ondt</token>
+          </marker>
+        </pattern>
+        <message>Udtrykket bruges normalt som "det er nogen vel <suggestion>undt</suggestion>", altså det er velfortjent.</message>
+        <short>Mulig ordforveksling</short>
+        <example correction="undt" type="incorrect">Det er ham vel <marker>ondt</marker>.</example>
+        <example type="correct">Der er mig vel undt.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag_regexp="yes" postag="pron:.*"/>
+          <marker>
+            <token regexp="yes">onde(|r)</token>
+          </marker>
+          <token postag_regexp="yes" postag="pron:.*"/>
+        </pattern>
+        <message>Udtrykket skrives "\1<suggestion><match no="2" regexp_match="(?iu)onde(|r)" regexp_replace="unde$1"/></suggestion>\3", altså det er ham velfortjent; det kan jeg godt give ham.</message>
+        <short>Mulig ordforveksling</short>
+        <example correction="unde" type="incorrect">Det kan jeg <marker>onde</marker> hende.</example>
+        <example correction="under" type="incorrect">Jeg <marker>onder</marker> hende intet.</example>
+        <example type="correct">Jeg under hende alt.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag_regexp="yes" postag="pron:.*"/>
+          <token regexp="yes">godt|aldrig|altid</token>
+          <marker>
+            <token>onde</token>
+          </marker>
+          <token postag_regexp="yes" postag="pron:.*"/>
+        </pattern>
+        <message>Udtrykket skrives "\1 \2<suggestion>unde</suggestion> \4", altså det er ham velfortjent; det kan jeg godt give ham.</message>
+        <short>Mulig ordforveksling</short>
+        <example correction="unde" type="incorrect">Det kan jeg godt <marker>onde</marker> hende.</example>
+        <example correction="unde" type="incorrect">Det kan de aldrig <marker>onde</marker> hende.</example>
+        <example type="correct">Det vil jeg altid unde hende.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token>onder</token>
+          </marker>
+          <token postag_regexp="yes" postag="pron:.*"/>
+          <token postag_regexp="yes" postag="pron:.*"/>
+        </pattern>
+        <message>Udtrykket skrives "<suggestion>under</suggestion> \2 \3", altså det er ham/hende velfortjent; det kan jeg godt give ham.</message>
+        <short>Mulig ordforveksling</short>
+        <example correction="under" type="incorrect">Det <marker>onder</marker> jeg hende.</example>
+        <example type="correct">Det under han hende trods alt.</example>
+      </rule>
+    </rulegroup>
+    <rule id="grube" name="gruppe→grube">
+      <pattern>
+        <token regexp="yes">(guld|fald)(grupp|grup)(e|er|en|erne)</token>
+      </pattern>
+      <message>Mente du <suggestion><match no="1" regexp_match="(?iu)(guld|fald)(grupp|grup)(e|er|en|erne)" regexp_replace="$1grub$3"/></suggestion>, altså en mine eller et hul i jorden?</message>
+      <short>Mulig ordforveksling</short>
+      <example correction="guldgrube" type="incorrect">Det var en sand <marker>guldgruppe</marker>.</example>
+      <example correction="Faldgruben" type="incorrect"><marker>Faldgruppen</marker> var stor.</example>
+      <example correction="faldgruber" type="incorrect">Der er mange <marker>faldgruper</marker>.</example>
+      <example type="correct">Der er mange faldgruber i det danske sprog.</example>
+    </rule>
+    <rule id="skraldemand" name="skrællemand→skraldemand">
+      <pattern>
+        <token regexp="yes">(skrælle|skrælde)(mand(|en)|mænd(|ene))</token>
+      </pattern>
+      <message>Mente du <suggestion><match no="1" case_conversion="preserve" regexp_match="(?iu)(skrælle|skrælde)(mand(|en)|mænd(|ene))" regexp_replace="skralde$2$3$4"/></suggestion>, altså en person der indsamler skrald?</message>
+      <short>Mulig ordforveksling</short>
+      <example correction="skraldemand" type="incorrect">Han var <marker>skrællemand</marker>.</example>
+      <example correction="skraldemanden" type="incorrect">Det var <marker>skrællemanden</marker>.</example>
+      <example correction="skraldemændene" type="incorrect">Alle <marker>skrældemændene</marker> samlede skrald.</example>
+      <example correction="skraldemænd" type="incorrect">De var <marker>skrældemænd</marker>.</example>
+      <example correction="Skraldemanden" type="incorrect"><marker>Skrællemanden</marker> var hutig.</example>
+      <example type="correct">Der er brug for skraldemænd.</example>
+    </rule>
+    <rule id="yndlings" name="ynglings→yndlings[noget]">
+      <pattern>
+        <token regexp="yes">ynglings(|.*[a-s,u-å])</token>
+      </pattern>
+      <message>Udtrykket staves <suggestion><match no="1" regexp_match="(?iu)ynglings(|.*[a-s,u-å])" regexp_replace="yndlings$1"/></suggestion> .</message>
+      <short>Mulig ordforveksling</short>
+      <example correction="yndlingshold" type="incorrect">Det var mit <marker>ynglingshold</marker>.</example>
+      <example correction="yndlingsfarve" type="incorrect">Grøn er ming <marker>ynglingsfarve</marker>.</example>
+      <example type="correct">Min yndlingsfarve er grøn.</example>
+    </rule>
+    <rule id="vel_at_mærke" name="vel og mærke(t)→vel at mærke">
+      <pattern>
+        <token>vel</token>
+        <token>og</token>
+        <token regexp="yes">mærke(|t)</token>
+      </pattern>
+      <message>Udtrykket skrives <suggestion>vel at mærke</suggestion>.</message>
+      <short>Mulig ordforveksling</short>
+      <example correction="vel at mærke" type="incorrect">Det var <marker>vel og mærke</marker> ikke særlig godt.</example>
+      <example correction="vel at mærke" type="incorrect">Det var <marker>vel og mærket</marker> ikke særlig godt.</example>
+      <example type="correct">Det kan vel at mærke ikke gå længere.</example>
+    </rule>
+    <rule id="vartegn" name="varetegn→vartegn">
+      <pattern>
+        <token regexp="yes">varetegn(|et|ene)</token>
+      </pattern>
+      <message>Udtrykket skrives <suggestion><match no="1" regexp_match="(?iu)varetegn(|et|ene)" regexp_replace="vartegn$1"/></suggestion>.</message>
+      <short>Mulig ordforveksling</short>
+      <example correction="vartegn" type="incorrect">Tårnet var et <marker>varetegn</marker> for byen.</example>
+      <example type="correct">Det er et vartegn for egnen.</example>
+    </rule>
+    
   </category>
+  
   <!-- ====================================================================== -->
   <!-- Forkortelser med eller uden punktum - abbreviation -->
   <!-- ====================================================================== -->
   <category name="Forkortelser med eller uden punktum">
-    <rule id="fx" name="fx.→fx">
+    <rulegroup id="bl.a." name="bla→bl.a.">
+      <rule>
+        <pattern>
+          <token>bla</token>
+          <token>.</token>
+        </pattern>
+        <message>Blandt andet forkortes <suggestion>bl.a.</suggestion></message>      
+        <short>Muligt manglende punktum</short>
+        <example correction="bl.a." type="incorrect">Fisk findes <marker>bla.</marker> i havet.</example>
+        <example type="correct">Man kan bl.a. købe fisk i supermarkedet.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token>bl</token>
+            <token>.</token>
+            <token spacebefore="no">a</token>
+          </marker>
+          <token negate="yes" regexp="yes">\.|\:|\;|\?|\!</token>
+        </pattern>
+        <message>Blandt andet forkortes <suggestion>bl.a.</suggestion></message>      
+        <short>Muligt manglende punktum</short>
+        <example correction="bl.a." type="incorrect">Fisk findes <marker>bl.a</marker> i havet.</example>
+        <example type="correct">Man kan bl.a. købe fisk i supermarkedet.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>b</token>
+          <token spacebefore="no">.</token>
+          <token>la</token>
+        </pattern>
+        <message>Blandt andet forkortes <suggestion>bl.a.</suggestion></message>      
+        <short>Muligt manglende punktum</short>
+        <example correction="bl.a." type="incorrect">Fisk findes <marker>b.la</marker> i havet.</example>
+        <example correction="bl.a." type="incorrect">Fisk findes <marker>b. la</marker>. i havet.</example>
+        <example type="correct">Man kan bl.a. købe fisk i supermarkedet.</example>
+      </rule>
+    </rulegroup>
+    <rule id="ca" name="ca→ca.">
       <pattern>
-        <token>fx</token>
-        <token>.</token>
+        <marker>
+          <token>ca</token>
+        </marker>
+        <token negate="yes" regexp="yes">\.|\:|\;|\?|\!</token>
       </pattern>
-      <message>For eksempel forkortes <suggestion>fx</suggestion> uden punktum eller <suggestion>f.eks.</suggestion></message>      
-      <short>Mulig overflødigt punktum</short>
-      <example correction="fx|f.eks." type="incorrect">Som <marker>fx.</marker> jern.</example>
-      <example type="correct">Som fx jern.</example>
-      <example type="correct">Som f.eks. jern.</example>
+      <message>Cirka forkortes <suggestion>ca.</suggestion></message>      
+      <short>Muligt manglende punktum</short>
+      <example correction="ca." type="incorrect">Der er <marker>ca</marker> to fisk tilbage.</example>
+      <example type="correct">Der er ca. en liter mælk.</example>
     </rule>
+    <rulegroup id="fkr." name="f.kr.">
+      <rule>
+        <pattern>
+          <token>fkr</token>
+          <token>.</token>
+        </pattern>
+        <message>Før Kristus forkortes <suggestion>f.kr.</suggestion></message>      
+        <short>Mulig manglende punktum(er)</short>
+        <example correction="f.kr." type="incorrect">I år 200 <marker>fkr.</marker> Kristendommen fandtes ikke.</example>
+        <example type="correct">I år 753<marker>f.kr.</marker> blev Rom grundlagt.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>fkr</token>
+        </pattern>
+        <message>Før Kristus forkortes <suggestion>f.kr.</suggestion></message>      
+        <short>Mulig manglende punktum(er)</short>
+        <example correction="f.kr." type="incorrect">I år 200 <marker>fkr</marker> Kristendommen fandtes ikke.</example>
+        <example type="correct">I år 753<marker>f.kr.</marker> blev Rom grundlagt.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="f.eks._fx" name="f.eks.|fx">
+      <rule>
+        <pattern>
+          <token>feks</token>
+        </pattern>
+        <message>For eksempel forkortes <suggestion>fx</suggestion> uden punktum eller <suggestion>f.eks.</suggestion></message>      
+        <short>Mulig manglende punktum</short>
+        <example correction="fx|f.eks." type="incorrect">Som <marker>feks</marker> jern.</example>
+        <example correction="fx|f.eks." type="incorrect">Som <marker>feks</marker>. jern.</example>
+        <example type="correct">Som fx jern.</example>
+        <example type="correct">Som f.eks. jern.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token>f</token>
+            <token>.</token>
+            <token>eks</token>
+          </marker>
+          <token negate="yes" regexp="yes">\.|\:|\;|\?|\!</token>
+        </pattern>
+        <message>For eksempel forkortes <suggestion>fx</suggestion> uden punktum eller <suggestion>f.eks.</suggestion></message>      
+        <short>Mulig manglende punktum</short>
+        <example correction="fx|f.eks." type="incorrect">Som <marker>f.eks</marker> jern.</example>
+        <example type="correct">Som fx jern.</example>
+        <example type="correct">Som f.eks. jern.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>fx</token>
+          <token>.</token>
+        </pattern>
+        <message>For eksempel forkortes <suggestion>fx</suggestion> uden punktum eller <suggestion>f.eks.</suggestion></message>      
+        <short>Mulig overflødigt punktum</short>
+        <example correction="fx|f.eks." type="incorrect">Som <marker>fx.</marker> jern.</example>
+        <example type="correct">Som fx jern.</example>
+        <example type="correct">Som f.eks. jern.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>f</token>
+          <token spacebefore="no">.</token>
+          <token>x</token>
+        </pattern>
+        <message>For eksempel forkortes <suggestion>fx</suggestion> uden punktum eller <suggestion>f.eks.</suggestion></message>      
+        <short>Mulig overflødigt punktum</short>
+        <example correction="fx|f.eks." type="incorrect">Som <marker>f.x</marker> jern.</example>
+        <example correction="fx|f.eks." type="incorrect">Som <marker>f.x</marker>. jern.</example>
+        <example type="correct">Som fx jern.</example>
+        <example type="correct">Som f.eks. jern.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="inkl." name="inkl.">
+      <rule>
+        <pattern>
+          <token>incl</token>
+          <token>.</token>
+        </pattern>
+        <message>Hvis du mente inklusive; staves <suggestion>inkl.</suggestion></message>    
+        <url>https://wiki.documentfoundation.org/DA/LanguageTool/Regler#Ekskl._og_inkl.</url>  
+        <short>Mulig stavefejl.</short>
+        <example correction="inkl." type="incorrect">Jeg bestiller en computer <marker>incl.</marker> mus.</example>
+        <example type="correct">Computeren er inkl. tastatur.</example>
+        <example type="correct">Alt er inkl.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token>inkl</token>
+          </marker>
+          <token negate="yes">.</token>
+        </pattern>
+        <message>Inklusive forkortes <suggestion>inkl.</suggestion></message>      
+        <short>Muligvis manglende punktum.</short>
+        <example correction="inkl." type="incorrect">Jeg bestiller en computer <marker>inkl</marker> mus.</example>
+        <example type="correct">Computeren er inkl. tastaturet.</example>
+        <example type="correct">Alt er inkl.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>inkl</token>
+          <token spacebefore="yes">.</token>
+        </pattern>
+        <message>Inklusive forkortes <suggestion>inkl.</suggestion></message>      
+        <short>Muligvis forkertsat punktum.</short>
+        <example correction="inkl." type="incorrect">Jeg bestiller en computer <marker>inkl .</marker> mus.</example>
+        <example type="correct">Computeren er inkl. tastaturet.</example>
+        <example type="correct">Alt er inkl.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>inkls</token>
+        </pattern>
+        <message>Inklusive forkortes <suggestion>inkl.</suggestion></message>      
+        <short>Muligvis stavefejl.</short>
+        <example correction="inkl." type="incorrect">Jeg bestiller en computer <marker>inkls</marker> mus.</example>
+        <example correction="inkl." type="incorrect">Jeg bestiller en computer <marker>inkls</marker>. mus.</example>
+        <example type="correct">Computeren er inkl. tastaturet.</example>
+        <example type="correct">Alt er inkl.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="ekskl." name="ekskl.">
+      <rule>
+        <pattern>
+          <token>excl</token>
+          <token>.</token>
+        </pattern>
+        <message>Eksklusive staves <suggestion>ekskl.</suggestion></message> 
+        <url>https://wiki.documentfoundation.org/DA/LanguageTool/Regler#Ekskl._og_inkl.</url>    
+        <short>Mulig stavefejl.</short>
+        <example correction="ekskl." type="incorrect">Jeg bestiller en computer <marker>excl.</marker> mus.</example>
+        <example type="correct">Computeren er ekskl. tastatur.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token>ekskl</token>
+          </marker>
+          <token negate="yes">.</token>
+        </pattern>
+        <message>Eksklusive forkortes <suggestion>ekskl.</suggestion></message>      
+        <short>Muligvis manglende punktum.</short>
+        <example correction="ekskl." type="incorrect">Jeg bestiller en computer <marker>ekskl</marker> mus.</example>
+        <example type="correct">Computeren er ekskl. tastaturet.</example>
+        <example type="correct">Alt er ekskl.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token>eksl</token>
+          </marker>
+        </pattern>
+        <message>Eksklusive forkortes <suggestion>ekskl.</suggestion></message>      
+        <short>Mulig stavefejl.</short>
+        <example correction="ekskl." type="incorrect">Jeg bestiller en computer <marker>eksl</marker>. mus.</example>
+        <example correction="ekskl." type="incorrect">Jeg bestiller en computer <marker>eksl</marker> mus.</example>
+        <example type="correct">Computeren er ekskl. tastaturet.</example>
+        <example type="correct">Alt er ekskl.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>ekskl</token>
+          <token spacebefore="yes">.</token>
+        </pattern>
+        <message>Eksklusive forkortes <suggestion>ekskl.</suggestion></message>      
+        <short>Muligvis forkertsat punktum.</short>
+        <example correction="ekskl." type="incorrect">Jeg bestiller en computer <marker>ekskl .</marker> mus.</example>
+        <example type="correct">Computeren er ekskl. tastaturet.</example>
+        <example type="correct">Alt er ekskl.</example>
+      </rule>
+    </rulegroup>
   </category>
+  
   <!-- ====================================================================== -->
   <!-- Grammatik - Grammar -->
   <!-- ====================================================================== -->
@@ -318,18 +1080,103 @@ $Id$
     <rule id="adj-ube-sin-utr-pos" name="(fejlbehæftet regel) Tillægsord ental ubestemt i forkert bøjningsform" default="off">
       <pattern>
         <token regexp="yes">et|det</token>
-        <!-- TODO: Make exception for adverbs, when they becomes available in tagger or analyzes the relationship between adjectives and other parts of speech.  -->
+        <!-- TODO: Make exception for adverbs, when they become available in tagger or analyzes the relationship between adjectives and other parts of speech.  -->
         <marker>
           <token postag="adj:ube:sin:utr:pos" regexp="yes">.*[a-s,u-å]<exception postag="sub:.*:neu:.*" postag_regexp="yes">før</exception></token>
         </marker>
       </pattern>
       <message>Ved at der står "\1" skal tilægsord <suggestion>\2t</suggestion> være intetkøn</message>      
       <short>Muligvis tillægsord i forker form</short>
-      <example correction="syndigt" type="incorrect">Et <marker>syndig</marker> rod.</example>
+     <!-- <example correction="syndigt" type="incorrect">Et <marker>syndig</marker> rod.</example> -->
       <example correction="ovalt" type="incorrect">Det er et <marker>oval</marker> køkkenbord.</example>
       <example type="correct">Det er et ret visende eksempel.</example>
       <example type="correct">Et syndigt rod.</example>
       <example type="correct">Tidligere var det syndigt at vise sine ankler.</example>
     </rule>
+  </category>
+  
+  <!-- ====================================================================== -->
+  <!-- Grammatik, komma - Grammar, komma -->
+  <!-- ====================================================================== --> 
+  <category name="Grammatik, komma">
+    <rulegroup id="Opremsningskomma" name="Mangler opremsningskomma" default="off"> <!-- Kan IKKE bruges før analyse af navneord er på plads (så falske positiver som "jeg spørger" [et jeg, en spørger] ikke forekommer). Mangler fyldestgørende tags! -->
+      <rule>
+        <pattern>
+          <token postag_regexp="yes" postag="sub:.*:nom"></token>
+          <token spacebefore="no">,</token>
+          <token postag_regexp="yes" postag="sub:.*:nom"></token>
+          <token spacebefore="no">,</token>
+          <marker>
+            <token postag_regexp="yes" postag="sub:.*:nom"><exception negate_pos="yes" postag_regexp="yes" postag="sub:.*:nom"/></token>
+            <token postag_regexp="yes" postag="sub:.*:nom"><exception negate_pos="yes" postag_regexp="yes" postag="sub:.*:nom"/></token>
+          </marker>
+        </pattern>
+        <message>Mangler opremsningskomma; <suggestion>\5, \6</suggestion></message>
+        <url>https://wiki.documentfoundation.org/DA/LanguageTool/Regler#Opremsningskomma</url>
+        <short>Muligvis manglende opremsningskomma</short>
+        <example correction="løve, drage" type="incorrect">En abe, ymer, <marker>løve drage</marker> og kano.</example>
+        <example type="correct">Kage, krymmel, ymer og ko.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag_regexp="yes" postag="sub:.*:nom"></token>
+          <token spacebefore="no">,</token>
+          <token postag_regexp="yes" postag="sub:.*:gen|adj:.*" skip="-1"><exception scope="next" negate_pos="yes" postag_regexp="yes" postag="sub:.*|adj:.*"/></token>
+          <token postag_regexp="yes" postag="sub:.*:nom"></token>
+          <token spacebefore="no">,</token>
+          <token postag_regexp="yes" postag="sub:.*:gen|adj:.*" skip="-1"><exception scope="next" negate_pos="yes" postag_regexp="yes" postag="sub:.*|adj:.*"/></token>
+          <marker>
+            <token postag_regexp="yes" postag="sub:.*:nom"><exception negate_pos="yes" postag_regexp="yes" postag="sub:.*:nom"/></token>
+            <token postag_regexp="yes" postag="sub:.*"><exception negate_pos="yes" postag_regexp="yes" postag="sub:.*"/></token>
+          </marker>
+        </pattern>
+        <message>Mangler opremsningskomma; <suggestion>\7, \8</suggestion></message>
+        <url>https://wiki.documentfoundation.org/DA/LanguageTool/Regler#Opremsningskomma</url>
+        <short>Muligvis manglende opremsningskomma</short>
+        <example correction="slidbane, slidbanens" type="incorrect">Slidbanens slidbane, store slidbaners slidbane, slidbanens slidbanes <marker>slidbane slidbanens</marker> mors hale og din hale.</example>
+        <example correction="slidbane, kanoens" type="incorrect">Kanoens kano, kanoens slidbane, kanoens <marker>slidbane kanoens</marker> top og kagen.</example>
+        <example type="correct">Din fars far, farfars far og dig.</example>
+        <example type="correct">Slidbanens slidbane, slidbanens slidbanes slidbane, slidbanens kanos hale og din hale.</example>
+      </rule>
+      <rule> <!-- Opremsningskomma før og -->
+        <pattern>
+          <token postag_regexp="yes" postag="sub:.*"></token>
+          <token spacebefore="no">,</token>
+          <token postag_regexp="yes" postag="sub:.*"></token>
+          <token spacebefore="no">,</token>
+          <marker>
+            <token postag_regexp="yes" postag="sub:.*"></token>
+            <token spacebefore="no">,</token>
+            <token regexp="yes">og|eller</token>
+          </marker>
+        </pattern>
+        <message>Der skal ikke opremsningskomma før \7: <suggestion>\5 \7</suggestion>.</message>
+        <url>https://wiki.documentfoundation.org/DA/LanguageTool/Regler#Opremsningskomma</url>
+        <short>Muligvis et komma for meget</short>
+        <example correction="gris og" type="incorrect">Der var både kage, ymer, <marker>gris, og</marker> is.</example>
+        <example type="correct">Kage, krymmel, ymer og ko.</example>
+        <example type="correct">Det sagde han, og han mente det.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag_regexp="yes" postag="sub:.*:nom"></token>
+          <token spacebefore="no">,</token>
+          <token postag_regexp="yes" postag="sub:.*:gen|adj:.*" skip="-1"><exception scope="next" negate_pos="yes" postag_regexp="yes" postag="sub:.*|adj:.*"/></token>
+          <token postag_regexp="yes" postag="sub:.*:nom"></token>
+          <token spacebefore="no">,</token>
+          <token postag_regexp="yes" postag="sub:.*:gen|adj:.*" skip="-1"><exception scope="next" negate_pos="yes" postag_regexp="yes" postag="sub:.*|adj:.*"/></token>
+          <marker>
+            <token postag_regexp="yes" postag="sub:.*:nom"><exception negate_pos="yes" postag_regexp="yes" postag="sub:.*:nom"/></token>
+            <token spacebefore="no">,</token>
+            <token regexp="yes">og|eller</token>
+          </marker>
+        </pattern>
+        <message>Der skal ikke opremsningskomma før \9: <suggestion>\7 \9</suggestion></message>
+        <url>https://wiki.documentfoundation.org/DA/LanguageTool/Regler#Opremsningskomma</url>
+        <short>Muligvis et komma for meget</short>
+        <example correction="slidbane og" type="incorrect">Slidbanens slidbane, kanoens kano, slidbanens slidbanes <marker>slidbane, og</marker> en kano.</example>
+        <example type="correct">Slidbanens slidbane, slidbanens slidbanes slidbane og slidbanens kanos hale.</example>
+      </rule>
+    </rulegroup>
   </category>
 </rules>

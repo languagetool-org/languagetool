@@ -31,6 +31,8 @@ import org.languagetool.rules.UppercaseSentenceStartRule;
 import org.languagetool.rules.WhitespaceRule;
 import org.languagetool.rules.spelling.hunspell.HunspellNoSuggestionRule;
 import org.languagetool.tagging.Tagger;
+import org.languagetool.tagging.disambiguation.Disambiguator;
+import org.languagetool.tagging.disambiguation.rules.da.DanishRuleDisambiguator;
 import org.languagetool.tagging.da.DanishTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
@@ -39,6 +41,7 @@ public class Danish extends Language {
 
   private Tagger tagger;
   private SentenceTokenizer sentenceTokenizer;
+  private Disambiguator disambiguator;
   
   @Override
   public final Locale getLocale() {
@@ -84,6 +87,14 @@ public class Danish extends Language {
       sentenceTokenizer = new SRXSentenceTokenizer(this);
     }
     return sentenceTokenizer;
+  }
+  
+  @Override
+  public final Disambiguator getDisambiguator() {
+    if (disambiguator == null) {
+      disambiguator = new DanishRuleDisambiguator();
+    }
+    return disambiguator;
   }
 
   @Override
