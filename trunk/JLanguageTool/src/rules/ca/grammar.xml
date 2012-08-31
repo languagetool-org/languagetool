@@ -1398,7 +1398,31 @@ $Id$
             </rule>
         </rulegroup>
         <rulegroup id="HAVER_PARTICIPI_HAVER_IMPERSONAL" name="Comprova: «haver» + participi / «haver-hi» impersonal">
-            <!-- Falta: haver (en infinitiu) + hi/participi -->
+            <rule>
+                <pattern>
+                    <token>haver</token>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes" regexp="yes">[\p{Ll}·]+<exception postag="V.P.*|RG|N.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Falta un participi. Podria ser: <suggestion><match no="2" suppress_misspelled="yes" postag="V.P.*" postag_regexp="yes"/></suggestion>.</message>
+                <short>Falta un participi.</short>
+                <example type="incorrect">Tot i haver <marker>votar</marker> amb la resta.</example>
+                <example type="correct">Tot i haver votat amb la resta.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>haver</token>
+                    <token>-hi</token>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes" regexp="yes">[\p{Ll}·]+<exception postag="V.P.*|RG|N.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Falta un participi. Podria ser: <suggestion><match no="3" suppress_misspelled="yes" postag="V.P.*" postag_regexp="yes"/></suggestion>.</message>
+                <short>Falta un participi.</short>
+                <example type="incorrect">Tot i haver-hi <marker>votar</marker> amb la resta.</example>
+                <example type="correct">Tot i haver-hi votat amb la resta.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token postag="VA..[12].." postag_regexp="yes" inflected="yes">haver<exception postag="VA..3S." postag_regexp="yes"/></token>
@@ -1519,7 +1543,6 @@ $Id$
                 <example type="incorrect">Ho han fermament <marker>realitzar</marker>.</example>
                 <example type="correct">Ho han fermament realitzat.</example>
             </rule>
-            
             <rule>
                 <!-- excepcions no controlades: a dit/ha dit-->
                 <pattern>
@@ -1573,7 +1596,7 @@ $Id$
                 <example type="correct">Jo he de fer.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="verb_passat_compost" name="Comprova: passat perifràstic">
+        <rulegroup id="PASSAT_PERIFRASTIC" name="Comprova: passat perifràstic">
             <rule>
                 <pattern>
                     <token regexp="yes">vam|vau|vares|vàrem|vàreu|varen</token>
@@ -1594,11 +1617,26 @@ $Id$
                         <token postag="V.[^NGP].*" postag_regexp="yes"><exception postag="V.[NGP].*" postag_regexp="yes"></exception></token>
                     </marker>
                 </pattern>
-                <message>Falta un infinitiu, un gerundi o un participi. Podria ser: <suggestion><match no="2" postag="V.N...." postag_regexp="yes"></match></suggestion>, <suggestion><match no="2" postag="V.G...." postag_regexp="yes"></match></suggestion>, <suggestion><match no="2" postag="V.P...." postag_regexp="yes"></match></suggestion>.</message>
+                <message>Falta un infinitiu, un gerundi o un participi. Podria ser: <suggestion><match no="2" postag="V.N...." postag_regexp="yes"/></suggestion>, <suggestion><match no="2" postag="V.G...." postag_regexp="yes"/></suggestion>, <suggestion><match no="2" postag="V.P...." postag_regexp="yes"/></suggestion>.</message>
                 <short>Falta un infinitiu, un gerundi o un participi.</short>
                 <example type="incorrect">Vaig <marker>corre</marker>.</example>
                 <example type="correct">Vaig córrer.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="PP.*|P0.*" postag_regexp="yes"><exception regexp="yes">jo|tu|ella?|nosaltres|vosaltres|elle?s|vost[èé]s?|vós</exception></token>
+                    <token regexp="yes">vaig|vas|va|van</token>
+                    <marker>
+                        <token postag="V.[^NG].*" postag_regexp="yes"><exception postag="V.[NG].*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Falta un infinitiu. Podria ser: <suggestion><match no="3" postag="V.N...." postag_regexp="yes"/>, <match no="3" postag="V.G...." postag_regexp="yes"/></suggestion>.</message>
+                <short>Falta un infinitiu.</short>
+                <example type="incorrect">Els vaig <marker>traduït</marker> el conte.</example>
+                <example type="correct">Els vaig traudint el conte.</example>
+                <example type="correct">Els vaig traudir el conte.</example>
+            </rule>
+            
         </rulegroup>
         <rulegroup id="VERBS_JUNTS" name="Incorrecte: dos verbs seguits">
             <rule>
