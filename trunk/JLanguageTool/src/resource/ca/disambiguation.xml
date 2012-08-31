@@ -1172,6 +1172,77 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="add"><wd pos="_GV_"></wd></disambig>
         </rule>
     </rulegroup>
+    <rulegroup id="NO_PAS" name="no pas">
+        <rule>
+            <pattern>
+                <token skip="6">no</token>
+                <token postag="V.*|PP.*" postag_regexp="yes"/>
+                <marker>
+                    <token>pas</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="RN"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token skip="5">no</token>
+                <token postag="V.*|PP.*" postag_regexp="yes"/>
+                <token postag="V.*|PP.*" postag_regexp="yes"/>
+                <marker>
+                    <token>pas</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="RN"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token skip="4">no</token>
+                <token postag="V.*|PP.*" postag_regexp="yes"/>
+                <token postag="V.*|PP.*" postag_regexp="yes"/>
+                <token postag="V.*|PP.*" postag_regexp="yes"/>
+                <marker>
+                    <token>pas</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="RN"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token skip="3">no</token>
+                <token postag="V.*|PP.*" postag_regexp="yes"/>
+                <token postag="V.*|PP.*" postag_regexp="yes"/>
+                <token postag="V.*|PP.*" postag_regexp="yes"/>
+                <token postag="V.*|PP.*" postag_regexp="yes"/>
+                <marker>
+                    <token>pas</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="RN"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token skip="2">no</token>
+                <token postag="V.*|PP.*" postag_regexp="yes"/>
+                <token postag="V.*|PP.*" postag_regexp="yes"/>
+                <token postag="V.*|PP.*" postag_regexp="yes"/>
+                <token postag="V.*|PP.*" postag_regexp="yes"/>
+                <token postag="V.*|PP.*" postag_regexp="yes"/>
+                <marker>
+                    <token>pas</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="RN"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>no</token>
+                <marker>
+                    <token>pas</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="RN"></disambig>
+        </rule>
+     </rulegroup>
      <rulegroup id="haver_hi_auxiliar" name="haver-hi auxiliar">
         <rule>
             <pattern>
@@ -1179,7 +1250,6 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <token inflected="yes">haver</token>
                 </marker>
-                
             </pattern>
             <disambig action="filter" postag="VA.*"></disambig>
         </rule>

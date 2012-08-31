@@ -1773,6 +1773,36 @@ $Id$
 <example type="correct"><marker>Estan cansats</marker>.</example>
 </rule>
 </rulegroup> -->
+    <rulegroup id="SER_ESTAR" name="alguns casos de ser/estar">
+        <rule id="ESTAR_A_TEMPS" name="*estar/ser a temps">
+            <pattern>
+                <marker>
+                    <token inflected="yes">estar<exception>estat</exception></token>
+                </marker>
+                <token>a</token>
+                <token>temps</token>
+            </pattern>
+            <message>Potser vols dir <suggestion><match no="1" postag="VM(.+)" postag_regexp="yes" postag_replace="VS$1">ser</match></suggestion>.</message>
+            <short>Possible confusió</short>
+            <example type="incorrect"><marker>Estan</marker> a temps de fer-ho</example>
+            <example type="correct">Són a temps de fer-ho</example>           
+            <example type="correct">Ha estat a temps de fer-ho</example>
+        </rule>
+        <rule id="SER_A_PUNT" name="*ser/estar a punt">
+            <pattern>
+                <marker>
+                    <token inflected="yes">ser<exception>estat</exception></token>
+                </marker>
+                <token>a</token>
+                <token>punt</token>
+            </pattern>
+            <message>Potser vols dir <suggestion><match no="1" postag="VS(.+)" postag_regexp="yes" postag_replace="VM$1">estar</match></suggestion>.</message>
+            <short>Possible confusió</short>
+            <example type="incorrect"><marker>Són</marker> a punt de fer-ho</example>
+            <example type="correct">Estan a punt de fer-ho</example>           
+            <example type="correct">Ha estat a punt de fer-ho</example>
+        </rule>
+    </rulegroup>
     </category>
     <category name="Determinants">
         <rule id="VARIS" name="varis com a determinant">
@@ -2339,6 +2369,16 @@ $Id$
         </rulegroup>
     </category>
     <category name="Confusions">
+        <rule id="APROP" name="*aprop/">
+            <pattern>
+                <marker>
+                    <token>aprop</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>a prop</suggestion>?</message>
+            <example type="incorrect">Això és <marker>aprop</marker></example>
+            <example type="correct">Això és a prop</example>
+        </rule>
         <rulegroup id="DESPRES" name="un any *desprès/després">
         <!--  Possible false alarms: és molt desprès (generós); un home desprès... -->
             <rule>
