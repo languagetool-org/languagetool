@@ -9904,6 +9904,81 @@ $Id$
                 <example type="correct">Jemanden in Angst und <marker>Schrecken</marker> versetzen.</example>
                 <example type="incorrect">Jemanden in Angst und <marker>schrecken</marker> versetzen.</example>
             </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes">verbreiten</token>
+                    <marker>
+                        <token regexp="yes">[aA]ngst</token>
+                        <token>und</token>
+                        <token>schrecken</token>
+                    </marker>
+                </pattern>
+                <message>&inwend;<suggestion>Angst und Schrecken</suggestion> werden 'Angst' und 'Schrecken' großgeschrieben.</message>
+                <short>&prgk;.</short>
+                <example type="correct">Sie verbreiteten <marker>Angst und Schrecken</marker>.</example>
+                <example type="incorrect" correction="Angst und Schrecken">Sie verbreiteten <marker>angst und schrecken</marker>.</example>
+                <example type="incorrect" correction="Angst und Schrecken">Sie verbreiteten <marker>Angst und schrecken</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes">verbreiten</token>
+                    <marker>
+                        <token>angst</token>
+                        <token>und</token>
+                        <token regexp="yes">[sS]chrecken</token>
+                    </marker>
+                </pattern>
+                <message>&inwend;<suggestion>Angst und Schrecken</suggestion> werden 'Angst' und 'Schrecken' großgeschrieben.</message>
+                <short>&prgk;.</short>
+                <example type="correct">Sie verbreiteten <marker>Angst und Schrecken</marker>.</example>
+                <example type="incorrect" correction="Angst und Schrecken">Sie verbreiteten <marker>angst und schrecken</marker>.</example>
+                <example type="incorrect" correction="Angst und Schrecken">Sie verbreiteten <marker>angst und Schrecken</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes">[aA]ngst</token>
+                        <token>und</token>
+                        <token>schrecken</token>
+                    </marker>
+                    <token inflected="yes">verbreiten</token>
+                </pattern>
+                <message>&inwend;<suggestion>Angst und Schrecken</suggestion> werden 'Angst' und 'Schrecken' großgeschrieben.</message>
+                <short>&prgk;.</short>
+                <example type="correct">Sie haben <marker>Angst und Schrecken</marker> verbreitet.</example>
+                <example type="incorrect" correction="Angst und Schrecken">Sie haben <marker>angst und schrecken</marker> verbreitet.</example>
+                <example type="incorrect" correction="Angst und Schrecken">Sie haben <marker>Angst und schrecken</marker> verbreitet.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>angst</token>
+                        <token>und</token>
+                        <token regexp="yes">[sS]chrecken</token>
+                    </marker>
+                    <token inflected="yes">verbreiten</token>
+                </pattern>
+                <message>&inwend;<suggestion>Angst und Schrecken</suggestion> werden 'Angst' und 'Schrecken' großgeschrieben.</message>
+                <short>&prgk;.</short>
+                <example type="correct">Sie haben <marker>Angst und Schrecken</marker> verbreitet.</example>
+                <example type="incorrect" correction="Angst und Schrecken">Sie haben <marker>angst und Schrecken</marker> verbreitet.</example>
+                <example type="incorrect" correction="Angst und Schrecken">Sie haben <marker>angst und schrecken</marker> verbreitet.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>angst</token>
+                        <token>und</token>
+                        <token regexp="yes">[sS]chrecken</token>
+                    </marker>
+                    <token>zu</token>
+                    <token>verbreiten</token>
+                </pattern>
+                <message>&inwend;<suggestion>Angst und Schrecken</suggestion> werden 'Angst' und 'Schrecken' großgeschrieben.</message>
+                <short>&prgk;.</short>
+                <example type="correct">Sie haben <marker>Angst und Schrecken</marker> verbreitet.</example>
+                <example type="incorrect" correction="Angst und Schrecken">Sie begannen <marker>angst und schrecken</marker> zu verbreiten.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="ZUR_SCHULE_GEHEN" name="Groß-/Kleinschreibung: 'zur schule (Schule) gehen'">
             <rule>
@@ -10270,7 +10345,7 @@ $Id$
             <pattern case_sensitive="yes">
                 <token regexp="yes">[uU]nter</token>
                 <marker>
-                    <token regexp="yes">tränen|schmerzen|freunden|vorbehalten|bäumen</token>
+                    <token regexp="yes">tränen|schmerzen|freunden|vorbehalten|bäumen|zwang</token>
                 </marker>
             </pattern>
             <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
