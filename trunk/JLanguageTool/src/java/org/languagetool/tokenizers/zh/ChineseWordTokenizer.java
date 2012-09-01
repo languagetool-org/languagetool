@@ -20,10 +20,12 @@ package org.languagetool.tokenizers.zh;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.ictclas4j.segment.SegTag;
 import org.languagetool.JLanguageTool;
+import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.tokenizers.Tokenizer;
 
 import cn.com.cjf.CJFBeanFactory;
@@ -32,7 +34,6 @@ import cn.com.cjf.ChineseJF;
 public class ChineseWordTokenizer implements Tokenizer {
 
   private SegTag seg;
-
   private ChineseJF chinesdJF;
 
   private void init() {
@@ -40,24 +41,16 @@ public class ChineseWordTokenizer implements Tokenizer {
       chinesdJF = CJFBeanFactory.getChineseJF();
     }
     if (seg == null) {
-      InputStream coreDictIn = JLanguageTool.getDataBroker().getFromResourceDirAsStream(
-          "/zh/coreDict.dct");
-      InputStream bigramDictIn = JLanguageTool.getDataBroker().getFromResourceDirAsStream(
-          "/zh/BigramDict.dct");
-      InputStream personTaggerDctIn = JLanguageTool.getDataBroker().getFromResourceDirAsStream(
-          "/zh/nr.dct");
-      InputStream personTaggerCtxIn = JLanguageTool.getDataBroker().getFromResourceDirAsStream(
-          "/zh/nr.ctx");
-      InputStream transPersonTaggerDctIn = JLanguageTool.getDataBroker()
-          .getFromResourceDirAsStream("/zh/tr.dct");
-      InputStream transPersonTaggerCtxIn = JLanguageTool.getDataBroker()
-          .getFromResourceDirAsStream("/zh/tr.ctx");
-      InputStream placeTaggerDctIn = JLanguageTool.getDataBroker().getFromResourceDirAsStream(
-          "/zh/ns.dct");
-      InputStream placeTaggerCtxIn = JLanguageTool.getDataBroker().getFromResourceDirAsStream(
-          "/zh/ns.ctx");
-      InputStream lexTaggerCtxIn = JLanguageTool.getDataBroker().getFromResourceDirAsStream(
-          "/zh/lexical.ctx");
+      final ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
+      final InputStream coreDictIn = dataBroker.getFromResourceDirAsStream("/zh/coreDict.dct");
+      final InputStream bigramDictIn = dataBroker.getFromResourceDirAsStream("/zh/BigramDict.dct");
+      final InputStream personTaggerDctIn = dataBroker.getFromResourceDirAsStream("/zh/nr.dct");
+      final InputStream personTaggerCtxIn = dataBroker.getFromResourceDirAsStream("/zh/nr.ctx");
+      final InputStream transPersonTaggerDctIn = dataBroker.getFromResourceDirAsStream("/zh/tr.dct");
+      final InputStream transPersonTaggerCtxIn = dataBroker.getFromResourceDirAsStream("/zh/tr.ctx");
+      final InputStream placeTaggerDctIn = dataBroker.getFromResourceDirAsStream("/zh/ns.dct");
+      final InputStream placeTaggerCtxIn = dataBroker.getFromResourceDirAsStream("/zh/ns.ctx");
+      final InputStream lexTaggerCtxIn = dataBroker.getFromResourceDirAsStream("/zh/lexical.ctx");
       seg = new SegTag(1, coreDictIn, bigramDictIn, personTaggerDctIn, personTaggerCtxIn,
           transPersonTaggerDctIn, transPersonTaggerCtxIn, placeTaggerDctIn, placeTaggerCtxIn,
           lexTaggerCtxIn);
@@ -67,8 +60,7 @@ public class ChineseWordTokenizer implements Tokenizer {
   @Override
   public List<String> tokenize(String text) {
     init();
-    final ArrayList<String> ret = new ArrayList<String>();
-    String result;
+    final String result;
     try {
       result = seg.split(chinesdJF.chineseFan2Jan(text)).getFinalResult();
     } catch (Exception e) {
@@ -76,13 +68,9 @@ public class ChineseWordTokenizer implements Tokenizer {
       // ArrayIndexOutOfBoundsException, due to some internal bugs of ictclas4j. The reasons of the
       // bugs and how to resolve them are unknown now. In this case, we can just bypass the sentence
       // and return a empty List.
-      return ret;
+      return new ArrayList<String>();
     }
     final String[] list = result.split(" ");
-
-    for (int i = 0; i < list.length; i++) {
-      ret.add(list[i]);
-    }
-    return ret;
+    return Arrays.asList(list);
   }
 }
