@@ -59,7 +59,9 @@ public class WikipediaIndexHandler extends DefaultHandler {
   private int end = 0;
 
   private boolean inText = false;
+  private boolean inTitle = false;
   private StringBuilder text = new StringBuilder();
+  private StringBuilder title = new StringBuilder();
   private TextFilter textFilter = new BlikiWikipediaTextFilter();
 
   // ===========================================================
@@ -81,7 +83,7 @@ public class WikipediaIndexHandler extends DefaultHandler {
   public void startElement(String namespaceURI, String lName, String qName, Attributes attrs)
       throws SAXException {
     if (qName.equals("title")) {
-      inText = true;
+      inTitle = true;
     } else if (qName.equals("text")) {
       inText = true;
     }
@@ -91,9 +93,10 @@ public class WikipediaIndexHandler extends DefaultHandler {
   @SuppressWarnings("unused")
   public void endElement(String namespaceURI, String sName, String qName) {
     if (qName.equals("title")) {
-      text = new StringBuilder();
+      inTitle = false;
     } else if (qName.equals("text")) {
-      System.out.println(++articleCount);
+      System.out.println(++articleCount + ": " + title);
+      title = new StringBuilder();
       if (articleCount < start) {
         return;
       } else if (articleCount >= end && end != 0) {
@@ -117,6 +120,8 @@ public class WikipediaIndexHandler extends DefaultHandler {
     final String s = new String(buf, offset, len);
     if (inText) {
       text.append(s);
+    } else if (inTitle) {
+      title.append(s);
     }
   }
 
