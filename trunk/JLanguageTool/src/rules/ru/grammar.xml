@@ -770,8 +770,43 @@ $Id$
             </rule>
             
         </rulegroup>
+  <rulegroup default="on" id="NEIZVESTNO_KTO" name="Цельные выражения: “неизвестно кто”, ...">
+            <!-- Запятая не ставится в цельных выражениях:
+            неизвестно кто,
+	    ... ,
+            неизвестно чей 
+            -->
+            <rule>
+                <pattern>
+                    <token regexp="yes">неизвестно|непонятно</token>
+		    <token>,</token>
+                    <token regexp="yes">кто|что|какой|где|куда|откуда|чей</token>
+                </pattern>
+                <message>Запятая не нужна:<suggestion>\1 \3</suggestion>.</message>
+                <short>Запятая не нужна.</short>
+                <example type="correct">Ещё неизвестно кто победил.</example>
+                <example type="incorrect">Ещё <marker>неизвестно, кто</marker> победил.</example>
+            </rule>
+	    <!-- Запятая не ставится в цельных выражениях:
+            всё равно кто,
+	    ... ,
+            все равно чей 
+            -->
+            <rule>
+                <pattern>
+                    <token regexp="yes">все|всё</token>
+		    <token>равно</token>
+		    <token>,</token>
+                    <token regexp="yes">кто|что|какой|где|куда|откуда|чей</token>
+                </pattern>
+                <message>Запятая не нужна:<suggestion>\1 \2 \4</suggestion>.</message>
+                <short>Запятая не нужна.</short>
+                <example type="correct">Всё равно кто выполнит задание.</example>
+                <example type="incorrect"><marker>Всё равно, кто</marker> выполнит задание.</example>
+            </rule>
+       </rulegroup>
     </category>
-    <category name="Типографика">
+   	 <category name="Типографика">
         <rule default="off" id="KAVITCHKI" name="„ → ”">
             <pattern>
                 <token>“</token>
