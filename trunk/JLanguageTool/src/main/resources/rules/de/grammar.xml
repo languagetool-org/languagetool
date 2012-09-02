@@ -3004,6 +3004,21 @@ $Id$
                 <example type="correct">Es geht um <marker>Leben und Tod</marker>.</example>
                 <example type="correct"><marker>Leben und tot</marker> sein schließt sich bekanntlich gegenseitig aus.</example>
             </rule>
+            <rule>
+                <pattern case_sensitive="no">
+                    <token skip="1">bis</token>
+                    <token>der</token>
+                    <marker>
+                        <token>tot</token>
+                    </marker>
+                    <token regexp="yes">uns|euch|sie</token>
+                    <token>scheidet</token>
+                </pattern>
+                <message>&verw;Meinten Sie <suggestion>Tod</suggestion>? Das Substantiv 'Tod' wird mit d geschrieben.</message>
+                <short>Mögliche Wortverwechslung</short>
+                <example type="incorrect" correction="Tod">Bis dass der <marker>tot</marker> euch scheidet.</example>
+                <example type="correct">Bis dass der <marker>Tod</marker> euch scheidet.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="SCHEISSEN_SCHIESSEN" name="Mögliche Wortverwechslung: schießen/scheißen">
             <!-- Since this is such an awkward typo and can particularly easily happen to non-native speakers, this rule should be extended. -->
@@ -4882,7 +4897,7 @@ $Id$
                 <example type="correct">Er ist <marker>sowohl</marker> schlau als auch dumm.</example>
                 <example type="correct">Ich fühle mich nicht <marker>so wohl</marker>.</example>
             </rule>
-        </rulegroup> 
+        </rulegroup>
         <rulegroup id="ZEITLANG_ZEIT_LANG" name="Zusammen-/Getrenntschreibung: 'eine gewisse Zeitlang (Zeit lang)' u.ä.">
             <rule>
                 <pattern case_sensitive="no">
@@ -7376,7 +7391,7 @@ $Id$
     <!-- TODO split category? (Umgangssprache + Stil) -->
     <category name="Stil, Umgangssprache">
         <!-- TODO Make one Java-rule for context-independent, colloquial expressions and maintain a list -->
-        
+
         <rule id="BAUCHWEH" name="Umgangssprache: 'Bauchweh (Bauchschmerz)'">
             <pattern>
                 <token regexp="yes">(Bauch|Kopf|Hals|Zahn)wehs?</token>
@@ -7386,7 +7401,7 @@ $Id$
             <example type="incorrect" correction="Bauchschmerz|Bauchschmerzen">Er hat <marker>Bauchweh</marker>.</example>
             <example type="incorrect">Wegen des starken <marker>Zahnwehs</marker>...</example>
         </rule>
-        
+
         <rule id="TAUCHERBRILLE" name="'Taucherbrille (Schwimmbrille, Tauchermaske)'">
             <pattern>
                 <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes">Lok.*|Baureihe|Spitzname.*|478|754</exception></token>
@@ -9138,6 +9153,38 @@ $Id$
             <example type="correct">Da regt er sich ganz <marker>zu Unrecht</marker> auf.</example>
             <example type="incorrect">Da regt er sich ganz <marker>zu unrecht</marker> auf.</example>
         </rule>
+        <rulegroup id="ZWEI_FLIEGEN_MIT_EINER_KLAPPE" name="Groß-/Kleinschreibung: 'zwei Fliegen mit einer klappe (Klappe) schlagen'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[zZ]wei</token>
+                    <marker>
+                        <token>fliegen</token>
+                    </marker>
+                    <token>mit</token>
+                    <token>einer</token>
+                    <token regexp="yes">[kK]lappe</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Fliegen</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Fliegen">Wir schlagen zwei <marker>fliegen</marker> mit einer Klappe.</example>
+                <example type="correct">Wir schlagen zwei <marker>Fliegen</marker> mit einer Klappe.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[zZ]wei</token>
+                    <token regexp="yes">[fF]liegen</token>
+                    <token>mit</token>
+                    <token>einer</token>
+                    <marker>
+                        <token>klappe</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Klappe</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Klappe">Wir schlagen zwei Fliegen mit einer <marker>klappe</marker>.</example>
+                <example type="correct">Wir schlagen zwei Fliegen mit einer <marker>Klappe</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="SCHNAUZE_SUBST" name="Groß-/Kleinschreibung: 'die schnauze (Schnauze) halten' usw.">
             <rule>
                 <pattern case_sensitive="yes">
@@ -10784,7 +10831,7 @@ $Id$
                 </pattern>
                 <message>&subanfang;<suggestion>Zeit</suggestion>&subende;</message>
                 <short>&prgk;.</short>
-                <example type="incorrect">In letzter <marker>zeit</marker> geht es mir nicht so gut.</example>
+                <example type="incorrect" correction="Zeit">In letzter <marker>zeit</marker> geht es mir nicht so gut.</example>
                 <example type="correct">In letzter <marker>Zeit</marker> geht es mir blendend.</example>
             </rule>
             <rule>
@@ -10796,7 +10843,7 @@ $Id$
                 </pattern>
                 <message>&subanfang;<suggestion>Zeit</suggestion>&subende;</message>
                 <short>&prgk;.</short>
-                <example type="incorrect">Keine <marker>zeit</marker>, ich muss gerade die Welt vor dem Untergang retten!</example>
+                <example type="incorrect" correction="Zeit">Keine <marker>zeit</marker>, ich muss gerade die Welt vor dem Untergang retten!</example>
                 <example type="correct">Keine <marker>Zeit</marker>, ich muss gerade die Welt vor dem Untergang retten!</example>
             </rule>
             <rule>
@@ -10808,9 +10855,9 @@ $Id$
                 </pattern>
                 <message>&subanfang;<suggestion>Zeit</suggestion>&subende;</message>
                 <short>&prgk;.</short>
-                <example type="incorrect">Ich habe viel <marker>zeit</marker>.</example>
-                <example type="incorrect">Ich habe nicht viel <marker>zeit</marker>.</example>
-                <example type="incorrect">Haben Sie gerade <marker>zeit</marker>?</example>
+                <example type="incorrect" correction="Zeit">Ich habe viel <marker>zeit</marker>.</example>
+                <example type="incorrect" correction="Zeit">Ich habe nicht viel <marker>zeit</marker>.</example>
+                <example type="incorrect" correction="Zeit">Haben Sie gerade <marker>zeit</marker>?</example>
                 <example type="correct">Ich habe viel <marker>Zeit</marker>.</example>
             </rule>
         </rulegroup>
@@ -10869,6 +10916,34 @@ $Id$
                 <short>&prgk;.</short>
                 <example type="incorrect" correction="Macht">Mit aller <marker>macht</marker> schlug sie gegen die Tür.</example>
                 <example type="correct">Mit aller <marker>Macht</marker> schlug sie gegen die Tür.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[aA]n</token>
+                    <token>die</token>
+                    <marker>
+                        <token>macht</token>
+                    </marker>
+                    <token inflected="yes">kommen</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Macht</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Macht">Wenn wir an die <marker>macht</marker> kommen, wird alles besser.</example>
+                <example type="correct">Wenn wir an die <marker>Macht</marker> kommen, wird alles besser.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes" skip="1">kommen</token>
+                    <token>an</token>
+                    <token>die</token>
+                    <marker>
+                        <token>macht</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Macht</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Macht">Wir kommen an die <marker>macht</marker>!</example>
+                <example type="correct">Wir kommen an die <marker>Macht</marker>!</example>
             </rule>
         </rulegroup>
         <rulegroup id="MORGEN_SUBST" name="Groß-/Kleinschreibung: 'am nächsten/frühen morgen (Morgen)' etc.">
@@ -12351,9 +12426,39 @@ $Id$
                 </pattern>
                 <message>&subanfang;<suggestion>Kippe</suggestion>&subende;</message>
                 <short>&prgk;.</short>
-                <example type="incorrect">Es schien auf der <marker>kippe</marker> zu stehen.</example>
-                <example type="incorrect">Wir hofften, es würde nicht so auf der <marker>kippe</marker> stehen.</example>
+                <example type="incorrect" correction="Kippe">Es schien auf der <marker>kippe</marker> zu stehen.</example>
+                <example type="incorrect" correction="Kippe">Wir hofften, es würde nicht so auf der <marker>kippe</marker> stehen.</example>
                 <example type="correct">Wir hofften, es würde nicht so auf der <marker>Kippe</marker> stehen.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AUF_DER_GRENZE" name="Groß-/Kleinschreibung: 'auf der grenze (Grenze)'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[aA](uf|n)</token>
+                    <token regexp="yes">der|die</token>
+                    <marker>
+                        <token>grenze</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Grenze</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Grenze">Das ist hart an der <marker>grenze</marker>.</example>
+                <example type="correct">Das ist hart an der <marker>Grenze</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AUF_FRISCHER_TAT" name="Groß-/Kleinschreibung: 'auf frischer tat (Tat)'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[aA]uf</token>
+                    <token>frischer</token>
+                    <marker>
+                        <token>tat</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Tat</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Tat">Auf frischer <marker>tat</marker> ertappt!</example>
+                <example type="correct">Auf frischer <marker>Tat</marker> ertappt!</example>
             </rule>
         </rulegroup>
         <rulegroup id="AUF_DER_FLUCHT" name="Groß-/Kleinschreibung: 'auf der flucht (Flucht)'">
@@ -12823,11 +12928,12 @@ $Id$
                     <marker>
                         <token>rücken</token>
                     </marker>
-                    <token regexp="yes">herunter|stärken?|gestärkt</token>
+                    <token regexp="yes">herunter|stärken?|stärks?t|gestärkt|gekehrt|kehrs?t|kehrt(en?)?|zuwendes?t|zuwandten?|zugewandt</token>
                 </pattern>
                 <message>&subanfang;<suggestion>Rücken</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example type="incorrect" correction="Rücken">Mir lief es kalt den <marker>rücken</marker> herunter.</example>
+                <example type="incorrect" correction="Rücken">Ich habe der Stadt den <marker>rücken</marker> gekehrt.</example>
                 <example type="correct">Mir lief es kalt den <marker>Rücken</marker> herunter.</example>
             </rule>
             <rule>
@@ -15160,6 +15266,51 @@ $Id$
                 <example type="incorrect">Er wurde bei einer <marker>lüge</marker> ertappt.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="ARM_SUBST" name="Groß-/Kleinschreibung: 'arm (Arm)'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes" inflected="yes">[Nn]ehmen|[Ff]allen</token>
+                    <token regexp="yes" skip="1">mich|sie|ihn|euch|uns</token>
+                    <token regexp="yes">in|auf</token>
+                    <token regexp="yes">den|[mds]einen|ihren</token>
+                    <marker>
+                        <token>arm</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Arm</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Du nimmst mich doch auf den <marker>Arm</marker>!</example>
+                <example type="correct">Bitte nimm mich in den <marker>Arm</marker>!</example>
+                <example type="incorrect" correction="Arm">Bitte nimm mich in den <marker>arm</marker>!</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[Ii]n|[Aa]uf</token>
+                    <token regexp="yes">den|[mdDs]einen|[iI]hren</token>
+                    <marker>
+                        <token>arm</token>
+                    </marker>
+                    <token regexp="yes" inflected="yes">nehmen|fallen</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Arm</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Sie hat mich in den <marker>Arm</marker> genommen.</example>
+                <example type="incorrect" correction="Arm">Sie hat mich in den <marker>arm</marker> genommen.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[iI]m</token>
+                    <marker>
+                        <token>arm</token>
+                    </marker>
+                    <token inflected="yes">halten</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Arm</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Ich habe sie im <marker>Arm</marker> gehalten.</example>
+                <example type="incorrect" correction="Arm">Ich habe sie im <marker>arm</marker> gehalten.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="KLAUEN_SUBST" name="Groß-/Kleinschreibung: 'klauen (Klauen)'">
             <rule>
                 <pattern case_sensitive="yes">
@@ -15172,7 +15323,7 @@ $Id$
                 <message>&subanfang;<suggestion>Klauen</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example type="correct">In den <marker>Klauen</marker> der Angst.</example>
-                <example type="incorrect">In den <marker>klauen</marker> der Angst.</example>
+                <example type="incorrect" correction="Klauen">In den <marker>klauen</marker> der Angst.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SCHAECHTE_SUBST" name="Groß-/Kleinschreibung: 'schächte (Schächte)'">
@@ -15187,7 +15338,7 @@ $Id$
                 <message>&subanfang;<suggestion>Schächten</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example type="correct">In den <marker>Schächten</marker> gab es wenig Luft.</example>
-                <example type="incorrect">In den <marker>schächten</marker> gab es wenig Luft.</example>
+                <example type="incorrect" correction="Schächten">In den <marker>schächten</marker> gab es wenig Luft.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -16833,7 +16984,35 @@ $Id$
                 <message>Meinten Sie: <suggestion>\1 <match case_conversion="alllower" no="2"/></suggestion>?</message>
                 <short>&prgk;.</short>
                 <example type="correct">Das war <marker>ein bisschen</marker> komisch.</example>
-                <example type="incorrect">Das war <marker>ein Bisschen</marker> komisch.</example>
+                <example type="incorrect" correction="ein bisschen">Das war <marker>ein Bisschen</marker> komisch.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="SAURE_GURKEN" name="Groß-/Kleinschreibung: 'saure gurken (Gurken)'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[sS]aure</token>
+                    <marker>
+                        <token>gurken</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Gurken</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Es gab saure <marker>Gurken</marker>.</example>
+                <example type="incorrect" correction="Gurken">Es gab saure <marker>gurken</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="IM_BILDE" name="Groß-/Kleinschreibung: 'im bilde (Bilde)'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[iI]m</token>
+                    <marker>
+                        <token>bilde</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Bilde</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Ich war sofort im <marker>Bilde</marker>.</example>
+                <example type="incorrect" correction="Bilde">Ich war sofort im <marker>bilde</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="IM_ALLGEMEINEN" name="Groß-/Kleinschreibung: 'im allgemeinen (Allgemeinen)'">
