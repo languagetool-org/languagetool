@@ -34,7 +34,7 @@ public class VersionNumberTest extends TestCase {
     Pattern p1 = Pattern.compile("version = ([0-9\\.]+(-dev)?)");
     Matcher m1 = p1.matcher(buildFile);
     m1.find();
-    String javaFile = StringTools.readFile(new FileInputStream("src/java/org/languagetool/JLanguageTool.java"));
+    String javaFile = StringTools.readFile(new FileInputStream("src/main/java/org/languagetool/JLanguageTool.java"));
     Pattern p2 = Pattern.compile("VERSION = \"(.*?)\"");
     Matcher m2 = p2.matcher(javaFile);
     m2.find();

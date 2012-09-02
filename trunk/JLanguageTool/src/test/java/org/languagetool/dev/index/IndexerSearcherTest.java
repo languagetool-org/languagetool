@@ -43,7 +43,7 @@ import org.languagetool.rules.patterns.PatternRule;
 
 public class IndexerSearcherTest extends LuceneTestCase {
 
-  private final File ruleFile = new File("src/rules/en/grammar.xml");
+  private final File ruleFile = new File("src/main/resources/rules/en/grammar.xml");
   private final Searcher errorSearcher = new Searcher();
 
   private IndexSearcher searcher;
@@ -185,7 +185,7 @@ public class IndexerSearcherTest extends LuceneTestCase {
   public void IGNOREtestForDebugging() throws Exception {
     // Note that the second sentence ends with "lid" instead of "lids" (the inflated one)
     createIndex("I thin so");
-    final PatternRule rule = getRule("I_THIN", new File("src/rules/en/grammar.xml"));
+    final PatternRule rule = getRule("I_THIN", new File("src/main/resources/rules/en/grammar.xml"));
     final SearcherResult searcherResult = errorSearcher.findRuleMatchesOnIndex(rule, Language.GERMAN, searcher);
     System.out.println("Matches: " + searcherResult.getMatchingSentences());
     assertEquals(1, searcherResult.getMatchingSentences().size());

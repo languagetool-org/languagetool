@@ -109,7 +109,7 @@ public class TranslationTest extends TestCase {
   }
 
   private File getTranslationFile(Language lang) {
-    return new File("src" + File.separator + "java" + File.separator
+    return new File("src" + File.separator + "main" + File.separator + "java" + File.separator
         + "org" + File.separator + "languagetool" 
         + File.separator + "MessagesBundle_" + lang.getShortName() + ".properties");
   }
