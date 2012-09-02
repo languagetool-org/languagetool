@@ -36,10 +36,10 @@ public class LanguageTest {
 
     @Test
     public void testRuleFileName() {
-        assertEquals("[/rules/en/grammar.xml, /rules/en/en-GB/grammar.xml]", Language.BRITISH_ENGLISH.getRuleFileName().toString());
-        assertEquals("[/rules/en/grammar.xml]", Language.AMERICAN_ENGLISH.getRuleFileName().toString());
-        assertEquals("[/rules/en/grammar.xml]", Language.ENGLISH.getRuleFileName().toString());
-        assertEquals("[/rules/de/grammar.xml]", Language.GERMAN.getRuleFileName().toString());
+        assertEquals("[/org/languagetool/rules/en/grammar.xml, /org/languagetool/rules/en/en-GB/grammar.xml]", Language.BRITISH_ENGLISH.getRuleFileName().toString());
+        assertEquals("[/org/languagetool/rules/en/grammar.xml]", Language.AMERICAN_ENGLISH.getRuleFileName().toString());
+        assertEquals("[/org/languagetool/rules/en/grammar.xml]", Language.ENGLISH.getRuleFileName().toString());
+        assertEquals("[/org/languagetool/rules/de/grammar.xml]", Language.GERMAN.getRuleFileName().toString());
     }
 
     @Test

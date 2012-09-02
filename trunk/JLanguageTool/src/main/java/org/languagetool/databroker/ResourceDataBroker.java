@@ -59,12 +59,12 @@ public interface ResourceDataBroker {
   /**
    * The directory name of the {@code /resource} directory.
    */
-  public static final String RESOURCE_DIR = "/resource";
+  public static final String RESOURCE_DIR = "/org/languagetool/resource";
 
   /**
    * The directory name of the {@code /rules} directory.
    */
-  public static final String RULES_DIR = "/rules";
+  public static final String RULES_DIR = "/org/languagetool/rules";
 
   /**
    * Gets any resource from the grammar checker's {@code /resource} directory.

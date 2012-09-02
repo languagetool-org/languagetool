@@ -43,7 +43,7 @@ import org.languagetool.rules.patterns.PatternRule;
 
 public class IndexerSearcherTest extends LuceneTestCase {
 
-  private final File ruleFile = new File("src/main/resources/rules/en/grammar.xml");
+  private final File ruleFile = new File("src/main/resources/org/languagetool/rules/en/grammar.xml");
   private final Searcher errorSearcher = new Searcher();
 
   private IndexSearcher searcher;
