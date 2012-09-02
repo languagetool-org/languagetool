@@ -143,7 +143,7 @@ public class CommandLineParser {
             + "  -v, --verbose            print text analysis (sentences, part-of-speech tags) to STDERR\n"
             + "  --version                print LanguageTool version number and exit\n"
             + "  -a, --apply              automatically apply suggestions if available, printing result to STDOUT"
-            + "  --xmlfilter              remove XML/HTML elements from input before checking");
+            + "  --xmlfilter              remove XML/HTML elements from input before checking (this is deprecated)");
   }
 
   private void checkArguments(String option, int argParsingPos, String[] args) {
