@@ -38,8 +38,9 @@
         <pathelement location="${ext.ooo.ridl.lib}" />
         <pathelement location="${ext.ooo.jurt.lib}" />
         <!-- -->
-        <pathelement location="${dist.dir}/resource" />
-        <pathelement location="${dist.dir}/rules" />
+        <pathelement location="${resource.dir}" />
+        <pathelement location="${rules.dir}" />
+        <pathelement location="src/main/resources" />
         <!-- tika lib -->
         <pathelement location="${ext.tika.lib}" />
         <!-- JNA-->
@@ -703,7 +704,7 @@
 
         <copy file="${resource.dir}/xx/dummy.dict" tofile="${dist.dir}/resource/cs/czech.dict" />
         <copy todir="${dist.dir}/rules">
-            <fileset dir="src/rules" excludes="CVS" />
+            <fileset dir="${rules.dir}" excludes="CVS" />
         </copy>
 
         <!-- general pattern for all hunspell-related files, including any license or readme files -->
@@ -719,7 +720,7 @@
 
     <target name="ooo-internal" depends="common,ooo-build">
         <!-- prepare properties file automatically -->
-        <javac includeAntRuntime="false" encoding="${encoding}" srcdir="${src.dir}/dev" includes="org/languagetool/dev/PrintLocales.java" destdir="${build.classes}" source="${source}" target="${target}" debug="${debug}">
+        <javac includeAntRuntime="false" encoding="${encoding}" srcdir="${src.java.dev.dir}" includes="org/languagetool/dev/PrintLocales.java" destdir="${build.classes}" source="${source}" target="${target}" debug="${debug}">
         </javac>
 
         <jar jarfile="${dist.dir}/printlocales.jar" basedir="${build.classes}" includes="org/languagetool/dev/**">
