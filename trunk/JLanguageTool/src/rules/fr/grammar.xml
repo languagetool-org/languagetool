@@ -5570,6 +5570,83 @@ though, and has since been slightly modified)-->
                 <example type="correct">Mes enfants ne m’en veulent pas.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="ADJ_ADV_INV" name="ajectif employé comme adverbe">
+          <rule>
+            <pattern>
+              <token inflected="yes" regexp="yes" skip="1">coûter|valoir</token>
+              <marker><token regexp="yes">chères?|chers</token></marker>
+            </pattern>
+            <message>Le mot <suggestion>cher</suggestion> est invariable après le verbe « \1 », car il est alors un adverbe.</message>
+            <example type="incorrect">La guerre coûte <marker>chère</marker>.</example>
+            <example type="correct">La guerre coûte <marker>cher</marker>.</example>
+            <example type="incorrect">Les guerres coûtent <marker>chères</marker>.</example>
+            <example type="correct">Les guerres coûtent <marker>cher</marker>.</example>
+            <example type="correct">Les guerres sont <marker>chères</marker>.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token inflected="yes" skip="1">voler</token>
+              <marker><token regexp="yes">basses?</token></marker>
+            </pattern>
+            <message>Le mot <suggestion>bas</suggestion> est invariable après le verbe « \1 », car il est alors un adverbe.</message>
+            <example type="incorrect">Les hirondelles volent <marker>basses</marker>.</example>
+            <example type="correct">Les hirondelles volent <marker>bas</marker>.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token inflected="yes" skip="1">sentir</token>
+              <marker><token regexp="yes">bonnes?|bons</token></marker>
+            </pattern>
+            <message>Le mot <suggestion>bas</suggestion> est invariable après le verbe « \1 » car, il est alors un adverbe.</message>
+            <example type="incorrect">Ces fleurs ne sentent pas <marker>bonnes</marker>.</example>
+            <example type="correct">Ces fleurs ne sentent pas <marker>bon</marker>.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token inflected="yes" skip="1">viser</token>
+              <marker><token>justes</token></marker>
+            </pattern>
+            <message>Le mot <suggestion>juste</suggestion> est invariable après le verbe «\1», car il est alors un adverbe.</message>
+            <example type="incorrect">Ils ont visé <marker>justes</marker>.</example>
+            <example type="correct">Ils ont visé <marker>juste</marker>.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token inflected="yes" skip="1">voir</token>
+              <marker><token regexp="yes">claires?|clairs</token></marker>
+            </pattern>
+            <message>Le mot <suggestion>clair</suggestion> est invariable après le verbe « \1 », car il est alors un adverbe.</message>
+            <example type="incorrect">Ils ne voient pas <marker>clairs</marker>.</example>
+            <example type="correct">Ils ne voient pas <marker>clair</marker>.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token inflected="yes" skip="1">marcher</token>
+              <marker><token regexp="yes">droites?|droits</token></marker>
+            </pattern>
+            <message>Le mot <suggestion>droit</suggestion> est invariable après le verbe « \1 » car il est alors un adverbe.</message>
+            <example type="incorrect">Ils ne marchent plus <marker>droits</marker>.</example>
+            <example type="correct">Ils ne marchent plus <marker>droit</marker>.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token inflected="yes" skip="1">chanter</token>
+              <marker><token regexp="yes">fausse?</token></marker>
+            </pattern>
+            <message>Le mot <suggestion>droit</suggestion> est invariable après le verbe « \1 » car il est alors un adverbe.</message>
+            <example type="incorrect">Elle chante <marker>fausse</marker>.</example>
+            <example type="correct">Elle chante <marker>faux</marker>.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token inflected="yes" skip="1">parler</token>
+              <marker><token regexp="yes">franches?|francs</token></marker>
+            </pattern>
+            <message>Le mot <suggestion>droit</suggestion> est invariable après le verbe « \1 » car il est alors un adverbe.</message>
+            <example type="incorrect">Ils parlent <marker>francs</marker>.</example>
+            <example type="correct">Ils parlent <marker>franc</marker>.</example>
+          </rule>
+        </rulegroup>
         <rulegroup id="QUELQUE_SOIT" name="Quelque soit">
             <rule name="quelque soit le">
                 <pattern>
@@ -5994,7 +6071,7 @@ though, and has since been slightly modified)-->
                 <token>de</token>
                 <token>suite</token>
             </pattern>
-            <message>Employez <suggestion>tout</suggestion> dans l’expression « tout de suite ».</message>
+            <message>Employez <suggestion>tout</suggestion> dans l’expression « tout de suite ».</message>
             <example type="incorrect">J’arrive <marker>tous</marker> de suite.</example>
             <example type="correct">J’arrive <marker>tout</marker> de suite.</example>
         </rule>
@@ -6006,7 +6083,7 @@ though, and has since been slightly modified)-->
                 </marker>
                 <token>cas</token>
             </pattern>
-            <message>Employez <suggestion>tout</suggestion> dans l’expression « en tout cas ».</message>
+            <message>Employez <suggestion>tout</suggestion> dans l’expression « en tout cas ».</message>
             <example type="incorrect">En <marker>tous</marker> cas, je vous donnerai des nouvelles.</example>
             <example type="correct">En tout cas, je vous donnerai des nouvelles.</example>
         </rule>
@@ -6378,7 +6455,7 @@ though, and has since been slightly modified)-->
               <token postag="R pers suj.*|Z.*" postag_regexp="yes"/>
               <marker><token postag="V.* sub.*" postag_regexp="yes"><exception postag="V.* (?:ind|con).*" postag_regexp="yes"/></token></marker>
             </pattern>
-            <message>Le verbe « \5 » devrait être à l’indicatif ou au conditionnel (et non au subjonctif) après « \1 \2 \3 \4 » qui exprime la certitude ou une forte vraisemblance de manière positive.</message>
+            <message>Le verbe « \5 » devrait être à l’indicatif ou au conditionnel (et non au subjonctif) après « \1 \2 \3 \4 » qui exprime la certitude ou une forte vraisemblance de manière positive.</message>
             <example type="incorrect">Elle est certaine que vous <marker>soyez</marker> un espion.</example>
             <example type="correct">Elle est certaine que vous <marker>êtes</marker> un espion.</example>
           </rule>
@@ -6445,7 +6522,7 @@ though, and has since been slightly modified)-->
         </rulegroup>
         <rule id="PREP_V" name="verbe après préposition">
             <pattern>
-                <token postag="P"><exception regexp="yes">avant|côté|dehors|dedans|derrière|en|outre|par|proche|suivant</exception></token>
+                <token postag="P"><exception regexp="yes">avant|côté|dehors|dedans|depuis|derrière|en|outre|par|proche|suivant</exception></token>
                 <marker>
                     <token postag="V.*" postag_regexp="yes">
                         <exception postag="V.* inf" postag_regexp="yes"/>
@@ -6462,6 +6539,7 @@ though, and has since been slightly modified)-->
             <example type="correct">Elles sont quasiment à portée de main.</example>
             <example type="correct">Les filles sont de sortie.</example>
             <example type="correct">Le voisin d’à côté est pénible.</example>
+            <example type="correct">Le gouvernement a depuis <marker>ordonné</marker> aux soldats de quitter le pays.</example>
         </rule>
         <rule id="DOUBLE_NEG" name="Double négation">
             <pattern>
@@ -21135,7 +21213,7 @@ though, and has since been slightly modified)-->
                         <exception regexp="yes">quelle|[mst]oi|[nv]ous|lui|[mst]e|loin|près|plus|moins|temps</exception>
                     </token>
                 </pattern>
-                <message>« Se rappelle de » est une impropriété. On se rappelle quelque chose, ou on se souvient de quelque chose. Employez <suggestion>\1</suggestion>.</message>
+                <message>« Se rappelle de » est une impropriété. On se rappelle quelque chose, ou on se souvient de quelque chose. Employez <suggestion>\1</suggestion>.</message>
                 <example type="incorrect">Je me <marker>rappelle de</marker> ce moment.</example>
                 <example type="correct">Je me rappelle ce moment.</example>
                 <example type="correct">J’ai reçu le rappel de la facture.</example>
@@ -21160,7 +21238,7 @@ though, and has since been slightly modified)-->
                         <exception regexp="yes">abord|eux|elles?</exception>
                     </token>
                 </pattern>
-                <message>« Se rappelle de » est une impropriété. On se rappelle quelque chose, ou on se souvient de quelque chose. Employez <suggestion>\1</suggestion>.</message>
+                <message>« Se rappelle de » est une impropriété. On se rappelle quelque chose, ou on se souvient de quelque chose. Employez <suggestion>\1</suggestion>.</message>
                 <example type="incorrect">Je me <marker>rappelle d’</marker>Anne.</example>
                 <example type="correct">Je me rappelle Anne.</example>
                 <example type="correct">Je me souviens d’Anne.</example>
@@ -21179,7 +21257,7 @@ though, and has since been slightly modified)-->
                         <exception regexp="yes">[mts]oi|lui|[nv]ous|[mts]e|loin|près</exception>
                     </token>
                 </pattern>
-                <message>« Se rappelle de » est une impropriété. On se rappelle quelque chose, ou on se souvient de quelque chose. Employez <suggestion>\1</suggestion>.</message>
+                <message>« Se rappelle de » est une impropriété. On se rappelle quelque chose, ou on se souvient de quelque chose. Employez <suggestion>\1</suggestion>.</message>
                 <example type="incorrect">Je ne me <marker>rappelle pas de</marker> ce moment.</example>
                 <example type="correct">Je ne me rappelle pas ce moment.</example>
                 <example type="correct">Je me rappelle de quelle manière il a dit cela.</example>
@@ -21199,7 +21277,7 @@ though, and has since been slightly modified)-->
                         <exception regexp="yes">eux|elles?</exception>
                     </token>
                 </pattern>
-                <message>« Se rappelle de » est une impropriété. On se rappelle quelque chose, ou on se souvient de quelque chose. Employez <suggestion>\1 \2</suggestion>.</message>
+                <message>« Se rappelle de » est une impropriété. On se rappelle quelque chose, ou on se souvient de quelque chose. Employez <suggestion>\1 \2</suggestion>.</message>
                 <example type="incorrect">Je me <marker>rappelle bien d’</marker>Anne.</example>
                 <example type="correct">Je me rappelle bien Anne.</example>
                 <example type="correct">Je me rappelle toujours d’allumer la lumière.</example>
@@ -22577,7 +22655,7 @@ though, and has since been slightly modified)-->
             <token>orge</token>
             <token regexp="yes">perlée|mondée</token>
           </pattern>
-          <message>Bien que « orge » soit un substantif féminin, on écrit <suggestion>\1 <match no="2" regexp_match="e$" regexp_replace=""/></suggestion>.</message>
+          <message>Bien que « orge » soit un substantif féminin, on écrit <suggestion>\1 <match no="2" regexp_match="e$" regexp_replace=""/></suggestion>.</message>
           <example type="incorrect">De l’<marker>orge perlée</marker>.</example>
           <example type="incorrect">De l’<marker>orge mondée</marker>.</example>
           <example type="correct">De l’orge perlé.</example>
