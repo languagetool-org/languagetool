@@ -40,6 +40,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.Reader;
+import java.net.URL;
 import java.util.*;
 import java.util.List;
 
@@ -100,8 +101,8 @@ public final class Main implements ActionListener {
 
     frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
     frame.addWindowListener(new CloseListener());
-    frame.setIconImage(new ImageIcon(JLanguageTool.getDataBroker().getFromResourceDirAsUrl(
-        Main.SYSTEM_TRAY_ICON_NAME)).getImage());
+    final URL iconUrl = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(SYSTEM_TRAY_ICON_NAME);
+    frame.setIconImage(new ImageIcon(iconUrl).getImage());
     frame.setJMenuBar(new MainMenuBar(this, messages));
 
     textArea = new JTextArea(messages.getString("guiDemoText"));
@@ -230,7 +231,7 @@ public final class Main implements ActionListener {
     if (!isInTray) {
       final java.awt.SystemTray tray = java.awt.SystemTray.getSystemTray();
       final Image img = Toolkit.getDefaultToolkit().getImage(
-              JLanguageTool.getDataBroker().getFromResourceDirAsUrl(Main.SYSTEM_TRAY_ICON_NAME));
+              JLanguageTool.getDataBroker().getFromResourceDirAsUrl(SYSTEM_TRAY_ICON_NAME));
       final PopupMenu popup = makePopupMenu();
       try {
         final java.awt.TrayIcon trayIcon = new java.awt.TrayIcon(img,
