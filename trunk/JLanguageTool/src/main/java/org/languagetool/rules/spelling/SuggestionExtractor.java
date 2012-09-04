@@ -25,9 +25,7 @@ import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.PatternRule;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -110,7 +108,8 @@ public class SuggestionExtractor {
       }
       final File ignoreFile = new File(hunspellDir, "ignore.txt");
       final Set<String> tokens = entry.getValue();
-      final FileWriter writer = new FileWriter(ignoreFile);
+      final FileOutputStream fos = new FileOutputStream(ignoreFile);
+      final OutputStreamWriter writer = new OutputStreamWriter(fos, "utf-8");
       try {
         writeIntro(writer, language);
         for (String token : tokens) {
@@ -119,17 +118,18 @@ public class SuggestionExtractor {
         }
       } finally {
         writer.close();
+        fos.close();
       }
       System.out.println("Wrote " + tokens.size() + " words to " + ignoreFile);
     }
   }
 
-  private void writeIntro(FileWriter writer, Language language) throws IOException {
+  private void writeIntro(Writer writer, Language language) throws IOException {
     writer.write("# words to be ignored by the spellchecker (auto-generated)\n");
     writeArtificialTestCaseItems(writer, language);
   }
 
-  private void writeArtificialTestCaseItems(FileWriter writer, Language language) throws IOException {
+  private void writeArtificialTestCaseItems(Writer writer, Language language) throws IOException {
     if (language == Language.AMERICAN_ENGLISH) {
       writer.write("anArtificialTestWordForLanguageTool\n");
     } else if (language == Language.GERMANY_GERMAN) {
@@ -181,13 +181,12 @@ public class SuggestionExtractor {
   }
 
   private File getLanguageDir(Language language) {
-    final File dir = new File("resource", language.getShortName());
+    final File dir = new File("org/languagetool/resource", language.getShortName());
     if (dir.exists()) {
       return dir;
     } else {
       // during development (in SVN):
-      final File sourceDir = new File("src", "resource");
-      return new File(sourceDir, language.getShortName());
+      return new File("src/main/resources/org/languagetool/resource/", language.getShortName());
     }
   }
 

@@ -115,7 +115,7 @@ public abstract class SpellingCheckRule extends Rule {
   private void loadWordsToBeIgnored(String ignoreFile) throws IOException {
     final InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(ignoreFile);
     try {
-      final Scanner scanner = new Scanner(inputStream);
+      final Scanner scanner = new Scanner(inputStream, "utf-8");
       try {
         while (scanner.hasNextLine()) {
           final String line = scanner.nextLine();
