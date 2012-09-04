@@ -132,9 +132,9 @@
     <!-- ================================================================== -->
     <!-- Generate the "ignore.txt" files -->
     <!-- ================================================================== -->
-    <target name="generate-ignore-files" depends="clean,init,build">
+    <target name="generate-ignore-files" depends="clean,init,build" description="Re-create ignore.txt files for all languages">
         <java classname="org.languagetool.rules.spelling.SuggestionExtractor" fork="true"
-              classpath="${build.classes}:src" classpathref="common.classpath"/>
+              classpath="${build.classes}:src:${ext.dir}/native-lib" classpathref="common.classpath"/>
     </target>
 
     <!-- ================================================================== -->
