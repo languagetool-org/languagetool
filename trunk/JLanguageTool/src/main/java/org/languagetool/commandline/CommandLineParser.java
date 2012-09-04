@@ -142,7 +142,7 @@ public class CommandLineParser {
             + "  -p, --profile            print performance measurements\n"
             + "  -v, --verbose            print text analysis (sentences, part-of-speech tags) to STDERR\n"
             + "  --version                print LanguageTool version number and exit\n"
-            + "  -a, --apply              automatically apply suggestions if available, printing result to STDOUT"
+            + "  -a, --apply              automatically apply suggestions if available, printing result to STDOUT\n"
             + "  --xmlfilter              remove XML/HTML elements from input before checking (this is deprecated)");
   }
 
