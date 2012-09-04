@@ -71,6 +71,9 @@ public class CommandLineParserTest extends TestCase {
 
     options = parser.parseOptions(new String[]{"--version"});
     assertTrue(options.isPrintVersion());
+
+    options = parser.parseOptions(new String[]{"--list"});
+    assertTrue(options.isPrintLanguages());
   }
 
 }

@@ -76,6 +76,20 @@ public class MainTest extends AbstractSecurityTestCase {
     }
   }
 
+  public void testPrintLanguages() throws Exception {
+    try {
+      String[] args = new String[] {"--list"};
+      Main.main(args);
+      fail("LT should have exited with status 0!");
+    } catch (ExitException e) {
+      String output = new String(this.out.toByteArray());
+      assertTrue(output.contains("German"));
+      assertTrue(output.contains("de-DE"));
+      assertTrue(output.contains("English"));
+      assertEquals("Exit status", 0, e.status);
+    }
+  }
+
   public void testEnglishFile() throws Exception {
     final URL url = this.getClass().getResource(ENGLISH_TEST_FILE);
     final URI uri = new URI (url.toString());

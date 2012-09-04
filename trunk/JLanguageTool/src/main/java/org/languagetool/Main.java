@@ -456,6 +456,10 @@ class Main {
       System.out.println("LanguageTool version " + JLanguageTool.VERSION);
       System.exit(0);
     }
+    if (options.isPrintLanguages()) {
+      printLanguages();
+      System.exit(0);
+    }
 
     if (options.getFilename() == null) {
       options.setFilename("-");
@@ -491,6 +495,17 @@ class Main {
       prg.runOnFile(options.getFilename(), options.getEncoding(), options.isListUnknown(), options.isXmlFiltering());
     }
     prg.cleanUp();
+  }
+
+  private static void printLanguages() {
+    final List<String> languages = new ArrayList<String>();
+    for (Language language : Language.REAL_LANGUAGES) {
+      languages.add(language.getShortNameWithVariant() + " " + language.getName());
+    }
+    Collections.sort(languages);
+    for (String s : languages) {
+      System.out.println(s);
+    }
   }
 
   // for language auto detect

@@ -26,6 +26,7 @@ import org.languagetool.Language;
 public class CommandLineOptions {
 
   private boolean printVersion = false;
+  private boolean printLanguages = false;
   private boolean verbose = false;
   private boolean recursive = false;
   private boolean taggerOnly = false;
@@ -186,5 +187,13 @@ public class CommandLineOptions {
 
   public void setXmlFiltering(boolean xmlFiltering) {
     this.xmlFiltering = xmlFiltering;
+  }
+
+  public boolean isPrintLanguages() {
+    return printLanguages;
+  }
+
+  public void setPrintLanguages(boolean printLanguages) {
+    this.printLanguages = printLanguages;
   }
 }

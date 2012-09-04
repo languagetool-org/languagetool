@@ -37,6 +37,8 @@ public class CommandLineParser {
     for (int i = 0; i < args.length; i++) {
       if (args[i].equals("--version")) {
         options.setPrintVersion(true);
+      } else if (args[i].equals("--list")) {
+        options.setPrintLanguages(true);
       } else if (args[i].equals("-h") || args[i].equals("-help") || args[i].equals("--help") || args[i].equals("--?")) {
         throw new IllegalArgumentException();
       } else if (args[i].equals("-adl") || args[i].equals("--autoDetect")) {    // set autoDetect flag
@@ -130,6 +132,7 @@ public class CommandLineParser {
             + "  -c, --encoding ENC       character set of the input text, e.g. utf-8 or latin1\n"
             + "  -b                       assume that a single line break marks the end of a paragraph\n"
             + "  -l, --language LANG      the language code of the text, e.g. en for English, en-GB for British English\n"
+            + "  --list                   Print all available languages and exit\n"
             + "  -adl, --autoDetect       auto-detect the language of the input text\n"
             + "  -m, --mothertongue LANG  the language code of your first language, used to activate false-friend checking\n"
             + "  -d, --disable RULES      a comma-separated list of rule ids to be disabled (use no spaces between ids)\n"
