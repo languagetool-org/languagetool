@@ -1867,6 +1867,40 @@ $Id$
         </rule>
     </category>
     <category name="Adverbis">
+                <rulegroup id="QUAN_MES_MES" name="*quan/com més... més">
+        <!-- excepció: que és quan més ens interessa,  -->
+            <rule>
+                <pattern>
+                    <token><exception postag="VS.*" postag_regexp="yes"/></token>
+                    <marker>
+                        <token regexp="yes">quant?</token>
+                    </marker>        
+                    <token regexp="yes" skip="-1">més|menys<exception scope="next" regexp="yes">[;.]|quant?</exception></token>
+                    <token regexp="yes">més|menys|major|menor</token>
+                    <token negate="yes">que</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>com</suggestion>?</message>
+                <example type="incorrect"><marker>quan</marker> més gran sigui, més bonic serà.</example>
+                <example type="correct">com més gran sigui</example>
+                <example type="correct">quan més dur era l'atac, quan més en perill es troben aquells herois</example>
+                <example type="correct">a l'hivern, que és quan més ens interessa, n'obtenim sempre menys</example>
+                
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception regexp="yes">quant?</exception></token>
+                    <token regexp="yes" skip="-1">més|menys|major|menor<exception scope="next" regexp="yes">[;.]</exception></token>
+                    <marker>
+                        <token regexp="yes">quant?</token>
+                    </marker>        
+                    <token regexp="yes">més|menys</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>com</suggestion>?</message>
+                <example type="incorrect">més bonic <marker>quan</marker> més gran sigui</example>
+                <example type="correct">més bonic com més gran sigui</example>
+                <example type="correct">quan més dur era l'atac, quan més en perill es troben aquells herois</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="RECENT" name="recent + adjectiu">
             <rule>
                 <pattern>
@@ -2417,6 +2451,15 @@ $Id$
         </rulegroup>
     </category>
     <category name="Confusions">
+        <rule id="CADA_QUAN_QUANT" name="cada *quan/quant">
+            <pattern>
+                <token>cada</token>
+                <token>quan</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>cada quant</suggestion>?</message>
+            <example type="incorrect">¿<marker>Cada quan</marker> et dutxes?</example>
+            <example type="correct">¿Cada quant et dutxes?</example>
+        </rule>
         <rule id="APROP" name="*aprop/">
             <pattern>
                 <marker>
@@ -3449,8 +3492,44 @@ $Id$
         </rulegroup>
     </category>
     <category name="Accents diacrítics">
+        <rulegroup id="MON" name="el *mon/món">
+            <rule>
+                <pattern>
+                    <token regexp="yes">cert|l|el|un|aquest|aquell|aqueix|este|eixe|[mts]eu|[vn]ostre|llur</token>
+                    <marker>
+                        <token>mon</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>món</suggestion>?</message>
+                <example type="incorrect">el <marker>mon</marker></example>
+                <example type="correct">el món</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">cert|l|el|un|aquest|aquell|aqueix|este|eixe|[mts]eu|[vn]ostre|llur</token>
+                    <token postag="A..[MC]S.*" postag_regexp="yes"/> 
+                    <marker>
+                        <token>mon</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>món</suggestion>?</message>
+                <example type="incorrect">el Tercer <marker>Mon</marker></example>
+                <example type="correct">el Tercer Món</example>
+            </rule>
+            <rule>
+            <pattern>
+                <marker>
+                    <token>mon</token>
+                </marker>
+                <token><exception postag="(A.|N).[MC]S.*" postag_regexp="yes"/></token> 
+            </pattern>
+            <message>¿Volíeu dir <suggestion>món</suggestion>?</message>
+            <example type="incorrect">Des que el món és <marker>mon</marker>.</example>
+            <example type="correct">Des que el món és món.</example>
+        </rule>
+        </rulegroup>
         <rulegroup id="ACCENTS_DIACRITICS" name="Comprova accents diacrítics diversos: rés, bé, és">
-            <!--si que -->
+            <!--si que -->     
              <rule>
                 <pattern>
                     <marker>
@@ -5853,6 +5932,18 @@ $Id$
             <short>Expressió incorrecta.</short>
             <example type="incorrect"><marker>Casc antic</marker>.</example>
             <example type="correct">Barri vell.</example>
+        </rule>
+        <rule id="CONTRACORRENT" name="anar *contracorrent/a contracorrent">
+            <pattern>
+                <token negate="yes">a</token>
+                <marker>
+                    <token>contracorrent<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                </marker>        
+            </pattern>
+            <message>¿Volíeu dir <suggestion>contra corrent</suggestion> o <suggestion>a contracorrent</suggestion>?</message>
+            <example type="incorrect">Anar <marker>contracorrent</marker></example>
+            <example type="correct">Anar a contracorrent</example>
+            <example type="correct">El contracorrent se'ns endugué.</example>
         </rule>
         <rule id="DABRIC" name="d'abric / d'abrigar">
             <pattern>
