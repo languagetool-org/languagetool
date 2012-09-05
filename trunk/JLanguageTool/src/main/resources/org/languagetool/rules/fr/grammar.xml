@@ -2625,6 +2625,65 @@ though, and has since been slightly modified)-->
             <example type="correct"><marker>Cyndi Lauper</marker></example>
           </rule>
         </rulegroup>
+        <rulegroup id="ABYME_ABIME" name="abyme et abîme">
+          <rule>
+            <pattern>
+              <token inflected="yes" regexp="yes">mettre|mise|récit</token>
+              <token>en</token>
+              <marker><token regexp="yes">ab[îi]me</token></marker>
+            </pattern>
+            <message>Voulez-vous dire <suggestion>abyme</suggestion> ?</message>
+            <example type="incorrect">La mise en <marker>abîme</marker>.</example>
+            <example type="correct">La mise en <marker>abyme</marker>.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token regexp="yes">bord|fond</token>
+              <token>de</token>
+              <token>l</token>
+              <token regexp="yes">[’´'‛′‘]</token>
+              <marker><token>abyme</token></marker>
+            </pattern>
+            <message>Voulez-vous dire <suggestion>abîme</suggestion> ?</message>
+            <example type="incorrect">Le fond de l’<marker>abyme</marker>.</example>
+            <example type="correct">Le fond de l’<marker>abîme</marker>.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token inflected="yes" regexp="yes">aller|courrir|course|face|mener</token>
+              <token>à</token>
+              <token>l</token>
+              <token regexp="yes">[’´'‛′‘]</token>
+              <marker><token>abyme</token></marker>
+            </pattern>
+            <message>Voulez-vous dire <suggestion>abîme</suggestion> ?</message>
+            <example type="incorrect">Cela nous mènera à l’<marker>abyme</marker>.</example>
+            <example type="correct">Cela nous mènera à l’<marker>abîme</marker>.</example>
+          </rule>
+        </rulegroup>
+        <rulegroup id="BITTE_BITE" name="bitte et bite">
+          <rule>
+            <pattern>
+              <marker><token regexp="yes">bites?</token></marker>
+              <token>d</token>
+              <token regexp="yes">[’´'‛′‘]</token>
+              <token>amarrage</token>
+            </pattern>
+            <message>Voulez-vous dire <suggestion>bitte</suggestion> ?</message>
+            <example type="incorrect">Une <marker>bite</marker> d’amarrage.</example>
+            <example type="correct">Une <marker>bitte</marker> d’amarrage.</example>
+          </rule>
+            <rule>
+              <pattern>
+                <marker><token regexp="yes">bites?</token></marker>
+                <token>du</token>
+                <token>quai</token>
+              </pattern>
+              <message>Voulez-vous dire <suggestion>bitte</suggestion> ?</message>
+              <example type="incorrect">La <marker>bite</marker> du quai.</example>
+              <example type="correct">La <marker>bitte</marker> du quai.</example>
+          </rule>
+        </rulegroup>
     </category>
     <category name="Élision">
         <!-- I find conflicting information about élision, so this needs to be reviewed.
@@ -3053,7 +3112,7 @@ though, and has since been slightly modified)-->
                     </token>
                     <token postag="[JNZ] m .*" postag_regexp="yes">
                         <exception postag="V .*|C coor|[NJZ] e .*" postag_regexp="yes"/>
-                        <exception regexp="yes">.|fait</exception>
+                        <exception regexp="yes">.|fait|non</exception>
                     </token>
                 </pattern>
                 <message>« \1 » et « \2 » ne semblent pas bien accordés en genre.</message>
@@ -3078,6 +3137,7 @@ though, and has since been slightly modified)-->
                 <example type="correct">C’est une sale affaire.</example>
                 <example type="correct">Il est <marker>torse nu</marker>.</example>
                 <example type="correct">La plus <marker>grande fait</marker> dix centimètres.</example>
+                <example type="correct">Les équation <marker>différentielles non</marker> linéaires.</example>
             </rule>
             <rule name="nom féminin suivi du masculin">
                 <pattern>
@@ -5573,8 +5633,8 @@ though, and has since been slightly modified)-->
         <rulegroup id="ADJ_ADV_INV" name="ajectif employé comme adverbe">
           <rule>
             <pattern>
-              <token inflected="yes" regexp="yes" skip="1">coûter|valoir</token>
-              <marker><token regexp="yes">chères?|chers</token></marker>
+              <token inflected="yes" regexp="yes" skip="1">coûter|louer|payer|valoir|vendre</token>
+              <marker><token regexp="yes">chères?|chers|chaire?s?</token></marker>
             </pattern>
             <message>Le mot <suggestion>cher</suggestion> est invariable après le verbe « \1 », car il est alors un adverbe.</message>
             <example type="incorrect">La guerre coûte <marker>chère</marker>.</example>
@@ -5740,15 +5800,18 @@ though, and has since been slightly modified)-->
         <rulegroup id="EST_CE_QUE" name="Est-ce que">
             <rule>
                 <pattern>
-                    <token>Est<exception regexp="yes" scope="previous">[’´'‛′‘]</exception>
-                        <exception postag="R pers suj .*|V.*inf" postag_regexp="yes" scope="previous"/>
-                    </token>
-                    <token>ce</token>
-                    <token regexp="yes">que?</token>
+                    <token postag="SENT_START"/>
+                    <marker>
+                      <token>est</token>
+                      <token>ce</token>
+                      <token regexp="yes">que?</token>
+                    </marker>
                 </pattern>
                 <message>Voulez-vous dire <suggestion>\1-\2 \3</suggestion> ?</message>
                 <example type="incorrect"><marker>Est ce que</marker> tu viens ?</example>
                 <example type="correct">Est-ce que tu viens ?</example>
+                <example type="incorrect"><marker>Est ce qu</marker>’ils viennent ?</example>
+                <example type="correct">Est-ce qu’ils viennent ?</example>
                 <example type="correct">C’est ce que je dis.</example>
                 <example type="correct">Il est ce que j’appelle un champion.</example>
                 <example type="correct">Discuter est ce qu’elle fait le mieux.</example>
@@ -19176,7 +19239,7 @@ though, and has since been slightly modified)-->
             <example type="incorrect"><marker>merchandising</marker></example>
             <example type="correct"><marker>marchandisage</marker></example>
         </rule>
-        <rule id="SEXY" name="sexy">
+        <rule default="off" id="SEXY" name="sexy">
             <pattern>
                 <token regexp="yes">sexys?|sexies</token>
             </pattern>
@@ -19184,7 +19247,7 @@ though, and has since been slightly modified)-->
             <example type="incorrect"><marker>sexy</marker></example>
             <example type="correct"><marker>attrayant</marker></example>
         </rule>
-        <rule id="SPONSOR" name="sponsor">
+        <rule default="off" id="SPONSOR" name="sponsor">
             <pattern>
                 <token regexp="yes">sponsors?</token>
             </pattern>
