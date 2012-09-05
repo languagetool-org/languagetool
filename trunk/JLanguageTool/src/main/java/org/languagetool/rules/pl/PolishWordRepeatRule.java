@@ -97,6 +97,7 @@ public class PolishWordRepeatRule extends PolishRule {
     boolean repetition = false;
     final TreeSet<String> inflectedWords = new TreeSet<String>();
     String prevLemma, curLemma;
+    int curToken = 0;
     // start from real token, 0 = SENT_START
     for (int i = 1; i < tokens.length; i++) {
       final String token = tokens[i].getToken();
@@ -155,10 +156,11 @@ public class PolishWordRepeatRule extends PolishRule {
           if (hasLemma) {
             curLemma = tokens[i].getAnalyzedToken(j).getLemma();
             if (!prevLemma.equals(curLemma) && !notSentEnd) {
-              if (inflectedWords.contains(curLemma)) {
+              if (inflectedWords.contains(curLemma) && curToken != i) {
                 repetition = true;
               } else {
                 inflectedWords.add(tokens[i].getAnalyzedToken(j).getLemma());
+                curToken = i;
               }
             }
             prevLemma = curLemma;

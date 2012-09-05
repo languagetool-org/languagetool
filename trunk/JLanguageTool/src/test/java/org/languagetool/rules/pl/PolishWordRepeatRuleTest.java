@@ -40,8 +40,11 @@ public class PolishWordRepeatRuleTest extends TestCase {
 	    matches = rule.match(langTool.getAnalyzedSentence("To jest zdanie próbne."));
 	    assertEquals(0, matches.length);
 	    //repeated prepositions, don't count'em
-	    matches = rule.match(langTool.getAnalyzedSentence("Na dyskotece tańczył jeszcze, choć był na bani."));
+	    matches = rule.match(langTool.getAnalyzedSentence("Na dyskotece tańczył jeszcze, choć był na bani."));	    
 	    assertEquals(0, matches.length);
+	    // sf bug report:
+	    matches = rule.match(langTool.getAnalyzedSentence("Żadnych „ale”."));
+        assertEquals(0, matches.length);
 	    //incorrect
 	    matches = rule.match(langTool.getAnalyzedSentence("Był on bowiem pięknym strzelcem bowiem."));
 	    assertEquals(1, matches.length);
