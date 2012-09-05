@@ -275,6 +275,22 @@ $Id$
       <example type="incorrect">Ŝi <marker>regardis</marker> lin.</example>
       <example type="correct">Ŝi <marker>rigardis</marker> lin.</example>
     </rule>
+    <rule id="VERSIONO" name="versiono → versio">
+      <pattern>
+        <token inflected="yes" regexp="yes">version[oae]</token>
+      </pattern>
+      <message>La vorto «\1» ŝajnas esti eraro pro influo de nacia lingvo. Ĉu vi intencis skribi <suggestion><match no="1" regexp_match="ion" regexp_replace="i"/></suggestion>?</message>
+      <example type="incorrect">La nova <marker>versiono</marker> tre bonas.</example>
+      <example type="correct">La nova <marker>versio</marker> tre bonas.</example>
+    </rule>
+    <rule id="MAGIKA" name="magika → magia">
+      <pattern>
+        <token inflected="yes" regexp="yes">magik[aoe]</token>
+      </pattern>
+      <message>La vorto «\1» ŝajnas esti eraro pro influo de nacia lingvo. Ĉu vi intencis skribi <suggestion><match no="1" regexp_match="ik" regexp_replace=""/></suggestion>?</message>
+      <example type="incorrect">Estis <marker>magika</marker> vespero.</example>
+      <example type="correct">Estis <marker>magia</marker> vespero.</example>
+    </rule>
     <rule id="DIFEKTO" name="defekto → difekto">
       <pattern>
         <token inflected="yes" regexp="yes">de(?:fekt|fin)[aeio]</token>
@@ -343,6 +359,18 @@ $Id$
         <message>Ĉu vi intencis skribi <suggestion><match no="3" regexp_match="u" regexp_replace="o"/></suggestion>?</message>
         <example type="incorrect">Maria baldaŭ fariĝos <marker>adultino</marker>.</example>
         <example type="correct">Maria baldaŭ fariĝos adoltino.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="PLASTA_PLASTIKA" name="plasta kaj plastika">
+      <rule>
+        <pattern>
+          <marker><token inflected="yes">plastika</token></marker>
+          <token inflected="yes" regexp="yes">sako|.*aĵo</token>
+        </pattern>
+        <message>Laŭ la kunteksto, ŝajnas ke vi intencis diri <suggestion><match no="1" regexp_match="ik" regexp_replace=""/></suggestion>.</message>
+        <example type="incorrect">Ĉu vi havas <marker>plastikan</marker> sakon?</example>
+        <example type="correct">Ĉu vi havas plastan sakon?</example>
+        <example type="correct">Li estas plastika kirurgo.</example>
       </rule>
     </rulegroup>
   </category>
@@ -3449,6 +3477,7 @@ $Id$
         <example type="correct">Li ronkis <marker>la tutan</marker> nokton.</example>
       </rule>
     </rulegroup>
+
   </category>
   <!-- vim: foldmethod=marker foldmarker=<category,</category:
   -->
