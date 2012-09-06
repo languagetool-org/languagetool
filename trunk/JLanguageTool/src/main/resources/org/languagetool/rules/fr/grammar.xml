@@ -2901,7 +2901,7 @@ though, and has since been slightly modified)-->
                         <exception scope="previous">numéro</exception>
                     </token>
                     <token postag="[JN] .* s" postag_regexp="yes">
-                        <exception regexp="yes">janvier|février|avril|mai|juin|juillet|août|septembre|octobre|novembre|décembre|vendémiaire|brumaire|frimaire|nivôse|pluviôse|ventôse|germinal|floréal|prairial|messidor|thermidor|fructidor|cent|mille</exception>
+                        <exception regexp="yes">été|janvier|février|avril|mai|juin|juillet|août|septembre|octobre|novembre|décembre|vendémiaire|brumaire|frimaire|nivôse|pluviôse|ventôse|germinal|floréal|prairial|messidor|thermidor|fructidor|cent|mille</exception>
                     </token>
                 </pattern>
                 <message>« \1 » et « \2 » ne semblent pas bien accordés en nombre.</message>
@@ -2910,6 +2910,7 @@ though, and has since been slightly modified)-->
                 <example type="correct">Il est né le <marker>quatre janvier</marker>.</example>
                 <example type="correct">On estimait à seize mille les fusils de son armée.</example>
                 <example type="correct">Le patron du numéro deux allemand a démissionné.</example>
+                <example type="correct">Ils ont tous les <marker>trois été</marker> tués par balle.</example>
             </rule>
             <rule name="nombre pluriel suivi du singulier">
                 <pattern>
@@ -5315,7 +5316,7 @@ though, and has since been slightly modified)-->
                 <pattern>
                     <token negate="yes" regexp="yes">plus|moins|de|[’´'‛′‘]/</token>
                     <token postag="N f .*" postag_regexp="yes"><exception regexp="yes">impression|fois</exception></token>
-                    <token regexp="yes" skip="2">que?</token>
+                    <token regexp="yes" skip="2">que?<exception scope="next">quand</exception></token>
                     <marker>
                         <token postag="V avoir ind.*" postag_regexp="yes" skip="2"/>
                         <token postag="V ppa m .*" postag_regexp="yes"/>
@@ -5330,6 +5331,7 @@ though, and has since been slightly modified)-->
                 <example type="incorrect">La femme que j’<marker>ai aidé</marker>.</example>
                 <example type="incorrect">La femme que j’<marker>ai beaucoup aidé</marker>.</example>
                 <example type="incorrect">La femme que j’<marker>ai un peu aidé</marker>.</example>
+                <example type="correct">Une meilleure situation que quand il <marker>a pris</marker> ses fonctions.</example>
             </rule>
             <rule>
                 <pattern>
