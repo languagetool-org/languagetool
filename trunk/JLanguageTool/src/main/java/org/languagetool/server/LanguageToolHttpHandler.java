@@ -264,17 +264,17 @@ class LanguageToolHttpHandler implements HttpHandler {
  
 
   /**
-   * Construct an xml string containing all supported languages. <br/>The xml format is:<br/>
+   * Construct an XML string containing all supported languages. <br/>The XML format looks like this:<br/><br/>
    * &lt;languages&gt;<br/>
-   *    &nbsp;&nbsp;&lt;language name="Catalan" abbr="ca" /&gt;<br/> 
-   *    &nbsp;&nbsp;&lt;language name="Dutch" abbr="nl" /&gt;<br/>
-   *    &nbsp;&nbsp;...<br/>
-   *  &lt;languages&gt;<br/>
-   *  The languages are alphabetically sorted.  
-   * @return an xml string containing all supported languages.
+   *    &nbsp;&nbsp;&lt;language name="Catalan" abbr="ca" abbrWithVariant="ca-ES"/&gt;<br/>
+   *    &nbsp;&nbsp;&lt;language name="German" abbr="de" abbrWithVariant="de"/&gt;<br/>
+   *    &nbsp;&nbsp;&lt;language name="German (Germany)" abbr="de" abbrWithVariant="de-DE"/&gt;<br/>
+   *  &lt;languages&gt;<br/><br/>
+   *  The languages are sorted alphabetically by their name.
+   * @return an XML document listing all supported languages
    */
   public static String getSupportedLanguagesAsXML() {
-    Language[] languageCopy = Language.REAL_LANGUAGES.clone();
+    final Language[] languageCopy = Language.REAL_LANGUAGES.clone();
     final List<Language> languages = Arrays.asList(languageCopy);
     Collections.sort(languages, new Comparator<Language>() {
       @Override
@@ -284,7 +284,8 @@ class LanguageToolHttpHandler implements HttpHandler {
     });
     final StringBuilder xmlBuffer = new StringBuilder("<?xml version='1.0' encoding='UTF-8'?>\n<languages>\n");
     for (Language lang : languages) {
-      xmlBuffer.append(String.format("\t<language name=\"%s\" abbr=\"%s\" /> \n", lang.getName(), lang.getShortName()));
+      xmlBuffer.append(String.format("\t<language name=\"%s\" abbr=\"%s\" abbrWithVariant=\"%s\"/> \n", lang.getName(),
+              lang.getShortName(), lang.getShortNameWithVariant()));
     }
     xmlBuffer.append("</languages>\n");
     return xmlBuffer.toString();

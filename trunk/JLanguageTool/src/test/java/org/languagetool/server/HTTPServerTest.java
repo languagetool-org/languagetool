@@ -93,6 +93,9 @@ public class HTTPServerTest {
     if (!languagesXML.contains("Romanian") || !languagesXML.contains("English")) {
       fail("Error getting supported languages: " + languagesXML);
     }
+    if (!languagesXML.contains("abbr=\"de\"") || !languagesXML.contains("abbrWithVariant=\"de-DE\"")) {
+      fail("Error getting supported languages: " + languagesXML);
+    }
     // tests for "&" character
     assertTrue(check(Language.ENGLISH, "Me & you you").contains("&"));
     // tests for mother tongue (copy from link {@link FalseFriendRuleTest})   
