@@ -1,9 +1,6 @@
 package org.languagetool.server;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URLDecoder;
@@ -85,6 +82,7 @@ class LanguageToolHttpHandler implements HttpHandler {
       e.printStackTrace();
       final String response = "Error: " + StringTools.escapeXML(Tools.getFullStackTrace(e));
       sendError(httpExchange, HttpURLConnection.HTTP_INTERNAL_ERROR, response);
+    } finally {
       httpExchange.close();
     }
     print("Check done in " + (System.currentTimeMillis() - timeStart) + "ms");
@@ -123,7 +121,6 @@ class LanguageToolHttpHandler implements HttpHandler {
     final String response = getSupportedLanguagesAsXML();
     httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);
     httpExchange.getResponseBody().write(response.getBytes(ENCODING));
-    httpExchange.close();
   }
 
   private void checkText(String text, HttpExchange httpExchange, Map<String, String> parameters) throws Exception {
@@ -179,7 +176,6 @@ class LanguageToolHttpHandler implements HttpHandler {
             CONTEXT_SIZE, StringTools.XmlPrintMode.NORMAL_XML);
     httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);
     httpExchange.getResponseBody().write(response.getBytes(ENCODING));
-    httpExchange.close();
   }
 
   private Map<String, String> parseQuery(String query) throws UnsupportedEncodingException {
