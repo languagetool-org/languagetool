@@ -89,8 +89,8 @@ class LanguageToolHttpHandler implements HttpHandler {
   }
 
   private void sendError(HttpExchange httpExchange, int returnCode, String response) throws IOException {
-    httpExchange.sendResponseHeaders(returnCode, response.getBytes().length);
-    httpExchange.getResponseBody().write(response.getBytes());
+    httpExchange.sendResponseHeaders(returnCode, response.getBytes(ENCODING).length);
+    httpExchange.getResponseBody().write(response.getBytes(ENCODING));
   }
 
   private Map<String, String> getRequestQuery(HttpExchange httpExchange, URI requestedUri) throws IOException {
