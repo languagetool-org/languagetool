@@ -1601,44 +1601,6 @@ though, and has since been slightly modified)-->
             <example type="incorrect">Je demande <marker>à corps et à cris</marker></example>
             <example type="correct">Je demande <marker>à cor et à cri</marker></example>
         </rule>
-        <rulegroup id="DU_A" name="du à (dû à)">
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>du</token>
-                    </marker>
-                    <token regexp="yes">à|aux?|en</token>
-                </pattern>
-                <message>Voulez-vous écrire <suggestion>dû</suggestion> ?</message>
-                <example type="incorrect">L’échec est <marker>du</marker> à une erreur de calcul</example>
-                <example type="correct">L’échec est <marker>dû</marker> à une erreur de calcul</example>
-                <example type="incorrect">L’échec est <marker>du</marker> en partie à un manque de préparation.</example>
-                <example type="correct">L’échec est <marker>dû</marker> en partie à un manque de préparation.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">[mt]on|notre|votre|leur</token>
-                    <marker>
-                        <token>du</token>
-                    </marker>
-                </pattern>
-                <message>Voulez-vous écrire <suggestion>dû</suggestion> ?</message>
-                <example type="incorrect">Tu as reçu ton <marker>du</marker> pour ton travail.</example>
-                <example type="correct">Tu as reçu ton <marker>dû</marker> pour ton travail.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token inflected="yes">avoir</token>
-                    <marker>
-                        <token>du</token>
-                    </marker>
-                    <token postag="V inf"/>
-                </pattern>
-                <message>Voulez-vous écrire <suggestion>dû</suggestion> ?</message>
-                <example type="incorrect">J’ai <marker>du</marker> partir tôt.</example>
-                <example type="correct">J’ai <marker>dû</marker> partir tôt.</example>
-            </rule>
-        </rulegroup>
         <rule id="OUTREMER" name="outremer (outre-mer)">
             <pattern>
                 <token inflected="yes">venir</token>
@@ -2685,6 +2647,59 @@ though, and has since been slightly modified)-->
               <example type="correct">La <marker>bitte</marker> du quai.</example>
           </rule>
         </rulegroup>
+        <rulegroup id="DU_DU" name="du ou dû">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>du</token>
+                    </marker>
+                    <token regexp="yes">à|aux?|en</token>
+                </pattern>
+                <message>Voulez-vous écrire <suggestion>dû</suggestion> ?</message>
+                <example type="incorrect">L’échec est <marker>du</marker> à une erreur de calcul</example>
+                <example type="correct">L’échec est <marker>dû</marker> à une erreur de calcul</example>
+                <example type="incorrect">L’échec est <marker>du</marker> en partie à un manque de préparation.</example>
+                <example type="correct">L’échec est <marker>dû</marker> en partie à un manque de préparation.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[mt]on|notre|votre|leur</token>
+                    <marker>
+                        <token>du</token>
+                    </marker>
+                </pattern>
+                <message>Voulez-vous écrire <suggestion>dû</suggestion> ?</message>
+                <example type="incorrect">Tu as reçu ton <marker>du</marker> pour ton travail.</example>
+                <example type="correct">Tu as reçu ton <marker>dû</marker> pour ton travail.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">avoir</token>
+                    <marker>
+                        <token>du</token>
+                    </marker>
+                    <token postag="V inf"/>
+                </pattern>
+                <message>Voulez-vous écrire <suggestion>dû</suggestion> ?</message>
+                <example type="incorrect">J’ai <marker>du</marker> partir tôt.</example>
+                <example type="correct">J’ai <marker>dû</marker> partir tôt.</example>
+            </rule>
+            <rule>
+              <pattern>
+                <token regexp="yes" inflected="yes">[mt][’´'‛′‘e]|[nv]ous|leur</token>
+                <token inflected="yes" postag="V etre.* 3 s" postag_regexp="yes">être</token>
+                <marker><token>du</token></marker>
+              </pattern>
+              <message>Voulez-vous écrire <suggestion>dû</suggestion> ?</message>
+              <example type="incorrect">Voici ce qui t’est <marker>du</marker>.</example>
+              <example type="correct">Voici ce qui t’est <marker>dû</marker>.</example>
+              <example type="incorrect">Voici ce qui me sera <marker>du</marker>.</example>
+              <example type="correct">Voici ce qui me sera <marker>dû</marker>.</example>
+              <example type="correct">Tu es <marker>du</marker> Morbihan.</example>
+              <example type="incorrect">Voici ce qui vous est <marker>du</marker>.</example>
+              <example type="correct">Voici ce qui vous est <marker>dû</marker>.</example>
+            </rule>
+        </rulegroup>
     </category>
     <category name="Élision">
         <!-- I find conflicting information about élision, so this needs to be reviewed.
@@ -3104,6 +3119,7 @@ though, and has since been slightly modified)-->
                 <example type="correct">Elle a l’air jolie.</example>
                 <example type="correct">Les pâtes ne sont pas bonnes car trop cuites.</example>
                 <example type="correct">Une peine <marker>pas si lourde</marker>.</example>
+                <example type="correct"><marker>Une infime</marker> minorité.</example>
             </rule>
             <rule name="féminin suivi du masculin">
                 <pattern>
