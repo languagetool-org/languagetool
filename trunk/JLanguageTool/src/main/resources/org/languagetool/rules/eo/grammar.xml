@@ -2215,7 +2215,7 @@ $Id$
     </rule>
     <rule id="VOLAS_KE_V" name="Volas ke + verbo">
       <pattern>
-        <token regexp="yes" skip="1">(?:admon|bezoni|dezir|konsil|neces|ordon|pet|postul|vol)(?:et|eg)?[aiou]s</token>
+        <token regexp="yes" skip="1">(?:admon|bezoni|dezir|konsil|neces|ordon|pet|postul|vol)(?:et|eg)?[aiou]s<exception scope="next" regexp="yes">V .* i</exception></token>
         <token skip="4">ke<exception scope="next" negate_pos="yes" postag="[RO] nak.*|E.*|T .* t e|V .*[^u]" postag_regexp="yes"/></token>
         <marker>
           <token postag="V .*[^u]" postag_regexp="yes"/>
@@ -2225,6 +2225,7 @@ $Id$
       <url>http://bertilow.com/pmeg/gramatiko/verboj/vola.html#i-zd8</url>
       <example type="incorrect">Mi volas, ke vi tien <marker>iras</marker>.</example>
       <example type="correct">Mi volas, ke vi tien iru.</example>
+      <example type="correct">Ĉu vi volas nei ke ili ekzistas?</example>
     </rule>
     <rule id="POR_KE_V" name="Por ke + verbo">
       <pattern>
