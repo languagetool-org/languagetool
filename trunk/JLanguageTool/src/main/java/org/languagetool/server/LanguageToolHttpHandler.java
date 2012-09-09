@@ -41,9 +41,13 @@ class LanguageToolHttpHandler implements HttpHandler {
   
   private String[] enabledRules = {};
   private String[] disabledRules = {};
- 
-  LanguageToolHttpHandler(boolean verbose, Set<String> allowedIps,
-		  boolean internal) throws IOException {
+
+  /**
+   * @param verbose print the input text in case of exceptions
+   * @param allowedIps set of IPs that may connect or <tt>null</tt> to allow any IP
+   * @throws IOException
+   */
+  LanguageToolHttpHandler(boolean verbose, Set<String> allowedIps, boolean internal) throws IOException {
     this.verbose = verbose;
     this.allowedIps = allowedIps;
     this.internalServer = internal;
@@ -58,7 +62,7 @@ class LanguageToolHttpHandler implements HttpHandler {
       final URI requestedUri = httpExchange.getRequestURI();
       final Map<String, String> parameters = getRequestQuery(httpExchange, requestedUri);
       final String remoteAddress = httpExchange.getRemoteAddress().getAddress().getHostAddress();
-      if (allowedIps.contains(remoteAddress)) {
+      if (allowedIps == null || allowedIps.contains(remoteAddress)) {
         if (requestedUri.getRawPath().endsWith("/Languages")) {
           // request type: list known languages
           printListOfLanguages(httpExchange);
