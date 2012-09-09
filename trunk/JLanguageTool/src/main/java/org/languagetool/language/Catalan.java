@@ -36,6 +36,7 @@ import org.languagetool.rules.ca.CatalanUnpairedExclamationMarksRule;
 import org.languagetool.rules.ca.CatalanUnpairedQuestionMarksRule;
 import org.languagetool.rules.ca.ComplexAdjectiveConcordanceRule;
 import org.languagetool.rules.ca.MorfologikCatalanSpellerRule;
+import org.languagetool.rules.ca.CatalanWrongWordInContextRule;
 import org.languagetool.rules.patterns.Unifier;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.ca.CatalanSynthesizer;
@@ -44,14 +45,14 @@ import org.languagetool.tagging.ca.CatalanTagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.ca.CatalanHybridDisambiguator;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
-import org.languagetool.tokenizers.SentenceTokenizer;
+//import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.ca.CatalanWordTokenizer;
 
 public class Catalan extends Language {
 
   private Tagger tagger;
-  private SentenceTokenizer sentenceTokenizer;
+  //private SentenceTokenizer sentenceTokenizer;
   private Tokenizer wordTokenizer;
   private Synthesizer synthesizer;
   private Disambiguator disambiguator;
@@ -107,7 +108,8 @@ public class Catalan extends Language {
             CatalanUnpairedQuestionMarksRule.class,
             CatalanUnpairedExclamationMarksRule.class,
             AccentuationCheckRule.class,
-            ComplexAdjectiveConcordanceRule.class
+            ComplexAdjectiveConcordanceRule.class,
+            CatalanWrongWordInContextRule.class
             //CastellanismesReplaceRule.class,
             //AccentuacioReplaceRule.class
     );
@@ -129,13 +131,13 @@ public class Catalan extends Language {
     return synthesizer;
   }
 
-  @Override
-  public final SentenceTokenizer getSentenceTokenizer() {
-    if (sentenceTokenizer == null) {
-      sentenceTokenizer = new SRXSentenceTokenizer(this);
-    }
-    return sentenceTokenizer;
-  }
+//  @Override
+//  public final SentenceTokenizer getSentenceTokenizer() {
+//    if (sentenceTokenizer == null) {
+//      sentenceTokenizer = new SRXSentenceTokenizer(this);
+//    }
+//    return sentenceTokenizer;
+//  }
   
   @Override
   public Unifier getUnifier() {
