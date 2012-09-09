@@ -28,8 +28,8 @@ import com.sun.net.httpserver.HttpHandler;
 class LanguageToolHttpHandler implements HttpHandler {
 
   private static final String CONTENT_TYPE_VALUE = "text/xml; charset=UTF-8";
-  private static final int CONTEXT_SIZE = 40; // characters
   private static final String ENCODING = "utf-8";
+  private static final int CONTEXT_SIZE = 40; // characters
 
   private final Set<String> allowedIps;  
   private final boolean verbose;
@@ -39,8 +39,8 @@ class LanguageToolHttpHandler implements HttpHandler {
   
   private boolean useQuerySettings;
   
-  private String[] enabledRules = new String[0];
-  private String[] disabledRules = new String[0];
+  private String[] enabledRules = {};
+  private String[] disabledRules = {};
  
   LanguageToolHttpHandler(boolean verbose, Set<String> allowedIps,
 		  boolean internal) throws IOException {
@@ -52,11 +52,11 @@ class LanguageToolHttpHandler implements HttpHandler {
 
   @Override
   public void handle(HttpExchange httpExchange) throws IOException {
-    final URI requestedUri = httpExchange.getRequestURI();
-    final Map<String, String> parameters = getRequestQuery(httpExchange, requestedUri);
     final long timeStart = System.currentTimeMillis();
     String text = null;
     try {
+      final URI requestedUri = httpExchange.getRequestURI();
+      final Map<String, String> parameters = getRequestQuery(httpExchange, requestedUri);
       final String remoteAddress = httpExchange.getRemoteAddress().getAddress().getHostAddress();
       if (allowedIps.contains(remoteAddress)) {
         if (requestedUri.getRawPath().endsWith("/Languages")) {
@@ -96,7 +96,7 @@ class LanguageToolHttpHandler implements HttpHandler {
   private Map<String, String> getRequestQuery(HttpExchange httpExchange, URI requestedUri) throws IOException {
     Map<String, String> parameters;
     if ("post".equalsIgnoreCase(httpExchange.getRequestMethod())) { // POST
-      final InputStreamReader isr = new InputStreamReader(httpExchange.getRequestBody(), "utf-8");
+      final InputStreamReader isr = new InputStreamReader(httpExchange.getRequestBody(), ENCODING);
       try {
         final BufferedReader br = new BufferedReader(isr);
         try {
@@ -182,18 +182,20 @@ class LanguageToolHttpHandler implements HttpHandler {
     final Map<String, String> parameters = new HashMap<String, String>();
     if (query != null) {
       final String[] pairs = query.split("[&]");
-      for (String pair : pairs) {
-        final String param = pair.substring(0, pair.indexOf("="));
-        String key = null;
-        String value;
-        if (param != null) {
-          key = URLDecoder.decode(param, System.getProperty("file.encoding"));
-        }
-        if (pair.substring(pair.indexOf("=") + 1) == null || pair.substring(pair.indexOf("=") + 1).equals("")) {
-          value = "";
-        } else {
-          value = URLDecoder.decode(pair.substring(pair.indexOf("=") + 1), "UTF-8");
-        }
+      final Map<String, String> parameterMap = getParameterMap(pairs);
+      parameters.putAll(parameterMap);
+    }
+    return parameters;
+  }
+
+  private Map<String, String> getParameterMap(String[] pairs) throws UnsupportedEncodingException {
+    final Map<String, String> parameters = new HashMap<String, String>();
+    for (String pair : pairs) {
+      final int delimPos = pair.indexOf("=");
+      if (delimPos != -1) {
+        final String param = pair.substring(0, delimPos);
+        final String key = URLDecoder.decode(param, ENCODING);
+        final String value = URLDecoder.decode(pair.substring(delimPos + 1), ENCODING);
         parameters.put(key, value);
       }
     }
@@ -278,7 +280,7 @@ class LanguageToolHttpHandler implements HttpHandler {
         return o1.getName().compareTo(o2.getName());
       }
     });
-    final StringBuilder xmlBuffer = new StringBuilder("<?xml version='1.0' encoding='UTF-8'?>\n<languages>\n");
+    final StringBuilder xmlBuffer = new StringBuilder("<?xml version='1.0' encoding='" + ENCODING + "'?>\n<languages>\n");
     for (Language lang : languages) {
       xmlBuffer.append(String.format("\t<language name=\"%s\" abbr=\"%s\" abbrWithVariant=\"%s\"/> \n", lang.getName(),
               lang.getShortName(), lang.getShortNameWithVariant()));
