@@ -4422,6 +4422,34 @@ $Id$
             <example type="correct"><marker>Zarah</marker> Leander</example>
             <example type="incorrect" correction="Zarah"><marker>Sarah</marker> Leander</example>
         </rule>
+        <rule id="TIL_SCHWEIGER" name="Eigenname: 'Till (Til) Schweiger'">
+            <pattern case_sensitive="yes">
+                <marker>
+                    <token>Till</token>
+                </marker>
+                <token>Schweiger</token>
+            </pattern>
+            <message>Meinen Sie den deutschen Schauspieler und Filmemacher <suggestion>Til</suggestion> Schweiger?</message>
+            <url>http://de.wikipedia.org/wiki/Til_Schweiger</url>
+            <short>&eigenname;</short>
+            <example type="correct"><marker>Till</marker> Eulenspiegel</example>
+            <example type="correct"><marker>Til</marker> Schweiger</example>
+            <example type="incorrect" correction="Til"><marker>Till</marker> Schweiger</example>
+        </rule>
+        <rule id="WILLY_BRANDT" name="Eigenname: 'Willi (Willy) Brandt'">
+            <pattern case_sensitive="yes">
+                <marker>
+                    <token>Willi</token>
+                </marker>
+                <token>Brandt</token>
+            </pattern>
+            <message>Meinen Sie den deutschen SPD-Politiker <suggestion>Willy</suggestion> Brandt (Bundeskanzler 1969 bis 1974)?</message>
+            <url>http://de.wikipedia.org/wiki/Willy_Brandt</url>
+            <short>&eigenname;</short>
+            <example type="correct"><marker>Willi</marker> Winzig</example>
+            <example type="correct"><marker>Willy</marker> Brandt</example>
+            <example type="incorrect" correction="Willy"><marker>Willi</marker> Brandt</example>
+        </rule>
         <rulegroup id="JOSEPH_GOEBBELS" name="Eigenname: 'Josef (Joseph) Goebbels'">
             <rule>
                 <pattern case_sensitive="yes">
@@ -5030,10 +5058,46 @@ $Id$
                 <example type="correct">Ich bin <marker>weggegangen</marker>.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="DEM_ZUFOLGE" name="Zusammen-/Getrenntschreibung: 'demzufolge (dem zufolge) in Relativsätzen'">
+            <rule>
+                <pattern case_sensitive="no">
+                    <token postag="SUB:.+:(MAS|NEU)" postag_regexp="yes"/>
+                    <token>,</token>
+                    <marker>
+                        <token>demzufolge</token>
+                    </marker>
+                    <token postag="(PRO|SUB):.+" postag_regexp="yes" skip="1"/>
+                    <token postag="VER:(AUX:|MOD:)?(1|2|3):.+" postag_regexp="yes"/>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <message>Wenn es sich bei "\3 <match no="4" include_skipped="all"/> \5" um einen Relativsatz handelt, der sich auf "\1" bezieht, schreiben Sie <suggestion>dem zufolge</suggestion> bitte getrennt.</message>
+                <url>http://www.korrekturen.de/beliebte_fehler/demzufolge.shtml</url>
+                <short>Bitte überprüfen Sie die Zusammenschreibung.</short>
+                <example type="incorrect" correction="dem zufolge">Ein Sprichwort, <marker>demzufolge</marker> Geld nicht stinkt.</example>
+                <example type="correct">Ein Sprichwort, <marker>dem zufolge</marker> Geld nicht stinkt.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="no">
+                    <token postag="SUB:.+:(MAS|NEU)" postag_regexp="yes"/>
+                    <token>,</token>
+                    <marker>
+                        <token>demzufolge</token>
+                    </marker>
+                    <token postag="(PRO|SUB):.+" postag_regexp="yes" skip="1"/>
+                    <token postag="VER:(AUX:|MOD:)?(1|2|3):.+" postag_regexp="yes"/>
+                    <token>,</token>
+                </pattern>
+                <message>Wenn es sich bei "\3 <match no="4" include_skipped="all"/> \5" um einen Relativsatz handelt, der sich auf "\1" bezieht, schreiben Sie <suggestion>dem zufolge</suggestion> bitte getrennt.</message>
+                <url>http://www.korrekturen.de/beliebte_fehler/demzufolge.shtml</url>
+                <short>Bitte überprüfen Sie die Zusammenschreibung.</short>
+                <example type="incorrect" correction="dem zufolge">Das Sprichwort, <marker>demzufolge</marker> Geld nicht stinkt, entspringt einem Irrtum.</example>
+                <example type="correct">Das Sprichwort, <marker>dem zufolge</marker> Geld nicht stinkt, entspringt einem Irrtum.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="FREUND_SCHAFT" name="Zusammen-/Getrenntschreibung: 'Freund Schaft (Freundschaft)'">
             <rule>
                 <pattern case_sensitive="no">
-                    <token regexp="yes">Freund|Partner|Kamerad|Mutter</token>
+                    <token regexp="yes">Freund|Partner|Kamerad|Mutter|Bot</token>
                     <token>schaft</token>
                 </pattern>
                 <message>&getrennt;. Möglicherweise muss <suggestion>\1\2</suggestion> zusammengeschrieben werden, oder es fehlt ein f in 'schaft'.</message>
@@ -5224,7 +5288,7 @@ $Id$
                         <token>viel</token>
                         <token>leicht</token>
                     </marker>
-                    <token postag="VER:(AUX:|MOD:)?(1|2|3):.+" postag_regexp="yes"></token>
+                    <token postag="VER:(AUX:|MOD:)?(1|2|3):.+" postag_regexp="yes"/>
                 </pattern>
                 <message>&getrennt;: Meinten Sie das Adverb <suggestion>\1\2</suggestion>?</message>
                 <short>&getrennt;.</short>
@@ -6051,6 +6115,74 @@ $Id$
                 <short>&getrennt;.</short>
                 <example type="correct">Das kenne ich nur <marker>vom Hörensagen</marker>.</example>
                 <example type="incorrect" correction="vom Hörensagen|durch Zeugnis anderer|nicht aus eigener Erfahrung">Das kenne ich nur <marker>vom Hören sagen</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ZEITDRUCK" name="Zusammen-/Getrenntschreibung: 'unter Zeit Druck (Zeitdruck)' etc.">
+            <rule>
+                <pattern>
+                    <token>unter</token>
+                    <token>Zeit</token>
+                    <token>Druck</token>
+                </pattern>
+                <message>&getrennt;: Meinten Sie die Wendung <suggestion>\1 <match case_conversion="startupper" no="2"/><match case_conversion="alllower" no="3"/></suggestion>?</message>
+                <short>&getrennt;.</short>
+                <example type="correct">Wir standen <marker>unter Zeitdruck</marker>.</example>
+                <example type="incorrect" correction="unter Zeitdruck">Wir standen <marker>unter Zeit Druck</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>im</token>
+                    <token>kühl</token>
+                    <token>Schrank</token>
+                </pattern>
+                <message>&getrennt;: Meinten Sie die Wendung <suggestion>\1 <match case_conversion="startupper" no="2"/><match case_conversion="alllower" no="3"/></suggestion>?</message>
+                <short>&getrennt;.</short>
+                <example type="correct">Bier ist <marker>im Kühlschrank</marker>.</example>
+                <example type="incorrect" correction="im Kühlschrank">Bier ist <marker>im kühl Schrank</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>mit</token>
+                    <token>voll</token>
+                    <token>Gas</token>
+                </pattern>
+                <message>&getrennt;: Meinten Sie die Wendung <suggestion>\1 <match case_conversion="startupper" no="2"/><match case_conversion="alllower" no="3"/></suggestion>?</message>
+                <short>&getrennt;.</short>
+                <example type="correct">Wir fuhren <marker>mit Vollgas</marker>.</example>
+                <example type="incorrect" correction="mit Vollgas">Wir fuhren <marker>mit Voll Gas</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>zum</token>
+                    <token>früh</token>
+                    <token>Stück</token>
+                </pattern>
+                <message>&getrennt;: Meinten Sie die Wendung <suggestion>\1 <match case_conversion="startupper" no="2"/><match case_conversion="alllower" no="3"/></suggestion>?</message>
+                <short>&getrennt;.</short>
+                <example type="correct">Bier <marker>zum Frühstück</marker>.</example>
+                <example type="incorrect" correction="zum Frühstück">Bier <marker>zum Früh Stück</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>im</token>
+                    <token>Hand</token>
+                    <token>umdrehen</token>
+                </pattern>
+                <message>&getrennt;: Meinten Sie die Wendung <suggestion>\1 <match case_conversion="startupper" no="2"/><match case_conversion="alllower" no="3"/></suggestion>?</message>
+                <short>&getrennt;.</short>
+                <example type="correct">Das geht <marker>im Handumdrehen</marker>.</example>
+                <example type="incorrect" correction="im Handumdrehen">Das geht <marker>im Hand umdrehen</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>in</token>
+                    <token>Hand</token>
+                    <token>schellen</token>
+                </pattern>
+                <message>&getrennt;: Meinten Sie die Wendung <suggestion>\1 <match case_conversion="startupper" no="2"/><match case_conversion="alllower" no="3"/></suggestion>?</message>
+                <short>&getrennt;.</short>
+                <example type="correct">Er wurde <marker>in Handschellen</marker> abgeführt.</example>
+                <example type="incorrect" correction="in Handschellen">Er wurde <marker>in Hand schellen</marker> abgeführt.</example>
             </rule>
         </rulegroup>
         <rule id="INWIEFERN" name="Zusammen-/Getrenntschreibung: 'in wie fern (inwiefern)' etc.">
@@ -7156,6 +7288,41 @@ $Id$
                 <example type="correct"><marker>Während</marker> des Krieges wechselte er mehrfach die Seiten.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="KAUSAL_VERURSACHT" name="Verdoppelung: 'kausal verursachen'">
+            <rule>
+                <pattern case_sensitive="no">
+                    <token inflected="yes">verursachen</token>
+                    <token>kausal</token>
+                </pattern>
+                <message>&redundanz; "Kausal" bedeutet so viel wie "ursächlich". Vorschlag: <suggestion>\1</suggestion></message>
+                <short>&redundanz;</short>
+                <example type="incorrect" correction="verursachte">Das <marker>verursachte kausal</marker> den Unfall.</example>
+                <example type="correct">Das hat den Unfall <marker>verursacht</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="no">
+                    <token>kausal</token>
+                    <token inflected="yes">verursachen</token>
+                </pattern>
+                <message>&redundanz; "Kausal" bedeutet so viel wie "ursächlich". Vorschlag: <suggestion>\2</suggestion></message>
+                <short>&redundanz;</short>
+                <example type="incorrect" correction="verursacht">Das hat den Unfall <marker>kausal verursacht</marker>.</example>
+                <example type="correct">Das hat den Unfall <marker>verursacht</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ERHOEHTER_HOCHDRUCK" name="Verdoppelung: 'erhöhter Bluthochdruck'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">erhöhte(m|n|r)?</token>
+                    <token regexp="yes">Bluthochdrucks?</token>
+                </pattern>
+                <message>&redundanz;Vorschlag: <suggestion>\1 <match no="2" regexp_replace="" regexp_match="hoch"/></suggestion></message>
+                <short>&redundanz;</short>
+                <example type="incorrect" correction="erhöhtem Blutdruck">Er leidet unter <marker>erhöhtem Bluthochdruck</marker>.</example>
+                <example type="correct">Er leidet unter <marker>erhöhtem Blutdruck</marker>.</example>
+                <example type="correct">Er leidet unter <marker>Bluthochdruck</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="SYNONYME_BEDEUTUNG" name="Verdoppelung: 'synonyme Bedeutung'">
             <rule>
                 <pattern case_sensitive="yes">
@@ -7164,7 +7331,7 @@ $Id$
                 </pattern>
                 <message>&unstimmig;Nicht Bedeutungen, sondern Ausdrücke sind synonym, nämlich dann, wenn sie dieselbe Bedeutung haben. Vorschlag: <suggestion><match no="1" regexp_replace="gleich" regexp_match="synonym"/> \2</suggestion></message>
                 <short>&redundanz;</short>
-                <example type="incorrect">Diese Wörter haben eine <marker>synonyme Bedeutung</marker>.</example>
+                <example type="incorrect" correction="gleiche Bedeutung">Diese Wörter haben <marker>synonyme Bedeutung</marker>.</example>
                 <example type="correct">Diese Wörter haben <marker>dieselbe Bedeutung</marker>.</example>
             </rule>
         </rulegroup>
@@ -9079,6 +9246,19 @@ $Id$
                 <short>&prgk;.</short>
                 <example type="correct">Das ist ein <marker>Tropfen</marker> auf den heißen Stein.</example>
                 <example type="incorrect" correction="Tropfen">Das ist ein <marker>tropfen</marker> auf den heißen Stein.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[zZ]um</token>
+                    <token>letzten</token>
+                    <marker>
+                        <token>tropfen</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Tropfen</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Wir kämpfen bis zum letzten <marker>Tropfen</marker> Blut.</example>
+                <example type="incorrect" correction="Tropfen">Wir kämpfen bis zum letzten <marker>tropfen</marker> Blut.</example>
             </rule>
         </rulegroup>
         <rulegroup id="NUTZEN_SUBST" name="Groß-/Kleinschreibung: 'nutzen (Nutzen) ziehen' etc.">
@@ -12911,15 +13091,16 @@ $Id$
         <rulegroup id="RUECKEN_SUBST" name="Groß-/Kleinschreibung: 'rücken (Rücken)'">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">[aA]uf</token>
-                    <token>dem</token>
+                    <token regexp="yes">[aA]uf|[hH]inter</token>
+                    <token regexp="yes">dem|(&meindein;)em</token>
                     <marker>
                         <token>rücken</token>
                     </marker>
                 </pattern>
                 <message>&subanfang;<suggestion>Rücken</suggestion>&subende;</message>
                 <short>&prgk;.</short>
-                <example type="incorrect">Sie lag auf dem <marker>rücken</marker>.</example>
+                <example type="incorrect" correction="Rücken">Sie lag auf dem <marker>rücken</marker>.</example>
+                <example type="incorrect" correction="Rücken">Es geschah hinter meinem <marker>rücken</marker>.</example>
                 <example type="correct">Sie lag auf dem <marker>Rücken</marker>.</example>
             </rule>
             <rule>
@@ -12947,7 +13128,7 @@ $Id$
                 </pattern>
                 <message>&subanfang;<suggestion>Rücken</suggestion>&subende;</message>
                 <short>&prgk;.</short>
-                <example type="incorrect">Sie ist mir in den <marker>rücken</marker> gefallen.</example>
+                <example type="incorrect" correction="Rücken">Sie ist mir in den <marker>rücken</marker> gefallen.</example>
                 <example type="correct">Sie ist mir in den <marker>Rücken</marker> gefallen.</example>
             </rule>
             <rule>
@@ -12962,7 +13143,7 @@ $Id$
                 </pattern>
                 <message>&subanfang;<suggestion>Rücken</suggestion>&subende;</message>
                 <short>&prgk;.</short>
-                <example type="incorrect">Sie fiel mir in den <marker>rücken</marker>.</example>
+                <example type="incorrect" correction="Rücken">Sie fiel mir in den <marker>rücken</marker>.</example>
                 <example type="correct">Sie fiel mir in den <marker>Rücken</marker>.</example>
             </rule>
         </rulegroup>
@@ -13264,17 +13445,44 @@ $Id$
             <example type="correct">Lasst mich in <marker>Frieden</marker> weiterziehen.</example>
             <example type="incorrect">Lasst mich in <marker>frieden</marker> weiterziehen.</example>
         </rule>
-        <rule id="IN_FLAMMEN" name="Groß-/Kleinschreibung: 'in flammen (Flammen)'">
+        <rule id="IN_FLAMMEN" name="Groß-/Kleinschreibung: 'in flammen (Flammen)' etc.">
             <pattern case_sensitive="yes">
                 <token regexp="yes">[iI]n</token>
                 <marker>
-                    <token>flammen</token>
+                    <token regexp="yes">flammen|ketten|fesseln|klammern</token>
                 </marker>
             </pattern>
-            <message>&inwend;'in Flammen' wird <suggestion>Flammen</suggestion> in der Regel großgeschrieben.</message>
+            <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
             <short>&prgk;.</short>
             <example type="correct">Rhein in <marker>Flammen</marker>.</example>
-            <example type="incorrect">Rhein in <marker>flammen</marker>.</example>
+            <example type="incorrect" correction="Flammen">Rhein in <marker>flammen</marker>.</example>
+            <example type="incorrect" correction="Ketten">Die Freiheit liegt in <marker>ketten</marker>.</example>
+        </rule>
+        <rule id="SEI_MEIN_ZEUGE" name="Groß-/Kleinschreibung: 'ist/sei mein zeuge (Zeuge)'">
+            <pattern case_sensitive="yes">
+                <token regexp="yes">[Ii]st|[Ss]ei</token>
+                <token regexp="yes">mein|unser</token>
+                <marker>
+                    <token>zeuge</token>
+                </marker>
+            </pattern>
+            <message>&subanfang;<suggestion>Zeuge</suggestion>&subende;</message>
+            <short>&prgk;.</short>
+            <example type="correct">Gott sei mein <marker>Zeuge</marker>.</example>
+            <example type="incorrect" correction="Zeuge">Gott sei mein <marker>zeuge</marker>.</example>
+        </rule>
+        <rule id="AUF_DIE_PROBE" name="Groß-/Kleinschreibung: 'auf die probe (Probe) stellen'">
+            <pattern case_sensitive="yes">
+                <token regexp="yes">[aA]uf</token>
+                <token>die</token>
+                <marker>
+                    <token>probe</token>
+                </marker>
+            </pattern>
+            <message>&subanfang;<suggestion>Probe</suggestion>&subende;</message>
+            <short>&prgk;.</short>
+            <example type="correct">Du stellst meine Geduld auf die <marker>Probe</marker>.</example>
+            <example type="incorrect" correction="Probe">Du stellst meine Geduld auf die <marker>probe</marker>.</example>
         </rule>
         <rule id="IM_VORAUS" name="Groß-/Kleinschreibung: 'im voraus (Voraus)'">
             <pattern case_sensitive="yes">
@@ -13333,6 +13541,19 @@ $Id$
                 <example type="correct">Ich traue ihm nicht über den <marker>Weg</marker>.</example>
                 <example type="incorrect" correction="Weg">Ich traue ihm nicht über den <marker>weg</marker>.</example>
                 <example type="incorrect" correction="Weg">Ich bin ihm zufällig über den <marker>weg</marker> gelaufen.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[dD]en</token>
+                    <marker>
+                        <token>weg</token>
+                    </marker>
+                    <token regexp="yes" inflected="yes" postag="VER:.*" postag_regexp="yes">zeigen|weisen|ebnen|bahnen</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Weg</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Ich habe ihm den <marker>Weg</marker> gezeigt.</example>
+                <example type="incorrect" correction="Weg">Ich habe ihm den <marker>weg</marker> gezeigt.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AUF_SCHRITT_UND_TRITT" name="Groß-/Kleinschreibung: 'auf Schritt und Tritt'">
@@ -15598,6 +15819,19 @@ $Id$
             </rule>
         </rulegroup>
         <rulegroup id="IM_LEBEN" name="Groß-/Kleinschreibung: 'im/am leben (Leben)'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[uU]m</token>
+                    <token regexp="yes">(&meindein;)</token>
+                    <marker>
+                        <token>leben</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Leben</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Leben">Ich kämpfte um mein <marker>leben</marker>.</example>
+                <example type="correct">Ich kämpfte um mein <marker>Leben</marker>.</example>
+            </rule>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[Ii]n</token>
