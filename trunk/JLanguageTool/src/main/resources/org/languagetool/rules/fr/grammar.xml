@@ -6554,7 +6554,7 @@ though, and has since been slightly modified)-->
                     </marker>
                     <token negate="yes" regexp="yes">mal|moins</token>
                 </pattern>
-                <message>Voulez-vous écrire <suggestion>\1 n’\2 \3</suggestion> ?</message>
+                <message>Voulez-vous écrire <suggestion>n’\2 \3</suggestion> ?</message>
                 <example type="incorrect">On <marker>a pas</marker> compris.</example>
                 <example type="correct">On n’a pas compris.</example>
                 <example type="incorrect">Robert <marker>a pas</marker> compris.</example>
@@ -6571,36 +6571,36 @@ though, and has since been slightly modified)-->
                     </marker>
                     <token negate="yes" regexp="yes">mal|moins</token>
                 </pattern>
-                <message>Voulez-vous écrire <suggestion>\1 ne \2 \3</suggestion> ?</message>
+                <message>Voulez-vous écrire <suggestion>ne \2 \3</suggestion> ?</message>
                 <example type="incorrect">On <marker>part pas</marker> encore.</example>
                 <example type="correct">On ne part pas encore.</example>
             </rule>
             <rule>
                 <pattern>
                     <token postag="Z.*|R pers suj.*" postag_regexp="yes"/>
-                    <token postag="R.* obj.*" postag_regexp="yes" regexp="yes">[^aeiouyh].*</token>
                     <marker>
+                        <token postag="R.* obj.*" postag_regexp="yes" regexp="yes">[^aeiouyh].*</token>
                         <token postag="V.*" postag_regexp="yes"/>
                         <token>pas</token>
                     </marker>
                     <token negate="yes" regexp="yes">mal|moins</token>
                 </pattern>
-                <message>Voulez-vous écrire <suggestion>\1 ne \2 \3 \4</suggestion> ?</message>
-                <example type="incorrect">On vous <marker>a pas</marker> compris.</example>
+                <message>Voulez-vous écrire <suggestion>ne \2 \3 \4</suggestion> ?</message>
+                <example type="incorrect">On <marker>vous a pas</marker> compris.</example>
                 <example type="correct">On ne vous a pas compris.</example>
             </rule>
             <rule>
                 <pattern>
                     <token postag="Z.*|R pers suj.*" postag_regexp="yes"/>
-                    <token postag="R.* obj.*" postag_regexp="yes" regexp="yes">[aeiouyh].*</token>
                     <marker>
+                        <token postag="R.* obj.*" postag_regexp="yes" regexp="yes">[aeiouyh].*</token>
                         <token postag="V.*" postag_regexp="yes"/>
                         <token>pas</token>
                     </marker>
                     <token negate="yes" regexp="yes">mal|moins</token>
                 </pattern>
-                <message>Voulez-vous écrire <suggestion>\1 n’\2 \3 \4</suggestion> ?</message>
-                <example type="incorrect">Il y <marker>a pas</marker> d’eau.</example>
+                <message>Voulez-vous écrire <suggestion>n’\2 \3 \4</suggestion> ?</message>
+                <example type="incorrect">Il <marker>y a pas</marker> d’eau.</example>
                 <example type="correct">Il n’y a pas d’eau.</example>
             </rule>
         </rulegroup>
