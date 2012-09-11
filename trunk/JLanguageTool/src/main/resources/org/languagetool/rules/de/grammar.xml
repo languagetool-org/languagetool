@@ -6551,18 +6551,45 @@ $Id$
     <!-- Redundanz -->
     <!-- ====================================================================== -->
     <category name="Redundanz">
-        <rule id="DOPPELUNG_YYXXER_JAHRE" name="Verdoppelung: 19XXer Jahre des vorigen Jahrhunderts">
-            <pattern>
-                <token regexp="yes">19[1-9]0er</token>
-                <token regexp="yes">Jahren?</token>
-                <token>des</token>
-                <token regexp="yes">letzten|vorigen</token>
-                <token regexp="yes">Jahrhunderts|Jahrtausends</token>
-            </pattern>
-            <message>Verdoppelung: Meinten Sie <suggestion>\1 \2</suggestion> oder <suggestion><match no="1" regexp_match="19([0-9][0-9])er" regexp_replace="$1er"/> \2 \3 \4 \5</suggestion>?</message>
-            <example type="incorrect">In den <marker>1970er Jahren des vorigen Jahrhunderts</marker>.</example>
-            <example type="correct">In den 70er Jahren des vorigen Jahrhunderts.</example>
-        </rule>
+        <rulegroup id="DOPPELUNG_YYXXER_JAHRE" name="Verdoppelung: 19XXer Jahre des zwanzigsten Jahrhunderts">
+            <rule>
+                <pattern>
+                    <token regexp="yes">19[1-9]0er</token>
+                    <token regexp="yes">Jahren?</token>
+                    <token>des</token>
+                    <token regexp="yes">letzten|vorigen</token>
+                    <token regexp="yes">Jahrhunderts|Jahrtausends</token>
+                </pattern>
+                <message>Verdoppelung: Meinten Sie <suggestion>\1 \2</suggestion> oder <suggestion><match no="1" regexp_match="19([0-9][0-9])er" regexp_replace="$1er"/> \2 \3 \4 \5</suggestion>?</message>
+                <example type="incorrect" correction="1970er Jahren|70er Jahren des vorigen Jahrhunderts">In den <marker>1970er Jahren des vorigen Jahrhunderts</marker>.</example>
+                <example type="correct">In den 70er Jahren des vorigen Jahrhunderts.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">19[1-9]0er</token>
+                    <token regexp="yes">Jahren?</token>
+                    <token>des</token>
+                    <token>zwanzigsten</token>
+                    <token>Jahrhunderts</token>
+                </pattern>
+                <message>Verdoppelung: Meinten Sie <suggestion>\1 \2</suggestion> oder <suggestion><match no="1" regexp_match="19([0-9][0-9])er" regexp_replace="$1er"/> \2 \3 \4 \5</suggestion>?</message>
+                <example type="incorrect" correction="1970er Jahren|70er Jahren des zwanzigsten Jahrhunderts">In den <marker>1970er Jahren des zwanzigsten Jahrhunderts</marker>.</example>
+                <example type="correct">In den 70er Jahren des zwanzigsten Jahrhunderts.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">19[1-9]0er</token>
+                    <token regexp="yes">Jahren?</token>
+                    <token>des</token>
+                    <token>20</token>
+                    <token>.</token>
+                    <token>Jahrhunderts</token>
+                </pattern>
+                <message>Verdoppelung: Meinten Sie <suggestion>\1 \2</suggestion> oder <suggestion><match no="1" regexp_match="19([0-9][0-9])er" regexp_replace="$1er"/> \2 \3 \4\5 \6</suggestion>?</message>
+                <example type="incorrect" correction="1970er Jahren|70er Jahren des 20. Jahrhunderts">In den <marker>1970er Jahren des 20. Jahrhunderts</marker>.</example>
+                <example type="correct">In den 70er Jahren des zwanzigsten Jahrhunderts.</example>
+            </rule>
+        </rulegroup>
         <!-- Jan: TODO – Add more stuff like "Haarfrisur, Fußpedal, Altveteran, langsam kriechen, schnell rasen ..." -->
         <rulegroup id="FUER_UMSONST" name="Umgangssprachliche Verdoppelung: 'für umsonst'" default="off">
             <!-- Recherchieren: Sagt das überhaupt irgendwer außerhalb des Ruhrgebiets? -->
@@ -17437,7 +17464,7 @@ $Id$
                 <pattern case_sensitive="yes">
                     <token regexp="yes">(?iu)w\-?lan<exception regexp="yes">W\-?LAN</exception></token>
                 </pattern>
-                <message>Meinten Sie <suggestion><match no="1" regexp_match="(?iu)w(\-)?lan" regexp_replace="W$1LAN"/></suggestion>.</message>
+                <message>Meinten Sie <suggestion><match no="1" regexp_match="(?iu)w(\-)?lan" regexp_replace="W$1LAN"/></suggestion>?</message>
                 <short>&prgk;.</short>
                 <example type="correct">Wir haben kein <marker>WLAN</marker>.</example>
                 <example type="correct">Wir haben kein <marker>W-LAN</marker>.</example>
@@ -17448,7 +17475,7 @@ $Id$
                 <pattern case_sensitive="yes">
                     <token regexp="yes">(?iu)w\-?lans<exception regexp="yes">W\-?LANs</exception></token>
                 </pattern>
-                <message>Meinten Sie <suggestion><match no="1" regexp_match="(?iu)w(\-)?lans" regexp_replace="W$1LANs"/></suggestion>.</message>
+                <message>Meinten Sie <suggestion><match no="1" regexp_match="(?iu)w(\-)?lans" regexp_replace="W$1LANs"/></suggestion>?</message>
                 <short>&prgk;.</short>
                 <example type="correct">Wir haben kein <marker>WLANs</marker>.</example>
                 <example type="correct">Wir haben kein <marker>W-LANs</marker>.</example>
