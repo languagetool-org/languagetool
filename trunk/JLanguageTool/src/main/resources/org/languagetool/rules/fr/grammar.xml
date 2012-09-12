@@ -5999,6 +5999,24 @@ though, and has since been slightly modified)-->
         <rulegroup id="LA" name="là sans trait d’union">
             <rule>
                 <pattern>
+                    <token regexp="yes">allers?</token>
+                    <token regexp="yes">retours?</token>
+                </pattern>
+                <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+                <example type="incorrect">Un <marker>aller retour</marker> pour Paris.</example>
+                <example type="correct">Un <marker>aller-retour</marker> pour Paris.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>longue</token>
+                    <token regexp="yes">vues?</token>
+                </pattern>
+                <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+                <example type="incorrect">Une <marker>longue vue</marker>.</example>
+                <example type="correct">Une <marker>longue-vue</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token>là</token>
                     <token regexp="yes">bas|dedans|dessous|devant|derrière|haut</token>
                 </pattern>
@@ -6545,6 +6563,34 @@ though, and has since been slightly modified)-->
           </rule>
         </rulegroup>
         <rulegroup id="P_V_PAS" name="négation sans NE">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>j</token>
+                        <token regexp="yes">[’´'‛′‘]</token>
+                        <token postag="V.* 1 s" postag_regexp="yes" regexp="yes">[aeiouyh].*</token>
+                        <token>pas</token>
+                    </marker>
+                    <token negate="yes" regexp="yes">mal|moins</token>
+                </pattern>
+                <message>Voulez-vous écrire <suggestion>je n’\3 \4</suggestion> ?</message>
+                <example type="incorrect"><marker>J’ai pas</marker> compris.</example>
+                <example type="correct">Je n’a pas compris.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>t</token>
+                        <token regexp="yes">[’´'‛′‘]</token>
+                        <token postag="V.* 2 s" postag_regexp="yes" regexp="yes">[aeiouyh].*</token>
+                        <token>pas</token>
+                    </marker>
+                    <token negate="yes" regexp="yes">mal|moins</token>
+                </pattern>
+                <message>Voulez-vous écrire <suggestion>tu n’\3 \4</suggestion> ?</message>
+                <example type="incorrect"><marker>T’as pas</marker> compris.</example>
+                <example type="correct">Tu n’as pas compris.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token postag="Z.*|R pers suj.*" postag_regexp="yes"/>
@@ -17965,7 +18011,7 @@ though, and has since been slightly modified)-->
             <example type="incorrect"><marker>ghetto blaster</marker></example>
             <example type="correct"><marker>chaîner stéréo</marker></example>
         </rule>
-        <rule id="MARKETING" name="marketing">
+        <rule default="off" id="MARKETING" name="marketing">
             <pattern>
                 <token regexp="yes">marketing|marketings|markéting|markétings</token>
             </pattern>
@@ -18276,7 +18322,7 @@ though, and has since been slightly modified)-->
                 <example type="correct"><marker>jeu de guerre</marker></example>
             </rule>
         </rulegroup>
-        <rulegroup id="SNOWBOARD" name="snow(board)">
+        <rulegroup default="off" id="SNOWBOARD" name="snow(board)">
             <rule>
                 <pattern>
                     <token regexp="yes">snow-board|snow-boards|snowboard|snowboards|snow|snows</token>
