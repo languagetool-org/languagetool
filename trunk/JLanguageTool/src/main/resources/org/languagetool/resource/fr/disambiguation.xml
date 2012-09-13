@@ -579,7 +579,18 @@ RB => Règles Brutes
             <disambig postag="D e s"/>
         </rule>
     </rulegroup>
-
+    <rule id="AVEC_N" name="avec + verb/nom">
+      <pattern>
+        <token>avec</token>
+        <marker>
+          <and>
+              <token postag="N.*" postag_regexp="yes"/>
+              <token postag="V.*" postag_regexp="yes"/>
+          </and>
+        </marker>
+      </pattern>
+      <disambig action="filter" postag="[^V].*"/>
+    </rule>
     <rulegroup name="RP : Négation" id="RP-NEGATION">
         <rule name="pas">
             <pattern>
