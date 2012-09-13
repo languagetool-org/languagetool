@@ -21,7 +21,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.027 2012-09-09 17:58:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.028 2012-09-13 13:30:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -892,6 +892,19 @@ $Id: grammar.xml,v 1.027 2012-09-09 17:58:00 marcoagpinto Exp $
 
 
 
+    <!-- MULHER CARTEIRO carteira -->
+    <rule id="MULHER_CARTEIRO" name="carteira">
+      <pattern>
+        <token>mulher</token>
+        <token>carteiro</token>
+      </pattern>
+      <message>Substituir «mulher carteiro» por <suggestion>carteira</suggestion>.</message>
+      <example type="incorrect">A Ana é <marker>mulher carteiro</marker>.</example>
+      <example type="correct">A Ana é <marker>carteira</marker>.</example>
+    </rule>
+
+
+
     <!-- NÃO ESTA FÁCIL não está fácil -->
     <rule id="NÃO_ESTA_FÁCIL" name="não está fácil">
       <pattern>
@@ -942,6 +955,20 @@ $Id: grammar.xml,v 1.027 2012-09-09 17:58:00 marcoagpinto Exp $
       <message>Substituir «num sei» por <suggestion>não sei</suggestion>.</message>
       <example type="incorrect">Como podes ver, <marker>num sei</marker> a resposta.</example>
       <example type="correct">Como podes ver, <marker>não sei</marker> a resposta.</example>
+    </rule>
+
+
+
+    <!-- O À VONTADE o à-vontade -->
+    <rule id="O_À_VONTADE" name="o à-vontade">
+      <pattern>
+        <token>o</token>
+        <token>à</token>
+        <token>vontade</token>
+      </pattern>
+      <message>Substituir «o à vontade» por <suggestion>o à-vontade</suggestion>.</message>
+      <example type="incorrect">É verdade que <marker>o à vontade</marker> do actor surpreendeu-me.</example>
+      <example type="correct">É verdade que <marker>o à-vontade</marker> do actor surpreendeu-me.</example>
     </rule>
 
 
