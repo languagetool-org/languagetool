@@ -26,78 +26,60 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.TestTools;
 
-/**
- * @author Daniel Naber
- */
 public class CommaWhitespaceRuleTest extends TestCase {
 
+  private CommaWhitespaceRule rule;
+  private JLanguageTool langTool;
+  
+  @Override
+  public void setUp() throws IOException {
+    rule = new CommaWhitespaceRule(TestTools.getEnglishMessages());
+    langTool = new JLanguageTool(Language.ENGLISH);
+  }
+  
   public void testRule() throws IOException {
-    CommaWhitespaceRule rule = new CommaWhitespaceRule(TestTools.getEnglishMessages());
-    RuleMatch[] matches;
-    JLanguageTool langTool = new JLanguageTool(Language.ENGLISH);
-    
-    // correct sentences:
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("This is a test sentence.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("This, is, a test sentence.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("This (foo bar) is a test!.")).length);
+    assertMatches("This is a test sentence.", 0);
+    assertMatches("This, is, a test sentence.", 0);
+    assertMatches("This (foo bar) is a test!.", 0);
     //we get only entities into the comma rule, so let's test for entities:
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("&quot;This is it,&quot; he said.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das kostet €2,45.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das kostet 50,- Euro")).length);
+    assertMatches("&quot;This is it,&quot; he said.", 0);
+    assertMatches("Das kostet €2,45.", 0);
+    assertMatches("Das kostet 50,- Euro", 0);
+    assertMatches("This is a sentence with ellipsis ...", 0);
+    assertMatches("This is a figure: .5 and it's correct.", 0);
+    assertMatches("This is $1,000,000.", 0);
+    assertMatches("This is 1,5.", 0);
+    assertMatches("This is a ,,test''.", 0);
     //test OpenOffice field codes:
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("In his book,\u0002 Einstein proved this to be true.")).length);
-    
-    //test thousand separators:    
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("This is $1,000,000.")).length);
-    //test numbers:    
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("This is 1,5.")).length);
-    
-    //test two consecutive commas:
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("This is a ,,test''.")).length);
-    
+    assertMatches("In his book,\u0002 Einstein proved this to be true.", 0);
+
     // errors:
-    matches = rule.match(langTool.getAnalyzedSentence("This,is a test sentence."));
-    assertEquals(1, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("This , is a test sentence."));
-    assertEquals(1, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("This ,is a test sentence."));
-    assertEquals(2, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence(",is a test sentence."));
-    assertEquals(2, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("This ( foo bar) is a test!."));
-    assertEquals(1, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("This (foo bar ) is a test!."));      
-    assertEquals(1, matches.length);
-    
-    //other brackets, first [
-    matches = rule.match(langTool.getAnalyzedSentence("This [ foo bar) is a test!."));
-    assertEquals(1, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("This (foo bar ] is a test!."));      
-    assertEquals(1, matches.length);
-    //now {
-    matches = rule.match(langTool.getAnalyzedSentence("This { foo bar) is a test!."));
-    assertEquals(1, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("This (foo bar } is a test!."));      
-    assertEquals(1, matches.length);
-    
-    //full stop error:
-    matches = rule.match(langTool.getAnalyzedSentence("This is a sentence with an orphaned full stop ."));
-    assertEquals(1, matches.length);
-    //full stop exception cases:
-    matches = rule.match(langTool.getAnalyzedSentence("This is a sentence with ellipsis ..."));
-    assertEquals(0, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("This is a figure: .5 and it's correct."));
-    assertEquals(0, matches.length);
-    
-    matches = rule.match(langTool.getAnalyzedSentence("ABB (  z.B. )"));
-    // check match positions:
+    assertMatches("This,is a test sentence.", 1);
+    assertMatches("This , is a test sentence.", 1);
+    assertMatches("This ,is a test sentence.", 2);
+    assertMatches(",is a test sentence.", 2);
+    assertMatches("This ( foo bar) is a test!.", 1);
+    assertMatches("This (foo bar ) is a test!.", 1);
+    assertMatches("This [ foo bar) is a test!.", 1);
+    assertMatches("This (foo bar ] is a test!.", 1);
+    assertMatches("This { foo bar) is a test!.", 1);
+    assertMatches("This (foo bar } is a test!.", 1);
+    assertMatches("This is a sentence with an orphaned full stop .", 1);
+    assertMatches("This is a test with a OOo footnote\u0002, which is denoted by 0x2 in the text.", 0);
+
+    final RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("ABB (  z.B. )"));
     assertEquals(2, matches.length);
     assertEquals(4, matches[0].getFromPos());
     assertEquals(6, matches[0].getToPos());
     assertEquals(11, matches[1].getFromPos());
     assertEquals(13, matches[1].getToPos());
-    matches = rule.match(langTool.getAnalyzedSentence("This is a test with a OOo footnote\u0002, which is denoted by 0x2 in the text."));
-    assertEquals(0, matches.length);
+
+    assertMatches("Ellipsis . . . as suggested by The Chicago Manual of Style", 3);
+    assertMatches("Ellipsis . . . . as suggested by The Chicago Manual of Style", 4);
   }
-  
+
+  private void assertMatches(String text, int expectedMatches) throws IOException {
+    assertEquals(expectedMatches, rule.match(langTool.getAnalyzedSentence(text)).length);
+  }
+
 }
