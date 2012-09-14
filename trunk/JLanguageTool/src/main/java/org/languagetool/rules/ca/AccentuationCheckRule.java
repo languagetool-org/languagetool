@@ -99,7 +99,7 @@ public class AccentuationCheckRule extends CatalanRule {
   public String getDescription() {
     return "Comprova si la paraula ha de dur accent gr\u00E0fic.";
   }
-
+  
   @Override
   public RuleMatch[] match(final AnalyzedSentence text) {
     final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();

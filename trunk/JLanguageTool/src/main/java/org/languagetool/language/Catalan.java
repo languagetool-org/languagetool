@@ -37,6 +37,7 @@ import org.languagetool.rules.ca.CatalanUnpairedQuestionMarksRule;
 import org.languagetool.rules.ca.ComplexAdjectiveConcordanceRule;
 import org.languagetool.rules.ca.MorfologikCatalanSpellerRule;
 import org.languagetool.rules.ca.CatalanWrongWordInContextRule;
+import org.languagetool.rules.ca.ReflexiveVerbsRule;
 import org.languagetool.rules.patterns.Unifier;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.ca.CatalanSynthesizer;
@@ -109,7 +110,8 @@ public class Catalan extends Language {
             CatalanUnpairedExclamationMarksRule.class,
             AccentuationCheckRule.class,
             ComplexAdjectiveConcordanceRule.class,
-            CatalanWrongWordInContextRule.class
+            CatalanWrongWordInContextRule.class,
+            ReflexiveVerbsRule.class
             //CastellanismesReplaceRule.class,
             //AccentuacioReplaceRule.class
     );
