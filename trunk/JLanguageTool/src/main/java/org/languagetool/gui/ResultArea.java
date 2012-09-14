@@ -122,7 +122,7 @@ class ResultArea extends JTextPane {
         continue;
       }
       final Rule rule = getRuleForId(ruleId);
-      if (rule.isDefaultOff()) {
+      if (rule == null || rule.isDefaultOff()) {
         continue;
       }
       if (i++ > 0) {
