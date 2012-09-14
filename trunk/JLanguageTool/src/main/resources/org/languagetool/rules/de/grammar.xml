@@ -4865,6 +4865,20 @@ $Id$
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category name="Zusammen-/Getrenntschreibung">
+        <rule id="ZU_MAL" name="Zusammen-/Getrenntschreibung: zu mal (zumal)">
+            <pattern>
+                <token negate="yes" regexp="yes">mal|und</token>
+                <marker>
+                    <token>zu</token>
+                    <token>mal</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion>zumal</suggestion>?</message>
+            <example type="incorrect">Unschön, <marker>zu mal</marker> ich Autoren mag.</example>
+            <example type="correct">Unschön, zumal ich Autoren mag.</example>
+            <example type="correct">Das wird von Mal zu Mal besser.</example>
+            <example type="correct">Sowas esse ich ab und zu mal.</example>
+        </rule>
         <!--
         <rulegroup id="HIN_UND_HER" name="Zusammen-/Getrenntschreibung: 'hin- und hergehen (hin und her gehen)">
           <rule>
