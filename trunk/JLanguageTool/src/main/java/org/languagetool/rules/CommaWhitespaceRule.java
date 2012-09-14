@@ -40,7 +40,7 @@ public class CommaWhitespaceRule extends Rule {
   }
 
   @Override
-  public final String getId() {
+  public String getId() {
     return "COMMA_PARENTHESIS_WHITESPACE";
   }
 
@@ -59,12 +59,15 @@ public class CommaWhitespaceRule extends Rule {
     int prevLen = 0;
     for (int i = 0; i < tokens.length; i++) {
       final String token = tokens[i].getToken();
-      final boolean isWhite = tokens[i].isWhitespace() 
-      || tokens[i].isFieldCode();      
+      final boolean isWhite = tokens[i].isWhitespace() || tokens[i].isFieldCode();
       String msg = null;
       int fixLen = 0;
       String suggestionText = null;
-      if (isWhite && isLeftBracket(prevToken)) {
+      final int skip = getExceptionSkip(tokens, i);
+      if (skip > 0) {
+        // ignore
+        i += skip;
+      } else if (isWhite && isLeftBracket(prevToken)) {
         msg = messages.getString("no_space_after");
         suggestionText = prevToken;
         fixLen = 1;
@@ -85,9 +88,8 @@ public class CommaWhitespaceRule extends Rule {
           suggestionText = ",";
           fixLen = 1;
           //exception for duplicated comma (we already have another rule for that)
-          if (i + 1 < tokens.length
-             && ",".equals(tokens[i + 1].getToken())) {
-           msg = null; 
+          if (i + 1 < tokens.length && ",".equals(tokens[i + 1].getToken())) {
+           msg = null;
           }
         } else if (token.equals(".")) {
           msg = messages.getString("no_space_before_dot");
@@ -115,6 +117,14 @@ public class CommaWhitespaceRule extends Rule {
     }
 
     return toRuleMatchArray(ruleMatches);
+  }
+
+  /**
+   * @return return 0 if there is no exception here, return the amount of tokens to be skipped
+   * if there's an exception here, i.e. if you want to skip over tokens that would otherwise be an error
+   */
+  protected int getExceptionSkip(AnalyzedTokenReadings[] tokens, int pos) {
+    return 0;
   }
 
   static boolean isNotQuoteOrHyphen(final String str) {
