@@ -1026,7 +1026,23 @@ $Id$
                 <example type="incorrect"><marker>les principals ganivets</marker>.</example>
                 <example type="correct">els principals ganivets.</example>
             </rule>
-        </rulegroup>        
+        </rulegroup> 
+        <rule id="LA_PENDENT" name="*la/el pendent"> 
+        <!-- Cal un tractament especial perquè pendent és nom i adjectiu. ¿Passa igual amb altres paraules? -->
+            <pattern>
+                <token><exception postag="NCF.000" postag_regexp="yes"/></token>
+                <token postag="_GN_F." postag_regexp="yes" regexp="yes">pendents?</token>
+            </pattern>
+            <message>'Pendent' és un nom masculí</message>
+            <short>És nom masculí</short>
+            <example type="incorrect">en <marker>la pendent</marker> descendent dels últims anys.</example>
+            <example type="correct">en el pendent descendent dels últims anys.</example>
+            <example type="correct">La reforma pendent.</example>
+            <example type="incorrect">Hi ha una <marker>forta pendent</marker>.</example>
+            <example type="correct">Hi ha un fort pendent.</example>
+            <example type="incorrect">la manca d'aigua en <marker>les pendents</marker> superiors</example>
+            <example type="correct">Són reptes pendents.</example>
+        </rule>       
     </category>
     <category name="Possessius">
         <rulegroup id="POSSESSIU_SENSE_ARTICLE" name="possessiu sense article: de meua casa">
@@ -2211,30 +2227,122 @@ $Id$
                     <marker>
                         <token>tan</token>
                     </marker>
-                    <token postag="AQ.*|V.P.*" postag_regexp="yes" skip="10"/>
+                    <token postag="AQ.[MC][SN].*|V.P.*SM" postag_regexp="yes" skip="10"/>
                     <token>com</token>
-                    <token postag="AQ.*|V.P.*" postag_regexp="yes"/>
+                    <token postag="AQ.[MC][SN].*|V.P.*SM" postag_regexp="yes"/>
                 </pattern>
                 <message>Hauria de ser: <suggestion>tant</suggestion>.</message>
                 <short>Confusió.</short>
-                <example type="incorrect"><marker>tan</marker> físiques com estètiques.</example>
-                <example type="correct">Tant físiques com estètiques.</example>
+                <example type="incorrect"><marker>tan</marker> físic com estètic.</example>
+                <example type="correct">Tant físic com estètic.</example>
+                <example type="correct">tan coneixedor com servidora</example>    
             </rule>
             <rule>
                 <pattern>
                     <marker>
                         <token>tan</token>
                     </marker>
-                    <token postag="AQ.*|V.P.*" postag_regexp="yes" skip="10"/>
+                    <token postag="AQ.[FC][SN].*|V.P.*SF" postag_regexp="yes" skip="10"/>
                     <token>com</token>
-                    <token>no</token>
-                    <token postag="AQ.*|V.P.*" postag_regexp="yes"/>
+                    <token postag="AQ.[FC][SN].*|V.P.*SF" postag_regexp="yes"/>
                 </pattern>
                 <message>Hauria de ser: <suggestion>tant</suggestion>.</message>
                 <short>Confusió.</short>
-                <example type="incorrect"><marker>tan</marker> físiques com no físiques.</example>
-                <example type="correct">Tant físiques com no físiques.</example>
+                <example type="incorrect"><marker>tan</marker> física com estètica.</example>
+                <example type="correct">Tant física com estètica.</example>
+                <example type="correct">tan coneixedor com servidora</example>    
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>tan</token>
+                    </marker>
+                    <token postag="AQ.[MC][PN].*|V.P.*PM" postag_regexp="yes" skip="10"/>
+                    <token>com</token>
+                    <token postag="AQ.[MC][PN].*|V.P.*PM" postag_regexp="yes"/>
+                </pattern>
+                <message>Hauria de ser: <suggestion>tant</suggestion>.</message>
+                <short>Confusió.</short>
+                <example type="incorrect"><marker>tan</marker> físics com estètics.</example>
+                <example type="correct">Tant físics com estètics.</example>
+                <example type="correct">tan coneixedor com servidora</example>    
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>tan</token>
+                    </marker>
+                    <token postag="AQ.[FC][PN].*|V.P.*PF" postag_regexp="yes" skip="10"/>
+                    <token>com</token>
+                    <token postag="AQ.[FC][PN].*|V.P.*PF" postag_regexp="yes"/>
+                </pattern>
+                <message>Hauria de ser: <suggestion>tant</suggestion>.</message>
+                <short>Confusió.</short>
+                <example type="incorrect"><marker>tan</marker> físiques com estètiques.</example>
+                <example type="correct">Tant físiques com estètiques.</example>
+                <example type="correct">tan coneixedor com servidora</example>    
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>tan</token>
+                    </marker>
+                    <token postag="AQ.[MC][SN].*|V.P.*SM" postag_regexp="yes" skip="10"/>
+                    <token>com</token>
+                    <token>no</token>
+                    <token postag="AQ.[MC][SN].*|V.P.*SM" postag_regexp="yes"/>
+                </pattern>
+                <message>Hauria de ser: <suggestion>tant</suggestion>.</message>
+                <short>Confusió.</short>
+                <example type="incorrect"><marker>tan</marker> físic com no estètic.</example>
+                <example type="correct">Tant físic com no estètic.</example>  
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>tan</token>
+                    </marker>
+                    <token postag="AQ.[FC][SN].*|V.P.*SF" postag_regexp="yes" skip="10"/>
+                    <token>com</token>
+                    <token>no</token>
+                    <token postag="AQ.[FC][SN].*|V.P.*SF" postag_regexp="yes"/>
+                </pattern>
+                <message>Hauria de ser: <suggestion>tant</suggestion>.</message>
+                <short>Confusió.</short>
+                <example type="incorrect"><marker>tan</marker> física com no estètica.</example>
+                <example type="correct">Tant física com no estètica.</example>  
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>tan</token>
+                    </marker>
+                    <token postag="AQ.[MC][PN].*|V.P.*PM" postag_regexp="yes" skip="10"/>
+                    <token>com</token>
+                    <token>no</token>
+                    <token postag="AQ.[MC][PN].*|V.P.*PM" postag_regexp="yes"/>
+                </pattern>
+                <message>Hauria de ser: <suggestion>tant</suggestion>.</message>
+                <short>Confusió.</short>
+                <example type="incorrect"><marker>tan</marker> físics com no estètics.</example>
+                <example type="correct">Tant físics com no estètics.</example>   
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>tan</token>
+                    </marker>
+                    <token postag="AQ.[FC][PN].*|V.P.*PF" postag_regexp="yes" skip="10"/>
+                    <token>com</token>
+                    <token>no</token>
+                    <token postag="AQ.[FC][PN].*|V.P.*PF" postag_regexp="yes"/>
+                </pattern>
+                <message>Hauria de ser: <suggestion>tant</suggestion>.</message>
+                <short>Confusió.</short>
+                <example type="incorrect"><marker>tan</marker> físiques com no estètiques.</example>
+                <example type="correct">Tant físiques com no estètiques.</example>
+            </rule>
+
             <rule>
             <!-- Tant fora com dins del Japó -->
                 <pattern>
@@ -2509,7 +2617,7 @@ $Id$
             <message>¿Volíeu dir <suggestion>sense cap</suggestion>?</message>
             <example type="incorrect"><marker>sense cap ni un</marker> treballador</example>
             <example type="correct">sense cap treballador</example>
-            <example type="correct">O sense cap mi un.</example>
+            <example type="correct">O sense cap ni un.</example>
         </rule>
     </category>
     <category name="Numerals">
@@ -2597,7 +2705,7 @@ $Id$
             <example type="incorrect">¿<marker>Cada quan</marker> et dutxes?</example>
             <example type="correct">¿Cada quant et dutxes?</example>
         </rule>
-        <rule id="APROP" name="*aprop/">
+        <rule id="APROP" name="*aprop/a prop">
             <pattern>
                 <marker>
                     <token>aprop</token>
@@ -4862,6 +4970,105 @@ $Id$
                 <short>Forma de pronom feble incorrecta.</short>
                 <example type="incorrect"><marker>Se les</marker> volem donar.</example>
                 <example type="correct">Les hi volem donar.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="PRONOM_FEBLE_EN" name="Comprovacions del pronom feble 'en'">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="SENT_START" skip="-1"><exception postag="PP3CN000" scope="next" inflected="yes">en</exception></token>
+                        <token postag="V[^S][SI].*" postag_regexp="yes"/>
+                        <token regexp="yes" inflected="yes">numeral|un|algun</token>
+                    </marker>
+                    <token regexp="yes">[.;?!]</token>
+                    <!-- <token regexp="yes" inflected="yes" negate="yes">numeral|un|algun</token> -->
+                </pattern>
+                <message>Probablement falta el pronom 'en'</message>
+                <example type="incorrect"><marker>Jo em tinc dos</marker>.</example>
+                <example type="correct">Jo en tinc dos.</example>
+                <example type="incorrect"><marker>Em porten dos</marker>.</example>
+                <example type="correct">Em porten dos plats.</example>
+                <example type="correct">Ells són set.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="SENT_START" skip="-1"><exception postag="PP3CN000" scope="next" inflected="yes">en</exception></token>
+                        <token postag="V[^S][SI].*" postag_regexp="yes"/>
+                        <token regexp="yes" inflected="yes">numeral|un|algun</token>
+                    </marker>
+                    <token>,</token>
+                    <token inflected="yes" negate="yes">numeral</token>
+                </pattern>
+                <message>Probablement falta el pronom 'en'</message>
+                <example type="incorrect"><marker>Jo em tinc dos</marker>, i què</example>
+                <example type="correct">la molècula conté dos, tres o més grups funcionals</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="SENT_START" skip="-1"><exception postag="PP3CN000" scope="next" inflected="yes">en</exception></token>
+                        <token postag="VA.*" postag_regexp="yes" regexp="yes" inflected="yes">anar|haver</token>
+                        <token postag="V.[PGN].*" postag_regexp="yes"><exception postag="VS.*" postag_regexp="yes"/></token>
+                        <token regexp="yes" inflected="yes">numeral|un|algun</token>
+                    </marker>
+                    <token regexp="yes">[.,;?!]</token>
+                </pattern>
+                <message>Probablement falta el pronom 'en'</message>
+                <example type="incorrect"><marker>Jo em vaig tenir dos</marker>.</example>
+                <example type="correct">Jo en vaig tenir dos.</example>
+                <example type="incorrect"><marker>M'han portat dos</marker>.</example>
+                <example type="correct">M'han portat dos plats.</example>
+                <example type="correct">Me n'han portat dos plats.</example>
+                <example type="correct">Ells han estat set.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="PRONOM_FEBLE_HI" name="Comprovacions del pronom feble 'hi'">
+        <!-- Per a fer la norma més robusta, caldria comptar des del verb cap enrere (hauria de ser una regla en Java) -->
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" skip="-1"><exception postag="PP3CN000" scope="next" inflected="yes">hi</exception><exception postag="PP3..A00" scope="next" postag_regexp="yes" /></token>
+                    <marker>
+                        <token regexp="yes">haver|havent<exception postag="_GN_MS"/></token>
+                    </marker>                        
+                    <token><exception postag="V.P.*|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|RG" postag_regexp="yes"/><exception regexp="yes">de|d'</exception></token>
+                </pattern>
+                <message>Falta el pronom 'hi'. <suggestion><match no="2"/>-hi</suggestion></message>
+                <example type="incorrect" correction="haver-hi">Va <marker>haver</marker> una reunió.</example>
+                <example type="incorrect" correction="Havent-hi"><marker>Havent</marker> aigua, no cal res més.</example>                
+                <example type="correct">Haver cantat bé és magnífic.</example>
+                <example type="correct">Haver-lo dut bé és magnífic.</example>
+                <example type="correct">va haver de retirar-se</example>
+                <example type="correct">després d'haver finalment abandonat la teoria</example>
+                <example type="correct">la guineu, quan no les pot haver, diu que són verdes</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" skip="-1"><exception postag="PP3CN000" scope="next" inflected="yes">hi</exception></token>
+                    <marker>
+                        <token regexp="yes">haver|havent<exception postag="_GN_MS"/></token>
+                    </marker>
+                    <token postag="RG"></token>                        
+                    <token><exception postag="V.P.*" postag_regexp="yes"/><exception regexp="yes">de|d'</exception></token>
+                </pattern>
+                <message>Falta el pronom 'hi'. <suggestion><match no="2"/>-hi</suggestion></message>
+                <example type="incorrect" correction="haver-hi">després d'<marker>haver</marker> finalment sentència</example>
+                <example type="correct">després d'haver finalment abandonat la teoria</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" skip="-1"><exception postag="PP3CN000" scope="next" inflected="yes">hi</exception></token>
+                    <marker>
+                        <token regexp="yes">haver|havent</token>
+                        <token>-ne</token>
+                    </marker>                        
+                    <token><exception postag="V.P.*|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"/><exception regexp="yes">de|d'</exception></token>
+                </pattern>
+                <message>Falta el pronom 'hi'. <suggestion><match no="2"/>-n'hi</suggestion></message>
+                <example type="incorrect" correction="haver-n'hi">Va <marker>haver-ne</marker> una.</example>
+                <example type="incorrect" correction="Havent-n'hi"><marker>Havent-ne</marker> prou, no cal res més.</example>                
+                <example type="correct">Haver-ne dut tres és magnífic.</example>                
+                <!-- False alarm Qui pogués haver-ne una peça -->
             </rule>
         </rulegroup>
     </category>
@@ -7865,6 +8072,35 @@ $Id$
             <example type="incorrect">Ens fa <marker>molt de por</marker></example>
             <example type="correct">Ens fa molta por</example>
         </rule>
+        <rulegroup id="CREUATS_CROATS" name="*creuats/croats">
+            <!-- Podria anar en WrongWordInContext ? -->
+            <rule>
+                <pattern>
+                    <token postag="D[DAIN].*|AO.*" postag_regexp="yes"></token>
+                    <marker>
+                        <token regexp="yes">creua(t|ts|da|des)</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="2" regexp_match="creua(.+)" regexp_replace="croa$1"/></suggestion>?</message>
+                <example type="incorrect" correction="croats">els <marker>creuats</marker> assetjaren la ciutat</example>
+                <example type="correct">els croats assetjaren la ciutat</example>
+                <example type="correct">té els cables creuats</example>
+                <example type="incorrect" correction="croada" >la <marker>creuada</marker> albigesa</example>
+                <example type="incorrect" correction="croada" >la primera <marker>creuada</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">soldats?|exèrcits?|hosts?|cavallers?|guerrers?</token>
+                    <marker>
+                        <token regexp="yes">creua(t|ts|da|des)</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="2" regexp_match="creua(.+)" regexp_replace="croa$1"/></suggestion>?</message>
+                <example type="incorrect" correction="croats">els exèrcits <marker>creuats</marker> assetjaren la ciutat</example>
+                <example type="correct">els exèrcits croats assetjaren la ciutat</example>
+                <example type="correct">té els cables creuats</example>
+            </rule>
+        </rulegroup>
     </category>
     <category name="Sintaxi">
         <rulegroup id="FALTA_ELEMENT" name="Falta un element entre verbs: hi ha una cosa *(que) és clara">
