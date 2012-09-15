@@ -3047,7 +3047,8 @@ though, and has since been slightly modified)-->
                         <exception postag="V .*" postag_regexp="yes"/>
                         <!-- Following exception is to skip an adverb or epicene word -->
                         <exception negate_pos="yes" postag="A|[JNZ] [fe] .*|SENT_END" postag_regexp="yes" scope="next"/>
-                        <exception postag="N f .*" postag_regexp="yes"/>
+                        <exception postag="N [fe] .*" postag_regexp="yes"/>
+                        <exception postag="Z [fe] .*" postag_regexp="yes" regexp="yes">(?-i)\p{Lu}.*</exception>
                         <exception scope="previous" regexp="yes">des?</exception>
                         <exception scope="previous" postag="&lt;/DE&gt;"/>
                         <exception>sauf</exception>
@@ -3090,6 +3091,7 @@ though, and has since been slightly modified)-->
                         <exception scope="previous" postag="&lt;/DE&gt;"/>
                         <exception scope="previous" regexp="yes">des?|du|aux?</exception>
                         <exception postag="[NJ] [fe] .*|V .*" postag_regexp="yes"/>
+                        <exception postag="Z [fe] .*" postag_regexp="yes" regexp="yes">(?-i)\p{Lu}.*</exception>
                         <exception regexp="yes">non|air|car|pas</exception>
                         <!-- Following exception is to skip an adverb -->
                         <exception negate_pos="yes" postag="A|J f .*|V .* f .*|SENT_END" postag_regexp="yes" scope="next"/>
@@ -3120,11 +3122,13 @@ though, and has since been slightly modified)-->
                 <example type="correct">Les pâtes ne sont pas bonnes car trop cuites.</example>
                 <example type="correct">Une peine <marker>pas si lourde</marker>.</example>
                 <example type="correct"><marker>Une infime</marker> minorité.</example>
+                <example type="correct">L’<marker>Inde indépendante</marker>.</example>
             </rule>
             <rule name="féminin suivi du masculin">
                 <pattern>
                     <token postag="[DJ] f .*" postag_regexp="yes" skip="1">
                         <exception postag="[NJ] [me] .*|V .*" postag_regexp="yes"/>
+                        <exception postag="Z [em] .*" postag_regexp="yes" regexp="yes">(?-i)\p{Lu}.*</exception>
                         <!-- Following exception is to skip an adverb or epicene word -->
                         <exception negate_pos="yes" postag="A|[JNZ] [me] .*|SENT_END" postag_regexp="yes" scope="next"/>
                     </token>
@@ -3165,6 +3169,7 @@ though, and has since been slightly modified)-->
                         <exception scope="previous" regexp="yes">et|ou</exception>
                         <exception regexp="yes">fois|moitié</exception>
                         <exception postag="[NJ] [em] .*" postag_regexp="yes"/>
+                        <exception postag="Z [em] .*" postag_regexp="yes" reexp="yes">(?-i)\p{Lu}.*</exception>
                         <exception postag="V.*" postag_regexp="yes"/>
                         <!-- Following exception is to skip an adverb -->
                         <exception negate_pos="yes" postag="A|J m .*|V .* m .*|SENT_END" postag_regexp="yes" scope="next"/>
