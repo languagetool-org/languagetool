@@ -6,10 +6,20 @@ if [ ! $# -eq 2 ] && [ ! $# -eq 3 ]; then
   exit -1
 fi
 
-path_old="http://languagetool.svn.sourceforge.net/viewvc/languagetool/branches/$1/src/rules"
+path_old="http://languagetool.svn.sourceforge.net/viewvc/languagetool/branches/$1/src/main/resources/org/languagetool/rules"
 if [ $2 == "trunk" ]; then
-  path_new="http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/rules"
+  path_new="http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/main/resources/org/languagetool/rules"
 else
+  path_new="http://languagetool.svn.sourceforge.net/viewvc/languagetool/branches/$2/src/main/resources/org/languagetool/rules"
+fi
+
+# check whether the path exists; if it's not the case, we probably have to use the old paths
+response=`curl -o /dev/null --silent --head --write-out '%{http_code}\n' $path_old`
+if [ $response == "404" ]; then
+  path_old="http://languagetool.svn.sourceforge.net/viewvc/languagetool/branches/$1/src/rules"
+fi
+response=`curl -o /dev/null --silent --head --write-out '%{http_code}\n' $path_new`
+if [ $response == "404" ]; then
   path_new="http://languagetool.svn.sourceforge.net/viewvc/languagetool/branches/$2/src/rules"
 fi
 
@@ -38,9 +48,10 @@ rm -r $folder~
 mv $folder $folder~
 mkdir $folder
 
+# find all currently supported languages if no lang paramter is given
 if [ $# -eq 2 ]; then
-  langs=`ls -d ../../../rules/*/ -l | awk -F / '{print $(NF-1)}'`
-  langs=$langs" "`ls -d ../../../rules/*/*/ -l | awk -F / '{print $(NF-2)"/"$(NF-1)}'` # country variants
+  langs=`ls -d ../../../resources/org/languagetool/rules/*/ -l | awk -F / '{print $(NF-1)}'`
+  langs=$langs" "`ls -d ../../../resources/org/languagetool/rules/*/*/ -l | awk -F / '{print $(NF-2)"/"$(NF-1)}'` # country variants
   langs=`echo "$langs" | tr " " "\n" | sort |tr "\n" " "` # sort
 else
   langs=$3
