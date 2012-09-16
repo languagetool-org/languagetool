@@ -19,7 +19,6 @@
 package org.languagetool.rules;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 import junit.framework.TestCase;
 
@@ -29,8 +28,7 @@ import org.languagetool.TestTools;
 
 public class CommaWhitespaceRuleTest extends TestCase {
 
-  protected CommaWhitespaceRule rule;
-
+  private CommaWhitespaceRule rule;
   private JLanguageTool langTool;
   
   @Override
@@ -75,14 +73,12 @@ public class CommaWhitespaceRuleTest extends TestCase {
     assertEquals(6, matches[0].getToPos());
     assertEquals(11, matches[1].getFromPos());
     assertEquals(13, matches[1].getToPos());
-  }
 
-  public void testSpecialCaseForEnglish() throws IOException {
     assertMatches("Ellipsis . . . as suggested by The Chicago Manual of Style", 3);
     assertMatches("Ellipsis . . . . as suggested by The Chicago Manual of Style", 4);
   }
 
-  protected void assertMatches(String text, int expectedMatches) throws IOException {
+  private void assertMatches(String text, int expectedMatches) throws IOException {
     assertEquals(expectedMatches, rule.match(langTool.getAnalyzedSentence(text)).length);
   }
 
