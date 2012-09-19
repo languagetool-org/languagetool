@@ -367,6 +367,7 @@ public final class StringTools {
       context = context.replaceAll("[\n\r]", " ");
       xml.append(" context=\"" + StringTools.escapeXML(context) + "\"");
       xml.append(" contextoffset=\"" + contextOffset + "\"");
+      xml.append(" offset=\"" + match.getFromPos() + "\"");
       xml.append(" errorlength=\"" + (match.getToPos() - match.getFromPos()) + "\"");
       if (match.getRule().getUrl() != null) {
           xml.append(" url=\""

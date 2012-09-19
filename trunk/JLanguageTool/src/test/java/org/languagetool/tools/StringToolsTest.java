@@ -179,7 +179,8 @@ public class StringToolsTest extends TestCase {
     final Matcher matcher = matchesPattern.matcher(xml);
     assertTrue(matcher.matches());
     assertTrue(xml.contains(">\n" +
-            "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"EN_A_VS_AN\" msg=\"myMessage\" replacements=\"\" context=\"...s is an test...\" contextoffset=\"8\" errorlength=\"2\"/>\n" +
+            "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"EN_A_VS_AN\" msg=\"myMessage\" " +
+            "replacements=\"\" context=\"...s is an test...\" contextoffset=\"8\" offset=\"8\" errorlength=\"2\"/>\n" +
             "</matches>\n"));
   }
 
@@ -197,7 +198,8 @@ public class StringToolsTest extends TestCase {
     matches.add(match);
     final String xml = StringTools.ruleMatchesToXML(matches, text, 5, StringTools.XmlPrintMode.NORMAL_XML);
     assertTrue(xml.contains(">\n" +
-            "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"MY_ID\" msg=\"myMessage\" replacements=\"\" context=\"...s is a test ...\" contextoffset=\"8\" errorlength=\"2\" category=\"MyCategory\"/>\n" +
+            "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"MY_ID\" msg=\"myMessage\" " +
+            "replacements=\"\" context=\"...s is a test ...\" contextoffset=\"8\" offset=\"8\" errorlength=\"2\" category=\"MyCategory\"/>\n" +
             "</matches>\n"));
   }
 
@@ -221,7 +223,8 @@ public class StringToolsTest extends TestCase {
     matches.add(match);
     final String xml = StringTools.ruleMatchesToXML(matches, text, 5, StringTools.XmlPrintMode.NORMAL_XML);
     assertTrue(xml.contains(">\n" +
-            "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"EN_A_VS_AN\" msg=\"myMessage\" replacements=\"\" context=\"...s is an test...\" contextoffset=\"8\" errorlength=\"2\" url=\"http://server.org?id=1&amp;foo=bar\"/>\n" +
+            "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"EN_A_VS_AN\" msg=\"myMessage\" " +
+            "replacements=\"\" context=\"...s is an test...\" contextoffset=\"8\" offset=\"8\" errorlength=\"2\" url=\"http://server.org?id=1&amp;foo=bar\"/>\n" +
             "</matches>\n"));
   }
 
@@ -236,7 +239,8 @@ public class StringToolsTest extends TestCase {
     matches.add(match);
     final String xml = StringTools.ruleMatchesToXML(matches, text, 5, StringTools.XmlPrintMode.NORMAL_XML);
     assertTrue(xml.contains(">\n" +
-            "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"EN_A_VS_AN\" msg=\"myMessage\" replacements=\"\" context=\"... is &quot;an test...\" contextoffset=\"8\" errorlength=\"2\"/>\n" +
+            "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"EN_A_VS_AN\" msg=\"myMessage\" " +
+            "replacements=\"\" context=\"... is &quot;an test...\" contextoffset=\"8\" offset=\"9\" errorlength=\"2\"/>\n" +
             "</matches>\n"));
   }
 

@@ -1,7 +1,6 @@
 <!--
 Simple XML output format for the 'api' option and the HTTP 
-interface of LanguageTool. Version 1.1.
-Daniel Naber (http://www.danielnaber.de), 2012-08-13
+interface of LanguageTool (http://www.languagetool.org). Version 1.2 of the XML, 2012-09-19
 -->
 
 <!ELEMENT matches (error)*>
@@ -17,7 +16,6 @@ Daniel Naber (http://www.danielnaber.de), 2012-08-13
 <!ATTLIST error fromy CDATA #REQUIRED>
 <!-- The column in which the error starts. Counting starts at 0. -->
 <!ATTLIST error fromx CDATA #REQUIRED>
-
 <!-- The line in which the error ends: -->
 <!ATTLIST error toy CDATA #REQUIRED>
 <!-- The column in which the error ends: -->
@@ -32,31 +30,28 @@ Daniel Naber (http://www.danielnaber.de), 2012-08-13
 <!-- The message describing the error that will be displayed to the user. -->
 <!ATTLIST error msg CDATA #REQUIRED>
 
-<!--
-One or more suggestions to fix the error. If there is more than one
-suggestion, the strings are separated by a "#" character:
--->
+<!-- One or more suggestions to fix the error. If there is more than one
+suggestion, the strings are separated by a "#" character: -->
 <!ATTLIST error replacements CDATA #IMPLIED>
 
-<!--
-The context or sentence in which the error occurs.
--->
+<!-- The context or sentence in which the error occurs. -->
 <!ATTLIST error context CDATA #REQUIRED>
 
 <!-- The position of the start of the error in the 'context'
-attribute. Counting starts at 0.
--->
+attribute. Counting starts at 0. -->
 <!ATTLIST error contextoffset CDATA #REQUIRED>
 
-<!-- The length in characters of the error in the 'context'
-attribute, starting at 'contextoffset'.
--->
+<!-- The position of the start of the error in the input text.
+Counting starts at 0. (added in LanguageTool 1.9) -->
+<!ATTLIST error offset CDATA #REQUIRED>
+
+<!-- The length of the error in the input text. -->
 <!ATTLIST error errorlength CDATA #REQUIRED>
 
-<!-- The url with additional information that may be given --> 
+<!-- The url with additional information that may be given. -->
 <!ATTLIST error url CDATA #IMPLIED>
 
-<!-- The category of the match, if any : -->
+<!-- The category of the match, if any (added in LanguageTool 1.9). -->
 <!ATTLIST error category CDATA #IMPLIED>
 
 <!-- Note that the XML output may contain XML comments with
