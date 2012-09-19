@@ -99,7 +99,7 @@ public class Danish extends Language {
 
   @Override
   public final Contributor[] getMaintainers() {
-    return new Contributor[] {new Contributor("Esben Aaberg")};
+    return new Contributor[] {new Contributor("Esben Aaberg"), new Contributor("Henrik Bendt") };
   }
 
   @Override

@@ -112,6 +112,13 @@ License:
  The Chinese data and code for part-of-speech tagging is based on ictclas4j project
  (http://code.google.com/p/ictclas4j/) under Apache License 2.0.
 
+ Danish:
+ The Danish tagger is based upon data from Stavekontrolden - Danish dictionary
+ for Hunspell. © 2012 Foreningen for frit tilgængelige sprogværktøjer
+ These files are published under the following open source licenses:
+ GNU GPL version 2.0, GNU LGPL version 2.1, Mozilla MPL version 1.1
+ http://www.stavekontrolden.dk
+
  Dutch:
  The Dutch data are partly based on Alpino parser for Dutch by Gertjan van 
  Noord and is released on LGPL license. Alpino is available at 

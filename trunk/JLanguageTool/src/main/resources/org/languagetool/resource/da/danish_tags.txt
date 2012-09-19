@@ -1,6 +1,19 @@
 This is the description of the tags used by the Danish tagger.
 
-Available tags are 3 letter abbreviations of the Latin name when possible.
+---
+The Danish tagger is based upon data from Stavekontrolden - Danish dictionary
+for Hunspell. © 2012 Foreningen for frit tilgængelige sprogværktøjer
+These files are published under the following open source licenses:
+
+GNU GPL version 2.0
+GNU LGPL version 2.1
+Mozilla MPL version 1.1
+
+http://www.stavekontrolden.dk
+---
+
+Available tags are 3 letter abbreviations of the Latin name when possible,
+however pronomen have a 4 letter abbreviation.
 
 LanguageTool will tag words by returning one string per reading.
 For example, "slidbane" will be tagged with these strings:
@@ -31,36 +44,6 @@ it will display how words have been tagged.
 
 The available tags (Tag, Latin name, and Danish name):
 
-Substantiv:
-
-sub	substantiv	navneord
-
-ube	ubestemt
-bes	bestemt
-
-sin	singularis	ental
-plu	pluralis	flertal
-
-utr	utrum   	fælleskøn
-neu	neutrum 	intetkøn
-
-nom	nominativ	navnefald
-gen	genitiv 	ejefald
-
-
-Proprium:
-
-pro	proprium	egenavn
-
-nom	nominativ	navnefald
-gen	genitiv 	ejefald
-
-
-Præposition:
-
-pra	praepositio	præposition	forholdsord
-
-
 Adjektiv:
 Not completly implementet yet.
 
@@ -79,6 +62,94 @@ pos	positiv 	1. grad	grundform
 kom	komparativ	2. grad	højere grad
 sup	superlativ	3. grad	højeste grad
 
+
+Adverbium: -ikke implementeret
+
+adv	adverbium	biord
+
+
+Artikel:
+
+art	artikel	kendeord
+
+
+Interjektion: -ikke implementeret
+
+int	interjektion	udråbsord
+
+
+Konjunktion:
+
+kon	konjunktion	bindeord
+
+
+Pronomen: -ikke implementeret
+
+pron	pronomen	stedord
+
+sin	singularis	ental
+plu	pluralis	flertal
+
+*1per		1. person	━┓
+*2per		2. person	━╋━ Er ikke med i opmærkningen
+*3perm		3. person m?	━┫
+*3perf		3. person f?	━┫	
+*3pern		3. person n?	━┛
+
+nom	nominativ	grundled	grundledsfald, nævnefald
+akk	akkusativ	genstandsled	afhængighedsfald, genstandsfald
+*dat	dativ		(findes ikke på dansk - kun i fastgroede udtryk)
+gen	genitiv 	ejefald 	tillægsfald	
+
+
+Proprium:
+
+pro	proprium	egennavn
+
+nom	nominativ	navnefald
+gen	genitiv 	ejefald
+
+
+Præposition:
+
+pra	praepositio	præposition	forholdsord
+
+
+Substantiv:
+
+sub	substantiv	navneord
+
+ube	ubestemt
+bes	bestemt
+
+sin	singularis	ental
+plu	pluralis	flertal
+
+utr	utrum   	fælleskøn
+neu	neutrum 	intetkøn
+
+nom	nominativ	navnefald
+gen	genitiv 	ejefald
+
+
+Verbum:
+
+ver	verbum   	udsagnsord
+
+inf	infinitiv	navnemåde
+imp	imperativ	bydemåde
+præ	præsens 	nutid
+dat	præteritum	datid    	imperfektum
+*per	perfektum	før nutid
+*plu	pluskvamperfektum	før datid
+kor	perfektum particium	kort tillægsform
+lan	præsens participlum	lang tillægsform
+
+akt	aktiv
+pas	passiv
+
+
+*) Tags marked with * are not in the tagger.
 
 More word classes and tags will be added later, it is at work in progress.
 
