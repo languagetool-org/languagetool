@@ -94,7 +94,7 @@ RB => Règles Brutes
         <pattern>
             <token regexp="yes">aucune?s?|chaque|certaine?s?|des?|différents|divers|maint|mêmes?|moult|nombreuses|nul|nulle|plusieurs|quelques|tels?|telles?|toute?s?|une?<exception scope="previous" regexp="yes">[’´'‛′‘]</exception></token>
             <marker>
-                <token postag="N.*" postag_regexp="yes"><exception regexp="yes">si|est</exception></token>
+                <token postag="N.*" postag_regexp="yes"><exception regexp="yes">est|multiples|si</exception></token>
             </marker>
         </pattern>
         <disambig action="filter" postag="N.*"/>
@@ -637,7 +637,7 @@ RB => Règles Brutes
             <unify>  <feature id="number"/> <feature id="gender"/>
                 <token postag="D.*" postag_regexp="yes"/>
                 <token postag="J.*" postag_regexp="yes"/>
-                <token postag="N.*" postag_regexp="yes"><exception regexp="yes">dans|envers</exception><exception inflected="yes" regexp="yes">avoir|être</exception></token>
+                <token postag="N.*" postag_regexp="yes"><exception regexp="yes">dans|envers|mais</exception><exception inflected="yes" regexp="yes">avoir|être</exception></token>
             </unify>
         </pattern>
         <disambig action="unify"/>
@@ -1160,6 +1160,22 @@ RB => Règles Brutes
         <pattern>
           <token>sans</token>
           <marker><token regexp="yes">doute|cesse</token></marker>
+        </pattern>
+        <disambig postag="A"/>
+      </rule>
+    </rulegroup>
+    <rulegroup id="PAR_CONTRE" name="par contre">
+      <rule>
+        <pattern>
+          <marker><token>par</token></marker>
+          <token>contre</token>
+        </pattern>
+        <disambig postag="A"/>
+      </rule>
+      <rule>
+        <pattern>
+          <token>par</token>
+          <marker><token>contre</token></marker>
         </pattern>
         <disambig postag="A"/>
       </rule>
