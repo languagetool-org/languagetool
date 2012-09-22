@@ -53,7 +53,8 @@ public class VerbAgreementRule extends GermanRule {
     "Abdullah",
     "Isa",
     "Osama",
-    "Turki"
+    "Turki",
+    "/"
   ));
   
   private static final Set<String> QUOTATION_MARKS = new HashSet<String>(Arrays.asList(
@@ -214,12 +215,13 @@ public class VerbAgreementRule extends GermanRule {
   }
   
   /**
-   * @return true if @param token is a finite verb, and it is no pronoun or number
+   * @return true if @param token is a finite verb, and it is no participle, pronoun or number
    */
   private boolean isFiniteVerb(final AnalyzedTokenReadings token) {
     if (token.getToken().length() == 0
         || (Character.isUpperCase(token.getToken().charAt(0)) && token.getStartPos() != 0)
         || !token.hasPartialPosTag("VER")
+        || token.hasPartialPosTag("PA2")
         || token.hasPartialPosTag("PRO:")
         || token.hasPartialPosTag("ZAL"))
       return false;

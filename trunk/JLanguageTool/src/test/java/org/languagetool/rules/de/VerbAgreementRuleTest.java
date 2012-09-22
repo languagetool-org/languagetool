@@ -48,6 +48,7 @@ public class VerbAgreementRuleTest extends TestCase {
     assertGood("Max und ich sollten das machen.");
     assertGood("Osama bin Laden stammt aus Saudi-Arabien.");
     assertGood("Solltet ihr das machen?");
+    assertGood("/usr/bin/firefox");
     // incorrect sentences:
     assertBad("Als Borcarbid weißt es eine hohe Härte auf.");
     assertBad("Das greift auf Vorläuferinstitutionen bist auf die Zeit von 1234 zurück.");
@@ -70,6 +71,8 @@ public class VerbAgreementRuleTest extends TestCase {
     assertGood("Das Ich ist keine Einbildung");
     assertGood("Das lyrische Ich ist verzweifelt.");
     assertGood("Den Park, von dem er äußerst genaue Karten zeichnete.");
+    assertGood("Der auffälligste Ring ist der erster Ring, obwohl er verglichen mit den anderen Ringen sehr schwach erscheint.");
+    assertGood("Der Fehler, falls er bestehen sollte, ist schwerwiegend.");
     assertGood("Der Vorfall, bei dem er einen Teil seines Vermögens verloren hat, ist lange vorbei.");
     assertGood("Diese Lösung wurde in der 64'er beschrieben, kam jedoch nie.");
     assertGood("Die Theorie, mit der ich arbeiten konnte.");
@@ -106,6 +109,7 @@ public class VerbAgreementRuleTest extends TestCase {
     assertGood("Nett bist du.");
     assertGood("Nett ist er.");
     assertGood("Nett sind wir.");
+    assertGood("Niemand ahnte, dass er gewinnen könne.");
     assertGood("Sie lebt und wir leben.");
     assertGood("Sie und er leben.");
     assertGood("Sind ich und Peter nicht nette Kinder?");
