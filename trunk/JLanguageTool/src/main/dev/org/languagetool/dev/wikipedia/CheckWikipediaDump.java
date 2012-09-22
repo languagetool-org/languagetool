@@ -23,11 +23,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -123,6 +119,7 @@ public class CheckWikipediaDump {
     } else {
       applyRuleDeactivation(languageTool, disabledRules);
     }
+    disableSpellingRules(languageTool);
     final Date dumpDate = getDumpFileDate(file);
     System.out.println("Dump date: " + dumpDate + ", language: " + langCode);
     BaseWikipediaDumpHandler xmlHandler = null;
@@ -160,6 +157,16 @@ public class CheckWikipediaDump {
       languageTool.disableRule(disabledRuleId);
     }
     System.out.println("These rules are disabled: " + languageTool.getDisabledRules());
+  }
+
+  private void disableSpellingRules(JLanguageTool languageTool) {
+    final List<Rule> allActiveRules = languageTool.getAllActiveRules();
+    for (Rule rule : allActiveRules) {
+      if (rule.isSpellingRule()) {
+        languageTool.disableRule(rule.getId());
+      }
+    }
+    System.out.println("All spelling rules are disabled");
   }
 
   private Date getDumpFileDate(File file) throws IOException {
