@@ -34,9 +34,9 @@ import org.languagetool.tools.StringTools;
  */
 class OutputDumpHandler extends BaseWikipediaDumpHandler {
 
-    OutputDumpHandler(JLanguageTool lt, int maxArticles, Date dumpDate, String langCode,
+    OutputDumpHandler(JLanguageTool lt, Date dumpDate, String langCode,
             Language lang) {
-      super(lt, maxArticles, dumpDate, langCode, lang);
+      super(lt, dumpDate, langCode, lang);
     }
     
     @Override
@@ -65,9 +65,12 @@ class OutputDumpHandler extends BaseWikipediaDumpHandler {
           if (!replacements.isEmpty()) {
             System.out.println("Suggestion: " + StringTools.listToString(replacements, "; "));
           }
-          System.out.println(StringTools.getContext(match.getFromPos(), match
-              .getToPos(), text, CONTEXT_SIZE));
+          System.out.println(StringTools.getContext(match.getFromPos(), match.getToPos(), text, CONTEXT_SIZE));
           i++;
+          errorCount++;
+          if (maxErrors > 0 && errorCount > maxErrors) {
+            throw new ErrorLimitReachedException(maxErrors);
+          }
         }
       }
     }

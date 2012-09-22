@@ -16,11 +16,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-
-/*
- *
- * Created on 21.12.2006
- */
 package org.languagetool.dev.wikipedia;
 
 import java.io.File;
@@ -79,15 +74,13 @@ public class CheckWikipediaDump {
       addDisabledRules("all", disabledRuleIds, disabledRules);
       addDisabledRules(languageCode, disabledRuleIds, disabledRules);
     }
-    int maxArticles = 0;
-    if (args.length == 6) {
-      maxArticles = Integer.parseInt(args[5]);
-    }
+    final int maxArticles = Integer.parseInt(args[5]);
+    final int maxErrors = Integer.parseInt(args[6]);
     String[] ruleIds = null;
     if (!"-".equals(args[4])) {
       ruleIds = args[4].split(",");
     }
-    prg.run(propFile, disabledRuleIds, languageCode, args[3], ruleIds, maxArticles);
+    prg.run(propFile, disabledRuleIds, languageCode, args[3], ruleIds, maxArticles, maxErrors);
   }
 
   private static void addDisabledRules(String languageCode, Set<String> disabledRuleIds, Properties disabledRules) {
@@ -99,27 +92,28 @@ public class CheckWikipediaDump {
   }
 
   private static void ensureCorrectUsageOrExit(String[] args) {
-    if (args.length < 5 || args.length > 6) {
-      System.err.println("Usage: CheckWikipediaDump <propertyFile> <rulePropertyFile> <language> <filename> <ruleIds> [maxArticleCheck]");
-      System.err.println("\tpropertyFile a file to set database access properties. Use '-' to print results to stdout.");
-      System.err.println("\trulePropertyFile a file to set rules which should be disabled per language (e.g. en=RULE1,RULE2 or all=RULE3,RULE4). Use '-' to ignore.");
-      System.err.println("\tlanguage languagecode like 'en' or 'de'");
-      System.err.println("\tfilename path to unpacked Wikipedia XML dump");
-      System.err.println("\truleIds comma-separated list of rule-ids to activate. Use '-' to activate the default rules.");
-      System.err.println("\tmaxArticleCheck optional: maximum number of articles to check");
+    if (args.length != 7) {
+      System.err.println("Usage: CheckWikipediaDump <propertyFile> <rulePropertyFile> <language> <filename> <ruleIds> <maxArticles> <maxErrors>");
+      System.err.println("  propertyFile      a file to set database access properties. Use '-' to print results to stdout.");
+      System.err.println("  rulePropertyFile  a file to set rules which should be disabled per language (e.g. en=RULE1,RULE2 or all=RULE3,RULE4). Use '-' to ignore.");
+      System.err.println("  language          language code like 'en' or 'de'");
+      System.err.println("  filename          path to unpacked Wikipedia XML dump");
+      System.err.println("  ruleIds           comma-separated list of rule-ids to activate. Use '-' to activate the default rules.");
+      System.err.println("  maxArticles       maximum number of articles to check, 0 for no limit");
+      System.err.println("  maxErrors         stop when reaching this many errors, 0 for no limit");
       System.exit(1);
     }
   }
 
-  private void run(File propFile, Set<String> disabledRules, String language, String textFilename, String[] ruleIds, int maxArticles)
+  private void run(File propFile, Set<String> disabledRules, String langCode, String textFilename, String[] ruleIds, int maxArticles, int maxErrors)
       throws IOException, SAXException, ParserConfigurationException {
     final File file = new File(textFilename);
     if (!file.exists() || !file.isFile()) {
       throw new IOException("File doesn't exist or isn't a file: " + textFilename);
     }
-    final Language lang = Language.getLanguageForShortName(language);
+    final Language lang = Language.getLanguageForShortName(langCode);
     if (lang == null) {
-      System.err.println("Language not supported: " + language);
+      System.err.println("Language not supported: " + langCode);
       System.exit(1);
     }
     final JLanguageTool languageTool = new JLanguageTool(lang);
@@ -130,16 +124,24 @@ public class CheckWikipediaDump {
       applyRuleDeactivation(languageTool, disabledRules);
     }
     final Date dumpDate = getDumpFileDate(file);
-    System.out.println("Dump date: " + dumpDate + ", language: " + language);
-    final BaseWikipediaDumpHandler handler;
-    if (propFile != null) {
-      handler = new DatabaseDumpHandler(languageTool, maxArticles, dumpDate, language, propFile, lang);
-    } else {
-      handler = new OutputDumpHandler(languageTool, maxArticles, dumpDate, language, lang);
+    System.out.println("Dump date: " + dumpDate + ", language: " + langCode);
+    BaseWikipediaDumpHandler xmlHandler = null;
+    try {
+      if (propFile != null) {
+        xmlHandler = new DatabaseDumpHandler(languageTool, dumpDate, langCode, propFile, lang);
+      } else {
+        xmlHandler = new OutputDumpHandler(languageTool, dumpDate, langCode, lang);
+      }
+      xmlHandler.setMaximumArticles(maxArticles);
+      xmlHandler.setMaximumErrors(maxErrors);
+      final SAXParserFactory factory = SAXParserFactory.newInstance();
+      final SAXParser saxParser = factory.newSAXParser();
+      saxParser.parse(file, xmlHandler);
+    } catch (ErrorLimitReachedException e) {
+      System.out.println(e);
+    } finally {
+      if (xmlHandler != null) { xmlHandler.close(); }
     }
-    final SAXParserFactory factory = SAXParserFactory.newInstance();
-    final SAXParser saxParser = factory.newSAXParser();
-    saxParser.parse(file, handler);
   }
 
   private void enableSpecifiedRules(String[] ruleIds, JLanguageTool languageTool) {
@@ -149,7 +151,7 @@ public class CheckWikipediaDump {
     for (String ruleId : ruleIds) {
       languageTool.enableRule(ruleId);
     }
-    System.err.println("Only these rules are enabled: " + Arrays.toString(ruleIds));
+    System.out.println("Only these rules are enabled: " + Arrays.toString(ruleIds));
   }
 
   private void applyRuleDeactivation(JLanguageTool languageTool, Set<String> disabledRules) throws IOException {
@@ -157,7 +159,7 @@ public class CheckWikipediaDump {
     for (String disabledRuleId : disabledRules) {
       languageTool.disableRule(disabledRuleId);
     }
-    System.err.println("These rules are disabled: " + languageTool.getDisabledRules());
+    System.out.println("These rules are disabled: " + languageTool.getDisabledRules());
   }
 
   private Date getDumpFileDate(File file) throws IOException {

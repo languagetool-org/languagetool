@@ -44,32 +44,37 @@ abstract class BaseWikipediaDumpHandler extends DefaultHandler {
 
   protected Date dumpDate;
   protected String langCode;
+  protected int maxErrors = 0;
+  protected int errorCount = 0;
 
   private final JLanguageTool languageTool;
   private int ruleMatchCount = 0;
-  private int articleCount = 0;
   private int maxArticles = 0;
+  private int articleCount = 0;
 
   private boolean inText = false;
   private StringBuilder text = new StringBuilder();
-  
-  private TextFilter textFilter = new BlikiWikipediaTextFilter();
-
   private String title;
-  private final Language lang;
+
+  private TextFilter textFilter = new BlikiWikipediaTextFilter();
 
   //===========================================================
   // SAX DocumentHandler methods
   //===========================================================
 
-  protected BaseWikipediaDumpHandler(JLanguageTool languageTool, int maxArticles, Date dumpDate,
-      String langCode, Language lang) {
-    this.lang = lang;
+  protected BaseWikipediaDumpHandler(JLanguageTool languageTool, Date dumpDate, String langCode, Language lang) {
     this.languageTool = languageTool;
-    this.maxArticles = maxArticles;
     this.dumpDate = dumpDate;
     this.langCode = langCode;
     textFilter = TextFilterTools.getTextFilter(lang);
+  }
+
+  public void setMaximumArticles(int maxArticles) {
+    this.maxArticles = maxArticles;
+  }
+
+  public void setMaximumErrors(int maxErrors) {
+    this.maxErrors= maxErrors;
   }
 
   @Override
@@ -90,12 +95,8 @@ abstract class BaseWikipediaDumpHandler extends DefaultHandler {
       title = text.toString();
       text = new StringBuilder();
     } else if (qName.equals("text")) {
-      //System.err.println(text.length() + " " + text.substring(0, Math.min(50, text.length())));
       final String textToCheck = textFilter.filter(text.toString());
-      //System.out.println(textToCheck);
       if (!textToCheck.contains("#REDIRECT")) {
-        //System.err.println("#########################");
-        //System.err.println(textToCheck);
         try {
           articleCount++;
           if (maxArticles > 0 && articleCount > maxArticles) {
@@ -109,6 +110,8 @@ abstract class BaseWikipediaDumpHandler extends DefaultHandler {
               ", found " + ruleMatches.size() + " matches");
           try {
             handleResult(title, ruleMatches, textToCheck, languageTool.getLanguage());
+          } catch (ErrorLimitReachedException e) {
+            throw e;
           } catch (Exception e) {
             throw new RuntimeException(e);
           }

@@ -1,5 +1,20 @@
-/*
- * Created on 04.04.2010
+/* LanguageTool, a natural language style checker
+ * Copyright (C) 2012 Daniel Naber (http://www.danielnaber.de)
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+ * USA
  */
 package org.languagetool.dev.wikipedia;
 
@@ -27,9 +42,9 @@ class DatabaseDumpHandler extends BaseWikipediaDumpHandler {
 
     private final Connection conn;
 
-    DatabaseDumpHandler(JLanguageTool lt, int maxArticles, Date dumpDate, String langCode,
+    DatabaseDumpHandler(JLanguageTool lt, Date dumpDate, String langCode,
             File propertiesFile, Language lang) throws IOException {
-    super(lt, maxArticles, dumpDate, langCode, lang);
+    super(lt, dumpDate, langCode, lang);
     final Properties dbProperties = new Properties();
     final FileInputStream inStream = new FileInputStream(propertiesFile);
     try {
@@ -97,6 +112,10 @@ class DatabaseDumpHandler extends BaseWikipediaDumpHandler {
           prepSt.setDate(8, nowDate);
           prepSt.setString(9, URL_PREFIX.replaceAll(LANG_MARKER, langCode) + title);
           prepSt.executeUpdate();
+          errorCount++;
+          if (maxErrors > 0 && errorCount > maxErrors) {
+            throw new ErrorLimitReachedException(maxErrors);
+          }
         }
       } finally {
         prepSt.close();
