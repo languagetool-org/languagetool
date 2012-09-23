@@ -1432,7 +1432,7 @@ though, and has since been slightly modified)-->
             <example type="incorrect">Il <marker>ma</marker> répondu.</example>
             <example type="correct">Il <marker>m’a</marker> répondu.</example>
             <example type="correct">C’est ma voiture.</example>
-            <example type="correct">C'est ma préférée.</example>
+            <example type="correct">C’est ma préférée.</example>
         </rule>
         <!-- mis en default="off" car cette règle génère des fausses alertes sur toutes les phrases avec un attribut du sujet, etc. -->
         <rule default="off" id="SONT_SON" name="SONT au lieu de SON">
@@ -1535,7 +1535,7 @@ though, and has since been slightly modified)-->
             <message>La bonne expression est : <suggestion>en tant</suggestion>.</message>
             <example type="incorrect">Il est venu <marker>en temps</marker> que maire.</example>
             <example type="correct">Il est interrogé <marker>en tant</marker> que témoin.</example>
-            <example type="correct">Il faut se rappeler de temps <marker>en temps</marker> que rien n'est immortel.</example>
+            <example type="correct">Il faut se rappeler de temps <marker>en temps</marker> que rien n’est immortel.</example>
         </rule>
         <rule id="ON_ONT" name="ON au lieu de ONT">
             <pattern>
@@ -2077,8 +2077,8 @@ though, and has since been slightly modified)-->
               <marker><token regexp="yes">acétiques?</token></marker>
             </pattern>
             <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="^(.)(.*)" regexp_replace="$1s$2"/></suggestion> ?</message>
-            <example type="incorrect">La tradition <marker>acétique</marker> de l'Église.</example>
-            <example type="correct">La tradition ascétique de l'Église.</example>
+            <example type="incorrect">La tradition <marker>acétique</marker> de l’Église.</example>
+            <example type="correct">La tradition ascétique de l’Église.</example>
           </rule>
         </rulegroup>
         <rulegroup id="COLON" name="colon et côlon">
@@ -2182,8 +2182,8 @@ though, and has since been slightly modified)-->
               <marker><token>tache</token></marker>
             </pattern>
             <message>Voulez-vous écrire <suggestion>tâche</suggestion> ?</message>
-            <example type="incorrect">Il s'épuise à la <marker>tache</marker>.</example>
-            <example type="correct">Il s'épuise à la tâche.</example>
+            <example type="incorrect">Il s’épuise à la <marker>tache</marker>.</example>
+            <example type="correct">Il s’épuise à la tâche.</example>
           </rule>
         </rulegroup>
         <rulegroup id="CENSE_SENSE" name="sensé et censé">
@@ -2950,7 +2950,7 @@ though, and has since been slightly modified)-->
                     <token postag="[DJN] .* s" postag_regexp="yes" skip="1">
                         <!-- Following exception skip words both singular/plural as well as adverbs -->
                         <exception negate_pos="yes" postag="A|[JNZ] .* s?p|SENT_END" postag_regexp="yes" scope="next"/>
-                        <exception postag="V inf" scope="current"/>
+                        <exception postag="V inf|[JANZ] .* s?p" postag_regexp="yes" scope="current"/>
                         <exception postag="&lt;/DE&gt;" scope="previous"/>
                         <exception regexp="yes" scope="previous">et|de|du</exception>
                         <exception regexp="yes">air|car</exception>
@@ -2985,6 +2985,7 @@ though, and has since been slightly modified)-->
                 <example type="incorrect"><marker>Une fautes</marker>.</example>
                 <example type="correct">Une faute.</example>
                 <example type="correct">Ils sont en général jeunes.</example>
+                <example type="correct">Les lois antitrust américaines.</example>
             </rule>
             <rule name="pluriel suivi du singulier">
                 <pattern>
@@ -3542,7 +3543,7 @@ though, and has since been slightly modified)-->
                 <message>« \5 » n’est pas un verbe.</message>
                 <example type="incorrect">Je ne l’<marker>abandon</marker> pas.</example>
                 <example type="correct">Je ne l’<marker>abandonne</marker> pas.</example>
-                <example type="correct">Il ne l'<marker>est</marker> que durant l’élection.</example>
+                <example type="correct">Il ne l’<marker>est</marker> que durant l’élection.</example>
             </rule>
         </rulegroup>
         <rulegroup id="N_V" name="pas de verbe après : au, de, du…">
@@ -20301,7 +20302,7 @@ though, and has since been slightly modified)-->
             <message>« Haddock » est un anglicisme. Employez <suggestion>aiglefin</suggestion> ou <suggestion>églefin</suggestion>.</message>
             <example type="incorrect"><marker>haddock</marker></example>
             <example type="correct"><marker>aiglefin</marker></example>
-            <example type="correct">Le capitaine Haddock est l'ami de Tintin.</example>
+            <example type="correct">Le capitaine Haddock est l’ami de Tintin.</example>
         </rule>
         <rule id="PACEMAKER" name="pacemaker">
             <pattern>
