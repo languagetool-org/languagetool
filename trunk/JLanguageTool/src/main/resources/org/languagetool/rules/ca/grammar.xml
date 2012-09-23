@@ -3008,6 +3008,16 @@ $Id$
         </rulegroup>
     </category>
     <category name="Confusions">
+        <rule id="MONTS_MONS_DE_DEU" name="*monts/mons de Déu">
+            <pattern>
+                <token>monts</token>
+                <token>de</token>
+                <token>Déu</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>mons de Déu</suggestion>?</message>
+            <example type="incorrect">per aquests <marker>monts de Déu</marker></example>
+            <example type="correct">per aquests mons de Déu</example>
+        </rule>
         <rule id="A_LHORA_ALHORA" name="a l'hora/alhora">
             <pattern>
                 <token inflected="yes" negate="yes">anar</token>
@@ -3555,23 +3565,6 @@ $Id$
                 <example type="correct"><marker>A penes</marker> arriba.</example>
             </rule>
         </rulegroup>
-        <rule id="COMPLERT_COMPLET" name="complert/complet">
-            <pattern>
-                <token><exception inflected="yes" regexp="yes">haver|considerar</exception><exception regexp="yes">deures?|promes(a|es)|objectius?</exception></token>
-                <marker>
-                    <token regexp="yes">(in)?complert(a|s|es)?</token>
-                </marker>
-            </pattern>
-            <message>Si no és del verb <match no="2" postag="(V.+)" postag_regexp="yes" postag_replace="V.N.*"/>, cal dir <suggestion><match no="2" regexp_match="(.*)complert(.*)" regexp_replace="$1complet$2"></match></suggestion>.</message>
-            <example type="incorrect" correction="completa">La família <marker>complerta</marker>.</example>
-            <example type="incorrect" correction="incomplet">és un llibre <marker>incomplert</marker>.</example>
-            <example type="correct">que no hagin complert vuitanta anys.</example>
-            <example type="correct">consideraven complert el seu deure.</example>
-            <example type="correct">han incomplert el seu deure.</example>
-            <example type="correct">són promeses incomplertes.</example>
-            <example type="correct">es presenta amb els deures complerts.</example>
-            <example type="correct">Objectiu complert!</example>
-        </rule>
         <rule id="CON_A" name="com a/con a">
             <pattern>
                 <marker>
@@ -7238,18 +7231,19 @@ $Id$
             <example type="incorrect"><marker>Enlloc</marker> d'això, fes allò.</example>
             <example type="correct">No ho trobaràs enlloc del món.</example>
         </rule>
-        <rule id="EN_MOTIU_DE" name="en motiu de">
-            <!-- excepte: convertir-se en motiu de-->
+        <rule id="EN_MOTIU_DE" name="*en motiu de/amb motiu de">
             <pattern>
                 <token inflected="yes" negate="yes">convertir</token>
-                <token>en</token>
-                <token>motiu</token>
-                <token inflected="yes">de</token>
+                <marker>
+                    <token>en</token>
+                    <token>motiu</token>
+                    <token inflected="yes">de</token>
+                </marker>
             </pattern>
-            <message>Cal dir <suggestion>amb motiu <match no="3"></match></suggestion>.</message>
+            <message>Cal dir <suggestion>amb motiu <match no="4"></match></suggestion>.</message>
             <short>Expressió incorrecta</short>
-            <example type="incorrect"><marker>en motiu de</marker> la celebració de l'aniversari</example>
-            <example type="correct"><marker>amb motiu de</marker> la celebració de l'aniversari</example>
+            <example type="incorrect" correction="amb motiu de"><marker>en motiu de</marker> la celebració de l'aniversari</example>
+            <example type="correct">Ho convertí en motiu de burla.</example>
         </rule>
         <rule id="EN_RAO_DE" name="en raó de">
             <pattern>
@@ -8318,6 +8312,60 @@ $Id$
         </rule>
     </category>
     <category name="Paraules incorrectes segons el context">
+        <rule id="NADALS_NADAL" name="Nadals/Nadal">
+            <pattern>
+                <token><exception inflected="yes">numeral</exception><exception regexp="yes">\d+</exception></token>
+                <marker>
+                    <token>Nadals</token>
+                </marker>
+            </pattern>
+            <message>Si es refereix sols a un any, ha de ser singular: <suggestion>Nadal</suggestion>.</message>
+            <example type="incorrect">els <marker>Nadals</marker></example>
+            <example type="correct">el Nadal</example>
+            <example type="correct">tres Nadals</example>
+            <example type="correct">15 Nadals</example>
+        </rule>
+        <rule id="PEL_MOMENT" name="*pel moment">
+            <pattern>
+                <!--verbs que regeixen 'per' -->
+                <token><exception inflected="yes" regexp="yes">ordenar|determinar|caracteritzar|produir</exception></token>
+                <marker>
+                    <token>pe</token>
+                    <token>l</token>
+                    <token>moment</token>
+                </marker>
+                <token><exception regexp="yes">de|d'|en</exception><exception postag="AQ0[MC][SN]0|RG" postag_regexp="yes"/></token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>de moment</suggestion> o <suggestion>per al moment</suggestion>?</message>
+            <example type="incorrect">impedeixen <marker>pel moment</marker> construir-los</example>
+            <example type="incorrect">Joana havia salvat la seva vida <marker>pel moment</marker>.</example>
+            <example type="correct">Els efectes rotacionals són determinats pel moment.</example>
+            <example type="correct">caracteritzades pel moment angular</example>
+            <example type="correct">fou només possible pel moment d'eufòria</example>
+            <example type="correct">un gir produït pel moment</example>
+            <example type="correct">pel moment en què fou premiada</example>
+            <example type="correct">Pel moment històric en què regnà</example>
+            <example type="correct">sorprengué pel moment extremadament dramàtic en què tingué lloc.</example>
+        </rule>
+        <rule id="COMPLERT_COMPLET" name="complert/complet">
+            <pattern>
+                <token><exception inflected="yes" regexp="yes">haver|considerar</exception><exception regexp="yes">deures?|promes(a|es)|objectius?|anys?|missió|desigs?|desitjos|mes|mesos|setman(a|es)</exception></token>
+                <marker>
+                    <token regexp="yes" skip="-1">(in)?complert(a|s|es)?<exception regexp="yes" scope="next">deures?|promes(a|es)|objectius?|anys?|missió|desigs?|desitjos|mes|mesos|setman(a|es)</exception></token>
+                </marker>
+                <token postag="SENT_END"/>
+            </pattern>
+            <message>Si no és del verb <match no="2" postag="(V.+)" postag_regexp="yes" postag_replace="V.N.*"/>, cal dir <suggestion><match no="2" regexp_match="(.*)complert(.*)" regexp_replace="$1complet$2"></match></suggestion>.</message>
+            <example type="incorrect" correction="completa">La família <marker>complerta</marker>.</example>
+            <example type="incorrect" correction="incomplet">és un llibre <marker>incomplert</marker>.</example>
+            <example type="correct">que no hagin complert vuitanta anys.</example>
+            <example type="correct">consideraven complert el seu deure.</example>
+            <example type="correct">han incomplert el seu deure.</example>
+            <example type="correct">són promeses incomplertes.</example>
+            <example type="correct">es presenta amb els deures complerts.</example>
+            <example type="correct">Objectiu complert!</example>
+            <example type="correct">Complerts els desitjos</example>
+        </rule>
         <rulegroup id="MODALS" name="modals">
         <!-- En alguns casos cal informació contextual -->
             <rule>
@@ -8705,6 +8753,47 @@ $Id$
         </rulegroup>
     </category>
     <category name="Expressions preferibles" default="on">
+        <rulegroup id="MONT_MUNTANYA" name="mont/muntanya">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="D[^R].*" postag_regexp="yes"/>
+                        <token regexp="yes">monts?</token>
+                    </marker>
+                    <token><exception regexp="yes">\p{Lu}[\p{Ll}·]*</exception></token>
+                </pattern>
+                <message>Val més dir: <suggestion><match no="1" postag="(D..)M(..)" postag_regexp="yes" postag_replace="$1F$2"/> <match no="2" postag="NCM(.*)" postag_regexp="yes" postag_replace="NCF$1">muntanya</match></suggestion>.</message>
+                <example type="incorrect" correction="la muntanya"><marker>el mont</marker> del Sinaí</example>
+                <example type="incorrect" correction="aquestes muntanyes">Són <marker>aquests monts</marker>.</example>
+                <example type="correct">el mont Carmel</example>
+                <example type="correct">dels monts Universals</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="D[^R].*" postag_regexp="yes" negate_pos="yes"/>
+                    <marker>
+                        <token regexp="yes">monts?</token>
+                    </marker>
+                    <token><exception regexp="yes">\p{Lu}[\p{Ll}·]*</exception></token>
+                </pattern>
+                <message>Val més dir: <suggestion><match no="2" postag="NCM(.*)" postag_regexp="yes" postag_replace="NCF$1">muntanya</match></suggestion>.</message>
+                <example type="incorrect" correction="muntanya"><marker>mont</marker> del Sinaí</example>
+                <example type="incorrect" correction="muntanyes">Són <marker>monts</marker> magnífics.</example>
+                <example type="correct">mont Carmel</example>
+                <example type="correct">monts Universals</example>
+            </rule>
+        </rulegroup>
+        <rule id="AMB_MOLT" name="amb molt">
+            <pattern>
+                <token postag="SENT_START|PUNCT" postag_regexp="yes"/>
+                <token>amb</token>
+                <token>molt</token>
+                <token postag="PUNCT"/>
+            </pattern>
+            <message>Val més dir: <suggestion>de molt</suggestion>, <suggestion>de bon tros</suggestion>.</message>
+            <example type="incorrect">El productor més important són<marker>, amb molt,</marker> els Estats Units.</example>
+            <example type="correct">El productor més important són, de molt, els Estats Units.</example>
+        </rule>
         <rule id="NI_MOLT_MENYS" name="ni molt menys/ni de bon tros">
             <pattern>
                 <token>ni</token>
@@ -8730,7 +8819,6 @@ $Id$
         </rule>
     </category>
     <category name="Paraules incorrectes">
-           
         <rulegroup id="ET_SEMBLA" name="*et sembla? / et sembla bé?">
             <rule>
                 <pattern>
