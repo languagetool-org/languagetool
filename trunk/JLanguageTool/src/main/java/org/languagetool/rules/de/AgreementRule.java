@@ -423,10 +423,9 @@ public class AgreementRule extends GermanRule {
       if (reading.getCasus() == null && reading.getNumerus() == null &&
           reading.getGenus() == null)
         continue;
-      if (reading.getGenus() == null && (reading.getToken().equals("ich") || reading.getToken().equals("wir"))) {
-        // "ich" and "wir" contains genus=ALG in the original data. Not sure if
-        // this is allowed, but expand this so "Ich Arbeiter" doesn't get flagged
-        // as incorrect:
+      if (reading.getGenus() == GermanToken.Genus.ALLGEMEIN) {
+        // genus=ALG in the original data. Not sure if this is allowed, but expand this so
+        // e.g. "Ich Arbeiter" doesn't get flagged as incorrect:
         set.add(makeString(reading.getCasus(), reading.getNumerus(), GermanToken.Genus.MASKULINUM, omit));
         set.add(makeString(reading.getCasus(), reading.getNumerus(), GermanToken.Genus.FEMININUM, omit));
         set.add(makeString(reading.getCasus(), reading.getNumerus(), GermanToken.Genus.NEUTRUM, omit));
@@ -440,12 +439,15 @@ public class AgreementRule extends GermanRule {
   private String makeString(GermanToken.Kasus casus, GermanToken.Numerus num, GermanToken.Genus gen,
       Set<GrammarCategory> omit) {
     final List<String> l = new ArrayList<String>();
-    if (casus != null && !omit.contains(GrammarCategory.KASUS))
+    if (casus != null && !omit.contains(GrammarCategory.KASUS)) {
       l.add(casus.toString());
-    if (num != null && !omit.contains(GrammarCategory.NUMERUS))
+    }
+    if (num != null && !omit.contains(GrammarCategory.NUMERUS)) {
       l.add(num.toString());
-    if (gen != null && !omit.contains(GrammarCategory.GENUS))
+    }
+    if (gen != null && !omit.contains(GrammarCategory.GENUS)) {
       l.add(gen.toString());
+    }
     return StringTools.listToString(l, "/");
   }
 

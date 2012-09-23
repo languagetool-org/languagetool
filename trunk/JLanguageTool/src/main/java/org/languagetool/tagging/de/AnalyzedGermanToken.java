@@ -98,6 +98,8 @@ public class AnalyzedGermanToken extends AnalyzedToken {
         genus = Genus.NEUTRUM;
       else if (part.equals("NOG"))
         genus = Genus.FEMININUM;    // NOG = no genus because only used as plural
+      else if (part.equals("ALG"))
+        genus = Genus.ALLGEMEIN;
 
       else if (part.equals("DEF"))
         ; // not yet used

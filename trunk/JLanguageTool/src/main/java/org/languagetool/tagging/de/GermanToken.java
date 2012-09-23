@@ -92,6 +92,7 @@ public final class GermanToken {
     public static final Genus MASKULINUM = new Genus("Maskulinum");
     public static final Genus FEMININUM = new Genus("Femininum");
     public static final Genus OTHER = new Genus("Other");
+    public static final Genus ALLGEMEIN = new Genus("Allgemein");   // Morphy ALG = Mas, Fem, or Neu
 
     private final String name;
     

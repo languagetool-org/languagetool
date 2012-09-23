@@ -64,6 +64,7 @@ public class AgreementRuleTest extends TestCase {
     assertGood("Das Auto eines Mannes.");
     assertGood("Des großen Mannes.");
     assertGood("Und nach der Nummerierung kommt die Überschrift.");
+    assertGood("Sie wiesen dieselben Verzierungen auf.");
 
     assertGood("Das Dach von meinem Auto.");
     assertGood("Das Dach von meinen Autos.");
@@ -195,11 +196,11 @@ public class AgreementRuleTest extends TestCase {
   }
 
   private void assertGood(String s) throws IOException {
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence(s)).length);
+    assertEquals("Found unexpected match in sentence '" + s + "'", 0, rule.match(langTool.getAnalyzedSentence(s)).length);
   }
 
   private void assertBad(String s) throws IOException {
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence(s)).length);
+    assertEquals("Did not find one match in sentence '" + s + "'", 1, rule.match(langTool.getAnalyzedSentence(s)).length);
   }
 
   private void assertBad(String s, String expectedErrorSubstring) throws IOException {
