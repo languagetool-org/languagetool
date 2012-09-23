@@ -3557,17 +3557,20 @@ $Id$
         </rulegroup>
         <rule id="COMPLERT_COMPLET" name="complert/complet">
             <pattern>
-                <token><exception inflected="yes" regexp="yes">haver|considerar</exception></token>
+                <token><exception inflected="yes" regexp="yes">haver|considerar</exception><exception regexp="yes">deures?|promes(a|es)|objectius?</exception></token>
                 <marker>
-                    <token regexp="yes">complert(a|s|es)?</token>
+                    <token regexp="yes">(in)?complert(a|s|es)?</token>
                 </marker>
             </pattern>
-            <message>Si no és del verb complir, és <suggestion><match no="2" regexp_match="complert(.*)" regexp_replace="complet$1"></match></suggestion>.</message>
-            <short>Incorrecte si no és del verb complir.</short>
-            <example type="incorrect">La família <marker>complerta</marker>.</example>
-            <example type="correct">La família completa.</example>
+            <message>Si no és del verb <match no="2" postag="(V.+)" postag_regexp="yes" postag_replace="V.N.*"/>, cal dir <suggestion><match no="2" regexp_match="(.*)complert(.*)" regexp_replace="$1complet$2"></match></suggestion>.</message>
+            <example type="incorrect" correction="completa">La família <marker>complerta</marker>.</example>
+            <example type="incorrect" correction="incomplet">és un llibre <marker>incomplert</marker>.</example>
             <example type="correct">que no hagin complert vuitanta anys.</example>
             <example type="correct">consideraven complert el seu deure.</example>
+            <example type="correct">han incomplert el seu deure.</example>
+            <example type="correct">són promeses incomplertes.</example>
+            <example type="correct">es presenta amb els deures complerts.</example>
+            <example type="correct">Objectiu complert!</example>
         </rule>
         <rule id="CON_A" name="com a/con a">
             <pattern>
