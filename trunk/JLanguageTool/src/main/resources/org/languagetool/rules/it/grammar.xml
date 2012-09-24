@@ -105,6 +105,7 @@ $Id$
  PB003    Added rule for checking the use of adverbs instead of adjectives
  PB004    Added rule for attimino and momentino in stile-parlato
  PB005    Fixed rule for dà to exclude "se da" pattern voted as useless
+ PB006    Fixed rule for false positives in past tense concordance GR_10_001 
  ======== =========================================================================
 -->
 
@@ -714,8 +715,14 @@ $Id$
             <rule name="Indicativo Imperfetto">
                 <pattern>
                     <token skip="-1" postag="VER.ind.imp.*.*" postag_regexp="yes"></token>
+<!-- PB006 + -->
+<!--
                     <token skip="-1" regexp="yes">e|o|ma</token>
                     <token postag="(VER.ind.pas.*.*)|(VER.ind.fut.*.*)|(VER.ind.pres.*.*)" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"></exception></token>
+-->
+                    <token skip="-1" postag="CON"></token>
+		    <token postag="(VER.ind.fut.*.*)|(VER.ind.pres.*.*)" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"></exception></token>
+<!-- PB006 - -->
                 </pattern>
                 <message>Controllare il tempo dei verbi utilizzati nella frase.</message>
                 <example type="incorrect">Clara <marker>aspettava il tram e decide</marker> di telefonare.</example>
@@ -726,7 +733,12 @@ $Id$
                     <token skip="-1" postag="VER.ind.pas.*.*" postag_regexp="yes"></token>
                     <token skip="-1" postag="CON"></token>
                     <!-- <token skip="-1" regexp="yes">e|o|ma</token> -->
+<!-- PB006 + -->
+<!--
                     <token postag="(VER.ind.imp.*.*)|(VER.ind.fut.*.*)|(VER.ind.pres.*.*)" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"></exception></token>
+-->
+                    <token postag="(VER.ind.fut.*.*)|(VER.ind.pres.*.*)" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"></exception></token>
+<!-- PB006 - -->
                 </pattern>
                 <message>Controllare il tempo dei verbi utilizzati nella frase.</message>
                 <example type="incorrect">Clara <marker>aspettò il tram e decide</marker> di telefonare.</example>
