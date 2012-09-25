@@ -5755,6 +5755,20 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <disambig action="filter" postag="[^_].*"></disambig>
     </rule>
 -->
+    <rulegroup id="CASOS_CONCRETS" name="alguns casos concrets">
+        <rule id="mostres" name="mostra/mostres de">   <!-- és generalitzable? -->
+            <pattern>
+                <marker>
+                <and>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes">mostres|mostra</token>
+                    <token postag="NC.*" postag_regexp="yes"/> 
+                </and>
+                </marker>
+                <token regexp="yes">de|d'</token>
+            </pattern>
+            <disambig action="filter" postag="NC.*"></disambig>        
+        </rule>
+    </rulegroup>
 <!-- Útils per a algunes regles  -->
     <rulegroup id="diferent_del_del" name="diferent del del">
         <rule>
