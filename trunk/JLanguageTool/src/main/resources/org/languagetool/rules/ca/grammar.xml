@@ -6087,34 +6087,32 @@ $Id$
             </rule>
         </rulegroup>
     </category>
-    <category name="Revisió estilística" default="off">
-        <rulegroup id="PER_A_INFINITIU" name="Revisa «per (a)» + infinitiu">
-            <rule id="PER_INFINITIU" name="Revisa 'per + infinitiu'" default="off">
-                <pattern>
-                    <marker>
-                        <token>per</token>
-                    </marker>
-                    <token postag="V.N.*" postag_regexp="yes"></token>
-                </pattern>
-                <message>Podria ser: <suggestion>per a</suggestion><match no="2"></match>.</message>
-                <short>Revisa 'Per + infinitiu'</short>
-                <example type="incorrect">Eines <marker>per</marker> treballar la fusta</example>
-                <example type="correct">Eines <marker>per a</marker> treballar la fusta</example>
-            </rule>
-            <rule id="PERA_INFINITIU" name="Revisa 'per a + infinitiu'" default="off">
-                <pattern>
-                    <marker>
-                        <token>per</token>
-                        <token>a</token>
-                    </marker>
-                    <token postag="V.N.*" postag_regexp="yes"></token>
-                </pattern>
-                <message>Podria ser: <suggestion>per</suggestion><match no="3"></match>.</message>
-                <short>Revisa 'Per a + infinitiu'</short>
-                <example type="incorrect">S'esforça <marker>per a</marker> millorar</example>
-                <example type="correct">S'esforça <marker>per</marker> millorar</example>
-            </rule>
-        </rulegroup>
+    <category name="Revisió estilística">
+        <rule id="PER_INFINITIU" name="Revisa 'per + infinitiu'" default="off">
+            <pattern>
+                <marker>
+                    <token>per</token>
+                </marker>
+                <token postag="V.N.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Podria ser: <suggestion>per a</suggestion>.</message>
+            <short>Revisa 'Per + infinitiu'</short>
+            <example type="incorrect">Eines <marker>per</marker> treballar la fusta</example>
+            <example type="correct">Eines <marker>per a</marker> treballar la fusta</example>
+        </rule>
+        <rule id="PERA_INFINITIU" name="Revisa 'per a + infinitiu'" default="off">
+            <pattern>
+                <marker>
+                    <token>per</token>
+                    <token>a</token>
+                </marker>
+                <token postag="V.N.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Podria ser: <suggestion>per</suggestion>.</message>
+            <short>Revisa 'Per a + infinitiu'</short>
+            <example type="incorrect">S'esforça <marker>per a</marker> millorar</example>
+            <example type="correct">S'esforça <marker>per</marker> millorar</example>
+        </rule>
     </category>
  
     <category name="Comprovacions estrictes" default="off">
@@ -9786,7 +9784,7 @@ $Id$
     <category name="Formes opcionals segons el registre">
         <rule id="EVITA_INFINITIUS_INDRE" name="Envita infinitius i noms en -vindre, -tindre" default="on">
             <pattern>
-                <token regexp="yes">.*[tv]indre</token>
+                <token regexp="yes">.+[tv]indre</token>
             </pattern>
             <message>Variant informal. Podeu dir: <suggestion><match no="1" regexp_match="(.+[tv])indre" regexp_replace="$1enir"/></suggestion></message>
             <url>http://esadir.cat/morfologia/tenirvenirvaler</url>
@@ -10477,9 +10475,9 @@ $Id$
             </rule>
         </rulegroup>
     </category>
-    <category name="A2) Exigeix formes valencianes" default="off">
+    <category name="A2) Exigeix formes valencianes" default="on">
         <!-- Exigeix formes valencianes -->
-        <rulegroup id="EVITA_ACCENTUACIO_NO_VALENCIANA" name="Evita l'accentuació general no valenciana (cafè, sotmès, conèixer)">
+        <rulegroup id="EVITA_ACCENTUACIO_NO_VALENCIANA" name="Evita l'accentuació general no valenciana (cafè, sotmès, conèixer)" default="off">
             <rule>
                 <pattern>
                     <token regexp="yes">.+è|.+ès|.+èn<exception regexp="yes">perquès?|quès?|Novetlè</exception></token>
@@ -10518,9 +10516,9 @@ $Id$
                 <example type="correct">El <marker>terratrémol</marker>.</example>
             </rule>
         </rulegroup>
-        <rule id="EVITA_VERBS_NO_VALENCIANS" name="Evita verbs del català central o balear (penso, digui, facin, penséssiu)">
+        <rule id="EVITA_VERBS_NO_VALENCIANS" name="Evita verbs del català central o balear (penso, digui, facin, penséssiu)" default="off">
             <pattern>
-                <token postag="V.*" postag_regexp="yes" regexp="yes">.+[oiï]|.+in|.+ssim|.+ssiu<exception postag="N.*" postag_regexp="yes"></exception></token>
+                <token postag="V.*" postag_regexp="yes" regexp="yes">.+[oiï]|.+in|.+ssim|.+ssiu|.+is<exception postag="N.*" postag_regexp="yes"></exception><exception>obris</exception></token>
                 <!-- no controla el "pens" balear. Excepcions que creen ambigüitats: obri, obrin (patrocini) -->
             </pattern>
             <message>Forma verbal no pròpia del valencià.</message>
@@ -10529,7 +10527,7 @@ $Id$
             <example type="incorrect">Si <marker>tinguéssim</marker> sort.</example>
             <example type="correct">Si <marker>tinguérem</marker> sort.</example>
         </rule>
-        <rule id="EVITA_POSSESSIUS_V" name="Evita els possessius amb v (meva, teva,...)">
+        <rule id="EVITA_POSSESSIUS_V" name="Evita els possessius amb v (meva, teva,...)" default="off">
             <pattern>
                 <token regexp="yes">(me|te|se)v(a|es)</token>
             </pattern>
@@ -10538,7 +10536,7 @@ $Id$
             <example type="incorrect">La <marker>meva</marker> amiga.</example>
             <example type="correct">La <marker>meua</marker> amiga.</example>
         </rule>
-        <rulegroup id="EVITA_VERBS_BALEARS_BIS" name="Evita verbs balears (pens, patesqui, cantàssim, cantau)">
+        <rulegroup id="EVITA_VERBS_BALEARS_BIS" name="Evita verbs balears (pens, patesqui, cantàssim, cantau)" default="off">
             <rule>
                 <pattern>
                     <token postag="V.*" postag_regexp="yes" regexp="yes">.+(esqui|esquis|esquin)</token>
@@ -10586,7 +10584,7 @@ $Id$
             </rule>
         </rulegroup>
         
-        <rule id="EVITA_INCOATIUS_IX" name="Evita els verbs incoatius amb -ix">
+        <rule id="EVITA_INCOATIUS_IX" name="Evita els verbs incoatius amb -ix" default="off">
                 <pattern case_sensitive="yes">
                     <token postag="V.*" postag_regexp="yes" regexp="yes">.+([^e]i|ï)(xo|x|xes|xen)<exception inflected="yes" regexp="yes">.+eixir|.+uixir|.+uixar|.+aixar|.+oixar|.+àixer|.+néixer</exception><exception postag="VMIP1S0"/><exception regexp="yes">(?-i)Unix</exception></token>
                 </pattern>
