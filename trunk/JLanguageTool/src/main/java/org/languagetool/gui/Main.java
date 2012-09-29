@@ -57,7 +57,6 @@ public final class Main implements ActionListener {
   static final String HTML_GREY_FONT_START = "<font face='Arial,Helvetica' color='#666666'>";
 
   private static final String SYSTEM_TRAY_ICON_NAME = "/TrayIcon.png";
-
   private static final String SYSTEM_TRAY_TOOLTIP = "LanguageTool";
   private static final String CONFIG_FILE = ".languagetool.cfg";
   private static final int WINDOW_WIDTH = 600;
@@ -66,9 +65,7 @@ public final class Main implements ActionListener {
   private final ResourceBundle messages;
 
   private List<RuleMatch> ruleMatches;
-
   private Configuration config;
-
   private JLanguageTool langTool;
   private JFrame frame;
   private JTextArea textArea;
@@ -200,13 +197,12 @@ public final class Main implements ActionListener {
   @Override
   public void actionPerformed(final ActionEvent e) {
     try {
-      if (e.getActionCommand().equals(
-          StringTools.getLabel(messages.getString("checkText")))) {
+      if (e.getActionCommand().equals(StringTools.getLabel(messages.getString("checkText")))) {
         checkTextAndDisplayResults();
       } else {
         throw new IllegalArgumentException("Unknown action " + e);
       }
-    } catch (final Exception exc) {
+    } catch (Exception exc) {
       Tools.showError(exc);
     }
   }
@@ -222,24 +218,22 @@ public final class Main implements ActionListener {
           .getAbsolutePath()));
       textArea.setText(fileContents);
       checkTextAndDisplayResults();
-    } catch (final IOException e) {
+    } catch (IOException e) {
       Tools.showError(e);
     }
   }
 
   void hideToTray() {
     if (!isInTray) {
-      final java.awt.SystemTray tray = java.awt.SystemTray.getSystemTray();
+      final SystemTray tray = SystemTray.getSystemTray();
       final Image img = Toolkit.getDefaultToolkit().getImage(
               JLanguageTool.getDataBroker().getFromResourceDirAsUrl(SYSTEM_TRAY_ICON_NAME));
       final PopupMenu popup = makePopupMenu();
       try {
-        final java.awt.TrayIcon trayIcon = new java.awt.TrayIcon(img,
-            "tooltip", popup);
+        final TrayIcon trayIcon = new TrayIcon(img, SYSTEM_TRAY_TOOLTIP, popup);
         trayIcon.addMouseListener(new TrayActionListener());
-        trayIcon.setToolTip(SYSTEM_TRAY_TOOLTIP);
         tray.add(trayIcon);
-      } catch (final AWTException e1) {
+      } catch (AWTException e1) {
         // thrown if there's no system tray
         Tools.showError(e1);
       }
@@ -252,30 +246,27 @@ public final class Main implements ActionListener {
     final PopupMenu popup = new PopupMenu();
     final ActionListener rmbListener = new TrayActionRMBListener();
     // Check clipboard text:
-    final MenuItem checkClipboardItem = new MenuItem(StringTools
-        .getLabel(messages.getString("guiMenuCheckClipboard")));
+    final MenuItem checkClipboardItem =
+            new MenuItem(StringTools.getLabel(messages.getString("guiMenuCheckClipboard")));
     checkClipboardItem.addActionListener(rmbListener);
     popup.add(checkClipboardItem);
     // Open main window:
-    final MenuItem restoreItem = new MenuItem(StringTools.getLabel(messages
-        .getString("guiMenuShowMainWindow")));
+    final MenuItem restoreItem = new MenuItem(StringTools.getLabel(messages.getString("guiMenuShowMainWindow")));
     restoreItem.addActionListener(rmbListener);
     popup.add(restoreItem);
     // Exit:
-    final MenuItem exitItem = new MenuItem(StringTools.getLabel(messages
-        .getString("guiMenuQuit")));
+    final MenuItem exitItem = new MenuItem(StringTools.getLabel(messages.getString("guiMenuQuit")));
     exitItem.addActionListener(rmbListener);
     popup.add(exitItem);
     return popup;
   }
 
   void addLanguage() {
-    final LanguageManagerDialog lmd = new LanguageManagerDialog(frame, Language
-        .getExternalLanguages());
+    final LanguageManagerDialog lmd = new LanguageManagerDialog(frame, Language.getExternalLanguages());
     lmd.show();
     try {
       Language.reInit(lmd.getLanguages());
-    } catch (final RuleFilenameException e) {
+    } catch (RuleFilenameException e) {
       Tools.showErrorMessage(e);
     }
     languageBox.populateLanguageBox();
@@ -296,12 +287,18 @@ public final class Main implements ActionListener {
     config.setServerPort(configDialog.getServerPort());
     try { //save config - needed for the server
         config.saveConfiguration(langTool.getLanguage());
-      } catch (final IOException e) {
+      } catch (IOException e) {
         Tools.showError(e);
       }
     // Stop server, start new server if requested:
     stopServer();
     maybeStartServer();
+  }
+
+  void checkClipboardText() {
+    final String s = getClipboardText();
+    textArea.setText(s);
+    checkTextAndDisplayResults();
   }
 
   private void restoreFromTray() {
@@ -312,12 +309,6 @@ public final class Main implements ActionListener {
   private void restoreFromTrayAndCheck() {        
     final String s = getClipboardText();
     restoreFromTray();
-    textArea.setText(s);
-    checkTextAndDisplayResults();
-  }
-
-  void checkClipboardText() {
-    final String s = getClipboardText();
     textArea.setText(s);
     checkTextAndDisplayResults();
   }
@@ -339,7 +330,7 @@ public final class Main implements ActionListener {
       } else {
         s = "";
       }
-    } catch (final Exception ex) {
+    } catch (Exception ex) {
       if (data != null) {
         s = data.toString();
       } else {
@@ -368,7 +359,7 @@ public final class Main implements ActionListener {
     try {
       final Language currentLanguage = getCurrentLanguage();
       config.saveConfiguration(getCurrentLanguageTool(currentLanguage).getLanguage());
-    } catch (final IOException e) {
+    } catch (IOException e) {
       Tools.showError(e);
     }
     frame.setVisible(false);
@@ -380,8 +371,8 @@ public final class Main implements ActionListener {
     if (config.getRunServer()) {
       httpServer = new HTTPServer(config.getServerPort(), false, true);
       try {
-    	httpServer.run();
-      } catch (final PortBindingException e) {
+    	  httpServer.run();
+      } catch (PortBindingException e) {
         final String message = e.getMessage() + "\n\n" + org.languagetool.tools.Tools.getFullStackTrace(e);
         JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
       }
@@ -451,7 +442,7 @@ public final class Main implements ActionListener {
             langTool.enableRule(ruleName);
           }
         }
-      } catch (final Exception e) {
+      } catch (Exception e) {
         throw new RuntimeException(e);
       }
     }
@@ -491,7 +482,7 @@ public final class Main implements ActionListener {
                             resultArea.setRunTime(System.currentTimeMillis() - startTime);
                             resultArea.setLanguageTool(langTool);
                             resultArea.displayResult();
-                          } catch (final Exception e) {
+                          } catch (Exception e) {
                             final String error = "<br><br><b><font color=\"red\">"
                                + org.languagetool.tools.Tools.getFullStackTrace(e).replace("\n", "<br/>")
                                + "</font></b><br>";
@@ -535,11 +526,10 @@ public final class Main implements ActionListener {
           final AnalyzedSentence analyzedText = langTool.getAnalyzedSentence(sent);
           final String analyzedTextString = StringTools.escapeHTML(analyzedText.toString(", ")).
                   replace("[", "<font color='#888888'>[").replace("]", "]</font>");
-          sb.append(analyzedTextString);
-          sb.append("\n");
+          sb.append(analyzedTextString).append("\n");
         }
       } catch (IOException e) {
-        sb.append("An error occurred while tagging the text: " + e.getMessage());
+        sb.append("An error occurred while tagging the text: ").append(e.getMessage());
       }
       resultArea.setText(HTML_FONT_START + sb.toString() + HTML_FONT_END);
     }
@@ -561,7 +551,7 @@ public final class Main implements ActionListener {
               prg.createGUI();
               prg.setTrayMode(true);
               prg.hideToTray();
-            } catch (final Exception e) {
+            } catch (Exception e) {
               Tools.showError(e);
               System.exit(1);
             }
@@ -578,13 +568,13 @@ public final class Main implements ActionListener {
             try {
               prg.createGUI();
               prg.showGUI();
-            } catch (final Exception e) {
+            } catch (Exception e) {
               Tools.showError(e);
             }
           }
         });
       }
-    } catch (final Exception e) {
+    } catch (Exception e) {
       Tools.showError(e);
     }
   }
@@ -592,8 +582,9 @@ public final class Main implements ActionListener {
   private class ControlReturnTextCheckingListener implements KeyListener {
 
     @Override
-    public void keyTyped(KeyEvent e) {
-    }
+    public void keyTyped(KeyEvent e) {}
+    @Override
+    public void keyReleased(KeyEvent e) {}
 
     @Override
     public void keyPressed(KeyEvent e) {
@@ -604,10 +595,6 @@ public final class Main implements ActionListener {
       }
     }
 
-    @Override
-    public void keyReleased(KeyEvent e) {
-    }
-    
   }
   
   //
@@ -618,19 +605,20 @@ public final class Main implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-      if (e.getActionCommand().equalsIgnoreCase(
-          StringTools.getLabel(messages.getString("guiMenuCheckClipboard")))) {
+      if (isCommand(e, "guiMenuCheckClipboard")) {
         restoreFromTrayAndCheck();
-      } else if (e.getActionCommand().equalsIgnoreCase(
-          StringTools.getLabel(messages.getString("guiMenuShowMainWindow")))) {
+      } else if (isCommand(e, "guiMenuShowMainWindow")) {
         restoreFromTray();
-      } else if (e.getActionCommand().equalsIgnoreCase(
-          StringTools.getLabel(messages.getString("guiMenuQuit")))) {
+      } else if (isCommand(e, "guiMenuQuit")) {
         quit();
       } else {
         JOptionPane.showMessageDialog(null, "Unknown action: "
             + e.getActionCommand(), "Error", JOptionPane.ERROR_MESSAGE);
       }
+    }
+
+    private boolean isCommand(ActionEvent e, String label) {
+      return e.getActionCommand().equalsIgnoreCase(StringTools.getLabel(messages.getString(label)));
     }
 
   }
