@@ -1,14 +1,6 @@
 LanguageTool Change Log
 
-1.9-dev (release planned for 2012-09-30)
-
- -Japanese:
-   -initial support (Takahiro Shinkai, Maxim Mozgovoy's student)
-
- -Russian:
-   -rules updates
-   -several new rules
-   -improve user interface translation 
+1.9 (2012-09-30)
 
  -Breton:
    -several new rules and fixed false alarms
@@ -17,10 +9,21 @@ LanguageTool Change Log
     hyphenated words).
   - updated classification of words tagged as plural nouns of persons
     (these have different mutation than other nouns).
-    
+
  -Catalan:
-   -several new rules
+   -many new rules
    -fixed false alarms
+
+ -Chinese:
+   -hundreds of new Chinese rules (Tao Lin)
+   -unit tests for the Chinese tokenizer and tagger
+
+ -Danish:
+   -major update to the dictionary and the rules (Henrik Bendt)
+
+ -English:
+   -fixed false alarm (sf bug #3543914)
+   -some new rules and rule updates
 
  -Esperanto:
    -several new rules and fixed false alarms
@@ -33,28 +36,26 @@ LanguageTool Change Log
    -opening guillemet (U+00AB) followed by thin no-break
     space (U+202F) wrongly detected as error (sf bug #3545050)
 
- -English:
-   -fixed false alarm (sf bug #3543914)
-
  -German:
    -added simple verb/subject agreement checker
+   -several new rules and rule updates
    -fixed some false alarms by upgrading to jwordsplitter 3.4 (sf bug #3475553)
+
+ -Japanese:
+   -initial support with about 20 rules (Takahiro Shinkai, Maxim Mozgovoy's student)
+
+ -Polish:
+   -fixed bug with the word repetition rule (sf bug #3560925)
 
  -Portuguese:
    -several rule updates (Marco A.G.Pinto)
 
+ -Russian:
+   -several new rules and rule updates
+   -improve user interface translation
+
  -Swedish:
    -Support for Swedish has been re-enabled after it had been disabled in LanguageTool 1.7.
-
- -Danish:
-   -major update to the dictionary and the rules (Henrik Bendt)
-   
- -Polish
-   -fixed bug with the word repetition rule (sf bug #3560925)
-
- -Chinese:
-   -hundreds of new Chinese rules (Tao Lin)
-   -unit tests for the Chinese tokenizer and tagger
 
  -bugfix for command line: We removed XML from even plain text input. Now XML/HTML elements
   are only filtered out if the new --xmlfilter option is specified. Note that there's still
@@ -74,7 +75,7 @@ LanguageTool Change Log
   same effect:
   java -cp LanguageTool.jar org.languagetool.rules.spelling.SuggestionExtractor
 
- -stand-alone GUI: rules can now be disabled and enabled again with a single click
+ -stand-alone GUI: rules can now be disabled and re-enabled with a single click
 
  -stand-alone GUI: copy and paste from the result area now keeps line breaks (Sourceforge
   bug #3554842)
@@ -90,15 +91,15 @@ LanguageTool Change Log
  -HTTP API: small internal cleanup for better exception and charset handling (always
   expects UTF-8)
 
- -HTTP API: the embedded HTTP can now be started with a "--public" parameter so
+ -HTTP API: the embedded HTTP server can now be started with a "--public" parameter so
   it can be accessed from anywhere (not just localhost). Please be careful with this
-  option, it is not recommended for production use yet:
+  option, it is not recommended for production use:
   java -cp LanguageTool.jar org.languagetool.server.HTTPServer --public
 
  -HTTP API and XML output: extended XML to include the version and build date
   of LanguageTool and the category and offset of each match
 
- -The word tokenizer now considers the following characters as word separator: | (pipe)
+ -The word tokenizer now considers the following characters as a word separator: | (pipe)
   and ` (backtick).
 
  -bugfix: the column count was sometimes totally wrong (Sourceforge bug #3557738)

@@ -9,8 +9,9 @@ Homepage: http://www.languagetool.org
 Requirements:
  -Java 6.0 or later (Oracle Java or IcedTea; GIJ is not supported)
  -For OpenOffice.org/LibreOffice integration: OpenOffice 3.0.1 or later
-  or LibreOffice. We recommend LibreOffice 3.5.4 or later because
-  it contains an important bug fix.
+  or LibreOffice. We recommend LibreOffice 3.5.4 (or later) or
+  Apache OpenOffice 3.4.1 (or later) because they contain an
+  important bug fix.
 
 Usage:
  -To integrate LanguageTool into OpenOffice.org or LibreOffice, you
@@ -50,11 +51,8 @@ Usage:
   Please see http://www.languagetool.org/issues/ if you
   experience problems
   
- -To use the simple demo GUI:
-  -if you downloaded the *.oxt: rename it to *.zip
-  -unzip the file to a new directory
-  -double click on the LanguageToolGUI.jar file
-   or call 'java -jar LanguageToolGUI.jar'
+ -To use the simple demo GUI, double click on the LanguageToolGUI.jar file
+  or call 'java -jar LanguageToolGUI.jar'
 
  -To check plain text files from the command line:
   java -jar LanguageTool.jar <filename>

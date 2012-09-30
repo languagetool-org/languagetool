@@ -30,8 +30,10 @@ Internal documentation on LanguageTool
  and work in that branch
 -set version number in build.properties
 -set JLanguageTool.VERSION in JLanguageTool.java
--go to src/dev/tools/ltdiff and use ./ltdiff.bash to create a rule diff between this version and the previous one
--update CHANGES files, also making sure it matches the rule diff report
+-go to src/main/dev/tools/ltdiff and use ./ltdiff.bash to create a rule diff between this version and the previous one
+-update CHANGES files
+   -make sure it matches the rule diff report
+   -sort language changes alphabetically
 -update README file
 -make sure there are no other local changes left that are not committed
 -run "ant generate-ignore-files" and check in changes
@@ -53,14 +55,13 @@ Internal documentation on LanguageTool
 -copy LT to a path with a space and test some sentences
 -upload to the server:
     -*.oxt, *.zip, dist/README.txt and dist/CHANGES.txt to "download"
-    -link the release on the server:
-     cd /home/languagetool/languagetool.org/www/download
-     rm LanguageTool-stable.oxt && ln -s LanguageTool-1.X.oxt LanguageTool-stable.oxt && rm LanguageTool-stable.zip && ln -s LanguageTool-1.X.zip LanguageTool-stable.zip
     -run "ant javadoc" and upload dist/docs/api/* to "development"
+    -copy result to the server:
+     scp -r dist/docs/api/ languagetool@176.28.12.50:languagetool.org/website-from-svn/www/development/api_new
+     On the server, move the old "api" and then "mv api_new api"
 -run "ant jnlp" (note you need file myalias.p12 with the certificate to do this;
- for security reasons it is not in the repository.)
--upload to the server:
-    -dist/web/ to www/webstart/web/ (resulting from "ant jnlp")
+ for security reasons it is not in the repository) and upload result to the server:
+    -dist/web/ to www/webstart/web/
 -commit local version number changes etc. to SVN
 -tag release as V_x_y, e.g. V_1_3:
  svn cp https://languagetool.svn.sourceforge.net/svnroot/languagetool/branches/V_x_y https://languagetool.svn.sourceforge.net/svnroot/languagetool/tags/V_x_y
@@ -72,6 +73,9 @@ Internal documentation on LanguageTool
 
 -update website
     -index.php (remember to also set $lastmod)
+    -link the release on the server:
+     cd /home/languagetool/languagetool.org/website-from-svn/www/download/
+     rm LanguageTool-stable.oxt && ln -s LanguageTool-1.X.oxt LanguageTool-stable.oxt && rm LanguageTool-stable.zip && ln -s LanguageTool-1.X.zip LanguageTool-stable.zip
     -languages/index.php (run org.languagetool.dev.RuleOverview,
      remember to also set $lastmod)
     -add the new version number to Sourceforge's bug tracker
