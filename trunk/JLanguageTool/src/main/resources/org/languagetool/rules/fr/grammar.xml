@@ -5919,13 +5919,33 @@ though, and has since been slightly modified)-->
                         </token>
                         <token regexp="yes">.*[^aec]</token>
                     </and>
-                    <token regexp="yes">il|elle|on</token>
+                    <token regexp="yes">il|on</token>
                 </pattern>
                 <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
                 <example type="incorrect">Que <marker>prend il</marker> ?</example>
                 <example type="correct">Que prend-il ?</example>
-                <example type="correct">C’est elle qui vient.</example>
                 <example type="correct">Notre point de <marker>départ on</marker> pouvait le voir d’ici.</example>
+            </rule>
+            <rule>
+                <pattern>
+                  <marker>
+                    <and>
+                        <token postag="V.* 3 s" postag_regexp="yes">
+                            <exception postag="[^V].*" postag_regexp="yes"/>
+                            <exception regexp="yes" scope="previous">[’´'‛′‘]</exception>
+                            <exception postag="R pers suj .*" postag_regexp="yes" scope="previous"/>
+                        </token>
+                        <token regexp="yes">.*[^aec]</token>
+                    </and>
+                    <token>elle</token>
+                  </marker>
+                  <token><exception>aussi</exception></token>
+                </pattern>
+                <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+                <example type="incorrect">Que <marker>prend elle</marker> ?</example>
+                <example type="correct">Que prend-elle ?</example>
+                <example type="correct">C’est elle qui vient.</example>
+                <example type="correct">Anne menait elle aussi sa petite existence.</example>
             </rule>
             <rule>
                 <pattern>
@@ -14257,17 +14277,6 @@ though, and has since been slightly modified)-->
             <example type="incorrect"><marker>à toutes fins pratiques</marker></example>
             <example type="correct"><marker>pratiquement</marker></example>
         </rule>
-        <rule id="A_TOUTES_FINS_UTILES" name="à toutes fins utiles">
-            <pattern>
-                <token>à</token>
-                <token regexp="yes">toutes?</token>
-                <token regexp="yes">fins?</token>
-                <token regexp="yes">utiles?</token>
-            </pattern>
-            <message>« À toutes fins pratiques » est un anglicisme. Employez <suggestion>pratiquement</suggestion>.</message>
-            <example type="incorrect"><marker>à toutes fins utiles</marker></example>
-            <example type="correct"><marker>pratiquement</marker></example>
-        </rule>
         <rule id="POUR_AUSSI_PEU_QUE" name="pour aussi peu que">
             <pattern>
                 <token>pour</token>
@@ -17637,15 +17646,6 @@ though, and has since been slightly modified)-->
             <message>« Attaque cardiaque » est un anglicisme (heart attack). Employez <suggestion>crise cardiaque</suggestion>.</message>
             <example type="incorrect"><marker>attaque cardiaque</marker></example>
             <example type="correct"><marker>crise cardiaque</marker></example>
-        </rule>
-        <rule id="ACCIDENT_INDUSTRIEL" name="accident industriel">
-            <pattern>
-                <token regexp="yes">accident|accidents</token>
-                <token regexp="yes">industriel|industriels</token>
-            </pattern>
-            <message>« Accident industriel » est un anglicisme (industrial accident). Employez <suggestion>accident de travail</suggestion>, <suggestion>accident du travail</suggestion>.</message>
-            <example type="incorrect"><marker>accident industriel</marker></example>
-            <example type="correct"><marker>accident du travail</marker></example>
         </rule>
         <rule id="PICKLE" name="pickle">
             <pattern>
