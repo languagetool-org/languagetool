@@ -71,8 +71,47 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
 		assertCorrect("Índex de desenvolupament humà i qualitat de vida elevada");
 		assertCorrect("La massa, el radi i la lluminositat llistats per ell.");
 		assertCorrect("La massa, el radi i la lluminositat llistada per ell.");
-
+		assertCorrect("L'origen de l'àbac està literalment perdut en el temps.");
+		assertCorrect("L'origen ha esdevingut literalment perdut en el temps.");
+		assertCorrect("En efecte, hi ha consideracions racistes, llavors força comunes");
+		assertCorrect("el personatge canvià físicament: més alt i prim que el seu germà");
+		assertCorrect("un a baix i un altre a dalt identificat amb el símbol");
+		assertCorrect("un a baix i un altre a dalt identificats amb el símbol");
+		assertCorrect("El tabaquisme és l'addicció al tabac provocada per components.");
+		assertCorrect("El \"treball\" en qüestió, normalment associat a un lloc de treball pagat");
+		assertCorrect("una organització paramilitar de protecció civil típicament catalana");
+		assertCorrect("un Do dues octaves més alt que l'anterior");
+		assertCorrect("són pràcticament dos graus més baixes");
+		assertCorrect("és unes 20 vegades més gran que l'espermatozou.");
+		assertCorrect("eren quatre vegades més alts");
+		assertCorrect("eren uns fets cada volta més inexplicables");
+		//assertCorrect("El castell està totalment en ruïnes i completament cobert de vegetació.");
+		assertCorrect("han estat tant elogiades per la crítica teatral, com polèmiques");
+		assertCorrect("Del segle XVIII però reconstruïda recentment");
+		//assertCorrect("vivien a la casa paterna, mig confosos entre els criats.");		
+		assertCorrect("La indústria, tradicionalment dedicada al tèxtil i ara molt diversificada,");
+		assertCorrect("oficialment la comarca[2] del Moianès, molt reivindicada");
+		assertCorrect("En l'actualitat està del tot despoblada de residència permanent.");
+		assertCorrect("amb la terra repartida entre diversos propietaris, bé que encara poc poblada");
+		assertCorrect("al capdamunt de les Costes d'en Quintanes, sota mateix del Turó");
+		assertCorrect("el Moviment per l’Autodeterminació cors");
+		assertCorrect("amb una taula de logaritmes davant meu.");
+		assertCorrect("la denominació valencià per a la llengua pròpia");
+		assertCorrect("Com més petita és l'obertura de diafragma, més grans són la profunditat de camp i la profunditat");
+		assertCorrect("es movien mitjançant filferros, tot projectant ombres");
+		
 		// errors:
+		assertIncorrect("fets moltes vegades inexplicable.");
+		assertIncorrect("eren uns fets cada volta més inexplicable");
+		assertIncorrect("Unes explotacions ramaderes porcina.");
+		assertIncorrect("amb un rendiment del 5,62%, més alta que el 5,44%");
+		//assertIncorrect("un a baix i un altre a dalt identificada amb el símbol");
+		//assertIncorrect("un a baix i un altre a dalt identificades amb el símbol");
+		assertIncorrect("En efecte, hi ha consideracions, llavors força comuns");
+ 		assertIncorrect("En efecte, hi ha consideracions racistes, llavors força comuns");
+		assertIncorrect("amb una alineació impròpiament habituals");
+		assertIncorrect("amb una alineació poc habituals");
+		assertIncorrect("amb una alineació molt poc habituals");
 		assertIncorrect("El rei ha trobat l'excusa perfecte.");
 		assertIncorrect("El rei ha trobat l'excusa i l'explicació adequats.");
 		assertIncorrect("El rei ha trobat l'excusa i l'explicació adequat.");

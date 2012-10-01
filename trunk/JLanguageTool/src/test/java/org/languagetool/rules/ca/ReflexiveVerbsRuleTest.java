@@ -50,6 +50,7 @@ public class ReflexiveVerbsRuleTest extends TestCase {
 		assertCorrect("ens en podem queixar");
 		assertCorrect("es queixa");
 		assertCorrect("es va queixant");
+		//assertCorrect("es va desfent");
 		assertCorrect("es va queixar");
 		assertCorrect("has d'emportar-t'hi");
 		assertCorrect("has de poder-te queixar");
@@ -78,8 +79,21 @@ public class ReflexiveVerbsRuleTest extends TestCase {
 		assertCorrect("va queixant-se");
 		assertCorrect("va queixar-se");
 		assertCorrect("va queixar-se-li");
+		assertCorrect("Se'n pujà al cel");
+		assertCorrect("Se li'n va anar la mà");
+		assertCorrect("El nen pot callar");
+		
 
 		// errors:
+		assertIncorrect("L'home es marxà de seguida");
+		assertIncorrect("El nen es cau");
+		assertIncorrect("El nen se li cau");
+		assertIncorrect("El nen s'ha de caure");
+		assertIncorrect("El nen pot caure's");
+		assertIncorrect("Calleu-vos");
+		assertIncorrect("Es pujà al cel");
+		assertIncorrect("Va baixar-se del cotxe en marxa.");
+		assertIncorrect("Se li va anar la mà");
 		assertIncorrect("comencen queixant");
 		assertIncorrect("comenceu a queixar-nos");
 		assertIncorrect("et puc queixar");
