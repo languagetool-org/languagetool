@@ -101,11 +101,11 @@ public class CheckWikipediaDump {
     }
   }
 
-  private void run(File propFile, Set<String> disabledRules, String langCode, String textFilename, String[] ruleIds, int maxArticles, int maxErrors)
+  private void run(File propFile, Set<String> disabledRules, String langCode, String xmlFileName, String[] ruleIds, int maxArticles, int maxErrors)
       throws IOException, SAXException, ParserConfigurationException {
-    final File file = new File(textFilename);
+    final File file = new File(xmlFileName);
     if (!file.exists() || !file.isFile()) {
-      throw new IOException("File doesn't exist or isn't a file: " + textFilename);
+      throw new IOException("File doesn't exist or isn't a file: " + xmlFileName);
     }
     final Language lang = Language.getLanguageForShortName(langCode);
     final JLanguageTool languageTool = new JLanguageTool(lang);
@@ -135,6 +135,8 @@ public class CheckWikipediaDump {
     } finally {
       if (xmlHandler != null) { xmlHandler.close(); }
     }
+    final float matchesPerDoc = (float)xmlHandler.getRuleMatchCount() / xmlHandler.getArticleCount();
+    System.out.printf(lang + ": ø%.2f rule matches per document", matchesPerDoc);
   }
 
   private void enableSpecifiedRules(String[] ruleIds, JLanguageTool languageTool) {

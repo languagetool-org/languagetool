@@ -77,6 +77,14 @@ abstract class BaseWikipediaDumpHandler extends DefaultHandler {
     this.maxErrors= maxErrors;
   }
 
+  int getArticleCount() {
+    return articleCount;
+  }
+
+  int getRuleMatchCount() {
+    return ruleMatchCount;
+  }
+
   @Override
   @SuppressWarnings("unused")
   public void startElement(String namespaceURI, String lName, String qName,
