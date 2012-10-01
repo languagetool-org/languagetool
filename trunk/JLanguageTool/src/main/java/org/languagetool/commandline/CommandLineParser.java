@@ -20,6 +20,7 @@ package org.languagetool.commandline;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.languagetool.Language;
@@ -166,8 +167,9 @@ public class CommandLineParser {
     } catch (IllegalArgumentException e){
       final List<String> supportedLanguages = new ArrayList<String>();
       for (final Language lang : Language.LANGUAGES) {
-        supportedLanguages.add(lang.getShortName());
+        supportedLanguages.add(lang.getShortNameWithVariant());
       }
+      Collections.sort(supportedLanguages);
       throw new IllegalArgumentException("Unknown language '" + userSuppliedLangCode
                   + "'. Supported languages are: " + supportedLanguages);
     }
