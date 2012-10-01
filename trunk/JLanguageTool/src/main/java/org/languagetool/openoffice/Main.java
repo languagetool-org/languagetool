@@ -222,9 +222,9 @@ public class Main extends WeakBase implements XJobExecutor,
     }
         
     try {
-    	return Language.getLanguageForShortName(charLocale.Language + "-" + charLocale.Variant);    	
-    } catch (final Exception e) {
-    	return Language.getLanguageForShortName(charLocale.Language);
+      return Language.getLanguageForShortName(charLocale.Language + "-" + charLocale.Variant);
+    } catch (java.lang.IllegalArgumentException e) {
+      return Language.getLanguageForShortName(charLocale.Language);
   	}
         
   }
@@ -270,7 +270,7 @@ public class Main extends WeakBase implements XJobExecutor,
         Language langForShortName;
         try {
         	langForShortName = Language.getLanguageForShortName(locale.Language + "-" + locale.Variant);
-        } catch (Exception e) {
+        } catch (java.lang.IllegalArgumentException e) {
         	langForShortName = Language.getLanguageForShortName(locale.Language);
         }
         if (!langForShortName.equals(docLanguage) || langTool == null || recheck) {

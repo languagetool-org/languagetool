@@ -95,9 +95,6 @@ public class Indexer {
     final FSDirectory directory = FSDirectory.open(new File(indexDir));
     try {
       final Language language = Language.getLanguageForShortName(languageCode);
-      if (language == null) {
-        throw new RuntimeException("Unknown language code '" + languageCode + "'");
-      }
       final Indexer indexer = new Indexer(directory, language);
       try {
         run(reader, indexer, false);

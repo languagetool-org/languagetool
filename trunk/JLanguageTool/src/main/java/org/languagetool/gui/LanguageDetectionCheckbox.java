@@ -46,8 +46,10 @@ class LanguageDetectionCheckbox extends JCheckBox {
 
   Language autoDetectLanguage(String text) {
     final LanguageIdentifier langIdentifier = new LanguageIdentifier(text);
-    Language lang = Language.getLanguageForShortName(langIdentifier.getLanguage());
-    if (lang == null) {
+    Language lang;
+    try {
+      lang = Language.getLanguageForShortName(langIdentifier.getLanguage());
+    } catch (IllegalArgumentException e) {
       lang = Language.AMERICAN_ENGLISH;
     }
     if (lang.hasVariant()) {

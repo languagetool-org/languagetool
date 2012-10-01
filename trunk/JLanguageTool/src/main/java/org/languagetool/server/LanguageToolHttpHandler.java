@@ -133,9 +133,6 @@ class LanguageToolHttpHandler implements HttpHandler {
       throw new IllegalArgumentException("Missing 'language' parameter");
     }
     final Language lang = Language.getLanguageForShortName(langParam);
-    if (lang == null) {
-      throw new IllegalArgumentException("Unknown language '" + langParam + "'");
-    }
     final String motherTongueParam = parameters.get("motherTongue");
     Language motherTongue = null;
     if (null != motherTongueParam) {

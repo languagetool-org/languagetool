@@ -65,9 +65,6 @@ public class PatternRuleHandler extends XMLRuleHandler {
     } else if ("rules".equals(qName)) {
       final String languageStr = attrs.getValue("lang");
       language = Language.getLanguageForShortName(languageStr);
-      if (language == null) {
-        throw new SAXException("Unknown language '" + languageStr + "'");
-      }
     } else if (RULE.equals(qName)) {
       shortMessage = new StringBuilder();
       url = new StringBuilder();

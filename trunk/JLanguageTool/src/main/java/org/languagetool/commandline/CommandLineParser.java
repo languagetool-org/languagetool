@@ -18,6 +18,7 @@
  */
 package org.languagetool.commandline;
 
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +41,7 @@ public class CommandLineParser {
       } else if (args[i].equals("--list")) {
         options.setPrintLanguages(true);
       } else if (args[i].equals("-h") || args[i].equals("-help") || args[i].equals("--help") || args[i].equals("--?")) {
-        throw new IllegalArgumentException();
+        options.setPrintUsage(true);
       } else if (args[i].equals("-adl") || args[i].equals("--autoDetect")) {    // set autoDetect flag
         // also initialize the other language profiles for the LanguageIdentifier
         LanguageIdentifierTools.addLtProfiles();
@@ -118,14 +119,18 @@ public class CommandLineParser {
       } else if (i == args.length - 1) {
         options.setFilename(args[i]);
       } else {
-        throw new IllegalArgumentException("Unknown option: " + args[i]);
+        throw new UnknownParameterException("Unknown parameter: " + args[i]);
       }
     }
     return options;
   }
 
   public void printUsage() {
-    System.out.println("Usage: java -jar LanguageTool.jar [OPTION]... FILE\n"
+    printUsage(System.out);
+  }
+
+  public void printUsage(PrintStream stream) {
+    stream.println("Usage: java -jar LanguageTool.jar [OPTION]... FILE\n"
             + " FILE                      plain text file to be checked\n"
             + " Available options:\n"
             + "  -r, --recursive          work recursively on directory, not on a single file\n"
@@ -156,16 +161,16 @@ public class CommandLineParser {
   }
 
   private Language getLanguage(String userSuppliedLangCode) {
-    final Language language = Language.getLanguageForShortName(userSuppliedLangCode);
-    if (language == null) {
+    try {
+      return Language.getLanguageForShortName(userSuppliedLangCode);
+    } catch (IllegalArgumentException e){
       final List<String> supportedLanguages = new ArrayList<String>();
       for (final Language lang : Language.LANGUAGES) {
         supportedLanguages.add(lang.getShortName());
       }
       throw new IllegalArgumentException("Unknown language '" + userSuppliedLangCode
-                + "'. Supported languages are: " + supportedLanguages);
+                  + "'. Supported languages are: " + supportedLanguages);
     }
-    return language;
   }
 
 }

@@ -18,14 +18,11 @@
  */
 package org.languagetool;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
 import java.util.Locale;
 
 import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 public class LanguageTest {
 
@@ -63,7 +60,14 @@ public class LanguageTest {
     public void testGetLanguageForShortName() {
         assertEquals(Language.AMERICAN_ENGLISH, Language.getLanguageForShortName("en-US"));
         assertEquals(Language.GERMAN, Language.getLanguageForShortName("de"));
-        assertEquals(null, Language.getLanguageForShortName("xy"));
+        try {
+            Language.getLanguageForShortName("xy");
+            fail();
+        } catch (IllegalArgumentException expected) {}
+        try {
+            Language.getLanguageForShortName("YY-KK");
+            fail();
+        } catch (IllegalArgumentException expected) {}
     }
 
     @Test(expected=IllegalArgumentException.class)

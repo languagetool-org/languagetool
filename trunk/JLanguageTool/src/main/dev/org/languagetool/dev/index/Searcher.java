@@ -298,9 +298,6 @@ public class Searcher {
     final File ruleFile = new File(args[1]);
     final String languageCode = args[2];
     final Language language = Language.getLanguageForShortName(languageCode);
-    if (language == null) {
-      throw new RuntimeException("Unknown language code '" + languageCode + "'");
-    }
     final File indexDir = new File(args[3]);
     final PatternRule rule = searcher.getRuleById(ruleId, ruleFile);
     final SearcherResult searcherResult = searcher.findRuleMatchesOnIndex(rule, language, indexDir);

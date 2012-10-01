@@ -31,10 +31,8 @@ public class CommandLineParserTest extends TestCase {
       fail();
     } catch (IllegalArgumentException expected) {}
 
-    try {
-      parser.parseOptions(new String[]{"--help"});
-      fail();
-    } catch (IllegalArgumentException expected) {}
+    final CommandLineOptions commandLineOptions = parser.parseOptions(new String[]{"--help"});
+    assertTrue(commandLineOptions.isPrintUsage());
   }
 
   public void testErrors() throws Exception {

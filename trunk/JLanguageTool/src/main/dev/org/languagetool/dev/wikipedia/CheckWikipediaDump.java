@@ -108,10 +108,6 @@ public class CheckWikipediaDump {
       throw new IOException("File doesn't exist or isn't a file: " + textFilename);
     }
     final Language lang = Language.getLanguageForShortName(langCode);
-    if (lang == null) {
-      System.err.println("Language not supported: " + langCode);
-      System.exit(1);
-    }
     final JLanguageTool languageTool = new JLanguageTool(lang);
     languageTool.activateDefaultPatternRules();
     if (ruleIds != null) {

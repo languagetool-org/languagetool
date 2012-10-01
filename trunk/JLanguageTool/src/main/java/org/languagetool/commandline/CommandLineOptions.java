@@ -25,6 +25,7 @@ import org.languagetool.Language;
  */
 public class CommandLineOptions {
 
+  private boolean printUsage = false;
   private boolean printVersion = false;
   private boolean printLanguages = false;
   private boolean verbose = false;
@@ -44,6 +45,14 @@ public class CommandLineOptions {
   private String filename = null;
   private String[] disabledRules = new String[0];
   private String[] enabledRules = new String[0];
+
+  public boolean isPrintUsage() {
+    return printUsage;
+  }
+
+  public void setPrintUsage(boolean printUsage) {
+    this.printUsage = printUsage;
+  }
 
   public boolean isPrintVersion() {
     return printVersion;

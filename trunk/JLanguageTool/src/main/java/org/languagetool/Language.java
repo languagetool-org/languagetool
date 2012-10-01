@@ -393,7 +393,8 @@ public abstract class Language {
    * Get the Language object for the given short language name.
    *
    * @param shortLanguageCode e.g. <code>en</code> or <code>de</code>
-   * @return a Language object or <code>null</code>
+   * @return a Language object
+   * @throws IllegalArgumentException if the language is not supported
    */
   public static Language getLanguageForShortName(final String shortLanguageCode) {
     StringTools.assureSet(shortLanguageCode, "shortLanguageCode");
@@ -421,7 +422,7 @@ public abstract class Language {
         return element;
       }
     }
-    return null;
+    throw new IllegalArgumentException("'" + shortLanguageCode + "' is not a language code known to LanguageTool");
   }
 
   /**

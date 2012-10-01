@@ -175,18 +175,12 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
       inPattern = true;
       final String languageStr = attrs.getValue("lang");
       language = Language.getLanguageForShortName(languageStr);
-      if (language == null) {
-        throw new SAXException("Unknown language '" + languageStr + "'");
-      }
     } else if (qName.equals(TOKEN)) {
       setToken(attrs);
     } else if (qName.equals(TRANSLATION)) {
       inTranslation = true;
       final String languageStr = attrs.getValue("lang");
       final Language tmpLang = Language.getLanguageForShortName(languageStr);
-      if (tmpLang == null) {
-        throw new SAXException("Unknown language '" + languageStr + "'");
-      }
       currentTranslationLanguage = tmpLang;
       if (tmpLang.equalsConsiderVariantsIfSpecified(motherTongue)) {
         translationLanguage = tmpLang;

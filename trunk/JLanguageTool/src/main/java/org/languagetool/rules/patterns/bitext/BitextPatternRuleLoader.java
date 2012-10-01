@@ -91,9 +91,6 @@ class BitextPatternRuleHandler extends PatternRuleHandler {
     if (qName.equals("rules")) {
       final String languageStr = attrs.getValue("targetLang");
       language = Language.getLanguageForShortName(languageStr);
-      if (language == null) {
-        throw new SAXException("Unknown language '" + languageStr + "'");
-      }
     } else if (qName.equals("rule")) {
       super.startElement(namespaceURI, lName, qName, attrs);
       correctExamples = new ArrayList<StringPair>();

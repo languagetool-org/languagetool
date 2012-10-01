@@ -151,9 +151,6 @@ public class WikipediaIndexHandler extends DefaultHandler {
     final int maxDocs = Integer.parseInt(args[3]);
 
     final Language language = Language.getLanguageForShortName(languageCode);
-    if (language == null) {
-      throw new RuntimeException("Could not find language '" + languageCode + "'");
-    }
     if (maxDocs == 0) {
       System.out.println("Going to index all documents from " + dumpFile);
     } else {

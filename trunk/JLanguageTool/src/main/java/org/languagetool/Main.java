@@ -37,6 +37,7 @@ import org.apache.tika.language.LanguageIdentifier;
 import org.languagetool.bitext.TabBitextReader;
 import org.languagetool.commandline.CommandLineOptions;
 import org.languagetool.commandline.CommandLineParser;
+import org.languagetool.commandline.UnknownParameterException;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.bitext.BitextRule;
 import org.languagetool.tools.StringTools;
@@ -446,9 +447,18 @@ class Main {
     try {
        options = commandLineParser.parseOptions(args);
     } catch (IllegalArgumentException e) {
+      System.err.println(e.toString());
+      System.exit(1);
+    } catch (UnknownParameterException e) {
       if (e.getMessage() != null) {
         System.err.println(e.getMessage());
+      } else {
+        System.err.println(e.toString());
       }
+      commandLineParser.printUsage(System.err);
+      System.exit(1);
+    }
+    if (options.isPrintUsage()) {
       commandLineParser.printUsage();
       System.exit(1);
     }
