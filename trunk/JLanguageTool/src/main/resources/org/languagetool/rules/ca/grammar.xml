@@ -1498,7 +1498,7 @@ $Id$
             <rule>
                 <pattern>
                 <marker>
-                    <token postag="_GV_"/>
+                    <token postag="VA.*" postag_regexp="yes" inflected="yes" regexp="yes">anar|haver</token>
                     <token inflected="yes" regexp="yes">dinar|sopar|esmorzar|berenar</token>
                 </marker>
                 <token postag="N.*|_GN_.*" postag_regexp="yes"/>
@@ -1508,6 +1508,8 @@ $Id$
                 <example type="incorrect" correction="Per a berenar has menjat"><marker>Has berenat</marker> entrepà?</example>
                 <example type="incorrect" correction="per a berenar vares menjar">I <marker>vares berenar</marker> entrepà?</example>
                 <example type="correct">Per a sopar mengem pollastre.</example>
+                <example type="correct">Va ser dinant un dia a la platja.</example>
+               <!--  <example type="correct">Vam dinar un dia a Calella.</example> Caldria usar wordnet: menjars -->
             </rule>
         </rulegroup>
         <rulegroup id="VERBS_NO_INTRANSITIUS" name="verbs no intransitius">
@@ -3296,6 +3298,58 @@ $Id$
         </rulegroup>
     </category>
     <category name="Confusions">
+        <rulegroup id="SOBRA_SOBRE" name="sobra/sobre">
+            <rule>
+                <pattern>
+                    <token regexp="yes">a|per</token>
+                    <marker>
+                        <token>sobra</token>
+                    </marker> 
+                </pattern>    
+                <message>¿Volíeu dir <suggestion>sobre</suggestion>?</message>
+                <example type="incorrect" correction="sobre">Em va mirar per <marker>sobra</marker>.</example>
+                <example type="correct">Ho vaig mirar per sobre.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="NC.*" postag_regexp="yes">sobra<exception postag="_GN_.*|V.*" postag_regexp="yes"/></token>
+                    </marker> 
+                    <token postag="_GN_.*" postag_regexp="yes"/>
+                </pattern>    
+                <message>¿Volíeu dir <suggestion>sobre</suggestion>?</message>
+                <example type="incorrect" correction="sobre">Que estigués <marker>sobra</marker> la cintura.</example>
+                <example type="incorrect" correction="sobre">És <marker>sobra</marker> la mentida.</example>
+                <example type="correct">Aquí sobra la mentida.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="DARRERA" name="darrera/darrere">
+            <rule>
+                <pattern>
+                    <token postag="N.FS.*|D..FS.*" postag_regexp="yes" negate_pos="yes"><exception postag="N.FS.*|D..FS.*" postag_regexp="yes"></exception></token>
+                    <marker>
+                        <token>darrera</token>
+                    </marker>
+                    <token postag="N.FS.*" postag_regexp="yes" negate_pos="yes"><exception postag="N.FS.*" postag_regexp="yes"></exception></token>
+                </pattern>
+                <message>Caldria escriure <suggestion>darrere</suggestion>.</message>
+                <short>Confusió.</short>
+                <example type="incorrect">Anava <marker>darrera</marker> la merla blava.</example>
+                <example type="correct">Anava <marker>darrere</marker> la merla blava.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>darrera</token>
+                    </marker>
+                    <token regexp="yes">seu|seua|seva</token>
+                </pattern>
+                <message>Caldria escriure <suggestion>darrere</suggestion>.</message>
+                <short>Confusió.</short>
+                <example type="incorrect">Anava <marker>darrera</marker> seu .</example>
+                <example type="correct">Anava <marker>darrere</marker> seu.</example>
+            </rule>         
+        </rulegroup>
         <rule id="ES_VA_FA_CARREC" name="es *va/fa càrrec"> <!--  es va/fa servir/sentir? -->
             <pattern>
                 <token>es</token>
@@ -3846,34 +3900,6 @@ $Id$
                 <example type="correct">Van pujar dalt de tot.</example>
                 <example type="correct">Feia tres metres d'alt de punta a punta.</example>
             </rule>
-        </rulegroup>
-        <rulegroup id="DARRERA" name="darrera/darrere">
-            <rule>
-                <pattern>
-                    <token postag="N.FS.*|D..FS.*" postag_regexp="yes" negate_pos="yes"><exception postag="N.FS.*|D..FS.*" postag_regexp="yes"></exception></token>
-                    <marker>
-                        <token>darrera</token>
-                    </marker>
-                    <token postag="N.FS.*" postag_regexp="yes" negate_pos="yes"><exception postag="N.FS.*" postag_regexp="yes"></exception></token>
-                </pattern>
-                <message>Caldria escriure <suggestion>darrere</suggestion>.</message>
-                <short>Confusió.</short>
-                <example type="incorrect">Anava <marker>darrera</marker> la merla blava.</example>
-                <example type="correct">Anava <marker>darrere</marker> la merla blava.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>darrera</token>
-                    </marker>
-                    <token regexp="yes">seu|seua|seva</token>
-                </pattern>
-                <message>Caldria escriure <suggestion>darrere</suggestion>.</message>
-                <short>Confusió.</short>
-                <example type="incorrect">Anava <marker>darrera</marker> seu .</example>
-                <example type="correct">Anava <marker>darrere</marker> seu.</example>
-            </rule>
-            
         </rulegroup>
         <rulegroup id="RESPECTE" name="respecte a/de">
             <rule>
@@ -4659,6 +4685,16 @@ $Id$
                 <example type="correct"><marker>n'Úrusula</marker>
                 </example>
             </rule>
+            <rule id="CAL_APOSTROFAT" name="apostrofació: *cal/ca l'Enric">
+            <pattern>
+                <token>cal</token>
+                <token postag="NPMS.*" postag_regexp="yes" regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóò].+</exception></token>
+            </pattern>
+            <message>Cal escriure: <suggestion>ca l'<match no="2"></match></suggestion>.</message>
+            <short>Error d'apostrofació</short>
+            <example type="incorrect" correction="ca l'Enric"><marker>cal Enric</marker></example>
+            <example type="correct">ca l'Antoni</example>
+        </rule>
         </rulegroup>
     </category>
     <category name="Accents diacrítics">
@@ -6411,7 +6447,7 @@ $Id$
             <example type="incorrect"><marker>Cal</marker> amics.</example>
             <example type="correct">Cals amics.</example>
         </rule>
-        <rule id="CAL_APOSTROFAT" name="Revisa l'apostrofació en «cal/ca l'»">
+        <rule id="CAL_APOSTROFAT2" name="Revisa l'apostrofació en «cal/ca l'»">
             <pattern>
                 <token>cal</token>
                 <token postag="N.[MC].*|A..[MC].*" postag_regexp="yes" regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóò].+</exception></token>
