@@ -909,10 +909,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <token regexp="yes">ella?</token>
                 <marker>
-                    <token postag="VM[IS]P3S0" postag_regexp="yes"><exception>entre</exception></token>
+                    <token postag="V.[IS]P3S0" postag_regexp="yes"><exception>entre</exception></token>
                 </marker>
             </pattern>
-            <disambig action="filter" postag="VM[IS]P3S0" />
+            <disambig action="filter" postag="V.[IS]P3S0" />
         </rule>
         <rule> <!-- Exception to next rule -->
             <pattern>
@@ -929,10 +929,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token regexp="yes">ella?</token>
                 <token postag="PP.*|P0.*" postag_regexp="yes" />
                 <marker>
-                    <token postag="VM[IS]P3S0" postag_regexp="yes" />
+                    <token postag="V.[IS]P3S0" postag_regexp="yes" />
                 </marker>
             </pattern>
-            <disambig action="filter" postag="VM[IS]P3S0" />
+            <disambig action="filter" postag="V.[IS]P3S0" />
         </rule>
         <rule>
             <pattern>
@@ -940,10 +940,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token postag="PP.*|P0.*" postag_regexp="yes" />
                 <token postag="PP.*|P0.*" postag_regexp="yes" />
                 <marker>
-                    <token postag="VM[IS]P3S0" postag_regexp="yes" />
+                    <token postag="V.[IS]P3S0" postag_regexp="yes" />
                 </marker>
             </pattern>
-            <disambig action="filter" postag="VM[IS]P3S0" />
+            <disambig action="filter" postag="V.[IS]P3S0" />
         </rule>
     </rulegroup>
     <rulegroup id="SegPersSing" name="verb segona persona singular">
@@ -5340,7 +5340,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <token postag="V.[SI].*" postag_regexp="yes"></token>
                 </marker>
             </pattern>
-            <disambig action="filter" postag="V.[SI].*"></disambig>
+            <disambig action="filter" postag="V.[SI].*|_GV_"></disambig>
         </rule>
         <rule>
             <pattern>
@@ -6260,76 +6260,137 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rulegroup id="nom_en_complement" name="nom en complement">
         <rule>
             <pattern>
-                <token postag="SPS00"/>
+                <token postag="SPS00"><exception>a</exception></token>
                 <marker>
-                    <token postag="NC.*" postag_regexp="yes"/>
+                    <token postag="N.*" postag_regexp="yes"/>
                 </marker>        
             </pattern>
             <disambig action="add"><wd pos="complement"></wd></disambig>
         </rule>
         <rule>
             <pattern>
-                <token postag="SPS00"/>
+                <token postag="SPS00"><exception>a</exception></token>
                 <token postag="D[ADI].*" postag_regexp="yes"/>
                 <marker>
-                    <token postag="NC.*" postag_regexp="yes"/>
+                    <token postag="N.*" postag_regexp="yes"/>
                 </marker>        
             </pattern>
             <disambig action="add"><wd pos="complement"></wd></disambig>
         </rule>
         <rule>
             <pattern>
-                <token postag="SPS00"/>
+                <token postag="SPS00"><exception>a</exception></token>
                 <token postag="DA.*" postag_regexp="yes"/>
                 <token postag="PX.*" postag_regexp="yes"/>
                 <marker>
-                    <token postag="NC.*" postag_regexp="yes"/>
+                    <token postag="N.*" postag_regexp="yes"/>
                 </marker>        
             </pattern>
             <disambig action="add"><wd pos="complement"></wd></disambig>
         </rule>
         <rule>
             <pattern>
-                <token postag="SPS00"/>
+                <token postag="SPS00"><exception>a</exception></token>
                 <token postag="D[ADI].*" postag_regexp="yes"/>
                 <token postag="A.*" postag_regexp="yes"/>
                 <marker>
-                    <token postag="NC.*" postag_regexp="yes"/>
+                    <token postag="N.*" postag_regexp="yes"/>
                 </marker>        
             </pattern>
             <disambig action="add"><wd pos="complement"></wd></disambig>
         </rule>
         <rule>
             <pattern>
-                <token postag="SPS00"/>
+                <token postag="SPS00"><exception>a</exception></token>
                 <token postag="A.*" postag_regexp="yes"/>
                 <marker>
-                    <token postag="NC.*" postag_regexp="yes"/>
+                    <token postag="N.*" postag_regexp="yes"/>
                 </marker>        
             </pattern>
             <disambig action="add"><wd pos="complement"></wd></disambig>
         </rule>
         <rule>
             <pattern>
-                <token postag="SPS00"/>
+                <token postag="SPS00"><exception>a</exception></token>
                 <marker>
                     <token postag="PD0NS000"/>
                 </marker>        
             </pattern>
             <disambig action="add"><wd pos="complement"></wd></disambig>
         </rule>
+        <!--  complement regit per la preposició 'a' -->
+        <rule>
+            <pattern>
+                <token postag="SPS00">a</token>
+                <marker>
+                    <token postag="N.*" postag_regexp="yes"/>
+                </marker>        
+            </pattern>
+            <disambig action="add"><wd pos="complement_a"></wd></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="SPS00">a</token>
+                <token postag="D[ADI].*" postag_regexp="yes"/>
+                <marker>
+                    <token postag="N.*" postag_regexp="yes"/>
+                </marker>        
+            </pattern>
+            <disambig action="add"><wd pos="complement_a"></wd></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="SPS00">a</token>
+                <token postag="DA.*" postag_regexp="yes"/>
+                <token postag="PX.*" postag_regexp="yes"/>
+                <marker>
+                    <token postag="N.*" postag_regexp="yes"/>
+                </marker>        
+            </pattern>
+            <disambig action="add"><wd pos="complement_a"></wd></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="SPS00">a</token>
+                <token postag="D[ADI].*" postag_regexp="yes"/>
+                <token postag="A.*" postag_regexp="yes"/>
+                <marker>
+                    <token postag="N.*" postag_regexp="yes"/>
+                </marker>        
+            </pattern>
+            <disambig action="add"><wd pos="complement_a"></wd></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="SPS00">a</token>
+                <token postag="A.*" postag_regexp="yes"/>
+                <marker>
+                    <token postag="N.*" postag_regexp="yes"/>
+                </marker>        
+            </pattern>
+            <disambig action="add"><wd pos="complement_a"></wd></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="SPS00">a</token>
+                <marker>
+                    <token postag="PD0NS000"/>
+                </marker>        
+            </pattern>
+            <disambig action="add"><wd pos="complement_a"></wd></disambig>
+        </rule>
         <rule>
             <pattern>
                 <token>cada</token>
                 <marker>
-                    <token postag="NC.*" postag_regexp="yes"/>
+                    <token postag="N.*" postag_regexp="yes"/>
                 </marker>        
             </pattern>
-            <disambig action="add"><wd pos="complement"></wd></disambig>
+            <disambig action="add"><wd pos="complement_cada"></wd></disambig>
         </rule>
         <rule>
             <pattern>
-                <token postag="NC.*" postag_regexp="yes"/>
+                <token postag="N.*" postag_regexp="yes"/>
                 <token regexp="yes">darrere|rere|a</token>
                 <marker>
                     <token><match no="0"/></token>

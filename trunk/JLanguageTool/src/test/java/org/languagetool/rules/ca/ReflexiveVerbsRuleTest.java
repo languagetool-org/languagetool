@@ -43,6 +43,9 @@ public class ReflexiveVerbsRuleTest extends TestCase {
 	public void testRule() throws IOException { 
 
 		// correct sentences:
+		assertCorrect("ens anem a aferrissar");
+		assertCorrect("anem a aferrissar-nos");
+		assertCorrect("ens preparem per a anar");
 		assertCorrect("comencen queixant-se");
 		assertCorrect("comenceu a queixar-vos");
 		assertCorrect("em puc queixar");
@@ -50,7 +53,6 @@ public class ReflexiveVerbsRuleTest extends TestCase {
 		assertCorrect("ens en podem queixar");
 		assertCorrect("es queixa");
 		assertCorrect("es va queixant");
-		//assertCorrect("es va desfent");
 		assertCorrect("es va queixar");
 		assertCorrect("has d'emportar-t'hi");
 		assertCorrect("has de poder-te queixar");
@@ -82,18 +84,95 @@ public class ReflexiveVerbsRuleTest extends TestCase {
 		assertCorrect("Se'n pujà al cel");
 		assertCorrect("Se li'n va anar la mà");
 		assertCorrect("El nen pot callar");
+		assertCorrect("es va desfent");
+		assertCorrect("s'ha anat configurant");	
+		assertCorrect("s'han anat fabricant amb materials");
+		assertCorrect("la matèria que cau s'accelera");
+		assertCorrect("Altres muntanyes foren pujades per pastors, caçadors o aventurers.");
+		assertCorrect("mai assolí èxit social");
+		assertCorrect("Aquests polímers són lineals i no ramificats.");
+		assertCorrect("tornaven a assolar la Vall de l'Ebre.");
+		assertCorrect("està previst que s'acabin per a anar directament a la zona");
+		assertCorrect("es deixaven caure");
+		assertCorrect("es van deixar caure");
+		assertCorrect("van deixar-se caure");
+		assertCorrect("et deixaves pujar");
+		assertCorrect("Els animals es feien témer amb cops secs de ferro");
+		assertCorrect("es veié obligat a marxar el 1512.");
+		assertCorrect("Francesc III es va anar a asseure sobre el tron");
+		assertCorrect("Va anar a dutxar-se");
+		assertCorrect("es van deixar anar molts empresonats.");
+		assertCorrect("A Joan se li'n va anar la mà");
+		assertCorrect("ja que si l'arròs se sega molt verd");
+		assertCorrect("s'hi afegeixen bolets abans d'enfundar-la en l'intestí");
+		assertCorrect("Joan ha anat a fer-se la prova.");
+		//assertCorrect("Joan s'ha anat a fer la prova."); -->dubtós
+		//assertCorrect("Cada grup s'ha anat a fer la prova."); -->dubtós
+		assertCorrect("Cada grup s'ha anat a dutxar.");
+		assertCorrect("Joan ha anat a dutxar-se.");
+		assertCorrect("Joan s'ha anat a dutxar.");
+		//IMPERSONALS
+		assertCorrect("També es canta quan es va a pasturar als animals");		
+		assertCorrect("Quan es baixa a l'ordinador de l'usuari,");
+		assertCorrect("sinó que es baixa per parts a l'atzar.");
+		assertCorrect("Es tem que la radioactivitat afecti la població local");
+		assertCorrect("Després de tot això es va témer la possibilitat");
+		assertCorrect("probablement es vagi a destil·lar l'etanol");
+		assertCorrect(", es podia anar a Madrid per aconseguir en Celebi");
+		assertCorrect("Els soldats es preparen per a marxar a la guerra.");
+		assertCorrect("Tu et prepares per marxar a la guerra.");
+		assertCorrect("i que es temia que s'aconseguís el nombre previst.");
+		assertCorrect("Des del principi es temia el pitjor");
+		assertCorrect("La primera muntanya que es va pujar per motius purament esportius,");
+		assertCorrect("Quan el so era via fora, s'anava a guerrejar fora de la terra.");
+		assertCorrect("els algorismes, de manera que s'evita caure");
+		assertCorrect("En acabar l'assalt, és comú que es pugi un banc");
+		assertCorrect("Es va caure en la provocació.");
+		assertCorrect("Abans d'això ja s'havien pujat muntanyes,");
+		assertCorrect("a una representació de La Passió no només s'hi va a veure un espectacle sumptuós");
+		assertCorrect("A escola no s'hi va a plorar.");
+		assertCorrect("A escola no es va a jugar."); //??
+		//assertCorrect("A escola no es va a plorar."); //??
+		assertCorrect("Joan no es va a jugar la feina.");	
 		
-
+		 	
 		// errors:
+		assertIncorrect("Joan no es va a l'escola");
+		assertIncorrect("que el procés no se'ns vagi de les mans");
+		assertIncorrect("Ho volen per a anar-se de la zona"); 
+		assertIncorrect("Ho volen per anar-se de la zona"); 
+		assertIncorrect("Ho desitgen per anar-se de la zona"); //--> cal restringir les preposicions
+		assertIncorrect("els grups que es van caure del cartell");
+		assertIncorrect("el nen que es va caure al pou");//--> Es pot tractar diferent: caure / anar
+		assertIncorrect("tot l'auditori es callà");
+		assertIncorrect("les gotes que es van caure fora"); 
+		assertIncorrect("Tothom es va callar.");
+		assertIncorrect("Els nens van poder-se caure");	
+		assertIncorrect("Aleshores ell es va anar a estudiar a Barcelona"); //-->va anar a fer introspecció :-)
+		assertIncorrect("Joan es va anar a estudiar a Barcelona.");
+		//assertIncorrect("Aleshores es va anar a estudiar a Barcelona.");
+		//assertIncorrect("quan es pugen, permeten canviar de feina.");
+		assertIncorrect("havent queixat");
+		assertIncorrect("haver queixat");
+		assertIncorrect("les membranes s'han anat fabricat amb materials sintètics"); 
+		assertIncorrect("s'han anat fabricat amb materials sintètics");
+		assertIncorrect("Holmes i Watson s'han anat d'acampada");
+		assertIncorrect("L'independentisme s'ha anat a Brussel·les!");
+		assertIncorrect("El seu marit s'ha anat a la Xina per negocios");
 		assertIncorrect("L'home es marxà de seguida");
+		assertIncorrect("L'home s'anà de seguida");
 		assertIncorrect("El nen es cau");
 		assertIncorrect("El nen se li cau");
+		assertIncorrect("A la nena se li caigueren les arracades");
 		assertIncorrect("El nen s'ha de caure");
 		assertIncorrect("El nen pot caure's");
 		assertIncorrect("Calleu-vos");
-		assertIncorrect("Es pujà al cel");
+		//assertIncorrect("Es pujà al cel"); ->indecidible
+		assertIncorrect("El berenar es pujà al cel");
 		assertIncorrect("Va baixar-se del cotxe en marxa.");
-		assertIncorrect("Se li va anar la mà");
+		assertIncorrect("A Joan se li va anar la mà");	
+		assertIncorrect("Al pare se li va anar la mà");	
+   		assertIncorrect("Escriu que quan era mosso «se li anaven els ulls»");
 		assertIncorrect("comencen queixant");
 		assertIncorrect("comenceu a queixar-nos");
 		assertIncorrect("et puc queixar");
@@ -129,7 +208,7 @@ public class ReflexiveVerbsRuleTest extends TestCase {
 		assertIncorrect("va queixant");
 		assertIncorrect("va queixar");
 		assertIncorrect("va queixar-li");
-
+		assertIncorrect("anem a aferrissar");
 	}
 
 	private void assertCorrect(String sentence) throws IOException {
