@@ -259,7 +259,6 @@ public class IndexerSearcherTest extends LuceneTestCase {
             new Element("forth|back", false, true, false)
     );
     final PatternRule rule1 = new PatternRule("RULE1", Language.ENGLISH, elements, "desc", "msg", "shortMsg");
-    System.out.println(directory);
     final DirectoryReader reader = DirectoryReader.open(directory);
     try {
       final IndexSearcher indexSearcher = new IndexSearcher(reader);
