@@ -49,8 +49,12 @@ public class DoublePunctuationRuleTest extends TestCase {
     // errors:
     matches = rule.match(langTool.getAnalyzedSentence("This,, is a test sentence."));
     assertEquals(1, matches.length);
+    assertEquals(4, matches[0].getFromPos());
+    assertEquals(6, matches[0].getToPos());
     matches = rule.match(langTool.getAnalyzedSentence("This is a test sentence.. Another sentence"));
     assertEquals(1, matches.length);
+    assertEquals(23, matches[0].getFromPos());
+    assertEquals(25, matches[0].getToPos());
   }
   
 }

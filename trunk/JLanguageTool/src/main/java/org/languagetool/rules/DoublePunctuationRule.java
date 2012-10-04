@@ -77,7 +77,7 @@ public class DoublePunctuationRule extends Rule {
         ruleMatches.add(ruleMatch);
         dotCount = 0;
       } else if (commaCount == 2 && !",".equals(nextToken)) {
-        final int fromPos = Math.max(0, startPos);
+        final int fromPos = Math.max(0, startPos - 1);
         final RuleMatch ruleMatch = new RuleMatch(this, fromPos, startPos + 1,
             getCommaMessage(), messages.getString("double_commas_short"));
         ruleMatch.setSuggestedReplacement(",");
