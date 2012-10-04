@@ -281,23 +281,25 @@ public class Main extends WeakBase implements XJobExecutor,
           initLanguageTool();
         }
 
-        if (config.getDisabledRuleIds() != null) {
-          for (final String id : config.getDisabledRuleIds()) {
-            langTool.disableRule(id);
+        synchronized (config) {
+          final Set<String> disabledRuleIds = config.getDisabledRuleIds();
+          if (disabledRuleIds != null) {
+            for (final String id : disabledRuleIds) {
+              langTool.disableRule(id);
+            }
           }
-        }
-        final Set<String> disabledCategories = config
-            .getDisabledCategoryNames();
-        if (disabledCategories != null) {
-          for (final String categoryName : disabledCategories) {
-            langTool.disableCategory(categoryName);
+          final Set<String> disabledCategories = config.getDisabledCategoryNames();
+          if (disabledCategories != null) {
+            for (final String categoryName : disabledCategories) {
+              langTool.disableCategory(categoryName);
+            }
           }
-        }
-        final Set<String> enabledRules = config.getEnabledRuleIds();
-        if (enabledRules != null) {
-          for (String ruleName : enabledRules) {
-            langTool.enableDefaultOffRule(ruleName);
-            langTool.enableRule(ruleName);
+          final Set<String> enabledRuleIds = config.getEnabledRuleIds();
+          if (enabledRuleIds != null) {
+            for (String ruleName : enabledRuleIds) {
+              langTool.enableDefaultOffRule(ruleName);
+              langTool.enableRule(ruleName);
+            }
           }
         }
         try {
