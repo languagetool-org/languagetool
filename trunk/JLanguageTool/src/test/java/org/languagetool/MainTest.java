@@ -28,6 +28,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 
 /**
@@ -37,8 +38,8 @@ import java.net.URL;
  */
 public class MainTest extends AbstractSecurityTestCase {
 
-  private static final String ENGLISH_TEST_FILE = "test-en.txt";
-  
+  private static final String ENGLISH_TEST_FILE = "/org/languagetool/test-en.txt";
+
   private ByteArrayOutputStream out;
   private ByteArrayOutputStream err;
   private PrintStream stdout;
@@ -91,20 +92,16 @@ public class MainTest extends AbstractSecurityTestCase {
   }
 
   public void testEnglishFile() throws Exception {
-    final URL url = this.getClass().getResource(ENGLISH_TEST_FILE);
-    final URI uri = new URI (url.toString());
-    String[] args = new String[] {"-l", "en", uri.getPath()};
+    String[] args = new String[] {"-l", "en", getTestFilePath()};
     
     Main.main(args);
     String output = new String(this.out.toByteArray());
     assertTrue(output.indexOf("Expected text language: English") == 0);
     assertTrue(output.contains("1.) Line 1, column 9, Rule ID: EN_A_VS_AN"));
   }
-  
+
   public void testEnglishFileAutoDetect() throws Exception {
-	  final URL url = this.getClass().getResource(ENGLISH_TEST_FILE);
-	  final URI uri = new URI (url.toString());
-	  String[] args = new String[] {"-adl", uri.getPath()};
+	  String[] args = new String[] {"-adl", getTestFilePath()};
 	  	  
 	  Main.main(args);
 	  String output = new String(this.out.toByteArray());
@@ -126,9 +123,7 @@ public class MainTest extends AbstractSecurityTestCase {
   }
   
   public void testEnglishFileVerbose() throws Exception {
-    final URL url = this.getClass().getResource(ENGLISH_TEST_FILE);
-    final URI uri = new URI (url.toString());
-    String[] args = new String[] {"-l", "en", "-v", uri.getPath()};
+    String[] args = new String[] {"-l", "en", "-v", getTestFilePath()};
 
     Main.main(args);
     String output = new String(this.out.toByteArray());
@@ -139,9 +134,7 @@ public class MainTest extends AbstractSecurityTestCase {
   }
   
   public void testEnglishFileApplySuggestions() throws Exception {
-    final URL url = this.getClass().getResource(ENGLISH_TEST_FILE);
-    final URI uri = new URI (url.toString());
-    String[] args = new String[] {"-l", "en", "--apply", uri.getPath()};
+    String[] args = new String[] {"-l", "en", "--apply", getTestFilePath()};
 
     Main.main(args);
     String output = new String(this.out.toByteArray());
@@ -252,9 +245,7 @@ public class MainTest extends AbstractSecurityTestCase {
 
   
   public void testEnglishFileRuleDisabled() throws Exception {
-    final URL url = this.getClass().getResource(ENGLISH_TEST_FILE);
-    final URI uri = new URI (url.toString());
-    String[] args = new String[] {"-l", "en", "-d", "EN_A_VS_AN", uri.getPath()};
+    String[] args = new String[] {"-l", "en", "-d", "EN_A_VS_AN", getTestFilePath()};
 
     Main.main(args);
     String output = new String(this.out.toByteArray());
@@ -263,9 +254,7 @@ public class MainTest extends AbstractSecurityTestCase {
   }
 
   public void testEnglishFileRuleEnabled() throws Exception {
-    final URL url = this.getClass().getResource(ENGLISH_TEST_FILE);
-    final URI uri = new URI (url.toString());
-    String[] args = new String[] {"-l", "en", "-e", "EN_A_VS_AN", uri.getPath()};
+    String[] args = new String[] {"-l", "en", "-e", "EN_A_VS_AN", getTestFilePath()};
 
     Main.main(args);
     String output = new String(this.out.toByteArray());
@@ -287,9 +276,7 @@ public class MainTest extends AbstractSecurityTestCase {
   
   
   public void testEnglishFileAPI() throws Exception {
-    final URL url = this.getClass().getResource(ENGLISH_TEST_FILE);
-    final URI uri = new URI (url.toString());
-    String[] args = new String[] {"-l", "en", "--api", uri.getPath()};
+    String[] args = new String[] {"-l", "en", "--api", getTestFilePath()};
 
     Main.main(args);
     String output = new String(this.out.toByteArray());
@@ -360,9 +347,7 @@ public class MainTest extends AbstractSecurityTestCase {
   }
 
   public void testEnglishTagger() throws Exception {
-    final URL url = this.getClass().getResource(ENGLISH_TEST_FILE);
-    final URI uri = new URI (url.toString());
-    String[] args = new String[] {"-l", "en", "--taggeronly", uri.getPath()};
+    String[] args = new String[] {"-l", "en", "--taggeronly", getTestFilePath()};
     Main.main(args);
     String output = new String(this.out.toByteArray());
     assertTrue(output.indexOf("Expected text language: English") == 0);
@@ -423,9 +408,7 @@ public class MainTest extends AbstractSecurityTestCase {
   }
   
   public void testListUnknown() throws Exception {
-    final URL url = this.getClass().getResource(ENGLISH_TEST_FILE);
-    final URI uri = new URI (url.toString());
-    String[] args = new String[] {"-l", "pl", "-u", uri.getPath()};
+    String[] args = new String[] {"-l", "pl", "-u", getTestFilePath()};
     Main.main(args);
     String output = new String(this.out.toByteArray());
     assertTrue(output.indexOf("Expected text language: Polish") == 0);
@@ -433,9 +416,7 @@ public class MainTest extends AbstractSecurityTestCase {
   }
   
   public void testNoListUnknown() throws Exception {
-    final URL url = this.getClass().getResource(ENGLISH_TEST_FILE);
-    final URI uri = new URI (url.toString());
-    String[] args = new String[] {"-l", "pl", uri.getPath()};
+    String[] args = new String[] {"-l", "pl", getTestFilePath()};
     Main.main(args);
     String output = new String(this.out.toByteArray());
     assertTrue(output.indexOf("Expected text language: Polish") == 0);
@@ -476,6 +457,14 @@ public class MainTest extends AbstractSecurityTestCase {
       writer.close();
     }
     return tempFile;
+  }
+
+  private String getTestFilePath() throws URISyntaxException {
+    final URL url = this.getClass().getResource(ENGLISH_TEST_FILE);
+    if (url == null) {
+      throw new RuntimeException(ENGLISH_TEST_FILE + " not found in classpath");
+    }
+    return new URI(url.toString()).getPath();
   }
 
 }
