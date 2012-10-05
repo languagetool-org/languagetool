@@ -103,6 +103,7 @@ public class ReflexiveVerbsRuleTest extends TestCase {
 		assertCorrect("Va anar a dutxar-se");
 		assertCorrect("es van deixar anar molts empresonats.");
 		assertCorrect("A Joan se li'n va anar la mà");
+		assertCorrect("se'ns en va anar la mà");
 		assertCorrect("ja que si l'arròs se sega molt verd");
 		assertCorrect("s'hi afegeixen bolets abans d'enfundar-la en l'intestí");
 		assertCorrect("Joan ha anat a fer-se la prova.");
@@ -111,7 +112,11 @@ public class ReflexiveVerbsRuleTest extends TestCase {
 		assertCorrect("Cada grup s'ha anat a dutxar.");
 		assertCorrect("Joan ha anat a dutxar-se.");
 		assertCorrect("Joan s'ha anat a dutxar.");
+		assertCorrect("amb els Confederats intentant burlar el bloqueig a Maryland.");
 		//IMPERSONALS
+		assertCorrect("Se'l va fer callar.");
+		assertCorrect("Se li va fer callar."); //incorrecta per una altra qüestió
+		assertCorrect("Se'ns va fer callar.");
 		assertCorrect("També es canta quan es va a pasturar als animals");		
 		assertCorrect("Quan es baixa a l'ordinador de l'usuari,");
 		assertCorrect("sinó que es baixa per parts a l'atzar.");
@@ -131,26 +136,39 @@ public class ReflexiveVerbsRuleTest extends TestCase {
 		assertCorrect("Abans d'això ja s'havien pujat muntanyes,");
 		assertCorrect("a una representació de La Passió no només s'hi va a veure un espectacle sumptuós");
 		assertCorrect("A escola no s'hi va a plorar.");
-		assertCorrect("A escola no es va a jugar."); //??
-		//assertCorrect("A escola no es va a plorar."); //??
+		assertCorrect("A escola no es va a jugar.");
+		assertCorrect("A escola no es va a plorar.");
 		assertCorrect("Joan no es va a jugar la feina.");	
 		
 		 	
 		// errors:
+		assertIncorrect("un dels pocs moviments que poden fer és intentar pujar-se al carro de la indignació.");
+		assertIncorrect("és intentar pujar-se al carro de la indignació.");
+		assertIncorrect("Pujar-se al carro de la indignació.");
+		assertIncorrect("Pujar-vos al carro de la indignació.");
+		assertIncorrect("se li va caure la cara de vergonya");
+		assertIncorrect("se'ns va caure la cara de vergonya");
+		assertIncorrect("A mi se'm va caure la cara de vergonya");
 		assertIncorrect("Joan no es va a l'escola");
 		assertIncorrect("que el procés no se'ns vagi de les mans");
 		assertIncorrect("Ho volen per a anar-se de la zona"); 
 		assertIncorrect("Ho volen per anar-se de la zona"); 
-		assertIncorrect("Ho desitgen per anar-se de la zona"); //--> cal restringir les preposicions
+		assertIncorrect("Ho desitgen per anar-se de la zona"); 
 		assertIncorrect("els grups que es van caure del cartell");
 		assertIncorrect("el nen que es va caure al pou");//--> Es pot tractar diferent: caure / anar
+		assertCorrect("el dia que es va anar a la ciutat");
+		//assertIncorrect("el dia que es va anar a la ciutat");
 		assertIncorrect("tot l'auditori es callà");
 		assertIncorrect("les gotes que es van caure fora"); 
+		assertIncorrect("Se'ns va callar.");
 		assertIncorrect("Tothom es va callar.");
 		assertIncorrect("Els nens van poder-se caure");	
 		assertIncorrect("Aleshores ell es va anar a estudiar a Barcelona"); //-->va anar a fer introspecció :-)
 		assertIncorrect("Joan es va anar a estudiar a Barcelona.");
-		//assertIncorrect("Aleshores es va anar a estudiar a Barcelona.");
+		assertIncorrect("se'ns va anar la mà");
+		assertIncorrect("Es van caure en la trampa.");
+		assertIncorrect("Aleshores es van anar a la ciutat a presentar una queixa.");
+		//assertIncorrect("Aleshores es va anar a la ciutat a presentar una queixa.");
 		//assertIncorrect("quan es pugen, permeten canviar de feina.");
 		assertIncorrect("havent queixat");
 		assertIncorrect("haver queixat");
@@ -161,6 +179,7 @@ public class ReflexiveVerbsRuleTest extends TestCase {
 		assertIncorrect("El seu marit s'ha anat a la Xina per negocios");
 		assertIncorrect("L'home es marxà de seguida");
 		assertIncorrect("L'home s'anà de seguida");
+		assertIncorrect("A Joan se li va caure la cara de vergonya");
 		assertIncorrect("El nen es cau");
 		assertIncorrect("El nen se li cau");
 		assertIncorrect("A la nena se li caigueren les arracades");

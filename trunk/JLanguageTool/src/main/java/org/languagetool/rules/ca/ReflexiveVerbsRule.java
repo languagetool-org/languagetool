@@ -41,8 +41,8 @@ public class ReflexiveVerbsRule extends CatalanRule {
    * Patterns
    */
   
-//List of only pronominal verbs from GDLC (eliminats: assolar,enfundar)
-  private static final Pattern VERBS_PRONOMINALS = Pattern.compile("abacallanar|abalançar|ablenar|aborrallonar|abotifarrar|abrinar|abromar|abstenir|acagallonar|acanyar|acarcanyar|acarnissar|acatarrar|aciutadanar|aclocar|acopar|acorriolar|adir|adonar|adormissar|afal·lerar|afarrossar|afeccionar|aferrallar|aferrissar|aferrussar|agallinar|agarbir|agarrofar|agemolir|agenollar|agotzonar|aiguabarrejar|allocar|alçurar|amatinar|amelar|amigar|amoixir|amoltonar|amotar|amullerar|amunionar|antullar|aparroquianar|aparroquiar|aperduar|apergaminar|apiadar|aponentar|apropinquar|apugonar|arguellar|arrapinyar|arrasir|arravatar|arraïmar|arrepapar|arrepetellar|arrigolar|arrodir|arrogar|arrossar|arruar|assemblar|assocarrar|atendar|atenir|atorrentar|atrafegar|atrevir|avencar|avidolar|avinençar|balbar|balcar|balir|balmar|bescomptar|boirar|boixar|botinflar|bromar|burlar|cagaferrar|candir|capbaixar|capmassar|captenir|cariar|carnificar|carpir|coalitzar|colltrencar|collvinclar|compenetrar|condoldre|condolir|congraciar|contorçar|contrapuntar|contòrcer|corcorcar|coresforçar|cornuar|corruixar|crisalidar|desafeccionar|desalenar|desamorar|desaparroquiar|desapassionar|desaplegar|desavenir|desbocar|descantar|descarar|descontrolar|descovar|desdubtar|desempallegar|desenrojolar|desentossudir|desfeinar|desmemoriar|desnodrir|despondre|despreocupar|dessolidaritzar|desteixinar|desvagar|desvergonyir|desviure|dignar|embarbussar|embascar|embessonar|embordeir|embordir|emborrascar|emborrossar|embotifarrar|embotzegar|embromallar|embromar|embroquerar|emmainadar|emmalurar|emmalurir|emmarar|emmarranar|emmatar|emmigranyar|emmorronar|emmurriar|empassar|empassolar|empegueir|empenyalar|empescar|empillocar|empinyar|empiocar|empitarrar|emplomissar|emplujar|emportar|encabotar|encabritar|encalmar|encalostrar|encelar|encinglar|encirar|encistar|enclaperar|encolerir|encordar|encruar|endoblir|endur|enfarfollar|enfaristolar|enfavar|enfereir|enferotgir|enferritjar|enfugir|enfurrunyar|enfutimar|enfutismar|engelabrir|engolfar|engorgar|engripar|enguerxinar|enllagrimar|enlleganyar|enlleir|enllustrar|ennavegar|enneguitar|enquistar|enrinxar|enseriosir|ensobecar|entonyinar|entossudir|entotsolar|entreabaltir|entrebadar|entrebatre|entrebesar|entrecavalcar|entredevorar|entreferir|entreforcar|entrematar|entremetre|entremirar|entrenyorar|entresaludar|entreseguir|entresoldar|entretocar|entretzenar|entrigar|envidreir|envidriar|envolar|enxautar|esbafar|esbafegar|esbatussar|esblamar|esbojarrar|esborneiar|esbromar|escabridar|escamotar|escanyellar|escanyolir|escanyussar|escapolar|escapolir|escarcanyar|escarramicar|escarrassar|escarxofar|escatifenyar|esconillar|escorporar|escullar|escunçar|esfarinar|esfetgegar|esforçar|esgargamellar|esgatinyar|esgolar|esguimbar|esllanguir|esllavissar|esperitar|espitellar|espitxar|espollinar|espoltrar|esporcellar|espotonar|esprimatxar|esquifir|esquitllar|estilar|estritllar|esvedellar|esventegar|esvomegar|etiolar|extralimitar|extravasar|extravenar|gamar|gaspar|gatinyar|gaubar|gloriar|grifar|immiscir|indigestar|industriar|innivar|insolentar|insurgir|intersecar|inveterar|irèixer|jactar|juramentar|lateritzar|llufar|malfiar|malfixar|migrolar|mofar|mullerar|neulir|obstinar|octubrar|olivar|pellobrir|pellpartir|pelltrencar|penedir|penjolar|pollar|prosternar|queixar|querar|querellar|quillar|ramificar|rancurar|realegrar|rebel·lar|rebordeir|refiar|repanxolar|repapar|repetellar|reressagar|resclosir|ressagar|ressentir|revenjar|salinar|suïcidar|tinyar|tolir|transvestir|traslluir|traspostar|trufar|vanagloriar|vanagloriejar|vanar|vantar|vergonyar|xautar");
+//List of only pronominal verbs from GDLC (eliminats: assolar, enfundar, burlar)
+  private static final Pattern VERBS_PRONOMINALS = Pattern.compile("abacallanar|abalançar|ablenar|aborrallonar|abotifarrar|abrinar|abromar|abstenir|acagallonar|acanyar|acarcanyar|acarnissar|acatarrar|aciutadanar|aclocar|acopar|acorriolar|adir|adonar|adormissar|afal·lerar|afarrossar|afeccionar|aferrallar|aferrissar|aferrussar|agallinar|agarbir|agarrofar|agemolir|agenollar|agotzonar|aiguabarrejar|allocar|alçurar|amatinar|amelar|amigar|amoixir|amoltonar|amotar|amullerar|amunionar|antullar|aparroquianar|aparroquiar|aperduar|apergaminar|apiadar|aponentar|apropinquar|apugonar|arguellar|arrapinyar|arrasir|arravatar|arraïmar|arrepapar|arrepetellar|arrigolar|arrodir|arrogar|arrossar|arruar|assemblar|assocarrar|atendar|atenir|atorrentar|atrafegar|atrevir|avencar|avidolar|avinençar|balbar|balcar|balir|balmar|bescomptar|boirar|boixar|botinflar|bromar|cagaferrar|candir|capbaixar|capmassar|captenir|cariar|carnificar|carpir|coalitzar|colltrencar|collvinclar|compenetrar|condoldre|condolir|congraciar|contorçar|contrapuntar|contòrcer|corcorcar|coresforçar|cornuar|corruixar|crisalidar|desafeccionar|desalenar|desamorar|desaparroquiar|desapassionar|desaplegar|desavenir|desbocar|descantar|descarar|descontrolar|descovar|desdubtar|desempallegar|desenrojolar|desentossudir|desfeinar|desmemoriar|desnodrir|despondre|despreocupar|dessolidaritzar|desteixinar|desvagar|desvergonyir|desviure|dignar|embarbussar|embascar|embessonar|embordeir|embordir|emborrascar|emborrossar|embotifarrar|embotzegar|embromallar|embromar|embroquerar|emmainadar|emmalurar|emmalurir|emmarar|emmarranar|emmatar|emmigranyar|emmorronar|emmurriar|empassar|empassolar|empegueir|empenyalar|empescar|empillocar|empinyar|empiocar|empitarrar|emplomissar|emplujar|emportar|encabotar|encabritar|encalmar|encalostrar|encelar|encinglar|encirar|encistar|enclaperar|encolerir|encordar|encruar|endoblir|endur|enfarfollar|enfaristolar|enfavar|enfereir|enferotgir|enferritjar|enfugir|enfurrunyar|enfutimar|enfutismar|engelabrir|engolfar|engorgar|engripar|enguerxinar|enllagrimar|enlleganyar|enlleir|enllustrar|ennavegar|enneguitar|enquistar|enrinxar|enseriosir|ensobecar|entonyinar|entossudir|entotsolar|entreabaltir|entrebadar|entrebatre|entrebesar|entrecavalcar|entredevorar|entreferir|entreforcar|entrematar|entremetre|entremirar|entrenyorar|entresaludar|entreseguir|entresoldar|entretocar|entretzenar|entrigar|envidreir|envidriar|envolar|enxautar|esbafar|esbafegar|esbatussar|esblamar|esbojarrar|esborneiar|esbromar|escabridar|escamotar|escanyellar|escanyolir|escanyussar|escapolar|escapolir|escarcanyar|escarramicar|escarrassar|escarxofar|escatifenyar|esconillar|escorporar|escullar|escunçar|esfarinar|esfetgegar|esforçar|esgargamellar|esgatinyar|esgolar|esguimbar|esllanguir|esllavissar|esperitar|espitellar|espitxar|espollinar|espoltrar|esporcellar|espotonar|esprimatxar|esquifir|esquitllar|estilar|estritllar|esvedellar|esventegar|esvomegar|etiolar|extralimitar|extravasar|extravenar|gamar|gaspar|gatinyar|gaubar|gloriar|grifar|immiscir|indigestar|industriar|innivar|insolentar|insurgir|intersecar|inveterar|irèixer|jactar|juramentar|lateritzar|llufar|malfiar|malfixar|migrolar|mofar|mullerar|neulir|obstinar|octubrar|olivar|pellobrir|pellpartir|pelltrencar|penedir|penjolar|pollar|prosternar|queixar|querar|querellar|quillar|ramificar|rancurar|realegrar|rebel·lar|rebordeir|refiar|repanxolar|repapar|repetellar|reressagar|resclosir|ressagar|ressentir|revenjar|salinar|suïcidar|tinyar|tolir|transvestir|traslluir|traspostar|trufar|vanagloriar|vanagloriejar|vanar|vantar|vergonyar|xautar");
   private static final Pattern NO_VERBS_PRONOMINALS = Pattern.compile("atendre|escollir|assolir");
   private static final Pattern VERBS_NO_PRONOMINALS = Pattern.compile("caure|callar|témer|marxar|albergar|olorar|seure");
   private static final Pattern NO_VERBS_NO_PRONOMINALS = Pattern.compile("segar");
@@ -95,15 +95,17 @@ public class ReflexiveVerbsRule extends CatalanRule {
   private static final Pattern POSTAG_HI = Pattern.compile("PP3CN000");
   private static final Pattern LEMMA_ES = Pattern.compile("es");
   private static final Pattern POSTAG_ES = Pattern.compile("P0300000");
+  private static final Pattern LEMMA_PRONOM_CI = Pattern.compile("jo|tu|ell");
+  private static final Pattern POSTAG_PRONOM_CI = Pattern.compile("P0.*|PP3CP000|PP3CSD00");
   
   private static final Pattern REFLEXIU_POSPOSAT = Pattern.compile("-[mts]|-[mts]e|'[mts]|-nos|'ns|-vos|-us",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   //private static final Pattern REFLEXIU_ANTEPOSAT = Pattern.compile("e[mts]|[mts]e|ens|us|-[mts]|-[mts]e|'[mts]|[mts]'|-nos|'ns|-vos|-us",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   
   private static final Pattern SUBJECTE_PERSONAL_POSTAG = Pattern.compile("NC.*|NP.*|_GN_.*|PI.*");
-  private static final Pattern SUBJECTE_PERSONAL_NO_POSTAG = Pattern.compile("complement|D.*|A.*");
+  private static final Pattern SUBJECTE_PERSONAL_NO_POSTAG = Pattern.compile("complement.*|D.*|A.*");
   private static final Pattern SUBJECTE_PERSONAL_TOKEN = Pattern.compile("jo|mi|tu|ella?|nosaltres|vosaltres|elle?s|vost[èé]s?|vós");
-  private static final Pattern TRENCA_COMPTE = Pattern.compile("PR.*|CS|CC|PUNCT|.*LOC_CONJ.*");
-  private static final Pattern TRENCA_COMPTE2 = Pattern.compile("SENT_START|CC|PUNCT|.*LOC_CONJ.*");
+  private static final Pattern TRENCA_COMPTE = Pattern.compile("PR.*|CS|CC|PUNCT.*|.*LOC_CONJ.*");
+  private static final Pattern TRENCA_COMPTE2 = Pattern.compile("SENT_START|CC|PUNCT.*|.*LOC_CONJ.*");
   
  // <token postag="P0.*|PP.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/><exception regexp="yes">jo|mi|tu|ella?|nosaltres|vosaltres|elle?s|vost[èé]s?|vós</exception><exception postag="allow_saxon_genitive">'s</exception></token>
   
@@ -185,6 +187,7 @@ public class ReflexiveVerbsRule extends CatalanRule {
 				//FRASE IMPERSONAL
 				// És frase impersonal si hi ha el pronom 'es', llevat que es pugui identificar un subjecte "personal"
 				if (isTherePronounBefore(tokens, i, LEMMA_ES, POSTAG_ES)
+						&& !isTherePronounBefore(tokens, i, LEMMA_PRONOM_CI, POSTAG_PRONOM_CI)
 						&& !isTherePersonalSubjectBefore(tokens,i,TRENCA_COMPTE2)
 						&& isVerbNumberPerson(tokens,i,VERB_3S))  
 					continue loop;
@@ -211,6 +214,7 @@ public class ReflexiveVerbsRule extends CatalanRule {
 						continue loop;
 					//FRASE IMPERSONAL
 					if (isTherePronounBefore(tokens, i, LEMMA_ES, POSTAG_ES)
+							&& !isTherePronounBefore(tokens, i, LEMMA_PRONOM_CI, POSTAG_PRONOM_CI)
 							&& (!isTherePersonalSubjectBefore(tokens,i,TRENCA_COMPTE) || isTherePronounBefore(tokens, i, LEMMA_HI, POSTAG_HI)) 
 							&& isVerbNumberPerson(tokens,i,VERB_3S))  
 						continue loop;
@@ -218,8 +222,8 @@ public class ReflexiveVerbsRule extends CatalanRule {
 				else {
 					// FRASE IMPERSONAL
 					if (isTherePronounBefore(tokens, i, LEMMA_ES, POSTAG_ES)
-							&& !isTherePersonalSubjectBefore(tokens, i,
-									TRENCA_COMPTE))
+							&& !isTherePronounBefore(tokens, i, LEMMA_PRONOM_CI, POSTAG_PRONOM_CI)
+							&& !isTherePersonalSubjectBefore(tokens, i,	TRENCA_COMPTE))
 						continue loop;
 				}
 				if (isThereReflexivePronoun(tokens, i) && (!isTherePronoun(tokens, i, LEMMA_EN, POSTAG_EN))) {
@@ -385,6 +389,9 @@ public class ReflexiveVerbsRule extends CatalanRule {
 				foundVerb = matchPostagRegexp(tokens[i - k], VERB_INDSUBJIMP);
 				keepCounting = matchPostagRegexp(tokens[i - k],
 						PREP_VERB_PRONOM);
+				if (matchPostagRegexp(tokens[i-k],VERB_INDSUBJ)
+						&& matchPostagRegexp(tokens[i-k+1],VERB_INFGER))
+					keepCounting=false;
 				k++;
 			}
 			if (foundVerb) {
@@ -496,6 +503,9 @@ public class ReflexiveVerbsRule extends CatalanRule {
 					PREP_VERB_PRONOM);
 			if (tokens[i-j].getToken().equalsIgnoreCase("per")
 					&& tokens[i-j+1].getToken().equalsIgnoreCase("a"))
+				keepCounting=false;
+			if (matchPostagRegexp(tokens[i-j],VERB_INDSUBJ)
+					&& matchPostagRegexp(tokens[i-j+1],VERB_INFGER))
 				keepCounting=false;
 			j++;
 		}
