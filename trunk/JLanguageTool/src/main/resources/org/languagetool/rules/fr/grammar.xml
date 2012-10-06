@@ -3591,7 +3591,9 @@ though, and has since been slightly modified)-->
                     <token postag="SENT_START" skip="-1">
                         <exception scope="next" postag="[NRZ].* [fe] .*" postag_regexp="yes"/>
                     </token>
-                    <token postag="[NZ] m .*|R pers suj 3 m .*|R dem m .*" postag_regexp="yes"/>
+                    <token postag="[NZ] m .*|R pers suj 3 m .*|R dem m .*" postag_regexp="yes">
+                      <exception>on</exception>
+                    </token>
                     <token postag="V etre.* 3 .*" postag_regexp="yes"/>
                     <marker>
                         <token postag="V.* ppa f .*|J f .*" postag_regexp="yes">
@@ -3609,6 +3611,7 @@ though, and has since been slightly modified)-->
                 <example type="incorrect">Celui-ci est <marker>restée</marker>.</example>
                 <example type="correct">Celui-ci est resté.</example>
                 <example type="correct">Il est <marker>torse</marker> nu.</example>
+                <example type="correct">On est fatigués.</example>
             </rule>
             <rule>
                 <pattern>
@@ -3740,7 +3743,9 @@ though, and has since been slightly modified)-->
                         <exception scope="next" postag="[NR].*p" postag_regexp="yes"/>
                         <exception scope="next">et</exception>
                     </token>
-                    <token postag="Z . sp?|N . s|R pers suj.* s|R dem.* s" postag_regexp="yes"/>
+                    <token postag="Z . sp?|N . s|R pers suj.* s|R dem.* s" postag_regexp="yes">
+                      <exception>on</exception>
+                    </token>
                     <token postag="V etre .*s" postag_regexp="yes"/>
                     <marker>
                         <token postag="V.* ppa .* p|J . p" postag_regexp="yes">
@@ -3761,6 +3766,7 @@ though, and has since been slightly modified)-->
                 <example type="incorrect">Celle-là est <marker>folles</marker>.</example>
                 <example type="correct">Celle-là est folle.</example>
                 <example type="correct">Il est casse-couilles.</example>
+                <example type="correct">On est fatigués.</example>
             </rule>
             <rule>
                 <pattern>
