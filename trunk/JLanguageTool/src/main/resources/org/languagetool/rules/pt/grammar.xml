@@ -21,7 +21,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.031 2012-10-03 14:53:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.032 2012-10-06 11:03:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -51,13 +51,14 @@ $Id: grammar.xml,v 1.031 2012-10-03 14:53:00 marcoagpinto Exp $
 	<rule id="A_XXX_DE_VOCÊS" name="a XXX de vocês -> a vossa XXX">
 	  <pattern>
 	    <token>a</token>
-	    <token/>
+	    <token><exception regexp="yes">maioria|minoria</exception></token>
  	   <token>de</token>
 	    <token>vocês</token>
 	  </pattern>
 	  <message>Querias dizer <suggestion>\1 vossa \2</suggestion>?</message>
 	  <example type="incorrect"><marker>A opinião de vocês</marker> é importante.</example>
 	  <example type="correct"><marker>A vossa opinião</marker> é importante.</example>
+	  <example type="correct">A maioria de vocês.</example>
 	</rule>
 
 
@@ -1054,6 +1055,20 @@ $Id: grammar.xml,v 1.031 2012-10-03 14:53:00 marcoagpinto Exp $
 
 
 
+    <!-- O ABRE LATAS o abre-latas -->
+    <rule id="O_ABRE_LATAS" name="o abre-latas">
+      <pattern>
+        <token>o</token>
+        <token>abre</token>
+        <token>latas</token>
+      </pattern>
+      <message>Substituir «o abre latas» por <suggestion>o abre-latas</suggestion>.</message>
+      <example type="incorrect">Deve-se usar <marker>o abre latas</marker>.</example>
+      <example type="correct">Deve-se usar <marker>o abre-latas</marker>.</example>
+    </rule>
+
+
+
     <!-- O CONTROLE o controlo -->
     <rule id="O_CONTROLE" name="o controlo">
       <pattern>
@@ -1129,6 +1144,19 @@ $Id: grammar.xml,v 1.031 2012-10-03 14:53:00 marcoagpinto Exp $
       <message>Substituir «pedir um concelho» por <suggestion>pedir um conselho</suggestion>.</message>
       <example type="incorrect">Devemos <marker>pedir um concelho</marker> ao padre.</example>
       <example type="correct">Devemos <marker>pedir um conselho</marker> ao padre.</example>
+    </rule>
+
+
+
+    <!-- PEQUENO ALMOÇO pequeno-almoço -->
+    <rule id="PEQUENO_ALMOÇO" name="pequeno-almoço">
+      <pattern>
+        <token>pequeno</token>
+        <token>almoço</token>
+      </pattern>
+      <message>Substituir «pequeno almoço» por <suggestion>pequeno-almoço</suggestion>.</message>
+      <example type="incorrect">Vamos tomar o <marker>pequeno almoço</marker>.</example>
+      <example type="correct">Vamos tomar o <marker>pequeno-almoço</marker>.</example>
     </rule>
 
 
