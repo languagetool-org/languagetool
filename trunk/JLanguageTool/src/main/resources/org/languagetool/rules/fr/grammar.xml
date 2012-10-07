@@ -3004,7 +3004,7 @@ though, and has since been slightly modified)-->
                         </token>
                         <token postag="[JN] .* s" postag_regexp="yes">
                             <exception postag="V .*|.* sp" postag_regexp="yes"/>
-                            <exception regexp="yes">cent|face|grâce|juste|internet|maximum|minimum|judoka</exception>
+                            <exception regexp="yes">cent|face|grâce|juste|internet|maximum|minimum|judoka|bleu|vert|jaune|rouge|noir|brun|gris|blanc|mauve|pourpre|violet|beige|châtain|rose</exception>
                         </token>
                     </marker>
                     <token><exception>et</exception></token>
@@ -3230,6 +3230,32 @@ though, and has since been slightly modified)-->
             <example type="correct">Des yeux <marker>verts</marker>.</example>
             <example type="correct">Des yeux <marker>vert</marker> clair.</example>
             <example type="correct">Des yeux <marker>vert</marker> olive.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token postag="D . s?p" postag_regexp="yes"/>
+              <token postag="N . p" postag_regexp="yes"/>
+              <marker>
+                <token regexp="yes">(vert|bleu|noir|brun|gris)(e?s)|(beige|jaune|rouge|blanche|mauve|poupre|violet|châtain|écarlate|vermeille)s|blancs</token>
+                <token regexp="yes">(clair|foncé)(e?s?)?|(pâle|paille|pétrole|sang|vif|vive|marine)s?</token>
+              </marker>
+            </pattern>
+            <message>Quand la couleur est exprimée par un adjectif composé, l’accord ne doit pas se faire.</message>
+            <example type="incorrect">Des yeux <marker>verts clairs</marker>.</example>
+            <example type="correct">Des yeux <marker>vert clair</marker>.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token postag="D [fe] .*" postag_regexp="yes"/>
+              <token postag="N [fe] .*" postag_regexp="yes"/>
+              <marker>
+                <token regexp="yes">(verte|bleue|noire|brune|grise|blanche|violette)s?</token>
+                <token regexp="yes">(clair|foncé)(e?s?)?|(pâle|paille|pétrole|vif|vive|marine)s?</token>
+              </marker>
+            </pattern>
+            <message>Quand la couleur est exprimée par un adjectif composé, l’accord ne doit pas se faire.</message>
+            <example type="incorrect">Une jupe <marker>bleue foncée</marker>.</example>
+            <example type="correct">Une jupe bleu foncé.</example>
           </rule>
         </rulegroup>
         <rulegroup id="A_LAQUELLE" name="accord avec lequel, laquelle, lesquels, etc.">
