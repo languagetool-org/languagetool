@@ -103,7 +103,7 @@ public class ReflexiveVerbsRule extends CatalanRule {
   
   private static final Pattern SUBJECTE_PERSONAL_POSTAG = Pattern.compile("NC.*|NP.*|_GN_.*|PI.*");
   private static final Pattern SUBJECTE_PERSONAL_NO_POSTAG = Pattern.compile("complement.*|D.*|A.*");
-  private static final Pattern SUBJECTE_PERSONAL_TOKEN = Pattern.compile("jo|mi|tu|ella?|nosaltres|vosaltres|elle?s|vost[èé]s?|vós");
+  private static final Pattern SUBJECTE_PERSONAL_TOKEN = Pattern.compile("jo|mi|tu|ella?|nosaltres|vosaltres|elle?s|vost[èé]s?|vós",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final Pattern TRENCA_COMPTE = Pattern.compile("PR.*|CS|CC|PUNCT.*|.*LOC_CONJ.*");
   private static final Pattern TRENCA_COMPTE2 = Pattern.compile("SENT_START|CC|PUNCT.*|.*LOC_CONJ.*");
   
@@ -228,7 +228,7 @@ public class ReflexiveVerbsRule extends CatalanRule {
 				}
 				if (isThereReflexivePronoun(tokens, i) && (!isTherePronoun(tokens, i, LEMMA_EN, POSTAG_EN))) {
 					// the rule matches
-					final String msg = "Per a usar aquest verb com a pronominal, cal afegir-hi el pronom 'en'.";
+					final String msg = "Per a usar aquest verb com a pronominal, cal afegir-hi el pronom 'en'."; //Cal canviar el missatge
 					final RuleMatch ruleMatch = new RuleMatch(this,
 							tokens[i].getStartPos(), tokens[i].getStartPos()
 									+ token.length(), msg,

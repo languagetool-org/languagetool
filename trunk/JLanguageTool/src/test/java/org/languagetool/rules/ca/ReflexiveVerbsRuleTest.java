@@ -160,6 +160,7 @@ public class ReflexiveVerbsRuleTest extends TestCase {
 		//assertIncorrect("el dia que es va anar a la ciutat");
 		assertIncorrect("tot l'auditori es callà");
 		assertIncorrect("les gotes que es van caure fora"); 
+		assertIncorrect("Ells s'han baixat del tren.");
 		assertIncorrect("Se'ns va callar.");
 		assertIncorrect("Tothom es va callar.");
 		assertIncorrect("Els nens van poder-se caure");	

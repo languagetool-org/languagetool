@@ -1324,7 +1324,7 @@ $Id$
                 <example type="correct">Joan va adormir el nen.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="VERBS_NO_TRANSITIUS" name="verbs no transitius">
+        <rulegroup id="VERBS_NO_TRANSITIUS" name="verbs no transitius"> <!-- Ha d'anar a Java -->
             <rule>
                 <pattern>
                     <token regexp="yes">el|la|l'</token>
@@ -1404,20 +1404,21 @@ $Id$
             <rule>
                 <pattern>
                     <token>li</token>
-                    <token inflected="yes" regexp="yes">empipar|preocupar|molestar|espantar|apassionar</token>
+                    <token inflected="yes" regexp="yes">empipar|preocupar|molestar|espantar|apassionar|atr[ae]ure</token>
                 </pattern>
                 <message>Aquest verb és transitiu. Cal dir <suggestion>l'<match no="2"></match></suggestion>, 
                     <suggestion>el <match no="2"></match></suggestion>, 
                     <suggestion>la <match no="2"></match></suggestion>.</message>
                 <short>Verb intransitiu.</short>
                 <example type="incorrect">No <marker>li empipes</marker></example>
+                <example type="incorrect">No <marker>li atreien</marker> gaire les novetats</example>
                 <example type="correct">No l'empipes</example>
             </rule>
             <rule>
                 <pattern>
                     <token>li</token>
                     <token postag="V.[^MNGP].*" postag_regexp="yes" inflected="yes" regexp="yes">haver|anar</token>
-                    <token postag="V.[NPG].*" postag_regexp="yes" inflected="yes" regexp="yes">empipar|preocupar|molestar|espantar|apassionar</token>
+                    <token postag="V.[NPG].*" postag_regexp="yes" inflected="yes" regexp="yes">empipar|preocupar|molestar|espantar|apassionar|atr[ae]ure</token>
                 </pattern>
                 <message>Aquest verb és transitiu. Cal dir <suggestion>l'<match no="2"></match> <match no="3"></match></suggestion>, 
                     <suggestion>el <match no="2"></match> <match no="3"></match></suggestion>, 
@@ -1428,7 +1429,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="V.[NG].*" postag_regexp="yes" inflected="yes" regexp="yes">empipar|preocupar|molestar|espantar|apassionar</token>
+                    <token postag="V.[NG].*" postag_regexp="yes" inflected="yes" regexp="yes">empipar|preocupar|molestar|espantar|apassionar|atr[ae]ure</token>
                     <token>-li</token>
                 </pattern>
                 <message>Aquest verb és transitiu. Cal dir <suggestion><match no="1"></match>-lo</suggestion>, 
@@ -1438,7 +1439,7 @@ $Id$
                 <example type="correct">No vaig empipar-lo</example>
             </rule>
         </rulegroup>
-        <rulegroup id="cabre" name="*cabre + infinitiu">
+        <rulegroup id="CABRE" name="*cabre + infinitiu">
             <rule>
                 <pattern>
                     <marker>
@@ -2713,6 +2714,21 @@ $Id$
         </rule>
     </category>
     <category name="Preposicions">
+        <rule id="CUINA_A_GAS" name="*cuina a gas/cuina de gas ">
+            <pattern>
+                <token regexp="yes" inflected="yes">avió|barca|camisa|camiseta|samarreta|brusa|corbata|falda|pantaló|cotxe|cuina|embarcació|fogó|gust|màquina|olor|planxa|pudor|ràdio|vaixell|vehicle|olla</token>
+                <marker>
+                    <token>a</token>
+                </marker>
+                <token regexp="yes">pressió|butà|colònia|conyac|gas|motor|petroli|piles|quadres|ratlles|reacció|vapor|vela</token>
+            </pattern>
+            <message>Preposició inadequada. Cal usar <suggestion>de</suggestion>.</message>
+            <url>http://esadir.cat/sintaxi/prepderemarq</url>
+            <short>Preposició inadequada</short>
+            <example type="incorrect">una cuina <marker>a</marker> butà</example>
+            <example type="incorrect">pantalons <marker>a</marker> quadres</example>
+            <example type="correct">avions de reacció</example>          
+        </rule>
         <rule id="DA_PROP" name="d'a prop">
             <pattern>
                 <token>d'</token>
@@ -3043,7 +3059,7 @@ $Id$
                 <example type="incorrect"><marker>Fins</marker> el mes que ve.</example>
                 <example type="correct">Fins al mes que ve.</example>
             </rule>
-            <rule id="FINSABARCELONA" name="fins *(a) Barcelona">
+            <rule id="FINS_A_BARCELONA" name="fins *(a) Barcelona">
                 <pattern>
                     <marker>
                         <token>fins</token>
@@ -4513,9 +4529,18 @@ $Id$
         <!-- This rulegroup would be unnecessary if LibreOffice/OpenOffice tokenized the words containing hyphens like LanguageTool -->
             <rule>
                 <pattern>
+                    <token regexp="yes">àudio-visuals?</token>
+                </pattern>
+                <message>Cal escriure: <suggestion><match no="1" regexp_match="(.+)-(.+)" regexp_replace="audio$2"/></suggestion>.</message>
+                <short>Error ortogràfic</short>
+                <example type="incorrect" correction="audiovisuals">mitjans <marker>àudio-visuals</marker></example>
+                <example type="correct">del sector audiovisual</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token regexp="yes">gin-tònics?</token>
                 </pattern>
-                <message>Error ortogràfic <suggestion><match no="1" regexp_match="gin-(.+)" regexp_replace="gin$1"/></suggestion>.</message>
+                <message>Cal escriure: <suggestion><match no="1" regexp_match="(.+)-(.+)" regexp_replace="$1$2"/></suggestion>.</message>
                 <short>Error ortogràfic</short>
                 <example type="incorrect">Posa'm tres <marker>gin-tònics</marker></example>
                 <example type="correct">Posa'm tres gintònics</example>
@@ -7093,6 +7118,7 @@ $Id$
             <example type="correct"><marker>igual que</marker> tu ho fas, ho faré jo també</example>
         </rule>
         <rulegroup id="AL_FRONT" name="al front/al capdavant">
+            <!-- es pot especificar nom propi geogràfic (?) -->
             <rule>
                 <pattern>
                     <marker>
@@ -7101,8 +7127,8 @@ $Id$
                         <token skip="1" regexp="yes">(?-i)front</token>
                         <token regexp="yes">d'|de</token>
                     </marker>
-                    <token><exception postag="NP..G00" postag_regexp="yes"/><exception regexp="yes">combat|batalla|guerra</exception></token>
-                    <token><exception postag="NP..G00" postag_regexp="yes"/><exception regexp="yes">nord|sud|est|oest|nord-est|nord-oest|sud-est|sud-oest</exception></token>
+                    <token><exception postag="NP..G..|NP..SP." postag_regexp="yes"/><exception regexp="yes">combat|batalla|guerra</exception></token>
+                    <token><exception postag="NP..G..|NP..SP." postag_regexp="yes"/><exception regexp="yes">nord|sud|est|oest|nord-est|nord-oest|sud-est|sud-oest</exception></token>
                     <!-- <token></token> -->
                 </pattern>
                 <message>Incorrecte si equival a <suggestion>al davant <match no="4" /></suggestion> o <suggestion>al capdavant <match no="4" /></suggestion>. Correcte en altres sentits.</message>
@@ -7112,6 +7138,7 @@ $Id$
                 <example type="correct"><marker>Al capdavant de</marker> l'orquestra.</example>
                 <example type="correct">enviar-lo al front de Madrid.</example>
                 <example type="correct">enviar-lo al front de l'Ebre.</example>
+                <example type="correct">al front del Pere</example>
                 <example type="correct">l'estratègia al front del nord.</example>
                 <example type="incorrect">El 1473 Pere de Rocabertí <marker>al front d'</marker>un exèrcit,</example>
                 <!-- <example type="incorrect">Amb Fabra al front,</example> -->
@@ -9189,7 +9216,74 @@ $Id$
         </rule>
     </category>
     <category name="Paraules incorrectes segons el context">
-<!--   Massa falses alarmes. Cal informació contextual      <rule id="ACONSEGUIT" name="aconseguit">
+        <rule id="AUTODIDACTE" name="autodidacte/autodidàctic">
+            <pattern>
+                <token regexp="yes">formació|sistema|aprenentatge|mètode|forma|manera</token>
+                <marker>
+                    <token inflected="yes">autodidacte</token>
+                </marker>
+            </pattern>
+            <message>Val més dir: <suggestion><match no="2" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">autodidàctic</match></suggestion></message>
+            <short>Suggeriment</short>
+            <example type="incorrect" correction="autodidàctica">És una persona de formació <marker>autodidacta</marker></example>
+            <example type="incorrect" correction="autodidàctic">Promou l'aprenentatge <marker>autodidacte</marker></example>
+            <example type="correct">És un sistema autodidàctic.</example>
+        </rule>
+        <rule id="ASSENTAR_ASSEURE" name="assentar-se/asseure's">
+            <!-- es podria espeficicar Nom propi geogràfic -->
+            <pattern>
+                <token postag="SENT_START" skip="-1"><exception scope="next" postag="NP..G.." postag_regexp="yes"/><exception scope="next" regexp="yes" inflected="yes">agricultor|poblat|sedentari.*|mite|història|sistema|producció|cultura|creença|judici|juí|teoria|illa|sobirania|fet|austral|base|categoria|colon|colonitzar|colònia|comarca|comunitat|errant|est|fermament|habitant|hàbitat|medi|meridional|natural|nord|nord-est|nord-oest|nucli|nòmada|occident|occidental|oest|organització|orient|oriental|península|població|poblador|poblament|poblar|poble|província|puig|recurs|regió|regne|residència|rural|septentrional|societat|sud|sud-est|sud-oest|terra|territori|tribu|turó|tècnica|vall|vida|zona|ètnia|ètnic</exception></token>
+                <marker>
+                    <token inflected="yes" skip="-1">assentar<exception scope="next" postag="NP.*" postag_regexp="yes"/><exception scope="next" regexp="yes" inflected="yes">agricultor|poblat|sedentari.*|mite|història|sistema|producció|cultura|creença|judici|juí|teoria|illa|sobirania|fet|austral|base|categoria|colon|colonitzar|colònia|comarca|comunitat|errant|est|fermament|habitant|hàbitat|medi|meridional|natural|nord|nord-est|nord-oest|nucli|nòmada|occident|occidental|oest|organització|orient|oriental|península|població|poblador|poblament|poblar|poble|província|puig|recurs|regió|regne|residència|rural|septentrional|societat|sud|sud-est|sud-oest|terra|territori|tribu|turó|tècnica|vall|vida|zona|ètnia|ètnic</exception></token>
+                </marker>
+                <token postag="SENT_END" />
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">asseure</match></suggestion>?</message>
+            <url>http://esadir.cat/lexic/entrades/assentarse</url>
+            <example type="incorrect" correction="asseure">Es van <marker>assentar</marker> a taula.</example>
+            <example type="correct">S'assentaren en aquell territori.</example>
+            <example type="correct">Volien que assentéssim les bases del futur.</example>
+            <example type="correct">S'assentaren a Argentina.</example>
+            <example type="correct">S'assenten sobre un fet comunicatiu.</example>
+        </rule>
+        <rulegroup id="ASSECAR_EIXUGAR" name="assecar / eixugar">
+            <!-- es pot completar amb més paraules -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes" skip="4">assecar</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">mà|plat|llavi|cabell|suor|llàgrima|cara|roba|peu|front</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">eixugar</match></suggestion>?</message>
+                <example type="incorrect" correction="eixugà">s'<marker>assecà</marker> les mans</example>
+                <example type="correct">s'assecà, aquell arbre</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes" skip="6">mà|plat|llavi|cabell|suor|llàgrima|cara|roba|peu|front</token>
+                    <marker>
+                        <token inflected="yes">assecar</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">eixugar</match></suggestion>?</message>
+                <example type="incorrect" correction="eixugà">la roba s'<marker>assecà</marker> de seguida</example>
+                <example type="correct">aquell arbre s'assecà</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes" skip="6">plat|cabell|suor|llàgrima|cara|roba</token>
+                    <marker>
+                        <token inflected="yes">sec</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="2" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">eixut</match></suggestion>?</message>
+                <example type="incorrect" correction="eixuts">Ja tinc els cabells <marker>secs</marker>.</example>
+                <example type="incorrect" correction="eixuta">La roba encara no està <marker>seca</marker>.</example>
+                <example type="correct">llavis secs</example>
+            </rule>
+        </rulegroup>
+<!--   Massa falses alarmes. Cal tractar només alguns casos     <rule id="ACONSEGUIT" name="aconseguit">
             <pattern>
                 <token><exception inflected="yes">haver</exception><exception regexp="yes">vegada|volta|cop</exception></token>
                 <marker>
@@ -9983,6 +10077,44 @@ $Id$
         </rulegroup>
     </category>
     <category name="Expressions preferibles" default="on">
+        <rulegroup id="ART_MASCULI_FEMENI" name="comprova el gènere de 'art': belles arts, art sacre">
+            <rule>
+                <pattern>
+                    <token postag="_GN_M." postag_regexp="yes" regexp="yes">bells|nobles|mals</token>
+                    <token postag="_GN_M." postag_regexp="yes">arts</token>
+                </pattern>
+                <message>Sol ser en femení.</message>
+                <short>Gènere inadequat.</short>
+                <example type="incorrect">ho va fer amb <marker>mals arts</marker>.</example>
+                <example type="incorrect"><marker>bells arts</marker>.</example>
+                <example type="correct">les belles arts</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="_GN_M." postag_regexp="yes" regexp="yes">arts?</token>
+                    <token postag="_GN_M." postag_regexp="yes" regexp="yes">culinaris?|poètics|màgics|aplicats|plàstics|decoratius|sumptuaris</token>
+                </pattern>
+                <message>Sol ser en femení.</message>
+                <short>Gènere inadequat.</short>
+                <example type="incorrect">els <marker>arts sumptuaris</marker>.</example>
+                <example type="incorrect"><marker>arts decoratius</marker>.</example>
+                <example type="correct">les belles arts</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="D[^R].M.*" postag_regexp="yes"/>
+                    <token postag="_GN_M." postag_regexp="yes">arts</token>
+                    <token postag="_GN_M." postag_regexp="yes" regexp="yes">majors|menors|liberals</token>
+                </pattern>
+                <message>Sol ser en femení.</message>
+                <short>Gènere inadequat.</short>
+                <example type="incorrect"><marker>els arts liberals</marker>.</example>
+                <example type="incorrect"><marker>els arts majors</marker>.</example>
+                <example type="correct">les belles arts i arts liberals</example>
+                <example type="correct">les belles arts</example>
+                <example type="correct">les set belles arts</example>
+            </rule>
+        </rulegroup> 
         <rule id="INCLUSIVE" name="inclusive">
             <pattern>
                 <token>inclusive</token>
@@ -10652,21 +10784,25 @@ $Id$
                 <example type="correct">serres que sobrepassen els mil metres</example>
             </rule>
         </rulegroup>
-        <rule id="DE_INFINITIU_CONDICIONAL" name="de+infinitiu condicional">
+        <rule id="DE_INFINITIU_CONDICIONAL" name="de + infinitiu condicional">
             <pattern>
-                <token postag="SENT_START|PUNCT.*" postag_regexp="yes"/>
+                <token postag="SENT_START|PUNCT.*" postag_regexp="yes"><exception regexp="yes">["']</exception></token>
                 <marker>
                     <token regexp="yes">de|d'</token>
                 </marker>
                 <token postag="V.N.*" postag_regexp="yes" skip="-1"><exception postag="[NA].*|_GN_.*" postag_regexp="yes"/></token>
-                <token postag="V..C.*" postag_regexp="yes"/>
+                <token postag="V..[CF].*" postag_regexp="yes"/>
             </pattern>
-            <message>Condicional incorrecte. Caldria dir: <suggestion>en cas <match no="2" case_conversion="startlower"/></suggestion>, 
-                <suggestion>(si ...)</suggestion></message>
+            <message>Condicional incorrecte. Caldria dir: <suggestion>en cas <match no="2" case_conversion="startlower"/></suggestion>, <suggestion>si (...)</suggestion></message>
+            <url>http://esadir.cat/sintaxi/prepderemarq/view</url>
             <example type="incorrect"><marker>D'</marker>haver-ho sabut, hauria vingut.</example>
             <example type="correct">En cas d'haver-ho sabut, hauria vingut</example>
             <example type="correct">El pare era un ric comerciant de coure que es convertiria en un respectat ciutadà</example>
             <example type="incorrect">una amenaça que, <marker>de</marker> concretar-se, fóra una insensatesa.</example>
+            <example type="incorrect"><marker>De</marker> marxar ara, encara hi arribareu a temps</example>
+            <example type="incorrect"><marker>De</marker> confirmar-se l'avaria, el tren no podrà sortir</example>
+            <example type="correct">l'ideari juvenil "d'anar sempre més enllà"</example>
+            <!-- Tot el veïnat va decidir doncs, de fer cada dia un sorteig entre tots els habitants de la vila i que aquell que destinés la sort seria lliurat a la "simpàtica" fera. -->
             <!-- Potser això hauria estat possible de comptar amb l’”home nou” de què van parlar alguns teòrics marxistes. -->
         </rule>
        <!--  <rulegroup id="CONDICIONALS" name="condicionals">
