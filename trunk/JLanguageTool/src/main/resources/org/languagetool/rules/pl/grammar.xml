@@ -22,6 +22,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
 $Id$
 -->
+
+<!DOCTYPE rules [
+<!ENTITY interp "[\p{Punct}\-–—―„«»…’]+">
+]>
+
 <rules lang="pl" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <unification feature="number">
         <equivalence type="sg">
@@ -36,7 +41,7 @@ $Id$
             <token postag=".*[\.:]f([\.:].*)?" postag_regexp="yes"></token>
         </equivalence>
         <equivalence type="m">
-            <token postag=".*[\.:]m[1-4]?([\.:].*)?" postag_regexp="yes"></token>
+            <token postag=".*[\.:]m[1-3]?([\.:].*)?" postag_regexp="yes"></token>
         </equivalence>
         <equivalence type="n1">
             <token postag=".*[\.:]n1([\.:].*)?" postag_regexp="yes"></token>
@@ -84,10 +89,10 @@ $Id$
     </unification>
     <phrases>
         <phrase id="INTERPUNKCJA">
-            <token regexp="yes">[\p{Punct}–—„«»…]+|bądź|czy|ani|lub|albo|oraz|i</token>
+            <token regexp="yes">&interp;|bądź|czy|ani|lub|albo|oraz|i</token>
         </phrase>
         <phrase id="NIE_INTERPUNKCJA">
-            <token><exception postag="SENT_START"></exception><exception regexp="yes">[\p{Punct}\-–—„«»…’]+|tyle|i|lub|albo|ani|oraz|bądź|czy|a</exception></token>
+            <token><exception postag="SENT_START"></exception><exception regexp="yes">&interp;|tyle|i|lub|albo|ani|oraz|bądź|czy|a</exception></token>
         </phrase>
         <phrase id="NIE_SPOJNIK_PRZECINKOWY_OLD">
             <token><exception inflected="yes" regexp="yes">acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|choć|chociaż|czyliż?|dopóki|gdyż|gdyżby|ilekolwiek|ilekroć|lecz|którędy|dopóty|póki|dlaczego|ponieważ|zanim|który|jaki|co|kto|że|iż|jak|nawiasem|a|jeśli|jeżeli|gdyby|gdy|kiedy|jeśliby|jeżeliby|żeby|aby|ażeby|iżby|zamiast|szczególnie|zwłaszcza</exception><exception postag="prep:.*" postag_regexp="yes"></exception></token>
@@ -320,7 +325,7 @@ $Id$
         <rulegroup id="COFANIE_PRZECINKA" name="Przecinek wewnątrz spójnika złożonego">
             <rule>
                 <pattern>
-                    <token><exception postag="SENT_START"></exception><exception regexp="yes">[\p{Punct}–—„«»…]+</exception></token>
+                    <token><exception postag="SENT_START"></exception><exception regexp="yes">&interp;</exception></token>
                     <token regexp="yes">ile|jako|oraz|szczególnie|zwłaszcza|pomimo|mimo|ledwie|niby|prawie|ledwo|chyba</token>
                     <token>,</token>
                     <token>że</token>
@@ -361,7 +366,7 @@ $Id$
             <!-- FIXME: tu trzeba wykrywać w ogóle brak przecinka, a nie jego pozycję
 		<rule>
 			<pattern>
-				<token><exception postag="SENT_START"/><exception regexp="yes">[\p{Punct}–—„«»…]|o|na|tylko</exception></token>
+				<token><exception postag="SENT_START"/><exception regexp="yes">&interp;|o|na|tylko</exception></token>
 				<token regexp="yes">tyle</token>
 				<token>,</token>
 				<token>że</token>
@@ -468,7 +473,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">[\p{Punct}–—„«»…]+<exception>'</exception></token>
+                    <token regexp="yes">&interp;<exception>'</exception></token>
                     <marker>
                         <token spacebefore="yes">a</token>
                         <token>,</token>
@@ -482,7 +487,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token><exception postag="SENT_START"></exception><exception regexp="yes">[\p{Punct}–—„«»…]+</exception></token>
+                    <token><exception postag="SENT_START"></exception><exception regexp="yes">&interp;</exception></token>
                     <token inflected="yes" regexp="yes" spacebefore="yes">a|ale|lecz|który|jaki|zwłaszcza|szczególnie|że|przynajmniej|nawet|więc|to</token>
                     <token>,</token>
                     <token inflected="yes" regexp="yes">jeśli|jeżeli|gdyby|jeżeliby|jeśliby</token>
@@ -521,7 +526,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token><exception postag="SENT_START"></exception><exception regexp="yes">[\p{Punct}–—„«»…]+|nie</exception></token>
+                    <token><exception postag="SENT_START"></exception><exception regexp="yes">&interp;|nie</exception></token>
                     <token regexp="yes">że|iż|chyba|jak|tylko</token>
                     <token>,</token>
                     <token inflected="yes" regexp="yes">żeby|aby|ażeby|iżby|by</token>
@@ -559,7 +564,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token><exception postag="SENT_START"></exception><exception regexp="yes">[\p{Punct}–—„«»…]+</exception></token>
+                    <token><exception postag="SENT_START"></exception><exception regexp="yes">&interp;</exception></token>
                     <token>jeszcze</token>
                     <token>,</token>
                     <token>zanim</token>
@@ -599,7 +604,7 @@ $Id$
         <rulegroup id="BRAK_PRZECINKA_ZE" name="Brak przecinka przed „że” i „iż”">
             <rule>
                 <pattern>
-                    <token negate="yes" regexp="yes">[\p{Punct}–—„«»…]+|bardziej|chyba|ile|szczególnie|tyle|zwłaszcza|pomimo|mimo|także|również|dlatego|właśnie|prawie|ledwie|ledwo<exception postag="SENT_START|conj|&lt;/CONJ&gt;" postag_regexp="yes"></exception></token>
+                    <token negate="yes" regexp="yes">&interp;|bardziej|chyba|ile|szczególnie|tyle|zwłaszcza|pomimo|mimo|także|również|dlatego|właśnie|prawie|ledwie|ledwo<exception postag="SENT_START|conj|&lt;/CONJ&gt;" postag_regexp="yes"></exception></token>
                     <token regexp="yes">że|iż</token>
                 </pattern>
                 <message>Przed spójnikiem „że” stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
@@ -610,7 +615,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token negate="yes" regexp="yes">[\p{Punct}–—„«»…]+<exception postag="SENT_START|conj" postag_regexp="yes"></exception></token>
+                    <token negate="yes" regexp="yes">&interp;<exception postag="SENT_START|conj" postag_regexp="yes"></exception></token>
                     <token regexp="yes">ile|jako|szczególnie|tyle|zwłaszcza|pomimo|mimo<exception postag="SENT_START"></exception></token>
                     <token regexp="yes">że|iż</token>
                 </pattern>
@@ -649,7 +654,7 @@ $Id$
         <rulegroup id="BRAK_PRZECINKA_JESLI" name="Brak przecinka przed „jeśli”, „jeżeli”, „gdyby” itd.">
             <rule>
                 <pattern>
-                    <token inflected="yes" negate="yes" regexp="yes">[\p{Punct}–—„«»…]+<exception regexp="yes">który|jaki|zwłaszcza|szczególnie|nawet|niemniej|przecież|wówczas|może|otóż|przynajmniej</exception><exception postag="SENT_START|conj" postag_regexp="yes"></exception></token>
+                    <token inflected="yes" negate="yes" regexp="yes">&interp;<exception regexp="yes">który|jaki|zwłaszcza|szczególnie|nawet|niemniej|przecież|wówczas|może|otóż|przynajmniej</exception><exception postag="SENT_START|conj" postag_regexp="yes"></exception></token>
                     <token inflected="yes" regexp="yes">jeśli|jeżeli|gdyby|jeżeliby|jeśliby</token>
                 </pattern>
                 <message>Przed tym spójnikiem stawiamy przecinek:<suggestion>\1, \2</suggestion>.</message>
@@ -660,7 +665,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token negate="yes" regexp="yes">[\p{Punct}–—„«»…]+<exception postag="SENT_START|conj" postag_regexp="yes"></exception></token>
+                    <token negate="yes" regexp="yes">&interp;<exception postag="SENT_START|conj" postag_regexp="yes"></exception></token>
                     <token inflected="yes" regexp="yes">a|ale|lecz|który|jaki|zwłaszcza|jak|szczególnie|że|nawet|więc|jednak</token>
                     <token inflected="yes" regexp="yes">jeśli|jeżeli|jeżeliby|jeśliby|zanim</token>
                 </pattern>
@@ -671,7 +676,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token negate="yes" regexp="yes">[\p{Punct}–—„«»…]+<exception postag="SENT_START|conj" postag_regexp="yes"></exception></token>
+                    <token negate="yes" regexp="yes">&interp;<exception postag="SENT_START|conj" postag_regexp="yes"></exception></token>
                     <token inflected="yes" regexp="yes">a|ale|lecz|który|jaki|zwłaszcza|szczególnie|że|nawet|więc|jednak</token>
                     <token inflected="yes">gdyby</token>
                 </pattern>
@@ -685,7 +690,7 @@ $Id$
         <rulegroup id="BRAK_PRZECINKA_ZEBY" name="Brak przecinka przed „żeby”, „aby”, „ażeby”, „iżby”">
             <rule>
                 <pattern>
-                    <token negate="yes" regexp="yes">[\p{Punct}–—„«»…]+|chyba|nawet<exception postag="SENT_START|conj" postag_regexp="yes"></exception></token>
+                    <token negate="yes" regexp="yes">&interp;|chyba|nawet<exception postag="SENT_START|conj" postag_regexp="yes"></exception></token>
                     <token inflected="yes" regexp="yes">żeby|aby|ażeby|iżby</token>
                 </pattern>
                 <message>Przed tym spójnikiem stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
@@ -708,7 +713,7 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token negate="yes" regexp="yes">[\p{Punct}–—„«»…]+|tak|chyba|może|cóż|co|.*kolwiek|próżno|długo<exception postag="SENT_START|conj|pred" postag_regexp="yes"></exception></token>
+                        <token negate="yes" regexp="yes">&interp;|tak|chyba|może|cóż|co|.*kolwiek|próżno|długo<exception postag="SENT_START|conj|pred" postag_regexp="yes"></exception></token>
                         <token inflected="yes" skip="-1">by<exception inflected="yes" regexp="yes" scope="next">bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|a|jeśli|jeżeli|gdyby|aby|żeby|ażeby|zanim|dopóki</exception><exception postag="&lt;ELLIPSIS&gt;|verb:praet:.*|interp:comma" postag_regexp="yes" scope="next"></exception></token>
                     </marker>
                     <token postag="verb:inf.*" postag_regexp="yes"></token>
@@ -721,7 +726,7 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token negate="yes" regexp="yes">[\p{Punct}–—„«»…]+<exception postag="SENT_START|conj|pred" postag_regexp="yes"></exception></token>
+                        <token negate="yes" regexp="yes">&interp;<exception postag="SENT_START|conj|pred" postag_regexp="yes"></exception></token>
                         <token>tak</token>
                         <token inflected="yes" skip="-1">by<exception inflected="yes" regexp="yes" scope="next">bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|a|jeśli|jeżeli|gdyby|aby|żeby|ażeby|zanim|dopóki</exception><exception postag="&lt;ELLIPSIS&gt;|verb:praet:.*|interp:comma" postag_regexp="yes" scope="next"></exception></token>
                     </marker>
@@ -775,10 +780,10 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token negate="yes" regexp="yes">,|od|chyba|dopiero|podczas|nawet|potem|więc|teraz|właśnie|wtedy|zwłaszcza|szczególnie|że|czasie|czasach|czasu|chwili|wypadku|przypadku|razie|przecież|rzadko|mało|przynajmniej<exception postag="SENT_START|conj" postag_regexp="yes"></exception><exception regexp="yes">[\p{Punct}–—„«»…]+</exception></token>
+                        <token negate="yes" regexp="yes">,|od|chyba|dopiero|podczas|nawet|potem|więc|teraz|właśnie|wtedy|zwłaszcza|szczególnie|że|czasie|czasach|czasu|chwili|wypadku|przypadku|razie|przecież|rzadko|mało|przynajmniej<exception postag="SENT_START|conj" postag_regexp="yes"></exception><exception regexp="yes">&interp;</exception></token>
                         <token>kiedy</token>
                     </marker>
-                    <token><exception regexp="yes">[\p{Punct}–\-—…]+|niekiedy|indziej</exception></token>
+                    <token><exception regexp="yes">&interp;|niekiedy|indziej</exception></token>
                 </pattern>
                 <message>Przed tym spójnikiem stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
                 <short>Błąd interpunkcyjny</short>
@@ -790,10 +795,10 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token negate="yes" regexp="yes">,|od|chyba|dopiero|podczas|nawet|potem|więc|teraz|właśnie|wtedy|zwłaszcza|szczególnie|że|czasie|czasach|wypadku|przypadku|razie|przecież|przynajmniej<exception postag="SENT_START|conj" postag_regexp="yes"></exception><exception regexp="yes">[\p{Punct}–—„«»…]+</exception></token>
+                        <token negate="yes" regexp="yes">,|od|chyba|dopiero|podczas|nawet|potem|więc|teraz|właśnie|wtedy|zwłaszcza|szczególnie|że|czasie|czasach|wypadku|przypadku|razie|przecież|przynajmniej<exception postag="SENT_START|conj" postag_regexp="yes"></exception><exception regexp="yes">&interp;</exception></token>
                         <token>gdy</token>
                     </marker>
-                    <token><exception regexp="yes">[\p{Punct}–\-—…]+</exception></token>
+                    <token><exception regexp="yes">&interp;</exception></token>
                 </pattern>
                 <message>Przed tym spójnikiem stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
                 <short>Błąd interpunkcyjny</short>
@@ -803,7 +808,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token negate="yes" regexp="yes">[\p{Punct}–—„«»…]+<exception postag="SENT_START|conj" postag_regexp="yes"></exception></token>
+                    <token negate="yes" regexp="yes">&interp;<exception postag="SENT_START|conj" postag_regexp="yes"></exception></token>
                     <token regexp="yes">nawet|dopiero|od|podczas|potem|teraz|właśnie|wtedy|zwłaszcza|szczególnie|że</token>
                     <token regexp="yes">gdy|kiedy</token>
                 </pattern>
@@ -818,7 +823,7 @@ $Id$
         <rulegroup id="BRAK_PRZECINKA_SPOJNIK_PROSTY" name="Brak przecinka przed spójnikami prostymi (acz, aczkolwiek, choć...)">
             <rule>
                 <pattern>
-                    <token negate="yes" regexp="yes">[\p{Punct}–—„«»…]+<exception postag="SENT_START|conj" postag_regexp="yes"></exception><exception>no</exception></token>
+                    <token negate="yes" regexp="yes">&interp;<exception postag="SENT_START|conj" postag_regexp="yes"></exception><exception>no</exception></token>
                     <token regexp="yes">acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|gdyż|gdyżby|ilekolwiek|ilekroć|lecz|którędy</token>
                 </pattern>
                 <message>Przed tym spójnikiem stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
@@ -831,7 +836,7 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token negate="yes" regexp="yes">[\p{Punct}–—„«»…]+<exception postag="SENT_START|conj" postag_regexp="yes"></exception></token>
+                        <token negate="yes" regexp="yes">&interp;<exception postag="SENT_START|conj" postag_regexp="yes"></exception></token>
                         <token>dopóty</token>
                     </marker>
                     <token negate="yes">,</token>
@@ -845,7 +850,7 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token negate="yes" regexp="yes">[\p{Punct}–—„«»…]+|do<exception postag="SENT_START|conj" postag_regexp="yes"></exception><exception>przynajmniej</exception></token>
+                        <token negate="yes" regexp="yes">&interp;|do<exception postag="SENT_START|conj" postag_regexp="yes"></exception><exception>przynajmniej</exception></token>
                         <token regexp="yes">(do)?póki</token>
                     </marker>
                     <token><exception>czas</exception></token>
@@ -861,10 +866,10 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token negate="yes" regexp="yes">[\p{Punct}–—„«»…]+|niby<exception postag="SENT_START|conj" postag_regexp="yes"></exception></token>
+                        <token negate="yes" regexp="yes">&interp;|niby<exception postag="SENT_START|conj" postag_regexp="yes"></exception></token>
                         <token>dlaczego</token>
                     </marker>
-                    <token><exception regexp="yes">[\p{Punct}–\-—…]+</exception></token>
+                    <token><exception regexp="yes">&interp;</exception></token>
                 </pattern>
                 <message>Przed tym spójnikiem stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
                 <short>Błąd interpunkcyjny</short>
@@ -876,7 +881,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token negate="yes" regexp="yes">[\p{Punct}–—„«»…]+<exception postag="SENT_START|conj" postag_regexp="yes"></exception></token>
+                    <token negate="yes" regexp="yes">&interp;<exception postag="SENT_START|conj" postag_regexp="yes"></exception></token>
                     <token>ponieważ</token>
                 </pattern>
                 <message>Przed tym spójnikiem stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
@@ -887,7 +892,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token negate="yes" regexp="yes">[\p{Punct}–—„«»…]+|jeszcze|nawet<exception postag="SENT_START|conj" postag_regexp="yes"></exception></token>
+                    <token negate="yes" regexp="yes">&interp;|jeszcze|nawet<exception postag="SENT_START|conj" postag_regexp="yes"></exception></token>
                     <token>zanim</token>
                 </pattern>
                 <message>Przed tym spójnikiem stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
@@ -968,11 +973,11 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»…]+</exception><exception postag="conj|SENT_START" postag_regexp="yes"></exception></token>
+                        <token negate="yes">,<exception regexp="yes">&interp;</exception><exception postag="conj|SENT_START" postag_regexp="yes"></exception></token>
                         <token postag="prep:.*" postag_regexp="yes"><exception postag="&lt;/?ADV&gt;|&lt;/?PREP.*&gt;" postag_regexp="yes"></exception><exception regexp="yes">za|o</exception></token>
                     </marker>
                     <token inflected="yes">co<exception postag="&lt;/?ADV&gt;|&lt;/?PREP.*&gt;" postag_regexp="yes"></exception><exception postag="co_innego|czym_innym|co_drugi|qub" postag_regexp="yes"></exception></token>
-                    <token><exception regexp="yes">[\p{Punct}–\-—…]+</exception><exception postag="SENT_END"></exception></token>
+                    <token><exception regexp="yes">&interp;</exception><exception postag="SENT_END"></exception></token>
                 </pattern>
                 <message>Prawdopodobnie brak przecinka. Powinno być: <suggestion><match no="1"></match>, <match no="2"></match></suggestion>.</message>
                 <short>Błąd interpunkcyjny</short>
@@ -988,11 +993,11 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»…]+</exception><exception postag="conj|SENT_START" postag_regexp="yes"></exception><exception inflected="yes" regexp="yes">mieć|być</exception></token>
+                        <token negate="yes">,<exception regexp="yes">&interp;</exception><exception postag="conj|SENT_START" postag_regexp="yes"></exception><exception inflected="yes" regexp="yes">mieć|być</exception></token>
                         <token regexp="yes">za|o<exception postag="&lt;/?ADV&gt;|&lt;/?PREP.*&gt;" postag_regexp="yes"></exception></token>
                     </marker>
                     <token inflected="yes">co<exception postag="&lt;/?ADV&gt;|&lt;/?PREP.*&gt;" postag_regexp="yes"></exception><exception postag="co_innego|czym_innym|co_drugi" postag_regexp="yes"></exception></token>
-                    <token><exception regexp="yes">[\p{Punct}–\-—…]+</exception><exception postag="SENT_END"></exception><exception postag="verb:inf.*" postag_regexp="yes"></exception></token>
+                    <token><exception regexp="yes">&interp;</exception><exception postag="SENT_END"></exception><exception postag="verb:inf.*" postag_regexp="yes"></exception></token>
                 </pattern>
                 <message>Prawdopodobnie brak przecinka. Powinno być: <suggestion><match no="1"></match>, <match no="2"></match></suggestion>.</message>
                 <short>Błąd interpunkcyjny</short>
@@ -1034,7 +1039,7 @@ $Id$
         <rulegroup id="BRAK_PRZECINKA_KTORY" name="Brak przecinka przed „który” i „jaki”">
             <rule>
                 <pattern>
-                    <token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»…]+</exception><exception postag="conj|SENT_START" postag_regexp="yes"></exception></token>
+                    <token negate="yes">,<exception regexp="yes">&interp;</exception><exception postag="conj|SENT_START" postag_regexp="yes"></exception></token>
                     <token postag="adv.*" postag_regexp="yes"></token>
                     <token postag="prep.*" postag_regexp="yes"><exception postag="&lt;/PREP:.*&gt;" postag_regexp="yes"></exception></token>
                     <token inflected="yes" regexp="yes">który|jaki</token>
@@ -1047,7 +1052,7 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»…]+</exception><exception postag="conj|SENT_START" postag_regexp="yes"></exception></token>
+                        <token negate="yes">,<exception regexp="yes">&interp;</exception><exception postag="conj|SENT_START" postag_regexp="yes"></exception></token>
                         <token postag="prep.*" postag_regexp="yes"></token>
                         <token postag="prep.*" postag_regexp="yes"></token>
                     </marker>
@@ -1061,11 +1066,11 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»…]+</exception><exception postag="conj|adv.*|prep.*|SENT_START" postag_regexp="yes"></exception></token>
+                        <token negate="yes">,<exception regexp="yes">&interp;</exception><exception postag="conj|adv.*|prep.*|SENT_START" postag_regexp="yes"></exception></token>
                         <token postag="prep.*" postag_regexp="yes"><exception postag="&lt;/PREP:.*&gt;" postag_regexp="yes"></exception></token>
                         <token inflected="yes" regexp="yes">który|jaki</token>
                     </marker>
-                    <token><exception regexp="yes">[\p{Punct}–\-—…]+</exception></token>
+                    <token><exception regexp="yes">&interp;</exception></token>
                 </pattern>
                 <message>Brak przecinka w tym fragmencie zdania. Przecinek prawdopodobnie należy postawić tak: <suggestion>\1, \2 \3</suggestion>.</message>
                 <short>Błąd interpunkcyjny</short>
@@ -1077,10 +1082,10 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token negate="yes">,<exception postag="prep.*" postag_regexp="yes" scope="previous"></exception><exception regexp="yes">[\p{Punct}–—„«»…]+|mało|rzadko</exception><exception postag="conj|adv.*|prep.*|SENT_START|&lt;/CONJ&gt;|&lt;/PREP:.+&gt;|subst.*" postag_regexp="yes"></exception></token>
+                        <token negate="yes">,<exception postag="prep.*" postag_regexp="yes" scope="previous"></exception><exception regexp="yes">&interp;|mało|rzadko</exception><exception postag="conj|adv.*|prep.*|SENT_START|&lt;/CONJ&gt;|&lt;/PREP:.+&gt;|subst.*" postag_regexp="yes"></exception></token>
                         <token inflected="yes" regexp="yes">który|jaki</token>
                     </marker>
-                    <token><exception regexp="yes">[\p{Punct}–\-—…]+</exception></token>
+                    <token><exception regexp="yes">&interp;</exception></token>
                 </pattern>
                 <message>Brak przecinka w tym fragmencie zdania. Przecinek prawdopodobnie należy postawić tak: <suggestion>\1, \2</suggestion>.</message>
                 <short>Błąd interpunkcyjny</short>
@@ -1092,10 +1097,10 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token postag="subst.*" postag_regexp="yes"><exception postag="prep.*" postag_regexp="yes" scope="previous"></exception><exception regexp="yes">[\p{Punct}–—„«»…]+|mało|rzadko</exception><exception postag="conj|adv.*|prep.*|SENT_START|&lt;/CONJ&gt;|&lt;/PREP:.+&gt;" postag_regexp="yes"></exception></token>
+                        <token postag="subst.*" postag_regexp="yes"><exception postag="prep.*" postag_regexp="yes" scope="previous"></exception><exception regexp="yes">&interp;|mało|rzadko</exception><exception postag="conj|adv.*|prep.*|SENT_START|&lt;/CONJ&gt;|&lt;/PREP:.+&gt;" postag_regexp="yes"></exception></token>
                         <token inflected="yes" regexp="yes">który|jaki</token>
                     </marker>
-                    <token><exception regexp="yes">[\p{Punct}–\-—…]+</exception></token>
+                    <token><exception regexp="yes">&interp;</exception></token>
                 </pattern>
                 <message>Brak przecinka w tym fragmencie zdania. Przecinek prawdopodobnie należy postawić tak: <suggestion>\1, \2</suggestion>.</message>
                 <short>Błąd interpunkcyjny</short>
@@ -1108,7 +1113,7 @@ $Id$
                 <pattern>
                     <token><exception>,</exception><exception postag="qub|conj|adv.*" postag_regexp="yes"></exception></token>
                     <token postag="prep.*" postag_regexp="yes"></token>
-                    <token postag="subst.*" postag_regexp="yes"><exception regexp="yes">[\p{Punct}–—„«»…]+|mało|rzadko</exception><exception postag="conj|adv.*|prep.*|SENT_START|&lt;/CONJ&gt;|&lt;/PREP:.+&gt;" postag_regexp="yes"></exception></token>
+                    <token postag="subst.*" postag_regexp="yes"><exception regexp="yes">&interp;|mało|rzadko</exception><exception postag="conj|adv.*|prep.*|SENT_START|&lt;/CONJ&gt;|&lt;/PREP:.+&gt;" postag_regexp="yes"></exception></token>
                     <token inflected="yes" postag=".*gen.*" postag_regexp="yes" regexp="yes">który|jaki</token>
                 </pattern>
                 <message>Brak przecinka i błędny szyk w tym fragmencie zdania. Przecinek prawdopodobnie należy postawić tak: <suggestion>\1, \2 \4 \3</suggestion>.</message>
@@ -1123,7 +1128,7 @@ $Id$
                     <token postag="qub|conj|adv.*" postag_regexp="yes"></token>
                     <token postag="prep.*" postag_regexp="yes"></token>
                     <marker>
-                        <token postag="(subst|adj|ppas).*" postag_regexp="yes"><exception regexp="yes">[\p{Punct}–—„«»…]+|mało|rzadko</exception><exception postag="conj|adv.*|prep.*|SENT_START|&lt;/CONJ&gt;|&lt;/PREP:.+&gt;" postag_regexp="yes"></exception></token>
+                        <token postag="(subst|adj|ppas).*" postag_regexp="yes"><exception regexp="yes">&interp;|mało|rzadko</exception><exception postag="conj|adv.*|prep.*|SENT_START|&lt;/CONJ&gt;|&lt;/PREP:.+&gt;" postag_regexp="yes"></exception></token>
                         <token inflected="yes" regexp="yes">który|jaki</token>
                     </marker>
                 </pattern>
@@ -1137,7 +1142,7 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»…]+</exception><exception postag="conj|adv.*|prep.*|SENT_START" postag_regexp="yes"></exception></token>
+                        <token negate="yes">,<exception regexp="yes">&interp;</exception><exception postag="conj|adv.*|prep.*|SENT_START" postag_regexp="yes"></exception></token>
                         <token postag="&lt;PREP:.*&gt;" postag_regexp="yes" skip="4"><exception scope="next">,</exception><exception>odnośnie</exception></token>
                     </marker>
                     <token postag="&lt;/PREP:.*" postag_regexp="yes"></token>
@@ -1150,9 +1155,9 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="prep.*" postag_regexp="yes"><exception postag="qub|conj|adv.*" postag_regexp="yes" scope="previous"></exception><exception regexp="yes" scope="previous">[\p{Punct}–—„«»…]</exception></token>
+                    <token postag="prep.*" postag_regexp="yes"><exception postag="qub|conj|adv.*" postag_regexp="yes" scope="previous"></exception><exception regexp="yes" scope="previous">&interp;</exception></token>
                     <marker>
-                        <token postag="(subst|adj|ppas).*" postag_regexp="yes"><exception regexp="yes">[\p{Punct}–—„«»…]+|mało|rzadko</exception><exception postag="conj|adv.*|prep.*|SENT_START|&lt;/CONJ&gt;|&lt;/PREP:.+&gt;" postag_regexp="yes"></exception></token>
+                        <token postag="(subst|adj|ppas).*" postag_regexp="yes"><exception regexp="yes">&interp;|mało|rzadko</exception><exception postag="conj|adv.*|prep.*|SENT_START|&lt;/CONJ&gt;|&lt;/PREP:.+&gt;" postag_regexp="yes"></exception></token>
                         <token inflected="yes" regexp="yes">który|jaki</token>
                     </marker>
                 </pattern>
@@ -1170,7 +1175,7 @@ $Id$
                     <token postag="SENT_START"></token>
                     <token>innymi</token>
                     <token>słowy</token>
-                    <token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»…]+</exception></token>
+                    <token negate="yes">,<exception regexp="yes">&interp;</exception></token>
                 </pattern>
                 <message>Wyrażenie „\2 \3” wydziela się przecinkami lub myślnikami od reszty zdania. Poprawnie: <suggestion>\2 \3, \4</suggestion>.</message>
                 <short>Błąd interpunkcyjny</short>
@@ -1179,10 +1184,10 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»…]+</exception><exception postag="SENT_START"></exception></token>
+                    <token negate="yes">,<exception regexp="yes">&interp;</exception><exception postag="SENT_START"></exception></token>
                     <token>innymi</token>
                     <token>słowy</token>
-                    <token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»…]+</exception></token>
+                    <token negate="yes">,<exception regexp="yes">&interp;</exception></token>
                 </pattern>
                 <message>Wyrażenie „\1 \2” wydziela się przecinkami lub myślnikami od reszty zdania. Poprawnie: <suggestion>\1, \2 \3, \4</suggestion>.</message>
                 <short>Błąd interpunkcyjny</short>
@@ -1207,7 +1212,7 @@ $Id$
         </rule>
         <rule id="JAK_I" name="Brak przecinka przed „jak i”">
             <pattern>
-                <token><exception postag="SENT_START"></exception><exception regexp="yes">[\p{Punct}–—„«»…]+|tyle|i|lub|albo|ani|oraz|bądź|czy|tak|podobnie</exception></token>
+                <token><exception postag="SENT_START"></exception><exception regexp="yes">&interp;|tyle|i|lub|albo|ani|oraz|bądź|czy|tak|podobnie</exception></token>
                 <token>jak</token>
                 <token>i</token>
             </pattern>
@@ -1221,7 +1226,7 @@ $Id$
             <rule>
                 <pattern>
                     <token regexp="yes">tak|równie</token>
-                    <token skip="-1"><exception regexp="yes" scope="next">[\p{Punct}–—„«»…]+|bądź|czy|ani|lub|albo|oraz|i</exception></token>
+                    <token skip="-1"><exception regexp="yes" scope="next">&interp;|bądź|czy|ani|lub|albo|oraz|i</exception></token>
                     <marker>
                         <token><exception postag="interp:comma" scope="previous"></exception>jak</token>
                     </marker>
@@ -1238,7 +1243,7 @@ $Id$
                     <token>tak</token>
                     <token skip="-1"><exception scope="next">)</exception>jak</token>
                     <marker>
-                        <token>tak<exception regexp="yes" scope="previous">[\p{Punct}–—„«»…]+|bądź|czy</exception><exception postag="conj" scope="previous"></exception></token>
+                        <token>tak<exception regexp="yes" scope="previous">&interp;|bądź|czy</exception><exception postag="conj" scope="previous"></exception></token>
                     </marker>
                 </pattern>
                 <message>Prawdopodobny brak przecinka. Powinno być: <suggestion>, tak</suggestion>.</message>
@@ -1265,7 +1270,7 @@ $Id$
                     <token postag="SENT_START"></token>
                     <token>co</token>
                     <token regexp="yes">więcej|gorsza</token>
-                    <token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»…]+</exception></token>
+                    <token negate="yes">,<exception regexp="yes">&interp;</exception></token>
                 </pattern>
                 <message>Wyrażenie „\2 \3” oddziela się przecinkami lub myślnikami od reszty zdania. Poprawnie: <suggestion>\2 \3, \4</suggestion>.</message>
                 <short>Błąd interpunkcyjny</short>
@@ -1274,10 +1279,10 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»…]+|i|lub|albo</exception><exception postag="SENT_START"></exception></token>
+                    <token negate="yes">,<exception regexp="yes">&interp;|i|lub|albo</exception><exception postag="SENT_START"></exception></token>
                     <token>co</token>
                     <token regexp="yes">więcej|gorsza</token>
-                    <token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»…]+</exception></token>
+                    <token negate="yes">,<exception regexp="yes">&interp;</exception></token>
                 </pattern>
                 <message>Wyrażenie „\2 \3” wydziela się przecinkami lub myślnikami od reszty zdania. Poprawnie: <suggestion>\1, \2 \3, \4</suggestion>.</message>
                 <short>Błąd interpunkcyjny</short>
@@ -1290,7 +1295,7 @@ $Id$
                     <token regexp="yes">i|lub|albo</token>
                     <token>co</token>
                     <token regexp="yes">więcej|gorsza</token>
-                    <token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»…]+</exception></token>
+                    <token negate="yes">,<exception regexp="yes">&interp;</exception></token>
                 </pattern>
                 <message>Wyrażenie „\2 \3” wydziela się w takim kontekście myślnikami od reszty zdania. Poprawnie: <suggestion>\1 – \2 \3 – \4</suggestion>.</message>
                 <short>Błąd interpunkcyjny</short>
@@ -1305,7 +1310,7 @@ $Id$
                     <token postag="SENT_START"></token>
                     <token regexp="yes">nawiasem|krótko|prawdę|ściśle</token>
                     <token>mówiąc</token>
-                    <token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»…]+</exception></token>
+                    <token negate="yes">,<exception regexp="yes">&interp;</exception></token>
                 </pattern>
                 <message>Wyrażenie „\2 \3” wydziela się przecinkami lub myślnikami od reszty zdania. Poprawnie: <suggestion>\2 \3, \4</suggestion>.</message>
                 <short>Błąd interpunkcyjny</short>
@@ -1314,10 +1319,10 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»…]+</exception><exception postag="SENT_START"></exception></token>
+                    <token negate="yes">,<exception regexp="yes">&interp;</exception><exception postag="SENT_START"></exception></token>
                     <token regexp="yes">nawiasem|krótko|prawdę|ściśle</token>
                     <token>mówiąc</token>
-                    <token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»…]+</exception></token>
+                    <token negate="yes">,<exception regexp="yes">&interp;</exception></token>
                 </pattern>
                 <message>Wyrażenie „\2 \3” wydziela się przecinkami lub myślnikami od reszty zdania. Poprawnie: <suggestion>\1, \2 \3, \4</suggestion>.</message>
                 <short>Błąd interpunkcyjny</short>
@@ -1333,7 +1338,7 @@ $Id$
                     <token>tak</token>
                     <token>czy</token>
                     <token regexp="yes">owak|siak|inaczej</token>
-                    <token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»…]+</exception></token>
+                    <token negate="yes">,<exception regexp="yes">&interp;</exception></token>
                 </pattern>
                 <message>Wyrażenie „\2 \3 \4” wydziela się przecinkami lub myślnikami od reszty zdania. Poprawnie: <suggestion>\2 \3 \4, \5</suggestion>.</message>
                 <short>Błąd interpunkcyjny</short>
@@ -1342,11 +1347,11 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»…]+</exception><exception postag="SENT_START"></exception></token>
+                    <token negate="yes">,<exception regexp="yes">&interp;</exception><exception postag="SENT_START"></exception></token>
                     <token>tak</token>
                     <token>czy</token>
                     <token regexp="yes">owak|siak|inaczej</token>
-                    <token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»…]+</exception></token>
+                    <token negate="yes">,<exception regexp="yes">&interp;</exception></token>
                 </pattern>
                 <message>Wyrażenie „\2 \3 \4” wydziela się przecinkami lub myślnikami od reszty zdania. Poprawnie: <suggestion>\1, \2 \3 \4, \5</suggestion>.</message>
                 <short>Błąd interpunkcyjny</short>
@@ -1513,7 +1518,7 @@ $Id$
         <rulegroup default="off" id="BRAK_PRZECINKA_I_KWITA" name="Brak przecinka przed „i kwita” itp.">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token><exception postag="SENT_START"></exception><exception regexp="yes" scope="current">[\p{Punct}–—„«»…]+|a</exception></token>
+                    <token><exception postag="SENT_START"></exception><exception regexp="yes" scope="current">&interp;|a</exception></token>
                     <token>i</token>
                     <token regexp="yes">to|kwita|już|owszem</token>
                 </pattern>
@@ -1524,7 +1529,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token><exception postag="SENT_START"></exception><exception regexp="yes" scope="current">[\p{Punct}–—„«»…]+|a</exception><exception>początek</exception></token>
+                    <token><exception postag="SENT_START"></exception><exception regexp="yes" scope="current">&interp;|a</exception><exception>początek</exception></token>
                     <token>i</token>
                     <token>koniec</token>
                 </pattern>
@@ -1537,7 +1542,7 @@ $Id$
         <rule default="off" id="BRAK_PRZECINKA_I_TAK" name="Brak przecinka przed „i tak”">
             <pattern case_sensitive="yes">
                 <marker>
-                    <token><exception postag="SENT_START|conj" postag_regexp="yes"></exception><exception regexp="yes">[\p{Punct}–—„«»…]+|już|zresztą</exception></token>
+                    <token><exception postag="SENT_START|conj" postag_regexp="yes"></exception><exception regexp="yes">&interp;|już|zresztą</exception></token>
                     <token>i</token>
                     <token>tak</token>
                 </marker>
@@ -2620,7 +2625,7 @@ $Id$
                     <token>proszę</token>
                     <token>panią</token>
                 </marker>
-                <token regexp="yes">[\p{Punct}–—]</token>
+                <token regexp="yes">&interp;</token>
             </pattern>
             <message>To jest błędna forma. Mówimy „proszę panią o coś”, a w zwrocie do kobiety mówimy <suggestion>proszę pani</suggestion>.</message>
             <short>Błąd odmiany</short>
@@ -2976,7 +2981,7 @@ $Id$
                 <pattern>
                     <token><exception postag="(subst|ger):*sg:.*(inst|loc).*[.\:](m|n).*" postag_regexp="yes"></exception></token>
                     <marker>
-                        <token postag="(adj|ppas|pact):sg:inst.*[.\:]m.*" postag_regexp="yes" skip="-1"><exception regexp="yes" scope="current">tym|którym|żadnym</exception><exception postag="(subst|ger):*sg.*(inst|loc).*[.\:](m|n).*|.*(ppas|adj):sg:acc.nom.voc:n.*" postag_regexp="yes" scope="next"></exception><exception regexp="yes" scope="next">\p{Punct}</exception></token>
+                        <token postag="(adj|ppas|pact):sg:inst.*[.\:]m.*" postag_regexp="yes" skip="-1"><exception regexp="yes" scope="current">tym|którym|żadnym</exception><exception postag="(subst|ger):*sg.*(inst|loc).*[.\:](m|n).*|.*(ppas|adj):sg:acc.nom.voc:n.*" postag_regexp="yes" scope="next"></exception><exception regexp="yes" scope="next">&interp;</exception></token>
                     </marker>
                     <token regexp="yes">jest|było|będzie|byłoby</token>
                     <token>,</token>
@@ -3118,7 +3123,7 @@ $Id$
         </rule>
         <rule id="BOWIEM_ZAS_PRZECINEK" name="„bowiem” i „zaś” na początku zdania podrzędnego">
             <pattern>
-                <token regexp="yes">\p{Punct}</token>
+                <token regexp="yes">&interp;</token>
                 <marker>
                     <token regexp="yes">bowiem|zaś</token>
                 </marker>
@@ -3195,7 +3200,7 @@ $Id$
         <rule id="NIE_JAKIKOLWIEK" name="„nie” + „jakikolwiek” (żaden)">
             <pattern>
                 <token>nie</token>
-                <token postag="verb:.*|pcon:imperf|pant:perf|pred" postag_regexp="yes" skip="-1"><exception inflected="yes" regexp="yes">wszystek|każdy</exception><exception inflected="yes" scope="next">żaden</exception><exception regexp="yes" scope="next">\p{Punct}</exception></token>
+                <token postag="verb:.*|pcon:imperf|pant:perf|pred" postag_regexp="yes" skip="-1"><exception inflected="yes" regexp="yes">wszystek|każdy</exception><exception inflected="yes" scope="next">żaden</exception><exception regexp="yes" scope="next">&interp;</exception></token>
                 <marker>
                     <token inflected="yes">jakikolwiek</token>
                 </marker>
@@ -5029,7 +5034,7 @@ $Id$
         <rule id="CZEKAC_ZA" name="„czekać za” (na)">
             <!--  FIXME: podpowiedź nie uwzględnia złożonych grup nominalnych -->
             <pattern>
-                <token inflected="yes" skip="4">czekać<exception regexp="yes" scope="next">na|\p{Punct}</exception><exception postag="verb.*" postag_regexp="yes" scope="next"></exception></token>
+                <token inflected="yes" skip="4">czekać<exception regexp="yes" scope="next">na|&interp;</exception><exception postag="verb.*" postag_regexp="yes" scope="next"></exception></token>
                 <marker>
                     <token>za</token>
                     <token postag=".*inst.*" postag_regexp="yes"><exception postag="siebie.*" postag_regexp="yes"></exception></token>
