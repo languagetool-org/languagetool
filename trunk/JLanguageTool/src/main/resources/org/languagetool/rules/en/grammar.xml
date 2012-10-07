@@ -39,6 +39,19 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
     <!-- Possible typos -->
     <!-- ====================================================================== -->
     <category name="Possible Typos">
+        <rule id="FEEL_TREE_TO" name="feel tree (free) to">
+            <pattern>
+                <token>feel</token>
+                    <marker>
+                        <token>tree</token>
+                    </marker>
+                <token>to</token>
+            </pattern>
+            <message>Did you mean <suggestion>free</suggestion>?</message>
+            <short>Possible typo</short>
+            <example type="correct">Feel <marker>free</marker> to add it to the list.</example>
+            <example type="incorrect" correction="free">Feel <marker>tree</marker> to add it to the list.</example>
+        </rule>
         <rule id="EASIEST_WAS_TO" name="easiest was (way) to">
             <pattern>
                 <token postag="JJS"/>
@@ -1025,15 +1038,18 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
                 <example type="correct">I cannot advise you anything.</example>
             </rule>
         </rulegroup>
-        <rule id="I_WE_ADVICE" name="I/we advice (advise)">
+        <rule id="ADVICE_ADVISE" name="advice (advise)">
             <pattern>
-                <token regexp="yes">I|we</token>
-                <marker>
-                    <token>advice</token>
-                </marker>
+              <token postag="PRP"><exception postag="PRP" negate_pos="yes"/></token>
+              <marker>
+                  <token regexp="yes">advices?</token>
+              </marker>
             </pattern>
-            <message>Did you mean <suggestion>advise</suggestion> (a verb)?</message>
+            <message>Did you mean <suggestion><match no="2" regexp_match="ice" regexp_replace="ise"/></suggestion> (verb) instead of <match no="2"/> (noun)?</message>
             <short>Possible typo</short>
+            <example type="correct">We <marker>advise</marker> you to do it.</example>
+            <example type="incorrect" correction="advise">We <marker>advice</marker> you to do it.</example>
+            <example type="incorrect" correction="advises">He <marker>advices</marker> you to do it.</example>
             <example type="correct">We <marker>advise</marker> you to come by public transport</example>
             <example correction="advise" type="incorrect">We <marker>advice</marker> you to come by public transport.</example>
         </rule>
@@ -8759,7 +8775,7 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
     <category name="Commonly Confused Words">
         <rule id="BELIEVE_BELIEF" name="believe (belief)">
             <pattern>
-              <token postag="JJ|PRP\$" postag_regexp="yes"><exception postag="JJ|PRP\$" postag_regexp="yes" negate_pos="yes"/></token>
+              <token postag="JJ|PRP\$" postag_regexp="yes"><exception postag="JJ|PRP\$" postag_regexp="yes" negate_pos="yes"/><exception>former</exception></token>
               <marker>
                   <token regexp="yes">believes?</token>
               </marker>
@@ -8770,8 +8786,10 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
             <example type="correct">We <marker>believe</marker> that this is wrong.</example>
             <example type="correct">an atheist <marker>believe</marker></example>
             <example type="incorrect" correction="belief">It is my strong <marker>believe</marker> that something has to be changed.</example>
+<!--             <example type="incorrect" correction="belief">It is the <marker>believe</marker> of the people.</example> TODO-->
             <example type="correct">Are there different <marker>beliefs</marker>?</example>
             <example type="incorrect" correction="beliefs">Are there different <marker>believes</marker>?</example>
+            <example type="correct">Some <marker>believe</marker> the public should have the freedom.</example>
         </rule>
         <rule id="BELIEF_BELIEVE" name="belief (believe)">
             <pattern>
@@ -8787,6 +8805,19 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
             <example type="correct">But Baptist beliefs can vary.</example>
             <example type="incorrect" correction="believe">We <marker>belief</marker> that this is wrong.</example>
             <example type="incorrect" correction="believes">He <marker>beliefs</marker> that this is wrong.</example>
+        </rule>
+        <rule id="PROVE_PROOF" name="prove (proof)">
+            <pattern>
+                <token postag="JJ|PRP\$" postag_regexp="yes"><exception postag="JJ|PRP\$" postag_regexp="yes" negate_pos="yes"/><exception>former</exception></token>
+              <marker>
+                  <token regexp="yes">proves?</token>
+              </marker>
+            </pattern>
+            <message>Did you mean <suggestion><match no="2" regexp_match="ove" regexp_replace="oof"/></suggestion> (noun) instead of <match no="2"/> (verb)?</message>
+            <short>Possible typo</short>
+            <example type="correct">Their <marker>proof</marker> is wrong.</example>
+            <example type="incorrect" correction="proof">Their <marker>prove</marker> is wrong.</example>
+<!--             <example type="incorrect" correction="proof">The <marker>prove</marker> is wrong.</example> TODO-->
         </rule>
         <rulegroup id="IT_SEAMS" name="it seams (seems)">
             <rule>
