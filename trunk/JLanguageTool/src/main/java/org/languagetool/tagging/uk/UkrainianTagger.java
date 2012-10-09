@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker 
- * Copyright (C) 2007 Daniel Naber (http://www.danielnaber.de)
+ * Copyright (C) 2006 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,11 +16,28 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-
 package org.languagetool.tagging.uk;
 
-import org.languagetool.tagging.Tagger;
+import java.util.Locale;
 
-public class UkrainianTagger extends UkrainianMyspellTagger implements Tagger {
+import org.languagetool.tagging.BaseTagger;
 
+/** 
+ * Ukrainian part-of-speech tagger.
+ * See README for details, the POS tagset is
+ * described in tagset.txt
+ * 
+ * @author Andriy Rysin
+ */
+public class UkrainianTagger extends BaseTagger {
+
+  @Override
+  public final String getFileName() {
+    return "/uk/ukrainian.dict";    
+  }
+  
+  public UkrainianTagger() {
+    super();
+    setLocale(new Locale("uk", "UA"));
+  }
 }

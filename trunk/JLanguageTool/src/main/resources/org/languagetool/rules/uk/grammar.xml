@@ -12,7 +12,7 @@ version 2.1 of the License, or (at your option) any later version.
 
 This library is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 Lesser General Public License for more details.
 
 You should have received a copy of the GNU Lesser General Public
@@ -111,11 +111,11 @@ $Id$
         <!-- TODO:
                 додати підтримку POS та словоформ
         -->
-        <rulegroup name="Узгодженість" id="CONISTENCY1">
+        <rulegroup name="Узгодженість частин речення" id="CONISTENCY_SENTENSE_PARTS_1">
             <rule>
                 <pattern>
-                    <token regexp="yes">в|у</token>
-                    <token postag="verb"></token>
+                    <token postag_regexp="yes" postag="pryim.*"></token>
+                    <token postag_regexp="yes" postag="verb.*"></token>
                 </pattern>
                 <message>Прийменник перед дієсловом <suggestion>\2</suggestion></message>
                 <example type="correct">Їм треба їхати.</example>
@@ -124,19 +124,30 @@ $Id$
             </rule>
         </rulegroup>
 
-        <!-- нереальне правило - лише для тестування теґу "refl"
-        <rulegroup name="Узгодженість 2" id="CONISTENCY2">
+        <rulegroup name="Узгодженість відмінку" id="CONISTENCY_VIDM_1">
+            <rule>
+                <pattern>
+                    <token postag_regexp="yes" postag="pryim:rv_rod.*"></token>
+                    <token postag_regexp="yes" postag=".*:v_[^r].*"></token>
+                </pattern>
+                <message>Прийменник вимагає родового відмінку <suggestion>\2</suggestion></message>
+                <example type="correct">Для відтінку.</example>
+                <example type="correct">Для синього відтінку.</example>
+                <example type="incorrect"><marker>Для відтінок</marker>.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup name="Узгодженість роду" id="CONISTENCY_GENDER">
                 <rule>
                     <pattern>
-                        <token regexp="yes" negate="yes">мусиш|хочеш</token>
-                        <token postag="refl"/>
+                        <token postag_regexp="yes" postag=".*:m:.*"/>
+                        <token postag_regexp="yes" postag=".*:n:.*"/>
                     </pattern>
-                    <message>Невірне використання зворотного дієслова <suggestion>Хочеш \2</suggestion></message>
-                    <example type="correct">Хочеш дивитися?</example>
-                    <example type="incorrect">Велике <marker>дерево дивитися</marker>.</example>
+                    <message>Неузгодженість роду</message>
+                    <example type="correct">абонентське абонування</example>
+                    <example type="incorrect"><marker>абонентський абонування</marker>.</example>
                 </rule>
         </rulegroup>
-         -->
     </category>
 
     <category name="Стиль">
