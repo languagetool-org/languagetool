@@ -8878,6 +8878,36 @@ $Id$
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category name="Groß-/Kleinschreibung">
+        <rulegroup id="ERSTELLEN" name="Groß-/Kleinschreibung: 'das erstellen (Erstellen)'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[Dd]as</token>
+                    <marker>
+                        <token>erstellen</token>
+                    </marker>
+                    <token>von</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Erstellen</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Erstellen">Im nächsten Teil geht es um das <marker>erstellen</marker> von Java-basierten Regeln.</example>
+                <example type="correct">Im nächsten Teil geht es um das <marker>Erstellen</marker> von Java-basierten Regeln.</example>
+                <example type="correct">Ich möchte das <marker>erstellen</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[Dd]as</token>
+                    <marker>
+                        <token>erstellen</token>
+                    </marker>
+                    <token postag_regexp="yes" postag=".*GEN.*"/>
+                </pattern>
+                <message>&subanfang;<suggestion>Erstellen</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Erstellen">Im nächsten Teil geht es um das <marker>erstellen</marker> einfacher XML-Regeln.</example>
+                <example type="correct">Im nächsten Teil geht es um das <marker>Erstellen</marker> einfacher XML-Regeln.</example>
+                <example type="correct">Ich möchte das <marker>erstellen</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ABSAGE_SUBST" name="Groß-/Kleinschreibung: 'eine absage (Absage) erteilen'">
             <rule>
                 <pattern case_sensitive="yes">
