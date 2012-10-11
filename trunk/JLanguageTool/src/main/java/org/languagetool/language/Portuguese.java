@@ -38,68 +38,68 @@ import org.languagetool.tokenizers.SentenceTokenizer;
 
 public class Portuguese extends Language {
 
-	  private Tagger tagger;
-	  private SentenceTokenizer sentenceTokenizer;
+  private Tagger tagger;
+  private SentenceTokenizer sentenceTokenizer;
 
-	  @Override
-	  public String getName() {
-	    return "Portuguese";
-	  }
+  @Override
+  public String getName() {
+    return "Portuguese";
+  }
 
-	  @Override
-	  public String getShortName() {
-	    return "pt";
-	  }
+  @Override
+  public String getShortName() {
+    return "pt";
+  }
 
-	  @Override
-	  public String[] getCountryVariants() {
-	    return new String[]{"AO", "MZ"};
-	  }
-	  
-	  @Override
-	  public Language getDefaultVariant() {
-	    return PORTUGUESE_PORTUGAL;
-	  }
+  @Override
+  public String[] getCountryVariants() {
+    return new String[]{"AO", "MZ"};
+  }
 
-	  @Override
-	  public Locale getLocale() {
-	    return new Locale(getShortName());
-	  }
+  @Override
+  public Language getDefaultVariant() {
+    return PORTUGUESE_PORTUGAL;
+  }
 
-	  @Override
-	  public Contributor[] getMaintainers() {
-		  final Contributor contributor = new Contributor("Marco A.G. Pinto");
-		    contributor.setUrl("http://www.marcoagpinto.com/");
-		    return new Contributor[] { contributor };
-	  }
+  @Override
+  public Locale getLocale() {
+    return new Locale(getShortName());
+  }
 
-	  @Override
-	  public Tagger getTagger() {
-	    if (tagger == null) {
-	      tagger = new DemoTagger();
-	    }
-	    return tagger;
-	  }
+  @Override
+  public Contributor[] getMaintainers() {
+    final Contributor contributor = new Contributor("Marco A.G. Pinto");
+    contributor.setUrl("http://www.marcoagpinto.com/");
+    return new Contributor[] { contributor };
+  }
 
-	  @Override
-	  public SentenceTokenizer getSentenceTokenizer() {
-	    if (sentenceTokenizer == null) {
-	      sentenceTokenizer = new SRXSentenceTokenizer(this);
-	    }
-	    return sentenceTokenizer;
-	  }
+  @Override
+  public Tagger getTagger() {
+    if (tagger == null) {
+      tagger = new DemoTagger();
+    }
+    return tagger;
+  }
 
-	  @Override
-	  public List<Class<? extends Rule>> getRelevantRules() {
-	    return Arrays.asList(
-	            CommaWhitespaceRule.class,
-	            DoublePunctuationRule.class,
-	            GenericUnpairedBracketsRule.class,
-              HunspellNoSuggestionRule.class,
-	            UppercaseSentenceStartRule.class,
-	            WordRepeatRule.class,
-	            WhitespaceRule.class
-	    );
-	  }
+  @Override
+  public SentenceTokenizer getSentenceTokenizer() {
+    if (sentenceTokenizer == null) {
+      sentenceTokenizer = new SRXSentenceTokenizer(this);
+    }
+    return sentenceTokenizer;
+  }
+
+  @Override
+  public List<Class<? extends Rule>> getRelevantRules() {
+    return Arrays.asList(
+            CommaWhitespaceRule.class,
+            DoublePunctuationRule.class,
+            GenericUnpairedBracketsRule.class,
+            HunspellNoSuggestionRule.class,
+            UppercaseSentenceStartRule.class,
+            WordRepeatRule.class,
+            WhitespaceRule.class
+    );
+  }
 
 }
