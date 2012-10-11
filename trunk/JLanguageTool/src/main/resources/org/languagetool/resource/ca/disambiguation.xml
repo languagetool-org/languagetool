@@ -71,8 +71,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <token spacebefore="no">l</token>
                 </marker>
             </pattern>
-            <disambig action="remove"><wd lemma="litre" pos="NCMN000"></wd>
-            </disambig>
+            <disambig action="remove"><wd lemma="litre" pos="NCMN000"></wd></disambig>
         </rule>
         <rule>
             <pattern>
@@ -1521,6 +1520,38 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="V.N.*"></disambig>
     </rule>
+    <rulegroup id="NUCLIS_VERBALS" name="nuclis verbals amb noms">
+        <rule>
+            <pattern>
+                <token inflected="yes" skip="1">posar</token>
+                <token regexp="yes">de|en</token>
+                <marker>
+                    <token>relleu</token>
+                </marker>
+            </pattern>
+            <disambig action="add"><wd pos="_GV_"></wd></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes" skip="1">tenir</token>
+                <token regexp="yes">en</token>
+                <marker>
+                    <token>compte</token>
+                </marker>
+            </pattern>
+            <disambig action="add"><wd pos="_GV_"></wd></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes" skip="1">estar</token>
+                <token regexp="yes">d'</token>
+                <marker>
+                    <token>acord</token>
+                </marker>
+            </pattern>
+            <disambig action="add"><wd pos="_GV_"></wd></disambig>
+        </rule>
+    </rulegroup>
     <rulegroup id="NO_PAS" name="no pas">
         <rule>
             <pattern>
@@ -5032,7 +5063,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <marker>
-                    <token postag="N.[MC][SN0].*" postag_regexp="yes"><exception inflected="yes">numeral</exception></token>
+                    <token postag="N.[MC][SN0].*" postag_regexp="yes"><exception inflected="yes">numeral</exception><exception>estic</exception></token>
                 </marker>
                 <token postag="A..[MC][SN0].*|V.P..SM|PX.[MC][SN0].*" postag_regexp="yes"></token>
             </pattern>
@@ -5041,7 +5072,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token postag="N.[MC][SN0].*" postag_regexp="yes"><exception inflected="yes">numeral</exception></token>
+                <token postag="N.[MC][SN0].*" postag_regexp="yes"><exception inflected="yes">numeral</exception><exception>estic</exception></token>
                 <marker>
                     <token postag="A..[MC][SN0].*|V.P..SM|PX.[MC][SN0].*" postag_regexp="yes"></token>
                 </marker>
@@ -5977,7 +6008,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rule id="nNom" name="no nom si no ha concordat">
         <pattern>
             <and>
-                <token postag="N.*" postag_regexp="yes" regexp="yes">seca|resulta|porta|duc|fou|grans?|surt|era|verticals?<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                <token postag="N.*" postag_regexp="yes" regexp="yes">meritoris?|meritòri(a|es)|seca|resulta|porta|duc|fou|grans?|surt|era|verticals?<exception postag="_GN_.*" postag_regexp="yes"/></token>
                 <token postag="N.*" postag_regexp="yes" negate_pos="yes"></token>
             </and>
         </pattern>
@@ -6496,6 +6527,115 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
             </pattern>
             <disambig action="add"><wd pos="ignore_concordance"></wd></disambig>
+        </rule>
+    </rulegroup>
+    <rulegroup id="QUE_COMPARATIU" name="'que' com a comparatiu">
+        <!-- Excepcions amb "tenir, haver-hi, trobar..." ?? -->
+        <!-- arriba un |moment|instant, tal punt
+         no tenia cap altra missió que inculcar-li disciplina,
+         no tenia cap altra missió que inculcar-li,
+         cap altre objectiu...
+         hi ha evidències que ingerir àcid palmític incrementa el risc
+         hi ha evidències que considerar abans,
+         d'acord que copiar-les  
+         de manera que situar-les /resolt
+         La possibilitat teòrica i tècnica que viatjar en el temps ens permetés 
+         Després d'arribar a la conclusió que ser un músic i un artista era el mateix
+         L'afer es complica pel fet que marcar o desmarcar-se d'un usuari com "amic" 
+         -->
+        <rule>
+            <pattern>
+                <token inflected="yes" regexp="yes" skip="5">tenir|trobar<exception scope="next" inflected="yes" regexp="yes">missió|sortida|eixida|alternativa|recurs|remei|solució|opció</exception></token>
+                <marker>
+                    <token>que</token>
+                </marker>
+                <token postag="V.N.*" postag_regexp="yes"><exception>haver</exception></token>
+            </pattern>
+            <disambig action="add"><wd pos="no_comparatiu" lemma="que"></wd></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token skip="1">hi</token>
+                <token inflected="yes" skip="5">haver<exception scope="next" inflected="yes" regexp="yes">missió|sortida|eixida|alternativa|recurs|remei|solució|opció</exception></token>
+                <marker>
+                    <token>que</token>
+                </marker>
+                <token postag="V.N.*" postag_regexp="yes"><exception>haver</exception></token>
+            </pattern>
+            <disambig action="add"><wd pos="no_comparatiu" lemma="que"></wd></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes">haver</token>
+                <token skip="5">-hi<exception scope="next" inflected="yes" regexp="yes">sortida|eixida|alternativa|recurs|remei|solució|opció</exception></token>
+                <marker>
+                    <token>que</token>
+                </marker>
+                <token postag="V.N.*" postag_regexp="yes"><exception>haver</exception></token>
+            </pattern>
+            <disambig action="add"><wd pos="no_comparatiu" lemma="que"></wd></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes" skip="5" regexp="yes">arribar|des</token>
+                <token regexp="yes">moments?|instants?|punts?</token>
+                <marker>
+                    <token>que</token>
+                </marker>
+                <token postag="V.N.*" postag_regexp="yes"></token>
+            </pattern>
+            <disambig action="add"><wd pos="relatiu" lemma="que"></wd></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes" skip="5" regexp="yes">fet|possibilitat|conclusió|evidència|prova</token>
+                <marker>
+                    <token>que</token>
+                </marker>
+                <token postag="V.N.*" postag_regexp="yes"></token>
+            </pattern>
+            <disambig action="add"><wd pos="conjuncio" lemma="que"></wd></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes" skip="10" regexp="yes">dir|sostenir|afirmar|aclarir|explicar|contar|pensar|creure</token>
+                <marker>
+                    <token>que</token>
+                </marker>
+                <token postag="V.N.*" postag_regexp="yes"></token>
+            </pattern>
+            <disambig action="add"><wd pos="conjuncio" lemma="que"></wd></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes" regexp="yes" skip="20">més|menys|altre|mateix|igual|major|menor|tan|tant|pitjor|millor</token>
+                <marker>
+                    <token>que<exception postag="no_comparatiu"/></token>
+                </marker>
+                <token postag="V.N.*" postag_regexp="yes"></token>
+            </pattern>
+            <disambig action="add"><wd pos="comparatiu"></wd></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>que<exception postag="no_comparatiu"/></token>
+                </marker>
+                <token postag="V.N.*" postag_regexp="yes" skip="15"></token>
+                <token inflected="yes" regexp="yes">més|menys|altre|mateix|igual|major|menor|tan|tant|pitjor|millor</token>
+            </pattern>
+            <disambig action="add"><wd pos="comparatiu"></wd></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="SENT_START" skip="-1"/>
+                <token postag="V.N.*" postag_regexp="yes" skip="10"><exception scope="previous" postag="VA.*" postag_regexp="yes"/></token>
+                <marker>
+                    <token>que</token>
+                </marker>
+                <token postag="V.N.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="add"><wd pos="comparatiu"></wd></disambig>
         </rule>
     </rulegroup>
     <rule id="REPEATED_NEGATION" name="negació repetida">
