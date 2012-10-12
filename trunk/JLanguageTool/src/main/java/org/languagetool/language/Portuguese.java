@@ -27,6 +27,7 @@ import org.languagetool.rules.CommaWhitespaceRule;
 import org.languagetool.rules.DoublePunctuationRule;
 import org.languagetool.rules.GenericUnpairedBracketsRule;
 import org.languagetool.rules.Rule;
+import org.languagetool.rules.pt.PortugueseCompoundRule;
 import org.languagetool.rules.UppercaseSentenceStartRule;
 import org.languagetool.rules.WhitespaceRule;
 import org.languagetool.rules.WordRepeatRule;
@@ -98,7 +99,9 @@ public class Portuguese extends Language {
             HunspellNoSuggestionRule.class,
             UppercaseSentenceStartRule.class,
             WordRepeatRule.class,
-            WhitespaceRule.class
+            WhitespaceRule.class,
+            //Specific to Portuguese
+            PortugueseCompoundRule.class
     );
   }
 
