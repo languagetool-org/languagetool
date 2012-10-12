@@ -34,10 +34,10 @@ public class PortugueseCompoundRule extends AbstractCompoundRule {
  
   public PortugueseCompoundRule(final ResourceBundle messages) throws IOException {    
     super(messages, FILE_NAME,
-            "Dieses Wort wird mit Bindestrich geschrieben.",
-            "Dieses Wort wird zusammengeschrieben.",
-            "Dieses Wort wird zusammen oder mit Bindestrich geschrieben.");
-    super.setShort("Zusammenschreibung von Wörtern");
+            "Esta palavra é hifenizada.",
+            "Esta palavra é escrita em conjunto.",
+            "Esta palavra é uma palavra ou com um hífen.");
+    super.setShort("Juntos grafias de palavras");
   }
 
 
@@ -48,6 +48,6 @@ public class PortugueseCompoundRule extends AbstractCompoundRule {
 
   @Override
   public String getDescription() {
-    return "Zusammenschreibung von Wörtern, z.B. 'CD-ROM' statt 'CD ROM'";
+    return "Juntos ortografia de palavras, por exemplo 'CD-ROM' em vez de 'CD ROM'";
   }
 }
