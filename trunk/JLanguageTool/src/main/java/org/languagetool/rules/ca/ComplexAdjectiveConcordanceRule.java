@@ -169,9 +169,9 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
 						if (matchPostagRegexp(tokens[i-j],NOM) && matchPostagRegexp(tokens[i-j],_GN_FP) ) {cNFP[level]++;}
 						if (!matchPostagRegexp(tokens[i - j], _GN_)) {
 							if (matchPostagRegexp(tokens[i - j], NOM_MS)) {cNMS[level]++;}
-							if (matchPostagRegexp(tokens[i - j], NOM_FS)) {cNFS[level]++;}
-							if (matchPostagRegexp(tokens[i - j], NOM_MP)) {cNMP[level]++;}
-							if (matchPostagRegexp(tokens[i - j], NOM_FP)) {cNFP[level]++;}
+							else if (matchPostagRegexp(tokens[i - j], NOM_FS)) {cNFS[level]++;}
+							else if (matchPostagRegexp(tokens[i - j], NOM_MP)) {cNMP[level]++;}
+							else if (matchPostagRegexp(tokens[i - j], NOM_FP)) {cNFP[level]++;}
 						}
 					}
 					if (matchPostagRegexp(tokens[i-j],NOM)) {cNt[level]++; isPrevNoun=true;} else {isPrevNoun=false;}; //avoid two consecutive nouns

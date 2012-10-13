@@ -101,6 +101,7 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
 		assertCorrect("es movien mitjançant filferros, tot projectant ombres");
 		
 		// errors:
+		assertIncorrect("Són unes corbes de llum complexos.");
 		assertIncorrect("fets moltes vegades inexplicable.");
 		assertIncorrect("eren uns fets cada volta més inexplicable");
 		assertIncorrect("Unes explotacions ramaderes porcina.");
