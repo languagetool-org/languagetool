@@ -185,6 +185,7 @@ public class CaseRule extends GermanRule {
     exceptions.add("Nähte");
     exceptions.add("Nähten");
     exceptions.add("Neuem");
+    exceptions.add("Neues");   // nichts Neues
     exceptions.add("Nr");
     exceptions.add("Nutze");   // zu Nutze
     exceptions.add("Obdachloser");
