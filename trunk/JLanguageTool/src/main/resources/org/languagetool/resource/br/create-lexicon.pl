@@ -77,14 +77,15 @@ my @anv_lies_tud = (
     $hard    = s/^([bdg])/$hard{$1}/ier    if /^[bdg]/i;
     if (/^[bdgkmpt]/i) {
       $soft = $_;
-      # prevent 'Ghanaianed' => 'C’hhanaianed' (instead of 'C’hanaianed').
-      $soft =~ s/^(g)h/$1/i;
-      # special cases for 'Gw.*' & 'Gou[ei].*' roots.
-      $soft =~ s/^g(w)/w/;
-      $soft =~ s/^G(w)/W/i;
       if (/^gou[ei]/i) {
-        $soft =~ s/^g/o/;
-        $soft =~ s/^G/O/;
+        $soft =~ s/^g[oO]/o/;
+        $soft =~ s/^G[oO]/O/;
+      } else {
+        # prevent 'Ghanaianed' => 'C’hhanaianed' (instead of 'C’hanaianed').
+        $soft =~ s/^(g)h/$1/i;
+        # special cases for 'Gw.*' & 'Gou[ei].*' roots.
+        $soft =~ s/^g[wW]/w/;
+        $soft =~ s/^G[wW]/W/;
       }
       $soft =~ s/^([bdgkmpt])/$soft{$1}/ie;
     }
@@ -1953,9 +1954,9 @@ while (<LT_EXPAND>) {
     }
 
     my ($first_letter_lemma) = $lemma =~ /^(gw|[ktpgdbm]).*/i;
-    $first_letter_lemma = "" unless (defined $first_letter_lemma);
+    $first_letter_lemma = "" unless defined $first_letter_lemma;
     my ($first_letter_word) = $word  =~ /^([kg]w|c’h|[gdbzfktvpw]).*/i;
-    $first_letter_word = "" unless (defined $first_letter_word);
+    $first_letter_word = "" unless defined $first_letter_word;
     $first_letter_lemma = lc $first_letter_lemma;
     $first_letter_word  = lc $first_letter_word;
 
@@ -2036,11 +2037,11 @@ print OUT "c’hiz\tkiz\tN f s M:0a:2:\n";
 print OUT "giz\tkiz\tN f s M:1:1a:\n";
 
 print "Lemma words missing from dictionary:\n";
-foreach (sort keys %all_lemmas) { print "$_\n" unless (exists $all_words{$_}); }
+foreach (sort keys %all_lemmas) { print "$_\n" unless exists $all_words{$_}; }
 
 # Check whether some words in anv_lies_tud have are missing in dictionary.
 foreach (sort keys %anv_lies_tud) {
-  print STDERR "*** plural noun [$_] is missing in Apertium dictionary.\n" unless ($anv_lies_tud{$_});
+  print STDERR "*** plural noun [$_] is missing in Apertium dictionary.\n" unless $anv_lies_tud{$_};
 }
 
 `java -jar morfologik-stemming-nodict-1.4.0.jar tab2morph -i apertium-br-fr.br.dix-LT.txt -o output.txt`;
