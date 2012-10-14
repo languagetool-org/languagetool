@@ -1923,22 +1923,22 @@ while (<LT_EXPAND>) {
     $first_letter_lemma = lc $first_letter_lemma;
     $first_letter_word  = lc $first_letter_word;
 
-    if    ($lemma eq 'kaout' and !($word =~ '.*aout')) { }
+    if    ($lemma eq 'kaout' and $word !~ /.*aout/) { }
     elsif ($word  eq 'tud')    { }
     elsif ($word  eq 'dud')    { $tag .= " M:1:1a" }
     elsif ($word  eq 'zud')    { $tag .= " M:2:" }
     elsif ($word  eq 'diweuz') { }
     elsif ($word  eq 'tiweuz') { $tag .= " M:3:" }
     elsif ($word  eq 'ziweuz') { $tag .= " M:1:1b:" }
-    elsif ($word =~ '^kezeg-?(koad|mor|blein)?$')   { }
-    elsif ($word =~ '^gezeg-?(koad|mor|blein)?$')   { $tag .= " M:1:1a:" }
-    elsif ($word =~ '^c’hezeg-?(koad|mor|blein)?$') { $tag .= " M:2:" }
-    elsif ($word =~ '^daou(ividig|lin|lagad|ufern)$') { }
-    elsif ($word =~ '^taou(ividig|lin|lagad|ufern)$') { $tag .= " M:3:" }
-    elsif ($word =~ '^zaou(ividig|lin|lagad|ufern)$') { $tag .= " M:1:1b:" }
-    elsif ($word =~ '^div(abrant|c’har|esker|lez|rec’h|ronn|orzhed|jod|skoaz|skouarn)$') { }
-    elsif ($word =~ '^tiv(abrant|c’har|esker|lez|rec’h|ronn|orzhed|jod|skoaz|skouarn)$') { $tag .= " M:3:" }
-    elsif ($word =~ '^ziv(abrant|c’har|esker|lez|rec’h|ronn|orzhed|jod|skoaz|skouarn)$') { $tag .= " M:1:1b:" }
+    elsif ($word =~ /^kezeg-?(koad|mor|blein)?$/)   { }
+    elsif ($word =~ /^gezeg-?(koad|mor|blein)?$/)   { $tag .= " M:1:1a:" }
+    elsif ($word =~ /^c’hezeg-?(koad|mor|blein)?$/) { $tag .= " M:2:" }
+    elsif ($word =~ /^daou(ividig|lin|lagad|ufern)$/) { }
+    elsif ($word =~ /^taou(ividig|lin|lagad|ufern)$/) { $tag .= " M:3:" }
+    elsif ($word =~ /^zaou(ividig|lin|lagad|ufern)$/) { $tag .= " M:1:1b:" }
+    elsif ($word =~ /^div(abrant|c’har|esker|lez|rec’h|ronn|orzhed|jod|skoaz|skouarn)$/) { }
+    elsif ($word =~ /^tiv(abrant|c’har|esker|lez|rec’h|ronn|orzhed|jod|skoaz|skouarn)$/) { $tag .= " M:3:" }
+    elsif ($word =~ /^ziv(abrant|c’har|esker|lez|rec’h|ronn|orzhed|jod|skoaz|skouarn)$/) { $tag .= " M:1:1b:" }
     elsif ($lemma =~ /^gou[ei]/i) {
       if  ($word  =~ /^ou[ei]/i) { $tag .= " M:1:1a:1b:4:" }
       elsif ($first_letter_word  eq 'k')   { $tag .= " M:3:" }
