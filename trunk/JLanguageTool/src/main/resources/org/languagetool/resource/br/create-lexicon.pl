@@ -26,6 +26,10 @@
 #    $ ./create-lexicon.pl
 #
 # Author: Dominique Pelle <dominique.pelle@gmail.com>
+#
+# Patches received from:
+# - Fulup Jakez <fulup.jakez@ofis-bzh.org>
+# - Thierry Vignaud <thierry.vignaud@gmail.com>
 
 use strict;
 
@@ -783,6 +787,8 @@ my @anv_lies_tud = (
   "ijinadennourion",
   "ijinourien",
   "ijinourion",
+  "imbourc’herien",
+  "imbourc’herion",
   "imbrouderien",
   "imbrouderion",
   "impalaerien",
@@ -1128,8 +1134,6 @@ my @anv_lies_tud = (
   "marvailherion",      "varvailherion",
   "mañsonerien",        "vañsonerien",
   "mañsonerion",        "vañsonerion",
-  "mbourc’herien",
-  "mbourc’herion",
   "mederien",           "vederien",
   "medisined",          "vedisined",
   "medisinourien",      "vedisinourien",
@@ -1710,54 +1714,54 @@ while (<LT_EXPAND>) {
     elsif ($tags eq '<adj><ind><mf><sp>') { $tag = "J ind" } # all, memes
 
     # Pronouns subject.
-    elsif ($tags eq '<prn><subj><p1><mf><sg>') { $tag = "R suj e s 1"; } # me
-    elsif ($tags eq '<prn><subj><p2><mf><sg>') { $tag = "R suj e s 2"; } # te
-    elsif ($tags eq '<prn><subj><p3><m><sg>')  { $tag = "R suj m s 3"; } # eñ
-    elsif ($tags eq '<prn><subj><p3><f><sg>')  { $tag = "R suj f s 3"; } # hi
-    elsif ($tags eq '<prn><subj><p1><mf><pl>') { $tag = "R suj e p 1"; } # ni
-    elsif ($tags eq '<prn><subj><p2><mf><pl>') { $tag = "R suj e p 2"; } # c’hwi
-    elsif ($tags eq '<prn><subj><p3><mf><pl>') { $tag = "R suj e p 3"; } # int
-    elsif ($tags eq '<prn><subj><p3><mf><pl>') { $tag = "R suj e p 3"; } # int
-    elsif ($tags eq '<prn><ref><p1><mf><sg>')  { $tag = "R ref e s 1"; } # ma-unan
-    elsif ($tags eq '<prn><ref><p2><mf><sg>')  { $tag = "R ref e s 2"; } # da-unan
-    elsif ($tags eq '<prn><ref><p3><f><sg>')   { $tag = "R ref f s 3"; } # e-unan
-    elsif ($tags eq '<prn><ref><p3><m><sg>')   { $tag = "R ref m s 3"; } # he-unan
-    elsif ($tags eq '<prn><ref><p1><mf><pl>')  { $tag = "R ref e p 1"; } # hon-unan
-    elsif ($tags eq '<prn><ref><p2><mf><pl>')  { $tag = "R ref e p 2"; } # hoc’h-unan
-    elsif ($tags eq '<prn><ref><p3><mf><pl>')  { $tag = "R ref e p 3"; } # o-unan
-    elsif ($tags eq '<prn><itg><mf><sp>')      { $tag = "R itg e sp"; }  # petra, piv
-    elsif ($tags eq '<prn><itg><mf><pl>')      { $tag = "R itg e p"; }   # pere
-    elsif ($tags eq '<prn><dem><m><sg>')       { $tag = "R dem m s"; }   # hemañ
-    elsif ($tags eq '<prn><dem><f><sg>')       { $tag = "R dem f s"; }   # homañ
-    elsif ($tags eq '<prn><dem><mf><sg>')      { $tag = "R dem e s"; }   # se
-    elsif ($tags eq '<prn><ind><mf><sg>')      { $tag = "R ind mf s"; }  # hini
-    elsif ($tags eq '<prn><ind><mf><pl>')      { $tag = "R ind mf p"; }  # re
-    elsif ($tags eq '<prn><def><mf><sg>')      { $tag = "R def e s"; }   # henn
-    elsif ($tags eq '<prn><def><m><sg>')       { $tag = "R def m s"; }   # egile
-    elsif ($tags eq '<prn><def><f><sg>')       { $tag = "R def f s"; }   # eben
+    elsif ($tags eq '<prn><subj><p1><mf><sg>') { $tag = "R suj e s 1" } # me
+    elsif ($tags eq '<prn><subj><p2><mf><sg>') { $tag = "R suj e s 2" } # te
+    elsif ($tags eq '<prn><subj><p3><m><sg>')  { $tag = "R suj m s 3" } # eñ
+    elsif ($tags eq '<prn><subj><p3><f><sg>')  { $tag = "R suj f s 3" } # hi
+    elsif ($tags eq '<prn><subj><p1><mf><pl>') { $tag = "R suj e p 1" } # ni
+    elsif ($tags eq '<prn><subj><p2><mf><pl>') { $tag = "R suj e p 2" } # c’hwi
+    elsif ($tags eq '<prn><subj><p3><mf><pl>') { $tag = "R suj e p 3" } # int
+    elsif ($tags eq '<prn><subj><p3><mf><pl>') { $tag = "R suj e p 3" } # int
+    elsif ($tags eq '<prn><ref><p1><mf><sg>')  { $tag = "R ref e s 1" } # ma-unan
+    elsif ($tags eq '<prn><ref><p2><mf><sg>')  { $tag = "R ref e s 2" } # da-unan
+    elsif ($tags eq '<prn><ref><p3><f><sg>')   { $tag = "R ref f s 3" } # e-unan
+    elsif ($tags eq '<prn><ref><p3><m><sg>')   { $tag = "R ref m s 3" } # he-unan
+    elsif ($tags eq '<prn><ref><p1><mf><pl>')  { $tag = "R ref e p 1" } # hon-unan
+    elsif ($tags eq '<prn><ref><p2><mf><pl>')  { $tag = "R ref e p 2" } # hoc’h-unan
+    elsif ($tags eq '<prn><ref><p3><mf><pl>')  { $tag = "R ref e p 3" } # o-unan
+    elsif ($tags eq '<prn><itg><mf><sp>')      { $tag = "R itg e sp" }  # petra, piv
+    elsif ($tags eq '<prn><itg><mf><pl>')      { $tag = "R itg e p" }   # pere
+    elsif ($tags eq '<prn><dem><m><sg>')       { $tag = "R dem m s" }   # hemañ
+    elsif ($tags eq '<prn><dem><f><sg>')       { $tag = "R dem f s" }   # homañ
+    elsif ($tags eq '<prn><dem><mf><sg>')      { $tag = "R dem e s" }   # se
+    elsif ($tags eq '<prn><ind><mf><sg>')      { $tag = "R ind mf s" }  # hini
+    elsif ($tags eq '<prn><ind><mf><pl>')      { $tag = "R ind mf p" }  # re
+    elsif ($tags eq '<prn><def><mf><sg>')      { $tag = "R def e s" }   # henn
+    elsif ($tags eq '<prn><def><m><sg>')       { $tag = "R def m s" }   # egile
+    elsif ($tags eq '<prn><def><f><sg>')       { $tag = "R def f s" }   # eben
 
     # Pronouns object.
-    elsif ($tags eq '<prn><obj><p1><mf><sg>') { $tag = "R e s 1 obj"; } # ma, va
-    elsif ($tags eq '<prn><obj><p1><mf><pl>') { $tag = "R e p 1 obj"; } # hon, hor, hol
-    elsif ($tags eq '<prn><obj><p2><mf><sg>') { $tag = "R e s 2 obj"; } # az
-    elsif ($tags eq '<prn><obj><p2><mf><pl>') { $tag = "R e p 2 obj"; } # ho
-    elsif ($tags eq '<prn><obj><p3><m><sg>')  { $tag = "R m s 1 obj"; } # e
-    elsif ($tags eq '<prn><obj><p3><f><sg>')  { $tag = "R f s 1 obj"; } # he
-    elsif ($tags eq '<prn><obj><p3><mf><pl>') { $tag = "R e p 3 obj"; } # o
+    elsif ($tags eq '<prn><obj><p1><mf><sg>') { $tag = "R e s 1 obj" } # ma, va
+    elsif ($tags eq '<prn><obj><p1><mf><pl>') { $tag = "R e p 1 obj" } # hon, hor, hol
+    elsif ($tags eq '<prn><obj><p2><mf><sg>') { $tag = "R e s 2 obj" } # az
+    elsif ($tags eq '<prn><obj><p2><mf><pl>') { $tag = "R e p 2 obj" } # ho
+    elsif ($tags eq '<prn><obj><p3><m><sg>')  { $tag = "R m s 1 obj" } # e
+    elsif ($tags eq '<prn><obj><p3><f><sg>')  { $tag = "R f s 1 obj" } # he
+    elsif ($tags eq '<prn><obj><p3><mf><pl>') { $tag = "R e p 3 obj" } # o
 
     # Numbers.
-    elsif ($tags eq '<num><mf><sg>') { $tag = "K e s"; }
-    elsif ($tags eq '<num><m><pl>')  { $tag = "K m p"; }
-    elsif ($tags eq '<num><f><pl>')  { $tag = "K f p"; }
-    elsif ($tags eq '<num><mf><pl>') { $tag = "K e p"; }
+    elsif ($tags eq '<num><mf><sg>') { $tag = "K e s" }
+    elsif ($tags eq '<num><m><pl>')  { $tag = "K m p" }
+    elsif ($tags eq '<num><f><pl>')  { $tag = "K f p" }
+    elsif ($tags eq '<num><mf><pl>') { $tag = "K e p" }
 
     # Ordinal numbers.
-    elsif ($tags eq '<num><ord><mf><sp>')   { $tag = "K e sp o"; }
-    elsif ($tags eq '<num><ord><mf><sg>')   { $tag = "K e s o"; }
-    elsif ($tags eq '<num><ord><mf><pl>')   { $tag = "K e p o"; }
-    elsif ($tags eq '<num><ord><m><pl>')    { $tag = "K m p o"; }
-    elsif ($tags eq '<num><ord><m><sp>')    { $tag = "K m sp o"; }
-    elsif ($tags eq '<num><ord><f><pl>')    { $tag = "K f p o"; }
+    elsif ($tags eq '<num><ord><mf><sp>')   { $tag = "K e sp o" }
+    elsif ($tags eq '<num><ord><mf><sg>')   { $tag = "K e s o" }
+    elsif ($tags eq '<num><ord><mf><pl>')   { $tag = "K e p o" }
+    elsif ($tags eq '<num><ord><m><pl>')    { $tag = "K m p o" }
+    elsif ($tags eq '<num><ord><m><sp>')    { $tag = "K m sp o" }
+    elsif ($tags eq '<num><ord><f><pl>')    { $tag = "K f p o" }
 
     # Indirect preposition.
     elsif ($tags eq '<pr>')                                { $tag = "P" }        # da
@@ -1935,7 +1939,7 @@ while (<LT_EXPAND>) {
     elsif ($word =~ '^div(abrant|c’har|esker|lez|rec’h|ronn|orzhed|jod|skoaz|skouarn)$') { }
     elsif ($word =~ '^tiv(abrant|c’har|esker|lez|rec’h|ronn|orzhed|jod|skoaz|skouarn)$') { $tag .= " M:3:" }
     elsif ($word =~ '^ziv(abrant|c’har|esker|lez|rec’h|ronn|orzhed|jod|skoaz|skouarn)$') { $tag .= " M:1:1b:" }
-    elsif ($lemma =~ /^gou[ei]/i){
+    elsif ($lemma =~ /^gou[ei]/i) {
       if  ($word  =~ /^ou[ei]/i) { $tag .= " M:1:1a:1b:4:" }
       elsif ($first_letter_word  eq 'k')   { $tag .= " M:3:" }
       elsif ($first_letter_word  eq 'c’h') { $tag .= " M:4:" }
@@ -1988,7 +1992,7 @@ while (<LT_EXPAND>) {
 print "handled [$out_count] words, unhandled [$err_count] words\n";
 
 # Adding missing words in dictionary.
-# kiz exists only in expressions in Apertium (which is OK) but
+# "kiz" exists only in expressions in Apertium (which is OK) but
 # for LanguageTool, it's easier to make it a normal word so we
 # don't give false positive on "war ho c'hiz", etc.
 print OUT "kiz\tkiz\tN f s\n";
