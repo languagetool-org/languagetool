@@ -335,7 +335,7 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
 				}
 				if (theRuleMaches) {
 					final String msg = "Reviseu la concordança de l'adjectiu \u00AB"+token+"\u00BB.";
-					final RuleMatch ruleMatch = new RuleMatch(this, tokens[i].getStartPos(), tokens[i].getStartPos()+token.length(), msg, "Falta de concordança.");
+					final RuleMatch ruleMatch = new RuleMatch(this, tokens[i].getStartPos(), tokens[i].getStartPos()+token.length(), msg, "Reviseu la concordança.");
 					ruleMatches.add(ruleMatch);
 				}
 			}

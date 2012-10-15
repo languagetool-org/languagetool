@@ -169,6 +169,7 @@ public class ReflexiveVerbsRuleTest extends TestCase {
 		assertIncorrect("se'ns va anar la mà");
 		assertIncorrect("Es van caure en la trampa.");
 		assertIncorrect("Aleshores es van anar a la ciutat a presentar una queixa.");
+		assertIncorrect("Va entrar l'avi que pujava del taller i es va seure.");
 		//assertIncorrect("Aleshores es va anar a la ciutat a presentar una queixa.");
 		//assertIncorrect("quan es pugen, permeten canviar de feina.");
 		assertIncorrect("havent queixat");
