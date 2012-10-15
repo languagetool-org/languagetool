@@ -8878,6 +8878,120 @@ $Id$
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category name="Groß-/Kleinschreibung">
+        <rulegroup id="LINKS_ADV" name="Groß-/Kleinschreibung: 'Links (links)'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[Hh]alb</token>
+                    <marker>
+                        <token>Links</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="alllower"/></suggestion>&advende;</message>
+                <url>http://www.duden.de/rechtschreibung/links_seitwaerts</url>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="links">Jetzt halb <marker>Links</marker> abbiegen.</example>
+                <example type="correct">Nach <marker>Links</marker> soll das Thema nun Bilder heißen.</example>
+                <example type="correct">Eine Seite mit <marker>Links</marker> zum Thema wurde gefunden.</example>
+                <example type="correct">Sie will gegen <marker>Links</marker> vorgehen, die rufschädigend sind.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[Mm]it|[Nn]ach|[Vv]on</token>
+                    <marker>
+                        <token>Links</token>
+                    </marker>
+                    <token regexp="yes" inflected="yes">drehen|gehen|gucken|kommen|laufen|schreiben|[Nn]ach</token>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="alllower"/></suggestion>&advende;</message>
+                <url>http://www.duden.de/rechtschreibung/links_seitwaerts</url>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="links">Du musst jetzt nach <marker>Links</marker> gehen.</example>
+                <example type="correct">Du musst jetzt nach <marker>links</marker> gehen.</example>
+                <example type="incorrect" correction="links">Ich kann nicht mit <marker>Links</marker> schreiben.</example>
+                <example type="correct">Ich kann nicht mit <marker>links</marker> schreiben.</example>
+                <example type="incorrect" correction="links">Du musst von <marker>Links</marker> nach rechts gehen.</example>
+                <example type="correct">Du musst von <marker>links</marker> nach rechts gehen.</example>
+                <example type="correct">Das Einfügen von <marker>Links</marker> ist einfach.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes" inflected="yes">drehen|gehen|gucken|kommen|laufen|schreiben</token>
+                    <token regexp="yes">[Mm]it|[Nn]ach</token>
+                    <marker>
+                        <token>Links</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="3" case_conversion="alllower"/></suggestion>&advende;</message>
+                <url>http://www.duden.de/rechtschreibung/links_seitwaerts</url>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="links">Sie geht nach <marker>Links</marker>.</example>
+                <example type="correct">Sie geht nach <marker>links</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[Rr]echts</token>
+                    <token>vor</token>
+                    <marker>
+                        <token>Links</token>
+                    </marker>
+                </pattern>
+                <message>&inwend;'rechts vor links' werden 'rechts' und <suggestion><match no="3" case_conversion="alllower"/></suggestion> kleingeschrieben.</message>
+                <url>http://www.duden.de/rechtschreibung/links_seitwaerts</url>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="links">An dieser Kreuzung gilt rechts vor <marker>Links</marker>.</example>
+                <example type="incorrect" correction="links">An dieser Kreuzung gilt Rechts vor <marker>Links</marker>.</example>
+                <example type="correct">An dieser Kreuzung gilt rechts vor <marker>links</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="RECHTS_ADV" name="Groß-/Kleinschreibung: 'Rechts (rechts)'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token negate="yes">Blick</token>
+                    <token regexp="yes">[Gg]egen|[Hh]alb|[Mm]it|[Nn]ach</token>
+                    <marker>
+                        <token>Rechts</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="3" case_conversion="alllower"/></suggestion>&advende;</message>
+                <url>http://www.duden.de/rechtschreibung/rechts_rechtsseitig_rechterseits</url>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="rechts">Jetzt halb <marker>Rechts</marker> abbiegen.</example>
+                <example type="incorrect" correction="rechts">Ich kann nicht mit <marker>Rechts</marker> schreiben.</example>
+                <example type="correct">Ich kann nicht mit <marker>rechts</marker> schreiben.</example>
+                <example type="correct">Nach <marker>Rechts-</marker> und Streitfragen geht es jetzt um etwas anderes.</example>
+                <example type="correct">Der Blick nach <marker>Rechts</marker> ist ein SPD-nahes Informationsportal.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[Vv]on</token>
+                    <marker>
+                        <token>Rechts</token>
+                    </marker>
+                    <token regexp="yes">nach|in</token>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="alllower"/></suggestion>&advende;</message>
+                <url>http://www.duden.de/rechtschreibung/rechts_rechtsseitig_rechterseits</url>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="rechts">Du musst von <marker>Rechts</marker> nach links gehen.</example>
+                <example type="correct">Du musst von <marker>rechts</marker> nach links gehen.</example>
+                <example type="correct">Von <marker>Rechts</marker> wegen ist die Bestrafung notwendig.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>Rechts</token>
+                    </marker>
+                    <token>vor</token>
+                    <token regexp="yes">[Ll]inks</token>
+                </pattern>
+                <message>&inwend;'rechts vor links' werden <suggestion><match no="1" case_conversion="alllower"/></suggestion> und 'links'' kleingeschrieben.</message>
+                <url>http://www.duden.de/rechtschreibung/rechts_rechtsseitig_rechterseits</url>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="rechts">An dieser Kreuzung gilt <marker>Rechts</marker> vor links.</example>
+                <example type="incorrect" correction="rechts">An dieser Kreuzung gilt <marker>Rechts</marker> vor Links.</example>
+                <example type="correct">An dieser Kreuzung gilt <marker>rechts</marker> vor links.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ERSTELLEN" name="Groß-/Kleinschreibung: 'das erstellen (Erstellen)'">
             <rule>
                 <pattern case_sensitive="yes">
