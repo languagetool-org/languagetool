@@ -2306,6 +2306,45 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="filter" postag="[^N].*" />
         </rule> -->
     </rulegroup>
+    <rulegroup id="infinitiu_pronom" name="infinitiu + pronom">
+        <rule>
+            <pattern>
+                <marker>
+                    <and>
+                        <token postag="V.N.*" postag_regexp="yes"/>
+                        <token postag="NCMS.*" postag_regexp="yes"/>
+                    </and>
+                </marker>
+                <token postag="P.*" postag_regexp="yes" regexp="yes">[-'].+</token>   
+            </pattern>
+            <disambig action="filter" postag="V.N.*" />
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <and>
+                        <token postag="V.N.*" postag_regexp="yes"/>
+                        <token postag="NCMS.*" postag_regexp="yes"/>
+                    </and>
+                </marker>
+                <token><exception postag="SPS00|AQ0[MC][SN]0|V.P.*SM|V.[SI].*|_GV_|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"></exception></token>   
+            </pattern>
+            <disambig action="filter" postag="V.N.*" />
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <and>
+                        <token postag="V.N.*" postag_regexp="yes"/>
+                        <token postag="NCMS.*" postag_regexp="yes"/>
+                    </and>
+                </marker>
+                <token postag="PP3..A00" postag_regexp="yes"></token>
+                <token><exception postag="V.[SI].*|_GV_|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"/></token>
+            </pattern>
+            <disambig action="filter" postag="V.N.*" />
+        </rule>
+    </rulegroup>
     <rule id="cal_infinitiu" name="cal + infinitiu">
         <pattern>
             <marker>
@@ -2614,7 +2653,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <!--  que fos més escàs -->
         <pattern>
             <token postag="V.[NMIS].*" postag_regexp="yes"><exception postag="V.[NMIS].*|complement" postag_regexp="yes" negate_pos="yes"/></token>
-            <token postag="RG" regexp="yes">.+ment|molt|poc|tant|tan|aleshores|alhora|almanco|almenys|aviat|ben|encara|força|gaire|gairebé|gens|inclús|ja|llavors|mai|massa|menys|mig|millor|més|no|només|pas|pitjor|potser|prompte|prou|quasi|quelcom|sempre|sobretot|sols|suara|també|tampoc|tanmateix|tostemps|tot|tothora|àdhuc</token>
+            <token postag="RG_anteposat" regexp="yes"/>
             <marker>
                 <and>
                     <token postag="V.[IS].*" postag_regexp="yes"><exception postag="DI.*" postag_regexp="yes"/></token> <!-- no té cap quantitat -->
