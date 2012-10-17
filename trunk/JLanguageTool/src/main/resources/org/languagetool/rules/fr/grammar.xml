@@ -1077,10 +1077,12 @@ though, and has since been slightly modified)-->
                     <marker>
                         <token>A</token>
                     </marker>
+                    <token><exception>priori</exception></token>
                 </pattern>
                 <message>Voulez-vous écrire <suggestion>À</suggestion> ?</message>
                 <example type="incorrect"><marker>A</marker> quelle heure arrive-t-il ?</example>
                 <example type="correct"><marker>À</marker> quelle heure arrive-t-il ?</example>
+                <example type="correct">A priori, il devrait arriver à l'heure.</example>
             </rule>
             <rule>
                 <pattern>
@@ -5366,7 +5368,9 @@ though, and has since been slightly modified)-->
             <rule>
                 <pattern>
                     <token negate="yes" regexp="yes">plus|moins|de|[’´'‛′‘]/</token>
-                    <token postag="N . s" postag_regexp="yes"/>
+                    <token postag="N . s" postag_regexp="yes">
+                      <exception postag="V.*" postag_regexp="yes"/>
+                    </token>
                     <token regexp="yes" skip="2">que?</token>
                     <marker>
                         <token postag="V avoir ind.*" postag_regexp="yes" skip="2"/>
@@ -5376,6 +5380,7 @@ though, and has since been slightly modified)-->
                 <message>Si « \2 » est l’antécédent du relatif « \3 », vérifiez l’accord du participe « \5 » en nombre.</message>
                 <example type="correct">Le document qu’ils <marker>ont acheté</marker>.</example>
                 <example type="incorrect">Le document qu’ils <marker>ont achetés</marker>.</example>
+                <example type="correct">Tout cela pour dire qu’on a longtemps été confrontés à ce problème.</example>
             </rule>
             <rule>
                 <pattern>
