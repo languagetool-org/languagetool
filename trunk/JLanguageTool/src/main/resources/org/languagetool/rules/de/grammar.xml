@@ -8878,6 +8878,60 @@ $Id$
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category name="Groß-/Kleinschreibung">
+        <rulegroup id="IM_KLAREN" name="Groß-/Kleinschreibung: 'im klaren (Klaren)'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[Ii]m</token>
+                    <marker>
+                        <token>klaren</token>
+                    </marker>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <message>&inwend;'sich im Klaren sein' wird <suggestion>Klaren</suggestion> großgeschrieben.</message>
+                <url>http://www.korrekturen.de/wortliste/im_klaren.shtml</url>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Klaren">Sie ist sich darüber überhaupt nicht im <marker>klaren</marker>.</example>
+                <example type="correct">Sie ist sich darüber nicht im <marker>Klaren</marker>.</example>
+                <example type="correct">Im <marker>klaren</marker> Wasser ist nichts zu sehen.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes" skip="1">[Ss]ich|[Mm]ir|[Dd]ir|[Uu]ns|[Ee]uch</token>
+                    <token>im</token>
+                    <marker>
+                        <token skip="1">klaren</token>
+                    </marker>
+                    <token inflected="yes" postag="VER.*" postag_regexp="yes">sein</token>
+                </pattern>
+                <message>&inwend;'sich im Klaren sein' wird <suggestion>Klaren</suggestion> großgeschrieben.</message>
+                <url>http://www.korrekturen.de/wortliste/im_klaren.shtml</url>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Klaren">Man sollte sich darüber im <marker>klaren</marker> sein.</example>
+                <example type="incorrect" correction="Klaren">Ich frage mich, ob ich im mir darüber im <marker>klaren</marker> bin.</example>
+                <example type="correct">Ich frage mich, ob ich im mir darüber im <marker>Klaren</marker> bin.</example>
+                <example type="correct">Sich im <marker>klaren</marker> Wasser zu baden ist schön.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes" postag="VER.*" postag_regexp="yes" skip="1">sein</token>
+                    <token regexp="yes" skip="1">sich|mir|dir|uns|euch</token>
+                    <token>im</token>
+                    <marker>
+                        <token>klaren</token>
+                    </marker>
+                    <token>darüber</token>
+                </pattern>
+                <message>&inwend;'sich im Klaren sein' wird <suggestion>Klaren</suggestion> großgeschrieben.</message>
+                <url>http://www.korrekturen.de/wortliste/im_klaren.shtml</url>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Klaren">Bin ich mir im <marker>klaren</marker> darüber?</example>
+                <example type="correct">Bin ich mir im <marker>Klaren</marker> darüber?</example>
+                <example type="incorrect" correction="Klaren">Ich bin mir nicht im <marker>klaren</marker> darüber.</example>
+                <example type="correct">Ich bin mir nicht im <marker>Klaren</marker> darüber.</example>
+                <example type="incorrect" correction="Klaren">Warum seid ihr euch im <marker>klaren</marker> darüber, dass das nicht gut ist?</example>
+                <example type="correct">Bin ich dir im <marker>klaren</marker> Wasser begegnet?</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="LINKS_ADV" name="Groß-/Kleinschreibung: 'Links (links)'">
             <rule>
                 <pattern case_sensitive="yes">
