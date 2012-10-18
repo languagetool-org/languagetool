@@ -103,7 +103,7 @@ public class ReflexiveVerbsRule extends CatalanRule {
   //private static final Pattern REFLEXIU_ANTEPOSAT = Pattern.compile("e[mts]|[mts]e|ens|us|-[mts]|-[mts]e|'[mts]|[mts]'|-nos|'ns|-vos|-us",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   
   private static final Pattern SUBJECTE_PERSONAL_POSTAG = Pattern.compile("NC.*|NP.*|_GN_.*|PI.*");
-  private static final Pattern SUBJECTE_PERSONAL_NO_POSTAG = Pattern.compile("complement.*|D.*|A.*");
+  private static final Pattern SUBJECTE_PERSONAL_NO_POSTAG = Pattern.compile("complement.*|D.*|A.*|PX.*");
   private static final Pattern SUBJECTE_PERSONAL_TOKEN = Pattern.compile("jo|mi|tu|ella?|nosaltres|vosaltres|elle?s|vost[èé]s?|vós",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final Pattern TRENCA_COMPTE = Pattern.compile("PR.*|CS|CC|PUNCT.*|.*LOC_CONJ.*");
   private static final Pattern TRENCA_COMPTE2 = Pattern.compile("SENT_START|CC|PUNCT.*|.*LOC_CONJ.*");

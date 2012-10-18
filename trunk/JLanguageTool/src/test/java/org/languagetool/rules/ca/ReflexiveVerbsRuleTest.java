@@ -138,8 +138,8 @@ public class ReflexiveVerbsRuleTest extends TestCase {
 		assertCorrect("A escola no s'hi va a plorar.");
 		assertCorrect("A escola no es va a jugar.");
 		assertCorrect("A escola no es va a plorar.");
+		assertCorrect("Al nostre pis de la Torre es pujava per aquella llarga escala");
 		assertCorrect("Joan no es va a jugar la feina.");	
-		
 		 	
 		// errors:
 		assertIncorrect("un dels pocs moviments que poden fer és intentar pujar-se al carro de la indignació.");
