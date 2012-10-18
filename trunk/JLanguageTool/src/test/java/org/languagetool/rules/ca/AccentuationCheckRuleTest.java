@@ -70,6 +70,7 @@ public class AccentuationCheckRuleTest extends TestCase {
     assertCorrect("La magnífica conservació del palau.");
 
     // errors:
+    assertIncorrect("Vaig arribar a fer una radio que no va funcionar mai.");
     assertIncorrect("No em fumaré cap faria com feia abans.");
     assertIncorrect("M'he fumat una faria.");
     assertIncorrect("Les seues contraries.");

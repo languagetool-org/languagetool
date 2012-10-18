@@ -99,8 +99,12 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
 		assertCorrect("la denominació valencià per a la llengua pròpia");
 		assertCorrect("Com més petita és l'obertura de diafragma, més grans són la profunditat de camp i la profunditat");
 		assertCorrect("es movien mitjançant filferros, tot projectant ombres");
+		assertCorrect("sota les grans persianes de color verd recalcades");
 		
 		// errors:
+		assertIncorrect("sota les grans persianes de color verd recalcada");
+		assertIncorrect("sota les grans persianes de color verd recalcat");
+		assertIncorrect("sota les grans persianes de color verd recalcats");
 		assertIncorrect("Són unes corbes de llum complexos.");
 		assertIncorrect("fets moltes vegades inexplicable.");
 		assertIncorrect("eren uns fets cada volta més inexplicable");
