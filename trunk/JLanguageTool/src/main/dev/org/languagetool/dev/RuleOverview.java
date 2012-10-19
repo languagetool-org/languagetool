@@ -126,8 +126,8 @@ public final class RuleOverview {
       if (!dir.exists()) {
         System.out.print("<td valign=\"top\" align=\"right\">0</td>");
       } else {
-        final File[] javaRules = dir.listFiles(new JavaFilter());
-        final int javaCount = javaRules.length - 1;   // minus 1: one is always "<Language>Rule.java"
+        final File[] javaRules = dir.listFiles(new JavaFilter(langName));
+        final int javaCount = javaRules.length;
         System.out.print("<td valign=\"top\" align=\"right\">" + javaCount + "</td>");
         overallJavaCount++;
       }
@@ -252,8 +252,16 @@ public final class RuleOverview {
 
 class JavaFilter implements FileFilter {
 
+  private final String langName;
+
+  public JavaFilter(String langName) {
+    this.langName = langName;
+  }
+
   public boolean accept(final File f) {
-    if (f.getName().endsWith(".java")) {
+    final String filename = f.getName();
+    final boolean isAbstractTopClass = filename.endsWith(langName + "Rule.java");
+    if (filename.endsWith(".java") && !isAbstractTopClass) {
       return true;
     }
     return false;
