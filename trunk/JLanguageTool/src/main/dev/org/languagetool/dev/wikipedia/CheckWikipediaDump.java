@@ -132,6 +132,8 @@ public class CheckWikipediaDump {
       saxParser.parse(file, xmlHandler);
     } catch (ErrorLimitReachedException e) {
       System.out.println(e);
+    } catch (ArticleLimitReachedException e) {
+      System.out.println(e);
     } finally {
       if (xmlHandler != null) { xmlHandler.close(); }
       final float matchesPerDoc = (float)xmlHandler.getRuleMatchCount() / xmlHandler.getArticleCount();
