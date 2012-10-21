@@ -134,9 +134,9 @@ public class CheckWikipediaDump {
       System.out.println(e);
     } finally {
       if (xmlHandler != null) { xmlHandler.close(); }
+      final float matchesPerDoc = (float)xmlHandler.getRuleMatchCount() / xmlHandler.getArticleCount();
+      System.out.printf(lang + ": ø%.2f rule matches per document\n", matchesPerDoc);
     }
-    final float matchesPerDoc = (float)xmlHandler.getRuleMatchCount() / xmlHandler.getArticleCount();
-    System.out.printf(lang + ": ø%.2f rule matches per document", matchesPerDoc);
   }
 
   private void enableSpecifiedRules(String[] ruleIds, JLanguageTool languageTool) {
