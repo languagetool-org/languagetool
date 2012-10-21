@@ -5271,29 +5271,112 @@ $Id$
         <rulegroup id="APOSTROFACIO" name="apostrofació">
             <rule>
                 <pattern>
+                    <marker>
+                        <token>de</token>
+                        <token regexp="yes">1|11</token>
+                    </marker>
+                    <token><exception regexp="yes">[.,]</exception></token>
+                </pattern>
+                <message>Cal apostrafar <suggestion>d'<match no="2"></match></suggestion>.</message>
+                <short>Error ortogràfic</short>
+                <example type="incorrect" correction="d'1"><marker>de 1</marker> a 3</example>
+                <example type="correct">de 1.400 habitants</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>el</token>
+                        <token regexp="yes">1|11</token>
+                    </marker>
+                    <token><exception regexp="yes">[.,]</exception></token>
+                </pattern>
+                <message>Cal apostrafar <suggestion>l'<match no="2"></match></suggestion>.</message>
+                <short>Error ortogràfic</short>
+                <example type="incorrect" correction="l'1"><marker>el 1</marker> de febrer</example>
+                <example type="correct">els 1.400 habitants</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token spacebefore="no">l</token>
+                        <token regexp="yes">1|11</token>
+                    </marker>
+                    <token><exception regexp="yes">[.,]</exception></token>
+                </pattern>
+                <message>Cal apostrafar <suggestion> l'<match no="2"></match></suggestion>.</message>
+                <short>Error ortogràfic</short>
+                <example type="incorrect" correction=" l'1">fins a<marker>l 1</marker> de febrer</example>
+                <example type="correct">fins a 1.400 habitants</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>de</token>
+                        <token regexp="yes">1|11</token>
+                    </marker>
+                    <token regexp="yes">[.,]</token>
+                    <token><exception spacebefore="no" regexp="yes">\d+</exception></token>
+                </pattern>
+                <message>Cal apostrafar <suggestion>d'<match no="2"></match></suggestion>.</message>
+                <short>Error ortogràfic</short>
+                <example type="incorrect" correction="d'1"><marker>de 1</marker>, de 3</example>
+                <example type="correct">de 1.400 habitants</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>el</token>
+                        <token regexp="yes">1|11</token>
+                    </marker>
+                    <token regexp="yes">[.,]</token>
+                    <token><exception spacebefore="no" regexp="yes">\d+</exception></token>
+                </pattern>
+                <message>Cal apostrafar <suggestion>l'<match no="2"></match></suggestion>.</message>
+                <short>Error ortogràfic</short>
+                <example type="incorrect" correction="l'1"><marker>el 1</marker>, el 2 i el 3 de febrer</example>
+                <example type="correct">els 1.400 habitants</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token spacebefore="no">l</token>
+                        <token regexp="yes">1|11</token>
+                    </marker>
+                    <token regexp="yes">[.,]</token>
+                    <token><exception spacebefore="no" regexp="yes">\d+</exception></token>
+                </pattern>
+                <message>Cal apostrafar <suggestion> l'<match no="2"></match></suggestion>.</message>
+                <short>Error ortogràfic</short>
+                <example type="incorrect" correction=" l'1">fins a<marker>l 1</marker>, al 2 i al 3 de febrer</example>
+                <example type="correct">fins a 1.400 habitants</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token>de</token>
-                    <token regexp="yes">h?[aeiouàèéíòóú].*|1|11<exception regexp="yes">h?[ui][aeioàèéóò].*|el|els|a|e|i|o|u|efa|hac|ela|ema|ena|erra|essa|ics|iure</exception><exception inflected="yes">ordinal</exception></token>
+                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóò].*|el|els|a|e|i|o|u|efa|hac|ela|ema|ena|erra|essa|ics|iure</exception><exception inflected="yes">ordinal</exception><exception postag="NP..000" postag_regexp="yes" regexp="yes">H.+</exception></token>
                 </pattern>
                 <message>Cal dir <suggestion>d'<match no="2"></match></suggestion>.</message>
                 <short>Error ortogràfic</short>
                 <example type="incorrect"><marker>de ortografia</marker></example>
                 <example type="correct"><marker>d'ortografia</marker></example>
+                <example type="correct">de Hubble</example>
             </rule>
             <rule>
                 <pattern>
                     <token>el</token>
-                    <token regexp="yes">h?[aeiouàèéíòóú].*|1|11<exception regexp="yes">h?[ui][aeioàèéóò].+</exception><exception inflected="yes">ordinal</exception></token>
+                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóò].+</exception><exception inflected="yes">ordinal</exception><exception postag="NP..000" postag_regexp="yes" regexp="yes">H.+</exception></token>
                 </pattern>
                 <message>Cal dir <suggestion>l'<match no="2"></match></suggestion>.</message>
                 <short>Error ortogràfic</short>
                 <example type="incorrect"><marker>el home</marker></example>
                 <example type="correct"><marker>l'home</marker></example>
+                <example type="correct">el Hubble</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
                         <token>en</token>
-                        <token postag="NPMS.*" postag_regexp="yes" regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóò].+</exception></token>
+                        <token postag="NPMS.*" postag_regexp="yes" regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóò].+</exception><exception postag="NP..000" postag_regexp="yes" regexp="yes">H.+</exception></token>
                     </marker>
                     <token postag="V...[12].." postag_regexp="yes" negate_pos="yes" />
                 </pattern>
@@ -5301,39 +5384,53 @@ $Id$
                 <short>Error ortogràfic</short>
                 <example type="incorrect"><marker>En Antoni</marker>.</example>
                 <example type="correct"><marker>N'Antoni</marker>.</example>
+                <example type="correct">en Harrison Ford</example>
             </rule>
             <rule>
                 <pattern>
                     <token>de</token>
                     <token spacebefore="no">l</token>
-                    <token regexp="yes">h?[aeiouàèéíòóú].*|1|11<exception regexp="yes">h?[ui][aeioàèéóò].+</exception><exception inflected="yes">ordinal</exception></token>
+                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóò].+</exception><exception inflected="yes">ordinal</exception><exception postag="NP..000" postag_regexp="yes" regexp="yes">H.+</exception></token>
                 </pattern>
                 <message>Cal dir <suggestion>de l'<match no="3"></match></suggestion>.</message>
                 <short>Error ortogràfic</short>
                 <example type="incorrect"><marker>del home</marker></example>
-                <example type="correct"><marker>de l'home</marker></example>
+                <example type="correct">>de l'home</example>
+                <example type="correct">del Hubble</example>
             </rule>
             <rule>
                 <pattern>
                     <token>a</token>
                     <token spacebefore="no">l</token>
-                    <token regexp="yes">h?[aeiouàèéíòóú].*|1|11<exception regexp="yes">h?[ui][aeioàèéóò].+</exception><exception inflected="yes">ordinal</exception></token>
+                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóò].+</exception><exception inflected="yes">ordinal</exception><exception postag="NP..000" postag_regexp="yes" regexp="yes">H.+</exception></token>
                 </pattern>
                 <message>Cal dir <suggestion>a l'<match no="3"></match></suggestion>.</message>
                 <short>Error ortogràfic</short>
                 <example type="incorrect"><marker>al home</marker></example>
                 <example type="correct"><marker>a l'home</marker></example>
+                <example type="correct">al Hubble</example>
             </rule>
             <rule>
                 <pattern>
                     <token>pe</token>
                     <token spacebefore="no">l</token>
-                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóò].+</exception><exception inflected="yes">ordinal</exception></token>
+                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóò].+</exception><exception inflected="yes">ordinal</exception><exception postag="NP..000" postag_regexp="yes" regexp="yes">H.+</exception></token>
                 </pattern>
                 <message>Cal dir <suggestion>per l'<match no="3"></match></suggestion>.</message>
                 <short>Error ortogràfic</short>
                 <example type="incorrect"><marker>pel home</marker></example>
                 <example type="correct"><marker>per l'home</marker></example>
+                <example type="correct">pel Hubble</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[dln]'</token>
+                    <token regexp="yes" postag="NP..000" postag_regexp="yes">H.+</token>
+                </pattern>
+                <message>No s'apostrofa si la hac és aspirada.</message>
+                <short>Reviseu</short>
+                <example type="incorrect"><marker>d'Hubble</marker></example>
+                <example type="correct"><marker>de Hubble</marker></example>
             </rule>
             <rule>
                 <pattern>
@@ -13064,7 +13161,7 @@ $Id$
         </rule>
     </category>    
     <category name="Sintaxi">
-        <rulegroup id="RELATIUS" name="Comprova les contruccions de relatiu: amb el que/amb el qual">
+        <rulegroup id="RELATIUS" name="Comprova les contruccions de relatiu: amb el que/amb el qual" default="off">
             <rule>
                 <pattern>
                     <token postag="NCMS.*|_GN_MS" postag_regexp="yes"/>
