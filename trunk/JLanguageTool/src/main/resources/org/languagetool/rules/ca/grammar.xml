@@ -6625,7 +6625,7 @@ $Id$
             <!-- Norma aplicada: 3a p refl. (se) +2a p (et, us) + 1a p (em, ens) + datiu (3a p: li, els) + acusatiu (3a p: el, la, els, les, ho) + en + hi -->
             <rule>
                 <pattern>
-                    <token postag="P0.*|PP.*" postag_regexp="yes"><exception regexp="yes">jo|mi|tu|ella?|nosaltres|vosaltres|elle?s|vost[èé]s?|vós</exception></token>
+                    <token postag="P0.*|PP.*" postag_regexp="yes"><exception regexp="yes">['-].+|jo|mi|tu|ella?|nosaltres|vosaltres|elle?s|vost[èé]s?|vós</exception></token>
                     <token postag="P0300000"></token>
                     <!-- se|es|s'|'s|-se|-s -->
                 </pattern>
@@ -6633,10 +6633,23 @@ $Id$
                 <short>Combinació incorrecta de pronoms.</short>
                 <example type="incorrect"><marker>Me se</marker> fa pesat.</example>
                 <example type="correct">Se'm fa pesat.</example>
+                <example type="correct">Per a escriure'l es fa mirall</example>
             </rule>
             <rule>
                 <pattern>
-                    <token postag="P02.*" postag_regexp="yes"></token>
+                    <token postag="P0.*|PP.*" postag_regexp="yes" regexp="yes">['-].+</token>
+                    <token postag="P0300000" regexp="yes">['-].+</token>
+                    <!-- se|es|s'|'s|-se|-s -->
+                </pattern>
+                <message>Combinació incorrecta de pronoms febles.</message>
+                <short>Combinació incorrecta de pronoms.</short>
+                <example type="incorrect">escriure<marker>-me's</marker> fa pesat.</example>
+                <example type="correct">Se'm fa pesat.</example>
+                <example type="correct">Per a escriure'l es fa mirall</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="P02.*" postag_regexp="yes"><exception regexp="yes">['-].+</exception></token>
                     <token postag="P0300000|P02.*" postag_regexp="yes"></token>
                 </pattern>
                 <message>Combinació incorrecta de pronoms febles.</message>
@@ -6646,7 +6659,17 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="P01.*" postag_regexp="yes"></token>
+                    <token postag="P02.*" postag_regexp="yes" regexp="yes">['-].+</token>
+                    <token postag="P0300000|P02.*" postag_regexp="yes" regexp="yes">['-].+</token>
+                </pattern>
+                <message>Combinació incorrecta de pronoms febles.</message>
+                <short>Combinació incorrecta de pronoms.</short>
+                <example type="incorrect">portar<marker>-te-se</marker> fa pesat.</example>
+                <example type="correct">Se't fa pesat.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="P01.*" postag_regexp="yes"><exception regexp="yes">['-].+</exception></token>
                     <token postag="P0300000|P02.*|P01.*" postag_regexp="yes"></token>
                 </pattern>
                 <message>Combinació incorrecta de pronoms febles.</message>
@@ -6654,9 +6677,19 @@ $Id$
                 <example type="incorrect"><marker>Me't</marker> fas pesat.</example>
                 <example type="correct">Te'm fas pesat.</example>
             </rule>
+             <rule>
+                <pattern>
+                    <token postag="P01.*" postag_regexp="yes" regexp="yes">['-].+</token>
+                    <token postag="P0300000|P02.*|P01.*" postag_regexp="yes" regexp="yes">['-].+</token>
+                </pattern>
+                <message>Combinació incorrecta de pronoms febles.</message>
+                <short>Combinació incorrecta de pronoms.</short>
+                <example type="incorrect">portar<marker>-me't</marker> fas pesat.</example>
+                <example type="correct">Te'm fas pesat.</example>
+            </rule>
             <rule>
                 <pattern>
-                    <token postag="PP3CSD00"></token>
+                    <token postag="PP3CSD00"><exception regexp="yes">['-].+</exception></token>
                     <token postag="P0300000|P02.*|P01.*|PP3CSD00" postag_regexp="yes"></token>
                 </pattern>
                 <message>Combinació incorrecta de pronoms febles.</message>
@@ -6666,12 +6699,32 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="PP3CP000"></token>
+                    <token postag="PP3CSD00" regexp="yes">['-].+</token>
+                    <token postag="P0300000|P02.*|P01.*|PP3CSD00" postag_regexp="yes" regexp="yes">['-].+</token>
+                </pattern>
+                <message>Combinació incorrecta de pronoms febles.</message>
+                <short>Combinació incorrecta de pronoms.</short>
+                <example type="incorrect">cantar<marker>-li's</marker> fa pesat.</example>
+                <example type="correct">Se li fa pesat.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="PP3CP000"><exception regexp="yes">['-].+</exception></token>
                     <token postag="P0300000|P02.*|P01.*|PP3CSD00" postag_regexp="yes"></token>
                 </pattern>
                 <message>Combinació incorrecta de pronoms febles.</message>
                 <short>Combinació incorrecta de pronoms.</short>
                 <example type="incorrect"><marker>Els se</marker> fa pesat.</example>
+                <example type="correct">Se'ls fa pesat.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="PP3CP000" regexp="yes">['-].+</token>
+                    <token postag="P0300000|P02.*|P01.*|PP3CSD00" postag_regexp="yes" regexp="yes">['-].+</token>
+                </pattern>
+                <message>Combinació incorrecta de pronoms febles.</message>
+                <short>Combinació incorrecta de pronoms.</short>
+                <example type="incorrect">comprar<marker>-los-se</marker> fa pesat.</example>
                 <example type="correct">Se'ls fa pesat.</example>
             </rule>
             <rule>
@@ -6687,27 +6740,51 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="PP3[CFM][SP]A.*" postag_regexp="yes"></token>
+                    <token postag="PP3[CFM][SP]A.*" postag_regexp="yes"><exception regexp="yes">['-].+</exception></token>
                     <token postag="P0300000|P02.*|P01.*|PP3CSD00|PP3CP000|PP3[CFM][SP]A.*|PP3NN000" postag_regexp="yes"></token>
                 </pattern>
                 <message>Combinació incorrecta de pronoms febles.</message>
                 <short>Combinació incorrecta de pronoms.</short>
                 <example type="incorrect"><marker>La li</marker> fa pesada.</example>
                 <example type="correct">Li la fa pesadas.</example>
+                <example type="correct">Per a escriure'l es fa mirall</example>
             </rule>
             <rule>
                 <pattern>
-                    <token postag="PP3CN000" inflected="yes">en</token>
+                    <token postag="PP3[CFM][SP]A.*" postag_regexp="yes" regexp="yes">['-].+</token>
+                    <token postag="P0300000|P02.*|P01.*|PP3CSD00|PP3CP000|PP3[CFM][SP]A.*|PP3NN000" postag_regexp="yes" regexp="yes">['-].+</token>
+                </pattern>
+                <message>Combinació incorrecta de pronoms febles.</message>
+                <short>Combinació incorrecta de pronoms.</short>
+                <example type="incorrect">cantar<marker>-la-li</marker> fa pesada.</example>
+                <example type="correct">Li la fa pesadas.</example>
+                <example type="correct">Per a escriure'l es fa mirall</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="PP3CN000" inflected="yes">en<exception regexp="yes">['-].+</exception></token>
                     <token postag="P0.*|PP.*" postag_regexp="yes"><exception postag="PP3CN000" inflected="yes">hi</exception><exception regexp="yes">jo|mi|tu|ella?|nosaltres|vosaltres|elle?s|vost[èé]s?|vós</exception></token>
                 </pattern>
                 <message>Combinació incorrecta de pronoms febles.</message>
                 <short>Combinació incorrecta de pronoms.</short>
                 <example type="incorrect"><marker>En el</marker> porten.</example>
                 <example type="correct">Ens el porten.</example>
+                <example type="correct">Per exemple, comprar-ne es pronuncia.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token postag="PP3CN000" inflected="yes">hi</token>
+                    <token postag="PP3CN000" regexp="yes">['-](ne|en)</token>
+                    <token postag="P0.*|PP.*" postag_regexp="yes" regexp="yes">['-].+<exception postag="PP3CN000" inflected="yes">hi</exception><exception regexp="yes">jo|mi|tu|ella?|nosaltres|vosaltres|elle?s|vost[èé]s?|vós</exception></token>
+                </pattern>
+                <message>Combinació incorrecta de pronoms febles.</message>
+                <short>Combinació incorrecta de pronoms.</short>
+                <example type="incorrect">portar<marker>-ne'l</marker> i tot.</example>
+                <example type="correct">Ens el porten.</example>
+                <example type="correct">Per exemple, comprar-ne es pronuncia.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="PP3CN000">hi</token>
                     <token postag="P0.*|PP.*" postag_regexp="yes"></token>
                 </pattern>
                 <message>Combinació incorrecta de pronoms febles.</message>
@@ -6715,16 +6792,41 @@ $Id$
                 <example type="incorrect"><marker>Hi el</marker> porten.</example>
                 <example type="incorrect"><marker>Hi ho</marker> hem de fer.</example>
                 <example type="correct">L'hi porten.</example>
+                <example type="correct">arribar-hi ho farà tot més fàcil</example>
             </rule>
             <rule>
                 <pattern>
-                    <token postag="PP3NN000"></token>
+                    <token postag="PP3CN000" regexp="yes">['-]hi</token>
+                    <token postag="P0.*|PP.*" postag_regexp="yes"  regexp="yes">['-].+</token>
+                </pattern>
+                <message>Combinació incorrecta de pronoms febles.</message>
+                <short>Combinació incorrecta de pronoms.</short>
+                <example type="incorrect">portar<marker>-hi'l</marker>.</example>
+                <example type="incorrect">portar<marker>-hi-ho</marker>.</example>
+                <example type="correct">L'hi porten.</example>
+                <example type="correct">arribar-hi ho farà tot més fàcil</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="PP3NN000"><exception regexp="yes">['-].+</exception></token>
                     <token postag="P0.*|PP.*" postag_regexp="yes"></token>
                 </pattern>
                 <message>Combinació incorrecta de pronoms febles.</message>
                 <short>Combinació incorrecta de pronoms.</short>
                 <example type="incorrect"><marker>Ho li</marker> fan.</example>
                 <example type="correct">Li ho fan.</example>
+                <example type="correct">menjar-s'ho li agradarà</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="PP3NN000" regexp="yes">['-].+</token>
+                    <token postag="P0.*|PP.*" postag_regexp="yes" regexp="yes">['-].+</token>
+                </pattern>
+                <message>Combinació incorrecta de pronoms febles.</message>
+                <short>Combinació incorrecta de pronoms.</short>
+                <example type="incorrect">portar<marker>-ho-li</marker>.</example>
+                <example type="correct">Li ho fan.</example>
+                <example type="correct">veure-ho li agradarà</example>
             </rule>
             <rule>
                 <pattern>
@@ -6907,12 +7009,13 @@ $Id$
                     <marker>
                         <token postag="P0.*|PP.*" postag_regexp="yes" regexp="yes">[^'-].*<exception regexp="yes">jo|mi|tu|ella?|nosaltres|vosaltres|elle?s|vost[èé]s?|vós</exception><exception postag="_G.*" postag_regexp="yes" /></token>
                     </marker>
-                    <token><exception postag="V.[MSI].*|_GV_" postag_regexp="yes"/></token>
+                    <token><exception postag="V.[MSI].*|_GV_|P0.*|PP.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Falta un guionet o un apòstrof.</message>
                 <example type="incorrect">Anava cantant <marker>li</marker> això.</example>
                 <example type="correct">Anava cantant-li això.</example>
                 <example type="correct">Quan vaig entrar em va preguntar si jo sabia qui era en Marx</example>
+                <example type="correct">En fer-lo girar se'n podia observar</example>
             </rule>
             <rule>
                 <pattern>
@@ -6921,11 +7024,12 @@ $Id$
                     <marker>
                         <token postag="P0.*|PP.*" postag_regexp="yes" regexp="yes">[^'-].*<exception regexp="yes">jo|mi|tu|ella?|nosaltres|vosaltres|elle?s|vost[èé]s?|vós</exception><exception postag="_G.*" postag_regexp="yes" /></token>
                     </marker>
-                    <token><exception postag="V.[MSI].*|_GV_" postag_regexp="yes"/></token>
+                    <token><exception postag="V.[MSI].*|_GV_|PP.*|P0.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Falta un guionet o un apòstrof.</message>
                 <example type="incorrect">Cantant-li <marker>ho</marker> fort.</example>
                 <example type="correct">Cantant-li-ho fort.</example>
+                <example type="correct">En fer-lo girar se'n podia observar</example>
             </rule>
             <rule>
                 <pattern>
@@ -6935,7 +7039,7 @@ $Id$
                     <marker>
                         <token postag="P0.*|PP.*" postag_regexp="yes" regexp="yes">[^'-].*<exception regexp="yes">jo|mi|tu|ella?|nosaltres|vosaltres|elle?s|vost[èé]s?|vós</exception><exception postag="_G.*" postag_regexp="yes" /></token>
                     </marker>
-                    <token><exception postag="V.[MSI].*|_GV_" postag_regexp="yes"/></token>
+                    <token><exception postag="V.[MSI].*|_GV_|PP.*|P0.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Falta un guionet o un apòstrof.</message>
                 <example type="incorrect">emportar-se'n <marker>hi</marker> quatre.</example>
@@ -6962,13 +7066,14 @@ $Id$
                     <marker>
                         <token postag="P0.*|PP.*" postag_regexp="yes" regexp="yes">[^-].+<exception regexp="yes">jo|mi|tu|ella?|nosaltres|vosaltres|elle?s|vost[èé]s?|vós</exception><exception postag="_G.*" postag_regexp="yes" /></token>
                     </marker>
-                    <token><exception postag="V.[MSI].*|_GV_" postag_regexp="yes"/></token>
+                    <token><exception postag="V.[MSI].*|_GV_|P0.*|PP.*" postag_regexp="yes"/></token>
                 </pattern>
-                <message>Hi falta un guionet.</message>
-                <short>Hi falta un guionet.</short>
+                <message>Falta un guionet.</message>
+                <short>Falta un guionet.</short>
                 <example type="incorrect">Portar<marker>'ls</marker>.</example>
                 <example type="correct">Portar-los.</example>
                 <example type="correct">Quan vaig entrar em va preguntar si jo sabia qui era en Marx.</example>
+                <example type="correct">En fer-lo girar se'n podia observar</example>
             </rule>
             <rule>
                 <pattern>
@@ -6976,7 +7081,7 @@ $Id$
                     <marker>
                         <token postag="P0.*|PP.*" postag_regexp="yes" regexp="yes">-e.+</token>
                     </marker>
-                    <token postag="V.[^NGP].*" postag_regexp="yes" negate_pos="yes"></token>
+                    <token postag="V.[^NGP].*|P0.*|PP.*" postag_regexp="yes" negate_pos="yes"></token>
                 </pattern>
                 <message>Forma de pronom feble incorrecta.</message>
                 <short>Forma de pronom feble incorrecta.</short>
@@ -6990,7 +7095,7 @@ $Id$
                         <token postag="P0.*|PP.*" postag_regexp="yes" regexp="yes">-nos|-vos|-los</token>
                     </marker>
                     <token postag="P0.*|PP.*" postag_regexp="yes"><exception regexp="yes">jo|mi|tu|ella?|nosaltres|vosaltres|elle?s|vost[èé]s?|vós</exception></token>
-                    <token postag="V.[^NGP].*" postag_regexp="yes" negate_pos="yes"></token>
+                    <token postag="V.[^NGP].*|P0.*|PP.*" postag_regexp="yes" negate_pos="yes"></token>
                 </pattern>
                 <message>Hi falta un apòstrof.</message>
                 <short>Hi falta un apòstrof.</short>
@@ -7004,7 +7109,7 @@ $Id$
                         <token postag="P0.*|PP.*" postag_regexp="yes" regexp="yes">'.*<exception regexp="yes">'ns|'ls</exception></token>
                     </marker>
                     <token postag="P0.*|PP.*" postag_regexp="yes"><exception regexp="yes">jo|mi|tu|ella?|nosaltres|vosaltres|elle?s|vost[èé]s?|vós</exception></token>
-                    <token postag="V.[^NGP].*" postag_regexp="yes" negate_pos="yes"></token>
+                    <token postag="V.[^NGP].*|P0.*|PP.*" postag_regexp="yes" negate_pos="yes"></token>
                 </pattern>
                 <message>Combinació incorrecta d'apòstrofs i guionets.</message>
                 <short>Combinació incorrecta d'apòstrofs i guionets.</short>
