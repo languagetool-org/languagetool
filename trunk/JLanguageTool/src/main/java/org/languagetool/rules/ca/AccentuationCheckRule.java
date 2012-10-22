@@ -78,6 +78,7 @@ public class AccentuationCheckRule extends CatalanRule {
   private static final Pattern BEFORE_ADJECTIVE_FS = Pattern.compile("SPS00|D[^R].[FC][SN].*|V.[^NGP].*|PX.*");
   private static final Pattern BEFORE_ADJECTIVE_MP = Pattern.compile("SPS00|D[^R].[MC][PN].*|V.[^NGP].*|PX.*");
   private static final Pattern BEFORE_ADJECTIVE_FP = Pattern.compile("SPS00|D[^R].[FC][PN].*|V.[^NGP].*|PX.*");
+  private static final Pattern GN = Pattern.compile("_GN_.*");
       
   private final Map<String, AnalyzedTokenReadings> relevantWords;
   private final Map<String, AnalyzedTokenReadings> relevantWords2;
@@ -104,7 +105,7 @@ public class AccentuationCheckRule extends CatalanRule {
   public RuleMatch[] match(final AnalyzedSentence text) {
     final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
-    for (int i = 1; i < tokens.length; i++) {   //ignoring token 0, i.e., SENT_START
+    for (int i = 1; i < tokens.length; i++) {   //ignoring token 0, i.e., SENT_START      
       final String token;
       if (i == 1) {
         token=tokens[i].getToken().toLowerCase();
@@ -144,7 +145,7 @@ public class AccentuationCheckRule extends CatalanRule {
       final Matcher mArticleELFP = ARTICLE_EL_FP.matcher(prevToken);
 
       // verb without accent -> noun with accent   
-      if (isRelevantWord)
+      if (isRelevantWord && !matchPostagRegexp(tokens[i],GN))
       {
       	//amb renuncies
         if (tokens[i-1].hasPosTag("SPS00") && !matchPostagRegexp(tokens[i-1],DETERMINANT) && !matchPostagRegexp(tokens[i],INFINITIU) )
@@ -236,7 +237,7 @@ public class AccentuationCheckRule extends CatalanRule {
       }
 
       // verb without accent -> adjective with accent
-      if (isRelevantWord2)
+      if (isRelevantWord2 && !matchPostagRegexp(tokens[i],GN))
       {
       	 // de manera obvia, circumstàncies extraordinaries.
          if (    (matchPostagRegexp(relevantWords2.get(token),ADJECTIU_MS) && matchPostagRegexp(tokens[i-1],NOM_MS) && !tokens[i-1].hasPosTag("_GN_FS") && matchPostagRegexp(tokens[i],VERB_CONJUGAT) )

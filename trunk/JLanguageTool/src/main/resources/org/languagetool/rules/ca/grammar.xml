@@ -1342,12 +1342,13 @@ $Id$
                     <marker>
                         <token postag="V.P.*" postag_regexp="yes" inflected="yes">adormir</token>
                     </marker>
-                    <token><exception postag="_GN_.*" postag_regexp="yes" /></token>
+                    <token><exception postag="_GN_.*|NP.*" postag_regexp="yes" /></token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="3" regexp_match="a(dorm.*)" regexp_replace="$1"/></suggestion>?</message>
                 <example type="incorrect">Joan ha <marker>adormit</marker>.</example>
                 <example type="correct">Joan ha adormit la nena.</example>
                 <example type="correct">Joan l'ha adormit.</example>
+                <example type="correct">Jahvè va adormir Adam</example>
             </rule>
              <rule>
                 <pattern>
@@ -1593,7 +1594,7 @@ $Id$
             <rule id="CALDRE" name="Comprova: «caldre» seguit de verb en infinitiu">
                 <pattern>
                     <marker>
-                        <token inflected="yes">caldre</token>
+                        <token inflected="yes">caldre<exception postag="_GN_MS"/></token>
                         <token postag="VM[^N].*" postag_regexp="yes" regexp="yes">[\p{Ll}·]+<exception postag="[^V].*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
@@ -1601,6 +1602,7 @@ $Id$
                 <example type="incorrect">No <marker>cal corre</marker>.</example>
                 <example type="correct">No cal córrer.</example>
                 <example type="correct">Anem a cal Cego.</example>
+                <example type="correct">El model estàndard del Big Bang calent erra en l'objectiu</example>
             </rule>
             <rule id="CALDRE_DE" name="Caldre (*de) + infinitiu">
                 <pattern>
@@ -2083,8 +2085,8 @@ $Id$
         </rule>
         <rule id="CONFUSIO_PARTICIPI_INFINITIU" name="Nom + adverbi + (*infinitiu/*gerundi/participi)">
             <pattern>
-                <token postag="N.[MC][SN].*" postag_regexp="yes"><exception postag="V.[SI].*" postag_regexp="yes"/></token>
-                <token postag="RG" regexp="yes">.+ment|molt|poc|tant|tan|aleshores|alhora|almanco|almenys|aviat|ben|encara|força|gaire|gairebé|gens|inclús|ja|llavors|mai|massa|menys|mig|millor|més|no|només|pas|pitjor|potser|prompte|prou|quasi|quelcom|sempre|sobretot|sols|suara|també|tampoc|tanmateix|tostemps|tot|tothora|àdhuc</token>
+                <token postag="N.[MC][SN].*" postag_regexp="yes"><exception postag="V.[SI].*" postag_regexp="yes"/><exception inflected="yes">numeral</exception></token>
+                <token postag="RG_anteposat"><exception regexp="yes">tot|també</exception></token>
                 <marker>
                     <token postag="V.[GN].*" postag_regexp="yes"><exception postag="A.*|V.P.*" postag_regexp="yes"/></token>
                 </marker>
@@ -2096,6 +2098,8 @@ $Id$
             <example type="correct">un país secularment humanitzat com el nostre</example>
             <example type="correct">i pot també produir</example>
             <example type="correct">el mineral més dur conegut</example>
+            <example type="correct">enllaçat a tres més formant un pla</example>
+            <example type="correct">a Colom tot indicant-li que emetria</example>
         </rule>
         <rulegroup id="DONAR_FER" name="donar/fer">
             <rule>
@@ -2288,7 +2292,7 @@ $Id$
     <category name="Determinants">
         <rulegroup id="DETERMINANTS_IMPOSSIBLE" name="Combinacions impossibles de determinants: *els tots els">
             <!--  falten combinacions de dos: els aquests -->
-            <rule>
+            <!-- <rule>
                 <pattern>
                     <marker>
                     <token postag="D.*" postag_regexp="yes"></token>
@@ -2303,7 +2307,7 @@ $Id$
                 <example type="correct">els tres mil</example>
                 <example type="correct">els trenta-quatre mil restants</example>
                 <example type="correct">totes les quals sumes</example>
-            </rule>
+            </rule> -->
             <rule>
                 <pattern>
                     <token>els</token>
@@ -13266,7 +13270,7 @@ $Id$
         </rule>
     </category>    
     <category name="Sintaxi">
-        <rulegroup id="RELATIUS" name="Comprova les contruccions de relatiu: amb el que/amb el qual" default="off">
+        <rulegroup id="RELATIUS" name="Comprova les contruccions de relatiu: amb el que/amb el qual" default="on">
             <rule>
                 <pattern>
                     <token postag="NCMS.*|_GN_MS" postag_regexp="yes"/>

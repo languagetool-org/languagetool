@@ -43,6 +43,7 @@ public class AccentuationCheckRuleTest extends TestCase {
   public void testRule() throws IOException {
 
     // correct sentences:
+	assertCorrect("els següents territoris externs habitats:");
 	assertCorrect("Cap faria una cosa així.");
 	assertCorrect("El cos genera suficient pressió interna.");
 	assertCorrect("Les seues contràries.");
@@ -82,7 +83,7 @@ public class AccentuationCheckRuleTest extends TestCase {
     assertIncorrect("De manera obvia.");
     assertIncorrect("Ell fa tasques especifiques.");
     assertIncorrect("Un home adulter.");
-    assertIncorrect("Va deixar els nens atonits.");
+   // assertIncorrect("Va deixar els nens atonits."); del v. "atonir" (=esbalair)
     assertIncorrect("La sureda ocupa amplies extensions en la muntanya.");
     assertIncorrect("Féu una magnifica digitació.");
     assertIncorrect("Els habitats de la comarca.");
