@@ -30,7 +30,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rule>
     <rule id="PUNTUACIO2" name="signes de puntuació que no trenquen els sintagmes">
         <pattern>
-            <token regexp="yes">[,"]</token>
+            <token regexp="yes">[,"‘’“”«»]</token>
         </pattern>
         <disambig action="add"><wd pos="PUNCT_CONT"></wd></disambig>
     </rule>
@@ -40,12 +40,18 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="[^N].*" />
     </rule>
-     <rule id="ADVERBI_ANTEPOSAT" name="adverbi que es pot anteposar a adjectiu">
+    <rule id="ADVERBI_ANTEPOSAT" name="adverbi que es pot anteposar a adjectiu">
         <pattern>
             <token postag="RG" regexp="yes">.+ment|molt|poc|tant|tan|aleshores|alhora|almanco|almenys|aviat|bastant|ben|encara|força|gaire|gairebé|gens|inclús|ja|llavors|mai|massa|menys|mig|millor|més|no|només|pas|pitjor|potser|prompte|prou|quasi|quelcom|sempre|sobretot|sols|suara|també|tampoc|tanmateix|tostemps|tot|tothora|àdhuc</token>
         </pattern>
         <disambig action="add"><wd pos="RG_anteposat"></wd></disambig>
     </rule>
+    <rule id="MOT_FORASTER" name="paraula no catalana">
+        <pattern>
+            <token postag="UNKNOWN" regexp="yes">.*ñ.*|.*á.*|.+ón|.+ía|.+íes|.+ch.+</token>
+        </pattern>
+        <disambig action="add"><wd pos="mot_foraster"></wd></disambig>
+    </rule>  
     <rulegroup id="CONTRACCIONS" name="contraccions">
         <rule>
             <pattern>
@@ -587,7 +593,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rulegroup id="Nom_propi" name="noms propis">
         <rule>
             <pattern>
-                <token postag="SENT_START" negate_pos="yes"/>
+                <token><exception postag="SENT_START"/><exception regexp="yes">[¿¡"«—–]</exception></token>
                 <marker>
                     <token postag="NP.*" postag_regexp="yes"/>
                 </marker>
@@ -685,7 +691,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="add"><wd pos="NPCN000"></wd></disambig>
         </rule>     
-    </rulegroup>
+    </rulegroup> 
     <!--crea etiquetes per als adverbis acabats en -ment-->
     <!-- <rulegroup id="adverbis_ment" name="marca adverbis acabats en ment">
         <rule>
@@ -750,7 +756,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig><match no="1" postag_regexp="yes" postag="[^D].*"></match></disambig>
     </rule>
-    <rulegroup id="preposicions" name="preposicions: sobre, contra">
+    <rulegroup id="preposicions" name="preposicions: sobre, contra, en">
+        <rule>
+            <pattern>
+                <token regexp="yes" inflected="yes">.*caure|convertir</token>
+                <marker>
+                    <token postag="SPS00">en</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="SPS00" />
+        </rule>
         <rule>
             <pattern>
                 <marker>
@@ -6579,7 +6594,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </marker>
             <token postag="NP..SP0" postag_regexp="yes"/>
         </pattern>
-        <disambig action="filter" postag="DA.*"></disambig>
+        <disambig action="filter" postag="DA.*|_GN.*"></disambig>
     </rule>
     <rule id="en_no_article" name="En no article">
         <pattern>
@@ -7283,4 +7298,18 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="filter" postag="V.[^M].*"/>
         </rule>
     </rulegroup>
+    <rulegroup id="HAC_ASPIRADA" name="hac aspirada inicial">
+        <rule>
+            <pattern>
+                <token regexp="yes">Hitch.*|Hong|hongk.+|Haifa|herbert.*|he|hinden.*|hein.*|humbold.*|hardware|Hampton|Husserl|Hill|high|Heiden.*|Hans|Hereford|His|Heitz|h[òo]bbits?|hawk.*|Heisen.*|Hohen.*|Havilland|Higgs|Howard|hilbert.*|hoover.*|harry|hopkins|hearst|hamilton.*|harrods?|handicaps?|harolds?|Helen|hollywood.*|Houston|Heard|hawai.*|Hudson|Harvard|Hannover|Hayworth|Hepburn|Henry|Hubble|Harrison|Hamas|Hamàs|hegel.*|henna|hennes|Hezboll.+|Hirado|hitler.*|h[oò]ldings?|husseinit.+|Haruki|H[ou]f.*|Hartmann?|hall.*</token>
+            </pattern>
+            <disambig action="add"><wd pos="hac_aspirada"></wd></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="NP.*" postag_regexp="yes" regexp="yes">(?-i)Han</token>
+            </pattern>
+            <disambig action="add"><wd pos="hac_aspirada"></wd></disambig>
+        </rule>
+    </rulegroup>     
 </rules>
