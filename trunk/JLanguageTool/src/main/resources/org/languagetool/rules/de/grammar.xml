@@ -9243,6 +9243,54 @@ $Id$
                 <example type="incorrect" correction="Ehre">Auf <marker>ehre</marker> und Gewissen: Ich war es nicht, das war schon so, als ich kam.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="WETTE_SUBST" name="Groß-/Kleinschreibung: 'um die wette (Wette)'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>um</token>
+                    <token>die</token>
+                    <marker>
+                        <token skip="1">wette</token>
+                    </marker>
+                    <token postag="VER:.+" postag_regexp="yes"/>
+                </pattern>
+                <message>&subanfang;<suggestion>Wette</suggestion>&subende;</message>
+                <url>http://de.wiktionary.org/wiki/Wette</url>
+                <short>&prgk;.</short>
+                <example type="correct">Ich <marker>wette</marker>, das stimmt nicht.</example>
+                <example type="incorrect" correction="Wette">Sie sind um die <marker>wette</marker> gelaufen.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="VER:.+" postag_regexp="yes"/>
+                    <token>um</token>
+                    <token>die</token>
+                    <marker>
+                        <token>wette</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Wette</suggestion>&subende;</message>
+                <url>http://de.wiktionary.org/wiki/Wette</url>
+                <short>&prgk;.</short>
+                <example type="correct">Ich <marker>wette</marker>, das stimmt nicht.</example>
+                <example type="incorrect" correction="Wette">Sie liefen um die <marker>wette</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="BEDARF_SUBST" name="Groß-/Kleinschreibung: 'bei bedarf (Bedarf)'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[bB]ei</token>
+                    <marker>
+                        <token>bedarf</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Bedarf</suggestion>&subende;</message>
+                <url>http://de.wiktionary.org/wiki/Bedarf</url>
+                <short>&prgk;.</short>
+                <example type="correct">Das <marker>bedarf</marker> noch der Klärung.</example>
+                <example type="correct">Bei <marker>Bedarf</marker> dürfen Sie mich gerne wieder anrufen.</example>
+                <example type="incorrect" correction="Bedarf">Bei <marker>bedarf</marker> dürfen Sie mich gerne wieder anrufen.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="SCHAU_SUBST" name="Groß-/Kleinschreibung: 'die schau (Schau) stehlen' etc.">
             <rule>
                 <pattern case_sensitive="yes">
@@ -9455,19 +9503,34 @@ $Id$
             <example type="correct">Gemäß <marker>Aussage</marker> der Bewohner ist die Wohnung gut.</example>
             <example type="incorrect" correction="Aussage">Gemäß <marker>aussage</marker> der Bewohner ist die Wohnung gut.</example>
         </rule>
-        <rule id="ANGABEN_SUBST" name="Groß-/Kleinschreibung: 'nach angaben (Angaben)'">
-            <pattern case_sensitive="yes">
-                <token regexp="yes" skip="1">[lL]aut|[gG]emäß|[nN]ach</token>
-                <marker>
-                    <token>angaben</token>
-                </marker>
-                <token regexp="yes">des|der|einiger|einer|eines|mancher|vieler|[iI]hrer|seiner|eurer|meiner|[dD]einer|dieser|jener</token>
-            </pattern>
-            <message>&subanfang;<suggestion>Angaben</suggestion>&subende;</message>
-            <short>&prgk;.</short>
-            <example type="correct">Nach <marker>Angaben</marker> der Rebellen wurde gestern die Hauptstadt eingenommen.</example>
-            <example type="incorrect" correction="Angaben">Nach <marker>angaben</marker> der Rebellen wurde gestern die Hauptstadt eingenommen.</example>
-        </rule>
+        <rulegroup id="ANGABEN_SUBST" name="Groß-/Kleinschreibung: 'nach angaben (Angaben)'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes" skip="1">[lL]aut|[gG]emäß|[nN]ach</token>
+                    <marker>
+                        <token>angaben</token>
+                    </marker>
+                    <token regexp="yes">des|der|einiger|einer|eines|mancher|vieler|[iI]hrer|seiner|eurer|meiner|[dD]einer|dieser|jener</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Angaben</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Nach <marker>Angaben</marker> der Rebellen wurde gestern die Hauptstadt eingenommen.</example>
+                <example type="incorrect" correction="Angaben">Nach <marker>angaben</marker> der Rebellen wurde gestern die Hauptstadt eingenommen.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[nN]ach</token>
+                    <token>eigenen</token>
+                    <marker>
+                        <token>angaben</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Angaben</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Nach eigenen <marker>Angaben</marker> haben die Rebellen gestern die Hauptstadt eingenommen.</example>
+                <example type="incorrect" correction="Angaben">Nach eigenen <marker>angaben</marker> haben die Rebellen gestern die Hauptstadt eingenommen.</example>
+            </rule>
+        </rulegroup>
         <rule id="BESTAND_SUBST" name="Groß-/Kleinschreibung: 'der bestand (Bestand) an'">
             <pattern case_sensitive="yes">
                 <token regexp="yes">[dD]er</token>
@@ -10680,6 +10743,20 @@ $Id$
                 <short>&prgk;.</short>
                 <example type="correct">Ich kann nun einmal nicht aus meiner <marker>Haut</marker>!</example>
                 <example type="incorrect" correction="Haut">Ich kann nun einmal nicht aus meiner <marker>haut</marker>!</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[aA]uf</token>
+                    <token>der</token>
+                    <token>faulen</token>
+                    <marker>
+                        <token>haut</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Haut</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Und du liegst wieder auf der faulen <marker>Haut</marker>.</example>
+                <example type="incorrect" correction="Haut">Und du liegst wieder auf der faulen <marker>haut</marker>.</example>
             </rule>
         </rulegroup>
         <rule id="STUMPF_UND_STIEL" name="Groß-/Kleinschreibung: 'mit stumpf (Stumpf) und Stiel'">
