@@ -9861,7 +9861,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token postag="VER(:MOD)?:3:PLU:.*" postag_regexp="yes"></token>
+                    <token postag="VER(:MOD)?:3:PLU:.*" postag_regexp="yes"/>
                     <token regexp="yes">die|diese|jene</token>
                     <marker>
                         <token regexp="yes">&subkleinplural;</token>
@@ -9874,6 +9874,20 @@ $Id$
                 <short>&prgk;.</short>
                 <example type="incorrect" correction="Grenzen">Die Grenzen meiner Sprache sind die <marker>grenzen</marker> meiner Welt.</example>
                 <example type="incorrect" correction="Feinde">Das sind die <marker>feinde</marker> der Revolution.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="VER(:MOD)?:.+" postag_regexp="yes"/>
+                    <token regexp="yes">keine(rlei)?</token>
+                    <marker>
+                        <token regexp="yes">&subkleinplural;</token>
+                    </marker>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Kosten">Es entstehen keinerlei <marker>kosten</marker>.</example>
+                <example type="incorrect" correction="Grenzen">Meine Dankbarkeit kennt keine <marker>grenzen</marker>.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -15682,7 +15696,7 @@ $Id$
                 <example type="correct">Der Spaß ging auf seine <marker>Kosten</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="KOSTEN_UND_MUEHEN" name="Groß-/Kleinschreibung: 'kosten (Kosten)'">
+        <rulegroup id="KOSTEN_SUBST" name="Groß-/Kleinschreibung: 'kosten (Kosten)'">
             <rule>
                 <pattern case_sensitive="yes">
                     <token>kosten</token>
@@ -15691,7 +15705,7 @@ $Id$
                 </pattern>
                 <message>Bitte prüfen Sie die Kleinschreibung: <suggestion><match case_conversion="startupper" no="1"/> <match case_conversion="alllower" no="2"/> <match case_conversion="startupper" no="3"/></suggestion>.</message>
                 <short>&prgk;.</short>
-                <example type="incorrect">Wir haben keine <marker>kosten und mühen</marker> gescheut.</example>
+                <example type="incorrect" correction="Kosten und Mühen">Wir haben keine <marker>kosten und mühen</marker> gescheut.</example>
                 <example type="correct">Wir haben keine <marker>Kosten und Mühen</marker> gescheut.</example>
             </rule>
             <rule>
@@ -15702,7 +15716,7 @@ $Id$
                 </pattern>
                 <message>Bitte prüfen Sie die Kleinschreibung: <suggestion><match case_conversion="startupper" no="1"/> <match case_conversion="alllower" no="2"/> <match case_conversion="startupper" no="3"/></suggestion>.</message>
                 <short>&prgk;.</short>
-                <example type="incorrect">Wir haben keine <marker>Kosten und mühen</marker> gescheut.</example>
+                <example type="incorrect" correction="Kosten und Mühen">Wir haben keine <marker>Kosten und mühen</marker> gescheut.</example>
                 <example type="correct">Wir haben keine <marker>Kosten und Mühen</marker> gescheut.</example>
             </rule>
             <rule>
@@ -15713,7 +15727,7 @@ $Id$
                 </pattern>
                 <message>Bitte prüfen Sie die Kleinschreibung: <suggestion><match case_conversion="startupper" no="1"/> <match case_conversion="alllower" no="2"/> <match case_conversion="startupper" no="3"/></suggestion>.</message>
                 <short>&prgk;.</short>
-                <example type="incorrect">Wir haben keine <marker>kosten und Mühen</marker> gescheut.</example>
+                <example type="incorrect" correction="Kosten und Mühen">Wir haben keine <marker>kosten und Mühen</marker> gescheut.</example>
                 <example type="correct">Wir haben keine <marker>Kosten und Mühen</marker> gescheut.</example>
             </rule>
             <rule>
@@ -15725,7 +15739,7 @@ $Id$
                 </pattern>
                 <message>Bitte prüfen Sie die Kleinschreibung: <suggestion><match no="1"/> <match case_conversion="startupper" no="2"/> <match case_conversion="alllower" no="3"/> <match case_conversion="startupper" no="4"/></suggestion>.</message>
                 <short>&prgk;.</short>
-                <example type="incorrect">Wir haben <marker>weder kosten noch mühen</marker> gescheut.</example>
+                <example type="incorrect" correction="weder Kosten noch Mühen">Wir haben <marker>weder kosten noch mühen</marker> gescheut.</example>
                 <example type="correct">Wir haben <marker>weder Kosten noch Mühen</marker> gescheut.</example>
             </rule>
             <rule>
@@ -15737,7 +15751,7 @@ $Id$
                 </pattern>
                 <message>Bitte prüfen Sie die Kleinschreibung: <suggestion><match no="1"/> <match case_conversion="startupper" no="2"/> <match case_conversion="alllower" no="3"/> <match case_conversion="startupper" no="4"/></suggestion>.</message>
                 <short>&prgk;.</short>
-                <example type="incorrect">Wir haben <marker>weder kosten noch Mühen</marker> gescheut.</example>
+                <example type="incorrect" correction="weder Kosten noch Mühen">Wir haben <marker>weder kosten noch Mühen</marker> gescheut.</example>
                 <example type="correct">Wir haben <marker>weder Kosten noch Mühen</marker> gescheut.</example>
             </rule>
             <rule>
@@ -15749,8 +15763,34 @@ $Id$
                 </pattern>
                 <message>Bitte prüfen Sie die Kleinschreibung: <suggestion><match no="1"/> <match case_conversion="startupper" no="2"/> <match case_conversion="alllower" no="3"/> <match case_conversion="startupper" no="4"/></suggestion>.</message>
                 <short>&prgk;.</short>
-                <example type="incorrect">Wir haben <marker>weder Kosten noch mühen</marker> gescheut.</example>
+                <example type="incorrect" correction="weder Kosten noch Mühen">Wir haben <marker>weder Kosten noch mühen</marker> gescheut.</example>
                 <example type="correct">Wir haben <marker>weder Kosten noch Mühen</marker> gescheut.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">keine(rlei)?|hohe</token>
+                    <marker>
+                        <token>kosten</token>
+                    </marker>
+                    <token regexp="yes">entst(eh|and)en</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Kosten</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Kosten">Ihnen werden keine <marker>kosten</marker> entstehen.</example>
+                <example type="correct">Es werden keine <marker>Kosten</marker> entstehen.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes" skip="1">entst(eh|and)en</token>
+                    <token regexp="yes">keine(rlei)?|hohe</token>
+                    <marker>
+                        <token>kosten</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Kosten</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Kosten">Es entstehen Ihnen keinerlei <marker>kosten</marker> dadurch.</example>
+                <example type="correct">Es entstehen Ihnen keinerlei <marker>Kosten</marker> dadurch.</example>
             </rule>
         </rulegroup>
         <rulegroup id="LOECHERN_SUBST" name="Groß-/Kleinschreibung: 'löchern (Löchern)'">
@@ -16170,14 +16210,14 @@ $Id$
             </pattern>
             <message><suggestion>Folgenden</suggestion> wird als Substantivierung großgeschrieben.</message>
             <example type="correct">Im <marker>Folgenden</marker> geht es um Fahrräder.</example>
-            <example type="incorrect">Im <marker>folgenden</marker> geht es um Fahrräder.</example>
+            <example type="incorrect" correction="Folgenden">Im <marker>folgenden</marker> geht es um Fahrräder.</example>
             <example type="correct">Die im <marker>Folgenden</marker> beschriebene Geschichte.</example>
             <example type="correct">Diese These werde ich im <marker>Folgenden</marker> ausführen.</example>
-            <example type="incorrect">Diese These werde ich im <marker>folgenden</marker> ausführen.</example>
-            <example type="incorrect">Die im <marker>folgenden</marker> beschriebene Geschichte.</example>
+            <example type="incorrect" correction="Folgenden">Diese These werde ich im <marker>folgenden</marker> ausführen.</example>
+            <example type="incorrect" correction="Folgenden">Die im <marker>folgenden</marker> beschriebene Geschichte.</example>
             <example type="correct">Die im <marker>folgenden</marker> Buch beschriebene Geschichte.</example>
-            <example type="incorrect">Ich werde im <marker>folgenden</marker> die Ursachen untersuchen.</example>
-            <example type="incorrect">Ich werde im <marker>folgenden</marker> eine Ursache untersuchen.</example>
+            <example type="incorrect" correction="Folgenden">Ich werde im <marker>folgenden</marker> die Ursachen untersuchen.</example>
+            <example type="incorrect" correction="Folgenden">Ich werde im <marker>folgenden</marker> eine Ursache untersuchen.</example>
             <example type="correct">Ich werde im <marker>Folgenden</marker> die Ursachen untersuchen.</example>
             <example type="correct">Dies wird im <marker>folgenden</marker> Abschnitt genau behandelt.</example>
         </rule>
@@ -16229,7 +16269,7 @@ $Id$
                 <message>&prgk;: <suggestion>Wohl</suggestion> wird in dieser Wendung in der Regel großgeschrieben.</message>
                 <short>&prgk;.</short>
                 <example type="correct">Sehr zum <marker>Wohl</marker>!</example>
-                <example type="incorrect">Sehr zum <marker>wohl</marker>!</example>
+                <example type="incorrect" correction="Wohl">Sehr zum <marker>wohl</marker>!</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -16243,7 +16283,7 @@ $Id$
                 <message>&prgk;: <suggestion>Wohl</suggestion> wird in dieser Wendung in der Regel großgeschrieben.</message>
                 <short>&prgk;.</short>
                 <example type="correct">Ich trinke auf dein <marker>Wohl</marker>!</example>
-                <example type="incorrect">Ich trinke auf dein <marker>wohl</marker>!</example>
+                <example type="incorrect" correction="Wohl">Ich trinke auf dein <marker>wohl</marker>!</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -16251,12 +16291,12 @@ $Id$
                     <marker>
                         <token>wohl</token>
                     </marker>
-                    <token regexp="yes">des|der|seiner|ihrer|unserer|eurer|meiner|deiner|aller|de(s|r)jenigen</token>
+                    <token regexp="yes">seiner|ihrer|unserer|eurer|meiner|deiner|aller|de[rs](jenigen)?</token>
                 </pattern>
                 <message>&prgk;: <suggestion>Wohl</suggestion> wird in der Wendung 'zu jmds. Wohl' (im Sinne von 'zu jmds. Besten') großgeschrieben.</message>
                 <short>&prgk;.</short>
                 <example type="correct">Es ist zum <marker>Wohl</marker> der Bevölkerung.</example>
-                <example type="incorrect">Es ist zum <marker>wohl</marker> der Bevölkerung.</example>
+                <example type="incorrect" correction="Wohl">Es ist zum <marker>wohl</marker> der Bevölkerung.</example>
             </rule>
         </rulegroup>
         <rulegroup id="IM_LEBEN" name="Groß-/Kleinschreibung: 'im/am leben (Leben)'">
@@ -16312,7 +16352,7 @@ $Id$
                 <example type="correct">Als die Retter eintrafen, war sie schon nicht mehr am <marker>Leben</marker>.</example>
                 <example type="correct">Das funktioniert doch nie im <marker>Leben</marker>!</example>
                 <example type="incorrect">Das funktioniert doch nie im <marker>leben</marker>!</example>
-                <example type="incorrect">Als die Retter eintrafen, war sie schon nicht mehr am <marker>leben</marker>.</example>
+                <example type="incorrect" correction="Leben">Als die Retter eintrafen, war sie schon nicht mehr am <marker>leben</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SCHWAECHE_SUBST" name="Groß-/Kleinschreibung: 'eine schwäche (Schwäche) haben' etc.">
@@ -16479,12 +16519,12 @@ $Id$
                 <message>&subanfang;<suggestion>Eile</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example type="correct">Sie mahnte zur <marker>Eile</marker>.</example>
-                <example type="incorrect">Sie mahnte zur <marker>eile</marker>.</example>
+                <example type="incorrect" correction="Eile">Sie mahnte zur <marker>eile</marker>.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">[zZ]ur|[iI]n</token>
-                    <token postag="ADJ:.*" postag_regexp="yes"></token>
+                    <token regexp="yes">[zZ]ur?|[iI]n</token>
+                    <token postag="ADJ:.*" postag_regexp="yes"/>
                     <marker>
                         <token>eile</token>
                     </marker>
@@ -16492,7 +16532,8 @@ $Id$
                 <message>&subanfang;<suggestion>Eile</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example type="correct">Sie mahnte zu größerer <marker>Eile</marker>.</example>
-                <example type="correct">Sie mahnte zu größerer <marker>eile</marker>.</example>
+                <example type="incorrect" correction="Eile">Sie mahnte zu größerer <marker>eile</marker>.</example>
+                <example type="incorrect" correction="Eile">Sie waren in größter <marker>eile</marker>.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -16504,7 +16545,7 @@ $Id$
                 <message>&subanfang;<suggestion>Eile</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example type="correct">Hier ist größte <marker>Eile</marker> geboten.</example>
-                <example type="incorrect">Hier ist größte <marker>eile</marker> geboten.</example>
+                <example type="incorrect" correction="Eile">Hier ist größte <marker>eile</marker> geboten.</example>
             </rule>
         </rulegroup>
         <rulegroup id="IN_KUERZE" name="Groß-/Kleinschreibung: 'in kürze (Kürze)'">
@@ -16518,7 +16559,7 @@ $Id$
                 <message>&subanfang;<suggestion>Kürze</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example type="correct">In <marker>Kürze</marker> erscheint das neue Ubuntu.</example>
-                <example type="incorrect">In <marker>kürze</marker> erscheint das neue Ubuntu.</example>
+                <example type="incorrect" correction="Kürze">In <marker>kürze</marker> erscheint das neue Ubuntu.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -16531,7 +16572,7 @@ $Id$
                 <message>&subanfang;<suggestion>Kürze</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example type="correct">In aller <marker>Kürze</marker> möchte ich Folgendes sagen.</example>
-                <example type="incorrect">In aller <marker>kürze</marker> möchte ich Folgendes sagen.</example>
+                <example type="incorrect" correction="Kürze">In aller <marker>kürze</marker> möchte ich Folgendes sagen.</example>
             </rule>
         </rulegroup>
         <rule id="UM_DIE_ECKE" name="Groß-/Kleinschreibung: 'um die ecke (Ecke)'">
@@ -16555,7 +16596,7 @@ $Id$
             </pattern>
             <message>&subanfang;<suggestion>Angriff</suggestion>&subende;</message>
             <example type="correct">Das ist ein <marker>Angriff</marker> auf die Menschenwürde.</example>
-            <example type="incorrect">Das ist ein <marker>angriff</marker> auf die Menschenwürde.</example>
+            <example type="incorrect" correction="Angriff">Das ist ein <marker>angriff</marker> auf die Menschenwürde.</example>
         </rule>
         <rule id="DICHTER_UND_DENKER" name="Groß-/Kleinschreibung: 'dichter (Dichter) und Denker'">
             <pattern case_sensitive="yes">
@@ -16651,20 +16692,6 @@ $Id$
             <example type="correct">Die Rechtsvorschrift zur Sicherung des <marker>weiteren</marker> Aufenthaltsrechtes.</example>
             <example type="incorrect">Des <marker>weiteren</marker> sind alle Katzen blau.</example>
             <example type="incorrect">Und des <marker>weiteren</marker> waren alle Katzen blau.</example>
-        </rule>
-        <rule id="IN_FRAGE" name="Groß-/Kleinschreibung: 'in frage (Frage)'">
-            <pattern case_sensitive="yes">
-                <token regexp="yes">[Ii]n|[aA]ußer|[oO]hne</token>
-                <marker>
-                    <token>frage</token>
-                </marker>
-            </pattern>
-            <message>In dieser Redewendung wird <suggestion>Frage</suggestion> großgeschrieben.</message>
-            <short>&prgk;.</short>
-            <example type="correct">etwas in <marker>Frage</marker> stellen</example>
-            <example type="incorrect" correction="Frage">etwas in <marker>frage</marker> stellen</example>
-            <example type="incorrect" correction="Frage">Das steht außer <marker>frage</marker>.</example>
-            <example type="incorrect" correction="Frage">Ohne <marker>frage</marker> ist das schwierig.</example>
         </rule>
         <rule id="DES_NACHTS" name="Groß-/Kleinschreibung: 'des nachts (Nachts), eines nachts (Nachts)'">
             <pattern case_sensitive="yes">
@@ -17091,6 +17118,20 @@ $Id$
                 <example type="incorrect" correction="Narren">Du hältst mich hier zum <marker>narren</marker>.</example>
             </rule>
         </rulegroup>
+        <rule id="IN_FRAGE" name="Groß-/Kleinschreibung: 'in frage (Frage)'">
+            <pattern case_sensitive="yes">
+                <token regexp="yes">[Ii]n|[aA]ußer|[oO]hne</token>
+                <marker>
+                    <token>frage</token>
+                </marker>
+            </pattern>
+            <message>In dieser Redewendung wird <suggestion>Frage</suggestion> großgeschrieben.</message>
+            <short>&prgk;.</short>
+            <example type="correct">etwas in <marker>Frage</marker> stellen</example>
+            <example type="incorrect" correction="Frage">etwas in <marker>frage</marker> stellen</example>
+            <example type="incorrect" correction="Frage">Das steht außer <marker>frage</marker>.</example>
+            <example type="incorrect" correction="Frage">Ohne <marker>frage</marker> ist das schwierig.</example>
+        </rule>
         <rulegroup id="DIE_FRAGE_IST" name="Groß-/Kleinschreibung: 'die frage (Frage) ist' etc.">
             <rule>
                 <pattern case_sensitive="yes">
@@ -17390,7 +17431,7 @@ $Id$
                 <message>&inwend;'ins Reine kommen' wird <suggestion>Reine</suggestion> großgeschrieben.</message>
                 <short>&prgk;.</short>
                 <example type="correct">Ich komme allmählich mit mir ins <marker>Reine</marker>.</example>
-                <example type="incorrect">Ich komme allmählich mit mir selbst ins <marker>reine</marker>.</example>
+                <example type="incorrect" correction="Reine">Ich komme allmählich mit mir selbst ins <marker>reine</marker>.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -17403,7 +17444,7 @@ $Id$
                 <message>&inwend;'ins Reine kommen' wird <suggestion>Reine</suggestion> großgeschrieben.</message>
                 <short>&prgk;.</short>
                 <example type="correct">Ich werde allmählich mit mir ins <marker>Reine</marker> kommen.</example>
-                <example type="incorrect">Ich werde allmählich mit mir selbst ins <marker>reine</marker> kommen.</example>
+                <example type="incorrect" correction="Reine">Ich werde allmählich mit mir selbst ins <marker>reine</marker> kommen.</example>
             </rule>
         </rulegroup>
         <rulegroup id="IN_RUHE" name="Groß-/Kleinschreibung: 'in/zur ruhe (Ruhe)'">
