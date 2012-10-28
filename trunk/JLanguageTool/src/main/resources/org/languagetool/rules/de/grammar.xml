@@ -11407,6 +11407,21 @@ $Id$
                 <example type="incorrect" correction="Zeit">Haben Sie gerade <marker>zeit</marker>?</example>
                 <example type="correct">Ich habe viel <marker>Zeit</marker>.</example>
             </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>zeit</token>
+                    </marker>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <message>&subanfang;<suggestion>Zeit</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Zeit">Ich habe viel <marker>zeit</marker>.</example>
+                <example type="incorrect" correction="Zeit">Ich habe nicht viel <marker>zeit</marker>.</example>
+                <example type="incorrect" correction="Zeit">Haben Sie gerade <marker>zeit</marker>?</example>
+                <example type="correct">Ich habe viel <marker>Zeit</marker>.</example>
+                <example type="correct">Geburtsort und <marker>-zeit</marker>.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="KRAFT_SUBST" name="Groß-/Kleinschreibung: 'keine kraft (Kraft) haben' etc.">
             <rule>
@@ -13942,6 +13957,18 @@ $Id$
                 <short>&prgk;.</short>
                 <example type="correct">Ich habe ihm den <marker>Weg</marker> gezeigt.</example>
                 <example type="incorrect" correction="Weg">Ich habe ihm den <marker>weg</marker> gezeigt.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>wegen</token>
+                    </marker>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <message>&subanfang;<suggestion>Wegen</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Wegen">Viel Glück und viel Segen auf all deinen <marker>wegen</marker>.</example>
+                <example type="correct">Viel Glück und viel Segen auf all deinen <marker>Wegen</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AUF_SCHRITT_UND_TRITT" name="Groß-/Kleinschreibung: 'auf Schritt und Tritt'">
