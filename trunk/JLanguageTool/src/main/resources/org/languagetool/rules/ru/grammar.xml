@@ -27,6 +27,46 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 $Id$
 -->
 <rules lang="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../rules.xsd">
+
+<category name="Логические ошибки">
+  <rule id="LogicalErrror1" name="Логические ошибки (решит эту затянувшуюся проблему)">
+    <pattern>
+        <token>решит</token>
+        <token>эту</token>
+        <token>затянувшуюся</token>
+        <token>проблему</token>
+    </pattern>
+    <message>Логическая ошибка: <suggestion>ускорит затянувшееся решение проблемы</suggestion>?</message>
+    <url>http://ru.wikipedia.org/wiki/%D0%9B%D0%BE%D0%B3%D0%B8%D0%BA%D0%B0</url>
+    <short>Логическая ошибка.</short>
+    <example type="incorrect">Он <marker>решит эту затянувшуюся проблему</marker>.</example>
+    <example type="correct">Он ускорит затянувшееся решение проблемы.</example>
+  </rule>
+  <rule id="LogicalErrror2" name="Логические ошибки (подорожали цены)">
+    <pattern>
+        <token>подорожали</token>
+        <token>цены</token>
+    </pattern>
+    <message>Логическая ошибка: <suggestion>цены выросли</suggestion>?</message>
+    <url>http://ru.wikipedia.org/wiki/%D0%9B%D0%BE%D0%B3%D0%B8%D0%BA%D0%B0</url>
+    <short>Логическая ошибка.</short>
+    <example type="incorrect">На рынке <marker>подорожали цены</marker></example>
+    <example type="correct">На рынке цены выросли</example>
+  </rule>
+<rule id="LogicalErrror3" name="Логические ошибки (поднял тост)">
+    <pattern>
+        <token>поднял</token>
+        <token>тост</token>
+    </pattern>
+    <message>Логическая ошибка: <suggestion>произнёс тост</suggestion>?</message>
+    <url>http://ru.wikipedia.org/wiki/%D0%9B%D0%BE%D0%B3%D0%B8%D0%BA%D0%B0</url>
+    <short>Логическая ошибка.</short>
+    <example type="incorrect">Он <marker>поднял тост</marker> за встречу.</example>
+    <example type="correct">Он произнёс тост за встречу.</example>
+  </rule>
+
+</category>
+
     <category name="Пунктуация">
         <rule default="on" id="ABREV_DOT" name="Точка после сокращений">
             <pattern case_sensitive="yes">
