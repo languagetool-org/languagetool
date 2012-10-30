@@ -253,8 +253,10 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
 				if (!isException && i < tokens.length-2){
 					Matcher pCoordina = COORDINACIO.matcher(nextToken);
 					if (pCoordina.matches()) {
-						if (   ((matchPostagRegexp(tokens[i-1],NOM_MP) || matchPostagRegexp(tokens[i-1],ADJECTIU_MP)) && matchPostagRegexp(tokens[i],ADJECTIU_M) && matchPostagRegexp(tokens[i+2],ADJECTIU_M))
-								|| ((matchPostagRegexp(tokens[i-1],NOM_FP) || matchPostagRegexp(tokens[i-1],ADJECTIU_FP)) && matchPostagRegexp(tokens[i],ADJECTIU_F) && matchPostagRegexp(tokens[i+2],ADJECTIU_F)) )
+						if (   ((matchPostagRegexp(tokens[i-1],NOM_MP) || matchPostagRegexp(tokens[i-1],ADJECTIU_MP)) && matchPostagRegexp(tokens[i],ADJECTIU_MS) && matchPostagRegexp(tokens[i+2],ADJECTIU_MS))
+								|| ((matchPostagRegexp(tokens[i-1],NOM_MP) || matchPostagRegexp(tokens[i-1],ADJECTIU_MP)) && matchPostagRegexp(tokens[i],ADJECTIU_MP) && matchPostagRegexp(tokens[i+2],ADJECTIU_MP)) 
+								|| ((matchPostagRegexp(tokens[i-1],NOM_FP) || matchPostagRegexp(tokens[i-1],ADJECTIU_FP)) && matchPostagRegexp(tokens[i],ADJECTIU_FS) && matchPostagRegexp(tokens[i+2],ADJECTIU_FS))
+								|| ((matchPostagRegexp(tokens[i-1],NOM_FP) || matchPostagRegexp(tokens[i-1],ADJECTIU_FP)) && matchPostagRegexp(tokens[i],ADJECTIU_FP) && matchPostagRegexp(tokens[i+2],ADJECTIU_FP)))
 						{
 							isException=true;} 
 					}	

@@ -63,7 +63,7 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
 		assertCorrect("Es fa segons regles de lectura constants i regulars.");
 		assertCorrect("Les meitats dreta i esquerra de la mandíbula.");
 		assertCorrect("Els períodes clàssic i medieval.");
-		assertCorrect("Els costats superior i laterals.");
+		//assertCorrect("Els costats superior i laterals.");
 		assertCorrect("En una molècula de glucosa i una de fructosa unides.");
 		// Should be Incorrect, but it is impossible to detect
 		assertCorrect("Índex de desenvolupament humà i qualitat de vida elevat"); 
@@ -102,6 +102,7 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
 		assertCorrect("sota les grans persianes de color verd recalcades");
 		
 		// errors:
+		assertIncorrect("pantalons curt o llargs");
 		assertIncorrect("sota les grans persianes de color verd recalcada");
 		assertIncorrect("sota les grans persianes de color verd recalcat");
 		assertIncorrect("sota les grans persianes de color verd recalcats");

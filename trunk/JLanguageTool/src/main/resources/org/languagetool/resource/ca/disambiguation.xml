@@ -490,6 +490,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="filter" postag=".*AQ.*"></disambig>
         </rule>
     </rulegroup>
+    <rule id="CURT" name="curt no adverbi">
+        <pattern>
+            <token><exception postag="V.[MSI].*|_GV_" postag_regexp="yes"/></token>
+            <marker>
+                <token>curt</token>
+            </marker>
+        </pattern>
+        <disambig action="remove"><wd pos="RG"></wd></disambig>
+    </rule>
     <rulegroup id="deixar_a_part" name="deixar a part, a banda, de banda">
         <rule>
             <pattern>
