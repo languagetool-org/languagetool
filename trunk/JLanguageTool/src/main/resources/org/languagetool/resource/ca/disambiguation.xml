@@ -1450,6 +1450,36 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="N.*"></disambig>
     </rule>
+    <rulegroup id="te_infusio_lletra" name="te (nom d'infusió, lletra te)">
+        <rule>
+            <pattern>
+                <token>de</token>
+                <marker>
+                    <token>te</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="N.*"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token><exception regexp="yes">ella?|vost[èé]</exception><exception postag="N.*|_GN.*" postag_regexp="yes"/></token>
+                <token>el</token>
+                <marker>
+                    <token>te</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="NCMS.*"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token><exception regexp="yes">la|lletra</exception></token>
+                <marker>
+                    <token>te</token>
+                </marker>
+            </pattern>
+            <disambig action="remove"><wd lemma="te" pos="NCFS000"></wd></disambig>
+        </rule>
+    </rulegroup>
     <!-- ser + participi-->
     <rulegroup id="ser_participi" name="ser + participi">
         <rule>
@@ -1979,6 +2009,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
                 <token>a</token>
                 <token postag="P[0P].*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="S.*"></disambig>
+        </rule>
+        <rule> 
+            <pattern>
+                <token><exception postag="P[0P].*|RN" postag_regexp="yes"/></token>
+                <marker>
+                    <token>cap</token>
+                </marker>
+                <token>a</token>
             </pattern>
             <disambig action="filter" postag="S.*"></disambig>
         </rule>
@@ -2892,7 +2932,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <marker>
                 <and>
                     <token postag="PP.*" postag_regexp="yes"/>
-                    <token postag="N.*" postag_regexp="yes"/>
+                    <token postag="N.*" postag_regexp="yes"><exception>te</exception></token>
                 </and>
             </marker>
         </pattern>
@@ -5487,7 +5527,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <token postag="_GN_MS"/>
-                <token regexp="yes">i|o|ni|,|però</token>
+                <token regexp="yes">i|o|ni|,|però|sinó</token>
                 <marker>
                     <token postag="A..[MC][SN0].*|V.P..SM" postag_regexp="yes"></token>
                 </marker>
@@ -5497,7 +5537,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <token postag="_GN_FS"/>
-                <token regexp="yes">i|o|ni|,|però</token>
+                <token regexp="yes">i|o|ni|,|però|sinó</token>
                 <marker>
                     <token postag="A..[FC][SN0].*|V.P..SF" postag_regexp="yes"></token>
                 </marker>
@@ -5507,7 +5547,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <token postag="_GN_MP"/>
-                <token regexp="yes">i|o|ni|,|però</token>
+                <token regexp="yes">i|o|ni|,|però|sinó</token>
                 <marker>
                     <token postag="A..[MC][PN0].*|V.P..PM" postag_regexp="yes"></token>
                 </marker>
@@ -5517,7 +5557,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <token postag="_GN_FP"/>
-                <token regexp="yes">i|o|ni|,|però</token>
+                <token regexp="yes">i|o|ni|,|però|sinó</token>
                 <marker>
                     <token postag="A..[FC][PN0].*|V.P..PF" postag_regexp="yes"></token>
                 </marker>
@@ -5527,13 +5567,41 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule> <!-- Cas particular: no aplicar la regla COMPLEXES -->
             <pattern>
                 <token postag="AQ0[FC][PN]0" postag_regexp="yes"><exception postag="_GN_MP|NCMP.*" postag_regexp="yes"/></token>
-                <token regexp="yes">i|o|ni|,|però</token>
+                <token regexp="yes">i|o|ni|,|però|sinó</token>
                 <marker>
                     <token>complexes</token>
                 </marker>
             </pattern>
             <disambig action="add"><wd pos="_GN_FP"></wd></disambig>
         </rule>
+    </rulegroup>
+    <rulegroup id="verbs_darere_sino" name="neteja verbs darrere de 'sinó'">
+        <rule>
+            <pattern>
+                <token>sinó</token>
+                <marker>
+                    <and>
+                        <token postag="_GN_.*" postag_regexp="yes"/>
+                        <token postag="V.[MSI].*" postag_regexp="yes"/>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="_GN_.*|A.*|N.*|D.*|V.P.*|PX.*"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token skip="3">sinó</token>
+                <marker>
+                    <and>
+                        <token postag="_GN_.*|N.*" postag_regexp="yes"/>
+                        <token postag="V.[MSI].*" postag_regexp="yes"/>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="_GN_.*|A.*|N.*|D.*|V.P.*|PX.*"></disambig>
+        </rule>
+    
+    
     </rulegroup>
     <rule id="VERB_PREPOSICIO" name="verb + preposició">
         <!-- mogut per "haver acabat"; excepció: per tal d'aconseguir els seus fins; per a aconseguir fins dignes d'aconseguir-se-->
@@ -6686,6 +6754,19 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="SPS00"></disambig>
     </rule>
+    <rule id="PronomNom2" name="nom i pronom">
+        <!-- jo, mi, la, te, ens. Excepció: de te.  -->
+        <pattern>
+            <marker>
+                <and>
+                    <token postag="PP.*" postag_regexp="yes"/>
+                    <token postag="N.*" postag_regexp="yes">te</token>
+                    <token postag="_GN_.*" postag_regexp="yes"/>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="[^P].*"></disambig>
+    </rule>
     <rulegroup id="fa_x_temps2" name="fa tres anys, molt de temps">
     <!--  segona passada de la regla: per a evitar les excepcions de Verbs -->
         <rule>
@@ -7263,15 +7344,29 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="add"><wd pos="repeated"></wd></disambig>
     </rule>
-    <rule id="QUAN_INTERROGATIU" name="'quan' interrogatiu">
-        <pattern>
-            <marker>
-                <token>quan</token>
-            </marker>
-            <token postag="SENT_END|CC|PUNCT.*" postag_regexp="yes"/>
-        </pattern>
-        <disambig action="filter" postag="PT.*"/>
-    </rule>
+    <rulegroup id="INTERROGATIUS" name="pronoms interrogatius">
+        <rule id="qui" name="els qui">
+            <pattern>
+                <token postag="D[DA].*" postag_regexp="yes"/>
+                <marker>
+                    <and>
+                        <token postag="PT.*" postag_regexp="yes">qui</token>
+                        <token postag="PR.*" postag_regexp="yes"/>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="PR.*"/>
+        </rule>
+        <rule id="QUAN_INTERROGATIU" name="'quan' interrogatiu">
+            <pattern>
+                <marker>
+                    <token>quan</token>
+                </marker>
+                <token postag="SENT_END|CC|PUNCT.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="PT.*"/>
+        </rule>
+    </rulegroup>
     <rulegroup id="SUBJUNTIU_IMPERATIU" name="subjuntiu/imperatiu">
         <rule id="subj_imp_valencia" name="verb subjuntiu (valencià) i imperatiu (general): digues, sigues">
             <pattern>
@@ -7301,7 +7396,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rulegroup id="HAC_ASPIRADA" name="hac aspirada inicial">
         <rule>
             <pattern>
-                <token regexp="yes">Hitch.*|Hong|hongk.+|Haifa|herbert.*|he|hinden.*|hein.*|humbold.*|hardware|Hampton|Husserl|Hill|high|Heiden.*|Hans|Hereford|His|Heitz|h[òo]bbits?|hawk.*|Heisen.*|Hohen.*|Havilland|Higgs|Howard|hilbert.*|hoover.*|harry|hopkins|hearst|hamilton.*|harrods?|handicaps?|harolds?|Helen|hollywood.*|Houston|Heard|hawai.*|Hudson|Harvard|Hannover|Hayworth|Hepburn|Henry|Hubble|Harrison|Hamas|Hamàs|hegel.*|henna|hennes|Hezboll.+|Hirado|hitler.*|h[oò]ldings?|husseinit.+|Haruki|H[ou]f.*|Hartmann?|hall.*</token>
+                <token regexp="yes">heav.*|Hitch.*|Hong|hongk.+|Haifa|herbert.*|hinden.*|hein.*|humbold.*|hardware|Hampton|Husserl|Hill|high|Heiden.*|Hans|Hereford|His|Heitz|h[òo]bbits?|hawk.*|Heisen.*|Hohen.*|Havilland|Higgs|Howard|hilbert.*|hoover.*|harry|hopkins|hearst|hamilton.*|harrods?|handicaps?|harolds?|Helen|hollywood.*|Houston|Heard|hawai.*|Hudson|Harvard|Hannover|Hayworth|Hepburn|Henry|Hubble|Harrison|Hamas|Hamàs|hegel.*|henna|hennes|Hezboll.+|Hirado|hitler.*|h[oò]ldings?|husseinit.+|Haruki|H[ou]f.*|Hartmann?|hall.*</token>
             </pattern>
             <disambig action="add"><wd pos="hac_aspirada"></wd></disambig>
         </rule>

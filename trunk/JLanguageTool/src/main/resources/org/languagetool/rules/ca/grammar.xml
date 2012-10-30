@@ -532,7 +532,7 @@ $Id$
                         <unify negate="yes">
                             <feature id="nombre" />
                             <feature id="genere" />
-                            <token postag="D[^ARN].*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes" /></token>
+                            <token postag="D[^ARN].*" postag_regexp="yes"><exception postag="_GN_.*|allow_tant" postag_regexp="yes" /></token>
                             <token postag="N.M.*" postag_regexp="yes"><exception postag="_GN_.*|V.[IS].*" postag_regexp="yes" /></token>
                         </unify>
                     </marker>
@@ -548,6 +548,8 @@ $Id$
                 <example type="correct">Aqueixos pins.</example>
                 <example type="correct">Porta eixos camions.</example>
                 <example type="correct">cent un anys.</example>
+                <example type="incorrect">Per què hi ha <marker>tant homes</marker>?</example>
+                <example type="correct">tant homes com dones</example>
             </rule>
             <rule>
                 <pattern>
@@ -556,7 +558,7 @@ $Id$
                         <unify negate="yes">
                             <feature id="nombre" />
                             <feature id="genere" />
-                            <token postag="D[^ARN].*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes" /><exception postag="allow_masculine">tot</exception></token>
+                            <token postag="D[^ARN].*" postag_regexp="yes"><exception postag="_GN_.*|allow_tant" postag_regexp="yes" /><exception postag="allow_masculine">tot</exception></token>
                             <token postag="N.F.*" postag_regexp="yes"><exception postag="_GN_.*|V.[IS].*" postag_regexp="yes" /></token>
                         </unify>
                     </marker>
@@ -565,12 +567,12 @@ $Id$
                     <suggestion><match no="2" postag="D..[FC][SN].*" postag_regexp="yes" /> <match no="3" postag="N.[FC][SN].*" postag_regexp="yes" /></suggestion>,
                     <suggestion><match no="2" postag="D..[FC][PN].*" postag_regexp="yes" /> <match no="3" postag="N.[FC][PN].*" postag_regexp="yes" /></suggestion>.</message>
                 <short>Error de concordança.</short>
-                <example type="incorrect"><marker>aquell metgesses</marker>
-                </example>
+                <example type="incorrect"><marker>aquell metgesses</marker></example>
                 <example type="incorrect"><marker>Aquells metgessa</marker>.</example>
                 <example type="correct">Aquestes metgesses.</example>
                 <example type="correct">Aqueixa metgessa.</example>
                 <example type="correct">Eixes metgesses.</example>
+                <example type="correct">tant dones com homes</example>
             </rule>
         </rulegroup>
         <rulegroup id="CONCORDANCES_ADJ_NOM" name="Concordances adjectiu i nom"> <!-- cas especial per a ordinals AO.* ? -->
@@ -3588,13 +3590,25 @@ $Id$
         </rulegroup>
     </category>
     <category name="Confusions">
+        <rule id="AM_AMB" name="am/amb">
+            <pattern case_sensitive="yes">
+                <token>am</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>amb</suggestion>?</message>
+            <example type="incorrect"><marker>am</marker> àmplies vistes</example>
+            <example type="correct">amb àmplies vistes</example>
+        </rule>
         <rule id="SAN_SANT" name="san_sant">
             <pattern>
-                <token>san</token>
+                <marker>
+                    <token>san</token>
+                </marker>
+                <token postag="NPMSSP0"/>
             </pattern>
             <message>¿Volíeu dir <suggestion>sant</suggestion> en comptes de 'san' (= poble africà)?</message>
             <example type="incorrect"><marker>san</marker> Joan </example>
             <example type="correct">sant Joan</example>
+            <example type="correct">San Dalmazzo</example>
         </rule>
         <rule id="ALLIOLI" name="allioli">
             <pattern>
@@ -4086,7 +4100,7 @@ $Id$
             </rule>
             <rule>
                 <pattern> <!-- calen més excepcions!! -->
-                    <token inflected="yes" regexp="yes" negate="yes">gos|ocell|au|animal|topí|ansat</token>
+                    <token><exception inflected="yes" regexp="yes">mena|programari|discurs|procés|aparell|gos|ocell|au|animal|topí|ansat</exception></token>
                     <token>de</token>
                     <marker>
                         <token>presa</token>
@@ -4096,6 +4110,8 @@ $Id$
                 <short>Possible confusió</short>
                 <example type="incorrect">anàvem molt de <marker>presa</marker></example>
                 <example type="correct">molt de pressa</example>
+                <example type="correct">aus de presa</example>
+                <example type="correct">en el seu discurs de presa de possessió</example>
             </rule>
             <rule>
                 <pattern>
@@ -4818,15 +4834,20 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token skip="2">sinó<exception scope="next" regexp="yes">que|també|perquè</exception></token>
+                        <token skip="2">sinó<exception scope="next" regexp="yes">que|també|perquè|com|on|què</exception></token>
                     </marker>
                     <token postag="V.[^NGP].*" postag_regexp="yes"></token>
                 </pattern>
-                <message>Ha de ser: <suggestion>si no</suggestion>.</message>
+                <message>Cal escriure: <suggestion>si no</suggestion>.</message>
                 <short>Possible confusió</short>
                 <example type="incorrect"><marker>Sinó</marker> hi véns, serà pitjor.</example>
                 <example type="incorrect">¿Què podia fer <marker>sinó</marker> volia resignar-me?</example>
                 <example type="correct">Si no hi véns, serà pitjor.</example>
+                <example type="correct">d'explicar no com es produeix la integració, sinó com es polaritzen els conflictes en un grau</example>
+                <example type="correct">no es pren aquesta sinó aquella on són extremadament properes</example>
+                <example type="correct">no només per on estan les coses sinó per què estan situades on es troben</example>
+                <example type="correct">començaren a fugir, no cap a València, sinó cap a Castella.</example>
+                <example type="correct">no eren missions lunars sinó només vols de prova</example>
             </rule>
             <rule>
                 <pattern>
@@ -4837,7 +4858,7 @@ $Id$
                     </marker>
                     <token postag="V.[NGP].*" postag_regexp="yes"></token>
                 </pattern>
-                <message>Ha de ser: <suggestion>sinó</suggestion>.</message>
+                <message>Cal escriure: <suggestion>sinó</suggestion>.</message>
                 <short>Possible confusió</short>
                 <example type="incorrect">No va cantar, <marker>si no</marker> ballar.</example>
                 <example type="correct">No va cantar, sinó ballar.</example>
@@ -4851,23 +4872,23 @@ $Id$
                         <token>si</token>
                         <token>no</token>
                     </marker>
-                    <token regexp="yes">que|també|perquè</token>
+                    <token regexp="yes">que|també|perquè|on|com|què</token>
                 </pattern>
-                <message>Ha de ser: <suggestion>sinó</suggestion>.</message>
+                <message>Cal escriure: <suggestion>sinó</suggestion>.</message>
                 <short>Possible confusió</short>
                 <example type="incorrect">No només el peix, <marker>si no</marker> també la carn.</example>
                 <example type="correct">No només el peix, sinó també la carn.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token postag="RN|PT.*" postag_regexp="yes" skip="-1"/>
+                    <token postag="RN|PT.*" postag_regexp="yes" skip="-1"><exception>com</exception></token>
                     <marker>
-                        <token>si</token>
+                        <token>si<exception scope="previous">com</exception></token>
                         <token skip="-1">no<exception postag="V.[MSI].*" postag_regexp="yes" scope="next"/></token>
                     </marker>
                     <token postag="SENT_END|PUNCT.*" postag_regexp="yes"></token>
                 </pattern>
-                <message>Ha de ser: <suggestion>sinó</suggestion>.</message>
+                <message>Cal escriure: <suggestion>sinó</suggestion>.</message>
                 <short>Possible confusió</short>
                 <example type="incorrect">No ho ha fet ell <marker>si no</marker> el seu germà.</example>
                 <example type="correct">No ho ha fet ell sinó el seu germà.</example>
@@ -4875,17 +4896,20 @@ $Id$
                 <example type="incorrect">¿Qui ha de venir <marker>si no</marker> ella?</example>
                 <example type="correct">¿Qui ha de venir sinó ella?</example>
                 <example type="incorrect">¿Qui ha de venir <marker>si no</marker>?</example> <!-- Cas dubtós, discutit!! -->
+                <!-- <example type="correct">¿Com si no?</example> Cas dubtós, discutit!! -->
                 <example type="correct">¿Qui ha de venir sinó?</example>
                 <example type="incorrect">¿Què és <marker>si no</marker> un intent de desestabilitar, de convèncer que tot serà millor?</example>
+                <example type="correct">tant si vols com si no.</example>
+                <example type="correct">en veure com col·locaven les peces, va exclamar: "a grapats s'han de posar, si no, no acabarem mai".</example>
             </rule>
             <rule>
                 <pattern>
-                    <token postag="V.M.*" postag_regexp="yes" skip="3"><exception postag="V.I.*" postag_regexp="yes"/><exception scope="next" postag="PUNCT.*|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|SENT_END|CC" postag_regexp="yes" negate_pos="yes"/></token>
+                    <token postag="V.M.*" postag_regexp="yes" skip="3"><exception postag="V.I.*|_GN_.*" postag_regexp="yes"/><exception scope="next" postag="PUNCT.*|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|SENT_END|CC" postag_regexp="yes" negate_pos="yes"/></token>
                     <marker>
                         <token>sinó</token>
                     </marker>
                 </pattern>
-                <message>¿Volíeu dir <suggestion>si no</suggestion>?</message>
+                <message>Cal escriure: <suggestion>si no</suggestion>.</message>
                 <short>Possible confusió</short>
                 <example type="incorrect">Preguntem-li <marker>sinó</marker> al president.</example>
                 <example type="incorrect">Preguntem-li-ho, <marker>sinó</marker>, al president.</example>
@@ -4893,8 +4917,9 @@ $Id$
                 <example type="correct">No mirem sinó que escoltem.</example>
                 <example type="correct">no només cau sinó que ens cau a sobre</example>
                 <example type="incorrect">Preguntem-ho <marker>sinó</marker> al president.</example>
+                <example type="correct">no desenvolupa una energia física i espiritual lliure, sinó que mortifica el seu cos i arruïna el seu esperit.</example>
             </rule>
-            <rule id="SINO_ESCOMBRA" name="sinó/si no: regla escombra">
+            <rule>
                 <pattern> <!-- moltes de les frases sense "no, sense" en general són de redacció deficient -->
                     <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes">no|ni|cap|mai|ningú|gens|rarament|sense|tampoc</exception><exception scope="next" postag="RN|PT.*" postag_regexp="yes"/></token>
                     <marker>
@@ -4965,8 +4990,7 @@ $Id$
                 </marker>
                 <token negate="yes" regexp="yes">d'|de|que</token>
             </pattern>
-            <message>¿Volíeu dir <suggestion>d'ençà de</suggestion>, <suggestion>d'ençà que</suggestion>,
-                <suggestion>d'aleshores ençà</suggestion>, <suggestion>des d'aleshores</suggestion>?</message>
+            <message>¿Volíeu dir <suggestion>d'ençà de</suggestion>, <suggestion>d'ençà que</suggestion>, <suggestion>d'aleshores ençà</suggestion>, <suggestion>des d'aleshores</suggestion>, <suggestion>des de</suggestion>?</message>
             <example type="incorrect"><marker>D'ençà</marker>, no ha fet res de bo.</example>
             <example type="correct">D'ençà de llavors, no ha fet res de bo.</example>
         </rule>
@@ -5149,6 +5173,375 @@ $Id$
             </rule>
         </rulegroup> -->
     </category>
+    <category name="APOSTROFACIO">
+        <rulegroup id="DE_EL_S_APOSTROFEN" name="apostrofació: de, el">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>de</token>
+                        <token regexp="yes">1|11</token>
+                    </marker>
+                    <token><exception regexp="yes">[.,]</exception></token>
+                </pattern>
+                <message>Cal escriure:<suggestion>d'<match no="2"></match></suggestion>.</message>
+                <short>Error ortogràfic</short>
+                <example type="incorrect" correction="d'1"><marker>de 1</marker> a 3</example>
+                <example type="correct">de 1.400 habitants</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>el</token>
+                        <token regexp="yes">1|11</token>
+                    </marker>
+                    <token><exception regexp="yes">[.,]</exception></token>
+                </pattern>
+                <message>Cal escriure:<suggestion>l'<match no="2"></match></suggestion>.</message>
+                <short>Error ortogràfic</short>
+                <example type="incorrect" correction="l'1"><marker>el 1</marker> de febrer</example>
+                <example type="correct">els 1.400 habitants</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token spacebefore="no">l</token>
+                        <token regexp="yes">1|11</token>
+                    </marker>
+                    <token><exception regexp="yes">[.,]</exception></token>
+                </pattern>
+                <message>Cal escriure:<suggestion> l'<match no="2"></match></suggestion>.</message>
+                <short>Error ortogràfic</short>
+                <example type="incorrect" correction=" l'1">fins a<marker>l 1</marker> de febrer</example>
+                <example type="correct">fins a 1.400 habitants</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>de</token>
+                        <token regexp="yes">1|11</token>
+                    </marker>
+                    <token regexp="yes">[.,]</token>
+                    <token><exception spacebefore="no" regexp="yes">\d+</exception></token>
+                </pattern>
+                <message>Cal escriure:<suggestion>d'<match no="2"></match></suggestion>.</message>
+                <short>Error ortogràfic</short>
+                <example type="incorrect" correction="d'1"><marker>de 1</marker>, de 3</example>
+                <example type="correct">de 1.400 habitants</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>el</token>
+                        <token regexp="yes">1|11</token>
+                    </marker>
+                    <token regexp="yes">[.,]</token>
+                    <token><exception spacebefore="no" regexp="yes">\d+</exception></token>
+                </pattern>
+                <message>Cal escriure:<suggestion>l'<match no="2"></match></suggestion>.</message>
+                <short>Error ortogràfic</short>
+                <example type="incorrect" correction="l'1"><marker>el 1</marker>, el 2 i el 3 de febrer</example>
+                <example type="correct">els 1.400 habitants</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token spacebefore="no">l</token>
+                        <token regexp="yes">1|11</token>
+                    </marker>
+                    <token regexp="yes">[.,]</token>
+                    <token><exception spacebefore="no" regexp="yes">\d+</exception></token>
+                </pattern>
+                <message>Cal escriure:<suggestion> l'<match no="2"></match></suggestion>.</message>
+                <short>Error ortogràfic</short>
+                <example type="incorrect" correction=" l'1">fins a<marker>l 1</marker>, al 2 i al 3 de febrer</example>
+                <example type="correct">fins a 1.400 habitants</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>de</token>
+                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].*|el|els|a|e|i|o|u|efa|hac|ela|ema|ena|erra|essa|ics|iure</exception><exception inflected="yes">ordinal</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Cal escriure:<suggestion>d'<match no="2"></match></suggestion>.</message>
+                <short>Error ortogràfic</short>
+                <example type="incorrect"><marker>de ortografia</marker></example>
+                <example type="correct"><marker>d'ortografia</marker></example>
+                <example type="correct">de Hollywood</example>
+                <example type="correct">de Hubble</example>
+                <example type="correct">de atletismo</example>
+                <example type="correct">de Iugoslàvia</example>
+                
+            </rule>
+            <rule>
+                <pattern>
+                    <token>el</token>
+                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+</exception><exception inflected="yes">ordinal</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Cal escriure:<suggestion>l'<match no="2"></match></suggestion>.</message>
+                <short>Error ortogràfic</short>
+                <example type="incorrect"><marker>el home</marker></example>
+                <example type="correct"><marker>l'home</marker></example>
+                <example type="correct">el Hubble</example>
+                <example type="correct">el atletismo</example>
+                <example type="correct">el iugoslau</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="DA0MS0">en</token>
+                        <token postag="NPMSSP0" regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="V...[12].." postag_regexp="yes" negate_pos="yes" />
+                </pattern>
+                <message>Cal escriure:<suggestion>n'<match no="2"></match></suggestion>.</message>
+                <short>Error ortogràfic</short>
+                <example type="incorrect"><marker>En Antoni</marker>.</example>
+                <example type="correct"><marker>N'Antoni</marker>.</example>
+                <example type="correct">en Harrison Ford</example>
+                <example type="correct">el premi recaigué en Eudard.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>de</token>
+                    <token spacebefore="no">l</token>
+                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+</exception><exception inflected="yes">ordinal</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Cal escriure:<suggestion>de l'<match no="3"></match></suggestion>.</message>
+                <short>Error ortogràfic</short>
+                <example type="incorrect"><marker>del home</marker></example>
+                <example type="correct">>de l'home</example>
+                <example type="correct">del Hubble</example>
+                <example type="correct">del atletismo</example>
+                <example type="correct">del iugoslau</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>a</token>
+                    <token spacebefore="no">l</token>
+                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+</exception><exception inflected="yes">ordinal</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Cal escriure:<suggestion>a l'<match no="3"></match></suggestion>.</message>
+                <short>Error ortogràfic</short>
+                <example type="incorrect"><marker>al home</marker></example>
+                <example type="correct"><marker>a l'home</marker></example>
+                <example type="correct">al Hubble</example>
+                <example type="correct">al atletismo</example>
+                <example type="correct">el iugoslau</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>pe</token>
+                    <token spacebefore="no">l</token>
+                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+</exception><exception inflected="yes">ordinal</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Cal escriure:<suggestion>per l'<match no="3"></match></suggestion>.</message>
+                <short>Error ortogràfic</short>
+                <example type="incorrect"><marker>pel home</marker></example>
+                <example type="correct"><marker>per l'home</marker></example>
+                <example type="correct">pel Hubble</example>
+                <example type="correct">el iugoslau</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">de|el</token>
+                    <token regexp="yes">Uixó|uixer.+</token>
+                </pattern>
+                <message>Cal apostrofar: <suggestion><match no="1" regexp_match=".*([dl]).*" regexp_replace="$1'"/><match no="2"/></suggestion>.</message>
+                <short>Error ortogràfic</short>
+                <example type="incorrect" correction="d'Uixó">la Vall <marker>de Uixó</marker></example>
+                <example type="correct">l'uixer</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="L_D_N_NO_S_APOSTROFEN" name="apostrofació: no s'apostrofen d', l', n'">        
+            <rule>
+                <pattern>
+                    <token>d'</token>
+                    <token postag="hac_aspirada"/>
+                </pattern>
+                <message>No s'apostrofa davant de hac aspirada: <suggestion>de <match no="2"></match></suggestion>.</message>
+                <short>Reviseu</short>
+                <example type="incorrect"><marker>d'Hubble</marker></example>
+                <example type="incorrect">espai <marker>d'Hilbert</marker></example>
+                <example type="correct"><marker>de Hubble</marker></example>
+                <example type="correct">La regla o fórmula D'Hondt</example>             
+            </rule>
+            <rule>
+                <pattern>
+                    <token>l'</token>
+                    <token postag="hac_aspirada"/>
+                </pattern>
+                <message>No s'apostrofa davant de hac aspirada: <suggestion>el <match no="2"></match></suggestion>, <suggestion>la <match no="2"></match></suggestion>.</message>
+                <short>Reviseu</short>
+                <example type="incorrect"><marker>l'Hubble</marker></example>
+                <example type="incorrect"><marker>l'Harrison</marker></example>
+                <example type="correct">el Hubble</example>             
+            </rule>
+            <rule>
+                <pattern>
+                    <token>n'</token>
+                    <token postag="hac_aspirada"/>
+                </pattern>
+                <message>No s'apostrofa davant de hac aspirada: <suggestion>en <match no="2"></match></suggestion>, <suggestion>na <match no="2"></match></suggestion>.</message>
+                <short>Reviseu</short>
+                <example type="incorrect"><marker>n'Hubble</marker></example>
+                <example type="incorrect"><marker>n'Hilbert</marker></example>
+                <example type="correct">en Hubble</example>             
+            </rule>
+            <rule>
+                <pattern>
+                    <token>d'</token>
+                    <token regexp="yes">h?[ui][aeoiàèéóòu].*<exception regexp="yes">ió|ions|ionitza.+|uix.+</exception></token>
+                </pattern>
+                <message>Cal escriure:<suggestion>de <match no="2"></match></suggestion>.</message>
+                <short>Error ortogràfic</short>
+                <example type="incorrect" correction="de iogurt"><marker>d'iogurt</marker></example>
+                <example type="incorrect" correction="de Iugoslàvia"><marker>d'Iugoslàvia</marker></example>
+                <example type="incorrect" correction="de iodització"><marker>d'iodització</marker></example>
+                <example type="correct">La Vall d'Uixó</example>
+                <example type="correct">L'ofici d'uixer</example>
+                <example type="correct">d'ionització</example>
+            </rule> 
+        </rulegroup>
+        <rulegroup id="L_D_NOM_LLETRA" name="apostrofació: no davant de nom de lletra">                        
+            <rule>
+                <pattern>
+                    <token>d'</token>
+                    <token regexp="yes">a|e|i|o|efa|hac|ela|ema|ena|erra|essa|ics</token>
+                </pattern>
+                <message>Cal escriure:<suggestion>de <match no="2"></match></suggestion>.</message>
+                <short>Error ortogràfic</short>
+                <example type="incorrect">Darrere <marker>d'essa</marker></example>
+                <example type="correct">Darrere de essa</example>
+                <example type="correct">d'u a cinc</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>l'</token>
+                    <token regexp="yes">a|e|i|o|efa|hac|ela|ema|ena|erra|essa|ics</token>
+                </pattern>
+                <message>Cal escriure:<suggestion>la <match no="2"></match></suggestion>.</message>
+                <short>Error ortogràfic</short>
+                <example type="incorrect">Darrere de <marker>l'essa</marker></example>
+                <example type="correct">Darrere la essa</example>
+                <example type="correct">de l'u al cinc</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="LA_NA_NOM_FEMENI" name="apostrofació: la/na + femení"> 
+            <rule>
+                <pattern>
+                    <token>l'</token>
+                    <token postag="N.M.*|A..M.*" postag_regexp="yes" regexp="yes">h?[ui][aeoiàèéóòu].*<exception regexp="yes">ió|uix.+</exception></token>
+                </pattern>
+                <message>Cal escriure:<suggestion>el <match no="2"></match></suggestion>.</message>
+                <short>Error ortogràfic</short>
+                <example type="incorrect" correction="el iogurt"><marker>l'iogurt</marker></example>
+                <example type="incorrect" correction="el iugoslau"><marker>l'iugoslau</marker></example>
+                <example type="correct">l'uixer</example>
+                <example type="correct">l'Uixó</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>l'</token>
+                    <token postag="N.F.*|A..F.*|_GN_F." postag_regexp="yes" regexp="yes">h?[ui].+|host<exception regexp="yes">hidra|hifa|hulla|ulna|umbra|una|ungla|unça|upa|urbs|urna|urpa|idus|illa|inca|iva</exception><exception postag="_GN_M.*" postag_regexp="yes" /></token>
+                </pattern>
+                <message>Cal escriure:<suggestion>la <match no="2"></match></suggestion>.</message>
+                <short>Error ortogràfic</short>
+                <example type="incorrect" correction="la universitat"><marker>l'universitat</marker></example>
+                <example type="incorrect" correction="la uixera"><marker>l'uixera</marker></example>
+                <example type="incorrect" correction="la iodització"><marker>l'iodització</marker></example>
+                <example type="incorrect" correction="la ionització"><marker>l'ionització</marker></example>
+                <example type="correct">l'intel·lectual valencià</example>             
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>l'</token>
+                        <and>
+                            <token postag="_GN_FS" regexp="yes">h?[ui].+|host<exception regexp="yes">hidra|hifa|hulla|ulna|umbra|una|ungla|unça|upa|urbs|urna|urpa|idus|illa|inca|iva</exception></token>
+                            <token postag="_GN_MS" />
+                        </and>
+                    </marker>
+                    <token postag="_GN_FS"><exception postag="_GN_MS|D.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Cal escriure:<suggestion>la <match no="2"></match></suggestion>.</message>
+                <short>Error ortogràfic</short>
+                <example type="incorrect"><marker>l'intel·lectual</marker> valenciana</example>
+                <example type="correct">la intel·lectual valenciana</example>
+                <example type="correct">l'insondable mar</example>
+                <example type="correct">la insondable mar</example>
+                <example type="correct"> L'endemà mateix de l'incident la policia va fer pública </example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>n'</token>
+                    <token postag="N.F.*|A..F.*|_GN_F." postag_regexp="yes" regexp="yes">h?[ui].+|host<exception regexp="yes">hidra|hifa|hulla|ulna|umbra|una|ungla|unça|upa|urbs|urna|urpa|idus|illa|inca|iva</exception><exception postag="_GN_M.*" postag_regexp="yes" /></token>
+                </pattern>
+                <message>Cal escriure:<suggestion>na <match no="2"></match></suggestion>.</message>
+                <short>Error ortogràfic</short>
+                <example type="incorrect"><marker>n'Ignàsia</marker></example>
+                <example type="correct"><marker>na Ignàsia</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>la</token>
+                    <token regexp="yes">h?[aeoàèéíòóú].*|h?[ui][^aeiouàèéíòóúüï]+[aeiou][ns]?|urbs<exception regexp="yes">host|ira|inxa|[aeiou]|efa|hac|ela|ema|ena|erra|essa|ics|una</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN" postag_regexp="yes"/><exception regexp="yes">(?-i)Haia</exception></token>
+                </pattern>
+                <message>Cal escriure:<suggestion>l'<match no="2"></match></suggestion>.</message>
+                <short>Error ortogràfic</short>
+                <example type="incorrect"><marker>la ombra</marker></example>
+                <example type="correct">l'ombra</example>
+                <example type="correct">la efa suau</example>
+                <example type="correct">la orfebrería española</example>
+                <example type="correct">la Hayworth</example>
+                <example type="correct">Benvinguts a la Haia.</example>
+                <example type="correct">la uixera</example>
+                <example type="correct">Era la una de la nit</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>la</token>
+                    <token>una</token>
+                </pattern>
+                <message>Si no és una referència horària (la una de migdia, la una de la nit), cal apostrofar: <suggestion>l'una</suggestion>.</message>
+                <short>Error ortogràfic</short>
+                <example type="incorrect" correction="l'una">Hem d'anar tots a <marker>la una</marker>.</example>
+                <example type="correct">l'una és alta, l'altra és baixa</example>
+                <!-- <example type="correct">A la una hem d'anar tots allà.</example> -->
+            </rule>
+            <rule>
+                <pattern>
+                    <token>na</token>
+                    <token postag="N.FS.*" postag_regexp="yes" regexp="yes">h?[aeoàèéíòóú].*|h?[ui][^aeiouàèéíòóúüï]+[aeiou][ns]?|urbs<exception regexp="yes">host|ira|inxa</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Cal escriure:<suggestion>n'<match no="2"></match></suggestion>.</message>
+                <short>Error ortogràfic</short>
+                <example type="incorrect"><marker>na Úrsula</marker></example>
+                <example type="correct"><marker>n'Úrusula</marker></example>
+                <example type="correct">Na és el símbol del</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="CAL_APOSTROFAT" name="apostrofació: ca l'Enric, de ca l'ample">    
+            <rule>
+                <pattern>
+                    <token>cal</token>
+                    <token postag="NPMSSP0" regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóò].+</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Cal escriure: <suggestion>ca l'<match no="2"></match></suggestion>.</message>
+                <short>Error d'apostrofació</short>
+                <example type="incorrect" correction="ca l'Enric"><marker>cal Enric</marker></example>
+                <example type="correct">ca l'Antoni</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="contraccio">cal</token>
+                    <token postag="N.[MC][SN].*|AQ0[MC][SN]0" postag_regexp="yes" regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóò].+</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Cal escriure: <suggestion>ca l'<match no="2"></match></suggestion>.</message>
+                <short>Error d'apostrofació</short>
+                <example type="incorrect" correction="ca l'ample">una victòria de <marker>cal ample</marker></example>
+                <example type="correct">cal ampliar la victòria</example>
+            </rule>
+        </rulegroup>
+    </category>
     <category name="Errors ortogràfics">
         <rule id="noFreeling" name="Mots que no apareixen en el diccionari Freeling" default="off">
             <pattern>
@@ -5216,7 +5609,7 @@ $Id$
                     <token regexp="yes">de|d'</token>
                     <token>el<exception postag="contraccio"/></token>
                 </pattern>
-                <message>Cal dir <suggestion>del</suggestion>.</message>
+                <message>Cal escriure:<suggestion>del</suggestion>.</message>
                 <short>Error gramatical</short>
                 <example type="incorrect"><marker>de el</marker> camí</example>
                 <example type="correct"><marker>del</marker> camí</example>
@@ -5226,7 +5619,7 @@ $Id$
                     <token regexp="yes">de|d'</token>
                     <token>els<exception postag="contraccio"/></token>
                 </pattern>
-                <message>Cal dir <suggestion>dels</suggestion>.</message>
+                <message>Cal escriure:<suggestion>dels</suggestion>.</message>
                 <short>Error gramatical</short>
                 <example type="incorrect"><marker>de els</marker> camins</example>
                 <example type="correct"><marker>dels</marker> camins</example>
@@ -5236,7 +5629,7 @@ $Id$
                     <token>per</token>
                     <token>el<exception postag="contraccio"/></token>
                 </pattern>
-                <message>Cal dir <suggestion>pel</suggestion> o <suggestion>per al</suggestion>.</message>
+                <message>Cal escriure:<suggestion>pel</suggestion> o <suggestion>per al</suggestion>.</message>
                 <short>Error gramatical</short>
                 <example type="incorrect"><marker>per el</marker> camí</example>
                 <example type="correct"><marker>pel</marker> camí</example>
@@ -5246,7 +5639,7 @@ $Id$
                     <token>per</token>
                     <token>els<exception postag="contraccio"/></token>
                 </pattern>
-                <message>Cal dir <suggestion>pels</suggestion>, <suggestion>per als</suggestion>.</message>
+                <message>Cal escriure:<suggestion>pels</suggestion>, <suggestion>per als</suggestion>.</message>
                 <short>Error gramatical</short>
                 <example type="incorrect"><marker>per els</marker> camins</example>
                 <example type="correct"><marker>pels</marker> camins</example>
@@ -5256,7 +5649,7 @@ $Id$
                     <token>a</token>
                     <token>el<exception postag="contraccio"/></token>
                 </pattern>
-                <message>Cal dir <suggestion>al</suggestion>.</message>
+                <message>Cal escriure:<suggestion>al</suggestion>.</message>
                 <short>Error gramatical</short>
                 <example type="incorrect"><marker>a el</marker> camí</example>
                 <example type="correct"><marker>al</marker> camí</example>
@@ -5266,358 +5659,13 @@ $Id$
                     <token>a</token>
                     <token>els<exception postag="contraccio"/></token>
                 </pattern>
-                <message>Cal dir <suggestion>als</suggestion>.</message>
+                <message>Cal escriure:<suggestion>als</suggestion>.</message>
                 <short>Error gramatical</short>
                 <example type="incorrect"><marker>a els</marker> camins</example>
                 <example type="correct"><marker>als</marker> camins</example>
             </rule>
         </rulegroup>
-        <rulegroup id="APOSTROFACIO" name="apostrofació">
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>de</token>
-                        <token regexp="yes">1|11</token>
-                    </marker>
-                    <token><exception regexp="yes">[.,]</exception></token>
-                </pattern>
-                <message>Cal apostrafar <suggestion>d'<match no="2"></match></suggestion>.</message>
-                <short>Error ortogràfic</short>
-                <example type="incorrect" correction="d'1"><marker>de 1</marker> a 3</example>
-                <example type="correct">de 1.400 habitants</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>el</token>
-                        <token regexp="yes">1|11</token>
-                    </marker>
-                    <token><exception regexp="yes">[.,]</exception></token>
-                </pattern>
-                <message>Cal apostrafar <suggestion>l'<match no="2"></match></suggestion>.</message>
-                <short>Error ortogràfic</short>
-                <example type="incorrect" correction="l'1"><marker>el 1</marker> de febrer</example>
-                <example type="correct">els 1.400 habitants</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token spacebefore="no">l</token>
-                        <token regexp="yes">1|11</token>
-                    </marker>
-                    <token><exception regexp="yes">[.,]</exception></token>
-                </pattern>
-                <message>Cal apostrafar <suggestion> l'<match no="2"></match></suggestion>.</message>
-                <short>Error ortogràfic</short>
-                <example type="incorrect" correction=" l'1">fins a<marker>l 1</marker> de febrer</example>
-                <example type="correct">fins a 1.400 habitants</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>de</token>
-                        <token regexp="yes">1|11</token>
-                    </marker>
-                    <token regexp="yes">[.,]</token>
-                    <token><exception spacebefore="no" regexp="yes">\d+</exception></token>
-                </pattern>
-                <message>Cal apostrafar <suggestion>d'<match no="2"></match></suggestion>.</message>
-                <short>Error ortogràfic</short>
-                <example type="incorrect" correction="d'1"><marker>de 1</marker>, de 3</example>
-                <example type="correct">de 1.400 habitants</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>el</token>
-                        <token regexp="yes">1|11</token>
-                    </marker>
-                    <token regexp="yes">[.,]</token>
-                    <token><exception spacebefore="no" regexp="yes">\d+</exception></token>
-                </pattern>
-                <message>Cal apostrafar <suggestion>l'<match no="2"></match></suggestion>.</message>
-                <short>Error ortogràfic</short>
-                <example type="incorrect" correction="l'1"><marker>el 1</marker>, el 2 i el 3 de febrer</example>
-                <example type="correct">els 1.400 habitants</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token spacebefore="no">l</token>
-                        <token regexp="yes">1|11</token>
-                    </marker>
-                    <token regexp="yes">[.,]</token>
-                    <token><exception spacebefore="no" regexp="yes">\d+</exception></token>
-                </pattern>
-                <message>Cal apostrafar <suggestion> l'<match no="2"></match></suggestion>.</message>
-                <short>Error ortogràfic</short>
-                <example type="incorrect" correction=" l'1">fins a<marker>l 1</marker>, al 2 i al 3 de febrer</example>
-                <example type="correct">fins a 1.400 habitants</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>de</token>
-                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].*|el|els|a|e|i|o|u|efa|hac|ela|ema|ena|erra|essa|ics|iure</exception><exception inflected="yes">ordinal</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN" postag_regexp="yes"/></token>
-                </pattern>
-                <message>Cal dir <suggestion>d'<match no="2"></match></suggestion>.</message>
-                <short>Error ortogràfic</short>
-                <example type="incorrect"><marker>de ortografia</marker></example>
-                <example type="correct"><marker>d'ortografia</marker></example>
-                <example type="correct">de Hollywood</example>
-                <example type="correct">de Hubble</example>
-                <example type="correct">de atletismo</example>
-                <example type="correct">de Iugosalàvia</example>
-                
-            </rule>
-            <rule>
-                <pattern>
-                    <token>el</token>
-                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+</exception><exception inflected="yes">ordinal</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN" postag_regexp="yes"/></token>
-                </pattern>
-                <message>Cal dir <suggestion>l'<match no="2"></match></suggestion>.</message>
-                <short>Error ortogràfic</short>
-                <example type="incorrect"><marker>el home</marker></example>
-                <example type="correct"><marker>l'home</marker></example>
-                <example type="correct">el Hubble</example>
-                <example type="correct">el atletismo</example>
-                <example type="correct">el iugoslau</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token postag="DA0MS0">en</token>
-                        <token postag="NPMSSP0" regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN" postag_regexp="yes"/></token>
-                    </marker>
-                    <token postag="V...[12].." postag_regexp="yes" negate_pos="yes" />
-                </pattern>
-                <message>Cal dir <suggestion>n'<match no="2"></match></suggestion>.</message>
-                <short>Error ortogràfic</short>
-                <example type="incorrect"><marker>En Antoni</marker>.</example>
-                <example type="correct"><marker>N'Antoni</marker>.</example>
-                <example type="correct">en Harrison Ford</example>
-                <example type="correct">el premi recaigué en Eudard.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>de</token>
-                    <token spacebefore="no">l</token>
-                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+</exception><exception inflected="yes">ordinal</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN" postag_regexp="yes"/></token>
-                </pattern>
-                <message>Cal dir <suggestion>de l'<match no="3"></match></suggestion>.</message>
-                <short>Error ortogràfic</short>
-                <example type="incorrect"><marker>del home</marker></example>
-                <example type="correct">>de l'home</example>
-                <example type="correct">del Hubble</example>
-                <example type="correct">del atletismo</example>
-                <example type="correct">del iugoslau</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>a</token>
-                    <token spacebefore="no">l</token>
-                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+</exception><exception inflected="yes">ordinal</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN" postag_regexp="yes"/></token>
-                </pattern>
-                <message>Cal dir <suggestion>a l'<match no="3"></match></suggestion>.</message>
-                <short>Error ortogràfic</short>
-                <example type="incorrect"><marker>al home</marker></example>
-                <example type="correct"><marker>a l'home</marker></example>
-                <example type="correct">al Hubble</example>
-                <example type="correct">al atletismo</example>
-                <example type="correct">el iugoslau</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>pe</token>
-                    <token spacebefore="no">l</token>
-                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+</exception><exception inflected="yes">ordinal</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN" postag_regexp="yes"/></token>
-                </pattern>
-                <message>Cal dir <suggestion>per l'<match no="3"></match></suggestion>.</message>
-                <short>Error ortogràfic</short>
-                <example type="incorrect"><marker>pel home</marker></example>
-                <example type="correct"><marker>per l'home</marker></example>
-                <example type="correct">pel Hubble</example>
-                <example type="correct">el iugoslau</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>d'</token>
-                    <token postag="hac_aspirada"/>
-                </pattern>
-                <message>No s'apostrofa davant de hac aspirada: <suggestion>de <match no="2"></match></suggestion>.</message>
-                <short>Reviseu</short>
-                <example type="incorrect"><marker>d'Hubble</marker></example>
-                <example type="incorrect">espai <marker>d'Hilbert</marker></example>
-                <example type="correct"><marker>de Hubble</marker></example>
-                <example type="correct">La regla o fórmula D'Hondt</example>             
-            </rule>
-            <rule>
-                <pattern>
-                    <token>l'</token>
-                    <token postag="hac_aspirada"/>
-                </pattern>
-                <message>No s'apostrofa davant de hac aspirada: <suggestion>el <match no="2"></match></suggestion>, <suggestion>la <match no="2"></match></suggestion>.</message>
-                <short>Reviseu</short>
-                <example type="incorrect"><marker>l'Hubble</marker></example>
-                <example type="incorrect"><marker>l'Harrison</marker></example>
-                <example type="correct">el Hubble</example>             
-            </rule>
-            <rule>
-                <pattern>
-                    <token>n'</token>
-                    <token postag="hac_aspirada"/>
-                </pattern>
-                <message>No s'apostrofa davant de hac aspirada: <suggestion>en <match no="2"></match></suggestion>, <suggestion>na <match no="2"></match></suggestion>.</message>
-                <short>Reviseu</short>
-                <example type="incorrect"><marker>n'Hubble</marker></example>
-                <example type="incorrect"><marker>n'Hilbert</marker></example>
-                <example type="correct">en Hubble</example>             
-            </rule>
-            <rule>
-                <pattern>
-                    <token>d'</token>
-                    <token regexp="yes">h?[ui][aeoiàèéóòu].*<exception regexp="yes">ió|ions|ionitza.+|uix.+</exception></token>
-                </pattern>
-                <message>Cal dir <suggestion>de <match no="2"></match></suggestion>.</message>
-                <short>Error ortogràfic</short>
-                <example type="incorrect" correction="de iogurt"><marker>d'iogurt</marker></example>
-                <example type="incorrect" correction="de Iugoslàvia"><marker>d'Iugoslàvia</marker></example>
-                <example type="incorrect" correction="de iodització"><marker>d'iodització</marker></example>
-                <example type="correct">La Vall d'Uixó</example>
-                <example type="correct">L'ofici d'uixer</example>
-                <example type="correct">d'ionització</example>
-            </rule>            
-            <rule>
-                <pattern>
-                    <token>d'</token>
-                    <token regexp="yes">a|e|i|o|efa|hac|ela|ema|ena|erra|essa|ics</token>
-                </pattern>
-                <message>Cal dir <suggestion>de <match no="2"></match></suggestion>.</message>
-                <short>Error ortogràfic</short>
-                <example type="incorrect">Darrere <marker>d'essa</marker></example>
-                <example type="correct">Darrere de essa</example>
-                <example type="correct">d'u a cinc</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>l'</token>
-                    <token regexp="yes">a|e|i|o|efa|hac|ela|ema|ena|erra|essa|ics</token>
-                </pattern>
-                <message>Cal dir <suggestion>la <match no="2"></match></suggestion>.</message>
-                <short>Error ortogràfic</short>
-                <example type="incorrect">Darrere de <marker>l'essa</marker></example>
-                <example type="correct">Darrere la essa</example>
-                <example type="correct">de l'u al cinc</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>l'</token>
-                    <token postag="N.M.*|A..M.*" postag_regexp="yes" regexp="yes">h?[ui][aeoiàèéóòu].*<exception regexp="yes">ió|uix.+</exception></token>
-                </pattern>
-                <message>Cal dir <suggestion>el <match no="2"></match></suggestion>.</message>
-                <short>Error ortogràfic</short>
-                <example type="incorrect" correction="el iogurt"><marker>l'iogurt</marker></example>
-                <example type="incorrect" correction="el iugoslau"><marker>l'iugoslau</marker></example>
-                <example type="correct">l'uixer</example>
-                <example type="correct">l'Uixó</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>l'</token>
-                    <token postag="N.F.*|A..F.*|_GN_F." postag_regexp="yes" regexp="yes">h?[ui].+|host<exception regexp="yes">hidra|hifa|hulla|ulna|umbra|una|ungla|unça|upa|urbs|urna|urpa|idus|illa|inca|iva</exception><exception postag="_GN_M.*" postag_regexp="yes" /></token>
-                </pattern>
-                <message>Cal dir <suggestion>la <match no="2"></match></suggestion>.</message>
-                <short>Error ortogràfic</short>
-                <example type="incorrect" correction="la universitat"><marker>l'universitat</marker></example>
-                <example type="incorrect" correction="la uixera"><marker>l'uixera</marker></example>
-                <example type="incorrect" correction="la iodització"><marker>l'iodització</marker></example>
-                <example type="incorrect" correction="la ionització"><marker>l'ionització</marker></example>
-                <example type="correct">l'intel·lectual valencià</example>             
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>l'</token>
-                        <and>
-                            <token postag="_GN_FS" regexp="yes">h?[ui].+|host<exception regexp="yes">hidra|hifa|hulla|ulna|umbra|una|ungla|unça|upa|urbs|urna|urpa|idus|illa|inca|iva</exception></token>
-                            <token postag="_GN_MS" />
-                        </and>
-                    </marker>
-                    <token postag="_GN_FS"><exception postag="_GN_MS"/></token>
-                </pattern>
-                <message>Cal dir <suggestion>la <match no="2"></match></suggestion>.</message>
-                <short>Error ortogràfic</short>
-                <example type="incorrect"><marker>l'intel·lectual</marker> valenciana</example>
-                <example type="correct">la intel·lectual valenciana</example>
-                <example type="correct">l'insondable mar</example>
-                <example type="correct">la insondable mar</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>n'</token>
-                    <token postag="N.F.*|A..F.*|_GN_F." postag_regexp="yes" regexp="yes">h?[ui].+|host<exception regexp="yes">hidra|hifa|hulla|ulna|umbra|una|ungla|unça|upa|urbs|urna|urpa|idus|illa|inca|iva</exception><exception postag="_GN_M.*" postag_regexp="yes" /></token>
-                </pattern>
-                <message>Cal dir <suggestion>na <match no="2"></match></suggestion>.</message>
-                <short>Error ortogràfic</short>
-                <example type="incorrect"><marker>n'Ignàsia</marker></example>
-                <example type="correct"><marker>na Ignàsia</marker></example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>la</token>
-                    <token regexp="yes">h?[aeoàèéíòóú].*|h?[ui][^aeiouàèéíòóúüï]+[aeiou][ns]?|urbs<exception regexp="yes">host|ira|inxa|[aeiou]|efa|hac|ela|ema|ena|erra|essa|ics</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN" postag_regexp="yes"/><exception regexp="yes">(?-i)Haia</exception></token>
-                </pattern>
-                <message>Cal dir <suggestion>l'<match no="2"></match></suggestion>.</message>
-                <short>Error ortogràfic</short>
-                <example type="incorrect"><marker>la ombra</marker></example>
-                <example type="correct">l'ombra</example>
-                <example type="correct">la efa suau</example>
-                <example type="correct">la orfebrería española</example>
-                <example type="correct">la Hayworth</example>
-                <example type="correct">Benvinguts a la Haia.</example>
-                <example type="correct">la uixera</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>na</token>
-                    <token postag="N.FS.*" postag_regexp="yes" regexp="yes">h?[aeoàèéíòóú].*|h?[ui][^aeiouàèéíòóúüï]+[aeiou][ns]?|urbs<exception regexp="yes">host|ira|inxa</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN" postag_regexp="yes"/></token>
-                </pattern>
-                <message>Cal dir <suggestion>n'<match no="2"></match></suggestion>.</message>
-                <short>Error ortogràfic</short>
-                <example type="incorrect"><marker>na Úrsula</marker></example>
-                <example type="correct"><marker>n'Úrusula</marker></example>
-                <example type="correct">Na és el símbol del</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">de|el</token>
-                    <token regexp="yes">Uixó|uixer.+</token>
-                </pattern>
-                <message>Cal apostrofar: <suggestion><match no="1" regexp_match=".*([dl]).*" regexp_replace="$1'"/><match no="2"/></suggestion>.</message>
-                <short>Error ortogràfic</short>
-                <example type="incorrect" correction="d'Uixó">la Vall <marker>de Uixó</marker></example>
-                <example type="correct">l'uixer</example>
-            </rule>
-            <rule id="CAL_APOSTROFAT" name="apostrofació: *cal/ca l'Enric">
-                <pattern>
-                    <token>cal</token>
-                    <token postag="NPMSSP0" regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóò].+</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN" postag_regexp="yes"/></token>
-                </pattern>
-                <message>Cal escriure: <suggestion>ca l'<match no="2"></match></suggestion>.</message>
-                <short>Error d'apostrofació</short>
-                <example type="incorrect" correction="ca l'Enric"><marker>cal Enric</marker></example>
-                <example type="correct">ca l'Antoni</example>
-            </rule>
-            <rule id="CAL_APOSTROFAT2" name="de ca l'ample">
-                <pattern>
-                    <token postag="contraccio">cal</token>
-                    <token postag="N.[MC][SN].*|AQ0[MC][SN]0" postag_regexp="yes" regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóò].+</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN" postag_regexp="yes"/></token>
-                </pattern>
-                <message>Cal escriure: <suggestion>ca l'<match no="2"></match></suggestion>.</message>
-                <short>Error d'apostrofació</short>
-                <example type="incorrect" correction="ca l'ample">una victòria de <marker>cal ample</marker></example>
-                <example type="correct">cal ampliar la victòria</example>
-            </rule>
-        </rulegroup>
+        
     </category>
     <category name="Z) Accents diacrítics">
         <rulegroup id="SON" name="son/són">
@@ -6159,27 +6207,34 @@ $Id$
                     <marker>
                         <token>mes</token>
                     </marker>
-                    <token postag="A.*" postag_regexp="yes"></token>
+                    <token postag="A.*|V.P.*" postag_regexp="yes"><exception regexp="yes">vinent|propvinent|passat|proppassat|intercalar|anterior|següent</exception></token>
                 </pattern>
                 <message>S'accentua quan és adjectiu o adverbi: <suggestion>més</suggestion>.</message>
                 <short>Accent diacrític.</short>
                 <example type="incorrect">El <marker>mes</marker> valent és ell.</example>
                 <example type="correct">el <marker>més</marker> valent és ell.</example>
+                <example type="correct">el mes passat</example>
+                <example type="correct">El mes intercalar era anomenat Mercedonius</example>
+                <example type="correct">El mes anterior s'havia celebrat</example> 
+                <example type="correct">al mes següent se li va aplica</example>
             </rule>
             <rule>
                 <pattern>
+                    <token><exception regexp="yes">cada|un|altre|algun|cert</exception></token>
                     <marker>
                         <token>mes</token>
                     </marker>
-                    <token postag="N.*|A.*" postag_regexp="yes"><exception postag="A..MS.*" postag_regexp="yes"/></token>
+                    <token postag="N.*|A.*" postag_regexp="yes"></token>
                 </pattern>
                 <message>S'accentua quan és adjectiu o adverbi: <suggestion>més</suggestion>.</message>
                 <short>Accent diacrític.</short>
                 <example type="incorrect" correction="més">Necessita <marker>mes</marker> temps.</example>
                 <example type="correct">Ha estat un mes fantàstic</example>
+                <example type="correct">cada mes coincident amb artell</example>
             </rule>
             <rule>
                 <pattern>
+                    <token><exception regexp="yes">cada|un|altre|algun|cert</exception></token>
                     <marker>
                         <token>mes</token>
                     </marker>
@@ -6190,9 +6245,12 @@ $Id$
                 <short>Accent diacrític.</short>
                 <example type="incorrect">Necessita <marker>mes</marker> de quatre hores.</example>
                 <example type="correct">Necessita <marker>més</marker> de quatre hores.</example>
+                <example type="correct">un mes de trenta dies</example>
+                <example type="correct">un altre mes de trenta dies</example>
             </rule>
             <rule>
                 <pattern>
+                    <token><exception regexp="yes">cada|un|altre|algun|cert</exception></token>
                     <marker>
                         <token>mes</token>
                     </marker>
@@ -6203,6 +6261,7 @@ $Id$
                 <short>Accent diacrític.</short>
                 <example type="incorrect">Necessita <marker>mes</marker> de 24 hores.</example>
                 <example type="correct">Necessita <marker>més</marker> de 24 hores.</example>
+                <example type="correct">un mes de 29 dies</example>
             </rule>
             <rule>
                 <pattern>
@@ -6219,6 +6278,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
+                    <token><exception regexp="yes">cada|un|altre|algun|cert</exception></token>
                     <marker>
                         <token>mes</token>
                     </marker>
@@ -6230,6 +6290,8 @@ $Id$
                 <example type="incorrect"><marker>mes</marker> sovint </example>
                 <example type="correct">més tard va pujar </example>
                 <example type="correct">el mes més fred</example>
+                <example type="correct">un mes abans de fer-ho</example>
+                <example type="correct">un mes després d'anar-se'n</example>
             </rule>
             <rule id="RES_MES" name="res *mes/més">
                 <pattern>
@@ -6314,7 +6376,7 @@ $Id$
                     <marker>    
                         <token skip="1">més</token>
                     </marker>
-                    <token regexp="yes">.*passat|.*vinent|ve</token>                
+                    <token regexp="yes">vinent|propvinent|passat|proppassat|intercalar|anterior|següent|ve</token>                
                 </pattern>
                 <message>No s'accentua si és un nom (<suggestion>mes</suggestion> de l'any).</message>
                 <short>Sobra l'accent diacrític.</short>                
@@ -6373,6 +6435,57 @@ $Id$
                 <example type="correct">Els <marker>béns</marker> d'aquest món.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="TE" name="te/té">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="P020S000|PP2CS000" postag_regexp="yes">te</token>
+                    </marker>
+                    <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|V.[SI].*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>S'accentua si és del verb "tenir": <suggestion>té</suggestion>.</message>
+                <short>Accent diacrític.</short>
+                <example type="incorrect">Joan <marker>te</marker> mala sort.</example>
+                <!-- <example type="incorrect">Joan em <marker>te</marker> negre.</example> Activa la regla de pronoms febles solts -->
+                <example type="correct">Jo vull te negre</example>
+                <example type="correct">Joan té mala sort.</example>
+                <example type="correct">No te l'emportis</example>
+                <example type="correct">¿Te n'adones?</example>
+                <example type="correct">te fa sentir important</example>
+                <example type="correct">La ruta del te.</example>
+                <example type="correct">El primer a pantentar una bosseta de te fou Thomas Lipton</example>
+                <example type="correct">Se'n fa oli de te.</example>
+                <example type="correct">El te s'ha usat des de l'antiguitat</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception>de</exception></token>
+                    <marker>
+                        <token postag="_GN_MS">te</token>
+                    </marker>
+                    <token postag="A.*" postag_regexp="yes"><exception regexp="yes">negre|verd|vermell|blanc|gelat|fred|calent|turc</exception></token>
+                </pattern>
+                <message>S'accentua si és del verb "tenir": <suggestion>té</suggestion>.</message>
+                <short>Accent diacrític.</short>
+                <example type="incorrect" correction="té">Joan <marker>te</marker> objectiu.</example>
+                <example type="correct">Joan pren te negre</example>
+                <example type="correct">Una tassa de te calent.</example>
+                </rule>
+            <rule>
+                <pattern>
+                    <token>el</token>
+                    <marker>
+                        <token>te</token>
+                    </marker>
+                    <token regexp="yes">per|com</token>
+                </pattern>
+                <message>S'accentua si és del verb "tenir": <suggestion>té</suggestion>.</message>
+                <short>Accent diacrític.</short>
+                <example type="incorrect">Joan el <marker>te</marker> com a referència.</example>
+                <example type="incorrect">El pare el <marker>te</marker> per ximple.</example>
+                <example type="correct">El té com un rei</example>
+            </rule>
+        </rulegroup>    
         <rulegroup id="ES" name="es/és">                
             <rule>
                 <pattern>
@@ -6430,7 +6543,7 @@ $Id$
                 <pattern>
                     <token postag="_GN_.*" postag_regexp="yes"/>
                     <marker>
-                        <token>dona<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                        <token>dona<exception postag="_GN_FS"/></token>
                     </marker>
                     <token postag="_GN_.*" postag_regexp="yes"/>
                 </pattern>
@@ -6444,7 +6557,7 @@ $Id$
                 <pattern>
                     <token postag="_GN_.*" postag_regexp="yes"/>
                     <marker>
-                        <token>dones</token>
+                        <token>dones<exception postag="_GN_FP"/></token>
                     </marker>
                     <token postag="_GN_.*" postag_regexp="yes"/>
                 </pattern>
@@ -6452,6 +6565,7 @@ $Id$
                 <short>Accent diacrític.</short>
                 <example type="incorrect">Amb el vot lliure dels diputats <marker>dones</marker> una imatge de divisió.</example>
                 <example type="correct">Amb el vot lliure dels diputats dónes una imatge de divisiór.</example>
+                <example type="correct">per això les dones joves i solteres l’acostumen a usar</example>
             </rule>     
             <rule>
                 <pattern>
@@ -6476,18 +6590,7 @@ $Id$
                 <short>Accent diacrític.</short>
                 <example type="incorrect">Ho <marker>dona</marker> al barquer.</example>
                 <example type="correct">Ho <marker>dóna</marker> al barquer.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="PP.*" postag_regexp="yes"></token>
-                    <marker>
-                        <token>dones</token>
-                    </marker>
-                </pattern>
-                <message>S'accentua quan és del verb "donar". Correcció: <suggestion>dónes</suggestion>.</message>
-                <short>Accent diacrític.</short>
-                <example type="incorrect">Ho <marker>dones</marker> al barquer.</example>
-                <example type="correct">Ho <marker>dónes</marker> al barquer.</example>
+                <example type="correct">La dona del barquer</example>
             </rule>
             <rule>
                 <pattern>
@@ -6513,6 +6616,7 @@ $Id$
                 <short>Accent diacrític.</short>
                 <example type="incorrect">Ho <marker>dones</marker> al barquer.</example>
                 <example type="correct">Ho <marker>dónes</marker> al barquer.</example>
+                <example type="correct">Les dones joves i solteres.</example>
             </rule>
             <rule>
                 <pattern>
@@ -6527,7 +6631,7 @@ $Id$
                 <example type="incorrect">Li les <marker>dones</marker> al barquer.</example>
                 <example type="correct">Li les <marker>dónes</marker> al barquer.</example>
             </rule>
-            <rule>
+            <rule default="off">
                 <pattern>
                     <token postag="SENT_START" skip="-1"><exception scope="next" postag="V.[^NPG].*" postag_regexp="yes"></exception></token>
                     <marker>
@@ -6635,19 +6739,6 @@ $Id$
                 <example type="incorrect">Aquest <marker>sóc</marker> jo no el tallo.</example>
                 <example type="correct">Aquest <marker>soc</marker> jo no el tallo.</example>
             </rule>
-            <rule>
-                <pattern>
-                    <token postag="SENT_START" skip="-1"><exception scope="next" postag="V.[^NPG].*" postag_regexp="yes"></exception></token>
-                    <marker>
-                        <token skip="-1">te<exception scope="next" postag="V.[^NPG].*" postag_regexp="yes"></exception></token>
-                    </marker>
-                    <token postag="SENT_END"></token>
-                </pattern>
-                <message>No hi ha cap verb en la frase. Potser és: <suggestion>té</suggestion>.</message>
-                <short>Accent diacrític.</short>
-                <example type="incorrect">Joan <marker>te</marker> mala sort.</example>
-                <example type="correct">Joan <marker>té</marker> mala sort.</example>
-            </rule>
         </rulegroup>
     </category>
     <category name="Pronoms febles">
@@ -6657,7 +6748,7 @@ $Id$
                 <pattern>
                     <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|V.[MNG].*" postag_regexp="yes"/></token>
                     <marker>
-                        <token postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"><exception postag="allow_saxon_genitive">'s</exception></token>
+                        <token postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"><exception postag="allow_saxon_genitive">'s</exception><exception>te</exception></token>
                     </marker>
                     <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|V.[SI].*" postag_regexp="yes"/></token>
                 </pattern>
@@ -7787,7 +7878,7 @@ $Id$
                 <token>cal</token>
                 <token postag="N.[MC].*|A..[MC].*" postag_regexp="yes" regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóò].+</exception></token>
             </pattern>
-            <message>Cal dir <suggestion>ca l'<match no="2"></match></suggestion>.</message>
+            <message>Cal escriure:<suggestion>ca l'<match no="2"></match></suggestion>.</message>
             <short>Error ortogràfic</short>
             <example type="incorrect"><marker>cal amic</marker></example>
             <example type="correct"><marker>ca l'amic</marker></example>
@@ -10468,7 +10559,7 @@ $Id$
                 <token>altra</token>
                 <token regexp="yes">vegada|volta</token>
             </pattern>
-            <message>¿Volíeu dir <suggestion>una <match no="2"/> i una altra</suggestion>, <suggestion>una <match no="2"/> darrere l'altra</suggestion>?</message>
+            <message>¿Volíeu dir <suggestion>una <match no="4"/> i una altra</suggestion>, <suggestion>una <match no="4"/> darrere l'altra</suggestion>?</message>
             <url>http://esadir.cat/sintaxi/indefinits</url>
             <example type="incorrect"><marker>una i altra vegada</marker></example>
             <example type="correct">una vegada i una altra</example>
@@ -11696,8 +11787,7 @@ $Id$
                 <token inflected="yes">distint</token>
                 <token>a</token>
             </pattern>
-            <message>Amb valor comparatiu cal dir <suggestion><match no="1" postag="AQ..(.)0" postag_regexp="yes" postag_replace="AQ0C$10">diferent</match> de</suggestion>. 
-            Correcte si equival a<suggestion><match no="1"/> en</suggestion>.</message>
+            <message>Amb valor comparatiu cal dir <suggestion><match no="1" postag="AQ..(.)0" postag_regexp="yes" postag_replace="AQ0C$10">diferent</match> de</suggestion>. Correcte si equival a <suggestion><match no="1"/> en</suggestion>.</message>
             <example type="incorrect">un entorn <marker>distint a</marker> l'actual</example>
             <example type="incorrect">Sostenien postures polítiques <marker>distintes a</marker> les de Marx.</example>
             <example type="correct">un entorn diferent de l'actual</example>
@@ -11713,7 +11803,7 @@ $Id$
                     </marker>
                     <token><exception postag="N.*" postag_regexp="yes"/></token>
                 </pattern>
-                <message>'Descontent' sols pot ser adjectiu. ¿Volíeu dir <suggestion>descontentament</suggestion>>?</message>
+                <message>'Descontent' sols pot ser adjectiu. ¿Volíeu dir <suggestion>descontentament</suggestion>?</message>
                 <example type="incorrect">el <marker>descontent</marker> de la població</example>
                 <example type="incorrect">el <marker>descontent</marker> amb Mussolini era tal </example>
                 <example type="correct">Era un home descontent.</example>  
@@ -11786,7 +11876,7 @@ $Id$
                 </marker>
                 <token><exception postag="N.*" postag_regexp="yes"/></token>
             </pattern>
-            <message>'Fondo' sols pot ser adjectiu. ¿Volíeu dir <suggestion>fons</suggestion>?</message>
+            <message>'Fondo' sols pot ser adjectiu o adverbi. ¿Volíeu dir <suggestion>fons</suggestion> (nom)?</message>
             <example type="incorrect" correction="fons">el <marker>fondo</marker> de la crisi d’Europa</example>
             <example type="correct">el més fondo</example>  
             <example type="correct">un pou molt fondo</example>
@@ -12563,7 +12653,7 @@ $Id$
         </rule>
         <rule id="DITA_PERSONA" name="dita persona/la dita persona">
             <pattern>
-                <token negate="yes" regexp="yes">el|la|els|les</token>
+                <token negate="yes" regexp="yes">l|el|la|els|les|altrament|també</token>
                 <unify>
                 <feature id="nombre"/>
                 <feature id="genere"/>
@@ -12579,6 +12669,8 @@ $Id$
             <example type="incorrect" correction="la dita">els drets i deures de <marker>dita</marker> ciutat</example>
             <example type="correct">Les dites persones m'ho van confirmar.</example>
             <example type="correct">Ell no me n'ha dit res.</example>
+            <example type="correct">Des del dit museu</example>
+            <example type="correct">L'alfabet àrab, altrament dit alifat</example>
         </rule>
         <rulegroup id="MONT_MUNTANYA" name="mont/muntanya">
             <rule>
@@ -12613,12 +12705,14 @@ $Id$
         <rule id="AMB_MOLT" name="amb molt">
             <pattern>
                 <token postag="SENT_START|PUNCT.*" postag_regexp="yes"/>
-                <token>amb</token>
-                <token>molt</token>
+                <marker>
+                    <token>amb</token>
+                    <token>molt</token>
+                </marker>
                 <token postag="PUNCT.*" postag_regexp="yes"/>
             </pattern>
             <message>Val més dir: <suggestion>de molt</suggestion>, <suggestion>de bon tros</suggestion>.</message>
-            <example type="incorrect">El productor més important són<marker>, amb molt,</marker> els Estats Units.</example>
+            <example type="incorrect">El productor més important són, <marker>amb molt</marker>, els Estats Units.</example>
             <example type="correct">El productor més important són, de molt, els Estats Units.</example>
         </rule>
         <rule id="NI_MOLT_MENYS" name="ni molt menys/ni de bon tros">

@@ -125,7 +125,7 @@ public class ReflexiveVerbsRule extends CatalanRule {
 
   @Override
   public String getDescription() {
-    return "Verbs reflexisu: comprova que porten el pronom adequat.";
+    return "Verbs reflexius: comproveu que porten el pronom adequat.";
   }
 
 	@Override
