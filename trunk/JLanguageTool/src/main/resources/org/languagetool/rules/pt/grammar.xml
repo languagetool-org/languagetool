@@ -21,7 +21,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.035 2012-10-14 13:56:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.036 2012-11-01 13:27:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -47,11 +47,11 @@ $Id: grammar.xml,v 1.035 2012-10-14 13:56:00 marcoagpinto Exp $
 
 
 
-    <!-- A XXX DE VOCÊS a xxx de vocês -->
+    <!-- A XXX DE VOCÊS a vossa XXX -->
 	<rule id="A_XXX_DE_VOCÊS" name="a XXX de vocês -> a vossa XXX">
 	  <pattern>
 	    <token>a</token>
-	    <token><exception regexp="yes">um|dois|três|maioria|minoria</exception></token>
+	    <token><exception regexp="yes">um|dois|três|maioria|minoria|fim</exception></token>
  	   <token>de</token>
 	    <token>vocês</token>
 	  </pattern>
@@ -1210,6 +1210,20 @@ $Id: grammar.xml,v 1.035 2012-10-14 13:56:00 marcoagpinto Exp $
       <message>Substituir «quartel general» por <suggestion>quartel-general</suggestion>.</message>
       <example type="incorrect">Temos de ir ao <marker>quartel general</marker>.</example>
       <example type="correct">Temos de ir ao <marker>quartel-general</marker>.</example>
+    </rule>
+
+
+
+    <!-- QUEM NÃO ESTA quem não está -->
+    <rule id="QUEM_NÃO_ESTA" name="quem não está">
+      <pattern>
+        <token>quem</token>
+        <token>não</token>
+        <token>esta</token>
+      </pattern>
+      <message>Substituir «quem não esta» por <suggestion>quem não está</suggestion>.</message>
+      <example type="incorrect">Excelente para <marker>quem não esta</marker> doente.</example>
+      <example type="correct">Excelente para <marker>quem não está</marker> doente.</example>
     </rule>
 
 
