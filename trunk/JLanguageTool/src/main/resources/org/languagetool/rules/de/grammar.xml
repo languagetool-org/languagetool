@@ -9661,6 +9661,47 @@ $Id$
             <example type="correct">Er macht sich die Erfindung <marker>zunutze</marker>.</example>
             <example type="incorrect" correction="zu Nutze|zunutze">Er macht sich die Erfindung <marker>zu nutze</marker>.</example>
         </rule>
+        <rulegroup id="ZU_RATE" name="Groß-/Kleinschreibung: 'zu rate (Rate) ziehen etc.'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[Zz]u</token>
+                    <marker>
+                        <token>rate</token>
+                    </marker>
+                    <token inflected="yes">ziehen</token>
+                </pattern>
+                <message>&inwend;'zu Rate ziehen' wird <suggestion>Rate</suggestion> großgeschrieben.</message>
+                <short>&prgk;.</short>
+                <example type="correct">Er hat einen Arzt zu <marker>Rate</marker> gezogen.</example>
+                <example type="incorrect" correction="Rate">Wir sollten besser einen Fachmann zu <marker>rate</marker> ziehen.</example>
+                <example type="incorrect" correction="Rate">Er hat einen Arzt zu <marker>rate</marker> gezogen.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes" regexp="yes" skip="3">[Zz]iehen</token>
+                    <token>zu</token>
+                    <marker>
+                        <token>rate</token>
+                    </marker>
+                </pattern>
+                <message>&inwend;'zu Rate ziehen' wird <suggestion>Rate</suggestion> großgeschrieben.</message>
+                <short>&prgk;.</short>
+                <example type="correct">Wir ziehen besser einen Fachmann zu <marker>Rate</marker>.</example>
+                <example type="incorrect" correction="Rate">Wir ziehen besser einen Fachmann zu <marker>rate</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>auf</token>
+                    <marker>
+                        <token>raten</token>
+                    </marker>
+                </pattern>
+                <message>&inwend;'auf Raten' wird <suggestion>Raten</suggestion> in der Regel großgeschrieben.</message>
+                <short>&prgk;.</short>
+                <example type="correct">Das war Selbstmord auf <marker>Raten</marker>.</example>
+                <example type="incorrect" correction="Raten">Das war Selbstmord auf <marker>raten</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="ZU_UNRECHT" name="Groß-/Kleinschreibung: 'zu unrecht (Unrecht)'">
             <pattern case_sensitive="yes">
                 <token regexp="yes">[Zz]u</token>
