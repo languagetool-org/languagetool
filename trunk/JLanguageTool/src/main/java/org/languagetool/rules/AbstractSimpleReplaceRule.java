@@ -18,21 +18,14 @@
  */
 package org.languagetool.rules;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.ResourceBundle;
-
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.tools.StringTools;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
 
 /**
  * A rule that matches words or phrases which should not be used and suggests
@@ -100,14 +93,13 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
 
     for (int i = 1; i < tokens.length; i++) {
       final String token = tokens[i].getToken();
-
       final String origToken = token;
       final String replacement = isCaseSensitive() ? wrongWords.get(token) : wrongWords.get(token.toLowerCase(getLocale()));
       if (replacement != null) {
-    	final String msg = token + getSuggestion() + replacement;
+        final String msg = token + getSuggestion() + replacement;
         final int pos = tokens[i].getStartPos();
         final RuleMatch potentialRuleMatch = new RuleMatch(this, pos, pos
-            + origToken.length(), msg, getShort());
+                + origToken.length(), msg, getShort());
         if (!isCaseSensitive() && StringTools.startsWithUppercase(token)) {
           potentialRuleMatch.setSuggestedReplacement(StringTools.uppercaseFirstChar(replacement));
         } else {
@@ -119,22 +111,13 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
     return toRuleMatchArray(ruleMatches);
   }
 
-
-  private Map<String, String> loadWords(final InputStream file) throws IOException {
+  private Map<String, String> loadWords(final InputStream stream) throws IOException {
     final Map<String, String> map = new HashMap<String, String>();
-    InputStreamReader isr = null;
-    BufferedReader br = null;
+    final Scanner scanner = new Scanner(stream, getEncoding());
     try {
-      isr = new InputStreamReader(file, getEncoding());
-      br = new BufferedReader(isr);
-      String line;
-
-      while ((line = br.readLine()) != null) {
-        line = line.trim();
-        if (line.length() < 1) {
-          continue;
-        }
-        if (line.charAt(0) == '#') { // ignore comments
+      while (scanner.hasNextLine()) {
+        final String line = scanner.nextLine();
+        if (line.length() < 1 || line.charAt(0) == '#') { //  # = comment
           continue;
         }
         final String[] parts = line.split("=");
@@ -144,14 +127,8 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
         }
         map.put(parts[0], parts[1]);
       }
-
     } finally {
-      if (br != null) {
-        br.close();
-      }
-      if (isr != null) {
-        isr.close();
-      }
+      scanner.close();
     }
     return map;
   }
