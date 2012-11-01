@@ -33,6 +33,7 @@ import javax.xml.parsers.SAXParserFactory;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.TextFilter;
+import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.StringTools;
 import org.xml.sax.Attributes;
@@ -41,7 +42,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 /**
- * Check a Wikipedia page, fetching the page via the MediaWiki API.
+ * Check a Wikipedia page (without spell check), fetching the page via the MediaWiki API.
  */
 public class WikipediaQuickCheck {
 
@@ -124,7 +125,17 @@ public class WikipediaQuickCheck {
     for (String disabledRuleId : disabledRuleIds) {
       langTool.disableRule(disabledRuleId);
     }
+    disableSpellingRules(langTool);
     return langTool;
+  }
+
+  private void disableSpellingRules(JLanguageTool languageTool) {
+    final List<Rule> allActiveRules = languageTool.getAllActiveRules();
+    for (Rule rule : allActiveRules) {
+      if (rule.isSpellingRule()) {
+        languageTool.disableRule(rule.getId());
+      }
+    }
   }
 
   private String getContent(URL wikipediaUrl) throws IOException {
