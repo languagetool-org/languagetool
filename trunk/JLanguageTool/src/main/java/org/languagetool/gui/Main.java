@@ -57,6 +57,7 @@ public final class Main implements ActionListener {
   static final String HTML_GREY_FONT_START = "<font face='Arial,Helvetica' color='#666666'>";
 
   private static final String SYSTEM_TRAY_ICON_NAME = "/TrayIcon.png";
+  private static final String SYSTEM_TRAY_SMALL_ICON_NAME = "/TrayIconSmall.png";
   private static final String SYSTEM_TRAY_TOOLTIP = "LanguageTool";
   private static final String CONFIG_FILE = ".languagetool.cfg";
   private static final int WINDOW_WIDTH = 600;
@@ -227,7 +228,7 @@ public final class Main implements ActionListener {
     if (!isInTray) {
       final SystemTray tray = SystemTray.getSystemTray();
       final Image img = Toolkit.getDefaultToolkit().getImage(
-              JLanguageTool.getDataBroker().getFromResourceDirAsUrl(SYSTEM_TRAY_ICON_NAME));
+              JLanguageTool.getDataBroker().getFromResourceDirAsUrl((tray.getTrayIconSize().height > 16 ) ?  SYSTEM_TRAY_ICON_NAME : SYSTEM_TRAY_SMALL_ICON_NAME));
       final PopupMenu popup = makePopupMenu();
       try {
         final TrayIcon trayIcon = new TrayIcon(img, SYSTEM_TRAY_TOOLTIP, popup);
