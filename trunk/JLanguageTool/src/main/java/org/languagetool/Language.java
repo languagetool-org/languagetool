@@ -392,7 +392,7 @@ public abstract class Language {
   /**
    * Get the Language object for the given short language name.
    *
-   * @param shortLanguageCode e.g. <code>en</code> or <code>de</code>
+   * @param shortLanguageCode e.g. <code>en</code> or <code>es-US</code>
    * @return a Language object
    * @throws IllegalArgumentException if the language is not supported
    */
@@ -413,10 +413,6 @@ public abstract class Language {
     	}
     	throw new IllegalArgumentException("'" + shortLanguageCode + "' is not a language code known to LanguageTool");
     }
-    if (shortLanguageCode.length() != "xx".length() && shortLanguageCode.length() != "xxx".length()) {
-      throw new IllegalArgumentException("'" + shortLanguageCode + "' isn't a two- or three-character code");
-    }
-
     for (Language element : Language.LANGUAGES) {
       if (shortLanguageCode.equals(element.getShortName())) {
         return element;
