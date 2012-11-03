@@ -10837,23 +10837,40 @@ $Id$
                 <example type="incorrect" correction="Anklang">Seine Vorschläge fanden keinen großen <marker>anklang</marker>.</example>
             </rule>
         </rulegroup>
-        <rule id="WERT_LEGEN_AUF" name="Groß-/Kleinschreibung: 'wert (Wert) legen'">
-            <pattern case_sensitive="yes">
-                <token inflected="yes" skip="2">legen</token>
-                <marker>
-                    <token>wert</token>
-                </marker>
-                <token>auf</token>
-            </pattern>
-            <message>&subanfang;<suggestion>Wert</suggestion>&subende;</message>
-            <short>&prgk;.</short>
-            <example type="correct">Sie legt <marker>Wert</marker> auf ihr Äußeres.</example>
-            <example type="correct">Sie legt keinen großen <marker>Wert</marker> auf ihr Äußeres.</example>
-            <example type="correct">Sie legt keinen <marker>Wert</marker> auf ihr Äußeres.</example>
-            <example type="correct">Sie legt großen <marker>Wert</marker> auf ihr Äußeres.</example>
-            <example type="incorrect" correction="Wert">Sie legt keinen großen <marker>wert</marker> auf ihr Äußeres.</example>
-            <example type="incorrect" correction="Wert">Sie legt <marker>wert</marker> auf ihr Äußeres.</example>
-        </rule>
+        <rulegroup id="WERT_SUBST" name="Groß-/Kleinschreibung: 'wert (Wert) legen' etc.">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes" skip="2">legen</token>
+                    <marker>
+                        <token>wert</token>
+                    </marker>
+                    <token regexp="yes">(dar)?auf</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Wert</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Sie legt <marker>Wert</marker> auf ihr Äußeres.</example>
+                <example type="correct">Sie legt keinen großen <marker>Wert</marker> auf ihr Äußeres.</example>
+                <example type="correct">Sie legt keinen <marker>Wert</marker> auf ihr Äußeres.</example>
+                <example type="correct">Sie legt großen <marker>Wert</marker> auf ihr Äußeres.</example>
+                <example type="incorrect" correction="Wert">Sie legt keinen großen <marker>wert</marker> auf ihr Äußeres.</example>
+                <example type="incorrect" correction="Wert">Sie legt <marker>wert</marker> auf ihr Äußeres.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">im|von|ohne</token>
+                    <marker>
+                        <token>wert</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Wert</suggestion>&subende;</message>
+                <url>http://de.wiktionary.org/wiki/Wert</url>
+                <short>&prgk;.</short>
+                <example type="correct">Die Aktien steigen im <marker>Wert</marker>.</example>
+                <example type="incorrect" correction="Wert">Die Aktien steigen im <marker>wert</marker>.</example>
+                <example type="incorrect" correction="Wert">Aktien im <marker>wert</marker> von 80.000 €.</example>
+                <example type="incorrect" correction="Wert">Es wurde nichts von <marker>wert</marker> gestohlen.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="HAUT_SUBST" name="Groß-/Kleinschreibung: 'haut (Haut) und Knochen' etc.">
             <rule>
                 <pattern case_sensitive="yes">
@@ -11343,6 +11360,22 @@ $Id$
                 <example type="incorrect" correction="Decke">Die stecken doch alle unter einer <marker>decke</marker>.</example>
                 <example type="incorrect" correction="Decke">Ich gehe gleich an die <marker>decke</marker>.</example>
                 <example type="correct">Ich <marker>decke</marker> dich zu.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">eine|die</token>
+                    <marker>
+                        <token>decke</token>
+                    </marker>
+                    <token regexp="yes">auf|über</token>
+                    <token>den</token>
+                    <token>Kopf</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Decke</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Decke">Ich zog mir die <marker>decke</marker> über den Kopf.</example>
+                <example type="incorrect" correction="Decke">Mir fällt die <marker>decke</marker> auf den Kopf.</example>
+                <example type="correct">Mir fällt die <marker>Decke</marker> auf den Kopf.</example>
             </rule>
         </rulegroup>
         <rulegroup id="WAND_SUBST" name="Groß-/Kleinschreibung: 'an die wand (Wand) nageln' etc.">
@@ -20269,6 +20302,36 @@ $Id$
     <!-- Typographie -->
     <!-- ====================================================================== -->
     <category name="Typographie">
+        <rulegroup id="GROESSER_KLEINER_ANFUEHRUNG" name="Zeichensetzung/Typographie: Größer-/Kleiner-Zeichen statt frz. Anführungszeichen">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token spacebefore="yes">&gt;</token>
+                        <token skip="-1" spacebefore="no" regexp="yes">[A-ZÄÖÜa-zäöüßáàâêéèëíìîïòóôõûçñšž]+</token>
+                        <token spacebefore="no">&lt;</token>
+                    </marker>
+                </pattern>
+                <message>Wollen Sie statt Größer-/Kleiner-Zeichen französische Anführungszeichen verwenden? Vorschlag: <suggestion>›<match no="2" include_skipped="all"/>‹</suggestion></message>
+                <short>Größer-/Kleiner-Zeichen statt frz. Anführungszeichen?</short>
+                <example type="correct">Das ist eine <marker>›tolle‹</marker> Sache.</example>
+                <example type="incorrect" correction="›tolle‹">Das ist eine <marker>&gt;tolle&lt;</marker> Sache.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token spacebefore="yes">&gt;</token>
+                        <token spacebefore="no">&gt;</token>
+                        <token skip="-1" spacebefore="no" regexp="yes">[A-ZÄÖÜa-zäöüßáàâêéèëíìîïòóôõûçñšž]+</token>
+                        <token spacebefore="no">&lt;</token>
+                        <token spacebefore="no">&lt;</token>
+                    </marker>
+                </pattern>
+                <message>Wollen Sie statt Größer-/Kleiner-Zeichen französische Anführungszeichen verwenden? Vorschlag: <suggestion>»<match no="3" include_skipped="all"/>«</suggestion></message>
+                <short>Größer-/Kleiner-Zeichen statt frz. Anführungszeichen?</short>
+                <example type="correct">Das ist eine <marker>»tolle«</marker> Sache.</example>
+                <example type="incorrect" correction="»tolle«">Das ist eine <marker>&gt;&gt;tolle&lt;&lt;</marker> Sache.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ANFUEHRUNG_VERSCHACHTELT" name="Zeichensetzung/Typographie: „Verschachtelte ‚Anführungszeichen‘“">
             <rule>
                 <pattern>
