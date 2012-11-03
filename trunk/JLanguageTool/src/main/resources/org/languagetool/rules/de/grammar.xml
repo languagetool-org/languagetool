@@ -14793,7 +14793,7 @@ $Id$
                 <example type="incorrect" correction="Reihe">Hier geht es immer schön der <marker>reihe</marker> nach.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="LICHT_INS_DUNKEL" name="Groß-/Kleinschreibung: 'Licht ins dunkel (Dunkel)'">
+        <rulegroup id="LICHT_SUBST" name="Groß-/Kleinschreibung: 'licht (Licht)'">
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[lL]icht</token>
@@ -14816,8 +14816,6 @@ $Id$
                 <example type="correct">Bringen Sie doch bitte etwas <marker>Licht ins Dunkel</marker>!</example>
                 <example type="incorrect">Bringen Sie doch bitte etwas <marker>licht ins dunkel</marker>!</example>
             </rule>
-        </rulegroup>
-        <rulegroup id="LICHT_SUBST" name="Groß-/Kleinschreibung: 'licht (Licht)'">
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[dD]as|[eE]in|machen?|macht?|ins|ans|(helle|grelle|gleißende|einfallende|elektrische|gedämpfte|schummrige|schwache|unbarmherzige|flackernde|schiefe)[ns]?</token>
@@ -14828,7 +14826,19 @@ $Id$
                 <message>&subanfang;<suggestion>Licht</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example type="correct">Das gleißende <marker>Licht</marker> der Scheinwerfer.</example>
-                <example type="incorrect">Das gleißende <marker>licht</marker> der Scheinwerfer.</example>
+                <example type="incorrect" correction="Licht">Das gleißende <marker>licht</marker> der Scheinwerfer.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[iI]m</token>
+                    <marker>
+                        <token regexp="yes">lichte?</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Und man siehet die im <marker>Lichte</marker>, die im Dunkeln sieht man nicht.</example>
+                <example type="incorrect" correction="Lichte">Und man siehet die im <marker>lichte</marker>, die im Dunkeln sieht man nicht.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -14840,7 +14850,21 @@ $Id$
                 <message>&subanfang;<suggestion>Licht</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example type="correct">Er machte das <marker>Licht</marker> an.</example>
-                <example type="incorrect">Nachdem ich <marker>licht</marker> gemacht hatte, sah ich, was los war.</example>
+                <example type="incorrect" correction="Licht">Nachdem ich <marker>licht</marker> gemacht hatte, sah ich, was los war.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="KRIEG_SUBST" name="Groß-/Kleinschreibung: 'krieg (Krieg)'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[iI]m</token>
+                    <marker>
+                        <token>krieg</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Krieg</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">In der Liebe und im <marker>Krieg</marker> ist alles erlaubt.</example>
+                <example type="incorrect" correction="Krieg">In der Liebe und im <marker>krieg</marker> ist alles erlaubt.</example>
             </rule>
         </rulegroup>
         <rulegroup id="FAHRT_SUBST" name="Groß-/Kleinschreibung: 'fahrt (Fahrt)'">
@@ -17864,7 +17888,7 @@ $Id$
                     <token regexp="yes">[Ee]in</token>
                     <token>Paar</token>
                 </marker>
-                <token postag_regexp="yes" postag="SUB:.*" negate="yes" regexp="yes">(.*)([Ss]chuhe|[Ss]ocken|[Ss]trümpfe|[Hh]osen|[aA]ugen|[oO]hren)</token>
+                <token postag_regexp="yes" postag="SUB:.*PLU:.*" negate="yes" regexp="yes">(.*)([Ss]chuhe|[Ss]ocken|[Ss]trümpfe|[Ss]tiefel|[Ss]andalen|[Hh]osen|[aA]ugen|[oO]hren)</token>
             </pattern>
             <message>Meinten Sie <suggestion>ein paar</suggestion> (=einige), im Unterschied zu 'ein Paar' (=genau zwei)?</message>
             <url>http://www.canoo.net/services/GermanSpelling/Regeln/Gross-klein/Denominalisierung.html#Anchor-Die-14210</url>
@@ -17877,8 +17901,10 @@ $Id$
             <example type="correct"><marker>Ein Paar</marker> Kniestrümpfe.</example>
             <example type="correct"><marker>Ein Paar</marker> Nylonstrümpfe.</example>
             <example type="correct"><marker>Ein Paar</marker> Nylonstrumpfhosen.</example>
+            <example type="correct"><marker>Ein Paar</marker> Gummistiefel.</example>
+            <example type="correct"><marker>Ein Paar</marker> Ledersandalen.</example>
             <example type="correct"><marker>Ein paar</marker> Münzen.</example>
-            <example type="incorrect"><marker>Ein Paar</marker> Münzen.</example>
+            <example type="incorrect" correction="Ein paar"><marker>Ein Paar</marker> Münzen.</example>
             <!--
             <example type="incorrect"><marker>Ein Paar</marker> schöne Münzen.</example>
             -->
