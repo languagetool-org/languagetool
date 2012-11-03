@@ -102,7 +102,17 @@ $Id$
             <example type="incorrect">В сквере <marker>заложено 30 деревьев</marker>.</example>
             <example type="correct">В сквере посажено 30 деревьев.</example>
         </rule>
-        
+ <rule id="Linguistics_hrabry" name="Лингвистические ошибки «(храбрая или смелая ?) мысль, решение, идея»">
+            <pattern>
+                <token>храбрая</token>
+                <token regexp="yes">мысль|решение|идея</token>
+            </pattern>
+            <message>Лингвистическая ошибка: <suggestion>смелая \2</suggestion>?</message>
+            <url>http://ru.wikipedia.org/wiki/%D0%9B%D0%B8%D0%BD%D0%B3%D0%B2%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0</url>
+            <short>Лингвистическая ошибка.</short>
+            <example type="incorrect">Это <marker>храбрая идея</marker>.</example>
+            <example type="correct">Это смелая идея.</example>
+        </rule>        
     </category>
 
     <category name="Пунктуация">
