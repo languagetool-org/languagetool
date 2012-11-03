@@ -101,15 +101,21 @@ public class WikipediaQuickCheck {
 
   String getPlainText(String completeWikiContent) {
     final String wikiContent = getRevisionContent(completeWikiContent);
+    final String cleanedWikiContent = removeInterLanguageLinks(wikiContent);
     final TextFilter filter = new SwebleWikipediaTextFilter();
-    final String plainText = filter.filter(wikiContent);
+    final String plainText = filter.filter(cleanedWikiContent);
     return plainText;
+  }
+
+  // catches most, not all links ("[[pt:Linux]]", but not "[[zh-min-nan:Linux]]"). Might remove some non-interlanguage links.
+  String removeInterLanguageLinks(String wikiContent) {
+    return wikiContent.replaceAll("\\[\\[[a-z]{2,6}:.*?\\]\\]", "");
   }
 
   private String getRevisionContent(String completeWikiContent) {
     final SAXParserFactory factory = SAXParserFactory.newInstance();
     final SAXParser saxParser;
-    final RevisionContentHandler handler  = new RevisionContentHandler();
+    final RevisionContentHandler handler = new RevisionContentHandler();
     try {
       saxParser = factory.newSAXParser();
       saxParser.parse(new InputSource(new StringReader(completeWikiContent)), handler);
@@ -140,7 +146,7 @@ public class WikipediaQuickCheck {
 
   private String getContent(URL wikipediaUrl) throws IOException {
     final InputStream contentStream = (InputStream) wikipediaUrl.getContent();
-    return StringTools.streamToString(contentStream,"UTF-8");
+    return StringTools.streamToString(contentStream, "UTF-8");
   }
 
   /*public static void mainTest(String[] args) throws IOException {

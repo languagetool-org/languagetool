@@ -31,4 +31,13 @@ public class WikipediaQuickCheckTest extends TestCase {
                     "</rev></revisions></page></pages></query></api>");
     assertEquals("Test Link Foo bar.", filteredContent);
   }
+
+  public void testRemoveInterLanguageLinks() {
+    final WikipediaQuickCheck check = new WikipediaQuickCheck();
+    assertEquals("foo  bar", check.removeInterLanguageLinks("foo [[pt:Some Article]] bar"));
+    assertEquals("foo [[some link]] bar", check.removeInterLanguageLinks("foo [[some link]] bar"));
+    assertEquals("foo [[Some Link]] bar ", check.removeInterLanguageLinks("foo [[Some Link]] bar [[pt:Some Article]]"));
+    assertEquals("foo [[zh-min-nan:Linux]] bar", check.removeInterLanguageLinks("foo [[zh-min-nan:Linux]] bar"));  // known limitation
+  }
+
 }
