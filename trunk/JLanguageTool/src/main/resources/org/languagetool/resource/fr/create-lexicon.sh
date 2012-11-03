@@ -6,7 +6,7 @@
 #    http://sourceforge.net/projects/morfologik/files/morfologik-stemming/1.4.0/
 #    $ unzip morfologik-stemming-1.4.0.zip
 #    This creates morfologik-stemming-nodict-1.4.0.jar
-# 4) Run the script:
+# 2) Run the script:
 #    $ ./create-lexicon.pl
 #    This creates the dictionary 'french.dict'.
 #
@@ -20,6 +20,7 @@ if [ ! -f $INPUT.txt ]; then
   unzip $INPUT.zip
 fi
 
+# The python script DL2LT.py is included in $INPUT.zip
 chmod a+x DL2LT.py
 vim  -c 'set fileformat=unix' -c 1s/python3.1/python3 -c wq DL2LT.py
 ./DL2LT.py $INPUT.txt
