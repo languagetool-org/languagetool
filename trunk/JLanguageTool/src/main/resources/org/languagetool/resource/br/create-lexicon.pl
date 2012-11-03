@@ -1993,9 +1993,12 @@ while (<LT_EXPAND>) {
     elsif ($tags eq '<vbloc><pii><p3><pl>')     { $tag = "V impl 3 p" }     # edont
     elsif ($tags eq '<vbloc><pii><impers><sp>') { $tag = "V impl impers" }  # emod
 
-    # Words that we tag as both masculine, feminine
+    # Words that we tag as "epicene" (both masculine, feminine)
     # even though Apertium does not tag them with both gender.
-    if ($lemma eq 'trubuilh' and $word =~ /^[tdz]rubuilh(où)?$/) {
+    # There are probably many other such words that could be added
+    # here. I add them one by one as I stumbled upon them.
+    if (($lemma eq 'trubuilh' and $word =~ /^[tdz]rubuilh(où)?$/) or
+        ($lemma eq 'siminal'  and $word =~ /^siminal(ioù)?$/)) {
       $tag =~ s/^N m/N e/;
     }
 
