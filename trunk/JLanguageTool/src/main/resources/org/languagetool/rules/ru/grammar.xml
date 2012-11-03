@@ -28,68 +28,82 @@ $Id$
 -->
 <rules lang="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../rules.xsd">
 
-<category name="Логические ошибки">
-  <rule id="LogicalErrror1" name="Логические ошибки (решит эту затянувшуюся проблему)">
-    <pattern>
-        <token>решит</token>
-        <token>эту</token>
-        <token>затянувшуюся</token>
-        <token>проблему</token>
-    </pattern>
-    <message>Логическая ошибка: <suggestion>ускорит затянувшееся решение проблемы</suggestion>?</message>
-    <url>http://ru.wikipedia.org/wiki/%D0%9B%D0%BE%D0%B3%D0%B8%D0%BA%D0%B0</url>
-    <short>Логическая ошибка.</short>
-    <example type="incorrect">Он <marker>решит эту затянувшуюся проблему</marker>.</example>
-    <example type="correct">Он ускорит затянувшееся решение проблемы.</example>
-  </rule>
-  <rule id="LogicalErrror2" name="Логические ошибки (подорожали цены)">
-    <pattern>
-        <token>подорожали</token>
-        <token>цены</token>
-    </pattern>
-    <message>Логическая ошибка: <suggestion>цены выросли</suggestion>?</message>
-    <url>http://ru.wikipedia.org/wiki/%D0%9B%D0%BE%D0%B3%D0%B8%D0%BA%D0%B0</url>
-    <short>Логическая ошибка.</short>
-    <example type="incorrect">На рынке <marker>подорожали цены</marker></example>
-    <example type="correct">На рынке цены выросли</example>
-  </rule>
-<rule id="LogicalErrror3" name="Логические ошибки (поднял тост)">
-    <pattern>
-        <token>поднял</token>
-        <token>тост</token>
-    </pattern>
-    <message>Логическая ошибка: <suggestion>произнёс тост</suggestion>?</message>
-    <url>http://ru.wikipedia.org/wiki/%D0%9B%D0%BE%D0%B3%D0%B8%D0%BA%D0%B0</url>
-    <short>Логическая ошибка.</short>
-    <example type="incorrect">Он <marker>поднял тост</marker> за встречу.</example>
-    <example type="correct">Он произнёс тост за встречу.</example>
-  </rule>
-<rule id="LogicalErrror4" name="Логические ошибки (улучшение отмеченных недостатков.)">
-    <pattern>
-        <token>улучшение</token>
-        <token>отмеченных</token>
-        <token>недостатков</token>
-    </pattern>
-    <message>Логическая ошибка: <suggestion>устранение отмеченных недостатков</suggestion>?</message>
-    <url>http://ru.wikipedia.org/wiki/%D0%9B%D0%BE%D0%B3%D0%B8%D0%BA%D0%B0</url>
-    <short>Логическая ошибка.</short>
-    <example type="incorrect">Сессия приняла решение, направленное на <marker>улучшение отмеченных недостатков</marker>.</example>
-    <example type="correct">Сессия приняла решение, направленное на устранение отмеченных недостатков.</example>
-  </rule>
-<rule id="LogicalErrror5" name="Логические ошибки (заложено 30 деревьев)">
-    <pattern>
-        <token>заложено</token>
-        <token></token>
-        <token>деревьев</token>
-    </pattern>
-    <message>Логическая ошибка: <suggestion>посажено \2 \3</suggestion>?</message>
-    <url>http://ru.wikipedia.org/wiki/%D0%9B%D0%BE%D0%B3%D0%B8%D0%BA%D0%B0</url>
-    <short>Логическая ошибка.</short>
-    <example type="incorrect">В сквере <marker>заложено 30 деревьев</marker>.</example>
-    <example type="correct">В сквере посажено 30 деревьев.</example>
-  </rule>
-
-</category>
+    <category name="Логические ошибки">
+        <rulegroup id="Logical_reshit_zatanuvshujusa_problemu" name="Логические ошибки «решит эту затянувшуюся проблему»">
+            <rule> 
+                <pattern>
+                    <token>решит</token>
+                    <token>эту</token>
+                    <token>затянувшуюся</token>
+                    <token>проблему</token>
+                </pattern>
+                <message>Логическая ошибка: <suggestion>ускорит затянувшееся решение проблемы</suggestion>?</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%9B%D0%BE%D0%B3%D0%B8%D0%BA%D0%B0</url>
+                <short>Логическая ошибка.</short>
+                <example type="incorrect">Он <marker>решит эту затянувшуюся проблему</marker>.</example>
+                <example type="correct">Он ускорит затянувшееся решение проблемы.</example>
+            </rule>
+            <rule> 
+                <pattern>
+                    <token>решит</token>
+                    <token>затянувшуюся</token>
+                    <token>проблему</token>
+                </pattern>
+                <message>Логическая ошибка: <suggestion>ускорит затянувшееся решение проблемы</suggestion>?</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%9B%D0%BE%D0%B3%D0%B8%D0%BA%D0%B0</url>
+                <short>Логическая ошибка.</short>
+                <example type="incorrect">Она <marker>решит затянувшуюся проблему</marker>.</example>
+                <example type="correct">Она ускорит затянувшееся решение проблемы.</example>
+            </rule>
+        </rulegroup>
+        <rule id="Logical_podorojali_ceny" name="Логические ошибки «подорожали цены»">
+            <pattern>
+                <token>подорожали</token>
+                <token>цены</token>
+            </pattern>
+            <message>Логическая ошибка: <suggestion>цены выросли</suggestion>?</message>
+            <url>http://ru.wikipedia.org/wiki/%D0%9B%D0%BE%D0%B3%D0%B8%D0%BA%D0%B0</url>
+            <short>Логическая ошибка.</short>
+            <example type="incorrect">На рынке <marker>подорожали цены</marker></example>
+            <example type="correct">На рынке цены выросли</example>
+        </rule>
+        <rule id="Logical_podnjal_tost" name="Логические ошибки «поднял тост»">
+            <pattern>
+                <token>поднял</token>
+                <token>тост</token>
+            </pattern>
+            <message>Логическая ошибка: <suggestion>произнёс тост</suggestion>?</message>
+            <url>http://ru.wikipedia.org/wiki/%D0%9B%D0%BE%D0%B3%D0%B8%D0%BA%D0%B0</url>
+            <short>Логическая ошибка.</short>
+            <example type="incorrect">Он <marker>поднял тост</marker> за встречу.</example>
+            <example type="correct">Он произнёс тост за встречу.</example>
+        </rule>
+        <rule id="Logical_uluchshenie_otmechennih_nedostatkov" name="Логические ошибки «улучшение отмеченных недостатков»">
+            <pattern>
+                <token>улучшение</token>
+                <token>отмеченных</token>
+                <token>недостатков</token>
+            </pattern>
+            <message>Логическая ошибка: <suggestion>устранение отмеченных недостатков</suggestion>?</message>
+            <url>http://ru.wikipedia.org/wiki/%D0%9B%D0%BE%D0%B3%D0%B8%D0%BA%D0%B0</url>
+            <short>Логическая ошибка.</short>
+            <example type="incorrect">Сессия приняла решение, направленное на <marker>улучшение отмеченных недостатков</marker>.</example>
+            <example type="correct">Сессия приняла решение, направленное на устранение отмеченных недостатков.</example>
+        </rule>
+        <rule id="Logical_zalozheno_xx_derevjev" name="Логические ошибки «заложено 30 деревьев»">
+            <pattern>
+                <token>заложено</token>
+                <token></token>
+                <token inflected="yes">дерево</token>
+            </pattern>
+            <message>Логическая ошибка: <suggestion>посажено \2 \3</suggestion>?</message>
+            <url>http://ru.wikipedia.org/wiki/%D0%9B%D0%BE%D0%B3%D0%B8%D0%BA%D0%B0</url>
+            <short>Логическая ошибка.</short>
+            <example type="incorrect">В сквере <marker>заложено 30 деревьев</marker>.</example>
+            <example type="correct">В сквере посажено 30 деревьев.</example>
+        </rule>
+        
+    </category>
 
     <category name="Пунктуация">
         <rule default="on" id="ABREV_DOT" name="Точка после сокращений">
