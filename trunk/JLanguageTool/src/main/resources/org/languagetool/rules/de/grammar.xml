@@ -1200,7 +1200,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="SENT_START"></token>
+                    <token postag="SENT_START"/>
                     <marker>
                         <token>Email</token>
                     </marker>
@@ -1302,7 +1302,7 @@ $Id$
         </rulegroup>
         <rule id="STATT_VS_STAAT" name="Möglicher Tippfehler: 'Statt (Staat) Alabama' etc.">
             <pattern case_sensitive="yes">
-                <token negate_pos="yes" postag="SENT_START"></token>
+                <token negate_pos="yes" postag="SENT_START"/>
                 <marker>
                     <token>Statt</token>
                 </marker>
@@ -1314,6 +1314,7 @@ $Id$
             <example type="incorrect" correction="Staat">Im <marker>Statt</marker> New York wird heute gewählt.</example>
         </rule>
         <rule id="INS_LEERE" name="Möglicher Tippfehler: 'ins Lehre (Leere)'">
+        <!-- TODO: don't match 'ins leere Glas' -->
             <pattern case_sensitive="yes">
                 <token>ins</token>
                 <marker>
@@ -1680,7 +1681,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token postag="SENT_START"></token>
+                    <token postag="SENT_START"/>
                     <marker>
                         <token>De</token>
                     </marker>
@@ -1780,7 +1781,7 @@ $Id$
         <rulegroup id="LIEDER_LEIDER" name="Möglicher Tippfehler: 'Lieder (Leider) ...'">
             <rule>
                 <pattern>
-                    <token postag="SENT_START"></token>
+                    <token postag="SENT_START"/>
                     <marker>
                         <token>Lieder</token>
                     </marker>
@@ -1925,7 +1926,7 @@ $Id$
         <rulegroup id="INDER" name="Möglicher Tippfehler: 'Inder (In der)'">
             <rule>
                 <pattern>
-                    <token postag="SENT_START"></token>
+                    <token postag="SENT_START"/>
                     <marker>
                         <token>Inder</token>
                     </marker>
@@ -2136,7 +2137,7 @@ $Id$
         <rulegroup id="HAUTE_HEUTE" name="Möglicher Tippfehler: 'haute (heute)'">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token postag="SENT_START"></token>
+                    <token postag="SENT_START"/>
                     <marker>
                         <token skip="1">Haute<exception scope="next" regexp="yes">(Co|Cu|Secure).*</exception></token>
                     </marker>
@@ -2217,7 +2218,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="SENT_START"></token>
+                    <token postag="SENT_START"/>
                     <token postag=".*PRO.*NOM.*SIN.*" postag_regexp="yes"></token>
                     <marker>
                         <token>wahr</token>
@@ -2229,7 +2230,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="SENT_START"></token>
+                    <token postag="SENT_START"/>
                     <marker>
                         <token skip="1">Wahr</token>
                     </marker>
@@ -2241,7 +2242,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="SENT_START"></token>
+                    <token postag="SENT_START"/>
                     <marker>
                         <token>Wahr</token>
                     </marker>
@@ -2351,7 +2352,7 @@ $Id$
             <!-- Jan: TODO - extend this -->
             <rule>
                 <pattern>
-                    <token postag="SENT_START"></token>
+                    <token postag="SENT_START"/>
                     <token>Ihr</token>
                     <marker>
                         <token>seit</token>
@@ -2571,7 +2572,7 @@ $Id$
             <rule>
                 <pattern case_sensitive="yes">
                     <marker>
-                        <token postag="SENT_START"></token>
+                        <token postag="SENT_START"/>
                         <token>Seid</token>
                     </marker>
                     <token>über</token>
@@ -2586,7 +2587,7 @@ $Id$
             <rule>
                 <pattern case_sensitive="yes">
                     <marker>
-                        <token postag="SENT_START"></token>
+                        <token postag="SENT_START"/>
                         <token>Seid</token>
                     </marker>
                     <token>mehr</token>
@@ -2602,7 +2603,7 @@ $Id$
             <rule>
                 <pattern case_sensitive="yes">
                     <marker>
-                        <token postag="SENT_START"></token>
+                        <token postag="SENT_START"/>
                         <token>Seid</token>
                     </marker>
                     <token regexp="yes">[0-9]+|wann</token>
@@ -3234,7 +3235,7 @@ $Id$
         <rulegroup id="FOLGERN_FOLGEN" name="Mögliche Wortverwechslung: folgern/folgen">
             <rule>
                 <pattern case_sensitive="no">
-                    <token postag="SENT_START"></token>
+                    <token postag="SENT_START"/>
                     <token>Daraus</token>
                     <marker>
                         <token>folgert</token>
@@ -3249,7 +3250,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="no">
-                    <token postag="SENT_START"></token>
+                    <token postag="SENT_START"/>
                     <token>Daraus</token>
                     <marker>
                         <token>folgert</token>
@@ -3548,7 +3549,7 @@ $Id$
         <rulegroup id="DASS_STATT_DAS_RELATIVPRONOMEN" name="Mögliche Wortverwechslung: dass/das">
             <rule>
                 <pattern case_sensitive="no">
-                    <token postag="SENT_START"></token>
+                    <token postag="SENT_START"/>
                     <token regexp="yes">Ein|Das</token>
                     <token postag="SUB:NOM:SIN:NEU"></token>
                     <token>,</token>
@@ -3584,7 +3585,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="no">
-                    <token postag="SENT_START"></token>
+                    <token postag="SENT_START"/>
                     <marker>
                         <token>Dass</token>
                     </marker>
@@ -3934,7 +3935,7 @@ $Id$
             <example type="correct">Warum ist es am <marker>Rhein</marker> so schön?</example>
             <example type="incorrect" correction="Rhein">Warum ist es am <marker>Rein</marker> so schön?</example>
         </rule>
-        <rule id="AUS_ESSEN" name="Eigenname: 'aus/nach/in siegen (Siegen)' etc.">
+        <rule id="AUS_ESSEN" name="Ortsname: 'aus/nach/in siegen (Siegen)' etc.">
             <pattern case_sensitive="yes">
                 <token postag="VER:(AUX:)?(1|2|3):.+" postag_regexp="yes" skip="1"/>
                 <token regexp="yes">aus|in|nach</token>
@@ -4507,6 +4508,49 @@ $Id$
             <example type="correct"><marker>Willy</marker> Brandt</example>
             <example type="incorrect" correction="Willy"><marker>Willi</marker> Brandt</example>
         </rule>
+        <rulegroup id="HELMUT_SCHMIDT" name="Eigenname: 'Helmuth (Helmut) Schmidt'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>Helmuth</token>
+                    </marker>
+                    <token>Schmidt</token>
+                </pattern>
+                <message>Meinen Sie den deutschen SPD-Politiker <suggestion>Helmut</suggestion> Schmidt (Bundeskanzler 1974 bis 1982)?</message>
+                <url>http://de.wikipedia.org/wiki/Helmut_Schmidt</url>
+                <short>&eigenname;</short>
+                <example type="correct"><marker>Helmut</marker> Schmidt</example>
+                <example type="incorrect" correction="Helmut"><marker>Helmuth</marker> Schmidt</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>Helmut</token>
+                    <marker>
+                        <token regexp="yes">Schmitt|Schmid</token>
+                    </marker>
+                </pattern>
+                <message>Meinen Sie den deutschen SPD-Politiker Helmut <suggestion>Schmidt</suggestion> (Bundeskanzler 1974 bis 1982)?</message>
+                <url>http://de.wikipedia.org/wiki/Helmut_Schmidt</url>
+                <short>&eigenname;</short>
+                <example type="correct">Helmut <marker>Schmidt</marker></example>
+                <example type="incorrect" correction="Schmidt">Helmut <marker>Schmitt</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="HELMUT_KOHL" name="Eigenname: 'Helmuth (Helmut) Kohl'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>Helmuth</token>
+                    </marker>
+                    <token>Kohl</token>
+                </pattern>
+                <message>Meinen Sie den deutschen CDU-Politiker <suggestion>Helmut</suggestion> Kohl (Bundeskanzler 1982 bis 1998)?</message>
+                <url>http://de.wikipedia.org/wiki/Helmut_Kohl</url>
+                <short>&eigenname;</short>
+                <example type="correct"><marker>Helmut</marker> Kohl</example>
+                <example type="incorrect" correction="Helmut"><marker>Helmuth</marker> Kohl</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="JOSEPH_GOEBBELS" name="Eigenname: 'Josef (Joseph) Goebbels'">
             <rule>
                 <pattern case_sensitive="yes">
@@ -5331,7 +5375,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="no">
-                    <token postag="SENT_START"></token>
+                    <token postag="SENT_START"/>
                     <marker>
                         <token>Zeit</token>
                         <token>Lebens</token>
@@ -5496,7 +5540,7 @@ $Id$
         </rule>
         <rule id="NACH_DEM_NACHDEM" name="Zusammen-/Getrenntschreibung: 'Nach dem (nachdem) er ...'">
             <pattern case_sensitive="yes">
-                <token postag="SENT_START"></token>
+                <token postag="SENT_START"/>
                 <marker>
                     <token>Nach</token>
                     <token>dem</token>
@@ -5510,7 +5554,7 @@ $Id$
         </rule>
         <rule id="DA_MIT_VS_DAMIT" name="Zusammen-/Getrenntschreibung: 'Da mit (damit) er ...'">
             <pattern case_sensitive="yes">
-                <token postag="SENT_START"></token>
+                <token postag="SENT_START"/>
                 <marker>
                     <token>Da</token>
                     <token>mit</token>
@@ -8347,7 +8391,7 @@ $Id$
         </rulegroup>
         <rule id="UND_SATZANFANG" name="Stil: 'Und' am Satzanfang" default="off">
             <pattern case_sensitive="yes">
-                <token postag="SENT_START"></token>
+                <token postag="SENT_START"/>
                 <marker>
                     <token skip="-1">Und<exception scope="next" regexp="yes">(–|\-|\)|\:|&anf;|…|\?|\!|&lt;|&gt;)</exception></token>
                 </marker>
@@ -8553,7 +8597,7 @@ $Id$
         <rulegroup id="ANREDE" name="Möglicher Tippfehler: 'Sehr geehrte (geehrter) Herr Müller' u.ä.">
             <rule>
                 <pattern case_sensitive="no">
-                    <token postag="SENT_START"></token>
+                    <token postag="SENT_START"/>
                     <token>Sehr</token>
                     <marker>
                         <token regexp="yes">geehrt.*<exception>geehrter</exception>
@@ -8570,7 +8614,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="no">
-                    <token postag="SENT_START"></token>
+                    <token postag="SENT_START"/>
                     <token>Sehr</token>
                     <marker>
                         <token regexp="yes">geehrt.*<exception>geehrte</exception>
@@ -8588,7 +8632,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="no">
-                    <token postag="SENT_START"></token>
+                    <token postag="SENT_START"/>
                     <token>Sehr</token>
                     <token regexp="yes">geehrte\w?</token>
                     <token regexp="yes">Dame\w?</token>
@@ -8605,7 +8649,7 @@ $Id$
         <rulegroup id="LIEBER_ANNA" name="Möglicher Tippfehler: 'Lieber (Liebe) Anna, ...' (als Anredeformel)">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token postag="SENT_START"></token>
+                    <token postag="SENT_START"/>
                     <marker>
                         <token regexp="yes">[lL]ieb.*<exception>Liebe</exception></token>
                     </marker>
@@ -8619,7 +8663,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token postag="SENT_START"></token>
+                    <token postag="SENT_START"/>
                     <marker>
                         <token regexp="yes">[lL]ieb.*<exception>Lieber</exception></token>
                     </marker>
@@ -8634,7 +8678,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token postag="SENT_START"></token>
+                    <token postag="SENT_START"/>
                     <marker>
                         <token regexp="yes">Lieb.*<exception>Lieber</exception></token>
                     </marker>
@@ -8652,7 +8696,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token postag="SENT_START"></token>
+                    <token postag="SENT_START"/>
                     <marker>
                         <token regexp="yes">Lieb.*<exception>Liebe</exception></token>
                     </marker>
@@ -8671,7 +8715,7 @@ $Id$
         <rulegroup id="LIEB_GRUESSE" name="Möglicher Tippfehler: 'Lieb (Liebe) Grüße'">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token postag="SENT_START"></token>
+                    <token postag="SENT_START"/>
                     <marker>
                         <token regexp="yes">[lL]ieb.*<exception>Liebe</exception></token>
                         <token>Grüße</token>
@@ -8849,7 +8893,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="no">
-                    <token postag="SENT_START"></token>
+                    <token postag="SENT_START"/>
                     <marker>
                         <token>LG</token>
                     </marker>
@@ -8891,7 +8935,7 @@ $Id$
         <rule id="MIT_FREUNDLICHEN_GRUESSEN_KOMMA" name="Zeichensetzung: Falsches Satzzeichen nach 'Mit freundlichen Grüßen'">
             <!-- TODO not triggered if there is no punctuation mark at all -->
             <pattern>
-                <token postag="SENT_START"></token>
+                <token postag="SENT_START"/>
                 <token>Mit</token>
                 <token>freundlichen</token>
                 <token>Grüßen</token>
@@ -8904,7 +8948,7 @@ $Id$
         </rule>
         <rule id="ANREDE_KOMMA" name="Zeichensetzung: Fehlendes Komma nach der Anrede">
             <pattern case_sensitive="yes">
-                <token postag="SENT_START"></token>
+                <token postag="SENT_START"/>
                 <token>Sehr</token>
                 <token regexp="yes">geehrt.+</token>
                 <token regexp="yes">Frau|Herr</token>
@@ -9088,6 +9132,21 @@ $Id$
                 <example type="incorrect" correction="rechts">An dieser Kreuzung gilt <marker>Rechts</marker> vor links.</example>
                 <example type="incorrect" correction="rechts">An dieser Kreuzung gilt <marker>Rechts</marker> vor Links.</example>
                 <example type="correct">An dieser Kreuzung gilt <marker>rechts</marker> vor links.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="BARFUSS_ADJ" name="Groß-/Kleinschreibung: 'Barfuß (barfuß)'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token negate_pos="yes" postag="SENT_START"></token>
+                    <marker>
+                        <token>Barfuß</token>
+                    </marker>
+                </pattern>
+                <message><suggestion><match no="2" case_conversion="alllower"/></suggestion> ist ein indeklinables Adjektiv und wird (außer am Satzanfang) in der Regel kleingeschrieben.</message>
+                <url>http://www.duden.de/rechtschreibung/barfusz</url>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="barfuß">Sie war <marker>Barfuß</marker>.</example>
+                <example type="correct"><marker>Barfuß</marker> im Regen.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ERSTELLEN" name="Groß-/Kleinschreibung: 'das erstellen (Erstellen)'">
@@ -9859,7 +9918,7 @@ $Id$
         <rulegroup id="SUBSTANTIVE_KLEIN" name="Groß-/Kleinschreibung: Substantive, die auch Verben oder Adjektive sein können">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token postag="SENT_START"></token>
+                    <token postag="SENT_START"/>
                     <token regexp="yes">Die|Diese|Seine|Ihre|Meine|Deine|Eure|Unsere</token>
                     <marker>
                         <token regexp="yes">&subkleinplural;</token>
@@ -9884,7 +9943,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token postag="SENT_START"></token>
+                    <token postag="SENT_START"/>
                     <token regexp="yes">Die|Diese|Seine|Ihre|Meine|Deine|Eure|Unsere</token>
                     <token postag="ADJ:NOM:PLU:(FEM|MAS|NEU):GRU:IND" postag_regexp="yes"></token>
                     <marker>
@@ -9925,7 +9984,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token postag="SENT_START"></token>
+                    <token postag="SENT_START"/>
                     <token regexp="yes">Die|Diese|Jene</token>
                     <marker>
                         <token regexp="yes">&subkleinplural;</token>
@@ -10109,7 +10168,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token postag="SENT_START"></token>
+                    <token postag="SENT_START"/>
                     <token regexp="yes">Der|Dieser|Sein|Ihr|Mein|Dein|Euer|Unser</token>
                     <marker>
                         <token regexp="yes">&massubklein;</token>
@@ -10123,7 +10182,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token postag="SENT_START"></token>
+                    <token postag="SENT_START"/>
                     <token regexp="yes">Der|Dieser|Sein|Ihr|Mein|Dein|Euer|Unser</token>
                     <token postag="ADJ:NOM:SIN:MAS:.*" postag_regexp="yes"></token>
                     <marker>
@@ -10200,7 +10259,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token postag="SENT_START"></token>
+                    <token postag="SENT_START"/>
                     <token regexp="yes">Die|Diese|Seine|Ihre|Meine|Deine|Eure|Unsere</token>
                     <marker>
                         <token regexp="yes">&femsubklein;</token>
@@ -10225,7 +10284,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token postag="SENT_START"></token>
+                    <token postag="SENT_START"/>
                     <token regexp="yes">Die|Diese|Seine|Ihre|Meine|Deine|Eure|Unsere</token>
                     <token postag="ADJ:NOM:SIN:FEM:.*" postag_regexp="yes"></token>
                     <marker>
@@ -10306,7 +10365,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token postag="SENT_START"></token>
+                    <token postag="SENT_START"/>
                     <token regexp="yes">Das|Dieses|Sein|Ihr|Mein|Dein|Euer|Unser</token>
                     <marker>
                         <token regexp="yes">&neusubklein;</token>
@@ -10320,7 +10379,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token postag="SENT_START"></token>
+                    <token postag="SENT_START"/>
                     <token regexp="yes">Das|Dieses|Sein|Ihr|Mein|Dein|Euer|Unser</token>
                     <token postag="ADJ:NOM:SIN:NEU:.*" postag_regexp="yes"></token>
                     <marker>
@@ -15115,7 +15174,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token postag="SENT_START"></token>
+                    <token postag="SENT_START"/>
                     <marker>
                         <token>Angst</token>
                         <token>und</token>
@@ -15663,7 +15722,7 @@ $Id$
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[aA]n</token>
-                    <token regexp="yes">(mein|[dD]ein|sein|unser|[iI]hr|eur|dies)er</token>
+                    <token regexp="yes">(mein|[dD]ein|sein|unser|[iI]hr|eur|dies|ander)er</token>
                     <marker>
                         <token>stelle</token>
                     </marker>
@@ -18526,7 +18585,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token postag="SENT_START"></token>
+                    <token postag="SENT_START"/>
                     <token regexp="yes">(Wegen|Abzüglich)</token><!-- TODO Abseits das …-->
                     <token regexp="yes">(das|dem|den|die)(selben?)?|ein|(D|d|s|m)?eine(m|n)?|(eu|ih|Ih|unse)re(m|n)?|(jene|deine|diese)(m|n)?</token>
                 </pattern>
@@ -19012,7 +19071,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="SENT_START"></token>
+                    <token postag="SENT_START"/>
                     <marker>
                         <token>Ließ</token>
                     </marker>
@@ -19026,7 +19085,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="SENT_START"></token>
+                    <token postag="SENT_START"/>
                     <token>Bitte</token>
                     <marker>
                         <token>ließ</token>
@@ -19656,7 +19715,7 @@ $Id$
         <rulegroup id="FRAGE_OHNE_FRAGEZEICHEN" name="Zeichensetzung: Punkt statt Fragezeichen (nur in wenigen einfachen Fällen, Regel ist in Arbeit)" default="off">
             <rule>
                 <pattern>
-                    <token postag="SENT_START"></token>
+                    <token postag="SENT_START"/>
                     <token postag="VER:(AUX:)?2:SIN:.+" postag_regexp="yes"></token>
                     <token>du</token>
                     <token postag="ADJ:PRD:(GRU|KOM)|ADV:.+" postag_regexp="yes"></token>
@@ -19675,7 +19734,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="SENT_START"></token>
+                    <token postag="SENT_START"/>
                     <token postag="VER:(AUX:)?3:SIN:.+" postag_regexp="yes"></token>
                     <token postag="PRO:PER:NOM:SIN:(MAS|FEM|NEU)|EIG:.+" postag_regexp="yes"></token>
                     <token postag="ADJ:PRD:(GRU|KOM)|ADV:.+" postag_regexp="yes"></token>
@@ -19793,7 +19852,7 @@ $Id$
         <rule id="PUNKT_UND_KLAMMER" name="Zeichensetzung: Punkt und Klammer bei Aufzählungen, z.B. '1.)'" default="off">
             <!-- Quelle: Hans Friedrich Ebel/Claus Bliefert, Bachelor-, Master- und Doktorarbeit. Wiley, ISBN 9783527324774 -->
             <pattern>
-                <token postag="SENT_START"></token>
+                <token postag="SENT_START"/>
                 <token regexp="yes">[0-9]{1,2}</token>
                 <token>.</token>
                 <token>)</token>
@@ -20208,7 +20267,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token postag="SENT_START"></token>
+                    <token postag="SENT_START"/>
                     <marker>
                         <token skip="-1" regexp="yes">Dass|Obwohl|Obgleich|Sodass|Wenn<exception scope="next" regexp="yes">,|–|\-|;|\:|&anfauf;|…|[0-9]+|\?|\!|&gt;|\=|&klamauf;|möglich</exception></token>
                     </marker>
