@@ -91,6 +91,21 @@ $Id$
     <!-- Tippfehler -->
     <!-- ====================================================================== -->
     <category name="Mögliche Tippfehler">
+        <rulegroup id="EN_OHNE_PASSANT" name="Möglicher Tippfehler: 'en (eng, in)'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token spacebefore="yes">en</token>
+                    </marker>
+                    <token negate="yes" regexp="yes">passant|masse|vogue</token>
+                </pattern>
+                <message>Möglicher Tippfehler: Meinten Sie evt. <suggestion>eng</suggestion> oder <suggestion>in</suggestion>?</message>
+                <short>Möglicher Tippfehler</short>
+                <example type="correct">Das ist <marker>en</marker> vogue jetzt.</example>
+                <example type="correct">Das haben wir <marker>en</marker> passant erledigt.</example>
+                <example type="incorrect" correction="eng|in">Das ist zu <marker>en</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="KOMMA_TLD" name="Möglicher Tippfehler: 'example,com (example.com)'">
             <rule>
                 <pattern case_sensitive="yes">
@@ -3918,6 +3933,22 @@ $Id$
             <short>&eigenname;</short>
             <example type="correct">Warum ist es am <marker>Rhein</marker> so schön?</example>
             <example type="incorrect" correction="Rhein">Warum ist es am <marker>Rein</marker> so schön?</example>
+        </rule>
+        <rule id="AUS_ESSEN" name="Eigenname: 'aus/nach/in siegen (Siegen)' etc.">
+            <pattern case_sensitive="yes">
+                <token postag="VER:(AUX:)?(1|2|3):.+" postag_regexp="yes" skip="1"/>
+                <token regexp="yes">aus|in|nach</token>
+                <marker>
+                    <token regexp="yes">gießen|siegen|essen|polen</token>
+                </marker>
+            </pattern>
+            <message>&subanfang;es sich bei <suggestion><match no="3" case_conversion="startupper"/></suggestion> um einen geographischen Eigennamen handelt, der großgeschrieben werden muss.</message>
+            <short>&eigenname;</short>
+            <example type="correct">Sie kommt aus <marker>Gießen</marker>.</example>
+            <example type="incorrect" correction="Polen">Im Urlaub fahren wir nach <marker>polen</marker>.</example>
+            <example type="incorrect" correction="Polen">Deutsche Truppen marschierten in <marker>polen</marker> ein.</example>
+            <example type="incorrect" correction="Essen">Ich wohne jetzt in <marker>essen</marker>.</example>
+            <example type="incorrect" correction="Gießen">Sie kommt aus <marker>gießen</marker>.</example>
         </rule>
         <rule id="DOM_VS_DON" name="Eigenname: 'Kölner Don (Dom)' etc.">
             <pattern>
@@ -9288,6 +9319,21 @@ $Id$
                 <example type="incorrect" correction="Wette">Sie liefen um die <marker>wette</marker>.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="STROEME_SUBST" name="Groß-/Kleinschreibung: 'in strömen (Strömen)'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">regnete?|goss|gießt</token>
+                    <token>in</token>
+                    <marker>
+                        <token>strömen</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Strömen</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Es regnet in <marker>Strömen</marker>.</example>
+                <example type="incorrect" correction="Strömen">Es regnet in <marker>strömen</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="BEDARF_SUBST" name="Groß-/Kleinschreibung: 'bei bedarf (Bedarf)'">
             <rule>
                 <pattern case_sensitive="yes">
@@ -13591,6 +13637,18 @@ $Id$
         <rulegroup id="AERGER_SUBST" name="Groß-/Kleinschreibung: 'ärger (Ärger)'">
             <rule>
                 <pattern case_sensitive="yes">
+                    <token regexp="yes">[vV]or</token>
+                    <marker>
+                        <token>ärger</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Ärger</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Ärger">Er wurde rot vor <marker>ärger</marker>.</example>
+                <example type="correct">Er wurde rot vor <marker>Ärger</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
                     <token negate="yes">es</token>
                     <marker>
                         <token>ärger</token>
@@ -13634,6 +13692,19 @@ $Id$
         <rulegroup id="HERZEN_SUBST" name="Groß-/Kleinschreibung: 'von herzen (Herzen)'">
             <rule>
                 <pattern case_sensitive="yes">
+                    <token regexp="yes">[zZ]u</token>
+                    <marker>
+                        <token>herzen</token>
+                    </marker>
+                    <token inflected="yes">nehmen</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Herzen</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Herzen">Du darfst dir das nicht so zu <marker>herzen</marker> nehmen.</example>
+                <example type="correct">Du darfst dir das nicht so zu <marker>Herzen</marker> nehmen.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
                     <token regexp="yes">[vV]o[nm]|[iIaA]m</token>
                     <marker>
                         <token>herzen</token>
@@ -13641,7 +13712,7 @@ $Id$
                 </pattern>
                 <message>&subanfang;<suggestion>Herzen</suggestion>&subende;</message>
                 <short>&prgk;.</short>
-                <example type="incorrect">Es kommt von <marker>herzen</marker>.</example>
+                <example type="incorrect" correction="Herzen">Es kommt von <marker>herzen</marker>.</example>
                 <example type="correct">Es kommt von <marker>Herzen</marker>.</example>
             </rule>
             <rule>
@@ -13654,7 +13725,7 @@ $Id$
                 </pattern>
                 <message>&subanfang;<suggestion>Herzen</suggestion>&subende;</message>
                 <short>&prgk;.</short>
-                <example type="incorrect">Sie hat doch etwas auf dem <marker>herzen</marker>.</example>
+                <example type="incorrect" correction="Herzen">Sie hat doch etwas auf dem <marker>herzen</marker>.</example>
                 <example type="correct">Sie hat doch etwas auf dem <marker>Herzen</marker>.</example>
             </rule>
         </rulegroup>
@@ -13996,7 +14067,34 @@ $Id$
             <example type="correct">Es gibt sie in allen <marker>Formen</marker> und Größen.</example>
             <example type="incorrect" correction="Formen">Es gibt sie in allen <marker>formen</marker> und Größen.</example>
         </rule>
-        <rulegroup id="AUS_LIEBE" name="Groß-/Kleinschreibung: 'aus liebe (Liebe)'">
+        <rulegroup id="LIEBE_SUBST" name="Groß-/Kleinschreibung: 'aus liebe (Liebe)' etc.">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">Pech|Glück</token>
+                    <token>in</token>
+                    <token>der</token>
+                    <marker>
+                        <token>liebe</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Liebe</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Glück im Spiel, Pech in der <marker>Liebe</marker>.</example>
+                <example type="incorrect" correction="Liebe">Glück im Spiel, Pech in der <marker>liebe</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>der</token>
+                    <marker>
+                        <token>liebe</token>
+                    </marker>
+                    <token>wegen</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Liebe</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Ich kam der <marker>Liebe</marker> wegen.</example>
+                <example type="incorrect" correction="Liebe">Er kam der <marker>liebe</marker> wegen nach Berlin.</example>
+            </rule>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[aA]us</token>
@@ -15112,15 +15210,39 @@ $Id$
                 <example type="incorrect" correction="Angst und Bange">Er hat ihm <marker>Angst und bange</marker> gemacht.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="TAGEN_SUBST" name="Groß-/Kleinschreibung: 'tage (Tage)'">
+        <rulegroup id="TAGEN_SUBST" name="Groß-/Kleinschreibung: 'unter tage (Tage)' etc.">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[uU]nter</token>
+                    <marker>
+                        <token>tage</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Tage">Sie arbeiten unter <marker>tage</marker>.</example>
+                <example type="correct">Sie arbeiten unter <marker>Tage</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[pP]ro</token>
+                    <marker>
+                        <token>stunde</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Stunde">Das kostet 20 € pro <marker>stunde</marker>.</example>
+                <example type="correct">Das kostet 20 € pro <marker>Stunde</marker>.</example>
+            </rule>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[sS]eit</token>
                     <marker>
-                        <token>tagen</token>
+                        <token regexp="yes">tagen|stunden</token>
                     </marker>
                 </pattern>
-                <message>&subanfang;<suggestion>Tagen</suggestion>&subende;</message>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example type="incorrect" correction="Tagen">Seit <marker>tagen</marker> schon warten wir auf Nachricht.</example>
                 <example type="correct">Seit <marker>Tagen</marker> schon warten wir auf Nachricht.</example>
@@ -15130,10 +15252,10 @@ $Id$
                     <token regexp="yes">[Ii]n|[Ss]eit</token>
                     <token regexp="yes">wenigen|einigen|mehreren|vielen</token>
                     <marker>
-                        <token>tagen</token>
+                        <token regexp="yes">tagen|stunden</token>
                     </marker>
                 </pattern>
-                <message>&subanfang;<suggestion>Tagen</suggestion>&subende;</message>
+                <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example type="correct">Seit einigen <marker>Tagen</marker> läuft es wieder.</example>
                 <example type="incorrect" correction="Tagen">Seit einigen <marker>tagen</marker> läuft es wieder.</example>
@@ -15143,10 +15265,10 @@ $Id$
                     <token regexp="yes">[Ii]n|[Ss]eit</token>
                     <token postag="ZAL"></token>
                     <marker>
-                        <token>tagen</token>
+                        <token regexp="yes">tagen|stunden</token>
                     </marker>
                 </pattern>
-                <message>&subanfang;<suggestion>Tagen</suggestion>&subende;</message>
+                <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example type="correct">Seit zwei <marker>Tagen</marker> läuft es wieder.</example>
                 <example type="incorrect" correction="Tagen">Seit zwei <marker>tagen</marker> läuft es wieder.</example>
@@ -15157,10 +15279,10 @@ $Id$
                     <token>ein</token>
                     <token>paar</token>
                     <marker>
-                        <token>tagen</token>
+                        <token regexp="yes">tagen|stunden</token>
                     </marker>
                 </pattern>
-                <message>&subanfang;<suggestion>Tagen</suggestion>&subende;</message>
+                <message>&subanfang;<suggestion><match no="4" case_conversion="startupper"/></suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example type="correct">Seit ein paar <marker>Tagen</marker> läuft es wieder.</example>
                 <example type="incorrect" correction="Tagen">Seit ein paar <marker>tagen</marker> läuft es wieder.</example>
