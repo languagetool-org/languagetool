@@ -290,12 +290,13 @@ $Id$
                         <token>dos</token>
                     </marker>
                     <token regexp="yes">i|o|ni|,</token>
-                    <token postag="_GN_FP"/> 
+                    <token postag="_GN_FP"><exception postag="_GN_MP"/></token> 
                 </pattern>
                 <message>Error de concordança: <suggestion>dues</suggestion>.</message>
                 <short>Error de concordança</short>
                 <example type="incorrect"><marker>dos</marker> o tres coses</example>
                 <example type="correct">dos o tres homes</example>
+                <example type="correct">dos o tres mascles</example>
             </rule>
         </rulegroup>  
         <rule id="CONCORDANCES_PRONOM_NEUTRE" name="concordances amb pronom neutre">
@@ -4181,7 +4182,7 @@ $Id$
                         <token regexp="yes">presa|preses</token>
                     </marker>
                 </pattern>
-                <message>¿Volíeu dir <suggestion><match no="1" regexp_match="pres(.+)" regexp_replace="press$1"/></suggestion>?</message>
+                <message>¿Volíeu dir <suggestion><match no="2" regexp_match="pres(.+)" regexp_replace="press$1"/> (=ànsia)</suggestion>?</message>
                 <short>Possible confusió</short>
                 <example type="incorrect">sense <marker>presa</marker></example>
                 <example type="correct">sense pressa</example>
@@ -5298,7 +5299,7 @@ $Id$
             <rule>
                 <pattern>
                     <token>el</token>
-                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+</exception><exception inflected="yes">ordinal</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN" postag_regexp="yes"/></token>
+                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+|o|i</exception><exception inflected="yes">ordinal</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Cal escriure:<suggestion>l'<match no="2"></match></suggestion>.</message>
                 <short>Error ortogràfic</short>
@@ -5307,6 +5308,7 @@ $Id$
                 <example type="correct">el Hubble</example>
                 <example type="correct">el atletismo</example>
                 <example type="correct">el iugoslau</example>
+                <example type="correct">el o els conqueridors</example>
             </rule>
             <rule>
                 <pattern>
@@ -5327,7 +5329,7 @@ $Id$
                 <pattern>
                     <token>de</token>
                     <token spacebefore="no">l</token>
-                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+</exception><exception inflected="yes">ordinal</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN" postag_regexp="yes"/></token>
+                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+|o|i</exception><exception inflected="yes">ordinal</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Cal escriure:<suggestion>de l'<match no="3"></match></suggestion>.</message>
                 <short>Error ortogràfic</short>
@@ -5341,7 +5343,7 @@ $Id$
                 <pattern>
                     <token>a</token>
                     <token spacebefore="no">l</token>
-                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+</exception><exception inflected="yes">ordinal</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN" postag_regexp="yes"/></token>
+                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+|o|i</exception><exception inflected="yes">ordinal</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Cal escriure:<suggestion>a l'<match no="3"></match></suggestion>.</message>
                 <short>Error ortogràfic</short>
@@ -5355,7 +5357,7 @@ $Id$
                 <pattern>
                     <token>pe</token>
                     <token spacebefore="no">l</token>
-                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+</exception><exception inflected="yes">ordinal</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN" postag_regexp="yes"/></token>
+                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+|o|i</exception><exception inflected="yes">ordinal</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Cal escriure:<suggestion>per l'<match no="3"></match></suggestion>.</message>
                 <short>Error ortogràfic</short>
@@ -13769,7 +13771,7 @@ $Id$
                 <pattern>
                     <token postag="SENT_START|CC" postag_regexp="yes" skip="-1"><exception postag="PR.*|PT.*|DT.*|.*LOC_CONJ.*|CS" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">perquè|com</exception></token>
                     <marker>
-                        <token postag="V.[^NGP].*" postag_regexp="yes" regexp="yes" skip="-1">[\p{Ll}·]+<exception postag="_GN_.*|N.*|A.*|V.[NGP].*" postag_regexp="yes"/><exception>di</exception><exception scope="next" regexp="yes">[:;,.!?\(\)–—\[\]]|com|perquè|que</exception><exception postag="C.*|PR.*|PT.*|DT.*|.*LOC_CONJ.*" postag_regexp="yes" scope="next"/></token>
+                        <token postag="V.[^NGP].*" postag_regexp="yes" regexp="yes" skip="-1">[\p{Ll}·]+<exception postag="_GN_.*|N.*|A.*|V.[NGP].*" postag_regexp="yes"/><exception>di</exception><exception scope="next" regexp="yes">[:;,.!?\(\)–—\[\]]|com|perquè|que</exception><exception postag="C.*|PR.*|PT.*|DT.*|.*LOC_CONJ.*|locucio_unavegada" postag_regexp="yes" scope="next"/></token>
                         <token postag="V.[^NGP].*" postag_regexp="yes" regexp="yes">[\p{Ll}·]+<exception postag="_GN_.*|N.*|A.*|V.[NGP].*|.*LOC.*" postag_regexp="yes"/><exception regexp="yes">di|cap</exception></token>
                     </marker>
                 </pattern> 
@@ -13793,6 +13795,7 @@ $Id$
                 <example type="correct">L'ésser ja no es troba allí. </example>
                 <example type="correct">Era la feina més dura.</example>
                 <example type="correct">Ara fa quatre anys em vaig atrevir a publicar.</example>
+                <example type="correct">Els mascles tenen una tendència a dominar la caça un cop han atrapat la presa.</example>
             </rule>
             <rule> <!-- verb forma simple a l'inici de frase (en majúscula) -->
                 <pattern>

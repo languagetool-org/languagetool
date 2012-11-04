@@ -22,18 +22,40 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token postag="(PX.|N.|[ADP].{2}|V.{5})[FC].*|RG.*" postag_regexp="yes"></token>
         </equivalence>
     </unification>
-    <rule id="PUNTUACIO" name="signes de puntuació">
-        <pattern>
-            <token regexp="yes">[.;:!?¡¿—–…()\[\]]</token>
-        </pattern>
-        <disambig action="add"><wd pos="PUNCT"></wd></disambig>
-    </rule>
-    <rule id="PUNTUACIO2" name="signes de puntuació que no trenquen els sintagmes">
-        <pattern>
-            <token regexp="yes">[,"‘’“”«»]</token>
-        </pattern>
-        <disambig action="add"><wd pos="PUNCT_CONT"></wd></disambig>
-    </rule>
+    <rulegroup id="PUNTUACIO" name="signes de puntuació">
+        <rule>
+            <pattern>
+                <token regexp="yes">[.;:!?¡¿—–…()\[\]]</token>
+            </pattern>
+            <disambig action="add"><wd pos="PUNCT"></wd></disambig>
+        </rule>
+        <rule id="PUNTUACIO2" name="signes de puntuació que no trenquen els sintagmes">
+            <pattern>
+                <token regexp="yes">[,"‘’“”«»]</token>
+            </pattern>
+            <disambig action="add"><wd pos="PUNCT_CONT"></wd></disambig>
+        </rule>
+        <rule id="coma_decimal" name="coma decimal">
+            <pattern>
+                <token regexp="yes">\d+</token>
+                <marker>
+                    <token spacebefore="no">,</token>
+                </marker>
+                <token spacebefore="no" regexp="yes">\d+</token>
+            </pattern>
+            <disambig action="remove"><wd pos="PUNCT_CONT"></wd></disambig>
+        </rule>
+        <rule id="coma_decimal2" name="coma decimal">
+            <pattern>
+                <token regexp="yes">\d+</token>
+                <marker>
+                    <token spacebefore="no">,</token>
+                </marker>
+                <token spacebefore="no" regexp="yes">\d+</token>
+            </pattern>
+            <disambig action="add"><wd pos="decimal_comma"></wd></disambig>
+        </rule>
+    </rulegroup>
     <rule id="no_noms_error_diccionari" name="no haurien de ser noms, error del diccionari">
         <pattern>
             <token regexp="yes">empaquetat|emmotll?at</token>
@@ -529,7 +551,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <token>entre</token>
                 </marker>
             </pattern>
-            <disambig action="filter" postag="SPS000"/>
+            <disambig action="filter" postag="SPS00"/>
         </rule>
         <!-- <rule>
             <pattern>
@@ -555,7 +577,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <token><exception postag="NP..SP.*|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes" regexp="yes">[^'-].+</exception></token>
                 <marker>
-                    <token postag="V.I[PI]3S0*" postag_regexp="yes" inflected="yes" skip="12">fer<exception scope="next" regexp="yes">,|que|en</exception><exception postag="V.*" postag_regexp="yes" scope="next"/></token>
+                    <token postag="V.I[PI]3S0*" postag_regexp="yes" inflected="yes" skip="12">fer<exception scope="next" regexp="yes">que|en</exception><exception scope="next" postag="PUNCT.*" postag_regexp="yes">,</exception><exception postag="V.*" postag_regexp="yes" scope="next"/></token>
                 </marker>
                 <token regexp="yes">segons?|minuts?|hor(a|es)|di(a|es)|setman(a|es)|mes|mesos|(tri|quadri|se)mestres?|anys?|lustres?|dècad(a|es)|segles?|mil·lennis?|moments?|instants?|temps</token>
             </pattern>
@@ -699,7 +721,19 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
             </pattern>
             <disambig action="add"><wd pos="NPCN000"></wd></disambig>
-        </rule>     
+        </rule>    
+        <rule id="nom_persona_o_geogràfic" name="nom de persona o geogràfic: a l'Àfrica?">
+            <pattern>
+                <token skip="1">a</token>
+                <marker>
+                    <and>
+                        <token postag="NP..G00" postag_regexp="yes"/>
+                        <token postag="NP..SP0" postag_regexp="yes"/>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="NP..G00" />
+        </rule> 
     </rulegroup> 
     <!--crea etiquetes per als adverbis acabats en -ment-->
     <!-- <rulegroup id="adverbis_ment" name="marca adverbis acabats en ment">
@@ -5635,15 +5669,13 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
             </pattern>
             <disambig action="filter" postag="_GN_.*|A.*|N.*|D.*|V.P.*|PX.*"></disambig>
-        </rule>
-    
-    
+        </rule> 
     </rulegroup>
     <rule id="VERB_PREPOSICIO" name="verb + preposició">
         <!-- mogut per "haver acabat"; excepció: per tal d'aconseguir els seus fins; per a aconseguir fins dignes d'aconseguir-se-->
         <!-- mogut per "aconseguir fins dignes";-->
         <pattern>
-            <token postag="V.[^P].*" postag_regexp="yes"><exception postag="N.*|_GN_.*" postag_regexp="yes"/></token>
+            <token postag="V.[SING].*|_GV_" postag_regexp="yes"><exception postag="N.*|_GN_.*|RG.*" postag_regexp="yes"/></token>
             <marker>
                 <token postag="SPS00" postag_regexp="yes"><exception postag="_GN_.*|PI.*|DI.*" postag_regexp="yes"/></token>
             </marker>
@@ -6389,14 +6421,14 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <pattern>
             <token postag="_GV_"/>
             <marker>
-            <and>                 
-                <token postag="_GV_"/>
-                <token postag="_GN_.*" postag_regexp="yes"/>
-            </and>
+                <and>                 
+                    <token postag="_GV_"/>
+                    <token postag="_GN_.*" postag_regexp="yes"/>
+                </and>
             </marker>
             <token postag="_GN_.*" postag_regexp="yes"/>
             <and>
-                <token postag="NC.*" postag_regexp="yes"/>
+                <token postag="NC.*" postag_regexp="yes"><exception regexp="yes">cop|vegada|volta</exception></token>
                 <token postag="_GN_.*" postag_regexp="yes"/>
             </and>
         </pattern>
@@ -6847,7 +6879,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <token><exception postag="NP..SP.*|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes" regexp="yes">[^'-].+</exception></token>
                 <marker>
-                    <token postag="V.I[PI]3S0*" postag_regexp="yes" inflected="yes" skip="12">fer<exception scope="next" regexp="yes">,|que|en</exception><exception postag="V.*" postag_regexp="yes" scope="next"/></token>
+                    <token postag="V.I[PI]3S0*" postag_regexp="yes" inflected="yes" skip="12">fer<exception scope="next" regexp="yes">que|en</exception><exception scope="next" postag="PUNCT.*" postag_regexp="yes">,</exception><exception postag="V.*" postag_regexp="yes" scope="next"/></token>
                 </marker>
                 <token regexp="yes">segons?|minuts?|hor(a|es)|di(a|es)|setman(a|es)|mes|mesos|(tri|quadri|se)mestres?|anys?|lustres?|dècad(a|es)|segles?|mil·lennis?|moments?|instants?|temps</token>
             </pattern>
@@ -7192,6 +7224,28 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="add"><wd pos="allow_masculine"></wd></disambig>
         </rule>
     </rulegroup>
+    <rulegroup id="una_vegada" name="locució una vegada/volta/cop">
+        <rule>
+            <pattern>
+                <token>una</token>
+                <marker>
+                    <token regexp="yes">vegada|volta</token>
+                </marker>
+                <token postag="_GN_.*|V.[SI].*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="add"><wd pos="locucio_unavegada"></wd></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>un</token>
+                <marker>
+                    <token>cop</token>
+                </marker>
+                <token postag="_GN_.*|V.[SI].*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="add"><wd pos="locucio_unavegada"></wd></disambig>
+        </rule>
+    </rulegroup>
     <rulegroup id="tant_x_com" name="tant + __ + com + __">
         <rule>
         <!-- Dificultats: és tan(t) important com bonic -->
@@ -7470,7 +7524,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rulegroup id="HAC_ASPIRADA" name="hac aspirada inicial">
         <rule>
             <pattern>
-                <token regexp="yes">heav.*|Hitch.*|Hong|hongk.+|Haifa|herbert.*|hinden.*|hein.*|humbold.*|hardware|Hampton|Husserl|Hill|high|Heiden.*|Hans|Hereford|His|Heitz|h[òo]bbits?|hawk.*|Heisen.*|Hohen.*|Havilland|Higgs|Howard|hilbert.*|hoover.*|harry|hopkins|hearst|hamilton.*|harrods?|handicaps?|harolds?|Helen|hollywood.*|Houston|Heard|hawai.*|Hudson|Harvard|Hannover|Hayworth|Hepburn|Henry|Hubble|Harrison|Hamas|Hamàs|hegel.*|henna|hennes|Hezboll.+|Hirado|hitler.*|h[oò]ldings?|husseinit.+|Haruki|H[ou]f.*|Hartmann?|hall.*</token>
+                <token regexp="yes">Honolu.+|heav.*|Hitch.*|Hong|hongk.+|Haifa|herbert.*|hinden.*|hein.*|humbold.*|hardware|Hampton|Husserl|Hill|high|Heiden.*|Hans|Hereford|His|Heitz|h[òo]bbits?|hawk.*|Heisen.*|Hohen.*|Havilland|Higgs|Howard|hilbert.*|hoover.*|harry|hopkins|hearst|hamilton.*|harrods?|handicaps?|harolds?|Helen|hollywood.*|Houston|Heard|hawai.*|Hudson|Harvard|Hannover|Hayworth|Hepburn|Henry|Hubble|Harrison|Hamas|Hamàs|hegel.*|henna|hennes|Hezboll.+|Hirado|hitler.*|h[oò]ldings?|husseinit.+|Haruki|H[ou]f.*|Hartmann?|hall.*</token>
             </pattern>
             <disambig action="add"><wd pos="hac_aspirada"></wd></disambig>
         </rule>
