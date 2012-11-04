@@ -1393,7 +1393,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <!-- adquirir/guanyar/perdre poder-->
         <rule>
             <pattern>
-                <token inflected="yes" regexp="yes" skip="3">oferir|heretar|guanyar|perdre|adquirir|obtenir|assolir|abastar|exercir|conservar|mantenir|ocupar|recuperar</token>
+                <token inflected="yes" regexp="yes" skip="3">arribar|oferir|heretar|guanyar|perdre|adquirir|obtenir|assolir|abastar|exercir|conservar|mantenir|ocupar|recuperar</token>
                 <marker>
                     <and>
                         <token postag="N.*" postag_regexp="yes">poder</token>
@@ -1603,7 +1603,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <marker>
-                    <token inflected="yes" skip="5">haver<exception scope="next" postag="_GV_|PUNCT_CONT|R.*|.*LOC_ADV.*|V.*|SENT_END|[NA].*|complement" postag_regexp="yes" negate_pos="yes"/></token>
+                    <token inflected="yes" skip="5">haver<exception scope="next" postag="_GV_|PUNCT_CONT|R.*|.*LOC_ADV.*|V.*|SENT_END|[NAS].*|complement" postag_regexp="yes" negate_pos="yes"/></token>
                 </marker>
                 <token postag="V.P.*" postag_regexp="yes"></token>
             </pattern>
@@ -1611,7 +1611,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token inflected="yes" skip="5">haver<exception scope="next" postag="_GV_|PUNCT_CONT|R.*|.*LOC_ADV.*|V.*|SENT_END|[NA].*|complement" postag_regexp="yes" negate_pos="yes"/></token>
+                <token inflected="yes" skip="5">haver<exception scope="next" postag="_GV_|PUNCT_CONT|R.*|.*LOC_ADV.*|V.*|SENT_END|[NAS].*|complement" postag_regexp="yes" negate_pos="yes"/></token>
                 <marker>
                     <token postag="V.P.*" postag_regexp="yes"></token>
                 </marker>
@@ -1621,7 +1621,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <marker>
-                    <token inflected="yes" skip="5">haver<exception scope="next" postag="_GV_|PUNCT_CONT|R.*|.*LOC_ADV.*|V.*|SENT_END|[NA].*|complement" postag_regexp="yes" negate_pos="yes"/></token>
+                    <token inflected="yes" skip="5">haver<exception scope="next" postag="_GV_|PUNCT_CONT|R.*|.*LOC_ADV.*|V.*|SENT_END|[NAS].*|complement" postag_regexp="yes" negate_pos="yes"/></token>
                 </marker>
                 <token postag="V.P.*" postag_regexp="yes"></token>
             </pattern>
@@ -1629,7 +1629,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token inflected="yes" skip="5">haver<exception scope="next" postag="_GV_|PUNCT_CONT|R.*|.*LOC_ADV.*|V.*|SENT_END|[NA].*|complement" postag_regexp="yes" negate_pos="yes"/></token>
+                <token inflected="yes" skip="5">haver<exception scope="next" postag="_GV_|PUNCT_CONT|R.*|.*LOC_ADV.*|V.*|SENT_END|[NAS].*|complement" postag_regexp="yes" negate_pos="yes"/></token>
                 <marker>
                     <token postag="V.P.*" postag_regexp="yes"></token>
                 </marker>
@@ -2472,7 +2472,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <!-- relacionat amb Grups Nominals. Abans o després? La part nort i la sud-->
         <rule>
             <pattern>
-                <token postag="N.*|DA.*" postag_regexp="yes" negate_pos="yes"><exception postag="N.*|DA.*" postag_regexp="yes"></exception></token>
+                <token postag="N.*|DA.*|CC" postag_regexp="yes" negate_pos="yes"><exception postag="N.*|DA.*|CC" postag_regexp="yes"></exception></token>
                 <!-- exception: la part nord -->
                 <marker>
                     <and>
@@ -2810,32 +2810,59 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="V.*"></disambig>
     </rule>
-    <rule id="verb_nomverb0" name="verb + verb/no_verb">
-        <pattern>
-            <token postag="V.[NMIS].*" postag_regexp="yes"><exception postag="V.[NMIS].*|complement" postag_regexp="yes" negate_pos="yes"/></token>
-            <marker>
-                <and>
-                    <token postag="V.[IS].*" postag_regexp="yes"><exception postag="DI.*" postag_regexp="yes"/></token> <!-- no té cap quantitat -->
-                    <token postag="NC.*|A.*|V.P.*" postag_regexp="yes"><exception>era</exception></token>
-                </and>
-            </marker>
-        </pattern>
-        <disambig action="filter" postag="NC.*|A.*|V.P.*"></disambig>
-    </rule>
-    <rule id="verb_nomverb0b" name="verb + verb/no_verb amb adverbi intercalat">
-    <!--  que fos més escàs -->
-        <pattern>
-            <token postag="V.[NMIS].*" postag_regexp="yes"><exception postag="V.[NMIS].*|complement" postag_regexp="yes" negate_pos="yes"/></token>
-            <token postag="RG_anteposat" regexp="yes"/>
-            <marker>
-                <and>
-                    <token postag="V.[IS].*" postag_regexp="yes"><exception postag="DI.*" postag_regexp="yes"/></token> <!-- no té cap quantitat -->
-                    <token postag="NC.*|A.*|V.P.*" postag_regexp="yes"><exception>era</exception></token>
-                </and>
-            </marker>
-        </pattern>
-        <disambig action="filter" postag="NC.*|A.*|V.P.*"></disambig>
-    </rule>
+    <rulegroup id="verb_nomverb0" name="verb + verb/no_verb">
+        <rule>
+            <pattern>
+                <token postag="V.[NMIS].*" postag_regexp="yes"><exception postag="V.[NMIS].*|complement" postag_regexp="yes" negate_pos="yes"/></token>
+                <marker>
+                    <and>
+                        <token postag="V.[IS].*" postag_regexp="yes"><exception postag="DI.*" postag_regexp="yes"/></token> <!-- no té cap quantitat -->
+                        <token postag="NC.*|A.*|V.P.*" postag_regexp="yes"><exception>era</exception></token>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="NC.*|A.*|V.P.*"></disambig>
+        </rule>
+        <rule>
+            <!-- verb + verb/no_verb amb adverbi intercalat" que fos més escàs -->
+            <pattern>
+                <token postag="V.[NMIS].*" postag_regexp="yes"><exception postag="V.[NMIS].*|complement" postag_regexp="yes" negate_pos="yes"/></token>
+                <token postag="RG_anteposat" regexp="yes"/>
+                <marker>
+                    <and>
+                        <token postag="V.[IS].*" postag_regexp="yes"><exception postag="DI.*" postag_regexp="yes"/></token> <!-- no té cap quantitat -->
+                        <token postag="NC.*|A.*|V.P.*" postag_regexp="yes"><exception>era</exception></token>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="NC.*|A.*|V.P.*"></disambig>
+        </rule>
+        <rule> <!-- amb pronom enclític: fer-se palesa -->
+            <pattern>
+                <token postag="P.*" postag_regexp="yes" regexp="yes">['-].+</token>
+                <marker>
+                    <and>
+                        <token postag="V.[IS].*" postag_regexp="yes"><exception postag="DI.*" postag_regexp="yes"/></token> <!-- no té cap quantitat -->
+                        <token postag="NC.*|A.*|V.P.*" postag_regexp="yes"><exception>era</exception></token>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="NC.*|A.*|V.P.*"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="P.*" postag_regexp="yes" regexp="yes">['-].+</token>
+                <token postag="RG_anteposat" regexp="yes"/>
+                <marker>
+                    <and>
+                        <token postag="V.[IS].*" postag_regexp="yes"><exception postag="DI.*" postag_regexp="yes"/></token> <!-- no té cap quantitat -->
+                        <token postag="NC.*|A.*|V.P.*" postag_regexp="yes"><exception>era</exception></token>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="NC.*|A.*|V.P.*"></disambig>
+        </rule>
+    </rulegroup>
     <rule id="nomverb_verb0" name="verb/no_verb + verb">
     <!-- Quan no hi era respiràvem més a gust. -->
         <pattern>
@@ -4277,7 +4304,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token postag="SPS00"/>
                 <token postag="RG_anteposat" regexp="yes"><exception regexp="yes">molt|poc|tant|tan|.+ment</exception></token>
                 <marker>
-                    <token postag="NC.*" postag_regexp="yes"><exception postag="D.*" postag_regexp="yes"/></token>  
+                    <token postag="NC.*" postag_regexp="yes"><exception postag="D.*|PI.*" postag_regexp="yes"/></token>  
                 </marker>
             </pattern>
             <disambig action="filter" postag="NC.*"></disambig>
@@ -5873,8 +5900,8 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>    
         <rule><!-- excepcions a la regla següent -->
             <pattern>
-                <token postag="V.[NGSI].*|_GV_" postag_regexp="yes" skip="3"><exception scope="next" postag="R.*|.*LOC_ADV.*|PP.*|P0.*|SENT_END|DA.*|_GN_MS|_GV_" postag_regexp="yes" negate_pos="yes"/></token>
-                <token regexp="yes">el|l'</token>
+                <token postag="V.[NGSI].*|_GV_" postag_regexp="yes" skip="3"><exception scope="next" postag="SPS00|R.*|.*LOC_ADV.*|PP.*|P0.*|SENT_END|DA.*|_GN_MS|_GV_" postag_regexp="yes" negate_pos="yes"/></token>
+                <token regexp="yes">l|el|l'</token>
                 <marker>
                     <and>                   
                         <token postag="V.N.*" postag_regexp="yes"></token>
@@ -5910,13 +5937,13 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="filter" postag="V.N.*" />
         </rule>
     </rulegroup>
-    <rule id="els_passa_igual" name="els passa igual"> <!-- excep: la roba encara no està seca. -->
+    <rule id="els_passa_igual" name="els passa igual"> <!-- excep: la roba encara no està seca; la taca més negra -->
         <pattern>
             <token postag="_GV_"/>
             <marker>
                 <token postag="_GV_"/>
             </marker>
-            <token postag="RG.*" postag_regexp="yes"><exception regexp="yes">no|encara|que</exception></token>
+            <token postag="RG.*" postag_regexp="yes"><exception regexp="yes">no|encara|que|més</exception></token>
         </pattern>
         <disambig action="filter" postag="V.*|_GV_"></disambig>
     </rule>
@@ -5978,7 +6005,8 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <token postag="V.[SI].*" postag_regexp="yes"><exception postag="_GV_" /></token>
                 </and>
             </marker>
-            <token postag="V.[MSI].*|PP.*|P0.*" postag_regexp="yes"><exception postag="_GN.*" postag_regexp="yes"/><exception regexp="yes">jo|mi|tu|ella?|nosaltres|vosaltres|elle?s|vost[èé]s?|vós</exception></token>
+            <token postag="V.[MSI].*|_GV_" postag_regexp="yes"><exception postag="_GN.*" postag_regexp="yes"/></token>
+            <!-- <token postag="V.[MSI].*|PP.*|P0.*" postag_regexp="yes"><exception postag="_GN.*" postag_regexp="yes"/><exception regexp="yes">jo|mi|tu|ella?|nosaltres|vosaltres|elle?s|vost[èé]s?|vós</exception></token> -->
         </pattern>
         <disambig action="filter" postag="A.*|V.P.*"></disambig>
     </rule>   
@@ -6125,7 +6153,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rule>
     <rule id="VerbAdjectiu" name="verb i adjectiu que no ha concordat"> <!-- fer exàmens. Excep: tan regular (adj) -->
         <pattern>
-            <token><exception postag="RG_anteposat|.*LOC_ADV.*|_GV_|SPS00|CC" postag_regexp="yes" /><exception regexp="yes">["«'‘(]</exception><exception inflected="yes" regexp="yes">ser|estar|semblar|parèixer|considerar</exception></token>
+            <token><exception postag="RG_anteposat|.*LOC_ADV.*|_GV_|SPS00|CC" postag_regexp="yes" /><exception postag="P.*" postag_regexp="yes" regexp="yes">['-].+</exception><exception regexp="yes">["«'‘(]</exception><exception inflected="yes" regexp="yes">ser|estar|semblar|parèixer|considerar</exception></token>
             <marker>
                 <and>
                     <token postag="A.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes" /><exception regexp="yes">\p{Lu}+[\p{Ll}·]*</exception><exception regexp="yes">[\p{Ll}·]+(e|[aei]sses|[ae]res|era)</exception></token>
@@ -6530,6 +6558,43 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="V.*"></disambig>
     </rule>
+    <rulegroup id="FORCA" name="força: tractament especial (det, nom, adv, verb...)">
+    <!-- TODO: ampliar -->
+        <rule> <!-- cobra més força -->
+            <pattern>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token postag="RG" />
+                <marker>
+                    <token postag="N.*" postag_regexp="yes">força</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="N.*|_GN_.*"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="_GN_FS" postag_regexp="yes">força</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="N.*|_GN_.*|V.*|_GV_"></disambig>
+        </rule>
+        <!-- <rule>
+            <pattern>
+                <marker>
+                    <token postag="_GN_FS" postag_regexp="yes">força<exception postag="_GV_"/></token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="N.*|_GN_.*"></disambig>
+        </rule> -->
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="_GV_">força<exception postag="_GN_FS"/></token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="V.*|_GV_"></disambig>
+        </rule>
+    </rulegroup>
     <rule id="AdvNom" name="adverbi i nom: no nom">
         <!-- llavors company. Excepció: tant com, tant (de) mal com  -->
         <pattern>
@@ -6591,7 +6656,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rule id="nNom" name="no nom si no ha concordat">
         <pattern>
             <and>
-                <token postag="N.*" postag_regexp="yes" regexp="yes">caus?|meritoris?|meritòri(a|es)|seca|resulta|porta|duc|fou|grans?|surt|era|verticals?<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                <token postag="N.*" postag_regexp="yes" regexp="yes">joves?|caus?|meritoris?|meritòri(a|es)|seca|resulta|porta|duc|fou|grans?|surt|era|verticals?<exception postag="_GN_.*" postag_regexp="yes"/></token>
                 <token postag="N.*" postag_regexp="yes" negate_pos="yes"></token>
             </and>
         </pattern>

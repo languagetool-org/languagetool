@@ -386,8 +386,7 @@ $Id$
                 </pattern>
                 <message>Error de concordança. Podria ser: <suggestion><match no="3" postag="DTa" /></suggestion>.</message>
                 <short>Error de concordança.</short>
-                <example type="incorrect"><marker>als únic</marker>
-                </example>
+                <example type="incorrect"><marker>als únic</marker></example>
                 <example type="correct">als únics</example>
             </rule>
             <rule>
@@ -402,8 +401,7 @@ $Id$
                 </pattern>
                 <message>Error de concordança. Podria ser: <suggestion><match no="3" postag="DTde" /></suggestion>.</message>
                 <short>Error de concordança.</short>
-                <example type="incorrect"><marker>dels únic</marker>
-                </example>
+                <example type="incorrect"><marker>dels únic</marker></example>
                 <example type="correct">dels únics</example>
             </rule>
             <rule>
@@ -418,8 +416,7 @@ $Id$
                 </pattern>
                 <message>Error de concordança. Podria ser: <suggestion><match no="3" postag="DTper" /></suggestion>.</message>
                 <short>Error de concordança.</short>
-                <example type="incorrect"><marker>pels úniques</marker>
-                </example>
+                <example type="incorrect"><marker>pels úniques</marker></example>
                 <example type="correct">per les úniques</example>
             </rule>
             <rule>
@@ -573,6 +570,7 @@ $Id$
                 <example type="correct">Aqueixa metgessa.</example>
                 <example type="correct">Eixes metgesses.</example>
                 <example type="correct">tant dones com homes</example>
+                <example type="correct">Des de molt jove va demostrar</example>
             </rule>
         </rulegroup>
         <rulegroup id="CONCORDANCES_ADJ_NOM" name="Concordances adjectiu i nom"> <!-- cas especial per a ordinals AO.* ? -->
@@ -1019,25 +1017,26 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token postag="DI.M.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes" /><exception inflected="yes">molt</exception></token>
+                        <token postag="DI.M.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes" /><exception inflected="yes" regexp="yes">molt|tant</exception></token>
                     </marker>
                     <token postag="SPS00" inflected="yes">de</token>
                     <token postag="D[AD].FP.*" postag_regexp="yes"></token>
                 </pattern>
-                <message>Possible falta de concordança. Podria ser <suggestion><match no="1" postag="DI.F.*" postag_regexp="yes"></match></suggestion>.</message>
+                <message>Possible falta de concordança. Podria ser: <suggestion><match no="1" postag="DI.F.*" postag_regexp="yes"></match></suggestion>.</message>
                 <short>Concordança de gènere o nombre dubtosa.</short>
                 <example type="incorrect"><marker>Un</marker> de les seves cases.</example>
                 <example type="correct">Una de les seves cases.</example>
+                <example type="correct">tant de les institucions com de la ciutadania</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
-                        <token postag="DI.F.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes" /><exception inflected="yes">molt</exception></token>
+                        <token postag="DI.F.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes" /><exception inflected="yes" regexp="yes">molt|tant</exception></token>
                     </marker>
                     <token postag="SPS00" inflected="yes">de</token>
                     <token postag="D[AD].MP.*" postag_regexp="yes"></token>
                 </pattern>
-                <message>Possible falta de concordança. Podria ser <suggestion><match no="1" postag="DI.M.*" postag_regexp="yes"></match></suggestion>.</message>
+                <message>Possible falta de concordança. Podria ser: <suggestion><match no="1" postag="DI.M.*" postag_regexp="yes"></match></suggestion>.</message>
                 <short>Concordança de gènere o nombre dubtosa.</short>
                 <example type="incorrect"><marker>Alguna</marker> d'aquests animals.</example>
                 <example type="correct">Algun d'aquests animals.</example>
@@ -1125,7 +1124,7 @@ $Id$
             <rule id="LA_PENDENT" name="*la/el pendent, *la/el corrent"> 
             <!-- Cal un tractament especial perquè pendent és nom i adjectiu. ¿Passa igual amb altres paraules? -->
                 <pattern>
-                    <token><exception postag="NCF.000" postag_regexp="yes"/><exception regexp="yes">i|els?</exception></token>
+                    <token><exception postag="NCF.000" postag_regexp="yes"/><exception regexp="yes">i|els?|ls?</exception></token>
                     <token postag="_GN_F." postag_regexp="yes" regexp="yes">pendents?|corrents?</token>
                 </pattern>
                 <message>Error de concordança: '<match no="2"/>' és un nom masculí</message>
@@ -1142,6 +1141,7 @@ $Id$
                 <example type="correct">és una persona corrent</example>
                 <example type="correct">és una dona normal i corrent</example>
                 <example type="correct">Si el corrent passa a través d'un aparell elèctric</example>
+                <example type="correct">als corrents iconoclastes existents</example>
             </rule>       
             <rule id="ALTRE_ALTRA_PART" name="altre/altra part">
                 <pattern>
@@ -2122,13 +2122,26 @@ $Id$
                     <marker>
                         <token inflected="yes" skip="3">donar</token>
                     </marker>
-                    <token regexp="yes" inflected="yes">pas|salt|tombarella|passejada|petó|bes|besada|pessic|abraçada|gir|pel·lícula|batxillerat|concert|recital|impressió</token>
+                    <token regexp="yes" inflected="yes">salt|tombarella|passejada|petó|bes|besada|pessic|abraçada|gir|pel·lícula|batxillerat|concert|recital|impressió</token>
                 </pattern>
                 <message>Cal dir: <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match></suggestion></message>
                 <url>http://esadir.cat/lexic/entrades/entry_20030820190348_41</url>
                 <example type="incorrect" correction="Feia"><marker>Donava</marker> molts petons</example>
                 <example type="incorrect" correction="fer">Va <marker>donar</marker>-li molts petons</example>
                 <example type="correct">feia petons</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">donar</token>
+                    </marker>
+                    <token  skip="2"></token>
+                    <token inflected="yes">pas</token>
+                </pattern>
+                <message>Cal dir: <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match></suggestion></message>
+                <url>http://esadir.cat/lexic/entrades/entry_20030820190348_41</url>
+                <example type="incorrect" correction="Feia"><marker>Donava</marker> molts passos endavant</example>
+                <example type="correct">dóna pas al desenvolupament</example>
             </rule>
             <rule>
                 <pattern>
@@ -2454,12 +2467,13 @@ $Id$
                     <marker>
                         <token>cap</token>
                     </marker>
-                    <token regexp="yes">simpatia|gana|ganes|respecte|vergonya|necessitat|gràcia|por|pena|cas|pressa</token>
+                    <token regexp="yes">simpatia|gana|ganes|respecte|vergonya|necessitat|gràcia|por|pena|pressa</token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>gens de</suggestion>?</message>
                 <url>http://esadir.cat/sintaxi/advquantit</url>
                 <example type="incorrect"><marker>cap</marker> respecte</example>
                 <example type="correct">gens de ganes</example>
+                <!--  no em fa gens de cas // en cap cas -->
             </rule>
         </rulegroup>
         <rule id="MENTRE_TANT_MENTRESTANT" name="*mentre tant/mentrestant">
@@ -3590,6 +3604,16 @@ $Id$
         </rulegroup>
     </category>
     <category name="Confusions">
+        <rule id="EM_VIST" name="em vist">
+        <!-- La regla general no troba error perquè s'interpreta que 'vist' és del verb vestir: jo em vist = jo em vestisc -->
+            <pattern>
+                <token>em</token>
+                <token>vist</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>hem vist</suggestion>?</message>
+            <example type="incorrect">com <marker>em vist</marker></example>
+            <example type="correct">com hem vist</example>
+        </rule>
         <rule id="AM_AMB" name="am/amb">
             <pattern case_sensitive="yes">
                 <token>am</token>
@@ -4563,7 +4587,7 @@ $Id$
         <rulegroup id="DALT" name="*d'alt/dalt">
             <rule>
                 <pattern>
-                    <token regexp="yes">a|fins|de</token>
+                    <token regexp="yes">a|fins|de|allà|allí|ací|aquí</token>
                     <marker>
                         <token>d'</token>
                         <token>alt</token>
@@ -5389,7 +5413,7 @@ $Id$
             <rule>
                 <pattern>
                     <token>d'</token>
-                    <token regexp="yes">h?[ui][aeoiàèéóòu].*<exception regexp="yes">ió|ions|ionitza.+|uix.+</exception></token>
+                    <token regexp="yes">h?[ui][aeoiàèéóòu].*<exception regexp="yes">ió|ions|ionitza.+|uix.+|Iowa</exception></token>
                 </pattern>
                 <message>Cal escriure:<suggestion>de <match no="2"></match></suggestion>.</message>
                 <short>Error ortogràfic</short>
@@ -5399,6 +5423,7 @@ $Id$
                 <example type="correct">La Vall d'Uixó</example>
                 <example type="correct">L'ofici d'uixer</example>
                 <example type="correct">d'ionització</example>
+                <example type="correct">ve d'Iowa.</example>
             </rule> 
         </rulegroup>
         <rulegroup id="L_D_NOM_LLETRA" name="apostrofació: no davant de nom de lletra">                        
@@ -6470,7 +6495,21 @@ $Id$
                 <example type="incorrect" correction="té">Joan <marker>te</marker> objectiu.</example>
                 <example type="correct">Joan pren te negre</example>
                 <example type="correct">Una tassa de te calent.</example>
-                </rule>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="complement"/>
+                    <marker>
+                        <token postag="_GN_MS">te</token>
+                    </marker>
+                    <token><exception postag="_GN_MS"/></token>
+                </pattern>
+                <message>S'accentua si és del verb "tenir": <suggestion>té</suggestion>.</message>
+                <short>Accent diacrític.</short>
+                <example type="incorrect" correction="té">El concepte de deute il·legítim <marker>te</marker> molts precedents històrics.</example>
+                <example type="correct">Joan pren te negre</example>
+                <example type="correct">Una tassa de te calent.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token>el</token>
@@ -9556,13 +9595,16 @@ $Id$
         </rule>
         <rule id="EN_OCASIONS" name="en ocasions">
             <pattern>
-                <token>en</token>
-                <token>ocasions</token>
+                <marker>
+                    <token>en</token>
+                    <token>ocasions</token>
+                </marker>
+                <token><exception postag="AQ0[FC][PN]0" postag_regexp="yes"/></token>
             </pattern>
             <message>Expressió incorrecta si equival a <suggestion>a vegades</suggestion> o <suggestion>a voltes</suggestion>.</message>
             <short>Expressió incorrecta si equival a "a vegades"</short>
             <example type="incorrect"><marker>en ocasions</marker> veig fantasmes</example>
-            <example type="correct"><marker>a vegades</marker> veig fantasmes</example>
+            <example type="correct">només ho fa en ocasions especials</example>
         </rule>
         <rulegroup id="EN_OPOSICIO_A" name="en oposició a">
             <rule>
@@ -11033,15 +11075,17 @@ $Id$
         </rule>
         <rule id="DESMENTIT" name="desmentit/desmentiment">
             <pattern>
-                <token><exception inflected="yes">haver</exception></token>
+                <token><exception postag="RG_anteposat"/></token>
                 <marker>
-                    <token regexp="yes">desmentits?</token> 
+                    <token regexp="yes">desmentits?<exception postag="_GV_"/></token> 
                 </marker>
             </pattern>
             <message>Incorrecte si volíeu dir <suggestion><match no="2" regexp_match="desmentit(.*)" regexp_replace="desmentiment$1"/></suggestion>.</message>
             <short>Possible error.</short>
             <example type="incorrect" correction="desmentiment">El <marker>desmentit</marker> arribà tard.</example>
             <example type="correct">Ho han desmentit.</example>
+            <example type="correct">Això va ser desmentit després.</example>
+            <example type="correct">Això va ser finalment desmentit.</example>
         </rule>
         <rule id="DESENFADAT" name="desenfadat">
             <pattern>
