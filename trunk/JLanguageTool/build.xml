@@ -82,32 +82,6 @@
     </path>
 
     <!-- ================================================================== -->
-    <!-- Source without external libs -->
-    <!-- ================================================================== -->
-    <target name="dist-tgz" depends="clean"
-            description="Pack the source code without external libraries (e.g. for Debian packaging)">
-        <mkdir dir="${dist.dir}" />
-        <tar destfile="${dist.dir}/LanguageTool-${version}-src.tar.gz" compression="gzip">
-            <tarfileset prefix="LanguageTool-${version}" dir=".">
-                <include name="src/**"/>
-                <include name="README.txt"/>
-                <include name="CHANGES.txt"/>
-                <include name="COPYING.txt"/>
-                <include name="build.properties"/>
-                <include name="build.xml"/>
-                <include name="openoffice/Addons.xcu"/>
-                <include name="openoffice/help/**"/>
-                <include name="openoffice/Linguistic.xcu"/>
-                <include name="openoffice/description.xml"/>
-                <include name="openoffice/images/dialog.png"/>
-                <include name="openoffice/images/LanguageToolBig.png"/>
-                <include name="ooolocales.properties"/>
-                <exclude name="**/CVS/**"/>
-            </tarfileset>
-        </tar>
-    </target>
-
-    <!-- ================================================================== -->
     <!-- CLEAN -->
     <!-- ================================================================== -->
     <target name="clean">
