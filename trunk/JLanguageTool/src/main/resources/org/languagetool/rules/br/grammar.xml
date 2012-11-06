@@ -262,6 +262,7 @@ $Id$
           <marker>
             <and>
               <token regexp="yes" inflected="yes">k.*|marc’h
+                <exception postag="Z.*" postag_regexp="yes"/>
                 <exception regexp="yes">k[gm]|kPa|kHz</exception>
               </token>
               <token regexp="yes">k.*<exception>kant</exception></token>
@@ -288,6 +289,7 @@ $Id$
             <and>
               <token regexp="yes" inflected="yes">t.*|den</token>
               <token regexp="yes">[tz].*
+                <exception postag="Z.*" postag_regexp="yes"/>
                 <exception regexp="yes" inflected="yes">(?!den$)d.*</exception>
                 <exception regexp="yes">te|zo</exception>
                 <exception regexp="yes" inflected="yes">z.*</exception>
@@ -323,6 +325,7 @@ $Id$
             <and>
               <token regexp="yes" inflected="yes">p.*</token>
               <token regexp="yes">[pf].*
+                <exception postag="Z.*" postag_regexp="yes"/>
                 <exception>pe</exception>
                 <exception regexp="yes" inflected="yes">f.*</exception>
               </token>
@@ -346,7 +349,7 @@ $Id$
           </token>
           <marker>
             <and>
-              <token regexp="yes" inflected="yes">gw.*</token>
+              <token regexp="yes" inflected="yes" postag="[^Z].*" postag_regexp="yes">gw.*</token>
               <token regexp="yes">[gk]w.*</token>
             </and>
           </marker>
@@ -369,7 +372,7 @@ $Id$
             <and>
               <token regexp="yes" inflected="yes">g(?!ou[ie])[^w].*
                 <exception inflected="yes" regexp="yes">k.*</exception>
-                <exception postag="UNKNOWN"/>
+                <exception postag="UNKNOWN|Z.*" postag_regexp="yes"/>
               </token>
               <token regexp="yes">[gk].*<exception>get</exception></token>
             </and>
@@ -393,7 +396,7 @@ $Id$
             <and>
               <token regexp="yes" inflected="yes">gou[ie].*
                 <exception inflected="yes" regexp="yes">k.*</exception>
-                <exception postag="UNKNOWN"/>
+                <exception postag="UNKNOWN|Z.*" postag_regexp="yes"/>
               </token>
               <token regexp="yes">[gk].*</token>
             </and>
@@ -412,7 +415,7 @@ $Id$
           </token>
           <marker>
             <and>
-              <token regexp="yes" inflected="yes" postag="UNKNOWN" negate_pos="yes">d.*
+              <token regexp="yes" inflected="yes" postag="UNKNOWN|Z.*" negate_pos="yes" postag_regexp="yes">d.*
                 <exception inflected="yes">da</exception>
                 <exception regexp="yes" inflected="yes">t.*|dirak|dindan</exception>
                 <exception regexp="yes">[dt]ud(-(mañ|se|hont))?</exception>
@@ -446,7 +449,7 @@ $Id$
           </token>
           <marker>
             <and>
-              <token regexp="yes" inflected="yes" postag="UNKNOWN" negate_pos="yes">d.*
+              <token regexp="yes" inflected="yes" postag="UNKNOWN|Z.*" negate_pos="yes">d.*
                 <exception inflected="yes">da</exception>
                 <exception regexp="yes" inflected="yes">t.*</exception>
                 <exception regexp="yes">[dt]ud(-(mañ|se|hont))?</exception>
@@ -479,7 +482,7 @@ $Id$
             <and>
               <token regexp="yes">b.*
                 <exception inflected="yes" regexp="yes">p.*</exception>
-                <exception postag="UNKNOWN"/>
+                <exception postag="UNKNOWN|Z.*" postag_regexp="yes"/>
               </token>
               <token regexp="yes" inflected="yes">b.*</token>
             </and>
@@ -502,6 +505,7 @@ $Id$
           </token>
           <marker>
             <token regexp="yes">m.*
+              <exception postag="Z.*" postag_regexp="yes"/>
               <exception regexp="yes" inflected="yes">[mp][ae]|ma’|meur|mHz|mm</exception>
             </token>
           </marker>
@@ -563,6 +567,92 @@ $Id$
         <example type="correct">Re deñval eo evit lenn.</example>
         <example type="correct">Ar marc’had a zo bras.</example>
         <example type="correct">Daou zoo</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="KEMM_DA_ANV_DIVOUTIN" name="da Brest → da vBrest">
+      <rule>
+        <pattern>
+          <token>da</token>
+          <marker>
+            <token postag="Z [^M]*" postag_regexp="yes" regexp="yes">(?-i)K.*</token>
+          </marker>
+        </pattern>
+        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude ar ger «\1» gant an anv divoutin. Ha fellout a rae deoc’h skrivañ <suggestion>g\2</suggestion> pe <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="G$1"/></suggestion>?</message>
+        <example type="incorrect">Mont a reas da <marker>Kemper</marker>.</example>
+        <example type="correct">Mont a reas da <marker>gKemper</marker>.</example>
+        <example type="correct">Mont a reas da <marker>Gemper</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>da</token>
+          <marker>
+            <token postag="Z [^M]*" postag_regexp="yes" regexp="yes">(?-i)M.*</token>
+          </marker>
+        </pattern>
+        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude ar ger «\1» gant an anv divoutin. Ha fellout a rae deoc’h skrivañ <suggestion>v\2</suggestion> pe <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="V$1"/></suggestion>?</message>
+        <example type="incorrect">Mont a reas da <marker>Montroulez</marker>.</example>
+        <example type="correct">Mont a reas da <marker>Vontroulez</marker>.</example>
+        <example type="correct">Mont a reas da <marker>vMontroulez</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>da</token>
+          <marker>
+            <token postag="Z [^M]*" postag_regexp="yes" regexp="yes">(?-i)B.*</token>
+          </marker>
+        </pattern>
+        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude ar ger «\1» gant an anv divoutin. Ha fellout a rae deoc’h skrivañ <suggestion>v\2</suggestion> pe <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="V$1"/></suggestion>?</message>
+        <example type="incorrect">Mont a reas da <marker>Brest</marker>.</example>
+        <example type="correct">Mont a reas da <marker>Vrest</marker>.</example>
+        <example type="correct">Mont a reas da <marker>vBrest</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>da</token>
+          <marker>
+            <token postag="Z [^M]*" postag_regexp="yes" regexp="yes">(?-i)P.*</token>
+          </marker>
+        </pattern>
+        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude ar ger «\1» gant an anv divoutin. Ha fellout a rae deoc’h skrivañ <suggestion>b\2</suggestion> pe <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="B$1"/></suggestion>?</message>
+        <example type="incorrect">Mont a reas da <marker>Perroz-Gireg</marker>.</example>
+        <example type="correct">Mont a reas da <marker>Berroz-Gireg</marker>.</example>
+        <example type="correct">Mont a reas da <marker>bPerroz-Gireg</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>da</token>
+          <marker>
+            <token postag="Z [^M]*" postag_regexp="yes" regexp="yes">(?-i)D.*</token>
+          </marker>
+        </pattern>
+        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude ar ger «\1» gant an anv divoutin. Ha fellout a rae deoc’h skrivañ <suggestion>z\2</suggestion> pe <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="Z$1"/></suggestion>?</message>
+        <example type="incorrect">Mont a reas da <marker>Daoulaz</marker>.</example>
+        <example type="correct">Mont a reas da <marker>Zaoulaz</marker>.</example>
+        <example type="correct">Mont a reas da <marker>zDaoulaz</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>da</token>
+          <marker>
+            <token postag="Z [^M]*" postag_regexp="yes" regexp="yes">(?-i)T.*</token>
+          </marker>
+        </pattern>
+        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude ar ger «\1» gant an anv divoutin. Ha fellout a rae deoc’h skrivañ <suggestion>d\2</suggestion> pe <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="D$1"/></suggestion>?</message>
+        <example type="incorrect">Mont a reas da <marker>Trebeurden</marker>.</example>
+        <example type="correct">Mont a reas da <marker>Drebeurden</marker>.</example>
+        <example type="correct">Mont a reas da <marker>dTrebeurden</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>da</token>
+          <marker>
+            <token postag="Z [^M]*" postag_regexp="yes" regexp="yes">(?-i)G[wW].*</token>
+          </marker>
+        </pattern>
+        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude ar ger «\1» gant an anv divoutin. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="..(.*)" regexp_replace="W$1"/></suggestion>?</message>
+        <example type="incorrect">Mont a reas da <marker>Gwipavaz</marker>.</example>
+        <example type="correct">Mont a reas da <marker>Wipavaz</marker>.</example>
       </rule>
     </rulegroup>
 
@@ -2228,7 +2318,7 @@ $Id$
             </and>
           </marker>
         </pattern>
-        <message>Diglok e vez ar c’hemmadur dre vlotaat en anv-gwan benel unan pe anv tud gourel lies goude an anv hervez al lizherenn a echu an anv ganto. Ne zlefe ket neuze bezañ ur c’hemmadur en anv-gwan «\2» goude an anv «\1».</message>
+        <message>Diglok e vez ar c’hemmadur dre vlotaat en anv-gwan benel unan pe anv tud gourel lies goude an anv hervez al lizherenn a echu an anv ganto. Ne zlefe ket neuze bezañ ur c’hemmadur en anv-gwan «\2» goude an anv «\1».</message>
         <example type="incorrect">Tud <marker>gozh</marker></example>
         <example type="correct">Tud kozh</example>
         <example type="correct">Studierien gozh</example>
@@ -5649,7 +5739,7 @@ $Id$
           <marker>
             <token>ket</token>
           </marker>
-          <token postag="N.*" postag_regexp="yes"><exception>tamm</exception></token>
+          <token postag="N.*" postag_regexp="yes"><exception regexp="yes">gwech|mann|tamm</exception></token>
           <token>ebet</token>
         </pattern>
         <message>Ne vez ket implijet «ket» gant «ebet».</message>
