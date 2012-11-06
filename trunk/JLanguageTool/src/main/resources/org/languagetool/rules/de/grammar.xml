@@ -9849,6 +9849,34 @@ $Id$
                 <example type="correct">Wir schlagen zwei Fliegen mit einer <marker>Klappe</marker>.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="STINKT_NACH" name="Groß-/Kleinschreibung: 'es stinkt nach kotze (Kotze)' usw.">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes" inflected="yes" skip="1">[sS]tinken|[rR]iechen|[sS]chmecken</token>
+                    <token regexp="yes">nach|wie</token>
+                    <marker>
+                        <token regexp="yes">pisse|kacke|scheiße|kotze</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Hier stinkt es nach <marker>Scheiße</marker>.</example>
+                <example type="incorrect" correction="Scheiße">Hier stinkt es nach <marker>scheiße</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">nach|wie</token>
+                    <marker>
+                        <token regexp="yes">pisse|kacke|scheiße|kotze</token>
+                    </marker>
+                    <token regexp="yes" inflected="yes">stinken|riechen|schmecken</token>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Hier stinkt es nach <marker>Scheiße</marker>.</example>
+                <example type="incorrect" correction="Scheiße">Es ist widerlich, weil es nach <marker>scheiße</marker> stinkt.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="SCHNAUZE_SUBST" name="Groß-/Kleinschreibung: 'die schnauze (Schnauze) halten' usw.">
             <rule>
                 <pattern case_sensitive="yes">
@@ -10512,13 +10540,13 @@ $Id$
             <pattern case_sensitive="yes">
                 <token regexp="yes">[mM]it|[oO]hne</token>
                 <marker>
-                    <token>verstand</token>
+                    <token regexp="yes">verstand|mühe</token>
                 </marker>
             </pattern>
             <message>&subanfang;<suggestion>Verstand</suggestion>&subende;</message>
             <short>&prgk;.</short>
             <example type="correct">Trink mit <marker>Verstand</marker>!</example>
-            <example type="incorrect">Trink mit <marker>verstand</marker>!</example>
+            <example type="incorrect" correction="Verstand">Trink mit <marker>verstand</marker>!</example>
         </rule>
         <rule id="MIT_OHNE_WISSEN" name="Groß-/Kleinschreibung: 'mit/ohne wissen (Wissen)'">
             <pattern case_sensitive="yes">
@@ -10532,7 +10560,7 @@ $Id$
             <short>&prgk;.</short>
             <example type="correct">Das geschah ohne <marker>Wissen</marker> der Geschäftsführung!</example>
             <example type="correct">Das geschah mit <marker>Wissen</marker> der Geschäftsführung!</example>
-            <example type="incorrect">Das geschah mit <marker>wissen</marker> der Geschäftsführung!</example>
+            <example type="incorrect" correction="Wissen">Das geschah mit <marker>wissen</marker> der Geschäftsführung!</example>
         </rule>
         <rule id="MIT_OHNE_SCHALE" name="Groß-/Kleinschreibung: 'mit/ohne schale (Schale)'">
             <pattern case_sensitive="yes">
@@ -11866,6 +11894,19 @@ $Id$
                 <example type="incorrect" correction="Faden">Die Sache hängt am seidenen <marker>faden</marker>.</example>
                 <example type="correct">Die Sache hängt am seidenen <marker>Faden</marker>.</example>
             </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[dD]en</token>
+                    <marker>
+                        <token>faden</token>
+                    </marker>
+                    <token inflected="yes">verlieren</token>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Faden">Jetzt habe ich den <marker>faden</marker> verloren.</example>
+                <example type="correct">Jetzt habe ich den <marker>Faden</marker> verloren.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="ANGELN_SUBST" name="Groß-/Kleinschreibung: 'aus den angeln (Angeln) heben' etc.">
             <rule>
@@ -11897,6 +11938,33 @@ $Id$
                 <short>&prgk;.</short>
                 <example type="incorrect" correction="Schultern">Sie zuckte mit den <marker>schultern</marker>.</example>
                 <example type="correct">Sie zuckte mit den <marker>Schultern</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[aA]uf</token>
+                    <token regexp="yes">(mehrere|viele)n?</token>
+                    <marker>
+                        <token>schultern</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Schultern">Das sollten wir auf mehrere <marker>schultern</marker> verteilen.</example>
+                <example type="correct">Das sollten wir auf mehrere <marker>Schultern</marker> verteilen.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[uU]m|[üÜ]ber</token>
+                    <token>die</token>
+                    <marker>
+                        <token>schultern</token>
+                    </marker>
+                    <token inflected="yes">legen</token>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Schultern">Ich habe es ihr über die <marker>schultern</marker> gelegt.</example>
+                <example type="correct">Ich habe es ihr über die <marker>Schultern</marker> gelegt.</example>
             </rule>
         </rulegroup>
         <rulegroup id="RASEN_SUBST" name="Groß-/Kleinschreibung: 'auf dem rasen (Rasen)' etc.">
@@ -16455,7 +16523,7 @@ $Id$
                 <short>&prgk;.</short>
                 <example type="correct">Ich <marker>lüge</marker> nur äußerst ungern.</example>
                 <example type="correct">Das ist eine ganz dreiste <marker>Lüge</marker>!</example>
-                <example type="incorrect">Das ist eine ganz dreiste <marker>lüge</marker>!</example>
+                <example type="incorrect" correction="Lüge">Das ist eine ganz dreiste <marker>lüge</marker>!</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -16467,7 +16535,7 @@ $Id$
                 <message>&subanfang;<suggestion>Lügen</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example type="correct">Seine Prognose wurde durch die Realität <marker>Lügen</marker> gestraft.</example>
-                <example type="incorrect">Seine Prognose wurde durch die Realität <marker>lügen</marker> gestraft.</example>
+                <example type="incorrect" correction="Lügen">Seine Prognose wurde durch die Realität <marker>lügen</marker> gestraft.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -16481,7 +16549,7 @@ $Id$
                 <message>&subanfang;<suggestion>Lüge</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example type="correct">Er wurde bei einer <marker>Lüge</marker> ertappt.</example>
-                <example type="incorrect">Er wurde bei einer <marker>lüge</marker> ertappt.</example>
+                <example type="incorrect" correction="Lüge">Er wurde bei einer <marker>lüge</marker> ertappt.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ARM_SUBST" name="Groß-/Kleinschreibung: 'arm (Arm)'">
@@ -16527,6 +16595,37 @@ $Id$
                 <short>&prgk;.</short>
                 <example type="correct">Ich habe sie im <marker>Arm</marker> gehalten.</example>
                 <example type="incorrect" correction="Arm">Ich habe sie im <marker>arm</marker> gehalten.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[mM]it</token>
+                    <token>offenen</token>
+                    <marker>
+                        <token>armen</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">empfangen|aufnehmen</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Armen</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Ich habe sie mit offenen <marker>Armen</marker> empfangen.</example>
+                <example type="incorrect" correction="Armen">Ich habe sie mit offenen <marker>armen</marker> empfangen.</example>
+                <example type="incorrect" correction="Armen">Wir werden sie mit offenen <marker>armen</marker> aufnehmen.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes" regexp="yes" skip="2">empfangen|nehmen</token>
+                    <token>mit</token>
+                    <token>offenen</token>
+                    <marker>
+                        <token>armen</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Armen</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Ich empfange sie mit offenen <marker>Armen</marker>.</example>
+                <example type="incorrect" correction="Armen">Ich empfange sie mit offenen <marker>armen</marker>.</example>
+                <example type="incorrect" correction="Armen">Ich nehme sie mit offenen <marker>armen</marker> in Empfang.</example>
+                <example type="incorrect" correction="Armen">Wir nehmen die Flüchtlinge mit offenen <marker>armen</marker> auf.</example>
             </rule>
         </rulegroup>
         <rulegroup id="KLAUEN_SUBST" name="Groß-/Kleinschreibung: 'klauen (Klauen)'">
@@ -18114,33 +18213,70 @@ $Id$
                 <example type="correct">Um des lieben Friedens <marker>willen</marker> habe ich geschwiegen.</example>
             </rule>
         </rulegroup>
-        <rule id="EIN_PAAR" name="Groß-/Kleinschreibung: 'ein Paar (paar)'">
-            <pattern case_sensitive="yes">
-                <marker>
+        <rulegroup id="EIN_PAAR" name="Groß-/Kleinschreibung: 'ein Paar (paar)'">
+            <rule>
+			    <pattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes">[Ee]in</token>
+                        <token>Paar</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="SUB:.*PLU:.*" negate="yes" regexp="yes">(.*)([Ss]chuhe|[Ss]ocken|[Ss]trümpfe|[Ss]tiefel|[Ss]andalen|[Hh]osen|[aA]ugen|[oO]hren|[hH]ände|[fF]üße|Brüste)</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>ein paar</suggestion> (=einige), im Unterschied zu 'ein Paar' (=genau zwei)?</message>
+                <url>http://www.canoo.net/services/GermanSpelling/Regeln/Gross-klein/Denominalisierung.html#Anchor-Die-14210</url>
+                <short>&prgk;.</short>
+                <example type="correct"><marker>Ein Paar</marker> Schuhe.</example>
+                <example type="correct"><marker>Ein Paar</marker> Wanderschuhe.</example>
+                <example type="correct"><marker>Ein Paar</marker> Handschuhe.</example>
+                <example type="correct"><marker>Ein Paar</marker> dünne Handschuhe.</example>
+                <example type="correct"><marker>Ein Paar</marker> Kniebundhosen.</example>
+                <example type="correct"><marker>Ein Paar</marker> Kniestrümpfe.</example>
+                <example type="correct"><marker>Ein Paar</marker> Nylonstrümpfe.</example>
+                <example type="correct"><marker>Ein Paar</marker> Nylonstrumpfhosen.</example>
+                <example type="correct"><marker>Ein Paar</marker> Gummistiefel.</example>
+                <example type="correct"><marker>Ein Paar</marker> Ledersandalen.</example>
+                <example type="correct"><marker>Ein paar</marker> Münzen.</example>
+                <example type="incorrect" correction="Ein paar"><marker>Ein Paar</marker> Münzen.</example>
+                <!--
+                <example type="incorrect"><marker>Ein Paar</marker> schöne Münzen.</example>
+                -->
+            </rule>
+            <rule>
+			    <pattern case_sensitive="yes">
                     <token regexp="yes">[Ee]in</token>
-                    <token>Paar</token>
-                </marker>
-                <token postag_regexp="yes" postag="SUB:.*PLU:.*" negate="yes" regexp="yes">(.*)([Ss]chuhe|[Ss]ocken|[Ss]trümpfe|[Ss]tiefel|[Ss]andalen|[Hh]osen|[aA]ugen|[oO]hren)</token>
-            </pattern>
-            <message>Meinten Sie <suggestion>ein paar</suggestion> (=einige), im Unterschied zu 'ein Paar' (=genau zwei)?</message>
-            <url>http://www.canoo.net/services/GermanSpelling/Regeln/Gross-klein/Denominalisierung.html#Anchor-Die-14210</url>
-            <short>&prgk;.</short>
-            <example type="correct"><marker>Ein Paar</marker> Schuhe.</example>
-            <example type="correct"><marker>Ein Paar</marker> Wanderschuhe.</example>
-            <example type="correct"><marker>Ein Paar</marker> Handschuhe.</example>
-            <example type="correct"><marker>Ein Paar</marker> dünne Handschuhe.</example>
-            <example type="correct"><marker>Ein Paar</marker> Kniebundhosen.</example>
-            <example type="correct"><marker>Ein Paar</marker> Kniestrümpfe.</example>
-            <example type="correct"><marker>Ein Paar</marker> Nylonstrümpfe.</example>
-            <example type="correct"><marker>Ein Paar</marker> Nylonstrumpfhosen.</example>
-            <example type="correct"><marker>Ein Paar</marker> Gummistiefel.</example>
-            <example type="correct"><marker>Ein Paar</marker> Ledersandalen.</example>
-            <example type="correct"><marker>Ein paar</marker> Münzen.</example>
-            <example type="incorrect" correction="Ein paar"><marker>Ein Paar</marker> Münzen.</example>
-            <!--
-            <example type="incorrect"><marker>Ein Paar</marker> schöne Münzen.</example>
-            -->
-        </rule>
+                    <token postag_regexp="yes" postag="ADJ:NOM:SIN:NEU.*"/>
+                    <marker>
+                        <token>paar</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie ein <suggestion>Paar</suggestion> (=genau zwei), im Unterschied zu 'ein paar' (=einige)?</message>
+                <url>http://www.canoo.net/services/Controller?dispatch=spelling&amp;input=Paar</url>
+                <short>&prgk;.</short>
+                <example type="correct">Ein <marker>Paar</marker> Schuhe.</example>
+                <example type="correct">Ein <marker>paar</marker> Münzen.</example>
+                <example type="incorrect" correction="Paar">Ein zusätzliches <marker>paar</marker> Augen schadet nicht.</example>
+                <example type="incorrect" correction="Paar">Sie sind ein schönes <marker>paar</marker>.</example>
+                <example type="incorrect" correction="Paar">Ein seltsames <marker>paar</marker>!</example>
+                <example type="incorrect" correction="Paar">Das ist ein schönes <marker>paar</marker> Handschuhe.</example>
+            </rule>
+            <rule>
+			    <pattern case_sensitive="yes">
+                    <token regexp="yes">[Ee]in</token>
+                    <marker>
+                        <token>paar</token>
+                    </marker>
+                    <token regexp="yes">(.*)([Ss]chuhe|[Ss]ocken|[Ss]trümpfe|[Ss]tiefel|[Ss]andalen)</token>
+                </pattern>
+                <message>Meinten Sie ein <suggestion>Paar</suggestion> (=genau zwei), im Unterschied zu 'ein paar' (=einige)?</message>
+                <url>http://www.canoo.net/services/Controller?dispatch=spelling&amp;input=Paar</url>
+                <short>&prgk;.</short>
+                <example type="correct">Ein <marker>Paar</marker> Schuhe.</example>
+                <example type="correct">Ein <marker>paar</marker> Münzen.</example>
+                <example type="incorrect" correction="Paar">Das ist ein <marker>paar</marker> Handschuhe.</example>
+                <example type="incorrect" correction="Paar">Hier ist ein <marker>paar</marker> Lederstiefel.</example>
+                <example type="incorrect" correction="Paar">Ich gab ihm ein <marker>paar</marker> Winterstiefel.</example>
+            </rule>
+        </rulegroup>
         <rule id="GUTEN_UND_SCHLECHTEN" name="Groß-/Kleinschreibung: 'in Guten (guten) wie in Schlechten (schlechten) Zeiten'">
             <pattern case_sensitive="yes">
                 <token regexp="yes">[Ii]n</token>
