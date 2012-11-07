@@ -270,7 +270,7 @@ public class VerbAgreementRule extends GermanRule {
   private RuleMatch ruleMatchWrongVerbSubject(final AnalyzedTokenReadings subject, final AnalyzedTokenReadings verb) {
     final String msg = "Möglicherweise fehlende grammatische Übereinstimmung zwischen Subjekt (" + subject.getToken() +
       ") und Prädikat (" + verb.getToken() + ") bezüglich Person oder Numerus (Einzahl, Mehrzahl - Beispiel: " +
-      "'ich sind' statt 'ich bist').";
+      "'ich sind' statt 'ich bin').";
     if (subject.getStartPos() < verb.getStartPos()) {
       return new RuleMatch(this, subject.getStartPos(), verb.getStartPos() + verb.getToken().length(), msg);
     } else {
