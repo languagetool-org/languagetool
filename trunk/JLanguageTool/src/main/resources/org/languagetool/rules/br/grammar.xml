@@ -46,7 +46,7 @@ $Id$
         <pattern>
           <token regexp="yes">[au]r</token>
           <marker>
-            <token regexp="yes" postag="N m s.*|N f .*" postag_regexp="yes">k.*
+            <token regexp="yes" postag="N m s.*|N f p.*" postag_regexp="yes">k.*
               <exception postag="N f s.*|N m p t.*" postag_regexp="yes"/>
             </token>
           </marker>
@@ -1640,6 +1640,7 @@ $Id$
               <token postag="N f p M:.*|N m . M:.*" postag_regexp="yes" regexp="yes">c’h.*
                 <exception postag="N f s.*|N m p t.*" postag_regexp="yes" regexp="yes" inflected="yes">g.*</exception>
                 <exception postag="N[^M]*" postag_regexp="yes" regexp="yes" inflected="yes">c’h.*</exception>
+                <exception postag="N ([em] s|[ef] p) M:0a.*" postag_regexp="yes" inflected="yes" regexp="yes">k.*</exception>
               </token>
               <token postag="N f p M:.*|N m . M:.*" postag_regexp="yes" regexp="yes" inflected="yes">g.*</token>
             </and>
@@ -1652,6 +1653,7 @@ $Id$
         <example type="incorrect">Ar <marker>c’hizioù</marker>.</example>
         <example type="correct">Ar <marker>gizioù</marker>.</example>
         <example type="correct">Ar <marker>C’hallaoued</marker>.</example>
+        <example type="correct">Ar <marker>c'houst</marker>.</example>
       </rule>
       <rule>
         <pattern>
