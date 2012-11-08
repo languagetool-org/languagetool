@@ -320,10 +320,16 @@ public final class StringTools {
    *          matches
    * @param contextSize
    *          the desired context size in characters
-   * @param xmlMode how to print the XML
+   * @param xmlMode
+   *          how to print the XML
+   * @param lang
+   *          the language of the text (might be null)
+   * @param motherTongue
+   *          the mother tongue of the user (might be null)
    */
   public static String ruleMatchesToXML(final List<RuleMatch> ruleMatches,
-      final String text, final int contextSize, final XmlPrintMode xmlMode) {
+      final String text, final int contextSize, final XmlPrintMode xmlMode,
+      final Language lang, final Language motherTongue) {
     //
     // IMPORTANT: people rely on this format, don't change it!
     //
@@ -333,6 +339,19 @@ public final class StringTools {
       xml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
       xml.append("<matches software=\"LanguageTool\" version=\"" + JLanguageTool.VERSION + "\"" +
               " buildDate=\"" + JLanguageTool.BUILD_DATE + "\">\n");
+    }
+    
+    if (lang != null || motherTongue != null) {
+      String languageXml;
+      languageXml = "<language ";
+      if (lang != null) {
+        languageXml += "shortname=\"" + lang.getShortNameWithVariant() + "\" name=\"" + lang.getName() + "\"";
+      }
+      if(null != motherTongue && (lang == null || !motherTongue.getShortName().equals(lang.getShortNameWithVariant()))) {
+        languageXml += " mothertongueshortname=\"" + motherTongue.getShortName() + "\" mothertonguename=\"" + motherTongue.getName() + "\"";
+      }
+      languageXml += "/>\n";
+      xml.append(languageXml);
     }
 
     final ContextTools contextTools = new ContextTools();
@@ -384,6 +403,20 @@ public final class StringTools {
       xml.append("</matches>\n");
     }
     return xml.toString();
+  }
+
+  /**
+   * Get an XML representation of the given rule matches.
+   * @param text
+   *          the original text that was checked, used to get the context of the
+   *          matches
+   * @param contextSize
+   *          the desired context size in characters
+   * @param xmlMode how to print the XML
+   */
+  public static String ruleMatchesToXML(final List<RuleMatch> ruleMatches,
+      final String text, final int contextSize, final XmlPrintMode xmlMode) {
+    return ruleMatchesToXML(ruleMatches, text, contextSize, xmlMode, null, null);
   }
 
   private static String escapeXMLForAPIOutput(final String s) {

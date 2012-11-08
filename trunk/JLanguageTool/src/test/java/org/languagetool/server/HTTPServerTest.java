@@ -57,7 +57,7 @@ public class HTTPServerTest {
   void runTests() throws IOException, SAXException, ParserConfigurationException {
     // no error:
     final String matchAttr = "software=\"LanguageTool\" version=\"" + JLanguageTool.VERSION + "\" buildDate=\".*?\"";
-    final String emptyResultPattern = "<\\?xml version=\"1.0\" encoding=\"UTF-8\"\\?>\n<matches " + matchAttr + ">\n</matches>\n";
+    final String emptyResultPattern = "<\\?xml version=\"1.0\" encoding=\"UTF-8\"\\?>\n<matches " + matchAttr + ">\n<language shortname=\"de\" name=\"German\"/>\n</matches>\n";
     final String result1 = check(Language.GERMAN, "");
     assertTrue("Got " + result1 + ", expected " + emptyResultPattern, result1.matches(emptyResultPattern));
     final String result2 = check(Language.GERMAN, "Ein kleiner test");
@@ -68,7 +68,7 @@ public class HTTPServerTest {
     final String result = check(Language.GERMAN, "ein kleiner test. Und wieder Erwarten noch was: \u00f6\u00e4\u00fc\u00df.");
     assertTrue(result.contains("UPPERCASE_SENTENCE_START"));
     assertTrue(result.contains("WIEDER_WILLEN"));
-    assertTrue("Expected special chars, got: '" + result+ "'",
+    assertTrue("Expected special chars, got: '" + result + "'",
             result.contains("\u00f6\u00e4\u00fc\u00df"));   // special chars are intact
     final XMLValidator validator = new XMLValidator();
     validator.validateXMLString(result, JLanguageTool.getDataBroker().getResourceDir() + "/api-output.dtd", "matches");

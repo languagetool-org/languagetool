@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.tika.language.LanguageIdentifier;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.gui.Configuration;
@@ -126,13 +127,44 @@ class LanguageToolHttpHandler implements HttpHandler {
     httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);
     httpExchange.getResponseBody().write(response.getBytes(ENCODING));
   }
+  
+  private static Language detectLanguageOfString(final String text, final String fallbackLanguage) {
+    // TODO: use identifier.isReasonablyCertain() - but make sure it works!
+    final int MINLENGTHFORAUTODETECTION = 60;
+    if (text.length() < MINLENGTHFORAUTODETECTION && fallbackLanguage != null) {
+      System.out.print("auto-detected language is not reasonably certain");
+      return Language.getLanguageForShortName(fallbackLanguage);
+    }
+    
+    final LanguageIdentifier identifier = new LanguageIdentifier(text);
+    Language lang;
+    try {
+      lang = Language.getLanguageForShortName(identifier.getLanguage());
+    } catch (IllegalArgumentException e) {
+      lang = Language.AMERICAN_ENGLISH;
+    }
+    if (lang.getDefaultVariant() != null) {
+      lang = lang.getDefaultVariant();
+    }
+    return lang;
+  }
 
   private void checkText(String text, HttpExchange httpExchange, Map<String, String> parameters) throws Exception {
     final String langParam = parameters.get("language");
-    if (langParam == null) {
-      throw new IllegalArgumentException("Missing 'language' parameter");
+    final String autodetectParam = parameters.get("autodetect");
+    Language lang;
+    
+    if (langParam == null && autodetectParam == null) {
+      throw new IllegalArgumentException("Missing 'language' parameter. Use autodetect=1 for auto-detecting the language of the input text.");
     }
-    final Language lang = Language.getLanguageForShortName(langParam);
+    
+    if (autodetectParam != null && autodetectParam.equals("1")) {
+      lang = detectLanguageOfString(text, langParam);
+      print("auto-detected language: " + lang.getShortNameWithVariant());
+    } else {
+      lang = Language.getLanguageForShortName(langParam);
+    }
+    
     final String motherTongueParam = parameters.get("motherTongue");
     Language motherTongue = null;
     if (null != motherTongueParam) {
@@ -173,8 +205,8 @@ class LanguageToolHttpHandler implements HttpHandler {
     }
     httpExchange.getResponseHeaders().set("Content-Type", CONTENT_TYPE_VALUE);
     //httpExchange.getResponseHeaders().set("Access-Control-Allow-Origin", "*");
-    final String response = StringTools.ruleMatchesToXML(matches, text,
-            CONTEXT_SIZE, StringTools.XmlPrintMode.NORMAL_XML);
+    String response = StringTools.ruleMatchesToXML(matches, text,
+            CONTEXT_SIZE, StringTools.XmlPrintMode.NORMAL_XML, lang, motherTongue);
     httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);
     httpExchange.getResponseBody().write(response.getBytes(ENCODING));
   }

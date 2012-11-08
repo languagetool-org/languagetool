@@ -3,7 +3,7 @@ Simple XML output format for the 'api' option and the HTTP
 interface of LanguageTool (http://www.languagetool.org). Version 1.2 of the XML, 2012-09-19
 -->
 
-<!ELEMENT matches (error)*>
+<!ELEMENT matches ((language)?, (error)*)>
 
 <!ATTLIST matches software CDATA #REQUIRED>
 <!ATTLIST matches version CDATA #REQUIRED>
@@ -53,6 +53,21 @@ Counting starts at 0. (added in LanguageTool 1.9) -->
 
 <!-- The category of the match, if any (added in LanguageTool 1.9). -->
 <!ATTLIST error category CDATA #IMPLIED>
+
+<!-- The language of the match (added in LanguageTool 2.0). -->
+<!ELEMENT language EMPTY>
+
+<!-- The short name of the text language. -->
+<!ATTLIST language shortname CDATA #REQUIRED>
+
+<!-- The Englisch name of the text language. -->
+<!ATTLIST language name CDATA #REQUIRED>
+
+<!-- The short name of the mother tongue. -->
+<!ATTLIST language mothertongueshortname CDATA #IMPLIED>
+
+<!-- The Englisch name of the mother tongue. -->
+<!ATTLIST language mothertonguename CDATA #IMPLIED>
 
 <!-- Note that the XML output may contain XML comments with
 additional information like timing and debugging information.
