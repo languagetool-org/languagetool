@@ -47,15 +47,15 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
       return true;   // "I don't think that that is a problem."
     }
     if (wordRepetitionOf("Pago", tokens, position)) {
-        return true;   // "Pago Pago"
-      }
+      return true;   // "Pago Pago"
+    }
     if (wordRepetitionOf("Wagga", tokens, position)) {
-        return true;   // "Wagga Wagga"
-      }
+      return true;   // "Wagga Wagga"
+    }
     if (wordRepetitionOf("Duran", tokens, position)) {
-        return true;   // "Duran Duran"
-      }
-          
+      return true;   // "Duran Duran"
+    }
+
     return false;
   }
 
