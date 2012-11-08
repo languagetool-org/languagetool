@@ -498,8 +498,7 @@ public class Main extends WeakBase implements XJobExecutor,
   }
 
   /**
-   * LT does not support spell-checking, so we return false.
-   * 
+   * We leave spell checking to OpenOffice/LibreOffice.
    * @return false
    */
   @Override
@@ -738,18 +737,19 @@ public class Main extends WeakBase implements XJobExecutor,
 
     @Override
     public void run() {
-      final XModel model = (XModel) UnoRuntime.queryInterface(XModel.class,
-          getXComponent());
-      final XWindow parentWindow = model.getCurrentController().getFrame()
-          .getContainerWindow();
+      final XModel model = (XModel) UnoRuntime.queryInterface(XModel.class,getXComponent());
+      final XWindow parentWindow = model.getCurrentController().getFrame().getContainerWindow();
       final XWindowPeer parentWindowPeer = (XWindowPeer) UnoRuntime
           .queryInterface(XWindowPeer.class, parentWindow);
-      final OOoAboutDialog about = new OOoAboutDialog(messages,
-          parentWindowPeer);
+      final OOoAboutDialog about = new OOoAboutDialog(messages, parentWindowPeer);
       about.show();
     }
   }
 
+  /**
+   * Called from grammar/spell checking dialog to ignore a rule (not called when "Ignore" is
+   * selected in the context menu for an error.)
+   */
   @Override
   public void ignoreRule(final String ruleId, final Locale locale)
       throws IllegalArgumentException {
