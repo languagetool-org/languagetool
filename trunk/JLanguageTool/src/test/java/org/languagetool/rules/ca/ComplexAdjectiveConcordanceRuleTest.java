@@ -100,6 +100,8 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
 		assertCorrect("Com més petita és l'obertura de diafragma, més grans són la profunditat de camp i la profunditat");
 		assertCorrect("es movien mitjançant filferros, tot projectant ombres");
 		assertCorrect("sota les grans persianes de color verd recalcades");
+		assertCorrect("que seria en pocs anys força hegemònica a Catalunya");
+		assertCorrect("Era un home força misteriós");
 		
 		// errors:
 		assertIncorrect("pantalons curt o llargs");
@@ -118,6 +120,8 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
 		assertIncorrect("amb una alineació impròpiament habituals");
 		assertIncorrect("amb una alineació poc habituals");
 		assertIncorrect("amb una alineació molt poc habituals");
+		//assertIncorrect("Era un home força misteriosa"); -> permet "en pocs anys força hegemònica"
+		assertIncorrect("Era un home força misteriosos");
 		assertIncorrect("El rei ha trobat l'excusa perfecte.");
 		assertIncorrect("El rei ha trobat l'excusa i l'explicació adequats.");
 		assertIncorrect("El rei ha trobat l'excusa i l'explicació adequat.");
