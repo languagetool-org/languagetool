@@ -11063,6 +11063,20 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
+                    <token regexp="yes">[iI]n</token>
+                    <token regexp="yes">(&meindein;)er</token>
+                    <marker>
+                        <token>haut</token>
+                    </marker>
+                    <token inflected="yes">stecken</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Haut</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Ich möchte nicht in deiner <marker>Haut</marker> stecken!</example>
+                <example type="incorrect" correction="Haut">Ich möchte nicht in deiner <marker>haut</marker> stecken!</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
                     <token regexp="yes">[aA]uf</token>
                     <token>der</token>
                     <token>faulen</token>
@@ -11608,6 +11622,21 @@ $Id$
             <example type="correct">In der <marker>Tat</marker> – dort liegt der Bahnhof.</example>
             <example type="incorrect">In der <marker>tat</marker> – dort liegt der Bahnhof.</example>
         </rule>
+        <rulegroup id="AUF_FRISCHER_TAT" name="Groß-/Kleinschreibung: 'auf frischer tat (Tat)'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[aA]uf</token>
+                    <token>frischer</token>
+                    <marker>
+                        <token>tat</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Tat</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Tat">Auf frischer <marker>tat</marker> ertappt!</example>
+                <example type="correct">Auf frischer <marker>Tat</marker> ertappt!</example>
+            </rule>
+        </rulegroup>
         <rule id="IM_REGEN_STEHEN" name="Groß-/Kleinschreibung: 'im regen (Regen) stehen'">
             <pattern case_sensitive="yes">
                 <token regexp="yes">[Ii]m</token>
@@ -11722,6 +11751,49 @@ $Id$
                 <short>&prgk;.</short>
                 <example type="incorrect" correction="Fliege">Ich kann keiner <marker>fliege</marker> etwas zuleide tun!</example>
                 <example type="correct">Ich kann keiner <marker>Fliege</marker> etwas zuleide tun!</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="PREIS_GROSS_KLEIN" name="Groß-/Kleinschreibung: 'gab Preis (preis)' etc.">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[uU]m</token>
+                    <token>jeden</token>
+                    <marker>
+                        <token>preis</token>
+                    </marker>
+                </pattern>
+                <message>Das Wort <suggestion>Preis</suggestion> ist, wenn es nicht als Bestandteil des Verbs 'preisgeben' auftritt, ein Substantiv und muss großgeschrieben werden.</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Preis">Sie wollten um jeden <marker>preis</marker> gewinnen.</example>
+                <example type="correct">Sie wollten um jeden <marker>Preis</marker> gewinnen.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">k?einen</token>
+                    <marker>
+                        <token>preis</token>
+                    </marker>
+                    <token inflected="yes">gewinnen</token>
+                </pattern>
+                <message>Das Wort <suggestion>Preis</suggestion> ist, wenn es nicht als Bestandteil des Verbs 'preisgeben' auftritt, ein Substantiv und muss großgeschrieben werden.</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Preis">Ich habe einen <marker>preis</marker> gewonnen.</example>
+                <example type="correct">Freiheit hat ihren <marker>Preis</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes">haben</token>
+                    <token regexp="yes">(&meindein;)en</token>
+                    <marker>
+                        <token>preis</token>
+                    </marker>
+                </pattern>
+                <message>Das Wort <suggestion>Preis</suggestion> ist, wenn es nicht als Bestandteil des Verbs 'preisgeben' auftritt, ein Substantiv und muss großgeschrieben werden.</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Preis">Jeder hat seinen <marker>preis</marker>.</example>
+                <example type="incorrect" correction="Preis">Wir alle haben unseren <marker>preis</marker>.</example>
+                <example type="incorrect" correction="Preis">Freiheit hat ihren <marker>preis</marker>.</example>
+                <example type="correct">Freiheit hat ihren <marker>Preis</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ZEIT_SUBST" name="Groß-/Kleinschreibung: 'zeit (Zeit) haben' etc.">
@@ -13418,21 +13490,6 @@ $Id$
                 <short>&prgk;.</short>
                 <example type="incorrect" correction="Grenze">Das ist hart an der <marker>grenze</marker>.</example>
                 <example type="correct">Das ist hart an der <marker>Grenze</marker>.</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="AUF_FRISCHER_TAT" name="Groß-/Kleinschreibung: 'auf frischer tat (Tat)'">
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token regexp="yes">[aA]uf</token>
-                    <token>frischer</token>
-                    <marker>
-                        <token>tat</token>
-                    </marker>
-                </pattern>
-                <message>&subanfang;<suggestion>Tat</suggestion>&subende;</message>
-                <short>&prgk;.</short>
-                <example type="incorrect" correction="Tat">Auf frischer <marker>tat</marker> ertappt!</example>
-                <example type="correct">Auf frischer <marker>Tat</marker> ertappt!</example>
             </rule>
         </rulegroup>
         <rulegroup id="AUF_DER_FLUCHT" name="Groß-/Kleinschreibung: 'auf der flucht (Flucht)'">
@@ -20935,7 +20992,7 @@ $Id$
                 <pattern case_sensitive="yes">
                     <token regexp="yes">z|Z</token>
                     <token spacebefore="no">.</token>
-                    <token regexp="yes">B|Zt|Hd?<exception scope="previous">&nbsp;|&nnbsp;|&thinsp;</exception></token>
+                    <token regexp="yes">B|K|Zt|Hd?<exception scope="previous">&nbsp;|&nnbsp;|&thinsp;</exception></token>
                     <token spacebefore="no">.</token>
                 </pattern>
                 <message>&glalong;<suggestion>\1\2&nbsp;\3\4</suggestion>&glalongende;</message>
@@ -20989,7 +21046,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">e|i</token>
+                    <token regexp="yes">e|i|n</token>
                     <token spacebefore="no">.</token>
                     <token>V<exception scope="previous">&nbsp;|&nnbsp;|&thinsp;</exception></token>
                     <token spacebefore="no">.</token>
@@ -20999,6 +21056,7 @@ $Id$
                 <short>&gla;</short>
                 <example type="correct">Goldene Tulpe e.&nbsp;V.</example>
                 <example type="incorrect" correction="e.&nbsp;V.">Goldene Tulpe <marker>e.V.</marker></example>
+                <example type="incorrect" correction="n.&nbsp;V.">Sprechstunde <marker>n.V.</marker></example>
             </rule>
             <rule>
                 <pattern case_sensitive="no">
