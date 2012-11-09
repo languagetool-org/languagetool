@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2006 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -16,36 +16,36 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules.en;
+package org.languagetool.rules.nl;
+
+import org.languagetool.rules.AbstractCompoundRule;
 
 import java.io.IOException;
 import java.util.ResourceBundle;
-
-import org.languagetool.rules.AbstractCompoundRule;
 
 /**
  * Checks that compounds (if in the list) are not written as separate words.
  */
 public class CompoundRule extends AbstractCompoundRule {
 
-  private static final String FILE_NAME = "/en/compounds.txt";
-    
-  public CompoundRule(final ResourceBundle messages) throws IOException {    
+  private static final String FILE_NAME = "/nl/compounds.txt";
+
+  public CompoundRule(final ResourceBundle messages) throws IOException {
     super(messages, FILE_NAME,
-            "This word is normally spelled with hyphen.", 
-            "This word is normally spelled as one.", 
+            "This word is normally spelled with hyphen.",
+            "This word is normally spelled as one.",
             "This expression is normally spelled as one or with hyphen.");
     super.setShort("Hyphenation problem");
   }
-  
+
   @Override
   public String getId() {
-    return "EN_COMPOUNDS";
+    return "NL_COMPOUNDS";
   }
 
   @Override
   public String getDescription() {
     return "Hyphenated words, e.g., 'case-sensitive' instead of 'case sensitive'";
-  }    
+  }
 
 }
