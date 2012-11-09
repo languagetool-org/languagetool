@@ -160,7 +160,7 @@ public class HTTPServerTest {
     try {
       server.run();
       try {
-        System.out.println("Testing 'access denied' check now");
+        System.out.println("Testing 'access denied' check now, please ignore the exception");
         check(Language.GERMAN, "no ip address allowed, so this cannot work");
         fail();
       } catch (IOException expected) {
@@ -169,7 +169,24 @@ public class HTTPServerTest {
       server.stop();
     }
   }
-  
+
+  @Test
+  public void testMissingLanguageParameter() throws Exception {
+    final HTTPServer server = new HTTPServer(HTTPServer.DEFAULT_PORT, false, false);
+    try {
+      server.run();
+      try {
+        System.out.println("Testing 'missing language parameter' now, please ignore the exception");
+        final URL url = new URL("http://localhost:" + HTTPServer.DEFAULT_PORT + "/?text=foo");
+        checkAtUrl(url);
+        fail();
+      } catch (IOException expected) {
+      }
+    } finally {
+      server.stop();
+    }
+  }
+
   private String check(Language lang, String text) throws IOException {
     return check(lang, null, text);
   }
@@ -194,11 +211,15 @@ public class HTTPServerTest {
     	urlOptions += "&motherTongue=" + motherTongue.getShortName();
     }
     final URL url = new URL("http://localhost:" + HTTPServer.DEFAULT_PORT + urlOptions);
+    return checkAtUrl(url);
+  }
+
+  private String checkAtUrl(URL url) throws IOException {
     final InputStream stream = (InputStream)url.getContent();
     final String result = StringTools.streamToString(stream, "UTF-8");
     return result;
   }
-  
+
   private String checkWithOptions(Language lang, Language motherTongue, String text, 
 		  String[] enabledRules, String[] disabledRules) throws IOException {
 	  String urlOptions = "/?language=" + lang.getShortName();
