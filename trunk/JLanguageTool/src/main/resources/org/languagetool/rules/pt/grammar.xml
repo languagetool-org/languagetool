@@ -21,7 +21,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.037 2012-11-09 12:26:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.038 2012-11-10 14:19:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -852,6 +852,34 @@ $Id: grammar.xml,v 1.037 2012-11-09 12:26:00 marcoagpinto Exp $
       <message>Substituir «foi aceitado» por <suggestion>foi aceite</suggestion>.</message>
       <example type="incorrect">O acordo <marker>foi aceitado</marker> hoje.</example>
       <example type="correct">O acordo <marker>foi aceite</marker> hoje.</example>
+    </rule>
+
+
+
+    <!-- FOI SOU UM foi só um -->
+    <rule id="FOI_SOU_UM" name="foi só um">
+      <pattern>
+        <token>foi</token>
+        <token>sou</token>
+        <token>um</token>
+      </pattern>
+      <message>Substituir «foi sou um» por <suggestion>foi só um</suggestion>.</message>
+      <example type="incorrect">Na realidade <marker>foi sou um</marker> esquecimento.</example>
+      <example type="correct">Na realidade <marker>foi só um</marker> esquecimento.</example>
+    </rule>
+
+
+
+    <!-- FOI SOU UMA foi só uma -->
+    <rule id="FOI_SOU_UMA" name="foi só uma">
+      <pattern>
+        <token>foi</token>
+        <token>sou</token>
+        <token>uma</token>
+      </pattern>
+      <message>Substituir «foi sou uma» por <suggestion>foi só uma</suggestion>.</message>
+      <example type="incorrect">Na realidade <marker>foi sou uma</marker> falha.</example>
+      <example type="correct">Na realidade <marker>foi só uma</marker> falha.</example>
     </rule>
 
 
