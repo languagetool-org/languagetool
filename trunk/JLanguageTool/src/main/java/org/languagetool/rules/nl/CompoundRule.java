@@ -32,10 +32,10 @@ public class CompoundRule extends AbstractCompoundRule {
 
   public CompoundRule(final ResourceBundle messages) throws IOException {
     super(messages, FILE_NAME,
-            "This word is normally spelled with hyphen.",
-            "This word is normally spelled as one.",
-            "This expression is normally spelled as one or with hyphen.");
-    super.setShort("Hyphenation problem");
+            "Dit woord heeft een koppelteken nodig.",
+            "Dit woord hoort waarschijnlijk aaneengeschreven.",
+            "Deze uitdrukking hoort mogelijk aan elkaar, eventueel met een koppelteken.");
+    super.setShort("Koppeltekenprobleem");
   }
 
   @Override
@@ -45,7 +45,7 @@ public class CompoundRule extends AbstractCompoundRule {
 
   @Override
   public String getDescription() {
-    return "Hyphenated words, e.g., 'case-sensitive' instead of 'case sensitive'";
+    return "Woorden die aaneen horen met koppeltekens, bijvoorbeeld 'zee-egel' i.p.v. 'zee egel'.\n";
   }
 
 }
