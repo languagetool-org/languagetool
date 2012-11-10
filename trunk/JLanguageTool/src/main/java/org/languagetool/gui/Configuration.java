@@ -33,7 +33,7 @@ import java.util.Properties;
 import java.util.Set;
 
 import org.languagetool.Language;
-import org.languagetool.server.HTTPServer;
+import org.languagetool.server.HTTPServerConfig;
 import org.languagetool.tools.StringTools;
 
 /**
@@ -65,7 +65,7 @@ public class Configuration {
   private boolean runServer;
   private boolean autoDetect;
   private boolean guiConfig;
-  private int serverPort = HTTPServer.DEFAULT_PORT;
+  private int serverPort = HTTPServerConfig.DEFAULT_PORT;
 
   /**
    * Uses the configuration file from the default location.

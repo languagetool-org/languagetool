@@ -25,6 +25,7 @@ import org.languagetool.language.RuleFilenameException;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.server.HTTPServer;
+import org.languagetool.server.HTTPServerConfig;
 import org.languagetool.server.PortBindingException;
 import org.languagetool.tools.LanguageIdentifierTools;
 import org.languagetool.tools.StringTools;
@@ -370,7 +371,7 @@ public final class Main implements ActionListener {
 
   private void maybeStartServer() {
     if (config.getRunServer()) {
-      httpServer = new HTTPServer(config.getServerPort(), false, true);
+      httpServer = new HTTPServer(new HTTPServerConfig(config.getServerPort(), false), true);
       try {
     	  httpServer.run();
       } catch (PortBindingException e) {

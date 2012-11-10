@@ -39,6 +39,7 @@ import org.xml.sax.SAXException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.languagetool.server.HTTPServerConfig.DEFAULT_PORT;
 
 public class HTTPServerTest {
 
@@ -88,7 +89,7 @@ public class HTTPServerTest {
     // test http POST
     assertTrue(checkByPOST(Language.ROMANIAN, "greșit greșit").contains("greșit"));
     // test supported language listing
-    final URL url = new URL("http://localhost:" + HTTPServer.DEFAULT_PORT + "/Languages");
+    final URL url = new URL("http://localhost:" + DEFAULT_PORT + "/Languages");
     final String languagesXML = StringTools.streamToString((InputStream) url.getContent(), "UTF-8");
     if (!languagesXML.contains("Romanian") || !languagesXML.contains("English")) {
       fail("Error getting supported languages: " + languagesXML);
@@ -108,12 +109,12 @@ public class HTTPServerTest {
     assertTrue(!bitextCheck(Language.POLISH, Language.ENGLISH, "This is something else.", "To jest frywolne.").contains("FRIVOLOUS"));
     
     //test for no changed if no options set
-    String[] nothing = new String[0];
+    final String[] nothing = new String[0];
     assertEquals(check(Language.ENGLISH, Language.GERMAN, "We will berate you"), 
     		checkWithOptions(Language.ENGLISH, Language.GERMAN, "We will berate you", nothing, nothing));
     
     //disabling
-    String[] disableAvsAn = new String[1];
+    final String[] disableAvsAn = new String[1];
     disableAvsAn[0] = "EN_A_VS_AN";
     assertTrue(!checkWithOptions(
     		Language.ENGLISH, Language.GERMAN, "This is an test", nothing, disableAvsAn).contains("an test"));
@@ -127,7 +128,7 @@ public class HTTPServerTest {
     
     //test if two rules get enabled as well
     
-    String[] twoRules = new String[2];
+    final String[] twoRules = new String[2];
     twoRules[0] ="EN_A_VS_AN";
     twoRules[1] = "BERATE";
     
@@ -156,7 +157,7 @@ public class HTTPServerTest {
 
   @Test
   public void testAccessDenied() throws Exception {
-    final HTTPServer server = new HTTPServer(HTTPServer.DEFAULT_PORT, false, false, new HashSet<String>());
+    final HTTPServer server = new HTTPServer(new HTTPServerConfig(), false, new HashSet<String>());
     try {
       server.run();
       try {
@@ -172,12 +173,12 @@ public class HTTPServerTest {
 
   @Test
   public void testMissingLanguageParameter() throws Exception {
-    final HTTPServer server = new HTTPServer(HTTPServer.DEFAULT_PORT, false, false);
+    final HTTPServer server = new HTTPServer(new HTTPServerConfig(), false);
     try {
       server.run();
       try {
         System.out.println("Testing 'missing language parameter' now, please ignore the exception");
-        final URL url = new URL("http://localhost:" + HTTPServer.DEFAULT_PORT + "/?text=foo");
+        final URL url = new URL("http://localhost:" + DEFAULT_PORT + "/?text=foo");
         checkAtUrl(url);
         fail();
       } catch (IOException expected) {
@@ -198,7 +199,7 @@ public class HTTPServerTest {
     if (null != motherTongue) {
       urlOptions += "&motherTongue="+motherTongue.getShortName();
     }
-    final URL url = new URL("http://localhost:" + HTTPServer.DEFAULT_PORT + urlOptions);
+    final URL url = new URL("http://localhost:" + DEFAULT_PORT + urlOptions);
     final InputStream stream = (InputStream)url.getContent();
     final String result = StringTools.streamToString(stream, "UTF-8");
     return result;
@@ -210,7 +211,7 @@ public class HTTPServerTest {
     if (null != motherTongue) {
     	urlOptions += "&motherTongue=" + motherTongue.getShortName();
     }
-    final URL url = new URL("http://localhost:" + HTTPServer.DEFAULT_PORT + urlOptions);
+    final URL url = new URL("http://localhost:" + DEFAULT_PORT + urlOptions);
     return checkAtUrl(url);
   }
 
@@ -235,7 +236,7 @@ public class HTTPServerTest {
 	    	urlOptions += "&enabled=" + join(enabledRules, ",");
 	    }
 	    
-	    final URL url = new URL("http://localhost:" + HTTPServer.DEFAULT_PORT + urlOptions);
+	    final URL url = new URL("http://localhost:" + DEFAULT_PORT + urlOptions);
 	    final InputStream stream = (InputStream)url.getContent();
 	    final String result = StringTools.streamToString(stream, "UTF-8");
 	    return result;
@@ -247,7 +248,7 @@ public class HTTPServerTest {
    */
   private String checkByPOST(Language lang, String text) throws IOException {
     final String postData = "language=" + lang.getShortName() + "&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
-    final URL url = new URL("http://localhost:" + HTTPServer.DEFAULT_PORT);
+    final URL url = new URL("http://localhost:" + DEFAULT_PORT);
     final URLConnection connection = url.openConnection();
     connection.setDoOutput(true);
     final OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());

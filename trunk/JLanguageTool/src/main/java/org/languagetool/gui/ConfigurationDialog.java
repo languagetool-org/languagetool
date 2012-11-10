@@ -52,7 +52,7 @@ import javax.swing.KeyStroke;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.Rule;
-import org.languagetool.server.HTTPServer;
+import org.languagetool.server.HTTPServerConfig;
 import org.languagetool.tools.StringTools;
 
 /**
@@ -504,7 +504,7 @@ private JCheckBox serverSettingsCheckbox;
 
   public int getServerPort() {
     if (serverPortField == null) {
-      return HTTPServer.DEFAULT_PORT;
+      return HTTPServerConfig.DEFAULT_PORT;
     }
     return Integer.parseInt(serverPortField.getText());
   }
