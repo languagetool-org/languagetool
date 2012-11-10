@@ -29,7 +29,7 @@ public class CommandLineParserTest extends TestCase {
     try {
       parser.parseOptions(new String[]{});
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (WrongParameterNumberException expected) {}
 
     final CommandLineOptions commandLineOptions = parser.parseOptions(new String[]{"--help"});
     assertTrue(commandLineOptions.isPrintUsage());

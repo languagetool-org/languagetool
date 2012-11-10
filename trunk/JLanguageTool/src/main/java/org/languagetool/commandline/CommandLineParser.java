@@ -33,7 +33,7 @@ public class CommandLineParser {
 
   public CommandLineOptions parseOptions(String[] args) {
     if (args.length < 1 || args.length > 10) {
-      throw new IllegalArgumentException();
+      throw new WrongParameterNumberException();
     }
     final CommandLineOptions options = new CommandLineOptions();
     for (int i = 0; i < args.length; i++) {

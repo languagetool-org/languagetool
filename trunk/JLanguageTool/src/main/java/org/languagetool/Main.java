@@ -38,6 +38,7 @@ import org.languagetool.bitext.TabBitextReader;
 import org.languagetool.commandline.CommandLineOptions;
 import org.languagetool.commandline.CommandLineParser;
 import org.languagetool.commandline.UnknownParameterException;
+import org.languagetool.commandline.WrongParameterNumberException;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.bitext.BitextRule;
 import org.languagetool.tools.StringTools;
@@ -446,6 +447,9 @@ class Main {
     CommandLineOptions options = null;
     try {
        options = commandLineParser.parseOptions(args);
+    } catch (WrongParameterNumberException e) {
+      commandLineParser.printUsage();
+      System.exit(1);
     } catch (IllegalArgumentException e) {
       System.err.println(e.toString());
       System.exit(1);
