@@ -123,6 +123,78 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
             <disambig postag="L a"/>
         </rule>
     </rulegroup>
+    <rulegroup id="NA_L" name="na">
+        <rule>
+              <pattern>
+                <token postag="SENT_START"/>
+                <marker><token>na</token></marker>
+                <token postag="V impe .*" postag_regexp="yes"/>
+                <token>ket</token>
+              </pattern>
+              <disambig postag="L n"/>
+        </rule>
+        <rule>
+              <pattern>
+                <token regexp="yes">aon|ha|betek-gouzout|evit|gant</token>
+                <marker><token>na</token></marker>
+                <token postag="V .*" postag_regexp="yes"/>
+                <token>ket</token>
+              </pattern>
+              <disambig postag="L n"/>
+        </rule>
+        <rule>
+              <pattern>
+                <token regexp="yes">diwall(it)?|ken|hep|eget|evezh</token>
+                <marker><token>na</token></marker>
+                <token postag="V .*" postag_regexp="yes"/>
+              </pattern>
+              <disambig postag="L n"/>
+        </rule>
+        <rule>
+              <pattern>
+                <token>evit</token>
+                <token>mirout</token>
+                <marker><token>na</token></marker>
+                <token postag="V .*" postag_regexp="yes"/>
+              </pattern>
+              <disambig postag="L n"/>
+        </rule>
+        <rule>
+              <pattern>
+                <token postag="SENT_START"/>
+                <marker><token>na</token></marker>
+                <token postag="J exc.*" postag_regexp="yes"/>
+              </pattern>
+              <disambig postag="A pre"/>
+        </rule>
+        <rule>
+              <pattern>
+                <token postag="SENT_START"/>
+                <marker><token>na</token></marker>
+                <token postag="[JE].*" postag_regexp="yes"/>
+                <token regexp="yes">eo?</token>
+              </pattern>
+              <disambig postag="A pre"/>
+        </rule>
+        <rule>
+              <pattern>
+                <marker><token>na</token></marker>
+                <token/>
+                <token>na</token>
+                <token/>
+              </pattern>
+              <disambig postag="C coor"/>
+        </rule>
+        <rule>
+              <pattern>
+                <token>na</token>
+                <token/>
+                <marker><token>na</token></marker>
+                <token/>
+              </pattern>
+              <disambig postag="C coor"/>
+        </rule>
+    </rulegroup>
     <rule id="D_O" name="d’o">
       <pattern>
         <token>d’</token>

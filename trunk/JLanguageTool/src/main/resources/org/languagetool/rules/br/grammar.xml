@@ -254,8 +254,9 @@ $Id$
     <rulegroup id="KEMM_DRE_VLOTAAT_GER" name="kemmadur dre vlotaat goude gerioù zo.">
       <rule>
         <pattern>
-          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|gwall|ne|pa|pe|ra|re|seul
+          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|gwall|na|ne|pa|pe|ra|re|seul
             <exception postag="P|L e" postag_regexp="yes">e</exception>
+            <exception postag="L n" negate_pos="yes">na</exception>
             <exception postag="C coor">pe</exception>
             <exception postag="V.*" postag_regexp="yes" regexp="yes">r?a</exception>
           </token>
@@ -277,11 +278,14 @@ $Id$
         <example type="correct">Daou kg</example>
         <example type="incorrect">Da <marker>kezeg</marker></example>
         <example type="correct">Da gezeg</example>
+        <example type="incorrect">Na <marker>komzit</marker> ket.</example>
+        <example type="correct">Na gomzit ket.</example>
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|gwall|ne|pa|pe|ra|re|seul
+          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|gwall|na|ne|p[ae]|ra|re|seul
             <exception postag="P|L e" postag_regexp="yes">e</exception>
+            <exception postag="L n" negate_pos="yes">na</exception>
             <exception postag="C coor">pe</exception>
             <exception postag="V.*" postag_regexp="yes" regexp="yes">r?a</exception>
           </token>
@@ -312,11 +316,15 @@ $Id$
         <example type="incorrect">Kalz a <marker>zud</marker></example>
         <example type="correct">Kalz a dud</example>
         <example type="correct">Pa’z a tud war o leve</example>
+        <example type="incorrect">Diwallit na <marker>torrfe</marker> ar gwer.</example>
+        <example type="incorrect">Diwallit na <marker>zorrfe</marker> ar gwer.</example>
+        <example type="correct">Diwallit na <marker>dorrfe</marker> ar gwer.</example>
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|gwall|ne|pa|pe|ra|re|seul
+          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|gwall|na|ne|pa|pe|ra|re|seul
             <exception postag="P|L e" postag_regexp="yes">e</exception>
+            <exception postag="L n" negate_pos="yes">na</exception>
             <exception scope="previous">ez</exception>
             <exception postag="C coor">pe</exception>
             <exception postag="V.*" postag_regexp="yes" regexp="yes">r?a</exception>
@@ -339,11 +347,15 @@ $Id$
         <example type="correct">Gwelet em eus anezhañ div pe deir gwech marteze.</example>
         <example type="correct">Da fazioù</example>
         <example type="correct">Re vuan ez a pep tra.</example>
+        <example type="incorrect">An traoù ha na <marker>plijont</marker> ket din.</example>
+        <example type="incorrect">An traoù ha na <marker>flijont</marker> ket din.</example>
+        <example type="correct">An traoù ha na <marker>blijont</marker> ket din.</example>
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|gwall|ne|pa|pe|ra|re|seul
+          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|gwall|na|ne|pa|pe|ra|re|seul
             <exception postag="P|L e" postag_regexp="yes">e</exception>
+            <exception postag="L n" negate_pos="yes">na</exception>
             <exception postag="C coor">pe</exception>
             <exception postag="V.*" postag_regexp="yes" regexp="yes">r?a</exception>
           </token>
@@ -363,8 +375,9 @@ $Id$
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|gwall|ne|pa|pe|ra|re|seul
+          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|gwall|na|ne|pa|pe|ra|re|seul
             <exception postag="P|L e" postag_regexp="yes">e</exception>
+            <exception postag="L n" negate_pos="yes">na</exception>
             <exception postag="C coor">pe</exception>
             <exception postag="V.*" postag_regexp="yes" regexp="yes">r?a</exception>
           </token>
@@ -387,8 +400,9 @@ $Id$
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|gwall|ne|pa|pe|ra|re|seul
+          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|gwall|na|ne|pa|pe|ra|re|seul
             <exception postag="P|L e" postag_regexp="yes">e</exception>
+            <exception postag="L n" negate_pos="yes">na</exception>
             <exception postag="C coor">pe</exception>
             <exception postag="V.*" postag_regexp="yes" regexp="yes">r?a</exception>
           </token>
@@ -405,11 +419,14 @@ $Id$
         <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude ar ger «\1». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="$1"/></suggestion>?</message>
         <example type="incorrect">Dirollañ da <marker>gouelañ</marker></example>
         <example type="correct">Dirollañ da <marker>ouelañ</marker></example>
+        <example type="incorrect">Na <marker>gouelit</marker> ket.</example>
+        <example type="correct">Na <marker>ouelit</marker> ket.</example>
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|gwall|ne|pa|pe|ra|re|seul
+          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|gwall|na|ne|pa|pe|ra|re|seul
             <exception postag="P|L e" postag_regexp="yes">e</exception>
+            <exception postag="L n" negate_pos="yes">na</exception>
             <exception postag="C coor">pe</exception>
             <exception postag="V.*" postag_regexp="yes" regexp="yes">r?a</exception>
           </token>
@@ -442,8 +459,9 @@ $Id$
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|gwall|ne|pa|pe|ra|re|seul
+          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|gwall|na|ne|pa|pe|ra|re|seul
             <exception postag="P|L e" postag_regexp="yes">e</exception>
+            <exception postag="L n" negate_pos="yes">na</exception>
             <exception postag="C coor">pe</exception>
             <exception postag="V.*" postag_regexp="yes" regexp="yes">r?a</exception>
           </token>
@@ -472,8 +490,9 @@ $Id$
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|gwall|ne|pa|pe|ra|re|seul
+          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|gwall|na|ne|pa|pe|ra|re|seul
             <exception postag="P|L e" postag_regexp="yes">e</exception>
+            <exception postag="L n" negate_pos="yes">na</exception>
             <exception scope="previous" regexp="yes">e?z|ned</exception>
             <exception postag="C coor">pe</exception>
             <exception postag="V.*" postag_regexp="yes" regexp="yes">r?a</exception>
@@ -498,8 +517,9 @@ $Id$
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|gwall|ne|pa|pe|ra|re|seul
+          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|gwall|na|ne|pa|pe|ra|re|seul
             <exception postag="P|L e" postag_regexp="yes">e</exception>
+            <exception postag="L n" negate_pos="yes">na</exception>
             <exception postag="C coor">pe</exception>
             <exception postag="V.*" postag_regexp="yes" regexp="yes">r?a</exception>
           </token>
@@ -519,8 +539,9 @@ $Id$
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|gwall|ne|pa|pe|ra|re|seul
+          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|gwall|na|ne|pa|pe|ra|re|seul
             <exception postag="P|L e" postag_regexp="yes">e</exception>
+            <exception postag="L n" negate_pos="yes">na</exception>
             <exception postag="C coor">pe</exception>
             <exception postag="V.*" postag_regexp="yes" regexp="yes">r?a</exception>
           </token>
@@ -546,8 +567,9 @@ $Id$
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|gwall|ne|pa|pe|ra|re|seul
+          <token regexp="yes">2|[ae]|aba|da|daou|div|dre|eme|endra|gwall|na|ne|pa|pe|ra|re|seul
             <exception postag="P|L e" postag_regexp="yes">e</exception>
+            <exception postag="L n" negate_pos="yes">na</exception>
             <exception postag="C coor">pe</exception>
             <exception postag="V.*" postag_regexp="yes" regexp="yes">r?a</exception>
           </token>
@@ -647,7 +669,7 @@ $Id$
         <pattern>
           <token>da</token>
           <marker>
-            <token postag="Z [^M]*" postag_regexp="yes" regexp="yes">(?-i)G[wW].*</token>
+            <token postag="Z [^M]*" postag_regexp="yes" regexp="yes">(?-i)G(?i)w.*</token>
           </marker>
         </pattern>
         <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude ar ger «\1» gant an anv divoutin. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="..(.*)" regexp_replace="W$1"/></suggestion>?</message>
@@ -2188,7 +2210,7 @@ $Id$
     <rulegroup id="GER_KEMM" name="kemmadur ebet goude gerioù">
       <rule>
         <pattern>
-          <token regexp="yes">abaoe|a-benn|ahont|amañ|a-wechoù|a-wazhioù|arabat|a-raok|aze|bet|daoust|eget|ent|eus|[e’]vel(-se)?|e-giz|[e’]vit|goude|hag?|hep|hevelep|kalz(ig)?|kement|ke[nt]|krenn|lies|mard?|met|nemet|memes|nebeud(ig)?|nep|ouzhpenn|pas|pep|pebezh|pegen|pere|petvet|peseurt|petore|rak|setu|seurt</token>
+          <token regexp="yes">abaoe|a-benn|ahont|amañ|a-wechoù|a-wazhioù|arabat|a-raok|aze|bet|daoust|eget|ent|eus|[e’]vel(-se)?|e-giz|[e’]vit|goude|hag?|hep|hevelep|kalz(ig)?|kement|ke[nt]|krenn|lies|mard?|met|nemet|memes|na|nebeud(ig)?|nep|ouzhpenn|pas|pep|pebezh|pegen|pere|petvet|peseurt|petore|rak|setu|seurt<exception postag="L n">na</exception></token>
           <marker>
             <token postag="[^M]*M:.*" postag_regexp="yes">
               <exception negate_pos="yes" postag="[^M]*M:.*" postag_regexp="yes"/>
@@ -2209,6 +2231,13 @@ $Id$
         <example type="correct">Ne ra ket van outo.</example>
         <example type="incorrect">Kaset ez eus bet <marker>vleunioù</marker> d'ar vered.</example>
         <example type="correct">Kaset ez eus bet <marker>bleunioù</marker> d'ar vered.</example>
+        <example type="incorrect">Na <marker>dommat</marker> eo.</example>
+        <example type="incorrect">Na <marker>zommat</marker> eo.</example>
+        <example type="correct">Na <marker>tommat</marker> eo.</example>
+        <example type="incorrect">Na <marker>zebriñ</marker> na kousket.</example>
+        <example type="incorrect">Na debriñ na <marker>gousket</marker>.</example>
+        <example type="incorrect">Na debriñ na <marker>c’housket</marker>.</example>
+        <example type="correct">Na debriñ na kousket.</example>
       </rule>
       <rule>
         <pattern>
