@@ -21,6 +21,8 @@ package org.languagetool.server;
 import com.sun.net.httpserver.HttpsConfigurator;
 import com.sun.net.httpserver.HttpsParameters;
 import com.sun.net.httpserver.HttpsServer;
+import org.languagetool.JLanguageTool;
+import org.languagetool.gui.Tools;
 
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
@@ -32,6 +34,7 @@ import java.io.IOException;
 import java.net.BindException;
 import java.net.InetSocketAddress;
 import java.security.KeyStore;
+import java.util.ResourceBundle;
 import java.util.Set;
 
 import static org.languagetool.server.HTTPServerConfig.DEFAULT_HOST;
@@ -64,12 +67,13 @@ public class HTTPSServer extends Server {
       ((HttpsServer)server).setHttpsConfigurator(configurator);
       server.createContext("/", new LanguageToolHttpHandler(config.isVerbose(), allowedIps, runInternally));
     } catch (BindException e) {
-      throw new PortBindingException(
-          "LanguageTool HTTPS server could not be started on host '" + host + "', port " + port
-          + " - maybe something else is running on that port already?", e);
+      final ResourceBundle messages = JLanguageTool.getMessageBundle();
+      final String message = Tools.makeTexti18n(messages, "https_server_start_failed", host, Integer.toString(port));
+      throw new PortBindingException(message, e);
     } catch (Exception e) {
-      throw new RuntimeException(
-          "LanguageTool HTTPS server could not be started on host '" + host + "', port " + port, e);
+      final ResourceBundle messages = JLanguageTool.getMessageBundle();
+      final String message = Tools.makeTexti18n(messages, "https_server_start_failed_unknown_reason", host, Integer.toString(port));
+      throw new RuntimeException(message, e);
     }
   }
 

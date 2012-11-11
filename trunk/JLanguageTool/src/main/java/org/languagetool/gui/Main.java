@@ -371,11 +371,12 @@ public final class Main implements ActionListener {
 
   private void maybeStartServer() {
     if (config.getRunServer()) {
-      httpServer = new HTTPServer(new HTTPServerConfig(config.getServerPort(), false), true);
       try {
+        final HTTPServerConfig serverConfig = new HTTPServerConfig(config.getServerPort(), false);
+        httpServer = new HTTPServer(serverConfig, true);
     	  httpServer.run();
       } catch (PortBindingException e) {
-        final String message = e.getMessage() + "\n\n" + org.languagetool.tools.Tools.getFullStackTrace(e);
+        final String message = e.getMessage();
         JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
       }
     }

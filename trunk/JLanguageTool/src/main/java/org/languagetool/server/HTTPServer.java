@@ -19,9 +19,12 @@
 package org.languagetool.server;
 
 import com.sun.net.httpserver.HttpServer;
+import org.languagetool.JLanguageTool;
+import org.languagetool.gui.Tools;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.util.ResourceBundle;
 import java.util.Set;
 
 import static org.languagetool.server.HTTPServerConfig.DEFAULT_HOST;
@@ -94,9 +97,9 @@ public class HTTPServer extends Server {
       }
       server.createContext("/", new LanguageToolHttpHandler(config.isVerbose(), allowedIps, runInternally));
     } catch (Exception e) {
-      throw new PortBindingException(
-          "LanguageTool HTTP server could not be started on host '" + host + "', port " + port
-          + " - maybe something else is running on that port already?", e);
+      final ResourceBundle messages = JLanguageTool.getMessageBundle();
+      final String message = Tools.makeTexti18n(messages, "http_server_start_failed", host, Integer.toString(port));
+      throw new PortBindingException(message, e);
     }
   }
 
