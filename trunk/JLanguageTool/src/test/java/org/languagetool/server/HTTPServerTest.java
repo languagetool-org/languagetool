@@ -28,6 +28,7 @@ import java.util.HashSet;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.commons.lang.StringUtils;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
@@ -188,23 +189,21 @@ public class HTTPServerTest {
     }
   }
 
-  private String check(Language lang, String text) throws IOException {
-    return check(lang, null, text);
-  }
-  
   private String bitextCheck(Language lang, Language motherTongue, String sourceText, String text) throws IOException {
     String urlOptions = "/?language=" + lang.getShortName();
-    urlOptions += "&srctext=" + URLEncoder.encode(sourceText, "UTF-8"); 
+    urlOptions += "&srctext=" + URLEncoder.encode(sourceText, "UTF-8");
     urlOptions += "&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
     if (null != motherTongue) {
       urlOptions += "&motherTongue="+motherTongue.getShortName();
     }
     final URL url = new URL("http://localhost:" + DEFAULT_PORT + urlOptions);
-    final InputStream stream = (InputStream)url.getContent();
-    final String result = StringTools.streamToString(stream, "UTF-8");
-    return result;
+    return checkAtUrl(url);
   }
-  
+
+  private String check(Language lang, String text) throws IOException {
+    return check(lang, null, text);
+  }
+
   private String check(Language lang, Language motherTongue, String text) throws IOException {
     String urlOptions = "/?language=" + lang.getShortName();
     urlOptions += "&disabled=HUNSPELL_RULE&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
@@ -221,26 +220,23 @@ public class HTTPServerTest {
     return result;
   }
 
-  private String checkWithOptions(Language lang, Language motherTongue, String text, 
-		  String[] enabledRules, String[] disabledRules) throws IOException {
-	  String urlOptions = "/?language=" + lang.getShortName();
-	    urlOptions += "&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
-	    if (null != motherTongue) {
-	    	urlOptions += "&motherTongue=" + motherTongue.getShortName();
-	    }
-	    	    
-	    if (disabledRules.length > 0) { 	    
-	    	urlOptions += "&disabled=" + join(disabledRules, ",");
-	    }
-	    if (enabledRules.length > 0) {
-	    	urlOptions += "&enabled=" + join(enabledRules, ",");
-	    }
-	    
-	    final URL url = new URL("http://localhost:" + DEFAULT_PORT + urlOptions);
-	    final InputStream stream = (InputStream)url.getContent();
-	    final String result = StringTools.streamToString(stream, "UTF-8");
-	    return result;
-	  
+  private String checkWithOptions(Language lang, Language motherTongue, String text,
+                                  String[] enabledRules, String[] disabledRules) throws IOException {
+    String urlOptions = "/?language=" + lang.getShortName();
+    urlOptions += "&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
+    if (null != motherTongue) {
+      urlOptions += "&motherTongue=" + motherTongue.getShortName();
+    }
+
+    if (disabledRules.length > 0) {
+      urlOptions += "&disabled=" + StringUtils.join(disabledRules, ",");
+    }
+    if (enabledRules.length > 0) {
+      urlOptions += "&enabled=" + StringUtils.join(enabledRules, ",");
+    }
+
+    final URL url = new URL("http://localhost:" + DEFAULT_PORT + urlOptions);
+    return checkAtUrl(url);
   }
   
   /**
@@ -255,20 +251,10 @@ public class HTTPServerTest {
     try {
         wr.write(postData);
         wr.flush();
-        final String result = StringTools.streamToString(connection.getInputStream(), "UTF-8");
-        return result;
+        return StringTools.streamToString(connection.getInputStream(), "UTF-8");
     } finally {
       wr.close();
     }
   }
 
-  private static String join(String[] s, String delimiter) {
-    if (s == null || s.length == 0 ) return "";
-    final StringBuilder builder = new StringBuilder(s[0]);
-    for (int i = 1; i < s.length; i++) {
-      builder.append(delimiter).append(s[i]);
-    }
-    return builder.toString();
-  }
-  
 }
