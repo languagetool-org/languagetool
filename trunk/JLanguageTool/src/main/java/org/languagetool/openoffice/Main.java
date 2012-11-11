@@ -115,8 +115,7 @@ public class Main extends WeakBase implements XJobExecutor,
   // use a different name than the stand-alone version to avoid conflicts:
   private static final String CONFIG_FILE = ".languagetool-ooo.cfg";
 
-  private static final ResourceBundle MESSAGES = JLanguageTool
-      .getMessageBundle();
+  private static final ResourceBundle MESSAGES = JLanguageTool.getMessageBundle();
 
   private XComponentContext xContext;
 
@@ -210,10 +209,8 @@ public class Main extends WeakBase implements XJobExecutor,
         }
       }
       if (!langIsSupported) {
-        // FIXME: i18n
-        JOptionPane.showMessageDialog(null,
-            "Error: Sorry, the document language '" + charLocale.Language
-                + "' is not supported by LanguageTool.");
+        final String message = org.languagetool.gui.Tools.makeTexti18n(MESSAGES, "language_not_supported", charLocale.Language);
+        JOptionPane.showMessageDialog(null, message);
         return null;
       }
     } catch (final Throwable t) {
