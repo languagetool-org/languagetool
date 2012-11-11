@@ -1139,8 +1139,7 @@ $Id$
             </pattern>
             <message>Meinten Sie <suggestion>mir</suggestion>?</message>
             <short>Möglicher Tippfehler</short>
-            <example type="incorrect">Kann <marker>mit</marker> jemand sagen, wo er ist?</example>
-            <example type="incorrect">Kann <marker>mit</marker> jemand sagen, wo er ist?</example>
+            <example type="incorrect" correction="mir">Kann <marker>mit</marker> jemand sagen, wo er ist?</example>
             <!-- <example type="incorrect">Kann <marker>mit</marker> bitte jemand dabei helfen.</example> TODO -->
             <example type="correct">Kann <marker>mir</marker> jemand sagen, wo er ist?</example>
             <example type="correct">Ich komme <marker>mit</marker> jemand anders.</example>
@@ -1154,7 +1153,7 @@ $Id$
             </pattern>
             <message>Meinten Sie <suggestion>der</suggestion>?</message>
             <short>Möglicher Tippfehler</short>
-            <example type="incorrect">Bin ich <marker>er</marker> Einzige, dem das so geht?</example>
+            <example type="incorrect" correction="der">Bin ich <marker>er</marker> Einzige, dem das so geht?</example>
             <example type="correct">Bin ich <marker>der</marker> Einzige, dem das so geht?</example>
         </rule>
         <rule id="VERZEIHT_VERZIEHT" name="Möglicher Tippfehler: 'verzeiht (verzieht)'">
@@ -1167,7 +1166,7 @@ $Id$
             </pattern>
             <message>Meinten Sie <suggestion>verzieht</suggestion>?</message>
             <short>Möglicher Tippfehler</short>
-            <example type="incorrect">Er <marker>verzeiht</marker> keine Miene.</example>
+            <example type="incorrect" correction="verzieht">Er <marker>verzeiht</marker> keine Miene.</example>
             <example type="correct">Er <marker>verzieht</marker> keine Miene.</example>
         </rule>
         <rulegroup id="EMAIL" name="Möglicher Tippfehler: 'Email (E-Mail)'">
@@ -1315,15 +1314,16 @@ $Id$
             <example type="incorrect" correction="Staat">Im <marker>Statt</marker> New York wird heute gewählt.</example>
         </rule>
         <rule id="INS_LEERE" name="Möglicher Tippfehler: 'ins Lehre (Leere)'">
-        <!-- TODO: don't match 'ins leere Glas' -->
             <pattern case_sensitive="yes">
                 <token>ins</token>
                 <marker>
                     <token regexp="yes">leere|[lL]ehre</token>
                 </marker>
+                <token><exception postag="SUB:AKK:SIN:NEU"/></token>
             </pattern>
             <message>Meinten Sie <suggestion>Leere</suggestion> (das Leersein)?</message>
             <short>Möglicher Tippfehler</short>
+            <example type="correct">Seine Augen starrten ins <marker>leere</marker> Glas.</example>
             <example type="correct">Seine Augen starrten ins <marker>Leere</marker>.</example>
             <example type="correct">Die Kampagne lief ins <marker>Leere</marker>.</example>
             <example type="incorrect">Die Kampagne lief ins <marker>Lehre</marker>.</example>
@@ -1341,10 +1341,64 @@ $Id$
             <example type="correct">Die Kampagne lief ins <marker>Leere</marker>.</example>
             <example type="incorrect">Das Gefühl der inneren <marker>Lehre</marker> wurde stärker.</example>
         </rule>
+        <rulegroup id="LEERE_DROHUNG" name="Möglicher Tippfehler: 'lehre (leere) Drohungen' etc.">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">(k)eine|diese|(&meindein;)e|nur|bloß</token>
+                    <marker>
+                        <token regexp="yes">lehren?</token>
+                    </marker>
+                    <token regexp="yes">(Versprech|Droh)ung(en)?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="2" regexp_match="^lehr" regexp_replace="leer"/></suggestion> (Auswahl, Abstimmung)?</message>
+                <short>Möglicher Tippfehler</short>
+                <example type="correct">Das sind doch nur <marker>leere</marker> Drohungen.</example>
+                <example type="incorrect" correction="leere">Das sind doch nur <marker>lehre</marker> Drohungen.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">(k)eine|diese|(&meindein;)e|nur|bloß</token>
+                    <marker>
+                        <token regexp="yes">lehren?</token>
+                    </marker>
+                    <token regexp="yes">Phrasen?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="2" regexp_match="lehr" regexp_replace="leer"/></suggestion> (Auswahl, Abstimmung)?</message>
+                <short>Möglicher Tippfehler</short>
+                <example type="correct">Das sind doch nur <marker>leere</marker> Phrasen.</example>
+                <example type="incorrect" correction="leere">Das sind doch nur <marker>lehre</marker> Phrasen.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">(k)eine|diese|(&meindein;)e|nur|bloß</token>
+                    <marker>
+                        <token regexp="yes">holen?</token>
+                    </marker>
+                    <token regexp="yes">Phrasen?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="2" regexp_match="hol" regexp_replace="hohl"/></suggestion> (Auswahl, Abstimmung)?</message>
+                <short>Möglicher Tippfehler</short>
+                <example type="correct">Das sind doch nur <marker>hohle</marker> Phrasen.</example>
+                <example type="incorrect" correction="hohle">Das sind doch nur <marker>hole</marker> Phrasen.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">(k)eine|diese|(&meindein;)e|nur|bloß</token>
+                    <token regexp="yes">hohlen?|abgedroschenen?</token>
+                    <marker>
+                        <token regexp="yes">Phasen?</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="3" regexp_match="^Phas" regexp_replace="Phras"/></suggestion> (Auswahl, Abstimmung)?</message>
+                <short>Möglicher Tippfehler</short>
+                <example type="correct">Das sind doch nur abgedroschene <marker>Phrasen</marker>.</example>
+                <example type="incorrect" correction="Phrasen">Das sind doch nur abgedroschene <marker>Phasen</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="KEINE_WAL" name="Möglicher Tippfehler: 'Wal (Wahl)'">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">keine|andere</token>
+                    <token>keine</token>
                     <marker>
                         <token regexp="yes">Wall?</token>
                     </marker>
@@ -1352,8 +1406,7 @@ $Id$
                 <message>Meinten Sie <suggestion>Wahl</suggestion> (Auswahl, Abstimmung)?</message>
                 <short>Möglicher Tippfehler</short>
                 <example type="correct">Wir müssen das tun, uns bleibt keine <marker>Wahl</marker>.</example>
-                <example type="incorrect">Wir müssen das tun, uns bleibt keine <marker>Wal</marker>.</example>
-                <example type="incorrect">Wir haben keine andere <marker>Wal</marker>.</example>
+                <example type="incorrect" correction="Wahl">Wir müssen das tun, uns bleibt keine <marker>Wal</marker>.</example>
             </rule>
             <rule>
                 <pattern>
@@ -1366,7 +1419,7 @@ $Id$
                 <message>Meinten Sie <suggestion>Wahl</suggestion> (Auswahl, Abstimmung)?</message>
                 <short>Möglicher Tippfehler</short>
                 <example type="correct">Wir haben die Qual der <marker>Wahl</marker>.</example>
-                <example type="incorrect">Wir haben die Qual der <marker>Wal</marker>.</example>
+                <example type="incorrect" correction="Wahl">Wir haben die Qual der <marker>Wal</marker>.</example>
             </rule>
         </rulegroup>
         <rule id="SPRACHE_VS_SPRACH" name="Möglicher Tippfehler: 'in deutscher Sprach (Sprache)'">
@@ -1378,7 +1431,7 @@ $Id$
             </pattern>
             <message>Meinten Sie <suggestion>Sprache</suggestion>?</message>
             <short>Möglicher Tippfehler</short>
-            <example type="incorrect">Der Text ist in russischer <marker>Sprach</marker> verfasst.</example>
+            <example type="incorrect" correction="Sprache">Der Text ist in russischer <marker>Sprach</marker> verfasst.</example>
             <example type="correct">Der Text ist in russischer <marker>Sprache</marker> verfasst.</example>
         </rule>
         <rule id="BEKANNT_ALT" name="Möglicher Tippfehler: 'bekannt alt (als)'">
@@ -1390,7 +1443,7 @@ $Id$
             </pattern>
             <message>Meinten Sie <suggestion>als</suggestion>?</message>
             <short>Möglicher Tippfehler</short>
-            <example type="incorrect">Er ist bekannt <marker>alt</marker> intelligent.</example>
+            <example type="incorrect" correction="als">Er ist bekannt <marker>alt</marker> intelligent.</example>
             <example type="correct">Er ist bekannt <marker>als</marker> intelligent.</example>
         </rule>
         <rulegroup id="NACH_NOCH" name="Möglicher Tippfehler: 'nach (noch)'">
@@ -1405,8 +1458,8 @@ $Id$
                 </pattern>
                 <message>Meinten Sie <suggestion>noch</suggestion>?</message>
                 <short>Möglicher Tippfehler</short>
-                <example type="incorrect"><marker>Nach</marker> am selben Tag ist er gekommen.</example>
-                <example type="incorrect"><marker>Nach</marker> im selben Jahrzehnt ist er gestorben.</example>
+                <example type="incorrect" correction="Noch"><marker>Nach</marker> am selben Tag ist er gekommen.</example>
+                <example type="incorrect" correction="Noch"><marker>Nach</marker> im selben Jahrzehnt ist er gestorben.</example>
                 <example type="correct"><marker>Noch</marker> am selben Tag ist er gekommen.</example>
             </rule>
             <rule>
@@ -1420,7 +1473,7 @@ $Id$
                 </pattern>
                 <message>Meinten Sie <suggestion>noch</suggestion>?</message>
                 <short>Möglicher Tippfehler</short>
-                <example type="incorrect"><marker>Nach</marker> in derselben Nacht ist er gekommen.</example>
+                <example type="incorrect" correction="Noch"><marker>Nach</marker> in derselben Nacht ist er gekommen.</example>
                 <example type="correct"><marker>Noch</marker> in derselben Nacht ist er gekommen.</example>
             </rule>
         </rulegroup>
@@ -11449,6 +11502,42 @@ $Id$
                 <example type="incorrect" correction="Wunder">Ist ja kein <marker>wunder</marker>.</example>
                 <example type="incorrect" correction="Wunder">Ein <marker>wunder</marker>!</example>
             </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>wunder</token>
+                    </marker>
+                    <token regexp="yes" inflected="yes">wirken|vollbringen</token>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="1" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Ich kann schließlich keine <marker>Wunder</marker> vollbringen.</example>
+                <example type="incorrect" correction="Wunder">Ich kann schließlich keine <marker>wunder</marker> vollbringen.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes" inflected="yes">wirken|vollbringen</token>
+                    <marker>
+                        <token>wunder</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Sie vollbrachte <marker>Wunder</marker>.</example>
+                <example type="incorrect" correction="Wunder">Sie vollbrachte <marker>wunder</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">wahre(n|s)?</token>
+                    <marker>
+                        <token>wunder</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Sie vollbrachte wahre <marker>Wunder</marker>.</example>
+                <example type="incorrect" correction="Wunder">Sie vollbrachte wahre <marker>wunder</marker>.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="LEHRE_SUBST" name="Groß-/Kleinschreibung: 'eine lehre (Lehre) erteilen' usw.">
             <rule>
@@ -11542,6 +11631,21 @@ $Id$
                 <short>&prgk;.</short>
                 <example type="incorrect" correction="Tiefen">Ich habe schon viele Höhen und <marker>tiefen</marker> durchlebt.</example>
                 <example type="correct">Ich habe schon viele Höhen und <marker>Tiefen</marker> durchlebt.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="GLAESER_SUBST" name="Groß-/Kleinschreibung: 'nach ein paar gläsern (Gläsern) Wein' etc.">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>gläsern</token>
+                    </marker>
+                    <token regexp="yes">Wein(schorle)?|(Rot|Weiß|Rosé|Schaum)wein|Rosé|Sekt|Champagner|Bier|Weizen(bier)?|Pils|Alt(bier)?|Tee|Rum|Schnaps|Likör|Martini|Jägermeister|Whiske?y|Wodka|Wasser|Mineralwasser|Cola|Fanta|.*[lL]imonade|Milch|.*[sS]aft</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Gläsern</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Gläsern">Nach ein paar <marker>gläsern</marker> Wein wurde er zudringlich.</example>
+                <example type="correct">Nach ein paar <marker>Gläsern</marker> Wein wurde er zudringlich.</example>
+                <example type="correct">Er schaute mich <marker>gläsern</marker> an.</example>
             </rule>
         </rulegroup>
         <rulegroup id="DECKE_SUBST" name="Groß-/Kleinschreibung: 'an die decke (Decke) gehen' etc.">
@@ -14435,6 +14539,19 @@ $Id$
             <example type="incorrect">Wann kommst du nach <marker>hause</marker>?</example>
         </rule>
         <rulegroup id="AUF_DEM_WEG" name="Groß-/Kleinschreibung: 'auf/aus dem weg (Weg)'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[aA]uf</token>
+                    <token>dem</token>
+                    <marker>
+                        <token>hinweg</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Hinweg</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Auf dem <marker>Hinweg</marker> hielt ich kurz am Supermarkt an.</example>
+                <example type="incorrect" correction="Hinweg">Auf dem <marker>hinweg</marker> hielt ich kurz am Supermarkt an.</example>
+            </rule>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[aA]u[sf]</token>
