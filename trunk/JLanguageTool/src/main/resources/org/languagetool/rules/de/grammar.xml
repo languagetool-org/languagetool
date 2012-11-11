@@ -9832,7 +9832,7 @@ $Id$
             <example type="correct">Er macht sich die Erfindung <marker>zunutze</marker>.</example>
             <example type="incorrect" correction="zu Nutze|zunutze">Er macht sich die Erfindung <marker>zu nutze</marker>.</example>
         </rule>
-        <rulegroup id="ZU_RATE" name="Groß-/Kleinschreibung: 'zu rate (Rate) ziehen etc.'">
+        <rulegroup id="ZU_RATE" name="Groß-/Kleinschreibung: 'zu rate (Rate) ziehen' etc.">
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[Zz]u</token>
@@ -9971,6 +9971,36 @@ $Id$
                 <example type="incorrect" correction="Öle und Fette">Musterland hat früher <marker>öle und fette</marker> exportiert.</example>
                 <example type="correct">Musterland exportiert <marker>Öle und Fette</marker>.</example>
                 <example type="correct">Ich <marker>öle und fette</marker> die Kette.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="JUNGE_SUBST" name="Groß-/Kleinschreibung: 'Mädchen und jungen (Jungen)' etc.">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>jungen</token>
+                    </marker>
+                    <token>und</token>
+                    <token>Mädchen</token>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="1" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Jungen">Die <marker>jungen</marker> und Mädchen der Klasse 7c waren begeistert.</example>
+                <example type="correct">Die <marker>Jungen</marker> und Mädchen der Klasse 7c waren begeistert.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>Mädchen</token>
+                    <token>und</token>
+                    <marker>
+                        <token>jungen</token>
+                    </marker>
+                    <token><exception postag="SUB:DAT:PLU:.+" postag_regexp="yes"/></token>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Jungen">Die Mädchen und <marker>jungen</marker> der Klasse 7c waren begeistert.</example>
+                <example type="correct">Die Mädchen und <marker>Jungen</marker> der Klasse 7c waren begeistert.</example>
+                <example type="correct">Die Mädchen und <marker>jungen</marker> Frauen waren begeistert.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ZWEI_FLIEGEN_MIT_EINER_KLAPPE" name="Groß-/Kleinschreibung: 'zwei Fliegen mit einer klappe (Klappe) schlagen'">
@@ -11385,7 +11415,7 @@ $Id$
         </rulegroup>
         <rulegroup id="WOGEN_SUBST" name="Groß-/Kleinschreibung: 'Öl auf die wogen (Wogen)' etc.">
             <rule>
-			    <pattern case_sensitive="yes">
+                <pattern case_sensitive="yes">
                     <token regexp="yes">[aA]uf</token>
                     <token>die</token>
                     <marker>
@@ -11397,7 +11427,7 @@ $Id$
                 <example type="incorrect" correction="Wogen">Ich versuchte, Öl auf die <marker>wogen</marker> zu gießen.</example>
             </rule>
             <rule>
-			    <pattern case_sensitive="yes">
+                <pattern case_sensitive="yes">
                     <token regexp="yes">[dD]ie</token>
                     <marker>
                         <token>wogen</token>
@@ -11409,7 +11439,7 @@ $Id$
                 <example type="incorrect" correction="Wogen">Ich wollte nur die <marker>wogen</marker> glätten.</example>
             </rule>
             <rule>
-			    <pattern case_sensitive="yes">
+                <pattern case_sensitive="yes">
                     <token regexp="yes">[dD]ie</token>
                     <marker>
                         <token>wogen</token>
@@ -11422,7 +11452,7 @@ $Id$
                 <example type="incorrect" correction="Wogen">Es ist nicht einfach, die <marker>wogen</marker> zu glätten.</example>
             </rule>
             <rule>
-			    <pattern case_sensitive="yes">
+                <pattern case_sensitive="yes">
                     <token inflected="yes">glätten</token>
                     <token>die</token>
                     <marker>
@@ -14494,6 +14524,7 @@ $Id$
             <message>&subanfang;<suggestion>Dinge</suggestion>&subende;</message>
             <example type="correct">Er war guter <marker>Dinge</marker>.</example>
             <example type="incorrect" correction="Dinge">Er war guter <marker>dinge</marker>.</example>
+            <example type="incorrect" correction="Dinge">Aller guten <marker>dinge</marker> sind drei.</example>
         </rule>
         <rule id="VOR_ALLEN_DINGEN" name="Groß-/Kleinschreibung: 'vor allen dingen (Dingen)'">
             <pattern case_sensitive="yes">
@@ -18504,7 +18535,7 @@ $Id$
         </rulegroup>
         <rulegroup id="EIN_PAAR" name="Groß-/Kleinschreibung: 'ein Paar (paar)'">
             <rule>
-			    <pattern case_sensitive="yes">
+                <pattern case_sensitive="yes">
                     <marker>
                         <token regexp="yes">[Ee]in</token>
                         <token>Paar</token>
@@ -18531,7 +18562,7 @@ $Id$
                 -->
             </rule>
             <rule>
-			    <pattern case_sensitive="yes">
+                <pattern case_sensitive="yes">
                     <token regexp="yes">[Ee]in</token>
                     <token postag_regexp="yes" postag="ADJ:NOM:SIN:NEU.*"/>
                     <marker>
@@ -18549,7 +18580,7 @@ $Id$
                 <example type="incorrect" correction="Paar">Das ist ein schönes <marker>paar</marker> Handschuhe.</example>
             </rule>
             <rule>
-			    <pattern case_sensitive="yes">
+                <pattern case_sensitive="yes">
                     <token regexp="yes">[Ee]in</token>
                     <marker>
                         <token>paar</token>
@@ -19923,35 +19954,69 @@ $Id$
                 <example type="incorrect" correction="Stränge">Ich schlug über die <marker>Strenge</marker>.</example>
             </rule>
         </rulegroup>
-        <rule id="ZAUN_ZAUM" name="Redewendung: 'im Zaun (Zaum) halten'">
-            <pattern>
-                <token>im</token>
-                <marker>
-                    <token regexp="yes">Zaun|(B|S)aum</token>
-                </marker>
-                <token regexp="yes">halten|hielt|hält|haltet|hältst|gehalten</token>
-            </pattern>
-            <message>Meinten Sie <suggestion>Zaum</suggestion>?</message>
-            <url>http://www.duden.de/rechtschreibung/bezaehmen</url>
-            <short>Möglicherweise falsch verwendete Redewendung</short>
-            <example type="correct">Da konnte ich meine Finger nicht mehr im <marker>Zaum</marker> halten.</example>
-            <example type="incorrect">Da konnte ich meine Finger nicht mehr im <marker>Zaun</marker> halten.</example>
-        </rule>
-        <rule id="VOM_ZAUM_BRECHEN" name="Redewendung: 'vom Zaum (Zaun) brechen'">
-            <pattern>
-                <token>vom</token>
-                <marker>
-                    <token>Zaum</token>
-                </marker>
-                <token inflected="yes">brechen</token>
-            </pattern>
-            <message>Meinten Sie <suggestion>Zaun</suggestion>?</message>
-            <short>Möglicherweise falsch verwendete Redewendung</short>
-            <example type="correct">Das sollte man nicht vom <marker>Zaun</marker> brechen.</example>
-            <example type="incorrect">Das sollte man nicht vom <marker>Zaum</marker> brechen.</example>
-            <example type="correct">Das wurde vom <marker>Zaun</marker> gebrochen.</example>
-            <example type="incorrect">Das wurde vom <marker>Zaum</marker> gebrochen.</example>
-        </rule>
+        <rulegroup id="ZAUN_ZAUM" name="Redewendung: 'im Zaun (Zaum) halten/vom Zaum (Zaun) brechen'">
+            <rule>
+                <pattern>
+                    <token>im</token>
+                    <marker>
+                        <token regexp="yes">Zaun|(B|S)aum</token>
+                    </marker>
+                    <token inflected="yes">halten</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Zaum</suggestion>?</message>
+                <url>http://www.duden.de/rechtschreibung/bezaehmen</url>
+                <short>Möglicherweise falsch verwendete Redewendung</short>
+                <example type="correct">Da konnte ich meine Finger nicht mehr im <marker>Zaum</marker> halten.</example>
+                <example type="incorrect" correction="Zaum">Da konnte ich meine Finger nicht mehr im <marker>Zaun</marker> halten.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>vom</token>
+                    <marker>
+                        <token>Zaum</token>
+                    </marker>
+                    <token inflected="yes">brechen</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Zaun</suggestion>?</message>
+                <short>Möglicherweise falsch verwendete Redewendung</short>
+                <example type="correct">Das sollte man nicht vom <marker>Zaun</marker> brechen.</example>
+                <example type="incorrect" correction="Zaun">Das sollte man nicht vom <marker>Zaum</marker> brechen.</example>
+                <example type="correct">Das wurde vom <marker>Zaun</marker> gebrochen.</example>
+                <example type="incorrect" correction="Zaun">Das wurde vom <marker>Zaum</marker> gebrochen.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="RAT_UND_TAT" name="Redewendung: 'mit Rad (Rat) und tat (Tat)'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[mM]it</token>
+                    <marker>
+                        <token regexp="yes">[rR]a[dt]</token>
+                        <token>und</token>
+                        <token>tat</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie die Redewendung 'mit <suggestion>Rat und Tat</suggestion>'?</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Rat und Tat">Er stand mir mit <marker>Rat und tat</marker> zur Seite.</example>
+                <example type="correct">Er stand mir mit <marker>Rat und Tat</marker> zur Seite.</example>
+                <example type="correct">Er kam mit dem <marker>Rad und tat</marker> sportlich.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[mM]it</token>
+                    <marker>
+                        <token>Rad</token>
+                        <token>und</token>
+                        <token>Tat</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie die Redewendung 'mit <suggestion>Rat und Tat</suggestion>'?</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Rat und Tat">Er stand mir mit <marker>Rad und Tat</marker> zur Seite.</example>
+                <example type="correct">Er stand mir mit <marker>Rat und Tat</marker> zur Seite.</example>
+                <example type="correct">Er kam mit dem <marker>Rad und tat</marker> sportlich.</example>
+            </rule>
+        </rulegroup>
         <rule id="IN_BAUCH_UND_BOGEN" name="Redewendung: 'in Bauch (Bausch) und Bogen'">
             <pattern case_sensitive="yes">
                 <token regexp="yes">[iI]n</token>
