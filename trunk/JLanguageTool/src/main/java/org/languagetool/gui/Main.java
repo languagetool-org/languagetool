@@ -472,7 +472,7 @@ public final class Main implements ActionListener {
                       try {
                           final long startTime = System.currentTimeMillis();
                           final String startCheckText = HTML_GREY_FONT_START +
-                                  Tools.makeTexti18n(messages, "startChecking", new Object[]{langName}) + "..." + HTML_FONT_END;
+                                  Tools.makeTexti18n(messages, "startChecking", langName) + "..." + HTML_FONT_END;
                           resultArea.setText(startCheckText);
                           resultArea.repaint();
                           try {

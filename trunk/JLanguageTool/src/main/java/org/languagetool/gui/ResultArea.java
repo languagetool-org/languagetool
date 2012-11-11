@@ -73,8 +73,7 @@ class ResultArea extends JTextPane {
     sb.append("<br>\n");
     int i = 0;
     for (final RuleMatch match : ruleMatches) {
-      final String output = Tools.makeTexti18n(messages, "result1",
-          new Object[] {i + 1, match.getLine() + 1, match.getColumn()});
+      final String output = Tools.makeTexti18n(messages, "result1", i + 1, match.getLine() + 1, match.getColumn());
       sb.append(output);
       final String msg = match.getMessage()
           .replaceAll("<suggestion>", "<b>").replaceAll("</suggestion>", "</b>")
@@ -106,7 +105,7 @@ class ResultArea extends JTextPane {
     }
     sb.append(Main.HTML_GREY_FONT_START);
     sb.append(getDisabledRulesHtml());
-    final String checkDone = Tools.makeTexti18n(messages, "checkDone", new Object[] {ruleMatches.size(), runTime});
+    final String checkDone = Tools.makeTexti18n(messages, "checkDone", ruleMatches.size(), runTime);
     sb.append("<br>\n").append(checkDone);
     sb.append(Main.HTML_FONT_END).append("<br>\n");
     return sb.toString();
