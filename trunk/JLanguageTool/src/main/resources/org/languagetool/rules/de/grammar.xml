@@ -5034,6 +5034,17 @@ $Id$
             <example type="correct">Das wird von Mal zu Mal besser.</example>
             <example type="correct">Sowas esse ich ab und zu mal.</example>
         </rule>
+        <rule id="ZU_LETZT" name="Zusammen-/Getrenntschreibung: zu letzt (zuletzt)">
+            <pattern>
+                <marker>
+                    <token>zu</token>
+                    <token>letzt</token>
+                </marker>
+            </pattern>
+            <message><suggestion>zuletzt</suggestion> wird zusammengeschrieben.</message>
+            <example type="incorrect" correction="zuletzt">Ich werde die Aufgabe <marker>zu Letzt</marker> machen.</example>
+            <example type="correct">Ich werde die Aufgabe <marker>zuletzt</marker> machen.</example>
+        </rule>
         <!--
         <rulegroup id="HIN_UND_HER" name="Zusammen-/Getrenntschreibung: 'hin- und hergehen (hin und her gehen)">
           <rule>
@@ -8472,6 +8483,7 @@ $Id$
                     <token>nichtsdestotrotz</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>nichtsdestoweniger</suggestion>? 'Nichtsdestotrotz' ist eine umgangssprachliche Verballhornung.</message>
+                <url>http://de.wikipedia.org/wiki/Nichtsdestotrotz</url>
                 <example type="correct"><marker>Nichtsdestoweniger</marker> wird einfach weiter geplant.</example>
                 <example type="incorrect" correction="Nichtsdestoweniger"><marker>Nichtsdestotrotz</marker> wird einfach weiter geplant.</example>
             </rule>
@@ -19026,6 +19038,16 @@ $Id$
                 <example type="correct"><marker>Das bundlose Griffbrett</marker> ist schön.</example>
             </rule>
         </rulegroup>
+        <rule id="AUSSER_LANDES" name="Grammatik: 'außer Lande (Landes)'">
+            <pattern>
+                <token>außer</token>
+                <token>Lande</token>
+            </pattern>
+            <message>&inwend;<suggestion>außer Landes</suggestion> steht die Präposition 'außer' mit Genitiv.</message>
+            <url>http://www.duden.de/rechtschreibung/auszer_Praeposition</url>
+            <example type="incorrect" correction="außer Landes">Ich werde <marker>außer Lande</marker> sein.</example>
+            <example type="correct">Ich werde <marker>außer Landes</marker> sein.</example>
+        </rule>
         <rule id="GEMAESS_DES" name="Grammatik: Präposition/Kasus – 'gemäß des (dem)'">
             <!-- TODO allgemeiner, idealerweise folgendes Substantiv auch in den Dativ setzen -->
             <pattern>
@@ -19151,17 +19173,17 @@ $Id$
         </rulegroup>
         <rule id="SATZ_OHNE_PRAED" name="Grammatik: Satz ohne Prädikat" default="off">
             <pattern>
-                <token postag="SENT_START" skip="3"><exception scope="next" postag="VER:[123]:.*|UNKNOWN" postag_regexp="yes"/></token>
-                <token postag=".*:NOM:.*" postag_regexp="yes"><exception postag="VER:[123]:.*|UNKNOWN" postag_regexp="yes"/></token>
-                <token><exception postag="VER:[123]:.*|UNKNOWN" postag_regexp="yes"/></token>
-                <token><exception postag="VER:[123]:.*|UNKNOWN" postag_regexp="yes"/></token>
-                <token skip="-1"><exception postag="VER:[123]:.*|UNKNOWN" postag_regexp="yes"/><exception scope="next" postag="VER:[123]:.*" postag_regexp="yes"/></token>
+                <token postag="SENT_START" skip="3"><exception scope="next" postag="VER.*:[123]:.*|UNKNOWN" postag_regexp="yes"/></token>
+                <token postag=".*:NOM:.*" postag_regexp="yes"><exception postag="VER.*:[123]:.*|UNKNOWN" postag_regexp="yes"/></token>
+                <token><exception postag="VER.*:[123]:.*|UNKNOWN" postag_regexp="yes"/></token>
+                <token><exception postag="VER.*:[123]:.*|UNKNOWN" postag_regexp="yes"/></token>
+                <token skip="-1"><exception postag="VER.*:[123]:.*|UNKNOWN" postag_regexp="yes"/><exception scope="next" postag="VER.*:[123]:.*" postag_regexp="yes"/></token>
                 <token postag="SENT_END">.</token>
             </pattern>
             <message>In diesem Satz fehlt ein Prädikat.</message>
             <example type="incorrect"><marker>Das Konzept eines intelligenten Autos nicht neu.</marker></example>
             <example type="correct"><marker>Das Konzept eines intelligenten Autos ist nicht neu.</marker></example>
-<!-- TODO            <example type="correct"><marker>Bei der Behandlung der Unterrichtseinheit kann der Einsatz eines GTR sehr hilfreich sein.</marker></example> -->
+            <example type="correct"><marker>Bei der Behandlung der Unterrichtseinheit kann der Einsatz eines GTR sehr hilfreich sein.</marker></example>
             <example type="correct"><marker>Das Auto.</marker></example>
         </rule>
         <rulegroup id="NACHDEM_PRAETERITUM" name="Grammatik: 'nachdem' mit Präteritum">
