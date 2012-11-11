@@ -318,8 +318,8 @@ $Id$
                 <pattern>
                     <marker>
                         <token skip="3">kein
-                            <exception scope="next" postag="SUB:.*" postag_regexp="yes"></exception>
-                            <exception scope="next" postag="UNKNOWN"></exception>
+                            <exception scope="next" postag="SUB:.*" postag_regexp="yes"/>
+                            <exception scope="next" postag="UNKNOWN"/>
                             <exception scope="next" regexp="yes">[a-z0-9]</exception>
                             <exception scope="next">,</exception>
                         </token>
@@ -336,8 +336,8 @@ $Id$
                 <pattern>
                     <marker>
                         <token skip="3">kein
-                            <exception scope="next" postag="SUB:.*" postag_regexp="yes"></exception>
-                            <exception scope="next" postag="UNKNOWN"></exception>
+                            <exception scope="next" postag="SUB:.*" postag_regexp="yes"/>
+                            <exception scope="next" postag="UNKNOWN"/>
                             <exception scope="next" regexp="yes">[a-z0-9]</exception>
                             <exception scope="next">,</exception>
                         </token>
@@ -1350,7 +1350,7 @@ $Id$
                     </marker>
                     <token regexp="yes">(Versprech|Droh)ung(en)?</token>
                 </pattern>
-                <message>Meinten Sie <suggestion><match no="2" regexp_match="^lehr" regexp_replace="leer"/></suggestion> (Auswahl, Abstimmung)?</message>
+                <message>Meinten Sie <suggestion><match no="2" regexp_match="^lehr" regexp_replace="leer"/></suggestion>?</message>
                 <short>Möglicher Tippfehler</short>
                 <example type="correct">Das sind doch nur <marker>leere</marker> Drohungen.</example>
                 <example type="incorrect" correction="leere">Das sind doch nur <marker>lehre</marker> Drohungen.</example>
@@ -1363,7 +1363,7 @@ $Id$
                     </marker>
                     <token regexp="yes">Phrasen?</token>
                 </pattern>
-                <message>Meinten Sie <suggestion><match no="2" regexp_match="lehr" regexp_replace="leer"/></suggestion> (Auswahl, Abstimmung)?</message>
+                <message>Meinten Sie <suggestion><match no="2" regexp_match="lehr" regexp_replace="leer"/></suggestion>?</message>
                 <short>Möglicher Tippfehler</short>
                 <example type="correct">Das sind doch nur <marker>leere</marker> Phrasen.</example>
                 <example type="incorrect" correction="leere">Das sind doch nur <marker>lehre</marker> Phrasen.</example>
@@ -1376,7 +1376,7 @@ $Id$
                     </marker>
                     <token regexp="yes">Phrasen?</token>
                 </pattern>
-                <message>Meinten Sie <suggestion><match no="2" regexp_match="hol" regexp_replace="hohl"/></suggestion> (Auswahl, Abstimmung)?</message>
+                <message>Meinten Sie <suggestion><match no="2" regexp_match="hol" regexp_replace="hohl"/></suggestion>?</message>
                 <short>Möglicher Tippfehler</short>
                 <example type="correct">Das sind doch nur <marker>hohle</marker> Phrasen.</example>
                 <example type="incorrect" correction="hohle">Das sind doch nur <marker>hole</marker> Phrasen.</example>
@@ -1389,7 +1389,7 @@ $Id$
                         <token regexp="yes">Phasen?</token>
                     </marker>
                 </pattern>
-                <message>Meinten Sie <suggestion><match no="3" regexp_match="^Phas" regexp_replace="Phras"/></suggestion> (Auswahl, Abstimmung)?</message>
+                <message>Meinten Sie <suggestion><match no="3" regexp_match="^Phas" regexp_replace="Phras"/></suggestion>?</message>
                 <short>Möglicher Tippfehler</short>
                 <example type="correct">Das sind doch nur abgedroschene <marker>Phrasen</marker>.</example>
                 <example type="incorrect" correction="Phrasen">Das sind doch nur abgedroschene <marker>Phasen</marker>.</example>
@@ -9883,6 +9883,96 @@ $Id$
             <example type="correct">Da regt er sich ganz <marker>zu Unrecht</marker> auf.</example>
             <example type="incorrect">Da regt er sich ganz <marker>zu unrecht</marker> auf.</example>
         </rule>
+        <rulegroup id="FETT_SUBST" name="Groß-/Kleinschreibung: 'in heißem fett (Fett)' etc.">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[iI]n</token>
+                    <token regexp="yes">heißem|siedendem</token>
+                    <marker>
+                        <token>fett</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Fett</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Fett">Wir haben sie in heißem <marker>fett</marker> gebraten.</example>
+                <example type="correct">Wir haben sie in heißem <marker>Fett</marker> gebraten.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[iI]n</token>
+                    <marker>
+                        <token>fett</token>
+                    </marker>
+                    <token regexp="yes" inflected="yes">backen|braten</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Fett</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Fett">Wir haben sie in <marker>fett</marker> gebraten.</example>
+                <example type="correct">Wir haben sie in <marker>Fett</marker> gebraten.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="VER:(AUX:)?[123]:.+" postag_regexp="yes"/>
+                    <marker>
+                        <token regexp="yes">[öÖ]le</token>
+                        <token>und</token>
+                        <token>fette</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/> und <match no="4" case_conversion="startupper"/></suggestion> hier als Substantive verwendet werden.</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Öle und Fette">Musterland exportiert <marker>Öle und fette</marker>.</example>
+                <example type="incorrect" correction="Öle und Fette">Musterland exportiert <marker>öle und fette</marker>.</example>
+                <example type="correct">Musterland exportiert <marker>Öle und Fette</marker>.</example>
+                <example type="correct">Ich <marker>öle und fette</marker> die Kette.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="VER:(AUX:)?[123]:.+" postag_regexp="yes"/>
+                    <marker>
+                        <token>öle</token>
+                        <token>und</token>
+                        <token regexp="yes">[fF]ette</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/> und <match no="4" case_conversion="startupper"/></suggestion> hier als Substantive verwendet werden.</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Öle und Fette">Musterland exportiert <marker>öle und fette</marker>.</example>
+                <example type="incorrect" correction="Öle und Fette">Musterland exportiert <marker>öle und Fette</marker>.</example>
+                <example type="correct">Musterland exportiert <marker>Öle und Fette</marker>.</example>
+                <example type="correct">Ich <marker>öle und fette</marker> die Kette.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes">[öÖ]le</token>
+                        <token>und</token>
+                        <token>fette</token>
+                    </marker>
+                    <token postag="VER:(AUX:)?[123]:.+" postag_regexp="yes"/>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="1" case_conversion="startupper"/> und <match no="3" case_conversion="startupper"/></suggestion> hier als Substantive verwendet werden.</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Öle und Fette">Musterland hat früher <marker>Öle und fette</marker> exportiert.</example>
+                <example type="correct">Musterland exportiert <marker>Öle und Fette</marker>.</example>
+                <example type="correct">Ich <marker>öle und fette</marker> die Kette.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>öle</token>
+                        <token>und</token>
+                        <token regexp="yes">[fF]ette</token>
+                    </marker>
+                    <token postag="VER:(AUX:)?[123]:.+" postag_regexp="yes"/>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="1" case_conversion="startupper"/> und <match no="3" case_conversion="startupper"/></suggestion> hier als Substantive verwendet werden.</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Öle und Fette">Musterland hat früher <marker>öle und fette</marker> exportiert.</example>
+                <example type="correct">Musterland exportiert <marker>Öle und Fette</marker>.</example>
+                <example type="correct">Ich <marker>öle und fette</marker> die Kette.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ZWEI_FLIEGEN_MIT_EINER_KLAPPE" name="Groß-/Kleinschreibung: 'zwei Fliegen mit einer klappe (Klappe) schlagen'">
             <rule>
                 <pattern case_sensitive="yes">
@@ -12470,10 +12560,22 @@ $Id$
                 </pattern>
                 <message>&subanfang;<suggestion>Griff</suggestion>&subende;</message>
                 <short>&prgk;.</short>
-                <example type="incorrect">Ich bekomme das Problem nicht in den <marker>griff</marker>!</example>
+                <example type="incorrect" correction="Griff">Ich bekomme das Problem nicht in den <marker>griff</marker>!</example>
                 <example type="correct">Ich bekomme das Problem nicht in den <marker>Griff</marker>!</example>
             </rule>
         </rulegroup>
+        <rule id="IN_MASZEN" name="Groß-/Kleinschreibung: 'in maßen (Maßen)'">
+            <pattern case_sensitive="yes">
+                <token regexp="yes">[iI]n</token>
+                <marker>
+                    <token>maßen</token>
+                </marker>
+            </pattern>
+            <message>&subanfang;<suggestion>Maßen</suggestion>&subende;</message>
+            <short>&prgk;.</short>
+            <example type="incorrect" correction="Maßen">In <marker>maßen</marker> genossen ist Schokolade nicht ungesund.</example>
+            <example type="correct">In <marker>Maßen</marker> genossen ist Schokolade nicht ungesund.</example>
+        </rule>
         <rule id="IN_ALLER_SCHAERFE" name="Groß-/Kleinschreibung: 'in aller schärfe (Schärfe)'">
             <pattern case_sensitive="yes">
                 <token regexp="yes">[iI]n</token>
@@ -12484,7 +12586,7 @@ $Id$
             </pattern>
             <message>&subanfang;<suggestion>Schärfe</suggestion>&subende;</message>
             <short>&prgk;.</short>
-            <example type="incorrect">In aller <marker>schärfe</marker> zeigt eine neue Studie, wie groß die sozialen Gegensätze in Deutschland sind.</example>
+            <example type="incorrect" correction="Schärfe">In aller <marker>schärfe</marker> zeigt eine neue Studie, wie groß die sozialen Gegensätze in Deutschland sind.</example>
             <example type="correct">In aller <marker>Schärfe</marker> zeigt eine neue Studie, wie groß die sozialen Gegensätze in Deutschland sind.</example>
         </rule>
         <rule id="AUF_DIE_REISE" name="Groß-/Kleinschreibung: 'auf die reise (Reise)'">
