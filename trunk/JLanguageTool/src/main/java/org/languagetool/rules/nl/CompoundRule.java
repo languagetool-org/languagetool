@@ -32,7 +32,7 @@ public class CompoundRule extends AbstractCompoundRule {
 
   public CompoundRule(final ResourceBundle messages) throws IOException {
     super(messages, FILE_NAME,
-            "Dit woord heeft een koppelteken nodig.",
+            "Hier wordt een koppelteken verwacht.",
             "Dit woord hoort waarschijnlijk aaneengeschreven.",
             "Deze uitdrukking hoort mogelijk aan elkaar, eventueel met een koppelteken.");
     super.setShort("Koppeltekenprobleem");
