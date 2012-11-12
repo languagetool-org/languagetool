@@ -2997,7 +2997,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <disambig action="filter" postag="V.*"></disambig>
     </rule>
     <rule id="nomadj_verbnomadj_nom" name="nom + verb/nom/adj + nom">
-        <!-- l'art expressa emocions. Excp: la darrera gran inundació -->
+        <!-- l'art expressa emocions. Excp: la darrera gran inundació, la greu doble crisi -->
         <pattern>
             <token postag="N.*|A.*" postag_regexp="yes"><exception postag="N.*|A.*" postag_regexp="yes" negate_pos="yes" /></token>
             <marker>
@@ -5545,7 +5545,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <token postag="A..[MC][SN0].*|V.P..SM|PX.[MC][SN0].*" postag_regexp="yes"><exception postag="AQ0CN0|_GV_" postag_regexp="yes"/><exception inflected="yes" regexp="yes">poder|voler|saber</exception></token>
                 <marker>
-                    <token postag="N.[MC][SN0].*" postag_regexp="yes"><exception regexp="yes">ens|estic</exception><exception inflected="yes">numeral</exception></token>
+                    <token postag="N.[MC][SN0].*" postag_regexp="yes"><exception regexp="yes">ens|estic|tant</exception><exception inflected="yes">numeral</exception></token>
                 </marker>
             </pattern>
             <disambig action="add"><wd pos="_GN_MS"></wd>
@@ -5556,7 +5556,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <token postag="A..[MC][SN0].*|V.P..SM|PX.[MC][SN0].*" postag_regexp="yes"><exception postag="AQ0CN0|_GV_" postag_regexp="yes"/><exception inflected="yes" regexp="yes">poder|voler|saber</exception></token>
                 </marker>
-                <token postag="N.[MC][SN0].*" postag_regexp="yes"><exception regexp="yes">ens|estic</exception><exception inflected="yes">numeral</exception></token>
+                <token postag="N.[MC][SN0].*" postag_regexp="yes"><exception regexp="yes">ens|estic|tant</exception><exception inflected="yes">numeral</exception></token>
             </pattern>
             <disambig action="add"><wd pos="_GN_MS"></wd>
             </disambig>
@@ -5709,32 +5709,6 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="add"><wd pos="_GN_FP"></wd></disambig>
         </rule>
-    </rulegroup>
-    <rulegroup id="verbs_darere_sino" name="neteja verbs darrere de 'sinó'">
-        <rule>
-            <pattern>
-                <token>sinó</token>
-                <marker>
-                    <and>
-                        <token postag="_GN_.*" postag_regexp="yes"/>
-                        <token postag="V.[MSI].*" postag_regexp="yes"/>
-                    </and>
-                </marker>
-            </pattern>
-            <disambig action="filter" postag="_GN_.*|A.*|N.*|D.*|V.P.*|PX.*"></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token skip="3">sinó</token>
-                <marker>
-                    <and>
-                        <token postag="_GN_.*|N.*" postag_regexp="yes"/>
-                        <token postag="V.[MSI].*" postag_regexp="yes"/>
-                    </and>
-                </marker>
-            </pattern>
-            <disambig action="filter" postag="_GN_.*|A.*|N.*|D.*|V.P.*|PX.*"></disambig>
-        </rule> 
     </rulegroup>
     <rule id="VERB_PREPOSICIO" name="verb + preposició">
         <!-- mogut per "haver acabat"; excepció: per tal d'aconseguir els seus fins; per a aconseguir fins dignes d'aconseguir-se-->
@@ -5892,7 +5866,33 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="add"><wd pos="_GV_"></wd></disambig>
         </rule> -->
     </rulegroup>
-        <rulegroup id="Verb_adverbi" name="Verb i adverbi: encara sóc, sóc encara">
+    <rulegroup id="verbs_darrere_sino" name="neteja verbs darrere de 'sinó'">
+        <rule>
+            <pattern>
+                <token>sinó</token>
+                <marker>
+                    <and>
+                        <token postag="_GN_.*" postag_regexp="yes"/>
+                        <token postag="V.[MSI].*" postag_regexp="yes"/>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="_GN_.*|A.*|N.*|D.*|V.P.*|PX.*"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token skip="3">sinó<exception scope="next">que</exception></token>
+                <marker>
+                    <and>
+                        <token postag="_GN_.*|N.*" postag_regexp="yes"/>
+                        <token postag="V.[MSI].*" postag_regexp="yes"/>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="_GN_.*|A.*|N.*|D.*|V.P.*|PX.*"></disambig>
+        </rule> 
+    </rulegroup>
+    <rulegroup id="Verb_adverbi" name="Verb i adverbi: encara sóc, sóc encara">
         <rule> <!--  ATENCIÓ: quan el verb és també substantiu, poden haver-hi problemes: encara es "troba". Les excepcions no són fiables 
         Ens encara i ens destrueix. Ell encara ho creu. 
         -->
