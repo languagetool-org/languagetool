@@ -19,12 +19,7 @@
 package org.languagetool.rules.patterns;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -37,11 +32,18 @@ import org.languagetool.TestTools;
 import org.languagetool.rules.IncorrectExample;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 
 /**
  * @author Daniel Naber
  */
 public class PatternRuleTest extends TestCase {
+
+  // A test sentence should only be a single sentence - if that's not the case it can
+  // happen that rules are checked as being correct that in reality will never match.
+  // This check prints a warning for affected rules, but it's disabled by default because
+  // it makes the tests very slow:
+  private static final boolean CHECK_WITH_SENTENCE_SPLITTING = false;
 
   // The  [^cfmnt123]\\.|\\.[^mvngl]  part is there to consider a string as a
   // regexp if and only if it is not enclosed on both sides by those characters.
@@ -75,6 +77,10 @@ public class PatternRuleTest extends TestCase {
       }
       System.out.println("Running tests for " + lang.getName() + "...");
       final JLanguageTool languageTool = new JLanguageTool(lang);
+      if (CHECK_WITH_SENTENCE_SPLITTING) {
+        languageTool.activateDefaultPatternRules();
+        disableSpellingRules(languageTool);
+      }
       final JLanguageTool allRulesLanguageTool = new JLanguageTool(lang);
       allRulesLanguageTool.activateDefaultPatternRules();
       final List<PatternRule> rules = new ArrayList<PatternRule>();
@@ -83,6 +89,15 @@ public class PatternRuleTest extends TestCase {
       }
       warnIfRegexpSyntaxNotKosher(rules, lang);
       testGrammarRulesFromXML(rules, languageTool, allRulesLanguageTool, lang);
+    }
+  }
+
+  private void disableSpellingRules(JLanguageTool languageTool) {
+    final List<Rule> allRules = languageTool.getAllRules();
+    for (Rule rule : allRules) {
+      if (rule instanceof SpellingCheckRule) {
+        languageTool.disableRule(rule.getId());
+      }
     }
   }
 
@@ -372,17 +387,17 @@ public class PatternRuleTest extends TestCase {
         }
         final String badSentence = cleanXML(origBadSentence);
         assertTrue(badSentence.trim().length() > 0);
-        RuleMatch[] matches = getMatches(rule, badSentence, languageTool);
+        List<RuleMatch> matches = getMatches(rule, badSentence, languageTool);
         if (!rule.isWithComplexPhrase()) {
           assertTrue(lang + ": Did expect one error in: \"" + badSentence
-              + "\" (Rule: " + rule + "), but found " + matches.length
-              + ". Additional info:" + rule.getMessage(), matches.length == 1);
+              + "\" (Rule: " + rule + "), but found " + matches.size()
+              + ". Additional info:" + rule.getMessage() + ", Matches: " + matches, matches.size() == 1);
           assertEquals(lang
-              + ": Incorrect match position markup (start) for rule " + rule + ", sentence: " + badSentence,
-              expectedMatchStart, matches[0].getFromPos());
+                  + ": Incorrect match position markup (start) for rule " + rule + ", sentence: " + badSentence,
+                  expectedMatchStart, matches.get(0).getFromPos());
           assertEquals(lang
-              + ": Incorrect match position markup (end) for rule " + rule + ", sentence: " + badSentence,
-              expectedMatchEnd, matches[0].getToPos());
+                  + ": Incorrect match position markup (end) for rule " + rule + ", sentence: " + badSentence,
+                  expectedMatchEnd, matches.get(0).getToPos());
           // make sure suggestion is what we expect it to be
           if (suggestedCorrections != null && suggestedCorrections.size() > 0) {
             assertTrue("You specified a correction but your message has no suggestions in rule " + rule,
@@ -390,18 +405,18 @@ public class PatternRuleTest extends TestCase {
             );
             assertTrue(lang + ": Incorrect suggestions: "
                 + suggestedCorrections.toString() + " != "
-                + matches[0].getSuggestedReplacements() + " for rule " + rule + " on input: " + badSentence,
-                suggestedCorrections.equals(matches[0].getSuggestedReplacements()));
+                + matches.get(0).getSuggestedReplacements() + " for rule " + rule + " on input: " + badSentence,
+                suggestedCorrections.equals(matches.get(0).getSuggestedReplacements()));
           }
           // make sure the suggested correction doesn't produce an error:
-          if (matches[0].getSuggestedReplacements().size() > 0) {
-            final int fromPos = matches[0].getFromPos();
-            final int toPos = matches[0].getToPos();
-            for (final String replacement : matches[0].getSuggestedReplacements()) {
+          if (matches.get(0).getSuggestedReplacements().size() > 0) {
+            final int fromPos = matches.get(0).getFromPos();
+            final int toPos = matches.get(0).getToPos();
+            for (final String replacement : matches.get(0).getSuggestedReplacements()) {
               final String fixedSentence = badSentence.substring(0, fromPos)
                   + replacement + badSentence.substring(toPos);
               matches = getMatches(rule, fixedSentence, languageTool);
-              if (matches.length > 0) {
+              if (matches.size() > 0) {
                   fail("Incorrect input:\n"
                           + "  " + badSentence
                             + "\nCorrected sentence:\n"
@@ -409,27 +424,27 @@ public class PatternRuleTest extends TestCase {
                           + "\nBy Rule:\n"
                           + "  " + rule
                           + "\nThe correction triggered an error itself:\n"
-                          + "  " + matches[0] + "\n");
+                          + "  " + matches.get(0) + "\n");
               }
             }
           }
         } else { // for multiple rules created with complex phrases
 
           matches = getMatches(rule, badSentence, languageTool);
-          if (matches.length == 0
+          if (matches.size() == 0
               && !complexRules.containsKey(rule.getId() + badSentence)) {
             complexRules.put(rule.getId() + badSentence, rule);
           }
 
-          if (matches.length != 0) {
+          if (matches.size() != 0) {
             complexRules.put(rule.getId() + badSentence, null);
             assertTrue(lang + ": Did expect one error in: \"" + badSentence
-                + "\" (Rule: " + rule + "), got " + matches.length,
-                matches.length == 1);
+                + "\" (Rule: " + rule + "), got " + matches.size(),
+                matches.size() == 1);
             assertEquals(lang + ": Incorrect match position markup (start) for rule " + rule,
-                expectedMatchStart, matches[0].getFromPos());
+                    expectedMatchStart, matches.get(0).getFromPos());
             assertEquals(lang + ": Incorrect match position markup (end) for rule " + rule,
-                expectedMatchEnd, matches[0].getToPos());
+                    expectedMatchEnd, matches.get(0).getToPos());
             assertSuggestions(suggestedCorrections, lang, matches, rule);
             assertSuggestionsDoNotCreateErrors(languageTool, rule, badSentence, matches);
           }
@@ -459,25 +474,25 @@ public class PatternRuleTest extends TestCase {
     }
   }
 
-  private void assertSuggestions(List<String> suggestedCorrections, Language lang, RuleMatch[] matches, Rule rule) {
+  private void assertSuggestions(List<String> suggestedCorrections, Language lang, List<RuleMatch> matches, Rule rule) {
     if (suggestedCorrections != null && suggestedCorrections.size() > 0) {
-      final boolean isExpectedSuggestion = suggestedCorrections.equals(matches[0].getSuggestedReplacements());
+      final boolean isExpectedSuggestion = suggestedCorrections.equals(matches.get(0).getSuggestedReplacements());
       assertTrue(lang + ": Incorrect suggestions: "
-              + suggestedCorrections.toString() + " != " + matches[0].getSuggestedReplacements()
+              + suggestedCorrections.toString() + " != " + matches.get(0).getSuggestedReplacements()
               + " for rule " + rule, isExpectedSuggestion);
     }
   }
 
-  private void assertSuggestionsDoNotCreateErrors(JLanguageTool languageTool, PatternRule rule, String badSentence, RuleMatch[] matches) throws IOException {
-    if (matches[0].getSuggestedReplacements().size() > 0) {
-      final int fromPos = matches[0].getFromPos();
-      final int toPos = matches[0].getToPos();
-      for (final String replacement : matches[0].getSuggestedReplacements()) {
+  private void assertSuggestionsDoNotCreateErrors(JLanguageTool languageTool, PatternRule rule, String badSentence, List<RuleMatch> matches) throws IOException {
+    if (matches.get(0).getSuggestedReplacements().size() > 0) {
+      final int fromPos = matches.get(0).getFromPos();
+      final int toPos = matches.get(0).getToPos();
+      for (final String replacement : matches.get(0).getSuggestedReplacements()) {
         final String fixedSentence = badSentence.substring(0, fromPos)
             + replacement + badSentence.substring(toPos);
-        matches = getMatches(rule, fixedSentence, languageTool);
+        List<RuleMatch> tempMatches = getMatches(rule, fixedSentence, languageTool);
         assertEquals("Corrected sentence for rule " + rule
-            + " triggered error: " + fixedSentence, 0, matches.length);
+            + " triggered error: " + fixedSentence, 0, tempMatches.size());
       }
     }
   }
@@ -514,15 +529,30 @@ public class PatternRuleTest extends TestCase {
     return matches.length > 0;
   }
 
-  private RuleMatch[] getMatches(final Rule rule, final String sentence,
+  private List<RuleMatch> getMatches(final Rule rule, final String sentence,
       final JLanguageTool languageTool) throws IOException {
     final AnalyzedSentence text = languageTool.getAnalyzedSentence(sentence);
     final RuleMatch[] matches = rule.match(text);
-    /*
-     * for (int i = 0; i < matches.length; i++) {
-     * System.err.println(matches[i]); }
-     */
-    return matches;
+    if (CHECK_WITH_SENTENCE_SPLITTING) {
+      // "real check" with sentence splitting:
+      for (Rule r : languageTool.getAllActiveRules()) {
+        languageTool.disableRule(r.getId());
+      }
+      languageTool.enableRule(rule.getId());
+      final List<RuleMatch> realMatches = languageTool.check(sentence);
+      final List<String> realMatchRuleIds = new ArrayList<String>();
+      for (RuleMatch realMatch : realMatches) {
+        realMatchRuleIds.add(realMatch.getRule().getId());
+      }
+      for (RuleMatch match : matches) {
+        final String ruleId = match.getRule().getId();
+        if (!match.getRule().isDefaultOff() && !realMatchRuleIds.contains(ruleId)) {
+          System.err.println("WARNING: " + languageTool.getLanguage().getName()
+                  + ": missing rule match " + ruleId + " when splitting sentences for test sentence '" + sentence + "'");
+        }
+      }
+    }
+    return Arrays.asList(matches);
   }
 
   public void testMakeSuggestionUppercase() throws IOException {
