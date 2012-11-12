@@ -175,7 +175,7 @@ public abstract class Language {
 
   /**
    * Get this language's two character code, e.g. <code>en</code> for English.
-   * The variant (e.g. "US"), if any, is not returned.
+   * The country variant (e.g. "US"), if any, is not returned.
    * @return language code
    */
   public abstract String getShortName();
@@ -188,8 +188,8 @@ public abstract class Language {
   public abstract String getName();
   
   /**
-   * Get this language's variants, e.g. <code>US</code> (as in <code>en_US</code>) or
-   * <code>PL</code> (as in <code>pl_PL</code>).
+   * Get this language's country variants, e.g. <code>US</code> (as in <code>en-US</code>) or
+   * <code>PL</code> (as in <code>pl-PL</code>).
    * @return String[] - array of country variants for the language.
    */
   public abstract String[] getCountryVariants();
@@ -232,8 +232,8 @@ public abstract class Language {
   }
 
   /**
-   * Languages that have variants need to overwrite this to select their most common variant.
-   * @return default variant or <code>null</code>
+   * Languages that have country variants need to overwrite this to select their most common variant.
+   * @return default country variant or <code>null</code>
    * @since 1.8
    */
   public Language getDefaultVariant() {
@@ -365,7 +365,7 @@ public abstract class Language {
   
   /**
    * Return all languages supported by LanguageTool.
-   * @return A list of all languages, including external ones and variants (e.g. en-US)
+   * @return A list of all languages, including external ones and country variants (e.g. en-US)
    */
   public static List<Language> getAllLanguages() {
 	  final List<Language> langList = new ArrayList<Language>();
@@ -423,7 +423,7 @@ public abstract class Language {
 
   /**
    * Get the best match for a locale, using American English as the final fallback if nothing
-   * else fits. The returned language will be a variant language (e.g. British English, not just English)
+   * else fits. The returned language will be a country variant language (e.g. British English, not just English)
    * if available.
    * @since 1.8
    */
@@ -477,7 +477,7 @@ public abstract class Language {
   }
   
   /**
-   * Get sorted info about all maintainers (without language variants) to be used in the About dialog.
+   * Get sorted info about all maintainers (without country variants) to be used in the About dialog.
    * @since 0.9.9
    * @param messages {{@link ResourceBundle} language bundle to translate the info
    * @return A list of maintainers, sorted by name of language.
@@ -506,7 +506,7 @@ public abstract class Language {
   }
 
   /**
-   * Whether this is a variant of another language, i.e. whether it doesn't
+   * Whether this is a country variant of another language, i.e. whether it doesn't
    * directly extend {@link Language}, but a subclass of {@link Language}.
    * @since 1.8
    */
@@ -539,7 +539,7 @@ public abstract class Language {
   }
 
   /**
-   * Return true if this is the same language as the given one, considering
+   * Return true if this is the same language as the given one, considering country
    * variants only if set for both languages. For example: en = en, en = en-GB, en-GB = en-GB,
    * but en-US != en-GB
    * @since 1.8
