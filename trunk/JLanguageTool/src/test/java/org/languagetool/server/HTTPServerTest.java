@@ -18,16 +18,6 @@
  */
 package org.languagetool.server;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStreamWriter;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
-import java.util.HashSet;
-
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.apache.commons.lang.StringUtils;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -37,9 +27,14 @@ import org.languagetool.XMLValidator;
 import org.languagetool.tools.StringTools;
 import org.xml.sax.SAXException;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.util.HashSet;
+
+import static org.junit.Assert.*;
 import static org.languagetool.server.HTTPServerConfig.DEFAULT_PORT;
 
 public class HTTPServerTest {
@@ -180,7 +175,7 @@ public class HTTPServerTest {
       try {
         System.out.println("Testing 'missing language parameter' now, please ignore the exception");
         final URL url = new URL("http://localhost:" + DEFAULT_PORT + "/?text=foo");
-        checkAtUrl(url);
+        HTTPTools.checkAtUrl(url);
         fail();
       } catch (IOException expected) {
       }
@@ -197,7 +192,7 @@ public class HTTPServerTest {
       urlOptions += "&motherTongue="+motherTongue.getShortName();
     }
     final URL url = new URL("http://localhost:" + DEFAULT_PORT + urlOptions);
-    return checkAtUrl(url);
+    return HTTPTools.checkAtUrl(url);
   }
 
   private String check(Language lang, String text) throws IOException {
@@ -211,13 +206,7 @@ public class HTTPServerTest {
     	urlOptions += "&motherTongue=" + motherTongue.getShortName();
     }
     final URL url = new URL("http://localhost:" + DEFAULT_PORT + urlOptions);
-    return checkAtUrl(url);
-  }
-
-  private String checkAtUrl(URL url) throws IOException {
-    final InputStream stream = (InputStream)url.getContent();
-    final String result = StringTools.streamToString(stream, "UTF-8");
-    return result;
+    return HTTPTools.checkAtUrl(url);
   }
 
   private String checkWithOptions(Language lang, Language motherTongue, String text,
@@ -236,7 +225,7 @@ public class HTTPServerTest {
     }
 
     final URL url = new URL("http://localhost:" + DEFAULT_PORT + urlOptions);
-    return checkAtUrl(url);
+    return HTTPTools.checkAtUrl(url);
   }
   
   /**
@@ -245,16 +234,7 @@ public class HTTPServerTest {
   private String checkByPOST(Language lang, String text) throws IOException {
     final String postData = "language=" + lang.getShortName() + "&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
     final URL url = new URL("http://localhost:" + DEFAULT_PORT);
-    final URLConnection connection = url.openConnection();
-    connection.setDoOutput(true);
-    final OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());
-    try {
-        wr.write(postData);
-        wr.flush();
-        return StringTools.streamToString(connection.getInputStream(), "UTF-8");
-    } finally {
-      wr.close();
-    }
+    return HTTPTools.checkAtUrlByPost(url, postData);
   }
 
 }

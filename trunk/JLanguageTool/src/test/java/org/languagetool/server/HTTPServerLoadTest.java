@@ -39,7 +39,7 @@ public class HTTPServerLoadTest extends HTTPServerTest {
       System.out.println("Running with " + THREAD_COUNT + " threads in " + runtime + "ms");
     }
   }
-  
+
   @Override
   public void testAccessDenied() throws Exception {
     // no need to test this here, tested in super class
