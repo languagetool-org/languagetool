@@ -42,7 +42,7 @@ public class HTTPSServerTesting {
   private static final String SERVER_URL = "https://localhost:8081";
   //private static final String SERVER_URL = "https://languagetool.org:8081";
   private static final int REPEAT_COUNT = 100;
-  private static final int THREAD_COUNT = 1;
+  private static final int THREAD_COUNT = 3;
 
   private final ExampleSentenceProvider provider = new ExampleSentenceProvider(1, 500);
   private final Random rnd = new Random(10);
@@ -57,7 +57,7 @@ public class HTTPSServerTesting {
       final ExecutorService executorService = Executors.newFixedThreadPool(THREAD_COUNT);
       final List<Future> futures = new ArrayList<Future>();
       for (int i = 0; i < THREAD_COUNT; i++) {
-        final Future<?> future = executorService.submit(new TestRunnable());
+        final Future<?> future = executorService.submit(new TestRunnable(i));
         futures.add(future);
       }
       for (Future future : futures) {
@@ -74,11 +74,17 @@ public class HTTPSServerTesting {
   }
 
   private class TestRunnable implements Runnable {
+    private final int threadNumber;
+
+    public TestRunnable(int threadNumber) {
+      this.threadNumber = threadNumber;
+    }
+
     @Override
     public void run() {
       try {
         for (int i = 0; i < REPEAT_COUNT; i++) {
-          runTests();
+          runTests(threadNumber);
         }
       } catch (Exception e) {
         throw new RuntimeException(e);
@@ -86,15 +92,15 @@ public class HTTPSServerTesting {
     }
   }
 
-  private void runTests() throws IOException {
+  private void runTests(int threadNumber) throws IOException {
     final Language[] languages = Language.REAL_LANGUAGES;
     final Language lang = languages[rnd.nextInt(languages.length)];
     final List<ExampleSentence> sentences = provider.getRandomSentences(lang);
     final String text = getSentencesAsText(sentences);
     final String data = "language=" + lang.getShortNameWithVariant() + "&text=" + URLEncoder.encode(text, "utf-8");
-    final String resultXml = checkAtUrl(new URL(SERVER_URL), data);
+    final String resultXml = checkAtUrl(new URL(SERVER_URL), data, threadNumber);
     for (ExampleSentence sentence : sentences) {
-      assertTrue("Expected " + sentence.getRuleId() + " for '" + text + "'", resultXml.contains(sentence.getRuleId()));
+      assertTrue("Expected " + sentence.getRuleId() + " for '" + text + "' (" + sentences.size() + " sentences)", resultXml.contains(sentence.getRuleId()));
     }
   }
 
@@ -109,14 +115,14 @@ public class HTTPSServerTesting {
     return sb.toString();
   }
 
-  private String checkAtUrl(URL url, String data) throws IOException {
+  private String checkAtUrl(URL url, String data, int threadNumber) throws IOException {
     final long startTime = System.currentTimeMillis();
     final String startOfData = data.substring(0, Math.min(30, data.length()));
     synchronized(this) {
       checkCount++;
     }
     final String result = HTTPTools.checkAtUrlByPost(url, data);
-    System.out.println(checkCount + ". Got " + url + " with data (" + data.length() + " bytes) " + startOfData
+    System.out.println(checkCount + ". [" + threadNumber + "] Got " + url + " with data (" + data.length() + " bytes) " + startOfData
             + "...: " + (System.currentTimeMillis() - startTime) + "ms");
     return result;
   }

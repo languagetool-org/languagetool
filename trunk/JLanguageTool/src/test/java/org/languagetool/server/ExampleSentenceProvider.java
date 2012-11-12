@@ -70,7 +70,7 @@ class ExampleSentenceProvider {
   }
 
   List<ExampleSentence> getRandomSentences(Language lang) {
-    final List<ExampleSentence> sentences = languageToExamples.get(lang);
+    final List<ExampleSentence> sentences = new ArrayList<ExampleSentence>(languageToExamples.get(lang));
     final int sentenceCount = rnd.nextInt(Math.max(1, maxSentences - minSentences)) + minSentences;
     Collections.shuffle(sentences);
     return sentences.subList(0, Math.min(sentences.size(), sentenceCount));
