@@ -102,7 +102,8 @@ $Id$
             <example type="incorrect">В сквере <marker>заложено 30 деревьев</marker>.</example>
             <example type="correct">В сквере посажено 30 деревьев.</example>
         </rule>
- <rule id="Logical_odel_nadel" name="Логические ошибки (одеть/надеть)">
+ <rulegroup id="Logical_odel_nadel" name="Логические ошибки (одеть/надеть)">
+      <rule>      
             <pattern>
                 <token>одел</token>
                 <token inflected="yes" regexp="yes">рубашка|одежда|платье|юбка|пальто|куртка|брюки</token>
@@ -112,8 +113,20 @@ $Id$
             <short>Логическая ошибка.</short>
             <example type="incorrect">Он <marker>одел рубашку</marker>.</example>
             <example type="correct">Он надел рубашку.</example>
-        </rule>
-
+      </rule>   
+<rule>      
+            <pattern>
+                <token>надел</token>
+                <token postag="NNN:.*|NNP:.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Логическая ошибка: <suggestion>одел \2</suggestion>?</message>
+   
+            <short>Логическая ошибка.</short>
+            <example type="incorrect">Он <marker>надел Ивана</marker>.</example>
+            <example type="correct">Он одел Ивана.</example>
+      </rule>       
+ </rulegroup>
+   
  <rule id="Linguistics_hrabry" name="Лингвистические ошибки «(храбрая или смелая ?) мысль, решение, идея»">
             <pattern>
                 <token>храбрая</token>
