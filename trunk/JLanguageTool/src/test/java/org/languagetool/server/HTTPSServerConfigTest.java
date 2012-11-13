@@ -50,4 +50,22 @@ public class HTTPSServerConfigTest {
     assertThat(config2.getKeyStorePassword(), is("mytest"));
   }
 
+  @Test
+  public void testMissingPropertyFile() {
+    final String propertyFile = "/does-not-exist";
+    try {
+      new HTTPSServerConfig(("--config " + propertyFile).split(" "));
+      fail();
+    } catch (Exception expected) {}
+  }
+
+  @Test
+  public void testIncompletePropertyFile() {
+    final String propertyFile = HTTPSServerConfigTest.class.getResource("/org/languagetool/server/https-server-incomplete.properties").getFile();
+    try {
+      new HTTPSServerConfig(("--config " + propertyFile).split(" "));
+      fail();
+    } catch (IllegalArgumentException expected) {}
+  }
+
 }

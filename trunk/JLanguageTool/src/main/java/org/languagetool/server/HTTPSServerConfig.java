@@ -54,7 +54,7 @@ public class HTTPSServerConfig extends HTTPServerConfig {
   }
 
   /**
-   * Parse command line options.
+   * Parse command line options and load settings from property file.
    */
   HTTPSServerConfig(String[] args) {
     super(args);
