@@ -30,7 +30,7 @@ import static org.junit.Assert.fail;
 
 public class HTTPSServerTest {
 
-  private static final String KEYSTORE = "/org/languagetool/test-keystore.jks";
+  private static final String KEYSTORE = "/org/languagetool/server/test-keystore.jks";
   private static final String KEYSTORE_PASSWORD = "mytest";
 
   @Test
