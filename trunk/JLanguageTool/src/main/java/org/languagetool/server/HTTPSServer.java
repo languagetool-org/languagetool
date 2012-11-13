@@ -110,10 +110,11 @@ public class HTTPSServer extends Server {
   public static void main(String[] args) throws IOException {
     if (args.length > 7 || usageRequested(args)) {
       System.out.println("Usage: " + HTTPSServer.class.getSimpleName()
-              + " [-p|--port port] [--public] [--keystore keystorefile] [--password password]");
+              + " --config propertyFile [--port|-p port] [--public]");
+      System.out.println("  --config file  a Java property file with values for:");
+      System.out.println("                 'keystore'  - a Java keystore with an SSL certificate");
+      System.out.println("                 'password' -  the keystore's password");
       printCommonOptions();
-      System.out.println("  --keystore    a Java keystore with the SSL certificate");
-      System.out.println("  --password    password for the Java keystore");
       System.exit(1);
     }
     final boolean runInternal = false;

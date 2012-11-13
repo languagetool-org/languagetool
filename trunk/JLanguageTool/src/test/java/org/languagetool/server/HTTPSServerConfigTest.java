@@ -33,19 +33,21 @@ public class HTTPSServerConfigTest {
       fail();
     } catch (IllegalArgumentException expected) {}
 
-    final HTTPSServerConfig config1 = new HTTPSServerConfig("--public --keystore foo --password xxx".split(" "));
+    final String propertyFile = HTTPSServerConfigTest.class.getResource("/org/languagetool/server/https-server.properties").getFile();
+
+    final HTTPSServerConfig config1 = new HTTPSServerConfig(("--public --config " + propertyFile).split(" "));
     assertThat(config1.getPort(), is(HTTPServerConfig.DEFAULT_PORT));
     assertThat(config1.isPublicAccess(), is(true));
     assertThat(config1.isVerbose(), is(false));
-    assertThat(config1.getKeystore().getName(), is("foo"));
-    assertThat(config1.getKeyStorePassword(), is("xxx"));
+    assertThat(config1.getKeystore().toString(), is("src/test/resources/org/languagetool/test-keystore.jks"));
+    assertThat(config1.getKeyStorePassword(), is("mytest"));
 
-    final HTTPSServerConfig config2 = new HTTPSServerConfig("-p 9999 --keystore /tmp/foo.kjs --password pwd".split(" "));
+    final HTTPSServerConfig config2 = new HTTPSServerConfig(("-p 9999 --config " + propertyFile).split(" "));
     assertThat(config2.getPort(), is(9999));
     assertThat(config2.isPublicAccess(), is(false));
     assertThat(config2.isVerbose(), is(false));
-    assertThat(config2.getKeystore().getAbsolutePath(), is("/tmp/foo.kjs"));
-    assertThat(config2.getKeyStorePassword(), is("pwd"));
+    assertThat(config2.getKeystore().toString(), is("src/test/resources/org/languagetool/test-keystore.jks"));
+    assertThat(config2.getKeyStorePassword(), is("mytest"));
   }
 
 }

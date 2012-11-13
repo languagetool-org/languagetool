@@ -105,9 +105,8 @@ public class HTTPServer extends Server {
 
   public static void main(String[] args) throws IOException {
     if (args.length > 3 || usageRequested(args)) {
-      System.out.println("Usage: " + HTTPServer.class.getSimpleName() + " [-p|--port port] [--public]");
-      System.out.println("  -p, --port  port to bind to, defaults to " + DEFAULT_PORT + " if not specified");
-      System.out.println("  --public    allow this server process to be connected from anywhere (not recommended)");
+      System.out.println("Usage: " + HTTPServer.class.getSimpleName() + " [--port|-p port] [--public]");
+      printCommonOptions();
       System.exit(1);
     }
     final boolean runInternal = false;

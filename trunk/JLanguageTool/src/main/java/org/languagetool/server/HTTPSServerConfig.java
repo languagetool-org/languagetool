@@ -19,14 +19,17 @@
 package org.languagetool.server;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
 
 /**
  * @since 2.0
  */
 public class HTTPSServerConfig extends HTTPServerConfig {
 
-  private File keystore;
-  private String keyStorePassword;
+  private final File keystore;
+  private final String keyStorePassword;
 
   /**
    * @param keystore a Java keystore file as created with the <tt>keytool</tt> command
@@ -55,26 +58,43 @@ public class HTTPSServerConfig extends HTTPServerConfig {
    */
   HTTPSServerConfig(String[] args) {
     super(args);
+    File config = null;
     for (int i = 0; i < args.length; i++) {
-      if ("--keystore".equals(args[i])) {
-        keystore = new File(args[++i]);
-      } else if ("--password".equals(args[i])) {
-        keyStorePassword = args[++i];
+      if ("--config".equals(args[i])) {
+        config = new File(args[++i]);
       }
     }
-    if (keystore == null) {
-      throw new IllegalArgumentException("Parameter --keystore must be set");
+    if (config == null) {
+      throw new IllegalArgumentException("Parameter --config must be set and point to a property file");
     }
-    if (keyStorePassword == null) {
-      throw new IllegalArgumentException("Parameter --password must be set");
+    try {
+      final Properties props = new Properties();
+      final FileInputStream fis = new FileInputStream(config);
+      try {
+        props.load(fis);
+        keystore = new File(getProperty(props, "keystore", config));
+        keyStorePassword = getProperty(props, "password", config);
+      } finally {
+        fis.close();
+      }
+    } catch (IOException e) {
+      throw new RuntimeException("Could not load properties from '" + config + "'", e);
     }
   }
 
-  public File getKeystore() {
+  private String getProperty(Properties props, String propertyName, File config) {
+    final String propertyValue = (String)props.get(propertyName);
+    if (propertyValue == null || propertyValue.trim().isEmpty()) {
+      throw new IllegalArgumentException("Property '" + propertyName + "' must be set in " + config);
+    }
+    return propertyValue;
+  }
+
+  File getKeystore() {
     return keystore;
   }
 
-  public String getKeyStorePassword() {
+  String getKeyStorePassword() {
     return keyStorePassword;
   }
 }

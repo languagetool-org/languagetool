@@ -67,8 +67,8 @@ class Server {
   }
 
   protected static void printCommonOptions() {
-    System.out.println("  -p, --port    port to bind to, defaults to " + DEFAULT_PORT + " if not specified");
-    System.out.println("  --public      allow this server process to be connected from anywhere (not recommended)");
+    System.out.println("  --port, -p     port to bind to, defaults to " + DEFAULT_PORT + " if not specified");
+    System.out.println("  --public       allow this server process to be connected from anywhere (not recommended)");
   }
 
 }
