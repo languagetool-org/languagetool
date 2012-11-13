@@ -22,8 +22,10 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.SocketException;
 import java.net.URL;
+import java.net.URLEncoder;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -42,6 +44,7 @@ public class HTTPSServerTest {
     }
     final File keyStoreFile = new File(keystore.getFile());
     final HTTPSServerConfig config = new HTTPSServerConfig(keyStoreFile, KEYSTORE_PASSWORD);
+    config.setMaxTextLength(500);
     final HTTPSServer server = new HTTPSServer(config, false, HTTPServerConfig.DEFAULT_HOST, null);
     try {
       server.run();
@@ -52,15 +55,35 @@ public class HTTPSServerTest {
   }
 
   private void runTests() throws IOException {
-    final String httpsPrefix = "https://localhost:" + HTTPServerConfig.DEFAULT_PORT + "/";
     try {
       final String httpPrefix = "http://localhost:" + HTTPServerConfig.DEFAULT_PORT + "/";
       HTTPTools.checkAtUrl(new URL(httpPrefix + "?text=a+test&language=en"));
       fail("HTTP should not work, only HTTPS");
     } catch (SocketException expected) {}
 
+    final String httpsPrefix = "https://localhost:" + HTTPServerConfig.DEFAULT_PORT + "/";
+
     final String result = HTTPTools.checkAtUrl(new URL(httpsPrefix + "?text=a+test&language=en"));
     assertTrue("Got " + result, result.contains("UPPERCASE_SENTENCE_START"));
+
+    final StringBuilder longText = new StringBuilder();
+    while (longText.length() < 490) {
+      longText.append("B ");
+    }
+    final String result2 = HTTPTools.checkAtUrl(new URL(httpsPrefix + "?text=" + encode(longText.toString()) + "&language=en"));
+    assertTrue("Got " + result2, !result2.contains("UPPERCASE_SENTENCE_START"));
+    assertTrue("Got " + result2, result2.contains("PHRASE_REPETITION"));
+
+    final String overlyLongText = longText.toString() + " and some more to get over the limit of 500";
+    try {
+      System.out.println("Now checking text that is too long, please ignore the following error...");
+      HTTPTools.checkAtUrl(new URL(httpsPrefix + "?text=" + encode(overlyLongText) + "&language=en"));
+      fail();
+    } catch (IOException expected) {}
+  }
+
+  private String encode(String text) throws UnsupportedEncodingException {
+    return URLEncoder.encode(text, "utf-8");
   }
 
 }

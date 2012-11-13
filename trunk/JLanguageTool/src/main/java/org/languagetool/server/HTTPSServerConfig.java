@@ -31,6 +31,8 @@ public class HTTPSServerConfig extends HTTPServerConfig {
   private final File keystore;
   private final String keyStorePassword;
 
+  private int maxTextLength = Integer.MAX_VALUE;
+
   /**
    * @param keystore a Java keystore file as created with the <tt>keytool</tt> command
    * @param keyStorePassword the password for the keystore
@@ -74,12 +76,33 @@ public class HTTPSServerConfig extends HTTPServerConfig {
         props.load(fis);
         keystore = new File(getProperty(props, "keystore", config));
         keyStorePassword = getProperty(props, "password", config);
+        maxTextLength = Integer.parseInt(getOptionalProperty(props, "maxTextLength", Integer.toString(Integer.MAX_VALUE)));
       } finally {
         fis.close();
       }
     } catch (IOException e) {
       throw new RuntimeException("Could not load properties from '" + config + "'", e);
     }
+  }
+
+  /**
+   * @param maxTextLength the maximum text length allowed (in number of characters), texts that are longer
+   *                      will cause an exception when being checked
+   */
+  public void setMaxTextLength(int maxTextLength) {
+    this.maxTextLength = maxTextLength;
+  }
+
+  int getMaxTextLength() {
+    return maxTextLength;
+  }
+
+  File getKeystore() {
+    return keystore;
+  }
+
+  String getKeyStorePassword() {
+    return keyStorePassword;
   }
 
   private String getProperty(Properties props, String propertyName, File config) {
@@ -90,11 +113,11 @@ public class HTTPSServerConfig extends HTTPServerConfig {
     return propertyValue;
   }
 
-  File getKeystore() {
-    return keystore;
-  }
-
-  String getKeyStorePassword() {
-    return keyStorePassword;
+  private String getOptionalProperty(Properties props, String propertyName, String defaultValue) {
+    final String propertyValue = (String)props.get(propertyName);
+    if (propertyValue == null) {
+      return defaultValue;
+    }
+    return propertyValue;
   }
 }

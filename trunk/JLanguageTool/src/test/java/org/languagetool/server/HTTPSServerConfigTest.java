@@ -41,6 +41,7 @@ public class HTTPSServerConfigTest {
     assertThat(config1.isVerbose(), is(false));
     assertThat(config1.getKeystore().toString(), is("src/test/resources/org/languagetool/test-keystore.jks"));
     assertThat(config1.getKeyStorePassword(), is("mytest"));
+    assertThat(config1.getMaxTextLength(), is(50000));
 
     final HTTPSServerConfig config2 = new HTTPSServerConfig(("-p 9999 --config " + propertyFile).split(" "));
     assertThat(config2.getPort(), is(9999));
@@ -48,6 +49,19 @@ public class HTTPSServerConfigTest {
     assertThat(config2.isVerbose(), is(false));
     assertThat(config2.getKeystore().toString(), is("src/test/resources/org/languagetool/test-keystore.jks"));
     assertThat(config2.getKeyStorePassword(), is("mytest"));
+    assertThat(config2.getMaxTextLength(), is(50000));
+  }
+
+  @Test
+  public void testMinimalPropertyFile() {
+    final String propertyFile = HTTPSServerConfigTest.class.getResource("/org/languagetool/server/https-server-minimal.properties").getFile();
+    final HTTPSServerConfig config = new HTTPSServerConfig(("--config " + propertyFile).split(" "));
+    assertThat(config.getPort(), is(8081));
+    assertThat(config.isPublicAccess(), is(false));
+    assertThat(config.isVerbose(), is(false));
+    assertThat(config.getKeystore().toString(), is("src/test/resources/org/languagetool/test-keystore.jks"));
+    assertThat(config.getKeyStorePassword(), is("mytest"));
+    assertThat(config.getMaxTextLength(), is(Integer.MAX_VALUE));
   }
 
   @Test

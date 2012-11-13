@@ -65,7 +65,9 @@ public class HTTPSServer extends Server {
       final SSLContext sslContext = getSslContext(config.getKeystore(), config.getKeyStorePassword());
       final HttpsConfigurator configurator = getConfigurator(sslContext);
       ((HttpsServer)server).setHttpsConfigurator(configurator);
-      server.createContext("/", new LanguageToolHttpHandler(config.isVerbose(), allowedIps, runInternally));
+      final LanguageToolHttpHandler httpHandler = new LanguageToolHttpHandler(config.isVerbose(), allowedIps, runInternally);
+      httpHandler.setMaxTextLength(config.getMaxTextLength());
+      server.createContext("/", httpHandler);
     } catch (BindException e) {
       final ResourceBundle messages = JLanguageTool.getMessageBundle();
       final String message = Tools.makeTexti18n(messages, "https_server_start_failed", host, Integer.toString(port));
@@ -112,8 +114,9 @@ public class HTTPSServer extends Server {
       System.out.println("Usage: " + HTTPSServer.class.getSimpleName()
               + " --config propertyFile [--port|-p port] [--public]");
       System.out.println("  --config file  a Java property file with values for:");
-      System.out.println("                 'keystore'  - a Java keystore with an SSL certificate");
-      System.out.println("                 'password' -  the keystore's password");
+      System.out.println("                 'keystore' - a Java keystore with an SSL certificate");
+      System.out.println("                 'password' - the keystore's password");
+      System.out.println("                 'maxTextLength' - maximum text length, longer texts will cause an error (optional)");
       printCommonOptions();
       System.exit(1);
     }

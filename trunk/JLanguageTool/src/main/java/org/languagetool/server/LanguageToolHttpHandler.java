@@ -43,6 +43,7 @@ class LanguageToolHttpHandler implements HttpHandler {
   
   private String[] enabledRules = {};
   private String[] disabledRules = {};
+  private int maxTextLength = Integer.MAX_VALUE;
 
   /**
    * @param verbose print the input text in case of exceptions
@@ -54,6 +55,10 @@ class LanguageToolHttpHandler implements HttpHandler {
     this.allowedIps = allowedIps;
     this.internalServer = internal;
     config = new Configuration(null);
+  }
+
+  void setMaxTextLength(int maxTextLength) {
+    this.maxTextLength = maxTextLength;
   }
 
   @Override
@@ -101,7 +106,7 @@ class LanguageToolHttpHandler implements HttpHandler {
 
   private Map<String, String> getRequestQuery(HttpExchange httpExchange, URI requestedUri) throws IOException {
     Map<String, String> parameters;
-    if ("post".equalsIgnoreCase(httpExchange.getRequestMethod())) { // POST
+    if ("post".equalsIgnoreCase(httpExchange.getRequestMethod())) {
       final InputStreamReader isr = new InputStreamReader(httpExchange.getRequestBody(), ENCODING);
       try {
         final BufferedReader br = new BufferedReader(isr);
@@ -123,7 +128,6 @@ class LanguageToolHttpHandler implements HttpHandler {
 
   private void printListOfLanguages(HttpExchange httpExchange) throws IOException {
     httpExchange.getResponseHeaders().set("Content-Type", CONTENT_TYPE_VALUE);
-    //httpExchange.getResponseHeaders().set("Access-Control-Allow-Origin", "*");
     final String response = getSupportedLanguagesAsXML();
     httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);
     httpExchange.getResponseBody().write(response.getBytes(ENCODING));
@@ -150,6 +154,9 @@ class LanguageToolHttpHandler implements HttpHandler {
   }
 
   private void checkText(String text, HttpExchange httpExchange, Map<String, String> parameters) throws Exception {
+    if (text.length() > maxTextLength) {
+      throw new IllegalArgumentException("Text is " + text.length() + " characters long, exceeding maximum length of " + maxTextLength);
+    }
     final String langParam = parameters.get("language");
     final String autodetectParam = parameters.get("autodetect");
     if (langParam == null && (autodetectParam == null || !autodetectParam.equals("1"))) {
@@ -259,11 +266,9 @@ class LanguageToolHttpHandler implements HttpHandler {
     if (!useQuerySettings && internalServer && config.getUseGUIConfig()) { // use the GUI config values
     	configureGUI(newLanguageTool);
     }
-    
     if (useQuerySettings) {
     	Tools.selectRules(newLanguageTool, disabledRules, enabledRules);
     }
-    
     return newLanguageTool;
   }
 
