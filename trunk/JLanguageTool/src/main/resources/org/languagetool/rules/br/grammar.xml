@@ -2183,7 +2183,6 @@ $Id$
       </rule>
     </rulegroup>
 
-    <!-- commented out because of the warning in PatternRuleTest if CHECK_WITH_SENTENCE_SPLITTING = true
     <rule id="V_KEMM" name="kemmadur ebet goude ar verb">
       <pattern>
         <token postag="V.*|X KAOUT2" postag_regexp="yes">
@@ -2207,12 +2206,11 @@ $Id$
       <example type="correct">Boutin eo ar c’hentelioù-noz</example>
       <example type="correct">"N’ouzon ket" eme zTony.</example>
     </rule>
-    -->
 
     <rulegroup id="GER_KEMM" name="kemmadur ebet goude gerioù">
       <rule>
         <pattern>
-          <token regexp="yes">abaoe|a-benn|ahont|amañ|a-wechoù|a-wazhioù|arabat|a-raok|aze|bet|daoust|eget|ent|eus|[e’]vel(-se)?|e-giz|[e’]vit|goude|hag?|hep|hevelep|kalz(ig)?|kement|ke[nt]|krenn|lies|mard?|met|nemet|memes|na|nebeud(ig)?|nep|ouzhpenn|pas|pep|pebezh|pegen|pere|petvet|peseurt|petore|rak|setu|seurt<exception postag="L n">na</exception></token>
+          <token regexp="yes">abaoe|a-benn|ahont|amañ|a-wechoù|a-wazhioù|arabat|a-raok|aze|bet|daoust|eget|ent|eus|[e’]vel(-se)?|e-giz|[e’]vit|goude|hag?|hep|hevelep|kalz(ig)?|kement|ke[nt]|krenn|lies|mard?|met|nemet|memes|na|nebeud(ig)?|nep|ouzhpenn|pas|pep|pebezh|pegen|pere|petvet|peseurt|petore|rak|setu|seurt<exception postag="L n">na</exception><exception postag="X KAOUT2">eus</exception></token>
           <marker>
             <token postag="[^M]*M:.*" postag_regexp="yes">
               <exception negate_pos="yes" postag="[^M]*M:.*" postag_regexp="yes"/>
@@ -2311,7 +2309,6 @@ $Id$
         <example type="correct">Ur gouel bras.</example>
         <example type="correct">Gwelet em eus <marker>paot-mat</marker> a dud eno.</example>
       </rule>
-      <!-- commented out because of the warning in PatternRuleTest if CHECK_WITH_SENTENCE_SPLITTING = true
       <rule>
         <pattern>
           <token postag="N f s.*|N m p t.*" postag_regexp="yes" regexp="yes">.*[lmnrvaeiouwy]
@@ -2391,7 +2388,6 @@ $Id$
         <example type="correct">An amzer gaer</example>
         <example type="correct">Mari gozh</example>
       </rule>
-      -->
     </rulegroup>
 
     <rulegroup id="AR_PAOURKAEZH" name="Ar baourkaezh den → ar paourkaezh den">
