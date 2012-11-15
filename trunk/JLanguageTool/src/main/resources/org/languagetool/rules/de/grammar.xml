@@ -9032,6 +9032,36 @@ $Id$
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category name="Groß-/Kleinschreibung">
+        <rulegroup id="IMPORTIEREN_SUBST" name="Groß-/Kleinschreibung: 'das importieren (Importieren)' etc.">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[Dd]as|[Dd]em</token>
+                    <marker>
+                        <token regexp="yes">exportieren|importieren</token>
+                    </marker>
+                    <token postag=".*:GEN:.*" postag_regexp="yes"/>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Durch das <marker>Importieren</marker> der Klassen ist es möglich, auf die Funktionen zuzugreifen.</example>
+                <example type="correct">Du musst das <marker>importieren</marker>, damit du die Funktion benutzen kannst.</example>
+                <example type="incorrect" correction="Importieren">Durch das <marker>importieren</marker> der Klassen ist es möglich, auf die Funktionen zuzugreifen.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[Dd]as|[Dd]em</token>
+                    <marker>
+                        <token regexp="yes">exportieren|importieren</token>
+                    </marker>
+                    <token>von</token>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Durch das <marker>Importieren</marker> von Klassen ist es möglich, auf die Funktionen zuzugreifen.</example>
+                <example type="correct">Du musst das <marker>importieren</marker>, damit du die Funktion benutzen kannst.</example>
+                <example type="incorrect" correction="Importieren">Durch das <marker>importieren</marker> von Klassen ist es möglich, auf die Funktionen zuzugreifen.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="IM_KLAREN" name="Groß-/Kleinschreibung: 'im klaren (Klaren)'">
             <rule>
                 <pattern case_sensitive="yes">
@@ -20268,6 +20298,32 @@ $Id$
     <!-- Zeichensetzung -->
     <!-- ====================================================================== -->
     <category name="Zeichensetzung">
+        <rulegroup id="ABKUERZUNG_FEHLENDE_PUNKTE" name="Zeichensetzung: Fehlende Punkte in Abkürzungen ('z B.' etc.)">
+            <!--TODO ergänzen -->
+            <rule>
+                <pattern>
+                    <token>z</token>
+                    <token>B</token>
+                    <token>.</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>z.&nbsp;B.</suggestion>?</message>
+                <example type="correct">Sie erkennt <marker>z. B.</marker> den Fehler in diesem Satz.</example>
+                <example type="incorrect" correction="z.&nbsp;B.">Sie erkennt <marker>z B.</marker> den Fehler in diesem Satz.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>z</token>
+                        <token>.</token>
+                        <token>B</token>
+                    </marker>
+                    <token negate="yes">.</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>z.&nbsp;B.</suggestion>?</message>
+                <example type="correct">Sie erkennt <marker>z. B.</marker> den Fehler in diesem Satz.</example>
+                <example type="incorrect" correction="z.&nbsp;B.">Sie erkennt <marker>z. B</marker> den Fehler in diesem Satz.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="FRAGE_OHNE_FRAGEZEICHEN" name="Zeichensetzung: Punkt statt Fragezeichen (nur in wenigen einfachen Fällen, Regel ist in Arbeit)" default="off">
             <rule>
                 <pattern>
