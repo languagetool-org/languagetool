@@ -1073,6 +1073,23 @@ $Id$
             </rule>
         </rulegroup>
         <rulegroup id="CONCORDANCES_CASOS_PARTICULARS" name="casos particulars de concordances: esquerre/a, altre/a part, pendent, corrent...">
+            <rule id="DE_MANERA_ADJ" name="de manera + adj">
+                <!-- Problem no detected by rule COMPLEX_ADJECTIVE_CONCORDANCE in some contexts-->
+                <pattern>
+                    <token>de</token>
+                    <unify negate="yes">
+                    <feature id="nombre"/>
+                    <feature id="genere"/>
+                        <token regexp="yes">manera|forma</token>
+                        <marker>
+                            <token postag="AQ.*|V.P.*" postag_regexp="yes"/>
+                        </marker>
+                    </unify>
+                </pattern>
+                <message>Error de concordança. Cal dir: <suggestion><match no="3" postag="AQ.*|V.P.*" postag_regexp="yes" postag_replace="AQ0[FC][SN]0|V.P00SF"/></suggestion>.</message>
+                <example type="incorrect" correction="autodidàctica">en català de manera <marker>autodidàctic</marker>.</example>
+                <example type="correct">Ho va fer de manera natural.</example>
+            </rule>
             <rule id="ALTRE_CASA" name="altre casa">
                 <pattern>
                     <marker>
