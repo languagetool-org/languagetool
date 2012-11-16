@@ -27,7 +27,7 @@ for l in ast be br ca cs da de nl el en eo es fr gl \
          is it km lt ml pl ro ru sk sl sv tl uk zh
 do
   # count the number of rules.
-  rule_count=$(grep -c '</rule>' ../../dist/rules/$l/grammar.xml)
+  rule_count=$(grep -c '</rule>' ../main/resources/org/languagetool/rules/$l/grammar.xml)
 
   # measure startup time of LanguageTool with the
   # give sentence (empty by default).  3 samples
