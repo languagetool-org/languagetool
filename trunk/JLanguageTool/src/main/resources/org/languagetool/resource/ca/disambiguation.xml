@@ -1736,6 +1736,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="add"><wd pos="_GV_"></wd></disambig>
         </rule>
+         <rule>
+            <pattern>
+                <token inflected="yes" skip="1">tenir</token>
+                <token regexp="yes">en</token>
+                <marker>
+                    <token>compte</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="N.*"></disambig>
+        </rule>
         <rule>
             <pattern>
                 <token inflected="yes" skip="1">tenir</token>
@@ -6310,6 +6320,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="[^V].*"></disambig>
     </rule>    
+    <rule id="nParticipi" name="no participi si no ha concordat">
+    <!--  paraules que habitualment no són participi si no han concordat (darrere de "de"?: base de dades, sistema de partits -->
+        <pattern>
+            <and>
+                <token postag="V.P.*" postag_regexp="yes" regexp="yes">dada|dades|partit|partits<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                <token postag="N.*" postag_regexp="yes"></token>
+            </and>
+        </pattern>
+        <disambig action="filter"  postag="[^V].*"/>
+    </rule>
     <!-- verb + adj/verb  Havien estat ocultes. Mogut per: cap historiador reputat accepta aquesta teoria -->
     <rule id="verb_nom2" name="verb + adjectiu">
         <pattern>

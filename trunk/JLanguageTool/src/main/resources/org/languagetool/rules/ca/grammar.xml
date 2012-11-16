@@ -1622,7 +1622,7 @@ $Id$
             </rule>
             <rule id="DEURE" name="Comprova: «deure» seguit de verb en infinitiu">
                 <pattern>
-                    <token inflected="yes">deure</token>
+                    <token inflected="yes">deure<exception postag="_GN_.*" postag_regexp="yes"/></token>
                     <marker>
                         <token postag="VM[^N].*" postag_regexp="yes"></token>
                     </marker>
@@ -1631,6 +1631,7 @@ $Id$
                 <short>Falta un infinitiu.</short>
                 <example type="incorrect">En deuen <marker>quedat</marker> tres.</example>
                 <example type="correct">En deuen quedar tres.</example>
+                <example type="correct">La reclamació de rendes degudes segueix els tràmits.</example>
             </rule>
         </rulegroup>
         <rulegroup id="HAVER_PARTICIPI_HAVER_IMPERSONAL" name="Comprova: «haver» + participi / «haver-hi» impersonal">
@@ -3083,7 +3084,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes" regexp="yes" skip="3">primer|encaparrar|obcec.+|estar|raure|afany|afanyar|basar|complaença|complaure|confiar|consisitir|consistir|convertir|creença|creure|delit|delitar|entestar|entossudir|entretenir|equivocació|equivocar|esforçar|especialitzar|especialista|exercitar|incórrer|influir|influència|insistir|insistència|interessar|interès|invertir|obsessi.+|obstinar|part|participació|participant|participar|pensar|tardança|tardar|tossud.*|treballar|trigança|trigar|vacil·lació|vacil·lar<exception scope="next" postag="V.P.*" postag_regexp="yes"/></token>
+                    <token inflected="yes" regexp="yes" skip="3">primer|encaparrar|obcec.+|estar|raure|afany|afanyar|basar|complaença|complaure|confiar|consisitir|consistir|convertir|creença|creure|delit|delitar|entestar|entossudir|entretenir|equivocació|equivocar|esforçar|especialitzar|especialista|excel·lir|exercitar|incórrer|influir|influència|insistir|insistència|interessar|interès|invertir|obsessi.+|obstinar|part|participació|participant|participar|pensar|tardança|tardar|tossud.*|treballar|trigança|trigar|vacil·lació|vacil·lar<exception scope="next" postag="V.P.*" postag_regexp="yes"/></token>
                     <marker>
                         <token>en</token>
                     </marker>
@@ -3950,6 +3951,18 @@ $Id$
             <example type="correct">de la seva ala esquerrana</example>
             <example type="correct">amb part superior plana i ala estreta.</example>
         </rule>
+        <rule id="ALES_A_LES" name="*ales forces/a les forces">
+            <pattern>
+                <marker>
+                    <token>ales</token>
+                </marker>
+                <token postag="NCFP.*" postag_regexp="yes"><exception postag="AQ.[FC][PN].*|V.P.*PF" postag_regexp="yes"/><exception>delta</exception></token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>a les</suggestion>?</message>
+            <short>Possible confusió</short>
+            <example type="incorrect" correction="a les">Donar instruccions <marker>ales</marker> forces de seguretat.</example>
+            <example type="correct">un ocell amb les ales desplegades</example>
+        </rule>
         <rulegroup id="SOBRA_SOBRE" name="sobra/sobre">
             <rule>
                 <pattern>
@@ -4405,7 +4418,7 @@ $Id$
         <rulegroup id="APART" name="*apart/a part, *apunt/a punt">
             <rule>
                 <pattern>
-                    <token><exception postag="D[DAI]0[MC]S0" postag_regexp="yes"/></token>
+                    <token><exception postag="D[DAI]0[MC]S0" postag_regexp="yes"/><exception regexp="yes">breu|extens|curt|llarg</exception></token>
                     <marker>
                         <token>apart</token>
                     </marker>
@@ -4419,7 +4432,7 @@ $Id$
             </rule>
             <rule>
             <pattern>
-                <token><exception postag="D[DAI]0[MC]S0" postag_regexp="yes"/></token>
+                <token><exception postag="D[DAI]0[MC]S0" postag_regexp="yes"/><exception regexp="yes">breu|extens|curt|llarg</exception></token>
                 <marker>
                     <token>apunt</token>
                 </marker>
@@ -4429,6 +4442,7 @@ $Id$
             <example type="incorrect">Va estar <marker>apunt</marker> de morir.</example>
             <example type="correct">Va estar a punt de morir.</example>
             <example type="correct">Li vaig fer un apunt.</example>
+            <example type="correct">En faig un breu apunt.</example>
         </rule>
         </rulegroup>    
         <rulegroup id="MOL_MOLT" name="*mol(s)/molt(s)">
@@ -8357,7 +8371,7 @@ $Id$
         </rule>
         <rule id="SER_DE_CAIXO" name="ser de caixó">
             <pattern>   
-                <token inflected="yes" skip="4">ser</token>
+                <!-- <token inflected="yes" skip="4">ser</token> -->
                 <marker>
                     <token>de</token>
                     <token regexp="yes">calaix|caixó</token>
@@ -13415,23 +13429,15 @@ $Id$
                 <message>No s'usa en registres formals. Cal dir: <suggestion>cap</suggestion></message>
                 <example type="incorrect"><marker>ningun</marker> home</example>
                 <example type="correct">cap home</example>
-            </rule>
-            <rule id="BASTANTA" name="bastanta/bastant">
+            </rule>  
+            <rule id="PUDENTA" name="pudenta">
                 <pattern>
-                    <token>bastanta</token>
+                    <token regexp="yes">(pudent|coent|bastant)(a|es)</token>
                 </pattern>
-                <message>No s'usa en registres formals. Cal dir: <suggestion>bastant de</suggestion>, <suggestion>bastant</suggestion></message>
-                <example type="incorrect"><marker>bastanta</marker> dificultat</example>
-                <example type="correct">bastant de dificultat</example>
-            </rule>
-            <rule id="BASTANTES" name="bastantes/bastants">
-                <pattern>
-                    <token>bastantes</token>
-                </pattern>
-                <message>No s'usa en registres formals. Cal dir: <suggestion>bastants</suggestion></message>
-                <example type="incorrect"><marker>bastantes</marker> dificultats</example>
+                <message>No s'usa en registres formals. Cal dir: <suggestion><match no="1" regexp_match="(.+)(a|e)(s?)" regexp_replace="$1$3"/></suggestion></message>
+                <example type="incorrect" correction="bastants"><marker>bastantes</marker> dificultats</example>
                 <example type="correct">bastants dificultats</example>
-            </rule>        
+            </rule>     
         </rulegroup>
         <rulegroup id="ADMESES_PER_ALGUNS" name="paraules incloses en alguns diccionaris: desangelat, mentres, sentinel·la..." default="on">
             <!--  verbs valencians: caquejar -->
@@ -14237,16 +14243,18 @@ $Id$
                 <example type="correct">Jo no <marker>obro</marker>.</example>
             </rule>
             <rule>
-                <pattern case_sensitive="yes">
-                    <token postag="V.*" postag_regexp="yes" regexp="yes">.+([^e]i|ï)(xo|x|xes|xen)<exception inflected="yes" regexp="yes">.+eixir|.+uixir|.+uixar|.+aixar|.+oixar|.+àixer|.+néixer</exception><exception postag="VMIP1S0"/><exception regexp="yes">(?-i)Unix</exception></token>
+                <pattern>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes">.+([^e]i|ï)(xo|x|xes|xen)<exception inflected="yes" regexp="yes">.+eixir|.+uixir|.+uixar|.+aixar|.+oixar|.+àixer|.*néixer</exception><exception postag="VMIP1S0"/><exception regexp="yes">(?-i)Unix</exception></token>
                 </pattern>
                 <message>Incoatiu en -ix. Substitueix per <suggestion><match no="1" regexp_match="^(.+)(i|ï)(x|xes|xen)" regexp_replace="$1ei$3"></match></suggestion></message>
                 <short>Incoatiu en -ix.</short>
                 <example type="incorrect">Ell <marker>patix</marker>.</example>
-                <example type="correct">Ell <marker>pateix</marker>.</example>
-                <example type="correct">Ell <marker>reïx</marker>.</example>
-                <example type="correct"><marker>sobreïxen</marker>.</example>
-                <example type="correct">Els cotxes <marker>ixen</marker>.</example>
+                <example type="correct">Ell pateix.</example>
+                <example type="correct">Ell reïx.</example>
+                <example type="correct">sobreïxen.</example>
+                <example type="correct">Els cotxes ixen.</example>
+                <example type="correct">no naixen</example>
+                <example type="correct">Ell usa un sistema Unix.</example>
             </rule>
         </rulegroup>
         <rulegroup id="EVITA_VERBS_BALEARS" name="Evita verbs balears (pens, patesqui, cantàssim, cantau)">
@@ -14565,16 +14573,18 @@ $Id$
             </rule>
         </rulegroup>     
         <rule id="EVITA_INCOATIUS_IX" name="Evita els verbs incoatius amb -ix" default="off">
-                <pattern case_sensitive="yes">
-                    <token postag="V.*" postag_regexp="yes" regexp="yes">.+([^e]i|ï)(xo|x|xes|xen)<exception inflected="yes" regexp="yes">.+eixir|.+uixir|.+uixar|.+aixar|.+oixar|.+àixer|.+néixer</exception><exception postag="VMIP1S0"/><exception regexp="yes">(?-i)Unix</exception></token>
-                </pattern>
-                <message>Incoatiu en -ix. Substitueix per <suggestion><match no="1" regexp_match="^(.+)(i|ï)(x|xes|xen)" regexp_replace="$1ei$3"></match></suggestion></message>
-                <short>Incoatiu en -ix.</short>
-                <example type="incorrect">Ell <marker>patix</marker>.</example>
-                <example type="correct">Ell <marker>pateix</marker>.</example>
-                <example type="correct">Ell <marker>reïx</marker>.</example>
-                <example type="correct"><marker>sobreïxen</marker>.</example>
-                <example type="correct">Els cotxes <marker>ixen</marker>.</example>
+            <pattern>
+                <token postag="V.*" postag_regexp="yes" regexp="yes">.+([^e]i|ï)(xo|x|xes|xen)<exception inflected="yes" regexp="yes">.+eixir|.+uixir|.+uixar|.+aixar|.+oixar|.+àixer|.*néixer</exception><exception postag="VMIP1S0"/><exception regexp="yes">(?-i)Unix</exception></token>
+            </pattern>
+            <message>Incoatiu en -ix. Substitueix per <suggestion><match no="1" regexp_match="^(.+)(i|ï)(x|xes|xen)" regexp_replace="$1ei$3"></match></suggestion></message>
+            <short>Incoatiu en -ix.</short>
+            <example type="incorrect">Ell <marker>patix</marker>.</example>
+            <example type="correct">Ell pateix.</example>
+            <example type="correct">Ell reïx.</example>
+            <example type="correct">sobreïxen.</example>
+            <example type="correct">Els cotxes ixen.</example>
+            <example type="correct">no naixen</example>
+            <example type="correct">Ell usa un sistema Unix.</example>
         </rule>
     </category>
     <category name="A3) Exigeix formes balears" default="off">
@@ -14778,15 +14788,17 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="V.*" postag_regexp="yes" regexp="yes">.+([^e]i|ï)(xo|x|xes|xen)<exception inflected="yes" regexp="yes">.+eixir|.+uixir|.+uixar|.+aixar|.+oixar|.+àixer|.+néixer</exception><exception postag="VMIP1S0"/><exception regexp="yes">(?-i)Unix</exception></token>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes">.+([^e]i|ï)(xo|x|xes|xen)<exception inflected="yes" regexp="yes">.+eixir|.+uixir|.+uixar|.+aixar|.+oixar|.+àixer|.*néixer</exception><exception postag="VMIP1S0"/><exception regexp="yes">(?-i)Unix</exception></token>
                 </pattern>
                 <message>Incoatiu en -ix. Substitueix per <suggestion><match no="1" regexp_match="^(.+)(i|ï)(x|xes|xen)" regexp_replace="$1ei$3"></match></suggestion></message>
                 <short>Incoatiu en -ix.</short>
                 <example type="incorrect">Ell <marker>patix</marker>.</example>
-                <example type="correct">Ell <marker>pateix</marker>.</example>
-                <example type="correct">Ell <marker>reïx</marker>.</example>
-                <example type="correct"><marker>sobreïxen</marker>.</example>
-                <example type="correct">Els cotxes <marker>ixen</marker>.</example>
+                <example type="correct">Ell pateix.</example>
+                <example type="correct">Ell reïx.</example>
+                <example type="correct">sobreïxen.</example>
+                <example type="correct">Els cotxes ixen.</example>
+                <example type="correct">no naixen</example>
+                <example type="correct">Ell usa un sistema Unix.</example>
             </rule>
         </rulegroup>
           <rule id="EVITA_POSSESSIUS_U_BIS" name="Evita possessius amb u (meua, teua,...)">
