@@ -3108,7 +3108,7 @@ $Id$
             <!-- Since this is such an awkward typo and can particularly easily happen to non-native speakers, this rule should be extended. -->
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">Kraut|(Eigen)?Tor(e(n))?|Boden|Höhe|Brand</token>
+                    <token regexp="yes">Kraut|(Eigen)?[Tt]or(en?)?|Boden|Höhe|Brand</token>
                     <marker>
                         <token inflected="yes">scheißen</token>
                     </marker>
@@ -3116,6 +3116,9 @@ $Id$
                 <message>&verw;Meinten Sie <suggestion><match no="2" regexp_match="^schei" regexp_replace="schie"/></suggestion>?</message>
                 <short>Mögliche Wortverwechslung</short>
                 <example type="incorrect" correction="schießen">Die Läden, die wie Pilze aus dem Boden <marker>scheißen</marker>.</example>
+                <example type="incorrect" correction="schießen">Besser keine Eigentore <marker>scheißen</marker>.</example>
+                <example type="incorrect" correction="schießen">Besser kein Eigentor <marker>scheißen</marker>.</example>
+                <example type="incorrect" correction="schießen">Eigentoren <marker>scheißen</marker>.</example>
                 <example type="correct">Die Läden, die wie Pilze aus dem Boden <marker>schießen</marker>.</example>
             </rule>
             <rule>
