@@ -1074,7 +1074,7 @@ $Id$
         </rulegroup>
         <rulegroup id="CONCORDANCES_CASOS_PARTICULARS" name="casos particulars de concordances: esquerre/a, altre/a part, pendent, corrent...">
             <rule id="DE_MANERA_ADJ" name="de manera + adj">
-                <!-- Problem no detected by rule COMPLEX_ADJECTIVE_CONCORDANCE in some contexts-->
+                <!-- Problem not detected by rule COMPLEX_ADJECTIVE_CONCORDANCE in some contexts-->
                 <pattern>
                     <token>de</token>
                     <unify negate="yes">
@@ -3627,6 +3627,19 @@ $Id$
         </rulegroup>
     </category>
     <category name="Confusions">
+        <rule id="LLIURAMENT_LLIUREMENT" name="lliurament/lliurement">
+            <pattern>
+                <token><exception>de</exception></token>         
+                <marker>
+                        <token>lliurament<exception postag="_GN_MS"/></token>
+                </marker>
+                <token><exception regexp="yes">de|d'</exception></token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>lliurement</suggestion> (= amb llibertat) en lloc de "lliurament" (= acció de lliurar)?</message>
+            <example type="incorrect" correction="lliurement">Aquests significats són <marker>lliurament</marker> mesclats.</example>
+            <example type="correct">El lliurament es va fer amb normalitat.</example>
+            <example type="correct">Va negociar el lliurament de Granada.</example>
+        </rule>
         <rule id="EM_VIST" name="em vist">
         <!-- La regla general no troba error perquè s'interpreta que 'vist' és del verb vestir: jo em vist = jo em vestisc -->
             <pattern>
