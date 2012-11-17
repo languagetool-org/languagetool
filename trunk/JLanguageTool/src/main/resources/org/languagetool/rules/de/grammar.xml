@@ -1344,7 +1344,7 @@ $Id$
         <rulegroup id="LEERE_DROHUNG" name="Möglicher Tippfehler: 'lehre (leere) Drohungen' etc.">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">(k)eine|diese|(&meindein;)e|nur|bloß</token>
+                    <token regexp="yes">k?eine|diese|(&meindein;)e|nur|bloß</token>
                     <marker>
                         <token regexp="yes">lehren?</token>
                     </marker>
@@ -1354,10 +1354,11 @@ $Id$
                 <short>Möglicher Tippfehler</short>
                 <example type="correct">Das sind doch nur <marker>leere</marker> Drohungen.</example>
                 <example type="incorrect" correction="leere">Das sind doch nur <marker>lehre</marker> Drohungen.</example>
+                <example type="incorrect" correction="leeren">Das sind doch keine <marker>lehren</marker> Drohungen!</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">(k)eine|diese|(&meindein;)e|nur|bloß</token>
+                    <token regexp="yes">k?eine|diese|(&meindein;)e|nur|bloß</token>
                     <marker>
                         <token regexp="yes">lehren?</token>
                     </marker>
@@ -1370,7 +1371,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">(k)eine|diese|(&meindein;)e|nur|bloß</token>
+                    <token regexp="yes">k?eine|diese|(&meindein;)e|nur|bloß</token>
                     <marker>
                         <token regexp="yes">holen?</token>
                     </marker>
@@ -1383,7 +1384,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">(k)eine|diese|(&meindein;)e|nur|bloß</token>
+                    <token regexp="yes">k?eine|diese|(&meindein;)e|nur|bloß</token>
                     <token regexp="yes">hohlen?|abgedroschenen?</token>
                     <marker>
                         <token regexp="yes">Phasen?</token>
@@ -13386,14 +13387,16 @@ $Id$
                 <pattern case_sensitive="yes">
                     <token regexp="yes">((D|d)(er|es|em|en)|(v|V)om|(a|A)m)</token>
                     <marker>
-                        <token regexp="yes">heilige(n)</token>
+                        <token regexp="yes">heiligen?</token>
                     </marker>
                     <token regexp="yes">Abend(s)?</token>
                 </pattern>
                 <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/></suggestion> \3 (24. Dezember)? &taggross;</message>
                 <short>&taggross;</short>
                 <example type="correct">Der <marker>Heilige</marker> Abend</example>
+                <example type="correct">Am <marker>Heiligen</marker> Abend</example>
                 <example type="incorrect" correction="Heiligen">Am <marker>heiligen</marker> Abend</example>
+                <example type="incorrect" correction="Heilige">Der <marker>heilige</marker> Abend</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -16456,7 +16459,7 @@ $Id$
                 <pattern case_sensitive="yes">
                     <token regexp="yes">([dD](en|ie))|([eE]inen)</token>
                     <marker>
-                        <token regexp="yes">(verdächtige|überlebende|verbündete|obdachlose|angestellte|abgeordnete|jugendliche)(n)</token>
+                        <token regexp="yes">(verdächtige|überlebende|verbündete|obdachlose|angestellte|abgeordnete|jugendliche)n?</token>
                     </marker>
                     <token postag="VER:.*" postag_regexp="yes"/>
                 </pattern>
@@ -16466,6 +16469,7 @@ $Id$
                 <example type="correct">Die <marker>obdachlosen</marker> Männer wurden überfallen.</example>
                 <example type="incorrect" correction="Angestellten">Die <marker>angestellten</marker> wurden entlassen.</example>
                 <example type="incorrect" correction="Jugendlichen">Die <marker>jugendlichen</marker> benahmen sich daneben.</example>
+                <example type="incorrect" correction="Jugendliche">Die <marker>jugendliche</marker> benahm sich daneben.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
