@@ -103,13 +103,14 @@ $Id$
             <example type="correct">В сквере посажено 30 деревьев.</example>
         </rule>
  <rulegroup id="Logical_odel_nadel" name="Логические ошибки (одеть/надеть)">
+      <!-- TODO скрытый/скрытный   -->
       <rule>      
             <pattern>
                 <token>одел</token>
                 <token inflected="yes" regexp="yes">рубашка|одежда|платье|юбка|пальто|куртка|брюки</token>
             </pattern>
             <message>Логическая ошибка: <suggestion>надел \2</suggestion>?</message>
-   
+            <url>http://ru.wikipedia.org/wiki/%D0%9F%D0%B0%D1%80%D0%BE%D0%BD%D0%B8%D0%BC%D0%B8%D1%8F</url>
             <short>Логическая ошибка.</short>
             <example type="incorrect">Он <marker>одел рубашку</marker>.</example>
             <example type="correct">Он надел рубашку.</example>
@@ -117,10 +118,10 @@ $Id$
 <rule>      
             <pattern>
                 <token>надел</token>
-                <token postag="NNN:.*|NNP:.*" postag_regexp="yes"></token>
+                <token postag="NNN:.*|NNP:.*|NNF:.*" postag_regexp="yes"></token>
             </pattern>
             <message>Логическая ошибка: <suggestion>одел \2</suggestion>?</message>
-   
+            <url>http://ru.wikipedia.org/wiki/%D0%9F%D0%B0%D1%80%D0%BE%D0%BD%D0%B8%D0%BC%D0%B8%D1%8F</url>
             <short>Логическая ошибка.</short>
             <example type="incorrect">Он <marker>надел Ивана</marker>.</example>
             <example type="correct">Он одел Ивана.</example>
