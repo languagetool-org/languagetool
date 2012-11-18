@@ -30,6 +30,7 @@ import org.languagetool.rules.Rule;
 import org.languagetool.rules.UppercaseSentenceStartRule;
 import org.languagetool.rules.WhitespaceRule;
 import org.languagetool.rules.nl.CompoundRule;
+import org.languagetool.rules.nl.DutchWrongWordInContextRule;
 import org.languagetool.rules.nl.MorfologikDutchSpellerRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.nl.DutchSynthesizer;
@@ -136,7 +137,8 @@ public class Dutch extends Language {
             UppercaseSentenceStartRule.class,
             MorfologikDutchSpellerRule.class,
             WhitespaceRule.class,
-            CompoundRule.class
+            CompoundRule.class,
+            DutchWrongWordInContextRule.class
     );
   }
 
