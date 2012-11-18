@@ -576,9 +576,8 @@ $Id$
           <marker>
             <and>
               <token regexp="yes">z.*
-                <exception>zo</exception>
-                <exception inflected="yes" regexp="yes">z.*</exception>
-                <exception regexp="yes" inflected="yes">d.*</exception>
+                <exception regexp="yes">zo|(?-i)z[A-Z].*</exception>
+                <exception inflected="yes" regexp="yes">[dz].*</exception>
               </token>
               <token regexp="yes" inflected="yes">t.*</token>
             </and>
@@ -589,6 +588,7 @@ $Id$
         <example type="correct">Re deñval eo evit lenn.</example>
         <example type="correct">Ar marc’had a zo bras.</example>
         <example type="correct">Daou zoo</example>
+        <example type="correct">N'ouzon ket eme zTony.</example>
       </rule>
     </rulegroup>
 
@@ -1661,12 +1661,12 @@ $Id$
           <token regexp="yes">[au]r</token>
           <marker>
             <and>
-              <token postag="N f p M:.*|N m . M:.*" postag_regexp="yes" regexp="yes">c’h.*
+              <token postag="N f p M:.*|N m[^M]+M:.*" postag_regexp="yes" regexp="yes">c’h.*
                 <exception postag="N f s.*|N m p t.*" postag_regexp="yes" regexp="yes" inflected="yes">g.*</exception>
                 <exception postag="N[^M]*" postag_regexp="yes" regexp="yes" inflected="yes">c’h.*</exception>
                 <exception postag="N ([em] s|[ef] p) M:0a.*" postag_regexp="yes" inflected="yes" regexp="yes">k.*</exception>
               </token>
-              <token postag="N f p M:.*|N m . M:.*" postag_regexp="yes" regexp="yes" inflected="yes">g.*</token>
+              <token postag="N f p M:.*|N m[^M]+M:.*" postag_regexp="yes" regexp="yes" inflected="yes">g.*</token>
             </and>
           </marker>
         </pattern>
@@ -1766,11 +1766,14 @@ $Id$
     </rulegroup>
     <rule id="FAZ_KEMM" name="kemmadur faziet">
       <pattern>
-        <token postag="SENT_START"/>
+        <token postag="SENT_START|K e .*|V.*|X KAOUT2" postag_regexp="yes">
+          <exception regexp="yes">daou|div|tri|teir|pevar|peder|nav|eme</exception>
+          <exception negate_pos="yes" postag="SENT_START|K e .*|V.*|X KAOUT2" postag_regexp="yes"/>
+        </token>
         <marker>
           <token postag="[^M]*M.*" postag_regexp="yes">
-            <exception negate_pos="yes" postag="[^M]*M:.*" postag_regexp="yes"/>
-            <exception regexp="yes">va[dt]</exception>
+            <exception negate_pos="yes" postag="[^M]*M:.*|SENT_END" postag_regexp="yes"/>
+            <exception regexp="yes">va[dt]|vloaz</exception>
           </token>
         </marker>
       </pattern>
@@ -1780,6 +1783,19 @@ $Id$
       <example type="incorrect"><marker>C’hallout</marker> a ran.</example>
       <example type="correct"><marker>Gallout</marker> a ran.</example>
       <example type="correct">Vat a raio ur c’hafe tomm.</example>
+      <example type="incorrect">Pemp <marker>c’hi</marker>.</example>
+      <example type="incorrect">Pemp <marker>gi</marker>.</example>
+      <example type="correct">Pemp ki.</example>
+      <example type="correct">Tri c'hi.</example>
+      <example type="incorrect">Gwelet em eus <marker>vagoù</marker>.</example>
+      <example type="incorrect">Gwelet en doa <marker>vagoù</marker>.</example>
+      <example type="correct">Gwelet em eus bagoù.</example>
+      <example type="incorrect">N’out ket chomet <marker>bell</marker>.</example>
+      <example type="correct">N’out ket chomet pell.</example>
+      <example type="incorrect">Boutin eo <marker>c’hentelioù-noz</marker></example>
+      <example type="correct">Boutin eo ar c’hentelioù-noz</example>
+      <example type="correct">"N’ouzon ket" eme zTony.</example>
+      <example type="correct">Seitek vloaz.</example>
     </rule>
     <rulegroup id="KEMM_MESKET_MA" name="kemmadur mesket goude ar stagell ma">
       <rule>
@@ -2185,34 +2201,10 @@ $Id$
       </rule>
     </rulegroup>
 
-    <rule id="V_KEMM" name="kemmadur ebet goude ar verb">
-      <pattern>
-        <token postag="V.*|X KAOUT2" postag_regexp="yes">
-          <exception negate_pos="yes" postag="V.*|X KAOUT2" postag_regexp="yes"/>
-          <exception>eme</exception>
-        </token>
-        <marker>
-          <token postag="[^M]*M:.*" postag_regexp="yes">
-            <exception negate_pos="yes" postag="[^M]*M:.*|SENT_END" postag_regexp="yes"/>
-            <exception regexp="yes">va[dt]</exception>
-          </token>
-        </marker>
-      </pattern>
-      <message>Ne zlefe ket bezañ ur c’hemmadur er ger «\2» goude ur verb.</message>
-      <example type="incorrect">Gwelet em eus <marker>vagoù</marker>.</example>
-      <example type="incorrect">Gwelet en doa <marker>vagoù</marker>.</example>
-      <example type="correct">Gwelet em eus bagoù.</example>
-      <example type="incorrect">N’out ket chomet <marker>bell</marker>.</example>
-      <example type="correct">N’out ket chomet pell.</example>
-      <example type="incorrect">Boutin eo <marker>c’hentelioù-noz</marker></example>
-      <example type="correct">Boutin eo ar c’hentelioù-noz</example>
-      <example type="correct">"N’ouzon ket" eme zTony.</example>
-    </rule>
-
     <rulegroup id="GER_KEMM" name="kemmadur ebet goude gerioù">
       <rule>
         <pattern>
-          <token regexp="yes">abaoe|a-benn|ahont|amañ|a-wechoù|a-wazhioù|arabat|a-raok|aze|bet|daoust|eget|ent|eus|[e’]vel(-se)?|e-giz|[e’]vit|goude|hag?|hep|hevelep|kalz(ig)?|kement|ke[nt]|krenn|lies|mard?|met|nemet|memes|na|nebeud(ig)?|nep|ouzhpenn|pas|pep|pebezh|pegen|pere|petvet|peseurt|petore|rak|setu|seurt<exception postag="L n">na</exception><exception postag="X KAOUT2">eus</exception></token>
+          <token regexp="yes">abaoe|a-benn|ahont|amañ|a-wechoù|a-wazhioù|arabat|a-raok|aze|bep|bet|daoust|eget|ent|eus|[e’]vel(-se)?|e-giz|[e’]vit|goude|hag?|hep|hevelep|kalz(ig)?|kement|ke[nt]|krenn|lies|mard?|met|nemet|memes|na|nebeud(ig)?|nep|ouzhpenn|pas|pep|pebezh|pegen|pere|petvet|peseurt|petore|rak|setu|seurt<exception postag="L n">na</exception><exception postag="X KAOUT2">eus</exception></token>
           <marker>
             <token postag="[^M]*M:.*" postag_regexp="yes">
               <exception negate_pos="yes" postag="[^M]*M:.*" postag_regexp="yes"/>
@@ -2808,13 +2800,15 @@ $Id$
             <token>daou</token>
           </marker>
           <token postag_regexp="yes" postag="N f.*">
-            <exception postag_regexp="yes" postag="N m.*"/>
+            <exception postag_regexp="yes" postag="N m [^M]*M:1:.*"/>
             <exception>a</exception>
           </token>
         </pattern>
         <message>Implijit <suggestion><match no="1" regexp_match="aou" regexp_replace="iv"/></suggestion> dirak ar ger benel «\2». (CHALM P1.3)</message>
         <example type="incorrect"><marker>Daou</marker> blac’h.</example>
         <example type="correct">Div blac’h.</example>
+        <example type="incorrect"><marker>Daou</marker> zor.</example>
+        <example type="correct"><marker>Div</marker> zor.</example>
       </rule>
       <rule>
         <pattern>
@@ -2823,7 +2817,7 @@ $Id$
           </marker>
           <token>a</token>
           <token postag_regexp="yes" postag="N f.*">
-            <exception postag_regexp="yes" postag="N m.*"/>
+            <exception postag_regexp="yes" postag="N m [^M]*M:1:.*"/>
           </token>
         </pattern>
         <message>Implijit <suggestion><match no="1" regexp_match="aou" regexp_replace="iv"/></suggestion> dirak ar ger benel «\3». (CHALM P1.3)</message>
@@ -2838,7 +2832,7 @@ $Id$
             <token>div</token>
           </marker>
           <token postag_regexp="yes" postag="N m.*">
-            <exception postag_regexp="yes" postag="N f.*"/>
+            <exception postag_regexp="yes" postag="N f [^M]*M:1:.*"/>
             <exception>a</exception>
           </token>
         </pattern>
@@ -2853,7 +2847,7 @@ $Id$
           </marker>
           <token>a</token>
           <token postag_regexp="yes" postag="N m.*">
-            <exception postag_regexp="yes" postag="N f.*"/>
+            <exception postag_regexp="yes" postag="N f [^M]*M:1:.*"/>
             <exception>a</exception>
           </token>
         </pattern>
@@ -6177,7 +6171,7 @@ $Id$
 
     <rule id="AMEZEGEZ" name="amezegez → amezek">
       <pattern>
-        <token postag="N f .*" postag_regexp="yes"/>
+        <token postag="N f.*" postag_regexp="yes"/>
         <marker>
           <token>amezegez</token>
         </marker>
