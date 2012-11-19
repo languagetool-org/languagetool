@@ -68,15 +68,23 @@ class HTTPTools {
   }
 
   static String checkAtUrlByPost(URL url, String postData) throws IOException {
-    final URLConnection connection = url.openConnection();
-    connection.setDoOutput(true);
-    final OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
+    final String keepAlive = System.getProperty("http.keepAlive");
     try {
-      writer.write(postData);
-      writer.flush();
-      return StringTools.streamToString(connection.getInputStream(), "UTF-8");
+      System.setProperty("http.keepAlive", "false");  // without this, there's an overhead of about 1 second - not sure why
+      final URLConnection connection = url.openConnection();
+      connection.setDoOutput(true);
+      final OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
+      try {
+        writer.write(postData);
+        writer.flush();
+        return StringTools.streamToString(connection.getInputStream(), "UTF-8");
+      } finally {
+        writer.close();
+      }
     } finally {
-      writer.close();
+      if (keepAlive != null) {
+        System.setProperty("http.keepAlive", keepAlive);
+      }
     }
   }
 
