@@ -31,7 +31,7 @@ public class DutchWrongWordInContextRule extends WrongWordInContextRule {
   
   @Override
   protected String getCategoryString() {
-    return "Easily Confused Words";
+    return "Gemakkelijk te verwarren woorden";
   }
   
   @Override
@@ -41,7 +41,7 @@ public class DutchWrongWordInContextRule extends WrongWordInContextRule {
   
   @Override
   public String getDescription() {
-    return "Confusion of words";
+    return "Woordverwarring";
   }
   
   @Override
@@ -51,17 +51,17 @@ public class DutchWrongWordInContextRule extends WrongWordInContextRule {
   
   @Override
   protected String getMessageString() {
-    return "Possible confusion of words: Did you mean <suggestion>$SUGGESTION</suggestion> instead of '$WRONGWORD'?";
+    return "Mogelijk verwarring: Bedoelde u <suggestion>$SUGGESTION</suggestion> i.p.v. '$WRONGWORD'?";
   }
   
   @Override
   protected String getShortMessageString() {
-    return "Possible confusion of words";
+    return "Mogelijk woorden verward";
   }
   
   @Override
   protected String getLongMessageString() {
-    return "Possible confusion of words: Did you mean <suggestion>$SUGGESTION</suggestion> (= $EXPLANATION_SUGGESTION) instead of '$WRONGWORD' (= $EXPLANATION_WRONGWORD)?";
+    return "Mogelijk verwarring: Bedoelde u <suggestion>$SUGGESTION</suggestion> (= $EXPLANATION_SUGGESTION) i.p.v. '$WRONGWORD' (= $EXPLANATION_WRONGWORD)?";
   }
 
 }
