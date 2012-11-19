@@ -1766,9 +1766,9 @@ $Id$
     </rulegroup>
     <rule id="FAZ_KEMM" name="kemmadur faziet">
       <pattern>
-        <token postag="SENT_START|K e .*|V.*|X KAOUT2" postag_regexp="yes">
+        <token postag="SENT_START|K e .*|V.*|X KAOUT2|J sup .*" postag_regexp="yes">
           <exception regexp="yes">daou|div|tri|teir|pevar|peder|nav|eme</exception>
-          <exception negate_pos="yes" postag="SENT_START|K e .*|V.*|X KAOUT2" postag_regexp="yes"/>
+          <exception negate_pos="yes" postag="SENT_START|K e .*|V.*|X KAOUT2|J sup .*" postag_regexp="yes"/>
         </token>
         <marker>
           <token postag="[^M]*M.*" postag_regexp="yes">
@@ -1796,6 +1796,8 @@ $Id$
       <example type="correct">Boutin eo ar c’hentelioù-noz</example>
       <example type="correct">"N’ouzon ket" eme zTony.</example>
       <example type="correct">Seitek vloaz.</example>
+      <example type="incorrect">Ar wellañ <marker>vaouez</marker>.</example>
+      <example type="correct">Ar wellañ <marker>maouez</marker>.</example>
     </rule>
     <rulegroup id="KEMM_MESKET_MA" name="kemmadur mesket goude ar stagell ma">
       <rule>
