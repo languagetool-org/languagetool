@@ -7,13 +7,13 @@
 #    $ unzip morfologik-stemming-1.4.0.zip
 #    This creates morfologik-stemming-nodict-1.4.0.jar
 # 2) Run the script:
-#    $ ./create-lexicon.pl
+#    $ ./create-lexicon.sh
 #    This creates the dictionary 'french.dict'.
 #
 # Author: Dominique Pelle <dominique.pelle@gmail.com>
 #
 
-INPUT=lexique-dicollecte-fr-v4.6
+INPUT=lexique-dicollecte-fr-v4.8
 
 if [ ! -f $INPUT.txt ]; then
   wget http://www.dicollecte.org/download/fr/$INPUT.zip
