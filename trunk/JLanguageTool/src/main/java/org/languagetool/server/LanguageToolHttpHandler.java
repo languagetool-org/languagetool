@@ -63,7 +63,6 @@ class LanguageToolHttpHandler implements HttpHandler {
 
   @Override
   public void handle(HttpExchange httpExchange) throws IOException {
-    final long timeStart = System.currentTimeMillis();
     String text = null;
     try {
       final URI requestedUri = httpExchange.getRequestURI();
@@ -96,7 +95,6 @@ class LanguageToolHttpHandler implements HttpHandler {
     } finally {
       httpExchange.close();
     }
-    print("Check done in " + (System.currentTimeMillis() - timeStart) + "ms");
   }
 
   private void sendError(HttpExchange httpExchange, int returnCode, String response) throws IOException {
@@ -154,6 +152,7 @@ class LanguageToolHttpHandler implements HttpHandler {
   }
 
   private void checkText(String text, HttpExchange httpExchange, Map<String, String> parameters) throws Exception {
+    final long timeStart = System.currentTimeMillis();
     if (text.length() > maxTextLength) {
       throw new IllegalArgumentException("Text is " + text.length() + " characters long, exceeding maximum length of " + maxTextLength);
     }
@@ -195,7 +194,6 @@ class LanguageToolHttpHandler implements HttpHandler {
     final String sourceText = parameters.get("srctext");
     if (sourceText == null) {
       final JLanguageTool lt = getLanguageToolInstance(lang, motherTongue);
-      print("Checking " + text.length() + " characters of text, language " + langParam);
       matches = lt.check(text);
     } else {
       if (motherTongueParam == null) {
@@ -210,11 +208,16 @@ class LanguageToolHttpHandler implements HttpHandler {
       matches = Tools.checkBitext(sourceText, text, sourceLt, targetLt, bRules);
     }
     httpExchange.getResponseHeaders().set("Content-Type", CONTENT_TYPE_VALUE);
-    //httpExchange.getResponseHeaders().set("Access-Control-Allow-Origin", "*");
     final String response = StringTools.ruleMatchesToXML(matches, text,
             CONTEXT_SIZE, StringTools.XmlPrintMode.NORMAL_XML, lang, motherTongue);
     httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);
     httpExchange.getResponseBody().write(response.getBytes(ENCODING));
+    String languageMessage = lang.getShortNameWithVariant();
+    if (motherTongue != null) {
+      languageMessage += " (mother tongue: " + motherTongue.getShortNameWithVariant() + ")";
+    }
+    print("Check done: " + text.length() + " characters, language " + languageMessage + ", "
+            + (System.currentTimeMillis() - timeStart) + "ms");
   }
 
   private Map<String, String> parseQuery(String query) throws UnsupportedEncodingException {
@@ -242,7 +245,7 @@ class LanguageToolHttpHandler implements HttpHandler {
   }
 
   private static void print(String s) {
-    final SimpleDateFormat dateFormat = new SimpleDateFormat();
+    final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     final String now = dateFormat.format(new Date());
     System.out.println(now + " " + s);
   }
@@ -258,7 +261,6 @@ class LanguageToolHttpHandler implements HttpHandler {
    * @throws Exception when JLanguageTool creation failed
    */
   private JLanguageTool getLanguageToolInstance(Language lang, Language motherTongue) throws Exception {
-    print("Creating JLanguageTool instance for language " + lang + ((null != motherTongue) ? (" and mother tongue " + motherTongue) : ""));
     final JLanguageTool newLanguageTool = new JLanguageTool(lang, motherTongue);
     newLanguageTool.activateDefaultPatternRules();
     newLanguageTool.activateDefaultFalseFriendRules();
