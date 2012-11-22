@@ -56,6 +56,7 @@ public class HTTPSServer extends Server {
    */
   public HTTPSServer(HTTPSServerConfig config, boolean runInternally, String host, Set<String> allowedIps) {
     this.port = config.getPort();
+    this.host = host;
     try {
       if (host == null) {
         server = HttpsServer.create(new InetSocketAddress(port), 0);
@@ -134,6 +135,11 @@ public class HTTPSServer extends Server {
     } catch (Exception e) {
       throw new RuntimeException("Could not start LanguageTool HTTPS server on " + HTTPServerConfig.DEFAULT_HOST + ", port " + config.getPort(), e);
     }
+  }
+
+  @Override
+  protected String getProtocol() {
+    return "https";
   }
 
 }

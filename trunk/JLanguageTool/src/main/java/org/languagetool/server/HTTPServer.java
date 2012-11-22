@@ -89,6 +89,7 @@ public class HTTPServer extends Server {
    */
   public HTTPServer(HTTPServerConfig config, boolean runInternally, String host, Set<String> allowedIps) {
     this.port = config.getPort();
+    this.host = host;
     try {
       if (host == null) {
         server = HttpServer.create(new InetSocketAddress(port), 0);
@@ -124,6 +125,11 @@ public class HTTPServer extends Server {
     } catch (Exception e) {
       throw new RuntimeException("Could not start LanguageTool HTTP server on " + DEFAULT_HOST + ", port " + config.getPort(), e);
     }
+  }
+
+  @Override
+  protected String getProtocol() {
+    return "http";
   }
 
 }

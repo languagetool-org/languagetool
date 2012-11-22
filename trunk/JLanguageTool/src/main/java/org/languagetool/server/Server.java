@@ -31,7 +31,9 @@ import static org.languagetool.server.HTTPServerConfig.DEFAULT_PORT;
  *
  * @since 2.0
  */
-class Server {
+abstract class Server {
+
+  protected abstract String getProtocol();
 
   protected static final Set<String> DEFAULT_ALLOWED_IPS = new HashSet<String>(Arrays.asList(
             "0:0:0:0:0:0:0:1",     // Suse Linux IPv6 stuff
@@ -40,13 +42,15 @@ class Server {
     ));
 
   protected int port;
+  protected String host;
   protected HttpServer server;
 
   /**
    * Start the server.
    */
   public void run() {
-    System.out.println("Starting server on port " + port + "...");
+    final String hostName = host != null ? host : "localhost";
+    System.out.println("Starting server on " + getProtocol() + "://" + hostName + ":" + port  + "...");
     server.start();
     System.out.println("Server started");
   }
