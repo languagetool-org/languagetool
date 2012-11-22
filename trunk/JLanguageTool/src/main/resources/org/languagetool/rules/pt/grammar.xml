@@ -21,7 +21,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.038 2012-11-10 14:19:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.039 2012-11-22 16:45:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -212,19 +212,6 @@ $Id: grammar.xml,v 1.038 2012-11-10 14:19:00 marcoagpinto Exp $
 
 
 
-    <!-- ALÉM FRONTEIRAS além-fronteiras -->
-    <rule id="ALÉM_FRONTEIRAS" name="além-fronteiras">
-      <pattern>
-        <token>além</token>
-        <token>fronteiras</token>
-      </pattern>
-      <message>Substituir «além fronteiras» por <suggestion>além-fronteiras</suggestion>.</message>
-      <example type="incorrect">O perigo encontra-se <marker>além fronteiras</marker>.</example>
-      <example type="correct">O perigo encontra-se <marker>além-fronteiras</marker>.</example>
-    </rule>
-
-
-
     <!-- ANTI VÍRUS antivírus -->
     <rule id="ANTI_VÍRUS" name="antivírus">
       <pattern>
@@ -396,32 +383,6 @@ $Id: grammar.xml,v 1.038 2012-11-10 14:19:00 marcoagpinto Exp $
       <message>Substituir «auto estima» por <suggestion>auto-estima</suggestion>.</message>
       <example type="incorrect">Melhora a <marker>auto estima</marker> confiando em ti próprio.</example>
       <example type="correct">Melhora a <marker>auto-estima</marker> confiando em ti próprio.</example>
-    </rule>
-
-
-
-    <!-- BEM ESTAR bem-estar -->
-    <rule id="BEM_ESTAR" name="bem-estar">
-      <pattern>
-        <token>bem</token>
-        <token>estar</token>
-      </pattern>
-      <message>Substituir «bem estar» por <suggestion>bem-estar</suggestion>.</message>
-      <example type="incorrect">O medicamento melhora o <marker>bem estar</marker> físico e mental.</example>
-      <example type="correct">O medicamento melhora o <marker>bem-estar</marker> físico e mental.</example>
-    </rule>
-
-
-
-    <!-- BEM VINDO bem-vindo -->
-    <rule id="BEM_VINDO" name="bem-vindo">
-      <pattern>
-        <token>bem</token>
-        <token>vindo</token>
-      </pattern>
-      <message>Substituir «bem vindo» por <suggestion>bem-vindo</suggestion>.</message>
-      <example type="incorrect">O Miguel é sempre <marker>bem vindo</marker>.</example>
-      <example type="correct">O Miguel é sempre <marker>bem-vindo</marker>.</example>
     </rule>
 
 
@@ -975,6 +936,20 @@ $Id: grammar.xml,v 1.038 2012-11-10 14:19:00 marcoagpinto Exp $
       <message>Substituir «mais grande» por <suggestion>maior</suggestion>.</message>
       <example type="incorrect">Aquele artigo é <marker>mais grande</marker> que o outro.</example>
       <example type="correct">Aquele artigo é <marker>maior</marker> que o outro.</example>
+    </rule>
+
+
+
+    <!-- MAS E SIM mas é sim -->
+    <rule id="MAS_E_SIM" name="mas é sim">
+      <pattern>
+        <token>mas</token>
+        <token>e</token>
+        <token>sim</token>
+      </pattern>
+      <message>Substituir «mas e sim» por <suggestion>mas é sim</suggestion>.</message>
+      <example type="incorrect">Muitos desconfiavam, <marker>mas e sim</marker> possível.</example>
+      <example type="correct">Muitos desconfiavam, <marker>mas é sim</marker> possível.</example>
     </rule>
 
 
