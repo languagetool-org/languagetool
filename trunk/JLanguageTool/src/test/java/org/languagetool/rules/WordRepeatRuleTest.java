@@ -62,6 +62,8 @@ public class WordRepeatRuleTest extends TestCase {
     assertEquals(0, matches.length);
     matches = rule.match(langTool.getAnalyzedSentence("Das Haus, auf das das Mädchen zeigt."));
     assertEquals(0, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("Warum fragen Sie sie nicht selbst?"));
+    assertEquals(0, matches.length);
     // incorrect sentences:
     matches = rule.match(langTool.getAnalyzedSentence("Die die Sätze zum testen."));
     assertEquals(1, matches.length);
@@ -72,6 +74,8 @@ public class WordRepeatRuleTest extends TestCase {
     matches = rule.match(langTool.getAnalyzedSentence("Das Buch, in in dem es steht."));
     assertEquals(1, matches.length);
     matches = rule.match(langTool.getAnalyzedSentence("Das Haus, auf auf das Mädchen zurennen."));
+    assertEquals(1, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("Sie sie gehen nach Hause."));
     assertEquals(1, matches.length);
   }
   

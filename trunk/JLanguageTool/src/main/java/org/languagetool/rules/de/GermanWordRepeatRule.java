@@ -55,6 +55,11 @@ public class GermanWordRepeatRule extends WordRepeatRule {
       }
       return false;
     }
+    // "Warum fragen Sie sie nicht selbst?"
+    if (position != 2 && tokens[position - 1].getToken().equals("Sie") && tokens[position].getToken().equals("sie") ||
+        tokens[position - 1].getToken().equals("sie") && tokens[position].getToken().equals("Sie")) {
+        return true;
+    }
     return false;
   }
 
