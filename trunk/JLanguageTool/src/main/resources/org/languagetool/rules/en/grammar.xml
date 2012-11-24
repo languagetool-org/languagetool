@@ -8785,6 +8785,35 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
 
     </category>
     <category name="Commonly Confused Words">
+        <rulegroup id="SITE_SIDE" name="site (side)">
+            <rule>
+                <pattern>
+                    <token>the</token>
+                    <token regexp="yes">positive|negative</token>
+                    <marker>
+                        <token>site</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>side</suggestion>?</message>
+                <short>Possible typo</short>
+                <example type="correct">On the positive <marker>side</marker>, there are some improvements.</example>
+                <example type="incorrect" correction="side">On the positive <marker>site</marker>, there are some improvements.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="SIDE_SITE" name="side (site)">
+            <rule>
+                <pattern>
+                    <token regexp="yes">abandoned|building|construction</token>
+                    <marker>
+                        <token>side</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>site</suggestion>?</message>
+                <short>Possible typo</short>
+                <example type="correct">There is a construction <marker>site</marker>.</example>
+                <example type="incorrect" correction="site">There is a construction <marker>side</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="BELIEVE_BELIEF" name="believe (belief)">
             <pattern>
               <token postag="JJ|PRP\$" postag_regexp="yes"><exception postag="JJ|PRP\$" postag_regexp="yes" negate_pos="yes"/><exception>former</exception></token>
