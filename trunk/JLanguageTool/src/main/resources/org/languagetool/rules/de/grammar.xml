@@ -21581,4 +21581,19 @@ $Id$
         -->
     </category>
 
+    <!-- ====================================================================== -->
+    <!-- Regeln, die nur für Wikipedia-Artikel nützlich sind -->
+    <!-- ====================================================================== -->
+    <category name="Wikipedia" default="off">
+        <rule id="VOR_KURZEM" name="relative Zeitangabe 'vor/seit Kurzem'">
+            <pattern case_sensitive="no">
+                <token regexp="yes">vor|seit</token>
+                <token>kurzem</token>
+            </pattern>
+            <message>Eine relative Zeitangabe wie 'seit Kurzem' ist für Wikipedia-Artikel nicht gut geeignet und sollte möglicherweise durch eine absolute Zeitangabe ersetzt werden.</message>
+            <example type="incorrect"><marker>Seit kurzem</marker> ist sie Bundeskanzerlin.</example>
+            <example type="correct">Seit März 2009 ist sie Bundeskanzerlin.</example>
+        </rule>
+    </category>
+
 </rules>
