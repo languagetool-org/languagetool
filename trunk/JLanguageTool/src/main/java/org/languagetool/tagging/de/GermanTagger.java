@@ -37,8 +37,10 @@ import org.languagetool.tokenizers.de.GermanCompoundTokenizer;
 import org.languagetool.tools.StringTools;
 
 /**
- * German tagger, requires data file in <code>resource/de/german.dict</code>.
- * 
+ * German part-of-speech tagger, requires data file in <code>resource/de/german.dict</code>.
+ * The POS tagset is described in
+ * <a href="https://languagetool.svn.sourceforge.net/svnroot/languagetool/trunk/JLanguageTool/src/main/resources/org/languagetool/resource/de/tagset.txt">tagset.txt</a>
+ *
  * @author Marcin Milkowski, Daniel Naber
  */
 public class GermanTagger implements Tagger {

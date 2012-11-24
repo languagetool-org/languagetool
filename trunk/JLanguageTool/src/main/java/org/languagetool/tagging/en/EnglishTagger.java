@@ -22,10 +22,10 @@ import java.util.Locale;
 
 import org.languagetool.tagging.BaseTagger;
 
-/** English Part-of-speech tagger.
- * Based on part-of-speech lists in Public Domain.
- * see readme.txt for details, the POS tagset is
- * described in tagset.txt
+/**
+ * English Part-of-speech tagger.
+ * The POS tagset is described in
+ * <a href="https://languagetool.svn.sourceforge.net/svnroot/languagetool/trunk/JLanguageTool/src/main/resources/org/languagetool/resource/en/tagset.txt">tagset.txt</a>
  * 
  * @author Marcin Milkowski
  */
