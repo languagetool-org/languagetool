@@ -2360,6 +2360,34 @@ $Id$
         <example type="correct">Devien ser les tres.</example>
         <example type="incorrect"><marker>Deurien ser</marker> les tres.</example>
     </rule>
+    <rulegroup id="DEURE_DE_INFINITIU" name="deure de + infinitiu">
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="VM.*" postag_regexp="yes" inflected="yes">deure</token>
+                    <token>de</token>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <message>Caldria dir: <suggestion><match no="1"/> <match no="3"/></suggestion> (probabilitat) o <suggestion><match no="1" postag="VM(.+)" postag_regexp="yes" postag_replace="VA$1">haver</match> <match no="2"/> <match no="3"/></suggestion> (obligació).</message>
+            <short>Construcció verbal incorrecta.</short>
+            <example type="incorrect"><marker>Devien de ser</marker> les tres.</example>
+            <example type="correct">Devien ser les tres.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="VM.*" postag_regexp="yes" inflected="yes">deure</token>
+                    <token>d'</token>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <message>Caldria dir: <suggestion><match no="1"/> <match no="3"/></suggestion> (probabilitat) o <suggestion><match no="1" postag="VM(.+)" postag_regexp="yes" postag_replace="VA$1">haver</match> <match no="2"/><match no="3"/></suggestion> (obligació).</message>
+            <short>Construcció verbal incorrecta.</short>
+            <example type="incorrect"><marker>Devien d'anar</marker>-se'n les tres.</example>
+            <example type="correct">Devien ser les tres.</example>
+        </rule>
+    </rulegroup>    
     </category>
     <category name="Determinants">
         <rulegroup id="DETERMINANTS_IMPOSSIBLE" name="Combinacions impossibles de determinants: *els tots els">
@@ -3134,7 +3162,7 @@ $Id$
                 <example type="correct">l'ha farcit amb menjar blanc.</example>
                 <example type="correct">L'execució d'un programa es pot comparar amb llegir un llibre.</example>
             </rule>
-            <rule>
+            <rule> <!--  caldria posar-hi ordinals en general: primer, segon, últim en/a fer -->
                 <pattern>
                     <token inflected="yes" regexp="yes" skip="3">primer|encaparrar|obcec.+|estar|raure|afany|afanyar|basar|complaença|complaure|confiar|consisitir|consistir|convertir|creença|creure|delit|delitar|entestar|entossudir|entretenir|equivocació|equivocar|esforçar|especialitzar|especialista|excel·lir|exercitar|incórrer|influir|influència|insistir|insistència|interessar|interès|invertir|obsessi.+|obstinar|part|participació|participant|participar|pensar|tardança|tardar|tossud.*|treballar|trigança|trigar|vacil·lació|vacil·lar<exception scope="next" postag="V.P.*" postag_regexp="yes"/></token>
                     <marker>
@@ -3566,7 +3594,7 @@ $Id$
         <rulegroup id="NECESSITAR_DE" name="necessitar *de">
             <rule>
                 <pattern>
-                    <token postag="V.[MSING].*|_GV_" postag_regexp="yes" inflected="yes" regexp="yes">necessitar|necessita(t|ts|da|des)<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                    <token skip="1" postag="V.[MSING].*|_GV_" postag_regexp="yes" inflected="yes" regexp="yes">necessitar|necessita(t|ts|da|des)|requerir|requeri(t|ts|da|des)<exception postag="_GN_.*" postag_regexp="yes"/></token>
                     <marker>
                         <token regexp="yes">de|d'</token>
                     </marker>
@@ -3583,7 +3611,8 @@ $Id$
                 <example type="correct">necessita comprensió</example>
                 <example type="correct">sentia la necessitat de fer-ho</example>
                 <example type="correct">o necessitat de satisfer un benestar material,</example>
-                <example type="correct">si hi ha necessitat de biòpsia.</example>           
+                <example type="correct">si hi ha necessitat de biòpsia.</example>   
+                <example type="incorrect">no requereixen necessàriament <marker>de</marker> l’ús de noves tecnologies</example>        
             </rule>
         </rulegroup>
     </category>
@@ -6449,7 +6478,7 @@ $Id$
                 <example type="correct">un mes abans de fer-ho</example>
                 <example type="correct">un mes després d'anar-se'n</example>
             </rule>
-            <rule id="RES_MES" name="res *mes/més">
+            <rule>
                 <pattern>
                     <token regexp="yes">res|mai</token>
                     <marker>
@@ -8317,8 +8346,8 @@ $Id$
                 <pattern>
                     <token postag="P0.0.*" postag_regexp="yes" skip="1"/>
                     <token skip="2" inflected="yes">fer</token>
-                    <token skip="3">amb</token>
-                    <token regexp="yes" inflected="yes">poder|govern|terra|recurs|diner|fortuna|herència|pilota|partit</token>
+                    <token skip="7">amb</token>
+                    <token regexp="yes" inflected="yes">escó|vot|poder|govern|terra|recurs|diner|fortuna|herència|pilota|partit</token>
                 </pattern>
                 <message>Expressió incorrecta. Cal dir: <suggestion>(apoderar-se de)</suggestion>, <suggestion>(prendre possessió de)</suggestion>, <suggestion>(emparar-se de)</suggestion>, <suggestion>(arreplegar)</suggestion>, <suggestion>(prendre)</suggestion></message>
                 <short>Expressió incorrecta</short>
@@ -8330,8 +8359,8 @@ $Id$
                 <pattern>
                     <token inflected="yes">fer</token>
                     <token postag="P0.0.*" postag_regexp="yes" skip="2"/>
-                    <token skip="3">amb</token>
-                    <token regexp="yes" inflected="yes">poder|govern|terra|recurs|diner|fortuna|herència|pilota|partit</token>
+                    <token skip="7">amb</token>
+                    <token regexp="yes" inflected="yes">escó|vot|poder|govern|terra|recurs|diner|fortuna|herència|pilota|partit</token>
                 </pattern>
                 <message>Expressió incorrecta. Cal dir: <suggestion>(apoderar-se de)</suggestion>, <suggestion>(prendre possessió de)</suggestion>, <suggestion>(emparar-se de)</suggestion>, <suggestion>(arreplegar)</suggestion>, <suggestion>(prendre)</suggestion></message>
                 <short>Expressió incorrecta</short>
@@ -11403,7 +11432,7 @@ $Id$
                     <token>estela</token>
                 </marker>
             </pattern>
-            <message>Expressió incorrecta si vol dir: <suggestion><match no="1"/> les petjades</suggestion>, <suggestion><match no="1"/> les petjades</suggestion>.</message>
+            <message>Expressió incorrecta si vol dir: <suggestion><match no="1"/> les petjades</suggestion>, <suggestion><match no="1"/> el rastre</suggestion>.</message>
             <short>Expressió incorrecta</short>
             <example type="incorrect"><marker>Segueix l'estela</marker> del campió.</example>
             <example type="correct">una estela funerària</example>
@@ -14118,11 +14147,11 @@ $Id$
                     <token postag="NCMS.*|_GN_MS" postag_regexp="yes"/>
                     <marker>
                         <token postag="SPS00"><exception postag="_no_relatiu"/></token>
-                        <token>el</token>
-                        <token regexp="yes">que|què</token>
+                        <token regexp="yes">el|l</token>
+                        <token regexp="yes">que|què|qui</token>
                     </marker>
                 </pattern>
-                <message>Reviseu la construcció de relatiu. Potser cal escriure: <suggestion><match no="2"/> <match no="3"/> qual</suggestion>, <suggestion><match no="2"/> què</suggestion>.</message>
+                <message>Reviseu la construcció de relatiu. Potser cal escriure: <suggestion><match no="2"/> <match no="3"/> qual</suggestion>, <suggestion><match no="2"/> què</suggestion>, <suggestion><match no="2"/> qui</suggestion>.</message>
                 <short>Reviseu la construcció de relatiu</short>
                 <example type="incorrect">l'home <marker>amb el que</marker> vaig parlar</example>
                 <example type="correct">l'home amb el qual vaig parlar</example>
@@ -14134,10 +14163,10 @@ $Id$
                     <marker>
                         <token postag="SPS00"><exception postag="_no_relatiu"/></token>
                         <token>la</token>
-                        <token regexp="yes">que|què</token>
+                        <token regexp="yes">que|què|qui</token>
                     </marker>
                 </pattern>
-                <message>Reviseu la construcció de relatiu. Potser cal escriure: <suggestion><match no="2"/> <match no="3"/> qual</suggestion>, <suggestion><match no="2"/> què</suggestion>.</message>
+                <message>Reviseu la construcció de relatiu. Potser cal escriure: <suggestion><match no="2"/> <match no="3"/> qual</suggestion>, <suggestion><match no="2"/> què</suggestion>, <suggestion><match no="2"/> qui</suggestion>.</message>
                 <short>Reviseu la construcció de relatiu</short>
                 <example type="incorrect">la dona <marker>amb la que</marker> vaig parlar</example>
                 <example type="correct">la dona amb la qual vaig parlar</example>
@@ -14150,11 +14179,11 @@ $Id$
                     <token postag="NCMP.*|_GN_MP" postag_regexp="yes"/>
                     <marker>
                         <token postag="SPS00"><exception postag="_no_relatiu"/></token>
-                        <token>els</token>
-                        <token regexp="yes">que|què</token>
+                        <token regexp="yes">els|ls</token>
+                        <token regexp="yes">que|què|qui</token>
                     </marker>
                 </pattern>
-                <message>Reviseu la construcció de relatiu. Potser cal escriure: <suggestion><match no="2"/> <match no="3"/> quals</suggestion>, <suggestion><match no="2"/> què</suggestion>.</message>
+                <message>Reviseu la construcció de relatiu. Potser cal escriure: <suggestion><match no="2"/> <match no="3"/> quals</suggestion>, <suggestion><match no="2"/> què</suggestion>, <suggestion><match no="2"/> qui</suggestion>.</message>
                 <short>Reviseu la construcció de relatiu</short>
                 <example type="incorrect">els homes <marker>amb els que</marker> vaig parlar</example>
                 <example type="correct">els homes amb els quals vaig parlar</example>
@@ -14166,10 +14195,10 @@ $Id$
                     <marker>
                         <token postag="SPS00"><exception postag="_no_relatiu"/></token>
                         <token>les</token>
-                        <token regexp="yes">que|què</token>
+                        <token regexp="yes">que|què|qui</token>
                     </marker>
                 </pattern>
-                <message>Reviseu la construcció de relatiu. Potser cal escriure: <suggestion><match no="2"/> <match no="3"/> quals</suggestion>, <suggestion><match no="2"/> què</suggestion>.</message>
+                <message>Reviseu la construcció de relatiu. Potser cal escriure: <suggestion><match no="2"/> <match no="3"/> quals</suggestion>, <suggestion><match no="2"/> què</suggestion>, <suggestion><match no="2"/> qui</suggestion>.</message>
                 <short>Reviseu la construcció de relatiu</short>
                 <example type="incorrect">les dones <marker>amb les que</marker> vaig parlar</example>
                 <example type="correct">les dones amb les quals vaig parlar</example>
@@ -15053,7 +15082,7 @@ $Id$
                 <example type="correct">Vosaltres canteu.</example>
             </rule>
         </rulegroup>     
-        <rule id="EVITA_INCOATIUS_IX" name="Evita els verbs incoatius amb -ix" default="off">
+        <rule id="EVITA_INCOATIUS_IX" name="Evita els verbs incoatius amb -ix">
             <pattern>
                 <token postag="V.*" postag_regexp="yes" regexp="yes">.+([^e]i|ï)(xo|x|xes|xen)<exception inflected="yes" regexp="yes">.+eixir|.+uixir|.+uixar|.+aixar|.+oixar|.+àixer|.*néixer</exception><exception postag="VMIP1S0"/><exception regexp="yes">(?-i)Unix</exception></token>
             </pattern>
@@ -15400,7 +15429,110 @@ $Id$
             </rule>
         </rulegroup>
     </category>
-    <category name="A4) Evita vocabulari d'ús restringit">
+    <category name="A4) Formes de plural opcionals">
+        <rule id="EXIGEIX_PLURALS_S" name="Exigeix plurals en -s: homes, joves..." default="off">
+            <pattern>
+                <token regexp="yes">àsens|còvens|fréixens|hòmens|jóvens|màrgens|òrfens|ràvens|térmens|vèrgens</token>
+            </pattern>
+            <message>Existeix una forma de plural en -s.</message>
+            <short>Hi ha un plural en -s.</short>
+            <example type="incorrect"><marker>àsens</marker></example>
+            <example type="correct">ases</example>
+        </rule>
+        <rule id="EXIGEIX_PLURALS_NS" name="Exigeix plurals en -ns: hòmens, jóvens..." default="off">
+                <pattern>
+                    <token regexp="yes">ases|coves|freixes|homes|joves|marges|orfes|raves|termes|verges</token>
+                </pattern>
+                <message>Existeix una forma de plural en -ns.</message>
+                <short>Hi ha un plural en -ns.</short>
+                <example type="incorrect"><marker>ases</marker></example>
+                <example type="correct">àsens</example>
+        </rule>
+        <rule id="EXIGEIX_PLURALS_SCS" name="Exigeix plurals en -scs: texts, boscs..." default="off">
+            <pattern>
+                <and>
+                    <token regexp="yes">.+(sc|sp|st|xt)os</token>
+                    <token regexp="yes" inflected="yes">.+(sc|sp|st|xt)</token>
+                </and>
+            </pattern>
+            <message>També es pot escriure: <suggestion><match no="1" regexp_match="(.+)os" regexp_replace="$1s"/></suggestion>.</message>
+            <short>Existeix plural en -s</short>
+            <example type="incorrect" correction="boscs">Els <marker>boscos</marker></example>
+            <example type="incorrect" correction="pretexts">Els seus <marker>pretextos</marker></example>
+            <example type="correct">boscs</example>
+        </rule>
+        <rule id="EXIGEIX_PLURALS_SCOS" name="Exigeix plurals en -scos: textos, boscos..." default="off">
+            <pattern>
+                <and>
+                    <token regexp="yes">.+(sc|sp|st|xt)s</token>
+                    <token regexp="yes" inflected="yes">.+(sc|sp|st|xt)</token>
+                </and>
+            </pattern>
+            <message>També es pot escriure: <suggestion><match no="1" regexp_match="(.+)s" regexp_replace="$1os"/></suggestion>.</message>
+            <short>Existeix plural en -os</short>
+            <example type="incorrect" correction="boscos">Els <marker>boscs</marker></example>
+            <example type="incorrect" correction="pretextos">Els seus <marker>pretexts</marker></example>
+            <example type="correct">boscos</example>
+        </rule>
+        <rulegroup id="EXIGEIX_PLURALS_IGS" name="Exigeix plurals en -igs: desigs, assaigs..." default="off">
+            <rule>
+                <pattern>
+                    <and>
+                        <token regexp="yes">.+tjos<exception regexp="yes">.*mitjos</exception></token>
+                        <token regexp="yes" inflected="yes">.+ig</token>
+                    </and>
+                </pattern>
+                <message>També es pot escriure: <suggestion><match no="1" regexp_match="(.+[^i])i?tjos" regexp_replace="$1igs"/></suggestion>.</message>
+                <short>Existeix plural en -s</short>
+                <example type="incorrect" correction="desigs">Els <marker>desitjos</marker></example>
+                <example type="incorrect" correction="lleigs">Els <marker>lletjos</marker></example>
+                <example type="correct">faigs</example>
+                <example type="correct">mitjos</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <and>
+                        <token regexp="yes">.+[^t]jos<exception>abadejos</exception></token>
+                        <token regexp="yes" inflected="yes">.+ig</token>
+                    </and>
+                </pattern>
+                <message>També es pot escriure: <suggestion><match no="1" regexp_match="(.+[^i])i?jos" regexp_replace="$1igs"/></suggestion>.</message>
+                <short>Existeix plural en -s</short>
+                <example type="incorrect" correction="faigs">Els <marker>fajos</marker></example>
+                <example type="incorrect" correction="fastigs">Els <marker>fastijos</marker></example>
+                <example type="correct">faigs</example>
+                <example type="correct">abadejos</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="EXIGEIX_PLURALS_JOS" name="Exigeix plurals en -jos: desitjos, assajos..." default="off">
+            <rule>
+                <pattern>
+                    <and>
+                        <token regexp="yes">.+igs<exception regexp="yes">boligs|desigs|estoigs|lleigs|rebuigs|remigs|trepigs|migs</exception></token>
+                        <token regexp="yes" inflected="yes">.+ig</token>
+                    </and>
+                </pattern>
+                <message>També es pot escriure: <suggestion><match no="1" regexp_match="(.*[^aeiou][aeiou])i?gs" regexp_replace="$1jos"/></suggestion>.</message>
+                <short>Existeix plural en -os</short>
+                <example type="incorrect" correction="assajos">Els <marker>assaigs</marker></example>
+                <example type="incorrect" correction="fajos">Els <marker>faigs</marker></example>
+                <example type="incorrect" correction="fastijos">Els <marker>fastigs</marker></example>
+                <example type="correct">abadejos</example>
+            </rule>
+            <rule>
+                <pattern>
+                        <token regexp="yes">boligs|desigs|estoigs|lleigs|rebuigs|remigs|trepigs|migs</token>
+                </pattern>
+                <message>També es pot escriure: <suggestion><match no="1" regexp_match="(.*[^aeiou][aeiou])i?gs" regexp_replace="$1tjos"/></suggestion>.</message>
+                <short>Existeix plural en -os</short>
+                <example type="incorrect" correction="desitjos">Els <marker>desigs</marker></example>
+                <example type="incorrect" correction="lletjos">Els <marker>lleigs</marker></example>
+                <example type="correct">faigs</example>
+                <example type="correct">mitjos</example>
+            </rule>         
+        </rulegroup>
+    </category>    
+    <category name="A5) Vocabulari d'ús restringit">    
         <rulegroup id="DEMOSTRATIUS_ESTE_EIXE" name="demostratius 'este' i 'eixe'" >
             <rule id="DEMOSTRATIUS_ESTE" name="Evita els demostratius 'este'" default="on">
                 <pattern>

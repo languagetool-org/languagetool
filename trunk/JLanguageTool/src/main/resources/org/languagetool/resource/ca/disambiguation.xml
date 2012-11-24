@@ -4330,6 +4330,18 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="filter" postag="PX.*"></disambig>
         </rule>
     </rulegroup>
+    <rule id="que" name="que (no adv)">
+        <pattern>
+            <marker>
+                <and>
+                    <token postag="RG.*" postag_regexp="yes">que</token>
+                    <token postag="RG.*" postag_regexp="yes" negate_pos="yes"></token>
+                </and>
+            </marker>
+            <token postag="A.*|V.P.*" postag_regexp="yes" negate_pos="yes"></token>
+        </pattern>
+        <disambig action="filter" postag="[^R].*"></disambig>
+    </rule>
     <rulegroup id="nom_adv_adj" name="nom + adverbi + adjectiu que concorden">
         <rule id="aa2" name="aa1: Era la feina més dura ">
             <pattern>
@@ -6932,15 +6944,6 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <disambig action="filter" postag="[^N].*" />
     </rule>
     <!-- paraules concretes-->
-    <rule id="que" name="que (no adv)">
-        <pattern>
-            <marker>
-                <token>que</token>
-            </marker>
-            <token postag="A.*" postag_regexp="yes" negate_pos="yes"></token>
-        </pattern>
-        <disambig action="filter" postag="[^R].*"></disambig>
-    </rule>
     <rule id="segons5" name="segons + verb">
         <pattern>
             <marker>
