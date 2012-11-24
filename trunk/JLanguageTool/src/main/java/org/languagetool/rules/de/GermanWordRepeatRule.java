@@ -50,7 +50,7 @@ public class GermanWordRepeatRule extends WordRepeatRule {
       if (position >= 2 && ",".equals(tokens[position - 2].getToken())) {
         return true;
       }
-      if (position >= 3 && ",".equals(tokens[position - 3].getToken()) &&  tokens[position - 2].getToken().matches("ab|an|auf|bei|für|in|mit|nach|über|zu")) {
+      if (position >= 3 && ",".equals(tokens[position - 3].getToken()) &&  tokens[position - 2].getToken().matches("ab|an|auf|bei|für|in|mit|nach|ohne|über|zu")) {
         return true;
       }
       return false;
