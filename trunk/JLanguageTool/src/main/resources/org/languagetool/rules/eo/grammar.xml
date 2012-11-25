@@ -1710,7 +1710,7 @@ $Id$
         <marker>
           <token postag="[OA] akz.*|T akz .*[uoa]" postag_regexp="yes">
             <exception inflected="yes" regexp="yes">(?:duono?)?(?:jarcent|jardek|jar|somer|vintr|printemp|aŭtun|sezon|monat|semajn|tag|maten|vesper|(?:post?)tagmez|nokt|hor|minut|sekund|moment|.*metr|mejl|marmejl|fut|col|paŝ|lund|mard|merkred|ĵaŭd|vendred|sabat|dimanĉ|foj|temp|.*gram|funt|tun)o?(?:fin)?(e[tg])?o</exception>
-            <exception regexp="yes">(?:[0-9]+-?an)|(?:\p{Lu}.*)</exception>
+            <exception regexp="yes">(?:\d+-?an)|(?:\p{Lu}.*)</exception>
             <exception postag="T akz .. k .*" postag_regexp="yes"/>
           </token>
         </marker>
@@ -2858,12 +2858,13 @@ $Id$
           <token>al</token>
           <token/>
           <marker>
-            <token inflected="yes" regexp="yes">(?:mal|ne)?ŝat(?:et|eg)?i</token>
+            <token inflected="yes" regexp="yes" postag="V .*" postag_regexp="yes">(?:mal|ne)?ŝat(?:et|eg)?i</token>
           </marker>
         </pattern>
         <message>La prepozicio «al» ne povas stari kun la verbo «\3». Ĉu vi intencis uzi la verbon <suggestion><match no="3" regexp_match="ŝat" regexp_replace="plaĉ"/></suggestion>?</message>
         <example type="incorrect">Al mi <marker>ŝatas</marker> sportumi.</example>
         <example type="correct">Al mi <marker>plaĉas</marker> sportumi.</example>
+        <example type="correct">Mi deziras al ĉiuj ŝatantoj de Esperanto feliĉan jaron.</example>
       </rule>
       <rule>
         <pattern>
