@@ -2025,7 +2025,7 @@ though, and has since been slightly modified)-->
               <token>dans</token>
               <token regexp="yes">[mtsl]a|leurs?|[vn]os</token>
               <marker><token regexp="yes">voies?</token></marker>
-              <token><exception regexp="yes">Lactée|respiratoires?</exception></token>
+              <token><exception regexp="yes">Lactée|biliaires?|lacrymales?|respiratoires?</exception></token>
             </pattern>
             <message>Voulez-vous écrire <suggestion>voix</suggestion> ?</message>
             <example type="incorrect">Il y avait une émotion dans sa <marker>voie</marker>.</example>
@@ -2038,7 +2038,7 @@ though, and has since been slightly modified)-->
           <rule>
             <pattern>
               <marker><token>voix</token></marker>
-              <token regexp="yes">(carrossable|communale|privée|publique|interdite|piétonne|principale|prioritaire|souterraine|urbaine|déserte|romaine|appienne|flaminienne|ferrée|ferroviaire|lactée|aérienne|maritime|fluviale|terrestre|navigable|détournée|déviée|buccale|intramusculaire|intraveineuse|abdominale|anale|disgestive|urinaire|respiratoire|parallèle|administrative|diplomatique|gouvernementale|législative|hiérarchique|rectiligne|sinueuse)s?|express</token>
+              <token regexp="yes">(biliaire|carrossable|communale|privée|publique|interdite|piétonne|principale|prioritaire|souterraine|urbaine|déserte|romaine|appienne|flaminienne|ferrée|ferroviaire|lactée|lacrymale|aérienne|maritime|fluviale|terrestre|navigable|détournée|déviée|buccale|intramusculaire|intraveineuse|abdominale|anale|disgestive|urinaire|respiratoire|parallèle|administrative|diplomatique|gouvernementale|législative|hiérarchique|rectiligne|sinueuse)s?|express</token>
             </pattern>
             <message>Voulez-vous écrire <suggestion>voie</suggestion> ou <suggestion>voies</suggestion> ?</message>
             <example type="incorrect">La <marker>voix</marker> piétonne est fermée.</example>
@@ -3092,8 +3092,9 @@ though, and has since been slightly modified)-->
                 <example type="correct">La Guyane Française.</example>
                 <example type="correct">Quelqu’un paye la facture.</example>
                 <example type="correct">Tes menaces ne me font pas du <marker>tout peur</marker>.</example>
+                <example type="correct">Elle est à nouveau amoureuse.</example>
                 <!-- FIXME
-        <example type="correct">Je n’ai pas du <marker>tout peur</marker> des serpents.</example> -->
+                <example type="correct">Je n’ai pas du <marker>tout peur</marker> des serpents.</example> -->
             </rule>
             <rule name="nom masculin suivi du féminin">
                 <pattern>
@@ -6074,24 +6075,6 @@ though, and has since been slightly modified)-->
         <rulegroup id="LA" name="là sans trait d’union">
             <rule>
                 <pattern>
-                    <token regexp="yes">allers?</token>
-                    <token regexp="yes">retours?</token>
-                </pattern>
-                <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
-                <example type="incorrect">Un <marker>aller retour</marker> pour Paris.</example>
-                <example type="correct">Un <marker>aller-retour</marker> pour Paris.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>longue</token>
-                    <token regexp="yes">vues?</token>
-                </pattern>
-                <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
-                <example type="incorrect">Une <marker>longue vue</marker>.</example>
-                <example type="correct">Une <marker>longue-vue</marker>.</example>
-            </rule>
-            <rule>
-                <pattern>
                     <token>là</token>
                     <token regexp="yes">bas|dedans|dessous|devant|derrière|haut</token>
                 </pattern>
@@ -6101,7 +6084,7 @@ though, and has since been slightly modified)-->
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">jusque|moment|celles?|celui|ceux|matins?|jours?|nuits?|deux</token>
+                    <token regexp="yes">jusque|celles?|celui|ceux</token>
                     <token>là</token>
                 </pattern>
                 <message>Voulez-vous dire <suggestion>\1-là</suggestion> ?</message>
@@ -6109,6 +6092,17 @@ though, and has since been slightly modified)-->
                 <example type="correct"><marker>Jusque-là</marker> tout va bien.</example>
                 <example type="incorrect"><marker>Celle là</marker>, elle sait comment faire.</example>
                 <example type="correct"><marker>Celle-là</marker>, elle sait comment faire.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="N .*" postag_regexp="yes"></token>
+                    <token regexp="yes">l[àa]</token>
+                    <token postag="M .*" postag_regexp="yes"/>
+                </pattern>
+                <message>Voulez-vous dire <suggestion>\1-là</suggestion> ?</message>
+                <example type="incorrect">Il faisait froid cet <marker>hiver là.</marker></example>
+                <example type="incorrect">Il faisait froid cet <marker>hiver la.</marker></example>
+                <example type="correct">Il faisait froid cet <marker>hiver-là.</marker></example>
             </rule>
         </rulegroup>
 
@@ -20586,6 +20580,24 @@ though, and has since been slightly modified)-->
         <rulegroup id="TRAIT_UNION" name="Trait d’union">
             <rule>
                 <pattern>
+                    <token regexp="yes">allers?</token>
+                    <token regexp="yes">retours?</token>
+                </pattern>
+                <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+                <example type="incorrect">Un <marker>aller retour</marker> pour Paris.</example>
+                <example type="correct">Un <marker>aller-retour</marker> pour Paris.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>longue</token>
+                    <token regexp="yes">vues?</token>
+                </pattern>
+                <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+                <example type="incorrect">Une <marker>longue vue</marker>.</example>
+                <example type="correct">Une <marker>longue-vue</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token>quelques</token>
                     <token regexp="yes">une?s</token>
                 </pattern>
@@ -21400,7 +21412,7 @@ though, and has since been slightly modified)-->
                     </marker>
                     <token>
                         <exception postag="V inf"/>
-                        <exception regexp="yes">quelle|[mst]oi|[nv]ous|lui|[mst]e|loin|près|plus|moins|temps</exception>
+                        <exception regexp="yes">quelle|[mst]oi|[nv]ous|lui|[mst]e|loin|près|plus|moins|suite|temps</exception>
                     </token>
                 </pattern>
                 <message>« Se rappelle de » est une impropriété. On se rappelle quelque chose, ou on se souvient de quelque chose. Employez <suggestion>\1</suggestion>.</message>
@@ -21415,6 +21427,7 @@ though, and has since been slightly modified)-->
                 <example type="correct">Cela me rappelle de loin mon enfance.</example>
                 <example type="correct">Je me rappelle de moins en mois mon enfance.</example>
                 <example type="correct">Je me rappelle de temps en temps mon enfance.</example>
+                <example type="correct">Je vais te rappeler de suite.</example>
             </rule>
             <rule>
                 <pattern>
