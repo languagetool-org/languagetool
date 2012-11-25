@@ -71,6 +71,7 @@ public class GenericUnpairedBracketsRule extends Rule {
     endSymbols = language.getUnpairedRuleEndSymbols();
     numerals = NUMERALS_EN;
     uniqueMapInit();
+    setLocQualityIssueType("typographical");
   }
 
   

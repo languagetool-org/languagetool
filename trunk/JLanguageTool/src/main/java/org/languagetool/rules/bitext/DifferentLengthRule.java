@@ -32,7 +32,11 @@ import org.languagetool.rules.RuleMatch;
  *
  */
 public class DifferentLengthRule extends BitextRule {
-  
+
+  public DifferentLengthRule() {
+    setLocQualityIssueType("length");
+  }
+
   @Override
   public String getDescription() { 
     return "Check if translation length is similar to source length";

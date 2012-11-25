@@ -76,6 +76,7 @@ public abstract class AbstractCompoundRule extends Rule {
     this.withHyphenMessage = withHyphenMessage;
     this.withoutHyphenMessage = withoutHyphenMessage;
     this.withOrWithoutHyphenMessage = withOrWithoutHyphenMessage;
+    setLocQualityIssueType("misspelling");
   }
 
   @Override

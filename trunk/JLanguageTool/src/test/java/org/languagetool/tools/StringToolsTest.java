@@ -166,7 +166,8 @@ public class StringToolsTest extends TestCase {
   public void testRuleMatchesToXML() throws IOException {
     final List<RuleMatch> matches = new ArrayList<RuleMatch>();
     final String text = "This is an test sentence. Here's another sentence with more text.";
-    final RuleMatch match = new RuleMatch(new AvsAnRule(null), 8, 10, "myMessage");
+    final AvsAnRule rule = new AvsAnRule(null);
+    final RuleMatch match = new RuleMatch(rule, 8, 10, "myMessage");
     match.setColumn(99);
     match.setEndColumn(100);
     match.setLine(44);
@@ -180,7 +181,8 @@ public class StringToolsTest extends TestCase {
     assertTrue(matcher.matches());
     assertTrue(xml.contains(">\n" +
             "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"EN_A_VS_AN\" msg=\"myMessage\" " +
-            "replacements=\"\" context=\"...s is an test...\" contextoffset=\"8\" offset=\"8\" errorlength=\"2\"/>\n" +
+            "replacements=\"\" context=\"...s is an test...\" contextoffset=\"8\" offset=\"8\" errorlength=\"2\" " +
+            "locqualityissuetype=\"terminology\"/>\n" +
             "</matches>\n"));
   }
 
@@ -199,7 +201,8 @@ public class StringToolsTest extends TestCase {
     final String xml = StringTools.ruleMatchesToXML(matches, text, 5, StringTools.XmlPrintMode.NORMAL_XML);
     assertTrue(xml.contains(">\n" +
             "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"MY_ID\" msg=\"myMessage\" " +
-            "replacements=\"\" context=\"...s is a test ...\" contextoffset=\"8\" offset=\"8\" errorlength=\"2\" category=\"MyCategory\"/>\n" +
+            "replacements=\"\" context=\"...s is a test ...\" contextoffset=\"8\" offset=\"8\" errorlength=\"2\" category=\"MyCategory\" " +
+            "locqualityissuetype=\"uncategorized\"/>\n" +
             "</matches>\n"));
   }
 
@@ -224,7 +227,8 @@ public class StringToolsTest extends TestCase {
     final String xml = StringTools.ruleMatchesToXML(matches, text, 5, StringTools.XmlPrintMode.NORMAL_XML);
     assertTrue(xml.contains(">\n" +
             "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"EN_A_VS_AN\" msg=\"myMessage\" " +
-            "replacements=\"\" context=\"...s is an test...\" contextoffset=\"8\" offset=\"8\" errorlength=\"2\" url=\"http://server.org?id=1&amp;foo=bar\"/>\n" +
+            "replacements=\"\" context=\"...s is an test...\" contextoffset=\"8\" offset=\"8\" errorlength=\"2\" url=\"http://server.org?id=1&amp;foo=bar\" " +
+            "locqualityissuetype=\"terminology\"/>\n" +
             "</matches>\n"));
   }
 
@@ -240,7 +244,8 @@ public class StringToolsTest extends TestCase {
     final String xml = StringTools.ruleMatchesToXML(matches, text, 5, StringTools.XmlPrintMode.NORMAL_XML);
     assertTrue(xml.contains(">\n" +
             "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"EN_A_VS_AN\" msg=\"myMessage\" " +
-            "replacements=\"\" context=\"... is &quot;an test...\" contextoffset=\"8\" offset=\"9\" errorlength=\"2\"/>\n" +
+            "replacements=\"\" context=\"... is &quot;an test...\" contextoffset=\"8\" offset=\"9\" errorlength=\"2\" " +
+            "locqualityissuetype=\"terminology\"/>\n" +
             "</matches>\n"));
   }
 

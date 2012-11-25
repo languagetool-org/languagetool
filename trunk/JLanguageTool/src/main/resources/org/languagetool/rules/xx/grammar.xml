@@ -47,6 +47,7 @@ $Id$
       <token regexp="yes">.*_sing_.*</token>
     </equivalence>
   </unification>
+
   <phrases>
     <phrase id="UNIFICATION_PHRASE">
       <unify>
@@ -110,8 +111,8 @@ $Id$
   </phrases>
 
   <category name="misc">
-    <!-- a trivial demo rule that matches &quot;foo&quot; followed by &quot;bar&quot; -->
     <rule id="DEMO_RULE" name="Find 'foo bar'">
+      <!-- a trivial demo rule that matches "foo" followed by "bar" -->
       <pattern case_sensitive="no">
         <token>foo</token>
         <token>bar</token>
@@ -143,6 +144,9 @@ $Id$
       <example type="correct">a small <marker>test</marker></example>
       <example type="incorrect">a small <marker>toast</marker></example>
     </rule>
+  </category>
+
+  <category name="otherCategory" type="addition">
     <rule id="TEST_GO" name="another test of phrases">
       <pattern>
         <token>foo</token>
@@ -154,7 +158,7 @@ $Id$
       <example type="incorrect"><marker>foo go</marker> bar</example>
       <example type="incorrect"><marker>foo goa</marker> bar</example>
     </rule>
-    <rule id="TEST_PHRASES1" name="test phrases mechanism">
+    <rule id="TEST_PHRASES1" name="test phrases mechanism" type="uncategorized">
       <pattern>
         <phraseref idref="COMPLEX_MULTIPLE"></phraseref>
         <token>there</token>
@@ -163,7 +167,7 @@ $Id$
       <example type="correct">go here</example>
       <example type="incorrect"><marker>first goes last there</marker>, please!</example>
     </rule>
-    <rule id="test_include" name="test two includeblocks">
+    <rule id="test_include" name="test two includeblocks" type="characters">
       <pattern>
         <phraseref idref="TEST_INCLUDE"></phraseref>
       </pattern>
@@ -352,26 +356,26 @@ $Id$
     <example type="correct">This is Test1 abc Cde End.</example>
     </rule>
     <rulegroup id="test_spacebefore" name="Test spacebefore on exceptions">
-    <rule>
-    	<pattern>
-    		<token>blah<exception scope="previous" spacebefore="no">'</exception></token>
-    		<token>blah</token>
-    	</pattern>
-    	<message>This is a dummy message.</message>
-    	<example type="correct">Dogs' blah blah</example>
-    	<example type="incorrect">Dogs <marker>blah blah</marker></example>
-    </rule>
-    <rule>
-    	<pattern>
-    		<token>blah<exception spacebefore="no">blah</exception></token>
-    		<token>blah</token>
-    	</pattern>
-    	<message>This is a dummy message.</message>
-    	<example type="correct">Dogs 'blah blah</example>
-    	<example type="incorrect">Dogs <marker>blah blah</marker></example>
-    </rule>
+        <rule>
+            <pattern>
+                <token>blah<exception scope="previous" spacebefore="no">'</exception></token>
+                <token>blah</token>
+            </pattern>
+            <message>This is a dummy message.</message>
+            <example type="correct">Dogs' blah blah</example>
+            <example type="incorrect">Dogs <marker>blah blah</marker></example>
+        </rule>
+        <rule type="duplication">
+            <pattern>
+                <token>blah<exception spacebefore="no">blah</exception></token>
+                <token>blah</token>
+            </pattern>
+            <message>This is a dummy message.</message>
+            <example type="correct">Dogs 'blah blah</example>
+            <example type="incorrect">Dogs <marker>blah blah</marker></example>
+        </rule>
     </rulegroup>
-    <rulegroup id="test_unification_with_negation" name="Test unification with negation">
+    <rulegroup id="test_unification_with_negation" name="Test unification with negation" type="grammar">
     	<rule>
     		<pattern>
     			<unify negate="yes">
@@ -391,4 +395,5 @@ $Id$
     	</rule>
     </rulegroup>    
   </category>
+
 </rules>

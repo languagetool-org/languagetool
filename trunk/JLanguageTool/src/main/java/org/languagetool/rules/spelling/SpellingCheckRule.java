@@ -45,6 +45,7 @@ public abstract class SpellingCheckRule extends Rule {
   public SpellingCheckRule(final ResourceBundle messages, final Language language) {
     super(messages);
     this.language = language;
+    setLocQualityIssueType("misspelling");
   }
 
   @Override

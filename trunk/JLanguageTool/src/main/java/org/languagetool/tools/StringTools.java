@@ -395,7 +395,11 @@ public final class StringTools {
       }
       final Category category = match.getRule().getCategory();
       if (category != null) {
-        xml.append(" category=\"" + category.getName() + "\"");
+        xml.append(" category=\"" + escapeXMLForAPIOutput(category.getName()) + "\"");
+      }
+      final String type = match.getRule().getLocQualityIssueType();
+      if (type != null) {
+        xml.append(" locqualityissuetype=\"" + escapeXMLForAPIOutput(type) + "\"");
       }
       xml.append("/>\n");
     }

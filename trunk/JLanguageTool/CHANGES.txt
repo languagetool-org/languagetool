@@ -30,7 +30,19 @@ LanguageTool Change Log
 
  -API: Language.getLanguageForShortName() now consistently throws an exception
   if the given language code is not known
- 
+
+ -HTTP API: the XML we return now contains a new attribute "locqualityissuetype", which
+  is the "Localization Quality Issue Type" in the upcoming Internationalization Tag Set (ITS)
+  Version 2.0 standard from W3C. This means errors are now categorized according to
+  a standard, additionally to LanguageTool's own categories. Useful values are only
+  returned for English for now.
+  *** Please consider this to be a prototypical implementation for now ***
+  For the values and their meanings, please see
+  http://www.w3.org/International/multilingualweb/lt/drafts/its20/its20.html#lqissue-typevalues.
+  For rule developers: specify this using the new 'type' attribute. It is
+  inherited from category to rulegroup, and from rulegroup to rule. If a rule also
+  has the 'type' it overwrites the rulegroup's and category's 'type'.
+
  -HTTP API: support for auto-detecting text language (parameter autodetect=1)
 
  -HTTP API: added HTTPSServer, a lightweight embedded HTTPS server which works like HTTPServer

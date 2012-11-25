@@ -38,6 +38,9 @@ public class PatternRuleHandler extends XMLRuleHandler {
   private boolean defaultOn;
 
   protected Category category;
+  protected String categoryIssueType;
+  protected String ruleGroupIssueType;
+  protected String ruleIssueType;
   protected String name;
   private String ruleGroupDescription;
   private int startPos = -1;
@@ -61,6 +64,9 @@ public class PatternRuleHandler extends XMLRuleHandler {
       }
       if ("off".equals(attrs.getValue(DEFAULT))) {
         category.setDefaultOff();
+      }
+      if (attrs.getValue("type") != null) {
+        categoryIssueType = attrs.getValue("type");
       }
     } else if ("rules".equals(qName)) {
       final String languageStr = attrs.getValue("lang");
@@ -89,6 +95,9 @@ public class PatternRuleHandler extends XMLRuleHandler {
       incorrectExamples = new ArrayList<IncorrectExample>();
       if (suggestionMatches != null) {
         suggestionMatches.clear();
+      }
+      if (attrs.getValue("type") != null) {
+        ruleIssueType = attrs.getValue("type");
       }
     } else if (PATTERN.equals(qName)) {
       startPattern(attrs);
@@ -138,6 +147,9 @@ public class PatternRuleHandler extends XMLRuleHandler {
       defaultOn = "on".equals(attrs.getValue(DEFAULT));
       inRuleGroup = true;
       subId = 0;
+      if (attrs.getValue("type") != null) {
+        ruleGroupIssueType = attrs.getValue("type");
+      }
     } else if ("suggestion".equals(qName) && inMessage) {      
       if (YES.equals(attrs.getValue("suppress_misspelled"))) {
         message.append("<pleasespellme/>");
@@ -172,7 +184,9 @@ public class PatternRuleHandler extends XMLRuleHandler {
   @Override
   public void endElement(final String namespaceURI, final String sName,
       final String qName) throws SAXException {
-    if (RULE.equals(qName)) {
+    if ("category".equals(qName)) {
+      categoryIssueType = null;
+    } else if (RULE.equals(qName)) {
       phraseElementInit();
       if (phraseElementList.isEmpty()) {
         final PatternRule rule = new PatternRule(id, language, elementList,
@@ -199,6 +213,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
       if (phraseElementList != null) {
         phraseElementList.clear();
       }
+      ruleIssueType = null;
 
     } else if (EXCEPTION.equals(qName)) {
       finalizeExceptions();
@@ -249,6 +264,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
       inMatch = false;
     } else if (RULEGROUP.equals(qName)) {
       inRuleGroup = false;
+      ruleGroupIssueType = null;
     } else if ("suggestion".equals(qName) && inMessage) {
       message.append("</suggestion>");      
       inSuggestion = false;
@@ -318,6 +334,14 @@ public class PatternRuleHandler extends XMLRuleHandler {
       } catch (MalformedURLException e) {
         throw new RuntimeException("Could not parse URL for rule: " + rule + ": '" + url + "'", e);
       }
+    }
+    // inheritance of values - if no type value is defined for a rule, take the rule group's value etc:
+    if (ruleIssueType != null) {
+      rule.setLocQualityIssueType(ruleIssueType);
+    } else if (ruleGroupIssueType != null) {
+      rule.setLocQualityIssueType(ruleGroupIssueType);
+    } else if (categoryIssueType != null) {
+      rule.setLocQualityIssueType(categoryIssueType);
     }
   }
 

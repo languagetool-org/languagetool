@@ -33,6 +33,10 @@ import org.languagetool.rules.RuleMatch;
  */
 public class SameTranslationRule extends BitextRule {
 
+  public SameTranslationRule() {
+    setLocQualityIssueType("untranslated");
+  }
+
   @Override
   public String getDescription() { 
     return "Check if translation is the same as source";

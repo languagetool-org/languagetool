@@ -40,6 +40,7 @@ public abstract class Rule {
 
   private List<String> correctExamples;
   private List<IncorrectExample> incorrectExamples;
+  private String locQualityIssueType = "uncategorized";
   private Category category;
   private URL url;
   /** If true, then the rule is turned off by default. */
@@ -249,4 +250,29 @@ public abstract class Rule {
   public void setUrl(URL url) {
     this.url = url;
   }
+
+  /**
+   * Returns the Localization Quality Issue Type, as defined
+   * at <a href="http://www.w3.org/International/multilingualweb/lt/drafts/its20/its20.html#lqissue-typevalues"
+   * >http://www.w3.org/International/multilingualweb/lt/drafts/its20/its20.html#lqissue-typevalues</a>.
+   *
+   * <p>Note that not all languages nor all rules actually map yet to a type yet. In those
+   * cases, <tt>uncategorized</tt> is returned.
+   *
+   * @return the Localization Quality Issue Type - <tt>uncategorized</tt> if no type has been assigned
+   * @since 2.0
+   */
+  public String getLocQualityIssueType() {
+    return locQualityIssueType;
+  }
+
+  /**
+   * Set the Localization Quality Issue Type.
+   * @see #getLocQualityIssueType()
+   * @since 2.0
+   */
+  public void setLocQualityIssueType(String locQualityIssueType) {
+    this.locQualityIssueType = locQualityIssueType;
+  }
+
 }

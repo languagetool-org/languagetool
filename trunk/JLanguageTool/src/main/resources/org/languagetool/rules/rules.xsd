@@ -63,6 +63,7 @@
 				</xs:simpleType>
 			</xs:attribute>
 			<xs:attribute name="name" type="xs:string" use="required" />
+			<xs:attribute ref="type" use="optional" />
 		</xs:complexType>
 	</xs:element>
 
@@ -89,14 +90,54 @@
 			</xs:attribute>
 			<xs:attribute name="name" type="xs:string" use="optional" />
 			<xs:attribute name="id" type="xs:ID" use="required" />
+			<xs:attribute ref="type" use="optional" />
 		</xs:complexType>
 	</xs:element>
+
+    <xs:attribute name="type">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">
+                Localization Quality Issue Type, according to Internationalization Tag Set (ITS) Version 2.0,
+                see http://www.w3.org/International/multilingualweb/lt/drafts/its20/its20.html#lqissue-typevalues
+                (added in LanguageTool 2.0)
+            </xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+            <xs:restriction base="xs:NMTOKEN">
+                <xs:enumeration value="terminology" />
+                <xs:enumeration value="mistranslation" />
+                <xs:enumeration value="omission" />
+                <xs:enumeration value="untranslated" />
+                <xs:enumeration value="addition" />
+                <xs:enumeration value="duplication" />
+                <xs:enumeration value="inconsistency" />
+                <xs:enumeration value="grammar" />
+                <xs:enumeration value="legal" />
+                <xs:enumeration value="register" />
+                <xs:enumeration value="locale-specific-content" />
+                <xs:enumeration value="locale-violation" />
+                <xs:enumeration value="style" />
+                <xs:enumeration value="characters" />
+                <xs:enumeration value="misspelling" />
+                <xs:enumeration value="typographical" />
+                <xs:enumeration value="formatting" />
+                <xs:enumeration value="inconsistent-entities" />
+                <xs:enumeration value="numbers" />
+                <xs:enumeration value="markup" />
+                <xs:enumeration value="pattern-problem" />
+                <xs:enumeration value="whitespace" />
+                <xs:enumeration value="internationalization" />
+                <xs:enumeration value="length" />
+                <xs:enumeration value="uncategorized" />
+                <xs:enumeration value="other" />
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:attribute>
 
 	<xs:annotation>
 		<xs:documentation xml:lang="en"> The rule element. The
 			unique ID is
 			required only if the rule is not contained in a rule group.
-
 			The rule can be switched by default off (using the default attribute).
 		</xs:documentation>
 	</xs:annotation>
@@ -119,6 +160,7 @@
 			</xs:attribute>
 			<xs:attribute name="name" type="xs:string" use="optional" />
 			<xs:attribute name="id" type="xs:ID" use="optional" />
+			<xs:attribute ref="type" use="optional" />
 		</xs:complexType>
 	</xs:element>
 
