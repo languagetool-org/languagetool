@@ -5850,6 +5850,44 @@ though, and has since been slightly modified)-->
                 <example type="correct">Quelles que puissent être vos raisons</example>
             </rule>
         </rulegroup>
+        <rulegroup id="DEMI" name="demi et demie">
+          <rule>
+            <pattern>
+              <token regexp="yes">heures?</token>
+              <token>et</token>
+              <marker><token regexp="yes">demis?</token></marker>
+            </pattern>
+            <message>Employez <suggestion>demie</suggestion>.</message>
+            <example type="incorrect">Il est trois heures et <marker>demi</marker>.</example>
+            <example type="correct">Il est trois heures et demie.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token regexp="yes">demie?</token>
+              <token>heure</token>
+            </pattern>
+            <message>Employez <suggestion>demi-heure</suggestion>.</message>
+            <example type="incorrect">L’entretien dure environ une <marker>demi heure</marker>.</example>
+            <example type="correct">L’entretien dure environ une demi-heure.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token>demie-heure</token>
+            </pattern>
+            <message>Employez <suggestion>demi-heure</suggestion>.</message>
+            <example type="incorrect">L’entretien dure environ une <marker>demie-heure</marker>.</example>
+            <example type="correct">L’entretien dure environ une demi-heure.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token>à</token>
+              <token>demie</token>
+            </pattern>
+            <message>« demi » est invariable dans la locution <suggestion>à demi</suggestion>.</message>
+            <example type="incorrect">Elle est <marker>à demie</marker> consciente.</example>
+            <example type="correct">Elle est <marker>à demi</marker> consciente.</example>
+          </rule>
+        </rulegroup>
         <rule id="LA_PLUS_PART" name="la plus part au lieu de la plupart">
             <pattern>
                 <token>la</token>
