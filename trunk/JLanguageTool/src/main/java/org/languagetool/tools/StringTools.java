@@ -337,8 +337,8 @@ public final class StringTools {
 
     if (xmlMode == XmlPrintMode.NORMAL_XML || xmlMode == XmlPrintMode.START_XML) {
       xml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-      xml.append("<matches software=\"LanguageTool\" version=\"" + JLanguageTool.VERSION + "\"" +
-              " buildDate=\"" + JLanguageTool.BUILD_DATE + "\">\n");
+      xml.append("<matches software=\"LanguageTool\" version=\"" + JLanguageTool.VERSION + "\"" + " buildDate=\"")
+         .append(JLanguageTool.BUILD_DATE).append("\">\n");
     }
     
     if (lang != null || motherTongue != null) {
@@ -369,37 +369,35 @@ public final class StringTools {
           subId = " subId=\"" + escapeXMLForAPIOutput(pRule.getSubId()) + "\" ";
         }
       }
-      xml.append("<error" + " fromy=\"" + match.getLine() + "\"" + " fromx=\""
-          + (match.getColumn() - 1) + "\"" + " toy=\"" + match.getEndLine() + "\""
-          + " tox=\"" + (match.getEndColumn() - 1) + "\"" + " ruleId=\""
-          + match.getRule().getId() + "\"");
+      xml.append("<error fromy=\"").append(match.getLine()).append("\"")
+         .append(" fromx=\"").append(match.getColumn() - 1).append("\"")
+         .append(" toy=\"").append(match.getEndLine()).append("\"")
+         .append(" tox=\"").append(match.getEndColumn() - 1).append("\"")
+         .append(" ruleId=\"").append(match.getRule().getId()).append("\"");
       final String msg = match.getMessage().replaceAll("</?suggestion>", "'");
       xml.append(subId);
-      xml.append(" msg=\"" + escapeXMLForAPIOutput(msg) + "\"");
+      xml.append(" msg=\"").append(escapeXMLForAPIOutput(msg)).append("\"");
       String context = contextTools.getContext(match.getFromPos(), match.getToPos(), text);
-      xml.append(" replacements=\""
-          + escapeXMLForAPIOutput(listToString(
-              match.getSuggestedReplacements(), "#")) + "\"");
+      xml.append(" replacements=\"").append(escapeXMLForAPIOutput(listToString(
+              match.getSuggestedReplacements(), "#"))).append("\"");
       // get position of error in context and remove artificial marker again:
       final int contextOffset = context.indexOf(START_MARKER);
       context = context.replaceFirst(START_MARKER, "");
       context = context.replaceAll("[\n\r]", " ");
-      xml.append(" context=\"" + StringTools.escapeXML(context) + "\"");
-      xml.append(" contextoffset=\"" + contextOffset + "\"");
-      xml.append(" offset=\"" + match.getFromPos() + "\"");
-      xml.append(" errorlength=\"" + (match.getToPos() - match.getFromPos()) + "\"");
+      xml.append(" context=\"").append(StringTools.escapeXML(context)).append("\"")
+         .append(" contextoffset=\"").append(contextOffset).append("\"")
+         .append(" offset=\"").append(match.getFromPos()).append("\"")
+         .append(" errorlength=\"").append(match.getToPos() - match.getFromPos()).append("\"");
       if (match.getRule().getUrl() != null) {
-          xml.append(" url=\""
-              + escapeXMLForAPIOutput(match.getRule().getUrl().toString())
-              + "\"");
+          xml.append(" url=\"").append(escapeXMLForAPIOutput(match.getRule().getUrl().toString())).append("\"");
       }
       final Category category = match.getRule().getCategory();
       if (category != null) {
-        xml.append(" category=\"" + escapeXMLForAPIOutput(category.getName()) + "\"");
+        xml.append(" category=\"").append(escapeXMLForAPIOutput(category.getName())).append("\"");
       }
       final String type = match.getRule().getLocQualityIssueType();
       if (type != null) {
-        xml.append(" locqualityissuetype=\"" + escapeXMLForAPIOutput(type) + "\"");
+        xml.append(" locqualityissuetype=\"").append(escapeXMLForAPIOutput(type)).append("\"");
       }
       xml.append("/>\n");
     }
