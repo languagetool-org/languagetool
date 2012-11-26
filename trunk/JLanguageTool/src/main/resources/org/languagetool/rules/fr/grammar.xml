@@ -3974,7 +3974,9 @@ though, and has since been slightly modified)-->
                     <token postag="SENT_START" skip="-1">
                         <exception scope="next" postag="[NR].* [me] .*" postag_regexp="yes"/>
                     </token>
-                    <token postag="[NZ] f .*|R pers suj 3 f .*" postag_regexp="yes"/>
+                    <token postag="[NZ] f .*|R pers suj 3 f .*" postag_regexp="yes">
+                        <exception postag="[NZJ] [em] .*" postag_regexp="yes"/>
+                    </token>
                     <token inflected="yes" postag="V .* 3 .*" postag_regexp="yes" regexp="yes">devoir|pouvoir|semble</token>
                     <token>être</token>
                     <marker>
@@ -3986,6 +3988,7 @@ though, and has since been slightly modified)-->
                 <example type="correct">Une corrélation peut être <marker>observée</marker>.</example>
                 <example type="incorrect">Martine peut être <marker>amusant</marker>.</example>
                 <example type="correct">Martine peut être <marker>amusante</marker>.</example>
+                <example type="correct">Les composants électroniques peuvent être nettoyés.</example>
             </rule>
             <rule>
                 <pattern>
@@ -6096,7 +6099,9 @@ though, and has since been slightly modified)-->
             </rule>
             <rule>
                 <pattern>
-                    <token postag="N .*" postag_regexp="yes"></token>
+                    <token postag="N .*" postag_regexp="yes">
+                      <exception postag="V.*" postag_regexp="yes"/>
+                    </token>
                     <token regexp="yes">l[àa]</token>
                     <token postag="M .*" postag_regexp="yes"/>
                 </pattern>
@@ -6104,6 +6109,7 @@ though, and has since been slightly modified)-->
                 <example type="incorrect">Il faisait froid cet <marker>hiver là.</marker></example>
                 <example type="incorrect">Il faisait froid cet <marker>hiver la.</marker></example>
                 <example type="correct">Il faisait froid cet <marker>hiver-là.</marker></example>
+                <example type="correct">Veux-tu aller là ?</example>
             </rule>
         </rulegroup>
 
