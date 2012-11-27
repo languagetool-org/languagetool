@@ -9049,6 +9049,7 @@ $Id$
     <!-- ====================================================================== -->
     <category name="Groß-/Kleinschreibung">
         <rulegroup id="IMPORTIEREN_SUBST" name="Groß-/Kleinschreibung: 'das importieren (Importieren)' etc.">
+            <!-- Jan: TODO: wenn möglich verallgemeinern auf alle Verben im Infinitiv: "Das Löschen der Dateien" etc. -->
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[Dd]as|[Dd]em</token>
@@ -9519,6 +9520,21 @@ $Id$
                 <example type="correct">Das <marker>bedarf</marker> noch der Klärung.</example>
                 <example type="correct">Bei <marker>Bedarf</marker> dürfen Sie mich gerne wieder anrufen.</example>
                 <example type="incorrect" correction="Bedarf">Bei <marker>bedarf</marker> dürfen Sie mich gerne wieder anrufen.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AUSREDE_SUBST" name="Groß-/Kleinschreibung: 'faule ausrede (Ausrede)'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[fF]aulen?</token>
+                    <marker>
+                        <token regexp="yes">ausreden?</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Das sollten wir ihm <marker>ausreden</marker>.</example>
+                <example type="correct">Das sind doch faule <marker>Ausreden</marker>.</example>
+                <example type="incorrect">Das sind doch faule <marker>ausreden</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SCHAU_SUBST" name="Groß-/Kleinschreibung: 'die schau (Schau) stehlen' etc.">
@@ -21630,8 +21646,8 @@ $Id$
                 <token>kurzem</token>
             </pattern>
             <message>Eine relative Zeitangabe wie 'seit Kurzem' ist für Wikipedia-Artikel nicht gut geeignet und sollte möglicherweise durch eine absolute Zeitangabe ersetzt werden.</message>
-            <example type="incorrect"><marker>Seit kurzem</marker> ist sie Bundeskanzerlin.</example>
-            <example type="correct">Seit März 2009 ist sie Bundeskanzerlin.</example>
+            <example type="incorrect"><marker>Seit kurzem</marker> ist sie Bundeskanzlerin.</example>
+            <example type="correct">Seit März 2009 ist sie Bundeskanzlerin.</example>
         </rule>
     </category>
 
