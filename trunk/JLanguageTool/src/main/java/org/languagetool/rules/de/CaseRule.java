@@ -79,8 +79,14 @@ public class CaseRule extends GermanRule {
   
   private static final Set<String> exceptions = new HashSet<String>();
   static {
+    /*
+     * These are words that Morphy only knows as non-nouns. The proper
+     * solution is to add all those to our Morphy data, but as a simple
+     * workaround to avoid false alarms, these words can be added here.
+     */
     exceptions.add("Hr");   // Hr. = Abkürzung für Herr
     exceptions.add("Schwarz");
+    exceptions.add("Genese");
     exceptions.add("Rosa");
     exceptions.add("Auftrieb");
     exceptions.add("Zuschnitt");
