@@ -1433,6 +1433,24 @@ $Id$
                 <example type="correct">Joan va despertar el nen.</example>
             </rule>
         </rulegroup>    
+        <rulegroup id="VERBS_NO_PRONOMINALS" name="verbs no pronomianls: *passar-se pel cap"> 
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">se|es</token>
+                        <token postag="PP[123]C[SP].*" postag_regexp="yes" skip="1"/>
+                    </marker>
+                    <token inflected="yes" skip="1">passar</token>
+                    <token>pe</token>
+                    <token>l</token>
+                    <token>cap</token>
+                </pattern>
+                <message>Ús pronominal incorrecte. Cal dir: <suggestion><match no="2"/></suggestion> </message>
+                <short>Ús pronominal incorrecte</short>
+                <example type="incorrect" correction="li">A Joan mai no <marker>se li</marker> ha passat pel cap fer això.</example>
+                <example type="correct">No li ha passat mai pel cap.</example>
+            </rule>
+        </rulegroup>    
         <rulegroup id="VERBS_NO_TRANSITIUS" name="verbs no transitius"> <!-- Ha d'anar a Java -->
             <rule>
                 <pattern>
@@ -8245,6 +8263,20 @@ $Id$
         </rulegroup>
     </category>
     <category name="Expressions">
+        <rule id="ESTAR_A_LALCADA" name="estar a l'alçada">
+            <pattern>
+                <token inflected="yes" skip="1">estar</token>
+                <marker>
+                    <token>a</token>
+                    <token>l'</token>
+                    <token>alçada</token>
+                </marker>
+            </pattern>
+            <message>En sentit figurat cal dir <suggestion>a l'altura</suggestion>.</message>
+            <short>Expressió incorrecta</short>
+            <example type="incorrect">no va saber estar <marker>a l'alçada</marker></example>
+            <example type="correct">estar a l'altura</example>
+        </rule>
         <rule id="FINS_AQUI_PODIEM_ARRIBAR" name="fins aquí podíem arribar">
             <pattern>
                 <token>fins</token>
@@ -8347,7 +8379,7 @@ $Id$
                     <token postag="P0.0.*" postag_regexp="yes" skip="1"/>
                     <token skip="2" inflected="yes">fer</token>
                     <token skip="7">amb</token>
-                    <token regexp="yes" inflected="yes">escó|vot|poder|govern|terra|recurs|diner|fortuna|herència|pilota|partit</token>
+                    <token regexp="yes" inflected="yes">acció|escó|vot|poder|govern|terra|recurs|diner|fortuna|herència|pilota|partit</token>
                 </pattern>
                 <message>Expressió incorrecta. Cal dir: <suggestion>(apoderar-se de)</suggestion>, <suggestion>(prendre possessió de)</suggestion>, <suggestion>(emparar-se de)</suggestion>, <suggestion>(arreplegar)</suggestion>, <suggestion>(prendre)</suggestion></message>
                 <short>Expressió incorrecta</short>
@@ -8360,7 +8392,7 @@ $Id$
                     <token inflected="yes">fer</token>
                     <token postag="P0.0.*" postag_regexp="yes" skip="2"/>
                     <token skip="7">amb</token>
-                    <token regexp="yes" inflected="yes">escó|vot|poder|govern|terra|recurs|diner|fortuna|herència|pilota|partit</token>
+                    <token regexp="yes" inflected="yes">acció|escó|vot|poder|govern|terra|recurs|diner|fortuna|herència|pilota|partit</token>
                 </pattern>
                 <message>Expressió incorrecta. Cal dir: <suggestion>(apoderar-se de)</suggestion>, <suggestion>(prendre possessió de)</suggestion>, <suggestion>(emparar-se de)</suggestion>, <suggestion>(arreplegar)</suggestion>, <suggestion>(prendre)</suggestion></message>
                 <short>Expressió incorrecta</short>
@@ -12968,6 +13000,18 @@ $Id$
         </rulegroup>
     </category>
     <category name="B2) Expressions preferibles" default="on">
+        <rulegroup id="PROPER" name="proper/que ve/vinent">
+            <rule>
+                <pattern>
+                    <token inflected="yes">proper</token>
+                    <token regexp="yes" inflected="yes">legislatura|minut|hora|dia|setmana|mes|trimestre|quadrimestre|semestre|any|lustre|dècada|segel|mil·lenni|instant|moment|dilluns|dimarts|dimecres|dijous|divendres|dissabte|diumenge</token>
+                </pattern>
+                <message>Val més dir: <suggestion><match no="2"/> <match no="1" postag="AQ0.(.)." postag_regexp="yes" postag_replace="AQ0C$10">vinent</match></suggestion>, <suggestion><match no="2"/> que <match no="1" postag="AQ0.(.)." postag_regexp="yes" postag_replace="VMIP3$10">venir</match></suggestion>, <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">pròxim</match> <match no="2"/></suggestion></message>
+                <short>Expressió preferible</short>
+                <example type="incorrect">Aquest <marker>proper any</marker></example>
+                <example type="correct">L'any que ve</example>
+            </rule>
+        </rulegroup>
         <rule id="A_AQUEST_FI" name="a aquest fi">
             <pattern>
                 <token negate="yes">per</token>
@@ -13855,6 +13899,20 @@ $Id$
         
     </category>
     <category name="Redundàncies">
+        <rule id="PROPER_REDUNDANT" name="el proper">
+            <pattern>
+                <marker>
+                    <token/>
+                    <token>proper</token>
+                    <token regexp="yes" skip="1">dilluns|dimarts|dimecres|dijous|divendres|dissabte|diumenge</token>
+                </marker>
+                <token regexp="yes">\d+</token>
+            </pattern>
+            <message>"Proper" és redundant. Val més dir:<suggestion><match no="1"/> <match no="3"/></suggestion></message>
+            <short>Redundància</short>
+            <example type="incorrect" correction="El dilluns"><marker>El proper dilluns</marker> 14 de març.</example>
+            <example type="correct">El dilluns que ve</example>
+        </rule>
         <rule id="PER_TANT_DONCS" name="per tant doncs">
             <pattern>
                 <token>per</token>
@@ -13892,6 +13950,17 @@ $Id$
                 <example type="correct">únicament</example>
             </rule>
         </rulegroup>
+        <rule id="TOT_INCLOENT" name="tot incloent">
+            <pattern>
+                <token>,</token>
+                <token>tot</token>
+                <token>incloent</token>
+            </pattern>
+            <message>"Tot" és redundant si no remarquem la simultaneïtat o l'oposició. Val més dir: <suggestion>incloent</suggestion>.</message>
+            <short>Redundància</short>
+            <example type="incorrect">sense desmerèixer els anteriors<marker>, tot incloent</marker>-hi el muntatge de la Fura dels Baus</example>
+            <example type="correct">sense desmerèixer els anteriors, incloent-hi el muntatge de la Fura dels Baus</example>
+        </rule>
     </category>
     <category name="B1) Formes opcionals segons el registre">
         <rulegroup id="NO_EN_REGISTRE_FORMAL" name="Exigeix paraules de registre formal: ningun(a), bastanta" default="on">
