@@ -2877,6 +2877,18 @@ $Id$
     <!-- ====================================================================== -->
     <category name="Leicht zu verwechselnde Wörter">
         <!-- TODO emphatisch/empathisch -->
+        <rule id="WAISE_WEISE" name="Mögliche Wortverwechslung: Waise (Weise)">
+            <pattern>
+                <token regexp="yes">Art(en)?|Worte</token>
+                <token>und</token>
+                <marker>
+                    <token>Waise</token>
+                </marker>
+            </pattern>
+            <message>&verw;Meinten Sie <suggestion>Weise</suggestion> (Art, Methode) statt Waise (elternloses Kind)?</message>
+            <example type="correct">Die Art und <marker>Weise</marker> ist entscheidend.</example>
+            <example type="incorrect" correction="Weise">Die Art und <marker>Waise</marker> ist entscheidend.</example>
+        </rule>
         <rule id="SANG_UND_KLAGLOS" name="Mögliche Wortverwechslung: klaglos/klanglos">
             <pattern>
                 <token>sang-</token>
@@ -5330,7 +5342,7 @@ $Id$
                     </marker>
                 </pattern>
                 <message>Falls <suggestion>Entweder-oder</suggestion> hier als Substantiv im Sinne von 'sich gegenseitig ausschließende Möglichkeiten' verwendet wird, schreiben Sie es bitte groß und mit Bindestrich.</message>
-                <url>http://www.duden.de/sprachratgeber/beispiele-zur-neuen-rechtschreibung/3</url>
+                <url>http://www.duden.de/sprachwissen/sprachratgeber/beispiele-zur-neuen-rechtschreibung</url>
                 <short>&getrennt;.</short>
                 <example type="incorrect" correction="Entweder-oder">Es läuft auf ein <marker>entweder oder</marker> hinaus.</example>
                 <example type="correct">Es läuft auf ein <marker>Entweder-oder</marker> hinaus.</example>
@@ -5345,7 +5357,7 @@ $Id$
                     </marker>
                 </pattern>
                 <message>Falls <suggestion>Entweder-oder</suggestion> hier als Substantiv im Sinne von 'sich gegenseitig ausschließende Möglichkeiten' verwendet wird, schreiben Sie es bitte groß und mit Bindestrich.</message>
-                <url>http://www.duden.de/sprachratgeber/beispiele-zur-neuen-rechtschreibung/3</url>
+                <url>http://www.duden.de/sprachwissen/sprachratgeber/beispiele-zur-neuen-rechtschreibung</url>
                 <short>&getrennt;.</short>
                 <example type="incorrect" correction="Entweder-oder">Es läuft auf ein <marker>Entweder – Oder</marker> hinaus.</example>
                 <example type="incorrect" correction="Entweder-oder">Es läuft auf ein <marker>entweder - oder</marker> hinaus.</example>
@@ -12834,7 +12846,7 @@ $Id$
         <!-- Großgeschrieben wird das substantivierte Adjektiv, wenn es im Sinne von »deutsche Sprache« verwendet wird:
           http://www.duden.de/rechtschreibung/deutsch
           Großgeschrieben werden ferner Sprachbezeichnungen nach einer Präposition
-          http://www.duden.de/sprachratgeber/gross-und-kleinschreibung-1 -->
+          http://www.duden.de/sprachwissen/sprachratgeber/gross-und-kleinschreibung-1 -->
         <rule id="AUF_ENGLISCH" name="Groß-/Kleinschreibung: 'auf englisch (Englisch)'">
             <pattern case_sensitive="yes">
                 <token regexp="yes">[iI]n|[aA]uf</token>
@@ -12843,7 +12855,7 @@ $Id$
                 </marker>
             </pattern>
             <message>Meinten Sie \1 <suggestion><match no="2" case_conversion="startupper"/></suggestion> (im Sinne von 'in \2er Sprache')? Nach einer Präposition werden Sprachbezeichnungen großgeschrieben.</message>
-            <url>http://www.duden.de/sprachratgeber/gross-und-kleinschreibung-1</url>
+            <url>http://www.duden.de/sprachwissen/sprachratgeber/gross-und-kleinschreibung-1</url>
             <example type="incorrect" correction="Englisch">Er schreibt den Text auf <marker>englisch</marker>.</example>
             <example type="correct">Er schreibt den Text auf <marker>Englisch</marker>.</example>
         </rule>
@@ -17739,7 +17751,7 @@ $Id$
                     </marker>
                 </pattern>
                 <message>&inwend;'(sich) in Acht nehmen' wird <suggestion>Acht</suggestion> großgeschrieben.</message>
-                <url>http://www.duden.de/sprachratgeber/beispiele-zur-neuen-rechtschreibung/2</url>
+                <url>http://www.duden.de/sprachwissen/sprachratgeber/beispiele-zur-neuen-rechtschreibung</url>
                 <short>&prgk;.</short>
                 <example type="correct">Nimm dich in <marker>Acht</marker>!</example>
                 <example type="incorrect" correction="Acht">Er nahm sich in <marker>acht</marker>.</example>
@@ -17753,7 +17765,7 @@ $Id$
                     <token regexp="yes">nimmt|nimmst|nehmen?|nahm|genommen</token>
                 </pattern>
                 <message>&inwend;'(sich) in Acht nehmen' wird <suggestion>Acht</suggestion> großgeschrieben.</message>
-                <url>http://www.duden.de/sprachratgeber/beispiele-zur-neuen-rechtschreibung/2</url>
+                <url>http://www.duden.de/sprachwissen/sprachratgeber/beispiele-zur-neuen-rechtschreibung</url>
                 <short>&prgk;.</short>
                 <example type="correct">Er sollte sich in <marker>Acht</marker> nehmen.</example>
                 <example type="incorrect" correction="Acht">Er sollte sich in <marker>acht</marker> nehmen.</example>
@@ -17768,7 +17780,7 @@ $Id$
                     <token>nehmen</token>
                 </pattern>
                 <message>&inwend;'(sich) in Acht nehmen' wird <suggestion>Acht</suggestion> großgeschrieben.</message>
-                <url>http://www.duden.de/sprachratgeber/beispiele-zur-neuen-rechtschreibung/2</url>
+                <url>http://www.duden.de/sprachwissen/sprachratgeber/beispiele-zur-neuen-rechtschreibung</url>
                 <short>&prgk;.</short>
                 <example type="correct">Ich würde dir raten, dich in <marker>Acht</marker> zu nehmen.</example>
                 <example type="incorrect" correction="Acht">Ich würde dir raten, dich in <marker>acht</marker> zu nehmen.</example>
@@ -17784,7 +17796,7 @@ $Id$
                     <token inflected="yes">lassen</token>
                 </pattern>
                 <message>&inwend;'außer Acht lassen' wird <suggestion>Acht</suggestion> großgeschrieben.</message>
-                <url>http://www.duden.de/sprachratgeber/beispiele-zur-neuen-rechtschreibung/2</url>
+                <url>http://www.duden.de/sprachwissen/sprachratgeber/beispiele-zur-neuen-rechtschreibung</url>
                 <short>&prgk;.</short>
                 <example type="correct">Das habt ihr außer <marker>Acht</marker> gelassen.</example>
                 <example type="incorrect" correction="Acht">Das habt ihr außer <marker>acht</marker> gelassen.</example>
@@ -17800,7 +17812,7 @@ $Id$
                     </marker>
                 </pattern>
                 <message>&inwend;'außer Acht lassen' wird <suggestion>Acht</suggestion> großgeschrieben.</message>
-                <url>http://www.duden.de/sprachratgeber/beispiele-zur-neuen-rechtschreibung/2</url>
+                <url>http://www.duden.de/sprachwissen/sprachratgeber/beispiele-zur-neuen-rechtschreibung</url>
                 <short>&prgk;.</short>
                 <example type="correct">Das lassen wir außer <marker>Acht</marker>.</example>
                 <example type="incorrect" correction="Acht">Das ließen wir nicht außer <marker>acht</marker>.</example>
@@ -17817,7 +17829,7 @@ $Id$
                     <token>lassen</token>
                 </pattern>
                 <message>&inwend;'außer Acht lassen' wird <suggestion>Acht</suggestion> großgeschrieben.</message>
-                <url>http://www.duden.de/sprachratgeber/beispiele-zur-neuen-rechtschreibung/2</url>
+                <url>http://www.duden.de/sprachwissen/sprachratgeber/beispiele-zur-neuen-rechtschreibung</url>
                 <short>&prgk;.</short>
                 <example type="correct">Das habt ihr außer <marker>Acht</marker> gelassen.</example>
                 <example type="incorrect" correction="Acht">Das ist nicht außer <marker>acht</marker> zu lassen.</example>
@@ -20306,7 +20318,7 @@ $Id$
     <!-- ====================================================================== -->
     <category name="Zeichensetzung">
         <rulegroup id="ABKUERZUNG_FEHLENDE_PUNKTE" name="Zeichensetzung: Fehlende Punkte in Abkürzungen ('z B.' etc.)">
-            <!--TODO ergänzen -->
+            <!--TODO ergänzen .-->
             <rule>
                 <pattern>
                     <token>z</token>
@@ -20329,6 +20341,33 @@ $Id$
                 <message>Meinten Sie <suggestion>z.&nbsp;B.</suggestion>?</message>
                 <example type="correct">Sie erkennt <marker>z. B.</marker> den Fehler in diesem Satz.</example>
                 <example type="incorrect" correction="z.&nbsp;B.">Sie erkennt <marker>z. B</marker> den Fehler in diesem Satz.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>z</token>
+                        <token>.</token>
+                        <token>&nbsp;</token>
+                        <token>B</token>
+                    </marker>
+                    <token negate="yes">.</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>z.&nbsp;B.</suggestion>?</message>
+                <example type="incorrect" correction="z.&nbsp;B.">Sie erkennt <marker>z. B</marker> den Fehler in diesem Satz.</example>
+                <example type="correct">Sie erkennt <marker>z. B.</marker> den Fehler in diesem Satz.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>z</token>
+                        <token>&nbsp;</token>
+                        <token>B</token>
+                        <token>.</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>z.&nbsp;B.</suggestion>?</message>
+                 <example type="incorrect" correction="z.&nbsp;B.">Sie erkennt <marker>z B.</marker> den Fehler in diesem Satz.</example> 
+                <example type="correct">Sie erkennt <marker>z. B.</marker> den Fehler in diesem Satz.</example>
             </rule>
         </rulegroup>
         <rulegroup id="FRAGE_OHNE_FRAGEZEICHEN" name="Zeichensetzung: Punkt statt Fragezeichen (nur in wenigen einfachen Fällen, Regel ist in Arbeit)" default="off">
@@ -20831,7 +20870,7 @@ $Id$
                     </marker>
                 </pattern>
                 <message>Vor der Konjunktion 'sondern' steht immer ein Komma.</message>
-                <url>http://www.duden.de/sprachratgeber/besonderheiten-von%2D-em-sondern%2D-em-</url>
+                <url>http://www.duden.de/sprachwissen/sprachratgeber/besonderheiten-von--em-sondern--em-</url>
                 <short>Vor der Konjunktion 'sondern' steht immer ein Komma.</short>
                 <example type="correct">Sie geht nicht, <marker>sondern</marker> schwimmt.</example>
                 <example type="correct">Sie laufen nicht und <marker>sondern</marker> trotzdem Schweiß ab.</example>
