@@ -48,7 +48,7 @@ public abstract class WrongWordInContextRule extends Rule {
     }
     final String filename = getFilename();
     contextWordsSet = loadContextWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream(filename));
-    setLocQualityIssueType("terminology");
+    setLocQualityIssueType("misspelling");
   }
 
   protected abstract String getFilename();

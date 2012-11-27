@@ -45,7 +45,7 @@ public class BritishReplaceRule extends AbstractSimpleReplaceRule {
 
   public BritishReplaceRule(final ResourceBundle messages) throws IOException {
     super(messages);
-    setLocQualityIssueType("terminology");
+    setLocQualityIssueType("locale-violation");
   }
 
   @Override

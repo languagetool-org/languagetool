@@ -58,7 +58,7 @@ public class AvsAnRule extends EnglishRule {
     }
     requiresA = loadWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream(FILENAME_A));
     requiresAn = loadWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream(FILENAME_AN));
-    setLocQualityIssueType("terminology");
+    setLocQualityIssueType("misspelling");
   }
   
   @Override

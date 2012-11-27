@@ -182,7 +182,7 @@ public class StringToolsTest extends TestCase {
     assertTrue(xml.contains(">\n" +
             "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"EN_A_VS_AN\" msg=\"myMessage\" " +
             "replacements=\"\" context=\"...s is an test...\" contextoffset=\"8\" offset=\"8\" errorlength=\"2\" " +
-            "locqualityissuetype=\"terminology\"/>\n" +
+            "locqualityissuetype=\"misspelling\"/>\n" +
             "</matches>\n"));
   }
 
@@ -228,7 +228,7 @@ public class StringToolsTest extends TestCase {
     assertTrue(xml.contains(">\n" +
             "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"EN_A_VS_AN\" msg=\"myMessage\" " +
             "replacements=\"\" context=\"...s is an test...\" contextoffset=\"8\" offset=\"8\" errorlength=\"2\" url=\"http://server.org?id=1&amp;foo=bar\" " +
-            "locqualityissuetype=\"terminology\"/>\n" +
+            "locqualityissuetype=\"misspelling\"/>\n" +
             "</matches>\n"));
   }
 
@@ -245,7 +245,7 @@ public class StringToolsTest extends TestCase {
     assertTrue(xml.contains(">\n" +
             "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"EN_A_VS_AN\" msg=\"myMessage\" " +
             "replacements=\"\" context=\"... is &quot;an test...\" contextoffset=\"8\" offset=\"9\" errorlength=\"2\" " +
-            "locqualityissuetype=\"terminology\"/>\n" +
+            "locqualityissuetype=\"misspelling\"/>\n" +
             "</matches>\n"));
   }
 

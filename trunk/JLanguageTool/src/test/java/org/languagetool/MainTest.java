@@ -285,7 +285,7 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(output.contains("<error fromy=\"0\" fromx=\"8\" toy=\"0\" tox=\"10\" ruleId=\"EN_A_VS_AN\" " +
             "msg=\"Use 'a' instead of 'an' if the following word doesn't start with a vowel sound, e.g. 'a sentence', " +
             "'a university'\" replacements=\"a\" context=\"This is an test.  This is a test of of language tool.  ...\" " +
-            "contextoffset=\"8\" offset=\"8\" errorlength=\"2\" category=\"Miscellaneous\" locqualityissuetype=\"terminology\"/>"));
+            "contextoffset=\"8\" offset=\"8\" errorlength=\"2\" category=\"Miscellaneous\" locqualityissuetype=\"misspelling\"/>"));
   }
   
   public void testGermanFileWithURL() throws Exception {

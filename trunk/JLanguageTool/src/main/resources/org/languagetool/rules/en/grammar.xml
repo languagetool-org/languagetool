@@ -38,7 +38,7 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
     <!-- ====================================================================== -->
     <!-- Possible typos -->
     <!-- ====================================================================== -->
-    <category name="Possible Typos" type="terminology">
+    <category name="Possible Typos" type="misspelling">
         <rule id="FEEL_TREE_TO" name="feel tree (free) to">
             <pattern>
                 <token>feel</token>
@@ -79,7 +79,7 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
             <example type="correct">That means that tires <marker>are still some</marker> of the most important components of your vehicle.</example>
             <example type="correct">But it <marker>is still the same</marker> government.</example>
         </rule>
-        <rule id="IS_EVEN_WORST" name="is even worst (worse)">
+        <rule id="IS_EVEN_WORST" name="is even worst (worse)" type="grammar">
             <pattern>
                 <token regexp="yes">is|was|were</token>
                 <token>even</token>
@@ -762,7 +762,7 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
             <example correction="witch hunt" type="incorrect">An anti-Polish <marker>witch haunt</marker></example>
             <example type="correct">An anti-Polish witch hunt</example>
         </rule>
-        <rule id="YOUR_S" name="your's (yours)">
+        <rule id="YOUR_S" name="your's (yours)" type="typographical">
             <pattern>
                 <token regexp="yes">your|hers|our|their</token>
                 <token spacebefore="no" regexp="yes">['’]</token>
@@ -773,7 +773,7 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
             <example correction="your|yours" type="incorrect">It's not mine, it's <marker>your's</marker>.</example>
             <example type="correct">It's not mine, it's yours.</example>
         </rule>
-        <rule id="YOURS_APOSTROPHE" name="Possessive pronoun with apostrophe">
+        <rule id="YOURS_APOSTROPHE" name="Possessive pronoun with apostrophe" type="typographical">
             <pattern>
                 <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes">['’]</exception></token>
                 <marker>
@@ -1038,7 +1038,7 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
                 <example type="correct">I cannot advise you anything.</example>
             </rule>
         </rulegroup>
-        <rule id="ADVICE_ADVISE" name="advice (advise)">
+        <rule id="ADVICE_ADVISE" name="advice (advise)" type="grammar">
             <pattern>
               <token postag="PRP"><exception postag="PRP" negate_pos="yes"/></token>
               <marker>
@@ -1865,7 +1865,7 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
             <example type="correct">Although I must admit when I look <marker>at</marker> the paperback...</example>
             <example type="incorrect">Although I must admit when I look <marker>ate</marker> the paperback...</example>
         </rule>
-        <rule id="A_KNOW_BUG" name="a know (known) bug/problem">
+        <rule id="A_KNOW_BUG" name="a know (known) bug/problem" type="grammar">
             <pattern>
                 <token>a</token>
                 <marker>
@@ -2423,7 +2423,7 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
             <example type="correct">I had bought this house.</example>
             <example type="incorrect">I <marker>had of</marker> bought this house.</example>
         </rule>
-        <rule id="ONES" name="ones (one's)">
+        <rule id="ONES" name="ones (one's)" type="typographical">
             <pattern>
                 <token><exception postag="JJ.*" postag_regexp="yes"></exception></token>
                 <marker>
@@ -2437,7 +2437,7 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
             <example type="correct">One should always wash one's feet in the morning.</example>
             <example type="incorrect">One should always wash <marker>ones</marker> feet in the morning.</example>
         </rule>
-        <rulegroup id="POSSESIVE_APOSTROPHE" name="Possessive apostrophe error">
+        <rulegroup id="POSSESIVE_APOSTROPHE" name="Possessive apostrophe error" type="typographical">
             <rule>
                 <pattern>
                     <token><exception postag="PRP$"></exception></token>
@@ -2639,7 +2639,7 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
             <example type="correct">It is a zero-sum game when wages are held flat...</example>
         </rule>
         <!-- hasn't &amp;irregular_verb::word=\0 \1:participle::pivots=\1,\1:participle -->
-        <rule id="HASNT_IRREGULAR_VERB" name="hasnt followed by irregular past tense verb">
+        <rule id="HASNT_IRREGULAR_VERB" name="hasn't followed by irregular past tense verb">
             <pattern>
                 <token regexp="yes">hasn|weren|hadn|haven</token>
                 <token spacebefore="no" regexp="yes">['’]</token>
@@ -2651,7 +2651,7 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
             <example type="correct">They haven't awoken before nine in a long time.</example>
         </rule>
         <!-- could've &amp;irregular_verb::word=\0 \1:participle::pivots=\1,\1:participle -->
-        <rule id="COULDVE_IRREGULAR_VERB" name="Couldve followed by irregular past tense verb">
+        <rule id="COULDVE_IRREGULAR_VERB" name="Could've followed by irregular past tense verb">
             <pattern>
                 <token regexp="yes">could|would|should|you|i|we|they</token>
                 <token spacebefore="no" regexp="yes">['’]</token>
@@ -8188,7 +8188,7 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
             </rule>
         </rulegroup>
     </category>
-    <category name="Collocations" type="terminology">
+    <category name="Collocations" type="grammar">
         <rulegroup id="SUPERIOR_THAN" name="Wrong preposition: 'superior/inferior than' (superior/inferior to)">
             <rule>
                 <pattern>
@@ -8784,7 +8784,7 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
 
 
     </category>
-    <category name="Commonly Confused Words" type="terminology">
+    <category name="Commonly Confused Words" type="misspelling">
         <rulegroup id="SITE_SIDE" name="site (side)">
             <rule>
                 <pattern>
@@ -9335,7 +9335,7 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
             </rule>
         </rulegroup>
     </category>
-    <category name="Nonstandard Phrases" type="terminology">
+    <category name="Nonstandard Phrases" type="misspelling">
         <rule id="IN_THE_MOMENT" name="in the moment (currently)">
             <!-- Typical mistake for German native speakers -->
             <pattern>
