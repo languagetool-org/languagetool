@@ -251,7 +251,7 @@ public class EsperantoTagger implements Tagger {
           } else if (lWord.endsWith("ojn")) {
             l.add(new AnalyzedToken(word, "O akz pl", lWord.substring(0, lWord.length() - 2)));
 
-          // Words ending in .*aj?n? are nouns.
+          // Words ending in .*aj?n? are adjectives.
           } else if (lWord.endsWith("a")) {
             l.add(new AnalyzedToken(word, "A nak np", lWord));
           } else if (lWord.endsWith("aj")) {
