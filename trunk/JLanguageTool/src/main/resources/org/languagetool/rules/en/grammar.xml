@@ -2007,6 +2007,21 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
         </rulegroup>
         <rulegroup id="IT_IS" name="its (it's)">
             <rule>
+                <pattern>
+                    <token>on</token>
+                    <marker>
+                        <token>it</token>
+                        <token>'</token>
+                        <token>s</token>
+                    </marker>
+                    <token>way</token>
+                </pattern>
+                <message>Did you mean <suggestion>its</suggestion> (possessive pronoun)?</message>
+                <short>Possible typo</short>
+                <example type="incorrect">Help is on <marker>it's</marker> way.</example>
+                <example type="correct">Help is on <marker>its</marker> way.</example>
+            </rule>
+            <rule>
                 <!-- TODO: &quot;its of&quot;, &quot;its to&quot; -->
                 <pattern>
                     <token><exception postag="IN|CC" postag_regexp="yes"></exception></token>
