@@ -37,10 +37,7 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.*;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.Reader;
+import java.io.*;
 import java.net.URL;
 import java.util.*;
 import java.util.List;
@@ -216,9 +213,13 @@ public final class Main implements ActionListener {
       return;
     }
     try {
-      final String fileContents = StringTools.readFile(new FileInputStream(file
-          .getAbsolutePath()));
-      textArea.setText(fileContents);
+      final FileInputStream inputStream = new FileInputStream(file);
+      try {
+        final String fileContents = StringTools.readFile(inputStream);
+        textArea.setText(fileContents);
+      } finally {
+        inputStream.close();
+      }
       checkTextAndDisplayResults();
     } catch (IOException e) {
       Tools.showError(e);
@@ -228,8 +229,8 @@ public final class Main implements ActionListener {
   void hideToTray() {
     if (!isInTray) {
       final SystemTray tray = SystemTray.getSystemTray();
-      final Image img = Toolkit.getDefaultToolkit().getImage(
-              JLanguageTool.getDataBroker().getFromResourceDirAsUrl((tray.getTrayIconSize().height > 16 ) ?  SYSTEM_TRAY_ICON_NAME : SYSTEM_TRAY_SMALL_ICON_NAME));
+      final String iconPath = tray.getTrayIconSize().height > 16 ? SYSTEM_TRAY_ICON_NAME : SYSTEM_TRAY_SMALL_ICON_NAME;
+      final Image img = Toolkit.getDefaultToolkit().getImage(JLanguageTool.getDataBroker().getFromResourceDirAsUrl(iconPath));
       final PopupMenu popup = makePopupMenu();
       try {
         final TrayIcon trayIcon = new TrayIcon(img, SYSTEM_TRAY_TOOLTIP, popup);
