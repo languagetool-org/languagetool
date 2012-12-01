@@ -487,9 +487,7 @@ public final class Main implements ActionListener {
                             resultArea.setLanguageTool(langTool);
                             resultArea.displayResult();
                           } catch (Exception e) {
-                            final String error = "<br><br><b><font color=\"red\">"
-                               + org.languagetool.tools.Tools.getFullStackTrace(e).replace("\n", "<br/>")
-                               + "</font></b><br>";
+                            final String error = getStackTraceAsHtml(e);
                             resultArea.displayText(error);
                           }
                       } finally {
@@ -501,6 +499,12 @@ public final class Main implements ActionListener {
               }
           }.start();
       }
+  }
+
+  private String getStackTraceAsHtml(Exception e) {
+    return "<br><br><b><font color=\"red\">"
+         + org.languagetool.tools.Tools.getFullStackTrace(e).replace("\n", "<br/>")
+         + "</font></b><br>";
   }
 
   private void setWaitCursor() {
@@ -523,19 +527,29 @@ public final class Main implements ActionListener {
       textArea.setText(messages.getString("enterText2"));
     } else {
       // tag text
-      final List<String> sentences = langTool.sentenceTokenize(textArea.getText());
-      final StringBuilder sb = new StringBuilder();
-      try {
-        for (String sent : sentences) {
-          final AnalyzedSentence analyzedText = langTool.getAnalyzedSentence(sent);
-          final String analyzedTextString = StringTools.escapeHTML(analyzedText.toString(", ")).
-                  replace("[", "<font color='#888888'>[").replace("]", "]</font>");
-          sb.append(analyzedTextString).append("\n");
+      new Thread() {
+        @Override
+        public void run() {
+          setWaitCursor();
+          try {
+            final List<String> sentences = langTool.sentenceTokenize(textArea.getText());
+            final StringBuilder sb = new StringBuilder();
+            try {
+              for (String sent : sentences) {
+                final AnalyzedSentence analyzedText = langTool.getAnalyzedSentence(sent);
+                final String analyzedTextString = StringTools.escapeHTML(analyzedText.toString(", ")).
+                        replace("[", "<font color='#888888'>[").replace("]", "]</font>");
+                sb.append(analyzedTextString).append("\n");
+              }
+            } catch (Exception e) {
+              sb.append(getStackTraceAsHtml(e));
+            }
+            resultArea.setText(HTML_FONT_START + sb.toString() + HTML_FONT_END);
+          } finally {
+            unsetWaitCursor();
+          }
         }
-      } catch (IOException e) {
-        sb.append("An error occurred while tagging the text: ").append(e.getMessage());
-      }
-      resultArea.setText(HTML_FONT_START + sb.toString() + HTML_FONT_END);
+      }.start();
     }
   }
 
