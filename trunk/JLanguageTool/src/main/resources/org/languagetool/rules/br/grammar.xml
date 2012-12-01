@@ -1065,7 +1065,7 @@ $Id$
           <marker>
             <and>
               <token regexp="yes" inflected="yes">d.*</token>
-              <token regexp="yes">[dz].*</token>
+              <token regexp="yes">[dz].*<exception>da</exception></token>
             </and>
           </marker>
         </pattern>
@@ -1073,6 +1073,7 @@ $Id$
         <example type="incorrect">Pegen brav eo ho <marker>dilhad</marker>.</example>
         <example type="incorrect">Pegen brav eo ho <marker>zilhad</marker>.</example>
         <example type="correct">Pegen brav eo ho tilhad.</example>
+        <example type="correct">Petra ez ez da ijinañ?</example>
       </rule>
       <rule>
         <pattern>
@@ -2208,7 +2209,7 @@ $Id$
     <rulegroup id="GER_KEMM" name="kemmadur ebet goude gerioù">
       <rule>
         <pattern>
-          <token regexp="yes">abaoe|ahont|amañ|arabat|aze|a-(benn|berzh|dal|dreñv|dreuz|hed|raok|us|wechoù|wazhioù|ziwar)|bep|bet|betek|daoust|dirak|eget|ent|eus|[e’](vel|vit)(-se)?|e-(barzh|giz|keñver|kerz|kichen(ig)?|kreiz|lerc’h|mesk|pad|ser)|gant|goude|hag?|hep|hervez|hevelep|kalz(ig)?|kement|ke[nt]|krenn|lies|mard?|met|nemet|nompas|memes|na|nebeud(ig)?|nep|ouzhpenn|pas|pep|pebezh|pegen|pere|petvet|peseurt|petore|rak|setu|seurt|war-(c’horre|lerc’h|dro|du)<exception postag="L n">na</exception><exception postag="X KAOUT2">eus</exception></token>
+          <token regexp="yes">abaoe|ahont|amañ|arabat|aze|a-(benn|berzh|dal|dreñv|dreuz|hed|raok|us|walc’h|wechoù|wazhioù|ziwar)|bep|bet|betek|daoust|dirak|eget|ent|eus|[e’](vel|vit)(-se)?|e-(barzh|giz|keñver|kerz|kichen(ig)?|kreiz|lerc’h|mesk|pad|ser)|gant|goude|hag?|hep|hervez|hevelep|kalz(ig)?|kement|ke[nt]|krenn|lies|mard?|met|nemet|nompas|memes|na|nebeud(ig)?|nep|ouzhpenn|pas|pep|pebezh|pegen|pere|petvet|peseurt|petore|rak|setu|seurt|war-(c’horre|lerc’h|dro|du)<exception postag="L n">na</exception><exception postag="X KAOUT2">eus</exception></token>
           <marker>
             <token postag="[^M]*M:.*" postag_regexp="yes">
               <exception negate_pos="yes" postag="[^M]*M:.*" postag_regexp="yes"/>
@@ -3705,7 +3706,7 @@ $Id$
     </rule>
     <rule id="TOUR_TAN" name="tour tan → tour-tan">
       <pattern>
-        <token regexp="yes">tour(ioù)?</token>
+        <token regexp="yes">[td]our(ioù)?</token>
         <token regexp="yes">(dour|iliz|meur|tan)(-(mañ|se|hont))?</token>
       </pattern>
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
