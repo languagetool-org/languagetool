@@ -3562,6 +3562,24 @@ $Id$
         <example type="correct">N’emañ ket ma c’hoarezed o c’hoari.</example>
       </rule>
     </rulegroup>
+
+    <rulegroup id="EZ_AN" name="Ez an da Naoned → Mont a ran da Naoned">
+      <rule>
+        <pattern>
+          <token postag="SENT_START"/>
+          <marker>
+            <token>ez</token>
+            <token inflected="yes" postag_regexp="yes" postag="V.*">mont</token>
+          </marker>
+          <token>da</token>
+          <token postag="Z .* top.*" postag_regexp="yes"/>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>Mont a r\3</suggestion>?</message>
+        <example type="incorrect"><marker>Ez an</marker> da Bariz.</example>
+        <example type="correct">Mon a ran da Bariz.</example>
+        <example type="correct">Ez an da gousket.</example>
+      </rule>
+    </rulegroup>
   </category>
 
   <category name="Barrennig-stagañ">
@@ -3898,7 +3916,7 @@ $Id$
     <rule id="A_DREUZ" name="a dreuz → a-dreuz (hag all)">
       <pattern>
         <token>a<exception scope="previous" regexp="yes">kement|meur|nag</exception></token>
-        <token regexp="yes">barzh|beban|belec’h|benn(adoù|-kaer)?|bik|bil|blad|blaen|blom|boan|bouez(-penn)?|boullad|c’houde(vezh)?|c’hwenn|dal|dammoù|denn-askell|dizh|douez|doulladoù|drak|dreist|drek|dreñv|dreuz|drugarez|du|enep|feson|fet|feur|flav|fourch|fuilh|geñver|gevret|gleiz|greiz(-holl)?|grenn|hed(-all)?|herr|hervez|istribilh|led|leizh|nevez|ouez|raok|ratozh|skouer|stlabez|viskoazh|vremañ|walc’h|wechoù|wezhioù|zehou|zevri|ziabarzh|ziabell|ziadreñv|ziagent|ziaraok|ziavaez|zindan(on|out|nañ|ni|nomp|noc’h|nor?)?|zioc’h|ziouzh|zivout|ziwar(non|nout|nañ|nezhañ|ni|nezhi|nomp|noc’h|nezho|nor?|-(c’horre|dro|laez|lerc’h))?|zoare</token>
+        <token regexp="yes">barzh|beban|belec’h|benn(adoù|-kaer)?|bik|bil|blad|blaen|blom|boan|bouez(-penn)?|boullad|c’houde(vezh)?|c’hwenn|dal|dammoù|denn-askell|dizh|douez|doulladoù|drak|dreist|drek|dreñv|dreuz|drugarez|du|enep|feson|fet|feur|flav|fourch|fuilh|geñver|gevret|gleiz|greiz(-holl)?|grenn|hed(-all)?|herr|hervez|hevelep|istribilh|led|leizh|nevez|ouez|raok|ratozh|skouer|stlabez|viskoazh|vremañ|walc’h|wechoù|wezhioù|zehou|zevri|ziabarzh|ziabell|ziadreñv|ziagent|ziaraok|ziavaez|zindan(on|out|nañ|ni|nomp|noc’h|nor?)?|zioc’h|ziouzh|zivout|ziwar(non|nout|nañ|nezhañ|ni|nezhi|nomp|noc’h|nezho|nor?|-(c’horre|dro|laez|lerc’h))?|zoare</token>
       </pattern>
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
       <example type="incorrect">Amzer <marker>a walc’h</marker> am eus.</example>
