@@ -1183,7 +1183,7 @@ $Id$
           <marker>
             <and>
               <token regexp="yes" inflected="yes">t.*
-                <exception regexp="yes" inflected="yes">d.*</exception>
+                <exception regexp="yes" inflected="yes" postag="[^M]*" postag_regexp="yes">d.*</exception>
               </token>
               <token regexp="yes">[td].*</token>
             </and>
@@ -1209,7 +1209,7 @@ $Id$
           <marker>
             <and>
               <token regexp="yes" inflected="yes">p.*
-                <exception regexp="yes" inflected="yes">b.*</exception>
+                <exception regexp="yes" inflected="yes" postag="[^M]*" postag_regexp="yes">b.*</exception>
               </token>
               <token regexp="yes">[pb].*</token>
             </and>
@@ -1223,6 +1223,8 @@ $Id$
         <example type="incorrect">Bras eo o <marker>patatez</marker>.</example>
         <example type="incorrect">Bras eo o <marker>batatez</marker>.</example>
         <example type="correct">Bras eo o fatatez.</example>
+        <example type="incorrect">Tri <marker>poent</marker>.</example>
+        <example type="correct">Tri foent.</example>
       </rule>
       <rule>
         <pattern>
@@ -1273,7 +1275,8 @@ $Id$
           <marker>
             <and>
               <token regexp="yes" inflected="yes">d.*
-                <exception regexp="yes" inflected="yes">[zt].*</exception>
+                <exception regexp="yes" inflected="yes" postag="[^M]*" postag_regexp="yes">z.*</exception>
+                <exception regexp="yes" inflected="yes">t.*</exception>
               </token>
               <token regexp="yes">[tz].*<exception regexp="yes">[tz]ud</exception></token>
             </and>
