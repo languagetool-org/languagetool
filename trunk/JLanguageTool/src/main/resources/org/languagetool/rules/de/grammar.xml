@@ -12844,7 +12844,7 @@ $Id$
             </pattern>
             <message>Meinten Sie \1 <suggestion><match no="2" case_conversion="startupper"/></suggestion>?</message>
             <short>&prgk;.</short>
-            <example type="incorrect">Auf <marker>verlangen</marker> des Staatsanwalts wurde die Verhandlung unterbrochen.</example>
+            <example type="incorrect" correction="Verlangen">Auf <marker>verlangen</marker> des Staatsanwalts wurde die Verhandlung unterbrochen.</example>
             <example type="correct">Auf <marker>Verlangen</marker> der Verteidigerin wurde die Verhandlung unterbrochen.</example>
         </rule>
         <rule id="AUF_WIEDERSEHEN" name="Groß-/Kleinschreibung: 'auf wiedersehen (Wiedersehen)'">
@@ -18073,6 +18073,19 @@ $Id$
                 <example type="incorrect" correction="Narren">Du hältst mich hier zum <marker>narren</marker>.</example>
             </rule>
         </rulegroup>
+        <rule id="NACHFRAGE_SUBST" name="Groß-/Kleinschreibung: 'Angebot und nachfrage (Nachfrage)'">
+            <pattern case_sensitive="yes">
+                <token>Angebot</token>
+                <token>und</token>
+                <marker>
+                    <token>nachfrage</token>
+                </marker>
+            </pattern>
+            <message>In dieser Redewendung wird <suggestion>Nachfrage</suggestion> als Substantiv großgeschrieben.</message>
+            <short>&prgk;.</short>
+            <example type="correct">Angebot und <marker>Nachfrage</marker> bestimmen den Preis.</example>
+            <example type="incorrect" correction="Nachfrage">Angebot und <marker>nachfrage</marker> bestimmen den Preis.</example>
+        </rule>
         <rule id="IN_FRAGE" name="Groß-/Kleinschreibung: 'in frage (Frage)'">
             <pattern case_sensitive="yes">
                 <token regexp="yes">[Ii]n|[aA]ußer|[oO]hne</token>
@@ -18099,7 +18112,7 @@ $Id$
                 <message>&subanfang;<suggestion>Frage</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example type="correct">Die <marker>Frage</marker> ist doch jetzt, wie wir weiter vorgehen sollen.</example>
-                <example type="incorrect">Die <marker>frage</marker> ist doch jetzt, wie wir weiter vorgehen sollen.</example>
+                <example type="incorrect" correction="Frage">Die <marker>frage</marker> ist doch jetzt, wie wir weiter vorgehen sollen.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -18112,7 +18125,7 @@ $Id$
                 <message>&subanfang;<suggestion>Frage</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example type="correct">Jetzt ist die große <marker>Frage</marker>, wie wir weiter vorgehen sollen.</example>
-                <example type="incorrect">Jetzt ist die <marker>frage</marker>, wie wir weiter vorgehen sollen.</example>
+                <example type="incorrect" correction="Frage">Jetzt ist die <marker>frage</marker>, wie wir weiter vorgehen sollen.</example>
             </rule>
         </rulegroup>
         <rulegroup id="FRAGEN_HABEN" name="Groß-/Kleinschreibung: 'fragen (Fragen) haben/stellen'">
