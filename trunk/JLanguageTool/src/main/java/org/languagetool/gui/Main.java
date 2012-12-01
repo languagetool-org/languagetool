@@ -344,9 +344,18 @@ public final class Main implements ActionListener {
   }
   
   void tagText() {
-    final Language currentLanguage = getCurrentLanguage();
-    final JLanguageTool langTool = getCurrentLanguageTool(currentLanguage);
-    tagTextAndDisplayResults(langTool);
+    new Thread() {
+      @Override
+      public void run() {
+        setWaitCursor();
+        try {
+          final JLanguageTool langTool = getCurrentLanguageTool(getCurrentLanguage());
+          tagTextAndDisplayResults(langTool);
+        } finally {
+          unsetWaitCursor();
+        }
+      }
+    }.start();
   }
 
   void quitOrHide() {
@@ -527,29 +536,19 @@ public final class Main implements ActionListener {
       textArea.setText(messages.getString("enterText2"));
     } else {
       // tag text
-      new Thread() {
-        @Override
-        public void run() {
-          setWaitCursor();
-          try {
-            final List<String> sentences = langTool.sentenceTokenize(textArea.getText());
-            final StringBuilder sb = new StringBuilder();
-            try {
-              for (String sent : sentences) {
-                final AnalyzedSentence analyzedText = langTool.getAnalyzedSentence(sent);
-                final String analyzedTextString = StringTools.escapeHTML(analyzedText.toString(", ")).
-                        replace("[", "<font color='#888888'>[").replace("]", "]</font>");
-                sb.append(analyzedTextString).append("\n");
-              }
-            } catch (Exception e) {
-              sb.append(getStackTraceAsHtml(e));
-            }
-            resultArea.setText(HTML_FONT_START + sb.toString() + HTML_FONT_END);
-          } finally {
-            unsetWaitCursor();
-          }
+      final List<String> sentences = langTool.sentenceTokenize(textArea.getText());
+      final StringBuilder sb = new StringBuilder();
+      try {
+        for (String sent : sentences) {
+          final AnalyzedSentence analyzedText = langTool.getAnalyzedSentence(sent);
+          final String analyzedTextString = StringTools.escapeHTML(analyzedText.toString(", ")).
+                  replace("[", "<font color='#888888'>[").replace("]", "]</font>");
+          sb.append(analyzedTextString).append("\n");
         }
-      }.start();
+      } catch (Exception e) {
+        sb.append(getStackTraceAsHtml(e));
+      }
+      resultArea.setText(HTML_FONT_START + sb.toString() + HTML_FONT_END);
     }
   }
 
