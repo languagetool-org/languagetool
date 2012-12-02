@@ -6052,6 +6052,33 @@ $Id$
                 <example type="correct">Zum <marker>Zähneputzen</marker> war er immer zu faul.</example>
                 <example type="incorrect" correction="Zähneputzen">Beim <marker>Zähne putzen</marker> kommen mir die besten Einfälle.</example>
             </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[zZ]um|[bB]eim</token>
+                    <marker>
+                        <token>Hände</token>
+                        <token regexp="yes">[wW]aschen</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="2"/><match case_conversion="startlower" no="3"/></suggestion>? Sie können alternativ auch eine Genitivkonstruktion ('zum Schneiden der Haare') o.ä. verwenden.</message>
+                <short>&getrennt;.</short>
+                <example type="correct">Zum <marker>Händewaschen</marker> war er immer zu faul.</example>
+                <example type="incorrect" correction="Händewaschen">Beim <marker>Hände waschen</marker> sollte man Seife verwenden.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[zZ]um|[bB]eim</token>
+                    <marker>
+                        <token regexp="yes">[sS]elber</token>
+                        <token regexp="yes">[mM]achen</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="2" case_conversion="startupper"/><match case_conversion="startlower" no="3"/></suggestion>? Sie können alternativ auch eine Genitivkonstruktion ('zum Schneiden der Haare') o.ä. verwenden.</message>
+                <short>&getrennt;.</short>
+                <example type="correct">Schöne Sachen zum <marker>Selbermachen</marker>.</example>
+                <example type="incorrect" correction="Selbermachen">Schöne Sachen zum <marker>Selber machen</marker>.</example>
+                <example type="incorrect" correction="Selbermachen">Schöne Sachen zum <marker>selber Machen</marker>.</example>
+            </rule>
         </rulegroup>
         <rule id="EINST_WEILEN" name="Zusammen-/Getrenntschreibung: 'einst weilen (einstweilen)'">
             <pattern>
@@ -9432,6 +9459,19 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
+                    <token>Ruhm</token>
+                    <token>und</token>
+                    <marker>
+                        <token>ehre</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Ehre</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Ich tat es für Ruhm und <marker>Ehre</marker>.</example>
+                <example type="incorrect" correction="Ehre">Ich tat es für Ruhm und <marker>ehre</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
                     <token regexp="yes">[zZ]u</token>
                     <marker>
                         <token>ehren</token>
@@ -9494,7 +9534,7 @@ $Id$
         <rulegroup id="STROEME_SUBST" name="Groß-/Kleinschreibung: 'in strömen (Strömen)'">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">regnete?|goss|gießt</token>
+                    <token regexp="yes" skip="2">regnete?|goss|gießt</token>
                     <token>in</token>
                     <marker>
                         <token>strömen</token>
@@ -9503,7 +9543,21 @@ $Id$
                 <message>&subanfang;<suggestion>Strömen</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example type="correct">Es regnet in <marker>Strömen</marker>.</example>
+                <example type="incorrect" correction="Strömen">Es regnete zwar nicht in <marker>strömen</marker>, aber feucht war es trotzdem.</example>
                 <example type="incorrect" correction="Strömen">Es regnet in <marker>strömen</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>in</token>
+                    <marker>
+                        <token>strömen</token>
+                    </marker>
+                    <token regexp="yes">regnete?|goss|gießt</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Strömen</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Es war furchtbar, weil es in <marker>Strömen</marker> regnete.</example>
+                <example type="incorrect" correction="Strömen">Es war furchtbar, weil es in <marker>strömen</marker> regnete.</example>
             </rule>
         </rulegroup>
         <rulegroup id="BEDARF_SUBST" name="Groß-/Kleinschreibung: 'bei bedarf (Bedarf)'">
@@ -9697,6 +9751,190 @@ $Id$
             <example type="correct">Frühling lässt sein blaues Band wieder flattern durch die <marker>Lüfte</marker>.</example>
             <example type="incorrect" correction="Lüfte">Frühling lässt sein blaues Band wieder flattern durch die <marker>lüfte</marker>.</example>
         </rule>
+        <rule id="SEGEL_SUBST" name="Groß-/Kleinschreibung: 'den Wind aus den segeln (Segeln) nehmen'">
+            <pattern case_sensitive="yes">
+                <token>aus</token>
+                <token>den</token>
+                <marker>
+                    <token>segeln</token>
+                </marker>
+            </pattern>
+            <message>&subanfang;<suggestion>Segeln</suggestion>&subende;</message>
+            <short>&prgk;.</short>
+            <example type="correct">Das nahm mir den Wind aus den <marker>Segeln</marker>.</example>
+            <example type="incorrect" correction="Segeln">Das nahm mir den Wind aus den <marker>segeln</marker>.</example>
+        </rule>
+        <rule id="NAEHTE_SUBST" name="Groß-/Kleinschreibung: 'es platzte aus den nähten (Nähten)'">
+            <pattern case_sensitive="yes">
+                <token regexp="yes">[aA]us</token>
+                <token regexp="yes">den|allen</token>
+                <marker>
+                    <token>nähten</token>
+                </marker>
+            </pattern>
+            <message>&subanfang;<suggestion>Nähten</suggestion>&subende;</message>
+            <short>&prgk;.</short>
+            <example type="correct">Die Unis platzen aus allen <marker>Nähten</marker>.</example>
+            <example type="incorrect" correction="Nähten">Die Unis platzen aus allen <marker>nähten</marker>.</example>
+        </rule>
+        <rule id="STRICKE_SUBST" name="Groß-/Kleinschreibung: 'wenn alle stricke (Stricke) reißen'">
+            <pattern case_sensitive="yes">
+                <marker>
+                    <token>stricke</token>
+                </marker>
+                <token>reißen</token>
+            </pattern>
+            <message>&subanfang;<suggestion>Stricke</suggestion>&subende;</message>
+            <short>&prgk;.</short>
+            <example type="correct">Wenn alle <marker>Stricke</marker> reißen, kann man sich nicht mal aufhängen.</example>
+            <example type="incorrect" correction="Stricke">Wenn alle <marker>stricke</marker> reißen, kann man sich nicht mal aufhängen.</example>
+        </rule>
+        <rule id="SCHRAUBE_SUBST" name="Groß-/Kleinschreibung: 'eine schraube (Schraube) locker'">
+            <pattern case_sensitive="yes">
+                <token regexp="yes">[eE]ine</token>
+                <marker>
+                    <token>schraube</token>
+                </marker>
+                <token>locker</token>
+            </pattern>
+            <message>&subanfang;<suggestion>Schraube</suggestion>&subende;</message>
+            <short>&prgk;.</short>
+            <example type="correct">Bei dem ist wohl eine <marker>Schraube</marker> locker.</example>
+            <example type="incorrect" correction="Schraube">Bei dem ist wohl eine <marker>schraube</marker> locker.</example>
+        </rule>
+        <rule id="KREISE_SUBST" name="Groß-/Kleinschreibung: 'in bürgerlichen kreisen (Kreisen)' etc.">
+            <pattern case_sensitive="yes">
+                <token regexp="yes">(diplomatische|illustre|konzentrische|gewisse|exklusive|unterrichtete|bürgerliche)n?</token>
+                <marker>
+                    <token regexp="yes">kreisen?</token>
+                </marker>
+            </pattern>
+            <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
+            <short>&prgk;.</short>
+            <example type="correct">Wie aus gewöhnlich gut unterrichteten <marker>Kreisen</marker> verlautete …</example>
+            <example type="incorrect" correction="Kreisen">Wie aus gewöhnlich gut unterrichteten <marker>kreisen</marker> verlautete …</example>
+        </rule>
+        <rule id="WUNDE_SUBST" name="Groß-/Kleinschreibung: 'eine offene wunde (Wunde)' etc.">
+            <pattern case_sensitive="yes">
+                <token regexp="yes">(blutende|offene|chronische|eiternde|eitrige|klaffende|heilende|verheilte|vernarbte|schmerzende|schwärende|seelische|tiefe)n?</token>
+                <marker>
+                    <token regexp="yes">wunden?</token>
+                </marker>
+            </pattern>
+            <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
+            <short>&prgk;.</short>
+            <example type="correct">Das sind offene <marker>Wunden</marker>.</example>
+            <example type="incorrect" correction="Wunden">Das sind offene <marker>wunden</marker>.</example>
+        </rule>
+        <rulegroup id="SCHNUPFEN_SUBST" name="Groß-/Kleinschreibung: 'ich habe schnupfen (Schnupfen)' etc.">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes">haben</token>
+                    <marker>
+                        <token>schnupfen</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Ich habe <marker>Schnupfen</marker>.</example>
+                <example type="incorrect" correction="Schnupfen">Ich habe <marker>schnupfen</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>schnupfen</token>
+                    </marker>
+                    <token inflected="yes">haben</token>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="1" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Weil ich <marker>Schnupfen</marker> hatte, konnte ich nicht kommen.</example>
+                <example type="incorrect" correction="Schnupfen">Weil ich <marker>schnupfen</marker> hatte, konnte ich nicht kommen.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="VORSORGE_SUBST" name="Groß-/Kleinschreibung: 'ich habe vorsorge (Vorsorge) getroffen' etc.">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes">treffen</token>
+                    <marker>
+                        <token>vorsorge</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Ich treffe <marker>Vorsorge</marker>.</example>
+                <example type="incorrect" correction="Vorsorge">Keine Angst, ich treffe <marker>vorsorge</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>vorsorge</token>
+                    </marker>
+                    <token inflected="yes">treffen</token>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="1" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Weil ich <marker>Vorsorge</marker> getroffen hatte, funktionierte alles.</example>
+                <example type="incorrect" correction="Vorsorge">Keine Angst, ich werde <marker>vorsorge</marker> treffen.</example>
+                <example type="incorrect" correction="Vorsorge">Weil ich <marker>vorsorge</marker> getroffen hatte, funktionierte alles.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="SCHULDEN_SUBST" name="Groß-/Kleinschreibung: 'ich habe schulden (Schulden)' etc.">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes" regexp="yes">haben|machen|(be)?zahlen</token>
+                    <marker>
+                        <token>schulden</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Ich habe <marker>Schulden</marker>.</example>
+                <example type="incorrect" correction="Schulden">Ich habe <marker>schulden</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>schulden</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">haben|machen|(be)?zahlen</token>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="1" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Weil ich zu viele <marker>Schulden</marker> hatte, wurde ich nicht bedient.</example>
+                <example type="incorrect" correction="Schulden">Weil ich zu viele <marker>schulden</marker> hatte, wurde ich nicht bedient.</example>
+                <example type="incorrect" correction="Schulden">Du wirst nur Erfolg haben, wenn du keine <marker>schulden</marker> machst.</example>
+                <!-- <example type="incorrect" correction="Schulden">Du wirst hier erst wieder bedient, wenn du deine <marker>schulden</marker> bezahlst.</example> -->
+                <!-- TODO: 'bezahlen' nicht im dic? -->
+            </rule>
+        </rulegroup>
+        <rulegroup id="GRENZEN_SUBST" name="Groß-/Kleinschreibung: 'in grenzen (Grenzen)'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[Ii]n</token>
+                    <marker>
+                        <token>grenzen</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Die Begeisterung hielt sich in <marker>Grenzen</marker>.</example>
+                <example type="incorrect" correction="Grenzen">Die Begeisterung hielt sich in <marker>grenzen</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[Ii]n</token>
+                    <token regexp="yes">den|engen|gewissen</token>
+                    <marker>
+                        <token>grenzen</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Die Begeisterung hielt sich in <marker>Grenzen</marker>.</example>
+                <example type="incorrect" correction="Grenzen">Die Begeisterung hielt sich in engen <marker>grenzen</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="AUSNAHME_SUBST" name="Groß-/Kleinschreibung: 'keine ausnahmen (Ausnahmen)'">
             <pattern case_sensitive="yes">
                 <token regexp="yes">[kK]eine|ohne</token>
@@ -10791,7 +11029,7 @@ $Id$
                     <token regexp="yes">verstand|mühe</token>
                 </marker>
             </pattern>
-            <message>&subanfang;<suggestion>Verstand</suggestion>&subende;</message>
+            <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
             <short>&prgk;.</short>
             <example type="correct">Trink mit <marker>Verstand</marker>!</example>
             <example type="incorrect" correction="Verstand">Trink mit <marker>verstand</marker>!</example>
@@ -11187,6 +11425,20 @@ $Id$
                 <short>&prgk;.</short>
                 <example type="correct">Gebt euch bitte <marker>Mühe</marker>.</example>
                 <example type="incorrect" correction="Mühe">Gebt euch bitte <marker>mühe</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[mM]it</token>
+                    <marker>
+                        <token>mühe</token>
+                    </marker>
+                    <token>und</token>
+                    <token>Not</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Mühe</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Wir haben es mit <marker>Mühe</marker> und Not geschafft.</example>
+                <example type="incorrect" correction="Mühe">Wir haben es mit <marker>mühe</marker> und Not geschafft.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ANKLANG_FINDEN" name="Groß-/Kleinschreibung: 'anklang (Anklang) finden'">
@@ -14918,7 +15170,7 @@ $Id$
                 <message>&subanfang;<suggestion>Schritt</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example type="correct">Die Hose ist so eng, dass sie im <marker>Schritt</marker> kneift.</example>
-                <example type="incorrect">Die Hose ist mir im <marker>schritt</marker> viel zu eng.</example>
+                <example type="incorrect" correction="Schritt">Die Hose ist mir im <marker>schritt</marker> viel zu eng.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -14931,7 +15183,7 @@ $Id$
                 <message>&subanfang;<suggestion>Schritt</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example type="correct">Heute sind wir einen <marker>Schritt</marker> weiter.</example>
-                <example type="incorrect">Da sind wir einen <marker>schritt</marker> weiter.</example>
+                <example type="incorrect" correction="Schritt">Da sind wir einen <marker>schritt</marker> weiter.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -14943,7 +15195,20 @@ $Id$
                 <message>&subanfang;<suggestion>Schritt</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example type="correct">Da haben wir einen großen <marker>Schritt</marker> getan.</example>
-                <example type="incorrect">Da haben wir einen großen <marker>schritt</marker> getan.</example>
+                <example type="incorrect" correction="Schritt">Da haben wir einen großen <marker>schritt</marker> getan.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes" skip="1">[mM]it</token>
+                    <token regexp="yes">schnellen|großen|schweren|entschlossenen|bedächtigen|hastigen|eiligen</token>
+                    <marker>
+                        <token>schritten</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Schritten</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Er entfernte sich mit schnellen <marker>Schritten</marker>.</example>
+                <example type="incorrect" correction="Schritten">Er entfernte sich mit schnellen <marker>schritten</marker>.</example>
             </rule>
         </rulegroup>
         <rule id="IM_SCHNITT" name="Groß-/Kleinschreibung: 'im schnitt (Schnitt)'">
@@ -15229,6 +15494,18 @@ $Id$
                 <message>&subanfang;<suggestion>Schuld</suggestion>&subende;</message>
                 <example type="correct">Du redest hier von <marker>Schuld</marker> und Sühne, als ob du etwas davon verstündest.</example>
                 <example type="incorrect" correction="Schuld">Du redest hier von <marker>schuld</marker> und Sühne, als ob du etwas davon verstündest.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[sS]chuld</token>
+                    <token>und</token>
+                    <marker>
+                        <token>sühne</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Sühne</suggestion>&subende;</message>
+                <example type="correct">Du redest hier von Schuld und <marker>Sühne</marker>, als ob du etwas davon verstündest.</example>
+                <example type="incorrect" correction="Sühne">Du redest hier von Schuld und <marker>sühne</marker>, als ob du etwas davon verstündest.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
