@@ -426,4 +426,20 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
         </pattern>
         <disambig postag="X A_UNAN_DA_UNAN"/>
     </rule>
+    <rulegroup id="GANT" name="gant">
+      <rule>
+        <pattern>
+          <token>da</token>
+          <marker><token>gant</token></marker>
+        </pattern>
+        <disambig action="remove"><wd lemma="gant" pos="P"/></disambig>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="SENT_START"/>
+          <marker><token>gant</token></marker>
+        </pattern>
+        <disambig postag="P"/>
+      </rule>
+    </rulegroup>
 </rules>
