@@ -80,13 +80,79 @@ public final class Main implements ActionListener {
 
   private boolean closeHidesToTray;
   private boolean isInTray;
-  
   private boolean isAlreadyChecking;
 
   private Main() throws IOException {
     LanguageIdentifierTools.addLtProfiles();
     config = new Configuration(new File(System.getProperty("user.home")), CONFIG_FILE, null);
     messages = JLanguageTool.getMessageBundle();
+    maybeStartServer();
+  }
+
+  @Override
+  public void actionPerformed(final ActionEvent e) {
+    try {
+      if (e.getActionCommand().equals(StringTools.getLabel(messages.getString("checkText")))) {
+        checkTextAndDisplayResults();
+      } else {
+        throw new IllegalArgumentException("Unknown action " + e);
+      }
+    } catch (Exception exc) {
+      Tools.showError(exc);
+    }
+  }
+
+  void loadFile() {
+    final File file = Tools.openFileDialog(frame, new PlainTextFileFilter());
+    if (file == null) {
+      // user clicked cancel
+      return;
+    }
+    try {
+      final FileInputStream inputStream = new FileInputStream(file);
+      try {
+        final String fileContents = StringTools.readFile(inputStream);
+        textArea.setText(fileContents);
+      } finally {
+        inputStream.close();
+      }
+      checkTextAndDisplayResults();
+    } catch (IOException e) {
+      Tools.showError(e);
+    }
+  }
+
+  void addLanguage() {
+    final LanguageManagerDialog lmd = new LanguageManagerDialog(frame, Language.getExternalLanguages());
+    lmd.show();
+    try {
+      Language.reInit(lmd.getLanguages());
+    } catch (RuleFilenameException e) {
+      Tools.showErrorMessage(e);
+    }
+    languageBox.populateLanguageBox();
+  }
+
+  void showOptions() {
+    final Language currentLanguage = getCurrentLanguage();
+    final JLanguageTool langTool = getCurrentLanguageTool(currentLanguage);
+    final List<Rule> rules = langTool.getAllRules();
+    final ConfigurationDialog configDialog = getCurrentConfigDialog(currentLanguage);
+    configDialog.show(rules); // this blocks until OK/Cancel is clicked in the dialog
+    config.setDisabledRuleIds(configDialog.getDisabledRuleIds());
+    config.setEnabledRuleIds(configDialog.getEnabledRuleIds());
+    config.setDisabledCategoryNames(configDialog.getDisabledCategoryNames());
+    config.setMotherTongue(configDialog.getMotherTongue());
+    config.setRunServer(configDialog.getRunServer());
+    config.setUseGUIConfig(configDialog.getUseGUIConfig());
+    config.setServerPort(configDialog.getServerPort());
+    try { //save config - needed for the server
+      config.saveConfiguration(langTool.getLanguage());
+    } catch (IOException e) {
+      Tools.showError(e);
+    }
+    // Stop server, start new server if requested:
+    stopServer();
     maybeStartServer();
   }
 
@@ -141,13 +207,13 @@ public final class Main implements ActionListener {
 
     autoDetectBox = new LanguageDetectionCheckbox(messages, languageBox, config);
     languageBox.setEnabled(!autoDetectBox.isSelected());
-    
+
     buttonCons.gridx = 1;
     buttonCons.gridy = 1;
     buttonCons.gridwidth = 2;
     buttonCons.anchor = GridBagConstraints.WEST;
     insidePanel.add(autoDetectBox, buttonCons);
-    
+
     final Container contentPane = frame.getContentPane();
     final GridBagLayout gridLayout = new GridBagLayout();
     contentPane.setLayout(gridLayout);
@@ -160,7 +226,7 @@ public final class Main implements ActionListener {
     cons.gridy = 1;
     cons.weighty = 5.0f;
     final JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
-        new JScrollPane(textArea), new JScrollPane(resultArea));
+            new JScrollPane(textArea), new JScrollPane(resultArea));
     splitPane.setDividerLocation(200);
     contentPane.add(splitPane, cons);
 
@@ -189,41 +255,29 @@ public final class Main implements ActionListener {
     }
   }
 
-  private void showGUI() {
-    frame.setVisible(true);
+  private PopupMenu makePopupMenu() {
+    final PopupMenu popup = new PopupMenu();
+    final ActionListener rmbListener = new TrayActionRMBListener();
+    // Check clipboard text:
+    final MenuItem checkClipboardItem =
+            new MenuItem(StringTools.getLabel(messages.getString("guiMenuCheckClipboard")));
+    checkClipboardItem.addActionListener(rmbListener);
+    popup.add(checkClipboardItem);
+    // Open main window:
+    final MenuItem restoreItem = new MenuItem(StringTools.getLabel(messages.getString("guiMenuShowMainWindow")));
+    restoreItem.addActionListener(rmbListener);
+    popup.add(restoreItem);
+    // Exit:
+    final MenuItem exitItem = new MenuItem(StringTools.getLabel(messages.getString("guiMenuQuit")));
+    exitItem.addActionListener(rmbListener);
+    popup.add(exitItem);
+    return popup;
   }
 
-  @Override
-  public void actionPerformed(final ActionEvent e) {
-    try {
-      if (e.getActionCommand().equals(StringTools.getLabel(messages.getString("checkText")))) {
-        checkTextAndDisplayResults();
-      } else {
-        throw new IllegalArgumentException("Unknown action " + e);
-      }
-    } catch (Exception exc) {
-      Tools.showError(exc);
-    }
-  }
-
-  void loadFile() {
-    final File file = Tools.openFileDialog(frame, new PlainTextFileFilter());
-    if (file == null) {
-      // user clicked cancel
-      return;
-    }
-    try {
-      final FileInputStream inputStream = new FileInputStream(file);
-      try {
-        final String fileContents = StringTools.readFile(inputStream);
-        textArea.setText(fileContents);
-      } finally {
-        inputStream.close();
-      }
-      checkTextAndDisplayResults();
-    } catch (IOException e) {
-      Tools.showError(e);
-    }
+  void checkClipboardText() {
+    final String s = getClipboardText();
+    textArea.setText(s);
+    checkTextAndDisplayResults();
   }
 
   void hideToTray() {
@@ -245,104 +299,6 @@ public final class Main implements ActionListener {
     frame.setVisible(false);
   }
 
-  private PopupMenu makePopupMenu() {
-    final PopupMenu popup = new PopupMenu();
-    final ActionListener rmbListener = new TrayActionRMBListener();
-    // Check clipboard text:
-    final MenuItem checkClipboardItem =
-            new MenuItem(StringTools.getLabel(messages.getString("guiMenuCheckClipboard")));
-    checkClipboardItem.addActionListener(rmbListener);
-    popup.add(checkClipboardItem);
-    // Open main window:
-    final MenuItem restoreItem = new MenuItem(StringTools.getLabel(messages.getString("guiMenuShowMainWindow")));
-    restoreItem.addActionListener(rmbListener);
-    popup.add(restoreItem);
-    // Exit:
-    final MenuItem exitItem = new MenuItem(StringTools.getLabel(messages.getString("guiMenuQuit")));
-    exitItem.addActionListener(rmbListener);
-    popup.add(exitItem);
-    return popup;
-  }
-
-  void addLanguage() {
-    final LanguageManagerDialog lmd = new LanguageManagerDialog(frame, Language.getExternalLanguages());
-    lmd.show();
-    try {
-      Language.reInit(lmd.getLanguages());
-    } catch (RuleFilenameException e) {
-      Tools.showErrorMessage(e);
-    }
-    languageBox.populateLanguageBox();
-  }
-
-  void showOptions() {
-    final Language currentLanguage = getCurrentLanguage();
-    final JLanguageTool langTool = getCurrentLanguageTool(currentLanguage);
-    final List<Rule> rules = langTool.getAllRules();
-    final ConfigurationDialog configDialog = getCurrentConfigDialog(currentLanguage);
-    configDialog.show(rules); // this blocks until OK/Cancel is clicked in the dialog
-    config.setDisabledRuleIds(configDialog.getDisabledRuleIds());
-    config.setEnabledRuleIds(configDialog.getEnabledRuleIds());
-    config.setDisabledCategoryNames(configDialog.getDisabledCategoryNames());
-    config.setMotherTongue(configDialog.getMotherTongue());
-    config.setRunServer(configDialog.getRunServer());
-    config.setUseGUIConfig(configDialog.getUseGUIConfig());
-    config.setServerPort(configDialog.getServerPort());
-    try { //save config - needed for the server
-        config.saveConfiguration(langTool.getLanguage());
-      } catch (IOException e) {
-        Tools.showError(e);
-      }
-    // Stop server, start new server if requested:
-    stopServer();
-    maybeStartServer();
-  }
-
-  void checkClipboardText() {
-    final String s = getClipboardText();
-    textArea.setText(s);
-    checkTextAndDisplayResults();
-  }
-
-  private void restoreFromTray() {
-    frame.setVisible(true);
-  }
-
-  // show GUI and check the text from clipboard/selection:
-  private void restoreFromTrayAndCheck() {        
-    final String s = getClipboardText();
-    restoreFromTray();
-    textArea.setText(s);
-    checkTextAndDisplayResults();
-  }
-
-  private String getClipboardText() {
-    // get text from clipboard or selection:
-    Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemSelection();
-    if (clipboard == null) { // on Windows
-      clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-    }
-    String s;
-    final Transferable data = clipboard.getContents(this);
-    try {
-      if (data != null
-          && data.isDataFlavorSupported(DataFlavor.getTextPlainUnicodeFlavor())) {
-        final DataFlavor df = DataFlavor.getTextPlainUnicodeFlavor();
-        final Reader sr = df.getReaderForText(data);
-        s = StringTools.readerToString(sr);
-      } else {
-        s = "";
-      }
-    } catch (Exception ex) {
-      if (data != null) {
-        s = data.toString();
-      } else {
-        s = "";
-      }
-    }
-    return s;
-  }
-  
   void tagText() {
     new Thread() {
       @Override
@@ -377,6 +333,49 @@ public final class Main implements ActionListener {
     frame.setVisible(false);
     JLanguageTool.removeTemporaryFiles();
     System.exit(0);
+  }
+
+  private void showGUI() {
+    frame.setVisible(true);
+  }
+
+  private void restoreFromTray() {
+    frame.setVisible(true);
+  }
+
+  // show GUI and check the text from clipboard/selection:
+  private void restoreFromTrayAndCheck() {
+    final String s = getClipboardText();
+    restoreFromTray();
+    textArea.setText(s);
+    checkTextAndDisplayResults();
+  }
+
+  private String getClipboardText() {
+    // get text from clipboard or selection:
+    Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemSelection();
+    if (clipboard == null) { // on Windows
+      clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+    }
+    String s;
+    final Transferable data = clipboard.getContents(this);
+    try {
+      if (data != null
+          && data.isDataFlavorSupported(DataFlavor.getTextPlainUnicodeFlavor())) {
+        final DataFlavor df = DataFlavor.getTextPlainUnicodeFlavor();
+        final Reader sr = df.getReaderForText(data);
+        s = StringTools.readerToString(sr);
+      } else {
+        s = "";
+      }
+    } catch (Exception ex) {
+      if (data != null) {
+        s = data.toString();
+      } else {
+        s = "";
+      }
+    }
+    return s;
   }
 
   private void maybeStartServer() {
