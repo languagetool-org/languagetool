@@ -73,6 +73,7 @@ public final class Main implements ActionListener {
   private LanguageComboBox languageBox;
   private LanguageDetectionCheckbox autoDetectBox;
   private Cursor prevCursor;
+  private CheckboxMenuItem enableHttpsServerItem;
 
   private HTTPServer httpServer;
 
@@ -258,6 +259,10 @@ public final class Main implements ActionListener {
   private PopupMenu makePopupMenu() {
     final PopupMenu popup = new PopupMenu();
     final ActionListener rmbListener = new TrayActionRMBListener();
+    enableHttpsServerItem = new CheckboxMenuItem(StringTools.getLabel(messages.getString("tray_menu_enable_server")));
+    enableHttpsServerItem.setState(config.getRunServer());
+    enableHttpsServerItem.addItemListener(new TrayActionItemListener());
+    popup.add(enableHttpsServerItem);
     // Check clipboard text:
     final MenuItem checkClipboardItem =
             new MenuItem(StringTools.getLabel(messages.getString("guiMenuCheckClipboard")));
@@ -325,8 +330,7 @@ public final class Main implements ActionListener {
   void quit() {
     stopServer();
     try {
-      final Language currentLanguage = getCurrentLanguage();
-      config.saveConfiguration(getCurrentLanguageTool(currentLanguage).getLanguage());
+      config.saveConfiguration(getCurrentLanguage());
     } catch (IOException e) {
       Tools.showError(e);
     }
@@ -378,27 +382,34 @@ public final class Main implements ActionListener {
     return s;
   }
 
-  private void maybeStartServer() {
+  private boolean maybeStartServer() {
     if (config.getRunServer()) {
       try {
         final HTTPServerConfig serverConfig = new HTTPServerConfig(config.getServerPort(), false);
         httpServer = new HTTPServer(serverConfig, true);
     	  httpServer.run();
+        if (enableHttpsServerItem != null) {
+          enableHttpsServerItem.setState(true);
+        }
       } catch (PortBindingException e) {
         final String message = e.getMessage();
         JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
+        return false;
       }
+      return true;
+    } else {
+      return false;
     }
   }
 
   private void stopServer() {
     if (httpServer != null) {
       httpServer.stop();
+      enableHttpsServerItem.setState(false);
       httpServer = null;
     }
   }
 
-  // method modified to add automatic language detection
   private Language getCurrentLanguage() {
     if (autoDetectBox.isSelected()) {
       return autoDetectBox.autoDetectLanguage(textArea.getText());
@@ -616,6 +627,35 @@ public final class Main implements ActionListener {
   //
   // The System Tray stuff
   //
+
+  class TrayActionItemListener implements ItemListener {
+    @Override
+    public void itemStateChanged(ItemEvent e) {
+      try {
+        final Language language = getCurrentLanguage();
+        final ConfigurationDialog configDialog = configDialogs.get(language);
+        if (e.getStateChange() == ItemEvent.SELECTED) {
+          config.setRunServer(true);
+          final boolean serverStarted = maybeStartServer();
+          config.setRunServer(serverStarted);
+          enableHttpsServerItem.setState(serverStarted);
+          config.saveConfiguration(language);
+          if (configDialog != null) {
+            configDialog.setRunServer(true);
+          }
+        } else if (e.getStateChange() == ItemEvent.DESELECTED) {
+          config.setRunServer(false);
+          config.saveConfiguration(language);
+          if (configDialog != null) {
+            configDialog.setRunServer(false);
+          }
+          stopServer();
+        }
+      } catch (IOException ex) {
+        Tools.showError(ex);
+      }
+    }
+  }
 
   class TrayActionRMBListener implements ActionListener {
 
