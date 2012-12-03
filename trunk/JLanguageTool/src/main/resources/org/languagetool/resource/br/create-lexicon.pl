@@ -1040,6 +1040,10 @@ my @anv_lies_tud = (
   "kleuzierion",
   "klezeourien",
   "klezeourion",
+  "kloareged",
+  "kloareien",
+  "kloareion",
+  "kloer",
   "koataerien",
   "koataerion",
   "kollerien",
@@ -1179,7 +1183,7 @@ my @anv_lies_tud = (
   "lunedourion",
   "luskerien",
   "luskerion",
-  "mab-kaer",
+  "mibien-gaer",
   "madoberourien",
   "madoberourion",
   "maendreserien",
@@ -2005,10 +2009,12 @@ while (<LT_EXPAND>) {
     $tag =~ s/^N [fm]/N e/;
   }
 
-  if ($tag =~ /N m p/) {
-    if (exists $anv_lies_tud{$word} or $word =~ /[A-Z].*iz$/) {
+  if (exists $anv_lies_tud{$word} or $word =~ /[A-Z].*iz$/) {
+    if ($tag =~ /^N m p/) {
       $tag .= ' t';
       ++$anv_lies_tud{$word};
+    } elsif ($tag =~ /^N/) {
+      print STDERR "Anv-tud lies [$word] a zo [$tag] en Apertium. Fazi?\n";
     }
   }
 
