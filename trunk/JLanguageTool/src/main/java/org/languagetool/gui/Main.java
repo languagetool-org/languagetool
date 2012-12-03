@@ -73,7 +73,7 @@ public final class Main implements ActionListener {
   private LanguageComboBox languageBox;
   private LanguageDetectionCheckbox autoDetectBox;
   private Cursor prevCursor;
-  private CheckboxMenuItem enableHttpsServerItem;
+  private CheckboxMenuItem enableHttpServerItem;
 
   private HTTPServer httpServer;
 
@@ -259,10 +259,11 @@ public final class Main implements ActionListener {
   private PopupMenu makePopupMenu() {
     final PopupMenu popup = new PopupMenu();
     final ActionListener rmbListener = new TrayActionRMBListener();
-    enableHttpsServerItem = new CheckboxMenuItem(StringTools.getLabel(messages.getString("tray_menu_enable_server")));
-    enableHttpsServerItem.setState(config.getRunServer());
-    enableHttpsServerItem.addItemListener(new TrayActionItemListener());
-    popup.add(enableHttpsServerItem);
+    // Enable or disable embedded HTTP server:
+    enableHttpServerItem = new CheckboxMenuItem(StringTools.getLabel(messages.getString("tray_menu_enable_server")));
+    enableHttpServerItem.setState(httpServer != null && httpServer.isRunning());
+    enableHttpServerItem.addItemListener(new TrayActionItemListener());
+    popup.add(enableHttpServerItem);
     // Check clipboard text:
     final MenuItem checkClipboardItem =
             new MenuItem(StringTools.getLabel(messages.getString("guiMenuCheckClipboard")));
@@ -388,24 +389,22 @@ public final class Main implements ActionListener {
         final HTTPServerConfig serverConfig = new HTTPServerConfig(config.getServerPort(), false);
         httpServer = new HTTPServer(serverConfig, true);
     	  httpServer.run();
-        if (enableHttpsServerItem != null) {
-          enableHttpsServerItem.setState(true);
+        if (enableHttpServerItem != null) {
+          enableHttpServerItem.setState(httpServer.isRunning());
         }
       } catch (PortBindingException e) {
-        final String message = e.getMessage();
-        JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
-        return false;
+        JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
       }
-      return true;
-    } else {
-      return false;
     }
+    return httpServer != null && httpServer.isRunning();
   }
 
   private void stopServer() {
     if (httpServer != null) {
       httpServer.stop();
-      enableHttpsServerItem.setState(false);
+      if (enableHttpServerItem != null) {
+        enableHttpServerItem.setState(httpServer.isRunning());
+      }
       httpServer = null;
     }
   }
@@ -637,8 +636,8 @@ public final class Main implements ActionListener {
         if (e.getStateChange() == ItemEvent.SELECTED) {
           config.setRunServer(true);
           final boolean serverStarted = maybeStartServer();
+          enableHttpServerItem.setState(serverStarted);
           config.setRunServer(serverStarted);
-          enableHttpsServerItem.setState(serverStarted);
           config.saveConfiguration(language);
           if (configDialog != null) {
             configDialog.setRunServer(true);

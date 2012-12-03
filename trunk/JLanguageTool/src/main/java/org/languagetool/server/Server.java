@@ -45,6 +45,8 @@ abstract class Server {
   protected String host;
   protected HttpServer server;
 
+  private boolean isRunning;
+
   /**
    * Start the server.
    */
@@ -52,18 +54,28 @@ abstract class Server {
     final String hostName = host != null ? host : "localhost";
     System.out.println("Starting server on " + getProtocol() + "://" + hostName + ":" + port  + "...");
     server.start();
+    isRunning = true;
     System.out.println("Server started");
   }
 
   /**
-   * Stop the server.
+   * Stop the server. Once stopped, a server cannot be used again.
    */
   public void stop() {
     if (server != null) {
       System.out.println("Stopping server");
       server.stop(0);
+      isRunning = false;
       System.out.println("Server stopped");
     }
+  }
+
+  /**
+   * @return whether the server is running
+   * @since 2.0
+   */
+  public boolean isRunning() {
+    return isRunning;
   }
 
   protected static boolean usageRequested(String[] args) {

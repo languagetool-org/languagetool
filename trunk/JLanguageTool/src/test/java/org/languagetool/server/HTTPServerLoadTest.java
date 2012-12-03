@@ -8,6 +8,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 /**
  * Test HTTP server access from multiple threads.
  */
@@ -22,8 +25,10 @@ public class HTTPServerLoadTest extends HTTPServerTest {
   public void testHTTPServer() throws Exception {
     final long startTime = System.currentTimeMillis();
     final HTTPServer server = new HTTPServer();
+    assertFalse(server.isRunning());
     try {
       server.run();
+      assertTrue(server.isRunning());
       final ExecutorService executorService = Executors.newFixedThreadPool(THREAD_COUNT);
       final List<Future> futures = new ArrayList<Future>();
       for (int i = 0; i < THREAD_COUNT; i++) {
@@ -35,6 +40,7 @@ public class HTTPServerLoadTest extends HTTPServerTest {
       }
     } finally {
       server.stop();
+      assertFalse(server.isRunning());
       final long runtime = System.currentTimeMillis() - startTime;
       System.out.println("Running with " + THREAD_COUNT + " threads in " + runtime + "ms");
     }

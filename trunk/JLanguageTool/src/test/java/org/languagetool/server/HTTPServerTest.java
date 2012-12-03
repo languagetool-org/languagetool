@@ -43,11 +43,14 @@ public class HTTPServerTest {
   @Test
   public void testHTTPServer() throws Exception {
     final HTTPServer server = new HTTPServer();
+    assertFalse(server.isRunning());
     try {
       server.run();
+      assertTrue(server.isRunning());
       runTests();
     } finally {
       server.stop();
+      assertFalse(server.isRunning());
     }
   }
 
