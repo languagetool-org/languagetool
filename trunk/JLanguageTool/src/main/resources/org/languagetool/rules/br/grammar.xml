@@ -5143,7 +5143,9 @@ $Id$
     <rulegroup id="LIES" name="lies">
       <rule>
         <pattern>
-          <token postag="K.*[^o]" postag_regexp="yes"><exception>gant</exception></token>
+          <token postag="K.* [^o]( M:.*)?" postag_regexp="yes">
+            <exception>gant</exception>
+          </token>
           <marker>
             <token postag="N . p.*" postag_regexp="yes">
               <exception postag="N . s.*" postag_regexp="yes"/>
@@ -5156,6 +5158,7 @@ $Id$
         <example type="correct">Gant yezhadurourien</example>
         <example type="correct">Daou geloù</example>
         <example type="correct">Ken ar c’hentañ mignoned.</example>
+        <example type="correct">Ar c’hentañ sudiadennoù.</example>
       </rule>
       <rule>
         <pattern>
