@@ -1998,9 +1998,11 @@ while (<LT_EXPAND>) {
   # even though Apertium does not tag them with both gender.
   # There are probably many other such words that could be added
   # here. I add them one by one as I stumbled upon them.
-  if (($lemma eq 'trubuilh' and $word =~ /^[tdz]rubuilh(où)?$/) or
-      ($lemma eq 'siminal'  and $word =~ /^siminal(ioù)?$/)) {
-    $tag =~ s/^N m/N e/;
+  if (($lemma eq 'trubuilh'  and $word =~ /^[tdz]rubuilh(où)?$/) or
+      ($lemma eq 'siminal'   and $word =~ /^siminal(ioù)?$/) or
+      ($lemma eq 'breserezh' and $word =~ /^[bpv]reserezh(ioù)?$/) or
+      ($lemma eq 'barzhoneg' and $word =~ /^[bpv]arzhoneg(où)?$/)) {
+    $tag =~ s/^N [fm]/N e/;
   }
 
   if ($tag =~ /N m p/) {
