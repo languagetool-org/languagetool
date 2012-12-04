@@ -2669,6 +2669,28 @@ $Id$
                 <example type="incorrect" correction="Seit"><marker>Seid</marker> 15 Jahren</example>
                 <example type="incorrect" correction="Seit"><marker>Seid</marker> wann ist das so?</example>
             </rule>
+            <rule>
+                <pattern case_sensitive="no">
+                    <marker>
+                        <token>seid</token>
+                    </marker>
+                    <token regexp="yes">du|er|ich|wir</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>seit</suggestion> (Präposition) statt "seid" (Verbform)?</message>
+                <example type="correct"><marker>Seit</marker> du nicht mehr da bist, ist alles doof.</example>
+                <example type="incorrect" correction="Seit"><marker>Seid</marker> du nicht mehr da bist, ist alles doof.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="no">
+                    <token regexp="yes">ich|wir</token>
+                    <marker>
+                        <token>seid</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>seit</suggestion> (Präposition) statt "seid" (Verbform)?</message>
+                <example type="correct">Da ich <marker>seit</marker> letzte Woche nicht mehr kommen kann, ist alles doof.</example>
+                <example type="incorrect" correction="seit">Da ich <marker>seid</marker> letzte Woche nicht mehr kommen kann, ist alles doof.</example>
+            </rule>
         </rulegroup>
         <rule id="IN_DIE_ANALEN" name="Möglicher Tippfehler: 'in die Analen (Annalen)'">
             <pattern case_sensitive="yes">
