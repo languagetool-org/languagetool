@@ -54,9 +54,12 @@ public final class Main implements ActionListener {
   static final String HTML_FONT_END = "</font>";
   static final String HTML_GREY_FONT_START = "<font face='Arial,Helvetica' color='#666666'>";
 
-  private static final String SYSTEM_TRAY_ICON_NAME = "/TrayIcon.png";
-  private static final String SYSTEM_TRAY_SMALL_ICON_NAME = "/TrayIconSmall.png";
-  private static final String SYSTEM_TRAY_TOOLTIP = "LanguageTool";
+  private static final String TRAY_ICON = "/TrayIcon.png";
+  private static final String TRAY_SERVER_ICON = "/TrayIconWithServer.png";
+  private static final String TRAY_SMALL_ICON = "/TrayIconSmall.png";
+  private static final String TRAY_SMALL_SERVER_ICON = "/TrayIconSmallWithServer.png";
+  private static final String TRAY_TOOLTIP = "LanguageTool";
+
   private static final String CONFIG_FILE = ".languagetool.cfg";
   private static final int WINDOW_WIDTH = 600;
   private static final int WINDOW_HEIGHT = 550;
@@ -79,6 +82,7 @@ public final class Main implements ActionListener {
 
   private final Map<Language, ConfigurationDialog> configDialogs = new HashMap<Language, ConfigurationDialog>();
 
+  private TrayIcon trayIcon;
   private boolean closeHidesToTray;
   private boolean isInTray;
   private boolean isAlreadyChecking;
@@ -164,7 +168,7 @@ public final class Main implements ActionListener {
 
     frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
     frame.addWindowListener(new CloseListener());
-    final URL iconUrl = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(SYSTEM_TRAY_ICON_NAME);
+    final URL iconUrl = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(TRAY_ICON);
     frame.setIconImage(new ImageIcon(iconUrl).getImage());
     frame.setJMenuBar(new MainMenuBar(this, messages));
 
@@ -289,12 +293,14 @@ public final class Main implements ActionListener {
   void hideToTray() {
     if (!isInTray) {
       final SystemTray tray = SystemTray.getSystemTray();
-      final String iconPath = tray.getTrayIconSize().height > 16 ? SYSTEM_TRAY_ICON_NAME : SYSTEM_TRAY_SMALL_ICON_NAME;
-      final Image img = Toolkit.getDefaultToolkit().getImage(JLanguageTool.getDataBroker().getFromResourceDirAsUrl(iconPath));
+      final String iconPath = tray.getTrayIconSize().height > 16 ? TRAY_ICON : TRAY_SMALL_ICON;
+      final URL iconUrl = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(iconPath);
+      final Image img = Toolkit.getDefaultToolkit().getImage(iconUrl);
       final PopupMenu popup = makePopupMenu();
       try {
-        final TrayIcon trayIcon = new TrayIcon(img, SYSTEM_TRAY_TOOLTIP, popup);
+        trayIcon = new TrayIcon(img, TRAY_TOOLTIP, popup);
         trayIcon.addMouseListener(new TrayActionListener());
+        setTrayIcon();
         tray.add(trayIcon);
       } catch (AWTException e1) {
         // thrown if there's no system tray
@@ -338,6 +344,25 @@ public final class Main implements ActionListener {
     frame.setVisible(false);
     JLanguageTool.removeTemporaryFiles();
     System.exit(0);
+  }
+
+  private void setTrayIcon() {
+    if (trayIcon != null) {
+      final SystemTray tray = SystemTray.getSystemTray();
+      final boolean httpServerRunning = httpServer != null && httpServer.isRunning();
+      final boolean smallTray = tray.getTrayIconSize().height <= 16;
+      final String iconPath;
+      if (httpServerRunning) {
+        trayIcon.setToolTip(messages.getString("tray_tooltip_server_running"));
+        iconPath = smallTray ? TRAY_SMALL_SERVER_ICON : TRAY_SERVER_ICON;
+      } else {
+        trayIcon.setToolTip(TRAY_TOOLTIP);
+        iconPath = smallTray ? TRAY_SMALL_ICON : TRAY_ICON;
+      }
+      final URL iconUrl = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(iconPath);
+      final Image img = Toolkit.getDefaultToolkit().getImage(iconUrl);
+      trayIcon.setImage(img);
+    }
   }
 
   private void showGUI() {
@@ -391,6 +416,7 @@ public final class Main implements ActionListener {
     	  httpServer.run();
         if (enableHttpServerItem != null) {
           enableHttpServerItem.setState(httpServer.isRunning());
+          setTrayIcon();
         }
       } catch (PortBindingException e) {
         JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -404,6 +430,7 @@ public final class Main implements ActionListener {
       httpServer.stop();
       if (enableHttpServerItem != null) {
         enableHttpServerItem.setState(httpServer.isRunning());
+        setTrayIcon();
       }
       httpServer = null;
     }
