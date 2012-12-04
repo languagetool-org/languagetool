@@ -3714,6 +3714,18 @@ $Id$
         </rulegroup>
     </category>
     <category name="Confusions">
+        <rule id="ENTRE_MIG_ENTREMIG" name="entre mig / entremig">
+            <pattern>
+                <marker>
+                    <token>entre</token>
+                    <token>mig</token>
+                </marker>
+                <token><exception postag="N.MS.*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>entremig</suggestion>?</message>
+            <example type="incorrect" correction="entremig"><marker>entre mig</marker> de les plantes</example>
+            <example type="correct">entre mig any i un any</example>
+        </rule>
         <rule id="TEX_TEXT" name="tex / text">
             <pattern case_sensitive="yes">
                 <token regexp="yes">[Tt]ex</token>
@@ -8474,7 +8486,7 @@ $Id$
                 <pattern>
                     <token skip="2" inflected="yes">acabar</token>
                     <token skip="7">amb</token>
-                    <token regexp="yes" inflected="yes">abús|frau</token>
+                    <token regexp="yes" inflected="yes">abús|frau|plaga|pesta</token>
                 </pattern>
                 <message>Expressió incorrecta si vol dir: <suggestion>(posar fi a)</suggestion>, <suggestion>(eliminar)</suggestion>, <suggestion>(destruir)</suggestion>, <suggestion>(acabar)</suggestion>, <suggestion>(desfer)</suggestion>, <suggestion>(acabar)</suggestion>, <suggestion>(fer acabar)</suggestion>, <suggestion>(acabar)</suggestion>, <suggestion>(fer cessar)</suggestion>, <suggestion>(acabar)</suggestion>, <suggestion>(exterminar)</suggestion>, <suggestion>(acabar)</suggestion>, <suggestion>(aniquilar)</suggestion></message>
                 <short>Expressió incorrecta</short>
@@ -11551,21 +11563,43 @@ $Id$
             <example type="incorrect"><marker>Segueix l'estela</marker> del campió.</example>
             <example type="correct">una estela funerària</example>
         </rule>
-        <rule id="LIDERAT" name="liderat/lideratge">
-            <pattern>
-                <token><exception postag="RG_anteposat"/></token>
-                <marker>
-                    <token regexp="yes">liderats?<exception postag="_GV_" /></token>
-                </marker>
-                <token><exception regexp="yes">per|pe|des</exception></token>
-            </pattern>
-            <message>Quan indica un procés val més dir: <suggestion><match no="2" regexp_match="(.+)t(s?)" regexp_replace="$1tge$2"/></suggestion>.</message>
-            <short>Forma preferible</short>
-            <example type="incorrect" correction="lideratge">amb el seu <marker>liderat</marker>.</example>
-            <example type="correct">ha liderat la batalla</example>
-            <example type="correct">L'equip, liderat pel capità, aconseguí la victòria.</example>
-            <example type="correct">L'equip, ben liderat, podria arribar lluny.</example>
-        </rule>
+        <rulegroup id="LIDERAT_LIDERATGE" name="liderat/lideratge, filtrat/filtratge...">
+            <rule>
+                <pattern>
+                    <token><exception postag="RG_anteposat|N.M.*" postag_regexp="yes"/><exception inflected="yes">tenir</exception></token>
+                    <marker>
+                        <token regexp="yes">etiquetats?|liderats?|filtrats?|empaquetats?|equilibrats?|embotellats?<exception postag="_GV_" /></token>
+                    </marker>
+                    <token><exception regexp="yes">per|pe|des</exception></token>
+                </pattern>
+                <message>Quan indica un procés cal dir: <suggestion><match no="2" regexp_match="(.+)t(s?)" regexp_replace="$1tge$2"/></suggestion>.</message>
+                <short>Forma preferible</short>
+                <example type="incorrect" correction="lideratge">amb el seu <marker>liderat</marker>.</example>
+                <example type="incorrect" correction="filtratge">Cal vigilar el <marker>filtrat</marker> del vi.</example>
+                <example type="incorrect" correction="empaquetatge">El procés d'<marker>empaquetat</marker>.</example>
+                <example type="incorrect" correction="equilibratges">Els <marker>equilibrats</marker> de les rodes.</example>
+                <example type="correct">l'empaquetatge</example>
+                <example type="correct">el llibre empaquetat</example>
+                <example type="correct">un resultat equilibrat</example>
+                <example type="correct">el nostre equip era bastant equilibrat</example>
+                <example type="correct">un llibre ben empaquetat</example>
+                <example type="correct">l'informe filtrat pel ministre</example>
+                <example type="correct">L'informe filtrat és terrible</example>
+                <example type="correct">ha liderat la batalla</example>
+                <example type="correct">L'equip, liderat pel capità, aconseguí la victòria.</example>
+                <example type="correct">L'equip, ben liderat, podria arribar lluny.</example>
+                <example type="correct">Els tinc empaquetats</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">emmotll?at<exception postag="_GV_|_GN_MS" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Quan indica un procés cal dir: <suggestion><match no="1" regexp_match="(.+)t(s?)" regexp_replace="$1ment$2"/></suggestion>.</message>
+                <short>Forma preferible</short>
+                <example type="incorrect" correction="emmotllament">El procés d'<marker>emmotllat</marker>.</example>
+                <example type="correct">l'emmotllament</example>
+            </rule>
+        </rulegroup>
         <rule id="MELENA" name="melena / cabellera">
             <pattern>
                 <token regexp="yes">melen(a|es)</token>
@@ -11749,7 +11783,7 @@ $Id$
                 <example type="correct">les teves corregudes del cap de setmana</example>
             </rule>       
         </rulegroup>
-        <rulegroup id="COMPLEXES" name="complexes/complexos">
+        <rulegroup id="COMPLEXES" name="complexes/complexos, reflexes/refelxos, fixes/fixos">
             <rule>
                 <pattern>
                     <token postag="V.*" postag_regexp="yes">complexes<exception postag="AQ.*" postag_regexp="yes"/></token>
@@ -13193,32 +13227,6 @@ $Id$
             <example type="incorrect" correction="sépia">La <marker>sèpia</marker>.</example>
             <example type="correct"><marker>sépies</marker>.</example>
         </rule>
-        <rule id="EMPAQUETAT" name="empaquetat/empaquetatge">
-            <pattern>
-                <token><exception postag="RG_anteposat"/></token>
-                <marker>
-                    <token regexp="yes">empaquetat|equilibrat|embotellat<exception postag="_GV_|_GN_MS" postag_regexp="yes"/></token>
-                </marker>
-            </pattern>
-            <message>Quan indica un procés val més dir: <suggestion><match no="2" regexp_match="(.+)t(s?)" regexp_replace="$1tge$2"/></suggestion>.</message>
-            <short>Forma preferible</short>
-            <example type="incorrect" correction="empaquetatge">El procés d'<marker>empaquetat</marker>.</example>
-            <example type="incorrect" correction="equilibratge">L'<marker>equilibrat</marker> de les rodes.</example>
-            <example type="correct">l'empaquetatge</example>
-            <example type="correct">el llibre empaquetat</example>
-            <example type="correct">un resultat equilibrat</example>
-            <example type="correct">el nostre equip era bastant equilibrat</example>
-            <example type="correct">un llibre ben empaquetat</example>
-        </rule>
-        <rule id="EMMOTLLAT" name="emmotllat/emotllatment">
-            <pattern>
-                <token regexp="yes">emmotll?at<exception postag="_GV_|_GN_MS" postag_regexp="yes"/></token>
-            </pattern>
-            <message>Quan indica un procés val més dir: <suggestion><match no="1" regexp_match="(.+)t(s?)" regexp_replace="$1ment$2"/></suggestion>.</message>
-            <short>Forma preferible</short>
-            <example type="incorrect" correction="emmotllament">El procés d'<marker>emmotllat</marker>.</example>
-            <example type="correct">l'emmotllament</example>
-        </rule>
         <rule id="DICTAR_TESTAMENT" name="dictar (*el) testament">
             <pattern>
                 <token inflected="yes" skip="3">dictar</token>
@@ -14548,6 +14556,21 @@ $Id$
                 <example type="correct">qui sosté en nom del Partit Comunista que matar a Chian Kai-Shek</example>
                 <example type="correct">L'afer es complica pel fet que marcar o desmarcar-se</example>
                 <example type="correct">hi ha evidències que ingerir àcid palmític incrementa el risc</example> 
+            </rule>
+            <rule>
+                <pattern> 
+                    <token postag="N.*|_GN_.*|PI.*" postag_regexp="yes" skip="1"><exception postag="_GV_|V.*" postag_regexp="yes"/><exception scope="next" regexp="yes" negate="yes">que|més|millor</exception></token>
+                    <marker>
+                        <token>que<exception postag="comparatiu|relatiu|conjuncio" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="VMN.*" postag_regexp="yes"/>
+                    <token postag="SENT_END|PUNCT.*|comparatiu" postag_regexp="yes"/>
+                </pattern>
+                <message>Si 'que' no és comparatiu, cal escriure: <suggestion>a</suggestion>, <suggestion>per</suggestion>, <suggestion>per a</suggestion>.</message>
+                <short>Construcció incorrecta</short>
+                <example type="incorrect">No tenen res millor <marker>que</marker> fer.</example>
+                <example type="incorrect">No tenen res millor <marker>que</marker> fer que anar a caçar bolets.</example>
+                <example type="correct">No hi ha res millor que fer un canvi.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ANAR_A_INFINITIU" name="anar a + infintiu" default="off">
