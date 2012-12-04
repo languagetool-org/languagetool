@@ -43,7 +43,6 @@ import org.languagetool.tagging.en.EnglishTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.Tokenizer;
-import org.languagetool.tokenizers.en.EnglishWordTokenizer;
 
 public class English extends Language {
 
@@ -92,14 +91,6 @@ public class English extends Language {
       tagger = new EnglishTagger();
     }
     return tagger;
-  }
-
-  @Override
-  public final Tokenizer getWordTokenizer() {
-    if (wordTokenizer == null) {
-      wordTokenizer = new EnglishWordTokenizer();
-    }
-    return wordTokenizer;
   }
 
   @Override

@@ -8321,9 +8321,11 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
         </rule>
         <rule id="WRONG_APOSTROPHE" name="shouldn´t">
             <pattern>
-                <token regexp="yes">(ain|aren|can|couldn|didn|doesn|don|hadn|hasn|haven|isn|mayn|mightn|mustn|needn|oughtn|shan|shouldn|wasn|weren|won|wouldn)(´|`)t</token>
+                <token regexp="yes">(ain|aren|can|couldn|didn|doesn|don|hadn|hasn|haven|isn|mayn|mightn|mustn|needn|oughtn|shan|shouldn|wasn|weren|won|wouldn)</token>
+                <token regexp="yes">(´|`)</token>
+                <token>t</token>
             </pattern>
-            <message>You used an accent character instead of an apostrophe. Please use either <suggestion><match no="1" regexp_match="´|`" regexp_replace="'"></match></suggestion> or <suggestion><match no="1" regexp_match="´|`" regexp_replace="’"></match></suggestion>.</message>
+            <message>You used an accent character instead of an apostrophe. Please use either <suggestion>\1'\3</suggestion> or <suggestion>\1’\3</suggestion>.</message>
             <short>Accent character misused as apostrophe</short>
             <example correction="shouldn't|shouldn’t" type="incorrect">You <marker>shouldn´t</marker> do it!</example>
             <example type="correct">You shouldn't do it!</example>

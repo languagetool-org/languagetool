@@ -28,6 +28,7 @@ import org.languagetool.tokenizers.Tokenizer;
  * Tokenizes a sentence into words. Punctuation and whitespace gets its own token.
  * 
  * @author Daniel Naber
+ * @deprecated use {@link org.languagetool.tokenizers.WordTokenizer} instead (deprecated since 2.0)
  */
 public class EnglishWordTokenizer implements Tokenizer {
 
