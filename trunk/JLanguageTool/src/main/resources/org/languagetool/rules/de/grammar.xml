@@ -8731,8 +8731,7 @@ $Id$
                     <token postag="SENT_START"/>
                     <token>Sehr</token>
                     <marker>
-                        <token regexp="yes">geehrt.*<exception>geehrter</exception>
-                        </token>
+                        <token regexp="yes">geehrt.*<exception>geehrter</exception></token>
                     </marker>
                     <token>Herr</token>
                 </pattern>
@@ -8748,8 +8747,7 @@ $Id$
                     <token postag="SENT_START"/>
                     <token>Sehr</token>
                     <marker>
-                        <token regexp="yes">geehrt.*<exception>geehrte</exception>
-                        </token>
+                        <token regexp="yes">geehrt.*<exception>geehrte</exception></token>
                     </marker>
                     <token regexp="yes">Frau|Damen</token>
                 </pattern>
@@ -9083,7 +9081,7 @@ $Id$
                 <token>Sehr</token>
                 <token regexp="yes">geehrt.+</token>
                 <token regexp="yes">Frau|Herr</token>
-                <token regexp="yes">[A-ZÄÖÜ][a-zäöüß]+</token>
+                <token regexp="yes">[A-ZÄÖÜ][a-zäöüßáàâêéèëíìîïòóôõûçñšž]+</token>
                 <token regexp="yes">(\-|\.|:|\!|;)</token>
             </pattern>
             <message>Nach der Anredeformel sollte ein Komma stehen: <suggestion>\2 \3 \4 \5,</suggestion></message>
@@ -9098,20 +9096,25 @@ $Id$
     <!-- ====================================================================== -->
     <category name="Groß-/Kleinschreibung">
         <rulegroup id="IMPORTIEREN_SUBST" name="Groß-/Kleinschreibung: 'das importieren (Importieren)' etc.">
-            <!-- Jan: TODO: wenn möglich verallgemeinern auf alle Verben im Infinitiv: "Das Löschen der Dateien" etc. -->
+            <!-- Jan: Die Regel ist jetzt verallgemeinert auf alle Verben im Infinitiv: "Das Löschen der Dateien" etc. Getestet auf 2000 Wikipedia-Artikeln. -->
+            <!-- Jan: TODO: Umbenennen?! Gehört jetzt eher allgemein zu subst. Verben. -->
+            <!-- Jan: TODO: Zweite Teilregel auch verallgemeinern. -->
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[Dd]as|[Dd]em</token>
                     <marker>
-                        <token regexp="yes">exportieren|importieren</token>
+                        <!-- OLD VERSION: <token regexp="yes">exportieren|importieren</token> -->
+                        <token postag="VER:INF:.+" postag_regexp="yes" regexp="yes">[a-zäöüß]+<exception postag="ADJ:GEN:SIN:.+" postag_regexp="yes"/><exception regexp="yes">einen|einigen|sieben</exception></token>
                     </marker>
-                    <token postag=".*:GEN:.*" postag_regexp="yes"/>
+                    <token postag=".*:GEN:.*" postag_regexp="yes"><exception postag="SUB:NOM:.+" postag_regexp="yes"/></token>
                 </pattern>
-                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion> hier als substantiviertes Verb gebraucht und dementsprechend großgeschrieben werden muss.</message>
                 <short>&prgk;.</short>
                 <example type="correct">Durch das <marker>Importieren</marker> der Klassen ist es möglich, auf die Funktionen zuzugreifen.</example>
                 <example type="correct">Du musst das <marker>importieren</marker>, damit du die Funktion benutzen kannst.</example>
                 <example type="incorrect" correction="Importieren">Durch das <marker>importieren</marker> der Klassen ist es möglich, auf die Funktionen zuzugreifen.</example>
+                <example type="incorrect" correction="Löschen">Das <marker>löschen</marker> der temporären Dateien ist empfehlenswert.</example>
+                <example type="incorrect" correction="Berühren">Das <marker>berühren</marker> der Figüren mit den Pfoten ist verboten.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -21507,7 +21510,7 @@ $Id$
                         <token spacebefore="no">&lt;</token>
                     </marker>
                 </pattern>
-                <message>Wollen Sie statt Größer-/Kleiner-Zeichen französische Anführungszeichen verwenden? Vorschlag: <suggestion>›<match no="2" include_skipped="all"/>‹</suggestion></message>
+                <message>Wollen Sie statt Größer-/Kleiner-Zeichen einfache französische Anführungszeichen verwenden? Vorschlag: <suggestion>›<match no="2" include_skipped="all"/>‹</suggestion></message>
                 <short>Größer-/Kleiner-Zeichen statt frz. Anführungszeichen?</short>
                 <example type="correct">Das ist eine <marker>›tolle‹</marker> Sache.</example>
                 <example type="incorrect" correction="›tolle‹">Das ist eine <marker>&gt;tolle&lt;</marker> Sache.</example>
@@ -21522,7 +21525,7 @@ $Id$
                         <token spacebefore="no">&lt;</token>
                     </marker>
                 </pattern>
-                <message>Wollen Sie statt Größer-/Kleiner-Zeichen französische Anführungszeichen verwenden? Vorschlag: <suggestion>»<match no="3" include_skipped="all"/>«</suggestion></message>
+                <message>Wollen Sie statt Größer-/Kleiner-Zeichen doppelte französische Anführungszeichen verwenden? Vorschlag: <suggestion>»<match no="3" include_skipped="all"/>«</suggestion></message>
                 <short>Größer-/Kleiner-Zeichen statt frz. Anführungszeichen?</short>
                 <example type="correct">Das ist eine <marker>»tolle«</marker> Sache.</example>
                 <example type="incorrect" correction="»tolle«">Das ist eine <marker>&gt;&gt;tolle&lt;&lt;</marker> Sache.</example>
