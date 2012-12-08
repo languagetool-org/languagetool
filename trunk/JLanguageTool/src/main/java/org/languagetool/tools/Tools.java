@@ -43,6 +43,7 @@ import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.bitext.BitextRule;
 import org.languagetool.rules.patterns.PatternRule;
+import org.languagetool.rules.patterns.bitext.BitextPatternRule;
 import org.languagetool.rules.patterns.bitext.BitextPatternRuleLoader;
 import org.languagetool.rules.patterns.bitext.FalseFriendsAsBitextLoader;
 import org.languagetool.tools.StringTools.XmlPrintMode;
@@ -57,16 +58,13 @@ public final class Tools {
   }
 
   /**
-   * Tags text using the LanguageTool tagger.
+   * Tags text using the LanguageTool tagger, printing results to System.out.
    * 
-   * @param contents
-   *          Text to tag.
-   * @param lt
-   *          LanguageTool instance
+   * @param contents Text to tag.
+   * @param lt LanguageTool instance
    * @throws IOException
    */
-  public static void tagText(final String contents, final JLanguageTool lt)
-  throws IOException {
+  public static void tagText(final String contents, final JLanguageTool lt) throws IOException {
     AnalyzedSentence analyzedText;
     final List<String> sentences = lt.sentenceTokenize(contents);
     for (final String sentence : sentences) {
@@ -75,13 +73,11 @@ public final class Tools {
     }
   }
 
-  public static int checkText(final String contents, final JLanguageTool lt)
-  throws IOException {
+  public static int checkText(final String contents, final JLanguageTool lt) throws IOException {
     return checkText(contents, lt, false, -1, 0, 0, StringTools.XmlPrintMode.NORMAL_XML);
   }
 
-  public static int checkText(final String contents, final JLanguageTool lt, final int lineOffset)
-  throws IOException {
+  public static int checkText(final String contents, final JLanguageTool lt, final int lineOffset) throws IOException {
     return checkText(contents, lt, false, -1, lineOffset, 0, StringTools.XmlPrintMode.NORMAL_XML);
   }
 
@@ -93,22 +89,14 @@ public final class Tools {
   /**
    * Check the given text and print results to System.out.
    * 
-   * @param contents
-   *          a text to check (may be more than one sentence)
-   * @param lt
-   *        Initialized LanguageTool
-   * @param apiFormat
-   *          whether to print the result in a simple XML format
-   * @param contextSize
-   *          error text context size: -1 for default
-   * @param lineOffset
-   *          line number offset to be added to line numbers in matches
-   * @param prevMatches
-   *          number of previously matched rules
-   * @param xmlMode
-   *          mode of xml printout for simple xml output
-   * @return
-   *      Number of rule matches to the input text.
+   * @param contents a text to check (may be more than one sentence)
+   * @param lt Initialized LanguageTool
+   * @param apiFormat whether to print the result in XML format
+   * @param contextSize error text context size: -1 for default
+   * @param lineOffset line number offset to be added to line numbers in matches
+   * @param prevMatches number of previously matched rules
+   * @param xmlMode mode of xml printout for simple xml output
+   * @return Number of rule matches to the input text.
    * @throws IOException
    */
   public static int checkText(final String contents, final JLanguageTool lt,
@@ -234,14 +222,13 @@ public final class Tools {
             0, 1, 1, trg);
     }
     if (apiFormat) {
-      final String xml = StringTools.ruleMatchesToXML(ruleMatches, trg,
-          contextSize, xmlMode);
+      final String xml = StringTools.ruleMatchesToXML(ruleMatches, trg, contextSize, xmlMode);
       final PrintStream out = new PrintStream(System.out, true, "UTF-8");
       out.print(xml);
     } else {
       printMatches(ruleMatches, 0, trg, contextSize);
     }
-    //display stats if it's not in a buffered mode
+    //display stats if it's not in a buffered mode:
     if (xmlMode == StringTools.XmlPrintMode.NORMAL_XML) {
       displayTimeStats(startTime, srcLt.getSentenceCount(), apiFormat);
     }
@@ -303,7 +290,7 @@ public final class Tools {
           matchCount += fixedMatches.size();
         }
       }
-    sentCount++;
+      sentCount++;
     }       
     displayTimeStats(startTime, sentCount, apiFormat);
     if (apiFormat) {
@@ -331,8 +318,7 @@ public final class Tools {
       final List<BitextRule> bRules) throws IOException {
    final AnalyzedSentence srcText = srcLt.getAnalyzedSentence(src);
    final AnalyzedSentence trgText = trgLt.getAnalyzedSentence(trg);
-   final List<RuleMatch> ruleMatches = trgLt.checkAnalyzedSentence
-     (JLanguageTool.ParagraphHandling.NORMAL,
+   final List<RuleMatch> ruleMatches = trgLt.checkAnalyzedSentence(JLanguageTool.ParagraphHandling.NORMAL,
       trgLt.getAllRules(), 0, 0, 1, trg, trgText);     
     for (BitextRule bRule : bRules) {     
       final RuleMatch[] curMatch = bRule.match(srcText, trgText);
@@ -346,6 +332,7 @@ public final class Tools {
   
   /** 
    * Gets default bitext rules for a given pair of languages
+   *
    * @param source  Source language.
    * @param target  Target language.
    * @return  List of Bitext rules
@@ -364,14 +351,13 @@ public final class Tools {
       bRules.addAll(ruleLoader.getRules(is, name));
     }
     
-    //load the false friend rules in the bitext mode
+    //load the false friend rules in the bitext mode:
     final FalseFriendsAsBitextLoader fRuleLoader = new FalseFriendsAsBitextLoader();
-    final String fName = "/false-friends.xml";
-    bRules.addAll(fRuleLoader.
-    getFalseFriendsAsBitext(fName,
-        source, target));    
+    final String falseFriendsFile = "/false-friends.xml";
+    final List<BitextPatternRule> rules = fRuleLoader.getFalseFriendsAsBitext(falseFriendsFile, source, target);
+    bRules.addAll(rules);
 
-    //load Java bitext rules
+    //load Java bitext rules:
     // TODO: get ResourceBundle for possible parameters for rules
     bRules.addAll(getAllBuiltinBitextRules(source, null));
     return bRules;
@@ -422,9 +408,10 @@ public final class Tools {
   
   /**
    * Simple rule profiler - used to run LT on a corpus to see which
-   * rule takes most time.
-   * @param contents - text to check 
-   * @param lt - instance of LanguageTool
+   * rule takes most time. Prints results to System.out.
+   *
+   * @param contents text to check
+   * @param lt instance of LanguageTool
    * @throws IOException
    */
   public static void profileRulesOnText(final String contents, 
@@ -464,28 +451,26 @@ public final class Tools {
       count += rule.match(lt.getAnalyzedSentence(sentence)).length ;
     }
     return count;
-  } 
-  
+  }
+
   public static long median(long[] m) {
     final int middle = m.length / 2;  // subscript of middle element
     if (m.length % 2 == 1) {
-        // Odd number of elements -- return the middle one.
-        return m[middle];
-    } 
-      return (m[middle-1] + m[middle]) / 2;
+      // Odd number of elements -- return the middle one.
+      return m[middle];
     }
+    return (m[middle-1] + m[middle]) / 2;
+  }
 
   /**
-   *  Automatically applies suggestions to the text.
-   *  Note: if there is more than one suggestion, always the first
-   *  one is applied, and others ignored silently.
+   * Automatically applies suggestions to the text, as suggested
+   * by the rules that match.
+   * Note: if there is more than one suggestion, always the first
+   * one is applied, and others ignored silently.
    *
-   *  @param
-   *    contents - String to be corrected
-   *  @param
-   *    lt - Initialized LanguageTool object
-   *  @return
-   *    Corrected text as String.
+   * @param contents String to be corrected
+   * @param lt Initialized LanguageTool object
+   * @return Corrected text as String.
    */
   public static String correctText(final String contents, final JLanguageTool lt) throws IOException {
     final List<RuleMatch> ruleMatches = lt.check(contents);
@@ -496,18 +481,15 @@ public final class Tools {
   }
   
   /**
-   *  Automatically applies suggestions to the bilingual text.
-   *  Note: if there is more than one suggestion, always the first
-   *  one is applied, and others ignored silently.
+   * Automatically applies suggestions to the bilingual text.
+   * Note: if there is more than one suggestion, always the first
+   * one is applied, and others ignored silently.
+   * Prints results to System.out.
    *
-   *  @param   
-   *    reader - a bitext file reader
-   *  @param
-   *    sourceLt Initialized source JLanguageTool object
-   *  @param
-   *    targetLt Initialized target JLanguageTool object
-   *  @param
-   *    bRules  List of all BitextRules to use     
+   * @param reader a bitext file reader
+   * @param sourceLt Initialized source JLanguageTool object
+   * @param targetLt Initialized target JLanguageTool object
+   * @param bRules  List of all BitextRules to use
    */  
   public static void correctBitext(final BitextReader reader,
       final JLanguageTool sourceLt, final JLanguageTool targetLt,
@@ -527,8 +509,7 @@ public final class Tools {
                 reader.getCurrentLine()));
       }
       if (fixedMatches.size() > 0) {
-        System.out.println(correctTextFromMatches(srcAndTrg.getTarget(), 
-            fixedMatches));        
+        System.out.println(correctTextFromMatches(srcAndTrg.getTarget(), fixedMatches));
       } else {
         System.out.println(srcAndTrg.getTarget());
       }
@@ -588,27 +569,32 @@ public final class Tools {
     }
     return is;
   }
-  
-  public static void selectRules(final JLanguageTool lt, final String[] disabledRules, final String[] enabledRules) {
-	    // disable rules that are disabled explicitly:
-	    for (final String disabledRule : disabledRules) {
-	      lt.disableRule(disabledRule);
-	    }
-	    // disable all rules except those enabled explicitly, if any:
-	    if (enabledRules.length > 0) {
-	      final Set<String> enabledRuleIDs = new HashSet<String>(Arrays
-	          .asList(enabledRules));
-	      for (String ruleName : enabledRuleIDs) {
-	        lt.enableDefaultOffRule(ruleName);
-	        lt.enableRule(ruleName);
-	      }
-	      for (Rule rule : lt.getAllRules()) {
-	        if (!enabledRuleIDs.contains(rule.getId())) {
-	          lt.disableRule(rule.getId());
-	        }
-	      }
-	    }
-	  }
 
+  /**
+   * Enable and disable rules of the given LanguageTool instance.
+   *
+   * @param lt LanguageTool object
+   * @param disabledRules ids of the rules to be disabled
+   * @param enabledRules ids of the rules to be enabled
+   */
+  public static void selectRules(final JLanguageTool lt, final String[] disabledRules, final String[] enabledRules) {
+    // disable rules that are disabled explicitly:
+    for (final String disabledRule : disabledRules) {
+      lt.disableRule(disabledRule);
+    }
+    // disable all rules except those enabled explicitly, if any:
+    if (enabledRules.length > 0) {
+      final Set<String> enabledRuleIDs = new HashSet<String>(Arrays.asList(enabledRules));
+      for (String ruleName : enabledRuleIDs) {
+        lt.enableDefaultOffRule(ruleName);
+        lt.enableRule(ruleName);
+      }
+      for (Rule rule : lt.getAllRules()) {
+        if (!enabledRuleIDs.contains(rule.getId())) {
+          lt.disableRule(rule.getId());
+        }
+      }
+    }
+  }
 
 }
