@@ -18,9 +18,9 @@
  */
 package org.languagetool.gui;
 
-import java.awt.Event;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.util.ResourceBundle;
 
@@ -65,44 +65,44 @@ class MainMenuBar extends JMenuBar implements ActionListener {
     helpMenu.setMnemonic(getMnemonic("guiMenuHelp"));
     // "Open":
     final JMenuItem openItem = new JMenuItem(openText);
-    openItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, Event.CTRL_MASK));
+    openItem.setAccelerator(getCtrlKeyStroke(KeyEvent.VK_O));
     openItem.setMnemonic(getMnemonic("guiMenuOpen"));
     openItem.addActionListener(this);
     fileMenu.add(openItem);
     // "Check Text in Clipboard":
     final JMenuItem checkClipboardItem = new JMenuItem(checkClipboardText);
-    checkClipboardItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Y, Event.CTRL_MASK));
+    checkClipboardItem.setAccelerator(getCtrlKeyStroke(KeyEvent.VK_Y));
     checkClipboardItem.setMnemonic(getMnemonic("guiMenuCheckClipboard"));
     checkClipboardItem.addActionListener(this);
     fileMenu.add(checkClipboardItem);
     // "Hide to System Tray":
     final JMenuItem dockToTrayItem = new JMenuItem(dockToTrayText);
     dockToTrayItem.setMnemonic(getMnemonic("guiMenuHide"));
-    dockToTrayItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, Event.CTRL_MASK));
+    dockToTrayItem.setAccelerator(getCtrlKeyStroke(KeyEvent.VK_D));
     dockToTrayItem.addActionListener(this);
     fileMenu.add(dockToTrayItem);
     // "Add Language":
     final JMenuItem addLanguageItem = new JMenuItem(addLanguageText);
     addLanguageItem.setMnemonic(getMnemonic("guiMenuAddRules"));
-    addLanguageItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, Event.CTRL_MASK));
+    addLanguageItem.setAccelerator(getCtrlKeyStroke(KeyEvent.VK_A));
     addLanguageItem.addActionListener(this);
     fileMenu.add(addLanguageItem);
     // "Tag Text"
     final JMenuItem tagItem = new JMenuItem(tagText);
     tagItem.addActionListener(this);
     tagItem.setMnemonic(getMnemonic("guiTagText"));
-    tagItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, Event.CTRL_MASK));
+    tagItem.setAccelerator(getCtrlKeyStroke(KeyEvent.VK_T));
     fileMenu.add(tagItem);
     // "Options":
     final JMenuItem optionsItem = new JMenuItem(optionsText);
     optionsItem.setMnemonic(getMnemonic("guiMenuOptions"));
-    optionsItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Event.CTRL_MASK));
+    optionsItem.setAccelerator(getCtrlKeyStroke(KeyEvent.VK_S));
     optionsItem.addActionListener(this);
     fileMenu.add(optionsItem);
     // "Quit":
     final JMenuItem quitItem = new JMenuItem(quitText);
     quitItem.setMnemonic(getMnemonic("guiMenuQuit"));
-    quitItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, Event.CTRL_MASK));
+    quitItem.setAccelerator(getCtrlKeyStroke(KeyEvent.VK_Q));
     quitItem.addActionListener(this);
     fileMenu.add(quitItem);
     // "About":
@@ -129,6 +129,10 @@ class MainMenuBar extends JMenuBar implements ActionListener {
     quitText = getLabel("guiMenuQuit");
     // Help:
     aboutText = getLabel("guiMenuAbout");
+  }
+
+  private KeyStroke getCtrlKeyStroke(int keyEvent) {
+    return KeyStroke.getKeyStroke(keyEvent, InputEvent.CTRL_MASK);
   }
 
   private char getMnemonic(String key) {
