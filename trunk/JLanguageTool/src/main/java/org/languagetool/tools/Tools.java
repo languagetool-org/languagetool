@@ -171,7 +171,7 @@ public final class Tools {
     int i = 1;
     for (final RuleMatch match : ruleMatches) {
       String output = i + prevMatches + ".) Line " + (match.getLine() + 1) + ", column "
-      + match.getColumn() + ", Rule ID: " + match.getRule().getId();
+        + match.getColumn() + ", Rule ID: " + match.getRule().getId();
       if (match.getRule() instanceof PatternRule) {
         final PatternRule pRule = (PatternRule) match.getRule();
         output += "[" + pRule.getSubId() + "]";
@@ -553,10 +553,8 @@ public final class Tools {
       if (!replacements.isEmpty()) {
         //make sure the error hasn't been already corrected:
         if (errors.get(counter).equals(sb.substring(rm.getFromPos() - offset, rm.getToPos() - offset))) {
-          sb.replace(rm.getFromPos() - offset,
-              rm.getToPos() - offset, replacements.get(0));
-          offset += (rm.getToPos() - rm.getFromPos())
-          - replacements.get(0).length();
+          sb.replace(rm.getFromPos() - offset, rm.getToPos() - offset, replacements.get(0));
+          offset += (rm.getToPos() - rm.getFromPos()) - replacements.get(0).length();
         }
         counter++;
       }
@@ -577,7 +575,6 @@ public final class Tools {
   /**
    * Load a file form the classpath using getResourceAsStream().
    * 
-   * @param filename
    * @return the stream of the file
    * @throws IOException
    */
