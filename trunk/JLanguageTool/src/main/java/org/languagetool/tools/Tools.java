@@ -433,7 +433,6 @@ public final class Tools {
         final long endTime = System.currentTimeMillis();
         workTime[k] = endTime - startTime;
       }
-      Arrays.sort(workTime);
       final long time = median(workTime);
       final float timeInSeconds = time / 1000.0f;
       final float sentencesPerSecond = sentences.size() / timeInSeconds;
@@ -443,23 +442,24 @@ public final class Tools {
       System.out.println();
     }
   }
-  
-  public static int profileRulesOnLine(final String contents, 
-      final JLanguageTool lt, final Rule rule) throws IOException {
-    int count = 0;  
-    for (final String sentence : lt.sentenceTokenize(contents)) {
-      count += rule.match(lt.getAnalyzedSentence(sentence)).length ;
-    }
-    return count;
-  }
 
-  public static long median(long[] m) {
+  private static long median(long[] m) {
+    Arrays.sort(m);
     final int middle = m.length / 2;  // subscript of middle element
     if (m.length % 2 == 1) {
       // Odd number of elements -- return the middle one.
       return m[middle];
     }
     return (m[middle-1] + m[middle]) / 2;
+  }
+
+  public static int profileRulesOnLine(final String contents,
+      final JLanguageTool lt, final Rule rule) throws IOException {
+    int count = 0;
+    for (final String sentence : lt.sentenceTokenize(contents)) {
+      count += rule.match(lt.getAnalyzedSentence(sentence)).length ;
+    }
+    return count;
   }
 
   /**
