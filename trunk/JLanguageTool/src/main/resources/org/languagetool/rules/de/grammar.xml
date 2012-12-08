@@ -3399,6 +3399,37 @@ $Id$
                 <example type="correct">Ich erstarrte zur <marker>Salzsäule</marker>.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="SICHTWEISE_SICHTWEITE" name="Mögliche Wortverwechslung: Sichtweise/Sichtweite">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[Ii]n|[aA]ußer</token>
+                    <marker>
+                        <token>Sichtweise</token>
+                    </marker>
+                </pattern>
+                <message>&verw;Meinten Sie <suggestion>Sichtweite</suggestion>? (Sichtweise = Perspektive; Sichtweite = Entfernung, aus der man etwas noch sehen kann)</message>
+                <short>Mögliche Wortverwechslung</short>
+                <example type="incorrect" correction="Sichtweite">Wir blieben in <marker>Sichtweise</marker>.</example>
+                <example type="incorrect" correction="Sichtweite">Das Dorf kam bald in <marker>Sichtweise</marker>.</example>
+                <example type="incorrect" correction="Sichtweite">Das Dorf war bald außer <marker>Sichtweise</marker>.</example>
+                <example type="correct">Wir blieben in <marker>Sichtweite</marker>.</example>
+                <example type="correct">Das ist deine <marker>Sichtweise</marker> der Dinge.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[sS]ubjektiven?</token>
+                    <marker>
+                        <token regexp="yes">Sichtweiten?</token>
+                    </marker>
+                </pattern>
+                <message>&verw;Meinten Sie <suggestion><match no="2" regexp_match="weite" regexp_replace="weise"/></suggestion>? (Sichtweise = Perspektive; Sichtweite = Entfernung, aus der man etwas noch sehen kann)</message>
+                <short>Mögliche Wortverwechslung</short>
+                <example type="correct">Wir blieben in <marker>Sichtweite</marker>.</example>
+                <example type="correct">Das ist deine subjektive <marker>Sichtweise</marker>.</example>
+                <example type="incorrect" correction="Sichtweise">Das ist deine subjektive <marker>Sichtweite</marker>.</example>
+                <example type="incorrect" correction="Sichtweise">Das ist eine sehr subjektive <marker>Sichtweite</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="UHRZEIT_URZEIT" name="Mögliche Wortverwechslung: Uhrzeit/Urzeit">
             <rule>
                 <pattern case_sensitive="yes">
