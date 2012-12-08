@@ -34,39 +34,37 @@ LanguageTool Change Log
  -English:
   -uses the same word tokenizer again as other European languages
 
- -OpenOffice/LibreOffice: Fixed ConcurrentModificationException (Sourceforge bug #3572536)
+ -OpenOffice/LibreOffice integration:
+  -Fixed ConcurrentModificationException (Sourceforge bug #3572536)
 
- -API: Language.getLanguageForShortName() now consistently throws an exception
-  if the given language code is not known
+ -stand-alone GUI:
+  -the tray icon menu (reachable with the right mouse button on the tray
+   icon) now has a checkbox to enable the embedded HTTP server
+  -the tray icon will show a small "S" symbol when the server is running
+  -fixed bug "Tray icon too big sometimes" (Sourceforge #3573078)
 
- -API: Tools.median() is now private (it was accidentally made public)
+ -API:
+  -Language.getLanguageForShortName() now consistently throws an exception
+   if the given language code is not known
+  -Tools.median() is now private (it was accidentally made public)
+  -the Java API of HTTPServer has been modified in incompatible ways. You might get
+   compile errors if you have used this class from your Java code.
 
- -HTTP API: the XML we return now contains a new attribute "locqualityissuetype", which
-  is the "Localization Quality Issue Type" in the upcoming Internationalization Tag Set (ITS)
-  Version 2.0 standard from W3C. This means errors are now categorized according to
-  a standard, additionally to LanguageTool's own categories. Useful values are only
-  returned for English for now.
-  *** Please consider this to be a prototypical implementation for now ***
-  For the values and their meanings, please see
-  http://www.w3.org/International/multilingualweb/lt/drafts/its20/its20.html#lqissue-typevalues.
-  For rule developers: specify this using the new 'type' attribute. It is
-  inherited from category to rulegroup, and from rulegroup to rule. If a rule also
-  has the 'type' it overwrites the rulegroup's and category's 'type'.
-
- -HTTP API: support for auto-detecting text language (parameter autodetect=1)
-
- -HTTP API: added HTTPSServer, a lightweight embedded HTTPS server which works like HTTPServer
-  but supports SSL encryption. This server supports *only* https, not http.
-
- -HTTP API: the Java API of HTTPServer has been modified in incompatible ways. You might get
-  compile errors if you have used this class from your Java code.
-
- -stand-alone GUI: the tray icon menu (reachable with the right mouse button on the tray
-  icon) now has a checkbox to enable the embedded HTTP server
-
- -stand-alone GUI: the tray icon will show a small "S" symbol when the server is running
-
- -stand-alone GUI: Fixed bug "Tray icon too big sometimes" (Sourceforge #3573078)
+ -HTTP API:
+  -support for auto-detecting text language (parameter autodetect=1)
+  -added HTTPSServer, a lightweight embedded HTTPS server which works like HTTPServer
+   but supports SSL encryption. This server supports *only* https, not http.
+  -the XML we return now contains a new attribute "locqualityissuetype", which
+   is the "Localization Quality Issue Type" in the upcoming Internationalization Tag Set (ITS)
+   Version 2.0 standard from W3C. This means errors are now categorized according to
+   a standard, additionally to LanguageTool's own categories. Useful values are only
+   returned for English for now.
+   *** Please consider this to be a prototypical implementation for now ***
+   For the values and their meanings, please see
+   http://www.w3.org/International/multilingualweb/lt/drafts/its20/its20.html#lqissue-typevalues.
+   For rule developers: specify this using the new 'type' attribute. It is
+   inherited from category to rulegroup, and from rulegroup to rule. If a rule also
+   has the 'type' it overwrites the rulegroup's and category's 'type'.
 
 
 1.9 (2012-09-30)
