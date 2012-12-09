@@ -43,6 +43,7 @@ public class GermanSRXSentenceTokenizerTest extends TestCase {
     testSplit("Das Schreiben ist auf den 31.1. datiert.");
     testSplit("Das Schreiben ist auf den 3.10.2000 datiert.");
     testSplit("Natürliche Vererbungsprozesse prägten sich erst im 18. und frühen 19. Jahrhundert aus.");
+    testSplit("Das ist ja 1a. ", "Und das auch.");
 
     testSplit("Friedrich I., auch bekannt als Friedrich der Große.");
     testSplit("Friedrich II., auch bekannt als Friedrich der Große.");
