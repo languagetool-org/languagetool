@@ -1178,6 +1178,18 @@ $Id$
                 <example type="correct">Vaig rebre una trucada de la llevadora dient-me que estava en un altre part.</example>
                 <example type="correct">Ha afegit que ahir hi va haver un altre part múltiple al mateix hospital.</example>
             </rule>
+            <rule id="EDITORIAL" name="editorial (m/f)">
+                <pattern>
+                    <token skip="5" regexp="yes" inflected="yes">defensar|expressar|publicar|rebre|enviar|consensuar|acordar|escriure|redactar|fer|llegir|firmar|signar</token>
+                    <marker>
+                        <token postag="_GN_F.*" postag_regexp="yes" regexp="yes">editorials?<exception postag="_GN_M.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>En el sentit de 'article de fons' és masculí. En el sentit de 'empresa editora' és femení.</message>
+                <short>Possible error de concordança</short>
+                <example type="incorrect">Vaig llegir aquella <marker>editorial</marker> horrorosa</example>
+                <example type="correct">Vaig llegir l'editorial</example>
+            </rule>
         </rulegroup>
         <rulegroup id="CONCORDANCES_ADJECTIUS_NEUTRES" name="concordances amb adjectius neutres">
             <rule>
@@ -1360,7 +1372,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="SENT_START|PUNCT.*" postag_regexp="yes" skip="-1"><exception scope="next" postag="P0.{6}|PP3..A00|PP3CP000" postag_regexp="yes" /></token>
+                    <token postag="SENT_START|_PUNCT.*" postag_regexp="yes" skip="-1"><exception scope="next" postag="P0.{6}|PP3..A00|PP3CP000" postag_regexp="yes" /></token>
                     <token postag="VA.*" postag_regexp="yes"/>
                     <marker>
                         <token postag="V.P.*" postag_regexp="yes" inflected="yes">adormir</token>
@@ -1375,7 +1387,7 @@ $Id$
             </rule>
              <rule>
                 <pattern>
-                    <token postag="SENT_START|PUNCT.*" postag_regexp="yes" skip="-1"><exception scope="next" postag="P0.{6}|PP3..A00|PP3CP000" postag_regexp="yes" /></token>
+                    <token postag="SENT_START|_PUNCT.*" postag_regexp="yes" skip="-1"><exception scope="next" postag="P0.{6}|PP3..A00|PP3CP000" postag_regexp="yes" /></token>
                     <marker>
                         <token postag="V.[^P].*" postag_regexp="yes" inflected="yes">adormir</token>
                     </marker>
@@ -1403,7 +1415,7 @@ $Id$
         <rulegroup id="VERBS_PRONOMINALS" name="verbs reflexius: desperta't"> 
             <rule>
                 <pattern>
-                    <token postag="SENT_START|PUNCT.*" postag_regexp="yes" skip="-1"><exception scope="next" postag="P0.{6}|PP3..A00|PP3CP000" postag_regexp="yes" /></token>
+                    <token postag="SENT_START|_PUNCT.*" postag_regexp="yes" skip="-1"><exception scope="next" postag="P0.{6}|PP3..A00|PP3CP000" postag_regexp="yes" /></token>
                     <token postag="VA.*" postag_regexp="yes"/>
                     <marker>
                         <token postag="V.P.*" postag_regexp="yes" inflected="yes">despertar</token>
@@ -1419,7 +1431,7 @@ $Id$
             </rule>
              <rule>
                 <pattern>
-                    <token postag="SENT_START|PUNCT.*" postag_regexp="yes" skip="-1"><exception scope="next" postag="P0.{6}|PP3..A00|PP3CP000" postag_regexp="yes" /></token>
+                    <token postag="SENT_START|_PUNCT.*" postag_regexp="yes" skip="-1"><exception scope="next" postag="P0.{6}|PP3..A00|PP3CP000" postag_regexp="yes" /></token>
                     <marker>
                         <token postag="V.[^P].*" postag_regexp="yes" inflected="yes">despertar</token>
                     </marker>
@@ -2743,7 +2755,7 @@ $Id$
                     </marker>
                     <token postag="N.*" postag_regexp="yes"><exception postag="A.*|V.P.*" postag_regexp="yes"/></token>
                 </pattern>
-                <message>Davant de nom cal escriure <suggestion>tant</suggestion>.</message>
+                <message>Davant de nom cal escriure <suggestion>tant</suggestion>, <suggestion>tant de</suggestion> o <suggestion>tant d'</suggestion>.</message>
                 <short>Confusió.</short>
                 <example type="incorrect">Fa <marker>tan</marker> vent!</example>
                 <example type="correct">Fa tant vent!</example>
@@ -3090,7 +3102,7 @@ $Id$
             <pattern>
                 <token><exception postag="V.[SI].*|_GV_" postag_regexp="yes" inflected="yes" regexp="yes">ser|estar|anar|quedar|restar</exception></token>
                 <marker>
-                <token skip="3">conforme<exception postag="PUNCT.*" postag_regexp="yes" scope="next"/><exception postag="_GN_.*" postag_regexp="yes"/></token>
+                <token skip="3">conforme<exception postag="_PUNCT.*" postag_regexp="yes" scope="next"/><exception postag="_GN_.*" postag_regexp="yes"/></token>
                 </marker>
                 <token postag="V.[SI].*|_GV_" postag_regexp="yes"/>
             </pattern>
@@ -3236,7 +3248,7 @@ $Id$
                     <marker>
                         <token skip="-1">quan<exception postag="V.[SI].*" postag_regexp="yes" scope="next"/><exception regexp="yes" scope="next">.*[=&lt;&gt;].*</exception></token>
                     </marker>
-                    <token postag="PUNCT.*" postag_regexp="yes" skip="-1"/>
+                    <token postag="_PUNCT.*" postag_regexp="yes" skip="-1"/>
                     <token postag="V.[SI].*" postag_regexp="yes" skip="-1"><exception postag="V.[SI].*" postag_regexp="yes" scope="next"/></token>
                     <token postag="SENT_END"/>
                 </pattern>
@@ -3310,7 +3322,7 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token skip="1">sota</token>
+                        <token skip="2" regexp="yes">sota|baix</token>
                     </marker>
                     <token regexp="yes">excusa|claus?</token>
                 </pattern>
@@ -3321,7 +3333,7 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token skip="2">sota</token>
+                        <token skip="2" regexp="yes">sota|baix</token>
                     </marker>
                     <token regexp="yes">perspectiva|visió|opinió</token>
                 </pattern>
@@ -3332,7 +3344,7 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token skip="2">sota</token>
+                        <token skip="2" regexp="yes">sota|baix</token>
                     </marker>
                     <token>punt</token>
                     <token>de</token>
@@ -3444,7 +3456,7 @@ $Id$
             </rule>
             <rule id="MALGRAT_MALGRAT_TOT" name="malgrat / malgrat tot">
                 <pattern>
-                    <token postag="SENT_START|PUNCT.*" postag_regexp="yes"/>
+                    <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
                     <token>malgrat</token>
                     <token>,</token>
                 </pattern>
@@ -4215,7 +4227,7 @@ $Id$
                         <token>en</token>
                         <token>relació<exception postag="_GN_FS"/></token>
                     </marker>
-                    <token><exception regexp="yes">a|amb|entre|de</exception><exception postag="PUNCT.*" postag_regexp="yes"/></token>
+                    <token><exception regexp="yes">a|amb|entre|de</exception><exception postag="_PUNCT.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>en relació amb</suggestion>, <suggestion>en relació a</suggestion>?</message>
                 <short>Possible confusió</short>
@@ -5131,7 +5143,7 @@ $Id$
                         <token>si<exception scope="previous">com</exception></token>
                         <token skip="-1">no<exception postag="V.[MSI].*" postag_regexp="yes" scope="next"/></token>
                     </marker>
-                    <token postag="SENT_END|PUNCT.*" postag_regexp="yes"></token>
+                    <token postag="SENT_END|_PUNCT.*" postag_regexp="yes"></token>
                 </pattern>
                 <message>Cal escriure: <suggestion>sinó</suggestion>.</message>
                 <short>Possible confusió</short>
@@ -5149,7 +5161,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="V.M.*" postag_regexp="yes" skip="3"><exception postag="V.I.*|_GN_.*" postag_regexp="yes"/><exception scope="next" postag="PUNCT.*|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|SENT_END|CC" postag_regexp="yes" negate_pos="yes"/></token>
+                    <token postag="V.M.*" postag_regexp="yes" skip="3"><exception postag="V.I.*|_GN_.*" postag_regexp="yes"/><exception scope="next" postag="_PUNCT.*|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|SENT_END|CC" postag_regexp="yes" negate_pos="yes"/></token>
                     <marker>
                         <token>sinó</token>
                     </marker>
@@ -5410,19 +5422,23 @@ $Id$
                 <example type="correct">Per a ell sí.</example>
             </rule> -->
         </rulegroup>   
-        <rule id="ELEMENTS_REPETITS" name="elements repetits: ja...ja, no...no">
+        <!-- <rule id="ELEMENTS_REPETITS" name="elements repetits: ja...ja, no...no">
             <pattern>
-                <token skip="15" regexp="yes">ja|no|vaig|vas|va|vam|vàrem|vau|vàreu|van<exception scope="next" postag="PUNCT.*|PR.*|PT.*|DT.*|.*LOC_CONJ.*|C.*" postag_regexp="yes"/></token>
-                <token><match no="0"/></token>
+                <token postag="SENT_START" skip="-1"><exception scope="next" postag="PR.*|PT.*|DT.*|.*LOC_CONJ.*|C.*" postag_regexp="yes"/></token>
+                <token><exception>que</exception></token>
+                <token skip="15" regexp="yes">ja|no|vaig|vas|va|vam|vàrem|vau|vàreu|van<exception scope="next" postag="_PUNCT.*|PR.*|PT.*|DT.*|.*LOC_CONJ.*|C.*" postag_regexp="yes"/></token>
+                <marker>
+                    <token><match no="1"/></token>
+                </marker>
             </pattern>
             <message>Atenció: element repetit.</message>
             <short>Element repetit</short>
-            <example type="incorrect"><marker>Ja hi érem tots ja</marker>.</example>
-            <example type="incorrect">que <marker>va també va</marker> recordar la trajectòria editorial</example>
+            <example type="incorrect">Ja hi érem tots <marker>ja</marker>.</example>
+            <example type="incorrect">va també <marker>va</marker> recordar la trajectòria editorial</example>
             <example type="correct">van cantar i van riure</example>
             <example type="correct">Ja hi érem tots, ja.</example>
             <example type="correct">No podia ser que no escoltessin.</example>            
-        </rule> 
+        </rule> --> 
 <!--         <rulegroup id="paraula_repetida" name="Revisa: paraula repetida." default="off">
             Cal restringir la regla a un grup de paraules: mai, mateix,
             <rule>
@@ -5993,6 +6009,18 @@ $Id$
                 <example type="correct">aquell son fou reparador</example>
                 <example type="correct">aquella son era irresistible</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>son<exception postag="_GN_.S" postag_regexp="yes"/></token>
+                    </marker>
+                    <token regexp="yes">de|d'</token>
+                </pattern>
+                <message>Si és del verb 'ser', cal accentuar: <suggestion>són</suggestion>.</message>
+                <short>Accent diacrític.</short>
+                <example type="incorrect" correction="són">Les temperatures mitjanes <marker>son</marker> de 15 i 16ºC.</example>
+                <example type="correct">una restricció sostinguda del son de quatre hores al dia</example>
+            </rule>
         </rulegroup>
         <rulegroup id="PEL_PELS" name="pel/pèl">
             <rule>
@@ -6071,7 +6099,7 @@ $Id$
                         <token>pe</token>
                         <token regexp="yes">ls?</token>
                     </marker>
-                    <token postag="PUNCT.*|SPS00|RG" postag_regexp="yes"><exception regexp="yes">["'«“\[]|de|d'|\p{Lu}.+|damunt|fins</exception><exception postag="RG_anteposat|AQ.*|_GN_M." postag_regexp="yes"/></token>
+                    <token postag="_PUNCT.*|SPS00|RG" postag_regexp="yes"><exception regexp="yes">["'«“\[]|de|d'|\p{Lu}.+|damunt|fins</exception><exception postag="RG_anteposat|AQ.*|_GN_M." postag_regexp="yes"/></token>
                 </pattern>
                 <message>Si és nom, cal accentuar-lo: <suggestion>pè<match no="2"/></suggestion>. Potser és <suggestion>per als</suggestion>, <suggestion>per</suggestion>.</message>
                 <example type="incorrect">Ell no té <marker>pels</marker> a la llengua.</example>
@@ -6482,7 +6510,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="SENT_START|PUNCT.*" postag_regexp="yes"/>
+                    <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
                     <marker>
                         <token>si<exception postag="_GN_MS"/></token>
                     </marker>
@@ -6519,11 +6547,11 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="DA.*" postag_regexp="yes"></token>
+                    <token postag="DA0MS0"/>
                     <marker>
                         <token>mes</token>
                     </marker>
-                    <token postag="A.*|V.P.*" postag_regexp="yes"><exception regexp="yes">vinent|propvinent|passat|proppassat|intercalar|anterior|següent</exception></token>
+                    <token postag="A..[MC][SN0].*|V.P..SM|PX.[MC][SN0].*" postag_regexp="yes"><exception regexp="yes">vinent|propvinent|passat|proppassat|intercalar|anterior|següent</exception></token>
                 </pattern>
                 <message>S'accentua quan és adjectiu o adverbi: <suggestion>més</suggestion>.</message>
                 <short>Accent diacrític.</short>
@@ -6534,6 +6562,45 @@ $Id$
                 <example type="correct">El mes anterior s'havia celebrat</example> 
                 <example type="correct">al mes següent se li va aplica</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="DA0FS0"/>
+                    <marker>
+                        <token>mes</token>
+                    </marker>
+                    <token postag="A..[FC][SN0].*|V.P..SF|PX.[FC][SN0].*" postag_regexp="yes"></token>
+                </pattern>
+                <message>S'accentua quan és adjectiu o adverbi: <suggestion>més</suggestion>.</message>
+                <short>Accent diacrític.</short>
+                <example type="incorrect">La <marker>mes</marker> valenta és ella.</example>
+                <example type="correct">La més valenta és ella.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="DA0MP0"/>
+                    <marker>
+                        <token>mes</token>
+                    </marker>
+                    <token postag="A..[MC][PN0].*|V.P..PM|PX.[MC][PN0].*" postag_regexp="yes"></token>
+                </pattern>
+                <message>S'accentua quan és adjectiu o adverbi: <suggestion>més</suggestion>.</message>
+                <short>Accent diacrític.</short>
+                <example type="incorrect">Els <marker>mes</marker> valents són ells.</example>
+                <example type="correct">Els més valents són ells.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="DA0FP0"/>
+                    <marker>
+                        <token>mes</token>
+                    </marker>
+                    <token postag="A..[FC][PN0].*|V.P..PF|PX.[FC][PN0].*" postag_regexp="yes"></token>
+                </pattern>
+                <message>S'accentua quan és adjectiu o adverbi: <suggestion>més</suggestion>.</message>
+                <short>Accent diacrític.</short>
+                <example type="incorrect">Les <marker>mes</marker> valentes són elles.</example>
+                <example type="correct">Les més valentes són elles.</example>
+            </rule>    
             <rule>
                 <pattern>
                     <token><exception regexp="yes">cada|un|altre|algun|cert</exception></token>
@@ -7081,13 +7148,28 @@ $Id$
                     <marker>
                         <token postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"><exception postag="allow_saxon_genitive">'s</exception><exception>te</exception></token>
                     </marker>
-                    <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|V.[SI].*" postag_regexp="yes"/></token>
+                    <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|V.[SI].*" postag_regexp="yes"/><exception regexp="yes">["‘“«]</exception></token>
                 </pattern>
                 <message>Pronom feble solt.</message>
                 <short>Pronom feble solt.</short>
                 <example type="incorrect">Aquí <marker>et</marker> no pots quedar.</example>
                 <example type="correct">Aquí no et pots quedar.</example>
+                <example type="correct">si no es "deterioren"</example>
                 <example type="correct">Les famoses Christie's i Sotheby's britàniques</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|V.[MNG].*" postag_regexp="yes"/></token>
+                    <marker>
+                        <token postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"><exception postag="allow_saxon_genitive">'s</exception><exception>te</exception></token>
+                    </marker>
+                    <token regexp="yes">["‘“«]</token>
+                    <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|V.[SI].*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Pronom feble solt.</message>
+                <short>Pronom feble solt.</short>
+                <example type="incorrect">Aquí <marker>et</marker> "no pots quedar".</example>
+                <example type="correct">Aquí no es "deterioren".</example>
             </rule>
             <rule>
                 <pattern>
@@ -7451,7 +7533,7 @@ $Id$
                     </marker>
                     <token postag="P.*" postag_regexp="yes"><exception postag="SENT_END"/></token>
                 </pattern>
-                <message>aaaaCal usar la forma plena: <suggestion><match no="2" regexp_match="[Ee]([^e])" regexp_replace="$1e"></match></suggestion>.</message>
+                <message>Cal usar la forma plena: <suggestion><match no="2" regexp_match="[Ee]([^e])" regexp_replace="$1e"></match></suggestion>.</message>
                 <short>Cal usar la forma plena.</short>
                 <example type="incorrect">Això <marker>es</marker> t'omple.</example>
                 <example type="correct">Això <marker>se</marker> t'omple de gent.</example>
@@ -8541,25 +8623,57 @@ $Id$
         <rulegroup id="ACABAR_AMB" name="acabar amb">
             <rule>
                 <pattern>
-                    <token skip="2" inflected="yes">acabar</token>
-                    <token skip="7">amb</token>
-                    <token regexp="yes" inflected="yes">abús|frau|plaga|pesta</token>
+                    <marker>
+                        <token skip="2" inflected="yes">acabar</token>
+                        <token skip="7">amb</token>
+                    </marker>
+                    <token regexp="yes" inflected="yes">abús|frau|plaga|pesta|infecció</token>
                 </pattern>
                 <message>Expressió incorrecta si vol dir: <suggestion>(posar fi a)</suggestion>, <suggestion>(eliminar)</suggestion>, <suggestion>(destruir)</suggestion>, <suggestion>(acabar)</suggestion>, <suggestion>(desfer)</suggestion>, <suggestion>(acabar)</suggestion>, <suggestion>(fer acabar)</suggestion>, <suggestion>(acabar)</suggestion>, <suggestion>(fer cessar)</suggestion>, <suggestion>(acabar)</suggestion>, <suggestion>(exterminar)</suggestion>, <suggestion>(acabar)</suggestion>, <suggestion>(aniquilar)</suggestion></message>
                 <short>Expressió incorrecta</short>
-                <example type="incorrect">Cal <marker>acabar amb els abusos</marker>.</example>
+                <example type="incorrect">Cal <marker>acabar amb</marker> els abusos.</example>
                 <example type="correct">Cal posar fi als abusos.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token skip="2" inflected="yes">acabar</token>
-                    <token>amb</token>
+                    <marker>
+                        <token skip="2" inflected="yes">acabar</token>
+                        <token>amb</token>
+                    </marker>
                     <token regexp="yes" inflected="yes">això|açò|allò</token>
                 </pattern>
                 <message>Expressió incorrecta si vol dir: <suggestion>(posar fi a)</suggestion>, <suggestion>(eliminar)</suggestion>, <suggestion>(destruir)</suggestion>, <suggestion>(acabar)</suggestion>, <suggestion>(desfer)</suggestion>, <suggestion>(acabar)</suggestion>, <suggestion>(fer acabar)</suggestion>, <suggestion>(acabar)</suggestion>, <suggestion>(fer cessar)</suggestion>, <suggestion>(acabar)</suggestion>, <suggestion>(exterminar)</suggestion>, <suggestion>(acabar)</suggestion>, <suggestion>(aniquilar)</suggestion></message>
                 <short>Expressió incorrecta</short>
-                <example type="incorrect">Cal <marker>acabar immediatament amb això</marker>.</example>
+                <example type="incorrect">Cal <marker>acabar immediatament amb</marker> això.</example>
                 <example type="correct">Cal posar-hi fi.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" inflected="yes">prou|necessari|indispensable</token>
+                    <token skip="1">per</token>
+                    <marker>
+                        <token skip="2" inflected="yes">acabar</token>
+                        <token>amb</token>
+                    </marker>
+                </pattern>
+                <message>Expressió incorrecta si vol dir: <suggestion>(posar fi a)</suggestion>, <suggestion>(eliminar)</suggestion>, <suggestion>(destruir)</suggestion>, <suggestion>(acabar)</suggestion>, <suggestion>(desfer)</suggestion>, <suggestion>(acabar)</suggestion>, <suggestion>(fer acabar)</suggestion>, <suggestion>(acabar)</suggestion>, <suggestion>(fer cessar)</suggestion>, <suggestion>(acabar)</suggestion>, <suggestion>(exterminar)</suggestion>, <suggestion>(acabar)</suggestion>, <suggestion>(aniquilar)</suggestion></message>
+                <short>Expressió incorrecta</short>
+                <example type="incorrect">És necessari per a <marker>acabar immediatament amb</marker> el problema.</example>
+                <example type="correct">Cal posar-hi fi.</example>
+            </rule>
+            <rule>
+                <pattern> 
+                    <token><exception inflected="yes" regexp="yes">portar|acostumar</exception></token>
+                    <token>a</token>
+                    <marker>
+                        <token>acabar</token>
+                        <token>amb</token>
+                    </marker>
+                </pattern>
+                <message>Expressió incorrecta si vol dir: <suggestion>(posar fi a)</suggestion>, <suggestion>(eliminar)</suggestion>, <suggestion>(destruir)</suggestion>, <suggestion>(acabar)</suggestion>, <suggestion>(desfer)</suggestion>, <suggestion>(acabar)</suggestion>, <suggestion>(fer acabar)</suggestion>, <suggestion>(acabar)</suggestion>, <suggestion>(fer cessar)</suggestion>, <suggestion>(acabar)</suggestion>, <suggestion>(exterminar)</suggestion>, <suggestion>(acabar)</suggestion>, <suggestion>(aniquilar)</suggestion></message>
+                <short>Expressió incorrecta</short>
+                <example type="incorrect">Va contribuir a <marker>acabar amb</marker> el problema.</example>
+                <example type="correct">acostuma a acabar amb un fort plaer</example>
             </rule>
         </rulegroup>
         <rule id="FER_UN_LLEIG" name="fer un lleig">
@@ -8764,7 +8878,7 @@ $Id$
                     <token>un</token>
                     <token>tant</token>
                 </marker>
-                <token><exception regexp="yes">cada|alçat|per</exception><exception postag="SENT_END|PUNCT.*" postag_regexp="yes"/></token>
+                <token><exception regexp="yes">cada|alçat|per</exception><exception postag="SENT_END|_PUNCT.*" postag_regexp="yes"/></token>
             </pattern>
             <message>Cal dir: <suggestion>una mica</suggestion>, <suggestion>més o menys</suggestion>, <suggestion>més aviat</suggestion>, <suggestion>poc o molt</suggestion>, <suggestion>un pèl</suggestion>.</message>
             <example type="incorrect"><marker>un tant</marker> tímid.</example>
@@ -10086,7 +10200,7 @@ $Id$
         </rulegroup>    
         <rule id="DE_TOTES_FORMES" name="de totes formes">
             <pattern>
-                <token postag="SENT_START|PUNCT.*" postag_regexp="yes"/>
+                <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
                 <marker>
                     <token>de</token>
                     <token>totes</token>
@@ -10342,12 +10456,12 @@ $Id$
         <rule id="ES_A_DIR" name="es a dir">
         <!-- No estan prevists tots els casos -->
             <pattern>
-                <token postag="PUNCT.*|SENT_START" postag_regexp="yes"/>
+                <token postag="_PUNCT.*|SENT_START" postag_regexp="yes"/>
                 <marker>
                     <token>és</token>
                     <token>dir</token>
                 </marker>
-                <token postag="PUNCT.*" postag_regexp="yes"/>
+                <token postag="_PUNCT.*" postag_regexp="yes"/>
             </pattern>
             <message>¿Volíeu dir <suggestion>és a dir</suggestion>?</message>
             <example type="incorrect"><marker>És dir</marker>, ha tingut un paper dins els costums religiosos</example>
@@ -10722,13 +10836,13 @@ $Id$
         </rule>
         <rule id="PEL_CONTRARI" name="pel contrari">
             <pattern>
-                <token postag="PUNCT.*|SENT_START" postag_regexp="yes"/>
+                <token postag="_PUNCT.*|SENT_START" postag_regexp="yes"/>
                 <marker>
                     <token>pe</token>
                     <token spacebefore="no">l</token>
                     <token>contrari</token>
                 </marker>
-                <!-- <token postag="PUNCT.*" postag_regexp="yes"/> -->
+                <!-- <token postag="_PUNCT.*" postag_regexp="yes"/> -->
             </pattern>
             <message>Cal dir: <suggestion>al contrari</suggestion>, <suggestion>altrament</suggestion>, <suggestion>si no</suggestion>, <suggestion>per contra</suggestion>, <suggestion>en canvi</suggestion>.</message>
             <short>Expressió incorrecta</short>
@@ -10737,13 +10851,13 @@ $Id$
         </rule>
         <rule id="DEL_CONTRARI" name="del contrari">
             <pattern>
-                <token postag="PUNCT.*|SENT_START" postag_regexp="yes"/>
+                <token postag="_PUNCT.*|SENT_START" postag_regexp="yes"/>
                 <marker>
                     <token>de</token>
                     <token spacebefore="no">l</token>
                     <token>contrari</token>
                 </marker>
-                <!-- <token postag="PUNCT.*" postag_regexp="yes"/> -->
+                <!-- <token postag="_PUNCT.*" postag_regexp="yes"/> -->
             </pattern>
             <message>Cal dir: <suggestion>altrament</suggestion>, <suggestion>en cas contrari</suggestion>, <suggestion>si no</suggestion>, <suggestion>d'altra manera</suggestion>.</message>
             <short>Expressió incorrecta</short>
@@ -10951,7 +11065,7 @@ $Id$
                         <token regexp="yes">quant?</token>
                         <token>abans</token>
                     </marker>
-                    <token><exception postag="SENT_END|PUNCT.*" postag_regexp="yes"/></token>
+                    <token><exception postag="SENT_END|_PUNCT.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Cal dir <suggestion>com més aviat</suggestion>.</message>
                 <short>Expressió incorrecta</short>
@@ -10964,7 +11078,7 @@ $Id$
                         <token regexp="yes">quant?</token>
                         <token>abans</token>
                     </marker>
-                    <token postag="SENT_END|PUNCT.*" postag_regexp="yes"/>
+                    <token postag="SENT_END|_PUNCT.*" postag_regexp="yes"/>
                 </pattern>
                 <message>Cal dir <suggestion>com més aviat millor</suggestion>, <suggestion>tan aviat com puguis</suggestion>.</message>
                 <short>Expressió incorrecta</short>
@@ -10974,7 +11088,7 @@ $Id$
         </rulegroup>
         <rule id="QUAN_MENYS" name="quan menys">
             <pattern>
-                <token postag="SENT_START|PUNCT.*" postag_regexp="yes"/>
+                <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
                 <marker>
                     <token>quan</token>
                     <token>menys</token>
@@ -11201,7 +11315,7 @@ $Id$
         </rule>
         <rule id="VAGI_PER_ENDAVANT" name="*Vagi per (en)davant que">
             <pattern>
-                <token postag="SENT_START|PUNCT.*" postag_regexp="yes"/>
+                <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
                 <token regexp="yes">vagi|vaja</token>
                 <token>per</token>
                 <token regexp="yes">davant|endavant</token>
@@ -11311,7 +11425,7 @@ $Id$
         </rule>
         <rule id="A_TOT_AIXO" name="*A tot això,">
             <pattern>
-                <token postag="SENT_START|PUNCT.*" postag_regexp="yes"/>
+                <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
                 <marker>
                     <token>a</token>
                     <token>tot</token>
@@ -11541,7 +11655,7 @@ $Id$
         <rule id="NO_ORDRE_INCORRECTE" name=" ordre incorrecte: *a no... sinó a / no a... sinó a ">
             <pattern>
                 <marker>
-                    <token><exception>que</exception><exception postag="SENT_START|PUNCT.*" postag_regexp="yes"/></token>
+                    <token><exception>que</exception><exception postag="SENT_START|_PUNCT.*" postag_regexp="yes"/></token>
                     <token skip="-1">no<exception postag="repeated_negation"/></token>
                 </marker>
                 <token>sinó</token>
@@ -11570,7 +11684,7 @@ $Id$
         </rule>
         <rule id="HI_HAVIA_UNA_VEGADA" name="*Hi havia una vegada / Una vegada hi havia">
             <pattern>
-                <token postag="SENT_START|PUNCT.*" postag_regexp="yes"/>
+                <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
                 <token>hi</token>
                 <token>havia</token>
                 <token>una</token>
@@ -11617,7 +11731,15 @@ $Id$
     
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
-
+        
+        <rule id="PORGAR_PURGAR" name="porgar/purgar">
+            <pattern>
+                <token inflected="yes">porgar</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="po(.+)" regexp_replace="pu$1"/></suggestion> (sentits més habituals) en comptes de "<match no="1"/>" (sentits menys habituals)?</message>
+            <example type="incorrect" correction="purgar">Cal <marker>porgar</marker>-lo.</example>
+            <example type="correct">purgar</example>
+        </rule>      
         <rule id="ESTELA" name="estela">
             <pattern>
                 <marker>
@@ -11634,7 +11756,7 @@ $Id$
         <rulegroup id="LIDERAT_LIDERATGE" name="liderat/lideratge, filtrat/filtratge...">
             <rule>
                 <pattern>
-                    <token><exception postag="RG_anteposat|N.*|CC|PUNCT.*" postag_regexp="yes"/><exception inflected="yes">tenir</exception></token>
+                    <token><exception postag="RG_anteposat|N.*|CC|_PUNCT.*" postag_regexp="yes"/><exception inflected="yes">tenir</exception></token>
                     <marker>
                         <token regexp="yes">etiquetats?|liderats?|filtrats?|empaquetats?|equilibrats?|embotellats?<exception postag="_GV_" /></token>
                     </marker>
@@ -11661,7 +11783,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token><exception postag="RG_anteposat|N.*|CC|PUNCT.*" postag_regexp="yes"/><exception inflected="yes">tenir</exception></token>
+                    <token><exception postag="RG_anteposat|N.*|CC|_PUNCT.*" postag_regexp="yes"/><exception inflected="yes">tenir</exception></token>
                     <marker>
                         <token regexp="yes">emmotll?at<exception postag="_GV_|_GN_MS" postag_regexp="yes"/></token>
                     </marker>
@@ -11673,7 +11795,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token><exception postag="RG_anteposat|N.*|CC|PUNCT.*" postag_regexp="yes"/><exception inflected="yes">tenir</exception></token>
+                    <token><exception postag="RG_anteposat|N.*|CC|_PUNCT.*" postag_regexp="yes"/><exception inflected="yes">tenir</exception></token>
                     <marker>
                         <token>processat<exception postag="_GV_" /></token>
                     </marker>
@@ -11886,7 +12008,45 @@ $Id$
                 <example type="correct">les teves corregudes del cap de setmana</example>
             </rule>       
         </rulegroup>
-        <rulegroup id="COMPLEXES" name="complexes/complexos, reflexes/refelxos, fixes/fixos">
+        <rulegroup id="REFLEXAR" name="*reflexa/reflecteix, reflexes/reflecteixes">
+            <rule>
+                <pattern>
+                    <token regexp="yes">que|no</token>
+                    <marker>
+                        <token regexp="yes">reflexa|reflexes</token>
+                    </marker>
+                </pattern>
+                <message>Si és verb, cal dir <suggestion><match no="2" postag="AQ0F(.)0" postag_regexp="yes" postag_replace="VMIP3$10">reflectir</match></suggestion>.</message>
+                <short>Possible error</short>
+                <example type="incorrect">el riu no <marker>reflexa</marker> res</example>
+                <example type="correct">És una reacció reflexa.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="RG_anteposat"/>
+                    <marker>
+                        <token regexp="yes">reflexa|reflexes</token>
+                    </marker>
+                </pattern>
+                <message>Si és verb, cal dir <suggestion><match no="2" postag="AQ0F(.)0" postag_regexp="yes" postag_replace="VMIP3$10">reflectir</match></suggestion>.</message>
+                <short>Possible error</short>
+                <example type="incorrect">immediatament <marker>reflexa</marker> en la pantalla</example>
+                <example type="correct">És una reacció reflexa.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">reflexa|reflexes</token>
+                    </marker>
+                    <token postag="_GN_.*|N.*" postag_regexp="yes"></token>
+                </pattern>
+                <message>Si és verb, cal dir <suggestion><match no="1" postag="AQ0F(.)0" postag_regexp="yes" postag_replace="VMIP3$10">reflectir</match></suggestion>.</message>
+                <short>Possible error</short>
+                <example type="incorrect">la freqüència <marker>reflexa</marker> el fet</example>
+                <example type="correct">És una reacció reflexa.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="COMPLEXES" name="complexes/complexos, reflexes/reflexos, fixes/fixos">
             <rule>
                 <pattern>
                     <token postag="V.*" postag_regexp="yes">complexes<exception postag="AQ.*" postag_regexp="yes"/></token>
@@ -12391,7 +12551,7 @@ $Id$
         <rulegroup id="A_L_ACTUALITAT" name="a l'actualitat">
             <rule>
                 <pattern>
-                    <token postag="SENT_START|PUNCT.*" postag_regexp="yes" skip="-1"><exception regexp="yes" scope="next">de|d'</exception></token>
+                    <token postag="SENT_START|_PUNCT.*" postag_regexp="yes" skip="-1"><exception regexp="yes" scope="next">de|d'</exception></token>
                     <marker>
                         <token>a<exception scope="previous" regexp="yes">per|fins</exception><exception scope="previous" inflected="yes">tornar</exception></token>
                         <token>l'</token>
@@ -12643,7 +12803,7 @@ $Id$
         <rulegroup id="DESCONTENT" name="descontent (adj. no subst.)"> <!-- Però: el descontent = la persona descontenta -->
             <rule>
                 <pattern>
-                    <token><exception postag="N.*|RG|V.[MSI].*|_GV_|C[CS]|SENT_START|PUNCT.*|PR.*" postag_regexp="yes"/></token>
+                    <token><exception postag="N.*|RG|V.[MSI].*|_GV_|C[CS]|SENT_START|_PUNCT.*|PR.*" postag_regexp="yes"/></token>
                     <marker>
                         <token>descontent</token>
                     </marker>
@@ -12978,7 +13138,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="SENT_START|PUNCT.*|CC" postag_regexp="yes"/>
+                    <token postag="SENT_START|_PUNCT.*|CC" postag_regexp="yes"/>
                     <marker>
                         <token>més</token>
                         <token>bé</token>
@@ -12995,7 +13155,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="SENT_START|PUNCT.*" postag_regexp="yes"/>
+                    <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
                     <marker>
                         <token>més</token>
                         <token>bé</token>
@@ -13140,7 +13300,7 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token inflected="yes" skip="2">ratllar<exception scope="next" postag="PUNCT.*" postag_regexp="yes"/><exception postag="_GN_.*" postag_regexp="yes"/></token>
+                        <token inflected="yes" skip="2">ratllar<exception scope="next" postag="_PUNCT.*" postag_regexp="yes"/><exception postag="_GN_.*" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="NCFS000" regexp="yes">.+ència|.+ància|.+itat|.+etat|.+ió|.+úria|.+itud|.+etud|amenaça|majoria</token> <!--  noms abstractes -->
                 </pattern>
@@ -13152,7 +13312,7 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token inflected="yes" skip="2">ratllar<exception scope="next" postag="PUNCT.*" postag_regexp="yes"/><exception postag="_GN_.*" postag_regexp="yes"/></token>
+                        <token inflected="yes" skip="2">ratllar<exception scope="next" postag="_PUNCT.*" postag_regexp="yes"/><exception postag="_GN_.*" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="NCMS000" regexp="yes">insult|absurd</token> <!--  noms abstractes -->
                 </pattern>
@@ -13594,12 +13754,12 @@ $Id$
         </rulegroup>
         <rule id="AMB_MOLT" name="amb molt">
             <pattern>
-                <token postag="SENT_START|PUNCT.*" postag_regexp="yes"/>
+                <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
                 <marker>
                     <token>amb</token>
                     <token>molt</token>
                 </marker>
-                <token postag="PUNCT.*" postag_regexp="yes"/>
+                <token postag="_PUNCT.*" postag_regexp="yes"/>
             </pattern>
             <message>Val més dir: <suggestion>de molt</suggestion>, <suggestion>de bon tros</suggestion>.</message>
             <example type="incorrect">El productor més important són, <marker>amb molt</marker>, els Estats Units.</example>
@@ -13607,13 +13767,13 @@ $Id$
         </rule>
         <rule id="NI_MOLT_MENYS" name="ni molt menys/ni de bon tros">
             <pattern>
-                <token postag="SENT_START|PUNCT.*" postag_regexp="yes"></token>
+                <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"></token>
                 <marker>
                     <token>ni</token>
                     <token>molt</token>
                     <token>menys</token>
                 </marker>
-                <token postag="PUNCT.*" postag_regexp="yes"></token>
+                <token postag="_PUNCT.*" postag_regexp="yes"></token>
             </pattern>
             <message>Val més dir: <suggestion>ni de bon tros</suggestion>, <suggestion>ni de molt</suggestion>.</message>
             <example type="incorrect"><marker>ni molt menys</marker>!</example>
@@ -13935,7 +14095,7 @@ $Id$
                     <marker>
                         <token>acorde</token>
                     </marker>
-                    <token><exception postag="V.N.*|PUNCT.*" postag_regexp="yes"/></token>
+                    <token><exception postag="V.N.*|_PUNCT.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>'Acorde' no és adjectiu. Podeu dir: <suggestion>concorde</suggestion>, <suggestion>coincident</suggestion>, 
                     <suggestion>d'acord</suggestion>, <suggestion>a l'una</suggestion>.</message>
@@ -14583,7 +14743,7 @@ $Id$
         <rule id="JA_QUE" name="'ja que' va precedit de coma">
             <pattern>
                 <marker>
-                    <token><exception postag="SENT_START|PUNCT.*" postag_regexp="yes"/></token>
+                    <token><exception postag="SENT_START|_PUNCT.*" postag_regexp="yes"/></token>
                     <token>ja</token>
                     <token>que</token>
                 </marker>
@@ -14599,7 +14759,7 @@ $Id$
                 <marker>
                     <token>mi</token>
                 </marker>
-                <token><exception regexp="yes">major|menor|bemoll|sostingut|\d+|/</exception><exception postag="PUNCT.*" postag_regexp="yes"/></token>
+                <token><exception regexp="yes">major|menor|bemoll|sostingut|\d+|/</exception><exception postag="_PUNCT.*" postag_regexp="yes"/></token>
             </pattern>
             <message>Falta algun element: <suggestion>a mi</suggestion>, <suggestion>de mi</suggestion>, <suggestion>en mi</suggestion>, <suggestion>per mi</suggestion>, <suggestion>amb mi</suggestion>, <suggestion>m'hi</suggestion>...</message>
             <short>Falta algun element</short>
@@ -14667,7 +14827,7 @@ $Id$
                         <token>que<exception postag="comparatiu|relatiu|conjuncio" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="VMN.*" postag_regexp="yes"/>
-                    <token postag="SENT_END|PUNCT.*|comparatiu" postag_regexp="yes"/>
+                    <token postag="SENT_END|_PUNCT.*|comparatiu" postag_regexp="yes"/>
                 </pattern>
                 <message>Si 'que' no és comparatiu, cal escriure: <suggestion>a</suggestion>, <suggestion>per</suggestion>, <suggestion>per a</suggestion>.</message>
                 <short>Construcció incorrecta</short>
@@ -14729,7 +14889,66 @@ $Id$
                 <example type="correct">el poc instint d’observació</example>
             </rule>
         </rulegroup>
-        <rulegroup id="FALTA_ELEMENT" name="Falta un element entre verbs: hi ha una cosa *(que) és clara">
+        <rulegroup id="FALTA_ELEMENT_ENTRE_GN" name="Falta un element entre grups nominals" default="off">
+            <rule>
+                <pattern>
+                    <token><exception postag="SPS00"/><exception inflected="yes" regexp="yes">ser|considerar|anomerar</exception></token>
+                    <token><exception postag="SPS00|CC|NP.*" postag_regexp="yes"/><exception>com</exception><exception inflected="yes" regexp="yes">ser|considerar|anomerar</exception></token>
+                    <marker>
+                        <token postag="DA.*" postag_regexp="yes"/>
+                        <and>
+                            <token postag="NC.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">teatre|setmanari|òpera|revista|pel·lícula|poema|alto|llibre|documental|conte|novel·la|sintagma|mot|paraula|terme|expressió|vocable|nom|tipus|denominació|numeral</exception><exception regexp="yes" inflected="yes">endemà|any|dia|mes|setmana|gener|febrer|març|abril|maig|juny|juliol|agost|setembre|octubre|novembre|desembre|dilluns|dimarts|dimecres|dijous|divendres|dissabte|diumenge</exception></token>
+                            <token postag="_GN_.*" postag_regexp="yes"/>
+                        </and>
+                        <token postag="DA.*" postag_regexp="yes"/>
+                        <and>
+                            <token postag="NC.*" postag_regexp="yes"><exception regexp="yes" inflected="yes">endemà|any|dia|mes|setmana|gener|febrer|març|abril|maig|juny|juliol|agost|setembre|octubre|novembre|desembre|dilluns|dimarts|dimecres|dijous|divendres|dissabte|diumenge</exception></token>
+                            <token postag="_GN_.*" postag_regexp="yes"/>
+                        </and>
+                    </marker>
+                </pattern>
+                <message>Potser falta algun element entre grups nominals.</message>
+                <short>Falta algun element</short>
+                <example type="incorrect">m'arriba <marker>el traüt les coces</marker> del bestiar</example>
+                <example type="correct">m'arriba el traüt de les coces del bestiar</example>
+                <!--quan l'any següent es canviava el cultiu la terra es recuperava  
+                 igual com, a la mort del comte (1209), fou el rei el garant dels drets successoris
+                 És precisament l'estiu l'estació en què hi ha més contrast
+                 Tot plegat fa l'afrikaans la llengua materna d'un xic més de 6 milions 
+                 Els teoremes la prova dels quals inclou l'axioma
+                 es sap que no és l'aire l'agent causant de la malària
+                 És el verb l'element que marca la funció sintàctica
+                 en són l'excepció els parlars d'Artà, Capdepera i Felanitx
+                 Aprofitant l'anarquia el governador proclamà
+                 a Girona s'anomena La Copa l'espai destinat a
+                 es considera la ciutat el nucli d'influència d'altres poblacions
+                 ocupa el tron la reina Margarida II de Dinamarca 
+                  perquè només coneixien la llei els especialistes-->
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="DA.*" postag_regexp="yes"/>
+                        <and>
+                            <token postag="NC.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">teatre|setmanari|òpera|revista|pel·lícula|poema|alto|llibre|documental|conte|novel·la|sintagma|mot|paraula|terme|expressió|vocable|nom|tipus|denominació|numeral</exception><exception regexp="yes" inflected="yes">endemà|any|dia|mes|setmana|gener|febrer|març|abril|maig|juny|juliol|agost|setembre|octubre|novembre|desembre|dilluns|dimarts|dimecres|dijous|divendres|dissabte|diumenge</exception></token>
+                            <token postag="_GN_.*" postag_regexp="yes"/>
+                        </and>
+                        <token postag="DA.*" postag_regexp="yes"/>
+                        <and>
+                            <token postag="NC.*" postag_regexp="yes"><exception regexp="yes" inflected="yes">endemà|any|dia|mes|setmana|gener|febrer|març|abril|maig|juny|juliol|agost|setembre|octubre|novembre|desembre|dilluns|dimarts|dimecres|dijous|divendres|dissabte|diumenge</exception></token>
+                            <token postag="_GN_.*" postag_regexp="yes"/>
+                        </and>
+                    </marker>
+                </pattern>
+                <message>Potser falta algun element entre grups nominals.</message>
+                <short>Falta algun element</short>
+                <example type="incorrect"><marker>el traüt les coces</marker> del bestiar</example>
+                <example type="correct">m'arriba el traüt de les coces del bestiar</example>
+                <example type="correct">L'alto el foc no es va complir.</example>
+            </rule>    
+        </rulegroup>
+        <rulegroup id="FALTA_ELEMENT_ENTRE_VERBS" name="Falta un element entre verbs: hi ha una cosa *(que) és clara">
             <rule>
                 <pattern>
                     <token postag="SENT_START|CC" postag_regexp="yes" skip="-1"><exception postag="PR.*|PT.*|DT.*|.*LOC_CONJ.*|CS" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">perquè|com</exception></token>
@@ -14854,7 +15073,7 @@ $Id$
         </rulegroup>
         <rule id="DE_INFINITIU_CONDICIONAL" name="de + infinitiu condicional">
             <pattern>
-                <token postag="SENT_START|PUNCT.*" postag_regexp="yes"><exception regexp="yes">["']</exception></token>
+                <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"><exception regexp="yes">["']</exception></token>
                 <marker>
                     <token regexp="yes">de|d'</token>
                 </marker>

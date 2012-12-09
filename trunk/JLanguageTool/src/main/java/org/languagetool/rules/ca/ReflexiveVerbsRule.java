@@ -105,8 +105,8 @@ public class ReflexiveVerbsRule extends CatalanRule {
   private static final Pattern SUBJECTE_PERSONAL_POSTAG = Pattern.compile("NC.*|NP.*|_GN_.*|PI.*");
   private static final Pattern SUBJECTE_PERSONAL_NO_POSTAG = Pattern.compile("complement.*|D.*|A.*|PX.*");
   private static final Pattern SUBJECTE_PERSONAL_TOKEN = Pattern.compile("jo|mi|tu|ella?|nosaltres|vosaltres|elle?s|vost[èé]s?|vós",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-  private static final Pattern TRENCA_COMPTE = Pattern.compile("PR.*|CS|CC|PUNCT.*|.*LOC_CONJ.*");
-  private static final Pattern TRENCA_COMPTE2 = Pattern.compile("SENT_START|CC|PUNCT.*|.*LOC_CONJ.*");
+  private static final Pattern TRENCA_COMPTE = Pattern.compile("PR.*|CS|CC|_PUNCT.*|.*LOC_CONJ.*");
+  private static final Pattern TRENCA_COMPTE2 = Pattern.compile("SENT_START|CC|_PUNCT.*|.*LOC_CONJ.*");
   
  // <token postag="P0.*|PP.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/><exception regexp="yes">jo|mi|tu|ella?|nosaltres|vosaltres|elle?s|vost[èé]s?|vós</exception><exception postag="allow_saxon_genitive">'s</exception></token>
   

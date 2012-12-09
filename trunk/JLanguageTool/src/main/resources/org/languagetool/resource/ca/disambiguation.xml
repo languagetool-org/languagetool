@@ -27,13 +27,13 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <token regexp="yes">[.;:!?¡¿—–…()\[\]]</token>
             </pattern>
-            <disambig action="add"><wd pos="PUNCT"></wd></disambig>
+            <disambig action="add"><wd pos="_PUNCT"></wd></disambig>
         </rule>
         <rule id="PUNTUACIO2" name="signes de puntuació que no trenquen els sintagmes">
             <pattern>
                 <token regexp="yes">[,"‘’“”«»]</token>
             </pattern>
-            <disambig action="add"><wd pos="PUNCT_CONT"></wd></disambig>
+            <disambig action="add"><wd pos="_PUNCT_CONT"></wd></disambig>
         </rule>
         <rule id="coma_decimal" name="coma decimal">
             <pattern>
@@ -43,7 +43,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
                 <token spacebefore="no" regexp="yes">\d+</token>
             </pattern>
-            <disambig action="remove"><wd pos="PUNCT_CONT"></wd></disambig>
+            <disambig action="remove"><wd pos="_PUNCT_CONT"></wd></disambig>
         </rule>
         <rule id="coma_decimal2" name="coma decimal">
             <pattern>
@@ -577,7 +577,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <token><exception postag="NP..SP.*|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes" regexp="yes">[^'-].+</exception></token>
                 <marker>
-                    <token postag="V.I[PI]3S0*" postag_regexp="yes" inflected="yes" skip="12">fer<exception scope="next" regexp="yes">que|en</exception><exception scope="next" postag="PUNCT.*" postag_regexp="yes">,</exception><exception postag="V.*" postag_regexp="yes" scope="next"/></token>
+                    <token postag="V.I[PI]3S0*" postag_regexp="yes" inflected="yes" skip="12">fer<exception scope="next" regexp="yes">que|en</exception><exception scope="next" postag="_PUNCT.*" postag_regexp="yes">,</exception><exception postag="V.*" postag_regexp="yes" scope="next"/></token>
                 </marker>
                 <token regexp="yes">segons?|minuts?|hor(a|es)|di(a|es)|setman(a|es)|mes|mesos|(tri|quadri|se)mestres?|anys?|lustres?|dècad(a|es)|segles?|mil·lennis?|moments?|instants?|temps</token>
             </pattern>
@@ -778,27 +778,36 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="D.*" />
     </rule> -->
-    <rule id="nDet" name="no Determinant">
+    <rulegroup id="nDet" name="no Determinant">
         <!--  paraules comunes que no solen ser determinants gairebé mai -->
-        <pattern>
-            <marker>
-                <token regexp="yes">es|s'|so</token>
-            </marker>
-        </pattern>
-        <disambig>
-            <match no="1" postag_regexp="yes" postag="[^D].*"></match>
-        </disambig>
-    </rule>
-    <rule id="nDet2" name="no Determinant">
-        <!--  paraules comunes que no solen ser determinants gairebé mai -->
-        <pattern>
-            <marker>
-                <token inflected="yes">en</token>
-            </marker>
-            <token negate="yes" regexp="yes" inflected="yes">\p{Lu}\p{Ll}*</token>
-        </pattern>
-        <disambig><match no="1" postag_regexp="yes" postag="[^D].*"></match></disambig>
-    </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">es|s'|so</token>
+                </marker>
+            </pattern>
+            <disambig>
+                <match no="1" postag_regexp="yes" postag="[^D].*"></match>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>sa</token>
+                </marker>
+            </pattern>
+            <disambig action="remove"><wd pos="DA0FS0"></wd></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token inflected="yes">en</token>
+                </marker>
+                <token negate="yes" regexp="yes" inflected="yes">\p{Lu}\p{Ll}*</token>
+            </pattern>
+            <disambig><match no="1" postag_regexp="yes" postag="[^D].*"></match></disambig>
+        </rule>
+    </rulegroup>
     <rulegroup id="preposicions" name="preposicions: sobre, contra, en">
         <rule>
             <pattern>
@@ -1637,7 +1646,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <marker>
-                    <token inflected="yes" skip="5">haver<exception scope="next" postag="_GV_|PUNCT_CONT|P.*|R.*|.*LOC_ADV.*|V.*|SENT_END|[NAS].*|complement" postag_regexp="yes" negate_pos="yes"/></token>
+                    <token inflected="yes" skip="5">haver<exception scope="next" postag="_GV_|_PUNCT_CONT|P.*|R.*|.*LOC_ADV.*|V.*|SENT_END|[NAS].*|complement" postag_regexp="yes" negate_pos="yes"/></token>
                 </marker>
                 <token postag="V.P.*" postag_regexp="yes"></token>
             </pattern>
@@ -1645,7 +1654,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token inflected="yes" skip="5">haver<exception scope="next" postag="_GV_|PUNCT_CONT|P.*|R.*|.*LOC_ADV.*|V.*|SENT_END|[NAS].*|complement" postag_regexp="yes" negate_pos="yes"/></token>
+                <token inflected="yes" skip="5">haver<exception scope="next" postag="_GV_|_PUNCT_CONT|P.*|R.*|.*LOC_ADV.*|V.*|SENT_END|[NAS].*|complement" postag_regexp="yes" negate_pos="yes"/></token>
                 <marker>
                     <token postag="V.P.*" postag_regexp="yes"></token>
                 </marker>
@@ -1655,7 +1664,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <marker>
-                    <token inflected="yes" skip="5">haver<exception scope="next" postag="_GV_|PUNCT_CONT|P.*|R.*|.*LOC_ADV.*|V.*|SENT_END|[NAS].*|complement" postag_regexp="yes" negate_pos="yes"/></token>
+                    <token inflected="yes" skip="5">haver<exception scope="next" postag="_GV_|_PUNCT_CONT|P.*|R.*|.*LOC_ADV.*|V.*|SENT_END|[NAS].*|complement" postag_regexp="yes" negate_pos="yes"/></token>
                 </marker>
                 <token postag="V.P.*" postag_regexp="yes"></token>
             </pattern>
@@ -1663,7 +1672,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token inflected="yes" skip="5">haver<exception scope="next" postag="_GV_|PUNCT_CONT|P.*|R.*|.*LOC_ADV.*|V.*|SENT_END|[NAS].*|complement" postag_regexp="yes" negate_pos="yes"/></token>
+                <token inflected="yes" skip="5">haver<exception scope="next" postag="_GV_|_PUNCT_CONT|P.*|R.*|.*LOC_ADV.*|V.*|SENT_END|[NAS].*|complement" postag_regexp="yes" negate_pos="yes"/></token>
                 <marker>
                     <token postag="V.P.*" postag_regexp="yes"></token>
                 </marker>
@@ -1673,7 +1682,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         
        <!--  <rule>
             <pattern>
-                <token postag="VA.*" postag_regexp="yes" inflected="yes" skip="5">anar<exception scope="next" postag="_GV_|PUNCT_CONT|R.*|.*LOC_ADV.*|V.N.*|SENT_END|[NA].*|complement" postag_regexp="yes" negate_pos="yes"/></token>
+                <token postag="VA.*" postag_regexp="yes" inflected="yes" skip="5">anar<exception scope="next" postag="_GV_|_PUNCT_CONT|R.*|.*LOC_ADV.*|V.N.*|SENT_END|[NA].*|complement" postag_regexp="yes" negate_pos="yes"/></token>
                 <marker>
                     <token postag="V.N.*" postag_regexp="yes"></token>
                 </marker>
@@ -2555,7 +2564,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <marker>
-                    <token postag="VA.*" postag_regexp="yes" inflected="yes" skip="5">anar<exception scope="next" postag="_GV_|PUNCT_CONT|R.*|.*LOC_ADV.*|V.N.*|SENT_END|[NA].*|complement" postag_regexp="yes" negate_pos="yes"/></token>
+                    <token postag="VA.*" postag_regexp="yes" inflected="yes" skip="5">anar<exception scope="next" postag="_GV_|_PUNCT_CONT|R.*|.*LOC_ADV.*|V.N.*|SENT_END|[NA].*|complement" postag_regexp="yes" negate_pos="yes"/></token>
                 </marker>
                 <token postag="V.N.*" postag_regexp="yes"></token>
             </pattern>
@@ -2563,7 +2572,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token postag="VA.*" postag_regexp="yes" inflected="yes" skip="5">anar<exception scope="next" postag="_GV_|PUNCT_CONT|R.*|.*LOC_ADV.*|V.N.*|SENT_END|[NA].*|complement" postag_regexp="yes" negate_pos="yes"/></token>
+                <token postag="VA.*" postag_regexp="yes" inflected="yes" skip="5">anar<exception scope="next" postag="_GV_|_PUNCT_CONT|R.*|.*LOC_ADV.*|V.N.*|SENT_END|[NA].*|complement" postag_regexp="yes" negate_pos="yes"/></token>
                 <marker>
                     <token postag="V.N.*" postag_regexp="yes"></token>
                 </marker>
@@ -2573,7 +2582,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <marker>
-                    <token postag="VA.*" postag_regexp="yes" inflected="yes" skip="5">anar<exception scope="next" postag="_GV_|PUNCT_CONT|R.*|.*LOC_ADV.*|V.N.*|SENT_END|[NA].*|complement" postag_regexp="yes" negate_pos="yes"/></token>
+                    <token postag="VA.*" postag_regexp="yes" inflected="yes" skip="5">anar<exception scope="next" postag="_GV_|_PUNCT_CONT|R.*|.*LOC_ADV.*|V.N.*|SENT_END|[NA].*|complement" postag_regexp="yes" negate_pos="yes"/></token>
                 </marker>
                 <token postag="V.N.*" postag_regexp="yes"></token>
             </pattern>
@@ -2581,7 +2590,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token postag="VA.*" postag_regexp="yes" inflected="yes" skip="5">anar<exception scope="next" postag="_GV_|PUNCT_CONT|R.*|.*LOC_ADV.*|V.N.*|SENT_END|[NA].*|complement" postag_regexp="yes" negate_pos="yes"/></token>
+                <token postag="VA.*" postag_regexp="yes" inflected="yes" skip="5">anar<exception scope="next" postag="_GV_|_PUNCT_CONT|R.*|.*LOC_ADV.*|V.N.*|SENT_END|[NA].*|complement" postag_regexp="yes" negate_pos="yes"/></token>
                 <marker>
                     <token postag="V.N.*" postag_regexp="yes"></token>
                 </marker>
@@ -2841,7 +2850,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rule id="verbnom_sentstart" name="verb i nom a principi de frase">
         <!-- Copa del món, Rates de laboratori, Formes de vida... I objectes de valor -->
         <pattern>
-            <token postag="SENT_START|CC|PUNCT.*" postag_regexp="yes" />
+            <token postag="SENT_START|CC|_PUNCT.*" postag_regexp="yes" />
             <marker>
                 <and>
                     <token postag="V.[IS].*" postag_regexp="yes"></token>
@@ -4492,7 +4501,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule id="aa12" name="aa1"> <!-- ampliar a LOC_ADV -->
             <pattern>
                 <token postag="N.*|_GN_.*|RG.*|V.[SI].*|PI.*" postag_regexp="yes"></token>
-                <token postag="PUNCT.*" postag_regexp="yes"/>
+                <token postag="_PUNCT.*" postag_regexp="yes"/>
                 <marker>
                     <token postag="RG_anteposat"/>
                 </marker>
@@ -6039,7 +6048,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                         <token postag="NCMS.*" postag_regexp="yes"><exception regexp="yes">\p{Lu}.+</exception></token>
                     </and>
                 </marker>
-                <token><exception postag="PUNCT.*|CC|SPS00|AQ0[MC][SN]0|V.P.*SM|V.[SI].*|_GV_|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"/></token>   
+                <token><exception postag="_PUNCT.*|CC|SPS00|AQ0[MC][SN]0|V.P.*SM|V.[SI].*|_GV_|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"/></token>   
             </pattern>
             <disambig action="filter" postag="V.N.*" />
         </rule>
@@ -6926,7 +6935,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rulegroup id="interjeccio" name="interjeccions">
         <rule>
             <pattern>
-                <token postag="SENT_START|CC|PUNCT.*" postag_regexp="yes"></token>
+                <token postag="SENT_START|CC|_PUNCT.*" postag_regexp="yes"></token>
                 <marker>
                     <token>vaja</token>
                 </marker>
@@ -6990,7 +6999,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <token><exception postag="NP..SP.*|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes" regexp="yes">[^'-].+</exception></token>
                 <marker>
-                    <token postag="V.I[PI]3S0*" postag_regexp="yes" inflected="yes" skip="12">fer<exception scope="next" regexp="yes">que|en</exception><exception scope="next" postag="PUNCT.*" postag_regexp="yes">,</exception><exception postag="V.*" postag_regexp="yes" scope="next"/></token>
+                    <token postag="V.I[PI]3S0*" postag_regexp="yes" inflected="yes" skip="12">fer<exception scope="next" regexp="yes">que|en</exception><exception scope="next" postag="_PUNCT.*" postag_regexp="yes">,</exception><exception postag="V.*" postag_regexp="yes" scope="next"/></token>
                 </marker>
                 <token regexp="yes">segons?|minuts?|hor(a|es)|di(a|es)|setman(a|es)|mes|mesos|(tri|quadri|se)mestres?|anys?|lustres?|dècad(a|es)|segles?|mil·lennis?|moments?|instants?|temps</token>
             </pattern>
@@ -7580,7 +7589,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rulegroup>
     <rule id="REPEATED_NEGATION" name="negació repetida">
         <pattern>
-            <token skip="5">no<exception scope="next" postag="PUNCT.*" postag_regexp="yes"/></token>
+            <token skip="5">no<exception scope="next" postag="_PUNCT.*" postag_regexp="yes"/></token>
             <marker>
                 <token>no</token>
             </marker>
@@ -7589,7 +7598,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rule>
     <rule id="REPEATED_QUAN" name="'quan' repetit">
         <pattern>
-            <token skip="25">quan<exception scope="next" postag="PUNCT.*" postag_regexp="yes"/></token>
+            <token skip="25">quan<exception scope="next" postag="_PUNCT.*" postag_regexp="yes"/></token>
             <marker>
                 <token>quan</token>
             </marker>
@@ -7637,7 +7646,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token regexp="yes" inflected="yes">similar|semblant|superior|inferior|paral·lel|anterior|posterior</token>
+                <token regexp="yes" inflected="yes">similar|semblant|equivalent|superior|inferior|paral·lel|anterior|posterior</token>
                 <marker>
                     <token>a</token>
                 </marker>
@@ -7692,7 +7701,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <token>quan</token>
                 </marker>
-                <token postag="SENT_END|CC|PUNCT.*" postag_regexp="yes"/>
+                <token postag="SENT_END|CC|_PUNCT.*" postag_regexp="yes"/>
             </pattern>
             <disambig action="filter" postag="PT.*"/>
         </rule>
