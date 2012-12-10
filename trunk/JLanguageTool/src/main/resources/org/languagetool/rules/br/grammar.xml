@@ -2167,16 +2167,12 @@ $Id$
           <token postag="L [eo]" postag_regexp="yes">
             <exception negate_pos="yes" postag="L [eo]" postag_regexp="yes"/>
           </token>
-          <marker>
-            <and>
-              <token regexp="yes" inflected="yes">m.*</token>
-              <token regexp="yes">m.*</token>
-            </and>
-          </marker>
+          <marker><token postag="[^M]*" postag_regexp="yes" regexp="yes">m.*</token></marker>
         </pattern>
         <message>Goude ar rannig-verb «\1» e tlefe c’hoarvezout ur c’hemmadur mesket. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="v$1"/></suggestion>?</message>
         <example type="incorrect">Alies e <marker>marvailhan</marker> ur pennadig gant an amezeg.</example>
         <example type="correct">Alies e <marker>varvailhan</marker> ur pennadig an amezeg.</example>
+        <example type="correct">E 2005 e oa 13.518.000 a dud o vevañ e <marker>Mali</marker>.</example>
       </rule>
     </rulegroup>
 
@@ -2316,7 +2312,7 @@ $Id$
     <rulegroup id="GER_KEMM" name="kemmadur ebet goude gerioù">
       <rule>
         <pattern>
-          <token regexp="yes">abaoe|ahont|amañ|arabat|aze|a-(benn|berzh|dal|dreñv|dreuz|hed|raok|us|walc’h|wechoù|wazhioù|ziwar)|bep|bet|betek|daoust|dirak|eget|ent|eus|[e’](vel|vit)(-se)?|e-(barzh|giz|keñver|kerz|kichen(ig)?|kreiz|lerc’h|mesk|pad|ser)|gant|goude|hag?|hep|hervez|hevelep|kalz(ig)?|kement|ke[nt]|krenn|lies|mard?|met|nemet|nompas|memes|na|nebeud(ig)?|nep|ouzhpenn|pas|pep|pebezh|pegen|pere|petvet|peseurt|petore|rak|setu|seurt|war-(c’horre|lerc’h|dro|du)<exception postag="L n">na</exception><exception postag="X KAOUT2">eus</exception></token>
+          <token regexp="yes">abaoe|ahont|amañ|arabat|aze|a-(benn|berzh|dal|dreñv|dreuz|hed|raok|us|walc’h|wechoù|wazhioù|ziwar)|bep|bet|betek|daoust|diouzh|dirak|eget|ent|eus|[e’](vel|vit)(-se)?|e-(barzh|giz|keñver|kerz|kichen(ig)?|kreiz|lerc’h|mesk|pad|ser)|gant|goude|hag?|hep|hervez|hevelep|kalz(ig)?|kement|ke[nt]|krenn|lies|mard?|met|nemet|nompas|manier|memes|na|nebeud(ig)?|nep|ouzh|ouzhpenn|pas|pep|pebezh|pegen|peotramant|pere|peseurt|pet|petore|petvet|rak|setu|seurt|war-(c’horre|lerc’h|dro|du)<exception postag="L n">na</exception><exception postag="X KAOUT2">eus</exception></token>
           <marker>
             <token postag="[^M]*M:.*" postag_regexp="yes">
               <exception negate_pos="yes" postag="[^M]*M:.*" postag_regexp="yes"/>
@@ -3195,7 +3191,7 @@ $Id$
       <pattern>
         <token regexp="yes">e?n</token>
         <token>em</token>
-        <token inflected="yes" regexp="yes">azezañ|dihuniñ|diskuizhañ|ebatal|faziañ|hastañ|klemm|kluchañ|sevel|stouiñ|tevel|treiñ</token>
+        <token inflected="yes" regexp="yes">azezañ|dihuniñ|diskuizhañ|ebatal|faziañ|hastañ|klemm|kluchañ|sevel|stouiñ|tevel|treiñ|troc’hañ</token>
       </pattern>
       <message>Ne vez ket implijet «en em» gant ar verb «\3». Ha fellout a rae doc’h skrivañ <suggestion>\3</suggestion>?</message>
       <example type="incorrect"><marker>En em faziañ</marker> a rit.</example>
