@@ -653,7 +653,47 @@ $Id$
         <example type="incorrect">War <marker>zeñvalaat</marker> az an amzer.</example>
         <example type="correct">War <marker>deñvalaat</marker> az an amzer.</example>
       </rule>
-      <!-- TODO: add more mutation cases -->
+      <rule>
+        <pattern>
+          <token>war</token>
+          <marker>
+            <and>
+              <token postag="V inf.*" postag_regexp="yes" regexp="yes">[dt].*aat</token>
+              <token postag="V inf.*" postag_regexp="yes" regexp="yes" inflected="yes">d.*aat</token>
+            </and>
+          </marker>
+        </pattern>
+        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ er verb «\2» goude ar ger «war». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="z$1"/></suggestion>?</message>
+        <example type="incorrect">War <marker>disheñvelaat</marker> ez a rannyezhoù.</example>
+        <example type="incorrect">War <marker>tisheñvelaat</marker> ez a rannyezhoù.</example>
+        <example type="correct">War <marker>zisheñvelaat</marker> ez a rannyezhoù.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>war</token>
+          <marker>
+            <and>
+              <token postag="V inf.*" postag_regexp="yes" regexp="yes">[pf].*aat</token>
+              <token postag="V inf.*" postag_regexp="yes" regexp="yes" inflected="yes">p.*aat</token>
+            </and>
+          </marker>
+        </pattern>
+        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ er verb «\2» goude ar ger «war». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="b$1"/></suggestion>?</message>
+        <example type="incorrect">E-doug ur bloaz eo aet pouez o yalc'hadoù war <marker>pounneraat</marker> eus 107 miliard.</example>
+        <example type="incorrect">E-doug ur bloaz eo aet pouez o yalc'hadoù war <marker>founneraat</marker> eus 107 miliard.</example>
+        <example type="correct">E-doug ur bloaz eo aet pouez o yalc'hadoù war <marker>bounneraat</marker> eus 107 miliard.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>war</token>
+          <marker>
+            <token postag="V inf" regexp="yes">m.*aat</token>
+          </marker>
+        </pattern>
+        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ er verb «\2» goude ar ger «war». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="v$1"/></suggestion>?</message>
+        <example type="incorrect">War <marker>micherelaat</marker> eo aet an embann e brezhoneg.</example>
+        <example type="correct">War <marker>vicherelaat</marker> eo aet an embann e brezhoneg.</example>
+      </rule>
     </rulegroup>
 
     <rulegroup id="KEMM_DA_ANV_DIVOUTIN" name="da Brest → da vBrest">
