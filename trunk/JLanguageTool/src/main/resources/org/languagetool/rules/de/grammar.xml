@@ -21192,6 +21192,21 @@ $Id$
                 <example type="incorrect" correction="Kaisers">Des <marker>Kaiser's</marker> neue Kleider.</example>
                 <example type="incorrect" correction="Müllers">Das Wandern ist des <marker>Müller’s</marker> Lust.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" skip="-1"><exception scope="next" spacebefore="yes">'</exception></token>
+                    <token>des</token>
+                    <marker>
+                        <token postag="SUB:NOM:SIN:MAS" regexp="yes">[A-Z][a-zäöüß]+ismus</token>
+                        <token regexp="yes">'|’</token>
+                    </marker>
+                </pattern>
+                <message>Auf '-ismus' endende Lehnwörter werden im Genitiv ohne Apostroph geschrieben: <suggestion>\3</suggestion>.</message>
+                <short>Falscher Apostroph?</short>
+                <example type="incorrect" correction="Sozialismus">Damit sollte der Aufbau des <marker>Sozialismus'</marker> zur Vollendung gebracht werden.</example>
+                <example type="correct">Damit sollte der Aufbau des <marker>Sozialismus</marker> zur Vollendung gebracht werden.</example>
+                <example type="correct">Damit sollte der 'Aufbau des Sozialismus' zur Vollendung gebracht werden.</example>
+            </rule>
         </rulegroup>
         <rule id="PUNKT_UND_KLAMMER" name="Zeichensetzung: Punkt und Klammer bei Aufzählungen, z.B. '1.)'" default="off">
             <!-- Quelle: Hans Friedrich Ebel/Claus Bliefert, Bachelor-, Master- und Doktorarbeit. Wiley, ISBN 9783527324774 -->
