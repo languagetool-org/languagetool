@@ -592,6 +592,70 @@ $Id$
       </rule>
     </rulegroup>
 
+    <rulegroup id="KEMM_WAR_VLOTAAT" name="Kemmadur dre vlotaat goude ar ger war">
+      <rule>
+        <pattern>
+          <token>war</token>
+          <marker>
+            <and>
+              <token postag="V inf.*" postag_regexp="yes" regexp="yes">(k|c’h).*aat<exception postag="V inf M:1:.*" postag_regexp="yes"/></token>
+              <token postag="V inf.*" postag_regexp="yes" regexp="yes" inflected="yes">k.*aat</token>
+            </and>
+          </marker>
+        </pattern>
+        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ er verb «\2» goude ar ger «war». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="g$1"/></suggestion>?</message>
+        <example type="incorrect">War <marker>koshaat</marker> az da dud.</example>
+        <example type="incorrect">War <marker>c’hoshaat</marker> az da dud.</example>
+        <example type="correct">War <marker>goshaat</marker> az da dud.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>war</token>
+          <marker>
+            <and>
+              <token postag="V inf.*" postag_regexp="yes" regexp="yes">[gk]w.*aat<exception postag="V inf M:1:.*" postag_regexp="yes"/></token>
+              <token postag="V inf.*" postag_regexp="yes" regexp="yes" inflected="yes">gw.*aat</token>
+            </and>
+          </marker>
+        </pattern>
+        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ er verb «\2» goude ar ger «war». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="$1"/></suggestion>?</message>
+        <example type="incorrect">N’a ket an amzer war <marker>gwellaat</marker>.</example>
+        <example type="incorrect">N’a ket an amzer war <marker>kwellaat</marker>.</example>
+        <example type="correct">N’a ket an amzer war <marker>wellaat</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>war</token>
+          <marker>
+            <and>
+              <token postag="V inf.*" postag_regexp="yes" regexp="yes">[bp].*aat<exception postag="V inf M:1:.*" postag_regexp="yes"/></token>
+              <token postag="V inf.*" postag_regexp="yes" regexp="yes" inflected="yes">b.*aat</token>
+            </and>
+          </marker>
+        </pattern>
+        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ er verb «\2» goude ar ger «war». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="v$1"/></suggestion>?</message>
+        <example type="incorrect">War <marker>bihanaat</marker> az da vamm.</example>
+        <example type="incorrect">War <marker>pihanaat</marker> az da vamm.</example>
+        <example type="correct">War <marker>vihanaat</marker> az da vamm.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>war</token>
+          <marker>
+            <and>
+              <token postag="V inf.*" postag_regexp="yes" regexp="yes">[tz].*aat<exception postag="V inf M:1:.*" postag_regexp="yes"/></token>
+              <token postag="V inf.*" postag_regexp="yes" regexp="yes" inflected="yes">t.*aat</token>
+            </and>
+          </marker>
+        </pattern>
+        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ er verb «\2» goude ar ger «war». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match=".(.*)" regexp_replace="d$1"/></suggestion>?</message>
+        <example type="incorrect">War <marker>teñvalaat</marker> az an amzer.</example>
+        <example type="incorrect">War <marker>zeñvalaat</marker> az an amzer.</example>
+        <example type="correct">War <marker>deñvalaat</marker> az an amzer.</example>
+      </rule>
+      <!-- TODO: add more mutation cases -->
+    </rulegroup>
+
     <rulegroup id="KEMM_DA_ANV_DIVOUTIN" name="da Brest → da vBrest">
       <rule>
         <pattern>
