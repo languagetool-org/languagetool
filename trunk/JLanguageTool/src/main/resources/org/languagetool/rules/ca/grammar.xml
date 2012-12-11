@@ -6899,6 +6899,18 @@ $Id$
                 <example type="incorrect">El pare el <marker>te</marker> per ximple.</example>
                 <example type="correct">El té com un rei</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token>amb</token>
+                    <token>un</token>
+                    <marker>
+                        <token>té</token>
+                    </marker>
+                </pattern>
+                <message>Si és una beguda, cal escriure <suggestion>te</suggestion>.</message>
+                <example type="incorrect">amb un <marker>té</marker></example>
+                <example type="correct">amb un te</example>
+            </rule>
         </rulegroup>    
         <rulegroup id="ES" name="es/és">                
             <rule>
@@ -8020,6 +8032,7 @@ $Id$
                 <short>Pronom feble o verb incorrecte</short>
                 <example type="incorrect"><marker>Us</marker> vas fer mal.</example>
                 <example type="correct">Us vau fer mal</example>
+                <example type="correct">Si vos pareix bé, ho farem.</example>
             </rule>
             <rule id="ES_VAM" name="es vam">
                 <pattern>
@@ -8036,6 +8049,30 @@ $Id$
                 <example type="correct">Es féu per la via correcta.</example>
                 <example type="correct">es pot fer correctament</example>
             </rule>
+        </rulegroup>
+        <rulegroup id="EXIGEIX_US" name="Exigeix la forma 'us'. Ex. Què vos/us sembla?">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>vos</token>
+                    </marker>
+                    <token><exception postag="V...2P." postag_regexp="yes" /></token>
+                </pattern>
+                <message>És preferible la forma <suggestion>us</suggestion>.</message>
+                <example type="incorrect"><marker>vos</marker> sembla bé</example>
+                <example type="correct">vós sou l'únic sant</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>vos</token>
+                    </marker>
+                    <token postag="V...2P." postag_regexp="yes"/>
+                </pattern>
+                <message>Com a pronom feble, és preferible la forma <suggestion>us</suggestion>. Si és pronom personal, cal escriure <suggestion>vós</suggestion>.</message>
+                <example type="incorrect"><marker>vos</marker> assembleu molt</example>
+                <example type="correct">vós sembleu un sant</example>
+            </rule>        
         </rulegroup>
     </category>
     <category name="«lo» neutre">
