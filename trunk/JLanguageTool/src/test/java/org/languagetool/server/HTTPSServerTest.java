@@ -63,7 +63,7 @@ public class HTTPSServerTest {
 
     final String httpsPrefix = "https://localhost:" + HTTPServerConfig.DEFAULT_PORT + "/";
 
-    final String result = HTTPTools.checkAtUrl(new URL(httpsPrefix + "?text=a+test&language=en"));
+    final String result = HTTPTools.checkAtUrl(new URL(httpsPrefix + "?text=a+test.&language=en"));
     assertTrue("Got " + result, result.contains("UPPERCASE_SENTENCE_START"));
 
     final StringBuilder longText = new StringBuilder();
