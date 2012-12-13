@@ -108,7 +108,7 @@ public class UppercaseSentenceStartRule extends Rule {
 
     //fix for words in table (not sentences); note - this will not always work for the last point in OOo,
     //as OOo might serve paragraphs in any order.
-    if ((language == Language.RUSSIAN )
+    if ((language == Language.RUSSIAN || language == Language.ENGLISH )
         && !(lastToken.matches("[.?!…;,]"))) {
       noException = true;
     }
