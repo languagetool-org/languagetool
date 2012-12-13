@@ -43,6 +43,9 @@ public class ReflexiveVerbsRuleTest extends TestCase {
 	public void testRule() throws IOException { 
 
 		// correct sentences:
+		assertCorrect("Fan que em malfiï.");
+		assertCorrect("Em fan malfiar.");
+		assertCorrect("El fan agenollar.");
 		assertCorrect("ens anem a aferrissar");
 		assertCorrect("anem a aferrissar-nos");
 		assertCorrect("ens preparem per a anar");
@@ -142,6 +145,7 @@ public class ReflexiveVerbsRuleTest extends TestCase {
 		assertCorrect("Joan no es va a jugar la feina.");	
 		 	
 		// errors:
+		assertIncorrect("L'has fet tornar-se vermell.");
 		assertIncorrect("un dels pocs moviments que poden fer és intentar pujar-se al carro de la indignació.");
 		assertIncorrect("és intentar pujar-se al carro de la indignació.");
 		assertIncorrect("Pujar-se al carro de la indignació.");
@@ -212,7 +216,7 @@ public class ReflexiveVerbsRuleTest extends TestCase {
 		assertIncorrect("no has de queixar-ne");
 		assertIncorrect("no podeu deixar de queixar-ne");
 		assertIncorrect("no li has de queixar");
-		assertIncorrect("no em podeu deixar de queixar");
+		assertIncorrect("no em podeu queixar");
 		assertIncorrect("pareu de queixar-se'n");
 		assertIncorrect("podent abstenir");
 		assertIncorrect("poder queixar");
