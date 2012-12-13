@@ -29,20 +29,6 @@ $Id$
 -->
 <rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" lang="eo" xsi:noNamespaceSchemaLocation="../rules.xsd">
   <category name="Konfuzoj">
-    <rule id="ESPERANTO" name="esperanto (Esperanto)">
-      <pattern>
-        <token inflected="yes" regexp="yes" skip="1">.*(?:legi|skribi|paroli|scipovi|lerni|studi|instrui|verki|lingvo|kurso|leciono|libro)</token>
-        <marker>
-          <token regexp="yes">(?-i)esperanton?</token>
-        </marker>
-      </pattern>
-      <message>Laŭ la kunteksto, ŝajnas, ke «\2» temas pri la lingvo Esperanto, ĝi do bezonas komencan majusklon.</message>
-      <example type="incorrect">Mi lernas <marker>esperanton</marker>.</example>
-      <example type="correct">Mi lernas <marker>Esperanton</marker>.</example>
-      <example type="incorrect">Tio estas kurso de <marker>esperanto</marker>.</example>
-      <example type="correct">Tio estas kurso de Esperanto.</example>
-      <example type="correct">Iu, kiu esperas, estas esperanto.</example>
-    </rule>
     <rule id="EK_DE" name="ek de (ekde)">
       <pattern>
         <token>ek</token>
@@ -53,6 +39,7 @@ $Id$
       <example type="incorrect">Mi lernas Esperanton <marker>ek de</marker> la jaro 2005.</example>
       <example type="correct">Mi lernas Esperanton <marker>ekde</marker> la jaro 2005</example>
     </rule>
+
     <rulegroup id="SE_ĈU" name="se (ĉu)">
       <rule>
         <pattern>
@@ -3479,6 +3466,61 @@ $Id$
         <url>http://bertilow.com/pmeg/gramatiko/difiniloj/la/bazaj_reguloj.html</url>
         <example type="incorrect">Li ronkis <marker>tutan la</marker> nokton.</example>
         <example type="correct">Li ronkis <marker>la tutan</marker> nokton.</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="PROPRA_NOMO_LINGVO" name="Propra nomo de lingvo (esperanto → Esperanto)">
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes" skip="1">.*(?:legi|skribi|paroli|scipovi|lerni|studi|instrui|verki|lingvo|kurso|leciono|libro)</token>
+          <marker>
+            <token regexp="yes">(?-i)(?:esperanto|gloso|ido)n?</token>
+          </marker>
+        </pattern>
+        <message>Laŭ la kunteksto, ŝajnas, ke «\2» temas pri propra nomo de lingvo, ĝi tiam bezonas komencan majusklon.</message>
+        <url>http://bertilow.com/pmeg/gramatiko/propraj_nomoj/majuskloj.html#i-j9t</url>
+        <example type="incorrect">Mi lernas <marker>esperanton</marker>.</example>
+        <example type="correct">Mi lernas <marker>Esperanton</marker>.</example>
+        <example type="incorrect">Tio estas kurso de <marker>esperanto</marker>.</example>
+        <example type="correct">Tio estas kurso de Esperanto.</example>
+        <example type="correct">Iu, kiu esperas, estas esperanto.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes">(?-i)(?:adamitiko|akadono|alevato|ĉenglio|fanagalo|interlingv[ae]o|interlinguo|interpreso|intergloso|gestono|ĥotono|latino|lingvafrankao|loĵbano|loglano|loglio|neo-?(latino|romano)|nov-?latino|novialo|papiamento|sanskrito|solresolo|tokipono|tokpisino|urduo|uropio|volapuko|voksigido)n?</token>
+          </marker>
+        </pattern>
+        <message>Ŝajnas, ke «\1» temas pri propra nomo de lingvo, ĝi tiam bezonas komencan majusklon.</message>
+        <url>http://bertilow.com/pmeg/gramatiko/propraj_nomoj/majuskloj.html#i-j9t</url>
+        <example type="incorrect">Mi lernas <marker>volapukon</marker>.</example>
+        <example type="correct">Mi lernas <marker>Volapukon</marker>.</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="LA_LINGVO_O" name="O-vorta lingvo nomo sen «la»">
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes" skip="1">.*(?:legi|skribi|paroli|scipovi|lerni|studi|instrui|verki|lingvo|kurso|leciono|libro)</token>
+          <marker>
+            <token>la</token>
+            <token regexp="yes">(?-i)(?:Esperanto|Gloso|Ido)n?</token>
+          </marker>
+        </pattern>
+        <message>Laŭ la kunteksto, ŝajnas, ke «\2» temas pri lingvonomo. Oni ne metas «la» antaŭ o-vortaj lingvonomoj.</message>
+        <url>http://bertilow.com/pmeg/gramatiko/propraj_nomoj/majuskloj.html#i-j9t</url>
+        <example type="incorrect">Mi lernas <marker>la Esperanton</marker>.</example>
+        <example type="correct">Mi lernas <marker>Esperanton</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>la</token>
+          <token regexp="yes">(?-i)(?:Adamitiko|Akadono|Alevato|Ĉenglio|Fanagalo|Interlingv[ae]o|Interlinguo|Interpreso|Intergloso|Gestono|Ĥotono|Latino|Lingvafrankao|Loĵbano|Loglano|Loglio|Neo-?(latino|romano)|Nov-?latino|Novialo|Papiamento|Sanskrito|Solresolo|Tokipono|Tokpisino|Urduo|Uropio|Volapuko|Voksigido)n?</token>
+        </pattern>
+        <message>Ŝajnas, ke <suggestion>\3</suggestion> temas pri lingvonomo. Oni ne metas «la» antaŭ o-vortaj lingvonomoj.</message>
+        <url>http://bertilow.com/pmeg/pmeg150alfa/gramatiko/propraj_nomoj/landoj_popoloj_lingvoj.html#i-r76</url>
+        <example type="incorrect">Mi lernas <marker>la Volapukon</marker>.</example>
+        <example type="correct">Mi lernas <marker>Volapukon</marker>.</example>
       </rule>
     </rulegroup>
 
