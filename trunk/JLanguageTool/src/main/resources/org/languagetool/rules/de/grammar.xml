@@ -2938,6 +2938,17 @@ $Id$
     <!-- ====================================================================== -->
     <category name="Leicht zu verwechselnde Wörter">
         <!-- TODO emphatisch/empathisch -->
+        <rule id="PASSIONIERTE_PASSIERTE" name="Mögliche Wortverwechslung: passionierte (passierte)">
+            <pattern>
+                <marker>
+                    <token>passionierte</token>
+                </marker>
+                <token regexp="yes">Tomate|Tomaten|Früchte</token>
+            </pattern>
+            <message>&verw;Meinten Sie <suggestion>passierte</suggestion> (ohne grobe Teile) statt passionierte (leidenschaftlich)?</message>
+            <example type="correct">Man nehme drei <marker>passierte</marker> Tomaten.</example>
+            <example type="incorrect">Man nehme drei <marker>passionierte</marker> Tomaten.</example>
+        </rule>
         <rule id="WAISE_WEISE" name="Mögliche Wortverwechslung: Waise (Weise)">
             <pattern>
                 <token regexp="yes">Art(en)?|Worte</token>
