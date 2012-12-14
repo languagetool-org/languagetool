@@ -1080,7 +1080,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token postag="(DD|PD).*|V.*|P[P0].*|NP.*|NC.*" postag_regexp="yes"><exception postag="C.*|R.*|DA.*|V.N.*" postag_regexp="yes"/><exception regexp="yes">tu|e[mts]|[mts]e|ens|us|[mtsln]'|'[mtsln]|li|els?|la|les|en|hi|ho</exception></token>
                 <marker>
                     <and>
-                        <token postag="V.[IS].2S0" postag_regexp="yes"><exception regexp="yes">pots|vols|sols</exception></token>
+                        <token postag="V.[IS].2S0" postag_regexp="yes"><exception regexp="yes">pots|vols|sols|tens</exception></token>
                         <token postag="N.*|A.*|V.P.*" postag_regexp="yes" />
                     </and>
                 </marker>
@@ -6246,6 +6246,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="V.*|_GV_"></disambig>
     </rule>
+    <rule id="encara" name="encara">
+        <pattern>
+            <and>
+                <token postag="RG">encara</token>
+                <token postag="V.*" postag_regexp="yes"><exception postag="_GV_" postag_regexp="yes" /></token>
+            </and>
+        </pattern>
+        <disambig action="filter" postag="RG.*"></disambig>
+    </rule>
     <rulegroup id="noVerbBalear" name="no verb balear">
         <!-- No és verb balear, si no hi ha res que ho hagi indicat prèviament -->
         <rule>
@@ -6648,9 +6657,9 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <token postag="NC.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes" /></token>
                 </and>
             </marker>
-            <token postag="NC.*" postag_regexp="yes"><exception postag="V.[IS].*" postag_regexp="yes"/></token>
+            <token postag="N.*" postag_regexp="yes"><exception postag="V.[IS].*" postag_regexp="yes"/></token>
         </pattern>
-        <disambig action="filter" postag="V.*"></disambig>
+        <disambig action="filter" postag="[^N].*"></disambig>
     </rule>
     <rule id="nAdjectiu" name="no adjectiu si no ha concordat">
     <!--  paraules que habitualment no són adjectius si no han concordat: fer|segons|envolta-->
