@@ -7381,7 +7381,7 @@ $Id$
                 </pattern>
                 <message>Combinació incorrecta de pronoms febles.</message>
                 <short>Combinació incorrecta de pronoms.</short>
-                <example type="incorrect">Portem <marker>-los-els-los</marker>.</example>
+                <example type="incorrect">Portem<marker>-los-els-los</marker>.</example>
                 <example type="correct">Portem-los-els.</example>
             </rule>
             <rule>
@@ -7731,7 +7731,7 @@ $Id$
                 </pattern>
                 <message>Forma de pronom feble incorrecta.</message>
                 <short>Forma de pronom feble incorrecta.</short>
-                <example type="incorrect">Portar <marker>-els</marker>.</example>
+                <example type="incorrect">Portar<marker>-els</marker>.</example>
                 <example type="correct">Portar-los.</example>
             </rule>
             <rule>
@@ -7773,7 +7773,7 @@ $Id$
                 </pattern>
                 <message>Cal apostrofar: <suggestion><match no="2" regexp_match="-[e]?([^e])e?" regexp_replace="-$1e"></match><match no="3" regexp_match="-e?([^e]{1,2})e?" regexp_replace="'$1"></match></suggestion>.</message>
                 <short>Cal apostrofar.</short>
-                <example type="incorrect">Emporta <marker>-te</marker>-el.</example>
+                <example type="incorrect">Emporta<marker>-te</marker>-el.</example>
                 <example type="correct">Emporta-te'l.</example>
             </rule>
             <rule>
@@ -8523,51 +8523,55 @@ $Id$
             <example type="incorrect">Ara mateix<marker>...</marker></example>
             <example type="correct">Ara mateix…</example>
         </rule>
-        <rulegroup id="GUIONET_SOLT" name="Substitueix un guionet solt per guió llarg" default="off">
-            <rule>
-                <pattern>
-                    <token spacebefore="yes" regexp="yes">-[^-]+<exception inflected="yes">numeral</exception></token>
-                </pattern>
-                <message>Cal substituir el guionet. <suggestion><match no="1" regexp_match=".(.+)" regexp_replace="—$1"></match></suggestion>.</message>
-                <short>Cal substituir el guionet</short>
-                <example type="incorrect">Vine <marker>-digué</marker>.</example>
-                <example type="correct">Vine <marker>—digué</marker>.</example>
-            </rule>
+        <rulegroup id="GUIONET_GUIO" name="Substitueix un guionet solt per guió llarg" default="off">
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">[^-]+-</token>
+                        <token spacebefore="yes">-</token>
+                    </marker>
+                    <token spacebefore="no" regexp="yes">[^-].*</token>
+                </pattern>
+                <message>Cal substituir el guionet per guió: <suggestion>—</suggestion>.</message>
+                <short>Cal substituir el guionet</short>
+                <example type="incorrect">Vine <marker>-</marker>digué.</example>
+                <example type="correct">Vine —digué.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">.*[^-]</token>
+                    <marker>
+                        <token spacebefore="no">-</token>
                     </marker>
                 </pattern>
-                <message>Cal substituir el guionet. <suggestion><match no="1" regexp_match="(.+)." regexp_replace="$1—"></match></suggestion>.</message>
+                <message>Cal substituir el guionet per guió: <suggestion>—</suggestion>.</message>
                 <short>Cal substituir el guionet</short>
-                <example type="incorrect"><marker>digué-</marker> vine.</example>
-                <example type="correct"><marker> digué—</marker> vine</example>
+                <example type="incorrect">digué<marker>-</marker> vine.</example>
+                <example type="correct">digué— vine</example>
             </rule>
             <rule>
                 <pattern>
+                    <token regexp="yes">.*[^-]</token>
                     <marker>
-                        <token regexp="yes">[^-]+-</token>
+                        <token spacebefore="no">-</token>
                     </marker>
                     <token regexp="yes">;|,|\.</token>
                 </pattern>
-                <message>Cal substituir el guionet. <suggestion><match no="1" regexp_match="(.+)." regexp_replace="$1—"></match></suggestion>.</message>
+                <message>Cal substituir el guionet per guió: <suggestion>—</suggestion>.</message>
                 <short>Cal substituir el guionet</short>
-                <example type="incorrect"><marker>digué-</marker>, vine.</example>
-                <example type="correct"><marker> digué—</marker>, vine</example>
+                <example type="incorrect">digué<marker>-</marker>, vine.</example>
+                <example type="correct">digué—, vine</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">[-]+</token>
+                        <token>-</token>
+                        <token>-</token>
                     </marker>
                 </pattern>
-                <message>Cal substituir els guionets. <suggestion>—</suggestion>.</message>
+                <message>Cal substituir els guionets per guió: <suggestion>—</suggestion>.</message>
                 <short>Cal substituir els guionets</short>
-                <example type="incorrect"><marker>--</marker>
-                </example>
-                <example type="correct"><marker>—</marker>
-                </example>
+                <example type="incorrect"><marker>--</marker></example>
+                <example type="correct"><marker>—</marker></example>
             </rule>
         </rulegroup>
         <!--  <rulegroup id="apostrof_cometes" name="Apòstrof i cometes">
