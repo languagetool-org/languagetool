@@ -1192,6 +1192,20 @@ $Id$
                 <example type="incorrect">Vaig llegir aquella <marker>editorial</marker> horrorosa</example>
                 <example type="correct">Vaig llegir l'editorial</example>
             </rule>
+            <rule id="ALTRE_ALTRA" name="confusió altre/altra">
+                <pattern>
+                    <marker>
+                        <token>altre</token>
+                    </marker>
+                    <token postag="N.FS.*" postag_regexp="yes"><exception postag="_GN_MS"/></token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>altra</suggestion>?</message>
+                <short>Possible error de concordança</short>
+                <example type="incorrect" correction="altra">en qualsevol <marker>altre</marker> lliga europea</example>
+                <example type="correct">en un o altre ordre</example>
+                <example type="correct">a un altre jove</example>
+                <example type="correct">escrigué un altre final</example>
+            </rule>
         </rulegroup>
         <rulegroup id="CONCORDANCES_ADJECTIUS_NEUTRES" name="concordances amb adjectius neutres">
             <rule>
@@ -1322,7 +1336,7 @@ $Id$
                         
         </rulegroup>
     </category>
-    <category name="Verbs"> 
+    <category name="Verbs">
         <rulegroup id="DORMIR_ADORMIRSE" name="*dormir-se / adormir-se">
             <rule>
                 <pattern>
@@ -2671,6 +2685,32 @@ $Id$
             </rule>
         </rulegroup>
         <rulegroup id="TANT_TAN" name="Comprova: «tan/tant»">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>tan</token>
+                        <token>mal</token>
+                    </marker>
+                    <token><exception postag="V.P.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Si 'mal' és nom, cal escriure: <suggestion>tant mal</suggestion> o <suggestion>tant de mal</suggestion>. Si és adverbi, potser cal escriure: <suggestion>tan malament</suggestion>.</message>
+                <short>Possible confusió</short>
+                <example type="incorrect">¿Per què tan pocs fan <marker>tan mal</marker> a tants.</example>
+                <example type="incorrect">Ho has fet <marker>tan mal</marker>!</example>
+                <example type="correct">Ho veig tan mal fet!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">tants|tantes</token>
+                        <token regexp="yes" inflected="yes">poc|poquet</token>
+                    </marker>
+                </pattern>
+                <message>Cal dir: <suggestion>tan <match no="2"/></suggestion>.</message>
+                <short>Construcció incorrecta.</short>
+                <example type="incorrect" correction="tan poques">Tinc <marker>tantes poques</marker> ganes de fer-ho!</example>
+                <example type="correct">Hi ha tan pocs escriptors bons.</example>
+            </rule>
             <rule>
                 <pattern>
                     <marker>
@@ -11195,10 +11235,10 @@ $Id$
                     <marker>
                         <token>poc</token>
                         <token>a</token>
-                        <token>poc</token>
+                        <token regexp="yes">poc|poquet</token>
                     </marker>
                 </pattern>
-                <message>Cal dir <suggestion>a poc a poc</suggestion>.</message>
+                <message>Cal dir <suggestion>a poc a <match no="4"/></suggestion>.</message>
                 <short>Expressió incorrecta</short>
                 <example type="incorrect"><marker>poc a poc</marker> remuntarem el riu</example>
                 <example type="correct"><marker>a poc a poc</marker> remuntarem el riu</example>
@@ -11206,9 +11246,9 @@ $Id$
             <rule>
                 <pattern>
                     <token>poca</token>
-                    <token>poc</token>
+                    <token regexp="yes">poc|poquet</token>
                 </pattern>
-                <message>¿Volíeu dir <suggestion>poc a poc</suggestion>?.</message>
+                <message>¿Volíeu dir <suggestion>poc a <match no="2"/></suggestion>?.</message>
                 <short>Possible confusió.</short>
                 <example type="incorrect"><marker>poca poc</marker></example>
                 <example type="correct">poc a poc</example>
@@ -11956,6 +11996,33 @@ $Id$
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
         
+        <rulegroup id="FULLA_FULL" name="fulla/full">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">full(a|es)</token>
+                    </marker>
+                    <token regexp="yes">dominicals?|volants?|blastod.*|embrion.*|electrònic.*</token>
+                </pattern>
+                <message>En aquest sentit, cal dir <suggestion><match no="1" postag="NCF(.).*" postag_regexp="yes" postag_replace="NCM$1000">full</match></suggestion> (nom masculí).</message>
+                <short>Gènere incorrecte.</short>
+                <example type="incorrect" correction="fulls">no tinc les <marker>fulles</marker> dominicals</example>
+                <example type="correct">jo tinc el full dominical</example>                
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">full(a|es)</token>
+                    </marker>
+                    <token>de</token>
+                    <token regexp="yes">serveis|càlculs?|programació</token>
+                </pattern>
+                <message>En aquest sentit, cal dir <suggestion><match no="1" postag="NCF(.).*" postag_regexp="yes" postag_replace="NCM$1000">full</match></suggestion> (nom masculí).</message>
+                <short>Gènere incorrecte.</short>
+                <example type="incorrect" correction="full">Obre la <marker>fulla</marker> de càlcul</example>
+                <example type="correct">jo tinc el full dominical</example>                
+            </rule>
+        </rulegroup>
         <rule id="PORGAR_PURGAR" name="porgar/purgar">
             <pattern>
                 <token inflected="yes">porgar</token>

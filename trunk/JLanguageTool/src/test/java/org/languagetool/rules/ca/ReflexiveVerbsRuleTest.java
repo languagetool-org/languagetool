@@ -43,6 +43,9 @@ public class ReflexiveVerbsRuleTest extends TestCase {
 	public void testRule() throws IOException { 
 
 		// correct sentences:
+		assertCorrect("Ens portem força bé");
+		assertCorrect("Hem de portar-nos bé");
+		assertCorrect("Ells es porten tres anys");
 		assertCorrect("Fan que em malfiï.");
 		assertCorrect("Em fan malfiar.");
 		assertCorrect("El fan agenollar.");
@@ -145,6 +148,9 @@ public class ReflexiveVerbsRuleTest extends TestCase {
 		assertCorrect("Joan no es va a jugar la feina.");	
 		 	
 		// errors:
+		assertIncorrect("en aquesta vida ens portem moltes sorpreses");
+		assertIncorrect("Ens hem portat massa material al campament");
+		assertIncorrect("Hem de dur-nos tot això.");
 		assertIncorrect("L'has fet tornar-se vermell.");
 		assertIncorrect("un dels pocs moviments que poden fer és intentar pujar-se al carro de la indignació.");
 		assertIncorrect("és intentar pujar-se al carro de la indignació.");
