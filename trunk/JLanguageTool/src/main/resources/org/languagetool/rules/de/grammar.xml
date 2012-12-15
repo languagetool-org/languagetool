@@ -85,6 +85,7 @@ $Id$
     <!ENTITY tippformel "Tipp: Verwenden Sie in OpenOffice.org/LibreOffice für komplexe Formeln den Formeleditor &lsqb;Einfügen &gt; Objekt &gt; Formel&rsqb;">
     <!ENTITY odkomma "oder fehlt vielleicht ein Komma">
     <!ENTITY verbendirekterede "befehlen|behaupten|denken|fragen|rufen|sagen|versichern">
+    <!ENTITY gefuehladj "böse|erzürnt|sauer|verärgert|wütend">
 ]>
 
 <rules lang="de" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../rules.xsd">
@@ -825,7 +826,7 @@ $Id$
             <example type="incorrect" correction="äußeren|äußere">... <marker>äußern</marker> Erscheinung ...</example>
             <example type="correct">Die <marker>äußeren</marker> Umstände waren geradezu katastrophal.</example>
         </rule>
-        <rulegroup id="EIGNE_VS_EIGENE" name="Möglicher Tippfehler: 'meine eigne (eigene)' etc.">
+        <rulegroup id="EIGNE_VS_EIGENE" name="Möglicher Tippfehler: 'eigne (eigene)' etc.">
             <rule>
                 <pattern>
                     <token regexp="yes">[mds]eine|ihre|unsere|eure</token>
@@ -841,7 +842,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">([mds]eine|ihre|unsere|eure)n?</token>
+                    <token regexp="yes">([mds]eine|ihre|unsere|eure)n?|einer|[0-9]+</token>
                     <marker>
                         <token>eignen</token>
                     </marker>
@@ -850,9 +851,41 @@ $Id$
                 <message>Meinten Sie <suggestion>eigenen</suggestion>?</message>
                 <short>Möglicher Tippfehler</short>
                 <example type="incorrect">Seine <marker>eignen</marker> Leute haben ihn ermordet.</example>
+                <example type="incorrect">Diese sind in 2 <marker>eignen</marker> Klassen umgesetzt.</example>
+                <example type="incorrect">Dies ist in einer <marker>eignen</marker> Klassen umgesetzt.</example>
+                <example type="correct">Dies ist in einer <marker>eigenen</marker> Klassen umgesetzt.</example>
                 <example type="correct">Seine <marker>eigenen</marker> Leute haben ihn ermordet.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag_regexp="yes" postag="ZAL.*"/>
+                    <marker>
+                        <token>eignen</token>
+                    </marker>
+                    <token postag="SUB:NOM:.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Meinten Sie <suggestion>eigenen</suggestion>?</message>
+                <short>Möglicher Tippfehler</short>
+                <example type="incorrect">Diese sind in zwei <marker>eignen</marker> Klassen umgesetzt.</example>
+                <example type="correct">Diese sind in zwei <marker>eigenen</marker> Klassen umgesetzt.</example>
+            </rule>
         </rulegroup>
+        <rule id="EIN_EINE" name="Möglicher Tippfehler: 'ein (in) eine' etc.">
+            <pattern case_sensitive="yes">
+                <marker>
+                    <token regexp="yes">[Ee]in</token>
+                </marker>
+                <token regexp="yes">eine[mnr]?</token>
+                <token/>
+                <token><exception postag="PA.*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Meinten Sie <suggestion>in</suggestion> oder <suggestion>an</suggestion>?</message>
+            <short>Möglicher Tippfehler</short>
+            <example type="incorrect" correction="in|an">Kann man <marker>ein</marker> einer Überdosis sterben?</example>
+            <example type="incorrect" correction="in|an">Dies ist <marker>ein</marker> einer eigenen Klassen umgesetzt.</example>
+            <example type="correct">Dies ist <marker>in</marker> einer eigenen Klassen umgesetzt.</example>
+            <example type="correct"><marker>Ein</marker> einem Mitarbeiter untergeordnetem Praktikanten sollte man nicht verletzen.</example>
+        </rule>
         <rulegroup id="SICH_BEWEHREN" name="Möglicher Tippfehler: 'sich bewehren (bewähren)'">
             <rule>
                 <pattern>
@@ -3091,26 +3124,6 @@ $Id$
                 <example type="incorrect">Wir kommen schon irgendwie <marker>zu recht</marker> damit.</example>
                 <example type="incorrect">Wir kommen damit nicht <marker>zu recht</marker>.</example>
                 <example type="incorrect">Ich kam damit gut <marker>zu recht</marker>.</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token>
-                        <exception regexp="yes">damit|nicht|schon|komme|kommen|kommt|kommst|sich|uns|euch|etwas|mir|mich</exception>
-                    </token>
-                    <marker>
-                        <token regexp="yes">[Zz]u</token>
-                        <token>recht</token>
-                    </marker>
-                    <token>
-                        <exception postag="ADJ:.+" postag_regexp="yes"></exception>
-                    </token>
-                </pattern>
-                <message>&inwend;<suggestion>zu Recht</suggestion> (im Sinne von <suggestion>berechtigterweise</suggestion>) wird 'Recht' großgeschrieben, sofern es nicht als Adverb ein darauf folgendes Adjektiv näher bestimmt. Als Bestandteil von Verben wie 'zurechtkommen', '-finden' schreiben Sie bitte <suggestion>zurecht</suggestion>.</message>
-                <url>http://www.duden.de/rechtschreibung/zurecht_</url>
-                <short>'zu Recht' (berechtigterweise) ≠ 'zurecht' (wie in 'zurechtkommen')</short>
-                <example type="correct">Da regt er sich völlig <marker>zu Recht</marker> auf.</example>
-                <example type="correct">Er schneidet das <marker>zu recht</marker> kleinen Stücken.</example>
-                <example type="incorrect">Da regt er sich völlig <marker>zu recht</marker> drüber auf.</example>
             </rule>
         </rulegroup>
         <rulegroup id="JE_DESTO" name="Mögliche Wortverwechslung: je/desto" default="on">
@@ -14957,35 +14970,106 @@ $Id$
                 <example type="correct">Das ist unter meiner <marker>Würde</marker>.</example>
             </rule>
         </rulegroup>
-        <rule id="RECHT_SUBST" name="Groß-/Kleinschreibung: 'ein/das recht (Recht) auf' etc.">
-            <pattern case_sensitive="yes">
-                <token regexp="yes">[dD]as|[eE]in(em)?|dem</token>
-                <marker>
-                    <token>recht</token>
-                </marker>
-                <token regexp="yes">darauf|auf|dazu</token>
-            </pattern>
-            <message>&subanfang;<suggestion>Recht</suggestion>&subende;</message>
-            <short>&prgk;.</short>
-            <example type="incorrect" correction="Recht">Umstritten ist jedoch die Frage, ob sich aus dem <marker>recht</marker> auf Leben auch ein Recht auf den Tod ergibt.</example>
-            <example type="correct">Ein <marker>Recht</marker> auf einen gnädigen Tod.</example>
-        </rule>
-        <rule id="RECHT_ADJ" name="Groß-/Kleinschreibung: 'gehe ich Recht (recht) in der Annahme' etc.">
-            <pattern case_sensitive="yes">
-                <token inflected="yes" regexp="yes" skip="1">[gG]ehen</token>
-                <marker>
-                    <token>Recht</token>
-                </marker>
-                <token>in</token>
-                <token>der</token>
-            </pattern>
-            <message>&subanfang;<suggestion><match no="2" case_conversion="startlower"/></suggestion>&adjende;</message>
-            <url>http://www.duden.de/rechtschreibung/recht</url>
-            <short>&prgk;.</short>
-            <example type="incorrect" correction="recht">Gehe ich <marker>Recht</marker> in der Annahme, dass sie schlau ist?</example>
-            <example type="incorrect" correction="recht">Ich gehe <marker>Recht</marker> in der Annahme, dass sie schlau ist.</example>
-            <example type="correct">Gehe ich <marker>recht</marker> in der Annahme, dass sie schlau ist?</example>
-        </rule>
+        <rulegroup id="RECHT_SUBST" name="Groß-/Kleinschreibung: 'recht (Recht)'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[dD]as|[eE]in(em)?|dem</token>
+                    <marker>
+                        <token>recht</token>
+                    </marker>
+                    <token regexp="yes">darauf|auf|dazu</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Recht</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Recht">Umstritten ist jedoch die Frage, ob sich aus dem <marker>recht</marker> auf Leben auch ein Recht auf den Tod ergibt.</example>
+                <example type="correct">Ein <marker>Recht</marker> auf einen gnädigen Tod.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>
+                        <exception regexp="yes">damit|nicht|schon|komme|kommen|kommt|kommst|sich|uns|euch|etwas|mir|mich</exception>
+                    </token>
+                    <marker>
+                        <token regexp="yes">[Zz]u</token>
+                        <token>recht</token>
+                    </marker>
+                    <token>
+                        <exception postag="ADJ:.+" postag_regexp="yes"></exception>
+                    </token>
+                </pattern>
+                <message>&inwend;<suggestion>zu Recht</suggestion> (im Sinne von <suggestion>berechtigterweise</suggestion>) wird 'Recht' großgeschrieben, sofern es nicht als Adverb ein darauf folgendes Adjektiv näher bestimmt. Als Bestandteil von Verben wie 'zurechtkommen', '-finden' schreiben Sie bitte <suggestion>zurecht</suggestion>.</message>
+                <url>http://www.duden.de/rechtschreibung/Recht</url>
+                <short>&prgk;</short>
+                <example type="correct">Da regt er sich völlig <marker>zu Recht</marker> auf.</example>
+                <example type="correct">Er schneidet das <marker>zu recht</marker> kleinen Stücken.</example>
+                <example type="incorrect">Da regt er sich völlig <marker>zu recht</marker> drüber auf.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">bin|b?ist|sind|seid|war|waren|werden</token>
+                    <marker>
+                        <token regexp="yes">[Zz]u</token>
+                        <token skip="1">recht</token>
+                    </marker>
+                    <token regexp="yes">&gefuehladj;</token>
+                </pattern>
+                <message>&inwend;<suggestion>zu Recht</suggestion> (im Sinne von <suggestion>berechtigterweise</suggestion>) wird 'Recht' großgeschrieben, sofern es nicht als Adverb ein darauf folgendes Adjektiv näher bestimmt. Als Bestandteil von Verben wie 'zurechtkommen', '-finden' schreiben Sie bitte <suggestion>zurecht</suggestion>.</message>
+                <url>http://www.duden.de/rechtschreibung/Recht</url>
+                <short>&prgk;</short>
+                <example type="correct">Er ist <marker>zu Recht</marker> sauer.</example>
+                <example type="correct">Er schneidet das <marker>zu recht</marker> kleinen Stücken.</example>
+                <example type="incorrect">Er ist <marker>zu recht</marker> sauer.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes">[Zz]u</token>
+                        <token skip="1">recht</token>
+                    </marker>
+                    <token regexp="yes">&gefuehladj;</token>
+                    <token regexp="yes">bin|b?ist|sind|seid|war|waren|werden</token>
+                </pattern>
+                <message>&inwend;<suggestion>zu Recht</suggestion> (im Sinne von <suggestion>berechtigterweise</suggestion>) wird 'Recht' großgeschrieben, sofern es nicht als Adverb ein darauf folgendes Adjektiv näher bestimmt. Als Bestandteil von Verben wie 'zurechtkommen', '-finden' schreiben Sie bitte <suggestion>zurecht</suggestion>.</message>
+                <url>http://www.duden.de/rechtschreibung/Recht</url>
+                <short>&prgk;</short>
+                <example type="correct">Ich denke, dass sie <marker>zu Recht</marker> sehr sauer ist.</example>
+                <example type="correct"><marker>Zu recht</marker> kleinen Stücken ist das verarbeitet worden.</example>
+                <example type="incorrect">Ich denke, dass sie <marker>zu recht</marker> sehr sauer ist.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="RECHT_ADJ" name="Groß-/Kleinschreibung: 'Recht (recht)' etc.">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes" regexp="yes" skip="1">[gG]ehen</token>
+                    <marker>
+                        <token>Recht</token>
+                    </marker>
+                    <token>in</token>
+                    <token>der</token>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startlower"/></suggestion>&adjende;</message>
+                <url>http://www.duden.de/rechtschreibung/recht</url>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="recht">Gehe ich <marker>Recht</marker> in der Annahme, dass sie schlau ist?</example>
+                <example type="incorrect" correction="recht">Ich gehe <marker>Recht</marker> in der Annahme, dass sie schlau ist.</example>
+                <example type="correct">Gehe ich <marker>recht</marker> in der Annahme, dass sie schlau ist?</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes" regexp="yes">[Ss]ollen</token>
+                    <token postag="PRO:PER:DAT.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>Recht</token>
+                    </marker>
+                    <token>sein</token>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="3" case_conversion="startlower"/></suggestion>&adjende;</message>
+                <url>http://www.duden.de/rechtschreibung/recht</url>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="recht">Es soll mir <marker>Recht</marker> sein.</example>
+                <example type="correct">Es soll mir <marker>recht</marker> sein.</example>
+            </rule>
+        </rulegroup>
         <rule id="LAUFE_SUBST" name="Groß-/Kleinschreibung: 'im laufe (Laufe) des Tages'">
             <pattern case_sensitive="yes">
                 <token regexp="yes">[iI]m</token>
