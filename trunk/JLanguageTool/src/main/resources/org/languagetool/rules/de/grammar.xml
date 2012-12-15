@@ -84,6 +84,7 @@ $Id$
     <!ENTITY meindein "&lsqb;mds&rsqb;ein|unser|euer|ihr">
     <!ENTITY tippformel "Tipp: Verwenden Sie in OpenOffice.org/LibreOffice für komplexe Formeln den Formeleditor &lsqb;Einfügen &gt; Objekt &gt; Formel&rsqb;">
     <!ENTITY odkomma "oder fehlt vielleicht ein Komma">
+    <!ENTITY verbendirekterede "befehlen|behaupten|denken|fragen|rufen|sagen|versichern">
 ]>
 
 <rules lang="de" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../rules.xsd">
@@ -8817,7 +8818,7 @@ $Id$
     <!-- ====================================================================== -->
     <!-- Korrespondenz -->
     <!-- ====================================================================== -->
-    <category name="Briefe und E-Mails" default="off">
+    <category name="Briefe und E-Mails">
         <rulegroup id="ANREDE" name="Möglicher Tippfehler: 'Sehr geehrte (geehrter) Herr Müller' u.ä.">
             <rule>
                 <pattern case_sensitive="no">
@@ -8992,7 +8993,6 @@ $Id$
                     <token regexp="yes">ich|wir</token>
                 </pattern>
                 <message>Diese Wendung könnte als altmodisch empfunden werden.</message>
-                <short>Diese Wendung könnte als altmodisch empfunden werden.</short>
                 <example type="incorrect">... <marker>verbleibe ich</marker> Mit freundlichen Grüßen</example>
                 <example type="correct"><marker>Irgendetwas anderes</marker></example>
             </rule>
@@ -9098,21 +9098,23 @@ $Id$
                 <example type="correct"><marker>Irgendetwas weniger Belangloses.</marker></example>
             </rule>
         </rulegroup>
-        <rulegroup id="MFG_LG" name="Stil: Schlussformeln sollten nicht abgekürzt werden" default="off">
+        <rulegroup id="MFG" name="Stil: 'MfG (Mit freundlichen Grüßen)' (abgekürzte Schlussformeln)">
             <rule>
-                <pattern case_sensitive="no">
+                <pattern case_sensitive="yes">
                     <token postag="SENT_START"/>
                     <marker>
-                        <token>mfg</token>
+                        <token regexp="yes">mfg|MfG</token>
                     </marker>
                 </pattern>
-                <message>Das Abkürzen von Schlussformeln kann als unhöflich empfunden werden. Vorschlag: <suggestion>Mit freundlichen Grüßen</suggestion></message>
+                <message>Das Abkürzen von Schlussformeln kann als unhöflich empfunden werden. Vorschläge: <suggestion>Mit freundlichen Grüßen</suggestion>, <suggestion>Mit freundlichem Gruß</suggestion></message>
                 <short>Schlussformeln sollten nicht abgekürzt werden</short>
                 <example type="correct"><marker>OMFG</marker> LOL!</example>
                 <example type="correct"><marker>Mit freundlichen Grüßen</marker></example>
-                <example type="incorrect" correction="Mit freundlichen Grüßen"><marker>MFG</marker></example>
-                <example type="incorrect" correction="Mit freundlichen Grüßen"><marker>MfG</marker></example>
+                <example type="correct"><marker>MFG</marker> ist die Medien- und Filmgesellschaft Baden-Württemberg.</example>
+                <example type="incorrect" correction="Mit freundlichen Grüßen|Mit freundlichem Gruß"><marker>MfG</marker></example>
             </rule>
+        </rulegroup>
+        <rulegroup id="LG" name="Stil: 'LG (Liebe Grüße)' (abgekürzte Schlussformeln)" default="off">
             <rule>
                 <pattern case_sensitive="no">
                     <token postag="SENT_START"/>
@@ -9120,12 +9122,12 @@ $Id$
                         <token>LG</token>
                     </marker>
                 </pattern>
-                <message>Das Abkürzen von Schlussformeln kann als unhöflich empfunden werden. Vorschlag: <suggestion>Liebe Grüße</suggestion></message>
+                <message>Das Abkürzen von Schlussformeln kann als unhöflich empfunden werden. Vorschläge: <suggestion>Liebe Grüße</suggestion>, <suggestion>Lieber Gruß</suggestion></message>
                 <short>Schlussformeln sollten nicht abgekürzt werden</short>
                 <example type="correct">Nach einem Urteil des <marker>OLG</marker> ...</example>
                 <example type="correct"><marker>Mit freundlichen Grüßen</marker></example>
                 <example type="correct"><marker>Liebe Grüße</marker></example>
-                <example type="incorrect" correction="Liebe Grüße"><marker>LG</marker></example>
+                <example type="incorrect" correction="Liebe Grüße|Lieber Gruß"><marker>LG</marker></example>
             </rule>
         </rulegroup>
         <rulegroup id="SIE_ANREDE" name="Möglicherweise fälschlich kleingeschriebenes 'sie' markieren" default="off">
@@ -10614,7 +10616,7 @@ $Id$
                     <marker>
                         <token regexp="yes">&subkleinplural;</token>
                     </marker>
-                    <token postag="VER:3:PLU:.*" postag_regexp="yes">
+                    <token postag="VER:3:PLU:.*" postag_regexp="yes" regexp="yes">[a-zäöü]+
                         <exception regexp="yes" scope="current">einen|deutschen|langen|längen</exception>
                     </token>
                 </pattern>
@@ -10631,6 +10633,7 @@ $Id$
                 <example type="correct">Unsere <marker>Feinde</marker> waren hoffnungslos unterlegen.</example>
                 <example type="correct">Die <marker>jungen</marker> deutschen Regisseure.</example>
                 <example type="correct">Diese <marker>stellen</marker> einen großen Teil der Auswanderer.</example>
+                <example type="correct">Die <marker>zentralen</marker> Aufgaben werden vom Ministerium gestellt.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -10640,7 +10643,7 @@ $Id$
                     <marker>
                         <token regexp="yes">&subkleinplural;</token>
                     </marker>
-                    <token postag="VER:3:PLU:.*" postag_regexp="yes">
+                    <token postag="VER:3:PLU:.*" postag_regexp="yes" regexp="yes">[a-zäöü]+
                         <exception regexp="yes" scope="current">einen|deutschen|langen|längen</exception>
                     </token>
                 </pattern>
@@ -10663,7 +10666,7 @@ $Id$
                     </marker>
                     <token regexp="yes">des|eines|dieses|seines|meines|ihres|deines|unseres|eures</token>
                     <token postag="SUB:GEN:SIN:(MAS|NEU)" postag_regexp="yes"/>
-                    <token postag="VER:3:PLU:.*" postag_regexp="yes">
+                    <token postag="VER:3:PLU:.*" postag_regexp="yes" regexp="yes">[a-zäöü]+
                         <exception regexp="yes" scope="current">einen|deutschen|langen|längen</exception>
                     </token>
                 </pattern>
@@ -10682,7 +10685,7 @@ $Id$
                     </marker>
                     <token regexp="yes">meiner|deiner|seiner|unserer|eurer|ihrer|dieser|der|einer|jener</token>
                     <token postag="SUB:GEN:SIN:FEM"/>
-                    <token postag="VER(:MOD)?:3:PLU:.*" postag_regexp="yes">
+                    <token postag="VER(:MOD)?:3:PLU:.*" postag_regexp="yes" regexp="yes">[a-zäöü]+
                         <exception regexp="yes" scope="current">einen|deutschen|langen</exception>
                     </token>
                 </pattern>
@@ -21014,6 +21017,84 @@ $Id$
     <!-- Zeichensetzung -->
     <!-- ====================================================================== -->
     <category name="Zeichensetzung">
+        <rulegroup id="ZEICHENSETZUNG_DIREKTE_REDE" name="Zeichensetzung bei direkter Rede">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>.</token>
+                        <token regexp="yes">&anfzu;</token>
+                    </marker>
+                    <token>,</token>
+                    <token postag_regexp="yes" postag="VER:.*"/>
+                </pattern>
+                <message>Wenn der Begleitsatz hinter einem wörtlichen Zitat steht, entfällt der Punkt nach dem Zitat. Vorschlag: <suggestion>\2</suggestion></message>
+                <url>http://www.canoo.net/services/GermanSpelling/Regeln/Interpunktion/Anfuehrungszeichen.html#Anchor-Zitat-35882</url>
+                <example type="correct">„Ich möchte nichts essen“, sagte er.</example>
+                <example type="correct">„Abk.“, „lt.“ und „Hrsg.“ sind Abkürzungen.</example>
+                <example type="incorrect" correction="“">„Ich möchte nichts essen<marker>.“</marker>, sagte er.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception postag="UNKNOWN|ABK:.*" postag_regexp="yes"/></token>
+                    <marker>
+                        <token>.</token>
+                        <token regexp="yes">&anfzu;</token>
+                        <token>.</token>
+                    </marker>
+                </pattern>
+                <message>Wenn ein wörtliches Zitat mit einem Punkt endet, steht nach dem abschließenden Anführungszeichen kein Punkt. Vorschlag: <suggestion>.\3</suggestion></message>
+                <url>http://www.canoo.net/services/GermanSpelling/Regeln/Interpunktion/Anfuehrungszeichen.html#Anchor-Zitat-11481</url>
+                <example type="correct">Er sagte: „Ich möchte nichts essen.“</example>
+                <example type="incorrect" correction=".“">Er sagte: „Ich möchte nichts essen<marker>.“.</marker></example>
+                <!-- TODO ist das richtig?
+                <example type="correct">Disziplinen als „Sprachkunst (Grammatica), Scheidkunst (Chymia) u.a<marker>.“.</marker></example> -->
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">&anfzu;</token>
+                        <token skip="3" inflected="yes" regexp="yes">&verbendirekterede;<exception scope="next" regexp="yes">,|:|\.|man</exception></token>
+                        <token regexp="yes" spacebefore="yes">&anfauf;</token>
+                    </marker>
+                </pattern>
+                <message>Ein in ein Zitat eingebetteter Begleitsatz wird mit Kommas vom Zitat abgetrennt. Vorschlag: <suggestion>\1,  <match include_skipped="all" no="2"/>, \3</suggestion></message>
+                <url>http://www.canoo.net/services/GermanSpelling/Regeln/Interpunktion/Anfuehrungszeichen.html#Anchor-Begleitsatz-23240</url>
+                <example type="correct">„Die Fenster sind“, behauptet er, „geschlossen.“</example>
+                <example type="correct">Einer Zeitschrift, der Zeitschrift „News“, sagte er: „Es ist wahr.“</example>
+<!--                 <example type="incorrect" correction="“, behauptet er, „">„Die Fenster sind<marker>“ behauptet er „</marker>geschlossen.“</example> -->
+<!--             TODO    <example type="incorrect">„Die Fenster sind<marker>“ behauptet er „</marker>geschlossen.“</example> 
+"Es regnet," sagte er.-->
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">&anfzu;</token>
+                        <token>,</token>
+                        <token skip="3" inflected="yes" regexp="yes">&verbendirekterede;<exception scope="next" regexp="yes">,|:|\.|man</exception></token>
+                        <token regexp="yes" spacebefore="yes">&anfauf;</token>
+                    </marker>
+                </pattern>
+                <message>Ein in ein Zitat eingebetteter Begleitsatz wird mit Kommas vom Zitat abgetrennt. Vorschlag: <suggestion>\1, <match include_skipped="all" no="3"/>, \4</suggestion></message>
+                <url>http://www.canoo.net/services/GermanSpelling/Regeln/Interpunktion/Anfuehrungszeichen.html#Anchor-Begleitsatz-23240</url>
+                <example type="correct">„Die Fenster sind“, behauptet er, „geschlossen.“</example>
+                <example type="correct">Einer Zeitschrift, der Zeitschrift „News“, sagte er: „Es ist wahr.“</example>
+                <example type="incorrect">„Die Fenster sind<marker>“, behauptet er „</marker>geschlossen.“</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception regexp="yes">&anfauf;</exception></token>
+                    <marker>
+                        <token>,</token>
+                        <token regexp="yes" spacebefore="no">&anfzu;</token>
+                    </marker>
+                </pattern>
+                <message>Bei einem Zitat steht das Komma zum Abtrennen des Begleitsatzes hinter dem Anführungszeichen. Vorschlag: <suggestion>\3,</suggestion></message>
+                <url>http://www.canoo.net/services/GermanSpelling/Regeln/Interpunktion/Anfuehrungszeichen.html</url>
+                <example type="correct">„Die Fenster sind geschlossen“, sagt sie.</example>
+                <example type="correct">Der Operator „,“ ist nützlich.</example>
+                <example type="incorrect" correction="“,">„Die Fenster sind geschlossen<marker>,“</marker> sagt sie.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ABKUERZUNG_FEHLENDE_PUNKTE" name="Zeichensetzung: Fehlende Punkte in Abkürzungen ('z B.' etc.)">
             <!--TODO ergänzen .-->
             <rule>
@@ -21065,6 +21146,23 @@ $Id$
                 <message>Meinten Sie <suggestion>z.&nbsp;B.</suggestion>?</message>
                  <example type="incorrect" correction="z.&nbsp;B.">Sie erkennt <marker>z B.</marker> den Fehler in diesem Satz.</example> 
                 <example type="correct">Sie erkennt <marker>z. B.</marker> den Fehler in diesem Satz.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AUFFORDERUNG_MIT_FRAGEZEICHEN" name="Zeichensetzung: Fragezeichen statt Ausrufezeichen">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START"/>
+                    <token regexp="yes">Begründen|Berechnen|Beschreiben|Bestimmen|Beurteilen|Beweisen|Erklären|Erläutern|Ermitteln|Interpretieren|Nennen|Vergleichen|Zeichnen|Zeigen</token>
+                    <token skip="-1">Sie</token>
+                    <marker>
+                        <token postag="SENT_END">?</token>
+                    </marker>
+                </pattern>
+                <message>Wenn dieser Satz eine Aufforderung ist, verwenden Sie bitte ein Ausrufezeichen oder einen Punkt. Vorschläge: <suggestion>!</suggestion>, <suggestion>.</suggestion>
+                </message>
+                <short>Möglicherweise falsches Satzzeichen</short>
+                <example type="correct">Berechnen Sie den Glanzwinkel<marker>!</marker></example>
+                <example type="incorrect" correction="!|.">Berechnen Sie den Glanzwinkel<marker>?</marker></example>
             </rule>
         </rulegroup>
         <rulegroup id="FRAGE_OHNE_FRAGEZEICHEN" name="Zeichensetzung: Punkt statt Fragezeichen (nur in wenigen einfachen Fällen, Regel ist in Arbeit)" default="off">
@@ -21881,6 +21979,51 @@ $Id$
     <!-- Typographie -->
     <!-- ====================================================================== -->
     <category name="Typographie">
+        <rulegroup id="TYPOGRAFISCHE_ANFUEHRUNGSZEICHEN" name="Zeichensetzung/Typographie: Typografische Anführungszeichen">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">'|`|’|‘|′</token>
+                        <token><match no="0"/></token>
+                        <token><match no="0"/></token>
+                    </marker>
+                </pattern>
+                <message>Wollen Sie das Triple-Prime-Zeichen (<suggestion>‴</suggestion>; dritte Ableitung, dreigestrichene Oktave) verwenden?</message>
+                <example type="correct">f<marker>‴</marker> ist einfach zu berechnen.</example>
+                <example type="incorrect" correction="‴">f<marker>'''</marker> ist einfach zu berechnen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">'|`|’|‘|′</token>
+                        <token><match no="0"/></token>
+                    </marker>
+                </pattern>
+                <message>Wollen Sie ein typografisches Anführungszeichen (<suggestion>„</suggestion> <suggestion>“</suggestion>, <suggestion>»</suggestion> <suggestion>«</suggestion>) oder das Sekunden-/Zollzeichen (<suggestion>″</suggestion>) verwenden?</message>
+                <example type="correct">f<marker>″</marker> ist einfach zu berechnen.</example>
+                <example type="incorrect" correction="„|“|»|«|″">f<marker>''</marker> ist einfach zu berechnen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>"</token>
+                    </marker>
+                </pattern>
+                <message>Wollen Sie statt des Ersatzzeichens (") ein typografisches Anführungszeichen (<suggestion>„</suggestion> <suggestion>“</suggestion>, <suggestion>»</suggestion> <suggestion>«</suggestion>) oder das Sekunden-/Zollzeichen (<suggestion>″</suggestion>) verwenden?</message>
+                <example type="correct">Der Bildschirm ist 7<marker>″</marker> groß.</example>
+                <example type="incorrect" correction="„|“|»|«|″">Der Bildschirm ist 7<marker>"</marker> groß.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>'</token>
+                    </marker>
+                </pattern>
+                <message>Wollen Sie statt des Ersatzzeichens (') ein Apostroph (<suggestion>’</suggestion>), typografische Anführungszeichen (<suggestion>‚</suggestion> <suggestion>‘</suggestion>, <suggestion>›</suggestion> <suggestion>‹</suggestion>) oder das Minutenzeichen (<suggestion>′</suggestion>) verwenden?</message>
+                <example type="correct">Felix<marker>’</marker> Hausaufgaben sind gut.</example>
+                <example type="incorrect" correction="’|‚|‘|›|‹|′">Felix<marker>'</marker> Hausaufgaben sind gut.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="GROESSER_KLEINER_ANFUEHRUNG" name="Zeichensetzung/Typographie: Größer-/Kleiner-Zeichen statt frz. Anführungszeichen">
             <rule>
                 <pattern>
