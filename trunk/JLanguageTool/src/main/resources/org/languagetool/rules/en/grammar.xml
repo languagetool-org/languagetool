@@ -39,6 +39,20 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
     <!-- Possible typos -->
     <!-- ====================================================================== -->
     <category name="Possible Typos" type="misspelling">
+        <rule id="UP_TO_DATA" name="up to data (date)">
+            <pattern case_sensitive="yes">
+                <token>up</token>
+                <token>to</token>
+                    <marker>
+                        <token>data</token>
+                    </marker>
+            </pattern>
+            <message>Did you mean <suggestion>date</suggestion>?</message>
+            <short>Possible typo</short>
+            <example type="correct">The software is not up to <marker>date</marker>.</example>
+            <example type="correct">This is the Carmen up to <marker>Data</marker>.</example>
+            <example type="incorrect" correction="date">The software is not up to <marker>data</marker>.</example>
+        </rule>
         <rule id="FEEL_TREE_TO" name="feel tree (free) to">
             <pattern>
                 <token>feel</token>
@@ -8802,6 +8816,54 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
 
     </category>
     <category name="Commonly Confused Words" type="misspelling">
+        <rulegroup id="LOOK_WATCH" name="look (watch)">
+            <rule>
+                <pattern>
+                    <token inflected="yes">be</token>
+                    <marker>
+                        <token skip="2">looking<exception scope="next">for</exception></token>
+                    </marker>
+                    <token regexp="yes">TV|television</token>
+                </pattern>
+                <message>Did you mean <suggestion>watching</suggestion>?</message>
+                <example type="correct">I am <marker>watching</marker> TV.</example>
+                <example type="incorrect" correction="watching">I am <marker>looking</marker> TV.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token skip="2">looks<exception scope="next">for</exception></token>
+                    </marker>
+                    <token regexp="yes">TV|television</token>
+                </pattern>
+                <message>Did you mean <suggestion>watches</suggestion>?</message>
+                <example type="correct">She <marker>watches</marker> TV every morning.</example>
+                <example type="incorrect" correction="watches">She <marker>looks</marker> TV every morning.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token skip="2">look<exception scope="next">for</exception></token>
+                    </marker>
+                    <token regexp="yes">TV|television</token>
+                </pattern>
+                <message>Did you mean <suggestion>watch</suggestion>?</message>
+                <example type="correct">I <marker>watch</marker> TV every morning.</example>
+                <example type="incorrect" correction="watch">I <marker>look</marker> TV every morning.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token skip="2">looked<exception scope="next">for</exception></token>
+                    </marker>
+                    <token regexp="yes">TV|television</token>
+                </pattern>
+                <message>Did you mean <suggestion>watched</suggestion>?</message>
+                <example type="correct">I <marker>watched</marker> TV in the morning.</example>
+                <example type="incorrect" correction="watched">I <marker>looked</marker> TV in the morning.</example>
+                <example type="incorrect" correction="watched">She <marker>looked</marker> poker on television.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="SITE_SIDE" name="site (side)">
             <rule>
                 <pattern>
