@@ -153,6 +153,18 @@ public class CheckWikipediaDump {
         languageTool.enableDefaultOffRule(rule.getId());
       }
     }
+    for (String ruleId : ruleIds) {
+      boolean found = false;
+      for (Rule rule : languageTool.getAllRules()) {
+        if (rule.getId().equals(ruleId)) {
+            found = true;
+            break;
+        }
+      }
+      if (!found) {
+        System.out.println("WARNING: Could not find rule '" + ruleId + "'");
+      }
+    }
     System.out.println("Only these rules are enabled: " + Arrays.toString(ruleIds));
   }
 
