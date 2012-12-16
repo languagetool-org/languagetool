@@ -2312,7 +2312,7 @@ $Id$
     <rulegroup id="GER_KEMM" name="kemmadur ebet goude gerioù">
       <rule>
         <pattern>
-          <token regexp="yes">abaoe|ahont|amañ|arabat|aze|a-(benn|berzh|dal|dreñv|dreuz|hed|raok|us|walc’h|wechoù|wazhioù|ziwar)|bep|bet|betek|daoust|diouzh|dirak|eget|ent|eus|[e’](vel|vit)(-se)?|e-(barzh|giz|keñver|kerz|kichen(ig)?|kreiz|lerc’h|mesk|pad|ser)|gant|goude|hag?|hep|hervez|hevelep|kalz(ig)?|kement|ke[nt]|krenn|lies|mard?|met|nemet|nompas|manier|memes|na|nebeud(ig)?|nep|ouzh|ouzhpenn|pas|pep|pebezh|pegen|peotramant|pere|peseurt|pet|petore|petvet|rak|setu|seurt|war-(c’horre|lerc’h|dro|du)<exception postag="L n">na</exception><exception postag="X KAOUT2">eus</exception></token>
+          <token regexp="yes">abaoe|ahont|amañ|arabat|aze|a-(benn|berzh|dal|dreñv|dreuz|drugarez|enep|hed|raok|us|walc’h|wechoù|wazhioù|ziwar)|bep|bet|betek|daoust|diouzh|dirak|diwar-(benn|goust)|eget|ent|etrezek|eus|[e’](vel|vit)(-se)?|e-(barzh|giz|keñver|kerz|kichen(ig)?|get|kreiz|lerc’h|mesk|pad|ser)|gant|goude|hag?|hep|hervez|hevelep|kalz(ig)?|kement|kenetre|ke[nt]|krenn|lies|mard?|met|nemet|nompas|manier|memes|na|nebeud(ig)?|nep|ouzh|ouzhpenn|panevet|pas|pep|pebezh|pegen|peotramant|pere|peseurt|pet|petore|petvet|rak|setu|seurt|war-(bouez|c’horre|dro|du|giz|lerc’h|nes|zu)<exception postag="L n">na</exception><exception postag="X KAOUT2">eus</exception></token>
           <marker>
             <token postag="[^M]*M:.*" postag_regexp="yes">
               <exception negate_pos="yes" postag="[^M]*M:.*" postag_regexp="yes"/>
@@ -2672,12 +2672,13 @@ $Id$
             <token regexp="yes">[aeu]l|hol</token>
           </marker>
           <token regexp="yes">[bcfgjkmprsvwyz].*
-            <exception regexp="yes">[flmns]</exception>
+            <exception regexp="yes">[flmns]|(?-i)Gore</exception>
           </token>
         </pattern>
         <message>Ar ger «\1» a zlefe bezañ <suggestion><match no="1" regexp_match="(.*)." regexp_replace="$1r"/></suggestion> dirak ur ger na grog ket gant al lizherennoù «n, d, t, h» per ur vogalenn.</message>
         <example type="incorrect"><marker>Al</marker> vell-droad a blij din.</example>
         <example type="correct">Ar vell-droad a blij din.</example>
+        <example type="correct"><marker>Al</marker> Gore a zo ur politikour.</example>
       </rule>
       <rule>
         <pattern>
@@ -2809,7 +2810,7 @@ $Id$
       <rule>
         <pattern>
           <token postag="SENT_START"/>
-          <token postag="P"/>
+          <token postag="P"><exception>kalz</exception></token>
           <token postag="N.*" postag_regexp="yes"/>
           <marker>
             <token regexp="yes">a[mz]|ac’h</token>
@@ -2819,6 +2820,7 @@ $Id$
         <message>Lakaet e vez a rannig verb «e» goude ar renadenn dieeun. Ha fellout a rae deoc’h skrivañ <suggestion><match no="4" regexp_match=".(.*)" regexp_replace="e$1"/></suggestion>?</message>
         <example type="incorrect">E Breizh <marker>am</marker> eus kavet se.</example>
         <example type="correct">E Breizh <marker>em</marker> eus kavet se.</example>
+        <example type="correct">Kalz amzer am eus.</example>
       </rule>
     </rulegroup>
     <rulegroup id="O_OCH" name="o → oc’h">
@@ -3486,7 +3488,7 @@ $Id$
             <token regexp="yes">[ae]m|hon</token>
             <token postag="X KAOUT2">eus</token>
           </marker>
-          <token regexp="yes">alies|atav|a-wechoù|a-wezhioù|bepred|bemdez|bemnoz|dalc’hmat</token>
+          <token regexp="yes">alies(-mat)?|atav|a-wechoù|a-wezhioù|bepred|bemdez|bemnoz|dalc’hmat</token>
         </pattern>
         <message>Ret eo skrivañ <suggestion>\1 bez</suggestion> gant ar ger «\3».</message>
         <example type="incorrect">Sec’hed <marker>am eus</marker> atav.</example>
@@ -3498,7 +3500,7 @@ $Id$
             <token regexp="yes">[ae](z|c’h)</token>
             <token postag="X KAOUT2" regexp="yes">p?eus</token>
           </marker>
-          <token regexp="yes">alies|atav|a-wechoù|a-wezhioù|bepred|bemdez|bemnoz|dalc’hmat</token>
+          <token regexp="yes">alies(-mat)?|atav|a-wechoù|a-wezhioù|bepred|bemdez|bemnoz|dalc’hmat</token>
         </pattern>
         <message>Ret eo skrivañ <suggestion><match no="1" regexp_match="(.).*" regexp_replace="$1z"/> pez</suggestion> gant ar ger «\3».</message>
         <example type="incorrect">Sec’hed <marker>az peus</marker> atav.</example>
@@ -3510,7 +3512,7 @@ $Id$
             <token regexp="yes">en|he|o</token>
             <token postag="X KAOUT2">deus</token>
           </marker>
-          <token regexp="yes">alies|atav|a-wechoù|a-wezhioù|bepred|bemdez|bemnoz</token>
+          <token regexp="yes">alies(-mat)?|atav|a-wechoù|a-wezhioù|bepred|bemdez|bemnoz</token>
         </pattern>
         <message>Ret eo skrivañ <suggestion>\1 devez</suggestion> gant ar ger «\3».</message>
         <example type="incorrect">Sec’hed <marker>o deus</marker> atav.</example>
@@ -3522,7 +3524,7 @@ $Id$
             <token>hoc’h</token>
             <token postag="X KAOUT2">peus</token>
           </marker>
-          <token regexp="yes">alies|atav|a-wechoù|a-wezhioù|bepred|bemdez|bemnoz</token>
+          <token regexp="yes">alies(-mat)?|atav|a-wechoù|a-wezhioù|bepred|bemdez|bemnoz</token>
         </pattern>
         <message>Ret eo skrivañ <suggestion>ho pez</suggestion> gant ar ger «\3».</message>
         <example type="incorrect">Sec’hed <marker>hoc’h peus</marker> atav.</example>
@@ -3534,7 +3536,7 @@ $Id$
             <token regexp="yes">[ae][mz]|[ae]c’h|en|he|hon|hoc’h|o</token>
             <token postag="X KAOUT2" regexp="yes">[bdp]oa</token>
           </marker>
-          <token regexp="yes">alies|atav|a-wechoù|a-wezhioù|bepred|bemdez|bemnoz</token>
+          <token regexp="yes">alies(-mat)?|atav|a-wechoù|a-wezhioù|bepred|bemdez|bemnoz</token>
         </pattern>
         <message>Ret eo skrivañ <suggestion>\1 <match no="2" regexp_match="(.).*" regexp_replace="$1eze"/></suggestion> gant ar ger «\3».</message>
         <example type="incorrect">Sec’hed <marker>am boa</marker> atav.</example>
@@ -3723,7 +3725,7 @@ $Id$
       <pattern>
         <token postag="[JN].*" postag_regexp="yes">
           <exception postag="V.*" postag_regexp="yes"/>
-          <exception>gant</exception>
+          <exception regexp="yes">gant|war</exception>
         </token>
         <token regexp="yes">se|mañ|hont</token>
       </pattern>
@@ -3732,6 +3734,7 @@ $Id$
       <example type="correct">Koant eo ar plac’h-mañ.</example>
       <example type="correct">Echu gant se.</example>
       <example type="correct">Ne c’hallan ket ober se.</example>
+      <example type="correct">Hag a-du emaoc’h ganin war se?</example>
     </rule>
     <rule id="J_TRE" name="fentus tre → fentus-tre (hag all)">
       <pattern>
@@ -4072,7 +4075,7 @@ $Id$
     <rule id="E_KREIZ" name="e kreiz → e-kreiz (hag all)">
       <pattern>
         <token>e</token>
-        <token regexp="yes">barzh|douare|giz(-(all|mañ|se|hon))?|harz|hunan|keit(-se)?|kerz|kichen|krec’h|kreiz|leizh|maez|pad|sell|ser|tailh|tal|touez|tro</token>
+        <token regexp="yes">barzh|douare|giz(-(all|mañ|se|hon))?|harz|hunan|keit(-se)?|kerz|kichen|krec’h|kreiz|leizh|maez|sell|ser|tailh|tal|touez|tro</token>
       </pattern>
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
       <example type="incorrect"><marker>E kichen</marker> Gwitalmeze emañ o chom.</example>
@@ -4080,6 +4083,7 @@ $Id$
       <example type="incorrect">Rwanda zo ur vro <marker>e kreiz</marker> Afrika.</example>
       <example type="correct">Rwanda zo ur vro e-kreiz Afrika.</example>
       <example type="correct">E breizh hag <marker>e lec’h</marker> all.</example>
+      <example type="correct">Pegeit <marker>e pad</marker>?</example>
     </rule>
 
     <rule id="DIWAR_BENN" name="diwar benn → diwar-benn (hag all)">
