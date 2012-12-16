@@ -10069,6 +10069,50 @@ $Id$
                 <example type="incorrect" correction="Filme">Ich werde <marker>filme</marker> zeigen.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="ARBEITEN_SUBST" name="Groß-/Kleinschreibung: 'arbeiten (Arbeiten) verrichten'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>arbeiten</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">verrichten|korrigieren|schreiben</token>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="1" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Ich werde kleinere <marker>Arbeiten</marker> verrichten.</example>
+                <example type="incorrect" correction="Arbeiten">Ich werde eure <marker>arbeiten</marker> korrigieren.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="WAERME_SUBST" name="Groß-/Kleinschreibung: 'vor wärme (Wärme) schützen'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[vV]or</token>
+                    <marker>
+                        <token>wärme</token>
+                    </marker>
+                    <token inflected="yes">schützen</token>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Bitte vor <marker>Wärme</marker> geschützt lagern.</example>
+                <example type="incorrect" correction="Wärme">Bitte vor <marker>wärme</marker> geschützt lagern.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="FASS_SUBST" name="Groß-/Kleinschreibung: 'ein fass (Fass) ohne Boden' etc.">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[eE]in</token>
+                    <marker>
+                        <token>fass</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Das ist ein <marker>Fass</marker> ohne Boden.</example>
+                <example type="correct">Bitte <marker>fass</marker> mich nicht so grob an.</example>
+                <example type="incorrect" correction="Fass">Das ist ein <marker>fass</marker> ohne Boden.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="KOEPFE_SUBST" name="Groß-/Kleinschreibung: 'da rollen köpfe (Köpfe)' etc.">
             <rule>
                 <pattern case_sensitive="yes">
@@ -10080,7 +10124,7 @@ $Id$
                 <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example type="correct">Da rollen <marker>Köpfe</marker>.</example>
-                <example type="incorrect">Da rollen <marker>köpfe</marker>.</example>
+                <example type="incorrect" correction="Köpfe">Da rollen <marker>köpfe</marker>.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -12017,6 +12061,20 @@ $Id$
                 <short>&prgk;.</short>
                 <example type="incorrect" correction="Dienst">Ich bin im öffentlichen <marker>dienst</marker> tätig.</example>
                 <example type="correct" correction="Dienst">Ich bin im öffentlichen <marker>Dienst</marker> tätig.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="TRAEUME_SUBST" name="Groß-/Kleinschreibung: 'die Frau meiner träume (Träume)' etc.">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SUB:NOM:.+" postag_regexp="yes"/>
+                    <token regexp="yes">(&meindein;)er</token>
+                    <marker>
+                        <token>träume</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Träume</suggestion>&subende;</message>
+                <example type="correct">Du bist die Frau meiner <marker>Träume</marker>.</example>
+                <example type="incorrect" correction="Träume">Du bist die Frau meiner <marker>träume</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="WOGEN_SUBST" name="Groß-/Kleinschreibung: 'Öl auf die wogen (Wogen)' etc.">
