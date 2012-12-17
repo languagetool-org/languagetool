@@ -9825,7 +9825,7 @@ $Id$
             </rule>           
             <rule>
                 <pattern>
-                    <token regexp="yes">dl|ml|dag|cm|dm|zł|kg|mln|mld|min|npl|pkt|pg|tg|cos|cosec|sec|sin|rkm|wg</token>
+                    <token regexp="yes">[dm]l|dag|[cd]m|zł|kg|ml[nd]|min|npl|pkt|[tpw]g|cos|cosec|sec|sin|rkm</token>
                     <token>.<exception postag="SENT_END"></exception></token>
                 </pattern>
                 <message>Ten skrót piszemy bez kropki: <suggestion>\1</suggestion>.</message>
@@ -9884,7 +9884,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">dr|mgr|mjr|a?bp|płk</token>
+                    <token regexp="yes">dr|m[gj]r|a?bp|płk</token>
                     <token postag="(subst|adj).*" postag_regexp="yes"><exception postag=".*nom.*" postag_regexp="yes"></exception></token>
                 </pattern>
                 <message>Ten skrót z rzeczownikiem w przypadku zależnym piszemy z kropką: <suggestion>\1. \2</suggestion>.</message>
@@ -9897,7 +9897,7 @@ $Id$
         <rule id="POD_KONTEM" name="„pod kontem czegoś” (pod kątem)">
             <pattern>
                 <marker>
-                    <token regexp="yes">pod|po</token>
+                    <token regexp="yes">pod?</token>
                     <token>kontem</token>
                 </marker>
                 <token postag=".*gen(\.|:).*" postag_regexp="yes"></token>
@@ -10384,7 +10384,7 @@ $Id$
                         <token>za</token>
                         <token>dość</token>
                     </marker>
-                    <token inflected="yes" regexp="yes">czynić|uczynić</token>
+                    <token inflected="yes" regexp="yes">u?czynić</token>
                 </pattern>
                 <message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion>zadość</suggestion>?</message>
                 <short>Błąd ortograficzny</short>
