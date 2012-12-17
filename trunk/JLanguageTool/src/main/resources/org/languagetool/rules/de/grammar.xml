@@ -1741,17 +1741,6 @@ $Id$
             <example type="correct">Er lebt von <marker>Hartz IV</marker>.</example>
             <example type="incorrect">Er lebt von <marker>Harz IV</marker>.</example>
         </rule>
-        <rule id="WAGE_VAGE" name="Möglicher Tippfehler: 'wage (vage)'">
-            <pattern>
-                <marker>
-                    <token>wage</token>
-                </marker>
-                <token postag="SUB:.*|VER:.*" postag_regexp="yes"/>
-            </pattern>
-            <message>Meinten Sie <suggestion>vage</suggestion> (=unklar, unpräzise)?</message>
-            <example type="correct">Eine <marker>vage</marker> Entscheidung</example>
-            <example type="incorrect">Eine <marker>wage</marker> Entscheidung</example>
-        </rule>
         <rulegroup id="DIE_DE" name="Möglicher Tippfehler: 'de (die)'">
             <rule>
                 <pattern case_sensitive="yes">
@@ -1974,21 +1963,6 @@ $Id$
                 <example type="correct">Wie kann ich einem <marker>Laien</marker> den Unterschied zwischen analog und digital erklären?</example>
                 <example type="correct">Ich kenne keinen, der es einem <marker>leihen</marker> würde.</example>
                 <example type="incorrect">Wie kann ich einem <marker>Leihen</marker> den Unterschied zwischen analog und digital erklären?</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="ART_UND_WIESE" name="Möglicher Tippfehler: 'Art und Wiese/Weiße (Art und Weise)'">
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token>Art</token>
-                    <token>und</token>
-                    <marker>
-                        <token regexp="yes">Wiese|Weiße</token>
-                    </marker>
-                </pattern>
-                <message>Meinten Sie <suggestion>Weise</suggestion>?</message>
-                <example type="correct">Die Art und <marker>Weise</marker> war unerträglich.</example>
-                <example type="incorrect">Die Art und <marker>Wiese</marker> war unerträglich.</example>
-                <example type="incorrect">Die Art und <marker>Weiße</marker> war unerträglich.</example>
             </rule>
         </rulegroup>
         <rulegroup id="WIE_IST_DEN" name="Möglicher Tippfehler: 'wie ist den (denn)'">
@@ -2983,18 +2957,93 @@ $Id$
             <example type="correct">Man nehme drei <marker>passierte</marker> Tomaten.</example>
             <example type="incorrect" correction="passierte">Man nehme drei <marker>passionierte</marker> Tomaten.</example>
         </rule>
-        <rule id="WAISE_WEISE" name="Mögliche Wortverwechslung: Waise/Weise">
-            <pattern>
-                <token regexp="yes">Art(en)?|Worte</token>
-                <token>und</token>
-                <marker>
-                    <token>Waise</token>
-                </marker>
-            </pattern>
-            <message>&verw;Meinten Sie <suggestion>Weise</suggestion> (Art, Methode) statt Waise (elternloses Kind)?</message>
-            <example type="correct">Die Art und <marker>Weise</marker> ist entscheidend.</example>
-            <example type="incorrect" correction="Weise">Die Art und <marker>Waise</marker> ist entscheidend.</example>
-        </rule>
+        <rulegroup id="WAISE_WEISE" name="Mögliche Wortverwechslung: Waise/Weise/Wiese">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>Art</token>
+                    <token>und</token>
+                    <marker>
+                        <token regexp="yes">Wiese|Weiße</token>
+                    </marker>
+                </pattern>
+                <message>&verw;Meinten Sie <suggestion>Weise</suggestion> (Art, Methode)?</message>
+                <example type="correct">Die Art und <marker>Weise</marker> war unerträglich.</example>
+                <example type="incorrect" correction="Weise">Die Art und <marker>Wiese</marker> war unerträglich.</example>
+                <example type="incorrect" correction="Weise">Die Art und <marker>Weiße</marker> war unerträglich.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">Art(en)?|Worte</token>
+                    <token>und</token>
+                    <marker>
+                        <token>Waise</token>
+                    </marker>
+                </pattern>
+                <message>&verw;Meinten Sie <suggestion>Weise</suggestion> (Art, Methode) statt Waise (elternloses Kind)?</message>
+                <example type="correct">Die Art und <marker>Weise</marker> ist entscheidend.</example>
+                <example type="incorrect" correction="Weise">Die Art und <marker>Waise</marker> ist entscheidend.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="WAGE_VAGE" name="Mögliche Wortverwechslung: wage/vage">
+            <rule>
+                <pattern>
+                    <token inflected="yes">erinnern</token>
+                    <token postag="PRO:REF:AKK:.+" postag_regexp="yes"/>
+                    <marker>
+                        <token>wage</token>
+                    </marker>
+                    <token regexp="yes">(dar)?an</token>
+                </pattern>
+                <message>&verw;Meinten Sie <suggestion>vage</suggestion> (=unklar, unpräzise)?</message>
+                <short>Mögliche Wortverwechslung</short>
+                <example type="incorrect" correction="vage">Ich erinnere mich <marker>wage</marker> daran.</example>
+                <example type="incorrect" correction="vage">Er erinnert mich <marker>wage</marker> an meinen Onkel.</example>
+                <example type="correct">Ich erinnere mich <marker>vage</marker> daran.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>wage</token>
+                    </marker>
+                    <token postag="SUB:.*|VER:.*" postag_regexp="yes"/>
+                </pattern>
+                <message>&verw;Meinten Sie <suggestion>vage</suggestion> (=unklar, unpräzise)?</message>
+                <short>Mögliche Wortverwechslung</short>
+                <example type="incorrect" correction="vage">Ich habe da eine <marker>wage</marker> Ahnung.</example>
+                <example type="correct">Eine <marker>vage</marker> Entscheidung.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="WAGE_WAAGE" name="Mögliche Wortverwechslung: wage/Waage">
+            <rule>
+                <pattern case_sensitive="no">
+                    <token inflected="yes" regexp="yes" skip="2">bringen|legen</token>
+                    <token>auf</token>
+                    <token>die</token>
+                    <marker>
+                        <token>Wage</token>
+                    </marker>
+                </pattern>
+                <message>&verw;Meinten Sie <suggestion>Waage</suggestion>?</message>
+                <short>Mögliche Wortverwechslung</short>
+                <example type="incorrect" correction="Waage">Der bringt zwanzig Kilo auf die <marker>Wage</marker>.</example>
+                <example type="incorrect" correction="Waage">Ich legte das Gemüse auf die <marker>Wage</marker>.</example>
+                <example type="correct">Der bringt zwanzig Kilo auf die <marker>Waage</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="no">
+                    <token>auf</token>
+                    <token>die</token>
+                    <marker>
+                        <token>Wage</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">bringen|legen</token>
+                </pattern>
+                <message>&verw;Meinten Sie <suggestion>Waage</suggestion>?</message>
+                <short>Mögliche Wortverwechslung</short>
+                <example type="incorrect" correction="Waage">Der wird seine zwanzig Kilo auf die <marker>Wage</marker> bringen.</example>
+                <example type="correct">Der wird seine zwanzig Kilo auf die <marker>Waage</marker> bringen.</example>
+            </rule>
+        </rulegroup>
         <rule id="SANG_UND_KLAGLOS" name="Mögliche Wortverwechslung: klaglos/klanglos">
             <pattern>
                 <token>sang-</token>
@@ -3091,7 +3140,7 @@ $Id$
                         <token>recht</token>
                     </marker>
                     <token>
-                        <exception postag="ADJ:.+" postag_regexp="yes"></exception>
+                        <exception postag="ADJ:.+" postag_regexp="yes"/>
                     </token>
                 </pattern>
                 <message>Als Bestandteil von Fügungen mit Verben wie 'zurechtkommen', '-finden' schreiben Sie bitte <suggestion>zurecht</suggestion>. Wenn Sie dagegen <suggestion>berechtigterweise</suggestion> meinen, schreiben Sie bitte getrennt: <suggestion>zu Recht</suggestion>.</message>
@@ -3111,7 +3160,7 @@ $Id$
                         <token>recht</token>
                     </marker>
                     <token>
-                        <exception postag="ADJ:.+" postag_regexp="yes"></exception>
+                        <exception postag="ADJ:.+" postag_regexp="yes"/>
                     </token>
                 </pattern>
                 <message>Als Bestandteil von Fügungen mit Verben wie 'zurechtkommen', '-finden' schreiben Sie bitte <suggestion>zurecht</suggestion>. Wenn Sie dagegen <suggestion>berechtigterweise</suggestion> meinen, schreiben Sie bitte getrennt: <suggestion>zu Recht</suggestion>.</message>
@@ -3146,6 +3195,19 @@ $Id$
         <rulegroup id="CHAMPIGNON_CHAMPION" name="Mögliche Wortverwechslung: Champignon/Champion">
             <rule>
                 <pattern case_sensitive="no">
+                    <token regexp="yes">Dosen?|Pizza|Pasta|Nudeln|Soße|Sauce</token>
+                    <token>mit</token>
+                    <marker>
+                        <token>Champions</token>
+                    </marker>
+                </pattern>
+                <message>&verw;Meinten Sie <suggestion><match no="3" regexp_match="^Champion" regexp_replace="Champignon"/></suggestion> (Speisepilz)?</message>
+                <short>Mögliche Wortverwechslung</short>
+                <example type="incorrect" correction="Champignons">Es gab Pizza mit <marker>Champions</marker>.</example>
+                <example type="correct">Pizza mit <marker>Champignons</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="no">
                     <token regexp="yes">Dosen?|Glas|Gläsern?|(frisch|gedünstet|gehackt|geschnitten|gebraten|gefüllt)en?</token>
                     <marker>
                         <token regexp="yes">Champions?</token>
@@ -3168,6 +3230,33 @@ $Id$
                 <short>Mögliche Wortverwechslung</short>
                 <example type="incorrect" correction="Champignons"><marker>Champions</marker> aus der Dose.</example>
                 <example type="correct"><marker>Champignons</marker> aus der Dose.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="BOT_BOOT" name="Mögliche Wortverwechslung: bot/Boot">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[iI]m</token>
+                    <token>selben</token>
+                    <marker>
+                        <token>Bot</token>
+                    </marker>
+                </pattern>
+                <message>&verw;Meinten Sie <suggestion>Boot</suggestion>?</message>
+                <short>Mögliche Wortverwechslung</short>
+                <example type="incorrect" correction="Boot">Wir sitzen im selben <marker>Bot</marker>.</example>
+                <example type="correct">Wir sitzen im selben <marker>bot</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[iI]ns</token>
+                    <marker>
+                        <token>Bot</token>
+                    </marker>
+                </pattern>
+                <message>&verw;Meinten Sie <suggestion>Boot</suggestion>?</message>
+                <short>Mögliche Wortverwechslung</short>
+                <example type="incorrect" correction="Boot">Wir haben sie ins <marker>Bot</marker> geholt.</example>
+                <example type="correct">Wir haben sie ins <marker>bot</marker> geholt.</example>
             </rule>
         </rulegroup>
         <rulegroup id="TOT_TOD" name="Mögliche Wortverwechslung: tot/Tod">
@@ -4329,6 +4418,7 @@ $Id$
                     <token regexp="yes">Ray|Rai|Rei</token>
                 </pattern>
                 <message>Meinten Sie das digitale optische Speichermedium <suggestion>Blu-ray</suggestion> Disc?</message>
+                <short>Möglicherweise falsch geschriebene Produktbezeichnung.</short>
                 <example type="correct">Das ist eine <marker>Blu ray</marker> Disc.</example>
                 <example type="incorrect" correction="Blu-ray">Das ist eine <marker>Blue ray</marker> Disc.</example>
             </rule>
@@ -9664,6 +9754,69 @@ $Id$
                 <example type="incorrect" correction="Wette">Sie liefen um die <marker>wette</marker>.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="WAGEN_SUBST" name="Groß-/Kleinschreibung: 'mit dem wagen (Wagen) kommen' etc.">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>mit</token>
+                    <token regexp="yes">(&meindein;)em|dem</token>
+                    <marker>
+                        <token skip="1">wagen</token>
+                    </marker>
+                    <token postag="VER:.+" postag_regexp="yes" regexp="yes" inflected="yes">kommen|fahren</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Wagen</suggestion>&subende;</message>
+                <url>http://de.wiktionary.org/wiki/Wagen</url>
+                <short>&prgk;.</short>
+                <example type="correct">Wir <marker>wagen</marker> nicht zu fragen.</example>
+                <example type="incorrect" correction="Wagen">Sie sind mit dem <marker>wagen</marker> gekommen.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="VER:.+" postag_regexp="yes" regexp="yes" inflected="yes">kommen|fahren</token>
+                    <token>mit</token>
+                    <token regexp="yes">(&meindein;)em|dem</token>
+                    <marker>
+                        <token>wagen</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Wagen</suggestion>&subende;</message>
+                <url>http://de.wiktionary.org/wiki/Wagen</url>
+                <short>&prgk;.</short>
+                <example type="correct">Wir <marker>wagen</marker> nicht zu fragen.</example>
+                <example type="incorrect" correction="Wagen">Sie kommen mit dem <marker>wagen</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>aus</token>
+                    <token regexp="yes">(&meindein;)em|dem</token>
+                    <marker>
+                        <token skip="1">wagen</token>
+                    </marker>
+                    <token postag="VER:.+" postag_regexp="yes" inflected="yes">steigen</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Wagen</suggestion>&subende;</message>
+                <url>http://de.wiktionary.org/wiki/Wagen</url>
+                <short>&prgk;.</short>
+                <example type="correct">Wir <marker>wagen</marker> nicht zu fragen.</example>
+                <example type="incorrect" correction="Wagen">Sie sind aus dem <marker>wagen</marker> gestiegen.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="VER:.+" postag_regexp="yes" inflected="yes" skip="1">steigen</token>
+                    <token>aus</token>
+                    <token regexp="yes">(&meindein;)em|dem</token>
+                    <marker>
+                        <token>wagen</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Wagen</suggestion>&subende;</message>
+                <url>http://de.wiktionary.org/wiki/Wagen</url>
+                <short>&prgk;.</short>
+                <example type="correct">Wir <marker>wagen</marker> nicht zu fragen.</example>
+                <example type="incorrect" correction="Wagen">Bitte steigen Sie aus dem <marker>wagen</marker>.</example>
+                <example type="incorrect" correction="Wagen">Ich stieg langsam aus dem <marker>wagen</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="STROEME_SUBST" name="Groß-/Kleinschreibung: 'in strömen (Strömen)'">
             <rule>
                 <pattern case_sensitive="yes">
@@ -10203,6 +10356,18 @@ $Id$
                 <example type="correct">Mir standen die Haare zu <marker>Berge</marker>.</example>
                 <example type="incorrect" correction="Berge">Mir standen die Haare zu <marker>berge</marker>.</example>
                 <example type="incorrect" correction="Berge">Im Frühtau zu <marker>berge</marker> wir zieh'n.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>berge</token>
+                    </marker>
+                    <token>versetzen</token>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="1" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Ich könnte <marker>Berge</marker> versetzen.</example>
+                <example type="incorrect" correction="Berge">Ich könnte <marker>berge</marker> versetzen.</example>
             </rule>
         </rulegroup>
         <rule id="AUSSAGE_SUBST" name="Groß-/Kleinschreibung: 'laut aussage (Aussage)'">
@@ -13398,7 +13563,67 @@ $Id$
                 <example type="correct">Das liegt noch in weiter <marker>Ferne</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="AUF_DEM_STAND" name="Groß-/Kleinschreibung: 'auf dem stand (Stand)'">
+        <rulegroup id="AN_DER_BAR" name="Groß-/Kleinschreibung: 'an der bar (Bar)' etc.">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes" regexp="yes" skip="2">stehen|trinken|lehnen|sitzen</token>
+                    <token>an</token>
+                    <token>der</token>
+                    <marker>
+                        <token>bar</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Bar</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Bar">Ich stand an der <marker>bar</marker>.</example>
+                <example type="incorrect" correction="Bar">Ich trank noch einen an der <marker>bar</marker>.</example>
+                <example type="correct">Ich stand an der <marker>Bar</marker>.</example>
+                <example type="correct">Wir haben auch eine Kasse, an der <marker>bar</marker> bezahlt werden kann.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>an</token>
+                    <token>der</token>
+                    <marker>
+                        <token>bar</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">stehen|trinken|lehnen|sitzen</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Bar</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Bar">Ich werde an der <marker>bar</marker> stehen.</example>
+                <example type="correct">Ich stand an der <marker>Bar</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AUF_DEM_STAND" name="Groß-/Kleinschreibung: 'auf dem stand (Stand)' etc.">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes">haben</token>
+                    <token>einen</token>
+                    <token>schweren</token>
+                    <marker>
+                        <token>stand</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Stand</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Stand">Er hat einen schweren <marker>stand</marker>.</example>
+                <example type="correct">Er hat einen schweren <marker>Stand</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>einen</token>
+                    <token>schweren</token>
+                    <marker>
+                        <token>stand</token>
+                    </marker>
+                    <token inflected="yes">haben</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Stand</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Stand">Er wird einen schweren <marker>stand</marker> haben.</example>
+                <example type="correct">Er wird einen schweren <marker>Stand</marker> haben.</example>
+            </rule>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[aA]uf</token>
@@ -13410,9 +13635,9 @@ $Id$
                 </pattern>
                 <message>&subanfang;<suggestion>Stand</suggestion>&subende;</message>
                 <short>&prgk;.</short>
-                <example type="incorrect">Die Software ist auf dem <marker>stand</marker> von 2001.</example>
+                <example type="incorrect" correction="Stand">Die Software ist auf dem <marker>stand</marker> von 2001.</example>
                 <example type="correct">Die Software ist auf dem <marker>Stand</marker> von 2001.</example>
-            </rule>
+            </rule>            
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[aA]uf</token>
@@ -13424,7 +13649,7 @@ $Id$
                 </pattern>
                 <message>&subanfang;<suggestion>Stand</suggestion>&subende;</message>
                 <short>&prgk;.</short>
-                <example type="incorrect">Die Software ist nicht auf dem aktuellen <marker>stand</marker>.</example>
+                <example type="incorrect" correction="Stand">Die Software ist nicht auf dem aktuellen <marker>stand</marker>.</example>
                 <example type="correct">Die Software ist nicht auf dem neuesten <marker>Stand</marker>.</example>
             </rule>
         </rulegroup>
@@ -13440,7 +13665,7 @@ $Id$
                 </pattern>
                 <message>&subanfang;<suggestion>Strecke</suggestion>&subende;</message>
                 <short>&prgk;.</short>
-                <example type="incorrect">Wenn Schüler auf der <marker>strecke</marker> bleiben.</example>
+                <example type="incorrect" correction="Strecke">Wenn Schüler auf der <marker>strecke</marker> bleiben.</example>
                 <example type="correct">Wenn Schüler auf der <marker>Strecke</marker> bleiben.</example>
             </rule>
             <rule>
@@ -13454,7 +13679,7 @@ $Id$
                 </pattern>
                 <message>&subanfang;<suggestion>Strecke</suggestion>&subende;</message>
                 <short>&prgk;.</short>
-                <example type="incorrect">Die Menschlichkeit bleibt dabei auf der <marker>strecke</marker>.</example>
+                <example type="incorrect" correction="Strecke">Die Menschlichkeit bleibt dabei auf der <marker>strecke</marker>.</example>
                 <example type="correct">Die Menschlichkeit bleibt dabei auf der <marker>Strecke</marker>.</example>
             </rule>
         </rulegroup>
@@ -15084,19 +15309,59 @@ $Id$
                 <example type="correct">Einer verbreiteten <marker>Legende</marker> zufolge</example>
             </rule>
         </rulegroup>
-        <rule id="SPRACHEN_SUBST" name="Groß-/Kleinschreibung: 'in asiatischen sprachen (Sprachen)' etc.">
-            <pattern case_sensitive="yes">
-                <token regexp="yes">[iI]n|[bB]ei|[aA]n</token>
-                <token regexp="yes">(&sprachadj2;)en</token>
-                <marker>
-                    <token>sprachen</token>
-                </marker>
-            </pattern>
-            <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
-            <short>&prgk;.</short>
-            <example type="incorrect" correction="Sprachen">Satz und Layout in asiatischen <marker>sprachen</marker>.</example>
-            <example type="correct">Wir <marker>sprachen</marker> wenig miteinander.</example>
-        </rule>
+        <rulegroup id="SPRACHEN_SUBST" name="Groß-/Kleinschreibung: 'in asiatischen sprachen (Sprachen)' etc.">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[iI]n|[bB]ei|[aA]n</token>
+                    <token regexp="yes">(&sprachadj2;)en</token>
+                    <marker>
+                        <token>sprachen</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Sprachen">Satz und Layout in asiatischen <marker>sprachen</marker>.</example>
+                <example type="correct">Wir <marker>sprachen</marker> wenig miteinander.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes">sprechen</token>
+                    <token regexp="yes">mehrere|viele|etliche|einige|verschiedene|die|über</token>
+                    <marker>
+                        <token>sprachen</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Ich spreche mehrere <marker>Sprachen</marker> fließend.</example>
+                <example type="incorrect" correction="Sprachen">Ich spreche mehrere <marker>sprachen</marker> fließend.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes">sprechen</token>
+                    <token postag="ZAL"/>
+                    <marker>
+                        <token>sprachen</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Ich spreche drei <marker>Sprachen</marker> fließend.</example>
+                <example type="incorrect" correction="Sprachen">Ich spreche drei <marker>sprachen</marker> fließend.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>sprachen</token>
+                    </marker>
+                    <token inflected="yes">sprechen</token>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="1" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Ich habe den Job bekommen, weil ich drei <marker>Sprachen</marker> spreche.</example>
+                <example type="incorrect" correction="Sprachen">Ich habe den Job bekommen, weil ich drei <marker>sprachen</marker> spreche.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="GRUENDE_SUBST" name="Groß-/Kleinschreibung: 'mit guten gründen (Gründen)' etc.">
             <rule>
                 <pattern case_sensitive="yes">
@@ -17312,7 +17577,7 @@ $Id$
                 <pattern case_sensitive="yes">
                     <token regexp="yes">([dD](er|ie))|([eE]ine)</token>
                     <marker>
-                        <token regexp="yes">verdächtige|überlebende|verbündete|prostituierte|obdachlose|angestellte|abgeordnete|jugendliche</token>
+                        <token regexp="yes">studierende|verdächtige|überlebende|verbündete|prostituierte|obdachlose|angestellte|abgeordnete|jugendliche</token>
                     </marker>
                     <token postag="VER:.*" postag_regexp="yes"/>
                 </pattern>
@@ -17327,7 +17592,7 @@ $Id$
                 <pattern case_sensitive="yes">
                     <token regexp="yes">([dD](en|ie))|([eE]inen)</token>
                     <marker>
-                        <token regexp="yes">(verdächtige|überlebende|verbündete|obdachlose|angestellte|abgeordnete|jugendliche)n?</token>
+                        <token regexp="yes">(studierende|verdächtige|überlebende|verbündete|obdachlose|angestellte|abgeordnete|jugendliche)n?</token>
                     </marker>
                     <token postag="VER:.*" postag_regexp="yes"/>
                 </pattern>
@@ -17337,6 +17602,7 @@ $Id$
                 <example type="correct">Die <marker>obdachlosen</marker> Männer wurden überfallen.</example>
                 <example type="incorrect" correction="Angestellten">Die <marker>angestellten</marker> wurden entlassen.</example>
                 <example type="incorrect" correction="Jugendlichen">Die <marker>jugendlichen</marker> benahmen sich daneben.</example>
+                <example type="incorrect" correction="Studierenden">Die <marker>studierenden</marker> protestieren.</example>
                 <example type="incorrect" correction="Jugendliche">Die <marker>jugendliche</marker> benahm sich daneben.</example>
             </rule>
             <rule>
@@ -17367,7 +17633,7 @@ $Id$
                 <short>&prgk;.</short>
                 <example type="correct">Du hast mich ganz <marker>nass</marker> gemacht!</example>
                 <example type="correct">Hinein ins kühle <marker>Nass</marker>!</example>
-                <example type="incorrect">Hinein ins kühle <marker>nass</marker>!</example>
+                <example type="incorrect" correction="Nass">Hinein ins kühle <marker>nass</marker>!</example>
             </rule>
         </rulegroup>
         <rulegroup id="STOLZ_SUBST" name="Groß-/Kleinschreibung: 'stolz (Stolz)'">
@@ -17383,7 +17649,7 @@ $Id$
                 <short>&prgk;.</short>
                 <example type="correct">Sie war ganz <marker>stolz</marker> darauf.</example>
                 <example type="correct">Dieses Auto ist mein ganzer <marker>Stolz</marker>.</example>
-                <example type="incorrect">Dieses Auto ist mein ganzer <marker>stolz</marker>.</example>
+                <example type="incorrect" correction="Stolz">Dieses Auto ist mein ganzer <marker>stolz</marker>.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -17396,7 +17662,7 @@ $Id$
                 <short>&prgk;.</short>
                 <example type="correct">Sie war ganz <marker>stolz</marker> darauf.</example>
                 <example type="correct">Voller <marker>Stolz</marker> präsentierte er sein neues Auto.</example>
-                <example type="incorrect">Voller <marker>stolz</marker> präsentierte er sein neues Auto.</example>
+                <example type="incorrect" correction="Stolz">Voller <marker>stolz</marker> präsentierte er sein neues Auto.</example>
             </rule>
         </rulegroup>
         <rulegroup id="VERHALTEN_SUBST" name="Groß-/Kleinschreibung: 'verhalten (Verhalten)'">
@@ -17421,15 +17687,16 @@ $Id$
                     <marker>
                         <token>notfalls</token>
                     </marker>
+                    <token postag="VER:.*" postag_regexp="yes"/>
                 </pattern>
                 <message>&subanfang;<suggestion>Notfalls</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example type="correct">Wir können <marker>notfalls</marker> dort übernachten.</example>
                 <example type="correct">Wegen eines <marker>Notfalls</marker> musste ich meinen Urlaub abbrechen.</example>
-                <example type="incorrect">Wegen eines <marker>notfalls</marker> musste ich meinen Urlaub abbrechen.</example>
+                <example type="incorrect" correction="Notfalls">Wegen eines <marker>notfalls</marker> musste ich meinen Urlaub abbrechen.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="AUF_KOSTEN" name="Groß-/Kleinschreibung: 'auf jemandes kosten (Kosten)'">
+        <rulegroup id="KOSTEN_SUBST" name="Groß-/Kleinschreibung: 'auf jemandes kosten (Kosten)' etc.">
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[aA]uf</token>
@@ -17440,7 +17707,7 @@ $Id$
                 </pattern>
                 <message>&subanfang;<suggestion>Kosten</suggestion>&subende;</message>
                 <short>&prgk;.</short>
-                <example type="incorrect">Der Spaß ging auf seine <marker>kosten</marker>.</example>
+                <example type="incorrect" correction="Kosten">Der Spaß ging auf seine <marker>kosten</marker>.</example>
                 <example type="correct">Der Spaß ging auf seine <marker>Kosten</marker>.</example>
             </rule>
             <rule>
@@ -17453,11 +17720,9 @@ $Id$
                 </pattern>
                 <message>&subanfang;<suggestion>Kosten</suggestion>&subende;</message>
                 <short>&prgk;.</short>
-                <example type="incorrect">Das alles geschieht auf <marker>kosten</marker> des Steuerzahlers!</example>
+                <example type="incorrect" correction="Kosten">Das alles geschieht auf <marker>kosten</marker> des Steuerzahlers!</example>
                 <example type="correct">Der Spaß ging auf seine <marker>Kosten</marker>.</example>
             </rule>
-        </rulegroup>
-        <rulegroup id="KOSTEN_SUBST" name="Groß-/Kleinschreibung: 'kosten (Kosten)'">
             <rule>
                 <pattern case_sensitive="yes">
                     <token>kosten</token>
@@ -17587,7 +17852,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">zwischen|auf|an|unter</token>
+                    <token regexp="yes">zwischen|auf|an|unter|über</token>
                     <token regexp="yes">ihre|die</token>
                     <marker>
                         <token>brüste</token>
@@ -17624,6 +17889,46 @@ $Id$
                 <short>&prgk;.</short>
                 <example type="correct">Jetzt <marker>brüste</marker> dich nicht auch noch mit deinem Fehlverhalten!</example>
                 <example type="incorrect" correction="Brüste">Im Fernsehen sorgen entblößte <marker>brüste</marker> immer wieder für Aufregung.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>brüste</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">streicheln|sehen|anfassen|berühren</token>
+                </pattern>
+                <message>&subanfang;<suggestion><match case_conversion="startupper" no="1"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Jetzt <marker>brüste</marker> dich nicht auch noch mit deinem Fehlverhalten!</example>
+                <example type="incorrect" correction="Brüste">Ich möchte deine <marker>brüste</marker> anfassen.</example>
+                <example type="incorrect" correction="Brüste">Man kann deine <marker>brüste</marker> sehen, geh dir was anziehen!</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="STREICHE_SUBST" name="Groß-/Kleinschreibung: 'streiche (Streiche) spielen'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">spiel(t)?en?|spiels?t</token>
+                    <token regexp="yes">mir|ihr|ihm|uns|euch|ihnen</token>
+                    <marker>
+                        <token>streiche</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match case_conversion="startupper" no="3"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Wir spielten ihm <marker>Streiche</marker>.</example>
+                <example type="incorrect" correction="Streiche">Wir spielten ihm <marker>streiche</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>streiche</token>
+                    </marker>
+                    <token regexp="yes">spiel(t)?en?|spiels?t</token>
+                </pattern>
+                <message>&subanfang;<suggestion><match case_conversion="startupper" no="1"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Ihr wollt mir wohl <marker>Streiche</marker> spielen.</example>
+                <example type="incorrect" correction="Streiche">Ihr wollt mir wohl <marker>streiche</marker> spielen.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ZUSTAND_SUBST" name="Groß-/Kleinschreibung: 'zustand (Zustand)'">
