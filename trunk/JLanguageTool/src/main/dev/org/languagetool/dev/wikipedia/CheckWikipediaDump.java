@@ -118,6 +118,8 @@ public class CheckWikipediaDump {
     disableSpellingRules(languageTool);
     final Date dumpDate = getDumpFileDate(file);
     System.out.println("Dump date: " + dumpDate + ", language: " + langCode);
+    System.out.println("Article limit: " + (maxArticles > 0 ? maxArticles : "no limit"));
+    System.out.println("Error limit: " + (maxErrors > 0 ? maxErrors : "no limit"));
     BaseWikipediaDumpHandler xmlHandler = null;
     try {
       if (propFile != null) {
@@ -137,6 +139,7 @@ public class CheckWikipediaDump {
     } finally {
       if (xmlHandler != null) { xmlHandler.close(); }
       final float matchesPerDoc = (float)xmlHandler.getRuleMatchCount() / xmlHandler.getArticleCount();
+      System.out.printf(lang + ": %d total matches\n", xmlHandler.getRuleMatchCount());
       System.out.printf(lang + ": ø%.2f rule matches per document\n", matchesPerDoc);
     }
   }

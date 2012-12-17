@@ -74,7 +74,7 @@ abstract class BaseWikipediaDumpHandler extends DefaultHandler {
   }
 
   public void setMaximumErrors(int maxErrors) {
-    this.maxErrors= maxErrors;
+    this.maxErrors = maxErrors;
   }
 
   int getArticleCount() {
