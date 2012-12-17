@@ -42,7 +42,27 @@ public class ReflexiveVerbsRuleTest extends TestCase {
 
 	public void testRule() throws IOException { 
 
+		//TODO: se'n vola / s'envola
 		// correct sentences:
+		//assertCorrect("el dia de Rams es commemora anant a l'església a beneir el palmó");
+		//assertCorrect("La Nit de sant Joan es baixaven falles de la muntanya."); solucions: marcar "la nit..." com a CC o comprovar la concordança subj/verb
+		assertCorrect("que s'havien anat instal·lant");
+		assertCorrect("gràcies a la presència del Riu Set s'hi alberga una gran arboreda amb taules");
+		assertCorrect("no fa gaires anys també s'hi portaven alguns animals");
+		assertCorrect("el sòlid es va \"descomponent\".");
+		assertCorrect("la divisió s'ha d'anar amb cura per evitar ambigüitats");
+		assertCorrect("la senyera s'ha de baixar");
+		assertCorrect("Es van témer assalts a altres edificis de la CNT ");
+		assertCorrect("que Joan em dugués el mocador");
+		assertCorrect("que Joan es dugués el mocador"); // dubtós
+		assertCorrect("em duràs un mocador de seda del teu color");
+		assertCorrect("El va deixar per a dedicar-se a la música");
+		assertCorrect("Hermes s'encarregava de dur les ànimes que acabaven de morir a l'Inframón");
+		assertCorrect("aquest nom és poc adequat ja que es poden portar les propostes de l'escalada clàssica");
+		//assertCorrect("totes les comissions dels països vencedors en les guerres napoleòniques es van portar els seus propis cuiners");
+		assertCorrect("en fer-lo girar se'n podia observar el moviment");
+		assertCorrect("el segon dia es duien a terme les carreres individuals");
+		assertCorrect("Normalment no es duu un registre oficial extern");
 		assertCorrect("Ens portem força bé");
 		assertCorrect("Hem de portar-nos bé");
 		assertCorrect("Ells es porten tres anys");
@@ -148,6 +168,8 @@ public class ReflexiveVerbsRuleTest extends TestCase {
 		assertCorrect("Joan no es va a jugar la feina.");	
 		 	
 		// errors:
+		assertIncorrect("Ells es volen dur les ànimes a l'Inframón");
+		assertIncorrect("Joan es va portar el carretó");
 		assertIncorrect("en aquesta vida ens portem moltes sorpreses");
 		assertIncorrect("Ens hem portat massa material al campament");
 		assertIncorrect("Hem de dur-nos tot això.");

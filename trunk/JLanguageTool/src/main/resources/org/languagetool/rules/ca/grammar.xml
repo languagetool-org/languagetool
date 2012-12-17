@@ -6071,6 +6071,7 @@ $Id$
     </category>
     <category name="Z) Accents diacrítics">
         <rulegroup id="FEU" name="feu/féu">
+            <!-- Cal estudiar "que el feu". Mirar que no hi hagi cap verb ni pronom de 2P abans. "que el feu famós"... -->
             <rule>
                 <pattern>
                     <token postag="P0300000|PP3.S000|_GN_.S|N..S.*" postag_regexp="yes"><exception postag="D.0MS0|PX3MS0C0|DP3CSP" postag_regexp="yes"/></token>
@@ -12778,19 +12779,34 @@ $Id$
             <example type="correct">Una vegada aconseguit l'objectiu</example>
             <example type="correct">Aconseguit l'objectiu</example>
         </rule> 
-        <rule id="VISTIPLAU" name="vistiplau">
-            <pattern>
-                <token postag="D.0MS0" postag_regexp="yes"/>
-                <marker>
-                    <token>vist</token>
-                    <token>i</token>
-                    <token>plau</token>
-                </marker>
-            </pattern>
-            <message>¿Volíeu dir <suggestion>vistiplau</suggestion>?</message>
-            <example type="incorrect">El <marker>vist i plau</marker></example>
-            <example type="correct">el vistiplau</example>
-        </rule>
+        <rulegroup id="VISTIPLAU" name="vistiplau">
+            <rule>
+                <pattern>
+                    <token postag="D.0MS0" postag_regexp="yes"/>
+                    <marker>
+                        <token>vist</token>
+                        <token>i</token>
+                        <token>plau</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>vistiplau</suggestion>?</message>
+                <example type="incorrect">un <marker>vist i plau</marker></example>
+                <example type="correct">un vistiplau</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">el|l</token>
+                    <marker>
+                        <token>vist</token>
+                        <token>i</token>
+                        <token>plau</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>vistiplau</suggestion>?</message>
+                <example type="incorrect">el <marker>vist i plau</marker></example>
+                <example type="correct">el vistiplau</example>
+            </rule>
+        </rulegroup>    
         <rulegroup id="A_FALTA_DE" name="* a falta de cinc mintus">
             <rule>
                 <pattern>
