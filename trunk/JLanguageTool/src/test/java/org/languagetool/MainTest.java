@@ -22,14 +22,13 @@ package org.languagetool;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.io.PrintWriter;
-import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 
 /**
  * Tests the basic features of the command-line interface.
@@ -38,15 +37,18 @@ import java.net.URL;
  */
 public class MainTest extends AbstractSecurityTestCase {
 
-  private static final String ENGLISH_TEST_FILE = "/org/languagetool/test-en.txt";
+  private File enTestFile;
 
   private ByteArrayOutputStream out;
   private ByteArrayOutputStream err;
   private PrintStream stdout;
   private PrintStream stderr;
 
-  public MainTest(String testName) {
+  public MainTest(String testName) throws IOException {
     super(testName);
+    enTestFile = populateFile("This is an test.\n\n" +
+    		"This is a test of of language tool.\n\n" +
+    		"This is is a test of language tool.");
   }
 
   public void setUp() throws Exception {
@@ -180,7 +182,7 @@ public class MainTest extends AbstractSecurityTestCase {
   }
   
   public void testEnglishStdIn4() throws Exception {      
-    System.setIn(this.getClass().getResourceAsStream(ENGLISH_TEST_FILE));
+    System.setIn(new FileInputStream(enTestFile));
     String[] args = new String[] {"-l", "en", "--api", "-"};
 
     Main.main(args);
@@ -460,12 +462,8 @@ public class MainTest extends AbstractSecurityTestCase {
     return tempFile;
   }
 
-  private String getTestFilePath() throws URISyntaxException {
-    final URL url = this.getClass().getResource(ENGLISH_TEST_FILE);
-    if (url == null) {
-      throw new RuntimeException(ENGLISH_TEST_FILE + " not found in classpath");
-    }
-    return new URI(url.toString()).getPath();
+  private String getTestFilePath() throws URISyntaxException {    
+    return enTestFile.getAbsolutePath();
   }
 
 }
