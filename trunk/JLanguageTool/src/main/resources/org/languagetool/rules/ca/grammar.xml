@@ -2642,7 +2642,7 @@ $Id$
                 <example type="correct">Casi'ns, mossèn.</example>
                 </rule>
         </rulegroup>
-        <rulegroup id="CAP_GENS" name="cap ganes/gens de ganes" default="on">
+        <rulegroup id="CAP_GENS" name="cap ganes/gens de ganes" default="off">
             <!-- Alguns accepten 'cap' davant de nom no comptable abstracte -->
             <rule>
                 <pattern>
@@ -15804,12 +15804,14 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="V.S.*" postag_regexp="yes" regexp="yes">.+às</token>
+                    <token postag="V.S.*" postag_regexp="yes" regexp="yes">.+às<exception postag="AQ.*|N.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Forma verbal pròpia del balear o del valencià.</message>
                 <short>Forma balear o valenciana.</short>
                 <example type="incorrect">Que no <marker>pensàs</marker>.</example>
-                <example type="correct">Que no <marker>pensés</marker>.</example>
+                <example type="correct">Que no pensés.</example>
+                <example type="correct">Escàs de pèl</example>
+                <example type="correct">Tomàs sap la resposta</example>
             </rule>
             <rule>
                 <pattern>

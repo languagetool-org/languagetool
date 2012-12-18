@@ -291,6 +291,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="filter" postag="[^N].*"></disambig>
         </rule>
+        <rule id="anys_enrere" name="anys enrere">
+            <pattern>
+                <marker>
+                    <token regexp="yes">dies|setmanes|mesos|anys|dècades|segles</token>
+                </marker>
+                <token regexp="yes">(en|ar|endar)(rer[ea])</token>
+            </pattern>
+            <disambig action="add"><wd pos="LOC_ADV"/></disambig>
+        </rule>
         <rule id="mes_de_nou" name="més de nou (excepció)">
             <pattern>
                 <token>més</token>
@@ -3176,8 +3185,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
             </pattern>
             <disambig action="add"><wd pos="_GN_FS"/><wd pos="_GN_FS"/><wd pos="_GN_FS"/></disambig>
-        </rule>
-        
+        </rule>    
         <rule>
             <pattern>
                 <marker>
@@ -5992,6 +6000,18 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="[^V].*"></disambig>
     </rule>
+    <rule id="sobre" name="sobre no verb">
+        <pattern>
+            <marker>
+                <and>
+                    <token postag="V.*" postag_regexp="yes">sobre</token>
+                    <token postag="SPS.*" postag_regexp="yes"></token>
+                </and>
+            </marker>
+            <token regexp="yes">de|d'</token>
+        </pattern>
+        <disambig action="filter" postag="[^V].*"></disambig>
+    </rule>
     <rule id="GerAdj" name="gerundi i adj: gerundi">
         <pattern>
             <token><exception postag="SPS00|CC" postag_regexp="yes"/><exception inflected="yes" regexp="yes">ser|estar|semblar|parèixer|considerar</exception></token> <!-- en calent -->
@@ -7073,7 +7093,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token regexp="yes" inflected="yes">contrari|igual|similar|semblant|equivalent|alternatiu|superior|inferior|paral·lel|anterior|posterior</token>
+                <token regexp="yes" inflected="yes">oposar|contrari|igual|similar|semblant|equivalent|alternatiu|superior|inferior|paral·lel|anterior|posterior</token>
                 <marker>
                     <token>a</token>
                 </marker>

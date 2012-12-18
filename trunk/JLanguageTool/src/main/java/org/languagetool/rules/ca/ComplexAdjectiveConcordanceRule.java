@@ -76,8 +76,8 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
 	private static final Pattern ADJECTIU_FP = Pattern.compile("A..[FC][PN].*|V.P..PF|PX.FP.*");
 	private static final Pattern ADJECTIU_CP = Pattern.compile("A..C[PN].*");
 	private static final Pattern ADJECTIU_CS = Pattern.compile("A..C[SN].*");
-	private static final Pattern ADJECTIU_M = Pattern.compile("A..[MC].*|V.P...M|PX.M.*");
-	private static final Pattern ADJECTIU_F = Pattern.compile("A..[FC].*|V.P...F|PX.F.*");
+	//private static final Pattern ADJECTIU_M = Pattern.compile("A..[MC].*|V.P...M|PX.M.*");
+	//private static final Pattern ADJECTIU_F = Pattern.compile("A..[FC].*|V.P...F|PX.F.*");
 	private static final Pattern ADJECTIU_S = Pattern.compile("A...[SN].*|V.P..S.|PX..S.*");
 	private static final Pattern ADJECTIU_P = Pattern.compile("A...[PN].*|V.P..P.|PX..P.*");
 	private static final Pattern ADVERBI = Pattern.compile("R.|.*LOC_ADV.*");
@@ -87,7 +87,7 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
 	private static final Pattern UPPERCASE = Pattern.compile("\\p{Lu}[\\p{Ll}\u00B7]*");
 	private static final Pattern COORDINACIO = Pattern.compile(",|i|o");
 	private static final Pattern COORDINACIO_IONI = Pattern.compile("i|o|ni");
-	private static final Pattern KEEP_COUNT = Pattern.compile("A.*|N.*|D[NAID].*|SPS.*|.*LOC_ADV.*|V.P.*|_PUNCT.*|.*LOC_ADJ.*");
+	private static final Pattern KEEP_COUNT = Pattern.compile("A.*|N.*|D[NAID].*|SPS.*|.*LOC_ADV.*|V.P.*|_PUNCT.*|.*LOC_ADJ.*|complement");
 	private static final Pattern KEEP_COUNT2 = Pattern.compile(",|i|o|ni|\\d+%?|%");
 	private static final Pattern STOP_COUNT = Pattern.compile(";");
 	private static final Pattern PREPOSICIONS = Pattern.compile("SPS.*");
