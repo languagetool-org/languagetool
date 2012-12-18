@@ -44,11 +44,11 @@ public class ReflexiveVerbsRule extends CatalanRule {
 //List of only pronominal verbs from GDLC (eliminats: assolar, enfundar, burlar, traslluir)
   private static final Pattern VERBS_PRONOMINALS = Pattern.compile("abacallanar|abalançar|ablenar|aborrallonar|abotifarrar|abrinar|abromar|abstenir|acagallonar|acanyar|acarcanyar|acarnissar|acatarrar|aciutadanar|aclocar|acopar|acorriolar|adir|adonar|adormissar|afal·lerar|afarrossar|afeccionar|aferrallar|aferrissar|aferrussar|agallinar|agarbir|agarrofar|agemolir|agenollar|agotzonar|aiguabarrejar|allocar|alçurar|amatinar|amelar|amigar|amoixir|amoltonar|amotar|amullerar|amunionar|antullar|aparroquianar|aparroquiar|aperduar|apergaminar|apiadar|aponentar|apropinquar|apugonar|arguellar|arrapinyar|arrasir|arravatar|arraïmar|arrepapar|arrepetellar|arrigolar|arrodir|arrogar|arrossar|arruar|assemblar|assocarrar|atendar|atenir|atorrentar|atrafegar|atrevir|avencar|avidolar|avinençar|balbar|balcar|balir|balmar|bescomptar|boirar|boixar|botinflar|bromar|cagaferrar|candir|capbaixar|capmassar|captenir|cariar|carnificar|carpir|coalitzar|colltrencar|collvinclar|compenetrar|condoldre|condolir|congraciar|contorçar|contrapuntar|contòrcer|corcorcar|coresforçar|cornuar|corruixar|crisalidar|desafeccionar|desalenar|desamorar|desaparroquiar|desapassionar|desaplegar|desavenir|desbocar|descantar|descarar|descontrolar|descovar|desdubtar|desempallegar|desenrojolar|desentossudir|desfeinar|desmemoriar|desnodrir|despondre|despreocupar|dessolidaritzar|desteixinar|desvagar|desvergonyir|desviure|dignar|embarbussar|embascar|embessonar|embordeir|embordir|emborrascar|emborrossar|embotifarrar|embotzegar|embromallar|embromar|embroquerar|emmainadar|emmalurar|emmalurir|emmarar|emmarranar|emmatar|emmigranyar|emmorronar|emmurriar|empassar|empassolar|empegueir|empenyalar|empescar|empillocar|empinyar|empiocar|empitarrar|emplomissar|emplujar|emportar|encabotar|encabritar|encalmar|encalostrar|encelar|encinglar|encirar|encistar|enclaperar|encolerir|encordar|encruar|endoblir|endur|enfarfollar|enfaristolar|enfavar|enfereir|enferotgir|enferritjar|enfugir|enfurrunyar|enfutimar|enfutismar|engelabrir|engolfar|engorgar|engripar|enguerxinar|enllagrimar|enlleganyar|enlleir|ennavegar|enneguitar|enquistar|enrinxar|enseriosir|ensobecar|entonyinar|entossudir|entotsolar|entreabaltir|entrebadar|entrebatre|entrebesar|entrecavalcar|entredevorar|entreferir|entreforcar|entrematar|entremetre|entremirar|entrenyorar|entresaludar|entreseguir|entresoldar|entretocar|entretzenar|entrigar|envidreir|envidriar|envolar|enxautar|esbafar|esbafegar|esbatussar|esblamar|esbojarrar|esborneiar|esbromar|escabridar|escamotar|escanyellar|escanyolir|escanyussar|escapolar|escapolir|escarcanyar|escarramicar|escarrassar|escarxofar|escatifenyar|esconillar|escorporar|escullar|escunçar|esfarinar|esfetgegar|esforçar|esgargamellar|esgatinyar|esgolar|esguimbar|esllanguir|esllavissar|esperitar|espitellar|espitxar|espollinar|espoltrar|esporcellar|espotonar|esprimatxar|esquifir|esquitllar|estilar|estritllar|esvedellar|esventegar|esvomegar|etiolar|extralimitar|extravasar|extravenar|gamar|gaspar|gatinyar|gaubar|gloriar|grifar|immiscir|indigestar|industriar|innivar|insolentar|insurgir|intersecar|inveterar|irèixer|jactar|juramentar|lateritzar|llufar|malfiar|malfixar|migrolar|mofar|mullerar|neulir|obstinar|octubrar|olivar|pellobrir|pellpartir|pelltrencar|penedir|penjolar|pollar|prosternar|queixar|querar|querellar|quillar|ramificar|rancurar|realegrar|rebel·lar|rebordeir|refiar|repanxolar|repapar|repetellar|reressagar|resclosir|ressagar|ressentir|revenjar|salinar|suïcidar|tinyar|tolir|transvestir|traspostar|trufar|vanagloriar|vanagloriejar|vanar|vantar|vergonyar|xautar");
   private static final Pattern NO_VERBS_PRONOMINALS = Pattern.compile("atendre|escollir|assolir");
-  private static final Pattern VERBS_NO_PRONOMINALS = Pattern.compile("caure|callar|témer|marxar|albergar|olorar|seure");
+  private static final Pattern VERBS_NO_PRONOMINALS = Pattern.compile("baixar|caure|callar|témer|marxar|albergar|olorar|seure");
   private static final Pattern VERBS_NO_PRONOMINALS_IMPERSONALS = Pattern.compile("caure|callar|marxar");
-  private static final Pattern VERBS_NO_PRONOMINALS_IMPERSONALS2 = Pattern.compile("témer|albergar");
+  private static final Pattern VERBS_NO_PRONOMINALS_IMPERSONALS2 = Pattern.compile("témer|albergar|baixar");
   private static final Pattern NO_VERBS_NO_PRONOMINALS = Pattern.compile("segar");
-  private static final Pattern VERBS_MOVIMENT = Pattern.compile("anar|pujar|baixar|venir|entrar");
+  private static final Pattern VERBS_MOVIMENT = Pattern.compile("anar|pujar|venir");
   private static final Pattern VERBS_SOVINT_PRONOMINALS = Pattern.compile("deixar|fer|veure");
   private static final Pattern VERBS_DEIXAR_FER = Pattern.compile("deixar|fer");
   private static final Pattern VERBS_PORTAR_DUR = Pattern.compile("portar|dur");
@@ -66,13 +66,14 @@ public class ReflexiveVerbsRule extends CatalanRule {
   private static final Pattern VERB_INDSUBJ = Pattern.compile("V.[SI].*");
   private static final Pattern VERB_INDSUBJIMP = Pattern.compile("V.[MSI].*");
   private static final Pattern VERB_IMP = Pattern.compile("V.M.*");
-//  private static final Pattern VERB_INF = Pattern.compile("V.N.*");
+  private static final Pattern VERB_INF = Pattern.compile("V.N.*");
   private static final Pattern VERB_INFGER = Pattern.compile("V.[NG].*");
   private static final Pattern VERB_GERUNDI = Pattern.compile("V.G.*");
   private static final Pattern VERB_PARTICIPI = Pattern.compile("V.P.*");
   private static final Pattern PREPOSICIO = Pattern.compile("SPS00");
   private static final Pattern VERB_AUXILIAR = Pattern.compile("VA.*");
   private static final Pattern PREP_VERB_PRONOM = Pattern.compile("_PUNCT_CONT|SPS00|V.*|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00");
+  //potser convé diferenciar la coma(,) de les cometes(") en _PUNCT_CONT -> no incloure la coma
   private static final Pattern VERB_PRONOM = Pattern.compile("V.*|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00");
   //cal restringir les preposicions  
   
@@ -118,6 +119,14 @@ public class ReflexiveVerbsRule extends CatalanRule {
   private static final Pattern SUBJECTE_PERSONAL_POSTAG = Pattern.compile("NC.*|NP.*|_GN_.*|PI.*");
   private static final Pattern SUBJECTE_PERSONAL_NO_POSTAG = Pattern.compile("complement.*|D.*|A.*|PX.*");
   private static final Pattern SUBJECTE_PERSONAL_TOKEN = Pattern.compile("jo|mi|tu|ella?|nosaltres|vosaltres|elle?s|vost[èé]s?|vós",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern SUBJECTE_PERSONAL_NO_LEMMA = Pattern.compile("dia|any|mes|segle|dilluns|dimarts|dimecres|dijous|divendres|dissabte|diumenge|gener|febrer|març|abril|maig|juny|juliol|agost|setembre|octubre|novembre|desembre");
+  // en general expressió temporal
+  
+  private static final Pattern SUBJECTE_PERSONAL_SING_POSTAG = Pattern.compile("N..[SN].*|_GN_.S|PI..[SN].*");
+  private static final Pattern SUBJECTE_PERSONAL_SING_TOKEN = Pattern.compile("jo|mi|tu|ella?|vost[èé]|vós",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern SUBJECTE_PERSONAL_PL_POSTAG = Pattern.compile("N..[PN].*|_GN_.P|PI..[PN].*");
+  private static final Pattern SUBJECTE_PERSONAL_PL_TOKEN = Pattern.compile("nosaltres|vosaltres|elle?s|vost[èé]s",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  
   private static final Pattern TRENCA_COMPTE = Pattern.compile("PR.*|CS|CC|_PUNCT.*|.*LOC_CONJ.*");
   private static final Pattern TRENCA_COMPTE2 = Pattern.compile("SENT_START|CC|_PUNCT.*|.*LOC_CONJ.*");
   
@@ -190,7 +199,7 @@ public class ReflexiveVerbsRule extends CatalanRule {
 			
 			//PERÍFRASI AMB VERB PRONOMINAL: el fan *agenollar-se/agenollar
 			if (i+1<tokens.length 
-					&& matchPostagRegexp(tokens[i], VERB_INFGER)
+					&& matchPostagRegexp(tokens[i], VERB_INF)
 					&& !matchPostagRegexp(tokens[i - 1], PREPOSICIO) 
 					&& isThereVerbBefore(tokens,i,VERBS_DEIXAR_FER)
 					&& isThereBefore(tokens, i, LEMMA_PRONOM_CD, POSTAG_PRONOM_CD)  
@@ -226,20 +235,18 @@ public class ReflexiveVerbsRule extends CatalanRule {
 				continue loop;
 			}
 			
-//			//FRASE IMPERSONAL
-//			// És frase impersonal si hi ha el pronom 'es', llevat que es pugui identificar un subjecte "personal"
-//			if (isThereBefore(tokens, i, LEMMA_ES, POSTAG_ES)
-//					&& !isThereBefore(tokens,i,SUBJECTE_PERSONAL_TOKEN,SUBJECTE_PERSONAL_POSTAG,SUBJECTE_PERSONAL_NO_POSTAG)
-//					&& isVerbNumberPerson(tokens,i,VERB_3S))  
-//				continue loop;
-			
-			
 			//VERBS NO PRONOMINALS: No hi ha d'haver pronom reflexiu. 
 			if (matchLemmaRegexp(tokens[i], VERBS_NO_PRONOMINALS)) {
 				if (matchLemmaRegexp(tokens[i], NO_VERBS_NO_PRONOMINALS))
-					continue loop;
+					continue loop;				
 				if (!isThereReflexivePronoun(tokens, i)) 
 					continue loop;
+				//impersonal obligació: s'ha de baixar
+				if (matchLemmaRegexp(tokens[i],VERBS_NO_PRONOMINALS_IMPERSONALS2)
+						&& isThereBefore(tokens, i, LEMMA_ES, POSTAG_ES)
+						&& isThereBefore(tokens, i, LEMMA_DE, POSTAG_DE)
+						&& isThereVerbBefore(tokens,i,VERB_HAVER) )
+						continue loop;
 				if (isThereVerbBefore(tokens,i,VERBS_SOVINT_PRONOMINALS)
 						|| (isThereVerbBefore(tokens,i,VERBS_POTENCIALMENT_PRONOMINALS)&&!isThereVerbBefore(tokens,i,NO_VERBS_POTENCIALMENT_PRONOMINALS))
 						|| isThereVerbBefore(tokens,i,VERBS_PRONOMINALS)) //et deixes caure, et fas témer, 
@@ -284,7 +291,7 @@ public class ReflexiveVerbsRule extends CatalanRule {
 					if (isThereBefore(tokens, i, LEMMA_ES, POSTAG_ES)
 							&& !isThereBefore(tokens, i, LEMMA_PRONOM_CI, POSTAG_PRONOM_CI)
 							&& (!isTherePersonalSubjectBefore(tokens,i,TRENCA_COMPTE) || isThereBefore(tokens, i, LEMMA_HI, POSTAG_HI)) 
-							&& isVerbNumberPerson(tokens,i,VERB_3S))  
+							&& isVerbNumberPerson(tokens,i,VERB_3S))
 						continue loop;
 				}
 				else {
@@ -296,7 +303,7 @@ public class ReflexiveVerbsRule extends CatalanRule {
 				}
 				if (isThereReflexivePronoun(tokens, i) && (!isTherePronoun(tokens, i, LEMMA_EN, POSTAG_EN))) {
 					// the rule matches
-					final String msg = "Per a usar aquest verb com a pronominal, cal afegir-hi el pronom 'en'."; //Cal canviar el missatge
+					final String msg = "No useu com a pronominal aquest verb, o bé afegiu-hi el pronom 'en'."; //Cal canviar el missatge
 					final RuleMatch ruleMatch = new RuleMatch(this,
 							tokens[i].getStartPos(), tokens[i].getStartPos()
 									+ token.length(), msg,
@@ -620,7 +627,40 @@ public class ReflexiveVerbsRule extends CatalanRule {
 		while (i - j > 0 && keepCounting) {
 			if (matchRegexp(tokens[i - j].getToken(), SUBJECTE_PERSONAL_TOKEN)
 					|| matchPostagRegexp(tokens[i - j], SUBJECTE_PERSONAL_POSTAG)
-					&& !matchPostagRegexp(tokens[i - j], SUBJECTE_PERSONAL_NO_POSTAG))
+					&& !matchPostagRegexp(tokens[i - j], SUBJECTE_PERSONAL_NO_POSTAG)
+					&& !matchLemmaRegexp(tokens[i-j], SUBJECTE_PERSONAL_NO_LEMMA))
+				return true;
+			keepCounting = !matchPostagRegexp(tokens[i - j], pTrenca);
+			j++;
+		}
+		return false;
+	}
+	
+	private boolean isThereSingularPersonalSubjectBefore(final AnalyzedTokenReadings[] tokens, int i,
+			Pattern pTrenca) {
+		int j = 1;
+		boolean keepCounting = true;
+		while (i - j > 0 && keepCounting) {
+			if (matchRegexp(tokens[i - j].getToken(), SUBJECTE_PERSONAL_SING_TOKEN)
+					|| matchPostagRegexp(tokens[i - j], SUBJECTE_PERSONAL_SING_POSTAG)
+					&& !matchPostagRegexp(tokens[i - j], SUBJECTE_PERSONAL_NO_POSTAG)
+					&& !matchLemmaRegexp(tokens[i-j], SUBJECTE_PERSONAL_NO_LEMMA))
+				return true;
+			keepCounting = !matchPostagRegexp(tokens[i - j], pTrenca);
+			j++;
+		}
+		return false;
+	}
+	
+	private boolean isTherePluralPersonalSubjectBefore(final AnalyzedTokenReadings[] tokens, int i,
+			Pattern pTrenca) {
+		int j = 1;
+		boolean keepCounting = true;
+		while (i - j > 0 && keepCounting) {
+			if (matchRegexp(tokens[i - j].getToken(), SUBJECTE_PERSONAL_PL_TOKEN)
+					|| matchPostagRegexp(tokens[i - j], SUBJECTE_PERSONAL_PL_POSTAG)
+					&& !matchPostagRegexp(tokens[i - j], SUBJECTE_PERSONAL_NO_POSTAG)
+					&& !matchLemmaRegexp(tokens[i-j], SUBJECTE_PERSONAL_NO_LEMMA))
 				return true;
 			keepCounting = !matchPostagRegexp(tokens[i - j], pTrenca);
 			j++;
@@ -650,16 +690,17 @@ public class ReflexiveVerbsRule extends CatalanRule {
 		// És frase impersonal si hi ha el pronom 'es', llevat que es pugui identificar un subjecte "personal".
 		return isThereBefore(tokens, i, LEMMA_ES, POSTAG_ES)
 		&& !isThereBefore(tokens, i, LEMMA_PRONOM_CI, POSTAG_PRONOM_CI)
-		&& (!isTherePersonalSubjectBefore(tokens,i,TRENCA_COMPTE2) || isThereBefore(tokens, i, LEMMA_HI, POSTAG_HI))
+		&& ( !isThereSingularPersonalSubjectBefore(tokens,i,TRENCA_COMPTE2) || isThereBefore(tokens, i, LEMMA_HI, POSTAG_HI))
 		&& isVerbNumberPerson(tokens,i,VERB_3S);  		
 	}
 	private boolean isPhraseImpersonalVerbSP (final AnalyzedTokenReadings[] tokens, int i) {
 		//FRASE IMPERSONAL
 		// És frase impersonal si hi ha el pronom 'es', llevat que es pugui identificar un subjecte "personal".
-		return isThereBefore(tokens, i, LEMMA_ES, POSTAG_ES)
+		return isThereBefore(tokens, i, LEMMA_ES, POSTAG_ES)		
 		&& !isThereBefore(tokens, i, LEMMA_PRONOM_CI, POSTAG_PRONOM_CI)
-		&& (!isTherePersonalSubjectBefore(tokens,i,TRENCA_COMPTE) || isThereBefore(tokens, i, LEMMA_HI, POSTAG_HI))
-		&& (isVerbNumberPerson(tokens,i,VERB_3S)||isVerbNumberPerson(tokens,i,VERB_3P));  		
+		&& (  (  (isVerbNumberPerson(tokens,i,VERB_3S) && !isThereSingularPersonalSubjectBefore(tokens,i,TRENCA_COMPTE))
+		      || (isVerbNumberPerson(tokens,i,VERB_3P) && !isTherePluralPersonalSubjectBefore(tokens,i,TRENCA_COMPTE)) )
+		   || isThereBefore(tokens, i, LEMMA_HI, POSTAG_HI));  		
 	}
 	
 	@Override

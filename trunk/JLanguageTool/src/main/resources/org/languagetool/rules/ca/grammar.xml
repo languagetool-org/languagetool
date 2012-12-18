@@ -1337,6 +1337,20 @@ $Id$
         </rulegroup>
     </category>
     <category name="Verbs">
+        <rule id="VENIR_GERUNDI" name="*venir + gerundi">
+            <pattern>
+                <token>es</token>
+                <marker>
+                    <token inflected="yes">venir</token>
+                    <token postag="V.G.*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <message>Construcció incorrecta. Cal usar el verb principal conjugat sense la perífrasi amb 'venir'.</message>
+            <short>Construcció incorrecta</short>
+            <example type="incorrect">Es <marker>venia dient</marker> això.</example>
+            <example type="correct">Es deia això.</example>
+            <example type="correct">Venia cantant ben content.</example>
+        </rule>
         <rulegroup id="DORMIR_ADORMIRSE" name="*dormir-se / adormir-se">
             <rule>
                 <pattern>
@@ -1641,6 +1655,18 @@ $Id$
                 <short>Incorrecte.</short>
                 <example type="incorrect"><marker>Cabria</marker> imaginar.</example>
                 <example type="correct">Es podria imaginar.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>cap</token>
+                    </marker>
+                    <token postag="V.N.*" postag_regexp="yes"></token>
+                </pattern>
+                <message>Incorrecte quan vol dir <suggestion>es <match no="1" postag="(VMI.+)" postag_regexp="yes" postag_replace="$1">poder</match></suggestion>, <suggestion>hom <match no="1" postag="(VMI.+)" postag_regexp="yes" postag_replace="$1">poder</match></suggestion>.</message>
+                <short>Incorrecte.</short>
+                <example type="incorrect">Només <marker>cap</marker> esperar que no passi.</example>
+                <example type="correct">Només es pot esperar que no passi.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PERIFRASIS" name="Perífrasis d'obligació i de dubte">
@@ -7306,7 +7332,7 @@ $Id$
                 </pattern>
                 <message>El verb ha de ser imperatiu, gerundi o infinitiu.</message>
                 <short>Temps verbal incorrecte.</short>
-                <example type="incorrect"><marker>Diguéssim</marker>-li-ho.</example>
+                <example type="incorrect"><marker>Diguéssim</marker>-li-ho.</example>    
                 <example type="correct">Diguem-li-ho.</example>
             </rule>
             <!-- Norma aplicada: 3a p refl. (se) +2a p (et, us) + 1a p (em, ens) + datiu (3a p: li, els) + acusatiu (3a p: el, la, els, les, ho) + en + hi -->
@@ -9564,11 +9590,13 @@ $Id$
                     <token>en</token>
                     <token>mig</token>
                 </marker>
-                <token inflected="yes">de</token>
+                <token><exception regexp="yes">de|d'</exception><exception postag="N.[MC][SN].*" postag_regexp="yes"/></token>
             </pattern>
             <message>Cal escriure: <suggestion>enmig</suggestion>.</message>
             <short>Expressió incorrecta.</short>
-            <example type="incorrect"><marker>En mig</marker> de les timonedes.</example>
+            <example type="incorrect" correction="enmig"><marker>en mig</marker> no hi ha res</example>
+            <example type="correct">En mig de les timonedes.</example>
+            <example type="correct">en mig país</example>
             <example type="correct">Enmig de les timonedes.</example>
         </rule>
         <rule id="CASC_ANTIC" name="casc antic">
@@ -14940,7 +14968,7 @@ $Id$
                         <token regexp="yes">que|què|qui</token>
                     </marker>
                 </pattern>
-                <message>Reviseu la construcció de relatiu. Potser cal escriure: <suggestion><match no="2"/> <match no="3"/> qual</suggestion>, <suggestion><match no="2"/> què</suggestion>, <suggestion><match no="2"/> qui</suggestion>.</message>
+                <message>Reviseu la construcció de relatiu. Potser cal escriure: <suggestion><match no="2" /> <match no="3"/> qual</suggestion>, <suggestion><match no="2" /> què</suggestion>, <suggestion><match no="2" /> qui</suggestion>.</message>
                 <short>Reviseu la construcció de relatiu</short>
                 <example type="incorrect">l'home <marker>amb el que</marker> vaig parlar</example>
                 <example type="correct">l'home amb el qual vaig parlar</example>
@@ -14955,7 +14983,7 @@ $Id$
                         <token regexp="yes">que|què|qui</token>
                     </marker>
                 </pattern>
-                <message>Reviseu la construcció de relatiu. Potser cal escriure: <suggestion><match no="2"/> <match no="3"/> qual</suggestion>, <suggestion><match no="2"/> què</suggestion>, <suggestion><match no="2"/> qui</suggestion>.</message>
+                <message>Reviseu la construcció de relatiu. Potser cal escriure: <suggestion><match no="2" /> <match no="3"/> qual</suggestion>, <suggestion><match no="2" /> què</suggestion>, <suggestion><match no="2" /> qui</suggestion>.</message>
                 <short>Reviseu la construcció de relatiu</short>
                 <example type="incorrect">la dona <marker>amb la que</marker> vaig parlar</example>
                 <example type="correct">la dona amb la qual vaig parlar</example>
@@ -14973,7 +15001,7 @@ $Id$
                         <token regexp="yes">que|què|qui</token>
                     </marker>
                 </pattern>
-                <message>Reviseu la construcció de relatiu. Potser cal escriure: <suggestion><match no="2"/> <match no="3"/> quals</suggestion>, <suggestion><match no="2"/> què</suggestion>, <suggestion><match no="2"/> qui</suggestion>.</message>
+                <message>Reviseu la construcció de relatiu. Potser cal escriure: <suggestion><match no="2" /> <match no="3"/> quals</suggestion>, <suggestion><match no="2" /> què</suggestion>, <suggestion><match no="2" /> qui</suggestion>.</message>
                 <short>Reviseu la construcció de relatiu</short>
                 <example type="incorrect">els homes <marker>amb els que</marker> vaig parlar</example>
                 <example type="correct">els homes amb els quals vaig parlar</example>
@@ -14988,13 +15016,69 @@ $Id$
                         <token regexp="yes">que|què|qui</token>
                     </marker>
                 </pattern>
-                <message>Reviseu la construcció de relatiu. Potser cal escriure: <suggestion><match no="2"/> <match no="3"/> quals</suggestion>, <suggestion><match no="2"/> què</suggestion>, <suggestion><match no="2"/> qui</suggestion>.</message>
+                <message>Reviseu la construcció de relatiu. Potser cal escriure: <suggestion><match no="2" /> <match no="3"/> quals</suggestion>, <suggestion><match no="2" /> què</suggestion>, <suggestion><match no="2" /> qui</suggestion>.</message>
                 <short>Reviseu la construcció de relatiu</short>
                 <example type="incorrect">les dones <marker>amb les que</marker> vaig parlar</example>
                 <example type="correct">les dones amb les quals vaig parlar</example>
                 <example type="correct">va dir coses similars a les que vaig dir jo</example>
                 <example type="correct">el grup d'espècies relacionades amb les que Darwin trobà a les illes Galàpagos</example>
                 <example type="correct">distingeixen les societats avançades de les que van a remolc.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="NCMS.*|_GN_MS" postag_regexp="yes"/>
+                    <token postag="SPS00|.*LOC_PREP.*" postag_regexp="yes" skip="4"><exception postag="_no_relatiu"/><exception postag="RG|SPS00|.*LOC_PREP.*|DA.*|SENT_END" scope="next" postag_regexp="yes" negate_pos="yes" /></token>
+                    <token regexp="yes">el|l</token>
+                    <marker>
+                        <token regexp="yes">que|què|qui</token>
+                    </marker>
+                </pattern>
+                <message>Reviseu la construcció de relatiu. Potser cal escriure: <suggestion>qual</suggestion>.</message>
+                <short>Reviseu la construcció de relatiu</short>
+                <example type="incorrect">un conductor a través del <marker>que</marker> passa el corrent</example>
+                <example type="correct">l'home amb el qual vaig parlar</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="NCFS.*|_GN_FS" postag_regexp="yes"/>
+                    <token postag="SPS00|.*LOC_PREP.*" postag_regexp="yes" skip="4"><exception postag="_no_relatiu"/><exception postag="RG|SPS00|.*LOC_PREP.*|DA.*|SENT_END" scope="next" postag_regexp="yes" negate_pos="yes" /></token>
+                    <token>la</token>
+                    <marker>
+                        <token regexp="yes">que|què|qui</token>
+                    </marker>
+                </pattern>
+                <message>Reviseu la construcció de relatiu. Potser cal escriure: <suggestion>qual</suggestion>.</message>
+                <short>Reviseu la construcció de relatiu</short>
+                <example type="incorrect">la dona a casa de la <marker>que</marker> vaig anar</example>
+                <example type="correct">la dona a casa de la qual vaig anar</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="NCMP.*|_GN_MP" postag_regexp="yes"/>
+                    <token postag="SPS00|.*LOC_PREP.*" postag_regexp="yes" skip="4"><exception postag="_no_relatiu"/><exception postag="RG|SPS00|.*LOC_PREP.*|DA.*|SENT_END" scope="next" postag_regexp="yes" negate_pos="yes" /></token>
+                    <token regexp="yes">els|ls</token>
+                    <marker>
+                        <token regexp="yes">que|què|qui</token>
+                    </marker>
+                </pattern>
+                <message>Reviseu la construcció de relatiu. Potser cal escriure: <suggestion>quals</suggestion>.</message>
+                <short>Reviseu la construcció de relatiu</short>
+                <example type="incorrect">els homes per mitjà dels <marker>que</marker> m'hi vaig introduir</example>
+                <example type="correct">els homes per mitjà dels quals m'hi vaig introduir</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="NCFP.*|_GN_FP" postag_regexp="yes"/>
+                    <token postag="SPS00|.*LOC_PREP.*" postag_regexp="yes" skip="4"><exception postag="_no_relatiu"/><exception postag="RG|SPS00|.*LOC_PREP.*|DA.*|SENT_END" scope="next" postag_regexp="yes" negate_pos="yes" /></token>
+                    <token>les</token>
+                    <marker>
+                        <token regexp="yes">que|què|qui</token>
+                    </marker>
+                </pattern>
+                <message>Reviseu la construcció de relatiu. Potser cal escriure: <suggestion>quals</suggestion>.</message>
+                <short>Reviseu la construcció de relatiu</short>
+                <example type="incorrect">les regles en contra de les <marker>que</marker> va lluitar</example>
+                <example type="correct">les regles en contra de les quals va lluitar</example>
             </rule>
         </rulegroup>
         <rule id="ELS_QUE_INFINITIU" name="els que + infinitiu">

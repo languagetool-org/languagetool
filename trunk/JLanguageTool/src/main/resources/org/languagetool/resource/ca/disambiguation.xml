@@ -199,31 +199,12 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="add"><wd lemma="en va" pos="&lt;/LOC_ADV&gt;"></wd></disambig>
         </rule>
-        <rule id="enmig1" name="locució prep">
-            <pattern>
-                <marker>
-                    <token regexp="yes">enmig|entorn</token>
-                </marker>
-                <token regexp="yes">de|d'</token>
-            </pattern>
-            <disambig action="add"><wd lemma="enmig de" pos="&lt;LOC_PREP&gt;"></wd></disambig>
-        </rule>
-        <rule id="enmig2" name="locució prep">
-            <pattern>
-                <token regexp="yes">enmig|entorn</token>
-                <marker>
-                    <token regexp="yes">de|d'</token>
-                </marker>
-            </pattern>
-            <disambig action="add"><wd lemma="enmig de" pos="&lt;/LOC_PREP&gt;"></wd>
-            </disambig>
-        </rule>
         <!--  Locucions -->
         <!-- etiquetes d'inici i final-->
         <rule id="loc_adv1" name="locució adverbial">
             <pattern>
                 <marker>
-                    <token postag="&lt;LOC_ADV&gt;"></token>
+                    <token postag="&lt;LOC_ADV&gt;"><exception postag=".*LOC_PREP.*" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
             <disambig action="filter" postag=".*LOC_ADV.*"></disambig>
@@ -231,7 +212,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule id="loc_adv2" name="locució adverbial">
             <pattern>
                 <marker>
-                    <token postag="&lt;/LOC_ADV&gt;"></token>
+                    <token postag="&lt;/LOC_ADV&gt;"><exception postag=".*LOC_PREP.*" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
             <disambig action="filter" postag=".*LOC_ADV.*"></disambig>
@@ -511,6 +492,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="filter" postag=".*AQ.*"></disambig>
         </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>d'</token>
+                </marker>
+                <token>esquena</token>
+            </pattern>
+            <disambig action="add"><wd lemma="d'esquena" pos="&lt;LOC_ADV&gt;"></wd></disambig>
+        </rule>
     </rulegroup>
     <rule id="CURT" name="curt no adverbi">
         <pattern>
@@ -765,6 +755,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token inflected="yes">de</token>
             </pattern>
             <disambig action="filter" postag="V.*" />
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>la</token>
+                </marker>
+                <token regexp="yes">que|què|qui|qual</token>
+            </pattern>
+            <disambig action="filter" postag="DA.*" />
         </rule>
     </rulegroup>
     
@@ -2102,6 +2101,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="filter" postag="S.*"></disambig>
         </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">col?ps?</token>
+                <token>de</token>
+                <marker>
+                    <token>cap</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="N.*"></disambig>            
+        </rule>
     </rulegroup>  
     <rule id="llavors" name="llavors">
         <pattern>
@@ -3161,7 +3170,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
                 <token postag="A..[MC][PN0].*|V.P..PM|N.[MC][PN0].*" postag_regexp="yes"></token>
             </pattern>
-            <disambig action="filter" postag="D.*"></disambig>
+            <disambig action="filter" postag="DN0MP0"></disambig>
         </rule>
         <rule>
             <pattern>
@@ -3191,14 +3200,14 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
                 <token postag="A..[FC][PN0].*|V.P..PF|N.[FC][PN0].*" postag_regexp="yes"></token>
             </pattern>
-            <disambig action="filter" postag="D.*"></disambig>
+            <disambig action="filter" postag="DN0FP0"></disambig>
         </rule>
         <rule>
             <pattern>
                 <marker>
                     <token postag="D[AID].[MC][PN0].*" postag_regexp="yes"></token>
                 </marker>
-                <token postag="DN0CP0" />
+                <token postag="DN0MP0" />
                 <token postag="A..[MC][PN0].*|V.P..PM|N.[MC][PN0].*" postag_regexp="yes"></token>
             </pattern>
             <disambig action="add"><wd pos="_GN_MP"></wd>
@@ -3207,7 +3216,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <token postag="D[AID].[MC][PN0].*" postag_regexp="yes"></token>
-                <token postag="DN0CP0" />
+                <token postag="DN0MP0" />
                 <marker>
                     <token postag="A..[MC][PN0].*|V.P..PM|N.[MC][PN0].*" postag_regexp="yes"><exception inflected="yes">numeral</exception></token>
                 </marker>
@@ -3219,7 +3228,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <token postag="D[AID].[MC][PN0].*" postag_regexp="yes"></token>
                 <marker>
-                    <token postag="DN0CP0" />
+                    <token postag="DN0MP0" />
                 </marker>
                 <token postag="A..[MC][PN0].*|V.P..PM|N.[MC][PN0].*" postag_regexp="yes"></token>
             </pattern>
@@ -3231,7 +3240,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <token postag="D[AID].[FC][PN0].*" postag_regexp="yes"></token>
                 </marker>
-                <token postag="DN0CP0" />
+                <token postag="DN0FP0" />
                 <token postag="A..[FC][PN0].*|V.P..PF|N.[FC][PN0].*" postag_regexp="yes"></token>
             </pattern>
             <disambig action="add"><wd pos="_GN_FP"></wd>
@@ -3240,7 +3249,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <token postag="D[AID].[FC][PN0].*" postag_regexp="yes"></token>
-                <token postag="DN0CP0" />
+                <token postag="DN0FP0" />
                 <marker>
                     <token postag="A..[FC][PN0].*|V.P..PF|N.[FC][PN0].*" postag_regexp="yes"></token>
                 </marker>
@@ -3252,7 +3261,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <token postag="D[AID].[FC][PN0].*" postag_regexp="yes"></token>
                 <marker>
-                    <token postag="DN0CP0" />
+                    <token postag="DN0FP0" />
                 </marker>
                 <token postag="A..[FC][PN0].*|V.P..PF|N.[FC][PN0].*" postag_regexp="yes"></token>
             </pattern>
@@ -7902,7 +7911,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token regexp="yes" inflected="yes">similar|semblant|equivalent|alternatiu|superior|inferior|paral·lel|anterior|posterior</token>
+                <token regexp="yes" inflected="yes">contrari|igual|similar|semblant|equivalent|alternatiu|superior|inferior|paral·lel|anterior|posterior</token>
                 <marker>
                     <token>a</token>
                 </marker>
@@ -7935,6 +7944,18 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
                 <token postag="DA.*" postag_regexp="yes"/>
                 <token>que</token>
+            </pattern>
+            <disambig action="add"><wd pos="_no_relatiu"></wd></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>pe</token>
+                </marker>
+                <token>l</token>
+                <token>que</token>
+                <token regexp="yes">fa|feia</token>
+                <token>a</token>
             </pattern>
             <disambig action="add"><wd pos="_no_relatiu"></wd></disambig>
         </rule>
