@@ -9293,32 +9293,35 @@ $Id$
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category name="Groß-/Kleinschreibung">
-        <rulegroup id="IMPORTIEREN_SUBST" name="Groß-/Kleinschreibung: 'das importieren (Importieren)' etc.">
-            <!-- Jan: Die Regel ist jetzt verallgemeinert auf alle Verben im Infinitiv: "Das Löschen der Dateien" etc. Getestet auf 2000 Wikipedia-Artikeln. -->
-            <!-- Jan: TODO: Umbenennen?! Gehört jetzt eher allgemein zu subst. Verben. -->
-            <!-- Jan: TODO: Zweite Teilregel auch verallgemeinern. -->
+        <rulegroup id="DAS_INFINITIV_VON" name="Groß-/Kleinschreibung: 'das importieren (Importieren) von' etc.">
+            <!-- Jan: Die Regel hieß vorher IMPORTIEREN_SUBST, ist aber jetzt verallgemeinert auf alle Verben -->
+            <!-- im Infinitiv: "Das Löschen der Dateien" etc. Getestet auf 2000 Wikipedia-Artikeln.  -->
+            <!-- Jan: Regel ERSTELLEN habe ich gelöscht, wird jetzt hier mit erledigt. -->
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[Dd]as|[Dd]em</token>
                     <marker>
-                        <!-- OLD VERSION: <token regexp="yes">exportieren|importieren</token> -->
                         <token postag="VER:INF:.+" postag_regexp="yes" regexp="yes">[a-zäöüß]+<exception postag="ADJ:GEN:SIN:.+" postag_regexp="yes"/><exception regexp="yes">einen|einigen|sieben</exception></token>
                     </marker>
                     <token postag=".*:GEN:.*" postag_regexp="yes"><exception postag="SUB:NOM:.+" postag_regexp="yes"/></token>
                 </pattern>
                 <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion> hier als substantiviertes Verb gebraucht wird und dementsprechend großgeschrieben werden muss.</message>
                 <short>&prgk;.</short>
+                <example type="correct">Im nächsten Teil geht es um das <marker>Erstellen</marker> einfacher XML-Regeln.</example>
+                <example type="correct">Ich möchte das <marker>erstellen</marker>.</example>
                 <example type="correct">Durch das <marker>Importieren</marker> der Klassen ist es möglich, auf die Funktionen zuzugreifen.</example>
                 <example type="correct">Du musst das <marker>importieren</marker>, damit du die Funktion benutzen kannst.</example>
                 <example type="incorrect" correction="Importieren">Durch das <marker>importieren</marker> der Klassen ist es möglich, auf die Funktionen zuzugreifen.</example>
                 <example type="incorrect" correction="Löschen">Das <marker>löschen</marker> der temporären Dateien ist empfehlenswert.</example>
                 <example type="incorrect" correction="Berühren">Das <marker>berühren</marker> der Figüren mit den Pfoten ist verboten.</example>
+                <example type="incorrect" correction="Verführen">Das <marker>verführen</marker> schöner Frauen will geübt sein.</example>
+                <example type="incorrect" correction="Erstellen">Im nächsten Teil geht es um das <marker>erstellen</marker> einfacher XML-Regeln.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[Dd]as|[Dd]em</token>
                     <marker>
-                        <token regexp="yes">exportieren|importieren</token>
+                        <token postag="VER:INF:.+" postag_regexp="yes" regexp="yes">[a-zäöüß]+<exception postag="ADJ:GEN:SIN:.+" postag_regexp="yes"/><exception regexp="yes">einen|einigen|sieben</exception></token>
                     </marker>
                     <token>von</token>
                 </pattern>
@@ -9326,7 +9329,12 @@ $Id$
                 <short>&prgk;.</short>
                 <example type="correct">Durch das <marker>Importieren</marker> von Klassen ist es möglich, auf die Funktionen zuzugreifen.</example>
                 <example type="correct">Du musst das <marker>importieren</marker>, damit du die Funktion benutzen kannst.</example>
+                <example type="correct">Im nächsten Teil geht es um das <marker>Erstellen</marker> von Java-basierten Regeln.</example>
+                <example type="correct">Ich möchte das <marker>erstellen</marker>.</example>
+                <example type="correct">Ich möchte das <marker>öffnen</marker> können.</example>
                 <example type="incorrect" correction="Importieren">Durch das <marker>importieren</marker> von Klassen ist es möglich, auf die Funktionen zuzugreifen.</example>
+                <example type="incorrect" correction="Erstellen">Im nächsten Teil geht es um das <marker>erstellen</marker> von Java-basierten Regeln.</example>
+                <example type="incorrect" correction="Öffnen">Das <marker>öffnen</marker> von Bierflaschen mit dem Feuerzeug sollte als elementare Kulturtechnik in der Schule unterrichtet werden.</example>
             </rule>
         </rulegroup>
         <rulegroup id="IM_KLAREN" name="Groß-/Kleinschreibung: 'im klaren (Klaren)'">
@@ -9510,36 +9518,6 @@ $Id$
                 <short>&prgk;.</short>
                 <example type="incorrect" correction="barfuß">Sie war <marker>Barfuß</marker>.</example>
                 <example type="correct"><marker>Barfuß</marker> im Regen.</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="ERSTELLEN" name="Groß-/Kleinschreibung: 'das erstellen (Erstellen)'">
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token regexp="yes">[Dd]as</token>
-                    <marker>
-                        <token>erstellen</token>
-                    </marker>
-                    <token>von</token>
-                </pattern>
-                <message>&subanfang;<suggestion>Erstellen</suggestion>&subende;</message>
-                <short>&prgk;.</short>
-                <example type="incorrect" correction="Erstellen">Im nächsten Teil geht es um das <marker>erstellen</marker> von Java-basierten Regeln.</example>
-                <example type="correct">Im nächsten Teil geht es um das <marker>Erstellen</marker> von Java-basierten Regeln.</example>
-                <example type="correct">Ich möchte das <marker>erstellen</marker>.</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token regexp="yes">[Dd]as</token>
-                    <marker>
-                        <token>erstellen</token>
-                    </marker>
-                    <token postag_regexp="yes" postag=".*GEN.*"/>
-                </pattern>
-                <message>&subanfang;<suggestion>Erstellen</suggestion>&subende;</message>
-                <short>&prgk;.</short>
-                <example type="incorrect" correction="Erstellen">Im nächsten Teil geht es um das <marker>erstellen</marker> einfacher XML-Regeln.</example>
-                <example type="correct">Im nächsten Teil geht es um das <marker>Erstellen</marker> einfacher XML-Regeln.</example>
-                <example type="correct">Ich möchte das <marker>erstellen</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ABSAGE_SUBST" name="Groß-/Kleinschreibung: 'eine absage (Absage) erteilen'">
@@ -22553,12 +22531,14 @@ $Id$
     <!-- ====================================================================== -->
     <category name="Typographie">
         <rulegroup id="TYPOGRAFISCHE_ANFUEHRUNGSZEICHEN" name="Zeichensetzung/Typographie: Typografische Anführungszeichen">
+            <!-- TODO: mit  spacebefore="no/yes" öffnende und schließende Anführungszeichen unterscheiden und entsprechend vorschlagen? -->
+            <!-- TODO: default="off"? An geraden Anführungszeichen ist ja nichts falsch, sie sind bloß hässlich. -->
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">'|`|’|‘|′</token>
-                        <token><match no="0"/></token>
-                        <token><match no="0"/></token>
+                        <token regexp="yes">'|`|´|’|‘|′</token>
+                        <token spacebefore="no"><match no="0"/></token>
+                        <token spacebefore="no"><match no="0"/></token>
                     </marker>
                 </pattern>
                 <message>Wollen Sie das Triple-Prime-Zeichen (<suggestion>‴</suggestion>; dritte Ableitung, dreigestrichene Oktave) verwenden?</message>
@@ -22569,7 +22549,7 @@ $Id$
                 <pattern>
                     <marker>
                         <token regexp="yes">'|`|’|‘|′</token>
-                        <token><match no="0"/></token>
+                        <token spacebefore="no"><match no="0"/></token>
                     </marker>
                 </pattern>
                 <message>Wollen Sie ein typografisches Anführungszeichen (<suggestion>„</suggestion> <suggestion>“</suggestion>, <suggestion>»</suggestion> <suggestion>«</suggestion>) oder das Sekunden-/Zollzeichen (<suggestion>″</suggestion>) verwenden?</message>
@@ -22592,7 +22572,7 @@ $Id$
                         <token>'</token>
                     </marker>
                 </pattern>
-                <message>Wollen Sie statt des Ersatzzeichens (') ein Apostroph (<suggestion>’</suggestion>), typografische Anführungszeichen (<suggestion>‚</suggestion> <suggestion>‘</suggestion>, <suggestion>›</suggestion> <suggestion>‹</suggestion>) oder das Minutenzeichen (<suggestion>′</suggestion>) verwenden?</message>
+                <message>Wollen Sie statt des Ersatzzeichens (') einen Apostroph (<suggestion>’</suggestion>), typografische Anführungszeichen (<suggestion>‚</suggestion> <suggestion>‘</suggestion>, <suggestion>›</suggestion> <suggestion>‹</suggestion>) oder das Minutenzeichen (<suggestion>′</suggestion>) verwenden?</message>
                 <example type="correct">Felix<marker>’</marker> Hausaufgaben sind gut.</example>
                 <example type="incorrect" correction="’|‚|‘|›|‹|′">Felix<marker>'</marker> Hausaufgaben sind gut.</example>
             </rule>
