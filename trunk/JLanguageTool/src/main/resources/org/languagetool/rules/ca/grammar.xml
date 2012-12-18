@@ -3232,6 +3232,19 @@ $Id$
             <example type="correct">El llibre <marker>tracta</marker> aspectes importants de les matemàtiques</example>
             <example type="correct">El llibre <marker>tracta</marker> a més a més aspectes importants de les matemàtiques</example>
         </rule> -->
+        <rule id="A_LINREVES_DE_AL_REVES_DE" name="*a l'inrevés de/al revés de">
+            <pattern>
+                <marker>
+                    <token>a</token>
+                    <token>l'</token>
+                    <token>inrevés</token>
+                </marker>
+                <token regexp="yes">de|d'</token>
+            </pattern>
+            <message>Val més dir: <suggestion>al revés</suggestion>. "A l'inrevés" és correcte com a locució adverbial.</message>
+            <example type="incorrect"><marker>a l'inrevés</marker> de</example>
+            <example type="correct">al revés de</example>
+        </rule>
         <rule id="PARTICIPAR_A_EN" name="participar *a/en">
             <pattern>
                 <token inflected="yes">participar</token>
@@ -3856,6 +3869,20 @@ $Id$
         </rulegroup>
     </category>
     <category name="Confusions">
+        <rule id="COM_MES_AVIAT_COM_ES_AVIAT" name="com més aviat/com és aviat">
+            <pattern>
+                <marker>
+                    <token>com</token>
+                    <token>és</token>
+                    <token>aviat</token>
+                </marker>
+                <token regexp="yes">millor|possible</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>com més aviat</suggestion>?</message>
+            <short>Possible confusió</short>
+            <example type="incorrect"><marker>com és aviat</marker> millor</example>
+            <example type="correct">com més aviat millor</example>
+        </rule>
         <rule id="UN_ABONA_UNA_BONA" name="un abona/una bona">
             <pattern>
                 <marker>
@@ -3865,6 +3892,7 @@ $Id$
                 <token postag="N.FS.*" postag_regexp="yes"/>
             </pattern>
             <message>¿Volíeu dir <suggestion>una bona</suggestion>?</message>
+            <short>Possible confusió</short>
             <example type="incorrect"><marker>un abona</marker> relació</example>
             <example type="correct">una bona relació</example>
         </rule>
@@ -3877,6 +3905,7 @@ $Id$
                 <token><exception postag="N.MS.*" postag_regexp="yes"/></token>
             </pattern>
             <message>¿Volíeu dir <suggestion>entremig</suggestion>?</message>
+            <short>Possible confusió</short>
             <example type="incorrect" correction="entremig"><marker>entre mig</marker> de les plantes</example>
             <example type="correct">entre mig any i un any</example>
         </rule>
@@ -3885,6 +3914,7 @@ $Id$
                 <token regexp="yes">[Tt]ex</token>
             </pattern>
             <message>¿Volíeu dir <suggestion><match no="1"/>t</suggestion>?</message>
+            <short>Possible confusió</short>
             <example type="incorrect" correction="Text"><marker>Tex</marker> inèdit de Joan Maragall.</example>
             <example type="correct">El sistema tipogràfic TeX.</example>
         </rule>
@@ -3897,6 +3927,7 @@ $Id$
                 </marker>
             </pattern>
             <message>¿Volíeu dir <suggestion>cap<match no="3"/></suggestion>?</message>
+            <short>Possible confusió</short>
             <example type="incorrect" correction="capcot">Se n'anà <marker>cap cot</marker>.</example>
             <example type="correct">amb el cap cot</example>
         </rule>
@@ -3905,6 +3936,7 @@ $Id$
                 <token regexp="yes">catequesis|anàlisis<exception postag="_GN_FP"/></token>
             </pattern>
             <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(.+)s" regexp_replace="$1"/></suggestion> (singular) en comptes de "<match no="1"/>" (plural)?</message>
+            <short>Possible confusió</short>
             <example type="incorrect" correction="catequesi">Hi anàvem a fer <marker>catequesis</marker>.</example>
             <example type="correct">Les anàlisis són correctes.</example>
         </rule>
@@ -3917,6 +3949,7 @@ $Id$
                 <token><exception regexp="yes">de|d'</exception></token>
             </pattern>
             <message>¿Volíeu dir <suggestion>lliurement</suggestion> (= amb llibertat) en lloc de "lliurament" (= acció de lliurar)?</message>
+            <short>Possible confusió</short>
             <example type="incorrect" correction="lliurement">Aquests significats són <marker>lliurament</marker> mesclats.</example>
             <example type="correct">El lliurament es va fer amb normalitat.</example>
             <example type="correct">Va negociar el lliurament de Granada.</example>
@@ -3928,6 +3961,7 @@ $Id$
                 <token>vist</token>
             </pattern>
             <message>¿Volíeu dir <suggestion>hem vist</suggestion>?</message>
+            <short>Possible confusió</short>
             <example type="incorrect">com <marker>em vist</marker></example>
             <example type="correct">com hem vist</example>
         </rule>
@@ -3936,6 +3970,7 @@ $Id$
                 <token>am</token>
             </pattern>
             <message>¿Volíeu dir <suggestion>amb</suggestion>?</message>
+            <short>Possible confusió</short>
             <example type="incorrect"><marker>am</marker> àmplies vistes</example>
             <example type="correct">amb àmplies vistes</example>
         </rule>
@@ -3947,6 +3982,7 @@ $Id$
                 <token postag="NPMSSP0"/>
             </pattern>
             <message>¿Volíeu dir <suggestion>sant</suggestion> en comptes de 'san' (= poble africà)?</message>
+            <short>Possible confusió</short>
             <example type="incorrect"><marker>san</marker> Joan </example>
             <example type="correct">sant Joan</example>
             <example type="correct">San Dalmazzo</example>
@@ -3958,6 +3994,7 @@ $Id$
                 <token>oli</token>
             </pattern>
             <message>¿Volíeu dir <suggestion>allioli</suggestion>?</message>
+            <short>Possible confusió</short>
             <example type="incorrect"><marker>all i oli</marker></example>
             <example type="correct">allioli</example>
         </rule>
@@ -3967,7 +4004,8 @@ $Id$
                 <token>d'</token>
                 <token>ahir</token>
             </pattern>
-            <message>Cal escriure <suggestion>abans-d'ahir</suggestion>.</message>
+            <message>¿Volíeu dir <suggestion>abans-d'ahir</suggestion>?</message>
+            <short>Possible confusió</short>
             <example type="incorrect">els riscos d'<marker>abans d'ahir</marker>.</example>
             <example type="correct">els riscos d'abans-d'ahir.</example>
         </rule>
@@ -14986,13 +15024,28 @@ $Id$
                     <token postag="NCMS.*|_GN_MS" postag_regexp="yes"/>
                     <marker>
                         <token postag="SPS00"><exception postag="_no_relatiu"/></token>
-                        <token regexp="yes">el|l</token>
+                        <token>el</token>
                         <token regexp="yes">que|què|qui</token>
                     </marker>
                 </pattern>
                 <message>Reviseu la construcció de relatiu. Potser cal escriure: <suggestion><match no="2" /> <match no="3"/> qual</suggestion>, <suggestion><match no="2" /> què</suggestion>, <suggestion><match no="2" /> qui</suggestion>.</message>
                 <short>Reviseu la construcció de relatiu</short>
                 <example type="incorrect">l'home <marker>amb el que</marker> vaig parlar</example>
+                <example type="correct">l'home amb el qual vaig parlar</example>
+                <example type="correct">tothom estava d'acord amb el que s'havia dit</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="NCMS.*|_GN_MS" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="SPS00"><exception postag="_no_relatiu"/></token>
+                        <token spacebefore="no">l</token>
+                        <token regexp="yes">que|què|qui</token>
+                    </marker>
+                </pattern>
+                <message>Reviseu la construcció de relatiu. Potser cal escriure: <suggestion><match no="2" /><match no="3"/> qual</suggestion>, <suggestion><match no="2" /> què</suggestion>, <suggestion><match no="2" /> qui</suggestion>.</message>
+                <short>Reviseu la construcció de relatiu</short>
+                <example type="incorrect">l'home <marker>al que</marker> vaig trobar</example>
                 <example type="correct">l'home amb el qual vaig parlar</example>
                 <example type="correct">tothom estava d'acord amb el que s'havia dit</example>
             </rule>
@@ -15019,13 +15072,28 @@ $Id$
                     <token postag="NCMP.*|_GN_MP" postag_regexp="yes"/>
                     <marker>
                         <token postag="SPS00"><exception postag="_no_relatiu"/></token>
-                        <token regexp="yes">els|ls</token>
+                        <token>els</token>
                         <token regexp="yes">que|què|qui</token>
                     </marker>
                 </pattern>
                 <message>Reviseu la construcció de relatiu. Potser cal escriure: <suggestion><match no="2" /> <match no="3"/> quals</suggestion>, <suggestion><match no="2" /> què</suggestion>, <suggestion><match no="2" /> qui</suggestion>.</message>
                 <short>Reviseu la construcció de relatiu</short>
                 <example type="incorrect">els homes <marker>amb els que</marker> vaig parlar</example>
+                <example type="correct">els homes amb els quals vaig parlar</example>
+                <example type="correct">aquests són semblants als que va trobar ell</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="NCMP.*|_GN_MP" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="SPS00"><exception postag="_no_relatiu"/></token>
+                        <token spacebefore="no">ls</token>
+                        <token regexp="yes">que|què|qui</token>
+                    </marker>
+                </pattern>
+                <message>Reviseu la construcció de relatiu. Potser cal escriure: <suggestion><match no="2" /><match no="3"/> quals</suggestion>, <suggestion><match no="2" /> què</suggestion>, <suggestion><match no="2" /> qui</suggestion>.</message>
+                <short>Reviseu la construcció de relatiu</short>
+                <example type="incorrect">els homes <marker>als que</marker> vaig parlar</example>
                 <example type="correct">els homes amb els quals vaig parlar</example>
                 <example type="correct">aquests són semblants als que va trobar ell</example>
             </rule>
