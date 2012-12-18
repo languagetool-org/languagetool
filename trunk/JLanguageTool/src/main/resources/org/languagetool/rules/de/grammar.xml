@@ -5243,6 +5243,20 @@ $Id$
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category name="Zusammen-/Getrenntschreibung">
+        <rule id="VORBEI_VERB" name="Zusammen-/Getrenntschreibung: vorbei reden etc. (vorbeireden)">
+            <!-- TODO: An der Yenidze vorbei führt die Bahnstrecke zwischen Hauptbahnhof und... -->
+            <pattern>
+                <marker>
+                    <token>vorbei</token>
+                    <token postag_regexp="yes" postag="VER:.*"><exception inflected="yes">sein</exception></token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion>vorbei\2</suggestion>? Vorbei wird mit darauffolgendem Verb zusammengeschrieben.</message>
+            <url>http://www.korrekturen.de/beliebte_fehler/aneinander_vorbei_reden.shtml</url>
+            <example type="incorrect" correction="vorbeireden">Die werden mal wieder aneinander <marker>vorbei reden</marker>.</example>
+            <example type="correct">Die werden mal wieder aneinander <marker>vorbeireden</marker>.</example>
+            <example type="correct">Und erst als der Zug <marker>vorbei war</marker>, kamen wir am Bahnhof an.</example>
+        </rule>
         <rule id="ZU_MAL" name="Zusammen-/Getrenntschreibung: zu mal (zumal)">
             <pattern>
                 <token negate="yes" regexp="yes">mal|und</token>
