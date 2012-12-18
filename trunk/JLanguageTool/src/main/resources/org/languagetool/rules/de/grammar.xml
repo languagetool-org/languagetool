@@ -9293,6 +9293,19 @@ $Id$
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category name="Groß-/Kleinschreibung">
+        <rule id="KRAFT_MEINES_AMTES" name="Groß-/Kleinschreibung: 'Kraft (kraft) meines Amtes'">
+            <pattern case_sensitive="yes">
+                <marker>
+                    <token>Kraft</token>
+                </marker>
+                <token regexp="yes">meines|[Dd]eines|seines|[Ii]hres|unseres|[Ee]ures</token>
+                <token regexp="yes">Amtes|Amts</token>
+            </pattern>
+            <message>&inwend;'kraft meines Amtes' wird <suggestion><match no="1" case_conversion="startlower"/></suggestion> kleingeschrieben.</message>
+            <short>&prgk;.</short>
+            <example type="incorrect" correction="kraft">Der Pfleger ist <marker>Kraft</marker> seines Amtes dazu nicht berechtigt.</example>
+            <example type="correct">Der Pfleger ist <marker>kraft</marker> seines Amtes dazu nicht berechtigt.</example>
+        </rule>
         <rulegroup id="DAS_INFINITIV_VON" name="Groß-/Kleinschreibung: 'das importieren (Importieren) von' etc.">
             <!-- Jan: Die Regel hieß vorher IMPORTIEREN_SUBST, ist aber jetzt verallgemeinert auf alle Verben -->
             <!-- im Infinitiv: "Das Löschen der Dateien" etc. Getestet auf 2000 Wikipedia-Artikeln.  -->
