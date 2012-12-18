@@ -2128,9 +2128,25 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern case_sensitive="yes">
+                <marker>
+                    <token regexp="yes" spacebefore="yes">(?=.)m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|iv|v?i{0,3})</token>
+                </marker>
+            </pattern>
+            <disambig action="add"><wd lemma="ordinal" pos="AO0CN0"/></disambig>
+        </rule>
+        <rule>
+            <pattern case_sensitive="yes">
                 <token postag="SENT_START"/>
                 <marker>
-                    <token regexp="yes">I</token>
+                    <token>I</token>
+                </marker>
+            </pattern>
+            <disambig action="remove"><wd lemma="ordinal" pos="AO0CN0"/></disambig>
+        </rule>
+        <rule>
+            <pattern case_sensitive="yes">
+                <marker>
+                    <token regexp="yes">i|li</token>
                 </marker>
             </pattern>
             <disambig action="remove"><wd lemma="ordinal" pos="AO0CN0"/></disambig>

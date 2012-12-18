@@ -2518,6 +2518,28 @@ $Id$
             <example type="incorrect">Hi ha <marker>vàries</marker> solucions.</example>
             <example type="correct">Hi ha <marker>diverses</marker> solucions.</example>
         </rule>
+        <rulegroup id="NOMBRES_ROMANS" name="comprova nombres romans">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token postag="UNKNOWN" regexp="yes">[MCDXLVI]+</token>
+                    </marker>
+                </pattern>
+                <message>Nombre romà incorrecte.</message>
+                <example type="incorrect">Hi ha <marker>XXIVIIV</marker> solucions.</example>
+                <example type="correct">Hi ha <marker>XXI</marker> solucions.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token postag="UNKNOWN" regexp="yes">[mcdxlvi]+</token>
+                    </marker>
+                </pattern>
+                <message>Nombre romà incorrecte.</message>
+                <example type="incorrect">Hi ha <marker>xxvxxi</marker> solucions.</example>
+                <example type="correct">Hi ha <marker>xxi</marker> solucions.</example>
+            </rule>
+        </rulegroup>
     </category>
     <category name="Z) Adverbis">
         <rule id="DE_PORTES_CAP_A_DINS" name="de portes *cap a dins/endins">
