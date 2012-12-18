@@ -5243,6 +5243,34 @@ $Id$
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category name="Zusammen-/Getrenntschreibung">
+        <rule id="DIPL_ING" name="Zusammen-/Getrenntschreibung: Dipl. Ing. (Dipl-Ing.)">
+            <pattern>
+                <marker>
+                    <token>Dipl</token>
+                    <token>.</token>
+                    <token regexp="yes">(Ing|Jur|Math|Met|Inf|Bibl|Biol|Chem|Hdl|Kff|Kffr|Kfm)</token>
+                    <token>.</token>
+                </marker>
+            </pattern>
+            <message><suggestion>Dipl.-\3.</suggestion> und ähnliche Bezeichnungen werden mit Bindestrich geschrieben.</message>
+            <url>http://www.korrekturen.de/beliebte_fehler/dipl_ing.shtml</url>
+            <example type="incorrect" correction="Dipl.-Ing."><marker>Dipl. Ing.</marker> Stefan Müller</example>
+            <example type="correct"><marker>Dipl.-Ing.</marker> Stefan Müller</example>
+        </rule>
+        <rule id="BEILEIBE_NICHT" name="Zusammen-/Getrenntschreibung: bei Leibe (beleibe) nicht">
+            <pattern case_sensitive="no">
+                <marker>
+                    <token>bei</token>
+                    <token>Leibe</token>
+                </marker>
+                <token regexp="yes">nicht|keine?</token>
+            </pattern>
+            <message>&inwend;'beileibe nicht' wird <suggestion>beileibe</suggestion> zusammengeschrieben.</message>
+            <url>http://www.canoo.net/services/Controller?dispatch=spelling&amp;input=beileibe</url>
+            <example type="incorrect" correction="beileibe">Ausbildungsabbruch ist <marker>bei Leibe</marker> kein Beinbruch</example>
+            <example type="incorrect" correction="beileibe">Ausbildungsabbruch ist <marker>bei leibe</marker> kein Beinbruch</example>
+            <example type="correct">Ausbildungsabbruch ist <marker>beileibe</marker> kein Beinbruch</example>
+        </rule>
         <rule id="VORBEI_VERB" name="Zusammen-/Getrenntschreibung: vorbei reden etc. (vorbeireden)">
             <!-- TODO: An der Yenidze vorbei führt die Bahnstrecke zwischen Hauptbahnhof und... -->
             <pattern>
