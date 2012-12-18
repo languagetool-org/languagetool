@@ -66,7 +66,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
    * 
    * @param shortMessage used in OpenOffice/LibreOffice's context menu
    * @param startWithUppercase whether the original text at the position
-   *    of the match start with an uppercase character
+   *    of the match starts with an uppercase character
    */
   public RuleMatch(Rule rule, int fromPos, int toPos, String message, String shortMessage, 
       boolean startWithUppercase) {

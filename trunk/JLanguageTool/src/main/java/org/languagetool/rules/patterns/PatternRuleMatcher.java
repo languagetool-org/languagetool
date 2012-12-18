@@ -129,41 +129,34 @@ class PatternRuleMatcher {
           l--;
         }
       }
-      AnalyzedTokenReadings firstMatchTokenObj = tokens[firstMatchToken
-                                                        + correctedStPos];
+      AnalyzedTokenReadings firstMatchTokenObj = tokens[firstMatchToken + correctedStPos];
       boolean startsWithUppercase = StringTools
-      .startsWithUppercase(firstMatchTokenObj.getToken())
-      && !matchConvertsCase();
+        .startsWithUppercase(firstMatchTokenObj.getToken())
+        && !matchConvertsCase();
 
       if (firstMatchTokenObj.isSentStart()
           && tokens.length > firstMatchToken + correctedStPos + 1) {
         // make uppercasing work also at sentence start:
         firstMatchTokenObj = tokens[firstMatchToken + correctedStPos + 1];
-        startsWithUppercase = StringTools.startsWithUppercase(firstMatchTokenObj
-            .getToken());
+        startsWithUppercase = StringTools.startsWithUppercase(firstMatchTokenObj.getToken());
       }
       int fromPos = tokens[firstMatchToken + correctedStPos].getStartPos();
-      // FIXME: this is fishy, assumes that comma should always come before
-      // whitespace
+      // FIXME: this is fishy, assumes that comma should always come before whitespace:
       if (errMessage.contains(SUGGESTION_START_TAG + ",")
           && firstMatchToken + correctedStPos >= 1) {
         fromPos = tokens[firstMatchToken + correctedStPos - 1].getStartPos()
-        + tokens[firstMatchToken + correctedStPos - 1].getToken().length();
+            + tokens[firstMatchToken + correctedStPos - 1].getToken().length();
       }
 
       final int toPos = tokens[lastMatchToken + correctedEndPos].getStartPos()
-      + tokens[lastMatchToken + correctedEndPos].getToken().length();
+              + tokens[lastMatchToken + correctedEndPos].getToken().length();
       if (fromPos < toPos) { // this can happen with some skip="-1" when the last
         // token is not matched
 
-         //now do some spell-checking:
-        if (!(errMessage.contains("<pleasespellme/>") && 
-                errMessage.contains("<mistake/>"))) {
-            //remove stupid markers
-        errMessage.replace("<pleasespellme/>", "");
-        errMessage.replace("<mistake/>","");
-        return new RuleMatch(rule, fromPos, toPos,
-            errMessage, rule.getShortMessage(), startsWithUppercase);
+        //now do some spell-checking:
+        if (!(errMessage.contains("<pleasespellme/>") && errMessage.contains("<mistake/>"))) {
+          return new RuleMatch(rule, fromPos, toPos,
+                  errMessage, rule.getShortMessage(), startsWithUppercase);
         }
       } // failed to create any rule match...
       return null;
