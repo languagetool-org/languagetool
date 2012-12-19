@@ -521,6 +521,7 @@ $Id$
                 <example type="correct">El metges.</example>
                 <example type="correct">el Carme</example>
                 <example type="correct">la Carme</example>
+                <example type="correct">Si qui les calça és un diputat</example>
                 <!-- metges és verb conjugat de metjar -->
             </rule>
             <rule>
@@ -15458,7 +15459,7 @@ $Id$
                 <pattern>
                     <token postag="SENT_START|V.[^NGP].*" postag_regexp="yes" skip="-1"><exception postag="PR.*|PT.*|DT.*|.*LOC_CONJ.*|CS" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">perquè|com</exception></token>
                     <marker>
-                        <token postag="V.[^NGP].*" postag_regexp="yes" regexp="yes" skip="-1">[\p{Ll}·]+<exception postag="_GN_.*|N.*|A.*|V.[NGP].*" postag_regexp="yes"/><exception>di</exception><exception scope="next" regexp="yes">[:;,.!?\(\)–—\[\]]|com|perquè|que</exception><exception postag="C.*|PR.*|PT.*|DT.*|.*LOC_CONJ.*|locucio_unavegada" postag_regexp="yes" scope="next"/></token>
+                        <token postag="V.[^NGP].*" postag_regexp="yes" regexp="yes" skip="-1">[\p{Ll}·]+<exception postag="_GN_.*|N.*|A.*|V.[NGP].*" postag_regexp="yes"/><exception>di</exception><exception scope="next" regexp="yes">,|com|perquè|que</exception><exception postag="_PUNCT|C.*|PR.*|PT.*|DT.*|.*LOC_CONJ.*|locucio_unavegada" postag_regexp="yes" scope="next"/></token>
                         <token postag="V.[^NGP].*" postag_regexp="yes" regexp="yes">[\p{Ll}·]+<exception postag="_GN_.*|N.*|A.*|V.[NGP].*|.*LOC.*" postag_regexp="yes"/><exception regexp="yes">di|cap</exception></token>
                     </marker>
                 </pattern> 

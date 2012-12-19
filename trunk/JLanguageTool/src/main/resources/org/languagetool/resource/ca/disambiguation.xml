@@ -25,13 +25,13 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rulegroup id="PUNTUACIO" name="signes de puntuació">
         <rule>
             <pattern>
-                <token regexp="yes">[.;:!?¡¿—–…()\[\]]</token>
+                <token regexp="yes">[.;:!?—–…()\[\]\-]</token>
             </pattern>
             <disambig action="add"><wd pos="_PUNCT"></wd></disambig>
         </rule>
         <rule id="PUNTUACIO2" name="signes de puntuació que no trenquen els sintagmes">
             <pattern>
-                <token regexp="yes">[,"‘’“”«»]</token>
+                <token regexp="yes">[,"‘’“”«»¡¿]</token>
             </pattern>
             <disambig action="add"><wd pos="_PUNCT_CONT"></wd></disambig>
         </rule>
@@ -2718,6 +2718,25 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <disambig action="filter" postag="[^V].*"></disambig>
         <!-- les dues meitats dreta i esquerra (A+N+V)-->
     </rule>
+    <rule id="qui_les_porta" name="qui pronom verb 3a persona sing">
+        <pattern>
+            <token>qui</token>
+            <token postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"/>
+            <marker>
+                <token postag="V...3S." postag_regexp="yes"/>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="V.*"></disambig>
+    </rule>
+    <rule id="es_diu" name="es diu Corredor (verb dir)">
+        <pattern>
+            <token postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"><exception regexp="yes">els?</exception></token>
+            <marker>
+                <token postag="V.[^MNGP].*" postag_regexp="yes" regexp="yes">dius?</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="V.*"></disambig>
+    </rule>
     <rule id="infinitiu_nomverb_nom0" name="infinitiu + verb/nom + nom">
         <!-- Per a berenar menges pa-->
         <pattern>
@@ -2970,7 +2989,89 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="filter" postag="D.*"></disambig>
         </rule>
     </rulegroup>
-        <rulegroup id="DNumN" name="Det + Numeral + Nom/Adj">      
+    <rulegroup id="DPAN" name="Det + Possessiu  + AdjNom + Nom"> 
+    <!-- La seva mala intenció -->
+        <rule>
+            <pattern>
+            <unify>
+                <feature id="nombre"/>
+                <token postag="D[^R].[FC].*" postag_regexp="yes"/>
+                <token postag="PX.[FC].*" postag_regexp="yes"/>
+                <marker>
+                    <and>
+                    <token postag="A..[FC].*" postag_regexp="yes"/>
+                    <token postag="A..[FC].*" postag_regexp="yes" negate_pos="yes"/>
+                    </and>
+                </marker>
+                <token postag="N.[FC].*" postag_regexp="yes"><exception regexp="yes">era|mira|queda</exception></token>
+            </unify>
+            </pattern>
+            <disambig action="filter" postag="A..[FC].*"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+            <unify>
+                <feature id="nombre"/>
+                <token postag="D[^R].[MC].*" postag_regexp="yes"/>
+                <token postag="PX.[MC].*" postag_regexp="yes"/>
+                <marker>
+                    <and>
+                    <token postag="A..[MC].*" postag_regexp="yes"/>
+                    <token postag="A..[MC].*" postag_regexp="yes" negate_pos="yes"/>
+                    </and>
+                </marker>
+                <token postag="N.[MC].*" postag_regexp="yes"/>
+            </unify>
+            </pattern>
+            <disambig action="filter" postag="A..[MC].*"></disambig>
+        </rule>
+        
+        <rule>
+            <pattern>
+                <marker>
+                <token postag="D[^R].[MC][SN].*" postag_regexp="yes"/>
+                <token postag="PX.[MC][SN].*" postag_regexp="yes"/>
+                <token postag="A..[MC][SN].*|V.P.*SM" postag_regexp="yes"/>
+                <token postag="N.[MC][SN].*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <disambig action="add"><wd pos="_GN_MS"/><wd pos="_GN_MS"/><wd pos="_GN_MS"/><wd pos="_GN_MS"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                <token postag="D[^R].[FC][SN].*" postag_regexp="yes"/>
+                <token postag="PX.[FC][SN].*" postag_regexp="yes"/>
+                <token postag="A..[FC][SN].*|V.P.*SF" postag_regexp="yes"/>
+                <token postag="N.[FC][SN].*" postag_regexp="yes"><exception regexp="yes">era|mira|queda</exception></token>
+                </marker>
+            </pattern>
+            <disambig action="add"><wd pos="_GN_FS"/><wd pos="_GN_FS"/><wd pos="_GN_FS"/><wd pos="_GN_FS"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                <token postag="D[^R].[MC][PN].*" postag_regexp="yes"/>
+                <token postag="PX.[MC][PN].*" postag_regexp="yes"/>
+                <token postag="A..[MC][PN].*|V.P.*PM" postag_regexp="yes"/>
+                <token postag="N.[MC][PN].*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <disambig action="add"><wd pos="_GN_MP"/><wd pos="_GN_MP"/><wd pos="_GN_MP"/><wd pos="_GN_MP"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                <token postag="D[^R].[FC][PN].*" postag_regexp="yes"/>
+                <token postag="PX.[FC][PN].*" postag_regexp="yes"/>
+                <token postag="A..[FC][PN].*|V.P.*PF" postag_regexp="yes"/>
+                <token postag="N.[FC][PN].*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <disambig action="add"><wd pos="_GN_FP"/><wd pos="_GN_FP"/><wd pos="_GN_FP"/><wd pos="_GN_FP"/></disambig>
+        </rule>       
+    </rulegroup>
+    <rulegroup id="DNumN" name="Det + Numeral + Nom/Adj">      
         <rule>
             <pattern>
                 <marker>
@@ -3744,6 +3845,41 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
             </pattern>
             <disambig action="add"><wd pos="_GN_FP"/><wd pos="_GN_FP"/><wd pos="_GN_FP"/></disambig>
+        </rule>
+    </rulegroup>
+    <rulegroup id="part" name="part nom masculí o femení">
+        <rule>
+            <pattern>
+                <marker>
+                    <and>
+                        <token postag="N.*" postag_regexp="yes">part<exception postag="_GN_MS"/></token>
+                        <token postag="_GN_FS"/>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="remove"><wd pos="NCMS000"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <and>
+                        <token postag="A.*" postag_regexp="yes">part<exception postag="_GN_MS"/></token>
+                        <token postag="_GN_FS"/>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="remove"><wd pos="AQ0MS0"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <and>
+                        <token postag="N.*" postag_regexp="yes">part<exception postag="_GN_FS"/></token>
+                        <token postag="_GN_MS"/>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="remove"><wd pos="NCFS000"/></disambig>
         </rule>
     </rulegroup>
     <rule id="article_adj_nom" name="article + adj neutre + nom/adj">
@@ -5536,20 +5672,36 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="[^V].*"></disambig>
     </rule> -->
-    <rule id="NomnoVerb_en_enumeracions" name="paraules que no són verb en enumeracions"> 
-        <pattern>
-            <token postag="NC.*|_GN_.*" postag_regexp="yes"/>
-            <token regexp="yes">i|o|ni|,</token>
-            <marker>
-                <and>
-                    <token postag="NC.*" postag_regexp="yes"/>
-                    <token postag="V.[MSIG].*" postag_regexp="yes"><exception postag="_GV_" /></token>
-                </and>
-            </marker>
-            <token><exception postag="D.*|SPS.*|RG.*|AQ.*|V.P.*|NC.*" postag_regexp="yes"/></token>
-        </pattern>
-        <disambig action="filter" postag="[^V].*"></disambig>
-    </rule> 
+    <rulegroup id="NomnoVerb_en_enumeracions" name="paraules que no són verb en enumeracions">
+        <rule> 
+            <pattern>
+                <token postag="NC.*|_GN_.*" postag_regexp="yes"/>
+                <token regexp="yes">i|o|ni|,</token>
+                <marker>
+                    <and>
+                        <token postag="NC.*" postag_regexp="yes"/>
+                        <token postag="V.[MSIG].*" postag_regexp="yes"><exception postag="_GV_" /></token>
+                    </and>
+                </marker>
+                <token><exception postag="D.*|SPS.*|RG.*|AQ.*|V.P.*|NC.*" postag_regexp="yes"/></token>
+            </pattern>
+            <disambig action="filter" postag="[^V].*"></disambig>
+        </rule> 
+        <rule> 
+            <pattern>
+                <marker>
+                    <and>
+                        <token postag="NC.*" postag_regexp="yes"/>
+                        <token postag="V.[MSIG].*" postag_regexp="yes"><exception postag="_GV_" /></token>
+                    </and>
+                </marker>
+                <token regexp="yes">i|o|ni|,</token>
+                <token postag="NC.*|_GN_.*" postag_regexp="yes"/>
+                <!-- <token><exception postag="D.*|SPS.*|RG.*|AQ.*|V.P.*|NC.*" postag_regexp="yes"/></token> -->
+            </pattern>
+            <disambig action="filter" postag="[^V].*"></disambig>
+        </rule>
+    </rulegroup>
     <rule id="AdjnoVerb_en_enumeracions" name="paraules que no són verb en enumeracions"> 
         <pattern>
             <token postag="A.*" postag_regexp="yes"/>
@@ -5628,6 +5780,23 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="[^V].*"></disambig>
     </rule>
+ <!--    <rule id="VerbNom_valencia" name="verb subjuntiu (valencià) i nom que no ha concordat: tema">
+    després de totes les comprovacions, donem prioritat al nom o a l'adjectiu sobre la forma verbal valenciana 
+        <pattern>
+            <token postag="N.*|A.*" postag_regexp="yes" negate_pos="yes"><exception postag="N.*|A.*" postag_regexp="yes"/></token>
+            <marker>
+                <and>
+                    <token postag="N.*" postag_regexp="yes"></token> 
+                    <token postag="A.*" postag_regexp="yes"></token>
+                    <token postag="V.S.*" postag_regexp="yes" regexp="yes">.+a<exception postag="_GV_" /></token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="[^V].*"></disambig>
+    </rule> -->
+    
+    
+    
     <!-- <rule id="VerbAdverbi" name="verb (sense pronoms) i adverbi">
     mans enlaire, s'enlaire 
         <pattern>
@@ -7244,5 +7413,5 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="add"><wd pos="hac_aspirada"></wd></disambig>
         </rule>
-    </rulegroup>     
+    </rulegroup>
 </rules>
