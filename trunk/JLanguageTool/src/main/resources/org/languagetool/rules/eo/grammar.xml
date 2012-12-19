@@ -2996,7 +2996,7 @@ $Id$
         <example type="correct">Kie <marker>aĉeti</marker> ĝin hodiaŭ?</example>
       </rule>
     </rulegroup>
-    <rule id="LA_VORTO" name="Netaŭga vorto post 'la'">
+    <rule id="LA_VORTO" name="Netaŭga vorto post «la»">
       <pattern>
         <token>la</token>
         <and>
@@ -3521,6 +3521,51 @@ $Id$
         <url>http://bertilow.com/pmeg/pmeg150alfa/gramatiko/propraj_nomoj/landoj_popoloj_lingvoj.html#i-r76</url>
         <example type="incorrect">Mi lernas <marker>la Volapukon</marker>.</example>
         <example type="correct">Mi lernas <marker>Volapukon</marker>.</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="APOS" name="apostrofo">
+      <rule>
+        <pattern>
+          <marker><token>l'</token></marker>
+          <token regexp="yes" spacebefore="no">.*[ao]j?n?</token>
+        </pattern>
+        <message>Normale oni skribas «l'» kiel apartan vorton (kun posta spaceto). Ĉu vi volas skribi <suggestion>\1 \2</suggestion>?</message>
+        <url>http://bertilow.com/pmeg/pmeg150alfa/gramatiko/apostrofo/normala_uzo.html#i-1z5</url>
+        <example type="incorrect"><marker>L'</marker>espero.</example>
+        <example type="correct">L' espero.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token>dank'</token>
+            <token spacebefore="no">al</token>
+          </marker>
+        </pattern>
+        <message>Normale oni skribas <suggestion>\1 \2</suggestion> kun spaceto.</message>
+        <url>http://bertilow.com/pmeg/pmeg150alfa/gramatiko/apostrofo/normala_uzo.html#i-9zo</url>
+        <example type="incorrect"><marker>Dank'al</marker> vi, mi sukcesis.</example>
+        <example type="correct">Dank' al vi, mi sukcesis.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">(ki|ti|i|ĉi|neni)'</token></marker>
+        </pattern>
+        <message>La tabelvortoj je O finiĝas per «o», sed tiuj o-vokaloj ne estas veraj O-finaĵoj, kaj oni ne povas ilin anstataŭigi per apostrofoj. Uzu <suggestion><match no="1" regexp_match=".$" regexp_replace="o"/></suggestion>.</message>
+        <url>http://bertilow.com/pmeg/pmeg150alfa/gramatiko/apostrofo/normala_uzo.html#i-a19</url>
+        <example type="incorrect"><marker>Neni'</marker> okazis.</example>
+        <example type="correct"><marker>Nenio</marker> okazis.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token>un'</token></marker>
+          <token regexp="yes">.*[ao]n?</token>
+        </pattern>
+        <message>«Un'» estas oficiale permesata de la Akademio de Esperanto (Aktoj de la Akademio II, p. 39), sed ĝi povas aperi nur en memstara, kvazaŭ ekkria uzo. Uzu <suggestion>unu</suggestion>.</message>
+        <url>http://bertilow.com/pmeg/pmeg150alfa/gramatiko/apostrofo/normala_uzo.html#i-m48</url>
+        <example type="incorrect">Mi havas <marker>un'</marker> fraton.</example>
+        <example type="correct">Mi havas unu fraton.</example>
+        <example type="correct">Un', du, tri!</example>
       </rule>
     </rulegroup>
 
