@@ -2958,6 +2958,26 @@ $Id$
     <!-- ====================================================================== -->
     <category name="Leicht zu verwechselnde Wörter">
         <!-- TODO emphatisch/empathisch -->
+        <rule id="KATHEDER" name="Mögliche Wortverwechslung: Katheder (Katheter)">
+            <pattern>
+                <token inflected="yes">Katheder</token>
+            </pattern>
+            <message>'Katheder' ist ein veraltetes Wort für ein Pult. Meinten Sie <suggestion><match no="1" regexp_match="Katheder" regexp_replace="Katheter"/></suggestion> (medizinischer Schlauch)?</message>
+            <example type="incorrect" correction="Katheters">Anleitung zum Einführen eines <marker>Katheders</marker></example>
+            <example type="correct">Anleitung zum Einführen eines <marker>Katheters</marker></example>
+        </rule>
+        <rule id="GEISEL_DER_MENSCHHEIT" name="Mögliche Wortverwechslung: Geisel (Geißel) der Menschheit">
+            <pattern>
+                <marker>
+                    <token>Geisel</token>
+                </marker>
+                <token>der</token>
+                <token>Menschheit</token>
+            </pattern>
+            <message>&inwend;'<suggestion>Geißel</suggestion> der Menschheit' heißt es 'Geißel' (= Plage) statt Geisel (= Gefangener).</message>
+            <example type="incorrect" correction="Geißel">Korruption ist mörderische <marker>Geisel</marker> der Menschheit</example>
+            <example type="correct">Korruption ist mörderische <marker>Geißel</marker> der Menschheit</example>
+        </rule>
         <rule id="SCHARFES_SZ" name="Mögliche Wortverwechslung: scharfes ß (S)">
             <pattern>
                 <token regexp="yes">scharfe(s|n)?</token>
@@ -5265,6 +5285,20 @@ $Id$
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category name="Zusammen-/Getrenntschreibung">
+        <rule id="INNE_HABEN" name="Zusammen-/Getrenntschreibung: inne haben (innehaben)">
+            <pattern>
+                <marker>
+                    <token>inne</token>
+                    <token regexp="yes" inflected="yes">haben|halten|wohnen|werden</token>
+                </marker>
+            </pattern>
+            <message>Die Verben 'innehaben', 'innewohnen', 'innehalten' und 'innewerden' werden zusammengeschrieben: <suggestion>\1\2</suggestion></message>
+            <url>http://www.korrekturen.de/beliebte_fehler/inne_haben.shtml</url>
+            <example type="incorrect" correction="innehaben">Bald wird er das Amt des Bürgermeisters <marker>inne haben</marker>.</example>
+            <example type="incorrect" correction="innehat">Das Amt, das er <marker>inne hat</marker>.</example>
+            <example type="correct">Bald wird er das Amt des Bürgermeisters <marker>innehaben</marker>.</example>
+            <example type="correct">Das Amt, das er <marker>innehat</marker>.</example>
+        </rule>
         <rule id="DIPL_ING" name="Zusammen-/Getrenntschreibung: Dipl. Ing. (Dipl-Ing.)">
             <pattern>
                 <marker>
@@ -7034,6 +7068,30 @@ $Id$
     <!-- Semantische Unstimmigkeiten -->
     <!-- ====================================================================== -->
     <category name="Semantische Unstimmigkeiten (bisher nur wenige Regeln)">
+        <rulegroup id="HUERDEN_UMSCHIFFEN" name="Unstimmigkeit: 'Hürden umschiffen / Klippen überspringen'">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">Hürden?</token>
+                    </marker>
+                    <token inflected="yes">umschiffen</token>
+                </pattern>
+                <message>Die feste Wendung im Sinne von 'Hindernisse überwinden' lautet korrekt '<suggestion>Klippen</suggestion> umschiffen'.</message>
+                <example type="incorrect" correction="Klippen">Wir werden diese <marker>Hürden</marker> umschiffen.</example>
+                <example type="correct">Wir werden diese <marker>Klippe</marker> umschiffen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">Klippen?</token>
+                    <marker>
+                        <token inflected="yes">überspringen</token>
+                    </marker>
+                </pattern>
+                <message>Die feste Wendung im Sinne von 'Hindernisse überwinden' lautet korrekt 'Klippen <suggestion>umschiffen</suggestion>'.</message>
+                <example type="incorrect" correction="umschiffen">Wir werden diese Klippen <marker>überspringen</marker>.</example>
+                <example type="correct">Wir werden diese Klippen <marker>umschiffen</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="UNGEFAEHR_GENAU" name="Unstimmigkeit: 'ungefähr genau'">
             <rule>
                 <pattern>
