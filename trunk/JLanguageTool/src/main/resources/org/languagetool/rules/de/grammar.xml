@@ -2499,6 +2499,18 @@ $Id$
                         <token>seid</token>
                     </marker>
                     <token postag="ADV:TMP"/>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <message>Meinten Sie <suggestion>seit</suggestion> (Präposition) statt "seid" (Verbform)?</message>
+                <example type="correct">Das ist schon so <marker>seit</marker> vorgestern.</example>
+                <example correction="seit" type="incorrect">Das ist schon so <marker>seid</marker> vorgestern.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>seid</token>
+                    </marker>
+                    <token postag="ADV:TMP"/>
                     <token postag="VER:(AUX:|MOD:)?(1:SIN|2:SIN|3:SIN|1:PLU|3:PLU).*" postag_regexp="yes"/>
                 </pattern>
                 <message>Meinten Sie <suggestion>seit</suggestion> (Präposition) statt "seid" (Verbform)?</message>
@@ -2946,6 +2958,16 @@ $Id$
     <!-- ====================================================================== -->
     <category name="Leicht zu verwechselnde Wörter">
         <!-- TODO emphatisch/empathisch -->
+        <rule id="SCHARFES_SZ" name="Mögliche Wortverwechslung: scharfes ß (S)">
+            <pattern>
+                <token regexp="yes">scharfe(s|n)?</token>
+                <token>ß</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>\1 S</suggestion>, eine andere Bezeichnung für den Buchstaben 'ß'?</message>
+            <example type="incorrect" correction="scharfe S">Das <marker>scharfe ß</marker> wird nur im Deutschen benutzt.</example>
+            <example type="incorrect" correction="scharfes S">Ein <marker>scharfes ß</marker> wird nur im Deutschen benutzt.</example>
+            <example type="correct">Ein <marker>scharfes S</marker> wird nur im Deutschen benutzt.</example>
+        </rule>
         <rule id="PASSIONIERTE_PASSIERTE" name="Mögliche Wortverwechslung: passionierte/passierte">
             <pattern>
                 <marker>
