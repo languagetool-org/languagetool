@@ -139,6 +139,9 @@ public class AgreementRuleTest extends TestCase {
     assertBad("Das Dach meinem großen Autos.");
     assertBad("Das Dach mein großen Autos.");
 
+    assertBad("Das Klientel der Partei.");  // gender used to be wrong in Morphy data
+    assertGood("Die Klientel der Partei.");
+
     // TODO: not yet detected:
     //assertBad("Erst recht wir fleißiges Arbeiter.");
     //assertBad("Erst recht ich fleißiges Arbeiter.");
