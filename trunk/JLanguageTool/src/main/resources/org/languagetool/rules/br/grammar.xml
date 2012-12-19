@@ -295,7 +295,7 @@ $Id$
               <token regexp="yes">[tz].*
                 <exception postag="Z.*" postag_regexp="yes"/>
                 <exception regexp="yes" inflected="yes">(?!den$)d.*</exception>
-                <exception regexp="yes">te|zo</exception>
+                <exception regexp="yes">te|zo|tsar</exception>
                 <exception regexp="yes" inflected="yes">z.*</exception>
               </token>
             </and>
@@ -2654,7 +2654,7 @@ $Id$
         </marker>
         <token regexp="yes">[ndthaeiou].*
           <exception inflected="yes" regexp="yes">gou[ei].*</exception>
-          <exception regexp="yes">ts.*</exception>
+          <exception regexp="yes">ts.*|tch.*</exception>
           <exception postag="K e sp o"/>
         </token>
       </pattern>
@@ -2665,6 +2665,7 @@ $Id$
       <example type="correct">Ur ouiziegezh</example>
       <example type="correct">Ur tsunami</example>
       <example type="correct">Lec’hiet <marker>er</marker> IVvet kantved goude J.K.</example>
+      <example type="correct">Ar tcheked a zo ur yezh indezeuropek.</example>
     </rule>
     <rulegroup id="AR" name="ger ar, ur, er, hor">
       <rule>
@@ -5162,6 +5163,18 @@ $Id$
       <message>«\1» a lakaer dirak un anv-gwan pe un adverb. Ha fellout a rae deoc’h skrivañ <suggestion><match no="1" regexp_match="(.).*" regexp_replace="$1ebezh"/></suggestion>? (CHALM G2)</message>
       <example type="incorrect"><marker>Pegen</marker> den!</example>
       <example type="correct">Pegen brav!</example>
+    </rule>
+    <rule id="V_VIMP_NA" name="Sellit na kaer → Sellit na pegen kaer">
+      <pattern>
+        <token postag="SENT_START"/>
+        <token postag="V impe .*" postag_regexp="yes"/>
+        <marker><token>na</token></marker>
+        <token postag="J"/>
+      </pattern>
+      <message>Implijit <suggestion>pegen</suggestion> pe <suggestion>na pegen</suggestion> goude an doare gourc’hemenn «\2». (CHALM V2.2.4)</message>
+      <example type="incorrect">Sellit <marker>na</marker> kaer eo!</example>
+      <example type="correct">Sellit na pegen kaer eo!</example>
+      <example type="correct">Sellit pegen kaer eo!</example>
     </rule>
     <rule id="PENLIZH_MIZ" name="Pennlizherennoù evit ar mizioù">
       <pattern case_sensitive="yes">
