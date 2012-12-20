@@ -778,7 +778,7 @@ $Id$
                         <token regexp="yes">nährten?</token>
                         <token>sich</token>
                     </marker>
-                    <token regexp="yes">mir|dir|ihm|ihr|den|ihnen|ihren|euch|uns|meinem|deinem|seinem</token>
+                    <token regexp="yes">mir|dir|ihm|ihr|den|ihnen|ihrer|ihren|euch|uns|unsere(n|m|r)|meine(n|m|r)|deine(n|m|r)|seine(n|m|r)</token>
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="1" regexp_match="ährte" regexp_replace="äherte"/> \2</suggestion> (kam näher)?</message>
                 <short>Möglicher Tippfehler</short>
@@ -2958,6 +2958,20 @@ $Id$
     <!-- ====================================================================== -->
     <category name="Leicht zu verwechselnde Wörter">
         <!-- TODO emphatisch/empathisch -->
+        <rule id="HARMONISIEREN" name="Mögliche Wortverwechslung: harmonisieren (harmonieren)">
+            <pattern>
+                <marker>
+                    <token inflected="yes">harmonisieren</token>
+                  </marker>
+                <token postag_regexp="yes" postag="ADJ:.*"/>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="1" regexp_match="harmonisier" regexp_replace="harmonier"/></suggestion> (übereinstimmen) statt 'harmonisieren' (in Übereinstimmung bringen)?</message>
+            <url>http://www.korrekturen.de/beliebte_fehler/harmonisieren.shtml</url>
+            <example type="incorrect" correction="harmoniert">Der Geschmack der Trauben und der Nüsse <marker>harmonisiert</marker> gut mit den eingelegten Pilzen.</example>
+            <example type="incorrect" correction="harmonieren">Die <marker>harmonisieren</marker> gut mit den eingelegten Pilzen.</example>
+            <example type="correct">Der Geschmack der Trauben und der Nüsse <marker>harmoniert</marker> gut mit den eingelegten Pilzen.</example>
+            <example type="correct">Die <marker>harmonieren</marker> gut mit den eingelegten Pilzen.</example>
+        </rule>
         <rule id="KATHEDER" name="Mögliche Wortverwechslung: Katheder (Katheter)">
             <pattern>
                 <token inflected="yes">Katheder</token>
@@ -7069,6 +7083,25 @@ $Id$
     <!-- Semantische Unstimmigkeiten -->
     <!-- ====================================================================== -->
     <category name="Semantische Unstimmigkeiten (bisher nur wenige Regeln)">
+        <rule id="TEUFELSKREISLAUF" name="Unstimmigkeit: Teufelskreislauf (Teufelskreis)">
+            <pattern>
+                <token regexp="yes">Teufelskreislaufe?s?</token>
+            </pattern>
+            <message>Meinten Sie den feststehenden Begriff '<suggestion>Teufelskreis</suggestion>'?</message>
+            <url>http://www.korrekturen.de/beliebte_fehler/teufelskreislauf.shtml</url>
+            <example type="incorrect" correction="Teufelskreis"><marker>Teufelskreislauf</marker>, ich komme nicht mehr raus</example>
+            <example type="correct"><marker>Teufelskreis</marker>, ich komme nicht mehr raus</example>
+        </rule>
+        <rule id="MASSEUSE" name="Mehrdeutig: Masseuse (Masseurin)">
+            <pattern>
+                <token regexp="yes">Masseusen?</token>
+            </pattern>
+            <message>Meinten Sie '<suggestion>Masseurin</suggestion>' (die weibliche Form von 'Masseur')? 'Masseuse' ist eine veraltet Form und bezeichnet heute vor allem eine Prostituierte.</message>
+            <url>http://www.duden.de/rechtschreibung/Masseuse</url>
+            <short>Veraltetes/mehrdeutiges Wort</short>
+            <example type="incorrect" correction="Masseurin">Stellenangebot Physiotherapeutin oder <marker>Masseuse</marker> in München</example>
+            <example type="correct">Stellenangebot Physiotherapeutin oder <marker>Masseurin</marker> in München</example>
+        </rule>
         <rulegroup id="HUERDEN_UMSCHIFFEN" name="Unstimmigkeit: 'Hürden umschiffen / Klippen überspringen'">
             <rule>
                 <pattern>
@@ -22146,6 +22179,7 @@ $Id$
                     </marker>
                 </pattern>
                 <message>'°K' wird seit 1967 nicht mehr verwendet. Vorschlag: <suggestion>K</suggestion></message>
+                <url>http://de.wikipedia.org/wiki/Kelvin</url>
                 <example type="correct">Es ist 25 <marker>K</marker> warm.</example>
                 <example type="incorrect" correction="K">Es ist 25 <marker>°K</marker> warm.</example>
             </rule>
@@ -22154,6 +22188,7 @@ $Id$
                     <token regexp="yes">[0-9]+°K</token>
                 </pattern>
                 <message>'°K' wird seit 1967 nicht mehr verwendet. Vorschlag: <suggestion><match no="1" regexp_match="([0-9]*)°K" regexp_replace="$1 K"/></suggestion></message>
+                <url>http://de.wikipedia.org/wiki/Kelvin</url>
                 <example type="correct">Es ist <marker>25 K</marker> warm.</example>
                 <example type="incorrect" correction="25 K">Es ist <marker>25°K</marker> warm.</example>
             </rule>
@@ -22163,6 +22198,7 @@ $Id$
                     <token>Kelvin</token>
                 </pattern>
                 <message>'Grad Kelvin' wird seit 1967 nicht mehr verwendet. Vorschlag: <suggestion>Kelvin</suggestion></message>
+                <url>http://de.wikipedia.org/wiki/Kelvin</url>
                 <example type="correct">Es ist 5 <marker>Kelvin</marker> warm.</example>
                 <example type="incorrect" correction="Kelvin">Es ist 5 <marker>Grad Kelvin</marker> warm.</example>
             </rule>
