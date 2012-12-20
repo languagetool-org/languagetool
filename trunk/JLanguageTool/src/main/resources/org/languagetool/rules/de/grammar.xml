@@ -3782,13 +3782,14 @@ $Id$
         <rule id="KARIKATIV_VS_KARITATIV" name="Mögliche Wortverwechslung: karikativ/karitativ">
             <pattern>
                 <marker>
-                    <token regexp="yes">karikative[rn]?</token>
+                    <token regexp="yes">karikative[rns]?</token>
                 </marker>
-                <token regexp="yes">Aktion(en)?|Angebot(en)?|Anstalt(en)?|Arbeit|Dienst(en)?|Einrichtung(en)?|Engagements?|Events?|Hilfen?|Institution(en)?|Jobs?|Organisation(en)?|Projekt(en)?|Sammler|Sammlung|Stiftung(en)?|Veranstaltung(en)?|Verbands?|Verbände(n)?|Vereins?|Vereinigung(en)?|Wohnheim(en)?|Zweck(en?)?</token>
+                <token regexp="yes">Aktion(en)?|Angebot(en|s|es)?|Anstalt(en)?|Arbeit|Dienst(en|s|es)?|Einrichtung(en)?|Engagements?|Events?|Hilfen?|Institution(en)?|Jobs?|Organisation(en)?|Projekt(en|s|es)?|Sammlers?|Sammlung|Stiftung(en)?|Veranstaltung(en)?|Verband(s|es)?|Verbände(n)?|Vereins?|Vereinigung(en)?|Wohnheim(en)?|Zweck(en?)?</token>
             </pattern>
-            <message>&verw;Meinten Sie <suggestion><match no="1" regexp_match="karikativ" regexp_replace="karitativ"/></suggestion> (wohltätig, humanitär)?</message>
+            <message>&verw;Meinten Sie <suggestion><match no="1" regexp_match="arikativ" regexp_replace="aritativ"/></suggestion> (wohltätig, humanitär)? 'Karikativ' bedeutet 'nach Art einer Karikatur'.</message>
             <example type="correct">Sie ist bei einer <marker>karitativen</marker> Einrichtung tätig.</example>
-            <example type="incorrect">Sie ist bei einer <marker>karikativen</marker> Einrichtung tätig, die sich für Behinderte einsetzt.</example>
+            <example type="incorrect" correction="karitativen">Sie ist bei einer <marker>karikativen</marker> Einrichtung tätig, die sich für Behinderte einsetzt.</example>
+            <example type="incorrect" correction="Karitatives"><marker>Karikatives</marker> Angebot aufgebaut.</example>
         </rule>
         <rule id="GRAT_VS_GRAD" name="Mögliche Wortverwechslung: Grad/Grat">
             <pattern>
