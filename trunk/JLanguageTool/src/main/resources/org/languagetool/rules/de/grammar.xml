@@ -2958,6 +2958,17 @@ $Id$
     <!-- ====================================================================== -->
     <category name="Leicht zu verwechselnde Wörter">
         <!-- TODO emphatisch/empathisch -->
+        <rule id="KARIKATIVE_PROJEKTE" name="Mögliche Wortverwechslung: karikativ (karitativ)">
+            <pattern>
+                <marker>
+                    <token regexp="yes">karikative(n|s)?</token>
+                </marker>
+                <token regexp="yes">Einrichtung|Wohnheim|Zweck|Zwecken|Organisation|Projekt|Hilfe|Stiftung|Event|Veranstaltung|Aktion|Engagement|Anstalt|Verein|Vereinigung|Verband|Arbeit|Sammlung|Sammler|Dienst|Job|Angebot</token>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="1" regexp_match="karikativ" regexp_replace="karitativ"/></suggestion> (wohltätig) statt 'karikativ' (in Art einer Karikatur)?</message>
+            <example type="incorrect" correction="karitativen">Das übriggebliebene Essen wird <marker>karikativen</marker> Zwecken gespendet.</example>
+            <example type="correct">Das übriggebliebene Essen wird <marker>karitativen</marker> Zwecken gespendet.</example>
+        </rule>
         <rule id="KATHEDER" name="Mögliche Wortverwechslung: Katheder (Katheter)">
             <pattern>
                 <token inflected="yes">Katheder</token>
@@ -20431,6 +20442,19 @@ $Id$
           </rule>
         </rulegroup>
         -->
+        <rule id="WIDER_BESSEREN_WISSENS" name="Grammatik: wider besseren Wissens (wider besseres Wissen)">
+            <!-- TODO: allgemeines Pattern -->
+            <pattern>
+                <token>wider</token>
+                <token>besseren</token>
+                <token>Wissens</token>
+            </pattern>
+            <message>'wider' benötigt den Akkusativ: <suggestion>wider besseres Wissen</suggestion></message>
+            <url>http://www.korrekturen.de/beliebte_fehler/wider-besseren-wissens.shtml</url>
+            <short>'wider' erfordert den Akkusativ</short>
+            <example type="correct">Der Bundestag beschloss das Gesetz <marker>wider besseres Wissen</marker>.</example>
+            <example type="incorrect" correction="wider besseres Wissen">Der Bundestag beschloss das Gesetz <marker>wider besseren Wissens</marker>.</example>
+        </rule>
         <rulegroup id="KEIN_PLURAL_WAEHRUNG" name="Grammatik: Kein Plural bei Geldbeträgen, z.B. 'fünf Euros (Euro)'">
             <!-- TODO andere Währungen, evt. allgemeiner für Einheiten: 'Ich bin 6 Fuß (nicht: Füße) groß' usw. -->
             <rule>
