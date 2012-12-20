@@ -180,7 +180,7 @@ $Id$
                     <marker>
                         <token>Harre</token>
                     </marker>
-                    <token regexp="yes">schneiden|wachsen|waschen|(ab)?geschnitten</token>
+                    <token regexp="yes">schneiden|wachsen|waschen|föhnen|(ab)?geschnitten</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>Haare</suggestion>?</message>
                 <short>Möglicher Tippfehler</short>
@@ -191,7 +191,7 @@ $Id$
             <rule>
                 <pattern case_sensitive="no">
                     <token inflected="yes">schneiden</token>
-                    <token regexp="yes">mir|dir|sich|ihr|ihm|ihnen</token>
+                    <token regexp="yes">mir|dir|sich|ihr|ihm|ihnen|euch</token>
                     <token>die</token>
                     <marker>
                         <token>Harre</token>
@@ -402,12 +402,12 @@ $Id$
                     <marker>
                         <token>ja</token>
                     </marker>
-                    <token skip="-1">mehr</token>
+                    <token skip="-1" regexp="yes">mehr|öfter</token>
                     <token>desto</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>je</suggestion>?</message>
                 <short>Möglicher Tippfehler</short>
-                <example type="incorrect"><marker>Ja</marker> mehr ich schreibe, desto mehr Fehler mache ich.</example>
+                <example type="incorrect" correction="Je"><marker>Ja</marker> mehr ich schreibe, desto mehr Fehler mache ich.</example>
                 <example type="correct"><marker>Je</marker> mehr ich schreibe, desto mehr Fehler mache ich.</example>
             </rule>
             <rule>
@@ -420,7 +420,7 @@ $Id$
                 </pattern>
                 <message>Meinten Sie <suggestion>je</suggestion>?</message>
                 <short>Möglicher Tippfehler</short>
-                <example type="incorrect"><marker>Ja</marker> schneller ich schreibe, desto mehr Fehler mache ich.</example>
+                <example type="incorrect" correction="Je"><marker>Ja</marker> schneller ich schreibe, desto mehr Fehler mache ich.</example>
                 <example type="correct"><marker>Je</marker> schneller ich schreibe, desto mehr Fehler mache ich.</example>
             </rule>
         </rulegroup>
@@ -506,12 +506,12 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token>sie</token>
+                    <token regexp="yes">sie|wir</token>
                     <marker>
                         <token>starten</token>
                     </marker>
                     <token>auf</token>
-                    <token regexp="yes" skip="1">den|die|das</token>
+                    <token regexp="yes">den|die|das</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>starrten</suggestion>? (anstarren = starr ansehen; starten = in Gang bringen)</message>
                 <short>Möglicher Tippfehler</short>
@@ -525,7 +525,7 @@ $Id$
                         <token>starte</token>
                     </marker>
                     <token>auf</token>
-                    <token regexp="yes" skip="1">den|die|das</token>
+                    <token regexp="yes">den|die|das</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>starrte</suggestion>? (anstarren = starr ansehen; starten = in Gang bringen)</message>
                 <short>Möglicher Tippfehler</short>
@@ -548,7 +548,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token>sie</token>
+                    <token regexp="yes">sie|wir</token>
                     <marker>
                         <token>starten</token>
                     </marker>
@@ -702,7 +702,7 @@ $Id$
         <rulegroup id="ALS_OHNE_KOMPARATIV" name="Möglicher Tippfehler: 'schnelle (schneller) als' etc.">
             <rule>
                 <pattern>
-                    <token regexp="yes" skip="1">aber|jedoch|auch|ist|sind</token>
+                    <token regexp="yes" skip="1">aber|jedoch|auch</token>
                     <token>nicht</token>
                     <marker>
                         <token postag="ADJ:.*" postag_regexp="yes"><exception postag="ADJ:PRD:KOM"></exception><exception postag="ADJ:PRD:GRU"></exception><exception regexp="yes">dehnbarer|andere|teilweise|lange|höher|einige|solche</exception></token>
@@ -819,7 +819,7 @@ $Id$
                 <marker>
                     <token>äußern</token>
                 </marker>
-                <token regexp="yes">Umstände|Erscheinung</token>
+                <token regexp="yes">Umstände|Erscheinung|Erscheinungen|Bedingung|Bedingungen</token>
             </pattern>
             <message>Möglicher Tippfehler: Meinten Sie vielleicht <suggestion>äußeren</suggestion> oder <suggestion>äußere</suggestion>?</message>
             <short>Möglicher Tippfehler</short>
@@ -927,7 +927,7 @@ $Id$
         </rulegroup>
         <rule id="SICH_WAEHREN" name="Möglicher Tippfehler: 'sich währen (wehren)'">
             <pattern>
-                <token regexp="yes" skip="1">sich|mich|uns|euch</token>
+                <token regexp="yes" skip="1">sich|dich|mich|uns|euch</token>
                 <marker>
                     <token>währen</token>
                 </marker>
