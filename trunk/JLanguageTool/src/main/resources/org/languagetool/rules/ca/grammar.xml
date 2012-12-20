@@ -2686,7 +2686,7 @@ $Id$
         </rulegroup>
         <rule id="MENTRE_TANT_MENTRESTANT" name="*mentre tant/mentrestant">
             <pattern>
-                <token>mentre</token>
+                <token regexp="yes">mentres?</token>
                 <token>tant</token>
             </pattern>
             <message>¿Volíeu dir <suggestion>mentrestant</suggestion>?</message>
@@ -4481,7 +4481,7 @@ $Id$
                     <token>l'</token>
                     <token>hora</token>
                 </marker>
-                <token><exception regexp="yes">de|d'|i</exception></token>
+                <token><exception regexp="yes">de|d'|i|baixa</exception></token>
             </pattern>
             <message>¿Volíeu dir <suggestion>alhora</suggestion>?</message>
             <short>Possible confusió</short>
@@ -6714,13 +6714,16 @@ $Id$
                     <marker>
                         <token>si<exception postag="_GN_MS"/></token>
                     </marker>
-                    <token>,</token>
+                    <token skip="-1">,</token>
+                <token postag="V.[MSI].*" postag_regexp="yes" skip="-1"><exception scope="next" postag="V.[MSI].*" postag_regexp="yes"/></token>
+                <token postag="SENT_END"/>
                 </pattern>
                 <message>S'accentua quan és una afirmació: <suggestion>sí</suggestion>.</message>
                 <short>S'accentua quan és una afirmació.</short>
                 <example type="incorrect"><marker>Si</marker>, vull.</example>
                 <example type="correct">Sí que vull.</example>
-                <example type="correct">Vés a saber si, amb un estat propi, s’incrementarien. .</example>
+                <example type="correct">Vés a saber si, amb un estat propi, s’incrementarien.</example>
+                <example type="correct">Si, per la raó que fos, ens veiéssim obligats a prescindir del ressopó que la Marieta ens serveix a la matinada, trobaríem que la vida a penes té sentit, que és absurda i amarga.</example>
             </rule>
             <!-- Les regles de concordança fan millor la detecció  <rule>
                 <pattern>
@@ -9758,14 +9761,16 @@ $Id$
         <rule id="MENTRE" name="mentre">
             <pattern>
                 <marker>
-                    <token>mentre</token>
+                    <token regexp="yes">mentres?</token>
                 </marker>
-                <token>,</token>
+                <token skip="-1">,</token>
+                <token postag="V.[MSI].*" postag_regexp="yes" skip="-1"><exception scope="next" postag="V.[MSI].*" postag_regexp="yes"/></token>
+                <token postag="SENT_END"/>
             </pattern>
             <message>Incorrecte si vol dir <suggestion>mentrestant</suggestion>.</message>
             <short>Expressió incorrecta.</short>
-            <example type="incorrect"><marker>Mentre</marker>, ell esperava.</example>
-            <example type="correct">Mentrestant, ell esperava.</example>
+            <example type="incorrect" correction="Mentrestant"><marker>Mentre</marker>, ell esperava.</example>
+            <example type="correct">Mentre, amb els llibres sota el braç, vaig enfilant els graons, em sorprèn la llum dolça, blana, suau</example>
         </rule>
         <rule id="TREURE_ENDAVANT" name="treure endavant">
             <pattern>
