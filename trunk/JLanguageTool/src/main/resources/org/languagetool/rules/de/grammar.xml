@@ -2958,17 +2958,6 @@ $Id$
     <!-- ====================================================================== -->
     <category name="Leicht zu verwechselnde Wörter">
         <!-- TODO emphatisch/empathisch -->
-        <rule id="KARIKATIVE_PROJEKTE" name="Mögliche Wortverwechslung: karikativ (karitativ)">
-            <pattern>
-                <marker>
-                    <token regexp="yes">karikative(n|s)?</token>
-                </marker>
-                <token regexp="yes">Einrichtung|Wohnheim|Zweck|Zwecken|Organisation|Projekt|Hilfe|Stiftung|Event|Veranstaltung|Aktion|Engagement|Anstalt|Verein|Vereinigung|Verband|Arbeit|Sammlung|Sammler|Dienst|Job|Angebot</token>
-            </pattern>
-            <message>Meinten Sie <suggestion><match no="1" regexp_match="karikativ" regexp_replace="karitativ"/></suggestion> (wohltätig) statt 'karikativ' (in Art einer Karikatur)?</message>
-            <example type="incorrect" correction="karitativen">Das übriggebliebene Essen wird <marker>karikativen</marker> Zwecken gespendet.</example>
-            <example type="correct">Das übriggebliebene Essen wird <marker>karitativen</marker> Zwecken gespendet.</example>
-        </rule>
         <rule id="KATHEDER" name="Mögliche Wortverwechslung: Katheder (Katheter)">
             <pattern>
                 <token inflected="yes">Katheder</token>
@@ -3795,7 +3784,7 @@ $Id$
                 <marker>
                     <token regexp="yes">karikative[rn]?</token>
                 </marker>
-                <token regexp="yes">Einrichtung(en)?|Organisation(en)?|Verband|Verbände(n)?|Institution(en)?|Stiftung(en)?|Vereinigung(en)?</token>
+                <token regexp="yes">Aktion(en)?|Angebot(en)?|Anstalt(en)?|Arbeit|Dienst(en)?|Einrichtung(en)?|Engagements?|Events?|Hilfen?|Institution(en)?|Jobs?|Organisation(en)?|Projekt(en)?|Sammler|Sammlung|Stiftung(en)?|Veranstaltung(en)?|Verbands?|Verbände(n)?|Vereins?|Vereinigung(en)?|Wohnheim(en)?|Zweck(en?)?</token>
             </pattern>
             <message>&verw;Meinten Sie <suggestion><match no="1" regexp_match="karikativ" regexp_replace="karitativ"/></suggestion> (wohltätig, humanitär)?</message>
             <example type="correct">Sie ist bei einer <marker>karitativen</marker> Einrichtung tätig.</example>
