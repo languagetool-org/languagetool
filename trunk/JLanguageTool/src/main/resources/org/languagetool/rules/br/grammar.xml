@@ -3053,7 +3053,7 @@ $Id$
     <rulegroup id="UGENT" name="daou ugent → daou-ugent">
       <rule>
         <pattern>
-          <token regexp="yes">warn|daou|tri|pevar|c’hwec’h|seizh|eizh|nav</token>
+          <token regexp="yes">warn|[dtz]aou|[dtz]ri|[pbf]evar|[pbf]emp|c’hwec’h|seizh|eizh|nav</token>
           <token>ugent</token>
         </pattern>
         <message>Ha fellout a rae deoc’h skrivañ <suggestion>\1-\2</suggestion>?</message>
@@ -3061,18 +3061,31 @@ $Id$
         <example type="correct">Daou-ugent</example>
       </rule>
     </rulegroup>
-    <rulegroup id="HANTER_KANT" name="hanter kant → hanter-kant">
-      <rule>
-        <pattern>
-          <token>hanter</token>
-          <token>kant</token>
-        </pattern>
-        <message>Ha fellout a rae deoc’h skrivañ <suggestion>\1-\2</suggestion>?</message>
-        <example type="incorrect"><marker>Hanter kant</marker></example>
-        <example type="correct">Hanter-kant</example>
-      </rule>
-    </rulegroup>
-
+    <rule id="HANTER_KANT" name="hanter kant → hanter-kant">
+      <pattern>
+        <token>hanter</token>
+        <token>kant</token>
+      </pattern>
+      <message>Ha fellout a rae deoc’h skrivañ <suggestion>\1-\2</suggestion>?</message>
+      <example type="incorrect"><marker>Hanter kant</marker></example>
+      <example type="correct">Hanter-kant</example>
+    </rule>
+    <rule id="HUNTERKANTVET" name="hanter-kantvet → hanterkantvet">
+      <pattern>
+        <token regexp="yes">hanter-kant-?vet|([dtz]aoù|[tdz]ri|[pbf]evar|[bpf]emp|c’hwerc’h|seizh|eizh|nav|)-ugent-?vet</token>
+      </pattern>
+      <message>Ha fellout a rae skrivañ <suggestion><match no="1" regexp_match="-" regexp_replace=""/></suggestion>? (CHALM P2.1)</message>
+      <example type="incorrect"><marker>Tri-ugentvet</marker>.</example>
+      <example type="correct">Triugentvet.</example>
+    </rule>
+    <rule id="HUNTERKANTVEDENN" name="hanter-kantvedenn → hanterkantvedenn">
+      <pattern>
+        <token regexp="yes">hanter-kant-?vedenn|([dtz]aoù|[tdz]ri|[pbf]evar|[bpf]emp|c’hwerc’h|seizh|eizh|nav|)-ugent-?vedenn</token>
+      </pattern>
+      <message>Ha fellout a rae skrivañ <suggestion><match no="1" regexp_match="-" regexp_replace=""/></suggestion>? (CHALM P3.2)</message>
+      <example type="incorrect"><marker>Tri-ugentvedenn</marker>.</example>
+      <example type="correct">Triugentvedenn.</example>
+    </rule>
     <rule id="DOUSENN" name="un dousenn vi → un dousenn vioù">
       <pattern>
         <token regexp="yes">dousenn(ad)?</token>
