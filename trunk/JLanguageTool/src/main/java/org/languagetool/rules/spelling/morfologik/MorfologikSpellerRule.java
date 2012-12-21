@@ -46,13 +46,12 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     private final static String LANGUAGETOOL = "LanguageTool";
 
     private Speller speller;
-
     private Locale conversionLocale = Locale.getDefault();
 
     /**
      * Get the filename, e.g., <tt>/resource/pl/spelling.dict</tt>.
      */
-    public abstract String getFileName();        
+    public abstract String getFileName();
     
     public MorfologikSpellerRule(ResourceBundle messages, Language language) throws IOException {
         super(messages, language);
@@ -70,7 +69,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     
     public void setLocale(Locale locale) {
         conversionLocale = locale;
-      }
+    }
     
     @Override
     public RuleMatch[] match(AnalyzedSentence text) throws IOException {
@@ -112,32 +111,18 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
                     }
                 }
             }
-        }        
+        }
         return toRuleMatchArray(ruleMatches);
     }
     
     private List<RuleMatch> getRuleMatch(final String word, final int startPos) throws CharacterCodingException {
-        boolean isAlphabetic = true;
         final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
-        if (word.length() == 1) { // dictionaries usually do not contain punctuation               
-            isAlphabetic = StringTools.isAlphabetic(word.charAt(0));
-        }
-        if (word.length() > 0 && isAlphabetic
-                && !containsDigit(word)
-                && !LANGUAGETOOL.equals(word)
-                && !speller.isInDictionary(word)
-                && !speller.isInDictionary(word.toLowerCase(conversionLocale))) {
-            final List<String> suggestions = new ArrayList<String>();                
-            suggestions.addAll(speller.findReplacements(word));
-            if (!word.toLowerCase(conversionLocale).equals(word)) {
-                suggestions.addAll(speller.findReplacements(word.toLowerCase(conversionLocale)));
-            }
-            suggestions.addAll(speller.replaceRunOnWords(word));
-            
-            final RuleMatch ruleMatch = new RuleMatch(this, 
+        if (isMisspelled(word)) {
+            final RuleMatch ruleMatch = new RuleMatch(this,
                     startPos, startPos + word.length(),
                     messages.getString("spelling"),
                     messages.getString("desc_spelling_short"));
+            final List<String> suggestions = getSuggestions(word);
             if (!suggestions.isEmpty()) {
                 ruleMatch.setSuggestedReplacements(suggestions);
             }
@@ -145,7 +130,19 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
         }
         return ruleMatches;
     }
-    
+
+    private boolean isMisspelled(String word) {
+        boolean isAlphabetic = true;
+        if (word.length() == 1) { // dictionaries usually do not contain punctuation
+            isAlphabetic = StringTools.isAlphabetic(word.charAt(0));
+        }
+        return word.length() > 0 && isAlphabetic
+                && !containsDigit(word)
+                && !LANGUAGETOOL.equals(word)
+                && !speller.isInDictionary(word)
+                && !speller.isInDictionary(word.toLowerCase(conversionLocale));
+    }
+
     private boolean containsDigit(final String s) {
         for (int k = 0; k < s.length(); k++) {
             if (Character.isDigit(s.charAt(k))) {
@@ -154,7 +151,17 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
         }
         return false;
     }
-               
+
+    private List<String> getSuggestions(String word) throws CharacterCodingException {
+        final List<String> suggestions = new ArrayList<String>();
+        suggestions.addAll(speller.findReplacements(word));
+        if (!word.toLowerCase(conversionLocale).equals(word)) {
+            suggestions.addAll(speller.findReplacements(word.toLowerCase(conversionLocale)));
+        }
+        suggestions.addAll(speller.replaceRunOnWords(word));
+        return suggestions;
+    }
+
     /**
      * Get the regular expression pattern used to tokenize
      * the words as in the source dictionary. For example,

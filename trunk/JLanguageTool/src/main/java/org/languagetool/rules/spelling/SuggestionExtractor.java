@@ -57,9 +57,7 @@ public class SuggestionExtractor {
   }
 
   /**
-   * Get suggestions that don't use back references or regular
-   * @param message
-   * @return
+   * Get suggestions that don't use back references or regular expressions.
    */
   List<String> getSimpleSuggestions(String message) {
     final Matcher matcher = SUGGESTION_PATTERN.matcher(message);
