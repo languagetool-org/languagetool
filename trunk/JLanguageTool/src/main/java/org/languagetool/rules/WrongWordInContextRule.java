@@ -119,7 +119,7 @@ public abstract class WrongWordInContextRule extends Rule {
         matchers[notFoundWord] = contextWords.contexts[notFoundWord].matcher("");
         //start searching for context words
         //ignoring token 0, i.e., SENT_START
-        String token = "";
+        String token;
         for (i = 1; i < tokens.length && !matchedContext[foundWord]; i++) {
           token = tokens[i].getToken();
           matchedContext[foundWord] = matchers[foundWord].reset(token).find();
@@ -131,8 +131,7 @@ public abstract class WrongWordInContextRule extends Rule {
         if(matchedContext[notFoundWord] && !matchedContext[foundWord]) {
           final String msg = getMessage(matchedToken, matchedToken.replaceFirst(contextWords.matches[foundWord],contextWords.matches[notFoundWord]),
                   contextWords.explanations[notFoundWord], contextWords.explanations[foundWord]);
-          final String shortMsg = getShortMessage(matchedToken.replaceFirst(contextWords.matches[foundWord],contextWords.matches[notFoundWord]));
-          final RuleMatch ruleMatch = new RuleMatch(this, startPos, endPos, msg, shortMsg);
+          final RuleMatch ruleMatch = new RuleMatch(this, startPos, endPos, msg, getShortMessageString());
           ruleMatches.add(ruleMatch);
         }
       } // if foundWord != -1
@@ -163,10 +162,6 @@ public abstract class WrongWordInContextRule extends Rule {
       return getLongMessageString().replaceFirst("\\$SUGGESTION", suggestion).replaceFirst("\\$WRONGWORD", wrongWord)
               .replaceFirst("\\$EXPLANATION_SUGGESTION", explanationSuggestion).replaceFirst("\\$EXPLANATION_WRONGWORD", explanationWrongWord);
     }
-  }
-  
-  private String getShortMessage(String suggestion) {
-    return getShortMessageString();
   }
   
   /**

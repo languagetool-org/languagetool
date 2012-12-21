@@ -30,71 +30,87 @@ import org.languagetool.Language;
  */
 public class GermanWrongWordInContextRuleTest extends TestCase {
 
+  private JLanguageTool langTool;
+  private GermanWrongWordInContextRule rule;
+  
+  @Override
+  public void setUp() throws IOException {
+    langTool = new JLanguageTool(Language.GERMAN);
+    rule = new GermanWrongWordInContextRule(null);
+  }
+  
   public void testRule() throws IOException {
-    GermanWrongWordInContextRule rule = new GermanWrongWordInContextRule(null);
-    JLanguageTool langTool = new JLanguageTool(Language.GERMAN);
     // Lid/Lied
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Ihre Lider sind entzündet.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Er hat entzündete Lider.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Wir singen gemeinsam Lieder.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Lieder singen wir.")).length);
+    assertGood("Ihre Lider sind entzündet.");
+    assertGood("Er hat entzündete Lider.");
+    assertGood("Wir singen gemeinsam Lieder.");
+    assertGood("Lieder singen wir.");
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Lider singen wir."))[0].getFromPos());
     assertEquals(11, rule.match(langTool.getAnalyzedSentence("Ihre Lieder sind entzündet."))[0].getToPos());
     assertEquals("Lider", rule.match(langTool.getAnalyzedSentence("Er hat entzündete Lieder."))[0].getSuggestedReplacements().get(0));
     assertEquals("Lieder", rule.match(langTool.getAnalyzedSentence("Wir singen gemeinsam Lider."))[0].getSuggestedReplacements().get(0));
 
     // malen/mahlen
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Ich soll Bilder einer Mühle malen.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Ich male ein Bild einer Mühle.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das Bild zeigt eine mahlende Mühle.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Eine mahlende Mühle zeigt das Bild.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Weizen ausmalen.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Ich mahle das Bild aus.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Eine Mühle wird zum Malen verwendet.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das gemalene Korn aus der Mühle ist gut.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Zum Malen verwendet man eine Mühle.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Du musst das Bild ausmahlen.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Wir haben das im Kunstunterricht gemahlt.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Er hat ein schönes Selbstporträt gemahlt.")).length);
+    assertGood("Ich soll Bilder einer Mühle malen.");
+    assertGood("Ich male ein Bild einer Mühle.");
+    assertGood("Das Bild zeigt eine mahlende Mühle.");
+    assertGood("Eine mahlende Mühle zeigt das Bild.");
+    assertBad("Weizen ausmalen.");
+    assertBad("Ich mahle das Bild aus.");
+    assertBad("Eine Mühle wird zum Malen verwendet.");
+    assertBad("Das gemalene Korn aus der Mühle ist gut.");
+    assertBad("Zum Malen verwendet man eine Mühle.");
+    assertBad("Du musst das Bild ausmahlen.");
+    assertBad("Wir haben das im Kunstunterricht gemahlt.");
+    assertBad("Er hat ein schönes Selbstporträt gemahlt.");
     assertEquals("gemahlen", rule.match(langTool.getAnalyzedSentence("Das Korn wird in den Mühlen gemalen."))[0].getSuggestedReplacements().get(0));
     assertEquals("malten", rule.match(langTool.getAnalyzedSentence("Wir mahlten im Kunstunterricht."))[0].getSuggestedReplacements().get(0));
 
     // Mine/Miene
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Er verzieht keine Miene.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Die Explosion der Mine.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Die Mine ist explodiert.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Er versucht, keine Miene zu verziehen.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Sie sollen weiter Minen eingesetzt haben.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Er verzieht sich nach Bekanntgabe der Mineralölsteuerverordnung.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Er verzieht keine Mine.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Mit unbewegter Mine.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Er setzt eine kalte Mine auf.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Er sagt, die unterirdische Miene sei zusammengestürzt.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Die Miene ist eingestürzt.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Die Sprengung mit Mienen ist toll.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Der Bleistift hat eine Miene.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Die Mienen sind gestern Abend explodiert.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Die Miene des Kugelschreibers ist leer.")).length);
+    assertGood("Er verzieht keine Miene.");
+    assertGood("Er verzieht keine Miene.");
+    assertGood("Die Explosion der Mine.");
+    assertGood("Die Mine ist explodiert.");
+    assertGood("Er versucht, keine Miene zu verziehen.");
+    assertGood("Sie sollen weiter Minen eingesetzt haben.");
+    assertGood("Er verzieht sich nach Bekanntgabe der Mineralölsteuerverordnung.");
+    assertBad("Er verzieht keine Mine.");
+    assertBad("Mit unbewegter Mine.");
+    assertBad("Er setzt eine kalte Mine auf.");
+    assertBad("Er sagt, die unterirdische Miene sei zusammengestürzt.");
+    assertBad("Die Miene ist eingestürzt.");
+    assertBad("Die Sprengung mit Mienen ist toll.");
+    assertBad("Der Bleistift hat eine Miene.");
+    assertBad("Die Mienen sind gestern Abend explodiert.");
+    assertBad("Die Miene des Kugelschreibers ist leer.");
     assertEquals("Minen", rule.match(langTool.getAnalyzedSentence("Er hat das mit den Mienen weggesprengt."))[0].getSuggestedReplacements().get(0));
     assertEquals("Miene", rule.match(langTool.getAnalyzedSentence("Er versucht, keine Mine zu verziehen."))[0].getSuggestedReplacements().get(0));
 
     // Saite/Seite
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Die Seiten des Buches sind beschrieben.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Dieses Buch über die Gitarre hat nur sechs Seiten.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Diese Gitarre hat sechs Saiten.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Die UNO muss andere Saiten aufziehen.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Eine Gitarre hat Saiten, aber keine Seiten.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Die Saiten des Violoncellos sind kurz.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Dieses Buch über die Gitarre hat nur sechs Seiten.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Eine Seite und eine scharfe Suppe.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Die Saiten des Buches sind beschrieben.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Die Seiten des Klaviers werden angeschlagen.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Die Seiten der Kurzhalsgeige sind gerissen.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Die Seiten des Kontrabasses sind gerissen.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Bei der UNO müssen andere Seiten aufgezogen werden.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Die Seiten des Violoncellos sind kurz.")).length);
+    assertGood("Die Seiten des Buches sind beschrieben.");
+    assertGood("Dieses Buch über die Gitarre hat nur sechs Seiten.");
+    assertGood("Diese Gitarre hat sechs Saiten.");
+    assertGood("Die UNO muss andere Saiten aufziehen.");
+    assertGood("Eine Gitarre hat Saiten, aber keine Seiten.");
+    assertGood("Die Saiten des Violoncellos sind kurz.");
+    assertGood("Dieses Buch über die Gitarre hat nur sechs Seiten.");
+    assertGood("Eine Seite und eine scharfe Suppe.");
+    assertBad("Die Saiten des Buches sind beschrieben.");
+    assertBad("Die Seiten des Klaviers werden angeschlagen.");
+    assertBad("Die Seiten der Kurzhalsgeige sind gerissen.");
+    assertBad("Die Seiten des Kontrabasses sind gerissen.");
+    assertBad("Bei der UNO müssen andere Seiten aufgezogen werden.");
+    assertBad("Die Seiten des Violoncellos sind kurz.");
     assertEquals("Saite", rule.match(langTool.getAnalyzedSentence("Die E-Gitarre hat eine sechste Seite."))[0].getSuggestedReplacements().get(0));
     assertEquals("Seiten", rule.match(langTool.getAnalyzedSentence("Dieses Buch hat sechs Saiten."))[0].getSuggestedReplacements().get(0));
   }
-  
+
+  private void assertGood(String sentence) throws IOException {
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence(sentence)).length);
+  }
+
+  private void assertBad(String sentence) throws IOException {
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence(sentence)).length);
+  }
+
 }
