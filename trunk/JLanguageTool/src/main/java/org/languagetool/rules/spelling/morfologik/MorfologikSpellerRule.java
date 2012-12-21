@@ -19,8 +19,15 @@
 
 package org.languagetool.rules.spelling.morfologik;
 
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.rules.Category;
+import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.spelling.SpellingCheckRule;
+
 import java.io.IOException;
-import java.net.URL;
 import java.nio.charset.CharacterCodingException;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,24 +36,10 @@ import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import morfologik.speller.Speller;
-import morfologik.stemming.Dictionary;
-
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.rules.Category;
-import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.spelling.SpellingCheckRule;
-import org.languagetool.tools.StringTools;
-
 public abstract class MorfologikSpellerRule extends SpellingCheckRule {
 
-    private final static String LANGUAGETOOL = "LanguageTool";
-
-    private Speller speller;
-    private Locale conversionLocale = Locale.getDefault();
+    private MorfologikSpeller speller;
+    private Locale conversionLocale;
 
     /**
      * Get the filename, e.g., <tt>/resource/pl/spelling.dict</tt>.
@@ -73,14 +66,12 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     
     @Override
     public RuleMatch[] match(AnalyzedSentence text) throws IOException {
-
         final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
         final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
         //lazy init
-        if (speller == null) {                                   
+        if (speller == null) {
             if (JLanguageTool.getDataBroker().resourceExists(getFileName())) {
-                final URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(getFileName());
-                speller = new Speller(Dictionary.read(url));
+                speller = new MorfologikSpeller(getFileName(), conversionLocale);
             } else {
                 // should not happen, as we only configure this rule (or rather its subclasses)
                 // when we have the resources:
@@ -89,77 +80,44 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
         }
         for (AnalyzedTokenReadings token : tokens) {
             final String word = token.getToken();
-            if (ignoreWord(word)) {
+            if (ignoreWord(word) || token.isImmunized()) {
                 continue;
             }
-            if (!token.isImmunized()) {
-                if (tokenizingPattern() == null) {
+            if (tokenizingPattern() == null) {
+                ruleMatches.addAll(getRuleMatch(word, token.getStartPos()));
+            } else {
+                int index = 0;
+                final Matcher m = tokenizingPattern().matcher(word);
+                while (m.find()) {
+                    final String match = word.subSequence(index, m.start()).toString();
+                    ruleMatches.addAll(getRuleMatch(match, token.getStartPos() + index));
+                    index = m.end();
+                }
+                if (index == 0) { // tokenizing char not found
                     ruleMatches.addAll(getRuleMatch(word, token.getStartPos()));
                 } else {
-                    int index = 0;
-                    final Matcher m = tokenizingPattern().matcher(word);
-                    while (m.find()) {
-                        final String match = word.subSequence(index, m.start()).toString();                        
-                        ruleMatches.addAll(getRuleMatch(match, token.getStartPos() + index));
-                        index = m.end();
-                    }
-                    if (index == 0) { // tokenizing char not found
-                        ruleMatches.addAll(getRuleMatch(word, token.getStartPos()));
-                    } else {
-                        ruleMatches.addAll(getRuleMatch(word.subSequence(
-                                index, word.length()).toString(), token.getStartPos() + index)); 
-                    }
+                    ruleMatches.addAll(getRuleMatch(word.subSequence(
+                            index, word.length()).toString(), token.getStartPos() + index));
                 }
             }
         }
         return toRuleMatchArray(ruleMatches);
     }
-    
+
     private List<RuleMatch> getRuleMatch(final String word, final int startPos) throws CharacterCodingException {
         final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
-        if (isMisspelled(word)) {
+        if (speller.isMisspelled(word)) {
             final RuleMatch ruleMatch = new RuleMatch(this,
                     startPos, startPos + word.length(),
                     messages.getString("spelling"),
                     messages.getString("desc_spelling_short"));
-            final List<String> suggestions = getSuggestions(word);
+            final List<String> suggestions = speller.getSuggestions(word);
             if (!suggestions.isEmpty()) {
                 ruleMatch.setSuggestedReplacements(suggestions);
             }
             ruleMatches.add(ruleMatch);
         }
         return ruleMatches;
-    }
-
-    private boolean isMisspelled(String word) {
-        boolean isAlphabetic = true;
-        if (word.length() == 1) { // dictionaries usually do not contain punctuation
-            isAlphabetic = StringTools.isAlphabetic(word.charAt(0));
-        }
-        return word.length() > 0 && isAlphabetic
-                && !containsDigit(word)
-                && !LANGUAGETOOL.equals(word)
-                && !speller.isInDictionary(word)
-                && !speller.isInDictionary(word.toLowerCase(conversionLocale));
-    }
-
-    private boolean containsDigit(final String s) {
-        for (int k = 0; k < s.length(); k++) {
-            if (Character.isDigit(s.charAt(k))) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private List<String> getSuggestions(String word) throws CharacterCodingException {
-        final List<String> suggestions = new ArrayList<String>();
-        suggestions.addAll(speller.findReplacements(word));
-        if (!word.toLowerCase(conversionLocale).equals(word)) {
-            suggestions.addAll(speller.findReplacements(word.toLowerCase(conversionLocale)));
-        }
-        suggestions.addAll(speller.replaceRunOnWords(word));
-        return suggestions;
     }
 
     /**
