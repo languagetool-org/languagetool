@@ -207,8 +207,8 @@ public abstract class WrongWordInContextRule extends Rule {
   
   class ContextWords {
     
-    public String matches[] = {"", ""}, explanations[] = {"", ""};
-    public Pattern words[], contexts[];
+    String matches[] = {"", ""}, explanations[] = {"", ""};
+    Pattern words[], contexts[];
     
     ContextWords() {
       words = new Pattern[2];
@@ -216,7 +216,7 @@ public abstract class WrongWordInContextRule extends Rule {
     }
     
     private String addBoundaries(String str) {
-      String ignore_case="";
+      String ignore_case = "";
       if (str.startsWith("(?i)")) {
         str = str.substring(4);
         ignore_case = "(?i)";

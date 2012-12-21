@@ -167,8 +167,7 @@ public class HunspellRule extends SpellingCheckRule {
                                    final String originalPath) throws IOException {
 
     final URL dictURL = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(originalPath);
-    String dictionaryPath = dictURL.getPath();
-
+    String dictionaryPath;
     //in the webstart version, we need to copy the files outside the jar
     //to the local temporary directory
     if ("jar".equals(dictURL.getProtocol())) {
