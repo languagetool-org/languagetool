@@ -12105,7 +12105,18 @@ $Id$
     
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
-        
+        <rule id="PLANOL_PLA" name="plànol pla">
+            <pattern>
+                <marker>
+                    <token inflected="yes">plànol</token>
+                </marker>
+                <token inflected="yes" regexp="yes">personal|professional|vertical|horitzontal|oblic</token>
+            </pattern>
+            <message>¿Voíeu dir <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">pla</match></suggestion>? Exemples d'ús correcte: un plànol de Xàtiva, un plànol del castell. </message>
+            <short>Possible confusió</short>
+            <example type="incorrect" correction="pla">en el <marker>plànol</marker> personal</example>
+            <example type="correct">pla personal</example>
+        </rule>
         <rulegroup id="FULLA_FULL" name="fulla/full">
             <rule>
                 <pattern>
@@ -15075,16 +15086,29 @@ $Id$
                 <pattern>
                     <token postag="NCMS.*|_GN_MS" postag_regexp="yes"/>
                     <marker>
-                        <token postag="SPS00"><exception postag="_no_relatiu"/></token>
+                        <token postag="SPS00"><exception postag="_no_relatiu"/><exception>pe</exception></token>
+                        <token spacebefore="no">l</token>
+                        <token regexp="yes">que|què|qui</token>
+                    </marker>
+                </pattern>
+                <message>Reviseu la construcció de relatiu. Potser cal escriure: <suggestion><match no="2" /><match no="3"/> qual</suggestion>, <suggestion><match no="2" /> què</suggestion>, <suggestion><match no="2" /> qui</suggestion>.</message>
+                <short>Reviseu la construcció de relatiu</short>
+                <example type="incorrect">l'home <marker>al que</marker> vaig trobar</example>
+                <example type="correct">l'home al qual vaig trobar</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="NCMS.*|_GN_MS" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="SPS00">pe<exception postag="_no_relatiu"/></token>
                         <token spacebefore="no">l</token>
                         <token regexp="yes">que|què|qui</token>
                     </marker>
                 </pattern>
                 <message>Reviseu la construcció de relatiu. Potser cal escriure: <suggestion><match no="2" /><match no="3"/> qual</suggestion>, <suggestion><match no="2" />r què</suggestion>, <suggestion><match no="2" />r qui</suggestion>.</message>
                 <short>Reviseu la construcció de relatiu</short>
-                <example type="incorrect">l'home <marker>al que</marker> vaig trobar</example>
-                <example type="correct">l'home amb el qual vaig parlar</example>
-                <example type="correct">tothom estava d'acord amb el que s'havia dit</example>
+                <example type="incorrect">l'home <marker>pel que</marker> vaig trobar</example>
+                <example type="correct">l'home pel qual vaig parlar</example>
             </rule>
             <rule>
                 <pattern>
@@ -15123,16 +15147,29 @@ $Id$
                 <pattern>
                     <token postag="NCMP.*|_GN_MP" postag_regexp="yes"/>
                     <marker>
-                        <token postag="SPS00"><exception postag="_no_relatiu"/></token>
+                        <token postag="SPS00"><exception postag="_no_relatiu"/><exception>pe</exception></token>
+                        <token spacebefore="no">ls</token>
+                        <token regexp="yes">que|què|qui</token>
+                    </marker>
+                </pattern>
+                <message>Reviseu la construcció de relatiu. Potser cal escriure: <suggestion><match no="2" /><match no="3"/> quals</suggestion>, <suggestion><match no="2" /> què</suggestion>, <suggestion><match no="2" /> qui</suggestion>.</message>
+                <short>Reviseu la construcció de relatiu</short>
+                <example type="incorrect">els homes <marker>als que</marker> vaig parlar</example>
+                <example type="correct">els homes amb els quals vaig parlar</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="NCMP.*|_GN_MP" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="SPS00">pe<exception postag="_no_relatiu"/></token>
                         <token spacebefore="no">ls</token>
                         <token regexp="yes">que|què|qui</token>
                     </marker>
                 </pattern>
                 <message>Reviseu la construcció de relatiu. Potser cal escriure: <suggestion><match no="2" /><match no="3"/> quals</suggestion>, <suggestion><match no="2" />r què</suggestion>, <suggestion><match no="2" />r qui</suggestion>.</message>
                 <short>Reviseu la construcció de relatiu</short>
-                <example type="incorrect">els homes <marker>als que</marker> vaig parlar</example>
+                <example type="incorrect">els homes <marker>pels que</marker> vaig parlar</example>
                 <example type="correct">els homes amb els quals vaig parlar</example>
-                <example type="correct">aquests són semblants als que va trobar ell</example>
             </rule>
             <rule>
                 <pattern>
