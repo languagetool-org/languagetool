@@ -46,7 +46,9 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="add"><wd pos="_PUNCT_CONT"></wd></disambig>
         </rule>
-        <rule id="coma_decimal" name="coma decimal">
+    </rulegroup>
+    <rulegroup id="coma_decimal" name="coma decimal">
+        <rule>
             <pattern>
                 <token regexp="yes">\d+</token>
                 <marker>
@@ -56,17 +58,27 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="remove"><wd pos="_PUNCT_CONT"></wd></disambig>
         </rule>
-        <rule id="coma_decimal2" name="coma decimal">
+        <rule>
             <pattern>
                 <token regexp="yes">\d+</token>
                 <marker>
-                    <token spacebefore="no">,</token>
+                    <token spacebefore="no">.</token>
+                </marker>
+                <token spacebefore="no" regexp="yes">\d+</token>
+            </pattern>
+            <disambig action="remove"><wd pos="_PUNCT"></wd></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">\d+</token>
+                <marker>
+                    <token spacebefore="no" regexp="yes">[,.]</token>
                 </marker>
                 <token spacebefore="no" regexp="yes">\d+</token>
             </pattern>
             <disambig action="add"><wd pos="decimal_comma"></wd></disambig>
         </rule>
-    </rulegroup>
+    </rulegroup>    
     <rule id="no_noms_error_diccionari" name="no haurien de ser noms, error del diccionari">
         <pattern>
             <token regexp="yes">empaquetat|emmotll?at</token>

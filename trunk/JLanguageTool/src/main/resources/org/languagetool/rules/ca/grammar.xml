@@ -5648,50 +5648,11 @@ $Id$
                         <token>de</token>
                         <token regexp="yes">1|11</token>
                     </marker>
-                    <token><exception regexp="yes">[.,]</exception></token>
+                    <token><exception postag="decimal_comma"/></token>
                 </pattern>
                 <message>Cal escriure: <suggestion>d'<match no="2"></match></suggestion>.</message>
                 <short>Error ortogràfic</short>
                 <example type="incorrect" correction="d'1"><marker>de 1</marker> a 3</example>
-                <example type="correct">de 1.400 habitants</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>el</token>
-                        <token regexp="yes">1|11</token>
-                    </marker>
-                    <token><exception regexp="yes">[.,]</exception></token>
-                </pattern>
-                <message>Cal escriure: <suggestion>l'<match no="2"></match></suggestion>.</message>
-                <short>Error ortogràfic</short>
-                <example type="incorrect" correction="l'1"><marker>el 1</marker> de febrer</example>
-                <example type="correct">els 1.400 habitants</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token spacebefore="no">l</token>
-                        <token regexp="yes">1|11</token>
-                    </marker>
-                    <token><exception regexp="yes">[.,]</exception></token>
-                </pattern>
-                <message>Cal escriure: <suggestion> l'<match no="2"></match></suggestion>.</message>
-                <short>Error ortogràfic</short>
-                <example type="incorrect" correction=" l'1">fins a<marker>l 1</marker> de febrer</example>
-                <example type="correct">fins a 1.400 habitants</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>de</token>
-                        <token regexp="yes">1|11</token>
-                    </marker>
-                    <token regexp="yes">[.,]</token>
-                    <token><exception spacebefore="no" regexp="yes">\d+</exception></token>
-                </pattern>
-                <message>Cal escriure: <suggestion>d'<match no="2"></match></suggestion>.</message>
-                <short>Error ortogràfic</short>
                 <example type="incorrect" correction="d'1"><marker>de 1</marker>, de 3</example>
                 <example type="correct">de 1.400 habitants</example>
             </rule>
@@ -5701,27 +5662,42 @@ $Id$
                         <token>el</token>
                         <token regexp="yes">1|11</token>
                     </marker>
-                    <token regexp="yes">[.,]</token>
-                    <token><exception spacebefore="no" regexp="yes">\d+</exception></token>
+                    <token><exception postag="decimal_comma"/></token>
                 </pattern>
                 <message>Cal escriure: <suggestion>l'<match no="2"></match></suggestion>.</message>
                 <short>Error ortogràfic</short>
+                <example type="incorrect" correction="l'1"><marker>el 1</marker> de febrer</example>
                 <example type="incorrect" correction="l'1"><marker>el 1</marker>, el 2 i el 3 de febrer</example>
-                <example type="correct">els 1.400 habitants</example>
+                <example type="correct">el 1.400</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
+                        <token regexp="yes">a|de</token>
                         <token spacebefore="no">l</token>
                         <token regexp="yes">1|11</token>
                     </marker>
-                    <token regexp="yes">[.,]</token>
-                    <token><exception spacebefore="no" regexp="yes">\d+</exception></token>
+                    <token><exception postag="decimal_comma"/></token>
                 </pattern>
-                <message>Cal escriure: <suggestion> l'<match no="2"></match></suggestion>.</message>
+                <message>Cal escriure: <suggestion><match no="1"/> l'<match no="3"></match></suggestion>.</message>
                 <short>Error ortogràfic</short>
-                <example type="incorrect" correction=" l'1">fins a<marker>l 1</marker>, al 2 i al 3 de febrer</example>
-                <example type="correct">fins a 1.400 habitants</example>
+                <example type="incorrect" correction="a l'1">fins <marker>al 1</marker> de febrer</example>
+                <example type="incorrect" correction="a l'1">fins <marker>al 1</marker>, al 2 i al 3 de febrer</example>
+                <example type="correct">del 1.400 al 1.500</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>pe</token>
+                        <token spacebefore="no">l</token>
+                        <token regexp="yes">1|11</token>
+                    </marker>
+                    <token><exception postag="decimal_comma"/></token>
+                </pattern>
+                <message>Cal escriure: <suggestion>per l'<match no="3"></match></suggestion>.</message>
+                <short>Error ortogràfic</short>
+                <example type="incorrect" correction="per l'1"><marker>pel 1</marker> de febrer</example>
+                <example type="correct">anem pel 1.400</example>
             </rule>
             <rule>
                 <pattern>
