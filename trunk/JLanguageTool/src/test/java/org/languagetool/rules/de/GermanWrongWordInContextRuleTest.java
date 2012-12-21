@@ -86,7 +86,10 @@ public class GermanWrongWordInContextRuleTest extends TestCase {
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Eine Gitarre hat Saiten, aber keine Seiten.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Die Saiten des Violoncellos sind kurz.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Dieses Buch über die Gitarre hat nur sechs Seiten.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Eine Seite und eine scharfe Suppe.")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Die Saiten des Buches sind beschrieben.")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Die Seiten des Klaviers werden angeschlagen.")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Die Seiten der Kurzhalsgeige sind gerissen.")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Die Seiten des Kontrabasses sind gerissen.")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Bei der UNO müssen andere Seiten aufgezogen werden.")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Die Seiten des Violoncellos sind kurz.")).length);
