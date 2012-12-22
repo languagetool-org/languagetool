@@ -37,7 +37,6 @@ import org.languagetool.Language;
  */
 public final class WordTokenizer {
 
-
     public static void main(final String[] args) throws IOException {
         final WordTokenizer prg = new WordTokenizer();
         if (args.length != 1) {
@@ -48,7 +47,6 @@ public final class WordTokenizer {
     }
 
     private void run(final String lang) throws IOException {
-
         JLanguageTool langTool = new JLanguageTool(
                 Language.getLanguageForShortName(lang));
         BufferedReader in = null;
@@ -63,14 +61,9 @@ public final class WordTokenizer {
                 for (AnalyzedTokenReadings a : atr) {
                     out.write(a.getToken());
                     out.write("\n");
-                }                                
+                }
             }
-        }
-        catch (IOException e) {
-            System.err.println("IOException reading System.in" + e);
-            throw e;
-        }
-        finally {
+        } finally {
             if (in != null) {
                 in.close();
             }
