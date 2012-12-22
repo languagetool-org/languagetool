@@ -155,8 +155,9 @@ class PatternRuleMatcher {
 
         //now do some spell-checking:
         if (!(errMessage.contains("<pleasespellme/>") && errMessage.contains("<mistake/>"))) {
+          final String clearMsg = errMessage.replaceAll("<pleasespellme/>", "").replaceAll("<mistake/>", "");
           return new RuleMatch(rule, fromPos, toPos,
-                  errMessage, rule.getShortMessage(), startsWithUppercase);
+                  clearMsg, rule.getShortMessage(), startsWithUppercase);
         }
       } // failed to create any rule match...
       return null;
