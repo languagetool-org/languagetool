@@ -2635,7 +2635,7 @@ $Id$
         <marker>
           <token regexp="yes">[aeu][nr]|hor<exception postag="X EN_UR"/></token>
         </marker>
-        <token regexp="yes">l..*<exception regexp="yes" postag="UNKNOWN">L\p{Lu}*</exception></token>
+        <token regexp="yes">l.+<exception regexp="yes" postag="UNKNOWN">L\p{Lu}*</exception></token>
       </pattern>
       <message>Ar ger «\1» a zlefe bezañ <suggestion><match no="1" regexp_match="(.*)." regexp_replace="$1l"/></suggestion> dirak ur ger a grog gant ar gensonenn «l».</message>
       <example type="incorrect"><marker>Ur</marker> levr a zo ganin.</example>
@@ -3762,9 +3762,9 @@ $Id$
     </rule>
     <rule id="BED_HOLL_MAN" name="Ar bed-holl-mañ → ar bed-mañ-holl">
       <pattern>
-        <marker><token regexp="yes">..*-holl-(se|mañ|hont)</token></marker>
+        <marker><token regexp="yes">.+-holl-(se|mañ|hont)</token></marker>
       </pattern>
-      <message>Ha fellout a rae deoc’h srivañ <suggestion><match no="1" regexp_match="(..*)-(holl)-(se|mañ|hont)" regexp_replace="$1-$3-$2"/></suggestion>? (CHALM  R1.1.2)</message>
+      <message>Ha fellout a rae deoc’h srivañ <suggestion><match no="1" regexp_match="(.+)-(holl)-(se|mañ|hont)" regexp_replace="$1-$3-$2"/></suggestion>? (CHALM  R1.1.2)</message>
       <example type="incorrect">Ar <marker>bed-holl-mañ</marker>.</example>
       <example type="correct">Ar bed-mañ-holl.</example>
     </rule>
@@ -3779,6 +3779,14 @@ $Id$
       <example type="incorrect"><marker>Brudet mat</marker> eo.</example>
       <example type="correct"><marker>Brudet-mat</marker> eo.</example>
       <example type="correct">Pe mat pe fall e oa.</example>
+    </rule>
+    <rule id="A_WALCH" name="just-a-walc’h → just a-walc’h (hag all)">
+      <pattern>
+        <marker><token regexp="yes">.*-a-walc’h</token></marker>
+      </pattern>
+      <message>Berrennig-stagañ ebet dirak an adverb «a-walc’h». Ha fellout a rae deoc’h skrivañ <suggestion><match no="1" regexp_match="(.*)-(a-walc’h)" regexp_replace="$1 $2"/></suggestion>? (CHALM Sa)</message>
+      <example type="incorrect"><marker>Just-a-walc’h</marker>.</example>
+      <example type="correct">Just a-walc’h.</example>
     </rule>
     <rule id="SETU_ME" name="setu me → setu-me (hag all)">
       <pattern>
