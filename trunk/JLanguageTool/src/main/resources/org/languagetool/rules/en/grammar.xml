@@ -889,13 +889,14 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
                     <marker>
                         <token>no</token>
                     </marker>
-                    <token postag="JJ.*" postag_regexp="yes"></token>
+                    <token postag="JJ.*" postag_regexp="yes"><exception>longer</exception></token>
                 </pattern>
                 <message>Did you mean <suggestion>not</suggestion> or <suggestion>now</suggestion>?</message>
                 <short>Possible typo</short>
                 <example correction="not|now" type="incorrect">It's <marker>no</marker> possible.</example>
                 <example type="correct">It isn't possible.</example>
                 <example type="correct">It is no surprise.</example>
+                <example type="correct">It's no longer needed.</example>
             </rule>
         </rulegroup>
         <rule id="ALLOT_OF" name="allot of (a lot of)">
@@ -2076,7 +2077,7 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
                         <token spacebefore="no" regexp="yes">['’]</token>
                         <token>s</token>
                     </marker>
-                    <token postag="NN"><exception regexp="yes">fast|still</exception></token>
+                    <token postag="NN"><exception  postag="JJ"></exception></token>
                 </pattern>
                 <message>Did you mean <suggestion>its</suggestion> (possessive pronoun) instead of 'it's' (=it is)?</message>
                 <short>Possible typo</short>
@@ -2085,6 +2086,7 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
                 <example type="correct">It's nice.</example>
                 <example type="correct">I think it's still valid.</example>
                 <example type="correct">I think it's fast enough.</example>
+                <example type="correct"> With DMA disabled it's possible to output with a high sampling frequency.</example>
             </rule>
             <rule>
                 <pattern>
@@ -5892,7 +5894,7 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
                     <token postag="DT"></token>
                     <token postag="NNS"></token>
                     <token>of</token>
-                    <token postag="NN|NN:.*" postag_regexp="yes"></token>
+                    <token postag="NN|NN:.*" postag_regexp="yes"><exception>hedge</exception></token>
                     <marker>
                         <token postag="VBZ"><exception>is</exception></token>
                     </marker>
@@ -7401,15 +7403,17 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
         <rulegroup id="NON3PRS_VERB" name="Agreement error: Third person verb with a non-third person pronoun">
             <rule>
                 <pattern>
+                    <token negate="yes">Phase</token>
                     <token regexp="yes">I|we|you|they</token>
                     <marker>
                         <token postag="VBZ"></token>
                     </marker>
                 </pattern>
-                <message>The pronoun '<match no="1"></match>' must be used with a non-third-person form of a verb: <suggestion><match no="2" postag="VB"></match></suggestion></message>
+                <message>The pronoun '<match no="2"></match>' must be used with a non-third-person form of a verb: <suggestion><match no="3" postag="VB"></match></suggestion></message>
                 <short>Grammatical problem</short>
                 <example correction="work" type="incorrect">I <marker>works</marker> here.</example>
                 <example type="correct">You <marker>make</marker> a lot of mistakes.</example>
+                <example type="correct">Phase I corresponds to the small-deformation regime.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
