@@ -43,6 +43,7 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
 	public void testRule() throws IOException { 
 
 		// correct sentences:
+		//assertCorrect("I sí, la crisi serà llarga, molt llarga, potser eterna.");
 		assertCorrect("té una manera de jugar aquestes gires tan femenina");
 		assertCorrect("des de la tradicional divisió en dos regnes establida per Linnaeus");
 		assertCorrect("aquestes activitats avui residuals donada ja la manca de territori");

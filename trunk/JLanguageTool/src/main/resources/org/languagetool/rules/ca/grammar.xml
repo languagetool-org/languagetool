@@ -1187,11 +1187,13 @@ $Id$
                     <marker>
                         <token postag="_GN_F.*" postag_regexp="yes" regexp="yes">editorials?<exception postag="_GN_M.*" postag_regexp="yes"/></token>
                     </marker>
+                    <token><exception regexp="yes">\p{Lu}.+</exception></token>
                 </pattern>
                 <message>En el sentit de 'article de fons' és masculí. En el sentit de 'empresa editora' és femení.</message>
                 <short>Possible error de concordança</short>
                 <example type="incorrect">Vaig llegir aquella <marker>editorial</marker> horrorosa</example>
                 <example type="correct">Vaig llegir l'editorial</example>
+                <example type="correct">de l'editorial Nova Terra</example>
             </rule>
             <rule id="ALTRE_ALTRA" name="confusió altre/altra">
                 <pattern>
@@ -1771,171 +1773,95 @@ $Id$
             </rule>
         </rulegroup>
         <rulegroup id="HAVER_PARTICIPI_HAVER_IMPERSONAL" name="Comprova: «haver» + participi / «haver-hi» impersonal">
-            <rule> <!--  heure/haver cantat -->
-                <pattern>
-                    <marker>
-                        <token inflected="yes">heure<exception inflected="yes">haver</exception></token>
-                    </marker>
-                    <token postag="V.P.*" postag_regexp="yes"/>
-                </pattern>
-                <message>Cal dir: <suggestion><match no="1" postag="VM(.+)" postag_regexp="yes" postag_replace="VA$1">haver</match></suggestion>.</message>
-                <example type="incorrect">Quan ho <marker>heguin</marker> portat.</example>
-                <example type="incorrect">Quan ho <marker>haguem</marker> dut.</example>
-                <example type="incorrect">Quan ho <marker>haguem</marker> fet.</example>
-                <example type="correct">Quan ho hàgiu portat</example>
-                <example type="correct">Si ho haguéssiu portat</example>
-            </rule>
             <rule>
                 <pattern>
-                    <token postag="V.N.*" postag_regexp="yes">haver</token>
                     <marker>
-                        <token postag="V.*" postag_regexp="yes" regexp="yes">[\p{Ll}·]+<exception postag="V.P.*|RG|N.*" postag_regexp="yes"/></token>
+                        <token postag="VA..[12].." postag_regexp="yes" inflected="yes">haver<exception postag="VA..3S.|_perfet|_obligacio" postag_regexp="yes"/></token>
                     </marker>
+                    <token><exception postag="V.[NG].*" postag_regexp="yes"/></token>       
                 </pattern>
-                <message>Falta un participi. Podria ser: <suggestion><match no="2" suppress_misspelled="yes" postag="V.P.*" postag_regexp="yes"/></suggestion>.</message>
-                <short>Falta un participi.</short>
-                <example type="incorrect">Tot i haver <marker>votar</marker> amb la resta.</example>
-                <example type="correct">Tot i haver votat amb la resta.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>haver</token>
-                    <token>-hi</token>
-                    <marker>
-                        <token postag="V.*" postag_regexp="yes" regexp="yes">[\p{Ll}·]+<exception postag="V.P.*|RG|N.*" postag_regexp="yes"/></token>
-                    </marker>
-                </pattern>
-                <message>Falta un participi. Podria ser: <suggestion><match no="3" suppress_misspelled="yes" postag="V.P.*" postag_regexp="yes"/></suggestion>.</message>
-                <short>Falta un participi.</short>
-                <example type="incorrect">Tot i haver-hi <marker>votar</marker> amb la resta.</example>
-                <example type="correct">Tot i haver-hi votat amb la resta.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="VA..[12].." postag_regexp="yes" inflected="yes">haver<exception postag="VA..3S." postag_regexp="yes"/></token>
-                    <marker>
-                        <token postag="V.P.*" negate_pos="yes" postag_regexp="yes" regexp="yes">[\p{Ll}·]+<exception postag="V.P.*|RG" postag_regexp="yes"></exception><exception regexp="yes">de|d'</exception></token>
-                    </marker>
-                </pattern>
-                <message>Falta un participi. Podria ser: <suggestion><match no="2" suppress_misspelled="yes" postag="V.P.*" postag_regexp="yes"></match></suggestion>.</message>
-                <short>Falta un participi.</short>
-                <example type="incorrect">Hem <marker>cantant</marker>.</example>
+                <message>Falta un participi o la preposició 'de'.</message>             
+                <example type="incorrect"><marker>Hem</marker> pràcticament esgotant.</example>
                 <example type="correct">Hem cantat.</example>
+                <example type="correct">Hem de cantar</example>
+                <example type="correct">Hem obligatòriament de cantar</example>
+                <example type="correct">Hem manta vegada opinat</example>
             </rule>
             <rule>
                 <pattern>
-                    <token postag="VA..[12].." postag_regexp="yes" inflected="yes">haver<exception postag="VA..3S." postag_regexp="yes"/></token>
-                    <token postag="RG"/>
+                    <token negate="yes">hi</token>
                     <marker>
-                        <token postag="V.P.*" negate_pos="yes" postag_regexp="yes" regexp="yes">[\p{Ll}·]+<exception postag="V.P.*" postag_regexp="yes"></exception><exception regexp="yes">de|d'</exception></token>
+                        <token postag="VA..3.." postag_regexp="yes" inflected="yes">haver<exception postag="_perfet|_obligacio" postag_regexp="yes"/></token>
                     </marker>
+                    <token><exception postag="V.[NG].*" postag_regexp="yes"/></token>
                 </pattern>
-                <message>Falta un participi. Podria ser: <suggestion><match no="3" suppress_misspelled="yes" postag="V.P.*" postag_regexp="yes"/></suggestion>.</message>
+                <message>Falta un participi, el pronom 'hi' o la preposició 'de'.</message>
                 <short>Falta un participi.</short>
-                <example type="incorrect">Hem pràcticament <marker>esgotant</marker>.</example>
-                <example type="correct">Hem pràcticament esgotat.</example>
-            </rule>
-             <rule>
+                <example type="incorrect">si no <marker>hagués</marker> mor tan jove.</example>
+                <example type="incorrect">si no <marker>hagués</marker> fatalment mor tan jove.</example>
+                <example type="incorrect">No <marker>ha</marker> gairebé ningú.</example>
+                <example type="incorrect">No <marker>ha</marker> cantants.</example>
+                <example type="incorrect">Ho <marker>han</marker> fermament realitzar.</example>
+                <example type="incorrect">A classe <marker>havia</marker> dos nois fora mida.</example>
+                <example type="correct">no me n'hauria pas recordat.</example>
+                <example type="correct">no me n'hauria pas recordat.</example>
+                <example type="correct">S'han fos els ploms.</example>
+                <example type="correct">No hi ha gairebé ningú.</example>
+                <example type="correct">No hi ha cantants.</example>
+                <example type="correct">Ho han fermament realitzat.</example>
+                <example type="correct">Ells han realitzat.</example>
+            </rule>                   
+            <!-- Error de picatge comú amb infinitiu o gerundi -->
+            <rule>
                 <pattern>
-                    <token postag="VA..3S." postag_regexp="yes" inflected="yes">haver</token>
+                    <token postag="VA.*" postag_regexp="yes" inflected="yes" skip="3">haver<exception postag="_perfet|_obligacio" postag_regexp="yes"/></token>
                     <marker>
-                        <token postag="V.[NG].*" postag_regexp="yes"><exception postag="V.P.*|RG" postag_regexp="yes"></exception><exception inflected="yes">de</exception></token>
+                        <token postag="V.[NG].*" postag_regexp="yes"></token>
                     </marker>
                 </pattern>
                 <message>Falta un participi. Podria ser: <suggestion><match no="2"  postag="V.P.*" postag_regexp="yes"/></suggestion> o <suggestion>de <match no="2"  postag="V.N.*" postag_regexp="yes"/></suggestion>.</message>
                 <short>Falta un participi</short>
                 <example type="incorrect">No s'ha <marker>realitzar</marker>.</example>
+                <example type="incorrect">Ells han <marker>realitzar</marker>.</example>
                 <example type="incorrect">No s'hi ha <marker>realitzar</marker>.</example>
-                <example type="incorrect">que haja <marker>generant</marker> per tant un resultat</example> 
+                <example type="incorrect">Tot i haver <marker>votar</marker> amb la resta.</example>
+                <example type="incorrect">Tot i haver-hi <marker>votar</marker> amb la resta.</example>
+                <example type="incorrect">Aquell hi ha gairebé <marker>realitzar</marker>.</example>
+                <example type="incorrect">que hagen <marker>generant</marker> per tant un resultat</example> 
+                <example type="incorrect">Hem <marker>cantant</marker>.</example>
                 <example type="correct">No s'ha realitzat.</example>              
             </rule>
-             <rule>
-                <pattern>
-                    <token postag="VA..3S." postag_regexp="yes" inflected="yes">haver</token>
-                    <token postag="RG"><exception>prou</exception></token>
-                    <marker>
-                        <token postag="V.[NG].*" postag_regexp="yes"><exception postag="V.P.*" postag_regexp="yes"></exception><exception inflected="yes">de</exception></token>
-                    </marker>
-                </pattern>
-                <message>Falta un participi. Podria ser: <suggestion><match no="2" postag="V.P.*" postag_regexp="yes"/></suggestion> o <suggestion>de <match no="2"  postag="V.N.*" postag_regexp="yes"/></suggestion>.</message>
-                <short>Falta un participi</short>
-                <example type="incorrect">Aquell ha gairebé <marker>desaparèixer</marker>.</example>
-                <example type="correct">Aquell ha gairebé desaparegut.</example>
-            </rule>       
-            <rule>
-                <pattern>
-                    <token negate="yes">hi</token>
-                    <marker>
-                        <token postag="VA..3S." postag_regexp="yes" inflected="yes">haver<exception postag="_GV_"/></token>
-                    </marker>
-                    <token postag="V.*" postag_regexp="yes" negate_pos="yes" regexp="yes">[\p{Ll}·]+<exception postag="V.P.*|RG" postag_regexp="yes"></exception><exception inflected="yes">de</exception></token>
-                </pattern>
-                <message>Falta el pronom <suggestion>hi <match no="2"/></suggestion>.</message>
-                <short>Falta un pronom</short>
-                <example type="incorrect">No <marker>ha</marker> cantants.</example>
-                <example type="incorrect">A classe <marker>havia</marker> dos nois fora mida.</example>
-                <example type="correct">No hi ha cantants.</example>
-                <example type="correct">no me n'hauria pas recordat.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token negate="yes">hi</token>
-                    <marker>
-                        <token postag="VA..3S." postag_regexp="yes" inflected="yes">haver<exception postag="_GV_"/></token>
-                    </marker>
-                    <token postag="RG"/>
-                    <token postag="V.*" postag_regexp="yes" negate_pos="yes" regexp="yes">[\p{Ll}·]+<exception postag="V.P.*" postag_regexp="yes"></exception><exception inflected="yes">de</exception></token>
-                </pattern>
-                <message>Falta el pronom <suggestion>hi <match no="2"/></suggestion>.</message>
-                <short>Falta un pronom</short>
-                <example type="incorrect">No <marker>ha</marker> gairebé ningú.</example>
-                <example type="correct">No hi ha gairebé ningú.</example>
-                <example type="correct">no me n'hauria pas recordat.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>hi</token>
-                        <token postag="VA..3P." postag_regexp="yes" inflected="yes">haver</token>
-                    </marker>
-                    <token><exception postag="V.P.*" postag_regexp="yes"/><exception inflected="yes">de</exception></token>
-                </pattern>
-                <message>Cal escriure "haver-hi" en singular: <suggestion>hi <match no="2" postag="(VA..3)P(.)" postag_regexp="yes" postag_replace="$1S$2"/></suggestion></message>
-                <short>Expressió incorrecta</short>
-                <example type="incorrect">No <marker>hi han</marker> bananes</example>
-                <example type="correct">No hi ha bananes</example>
-                <example type="correct">S'hi han de fer millores.</example>
-                <example type="correct">Hi han contribuït.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token negate="yes">hi</token>
-                    <token postag="VA..3P." postag_regexp="yes" inflected="yes">haver</token>
-                    <marker>
-                        <token postag="V.[^P].*" postag_regexp="yes" regexp="yes">[\p{Ll}·]+<exception postag="V.P.*|RG" postag_regexp="yes"></exception><exception inflected="yes">de</exception></token>
-                    </marker>
-                </pattern>
-                <message>Falta un participi. Podria ser: <suggestion><match no="3"  postag="V.P.*" postag_regexp="yes"/></suggestion> o <suggestion>de <match no="3"  postag="V.N.*" postag_regexp="yes"/></suggestion>.</message>
-                <short>Falta un participi.</short>
-                <example type="incorrect">Ells han <marker>realitzar</marker>.</example>
-                <example type="correct">Ells han realitzat.</example>
-                <example type="correct">S'han fos els ploms.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token negate="yes">hi</token>
-                    <token postag="VA..3P." postag_regexp="yes" inflected="yes">haver</token>
-                    <token postag="RG"/>
-                    <marker>
-                        <token postag="V.[^P].*" postag_regexp="yes" regexp="yes">[\p{Ll}·]+<exception postag="V.P.*|RG" postag_regexp="yes"></exception><exception inflected="yes">de</exception></token>
-                    </marker>
-                </pattern>
-                <message>Falta un participi. Podria ser: <suggestion><match no="4"  postag="V.P.*" postag_regexp="yes"/></suggestion> o <suggestion>de <match no="4"  postag="V.N.*" postag_regexp="yes"/></suggestion>.</message>
-                <short>Falta un participi.</short>
-                <example type="incorrect">Ho han fermament <marker>realitzar</marker>.</example>
-                <example type="correct">Ho han fermament realitzat.</example>
-            </rule>
         </rulegroup>
+        <rule id="HAVER_HI_IMPERSONAL_SINGULAR" name="Exigeix 'haver-hi' impersonal en singular">
+            <pattern>
+                <marker>
+                    <token>hi</token>
+                    <token postag="VA..3P." postag_regexp="yes" inflected="yes">haver<exception postag="_perfet|_obligacio" postag_regexp="yes"/></token>
+                </marker>
+                <token><exception postag="V.[NG].*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Cal escriure "haver-hi" en singular: <suggestion>hi <match no="2" postag="(VA..3)P(.)" postag_regexp="yes" postag_replace="$1S$2"/></suggestion></message>
+            <short>Expressió incorrecta</short>
+            <example type="incorrect">No <marker>hi han</marker> bananes</example>
+            <example type="correct">No hi ha bananes</example>
+            <example type="correct">S'hi han de fer millores.</example>
+            <example type="correct">Hi han descaradament contribuït.</example>
+            <example type="correct">Hi han clarament d'obeir</example>
+        </rule>
+        <rule id="FORMES_HEURE" name="Evita les formes 'haguem/hagueu fet' en comptes de 'hàgim/hàgiu fet'">
+            <pattern>
+                <marker>
+                    <token inflected="yes">heure<exception inflected="yes">haver</exception></token>
+                </marker>
+                <token postag="V.P.*" postag_regexp="yes"/>
+            </pattern>
+            <message>Cal dir: <suggestion><match no="1" postag="VM(.+)" postag_regexp="yes" postag_replace="VA$1">haver</match></suggestion>.</message>
+            <example type="incorrect">Quan ho <marker>heguin</marker> portat.</example>
+            <example type="incorrect">Quan ho <marker>haguem</marker> dut.</example>
+            <example type="incorrect">Quan ho <marker>haguem</marker> fet.</example>
+            <example type="correct">Quan ho hàgiu portat</example>
+            <example type="correct">Si ho haguéssiu portat</example>
+        </rule>
         <rulegroup id="HAVER_SENSE_HAC" name="Haver sense hac: *eu/feu fet">    
             <rule>
                 <pattern>
@@ -13235,11 +13161,23 @@ $Id$
                     <marker>
                         <token>descontent</token>
                     </marker>
-                    <token postag="AQ0[MC][SN].*" postag_regexp="yes"/>
+                    <token postag="AQ0[MC][SN].*|V.P.*SM" postag_regexp="yes"/>
+                </pattern>
+                <message>'Descontent' sols pot ser adjectiu. ¿Volíeu dir <suggestion>descontentament</suggestion>?</message>
+                <example type="incorrect">el <marker>descontent</marker> generalitzat de la població</example>
+                <example type="correct">Era un general descontent.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>descontent</token>
+                    </marker>
+                    <token regexp="yes">total|ple|general</token>
                 </pattern>
                 <message>'Descontent' sols pot ser adjectiu. ¿Volíeu dir <suggestion>descontentament</suggestion>?</message>
                 <example type="incorrect">el <marker>descontent</marker> general de la població</example>
-                <example type="correct">Era un general descontent.</example>
+                <example type="incorrect">Era un <marker>descontent</marker> general.</example>
+                <example type="correct">el descontentament general</example>                
             </rule>
             <rule>
                 <pattern>
