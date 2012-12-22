@@ -1288,6 +1288,16 @@ $Id$
                 <example type="correct">Das ist meine <marker>E-Mail-Adresse</marker>.</example>
                 <example type="correct">Das ist <marker>Email</marker>.</example>
             </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>E-Mailadresse</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>E-Mail-Adresse</suggestion>?</message>
+                <url>http://www.korrekturen.de/sprachleben/sprache_im_internet/das_email_die_e-mail_und_ihre_schreibung.shtml</url>
+                <short>Möglicher Tippfehler</short>
+                <example type="incorrect" correction="E-Mail-Adresse">Das ist meine <marker>E-Mailadresse</marker>.</example>
+                <example type="correct">Das ist meine <marker>E-Mail-Adresse</marker>.</example>
+            </rule>
         </rulegroup>
         <rule id="ZWEIT" name="Möglicher Tippfehler: 'zweit (zweite)' etc.">
             <!-- please note that 'siebt' (verb) and 'acht' are intentionally omitted -->
@@ -4459,20 +4469,93 @@ $Id$
         </rule>
         <!-- Produktnamen -->
         <rulegroup id="OPENOFFICE" name="Produktname: 'OpenOffice (OpenOffice.org)'">
+            <!-- die richtigen Versionen sind: Sun OpenOffice.org, Oracle OpenOffice.org, Oracle Open Office, Apache OpenOffice -->
             <rule>
                 <pattern>
-                    <token negate="yes">Apache</token>
+                    <token>Oracle</token>
                     <marker>
                         <token>OpenOffice</token>
                     </marker>
                     <token negate="yes">.</token>
                 </pattern>
-                <message>Meinten Sie das freie <suggestion>OpenOffice.org</suggestion> oder das eingestellte Oracle <suggestion>Open Office</suggestion>? Wenn Sie Apache OpenOffice meinen, ist die Schreibweise korrekt.</message>
+                <message>Meinten Sie das freie Oracle <suggestion>OpenOffice.org</suggestion> oder das eingestellte Oracle <suggestion>Open Office</suggestion>?</message>
+                <url>http://de.wikipedia.org/wiki/Apache_OpenOffice</url>
                 <short>Möglicherweise falsch geschriebene Produktbezeichnung.</short>
-                <example type="correct"><marker>OpenOffice.org</marker> ist freie Software.</example>
+                <example type="correct">Sun <marker>OpenOffice.org</marker> war freie Software.</example>
+                <example type="correct">Oracle <marker>OpenOffice.org</marker> ist freie Software.</example>
+                <example type="correct">Oracle <marker>Open Office</marker> hat Geld gekostet.</example>
                 <example type="correct">Apache <marker>OpenOffice</marker> ist freie Software.</example>
-                <example type="incorrect" correction="OpenOffice.org|Open Office"><marker>OpenOffice</marker> ist freie Software.</example>
+                <example type="incorrect" correction="OpenOffice.org|Open Office">Oracle <marker>OpenOffice</marker> ist freie Software.</example>
                 <example type="incorrect" correction="OpenOffice.org|Open Office">Oracle <marker>Openoffice</marker> war keine freie Software.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>Sun</token>
+                    <marker>
+                        <token>OpenOffice</token>
+                    </marker>
+                    <token negate="yes">.</token>
+                </pattern>
+                <message>Meinten Sie das freie Sun <suggestion>OpenOffice.org</suggestion>?</message>
+                <url>http://de.wikipedia.org/wiki/Apache_OpenOffice</url>
+                <short>Möglicherweise falsch geschriebene Produktbezeichnung.</short>
+                <example type="correct">Sun <marker>OpenOffice.org</marker> war freie Software.</example>
+                <example type="correct">Oracle <marker>OpenOffice.org</marker> ist freie Software.</example>
+                <example type="correct">Oracle <marker>Open Office</marker> hat Geld gekostet.</example>
+                <example type="correct">Apache <marker>OpenOffice</marker> ist freie Software.</example>
+                <example type="incorrect" correction="OpenOffice.org">Sun <marker>OpenOffice</marker> ist freie Software.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>Sun</token>
+                    <marker>
+                        <token>Open</token>
+                        <token>Office</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie das freie Sun <suggestion>OpenOffice.org</suggestion>?</message>
+                <url>http://de.wikipedia.org/wiki/Apache_OpenOffice</url>
+                <short>Möglicherweise falsch geschriebene Produktbezeichnung.</short>
+                <example type="correct">Sun <marker>OpenOffice.org</marker> war freie Software.</example>
+                <example type="correct">Oracle <marker>OpenOffice.org</marker> ist freie Software.</example>
+                <example type="correct">Oracle <marker>Open Office</marker> hat Geld gekostet.</example>
+                <example type="correct">Apache <marker>OpenOffice</marker> ist freie Software.</example>
+                <example type="incorrect" correction="OpenOffice.org">Sun <marker>Open Office</marker> ist freie Software.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>Apache</token>
+                    <marker>
+                        <token>Open</token>
+                        <token>Office</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie das freie Apache <suggestion>OpenOffice</suggestion>?</message>
+                <url>http://de.wikipedia.org/wiki/Apache_OpenOffice</url>
+                <short>Möglicherweise falsch geschriebene Produktbezeichnung.</short>
+                <example type="correct">Sun <marker>OpenOffice.org</marker> war freie Software.</example>
+                <example type="correct">Oracle <marker>OpenOffice.org</marker> ist freie Software.</example>
+                <example type="correct">Oracle <marker>Open Office</marker> hat Geld gekostet.</example>
+                <example type="correct">Apache <marker>OpenOffice</marker> ist freie Software.</example>
+                <example type="incorrect" correction="OpenOffice">Apache <marker>Open Office</marker> ist freie Software.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>Apache</token>
+                    <marker>
+                        <token>OpenOffice</token>
+                        <token>.</token>
+                        <token>org</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie das freie Apache <suggestion>OpenOffice</suggestion>?</message>
+                <url>http://de.wikipedia.org/wiki/Apache_OpenOffice</url>
+                <short>Möglicherweise falsch geschriebene Produktbezeichnung.</short>
+                <example type="correct">Sun <marker>OpenOffice.org</marker> war freie Software.</example>
+                <example type="correct">Oracle <marker>OpenOffice.org</marker> ist freie Software.</example>
+                <example type="correct">Oracle <marker>Open Office</marker> hat Geld gekostet.</example>
+                <example type="correct">Apache <marker>OpenOffice</marker> ist freie Software.</example>
+                <example type="incorrect" correction="OpenOffice">Apache <marker>OpenOffice.org</marker> ist freie Software.</example>
             </rule>
         </rulegroup>
         <rulegroup id="LIBREOFFICE" name="Produktname: 'Libre Office (LibreOffice)'">
@@ -6059,16 +6142,37 @@ $Id$
                 <example type="incorrect" correction="sobald">Wir brechen auf, <marker>so bald</marker> das Wetter besser wird.</example>
             </rule>
         </rulegroup>
-        <rule id="PREIS_GEBEN" name="Zusammen-/Getrenntschreibung: 'preis geben (preisgeben)'">
-            <pattern case_sensitive="yes">
-                <token>preis</token>
-                <token inflected="yes" postag="VER:.+" postag_regexp="yes">geben</token>
-            </pattern>
-            <message>&getrennt;: Meinten Sie das Verb <suggestion>\1\2</suggestion>?</message>
-            <short>&getrennt;.</short>
-            <example type="correct">Das haben wir <marker>preisgeben</marker> müssen.</example>
-            <example type="incorrect" correction="preisgeben">Das haben wir <marker>preis geben</marker> müssen.</example>
-        </rule>
+        <rulegroup id="PREIS_GEBEN" name="Zusammen-/Getrenntschreibung: 'preis geben (preisgeben)'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>preis</token>
+                    <token inflected="yes" postag="VER:.+" postag_regexp="yes">geben</token>
+                </pattern>
+                <message>&getrennt;: Meinten Sie das Verb <suggestion>\1\2</suggestion>?</message>
+                <url>http://www.korrekturen.de/beliebte_fehler/preis_geben.shtml</url>
+                <short>&getrennt;.</short>
+                <example type="correct">Das haben wir <marker>preisgeben</marker> müssen.</example>
+                <example type="correct">Wird es einen <marker>Preis geben</marker>?</example>
+                <example type="incorrect" correction="preisgeben">Das haben wir <marker>preis geben</marker> müssen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">es|Geheimnis|nicht|Verfall|Versteck</token>
+                    <marker>
+                        <token>preis</token>
+                        <token inflected="yes" postag="VER:.+" postag_regexp="yes">geben</token>
+                    </marker>
+                </pattern>
+                <message>&getrennt;: Meinten Sie das Verb <suggestion><match no="2" case_conversion="alllower"/>\3</suggestion>?</message>
+                <url>http://www.korrekturen.de/beliebte_fehler/preis_geben.shtml</url>
+                <short>&getrennt;.</short>
+                <example type="correct">Sie wollte das Versteck nicht <marker>preisgeben</marker>.</example>
+                <example type="incorrect" correction="preisgeben">Sie wollte das Versteck nicht <marker>preis geben</marker>.</example>
+                <example type="incorrect" correction="preisgeben">Sie wollte das Versteck nicht <marker>Preis geben</marker>.</example>
+                <example type="incorrect" correction="preisgegeben">Sie hat es <marker>Preis gegeben</marker>.</example>
+                <example type="correct">Wird es einen <marker>Preis geben</marker>?</example>
+            </rule>
+        </rulegroup>
         <rule id="OST_ASIATISCH" name="Zusammen-/Getrenntschreibung: 'ost asiatisch (ostasiatisch)' u.ä.">
             <pattern case_sensitive="no">
                 <token regexp="yes">(nord|süd)?(west|ost)|nord|süd</token>
@@ -13020,7 +13124,7 @@ $Id$
                 <example type="correct">Ich kann keiner <marker>Fliege</marker> etwas zuleide tun!</example>
             </rule>
         </rulegroup>
-        <rulegroup id="PREIS_GROSS_KLEIN" name="Groß-/Kleinschreibung: 'gab Preis (preis)' etc.">
+        <rulegroup id="PREIS_SUBST" name="Groß-/Kleinschreibung: 'preis (Preis)' etc.">
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[uU]m</token>
@@ -20675,6 +20779,52 @@ $Id$
                 <example type="correct"><marker>Das bundlose Griffbrett</marker> ist schön.</example>
             </rule>
         </rulegroup>
+        <rule id="PASSIV_KEIN_PARTIZIP" name="Grammatik: fehlerhafte Passivkonstruktion (z.B. 'ist fahndet (gefahndet) worden')">
+            <pattern>
+                <token regexp="yes" skip="-1">bin|bist|ist|sind|seid|war|warst|waren|wart<exception scope="next" regexp="yes">,|–|\-|;|\:|und|oder</exception></token>
+                <marker>
+                    <token postag="VER:.*" postag_regexp="yes" skip="1"><exception negate_pos="yes" postag="VER:.*" postag_regexp="yes"/><exception postag=".*PA2.*" postag_regexp="yes"/><exception scope="next" regexp="yes">,|–|\-|;|\:|und|oder</exception></token>
+                 </marker>
+                <token regexp="yes">w[ou]rden</token>
+            </pattern>
+            <message>Bitte prüfen Sie, ob hier das Partizip Perfekt verwendet werden muss.</message>
+            <url>http://www.canoo.net/services/OnlineGrammar/Wort/Verb/Finit-Infinit/Part2.html#Anchor-Das-49575</url>
+            <example type="incorrect">Er ist <marker>schlagen</marker> worden.</example>
+            <example type="correct">Er ist <marker>geschlagen</marker> worden.</example>
+            <example type="incorrect">Es ist nach Einbrechern <marker>fahndet</marker> worden.</example>
+            <example type="correct">Es ist nach Einbrechern <marker>gefahndet</marker> worden.</example>
+            <example type="correct">Waren sie in der Stimmung zu <marker>schlagen</marker>, wurden die geschlagen.</example>
+            <example type="correct">Der Platz war nie <marker>überbaut</marker> worden.</example>
+            <example type="incorrect">Ein Jahr zuvor waren 76.000 Tonnen <marker>waren</marker> umgeladen worden.</example>
+        </rule>
+<!--        <rule id="DOPPELTES_PERFEKT" name="Umgangssprache: Doppeltes Perfekt (z.B. 'Ich habe das geschrieben gehabt')">
+            <pattern>
+                <token regexp="yes" skip="-1">haben?|habt|hast|bin|bist|ist|sind|seid<exception scope="next" regexp="yes">,|–|\-|;|\:|und|oder</exception></token>
+                <marker>
+                    <token postag="PA2.*" postag_regexp="yes"><exception negate_pos="yes" postag=".*PA2.*" postag_regexp="yes"/></token>
+                    <token regexp="yes">gehabt|gewesen</token>
+                </marker>
+            </pattern>
+            <message>Das doppelte Perfekt ('\1 \2 \3') ist keine standardsprachlich zulässige Zeitform. Verwenden Sie stattdessen das Plusquamperfekt</message>
+            <url>http://www.canoo.net/services/OnlineGrammar/InflectionRules/FRegeln-V/Texte/Komplex-Perf.html#Anchor-Doppeltes-47857</url>
+            <example type="incorrect">Ich habe das <marker>geschrieben gehabt</marker>.</example>
+            <example type="correct">Ich hatte das <marker>geschrieben</marker>.</example>
+            <example type="correct">Diese Reise ist <marker>geplant gewesen</marker>.</example> TODO
+        </rule>-->
+<!--        <rule id="DOPPELTES_PLUSQUAMPERFEKT" name="Umgangssprache: Doppeltes Plusquamperfekt (z.B. 'Ich hatte das geschrieben gehabt')">
+            <pattern>
+                <token regexp="yes" skip="-1">hatten?|hattes?t|wars?t|war|waren<exception scope="next" regexp="yes">,|–|\-|;|\:|und|oder</exception></token>
+                <marker>
+                    <token postag="PA2.*" postag_regexp="yes"><exception negate_pos="yes" postag=".*PA2.*" postag_regexp="yes"/></token>
+                    <token regexp="yes">gehabt|gewesen</token>
+                </marker>
+            </pattern>
+            <message>Das doppelte Plusquamperfekt ('\1 \2 \3') ist keine standardsprachlich zulässige Zeitform. Verwenden Sie stattdessen das Plusquamperfekt oder Adverbien wie 'bereits' oder 'vorher'.</message>
+            <url>http://www.canoo.net/services/OnlineGrammar/InflectionRules/FRegeln-V/Texte/Komplex-Plusquam.html#Anchor-Doppeltes-49575</url>
+            <example type="incorrect">Ich hatte das <marker>geschrieben gehabt</marker>.</example>
+            <example type="correct">Ich hatte das <marker>geschrieben</marker>.</example>
+            <example type="correct">Diese Reise war <marker>geplant gewesen</marker>.</example> TODO
+        </rule>-->
         <rule id="AUSSER_LANDES" name="Grammatik: 'außer Lande (Landes)'">
             <pattern>
                 <token>außer</token>
@@ -22737,7 +22887,7 @@ $Id$
     <!-- Typographie -->
     <!-- ====================================================================== -->
     <category name="Typographie">
-        <rulegroup id="TYPOGRAFISCHE_ANFUEHRUNGSZEICHEN" name="Zeichensetzung/Typographie: Typografische Anführungszeichen">
+        <rulegroup id="TYPOGRAFISCHE_ANFUEHRUNGSZEICHEN" name="Zeichensetzung/Typographie: Typografische Anführungszeichen und Prime">
             <!-- TODO: mit  spacebefore="no/yes" öffnende und schließende Anführungszeichen unterscheiden und entsprechend vorschlagen? -->
             <!-- TODO: default="off"? An geraden Anführungszeichen ist ja nichts falsch, sie sind bloß hässlich. -->
             <rule>
@@ -22789,7 +22939,7 @@ $Id$
                 <pattern>
                     <marker>
                         <token spacebefore="yes">&gt;</token>
-                        <token skip="-1" spacebefore="no" regexp="yes">[A-ZÄÖÜa-zäöüßáàâêéèëíìîïòóôõûçñšž]+</token>
+                        <token skip="-1" spacebefore="no" regexp="yes">[a-zäöüßáàâêéèëíìîïòóôõûçñšž]+</token>
                         <token spacebefore="no">&lt;</token>
                     </marker>
                 </pattern>
@@ -22803,7 +22953,7 @@ $Id$
                     <marker>
                         <token spacebefore="yes">&gt;</token>
                         <token spacebefore="no">&gt;</token>
-                        <token skip="-1" spacebefore="no" regexp="yes">[A-ZÄÖÜa-zäöüßáàâêéèëíìîïòóôõûçñšž]+</token>
+                        <token skip="-1" spacebefore="no" regexp="yes">[a-zäöüßáàâêéèëíìîïòóôõûçñšž]+</token>
                         <token spacebefore="no">&lt;</token>
                         <token spacebefore="no">&lt;</token>
                     </marker>
@@ -22923,7 +23073,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes" negate="yes" negate_pos="yes" postag="SENT_START">&nbsp;|&nnbsp;|&thinsp;|&klamauf;|&anfauf;|[a-zäöüÄÖÜ]</token>
+                    <token regexp="yes" negate="yes" negate_pos="yes" postag="SENT_START">&nbsp;|&nnbsp;|&thinsp;|&klamauf;|&anfauf;|[a-zäöü]</token>
                     <marker>
                         <token spacebefore="no">…</token>
                     </marker>
