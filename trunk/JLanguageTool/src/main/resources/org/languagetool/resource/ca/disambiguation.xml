@@ -2783,6 +2783,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="V.*"></disambig>
     </rule>
+    <rule id="si_conjuncio" name="si conjunció">
+        <pattern>
+            <token><exception regexp="yes">el|un</exception></token>
+            <marker>
+                <token>si</token>
+            </marker>
+            <token postag="R.*|V.[MSI].*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filter" postag="[^N].*"></disambig>
+    </rule>
     <rule id="infinitiu_nomverb_nom0" name="infinitiu + verb/nom + nom">
         <!-- Per a berenar menges pa-->
         <pattern>
