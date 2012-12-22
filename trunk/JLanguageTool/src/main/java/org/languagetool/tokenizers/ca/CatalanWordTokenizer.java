@@ -88,7 +88,7 @@ public class CatalanWordTokenizer implements Tokenizer {
 		final List<String> l = new ArrayList<String>();
 		final StringTokenizer st = new StringTokenizer(text.replaceAll("([\\p{L}])['’]([\\p{L}])", "$1##CA_APOS##$2")
 				.replaceAll("([\\p{L}])-([\\p{L}])-([\\p{L}])", "$1##CA_HYPHEN##$2##CA_HYPHEN##$3")  //it's necessary for words like "vint-i-quatre" 
-				.replaceAll("([\\p{Ll}])-([\\p{Ll}])", "$1##CA_HYPHEN##$2"),
+				.replaceAll("([\\p{L}])-([\\p{Ll}\\d])", "$1##CA_HYPHEN##$2"),
 				"\u0020\u00A0\u115f\u1160\u1680" 
 						+ "\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007"
 						+ "\u2008\u2009\u200A\u200B\u200c\u200d\u200e\u200f"

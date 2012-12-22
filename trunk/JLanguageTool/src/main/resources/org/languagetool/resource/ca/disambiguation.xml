@@ -90,13 +90,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token postag="RG" regexp="yes">.+ment|molt|poc|tant|tan|aleshores|alhora|almanco|almenys|aviat|bastant|ben|encara|força|gaire|gairebé|gens|inclús|ja|llavors|mai|massa|menys|mig|millor|més|no|només|pas|pitjor|potser|prompte|prou|quasi|quelcom|sempre|sobretot|sols|suara|també|tampoc|tanmateix|tostemps|tot|tothora|àdhuc</token>
         </pattern>
         <disambig action="add"><wd pos="RG_anteposat"></wd></disambig>
-    </rule>
-    <rule id="MOT_FORASTER" name="paraula no catalana">
-        <pattern>
-            <token postag="UNKNOWN" regexp="yes">.*ñ.*|.*á.*|.+ón|.+ía|.+íes|.+ch.+</token>
-        </pattern>
-        <disambig action="add"><wd pos="mot_foraster"></wd></disambig>
-    </rule>  
+    </rule> 
     <rulegroup id="CONTRACCIONS" name="contraccions">
         <rule>
             <pattern>
@@ -572,7 +566,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="add"><wd pos="NPCS000"></wd></disambig>
         </rule>
-        <rule>
+        <!-- <rule>
             <pattern>
                 <token postag="D[^R].*" postag_regexp="yes" negate_pos="yes"/>
                 <marker>
@@ -580,7 +574,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
             </pattern>
             <disambig action="add"><wd pos="NPCN000"></wd></disambig>
-        </rule>    
+        </rule>   -->  
         <rule id="nom_persona_o_geogràfic" name="nom de persona o geogràfic: a l'Àfrica?">
             <pattern>
                 <token skip="1">a</token>
@@ -740,14 +734,13 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rule>
     <rule id="noNom2" name="FA LA no nom">
         <pattern>
+            <token><exception postag="D[DAI]0MS0" postag_regexp="yes" regexp="yes">el|un|aquest|algun</exception></token>
             <marker>
                 <token regexp="yes">fa|la</token>                
             </marker>
             <token><exception regexp="yes">menor|major|sostingut|bemoll|diesi|becaire</exception></token>
         </pattern>
-        <disambig>
-            <match no="1" postag_regexp="yes" postag="[^N].*"></match>
-        </disambig>
+        <disambig action="filter" postag="[^N].*"/>
     </rule>
     <rule id="nAdj" name="no adjectiu">
         <!--  paraules comunes que no solen ser adjectiu gairebé mai -->
@@ -7467,6 +7460,20 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="add"><wd pos="hac_aspirada"></wd></disambig>
         </rule>
     </rulegroup>
+    <rulegroup id="MOT_FORASTER" name="paraula no catalana">
+        <rule>
+            <pattern>
+                <token postag="UNKNOWN" regexp="yes">.*ñ.*|.*á.*|.+ón|.+ía|.+íes|.+ch.+</token>
+            </pattern>
+            <disambig action="add"><wd pos="mot_foraster"></wd></disambig>
+        </rule> 
+        <rule>
+            <pattern>
+                <token>agua</token>
+            </pattern>
+            <disambig action="add"><wd pos="mot_foraster"></wd></disambig>
+        </rule>
+    </rulegroup>    
     <rulegroup id="verb_reflexiu" name="verb acomopanyat de pronom reflexiu">
         <rule>
             <pattern>

@@ -5702,7 +5702,7 @@ $Id$
             <rule>
                 <pattern>
                     <token>de</token>
-                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].*|el|els|a|e|i|o|u|efa|ef|efe|hac|ela|ele|ema|eme|em|ena|ene|en|erra|erre|er|essa|esse|es|ics|iure</exception><exception inflected="yes">ordinal</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN" postag_regexp="yes"/></token>
+                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].*|hosts?|el|els|a|e|i|o|u|efa|ef|efe|hac|ela|ele|ema|eme|em|ena|ene|erra|erre|essa|esse|ics|iure</exception><exception inflected="yes">ordinal</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|V.[MSI].*|NP..000" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Cal escriure: <suggestion>d'<match no="2"></match></suggestion>.</message>
                 <short>Error ortogràfic</short>
@@ -5712,12 +5712,12 @@ $Id$
                 <example type="correct">de Hubble</example>
                 <example type="correct">de atletismo</example>
                 <example type="correct">de Iugoslàvia</example>
-                
+                <example type="correct">el 23 de agosto de 1984</example>
             </rule>
             <rule>
                 <pattern>
                     <token>el</token>
-                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+|o|i</exception><exception inflected="yes">ordinal</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN" postag_regexp="yes"/></token>
+                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+|o|i|host</exception><exception inflected="yes">ordinal</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Cal escriure: <suggestion>l'<match no="2"></match></suggestion>.</message>
                 <short>Error ortogràfic</short>
@@ -5732,7 +5732,7 @@ $Id$
                 <pattern>
                     <marker>
                         <token postag="DA0MS0">en</token>
-                        <token postag="NPMSSP0" regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN" postag_regexp="yes"/></token>
+                        <token postag="NPMSSP0" regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="V...[12].." postag_regexp="yes" negate_pos="yes" />
                 </pattern>
@@ -5747,7 +5747,7 @@ $Id$
                 <pattern>
                     <token>de</token>
                     <token spacebefore="no">l</token>
-                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+|o|i</exception><exception inflected="yes">ordinal</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN" postag_regexp="yes"/></token>
+                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+|o|i|host</exception><exception inflected="yes">ordinal</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Cal escriure: <suggestion>de l'<match no="3"></match></suggestion>.</message>
                 <short>Error ortogràfic</short>
@@ -5761,7 +5761,7 @@ $Id$
                 <pattern>
                     <token>a</token>
                     <token spacebefore="no">l</token>
-                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+|o|i</exception><exception inflected="yes">ordinal</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN" postag_regexp="yes"/></token>
+                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+|o|i|host</exception><exception inflected="yes">ordinal</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Cal escriure: <suggestion>a l'<match no="3"></match></suggestion>.</message>
                 <short>Error ortogràfic</short>
@@ -5775,7 +5775,7 @@ $Id$
                 <pattern>
                     <token>pe</token>
                     <token spacebefore="no">l</token>
-                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+|o|i</exception><exception inflected="yes">ordinal</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN" postag_regexp="yes"/></token>
+                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+|o|i|host</exception><exception inflected="yes">ordinal</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Cal escriure: <suggestion>per l'<match no="3"></match></suggestion>.</message>
                 <short>Error ortogràfic</short>
@@ -5845,32 +5845,6 @@ $Id$
                 <example type="correct">d'ionització</example>
                 <example type="correct">ve d'Iowa.</example>
             </rule> 
-        </rulegroup>
-        <rulegroup id="L_D_NOM_LLETRA" name="apostrofació: no davant de nom de lletra">                        
-            <rule>
-                <pattern>
-                    <token>d'</token>
-                    <token regexp="yes">a|e|i|o|efa|ef|efe|hac|ela|el|ele|ema|eme|em|ena|ene|en|erra|erre|er|essa|esse|es|ics</token>
-                </pattern>
-                <message>Els noms de lletra no s'apostrofen. Cal escriure: <suggestion>de <match no="2"></match></suggestion>.</message>
-                <short>Error ortogràfic</short>
-                <example type="incorrect">Darrere <marker>d'essa</marker></example>
-                <example type="correct">Darrere de essa</example>
-                <example type="correct">d'u a cinc</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>l'</token>
-                    <token regexp="yes">a|e|i|o|efa|ef|efe|hac|ela|el|ele|ema|eme|em|ena|ene|en|erra|erre|er|essa|esse|es|ics</token>
-                </pattern>
-                <message>Els noms de lletra no s'apostrofen. Cal escriure: <suggestion>la <match no="2"></match></suggestion>.</message>
-                <short>Error ortogràfic</short>
-                <example type="incorrect">Darrere de <marker>l'essa</marker></example>
-                <example type="correct">Darrere la essa</example>
-                <example type="correct">de l'u al cinc</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="LA_NA_NOM_FEMENI" name="apostrofació: la/na + femení"> 
             <rule>
                 <pattern>
                     <token>l'</token>
@@ -5883,6 +5857,34 @@ $Id$
                 <example type="correct">l'uixer</example>
                 <example type="correct">l'Uixó</example>
             </rule>
+        </rulegroup>
+        <rulegroup id="L_D_NOM_LLETRA" name="apostrofació: no davant de nom de lletra">                        
+            <rule>
+                <pattern>
+                    <token>d'</token>
+                    <token regexp="yes">a|e|i|o|efa|ef|efe|hac|ela|ele|ema|eme|em|ena|ene|erra|erre|er|essa|esse|ics<exception regexp="yes">(?-i)I</exception></token>
+                </pattern>
+                <message>Els noms de lletra no s'apostrofen. Cal escriure: <suggestion>de <match no="2"></match></suggestion>.</message>
+                <short>Error ortogràfic</short>
+                <example type="incorrect">Darrere <marker>d'essa</marker></example>
+                <example type="correct">Darrere de essa</example>
+                <example type="correct">d'u a cinc</example>
+                <example type="correct">La casa d'en Joan</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>l'</token>
+                    <token regexp="yes">a|e|i|o|efa|ef|efe|hac|ela|ele|ema|eme|em|ena|ene|er|essa|esse|ics<exception regexp="yes">(?-i)I</exception></token>
+                </pattern>
+                <message>Els noms de lletra no s'apostrofen. Cal escriure: <suggestion>la <match no="2"></match></suggestion>.</message>
+                <short>Error ortogràfic</short>
+                <example type="incorrect">Darrere de <marker>l'essa</marker></example>
+                <example type="correct">Darrere la essa</example>
+                <example type="correct">de l'u al cinc</example>
+                <example type="correct">Enllaça amb l'A-7</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="LA_NA_NOM_FEMENI" name="apostrofació: la/na + femení">
             <rule>
                 <pattern>
                     <token>l'</token>
@@ -5928,7 +5930,7 @@ $Id$
             <rule>
                 <pattern>
                     <token>la</token>
-                    <token regexp="yes">h?[aeoàèéíòóú].*|h?[ui][^aeiouàèéíòóúüï]+[aeiou][ns]?|urbs<exception regexp="yes">host|ira|inxa|[aeiou]|efa|hac|ela|ema|ena|erra|essa|ics|una</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN" postag_regexp="yes"/><exception regexp="yes">(?-i)Haia</exception></token>
+                    <token regexp="yes">h?[aeoàèéíòóú].*|h?[ui][^aeiouàèéíòóúüï]+[aeiou][ns]?|urbs<exception regexp="yes">host|ira|inxa|[aeiou]|efa|hac|ela|ema|en|ena|ene|er|erra|erre|essa|ics|una</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/><exception regexp="yes">(?-i)Haia</exception></token>
                 </pattern>
                 <message>Cal escriure: <suggestion>l'<match no="2"></match></suggestion>.</message>
                 <short>Error ortogràfic</short>
@@ -5955,7 +5957,7 @@ $Id$
             <rule>
                 <pattern>
                     <token>na</token>
-                    <token postag="N.FS.*" postag_regexp="yes" regexp="yes">h?[aeoàèéíòóú].*|h?[ui][^aeiouàèéíòóúüï]+[aeiou][ns]?|urbs<exception regexp="yes">host|ira|inxa</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN" postag_regexp="yes"/></token>
+                    <token postag="N.FS.*" postag_regexp="yes" regexp="yes">h?[aeoàèéíòóú].*|h?[ui][^aeiouàèéíòóúüï]+[aeiou][ns]?|urbs<exception regexp="yes">host|ira|inxa</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Cal escriure: <suggestion>n'<match no="2"></match></suggestion>.</message>
                 <short>Error ortogràfic</short>
@@ -5968,7 +5970,7 @@ $Id$
             <rule>
                 <pattern>
                     <token>cal</token>
-                    <token postag="NPMSSP0" regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóò].+</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN" postag_regexp="yes"/></token>
+                    <token postag="NPMSSP0" regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóò].+</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Cal escriure: <suggestion>ca l'<match no="2"></match></suggestion>.</message>
                 <short>Error d'apostrofació</short>
@@ -5978,7 +5980,7 @@ $Id$
             <rule>
                 <pattern>
                     <token postag="contraccio">cal</token>
-                    <token postag="N.[MC][SN].*|AQ0[MC][SN]0" postag_regexp="yes" regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóò].+</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN" postag_regexp="yes"/></token>
+                    <token postag="N.[MC][SN].*|AQ0[MC][SN]0" postag_regexp="yes" regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóò].+</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Cal escriure: <suggestion>ca l'<match no="2"></match></suggestion>.</message>
                 <short>Error d'apostrofació</short>
@@ -12706,7 +12708,7 @@ $Id$
             <url>http://esadir.cat/lexic/entrades/assentarse</url>
             <example type="incorrect" correction="asseure">Es van <marker>assentar</marker> a taula.</example>
             <example type="incorrect" correction="assegué">Joan s'<marker>assentà</marker> a la cadira.</example>
-            <example type="correct">Els israelians s'assentaren a Cisjordània.</example>
+            <!-- <example type="correct">Els israelians s'assentaren a Cisjordània.</example> -->
             <example type="correct">S'assentaren en aquell territori.</example>
             <example type="correct">Volien que assentéssim les bases del futur.</example>
             <example type="correct">S'assentaren a Argentina.</example>
