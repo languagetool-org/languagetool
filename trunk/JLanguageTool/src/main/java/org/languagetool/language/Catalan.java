@@ -46,14 +46,14 @@ import org.languagetool.tagging.ca.CatalanTagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.ca.CatalanHybridDisambiguator;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
-//import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.ca.CatalanWordTokenizer;
 
 public class Catalan extends Language {
 
   private Tagger tagger;
-  //private SentenceTokenizer sentenceTokenizer;
+  private SentenceTokenizer sentenceTokenizer;
   private Tokenizer wordTokenizer;
   private Synthesizer synthesizer;
   private Disambiguator disambiguator;
@@ -133,13 +133,13 @@ public class Catalan extends Language {
     return synthesizer;
   }
 
-//  @Override
-//  public final SentenceTokenizer getSentenceTokenizer() {
-//    if (sentenceTokenizer == null) {
-//      sentenceTokenizer = new SRXSentenceTokenizer(this);
-//    }
-//    return sentenceTokenizer;
-//  }
+  @Override
+  public final SentenceTokenizer getSentenceTokenizer() {
+    if (sentenceTokenizer == null) {
+      sentenceTokenizer = new SRXSentenceTokenizer(this);
+    }
+    return sentenceTokenizer;
+  }
   
   @Override
   public Unifier getUnifier() {
