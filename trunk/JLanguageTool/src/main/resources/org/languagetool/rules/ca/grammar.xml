@@ -1437,12 +1437,15 @@ $Id$
                     <marker>
                         <token postag="V.*" postag_regexp="yes" inflected="yes">dormir</token>
                     </marker>
-                    <token postag="_GN_.*" postag_regexp="yes" />
+                    <token postag="_GN_.*" postag_regexp="yes"><exception regexp="yes" inflected="yes">cada|numeral</exception></token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(dorm.*)" regexp_replace="a$1"/></suggestion>?</message>
                 <example type="incorrect" correction="adormir">Joan va <marker>dormir</marker> la nena.</example>
                 <example type="incorrect" correction="adormit">Joan ha <marker>dormit</marker> el nen.</example>
                 <example type="correct">Joan va adormir el nen.</example>
+                <example type="correct">Joan dorm cada vegada més</example>
+                <example type="correct">Joan dorm tres hores</example>
+                <example type="correct">Joan dorm 24 hores</example>
             </rule>
         </rulegroup>
         <rulegroup id="VERBS_PRONOMINALS" name="verbs reflexius: desperta't"> 
@@ -5656,9 +5659,10 @@ $Id$
             </rule>
             <rule>
                 <pattern>
+                    <token postag="SENT_START" skip="-1"><exception scope="next" inflected="yes" regexp="yes">trobar|tenir</exception></token>
                     <marker>
                         <token postag="DA0MS0">en</token>
-                        <token postag="NPMSSP0" regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
+                        <token postag="NPMSSP0" regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/><exception regexp="yes">Aristòtil|Homer|Empèdocles</exception></token>
                     </marker>
                     <token postag="V...[12].." postag_regexp="yes" negate_pos="yes" />
                 </pattern>
@@ -5668,6 +5672,7 @@ $Id$
                 <example type="correct"><marker>N'Antoni</marker>.</example>
                 <example type="correct">en Harrison Ford</example>
                 <example type="correct">el premi recaigué en Eudard.</example>
+                <example type="correct">Va trobar el seu millor amic en Antoni.</example>
             </rule>
             <rule>
                 <pattern>
@@ -5786,7 +5791,7 @@ $Id$
         </rulegroup>
         <rulegroup id="L_D_NOM_LLETRA" name="apostrofació: no davant de nom de lletra">                        
             <rule>
-                <pattern>
+                <pattern case_sensitive="yes">
                     <token>d'</token>
                     <token regexp="yes">a|e|i|o|efa|ef|efe|hac|ela|ele|ema|eme|em|ena|ene|erra|erre|er|essa|esse|ics<exception regexp="yes">(?-i)I</exception></token>
                 </pattern>
@@ -5798,7 +5803,7 @@ $Id$
                 <example type="correct">La casa d'en Joan</example>
             </rule>
             <rule>
-                <pattern>
+                <pattern case_sensitive="yes">
                     <token>l'</token>
                     <token regexp="yes">a|e|i|o|efa|ef|efe|hac|ela|ele|ema|eme|em|ena|ene|er|essa|esse|ics<exception regexp="yes">(?-i)I</exception></token>
                 </pattern>
@@ -5871,13 +5876,20 @@ $Id$
             </rule>
             <rule>
                 <pattern>
+                    <token postag="SENT_START" skip="-1"><exception scope="next" inflected="yes" regexp="yes">migdia|dinar|menjar|sopar|.*dormir|hora</exception></token>
+                    <marker>
                     <token>la</token>
-                    <token>una</token>
+                    <token skip="-1">una<exception scope="next" inflected="yes" regexp="yes">migdia|dinar|menjar|sopar|.*dormir|hora</exception></token>
+                    </marker>
+                    <token postag="SENT_END"/>
                 </pattern>
                 <message>Si no és una referència horària (la una de migdia, la una de la nit), cal apostrofar: <suggestion>l'una</suggestion>.</message>
                 <short>Error ortogràfic</short>
                 <example type="incorrect" correction="l'una">Hem d'anar tots a <marker>la una</marker>.</example>
                 <example type="correct">l'una és alta, l'altra és baixa</example>
+                <example type="correct">A la una hem de ser allà per a dinar.</example>
+                <example type="correct">Me'n vaig anar a dormir a la una.</example>
+                <example type="correct">cada dia a la una i a les tres del migdia.</example>
                 <!-- <example type="correct">A la una hem d'anar tots allà.</example> -->
             </rule>
             <rule>
