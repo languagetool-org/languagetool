@@ -7219,7 +7219,7 @@ $Id$
             <pattern>
                 <token regexp="yes">Masseusen?</token>
             </pattern>
-            <message>Meinten Sie '<suggestion>Masseurin</suggestion>' (die weibliche Form von 'Masseur')? 'Masseuse' ist eine veraltet Form und bezeichnet heute vor allem eine Prostituierte.</message>
+            <message>Meinten Sie '<suggestion>Masseurin</suggestion>' (die weibliche Form von 'Masseur')? 'Masseuse' ist eine veraltete Form und bezeichnet heute vor allem eine Prostituierte.</message>
             <url>http://www.duden.de/rechtschreibung/Masseuse</url>
             <short>Veraltetes/mehrdeutiges Wort</short>
             <example type="incorrect" correction="Masseurin">Stellenangebot Physiotherapeutin oder <marker>Masseuse</marker> in München</example>
@@ -7261,6 +7261,17 @@ $Id$
                 <example type="correct">Diese Wörter haben <marker>ungefähr</marker> dieselbe Bedeutung.</example>
                 <example type="correct">Diese Wörter haben <marker>genau</marker> dieselbe Bedeutung.</example>
                 <example type="correct">Diese Wörter haben dieselbe Bedeutung.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="IMMER_NIE" name="Unstimmigkeit: 'immer nie'">
+            <rule>
+                <pattern>
+                    <token>immer</token>
+                    <token>nie</token>
+                </pattern>
+                <message>&unstimmig; Bitte wählen Sie zwischen <suggestion>\1</suggestion> und <suggestion>\2</suggestion>. Meist ist mit dieser Formulierung eigentlich "nie" gemeint.</message>
+                <example type="incorrect" correction="immer|nie">Ich weiß <marker>immer nie</marker>, wo ich anfangen soll.</example>
+                <example type="correct">Ich weiß <marker>nie</marker>, wo ich anfangen soll.</example>
             </rule>
         </rulegroup>
         <rulegroup id="RUNDE_ECKEN" name="Unstimmigkeit: 'runde Ecken'">
@@ -9619,7 +9630,7 @@ $Id$
                     </marker>
                     <token>von</token>
                 </pattern>
-                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion> hier als substantiviertes Verb gebraucht wird und dementsprechend großgeschrieben werden muss.</message>
                 <short>&prgk;.</short>
                 <example type="correct">Durch das <marker>Importieren</marker> von Klassen ist es möglich, auf die Funktionen zuzugreifen.</example>
                 <example type="correct">Du musst das <marker>importieren</marker>, damit du die Funktion benutzen kannst.</example>
@@ -10310,6 +10321,49 @@ $Id$
             <example type="correct">Frühling lässt sein blaues Band wieder flattern durch die <marker>Lüfte</marker>.</example>
             <example type="incorrect" correction="Lüfte">Frühling lässt sein blaues Band wieder flattern durch die <marker>lüfte</marker>.</example>
         </rule>
+        <rule id="LUG_UND_TRUG" name="Groß-/Kleinschreibung: 'Lug und trug (Trug)'">
+            <pattern case_sensitive="yes">
+                <token>Lug</token>
+                <token>und</token>
+                <marker>
+                    <token>trug</token>
+                </marker>
+            </pattern>
+            <message>In dieser Wendung wird <suggestion>Trug</suggestion> als Substantiv großgeschrieben.</message>
+            <short>&prgk;.</short>
+            <example type="correct">Lug und <marker>Trug</marker> in der City.</example>
+            <example type="incorrect" correction="Trug">Lug und <marker>trug</marker> in der City.</example>
+        </rule>
+        <rule id="RAND_UND_BAND" name="Groß-/Kleinschreibung: 'außer Rand und band (Band)'">
+            <pattern case_sensitive="yes">
+                <token regexp="yes">[aA]ußer</token>
+                <token>Rand</token>
+                <token>und</token>
+                <marker>
+                    <token>band</token>
+                </marker>
+            </pattern>
+            <message>In dieser Wendung wird <suggestion>Band</suggestion> als Substantiv großgeschrieben.</message>
+            <short>&prgk;.</short>
+            <example type="correct">Die Börse ist außer Rand und <marker>Band</marker>.</example>
+            <example type="correct">Er lehnte sich über den Rand und <marker>band</marker> das Seil fest.</example>
+            <example type="incorrect" correction="Band">Die Börse ist außer Rand und <marker>band</marker>.</example>
+        </rule>
+        <rule id="MASS_SUBST" name="Groß-/Kleinschreibung: 'das maß (Maß) aller Dinge' etc.">
+            <pattern case_sensitive="yes">
+                <token regexp="yes">[dD]as|[zZ]um|[aA]ls</token>
+                <marker>
+                    <token>maß</token>
+                </marker>
+                <token>aller</token>
+                <token>Dinge</token>
+            </pattern>
+            <message>&subanfang;<suggestion>Maß</suggestion>&subende;</message>
+            <short>&prgk;.</short>
+            <example type="incorrect" correction="Maß">Die Aussage, der Mensch sei das <marker>maß</marker> aller Dinge, wird Protagoras zugeschrieben.</example>
+            <example type="correct">Die Aussage, der Mensch sei das <marker>Maß</marker> aller Dinge, wird Protagoras zugeschrieben.</example>
+            <example type="correct">Das Zimmer <marker>maß</marker> zwei mal zwei Meter.</example>
+        </rule>
         <rule id="SEGEL_SUBST" name="Groß-/Kleinschreibung: 'den Wind aus den segeln (Segeln) nehmen'">
             <pattern case_sensitive="yes">
                 <token>aus</token>
@@ -10839,6 +10893,34 @@ $Id$
                 <short>&prgk;.</short>
                 <example type="correct">Das war Selbstmord auf <marker>Raten</marker>.</example>
                 <example type="incorrect" correction="Raten">Das war Selbstmord auf <marker>raten</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ZU_GRABE_TRAGEN" name="Groß-/Kleinschreibung: 'zu grabe (Grabe) tragen'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[Zz]u</token>
+                    <marker>
+                        <token>grabe</token>
+                    </marker>
+                    <token inflected="yes">tragen</token>
+                </pattern>
+                <message>&inwend;'zu Grabe tragen' wird <suggestion>Grabe</suggestion> großgeschrieben.</message>
+                <short>&prgk;.</short>
+                <example type="correct">Er hat seine Frau zu <marker>Grabe</marker> getragen.</example>
+                <example type="incorrect" correction="Grabe">Er hat seine Frau zu <marker>grabe</marker> getragen.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes" skip="3">tragen</token>
+                    <token>zu</token>
+                    <marker>
+                        <token>grabe</token>
+                    </marker>
+                </pattern>
+                <message>&inwend;'zu Grabe tragen' wird <suggestion>Grabe</suggestion> großgeschrieben.</message>
+                <short>&prgk;.</short>
+                <example type="correct">Sie tragen die Vernunft zu <marker>Grabe</marker>.</example>
+                <example type="incorrect" correction="Grabe">Sie tragen die Vernunft zu <marker>grabe</marker>.</example>
             </rule>
         </rulegroup>
         <rule id="ZU_UNRECHT" name="Groß-/Kleinschreibung: 'zu unrecht (Unrecht)'">
@@ -11902,34 +11984,63 @@ $Id$
                 <example type="incorrect">Da schwinden einem die <marker>sinne</marker>.</example>
             </rule>
         </rulegroup>
-        <rule id="SINN_UND_VERSTAND" name="Groß-/Kleinschreibung: 'mit/ohne Sinn und verstand (Verstand)'">
-            <pattern case_sensitive="yes">
-                <token regexp="yes" skip="1">[mM]it|[oO]hne</token>
-                <token>Sinn</token>
-                <token regexp="yes">und|oder</token>
-                <marker>
-                    <token>verstand</token>
-                </marker>
-            </pattern>
-            <message>&subanfang;<suggestion>Verstand</suggestion>&subende;</message>
-            <short>&prgk;.</short>
-            <example type="correct">Aber bitte mit Sinn und <marker>Verstand</marker>!</example>
-            <example type="incorrect">Aber bitte mit Sinn und <marker>verstand</marker>!</example>
-        </rule>
-        <rule id="MEHR_GLUECK_ALS_VERSTAND" name="Groß-/Kleinschreibung: 'Mehr Glück als verstand (Verstand)'">
-            <pattern case_sensitive="yes">
-                <token regexp="yes">[mM]ehr</token>
-                <token>Glück</token>
-                <token>als</token>
-                <marker>
-                    <token>verstand</token>
-                </marker>
-            </pattern>
-            <message>&subanfang;<suggestion>Verstand</suggestion>&subende;</message>
-            <short>&prgk;.</short>
-            <example type="correct">Da haben wir mehr Glück als <marker>Verstand</marker> gehabt.</example>
-            <example type="incorrect">Da haben wir mehr Glück als <marker>verstand</marker> gehabt.</example>
-        </rule>
+        <rulegroup id="SINN_UND_VERSTAND" name="Groß-/Kleinschreibung: 'mit/ohne Sinn und verstand (Verstand)' etc.">
+            <rule>
+			    <pattern case_sensitive="yes">
+                    <token regexp="yes" skip="1">[mM]it|[oO]hne</token>
+                    <token>Sinn</token>
+                    <token regexp="yes">und|oder</token>
+                    <marker>
+                        <token>verstand</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Verstand</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Aber bitte mit Sinn und <marker>Verstand</marker>!</example>
+                <example type="incorrect" correction="Verstand">Aber bitte mit Sinn und <marker>verstand</marker>!</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[mM]ehr</token>
+                    <token>Glück</token>
+                    <token>als</token>
+                    <marker>
+                        <token>verstand</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Verstand</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Da haben wir mehr Glück als <marker>Verstand</marker> gehabt.</example>
+                <example type="incorrect" correction="Verstand">Da haben wir mehr Glück als <marker>verstand</marker> gehabt.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[dD]en</token>
+                    <marker>
+                        <token>verstand</token>
+                    </marker>
+                    <token inflected="yes">verlieren</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Verstand</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Hast du jetzt vollends den <marker>Verstand</marker> verloren?</example>
+                <example type="incorrect" correction="Verstand">Hast du jetzt vollends den <marker>verstand</marker> verloren?</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes" skip="2">verlieren</token>
+                    <token>den</token>
+                    <marker>
+                        <token>verstand</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Verstand</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Hast du jetzt vollends den <marker>Verstand</marker> verloren?</example>
+                <example type="incorrect" correction="Verstand">Verlierst du jetzt den <marker>verstand</marker>?</example>
+                <example type="incorrect" correction="Verstand">Ich verliere gleich den <marker>verstand</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="TREUE_SCHWOEREN" name="Groß-/Kleinschreibung: 'treue (Treue) schwören'">
             <rule>
                 <pattern case_sensitive="yes">
@@ -14333,7 +14444,7 @@ $Id$
             <rule>
                 <pattern case_sensitive="yes">
                     <marker>
-                        <token regexp="yes">([iI]nter)?[n|N]ationale[sn]?</token>
+                        <token regexp="yes">([iI]nter)?[nN]ationale[sn]?</token>
                         <token regexp="yes">olympische[sn]?</token>
                     </marker>
                     <token regexp="yes">Komitees?</token>
