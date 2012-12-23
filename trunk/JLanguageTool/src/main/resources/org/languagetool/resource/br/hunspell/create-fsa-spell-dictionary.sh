@@ -18,7 +18,7 @@ fi
 unzip -o dict-br_0.10.oxt dictionaries/br_FR.aff dictionaries/br_FR.dic
 
 # File .info is used by morfologik.
-ln -s br_FR.info .info
+ln -sf br_FR.info .info
 
 unmunch dictionaries/br_FR.dic dictionaries/br_FR.aff |
 sed -e "s/'/’/g" |
