@@ -1,18 +1,14 @@
 _______________________________________________________________________________
 
-   DICTIONNAIRE ORTHOGRAPHIQUE FRANÇAIS «CLASSIQUE & RÉFORME 1990»
-   version 4.5
+   DICTIONNAIRES ORTHOGRAPHIQUES FRANÇAIS
+   version 4.8
 
    Olivier R. - dicollecte<at>free<dot>fr
    Dicollecte : http://www.dicollecte.org/
 
-   Licences :
+   Licence :
    * MPL : Mozilla Public License
-     version 1.1 ou supérieure  --  http://www.mozilla.org/MPL/MPL-1.1.html
-   * GPL : GNU General Public License
-     version 2.0 ou supérieure  --  http://www.gnu.org/licenses/gpl-2.0.html
-   * LGPL : GNU Lesser General Public License
-     version 2.1 ou supérieure  --  http://www.gnu.org/licenses/lgpl-2.1.html
+     version 2.0  --  http://www.mozilla.org/MPL/2.0/
 
    Ce dictionnaire ne peut fonctionner qu’avec un logiciel utilisant le
    correcteur Hunspell : OpenOffice.org 3.2+, Firefox 4+, Thunderbird 5+
@@ -71,6 +67,6 @@ _______________________________________________________________________________
         Ce dictionnaire ne connaît que les graphies nouvelles des mots concernés
         par la réforme de 1990.
 
-    Dictionnaire «Classique & Réforme 1990»
+    Dictionnaire «Toutes variantes»
         Ce dictionnaire contient les nouvelles et les anciennes graphies des
         mots concernés par la réforme de 1990.
