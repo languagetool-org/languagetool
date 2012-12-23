@@ -6001,6 +6001,7 @@ though, and has since been slightly modified)-->
             </rule>
             <rule>
                 <pattern>
+                  <marker>
                     <and>
                         <token postag="V.* 3 s" postag_regexp="yes">
                             <exception postag="[^V].*" postag_regexp="yes"/>
@@ -6010,11 +6011,14 @@ though, and has since been slightly modified)-->
                         <token regexp="yes">.*[^aec]</token>
                     </and>
                     <token regexp="yes">il|on</token>
+                  </marker>
+                  <token><exception>y</exception></token>
                 </pattern>
                 <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
                 <example type="incorrect">Que <marker>prend il</marker> ?</example>
                 <example type="correct">Que prend-il ?</example>
                 <example type="correct">Notre point de <marker>départ on</marker> pouvait le voir d’ici.</example>
+                <example type="correct">Ce prédateur réintroduit il y a 30 ans.</example>
             </rule>
             <rule>
                 <pattern>
