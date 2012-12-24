@@ -123,7 +123,7 @@ public class Dutch extends Language {
 
   @Override
   public final Contributor[] getMaintainers() {
-    final Contributor contributor = new Contributor("Ruud Baars");
+    final Contributor contributor = new Contributor("OpenTaal");
     contributor.setUrl("http://www.opentaal.org");
     return new Contributor[] { contributor };
   }
