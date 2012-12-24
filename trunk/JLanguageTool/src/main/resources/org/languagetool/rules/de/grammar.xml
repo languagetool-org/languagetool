@@ -84,8 +84,8 @@ $Id$
     <!ENTITY meindein "&lsqb;mds&rsqb;ein|unser|euer|ihr">
     <!ENTITY tippformel "Tipp: Verwenden Sie in OpenOffice.org/LibreOffice für komplexe Formeln den Formeleditor &lsqb;Einfügen &gt; Objekt &gt; Formel&rsqb;">
     <!ENTITY odkomma "oder fehlt vielleicht ein Komma">
-    <!ENTITY verbendirekterede "befehlen|behaupten|denken|fragen|rufen|sagen|versichern">
-    <!ENTITY gefuehladj "böse|erzürnt|sauer|verärgert|wütend">
+    <!ENTITY verbendirekterede "befehlen|behaupten|denken|fragen|rufen|sagen|versichern|flüstern">
+    <!ENTITY gefuehladj "böse|erzürnt|sauer|verärgert|wütend|ärgerlich|enttäuscht|genervt">
 ]>
 
 <rules lang="de" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../rules.xsd">
@@ -2984,7 +2984,39 @@ $Id$
     <!-- ====================================================================== -->
     <category name="Leicht zu verwechselnde Wörter">
         <!-- TODO emphatisch/empathisch -->
-        <rule id="HARMONISIEREN" name="Mögliche Wortverwechslung: harmonisieren (harmonieren)">
+        <rulegroup id="FIKTIV_FIKTIONAL" name="Mögliche Wortverwechslung: fiktiv/fiktional">
+            <rule>
+			    <pattern case_sensitive="yes">
+                    <marker>
+                        <token inflected="yes">fiktiv</token>
+                      </marker>
+                    <token regexp="yes">Erzähl(ung)?(en)?|Roman(s|en?)?|Text(e[ns]?)?|Filme(s|en?)?|(Spiel|Fernseh|Kino)film(s|en?)?|Prosa</token>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="1" regexp_match="tiv" regexp_replace="tional"/></suggestion>? &#13;&#10;Als 'fiktiv' bezeichnet man in der Regel die irrealen Elemente einer Fiktion (Geschehnisse, Charaktere usw.). Texte, Filme usw., die die Fiktion erzeugen, bezeichnet man dagegen als 'fiktional'. &#13;&#10;Ein fiktiver Roman beispielsweise wäre demnach ein Roman, der nur im Rahmen einer Fiktion (beispielsweise in einem Spielfilm) existiert.</message>
+                <url>http://de.wikipedia.org/wiki/Fiktion#Fiktiv_vs._fiktional</url>
+                <short>Mögliche Wortverwechslung</short>
+                <example type="incorrect" correction="fiktionale">Man liest oft <marker>fiktive</marker> Texte im Deutschunterricht.</example>
+                <example type="correct">Man liest oft <marker>fiktionale</marker> Texte im Deutschunterricht.</example>
+                <example type="correct">Fiktionen handeln meist größtenteils von <marker>fiktiven</marker> Gegenständen.</example>
+            </rule>
+            <rule>
+			    <pattern case_sensitive="yes">
+                    <marker>
+                        <token inflected="yes">fiktional</token>
+                      </marker>
+                    <token regexp="yes">Welt(en)?|(Ereig|Gescheh)nis(sen?)?|(Person|Figur)(en)?|Gegenst(and(es)?|änden?)</token>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="1" regexp_match="tional" regexp_replace="tiv"/></suggestion>? &#13;&#10;Als 'fiktiv' bezeichnet man in der Regel die irrealen Elemente einer Fiktion (Geschehnisse, Charaktere usw.). Texte, Filme usw., die die Fiktion erzeugen, bezeichnet man dagegen als 'fiktional'. &#13;&#10;Ein fiktiver Roman beispielsweise wäre demnach ein Roman, der nur im Rahmen einer Fiktion (beispielsweise in einem Spielfilm) existiert.</message>
+                <url>http://de.wikipedia.org/wiki/Fiktion#Fiktiv_vs._fiktional</url>
+                <short>Mögliche Wortverwechslung</short>
+                <example type="incorrect" correction="fiktive">Man liest oft über <marker>fiktionale</marker> Ereignisse in Romanen.</example>
+                <example type="incorrect" correction="fiktiven">Fiktionen handeln meist größtenteils von <marker>fiktionalen</marker> Gegenständen.</example>
+                <example type="incorrect" correction="fiktive">Fiktionen entwerfen oft <marker>fiktionale</marker> Welten.</example>
+                <example type="correct">Fiktionen handeln meist größtenteils von <marker>fiktiven</marker> Gegenständen.</example>
+                <example type="correct">Man liest oft <marker>fiktionale</marker> Texte im Deutschunterricht.</example>
+            </rule>
+        </rulegroup>
+        <rule id="HARMONISIEREN" name="Mögliche Wortverwechslung: harmonisieren/harmonieren">
             <pattern>
                 <marker>
                     <token inflected="yes">harmonisieren</token>
@@ -2993,17 +3025,20 @@ $Id$
             </pattern>
             <message>Meinten Sie <suggestion><match no="1" regexp_match="harmonisier" regexp_replace="harmonier"/></suggestion> (übereinstimmen) statt 'harmonisieren' (in Übereinstimmung bringen)?</message>
             <url>http://www.korrekturen.de/beliebte_fehler/harmonisieren.shtml</url>
+            <short>Mögliche Wortverwechslung</short>
             <example type="incorrect" correction="harmoniert">Der Geschmack der Trauben und der Nüsse <marker>harmonisiert</marker> gut mit den eingelegten Pilzen.</example>
             <example type="incorrect" correction="harmonieren">Die <marker>harmonisieren</marker> gut mit den eingelegten Pilzen.</example>
             <example type="correct">Der Geschmack der Trauben und der Nüsse <marker>harmoniert</marker> gut mit den eingelegten Pilzen.</example>
             <example type="correct">Die <marker>harmonieren</marker> gut mit den eingelegten Pilzen.</example>
         </rule>
-        <rule id="KATHEDER" name="Mögliche Wortverwechslung: Katheder (Katheter)">
+        <rule id="KATHEDER" name="Mögliche Wortverwechslung: Katheder/Katheter">
+            <!-- TODO: False pos. vermeiden -->
             <pattern>
                 <token inflected="yes">Katheder</token>
             </pattern>
             <message>'Katheder' ist ein veraltetes Wort für ein Pult. Meinten Sie <suggestion><match no="1" regexp_match="Katheder" regexp_replace="Katheter"/></suggestion> (medizinischer Schlauch)?</message>
             <url>http://www.korrekturen.de/beliebte_fehler/katheder.shtml</url>
+            <short>Mögliche Wortverwechslung</short>
             <example type="incorrect" correction="Katheters">Anleitung zum Einführen eines <marker>Katheders</marker></example>
             <example type="correct">Anleitung zum Einführen eines <marker>Katheters</marker></example>
         </rule>
@@ -3017,6 +3052,7 @@ $Id$
             </pattern>
             <message>&inwend;'<suggestion>Geißel</suggestion> der Menschheit' heißt es 'Geißel' (= Plage) statt Geisel (= Gefangener).</message>
             <url>http://www.korrekturen.de/beliebte_fehler/geisel_der_menschheit.shtml</url>
+            <short>Mögliche Wortverwechslung</short>
             <example type="incorrect" correction="Geißel">Korruption ist mörderische <marker>Geisel</marker> der Menschheit</example>
             <example type="correct">Korruption ist mörderische <marker>Geißel</marker> der Menschheit</example>
         </rule>
@@ -3027,6 +3063,7 @@ $Id$
             </pattern>
             <message>Meinten Sie <suggestion>\1 S</suggestion>, eine andere Bezeichnung für den Buchstaben 'ß'?</message>
             <url>http://www.korrekturen.de/beliebte_fehler/scharfes-eszett.shtml</url>
+            <short>Mögliche Wortverwechslung</short>
             <example type="incorrect" correction="scharfe S">Das <marker>scharfe ß</marker> wird nur im Deutschen benutzt.</example>
             <example type="incorrect" correction="scharfes S">Ein <marker>scharfes ß</marker> wird nur im Deutschen benutzt.</example>
             <example type="correct">Ein <marker>scharfes S</marker> wird nur im Deutschen benutzt.</example>
@@ -3039,6 +3076,7 @@ $Id$
                 <token regexp="yes">Tomaten?|Früchten?</token>
             </pattern>
             <message>&verw;Meinten Sie <suggestion>passierte</suggestion> (ohne grobe Teile) statt passionierte (leidenschaftlich)?</message>
+            <short>Mögliche Wortverwechslung</short>
             <example type="correct">Man nehme drei <marker>passierte</marker> Tomaten.</example>
             <example type="incorrect" correction="passierte">Man nehme drei <marker>passionierte</marker> Tomaten.</example>
         </rule>
@@ -3052,6 +3090,7 @@ $Id$
                     </marker>
                 </pattern>
                 <message>&verw;Meinten Sie <suggestion>Weise</suggestion> (Art, Methode)?</message>
+                <short>Mögliche Wortverwechslung</short>
                 <example type="correct">Die Art und <marker>Weise</marker> war unerträglich.</example>
                 <example type="incorrect" correction="Weise">Die Art und <marker>Wiese</marker> war unerträglich.</example>
                 <example type="incorrect" correction="Weise">Die Art und <marker>Weiße</marker> war unerträglich.</example>
@@ -3065,6 +3104,7 @@ $Id$
                     </marker>
                 </pattern>
                 <message>&verw;Meinten Sie <suggestion>Weise</suggestion> (Art, Methode) statt Waise (elternloses Kind)?</message>
+                <short>Mögliche Wortverwechslung</short>
                 <example type="correct">Die Art und <marker>Weise</marker> ist entscheidend.</example>
                 <example type="incorrect" correction="Weise">Die Art und <marker>Waise</marker> ist entscheidend.</example>
             </rule>
@@ -10040,6 +10080,36 @@ $Id$
                 <example type="incorrect" correction="Wette">Sie liefen um die <marker>wette</marker>.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="IN_DER_SCHWEBE" name="Groß-/Kleinschreibung: 'in der schwebe (Schwebe) lassen/halten'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[iI]n</token>
+                    <token>der</token>
+                    <marker>
+                        <token>schwebe</token>
+                    </marker>
+                    <token regexp="yes" inflected="yes">lassen|halten|bleiben</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Schwebe</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Wir haben es in der <marker>Schwebe</marker> gelassen.</example>
+                <example type="incorrect" correction="Schwebe">Wir haben es in der <marker>schwebe</marker> gelassen.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes" inflected="yes" skip="2">lassen|halten|bleiben</token>
+                    <token>in</token>
+                    <token>der</token>
+                    <marker>
+                        <token>schwebe</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Schwebe</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Wir halten es in der <marker>Schwebe</marker>.</example>
+                <example type="incorrect" correction="Schwebe">Wir halten es mal in der <marker>schwebe</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="STILLE_SUBST" name="Groß-/Kleinschreibung: 'in aller stille (Stille) beigesetzt' etc.">
             <rule>
                 <pattern case_sensitive="yes">
@@ -11280,6 +11350,36 @@ $Id$
                 <short>&prgk;.</short>
                 <example type="correct">Damit reitest du dich bloß weiter in die <marker>Scheiße</marker>.</example>
                 <example type="incorrect" correction="Scheiße">Damit reitest du dich bloß weiter in die <marker>scheiße</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="IN_DER_KLEMME" name="Groß-/Kleinschreibung: 'in der klemme (Klemme) stecken' usw.">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[iI]n</token>
+                    <token>der</token>
+                    <marker>
+                        <token regexp="yes">scheiße|klemme|patsche</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">sitzen|stecken</token>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Ich habe den Eindruck, dass er ziemlich in der <marker>Scheiße</marker> sitzt.</example>
+                <example type="incorrect" correction="Scheiße">Ich habe den Eindruck, dass er ziemlich in der <marker>scheiße</marker> sitzt.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes" regexp="yes" skip="2">sitzen|stecken</token>
+                    <token>in</token>
+                    <token>der</token>
+                    <marker>
+                        <token regexp="yes">scheiße|klemme|patsche</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="4" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Er steckt in der <marker>Klemme</marker>.</example>
+                <example type="incorrect" correction="Klemme">Er steckt in der <marker>klemme</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SCHNAUZE_SUBST" name="Groß-/Kleinschreibung: 'die schnauze (Schnauze) halten' usw.">
@@ -12866,6 +12966,34 @@ $Id$
                 <short>&prgk;.</short>
                 <example type="incorrect" correction="Tränen">Ich vergieße keine <marker>tränen</marker> darüber.</example>
                 <example type="correct">Mir <marker>tränen</marker> die Augen.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes" skip="1">kommen|kamen</token>
+                    <token>die</token>
+                    <marker>
+                        <token>tränen</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Tränen">Mir kamen die <marker>tränen</marker> vor Rührung.</example>
+                <example type="incorrect" correction="Tränen">Mir kommen gleich die <marker>tränen</marker> vor Rührung.</example>
+                <example type="correct">Mir kamen die <marker>Tränen</marker> vor Rührung.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>die</token>
+                    <marker>
+                        <token>tränen</token>
+                    </marker>
+                    <token regexp="yes">(ge)?kommen|kamen</token>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Tränen">Das war so traurig, dass mir die <marker>tränen</marker> kamen.</example>
+                <example type="incorrect" correction="Tränen">Das war so rührend, da sind mir die <marker>tränen</marker> gekommen.</example>
+                <example type="correct">Mir kamen die <marker>Tränen</marker> vor Rührung.</example>
             </rule>
         </rulegroup>
         <rulegroup id="RUNDE_SUBST" name="Groß-/Kleinschreibung: 'über die runden (Runden) kommen' etc.">
@@ -17632,7 +17760,7 @@ $Id$
                 <example type="incorrect">Sie ist ganz schön in die <marker>breite</marker> gegangen.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="IN_DIE_FALLE" name="Groß-/Kleinschreibung: 'falle (Falle)'">
+        <rulegroup id="IN_DIE_FALLE" name="Groß-/Kleinschreibung: 'in die falle (Falle) locken' usw.">
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">ist|war</token>
@@ -17644,13 +17772,13 @@ $Id$
                 <message>&subanfang;<suggestion>Falle</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example type="correct">Geht da nicht rein, das ist eine <marker>Falle</marker>!</example>
-                <example type="incorrect">Das war eine <marker>falle</marker>.</example>
+                <example type="incorrect" correction="Falle">Das war eine <marker>falle</marker>.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token inflected="yes" regexp="yes">gehen|tappen|hauen</token>
+                    <token inflected="yes" regexp="yes" skip="1">gehen|tappen|hauen|locken</token>
                     <token>in</token>
-                    <token>die</token>
+                    <token regexp="yes">die|eine</token>
                     <marker>
                         <token>falle</token>
                     </marker>
@@ -17658,21 +17786,24 @@ $Id$
                 <message>&subanfang;<suggestion>Falle</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example type="correct">Er ging prompt in die <marker>Falle</marker>.</example>
-                <example type="incorrect">Er tappte in die <marker>falle</marker>.</example>
+                <example type="incorrect" correction="Falle">Er ging prompt in die <marker>falle</marker>.</example>
+                <example type="incorrect" correction="Falle">Er tappte in die <marker>falle</marker>.</example>
+                <example type="incorrect" correction="Falle">Sie lockten mich in eine <marker>falle</marker>.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[Ii]n</token>
-                    <token>die</token>
+                    <token regexp="yes">die|eine</token>
                     <marker>
                         <token>falle</token>
                     </marker>
-                    <token inflected="yes" regexp="yes">gehen|tappen|hauen</token>
+                    <token inflected="yes" regexp="yes">gehen|tappen|hauen|locken</token>
                 </pattern>
                 <message>&subanfang;<suggestion>Falle</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example type="correct">Sie ist den Ermittlern in die <marker>Falle</marker> gegangen.</example>
-                <example type="incorrect">Sie ist den Ermittlern in die <marker>falle</marker> gegangen.</example>
+                <example type="incorrect" correction="Falle">Sie ist den Ermittlern in die <marker>falle</marker> gegangen.</example>
+                <example type="incorrect" correction="Falle">Ihr habt mich in eine <marker>falle</marker> gelockt!</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -17689,7 +17820,52 @@ $Id$
                 <example type="incorrect">Sie ist den Ermittlern in die offene <marker>falle</marker> gegangen.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="IN_DIE_KNIE" name="Groß-/Kleinschreibung: 'knie (Knie)'">
+        <rulegroup id="IN_DIE_HOCKE" name="Groß-/Kleinschreibung: 'in die hocke (Hocke) gehen'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes">gehen</token>
+                    <token>in</token>
+                    <token>die</token>
+                    <marker>
+                        <token>hocke</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Hocke</suggestion>&subende;</message>
+                <url>http://de.wiktionary.org/wiki/Hocke</url>
+                <short>&prgk;.</short>
+                <example type="correct">Sie ging in die <marker>Hocke</marker>.</example>
+                <example type="incorrect" correction="Hocke">Sie ging in die <marker>hocke</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[iI]n</token>
+                    <token>die</token>
+                    <marker>
+                        <token>hocke</token>
+                    </marker>
+                    <token inflected="yes">gehen</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Hocke</suggestion>&subende;</message>
+                <url>http://de.wiktionary.org/wiki/Hocke</url>
+                <short>&prgk;.</short>
+                <example type="correct">Sie ist in die <marker>Hocke</marker> gegangen.</example>
+                <example type="incorrect" correction="Hocke">Sie ist in die <marker>hocke</marker> gegangen.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="IN_DIE_KNIE" name="Groß-/Kleinschreibung: 'in die knie (Knie) gehen' usw.">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">ans|übers|zum</token>
+                    <marker>
+                        <token>knie</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Knie</suggestion>&subende;</message>
+                <url>http://de.wiktionary.org/wiki/Knie</url>
+                <short>&prgk;.</short>
+                <example type="correct">Die Hose reicht bis knapp übers <marker>Knie</marker>.</example>
+                <example type="incorrect" correction="Knie">Die Hose reicht bis knapp übers <marker>knie</marker>.</example>
+            </rule>
             <rule>
                 <pattern case_sensitive="yes">
                     <token inflected="yes">gehen</token>
@@ -17700,9 +17876,10 @@ $Id$
                     </marker>
                 </pattern>
                 <message>&subanfang;<suggestion>Knie</suggestion>&subende;</message>
+                <url>http://de.wiktionary.org/wiki/Knie</url>
                 <short>&prgk;.</short>
                 <example type="correct">Er ist unter der Last in die <marker>Knie</marker> gegangen.</example>
-                <example type="incorrect">Du gehst in die <marker>knie</marker>.</example>
+                <example type="incorrect" correction="Knie">Du gehst in die <marker>knie</marker>.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -17714,9 +17891,10 @@ $Id$
                     <token inflected="yes">gehen</token>
                 </pattern>
                 <message>&subanfang;<suggestion>Knie</suggestion>&subende;</message>
+                <url>http://de.wiktionary.org/wiki/Knie</url>
                 <short>&prgk;.</short>
                 <example type="correct">Er ist unter der Last in die <marker>Knie</marker> gegangen.</example>
-                <example type="incorrect">Sie ist unter der Last in die <marker>knie</marker> gegangen.</example>
+                <example type="incorrect" correction="Knie">Sie ist unter der Last in die <marker>knie</marker> gegangen.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -17728,9 +17906,10 @@ $Id$
                     </marker>
                 </pattern>
                 <message>&subanfang;<suggestion>Knie</suggestion>&subende;</message>
+                <url>http://de.wiktionary.org/wiki/Knie</url>
                 <short>&prgk;.</short>
                 <example type="correct">Er fiel vor ihr auf die <marker>Knie</marker>.</example>
-                <example type="incorrect">Er fiel auf die <marker>knie</marker>.</example>
+                <example type="incorrect" correction="Knie">Er fiel auf die <marker>knie</marker>.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -17742,9 +17921,10 @@ $Id$
                     <token inflected="yes">fallen</token>
                 </pattern>
                 <message>&subanfang;<suggestion>Knie</suggestion>&subende;</message>
+                <url>http://de.wiktionary.org/wiki/Knie</url>
                 <short>&prgk;.</short>
                 <example type="correct">Er ist vor ihr auf die <marker>Knie</marker> gefallen.</example>
-                <example type="incorrect">Er ist vor ihr auf die <marker>knie</marker> gefallen.</example>
+                <example type="incorrect" correction="Knie">Er ist vor ihr auf die <marker>knie</marker> gefallen.</example>
             </rule>
         </rulegroup>
         <rulegroup id="STELLE_SUBST" name="Groß-/Kleinschreibung: 'stelle (Stelle)'">
