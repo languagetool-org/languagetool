@@ -106,6 +106,12 @@ License:
     * Ofis ar Brezhoneg
     * Grup Transducens, Universitat d'Alacant
 
+ The Breton FSA spelling dictionary is based on the Breton Hunspell dictionary
+ "Difazier Hunspell an Drouizig" (0.10) licensed under the Lesser GNU Public
+ License (LGPL), available at:
+ http://extensions.libreoffice.org/extension-center/an-drouizig-breton-spellchecker/pscreleasefolder.2012-08-22.5582266403/0.10/dict-br_0.10.oxt
+
+
  Chinese:
  The Chinese data and code for part-of-speech tagging is based on ictclas4j project
  (http://code.google.com/p/ictclas4j/) under Apache License 2.0.
