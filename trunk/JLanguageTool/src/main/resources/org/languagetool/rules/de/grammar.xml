@@ -1627,14 +1627,17 @@ $Id$
         <rulegroup id="IN_DER_REGELN" name="Möglicher Tippfehler: 'in der Regeln (Regel)'">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token>in</token>
-                    <token>der</token>
-                    <token>Regeln</token>
+                    <token negate="yes">,</token>
+                    <marker>
+                        <token>in</token>
+                        <token>der</token>
+                        <token>Regeln</token>
+                    </marker>
                 </pattern>
                 <message>Meinten Sie evt. die Redewendung <suggestion>in der Regel</suggestion>?</message>
-                <example type="correct">Eine Situation, <marker>in der feste Regeln</marker> wichtig werden.</example>
+                <example type="correct">Eine Situation, <marker>in der Regeln</marker> wichtig werden.</example>
                 <example type="correct">Wir machen das <marker>in der Regel</marker> folgendermaßen.</example>
-                <example type="incorrect">Wir machen das <marker>in der Regeln</marker> folgendermaßen.</example>
+                <example type="incorrect" correction="in der Regel">Wir machen das <marker>in der Regeln</marker> folgendermaßen.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -10005,7 +10008,7 @@ $Id$
                 <example type="incorrect" correction="Ehre">Auf <marker>ehre</marker> und Gewissen: Ich war es nicht, das war schon so, als ich kam.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="WETTE_SUBST" name="Groß-/Kleinschreibung: 'um die wette (Wette)'">
+        <rulegroup id="WETTE_SUBST" name="Groß-/Kleinschreibung: 'um die wette (Wette) laufen' etc.">
             <rule>
                 <pattern case_sensitive="yes">
                     <token>um</token>
@@ -10035,6 +10038,82 @@ $Id$
                 <short>&prgk;.</short>
                 <example type="correct">Ich <marker>wette</marker>, das stimmt nicht.</example>
                 <example type="incorrect" correction="Wette">Sie liefen um die <marker>wette</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="STILLE_SUBST" name="Groß-/Kleinschreibung: 'in aller stille (Stille) beigesetzt' etc.">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[iI]n</token>
+                    <token>aller</token>
+                    <marker>
+                        <token>stille</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Stille</suggestion>&subende;</message>
+                <url>http://de.wiktionary.org/wiki/Stille</url>
+                <short>&prgk;.</short>
+                <example type="correct">Es war eine <marker>stille</marker> Nacht.</example>
+                <example type="incorrect" correction="Stille">Sie wurde in aller <marker>stille</marker> beigesetzt.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="FRISCHE_SUBST" name="Groß-/Kleinschreibung: 'in alter frische (Frische)'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[iI]n</token>
+                    <token>alter</token>
+                    <marker>
+                        <token>frische</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Frische</suggestion>&subende;</message>
+                <url>http://de.wiktionary.org/wiki/Frische</url>
+                <short>&prgk;.</short>
+                <example type="correct">Es war eine <marker>frische</marker> Nacht.</example>
+                <example type="incorrect" correction="Frische">Wir treffen uns morgen in alter <marker>frische</marker> wieder.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="REGELN_SUBST" name="Groß-/Kleinschreibung: 'an die regeln (Regeln) halten' etc.">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[aA]n</token>
+                    <token>die</token>
+                    <marker>
+                        <token>regeln</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Regeln</suggestion>&subende;</message>
+                <url>http://de.wiktionary.org/wiki/Regel</url>
+                <short>&prgk;.</short>
+                <example type="correct">Wir <marker>regeln</marker> das.</example>
+                <example type="incorrect" correction="Regeln">Sie müssen sich an die <marker>regeln</marker> halten.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[nN]ach</token>
+                    <token regexp="yes">den|(&meindein;)en|eigenen</token>
+                    <marker>
+                        <token>regeln</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Regeln</suggestion>&subende;</message>
+                <url>http://de.wiktionary.org/wiki/Regel</url>
+                <short>&prgk;.</short>
+                <example type="correct">Wir <marker>regeln</marker> das.</example>
+                <example type="incorrect" correction="Regeln">Sie müssen sich nach den <marker>regeln</marker> verhalten.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>regeln</token>
+                    </marker>
+                    <token regexp="yes" inflected="yes">einhalten|brechen|befolgen|aufstellen</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Regeln</suggestion>&subende;</message>
+                <url>http://de.wiktionary.org/wiki/Regel</url>
+                <short>&prgk;.</short>
+                <example type="correct">Wir <marker>regeln</marker> das.</example>
+                <example type="incorrect" correction="Regeln">Sie müssen die <marker>regeln</marker> einhalten wie alle anderen auch.</example>
+                <example type="incorrect" correction="Regeln">Wir sollten feste <marker>regeln</marker> aufstellen.</example>
             </rule>
         </rulegroup>
         <rulegroup id="WAGEN_SUBST" name="Groß-/Kleinschreibung: 'mit dem wagen (Wagen) kommen' etc.">
@@ -10284,7 +10363,7 @@ $Id$
         </rulegroup>
         <rule id="ANGRIFF_SUBST" name="Groß-/Kleinschreibung: 'zum angriff (Angriff)'">
             <pattern case_sensitive="yes">
-                <token regexp="yes">[zZ]um|[bB]eim</token>
+                <token regexp="yes">[zZ]um|[bB]eim|[iI][mn]</token>
                 <marker>
                     <token>angriff</token>
                 </marker>
@@ -10293,6 +10372,7 @@ $Id$
             <short>&prgk;.</short>
             <example type="correct">Zum <marker>Angriff</marker>!</example>
             <example type="incorrect" correction="Angriff">Zum <marker>angriff</marker>!</example>
+            <example type="incorrect" correction="Angriff">Das sollten wir bald in <marker>angriff</marker> nehmen!</example>
         </rule>
         <rule id="ZWEIFEL_SUBST" name="Groß-/Kleinschreibung: 'zweifel (Zweifel)'">
             <pattern case_sensitive="yes">
@@ -11784,18 +11864,62 @@ $Id$
             <example type="correct">Ich bin dankbar für <marker>Hinweise</marker>.</example>
             <example type="incorrect" correction="Hinweise">Ich bin dankbar für <marker>hinweise</marker>.</example>
         </rule>
-        <rule id="MIT_ABSTAND" name="Groß-/Kleinschreibung: 'mit abstand (Abstand)'">
-            <pattern case_sensitive="yes">
-                <token regexp="yes" skip="1">[mM]it</token>
-                <marker>
-                    <token>abstand</token>
-                </marker>
-            </pattern>
-            <message>&subanfang;<suggestion>Abstand</suggestion>&subende;</message>
-            <short>&prgk;.</short>
-            <example type="correct">Das war mit <marker>Abstand</marker> das Schlechteste, was ich je gesehen habe!</example>
-            <example type="incorrect">Das war mit <marker>abstand</marker> das Schlechteste, was ich je gesehen habe!</example>
-        </rule>
+        <rulegroup id="MIT_ABSTAND" name="Groß-/Kleinschreibung: 'mit abstand (Abstand)' etc.">
+            <rule>
+				<pattern case_sensitive="yes">
+                    <token regexp="yes">[mM]it</token>
+                    <marker>
+                        <token>abstand</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Abstand</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Das war mit <marker>Abstand</marker> das Schlechteste, was ich je gesehen habe!</example>
+                <example type="incorrect" correction="Abstand">Das war mit <marker>abstand</marker> das Schlechteste, was ich je gesehen habe!</example>
+            </rule>
+            <rule>
+				<pattern case_sensitive="yes">
+                    <token regexp="yes">[mM]it|[aA]us</token>
+                    <token postag="ADJ:DAT:SIN:MAS:.+" postag_regexp="yes"/>
+                    <marker>
+                        <token>abstand</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Abstand</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Das war mit einigem <marker>Abstand</marker> das Schlechteste, was ich je gesehen habe!</example>
+                <example type="incorrect" correction="Abstand">Das war mit einigem <marker>abstand</marker> das Schlechteste, was ich je gesehen habe!</example>
+                <example type="incorrect" correction="Abstand">Sie verfolgten das Geschehen aus sicherem <marker>abstand</marker>.</example>
+            </rule>
+            <rule>
+				<pattern case_sensitive="yes">
+                    <token regexp="yes" inflected="yes" skip="1">halten|nehmen</token>
+                    <marker>
+                        <token>abstand</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Abstand</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Bitte <marker>Abstand</marker> halten!</example>
+                <example type="incorrect" correction="Abstand">Wir nahmen davon <marker>abstand</marker>.</example>
+                <example type="incorrect" correction="Abstand">Er hielt keinen <marker>abstand</marker>.</example>
+                <example type="incorrect" correction="Abstand">Er hielt respektvollen <marker>abstand</marker>.</example>
+            </rule>
+            <rule>
+				<pattern case_sensitive="yes">
+                    <marker>
+                        <token skip="1">abstand</token>
+                    </marker>
+                    <token regexp="yes" inflected="yes">halten|nehmen</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Abstand</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Bitte <marker>Abstand</marker> halten!</example>
+                <example type="incorrect" correction="Abstand">Bitte <marker>abstand</marker> halten!</example>
+                <example type="incorrect" correction="Abstand">Davon würde ich <marker>abstand</marker> nehmen.</example>
+                <example type="incorrect" correction="Abstand">Ich würde <marker>abstand</marker> davon nehmen.</example>
+            </rule>
+        </rulegroup>
         <rule id="ZUM_ABSCHIED" name="Groß-/Kleinschreibung: 'zum abschied (Abschied)'">
             <pattern case_sensitive="yes">
                 <token regexp="yes">[Zz]um</token>
@@ -15963,17 +16087,19 @@ $Id$
             <example type="correct">Der liebste Ort, den ich auf <marker>Erden</marker> hab, das ist die Rasenbank am Elterngrab.</example>
             <example type="incorrect" correction="Erden">Der liebste Ort, den ich auf <marker>erden</marker> hab, das ist die Rasenbank am Elterngrab.</example>
         </rule>
-        <rule id="AUF_DER_ERDE" name="Groß-/Kleinschreibung: 'auf der erde (Erde)'">
+        <rule id="AUF_DER_ERDE" name="Groß-/Kleinschreibung: 'auf der erde (Erde)' etc.">
             <pattern case_sensitive="yes">
-                <token regexp="yes">[aA]uf</token>
-                <token>der</token>
+                <token regexp="yes">[aA]uf|[uU]nter|[iI]n</token>
+                <token regexp="yes">der|die</token>
                 <marker>
                     <token>erde</token>
                 </marker>
+                <token negate="yes">ich</token>
             </pattern>
             <message>&subanfang;<suggestion>Erde</suggestion>&subende;</message>
             <short>&prgk;.</short>
             <example type="incorrect" correction="Erde">Die Fallbeschleunigung auf der <marker>erde</marker> beträgt 9,81 m/s².</example>
+            <example type="incorrect" correction="Erde">Wir müssen die Leichen schleunigst unter die <marker>erde</marker> bringen.</example>
             <example type="correct">Die Fallbeschleunigung auf der <marker>Erde</marker> beträgt 9,81 m/s².</example>
         </rule>
         <rule id="HIMMEL_UND_ERDE" name="Groß-/Kleinschreibung: 'Himmel und erde (Erde)'">
@@ -17629,12 +17755,13 @@ $Id$
                     <marker>
                         <token>stelle</token>
                     </marker>
-                    <token inflected="yes">treten</token>
+                    <token postag="VER:(AUX:)?(1|2|3):.+" postag_regexp="yes"/>
                 </pattern>
                 <message>&subanfang;<suggestion>Stelle</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example type="correct">Wir treten auf der <marker>Stelle</marker>.</example>
                 <example type="incorrect" correction="Stelle">Wenn wir auf der <marker>stelle</marker> treten, kommen wir nicht vorwärts.</example>
+                <example type="incorrect" correction="Stelle">Wenn wir auf der <marker>stelle</marker> handeln, können wir sie noch retten.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -23500,15 +23627,37 @@ $Id$
     <!-- Regeln, die nur für Wikipedia-Artikel nützlich sind -->
     <!-- ====================================================================== -->
     <category name="Wikipedia" default="off">
-        <rule id="VOR_KURZEM" name="relative Zeitangabe 'vor/seit Kurzem'">
-            <pattern case_sensitive="no">
-                <token regexp="yes">vor|seit</token>
-                <token>kurzem</token>
-            </pattern>
-            <message>Eine relative Zeitangabe wie 'seit Kurzem' ist für Wikipedia-Artikel nicht gut geeignet und sollte möglicherweise durch eine absolute Zeitangabe ersetzt werden.</message>
-            <example type="incorrect"><marker>Seit kurzem</marker> ist sie Bundeskanzlerin.</example>
-            <example type="correct">Seit März 2009 ist sie Bundeskanzlerin.</example>
-        </rule>
+        <rulegroup id="VOR_KURZEM" name="Relative Zeitangaben – 'vor/seit Kurzem' u.ä.">
+            <rule>
+                <pattern case_sensitive="no">
+                    <token regexp="yes">vor|seit</token>
+                    <token regexp="yes">kurzem|längerem</token>
+                </pattern>
+                <message>Eine relative Zeitangabe wie 'seit Kurzem' ist für Wikipedia-Artikel nicht gut geeignet und sollte möglicherweise durch eine absolute Zeitangabe ersetzt werden.</message>
+                <example type="incorrect"><marker>Seit kurzem</marker> ist sie Bundeskanzlerin.</example>
+                <example type="correct">Seit März 2009 ist sie Bundeskanzlerin.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="no">
+                    <token regexp="yes">vor|seit</token>
+                    <token regexp="yes">kurzer|einiger</token>
+                    <token>Zeit</token>
+                </pattern>
+                <message>Eine relative Zeitangabe wie 'seit kurzer Zeit' ist für Wikipedia-Artikel nicht gut geeignet und sollte möglicherweise durch eine absolute Zeitangabe ersetzt werden.</message>
+                <example type="incorrect"><marker>Seit einiger Zeit</marker> ist sie Bundeskanzlerin.</example>
+                <example type="correct">Seit März 2009 ist sie Bundeskanzlerin.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="no">
+                    <token regexp="yes">vor|seit</token>
+                    <token regexp="yes">wenigen|einigen</token>
+                    <token regexp="yes">&zeiteinheiten;</token>
+                </pattern>
+                <message>Eine relative Zeitangabe wie 'seit kurzer Zeit' ist für Wikipedia-Artikel nicht gut geeignet und sollte möglicherweise durch eine absolute Zeitangabe ersetzt werden.</message>
+                <example type="incorrect"><marker>Seit einigen Jahren</marker> ist sie Bundeskanzlerin.</example>
+                <example type="correct">Seit März 2009 ist sie Bundeskanzlerin.</example>
+            </rule>
+        </rulegroup>
     </category>
 
 </rules>
