@@ -22185,12 +22185,29 @@ $Id$
                         <token>.</token>
                     </marker>
                 </pattern>
-                <message>Wenn ein wörtliches Zitat mit einem Punkt endet, steht nach dem abschließenden Anführungszeichen kein Punkt. Vorschlag: <suggestion>.\3</suggestion></message>
+                <message>Wenn ein wörtliches Zitat mit einem Punkt endet, steht nach dem abschließenden Anführungszeichen kein Punkt. Vorschlag: <suggestion>\2\3</suggestion></message>
                 <url>http://www.canoo.net/services/GermanSpelling/Regeln/Interpunktion/Anfuehrungszeichen.html#Anchor-Zitat-11481</url>
                 <example type="correct">Er sagte: „Ich möchte nichts essen.“</example>
                 <example type="incorrect" correction=".“">Er sagte: „Ich möchte nichts essen<marker>.“.</marker></example>
+                <example type="correct">Sie rief: „Ich möchte nichts essen!“!</example>
+                <example type="correct">Sie kennt den Film „Quo vadis?“.</example>
                 <!-- TODO ist das richtig?
                 <example type="correct">Disziplinen als „Sprachkunst (Grammatica), Scheidkunst (Chymia) u.a<marker>.“.</marker></example> -->
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception postag="UNKNOWN|ABK:.*" postag_regexp="yes"/></token>
+                    <marker>
+                        <token>.</token>
+                        <token regexp="yes">&anfzu;</token>
+                        <token regexp="yes">!|\?</token>
+                    </marker>
+                </pattern>
+                <message>Wenn der Begleitsatz mit einem Ausrufezeichen oder Fragezeichen endet, entfällt der Punkt des wörtlichen Zitats. Vorschlag: <suggestion>\3\4</suggestion></message>
+                <url>http://www.canoo.net/services/GermanSpelling/Regeln/Interpunktion/Anfuehrungszeichen.html#Anchor-Zitat-11481</url>
+                <example type="correct">Er rief: „Ich möchte nichts essen“!</example>
+                <example type="correct">Sie rief: „Ich möchte nichts essen!“!</example>
+                <example type="incorrect" correction="“!">Sie rief: „Ich möchte nichts essen<marker>.“!</marker></example>
             </rule>
             <rule>
                 <pattern>
@@ -23202,46 +23219,102 @@ $Id$
                 <example type="incorrect" correction="»tolle«">Das ist eine <marker>&gt;&gt;tolle&lt;&lt;</marker> Sache.</example>
             </rule>
         </rulegroup>
-        <!-- commented out because of the warning in PatternRuleTest if CHECK_WITH_SENTENCE_SPLITTING = true
         <rulegroup id="ANFUEHRUNG_VERSCHACHTELT" name="Zeichensetzung/Typographie: „Verschachtelte ‚Anführungszeichen‘“">
+            <!-- NOTE es gibt viele Fehler in der Wikipedia, die auf falsche (”) oder fehlende Anführungszeichen zurückzuführen sind -->
             <rule>
                 <pattern>
-                    <token skip="-1" postag="SENT_START"/>
-                    <token skip="-1">„<exception scope="next">“</exception></token>
+                    <token skip="-1" postag="SENT_START"></token>
+                    <token skip="-1">„<exception scope="next" regexp="yes">“|‚</exception></token>
                     <marker>
                         <token skip="-1" spacebefore="yes">„</token>
                         <token skip="-1" spacebefore="no">“</token>
                     </marker>
-                    <token skip="-1" spacebefore="no">“<exception scope="next">“</exception></token>
-                    <token postag="SENT_END"/>
                 </pattern>
                 <message>Innerhalb von doppelten Anführungszeichen sollten einfache verwendet werden. Vorschlag: <suggestion>‚<match no="3" include_skipped="following"/>‘</suggestion></message>
                 <url>http://de.wikipedia.org/wiki/Anf%C3%BChrungszeichen#Typografische_Anf.C3.BChrungszeichen</url>
                 <short>Verwenden Sie hier bitte einfache Anführungszeichen.</short>
                 <example type="correct">„Verschachtelte <marker>‚Anführungszeichen‘</marker>“ sind kompliziert.</example>
-                <example type="incorrect" correction="‚Anführungszeichen‘">„Verschachtelte <marker>„Anführungszeichen“</marker> sind kompliziert.“ Hier geht der Text weiter.</example>
-                <example type="incorrect" correction="‚Anführungszeichen‘">Sie sagte: „Verschachtelte <marker>„Anführungszeichen“</marker> sind kompliziert.“ Hier geht der Text weiter.</example>
+                <example type="correct">Der <marker>„Film“</marker> ist „gut“.</example>
+<!--                 <example type="correct">Der <marker>„Film über ‚die Sachen, die „gut“ sind‘“</marker> ist „gut“.</example> TODO -->
+                <example type="incorrect" correction="‚Anführungszeichen‘">„Verschachtelte <marker>„Anführungszeichen“</marker>“ sind kompliziert.</example>
+                <example type="incorrect" correction="‚das Ding‘">„Ich habe <marker>„das Ding“</marker> noch nicht gesehen. Ich weiß es nicht.“</example>
+                <!-- commented out because of the warning in PatternRuleTest if CHECK_WITH_SENTENCE_SPLITTING = true -->
+<!--                 <example type="incorrect" correction="‚Anführungszeichen‘">„Verschachtelte <marker>„Anführungszeichen“</marker> sind kompliziert.“ Hier geht der Text weiter.</example> -->
+<!--                 <example type="incorrect" correction="‚Anführungszeichen‘">Sie sagte: „Verschachtelte <marker>„Anführungszeichen“</marker> sind kompliziert.“ Hier geht der Text weiter.</example> -->
             </rule>
             <rule>
                 <pattern>
                     <token skip="-1" postag="SENT_START"/>
-                    <token skip="-1">»<exception scope="next">«</exception></token>
+                    <marker>
+                        <token skip="-1" spacebefore="yes">„<exception scope="next">„</exception></token>
+                        <token skip="-1" spacebefore="no">“<exception scope="next">„</exception></token>
+                    </marker>
+                    <token skip="-1" spacebefore="no">“</token>
+                </pattern>
+                <message>Innerhalb von doppelten Anführungszeichen sollten einfache verwendet werden. Vorschlag: <suggestion>‚<match no="2" include_skipped="following"/>‘</suggestion></message>
+                <url>http://de.wikipedia.org/wiki/Anf%C3%BChrungszeichen#Typografische_Anf.C3.BChrungszeichen</url>
+                <short>Verwenden Sie hier bitte einfache Anführungszeichen.</short>
+                <example type="correct">„Verschachtelte <marker>‚Anführungszeichen‘</marker>“ sind kompliziert.</example>
+                <example type="correct">Der <marker>„Film“</marker> ist „gut“.</example>
+<!--                 <example type="correct">Der <marker>„Film über ‚die Sachen, die „gut“ sind‘“</marker> ist „gut“.</example> TODO -->
+                <example type="incorrect" correction="‚Anführungszeichen‘">„Verschachtelte <marker>„Anführungszeichen“</marker>“ sind kompliziert.</example>
+                <example type="incorrect" correction="‚das Ding‘">„Ich weiß es nicht. Ich habe <marker>„das Ding“</marker> noch nicht gesehen.“</example>
+<!--                 <example type="incorrect" correction="‚Elemente der Mathematik‘">Informationen aus „Beihefte zur Zeitschrift <marker>„Elemente der Mathematik“</marker>“ von Ernst</example> -->
+            </rule>
+            <rule>
+                <pattern>
+                    <token skip="-1" postag="SENT_START"/>
+                    <token skip="-1">»<exception scope="next" regexp="yes">«|‹</exception></token>
                     <marker>
                         <token skip="-1" spacebefore="yes">»</token>
                         <token skip="-1" spacebefore="no">«</token>
                     </marker>
-                    <token skip="-1" spacebefore="no">«<exception scope="next">«</exception></token>
-                    <token postag="SENT_END"/>
                 </pattern>
                 <message>Innerhalb von doppelten Anführungszeichen sollten einfache verwendet werden. Vorschlag: <suggestion>›<match no="3" include_skipped="following"/>‹</suggestion></message>
                 <url>http://de.wikipedia.org/wiki/Anf%C3%BChrungszeichen#Typografische_Anf.C3.BChrungszeichen</url>
                 <short>Verwenden Sie hier bitte einfache Anführungszeichen.</short>
                 <example type="correct">»Verschachtelte <marker>›Anführungszeichen‹</marker>« sind kompliziert.</example>
-                <example type="incorrect" correction="›Anführungszeichen‹">»Verschachtelte <marker>»Anführungszeichen«</marker> sind kompliziert.« Hier geht der Text weiter.</example>
-                <example type="incorrect" correction="›Anführungszeichen‹">Sie sagte: »Verschachtelte <marker>»Anführungszeichen«</marker> sind kompliziert.« Hier geht der Text weiter.</example>
+                <example type="incorrect" correction="›Anführungszeichen‹">»Verschachtelte <marker>»Anführungszeichen«</marker>« sind kompliziert.</example>
+<!--                 <example type="incorrect" correction="›Anführungszeichen‹">»Verschachtelte <marker>»Anführungszeichen«</marker> sind kompliziert.« Hier geht der Text weiter.</example> -->
+<!--                 <example type="incorrect" correction="›Anführungszeichen‹">Sie sagte: »Verschachtelte <marker>»Anführungszeichen«</marker> sind kompliziert.« Hier geht der Text weiter.</example> -->
+            </rule>
+            <rule>
+                <pattern>
+                    <token skip="-1" postag="SENT_START"/>
+                    <marker>
+                        <token skip="-1" spacebefore="yes">»<exception scope="next">„</exception></token>
+                        <token skip="-1" spacebefore="no">«<exception scope="next">„</exception></token>
+                    </marker>
+                    <token skip="-1" spacebefore="no">«<exception scope="next">«</exception></token>
+                </pattern>
+                <message>Innerhalb von doppelten Anführungszeichen sollten einfache verwendet werden. Vorschlag: <suggestion>›<match no="2" include_skipped="following"/>‹</suggestion></message>
+                <url>http://de.wikipedia.org/wiki/Anf%C3%BChrungszeichen#Typografische_Anf.C3.BChrungszeichen</url>
+                <short>Verwenden Sie hier bitte einfache Anführungszeichen.</short>
+                <example type="correct">»Verschachtelte <marker>›Anführungszeichen‹</marker>« sind kompliziert.</example>
+                <example type="incorrect" correction="›Anführungszeichen‹">»Verschachtelte <marker>»Anführungszeichen«</marker>« sind kompliziert.</example>
+<!--                 <example type="incorrect" correction="›Anführungszeichen‹">»Verschachtelte <marker>»Anführungszeichen«</marker> sind kompliziert.« Hier geht der Text weiter.</example> -->
+<!--                 <example type="incorrect" correction="›Anführungszeichen‹">Sie sagte: »Verschachtelte <marker>»Anführungszeichen«</marker> sind kompliziert.« Hier geht der Text weiter.</example> -->
             </rule>
         </rulegroup>
-        -->
+        <rulegroup id="FALSCHES_ANFUEHRUNGSZEICHEN" name="Zeichensetzung/Typographie: Falsches Anführungszeichen ('” [99]' statt '“ [66]')">
+            <rule>
+                <pattern>
+                    <token>”</token>
+                </pattern>
+                <message>Wollten Sie ein schließendes Anführungszeichen verwenden? Vorschlag: <suggestion>“</suggestion></message>
+                <example type="correct">Er ist „gut<marker>“</marker>.</example>
+                <example type="incorrect" correction="“">Er ist „gut<marker>”</marker>.</example>
+            </rule>
+            <!-- In Wissenschaft i.o.
+            <rule>
+                <pattern>
+                    <token>’</token>
+                </pattern>
+                <message>Wollten Sie ein schließendes Anführungszeichen verwenden? Vorschlag: <suggestion>‘</suggestion></message>
+                <example type="correct">Er ist ‚gut<marker>‘</marker>.</example>
+                <example type="incorrect" correction="‘">Er ist ‚gut<marker>’</marker>.</example>
+            </rule>-->
+        </rulegroup>
         <rulegroup id="AKZENT_STATT_APOSTROPH" name="Zeichensetzung/Typographie: Akzent statt Apostroph">
             <rule>
                 <pattern>
