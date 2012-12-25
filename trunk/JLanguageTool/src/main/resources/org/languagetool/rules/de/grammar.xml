@@ -4345,7 +4345,7 @@ $Id$
                 <token postag="VER:(AUX:)?(1|2|3):.+" postag_regexp="yes" skip="1"/>
                 <token regexp="yes">aus|in|nach</token>
                 <marker>
-                    <token regexp="yes">halle|erlangen|gießen|siegen|essen|polen</token>
+                    <token regexp="yes">halle|erlangen|baden|gießen|siegen|essen|polen</token>
                 </marker>
             </pattern>
             <message>&subanfang;es sich bei <suggestion><match no="3" case_conversion="startupper"/></suggestion> um einen geographischen Eigennamen handelt, der großgeschrieben werden muss.</message>
@@ -10224,7 +10224,7 @@ $Id$
                     <marker>
                         <token skip="1">wagen</token>
                     </marker>
-                    <token postag="VER:.+" postag_regexp="yes" inflected="yes">steigen</token>
+                    <token postag="VER:.+" postag_regexp="yes" inflected="yes" regexp="yes">steigen|holen|nehmen</token>
                 </pattern>
                 <message>&subanfang;<suggestion>Wagen</suggestion>&subende;</message>
                 <url>http://de.wiktionary.org/wiki/Wagen</url>
@@ -10234,7 +10234,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token postag="VER:.+" postag_regexp="yes" inflected="yes" skip="1">steigen</token>
+                    <token postag="VER:.+" postag_regexp="yes" inflected="yes" skip="1" regexp="yes">steigen|holen|nehmen</token>
                     <token>aus</token>
                     <token regexp="yes">(&meindein;)em|dem</token>
                     <marker>
@@ -10484,21 +10484,50 @@ $Id$
             <example type="correct">Lug und <marker>Trug</marker> in der City.</example>
             <example type="incorrect" correction="Trug">Lug und <marker>trug</marker> in der City.</example>
         </rule>
-        <rule id="RAND_UND_BAND" name="Groß-/Kleinschreibung: 'außer Rand und band (Band)'">
-            <pattern case_sensitive="yes">
-                <token regexp="yes">[aA]ußer</token>
-                <token>Rand</token>
-                <token>und</token>
-                <marker>
-                    <token>band</token>
-                </marker>
-            </pattern>
-            <message>In dieser Wendung wird <suggestion>Band</suggestion> als Substantiv großgeschrieben.</message>
-            <short>&prgk;.</short>
-            <example type="correct">Die Börse ist außer Rand und <marker>Band</marker>.</example>
-            <example type="correct">Er lehnte sich über den Rand und <marker>band</marker> das Seil fest.</example>
-            <example type="incorrect" correction="Band">Die Börse ist außer Rand und <marker>band</marker>.</example>
-        </rule>
+        <rulegroup id="BAND_SUBST" name="Groß-/Kleinschreibung: 'auf das band (Band) legen' etc.">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[aA]ußer</token>
+                    <token>Rand</token>
+                    <token>und</token>
+                    <marker>
+                        <token>band</token>
+                    </marker>
+                </pattern>
+                <message>In dieser Wendung wird <suggestion>Band</suggestion> als Substantiv großgeschrieben.</message>
+                <short>&prgk;.</short>
+                <example type="correct">Die Börse ist außer Rand und <marker>Band</marker>.</example>
+                <example type="correct">Er lehnte sich über den Rand und <marker>band</marker> das Seil fest.</example>
+                <example type="incorrect" correction="Band">Die Börse ist außer Rand und <marker>band</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[aA]uf</token>
+                    <token>das</token>
+                    <marker>
+                        <token>band</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">legen|stellen</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Band</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Bitte alle Waren auf das <marker>Band</marker> legen.</example>
+                <example type="incorrect" correction="Band">Bitte alle Waren auf das <marker>band</marker> legen.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[vV]om</token>
+                    <marker>
+                        <token>band</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Band</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Bitte alle Waren auf das <marker>Band</marker> legen.</example>
+                <example type="incorrect" correction="Band">Der letzte Opel wird in Bochum 2016 vom <marker>band</marker> rollen.</example>
+                <example type="incorrect" correction="Band">Die Stimme kommt vom <marker>band</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="MASS_SUBST" name="Groß-/Kleinschreibung: 'das maß (Maß) aller Dinge' etc.">
             <pattern case_sensitive="yes">
                 <token regexp="yes">[dD]as|[zZ]um|[aA]ls</token>
@@ -17250,6 +17279,20 @@ $Id$
                 <example type="correct">In der Liebe und im <marker>Krieg</marker> ist alles erlaubt.</example>
                 <example type="incorrect" correction="Krieg">In der Liebe und im <marker>krieg</marker> ist alles erlaubt.</example>
             </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[iI]n</token>
+                    <token>den</token>
+                    <marker>
+                        <token>krieg</token>
+                    </marker>
+                    <token inflected="yes">ziehen</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Krieg</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Wir werden in den <marker>Krieg</marker> ziehen.</example>
+                <example type="incorrect" correction="Krieg">Wir werden in den <marker>krieg</marker> ziehen.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="FAHRT_SUBST" name="Groß-/Kleinschreibung: 'fahrt (Fahrt)'">
             <rule>
@@ -17718,7 +17761,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token>Fall</token>
+                    <token regexp="yes">Fall|Mehrzahl|Prozent|Bruchteil</token>
                     <token>der</token>
                     <marker>
                         <token>fälle</token>
@@ -17727,7 +17770,7 @@ $Id$
                 <message>&subanfang;<suggestion>Fälle</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example type="correct">Im Fall der <marker>Fälle</marker> möchte ich gewarnt werden.</example>
-                <example type="incorrect">Im Fall der <marker>fälle</marker> möchte ich gewarnt werden.</example>
+                <example type="incorrect" correction="Fälle">Ein Prozess ist in 90 Prozent der <marker>fälle</marker> vermeidbar.</example>
             </rule>
         </rulegroup>
         <rulegroup id="IN_DIE_BREITE" name="Groß-/Kleinschreibung: 'breite (Breite)'">
@@ -17743,7 +17786,7 @@ $Id$
                 <message>&subanfang;<suggestion>Breite</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example type="correct">Du gehst ganz schön in die <marker>Breite</marker> in letzter Zeit.</example>
-                <example type="incorrect">Du gehst in die <marker>breite</marker>.</example>
+                <example type="incorrect" correction="Breite">Du gehst in die <marker>breite</marker>.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -17757,7 +17800,7 @@ $Id$
                 <message>&subanfang;<suggestion>Breite</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example type="correct">Sie ist ganz schön in die <marker>Breite</marker> gegangen.</example>
-                <example type="incorrect">Sie ist ganz schön in die <marker>breite</marker> gegangen.</example>
+                <example type="incorrect" correction="Breite">Sie ist ganz schön in die <marker>breite</marker> gegangen.</example>
             </rule>
         </rulegroup>
         <rulegroup id="IN_DIE_FALLE" name="Groß-/Kleinschreibung: 'in die falle (Falle) locken' usw.">
@@ -17820,6 +17863,68 @@ $Id$
                 <example type="incorrect">Sie ist den Ermittlern in die offene <marker>falle</marker> gegangen.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="IN_DIE_SUB_VERB" name="Groß-/Kleinschreibung: 'in die spalte (Spalte) fallen' u.ä.">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="VER:(AUX:)?[123]:.+" postag_regexp="yes"/>
+                    <token>in</token>
+                    <token>die</token>
+                    <marker>
+                        <token regexp="yes">bucht|spalte|rille|ritze|ausfahrt|einfahrt|decke|ecke|sonne</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="4" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Bucht">Sie fiel in die <marker>bucht</marker> von San Francisco.</example>
+                <example type="incorrect" correction="Spalte">Sie fiel in die <marker>spalte</marker>.</example>
+                <example type="incorrect" correction="Ecke">Er ging in die <marker>ecke</marker>.</example>
+                <example type="incorrect" correction="Sonne">Er flog in die <marker>sonne</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>in</token>
+                    <token>die</token>
+                    <marker>
+                        <token regexp="yes">bucht|spalte|rille|ritze|ausfahrt|einfahrt|decke|ecke|sonne</token>
+                    </marker>
+                    <token postag="VER:(AUX:)?[123]:.+" postag_regexp="yes"/>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Spalte">Sie ist in die <marker>spalte</marker> gefallen.</example>
+                <example type="incorrect" correction="Ecke">Er soll sich in die <marker>ecke</marker> stellen.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="VER:(AUX:)?[123]:.+" postag_regexp="yes"/>
+                    <token>aus</token>
+                    <token>der</token>
+                    <marker>
+                        <token regexp="yes">bucht|spalte|rille|ritze|ausfahrt|einfahrt|decke|ecke|sonne</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="4" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Bucht">Sie kamen aus der <marker>bucht</marker> von San Francisco.</example>
+                <example type="incorrect" correction="Spalte">Sie kroch aus der <marker>spalte</marker>.</example>
+                <example type="incorrect" correction="Ecke">Er kam aus der <marker>ecke</marker>.</example>
+                <example type="incorrect" correction="Sonne">Er ging aus der <marker>sonne</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>aus</token>
+                    <token>der</token>
+                    <marker>
+                        <token regexp="yes">bucht|spalte|rille|ritze|ausfahrt|einfahrt|decke|ecke|sonne</token>
+                    </marker>
+                    <token postag="VER:(AUX:)?[123]:.+" postag_regexp="yes"/>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Bucht">Wir werden sie aus der <marker>bucht</marker> fischen.</example>
+                <example type="incorrect" correction="Ecke">Er soll aus der <marker>ecke</marker> kommen.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="IN_DIE_HOCKE" name="Groß-/Kleinschreibung: 'in die hocke (Hocke) gehen'">
             <rule>
                 <pattern case_sensitive="yes">
@@ -17855,7 +17960,7 @@ $Id$
         <rulegroup id="IN_DIE_KNIE" name="Groß-/Kleinschreibung: 'in die knie (Knie) gehen' usw.">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">ans|übers|zum</token>
+                    <token regexp="yes">ans|übers|unters|zum|weiche|schlotternde|zitternde|zittrige</token>
                     <marker>
                         <token>knie</token>
                     </marker>
@@ -17868,7 +17973,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token inflected="yes">gehen</token>
+                    <token inflected="yes" skip="2" regexp="yes">gehen|zwingen</token>
                     <token>in</token>
                     <token>die</token>
                     <marker>
@@ -17880,6 +17985,7 @@ $Id$
                 <short>&prgk;.</short>
                 <example type="correct">Er ist unter der Last in die <marker>Knie</marker> gegangen.</example>
                 <example type="incorrect" correction="Knie">Du gehst in die <marker>knie</marker>.</example>
+                <example type="incorrect" correction="Knie">Die Krise zwang die Firma in die <marker>knie</marker>.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -17888,7 +17994,7 @@ $Id$
                     <marker>
                         <token>knie</token>
                     </marker>
-                    <token inflected="yes">gehen</token>
+                    <token inflected="yes" regexp="yes">gehen|zwingen</token>
                 </pattern>
                 <message>&subanfang;<suggestion>Knie</suggestion>&subende;</message>
                 <url>http://de.wiktionary.org/wiki/Knie</url>
@@ -17898,7 +18004,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token inflected="yes">fallen</token>
+                    <token inflected="yes" regexp="yes" skip="2">fallen|zwingen</token>
                     <token>auf</token>
                     <token>die</token>
                     <marker>
@@ -17909,7 +18015,7 @@ $Id$
                 <url>http://de.wiktionary.org/wiki/Knie</url>
                 <short>&prgk;.</short>
                 <example type="correct">Er fiel vor ihr auf die <marker>Knie</marker>.</example>
-                <example type="incorrect" correction="Knie">Er fiel auf die <marker>knie</marker>.</example>
+                <example type="incorrect" correction="Knie">Er fiel vor ihr auf die <marker>knie</marker>.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -17918,7 +18024,7 @@ $Id$
                     <marker>
                         <token>knie</token>
                     </marker>
-                    <token inflected="yes">fallen</token>
+                    <token inflected="yes" regexp="yes">fallen|zwingen</token>
                 </pattern>
                 <message>&subanfang;<suggestion>Knie</suggestion>&subende;</message>
                 <url>http://de.wiktionary.org/wiki/Knie</url>
