@@ -19,6 +19,7 @@
 package org.languagetool.server;
 
 import com.sun.net.httpserver.HttpServer;
+import org.languagetool.JLanguageTool;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -52,7 +53,8 @@ abstract class Server {
    */
   public void run() {
     final String hostName = host != null ? host : "localhost";
-    System.out.println("Starting server on " + getProtocol() + "://" + hostName + ":" + port  + "...");
+    System.out.println("Starting LanguageTool " + JLanguageTool.VERSION +
+            " (build date: " + JLanguageTool.BUILD_DATE + ") server on " + getProtocol() + "://" + hostName + ":" + port  + "...");
     server.start();
     isRunning = true;
     System.out.println("Server started");
