@@ -52,7 +52,9 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals(0, rule.match(langTool.getAnalyzedSentence(",")).length);
         // Spellcheck dictionary contains Valencian and general accentuation
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("Francès i francés.")).length);
-        
+        // checks abbreviations 
+        assertEquals(0, rule.match(langTool.getAnalyzedSentence("Viu al núm. 23 del carrer Nou.")).length);
+        assertEquals(0, rule.match(langTool.getAnalyzedSentence("N'hi ha de color vermell, blau, verd, etc.")).length);
         
         //test for "LanguageTool":
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("LanguageTool!")).length);

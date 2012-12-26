@@ -8579,6 +8579,17 @@ $Id$
         </rule>
     </category>
     <category name="C1) Ortotipografia">
+        <rule id="PUNT_EN_ABREVIATURES" name="Comprova que hi ha punt en abreviatures: pàg., núm., etc.">
+            <pattern case_sensitive="no">
+                <marker>
+                    <token regexp="yes">(abr|abs|acad|add|adj|adm|admdor|admdora|admtiu|admtiva|adv|ag|agl|agr|agron|agròn|aj|alim|ampl|ap|apmt|apnt|apr|aprox|apt|arq|arqueol|arquit|atm|aut|aux|b|batx|bda|bibl|bl|bnc|butll|bxs|calef|cartogr|catedr|catol|cf|cin|climat|col·l|constr|contr|conv|corp|corr|cpl|cpt|cra|cró|ct|cte|ctra|cts|d|dc|dept|desp|dg|dip|disp|distr|div|dj|Dr|Dra|drec|ds|dt|dta|dte|dupl|dv|econ|ed|Emm|entl|esp|espf|esq|etc|exc|Excm|Excma|exp|exped|ext|f|fac|fca|febr|gov|gr|gral|Hble|Il·lm|Il·lma|Il·ltre|Im|Ima|imp|impr|impt|inc|insp|int|inv|j|jul|jurispr|leg|llic|loc|ltda|làm|Mgfc|Mgfca|mil·l|Mn|màx|mín|n|nov|nre|núm|oct|op|p|paq|pda|pg|pl|ppda|ppt|pral|prev|prof|progr|pta|ptes|ptge|pvt|pàg|rbla|ref|rev|secr|sgt|sotsp|Sr|Sra|Sres|Srs|St|Sta|supl|supt|telegr|trad|trans|transcr|transf|tripl|trv|tt|tèc|univ|urb|veg|vid|vig|vocab|àt|íd)</token>
+                </marker>
+                <token><exception>.</exception></token>
+            </pattern>
+            <message>Probablement falta un punt darrere de l'abreviatura: <suggestion><match no="1"/>.</suggestion></message>
+            <example type="incorrect" correction="núm.">Viu al <marker>núm</marker> 25 del carrer Nou.</example>
+            <example type="correct">Viu al núm. 25 del carrer Nou.</example>
+        </rule>
         <rule id="PUNTS_SUSPENSIUS" name="Usa el caràcter de punts suspensius" default="off">
             <pattern>
                 <token>.</token>
