@@ -73,7 +73,7 @@ $Id$
     <!ENTITY seitewoerter ".*Buch|.*Lektüre|umblätter\w\w?|umgeblättert|umzublättern|(ge)?lesen|las(en)?|geschrieben|schreiben?">
     <!ENTITY saitewoerter "aufziehen|.*ontrabass(es)?|.*Bratsche|.*Cellos?|.*Harfen?|.*Geigen?|.*Gitarren?|.*Violas?|.*Violinen?|Klavier">
     <!ENTITY leidwoerter "Angst|Armut|Bevölkerung|Blut(vergießens?)?|Einsamkeit|Elend|Entbehrung|Entsagung|Flüchtlinge?n?|Gewalt|Krankheit|Mitleid|Not|Ohnmacht|Qual|Schaden|Schrecken|Unterdrückung|Vertreibung|Verzweiflung|Zerstörung|Zivilbevölkerung|bitteres|endloses|ertragen|geschieht|geteiltes|psychisches|unendliches|unermessliches|unerträgliches|ungeheures|unsagbares|unsägliches|unvorstellbares|vermeidbares|verursacht|zugefügt">
-    <!ENTITY meinkleinhausausnahmen "ausreichend|erst|ganz|laut|traditionell|ursprünglich|wenig|zusätzlich">
+    <!ENTITY meinkleinhausausnahmen "ausreichend|erst|ganz|laut|traditionell|ursprünglich|wenig|zusätzlich|reichlich|weltweit|täglich">
     <!ENTITY anfauf "„|&quot;|»|›|‚|'">
     <!ENTITY anfzu "‘|“|‹|«|&quot;|'">
     <!ENTITY anf "&anfauf;|‘|“|‹|«">
@@ -681,8 +681,8 @@ $Id$
             </pattern>
             <message>Meinten Sie die Form <suggestion><match no="2" regexp_match="(e|em|en|es|ere|eren|erem|erer|eres|ste|stem|ster|stes)$" regexp_replace=""/></suggestion>?</message>
             <short>Möglicher Tippfehler</short>
-            <example type="incorrect">Die sind <marker>schlauen</marker>.</example>
-            <example type="incorrect">Er war <marker>schnelle</marker>.</example>
+            <example type="incorrect" correction="schlau">Die sind <marker>schlauen</marker>.</example>
+            <example type="incorrect" correction="schnell">Er war <marker>schnelle</marker>.</example>
             <example type="correct">Er war <marker>schnell</marker>.</example>
             <example type="correct">Er war <marker>schneller</marker>.</example>
         </rule>
@@ -696,7 +696,7 @@ $Id$
             </pattern>
             <message>Meinten Sie die Form <suggestion><match no="2" regexp_match="(e|em|en|es|ere|eren|erem|erer|eres|ste|stem|ster|stes)$" regexp_replace=""/></suggestion>?</message>
             <short>Möglicher Tippfehler</short>
-            <example type="incorrect">Wir müssen so <marker>schnelle</marker> wie möglich reagieren.</example>
+            <example type="incorrect" correction="schnell">Wir müssen so <marker>schnelle</marker> wie möglich reagieren.</example>
             <example type="correct">Wir müssen so <marker>schnell</marker> wie möglich reagieren.</example>
         </rule>
         <rulegroup id="ALS_OHNE_KOMPARATIV" name="Möglicher Tippfehler: 'schnelle (schneller) als' etc.">
@@ -711,7 +711,7 @@ $Id$
                 </pattern>
                 <message>Meinten Sie den Komparativ <suggestion><match no="3" regexp_match="(e|em|en|es|ere|eren|erem|erer|eres|ste|stem|ster|stes)$" regexp_replace="er"/></suggestion>?</message>
                 <short>Möglicher Tippfehler</short>
-                <example type="incorrect">Er schießt auch nicht <marker>schnelle</marker> als sein Schatten.</example>
+                <example type="incorrect" correction="schneller">Er schießt auch nicht <marker>schnelle</marker> als sein Schatten.</example>
                 <example type="correct">Die sind auch nicht <marker>schneller</marker> als wir.</example>
             </rule>
             <rule>
@@ -724,8 +724,8 @@ $Id$
                 </pattern>
                 <message>Meinten Sie den Komparativ <suggestion><match no="2" regexp_match="(e|em|en|es|ere|eren|erem|erer|eres|ste|stem|ster|stes)$" regexp_replace="er"/></suggestion>?</message>
                 <short>Möglicher Tippfehler</short>
-                <example type="incorrect">Die sind <marker>flinke</marker> als wir.</example>
-                <example type="incorrect">Er schießt <marker>schnelle</marker> als sein Schatten.</example>
+                <example type="incorrect" correction="flinker">Die sind <marker>flinke</marker> als wir.</example>
+                <example type="incorrect" correction="schneller">Er schießt <marker>schnelle</marker> als sein Schatten.</example>
                 <example type="correct">Die sind <marker>schneller</marker> als wir.</example>
             </rule>
             <rule>
@@ -738,8 +738,8 @@ $Id$
                 </pattern>
                 <message>Meinten Sie den Komparativ <suggestion><match no="2" regexp_match="(e|em|en|es|ere|eren|erem|erer|eres|ste|stem|ster|stes)$" regexp_replace="er"/></suggestion>?</message>
                 <short>Möglicher Tippfehler</short>
-                <example type="incorrect">Die sind <marker>flinke</marker> als wir.</example>
-                <example type="incorrect">Er schießt <marker>schnelle</marker> als sein Schatten.</example>
+                <example type="incorrect" correction="flinker">Die sind <marker>flinke</marker> als wir.</example>
+                <example type="incorrect" correction="schneller">Er schießt <marker>schnelle</marker> als sein Schatten.</example>
                 <example type="correct">Die sind <marker>schneller</marker> als wir.</example>
             </rule>
             <rule>
@@ -753,7 +753,7 @@ $Id$
                 </pattern>
                 <message>Meinten Sie den Komparativ <suggestion><match no="3" regexp_match="(e|em|en|es|ere|eren|erem|erer|eres|ste|stem|ster|stes)$" regexp_replace="er"/></suggestion>?</message>
                 <short>Möglicher Tippfehler</short>
-                <example type="incorrect">Die sind deutlich <marker>schnelle</marker> als wir.</example>
+                <example type="incorrect" correction="schneller">Die sind deutlich <marker>schnelle</marker> als wir.</example>
                 <example type="correct">Die sind einfach <marker>schneller</marker> als wir.</example>
             </rule>
         </rulegroup>
@@ -767,7 +767,7 @@ $Id$
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="1" regexp_match="ähre" regexp_replace="ähere"/></suggestion>?</message>
                 <short>Möglicher Tippfehler</short>
-                <example type="incorrect">Die <marker>nähren</marker> Informationen bekommen Sie vor Ort.</example>
+                <example type="incorrect" correction="näheren">Die <marker>nähren</marker> Informationen bekommen Sie vor Ort.</example>
                 <example type="correct">Die <marker>näheren</marker> Informationen bekommen Sie vor Ort.</example>
             </rule>
         </rulegroup>
@@ -782,7 +782,7 @@ $Id$
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="1" regexp_match="ährte" regexp_replace="äherte"/> \2</suggestion> (kam näher)?</message>
                 <short>Möglicher Tippfehler</short>
-                <example type="incorrect">Er <marker>nährte sich</marker> mir.</example>
+                <example type="incorrect" correction="näherte sich">Er <marker>nährte sich</marker> mir.</example>
                 <example type="correct">Er <marker>näherte sich</marker> mir.</example>
             </rule>
             <rule>
@@ -5459,7 +5459,7 @@ $Id$
             <example type="correct">Bald wird er das Amt des Bürgermeisters <marker>innehaben</marker>.</example>
             <example type="correct">Das Amt, das er <marker>innehat</marker>.</example>
         </rule>
-        <rule id="DIPL_ING" name="Zusammen-/Getrenntschreibung: Dipl. Ing. (Dipl-Ing.)">
+        <rule id="DIPL_ING" name="Zusammen-/Getrenntschreibung: Dipl. Ing. (Dipl.-Ing.)">
             <pattern>
                 <marker>
                     <token>Dipl</token>
@@ -5470,8 +5470,24 @@ $Id$
             </pattern>
             <message><suggestion>Dipl.-\3.</suggestion> und ähnliche Bezeichnungen werden mit Bindestrich geschrieben.</message>
             <url>http://www.korrekturen.de/beliebte_fehler/dipl_ing.shtml</url>
+            <short>Fehlender Bindestrich</short>
             <example type="incorrect" correction="Dipl.-Ing."><marker>Dipl. Ing.</marker> Stefan Müller</example>
             <example type="correct"><marker>Dipl.-Ing.</marker> Stefan Müller</example>
+        </rule>
+        <rule id="DR_ING" name="Zusammen-/Getrenntschreibung: Dr. Ing. (Dr.-Ing.)">
+            <pattern>
+                <marker>
+                    <token>Dr</token>
+                    <token>.</token>
+                    <token>Ing</token>
+                    <token>.</token>
+                </marker>
+            </pattern>
+            <message>Der abgekürzte Titel <suggestion>Dr.-\3.</suggestion> wird in Deutschland als einziger Doktortitel mit Bindestrich geschrieben.</message>
+            <url>http://de.wikipedia.org/wiki/Dr.-Ing.</url>
+            <short>Fehlender Bindestrich</short>
+            <example type="incorrect" correction="Dr.-Ing."><marker>Dr. Ing.</marker> Stefan Müller</example>
+            <example type="correct"><marker>Dr.-Ing.</marker> Stefan Müller</example>
         </rule>
         <rule id="BEILEIBE_NICHT" name="Zusammen-/Getrenntschreibung: bei Leibe (beleibe) nicht">
             <pattern case_sensitive="no">
@@ -6405,7 +6421,7 @@ $Id$
                     <token>rund</token>
                     <token>um</token>
                 </marker>
-                <token postag="(ADJ:|VER:).+" postag_regexp="yes"/>
+                <token postag="(ADJ:|VER:).+" postag_regexp="yes"><exception>einen</exception></token>
             </pattern>
             <message>Das Adverb <suggestion>rundum</suggestion> wird zusammengeschrieben.</message>
             <url>http://www.duden.de/rechtschreibung/rundum</url>
@@ -24012,7 +24028,7 @@ $Id$
                     <token regexp="yes">wenigen|einigen</token>
                     <token regexp="yes">&zeiteinheiten;</token>
                 </pattern>
-                <message>Eine relative Zeitangabe wie 'seit kurzer Zeit' ist für Wikipedia-Artikel nicht gut geeignet und sollte möglicherweise durch eine absolute Zeitangabe ersetzt werden.</message>
+                <message>Eine relative Zeitangabe wie '\1 \2 \3' ist für Wikipedia-Artikel nicht gut geeignet und sollte möglicherweise durch eine absolute Zeitangabe ersetzt werden.</message>
                 <example type="incorrect"><marker>Seit einigen Jahren</marker> ist sie Bundeskanzlerin.</example>
                 <example type="correct">Seit März 2009 ist sie Bundeskanzlerin.</example>
             </rule>
