@@ -5676,9 +5676,12 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token>de</token>
-                    <token spacebefore="no">l</token>
-                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+|o|i|host</exception><exception inflected="yes">ordinal</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
+                    <token><exception postag="mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
+                    <marker>
+                        <token>de</token>
+                        <token spacebefore="no">l</token>
+                        <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+|o|i|host</exception><exception inflected="yes">ordinal</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
+                    </marker>
                 </pattern>
                 <message>Cal escriure: <suggestion>de l'<match no="3"></match></suggestion>.</message>
                 <short>Error ortogràfic</short>
@@ -5686,6 +5689,7 @@ $Id$
                 <example type="correct">>de l'home</example>
                 <example type="correct">del Hubble</example>
                 <example type="correct">del atletismo</example>
+                <example type="correct">Ministerio del Interior</example>
                 <example type="correct">del iugoslau</example>
             </rule>
             <rule>
@@ -14773,6 +14777,22 @@ $Id$
                 <example type="incorrect" correction="sotsoficials"><marker>suboficials</marker></example>
                 <example type="correct">sotsoficial</example>
             </rule>
+            <rule id="PAULATI" name="yes">
+                <pattern>
+                    <token inflected="yes">paulatí</token>
+                </pattern>
+                <message>Llatinisme no enregistrat pels diccionaris normatius. Podeu dir: <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">progressiu</match></suggestion>, <suggestion><match no="1" postag="AQ0.(.)0" postag_regexp="yes" postag_replace="AQ0C$10">gradual</match></suggestion></message>    
+                <example type="incorrect">La desaparició <marker>paulatina</marker></example>
+                <example type="correct">la desaparició gradual</example>
+            </rule>
+            <rule id="PAULATINAMENT" name="yes">
+                <pattern>
+                    <token>paulatinament</token>
+                </pattern>
+                <message>Llatinisme no enregistrat pels diccionaris normatius. Podeu dir: <suggestion>progressivament</suggestion>, <suggestion>gradualment</suggestion>.</message>    
+                <example type="incorrect"><marker>paulatinament</marker></example>
+                <example type="correct">gradualment</example>
+            </rule>   
             <rule>
                 <pattern>
                     <token regexp="yes">desangela(t|ts|da|des)</token>

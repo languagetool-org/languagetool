@@ -2461,8 +2461,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="filter" postag="[^N].*" />
         </rule> -->
-    </rulegroup>
-    
+    </rulegroup>    
     <rule id="cal_infinitiu" name="cal + infinitiu">
         <pattern>
             <marker>
@@ -2471,15 +2470,24 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token postag="V.N.*" postag_regexp="yes"></token>
         </pattern>
         <disambig action="remove"><wd pos="VMIP1S0"></wd></disambig>
-    </rule>
+    </rule>   
     <!-- verb aux seguit d'infinitiu: va donar-->
     <rulegroup id="VauxInf" name="Verb auxiliar seguit d'infinitiu">
+        <rule> <!--  desambigua "va encendre" i semblants -->
+            <pattern>
+                <token postag="VA.*" postag_regexp="yes"/>
+                <marker>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="V.N.*" />
+        </rule>
         <rule>
             <pattern>
                 <marker>
                     <token postag="VA.*" postag_regexp="yes" inflected="yes" skip="5">anar<exception scope="next" postag="_GV_|_PUNCT_CONT|R.*|.*LOC_ADV.*|V.N.*|SENT_END|[NA].*|complement" postag_regexp="yes" negate_pos="yes"/></token>
                 </marker>
-                <token postag="V.N.*" postag_regexp="yes"></token>
+                <token postag="V.N.*" postag_regexp="yes"/>
             </pattern>
             <disambig><match no="1" postag_regexp="yes" postag="VA.*"></match></disambig>
         </rule>
