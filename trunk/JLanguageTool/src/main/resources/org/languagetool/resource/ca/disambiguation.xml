@@ -1124,6 +1124,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
+                <token regexp="yes">estats?</token>
+                <marker>
+                    <token>nació</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="AQ0MN0" />
+        </rule>
+        <rule>
+            <pattern>
                 <marker>
                     <token inflected="yes" regexp="yes">tren</token>
                 </marker>
@@ -6395,10 +6404,38 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rule>
     <rulegroup id="FORCA" name="força: tractament especial (det, adj, nom, adv, verb...)">
     <!-- TODO: ampliar -->
+        <rule>
+            <pattern>
+                <token regexp="yes" inflected="yes">guanyar|perdre</token>
+                <marker>
+                    <token postag="NC.*" postag_regexp="yes">força</token>
+                </marker>
+                <token><exception postag="NC.*" postag_regexp="yes"/></token>
+            </pattern>
+            <disambig action="filter" postag="NC.*|_GN_.*"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="DI.*" postag_regexp="yes">força</token>
+                </marker>
+                <token postag="NC.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="DI.*|_GN_.*"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="V.N.*" postag_regexp="yes"/>
+                <marker>
+                    <token postag="V.*" postag_regexp="yes">força</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="[^V].*"></disambig>
+        </rule>
         <rule> <!-- cobra més força -->
             <pattern>
                 <token postag="V.*" postag_regexp="yes"/>
-                <token postag="RG" />
+                <token postag="RG"/>
                 <marker>
                     <token postag="N.*" postag_regexp="yes">força</token>
                 </marker>
@@ -6416,7 +6453,8 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <marker>
-                    <token postag="_GN_FS">força<exception postag="_GV_"/></token>
+                    <token postag="_GN_FS">força<exception postag="_GV_"/>
+                    </token>
                 </marker>
             </pattern>
             <disambig action="filter" postag="N.*|_GN_.*"></disambig>
@@ -6424,7 +6462,8 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <marker>
-                    <token postag="_GV_">força<exception postag="_GN_FS"/></token>
+                    <token postag="_GV_">força<exception postag="_GN_FS"/>
+                    </token>
                 </marker>
             </pattern>
             <disambig action="filter" postag="V.*|_GV_"></disambig>
@@ -6451,7 +6490,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token negate="yes" regexp="yes">tant|com</token>
             <marker>
                 <and>
-                    <token postag="RG.*" postag_regexp="yes"></token>
+                    <token postag="RG.*" postag_regexp="yes"><exception>força</exception></token>
                     <token postag="N.*" postag_regexp="yes"><exception postag="_GN.*" postag_regexp="yes"/></token>
                 </and>
             </marker>
