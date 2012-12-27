@@ -128,8 +128,12 @@ public final class JLanguageTool {
   private Set<String> unknownWords;  
 
   /**
-   * Constants for correct paragraph-rule handling. 
-   */
+   * Constants for correct paragraph-rule handling:
+   * <ul>
+   * <li>NORMAL -  all kinds of rules run</li>
+   * <li>ONLYPARA - only paragraph-level rules</li>
+   * <li>ONLYNONPARA - only sentence-level rules</li></ul>
+   **/
   public static enum ParagraphHandling {
     /**
      * Handle normally - all kinds of rules run.
