@@ -25,8 +25,8 @@ $Id$
  ================================================================================
  Italian Grammar and Style Rules for Italian
  Paolo Bianchini
- Date: 12/12/2012
- Ver:  0.9.2
+ Date: 28/12/2012
+ Ver:  0.9.3
  ================================================================================
  Categorie delle regole
     gruppi delle regole
@@ -105,7 +105,8 @@ $Id$
  PB003    Added rule for checking the use of adverbs instead of adjectives
  PB004    Added rule for attimino and momentino in stile-parlato
  PB005    Fixed rule for dà to exclude "se da" pattern voted as useless
- PB006    Fixed rule for false positives in past tense concordance GR_10_001 
+ PB006    Fixed rule for false positives in past tense concordance GR_10_001
+ PB007    Added check for person in tense concordance GR_10_* overrides PB006
  ======== =========================================================================
 -->
 
@@ -691,60 +692,139 @@ $Id$
 
     <!-- GRAMMATICA VERBI - GR_10 -->
     <category name="Grammatica - Verbi">
-        <rulegroup name="concordanza tempi delle coordinate" id="GR_10_001">
-            <rule name="Indicativo Presente">
+	
+	<rulegroup name="concordanza tempi delle coordinate" id="GR_10_001">
+<!-- PB007 + -->	    
+            <!-- IND PRESENTE -->
+	    <rule>
                 <pattern>
-                    <token skip="-1" postag="VER.ind.pres.*.*" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"></exception></token>
+                    <token skip="-1" postag="VER.ind.pres.1.*" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"></exception></token>
                     <token skip="-1" regexp="yes">e|o|ma</token>
-                    <token postag="(VER.ind.pas.*.*)|(VER.ind.imp.*.*)|(VER.ind.fut.*.*)" postag_regexp="yes"></token>
+                    <token postag="(VER.ind.past.1.*)|(VER.ind.impf.1.*)|(VER.ind.fut.1.*)" postag_regexp="yes"></token>
                 </pattern>
                 <message>Controllare il tempo dei verbi utilizzati nella frase.</message>
                 <example type="incorrect">La barca <marker>naviga ma si dirigeva</marker> nella direzione sbagliata.</example>
                 <example type="correct">La barca <marker>naviga ma si dirige</marker> nella direzione sbagliata.</example>
             </rule>
-            <rule name="Indicativo Futuro">
+            <rule>
                 <pattern>
-                    <token skip="-1" postag="VER.ind.fut.*.*" postag_regexp="yes"></token>
+                    <token skip="-1" postag="VER.ind.pres.2.*" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"></exception></token>
                     <token skip="-1" regexp="yes">e|o|ma</token>
-                    <token postag="(VER.ind.pas.*.*)|(VER.ind.imp.*.*)|(VER.ind.pres.*.*)" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"></exception></token>
+                    <token postag="(VER.ind.past.2.*)|(VER.ind.impf.2.*)|(VER.ind.fut.2.*)" postag_regexp="yes"></token>
+                </pattern>
+                <message>Controllare il tempo dei verbi utilizzati nella frase.</message>
+                <example type="incorrect">La barca <marker>naviga ma si dirigeva</marker> nella direzione sbagliata.</example>
+                <example type="correct">La barca <marker>naviga ma si dirige</marker> nella direzione sbagliata.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token skip="-1" postag="VER.ind.pres.3.*" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"></exception></token>
+                    <token skip="-1" regexp="yes">e|o|ma</token>
+                    <token postag="(VER.ind.past.3.*)|(VER.ind.impf.3.*)|(VER.ind.fut.3.*)" postag_regexp="yes"></token>
+                </pattern>
+                <message>Controllare il tempo dei verbi utilizzati nella frase.</message>
+                <example type="incorrect">La barca <marker>naviga ma si dirigeva</marker> nella direzione sbagliata.</example>
+                <example type="correct">La barca <marker>naviga ma si dirige</marker> nella direzione sbagliata.</example>
+            </rule>
+
+            <!-- IND FUTURO -->
+            <rule>
+                <pattern>
+                    <token skip="-1" postag="VER.ind.fut.1.*" postag_regexp="yes"></token>
+                    <token skip="-1" regexp="yes">e|o|ma</token>
+                    <token postag="(VER.ind.past.1.*)|(VER.ind.impf.1.*)|(VER.ind.pres.1.*)" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"></exception></token>
                 </pattern>
                 <message>Controllare il tempo dei verbi utilizzati nella frase.</message>
                 <example type="incorrect">Questa notte <marker>camminerò nel buio e rischio</marker> di andare a sbattere contro una porta.</example>
                 <example type="correct">Questa notte <marker>camminerò nel buio e rischierò</marker> di andare a sbattere contro una porta.</example>
             </rule>
-            <rule name="Indicativo Imperfetto">
+            <rule>
                 <pattern>
-                    <token skip="-1" postag="VER.ind.imp.*.*" postag_regexp="yes"></token>
-<!-- PB006 + -->
-<!--
+                    <token skip="-1" postag="VER.ind.fut.2.*" postag_regexp="yes"></token>
                     <token skip="-1" regexp="yes">e|o|ma</token>
-                    <token postag="(VER.ind.pas.*.*)|(VER.ind.fut.*.*)|(VER.ind.pres.*.*)" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"></exception></token>
--->
+                    <token postag="(VER.ind.past.2.*)|(VER.ind.impf.2.*)|(VER.ind.pres.2.*)" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"></exception></token>
+                </pattern>
+                <message>Controllare il tempo dei verbi utilizzati nella frase.</message>
+                <example type="incorrect">Questa notte <marker>camminerò nel buio e rischio</marker> di andare a sbattere contro una porta.</example>
+                <example type="correct">Questa notte <marker>camminerò nel buio e rischierò</marker> di andare a sbattere contro una porta.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token skip="-1" postag="VER.ind.fut.3.*" postag_regexp="yes"></token>
+                    <token skip="-1" regexp="yes">e|o|ma</token>
+                    <token postag="(VER.ind.past.3.*)|(VER.ind.impf.3.*)|(VER.ind.pres.3.*)" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"></exception></token>
+                </pattern>
+                <message>Controllare il tempo dei verbi utilizzati nella frase.</message>
+                <example type="incorrect">Questa notte <marker>camminerò nel buio e rischio</marker> di andare a sbattere contro una porta.</example>
+                <example type="correct">Questa notte <marker>camminerò nel buio e rischierò</marker> di andare a sbattere contro una porta.</example>
+            </rule>
+
+           <!-- IND IMPERFETTO -->
+            <rule>
+                <pattern>
+                    <token skip="-1" postag="VER.ind.impf.1.*" postag_regexp="yes"></token>
                     <token skip="-1" postag="CON"></token>
-		    <token postag="(VER.ind.fut.*.*)|(VER.ind.pres.*.*)" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"></exception></token>
-<!-- PB006 - -->
+		    <token postag="(VER.ind.fut.1.*)|(VER.ind.pres.1.*)" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"></exception></token>
                 </pattern>
                 <message>Controllare il tempo dei verbi utilizzati nella frase.</message>
                 <example type="incorrect">Clara <marker>aspettava il tram e decide</marker> di telefonare.</example>
                 <example type="correct">Clara <marker>aspettava il tram e decideva</marker> di telefonare.</example>
             </rule>
-            <rule name="Indicativo Passato">
+            <rule>
                 <pattern>
-                    <token skip="-1" postag="VER.ind.pas.*.*" postag_regexp="yes"></token>
+                    <token skip="-1" postag="VER.ind.impf.2.*" postag_regexp="yes"></token>
                     <token skip="-1" postag="CON"></token>
-                    <!-- <token skip="-1" regexp="yes">e|o|ma</token> -->
-<!-- PB006 + -->
-<!--
-                    <token postag="(VER.ind.imp.*.*)|(VER.ind.fut.*.*)|(VER.ind.pres.*.*)" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"></exception></token>
--->
-                    <token postag="(VER.ind.fut.*.*)|(VER.ind.pres.*.*)" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"></exception></token>
-<!-- PB006 - -->
+		    <token postag="(VER.ind.fut.2.*)|(VER.ind.pres.2.*)" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"></exception></token>
+                </pattern>
+                <message>Controllare il tempo dei verbi utilizzati nella frase.</message>
+                <example type="incorrect">Clara <marker>aspettava il tram e decide</marker> di telefonare.</example>
+                <example type="correct">Clara <marker>aspettava il tram e decideva</marker> di telefonare.</example>
+            </rule>
+            <rule name="Indicativo Imperfetto 3 pers">
+                <pattern>
+                    <token skip="-1" postag="VER.ind.impf.3.*" postag_regexp="yes"></token>
+                    <token skip="-1" postag="CON"></token>
+		    <token postag="(VER.ind.fut.3.*)|(VER.ind.pres.3.*)" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"></exception></token>
+                </pattern>
+                <message>Controllare il tempo dei verbi utilizzati nella frase.</message>
+                <example type="incorrect">Clara <marker>aspettava il tram e decide</marker> di telefonare.</example>
+                <example type="correct">Clara <marker>aspettava il tram e decideva</marker> di telefonare.</example>
+            </rule>
+
+           <!-- IND PASSATO -->
+            <rule>
+                <pattern>
+                    <token skip="-1" postag="VER.ind.past.1.*" postag_regexp="yes"></token>
+                    <token skip="-1" postag="CON"></token>
+                    <token postag="(VER.ind.fut.1.*)|(VER.ind.pres.1.*)" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"></exception></token>
                 </pattern>
                 <message>Controllare il tempo dei verbi utilizzati nella frase.</message>
                 <example type="incorrect">Clara <marker>aspettò il tram e decide</marker> di telefonare.</example>
                 <example type="correct">Clara <marker>aspettò il tram e decise</marker> di telefonare.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token skip="-1" postag="VER.ind.past.2.*" postag_regexp="yes"></token>
+                    <token skip="-1" postag="CON"></token>
+                    <token postag="(VER.ind.fut.2.*)|(VER.ind.pres.2.*)" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"></exception></token>
+                </pattern>
+                <message>Controllare il tempo dei verbi utilizzati nella frase.</message>
+                <example type="incorrect">Clara <marker>aspettò il tram e decide</marker> di telefonare.</example>
+                <example type="correct">Clara <marker>aspettò il tram e decise</marker> di telefonare.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token skip="-1" postag="VER.ind.past.3.*" postag_regexp="yes"></token>
+                    <token skip="-1" postag="CON"></token>
+                    <token postag="(VER.ind.fut.3.*)|(VER.ind.pres.3.*)" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"></exception></token>
+                </pattern>
+                <message>Controllare il tempo dei verbi utilizzati nella frase.</message>
+                <example type="incorrect">Clara <marker>aspettò il tram e decide</marker> di telefonare.</example>
+                <example type="correct">Clara <marker>aspettò il tram e decise</marker> di telefonare.</example>
+            </rule>
+<!-- PB007 - -->	    
         </rulegroup>
+
         <!-- TO DO	<rulegroup name="Cocordanza tempi nelle subordinate" id="GR_10_002">
                 <rule name="Indicativo Presente">
                     <pattern>
