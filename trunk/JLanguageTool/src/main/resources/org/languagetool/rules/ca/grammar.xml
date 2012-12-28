@@ -953,7 +953,7 @@ $Id$
                 <example type="correct">Amb tot, els comptes de Barcelona</example> 
                 <example type="incorrect">La literatura religiosa, sobre <marker>tot la cristiana</marker>,</example>
                 <example type="correct">La literatura religiosa, sobretot la cristiana,</example>
-                <example type="incorrect">Primer de <marker>tot la qüestió</marker> dels cardinals</example>
+                <example type="correct">Primer de tot la qüestió dels cardinals</example>
                 <example type="correct">Primer de tot, la qüestió dels cardinals</example>
                 <example type="correct">Espero que retrobeu tots la pàgina</example>
                 <example type="correct">les civilitzacions d'Amèrica prehispànica coneixien totes l'ús dels aliatges</example>
@@ -12036,6 +12036,17 @@ $Id$
     
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="ALBERGAR_ABRIGAR" name="Evita: albergar/abrigar esperances/dubtes">
+    		<pattern>
+    			<marker>
+    				<token regexp="yes" inflected="yes" skip="2">abrigar|albergar</token>
+    			</marker>
+    			<token regexp="yes" inflected="yes">esperança|dubte|inquietud</token>
+    	    </pattern>
+    	    <message>Val més dir: <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">tenir</match></suggestion>, <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">alimentar</match></suggestion>, <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">nodrir</match></suggestion>, <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">concebre</match></suggestion>.</message>
+    	    <example type="incorrect">Ja no <marker>abrigava</marker> cap esperança</example>
+    	    <example type="correct">Ja no tenia cap esperança</example>
+    	</rule>
         <rule id="PLANOL_PLA" name="plànol pla">
             <pattern>
                 <marker>
