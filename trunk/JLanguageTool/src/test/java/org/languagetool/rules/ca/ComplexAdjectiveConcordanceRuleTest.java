@@ -84,6 +84,7 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
 		assertCorrect("una organització paramilitar de protecció civil típicament catalana");
 		assertCorrect("un Do dues octaves més alt que l'anterior");
 		assertCorrect("són pràcticament dos graus més baixes");
+		assertCorrect("és unes vint vegades més gran que l'espermatozou.");
 		assertCorrect("és unes 20 vegades més gran que l'espermatozou.");
 		assertCorrect("eren quatre vegades més alts");
 		assertCorrect("eren uns fets cada volta més inexplicables");
