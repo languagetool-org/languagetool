@@ -372,6 +372,8 @@ public class CaseRule extends GermanRule {
     substVerbenExceptions.add("so");
     substVerbenExceptions.add("ist");
     substVerbenExceptions.add("können");
+    substVerbenExceptions.add("mein"); // "etwas, das mein Interesse geweckt hat"
+    substVerbenExceptions.add("sein");
     substVerbenExceptions.add("muss");
     substVerbenExceptions.add("muß");
     substVerbenExceptions.add("wollen");
@@ -470,7 +472,7 @@ public class CaseRule extends GermanRule {
     if (prevTokenIsDas && !nextTokenIsPersonalPronoun) {
       // e.g. essen -> Essen
       if (Character.isLowerCase(token.charAt(0)) && !substVerbenExceptions.contains(token)) {
-        final String msg = "Substantivierte Verben werden groß geschrieben.";
+        final String msg = "Substantivierte Verben werden großgeschrieben.";
         final RuleMatch ruleMatch = new RuleMatch(this, tokenReadings.getStartPos(),
             tokenReadings.getStartPos() + token.length(), msg);
         final String word = tokenReadings.getToken();
