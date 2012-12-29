@@ -32,22 +32,22 @@ import org.languagetool.rules.CompoundRuleTestAbs;
  */
 public class CompoundRuleTest extends CompoundRuleTestAbs {
 
-	protected void setUp() throws Exception {
-		super.setUp();
-		langTool = new JLanguageTool(Language.ROMANIAN);
-		rule = new CompoundRule(TestTools.getMessages("ro"));
-	}
+  protected void setUp() throws Exception {
+    super.setUp();
+    langTool = new JLanguageTool(Language.ROMANIAN);
+    rule = new CompoundRule(TestTools.getMessages("ro"));
+  }
 
-	public void testRule() throws IOException {
-		// correct sentences:
-		check(0, "Au plecat câteșitrei.");
-		// incorrect sentences:
-		check(1, "câte și trei", new String[] { "câteșitrei" });
-		check(1, "Câte și trei", new String[] { "Câteșitrei" });
-		check(1, "câte-și-trei", new String[] { "câteșitrei" });
-		
-		check(1, "tus trei", new String[] { "tustrei" });
-		check(1, "tus-trei", new String[] { "tustrei" });
-	}
+  public void testRule() throws IOException {
+    // correct sentences:
+    check(0, "Au plecat câteșitrei.");
+    // incorrect sentences:
+    check(1, "câte și trei", new String[] { "câteșitrei" });
+    check(1, "Câte și trei", new String[] { "Câteșitrei" });
+    check(1, "câte-și-trei", new String[] { "câteșitrei" });
+
+    check(1, "tus trei", new String[] { "tustrei" });
+    check(1, "tus-trei", new String[] { "tustrei" });
+  }
 
 }

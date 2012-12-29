@@ -47,6 +47,8 @@ public class CompoundRuleTest extends CompoundRuleTestAbs {
     check(0, "Nur im Stand-by-Betrieb");
     check(0, "Start, Ziel, Sieg");
     check(0, "Roll-on-roll-off-Schiff");
+    check(0, "Halswirbelsäule");
+    check(0, "Hals-Wirbel-Säule");   // doubtful whether this is correct...
     // incorrect sentences:
     check(1, "System Administrator", new String[]{"System-Administrator", "Systemadministrator"});
     check(1, "bla bla bla bla bla System Administrator bla bla bla bla bla");
@@ -64,6 +66,8 @@ public class CompoundRuleTest extends CompoundRuleTestAbs {
     check(2, "Der dumme System Administrator legt die CD ROM.");
     check(2, "Der dumme System Administrator legt die CD ROM ein blah");
     check(2, "System Administrator CD ROM");
+    check(2, "Hals Wirbel Säule");
+    // TODO: check(1, "Und herum zu knobeln können.", new String[]{"herumzuknobeln"});
     //FIXME: suggestions / longest match
     //check(1, "Roll on roll off Schiff", new String[]{"Roll-on-roll-off-Schiff"});
     check(1, "Spin off");

@@ -19,17 +19,17 @@
 package org.languagetool.rules;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import junit.framework.TestCase;
 
 import org.languagetool.JLanguageTool;
 
 /**
- * Abstract test case for CompoundRule. <br/>
+ * Abstract test case for CompoundRule.
  * Based on an original version for [en] and [pl].
  *    
  * @author Daniel Naber
- * 
  */
 public abstract class CompoundRuleTestAbs extends TestCase {
 
@@ -49,22 +49,22 @@ public abstract class CompoundRuleTestAbs extends TestCase {
   
   /**
    * Check the text against the compound rule.    
-   * @param expectedErrors the number of expected errors.
-   * @param text the text to check.
-   * @param expSuggestions the expected suggestions.
-   * @throws IOException thrown by JLanguageTool.
+   * @param expectedErrors the number of expected errors
+   * @param text the text to check
+   * @param expSuggestions the expected suggestions
    */
   public void check(int expectedErrors, String text, String[] expSuggestions) throws IOException {
     assertNotNull("Please initialize langTool!", langTool);
     assertNotNull("Please initialize 'rule'!", rule);
     final RuleMatch[] ruleMatches = rule.match(langTool.getAnalyzedSentence(text));
-    assertEquals(expectedErrors, ruleMatches.length);
+    assertEquals("Expected " + expectedErrors + "errors, but got: " + Arrays.toString(ruleMatches),
+            expectedErrors, ruleMatches.length);
     if (expSuggestions != null && expectedErrors != 1) {
       throw new RuntimeException("Sorry, test case can only check suggestion if there's one rule match");
     }
     if (expSuggestions != null) {
-    	final RuleMatch ruleMatch = ruleMatches[0];
-      assertEquals(String.format("Got these suggestions: %s, expected %d ", ruleMatch.getSuggestedReplacements(), expSuggestions.length),
+      final RuleMatch ruleMatch = ruleMatches[0];
+      assertEquals(String.format("Got these suggestions: %s, expected %s ", ruleMatch.getSuggestedReplacements(), Arrays.toString(expSuggestions)),
           expSuggestions.length, ruleMatch.getSuggestedReplacements().size());
       int i = 0;
       for (final Object element : ruleMatch.getSuggestedReplacements()) {
