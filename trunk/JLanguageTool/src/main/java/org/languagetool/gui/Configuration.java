@@ -75,7 +75,7 @@ public class Configuration {
    * @throws IOException
    */
   public Configuration(final Language lang) throws IOException {
-	  this(new File(System.getProperty("user.home")), CONFIG_FILE, lang);
+    this(new File(System.getProperty("user.home")), CONFIG_FILE, lang);
   }
   
   public Configuration(final File baseDir, final String filename, final Language lang)
@@ -145,11 +145,11 @@ public class Configuration {
   }
 
   public void setUseGUIConfig(final boolean useGUIConfig) {
-	    this.guiConfig = useGUIConfig;
-	  }
+    this.guiConfig = useGUIConfig;
+  }
 
  public boolean getUseGUIConfig() {
-	    return guiConfig;
+    return guiConfig;
 }
 
   
@@ -159,8 +159,8 @@ public class Configuration {
 
   private void loadConfiguration(final Language lang) throws IOException {
 
-	  final String qualifier = getQualifier(lang);
-	
+    final String qualifier = getQualifier(lang);
+
     FileInputStream fis = null;
     try {
       fis = new FileInputStream(configFile);
@@ -206,20 +206,20 @@ public class Configuration {
   }
 
   private void loadConfigForOtherLanguages(final Language lang, final Properties prop) {
-	  for (Language otherLang : Language.getAllLanguages()) {
-		  if (!otherLang.equals(lang)) {
+    for (Language otherLang : Language.getAllLanguages()) {
+      if (!otherLang.equals(lang)) {
         final String languageSuffix = "." + otherLang.getShortNameWithVariant();
         storeConfigKeyFromProp(prop, DISABLED_RULES_CONFIG_KEY + languageSuffix);
-			  storeConfigKeyFromProp(prop, ENABLED_RULES_CONFIG_KEY + languageSuffix);
-			  storeConfigKeyFromProp(prop, DISABLED_CATEGORIES_CONFIG_KEY + languageSuffix);
-		  }
-	  }
+        storeConfigKeyFromProp(prop, ENABLED_RULES_CONFIG_KEY + languageSuffix);
+        storeConfigKeyFromProp(prop, DISABLED_CATEGORIES_CONFIG_KEY + languageSuffix);
+      }
+    }
   }
 
   private void storeConfigKeyFromProp(final Properties prop, final String key) {
-	  if (prop.containsKey(key)) {
-		  configForOtherLangs.put(key, prop.getProperty(key));
-	  }
+    if (prop.containsKey(key)) {
+      configForOtherLangs.put(key, prop.getProperty(key));
+    }
   }
 
   private Collection<? extends String> getListFromProperties(final Properties props, final String key) {
@@ -249,7 +249,7 @@ public class Configuration {
     props.setProperty(SERVER_PORT_CONFIG_KEY, Integer.valueOf(serverPort).toString());
 
     for (final String key : configForOtherLangs.keySet()) {
-    	props.setProperty(key, configForOtherLangs.get(key));
+      props.setProperty(key, configForOtherLangs.get(key));
     }
 
     final FileOutputStream fos = new FileOutputStream(configFile);

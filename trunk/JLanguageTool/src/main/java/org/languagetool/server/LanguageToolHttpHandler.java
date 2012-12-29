@@ -266,10 +266,10 @@ class LanguageToolHttpHandler implements HttpHandler {
     newLanguageTool.activateDefaultFalseFriendRules();
     config = new Configuration(lang);
     if (!useQuerySettings && internalServer && config.getUseGUIConfig()) { // use the GUI config values
-    	configureGUI(newLanguageTool);
+      configureGUI(newLanguageTool);
     }
     if (useQuerySettings) {
-    	Tools.selectRules(newLanguageTool, disabledRules, enabledRules);
+      Tools.selectRules(newLanguageTool, disabledRules, enabledRules);
     }
     return newLanguageTool;
   }
