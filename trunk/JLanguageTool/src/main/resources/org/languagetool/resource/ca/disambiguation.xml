@@ -504,7 +504,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <token postag="NP.*" postag_regexp="yes" skip="3"/>
                 </marker>
-                <token postag="V.[MSI].*" postag_regexp="yes"/>
+                <token postag="V.[MSI].3.*" postag_regexp="yes"/>
             </pattern>
             <disambig action="filter" postag="NP.*"/>
         </rule>
@@ -514,7 +514,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <token postag="NP.*" postag_regexp="yes" skip="3"/>
                 </marker>
-                <token postag="V.[MSI].*" postag_regexp="yes"/>
+                <token postag="V.[MSI].3.*" postag_regexp="yes"/>
             </pattern>
             <disambig action="filter" postag="NP.*"/>
         </rule>
@@ -7639,15 +7639,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rulegroup id="HAC_ASPIRADA" name="hac aspirada inicial">
         <rule>
             <pattern>
-                <token regexp="yes">Hesse|Halloweens?|Haydn|Heilig.*|Honolu.+|heav.*|Hitch.*|Hong|hongk.+|Haifa|herbert.*|hinden.*|hein.*|humbold.*|hardware|Hampton|Husserl|Hill|high|Heiden.*|Hans|Hereford|His|Heitz|h[òo]bbits?|hawk.*|Heisen.*|Hohen.*|Havilland|Higgs|Howard|hilbert.*|hoover.*|harry|hopkins|hearst|hamilton.*|harrods?|handicaps?|harolds?|Helen|hollywood.*|Houston|Heard|hawai.*|Hudson|Harvard|Hannover|Hayworth|Hepburn|Henry|Hubble|Harrison|Hamas|Hamàs|hegel.*|henna|hennes|Hezboll.+|Hirado|hitler.*|h[oò]ldings?|husseinit.+|Haruki|H[ou]f.*|Hartmann?|hall.*</token>
+                <token regexp="yes">Hansa|Hesse|Halloweens?|Haydn|Heilig.*|Honolu.+|heav.*|Hitch.*|Hong|hongk.+|Haifa|herbert.*|hinden.*|hein.*|humbold.*|hardware|Hampton|Husserl|Hill|high|Heiden.*|Hans|Hereford|His|Heitz|h[òo]bbits?|hawk.*|Heisen.*|Hohen.*|Havilland|Higgs|Howard|hilbert.*|hoover.*|harry|hopkins|hearst|hamilton.*|harrods?|handicaps?|harolds?|Helen|hollywood.*|Houston|Heard|hawai.*|Hudson|Harvard|Hannover|Hayworth|Hepburn|Henry|Hubble|Harrison|Hamas|Hamàs|hegel.*|henna|hennes|Hezboll.+|Hirado|hitler.*|h[oò]ldings?|husseinit.+|Haruki|H[ou]f.*|Hartmann?|hall.*</token>
             </pattern>
             <disambig action="add"><wd pos="hac_aspirada"></wd></disambig>
         </rule>
         <rule>
             <pattern>
-                <token postag="NP.*" postag_regexp="yes" regexp="yes">(?-i)Han</token>
+                <token postag="NP.*" postag_regexp="yes" regexp="yes">(?-i)Han<exception postag="_GV_"/></token>
             </pattern>
-            <disambig action="add"><wd pos="hac_aspirada"></wd></disambig>
+            <disambig action="add"><wd pos="hac_aspirada"/></disambig>
         </rule>
     </rulegroup>
     <rulegroup id="MOT_FORASTER" name="paraula no catalana">
@@ -7664,7 +7664,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="add"><wd pos="mot_foraster"></wd></disambig>
         </rule>
     </rulegroup>    
-    <rulegroup id="verb_reflexiu" name="verb acomopanyat de pronom reflexiu">
+    <rulegroup id="verb_reflexiu" name="verb acompanyat de pronom reflexiu">
         <rule>
             <pattern>
                 <unify>

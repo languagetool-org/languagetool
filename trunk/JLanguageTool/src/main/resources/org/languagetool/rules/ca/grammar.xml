@@ -1817,7 +1817,7 @@ $Id$
             <!-- Error de picatge comú amb infinitiu o gerundi -->
             <rule>
                 <pattern>
-                    <token postag="VA.*" postag_regexp="yes" inflected="yes" skip="3">haver<exception postag="_perfet|_obligacio" postag_regexp="yes"/></token>
+                    <token postag="VA.*" postag_regexp="yes" inflected="yes" skip="3">haver<exception postag="_perfet|_obligacio" postag_regexp="yes"/><exception scope="next" postag="N.*|S.*" postag_regexp="yes"/></token>
                     <marker>
                         <token postag="V.[NG].*" postag_regexp="yes"></token>
                     </marker>
@@ -1832,7 +1832,9 @@ $Id$
                 <example type="incorrect">Aquell hi ha gairebé <marker>realitzar</marker>.</example>
                 <example type="incorrect">que hagen <marker>generant</marker> per tant un resultat</example> 
                 <example type="incorrect">Hem <marker>cantant</marker>.</example>
-                <example type="correct">No s'ha realitzat.</example>              
+                <example type="correct">No s'ha realitzat.</example>  
+                <example type="correct">No hi haurà complicitat per assumir l'austeritat</example>
+                <example type="correct">N'hi ha per a complicar la situació</example>            
             </rule>
         </rulegroup>
         <rule id="HAVER_HI_IMPERSONAL_SINGULAR" name="Exigeix 'haver-hi' impersonal en singular">
