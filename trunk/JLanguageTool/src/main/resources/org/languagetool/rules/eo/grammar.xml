@@ -256,6 +256,14 @@ $Id$
         <example type="correct">Aerpoluo en la urboj malsanigas la homojn.</example>
       </rule>
     </rulegroup>
+    <rule id="MULTEKARA" name="multekara → multekosta">
+      <pattern>
+        <token regexp="yes">(?:mal)?multekar(?:eg)?aj?n?</token>
+      </pattern>
+      <message>Uzo de «\1» estas verŝajne eraro pro influo de nacialingvo. Ĉu vi intencis skribi <suggestion><match no="1" regexp_match="kar" regexp_replace="kost"/></suggestion>?</message>
+      <example type="incorrect">Tiuj aŭtoj estas <marker>multekaraj</marker>.</example>
+      <example type="correct">Tiuj aŭtoj estas multekostaj.</example>
+    </rule>
     <rule id="REGARDI" name="regardi kaj rigardi">
       <pattern>
         <token inflected="yes" regexp="yes">re(?:bel|cel|cev|fuĝ|fuz|gard|kolt|laks|lati|mark|mors|par|pet|poz|proĉ|verenc|volu)(?:ad|et|eg|aĉ)?[aeio]</token>
@@ -677,6 +685,22 @@ $Id$
         <message>Laŭ PIV-2005, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match="pez" regexp_replace="mas"/></suggestion>.</message>
         <example type="incorrect">Ĉiu izotopo havas malsaman <marker>atompezon</marker>.</example>
         <example type="correct">Ĉiu izotopo havas malsaman atommason.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">abatiso</token>
+        </pattern>
+        <message>Laŭ PIV-2005, «\1» estas arkaismo. Konsideru uzi <suggestion><match no="1" regexp_match="(abatis)(.*)" regexp_replace="arbobaraĵ$2"/></suggestion>.</message>
+        <example type="incorrect">Ili faris <marker>abatison</marker>.</example>
+        <example type="correct">Ili faris <marker>arbobaraĵon</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">fibero</token>
+        </pattern>
+        <message>Laŭ PIV-2005, «\1» estas arkaismo. Konsideru uzi <suggestion><match no="1" regexp_match="(.*)(r.*)" regexp_replace="ondat$2"/></suggestion>.</message>
+        <example type="incorrect">Jen <marker>fiberoj</marker>.</example>
+        <example type="correct">Jen <marker>ondatroj</marker>.</example>
       </rule>
       <rule>
         <pattern>
