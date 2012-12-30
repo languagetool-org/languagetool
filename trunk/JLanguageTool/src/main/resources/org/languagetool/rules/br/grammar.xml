@@ -2044,10 +2044,9 @@ $Id$
             <exception negate_pos="yes" postag="L [eo]" postag_regexp="yes"/>
           </token>
           <marker>
-            <and>
-              <token regexp="yes" inflected="yes">k.*</token>
-              <token regexp="yes">(g|c’h).*</token>
-            </and>
+            <token regexp="yes" inflected="yes" postag="V[^M]*M:.*" postag_regexp="yes">k.*
+              <exception regexp="yes" postag="V[^M]*M:1:1a:1b:4:" postag_regexp="yes">c’h.*</exception>
+            </token>
           </marker>
         </pattern>
         <message>Ne zlefe ket bezañ ur c’hemmadur goude ar rannig-verb «\1» gant ur ger a grog gant «k». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="(g|c’h)(.*)" regexp_replace="k$2"/>?</suggestion></message>
@@ -2055,6 +2054,7 @@ $Id$
         <example type="incorrect">Peogwir e <marker>c’homprenan</marker>.</example>
         <example type="correct">Peogwir e komprenan.</example>
         <example type="correct">War lec’hienn an Ofis e c’haller e gavout.</example>
+        <example type="correct">Diwar e garantez e <marker>c’hanas</marker> daou vugel.</example>
       </rule>
       <rule>
         <pattern>
