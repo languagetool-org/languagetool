@@ -2189,6 +2189,15 @@ though, and has since been slightly modified)-->
           </rule>
           <rule>
             <pattern>
+              <marker><token regexp="yes">taches?</token></marker>
+              <token regexp="yes">ingrates?</token>
+            </pattern>
+            <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="a" regexp_replace="â"/></suggestion> ?</message>
+            <example type="incorrect">Une <marker>tache</marker> ingrate.</example>
+            <example type="correct">Une <marker>tâche</marker> ingrate.</example>
+          </rule>
+          <rule>
+            <pattern>
               <token>à</token>
               <token>la</token>
               <marker><token>tache</token></marker>
@@ -2942,7 +2951,11 @@ though, and has since been slightly modified)-->
             </rule>
             <rule name="nombre pluriel suivi du singulier">
                 <pattern>
-                    <token regexp="yes">[2-9]|[1-9]\d+<exception regexp="yes">[12]\d\d\d</exception><exception scope="previous">,</exception></token>
+                    <token regexp="yes">[2-9]|[1-9]\d+
+                      <exception regexp="yes">[12]\d\d\d</exception>
+                      <exception scope="previous" spacebefore="no">,</exception>
+                      <exception scope="previous">taille</exception>
+                    </token>
                     <token postag="[JN] .* s" postag_regexp="yes">
                         <exception regexp="yes">allée|avenue|balade|boulevard|chaussée|chemin|cour|impasse|place|route|rue|ruelle|quai|sentier|square|janvier|février|avril|mai|juin|juillet|ao[uû]t|septembre|octobre|novembre|décembre|vendémiaire|brumaire|frimaire|nivôse|pluviôse|ventôse|germinal|floréal|prairial|messidor|thermidor|fructidor</exception>
                     </token>
@@ -2956,6 +2969,7 @@ though, and has since been slightly modified)-->
                 <example type="correct">Il sera élu en 2010 maire de la ville.</example>
                 <example type="incorrect">Le pays est découpé en <marker>4 partie</marker>.</example>
                 <example type="correct">Le pays est découpé en 4 parties.</example>
+                <example type="correct">Une taille 38 imposée aux mannequins.</example>
             </rule>
             <rule name="singulier suivi du pluriel">
                 <pattern>
