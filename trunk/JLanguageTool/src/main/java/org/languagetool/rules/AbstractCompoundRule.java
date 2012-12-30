@@ -57,9 +57,6 @@ public abstract class AbstractCompoundRule extends Rule {
 
   private String shortDesc;
 
-  /** Compounds with more than maxNoHyphensSize parts should always use hyphens */
-  private int maxUnHyphenatedWordCount = 2;
-
   /** Flag to indicate if the hyphen is ignored in the text entered by the user.
    * Set this to false if you want the rule to offer suggestions for words like [ro] "câte-și-trei" (with hyphen), not only for "câte și trei" (with spaces)
    * This is only available for languages with hyphen as a word separator (ie: not available for english, available for Romanian)
@@ -97,14 +94,6 @@ public abstract class AbstractCompoundRule extends Rule {
     this.hyphenIgnored = ignoreHyphen;
   }
 
-  public int getMaxUnHyphenatedWordCount() {
-    return maxUnHyphenatedWordCount;
-  }
-
-  public void setMaxUnHyphenatedWordCount(int maxNoHyphensSize) {
-    this.maxUnHyphenatedWordCount = maxNoHyphensSize;
-  }
-
   @Override
   public RuleMatch[] match(final AnalyzedSentence text) {
     final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
@@ -113,7 +102,7 @@ public abstract class AbstractCompoundRule extends Rule {
     RuleMatch prevRuleMatch = null;
     final Queue<AnalyzedTokenReadings> prevTokens = new ArrayBlockingQueue<AnalyzedTokenReadings>(MAX_TERMS);
     for (int i = 0; i < tokens.length + MAX_TERMS-1; i++) {
-      AnalyzedTokenReadings token = null;
+      AnalyzedTokenReadings token;
       // we need to extend the token list so we find matches at the end of the original list:
       if (i >= tokens.length) {
         token = new AnalyzedTokenReadings(new AnalyzedToken("", "", null), prevTokens.peek().getStartPos());
@@ -159,9 +148,7 @@ public abstract class AbstractCompoundRule extends Rule {
             replacement.add(origStringToCheck.replace(' ', '-'));
             msg = withHyphenMessage;
           }
-          // assume that compounds with more than maxUnHyphenatedWordCount (default: two) parts should always use hyphens:
-          if (!hasAllUppercaseParts(origStringToCheck) && countParts(stringToCheck) <= getMaxUnHyphenatedWordCount()
-              && !onlyDashSuggestion.contains(stringToCheck)) {
+          if (!hasAllUppercaseParts(origStringToCheck) && !onlyDashSuggestion.contains(stringToCheck)) {
             replacement.add(mergeCompound(origStringToCheck));
             msg = withoutHyphenMessage;
           }

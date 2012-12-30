@@ -38,8 +38,6 @@ public class CompoundRule extends AbstractCompoundRule {
             "Cuvântul se scrie legat.",
             "Cuvântul se scrie legat sau cu cratimă.");
     super.setShort("Problemă de scriere (cratimă, spațiu, etc.)");
-    // default value (2) is not ok for Romanian
-    setMaxUnHyphenatedWordCount(Integer.MAX_VALUE);
     // there are words that should not be written with hyphen but as one word
     setHyphenIgnored(false);
   }
