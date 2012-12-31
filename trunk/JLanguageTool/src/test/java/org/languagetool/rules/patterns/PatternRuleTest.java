@@ -341,13 +341,13 @@ public class PatternRuleTest extends TestCase {
              + "] which is unlikely to be correct.");
         }
 
-        /* Disabled for now: it gives several errors in German
-         * which are minor and debatable whether it adds value.
-
+        /* Disabled case insensitive check for now: it gives several errors
+         * in German which are minor and debatable whether it adds value. 
         final boolean caseSensitive = matcher.group(1) != null || isCaseSensitive;
         if (!caseSensitive) {
           s = s.toLowerCase();
         }
+        */
         char[] sorted = s.toCharArray();
         // Sort characters in string, so finding duplicate characters can be done by
         // looking for identical adjacent characters.
@@ -356,14 +356,12 @@ public class PatternRuleTest extends TestCase {
           char c = sorted[i];
           if ("&\\-|".indexOf(c) < 0 && sorted[i - 1] == c) {
             System.err.println("The " + lang.toString() + " rule: "
-               + ruleId + ", token [" + tokenIndex + "], contains case "
-               + (caseSensitive ? "sensitive" : "insensitive")
+               + ruleId + ", token [" + tokenIndex + "], contains "
                + " regexp part [" + matcher.group(2)
                + "] which contains duplicated char [" + c + "].");
             break;
           }
         }
-        */
       }
     }
 
