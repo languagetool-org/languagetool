@@ -860,7 +860,7 @@ $Id$
             <!-- affinché acciocché + congiuntivo -->
             <rule>
                 <pattern>
-                    <token skip="2" regexp="yes">affinché|acciocché</token>
+                    <token skip="2" regexp="yes">affinché|acciocché|purché</token>
                     <marker>
                     	<token postag="VER.*" postag_regexp="yes">
                     	    <exception postag="VER.sub.*" postag_regexp="yes"></exception>
@@ -868,7 +868,7 @@ $Id$
                        	</token>
                     </marker>
                 </pattern>
-                <message>Affinché e acciocché reggono il congiuntivo.</message>
+                <message>La congiunzione <match no="1"></match> richiede il congiuntivo.</message>
                 <example type="incorrect">Ti avviso affinché tu <marker>puoi</marker> rimediare.</example>
                 <example type="correct">Ti avviso affinché tu <marker>possa</marker> rimediare.</example>
             </rule>
