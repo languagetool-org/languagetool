@@ -6979,7 +6979,7 @@ $Id$
             <token>gevred</token>
           </marker>
         </pattern>
-        <message>Ha fellout a rae deoc’h skrivañ <suggestion>\1-gevret</suggestion> ?</message>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>\1-gevret</suggestion>?</message>
         <example type="incorrect">Holl <marker>a gevred</marker> gant gouel al labourerien!</example>
         <example type="correct">Holl a-gevret gant gouel al labourerien!</example>
       </rule>
@@ -6987,9 +6987,43 @@ $Id$
         <pattern>
           <marker><token>a-gevred</token></marker>
         </pattern>
-        <message>Ha fellout a rae deoc’h skrivañ <suggestion>a-gevret</suggestion> ?</message>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>a-gevret</suggestion>?</message>
         <example type="incorrect">Holl <marker>a-gevred</marker> gant gouel al labourerien!</example>
         <example type="correct">Holl a-gevret gant gouel al labourerien!</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="KONT" name="ur gont pe ur c’hont">
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">digeriñ|klozañ|krouiñ|sevel|krouidigezh</token>
+          <token>ur</token>
+          <marker><token>c’hont</token></marker>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>gont</suggestion>?</message>
+        <example type="incorrect">Krouiñ ur <marker>c’hont</marker>.</example>
+        <example type="correct">Krouiñ ur <marker>gont</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>ur</token>
+          <marker><token>c’hont</token></marker>
+          <token regexp="yes">emgefre|Facebook|Gmail|Launchpad|Twitter|OpenStreetMap|Wikipedia|WordPress|Livejournal|implijer|postel|http</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>gont</suggestion> ?</message>
+        <example type="incorrect">Ur <marker>c’hont</marker> Facebook ho peus?</example>
+        <example type="correct">Ur gont Facebook ho peus?</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">digoret|klozet|krouet|savet</token>
+          <token postag="X KAOUT1"/>
+          <token postag="X KAOUT2"/>
+          <token>ur</token>
+          <marker><token>c’hont</token></marker>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>gont</suggestion> ?</message>
+        <example type="incorrect">Digoret em eus ur <marker>c’hont</marker>.</example>
+        <example type="correct">Digoret em eus ur <marker>gont</marker>.</example>
       </rule>
     </rulegroup>
   </category>
