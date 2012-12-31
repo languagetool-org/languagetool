@@ -43,13 +43,13 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
 	public void testRule() throws IOException { 
 
 		// correct sentences:
-		//assertCorrect("I sí, la crisi serà llarga, molt llarga, potser eterna.");
+		assertCorrect("I sí, la crisi serà llarga, molt llarga, potser eterna.");
+		assertCorrect("El rei ha trobat l'excusa i l'explicació adequada.");
 		assertCorrect("té una manera de jugar aquestes gires tan femenina");
 		assertCorrect("des de la tradicional divisió en dos regnes establida per Linnaeus");
 		assertCorrect("aquestes activitats avui residuals donada ja la manca de territori");
 		assertCorrect("instruments de càlcul basats en boles anomenats yupana.");
 		assertCorrect("El rei ha trobat l'excusa i l'explicació adequades.");
-		assertCorrect("El rei ha trobat l'excusa i l'explicació adequada.");
 		assertCorrect("Copa del món femenina.");   
 		assertCorrect("Batalla entre asteques i espanyols coneguda com la Nit Trista.");
 		assertCorrect("És un informe sobre la cultura japonesa realitzat per encàrrec de l'exèrcit d'Estats Units.");

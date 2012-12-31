@@ -179,10 +179,12 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
 						if (matchPostagRegexp(tokens[i-j+1],NOM_MS)) {cDMS[level]++;}
 						if (matchPostagRegexp(tokens[i-j+1],NOM_FS)) {cDFS[level]++;}
 					}
-					if (matchPostagRegexp(tokens[i-j],DET_MS)) {cDMS[level]++;}
-					if (matchPostagRegexp(tokens[i-j],DET_FS)) {cDFS[level]++;}
-					if (matchPostagRegexp(tokens[i-j],DET_MP)) {cDMP[level]++;}
-					if (matchPostagRegexp(tokens[i-j],DET_FP)) {cDFP[level]++;}	    		  
+					if (!matchPostagRegexp(tokens[i-j],ADVERBI)) {
+						if (matchPostagRegexp(tokens[i-j],DET_MS)) {cDMS[level]++;}
+						if (matchPostagRegexp(tokens[i-j],DET_FS)) {cDFS[level]++;}
+						if (matchPostagRegexp(tokens[i-j],DET_MP)) {cDMP[level]++;}
+						if (matchPostagRegexp(tokens[i-j],DET_FP)) {cDFP[level]++;}
+					}
 					if (i-j>0) {
 						if (matchRegexp(tokens[i-j].getToken(),PREPOSICIO_CANVI_NIVELL) 
 								&& !matchRegexp(tokens[i-j-1].getToken(),COORDINACIO_IONI)
