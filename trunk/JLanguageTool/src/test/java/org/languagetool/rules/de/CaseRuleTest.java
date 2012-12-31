@@ -53,6 +53,8 @@ public class CaseRuleTest extends TestCase {
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Hier ein Satz. »Ein Zitat.«")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Hier ein Satz. (Noch einer.)")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Hier geht es nach Tel Aviv.")).length);
+    assertEquals(0, langTool.check("Karten werden vom Auswahlstapel gezogen. […] Der Auswahlstapel gehört zum Inhalt.").size());
+//     assertEquals(1, langTool.check("Karten werden vom Auswahlstapel gezogen. [...] Der Auswahlstapel gehört zum Inhalt.").size());
     // "NIL" reading in Morphy that used to confuse CaseRule:
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Ein Menschenfreund.")).length);
     // works only thanks to addex.txt:
@@ -85,6 +87,8 @@ public class CaseRuleTest extends TestCase {
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Ein Einfacher Satz zum Testen.")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das Winseln Stört.")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Sein verhalten war okay.")).length);
+    assertEquals(1, langTool.check("Karten werden vom Auswahlstapel gezogen. Auch […] Der Auswahlstapel gehört zum Inhalt.").size());
+//     assertEquals(2, langTool.check("Karten werden vom Auswahlstapel gezogen. Auch [...] Der Auswahlstapel gehört zum Inhalt.").size());
   }
 
   public void testSubstantivierteVerben() throws IOException {
