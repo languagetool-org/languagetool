@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2007 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -32,6 +32,8 @@ import org.languagetool.rules.WhitespaceRule;
 import org.languagetool.rules.fr.QuestionWhitespaceRule;
 import org.languagetool.rules.patterns.Unifier;
 import org.languagetool.rules.spelling.hunspell.HunspellNoSuggestionRule;
+import org.languagetool.tokenizers.SRXSentenceTokenizer;
+import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.fr.FrenchHybridDisambiguator;
@@ -39,14 +41,23 @@ import org.languagetool.tagging.fr.FrenchTagger;
 
 public class French extends Language {
 
+  private SentenceTokenizer sentenceTokenizer;
   private Tagger tagger;
   private Disambiguator disambiguator;
   private Unifier unifier;
   private Unifier disambiguationUnifier;
-  
+
   @Override
   public Locale getLocale() {
     return new Locale(getShortName());
+  }
+
+  @Override
+  public final SentenceTokenizer getSentenceTokenizer() {
+    if (sentenceTokenizer == null) {
+      sentenceTokenizer = new SRXSentenceTokenizer(this);
+    }
+    return sentenceTokenizer;
   }
 
   @Override
@@ -58,7 +69,7 @@ public class French extends Language {
   public String getShortName() {
     return "fr";
   }
-  
+
   @Override
   public String[] getCountryVariants() {
     return new String[]{"FR", "", "BE", "CH", "CA", "LU", "MC", "CM",
@@ -76,7 +87,7 @@ public class French extends Language {
                          /*"»", French dialog can contain multiple sentences. */
                          /*"’" used in "d’arm" and many other words */ };
   }
-  
+
   @Override
   public Tagger getTagger() {
     if (tagger == null) {
@@ -92,7 +103,7 @@ public class French extends Language {
     }
     return disambiguator;
   }
-  
+
   @Override
   public Unifier getUnifier() {
     if (unifier == null) {

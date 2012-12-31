@@ -4704,6 +4704,30 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <afterbreak>\p{Lu}\p{Ll}</afterbreak>
 </rule>
 </languagerule>
+<languagerule languagerulename="French">
+<!-- French abbreviations -->
+<rule break="no">
+<beforebreak>\b(art|app|cf|chap|env|fém|fig|masc|p|sing|suiv|suppl|tél)\.\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b(ave?|boul|Mr?|MM?)\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!-- Break rules -->
+<rule break="yes">
+<beforebreak>[\.!?…][\u0002|'|"|«|\)|\]|\}]?\s+</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="yes">
+<beforebreak>[\.!?…]['"\p{Pe}\u00BB\u201D]?</beforebreak>
+<afterbreak>\p{Lu}[^\p{Lu}]</afterbreak>
+</rule>
+<rule break="yes">
+<beforebreak>\s\p{L}[\.!?…]\s</beforebreak>
+<afterbreak>\p{Lu}\p{Ll}</afterbreak>
+</rule>
+</languagerule>
 <languagerule languagerulename="Ukrainian">
 <rule break="no">
 <beforebreak>\b\d+\.\s</beforebreak>
@@ -5097,6 +5121,7 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <languagemap languagepattern="(DE|de).*" languagerulename="German"></languagemap>
 <languagemap languagepattern="(DA|da).*" languagerulename="Danish"></languagemap>
 <languagemap languagepattern="(EO|eo).*" languagerulename="Esperanto"></languagemap>
+<languagemap languagepattern="(FR|fr).*" languagerulename="French"></languagemap>
 <languagemap languagepattern="(UK|uk).*" languagerulename="Ukrainian"></languagemap>
 <languagemap languagepattern="(BE|be).*" languagerulename="Belarusian"></languagemap>
 <languagemap languagepattern="(GL|gl).*" languagerulename="Galician"></languagemap>
