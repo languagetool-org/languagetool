@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -19,7 +19,9 @@
 package org.languagetool.rules.patterns;
 
 import java.io.IOException;
+import java.lang.String;
 import java.util.*;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -49,9 +51,9 @@ public class PatternRuleTest extends TestCase {
   // regexp if and only if it is not enclosed on both sides by those characters.
   // This is to cope with Polish POS tags which contain dots without being
   // a regexp.
-  private static final Pattern PROBABLE_PATTERN = Pattern.compile("(.+[+?^{}|\\[\\]].*)|(.*[+?^{}|\\[\\]].+)|(\\(.*\\))|(\\\\[^0-9].*)|[^cfmnt123]\\.|\\.[^ampvngl]|(.+\\.$)");
-  private static final Pattern CASE_PATTERN = Pattern.compile("\\[(.)(.)\\]");
+  private static final Pattern PROBABLE_PATTERN = Pattern.compile("(.+[+?^{}()|\\[\\]].*)|(.*[+?^{}()|\\[\\]].+)|(\\(.*\\))|(\\\\[^0-9].*)|[^cfmnt123]\\.|\\.[^ampvngl]|(.+\\.$)");
   private static final Pattern EMPTY_DISJUNCTION = Pattern.compile("^[|]|[|][|]|[|]$");
+  private static final Pattern CHAR_SET_PATTERN = Pattern.compile("(\\(\\?-i\\))?.*(?<!\\\\)\\[^?([^\\]]+)\\]");
 
   private static JLanguageTool langTool;
 
@@ -69,7 +71,7 @@ public class PatternRuleTest extends TestCase {
   public void testGrammarRulesFromXML2() throws IOException {
     new PatternRule("-1", Language.ENGLISH, Collections.<Element>emptyList(), "", "", "");
   }
-    
+
   public void testGrammarRulesFromXML(Set<Language> ignoredLanguages) throws IOException {
     for (final Language lang : Language.LANGUAGES) {
       if (ignoredLanguages != null && ignoredLanguages.contains(lang)) {
@@ -102,7 +104,7 @@ public class PatternRuleTest extends TestCase {
   }
 
   private void testGrammarRulesFromXML(final List<PatternRule> rules,
-                                       final JLanguageTool languageTool, 
+                                       final JLanguageTool languageTool,
                                        final JLanguageTool allRulesLanguageTool, final Language lang) throws IOException {
     final HashMap<String, PatternRule> complexRules = new HashMap<String, PatternRule>();
     for (final PatternRule rule : rules) {
@@ -139,7 +141,7 @@ public class PatternRuleTest extends TestCase {
         if (element.isReferenceElement()) {
             continue;
         }
-        
+
         // Check whether token value is consistent with regexp="..."
         warnIfElementNotKosher(
           element.getString(),
@@ -147,7 +149,8 @@ public class PatternRuleTest extends TestCase {
           element.getCaseSensitive(),
           element.getNegation(),
           element.isInflected(),
-          lang, rule.getId() + ":" + rule.getSubId());
+          lang, rule.getId() + ":" + rule.getSubId(),
+          i);
 
         // Check postag="..." is consistent with postag_regexp="..."
         warnIfElementNotKosher(
@@ -156,7 +159,8 @@ public class PatternRuleTest extends TestCase {
           element.getCaseSensitive(),
           element.getPOSNegation(),
           false,
-          lang, rule.getId() + ":" + rule.getSubId() + " (POS tag)");
+          lang, rule.getId() + ":" + rule.getSubId() + " (POS tag)",
+          i);
 
         List<Element> exceptionElements = new ArrayList<Element>();
         if (element.getExceptionList() != null) {
@@ -182,7 +186,8 @@ public class PatternRuleTest extends TestCase {
                 exception.getNegation(),
                 exception.isInflected(),
                 lang,
-                rule.getId() + ":" + rule.getSubId()+ " (exception in token [" + i + "])");
+                rule.getId() + ":" + rule.getSubId()+ " (exception in token [" + i + "])",
+                i);
             }
             // Check postag="..." of exception is consistent with postag_regexp="..."
             warnIfElementNotKosher(
@@ -192,7 +197,8 @@ public class PatternRuleTest extends TestCase {
               exception.getPOSNegation(),
               false,
               lang,
-              rule.getId() + ":" + rule.getSubId() + " (exception in POS tag of token [" + i + "])");
+              rule.getId() + ":" + rule.getSubId() + " (exception in POS tag of token [" + i + "])",
+              i);
 
             // Search for duplicate exceptions (which are useless).
             // Since there are 2 nested loops on the list of exceptions,
@@ -260,7 +266,7 @@ public class PatternRuleTest extends TestCase {
       return false;
     }
 
-    // We should not need to check for: 
+    // We should not need to check for:
     // - isCaseSensitive() since an exception without isCaseSensitive
     //   imply the one with isCaseSensitive.
     // - isInflected() since an exception with inflected="yes"
@@ -281,56 +287,83 @@ public class PatternRuleTest extends TestCase {
       final boolean isCaseSensitive,
       final boolean isNegated,
       final boolean isInflected,
-      final Language lang, final String ruleId) {
+      final Language lang,
+      final String ruleId,
+      final int tokenIndex) {
 
     if (!isRegularExpression
         && PROBABLE_PATTERN.matcher(stringValue).find()) {
       System.err.println("The " + lang.toString() + " rule: "
-          + ruleId + " contains " + "\"" + stringValue
+          + ruleId + ", token [" + tokenIndex + "], contains " + "\"" + stringValue
           + "\" that is not marked as regular expression but probably is one.");
     }
 
     if (isRegularExpression && stringValue.isEmpty()) {
       System.err.println("The " + lang.toString() + " rule: "
-          + ruleId + " contains an empty string " + "\"" + stringValue
-          + "\" that is marked as regular expression.");
+          + ruleId + ", token [" + tokenIndex + "], contains an empty string " + "\""
+          + stringValue + "\" that is marked as regular expression.");
     } else if (isRegularExpression
         && !PROBABLE_PATTERN.matcher(stringValue)
             .find()) {
       System.err.println("The " + lang.toString() + " rule: "
-          + ruleId + " contains " + "\"" + stringValue
+          + ruleId + ", token [" + tokenIndex + "], contains " + "\"" + stringValue
           + "\" that is marked as regular expression but probably is not one.");
     }
 
     if (isNegated && stringValue.isEmpty()) {
       System.err.println("The " + lang.toString() + " rule: "
-          + ruleId + " marked as negated but is empty so the negation is useless. Did you mix up negate=\"yes\" and negate_pos=\"yes\"?");
+          + ruleId + ", token [" + tokenIndex + "], marked as negated but is "
+          + "empty so the negation is useless. Did you mix up "
+          + "negate=\"yes\" and negate_pos=\"yes\"?");
     }
     if (isInflected && stringValue.isEmpty()) {
       System.err.println("The " + lang.toString() + " rule: "
-          + ruleId + " contains " + "\"" + stringValue
+          + ruleId + ", token [" + tokenIndex + "], contains " + "\"" + stringValue
           + "\" that is marked as inflected but is empty, so the attribute is redundant.");
     }
     if (isRegularExpression && ".*".equals(stringValue)) {
       System.err.println("The " + lang.toString() + " rule: "
-          + ruleId + " marked as regular expression contains "
+          + ruleId + ", token [" + tokenIndex + "], marked as regular expression contains "
           + "regular expression \".*\" which is useless: "
           + "(use an empty string without regexp=\"yes\" such as <token/>)");
     }
 
-
-    if (isRegularExpression && !isCaseSensitive) {
-      final Matcher matcher = CASE_PATTERN.matcher(stringValue);
+    if (isRegularExpression) {
+      final Matcher matcher = CHAR_SET_PATTERN.matcher(stringValue);
       if (matcher.find()) {
-        final String letter1 = matcher.group(1);
-        final String letter2 = matcher.group(2);
-          final boolean lettersAreSameWithDifferentCase = !letter1.equals(letter2)
-                  && letter1.toLowerCase().equals(letter2.toLowerCase());
-          if (lettersAreSameWithDifferentCase) {
-            System.err.println("The " + lang.toString() + " rule: "
-               + ruleId + " contains regexp part [" + letter1 + letter2
-               + "] which is useless without case_sensitive=\"yes\".");
+        // Remove things like \p{Punct} which are irrelevant here.
+        String s = matcher.group(2).replaceAll("\\\\p\\{[^}]*\\}", "");
+        // case sensitive if pattern contains (?-i).
+        if (s.indexOf('|') >= 0) {
+          System.err.println("The " + lang.toString() + " rule: "
+             + ruleId + ", token [" + tokenIndex + "], contains | (pipe) in "
+             + " regexp part [" + matcher.group(2)
+             + "] which is unlikely to be correct.");
         }
+
+        /* Disabled for now: it gives several errors in German
+         * which are minor and debatable whether it adds value.
+
+        final boolean caseSensitive = matcher.group(1) != null || isCaseSensitive;
+        if (!caseSensitive) {
+          s = s.toLowerCase();
+        }
+        char[] sorted = s.toCharArray();
+        // Sort characters in string, so finding duplicate characters can be done by
+        // looking for identical adjacent characters.
+        java.util.Arrays.sort(sorted);
+        for (int i = 1; i < sorted.length; ++i) {
+          char c = sorted[i];
+          if ("&\\-|".indexOf(c) < 0 && sorted[i - 1] == c) {
+            System.err.println("The " + lang.toString() + " rule: "
+               + ruleId + ", token [" + tokenIndex + "], contains case "
+               + (caseSensitive ? "sensitive" : "insensitive")
+               + " regexp part [" + matcher.group(2)
+               + "] which contains duplicated char [" + c + "].");
+            break;
+          }
+        }
+        */
       }
     }
 
@@ -339,7 +372,8 @@ public class PatternRuleTest extends TestCase {
       if (matcher.find()) {
         // Empty disjunctions in regular expression are most likely not intended.
         System.err.println("The " + lang.toString() + " rule: "
-            + ruleId + " contains empty disjunction | within " + "\"" + stringValue + "\".");
+            + ruleId + ", token [" + tokenIndex + "], contains empty "
+            + "disjunction | within " + "\"" + stringValue + "\".");
       }
       final String[] groups = stringValue.split("\\)");
       for (final String group : groups) {
@@ -352,12 +386,14 @@ public class PatternRuleTest extends TestCase {
             if (partSet.contains(part)) {
               // Duplicate disjunction parts "foo|foo".
               System.err.println("The " + lang.toString() + " rule: "
-                  + ruleId + " contains duplicated disjunction part ("
+                  + ruleId + ", token [" + tokenIndex + "], contains "
+                  + "duplicated disjunction part ("
                   + part + ") within " + "\"" + stringValue + "\".");
             } else {
               // Duplicate disjunction parts "Foo|foo" since element ignores case.
               System.err.println("The " + lang.toString() + " rule: "
-                  + ruleId + " contains duplicated non case sensitive disjunction part ("
+                  + ruleId + ", token [" + tokenIndex + "], contains duplicated "
+                  + "non case sensitive disjunction part ("
                   + part + ") within " + "\"" + stringValue + "\". Did you "
                   + "forget case_sensitive=\"yes\"?");
             }
@@ -449,20 +485,20 @@ public class PatternRuleTest extends TestCase {
             assertSuggestionsDoNotCreateErrors(languageTool, rule, badSentence, matches);
           }
         }
-        
+
         // check for overlapping rules
         /*matches = getMatches(rule, badSentence, languageTool);
         final List<RuleMatch> matchesAllRules = allRulesLanguageTool.check(badSentence);
         for (RuleMatch match : matchesAllRules) {
           if (!match.getRule().getId().equals(rule.getId()) && matches.length != 0
               && rangeIsOverlapping(matches[0].getFromPos(), matches[0].getToPos(), match.getFromPos(), match.getToPos()))
-            System.err.println("WARN: " + lang.getShortName() + ": '" + badSentence + "' in " 
+            System.err.println("WARN: " + lang.getShortName() + ": '" + badSentence + "' in "
                     + rule.getId() + " also matched " + match.getRule().getId());
         }*/
 
       }
   }
-  
+
   /**
    * returns true if [a, b] has at least one number in common with [x, y]
    */
@@ -511,7 +547,7 @@ public class PatternRuleTest extends TestCase {
         /*
         final List<RuleMatch> matches = allRulesLanguageTool.check(goodSentence);
         for (RuleMatch match : matches) {
-          System.err.println("WARN: " + lang.getShortName() + ": '" + goodSentence + "' did not match " 
+          System.err.println("WARN: " + lang.getShortName() + ": '" + goodSentence + "' did not match "
                   + rule.getId() + " but matched " + match.getRule().getId());
         }
         */
