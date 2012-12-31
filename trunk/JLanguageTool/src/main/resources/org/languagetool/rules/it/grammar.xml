@@ -31,66 +31,66 @@ $Id$
  Categorie delle regole
     gruppi delle regole
 
- nome						ID		stato
+ nome											ID				stato
  ============================================== =============== ===============
- Grammatica - Aggettivi				GR_01 		
-   uso corretto					GR_01_01	add more
+ Grammatica - Aggettivi							GR_01 		
+   uso corretto									GR_01_01		add more
  
- Grammatica - Articoli				GR_02		
-   uso corretto					GR_02_001	ok
+ Grammatica - Articoli							GR_02		
+   uso corretto									GR_02_001		ok
 
- Grammatica - Concordanza			GR_03		
-   tra genere e numero				GR_03_001	to do
-   tra soggetto e verbo				GR_03_002	to do
+ Grammatica - Concordanza						GR_03		
+   tra genere e numero							GR_03_001		to do
+   tra soggetto e verbo							GR_03_002		to do
 
- Grammatica - Elisioni e troncamenti		GR_04		
-   apocopi vocaliche				GR_04_001	add more
-   elisioni					GR_04_002	add more
+ Grammatica - Elisioni e troncamenti			GR_04		
+   apocopi vocaliche							GR_04_001		add more
+   elisioni										GR_04_002		add more
 
- Grammatica - Frase				GR_05		
-   altri elementi				GR_05_001	to do
-   struttura					GR_05_002  	add more
+ Grammatica - Frase								GR_05		
+   altri elementi								GR_05_001		to do
+   struttura									GR_05_002  		add more
 
- Grammatica - Maiuscole				GR_06		
-   uso corretto					GR_06_001	not needed?
+ Grammatica - Maiuscole							GR_06		
+   uso corretto									GR_06_001		not needed?
 
- Grammatica - Preposizioni			GR_07		
-   uso corretto					GR_07_001	add more
+ Grammatica - Preposizioni						GR_07		
+   uso corretto									GR_07_001		add more
 
- Grammatica - Pronomi				GR_08		
-   uso corretto					GR_08_001	to do
+ Grammatica - Pronomi							GR_08		
+   uso corretto									GR_08_001		to do
  
- Grammatica - Punteggiatura			GR_09		
-   asterischi di omissione (***)		GR_09_001	ok
-   puntini di sospensione (...)			GR_09_002	ok
-   ripetizioni					GR_09_003	ok
-   sigle					GR_09_004	ok
+ Grammatica - Punteggiatura						GR_09		
+   asterischi di omissione (***)				GR_09_001		ok
+   puntini di sospensione (...)					GR_09_002		ok
+   ripetizioni									GR_09_003		ok
+   sigle										GR_09_004		ok
 
- Grammatica - Verbi				GR_10		
-   concordanza tempi delle coordinate		GR_10_001	ok
-   concordanza tempi delle subordinate		GR_10_002	to do  
-   uso corretto					GR_10_003	to do
+ Grammatica - Verbi								GR_10		
+   concordanza tempi delle coordinate			GR_10_001		ok
+   concordanza tempi delle subordinate			GR_10_002		to do  
+   uso corretto									GR_10_003		add more
 
- Stile - Espressioni 				ST_01		
-   arcaiche					ST_01_001	to do
-   parlato					ST_01_002	add more
-   pleonasmi					ST_01_003	add more
-   regionali					ST_01_004	add more					
-   straniere					ST_01_005	add more
-   uso errato					ST_01_006	to do
+ Stile - Espressioni 							ST_01		
+   arcaiche										ST_01_001		to do
+   parlato										ST_01_002		add more
+   pleonasmi									ST_01_003		add more
+   regionali									ST_01_004		add more					
+   straniere									ST_01_005		add more
+   uso errato									ST_01_006		to do
 
- Stile - Frase					ST_02
-   frasi lunghe					ST_02_001	ok
+ Stile - Frase									ST_02
+   frasi lunghe									ST_02_001		ok
 
- Stile - Leggibilità				ST_03		
-   eufoniche					ST_03_001	ok
-   ripetizioni					ST_03_002	ok
+ Stile - Leggibilità							ST_03		
+   eufoniche									ST_03_001		ok
+   ripetizioni									ST_03_002		ok
 
- Stile - Numeri					ST_04		
-   in cifre se minori di 10			ST_04_001	ok
-   in cifre se minori di 100			ST_04_002	ok
+ Stile - Numeri									ST_04		
+   in cifre se minori di 10						ST_04_001		ok
+   in cifre se minori di 100					ST_04_002		ok
 
- Errori comuni                                  ER_01
+ Errori comuni                                  ER_01			ok
 
  ================================================================================
 -->
@@ -107,7 +107,7 @@ $Id$
  PB005    Fixed rule for dà to exclude "se da" pattern voted as useless
  PB006    Fixed rule for false positives in past tense concordance GR_10_001
  PB007    Added check for person in tense concordance GR_10_* overrides PB006
- PB008    Added rule to check that after "affinché acciocché" you use a "congiuntivo"
+ PB008    Added rules to check the use of "congiuntivo"
  ======== ===========================================================================
 -->
 
@@ -838,29 +838,18 @@ $Id$
                     <example type="correct">Gianna <marker>pensa che sia</marker> meglio rimanere a casa.</example>
                 </rule>
             </rulegroup> -->
-        <rulegroup name="uso corretto" id="GR_10_003">
-            <!-- dare -->
-            <rule>
-                <pattern>
-                    <!-- PB005+ -->
-                    <!--
-                                        <token postag_regexp="yes" postag="PRO-PERS-CLI.*"/>
-                    -->
-                    <token postag_regexp="yes" postag="PRO-PERS-CLI.*"><exception postag="CON"></exception></token>
-                    <!-- PB005- -->
-                    <marker>
-                        <token>da</token>
-                    </marker>
-                </pattern>
-                <message>Probabilmente si scrive con accento: <suggestion>dà</suggestion>.</message>
-                <example type="incorrect">Luigi mi <marker>da</marker> la mano.</example>
-                <example type="correct">Luigi mi dà la mano.</example>
-            </rule>
+        <rulegroup name="uso del congiuntivo" id="GR_10_003">
 <!-- PB008 + -->
-            <!-- affinché acciocché + congiuntivo -->
+            <!-- use of congiuntivo
+            Il congiuntivo si usa:
+1) con alcune congiunzioni subordinanti, quali affinché, benché, sebbene, quantunque, a meno che, nel caso che, qualora, prima che, senza che;
+2) con aggettivi o pronomi indefiniti (qualunque, chiunque, qualsiasi, ovunque, dovunque);
+3) con espressioni impersonali, come è necessario che, è probabile che, è bene che;
+4) in formule ormai fissate nell'uso (vada come vada; costi quel che costi). -->
+            <!--  congiunzioni subordinanti -->
             <rule>
                 <pattern>
-                    <token skip="2" regexp="yes">affinché|acciocché|purché</token>
+                    <token skip="2" regexp="yes">affinché|acciocché|purché|benché|sebbene|quantunque|qualora</token>
                     <marker>
                     	<token postag="VER.*" postag_regexp="yes">
                     	    <exception postag="VER.sub.*" postag_regexp="yes"></exception>
@@ -868,9 +857,88 @@ $Id$
                        	</token>
                     </marker>
                 </pattern>
-                <message>La congiunzione <match no="1"></match> richiede il congiuntivo.</message>
+                <message>La congiunzione '<match no="1"></match>' richiede il congiuntivo.</message>
                 <example type="incorrect">Ti avviso affinché tu <marker>puoi</marker> rimediare.</example>
                 <example type="correct">Ti avviso affinché tu <marker>possa</marker> rimediare.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>a</token>
+                    <token>meno</token>
+                    <token skip="2">che</token>
+                    <marker>
+                    	<token postag="VER.*" postag_regexp="yes">
+                    	    <exception postag="VER.sub.*" postag_regexp="yes"></exception>
+                    	    <exception scope="previous" postag="VER.sub.*" postag_regexp="yes"></exception>
+                       	</token>
+                    </marker>
+                </pattern>
+                <message>La congiunzione 'a meno che' richiede il congiuntivo.</message>
+                <example type="incorrect">Non possiamo vederci a meno che tu non <marker>puoi</marker> venire.</example>
+                <example type="correct">Non possiamo vederci a meno che tu non <marker>possa</marker> venire.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>nel</token>
+                    <token>caso</token>
+                    <token skip="2">che</token>
+                    <marker>
+                    	<token postag="VER.*" postag_regexp="yes">
+                    	    <exception postag="VER.sub.*" postag_regexp="yes"></exception>
+                    	    <exception scope="previous" postag="VER.sub.*" postag_regexp="yes"></exception>
+                       	</token>
+                    </marker>
+                </pattern>
+                <message>La congiunzione 'nel caso che' richiede il congiuntivo.</message>
+                <example type="incorrect">Ci incontreremo nel caso che tu <marker>puoi</marker> venire.</example>
+                <example type="correct">Ci incontreremo nel caso che tu <marker>possa</marker> venire.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">prima|senza</token>
+                    <token skip="2">che</token>
+                    <marker>
+                    	<token postag="VER.*" postag_regexp="yes">
+                    	    <exception postag="VER.sub.*" postag_regexp="yes"></exception>
+                    	    <exception scope="previous" postag="VER.sub.*" postag_regexp="yes"></exception>
+                       	</token>
+                    </marker>
+                </pattern>
+                <message>La congiunzione '<match no="1"></match> che' richiede il congiuntivo.</message>
+                <example type="incorrect">Ti avviso prima che tu <marker>fai</marker> qualcosa di sbagliato.</example>
+                <example type="correct">Ti avviso prima che tu <marker>faccia</marker> qualcosa di sbagliato.</example>
+            </rule>
+            <!-- aggettivi o pronomi indefiniti -->
+			<rule>
+                <pattern>
+                    <token skip="2" regexp="yes">qualunque|chiunque|qualsiasi|ovunque|dovunque</token>
+                    <marker>
+                    	<token postag="VER.*" postag_regexp="yes">
+                    	    <exception postag="VER.sub.*" postag_regexp="yes"></exception>
+                    	    <exception scope="previous" postag="VER.sub.*" postag_regexp="yes"></exception>
+                       	</token>
+                    </marker>
+                </pattern>
+                <message>L'aggettivo '<match no="1"></match>' richiede il congiuntivo.</message>
+                <example type="incorrect">Ti troverò ovunque tu <marker>sei</marker>.</example>
+                <example type="correct">Ti troverò ovunque tu <marker>sia</marker>.</example>
+            </rule>
+            <!-- espressioni impersonali è bene che, è meglio che -->
+			<rule>
+                <pattern>
+                    <token>è</token>
+                    <token/>
+                    <token skip="2">che</token>
+                    <marker>
+                    	<token postag="VER.*" postag_regexp="yes">
+                    	    <exception postag="VER.sub.*" postag_regexp="yes"></exception>
+                    	    <exception scope="previous" postag="VER.sub.*" postag_regexp="yes"></exception>
+                       	</token>
+                    </marker>
+                </pattern>
+                <message>L'espressione impersonale 'è <match no="2"></match> che' richiede il congiuntivo.</message>
+                <example type="incorrect">Credimi, è meglio che tu <marker>sei</marker> vicino.</example>
+                <example type="correct">Credimi, è meglio che tu <marker>sia</marker> vicino.</example>
             </rule>
 <!-- PB008 - -->
         </rulegroup>
@@ -1567,6 +1635,25 @@ $Id$
                 <message>Forse volevi dire <suggestion>là<match no="2"></match></suggestion>?</message>
                 <example type="incorrect">Mettilo <marker>la.</marker></example>
                 <example type="correct">Mettilo <marker>là.</marker></example>
+            </rule>
+        </rulegroup>        
+        <rulegroup name="scambio di 'dà' e 'da'" id="ER_02_005">       
+            <rule>
+ 		       <!-- dare -->
+                <pattern>
+                    <!-- PB005+ -->
+                    <!--
+                                        <token postag_regexp="yes" postag="PRO-PERS-CLI.*"/>
+                    -->
+                    <token postag_regexp="yes" postag="PRO-PERS-CLI.*"><exception postag="CON"></exception></token>
+                    <!-- PB005- -->
+                    <marker>
+                        <token>da</token>
+                    </marker>
+                </pattern>
+                <message>Probabilmente si scrive con accento: <suggestion>dà</suggestion>.</message>
+                <example type="incorrect">Luigi mi <marker>da</marker> la mano.</example>
+                <example type="correct">Luigi mi dà la mano.</example>
             </rule>
         </rulegroup>
     </category>
