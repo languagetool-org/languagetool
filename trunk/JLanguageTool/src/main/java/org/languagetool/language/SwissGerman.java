@@ -18,6 +18,12 @@
  */
 package org.languagetool.language;
 
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.de.GermanSpellerRule;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class SwissGerman extends German {
 
   @Override
@@ -30,4 +36,11 @@ public class SwissGerman extends German {
     return "German (Swiss)";
   }
 
+  @Override
+  public List<Class<? extends Rule>> getRelevantRules() {
+    final List<Class<? extends Rule>> rules = new ArrayList<Class<? extends Rule>>(super.getRelevantRules());
+    rules.add(GermanSpellerRule.class);
+    return rules;
+  }
+  
 }

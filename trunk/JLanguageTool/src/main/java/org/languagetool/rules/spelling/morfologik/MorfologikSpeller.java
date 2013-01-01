@@ -40,10 +40,23 @@ public class MorfologikSpeller {
   private final Speller speller;
   private final Locale conversionLocale;
 
-  public MorfologikSpeller(String filename, Locale conversionLocale) throws IOException {
+  public MorfologikSpeller(String filename, Locale conversionLocale, int maxEditDistance) throws IOException {
+    if (maxEditDistance <= 0) {
+      throw new RuntimeException("maxEditDistance must be > 0: " + maxEditDistance);
+    }
     final URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(filename);
-    speller = new Speller(Dictionary.read(url));
+    speller = new Speller(Dictionary.read(url), maxEditDistance);
     this.conversionLocale = conversionLocale != null ? conversionLocale : Locale.getDefault();
+  }
+
+  /**
+   * Creates a speller with a maximum edit distance of one.
+   * 
+   * @param filename path in classpath to morfologik dictionary.
+   * @param conversionLocale
+   */
+  public MorfologikSpeller(String filename, Locale conversionLocale) throws IOException {
+    this(filename, conversionLocale, 1);
   }
 
   public MorfologikSpeller(String filename) throws IOException {

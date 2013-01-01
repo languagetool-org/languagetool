@@ -51,15 +51,13 @@ public class HunspellRule extends SpellingCheckRule {
 
   public static final String RULE_ID = "HUNSPELL_RULE";
 
+  protected boolean needsInit = true;
+  protected Hunspell.Dictionary dictionary = null;
+  
   private final static String NON_ALPHABETIC = "[^\\p{L}]";
-
-  /** The dictionary file */
-  private Hunspell.Dictionary dictionary = null;
   private Pattern nonWordPattern;
-  private boolean needsInit = true;
 
-  public HunspellRule(final ResourceBundle messages, final Language language)
-          throws UnsatisfiedLinkError, UnsupportedOperationException, IOException {
+  public HunspellRule(final ResourceBundle messages, final Language language) {
     super(messages, language);
     super.setCategory(new Category(messages.getString("category_typo")));
   }
@@ -102,11 +100,9 @@ public class HunspellRule extends SpellingCheckRule {
                 len, len + word.length(),
                 messages.getString("spelling"),
                 messages.getString("desc_spelling_short"));
-        if (offerSuggestions()) {
-          final List<String> suggestions = dictionary.suggest(word);
-          if (suggestions != null) {
-            ruleMatch.setSuggestedReplacements(suggestions);
-          }
+        final List<String> suggestions = getSuggestions(word);
+        if (suggestions != null) {
+          ruleMatch.setSuggestedReplacements(suggestions);
         }
         ruleMatches.add(ruleMatch);
       }
@@ -116,11 +112,14 @@ public class HunspellRule extends SpellingCheckRule {
     return toRuleMatchArray(ruleMatches);
   }
 
-  protected boolean offerSuggestions() {
-    return true;
+  public List<String> getSuggestions(String word) throws IOException {
+    if (needsInit) {
+      init();
+    }
+    return dictionary.suggest(word);
   }
 
-  private String[] tokenizeText(final String sentence) throws IOException {
+  protected String[] tokenizeText(final String sentence) {
     return nonWordPattern.split(sentence);
   }
 

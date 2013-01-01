@@ -39,7 +39,6 @@ import org.languagetool.rules.de.GermanWrongWordInContextRule;
 import org.languagetool.rules.de.VerbAgreementRule;
 import org.languagetool.rules.de.WiederVsWiderRule;
 import org.languagetool.rules.de.WordCoherencyRule;
-import org.languagetool.rules.spelling.hunspell.HunspellNoSuggestionRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.de.GermanTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
@@ -116,7 +115,6 @@ public class German extends Language {
             CommaWhitespaceRule.class,
             GermanDoublePunctuationRule.class,
             GenericUnpairedBracketsRule.class,
-            HunspellNoSuggestionRule.class,
             UppercaseSentenceStartRule.class,
             WhitespaceRule.class,
             // specific to German:

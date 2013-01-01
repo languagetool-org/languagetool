@@ -17,19 +17,21 @@
  * USA
  */
 
-package org.languagetool.rules;
+package org.languagetool.rules.spelling.hunspell;
 
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.TestTools;
-import org.languagetool.rules.spelling.hunspell.HunspellRule;
+import org.languagetool.rules.de.GermanSpellerRule;
 
 public class HunspellRuleTest {
 
@@ -97,8 +99,8 @@ public class HunspellRuleTest {
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("L’Allemagne et l’Italie.")).length);
     assertEquals(2, rule.match(langTool.getAnalyzedSentence("L’allemagne et l’italie.")).length);
   }
-  
-@Ignore("just for internal performance testing, thus ignored by default")
+
+  @Ignore("just for internal performance testing, thus ignored by default")
   @Test
   public void testPerformance() throws Exception {
     final List<Language> allLanguages = Language.getAllLanguages();
@@ -109,6 +111,7 @@ public class HunspellRuleTest {
       langTool.check("anotherwarmup");
       final long startTime = System.currentTimeMillis();
       langTool.check("fdfds fdfdsa fdfdsb fdfdsc fdfdsd fdfdse fdfdsf fdfds fdfdsa fdfdsb fdfdsc fdfdsd fdfdse fdfdsf");
+      //String[] w = {"foo", "warmup", "Rechtschreipreform", "Theatrekasse", "Zoobesuck", "Handselvertreter", "Mückenstick", "gewönlich", "Traprennen", "Autoverkehrr"};
       //final AnalyzedSentence analyzedSentence = langTool.getAnalyzedSentence("fdfds fdfdsa fdfdsb fdfdsc fdfdsd fdfdse fdfdsf");
       //rule.match(analyzedSentence);
       final long endTime = System.currentTimeMillis();
@@ -116,4 +119,21 @@ public class HunspellRuleTest {
     }
   }
 
+  @Ignore("just for internal performance testing, thus ignored by default")
+  @Test
+  public void testCompoundAwareRulePerformance() throws IOException {
+    final ResourceBundle messages = ResourceBundle.getBundle("org.languagetool.MessagesBundle", new Locale("de"));
+    //slow:
+    //final HunspellRule rule = new HunspellRule(messages, Language.GERMANY_GERMAN);
+    //fast:
+    final CompoundAwareHunspellRule rule = new GermanSpellerRule(messages, Language.GERMANY_GERMAN);
+    rule.init();
+    final String[] words = {"foo", "warmup", "Rechtschreipreform", "Theatrekasse", "Zoobesuck", "Handselvertreter", "Mückenstick", "gewönlich", "Traprennen", "Autoverkehrr"};
+    for (String word : words) {
+      final long startTime = System.currentTimeMillis();
+      final List<String> suggest = rule.getSuggestions(word);
+      System.out.println((System.currentTimeMillis()-startTime) + "ms for " + word + ": " + suggest);
+    }
+  }
+  
 }

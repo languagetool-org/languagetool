@@ -23,6 +23,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.TestTools;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.de.GermanSpellerRule;
 import org.languagetool.rules.en.MorfologikAmericanSpellerRule;
 import org.languagetool.rules.patterns.Element;
 import org.languagetool.rules.patterns.PatternRule;
@@ -42,7 +43,7 @@ public class SpellingCheckRuleTest extends TestCase {
 
     final List<RuleMatch> matches2 = langTool.check("Das ist ein Tibbfehla");
     assertEquals(1, matches2.size());
-    assertEquals("HUNSPELL_NO_SUGGEST_RULE", matches2.get(0).getRule().getId());
+    assertEquals("GERMANY_GERMAN_SPELLER_RULE", matches2.get(0).getRule().getId());
   }
 
   public void testIgnoreSuggestionsWithMorfologik() throws IOException {
@@ -60,6 +61,7 @@ public class SpellingCheckRuleTest extends TestCase {
     final JLanguageTool langTool = new JLanguageTool(Language.GERMANY_GERMAN);
     final SpellingCheckRule rule = new HunspellNoSuggestionRule(TestTools.getEnglishMessages(), Language.GERMANY_GERMAN);
     langTool.addRule(rule);
+    langTool.disableRule(GermanSpellerRule.RULE_ID);
     final List<RuleMatch> matches = langTool.check("Das ist ein Tibbfehla.");
     assertEquals(1, matches.size());
     assertEquals(HunspellNoSuggestionRule.RULE_ID, matches.get(0).getRule().getId());
