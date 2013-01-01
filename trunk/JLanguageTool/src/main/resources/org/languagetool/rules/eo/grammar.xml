@@ -2264,7 +2264,7 @@ $Id$
       <example type="incorrect"><marker>Mi venis kun sia</marker> frato.</example>
       <example type="correct">Mi venis kun mia frato.</example>
     </rule>
-    <!-- More work needed on this rule 
+    <!-- More work needed on this rule
     <rulegroup id="ESTAS_E" name="estas + e-vorto">
       <rule>
         <pattern mark_from="2" mark_to="-1">
@@ -2710,8 +2710,7 @@ $Id$
             <exception scope="next" postag="[ROAT] akz.*" postag_regexp="yes"/>
           </token>
           <marker>
-            <token regexp="yes" skip="-1">(?:ne|re)?(?:fin|komenc)[aiou]s<exception scope="previous" regexp="yes">[mcvlŝn]i|ili|oni</exception><exception scope="next" regexp="yes">.*n</exception><exception scope="next" postag="V.* i" postag_regexp="yes"/>
-                        </token>
+            <token regexp="yes" skip="-1">(?:ne|re)?(?:fin|komenc)[aiou]s<exception scope="previous" regexp="yes">[mcvlŝn]i|ili|oni</exception><exception scope="next" regexp="yes">.*n</exception><exception scope="next" postag="V.* i" postag_regexp="yes"/></token>
           </marker>
           <token postag="SENT_END|K|T.* k .*" postag_regexp="yes"/>
         </pattern>
@@ -3330,8 +3329,9 @@ $Id$
     <rule id="E_VORT_PLUR" name="navalida pluralo ĉe e-vorto.">
       <pattern>
         <token regexp="yes">.*ejn?
-                    <exception regexp="yes">(?:mal)?plej|h?ej|okej</exception>
-                    <exception regexp="yes">\p{Lu}.*</exception></token>
+          <exception regexp="yes">(?:mal)?plej|h?ej|okej</exception>
+          <exception regexp="yes">\p{Lu}.*</exception>
+        </token>
       </pattern>
       <message>Pluralo ne eblas kun e-vorto «\1».</message>
       <example type="incorrect">Mi kuras <marker>vesperej</marker>.</example>

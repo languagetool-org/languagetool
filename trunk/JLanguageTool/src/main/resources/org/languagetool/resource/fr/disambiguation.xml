@@ -10,1251 +10,1251 @@ RB => Règles Brutes
 -->
 <rules lang="fr" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../disambiguation.xsd">
-    <unification feature="number">
-        <equivalence type="sg">
-            <token postag=".* sp?" postag_regexp="yes"/>
-        </equivalence>
-        <equivalence type="pl">
-            <token postag=".* s?p" postag_regexp="yes"/>
-        </equivalence>
-    </unification>
-    <unification feature="gender">
-        <equivalence type="masc">
-            <token postag=".* [me] [sp][sp]?" postag_regexp="yes"/>
-        </equivalence>
-        <equivalence type="fem">
-            <token postag=".* [fe] [sp][sp]?" postag_regexp="yes"/>
-        </equivalence>
-    </unification>
-
-    <!-- Words not tagged in dicollecte -->
-    <rule name="adverbes" id="ADVERBES">
-        <pattern>
-            <marker>
-                <token regexp="yes">trop|peu|beaucoup|assez|fort|peut-être</token>
-            </marker>
-        </pattern>
-        <disambig postag="A"/>
-    </rule>
-
-    <rule name="la (nom)" id="LA_N">
-        <pattern>
-            <token regexp="yes">un|les?|ce|du|des</token>
-            <marker>
-                <token>la</token>
-            </marker>
-        </pattern>
-        <disambig postag="N m sp"/>
-    </rule>
-    <rule name="est" id="EST">
-        <pattern>
-            <token regexp="yes">[dl]<exception scope="previous" regexp="yes">ne|il|elle</exception><exception scope="previous" postag="[NZ].*" postag_regexp="yes"/></token>
-            <token regexp="yes">[’´'‛′‘]</token>
-            <marker>
-                <token>est</token>
-            </marker>
-        </pattern>
-        <disambig postag="N m s"/>
-    </rule>
-
-    <rule name="la (pronom pers))" id="LA_R">
-        <pattern>
-            <token postag="R pers suj.*" postag_regexp="yes"/>
-            <marker>
-                <token>la</token>
-            </marker>
-        </pattern>
-        <disambig postag="R pers obj 3 f s"/>
-    </rule>
-
-    <rule name="la (déterminant)" id="LA_D">
-        <pattern>
-            <marker>
-                <and>
-                    <token>la</token>
-                    <token postag="D f s"/>
-                </and>
-            </marker>
-        </pattern>
-        <disambig postag="D f s"/>
-    </rule>
-
-    <!-- So that word "faute" (etc) as in "des faute", "une fautes" is marked as
+  <unification feature="number">
+    <equivalence type="sg">
+      <token postag=".* sp?" postag_regexp="yes"/>
+    </equivalence>
+    <equivalence type="pl">
+      <token postag=".* s?p" postag_regexp="yes"/>
+    </equivalence>
+  </unification>
+  <unification feature="gender">
+    <equivalence type="masc">
+      <token postag=".* [me] [sp][sp]?" postag_regexp="yes"/>
+    </equivalence>
+    <equivalence type="fem">
+      <token postag=".* [fe] [sp][sp]?" postag_regexp="yes"/>
+    </equivalence>
+  </unification>
+  
+  <!-- Words not tagged in dicollecte -->
+  <rule name="adverbes" id="ADVERBES">
+    <pattern>
+      <marker>
+        <token regexp="yes">trop|peu|beaucoup|assez|fort|peut-être</token>
+      </marker>
+    </pattern>
+    <disambig postag="A"/>
+  </rule>
+  
+  <rule name="la (nom)" id="LA_N">
+    <pattern>
+      <token regexp="yes">un|les?|ce|du|des</token>
+      <marker>
+        <token>la</token>
+      </marker>
+    </pattern>
+    <disambig postag="N m sp"/>
+  </rule>
+  <rule name="est" id="EST">
+    <pattern>
+      <token regexp="yes">[dl]<exception scope="previous" regexp="yes">ne|il|elle</exception><exception scope="previous" postag="[NZ].*" postag_regexp="yes"/></token>
+      <token regexp="yes">[’´'‛′‘]</token>
+      <marker>
+        <token>est</token>
+      </marker>
+    </pattern>
+    <disambig postag="N m s"/>
+  </rule>
+  
+  <rule name="la (pronom pers))" id="LA_R">
+    <pattern>
+      <token postag="R pers suj.*" postag_regexp="yes"/>
+      <marker>
+        <token>la</token>
+      </marker>
+    </pattern>
+    <disambig postag="R pers obj 3 f s"/>
+  </rule>
+  
+  <rule name="la (déterminant)" id="LA_D">
+    <pattern>
+      <marker>
+        <and>
+          <token>la</token>
+          <token postag="D f s"/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig postag="D f s"/>
+  </rule>
+  
+  <!-- So that word "faute" (etc) as in "des faute", "une fautes" is marked as
  a noun and not a verb, otherwise we don't find the incorrect
  accord in number -->
-    <rulegroup name="nom" id="N">
-      <rule>
-        <pattern>
-          <token regexp="yes">une|quelques|plusieurs</token>
-          <marker><token regexp="yes">étranges?|larges?|drôles?|doubles?|infimes?|triples?|quadruples?|sales?|solides?</token></marker>
-        </pattern>
-        <disambig action="filter" postag="J [ef] .*"/>
-      </rule>
-      <rule>
-        <pattern>
-            <token regexp="yes">aucunes?|certaines?|différentes?|diverses?|nombreuses|nulle|telles?|toute?s?|une<exception scope="previous" regexp="yes">[’´'‛′‘]</exception></token>
-            <marker>
-                <token postag="N [fe] .*" postag_regexp="yes"><exception regexp="yes">est|multiples|si</exception></token>
-            </marker>
-        </pattern>
-        <disambig action="filter" postag="N [fe].*"/>
-      </rule>
-      <rule>
-        <pattern>
-            <token regexp="yes">aucuns?|certains?|différents?|divers|nombreux|touts?|un<exception scope="previous" regexp="yes">[’´'‛′‘]</exception></token>
-            <marker>
-                <token postag="N [me] .*" postag_regexp="yes"><exception regexp="yes">est|multiples|si</exception></token>
-            </marker>
-        </pattern>
-        <disambig action="filter" postag="N [me].*"/>
-      </rule>
-      <rule>
-        <pattern>
-            <token regexp="yes">chaque|des?|maint|mêmes?|moult|nul|plusieurs|quelques<exception scope="previous" regexp="yes">[’´'‛′‘]</exception></token>
-            <marker>
-                <token postag="N.*" postag_regexp="yes"><exception regexp="yes">est|multiples|si</exception></token>
-            </marker>
-        </pattern>
-        <disambig action="filter" postag="N.*"/>
-      </rule>
-    </rulegroup>
-    <rulegroup name="été (nom)" id="ETE">
-        <rule>
-            <pattern>
-                <token regexp="yes">cet|en|un</token>
-                <marker>
-                    <token>été</token>
-                </marker>
-            </pattern>
-            <disambig postag="N m s"/>
-        </rule>
-        <rule>
-            <pattern>
-                <token>l</token>
-                <token regexp="yes">[’´'‛′‘]</token>
-                <marker>
-                    <token>été</token>
-                </marker>
-            </pattern>
-            <disambig postag="N m s"/>
-        </rule>
-    </rulegroup>
-    <rule name="quelque chose" id="QUELQUE_CHOSE">
-        <pattern>
-            <token>quelque</token>
-            <marker>
-                <token>chose</token>
-            </marker>
-        </pattern>
-        <disambig postag="N m s"/>
-    </rule>
-
-    <rulegroup name="RP : Pronoms personnels objets" id="RP-PRO_PERS_OBJ">
-        <rule name="nous">
-            <pattern>
-                <token postag="R pers .*" postag_regexp="yes"/>
-                <marker>
-                    <token>nous</token>
-                </marker>
-            </pattern>
-            <disambig postag="R pers obj 1 p"/>
-        </rule>
-        <rule name="le bus nous">
-            <pattern>
-                <token postag="SENT_START|M fin .*" postag_regexp="yes" skip="1"/>
-                <token postag="D.*" postag_regexp="yes"/>
-                <token postag="N.*" postag_regexp="yes"/>
-                <marker>
-                    <token>nous</token>
-                </marker>
-            </pattern>
-            <disambig postag="R pers obj 1 p"/>
-        </rule>
-        <rule name="qui nous">
-            <pattern>
-                <token regexp="yes">à|qui|de|ne|chez|sur|sans|entre|parmi|tout|pour</token>
-                <marker>
-                    <token>nous</token>
-                </marker>
-            </pattern>
-            <disambig postag="R pers obj 1 p"/>
-        </rule>
-        <rule name="Robert nous">
-            <pattern>
-                <token postag="SENT_START" skip="1"/>
-                <token postag="Z.*" postag_regexp="yes"/>
-                <marker>
-                    <token>nous</token>
-                </marker>
-            </pattern>
-            <disambig postag="R pers obj 1 p"/>
-        </rule>
-        <rule name="quelqu'un nous">
-            <pattern>
-                <token>quelqu</token>
-                <token regexp="yes">[’´'‛′‘]</token>
-                <token regexp="yes">une?s?</token>
-                <marker>
-                    <token>nous</token>
-                </marker>
-            </pattern>
-            <disambig postag="R pers obj 1 p"/>
-        </rule>
-        <rule name="ça nous">
-            <pattern>
-                <token postag="SENT_START|M nonfin" postag_regexp="yes" skip="1"/>
-                <token regexp="yes">ça|cela|ceci|ceux-ci|celles?-ci<exception scope="previous" postag="P"/></token>
-                <marker>
-                    <token>nous</token>
-                </marker>
-            </pattern>
-            <disambig postag="R pers obj 1 p"/>
-        </rule>
-        <rule name="que ça nous">
-            <pattern>
-                <token regexp="yes">quand|que|si|lorsque|où</token>
-                <token regexp="yes">ça|cela|ceci|ceux-ci|celles?-ci</token>
-                <marker>
-                    <token>nous</token>
-                </marker>
-            </pattern>
-            <disambig postag="R pers obj 1 p"/>
-        </rule>
-        <rule name="sans_même nous">
-            <pattern>
-                <token>sans</token>
-                <token>même</token>
-                <marker>
-                    <token>nous</token>
-                </marker>
-            </pattern>
-            <disambig postag="R pers obj 1 p"/>
-        </rule>
-        <rule name="L'homme nous parle">
-            <pattern>
-                <token postag="N . s" postag_regexp="yes"/>
-                <marker>
-                    <token regexp="yes">vous|nous</token>
-                </marker>
-                <token postag="V .* 3 s" postag_regexp="yes"/>
-            </pattern>
-            <disambig action="filter" postag="R pers obj .*"/>
-            <example type="ambiguous" inputform="nous[nous/R pers obj 1 p,nous/R pers suj 1 p]" outputform="nous[nous/R pers obj 1 p]">L'homme <marker>nous</marker> parle de sa vie.</example>
-            <example type="untouched">La plupart du temps nous sommes dans le développement d'une expertise...</example>
-        </rule>
-        <rule name="Les études nous ont...">
-            <pattern>
-                <token postag="N . p" postag_regexp="yes"/>
-                <marker>
-                    <token regexp="yes">vous|nous</token>
-                </marker>
-                <token postag="V .* 3 p" postag_regexp="yes"/>
-            </pattern>
-            <disambig action="filter" postag="R pers obj .*"/>
-            <example type="ambiguous" inputform="nous[nous/R pers obj 1 p,nous/R pers suj 1 p]" outputform="nous[nous/R pers obj 1 p]">Les études <marker>nous</marker> ont révélé...</example>
-            <example type="untouched">La plupart du temps nous sommes dans le développement d'une expertise...</example>
-        </rule>
-        <rule name="puis-je vous">
-            <pattern>
-                <token regexp="yes">.*-(je|tu|ils?|elles?|on|vous|nous)</token>
-                <marker>
-                    <token>vous</token>
-                </marker>
-            </pattern>
-            <disambig postag="R pers obj 2 p"/>
-        </rule>
-        <rule name="puis-je nous">
-            <pattern>
-                <token regexp="yes">.*-(je|tu|ils?|elles?|on|vous|nous)</token>
-                <marker>
-                    <token>nous</token>
-                </marker>
-            </pattern>
-            <disambig postag="R pers obj 1 p"/>
-        </rule>
-        <rule name="vous">
-            <pattern>
-                <token postag="R pers .*" postag_regexp="yes"/>
-                <marker>
-                    <token>vous</token>
-                </marker>
-            </pattern>
-            <disambig postag="R pers obj 2 p"/>
-        </rule>
-        <rule name="le bus vous">
-            <pattern>
-                <token postag="SENT_START|M fin .*" postag_regexp="yes" skip="1"/>
-                <token postag="D.*" postag_regexp="yes"/>
-                <token postag="N.*" postag_regexp="yes"/>
-                <marker>
-                    <token>vous</token>
-                </marker>
-            </pattern>
-            <disambig postag="R pers obj 2 p"/>
-        </rule>
-        <rule name="qui vous">
-            <pattern>
-                <token regexp="yes">à|qui|de|ne|chez|sur|sans|entre|parmi|tout|pour</token>
-                <marker>
-                    <token>vous</token>
-                </marker>
-            </pattern>
-            <disambig postag="R pers obj 2 p"/>
-        </rule>
-        <rule name="Robert vous">
-            <pattern>
-                <token postag="SENT_START" skip="1"/>
-                <token postag="Z.*" postag_regexp="yes"/>
-                <marker>
-                    <token>vous</token>
-                </marker>
-            </pattern>
-            <disambig postag="R pers obj 2 p"/>
-        </rule>
-        <rule name="quelqu'un vous">
-            <pattern>
-                <token>quelqu</token>
-                <token regexp="yes">[’´'‛′‘]</token>
-                <token regexp="yes">une?s?</token>
-                <marker>
-                    <token>vous</token>
-                </marker>
-            </pattern>
-            <disambig postag="R pers obj 2 p"/>
-        </rule>
-        <rule name="ça vous">
-            <pattern>
-                <token postag="SENT_START|M nonfin" postag_regexp="yes" skip="1"/>
-                <token regexp="yes">ça|cela|ceci|ceux-ci|celles?-ci<exception scope="previous" postag="P"/></token>
-                <marker>
-                    <token>vous</token>
-                </marker>
-            </pattern>
-            <disambig postag="R pers obj 2 p"/>
-        </rule>
-        <rule name="que ça vous">
-            <pattern>
-                <token regexp="yes">quand|que|si|lorsque|où</token>
-                <token regexp="yes">ça|cela|ceci|ceux-ci|celles?-ci</token>
-                <marker>
-                    <token>vous</token>
-                </marker>
-            </pattern>
-            <disambig postag="R pers obj 2 p"/>
-        </rule>
-        <rule name="sans_même vous">
-            <pattern>
-                <token>sans</token>
-                <token>même</token>
-                <marker>
-                    <token>vous</token>
-                </marker>
-            </pattern>
-            <disambig postag="R pers obj 2 p"/>
-        </rule>
-        <rule name="se">
-            <pattern>
-                <marker>
-                    <token>s</token>
-                </marker>
-                <token postag=".*" postag_regexp="yes"/>
-                <token postag="V.*" postag_regexp="yes"/>
-            </pattern>
-            <disambig postag="R pers obj 3 sp"/>
-        </rule>
-        <rule name="te">
-            <pattern>
-                <marker>
-                    <token>t</token>
-                </marker>
-                <token postag=".*" postag_regexp="yes"/>
-                <token postag="V.*" postag_regexp="yes"/>
-            </pattern>
-            <disambig postag="R pers obj 2 s"/>
-        </rule>
-        <rule name="m'">
-            <pattern>
-                <marker>
-                    <token>m</token>
-                </marker>
-                <token postag=".*" postag_regexp="yes"/>
-                <token postag="V.*" postag_regexp="yes"/>
-            </pattern>
-            <disambig postag="R pers obj 1 s"/>
-        </rule>
-
-        <rule name="lui">
-            <pattern>
-                <marker>
-                    <token>lui</token>
-                </marker>
-            </pattern>
-            <disambig postag="R 3 s"/>
-        </rule>
-        <rule name="lui (R pers)">
-            <pattern>
-                <token regexp="yes">[lnj]e|tu|ils?|elles?|on|[nv]ous|la</token>
-                <marker>
-                    <token>lui</token>
-                </marker>
-            </pattern>
-            <disambig postag="R pers obj 3 m s"/>
-        </rule>
-
-        <rule>
-            <pattern>
-                <token postag="[NZR].*" postag_regexp="yes"/>
-                <marker>
-                    <token>leur</token>
-                </marker>
-            </pattern>
-            <disambig postag="R pers obj 3 p"/>
-        </rule>
-        <rule>
-            <pattern>
-                <token>ne</token>
-                <marker>
-                    <token>leur</token>
-                </marker>
-            </pattern>
-            <disambig postag="R pers obj 3 p"/>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token postag="D e s">leur</token>
-                </marker>
-                <token postag="[NJ].*" postag_regexp="yes"/>
-            </pattern>
-            <disambig postag="D e s"/>
-        </rule>
-
-        <rule name="le/la/les/l'">
-            <pattern>
-                <token postag="R pers suj .*" postag_regexp="yes"/>
-                <marker>
-                    <token postag="R pers obj .*" postag_regexp="yes" regexp="yes">l|la|le|les</token>
-                </marker>
-            </pattern>
-            <disambig><match no="2" postag_regexp="yes" postag="R pers obj .*"/></disambig>
-        </rule>
-        <rule name="ne + le/la/les/l'">
-            <pattern>
-                <token postag="R pers suj .*" postag_regexp="yes"/>
-                <token>ne</token>
-                <marker>
-                    <token postag="R pers obj .*" postag_regexp="yes" regexp="yes">l|la|le|les</token>
-                </marker>
-            </pattern>
-            <disambig><match no="3" postag_regexp="yes" postag="R pers obj .*"/></disambig>
-        </rule>
-    </rulegroup>
-
-    <rulegroup name="RP : Pronoms personnels sujets" id="RP-PRO_PERS_SUJ">
-        <rule name="j'">
-            <pattern>
-                <marker>
-                    <token>j</token>
-                </marker>
-            </pattern>
-            <disambig postag="R pers suj 1 s"/>
-        </rule>
-
-        <rule name="tu">
-            <pattern>
-                <marker>
-                    <token>tu</token>
-                </marker>
-                <token postag="V.*" postag_regexp="yes"/>
-            </pattern>
-            <disambig postag="R pers suj 2 s"/>
-        </rule>
-        <rule name="tu te/ne">
-            <pattern>
-                <marker>
-                    <token>tu</token>
-                </marker>
-                <token regexp="yes">[mntl]e?|la|lui|leur|[nv]ous</token>
-            </pattern>
-            <disambig postag="R pers suj 2 s"/>
-        </rule>
-
-        <rule name="Nous">
-            <pattern>
-                <token postag="SENT_START"/>
-                <marker>
-                    <token>nous</token>
-                </marker>
-            </pattern>
-            <disambig postag="R pers suj 1 p"/>
-        </rule>
-
-        <rule name="Vous">
-            <pattern>
-                <token postag="SENT_START"/>
-                <marker>
-                    <token>vous</token>
-                </marker>
-            </pattern>
-            <disambig postag="R pers suj 2 p"/>
-        </rule>
-
-    </rulegroup>
-
-    <rulegroup name="RP : étais" id="RP-ETAIS">
-        <rule name="j'étais">
-            <pattern>
-                <token postag="R pers suj 1 s" skip="1"/>
-                <marker>
-                    <token>étais</token>
-                </marker>
-            </pattern>
-            <disambig postag="V etre ind impa 1 s"/>
-        </rule>
-        <rule name="tu étais">
-            <pattern>
-                <token skip="1">tu</token>
-                <marker>
-                    <token>étais</token>
-                </marker>
-            </pattern>
-            <disambig postag="V etre ind impa 2 s"/>
-        </rule>
-    </rulegroup>
-
-    <rulegroup name="ne + verbe" id="NE_V">
-        <rule>
-            <pattern>
-                <token regexp="yes">ne|je|tu|ils?|on</token>
-                <marker>
-                    <token postag="V.*" postag_regexp="yes"/>
-                </marker>
-            </pattern>
-            <disambig><match no="1" postag_regexp="yes" postag="V.*"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token>n</token>
-                <token regexp="yes">[’´'‛′‘]</token>
-                <marker>
-                    <token postag="V.*" postag_regexp="yes"/>
-                </marker>
-            </pattern>
-            <disambig><match no="2" postag_regexp="yes" postag="V.*"/></disambig>
-        </rule>
-    </rulegroup>
-
-    <rulegroup id="SON" name="non (nom)">
-        <rule>
-            <pattern>
-                <token regexp="yes">le|un|au|[mts]on</token>
-                <marker>
-                    <token>son</token>
-                </marker>
-            </pattern>
-            <disambig postag="N m s"/>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token>son</token>
-                </marker>
-                <token>de</token>
-                <token regexp="yes">cloches?</token>
-            </pattern>
-            <disambig postag="N m s"/>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token>son</token>
-                </marker>
-                <token>d</token>
-                <token regexp="yes">[’´'‛′‘]</token>
-                <token regexp="yes">instruments?</token>
-            </pattern>
-            <disambig postag="N m s"/>
-        </rule>
-    </rulegroup>
-
-    <rule name="RP : En + participe présent" id="RP-EN_VPPR">
-        <pattern>
-            <token>en</token>
-            <marker>
-                <token postag="V ppr"/>
-            </marker>
-        </pattern>
-        <disambig><match no="1" postag="V ppr"/></disambig>
-    </rule>
-
-    <rulegroup name="RP : mon/ton/son" id="RP-MON_TON_SON">
-        <rule name="mon">
-            <pattern>
-                <marker>
-                    <token regexp="yes" postag="N m s" negate_pos="yes">mon|ton|son</token>
-                </marker>
-            </pattern>
-            <disambig postag="D e s"/>
-        </rule>
-    </rulegroup>
-    <rule id="AVEC_N" name="avec + verb/nom">
+  <rulegroup name="nom" id="N">
+    <rule>
       <pattern>
-        <token>avec</token>
+        <token regexp="yes">une|quelques|plusieurs</token>
+        <marker><token regexp="yes">étranges?|larges?|drôles?|doubles?|infimes?|triples?|quadruples?|sales?|solides?</token></marker>
+      </pattern>
+      <disambig action="filter" postag="J [ef] .*"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token regexp="yes">aucunes?|certaines?|différentes?|diverses?|nombreuses|nulle|telles?|toute?s?|une<exception scope="previous" regexp="yes">[’´'‛′‘]</exception></token>
         <marker>
-          <and>
-              <token postag="N.*" postag_regexp="yes"/>
-              <token postag="V.*" postag_regexp="yes"/>
-          </and>
+          <token postag="N [fe] .*" postag_regexp="yes"><exception regexp="yes">est|multiples|si</exception></token>
         </marker>
       </pattern>
-      <disambig action="filter" postag="[^V].*"/>
+      <disambig action="filter" postag="N [fe].*"/>
     </rule>
-    <rulegroup name="RP : Négation" id="RP-NEGATION">
-        <rule name="pas">
-            <pattern>
-                <token regexp="yes" skip="3">ne|n</token>
-                <marker>
-                    <token regexp="yes">pas|point|plus|jamais</token>
-                </marker>
-            </pattern>
-            <disambig postag="A"/>
-        </rule>
-        <rule name="ne">
-            <pattern>
-                <marker>
-                    <token regexp="yes" skip="3">ne?</token>
-                </marker>
-                <token regexp="yes">pas|point|plus|jamais</token>
-            </pattern>
-            <disambig postag="A"/>
-        </rule>
-    </rulegroup>
-
-    <rulegroup name="RP : Infinitif ambigu" id="RP-INFINITIF">
-        <rule name="Infinitif être">
-            <pattern>
-                <token postag="V.*" postag_regexp="yes"/>
-                <marker>
-                    <token postag="V etre inf"/>
-                </marker>
-            </pattern>
-            <disambig postag="V etre inf"/>
-        </rule>
-        <rule name="Infinitif avoir">
-            <pattern>
-                <token postag="V .*" postag_regexp="yes"/>
-                <marker>
-                    <token postag="V avoir inf"/>
-                </marker>
-            </pattern>
-            <disambig postag="V avoir inf"/>
-        </rule>
-    </rulegroup>
-    <rule name="RP : Det + Adj ambigu + Nom" id="RP-D_J_AMBIG_N">
-        <pattern>
-            <unify>  <feature id="number"/> <feature id="gender"/>
-                <token postag="D.*" postag_regexp="yes"/>
-                <token postag="J.*" postag_regexp="yes"/>
-                <token postag="N.*" postag_regexp="yes"><exception regexp="yes">dans|envers|mais</exception><exception inflected="yes" regexp="yes">avoir|être</exception></token>
-            </unify>
-        </pattern>
-        <disambig action="unify"/>
-    </rule>
-
-    <rule name="RP : Det + Nom ambigu" id="RP-D_N_AMBIG">
-        <pattern>
-            <unify> <feature id="number"/> <feature id="gender"/>
-                <token postag="D.*" postag_regexp="yes"/>
-                <token postag="N.*" postag_regexp="yes"><exception regexp="yes">a|dans|envers</exception></token>
-            </unify>
-        </pattern>
-        <disambig action="unify"/>
-        <example type="untouched">Ils sont parti.</example>
-        <example type="ambiguous" inputform="livre[livre/N e s,livrer/V imp pres 2 s,livrer/V ind pres 1 s,livrer/V ind pres 3 s,livrer/V sub pres 1 s,livrer/V sub pres 3 s]" outputform="livre[livre/N e s]">Il a enfin publié son <marker>livre</marker>.</example>
-    </rule>
-
-    <!-- This is to catch frequent errors such as "J'ai manger" which would not
-         be caught without disambiguation as "manger" can also be a noun -->
-    <rule name="Etre/Avoir + verb" id="ETRE_AVOIR_V_ER">
-        <pattern>
-            <token postag="V avoir .*" postag_regexp="yes"/>
-            <marker>
-                <token regexp="yes" postag="V inf">.*er</token>
-            </marker>
-        </pattern>
-        <disambig postag="V inf"/>
-    </rule>
-
-    <rulegroup name="RP : Etre/avoir + participe passé ambigu" id="RP-ÊTRE_AVOIR_VPPA_AMBIG">
-        <rule name="ppa masc sing">
-            <pattern>
-                <token postag="V etre .*|V avoir .*" postag_regexp="yes" skip="2"/>
-                <marker>
-                    <token postag="V ppa .*" postag_regexp="yes"/>
-                </marker>
-            </pattern>
-            <disambig><match no="2" postag_regexp="yes" postag="V ppa .*"/></disambig>
-        </rule>
-        <rule name="avoir été">
-            <pattern>
-                <token postag="V avoir .*" postag_regexp="yes" skip="2"/>
-                <marker>
-                    <token>été</token>
-                </marker>
-            </pattern>
-            <disambig action="replace"><wd lemma="être" pos="V etre ppa m s"/></disambig>
-        </rule>
-    </rulegroup>
-
-    <rulegroup name="RP : Que" id="RP-QUE">
-        <rule name="que relatif">
-            <pattern>
-                <token postag="N.*" postag_regexp="yes"/>
-                <marker>
-                    <token regexp="yes">que|qu</token>
-                </marker>
-            </pattern>
-            <disambig postag="R rel e sp"/>
-        </rule>
-        <rule name="que conjonction sub">
-            <pattern>
-                <token postag="V.*|A" postag_regexp="yes"/>
-                <marker>
-                    <token regexp="yes">que|qu</token>
-                </marker>
-            </pattern>
-            <disambig postag="C sub"/>
-        </rule>
-    </rulegroup>
-    <rule name="RP : Indicatif être (suis est sommes)" id="RP-SUIS_EST_SOMMES">
-        <pattern>
-            <token postag="R pers suj .*|J.*|N.*|A" postag_regexp="yes"/>
-            <marker>
-                <token postag="V etre ind pres .*" postag_regexp="yes"/>
-            </marker>
-        </pattern>
-        <disambig><match no="2" postag_regexp="yes" postag="V etre ind pres .*"/></disambig>
-    </rule>
-    <rule name="RP : Indicatif avoir (as a ont)" id="RP-AS_A_ONT">
-        <pattern>
-            <token postag="R pers suj .*|J.*|N.*|A" postag_regexp="yes"/>
-            <marker>
-                <token postag="V avoir ind pres .*" postag_regexp="yes"/>
-            </marker>
-        </pattern>
-        <disambig><match no="2" postag_regexp="yes" postag="V avoir ind pres .*"/></disambig>
-    </rule>
-    <rule name="RP : Être + adj ambigu" id="RP-ETRE_ADJ_AMBIG">
-        <pattern>
-            <token postag="V etre .*" postag_regexp="yes" skip="2"/>
-            <marker>
-                <token postag="J.*" postag_regexp="yes"><exception>torse</exception></token>
-            </marker>
-        </pattern>
-        <disambig><match no="2" postag_regexp="yes" postag="J.*"/></disambig>
-    </rule>
-    <rule name="RB : le la les" id="RB-LE_LA_LES">
-        <pattern>
-            <marker>
-                <token postag="D.*" postag_regexp="yes" regexp="yes">l|la|le|les</token>
-            </marker>
-        </pattern>
-        <disambig><match no="1" postag_regexp="yes" postag="D.*"/></disambig>
-    </rule>
-    <rule name="RB : Préposition" id="RB-PREPOSITION">
-        <pattern>
-            <marker>
-                <token postag="P"/>
-            </marker>
-        </pattern>
-        <disambig postag="P"/>
-    </rule>
-    <rulegroup name="RB : Infinitif" id="RB-INFINITIF">
-        <rule name="infinitif être">
-            <pattern>
-                <marker>
-                    <token postag="V etre inf"/>
-                </marker>
-            </pattern>
-            <disambig postag="V etre inf"/>
-        </rule>
-        <rule name="infinitif avoir">
-            <pattern>
-                <marker>
-                    <token postag="V avoir inf"/>
-                </marker>
-            </pattern>
-            <disambig postag="V avoir inf"/>
-        </rule>
-    </rulegroup>
-
-    <rulegroup name="RP : a - est" id="RP-A_EST">
-        <rule name="a">
-            <pattern>
-                <marker>
-                    <token>a</token>
-                </marker>
-            </pattern>
-            <disambig postag="V avoir ind pres 3 s"/>
-        </rule>
-        <rule name="est">
-            <pattern>
-                <marker>
-                    <token postag="V.*" postag_regexp="yes">est</token>
-                </marker>
-            </pattern>
-            <disambig postag="V etre ind pres 3 s"/>
-        </rule>
-    </rulegroup>
-
-    <rule name="RD : ambig Adv/N" id="RD-ADV_NOM">
-        <pattern>
-            <marker>
-                <and>
-                    <token postag="A"/>
-                    <token postag="N.*" postag_regexp="yes"><exception postag="J.*" postag_regexp="yes"/></token>
-                </and>
-            </marker>
-        </pattern>
-        <disambig postag="A"/>
-    </rule>
-
-    <rulegroup name="RB : Pro pers + V" id="RB-PRO_PERS_V">
-        <rule name="je + verbe">
-            <pattern>
-                <token>je</token>
-                <marker>
-                    <token postag="V.* 1 s" postag_regexp="yes"/>
-                </marker>
-            </pattern>
-            <disambig action="filter" postag="V.* 1 s"/>
-        </rule>
-        <rule name="j' + verbe">
-            <pattern>
-                <token>j</token>
-                <token regexp="yes">[’´'‛′‘]</token>
-                <marker>
-                    <token postag="V.* 1 s" postag_regexp="yes"/>
-                </marker>
-            </pattern>
-            <disambig action="filter" postag="V.* 1 s"/>
-        </rule>
-        <rule name="tu + verbe">
-            <pattern>
-                <token>tu</token>
-                <marker>
-                    <token postag="V.* 2 s" postag_regexp="yes"/>
-                </marker>
-            </pattern>
-            <disambig action="filter" postag="V.* 2 s"/>
-        </rule>
-        <rule name="ne t' + verbe">
-            <pattern>
-                <token postag="SENT_START"/>
-                <token>ne<exception scope="previous" postag_regexp="yes" postag="R pers suj.*"/></token>
-                <token>t</token>
-                <token regexp="yes">[’´'‛′‘]</token>
-                <marker>
-                    <token postag="V.* 2 s" postag_regexp="yes"/>
-                </marker>
-            </pattern>
-            <disambig action="filter" postag="V.* 2 s"/>
-        </rule>
-        <rule name="il/elle/on + verbe ">
-            <pattern>
-                <token regexp="yes">il|elle|on</token>
-                <marker>
-                    <token postag="V.* 3 s" postag_regexp="yes"/>
-                </marker>
-            </pattern>
-            <disambig action="filter" postag="V.* 3 s"/>
-        </rule>
-        <rule name="ils/elles + verbe ">
-            <pattern>
-                <token regexp="yes">ils|elles</token>
-                <marker>
-                    <token postag="V.* 3 p" postag_regexp="yes"/>
-                </marker>
-            </pattern>
-            <disambig action="filter" postag="V.* 3 p"/>
-        </rule>
-    </rulegroup>
-
-    <rule name="RD : ambig J/N" id="RD-ADJ_NOM">
-        <pattern>
-            <token postag="A"/>
-            <marker>
-                <and>
-                    <token postag="J.*" postag_regexp="yes"/>
-                    <token postag="N.*" postag_regexp="yes"/>
-                </and>
-            </marker>
-        </pattern>
-        <disambig><match no="1" postag_regexp="yes" postag="J.*"/></disambig>
-    </rule>
-
-    <rule name="RB : adverbes" id="RB-ADVERBES">
-        <pattern>
-            <marker>
-                <token postag="A"/>
-            </marker>
-        </pattern>
-        <disambig postag="A"/>
-    </rule>
-    <rule name="RB : participes passés" id="RB-PPA">
-        <pattern>
-            <marker>
-                <token postag="V ppa .*"/>
-            </marker>
-        </pattern>
-        <disambig><match no="1" postag_regexp="yes" postag="V ppa .*"/></disambig>
-    </rule>
-    <rule name="RB : pronoms relatifs" id="RB-PRO_RELATIFS">
-        <pattern>
-            <marker>
-                <token postag="R rel .*" postag_regexp="yes"/>
-            </marker>
-        </pattern>
-        <disambig postag="R rel e sp"/>
-    </rule>
-    <rule name="RD : nombres" id="RD-NOMBRES">
-        <pattern>
-            <marker>
-                <token regexp="yes">\d+</token>
-            </marker>
-        </pattern>
-        <disambig postag="Y"/>
-    </rule>
-    <rule name="RP : gens" id="RP-GENS">
-        <pattern>
-            <marker>
-                <token>gens</token>
-            </marker>
-        </pattern>
-        <disambig postag="N m p"/>
-    </rule>
-    <rule name="RP : plus" id="RP-PLUS">
-        <pattern>
-            <marker>
-                <token>plus</token>
-            </marker>
-        </pattern>
-        <disambig postag="A"/>
-    </rule>
-    <rule name="RP : moins" id="RP-MOINS">
-        <pattern>
-            <marker>
-                <token>moins</token>
-            </marker>
-        </pattern>
-        <disambig postag="A"/>
-    </rule>
-    <rule name="RP : lettre" id="RP-LETTRE">
-        <pattern>
-            <marker>
-                <token>Lettre</token>
-            </marker>
-        </pattern>
-        <disambig postag="N f s"/>
-    </rule>
-    <rule name="RP : pour" id="RP-POUR">
-        <pattern>
-            <marker>
-                <token>pour</token>
-            </marker>
-        </pattern>
-        <disambig postag="P"/>
-    </rule>
-    <rule name="RP : sur" id="RP-SUR">
-        <pattern>
-            <marker>
-                <token>sur</token>
-            </marker>
-        </pattern>
-        <disambig postag="P"/>
-    </rule>
-
-    <rule name="Tout sauf" id="TOUT_SAUF">
-        <pattern>
-            <token>tout</token>
-            <marker>
-                <token>sauf</token>
-            </marker>
-        </pattern>
-        <disambig postag="P"/>
-    </rule>
-
-    <rule name="au + N/V" id="AU_NV">
-        <pattern>
-            <token regexp="yes">aux?</token>
-            <marker>
-                <and>
-                  <token postag_regexp="yes" postag="V.*"/>
-                  <token postag_regexp="yes" postag="N.*"/>
-                </and>
-            </marker>
-        </pattern>
-        <disambig action="filter"><match no="2" postag="N.*" postag_regexp="yes"/></disambig>
-    </rule>
-
-    <rule name="Cela" id="CELA">
-        <pattern>
-            <marker>
-                <token>Cela<exception scope="previous" regexp="yes">il|elle|on</exception></token>
-            </marker>
-        </pattern>
-        <disambig postag="R dem m s"/>
-    </rule>
-
-    <rule name="Nombres + N" id="NOMBRE-N">
-        <pattern>
-            <token postag="Y"/>
-            <marker>
-                <and>
-                    <token postag_regexp="yes" postag="V .* pres 2 s"/>
-                    <token postag_regexp="yes" postag="N .* p"/>
-                </and>
-            </marker>
-        </pattern>
-        <disambig action="filter"><match no="2" postag="N .* p" postag_regexp="yes"/></disambig>
-        <example type="untouched">Tu minutes.</example>
-        <example type="ambiguous" inputform="minutes[&lt;/S&gt;,minute/N f p,minuter/V ind pres 2 s,minuter/V sub pres 2 s]" outputform="minutes[&lt;/S&gt;,minute/N f p]">5 <marker>minutes</marker></example>
-    </rule>
-
-    <rule name="L'Écosse" id="ECOSSE">
-        <pattern case_sensitive="yes">
-            <token negate_pos="yes" postag="SENT_START"/>
-            <marker>
-                <token>Écosse</token>
-            </marker>
-        </pattern>
-        <disambig postag="N f s"/>
-    </rule>
-    <rule name="Suède" id="SUEDE">
-        <pattern case_sensitive="yes">
-            <token negate_pos="yes" postag="SENT_START"/>
-            <marker>
-                <token>Suède</token>
-            </marker>
-        </pattern>
-        <disambig postag="N f s"/>
-    </rule>
-
-    <rule name="aura lieu" id="AURA_LIEU">
-        <pattern>
-            <marker>
-                <token>aura</token>
-            </marker>
-            <token>lieu</token>
-        </pattern>
-        <disambig action="filter" postag="V.*"/>
-        <example type="ambiguous" inputform="aura[aura/N f s,avoir/V avoir ind futu 3 s]" outputform="aura[avoir/V avoir ind futu 3 s]">La rentrée scolaire <marker>aura</marker> lieu comme prévu la semaine prochaine.</example>
-        <example type="untouched">Mon petit conseil pour une belle aura...</example>
-    </rule>
-
-    <rule id="MEME_ADV" name="même adverbe">
-        <pattern>
-            <token postag="SENT_START|C.*|M nonfin|V.*" postag_regexp="yes"/>
-            <marker>
-                <token>même</token>
-            </marker>
-        </pattern>
-        <disambig postag="A"/>
-    </rule>
-
-    <rule id="Pierre" name="Pierre">
-        <pattern case_sensitive="yes">
-            <marker>
-                <token regexp="yes">Pierre|Marie</token>
-            </marker>
-        </pattern>
-        <disambig action="filter" postag="Z.*"/>
-    </rule>
-    <rule id="UNE_DES" name="une des">
-        <pattern>
-            <token>une</token>
-            <marker>
-                <token>des</token>
-            </marker>
-        </pattern>
-        <disambig postag="D f p"/>
-    </rule>
-    <rule id="FORTE" name="forte">
+    <rule>
       <pattern>
-        <marker><token>forte</token></marker>
+        <token regexp="yes">aucuns?|certains?|différents?|divers|nombreux|touts?|un<exception scope="previous" regexp="yes">[’´'‛′‘]</exception></token>
+        <marker>
+          <token postag="N [me] .*" postag_regexp="yes"><exception regexp="yes">est|multiples|si</exception></token>
+        </marker>
       </pattern>
-      <disambig postag="J f s"/>
+      <disambig action="filter" postag="N [me].*"/>
     </rule>
-    <rule id="UN_DES" name="un des">
-        <pattern>
-            <token>un<exception scope="previous">numéro</exception></token>
-            <marker>
-                <token>des</token>
-            </marker>
-        </pattern>
-        <disambig postag="D m p"/>
-    </rule>
-    <rule id="EN_GENERAL" name="en général">
+    <rule>
       <pattern>
-        <token>en</token>
-          <marker>
-            <token regexp="yes">apparence|conséquence|définitive|effet|général|gros|particulier|partie|principe|revanche|réalité</token>
-          </marker>
+        <token regexp="yes">chaque|des?|maint|mêmes?|moult|nul|plusieurs|quelques<exception scope="previous" regexp="yes">[’´'‛′‘]</exception></token>
+        <marker>
+          <token postag="N.*" postag_regexp="yes"><exception regexp="yes">est|multiples|si</exception></token>
+        </marker>
       </pattern>
-      <disambig postag="A"/>
+      <disambig action="filter" postag="N.*"/>
     </rule>
-    <rulegroup id="TOUT_A_FAIT" name="tout à fait">
-        <rule>
-            <pattern>
-                <marker>
-                    <token>tout</token>
-                </marker>
-                <token>à</token>
-                <token>fait</token>
-            </pattern>
-            <disambig postag="A"/>
-        </rule>
-        <rule>
-            <pattern>
-                <token>tout</token>
-                <marker>
-                    <token>à</token>
-                </marker>
-                <token>fait</token>
-            </pattern>
-            <disambig postag="A"/>
-        </rule>
-        <rule>
-            <pattern>
-                <token>tout</token>
-                <token>à</token>
-                <marker>
-                    <token>fait</token>
-                </marker>
-            </pattern>
-            <disambig postag="A"/>
-        </rule>
-    </rulegroup>
-    <rulegroup id="DU_TOUT" name="du tout">
-      <rule>
-        <pattern>
-          <marker><token>du</token></marker>
-          <token>tout</token>
-        </pattern>
-        <disambig postag="A"/>
-      </rule>
-      <rule>
-        <pattern>
-          <token>du</token>
-          <marker><token>tout</token></marker>
-        </pattern>
-        <disambig postag="A"/>
-      </rule>
-    </rulegroup>
-    <rulegroup id="A_PEINE" name="à peine">
-      <rule>
-        <pattern>
-          <marker><token>à</token></marker>
-          <token regexp="yes">peine|nouveau</token>
-        </pattern>
-        <disambig postag="A"/>
-      </rule>
-      <rule>
-        <pattern>
-          <token>à</token>
-          <marker><token regexp="yes">peine|nouveau</token></marker>
-        </pattern>
-        <disambig postag="A"/>
-      </rule>
-    </rulegroup>
-    <rulegroup id="SANS_DOUTE" name="sans doute">
-      <rule>
-        <pattern>
-          <marker><token>sans</token></marker>
-          <token regexp="yes">doute|cesse</token>
-        </pattern>
-        <disambig postag="A"/>
-      </rule>
-      <rule>
-        <pattern>
-          <token>sans</token>
-          <marker><token regexp="yes">doute|cesse</token></marker>
-        </pattern>
-        <disambig postag="A"/>
-      </rule>
-    </rulegroup>
-    <rulegroup id="PAR_CONTRE" name="par contre">
-      <rule>
-        <pattern>
-          <marker><token>par</token></marker>
-          <token>contre</token>
-        </pattern>
-        <disambig postag="A"/>
-      </rule>
-      <rule>
-        <pattern>
-          <token>par</token>
-          <marker><token>contre</token></marker>
-        </pattern>
-        <disambig postag="A"/>
-      </rule>
-    </rulegroup>
-    <rulegroup id="NOS" name="nos">
-      <rule>
-        <pattern>
-          <marker><token>nos</token></marker>
-        </pattern>
-        <disambig postag="D e p"/>
-      </rule>
-      <rule>
-        <pattern>
-          <token regexp="yes">[dl]es|plusieurs|nombreux</token>
-          <marker><token>nos</token></marker>
-        </pattern>
-        <disambig postag="N m p"/>
-      </rule>
-    </rulegroup>
-    <rule id="COMPTE_TENU" name="compte tenu">
+  </rulegroup>
+  <rulegroup name="été (nom)" id="ETE">
+    <rule>
       <pattern>
-        <marker><token>compte</token></marker>
-        <token>tenu</token>
+        <token regexp="yes">cet|en|un</token>
+        <marker>
+          <token>été</token>
+        </marker>
       </pattern>
       <disambig postag="N m s"/>
     </rule>
-    <rulegroup id="DANS" name="dans">
-      <rule>
-        <pattern>
-          <token>dans</token>
-        </pattern>
-        <disambig postag="P"/>
-      </rule>
-      <rule>
-        <pattern>
-          <token regexp="yes">[ld]es</token>
-          <token>dans</token>
-        </pattern>
-        <disambig postag="N m p"/>
-      </rule>
-    </rulegroup>
-    <rulegroup id="RENE" name="René">
-      <rule>
-        <pattern case_sensitive="yes">
-          <token>René</token>
-        </pattern>
-        <disambig postag="Z m sp"/>
-      </rule>
-      <rule>
-        <pattern case_sensitive="yes">
-          <token>Renée</token>
-        </pattern>
-        <disambig postag="Z f sp"/>
-      </rule>
-    </rulegroup>
-    <rule id="JURA" name="Jura">
+    <rule>
       <pattern>
-        <token regexp="yes">le|du</token>
-        <marker><token regexp="yes">(?-i)Jura</token></marker>
+        <token>l</token>
+        <token regexp="yes">[’´'‛′‘]</token>
+        <marker>
+          <token>été</token>
+        </marker>
       </pattern>
-      <disambig action="filter" postag="Z.*"/>
+      <disambig postag="N m s"/>
     </rule>
+  </rulegroup>
+  <rule name="quelque chose" id="QUELQUE_CHOSE">
+    <pattern>
+      <token>quelque</token>
+      <marker>
+        <token>chose</token>
+      </marker>
+    </pattern>
+    <disambig postag="N m s"/>
+  </rule>
+  
+  <rulegroup name="RP : Pronoms personnels objets" id="RP-PRO_PERS_OBJ">
+    <rule name="nous">
+      <pattern>
+        <token postag="R pers .*" postag_regexp="yes"/>
+        <marker>
+          <token>nous</token>
+        </marker>
+      </pattern>
+      <disambig postag="R pers obj 1 p"/>
+    </rule>
+    <rule name="le bus nous">
+      <pattern>
+        <token postag="SENT_START|M fin .*" postag_regexp="yes" skip="1"/>
+        <token postag="D.*" postag_regexp="yes"/>
+        <token postag="N.*" postag_regexp="yes"/>
+        <marker>
+          <token>nous</token>
+        </marker>
+      </pattern>
+      <disambig postag="R pers obj 1 p"/>
+    </rule>
+    <rule name="qui nous">
+      <pattern>
+        <token regexp="yes">à|qui|de|ne|chez|sur|sans|entre|parmi|tout|pour</token>
+        <marker>
+          <token>nous</token>
+        </marker>
+      </pattern>
+      <disambig postag="R pers obj 1 p"/>
+    </rule>
+    <rule name="Robert nous">
+      <pattern>
+        <token postag="SENT_START" skip="1"/>
+        <token postag="Z.*" postag_regexp="yes"/>
+        <marker>
+          <token>nous</token>
+        </marker>
+      </pattern>
+      <disambig postag="R pers obj 1 p"/>
+    </rule>
+    <rule name="quelqu'un nous">
+      <pattern>
+        <token>quelqu</token>
+        <token regexp="yes">[’´'‛′‘]</token>
+        <token regexp="yes">une?s?</token>
+        <marker>
+          <token>nous</token>
+        </marker>
+      </pattern>
+      <disambig postag="R pers obj 1 p"/>
+    </rule>
+    <rule name="ça nous">
+      <pattern>
+        <token postag="SENT_START|M nonfin" postag_regexp="yes" skip="1"/>
+        <token regexp="yes">ça|cela|ceci|ceux-ci|celles?-ci<exception scope="previous" postag="P"/></token>
+        <marker>
+          <token>nous</token>
+        </marker>
+      </pattern>
+      <disambig postag="R pers obj 1 p"/>
+    </rule>
+    <rule name="que ça nous">
+      <pattern>
+        <token regexp="yes">quand|que|si|lorsque|où</token>
+        <token regexp="yes">ça|cela|ceci|ceux-ci|celles?-ci</token>
+        <marker>
+          <token>nous</token>
+        </marker>
+      </pattern>
+      <disambig postag="R pers obj 1 p"/>
+    </rule>
+    <rule name="sans_même nous">
+      <pattern>
+        <token>sans</token>
+        <token>même</token>
+        <marker>
+          <token>nous</token>
+        </marker>
+      </pattern>
+      <disambig postag="R pers obj 1 p"/>
+    </rule>
+    <rule name="L'homme nous parle">
+      <pattern>
+        <token postag="N . s" postag_regexp="yes"/>
+        <marker>
+          <token regexp="yes">vous|nous</token>
+        </marker>
+        <token postag="V .* 3 s" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="filter" postag="R pers obj .*"/>
+      <example type="ambiguous" inputform="nous[nous/R pers obj 1 p,nous/R pers suj 1 p]" outputform="nous[nous/R pers obj 1 p]">L'homme <marker>nous</marker> parle de sa vie.</example>
+      <example type="untouched">La plupart du temps nous sommes dans le développement d'une expertise...</example>
+    </rule>
+    <rule name="Les études nous ont...">
+      <pattern>
+        <token postag="N . p" postag_regexp="yes"/>
+        <marker>
+          <token regexp="yes">vous|nous</token>
+        </marker>
+        <token postag="V .* 3 p" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="filter" postag="R pers obj .*"/>
+      <example type="ambiguous" inputform="nous[nous/R pers obj 1 p,nous/R pers suj 1 p]" outputform="nous[nous/R pers obj 1 p]">Les études <marker>nous</marker> ont révélé...</example>
+      <example type="untouched">La plupart du temps nous sommes dans le développement d'une expertise...</example>
+    </rule>
+    <rule name="puis-je vous">
+      <pattern>
+        <token regexp="yes">.*-(je|tu|ils?|elles?|on|vous|nous)</token>
+        <marker>
+          <token>vous</token>
+        </marker>
+      </pattern>
+      <disambig postag="R pers obj 2 p"/>
+    </rule>
+    <rule name="puis-je nous">
+      <pattern>
+        <token regexp="yes">.*-(je|tu|ils?|elles?|on|vous|nous)</token>
+        <marker>
+          <token>nous</token>
+        </marker>
+      </pattern>
+      <disambig postag="R pers obj 1 p"/>
+    </rule>
+    <rule name="vous">
+      <pattern>
+        <token postag="R pers .*" postag_regexp="yes"/>
+        <marker>
+          <token>vous</token>
+        </marker>
+      </pattern>
+      <disambig postag="R pers obj 2 p"/>
+    </rule>
+    <rule name="le bus vous">
+      <pattern>
+        <token postag="SENT_START|M fin .*" postag_regexp="yes" skip="1"/>
+        <token postag="D.*" postag_regexp="yes"/>
+        <token postag="N.*" postag_regexp="yes"/>
+        <marker>
+          <token>vous</token>
+        </marker>
+      </pattern>
+      <disambig postag="R pers obj 2 p"/>
+    </rule>
+    <rule name="qui vous">
+      <pattern>
+        <token regexp="yes">à|qui|de|ne|chez|sur|sans|entre|parmi|tout|pour</token>
+        <marker>
+          <token>vous</token>
+        </marker>
+      </pattern>
+      <disambig postag="R pers obj 2 p"/>
+    </rule>
+    <rule name="Robert vous">
+      <pattern>
+        <token postag="SENT_START" skip="1"/>
+        <token postag="Z.*" postag_regexp="yes"/>
+        <marker>
+          <token>vous</token>
+        </marker>
+      </pattern>
+      <disambig postag="R pers obj 2 p"/>
+    </rule>
+    <rule name="quelqu'un vous">
+      <pattern>
+        <token>quelqu</token>
+        <token regexp="yes">[’´'‛′‘]</token>
+        <token regexp="yes">une?s?</token>
+        <marker>
+          <token>vous</token>
+        </marker>
+      </pattern>
+      <disambig postag="R pers obj 2 p"/>
+    </rule>
+    <rule name="ça vous">
+      <pattern>
+        <token postag="SENT_START|M nonfin" postag_regexp="yes" skip="1"/>
+        <token regexp="yes">ça|cela|ceci|ceux-ci|celles?-ci<exception scope="previous" postag="P"/></token>
+        <marker>
+          <token>vous</token>
+        </marker>
+      </pattern>
+      <disambig postag="R pers obj 2 p"/>
+    </rule>
+    <rule name="que ça vous">
+      <pattern>
+        <token regexp="yes">quand|que|si|lorsque|où</token>
+        <token regexp="yes">ça|cela|ceci|ceux-ci|celles?-ci</token>
+        <marker>
+          <token>vous</token>
+        </marker>
+      </pattern>
+      <disambig postag="R pers obj 2 p"/>
+    </rule>
+    <rule name="sans_même vous">
+      <pattern>
+        <token>sans</token>
+        <token>même</token>
+        <marker>
+          <token>vous</token>
+        </marker>
+      </pattern>
+      <disambig postag="R pers obj 2 p"/>
+    </rule>
+    <rule name="se">
+      <pattern>
+        <marker>
+          <token>s</token>
+        </marker>
+        <token postag=".*" postag_regexp="yes"/>
+        <token postag="V.*" postag_regexp="yes"/>
+      </pattern>
+      <disambig postag="R pers obj 3 sp"/>
+    </rule>
+    <rule name="te">
+      <pattern>
+        <marker>
+          <token>t</token>
+        </marker>
+        <token postag=".*" postag_regexp="yes"/>
+        <token postag="V.*" postag_regexp="yes"/>
+      </pattern>
+      <disambig postag="R pers obj 2 s"/>
+    </rule>
+    <rule name="m'">
+      <pattern>
+        <marker>
+          <token>m</token>
+        </marker>
+        <token postag=".*" postag_regexp="yes"/>
+        <token postag="V.*" postag_regexp="yes"/>
+      </pattern>
+      <disambig postag="R pers obj 1 s"/>
+    </rule>
+    
+    <rule name="lui">
+      <pattern>
+        <marker>
+          <token>lui</token>
+        </marker>
+      </pattern>
+      <disambig postag="R 3 s"/>
+    </rule>
+    <rule name="lui (R pers)">
+      <pattern>
+        <token regexp="yes">[lnj]e|tu|ils?|elles?|on|[nv]ous|la</token>
+        <marker>
+          <token>lui</token>
+        </marker>
+      </pattern>
+      <disambig postag="R pers obj 3 m s"/>
+    </rule>
+    
+    <rule>
+      <pattern>
+        <token postag="[NZR].*" postag_regexp="yes"/>
+        <marker>
+          <token>leur</token>
+        </marker>
+      </pattern>
+      <disambig postag="R pers obj 3 p"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token>ne</token>
+        <marker>
+          <token>leur</token>
+        </marker>
+      </pattern>
+      <disambig postag="R pers obj 3 p"/>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token postag="D e s">leur</token>
+        </marker>
+        <token postag="[NJ].*" postag_regexp="yes"/>
+      </pattern>
+      <disambig postag="D e s"/>
+    </rule>
+    
+    <rule name="le/la/les/l'">
+      <pattern>
+        <token postag="R pers suj .*" postag_regexp="yes"/>
+        <marker>
+          <token postag="R pers obj .*" postag_regexp="yes" regexp="yes">l|la|le|les</token>
+        </marker>
+      </pattern>
+      <disambig><match no="2" postag_regexp="yes" postag="R pers obj .*"/></disambig>
+    </rule>
+    <rule name="ne + le/la/les/l'">
+      <pattern>
+        <token postag="R pers suj .*" postag_regexp="yes"/>
+        <token>ne</token>
+        <marker>
+          <token postag="R pers obj .*" postag_regexp="yes" regexp="yes">l|la|le|les</token>
+        </marker>
+      </pattern>
+      <disambig><match no="3" postag_regexp="yes" postag="R pers obj .*"/></disambig>
+    </rule>
+  </rulegroup>
+  
+  <rulegroup name="RP : Pronoms personnels sujets" id="RP-PRO_PERS_SUJ">
+    <rule name="j'">
+      <pattern>
+        <marker>
+          <token>j</token>
+        </marker>
+      </pattern>
+      <disambig postag="R pers suj 1 s"/>
+    </rule>
+    
+    <rule name="tu">
+      <pattern>
+        <marker>
+          <token>tu</token>
+        </marker>
+        <token postag="V.*" postag_regexp="yes"/>
+      </pattern>
+      <disambig postag="R pers suj 2 s"/>
+    </rule>
+    <rule name="tu te/ne">
+      <pattern>
+        <marker>
+          <token>tu</token>
+        </marker>
+        <token regexp="yes">[mntl]e?|la|lui|leur|[nv]ous</token>
+      </pattern>
+      <disambig postag="R pers suj 2 s"/>
+    </rule>
+    
+    <rule name="Nous">
+      <pattern>
+        <token postag="SENT_START"/>
+        <marker>
+          <token>nous</token>
+        </marker>
+      </pattern>
+      <disambig postag="R pers suj 1 p"/>
+    </rule>
+    
+    <rule name="Vous">
+      <pattern>
+        <token postag="SENT_START"/>
+        <marker>
+          <token>vous</token>
+        </marker>
+      </pattern>
+      <disambig postag="R pers suj 2 p"/>
+    </rule>
+    
+  </rulegroup>
+  
+  <rulegroup name="RP : étais" id="RP-ETAIS">
+    <rule name="j'étais">
+      <pattern>
+        <token postag="R pers suj 1 s" skip="1"/>
+        <marker>
+          <token>étais</token>
+        </marker>
+      </pattern>
+      <disambig postag="V etre ind impa 1 s"/>
+    </rule>
+    <rule name="tu étais">
+      <pattern>
+        <token skip="1">tu</token>
+        <marker>
+          <token>étais</token>
+        </marker>
+      </pattern>
+      <disambig postag="V etre ind impa 2 s"/>
+    </rule>
+  </rulegroup>
+  
+  <rulegroup name="ne + verbe" id="NE_V">
+    <rule>
+      <pattern>
+        <token regexp="yes">ne|je|tu|ils?|on</token>
+        <marker>
+          <token postag="V.*" postag_regexp="yes"/>
+        </marker>
+      </pattern>
+      <disambig><match no="1" postag_regexp="yes" postag="V.*"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <token>n</token>
+        <token regexp="yes">[’´'‛′‘]</token>
+        <marker>
+          <token postag="V.*" postag_regexp="yes"/>
+        </marker>
+      </pattern>
+      <disambig><match no="2" postag_regexp="yes" postag="V.*"/></disambig>
+    </rule>
+  </rulegroup>
+  
+  <rulegroup id="SON" name="non (nom)">
+    <rule>
+      <pattern>
+        <token regexp="yes">le|un|au|[mts]on</token>
+        <marker>
+          <token>son</token>
+        </marker>
+      </pattern>
+      <disambig postag="N m s"/>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>son</token>
+        </marker>
+        <token>de</token>
+        <token regexp="yes">cloches?</token>
+      </pattern>
+      <disambig postag="N m s"/>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>son</token>
+        </marker>
+        <token>d</token>
+        <token regexp="yes">[’´'‛′‘]</token>
+        <token regexp="yes">instruments?</token>
+      </pattern>
+      <disambig postag="N m s"/>
+    </rule>
+  </rulegroup>
+  
+  <rule name="RP : En + participe présent" id="RP-EN_VPPR">
+    <pattern>
+      <token>en</token>
+      <marker>
+        <token postag="V ppr"/>
+      </marker>
+    </pattern>
+    <disambig><match no="1" postag="V ppr"/></disambig>
+  </rule>
+  
+  <rulegroup name="RP : mon/ton/son" id="RP-MON_TON_SON">
+    <rule name="mon">
+      <pattern>
+        <marker>
+          <token regexp="yes" postag="N m s" negate_pos="yes">mon|ton|son</token>
+        </marker>
+      </pattern>
+      <disambig postag="D e s"/>
+    </rule>
+  </rulegroup>
+  <rule id="AVEC_N" name="avec + verb/nom">
+    <pattern>
+      <token>avec</token>
+      <marker>
+        <and>
+          <token postag="N.*" postag_regexp="yes"/>
+          <token postag="V.*" postag_regexp="yes"/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="[^V].*"/>
+  </rule>
+  <rulegroup name="RP : Négation" id="RP-NEGATION">
+    <rule name="pas">
+      <pattern>
+        <token regexp="yes" skip="3">ne|n</token>
+        <marker>
+          <token regexp="yes">pas|point|plus|jamais</token>
+        </marker>
+      </pattern>
+      <disambig postag="A"/>
+    </rule>
+    <rule name="ne">
+      <pattern>
+        <marker>
+          <token regexp="yes" skip="3">ne?</token>
+        </marker>
+        <token regexp="yes">pas|point|plus|jamais</token>
+      </pattern>
+      <disambig postag="A"/>
+    </rule>
+  </rulegroup>
+  
+  <rulegroup name="RP : Infinitif ambigu" id="RP-INFINITIF">
+    <rule name="Infinitif être">
+      <pattern>
+        <token postag="V.*" postag_regexp="yes"/>
+        <marker>
+          <token postag="V etre inf"/>
+        </marker>
+      </pattern>
+      <disambig postag="V etre inf"/>
+    </rule>
+    <rule name="Infinitif avoir">
+      <pattern>
+        <token postag="V .*" postag_regexp="yes"/>
+        <marker>
+          <token postag="V avoir inf"/>
+        </marker>
+      </pattern>
+      <disambig postag="V avoir inf"/>
+    </rule>
+  </rulegroup>
+  <rule name="RP : Det + Adj ambigu + Nom" id="RP-D_J_AMBIG_N">
+    <pattern>
+      <unify>  <feature id="number"/> <feature id="gender"/>
+        <token postag="D.*" postag_regexp="yes"/>
+        <token postag="J.*" postag_regexp="yes"/>
+        <token postag="N.*" postag_regexp="yes"><exception regexp="yes">dans|envers|mais</exception><exception inflected="yes" regexp="yes">avoir|être</exception></token>
+      </unify>
+    </pattern>
+    <disambig action="unify"/>
+  </rule>
+  
+  <rule name="RP : Det + Nom ambigu" id="RP-D_N_AMBIG">
+    <pattern>
+      <unify> <feature id="number"/> <feature id="gender"/>
+        <token postag="D.*" postag_regexp="yes"/>
+        <token postag="N.*" postag_regexp="yes"><exception regexp="yes">a|dans|envers</exception></token>
+      </unify>
+    </pattern>
+    <disambig action="unify"/>
+    <example type="untouched">Ils sont parti.</example>
+    <example type="ambiguous" inputform="livre[livre/N e s,livrer/V imp pres 2 s,livrer/V ind pres 1 s,livrer/V ind pres 3 s,livrer/V sub pres 1 s,livrer/V sub pres 3 s]" outputform="livre[livre/N e s]">Il a enfin publié son <marker>livre</marker>.</example>
+  </rule>
+  
+  <!-- This is to catch frequent errors such as "J'ai manger" which would not
+         be caught without disambiguation as "manger" can also be a noun -->
+  <rule name="Etre/Avoir + verb" id="ETRE_AVOIR_V_ER">
+    <pattern>
+      <token postag="V avoir .*" postag_regexp="yes"/>
+      <marker>
+        <token regexp="yes" postag="V inf">.*er</token>
+      </marker>
+    </pattern>
+    <disambig postag="V inf"/>
+  </rule>
+  
+  <rulegroup name="RP : Etre/avoir + participe passé ambigu" id="RP-ÊTRE_AVOIR_VPPA_AMBIG">
+    <rule name="ppa masc sing">
+      <pattern>
+        <token postag="V etre .*|V avoir .*" postag_regexp="yes" skip="2"/>
+        <marker>
+          <token postag="V ppa .*" postag_regexp="yes"/>
+        </marker>
+      </pattern>
+      <disambig><match no="2" postag_regexp="yes" postag="V ppa .*"/></disambig>
+    </rule>
+    <rule name="avoir été">
+      <pattern>
+        <token postag="V avoir .*" postag_regexp="yes" skip="2"/>
+        <marker>
+          <token>été</token>
+        </marker>
+      </pattern>
+      <disambig action="replace"><wd lemma="être" pos="V etre ppa m s"/></disambig>
+    </rule>
+  </rulegroup>
+  
+  <rulegroup name="RP : Que" id="RP-QUE">
+    <rule name="que relatif">
+      <pattern>
+        <token postag="N.*" postag_regexp="yes"/>
+        <marker>
+          <token regexp="yes">que|qu</token>
+        </marker>
+      </pattern>
+      <disambig postag="R rel e sp"/>
+    </rule>
+    <rule name="que conjonction sub">
+      <pattern>
+        <token postag="V.*|A" postag_regexp="yes"/>
+        <marker>
+          <token regexp="yes">que|qu</token>
+        </marker>
+      </pattern>
+      <disambig postag="C sub"/>
+    </rule>
+  </rulegroup>
+  <rule name="RP : Indicatif être (suis est sommes)" id="RP-SUIS_EST_SOMMES">
+    <pattern>
+      <token postag="R pers suj .*|J.*|N.*|A" postag_regexp="yes"/>
+      <marker>
+        <token postag="V etre ind pres .*" postag_regexp="yes"/>
+      </marker>
+    </pattern>
+    <disambig><match no="2" postag_regexp="yes" postag="V etre ind pres .*"/></disambig>
+  </rule>
+  <rule name="RP : Indicatif avoir (as a ont)" id="RP-AS_A_ONT">
+    <pattern>
+      <token postag="R pers suj .*|J.*|N.*|A" postag_regexp="yes"/>
+      <marker>
+        <token postag="V avoir ind pres .*" postag_regexp="yes"/>
+      </marker>
+    </pattern>
+    <disambig><match no="2" postag_regexp="yes" postag="V avoir ind pres .*"/></disambig>
+  </rule>
+  <rule name="RP : Être + adj ambigu" id="RP-ETRE_ADJ_AMBIG">
+    <pattern>
+      <token postag="V etre .*" postag_regexp="yes" skip="2"/>
+      <marker>
+        <token postag="J.*" postag_regexp="yes"><exception>torse</exception></token>
+      </marker>
+    </pattern>
+    <disambig><match no="2" postag_regexp="yes" postag="J.*"/></disambig>
+  </rule>
+  <rule name="RB : le la les" id="RB-LE_LA_LES">
+    <pattern>
+      <marker>
+        <token postag="D.*" postag_regexp="yes" regexp="yes">l|la|le|les</token>
+      </marker>
+    </pattern>
+    <disambig><match no="1" postag_regexp="yes" postag="D.*"/></disambig>
+  </rule>
+  <rule name="RB : Préposition" id="RB-PREPOSITION">
+    <pattern>
+      <marker>
+        <token postag="P"/>
+      </marker>
+    </pattern>
+    <disambig postag="P"/>
+  </rule>
+  <rulegroup name="RB : Infinitif" id="RB-INFINITIF">
+    <rule name="infinitif être">
+      <pattern>
+        <marker>
+          <token postag="V etre inf"/>
+        </marker>
+      </pattern>
+      <disambig postag="V etre inf"/>
+    </rule>
+    <rule name="infinitif avoir">
+      <pattern>
+        <marker>
+          <token postag="V avoir inf"/>
+        </marker>
+      </pattern>
+      <disambig postag="V avoir inf"/>
+    </rule>
+  </rulegroup>
+  
+  <rulegroup name="RP : a - est" id="RP-A_EST">
+    <rule name="a">
+      <pattern>
+        <marker>
+          <token>a</token>
+        </marker>
+      </pattern>
+      <disambig postag="V avoir ind pres 3 s"/>
+    </rule>
+    <rule name="est">
+      <pattern>
+        <marker>
+          <token postag="V.*" postag_regexp="yes">est</token>
+        </marker>
+      </pattern>
+      <disambig postag="V etre ind pres 3 s"/>
+    </rule>
+  </rulegroup>
+  
+  <rule name="RD : ambig Adv/N" id="RD-ADV_NOM">
+    <pattern>
+      <marker>
+        <and>
+          <token postag="A"/>
+          <token postag="N.*" postag_regexp="yes"><exception postag="J.*" postag_regexp="yes"/></token>
+        </and>
+      </marker>
+    </pattern>
+    <disambig postag="A"/>
+  </rule>
+  
+  <rulegroup name="RB : Pro pers + V" id="RB-PRO_PERS_V">
+    <rule name="je + verbe">
+      <pattern>
+        <token>je</token>
+        <marker>
+          <token postag="V.* 1 s" postag_regexp="yes"/>
+        </marker>
+      </pattern>
+      <disambig action="filter" postag="V.* 1 s"/>
+    </rule>
+    <rule name="j' + verbe">
+      <pattern>
+        <token>j</token>
+        <token regexp="yes">[’´'‛′‘]</token>
+        <marker>
+          <token postag="V.* 1 s" postag_regexp="yes"/>
+        </marker>
+      </pattern>
+      <disambig action="filter" postag="V.* 1 s"/>
+    </rule>
+    <rule name="tu + verbe">
+      <pattern>
+        <token>tu</token>
+        <marker>
+          <token postag="V.* 2 s" postag_regexp="yes"/>
+        </marker>
+      </pattern>
+      <disambig action="filter" postag="V.* 2 s"/>
+    </rule>
+    <rule name="ne t' + verbe">
+      <pattern>
+        <token postag="SENT_START"/>
+        <token>ne<exception scope="previous" postag_regexp="yes" postag="R pers suj.*"/></token>
+        <token>t</token>
+        <token regexp="yes">[’´'‛′‘]</token>
+        <marker>
+          <token postag="V.* 2 s" postag_regexp="yes"/>
+        </marker>
+      </pattern>
+      <disambig action="filter" postag="V.* 2 s"/>
+    </rule>
+    <rule name="il/elle/on + verbe ">
+      <pattern>
+        <token regexp="yes">il|elle|on</token>
+        <marker>
+          <token postag="V.* 3 s" postag_regexp="yes"/>
+        </marker>
+      </pattern>
+      <disambig action="filter" postag="V.* 3 s"/>
+    </rule>
+    <rule name="ils/elles + verbe ">
+      <pattern>
+        <token regexp="yes">ils|elles</token>
+        <marker>
+          <token postag="V.* 3 p" postag_regexp="yes"/>
+        </marker>
+      </pattern>
+      <disambig action="filter" postag="V.* 3 p"/>
+    </rule>
+  </rulegroup>
+  
+  <rule name="RD : ambig J/N" id="RD-ADJ_NOM">
+    <pattern>
+      <token postag="A"/>
+      <marker>
+        <and>
+          <token postag="J.*" postag_regexp="yes"/>
+          <token postag="N.*" postag_regexp="yes"/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig><match no="1" postag_regexp="yes" postag="J.*"/></disambig>
+  </rule>
+  
+  <rule name="RB : adverbes" id="RB-ADVERBES">
+    <pattern>
+      <marker>
+        <token postag="A"/>
+      </marker>
+    </pattern>
+    <disambig postag="A"/>
+  </rule>
+  <rule name="RB : participes passés" id="RB-PPA">
+    <pattern>
+      <marker>
+        <token postag="V ppa .*"/>
+      </marker>
+    </pattern>
+    <disambig><match no="1" postag_regexp="yes" postag="V ppa .*"/></disambig>
+  </rule>
+  <rule name="RB : pronoms relatifs" id="RB-PRO_RELATIFS">
+    <pattern>
+      <marker>
+        <token postag="R rel .*" postag_regexp="yes"/>
+      </marker>
+    </pattern>
+    <disambig postag="R rel e sp"/>
+  </rule>
+  <rule name="RD : nombres" id="RD-NOMBRES">
+    <pattern>
+      <marker>
+        <token regexp="yes">\d+</token>
+      </marker>
+    </pattern>
+    <disambig postag="Y"/>
+  </rule>
+  <rule name="RP : gens" id="RP-GENS">
+    <pattern>
+      <marker>
+        <token>gens</token>
+      </marker>
+    </pattern>
+    <disambig postag="N m p"/>
+  </rule>
+  <rule name="RP : plus" id="RP-PLUS">
+    <pattern>
+      <marker>
+        <token>plus</token>
+      </marker>
+    </pattern>
+    <disambig postag="A"/>
+  </rule>
+  <rule name="RP : moins" id="RP-MOINS">
+    <pattern>
+      <marker>
+        <token>moins</token>
+      </marker>
+    </pattern>
+    <disambig postag="A"/>
+  </rule>
+  <rule name="RP : lettre" id="RP-LETTRE">
+    <pattern>
+      <marker>
+        <token>Lettre</token>
+      </marker>
+    </pattern>
+    <disambig postag="N f s"/>
+  </rule>
+  <rule name="RP : pour" id="RP-POUR">
+    <pattern>
+      <marker>
+        <token>pour</token>
+      </marker>
+    </pattern>
+    <disambig postag="P"/>
+  </rule>
+  <rule name="RP : sur" id="RP-SUR">
+    <pattern>
+      <marker>
+        <token>sur</token>
+      </marker>
+    </pattern>
+    <disambig postag="P"/>
+  </rule>
+  
+  <rule name="Tout sauf" id="TOUT_SAUF">
+    <pattern>
+      <token>tout</token>
+      <marker>
+        <token>sauf</token>
+      </marker>
+    </pattern>
+    <disambig postag="P"/>
+  </rule>
+  
+  <rule name="au + N/V" id="AU_NV">
+    <pattern>
+      <token regexp="yes">aux?</token>
+      <marker>
+        <and>
+          <token postag_regexp="yes" postag="V.*"/>
+          <token postag_regexp="yes" postag="N.*"/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="filter"><match no="2" postag="N.*" postag_regexp="yes"/></disambig>
+  </rule>
+  
+  <rule name="Cela" id="CELA">
+    <pattern>
+      <marker>
+        <token>Cela<exception scope="previous" regexp="yes">il|elle|on</exception></token>
+      </marker>
+    </pattern>
+    <disambig postag="R dem m s"/>
+  </rule>
+  
+  <rule name="Nombres + N" id="NOMBRE-N">
+    <pattern>
+      <token postag="Y"/>
+      <marker>
+        <and>
+          <token postag_regexp="yes" postag="V .* pres 2 s"/>
+          <token postag_regexp="yes" postag="N .* p"/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="filter"><match no="2" postag="N .* p" postag_regexp="yes"/></disambig>
+    <example type="untouched">Tu minutes.</example>
+    <example type="ambiguous" inputform="minutes[&lt;/S&gt;,minute/N f p,minuter/V ind pres 2 s,minuter/V sub pres 2 s]" outputform="minutes[&lt;/S&gt;,minute/N f p]">5 <marker>minutes</marker></example>
+  </rule>
+  
+  <rule name="L'Écosse" id="ECOSSE">
+    <pattern case_sensitive="yes">
+      <token negate_pos="yes" postag="SENT_START"/>
+      <marker>
+        <token>Écosse</token>
+      </marker>
+    </pattern>
+    <disambig postag="N f s"/>
+  </rule>
+  <rule name="Suède" id="SUEDE">
+    <pattern case_sensitive="yes">
+      <token negate_pos="yes" postag="SENT_START"/>
+      <marker>
+        <token>Suède</token>
+      </marker>
+    </pattern>
+    <disambig postag="N f s"/>
+  </rule>
+  
+  <rule name="aura lieu" id="AURA_LIEU">
+    <pattern>
+      <marker>
+        <token>aura</token>
+      </marker>
+      <token>lieu</token>
+    </pattern>
+    <disambig action="filter" postag="V.*"/>
+    <example type="ambiguous" inputform="aura[aura/N f s,avoir/V avoir ind futu 3 s]" outputform="aura[avoir/V avoir ind futu 3 s]">La rentrée scolaire <marker>aura</marker> lieu comme prévu la semaine prochaine.</example>
+    <example type="untouched">Mon petit conseil pour une belle aura...</example>
+  </rule>
+  
+  <rule id="MEME_ADV" name="même adverbe">
+    <pattern>
+      <token postag="SENT_START|C.*|M nonfin|V.*" postag_regexp="yes"/>
+      <marker>
+        <token>même</token>
+      </marker>
+    </pattern>
+    <disambig postag="A"/>
+  </rule>
+  
+  <rule id="Pierre" name="Pierre">
+    <pattern case_sensitive="yes">
+      <marker>
+        <token regexp="yes">Pierre|Marie</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="Z.*"/>
+  </rule>
+  <rule id="UNE_DES" name="une des">
+    <pattern>
+      <token>une</token>
+      <marker>
+        <token>des</token>
+      </marker>
+    </pattern>
+    <disambig postag="D f p"/>
+  </rule>
+  <rule id="FORTE" name="forte">
+    <pattern>
+      <marker><token>forte</token></marker>
+    </pattern>
+    <disambig postag="J f s"/>
+  </rule>
+  <rule id="UN_DES" name="un des">
+    <pattern>
+      <token>un<exception scope="previous">numéro</exception></token>
+      <marker>
+        <token>des</token>
+      </marker>
+    </pattern>
+    <disambig postag="D m p"/>
+  </rule>
+  <rule id="EN_GENERAL" name="en général">
+    <pattern>
+      <token>en</token>
+      <marker>
+        <token regexp="yes">apparence|conséquence|définitive|effet|général|gros|particulier|partie|principe|revanche|réalité</token>
+      </marker>
+    </pattern>
+    <disambig postag="A"/>
+  </rule>
+  <rulegroup id="TOUT_A_FAIT" name="tout à fait">
+    <rule>
+      <pattern>
+        <marker>
+          <token>tout</token>
+        </marker>
+        <token>à</token>
+        <token>fait</token>
+      </pattern>
+      <disambig postag="A"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token>tout</token>
+        <marker>
+          <token>à</token>
+        </marker>
+        <token>fait</token>
+      </pattern>
+      <disambig postag="A"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token>tout</token>
+        <token>à</token>
+        <marker>
+          <token>fait</token>
+        </marker>
+      </pattern>
+      <disambig postag="A"/>
+    </rule>
+  </rulegroup>
+  <rulegroup id="DU_TOUT" name="du tout">
+    <rule>
+      <pattern>
+        <marker><token>du</token></marker>
+        <token>tout</token>
+      </pattern>
+      <disambig postag="A"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token>du</token>
+        <marker><token>tout</token></marker>
+      </pattern>
+      <disambig postag="A"/>
+    </rule>
+  </rulegroup>
+  <rulegroup id="A_PEINE" name="à peine">
+    <rule>
+      <pattern>
+        <marker><token>à</token></marker>
+        <token regexp="yes">peine|nouveau</token>
+      </pattern>
+      <disambig postag="A"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token>à</token>
+        <marker><token regexp="yes">peine|nouveau</token></marker>
+      </pattern>
+      <disambig postag="A"/>
+    </rule>
+  </rulegroup>
+  <rulegroup id="SANS_DOUTE" name="sans doute">
+    <rule>
+      <pattern>
+        <marker><token>sans</token></marker>
+        <token regexp="yes">doute|cesse</token>
+      </pattern>
+      <disambig postag="A"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token>sans</token>
+        <marker><token regexp="yes">doute|cesse</token></marker>
+      </pattern>
+      <disambig postag="A"/>
+    </rule>
+  </rulegroup>
+  <rulegroup id="PAR_CONTRE" name="par contre">
+    <rule>
+      <pattern>
+        <marker><token>par</token></marker>
+        <token>contre</token>
+      </pattern>
+      <disambig postag="A"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token>par</token>
+        <marker><token>contre</token></marker>
+      </pattern>
+      <disambig postag="A"/>
+    </rule>
+  </rulegroup>
+  <rulegroup id="NOS" name="nos">
+    <rule>
+      <pattern>
+        <marker><token>nos</token></marker>
+      </pattern>
+      <disambig postag="D e p"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token regexp="yes">[dl]es|plusieurs|nombreux</token>
+        <marker><token>nos</token></marker>
+      </pattern>
+      <disambig postag="N m p"/>
+    </rule>
+  </rulegroup>
+  <rule id="COMPTE_TENU" name="compte tenu">
+    <pattern>
+      <marker><token>compte</token></marker>
+      <token>tenu</token>
+    </pattern>
+    <disambig postag="N m s"/>
+  </rule>
+  <rulegroup id="DANS" name="dans">
+    <rule>
+      <pattern>
+        <token>dans</token>
+      </pattern>
+      <disambig postag="P"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token regexp="yes">[ld]es</token>
+        <token>dans</token>
+      </pattern>
+      <disambig postag="N m p"/>
+    </rule>
+  </rulegroup>
+  <rulegroup id="RENE" name="René">
+    <rule>
+      <pattern case_sensitive="yes">
+        <token>René</token>
+      </pattern>
+      <disambig postag="Z m sp"/>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+        <token>Renée</token>
+      </pattern>
+      <disambig postag="Z f sp"/>
+    </rule>
+  </rulegroup>
+  <rule id="JURA" name="Jura">
+    <pattern>
+      <token regexp="yes">le|du</token>
+      <marker><token regexp="yes">(?-i)Jura</token></marker>
+    </pattern>
+    <disambig action="filter" postag="Z.*"/>
+  </rule>
 </rules>
