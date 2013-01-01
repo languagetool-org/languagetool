@@ -3693,6 +3693,20 @@ $Id$
       </rule>
     </rulegroup>
 
+    <rule id="PREFERI_AL_OL" name="preferi al/ol">
+      <pattern>
+        <token inflected="yes" regexp="yes" skip="5">prefer[ieo]</token>
+        <marker><token>al</token></marker>
+        <token postag="V .* i" postag_regexp="yes"/>
+      </pattern>
+      <message>Kun la verbo «\1» ne eblas uzi «al» antaŭ i-verbo por la komparo. Uzu <suggestion>ol</suggestion> aŭ iafoje <suggestion>antstataŭ</suggestion>.</message>
+      <url>http://bertilow.com/pmeg/pmeg140/gramatiko/komparoj/aliaj.html#i-ig4</url>
+      <example type="incorrect">Mi preferas ludi <marker>al</marker> studi.</example>
+      <example type="correct">Mi preferas ludi <marker>ol</marker> studi.</example>
+      <example type="incorrect">Mi preferas esti mortigita de ili, <marker>al</marker> esti pinĉata de la anasoj.</example>
+      <example type="correct">Mi preferas esti mortigita de ili, <marker>ol</marker> esti pinĉata de la anasoj.</example>
+    </rule>
+
   </category>
   <!-- vim: foldmethod=marker foldmarker=<category,</category:
   -->
