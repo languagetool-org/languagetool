@@ -4,7 +4,7 @@
     
     <groupId>org.languagetool</groupId>
     <artifactId>languagetool</artifactId>
-    <version>1.9</version>
+    <version>2.1-SNAPSHOT</version>
     <url>http://www.languagetool.org</url>
     <name>LanguageTool Style and Grammar Checker</name>
     <description>LanguageTool is an Open Source proofreading software for English, French, German, Polish, Romanian, and more than 20 other languages. It finds many errors that a simple spell checker cannot detect like mixing up there/their and it detects some grammar problems.</description>
@@ -21,10 +21,16 @@
         </license>
     </licenses>
 
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
+    </parent>
+    
     <scm>
-        <connection>scm:svn:https://languagetool.svn.sourceforge.net/svnroot/languagetool/tags/V_1_9</connection>
-        <developerConnection>scm:svn:https://languagetool.svn.sourceforge.net/svnroot/languagetool/tags/V_1_9</developerConnection>
-        <url>http://languagetool.svn.sourceforge.net/languagetool/tags/V_1_9/</url>
+        <connection>scm:svn:https://languagetool.svn.sourceforge.net/svnroot/languagetool/trunk/JLanguageTool</connection>
+        <developerConnection>scm:svn:https://languagetool.svn.sourceforge.net/svnroot/languagetool/trunk/JLanguageTool</developerConnection>
+        <url>http://languagetool.svn.sourceforge.net/languagetool/trunk/JLanguageTool/</url>
     </scm>
 
     <properties>
@@ -68,6 +74,13 @@
             </resource>
         </resources>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <configuration>
+                  <tagBase>https://languagetool.svn.sourceforge.net/svnroot/languagetool/tags/</tagBase>
+                </configuration>
+            </plugin>            
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.3.2</version>
