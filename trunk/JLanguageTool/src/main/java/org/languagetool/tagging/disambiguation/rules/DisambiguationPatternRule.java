@@ -40,7 +40,7 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
 
   /** Possible disambiguator actions. **/
   public enum DisambiguatorAction {
-    ADD, FILTER, REMOVE, REPLACE, UNIFY, IMMUNIZE;
+    ADD, FILTER, REMOVE, REPLACE, UNIFY, IMMUNIZE, FILTERALL;
 
     /**
      * Converts string to the constant enum.
@@ -105,7 +105,8 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
         && disambAction != DisambiguatorAction.ADD
         && disambAction != DisambiguatorAction.REMOVE
         && disambAction != DisambiguatorAction.IMMUNIZE
-        && disambAction != DisambiguatorAction.REPLACE) {
+        && disambAction != DisambiguatorAction.REPLACE
+        && disambAction != DisambiguatorAction.FILTERALL) {
       throw new NullPointerException("disambiguated POS cannot be null");
     }    
     this.disambiguatedPOS = disamb;
@@ -276,10 +277,28 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
         }
       }
       break;
+    case FILTERALL:
+		for (int i = 0; i < matchingTokens - startPositionCorrection
+				+ endPositionCorrection; i++) {
+			final int position = text.getOriginalPosition(firstMatchToken
+					+ correctedStPos + i);
+			final Element myEl = patternElements.get(i+startPositionCorrection);
+			final Match tmpMatchToken = new Match(myEl.getPOStag(), null,
+					true, myEl.getPOStag(), //myEl.isPOStagRegularExpression()
+					null, Match.CaseConversion.NONE, false, false,
+					Match.IncludeRange.NONE);
+			tmpMatchToken.setToken(whTokens[position]);
+			final String prevValue = whTokens[position].toString();
+			final String prevAnot = whTokens[position]
+					.getHistoricalAnnotations();
+			whTokens[position] = tmpMatchToken.filterReadings();
+			annotateChange(whTokens[position], prevValue, prevAnot);
+		}
+		break;
     case IMMUNIZE: 
       for (int i = 0; i < matchingTokens - startPositionCorrection + endPositionCorrection; i++) {
         whTokens[text.getOriginalPosition(firstMatchToken + correctedStPos + i)].immunize();
-      }
+      }      
     case FILTER:
       if (matchElement == null) { // same as REPLACE if using <match>
         final Match tmpMatchToken = new Match(disambiguatedPOS, null, true,
@@ -358,6 +377,7 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
       final boolean isSentEnd = oldAtr.isSentEnd();
       final boolean isParaEnd = oldAtr.isParaEnd();
       final boolean spaceBefore = oldAtr.isWhitespaceBefore();
+      final int startPosition = oldAtr.getStartPos();
       AnalyzedTokenReadings a = newAtr;      
       if (isSentEnd) {
           a.setSentEnd();            
@@ -366,6 +386,7 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
             a.setParaEnd();
         }
       a.setWhitespaceBefore(spaceBefore);
+      a.setStartPos(startPosition);
       annotateChange(a, prevValue, prevAnot);
       return a;
   }
