@@ -4,7 +4,7 @@
         title="Easy editing stylesheet" ?>
 <!--
 Esperanto Grammar and Typo Rules for LanguageTool
-Copyright (C) 2010-2012 Dominique Pellé <dominique.pelle@gmail.com>
+Copyright (C) 2010-2013 Dominique Pellé <dominique.pelle@gmail.com>
 
 Ligiloj al PMEG (Plena Manlibro de Esperanta Gramatiko) kun permeso
 de ĝia verkisto Bertilo Wennergren.
@@ -256,6 +256,14 @@ $Id$
         <example type="correct">Aerpoluo en la urboj malsanigas la homojn.</example>
       </rule>
     </rulegroup>
+    <rule id="MATRO" name="matro → patrino">
+      <pattern>
+        <token regexp="yes">matr(?:in)?[ao]j?n?</token>
+      </pattern>
+      <message>«\1» ŝajnas esti eraro pro influo de nacia lingvo. Ĉu vi intencis skribi <suggestion><match no="1" regexp_match=".*([ao]j?n?)" regexp_replace="patrin$1"/></suggestion>?</message>
+      <example type="incorrect">Ŝia <marker>matro</marker> forpasis.</example>
+      <example type="correct">Ŝia patrino forpasis.</example>
+    </rule>
     <rule id="MULTEKARA" name="multekara → multekosta">
       <pattern>
         <token regexp="yes">(?:mal)?multekar(?:eg)?aj?n?</token>
@@ -675,6 +683,49 @@ $Id$
       <example type="incorrect">La <marker>surrealismo</marker> de tiu artisto.</example>
       <example type="correct">La <marker>superrealismo</marker> de tiu artisto.</example>
     </rule>
+    <rulegroup id="GEEDZIĜI" name="gedziĝi, edziniĝi, edziĝi">
+      <rule>
+        <pattern>
+          <token regexp="yes">ili|ni|paroj?</token>
+          <marker><token inflected="yes" regexp="yes">edz(?:in)?i?ĝi</token></marker>
+        </pattern>
+        <message>Laŭ la kunteksto, ĉu vi eble intencis skribi <suggestion><match no="2" regexp_match="(.*)(in)?(.*)" regexp_replace="ge$1$3"/></suggestion>?</message>
+        <example type="incorrect">Kiam ili <marker>edziĝis</marker>?</example>
+        <example type="incorrect">Kiam ili <marker>edziniĝis</marker>?</example>
+        <example type="correct">Kiam ili geedziĝis?</example>
+        <example type="correct">Tiuj, kiuj edziĝas, feliĉas.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">ili|ni|paroj?</token>
+          <token regexp="yes">ne|neniam|baldaŭ|ja|ĵus</token>
+          <marker><token inflected="yes" regexp="yes">edz(?:in)?iĝi</token></marker>
+        </pattern>
+        <message>Laŭ la kunteksto, ĉu vi eble intencis skribi <suggestion><match no="3" regexp_match="(.*)(in)?(.*)" regexp_replace="ge$1$3"/></suggestion>?</message>
+        <example type="incorrect">Ili ĵus <marker>edziĝis</marker>?</example>
+        <example type="correct">Ili ĵus geedziĝis?</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>ŝi<exception scope="previous" regexp="yes">kun|kaj</exception></token>
+          <marker><token inflected="yes" regexp="yes">(?:ge)?edziĝi</token></marker>
+        </pattern>
+        <message>Laŭ la kunteksto, ĉu vi eble intencis skribi <suggestion><match no="2" regexp_match="(ge)?(.*)(ĝ.*)" regexp_replace="$2ni$3"/></suggestion>?</message>
+        <example type="incorrect">Ŝi <marker>edziĝis</marker> kun li.</example>
+        <example type="correct">Ŝi <marker>edziniĝis</marker> kun li.</example>
+        <example type="correct">Li kun ŝi <marker>edziĝis</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>li<exception scope="previous">kun</exception></token>
+          <marker><token inflected="yes" regexp="yes">(?:ge)?edziniĝi</token></marker>
+        </pattern>
+        <message>Laŭ la kunteksto, ĉu vi eble intencis skribi <suggestion><match no="2" regexp_match="(ge)?(.*)in(.*)" regexp_replace="$2$3"/></suggestion>?</message>
+        <example type="incorrect">Li <marker>edziniĝis</marker> kun ŝi.</example>
+        <example type="correct">Li <marker>edziĝis</marker> kun ŝi.</example>
+        <example type="correct">Ŝi kun li <marker>edziniĝis</marker>.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category name="Arkaismoj">
     <rulegroup id="ARKAISMO" name="arkaismo">
@@ -3113,18 +3164,66 @@ $Id$
         <example type="correct">Kun Tom kaj sia fratino parolis la instruktoj.</example>
       </rule>
     </rulegroup>
-    <rule id="KONI" name="koni">
-      <pattern>
-        <marker>
-          <token inflected="yes">koni</token>
-        </marker>
-        <token>la</token>
-        <token regexp="yes">.*ikoj?n|geografion</token>
-      </pattern>
-      <message>Laŭ la kunteksto, ŝajnas ke vi intencis diri <suggestion><match no="1" regexp_match="kon(.*)" regexp_replace="sci$1"/></suggestion> anstataŭ «\1».</message>
-      <example type="incorrect">Li <marker>konas</marker> la matematikon.</example>
-      <example type="correct">Li <marker>scias</marker> la matematikon.</example>
-    </rule>
+    <rulegroup id="SCII_KONI" name="scii → koni">
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">scii</token>
+          </marker>
+          <token regexp="yes">iun|neniun|doktoron</token>
+        </pattern>
+        <message>Laŭ la kunteksto, ŝajnas ke vi intencis diri <suggestion><match no="1" regexp_match="sci(.*)" regexp_replace="kon$1"/></suggestion> anstataŭ «\1».</message>
+        <example type="incorrect">Ĉu vi <marker>scias</marker> iun ĉi tie?</example>
+        <example type="correct">Ĉu vi <marker>konas</marker> iun ĉi tie?</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">scii</token>
+          </marker>
+          <token regexp="yes">la|tiuj?n|[mvclŝn]ia?n|iliaj?n</token>
+          <token regexp="yes">(?:ge)?(?:ul|vir|vir|hom|knab|infan|patr|sinjor)(?:in)?oj?n</token>
+        </pattern>
+        <message>Laŭ la kunteksto, ŝajnas ke vi intencis diri <suggestion><match no="1" regexp_match="sci(.*)" regexp_replace="kon$1"/></suggestion> anstataŭ «\1».</message>
+        <example type="incorrect">Ĉu vi <marker>scias</marker> mian patrinon?</example>
+        <example type="correct">Ĉu vi <marker>konas</marker> mian patrinon?</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">koni</token>
+          </marker>
+          <token regexp="yes">ke|.*i</token>
+        </pattern>
+        <message>Laŭ la kunteksto, ŝajnas ke vi intencis diri <suggestion><match no="1" regexp_match="kon(.*)" regexp_replace="sci$1"/></suggestion> anstataŭ «\1».</message>
+        <example type="incorrect">Li ne <marker>konas</marker> legi.</example>
+        <example type="correct">Li ne <marker>scias</marker> legi.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">koni</token>
+          </marker>
+          <token>la</token>
+          <token regexp="yes">.*ikoj?n|geografion</token>
+        </pattern>
+        <message>Laŭ la kunteksto, ŝajnas ke vi intencis diri <suggestion><match no="1" regexp_match="kon(.*)" regexp_replace="sci$1"/></suggestion> anstataŭ «\1».</message>
+        <example type="incorrect">Li <marker>konas</marker> la matematikon.</example>
+        <example type="correct">Li <marker>scias</marker> la matematikon.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">koni</token>
+          </marker>
+          <token>,</token>
+          <token>ke</token>
+        </pattern>
+        <message>Laŭ la kunteksto, ŝajnas ke vi intencis diri <suggestion><match no="1" regexp_match="kon(.*)" regexp_replace="sci$1"/></suggestion> anstataŭ «\1».</message>
+        <example type="incorrect">Li <marker>konas</marker>, ke li forpasis.</example>
+        <example type="correct">Li <marker>scias</marker>, ke li forpasis.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="DEMANDI" name="demandi">
       <rule>
         <pattern>
