@@ -1165,7 +1165,7 @@ though, and has since been slightly modified)-->
                     <marker>
                         <token>a<exception scope="previous" regexp="yes">il|elle|on</exception></token>
                     </marker>
-                    <token regexp="yes">autrui|bord|califourchon|cause|condition|contrecœur|contretemps|côté|court|défaut|demi-mots?|droite|force|laquelle|loisir|gauche|merveille|mesure|moitié|midi|minuit|part|partie|peine|présent|propos|proximité|rebours|reculons|tâtons|tout-va|travers|se|quels?|quelles?|comment|no[ëe]l|p[aâ]ques|[mts]e|[mst]oi|lui|elles?|eux|sec|[nv]ous|vitesse|vélo</token>
+                    <token regexp="yes">autrui|bord|califourchon|cause|condition|contre-?c(œ|oe)ur|contretemps|côté|court|défaut|demi-mots?|droite|force|laquelle|loisir|gauche|merveille|mesure|moitié|midi|minuit|part|partie|peine|présent|propos|proximité|rebours|reculons|tâtons|tout-va|travers|se|quels?|quelles?|comment|no[ëe]l|p[aâ]ques|[mts]e|[mst]oi|lui|elles?|eux|sec|[nv]ous|vitesse|vélo</token>
                 </pattern>
                 <message>Voulez-vous écrire <suggestion>à</suggestion> ?</message>
                 <example type="incorrect">L’adresse <marker>a</marker> laquelle tu l’as envoyé</example>
@@ -20709,6 +20709,16 @@ though, and has since been slightly modified)-->
             <example type="correct">Il l’a fait <marker>lui-même</marker>.</example>
         </rule>
         <rulegroup id="TRAIT_UNION" name="Trait d’union">
+            <rule>
+              <pattern>
+                <token>va</token>
+                <token>et</token>
+                <token>vient</token>
+              </pattern>
+              <message>Il manque les traits d’union : <suggestion>va-et-vient</suggestion>.</message>
+              <example type="incorrect">Il y a un <marker>va et vient</marker> dans cetter maison.</example>
+              <example type="correct">Il y a un va-et-vient dans cetter maison.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token regexp="yes">allers?</token>
