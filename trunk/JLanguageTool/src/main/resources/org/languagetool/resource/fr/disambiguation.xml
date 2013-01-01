@@ -1097,108 +1097,46 @@ RB => Règles Brutes
   <rule id="EN_GENERAL" name="en général">
     <pattern>
       <token>en</token>
-      <marker>
-        <token regexp="yes">apparence|conséquence|définitive|effet|général|gros|particulier|partie|principe|revanche|réalité</token>
-      </marker>
+      <token regexp="yes">apparence|conséquence|définitive|effet|général|gros|particulier|partie|principe|revanche|réalité</token>
     </pattern>
-    <disambig postag="A"/>
+    <disambig action="replace"><wd pos="A"/><wd pos="A"/></disambig>
   </rule>
-  <rulegroup id="TOUT_A_FAIT" name="tout à fait">
-    <rule>
-      <pattern>
-        <marker>
-          <token>tout</token>
-        </marker>
-        <token>à</token>
-        <token>fait</token>
-      </pattern>
-      <disambig postag="A"/>
-    </rule>
-    <rule>
-      <pattern>
-        <token>tout</token>
-        <marker>
-          <token>à</token>
-        </marker>
-        <token>fait</token>
-      </pattern>
-      <disambig postag="A"/>
-    </rule>
-    <rule>
-      <pattern>
-        <token>tout</token>
-        <token>à</token>
-        <marker>
-          <token>fait</token>
-        </marker>
-      </pattern>
-      <disambig postag="A"/>
-    </rule>
-  </rulegroup>
-  <rulegroup id="DU_TOUT" name="du tout">
-    <rule>
-      <pattern>
-        <marker><token>du</token></marker>
-        <token>tout</token>
-      </pattern>
-      <disambig postag="A"/>
-    </rule>
-    <rule>
-      <pattern>
-        <token>du</token>
-        <marker><token>tout</token></marker>
-      </pattern>
-      <disambig postag="A"/>
-    </rule>
-  </rulegroup>
-  <rulegroup id="A_PEINE" name="à peine">
-    <rule>
-      <pattern>
-        <marker><token>à</token></marker>
-        <token regexp="yes">peine|nouveau</token>
-      </pattern>
-      <disambig postag="A"/>
-    </rule>
-    <rule>
-      <pattern>
-        <token>à</token>
-        <marker><token regexp="yes">peine|nouveau</token></marker>
-      </pattern>
-      <disambig postag="A"/>
-    </rule>
-  </rulegroup>
-  <rulegroup id="SANS_DOUTE" name="sans doute">
-    <rule>
-      <pattern>
-        <marker><token>sans</token></marker>
-        <token regexp="yes">doute|cesse</token>
-      </pattern>
-      <disambig postag="A"/>
-    </rule>
-    <rule>
-      <pattern>
-        <token>sans</token>
-        <marker><token regexp="yes">doute|cesse</token></marker>
-      </pattern>
-      <disambig postag="A"/>
-    </rule>
-  </rulegroup>
-  <rulegroup id="PAR_CONTRE" name="par contre">
-    <rule>
-      <pattern>
-        <marker><token>par</token></marker>
-        <token>contre</token>
-      </pattern>
-      <disambig postag="A"/>
-    </rule>
-    <rule>
-      <pattern>
-        <token>par</token>
-        <marker><token>contre</token></marker>
-      </pattern>
-      <disambig postag="A"/>
-    </rule>
-  </rulegroup>
+  <rule id="TOUT_A_FAIT" name="tout à fait">
+    <pattern>
+      <token>tout</token>
+      <token>à</token>
+      <token>fait</token>
+    </pattern>
+    <disambig action="replace"><wd pos="A"/><wd pos="A"/><wd pos="A"/></disambig>
+  </rule>
+  <rule id="DU_TOUT" name="du tout">
+    <pattern>
+      <token>du</token>
+      <token>tout</token>
+    </pattern>
+    <disambig action="replace"><wd pos="A"/><wd pos="A"/></disambig>
+  </rule>
+  <rule id="A_PEINE" name="à peine">
+    <pattern>
+      <token>à</token>
+      <token regexp="yes">peine|nouveau</token>
+    </pattern>
+    <disambig action="replace"><wd pos="A"/><wd pos="A"/></disambig>
+  </rule>
+  <rule id="SANS_DOUTE" name="sans doute">
+    <pattern>
+      <token>sans</token>
+      <token regexp="yes">doute|cesse</token>
+    </pattern>
+    <disambig action="replace"><wd pos="A"/><wd pos="A"/></disambig>
+  </rule>
+  <rule id="PAR_CONTRE" name="par contre">
+    <pattern>
+      <token>par</token>
+      <token>contre</token>
+    </pattern>
+    <disambig action="replace"><wd pos="A"/><wd pos="A"/></disambig>
+  </rule>
   <rulegroup id="NOS" name="nos">
     <rule>
       <pattern>
