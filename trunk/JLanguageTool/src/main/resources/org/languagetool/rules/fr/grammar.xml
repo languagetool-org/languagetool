@@ -4,7 +4,7 @@
 <!--
 French Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski, Agnes Souque, Hugo Voisard and Myriam Lechelt.
-              2011, 2012 Dominique Pellé
+              2011-2013 Dominique Pellé
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -22972,6 +22972,58 @@ though, and has since been slightly modified)-->
         <message>Employez <suggestion><match no="5" case_conversion="startupper"/></suggestion> avec une majuscule dans les noms géographiques.</message>
         <example type="incorrect">Il vivait en Allemagne de l’<marker>est</marker>.</example>
         <example type="correct">Il vivait en Allemagne de l’Est.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">axe|hémisphère|latitude</token>
+          <marker><token regexp="yes">(?-i)Nord|Sud</token></marker>
+        </pattern>
+        <message>Les points cardinaux s’écrivent avec unen minuscule quand ils ont la valeur d’un adjectif. Employez <suggestion><match no="2" case_conversion="startlower"/></suggestion>.</message>
+        <example type="incorrect">L’hémisphère <marker>Nord</marker>.</example>
+        <example type="correct">L’hémisphère nord.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>vers</token>
+          <token>le</token>
+          <marker><token regexp="yes">(?-i)(Nord|Sud)(-(Ouest|Est))</token></marker>
+        </pattern>
+        <message>Les points cardinaux s’écrivent avec une minuscule quand ils expriment une direction. Employez <suggestion><match no="3" case_conversion="alllower"/></suggestion>.</message>
+        <example type="incorrect">Je me dirige vers le <marker>Nord-Est</marker>.</example>
+        <example type="correct">Je me dirige vers le <marker>nord-est</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>vers</token>
+          <token>l</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+          <marker><token regexp="yes">(?-i)Ouest|Est</token></marker>
+        </pattern>
+        <message>Les points cardinaux s’écrivent avec une minuscule quand ils expriment une direction. Employez <suggestion><match no="3" case_conversion="alllower"/></suggestion>.</message>
+        <example type="incorrect">Je me dirige vers l’<marker>Est</marker>.</example>
+        <example type="correct">Je me dirige vers l’<marker>est</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">exposition|terasse</token>
+          <token>au</token>
+          <marker><token regexp="yes">(?-i)Nord|Sud</token></marker>
+        </pattern>
+        <message>Les points cardinaux s’écrivent avec une minuscule quand ils expriment une direction. Employez <suggestion><match no="3" case_conversion="startlower"/></suggestion>.</message>
+        <example type="incorrect">Une exposition au <marker>Nord</marker>.</example>
+        <example type="correct">Une exposition au <marker>nord</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">exposition|terasse</token>
+          <token>à</token>
+          <token>l</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+          <marker><token regexp="yes">(?-i)Est|Ouest</token></marker>
+        </pattern>
+        <message>Les points cardinaux s’écrivent avec une minuscule quand ils expriment une direction. Employez <suggestion><match no="3" case_conversion="startlower"/></suggestion>.</message>
+        <example type="incorrect">Une exposition à l’<marker>Ouest</marker>.</example>
+        <example type="correct">Une exposition à l’<marker>ouest</marker>.</example>
       </rule>
     </rulegroup>
   </category>
