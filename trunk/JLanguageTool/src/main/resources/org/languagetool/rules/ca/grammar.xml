@@ -3123,13 +3123,14 @@ $Id$
             <pattern>
                 <token><exception postag="V.[SI].*|_GV_" postag_regexp="yes" inflected="yes" regexp="yes">ser|estar|anar|quedar|restar</exception></token>
                 <marker>
-                    <token skip="3">conforme<exception postag="_PUNCT.*" postag_regexp="yes" scope="next"/><exception postag="_GN_.*" postag_regexp="yes"/></token>
+                    <token skip="3">conforme<exception postag="_PUNCT" scope="next"/><exception scope="next">,</exception></token> <!-- <exception postag="_GN_.*" postag_regexp="yes"/> -->
                 </marker>
                 <token postag="V.[SI].*|_GV_" postag_regexp="yes"/>
             </pattern>
             <message>¿Volíeu dir <suggestion>a mesura que</suggestion>, <suggestion>segons</suggestion>, <suggestion>com</suggestion>, <suggestion>tal com</suggestion>, <suggestion>assegurant que</suggestion>, <suggestion>quan</suggestion>, <suggestion>així que</suggestion>?</message>
             <example type="incorrect"><marker>conforme</marker> avançava</example>
-            <example type="correct">a mesura que avançava</example>
+            <example type="incorrect"><marker>conforme</marker> "avançava"</example>
+            <example type="incorrect">El camí de la política catalana dibuixa una espiral cònica i s'accelera a gran velocitat <marker>conforme</marker> s'apropa al vèrtex.</example>
             <example type="correct">La projecció de Mercator és una projecció cartogràfica cilíndrica conforme (manté les formes i els angles localment).</example>
             <example type="correct">però no és conforme perquè distorsiona les formes i els angles.</example>
         </rule>
@@ -8867,7 +8868,7 @@ $Id$
                     <token skip="7">amb</token>
                     <token regexp="yes" inflected="yes">banc|acció|escó|vot|poder|govern|terra|recurs|diner|fortuna|herència|pilota|partit</token>
                 </pattern>
-                <message>Expressió incorrecta. Cal dir: <suggestion>(apoderar-se de)</suggestion>, <suggestion>(fer seu)</suggestion>, <suggestion>(prendre possessió de)</suggestion>, <suggestion>(emparar-se de)</suggestion>, <suggestion>(arreplegar)</suggestion>, <suggestion>(prendre)</suggestion></message>
+                <message>Expressió incorrecta. Cal dir: <suggestion>(apoderar-se de)</suggestion>, <suggestion>(fer seu)</suggestion>, <suggestion>(prendre possessió de)</suggestion>, <suggestion>(emparar-se de)</suggestion>, <suggestion>(controlar)</suggestion>, <suggestion>(arreplegar)</suggestion>, <suggestion>(prendre)</suggestion></message>
                 <short>Expressió incorrecta</short>
                 <example type="incorrect"><marker>Es va fer amb el poder</marker>.</example>
                 <example type="incorrect"><marker>Ens vam fer amb el poder</marker>.</example>
@@ -15510,7 +15511,7 @@ $Id$
         <rulegroup id="FALTA_ELEMENT_ENTRE_VERBS" name="Falta un element entre verbs: hi ha una cosa *(que) és clara">
             <rule>
                 <pattern>
-                    <token postag="SENT_START|V.[^NGP].*" postag_regexp="yes" skip="-1"><exception postag="PR.*|PT.*|DT.*|.*LOC_CONJ.*|CS" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">perquè|com</exception></token>
+                    <token postag="SENT_START|V.[^NGP].*" postag_regexp="yes" skip="-1"><exception postag="PR.*|PT.*|DT.*|.*LOC_CONJ.*|C.*" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">perquè|com</exception></token>
                     <marker>
                         <token postag="V.[^NGP].*" postag_regexp="yes" regexp="yes" skip="-1">[\p{Ll}·]+<exception postag="_GN_.*|N.*|A.*|V.[NGP].*" postag_regexp="yes"/><exception>di</exception><exception scope="next" regexp="yes">,|com|perquè|que</exception><exception postag="_PUNCT|C.*|PR.*|PT.*|DT.*|.*LOC_CONJ.*|locucio_unavegada" postag_regexp="yes" scope="next"/></token>
                         <token postag="V.[^NGP].*" postag_regexp="yes" regexp="yes">[\p{Ll}·]+<exception postag="_GN_.*|N.*|A.*|V.[NGP].*|.*LOC.*" postag_regexp="yes"/><exception regexp="yes">di|cap</exception></token>
@@ -15526,7 +15527,7 @@ $Id$
                 <example type="correct">Hi ha una cosa i és clara.</example>
                 <example type="correct">Hi ha una cosa, és clara.</example>
                 <example type="correct">Hi ha una cosa en què som clars.</example>
-                <example type="incorrect">El camí de la política catalana dibuixa una espiral cònica i s'<marker>accelera a gran velocitat conforme s'apropa</marker> al vèrtex.</example>
+                <!-- <example type="incorrect">El camí de la política catalana dibuixa una espiral cònica i s'<marker>accelera a gran velocitat conforme s'apropa</marker> al vèrtex.</example> -->
                 <example type="correct">El camí de la política catalana dibuixa una espiral cònica i s'accelera a gran velocitat a mesura que s'apropa al vèrtex.</example>
                 <example type="correct">I encara no li ha passat.</example>
                 <example type="correct">No ho diu d'aquesta manera encara que ho pensi així.</example> 
@@ -15537,7 +15538,7 @@ $Id$
                 <example type="correct">Era la feina més dura.</example>
                 <example type="correct">Ara fa quatre anys em vaig atrevir a publicar.</example>
                 <example type="correct">Els mascles tenen una tendència a dominar la caça un cop han atrapat la presa.</example>
-                <example type="incorrect">Quan va arribar i ho <marker>va veure se'n va</marker> anar.</example>
+                <example type="correct">Quan va arribar i ho va veure se'n va anar.</example>
                 <example type="correct">Quan va arribar i ho va veure, se'n va anar.</example>
             </rule>
             <rule> <!-- verb forma simple a l'inici de frase (en majúscula) -->
