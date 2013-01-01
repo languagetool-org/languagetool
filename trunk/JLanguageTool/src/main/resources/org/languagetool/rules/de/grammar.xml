@@ -12275,13 +12275,14 @@ $Id$
             <pattern case_sensitive="yes">
                 <token regexp="yes">[pP]er</token>
                 <marker>
-                    <token>einschreiben</token>
+                    <token regexp="yes">einschreiben|boten</token>
                 </marker>
             </pattern>
-            <message>&subanfang;<suggestion>Einschreiben</suggestion>&subende;</message>
+            <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
             <short>&prgk;.</short>
             <example type="correct">Das schicken wir per <marker>Einschreiben</marker>.</example>
             <example type="incorrect" correction="Einschreiben">Das schicken wir per <marker>einschreiben</marker>.</example>
+            <example type="incorrect" correction="Boten">Das schicken wir per <marker>boten</marker>.</example>
         </rule>
         <rule id="HINWEISE_SUBST" name="Groß-/Kleinschreibung: 'für hinweise (Hinweise)'">
             <pattern case_sensitive="yes">
@@ -13303,6 +13304,45 @@ $Id$
                 <short>&prgk;.</short>
                 <example type="incorrect" correction="Tränen">Ich vergieße keine <marker>tränen</marker> darüber.</example>
                 <example type="correct">Mir <marker>tränen</marker> die Augen.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes" skip="1">rühren</token>
+                    <token>zu</token>
+                    <marker>
+                        <token>tränen</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Tränen">Es rührt mich zu <marker>tränen</marker>.</example>
+                <example type="correct">Es rührt mich zu <marker>Tränen</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[zZ]u</token>
+                    <marker>
+                        <token skip="1">tränen</token>
+                    </marker>
+                    <token inflected="yes">rühren</token>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Tränen">Ich war zu <marker>tränen</marker> gerührt.</example>
+                <example type="correct">Ich war zu <marker>Tränen</marker> gerührt.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[iI]n</token>
+                    <marker>
+                        <token>tränen</token>
+                    </marker>
+                    <token>aufgelöst</token>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Tränen">Ich war in <marker>tränen</marker> aufgelöst.</example>
+                <example type="correct">Ich war in <marker>Tränen</marker> aufgelöst.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
