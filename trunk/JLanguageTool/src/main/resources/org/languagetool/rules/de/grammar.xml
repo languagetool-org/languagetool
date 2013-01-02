@@ -9663,7 +9663,6 @@ $Id$
             </rule>
         </rulegroup>
         <rule id="MIT_FREUNDLICHEN_GRUESSEN_KOMMA" name="Zeichensetzung: Falsches Satzzeichen nach 'Mit freundlichen Grüßen'">
-            <!-- TODO not triggered if there is no punctuation mark at all -->
             <pattern>
                 <token postag="SENT_START"/>
                 <token>Mit</token>
@@ -9672,11 +9671,13 @@ $Id$
                 <token regexp="yes">(,|\.|:|\!|;)</token>
             </pattern>
             <message>Nach der Grußformel <suggestion>Mit freundlichen Grüßen</suggestion> steht laut Empfehlung des Duden kein Satzzeichen.</message>
-            <short>Nach der Schlussformel sollte ein Komma stehen.</short>
+            <url>http://de.wikipedia.org/wiki/Gru%C3%9Fformel_(Korrespondenz)#Allgemeine_Gru.C3.9Fformeln</url>
+			<short>Nach der Schlussformel sollte kein Satzzeichen stehen.</short>
             <example type="correct"><marker>Mit freundlichen Grüßen</marker></example>
             <example correction="Mit freundlichen Grüßen" type="incorrect"><marker>Mit freundlichen Grüßen,</marker></example>
         </rule>
         <rule id="ANREDE_KOMMA" name="Zeichensetzung: Fehlendes Komma nach der Anrede">
+            <!-- TODO not triggered if there is no punctuation mark at all -->
             <pattern case_sensitive="yes">
                 <token postag="SENT_START"/>
                 <token>Sehr</token>
@@ -10194,6 +10195,32 @@ $Id$
             </rule>
         </rulegroup>
         <rulegroup id="GNADE_SUBST" name="Groß-/Kleinschreibung: 'gnade (Gnade) walten lassen'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes">[gG]nade</token>
+                        <token>vor</token>
+                        <token>recht</token>
+                    </marker>
+                </pattern>
+                <message>&inwend;<suggestion>Gnade vor Recht</suggestion> werden 'Gnade' und 'Recht' in der Regel großgeschrieben.</message>
+                <short>&prgk;.</short>
+                <example type="correct">Wir haben Gnade vor Recht ergehen lassen.</example>
+                <example type="incorrect" correction="Gnade vor Recht">Wir haben <marker>gnade vor recht</marker> ergehen lassen.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>gnade</token>
+                        <token>vor</token>
+                        <token>Recht</token>
+                    </marker>
+                </pattern>
+                <message>&inwend;<suggestion>Gnade vor Recht</suggestion> werden 'Gnade' und 'Recht' in der Regel großgeschrieben.</message>
+                <short>&prgk;.</short>
+                <example type="correct">Wir haben Gnade vor Recht ergehen lassen.</example>
+                <example type="incorrect" correction="Gnade vor Recht">Wir haben <marker>gnade vor Recht</marker> ergehen lassen.</example>
+            </rule>
             <rule>
                 <pattern case_sensitive="yes">
                     <marker>
@@ -11375,6 +11402,18 @@ $Id$
                 <short>&prgk;.</short>
                 <example type="correct">Sie tragen die Vernunft zu <marker>Grabe</marker>.</example>
                 <example type="incorrect" correction="Grabe">Sie tragen die Vernunft zu <marker>grabe</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>im</token>
+                    <marker>
+                        <token>grabe</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Grabe</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Er wird sich im <marker>Grabe</marker> umdrehen.</example>
+                <example type="incorrect" correction="Grabe">Er wird sich im <marker>grabe</marker> umdrehen.</example>
             </rule>
         </rulegroup>
         <rule id="ZU_UNRECHT" name="Groß-/Kleinschreibung: 'zu unrecht (Unrecht)'">
@@ -13333,6 +13372,19 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
+                    <token regexp="yes">[dD]en</token>
+                    <marker>
+                        <token>tränen</token>
+                    </marker>
+                    <token regexp="yes">nahe?</token>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Tränen">Ich war den <marker>tränen</marker> nahe.</example>
+                <example type="correct">Ich war den <marker>Tränen</marker> nahe.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
                     <token regexp="yes">[iI]n</token>
                     <marker>
                         <token>tränen</token>
@@ -13515,7 +13567,7 @@ $Id$
         <rulegroup id="LEHRE_SUBST" name="Groß-/Kleinschreibung: 'eine lehre (Lehre) erteilen' usw.">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token postag="PRO:REF:DAT:.*" postag_regexp="yes"/>
+                    <token postag="PRO:(REF|PER):DAT:.*" postag_regexp="yes"/>
                     <token>eine</token>
                     <marker>
                         <token>lehre</token>
@@ -13526,6 +13578,7 @@ $Id$
                 <short>&prgk;.</short>
                 <example type="correct">Das wird mir eine <marker>Lehre</marker> sein.</example>
                 <example type="incorrect" correction="Lehre">Das wird mir eine <marker>lehre</marker> sein.</example>
+                <example type="incorrect" correction="Lehre">Wir werden ihm eine <marker>lehre</marker> erteilen.</example>
             </rule>
         </rulegroup>
         <rulegroup id="TAUFE_SUBST" name="Groß-/Kleinschreibung: 'aus der taufe (Taufe) heben' etc.">
@@ -14137,16 +14190,29 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">[uU]m|[üÜ]ber</token>
-                    <token>die</token>
+                    <token regexp="yes">[uU]m|[üÜ]ber|[zZ]wischen</token>
+                    <token regexp="yes">den|die</token>
                     <marker>
                         <token>schultern</token>
                     </marker>
-                    <token inflected="yes">legen</token>
+                    <token postag="VER:.+" postag_regexp="yes"/>
                 </pattern>
                 <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example type="incorrect" correction="Schultern">Ich habe es ihr über die <marker>schultern</marker> gelegt.</example>
+                <example type="correct">Ich habe es ihr über die <marker>Schultern</marker> gelegt.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">(ausgekugelte|ausgerenkte|breite|eingezogene|entblößte|gebeugte|gepolsterte|hängende|hochgezogene|kräftige|lädierte|schmale|schmerzende|starke|verspannte|wattierte)n</token>
+                    <marker>
+                        <token>schultern</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Schultern">Er stand mit hängenden <marker>schultern</marker> da.</example>
+                <example type="incorrect" correction="Schultern">Ich habe es ihr über die entblößten <marker>schultern</marker> gelegt.</example>
                 <example type="correct">Ich habe es ihr über die <marker>Schultern</marker> gelegt.</example>
             </rule>
         </rulegroup>
