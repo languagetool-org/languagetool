@@ -314,7 +314,6 @@ public final class Main implements ActionListener {
         setTrayIcon();
         tray.add(trayIcon);
       } catch (AWTException e1) {
-        // thrown if there's no system tray
         Tools.showError(e1);
       }
     }
@@ -424,7 +423,7 @@ public final class Main implements ActionListener {
       try {
         final HTTPServerConfig serverConfig = new HTTPServerConfig(config.getServerPort(), false);
         httpServer = new HTTPServer(serverConfig, true);
-    	  httpServer.run();
+        httpServer.run();
         if (enableHttpServerItem != null) {
           enableHttpServerItem.setState(httpServer.isRunning());
           setTrayIcon();
