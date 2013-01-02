@@ -25,8 +25,8 @@ $Id$
  ================================================================================
  Italian Grammar and Style Rules for Italian
  Paolo Bianchini
- Date: 30/12/2012
- Ver:  0.9.4
+ Date: 02/01/2013
+ Ver:  0.9.5
  ================================================================================
  Categorie delle regole
     gruppi delle regole
@@ -69,7 +69,8 @@ $Id$
  Grammatica - Verbi								GR_10		
    concordanza tempi delle coordinate			GR_10_001		ok
    concordanza tempi delle subordinate			GR_10_002		to do  
-   uso corretto									GR_10_003		add more
+   uso del congiuntivo							GR_10_003		add more
+   uso corretto									GR_10_004		add more
 
  Stile - Espressioni 							ST_01		
    arcaiche										ST_01_001		to do
@@ -109,6 +110,7 @@ $Id$
  PB006    Fixed rule for false positives in past tense concordance GR_10_001
  PB007    Added check for person in tense concordance GR_10_* overrides PB006
  PB008    Added rules to check the use of "congiuntivo"
+ PB009    Created uso corretto under verbs and added adire vie legali
  ======== ===========================================================================
 -->
 
@@ -943,6 +945,37 @@ $Id$
             </rule>
 <!-- PB008 - -->
         </rulegroup>
+<!-- PB009 + -->        
+        <rulegroup name="uso corretto" id="GR_10_004">
+        	<!-- adire le vie legali -->
+        	<rule>
+        		<pattern>
+						<token inflected="yes">adire</token>
+        			<marker>
+        				<token regexp="yes" skip="1">a|alle|per</token>
+	        			<token>vie</token>
+    	    			<token>legali</token>
+					</marker>
+        		</pattern>
+    			<message>Adire è un verbo transitivo per cui si adisce <suggestion>le vie legali</suggestion></message>
+    			<example type="incorrect">Giorgio fu costretto a adire <marker>per le vie legali</marker> per far valere i propri diritti.</example>
+    			<example type="correct">Giorgio fu costretto a adire <marker>le vie legali</marker> per far valere i propri diritti.</example>
+			</rule>
+        	<rule>
+        		<pattern>
+        			<marker>
+	        			<token inflected="yes">aderire</token>
+	        			<token>alle</token>
+	        		</marker>	        			
+	        			<token>vie</token>
+    	    			<token>legali</token>
+        		</pattern>
+    			<message>Non si aderisce alle vie legali ma si adisce le vie legali.</message>
+    			<example type="incorrect">Giorgio fu costretto a <marker>aderire alle</marker> vie legali per far valere i propri diritti.</example>
+    			<example type="correct">Giorgio fu costretto a <marker>adire le</marker> vie legali per far valere i propri diritti.</example>
+			</rule>
+        </rulegroup>
+<!-- PB009 - -->
     </category>
 
 
