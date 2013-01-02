@@ -56,6 +56,10 @@ public class LanguageComboBox extends JComboBox {
     }
   }
 
+  Language getDefaultLanguage() {
+    return Language.getLanguageForLocale(Locale.getDefault());
+  }
+
   private void initAllLanguages() {
     i18nLanguages.clear();
     for (Language language : Language.LANGUAGES) {
@@ -71,8 +75,7 @@ public class LanguageComboBox extends JComboBox {
   }
 
   private void preselectDefaultLanguage() {
-    final Language defaultLanguage = Language.getLanguageForLocale(Locale.getDefault());
-    selectLanguage(defaultLanguage);
+    selectLanguage(getDefaultLanguage());
   }
 
 }

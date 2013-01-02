@@ -242,9 +242,20 @@ public final class Main implements ActionListener {
     cons.insets = new Insets(1, 10, 10, 1);
     cons.gridy = 3;
     contentPane.add(panel, cons);
+    
+    warmUpChecker();
 
     frame.pack();
     frame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+  }
+
+  private void warmUpChecker() {
+    // Warm-up: we have a lot of lazy init in LT, which causes the first check to
+    // be very slow (several seconds) for languages with a lot of data and a lot of 
+    // rules. We just assume that the default language is the language that the user
+    // often uses and init the LT object for that now, not just when it's first used.
+    // This makes the first check feel much faster:
+    getCurrentLanguageTool(languageBox.getDefaultLanguage());
   }
 
   private void setLookAndFeel() {
@@ -512,7 +523,7 @@ public final class Main implements ActionListener {
           new Thread() {
               @Override
               public void run() {
-                  if (!isAlreadyChecking) {              
+                  if (!isAlreadyChecking) {
                       isAlreadyChecking = true;
                       setWaitCursor();
                       checkTextButton.setEnabled(false);
