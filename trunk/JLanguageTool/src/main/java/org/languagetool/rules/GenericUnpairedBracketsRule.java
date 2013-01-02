@@ -106,7 +106,6 @@ public class GenericUnpairedBracketsRule extends Rule {
    * @param i Current token index
    * @param precSpace is preceded with space
    * @param follSpace is followed with space
-   * @return
    */
   protected boolean isNoException(final String token,
       final AnalyzedTokenReadings[] tokens, final int i, final int j,
