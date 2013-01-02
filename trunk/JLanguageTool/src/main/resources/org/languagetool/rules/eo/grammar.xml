@@ -3725,13 +3725,23 @@ $Id$
 
     <rule id="RICXA_DA" name="riĉa da → riĉa de">
       <pattern>
-        <token regexp="yes">(?:mal)?(?:plen|riĉ|abund)(?:e[gt])?aj?</token>
+        <token regexp="yes">(?:mal)?(?:plen|riĉ|abund)(?:e[gt])?aj?n?</token>
         <marker><token>da</token></marker>
       </pattern>
       <message>Kun la vortoj plena, riĉa, abunda «da» ne estas uzebla, ĉar ili ne indikas mezuron. Uzu <suggestion>de</suggestion>.</message>
       <url>http://www.esperanto.mv.ru/Seppik/lec15.html#112</url>
       <example type="incorrect">La ĉambro estas plena <marker>da</marker> homoj.</example>
       <example type="correct">La ĉambro estas plena de homoj.</example>
+    </rule>
+
+    <rule id="VITRERO" name="vitrero → vitropeco">
+      <pattern>
+        <token regexp="yes">(?:fi)?(?:drato?|fumo?|lakto?|sekureco?)?vitr(?:aĵ)?er(?:e[tg]|aĉ)?oj?n?|sukereroj?n?</token>
+      </pattern>
+      <message>Ero ne estas identa al peco aŭ parto, kaj estas granda diferenco inter ekzemple ĉenero kaj ĉenpeco. Tial uzu <suggestion><match no="1" regexp_match="(.*)er" regexp_replace="$1opec"/></suggestion>.</message>
+      <url>http://www.esperanto.mv.ru/Seppik/lec19.html#141</url>
+      <example type="incorrect">Mi vundis al mi la fingron per <marker>vitrero</marker>.</example>
+      <example type="correct">Mi vundis al mi la fingron per <marker>vitropeco</marker>.</example>
     </rule>
   </category>
   <!-- vim: foldmethod=marker foldmarker=<category,</category:
