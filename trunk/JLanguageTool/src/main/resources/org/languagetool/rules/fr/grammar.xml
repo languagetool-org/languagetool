@@ -2785,16 +2785,26 @@ though, and has since been slightly modified)-->
         <example type="correct">Voici ce qui vous est <marker>dû</marker>.</example>
       </rule>
     </rulegroup>
-    <rule id="STATU_QUO" name="statu quo">
-      <pattern>
-        <marker><token regexp="yes">statu([et]s?|s)</token></marker>
-        <token>quo</token>
-      </pattern>
-      <message>La locution latine s’écrit <suggestion>statu quo</suggestion>.</message>
-      <example type="incorrect">Il faut maintenir le <marker>status</marker> quo.</example>
-      <example type="incorrect">Il faut maintenir le <marker>statut</marker> quo.</example>
-      <example type="correct">Il faut maintenir le statu quo.</example>
-    </rule>
+    <rulegroup id="STATU_QUO" name="statu quo">
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">statu([et]s?|s)</token></marker>
+          <token>quo</token>
+        </pattern>
+        <message>La locution latine s’écrit <suggestion>statu quo</suggestion>.</message>
+        <example type="incorrect">Il faut maintenir le <marker>status</marker> quo.</example>
+        <example type="incorrect">Il faut maintenir le <marker>statut</marker> quo.</example>
+        <example type="correct">Il faut maintenir le statu quo.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">statu[ste]?-quo</token>
+        </pattern>
+        <message>La locution latine s’écrit <suggestion>statu quo</suggestion>.</message>
+        <example type="incorrect">Il faut maintenir le <marker>statu-quo</marker>.</example>
+        <example type="correct">Il faut maintenir le statu quo.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category name="Élision">
     <!-- I find conflicting information about élision, so this needs to be reviewed.
@@ -2862,9 +2872,9 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token>presque</token>
-          <token regexp="yes">îles?</token>
+          <token regexp="yes">[îi]les?</token>
         </pattern>
-        <message>« \1 \2 » s’élide en <suggestion>presqu’île</suggestion>.</message>
+        <message>« \1 \2 » s’élide en <suggestion>presqu’<match no="2" regexp_match="s?$" regexp_replace=""/></suggestion>.</message>
         <example type="incorrect">Une <marker>presque île</marker></example>
         <example type="correct">Une presqu’île</example>
       </rule>
@@ -2872,7 +2882,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <token>presqu</token>
           <token regexp="yes">[’´'‛′‘]</token>
-          <token negate="yes" regexp="yes">îles?</token>
+          <token negate="yes" regexp="yes">[îi]les?</token>
         </pattern>
         <message>« presque » ne s’élide que dans le nom « presqu’île ». Employez <suggestion>\1e \3</suggestion>.</message>
         <example type="incorrect">La réponse est <marker>presqu’exacte</marker>.</example>
