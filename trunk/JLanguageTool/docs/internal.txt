@@ -127,4 +127,9 @@ Community update of the rules at community.languagetool.org (needs server access
  svn merge https://languagetool.svn.sourceforge.net/svnroot/languagetool/tags/V_x_y/ (call this in trunk)
 -set build.properties, JLanguageTool.VERSION in JLanguageTool.java in trunk to next version (x.y-dev)
 
-See https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide for Maven artifact release
+See https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide 
+for the Maven artifact release. Carry out these steps:
+  -"7a.3. Stage a Release". The pom.xml must contain a version number like "2.1-SNAPSHOT" for
+   this if you want to release version "2.1".
+  -If the artifacts don't appear under "Staging repositories" although there was
+   no error for "mvn release:perform", carry out "7b. Stage Existing Artifacts"
