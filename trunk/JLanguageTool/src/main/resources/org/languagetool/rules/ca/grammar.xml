@@ -9482,12 +9482,36 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token>una</token>
-                    <token>abaixada</token>
+                    <token postag="D[^R].FS.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>abaixada</token>
+                    </marker>
                 </pattern>
-                <message>¿Volíeu dir <suggestion>una baixada</suggestion>?</message>
-                <example type="incorrect"><marker>una abaixada</marker> de preus</example>
+                <message>¿Volíeu dir <suggestion>baixada</suggestion>?</message>
+                <example type="incorrect">una <marker>abaixada</marker> de preus</example>
                 <example type="correct">una baixada de preus</example>
+            </rule>
+        </rulegroup>
+         <rulegroup id="LAPUJADA_LA_PUJADA" name="*l'apujada/ la pujada">
+            <rule>
+                <pattern>
+                    <token>l'</token>
+                    <token>apujada</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>la pujada</suggestion>, <suggestion>la puja</suggestion>?</message>
+                <example type="incorrect"><marker>l'apujada</marker> d'impostos</example>
+                <example type="correct">la pujada d'impostos</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="D[^R].FS.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>apujada</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>pujada</suggestion>, <suggestion>puja</suggestion>?</message>
+                <example type="incorrect">una <marker>apujada</marker> de temperatures</example>
+                <example type="correct">una pujada de temperatures</example>
             </rule>
         </rulegroup>
         <rule id="AJUST_DE_COMPTES" name="*ajust de comptes">
