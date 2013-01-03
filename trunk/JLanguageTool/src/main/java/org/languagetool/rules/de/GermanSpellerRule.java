@@ -30,7 +30,7 @@ import java.util.ResourceBundle;
 
 public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
-  public static final String RULE_ID = "GERMANY_GERMAN_SPELLER_RULE";
+  public static final String RULE_ID = "GERMAN_SPELLER_RULE";
   
   private static final int MAX_EDIT_DISTANCE = 2;
 

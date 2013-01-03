@@ -43,7 +43,7 @@ public class SpellingCheckRuleTest extends TestCase {
 
     final List<RuleMatch> matches2 = langTool.check("Das ist ein Tibbfehla");
     assertEquals(1, matches2.size());
-    assertEquals("GERMANY_GERMAN_SPELLER_RULE", matches2.get(0).getRule().getId());
+    assertEquals(GermanSpellerRule.RULE_ID, matches2.get(0).getRule().getId());
   }
 
   public void testIgnoreSuggestionsWithMorfologik() throws IOException {
