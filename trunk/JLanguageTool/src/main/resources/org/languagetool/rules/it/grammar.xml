@@ -25,8 +25,8 @@ $Id$
  ================================================================================
  Italian Grammar and Style Rules for Italian
  Paolo Bianchini
- Date: 02/01/2013
- Ver:  0.9.5
+ Date: 03/01/2013
+ Ver:  0.9.6
  ================================================================================
  Categorie delle regole
     gruppi delle regole
@@ -111,6 +111,7 @@ $Id$
  PB007    Added check for person in tense concordance GR_10_* overrides PB006
  PB008    Added rules to check the use of "congiuntivo"
  PB009    Created uso corretto under verbs and added adire vie legali
+ PB010    Reworked repetition rule ST_03_002
  ======== ===========================================================================
 -->
 
@@ -1316,16 +1317,23 @@ $Id$
         <rulegroup name="ripetizioni" id="ST_03_002">
             <rule>
                 <pattern>
-                    <!-- PB001+ -->
-                    <!--
+<!-- PB001 + -->
+<!--
                                         <token skip="-1" regexp="yes">[qwertyuiopasdfghjklzxcvbnm].*<exception postag="ART.*|CON" postag_regexp="yes"/></token>
-                    -->
+-->
+<!-- PB010 + -->
+<!-- 
                     <token skip="-1" regexp="yes">[qwertyuiopasdfghjklzxcvbnm].*<exception postag="PRE|ARTPRE.*|ART.*|CON|PON" postag_regexp="yes"></exception><exception regexp="yes">l|dell|all|sull|dall|nell</exception></token>
-                    <!-- PB001- -->
-                    <token><match no="0"></match></token>
+-->
+					<token skip="-1" postag_regexp="yes" postag="ADJ.*|ADV.*|NOUN.*|VER.*"></token>
+<!-- PB001 - -->
+                    <marker>
+                    	<token><match no="0"></match></token>
+                    </marker>
+<!-- PB010 - -->
                 </pattern>
                 <message>Si consiglia di rivedere la frase al fine di eliminare la ripetizione della parola: <match no="1"></match>.</message>
-                <example type="incorrect">Il <marker>bambino aveva capito bene l'altro bambino</marker> di fronte a se.</example>
+                <example type="incorrect">Il bambino aveva capito bene l'altro <marker>bambino</marker> di fronte a se.</example>
                 <example type="correct">Il bambino aveva capito bene l'altro fanciullo di fronte a se.</example>
             </rule>
         </rulegroup>
