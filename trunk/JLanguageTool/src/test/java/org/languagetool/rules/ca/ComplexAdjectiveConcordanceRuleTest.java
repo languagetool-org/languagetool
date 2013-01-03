@@ -43,6 +43,7 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
 	public void testRule() throws IOException { 
 
 		// correct sentences:
+		assertCorrect("La part superior esquerra");
 		assertCorrect("I sí, la crisi serà llarga, molt llarga, potser eterna.");
 		assertCorrect("El rei ha trobat l'excusa i l'explicació adequada.");
 		assertCorrect("té una manera de jugar aquestes gires tan femenina");

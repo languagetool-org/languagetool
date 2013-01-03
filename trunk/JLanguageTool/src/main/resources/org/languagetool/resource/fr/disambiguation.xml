@@ -650,7 +650,17 @@ RB => Règles Brutes
       <disambig postag="V avoir inf"/>
     </rule>
   </rulegroup>
-  <rule name="RP : Det + Adj ambigu + Nom" id="RP-D_J_AMBIG_N">
+  <rule name="RP : Det + Nom + Adj" id="RP-D_N_AMBIG_J">
+    <pattern>
+      <unify>  <feature id="number"/> <feature id="gender"/>
+        <token postag="D.*" postag_regexp="yes"/>
+        <token postag="N.*" postag_regexp="yes"/>
+        <token postag="J.*|V ppa .*" postag_regexp="yes"/>
+      </unify>
+    </pattern>
+    <disambig action="filterall"/>
+  </rule>
+  <rule name="RP : Det + Adj + Nom" id="RP-D_J_AMBIG_N">
     <pattern>
       <unify>  <feature id="number"/> <feature id="gender"/>
         <token postag="D.*" postag_regexp="yes"/>
@@ -658,17 +668,16 @@ RB => Règles Brutes
         <token postag="N.*" postag_regexp="yes"><exception regexp="yes">dans|envers|mais</exception><exception inflected="yes" regexp="yes">avoir|être</exception></token>
       </unify>
     </pattern>
-    <disambig action="unify"/>
+    <disambig action="filterall"/>
   </rule>
-  
   <rule name="RP : Det + Nom ambigu" id="RP-D_N_AMBIG">
     <pattern>
       <unify> <feature id="number"/> <feature id="gender"/>
         <token postag="D.*" postag_regexp="yes"/>
-        <token postag="N.*" postag_regexp="yes"><exception regexp="yes">a|dans|envers</exception></token>
+        <token postag="N.*|J.*" postag_regexp="yes"><exception regexp="yes">a|dans|envers</exception></token>
       </unify>
     </pattern>
-    <disambig action="unify"/>
+    <disambig action="filterall"/>
     <example type="untouched">Ils sont parti.</example>
     <example type="ambiguous" inputform="livre[livre/N e s,livrer/V imp pres 2 s,livrer/V ind pres 1 s,livrer/V ind pres 3 s,livrer/V sub pres 1 s,livrer/V sub pres 3 s]" outputform="livre[livre/N e s]">Il a enfin publié son <marker>livre</marker>.</example>
   </rule>

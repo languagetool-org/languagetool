@@ -331,15 +331,20 @@ public class Unifier {
    * 
    * @param matchToken
    *          {@link AnalyzedToken} token to unify
- * @param lastReading
+   * @param lastReading
    *          true when the matchToken is the last reading in the
    *          {@link AnalyzedTokenReadings}
+   * @param isMatched     
+   *          true if the reading matches the element in the pattern rule,
+   *          otherwise the reading is not considered in the unification    
    * @return True if the tokens in the sequence are unified.
    */
   public final boolean isUnified(final AnalyzedToken matchToken,
-      final Map<String, List<String>> uFeatures, final boolean lastReading) {
-    if (inUnification) {      
-      uniMatched |= isSatisfied(matchToken, uFeatures);
+      final Map<String, List<String>> uFeatures, final boolean lastReading, final boolean isMatched) {
+    if (inUnification) {
+       if (isMatched) {	
+          uniMatched |= isSatisfied(matchToken, uFeatures); 
+       }
       uniAllMatched = uniMatched;
       if (lastReading) {
         startNextToken();
@@ -348,13 +353,20 @@ public class Unifier {
       }
       return uniAllMatched;
     }
-    isSatisfied(matchToken, uFeatures);
+    if (isMatched) {	
+       isSatisfied(matchToken, uFeatures);
+    }
     if (lastReading) {
       inUnification = true;
       uniMatched = false;
       startUnify();
     }
     return true;
+  }
+  
+  public final boolean isUnified(final AnalyzedToken matchToken,
+	      final Map<String, List<String>> uFeatures, final boolean lastReading) {
+	  return this.isUnified(matchToken, uFeatures, lastReading, true); 
   }
 
   /**

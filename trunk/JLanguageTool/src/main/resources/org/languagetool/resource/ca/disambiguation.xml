@@ -34,6 +34,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </equivalence>
     </unification>
     <rulegroup id="PUNTUACIO" name="signes de puntuació">
+    	
         <rule>
             <pattern>
                 <token regexp="yes">[.;:!?—–…()\[\]\-]</token>
@@ -3104,86 +3105,47 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="filter" postag="DI.*"></disambig>
         </rule>
     </rulegroup>
-    <rulegroup id="DAAN" name="Det + AdjNom + Adj + Nom"> 
     <!-- La característica mitja canya
         problema: la part superior esquerra -->
-       <!--  <rule>
-            <pattern>
-            <unify>
-                <feature id="nombre"/>
-                <feature id="genere"/>
-                <marker>
-                	<token postag="D[^R].*" postag_regexp="yes"/>    
-                    <token postag="A.*" postag_regexp="yes"/>
-                	<token postag="A.*" postag_regexp="yes"/>
-                	<token postag="N.*" postag_regexp="yes"/>
-                </marker>	
-            </unify>
-            </pattern>
-            <disambig action="filterall" />
-        </rule> -->
-        <rule>
-            <pattern>
-            <unify>
-                <feature id="nombre"/>
-                <token postag="D[^R].[FC].*" postag_regexp="yes"/>
-                <marker>
-                    <and>
-                    <token postag="A..[FC].*" postag_regexp="yes"/>
-                    <token postag="N.*" postag_regexp="yes"/>
-                    </and>
-                </marker>
-                <token postag="A..[FC].*" postag_regexp="yes"/>
-                <token postag="N.[FC].*" postag_regexp="yes"/>
-            </unify>
-            </pattern>
-            <disambig action="filter" postag="A..[FC].*"></disambig>
-        </rule>
-        <rule>
-            <pattern>
-            <unify>
-                <feature id="nombre"/>
-                <token postag="D[^R].[MC].*" postag_regexp="yes"/>
-                <marker>
-                    <and>
-                    <token postag="A..[MC].*" postag_regexp="yes"/>
-                    <token postag="N.*" postag_regexp="yes"/>
-                    </and>
-                </marker>
-                <token postag="A..[MC].*" postag_regexp="yes"/>
-                <token postag="N.[MC].*" postag_regexp="yes"/>
-            </unify>
-            </pattern>
-            <disambig action="filter" postag="A..[MC].*"></disambig>
-        </rule>
-        <rule>
-            <pattern>
-            <unify>
-                <feature id="nombre"/>
-                <feature id="genere"/>
-                <token postag="D[^R].*" postag_regexp="yes"/>
+    <rule id="DAAN" name="det + adj + adj + nom">
+       <pattern>
+          <unify>
+              <feature id="nombre"/>
+              <feature id="genere"/>
+              <marker>
+               	<token postag="D[^R].*" postag_regexp="yes"/>    
                 <token postag="A.*" postag_regexp="yes"/>
-                <marker>
-                    <and>
-                    <token postag="N.*" postag_regexp="yes"/>
-                    <token postag="D.*" postag_regexp="yes" inflected="yes">numeral</token>
-                    </and>
-                </marker>
+               	<token postag="A.*" postag_regexp="yes"/>
+               	<token postag="N.*" postag_regexp="yes"/>
+              </marker>	
+          </unify>
+          </pattern>
+          <disambig action="filterall" />
+    </rule>    
+    <rule id="DANumN" name="det + adj + numeral + nom">
+        <pattern>
+        <unify>
+        <feature id="nombre"/>
+        <feature id="genere"/>
+            <marker>
+            	<token postag="D[^R].*" postag_regexp="yes"/>
+            	<token postag="A.*" postag_regexp="yes"/>
+                <token postag="DN.*" postag_regexp="yes"/>
                 <token postag="N.*" postag_regexp="yes"/>
-            </unify>
-            </pattern>
-            <disambig action="filter" postag="D.*"></disambig>
-        </rule>
-    </rulegroup>
+            </marker>
+        </unify>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
     <rulegroup id="DPAN" name="Det + Possessiu  + AdjNom + Nom"> 
     <!-- La seva mala intenció -->
     	<rule>
             <pattern>
                 <marker>
-                <token postag="D[^R].[MC][SN].*" postag_regexp="yes"/>
-                <token postag="PX.[MC][SN].*" postag_regexp="yes"/>
-                <token postag="A..[MC][SN].*|V.P.*SM" postag_regexp="yes"/>
-                <token postag="N.[MC][SN].*" postag_regexp="yes"/>
+	                <token postag="D[^R].[MC][SN].*" postag_regexp="yes"/>
+	                <token postag="PX.[MC][SN].*" postag_regexp="yes"/>
+	                <token postag="A..[MC][SN].*|V.P.*SM" postag_regexp="yes"/>
+	                <token postag="N.[MC][SN].*" postag_regexp="yes"/>
                 </marker>
             </pattern>
             <disambig action="filterall"/>
@@ -3191,10 +3153,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <marker>
-                <token postag="D[^R].[FC][SN].*" postag_regexp="yes"/>
-                <token postag="PX.[FC][SN].*" postag_regexp="yes"/>
-                <token postag="A..[FC][SN].*|V.P.*SF" postag_regexp="yes"/>
-                <token postag="N.[FC][SN].*" postag_regexp="yes"><exception regexp="yes">era|mira|queda</exception></token>
+	                <token postag="D[^R].[FC][SN].*" postag_regexp="yes"/>
+	                <token postag="PX.[FC][SN].*" postag_regexp="yes"/>
+	                <token postag="A..[FC][SN].*|V.P.*SF" postag_regexp="yes"/>
+	                <token postag="N.[FC][SN].*" postag_regexp="yes"><exception regexp="yes">era|mira|queda</exception></token>
                 </marker>
             </pattern>
             <disambig action="filterall"/>
@@ -3202,10 +3164,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <marker>
-                <token postag="D[^R].[MC][PN].*" postag_regexp="yes"/>
-                <token postag="PX.[MC][PN].*" postag_regexp="yes"/>
-                <token postag="A..[MC][PN].*|V.P.*PM" postag_regexp="yes"/>
-                <token postag="N.[MC][PN].*" postag_regexp="yes"/>
+	                <token postag="D[^R].[MC][PN].*" postag_regexp="yes"/>
+	                <token postag="PX.[MC][PN].*" postag_regexp="yes"/>
+	                <token postag="A..[MC][PN].*|V.P.*PM" postag_regexp="yes"/>
+	                <token postag="N.[MC][PN].*" postag_regexp="yes"/>
                 </marker>
             </pattern>
             <disambig action="filterall"/>
@@ -3213,10 +3175,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <marker>
-                <token postag="D[^R].[FC][PN].*" postag_regexp="yes"/>
-                <token postag="PX.[FC][PN].*" postag_regexp="yes"/>
-                <token postag="A..[FC][PN].*|V.P.*PF" postag_regexp="yes"/>
-                <token postag="N.[FC][PN].*" postag_regexp="yes"/>
+	                <token postag="D[^R].[FC][PN].*" postag_regexp="yes"/>
+	                <token postag="PX.[FC][PN].*" postag_regexp="yes"/>
+	                <token postag="A..[FC][PN].*|V.P.*PF" postag_regexp="yes"/>
+	                <token postag="N.[FC][PN].*" postag_regexp="yes"/>
                 </marker>
             </pattern>
             <disambig action="filterall"/>
@@ -5905,13 +5867,13 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token postag="N.*|A.*" postag_regexp="yes"></token>
             <marker>
                 <and>
-                    <token postag="N.*" postag_regexp="yes"></token>
-                    <token postag="SP.*" postag_regexp="yes"></token>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <token postag="SPS00"/>
                 </and>
             </marker>
         </pattern>
         <disambig action="filter" postag="[^N].*"></disambig>
-    </rule>
+    </rule> 
     <rule id="haver_de" name="haver de + infinitiu">
         <pattern>
             <marker>
