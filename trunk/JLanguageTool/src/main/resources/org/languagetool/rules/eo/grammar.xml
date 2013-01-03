@@ -3743,6 +3743,56 @@ $Id$
       <example type="incorrect">Mi vundis al mi la fingron per <marker>vitrero</marker>.</example>
       <example type="correct">Mi vundis al mi la fingron per <marker>vitropeco</marker>.</example>
     </rule>
+
+    <rule id="INDO" name="amindo → amindeco, ktp">
+      <pattern>
+        <token regexp="yes">.*[^h]indoj?n?</token>
+      </pattern>
+      <message>Por substantivigo de -inda vortoj, la sufikso «ec» estas ĉiam uzata: amindeco (ne amindo), vidindeco (ne vidindo) k.t.p. Ĉu vi volas skribi <suggestion><match no="1" regexp_match="(.*)ind" regexp_replace="$1indec"/></suggestion>?</message>
+      <url>http://www.esperanto.mv.ru/Seppik/lec19.html#154</url>
+      <example type="incorrect"><marker>Ridindo</marker> ne mortigas.</example>
+      <example type="correct">Ridindeco ne mortigas.</example>
+      <example type="correct">Li estas Hindo, kaj li estas Sudhindo.</example>
+    </rule>
+
+    <rulegroup id="RAZIGXI" name="mi raziĝis → mi razis min">
+      <rule>
+        <pattern>
+          <token regexp="yes">[mvclŝn]i|ili|\p{Lu}.*</token>
+          <marker><token regexp="yes">(?:ek|mal|sen)?(?:lav|komb|raz|vest)iĝ(?:[auio]s|u)</token></marker>
+        </pattern>
+        <message>Oni ne povas diri «mi laviĝis, kombiĝis, raziĝis, vestiĝis», ĉar tiuj agoj ne okazas aŭtomate, per si mem, kaj la homo ne restas pasiva ĉe tio; oni devas diri: mi lavis min, kombis min, razis min, vestis min.</message>
+        <url>http://www.esperanto.mv.ru/Seppik/lec10.html#70</url>
+        <example type="incorrect">Mi <marker>laviĝis</marker> ĉi-matene.</example>
+        <example type="correct">Mi lavis min ĉi-matene.</example>
+        <example type="incorrect">Ĉu Mary <marker>laviĝis</marker>?</example>
+        <example type="correct">Ĉu Mary lavis sin?</example>
+        <example type="correct">Mia aŭto laviĝis per la pluvego.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">[mvclŝn]i|ili|\p{Lu}.*</token>
+          <token postag="E.*|_" postag_regexp="yes"/>
+          <marker><token regexp="yes">(?:ek|mal|sen)?(?:lav|komb|raz|vest)iĝ(?:[auio]s|u)</token></marker>
+        </pattern>
+        <message>Oni ne povas diri «mi laviĝis, kombiĝis, raziĝis, vestiĝis», ĉar tiuj agoj ne okazas aŭtomate, per si mem, kaj la homo ne restas pasiva ĉe tio; oni devas diri: mi lavis min, kombis min, razis min, vestis min.</message>
+        <url>http://www.esperanto.mv.ru/Seppik/lec10.html#70</url>
+        <example type="incorrect">Mi ĵus <marker>laviĝis</marker> ĉi-matene.</example>
+        <example type="correct">Mi ĵus lavis min ĉi-matene.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">[mvclŝn]i|ili|\p{Lu}.*</token>
+          <token postag="E.*|_" postag_regexp="yes"/>
+          <token postag="E.*|_" postag_regexp="yes"/>
+          <marker><token regexp="yes">(?:ek|mal|sen)?(?:lav|komb|raz|vest)iĝ(?:[auio]s|u)</token></marker>
+        </pattern>
+        <message>Oni ne povas diri «mi laviĝis, kombiĝis, raziĝis, vestiĝis», ĉar tiuj agoj ne okazas aŭtomate, per si mem, kaj la homo ne restas pasiva ĉe tio; oni devas diri: mi lavis min, kombis min, razis min, vestis min.</message>
+        <url>http://www.esperanto.mv.ru/Seppik/lec10.html#70</url>
+        <example type="incorrect">Mi ankoraŭ ne <marker>laviĝis</marker> ĉi-matene.</example>
+        <example type="correct">Mi ankoraŭ ne lavis min ĉi-matene.</example>
+      </rule>
+    </rulegroup>
   </category>
   <!-- vim: foldmethod=marker foldmarker=<category,</category:
   -->
