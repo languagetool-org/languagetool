@@ -337,7 +337,7 @@ public class PatternRuleTest extends TestCase {
         if (s.indexOf('|') >= 0) {
           System.err.println("The " + lang.toString() + " rule: "
              + ruleId + ", token [" + tokenIndex + "], contains | (pipe) in "
-             + " regexp part [" + matcher.group(2)
+             + " regexp bracket expression [" + matcher.group(2)
              + "] which is unlikely to be correct.");
         }
 
