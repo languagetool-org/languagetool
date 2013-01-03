@@ -128,7 +128,14 @@ public final class RuleOverview {
       } else {
         final File[] javaRules = dir.listFiles(new JavaFilter(langName));
         final int javaCount = javaRules.length;
-        System.out.print("<td valign=\"top\" align=\"right\">" + javaCount + "</td>");
+        if (javaCount > 0) {
+          final String sourceCodeLink = 
+                  "http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/main/java/org/languagetool/rules/" 
+                  + lang.getShortName() + "/";
+          System.out.print("<td valign=\"top\" align=\"right\"><a href=\"" + sourceCodeLink + "\">" + javaCount + "</a></td>");
+        } else {
+          System.out.print("<td valign=\"top\" align=\"right\">" + javaCount + "</td>");
+        }
         overallJavaCount++;
       }
 
