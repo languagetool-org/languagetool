@@ -3715,12 +3715,24 @@ $Id$
         </marker>
         <token postag="[OA] nak.*" postag_regexp="yes"/>
       </pattern>
-      <message>Kun la fundamentaj numeraloj «da» ne estas uzebla. Forigu «da» kaj uzu akuzativon (ekz: dek ovojn), aŭ uzu substantivan numeralon (ekz: deko da ovoj).</message>
+      <message>Kun la fundamentaj numeraloj «da» ne estas uzebla. Forigu «da» kaj uzu akuzativon laŭ bezone (ekz: dek ovojn), aŭ uzu substantivan numeralon (ekz: deko da ovoj).</message>
       <url>http://www.esperanto.mv.ru/Seppik/lec15.html#112</url>
       <example type="incorrect">Mi aĉetis <marker>dudek da</marker> ovoj.</example>
       <example type="correct">Mi aĉetis dudek ovoj.</example>
       <example type="correct">Mi aĉetis dudekon da ovoj.</example>
       <example type="correct">Miliono da homoj mortis.</example>
+    </rule>
+
+    <rule id="DA_LA" name="glason da la vino → glason de la vino">
+      <pattern>
+        <marker><token>da</token></marker>
+        <token>la</token>
+      </pattern>
+      <message>Kiam antaŭ tio, kio estas mezurata, troviĝas artikolo (la), oni devas anstataŭ «da» uzi <suggestion>de</suggestion> aŭ <suggestion>el</suggestion>.</message>
+      <url>http://www.esperanto.mv.ru/Seppik/lec15.html#112</url>
+      <example type="incorrect">Donu al mi glaseton <marker>da</marker> la vino.</example>
+      <example type="correct">Donu al mi glaseton de la vino.</example>
+      <example type="correct">Donu al mi glaseton el la vino.</example>
     </rule>
 
     <rule id="RICXA_DA" name="riĉa da → riĉa de">
@@ -3736,7 +3748,7 @@ $Id$
 
     <rule id="VITRERO" name="vitrero → vitropeco">
       <pattern>
-        <token regexp="yes">(?:fi)?(?:drato?|fumo?|lakto?|sekureco?)?vitr(?:aĵ)?er(?:e[tg]|aĉ)?oj?n?|sukereroj?n?</token>
+        <token regexp="yes">(?:drato?|fumo?|lakto?|sekureco?)?vitr(?:aĵ)?er(?:e[tg]|aĉ)?oj?n?|sukereroj?n?</token>
       </pattern>
       <message>Ero ne estas identa al peco aŭ parto, kaj estas granda diferenco inter ekzemple ĉenero kaj ĉenpeco. Tial uzu <suggestion><match no="1" regexp_match="(.*)er" regexp_replace="$1opec"/></suggestion>.</message>
       <url>http://www.esperanto.mv.ru/Seppik/lec19.html#141</url>
