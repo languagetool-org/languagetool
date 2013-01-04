@@ -8564,6 +8564,32 @@ $Id$
         </rule>
     </category>
     <category name="A1) Ortotipografia">
+        <rule id="ELA_GEMINADA" name="Errors en la ela geminada.">
+            <pattern case_sensitive="no">
+                <marker>
+                    <token regexp="yes">.+l\.l.+</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(.+l)\.(l.+)" regexp_replace="$1·$2"/></suggestion></message>
+            <example type="incorrect" correction="sol·licitud">La <marker>sol.licitud</marker>.</example>
+            <example type="correct">la col·laboració</example>
+        </rule>
+        <rule id="ESPAI_DESPRES_DE_PUNT" name="Comprova que hi ha espai deprés de punt.">
+            <pattern case_sensitive="no">
+                <marker>
+                    <token>.</token>
+                    <token spacebefore="no"><exception postag="SENT_END" /><exception regexp="yes">[.)"’”»]</exception></token>
+                </marker>
+            </pattern>
+            <message>Falta un espai després del punt <suggestion><match no="1"/> <match no="2" case_conversion="startupper"/></suggestion></message>
+            <example type="incorrect" correction=". Sempre">És així<marker>.sempre</marker>.</example>
+            <example type="correct">És així. Sempre.</example>
+            <example type="correct">És així.</example>
+            <example type="correct">És així...</example>
+            <example type="correct">(És així...)</example>
+            <example type="correct">És així. </example>
+            <example type="correct">És així.» </example>
+        </rule>
         <rule id="PUNT_EN_ABREVIATURES" name="Comprova que hi ha punt en abreviatures: pàg., núm., etc.">
             <pattern case_sensitive="no">
                 <marker>

@@ -89,8 +89,9 @@ public class CatalanWordTokenizer implements Tokenizer {
 		final StringTokenizer st = new StringTokenizer(text.replaceAll("([\\p{L}])['’]([\\p{L}])", "$1##CA_APOS##$2")
 				.replaceAll("([\\p{L}])-([\\p{L}])-([\\p{L}])", "$1##CA_HYPHEN##$2##CA_HYPHEN##$3")  //it's necessary for words like "vint-i-quatre" 
 				.replaceAll("([\\p{L}])-([\\p{Ll}\\d])", "$1##CA_HYPHEN##$2")
-				.replaceAll("([\\d]).([\\d])", "$1##CA_DECIMALPOINT##$2")
-				.replaceAll("([\\d]),([\\d])", "$1##CA_DECIMALCOMMA##$2"),
+				.replaceAll("([\\d])\\.([\\d])", "$1##CA_DECIMALPOINT##$2")
+				.replaceAll("([\\d]),([\\d])", "$1##CA_DECIMALCOMMA##$2")
+				.replaceAll("l\\.l", "##ELA_GEMINADA##"), // allows correcting typographical errors in "ela geminada"  
 				"\u0020\u00A0\u115f\u1160\u1680" 
 						+ "\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007"
 						+ "\u2008\u2009\u200A\u200B\u200c\u200d\u200e\u200f"
@@ -104,7 +105,8 @@ public class CatalanWordTokenizer implements Tokenizer {
 		
 		while (st.hasMoreElements()) {
 			s=st.nextToken().replaceAll("##CA_APOS##", "'").replaceAll("##CA_HYPHEN##", "-")
-					.replaceAll("##CA_DECIMALPOINT##", ".").replaceAll("##CA_DECIMALCOMMA##", ",");
+					.replaceAll("##CA_DECIMALPOINT##", ".").replaceAll("##CA_DECIMALCOMMA##", ",")
+					.replaceAll("##ELA_GEMINADA##", "l.l");
 			Matcher matcher=null;
 			boolean matchFound=false;
 			int j=0;
