@@ -30,7 +30,9 @@ public class HTTPSServerConfig extends HTTPServerConfig {
 
   private final File keystore;
   private final String keyStorePassword;
-
+  
+  private int requestLimit;
+  private int requestLimitPeriodInSeconds;
   private int maxTextLength = Integer.MAX_VALUE;
 
   /**
@@ -56,6 +58,21 @@ public class HTTPSServerConfig extends HTTPServerConfig {
   }
 
   /**
+   * @param serverPort the port to bind to
+   * @param verbose when set to <tt>true</tt>, the input text will be logged in case there is an exception
+   * @param keystore a Java keystore file as created with the <tt>keytool</tt> command
+   * @param keyStorePassword the password for the keystore
+   * @since 2.1
+   */
+  HTTPSServerConfig(int serverPort, boolean verbose, File keystore, String keyStorePassword, int requestLimit, int requestLimitPeriodInSeconds) {
+    super(serverPort, verbose);
+    this.keystore = keystore;
+    this.keyStorePassword = keyStorePassword;
+    this.requestLimit = requestLimit;
+    this.requestLimitPeriodInSeconds = requestLimitPeriodInSeconds;
+  }
+
+  /**
    * Parse command line options and load settings from property file.
    */
   HTTPSServerConfig(String[] args) {
@@ -76,6 +93,8 @@ public class HTTPSServerConfig extends HTTPServerConfig {
         props.load(fis);
         keystore = new File(getProperty(props, "keystore", config));
         keyStorePassword = getProperty(props, "password", config);
+        requestLimit = Integer.parseInt(getOptionalProperty(props, "requestLimit", "0"));
+        requestLimitPeriodInSeconds = Integer.parseInt(getOptionalProperty(props, "requestLimitPeriodInSeconds", "0"));
         maxTextLength = Integer.parseInt(getOptionalProperty(props, "maxTextLength", Integer.toString(Integer.MAX_VALUE)));
       } finally {
         fis.close();
@@ -103,6 +122,14 @@ public class HTTPSServerConfig extends HTTPServerConfig {
 
   String getKeyStorePassword() {
     return keyStorePassword;
+  }
+
+  int getRequestLimit() {
+    return requestLimit;
+  }
+
+  int getRequestLimitPeriodInSeconds() {
+    return requestLimitPeriodInSeconds;
   }
 
   private String getProperty(Properties props, String propertyName, File config) {

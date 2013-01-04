@@ -19,6 +19,7 @@
 package org.languagetool.server;
 
 import org.junit.Test;
+import org.languagetool.Language;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,6 +30,7 @@ import java.net.URLEncoder;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.languagetool.server.HTTPServerConfig.DEFAULT_PORT;
 
 public class HTTPSServerTest {
 
@@ -36,14 +38,28 @@ public class HTTPSServerTest {
   private static final String KEYSTORE_PASSWORD = "mytest";
 
   @Test
+  public void runRequestLimitationTest() throws Exception {
+    HTTPTools.disableCertChecks();
+    final HTTPSServerConfig serverConfig = new HTTPSServerConfig(HTTPServerConfig.DEFAULT_PORT, false, getKeystoreFile(), KEYSTORE_PASSWORD, 2, 30);
+    final HTTPSServer server = new HTTPSServer(serverConfig, false, HTTPServerConfig.DEFAULT_HOST, null);
+    try {
+      server.run();
+      check(Language.GERMAN, "foo");
+      check(Language.GERMAN, "foo");
+      try {
+        System.out.println("Testing too many requests now, please ignore the exception");
+        check(Language.GERMAN, "foo");
+        fail();
+      } catch (IOException expected) {}
+    } finally {
+      server.stop();
+    }
+  }
+  
+  @Test
   public void testHTTPSServer() throws Exception {
     HTTPTools.disableCertChecks();
-    final URL keystore = HTTPSServerTest.class.getResource(KEYSTORE);
-    if (keystore == null) {
-      throw new RuntimeException("Not found in classpath : " + KEYSTORE);
-    }
-    final File keyStoreFile = new File(keystore.getFile());
-    final HTTPSServerConfig config = new HTTPSServerConfig(keyStoreFile, KEYSTORE_PASSWORD);
+    final HTTPSServerConfig config = new HTTPSServerConfig(getKeystoreFile(), KEYSTORE_PASSWORD);
     config.setMaxTextLength(500);
     final HTTPSServer server = new HTTPSServer(config, false, HTTPServerConfig.DEFAULT_HOST, null);
     try {
@@ -52,6 +68,14 @@ public class HTTPSServerTest {
     } finally {
       server.stop();
     }
+  }
+
+  private File getKeystoreFile() {
+    final URL keystore = HTTPSServerTest.class.getResource(KEYSTORE);
+    if (keystore == null) {
+      throw new RuntimeException("Not found in classpath : " + KEYSTORE);
+    }
+    return new File(keystore.getFile());
   }
 
   private void runTests() throws IOException {
@@ -82,6 +106,13 @@ public class HTTPSServerTest {
     } catch (IOException expected) {}
   }
 
+  private String check(Language lang, String text) throws IOException {
+    String urlOptions = "/?language=" + lang.getShortName();
+    urlOptions += "&disabled=HUNSPELL_RULE&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
+    final URL url = new URL("https://localhost:" + DEFAULT_PORT + urlOptions);
+    return HTTPTools.checkAtUrl(url);
+  }
+  
   private String encode(String text) throws UnsupportedEncodingException {
     return URLEncoder.encode(text, "utf-8");
   }

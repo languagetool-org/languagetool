@@ -66,7 +66,8 @@ public class HTTPSServer extends Server {
       final SSLContext sslContext = getSslContext(config.getKeystore(), config.getKeyStorePassword());
       final HttpsConfigurator configurator = getConfigurator(sslContext);
       ((HttpsServer)server).setHttpsConfigurator(configurator);
-      final LanguageToolHttpHandler httpHandler = new LanguageToolHttpHandler(config.isVerbose(), allowedIps, runInternally);
+      final RequestLimiter limiter = getRequestLimiterOrNull(config);
+      final LanguageToolHttpHandler httpHandler = new LanguageToolHttpHandler(config.isVerbose(), allowedIps, runInternally, limiter);
       httpHandler.setMaxTextLength(config.getMaxTextLength());
       server.createContext("/", httpHandler);
     } catch (BindException e) {
@@ -78,6 +79,15 @@ public class HTTPSServer extends Server {
       final String message = Tools.makeTexti18n(messages, "https_server_start_failed_unknown_reason", host, Integer.toString(port));
       throw new RuntimeException(message, e);
     }
+  }
+
+  private RequestLimiter getRequestLimiterOrNull(HTTPSServerConfig config) {
+    final int requestLimit = config.getRequestLimit();
+    final int requestLimitPeriodInSeconds = config.getRequestLimitPeriodInSeconds();
+    if (requestLimit > 0 || requestLimitPeriodInSeconds > 0) {
+      return new RequestLimiter(requestLimit, requestLimitPeriodInSeconds);
+    }
+    return null;
   }
 
   private SSLContext getSslContext(File keyStoreFile, String passPhrase) throws IOException {

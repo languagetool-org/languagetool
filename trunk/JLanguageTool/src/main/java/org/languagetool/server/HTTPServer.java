@@ -28,7 +28,6 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 import static org.languagetool.server.HTTPServerConfig.DEFAULT_HOST;
-import static org.languagetool.server.HTTPServerConfig.DEFAULT_PORT;
 
 /**
  * A small embedded HTTP server that checks text. Returns XML, prints debugging
@@ -96,7 +95,7 @@ public class HTTPServer extends Server {
       } else {
         server = HttpServer.create(new InetSocketAddress(host, port), 0);
       }
-      server.createContext("/", new LanguageToolHttpHandler(config.isVerbose(), allowedIps, runInternally));
+      server.createContext("/", new LanguageToolHttpHandler(config.isVerbose(), allowedIps, runInternally, null));
     } catch (Exception e) {
       final ResourceBundle messages = JLanguageTool.getMessageBundle();
       final String message = Tools.makeTexti18n(messages, "http_server_start_failed", host, Integer.toString(port));

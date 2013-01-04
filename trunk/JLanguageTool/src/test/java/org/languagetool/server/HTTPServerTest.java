@@ -163,8 +163,7 @@ public class HTTPServerTest {
         System.out.println("Testing 'access denied' check now, please ignore the exception");
         check(Language.GERMAN, "no ip address allowed, so this cannot work");
         fail();
-      } catch (IOException expected) {
-      }
+      } catch (IOException expected) {}
     } finally {
       server.stop();
     }
@@ -180,8 +179,7 @@ public class HTTPServerTest {
         final URL url = new URL("http://localhost:" + DEFAULT_PORT + "/?text=foo");
         HTTPTools.checkAtUrl(url);
         fail();
-      } catch (IOException expected) {
-      }
+      } catch (IOException expected) {}
     } finally {
       server.stop();
     }
@@ -206,7 +204,7 @@ public class HTTPServerTest {
     String urlOptions = "/?language=" + lang.getShortName();
     urlOptions += "&disabled=HUNSPELL_RULE&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
     if (null != motherTongue) {
-    	urlOptions += "&motherTongue=" + motherTongue.getShortName();
+      urlOptions += "&motherTongue=" + motherTongue.getShortName();
     }
     final URL url = new URL("http://localhost:" + DEFAULT_PORT + urlOptions);
     return HTTPTools.checkAtUrl(url);

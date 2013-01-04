@@ -36,6 +36,7 @@ class LanguageToolHttpHandler implements HttpHandler {
   private final Set<String> allowedIps;  
   private final boolean verbose;
   private final boolean internalServer;
+  private final RequestLimiter requestLimiter;
   
   private Configuration config;
   
@@ -48,12 +49,14 @@ class LanguageToolHttpHandler implements HttpHandler {
   /**
    * @param verbose print the input text in case of exceptions
    * @param allowedIps set of IPs that may connect or <tt>null</tt> to allow any IP
+   * @param requestLimiter may be null
    * @throws IOException
    */
-  LanguageToolHttpHandler(boolean verbose, Set<String> allowedIps, boolean internal) throws IOException {
+  LanguageToolHttpHandler(boolean verbose, Set<String> allowedIps, boolean internal, RequestLimiter requestLimiter) throws IOException {
     this.verbose = verbose;
     this.allowedIps = allowedIps;
     this.internalServer = internal;
+    this.requestLimiter = requestLimiter;
     config = new Configuration(null);
   }
 
@@ -66,8 +69,15 @@ class LanguageToolHttpHandler implements HttpHandler {
     String text = null;
     try {
       final URI requestedUri = httpExchange.getRequestURI();
-      final Map<String, String> parameters = getRequestQuery(httpExchange, requestedUri);
       final String remoteAddress = httpExchange.getRemoteAddress().getAddress().getHostAddress();
+      if (requestLimiter != null && !requestLimiter.isAccessOkay(remoteAddress)) {
+        final String errorMessage = "Error: Access from " + StringTools.escapeXML(remoteAddress) +
+                " denied - too many requests. Allowed maximum requests: " + requestLimiter.getRequestLimit() +
+                " requests per " + requestLimiter.getRequestLimitPeriodInSeconds() + " seconds";
+        sendError(httpExchange, HttpURLConnection.HTTP_FORBIDDEN, errorMessage);
+        throw new RuntimeException(errorMessage);
+      }
+      final Map<String, String> parameters = getRequestQuery(httpExchange, requestedUri);
       if (allowedIps == null || allowedIps.contains(remoteAddress)) {
         if (requestedUri.getRawPath().endsWith("/Languages")) {
           // request type: list known languages
@@ -179,13 +189,13 @@ class LanguageToolHttpHandler implements HttpHandler {
     final String enabledParam = parameters.get("enabled");
     enabledRules = new String[0];
     if (null != enabledParam) {
-    	enabledRules = enabledParam.split(",");
+      enabledRules = enabledParam.split(",");
     }
     
     final String disabledParam = parameters.get("disabled");
     disabledRules = new String[0];
     if (null != disabledParam) {
-    	disabledRules = disabledParam.split(",");
+      disabledRules = disabledParam.split(",");
     }
     
     useQuerySettings = enabledRules.length > 0 || disabledRules.length > 0; 
