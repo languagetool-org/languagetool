@@ -18,11 +18,13 @@
  */
 package org.languagetool.tokenizers.ca;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.languagetool.tagging.ca.CatalanTagger;
 
 import org.languagetool.tokenizers.Tokenizer;
 
@@ -40,8 +42,12 @@ public class CatalanWordTokenizer implements Tokenizer {
 
     private int maxPatterns = 11;
     private Pattern[] patterns = new Pattern[maxPatterns];
+    
+    private CatalanTagger tagger;
 
 	public CatalanWordTokenizer() {
+		
+		tagger = new CatalanTagger();
 
         // Apostrophe at the beginning of a word. Ex.: l'home, s'estima, n'omple, hivern, etc.
         // It creates 2 tokens: <token>l'</token><token>home</token>
@@ -86,47 +92,67 @@ public class CatalanWordTokenizer implements Tokenizer {
 	@Override
 	public List<String> tokenize(final String text) {
 		final List<String> l = new ArrayList<String>();
-		final StringTokenizer st = new StringTokenizer(text.replaceAll("([\\p{L}])['’]([\\p{L}])", "$1##CA_APOS##$2")
-				.replaceAll("([\\p{L}])-([\\p{L}])-([\\p{L}])", "$1##CA_HYPHEN##$2##CA_HYPHEN##$3")  //it's necessary for words like "vint-i-quatre" 
-				.replaceAll("([\\p{L}])-([\\p{Ll}\\d])", "$1##CA_HYPHEN##$2")
-				.replaceAll("([\\d])\\.([\\d])", "$1##CA_DECIMALPOINT##$2")
-				.replaceAll("([\\d]),([\\d])", "$1##CA_DECIMALCOMMA##$2")
-				.replaceAll("l\\.l", "##ELA_GEMINADA##"), // allows correcting typographical errors in "ela geminada"  
-				"\u0020\u00A0\u115f\u1160\u1680" 
+		final StringTokenizer st = new StringTokenizer(
+				text.replaceAll("([\\p{L}])['’]([\\p{L}])", "$1##CA_APOS##$2")
+						// .replaceAll("([\\p{L}])-([\\p{L}])-([\\p{L}])",
+						// "$1##CA_HYPHEN##$2##CA_HYPHEN##$3") //it's necessary
+						// for words like "vint-i-quatre"
+						// .replaceAll("([\\p{L}])-([\\p{Ll}\\d])",
+						// "$1##CA_HYPHEN##$2")
+						.replaceAll("([\\d])\\.([\\d])", "$1##CA_DECIMALPOINT##$2")
+						.replaceAll("([\\d]),([\\d])","$1##CA_DECIMALCOMMA##$2")
+						// allows correcting typographical errors in "ela geminada"
+						.replaceAll("l\\.l", "##ELA_GEMINADA##"), 
+				"\u0020\u00A0\u115f\u1160\u1680"
 						+ "\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007"
 						+ "\u2008\u2009\u200A\u200B\u200c\u200d\u200e\u200f"
 						+ "\u2013\u2014\u2015"
 						+ "\u2028\u2029\u202a\u202b\u202c\u202d\u202e\u202f"
 						+ "\u205F\u2060\u2061\u2062\u2063\u206A\u206b\u206c\u206d"
 						+ "\u206E\u206F\u3000\u3164\ufeff\uffa0\ufff9\ufffa\ufffb"
-						+ ",.;()[]{}<>!?:/\\\"'«»„”“‘’`´…¿¡-\t\n\r", true);
+						+ ",.;()[]{}<>!?:/\\\"'«»„”“‘’`´…¿¡\t\n\r", true);
 		String s;
 		String groupStr;
-		
+
 		while (st.hasMoreElements()) {
-			s=st.nextToken().replaceAll("##CA_APOS##", "'").replaceAll("##CA_HYPHEN##", "-")
-					.replaceAll("##CA_DECIMALPOINT##", ".").replaceAll("##CA_DECIMALCOMMA##", ",")
+			s = st.nextToken()
+					.replaceAll("##CA_APOS##", "'")
+					// .replaceAll("##CA_HYPHEN##", "-")
+					.replaceAll("##CA_DECIMALPOINT##", ".")
+					.replaceAll("##CA_DECIMALCOMMA##", ",")
 					.replaceAll("##ELA_GEMINADA##", "l.l");
-			Matcher matcher=null;
-			boolean matchFound=false;
-			int j=0;
-			while (j<maxPatterns && !matchFound) {
-				matcher = patterns[j].matcher(s); 
+			Matcher matcher = null;
+			boolean matchFound = false;
+			int j = 0;
+			while (j < maxPatterns && !matchFound) {
+				matcher = patterns[j].matcher(s);
 				matchFound = matcher.find();
 				j++;
-			}  
+			}
 			if (matchFound) {
-				for (int i=1; i<=matcher.groupCount(); i++) {
+				for (int i = 1; i <= matcher.groupCount(); i++) {
 					groupStr = matcher.group(i);
 					l.add(groupStr);
 				}
-			}  
-			else {
+			} else if (!s.contains("-"))
 				l.add(s);
+			else {
+				try {
+					// words containing hyphen (-) are looked up in the dictionary
+					if (tagger.existsWord(s))
+						l.add(s);
+					else {
+						// if not found, the word is split
+						final StringTokenizer st2 = new StringTokenizer(s, "-",	true);
+						while (st2.hasMoreElements()) 
+							l.add(st2.nextToken());
+					}
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
-
 		}
 		return l;
 	}
-
 }

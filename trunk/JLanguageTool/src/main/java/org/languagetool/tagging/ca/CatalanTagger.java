@@ -18,25 +18,54 @@
  */
 package org.languagetool.tagging.ca;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.List;
 import java.util.Locale;
 
+import morfologik.stemming.Dictionary;
+import morfologik.stemming.DictionaryLookup;
+import morfologik.stemming.IStemmer;
+import morfologik.stemming.WordData;
+
+import org.languagetool.JLanguageTool;
 import org.languagetool.tagging.BaseTagger;
 
-/** Catalan Tagger
+/**
+ * Catalan Tagger
  * 
- * Based on FreeLing tagger dictionary 
+ * Based on FreeLing tagger dictionary
  * 
- * @author Marcin Milkowski
+ * @author Jaume Ortolà 
  */
 public class CatalanTagger extends BaseTagger {
 
-  @Override
-  public final String getFileName() {
-    return "/ca/catalan.dict";
-  }
-  
-  public CatalanTagger() {
-    super();
-    setLocale(new Locale("ca"));
-  }
+	private static final String DICT_FILENAME = "/ca/catalan.dict";
+	private IStemmer morfologik;
+	private final Locale plLocale = new Locale("ca");
+
+	@Override
+	public final String getFileName() {
+		return DICT_FILENAME;
+	}
+
+	public CatalanTagger() {
+		super();
+		setLocale(new Locale("ca"));
+	}
+
+	public boolean existsWord(String word) throws IOException {
+		// caching Lametyzator instance - lazy init
+		if (morfologik == null) {
+			final URL url = JLanguageTool.getDataBroker()
+					.getFromResourceDirAsUrl(DICT_FILENAME);
+			morfologik = new DictionaryLookup(Dictionary.read(url));
+		}
+		final String lowerWord = word.toLowerCase(plLocale);
+		final List<WordData> posTagsFromDict = morfologik.lookup(lowerWord);
+		if (posTagsFromDict.isEmpty())
+			return false;
+		else
+			return true;
+	}
 }
