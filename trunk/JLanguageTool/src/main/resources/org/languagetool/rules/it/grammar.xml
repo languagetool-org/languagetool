@@ -284,7 +284,7 @@ $Id$
                 </pattern>
                 <message>L'apostrofo non è rischiesto in quanto non si tratta di elisione: <suggestion>qual è</suggestion>.</message>
                 <example type="incorrect">Da professionista <marker>qual'è</marker>.</example>
-                <example type="correct">Da professionista qual è.</example>
+                <example type="correct">Da professionista <marker>qual è</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup name="Elisioni" id="GR_04_002">
@@ -306,7 +306,7 @@ $Id$
                 </pattern>
                 <message>Si suggerisce di non usare l'apostrofo per scrivere il verbo essere: <suggestion>è</suggestion>.</message>
                 <example type="incorrect">L'uva <marker>e'</marker> sul tavolo.</example>
-                <example type="correct">L'uva è sul tavolo.</example>
+                <example type="correct">L'uva <marker>è</marker> sul tavolo.</example>
             </rule>
             <!-- perche' -->
             <rule>
@@ -326,7 +326,7 @@ $Id$
                 </pattern>
                 <message>Si suggerisce di non usare l'apostrofo per il verbo essere: <suggestion>È</suggestion>.</message>
                 <example type="incorrect"><marker>E'</marker> un peccato!</example>
-                <example type="correct">È un peccato!</example>
+                <example type="correct"><marker>È</marker> un peccato!</example>
             </rule>
             <!-- da' -->
             <rule>
@@ -354,7 +354,7 @@ $Id$
                 </pattern>
                 <message>Si consiglia di non iniziare una frase con una congiunzione.</message>
                 <example type="incorrect"><marker>E</marker> non si capisce il perché di tanta paura.</example>
-                <example type="correct">Non si capisce il perché di tanta paura.</example>
+                <example type="correct"><marker></marker>Non si capisce il perché di tanta paura.</example>
             </rule>
         </rulegroup>
     </category>
@@ -378,7 +378,7 @@ $Id$
                 </pattern>
                 <message>Probabilmente si scrive senza accento: <suggestion>da</suggestion>.</message>
                 <example type="incorrect">Vengo <marker>dà</marker> Roma.</example>
-                <example type="correct">Vengo da Roma.</example>
+                <example type="correct">Vengo <marker>da</marker> Roma.</example>
             </rule>
             <!-- PB002+ -->
             <!-- assolvere a... -->
@@ -399,23 +399,23 @@ $Id$
                     <token regexp="yes">mi|ti|si|ci|vi</token>
                     <token regexp="yes">interes.*</token>
                     <marker>
-                        <token>a</token>
+                        <token regexp="yes">a|al|ai</token>
                     </marker>
                 </pattern>
                 <message>Non ci si interessa a ma ci si interessa <suggestion>di</suggestion>...</message>
-                <example type="incorrect">Mi interesso <marker>a</marker> qualcosa.</example>
-                <example type="correct">Mi interesso di qualcosa.</example>
+                <example type="incorrect">Mi interesso <marker>al</marker> calcio.</example>
+                <example type="correct">Mi interesso <marker>di</marker> calcio.</example>
             </rule>
             <rule>
                 <pattern>
                     <token regexp="yes">interessar[mtscv]i</token>
                     <marker>
-                        <token>a</token>
+                        <token regexp="yes">a|al|ai</token>
                     </marker>
                 </pattern>
                 <message>Non ci si interessa a ma ci si interessa <suggestion>di</suggestion>...</message>
-                <example type="incorrect">Interessarsi <marker>a</marker> qualcosa.</example>
-                <example type="correct">Interessarsi di qualcosa.</example>
+                <example type="incorrect">Interessarsi <marker>al</marker> calcio.</example>
+                <example type="correct">Interessarsi <marker>di</marker> calcio.</example>
             </rule>
             <!-- promuovere a... -->
             <rule>
