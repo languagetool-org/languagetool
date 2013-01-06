@@ -726,6 +726,29 @@ $Id$
         <example type="correct">Ŝi kun li <marker>edziniĝis</marker>.</example>
       </rule>
     </rulegroup>
+    <rule id="SEMI" name="semi → duon">
+      <pattern>
+        <token regexp="yes">semi..+
+          <exception regexp="yes">seminari.*|semin?t?aj?n?</exception>
+        </token>
+      </pattern>
+      <message>La prefikso «semi-» estas superflua en Esperanto, kaj foje uzata pro influo de nacia lingvo. Oni anstataŭ uzas la prefikson «duon-». Ĉu vi volas skribi <match no="1" regexp_match="^...." regexp_replace="duon"/>?</message>
+      <url>http://bertilow.com/pmeg/vortfarado/neoficialaj_afiksoj/prefiksoj/semi.html</url>
+      <example type="incorrect">Tio estas <marker>semicirklo</marker>.</example>
+      <example type="correct">Tio estas <marker>duoncirklo</marker>.</example>
+      <example type="correct">Mi iris al <marker>seminario</marker>.</example>
+      <example type="correct">Ne ĉiam rikoltas tiu, kiu semis.</example>
+    </rule>
+    <rule id="isto" name="kirurgisto → kirurgo (ktp)">
+      <pattern>
+        <token regexp="yes">(?:fi)?(?:kirurg|astronom|ekolog|diplomat|geolog|geograf|gimnast|ŝofor|barbir|student|kelner|aktor|mim|general|soldat|kurator|profesor)ist(?:aĉ)?oj?n?</token>
+      </pattern>
+      <message>Oni ne uzas la sufikson «-ist» en tiuj vortoj, kiuj jam montras personon. Oni devas skribi <suggestion><match no="1" regexp_match="ist" regexp_replace=""/></suggestion> anstataŭ «\1».</message>
+      <url>http://bertilow.com/pmeg/vortfarado/afiksoj/sufiksoj/ist.html#i-8e1</url>
+      <example type="incorrect">Li estas fama <marker>kirurgisto</marker>.</example>
+      <example type="correct">Li estas fama <marker>kirurgo</marker>.</example>
+      <example type="correct">Oni povas diri «fotografo» aŭ «fotografisto».</example>
+    </rule>
   </category>
   <category name="Arkaismoj">
     <rulegroup id="ARKAISMO" name="arkaismo">
