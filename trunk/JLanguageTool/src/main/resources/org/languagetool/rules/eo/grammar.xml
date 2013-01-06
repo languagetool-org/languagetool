@@ -739,16 +739,29 @@ $Id$
       <example type="correct">Mi iris al <marker>seminario</marker>.</example>
       <example type="correct">Ne ĉiam rikoltas tiu, kiu semis.</example>
     </rule>
-    <rule id="ISTO" name="kirurgisto → kirurgo (ktp)">
-      <pattern>
-        <token regexp="yes">(?:fi)?(?:ge)?(?:aktor|ar[kĥ]eolog|astrolog|barbir|astronom|egiptolog|ekolog|esperantolog|diplomat|doktor|etnolog|filolog|fiziolog|general|ideolog|leksikolog|geolog|geograf|gimnast|ginekolog|kelner|[kĥ]irurg|mim|kurator|ornitolog|(?:infano?)psikolog|profesor|ŝofor|seksolog|(?:ĉef)?serĝent|student|soldat|te[ĥk]nolog|teolog)ist(?:in)?(?:aĉ)?oj?n?</token>
-      </pattern>
-      <message>Oni ne uzas la sufikson «-ist» en tiuj vortoj, kiuj jam montras personon. Oni devas skribi <suggestion><match no="1" regexp_match="ist" regexp_replace=""/></suggestion> anstataŭ «\1».</message>
-      <url>http://bertilow.com/pmeg/vortfarado/afiksoj/sufiksoj/ist.html#i-8e1</url>
-      <example type="incorrect">Li estas fama <marker>kirurgisto</marker>.</example>
-      <example type="correct">Li estas fama <marker>kirurgo</marker>.</example>
-      <example type="correct">Oni povas diri «fotografo» aŭ «fotografisto».</example>
-    </rule>
+    <rulegroup id="ISTO" name="kirurgisto → kirurgo (ktp)">
+      <rule>
+        <pattern>
+          <token regexp="yes">(?:fi)?(?:ge)?(?:eks)?(?:ĉef)?(?:ar[kĥ]eolog|antropolog|birdolog|egiptolog|ekolog|esperantolog|etnolog|filolog|fiziolog|ideolog|leksikolog|geolog|ginekolog|kancerolog|[kĥ]irurg|onkolog|ornitolog|(?:infano?)psikolog|seksolog|sociolog|te[ĥk]nolog)ist(?:estr)?(?:in)?(?:aĉ)?oj?n?</token>
+        </pattern>
+        <message>Oni ne uzas la sufikson «-ist» en tiuj vortoj, kiuj jam montras personon. Oni devas skribi <suggestion><match no="1" regexp_match="ist" regexp_replace=""/></suggestion> aŭ <suggestion><match no="1" regexp_match="ist" regexp_replace="iisto"/></suggestion> anstataŭ «\1».</message>
+        <url>http://bertilow.com/pmeg/vortfarado/afiksoj/sufiksoj/ist.html#i-8e1</url>
+        <example type="incorrect">Li estas fama <marker>kirurgisto</marker>.</example>
+        <example type="correct">Li estas fama <marker>kirurgiisto</marker>.</example>
+        <example type="correct">Li estas fama <marker>kirurgo</marker>.</example>
+        <example type="correct">Oni povas diri «fotografo» aŭ «fotografisto».</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">(?:fi)?(?:ge)?(?:eks)?(?:ĉef)?(?:aktor|astrolog|astronom|barbir|diplomat|doktor|episkop|general|geograf|gimnast|kelner|kurator|mim|profesor|redaktor|serĝent|ŝofor|student|soldat|teolog)ist(?:estr)?(?:in)?(?:aĉ)?oj?n?</token>
+        </pattern>
+        <message>Oni ne uzas la sufikson «-ist» en tiuj vortoj, kiuj jam montras personon. Oni devas skribi <suggestion><match no="1" regexp_match="ist" regexp_replace=""/></suggestion> anstataŭ «\1».</message>
+        <url>http://bertilow.com/pmeg/vortfarado/afiksoj/sufiksoj/ist.html#i-8e1</url>
+        <example type="incorrect">Li estas fama <marker>aktoristo</marker>.</example>
+        <example type="correct">Li estas fama <marker>aktoro</marker>.</example>
+        <example type="correct">Oni povas diri «fotografo» aŭ «fotografisto».</example>
+      </rule>
+    </rulegroup>
   </category>
   <category name="Arkaismoj">
     <rulegroup id="ARKAISMO" name="arkaismo">
