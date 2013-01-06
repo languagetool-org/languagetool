@@ -1018,9 +1018,9 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <marker><token regexp="yes">coeurs?|cœurs?</token></marker>
-          <token regexp="yes" inflected="yes">philharmonique|polyphonique|mixte|interpreter|chanter</token>
+          <token regexp="yes" inflected="yes">philharmonique|polyphonique|mixte|interpréter|chanter</token>
         </pattern>
-        <message>Vouliez-vous écrire <suggestion>chœur<match no="1" regexp_match="(s?)$" regexp_replace="$1"/></suggestion> ?</message>
+        <message>Vouliez-vous écrire <suggestion><match no="1" regexp_match="(s?)$" regexp_replace="$1"/></suggestion> ?</message>
         <example type="incorrect">Le <marker>cœur</marker> philharmonique.</example>
         <example type="correct">Le chœur philharmonique.</example>
       </rule>
@@ -4418,7 +4418,7 @@ though, and has since been slightly modified)-->
       <rule name="il/elle/on + 0 tokens + Verbe">
         <pattern>
           <token postag="R pers suj 3 .* s|R dem . s" postag_regexp="yes">
-            <exception regexp="yes">ce(la|ci)?|(celui|celle)(-ci)?</exception>
+            <exception regexp="yes">ça|ce(la|ci)?|(celui|celle)(-ci)?</exception>
             <exception scope="previous" postag="&lt;/DE&gt;"/>
             <exception scope="previous" postag="P"/>
           </token>
@@ -4434,6 +4434,7 @@ though, and has since been slightly modified)-->
         <example type="correct">À elle reviennent toutes les maisons.</example>
         <example type="correct">Des polluants comme celui-ci viennent de la combustion.</example>
         <example type="correct">Je trouve cela passionnant.</example>
+        <example type="correct">Je pensais que vous trouveriez ça intéressant.</example>
       </rule>
       <rule name="ça + 0 tokens + Verbe">
         <pattern>
