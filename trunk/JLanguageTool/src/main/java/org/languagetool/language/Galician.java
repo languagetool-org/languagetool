@@ -20,7 +20,6 @@ package org.languagetool.language;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 
 import org.languagetool.Language;
 import org.languagetool.rules.CommaWhitespaceRule;
@@ -53,11 +52,6 @@ public class Galician extends Language {
   private Disambiguator disambiguator;
   private Unifier unifier;
   private Unifier disambiguationUnifier;
-
-  @Override
-  public final Locale getLocale() {
-    return new Locale(getShortName());
-  }
 
   @Override
   public final SentenceTokenizer getSentenceTokenizer() {

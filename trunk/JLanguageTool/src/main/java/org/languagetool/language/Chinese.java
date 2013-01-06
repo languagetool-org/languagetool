@@ -20,7 +20,6 @@ package org.languagetool.language;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 
 import org.languagetool.Language;
 import org.languagetool.rules.DoublePunctuationRule;
@@ -52,11 +51,6 @@ public class Chinese extends Language {
 	@Override
 	public String[] getCountryVariants() {
 		return new String[] { "CN" };
-	}
-
-	@Override
-	public Locale getLocale() {
-		return new Locale(getShortName());
 	}
 
 	@Override

@@ -20,7 +20,6 @@ package org.languagetool.language;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 
 import org.languagetool.Language;
 import org.languagetool.rules.CommaWhitespaceRule;
@@ -38,11 +37,6 @@ import org.languagetool.tagging.sv.SwedishTagger;
 public class Swedish extends Language {
 
   private Tagger tagger;
-
-  @Override
-  public final Locale getLocale() {
-    return new Locale(getShortName());
-  }
 
   @Override
   public final String getName() {

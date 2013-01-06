@@ -21,7 +21,6 @@ package org.languagetool.language;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 
 import org.languagetool.Language;
 import org.languagetool.rules.CommaWhitespaceRule;
@@ -58,11 +57,6 @@ public class Icelandic extends Language {
   @Override
   public String[] getCountryVariants() {
     return new String[]{"IS"};
-  }
-
-  @Override
-  public Locale getLocale() {
-    return new Locale(getShortName());
   }
 
   @Override

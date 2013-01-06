@@ -20,7 +20,6 @@ package org.languagetool.language;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 
 import org.languagetool.Language;
 import org.languagetool.rules.CommaWhitespaceRule;
@@ -45,11 +44,6 @@ public class Slovak extends Language {
   private SentenceTokenizer sentenceTokenizer;
   private Synthesizer synthesizer; 
   
-  @Override
-  public Locale getLocale() {
-    return new Locale(getShortName());
-  }
-
   @Override
   public String getName() {
     return "Slovak";

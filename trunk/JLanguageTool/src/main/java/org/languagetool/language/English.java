@@ -20,7 +20,6 @@ package org.languagetool.language;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 
 import org.languagetool.Language;
 import org.languagetool.rules.CommaWhitespaceRule;
@@ -47,15 +46,9 @@ import org.languagetool.tokenizers.Tokenizer;
 public class English extends Language {
 
   private Tagger tagger;
-  private Tokenizer wordTokenizer;
   private SentenceTokenizer sentenceTokenizer;
   private Synthesizer synthesizer;
   private Disambiguator disambiguator;
-
-  @Override
-  public final Locale getLocale() {
-    return new Locale(getShortName());
-  }
 
   @Override
   public Language getDefaultVariant() {

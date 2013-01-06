@@ -20,7 +20,6 @@ package org.languagetool.language;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 
 import org.languagetool.Language;
 import org.languagetool.rules.CommaWhitespaceRule;
@@ -38,11 +37,6 @@ public class Slovenian extends Language {
   
   private SentenceTokenizer sentenceTokenizer;
   
-  @Override
-  public Locale getLocale() {
-    return new Locale(getShortName());
-  }
-
   @Override
   public String getName() {
     return "Slovenian";

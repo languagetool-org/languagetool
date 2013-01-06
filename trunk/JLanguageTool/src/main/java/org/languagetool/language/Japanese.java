@@ -20,7 +20,6 @@ package org.languagetool.language;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 
 import org.languagetool.Language;
 import org.languagetool.rules.DoublePunctuationRule;
@@ -54,11 +53,6 @@ public class Japanese extends Language {
 		return new String[] { "JP" };
 	}
 
-	@Override
-	public Locale getLocale() {
-		return new Locale(getShortName());
-	}
-	
 	@Override
 	public Contributor[] getMaintainers() {
 		return new Contributor[] { new Contributor("Takahiro Shinkai")};

@@ -20,7 +20,6 @@ package org.languagetool.language;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 
 import org.languagetool.Language;
 import org.languagetool.rules.CommaWhitespaceRule;
@@ -43,11 +42,6 @@ public class Malayalam extends Language {
   private Tagger tagger;
   private SentenceTokenizer sentenceTokenizer;
   private Tokenizer wordTokenizer;
-
-  @Override
-  public final Locale getLocale() {
-    return new Locale(getShortName());
-  }
 
   @Override
   public final SentenceTokenizer getSentenceTokenizer() {

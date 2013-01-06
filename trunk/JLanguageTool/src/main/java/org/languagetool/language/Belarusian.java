@@ -20,7 +20,6 @@ package org.languagetool.language;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 
 import org.languagetool.Language;
 import org.languagetool.rules.CommaWhitespaceRule;
@@ -34,7 +33,6 @@ import org.languagetool.tagging.be.BelarusianTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 
-
 /**
  * Belarusian language declarations.
  * 
@@ -45,11 +43,6 @@ public class Belarusian extends Language {
     private Tagger tagger;
     private SentenceTokenizer sentenceTokenizer;
     
-    @Override
-    public Locale getLocale() {
-        return new Locale(getShortName());
-    }
-
     @Override
     public String getName() {
         return "Belarusian";

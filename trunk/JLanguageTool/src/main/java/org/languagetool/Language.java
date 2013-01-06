@@ -195,11 +195,6 @@ public abstract class Language {
   public abstract String[] getCountryVariants();
 
   /**
-   * Get this language's Java locale.
-   */
-  public abstract Locale getLocale();
-
-  /**
    * Get the name(s) of the maintainer(s) for this language or <code>null</code>.
    */
   public abstract Contributor[] getMaintainers();
@@ -211,6 +206,13 @@ public abstract class Language {
   public abstract List<Class<? extends Rule>> getRelevantRules();
 
   // -------------------------------------------------------------------------
+
+  /**
+   * Get this language's Java locale.
+   */
+  public Locale getLocale() {
+    return new Locale(getShortName());
+  }
 
   /**
    * Get the location of the rule file(s).

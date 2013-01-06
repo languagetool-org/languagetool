@@ -20,7 +20,6 @@ package org.languagetool.language;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 
 import org.languagetool.Language;
 import org.languagetool.rules.CommaWhitespaceRule;
@@ -46,11 +45,6 @@ public class Esperanto extends Language {
   private SentenceTokenizer sentenceTokenizer;
   private Tokenizer wordTokenizer;
   private Disambiguator disambiguator;
-
-  @Override
-  public Locale getLocale() {
-    return new Locale("eo");
-  }
 
   @Override
   public final SentenceTokenizer getSentenceTokenizer() {
