@@ -1373,6 +1373,27 @@ though, and has since been slightly modified)-->
         <example type="incorrect">Au moment <marker>ou</marker> elle est sortie</example>
         <example type="correct">Au moment <marker>où</marker> elle est sortie</example>
       </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">savoir</token>
+          <marker><token>ou</token></marker>
+          <token postag="V inf"/>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>où</suggestion> ?</message>
+        <example type="incorrect">Je sais <marker>ou</marker> aller.</example>
+        <example type="correct">Je sais <marker>où</marker> aller.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">savoir</token>
+          <token regexp="yes">pas|plus|guerre|bien</token>
+          <marker><token>ou</token></marker>
+          <token postag="V inf"/>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>où</suggestion> ?</message>
+        <example type="incorrect">Je ne sais pas <marker>ou</marker> aller.</example>
+        <example type="correct">Je ne sais pas <marker>où</marker> aller.</example>
+      </rule>
     </rulegroup>
     <rulegroup id="SUR_ACCENT" name="Sur au lieu de Sûr">
       <rule>
