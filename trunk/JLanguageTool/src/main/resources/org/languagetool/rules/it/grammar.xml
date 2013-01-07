@@ -25,8 +25,8 @@ $Id$
  ================================================================================
  Italian Grammar and Style Rules for Italian
  Paolo Bianchini
- Date: 03/01/2013
- Ver:  0.9.6
+ Date: 07/01/2013
+ Ver:  0.9.6.1
  ================================================================================
  Categorie delle regole
     gruppi delle regole
@@ -112,6 +112,7 @@ $Id$
  PB008    Added rules to check the use of "congiuntivo"
  PB009    Created uso corretto under verbs and added adire vie legali
  PB010    Reworked repetition rule ST_03_002
+ PB011    Reworked rule GR_04_002 exteneded to all words ending with à|è|é|ì|ò|ù
  ======== ===========================================================================
 -->
 
@@ -311,7 +312,10 @@ $Id$
             <!-- perche' -->
             <rule>
                 <pattern>
-                    <token regexp="yes">perché|poiché|affinché|giacché|finché|altroché</token>
+<!-- PB011 + -->                   
+                    <!--  token regexp="yes">perché|poiché|affinché|giacché|finché|altroché</token -->
+                    <token regexp="yes">.*[àèéìòù]</token>
+<!-- PB011 - -->                    
                     <token>'</token>
                 </pattern>
                 <message>Togliere l'apostrofo in quanto la parola è già accentata: <suggestion><match no="1"></match></suggestion>.</message>
