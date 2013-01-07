@@ -323,7 +323,7 @@ $Id$
     <rulegroup id="ADULTO_ADOLTO" name="adulto kaj adolto">
       <rule>
         <pattern>
-          <token regexp="yes">[mcvlŝn]i|ili</token>
+          <token regexp="yes">[mcvlŝn]i|ili|oni</token>
           <token inflected="yes" regexp="yes" skip="1">esti|(?:far)?iĝi</token>
           <marker>
             <token regexp="yes">adultoj?</token>
@@ -1821,6 +1821,7 @@ $Id$
         </token>
       </pattern>
       <message>Netransitiva verbo «\1» kun akuzativo: akuzativo povas anstataŭigi prepozicion, sed konsideru uzi prepozicion por pli da klareco.</message>
+      <url>http://www.esperanto.mv.ru/Seppik/lec11.html#76</url>
       <example type="incorrect">Mi volas fariĝi <marker>instruiston</marker>.</example>
       <example type="correct">Mi volas fariĝi <marker>instruisto</marker>.</example>
       <example type="incorrect">Mi estas <marker>lacan</marker>.</example>
@@ -2777,7 +2778,11 @@ $Id$
             <exception scope="next" postag="[ROAT] akz.*" postag_regexp="yes"/>
           </token>
           <marker>
-            <token regexp="yes" skip="-1">(?:mal|ne|re|mis|fi)?(?:balanc|ban|bukl|etend|fleks|klin|kolekt|interes|komunik|mov|nask|paŝt|renkont|renvers|romp|rul|sku|streĉ|sufok|sving|ŝanĝ|ŝiri|ŝut|ted|tren|turn|vek|vend|venĝ|verŝ|vind|uz)(?:ad|aĉ|et|eg)?(?:[ui]|[aiuo]s)<exception scope="next" regexp="yes">.*n|da|nek</exception><exception scope="next" postag="V.* i" postag_regexp="yes"/></token>
+            <token regexp="yes" skip="-1">(?:mal|ne|re|mis|fi)?(?:balanc|ban|bukl|etend|fleks|klin|kolekt|interes|komunik|mov|nask|paŝt|renkont|renvers|romp|rul|sku|streĉ|sufok|sving|ŝanĝ|ŝiri|ŝut|ted|tren|turn|vek|vend|venĝ|verŝ|vind|uz)(?:ad|aĉ|et|eg)?(?:[ui]|[aiuo]s)
+              <exception scope="next" regexp="yes">.*n|da|nek</exception>
+              <exception scope="next" postag="V.* i" postag_regexp="yes"/>
+              <exception scope="next" postag="UNKNOWN" regexp="yes">\p{Lu}.*</exception>
+            </token>
           </marker>
           <token postag="SENT_END|T.* k .*" postag_regexp="yes"/>
         </pattern>
@@ -2791,6 +2796,7 @@ $Id$
         <example type="correct">Ni <marker>renkontis</marker> nek lin, nek ŝin.</example>
         <example type="incorrect">Oni devas <marker>uzi</marker> aŭ Vindozo, aŭ Linukso.</example>
         <example type="correct">Oni devas <marker>uzi</marker> aŭ Vindozon, aŭ Linukson.</example>
+        <example type="correct">Mi uzas Firefox.</example>
       </rule>
       <rule>
         <pattern>
@@ -2798,7 +2804,11 @@ $Id$
             <exception scope="next" postag="[ROAT] akz.*" postag_regexp="yes"/>
           </token>
           <marker>
-            <token regexp="yes" skip="-1">(?:ne|re)?(?:fin|komenc)[aiou]s<exception scope="previous" regexp="yes">[mcvlŝn]i|ili|oni</exception><exception scope="next" regexp="yes">.*n</exception><exception scope="next" postag="V.* i" postag_regexp="yes"/></token>
+            <token regexp="yes" skip="-1">(?:ne|re)?(?:fin|komenc)[aiou]s
+              <exception scope="previous" regexp="yes">[mcvlŝn]i|ili|oni</exception>
+              <exception scope="next" regexp="yes">.*n</exception>
+              <exception scope="next" postag="V.* i" postag_regexp="yes"/>
+            </token>
           </marker>
           <token postag="SENT_END|K|T.* k .*" postag_regexp="yes"/>
         </pattern>
@@ -3820,7 +3830,7 @@ $Id$
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">[mvclŝn]i|ili|\p{Lu}.*</token>
+          <token regexp="yes">[mvclŝn]i|ili|oni|\p{Lu}.*</token>
           <token postag="E.*|_" postag_regexp="yes"/>
           <marker><token regexp="yes">(?:ek|mal|sen)?(?:lav|komb|raz|vest)iĝ(?:[auio]s|u)</token></marker>
         </pattern>
@@ -3831,7 +3841,7 @@ $Id$
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">[mvclŝn]i|ili|\p{Lu}.*</token>
+          <token regexp="yes">[mvclŝn]i|ili|oni|\p{Lu}.*</token>
           <token postag="E.*|_" postag_regexp="yes"/>
           <token postag="E.*|_" postag_regexp="yes"/>
           <marker><token regexp="yes">(?:ek|mal|sen)?(?:lav|komb|raz|vest)iĝ(?:[auio]s|u)</token></marker>
