@@ -125,17 +125,17 @@ public class Main extends WeakBase implements XJobExecutor,
   }
 
   private void prepareConfig(final Language lang) {
-	  try {
-		  final File homeDir = getHomeDir();
-		  config = new Configuration(homeDir, CONFIG_FILE, lang);
-		  disabledRules = config.getDisabledRuleIds();
-		  if (disabledRules == null) {
-			  disabledRules = new HashSet<String>();
-		  }
-		  disabledRulesUI = new HashSet<String>(disabledRules);
-	  } catch (final Throwable t) {
-		  showError(t);
-	  }
+    try {
+      final File homeDir = getHomeDir();
+      config = new Configuration(homeDir, CONFIG_FILE, lang);
+      disabledRules = config.getDisabledRuleIds();
+      if (disabledRules == null) {
+        disabledRules = new HashSet<String>();
+      }
+      disabledRulesUI = new HashSet<String>(disabledRules);
+    } catch (final Throwable t) {
+      showError(t);
+    }
   }
 
   public final void changeContext(final XComponentContext xCompContext) {
@@ -160,7 +160,7 @@ public class Main extends WeakBase implements XJobExecutor,
    * Checks the language under the cursor. Used for opening the configuration
    * dialog.
    * 
-   * @return Language - the language under the visible cursor.
+   * @return Language the language under the visible cursor
    */
   private Language getLanguage() {
     final XComponent xComponent = getXComponent();
@@ -222,7 +222,7 @@ public class Main extends WeakBase implements XJobExecutor,
       return Language.getLanguageForShortName(charLocale.Language + "-" + charLocale.Variant);
     } catch (java.lang.IllegalArgumentException e) {
       return Language.getLanguageForShortName(charLocale.Language);
-  	}
+    }
         
   }
 
@@ -236,9 +236,6 @@ public class Main extends WeakBase implements XJobExecutor,
    * @param nSuggestedBehindEndOfSentencePosition end of sentence position
    * @param props - properties
    * @return ProofreadingResult containing the results of the check.
-   * @throws IllegalArgumentException
-   *           (not really, LT simply returns the ProofreadingResult with the
-   *           values supplied)
    */
   @Override
   public final ProofreadingResult doProofreading(final String docID,
@@ -428,9 +425,9 @@ public class Main extends WeakBase implements XJobExecutor,
   }
   
   /**
-  * LibO shortens menuitems with more than ~100 characters by dropping text in the middle
-  * that isn't really sensible, so we shorten the text here in order to preserve the important parts
-  */
+   * LibO shortens menu items with more than ~100 characters by dropping text in the middle.
+   * That isn't really sensible, so we shorten the text here in order to preserve the important parts.
+   */
   String shortenComment(String comment) {
     final int maxCommentLength = 100;
     if(comment.length() > maxCommentLength) {
@@ -455,9 +452,8 @@ public class Main extends WeakBase implements XJobExecutor,
 
   /**
    * Creates a SingleGrammarError object for use in OOo.
-   * @param myMatch
-   *          ruleMatch - LT rule match
    * 
+   * @param myMatch LT rule match
    * @return SingleGrammarError - object for OOo checker integration
    */
   private SingleProofreadingError createOOoError(final RuleMatch myMatch,
@@ -505,7 +501,7 @@ public class Main extends WeakBase implements XJobExecutor,
 
   /**
    * Runs LT options dialog box.
-   **/
+   */
   public final void runOptionsDialog() {
     final Language lang = getLanguage();
     if (lang == null) {
@@ -517,7 +513,7 @@ public class Main extends WeakBase implements XJobExecutor,
   }
 
   /**
-   * @return An array of Locales supported by LT.
+   * @return An array of Locales supported by LT
    */
   @Override
   public final Locale[] getLocales() {
@@ -542,9 +538,8 @@ public class Main extends WeakBase implements XJobExecutor,
   }
 
   /**
-   * @return true if LT supports the language of a given locale.
-   * @param locale
-   *          The Locale to check.
+   * @return true if LT supports the language of a given locale
+   * @param locale The Locale to check
    */
   @Override
   public final boolean hasLocale(final Locale locale) {
@@ -564,9 +559,8 @@ public class Main extends WeakBase implements XJobExecutor,
    * Add a listener that allow re-checking the document after changing the
    * options in the configuration dialog box.
    * 
-   * @param eventListener
-   *          - the listener to be added
-   * @return true if listener is non-null and has been added, false otherwise.
+   * @param eventListener the listener to be added
+   * @return true if listener is non-null and has been added, false otherwise
    */
   @Override
   public final boolean addLinguServiceEventListener(
@@ -581,9 +575,8 @@ public class Main extends WeakBase implements XJobExecutor,
   /**
    * Remove a listener from the event listeners list.
    * 
-   * @param eventListener
-   *          - the listener to be removed
-   * @return true if listener is non-null and has been removed, false otherwise.
+   * @param eventListener the listener to be removed
+   * @return true if listener is non-null and has been removed, false otherwise
    */
   @Override
   public final boolean removeLinguServiceEventListener(
@@ -601,7 +594,6 @@ public class Main extends WeakBase implements XJobExecutor,
   /**
    * Inform listener (grammar checking iterator) that options have changed and
    * the doc should be rechecked.
-   * 
    */
   public final void resetDocument() {
     if (!xEventListeners.isEmpty()) {
@@ -791,7 +783,6 @@ public class Main extends WeakBase implements XJobExecutor,
 
 /**
  * A simple comparator for sorting errors by their position.
- * 
  */
 class ErrorPositionComparator implements Comparator<SingleProofreadingError> {
 
