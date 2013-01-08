@@ -43,6 +43,10 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
 	public void testRule() throws IOException { 
 
 		// correct sentences:
+		//es van posar en camí proveïts de presents 
+		assertCorrect("Bernabé i Saule, un cop acomplerta la seva missió a Jerusalem");
+		assertCorrect("he passat una nit i un dia sencers a la deriva");
+		assertCorrect("L'olor dels teus perfums, més agradable que tots els bàlsams.");
 		assertCorrect("La part superior esquerra");
 		assertCorrect("I sí, la crisi serà llarga, molt llarga, potser eterna.");
 		assertCorrect("El rei ha trobat l'excusa i l'explicació adequada.");

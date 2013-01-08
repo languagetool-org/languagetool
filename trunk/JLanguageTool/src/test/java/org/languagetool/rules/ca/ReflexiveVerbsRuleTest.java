@@ -45,6 +45,7 @@ public class ReflexiveVerbsRuleTest extends TestCase {
 		//TODO: se'n vola / s'envola
 		// correct sentences:
 		//assertCorrect("la festa de Rams es commemora anant a l'església a beneir el palmó");
+		assertCorrect("ens hem esforçat molt per venir-vos a veure");
 		assertCorrect("Un altre dia s'anava a l'Ermita i un tercer dia se solia anar a altres indrets de caràcter comarcal.");
 		assertCorrect("La Nit de sant Joan es baixaven falles de la muntanya."); //solucions: marcar "la nit..." com a CC o comprovar la concordança subj/verb
 		assertCorrect("que no pertanyen a ells mateixos es cau en una contradicció.");

@@ -94,11 +94,9 @@ public class CatalanWordTokenizer implements Tokenizer {
 		final List<String> l = new ArrayList<String>();
 		final StringTokenizer st = new StringTokenizer(
 				text.replaceAll("([\\p{L}])['’]([\\p{L}])", "$1##CA_APOS##$2")
-						// .replaceAll("([\\p{L}])-([\\p{L}])-([\\p{L}])",
-						// "$1##CA_HYPHEN##$2##CA_HYPHEN##$3") //it's necessary
-						// for words like "vint-i-quatre"
-						// .replaceAll("([\\p{L}])-([\\p{Ll}\\d])",
-						// "$1##CA_HYPHEN##$2")
+				         //it's necessary for words like "vint-i-quatre"
+						.replaceAll("([\\p{L}])-([\\p{L}])-([\\p{L}])", "$1##CA_HYPHEN##$2##CA_HYPHEN##$3") 
+						.replaceAll("([\\p{L}])-([\\p{L}\\d])", "$1##CA_HYPHEN##$2")
 						.replaceAll("([\\d])\\.([\\d])", "$1##CA_DECIMALPOINT##$2")
 						.replaceAll("([\\d]),([\\d])","$1##CA_DECIMALCOMMA##$2")
 						// allows correcting typographical errors in "ela geminada"
@@ -110,14 +108,14 @@ public class CatalanWordTokenizer implements Tokenizer {
 						+ "\u2028\u2029\u202a\u202b\u202c\u202d\u202e\u202f"
 						+ "\u205F\u2060\u2061\u2062\u2063\u206A\u206b\u206c\u206d"
 						+ "\u206E\u206F\u3000\u3164\ufeff\uffa0\ufff9\ufffa\ufffb"
-						+ ",.;()[]{}<>!?:/\\\"'«»„”“‘’`´…¿¡\t\n\r", true);
+						+ ",.;()[]{}<>!?:/\\\"'«»„”“‘’`´…¿¡\t\n\r-", true);
 		String s;
 		String groupStr;
 
 		while (st.hasMoreElements()) {
 			s = st.nextToken()
 					.replaceAll("##CA_APOS##", "'")
-					// .replaceAll("##CA_HYPHEN##", "-")
+					.replaceAll("##CA_HYPHEN##", "-")
 					.replaceAll("##CA_DECIMALPOINT##", ".")
 					.replaceAll("##CA_DECIMALCOMMA##", ",")
 					.replaceAll("##ELA_GEMINADA##", "l.l");

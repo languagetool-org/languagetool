@@ -87,7 +87,7 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
 	private static final Pattern UPPERCASE = Pattern.compile("\\p{Lu}[\\p{Ll}\u00B7]*");
 	private static final Pattern COORDINACIO = Pattern.compile(",|i|o");
 	private static final Pattern COORDINACIO_IONI = Pattern.compile("i|o|ni");
-	private static final Pattern KEEP_COUNT = Pattern.compile("A.*|N.*|D[NAID].*|SPS.*|.*LOC_ADV.*|V.P.*|_PUNCT.*|.*LOC_ADJ.*|complement");
+	private static final Pattern KEEP_COUNT = Pattern.compile("A.*|N.*|D[NAID].*|SPS.*|.*LOC_ADV.*|V.P.*|_PUNCT.*|.*LOC_ADJ.*|PX.*|complement");
 	private static final Pattern KEEP_COUNT2 = Pattern.compile(",|i|o|ni|\\d+%?|%");
 	private static final Pattern STOP_COUNT = Pattern.compile(";");
 	private static final Pattern PREPOSICIONS = Pattern.compile("SPS.*");
@@ -122,10 +122,10 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
 			{
 				final String token=tokens[i].getToken();
 				final String prevToken=tokens[i-1].getToken();
-//				String prevPrevToken="";
-//				if (i > 2) {
-//					prevPrevToken = tokens[i-2].getToken();
-//				}
+				String prevPrevToken="";
+				if (i > 2) {
+					prevPrevToken = tokens[i-2].getToken();
+				}
 				String nextToken="";
 				if (i < tokens.length-1) {
 					nextToken = tokens[i+1].getToken();
@@ -274,6 +274,11 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
 				//exceptions: atès, atesos..., donat, donats... 
 				if ( !isException && matchRegexp(token,EXCEPCIONS_PARTICIPI) ) {
 					isException=true;}
+				//exceptions: un cop, una volta, una vegada...
+				if ( !isException &&
+						((prevPrevToken.equals ("un") && prevToken.equals("cop")||prevToken.equals("colp"))
+						|| (prevPrevToken.equals ("una") && prevToken.equals("volta")||prevToken.equals("vegada")))) {
+					isException=true;}
 				//exceptions: segur que, just a
 				if (!isException && i < tokens.length - 1) {
 					if ((token.equals("segur") || token.equals("major") || token.equals("menor")) && nextToken.equals("que")) {
@@ -338,7 +343,7 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
 					}
 				}
 				if (theRuleMaches) {
-					final String msg = "Reviseu la concordança de l'adjectiu \u00AB"+token+"\u00BB.";
+					final String msg = "Reviseu la concordança de la paraula \u00AB"+token+"\u00BB.";
 					final RuleMatch ruleMatch = new RuleMatch(this, tokens[i].getStartPos(), tokens[i].getStartPos()+token.length(), msg, "Reviseu la concordança.");
 					ruleMatches.add(ruleMatch);
 				}
