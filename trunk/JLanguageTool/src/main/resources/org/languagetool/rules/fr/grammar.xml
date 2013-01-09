@@ -687,8 +687,8 @@ though, and has since been slightly modified)-->
             <token regexp="yes">[nv]otres?</token>
           </marker>
         </pattern>
-        <message>Voulez-vous écrire <suggestion>\1 <match no="2" regexp_match="(.)otre(s?)" regexp_replace="$1ôtre$2"/></suggestion></message>
-        <example type="incorrect">C’est le <marker>notre</marker>.</example>
+        <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="o" regexp_replace="ô"/></suggestion></message>
+        <example type="incorrect" correction="nôtre">C’est le <marker>notre</marker>.</example>
         <example type="correct">C’est le nôtre.</example>
       </rule>
       <rule>
@@ -698,8 +698,8 @@ though, and has since been slightly modified)-->
             <token regexp="yes">[nv]ôtres?</token>
           </marker>
         </pattern>
-        <message>Voulez-vous écrire <suggestion>\1 <match no="2" regexp_match="(.)ôtre(s?)" regexp_replace="$1otre$2"/></suggestion></message>
-        <example type="incorrect">C’est <marker>nôtre</marker> mère.</example>
+        <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="ô" regexp_replace="o"/></suggestion></message>
+        <example type="incorrect" correction="notre">C’est <marker>nôtre</marker> mère.</example>
         <example type="correct">C’est <marker>notre</marker> mère.</example>
       </rule>
     </rulegroup>
@@ -889,7 +889,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">bandits?|brigants?|cambrioleur?|corsaires?|criminels?|dragons?|escrocs?|filous?|flibustiers?|flibuste|gangsters?|lions?|loups?|maff?iosi|maff?ioso|maff?ia|malfaiteurs?|malfrats?|maraudeurs?|monstres?|murènes?|ours|pick-?pockets?|pillards?|pirates?|scélérats?|taupes?|tigres?|truands?|voleurs?|voleuses?|voyous?|yéti</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>repaire<match no="1" regexp_match=".*(s?)$" regexp_replace="$1"/></suggestion> ?</message>
-        <example type="incorrect">Le <marker>repère</marker> des pirates.</example>
+        <example type="incorrect" correction="repaire">Le <marker>repère</marker> des pirates.</example>
         <example type="correct">Le repaire des pirates.</example>
       </rule>
     </rulegroup>
@@ -1012,7 +1012,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">coeurs?|cœurs?</token>
         </pattern>
         <message>Vouliez-vous écrire <suggestion>\1 de chœur</suggestion> ?</message>
-        <example type="incorrect">Un <marker>enfant de cœur</marker>.</example>
+        <example type="incorrect" correction="enfant de chœur">Un <marker>enfant de cœur</marker>.</example>
         <example type="correct">Un enfant de chœur.</example>
       </rule>
       <rule>
@@ -1054,9 +1054,9 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="(.).(.*)" regexp_replace="$1é$2"/></suggestion> ?</message>
-        <example type="incorrect">Il a confessé tous ses <marker>pêchés</marker>.</example>
+        <example type="incorrect" correction="péchés">Il a confessé tous ses <marker>pêchés</marker>.</example>
         <example type="correct">Il a confessé tous ses péchés.</example>
-        <example type="incorrect">Il a commis un <marker>pêché</marker>.</example>
+        <example type="incorrect" correction="péché">Il a commis un <marker>pêché</marker>.</example>
         <example type="correct">Il a commis un <marker>péché</marker>.</example>
       </rule>
       <rule>
@@ -1067,11 +1067,11 @@ though, and has since been slightly modified)-->
           <token inflected="yes" regexp="yes">avouer|confesser|commettre|pardonner|prêtre|curé|originel|mignon|dieu|adultère|omission|capital|jeunesse</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="(.).(.*)" regexp_replace="$1é$2"/></suggestion> ?</message>
-        <example type="incorrect">Les <marker>pêchés</marker> capitaux</example>
+        <example type="incorrect" correction="péchés">Les <marker>pêchés</marker> capitaux</example>
         <example type="correct">Les péchés capitaux</example>
-        <example type="incorrect">Manger est mon <marker>pêchés</marker> mignon.</example>
+        <example type="incorrect" correction="péché">Manger est mon <marker>pêché</marker> mignon.</example>
         <example type="correct">Manger est mon péché mignon.</example>
-        <example type="incorrect"><marker>Pêchés</marker> de jeunesse</example>
+        <example type="incorrect" correction="Péchés"><marker>Pêchés</marker> de jeunesse</example>
         <example type="correct">Péchés de jeunesse</example>
       </rule>
     </rulegroup>
@@ -1084,9 +1084,9 @@ though, and has since been slightly modified)-->
           <token regexp="yes">que?|[lmst]a|[mts]on|[lmst]es|le?[nv]os|cette|lors|après|maintenant|à|toujours|midi|minuit|aujourd|hier|demain|une?|janvier|f[eé]vrier|mars|avril|mai|juin|juillet|a[uû]ot|septembre|octobre|novembre|d[eé]cembre|vendémiaire|brumaire|frimaire|nivôse|pluviôse|ventôse|germinal|floréal|prairial|messidor|thermidor|fructidor|lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche|P[âa]ques|No[ëe]l</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="(.).." regexp_replace="$1ès"/></suggestion> ?</message>
-        <example type="incorrect">Tu repars <marker>des</marker> qu’il arrive.</example>
+        <example type="incorrect" correction="dès">Tu repars <marker>des</marker> qu’il arrive.</example>
         <example type="correct">Tu repars <marker>dès</marker> qu’il arrive.</example>
-        <example type="incorrect"><marker>Des</marker> à présent</example>
+        <example type="incorrect" correction="Dès"><marker>Des</marker> à présent</example>
         <example type="correct">C’est un des leurs.</example>
       </rule>
       <rule>
@@ -1098,7 +1098,7 @@ though, and has since been slightly modified)-->
           <token><exception postag="N . s?p|V ppa . p" postag_regexp="yes"/></token>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="(.).." regexp_replace="$1ès"/></suggestion> ?</message>
-        <example type="incorrect"><marker>Des</marker> 1980, le pays était en crise.</example>
+        <example type="incorrect" correction="Dès"><marker>Des</marker> 1980, le pays était en crise.</example>
         <example type="correct"><marker>Dès</marker> 1980, le pays était en crise.</example>
         <example type="correct"><marker>Des</marker> 2000 participants, seuls 1000 sont venus.</example>
         <example type="correct"><marker>Des</marker> 2000 invités, seuls 1000 sont venus.</example>
@@ -1112,9 +1112,9 @@ though, and has since been slightly modified)-->
           <token regexp="yes">ans?|heures?</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="(.).." regexp_replace="$1ès"/></suggestion> ?</message>
-        <example type="incorrect"><marker>Des</marker> dix-huit ans</example>
+        <example type="incorrect" correction="Dès"><marker>Des</marker> dix-huit ans</example>
         <example type="correct"><marker>Dès</marker> dix-huit ans</example>
-        <example type="incorrect"><marker>Des</marker> 4 ans</example>
+        <example type="incorrect" correction="Dès"><marker>Des</marker> 4 ans</example>
         <example type="correct"><marker>Dès</marker> 4 ans</example>
         <example type="correct">L’anniversaire des 30 ans de la libération.</example>
         <example type="correct">Le cap des 35 ans.</example>
@@ -1404,11 +1404,11 @@ though, and has since been slightly modified)-->
           <token regexp="yes">que?|et|[!;:.»…]</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="(.).(.*)" regexp_replace="$1û$2"/></suggestion> ?</message>
-        <example type="incorrect">J’en suis <marker>sur</marker>.</example>
+        <example type="incorrect" correction="sûr">J’en suis <marker>sur</marker>.</example>
         <example type="correct">J’en suis sûr.</example>
-        <example type="incorrect"><marker>Sur</marker> et certain.</example>
+        <example type="incorrect" correction="Sûr"><marker>Sur</marker> et certain.</example>
         <example type="correct">Sûr et certain.</example>
-        <example type="incorrect">Je suis <marker>sure</marker> que tu réussiras.</example>
+        <example type="incorrect" correction="sûre">Je suis <marker>sure</marker> que tu réussiras.</example>
         <example type="correct">Je suis <marker>sûre</marker> que tu réussiras.</example>
       </rule>
       <rule>
@@ -1646,7 +1646,7 @@ though, and has since been slightly modified)-->
         </marker>
       </pattern>
       <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="septique(.*)" regexp_replace="sceptique$1"/></suggestion> ?</message>
-      <example type="incorrect">Je suis <marker>septique</marker>.</example>
+      <example type="incorrect" correction="sceptique">Je suis <marker>septique</marker>.</example>
       <example type="correct">Je suis sceptique.</example>
       <example type="correct">Une fosse septique.</example>
     </rule>
@@ -1658,7 +1658,7 @@ though, and has since been slightly modified)-->
         </marker>
       </pattern>
       <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="sceptique(.*)" regexp_replace="septique$1"/></suggestion> ?</message>
-      <example type="incorrect">La fosse <marker>sceptique</marker>.</example>
+      <example type="incorrect" correction="septique">La fosse <marker>sceptique</marker>.</example>
       <example type="correct">La fosse <marker>septique</marker>.</example>
       <example type="correct">Je reste sceptique.</example>
     </rule>
@@ -1707,7 +1707,7 @@ though, and has since been slightly modified)-->
         <token regexp="yes">d[eu]</token>
       </pattern>
       <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="(.*)[tT]" regexp_replace="$1"/></suggestion> ?</message>
-      <example type="incorrect">Il dépend du <marker>soutient</marker> de ses parents.</example>
+      <example type="incorrect" correction="soutien">Il dépend du <marker>soutient</marker> de ses parents.</example>
       <example type="correct">Il dépend du <marker>soutien</marker> de ses parents.</example>
     </rule>
     <rule id="ENTRAIN" name="être entrain (être en train)">
@@ -1729,7 +1729,7 @@ though, and has since been slightly modified)-->
         </marker>
       </pattern>
       <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="(.).*e(s?)" regexp_replace="$1alade$2"/></suggestion> ?</message>
-      <example type="incorrect">Je pars faire une <marker>ballade</marker> pour me relaxer.</example>
+      <example type="incorrect" correction="balade">Je pars faire une <marker>ballade</marker> pour me relaxer.</example>
       <example type="correct">Je pars faire une <marker>balade</marker> pour me relaxer.</example>
     </rule>
     <rulegroup id="ERUPTION" name="éruption (irruption)">
@@ -1753,8 +1753,8 @@ though, and has since been slightly modified)-->
           </marker>
           <token regexp="yes" inflected="yes">volcan|supervolcan|volcanique</token>
         </pattern>
-        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match=".*[nN](s?)" regexp_replace="éruption$1"/></suggestion> ?</message>
-        <example type="incorrect">L’<marker>irruption</marker> du volcan fut violente.</example>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="^.." regexp_replace="é"/></suggestion> ?</message>
+        <example type="incorrect" correction="éruption">L’<marker>irruption</marker> du volcan fut violente.</example>
         <example type="correct">L’éruption du volcan fut violente.</example>
       </rule>
       <rule>
@@ -1764,8 +1764,8 @@ though, and has since been slightly modified)-->
             <token>irruption</token>
           </marker>
         </pattern>
-        <message>Voulez-vous écrire <suggestion><match no="2" regexp_match=".*[nN](s?)" regexp_replace="éruption$1"/></suggestion> ?</message>
-        <example type="incorrect">Le volcan est entré en <marker>irruption</marker>.</example>
+        <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="^.." regexp_replace="é"/></suggestion> ?</message>
+        <example type="incorrect" correction="éruption">Le volcan est entré en <marker>irruption</marker>.</example>
         <example type="correct">Le volcan est entré en <marker>éruption</marker>.</example>
       </rule>
     </rulegroup>
@@ -1821,7 +1821,7 @@ though, and has since been slightly modified)-->
         <token regexp="yes">roses?</token>
       </pattern>
       <message>On écrit <suggestion><match no="1" regexp_match="(.*)d(.*)" regexp_replace="$1t$2"/> \2</suggestion>.</message>
-      <example type="incorrect">As-tu vu les <marker>flamands roses</marker> ?</example>
+      <example type="incorrect" correction="flamants roses">As-tu vu les <marker>flamands roses</marker> ?</example>
       <example type="correct">As-tu vu les <marker>flamants roses</marker> ?</example>
     </rule>
     <rulegroup id="FOND_FONDS_FONTS" name="fond, fonds, fonts">
@@ -1915,7 +1915,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">fées?|traditions?</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="(.*)mp(.*)" regexp_replace="$1n$2"/></suggestion>?</message>
-        <example type="incorrect">Elle aime les <marker>comptes</marker> de fées.</example>
+        <example type="incorrect" correction="contes">Elle aime les <marker>comptes</marker> de fées.</example>
         <example type="correct">Elle aime les contes de fées.</example>
       </rule>
       <rule>
@@ -1928,7 +1928,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">amour|horreur</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="(.*)mp(.*)" regexp_replace="$1n$2"/></suggestion>?</message>
-        <example type="incorrect">Elle aime les <marker>comptes</marker> d’horreur.</example>
+        <example type="incorrect" correction="contes">Elle aime les <marker>comptes</marker> d’horreur.</example>
         <example type="correct">Elle aime les contes d’horreur.</example>
       </rule>
       <rule>
@@ -1939,7 +1939,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">allégoriques?|fantastiques?|littéraires?|merveilleux|morals?|oral|oraux|écrits?|populaires?|satiriques?|véhiculés?</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="(.*)mp(.*)" regexp_replace="$1n$2"/></suggestion>?</message>
-        <example type="incorrect">Elle aime les <marker>comptes</marker> fantastiques.</example>
+        <example type="incorrect" correction="contes">Elle aime les <marker>comptes</marker> fantastiques.</example>
         <example type="correct">Elle aime les contes fantastiques.</example>
       </rule>
     </rulegroup>
@@ -1953,7 +1953,7 @@ though, and has since been slightly modified)-->
         </marker>
       </pattern>
       <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="er" regexp_replace="é"/></suggestion>?</message>
-      <example type="incorrect">Elle va au <marker>marcher</marker>.</example>
+      <example type="incorrect" correction="marché">Elle va au <marker>marcher</marker>.</example>
       <example type="correct">Elle va au marché.</example>
     </rule>
 
@@ -1966,7 +1966,7 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>« \2 » signifie « avoir perdu son crépi ». Voulez-vous écrire <suggestion><match no="2" regexp_match="i" regexp_replace="it"/></suggestion>?</message>
-        <example type="incorrect">Son visage était <marker>décrépi</marker>.</example>
+        <example type="incorrect" correction="décrépit">Son visage était <marker>décrépi</marker>.</example>
         <example type="correct">Son visage était décrépit.</example>
       </rule>
       <rule>
@@ -1979,7 +1979,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">années|ans|temps|âge</token>
         </pattern>
         <message>« \1 » signifie « avoir perdu son crépi ». Voulez-vous écrire <suggestion><match no="1" regexp_match="i" regexp_replace="it"/></suggestion>?</message>
-        <example type="incorrect">Elle semblait <marker>décrépie</marker> par les années.</example>
+        <example type="incorrect" correction="décrépite">Elle semblait <marker>décrépie</marker> par les années.</example>
         <example type="correct">Elle semblait décrépite par les années.</example>
       </rule>
     </rulegroup>
@@ -2044,7 +2044,7 @@ though, and has since been slightly modified)-->
           <token inflected="yes" regexp="yes">.*logue|.*iste|acteur|confrère|collègue|dignité|dirigeant|dissident|entrepreneur|expert|défenseur|intellectuel|mathématicien|musicien|pédiatre|personalité|personnage|professeur|physicien|rabbin|représantant|savant|(neuro)?(chirurgien|scientifique)|service|spécialite</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="im(.*)" regexp_replace="é$1"/></suggestion> ?</message>
-        <example type="incorrect">Mon <marker>imminent</marker> collègue.</example>
+        <example type="incorrect" correction="éminent">Mon <marker>imminent</marker> collègue.</example>
         <example type="correct">Mon <marker>éminent</marker> collègue.</example>
         <example type="correct">L’arrivée des imminente.</example>
       </rule>
@@ -2056,10 +2056,10 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="im(.*)" regexp_replace="é$1"/></suggestion> ?</message>
-        <example type="incorrect">Des scientifiques les plus <marker>imminents</marker>.</example>
+        <example type="incorrect" correction="éminents">Des scientifiques les plus <marker>imminents</marker>.</example>
         <example type="correct">Des scientifiques les plus <marker>éminents</marker>.</example>
         <example type="correct">L’arrivée des imminente.</example>
-        <example type="incorrect">Un paléontologue <marker>imminent</marker>.</example>
+        <example type="incorrect" correction="éminent">Un paléontologue <marker>imminent</marker>.</example>
         <example type="correct">Des paléontologues éminents.</example>
       </rule>
 
@@ -2071,7 +2071,7 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="é(.*)" regexp_replace="im$1"/></suggestion> ?</message>
-        <example type="incorrect">L’orage est <marker>éminent</marker>.</example>
+        <example type="incorrect" correction="imminent">L’orage est <marker>éminent</marker>.</example>
         <example type="correct">L’orage est <marker>imminent</marker>.</example>
       </rule>
     </rulegroup>
@@ -2895,8 +2895,8 @@ though, and has since been slightly modified)-->
           <token>presque</token>
           <token regexp="yes">[îi]les?</token>
         </pattern>
-        <message>« \1 \2 » s’élide en <suggestion>presqu’<match no="2" regexp_match="s?$" regexp_replace=""/></suggestion>.</message>
-        <example type="incorrect">Une <marker>presque île</marker></example>
+        <message>« \1 \2 » s’élide en <suggestion>presqu’\2</suggestion>.</message>
+        <example type="incorrect" correction="presqu’île">Une <marker>presque île</marker></example>
         <example type="correct">Une presqu’île</example>
       </rule>
       <rule>
@@ -2906,7 +2906,7 @@ though, and has since been slightly modified)-->
           <token negate="yes" regexp="yes">[îi]les?</token>
         </pattern>
         <message>« presque » ne s’élide que dans le nom « presqu’île ». Employez <suggestion>\1e \3</suggestion>.</message>
-        <example type="incorrect">La réponse est <marker>presqu’exacte</marker>.</example>
+        <example type="incorrect" correction="presque exacte">La réponse est <marker>presqu’exacte</marker>.</example>
         <example type="correct">La réponse est presque exacte.</example>
       </rule>
     </rulegroup>
@@ -2916,7 +2916,7 @@ though, and has since been slightly modified)-->
         <token regexp="yes">[àâaéêèeiîou].*<exception regexp="yes">onze|onzièmes?|une?|au?|oui|énième|.*\d.*|o[ùu]|[IVXLCM]+e?</exception></token>
       </pattern>
       <message>« \1 \2 » s’élide en <suggestion><match no="1" regexp_match=".$" regexp_replace=""/>’\2</suggestion>.</message>
-      <example type="incorrect"><marker>La île</marker> est encore loin.</example>
+      <example type="incorrect" correction="L’île"><marker>La île</marker> est encore loin.</example>
       <example type="correct">L’île est encore loin.</example>
       <example type="correct">Il connait l’histoire de A à Z.</example>
       <example type="correct">Il a appris ça en un jour.</example>
@@ -2936,7 +2936,7 @@ though, and has since been slightly modified)-->
         <token regexp="yes">ils?</token>
       </pattern>
       <message>« \1 \2 » s’élide en <suggestion><match no="1" regexp_match=".$" regexp_replace=""/>’\2</suggestion>.</message>
-      <example type="incorrect"><marker>Si il</marker> pleut, je reste ici.</example>
+      <example type="incorrect" correction="S’il"><marker>Si il</marker> pleut, je reste ici.</example>
       <example type="correct">S’il pleut, je reste ici.</example>
     </rule>
   </category>
@@ -3347,7 +3347,7 @@ though, and has since been slightly modified)-->
           <marker><token regexp="yes">abricots|acajous|anthracites|argents|aubergines|azurs|bistres|briques|bronzes|cachous|caramels|carmins|cerises|chocolats|corails|crèmes|cuivres|ébènes|émeraudes|fraises|garances|grenats|indigos|isabelles|ivoires|lavandes|magentas|marrons|moutardes|nacres|noisettes|ocres|olives|ors|oranges|outremers|pailles|pastels|pervenches|pies|pistaches|pivoines|rouilles|sables|safrans|sépias|tabacs|taupes|tomates|turquoises|vermillons</token></marker>
         </pattern>
         <message>Quand la couleur est exprimée par un nom de plante, de fruit, d’animal, de pierre ou de personne, l’invariabilité est alors de rigueur car il s’agit de tours elliptique (de la couleur de). Voulez-vous écrire <suggestion><match no="3" regexp_match="s$" regexp_replace=""/></suggestion> ?</message>
-        <example type="incorrect">Des yeux <marker>marrons</marker>.</example>
+        <example type="incorrect" correction="marron">Des yeux <marker>marrons</marker>.</example>
         <example type="correct">Des yeux <marker>marron</marker>.</example>
         <example type="correct">Des créatures <marker>marines</marker>.</example>
       </rule>
@@ -3359,7 +3359,7 @@ though, and has since been slightly modified)-->
           <token><exception postag="[NJ] .*" postag_regexp="yes"/></token>
         </pattern>
         <message>Quand la couleur est exprimée par un adjectif simple, l’accord doit se faire. Voulez-vous écrire <suggestion><match no="3" regexp_match="$" regexp_replace="s"/></suggestion> ?</message>
-        <example type="incorrect">Des yeux <marker>vert</marker>.</example>
+        <example type="incorrect" correction="verts">Des yeux <marker>vert</marker>.</example>
         <example type="correct">Des yeux <marker>verts</marker>.</example>
         <example type="correct">Des yeux <marker>vert</marker> clair.</example>
         <example type="correct">Des yeux <marker>vert</marker> olive.</example>
@@ -6113,8 +6113,8 @@ though, and has since been slightly modified)-->
           </token>
           <token postag="R pers suj 1 s"/>
         </pattern>
-        <message>Voulez-vous dire <suggestion><match no="1" regexp_match="(.*)." regexp_replace="$1é"/>-\2</suggestion> ?</message>
-        <example type="incorrect"><marker>Aime je</marker> ma femme ?</example>
+        <message>Voulez-vous dire <suggestion><match no="1" regexp_match="(.*)." regexp_replace="$1è"/>-\2</suggestion> ?</message>
+        <example type="incorrect" correction="Aimè-je"><marker>Aime je</marker> ma femme ?</example>
         <example type="correct"><marker>Aimè-je</marker> ma femme ?</example>
         <example type="correct">Quel genre de musique j’écoute</example>
       </rule>
@@ -6967,7 +6967,7 @@ though, and has since been slightly modified)-->
           <token postag="[JN].*" postag_regexp="yes"/>
         </pattern>
         <message>Les participes passés « attendu, compris, non-compris, y compris, entendu, excepté, ôté, ouï, passé, supposé, vu » sont invariables quand ils sont placés devant le nom ou le pronom. Voulez-vous dire <suggestion><match no="2" regexp_match="e?s?$" regexp_replace=""/></suggestion> ?</message>
-        <example type="incorrect"><marker>Passées</marker> les premières années à l’école, il s’assagit.</example>
+        <example type="incorrect" correction="Passé"><marker>Passées</marker> les premières années à l’école, il s’assagit.</example>
         <example type="correct">Passé les premières années à l’école, il s’assagit.</example>
         <example type="correct">Les années sont passées vite.</example>
       </rule>
@@ -7021,7 +7021,7 @@ though, and has since been slightly modified)-->
         <marker><token regexp="yes">(?:annoncé|convenu|prévu)(?:es?|s)</token></marker>
       </pattern>
       <message>Le mot « \2 » doit être invariable après « comme » Voulez-vous écrire <suggestion><match no="2" regexp_match="e?s?$" regexp_replace=""/></suggestion> ?</message>
-      <example type="incorrect">La rencontre s’est déroulée comme <marker>prévues</marker>.</example>
+      <example type="incorrect" correction="prévu">La rencontre s’est déroulée comme <marker>prévues</marker>.</example>
       <example type="correct">La rencontre s’est déroulée comme <marker>prévu</marker>.</example>
     </rule>
   </category>
@@ -20705,7 +20705,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">il-(te|vous)-pla[îi]t</token>
         </pattern>
         <message>Employez <suggestion>\1’il <match no="3" regexp_match="il-(.*)-.*" regexp_replace="$1"/> plaît</suggestion>.</message>
-        <example type="incorrect"><marker>S’il-te-plaît</marker>, dessine-moi un mouton.</example>
+        <example type="incorrect" correction="S’il te plaît"><marker>S’il-te-plaît</marker>, dessine-moi un mouton.</example>
         <example type="correct">S’il te plaît, dessine-moi un mouton.</example>
       </rule>
       <rule>
@@ -20716,7 +20716,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">pla[îi]t</token>
         </pattern>
         <message>Employez <suggestion>\1’il <match no="3" regexp_match="il-(te|vous)" regexp_replace="$1"/> plaît</suggestion>.</message>
-        <example type="incorrect"><marker>S’il-te plaît</marker>, dessine-moi un mouton.</example>
+        <example type="incorrect" correction="S’il te plaît"><marker>S’il-te plaît</marker>, dessine-moi un mouton.</example>
         <example type="correct">S’il te plaît, dessine-moi un mouton.</example>
       </rule>
       <rule>
@@ -20727,7 +20727,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">(te|vous)-pla[iî]t</token>
         </pattern>
         <message>Employez <suggestion>\1’il <match no="4" regexp_match="(te|vous)-.*" regexp_replace="$1"/> plaît</suggestion>.</message>
-        <example type="incorrect"><marker>S’il te-plaît</marker>, dessine-moi un mouton.</example>
+        <example type="incorrect" correction="S’il te plaît"><marker>S’il te-plaît</marker>, dessine-moi un mouton.</example>
         <example type="correct">S’il te plaît, dessine-moi un mouton.</example>
       </rule>
     </rulegroup>
@@ -21325,10 +21325,10 @@ though, and has since been slightly modified)-->
           <token regexp="yes">([IVXLCM]+|\d+)-?(i?[eèé]mes?|è)</token>
         </pattern>
         <message>« \1 » est un faut de typographie. Employez <suggestion><match no="1" regexp_match="(.*?)-?(i?[eèéê]mes?|è)" regexp_replace="$1e"/></suggestion>.</message>
-        <example type="incorrect">Un écrivain du <marker>XIX-ième</marker> siècle</example>
-        <example type="incorrect">Un écrivain du <marker>XIXè</marker> siècle</example>
+        <example type="incorrect" correction="XIXe">Un écrivain du <marker>XIX-ième</marker> siècle</example>
+        <example type="incorrect" correction="XIXe">Un écrivain du <marker>XIXè</marker> siècle</example>
         <example type="correct">Un écrivain du XIXe siècle</example>
-        <example type="incorrect">La <marker>2eme</marker> à droite</example>
+        <example type="incorrect" correction="2e">La <marker>2eme</marker> à droite</example>
         <example type="correct">La 2e à droite</example>
       </rule>
       <rule>
@@ -21336,10 +21336,10 @@ though, and has since been slightly modified)-->
           <token regexp="yes">[IVXLCM]+|\d+</token>
           <token regexp="yes">i?[eèé]mes?|è</token>
         </pattern>
-        <message>« \1 \2 » est un faut de typographie. Employez <suggestion><match no="1" regexp_match="(.*?)-?(i?[eèéê]mes?|è)" regexp_replace="$1e"/></suggestion>.</message>
-        <example type="incorrect">Un écrivain du <marker>XIX ième</marker> siècle</example>
+        <message>« \1 \2 » est un faut de typographie. Employez <suggestion>\1e</suggestion>.</message>
+        <example type="incorrect" correction="XIXe">Un écrivain du <marker>XIX ième</marker> siècle</example>
         <example type="correct">Un écrivain du XIXe siècle</example>
-        <example type="incorrect">La <marker>2 eme</marker> à droite</example>
+        <example type="incorrect" correction="2e">La <marker>2 eme</marker> à droite</example>
         <example type="correct">La 2e à droite</example>
       </rule>
     </rulegroup>
@@ -22241,8 +22241,8 @@ though, and has since been slightly modified)-->
         <token inflected="yes">aire</token>
         <token inflected="yes">glaciaire</token>
       </pattern>
-      <message>« \1 \2 » est une expression fautive. Employez <suggestion><match no="1" regexp_match=".*e(s?)" regexp_replace="ère$1"/> \2</suggestion>.</message>
-      <example type="incorrect">L’<marker>aire glaciaire</marker>.</example>
+      <message>« \1 \2 » est une expression fautive. Employez <suggestion><match no="1" regexp_match="^.." regexp_replace="è"/> \2</suggestion>.</message>
+      <example type="incorrect" correction="ère glaciaire">L’<marker>aire glaciaire</marker>.</example>
       <example type="correct">L’ère glaciaire.</example>
     </rule>
     <rule id="PAREIL_COMME" name="pareil comme">
@@ -22547,26 +22547,26 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="EN_PARTI" name="en parti">
       <pattern>
-        <token>en</token>
         <marker>
+          <token>en</token>
           <token>parti</token>
         </marker>
         <token><exception>politique</exception></token>
       </pattern>
-      <message>« \1 \2 » est une expression fautive. Employez <suggestion>partie</suggestion>.</message>
-      <example type="incorrect">Le site a été en <marker>parti</marker> traduit.</example>
+      <message>« \1 \2 » est une expression fautive. Employez <suggestion>\1 partie</suggestion>.</message>
+      <example type="incorrect" correction="en partie">Le site a été <marker>en parti</marker> traduit.</example>
       <example type="correct">Le site a été en partie traduit.</example>
       <example type="correct">Il s’est transformé <marker>en parti</marker> politique.</example>
     </rule>
     <rule id="EN_GENERALE" name="en générale">
       <pattern>
-        <token>en</token>
         <marker>
+          <token>en</token>
           <token regexp="yes">générale|continue</token>
         </marker>
       </pattern>
-      <message>« En \2 » est une expression fautive. Employez <suggestion><match no="1" regexp_match="(.*)e" regexp_replace="$1"/></suggestion>.</message>
-      <example type="incorrect">Il arrive en <marker>générale</marker> assez tard.</example>
+      <message>« En \2 » est une expression fautive. Employez <suggestion>\1 <match no="2" regexp_match="(.*)e" regexp_replace="$1"/></suggestion>.</message>
+      <example type="incorrect" correction="en général">Il arrive <marker>en générale</marker> assez tard.</example>
       <example type="correct">Il arrive en général assez tard.</example>
     </rule>
     <rule id="ALLER_DE_PAIRE" name="aller de paire">
@@ -22578,7 +22578,7 @@ though, and has since been slightly modified)-->
         </marker>
       </pattern>
       <message>« aller de \3 » est une expression fautive. Employez <suggestion>pair</suggestion>.</message>
-      <example type="incorrect">Travail et talent vont de <marker>paire</marker>.</example>
+      <example type="incorrect" correction="pair">Travail et talent vont de <marker>paire</marker>.</example>
       <example type="correct">Travail et talent vont de <marker>pair</marker>.</example>
     </rule>
     <rule id="FAIRE_AFFAIRES_AVEC" name="faire affaires avec">
@@ -22821,7 +22821,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">(?-i)éclair|velcro</token>
         </pattern>
         <message>Utilisez une majuscule à <suggestion>\1 <match no="2" case_conversion="startupper"/></suggestion> car le terme dérive d’un nom propre.</message>
-        <example type="incorrect">J’ai cassé ma <marker>fermeture éclair</marker>.</example>
+        <example type="incorrect" correction="fermeture Éclair">J’ai cassé ma <marker>fermeture éclair</marker>.</example>
         <example type="correct">J’ai cassé ma fermeture Éclair.</example>
       </rule>
     </rulegroup>
@@ -22910,7 +22910,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">(baroque|gothique|romane)s?</token>
         </pattern>
         <message>Employez <suggestion><match no="1" case_conversion="startlower"/></suggestion> avec minuscule quand il s’agit du bâtiment et une majuscule quand il s’agit d’une institution.</message>
-        <example type="incorrect">L’<marker>Église</marker> gothique va être rénovée.</example>
+        <example type="incorrect" correction="église">L’<marker>Église</marker> gothique va être rénovée.</example>
         <example type="correct">L’église gothique va être rénovée.</example>
       </rule>
       <rule>
@@ -22923,7 +22923,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">(st|saint)(-.*)?</token>
         </pattern>
         <message>Employez <suggestion><match no="3" case_conversion="startlower"/></suggestion> avec minuscule quand il s’agit du bâtiment et une majuscule quand il s’agit d’une institution.</message>
-        <example type="incorrect">L’<marker>Église</marker> Saint-Paul</example>
+        <example type="incorrect" correction="église">L’<marker>Église</marker> Saint-Paul</example>
         <example type="correct">L’<marker>église</marker> Saint-Paul</example>
       </rule>
       <rule>
@@ -22937,7 +22937,7 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>Employez <suggestion><match no="5" case_conversion="startlower"/></suggestion> avec minuscule quand il s’agit du bâtiment et une majuscule quand il s’agit d’une institution.</message>
-        <example type="incorrect">Je vais à l’<marker>Église</marker> dimanche.</example>
+        <example type="incorrect" correction="église">Je vais à l’<marker>Église</marker> dimanche.</example>
         <example type="correct">Je vais à l’<marker>église</marker> dimanche.</example>
       </rule>
     </rulegroup>
@@ -22990,7 +22990,7 @@ though, and has since been slightly modified)-->
           <marker><token regexp="yes">(?-i)(nord|sud)</token></marker>
         </pattern>
         <message>Employez <suggestion><match no="3" case_conversion="startupper"/></suggestion> avec une majuscule dans les noms géographiques.</message>
-        <example type="incorrect">Il vit en Afrique du <marker>sud</marker>.</example>
+        <example type="incorrect" correction="Sud">Il vit en Afrique du <marker>sud</marker>.</example>
         <example type="correct">Il vit en Afrique du Sud.</example>
       </rule>
       <rule>
@@ -23002,7 +23002,7 @@ though, and has since been slightly modified)-->
           <marker><token regexp="yes">(?-i)est|ouest</token></marker>
         </pattern>
         <message>Employez <suggestion><match no="5" case_conversion="startupper"/></suggestion> avec une majuscule dans les noms géographiques.</message>
-        <example type="incorrect">Il vivait en Allemagne de l’<marker>est</marker>.</example>
+        <example type="incorrect" correction="Est">Il vivait en Allemagne de l’<marker>est</marker>.</example>
         <example type="correct">Il vivait en Allemagne de l’Est.</example>
       </rule>
       <rule>
@@ -23011,7 +23011,7 @@ though, and has since been slightly modified)-->
           <marker><token regexp="yes">(?-i)Nord|Sud</token></marker>
         </pattern>
         <message>Les points cardinaux s’écrivent avec unen minuscule quand ils ont la valeur d’un adjectif. Employez <suggestion><match no="2" case_conversion="startlower"/></suggestion>.</message>
-        <example type="incorrect">L’hémisphère <marker>Nord</marker>.</example>
+        <example type="incorrect" correction="nord">L’hémisphère <marker>Nord</marker>.</example>
         <example type="correct">L’hémisphère nord.</example>
       </rule>
       <rule>
@@ -23021,7 +23021,7 @@ though, and has since been slightly modified)-->
           <marker><token regexp="yes">(?-i)(Nord|Sud)(-(Ouest|Est))</token></marker>
         </pattern>
         <message>Les points cardinaux s’écrivent avec une minuscule quand ils expriment une direction. Employez <suggestion><match no="3" case_conversion="alllower"/></suggestion>.</message>
-        <example type="incorrect">Je me dirige vers le <marker>Nord-Est</marker>.</example>
+        <example type="incorrect" correction="nord-est">Je me dirige vers le <marker>Nord-Est</marker>.</example>
         <example type="correct">Je me dirige vers le <marker>nord-est</marker>.</example>
       </rule>
       <rule>
@@ -23031,8 +23031,8 @@ though, and has since been slightly modified)-->
           <token regexp="yes">[’´'‛′‘]</token>
           <marker><token regexp="yes">(?-i)Ouest|Est</token></marker>
         </pattern>
-        <message>Les points cardinaux s’écrivent avec une minuscule quand ils expriment une direction. Employez <suggestion><match no="3" case_conversion="alllower"/></suggestion>.</message>
-        <example type="incorrect">Je me dirige vers l’<marker>Est</marker>.</example>
+        <message>Les points cardinaux s’écrivent avec une minuscule quand ils expriment une direction. Employez <suggestion><match no="4" case_conversion="alllower"/></suggestion>.</message>
+        <example type="incorrect" correction="est">Je me dirige vers l’<marker>Est</marker>.</example>
         <example type="correct">Je me dirige vers l’<marker>est</marker>.</example>
       </rule>
       <rule>
@@ -23042,7 +23042,7 @@ though, and has since been slightly modified)-->
           <marker><token regexp="yes">(?-i)Nord|Sud</token></marker>
         </pattern>
         <message>Les points cardinaux s’écrivent avec une minuscule quand ils expriment une direction. Employez <suggestion><match no="3" case_conversion="startlower"/></suggestion>.</message>
-        <example type="incorrect">Une exposition au <marker>Nord</marker>.</example>
+        <example type="incorrect" correction="nord">Une exposition au <marker>Nord</marker>.</example>
         <example type="correct">Une exposition au <marker>nord</marker>.</example>
       </rule>
       <rule>
@@ -23053,8 +23053,8 @@ though, and has since been slightly modified)-->
           <token regexp="yes">[’´'‛′‘]</token>
           <marker><token regexp="yes">(?-i)Est|Ouest</token></marker>
         </pattern>
-        <message>Les points cardinaux s’écrivent avec une minuscule quand ils expriment une direction. Employez <suggestion><match no="3" case_conversion="startlower"/></suggestion>.</message>
-        <example type="incorrect">Une exposition à l’<marker>Ouest</marker>.</example>
+        <message>Les points cardinaux s’écrivent avec une minuscule quand ils expriment une direction. Employez <suggestion><match no="5" case_conversion="startlower"/></suggestion>.</message>
+        <example type="incorrect" correction="ouest">Une exposition à l’<marker>Ouest</marker>.</example>
         <example type="correct">Une exposition à l’<marker>ouest</marker>.</example>
       </rule>
     </rulegroup>
@@ -23098,9 +23098,9 @@ though, and has since been slightly modified)-->
         <token>orge</token>
         <token regexp="yes">perlée|mondée</token>
       </pattern>
-      <message>Bien que « orge » soit un substantif féminin, on écrit <suggestion>\1 <match no="2" regexp_match="e$" regexp_replace=""/></suggestion>.</message>
-      <example type="incorrect">De l’<marker>orge perlée</marker>.</example>
-      <example type="incorrect">De l’<marker>orge mondée</marker>.</example>
+      <message>Bien que « orge » soit un substantif féminin, on écrit <suggestion>\1 <match no="2" regexp_match=".$" regexp_replace=""/></suggestion>.</message>
+      <example type="incorrect" correction="orge perlé">De l’<marker>orge perlée</marker>.</example>
+      <example type="incorrect" correction="orge mondé">De l’<marker>orge mondée</marker>.</example>
       <example type="correct">De l’orge perlé.</example>
       <example type="correct">De l’orge mondé.</example>
     </rule>
