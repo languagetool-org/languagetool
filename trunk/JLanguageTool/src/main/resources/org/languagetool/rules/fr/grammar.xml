@@ -1241,7 +1241,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">grâce|prête?s?|pareils?|pareilles?|semblables?|identiques?</token>
+          <token regexp="yes">grâce|prête?s?|pareils?|pareilles?|semblables?|identiques?|tant|tendances?</token>
           <marker>
             <token>a</token>
           </marker>
@@ -2165,7 +2165,7 @@ though, and has since been slightly modified)-->
           <marker><token regexp="yes">ascétiques?</token></marker>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="^(.).(.*)" regexp_replace="$1$2"/></suggestion> ?</message>
-        <example type="incorrect">Un acide <marker>ascétique</marker>.</example>
+        <example type="incorrect" correction="acétique">Un acide <marker>ascétique</marker>.</example>
         <example type="correct">Un acide <marker>acétique</marker>.</example>
       </rule>
       <rule>
@@ -2173,8 +2173,8 @@ though, and has since been slightly modified)-->
           <token regexp="yes">(auteur|démarche|conduite|hédonisme|littérature|philosophe|pratique|privation|rigueur|tradition|théologie|vie)s?|idéal|idéaux</token>
           <marker><token regexp="yes">acétiques?</token></marker>
         </pattern>
-        <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="^(.)(.*)" regexp_replace="$1s$2"/></suggestion> ?</message>
-        <example type="incorrect">La tradition <marker>acétique</marker> de l’Église.</example>
+        <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="^(.)" regexp_replace="$1s"/></suggestion> ?</message>
+        <example type="incorrect" correction="ascétique">La tradition <marker>acétique</marker> de l’Église.</example>
         <example type="correct">La tradition ascétique de l’Église.</example>
       </rule>
     </rulegroup>
@@ -2185,8 +2185,8 @@ though, and has since been slightly modified)-->
           <token>du</token>
           <marker><token>colon</token></marker>
         </pattern>
-        <message>Voulez-vous écrire <suggestion><match no="3" regexp_match="(.)." regexp_replace="$1ô"/></suggestion> ?</message>
-        <example type="incorrect">Cancer du <marker>colon</marker>.</example>
+        <message>Voulez-vous écrire <suggestion><match no="3" regexp_match="^(.)." regexp_replace="$1ô"/></suggestion> ?</message>
+        <example type="incorrect" correction="côlon">Cancer du <marker>colon</marker>.</example>
         <example type="correct">Cancer dur <marker>côlon</marker>.</example>
       </rule>
     </rulegroup>
@@ -2196,8 +2196,8 @@ though, and has since been slightly modified)-->
           <token regexp="yes">assez|pas|peu|si|très|vraiment</token>
           <marker><token regexp="yes">différends?</token></marker>
         </pattern>
-        <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="(..*)d" regexp_replace="$1t"/></suggestion> ?</message>
-        <example type="incorrect">Ils ne sont pas si <marker>différends</marker>.</example>
+        <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="^(..*)d" regexp_replace="$1t"/></suggestion> ?</message>
+        <example type="incorrect" correction="différents">Ils ne sont pas si <marker>différends</marker>.</example>
         <example type="correct">Ils ne sont pas si différents.</example>
       </rule>
     </rulegroup>
@@ -2209,7 +2209,7 @@ though, and has since been slightly modified)-->
           <token postag="V inf"><exception postag="V inf" negate_pos="yes"/></token>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="a" regexp_replace="â"/></suggestion> ?</message>
-        <example type="incorrect"><marker>Tache</marker> de partir tôt.</example>
+        <example type="incorrect" correction="Tâche"><marker>Tache</marker> de partir tôt.</example>
         <example type="correct"><marker>Tâche</marker> de partir tôt.</example>
       </rule>
       <rule>
@@ -2220,7 +2220,7 @@ though, and has since been slightly modified)-->
           <token postag="V inf"><exception postag="V (etre |avoir )?inf" postag_regexp="yes" negate_pos="yes"/></token>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="a" regexp_replace="â"/></suggestion> ?</message>
-        <example type="incorrect"><marker>Tachez</marker> d’arriver à l’heure.</example>
+        <example type="incorrect" correction="Tâchez"><marker>Tachez</marker> d’arriver à l’heure.</example>
         <example type="correct"><marker>Tâchez</marker> d’arriver à l’heure.</example>
       </rule>
       <rule>
@@ -2230,7 +2230,7 @@ though, and has since been slightly modified)-->
           <token>ne</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="a" regexp_replace="â"/></suggestion> ?</message>
-        <example type="incorrect"><marker>Tache</marker> de ne pas faire trop de bruit.</example>
+        <example type="incorrect" correction="Tâche"><marker>Tache</marker> de ne pas faire trop de bruit.</example>
         <example type="correct">Tâche de ne pas faire trop de bruit.</example>
       </rule>
       <rule>
@@ -2239,7 +2239,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">claires?|indélébiles?|jaunes?|noires?|rouges?|solaires?|sombres?|vertes?</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="â" regexp_replace="a"/></suggestion> ?</message>
-        <example type="incorrect">Une <marker>tâche</marker> indélébile.</example>
+        <example type="incorrect" correction="tache">Une <marker>tâche</marker> indélébile.</example>
         <example type="correct">Une <marker>tache</marker> indélébile.</example>
       </rule>
       <rule>
@@ -2249,7 +2249,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">betteraves?|beurre|beauté|boissons?|boue|bougie|blanco|br[uû]lure|café|ceurises?|cambouis|carottes?|chewing(-?gum)?|cire|colle|couleur|caca|chocolat|confiture|cirage|crayons?|cr[eê]mes?|curry|décoloration|dentifrice|encre|éosine|essence|excréments?|déodorant|fer|feutres?|fientes?|fluo|fruits?|fuel|goudron|gras|graisse|harissa|henné|herbe|huile|javel|ketchup|jus|lait|légumes?|léopard|maquillage|marqueur|mascara|massala|moisi|moisissure|matières?|mazout|mercurochrome|merde|moutarde|naissance|oeuf|œuf|orange|parfum|peinture|pipi|pollen|résine|rouelle|rouge|rousseur|roussi|sauce|sang|s[ée]bum|s[èe]ve|sperme|sombre|soupe|stabilo|stylo(-bille|feutre)?|suie|sueur|terre|transpiration|tipp-ex|tomates?|teintures?|urine|vernis|vieillesse|vomit?|vomissure|vin</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="â" regexp_replace="a"/></suggestion> ?</message>
-        <example type="incorrect">Une <marker>tâche</marker> de ketchup sur la chemise.</example>
+        <example type="incorrect" correction="tache">Une <marker>tâche</marker> de ketchup sur la chemise.</example>
         <example type="correct">Une <marker>tache</marker> de ketchup sur la chemise.</example>
       </rule>
       <rule>
@@ -2259,7 +2259,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">blouse|blouson|bois|bras|canapé|carrelage|col|corps|chemises?|chemisiers?|cravate|conscience|costume|cuir|CV|documents?|dos|feulles|habits?|jean|joue|jupe|linge|l[yi]no|mains?|marbre|meubles?|moquette|mur|nappe|ongles?|pantalons?|papier|parquet|peau|photos?|pénis|pieds?|pulls?|réputation|robes?|sexe|skaï|siège|sol|simili|tapis|tissus|t(ee)?-shirts?|vestes?|vêtements?|visage</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="â" regexp_replace="a"/></suggestion> ?</message>
-        <example type="incorrect">Une <marker>tâche</marker> sur ma chemise.</example>
+        <example type="incorrect" correction="tache">Une <marker>tâche</marker> sur ma chemise.</example>
         <example type="correct">Une <marker>tache</marker> sur ma chemise.</example>
       </rule>
       <rule>
@@ -2268,8 +2268,8 @@ though, and has since been slightly modified)-->
           <token postag="D [ef] ." postag_regexp="yes"/>
           <marker><token regexp="yes">taches?</token></marker>
         </pattern>
-        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="a" regexp_replace="â"/></suggestion> ?</message>
-        <example type="incorrect">Il a accompli la <marker>tache</marker> facilement.</example>
+        <message>Voulez-vous écrire <suggestion><match no="3" regexp_match="a" regexp_replace="â"/></suggestion> ?</message>
+        <example type="incorrect" correction="tâche">Il a accompli la <marker>tache</marker> facilement.</example>
         <example type="correct">Il a accompli la tâche facilement.</example>
       </rule>
       <rule>
@@ -2278,7 +2278,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">ingrates?</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="a" regexp_replace="â"/></suggestion> ?</message>
-        <example type="incorrect">Une <marker>tache</marker> ingrate.</example>
+        <example type="incorrect" correction="tâche">Une <marker>tache</marker> ingrate.</example>
         <example type="correct">Une <marker>tâche</marker> ingrate.</example>
       </rule>
       <rule>
@@ -2298,8 +2298,8 @@ though, and has since been slightly modified)-->
           <marker><token regexp="yes">sensée?s?</token></marker>
           <token postag="V.* inf" postag_regexp="yes"/>
         </pattern>
-        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match=".*(e?s?)$" regexp_replace="sensé$1"/></suggestion> ?</message>
-        <example type="incorrect">Je suis <marker>sensée</marker> avoir reçu une lettre de rappel.</example>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="^." regexp_replace="c"/></suggestion> ?</message>
+        <example type="incorrect" correction="censée">Je suis <marker>sensée</marker> avoir reçu une lettre de rappel.</example>
         <example type="correct">Je suis censée avoir reçu une lettre de rappel.</example>
       </rule>
       <rule>
@@ -2308,8 +2308,8 @@ though, and has since been slightly modified)-->
           <token regexp="yes">[mts]e|lui|[nv]vous|leur</token>
           <token postag="V.* inf" postag_regexp="yes"/>
         </pattern>
-        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match=".*(e?s?)$" regexp_replace="sensé$1"/></suggestion> ?</message>
-        <example type="incorrect">Il était <marker>sensé</marker> me reconduire à la maison.</example>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="^." regexp_replace="c"/></suggestion> ?</message>
+        <example type="incorrect" correction="censé">Il était <marker>sensé</marker> me reconduire à la maison.</example>
         <example type="correct">Il était <marker>censé</marker> me reconduire à la maison.</example>
       </rule>
       <rule>
@@ -2319,8 +2319,8 @@ though, and has since been slightly modified)-->
           <token regexp="yes">[’´'‛′‘]</token>
           <token postag="V.* inf" postag_regexp="yes"/>
         </pattern>
-        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match=".*(e?s?)$" regexp_replace="sensé$1"/></suggestion> ?</message>
-        <example type="incorrect">Il était <marker>sensé</marker> l’accompagner.</example>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="^." regexp_replace="c"/></suggestion> ?</message>
+        <example type="incorrect" correction="censé">Il était <marker>sensé</marker> l’accompagner.</example>
         <example type="correct">Il était <marker>censé</marker> l’accompagner.</example>
       </rule>
     </rulegroup>
@@ -2331,7 +2331,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">Hendrix|Hendricks</token>
         </pattern>
         <message>Écrivez <suggestion>Jimi Hendrix</suggestion> s’il s’agit du guitariste.</message>
-        <example type="incorrect"><marker>Jimmy Hendrix</marker> est né à Seattle.</example>
+        <example type="incorrect" correction="Jimi Hendrix"><marker>Jimmy Hendrix</marker> est né à Seattle.</example>
         <example type="correct">Jimi Hendrix est né à Seattle.</example>
       </rule>
       <rule>
@@ -20682,7 +20682,7 @@ though, and has since been slightly modified)-->
         <token>ciel</token>
       </pattern>
       <message>« \1 \2 \3 » est une faute de typographie. Employez <suggestion>\1-\2-\3</suggestion>.</message>
-      <example type="incorrect">Un bel <marker>arc en ciel</marker>.</example>
+      <example type="incorrect" correction="arc-en-ciel">Un bel <marker>arc en ciel</marker>.</example>
       <example type="correct">Un bel <marker>arc-en-ciel</marker>.</example>
     </rule>
     <rule id="CEST_A_DIRE" name="c’est à dire">
@@ -20737,7 +20737,7 @@ though, and has since been slightly modified)-->
         <token regexp="yes">mêmes?</token>
       </pattern>
       <message>« \1 \2 » est une faute de typographie. Employez <suggestion>\1-\2</suggestion>.</message>
-      <example type="incorrect">Il l’a fait <marker>lui même</marker>.</example>
+      <example type="incorrect" correction="lui-même">Il l’a fait <marker>lui même</marker>.</example>
       <example type="correct">Il l’a fait <marker>lui-même</marker>.</example>
     </rule>
     <rulegroup id="TRAIT_UNION" name="Trait d’union">
