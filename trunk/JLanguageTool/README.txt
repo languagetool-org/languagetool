@@ -2,7 +2,7 @@ LanguageTool, a proof-reading tool for English, German, Polish,
 Chinese, French, Dutch, Russian, Italian, Danish and more languages
 (see http://www.languagetool.org/languages/ for a list)
 
-Copyright (C) 2005-2012 Daniel Naber (naber at danielnaber de)
+Copyright (C) 2005-2013 Daniel Naber (naber at danielnaber de)
 Version ###VERSION###, ###DATE###
 Homepage: http://www.languagetool.org
 
@@ -36,6 +36,10 @@ Usage:
   Use Options -> Language Settings -> Writing Aids -> Edit... to disable
   LightProof and enable LanguageTool for English.
   
+  If you are using LibreOffice 3.5+ and you want to check Russian texts:
+  Use Options -> Language Settings -> Writing Aids -> Edit... to disable
+  LightProof and enable LanguageTool for Russian.
+
   Note that there will also be a new menu item "LanguageTool"
   under the "Tools" menu.
   If the native spelling and grammar dialog doesn't check grammar,
