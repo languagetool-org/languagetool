@@ -70,6 +70,12 @@ public class Unifier {
    * For checking the current token.
    */
   private List<Boolean> tmpFeaturesFound;
+  
+  /**
+   * Maps that store equivalences to be removed or kept after every next token has been analyzed
+   */
+  private Map<String, Set<String>> equivalencesToBeRemoved; 
+  private Map<String, Set<String>> equivalencesToBeKept;
 
   /**
    * Internal flag for checking whether the first token in tokSequence has to be
@@ -91,6 +97,8 @@ public class Unifier {
     equivalencesMatched = new ArrayList<Map<String, Set<String>>>();
     equivalenceTypes = new HashMap<EquivalenceTypeLocator, Element>();
     equivalenceFeatures = new HashMap<String, List<String>>();
+    equivalencesToBeRemoved = new HashMap<String, Set<String>>();
+    equivalencesToBeKept = new HashMap<String, Set<String>>();
     featuresFound = new ArrayList<Boolean>();
     tmpFeaturesFound = new ArrayList<Boolean>();
     tokSequence = new ArrayList<AnalyzedTokenReadings>();
@@ -190,12 +198,12 @@ public class Unifier {
     }
     return unified;
   }
-
+  
   private boolean checkNext(final AnalyzedToken aToken,
       final Map<String, List<String>> uFeatures) {
     boolean unifiedNext = true;
     boolean anyFeatUnified = false;    
-    List<String> types;
+    List<String> types;   
     final ArrayList<Boolean> tokenFeaturesFound = new ArrayList<Boolean>(tmpFeaturesFound);
     if (allFeatsIn) {
       for (int i = 0; i <= tokCnt; i++) {
@@ -212,10 +220,28 @@ public class Unifier {
                 && equivalencesMatched.get(i).get(feat.getKey()).contains(typeName)) {
               final Element testElem = equivalenceTypes.get(new EquivalenceTypeLocator(feat.getKey(), typeName));
               featUnified = featUnified || testElem.isMatched(aToken);
-            }
+                //Stores equivalences to be removed and kept
+				if (!testElem.isMatched(aToken)) {
+					if (!equivalencesToBeRemoved.containsKey(feat.getKey())) {
+						final Set<String> typeSet = new HashSet<String>();
+						typeSet.add(typeName);
+						equivalencesToBeRemoved.put(feat.getKey(),typeSet);
+					} else {
+						equivalencesToBeRemoved.get(feat.getKey()).add(typeName);
+					}
+				} else {
+					if (!equivalencesToBeKept.containsKey(feat.getKey())) {
+						final Set<String> typeSet = new HashSet<String>();
+						typeSet.add(typeName);
+						equivalencesToBeKept.put(feat.getKey(),typeSet);
+					} else {
+						equivalencesToBeKept.get(feat.getKey()).add(typeName);
+					}
+				}
+			}
           }
-          allFeatsUnified &= featUnified;
-        }
+          allFeatsUnified &= featUnified;        	  
+          }
         tokenFeaturesFound.set(i, allFeatsUnified);
         anyFeatUnified = anyFeatUnified || allFeatsUnified;
       }
@@ -240,10 +266,31 @@ public class Unifier {
   /**
    * Call after every complete token (AnalyzedTokenReadings) checked.
    */
-  public final void startNextToken() {
-    featuresFound = new ArrayList<Boolean>(tmpFeaturesFound);    
-    readingsCounter++;
-  }
+	public final void startNextToken() {
+		featuresFound = new ArrayList<Boolean>(tmpFeaturesFound);
+		readingsCounter++;
+		// Removes features
+		List<String> types;
+		for (int i = 0; i <= tokCnt; i++) {
+			//for (Map.Entry<String, List<String>> feat : uFeatures.entrySet()) {
+			for (Map.Entry<String, List<String>> feat : equivalenceFeatures.entrySet()) {
+				types = feat.getValue();
+				for (final String typeName : types) {
+					if (featuresFound.get(i)
+							&& equivalencesToBeRemoved.containsKey(feat.getKey())
+							&& equivalencesToBeRemoved.get(feat.getKey()).contains(typeName)
+							&& !(equivalencesToBeKept.containsKey(feat.getKey())
+								&& equivalencesToBeKept.get(feat.getKey()).contains(typeName))
+							&& equivalencesMatched.get(i).containsKey(feat.getKey())
+							&& equivalencesMatched.get(i).get(feat.getKey()).contains(typeName)) {
+						equivalencesMatched.get(i).get(feat.getKey()).remove(typeName);
+					}
+				}
+			}
+		}
+        equivalencesToBeRemoved.clear();
+        equivalencesToBeKept.clear();
+	}
 
   /**
    * Starts testing only those equivalences that were previously matched.
