@@ -21,7 +21,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.041 2012-12-02 15:45:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.042 2013-01-09 09:16:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -428,20 +428,6 @@ $Id: grammar.xml,v 1.041 2012-12-02 15:45:00 marcoagpinto Exp $
 
 
 
-    <!-- COR DE ROSA cor-de-rosa -->
-    <rule id="COR_DE_ROSA" name="cor-de-rosa">
-      <pattern>
-        <token>cor</token>
-        <token>de</token>
-        <token>rosa</token>
-      </pattern>
-      <message>Substituir «cor de rosa» por <suggestion>cor-de-rosa</suggestion>.</message>
-      <example type="incorrect">A blusa é <marker>cor de rosa</marker>.</example>
-      <example type="correct">A blusa é <marker>cor-de-rosa</marker>.</example>
-    </rule>
-
-
-
     <!-- CUJO O cujo -->
     <rule id="CUJO_O" name="cujo">
       <pattern>
@@ -466,19 +452,6 @@ $Id: grammar.xml,v 1.041 2012-12-02 15:45:00 marcoagpinto Exp $
       <message>Substituir «dar os bons dias» por <suggestion>dar os bons-dias</suggestion>.</message>
       <example type="incorrect">Vou <marker>dar os bons dias</marker> ao Miguel.</example>
       <example type="correct">Vou <marker>dar os bons-dias</marker> ao Miguel.</example>
-    </rule>
-
-
-
-    <!-- DATA LIMITE data-limite -->
-    <rule id="DATA_LIMITE" name="data-limite">
-      <pattern>
-        <token>data</token>
-        <token>limite</token>
-      </pattern>
-      <message>Substituir «data limite» por <suggestion>data-limite</suggestion>.</message>
-      <example type="incorrect">O iogurte passou da <marker>data limite</marker>.</example>
-      <example type="correct">O iogurte passou da <marker>data-limite</marker>.</example>
     </rule>
 
 
@@ -509,7 +482,7 @@ $Id: grammar.xml,v 1.041 2012-12-02 15:45:00 marcoagpinto Exp $
 
 
 
-    <!-- DE FORMA A QUE de forma a que -->
+    <!-- DE FORMA A QUE para que -->
     <rule id="DE_FORMA_A_QUE" name="para que">
       <pattern>
         <token>de</token>
@@ -569,32 +542,6 @@ $Id: grammar.xml,v 1.041 2012-12-02 15:45:00 marcoagpinto Exp $
 
 
 
-    <!-- DIGO TE digo-te -->
-    <rule id="DIGO_TE" name="digo-te">
-      <pattern>
-        <token>digo</token>
-        <token>te</token>
-      </pattern>
-      <message>Substituir «digo te» por <suggestion>digo-te</suggestion>.</message>
-      <example type="incorrect">Amanhã <marker>digo te</marker> o segredo.</example>
-      <example type="correct">Amanhã <marker>digo-te</marker> o segredo.</example>
-    </rule>
-
-
-
-     <!-- DIVERTI ME diverti-me -->
-    <rule id="DIVERTI_ME" name="diverti-me">
-      <pattern>
-        <token>diverti</token>
-        <token>me</token>
-      </pattern>
-      <message>Substituir «diverti me» por <suggestion>diverti-me</suggestion>.</message>
-      <example type="incorrect">Hoje <marker>diverti me</marker> imenso.</example>
-      <example type="correct">Hoje <marker>diverti-me</marker> imenso.</example>
-    </rule>
-
-
-
     <!-- DUM de um -->
     <rule id="DUM" name="de um">
       <pattern>
@@ -615,6 +562,32 @@ $Id: grammar.xml,v 1.041 2012-12-02 15:45:00 marcoagpinto Exp $
       <message>Substituir «duma» por <suggestion>de uma</suggestion>.</message>
       <example type="incorrect">A venda <marker>duma</marker> casa.</example>
       <example type="correct">A venda <marker>de uma</marker> casa.</example>
+    </rule>
+
+
+
+    <!-- ELAS TEM elas têm -->
+    <rule id="ELAS_TEM" name="elas têm">
+      <pattern>
+        <token>elas</token>
+        <token>tem</token>
+      </pattern>
+      <message>Substituir «elas tem» por <suggestion>elas têm</suggestion>.</message>
+      <example type="incorrect">Há palavras que <marker>elas tem</marker> medo de ouvir.</example>
+      <example type="correct">Há palavras que <marker>elas têm</marker> medo de ouvir.</example>
+    </rule>
+
+
+
+    <!-- ELES TEM eles têm -->
+    <rule id="ELES_TEM" name="eles têm">
+      <pattern>
+        <token>eles</token>
+        <token>tem</token>
+      </pattern>
+      <message>Substituir «eles tem» por <suggestion>eles têm</suggestion>.</message>
+      <example type="incorrect">Há palavras que <marker>eles tem</marker> medo de ouvir.</example>
+      <example type="correct">Há palavras que <marker>eles têm</marker> medo de ouvir.</example>
     </rule>
 
 
@@ -654,19 +627,6 @@ $Id: grammar.xml,v 1.041 2012-12-02 15:45:00 marcoagpinto Exp $
       <message>Substituir «enquanto que» por <suggestion>enquanto</suggestion>.</message>
       <example type="incorrect">O Miguel estudava <marker>enquanto que</marker> os amigos brincavam.</example>
       <example type="correct">O Miguel estudava <marker>enquanto</marker> os amigos brincavam.</example>
-    </rule>
-
-
-
-    <!-- ESTÁ ME está-me -->
-    <rule id="ESTÁ_ME" name="está-me">
-      <pattern>
-        <token>está</token>
-        <token>me</token>
-      </pattern>
-      <message>Substituir «está me» por <suggestion>está-me</suggestion>.</message>
-      <example type="incorrect">O Miguel <marker>está me</marker> a ajudar.</example>
-      <example type="correct">O Miguel <marker>está-me</marker> a ajudar.</example>
     </rule>
 
 
@@ -1003,6 +963,20 @@ $Id: grammar.xml,v 1.041 2012-12-02 15:45:00 marcoagpinto Exp $
       <message>Substituir «não esta fácil» por <suggestion>não está fácil</suggestion>.</message>
       <example type="incorrect">A vida <marker>não esta fácil</marker> para a população mundial.</example>
       <example type="correct">A vida <marker>não está fácil</marker> para a população mundial.</example>
+    </rule>
+
+
+
+    <!-- NÃO VEZ QUE não vês que -->
+    <rule id="NÃO_VEZ_QUE" name="não vês que">
+      <pattern>
+        <token>não</token>
+        <token>vez</token>
+        <token>que</token>
+      </pattern>
+      <message>Substituir «não vez que» por <suggestion>não vês que</suggestion>.</message>
+      <example type="incorrect">Pai, <marker>não vez que</marker> eles estão errados?</example>
+      <example type="correct">Pai, <marker>não vês que</marker> eles estão errados?</example>
     </rule>
 
 
@@ -1350,20 +1324,6 @@ $Id: grammar.xml,v 1.041 2012-12-02 15:45:00 marcoagpinto Exp $
       <message>Substituir «vídeo conferência» por <suggestion>videoconferência</suggestion>.</message>
       <example type="incorrect">Vou realizar uma <marker>vídeo conferência</marker> no Skype.</example>
       <example type="correct">Vou realizar uma <marker>videoconferência</marker> no Skype.</example>
-    </rule>
-
-
-
-    <!-- VIR ME VER vir-me ver -->
-    <rule id="VIR_ME_VER" name="vir-me ver">
-      <pattern>
-        <token>vir</token>
-        <token>me</token>
-        <token>ver</token>
-      </pattern>
-      <message>Substituir «vir me ver» por <suggestion>vir-me ver</suggestion>.</message>
-      <example type="incorrect">Quando puderes <marker>vir me ver</marker> ficarei contente.</example>
-      <example type="correct">Quando puderes <marker>vir-me ver</marker> ficarei contente.</example>
     </rule>
 
 
