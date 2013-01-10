@@ -5,14 +5,7 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import org.apache.tika.language.LanguageIdentifier;
 import org.languagetool.JLanguageTool;
@@ -113,21 +106,11 @@ class LanguageToolHttpHandler implements HttpHandler {
   }
 
   private Map<String, String> getRequestQuery(HttpExchange httpExchange, URI requestedUri) throws IOException {
-    Map<String, String> parameters;
+    final Map<String, String> parameters;
     if ("post".equalsIgnoreCase(httpExchange.getRequestMethod())) {
-      final InputStreamReader isr = new InputStreamReader(httpExchange.getRequestBody(), ENCODING);
-      try {
-        final BufferedReader br = new BufferedReader(isr);
-        try {
-          final String query = br.readLine();
-          parameters = parseQuery(query);
-        } finally {
-          br.close();
-        }
-      } finally {
-        isr.close();
-      }
-    } else {   // GET
+      final String query = StringTools.streamToString(httpExchange.getRequestBody(), ENCODING);
+      parameters = parseQuery(query);
+    } else {
       final String query = requestedUri.getRawQuery();
       parameters = parseQuery(query);
     }
