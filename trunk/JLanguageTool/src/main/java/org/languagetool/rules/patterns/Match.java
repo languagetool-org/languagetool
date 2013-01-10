@@ -541,7 +541,7 @@ public class Match {
           }
           if (l.isEmpty()) {
             for (final AnalyzedToken anaTok : getNewToken(numRead, token)) {
-              l.add(anaTok);              
+              l.add(anaTok);
             }
           }
         } else {
@@ -564,7 +564,9 @@ public class Match {
     if (l.isEmpty()) {
       return formattedToken;
     }
-    return new AnalyzedTokenReadings(l.toArray(new AnalyzedToken[l.size()]), formattedToken.getStartPos());
+    final AnalyzedTokenReadings anTkRead=new AnalyzedTokenReadings(l.toArray(new AnalyzedToken[l.size()]), formattedToken.getStartPos());
+    anTkRead.setWhitespaceBefore(formattedToken.isWhitespaceBefore());
+    return anTkRead;
   }
 
   private AnalyzedToken[] getNewToken(final int numRead, final String token) {
