@@ -45,6 +45,19 @@ public class ReflexiveVerbsRuleTest extends TestCase {
 		//TODO: se'n vola / s'envola
 		// correct sentences:
 		//assertCorrect("la festa de Rams es commemora anant a l'església a beneir el palmó");
+		//assertCorrect("les circumstàncies m'obliguen a gloriar-me"); Cal buscar la concordança amb (m')
+		//assertCorrect("es van agenollar i prosternar");
+		//assertCorrect("per a portar-te aigua");
+		assertCorrect("i de venir-vos a trobar");
+		assertCorrect("el sol s'havia post, li anaven portant tots els malalts");
+		assertCorrect("que no em caigui la casa");
+		assertCorrect("que no em caigui al damunt res");
+		assertCorrect("Els qui s'havien dispersat van anar pertot arreu");
+		assertCorrect("Els qui volen enriquir-se cauen en temptacions");
+		assertCorrect("Després d'acomiadar-nos vam pujar a la nau");
+		assertCorrect("Després d'acomiadar-nos, vam pujar a la nau");
+		assertCorrect("que em vingui a ajudar");
+		assertCorrect("fins i tot us vendríeu un amic");
 		assertCorrect("ens hem esforçat molt per venir-vos a veure");
 		assertCorrect("Un altre dia s'anava a l'Ermita i un tercer dia se solia anar a altres indrets de caràcter comarcal.");
 		assertCorrect("La Nit de sant Joan es baixaven falles de la muntanya."); //solucions: marcar "la nit..." com a CC o comprovar la concordança subj/verb
@@ -132,6 +145,7 @@ public class ReflexiveVerbsRuleTest extends TestCase {
 		assertCorrect("es veié obligat a marxar el 1512.");
 		assertCorrect("Francesc III es va anar a asseure sobre el tron");
 		assertCorrect("Va anar a dutxar-se");
+		assertCorrect("es va anar a dutxar");
 		assertCorrect("es van deixar anar molts empresonats.");
 		assertCorrect("A Joan se li'n va anar la mà");
 		assertCorrect("se'ns en va anar la mà");

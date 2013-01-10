@@ -44,6 +44,7 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
 
 		// correct sentences:
 		//es van posar en camí proveïts de presents 
+		assertCorrect("a. Home indignat bonic corre");
 		assertCorrect("Bernabé i Saule, un cop acomplerta la seva missió a Jerusalem");
 		assertCorrect("he passat una nit i un dia sencers a la deriva");
 		assertCorrect("L'olor dels teus perfums, més agradable que tots els bàlsams.");

@@ -533,8 +533,7 @@ public class Match {
                 targetPosTag = pPosRegexMatch.matcher(targetPosTag).replaceAll(
                     posTagReplace);
               }
-              l
-                  .add(new AnalyzedToken(token, targetPosTag, formattedToken
+              l.add(new AnalyzedToken(token, targetPosTag, formattedToken
                       .getAnalyzedToken(i).getLemma()));
               l.get(l.size() - 1).setWhitespaceBefore(formattedToken.isWhitespaceBefore());
             }
