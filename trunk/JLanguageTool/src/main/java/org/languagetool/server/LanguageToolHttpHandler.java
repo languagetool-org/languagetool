@@ -106,15 +106,13 @@ class LanguageToolHttpHandler implements HttpHandler {
   }
 
   private Map<String, String> getRequestQuery(HttpExchange httpExchange, URI requestedUri) throws IOException {
-    final Map<String, String> parameters;
+    final String query;
     if ("post".equalsIgnoreCase(httpExchange.getRequestMethod())) {
-      final String query = StringTools.streamToString(httpExchange.getRequestBody(), ENCODING);
-      parameters = parseQuery(query);
+      query = StringTools.streamToString(httpExchange.getRequestBody(), ENCODING);
     } else {
-      final String query = requestedUri.getRawQuery();
-      parameters = parseQuery(query);
+      query = requestedUri.getRawQuery();
     }
-    return parameters;
+    return parseQuery(query);
   }
 
   private void printListOfLanguages(HttpExchange httpExchange) throws IOException {
