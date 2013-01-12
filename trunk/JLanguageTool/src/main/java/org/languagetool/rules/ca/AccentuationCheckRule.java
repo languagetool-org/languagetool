@@ -220,9 +220,8 @@ public class AccentuationCheckRule extends CatalanRule {
       	}
       	//les seves contraries
       	else if (
-      	            (matchPostagRegexp(relevantWords.get(token),NOM_MS) && matchPostagRegexp(tokens[i-1],ADJECTIU_MS))
-      	            || (matchPostagRegexp(relevantWords.get(token),NOM_FS) && matchPostagRegexp(tokens[i-1],ADJECTIU_FS) 
-      	            		&& !token.equals("venia") && !token.equals("tenia") && !token.equals("continua") && !token.equals("genera") && !token.equals("faria"))
+      	            (matchPostagRegexp(relevantWords.get(token),NOM_MS) && matchPostagRegexp(tokens[i-1],ADJECTIU_MS) && !matchPostagRegexp(tokens[i],VERB_3S))
+      	            || (matchPostagRegexp(relevantWords.get(token),NOM_FS) && matchPostagRegexp(tokens[i-1],ADJECTIU_FS) && !matchPostagRegexp(tokens[i],VERB_3S))
       	            || (matchPostagRegexp(relevantWords.get(token),NOM_MP) && matchPostagRegexp(tokens[i-1],ADJECTIU_MP))
       	            || (matchPostagRegexp(relevantWords.get(token),NOM_FP) && matchPostagRegexp(tokens[i-1],ADJECTIU_FP))
       	          )
