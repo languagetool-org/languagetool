@@ -106,7 +106,7 @@ class Main {
   }
   
   private void cleanUp() {
-	  JLanguageTool.removeTemporaryFiles();	  
+    JLanguageTool.removeTemporaryFiles();
   }
   
 
