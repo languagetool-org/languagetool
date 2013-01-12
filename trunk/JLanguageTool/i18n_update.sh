@@ -10,7 +10,7 @@ mkdir i18n-temp
 cd i18n-temp
 
 # list of languages in the same order as on https://www.transifex.com/projects/p/languagetool/:
-for lang in en ast be br ca zh da nl eo fr gl de el_GR it pl ru sl es tl uk ro sk cs sv is lt km pt_PT
+for lang in en ast be br ca zh da nl eo fr gl de el_GR it pl ru sl es tl uk ro sk cs sv is lt km pt_PT pt_BR
 do
   SOURCE=downloaded.tmp
   # download and hackish JSON cleanup:
