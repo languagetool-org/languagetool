@@ -8901,13 +8901,26 @@ $Id$
 <example type="correct">digué<marker>⪢</marker> vine</example>
 </rule>
 </rulegroup> -->
-        <rulegroup id="ACCENT_SOLT" name="Evita els caràcters d'accent solts">
-            <rule>
+        <rulegroup id="CARACTERS_INCORRECTES" name="caràcters incorrectes">
+            <rule id="COMETES_INCORRECTES" name="Evita cometes incorrectes">
+                <pattern>
+                    <token><exception postag="_PUNCT.*" postag_regexp="yes"/></token>
+                    <marker>
+                        <token spacebefore="no">‘</token>
+                    </marker>
+                </pattern>
+                <message>Caràcter d'obertura de cometes simples. Usa el caràcter de tancament (<suggestion>’</suggestion>) o l'apòstrof (<suggestion>'</suggestion>).</message>
+                <short>Caràcter incorrecte</short>
+                <example type="incorrect">El pou d<marker>‘</marker>Avall.</example>
+                <example type="correct">El pou d'Avall.</example>
+                <example type="correct">El pou d'‘aquella casa’.</example>
+            </rule>
+            <rule id="ACCENT_SOLT" name="Evita els caràcters d'accent solts">
                 <pattern>
                     <token regexp="yes">[`´]</token>
                 </pattern>
-                <message>Accent solt. Useu un apòstrof: <suggestion>'</suggestion>.</message>
-                <short>Accent solt.</short>
+                <message>Accent solt. Useu un apòstrof: <suggestion>'</suggestion>, <suggestion>’</suggestion>.</message>
+                <short>Caràcter incorrecte</short>
                 <example type="incorrect">L<marker>`</marker>home</example>
                 <example type="correct">L'home</example>
             </rule>
@@ -15781,6 +15794,7 @@ $Id$
                 <example type="correct">Si et fan falta esclaus,</example>
                 <example type="correct">com l'àguila cel enllà</example>
                 <example type="correct">us barrarem el pas espasa en mà</example>
+                <example type="correct">com a exemple exemple</example>
             </rule>
         </rulegroup>
         <rulegroup id="FALTA_ELEMENT_ENTRE_GN" name="Falta un element entre grups nominals" default="off">
