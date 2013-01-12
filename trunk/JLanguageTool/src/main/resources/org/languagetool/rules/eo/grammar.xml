@@ -2910,15 +2910,45 @@ $Id$
         <example type="correct">Mi legis tiun libron.</example>
       </rule>
     </rulegroup>
-    <rule id="DU_DEK" name="du dek (dudek)">
+    <rule id="DU_DEK" name="du dek → dudek, ktp">
       <pattern>
         <token regexp="yes">unu|du|tri|kvar|kvin|ses|sep|ok|naŭ</token>
         <token regexp="yes">dek|cent</token>
       </pattern>
       <message>«\1 \2» ne eblas, ĉu vi intencis <suggestion>\1\2</suggestion>.</message>
+      <url>http://bertilow.com/pmeg/gramatiko/nombroj/vortetoj/formoj.html#i-k81</url>
       <example type="incorrect" correction="dudek">Mi havas <marker>du dek</marker> stelojn.</example>
       <example type="correct">Mi havas dudek stelojn.</example>
     </rule>
+    <rulegroup id="DEKDU" name="dekdu → dek du, ktp">
+      <rule>
+        <pattern>
+          <token regexp="yes">(unu|du|tri|kvar|kvin|ses|sep|ok|naŭ|cent|mil)*(?:dek|cent|mil)(?:unu|du|tri|kvar|kvin|ses|sep|ok|naŭ)</token>
+        </pattern>
+        <message>«\1» ne eblas, ĉu vi intencis <suggestion><match no="1" regexp_match="(unu|du|tri|kvar|kvin|ses|sep|ok|naŭ)$" regexp_replace=" $1"/></suggestion>?</message>
+        <url>http://bertilow.com/pmeg/gramatiko/nombroj/vortetoj/formoj.html#i-k81</url>
+        <example type="incorrect">Mi baldaŭ havos <marker>dudekok</marker> jarojn.</example>
+        <example type="correct">Mi baldaŭ havos dudek ok jarojn.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">(unu|du|tri|kvar|kvin|ses|sep|ok|naŭ|cent|mil)*(?:cent|mil)(?:du|tri|kvar|kvin|ses|sep|ok|naŭ)?dek</token>
+        </pattern>
+        <message>«\1» ne eblas, ĉu vi intencis <suggestion><match no="1" regexp_match="((du|tri|kvar|kvin|ses|sep|ok|naŭ)dek)$" regexp_replace=" $1"/></suggestion>?</message>
+        <url>http://bertilow.com/pmeg/gramatiko/nombroj/vortetoj/formoj.html#i-k81</url>
+        <example type="incorrect">Tio daŭros <marker>centdudek</marker> jaroj.</example>
+        <example type="correct">Tio daŭros cent dudek jaroj.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">(unu|du|tri|kvar|kvin|ses|sep|ok|naŭ|dek|cent|mil)*mil(?:unu|du|tri|kvar|kvin|ses|sep|ok|naŭ|cent)*<exception>mil</exception></token>
+        </pattern>
+        <message>Oni ne kunligas la vorton «mil».</message>
+        <url>http://bertilow.com/pmeg/gramatiko/nombroj/vortetoj/formoj.html#i-k81</url>
+        <example type="incorrect">Li naskiĝis en la jaro <marker>dumil</marker>.</example>
+        <example type="correct">Li naskiĝis en la jaro <marker>du mil</marker>.</example>
+      </rule>
+    </rulegroup>
     <rule id="CXIUJ_LA" name="ĉiuj la (ĉiuj)">
       <pattern>
         <marker>
@@ -3853,6 +3883,16 @@ $Id$
         <example type="correct">Mi ankoraŭ ne lavis min ĉi-matene.</example>
       </rule>
     </rulegroup>
+    <rule id="NOVA_ZELANDO" name="Nova-Zelando → Nov-Zelando">
+      <pattern>
+        <token regexp="yes">Nova-?Zelandon?</token>
+      </pattern>
+      <message>Oni devas skribi <suggestion>Nov-Zelando</suggestion> aŭ <suggestion>Nova Zelando</suggestion>.</message>
+      <url>http://bertilow.com/pmeg/vortfarado/principoj/antauelementoj.html#i-pce</url>
+      <example type="incorrect">Mi loĝas en <marker>Nova-Zelando</marker>.</example>
+      <example type="correct">Mi loĝas en <marker>Nova Zelando</marker>.</example>
+      <example type="correct">Mi loĝas en <marker>Nov-Zelando</marker>.</example>
+    </rule>
   </category>
   <!-- vim: foldmethod=marker foldmarker=<category,</category:
   -->
