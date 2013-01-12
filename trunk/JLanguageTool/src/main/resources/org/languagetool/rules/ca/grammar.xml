@@ -5552,22 +5552,38 @@ $Id$
             <!--  made more general-->
             <rule>
                 <pattern>
-                    <token negate_pos="yes" postag="SENT_START" regexp="yes"><exception>i</exception><exception postag="allow_repetition">de</exception>[\p{L}·'-]+</token>
-                    <token regexp="yes"><exception>i</exception>[\p{L}·'-]+</token>
                     <marker>
+                        <token negate_pos="yes" postag="SENT_START" regexp="yes"><exception>i</exception><exception postag="allow_repetition">de</exception>[\p{L}·'-]+</token>
+                        <token regexp="yes" spacebefore="yes"><exception>i</exception>[\p{L}·'-]+</token>
                         <token><match no="0"/><exception postag="&lt;/LOC_ADV&gt;" regexp="yes">poc|més|pas|bat</exception></token>
                         <token><match no="1"/><exception postag="&lt;/LOC_ADV&gt;" regexp="yes">poc|més</exception></token>
                     </marker>
                 </pattern>
-                <message>Elimina la duplicació. <suggestion></suggestion></message>
+                <message>Elimina la duplicació. <suggestion><match no="1"/> <match no="2"/></suggestion></message>
                 <short>Frase duplicada</short>
-                <example correction="" type="incorrect">Benvinguts a casa <marker>a casa</marker> meva.</example>
-                <example correction="" type="incorrect">És l'americà <marker>l'americà</marker>.</example>
+                <example correction="a casa" type="incorrect">Benvinguts <marker>a casa a casa</marker> meva.</example>
                 <example type="correct">No volia res més que mirar i mirar i mirar.</example>
                 <example type="correct">A més a més, ho va fer a poc a poc.</example>
                 <example type="correct">A diferència dels dels ocells.</example>
                 <example type="correct">Puja pas a pas a les ruïnes</example>
-            </rule>          
+            </rule> 
+            <rule>
+                <pattern>
+                    <marker>
+                        <token negate_pos="yes" postag="SENT_START" regexp="yes"><exception>i</exception><exception postag="allow_repetition">de</exception>[\p{L}·'-]+</token>
+                        <token regexp="yes" spacebefore="no"><exception>i</exception>[\p{L}·'-]+</token>
+                        <token><match no="0"/><exception postag="&lt;/LOC_ADV&gt;" regexp="yes">poc|més|pas|bat</exception></token>
+                        <token><match no="1"/><exception postag="&lt;/LOC_ADV&gt;" regexp="yes">poc|més</exception></token>
+                    </marker>
+                </pattern>
+                <message>Elimina la duplicació. <suggestion><match no="1"/><match no="2"/></suggestion></message>
+                <short>Frase duplicada</short>
+                <example correction="l'americà" type="incorrect">És <marker>l'americà l'americà</marker>.</example>
+                <example type="correct">No volia res més que mirar i mirar i mirar.</example>
+                <example type="correct">A més a més, ho va fer a poc a poc.</example>
+                <example type="correct">A diferència dels dels ocells.</example>
+                <example type="correct">Puja pas a pas a les ruïnes</example>
+            </rule>         
         </rulegroup>
         <rulegroup id="DOS_ARTICLES" name="Dos articles seguits: *la l'aparició">
             <rule>

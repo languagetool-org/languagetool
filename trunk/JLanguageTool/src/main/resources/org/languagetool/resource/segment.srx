@@ -4249,7 +4249,16 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <languagerule languagerulename="Catalan">
 <!-- initials: A. C. Jones -->
 <rule break="no">
-<beforebreak>\b[A-Z]\.\s</beforebreak>
+<beforebreak>\b[A-ZÀÉÈÍÓÒÚ]\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!-- Solve problem with apostrophe before last word of sentence (why this happens?)-->
+<rule break="yes">
+<beforebreak>\b[ldmtsnLDMTSN]'[\p{L}]{2,}\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="yes">
+<beforebreak>\b[ldmtsnLDMTSN]'[\p{Ll}]\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <!-- Abbreviations that cannot finish sentences-->
@@ -4285,6 +4294,11 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <!-- Units -->
 <rule break="no">
 <beforebreak>\b([Pp]ta[s]?|K[gm][s]|[mc]?[gmls]|[Hh](rs)?)\.[\p{Pe}\p{Pf}\p{Pd}"']*\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- Ellipsis: ... lowercase -->
+<rule break="no">
+<beforebreak>\b(\Q...\E|…)\s</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
 <!-- (enum...) -->

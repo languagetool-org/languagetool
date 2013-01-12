@@ -35,10 +35,12 @@ public class CatalanSentenceTokenizerTest extends TestCase {
 
 		// Initials
 		testSplit(new String[] { "A l'atenció d'A. Comes." });
+		testSplit(new String[] { "A l'atenció d'À. Comes." });
 
 		// Ellipsis
 		testSplit(new String[] { "Desenganyeu-vos… ",
 				"L’únic problema seriós de l'home en aquest món és el de subsistir." });
+		testSplit(new String[] { "és clar… traduir és una feina endimoniada" });
 		
 		// Abbreviations
 		testSplit(new String[] { "Viu al núm. 24 del carrer de l'Hort." });
@@ -46,6 +48,10 @@ public class CatalanSentenceTokenizerTest extends TestCase {
 		testSplit(new String[] { "Distingit Sr. Joan," });
 		testSplit(new String[] { "Molt Hble. Sr. President" });
 
+		// A problem solved
+		testSplit(new String[] { "El pou d'Avall. ", "És bonic." }); 
+		testSplit(new String[] { "El pou d’Avall. ", "És bonic." });
+		testSplit(new String[] { "Ell viu a l'u. ", "Jo al dos." });
 	}
 
 	private void testSplit(final String[] sentences) {
