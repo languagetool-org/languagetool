@@ -171,10 +171,8 @@ public final class JLanguageTool {
    * Create a JLanguageTool and setup the built-in rules appropriate for the
    * given language.
    * 
-   * @param language
-   *          the language to be used.
-   * @param motherTongue
-   *          the user's mother tongue or <code>null</code>. The mother tongue
+   * @param language the language to be used.
+   * @param motherTongue the user's mother tongue or <code>null</code>. The mother tongue
    *          may also be used as a source language for checking bilingual texts.
    *          
    * @throws IOException
@@ -202,8 +200,7 @@ public final class JLanguageTool {
   /**
    * The grammar checker needs resources from following
    * directories:
-   * 
-   * <ul style="list-type: circle">
+   * <ul>
    * <li>{@code /resource}</li>
    * <li>{@code /rules}</li>
    * </ul>
@@ -217,17 +214,17 @@ public final class JLanguageTool {
    * @since 1.0.1
    */
   public static synchronized ResourceDataBroker getDataBroker() {
-	  if (JLanguageTool.dataBroker == null) {
-		  JLanguageTool.dataBroker = new DefaultResourceDataBroker();
-	  }
-	  return JLanguageTool.dataBroker;
+    if (JLanguageTool.dataBroker == null) {
+      JLanguageTool.dataBroker = new DefaultResourceDataBroker();
+    }
+    return JLanguageTool.dataBroker;
   }
   
   /**
    * The grammar checker needs resources from following
    * directories:
    * 
-   * <ul style="list-type: circle">
+   * <ul>
    * <li>{@code /resource}</li>
    * <li>{@code /rules}</li>
    * </ul>
@@ -238,7 +235,7 @@ public final class JLanguageTool {
    * @since 1.0.1
    */
   public static synchronized void setDataBroker(ResourceDataBroker broker) {
-	  JLanguageTool.dataBroker = broker;
+    JLanguageTool.dataBroker = broker;
   }
 
   /**
@@ -270,8 +267,18 @@ public final class JLanguageTool {
    */
   private static ResourceBundle getMessageBundle(final Language lang) {
     try {
-      final ResourceBundle bundle = ResourceBundle.getBundle("org.languagetool.MessagesBundle", 
-              lang.getLocale());
+      ResourceBundle bundle = ResourceBundle.getBundle("org.languagetool.MessagesBundle", lang.getLocaleWithCountry());
+      if (!isValidBundleFor(lang, bundle)) {
+        bundle = ResourceBundle.getBundle("org.languagetool.MessagesBundle", lang.getLocale());
+        if (!isValidBundleFor(lang, bundle)) {
+          // happens if 'xx' is requested but only a MessagesBundle_xx_YY.properties exists:
+          final Language defaultVariant = lang.getDefaultVariant();
+          if (defaultVariant != null && defaultVariant.getCountryVariants().length > 0) {
+            final Locale locale = new Locale(defaultVariant.getShortName(), defaultVariant.getCountryVariants()[0]);
+            bundle = ResourceBundle.getBundle("org.languagetool.MessagesBundle", locale);
+          }
+        }
+      }
       final ResourceBundle fallbackBundle = ResourceBundle.getBundle(
           "org.languagetool.MessagesBundle", Locale.ENGLISH);
       return new ResourceBundleWithFallback(bundle, fallbackBundle);
@@ -279,6 +286,10 @@ public final class JLanguageTool {
       return ResourceBundle.getBundle(
           "org.languagetool.MessagesBundle", Locale.ENGLISH);
     }
+  }
+
+  private static boolean isValidBundleFor(final Language lang, final ResourceBundle bundle) {
+    return lang.getLocale().getLanguage().equals(bundle.getLocale().getLanguage());
   }
 
   private Rule[] getAllBuiltinRules(final Language language, final ResourceBundle messages) {
@@ -854,7 +865,7 @@ public final class JLanguageTool {
     for (final Rule rule : rules) {
       rule.reset();
       if (!disabledRules.contains(rule.getId())) {
-    	  rulesActive.add(rule);
+        rulesActive.add(rule);
       }
     }    
     return rulesActive;
@@ -879,18 +890,18 @@ public final class JLanguageTool {
    * @param f - the file to be added.
    */
   public static void addTemporaryFile(final File f) {
-	  temporaryFiles.add(f);
+    temporaryFiles.add(f);
   }
   
   /**
    * Clean up all temporary files, if there are any.
    */
   public static void removeTemporaryFiles() {
-	  if (!temporaryFiles.isEmpty()) {
-		  for (File f : temporaryFiles) {
-			  f.delete();
-		  }
-	  }
+    if (!temporaryFiles.isEmpty()) {
+      for (File f : temporaryFiles) {
+        f.delete();
+      }
+    }
   }
 
 }

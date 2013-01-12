@@ -208,10 +208,22 @@ public abstract class Language {
   // -------------------------------------------------------------------------
 
   /**
-   * Get this language's Java locale.
+   * Get this language's Java locale, not considering the country code.
    */
   public Locale getLocale() {
     return new Locale(getShortName());
+  }
+
+  /**
+   * Get this language's Java locale, considering language code and country code (if any).
+   * @since 2.1
+   */
+  public Locale getLocaleWithCountry() {
+    if (getCountryVariants().length > 0) {
+      return new Locale(getShortName(), getCountryVariants()[0]);
+    } else {
+      return getLocale();
+    }
   }
 
   /**
