@@ -43,6 +43,12 @@ public class AccentuationCheckRuleTest extends TestCase {
   public void testRule() throws IOException {
 
     // correct sentences:
+	assertCorrect("Vaig perdut, tremolo de por.");
+	assertCorrect("l'home marra el camí");
+	assertCorrect("veié que darrere venia el deixeble");
+	assertCorrect("Però el qui begui de l'aigua");
+	assertCorrect("a qualsevol qui en mati un altre");
+	assertCorrect("tu que prediques de no robar");
 	assertCorrect("els següents territoris externs habitats:");
 	assertCorrect("Cap faria una cosa així.");
 	assertCorrect("El cos genera suficient pressió interna.");

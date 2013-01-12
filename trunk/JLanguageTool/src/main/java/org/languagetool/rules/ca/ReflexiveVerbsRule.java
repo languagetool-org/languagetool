@@ -507,7 +507,7 @@ public class ReflexiveVerbsRule extends CatalanRule {
 								&& matchRegexp(tokens[i - j].getToken(), REFLEXIU_ANTEPOSAT))
 							return true;
 						keepCounting = matchPostagRegexp(tokens[i - j], PREP_VERB_PRONOM)
-								&& !matchPostagRegexp(tokens[i - j], VERB_PARTICIPI)
+								&& !(j>k-1 && matchPostagRegexp(tokens[i - j], VERB_PARTICIPI))
 								&& !matchPostagRegexp(tokens[i - j], TRENCA_COMPTE2);
 						if (tokens[i-j].getToken().equalsIgnoreCase("per")
 								&& tokens[i-j+1].getToken().equalsIgnoreCase("a"))

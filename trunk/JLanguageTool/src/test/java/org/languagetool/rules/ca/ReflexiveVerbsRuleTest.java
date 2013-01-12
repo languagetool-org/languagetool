@@ -48,6 +48,7 @@ public class ReflexiveVerbsRuleTest extends TestCase {
 		//assertCorrect("les circumstàncies m'obliguen a gloriar-me"); Cal buscar la concordança amb (m')
 		//assertCorrect("es van agenollar i prosternar");
 		//assertCorrect("per a portar-te aigua");
+		assertCorrect("no m'he pogut endur l'espasa");
 		assertCorrect("i de venir-vos a trobar");
 		assertCorrect("el sol s'havia post, li anaven portant tots els malalts");
 		assertCorrect("que no em caigui la casa");

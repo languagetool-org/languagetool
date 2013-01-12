@@ -73,12 +73,14 @@ public class AccentuationCheckRule extends CatalanRule {
   private static final Pattern ADJECTIU_FP = Pattern.compile("AQ.[FC][PN].*|V.P..PF|PX.FP.*");
   private static final Pattern INFINITIU = Pattern.compile("V.N.*");
   private static final Pattern VERB_CONJUGAT = Pattern.compile("V.[^NGP].*|_GV_");
+  private static final Pattern VERB_3S = Pattern.compile("V...3S.");
   private static final Pattern NOT_IN_PREV_TOKEN = Pattern.compile("VA.*|PP.*|P0.*|VSP.*");
   private static final Pattern BEFORE_ADJECTIVE_MS = Pattern.compile("SPS00|D[^R].[MC][SN].*|V.[^NGP].*|PX.*");
   private static final Pattern BEFORE_ADJECTIVE_FS = Pattern.compile("SPS00|D[^R].[FC][SN].*|V.[^NGP].*|PX.*");
   private static final Pattern BEFORE_ADJECTIVE_MP = Pattern.compile("SPS00|D[^R].[MC][PN].*|V.[^NGP].*|PX.*");
   private static final Pattern BEFORE_ADJECTIVE_FP = Pattern.compile("SPS00|D[^R].[FC][PN].*|V.[^NGP].*|PX.*");
   private static final Pattern GN = Pattern.compile("_GN_.*");
+  private static final Pattern EXCEPCIONS_DARRERE_DE = Pattern.compile("manera|por|costat",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
       
   private final Map<String, AnalyzedTokenReadings> relevantWords;
   private final Map<String, AnalyzedTokenReadings> relevantWords2;
@@ -121,10 +123,10 @@ public class AccentuationCheckRule extends CatalanRule {
       if (i < tokens.length-1) {
         nextToken = tokens[i+1].getToken();
       }
-      /*String nextNextToken="";
+      String nextNextToken="";
       if (i < tokens.length-2) {
         nextNextToken = tokens[i+2].getToken();
-      }*/
+      }
       boolean isRelevantWord = false;
       boolean isRelevantWord2 = false;
       if (StringTools.isEmpty(token)) {
@@ -139,16 +141,17 @@ public class AccentuationCheckRule extends CatalanRule {
 
       String replacement = null;
       final Matcher mPreposicioDE = PREPOSICIO_DE.matcher(nextToken);
+      final Matcher mExcepcionsDE = EXCEPCIONS_DARRERE_DE.matcher(nextNextToken);
       final Matcher mArticleELMS = ARTICLE_EL_MS.matcher(prevToken);
       final Matcher mArticleELFS = ARTICLE_EL_FS.matcher(prevToken);
       final Matcher mArticleELMP = ARTICLE_EL_MP.matcher(prevToken);
       final Matcher mArticleELFP = ARTICLE_EL_FP.matcher(prevToken);
 
-      // verb without accent -> noun with accent   
+      // VERB WITHOUT ACCENT -> NOUN WITH ACCENT   
       if (isRelevantWord && !matchPostagRegexp(tokens[i],GN))
       {
       	//amb renuncies
-        if (tokens[i-1].hasPosTag("SPS00") && !matchPostagRegexp(tokens[i-1],DETERMINANT) && !matchPostagRegexp(tokens[i],INFINITIU) )
+        if (tokens[i-1].hasPosTag("SPS00") && !tokens[i-1].hasPosTag("RG") && !matchPostagRegexp(tokens[i-1],DETERMINANT) && !matchPostagRegexp(tokens[i],INFINITIU) )
       	{
       		replacement = relevantWords.get(token).getToken();
       	}
@@ -172,12 +175,14 @@ public class AccentuationCheckRule extends CatalanRule {
       	{
       		replacement = relevantWords.get(token).getToken();
       	}    
-      	//circumstancies d'un altre caire
+      	//circumstancies d'una altra classe
       	else if  ( !token.equals("venia") && !token.equals("venies") && !token.equals("tenia") && !token.equals("tenies")
       			   && !token.equals("faria") && !token.equals("faries")
       	           && !token.equals("continua") && !token.equals("continues") && !token.equals("cantar")
+      	           && !prevToken.equals("que") && !prevToken.equals("qui") && !prevToken.equals("què")
       	           && mPreposicioDE.matches() && !matchPostagRegexp(tokens[i-1],NOT_IN_PREV_TOKEN)
       	           && (i<tokens.length-2) && !matchPostagRegexp(tokens[i+2],INFINITIU)
+      	           && !mExcepcionsDE.matches()
       	           && !tokens[i-1].hasPosTag("RG") )
       	{
       		replacement = relevantWords.get(token).getToken();
@@ -236,11 +241,11 @@ public class AccentuationCheckRule extends CatalanRule {
       	}
       }
 
-      // verb without accent -> adjective with accent
+      // VERB WITHOUT ACCENT -> ADJECTIVE WITH ACCENT
       if (isRelevantWord2 && !matchPostagRegexp(tokens[i],GN))
       {
       	 // de manera obvia, circumstàncies extraordinaries.
-         if (    (matchPostagRegexp(relevantWords2.get(token),ADJECTIU_MS) && matchPostagRegexp(tokens[i-1],NOM_MS) && !tokens[i-1].hasPosTag("_GN_FS") && matchPostagRegexp(tokens[i],VERB_CONJUGAT) )
+         if (    (matchPostagRegexp(relevantWords2.get(token),ADJECTIU_MS) && matchPostagRegexp(tokens[i-1],NOM_MS) && !tokens[i-1].hasPosTag("_GN_FS") && matchPostagRegexp(tokens[i],VERB_CONJUGAT) && !matchPostagRegexp(tokens[i],VERB_3S) )
       	     || (matchPostagRegexp(relevantWords2.get(token),ADJECTIU_FS) && prevPrevToken.equalsIgnoreCase("de") && (prevToken.equals("manera")||prevToken.equals("forma")) )
       	     || (matchPostagRegexp(relevantWords2.get(token),ADJECTIU_MP) && matchPostagRegexp(tokens[i-1],NOM_MP))
       	     || (matchPostagRegexp(relevantWords2.get(token),ADJECTIU_FP) && matchPostagRegexp(tokens[i-1],NOM_FP))
