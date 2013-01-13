@@ -72,10 +72,10 @@ public class AnalyzedTokenReadingsTest extends TestCase {
   
   public void testToString() {
       AnalyzedTokenReadings tokenReadings = new AnalyzedTokenReadings(new AnalyzedToken("word", "POS", "lemma"));
-      assertEquals(tokenReadings.toString(), "word[lemma/POS]");
+      assertEquals(tokenReadings.toString(), "word[lemma/POS*]");
       AnalyzedToken aTok2 = new AnalyzedToken("word", "POS2", "lemma2");
       tokenReadings.addReading(aTok2);
-      assertEquals(tokenReadings.toString(), "word[lemma/POS,lemma2/POS2]");
+      assertEquals(tokenReadings.toString(), "word[lemma/POS*,lemma2/POS2*]");
   }
 
   public void testHasPosTag() {
