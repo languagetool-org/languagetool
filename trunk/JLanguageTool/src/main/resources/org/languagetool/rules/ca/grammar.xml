@@ -8959,8 +8959,7 @@ $Id$
                 </pattern>
                 <message>Sobra un espai: <suggestion><match no="1" /><match no="2" /><match no="3" /></suggestion>.</message>
                 <short>Sobra un espai</short>
-                <example type="incorrect"><marker>L' home</marker>.</example>
-                <example type="correct"><marker>L'home</marker>.</example>
+                <example type="incorrect" correction="l'home">A <marker>l' home</marker>.</example>
                 <example type="correct">que faria campanya pel 'no' a la independència.</example>
             </rule>
             <rule>
@@ -8971,9 +8970,36 @@ $Id$
                 </pattern>
                 <message>Sobra un espai: <suggestion><match no="1" /><match no="2" /><match no="3" /></suggestion>.</message>
                 <short>Sobra un espai</short>
-                <example type="incorrect"><marker>L 'home</marker>.</example>
-                <example type="correct"><marker>L'home</marker>.</example>
+                <example type="incorrect" correction="l'home">A <marker>l 'home</marker>.</example>
                 <example type="correct">que faria campanya pel 'no' a la independència.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token regexp="yes">[ldmnst]</token>
+                        <token>'</token>
+                        <token spacebefore="yes"></token>
+                    </marker>
+                </pattern>
+                <message>Sobra un espai: <suggestion><match no="2" /><match no="3" /><match no="4" /></suggestion>.</message>
+                <short>Sobra un espai</short>
+                <example type="incorrect" correction="L'home"><marker>L' home</marker>.</example>
+                <example type="correct">Del 'no' a la independència.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token regexp="yes">[ldmnst]</token>
+                        <token spacebefore="yes">'</token>
+                        <token></token>
+                    </marker>
+                </pattern>
+                <message>Sobra un espai: <suggestion><match no="2" /><match no="3" /><match no="4" /></suggestion>.</message>
+                <short>Sobra un espai</short>
+                <example type="incorrect" correction="L'home"><marker>L 'home</marker>.</example>
+                <example type="correct">El 'no' a la independència.</example>
             </rule>
             <rule>
                 <pattern>
