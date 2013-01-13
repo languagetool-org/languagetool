@@ -286,13 +286,17 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="DUNE_DE_SABLE" name="dune de sable">
       <pattern>
-        <token regexp="yes" skip="2">dunes?</token>
-        <token>de</token>
-        <token>sable</token>
+        <marker>
+          <token regexp="yes">dunes?</token>
+          <token>de</token>
+          <token>sable</token>
+        </marker>
+        <token><exception regexp="yes">blanc|noir</exception></token>
       </pattern>
       <message>« Dune de sable » est un pléonasme. Employez <suggestion>\1</suggestion>.</message>
-      <example type="correct"><marker>dune</marker></example>
-      <example type="incorrect"><marker>dune de sable</marker></example>
+      <example type="incorrect">Une <marker>dune de sable</marker>.</example>
+      <example type="correct">Une dune.</example>
+      <example type="correct">Une dune de sable blanc.</example>
     </rule>
     <rule id="PANACEE_UNIVERSELLE" name="panacée universelle">
       <pattern>
@@ -687,7 +691,7 @@ though, and has since been slightly modified)-->
             <token regexp="yes">[nv]otres?</token>
           </marker>
         </pattern>
-        <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="o" regexp_replace="ô"/></suggestion></message>
+        <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="o" regexp_replace="ô"/></suggestion> ?</message>
         <example type="incorrect" correction="nôtre">C’est le <marker>notre</marker>.</example>
         <example type="correct">C’est le nôtre.</example>
       </rule>
@@ -698,7 +702,7 @@ though, and has since been slightly modified)-->
             <token regexp="yes">[nv]ôtres?</token>
           </marker>
         </pattern>
-        <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="ô" regexp_replace="o"/></suggestion></message>
+        <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="ô" regexp_replace="o"/></suggestion> ?</message>
         <example type="incorrect" correction="notre">C’est <marker>nôtre</marker> mère.</example>
         <example type="correct">C’est <marker>notre</marker> mère.</example>
       </rule>
@@ -1991,7 +1995,7 @@ though, and has since been slightly modified)-->
             <token>ensembles</token>
           </marker>
         </pattern>
-        <message>L’adverbe « \2 » est invariable. Voulez-vous écrire <suggestion>ensemble</suggestion></message>
+        <message>L’adverbe « \2 » est invariable. Voulez-vous écrire <suggestion>ensemble</suggestion> ?</message>
         <example type="incorrect">Ils partent <marker>ensembles</marker> à la montagne.</example>
         <example type="correct">Ils partent <marker>ensemble</marker> à la montagne.</example>
       </rule>
@@ -2003,7 +2007,7 @@ though, and has since been slightly modified)-->
             <token>ensembles</token>
           </marker>
         </pattern>
-        <message>L’adverbe « \2 » est invariable. Voulez-vous écrire <suggestion>ensemble</suggestion></message>
+        <message>L’adverbe « \2 » est invariable. Voulez-vous écrire <suggestion>ensemble</suggestion> ?</message>
         <example type="incorrect">Ils partent toujours <marker>ensembles</marker> à la montagne.</example>
         <example type="correct">Ils partent toujours <marker>ensemble</marker> à la montagne.</example>
       </rule>
@@ -22251,7 +22255,7 @@ though, and has since been slightly modified)-->
         <token>comme</token>
       </pattern>
       <message>« \1 \2 » est une expression fautive. Employez <suggestion>\1 à</suggestion>.</message>
-      <example type="incorrect"><marker>pareil comme</marker></example>
+      <example type="incorrect" correction="pareil à"><marker>pareil comme</marker></example>
       <example type="correct"><marker>pareil à</marker></example>
     </rule>
     <rule id="PAREIL_QUE" name="pareil que">
@@ -22796,8 +22800,8 @@ though, and has since been slightly modified)-->
             </token>
           </marker>
         </pattern>
-        <message>Les noms de langues n’ont pas de majuscule en français.</message>
-        <example type="incorrect">Mon professeur d’<marker>Anglais</marker> est Irlandais.</example>
+        <message>Les noms de langues n’ont pas de majuscule en français. Voulez-vous écrire <suggestion><match no="2" case_conversion="startlower"/></suggestion> ?</message>
+        <example type="incorrect" correction="anglais">Mon professeur d’<marker>Anglais</marker> est Irlandais.</example>
         <example type="correct">Mon professeur d’anglais est Irlandais.</example>
         <example type="correct">Je parle anglais mais je ne suis pas Anglais.</example>
       </rule>
@@ -22808,8 +22812,8 @@ though, and has since been slightly modified)-->
             <token regexp="yes">(?-i)Afrikaans|Albanais|Allemand|Alsacien|Anglais|Arabe|Aragonais|Aroumain|Arménien|Asturien|Awadhi|Basque|Bengali|Biélorusse|Birman|Bhojpuri|Bosniaque|Breton|Bulgare|Cantonais|Catalan|Chamorro|Cherokee|Chinois|Cornique|Coréen|Croate|Danois|Divehi|Écossais|Espagnol|Espéranto|Estonien|Féroïen|Farsi|[FP]ilipino|Finnois|Flamand|Français|Frison|Galicien|Gallois|Gaulois|Géorgien|Grec|Gujarati|Hakka|Haoussa|Hawaïen|Hébreu|Hindi|Hmong|Hollandais|Hongrois|Javanais|Ido|Indonésien|Interlingua|Islandais|Italien|Irlandais|Japonais|Jinyu|Kanna[dr]a|Kazakh|Kigongo|Klingon|Khmer|Kurde|Ladino|Laotien|Latin|Ligurien|Limbourgeois|Lituanien|Lojban|Lombard|Luxembourgeois|Macédonien|Maithili|Malais|Malayalam|Maldivien|Malgache|Maltais|Mandarin|Mannois|Maori|Marathi|Marwari|Moldave|Mongol|Mooré|Napolitain|Néerlandais|Norvégien|Occitan|Oriya|Ourdou|Ouzbek|Persan|Peul|Piémontais|Polonais|Portugais|Provençal|Quechua|Romanche|Roumain|Russe|Sans[ck]rit|Sarde|Serbe|Sicilien|Sindhi|Slovaque|Slovène|Soundanais|Sorabe|Suédois|Swahili|Tagalog|Tahitien|Tamoul|Tatar|Tchèque|Télogou|Thaï|Turc|Ukrainien|Vénitien|Vietnamien|Volapük|Wallon|Wo?u|Yiddish|Xhosa|Xiang|Zoulou</token>
           </marker>
         </pattern>
-        <message>Les noms de langues n’ont pas de majuscule en français.</message>
-        <example type="incorrect">Avez-vous un guide touristique en <marker>Français</marker> ?</example>
+        <message>Les noms de langues n’ont pas de majuscule en français. Voulez-vous écrite <suggestion><match no="2" case_conversion="startlower"/></suggestion> ?</message>
+        <example type="incorrect" correction="français">Avez-vous un guide touristique en <marker>Français</marker> ?</example>
         <example type="correct">Avez-vous un guide touristique en <marker>français</marker> ?</example>
         <example type="correct">Napoléon est né en Corse.</example>
       </rule>
@@ -22833,17 +22837,17 @@ though, and has since been slightly modified)-->
           <marker>
             <token regexp="yes">(?-iu:(afghan|algérien|arménien|australien|autrichien|bahaméen|bahreïnien|barbadien|bélizien|breton|bolivien|bosnien|brésilien|brunéien|cambodgien|canadien|capverdien|chilien|colombien|comorien|costaricien|djiboutien|équatorien|équato-guinéen|érythréen|estonien|états-?unien|étasunien|éthiopien|fidjien|gambien|guyanien|haïtien|hondurien|indien|ivoirien|égyptien|ghanéen|géorgien|guadeloupéen|grenadien|guinéen|indonésien|irakien|italien|iranien|israélien|jordanien|koweïtien|laotien|letton|libérien|lituanien|libyen|macédonien|malaisien|maldivien|malien|mauricien|mauritanien|namibien|nicaraguayen|nord-coréen|niouéen|nigérien|norvégien|micronésien|palestinien|panaméen|papouasien|paraguayen|parisien|péruvien|polynésien|qatarien|saint-lucien|salvadorien|santoméen|saoudien|singapourien|somalien|sud-coréen|surinamien|syrien|tahitien|tanzanien|tchadien|tonguien|trinidadien|tunisien|ukrainien|uruguayen|vénézuélien|vietnamien|zambien|zimbabwéen)(s|nes?)?|(albanais|allemand|angolais|anglais|antiguais|azerbaïdjanais|bâlois|bangladais|béninois|bhoutanais|bordelais|birman|botswanais|brestois|bruxellois|burkinais|burundais|camerounais|chinois|congolais|danois|dominiquais|finlandais|français|gabonais|genévois|hollandais|hongrois|indochinois|irlandais|islandais|lapon|libanais|liechtensteinois|lillois|luxembourgeois|japonais|lyonnais|maltais|marseillais|marshallais|myanmarais|nantais|nauruan|néerlandais|néo-zélandais|népalais|omanais|ougandais|pakistanais|paluan|polonais|portugais|rwandais|sénégalais|soudanais|srilankais|suédois|strasbourgeois|seychellois|taïwanais|thaïlandais|togolais|zaïrois|zurichois)(es)?|(andorran|américain|argentin|burkinab[èé]|centrafricain|cubain|dominicain|espagnol|jamaïcain|kényan|kosovar|maori|marocain|mexicain|mongol|monpelliérain|monténégrin|mozambicain|omani|philippin|roumain|sud-africain|toulousain|tuvaluan)e?s?|(basque|belge|biélorusse|britannique|bulgare|chypriote|corse|croate|guatémaltèque|malgache|malawite|moldave|monégasque|russe|slovaque|slovène|suisse|scandinave|serbe|soviétique|tchèque|turkmène|yéménite|yougoslave)s?|bahreïni|émirati|formosan|grec(que)?s?|bissau|kazakhs?|sothos|ouzbeks?|qatariotes?|swazi|tadjiks?|turcs?|turques?|vanuatuan)</token>
           </marker>
-          <token><exception regexp="yes">approximatif|correct|courant|parfait|fluide|facile|universel</exception></token>
+          <token><exception regexp="yes">approximatif|argotique|correct|courant|facile|fluide|littéraire|parfait|universel</exception></token>
         </pattern>
-        <message>Les gentilés (noms des habitants) ont une majuscule (mais pas les noms des langues).</message>
+        <message>Les gentilés (noms des habitants) ont une majuscule (mais pas les noms des langues). Voulez-vous écrire <suggestion><match no="2" case_conversion="startupper"/></suggestion> ?</message>
         <url>http://www.academie-francaise.fr/la-langue-francaise/questions-de-langue#6_strong-em-adjectif-ou-nom-de-nationalit-il-est-franais-ou-il-est-franais-em-strong</url>
-        <example type="incorrect">Je travaille en anglais avec des <marker>anglais</marker>.</example>
-        <example type="incorrect">Je travaille en anglais avec des <marker>anglaises</marker>.</example>
+        <example type="incorrect" correction="Anglais">Je travaille en anglais avec des <marker>anglais</marker>.</example>
+        <example type="incorrect" correction="Anglaises">Je travaille en anglais avec des <marker>anglaises</marker>.</example>
         <example type="correct">Je travaille en anglais avec des Anglais.</example>
         <example type="correct">Je travaille en anglais avec des Anglaises.</example>
         <example type="correct">Même les Français ont un français qui est loin d’être parfait.</example>
         <example type="correct">Écrit dans un anglais facile</example>
-        <example type="incorrect">Les <marker>américaines</marker> aiment venir ici.</example>
+        <example type="incorrect" correction="Américaines">Les <marker>américaines</marker> aiment venir ici.</example>
         <example type="correct">Les <marker>Américaines</marker> aiment venir ici.</example>
         <example type="correct">Le numéro un <marker>français</marker> a gagné à Roland-Garos aujourd’hui.</example>
         <example type="correct">Il s’est exprimé dans un français approximatif.</example>
