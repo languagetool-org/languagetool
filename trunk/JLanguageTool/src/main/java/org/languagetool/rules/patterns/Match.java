@@ -170,8 +170,8 @@ public class Match {
         formattedToken = null;
       }
       for (int k = index + 1; k < index + next; k++) {
-        if (k > index + 1 && 
-            tokens[k].isWhitespaceBefore()) {
+        if (tokens[k].isWhitespaceBefore()
+        		&& !(k==index+1 && includeSkipped == IncludeRange.FOLLOWING)) {
           sb.append(' ');
         }
         sb.append(tokens[k].getToken());

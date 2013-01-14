@@ -228,16 +228,14 @@ public class MatchTest extends TestCase {
 	public void testIncludeAll() throws Exception {
 		Match match = getMatch(null, null, Match.IncludeRange.ALL);
 		match.setToken(getAnalyzedTokenReadings("inflectedform11 inflectedform2 inflectedform122 inflectedform122"), 1, 3);
-		assertEquals("[inflectedform11inflectedform2 inflectedform122]", Arrays.toString(match.toFinalString(null)));
-		// the first two tokens come together, it is a known issue
+		assertEquals("[inflectedform11 inflectedform2 inflectedform122]", Arrays.toString(match.toFinalString(null)));
 	}
 
 	public void testPOSIncludeAll() throws Exception {
 		Match match = getMatch("POS1", "POS3", Match.IncludeRange.ALL); 
 		match.setToken(getAnalyzedTokenReadings("inflectedform11 inflectedform2 inflectedform122 inflectedform122"), 1, 3);
-		assertEquals("[inflectedform123inflectedform2 inflectedform122]", Arrays.toString(match.toFinalString(null)));
+		assertEquals("[inflectedform123 inflectedform2 inflectedform122]", Arrays.toString(match.toFinalString(null)));
 		// Note that in this case the first token has the requested POS (POS3 replaces POS1)
-		// the first two tokens come together, it is a known issue. 
 	}
 	
 	// TODO ad tests for using Match.IncludeRange with {@link Match#staticLemma}

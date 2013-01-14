@@ -335,7 +335,7 @@ $Id$
     		<token>end</token>
     	</pattern>
     	<message>Warning: <suggestion><match no="1" include_skipped="all"></match> xyz</suggestion></message>
-    	<example type="incorrect" correction="abcdef ghi xyz">This is <marker>abc def ghi end</marker>.</example>
+    	<example type="incorrect" correction="abc def ghi xyz">This is <marker>abc def ghi end</marker>.</example>
     	<example type="correct">foobar</example>
     </rule>
     <rule id="test_unification_skipping" name="Test unification and skipping"> 
@@ -350,9 +350,9 @@ $Id$
     </pattern>
     <message>This is not visible anyway<suggestion><match no="2" include_skipped="all"></match></suggestion>.</message>
     <example type="incorrect" correction="Abc">This is <marker>Test1 Abc Xyz end</marker>.</example>
-    <example type="incorrect" correction="AbcDef">This is <marker>Test1 Abc Def Xyz end</marker>.</example>
+    <example type="incorrect" correction="Abc Def">This is <marker>Test1 Abc Def Xyz end</marker>.</example>
     <!-- skipped elements are NOT unified -->
-    <example type="incorrect" correction="Abcdef">This is <marker>Test1 Abc def Xyz end</marker>.</example>
+    <example type="incorrect" correction="Abc def">This is <marker>Test1 Abc def Xyz end</marker>.</example>
     <example type="correct">This is Test1 abc Cde End.</example>
     </rule>
     <rulegroup id="test_spacebefore" name="Test spacebefore on exceptions">
