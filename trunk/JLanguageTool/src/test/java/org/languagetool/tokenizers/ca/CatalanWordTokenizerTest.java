@@ -39,6 +39,10 @@ public class CatalanWordTokenizerTest extends TestCase {
     assertEquals(tokens.size(), 6);
     assertEquals("[N', hi,  , ha,  , vint-i-quatre]",
             tokens.toString());
+    tokens = wordTokenizer.tokenize("Mont-ras");
+    assertEquals(tokens.size(), 1);
+    assertEquals("[Mont-ras]",
+            tokens.toString());
   }
 
 }

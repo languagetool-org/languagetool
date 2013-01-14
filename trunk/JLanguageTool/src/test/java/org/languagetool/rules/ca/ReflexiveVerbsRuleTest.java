@@ -47,7 +47,12 @@ public class ReflexiveVerbsRuleTest extends TestCase {
 		//assertCorrect("la festa de Rams es commemora anant a l'església a beneir el palmó");
 		//assertCorrect("les circumstàncies m'obliguen a gloriar-me"); Cal buscar la concordança amb (m')
 		//assertCorrect("es van agenollar i prosternar");
-		//assertCorrect("per a portar-te aigua");
+		assertCorrect("m'aniria bé probablement posar els quilos");
+		assertCorrect("per a portar-te aigua");
+		assertCorrect("que no em costi d'anar al llit");
+		assertCorrect("el senyor Colomines s'anà progressivament reposant");
+		assertCorrect("en sentir els plors s'encongeix automàticament,");
+		assertCorrect("La penya de l'Ateneu es va de mica en mica reconstruint");
 		assertCorrect("no m'he pogut endur l'espasa");
 		assertCorrect("i de venir-vos a trobar");
 		assertCorrect("el sol s'havia post, li anaven portant tots els malalts");

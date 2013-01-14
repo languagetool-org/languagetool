@@ -41,6 +41,8 @@ public class CatalanSentenceTokenizerTest extends TestCase {
 		testSplit(new String[] { "Desenganyeu-vos… ",
 				"L’únic problema seriós de l'home en aquest món és el de subsistir." });
 		testSplit(new String[] { "és clar… traduir és una feina endimoniada" });
+		testSplit(new String[] { "«El cordó del frare…» surt d'una manera desguitarrada" });
+		testSplit(new String[] { "convidar el seu heroi –del ram que sigui–… a prendre cafè." });	
 		
 		// Abbreviations
 		testSplit(new String[] { "Viu al núm. 24 del carrer de l'Hort." });

@@ -62,10 +62,13 @@ public class CatalanTagger extends BaseTagger {
 			morfologik = new DictionaryLookup(Dictionary.read(url));
 		}
 		final String lowerWord = word.toLowerCase(plLocale);
-		final List<WordData> posTagsFromDict = morfologik.lookup(lowerWord);
+		List<WordData> posTagsFromDict = morfologik.lookup(lowerWord);
 		if (posTagsFromDict.isEmpty())
-			return false;
-		else
-			return true;
+		{
+			posTagsFromDict = morfologik.lookup(word);
+			if (posTagsFromDict.isEmpty())
+				return false;
+		}
+		return true;
 	}
 }
