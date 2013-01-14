@@ -21426,6 +21426,22 @@ though, and has since been slightly modified)-->
         <example type="correct">J’ai un chien, un chat, un lapin, etc.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="HEURES" name="heures 20h30 → 20 h 30">
+      <rule>
+        <pattern><token regexp="yes">(?:1?\d|2[0-3])h(?:[0-5]?\d)</token></pattern>
+        <message>La lettre h doit être espacée das les heures abrégées. Voulez-vous écrire <suggestion><match no="1" regexp_match="(\d+)h(\d+)" regexp_replace="$1 h $2"/></suggestion>?</message>
+        <url>https://fr.wikipedia.org/wiki/Heure#Typographie</url>
+        <example type="incorrect" correction="20 h 30">Il est <marker>20h30</marker>.</example>
+        <example type="correct">Il est <marker>20 h 30</marker>.</example>
+      </rule>
+      <rule>
+        <pattern><token regexp="yes">(?:1?\d|2[0-3])h</token></pattern>
+        <message>La lettre h doit être espacée das les heures abrégées. Voulez-vous écrire <suggestion><match no="1" regexp_match="(\d+)h" regexp_replace="$1 h"/></suggestion>?</message>
+        <url>https://fr.wikipedia.org/wiki/Heure#Typographie</url>
+        <example type="incorrect" correction="20 h">Il est <marker>20h</marker>.</example>
+        <example type="correct">Il est <marker>20 h</marker>.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category name="Archaïsmes (tours vieillis, anciens et vieux)">
     <!--The following rules were created by Hugo Voisard-->
