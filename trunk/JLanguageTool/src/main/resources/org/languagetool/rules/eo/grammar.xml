@@ -420,7 +420,7 @@ $Id$
         </marker>
         <token/>
       </pattern>
-      <message>Laŭ Revo, «\1 \2 \3 \4» estas evitinda. Preferu la pli simetrian <suggestion>\1 \2 kaj \4</suggestion>.</message>
+      <message>Laŭ Revo, «\1 \2 \3 \4» estas evitinda. Preferu la pli simetrian <suggestion>kaj</suggestion> antataŭ «al».</message>
       <url>http://www.reta-vortaro.de/revo/art/adici.html#adici.0i</url>
       <example type="incorrect">Mi adicias 2 <marker>al</marker> 2.</example>
       <example type="correct">Mi adicias 2 kaj 2.</example>
@@ -1655,7 +1655,7 @@ $Id$
       </pattern>
       <message>Ĉu vi intencis <suggestion>\1 da</suggestion> anstataŭ «\1 de»?</message>
       <url>http://eo.lernu.net/lernado/gramatiko/demandoj/oe-kilogramo_de.php</url>
-      <example type="incorrect">Mi aĉetis kilogramon <marker>de</marker> terpomoj.</example>
+      <example type="incorrect" correction="kilogramon da">Mi aĉetis kilogramon <marker>de</marker> terpomoj.</example>
       <example type="correct">Mi aĉetis kilogramon da terpomoj.</example>
     </rule>
     <rule id="BONVOLU_U" name="bonvolu + u-verbo">
@@ -3655,7 +3655,7 @@ $Id$
         </pattern>
         <message>Ne diru «\1 \2» sed <suggestion>\2 \1</suggestion>.</message>
         <url>http://bertilow.com/pmeg/gramatiko/difiniloj/la/bazaj_reguloj.html</url>
-        <example type="incorrect">Li ronkis dum <marker>tuta la</marker> nokto.</example>
+        <example type="incorrect" correction="la tuta">Li ronkis dum <marker>tuta la</marker> nokto.</example>
         <example type="correct">Li ronkis dum <marker>la tuta</marker> nokto.</example>
       </rule>
       <rule>
@@ -3668,7 +3668,7 @@ $Id$
         </pattern>
         <message>Ne diru «\1 \2» sed <suggestion>\2 \1</suggestion>.</message>
         <url>http://bertilow.com/pmeg/gramatiko/difiniloj/la/bazaj_reguloj.html</url>
-        <example type="incorrect">Li ronkis <marker>tutan la</marker> nokton.</example>
+        <example type="incorrect" correction="la tutan">Li ronkis <marker>tutan la</marker> nokton.</example>
         <example type="correct">Li ronkis <marker>la tutan</marker> nokton.</example>
       </rule>
     </rulegroup>
@@ -3681,11 +3681,11 @@ $Id$
             <token regexp="yes">(?-i)(?:esperanto|gloso|ido)n?</token>
           </marker>
         </pattern>
-        <message>Laŭ la kunteksto, ŝajnas, ke «\2» temas pri propra nomo de lingvo, ĝi tiam bezonas komencan majusklon.</message>
+        <message>Laŭ la kunteksto, ŝajnas, ke «\2» temas pri propra nomo de lingvo, ĝi tiam bezonas komencan majusklon. Ĉu vi intencis skribi <suggestion><match no="2" case_conversion="startupper"/></suggestion>?</message>
         <url>http://bertilow.com/pmeg/gramatiko/propraj_nomoj/majuskloj.html#i-j9t</url>
-        <example type="incorrect">Mi lernas <marker>esperanton</marker>.</example>
+        <example type="incorrect" correction="Esperanton">Mi lernas <marker>esperanton</marker>.</example>
         <example type="correct">Mi lernas <marker>Esperanton</marker>.</example>
-        <example type="incorrect">Tio estas kurso de <marker>esperanto</marker>.</example>
+        <example type="incorrect" correction="Esperanto">Tio estas kurso de <marker>esperanto</marker>.</example>
         <example type="correct">Tio estas kurso de Esperanto.</example>
         <example type="correct">Iu, kiu esperas, estas esperanto.</example>
       </rule>
@@ -3695,9 +3695,9 @@ $Id$
             <token regexp="yes">(?-i)(?:adamitiko|akadono|alevato|ĉenglio|fanagalo|interlingv[ae]o|interlinguo|interpreso|intergloso|gestono|ĥotono|latino|lingvafrankao|loĵbano|loglano|loglio|neo-?(latino|romano)|nov-?latino|novialo|papiamento|sanskrito|solresolo|tokipono|tokpisino|urduo|uropio|volapuko|voksigido)n?</token>
           </marker>
         </pattern>
-        <message>Ŝajnas, ke «\1» temas pri propra nomo de lingvo, ĝi tiam bezonas komencan majusklon.</message>
+        <message>Ŝajnas, ke «\1» temas pri propra nomo de lingvo, ĝi tiam bezonas komencan majusklon. Ĉu vi intencis skribi <suggestion><match no="1" case_conversion="startupper"/></suggestion>?</message>
         <url>http://bertilow.com/pmeg/gramatiko/propraj_nomoj/majuskloj.html#i-j9t</url>
-        <example type="incorrect">Mi lernas <marker>volapukon</marker>.</example>
+        <example type="incorrect" correction="Volapukon">Mi lernas <marker>volapukon</marker>.</example>
         <example type="correct">Mi lernas <marker>Volapukon</marker>.</example>
       </rule>
     </rulegroup>
@@ -3711,9 +3711,9 @@ $Id$
             <token regexp="yes">(?-i)(?:Esperanto|Gloso|Ido)n?</token>
           </marker>
         </pattern>
-        <message>Laŭ la kunteksto, ŝajnas, ke «\2» temas pri lingvonomo. Oni ne metas «la» antaŭ o-vortaj lingvonomoj.</message>
+        <message>Laŭ la kunteksto, ŝajnas, ke <suggestion>\3</suggestion> temas pri propra nomo de lingvo. Oni ne metas «la» antaŭ o-vortaj lingvonomoj.</message>
         <url>http://bertilow.com/pmeg/gramatiko/propraj_nomoj/majuskloj.html#i-j9t</url>
-        <example type="incorrect">Mi lernas <marker>la Esperanton</marker>.</example>
+        <example type="incorrect" correction="Esperanton">Mi lernas <marker>la Esperanton</marker>.</example>
         <example type="correct">Mi lernas <marker>Esperanton</marker>.</example>
       </rule>
       <rule>
@@ -3721,7 +3721,7 @@ $Id$
           <token>la</token>
           <token regexp="yes">(?-i)(?:Adamitiko|Akadono|Alevato|Ĉenglio|Fanagalo|Interlingv[ae]o|Interlinguo|Interpreso|Intergloso|Gestono|Ĥotono|Latino|Lingvafrankao|Loĵbano|Loglano|Loglio|Neo-?(latino|romano)|Nov-?latino|Novialo|Papiamento|Sanskrito|Solresolo|Tokipono|Tokpisino|Urduo|Uropio|Volapuko|Voksigido)n?</token>
         </pattern>
-        <message>Ŝajnas, ke <suggestion>\3</suggestion> temas pri lingvonomo. Oni ne metas «la» antaŭ o-vortaj lingvonomoj.</message>
+        <message>Ŝajnas, ke <suggestion>\3</suggestion> temas pri propra nomo de lingvo. Oni ne metas «la» antaŭ o-vortaj lingvonomoj.</message>
         <url>http://bertilow.com/pmeg/pmeg150alfa/gramatiko/propraj_nomoj/landoj_popoloj_lingvoj.html#i-r76</url>
         <example type="incorrect" correction="Volapukon">Mi lernas <marker>la Volapukon</marker>.</example>
         <example type="correct">Mi lernas <marker>Volapukon</marker>.</example>
