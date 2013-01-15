@@ -54,6 +54,10 @@ public class CatalanSentenceTokenizerTest extends TestCase {
 		testSplit(new String[] { "El pou d'Avall. ", "És bonic." }); 
 		testSplit(new String[] { "El pou d’Avall. ", "És bonic." });
 		testSplit(new String[] { "Ell viu a l'u. ", "Jo al dos." });
+		
+		//Unsolved problem
+		//testSplit(new String[] { "–La vols més fina, l'euga? ", "Mira-te-la, fill meu, l'euga." });
+		
 	}
 
 	private void testSplit(final String[] sentences) {

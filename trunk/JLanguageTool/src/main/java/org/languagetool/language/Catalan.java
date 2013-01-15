@@ -37,6 +37,7 @@ import org.languagetool.rules.ca.ComplexAdjectiveConcordanceRule;
 import org.languagetool.rules.ca.MorfologikCatalanSpellerRule;
 import org.languagetool.rules.ca.CatalanWrongWordInContextRule;
 import org.languagetool.rules.ca.ReflexiveVerbsRule;
+import org.languagetool.rules.ca.CatalanUnpairedBracketsRule;
 import org.languagetool.rules.patterns.Unifier;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.ca.CatalanSynthesizer;
@@ -69,16 +70,6 @@ public class Catalan extends Language {
   }
   
   @Override
-  public String[] getUnpairedRuleStartSymbols() {
-    return new String[]{ "[", "(", "{", "“", "«"};   
-  }
-
-  @Override
-  public String[] getUnpairedRuleEndSymbols() {
-    return new String[]{ "]", ")", "}", "”", "»"};  
-  }
-  
-  @Override
   public String getShortName() {
     return "ca";
   }
@@ -93,7 +84,7 @@ public class Catalan extends Language {
     return Arrays.asList(
             CommaWhitespaceRule.class,
             DoublePunctuationRule.class,
-            GenericUnpairedBracketsRule.class,
+            CatalanUnpairedBracketsRule.class,
             UppercaseSentenceStartRule.class,
             WhitespaceRule.class,
             WordRepeatRule.class,            
