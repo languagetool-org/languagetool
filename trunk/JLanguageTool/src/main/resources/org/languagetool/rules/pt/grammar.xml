@@ -21,7 +21,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.043 2013-01-13 14:16:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.044 2013-01-15 22:54:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -543,6 +543,20 @@ $Id: grammar.xml,v 1.043 2013-01-13 14:16:00 marcoagpinto Exp $
 
 
 
+    <!-- DECRETO DE LEI decreto-lei -->
+    <rule id="DECRETO_DE_LEI" name="decreto-lei">
+      <pattern>
+        <token>decreto</token>
+        <token>de</token>
+        <token>lei</token>
+      </pattern>
+      <message>Substituir «decreto de lei» por <suggestion>decreto-lei</suggestion>.</message>
+      <example type="incorrect">Saiu um novo <marker>decreto de lei</marker>.</example>
+      <example type="correct">Saiu um novo <marker>decreto-lei</marker>.</example>
+    </rule>
+
+
+
     <!-- DUM de um -->
     <rule id="DUM" name="de um">
       <pattern>
@@ -628,6 +642,19 @@ $Id: grammar.xml,v 1.043 2013-01-13 14:16:00 marcoagpinto Exp $
       <message>Substituir «enquanto que» por <suggestion>enquanto</suggestion>.</message>
       <example type="incorrect">O Miguel estudava <marker>enquanto que</marker> os amigos brincavam.</example>
       <example type="correct">O Miguel estudava <marker>enquanto</marker> os amigos brincavam.</example>
+    </rule>
+
+
+
+    <!-- ENTRE EU entre mim -->
+    <rule id="ENTRE_EU" name="entre mim">
+      <pattern>
+        <token>entre</token>
+        <token>eu</token>
+      </pattern>
+      <message>Substituir «entre eu» por <suggestion>entre mim</suggestion>.</message>
+      <example type="incorrect">O que se passou <marker>entre eu</marker> e o Rui?</example>
+      <example type="correct">O que se passou <marker>entre mim</marker> e o Rui?</example>
     </rule>
 
 
