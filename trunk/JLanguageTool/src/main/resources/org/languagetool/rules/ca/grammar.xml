@@ -2812,7 +2812,7 @@ $Id$
                     <token>com</token>
                     <token postag="AQ.[MC][SN].*|V.P.*SM" postag_regexp="yes"/>
                 </pattern>
-                <message>Hauria de ser: <suggestion>tant</suggestion>.</message>
+                <message>En una loc. distributiva ("és tant físic com estètic") hauria de ser <suggestion>tant</suggestion>. Correcte en una loc. comparativa ("és tan covard com oportunista").</message>
                 <short>Confusió.</short>
                 <example type="incorrect"><marker>tan</marker> físic com estètic.</example>
                 <example type="correct">Tant físic com estètic.</example>
@@ -2828,7 +2828,7 @@ $Id$
                     <token>com</token>
                     <token postag="AQ.[FC][SN].*|V.P.*SF" postag_regexp="yes"/>
                 </pattern>
-                <message>Hauria de ser: <suggestion>tant</suggestion>.</message>
+                <message>En una loc. distributiva ("és tant físic com estètic") hauria de ser <suggestion>tant</suggestion>. Correcte en una loc. comparativa ("és tan covard com oportunista").</message>
                 <short>Confusió.</short>
                 <example type="incorrect"><marker>tan</marker> física com estètica.</example>
                 <example type="correct">Tant física com estètica.</example>
@@ -2844,7 +2844,7 @@ $Id$
                     <token>com</token>
                     <token postag="AQ.[MC][PN].*|V.P.*PM" postag_regexp="yes"/>
                 </pattern>
-                <message>Hauria de ser: <suggestion>tant</suggestion>.</message>
+                <message>En una loc. distributiva ("és tant físic com estètic") hauria de ser <suggestion>tant</suggestion>. Correcte en una loc. comparativa ("és tan covard com oportunista").</message>
                 <short>Confusió.</short>
                 <example type="incorrect"><marker>tan</marker> físics com estètics.</example>
                 <example type="correct">Tant físics com estètics.</example>
@@ -2859,7 +2859,7 @@ $Id$
                     <token>com</token>
                     <token postag="AQ.[FC][PN].*|V.P.*PF" postag_regexp="yes"/>
                 </pattern>
-                <message>Hauria de ser: <suggestion>tant</suggestion>.</message>
+                <message>En una loc. distributiva ("és tant físic com estètic") hauria de ser <suggestion>tant</suggestion>. Correcte en una loc. comparativa ("és tan covard com oportunista").</message>
                 <short>Confusió.</short>
                 <example type="incorrect"><marker>tan</marker> físiques com estètiques.</example>
                 <example type="correct">Tant físiques com estètiques.</example>
@@ -2889,7 +2889,7 @@ $Id$
                     <token>no</token>
                     <token postag="AQ.[MC][SN].*|V.P.*SM" postag_regexp="yes"/>
                 </pattern>
-                <message>Hauria de ser: <suggestion>tant</suggestion>.</message>
+                <message>En una loc. distributiva ("és tant físic com estètic") hauria de ser <suggestion>tant</suggestion>. Correcte en una loc. comparativa ("és tan covard com oportunista").</message>
                 <short>Confusió.</short>
                 <example type="incorrect"><marker>tan</marker> físic com no estètic.</example>
                 <example type="correct">Tant físic com no estètic.</example>  
@@ -2904,7 +2904,7 @@ $Id$
                     <token>no</token>
                     <token postag="AQ.[FC][SN].*|V.P.*SF" postag_regexp="yes"/>
                 </pattern>
-                <message>Hauria de ser: <suggestion>tant</suggestion>.</message>
+                <message>En una loc. distributiva ("és tant físic com estètic") hauria de ser <suggestion>tant</suggestion>. Correcte en una loc. comparativa ("és tan covard com oportunista").</message>
                 <short>Confusió.</short>
                 <example type="incorrect"><marker>tan</marker> física com no estètica.</example>
                 <example type="correct">Tant física com no estètica.</example>  
@@ -2919,9 +2919,24 @@ $Id$
                     <token>no</token>
                     <token postag="AQ.[MC][PN].*|V.P.*PM" postag_regexp="yes"/>
                 </pattern>
-                <message>Hauria de ser: <suggestion>tant</suggestion>.</message>
+                <message>En una loc. distributiva ("és tant físic com estètic") hauria de ser <suggestion>tant</suggestion>. Correcte en una loc. comparativa ("és tan covard com oportunista").</message>
                 <short>Confusió.</short>
                 <example type="incorrect"><marker>tan</marker> físics com no estètics.</example>
+                <example type="correct">Tant físics com no estètics.</example>   
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>tan</token>
+                    </marker>
+                    <token postag="AQ.[FC][PN].*|V.P.*PF" postag_regexp="yes" skip="10"/>
+                    <token>com</token>
+                    <token>no</token>
+                    <token postag="AQ.[FC][PN].*|V.P.*PF" postag_regexp="yes"/>
+                </pattern>
+                <message>En una loc. distributiva ("és tant físic com estètic") hauria de ser <suggestion>tant</suggestion>. Correcte en una loc. comparativa ("és tan covard com oportunista").</message>
+                <short>Confusió.</short>
+                <example type="incorrect"><marker>tan</marker> físiques com no estètiques.</example>
                 <example type="correct">Tant físics com no estètics.</example>   
             </rule>
             <rule>
@@ -3647,9 +3662,9 @@ $Id$
                     <marker>
                         <token regexp="yes">de|d'<exception postag=".*LOC_ADV.*" postag_regexp="yes"/></token>
                     </marker>
-                    <token><exception regexp="yes">manera|forma|què|qui(ns|na|nes)|mi</exception><exception postag="PP.*" postag_regexp="yes"/></token>
+                    <token><exception regexp="yes">manera|forma|què|qui(ns|na|nes)?|mi</exception><exception postag="PP.*" postag_regexp="yes"/></token>
                 </pattern>
-                <message>'Necessitar' no regeix la preposició 'de'. Elimineu-la. <suggestion></suggestion></message>
+                <message>'Necessitar' no regeix la preposició 'de'. Elimineu-la.</message>
                 <example type="incorrect">necessitava <marker>de</marker> comprensió</example>
                 <example type="incorrect">ha necessitat <marker>de</marker> comprensió</example>
                 <example type="correct">hi ha necessitat <marker>de</marker> comprensió</example>
@@ -8262,7 +8277,7 @@ $Id$
                     <token><exception inflected="yes">haver</exception></token>
                     <token><exception inflected="yes">haver</exception></token>
                 </pattern>
-                <message>Possible redundància. Potser cal eliminar el pronom feble.<suggestion></suggestion></message>
+                <message>Possible redundància. Potser cal eliminar el pronom feble.</message>
                 <short>Possible redundància.</short>
                 <example type="incorrect">on <marker>hi</marker> tinc la consulta</example>
                 <example type="correct">on hi havia</example>
@@ -8279,7 +8294,7 @@ $Id$
                     <token><exception inflected="yes">haver</exception></token>
                     <token><exception inflected="yes">haver</exception></token>
                 </pattern>
-                <message>Possible redundància. Potser cal eliminar el pronom feble.<suggestion></suggestion></message>
+                <message>Possible redundància. Potser cal eliminar el pronom feble.</message>
                 <short>Possible redundància.</short>
                 <example type="incorrect">en què <marker>hi</marker> tinc la consulta</example>
                 <example type="correct">en què hi havia</example>
@@ -8297,7 +8312,7 @@ $Id$
                     <token><exception inflected="yes">haver</exception></token>
                     <token><exception inflected="yes">haver</exception></token>
                 </pattern>
-                <message>Possible redundància. Potser cal eliminar el pronom feble.<suggestion></suggestion></message>
+                <message>Possible redundància. Potser cal eliminar el pronom feble.</message>
                 <short>Possible redundància.</short>
                 <example type="incorrect">en els quals <marker>hi</marker> tinc la consulta</example>
                 <example type="correct">en els quals hi havia</example>
@@ -8744,7 +8759,7 @@ $Id$
                 <token regexp="yes">..+</token> <!-- Evita abreviatures -->
                 <marker>
                     <token>.<exception postag="SENT_END"/></token>
-                    <token spacebefore="no"><exception postag="SENT_END"/><exception regexp="yes">[,.)"’”»ªº]</exception></token>
+                    <token spacebefore="no"><exception postag="SENT_END"/><exception regexp="yes">[,.)"’”»ªº\]\[]</exception></token>
                 </marker>
             </pattern>
             <message>Falta un espai després del punt <suggestion><match no="2"/> <match no="3" case_conversion="startupper"/></suggestion></message>
@@ -8756,6 +8771,8 @@ $Id$
             <example type="correct">És així. </example>
             <example type="correct">És així.» </example>
             <example type="correct">Estelrich, etc., no hi</example>
+            <example type="correct">ha expressat [...] la necessitat</example>
+            <example type="correct">o simplement ornamental.[1]</example>
         </rule>
         <rule id="PUNT_EN_ABREVIATURES" name="Comprova que hi ha punt en abreviatures: pàg., núm., etc.">
             <pattern case_sensitive="no">

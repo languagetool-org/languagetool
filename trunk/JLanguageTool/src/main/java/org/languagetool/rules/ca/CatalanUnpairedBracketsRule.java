@@ -61,11 +61,18 @@ public class CatalanUnpairedBracketsRule extends GenericUnpairedBracketsRule {
 			return false;
 
 		if (i > 1 && tokenStr.equals(")")) {
-			int nOpeningParenthesis = 0;
-			for (int k = 1; k < i; k++)
-				if (tokens[k].getToken().equals("("))
-					nOpeningParenthesis++;
-			if (nOpeningParenthesis % 2 == 0) {
+			boolean isThereOpeningParenthesis = false;
+			int k=1;
+			while (i-k>0) {
+				if (tokens[i-k].getToken().equals(")"))
+					break;
+				if (tokens[i-k].getToken().equals("(")) {
+					isThereOpeningParenthesis=true;
+					break;
+				}
+				k++;
+			}
+			if (!isThereOpeningParenthesis) {
 				final Matcher mValidBeforeClosingParenthesis = VALID_BEFORE_CLOSING_PARENTHESIS
 						.matcher(tokens[i - 1].getToken());
 				if (mValidBeforeClosingParenthesis.matches())
