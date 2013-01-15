@@ -1560,8 +1560,8 @@ though, and has since been slightly modified)-->
         <token>bien</token>
       </pattern>
       <message>« Et bien » peut être une impropriété. Employez <suggestion>eh</suggestion> au besoin.</message>
-      <example type="correct">Eh bien, soit!</example>
-      <example type="incorrect"><marker>Et</marker> bien, soit!</example>
+      <example type="correct">Eh bien, soit !</example>
+      <example type="incorrect"><marker>Et</marker> bien, soit !</example>
     </rule>
     <!-- added by Agnes Souque -->
     <rule id="CONF_VERBE_NOM" name="Nom au lieu de Verbe">
@@ -20571,74 +20571,31 @@ though, and has since been slightly modified)-->
         <token>au</token>
         <token>delà</token>
       </pattern>
-      <message>« \1 \2 » est une faute de typographie. Employez <suggestion>au-delà</suggestion>.</message>
-      <example type="incorrect"><marker>au delà</marker></example>
+      <message>« \1 \2 » est une faute de typographie. Employez <suggestion>\1-\2</suggestion>.</message>
+      <example type="incorrect" correction="au-delà"><marker>au delà</marker></example>
       <example type="correct"><marker>au-delà</marker></example>
     </rule>
-    <rule id="EN-BAS" name="en-bas">
-      <pattern>
-        <token>en-bas</token>
-      </pattern>
-      <message>« En bas » est une faute de typographie. Employez <suggestion>en bas</suggestion>.</message>
-      <example type="incorrect"><marker>en-bas</marker></example>
-      <example type="correct"><marker>en bas</marker></example>
-    </rule>
-    <!--fixme
     <rule id="PAR-LA" name="par-là">
       <pattern>
-        <token><exception>ci</exception></token>
-        <token>par</token>
-        <token>-</token>
-        <token>là</token>
+        <marker><token>par-là<exception scope="previous">par-ci</exception></token></marker>
       </pattern>
       <message>« Par-là » est une faute de typographie (sauf dans « par-ci par-là »). Employez <suggestion>par là</suggestion>.</message>
-      <example type="incorrect"><marker>par-là</marker></example>
-      <example type="correct"><marker>par là</marker></example>
+      <example type="incorrect">Il est passé <marker>par-là</marker>.</example>
+      <example type="correct">Il est passé <marker>par là</marker>.</example>
+      <example type="correct">Par-ci par-là>.</example>
     </rule>
--->
-    <rule id="EN-DESSOUS" name="en-dessous">
+    <rule id="AU_DESSOUS" name="au dessous → au-dessous, par dessus → par-dessus, etc.">
       <pattern>
-        <token>en-dessous</token>
+        <token regexp="yes">au|par</token>
+        <token regexp="yes">desso?us</token>
       </pattern>
-      <message>« En-dessous » est une faute de typographie. Employez <suggestion>en dessous</suggestion>.</message>
-      <example type="incorrect"><marker>en-dessous</marker></example>
-      <example type="correct"><marker>en dessous</marker></example>
-    </rule>
-    <rule id="PAR_DESSUS" name="par dessus">
-      <pattern>
-        <token>par</token>
-        <token>dessus</token>
-      </pattern>
-      <message>« Par dessus » est une faute de typographie. Employez <suggestion>par-dessus</suggestion>.</message>
-      <example type="incorrect"><marker>par dessus</marker></example>
-      <example type="correct"><marker>par-dessus</marker></example>
-    </rule>
-    <rule id="PAR_DESSOUS" name="par dessous">
-      <pattern>
-        <token>par</token>
-        <token>dessous</token>
-      </pattern>
-      <message>« Par dessous » est une faute de typographie. Employez <suggestion>par-dessous</suggestion>.</message>
-      <example type="incorrect"><marker>par dessous</marker></example>
-      <example type="correct"><marker>par-dessous</marker></example>
-    </rule>
-    <rule id="AU_DESSOUS" name="au dessous">
-      <pattern>
-        <token>au</token>
-        <token>dessous</token>
-      </pattern>
-      <message>« Au dessous » est une faute de typographie. Employez <suggestion>au-dessous</suggestion>.</message>
-      <example type="incorrect"><marker>au dessous</marker></example>
-      <example type="correct"><marker>au-dessous</marker></example>
-    </rule>
-    <rule id="AU_DESSUS" name="au dessus">
-      <pattern>
-        <token>au</token>
-        <token>dessus</token>
-      </pattern>
-      <message>« Au dessus » est une faute de typographie. Employez <suggestion>au-dessus</suggestion>.</message>
-      <example type="incorrect"><marker>au dessus</marker></example>
-      <example type="correct"><marker>au-dessus</marker></example>
+      <message>« \1 \2 » est une faute de typographie. Employez <suggestion>\1-\2</suggestion>.</message>
+      <example type="incorrect" correction="Au-dessous"><marker>Au dessous</marker></example>
+      <example type="correct"><marker>Au-dessous</marker></example>
+      <example type="incorrect" correction="Au-dessus"><marker>Au dessus</marker></example>
+      <example type="correct"><marker>Au-dessus</marker></example>
+      <example type="incorrect" correction="par-dessus">Il est passé <marker>par dessus</marker> le mur.</example>
+      <example type="correct">Il est passé <marker>par-dessus</marker> le mur.</example>
     </rule>
     <rule default="off" id="EH" name="eh (sans virgule après)">
       <pattern>
@@ -20660,7 +20617,7 @@ though, and has since been slightly modified)-->
         <token><exception regexp="yes">[,.;!:\-?]</exception></token>
       </pattern>
       <message>« Eh bien » (sans virgule après) peut être une faute de typographie. Employez une virgule (<suggestion>\1 \2,</suggestion>) au besoin.</message>
-      <example correction="eh bien," type="incorrect"><marker>eh bien</marker> soit!</example>
+      <example correction="eh bien," type="incorrect"><marker>eh bien</marker> soit !</example>
       <example type="correct"><marker>eh bien</marker>,</example>
     </rule>
     <rule id="CEE" name="CÉE">
@@ -20671,14 +20628,22 @@ though, and has since been slightly modified)-->
       <example type="incorrect"><marker>CÉE</marker></example>
       <example type="correct"><marker>CEE</marker></example>
     </rule>
-    <rule id="TOUT-A-FAIT" name="tout-à-fait">
-      <pattern>
-        <token regexp="yes">tout-[aà]-fait</token>
-      </pattern>
-      <message>« \1 » est une faute de typographie. Employez <suggestion>tout à fait</suggestion>.</message>
-      <example type="incorrect"><marker>tout-à-fait</marker></example>
-      <example type="correct"><marker>tout à fait</marker></example>
-    </rule>
+    <rulegroup id="PAS_DE_TRAIT_UNION" name="en-bas → en bas (etc.)">
+      <rule>
+        <pattern>
+          <token regexp="yes">deux-tièrs|en-(bas|haut|dessous|deça)</token>
+        </pattern>
+        <message>« \1 » est une faute de typographie. Employez <suggestion><match no="1" regexp_match="-" regexp_replace=" "/></suggestion>.</message>
+        <example type="incorrect" correction="deux tièrs">La bouteille est aux <marker>deux-tièrs</marker> pleine.</example>
+        <example type="correct">La bouteille est aux deux tièrs pleine.</example>
+      </rule>
+      <rule>
+        <pattern><token regexp="yes">tout-[aà]-fait</token></pattern>
+        <message>« \1 » est une faute de typographie. Employez <suggestion>tout à fait</suggestion>.</message>
+        <example type="incorrect" correction="Tout à fait"><marker>Tout-à-fait</marker></example>
+        <example type="correct"><marker>Tout à fait</marker></example>
+      </rule>
+    </rulegroup>
     <rule id="ARC_EN_CIEL" name="arc en ciel">
       <pattern>
         <token regexp="yes">arcs?</token>
@@ -20708,7 +20673,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">[’´'‛′‘]</token>
           <token regexp="yes">il-(te|vous)-pla[îi]t</token>
         </pattern>
-        <message>Employez <suggestion>\1’il <match no="3" regexp_match="il-(.*)-.*" regexp_replace="$1"/> plaît</suggestion>.</message>
+        <message>Employez <suggestion>\1’<match no="3" regexp_match="-" regexp_replace=" "/></suggestion>.</message>
         <example type="incorrect" correction="S’il te plaît"><marker>S’il-te-plaît</marker>, dessine-moi un mouton.</example>
         <example type="correct">S’il te plaît, dessine-moi un mouton.</example>
       </rule>
@@ -20719,7 +20684,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">il-(te|vous)</token>
           <token regexp="yes">pla[îi]t</token>
         </pattern>
-        <message>Employez <suggestion>\1’il <match no="3" regexp_match="il-(te|vous)" regexp_replace="$1"/> plaît</suggestion>.</message>
+        <message>Employez <suggestion>\1’<match no="3" regexp_match="-" regexp_replace=" "/> \4</suggestion>.</message>
         <example type="incorrect" correction="S’il te plaît"><marker>S’il-te plaît</marker>, dessine-moi un mouton.</example>
         <example type="correct">S’il te plaît, dessine-moi un mouton.</example>
       </rule>
@@ -20730,7 +20695,7 @@ though, and has since been slightly modified)-->
           <token>il</token>
           <token regexp="yes">(te|vous)-pla[iî]t</token>
         </pattern>
-        <message>Employez <suggestion>\1’il <match no="4" regexp_match="(te|vous)-.*" regexp_replace="$1"/> plaît</suggestion>.</message>
+        <message>Employez <suggestion>\1’il <match no="4" regexp_match="-" regexp_replace=" "/></suggestion>.</message>
         <example type="incorrect" correction="S’il te plaît"><marker>S’il te-plaît</marker>, dessine-moi un mouton.</example>
         <example type="correct">S’il te plaît, dessine-moi un mouton.</example>
       </rule>
@@ -21429,17 +21394,28 @@ though, and has since been slightly modified)-->
     <rulegroup id="HEURES" name="heures 20h30 → 20 h 30">
       <rule>
         <pattern><token regexp="yes">(?:1?\d|2[0-3])h(?:[0-5]?\d)</token></pattern>
-        <message>La lettre h doit être espacée das les heures abrégées. Voulez-vous écrire <suggestion><match no="1" regexp_match="(\d+)h(\d+)" regexp_replace="$1 h $2"/></suggestion>?</message>
+        <message>La lettre h doit être espacée dans les heures abrégées. Voulez-vous écrire <suggestion><match no="1" regexp_match="(\d+)h(\d+)" regexp_replace="$1 h $2"/></suggestion> ?</message>
         <url>https://fr.wikipedia.org/wiki/Heure#Typographie</url>
         <example type="incorrect" correction="20 h 30">Il est <marker>20h30</marker>.</example>
         <example type="correct">Il est <marker>20 h 30</marker>.</example>
       </rule>
       <rule>
         <pattern><token regexp="yes">(?:1?\d|2[0-3])h</token></pattern>
-        <message>La lettre h doit être espacée das les heures abrégées. Voulez-vous écrire <suggestion><match no="1" regexp_match="(\d+)h" regexp_replace="$1 h"/></suggestion>?</message>
+        <message>La lettre h doit être espacée dans les heures abrégées. Voulez-vous écrire <suggestion><match no="1" regexp_match="(\d+)h" regexp_replace="$1 h"/></suggestion> ?</message>
         <url>https://fr.wikipedia.org/wiki/Heure#Typographie</url>
         <example type="incorrect" correction="20 h">Il est <marker>20h</marker>.</example>
         <example type="correct">Il est <marker>20 h</marker>.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token regexp="yes">1?\d|2[0-3]</token>
+          <token>H</token>
+          <token regexp="yes">[0-5]?\d</token>
+        </pattern>
+        <message>La lettre h doit être espacée dans les heures abrégées et en minuscules. Voulez-vous écrire <suggestion>\1 h \3</suggestion> ?</message>
+        <url>https://fr.wikipedia.org/wiki/Heure#Typographie</url>
+        <example type="incorrect" correction="20 h 30">Il est <marker>20 H 30</marker>.</example>
+        <example type="correct">Il est <marker>20 h 30</marker>.</example>
       </rule>
     </rulegroup>
   </category>
