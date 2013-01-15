@@ -61,8 +61,10 @@ $Id$
                 </pattern>
                 <message>Error de concordança: <suggestion><match no="2" postag="N..P.*" /></suggestion>.</message>
                 <short>Error de concordança</short>
-                <example type="incorrect">Trenta-dos <marker>home</marker>.</example>
+                <example type="incorrect" correction="homes, hòmens">Trenta-dos <marker>home</marker>.</example>
+                <example type="incorrect" correction="anys">en trenta-un <marker>any</marker>.</example>
                 <example type="correct">Trenta-dos homes.</example>
+                
             </rule>
             <rule>
                 <pattern>
@@ -2815,6 +2817,7 @@ $Id$
                 <example type="incorrect"><marker>tan</marker> físic com estètic.</example>
                 <example type="correct">Tant físic com estètic.</example>
                 <example type="correct">tan coneixedor com servidora</example>    
+                <!-- <example type="correct">és tan covard com oportunista.</example> -->
             </rule>
             <rule>
                 <pattern>
@@ -5478,7 +5481,7 @@ $Id$
                         <token negate_pos="yes" postag="SENT_START" regexp="yes"><exception>i</exception><exception postag="allow_repetition">de</exception>[\p{L}·'-]+</token>
                         <token regexp="yes" spacebefore="yes"><exception>i</exception>[\p{L}·'-]+</token>
                         <token><match no="0"/><exception postag="&lt;/LOC_ADV&gt;" regexp="yes">poc|més|pas|bat</exception></token>
-                        <token><match no="1"/><exception postag="&lt;/LOC_ADV&gt;" regexp="yes">poc|més</exception></token>
+                        <token><match no="1"/><exception postag="&lt;/LOC_ADV&gt;" regexp="yes">poc|més|bo</exception></token>
                     </marker>
                 </pattern>
                 <message>Elimina la duplicació. <suggestion><match no="1"/> <match no="2"/></suggestion></message>
@@ -5489,6 +5492,7 @@ $Id$
                 <example type="correct">A més a més, ho va fer a poc a poc.</example>
                 <example type="correct">A diferència dels dels ocells.</example>
                 <example type="correct">Puja pas a pas a les ruïnes</example>
+                <example type="correct">estava malalt de bo de bo</example>
             </rule> 
             <rule>
                 <pattern>
@@ -13424,7 +13428,7 @@ $Id$
                 </marker>
                 <token><exception postag="_GN_.*" postag_regexp="yes"/></token>
             </pattern>
-            <message>Incorrecte si equival a <suggestion><match no="1"/> <match no="2" postag="AQ0(..)0" postag_regexp="yes" postag_replace="AQ0$10">mateix</match> <match no="3"/></suggestion>. Correcte si equival a '<match no="1"/> <match no="3" include_skipped="all"/> <match no="2"/>'.</message>
+            <message>Correcte si equival a '<match no="1"/> <match no="3" include_skipped="all"/> <match no="2"/>'. Si no potser cal dir: <suggestion><match no="1"/> <match no="2" postag="AQ0(..)0" postag_regexp="yes" postag_replace="AQ0$10">mateix</match> <match no="3"/></suggestion>.</message>
             <url>http://esadir.cat/lexic/entrades/entry_20030718132249_829</url>
             <example type="incorrect" correction="el mateix president">Ho digué <marker>el propi president</marker>.</example>
             <example type="correct">Ho digué el mateix president.</example>
@@ -15850,8 +15854,8 @@ $Id$
                 <pattern>
                     <token postag="SENT_START|V.[^NGP].*" postag_regexp="yes" skip="-1"><exception postag="PR.*|PT.*|DT.*|.*LOC_CONJ.*|C.*" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">perquè|com</exception></token>
                     <marker>
-                        <token postag="V.[^NGP].*" postag_regexp="yes" regexp="yes" skip="-1">[\p{Ll}·]+<exception postag="_GN_.*|N.*|A.*|V.[NGP].*" postag_regexp="yes"/><exception>di</exception><exception scope="next" regexp="yes">,|com|perquè|que</exception><exception postag="_PUNCT.*|C.*|PR.*|PT.*|DT.*|.*LOC_CONJ.*|_loc_unavegada" postag_regexp="yes" scope="next"/></token>
-                        <token postag="V.[^NGP].*" postag_regexp="yes" regexp="yes">[\p{Ll}·]+<exception postag="_GN_.*|N.*|A.*|V.[NGP].*|.*LOC.*" postag_regexp="yes"/><exception regexp="yes">di|cap</exception></token>
+                        <token postag="V.[^NGP].*" postag_regexp="yes" regexp="yes" skip="-1">[\p{Ll}·]+<exception postag="_GN_.*|N.*|A.*|V.[NGP].*|_loc_nosequi" postag_regexp="yes"/><exception>di</exception><exception scope="next" regexp="yes">,|com|perquè|que</exception><exception postag="_PUNCT.*|C.*|PR.*|PT.*|DT.*|.*LOC_CONJ.*|_loc_unavegada" postag_regexp="yes" scope="next"/></token>
+                        <token postag="V.[^NGP].*" postag_regexp="yes" regexp="yes">[\p{Ll}·]+<exception postag="_GN_.*|N.*|A.*|V.[NGP].*|.*LOC.*|_loc_nosequi" postag_regexp="yes"/><exception regexp="yes">di|cap</exception></token>
                     </marker>
                 </pattern> 
                 <message>Falta algun element entre verbs: coma, conjunció, pronom relatiu, etc.</message>
@@ -15878,13 +15882,17 @@ $Id$
                 <example type="correct">Quan va arribar i ho va veure se'n va anar.</example>
                 <example type="correct">Quan va arribar i ho va veure, se'n va anar.</example>
                 <example type="correct">li va donar el nom de «el Senyor proveeix»</example>
+                <example type="correct">esgotament d'una deu poètica.</example>
+                <example type="correct">La resta ha estat molt vaga i incerta</example>
+                <example type="correct">La setmana passada anà a Roses per no sé quin afer.</example>
+                <example type="correct">El passallís del Fluvià era molt poc som.</example>
             </rule>
             <rule> <!-- verb forma simple a l'inici de frase (en majúscula) -->
                 <pattern>
                     <token postag="SENT_START"/>
                     <marker>
-                        <token postag="V.[^NGP].*" postag_regexp="yes" skip="-1"><exception postag="_GN_.*|N.*|A.*|V.[NGP].*" postag_regexp="yes"/><exception>di</exception><exception scope="next" regexp="yes">,|com|perquè|que</exception><exception postag="_PUNCT.*|C.*|PR.*|PT.*|DT.*|.*LOC_CONJ.*|_loc_unavegada" postag_regexp="yes" scope="next"/></token>
-                        <token postag="V.[^NGP].*" postag_regexp="yes" regexp="yes">[\p{Ll}·]+<exception postag="_GN_.*|N.*|A.*|V.[NGP].*|.*LOC.*" postag_regexp="yes"/><exception regexp="yes">di|cap</exception></token>
+                        <token postag="V.[^NGP].*" postag_regexp="yes" skip="-1"><exception postag="_GN_.*|N.*|A.*|V.[NGP].*|_loc_nosequi" postag_regexp="yes"/><exception>di</exception><exception scope="next" regexp="yes">,|com|perquè|que</exception><exception postag="_PUNCT.*|C.*|PR.*|PT.*|DT.*|.*LOC_CONJ.*|_loc_unavegada" postag_regexp="yes" scope="next"/></token>
+                        <token postag="V.[^NGP].*" postag_regexp="yes" regexp="yes">[\p{Ll}·]+<exception postag="_GN_.*|N.*|A.*|V.[NGP].*|.*LOC.*|_loc_nosequi" postag_regexp="yes"/><exception regexp="yes">di|cap</exception></token>
                     </marker>
                 </pattern> 
                 <message>Falta algun element entre verbs: coma, conjunció, pronom relatiu, etc.</message>
@@ -15900,10 +15908,10 @@ $Id$
                     <token><exception postag="V.N.*" postag_regexp="yes"/></token>
                     <marker>
                         <and>
-                            <token postag="V.[NGP].*" postag_regexp="yes" regexp="yes" skip="-1">[\p{Ll}·]+<exception postag="_GN_.*|N.*|A.*" postag_regexp="yes"/><exception regexp="yes">di|havent</exception><exception scope="next" regexp="yes">,|com|perquè|que</exception><exception postag="_PUNCT.*|C.*|PR.*|PT.*|DT.*|.*LOC_CONJ.*|_loc_unavegada" postag_regexp="yes" scope="next"/></token>
+                            <token postag="V.[NGP].*" postag_regexp="yes" regexp="yes" skip="-1">[\p{Ll}·]+<exception postag="_GN_.*|N.*|A.*|_loc_nosequi" postag_regexp="yes"/><exception regexp="yes">di|havent</exception><exception scope="next" regexp="yes">,|com|perquè|que</exception><exception postag="_PUNCT.*|C.*|PR.*|PT.*|DT.*|.*LOC_CONJ.*|_loc_unavegada" postag_regexp="yes" scope="next"/></token>
                             <token postag="_GV_"/>
                         </and>
-                        <token postag="V.[^NGP].*" postag_regexp="yes" regexp="yes">[\p{Ll}·]+<exception postag="_GN_.*|N.*|A.*|V.[NGP].*|.*LOC.*" postag_regexp="yes"/><exception regexp="yes">di|cap</exception></token>
+                        <token postag="V.[^NGP].*" postag_regexp="yes" regexp="yes">[\p{Ll}·]+<exception postag="_GN_.*|N.*|A.*|V.[NGP].*|.*LOC.*|_loc_nosequi" postag_regexp="yes"/><exception regexp="yes">di|cap</exception></token>
                     </marker>
                 </pattern> 
                 <message>Falta algun element entre verbs: coma, conjunció, pronom relatiu, etc.</message>
