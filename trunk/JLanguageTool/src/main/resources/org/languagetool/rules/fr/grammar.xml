@@ -20712,6 +20712,24 @@ though, and has since been slightly modified)-->
     <rulegroup id="TRAIT_UNION" name="Trait d’union">
       <rule>
         <pattern>
+          <token regexp="yes">mort|nouveau|derniers?|premiers?</token>
+          <token regexp="yes">née?s?</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+        <example type="incorrect">Elle s’occupe des <marker>nouveau nés</marker>.</example>
+        <example type="correct">Elle s’occupe des <marker>nouveau-nés</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">francs?</token>
+          <token regexp="yes">alleux?|bourgeois(es?)?|jeux?|parlers?|quartiers?|tireurs?|tireuses?|maçon(ne(rie)?|nique)?s?</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+        <example type="incorrect">C’est un <marker>franc maçon</marker>.</example>
+        <example type="correct">C’est un <marker>franc-maçon</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
           <token>va</token>
           <token>et</token>
           <token>vient</token>
