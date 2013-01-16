@@ -33,6 +33,19 @@ public class CatalanSentenceTokenizerTest extends TestCase {
 
 	public final void testTokenize() {
 
+		// Simple sentences
+		testSplit(new String[] { "Això és una frase. ", "Això és una altra frase." });
+		testSplit(new String[] { "Aquesta és l'egua. ", "Aquell és el cavall." });
+		testSplit(new String[] { "Aquesta és l'egua? ", "Aquell és el cavall." });
+		testSplit(new String[] { "Vols col·laborar? ", "Sí, i tant." });
+		testSplit(new String[] { "Com vas d'il·lusió? ", "Bé, bé." });
+		testSplit(new String[] { "Com vas d’il·lusió? ", "Bé, bé." });
+		testSplit(new String[] { "És d’abans-d’ahir? ", "Bé, bé." });
+		testSplit(new String[] { "És d’abans-d’ahir! ", "Bé, bé." });
+		testSplit(new String[] { "Què vols dir? ", "Ja ho tinc!" });
+		testSplit(new String[] { "Ja ho tinc! ", "Què vols dir?" });
+		testSplit(new String[] { "Us explicaré com va anar: ", "»La Maria va engegar el cotxe" });
+		
 		// Initials
 		testSplit(new String[] { "A l'atenció d'A. Comes." });
 		testSplit(new String[] { "A l'atenció d'À. Comes." });
@@ -48,15 +61,11 @@ public class CatalanSentenceTokenizerTest extends TestCase {
 		testSplit(new String[] { "Viu al núm. 24 del carrer de l'Hort." });
 		testSplit(new String[] { "El Dr. Joan no vindrà." });
 		testSplit(new String[] { "Distingit Sr. Joan," });
-		testSplit(new String[] { "Molt Hble. Sr. President" });
-
-		// A problem solved
-		testSplit(new String[] { "El pou d'Avall. ", "És bonic." }); 
-		testSplit(new String[] { "El pou d’Avall. ", "És bonic." });
-		testSplit(new String[] { "Ell viu a l'u. ", "Jo al dos." });
+		testSplit(new String[] { "Molt Hble. Sr. President" });		
 		
-		//Unsolved problem
-		//testSplit(new String[] { "–La vols més fina, l'euga? ", "Mira-te-la, fill meu, l'euga." });
+		// Exception to abbreviations
+		testSplit(new String[] { "Ell és el número u. ", "Jo el dos." });
+		
 		
 	}
 
