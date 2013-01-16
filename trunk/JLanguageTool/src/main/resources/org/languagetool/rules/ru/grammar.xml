@@ -1817,7 +1817,23 @@ $Id$
                 <example type="incorrect">Он <marker>имел ввиду</marker> совсем другое событие.</example>
             </rule>
             
-            
+            <rule>            
+                  <!-- заранее           
+  -->          
+           <pattern case_sensitive="no">
+                     <marker>
+                        <token>за</token>
+                        <token>ранее</token>
+                    </marker>
+                         <token>.</token>
+                </pattern>
+                <message>Слово пишется слитно: <suggestion>\1\2</suggestion>.</message>
+                <short>Пишется слитно.</short>
+                <example type="correct">Он прибыл на станцию <marker>заранее</marker>.</example>
+                <example type="incorrect">Он прибыл на станцию <marker>за ранее</marker>.</example>
+            </rule>
+
+
             
             <rule>
                 <!-- поверх, подо, помимо              
