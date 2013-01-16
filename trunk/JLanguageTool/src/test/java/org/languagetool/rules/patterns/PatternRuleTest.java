@@ -440,7 +440,7 @@ public class PatternRuleTest extends TestCase {
             assertTrue(lang + ": Incorrect suggestions: "
                 + suggestedCorrections.toString() + " != "
                 + matches.get(0).getSuggestedReplacements() + " for rule " + rule + " on input: " + badSentence,
-                suggestedCorrections.toString().equals(matches.get(0).getSuggestedReplacements().toString()));
+                suggestedCorrections.equals(matches.get(0).getSuggestedReplacements()));
           }
           // make sure the suggested correction doesn't produce an error:
           if (matches.get(0).getSuggestedReplacements().size() > 0) {

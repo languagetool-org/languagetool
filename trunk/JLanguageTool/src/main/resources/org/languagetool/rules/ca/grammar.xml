@@ -61,7 +61,7 @@ $Id$
                 </pattern>
                 <message>Error de concordança: <suggestion><match no="2" postag="N..P.*" /></suggestion>.</message>
                 <short>Error de concordança</short>
-                <example type="incorrect" correction="homes, hòmens">Trenta-dos <marker>home</marker>.</example>
+                <example type="incorrect" correction="homes|hòmens">Trenta-dos <marker>home</marker>.</example>
                 <example type="incorrect" correction="anys">en trenta-un <marker>any</marker>.</example>
                 <example type="correct">Trenta-dos homes.</example>
                 
@@ -2051,7 +2051,7 @@ $Id$
                 </marker>
             </pattern>
             <message>Cal dir: <suggestion><match no="1" include_skipped="all"/> <match no="3"/></suggestion>, <suggestion><match no="1" include_skipped="all"/> a <match no="3"/></suggestion>.</message>
-            <example type="incorrect" correction="donava menjar, donava a menjar">Li <marker>donava de menjar</marker>.</example>
+            <example type="incorrect" correction="donava menjar|donava a menjar">Li <marker>donava de menjar</marker>.</example>
             <example type="correct">Li va donar a beure la poció.</example>
         </rule>
         <rule id="VAREM_INFINITIU" name="Errors d'accentuació en el passat compost (*varem/vàrem)">
@@ -3497,12 +3497,25 @@ $Id$
                 <pattern>
                     <marker>
                         <token>fins</token>
+                        <token postag="DA.*" postag_regexp="yes" regexp="yes">els?</token>
                     </marker>
-                    <token postag="DA.*" postag_regexp="yes" inflected="yes">el</token>
+                </pattern>
+                <message>Correcte si vol dir "fins i tot"; si no, cal escriure <suggestion>fins a<match no="2" regexp_match="e(ls?)" regexp_replace="$1"/></suggestion>.</message>
+                <example type="incorrect" correction="Fins al"><marker>Fins el</marker> mes que ve.</example>
+                <example type="incorrect" correction="Fins als"><marker>Fins els</marker> últims dies.</example>
+                <example type="correct">No arribarà fins l'endemà.</example>
+                <example type="correct">No arribarà fins a l'endemà.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>fins</token>
+                    </marker>
+                    <token postag="DA.*" postag_regexp="yes" regexp="yes">la|les|l'</token>
                     <token><exception>endemà</exception></token>
                 </pattern>
                 <message>Correcte si vol dir "fins i tot"; si no, cal escriure <suggestion>fins a</suggestion>.</message>
-                <example type="incorrect"><marker>Fins</marker> el mes que ve.</example>
+                <example type="incorrect" correction="Fins a"><marker>Fins</marker> l'últim dia.</example>
                 <example type="correct">No arribarà fins l'endemà.</example>
                 <example type="correct">No arribarà fins a l'endemà.</example>
             </rule>
@@ -10868,43 +10881,6 @@ $Id$
                 <example type="correct">només ho fa en ocasions molt especials</example>
             </rule>
         </rulegroup>
-        <rulegroup id="EN_OPOSICIO_A" name="en oposició a">
-            <rule>
-                <pattern>
-                    <token>en</token>
-                    <token>oposició</token>
-                    <token>a</token>
-                </pattern>
-                <message>Cal dir <suggestion>en oposició amb</suggestion>.</message>
-                <short>Expressió incorrecta</short>
-                <example type="incorrect"><marker>en oposició a</marker> la llei A actua la llei B</example>
-                <example type="correct"><marker>en oposició amb</marker> la llei A actua la llei B</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>en</token>
-                    <token>oposició</token>
-                    <token>a</token>
-                    <token spacebefore="no">l</token>
-                </pattern>
-                <message>Cal dir <suggestion>en oposició amb el</suggestion>.</message>
-                <short>Expressió incorrecta</short>
-                <example type="incorrect"><marker>en oposició al</marker> jutge</example>
-                <example type="correct"><marker>en oposició amb el</marker> jutge</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>en</token>
-                    <token>oposició</token>
-                    <token>a</token>
-                    <token spacebefore="no">ls</token>
-                </pattern>
-                <message>Cal dir <suggestion>en oposició amb els</suggestion>.</message>
-                <short>Expressió incorrecta</short>
-                <example type="incorrect"><marker>en oposició als</marker> jutges</example>
-                <example type="correct"><marker>en oposició amb els</marker> jutges</example>
-            </rule>
-        </rulegroup>
         <rule id="A_LENSEMS" name="a l'ensems">
             <pattern>
                 <token>a</token>
@@ -12024,6 +12000,43 @@ $Id$
     </category>
     <category name="C4) Construccions desaconsellades per alguns manuals d'estil" default="off">
     <!-- Expressions condemnades per alguns manuals d'estil de manera no sempre justifiada -->
+         <rulegroup id="EN_OPOSICIO_A" name="en oposició a">
+            <rule>
+                <pattern>
+                    <token>en</token>
+                    <token>oposició</token>
+                    <token>a</token>
+                </pattern>
+                <message>Cal dir <suggestion>en oposició amb</suggestion>.</message>
+                <short>Expressió incorrecta</short>
+                <example type="incorrect"><marker>en oposició a</marker> la llei A actua la llei B</example>
+                <example type="correct"><marker>en oposició amb</marker> la llei A actua la llei B</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>en</token>
+                    <token>oposició</token>
+                    <token>a</token>
+                    <token spacebefore="no">l</token>
+                </pattern>
+                <message>Cal dir <suggestion>en oposició amb el</suggestion>.</message>
+                <short>Expressió incorrecta</short>
+                <example type="incorrect"><marker>en oposició al</marker> jutge</example>
+                <example type="correct"><marker>en oposició amb el</marker> jutge</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>en</token>
+                    <token>oposició</token>
+                    <token>a</token>
+                    <token spacebefore="no">ls</token>
+                </pattern>
+                <message>Cal dir <suggestion>en oposició amb els</suggestion>.</message>
+                <short>Expressió incorrecta</short>
+                <example type="incorrect"><marker>en oposició als</marker> jutges</example>
+                <example type="correct"><marker>en oposició amb els</marker> jutges</example>
+            </rule>
+        </rulegroup>
         <rule id="A_DURES_PENES" name="a dures penes">
             <pattern>
                 <token>a</token>
