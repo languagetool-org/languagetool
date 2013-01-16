@@ -60,10 +60,10 @@ public class CatalanSynthesizer extends BaseSynthesizer {
 	private static final Pattern pPrep = Pattern.compile("(DT)(.*)");
 
 	/** Patterns for apostrophation **/
-	private static final Pattern pMascYes = Pattern.compile("h?[aeiouàèéíòóú].*");
-	private static final Pattern pMascNo = Pattern.compile("h?[ui][aeioàèéóò].+");
-	private static final Pattern pFemYes = Pattern.compile("h?[aeoàèéíòóú].*|h?[ui][^aeiouàèéíòóúüï]+[aeiou][ns]?|urbs");
-	private static final Pattern pFemNo = Pattern.compile("host|ira|inxa");
+	private static final Pattern pMascYes = Pattern.compile("h?[aeiouàèéíòóú].*",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+	private static final Pattern pMascNo = Pattern.compile("h?[ui][aeioàèéóò].+",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+	private static final Pattern pFemYes = Pattern.compile("h?[aeoàèéíòóú].*|h?[ui][^aeiouàèéíòóúüï]+[aeiou][ns]?|urbs",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+	private static final Pattern pFemNo = Pattern.compile("host|ira|inxa",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
 
 	public CatalanSynthesizer() {
 		super(RESOURCE_FILENAME, TAGS_FILE_NAME);
