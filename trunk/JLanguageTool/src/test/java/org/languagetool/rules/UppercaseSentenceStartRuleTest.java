@@ -32,6 +32,22 @@ import org.languagetool.TestTools;
  */
 public class UppercaseSentenceStartRuleTest extends TestCase {
 
+  public void testNonSentences() throws IOException {
+    // In OO/LO we get text per paragraph, and list items are a paragraph.
+    // Make sure the items that don't look like a sentence generate no error.
+    JLanguageTool langTool = new JLanguageTool(Language.ENGLISH);
+    
+    assertEquals(0, langTool.check("a list item").size());
+    assertEquals(0, langTool.check("a list item,").size());
+    assertEquals(0, langTool.check("with trailing whitespace, ").size());
+    assertEquals(0, langTool.check("a list item;").size());
+    assertEquals(0, langTool.check("A sentence.").size());
+    assertEquals(0, langTool.check("A sentence!").size());
+
+    assertEquals(1, langTool.check("a sentence.").size());
+    assertEquals(1, langTool.check("a sentence!").size());
+  }
+  
   public void testRule() throws IOException {
     JLanguageTool langTool = new JLanguageTool(Language.GERMAN);
     List<RuleMatch> matches;
@@ -53,12 +69,14 @@ public class UppercaseSentenceStartRuleTest extends TestCase {
     
     matches = langTool.check("Sehr geehrte Frau Merkel,\nwie wir Ihnen schon früher mitgeteilt haben...");
     assertEquals(0, matches.size());
-
-    matches = langTool.check("Dies ist ein Satz. und hier kommt noch einer");
-    assertEquals(1, matches.size());
+    matches = langTool.check("Dies ist ein Satz. aber das hier noch nicht");
+    assertEquals(0, matches.size());
+    
     matches = langTool.check("Dies ist ein Satz. ätsch, noch einer mit Umlaut.");
     assertEquals(1, matches.size());
     matches = langTool.check("Dies ist ein Satz. \"aber der hier auch!\"");
+    assertEquals(1, matches.size());
+    matches = langTool.check("Dies ist ein Satz. „aber der hier auch!“");
     assertEquals(1, matches.size());
     matches = langTool.check("\"dies ist ein Satz!\"");
     assertEquals(1, matches.size());

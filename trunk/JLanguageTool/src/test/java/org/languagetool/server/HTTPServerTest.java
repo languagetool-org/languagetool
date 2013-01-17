@@ -63,7 +63,7 @@ public class HTTPServerTest {
     final String result2 = check(Language.GERMAN, "Ein kleiner test");
     assertTrue("Got " + result2 + ", expected " + emptyResultPattern, result2.matches(emptyResultPattern));
     // one error:
-    assertTrue(check(Language.GERMAN, "ein kleiner test").contains("UPPERCASE_SENTENCE_START"));
+    assertTrue(check(Language.GERMAN, "ein kleiner test.").contains("UPPERCASE_SENTENCE_START"));
     // two errors:
     final String result = check(Language.GERMAN, "ein kleiner test. Und wieder Erwarten noch was: \u00f6\u00e4\u00fc\u00df.");
     assertTrue(result.contains("UPPERCASE_SENTENCE_START"));

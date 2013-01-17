@@ -25,6 +25,7 @@ import java.util.ResourceBundle;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
+import org.languagetool.tools.StringTools;
 
 /**
  * Checks that a sentence starts with an uppercase letter.
@@ -68,13 +69,11 @@ public class UppercaseSentenceStartRule extends Rule {
     String thirdToken = null;
     // ignore quote characters:
     if (tokens.length >= 3
-        && ("'".equals(firstToken) || "\"".equals(firstToken) || "„"
-            .equals(firstToken))) {
+        && ("'".equals(firstToken) || "\"".equals(firstToken) || "„".equals(firstToken))) {
       matchTokenPos = 2;
       secondToken = tokens[matchTokenPos].getToken();
     }
-    final String firstDutchToken = dutchSpecialCase(firstToken, secondToken,
-        tokens);
+    final String firstDutchToken = dutchSpecialCase(firstToken, secondToken, tokens);
     if (firstDutchToken != null) {
       thirdToken = firstDutchToken;
       matchTokenPos = 3;
@@ -87,43 +86,40 @@ public class UppercaseSentenceStartRule extends Rule {
       checkToken = secondToken;
     }
 
-    final String lastToken = tokens[tokens.length - 1].getToken();
-
-    boolean noException = false;
-    //fix for lists; note - this will not always work for the last point in OOo,
-    //as OOo might serve paragraphs in any order.
-    if ((language == Language.RUSSIAN || language == Language.POLISH || language == Language.UKRAINIAN || language == Language.BELARUSIAN)
-        && (";".equals(lastParagraphString) || ";".equals(lastToken)
-            || ",".equals(lastParagraphString) || ",".equals(lastToken))) {
-      noException = true;
-    }
-    //fix for comma in last paragraph; note - this will not always work for the last point in OOo,
-    //as OOo might serve paragraphs in any order.
-    if ((language == Language.RUSSIAN || language == Language.ITALIAN 
-        || language == Language.POLISH || language == Language.GERMAN || language == Language.UKRAINIAN || language == Language.BELARUSIAN)
-        && (",".equals(lastParagraphString))) {
-      noException = true;
-    }
-
-
-    //fix for words in table (not sentences); note - this will not always work for the last point in OOo,
-    //as OOo might serve paragraphs in any order.
-    if ((language == Language.RUSSIAN || language == Language.ENGLISH )
-        && !(lastToken.matches("[.?!…;,]"))) {
-      noException = true;
+    String lastToken = tokens[tokens.length - 1].getToken();
+    if (lastToken.matches("[ \"'„»«“]") && tokens.length >= 2) {
+      // ignore trailing whitespace or quote
+      lastToken = tokens[tokens.length - 2].getToken();
     }
     
+    boolean preventError = false;
+    // TODO: why do only *these* languages have that special case?
+    final boolean languageHasSpecialCases = language == Language.RUSSIAN || language == Language.POLISH 
+            || language == Language.UKRAINIAN || language == Language.BELARUSIAN || language == Language.ENGLISH
+            || language == Language.ITALIAN || language == Language.GERMAN;
+    if (languageHasSpecialCases) {
+      //fix for lists; note - this will not always work for the last point in OOo,
+      //as OOo might serve paragraphs in any order.
+      if (";".equals(lastParagraphString) || ";".equals(lastToken) || ",".equals(lastParagraphString) || ",".equals(lastToken)) {
+        preventError = true;
+      }
+      //fix for words in table (not sentences); note - this will not always work for the last point in OOo,
+      //as OOo might serve paragraphs in any order.
+      if (!lastToken.matches("[.?!…]")) {
+        preventError = true;
+      }
+    } 
+
     lastParagraphString = lastToken;
 
     if (checkToken.length() > 0) {
         final char firstChar = checkToken.charAt(0);
-        if (Character.isLowerCase(firstChar) && (!noException)) {
+        if (!preventError && Character.isLowerCase(firstChar)) {
           final RuleMatch ruleMatch = new RuleMatch(this, 
               tokens[matchTokenPos].getStartPos(),
               tokens[matchTokenPos].getStartPos() + tokens[matchTokenPos].getToken().length(),
               messages.getString("incorrect_case"));
-          ruleMatch.setSuggestedReplacement(Character.toUpperCase(firstChar)
-              + checkToken.substring(1));
+          ruleMatch.setSuggestedReplacement(StringTools.uppercaseFirstChar(checkToken));
           ruleMatches.add(ruleMatch);
         }
     }
