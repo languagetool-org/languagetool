@@ -56,7 +56,7 @@ $Id$
                 <pattern>
                     <token postag="DN..P.*" postag_regexp="yes"><exception postag="A...S.*|N..S.*|.*LOC_ADV.*" postag_regexp="yes" /><exception inflected="yes">ordinal</exception></token>
                     <marker>
-                        <token postag="N..S.*" postag_regexp="yes"><exception postag="N..P.*|V.[^P].*" postag_regexp="yes" /><exception inflected="yes">ordinal</exception></token>
+                        <token postag="N..S.*" postag_regexp="yes"><exception postag="N..P.*|V.[^P].*" postag_regexp="yes" /><exception inflected="yes">ordinal</exception><exception regexp="yes">gener|febrer|març|abril|maig|juny|juliol|agost|setembre|octubre|novembre|desembre</exception></token>
                     </marker>
                 </pattern>
                 <message>Error de concordança: <suggestion><match no="2" postag="N..P.*" /></suggestion>.</message>
@@ -95,7 +95,7 @@ $Id$
                 <pattern>
                     <token postag="N.*" postag_regexp="yes" regexp="yes">\p{Ll}[\p{Ll}·]+</token>
                     <marker>
-                        <token postag="DN0FP0"><exception postag="_GN_FP" /></token>
+                        <token postag="DN0FP0"><exception postag="_GN_FP" /><exception regexp="yes">[\d .,]+</exception></token>
                     </marker>
                     <token><exception regexp="yes">o|i</exception></token>
                 </pattern>
@@ -818,6 +818,7 @@ $Id$
                 <example type="incorrect"><marker>Els tres culleres</marker>.</example>
                 <example type="correct">Les tres culleres.</example>
                 <example type="correct">expulsarà de davant teu set nacions</example>
+                <example type="correct">assolí els 477 h el 1877</example>
             </rule>
             <rule>
                 <pattern>
@@ -1044,6 +1045,7 @@ $Id$
                 <example type="correct">Una de les seves cases.</example>
                 <example type="correct">tant de les institucions com de la ciutadania</example>
                 <example type="correct">Sabem ben poc de les èpoques posteriors</example>
+                <example type="correct">acostumaven a venir totes dels sectors més carques</example>
             </rule>
             <rule>
                 <pattern>
@@ -1939,6 +1941,7 @@ $Id$
                 <example type="correct">hom devora els aliments a queixalada franca</example>
                 <example type="correct">els nens jugaven a cuit</example>
                 <example type="correct">les campanes toquen a mort</example>
+                <!-- <example type="correct">eren adversaris a mort</example> -->
             </rule>
             <rule>
                 <pattern>
@@ -3673,28 +3676,29 @@ $Id$
         <rulegroup id="NECESSITAR_DE" name="necessitar *de">
             <rule>
                 <pattern>
-                    <token skip="1" postag="V.[MSING].*|_GV_" postag_regexp="yes" inflected="yes" regexp="yes">necessitar|necessita(t|ts|da|des)|requerir|requeri(t|ts|da|des)<exception postag="_GN_.*" postag_regexp="yes"/></token>
                     <marker>
+                        <token skip="1" postag="V.[MSING].*|_GV_" postag_regexp="yes" inflected="yes" regexp="yes">necessitar|necessita(t|ts|da|des)|requerir|requeri(t|ts|da|des)<exception postag="_GN_.*|NC.*" postag_regexp="yes"/></token>
                         <token regexp="yes">de|d'<exception postag=".*LOC_ADV.*" postag_regexp="yes"/></token>
-                    </marker>
+                    </marker>    
                     <token><exception regexp="yes">manera|forma|què|qui(ns|na|nes)?|mi</exception><exception postag="PP.*" postag_regexp="yes"/></token>
                 </pattern>
-                <message>'Necessitar' no regeix la preposició 'de'. Elimineu-la.</message>
-                <example type="incorrect">necessitava <marker>de</marker> comprensió</example>
-                <example type="incorrect">ha necessitat <marker>de</marker> comprensió</example>
-                <example type="correct">hi ha necessitat <marker>de</marker> comprensió</example>
-                <example type="incorrect">sense necessitar <marker>de</marker> moure el cap</example>
-                <example type="incorrect">no van pas necessitar <marker>de</marker>ls béns orientals,</example> 
+                <message>Aquest verb no regeix la preposició 'de'. Elimineu-la.<suggestion><match no="1" include_skipped="all"/></suggestion></message>
+                <example type="incorrect" correction="necessitava"><marker>necessitava de</marker> comprensió</example>
+                <example type="incorrect" correction="necessitat">ha <marker>necessitat de</marker> comprensió</example>
+                <example type="correct">hi ha necessitat de comprensió</example>
+                <example type="incorrect" correction="necessitar">sense <marker>necessitar de</marker> moure el cap</example>
+                <example type="incorrect">no van pas <marker>necessitar de</marker>ls béns orientals,</example> 
                 <example type="correct">sense necessitat de moure el cap</example>
                 <example type="correct">Ho necessitava de manera urgent</example>
                 <example type="correct">necessita comprensió</example>
                 <example type="correct">sentia la necessitat de fer-ho</example>
                 <example type="correct">o necessitat de satisfer un benestar material,</example>
                 <example type="correct">si hi ha necessitat de biòpsia.</example>   
-                <example type="incorrect">no requereixen necessàriament <marker>de</marker> l’ús de noves tecnologies</example>
+                <example type="incorrect" correction="requereixen necessàriament">no <marker>requereixen necessàriament de</marker> l’ús de noves tecnologies</example>
                 <example type="correct">Tot el que necessiti de vosaltres</example>
                 <example type="correct">Tot el que necessiti de mi</example>
                 <example type="correct">Tot el que necessitis de més a més</example>
+                <example type="correct">Sí que hi havia, en canvi, necessitat de tota mena de llibertat.</example>
             </rule>
         </rulegroup>
     </category>
@@ -5661,6 +5665,7 @@ $Id$
                 <example type="incorrect" correction="d'1"><marker>de 1</marker> a 3</example>
                 <example type="incorrect" correction="d'1"><marker>de 1</marker>, de 3</example>
                 <example type="correct">de 1.400 habitants</example>
+                <example type="correct">a una distància de 1 630 anys llum.</example>
             </rule>
             <rule>
                 <pattern>
@@ -7440,7 +7445,7 @@ $Id$
                 <pattern>
                     <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|V.[MNG].*" postag_regexp="yes"/></token>
                     <marker>
-                        <token postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"><exception postag="_GV_|_possible_nompropi" postag_regexp="yes"/><exception postag="allow_saxon_genitive"/><exception>te</exception></token>
+                        <token postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"><exception postag="_GV_|_possible_nompropi" postag_regexp="yes"/><exception postag="allow_saxon_genitive"/><exception>te</exception><exception regexp="yes">(?-i)SE</exception></token>
                     </marker>
                     <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|V.[SI].*" postag_regexp="yes"/><exception regexp="yes">["‘“«]</exception></token>
                 </pattern>
@@ -7451,6 +7456,7 @@ $Id$
                 <example type="correct">si no es "deterioren"</example>
                 <example type="correct">Les famoses Christie's i Sotheby's britàniques</example>
                 <example type="correct">S'estava a la ciutat d'Us.</example>
+                <example type="correct">En direcció NW-SE</example>
             </rule>
             <rule>
                 <pattern>
@@ -9958,20 +9964,35 @@ $Id$
             <example type="incorrect"><marker>Seguim endavant</marker> el pla.</example>
             <example type="correct">Seguim endavant amb el pla</example>
         </rule>
-        <rule id="UNA_VIDA_PER_ENDAVANT" name="Una vida *per endavant/al davant">
-            <pattern>
-                <token regexp="yes" skip="1">vida|futur|camí|dies|anys?|mes|mesos|dècad(a|es)|feina|faena|tasca</token>
-                <marker>
-                    <token>per</token>
-                    <token regexp="yes">endavant|davant</token>
-                </marker>
-            </pattern>
-            <message>Cal substituir per <suggestion>al davant</suggestion> o eliminar-ho.</message>
-            <url>http://esadir.cat/sintaxi/per_davant</url>
-            <example type="incorrect" correction="al davant">una vida <marker>per endavant</marker></example>
-            <example type="incorrect" correction="al davant">Dos anys té <marker>per davant</marker></example>
-            <example type="correct">una vida al davant</example>
-        </rule>
+        <rulegroup id="UNA_VIDA_PER_ENDAVANT" name="Una vida *per endavant/al davant">
+            <rule>
+                <pattern>
+                    <token regexp="yes" skip="1" inflected="yes">repte|vida|futur|camí|dies|any|mes|dècada|feina|faena|tasca</token>
+                    <marker>
+                        <token>per</token>
+                        <token regexp="yes">endavant|davant</token>
+                    </marker>
+                </pattern>
+                <message>Cal substituir per <suggestion>al davant</suggestion> o eliminar-ho.</message>
+                <url>http://esadir.cat/sintaxi/per_davant</url>
+                <example type="incorrect" correction="al davant">una vida <marker>per endavant</marker></example>
+                <example type="incorrect" correction="al davant">Dos anys té <marker>per davant</marker></example>
+                <example type="correct">una vida al davant</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>per</token>
+                        <token regexp="yes" skip="1">endavant|davant</token>
+                    </marker>
+                    <token regexp="yes" skip="1" inflected="yes">repte|vida|futur|camí|dies|any|mes|dècada|feina|faena|tasca</token>
+                </pattern>
+                <message>Cal substituir per <suggestion>al davant</suggestion> o eliminar-ho.</message>
+                <url>http://esadir.cat/sintaxi/per_davant</url>
+                <example type="incorrect" correction="al davant">té <marker>per davant</marker> el repte de menjar-se</example>
+                <example type="correct">té el repte de menjar-se</example>
+            </rule>
+        </rulegroup>   
         <rule id="A_BEN_SEGUR" name="a ben segur">
             <pattern>
                 <token>a</token>
@@ -14184,6 +14205,16 @@ $Id$
                 <example type="incorrect"> Els <marker>propers 10 anys</marker></example>
                 <example type="correct">L'any que ve</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token>proper</token>
+                    <token regexp="yes">\d+</token>
+                </pattern>
+                <message>'Proper' és inadequat o redundant en expressions de temps. Val més dir: <suggestion><match no="2"/></suggestion>, <suggestion>pròxim <match no="2"/></suggestion>, <suggestion>propvinent <match no="2"/></suggestion></message>
+                <short>Expressió preferible</short>
+                <example type="incorrect" correction="4|pròxim 4|propvinent 4">El <marker>proper 4</marker> de febrer</example>
+                <example type="correct">El considera proper</example>
+            </rule>
         </rulegroup>
         <rule id="A_AQUEST_FI" name="a aquest fi">
             <pattern>
@@ -16002,13 +16033,14 @@ $Id$
                 <pattern>
                     <token skip="-1">si<exception postag="PR.*|PT.*|DT.*|.*LOC_CONJ.*|C.*" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">perquè|com</exception></token>
                     <marker>
-                        <token postag="V.[^NGP].*" postag_regexp="yes" regexp="yes" skip="-1">[\p{Ll}·]+<exception postag="_GN_.*|N.*|A.*|V.[NGP].*" postag_regexp="yes"/><exception>di</exception><exception scope="next" regexp="yes">[:;,.!?\(\)–—]|com|perquè|que</exception><exception postag="C.*|PR.*|PT.*|DT.*|.*LOC_CONJ.*" postag_regexp="yes" scope="next"/></token>
+                        <token postag="V.[^NGP].*" postag_regexp="yes" regexp="yes" skip="-1">[\p{Ll}·]+<exception postag="_GN_.*|N.*|A.*|V.[NGP].*" postag_regexp="yes"/><exception>di</exception><exception scope="next" regexp="yes">com|perquè|que</exception><exception postag="C.*|PR.*|PT.*|DT.*|.*LOC_CONJ.*|_PUNCT.*" postag_regexp="yes" scope="next"/></token>
                         <token postag="V.[^NGP].*" postag_regexp="yes" regexp="yes">[\p{Ll}·]+<exception postag="_GN_.*|N.*|A.*|V.[NGP].*|.*LOC.*" postag_regexp="yes"/><exception regexp="yes">di|cap</exception></token>
                     </marker>
                 </pattern> 
                 <message>Falta una coma entre els verbs.</message>
                 <example type="incorrect">Si <marker>volem pujar un semitò haurem</marker> de multiplicar la freqüència per dos.</example>
                 <example type="correct">Si volem pujar un semitò, haurem de multiplicar la freqüència per dos.</example>
+                <example type="correct">festa que -si no perdem de vista els seus orígens- enalteix el grotesc</example>
             </rule>
         <rulegroup id="PREP_VERB_CONJUGAT" name="combinació impossible: preposició + verb conjugat">
             <rule>
@@ -16174,7 +16206,7 @@ $Id$
         <rulegroup id="EVITA_VERBS_VALENCIANS" name="Evita verbs valencians (pense, diga, patisca, patesca, patix, cantara)">
             <rule>
                 <pattern>
-                    <token postag="V.[^N].*" postag_regexp="yes" regexp="yes">.+e<exception postag="_GN.*|V.N.*|N.*|AQ.*" postag_regexp="yes" /><exception regexp="yes">he|ve|.*obre|.*omple|.*corre|vine</exception><exception postag="_possible_nompropi"/></token>
+                    <token postag="V.[^N].*" postag_regexp="yes" regexp="yes">.+e<exception postag="_GN.*|V.N.*|N.*|AQ.*|_possible_nompropi" postag_regexp="yes" /><exception regexp="yes">he|ve|.*obre|.*omple|.*corre|vine</exception><exception postag="_possible_nompropi"/></token>
                 </pattern>
                 <message>Forma verbal pròpia del valencià.</message>
                 <!-- per a fer suggeriments cal mirar les conjugacions-->
@@ -16183,10 +16215,11 @@ $Id$
                 <example type="correct">Jo ho <marker>penso</marker>.</example>
                 <example type="correct">No es va poder encendre mai.</example>
                 <example type="correct">un mosaic d’exotismes digne de veure</example>
+                <example type="correct">l'aeroport de Mais-Grate</example>
             </rule>
             <rule>
                 <pattern>
-                    <token postag="V.S.*" postag_regexp="yes" regexp="yes">.+(a|en?)<exception postag="_GN.*|V.N.*|N.*|V.I.*" postag_regexp="yes" /><exception regexp="yes">(s|c)àpig(a|uen)|vinga|fóra|visca</exception><exception postag="_possible_nompropi"/></token>
+                    <token postag="V.S.*" postag_regexp="yes" regexp="yes">.+(a|en?)<exception postag="_GN.*|V.N.*|N.*|V.I.*|_possible_nompropi" postag_regexp="yes" /><exception regexp="yes">(s|c)àpig(a|uen)|vinga|fóra|visca</exception><exception postag="_possible_nompropi"/></token>
                 </pattern>
                 <message>Forma verbal pròpia del valencià.</message>
                 <short>Forma valenciana.</short>
@@ -16200,7 +16233,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="V.S.*" postag_regexp="yes" regexp="yes">.+es<exception postag="_GN.*|N.*|V.[MI].*" postag_regexp="yes" /><exception regexp="yes">(s|c)àpigues|fes</exception></token>
+                    <token postag="V.S.*" postag_regexp="yes" regexp="yes">.+es<exception postag="_GN.*|N.*|V.[MI].*|_possible_nompropi" postag_regexp="yes" /><exception regexp="yes">(s|c)àpigues|fes</exception></token>
                 </pattern>
                 <message>Forma verbal pròpia del valencià.</message>
                 <short>Forma valenciana.</short>
@@ -16212,10 +16245,11 @@ $Id$
                 <example type="incorrect">No m'importa res del que <marker>digues</marker></example>
                 <example type="correct">Vull que sàpigues això.</example>
                 <example type="correct">Li hauria agradat que ho fes.</example>
+                <example type="correct">Garraf, temes sobre els quals redactà memòries</example>
             </rule>
             <rule>
                 <pattern>
-                    <token postag="V.M.*" postag_regexp="yes" regexp="yes">.+en?<exception postag="_GN.*|N.*|V.[IN].*" postag_regexp="yes" /><exception regexp="yes">(s|c)àpiguen|vine|obre|omple|pren|ven|fen|.*corre</exception></token>
+                    <token postag="V.M.*" postag_regexp="yes" regexp="yes">.+en?<exception postag="_GN.*|N.*|V.[IN].*|_possible_nompropi" postag_regexp="yes" /><exception regexp="yes">(s|c)àpiguen|vine|obre|omple|pren|ven|fen|.*corre</exception></token>
                 </pattern>
                 <message>Forma verbal pròpia del valencià.</message>
                 <short>Forma valenciana.</short>
@@ -16228,7 +16262,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="V.M03S0" postag_regexp="yes" regexp="yes">.+a<exception postag="_GN.*|N.*|V.I.*|V.M02S0" postag_regexp="yes" /><exception regexp="yes">(s|c)àpiga|vinga|visca</exception><exception postag="_possible_nompropi"/></token>
+                    <token postag="V.M03S0" postag_regexp="yes" regexp="yes">.+a<exception postag="_GN.*|N.*|V.I.*|V.M02S0|_possible_nompropi" postag_regexp="yes" /><exception regexp="yes">(s|c)àpiga|vinga|visca</exception><exception postag="_possible_nompropi"/></token>
                 </pattern>
                 <message>Forma verbal pròpia del valencià.</message>
                 <short>Forma valenciana.</short>
@@ -16241,7 +16275,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="VMS.*" postag_regexp="yes" regexp="yes">.+(ara|era|ira)<exception postag="VMI.*" postag_regexp="yes"/></token>
+                    <token postag="VMS.*" postag_regexp="yes" regexp="yes">.+(ara|era|ira)<exception postag="VMI.*|_possible_nompropi" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Forma verbal pròpia del valencià.</message>
                 <short>Forma valenciana.</short>
@@ -16250,10 +16284,11 @@ $Id$
                 <example type="correct">Ell <marker>haguera</marker> vingut, si li ho haguessis dit.</example>
                 <example type="correct">La il·lusió que li amara el cor.</example>
                 <example type="correct">que li regira l'estómac</example>
+                <example type="correct">Maria Barbara Bach</example>
             </rule>
             <rule>
                 <pattern>
-                    <token postag="V.SI.*" postag_regexp="yes" regexp="yes">.+(asses|àssem|àsseu|assen|esses|éssem|ésseu|essen)<exception postag="_GN.*|VMI.*" postag_regexp="yes" /></token>
+                    <token postag="V.SI.*" postag_regexp="yes" regexp="yes">.+(asses|àssem|àsseu|assen|esses|éssem|ésseu|essen)<exception postag="_GN.*|VMI.*|_possible_nompropi" postag_regexp="yes" /></token>
                 </pattern>
                 <message>Forma verbal pròpia del valencià.</message>
                 <short>Forma valenciana.</short>

@@ -2461,7 +2461,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <marker>
-                    <token regexp="yes">[1234567890][1234567890.,]+[1234567890]</token>
+                    <token regexp="yes">[1234567890][1234567890., ]+[1234567890]</token>
                 </marker>
             </pattern>
             <disambig action="add"><wd lemma="numeral" pos="NCCN000"></wd></disambig>
@@ -2469,7 +2469,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <marker>
-                    <token regexp="yes">[1234567890][1234567890.,]+[1234567890]</token>
+                    <token regexp="yes">[1234567890][1234567890., ]+[1234567890]</token>
                 </marker>
             </pattern>
             <disambig action="add"><wd lemma="numeral" pos="DN0CP0"></wd></disambig>
@@ -2489,8 +2489,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
             </pattern>
             <disambig action="add"><wd lemma="numeral" pos="DN0CP0"></wd></disambig>
-        </rule>
-        
+        </rule>  
         <rule>
             <pattern>
                 <marker>
@@ -2502,11 +2501,30 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <marker>
-                    <token spacebefore="yes" regexp="yes">1</token>
+                    <token spacebefore="yes">1</token>
                 </marker>
             </pattern>
             <disambig action="remove"><wd lemma="numeral" pos="DN0CP0"></wd></disambig>
         </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">[^.,]</token>
+                <marker>
+                    <token spacebefore="no">1</token>
+                </marker>
+            </pattern>
+            <disambig action="add"><wd lemma="numeral" pos="DN0CS0"></wd></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">[^.,]</token>
+                <marker>
+                    <token spacebefore="no">1</token>
+                </marker>
+            </pattern>
+            <disambig action="remove"><wd lemma="numeral" pos="DN0CP0"></wd></disambig>
+        </rule>
+        
         <!-- ordinals -->
         <rule>
             <pattern>
@@ -2583,6 +2601,28 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="remove"><wd lemma="ordinal" pos="AO0CN0"/></disambig>
         </rule>
+        <!-- El + any (en xifres) -->
+        <rule>
+            <pattern>
+                <token regexp="yes">en|anys?|l|el|l'</token>
+                <marker>
+                    <token regexp="yes">[123456789][1234567890]{0,3}</token>
+                </marker>
+            </pattern>
+            <disambig action="replace" postag="_C_TEMPS"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes">numeral</token>
+                <marker>
+                    <token regexp="yes">aC|dC</token>
+                </marker>
+            </pattern>
+            <disambig action="replace"><wd pos="RG"/></disambig>
+        </rule>
+       
+        
+        
 <!--         <rule>  aquesta i la següent es poden eliminar?
             un cop, aquestes tres
             <pattern>
@@ -2754,6 +2794,27 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="replace"><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/></disambig>
         </rule>
     </rulegroup>  
+    <rulegroup id="PUNTS_CARDINALS" name="punts cardinals, sigles">
+        <rule>
+            <pattern>
+                <token postag="DA0MS0"/>
+                <marker>
+                    <token regexp="yes">(?-i)N|S|E|W|NE|SE|NW|SW</token>
+                </marker>
+            </pattern>
+            <disambig action="replace"><wd pos="NCMS000"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">(?-i)N|S|E|W|NE|SE|NW|SW</token>
+                <token/>
+                <marker>
+                    <token regexp="yes">(?-i)N|S|E|W|NE|SE|NW|SW</token>
+                </marker>
+            </pattern>
+            <disambig action="replace"><wd pos="NCMS000"/></disambig>
+        </rule>
+    </rulegroup>    
     <rulegroup id="C_LLOC" name="complements de lloc">
         <rule id="dins_meu" name="dins meu">
             <pattern>
@@ -3514,7 +3575,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <feature id="nombre"/>
                 <feature id="genere"/>
                 <marker>
-                    <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">corrent|pendent</token>
+                    <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">corrent|pendent|carretera</token>
                 </marker>
                 <token postag="AQ.*" postag_regexp="yes"/>
             </unify>
@@ -4999,7 +5060,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <and><token postag="D.*" postag_regexp="yes"/><token postag="_GN_MS"><exception postag="_GN_FS"/></token></and>
                 <marker>
-                    <and><token postag="NCCS.*|NCMN.*" postag_regexp="yes"/><token postag="_GN_MS"/></and>
+                    <and><token postag="NCCS.*|NCMN.*|NCCN.*" postag_regexp="yes"/><token postag="_GN_MS"/></and>
                 </marker>
             </pattern>
             <disambig action="add"><wd pos="NCMS000"></wd></disambig>
@@ -5008,7 +5069,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <and><token postag="D.*" postag_regexp="yes"/><token postag="_GN_FS"><exception postag="_GN_MS"/></token></and>
                 <marker>
-                    <and><token postag="NCCS.*|NCFN.*" postag_regexp="yes"/><token postag="_GN_FS"/></and>
+                    <and><token postag="NCCS.*|NCFN.*|NCCN.*" postag_regexp="yes"/><token postag="_GN_FS"/></and>
                 </marker>
             </pattern>
             <disambig action="add"><wd pos="NCFS000"></wd></disambig>
@@ -5140,44 +5201,6 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="filter" postag="DN.*|_GN.*"></disambig>
         </rule>
-        <!-- El + any (en xifres) -->
-        <!--       <rule>
-            <pattern>
-                <token regexp="yes">en|e?l|dels?|anys?</token>
-                <marker>
-                    <token regexp="yes">[123456789][1234567890]{0,3}</token>
-                </marker>
-            </pattern>
-            <disambig action="add"><wd lemma="numeral" pos="NCMS000"></wd></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token regexp="yes">en|e?l|dels?|anys?</token>
-                <marker>
-                    <token regexp="yes">[123456789][1234567890]{0,3}</token>
-                </marker>
-            </pattern>
-            <disambig action="filter" postag="N.*"></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token regexp="yes">[123456789][1234567890]{0,3}</token>
-                <marker>
-                    <token regexp="yes">aC|dC</token>
-                </marker>
-            </pattern>
-            <disambig action="add"><wd pos="RG"></wd></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token regexp="yes">[123456789][1234567890]{0,3}</token>
-                <marker>
-                    <token regexp="yes">aC|dC</token>
-                </marker>
-            </pattern>
-            <disambig action="filter" postag="RG"></disambig>
-        </rule>
--->
     </rulegroup>
     <rulegroup id="TOT" name="tot (determinant, nom o pronom)">
         <rule> <!-- Nom si ha concordat-->
@@ -5291,6 +5314,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <token postag="PI.*" postag_regexp="yes">tot<exception postag="_GN_.*" postag_regexp="yes"/></token>
                 </marker>
+            </pattern>
+            <disambig action="filter" postag="PI.*"></disambig>
+        </rule>
+        <rule> <!-- totes de-->
+            <pattern>
+                <marker>
+                    <token postag="PI.*"  postag_regexp="yes" inflected="yes">tot</token>
+                </marker>
+                <token regexp="yes">de|d'</token>
             </pattern>
             <disambig action="filter" postag="PI.*"></disambig>
         </rule>
@@ -6164,7 +6196,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rule>
     <rule id="VerbNom" name="verb i nom que no ha concordat"> <!-- Això fou estrany -->
         <pattern>
-            <token postag="V.[MSI].*|_GV_" postag_regexp="yes" negate_pos="yes"><exception postag="V.[MSI].*|_GV_|R[GN]|.*LOC_ADV.*|C.*" postag_regexp="yes"/><exception regexp="yes">["“«'‘(]</exception><exception inflected="yes" regexp="yes">mot|paraula|terme|expressió|vocable|nom|tipus</exception></token>
+            <token><exception postag="V.[MSI].*|_GV_|R[GN]|.*LOC_ADV.*|C.*|_PUNCT.*" postag_regexp="yes"/><exception regexp="yes">["“«'‘(]</exception><exception inflected="yes" regexp="yes">mot|paraula|terme|expressió|vocable|nom|tipus</exception></token>
             <marker>
                 <and>
                     <token postag="NC.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes" /><exception regexp="yes">força|coma|cap|noms?|nou|deu</exception></token>
@@ -6181,11 +6213,11 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <marker>
                 <and>
                     <token postag="NC.*" postag_regexp="yes"></token>
-                    <token postag="V.[MSI].*" postag_regexp="yes" regexp="yes">.+e|.+[aei]sses|.+[ae]res|.+era<exception postag="_GV_" /></token>
+                    <token postag="V.[MSI].*" postag_regexp="yes" regexp="yes">.+e|.+[aei]sses|.+[ae]res|.+era<exception postag="_GN_.*" postag_regexp="yes" /></token>
                 </and>
             </marker>
         </pattern>
-        <disambig action="filter" postag="V.*"></disambig>
+        <disambig action="filter" postag="V.*|_GV_"></disambig>
     </rule>   
     <rule id="VerbNom_valencians2" name="verb (valencià) i nom que no ha concordat">
     <!-- després de totes les comprovacions, donem prioritat al nom sobre la forma verbal valenciana --> 
@@ -7930,7 +7962,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rulegroup>
     <rule id="possible_nom_propi" name="possible nom propi">
             <pattern>
-                <token><exception postag="SENT_START"/><exception regexp="yes">[¿¡"«»—–:\-]</exception></token>
+                <token><exception postag="SENT_START"/><exception regexp="yes" spacebefore="yes">[¿¡"«»—–:\-]</exception></token>
                 <marker>
                     <token postag="DA.*|PP.*|P0.*|V.[MSI].*|NP.*" postag_regexp="yes" regexp="yes">\p{Lu}.*</token>
                 </marker>
