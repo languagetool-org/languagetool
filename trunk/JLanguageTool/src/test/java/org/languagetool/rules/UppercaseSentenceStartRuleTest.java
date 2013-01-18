@@ -19,7 +19,6 @@
 package org.languagetool.rules;
 
 import java.io.IOException;
-import java.util.List;
 
 import junit.framework.TestCase;
 
@@ -27,118 +26,80 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.TestTools;
 
-/**
- * @author Daniel Naber
- */
 public class UppercaseSentenceStartRuleTest extends TestCase {
 
   public void testNonSentences() throws IOException {
     // In OO/LO we get text per paragraph, and list items are a paragraph.
     // Make sure the items that don't look like a sentence generate no error.
-    JLanguageTool langTool = new JLanguageTool(Language.ENGLISH);
+    final JLanguageTool lt = new JLanguageTool(Language.ENGLISH);
     
-    assertEquals(0, langTool.check("a list item").size());
-    assertEquals(0, langTool.check("a list item,").size());
-    assertEquals(0, langTool.check("with trailing whitespace, ").size());
-    assertEquals(0, langTool.check("a list item;").size());
-    assertEquals(0, langTool.check("A sentence.").size());
-    assertEquals(0, langTool.check("A sentence!").size());
+    assertEquals(0, lt.check("a list item").size());
+    assertEquals(0, lt.check("a list item,").size());
+    assertEquals(0, lt.check("with trailing whitespace, ").size());
+    assertEquals(0, lt.check("a list item;").size());
+    assertEquals(0, lt.check("A sentence.").size());
+    assertEquals(0, lt.check("A sentence!").size());
 
-    assertEquals(1, langTool.check("a sentence.").size());
-    assertEquals(1, langTool.check("a sentence!").size());
+    assertEquals(1, lt.check("a sentence.").size());
+    assertEquals(1, lt.check("a sentence!").size());
   }
   
   public void testRule() throws IOException {
-    JLanguageTool langTool = new JLanguageTool(Language.GERMAN);
-    List<RuleMatch> matches;
+    final JLanguageTool lt = new JLanguageTool(Language.GERMAN);
     
-    matches = langTool.check("Dies ist ein Satz. Und hier kommt noch einer");
-    assertEquals(0, matches.size());
-    matches = langTool.check("Dies ist ein Satz. Ätsch, noch einer mit Umlaut.");
-    assertEquals(0, matches.size());
-    matches = langTool.check("Dieser Satz ist bspw. okay so.");
-    assertEquals(0, matches.size());
-    matches = langTool.check("Dieser Satz ist z.B. okay so.");
-    assertEquals(0, matches.size());
-    matches = langTool.check("Dies ist ein Satz. \"Aber der hier auch!\".");
-    assertEquals(0, matches.size());
-    matches = langTool.check("\"Dies ist ein Satz!\"");
-    assertEquals(0, matches.size());
-    matches = langTool.check("'Dies ist ein Satz!'");
-    assertEquals(0, matches.size());
+    assertEquals(0, lt.check("Dies ist ein Satz. Und hier kommt noch einer").size());
+    assertEquals(0, lt.check("Dies ist ein Satz. Ätsch, noch einer mit Umlaut.").size());
+    assertEquals(0, lt.check("Dieser Satz ist bspw. okay so.").size());
+    assertEquals(0, lt.check("Dieser Satz ist z.B. okay so.").size());
+    assertEquals(0, lt.check("Dies ist ein Satz. \"Aber der hier auch!\".").size());
+    assertEquals(0, lt.check("\"Dies ist ein Satz!\"").size());
+    assertEquals(0, lt.check("'Dies ist ein Satz!'").size());
     
-    matches = langTool.check("Sehr geehrte Frau Merkel,\nwie wir Ihnen schon früher mitgeteilt haben...");
-    assertEquals(0, matches.size());
-    matches = langTool.check("Dies ist ein Satz. aber das hier noch nicht");
-    assertEquals(0, matches.size());
+    assertEquals(0, lt.check("Sehr geehrte Frau Merkel,\nwie wir Ihnen schon früher mitgeteilt haben...").size());
+    assertEquals(0, lt.check("Dies ist ein Satz. aber das hier noch nicht").size());
     
-    matches = langTool.check("Dies ist ein Satz. ätsch, noch einer mit Umlaut.");
-    assertEquals(1, matches.size());
-    matches = langTool.check("Dies ist ein Satz. \"aber der hier auch!\"");
-    assertEquals(1, matches.size());
-    matches = langTool.check("Dies ist ein Satz. „aber der hier auch!“");
-    assertEquals(1, matches.size());
-    matches = langTool.check("\"dies ist ein Satz!\"");
-    assertEquals(1, matches.size());
-    matches = langTool.check("'dies ist ein Satz!'");
-    assertEquals(1, matches.size());
+    assertEquals(1, lt.check("Dies ist ein Satz. ätsch, noch einer mit Umlaut.").size());
+    assertEquals(1, lt.check("Dies ist ein Satz. \"aber der hier auch!\"").size());
+    assertEquals(1, lt.check("Dies ist ein Satz. „aber der hier auch!“").size());
+    assertEquals(1, lt.check("\"dies ist ein Satz!\"").size());
+    assertEquals(1, lt.check("'dies ist ein Satz!'").size());
 
-    langTool = new JLanguageTool(Language.ENGLISH);
-    matches = langTool.check("In Nov. next year.");
-    assertEquals(0, matches.size());
+    final JLanguageTool ltEnglish = new JLanguageTool(Language.ENGLISH);
+    assertEquals(0, ltEnglish.check("In Nov. next year.").size());
   }
 
   public void testDutchSpecialCases() throws IOException {
-    JLanguageTool langTool = new JLanguageTool(Language.DUTCH);
-    List<RuleMatch> matches;
+    final JLanguageTool lt = new JLanguageTool(Language.DUTCH);
     
-    matches = langTool.check("A sentence.");
-    assertEquals(1, matches.size());
-    matches = langTool.check("'s Morgens...");
-    assertEquals(0, matches.size());
+    assertEquals(1, lt.check("A sentence.").size());
+    assertEquals(0, lt.check("'s Morgens...").size());
 
-    matches = langTool.check("a sentence.");
-    assertEquals(2, matches.size());
-    matches = langTool.check("'s morgens...");
-    assertEquals(1, matches.size());
-    matches = langTool.check("s sentence.");
-    assertEquals(2, matches.size());
+    assertEquals(2, lt.check("a sentence.").size());
+    assertEquals(1, lt.check("'s morgens...").size());
+    assertEquals(2, lt.check("s sentence.").size());
   }
   
   public void testPolishSpecialCases() throws IOException {
-    JLanguageTool langTool = new JLanguageTool(Language.POLISH);
-    List<RuleMatch> matches;
+    final JLanguageTool lt = new JLanguageTool(Language.POLISH);
     
-    matches = langTool.check("Zdanie.");
-    assertEquals(0, matches.size());
-    matches = langTool.check("To jest lista punktowana:\n\npunkt pierwszy,\n\npunkt drugi,\n\npunkt trzeci.");
-    assertEquals(0, matches.size());
+    assertEquals(0, lt.check("Zdanie.").size());
+    assertEquals(0, lt.check("To jest lista punktowana:\n\npunkt pierwszy,\n\npunkt drugi,\n\npunkt trzeci.").size());
   }
 
   public void testUkrainian() throws IOException {
     final UppercaseSentenceStartRule rule = new UppercaseSentenceStartRule(TestTools.getEnglishMessages(), Language.UKRAINIAN);
+    final JLanguageTool lt = new JLanguageTool(Language.UKRAINIAN);
 
-    final JLanguageTool langTool = new JLanguageTool(Language.UKRAINIAN);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Автор написав це речення з великої літери.")).length);
 
-    // correct sentences:
-    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("Автор написав це речення з великої літери."));
-    assertEquals(0, matches.length);
-
-    // incorrect sentences:
-    matches = rule.match(langTool.getAnalyzedSentence("автор написав це речення з маленької літери."));
+    final RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("автор написав це речення з маленької літери."));
     assertEquals(1, matches.length);
     assertEquals(1, matches[0].getSuggestedReplacements().size());
     assertEquals("Автор", matches[0].getSuggestedReplacements().get(0));
     
-    List<RuleMatch> matches_list;
-    matches_list = langTool.check("Це список з декількох рядків:\n\nрядок 1,\n\nрядок 2,\n\nрядок 3.");
-    assertEquals(0, matches_list.size());
-    
-    matches_list = langTool.check("Це список з декількох рядків:\n\nрядок 1;\n\nрядок 2;\n\nрядок 3.");
-    assertEquals(0, matches_list.size());
-
-    matches_list = langTool.check("Це список з декількох рядків:\n\n 1) рядок 1;\n\n2) рядок 2;\n\n3)рядок 3.");
-    assertEquals(0, matches_list.size());
+    assertEquals(0, lt.check("Це список з декількох рядків:\n\nрядок 1,\n\nрядок 2,\n\nрядок 3.").size());
+    assertEquals(0, lt.check("Це список з декількох рядків:\n\nрядок 1;\n\nрядок 2;\n\nрядок 3.").size());
+    assertEquals(0, lt.check("Це список з декількох рядків:\n\n 1) рядок 1;\n\n2) рядок 2;\n\n3)рядок 3.").size());
   }
 
 }
