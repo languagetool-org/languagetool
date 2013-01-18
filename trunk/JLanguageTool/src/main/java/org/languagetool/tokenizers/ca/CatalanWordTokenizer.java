@@ -59,18 +59,18 @@ public class CatalanWordTokenizer implements Tokenizer {
 
         // Match verb+3 pronoms febles (rare but possible!). Ex: Emporta-te'ls-hi.
         // It creates 4 tokens: <token>Emporta</token><token>-te</token><token>'ls</token><token>-hi</token>
-        patterns[2] = Pattern.compile("^([lnmtsd]')(.*)"+PF+PF+PF+"$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-        patterns[3] = Pattern.compile("^(.*)"+PF+PF+PF+"$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+        patterns[2] = Pattern.compile("^([lnmtsd]')(.{2,})"+PF+PF+PF+"$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+        patterns[3] = Pattern.compile("^(.{2,})"+PF+PF+PF+"$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
 
         // Match verb+2 pronoms febles. Ex: Emporta-te'ls. 
         // It creates 3 tokens: <token>Emporta</token><token>-te</token><token>'ls</token>
-        patterns[4] = Pattern.compile("^([lnmtsd]')(.*)"+PF+PF+"$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-        patterns[5] = Pattern.compile("^(.*)"+PF+PF+"$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+        patterns[4] = Pattern.compile("^([lnmtsd]')(.{2,})"+PF+PF+"$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+        patterns[5] = Pattern.compile("^(.{2,})"+PF+PF+"$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
 
         // match verb+1 pronom feble. Ex: Emporta't, vés-hi, porta'm.
         // It creates 2 tokens: <token>Emporta</token><token>'t</token>
-        patterns[6] = Pattern.compile("^([lnmtsd]')(.*)"+PF+"$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-        patterns[7] = Pattern.compile("^(.*)"+PF+"$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+        patterns[6] = Pattern.compile("^([lnmtsd]')(.{2,})"+PF+"$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+        patterns[7] = Pattern.compile("^(.{2,})"+PF+"$",Pattern.UNICODE_CASE);
 
         // d'emportar
         patterns[8] = Pattern.compile("^([lnmtsd]')(.*)$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
@@ -94,11 +94,14 @@ public class CatalanWordTokenizer implements Tokenizer {
 		final List<String> l = new ArrayList<String>();
 		final StringTokenizer st = new StringTokenizer(
 				text.replaceAll("([\\p{L}])['’]([\\p{L}])", "$1##CA_APOS##$2")
+						// Cases: d'1 km, és l'1 de gener, és d'1.4 kg
+						.replaceAll("([dlDL])['’](1[\\s\\.,])", "$1##CA_APOS##$2")
 				         //it's necessary for words like "vint-i-quatre"
 						.replaceAll("([\\p{L}])-([\\p{L}])-([\\p{L}])", "$1##CA_HYPHEN##$2##CA_HYPHEN##$3") 
 						.replaceAll("([\\p{L}])-([\\p{L}\\d])", "$1##CA_HYPHEN##$2")
 						.replaceAll("([\\d])\\.([\\d])", "$1##CA_DECIMALPOINT##$2")
 						.replaceAll("([\\d]),([\\d])","$1##CA_DECIMALCOMMA##$2")
+						.replaceAll("([\\d]) ([\\d])","$1##CA_SPACE##$2")
 						// allows correcting typographical errors in "ela geminada"
 						.replaceAll("l\\.l", "##ELA_GEMINADA##"), 
 				"\u0020\u00A0\u115f\u1160\u1680"
@@ -118,6 +121,7 @@ public class CatalanWordTokenizer implements Tokenizer {
 					.replaceAll("##CA_HYPHEN##", "-")
 					.replaceAll("##CA_DECIMALPOINT##", ".")
 					.replaceAll("##CA_DECIMALCOMMA##", ",")
+					.replaceAll("##CA_SPACE##", " ")
 					.replaceAll("##ELA_GEMINADA##", "l.l");
 			Matcher matcher = null;
 			boolean matchFound = false;
