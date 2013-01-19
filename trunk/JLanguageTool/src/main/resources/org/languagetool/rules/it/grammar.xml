@@ -113,6 +113,7 @@ $Id$
  PB009    Created uso corretto under verbs and added adire vie legali
  PB010    Reworked repetition rule ST_03_002
  PB011    Reworked rule GR_04_002 exteneded to all words ending with à|è|é|ì|ò|ù
+ PB012    Added exception for article of the word dei
  ======== ===========================================================================
 -->
 
@@ -211,7 +212,11 @@ $Id$
             <rule>
                 <pattern>
                     <token regexp="yes">lo|la|il|gli|le</token>
-                    <token postag="NOUN-M.p" postag_regexp="yes" regexp="yes">[bcdfghlmnpqrstv][aeiou].*|[bcdfglmnqrtv][bcdfglmnpqrtv].*<exception postag="(NOUN-M.s)|(NOUN-F.p)" postag_regexp="yes"></exception></token>
+                    <token postag="NOUN-M.p" postag_regexp="yes" regexp="yes">[bcdfghlmnpqrstv][aeiou].*|[bcdfglmnqrtv][bcdfglmnpqrtv].*<exception postag="(NOUN-M.s)|(NOUN-F.p)" postag_regexp="yes"></exception>
+<!-- PB0012 + -->
+                    	<exception>dei</exception>
+<!-- PB0012 - -->                        
+                    </token>
                 </pattern>
                 <message>L'articolo non concorda: <suggestion>i <match no="2"></match></suggestion>.</message>
                 <example type="incorrect">Hai fatto <marker>le compiti</marker>?</example>
@@ -262,7 +267,19 @@ $Id$
                 <example type="incorrect">Devi andare da <marker>un psicologo</marker>.</example>
                 <example type="correct">Devi andare da <marker>uno psicologo</marker>.</example>
             </rule>
-        </rulegroup>
+<!-- PB012 + -->            
+            <!-- gli dei-->
+            <rule>
+                <pattern>
+                    <token regexp="yes">i|la|il|lo|le</token>
+                    <token>dei</token>
+                </pattern>
+                <message>L'articolo non concorda: <suggestion>gli <match no="2"></match></suggestion>.</message>
+                <example type="incorrect">Adoravano <marker>i dei</marker> del suono.</example>
+                <example type="correct">Adoravano <marker>gli dei</marker> del suono.</example>
+            </rule>
+<!-- PB012 - -->
+		</rulegroup>
     </category>
 
     <!-- GRAMMATICA CONCORDANZA - GR_03 -->
