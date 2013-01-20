@@ -73,14 +73,16 @@ public class AccentuationCheckRule extends CatalanRule {
   private static final Pattern ADJECTIU_FP = Pattern.compile("AQ.[FC][PN].*|V.P..PF|PX.FP.*");
   private static final Pattern INFINITIU = Pattern.compile("V.N.*");
   private static final Pattern VERB_CONJUGAT = Pattern.compile("V.[^NGP].*|_GV_");
+  private static final Pattern PARTICIPI_MS = Pattern.compile("V.P.*SM");
+  private static final Pattern GRUP_VERBAL = Pattern.compile("_GV_");
   private static final Pattern VERB_3S = Pattern.compile("V...3S.");
   private static final Pattern NOT_IN_PREV_TOKEN = Pattern.compile("VA.*|PP.*|P0.*|VSP.*");
   private static final Pattern BEFORE_ADJECTIVE_MS = Pattern.compile("SPS00|D[^R].[MC][SN].*|V.[^NGP].*|PX.*");
   private static final Pattern BEFORE_ADJECTIVE_FS = Pattern.compile("SPS00|D[^R].[FC][SN].*|V.[^NGP].*|PX.*");
   private static final Pattern BEFORE_ADJECTIVE_MP = Pattern.compile("SPS00|D[^R].[MC][PN].*|V.[^NGP].*|PX.*");
   private static final Pattern BEFORE_ADJECTIVE_FP = Pattern.compile("SPS00|D[^R].[FC][PN].*|V.[^NGP].*|PX.*");
-  private static final Pattern GN = Pattern.compile("_GN_.*");
-  private static final Pattern EXCEPCIONS_DARRERE_DE = Pattern.compile("manera|por|costat",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern GN = Pattern.compile("_GN_.*|<?/?N[CP].*");
+  private static final Pattern EXCEPCIONS_DARRERE_DE = Pattern.compile("forma|manera|por|costat",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
       
   private final Map<String, AnalyzedTokenReadings> relevantWords;
   private final Map<String, AnalyzedTokenReadings> relevantWords2;
@@ -176,7 +178,8 @@ public class AccentuationCheckRule extends CatalanRule {
       		replacement = relevantWords.get(token).getToken();
       	}    
       	//circumstancies d'una altra classe
-      	else if  ( !token.equals("venia") && !token.equals("venies") && !token.equals("tenia") && !token.equals("tenies")
+      	else if  ( !matchPostagRegexp(tokens[i],PARTICIPI_MS)
+      			   && !token.equals("venia") && !token.equals("venies") && !token.equals("tenia") && !token.equals("tenies")
       			   && !token.equals("faria") && !token.equals("faries")
       	           && !token.equals("continua") && !token.equals("continues") && !token.equals("cantar")
       	           && !prevToken.equals("que") && !prevToken.equals("qui") && !prevToken.equals("què")
@@ -220,7 +223,7 @@ public class AccentuationCheckRule extends CatalanRule {
       	}
       	//les seves contraries
       	else if (
-      	            (matchPostagRegexp(relevantWords.get(token),NOM_MS) && matchPostagRegexp(tokens[i-1],ADJECTIU_MS) && !matchPostagRegexp(tokens[i],VERB_3S))
+      	            (matchPostagRegexp(relevantWords.get(token),NOM_MS) && matchPostagRegexp(tokens[i-1],ADJECTIU_MS) && !matchPostagRegexp(tokens[i],VERB_3S) && !matchPostagRegexp(tokens[i],GRUP_VERBAL))
       	            || (matchPostagRegexp(relevantWords.get(token),NOM_FS) && matchPostagRegexp(tokens[i-1],ADJECTIU_FS) && !matchPostagRegexp(tokens[i],VERB_3S))
       	            || (matchPostagRegexp(relevantWords.get(token),NOM_MP) && matchPostagRegexp(tokens[i-1],ADJECTIU_MP))
       	            || (matchPostagRegexp(relevantWords.get(token),NOM_FP) && matchPostagRegexp(tokens[i-1],ADJECTIU_FP))

@@ -43,6 +43,10 @@ public class AccentuationCheckRuleTest extends TestCase {
   public void testRule() throws IOException {
 
     // correct sentences:
+	assertCorrect("El lloc era, però, habitat de molt abans,");
+	assertCorrect("i del bel canto del rococó.");
+	assertCorrect("El lloc fou habitat de forma contínua");
+	assertCorrect("que havia estat habitat fins al regnat de Joan II");
 	assertCorrect("López-Picó publica el seu llibre de poesies");
 	assertCorrect("Vaig perdut, tremolo de por.");
 	assertCorrect("l'home marra el camí");

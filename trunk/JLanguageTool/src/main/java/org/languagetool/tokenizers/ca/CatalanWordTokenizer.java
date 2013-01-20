@@ -70,7 +70,7 @@ public class CatalanWordTokenizer implements Tokenizer {
         // match verb+1 pronom feble. Ex: Emporta't, vés-hi, porta'm.
         // It creates 2 tokens: <token>Emporta</token><token>'t</token>
         patterns[6] = Pattern.compile("^([lnmtsd]')(.{2,})"+PF+"$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-        patterns[7] = Pattern.compile("^(.{2,})"+PF+"$",Pattern.UNICODE_CASE);
+        patterns[7] = Pattern.compile("^(.+[^cbfhjkovwyzCBFHJKOVWYZ])"+PF+"$",Pattern.UNICODE_CASE);
 
         // d'emportar
         patterns[8] = Pattern.compile("^([lnmtsd]')(.*)$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
@@ -134,27 +134,35 @@ public class CatalanWordTokenizer implements Tokenizer {
 			if (matchFound) {
 				for (int i = 1; i <= matcher.groupCount(); i++) {
 					groupStr = matcher.group(i);
-					l.add(groupStr);
+					l.addAll(wordsToAdd(groupStr));
 				}
-			} else if (!s.contains("-"))
-				l.add(s);
-			else {
-				try {
-					// words containing hyphen (-) are looked up in the dictionary
-					if (tagger.existsWord(s))
-						l.add(s);
-					else {
-						// if not found, the word is split
-						final StringTokenizer st2 = new StringTokenizer(s, "-",	true);
-						while (st2.hasMoreElements()) 
-							l.add(st2.nextToken());
-					}
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
+			} else 
+				l.addAll(wordsToAdd(s));
 		}
 		return l;
+	}
+	
+	/* Splits a word containing hyphen(-) it it doesn't exist in the dictionary*/
+	private List<String> wordsToAdd(String s) {
+		final List<String> l = new ArrayList<String>();
+		if (!s.contains("-"))
+			l.add(s);
+		else {
+			try {
+				// words containing hyphen (-) are looked up in the dictionary
+				if (tagger.existsWord(s))
+					l.add(s);
+				else {
+					// if not found, the word is split
+					final StringTokenizer st2 = new StringTokenizer(s, "-",	true);
+					while (st2.hasMoreElements()) 
+						l.add(st2.nextToken());
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return l;		
 	}
 }
