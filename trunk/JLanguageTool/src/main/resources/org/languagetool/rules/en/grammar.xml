@@ -134,19 +134,33 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
             <example correction="message" type="incorrect">There is an error <marker>massage</marker>.</example>
             <example correction="messages" type="incorrect">I sent different <marker>massages</marker>.</example>
         </rule>
-        <rule id="CHANCE_CHANGE" name="chance (change) a setting">
-            <pattern>
-                <marker>
-                    <token inflected="yes" skip="3">chance <exception scope="next">change</exception></token>
-                </marker>
-                <token regexp="yes" inflected="yes">behaviou?r|mode|setting</token>
-            </pattern>
-            <message>Did you mean <suggestion><match no="1" regexp_match="chanc" regexp_replace="chang"/></suggestion>?</message>
-            <short>Possible typo</short>
-            <example type="correct">Do not <marker>change</marker> these settings!</example>
-            <example correction="change" type="incorrect">Do not <marker>chance</marker> these settings!</example>
-            <example correction="changes" type="incorrect">He always <marker>chances</marker> the behaviour of the application.</example>
-        </rule>
+        <rulegroup id="CHANCE_CHANGE" name="chance (change) a setting">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes" skip="3">chance <exception scope="next">change</exception></token>
+                    </marker>
+                    <token regexp="yes" inflected="yes">behaviou?r|mode|setting</token>
+                </pattern>
+                <message>Did you mean <suggestion><match no="1" regexp_match="chanc" regexp_replace="chang"/></suggestion>?</message>
+                <short>Possible typo</short>
+                <example type="correct">Do not <marker>change</marker> these settings!</example>
+                <example correction="change" type="incorrect">Do not <marker>chance</marker> these settings!</example>
+                <example correction="changes" type="incorrect">He always <marker>chances</marker> the behaviour of the application.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>climate</token>
+                    <marker>
+                        <token inflected="yes" skip="3">chance</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion><match no="2" regexp_match="chanc" regexp_replace="chang"/></suggestion>?</message>
+                <short>Possible typo</short>
+                <example type="correct">The climate <marker>change</marker> must be stopped.</example>
+                <example correction="change" type="incorrect">The climate <marker>chance</marker> must be stopped.</example>
+            </rule>
+        </rulegroup>
         <rule id="I_THIN" name="I thin (think)">
             <pattern>
                 <token negate="yes" regexp="yes">am|do|can|will</token>
@@ -8820,6 +8834,60 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
 
     </category>
     <category name="Commonly Confused Words" type="misspelling">
+        <rulegroup id="PRICE_PRIZE" name="price (prize)">
+            <rule>
+                <pattern>
+                    <token inflected="yes">win</token>
+                    <token regexp="yes">the|a</token>
+                    <marker>
+                        <token regexp="yes">pri[sc]es?</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion><match no="3" regexp_match="pri[sc]" regexp_replace="priz"/></suggestion> (reward)?</message>
+                <short>Possible typo</short>
+                <example type="correct">She won a <marker>prize</marker>.</example>
+                <example type="incorrect" correction="prize">She won a <marker>price</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>consolation</token>
+                    <marker>
+                        <token regexp="yes">pri[sc]es?</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion><match no="2" regexp_match="pri[sc]" regexp_replace="priz"/></suggestion> (reward)?</message>
+                <short>Possible typo</short>
+                <example type="correct">That is the consolation <marker>prize</marker>.</example>
+                <example type="incorrect" correction="prize">That is the consolation <marker>price</marker>.</example>
+                <example type="incorrect" correction="prizes">These are the consolation <marker>prices</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">Nobel|Noble</token>
+                        <token regexp="yes">pri[sc]e</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>Nobel Prize</suggestion> (reward)?</message>
+                <short>Possible typo</short>
+                <example type="correct">That is the <marker>Nobel Prize</marker>.</example>
+                <example type="incorrect" correction="Nobel Prize">That is the <marker>Nobel Price</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="PRIZE_PRICE" name="prize (price)">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">pri[sz]e</token>
+                    </marker>
+                    <token regexp="yes">spiral|stability</token>
+                </pattern>
+                <message>Did you mean <suggestion>price</suggestion> (cost)?</message>
+                <short>Possible typo</short>
+                <example type="correct">This is called <marker>price</marker> spiral.</example>
+                <example type="incorrect" correction="price">This is called <marker>prize</marker> spiral.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="LOOK_WATCH" name="look (watch)">
             <rule>
                 <pattern>
