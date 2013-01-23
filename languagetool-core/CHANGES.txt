@@ -34,10 +34,16 @@
   -it now has over 1000 compound words taken from a huge Porto Editora dictionary
   -added/improved several rules
  
- -Russion:
+ -Russian:
    -bugfix: the uppercase sentence rule sometimes was not triggered
 
-
+ -API: Languagetool has been split up into several Maven modules. This causes
+  some API changes:
+  -No more language constants: "Language.GERMAN" now needs to be "new German()", similarly
+   for all other languages
+  -org.languagetool.gui.ResourceBundleWithFallback is now org.languagetool.ResourceBundleWithFallback
+  -org.languagetool.gui.ContextTools is now org.languagetool.tools.ContextTools
+  
  -bugfix: suggestions for compounds parts were missing sometimes
  
  -bugfix: Portuguese translation was not used
