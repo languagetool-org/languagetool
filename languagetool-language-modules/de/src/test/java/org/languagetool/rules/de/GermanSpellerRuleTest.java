@@ -1,0 +1,159 @@
+/* LanguageTool, a natural language style checker 
+ * Copyright (C) 2012 Daniel Naber (http://www.danielnaber.de)
+ * 
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+ * USA
+ */
+package org.languagetool.rules.de;
+
+import org.junit.Test;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.TestTools;
+import org.languagetool.language.AustrianGerman;
+import org.languagetool.language.German;
+import org.languagetool.language.GermanyGerman;
+import org.languagetool.language.SwissGerman;
+import org.languagetool.rules.spelling.hunspell.HunspellRule;
+
+import java.io.IOException;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+public class GermanSpellerRuleTest {
+
+  // note: copied from HunspellRuleTest
+  @Test
+  public void testRuleWithGerman() throws Exception {
+    final GermanyGerman language = new GermanyGerman();
+    final HunspellRule rule = new GermanSpellerRule(TestTools.getMessages("German"), language);
+    final JLanguageTool langTool = new JLanguageTool(language);
+    commonGermanAsserts(rule, langTool);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Der äußere Übeltäter.")).length);  // umlauts
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Der äussere Übeltäter.")).length);
+  }
+
+  // note: copied from HunspellRuleTest
+  @Test
+  public void testRuleWithAustrianGerman() throws Exception {
+    final AustrianGerman language = new AustrianGerman();
+    final HunspellRule rule = new GermanSpellerRule(TestTools.getMessages("German"), language);
+    final JLanguageTool langTool = new JLanguageTool(language);
+    commonGermanAsserts(rule, langTool);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Der äußere Übeltäter.")).length);  // umlauts
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Der äussere Übeltäter.")).length);
+  }
+
+  // note: copied from HunspellRuleTest
+  @Test
+  public void testRuleWithSwissGerman() throws Exception {
+    final SwissGerman language = new SwissGerman();
+    final HunspellRule rule = new GermanSpellerRule(TestTools.getMessages("German"), language);
+    final JLanguageTool langTool = new JLanguageTool(language);
+    commonGermanAsserts(rule, langTool);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Der äußere Übeltäter.")).length);  // ß not allowed in Swiss
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Der äussere Übeltäter.")).length);  // ss is used instead of ß
+  }
+  
+  // note: copied from HunspellRuleTest
+  private void commonGermanAsserts(HunspellRule rule, JLanguageTool langTool) throws IOException {
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Der Waschmaschinentestversuch")).length);  // compound
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Der Waschmaschinentest-Versuch")).length);  // compound
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Der Arbeitnehmer")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Die Verhaltensänderung")).length);
+
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Der Waschmaschinentest-Dftgedgs")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Der Dftgedgs-Waschmaschinentest")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Der Waschmaschinentestdftgedgs")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Der Waschmaschinentestversuch orkt")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Der Arbeitsnehmer")).length);  // wrong interfix
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Die Verhaltenänderung")).length);  // missing interfix
+    assertEquals(2, rule.match(langTool.getAnalyzedSentence("Der asdegfue orkt")).length);
+  }
+  
+  @Test
+  public void testGetSuggestions() throws Exception {
+    final HunspellRule rule = new GermanSpellerRule(TestTools.getMessages("German"), new GermanyGerman());
+
+    assertCorrection(rule, "Hauk", "Haus", "Haut");
+    assertCorrection(rule, "Hauk", "Haus", "Haut");
+    assertCorrection(rule, "Eisnbahn", "Einbahn", "Eisbahn", "Eisenbahn");
+    assertCorrection(rule, "Rechtschreipreform", "Rechtschreibreform");
+    assertCorrection(rule, "Theatrekasse", "Theaterkasse");
+    assertCorrection(rule, "Traprennen", "Trabrennen");
+    assertCorrection(rule, "Autuverkehr", "Autoverkehr");
+    
+    //TODO: requires morfologik-speller change (suggestions for known words):
+    //assertCorrection(rule, "Arbeitamt", "Arbeitsamt");
+
+    // TODO: "Auto, verkehr, r"
+    //assertEquals("[Autoverkehr]", rule.getMorfologikSuggestions("Autoverkehrr").toString());
+
+    assertCorrection(rule, "hasslich", "hässlich", "fasslich");
+    assertCorrection(rule, "Struße", "Strauße", "Straße", "Sträuße");
+    
+    assertCorrection(rule, "gewohnlich", "gewöhnlich");
+    assertCorrection(rule, "gawöhnlich", "gewöhnlich");
+    assertCorrection(rule, "gwöhnlich", "gewöhnlich");
+    assertCorrection(rule, "geewöhnlich", "gewöhnlich");
+    assertCorrection(rule, "gewönlich", "gewöhnlich");
+    
+    assertCorrection(rule, "außergewöhnkich", "außergewöhnlich");
+    assertCorrection(rule, "agressiv", "aggressiv");
+    assertCorrection(rule, "agressivster", "aggressivster");
+    assertCorrection(rule, "agressiver", "aggressiver");
+    assertCorrection(rule, "agressive", "aggressive");
+    
+    assertCorrection(rule, "Algorythmus", "Algorithmus");
+    assertCorrection(rule, "Algorhythmus", "Algorithmus");
+    
+    assertCorrection(rule, "Amalgan", "Amalgam");
+    assertCorrection(rule, "Amaturenbrett", "Armaturenbrett");
+    assertCorrection(rule, "Aquise", "Akquise");
+    assertCorrection(rule, "Artzt", "Arzt");
+    
+    assertCorrection(rule, "aufgrunddessen", "aufgrund dessen");
+    
+    assertCorrection(rule, "barfuss", "barfuß");
+    assertCorrection(rule, "Batallion", "Bataillon");
+    assertCorrection(rule, "Handselvertreter", "Handelsvertreter");
+    
+    assertCorrection(rule, "aul", "auf");
+    assertCorrection(rule, "Icj", "Ich");   // only "ich" (lowercase) is in the lexicon
+    //assertCorrection(rule, "Ihj", "Ich");   // only "ich" (lowercase) is in the lexicon - does not work because of the limit
+
+    // three part compounds:
+    assertCorrection(rule, "Handselvertretertreffen", "Handelsvertretertreffen");
+    assertCorrection(rule, "Handelsvertretertrffen", "Handelsvertretertreffen");
+    // this won't work as jwordsplitter splits into Handelsvertrter + Treffen but
+    // the Hunspell dict doesn't contain "Handelsvertreter", thus it's a known limitation
+    // because jwordsplitter doesn't use the same dictionary as Hunspell:
+    // assertCorrection(rule, "Handelsvertrtertreffen", "Handelsvertretertreffen");
+
+    // TODO: compounds with errors in more than one part
+    // totally wrong jwordsplitter split: Hands + elvertretertreffn:
+    //assertCorrection(rule, "Handselvertretertreffn", "Handelsvertretertreffen");
+  }
+
+  private void assertCorrection(HunspellRule rule, String input, String... expectedTerms) throws IOException {
+    final List<String> suggestions = rule.getSuggestions(input);
+    for (String expectedTerm : expectedTerms) {
+      assertTrue("Not found: '" + expectedTerm + "' in: " + suggestions, suggestions.contains(expectedTerm));
+    }
+  }
+  
+}

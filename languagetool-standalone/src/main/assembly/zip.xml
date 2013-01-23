@@ -1,0 +1,28 @@
+<!-- documentation can be found at http://maven.apache.org/plugins/maven-assembly-plugin/assembly.html -->
+<assembly>
+    <id>bin</id>
+    <formats>
+        <format>zip</format>
+    </formats>
+    <fileSets>
+        <fileSet>
+            <directory>src/main/resources</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>COPYING.txt</include>
+            </includes>
+        </fileSet>
+    </fileSets>
+    <dependencySets>
+        <dependencySet>
+            <outputDirectory>/</outputDirectory>
+            <unpack>false</unpack>
+            <scope>runtime</scope>
+            <excludes>
+                <exclude>junit:junit</exclude>
+                <exclude>org.openoffice:*</exclude>
+                <exclude>com.carrotsearch:hppc</exclude>
+            </excludes>
+        </dependencySet>
+    </dependencySets>
+</assembly>

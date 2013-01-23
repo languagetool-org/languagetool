@@ -1,0 +1,156 @@
+/* LanguageTool, a natural language style checker 
+ * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+ * 
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+ * USA
+ */
+package org.languagetool.rules.en;
+
+import junit.framework.TestCase;
+import org.languagetool.JLanguageTool;
+import org.languagetool.language.English;
+import org.languagetool.rules.RuleMatch;
+
+import java.io.IOException;
+
+/**
+ * @author Daniel Naber
+ */
+public class AvsAnRuleTest extends TestCase {
+
+  private AvsAnRule rule;
+  private JLanguageTool langTool;
+
+  @Override
+  public void setUp() throws IOException {
+    rule = new AvsAnRule(null);
+    langTool = new JLanguageTool(new English());
+  }
+
+  public void testRule() throws IOException {
+
+    // correct sentences:
+    assertCorrect("This is a test sentence.");
+    assertCorrect("It was an hour ago.");
+    assertCorrect("A university is ...");
+    assertCorrect("A one-way street ...");
+    assertCorrect("An hour's work ...");
+    assertCorrect("Going to an \"industry party\".");
+    assertCorrect("An 8-year old boy ...");
+    assertCorrect("An 18-year old boy ...");
+    assertCorrect("The A-levels are ...");
+    assertCorrect("An NOP check ...");
+    assertCorrect("A USA-wide license ...");
+    assertCorrect("...asked a UN member.");
+    assertCorrect("In an un-united Germany...");
+    //fixed false alarms:
+    assertCorrect("Here, a and b are supplementary angles.");
+    assertCorrect("The Qur'an was translated into Polish.");
+    assertCorrect("See an:Grammatica");
+    assertCorrect("See http://www.an.com");
+
+    // errors:
+    assertIncorrect("It was a hour ago.");
+    assertIncorrect("It was an sentence that's long.");
+    assertIncorrect("It was a uninteresting talk.");
+    assertIncorrect("An university");
+    assertIncorrect("A unintersting ...");
+    assertIncorrect("A hour's work ...");
+    assertIncorrect("Going to a \"industry party\".");
+    final RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("It was a uninteresting talk with an long sentence."));
+    assertEquals(2, matches.length);
+
+    // With uppercase letters:
+    assertCorrect("A University");
+    assertCorrect("A Europe wide something");
+
+    assertIncorrect("then an University sdoj fixme sdoopsd");
+    assertIncorrect("A 8-year old boy ...");
+    assertIncorrect("A 18-year old boy ...");
+    assertIncorrect("...asked an UN member.");
+    assertIncorrect("In a un-united Germany...");
+
+    //Test on acronyms/initials:
+    assertCorrect("A. R.J. Turgot");
+
+    //mixed case as dictionary-based exception
+    assertCorrect("Anyone for an MSc?");
+    assertIncorrect("Anyone for a MSc?");
+    //mixed case from general case
+    assertCorrect("Anyone for an XMR-based writer?");
+
+    //Test on apostrophes    
+    assertCorrect("Its name in English is a[1] (), plural A's, As, as, or a's.");
+
+    // Both are correct according to Merriam Webster (http://www.merriam-webster.com/dictionary/a%5B2%5D),
+    // although some people disagree (http://www.theslot.com/a-an.html):
+    assertCorrect("An historic event");
+    assertCorrect("A historic event");
+  }
+
+  private void assertCorrect(String sentence) throws IOException {
+    final RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(sentence));
+    assertEquals(0, matches.length);
+  }
+
+  private void assertIncorrect(String sentence) throws IOException {
+    final RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(sentence));
+    assertEquals(1, matches.length);
+  }
+
+  public void testSuggestions() throws IOException {
+    final AvsAnRule rule = new AvsAnRule(null);
+    assertEquals("a string", rule.suggestAorAn("string"));
+    assertEquals("a university", rule.suggestAorAn("university"));
+    assertEquals("an hour", rule.suggestAorAn("hour"));
+    assertEquals("an all-terrain", rule.suggestAorAn("all-terrain"));    
+    assertEquals("a UNESCO", rule.suggestAorAn("UNESCO"));
+  }
+  
+  public void testPositions() throws IOException {
+    final AvsAnRule rule = new AvsAnRule(null);
+    RuleMatch[] matches;
+    final JLanguageTool langTool = new JLanguageTool(new English());
+    // no quotes etc.:
+    matches = rule.match(langTool.getAnalyzedSentence("a industry standard."));
+    assertEquals(0, matches[0].getFromPos());
+    assertEquals(1, matches[0].getToPos());
+    
+    // quotes..
+    matches = rule.match(langTool.getAnalyzedSentence("a \"industry standard\"."));
+    assertEquals(0, matches[0].getFromPos());
+    assertEquals(1, matches[0].getToPos());
+    
+    matches = rule.match(langTool.getAnalyzedSentence("a - industry standard\"."));
+    assertEquals(0, matches[0].getFromPos());
+    assertEquals(1, matches[0].getToPos());
+    
+    matches = rule.match(langTool.getAnalyzedSentence("This is a \"industry standard\"."));
+    assertEquals(8, matches[0].getFromPos());
+    assertEquals(9, matches[0].getToPos());
+    
+    matches = rule.match(langTool.getAnalyzedSentence("\"a industry standard\"."));
+    assertEquals(1, matches[0].getFromPos());
+    assertEquals(2, matches[0].getToPos());
+    
+    matches = rule.match(langTool.getAnalyzedSentence("\"Many say this is a industry standard\"."));
+    assertEquals(18, matches[0].getFromPos());
+    assertEquals(19, matches[0].getToPos());
+    
+    matches = rule.match(langTool.getAnalyzedSentence("Like many \"an desperado\" before him, Bart headed south into Mexico."));
+    assertEquals(11, matches[0].getFromPos());
+    assertEquals(13, matches[0].getToPos());
+  }
+}
