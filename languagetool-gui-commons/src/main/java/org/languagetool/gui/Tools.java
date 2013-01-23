@@ -18,6 +18,8 @@
  */
 package org.languagetool.gui;
 
+import org.languagetool.tools.ContextTools;
+
 import java.awt.Frame;
 import java.io.File;
 import java.text.MessageFormat;

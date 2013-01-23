@@ -23,6 +23,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.languagetool.tools.ContextTools;
 import org.languagetool.tools.StringTools;
 
 import javax.swing.*;
