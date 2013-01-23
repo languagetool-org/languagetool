@@ -1,0 +1,1780 @@
+﻿LanguageTool Change Log
+
+2.1-dev (release planned for 2013-03-31)
+
+ -Breton:
+  -fixed several incorrect suggestions thanks to added tests on corrections.
+
+ -Catalan:
+  -fixed false alarms
+  -Added about 9000 nameplaces to the dictionary. Source: enciclopedia.cat. Some processing
+   done for generating (partial) gender and number data.
+
+ -Esperanto:
+  -added/improved several rules
+  -fixed several incorrect suggestions thanks to added tests on corrections.
+  -single quotes at beginning/end of word no longer cause false spelling error.
+
+ -French:
+  -added/improved several rules
+  -fixed several incorrect suggestions thanks to added tests on corrections.
+  -SRX sentence tokenization
+  -single quotes at beginning/end of word no longer cause false spelling error.
+
+ -German:
+  -the German spell checker now returns suggestions. We combine Hunspell and our own
+   morfologik-based spell checker to create the suggestions for good performance,
+   but they are far from perfect yet. First, some misspelled compound words fail to have
+   a suggestion. Second, sometimes the best suggestion is not at the front of the list
+   of suggestions.
+   org/languagetool/resource/de/hunspell/create_dict.sh can be used to create
+   the three morfologik spell checker dictionaries (German, Austrian, und Swiss).
+
+ -Portuguese:
+  -it now has over 1000 compound words taken from a huge Porto Editora dictionary
+  -added/improved several rules
+ 
+ -Russion:
+   -bugfix: the uppercase sentence rule sometimes was not triggered
+
+
+ -bugfix: suggestions for compounds parts were missing sometimes
+ 
+ -bugfix: Portuguese translation was not used
+
+ -stand-alone GUI: the very first check for languages with a lot of rules
+  (e.g. German, French) should now be faster
+  
+ -embedded HTTPS server:
+  -two new properties, to be set from the property configuration file,
+   allow limiting the maximum number of requests:
+    requestLimit - the maximum number of requests 
+    requestLimitPeriodInSeconds - the time period in which the requests are considered, in seconds
+  -bugfix: only the first line a POST request's body was considered
+
+
+2.0 (2012-12-30)
+
+ -Breton:
+  -added several new rules and fixed false alarms
+  -updated POS dictionary (fix wrong POS tags) from Apertium (svn r42124)
+  -updated FSA spelling dictionary from An Drouizig Breton Spellchecker 0.10
+  -updated classification of words tagged as plural nouns of persons
+   (these have different mutation than other nouns)
+
+ -Catalan:
+  -many new rules
+  -fixed false alarms
+  -multiple fixes and additions in the tagger dictionary
+  -Hyphen is used as a word separator, as this is very common in web pages. This way some
+   ambiguities cannot be solved if the typography rule substituting hyphen for dash is disabled.
+   (For example: Dir-li -ho és important.)
+
+ -English:
+  -uses the same word tokenizer again as other European languages
+  -fix Sourceforge bug #3479817 (capitalization of the first item of a list not required)
+  -a few rule updates
+
+ -Esperanto:
+  -few new rules
+
+ -French:
+  -updated POS tag dictionary and Hunspell dictionary to Dicollecte-4.8
+  -fixed false alarms
+
+ -German:
+  -many new rules and rule updates
+
+ -Portuguese:
+  -Added hundreds of compound words taken from a huge Porto Editora dictionary
+  -Added/improved several rules
+  -Replaced the current dictionary with PT-pt (pre-language agreement).
+   To use the post-language agreement, use the PT-br one.
+
+ -Russian:
+  -improved some rules
+  -several new rules
+  -updated POS dictionary (fix wrong POS Tags)
+
+ -Spanish:
+  -several new rules (thanks to Alexander Socop Arango)
+
+ -Ukrainian:
+  -updated a few rules
+
+
+ -OpenOffice/LibreOffice integration:
+  -Fixed ConcurrentModificationException (Sourceforge bug #3572536)
+
+ -stand-alone GUI:
+  -the tray icon menu (reachable with the right mouse button on the tray
+   icon) now has a checkbox to enable the embedded HTTP server
+  -the tray icon will show a small "S" symbol when the server is running
+  -fixed bug "Tray icon too big sometimes" (Sourceforge #3573078)
+
+ -API:
+  -Language.getLanguageForShortName() now consistently throws an exception
+   if the given language code is not known
+  -Tools.median() is now private (it was accidentally made public)
+  -the Java API of HTTPServer has been modified in incompatible ways. You might get
+   compile errors if you have used this class from your Java code.
+
+ -HTTP API:
+  -support for auto-detecting text language (parameter autodetect=1)
+  -added HTTPSServer, a lightweight embedded HTTPS server which works like HTTPServer
+   but supports SSL encryption. This server supports *only* https, not http.
+  -the XML we return now contains a new attribute "locqualityissuetype", which
+   is the "Localization Quality Issue Type" in the upcoming Internationalization Tag Set (ITS)
+   Version 2.0 standard from W3C. This means errors are now categorized according to
+   a standard, additionally to LanguageTool's own categories. Useful values are only
+   returned for English for now.
+   *** Please consider this to be a prototypical implementation for now ***
+   For the values and their meanings, please see
+   http://www.w3.org/International/multilingualweb/lt/drafts/its20/its20.html#lqissue-typevalues.
+   For rule developers: specify this using the new 'type' attribute. It is
+   inherited from category to rulegroup, and from rulegroup to rule. If a rule also
+   has the 'type' it overwrites the rulegroup's and category's 'type'.
+
+
+1.9 (2012-09-30)
+
+ -Breton:
+   -several new rules and fixed false alarms
+   -the internal spelling engine can now additionally tokenize words if the
+    source dictionary did not include compound versions (for example,
+    hyphenated words).
+   -updated classification of words tagged as plural nouns of persons
+    (these have different mutation than other nouns).
+
+ -Catalan:
+   -many new rules
+   -fixed false alarms
+
+ -Chinese:
+   -hundreds of new Chinese rules (Tao Lin)
+   -unit tests for the Chinese tokenizer and tagger
+
+ -Danish:
+   -major update to the dictionary and the rules (Henrik Bendt)
+
+ -English:
+   -fixed false alarm (sf bug #3543914)
+   -some new rules and rule updates
+
+ -Esperanto:
+   -several new rules and fixed false alarms
+   -updated list of transitive/intransitive verbs
+   -added <url> links to REVO (Reta Vortaro) with permission from Wolfram Diestel.
+
+ -French:
+   -updated POS tag dictionary to use Dicollecte-4.6
+   -several new rules and fixed false alarms
+   -opening guillemet (U+00AB) followed by thin no-break
+    space (U+202F) wrongly detected as error (sf bug #3545050)
+
+ -German:
+   -added simple verb/subject agreement checker
+   -several new rules and rule updates
+   -fixed some false alarms by upgrading to jwordsplitter 3.4 (sf bug #3475553)
+
+ -Japanese:
+   -initial support with about 20 rules (Takahiro Shinkai, Maxim Mozgovoy's student)
+
+ -Polish:
+   -fixed bug with the word repetition rule (sf bug #3560925)
+
+ -Portuguese:
+   -several rule updates (Marco A.G.Pinto)
+
+ -Russian:
+   -several new rules and rule updates
+   -improve user interface translation
+
+ -Swedish:
+   -Support for Swedish has been re-enabled after it had been disabled in LanguageTool 1.7.
+
+ -bugfix for command line: We removed XML from even plain text input. Now XML/HTML elements
+  are only filtered out if the new --xmlfilter option is specified. Note that there's still
+  a bug that can screw up position information with that option, thus it is deprecated.
+
+ -command line: new option "--list" to list all available languages
+
+ -introduced a file resources/<lang>/hunspell/ignore.txt with words that the spell checker
+  will ignore
+
+ -development: new ant target generate-ignore-files: call "ant generate-ignore-files" if you
+  want to re-generate the ignore.txt files, populated with those suggestions from the grammar
+  files that the spell checker would complain about.
+  In other words, this makes sure "simple" suggestions (i.e. those without back references) made
+  by the LanguageTool rules are never considered spelling mistakes.
+  If you have downloaded the stand-alone ZIP of LanguageTool, call this command for the
+  same effect:
+  java -cp LanguageTool.jar org.languagetool.rules.spelling.SuggestionExtractor
+
+ -stand-alone GUI: rules can now be disabled and re-enabled with a single click
+
+ -stand-alone GUI: copy and paste from the result area now keeps line breaks (Sourceforge
+  bug #3554842)
+
+ -HTTP API: "+" was incorrectly removed from input (Sourceforge bug #3543914), patch by
+  Sourceforge user hiddenspirit
+
+ -HTTP API: the XML returned by the "/Languages" URL (which returns a list of all supported
+  languages) has been extended to contain an 'abbrWithVariant' attribute which lists the
+  language with its variant, e.g.:
+  <language name="Catalan" abbr="ca" abbrWithVariant="ca-ES"/>
+
+ -HTTP API: small internal cleanup for better exception and charset handling (always
+  expects UTF-8)
+
+ -HTTP API: the embedded HTTP server can now be started with a "--public" parameter so
+  it can be accessed from anywhere (not just localhost). Please be careful with this
+  option, it is not recommended for production use:
+  java -cp LanguageTool.jar org.languagetool.server.HTTPServer --public
+
+ -HTTP API and XML output: extended XML to include the version and build date
+  of LanguageTool and the category and offset of each match
+
+ -The word tokenizer now considers the following characters as a word separator: | (pipe)
+  and ` (backtick).
+
+ -bugfix: the column count was sometimes totally wrong (Sourceforge bug #3557738)
+
+
+1.8 (2012-06-30)
+
+ -Greek:
+   -initial support for Greek with few rules for now (Panagiotis Minos)
+
+ -German:
+   -many new rules and rule updates
+   -added spellcheck dictionary for the standalone version; the dictionary used is the
+    one by Franz Michael Baumann,
+    see http://extensions.libreoffice.org/extension-center/german-de-de-frami-dictionaries
+    LanguageTool can now detect spelling errors, but it does not offer suggestions
+    for performance reasons
+   -added variants for Austria, Germany, and Switzerland
+   -added several thousand words to the internal dictionary for better
+    error detection and less false alarms
+
+ -English:
+   -several rule improvements and new rules (Scott Kuhl)
+   -although a matter of debate, "an historic", "an historical", and "an habitual"
+    is not considered incorrect anymore,
+    also see http://www.merriam-webster.com/dictionary/a%5B2%5D
+   -fixes in the tagger dictionary and disambiguation rules to reduce false alarms
+   -added British and American English spelling dictionaries
+   -added some rules to detect typical American expressions in British English
+
+ -Catalan:
+   -major update, including many new rules and new tokenization (Jaume Ortolà i Font)
+   -new synthesizer (given a part-of-speech, this generates the inflected word
+    forms) (Jaume Ortolà i Font)
+   -added spellcheck dictionary for the standalone version
+    using Hunspell dictionary ca-valencia (avl) 2.3.0 by Softcatalà
+
+ -Russian:
+   -fixed a few false alarms
+   -added URL element for some rules with URL with more information about this rule
+   -added spellcheck dictionary for standalone version.
+   -several rule improvements (adding links, improving messages)
+   -new Java rule "repeat word in sentence" (disabled by default)
+
+ -Italian:
+   -several new rules (Riccardo Murri and Agnese Dal Borgo)
+   -added spellcheck dictionary for the standalone version
+
+ -French:
+   -updated dictionary to use Dicollecte-4.5
+   -several new rules and fixed false alarms
+   -added spellcheck dictionary for the standalone version
+    using Dicollecte-4.5 «classique & réforme 1990».
+
+ -Breton:
+   -updated dictionary to use Apertium svn r38896.
+   -several new rules and fixed false alarms
+   -added some references to the Breton grammar:
+    "La grammaire bretonne pour tous (Eugène CHALM)".
+   -added spellcheck dictionary for the standalone version
+
+ -Polish:
+   -added spellcheck dictionary for the standalone version
+   -some new rules and fixed false alarms
+   -major update of the tagger dictionary
+
+ -Portuguese:
+   -initial support by Marco A.G. Pinto
+
+ -Esperanto:
+   -several new rules and fixed false alarms
+   -added <url> for further information about errors with links to
+    PMEG (Plena Manlibro de Esperanto) with permission of its
+    author Bertilo Wennergren, and to http://lernu.net also with
+    permission of the lernu team.
+   -added spellcheck dictionary for the standalone version
+
+
+ -LibreOffice / OpenOffice integration:
+   -If a LanguageTool rule has an URL with more information, the
+    grammar checking dialog in LibreOffice will now offer a "More..." link
+    to that URL. That URL is also displayed on the command line and stand-alone
+    user interface as "More info:", and as "url" attribute of the <error>
+    element in the XML API format. This makes it possible to have external
+    documentation about rules.
+   -Bugfix #3526635: SingletonFactory now implements XServiceInfo (Stephan Bergmann)
+   -Bugfix #3534637: Fixed false alarm about word being uppercase when the previous
+    sentence ended with a footnote
+
+ -GUI:
+   -made the result of "Tag Text" a bit more readable
+   -Bugfix: when LT was hidden in the tray, two very fast mouse clicks could activate
+    the check twice, and that caused errors. Right now only one checking thread is active.
+
+ -Command line:
+   -In verbose mode, the log of the rule-based disambiguator actions is displayed.
+   -In the profiling rules' mode on the command-line, you can now enable
+    and disable rules.
+
+ -API:
+   -Deprecated some methods and the SentenceTokenizer class (SRXSentenceTokenizer
+    should be used instead)
+
+ -LanguageTool in the standalone version now supports spell-checking. Some of the languages
+  use hunspell (http://hunspell.sourceforge.net), some use LanguageTool-specific code.
+  There are now two distribution files: a .zip file for standalone use,
+  and an .oxt extension for LibreOffice/ApacheOpenOffice. All languages supported by
+  LanguageTool, except for Chinese, have spelling dictionaries bundled with the standalone
+  version. Spell-checking errors appear in red in the LanguageTool standalone
+  version, other errors appear in blue.
+
+ -LanguageTool now supports separate rules for different local variants of a language,
+  for example American English and British English. To use them from the command line,
+  simply use "en-US" or "en-GB" as the language code. This implements sf.net feature
+  suggestion #3287388.
+
+ -The configuration file now stores settings individually for all languages. This means
+  that you can enable spellcheck for American English, disable it for Polish, and British
+  English, and all these settings will be saved separately.
+
+ -If you start the HTTP Server from the GUI, it now reads the configuration files
+  that are configured in the GUI (if the appropriate checkbox is set).
+  This way the user can control the behavior of the server easily.
+
+ -Two new options for the HTTP Server added: "disabled" and "enabled", which is used
+  to disable or enable rules in the same way as on the command-line.
+
+ -The XML format for rules has been changed to use <marker>...</marker> tags instead
+  of mark_from and mark_to attributes.
+
+ -Overlapping rule matches are filtered now so that only the first match per <rulegroup> is kept
+
+ -It is now possible to suppress misspelled suggestions altogether in XML rules by applying
+  an attribute suppress_misspelled="yes" on the <suggestion> element, AND on the <match>
+  element. If only <match> element has this attribute set to "yes", then the suggestion is
+  displayed, but no content of <match> is contained within (this might be a conditional part
+  of the suggestion). Note: for this to work, the tagger dictionary needs to be fairly complete;
+  words without lemmas and POS tags are considered to be misspelled.
+
+ -Improved startup speed (Jarek Lipski)
+
+ -Some internal bug fixing in disambiguation and pattern rules, including problems
+  with unification.
+
+ -Update of morfologik-stemming library to 1.5.3 (bug-fix release).
+
+ -Larger tagger dictionaries were encoded in cfsa2 binary format to save space.
+
+ -Bugfix #3054895: fixed incorrect column reported by LanguageTool in command
+  line mode or with --api option when error spanned new line.
+
+ -Bugfix #3431788: When the message contained the reference to a previous token as the first
+  character, the corrections generated via regular expression replacements on match elements
+  were wrong.
+
+
+1.7 (2012-03-25)
+
+ -English:
+   -a few new rules
+ -Breton
+   -updated dictionary to use Apertium svn r36822
+   -several new rules
+ -Esperanto:
+   -several new rules
+ -French:
+   -updated dictionary to use Dicollecte-4.4.1
+   -several new rules
+ -German:
+   -fixed a few false alarms
+   -added a few new rules
+ -Russian:
+   -fixed some false alarms
+   -added several new rules
+ -Ukrainian:
+   -fixed a bug in the POS tagger incorrectly returning lowercase word, breaking
+    the rule that checks for uppercase sentence starts (Maksym Davydov)
+ -Swedish:
+   -Support for Swedish has been disabled because it was not actively maintained
+    for a longer time and never reached a level that the old maintainer was happy
+    with. It will be activated again as soon as a new maintainer is found, any
+    help is welcome!
+
+ -bugfix: in LibreOffice/OpenOffice.org, the wrong error message was displayed
+  for some rules (those that did not have a "short" message)
+
+ -bugfix: the "fromx" position in the XML output was wrong sometimes
+
+ -bugfix: the "contextoffset" position in the XML output was wrong
+  when there were XML-escaped characters in the context
+
+ -consecutive tab characters are not considered an error anymore
+
+ -Ellipsis ("…") is no longer considered as a sentence separator (only relevant
+  for languages not yet using SRX tokenizer).
+
+ -new optional rule element "url" (optional): an URL to a page that explains
+  the rule leading to the error in more detail. Not used yet.
+
+ -GUI: errors are now marked with red background instead of red font
+  so whitespace problems can easily be spotted
+
+ -Server mode: by default, the server only binds to localhost now. Although requests from
+  non-localhost had been denied before by default, this should be more secure.
+
+ -Internal changes:
+   - adapted to a change in Unicode handling in Java 7 that broke support for Khmer
+   - added sanity check to detect duplicate exceptions in grammar rules.
+   - added sanity check to detect exceptions with scope="next" yet
+     without skip="..." in grammar rules.
+
+
+1.6 (2011-12-31)
+
+ -Breton:
+   -updated dictionary from Apertium
+   -several new rules
+   -corrected and improved style of messages, translated all messages
+    thanks to Fulup Jakez
+ -Chinese:
+   -several new rules (Tao Lin)
+ -English:
+   -new Java rule to check if three successive sentences begin with the same word
+ -Esperanto:
+   -fixed false positives
+   -updated list of transitive verbs
+ -French:
+   -updated dictionary to use Dicollecte-4.3
+   -fixed false positives
+ -German:
+   -several new rules
+   -new Java rule to check if three successive sentences begin with the same word
+   -updated compound splitter component to fix some false alarms on agreement (jwordsplitter 3.3)
+ -Italian:
+   -several new rules (Paolo Bianchini)
+ -Khmer:
+   -configuration of Khmer rules should now work in OpenOffice.org/LibreOffice
+   -small updates for coherency rules und error rules (Nathan Wells)
+ -Russian:
+   -added multiwords disambiguation rules
+   -several new rules
+ -Slovenian:
+   -several new rules (Martin Srebotnjak)
+ -Tagalog:
+   -new trigram profile
+   -new rules
+
+ -GUI: small cleanup of the user interface
+
+ -XML output encoding was wrong in server mode on platforms not using UTF-8
+
+ -Internal changes:
+   -Update to Morfologik 1.5.2, fixes a rare crash for at least German
+
+ -API:
+   -moved the packages from de.danielnaber.languagetool.* to org.languagetool.*
+   -added new public field JLanguageTool.BUILD_DATE
+
+
+1.5 (2011-09-25)
+
+ -Added support for Chinese (Tao Lin)
+ -Added support for Asturian (Xesús González Rato)
+ -Added support for Tagalog (Nathaniel Oco)
+ -Added support for Breton (Dominique Pelle)
+
+ -English:
+   -Fixed some of the problems in the Sourceforge bug #3396850 (false alarms)
+ -German:
+   -Extended the internal part-of-speech dictionary with
+    about 2000 word forms. This should improve coverage of the
+    agreement rule. It mostly affects words that have a new spelling
+    after the spelling reform. See http://www.danielnaber.de/morphologie/
+    for the source of the new data.
+   -Several new rules
+ -French:
+   -Updated dictionary to use Dicollecte-4.2
+   -Added and updated a few rules.  A few rules taken from
+    Grammalecte-0.0.12 written by Olivier R.
+ -Esperanto:
+   -Added disambiguation for Esperanto
+   -Improved SRX sentence tokenization rules
+   -Added and updated a few rules
+ -Ukrainian:
+   -Updated translation
+   -Initial SRX sentence tokenization rules
+ -Belarusian
+   -Updated translation
+   -Initial SRX sentence tokenization rules
+ -Russian:
+   -Fix SourceForge bug #3334498 (False warning about unpaired bracket)
+   -Added and updated a few rules
+   -Updated and improved part-of-speech dictionary
+ -Dutch:
+   -Fixes and updates to rules (R. J. Baars)
+   -Updated the dictionaries
+ -Galician:
+   -Added SRX sentence tokenization rules
+   -Added new rules
+   -Added more false friends
+   -Updated dictionary to support enclitics
+   -Added disambiguation support and rules
+   -Added synthesizer
+ -Khmer:
+   -Updated coherency rules
+
+ -Rule development:
+   -Fixed testrules.sh to not throw an AssertionFailedError error if called
+    with a language parameter
+   -Fast Rule Evaluation is supported in "dev.index" packag, see
+    http://languagetool.wikidot.com/how-to-use-indexer-and-searcher-for-fast-rule-evaluation
+
+ -LanguageToolGUI and LanguageTool now have support for automatic language
+  detection (Michael Bryant). On the command-line, you can use -adl or
+  --autoDetect to enable automatic language detection.
+  Also see http://languagetool.wikidot.com/adding-a-new-language-to-automatic-language-detection
+
+ -Internal changes:
+   -The disambiguator has a new action "immunize" that protects
+    token from being matched by error-detecting rules (especially
+    in XML rules).
+   -The disambiguator allows removing interpretations by specifying just some
+    attributes with the <wd> tag.
+   -Allowed three character codes for languages, e.g. 'ast' for Asturian. This
+    is the ISO 639-2 code, as Asturian doesn't seem to have an ISO 639-1
+    two-character code.
+   -Fixed the bug with the special tag UNKNOWN: now it deals properly with
+    the words at the end of sentence / paragraph.
+   -Languages now initialize their classes (tokenizers, part-of-speech taggers
+    etc.) lazily, i.e. only when the classes are actually needed. Improves
+    startup performance a bit.
+   -Switched to transifex.net for translation. Also changed our code to use the
+    English string if no translation exists.
+
+
+1.4 (2011-06-26)
+
+ -LanguageTool now requires Java 6.0 or later
+
+ -English: added a few new rules
+ -German: added a few new rules
+ -French:
+   -Updated dictionary to use Dicollecte-4.1
+   -Added a few new rules
+ -Esperanto:
+  -Updated list of transitive verbs
+  -SRX sentence tokenization rules
+  -Word tokenizer now properly handles words with apostrophe
+  -Added a few new rules and fixed false positives
+ -Khmer: Added support for Khmer (thanks to Nathan Wells)
+ -Russian: added a few new rules
+
+ -GUI:
+  -Pressing Ctrl-Return will check the current text
+  -Fixed pre-selection of user's language
+  -Made screen messages and buttons in Language Module Manager translatable,
+   thanks to Ilona Kuzmickaja.
+
+ -API:
+  -enabled bilingual mode for HTTP API; if you use srctext parameter, LT
+   will automatically check in bilingual mode, assuming that mothertongue
+   specifies the source language, and lang - target language
+  -renamed RuSimpleReplaceRule to RussianSimpleReplaceRule
+  -renamed SlovakVes to SlovakVesRule
+  -renamed JLanguageTool.paragraphHandling to JLanguageTool.ParagraphHandling
+  -removed deprecated GermanSentenceTokenizer
+
+ -Internal changes:
+  -Java rules are not loaded dynamically from the classpath anymore,
+   instead every language needs to implement the getRelevantRules()
+   method that returns the rule classes relevant for that language.
+  -Removed jaminid dependency for HTTP Server, thanks to Ankit.
+  -The HTTP server doesn't block anymore when checking a long text. It
+   now has a longer startup time per call though (50-150ms).
+  -Developers using LanguageTool as an API can now configure from which
+   addresses the embedded HTTP server will accept requests
+
+ -Rule development:
+  -Extended testrules.sh and testrules.bat so that they can take a
+   language code as argument to only check that language.
+   Thanks to Michael Bryant.
+   For example: sh testrules.sh en
+
+
+1.3.1 (2011-03-28)
+
+ -Fixed a NullPointerException in UnpairedBracketsRule
+
+
+1.3 (2011-03-27)
+
+ -Updated rules for Dutch, thanks to Ruud Baars
+
+ -Updated rules and disambiguator for French
+
+ -Updated the French dictionary to use Dicollecte-4.0.1
+
+ -Updated rules for Russian
+
+ -Added disambiguation Russian rules
+
+ -Added disambiguation support and disambiguation rules for Spanish, reducing
+  false alarms in a significant way.
+
+ -Forked Spanish word tokenizer fixing word recognition when it is after
+  a dash.
+
+ -More and updated Spanish rules, adding multiple suggestions when applicable.
+
+ -Updated Spanish rule descriptions preventing apparently duplicated rules to
+  appear in configuration windows.
+
+ -Revamped short descriptions making them more informative improving Spanish
+  OpenOffice experience.
+
+ -New Spanish rule grouping with new categories improving configuration
+  experience.
+
+ -Updated rules and tagger for Esperanto
+
+ -Updated rules and dictionaries for Polish (to Morfologik 1.8)
+
+ -Small cleanup of rules for English, some new rules
+
+ -Added one exception to Dutch SRX rules to avoid false alarms
+
+ -Bugfix: made loading of external rule files in the GUI work
+
+ -Bugfix: fixed the bug in UNPAIRED_BRACKETS rule that caused false alarms
+  in languages that use the same characters to end different pairs of
+  quotation marks (especially Dutch)
+
+ -Bugfix: fixed the sf bug #3006662 for English (false alarm for
+  "...those ideas came.")
+
+ -Bugfix: fixed the sf bug #3200352 for English (the rule for "can not" is now
+  switched off by default)
+
+ -Bugfix: fixed the sf bug #3163988 for Polish ("PatternSyntaxException:
+  Unmatched closing ')' near index 33 ...")
+
+ -Updated OpenOffice.org help pages for English and Russian
+
+
+1.2 (2011-01-02)
+
+ -New and updated rules for Romanian, Dutch, Polish, German, Russian,
+  Spanish, French and Danish.
+
+ -Fixed false positives in French rules.
+
+ -Updated the French dictionary to use Dicollecte-3.9.1
+  provided by Olivier R.
+
+ -Updated the Polish dictionary.
+
+ -Added new scripts testwikipedia.sh and testwikipedia.bat to the distribution. These
+  let you check a local Wikipedia XML dump. This helps to test new rules, especially
+  to avoid false alarms. Get the Wikipedia dumps from
+  http://download.wikimedia.org/backup-index.html.
+  The file you probably want to use is pages-articles.xml.bz2.
+
+ -SRX sentence tokenization rules for German, thanks to Jarek Lipski.
+
+ -SRX sentence tokenization rules for Danish, thanks to Esben Aaberg.
+
+ -Added support for Esperanto.
+
+ -Now it's possible to enable and disable rules in bitext mode
+  from the command line.
+
+ -In bitext mode, the suggestions can now be automatically applied
+  to target text.
+
+ -Fixed API output for bitext mode.
+
+ -Fixed a bug with mark_to and mark_from attributes being ignored
+  for bitext XML rules.
+
+ -Fixed a glitch in API output: now it's always correctly encoded as UTF-8,
+  just what the XML header declares.
+
+ -Fixed sf.bug #3076989: incorrect line numbers for files larger than 64000 bytes.
+
+ -Minor performance fixes.
+
+
+1.1 (2010-09-26)
+
+ -Added 'subId' attribute to API output - identifies the sub id of a rulegroup
+
+ -Updated French rules, thanks to Dominique Pelle.
+
+ -Updated Dutch tagger and synthesizer dictionary, as well as
+  fixed some false alarms and updated grammar rules,
+  thanks to Ruud Baars.
+
+ -Fixed a problem with Dutch apostrophes in the "unpaired brackets and
+  apostrophes" rule.
+
+ -Enabled disambiguation rule file testing from the command line. Now
+  the testrules.bat/testrules.sh runs the disambiguator tests as well.
+
+
+1.1beta (released 2010-09-18, internally marked as 1.0.1-dev)
+
+ -Update of the decompounding component for German (jWordSplitter 3.1)
+
+ -Added preliminary support for checking bilingual texts (bitexts),
+  including use of false friends rules, bitext pattern rules and
+  generic Java rules. LanguageTool may be therefore used via API
+  to check translation quality in computer-aided translation tools.
+
+ -Added a lot of new "false friend" rules (mostly Italian), thanks
+  to Fabio Rainone
+
+ -Fixed line number when checking texts from stdin (but there are still
+  some problems with the column number)
+
+ -Fixed LT menu integration for OpenOffice.org 3.3.0. (OOo Issue 114078)
+
+ -New method JLanguageTool.getDataBroker() that provides a
+  ResourceDataBroker which can be used to load LanguageTool's
+  resources (grammar.xml etc) from any path, not just from the
+  class path.
+  Patch provided by Andreas "PAX" Lück.
+
+ -Add initial support for OpenOffice.org help system.
+  Help available for English and Russian.
+
+ -Fixed the "LanguageTool server could not be started..." error that
+  occurred when closing the options dialog and the HTTP server
+  had been activated before
+
+ -Updated a tagger and synthesizer dictionary for Russian.
+  Fixed POS tag for Russian.
+
+ -Added a synthesizer for Spanish, thanks to Juan Martorell.
+
+ -Fixed Spanish dictionary separator issue, thanks to Juan Martorell.
+
+ -Fixed several Spanish dictionary POS tag flaws, thanks to Juan Martorell.
+
+ -Added a tagger dictionary and synthesizer for Catalan, thanks to
+  Jimmy O'Regan.
+
+ -Added an SRX-based sentence tokenizer for Catalan, thanks to Jimmy
+  O'Regan, and for Spanish, thanks to Juan Martorell.
+
+ -Major update of the French dictionary, thanks to Olivier R. The
+  dictionary is now based on data from the Dicollecte project.
+
+ -Updated the morfologik-stemming library used for tagging dictionaries
+  to version 1.4.0 (performance improvements and ability to build the
+  binary automata directly from Java)
+
+ -Fixed a problem with salutation ending with comma and false alarm
+  for a missing uppercase letter (sf.net bug #2830181 for German;
+  the problem appeared also for Italian, Polish, and Russian)
+
+ -Improved the rule that detects wrong space around brackets; it
+  detects errors concerning curly brackets, parentheses, and
+  square brackets.
+
+ -Added exceptions for the rule that checks the whitespace after the
+  comma so that two consecutive commas are detected only by the double
+  punctuation rule.
+
+ -Initial support for Malayalam (thanks to Jitesh V. S.)
+
+ -Initial support for Belarusian (thanks to Alex Buloichik)
+
+ -Added some German rules (thanks to Jan Schreiber)
+
+ -Added several German and a few English rules (thanks to Felix Sasaki and
+  his students)
+
+ -Added much more Spanish Rules (thanks to Juan Martorell)
+
+ -Improved German sentence detection (no sentence split at
+  "Friedrich II. ist auch...", "13. und 14. Jahrhundert")
+
+ -Fixed sentence tokenizer to better deal with Windows line
+  breaks (\r\n instead of just \n)
+
+ -Small fix for English rule ("rather then" -> "rather than"), some
+  new English rules thanks to Jimmy O'Regan
+
+ -New Catalan rule for castellanisms, thanks to Jimmy O'Regan
+
+ -Fixes and additions for Catalan, Dutch, Italian, Polish, Russian,
+  Slovak and Slovenian rules
+
+ -Fixes for Polish tagging and synthesis dictionaries
+
+ -Fixes and additions to the Polish disambiguator
+
+ -Polish chunker now uses a separate text file for its multiword tokens
+  (see resource/pl/multiwords.txt)
+
+ -Fixed a sourceforge.net #2957133 bug in Italian Rules (thanks to Paolo
+  Bianchini)
+
+ -Added a rule for correct whitespaces around punctuation for French to
+  the default set of rules working for French
+
+ -Updated SRX-based sentence tokenizer rules for Polish, Russian and Slovenian
+
+ -Fixed sourceforge.net bug #2998138 concerning an incorrect ICU regex in
+  SRX file
+
+ -Updated Slovenian and Russian translation
+
+ -Added some disambiguation rules to simplify punctuation rules in Polish
+
+ -It is now possible to add just a new POS tag using <wd> element in the
+  disambiguator. If you omit the lemma attribute and/or the token, the token and
+  the lemma will be set to the matched token.
+
+ -It is now possible to include skipped tokens from the sentence when referring
+  to parts of the pattern in suggestions. Use include_skipped as attribute
+  of the <match> element. To include all the tokens, including the one with the
+  skip attribute set, use "all". To include only the skipped sequence, use "following"
+  as the value of include_skipped. To include nothing, use "none".
+
+ -The syntax used for unification was slightly modified to make it more XML-friendly.
+  The details are to be found on the wiki at
+  http://languagetool.wikidot.com/using-unification
+
+ -DTD for disambiguation rules is now replaced by an XML Schema.
+
+ -Fixed a bug that could raise a false alarm for some unchecked exceptions
+  in XML rules.
+
+ -Fixed a bug with the rule disambiguator: sentence end and paragraph end
+  tags no longer get filtered out during disambiguation.
+
+ -Fixed a small bug with unification: now unifier used for rules and
+  disambiguation rules are kept separate, so that you have different sets
+  of unification equivalences, as defined in their files.
+
+ -Fixed a bug with footnote numbers before a comma that were reported
+  as whitespace.
+
+ -Fixed sourceforge.net bug #2972055 (LanguageTool menu no longer appears in
+  Calc where it didn't work anyway), (Yakov Reztsov).
+
+ -Fix to make HTTP server mode work on more Mac OS X versions
+
+
+1.0.0 (2009-11-01)
+
+ -translation fixes, especially for Danish
+
+ -small GUI fix: making port field larger
+
+ -fixed false alarm for Polish
+
+ -small rule fix for Russian
+
+
+1.0.0-rc1 (2009-10-25)
+
+ -Support for Danish, thanks for Esben Aaberg
+
+ -Support for Catalan, thanks to Ricard Roca
+
+ -Support for Galician, thanks to Susana Sotelo Docio
+
+ -Corrections to Spanish dictionary (conversion from Freeling)
+  and a new rule for Spanish that checks if the determiner
+  (if any) preceding a feminine noun is "el", thanks to Susana Sotelo
+  Docio.
+
+ -Small corrections to Swedish dictionary, thanks to Niklas Johansson and
+  corrections to Dutch dictionaries, thanks to Ruud Bars; small corrections
+  to the French dictionary
+
+ -Added more features for the server-side LanguageTool, including setting
+  some parameters.
+
+ -Added missing support for New Zealand and South African English.
+
+ -More Dutch, Polish, Russian, Spanish, Slovenian, and English rules
+
+ -Enabled general rules in the Slovenian module
+
+ -Fixes for the Italian, Russian, French, and Polish rules
+
+ -Fixed sourceforge bugs: #2819925 for English, #2879819, #2883277, #2882789,
+  #2884642, #2880448, and #2885488 for French, #2848079 for Polish, and
+  #2886208 for Spanish.
+  For details, see
+  http://sourceforge.net/tracker/?func=detail&group_id=110216&atid=655717&aid=<ID>
+
+ -The simple replacement rule (designed originally only for Ukrainian)
+  can be used now with any language to find simple, non-context dependent
+  typos. Implemented now for Ukrainian, Russian, Romanian, and Polish.
+
+ -Added SRX-based sentence tokenizers for: Slovenian (thanks to Petra
+  Galuscakova), Icelandic (thanks to Anton Karl Ingason), Slovenian
+  (thanks to Martin Srebotnjak), and Russian (thanks to Yakov Reztsov).
+
+ -Added new Slovak tagger and synthesizer dictionaries (thanks
+  to Zdenko Podobný and Slovak National Corpus)
+
+ -Added Russian synthesizer dictionary and new rules based using it.
+
+ -Added Russian disambiguator.
+
+ -Change from DTD to XML schema for rule files.
+
+ -Slight enhancement for testing XML files on the command line.
+  Slight improvement of word tokenization.
+
+ -Update of the Italian tagger dictionary (Morph-it! 0.48)
+
+ -Update of the decompounding component for German (jWordSplitter 3.0)
+
+ -Update to segment library, removed loomchild-util library that
+  is no longer needed.
+
+ -Update to morfologik-stemming library, resulting in some
+  tagging speedup. Tagger & synthesizer code cleanup.
+
+ -Fixed a small bug that could result in unpredictable behavior
+  in rules using match elements inside tokens.
+
+ -Fixed a bug with counting column positions (sf bug #2878819).
+
+ -Fixed a bug in unification.
+
+ -Fixed a bug with matching elements that have POS tag information
+  and whitespace attributes. Fixed a bug with losing whitespace info
+  from AnalyzedTokenReadings when copying them.
+
+
+0.9.9 (2009-05-22)
+
+ -Added preliminary support for Icelandic thanks to Anton
+  Karl Ingason
+
+ -More English, Dutch, Polish and Romanian grammar rules.
+  More English/Polish false friends. Improvements to Russian
+  rules.
+
+ -Fixed some bugs with pairing brackets. Now the rule also
+  complains about balanced parentheses put in the wrong
+  order (like ")abc("), or overlapped with other symbols (like
+  'his "mother'") and in all places the symbols weren't
+  found to be balanced.
+
+ -Added sentence tokenizer that uses SRX format for
+  specifying end-of-sentence breaks (for specification, see
+  http://www.lisa.org/fileadmin/standards/srx20.html). This
+  enhanced the quality and speed of sentence tokenization
+  (for example, tokenizing the whole Brown corpus in the old
+  tokenizer took 572613ms, while it takes 125971ms right now).
+  Currently, English, Polish, Romanian and Dutch are using
+  SRX segmentation rules.
+
+ -Added Dutch (Belgium) as a country variant to support it
+  in OpenOffice.org.
+
+ -Updated Russian translation (Yakov Reztsov)
+
+ -Updated Slovenian translation and added more rules
+  for this language (Martin Srebotnjak)
+
+ -Updated Slovak translation and added Slovak sentence
+  tokenizer (Zdenko Podobný) .
+
+ -Fixed a NullPointerException that could appear when using
+  paragraph-level rules (SF bug # 2787814), removed bugs that lead to false positives
+  in some English rules. Some code cleanup.
+
+ -Fixed a bug that truncated the suggested replacements for false
+  friends.
+
+ -Fixed encoding problem for some systems (SF bug #2794857), thanks
+  to Petr Mladek.
+
+0.9.8 (2009-04-25)
+
+ -Much more new rules, rule-based disambiguator and synthesiser for
+  Romanian (thanks to Ionuț Păduraru)
+
+ -New rules for Italian and translation of messages into Italian
+  by Paolo Bianchini
+
+ -Initial support for Slovak, including new rules by Zdenko Podobný
+
+ -Translation of messages into Slovak by Zdenko Podobný
+
+ -Small fixes and additions for Polish and English. Small dictionary
+  update for English.
+
+ -Now sentences written in different languages in OpenOffice.org
+  are recognized as such and checked properly (previously it was
+  assumed that the whole paragraph has always the same language).
+
+ -New mode of operation on command-line: you can apply suggestions
+  automatically by supplying "--apply" switch (or "-a" for short).
+  LanguageTool will then output a text with suggestions applied,
+  while suppressing all other text (you can, however, still get
+  verbose output on STDERR). This way LanguageTool may be used to
+  automatically edit a text (to clean a corpus before some other
+  operations, for example).  Note: only the first suggestion is
+  applied in the automatic mode, so make sure that the first
+  suggestion is the best one.
+
+ -The command-line tool works now with STDIN. STDIN is activated
+  anytime a filename is not specified or if you specified "-"
+  explicitly.
+
+ -Update of morfologik-stemming library to version 1.1.4
+  fixes a NullPointerException (sf bug #2613574) and some
+  problems with UTF-8 dictionaries.
+
+ -Now it's possible to test disambiguation XML rules in a similar
+  manner that error-matching rules are tested. Look in English
+  disambiguation rules for examples (at the end of the file).
+
+ -Taggers recognize now mistyped lowercase words that should be
+  uppercase.
+
+ -Fixed a bug that disallowed using rules that were turned off by
+  default.
+
+ -Added more tests and fixed some position errors in the XML rules and
+  disambiguation rules.
+
+ -Fixed some glitches with line numbers, time statistics and
+  match numbers, and unknown words when checking large files
+  on the command line. Fixed a bug with case conversion in rules
+  that contained element <match> in suggestions and numerical
+  references such as \1 in the message.
+
+
+0.9.7 (2009-03-03)
+
+ -Small updates to Polish disambiguation rules, German
+  error rules, and English dictionary
+
+ -Updates for Dutch error rules
+
+ -Fixed bugs in Russian rules (Sourceforge bug #2545548 and #2545525),
+  thanks to Yakov.
+
+ -Preliminary support for Romanian (thanks to Ionuţ Păduraru)
+
+ -Fixed a ClassCastException crash that occurred with non-English
+  texts that contain soft-hyphens.
+
+ -Fixed bug with no errors visible in context menu for some languages
+  in OpenOffice.org, for example French.
+
+0.9.6 (2009-01-21)
+
+ -Support for new Proofreading API in OpenOffice 3.0.1. The
+  non-native dialog box used for checking the text in LT was
+  removed as it duplicated the native function and was buggy
+  (see for example sf bug #1943695).
+
+ -The toolbar button became redundant and was removed. A new
+  menu command "Recheck document" was added to start a new check
+  and reset the rules set as ignored during the previous check
+  (the rules disabled in the configuration dialog are not
+  enabled on recheck).
+
+ -Added possibility to specify feature unification (introduced
+  in XML files but the implemented mechanism is general).
+
+ -Added new features to the rule disambiguator, such as unification,
+  filtering, deleting and adding interpretations. Fixed some
+  small bugs.
+
+ -Added a tagger dictionary for Russian (thanks to Yakov).
+
+ -Added compounds rule for English and Polish, and made the
+  existing compound rule easily extensible for new languages.
+
+ -Added possibility to add shorter comments for rules to be
+  displayed in OpenOffice.org 3.x context menus.
+
+ -New command-line option -t or --taggeronly can be used to
+  tag a text file with POS tags and lemmas as seen by LanguageTool.
+  This means that you can use LanguageTool as a standalone
+  tagger for testing or for building a corpus.
+
+ -The rule that checks for whitespace surrounding punctuation
+  marks now detects an orphaned full stop as requested by OOo
+  users (http://www.openoffice.org/issues/show_bug.cgi?id=93931).
+
+ -Added a possibility to check if there is a whitespace before a
+  token in XML rules (simply specify attribute spacebefore="yes";
+  possible values are also "no" and "ignore". "ignore" is the
+  default.)
+
+ -Added new English, Dutch, Polish and Russian rules. Fixed false
+  alarms for many English rules (including 'a vs. an' rule) based
+  on the community.languagetool.org user votes and sourceforge.net
+  tracker reports (#2319686, #2319670, #2381522). Fixed false
+  alarms for many Dutch (thanks to R.J. Baars) and Polish rules.
+
+ -Massive corrections and additions to the English tagger lexicon. Added
+  a lot of new disambiguation rules for English.
+
+ -Massive corrections to the Dutch tagger and synthesizer lexicon (thanks
+  to R.J. Baars).
+
+ -Corrections to the Polish tagger and synthesizer lexicon. Added
+  rule-based disambiguator for Polish.
+
+ -The scripts testrules.bat and testrules.sh are now also testing
+  the validity of XML files, including false friends, rules and
+  disambiguator rules.
+
+ -Fixed problems with uppercase sentence start rule with lists for Russian
+  and Polish (thanks to Yakov Reztsov).
+
+ -Fixed a bug in synthesizer suggestions generated for indeterminate
+  articles before compound words (such as 'all-inclusive').
+
+ -Fixed a bug that could cause errors in XML error/disambiguation rule
+  matching.
+
+ -Fixed a bug that could cripple case conversion of tokens matched in
+  suggestions formatted with regular expressions.
+
+ -Fixed a bug that resulted from missing synchronization of code used
+  for doing actual grammar-check in OpenOffice.org (see sf bugs #2416655,
+  #2411768, #2379365).
+
+ -Fixed other small bugs (rule numbering in text output; archaic words
+  offered in some English suggestions; ignoring some exceptions that
+  were set for preceding tokens; incorrect positions of errors on some
+  tagged punctuation tokens; incorrect formatting of some synthesized
+  suggestions; ignoring manual hyphenation marks during checking in
+  OpenOffice.org; not printing unknown words on command-line).
+
+0.9.5 (2008-11-02)
+
+ -Fixed a bug in whitespace rule that caused LT to crash
+  OpenOffice.org with English text.
+
+ -Fixed a bug that caused some languages to be wrongly
+  tagged in Turkish Unicode locale (reported by Serkan Kaba).
+
+ -Updated, fixed and added some Polish rules.
+
+ -Updated and added some English rules.
+
+ -Fixes to the German tagger and its compounds splitting
+  algorithm which could cause false alarms.
+
+ -Added full support for various Unicode whitespace
+  characters and tabs as word separators for English.
+
+ -Small fixes with a missing icon in the Extensions Manager
+  in OpenOffice.org and formatting of comments visible in the
+  context menu.
+
+ -Fixes in Polish sentence tokenizer that allow some abbreviations
+  and symbols at the end of sentences.
+
+ -Fixed sentence tokenizer: the footnote at the end of the sentence
+  caused LT not to break the sentence at all.
+
+0.9.4 (2008-09-30)
+
+ -Fixed freezing on startup with OpenOffice.org 3.0.
+
+ -Updated Swedish rules, added false friends, and
+  fixed the compounds rule (thanks to Niklas Johansson).
+
+ -Updated French dictionary, disambiguation rules
+  and grammar rules (thanks to Camille Moulin).
+
+ -Added abbreviations for Russian sentence tokenizer and
+  Russian compound rule. Updated Russian rules (thanks
+  to Yakov Reztsov).
+
+ -LanguageTool button in OpenOffice.org is now placed next to
+  the "Spelling and Grammar" button.
+
+ -It is now possible to turn the whole category of rules
+  by default off (in the XML file).
+
+
+0.9.3 (2008-08-06)
+
+ -Works with OpenOffice.org 3.0 beta m26 or later.
+  LanguageTool.jar needed to be removed from classpath.
+  Added support for the new grammar checking API (displays
+  blue wavy lines for errors automatically, a context
+  menu with suggestions, rechecks document when options
+  changed...). With the new API, it is possible to check
+  documents with multiple languages. When using the blue
+  wavy lines, all known previous bugs with OpenOffice.org
+  were solved; note that OpenOffice.org 3.0 "Spell and Grammar
+  Check" dialog is *not* completely implemented yet.
+  Sometimes you need to use our slightly buggy dialog instead
+  (progress dialog is always on top to solve focus problems).
+
+ -Added full support for various Unicode whitespace
+  characters as word separators (including typographic
+  space characters).
+
+ -Added support for Russian (thanks to Yakov Reztsov).
+
+ -Fixed the bug that caused that "&" was shown in buttons,
+  and not interpreted as shortcut.
+
+ -Fixed menu and toolbar icon which were broken
+  during compilation (black square or empty).
+
+ -Fixed a small bug with formatting some case-sensitive
+  suggestions.
+
+ -Added a generic rule that detects redundant whitespace.
+
+ -Added Dutch synthesizer for making suggestions based
+  on part-of-speech changes.
+
+ -Added a rule-based disambiguator for English to minimize
+  false alarms.
+
+ -New Dutch, English (dealing with agreement and redundancy),
+  Polish and Swedish rules. Added more false friends. Removed
+  some false alarms.
+
+ -The German tagger now splits compounds words correctly which
+  avoids several mistaggings and thus false alarms.
+
+ -Added new Swedish tagger for more complex rules, thanks to
+  Niklas Johansson.
+
+ -The command line client now prints a number after the
+  rule id so you can see which of the rules in a rule group
+  it refers to, for example:
+  "2.) Line 1, column 43, Rule ID: MUEHLHEIM_A_D_RUHR[1]"
+
+0.9.2 (2008-02-17)
+
+ -LanguageTool is now part of the "Tools" menu in
+  OpenOffice.org and its toolbar button is docked to
+  standard toolbar by default.
+
+ -LanuageTool's OpenOffice.org configuration is now saved
+  in the user's home directory.
+
+ -Added preliminary support for Swedish (thanks to Niklas
+  Johansson).
+
+ -More false friends, especially Polish-English, and
+  generalization of existing false friend rules for English
+  and German.
+
+ -Added possibility to display a false friend list as
+  a dictionary formatted in HTML (rules/print-ff.xsl).
+
+ -Added an attribute to the DTD so XML rules and groups
+  of rules can be disabled by default by specifying
+  default="off". Java rules can be set as turned off by
+  default by using setDefaultOff() method.
+  Both settings can be overridden in the Options dialog
+  box.
+
+ -Added possibility to set hot keys for UI items in
+  translation. Corrected French translation (thanks to
+  Hugo Voisard).
+
+ -Fixed bug in OOo extension that caused that false friend
+  rules did not display in the configuration dialog.
+
+ -Added the possibility to disable complete rule groups
+  (categories) in the GUI.
+
+ -Fixed some Polish rules. Added more Dutch rules and several
+  hundred more French rules.
+
+ -XML rules: added possibility to refer to matched tokens'
+  POS in <match> elements inside <token>. This is useful
+  for defining agreement without combinatorial explosion.
+
+ -OOo extension will be distributed in .oxt format that
+  allows automatic updates.
+
+ -Internal change: updated tagger library and streamlined
+  some tagger code.
+
+0.9.1 (2007-09-17)
+
+ -Fixed a bug with the resource paths that was discovered
+  in OpenOffice.org 2.3 and that made it impossible to use
+  LanguageTool with OpenOffice.org 2.3.
+
+ -XML rules: enabled referring to whole phrases in suggestions, and
+  changing their POS tags appropriately. Added support for attribute
+  scope="previous" in exceptions.
+
+ -Fixed error marking problems for XML rules that use phrases
+  and skipping.
+
+ -Added and tweaked some Polish and English rules.
+
+ -Fixed problems with badly written XML rules that used skipping.
+
+ -LanguageTool now requires Java 6.0 to be compiled, but it
+  still runs with Java 5.0.
+
+ -The icon in the system tray now offers a menu when clicking
+  the right mouse button (Java 6.0 only).
+
+ -Several people had problems with the LanguageTool dialog
+  appearing in the background (when using LanguageTool inside
+  OpenOffice.org). A workaround has been added that tries
+  to fix this problem.
+
+ -The embedded webserver can now work with UTF-8. Input must
+  now always be in UTF-8 (or 7-Bit ASCII, as that is a subset of
+  UTF-8).
+
+ -Fixed bug (#1726044 in sf.net tracking system) concerning the
+  Italian tagger dictionary that resulted in a badly formatted
+  dictionary file.
+
+ -The stand-alone LanguageTool can now load an XML rule file using
+  the new menu item "Add language...". This way people can write
+  rules and use without touching any Java code and without the need
+  for the rule file to be distributed with LanguageTool.
+  Currently, the file must be named in the format "rules-xx-name.xml",
+  where "xx" is the two-character language code and "name" is the full
+  name of the language in English. Example: rules-en-English.xml
+  TODO: needs more polishing: i18n, store and load configuration, add
+  the same to OOo
+
+0.9 (2007-05-20)
+
+ -It's possible to edit rules using XML Mind XML Editor (xxe) in a
+  WYSYWIM (what you see is what you mean) mode. Simply open the file
+  in xxe, and it should display in a form input mode. It is recommended
+  that you uncheck Options > Preferences > Save > Add open lines. Set
+  a high value in Max line length.
+
+ -Now you can simply open rule files (rules/<language>/grammar.xml) with
+  Firefox to see examples of errors and descriptions of rules in a
+  human-readable format.
+
+ -A lot of new French rules by Agnes Souque (mostly grammar errors) and
+  Hugo Voisard (mostly stylistic errors).
+
+ -Everyone can now develop, modify, and test grammar rules without requiring
+  the LanguageTool source code. Just call this command, it will run all
+  tests in all grammar.xml files (tests are the sentences in the
+  <example>...</example> tags). If you work in Linux, type:
+  sh testrules.sh
+  In Windows command line, type:
+  testrules.bat
+
+ -German compound nouns are now split so that also compound words
+  which are not in the dictionary are recognized. This way more
+  agreement errors can be detected, e.g. "die Donaudampfschiff".
+  The dictionary for jWordSplitter was created using the new class
+  ExportGermanNouns.
+
+ -New option -u or --list-unknown for the command line version: lists
+  all words that are not known, i.e., words without POS information.
+  This currently also lists words written with an uppercase first
+  letter unless they appear at the beginning of a sentence.
+
+ -Added support for variables in XML pattern rules and disambiguation
+  rules; it is now possible to refer to previously matched tokens using
+  <match> element.
+
+ -Added support for logical AND operation for combining tokens
+  in error pattern and disambiguation rules (XML-based). In other
+  words, all possible logical combinations are now available in
+  the rule declaration.
+
+ -Added support for XML-based rule disambiguation of POS tags
+  (based on an idea by Agnes Souque).
+
+ -Added support for regular expressions and POS tags to
+  create complex suggestions (for example, suggesting another
+  grammatical case or a word without an apostrophe). Suggestions
+  based on selecting POS tags require a special synthesis dictionary,
+  compiled for the language. Currently, two such dictionaries are
+  available: for English and Polish.
+
+ -Added initial support for Slovenian (Martin Srebotnjak)
+
+ -Fixed and refined some faulty suggestions for Polish, English, and
+  Spanish rules.
+
+ -Added special POS tag value "UNKNOWN" that matches any token without
+  any part of speech token. Useful for matching proper names
+  or misspelled words that are not in the dictionary.
+
+ -The tray icon should now also work on the Mac.
+
+ -Added option to test suggested replacements in internal quality
+  tests.
+
+ -Refined and added more Polish and English rules with new suggestion
+  features.
+
+ -Fixed bug with saving preference for mother tongue (for false
+  friend checking) in the stand-alone GUI and OOo extension.
+
+ -Fixed bug for users that have Windows username with special
+  characters; OpenOffice.org extension can now read its files
+  correctly.
+
+ -Internal change: changed source directory structure; now files
+  are accessed based on the classpath and not file structure
+  (more portable way).
+
+0.8.9 (2007-04-07)
+
+ -Security: The embedded webserver didn't escape HTML when an error
+  message was returned which led to the possibility to inject
+  Javascript via cross site scripting (thanks to "sumit")
+
+ -A lot of new Polish rules
+
+ -Improved German rules to give less false alarms
+
+ -Improved English rules
+
+ -Added initial support for Czech (by Jozef Licko)
+
+ -Added initial support for Ukrainian (by Andriy Rysin)
+
+ -Make OpenOffice.org integration work with NeoOffice (by Ray Hazlip)
+
+ -Added disambiguator interface used to filter POS tags (by Jozef Licko)
+
+ -Enabled use of much more compact dictionaries for languages with
+  heavy use of infixes or prefixes (mostly Slavic languages).
+
+ -Fixed a bug with suggestions for some rules that match correlated
+  words in the sentence, and a bug with matching in some of them.
+
+ -New UnpairedQuotesBracketsRule (for pairing (), [], {}, „”, »«,
+  depending on the language); works on a paragraph-level. Additionally,
+  new mechanisms for paragraph- and text-level rules were introduced.
+
+ -New French punctuation rule for inserting a non-breakable
+  space before '!', '?', ':', and ';' and after or before
+  French quotation marks ('«' and '»').
+
+ -Fixed crash when started in an unsupported locale
+
+ -Added support for declaring phrases (or chunks) in rules,
+  which allows reusing same structures in various rules. This
+  could be thought of as simplified chunking.
+
+ -The command line version (LanguageTool.jar) can now be started
+  from any directory. In previous versions, you had to be in the
+  LanguageTool installation directory to start it.
+
+ -Internal change: rules are loaded dynamically to make adding
+  a new language easier in the future (patch by Andriy Rysin)
+
+0.8.8 (2007-01-30)
+
+ -XML output of HTTP interface changed for compatibility with
+  An Gramadoir (http://borel.slu.edu/gramadoir/), see
+  resource/api-output.dtd for the new format. Fixed some encoding
+  problems with the HTTP response.
+
+ -Added --api option to Main method so the XML output can be tested
+  on the command line.
+
+ -Improved English, Dutch and Polish rules
+
+ -Fixed several false alarms in German agreement rule (e.g., for "Dies liegt
+  aller Kommunikation zugrunde." and "Der Vorgang, der soziale Akteure
+  miteinander verknüpft.")
+
+ -Improved German coherency rule, e.g. using "Ketchups" and "Ketschups"
+  in one document will lead to an error
+
+ -German part-of-speech information can now be added to resource/de/added.txt
+
+ -Slightly improved suggestions of German compound rule, e.g., "x mal"
+  will suggest "x-mal", not "xmal"
+
+ -Fixed false alarm in German "wieder vs. wider" rule
+
+ -Command line version now stops with error message if unknown options
+  are used
+
+0.8.7 (2006-12-31)
+
+ -Extended and improved English, Polish, and Dutch rules
+
+ -Added some Lithuanian rules (Thanks to Mantas Kriaučiūnas)
+
+ -Improved UppercaseSentenceStartRule for sentences that start with a
+  quote character
+
+ -Bugfix: Small fixes for German compound rule (e.g., "New Yorker" and
+  "New-Yorker" are both okay)
+
+ -Bugfix: Don't crash but show error if LanguageTool is used with Java <= 1.4
+  inside OpenOffice.org
+
+ -Bugfix: LanguageTool stopped with a MissingResourceException when started
+  in a locale that's not supported (e.g., fr_CA = French, Canada)
+
+ -Added French translation of the GUI (Thanks to Hugo Voisard)
+
+0.8.6 (2006-12-17)
+
+ -Added support for Dutch (Thanks to Ruud J. Baars)
+
+ -Added initial support for Lithuanian (no XML rules yet)
+
+ -Error rules slightly improved for English, German, and Polish
+
+ -Small improvements to the sentence tokenizer
+
+ -Command line version and stand-alone version now print suggested fixes
+
+ -New rule for German that complains about the spelling of compound words
+  that are written as separate words, e.g., for "System Administrator"
+  LanguageTool suggests "System-Administrator" and "Systemadministrator".
+  See resource/de/compounds.txt for a list of words that this rule detects.
+
+ -OpenOffice.org integration:
+    -fixed that some errors messages (e.g., Language not supported) could freeze
+     the OpenOffice.org GUI
+    -the "server mode" configuration is now only available in a stand-alone
+     mode, as it doesn't make sense inside OpenOffice.org
+    -configuration dialog is now mostly translated
+    -error marking corrected for documents that contain index markers
+    -improved icon
+
+ -Stand-alone GUI:
+    -improved tray icon
+    -added shortcuts for its menu items
+    -new menu item "Check Text in Clipboard"
+    -will now hide itself to the system tray when
+     clicking the window close button when started in system tray mode
+     (with -t or --tray). Use "Quit" from the menu to exit the program
+     completely.
+    -user interface is now mostly translated
+
+ -Debugging output (-v) of German texts has been improved, it now shows the
+  part-of-speech tags as they are used during rule matching
+
+0.8.5 (2006-10-30)
+
+ -Fixed small bugs connected with special HTML characters used
+  internally and entities encoding
+
+ -OpenOffice.org integration: documents > 64K can now be checked
+  WARNING: There's still a problem with documents that contain tables,
+  the wrong part of the text will be selected.
+
+ -OpenOffice.org integration: progress dialog now really shows the progress
+
+ -Introduced new POS tags for uncountable nouns (NN:U) and for nouns
+  that can be used as uncountable (NN:UN). Added most common proper names
+  to the English tagger dictionary.
+
+ -LanguageTool can now run as a server that returns its results
+  in a simple XML format via HTTP. Activate the server using
+  "File -> Options..." or start it via command line using
+  java -cp jaminid.jar:LanguageTool.jar de.danielnaber.languagetool.server.HTTPServer
+
+ -By default, a single linebreak is not supposed to be a paragraph
+  delimiter anymore (this was introduced in 0.8.4). With the command
+  line application, you can use the new option -b to make LanguageTool
+  take single linebreaks as paragraphs delimiters again. Two consecutive
+  linebreaks are always considered a paragraph boundary (and thus a
+  sentence boundary).
+
+ -Added initial French, Spanish and Italian support
+
+ -Added new rules for English and Polish
+
+0.8.4 (2006-08-20)
+
+ -Added several new rules for English, German, and Polish
+
+ -The false friend rules now offer a possible correction
+
+ -Stand-alone GUI: the program can now be docked to the system tray.
+  Selecting any text and clicking on the icon in the system tray pops up
+  the main window and checks the selected text. You need to unzip
+  standalone-libs.zip for this feature to work (this was necessary so
+  OpenOffice.org, which works on the same ZIP, doesn't get confused).
+
+ -Stand-alone GUI: now stores its configuration to a file ".languagetool.cfg"
+  in the user's home directory. Still buggy, as it only stores the configuration
+  for one text language.
+
+ -OpenOffice.org integration: cursor doesn't jump to start anymore before it
+  selects the error
+
+ -OpenOffice.org integration: LanguageTool's suggestions can now be accepted
+  using a double click
+
+ -A single line break in texts will now be interpreted as the end of a
+  paragraph thus also as the end of a sentence.
+
+ -Reduced size of LanguageTool by using a more compact
+  part-of-speech tagger
+
+ -Changed DTD to support more XML-like rule encoding, added categories
+
+ -Extended exception matching to multiple tokens, added more flexible ways
+  to match variable word order languages (via skipping tokens in rules)
+
+ -Added lemmatization support, regular expression support
+
+ -Added AnalyzedTokenReadings class to support multiple readings
+  in all taggers, changed the code appropriately
+
+ -Some API changes
+
+0.8.3 (2006-06-25)
+
+ -Requires Java 1.5 now
+
+ -Support for Polish (Marcin Milkowski)
+
+ -Fixed a NullPointerException in DoublePunctuationRule
+
+ -Added information to the README about how to compile LanguageTool for
+  .NET using IKVM
+
+ -OpenOffice.org: The selection of the potentially incorrect text was wrong
+  after paragraphs (on Windows only)
+
+0.8.2 (2006-02-26)
+
+ -New menu entry "Configuration..."
+
+ -If you're a native speaker of German and write a text in English, LanguageTool
+  can now warn you if you're using a "false friend", i.e., an English word that sounds
+  like a German word but has a different meaning (e.g., become <-> bekommen).
+  This also works vice versa (i.e., English native speakers will get a warning
+  when writing a German text using a false friend).
+
+ -Added a few new pattern rules
+
+ -Missing whitespace after a comma is now detected
+
+ -Added a new German rule that detects missing agreement in e.g.,
+  "meine Auto" (correct: "mein Auto"). This also introduces some new
+  false alarms.
+
+ -Errors for German text are now displayed in German
+
+ -Several other small fixes
+
+ -Only relevant for developers: changes to rules.dtd (affect "lang" attribute)
+
+ -Only relevant for developers: XML validation doesn't happen at runtime
+  anymore but only when "ant test" is called
+
+0.8.1 (2005-12-22)
+
+ -Made it work for cases where the add-on installation path contains
+  spaces (often seems to be the case under Windows)
+
+ -Added a few rules for English
+
+ -Added more exceptions so the English "a vs. an" rule works better
+
+ -Other small fixes
+
+0.8 (2005-12-17)
+
+ -Added OpenOffice.org integration. Install the LanguageTool ZIP via
+  Tools -> Package Manager -> Add..., re-start OpenOffice.org and you'll
+  have a new menu item "LanguageTool" which checks your text.
+
+ -The German data is now more compact (but still 40MB when uncompressed)
+  and it's included in the standard distribution
+
+ -Fixed morphology data for a few German words
+
+ -Added some new simple pattern rules for English and German
+
+ -Switched to new English part-of-speech data and new version of
+  part-of-speech tagger (OpenNLP-tools 1.3)
+
+ -Files are called LanguageTool instead of JLanguageTool again
+  as the Java version is the only maintained version anyway
+
+0.7.2 (2005-11-21)
+
+ -several new pattern rules for typical German and English typos
+
+ -new rule that checks for ".." and ",,"
+
+ -new CaseRule for German text: complains if non-nouns are written
+  in uppercase and checks uppercase spelling of "substantivierte Verben",
+  e.g., "Das Laufen fällt mir leicht."
+
+ -extension of pattern synatx: DT^foo|bar will match words tagged
+  as "DT", except the word is "foo" or "bar"
+
+ -fixed several false alarms (i.e., rules matching text which is
+  actually correct)
+
+ -fixed error marking for matches of pattern rules
+
+ -fixed morphology data for these German words: Papagei, Virus, Stasi
+
+0.7.1 (2005-09-08)
+
+ -Rules can now be enabled/disabled in GUI
+
+ -the error displayed to the user is now taken from the "message"
+  element, not from the "name" attribute anymore
+
+ -implemented mark_from and mark_to attributes, these can
+  be used to expand/shrink the area of text that is marked
+  as wrong. Both attributes default to 0 so that the text
+  marked as wrong is exactly the one that matches the pattern.
+
+ -back references like \1 can now be used in error messages
+  to refer to the parts of the original text that is matched
+  by the pattern
+
+ -a few German noun phrases like "der große Mann" are now checked
+  for agreement. For example, "des großer Mannes" is detected
+  as incorrect. This requires data in rules/de/categories which needs
+  to be downloaded separately.
+
+ -a new rule checks whether a sentence starts with an uppercase letter
+
+0.7 (2005-08-15)
+
+ -first release of Java rewrite
