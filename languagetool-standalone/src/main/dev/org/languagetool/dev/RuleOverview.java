@@ -70,7 +70,7 @@ public final class RuleOverview {
     System.out.println("  <th width=\"120\"></th>");
     System.out.println("  <th align=\"left\" width=\"60\">Java<br/>rules</th>");
     System.out.println("  <th align=\"left\" width=\"60\">False<br/>friends</th>");
-    System.out.println("  <th valign='bottom' width=\"65\">Auto-<br/>detected</th>");
+    //System.out.println("  <th valign='bottom' width=\"65\">Auto-<br/>detected</th>");
     System.out.println("  <th valign='bottom' align=\"left\">Rule Maintainers</th>");
     System.out.println("</tr>");
     System.out.println("</thead>");
@@ -146,7 +146,7 @@ public final class RuleOverview {
         final int count = countFalseFriendRules(falseFriendRules, lang);
         System.out.print("<td valign=\"top\" align=\"right\">" + count + "</td>");
 
-        System.out.print("<td valign=\"top\">" + (isAutoDetected(lang.getShortName()) ? "yes" : "-") + "</td>");
+        //System.out.print("<td valign=\"top\">" + (isAutoDetected(lang.getShortName()) ? "yes" : "-") + "</td>");
         
         // maintainer information:
         final StringBuilder maintainerInfo = getMaintainerInfo(lang);
@@ -244,7 +244,7 @@ public final class RuleOverview {
     return maintainerInfo;
   }
 
-  private boolean isAutoDetected(String code) {
+  /*private boolean isAutoDetected(String code) {
     if (LanguageIdentifier.getSupportedLanguages().contains(code)) {
       return true;
     }
@@ -253,7 +253,7 @@ public final class RuleOverview {
       return true;
     }
     return false;
-  }
+  }*/
 
 }
 
