@@ -18,26 +18,21 @@
  */
 package org.languagetool.dev;
 
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.language.Contributor;
+import org.languagetool.tools.StringTools;
+import org.languagetool.tools.Tools;
+
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
-import org.apache.tika.language.LanguageIdentifier;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.language.Contributor;
-import org.languagetool.tools.LanguageIdentifierTools;
-import org.languagetool.tools.StringTools;
-import org.languagetool.tools.Tools;
 
 /**
  * Command line tool to list supported languages and their number of rules.
@@ -92,15 +87,16 @@ public final class RuleOverview {
         continue;
       }
       System.out.print("<tr>");
-      final File langSpecificWebsite = new File(webRoot, lang.getShortName());
+      final String langCode = lang.getShortName();
+      final File langSpecificWebsite = new File(webRoot, langCode);
       if (langSpecificWebsite.isDirectory()) {
-        System.out.print("<td valign=\"top\"><a href=\"../" + lang.getShortName() + "/\">" + lang.getName() + "</a></td>");
+        System.out.print("<td valign=\"top\"><a href=\"../" + langCode + "/\">" + lang.getName() + "</a></td>");
         langSpecificWebsiteCount++;
       } else {
         System.out.print("<td valign=\"top\">" + lang.getName() + "</td>");
       }
       //FIXME: this does not work for en-GB and en-US
-      final String xmlFile = JLanguageTool.getDataBroker().getRulesDir() + File.separator + lang.getShortName() + File.separator + "grammar.xml";
+      final String xmlFile = JLanguageTool.getDataBroker().getRulesDir() + File.separator + langCode + File.separator + "grammar.xml";
       final URL url = this.getClass().getResource(xmlFile);    
       if (url == null) {
         System.out.println("<td valign=\"top\" align=\"right\">0</td>");
@@ -111,18 +107,19 @@ public final class RuleOverview {
         xmlRules = xmlRules.replaceAll("(?s)<rules.*?>", "");
         final int count = countXmlRules(xmlRules);
         final int countInRuleGroup = countXmlRuleGroupRules(xmlRules);
-        final String ruleBase = "http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/main/resources/org/languagetool/rules/";
+        final String ruleBase = "http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/languagetool/languagetool-language-modules/" 
+                + langCode + "/src/main/resources/org/languagetool/rules/";
         System.out.print("<td valign=\"top\" align=\"right\">" + (count + countInRuleGroup) + "</td>");
         System.out.print("<td valign=\"top\" align=\"right\">" +
-            "<a href=\"" + ruleBase + lang.getShortName() + "/grammar.xml" + "\">Show</a> / " +
-            "<a href=\"" + ruleBase + lang.getShortName() + "/grammar.xml?content-type=text%2Fplain" + "\">XML</a> / " +
-            "<a href=\"http://community.languagetool.org/rule/list?lang=" + lang.getShortName() + "\">Browse</a>" +
+            //"<a href=\"" + ruleBase + langCode + "/grammar.xml" + "\">Show</a> / " +
+            "<a href=\"" + ruleBase + langCode + "/grammar.xml?content-type=text%2Fplain" + "\">XML</a> / " +
+            "<a href=\"http://community.languagetool.org/rule/list?lang=" + langCode + "\">Browse</a>" +
             "</td>");
       }
 
       // count Java rules:
-      final File dir = new File("src/main/java" +
-              JLanguageTool.getDataBroker().getRulesDir() + "/" + lang.getShortName());
+      final File dir = new File("../languagetool-language-modules/" + langCode + "/src/main/java" +
+              JLanguageTool.getDataBroker().getRulesDir() + "/" + langCode);
       if (!dir.exists()) {
         System.out.print("<td valign=\"top\" align=\"right\">0</td>");
       } else {
@@ -130,8 +127,9 @@ public final class RuleOverview {
         final int javaCount = javaRules.length;
         if (javaCount > 0) {
           final String sourceCodeLink = 
-                  "http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/main/java/org/languagetool/rules/" 
-                  + lang.getShortName() + "/";
+                  "http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/languagetool/languagetool-language-modules/" 
+                  + langCode + "/src/main/java/org/languagetool/rules/" 
+                  + langCode + "/";
           System.out.print("<td valign=\"top\" align=\"right\"><a href=\"" + sourceCodeLink + "\">" + javaCount + "</a></td>");
         } else {
           System.out.print("<td valign=\"top\" align=\"right\">" + javaCount + "</td>");
