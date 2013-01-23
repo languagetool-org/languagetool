@@ -25,8 +25,8 @@ import java.io.IOException;
 import java.util.List;
 
 import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
 import org.languagetool.TextFilter;
+import org.languagetool.language.English;
 import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
@@ -53,7 +53,7 @@ public final class CheckBNC {
   }
   
   private CheckBNC() throws IOException {
-    langTool = new JLanguageTool(Language.ENGLISH);
+    langTool = new JLanguageTool(new English());
     langTool.activateDefaultPatternRules();
     final String[] disRules = new String[] {"UPPERCASE_SENTENCE_START", "COMMA_PARENTHESIS_WHITESPACE",
         "WORD_REPEAT_RULE", "DOUBLE_PUNCTUATION"};
