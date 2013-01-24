@@ -61,6 +61,7 @@ public class CatalanSentenceTokenizerTest extends TestCase {
     testSplit(new String[] { "El Dr. Joan no vindrà." });
     testSplit(new String[] { "Distingit Sr. Joan," });
     testSplit(new String[] { "Molt Hble. Sr. President" });
+    testSplit(new String[] { "de Sant Nicolau (del s. XII; cor gòtic del s. XIV) i de Sant " });
 
     // Exception to abbreviations
     testSplit(new String[] { "Ell és el número u. ", "Jo el dos." });
