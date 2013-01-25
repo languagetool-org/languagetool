@@ -67,9 +67,8 @@ import org.xml.sax.SAXException;
  * </ul>
  * 
  * <p>Note that the constructors create a language checker that uses the built-in
- * rules only. Other rules (e.g. from XML) need to be added explicitly.
- * 
- * @author Daniel Naber
+ * rules only. Other rules (e.g. from XML) need to be added explicitly or
+ * activated using {@link #activateDefaultPatternRules()}.
  */
 @SuppressWarnings({"UnusedDeclaration"})
 public final class JLanguageTool {
@@ -159,8 +158,6 @@ public final class JLanguageTool {
   /**
    * Create a JLanguageTool and setup the built-in rules appropriate for the
    * given language, ignoring false friend hints.
-   * 
-   * @throws IOException
    */
   public JLanguageTool(final Language language) throws IOException {
     this(language, null);
@@ -173,8 +170,6 @@ public final class JLanguageTool {
    * @param language the language to be used.
    * @param motherTongue the user's mother tongue or <code>null</code>. The mother tongue
    *          may also be used as a source language for checking bilingual texts.
-   *          
-   * @throws IOException
    */
   public JLanguageTool(final Language language, final Language motherTongue)
       throws IOException {
@@ -332,7 +327,6 @@ public final class JLanguageTool {
    * Load pattern rules from an XML file. Use {@link #addRule(Rule)} to add these
    * rules to the checking process.
    * 
-   * @throws IOException
    * @return a List of {@link PatternRule} objects
    */
   public List<PatternRule> loadPatternRules(final String filename)
@@ -353,9 +347,6 @@ public final class JLanguageTool {
    * JLanguageTool constructor. Use {@link #addRule(Rule)} to add these rules to the
    * checking process.
    * 
-   * @throws ParserConfigurationException
-   * @throws SAXException
-   * @throws IOException
    * @return a List of {@link PatternRule} objects
    */
   public List<PatternRule> loadFalseFriendRules(final String filename)
@@ -371,13 +362,9 @@ public final class JLanguageTool {
   /**
    * Loads and activates the pattern rules from
    * <code>rules/&lt;language&gt;/grammar.xml</code>.
-   * 
-   * @throws ParserConfigurationException
-   * @throws SAXException
-   * @throws IOException
    */
-  public void activateDefaultPatternRules() throws IOException {    
-    final List<PatternRule> patternRules = new ArrayList<PatternRule>();    
+  public void activateDefaultPatternRules() throws IOException {
+    final List<PatternRule> patternRules = new ArrayList<PatternRule>();
     for (String patternRuleFileName : language.getRuleFileName()) {
         patternRules.addAll(loadPatternRules(patternRuleFileName));
     }    
@@ -387,10 +374,6 @@ public final class JLanguageTool {
   /**
    * Loads and activates the false friend rules from
    * <code>rules/false-friends.xml</code>.
-   * 
-   * @throws ParserConfigurationException
-   * @throws SAXException
-   * @throws IOException
    */
   public void activateDefaultFalseFriendRules()
       throws ParserConfigurationException, SAXException, IOException {
@@ -481,9 +464,7 @@ public final class JLanguageTool {
   /**
    * Enable a rule that was switched off by default.
    * 
-   * @param ruleId
-   *          the id of the turned off rule to enable.
-   * 
+   * @param ruleId the id of the turned off rule to enable.
    */
   public void enableDefaultOffRule(final String ruleId) {
     enabledRules.add(ruleId);
@@ -499,8 +480,7 @@ public final class JLanguageTool {
   /**
    * Re-enable a given rule so {@link #check(String)} will use it.
    * 
-   * @param ruleId
-   *          the id of the rule to enable
+   * @param ruleId the id of the rule to enable
    */
   public void enableRule(final String ruleId) {
     if (disabledRules.contains(ruleId)) {
@@ -519,10 +499,8 @@ public final class JLanguageTool {
    * The main check method. Tokenizes the text into sentences and matches these
    * sentences against all currently active rules.
    * 
-   * @param text
-   *          the text to check  
+   * @param text the text to check  
    * @return a List of {@link RuleMatch} objects
-   * @throws IOException
    */
   public List<RuleMatch> check(final String text) throws IOException {
     return check(text, true, ParagraphHandling.NORMAL);
@@ -542,9 +520,7 @@ public final class JLanguageTool {
    *          Otherwise, it is assumed it's already tokenized.
    * @param paraMode
    *          Uses paragraph-level rules only if true.
- 
    * @return a List of {@link RuleMatch} objects
-   * @throws IOException
    */
   public List<RuleMatch> check(final String text, boolean tokenizeText, final ParagraphHandling paraMode) throws IOException {
     sentenceCount = 0;
@@ -652,7 +628,7 @@ public final class JLanguageTool {
 
       final RuleMatch[] thisMatches = rule.match(analyzedText);
       for (final RuleMatch element1 : thisMatches) {
-        RuleMatch thisMatch = adjustRuleMatchPos(element1,
+        final RuleMatch thisMatch = adjustRuleMatchPos(element1,
             tokenCount, columnCount, lineCount, sentence);    
         sentenceMatches.add(thisMatch);
         if (rule.isParagraphBackTrack()) {
@@ -675,7 +651,7 @@ public final class JLanguageTool {
    * @return The RuleMatch object with adjustments.
    */
   public RuleMatch adjustRuleMatchPos(final RuleMatch rm, int sentLen,
-      int columnCount, int lineCount, final String sentence) {    
+      int columnCount, int lineCount, final String sentence) {
     final RuleMatch thisMatch = new RuleMatch(rm.getRule(),
         rm.getFromPos() + sentLen, rm.getToPos() + sentLen, rm.getMessage(), rm.getShortMessage());
     thisMatch.setSuggestedReplacements(rm.getSuggestedReplacements());
@@ -718,22 +694,20 @@ public final class JLanguageTool {
   }
 
   /**
-   * Get the list of unknown words in the last run of the check() method.
+   * Get the alphabetically sorted list of unknown words in the latest run of the check() method.
    * 
-   * @throws IllegalStateException
-   *           if listUnknownWords is set to <code>false</code>
+   * @throws IllegalStateException if {@link #setListUnknownWords(boolean)} has been set to <code>false</code> 
    */
   public List<String> getUnknownWords() {
     if (!listUnknownWords) {
-      throw new IllegalStateException(
-          "listUnknownWords is set to false, unknown words not stored");
+      throw new IllegalStateException("listUnknownWords is set to false, unknown words not stored");
     }
     final List<String> words = new ArrayList<String>(unknownWords);
     Collections.sort(words);
     return words;
   }
 
-  static int countLineBreaks(final String s) {
+  private static int countLineBreaks(final String s) {
     int pos = -1;
     int count = 0;
     while (true) {
@@ -750,11 +724,8 @@ public final class JLanguageTool {
   /**
    * Tokenizes the given <code>sentence</code> into words and analyzes it,
    * and then disambiguates POS tags.
-   * 
-   * @throws IOException
    */
-  public AnalyzedSentence getAnalyzedSentence(final String sentence)
-      throws IOException {
+  public AnalyzedSentence getAnalyzedSentence(final String sentence) throws IOException {
     // disambiguate assigned tags & return
     return disambiguator.disambiguate(getRawAnalyzedSentence(sentence));
   }
@@ -762,12 +733,8 @@ public final class JLanguageTool {
   /**
    * Tokenizes the given <code>sentence</code> into words and analyzes it.
    * 
+   * @param sentence Sentence to be analyzed 
    * @since 0.9.8
-   * @param sentence
-   *        Sentence to be analyzed 
-   * @return
-   *        AnalyzedSentence
-   * @throws IOException
    */
   public AnalyzedSentence getRawAnalyzedSentence(final String sentence) throws IOException {
     final List<String> tokens = wordTokenizer.tokenize(sentence);
@@ -841,15 +808,14 @@ public final class JLanguageTool {
     // work on different texts with the same data. However, it could be useful
     // to keep the state information if we're checking a continuous text.    
     for (final Rule rule : rules) {
-      rule.reset();    
+      rule.reset();
     }
     return rules;
   }
   
   /**
-   * Get all active (not disabled) 
-   * rules for the current language that are built-in or that have been
-   * added using {@link #addRule(Rule)}.
+   * Get all active (not disabled) rules for the current language that are built-in or that 
+   * have been added using e.g. {@link #addRule(Rule)}.
    * @return a List of {@link Rule} objects
    */
   public List<Rule> getAllActiveRules() {
@@ -871,11 +837,10 @@ public final class JLanguageTool {
   }
 
   /**
-   * Number of sentences the latest call to check() has checked.
+   * Number of sentences the latest call to {@link #check(String)} has checked.
    */
   public int getSentenceCount() {
     return sentenceCount;
-
   }
 
   private void printIfVerbose(final String s) {
@@ -886,20 +851,18 @@ public final class JLanguageTool {
   
   /**
    * Adds a temporary file to the internal list
-   * @param f - the file to be added.
+   * @param file the file to be added.
    */
-  public static void addTemporaryFile(final File f) {
-    temporaryFiles.add(f);
+  public static void addTemporaryFile(final File file) {
+    temporaryFiles.add(file);
   }
   
   /**
    * Clean up all temporary files, if there are any.
    */
   public static void removeTemporaryFiles() {
-    if (!temporaryFiles.isEmpty()) {
-      for (File f : temporaryFiles) {
-        f.delete();
-      }
+    for (File file : temporaryFiles) {
+      file.delete();
     }
   }
 
