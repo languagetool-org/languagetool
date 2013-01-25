@@ -76,8 +76,22 @@ public class PatternRuleTest extends TestCase {
   /** To be called from language modules. */
   protected void runGrammarRulesFromXmlTest() throws IOException {
     for (final Language lang : Language.REAL_LANGUAGES) {
+      if (skipCountryVariant(lang)) {
+        System.out.println("Skipping " + lang + " because there are no specific rules for that variant");
+        continue;
+      }
       runTestForLanguage(lang);
     }
+  }
+
+  private boolean skipCountryVariant(Language lang) {
+    final String shortName = lang.getShortNameWithVariant();
+    if (shortName.contains("-") && !shortName.endsWith("-ANY")) {
+      final String variantSpecificRuleFile = lang.getShortName() + "/" + shortName
+              + "/" + JLanguageTool.PATTERN_FILE;
+      return !JLanguageTool.getDataBroker().ruleFileExists(variantSpecificRuleFile);
+    }
+    return false;
   }
 
   private void runTestForLanguage(Language lang) throws IOException {
