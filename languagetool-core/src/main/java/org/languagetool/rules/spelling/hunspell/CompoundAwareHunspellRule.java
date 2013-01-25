@@ -91,10 +91,15 @@ abstract public class CompoundAwareHunspellRule extends HunspellRule {
       partCount++;
     }
     filterDupes(candidates);
-    final List<String> correctWords = getCorrectWords(candidates);
-    return correctWords.subList(0, Math.min(MAX_SUGGESTIONS, correctWords.size()));
+    final List<String> suggestions = getCorrectWords(candidates);
+    final List<String> sortedSuggestions = sortSuggestionByQuality(word, suggestions);
+    return sortedSuggestions.subList(0, Math.min(MAX_SUGGESTIONS, sortedSuggestions.size()));
   }
-  
+
+  protected List<String> sortSuggestionByQuality(String misspelling, List<String> suggestions) {
+    return suggestions;
+  }
+
   private void filterDupes(List<String> words) {
     final Set<String> seen = new HashSet<String>();
     final Iterator<String> iterator = words.iterator();

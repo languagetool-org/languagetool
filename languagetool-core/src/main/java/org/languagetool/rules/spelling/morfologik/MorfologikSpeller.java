@@ -40,6 +40,12 @@ public class MorfologikSpeller {
   private final Speller speller;
   private final Locale conversionLocale;
 
+  /**
+   * Creates a speller with the given maximum edit distance.
+   * 
+   * @param filename path in classpath to morfologik dictionary
+   * @param conversionLocale used when transforming the word to lowercase
+   */
   public MorfologikSpeller(String filename, Locale conversionLocale, int maxEditDistance) throws IOException {
     if (maxEditDistance <= 0) {
       throw new RuntimeException("maxEditDistance must be > 0: " + maxEditDistance);
@@ -52,8 +58,8 @@ public class MorfologikSpeller {
   /**
    * Creates a speller with a maximum edit distance of one.
    * 
-   * @param filename path in classpath to morfologik dictionary.
-   * @param conversionLocale
+   * @param filename path in classpath to morfologik dictionary
+   * @param conversionLocale used when transforming the word to lowercase
    */
   public MorfologikSpeller(String filename, Locale conversionLocale) throws IOException {
     this(filename, conversionLocale, 1);

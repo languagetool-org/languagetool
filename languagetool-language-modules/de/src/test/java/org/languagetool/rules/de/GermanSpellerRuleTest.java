@@ -149,10 +149,36 @@ public class GermanSpellerRuleTest {
     //assertCorrection(rule, "Handselvertretertreffn", "Handelsvertretertreffen");
   }
 
+  @Test
+  public void testGetSuggestionOrder() throws Exception {
+    final HunspellRule rule = new GermanSpellerRule(TestTools.getMessages("German"), new GermanyGerman());
+    assertCorrectionsByOrder(rule, "heisst", "heißt", "heilst", "heimst");  // "heißt" should be first
+    assertCorrectionsByOrder(rule, "heissen", "heißen");
+    assertCorrectionsByOrder(rule, "müßte", "müsste", "büßte");  // "müsste" should be first
+    assertCorrectionsByOrder(rule, "schmohren", "schmoren");
+    assertCorrectionsByOrder(rule, "Fänomen", "Phänomen");
+    assertCorrectionsByOrder(rule, "homofob", "homophob");
+    assertCorrectionsByOrder(rule, "ueber", "über");
+    assertCorrectionsByOrder(rule, "uebel", "übel");
+    assertCorrectionsByOrder(rule, "Aerger", "Ärger");
+    assertCorrectionsByOrder(rule, "Walt", "Wald");
+    assertCorrectionsByOrder(rule, "Rythmus", "Rhythmus");
+    assertCorrectionsByOrder(rule, "Rytmus", "Rhythmus");
+  }
+  
   private void assertCorrection(HunspellRule rule, String input, String... expectedTerms) throws IOException {
     final List<String> suggestions = rule.getSuggestions(input);
     for (String expectedTerm : expectedTerms) {
       assertTrue("Not found: '" + expectedTerm + "' in: " + suggestions, suggestions.contains(expectedTerm));
+    }
+  }
+  
+  private void assertCorrectionsByOrder(HunspellRule rule, String input, String... expectedTerms) throws IOException {
+    final List<String> suggestions = rule.getSuggestions(input);
+    int i = 0;
+    for (String expectedTerm : expectedTerms) {
+      assertTrue("Not found at position " + i + ": '" + expectedTerm + "' in: " + suggestions, suggestions.get(i).equals(expectedTerm));
+      i++;
     }
   }
   

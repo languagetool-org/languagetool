@@ -25,14 +25,48 @@ import org.languagetool.rules.spelling.hunspell.CompoundAwareHunspellRule;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpeller;
 
 import java.io.IOException;
-import java.util.Locale;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   public static final String RULE_ID = "GERMAN_SPELLER_RULE";
   
   private static final int MAX_EDIT_DISTANCE = 2;
+  private static final List<Replacement> REPL = new ArrayList<Replacement>();
+  static {
+    // see de_DE.aff:
+    REPL.add(new Replacement("f", "ph"));
+    REPL.add(new Replacement("ph", "f"));
+    REPL.add(new Replacement("ß", "ss"));
+    REPL.add(new Replacement("ss", "ß"));
+    REPL.add(new Replacement("s", "ss"));
+    REPL.add(new Replacement("ss", "s"));
+    REPL.add(new Replacement("i", "ie"));
+    REPL.add(new Replacement("ie", "i"));
+    REPL.add(new Replacement("ee", "e"));
+    REPL.add(new Replacement("o", "oh"));
+    REPL.add(new Replacement("oh", "o"));
+    REPL.add(new Replacement("a", "ah"));
+    REPL.add(new Replacement("ah", "a"));
+    REPL.add(new Replacement("e", "eh"));
+    REPL.add(new Replacement("eh", "e"));
+    REPL.add(new Replacement("ae", "ä"));
+    REPL.add(new Replacement("oe", "ö"));
+    REPL.add(new Replacement("ue", "ü"));
+    REPL.add(new Replacement("Ae", "Ä"));
+    REPL.add(new Replacement("Oe", "Ö"));
+    REPL.add(new Replacement("Ue", "Ü"));
+    REPL.add(new Replacement("d", "t"));
+    REPL.add(new Replacement("t", "d"));
+    REPL.add(new Replacement("th", "t"));
+    REPL.add(new Replacement("t", "th"));
+    REPL.add(new Replacement("r", "rh"));
+    REPL.add(new Replacement("ch", "k"));
+    REPL.add(new Replacement("k", "ch"));
+    // not in de_DE.aff (not clear what uppercase replacement we need...):
+    REPL.add(new Replacement("F", "Ph"));
+    REPL.add(new Replacement("Ph", "F"));
+  }
 
   public GermanSpellerRule(ResourceBundle messages, Language language) {
     super(messages, language, getCompoundSplitter(), getSpeller(language));
@@ -66,4 +100,37 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     }
   }
 
+  // Use hunspell-style replacements to get got suggestions for "heisse", namely "heiße"
+  // TODO: remove this when the Morfologik speller can do this directly during tree iteration:
+  @Override
+  protected List<String> sortSuggestionByQuality(String misspelling, List<String> suggestions) {
+    final List<String> result = new ArrayList<String>();
+    for (String suggestion : suggestions) {
+      boolean moveSuggestionToTop = false;
+      for (Replacement replacement : REPL) {
+        final String modifiedMisspelling = misspelling.replace(replacement.key, replacement.value);
+        final boolean equalsAfterReplacement = modifiedMisspelling.equals(suggestion);
+        if (equalsAfterReplacement) {
+          moveSuggestionToTop = true;
+          break;
+        }
+      }
+      if (moveSuggestionToTop) {
+        // this should be preferred, as the replacements make it equal to the suggestion:
+        result.add(0, suggestion);
+      } else {
+        result.add(suggestion);
+      }
+    }
+    return result;
+  }
+
+  private static class Replacement {
+    String key;
+    String value;
+    private Replacement(String key, String value) {
+      this.key = key;
+      this.value = value;
+    }
+  }
 }
