@@ -532,6 +532,7 @@ $Id$
                 <example type="correct">el Carme</example>
                 <example type="correct">la Carme</example>
                 <example type="correct">Si qui les calça és un diputat</example>
+                <!-- <example type="correct">La número 2, per a cors i instruments de vent</example> -->
                 <!-- metges és verb conjugat de metjar -->
             </rule>
             <rule>
@@ -557,6 +558,8 @@ $Id$
                 <example type="incorrect">Per què hi ha <marker>tant homes</marker>?</example>
                 <example type="correct">tant homes com dones</example>
                 <example type="correct">de passar tanta set</example>
+                <example type="correct">tant planetes com cometes</example>
+                <!-- <example type="correct">tant pilars i motllures com l'acabament</example> -->
             </rule>
             <rule>
                 <pattern>
@@ -582,6 +585,7 @@ $Id$
                 <example type="correct">Els homes són tots herba</example> 
                 <example type="correct">cauran tots víctimes de l'espasa</example>
                 <example type="correct">en tot ordenada i segura</example>
+                <example type="correct">on té molt poc pes</example>
                 <!-- <example type="correct">influí molt Assíria</example> -->
                 <!-- <example type="correct">ser admesos com a tals Alemanya, el Japó,</example> -->
             </rule>
@@ -14004,15 +14008,17 @@ $Id$
         <rulegroup id="METGE_MEDIC" name="*metge/mèdic">
             <rule>
                 <pattern>
-                    <token postag="NC.*" postag_regexp="yes"/>
+                    <token postag="NC.*" postag_regexp="yes"><exception postag="NP.*" postag_regexp="yes"></exception></token>
                     <marker>
-                        <token regexp="yes">metges?</token>
+                        <token regexp="yes">metges?<exception postag="_possible_nompropi"/></token>
                     </marker>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="1" postag="NC(..).*" postag_regexp="yes" postag_replace="AQ0$10">mèdic</match></suggestion>?</message>
                 <example type="incorrect" correction="mèdic">certificat <marker>metge</marker></example>
                 <example type="incorrect" correction="mèdiques">unes revisions <marker>metges</marker></example>
                 <example type="correct">un certificat mèdic</example>
+                <example type="correct">de la col·lecció "Bernat Metge"</example>
+                
             </rule>
             <rule>
                 <pattern>
