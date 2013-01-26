@@ -83,6 +83,8 @@
                             <addClasspath>true</addClasspath>
                         </manifest>
                         <manifestEntries>
+                            <!-- as we later unzip the language JARs (see oxt.xml), we need to add the top directory to the classpath: -->
+                            <Class-Path>./</Class-Path>
                             <RegistrationClassName>org.languagetool.openoffice.Main</RegistrationClassName>
                             <ComponentVersion>${project.version}</ComponentVersion>
                             <Implementation-Date>${maven.build.timestamp}</Implementation-Date>
@@ -120,7 +122,7 @@
                 <configuration>
                   <tagBase>https://languagetool.svn.sourceforge.net/svnroot/languagetool/tags/</tagBase>
                 </configuration>
-            </plugin>            
+            </plugin>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.3.2</version>

@@ -31,6 +31,7 @@ import org.languagetool.tagging.xx.DemoTagger;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.WordTokenizer;
+import org.languagetool.tools.MultiKeyProperties;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
@@ -70,14 +71,17 @@ public abstract class Language {
         final URL url = propertyFiles.nextElement();
         final InputStream inputStream = url.openStream();
         try {
-          final Properties props = new Properties();
-          props.load(inputStream);
-          final String classNamesStr = props.getProperty(PROPERTIES_KEY);
+          // We want to be able to read properties file with duplicate key, as produced by
+          // Maven when merging files:
+          final MultiKeyProperties props = new MultiKeyProperties(inputStream);
+          final List<String> classNamesStr = props.getProperty(PROPERTIES_KEY);
           if (classNamesStr == null) {
             throw new RuntimeException("Key '" + PROPERTIES_KEY + "' not found in " + url);
           }
-          final String[] classNames = classNamesStr.split(",");
-          languages.addAll(createLanguageObject(url, classNames));
+          for (String classNames : classNamesStr) {
+            final String[] classNamesSplit = classNames.split("\\s*,\\s*");
+            languages.addAll(createLanguageObject(url, classNamesSplit));
+          }
         } finally {
           inputStream.close();
         }

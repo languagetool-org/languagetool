@@ -20,6 +20,19 @@
             </includes>
         </fileSet>
     </fileSets>
+    <containerDescriptorHandlers>
+        <!-- both of these handlers are needed so all language-module.properties get merged into one file: -->
+        <containerDescriptorHandler>
+            <handlerName>metaInf-services</handlerName>
+        </containerDescriptorHandler>
+        <containerDescriptorHandler>
+            <handlerName>file-aggregator</handlerName>
+            <configuration>
+                <filePattern>META-INF/org/languagetool/language-module.properties</filePattern>
+                <outputPath>META-INF/org/languagetool/language-module.properties</outputPath>
+            </configuration>
+        </containerDescriptorHandler>
+    </containerDescriptorHandlers>
     <dependencySets>
         <dependencySet>
             <outputDirectory>/</outputDirectory>
@@ -30,7 +43,23 @@
                 <exclude>org.openoffice:*</exclude>
                 <exclude>com.carrotsearch:hppc</exclude>
                 <exclude>net.java.dev.jna:jna</exclude>
+                <exclude>org.languagetool:hunspell-native-libs</exclude>
+                <exclude>org.languagetool:language-*</exclude>
             </excludes>
+        </dependencySet>
+        <dependencySet>
+            <outputDirectory>/</outputDirectory>
+            <unpack>true</unpack>
+            <unpackOptions>
+                <excludes>
+                     <!-- we don't offer spell checking in LibreOffice/OpenOffice -->
+                    <exclude>**/hunspell/**</exclude>
+                </excludes>
+            </unpackOptions>
+            <scope>runtime</scope>
+            <includes>
+                <include>org.languagetool:language-*</include>
+            </includes>
         </dependencySet>
     </dependencySets>
 </assembly>
