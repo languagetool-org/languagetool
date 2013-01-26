@@ -271,15 +271,15 @@ public abstract class Language {
    * if available. Otherwise, get the untranslated name.
    */
   public final String getTranslatedName(final ResourceBundle messages) {
-	  try {
-		  return messages.getString(getShortNameWithVariant());
-	  } catch (final MissingResourceException e) {
-		  try {
-			  return messages.getString(getShortName());
-		  } catch (final MissingResourceException e1) {
-			  return getName();
-		  }
-	  }
+    try {
+      return messages.getString(getShortNameWithVariant());
+    } catch (final MissingResourceException e) {
+      try {
+        return messages.getString(getShortName());
+      } catch (final MissingResourceException e1) {
+        return getName();
+      }
+    }
   }
   
   /**
@@ -289,11 +289,11 @@ public abstract class Language {
    * @since 1.8
    */
   public final String getShortNameWithVariant() {
-	  String name = getShortName();
-	  if (getCountryVariants().length == 1) {
-		  name += "-" + getCountryVariants()[0];
-	  }
-	  return name;
+    String name = getShortName();
+    if (getCountryVariants().length == 1) {
+      name += "-" + getCountryVariants()[0];
+    }
+    return name;
   }
   
   
@@ -342,10 +342,10 @@ public abstract class Language {
    * @return A list of all languages, including external ones and country variants (e.g. en-US)
    */
   public static List<Language> getAllLanguages() {
-	  final List<Language> langList = new ArrayList<Language>();
+    final List<Language> langList = new ArrayList<Language>();
     Collections.addAll(langList, LANGUAGES);
-	  langList.addAll(externalLanguages);
-	  return langList;
+    langList.addAll(externalLanguages);
+    return langList;
   }
 
   /**
