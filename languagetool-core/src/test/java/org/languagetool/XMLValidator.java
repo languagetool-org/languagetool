@@ -51,7 +51,7 @@ public final class XMLValidator {
   }
 
   /**
-   * Check some limits of our simplified XML output.  
+   * Check some limits of our simplified XML output.
    */
   public void checkSimpleXMLString(String xml) throws IOException {
     final Pattern pattern = Pattern.compile("(<error.*?/>)", Pattern.DOTALL|Pattern.MULTILINE);
@@ -91,14 +91,21 @@ public final class XMLValidator {
 
   /**
    * Validate XML file using the given XSD. Throws an exception on error  
-   * @param filename File to validate.
+   * @param filename File in classpath to validate.
    * @param xmlSchema Schema to use.
    * @throws IOException Thrown on error.
    */
   public final void validate(String filename, String xmlSchema) throws IOException {
     try {
-      validateInternal(this.getClass().getResourceAsStream(filename), 
-          this.getClass().getResource(xmlSchema));
+      final InputStream xmlStream = this.getClass().getResourceAsStream(filename);
+      if (xmlStream == null) {
+        throw new IOException("Not found in classpath: " + filename);
+      }
+      final URL schemaStream = this.getClass().getResource(xmlSchema);
+      if (schemaStream == null) {
+        throw new IOException("Not found in classpath: " + xmlSchema);
+      }
+      validateInternal(xmlStream, schemaStream);
     } catch (Exception e) {
       throw new IOException("Cannot load or parse '" + filename + "'", e);
     }
@@ -123,12 +130,12 @@ public final class XMLValidator {
     saxParser.parse(is, new ErrorHandler());
   }
 
-  private void validateInternal(InputStream xml, URL xmlSchema) throws SAXException, IOException, ParserConfigurationException {        
+  private void validateInternal(InputStream xml, URL xmlSchema) throws SAXException, IOException, ParserConfigurationException {
     final SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
     final Schema schema = sf.newSchema(xmlSchema);
     final Validator validator = schema.newValidator();
     validator.setErrorHandler(new ErrorHandler());
-    validator.validate(new StreamSource(xml));        
+    validator.validate(new StreamSource(xml));
   }
 
 }
@@ -141,7 +148,7 @@ class ErrorHandler extends DefaultHandler {
   public void warning (SAXParseException e) throws SAXException {
     System.err.println(e.getMessage()
         + " Problem found at line " + e.getLineNumber() 
-        + ", column " + e.getColumnNumber() + ".");    
+        + ", column " + e.getColumnNumber() + ".");
     throw e;
   }
 

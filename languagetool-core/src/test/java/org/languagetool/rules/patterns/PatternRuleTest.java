@@ -27,10 +27,8 @@ import java.util.regex.Pattern;
 
 import junit.framework.TestCase;
 
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.TestTools;
+import org.languagetool.*;
+import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.language.Demo;
 import org.languagetool.rules.IncorrectExample;
 import org.languagetool.rules.Rule;
@@ -80,20 +78,27 @@ public class PatternRuleTest extends TestCase {
         System.out.println("Skipping " + lang + " because there are no specific rules for that variant");
         continue;
       }
+      validatePatternFile(lang);
       runTestForLanguage(lang);
     }
   }
 
   private boolean skipCountryVariant(Language lang) {
-    final String shortName = lang.getShortNameWithVariant();
-    if (shortName.contains("-") && !shortName.endsWith("-ANY")) {
-      final String variantSpecificRuleFile = lang.getShortName() + "/" + shortName
-              + "/" + JLanguageTool.PATTERN_FILE;
-      return !JLanguageTool.getDataBroker().ruleFileExists(variantSpecificRuleFile);
-    }
-    return false;
+    final ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
+    return !dataBroker.ruleFileExists(getGrammarFileName(lang));
   }
 
+  private String getGrammarFileName(Language lang) {
+    final String shortNameWithVariant = lang.getShortNameWithVariant();
+    final String fileName;
+    if (shortNameWithVariant.contains("-") && !shortNameWithVariant.endsWith("-ANY")) {
+      fileName = lang.getShortName() + "/" + shortNameWithVariant + "/" + JLanguageTool.PATTERN_FILE;
+    } else {
+      fileName = lang.getShortName() + "/" + JLanguageTool.PATTERN_FILE;
+    }
+    return fileName;
+  }
+  
   private void runTestForLanguage(Language lang) throws IOException {
     System.out.print("Running pattern rule tests for " + lang.getName() + "... ");
     final JLanguageTool languageTool = new JLanguageTool(lang);
@@ -112,6 +117,14 @@ public class PatternRuleTest extends TestCase {
     System.out.println(rules.size() + " rules tested.");
   }
 
+  private void validatePatternFile(Language lang) throws IOException {
+    final XMLValidator validator = new XMLValidator();
+    final String grammarFile = getGrammarFileName(lang);
+    System.out.println("Running XML validation for " + grammarFile + "...");
+    final String rulesDir = JLanguageTool.getDataBroker().getRulesDir();
+    validator.validate(rulesDir + "/" + grammarFile, rulesDir + "/rules.xsd");
+  }
+  
   public void runGrammarRulesFromXmlTestIgnoringLanguages(Set<Language> ignoredLanguages) throws IOException {
     System.out.println("Known languages: " + Arrays.toString(Language.LANGUAGES));
     for (final Language lang : Language.LANGUAGES) {
