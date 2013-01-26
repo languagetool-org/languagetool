@@ -42,7 +42,7 @@ public class QuestionWhitespaceRule extends FrenchRule {
 
   // Pattern used to avoid false positive when signaling missing
   // space before and after colon ':' in URL with common schemes.
-  private static final Pattern patternUrl = Pattern.compile("^(file|s?ftp|finger|git|gopher|hdl|https?|shttp|imap|mailto|mms|nntp|s?news(post|reply)?|prospero|rsync|rtspu|sips?|svn|svn\\+ssh|telnet|wais)$");
+  private static final Pattern urlPattern = Pattern.compile("^(file|s?ftp|finger|git|gopher|hdl|https?|shttp|imap|mailto|mms|nntp|s?news(post|reply)?|prospero|rsync|rtspu|sips?|svn|svn\\+ssh|telnet|wais)$");
 
   public QuestionWhitespaceRule(final ResourceBundle messages) {
     // super(messages);
@@ -68,7 +68,6 @@ public class QuestionWhitespaceRule extends FrenchRule {
       final String token = tokens[i].getToken();
       final boolean isWhiteBefore = tokens[i].isWhitespaceBefore();
       String msg = null;
-      final int fixPos = 0;
       int fixLen = 0;
       String suggestionText = null;
       if (isWhiteBefore) {
@@ -123,7 +122,7 @@ public class QuestionWhitespaceRule extends FrenchRule {
         } else if (token.equals(":")
             && !prevToken.equals("\u00a0") && !prevToken.equals("\u202f")) {
           // Avoid false positive for URL like http://www.languagetool.org.
-          final Matcher matcherUrl = patternUrl.matcher(prevToken);
+          final Matcher matcherUrl = urlPattern.matcher(prevToken);
           if (!matcherUrl.find()) {
             msg = "Deux-points précédés d'une espace fine insécable.";
             // non-breaking space
@@ -144,7 +143,7 @@ public class QuestionWhitespaceRule extends FrenchRule {
         // non-breaking space
         suggestionText = "« ";
         fixLen = 1;
-      }  else if (!StringTools.isEmpty(token) && prevToken.equals("«")
+      } else if (!StringTools.isEmpty(token) && prevToken.equals("«")
           && !token.equals("\u00a0") & !token.equals("\u202f")) {
         msg = "Le guillemet ouvrant est suivi d'une espace fine insécable.";
         // non-breaking space
@@ -153,8 +152,8 @@ public class QuestionWhitespaceRule extends FrenchRule {
       }
 
       if (msg != null) {
-        final int fromPos = tokens[i - 1].getStartPos() + fixPos;
-        final int toPos = tokens[i - 1].getStartPos() + fixPos + fixLen
+        final int fromPos = tokens[i - 1].getStartPos();
+        final int toPos = tokens[i - 1].getStartPos() + fixLen
             + tokens[i - 1].getToken().length();
         final RuleMatch ruleMatch = new RuleMatch(this, fromPos, toPos, msg,
             "Insérer un espace insécable");
