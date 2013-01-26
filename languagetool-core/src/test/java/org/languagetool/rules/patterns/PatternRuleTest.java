@@ -74,7 +74,7 @@ public class PatternRuleTest extends TestCase {
   /** To be called from language modules. */
   protected void runGrammarRulesFromXmlTest() throws IOException {
     for (final Language lang : Language.REAL_LANGUAGES) {
-      if (skipCountryVariant(lang)) {
+      if (skipCountryVariant(lang) && Language.REAL_LANGUAGES.length>1) {
         System.out.println("Skipping " + lang + " because there are no specific rules for that variant");
         continue;
       }
@@ -91,7 +91,7 @@ public class PatternRuleTest extends TestCase {
   private String getGrammarFileName(Language lang) {
     final String shortNameWithVariant = lang.getShortNameWithVariant();
     final String fileName;
-    if (shortNameWithVariant.contains("-") && !shortNameWithVariant.endsWith("-ANY")) {
+    if (shortNameWithVariant.contains("-") && !shortNameWithVariant.endsWith("-ANY")  && Language.REAL_LANGUAGES.length>1) {
       fileName = lang.getShortName() + "/" + shortNameWithVariant + "/" + JLanguageTool.PATTERN_FILE;
     } else {
       fileName = lang.getShortName() + "/" + JLanguageTool.PATTERN_FILE;
