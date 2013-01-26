@@ -11564,14 +11564,14 @@ $Id$
                 <pattern>
                     <token negate="yes">a</token>
                     <marker>
-                        <token>poc</token>
+                        <token regexp="yes">poc|poquet</token>
                         <token>a</token>
                         <token regexp="yes">poc|poquet</token>
                     </marker>
                 </pattern>
-                <message>Cal dir <suggestion>a poc a <match no="4"/></suggestion>.</message>
+                <message>Cal dir <suggestion>a <match no="2" case_conversion="alllower"/> a <match no="4"/></suggestion>.</message>
                 <short>Expressió incorrecta</short>
-                <example type="incorrect"><marker>poc a poc</marker> remuntarem el riu</example>
+                <example type="incorrect" correction="A poc a poc"><marker>Poc a poc</marker> remuntarem el riu</example>
                 <example type="correct"><marker>a poc a poc</marker> remuntarem el riu</example>
             </rule>
             <rule>
