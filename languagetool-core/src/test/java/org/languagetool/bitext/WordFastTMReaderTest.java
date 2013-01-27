@@ -30,17 +30,17 @@ public class WordFastTMReaderTest extends TestCase {
 
   public void testReader() throws Exception {
     // Create a simple WordFast text memory.
-    File input = File.createTempFile("input", ".txt");  
+    final File input = File.createTempFile("input", ".txt");  
     input.deleteOnExit();
 
     // Populate the file with data.
-    PrintWriter w = new PrintWriter(new OutputStreamWriter(new FileOutputStream(input), "UTF-8"));
-    w.println("%20100801~111517\t%UserID,AHLJat,AHLJat\t%TU=00008580\t%EN-US\t%Wordfast TM v.546/00\t%PL-PL\t%\t.");
-    w.println("20100727~145333\tAHLJat\t2\tEN-US\tObjection:\tPL-PL\tZarzut: ");
-    w.println("20100727~051350\tAHLJat\t2\tEN-US\tWhy not?&tA;\tPL-PL\tDlaczego nie?&tA; ");
-    w.close();  
+    final PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(input), "UTF-8"));
+    writer.println("%20100801~111517\t%UserID,AHLJat,AHLJat\t%TU=00008580\t%EN-US\t%Wordfast TM v.546/00\t%PL-PL\t%\t.");
+    writer.println("20100727~145333\tAHLJat\t2\tEN-US\tObjection:\tPL-PL\tZarzut: ");
+    writer.println("20100727~051350\tAHLJat\t2\tEN-US\tWhy not?&tA;\tPL-PL\tDlaczego nie?&tA; ");
+    writer.close();  
 
-    WordFastTMReader reader = new WordFastTMReader(input.getAbsolutePath(), "UTF-8");
+    final WordFastTMReader reader = new WordFastTMReader(input.getAbsolutePath(), "UTF-8");
     int i = 1;
     for (StringPair srcAndTrg : reader) {
       assertTrue(srcAndTrg.getSource() != null);

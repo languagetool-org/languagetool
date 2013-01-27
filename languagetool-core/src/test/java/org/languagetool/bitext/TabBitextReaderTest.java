@@ -30,17 +30,17 @@ public class TabBitextReaderTest extends TestCase {
 
   public void testReader() throws Exception {
     // Create a simple plain text file.
-    File input = File.createTempFile("input", "txt");  
+    final File input = File.createTempFile("input", "txt");  
     input.deleteOnExit();
 
     // Populate the file with data.
-    PrintWriter w = new PrintWriter(new OutputStreamWriter(new FileOutputStream(input), "UTF-8"));
-    w.println("This is not actual.\tTo nie jest aktualne.");
-    w.println("Test\tTest");
-    w.println("ab\tVery strange data indeed, much longer than input");
-    w.close();  
+    final PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(input), "UTF-8"));
+    writer.println("This is not actual.\tTo nie jest aktualne.");
+    writer.println("Test\tTest");
+    writer.println("ab\tVery strange data indeed, much longer than input");
+    writer.close();  
 
-    TabBitextReader reader = new TabBitextReader(input.getAbsolutePath(), "UTF-8");
+    final TabBitextReader reader = new TabBitextReader(input.getAbsolutePath(), "UTF-8");
     int i = 1;
     for (StringPair srcAndTrg : reader) {
       assertTrue(srcAndTrg.getSource() != null);

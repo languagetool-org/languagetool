@@ -30,13 +30,13 @@ import org.languagetool.tools.StringTools;
 public class VersionNumberTest extends TestCase {
 
   public void testVersionNumber() throws IOException {
-    String buildFile = StringTools.readFile(new FileInputStream("pom.xml"));
-    Pattern p1 = Pattern.compile("<version>([0-9\\.]+(-SNAPSHOT)?)</version>");
-    Matcher m1 = p1.matcher(buildFile);
+    final String buildFile = StringTools.readFile(new FileInputStream("pom.xml"));
+    final Pattern p1 = Pattern.compile("<version>([0-9\\.]+(-SNAPSHOT)?)</version>");
+    final Matcher m1 = p1.matcher(buildFile);
     m1.find();
-    String javaFile = StringTools.readFile(new FileInputStream("src/main/java/org/languagetool/JLanguageTool.java"));
-    Pattern p2 = Pattern.compile("VERSION = \"(.*?)\"");
-    Matcher m2 = p2.matcher(javaFile);
+    final String javaFile = StringTools.readFile(new FileInputStream("src/main/java/org/languagetool/JLanguageTool.java"));
+    final Pattern p2 = Pattern.compile("VERSION = \"(.*?)\"");
+    final Matcher m2 = p2.matcher(javaFile);
     m2.find();
     assertEquals(m1.group(1), m2.group(1));
   }

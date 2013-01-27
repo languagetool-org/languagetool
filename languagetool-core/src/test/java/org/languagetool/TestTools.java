@@ -52,7 +52,7 @@ public final class TestTools {
   }
 
   public static ResourceBundle getEnglishMessages() {
-	  return getMessages("en");
+    return getMessages("en");
   }
 
   public static Set<Language> getLanguagesExcept(String[] langCodes) {

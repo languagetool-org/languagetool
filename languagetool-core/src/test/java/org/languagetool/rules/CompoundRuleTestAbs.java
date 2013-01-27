@@ -64,12 +64,13 @@ public abstract class CompoundRuleTestAbs extends TestCase {
     }
     if (expSuggestions != null) {
       final RuleMatch ruleMatch = ruleMatches[0];
-      assertEquals(String.format("Got these suggestions: %s, expected %s ", ruleMatch.getSuggestedReplacements(), Arrays.toString(expSuggestions)),
-          expSuggestions.length, ruleMatch.getSuggestedReplacements().size());
+      final String errorMessage =
+              String.format("Got these suggestions: %s, expected %s ", ruleMatch.getSuggestedReplacements(),
+              Arrays.toString(expSuggestions));
+      assertEquals(errorMessage, expSuggestions.length, ruleMatch.getSuggestedReplacements().size());
       int i = 0;
       for (final Object element : ruleMatch.getSuggestedReplacements()) {
         final String suggestion = (String) element;
-        //System.err.println(">>"+suggestion);
         assertEquals(expSuggestions[i], suggestion);
         i++;
       }

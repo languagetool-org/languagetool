@@ -30,11 +30,11 @@ import org.languagetool.rules.RuleMatch;
 public class DifferentLengthRuleTest extends TestCase {
   
   public void testRule() throws IOException {
-    DifferentLengthRule rule = new DifferentLengthRule();
+    final DifferentLengthRule rule = new DifferentLengthRule();
       //(TestTools.getEnglishMessages(), Language.ENGLISH);
     RuleMatch[] matches;
-    JLanguageTool trgLangTool = new JLanguageTool(Language.DEMO);
-    JLanguageTool srcLangTool = new JLanguageTool(new FakeLanguage());
+    final JLanguageTool trgLangTool = new JLanguageTool(Language.DEMO);
+    final JLanguageTool srcLangTool = new JLanguageTool(new FakeLanguage());
     rule.setSourceLang(Language.DEMO);
     // correct sentences:
     matches = rule.match(

@@ -39,9 +39,9 @@ public class AnalyzedTokenTest extends TestCase {
     assertFalse(testToken1.matches(testToken2));
     testToken2 = new AnalyzedToken("word", null, null);
     assertTrue(testToken1.matches(testToken2));
-    testToken2 = new AnalyzedToken("word", "POS", null);    		
+    testToken2 = new AnalyzedToken("word", "POS", null);
     assertTrue(testToken1.matches(testToken2));
-    testToken2 = new AnalyzedToken("word", "POS", "lemma");        
+    testToken2 = new AnalyzedToken("word", "POS", "lemma");
     assertTrue(testToken1.matches(testToken2));
     testToken2 = new AnalyzedToken("word", "POS1", "lemma");
     assertFalse(testToken1.matches(testToken2));

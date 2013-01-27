@@ -32,40 +32,40 @@ import org.languagetool.TestTools;
  */
 public class WhitespaceRuleTest extends TestCase {
 
-    public void testRule() throws IOException {
-      WhitespaceRule rule = new WhitespaceRule(TestTools.getEnglishMessages(), Language.DEMO);
-      RuleMatch[] matches;
-      JLanguageTool langTool = new JLanguageTool(Language.DEMO);
-      
-      // correct sentences:
-      matches = rule.match(langTool.getAnalyzedSentence("This is a test sentence."));
-      assertEquals(0, matches.length);
-      matches = rule.match(langTool.getAnalyzedSentence("This is a test sentence..."));
-      assertEquals(0, matches.length);
-      matches = rule.match(langTool.getAnalyzedSentence("\n\tThis is a test sentence..."));
-      assertEquals(0, matches.length);
-      matches = rule.match(langTool.getAnalyzedSentence("Multiple tabs\t\tare okay"));
-      assertEquals(0, matches.length);
+  public void testRule() throws IOException {
+    final WhitespaceRule rule = new WhitespaceRule(TestTools.getEnglishMessages(), Language.DEMO);
+    RuleMatch[] matches;
+    final JLanguageTool langTool = new JLanguageTool(Language.DEMO);
 
-      // incorrect sentences:
-      matches = rule.match(langTool.getAnalyzedSentence("This  is a test sentence."));
-      assertEquals(1, matches.length);
-      assertEquals(4, matches[0].getFromPos());
-      assertEquals(6, matches[0].getToPos());      
-      matches = rule.match(langTool.getAnalyzedSentence("This is a test   sentence."));      
-      assertEquals(1, matches.length);
-      assertEquals(14, matches[0].getFromPos());
-      assertEquals(17, matches[0].getToPos());
-      matches = rule.match(langTool.getAnalyzedSentence("This is   a  test   sentence."));
-      assertEquals(3, matches.length);
-      assertEquals(7, matches[0].getFromPos());
-      assertEquals(10, matches[0].getToPos());
-      assertEquals(11, matches[1].getFromPos());
-      assertEquals(13, matches[1].getToPos());
-      assertEquals(17, matches[2].getFromPos());
-      assertEquals(20, matches[2].getToPos());
-      matches = rule.match(langTool.getAnalyzedSentence("\t\t\t    \t\t\t\t  "));
-      assertEquals(1, matches.length);
-    }
+    // correct sentences:
+    matches = rule.match(langTool.getAnalyzedSentence("This is a test sentence."));
+    assertEquals(0, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("This is a test sentence..."));
+    assertEquals(0, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("\n\tThis is a test sentence..."));
+    assertEquals(0, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("Multiple tabs\t\tare okay"));
+    assertEquals(0, matches.length);
+
+    // incorrect sentences:
+    matches = rule.match(langTool.getAnalyzedSentence("This  is a test sentence."));
+    assertEquals(1, matches.length);
+    assertEquals(4, matches[0].getFromPos());
+    assertEquals(6, matches[0].getToPos());
+    matches = rule.match(langTool.getAnalyzedSentence("This is a test   sentence."));
+    assertEquals(1, matches.length);
+    assertEquals(14, matches[0].getFromPos());
+    assertEquals(17, matches[0].getToPos());
+    matches = rule.match(langTool.getAnalyzedSentence("This is   a  test   sentence."));
+    assertEquals(3, matches.length);
+    assertEquals(7, matches[0].getFromPos());
+    assertEquals(10, matches[0].getToPos());
+    assertEquals(11, matches[1].getFromPos());
+    assertEquals(13, matches[1].getToPos());
+    assertEquals(17, matches[2].getFromPos());
+    assertEquals(20, matches[2].getToPos());
+    matches = rule.match(langTool.getAnalyzedSentence("\t\t\t    \t\t\t\t  "));
+    assertEquals(1, matches.length);
+  }
 
 }
