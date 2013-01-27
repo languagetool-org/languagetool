@@ -28,8 +28,8 @@ public class UnsyncStackTest extends TestCase {
   }
 
   public void testStack() {
-    UnsyncStack<String> stack = new UnsyncStack<String>();
-    assertTrue(stack.empty());    
+    final UnsyncStack<String> stack = new UnsyncStack<String>();
+    assertTrue(stack.empty());
     stack.push("test");
     assertEquals("test", stack.peek());
     assertFalse(stack.empty());

@@ -44,29 +44,25 @@ import java.util.regex.Pattern;
 public class StringToolsTest extends TestCase {
 
   public void testAssureSet() {
-    String s = "";
     try {
-      StringTools.assureSet(s, "varName");
+      StringTools.assureSet("", "varName");
       fail();
     } catch (IllegalArgumentException expected) {
       // expected exception
     }
-    s = " \t";
     try {
-      StringTools.assureSet(s, "varName");
+      StringTools.assureSet(" \t", "varName");
       fail();
     } catch (IllegalArgumentException expected) {
       // expected exception
     }
-    s = null;
     try {
-      StringTools.assureSet(s, "varName");
+      StringTools.assureSet(null, "varName");
       fail();
     } catch (NullPointerException expected) {
       // expected exception
     }
-    s = "foo";
-    StringTools.assureSet(s, "varName");
+    StringTools.assureSet("foo", "varName");
   }
 
   public void testReadFile() throws IOException {
@@ -339,12 +335,13 @@ public class StringToolsTest extends TestCase {
   
   private class FakeRule extends PatternRule {
     public FakeRule() {
-      super("FAKE_ID", Language.DEMO, Collections.singletonList(new Element("foo", true, false, false)), "My fake description", "Fake message", "Fake short message");
+      super("FAKE_ID", Language.DEMO, Collections.singletonList(new Element("foo", true, false, false)),
+              "My fake description", "Fake message", "Fake short message");
     }
     @Override
     public String getLocQualityIssueType() {
       return "misspelling";
-    }    
+    }
   }
 
 }
