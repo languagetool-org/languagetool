@@ -35,6 +35,7 @@ import org.languagetool.Language;
 import org.languagetool.TestTools;
 import org.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
 import org.languagetool.tagging.disambiguation.xx.TrimDisambiguator;
+import org.languagetool.tools.StringTools;
 import org.xml.sax.SAXException;
 
 public class DisambiguationRuleTest extends TestCase {
@@ -61,7 +62,7 @@ public class DisambiguationRuleTest extends TestCase {
         continue;
       }
       if (verbose) {
-        System.out.println("Running tests for " + lang.getName() + "...");
+        System.out.println("Running disambiguation tests for " + lang.getName() + "...");
       }
       final DisambiguationRuleLoader ruleLoader = new DisambiguationRuleLoader();
       final JLanguageTool languageTool = new JLanguageTool(lang);
@@ -76,30 +77,15 @@ public class DisambiguationRuleTest extends TestCase {
     }
   }
   
-  static String combine(String[] s, String glue) {
-    int k=s.length;
-    if (k==0)
-      return null;
-    StringBuilder out=new StringBuilder();
-    out.append(s[0]);
-    for (int x=1;x<k;++x)
-      out.append(glue).append(s[x]);
-    return out.toString();
-  }
-
-  
-  static String sortForms(final String wordForms) {
+  private static String sortForms(final String wordForms) {
     if (",[,]".equals(wordForms)) {
       return wordForms;
     }
-    String word = wordForms.substring(0, wordForms.indexOf('[') + 1);
-    String forms = wordForms.substring(wordForms.indexOf('[')
-        + 1, wordForms.length() -1);    
-    String[] formToSort = forms.split(",");
+    final String word = wordForms.substring(0, wordForms.indexOf('[') + 1);
+    final String forms = wordForms.substring(wordForms.indexOf('[') + 1, wordForms.length() -1);
+    final String[] formToSort = forms.split(",");
     Arrays.sort(formToSort);
-    return word + 
-    combine(formToSort, ",")
-    + "]";   
+    return word + StringTools.listToString(Arrays.asList(formToSort), ",") + "]";
   }
   
   private void testDisambiguationRulesFromXML(
@@ -128,15 +114,11 @@ public class DisambiguationRuleTest extends TestCase {
           final String outputForms = example.getDisambiguated();
           assertTrue("No input form found for: " + id, outputForms != null);
           assertTrue(outputForms.trim().length() > 0);
-          final int expectedMatchStart = example.getExample().indexOf(
-              "<marker>");
-          final int expectedMatchEnd = example.getExample()
-              .indexOf("</marker>")
-              - "<marker>".length();
+          final int expectedMatchStart = example.getExample().indexOf("<marker>");
+          final int expectedMatchEnd = example.getExample().indexOf("</marker>") - "<marker>".length();
           if (expectedMatchStart == -1 || expectedMatchEnd == -1) {
             fail(lang
-                + ": No position markup ('<marker>...</marker>') in disambiguated example in rule "
-                + rule);
+                + ": No position markup ('<marker>...</marker>') in disambiguated example in rule " + rule);
           }
           final String inputForms = example.getAmbiguous();
           assertTrue("No input form found for: " + id, inputForms != null);
@@ -152,15 +134,15 @@ public class DisambiguationRuleTest extends TestCase {
               .replace(disambiguateUntil(rules, id, languageTool
                   .getRawAnalyzedSentence(cleanXML(example.getExample()))));
           assertTrue(
-              "Disambiguated sentence is equal to the non-disambiguated sentence for rule :"
+              "Disambiguated sentence is equal to the non-disambiguated sentence for rule: "
                   + id, !cleanInput.equals(disambiguatedSent));
           assertTrue(
-              "Disambiguated sentence is equal to the input sentence for rule :"
+              "Disambiguated sentence is equal to the input sentence for rule: "
                   + id, !sent.equals(disambiguatedSent));
           String reading = "";
           String annotations = "";
           for (final AnalyzedTokenReadings readings : sent.getTokens()) {
-            if (readings.isSentStart() && inputForms.indexOf("<S>") == -1) {
+            if (readings.isSentStart() && !inputForms.contains("<S>")) {
               continue;
             }
             if (readings.getStartPos() == expectedMatchStart) {
@@ -178,9 +160,8 @@ public class DisambiguationRuleTest extends TestCase {
               + example.toString() + " is different than expected (expected "
               + inputForms + " but got " + sortForms(reading) + "). The token has been changed by the disambiguator: " + annotations, 
               sortForms(reading).equals(inputForms));
-          for (final AnalyzedTokenReadings readings : disambiguatedSent
-              .getTokens()) {
-            if (readings.isSentStart() && outputForms.indexOf("<S>") == -1) {
+          for (final AnalyzedTokenReadings readings : disambiguatedSent.getTokens()) {
+            if (readings.isSentStart() && !outputForms.contains("<S>")) {
               continue;
             }
             if (readings.getStartPos() == expectedMatchStart) {
@@ -221,18 +202,16 @@ public class DisambiguationRuleTest extends TestCase {
   /**
    * Test XML patterns, as a help for people developing rules that are not
    * programmers.
-   * @throws SAXException 
-   * @throws ParserConfigurationException 
    */
   public static void main(final String[] args) throws IOException, ParserConfigurationException, SAXException {
-    final DisambiguationRuleTest prt = new DisambiguationRuleTest();
+    final DisambiguationRuleTest test = new DisambiguationRuleTest();
     System.out.println("Running disambiguator rule tests...");
-    prt.setUp();
+    test.setUp();
     if (args.length == 0) {
-	  prt.testDisambiguationRulesFromXML(null, true);
+      test.testDisambiguationRulesFromXML(null, true);
     } else {
       final Set<Language> ignoredLanguages = TestTools.getLanguagesExcept(args);
-      prt.testDisambiguationRulesFromXML(ignoredLanguages, true);
+      test.testDisambiguationRulesFromXML(ignoredLanguages, true);
     }
     System.out.println("Tests successful.");
   }
