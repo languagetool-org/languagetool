@@ -78,7 +78,6 @@ public class PatternRuleTest extends TestCase {
         System.out.println("Skipping " + lang + " because there are no specific rules for that variant");
         continue;
       }
-      validatePatternFile(lang);
       runTestForLanguage(lang);
     }
   }
@@ -91,15 +90,27 @@ public class PatternRuleTest extends TestCase {
   private String getGrammarFileName(Language lang) {
     final String shortNameWithVariant = lang.getShortNameWithVariant();
     final String fileName;
-    if (shortNameWithVariant.contains("-") && !shortNameWithVariant.endsWith("-ANY") && Language.REAL_LANGUAGES.length > 1) {
+    if (shortNameWithVariant.contains("-") && !shortNameWithVariant.equals("xx-XX") 
+            && !shortNameWithVariant.endsWith("-ANY") && Language.REAL_LANGUAGES.length > 1) {
       fileName = lang.getShortName() + "/" + shortNameWithVariant + "/" + JLanguageTool.PATTERN_FILE;
     } else {
       fileName = lang.getShortName() + "/" + JLanguageTool.PATTERN_FILE;
     }
     return fileName;
   }
-  
+
+  private void runGrammarRulesFromXmlTestIgnoringLanguages(Set<Language> ignoredLanguages) throws IOException {
+    System.out.println("Known languages: " + Arrays.toString(Language.LANGUAGES));
+    for (final Language lang : Language.LANGUAGES) {
+      if (ignoredLanguages != null && ignoredLanguages.contains(lang)) {
+        continue;
+      }
+      runTestForLanguage(lang);
+    }
+  }
+
   private void runTestForLanguage(Language lang) throws IOException {
+    validatePatternFile(lang);
     System.out.print("Running pattern rule tests for " + lang.getName() + "... ");
     final JLanguageTool languageTool = new JLanguageTool(lang);
     if (CHECK_WITH_SENTENCE_SPLITTING) {
@@ -116,36 +127,13 @@ public class PatternRuleTest extends TestCase {
     testGrammarRulesFromXML(rules, languageTool, allRulesLanguageTool, lang);
     System.out.println(rules.size() + " rules tested.");
   }
-
+  
   private void validatePatternFile(Language lang) throws IOException {
     final XMLValidator validator = new XMLValidator();
     final String grammarFile = getGrammarFileName(lang);
     System.out.println("Running XML validation for " + grammarFile + "...");
     final String rulesDir = JLanguageTool.getDataBroker().getRulesDir();
     validator.validate(rulesDir + "/" + grammarFile, rulesDir + "/rules.xsd");
-  }
-  
-  public void runGrammarRulesFromXmlTestIgnoringLanguages(Set<Language> ignoredLanguages) throws IOException {
-    System.out.println("Known languages: " + Arrays.toString(Language.LANGUAGES));
-    for (final Language lang : Language.LANGUAGES) {
-      if (ignoredLanguages != null && ignoredLanguages.contains(lang)) {
-        continue;
-      }
-      System.out.println("Running tests for " + lang.getName() + "...");
-      final JLanguageTool languageTool = new JLanguageTool(lang);
-      if (CHECK_WITH_SENTENCE_SPLITTING) {
-        languageTool.activateDefaultPatternRules();
-        disableSpellingRules(languageTool);
-      }
-      final JLanguageTool allRulesLanguageTool = new JLanguageTool(lang);
-      allRulesLanguageTool.activateDefaultPatternRules();
-      final List<PatternRule> rules = new ArrayList<PatternRule>();
-      for (String patternRuleFileName : lang.getRuleFileName()) {
-        rules.addAll(languageTool.loadPatternRules(patternRuleFileName));
-      }
-      warnIfRegexpSyntaxNotKosher(rules, lang);
-      testGrammarRulesFromXML(rules, languageTool, allRulesLanguageTool, lang);
-    }
   }
 
   private void disableSpellingRules(JLanguageTool languageTool) {
