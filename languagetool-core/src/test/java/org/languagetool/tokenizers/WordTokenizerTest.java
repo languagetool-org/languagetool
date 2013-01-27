@@ -26,7 +26,7 @@ import junit.framework.TestCase;
 public class WordTokenizerTest extends TestCase {
 
   public void testTokenize() {
-    WordTokenizer wordTokenizer = new WordTokenizer();
+    final WordTokenizer wordTokenizer = new WordTokenizer();
     List <String> testList = wordTokenizer.tokenize("This is\u00A0a test");
     assertEquals(testList.size(), 7);
     assertEquals("[This,  , is, \u00A0, a,  , test]", testList.toString());
