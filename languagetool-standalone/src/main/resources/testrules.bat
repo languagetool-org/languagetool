@@ -5,4 +5,3 @@ SET CPATH=.;junit.jar;languagetool-core.jar;lucene-gosen-ipadic.jar;ictclas4j.ja
 java -cp %CPATH% org.languagetool.rules.patterns.PatternRuleTest %1
 java -cp %CPATH% org.languagetool.tagging.disambiguation.rules.DisambiguationRuleTest %1
 java -cp %CPATH% org.languagetool.rules.bitext.BitextPatternRuleTest %1
-java -cp %CPATH% org.languagetool.ValidateXMLTest %1
