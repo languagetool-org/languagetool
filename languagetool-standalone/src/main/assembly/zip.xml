@@ -12,12 +12,45 @@
                 <include>COPYING.txt</include>
             </includes>
         </fileSet>
+        <fileSet>
+            <directory>src/main/resources</directory>
+            <outputDirectory>/</outputDirectory>
+            <fileMode>0755</fileMode>
+            <includes>
+                <include>testrules.sh</include>
+                <include>testrules.bat</include>
+            </includes>
+        </fileSet>
     </fileSets>
+    <containerDescriptorHandlers>
+        <!-- both of these handlers are needed so all language-module.properties get merged into one file: -->
+        <containerDescriptorHandler>
+            <handlerName>metaInf-services</handlerName>
+        </containerDescriptorHandler>
+        <containerDescriptorHandler>
+            <handlerName>file-aggregator</handlerName>
+            <configuration>
+                <filePattern>META-INF/org/languagetool/language-module.properties</filePattern>
+                <outputPath>LanguageTool-${project.version}/META-INF/org/languagetool/language-module.properties</outputPath>
+            </configuration>
+        </containerDescriptorHandler>
+    </containerDescriptorHandlers>
     <dependencySets>
         <dependencySet>
             <outputDirectory>/</outputDirectory>
             <unpack>false</unpack>
             <scope>runtime</scope>
+            <excludes>
+                <exclude>org.languagetool:language-*</exclude>
+            </excludes>
+        </dependencySet>
+        <dependencySet>
+            <!-- unzip because it makes accessing the grammar.xml rules easier: -->
+            <unpack>true</unpack>
+            <scope>runtime</scope>
+            <includes>
+                <include>org.languagetool:language-*</include>
+            </includes>
         </dependencySet>
     </dependencySets>
 </assembly>
