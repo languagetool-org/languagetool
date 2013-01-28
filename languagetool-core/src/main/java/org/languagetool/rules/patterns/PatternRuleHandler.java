@@ -73,6 +73,8 @@ public class PatternRuleHandler extends XMLRuleHandler {
       language = Language.getLanguageForShortName(languageStr);
     } else if (RULE.equals(qName)) {
       shortMessage = new StringBuilder();
+      message = new StringBuilder();
+      suggestionsOutMsg = new StringBuilder();
       url = new StringBuilder();
       id = attrs.getValue("id");
       if (inRuleGroup) {
@@ -95,6 +97,9 @@ public class PatternRuleHandler extends XMLRuleHandler {
       incorrectExamples = new ArrayList<IncorrectExample>();
       if (suggestionMatches != null) {
         suggestionMatches.clear();
+      }
+      if (suggestionMatchesOutMsg != null) {
+        suggestionMatchesOutMsg.clear();
       }
       if (attrs.getValue("type") != null) {
         ruleIssueType = attrs.getValue("type");
@@ -134,6 +139,12 @@ public class PatternRuleHandler extends XMLRuleHandler {
       inMessage = true;
       inSuggestion = false;
       message = new StringBuilder();
+    } else if ("suggestion".equals(qName) && !inMessage) {  //suggestions outside message      
+        if (YES.equals(attrs.getValue("suppress_misspelled"))) {
+          suggestionsOutMsg.append("<pleasespellme/>");
+        }
+        suggestionsOutMsg.append("<suggestion>");
+        inSuggestion = true;
     } else if ("short".equals(qName)) {
       inShortMessage = true;
       shortMessage = new StringBuilder();
@@ -187,10 +198,11 @@ public class PatternRuleHandler extends XMLRuleHandler {
     if ("category".equals(qName)) {
       categoryIssueType = null;
     } else if (RULE.equals(qName)) {
+      suggestionMatchesOutMsg = addLegacyMatches(suggestionMatchesOutMsg,suggestionsOutMsg.toString(),false);
       phraseElementInit();
       if (phraseElementList.isEmpty()) {
         final PatternRule rule = new PatternRule(id, language, elementList,
-                name, message.toString(), shortMessage.toString());
+                name, message.toString(), shortMessage.toString(), suggestionsOutMsg.toString());
         prepareRule(rule);
         rules.add(rule);
       } else {
@@ -203,7 +215,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         for (final ArrayList<Element> phraseElement : phraseElementList) {
           processElement(phraseElement);
           final PatternRule rule = new PatternRule(id, language, phraseElement,
-              name, message.toString(), shortMessage.toString(),
+              name, message.toString(), shortMessage.toString(), suggestionsOutMsg.toString(),
               phraseElementList.size() > 1);
           prepareRule(rule);
           rules.add(rule);
@@ -248,8 +260,11 @@ public class PatternRuleHandler extends XMLRuleHandler {
       incorrectExample = new StringBuilder();
       exampleCorrection = new StringBuilder();
     } else if (MESSAGE.equals(qName)) {
-      suggestionMatches = addLegacyMatches();
-      inMessage = false;
+      suggestionMatches = addLegacyMatches(suggestionMatches,message.toString(),true);
+      inMessage = false;        
+    } else if ("suggestion".equals(qName) && !inMessage) { //suggestion outside message
+      suggestionsOutMsg.append("</suggestion>");      
+      inSuggestion = false;      
     } else if ("short".equals(qName)) {
       inShortMessage = false;
     } else if ("url".equals(qName)) {
@@ -258,6 +273,9 @@ public class PatternRuleHandler extends XMLRuleHandler {
       if (inMessage) {
         suggestionMatches.get(suggestionMatches.size() - 1).
             setLemmaString(match.toString());
+      } else if (inSuggestion && !inMessage) {
+          suggestionMatchesOutMsg.get(suggestionMatchesOutMsg.size() - 1).
+              setLemmaString(match.toString());
       } else if (inToken) {
         tokenReference.setLemmaString(match.toString());
       }
@@ -322,6 +340,14 @@ public class PatternRuleHandler extends XMLRuleHandler {
         suggestionMatches.clear();
       }
     }
+    if (suggestionMatchesOutMsg != null) {
+      for (final Match m : suggestionMatchesOutMsg) {
+        rule.addSuggestionMatchOutMsg(m);
+      }
+      //if (phraseElementList.size() <= 1) {
+      suggestionMatchesOutMsg.clear();
+      //}
+    }
     if (defaultOff) {
       rule.setDefaultOff();
     }
@@ -360,6 +386,8 @@ public class PatternRuleHandler extends XMLRuleHandler {
       match.append(s);
     } else if (inMessage) {
       message.append(s);
+    } else if (inSuggestion && !inMessage) {  //Suggestion outside message
+      suggestionsOutMsg.append(s);
     } else if (inShortMessage) {
       shortMessage.append(s);
     } else if (inUrl) {

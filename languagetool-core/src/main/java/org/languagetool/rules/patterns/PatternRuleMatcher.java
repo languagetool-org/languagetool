@@ -113,7 +113,9 @@ class PatternRuleMatcher {
         final AnalyzedTokenReadings[] tokens, final int firstMatchToken,
         final int lastMatchToken, final int matchingTokens) throws IOException {
       final String errMessage = formatMatches(tokens, tokenPositions,
-          firstMatchToken, rule.getMessage());
+          firstMatchToken, rule.getMessage(), rule.getSuggestionMatches());
+      final String suggestionsOutMsg = formatMatches(tokens, tokenPositions,
+          firstMatchToken, rule.getSuggestionsOutMsg(), rule.getSuggestionMatchesOutMsg());
       int correctedStPos = 0;
       if (rule.startPositionCorrection > 0) {
         for (int l = 0; l <= rule.startPositionCorrection; l++) {
@@ -132,7 +134,8 @@ class PatternRuleMatcher {
       AnalyzedTokenReadings firstMatchTokenObj = tokens[firstMatchToken + correctedStPos];
       boolean startsWithUppercase = StringTools
         .startsWithUppercase(firstMatchTokenObj.getToken())
-        && !matchConvertsCase();
+        && !matchConvertsCase(rule.getSuggestionMatches())
+        && !matchConvertsCase(rule.getSuggestionMatchesOutMsg());
 
       if (firstMatchTokenObj.isSentStart()
           && tokens.length > firstMatchToken + correctedStPos + 1) {
@@ -154,11 +157,13 @@ class PatternRuleMatcher {
         // token is not matched
 
         //now do some spell-checking:
-        if (!(errMessage.contains("<pleasespellme/>") && errMessage.contains("<mistake/>"))) {
-          final String clearMsg = errMessage.replaceAll("<pleasespellme/>", "").replaceAll("<mistake/>", "");
-          return new RuleMatch(rule, fromPos, toPos,
-                  clearMsg, rule.getShortMessage(), startsWithUppercase);
-        }
+      if (!(errMessage.contains("<pleasespellme/>") && errMessage
+          .contains("<mistake/>"))) {
+        final String clearMsg = errMessage.replaceAll("<pleasespellme/>", "")
+            .replaceAll("<mistake/>", "");
+        return new RuleMatch(rule, fromPos, toPos, clearMsg,
+            rule.getShortMessage(), startsWithUppercase, suggestionsOutMsg);
+      }
       } // failed to create any rule match...
       return null;
     }
@@ -169,8 +174,8 @@ class PatternRuleMatcher {
    *
    * @return true, if the match converts the case of the token.
    */
-  private boolean matchConvertsCase() {
-    final List<Match> suggestionMatches = rule.getSuggestionMatches();
+  private boolean matchConvertsCase(List<Match> suggestionMatches) {
+    //final List<Match> suggestionMatches = rule.getSuggestionMatches();
     if (suggestionMatches != null && !suggestionMatches.isEmpty()) {
       final int sugStart = rule.getMessage().indexOf(SUGGESTION_START_TAG) + SUGGESTION_START_TAG.length();
       for (Match sMatch : suggestionMatches) {
@@ -219,7 +224,8 @@ class PatternRuleMatcher {
    * @throws IOException
    */
   private String formatMatches(final AnalyzedTokenReadings[] tokenReadings,
-      final int[] positions, final int firstMatchTok, final String errorMsg)
+      final int[] positions, final int firstMatchTok, final String errorMsg,
+      final List<Match> suggestionMatches)
   throws IOException {
     String errorMessage = errorMsg;
     int matchCounter = 0;
@@ -250,13 +256,13 @@ class PatternRuleMatcher {
         if (j <= positions.length) {
           nextTokenPos = firstMatchTok + repTokenPos + positions[j + 1];
         }
-        final List<Match> suggestionMatches = rule.getSuggestionMatches();
+        //final List<Match> suggestionMatches = rule.getSuggestionMatches();
         if (suggestionMatches != null) {
           if (matchCounter < suggestionMatches.size()) {
             numbersToMatches[j] = matchCounter;
             if (suggestionMatches.get(matchCounter) != null) {
               final String[] matches = concatMatches(matchCounter, j,
-                  firstMatchTok + repTokenPos, tokenReadings, nextTokenPos);
+                  firstMatchTok + repTokenPos, tokenReadings, nextTokenPos, suggestionMatches);
               final String leftSide = errorMessage.substring(0, backslashPos);
               final String rightSide = errorMessage.substring(backslashPos + numLen);
               if (matches.length == 1) {
@@ -351,10 +357,10 @@ class PatternRuleMatcher {
    */
   private String[] concatMatches(final int start, final int index,
       final int tokenIndex, final AnalyzedTokenReadings[] tokens,
-      final int nextTokenPos)
+      final int nextTokenPos, final List<Match> suggestionMatches)
   throws IOException {
     String[] finalMatch = null;
-    final List<Match> suggestionMatches = rule.getSuggestionMatches();
+    //final List<Match> suggestionMatches = rule.getSuggestionMatches();
     if (suggestionMatches.get(start) != null) {
       final int len = phraseLen(index);
       final Language language = rule.language;

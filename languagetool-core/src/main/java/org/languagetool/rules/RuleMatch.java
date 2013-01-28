@@ -50,12 +50,12 @@ public class RuleMatch implements Comparable<RuleMatch> {
 
   //TODO: remove this one after all rules get their short comments in place
   public RuleMatch(Rule rule, int fromPos, int toPos, String message) {
-    this(rule, fromPos, toPos, message, null, false);
+    this(rule, fromPos, toPos, message, null, false, null);
   }
   
   // TODO: remove this constructor?
   public RuleMatch(Rule rule, int fromPos, int toPos, String message, String shortMessage) {
-    this(rule, fromPos, toPos, message, shortMessage, false);
+    this(rule, fromPos, toPos, message, shortMessage, false, null);
   }
 
   /**
@@ -69,14 +69,14 @@ public class RuleMatch implements Comparable<RuleMatch> {
    *    of the match starts with an uppercase character
    */
   public RuleMatch(Rule rule, int fromPos, int toPos, String message, String shortMessage, 
-      boolean startWithUppercase) {
+      boolean startWithUppercase, String suggestionsOutMsg) {
     this.rule = rule;
     this.fromPos = fromPos;
     this.toPos = toPos;
     this.message = message;
     this.shortMessage = shortMessage;
     // extract suggestion from <suggestion>...</suggestion> in message:
-    final Matcher matcher = SUGGESTION_PATTERN.matcher(message);
+    final Matcher matcher = SUGGESTION_PATTERN.matcher(message+suggestionsOutMsg);
     int pos = 0;
     while (matcher.find(pos)) {
       pos = matcher.end();

@@ -54,6 +54,7 @@ public class XMLRuleHandler extends DefaultHandler {
   protected StringBuilder incorrectExample = new StringBuilder();
   protected StringBuilder exampleCorrection = new StringBuilder();
   protected StringBuilder message = new StringBuilder();
+  protected StringBuilder suggestionsOutMsg = new StringBuilder();
   protected StringBuilder match = new StringBuilder();
   protected StringBuilder elements;
   protected StringBuilder exceptions;
@@ -119,6 +120,8 @@ public class XMLRuleHandler extends DefaultHandler {
   protected Match tokenReference;
 
   protected List<Match> suggestionMatches;
+  
+  protected List<Match> suggestionMatchesOutMsg;
 
   protected Locator pLocator;
 
@@ -184,6 +187,7 @@ public class XMLRuleHandler extends DefaultHandler {
   protected static final String NO = "no";
   protected static final String PHRASES = "phrases";
   protected static final String MESSAGE = "message";
+  protected static final String SUGGESTION = "suggestion";
 
 
   public List<PatternRule> getRules() {
@@ -332,9 +336,18 @@ public class XMLRuleHandler extends DefaultHandler {
         suggestionMatches = new ArrayList<Match>();
       }
       suggestionMatches.add(mWorker);
-      //add incorrect XML character for simplicity
+      // add incorrect XML character for simplicity
       message.append("\u0001\\");
       message.append(attrs.getValue("no"));
+      checkNumber(attrs);
+    } else if (inSuggestion && !inMessage) {
+      if (suggestionMatchesOutMsg == null) {
+        suggestionMatchesOutMsg = new ArrayList<Match>();
+      }
+      suggestionMatchesOutMsg.add(mWorker);
+      // add incorrect XML character for simplicity     
+      suggestionsOutMsg.append("\u0001\\");
+      suggestionsOutMsg.append(attrs.getValue("no"));
       checkNumber(attrs);
     } else if (inToken && attrs.getValue("no") != null) {
       final int refNumber = Integer.parseInt(attrs.getValue("no"));
@@ -445,12 +458,13 @@ public class XMLRuleHandler extends DefaultHandler {
    * Adds Match objects for all references to tokens
    * (including '\1' and the like). 
    */
-  protected List<Match> addLegacyMatches() {
-    if (suggestionMatches == null || suggestionMatches.isEmpty()) {
+  protected List<Match> addLegacyMatches(final List <Match> existingSugMatches, final String messageStr,
+      boolean inMessage) {
+    if (existingSugMatches == null || existingSugMatches.isEmpty()) {
       return null;
     }
     final List<Match> sugMatch = new ArrayList<Match>();
-    final String messageStr = message.toString();
+    //final String messageStr = message.toString();
     int pos = 0;
     int ind = 0;
     int matchCounter = 0;
@@ -464,8 +478,13 @@ public class XMLRuleHandler extends DefaultHandler {
             mWorker.setInMessageOnly(true);
             sugMatch.add(mWorker);
           } else if (messageStr.charAt(pos - 1) == '\u0001') { // real suggestion marker
-            sugMatch.add(suggestionMatches.get(matchCounter));
-            message.deleteCharAt(pos - 1 - matchCounter);
+            sugMatch.add(existingSugMatches.get(matchCounter));
+            if (inMessage) {
+              message.deleteCharAt(pos - 1 - matchCounter);
+            }
+            else {
+              suggestionsOutMsg.deleteCharAt(pos - 1 - matchCounter);
+            }
             matchCounter++;
           }
         }
@@ -474,7 +493,7 @@ public class XMLRuleHandler extends DefaultHandler {
     }
             
     if (sugMatch.isEmpty()) {
-      return suggestionMatches;
+      return existingSugMatches;
     }
     return sugMatch;
   }

@@ -185,7 +185,7 @@ class BitextPatternRuleHandler extends PatternRuleHandler {
       for (final ArrayList<Element> phraseElement : phraseElementList) {
         processElement(phraseElement);
         rule = new PatternRule(id, language, phraseElement,
-            name, message.toString(), shortMessage.toString(),
+            name, message.toString(), shortMessage.toString(), "",
             phraseElementList.size() > 1);
         prepareRule(rule);       
       }

@@ -394,6 +394,47 @@ $Id$
     		<example type="incorrect"><marker>det_plur_fem adj_sing_fem subst_plur_fem</marker></example>
     	</rule>
     </rulegroup>    
+    <rulegroup id="suggestions_outside_message" name="Test suggestions written outside message">
+    	<rule>
+	    	<pattern>
+	    		<marker>
+		    		<token>blah</token>
+		    		<token>and</token>
+	    		</marker>
+	    		<token>blah</token>    	
+	    	</pattern>
+	    	<message>Incorrect expression</message>
+	    	<suggestion>blah or</suggestion>
+	    	<suggestion>blah xor</suggestion>
+	    	<example type="incorrect" correction="blah or|blah xor"><marker>blah and</marker> blah</example>
+	    	<example type="correct">blah or blah</example>
+	    </rule>
+	    <rule>
+	    	<pattern>
+	    		<marker>
+		    		<token>blah</token>
+		    		<token>and</token>
+	    		</marker>
+	    		<token>blah</token>    	
+	    	</pattern>
+	    	<message>Incorrect expression: <suggestion>blah or</suggestion></message>
+	    	<suggestion>blah xor</suggestion>
+	    	<example type="incorrect" correction="blah or|blah xor"><marker>blah and</marker> blah</example>
+	    	<example type="correct">blah or blah</example>
+	    </rule>
+	    <rule>
+	    	<pattern>
+	    		<marker>
+		    		<token>blah</token>
+		    		<token>and</token>
+	    		</marker>
+	    		<token>blah</token>    	
+	    	</pattern>
+	    	<message>Incorrect expression: <suggestion><match no="1"/> or</suggestion></message>
+	    	<suggestion>blah <match no="1"/></suggestion>
+	    	<example type="incorrect" correction="blah or|blah blah"><marker>blah and</marker> blah</example>
+	    	<example type="correct">blah or blah</example>
+	    </rule>
+	</rulegroup>    
   </category>
-
 </rules>

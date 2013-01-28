@@ -477,7 +477,7 @@ public class PatternRuleTest extends TestCase {
           // make sure suggestion is what we expect it to be
           if (suggestedCorrections != null && suggestedCorrections.size() > 0) {
             assertTrue("You specified a correction but your message has no suggestions in rule " + rule,
-              rule.getMessage().contains("<suggestion>")
+              rule.getMessage().contains("<suggestion>") || rule.getSuggestionsOutMsg().contains("<suggestion>")
             );
             assertTrue(lang + ": Incorrect suggestions: "
                 + suggestedCorrections.toString() + " != "

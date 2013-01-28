@@ -45,9 +45,13 @@ public class PatternRule extends AbstractPatternRule {
 
   private String subId; // because there can be more than one rule in a rule group
   private String message;
+  private String suggestionsOutMsg; // extra suggestions outside message
 
   /** Formatted suggestion elements. **/
   private List<Match> suggestionMatches;
+  
+  /** Formatted suggestion elements outside message. **/
+  private List<Match> suggestionMatchesOutMsg;
 
   /**
    * This property is used for short-circuiting evaluation of the elementNo list
@@ -87,6 +91,7 @@ public class PatternRule extends AbstractPatternRule {
     this.message = message;
     this.shortMessage = shortMessage;
     this.elementNo = new ArrayList<Integer>();
+    this.suggestionsOutMsg="";
     String prevName = "";
     String curName = "";
     int cnt = 0;
@@ -116,11 +121,19 @@ public class PatternRule extends AbstractPatternRule {
       }
     }    
   }  
+  
+  public PatternRule(final String id, final Language language,
+      final List<Element> elements, final String description,
+      final String message, final String shortMessage, final String suggestionsOutMsg) {
+    this(id, language, elements, description, message, shortMessage);
+    this.suggestionsOutMsg=suggestionsOutMsg;
+  }
 
   public PatternRule(final String id, final Language language,
       final List<Element> elements, final String description,
-      final String message, final String shortMessage, final boolean isMember) {
-    this(id, language, elements, description, message, shortMessage);
+      final String message, final String shortMessage, final String suggestionsOutMsg,
+      final boolean isMember) {
+    this(id, language, elements, description, message, shortMessage, suggestionsOutMsg);
     this.isMemberOfDisjunctiveSet = isMember;
   }  
 
@@ -134,6 +147,10 @@ public class PatternRule extends AbstractPatternRule {
 
   public final String getMessage() {
     return message;
+  }
+  
+  public final String getSuggestionsOutMsg() {
+    return suggestionsOutMsg;
   }
 
   /**
@@ -190,7 +207,14 @@ public class PatternRule extends AbstractPatternRule {
     }
     suggestionMatches.add(m);
   }
-
+  
+  public final void addSuggestionMatchOutMsg (final Match m) {
+    if (suggestionMatchesOutMsg == null) {
+      suggestionMatchesOutMsg = new ArrayList<Match>();
+    }
+    suggestionMatchesOutMsg.add(m);
+  }
+  
   /**
    * For testing only.
    */
@@ -208,6 +232,10 @@ public class PatternRule extends AbstractPatternRule {
   
   List<Match> getSuggestionMatches() {
     return suggestionMatches;
+  }
+  
+  List<Match> getSuggestionMatchesOutMsg() {
+    return suggestionMatchesOutMsg;
   }
 
   @Override
