@@ -66,7 +66,7 @@ public class FalseFriendRuleLoader extends DefaultHandler {
     final List<PatternRule> rules = handler.getRules();
     // Add suggestions to each rule:
     final ResourceBundle messages = ResourceBundle.getBundle(
-        "org.languagetool.MessagesBundle", motherTongue.getLocale());
+            JLanguageTool.MESSAGE_BUNDLE, motherTongue.getLocale());
     for (final PatternRule rule : rules) {
       final List<String> suggestionMap = handler.getSuggestionMap().get(rule.getId());
       if (suggestionMap != null) {
@@ -121,7 +121,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
 
   public FalseFriendRuleHandler(final Language textLanguage, final Language motherTongue) {
     messages = ResourceBundle.getBundle(
-        "org.languagetool.MessagesBundle", motherTongue.getLocale());
+        JLanguageTool.MESSAGE_BUNDLE, motherTongue.getLocale());
     formatter = new MessageFormat("");
     formatter.setLocale(motherTongue.getLocale());
     this.textLanguage = textLanguage;

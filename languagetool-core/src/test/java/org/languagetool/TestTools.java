@@ -74,7 +74,7 @@ public final class TestTools {
    */
   public static ResourceBundle getMessages(String language) {
     final ResourceBundle messages = ResourceBundle.getBundle(
-        "org.languagetool.MessagesBundle", new Locale(language));
+            JLanguageTool.MESSAGE_BUNDLE, new Locale(language));
     return messages;
   }
 

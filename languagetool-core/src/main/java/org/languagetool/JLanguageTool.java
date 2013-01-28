@@ -82,6 +82,7 @@ public final class JLanguageTool {
 
   public static final String SENTENCE_END_TAGNAME = "SENT_END";
   public static final String PARAGRAPH_END_TAGNAME = "PARA_END";
+  public static final String MESSAGE_BUNDLE = "org.languagetool.MessagesBundle";
 
   /**
    * Returns the build date or <code>null</code> if not run from JAR.
@@ -246,13 +247,13 @@ public final class JLanguageTool {
    */
   public static ResourceBundle getMessageBundle() {
     try {
-      final ResourceBundle bundle = ResourceBundle.getBundle("org.languagetool.MessagesBundle");
+      final ResourceBundle bundle = ResourceBundle.getBundle(MESSAGE_BUNDLE);
       final ResourceBundle fallbackBundle = ResourceBundle.getBundle(
-          "org.languagetool.MessagesBundle", Locale.ENGLISH);
+              MESSAGE_BUNDLE, Locale.ENGLISH);
       return new ResourceBundleWithFallback(bundle, fallbackBundle);
     } catch (final MissingResourceException e) {
       return ResourceBundle.getBundle(
-          "org.languagetool.MessagesBundle", Locale.ENGLISH);
+              MESSAGE_BUNDLE, Locale.ENGLISH);
     }
   }
 
@@ -261,24 +262,24 @@ public final class JLanguageTool {
    */
   private static ResourceBundle getMessageBundle(final Language lang) {
     try {
-      ResourceBundle bundle = ResourceBundle.getBundle("org.languagetool.MessagesBundle", lang.getLocaleWithCountry());
+      ResourceBundle bundle = ResourceBundle.getBundle(MESSAGE_BUNDLE, lang.getLocaleWithCountry());
       if (!isValidBundleFor(lang, bundle)) {
-        bundle = ResourceBundle.getBundle("org.languagetool.MessagesBundle", lang.getLocale());
+        bundle = ResourceBundle.getBundle(MESSAGE_BUNDLE, lang.getLocale());
         if (!isValidBundleFor(lang, bundle)) {
           // happens if 'xx' is requested but only a MessagesBundle_xx_YY.properties exists:
           final Language defaultVariant = lang.getDefaultVariant();
           if (defaultVariant != null && defaultVariant.getCountryVariants().length > 0) {
             final Locale locale = new Locale(defaultVariant.getShortName(), defaultVariant.getCountryVariants()[0]);
-            bundle = ResourceBundle.getBundle("org.languagetool.MessagesBundle", locale);
+            bundle = ResourceBundle.getBundle(MESSAGE_BUNDLE, locale);
           }
         }
       }
       final ResourceBundle fallbackBundle = ResourceBundle.getBundle(
-          "org.languagetool.MessagesBundle", Locale.ENGLISH);
+              MESSAGE_BUNDLE, Locale.ENGLISH);
       return new ResourceBundleWithFallback(bundle, fallbackBundle);
     } catch (final MissingResourceException e) {
       return ResourceBundle.getBundle(
-          "org.languagetool.MessagesBundle", Locale.ENGLISH);
+              MESSAGE_BUNDLE, Locale.ENGLISH);
     }
   }
 
