@@ -28,6 +28,8 @@ import org.languagetool.AnalyzedTokenReadings;
 
 public class LongSentenceRule extends Rule {
 
+  private static final int MAX_WORDS = 40;
+
   public LongSentenceRule(final ResourceBundle messages) {
     super(messages);
     super.setCategory(new Category(messages.getString("category_misc")));
@@ -36,7 +38,7 @@ public class LongSentenceRule extends Rule {
 
   @Override
   public String getDescription() {
-    return "Readability: sentence over 40 words";
+    return "Readability: sentence over " + MAX_WORDS + " words";
   }
 
   @Override
@@ -51,19 +53,19 @@ public class LongSentenceRule extends Rule {
     final String msg = "Sentence is over 40 words long, consider revising.";
     int numWords = 0;
     int pos = 0;
-    if (tokens.length < 41) {   // just a short-circuit
+    if (tokens.length < MAX_WORDS + 1) {   // just a short-circuit
       return toRuleMatchArray(ruleMatches);
     } else {
-      for (int i=0;i<tokens.length;i++) {
-        String token = tokens[i].getToken();
+      for (AnalyzedTokenReadings aToken : tokens) {
+        final String token = aToken.getToken();
         pos += token.length();  // won't match the whole offending sentence, but much of it
-        if (!token.matches("[!-~]") && !tokens[i].isSentStart()) {
+        if (!token.matches("[!-~]") && !aToken.isSentStart()) {
           numWords++;
         }
       }
     }
-    if (numWords > 40) {
-      RuleMatch ruleMatch = new RuleMatch(this,0,pos,msg);
+    if (numWords > MAX_WORDS) {
+      final RuleMatch ruleMatch = new RuleMatch(this, 0, pos, msg);
       ruleMatches.add(ruleMatch);
     }
     return toRuleMatchArray(ruleMatches);
