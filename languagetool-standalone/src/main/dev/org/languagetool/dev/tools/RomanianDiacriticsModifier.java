@@ -80,7 +80,7 @@ public final class RomanianDiacriticsModifier {
    * <b>ţ</b> with <b>ț</b> (including upper-case variants).<br/>
    * Thread-safe method.
    */
-  public static synchronized String correctDiacritrics(String s) {
+  public static synchronized String correctDiacritics(String s) {
     if (null == s) {
       return null;
     }

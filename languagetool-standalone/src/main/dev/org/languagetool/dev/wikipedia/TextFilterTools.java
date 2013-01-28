@@ -37,7 +37,7 @@ class TextFilterTools {
         public String filter(String arg0) {
           final String tmp = super.filter(arg0);
           // diacritics correction (comma-bellow instead of sedilla for ș and ț)
-          return RomanianDiacriticsModifier.correctDiacritrics(tmp);
+          return RomanianDiacriticsModifier.correctDiacritics(tmp);
         }
       };
     } else {
