@@ -18,7 +18,7 @@ public class SwebleWikipediaTextFilter implements TextFilter {
   public String filter(String wikiText) {
     try {
       final SimpleWikiConfiguration config = new SimpleWikiConfiguration(
-              "classpath:/resources/SimpleWikiConfiguration.xml");
+              "classpath:/org/languagetool/resource/dev/SimpleWikiConfiguration.xml");
       final Compiler compiler = new Compiler(config);
       final PageTitle pageTitle = PageTitle.make(config, "fileTitle");
       final PageId pageId = new PageId(pageTitle, -1);
