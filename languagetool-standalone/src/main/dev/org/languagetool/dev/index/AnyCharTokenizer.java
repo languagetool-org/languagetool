@@ -50,7 +50,7 @@ public final class AnyCharTokenizer extends CharTokenizer {
    * @param matchVersion
    *          Lucene version to match See {@link <a href="#version">above</a>}
    * @param source
-   *          the attribute source to use for this {@link Tokenizer}
+   *          the attribute source to use for this {@link org.apache.lucene.analysis.Tokenizer}
    * @param in
    *          the input to split up into tokens
    */
@@ -65,7 +65,7 @@ public final class AnyCharTokenizer extends CharTokenizer {
    * @param matchVersion
    *          Lucene version to match See {@link <a href="#version">above</a>}
    * @param factory
-   *          the attribute factory to use for this {@link Tokenizer}
+   *          the attribute factory to use for this {@link org.apache.lucene.analysis.Tokenizer}
    * @param in
    *          the input to split up into tokens
    */

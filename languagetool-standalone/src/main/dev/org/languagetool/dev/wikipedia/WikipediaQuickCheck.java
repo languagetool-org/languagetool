@@ -33,6 +33,7 @@ import javax.xml.parsers.SAXParserFactory;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.TextFilter;
+import org.languagetool.language.German;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.StringTools;
@@ -170,7 +171,7 @@ public class WikipediaQuickCheck {
     final URL url = new URL(urlString);
     final String mediaWikiContent = check.getMediaWikiContent(url);
     final String plainText = check.getPlainText(mediaWikiContent);
-    final WikipediaQuickCheckResult checkResult = check.checkPage(plainText, Language.GERMAN);
+    final WikipediaQuickCheckResult checkResult = check.checkPage(plainText, new German());
     for (RuleMatch ruleMatch : checkResult.getRuleMatches()) {
       System.out.println(ruleMatch.getMessage());
       final String context = StringTools.getContext(ruleMatch.getFromPos(), ruleMatch.getToPos(), checkResult.getText());

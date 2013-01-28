@@ -31,7 +31,7 @@ class TextFilterTools {
 
   static BlikiWikipediaTextFilter getTextFilter(Language lang) {
     final BlikiWikipediaTextFilter textFilter;
-    if (Language.ROMANIAN == lang) {
+    if (lang.getShortName().equals("ro")) {
       textFilter = new BlikiWikipediaTextFilter() {
         @Override
         public String filter(String arg0) {
