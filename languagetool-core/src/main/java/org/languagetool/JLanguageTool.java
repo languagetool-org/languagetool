@@ -260,7 +260,7 @@ public final class JLanguageTool {
   /**
    * Gets the ResourceBundle for the given user interface language.
    */
-  private static ResourceBundle getMessageBundle(final Language lang) {
+  static ResourceBundle getMessageBundle(final Language lang) {
     try {
       ResourceBundle bundle = ResourceBundle.getBundle(MESSAGE_BUNDLE, lang.getLocaleWithCountry());
       if (!isValidBundleFor(lang, bundle)) {
