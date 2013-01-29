@@ -31,6 +31,7 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -43,6 +44,7 @@ import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileFilter;
 
+import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.language.LanguageBuilder;
 
@@ -62,7 +64,7 @@ public class LanguageManagerDialog implements ActionListener {
   private final List<File> ruleFiles = new ArrayList<File>();
   
   private final Frame owner;
-  //private ResourceBundle messages = null;
+  private final ResourceBundle messages;
   
   public LanguageManagerDialog(Frame owner, List<Language> languages) {
     this.owner = owner;
@@ -71,12 +73,12 @@ public class LanguageManagerDialog implements ActionListener {
             ruleFiles.add(new File(ruleFile));
         }
     }
-    //messages = JLanguageTool.getMessageBundle();
+    messages = JLanguageTool.getMessageBundle();
   }
   
   public void show() {
     dialog = new JDialog(owner, true);
-    dialog.setTitle(Messages.getString("guiLanguageManagerDialog"));
+    dialog.setTitle(messages.getString("guiLanguageManagerDialog"));
     
     // close dialog when user presses Escape key:
     // TODO: taken from ConfigurationDialog, avoid duplication:
@@ -110,19 +112,19 @@ public class LanguageManagerDialog implements ActionListener {
     
     final JPanel buttonPanel = new JPanel();
     buttonPanel.setLayout(new GridBagLayout());
-    addButton = new JButton(Messages.getString("guiAddButton"));
+    addButton = new JButton(messages.getString("guiAddButton"));
     addButton.addActionListener(this);
     cons.gridx = 1;
     cons.gridy = 0;
     buttonPanel.add(addButton, cons);
 
-    removeButton = new JButton(Messages.getString("guiRemoveButton"));
+    removeButton = new JButton(messages.getString("guiRemoveButton"));
     removeButton.addActionListener(this);
     cons.gridx = 1;
     cons.gridy = 1;
     buttonPanel.add(removeButton, cons);
 
-    closeButton = new JButton(Messages.getString("guiCloseButton"));
+    closeButton = new JButton(messages.getString("guiCloseButton"));
     closeButton.addActionListener(this);
     cons.gridx = 1;
     cons.gridy = 2;
@@ -152,8 +154,8 @@ public class LanguageManagerDialog implements ActionListener {
         list.setListData(ruleFiles.toArray(new File[]{}));
       } else {
         JOptionPane jop = new JOptionPane();
-        JOptionPane.showMessageDialog(jop, Messages.getString("guiDuplicate"),
-                Messages.getString("guiWarning"), JOptionPane.WARNING_MESSAGE);
+        JOptionPane.showMessageDialog(jop, messages.getString("guiDuplicate"),
+                messages.getString("guiWarning"), JOptionPane.WARNING_MESSAGE);
       }
     } else if (e.getSource() == removeButton) {
       if (list.getSelectedIndex() != -1) {
