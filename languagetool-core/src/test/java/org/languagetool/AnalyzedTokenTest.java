@@ -24,35 +24,26 @@ import junit.framework.TestCase;
 public class AnalyzedTokenTest extends TestCase {
 
   public void testToString() {
-    AnalyzedToken testToken = new AnalyzedToken("word", "POS", "lemma");
+    final AnalyzedToken testToken = new AnalyzedToken("word", "POS", "lemma");
     assertEquals("lemma/POS", testToken.toString());
     assertEquals("lemma", testToken.getLemma());
-    testToken = new AnalyzedToken("word", "POS", null);
-    assertEquals("word/POS", testToken.toString());
-    assertEquals(null, testToken.getLemma());
-    assertEquals("word", testToken.getToken());
+    final AnalyzedToken testToken2 = new AnalyzedToken("word", "POS", null);
+    assertEquals("word/POS", testToken2.toString());
+    assertEquals(null, testToken2.getLemma());
+    assertEquals("word", testToken2.getToken());
   }
   
   public void testMatches() {
-    AnalyzedToken testToken1 = new AnalyzedToken("word", "POS", "lemma");    
-    AnalyzedToken testToken2 = new AnalyzedToken("", null, null);
-    assertFalse(testToken1.matches(testToken2));
-    testToken2 = new AnalyzedToken("word", null, null);
-    assertTrue(testToken1.matches(testToken2));
-    testToken2 = new AnalyzedToken("word", "POS", null);
-    assertTrue(testToken1.matches(testToken2));
-    testToken2 = new AnalyzedToken("word", "POS", "lemma");
-    assertTrue(testToken1.matches(testToken2));
-    testToken2 = new AnalyzedToken("word", "POS1", "lemma");
-    assertFalse(testToken1.matches(testToken2));
-    testToken2 = new AnalyzedToken("word1", "POS", "lemma");
-    assertFalse(testToken1.matches(testToken2));
-    testToken2 = new AnalyzedToken("word", "POS", "lemma1");
-    assertFalse(testToken1.matches(testToken2));
-    testToken2 = new AnalyzedToken("", "POS", "lemma");
-    assertTrue(testToken1.matches(testToken2));    
-    testToken2 = new AnalyzedToken("", null, "lemma");
-    assertTrue(testToken1.matches(testToken2));
+    final AnalyzedToken testToken1 = new AnalyzedToken("word", "POS", "lemma");    
+    assertFalse(testToken1.matches(new AnalyzedToken("", null, null)));
+    assertTrue(testToken1.matches(new AnalyzedToken("word", null, null)));
+    assertTrue(testToken1.matches(new AnalyzedToken("word", "POS", null)));
+    assertTrue(testToken1.matches(new AnalyzedToken("word", "POS", "lemma")));
+    assertFalse(testToken1.matches(new AnalyzedToken("word", "POS1", "lemma")));
+    assertFalse(testToken1.matches(new AnalyzedToken("word1", "POS", "lemma")));
+    assertFalse(testToken1.matches(new AnalyzedToken("word", "POS", "lemma1")));
+    assertTrue(testToken1.matches(new AnalyzedToken("", "POS", "lemma")));    
+    assertTrue(testToken1.matches(new AnalyzedToken("", null, "lemma")));
   }
   
 }
