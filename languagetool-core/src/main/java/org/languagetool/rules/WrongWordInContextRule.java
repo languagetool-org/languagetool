@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Scanner;
-import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -167,8 +166,8 @@ public abstract class WrongWordInContextRule extends Rule {
   /**
    * Load words, contexts, and explanations.
    */
-  private List<ContextWords> loadContextWords(final InputStream file) throws IOException {
-    final List<ContextWords> set = new Vector<ContextWords>();
+  private List<ContextWords> loadContextWords(final InputStream file) {
+    final List<ContextWords> set = new ArrayList<ContextWords>();
     final Scanner scanner = new Scanner(file, "utf-8");
     try {
       while (scanner.hasNextLine()) {

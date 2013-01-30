@@ -34,7 +34,7 @@ public class AnalyzedTokenTest extends TestCase {
   }
   
   public void testMatches() {
-    final AnalyzedToken testToken1 = new AnalyzedToken("word", "POS", "lemma");    
+    final AnalyzedToken testToken1 = new AnalyzedToken("word", "POS", "lemma");
     assertFalse(testToken1.matches(new AnalyzedToken("", null, null)));
     assertTrue(testToken1.matches(new AnalyzedToken("word", null, null)));
     assertTrue(testToken1.matches(new AnalyzedToken("word", "POS", null)));
@@ -42,7 +42,7 @@ public class AnalyzedTokenTest extends TestCase {
     assertFalse(testToken1.matches(new AnalyzedToken("word", "POS1", "lemma")));
     assertFalse(testToken1.matches(new AnalyzedToken("word1", "POS", "lemma")));
     assertFalse(testToken1.matches(new AnalyzedToken("word", "POS", "lemma1")));
-    assertTrue(testToken1.matches(new AnalyzedToken("", "POS", "lemma")));    
+    assertTrue(testToken1.matches(new AnalyzedToken("", "POS", "lemma")));
     assertTrue(testToken1.matches(new AnalyzedToken("", null, "lemma")));
   }
   

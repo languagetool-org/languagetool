@@ -27,13 +27,10 @@ import java.util.EmptyStackException;
  * this one is based on ArrayList). Usage is the same as the java.util.Stack.
  * 
  * @author Marcin Miłkowski.
- * 
  */
-
 public class UnsyncStack<E> extends ArrayList<E> {
-  /**
-   * Generated automatically.
-   */
+  
+  /** Generated automatically. */
   private static final long serialVersionUID = -4984830372178073605L;
 
   public UnsyncStack() {

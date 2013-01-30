@@ -104,7 +104,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
         return toRuleMatchArray(ruleMatches);
     }
 
-    private List<RuleMatch> getRuleMatch(final String word, final int startPos) throws CharacterCodingException {
+    private List<RuleMatch> getRuleMatch(final String word, final int startPos) {
         final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
         if (speller.isMisspelled(word)) {
             final RuleMatch ruleMatch = new RuleMatch(this,

@@ -188,7 +188,7 @@ public class SuggestionExtractor {
     }
   }
 
-  private Rule getSpellcheckRule(JLanguageTool languageTool) throws IOException {
+  private Rule getSpellcheckRule(JLanguageTool languageTool) {
     final List<Rule> allActiveRules = languageTool.getAllActiveRules();
     for (Rule activeRule : allActiveRules) {
       if (activeRule instanceof SpellingCheckRule) {

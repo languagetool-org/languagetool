@@ -27,7 +27,8 @@ package org.languagetool.tagging.disambiguation.rules;
  */
 public class DisambiguatedExample {
 
-  private String example;
+  private final String example;
+  
   private String inputForms;
   private String outputForms;
   

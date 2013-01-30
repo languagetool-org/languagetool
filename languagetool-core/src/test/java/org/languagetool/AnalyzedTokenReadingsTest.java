@@ -45,13 +45,13 @@ public class AnalyzedTokenReadingsTest extends TestCase {
     //and get isSentStart == true
     tokenReadings.addReading(new AnalyzedToken("word", "SENT_START", null));
     assertEquals(false, tokenReadings.isSentStart());
-    AnalyzedToken aTok = new AnalyzedToken("word", "POS", "lemma");
+    final AnalyzedToken aTok = new AnalyzedToken("word", "POS", "lemma");
     aTok.setWhitespaceBefore(true);
     tokenReadings = new AnalyzedTokenReadings(aTok);       
     assertEquals(aTok, tokenReadings.getAnalyzedToken(0));
-    AnalyzedToken aTok2 = new AnalyzedToken("word", "POS", "lemma");
+    final AnalyzedToken aTok2 = new AnalyzedToken("word", "POS", "lemma");
     assertTrue(!aTok2.equals(tokenReadings.getAnalyzedToken(0)));
-    AnalyzedToken aTok3 = new AnalyzedToken("word", "POS", "lemma");
+    final AnalyzedToken aTok3 = new AnalyzedToken("word", "POS", "lemma");
     aTok3.setWhitespaceBefore(true);
     assertEquals(aTok3, tokenReadings.getAnalyzedToken(0));
     final AnalyzedTokenReadings testReadings = new AnalyzedTokenReadings(aTok3);

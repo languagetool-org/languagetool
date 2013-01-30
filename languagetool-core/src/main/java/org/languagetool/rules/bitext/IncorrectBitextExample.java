@@ -31,7 +31,8 @@ import org.languagetool.bitext.StringPair;
  */
 public class IncorrectBitextExample {
 
-  private StringPair example;
+  private final StringPair example;
+  
   private List<String> corrections;
 
   public IncorrectBitextExample(final StringPair example) {
@@ -51,7 +52,7 @@ public class IncorrectBitextExample {
   }
 
   /**
-   * Return the possible corrections. May be null.
+   * Return the possible corrections or null.
    */
   public List<String> getCorrections() {
     return corrections;

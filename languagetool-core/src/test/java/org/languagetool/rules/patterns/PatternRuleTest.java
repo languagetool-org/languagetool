@@ -204,7 +204,7 @@ public class PatternRuleTest extends TestCase {
           lang, rule.getId() + ":" + rule.getSubId() + " (POS tag)",
           i);
 
-        List<Element> exceptionElements = new ArrayList<Element>();
+        final List<Element> exceptionElements = new ArrayList<Element>();
         if (element.getExceptionList() != null) {
           for (final Element exception: element.getExceptionList()) {
             // Detect useless exception or missing skip="...".
@@ -374,7 +374,7 @@ public class PatternRuleTest extends TestCase {
       final Matcher matcher = CHAR_SET_PATTERN.matcher(stringValue);
       if (matcher.find()) {
         // Remove things like \p{Punct} which are irrelevant here.
-        String s = matcher.group(2).replaceAll("\\\\p\\{[^}]*\\}", "");
+        final String s = matcher.group(2).replaceAll("\\\\p\\{[^}]*\\}", "");
         // case sensitive if pattern contains (?-i).
         if (s.indexOf('|') >= 0) {
           System.err.println("The " + lang.toString() + " rule: "
@@ -390,12 +390,12 @@ public class PatternRuleTest extends TestCase {
           s = s.toLowerCase();
         }
         */
-        char[] sorted = s.toCharArray();
+        final char[] sorted = s.toCharArray();
         // Sort characters in string, so finding duplicate characters can be done by
         // looking for identical adjacent characters.
         java.util.Arrays.sort(sorted);
         for (int i = 1; i < sorted.length; ++i) {
-          char c = sorted[i];
+          final char c = sorted[i];
           if ("&\\-|".indexOf(c) < 0 && sorted[i - 1] == c) {
             System.err.println("The " + lang.toString() + " rule: "
                + ruleId + ", token [" + tokenIndex + "], contains "
@@ -566,7 +566,7 @@ public class PatternRuleTest extends TestCase {
       for (final String replacement : matches.get(0).getSuggestedReplacements()) {
         final String fixedSentence = badSentence.substring(0, fromPos)
             + replacement + badSentence.substring(toPos);
-        List<RuleMatch> tempMatches = getMatches(rule, fixedSentence, languageTool);
+        final List<RuleMatch> tempMatches = getMatches(rule, fixedSentence, languageTool);
         assertEquals("Corrected sentence for rule " + rule
             + " triggered error: " + fixedSentence, 0, tempMatches.size());
       }

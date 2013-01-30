@@ -195,7 +195,7 @@ public abstract class AbstractPatternRule extends Rule {
           final boolean lastReading, final AnalyzedToken matchToken,
           final Element elem) {
       boolean thisMatched = matched;
-      boolean elemIsMatched= elem.isMatched(matchToken);
+      final boolean elemIsMatched = elem.isMatched(matchToken);
       if (testUnification) {
           if (matched && elem.isUnified()) {
               if (elem.isUniNegated()) {
@@ -205,7 +205,7 @@ public abstract class AbstractPatternRule extends Rule {
                   if (elem.isLastInUnification()) {
                       thisMatched = thisMatched && unifier.isUnified(matchToken, elem.getUniFeatures(), 
                               lastReading,elemIsMatched);
-                  } else { //we don't care about the truth value, let it run    	        
+                  } else { //we don't care about the truth value, let it run
                       unifier.isUnified(matchToken, elem.getUniFeatures(), 
                               lastReading, elemIsMatched);
                   }

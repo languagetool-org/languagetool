@@ -130,7 +130,7 @@ public final class XMLValidator {
     saxParser.parse(is, new ErrorHandler());
   }
 
-  private void validateInternal(InputStream xml, URL xmlSchema) throws SAXException, IOException, ParserConfigurationException {
+  private void validateInternal(InputStream xml, URL xmlSchema) throws SAXException, IOException {
     final SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
     final Schema schema = sf.newSchema(xmlSchema);
     final Validator validator = schema.newValidator();

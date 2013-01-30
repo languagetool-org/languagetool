@@ -102,7 +102,7 @@ public abstract class AbstractCompoundRule extends Rule {
     RuleMatch prevRuleMatch = null;
     final Queue<AnalyzedTokenReadings> prevTokens = new ArrayBlockingQueue<AnalyzedTokenReadings>(MAX_TERMS);
     for (int i = 0; i < tokens.length + MAX_TERMS-1; i++) {
-      AnalyzedTokenReadings token;
+      final AnalyzedTokenReadings token;
       // we need to extend the token list so we find matches at the end of the original list:
       if (i >= tokens.length) {
         token = new AnalyzedTokenReadings(new AnalyzedToken("", "", null), prevTokens.peek().getStartPos());

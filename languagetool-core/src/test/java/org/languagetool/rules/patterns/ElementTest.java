@@ -27,7 +27,7 @@ import org.languagetool.JLanguageTool;
 public class ElementTest extends TestCase {
 
   public void testSentenceStart() {
-    Element element = new Element("", false, false, false);
+    final Element element = new Element("", false, false, false);
     element.setPosElement(JLanguageTool.SENTENCE_START_TAGNAME, false, false);
     assertTrue(element.isSentStart());
     element.setPosElement(JLanguageTool.SENTENCE_START_TAGNAME, false, true);
@@ -38,28 +38,28 @@ public class ElementTest extends TestCase {
     assertFalse(element.isSentStart());
 
     //this should be false:
-    element = new Element("bla|blah", false, true, false);
-    element.setPosElement("foo", true, true);
-    assertFalse(element.isSentStart());
+    final Element element2 = new Element("bla|blah", false, true, false);
+    element2.setPosElement("foo", true, true);
+    assertFalse(element2.isSentStart());
   }
   
   public void testUnknownTag() {
-    Element element = new Element("", false, false, false);
+    final Element element = new Element("", false, false, false);
     element.setPosElement(Element.UNKNOWN_TAG, false, false);
     
-    Element element2 = new Element("", false, false, false);
+    final Element element2 = new Element("", false, false, false);
     element2.setPosElement(Element.UNKNOWN_TAG, false, true);
 
-    Element element3 = new Element("", false, false, false);
+    final Element element3 = new Element("", false, false, false);
     element3.setPosElement(Element.UNKNOWN_TAG+"|VBG", true, false);
     
-    Element element4 = new Element("", false, false, false);
+    final Element element4 = new Element("", false, false, false);
     element4.setPosElement(Element.UNKNOWN_TAG+"|VBG", true, true);
     
-    Element element5 = new Element("\\p{Ll}+", false, true, false);
+    final Element element5 = new Element("\\p{Ll}+", false, true, false);
     element5.setPosElement(Element.UNKNOWN_TAG, false, false);        
     
-    AnalyzedToken an = new AnalyzedToken("schword", null, null);
+    final AnalyzedToken an = new AnalyzedToken("schword", null, null);
     assertTrue(element.isMatched(an));
     assertFalse(element2.isMatched(an));
     assertTrue(element3.isMatched(an));
@@ -75,21 +75,20 @@ public class ElementTest extends TestCase {
     assertTrue(element4.isMatched(an));
     assertFalse(element5.isMatched(an));
     
-    AnalyzedToken anSentEnd = new AnalyzedToken("schword", JLanguageTool.SENTENCE_END_TAGNAME, null);
+    final AnalyzedToken anSentEnd = new AnalyzedToken("schword", JLanguageTool.SENTENCE_END_TAGNAME, null);
     assertTrue(element.isMatched(anSentEnd));
     assertFalse(element2.isMatched(anSentEnd));
     assertTrue(element3.isMatched(anSentEnd));
     assertFalse(element4.isMatched(anSentEnd));
     assertTrue(element5.isMatched(anSentEnd));
     
-    Element element6 = new Element("\\p{Ll}+", false, true, false);
+    final Element element6 = new Element("\\p{Ll}+", false, true, false);
     element6.setPosElement(JLanguageTool.SENTENCE_END_TAGNAME, false, false);
     assertTrue(element6.isMatched(anSentEnd));
     
-    Element element7 = new Element("\\p{Ll}+", false, true, false);
+    final Element element7 = new Element("\\p{Ll}+", false, true, false);
     element7.setPosElement(JLanguageTool.SENTENCE_END_TAGNAME+"|BLABLA", true, false);
     assertTrue(element7.isMatched(anSentEnd));
-    
     
     // if the AnalyzedToken is in the set of readings that have
     //non-null tags...
@@ -100,7 +99,7 @@ public class ElementTest extends TestCase {
     assertTrue(element4.isMatched(anSentEnd));
     assertFalse(element5.isMatched(anSentEnd));
     
-    AnalyzedToken anParaEnd = new AnalyzedToken("schword", JLanguageTool.PARAGRAPH_END_TAGNAME, null);
+    final AnalyzedToken anParaEnd = new AnalyzedToken("schword", JLanguageTool.PARAGRAPH_END_TAGNAME, null);
     assertTrue(element.isMatched(anParaEnd));
     assertFalse(element2.isMatched(anParaEnd));
     assertTrue(element3.isMatched(anParaEnd));
@@ -116,7 +115,7 @@ public class ElementTest extends TestCase {
     assertTrue(element4.isMatched(anParaEnd));
     assertFalse(element5.isMatched(anParaEnd));
     
-    AnalyzedToken anWithPOS = new AnalyzedToken("schword", "POS", null);
+    final AnalyzedToken anWithPOS = new AnalyzedToken("schword", "POS", null);
     assertFalse(element.isMatched(anWithPOS));
     assertTrue(element2.isMatched(anWithPOS));
     assertFalse(element3.isMatched(anWithPOS));

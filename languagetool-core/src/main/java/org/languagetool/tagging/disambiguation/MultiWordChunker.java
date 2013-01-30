@@ -167,7 +167,7 @@ public class MultiWordChunker implements Disambiguator {
   
   private AnalyzedTokenReadings prepareNewReading(final String tokens, final String tok,
              final AnalyzedTokenReadings token, final boolean isLast) {
-      StringBuilder sb = new StringBuilder();
+      final StringBuilder sb = new StringBuilder();
       sb.append("<");
       if (isLast) {
           sb.append("/");
@@ -182,7 +182,7 @@ public class MultiWordChunker implements Disambiguator {
           final AnalyzedToken newReading) {      
       final String old = oldReading.toString();
       final String prevAnot =  oldReading.getHistoricalAnnotations();
-      AnalyzedTokenReadings newAtr = new AnalyzedTokenReadings(oldReading.getReadings(), 
+      final AnalyzedTokenReadings newAtr = new AnalyzedTokenReadings(oldReading.getReadings(), 
               oldReading.getStartPos());
       newAtr.setWhitespaceBefore(oldReading.isWhitespaceBefore());
       newAtr.addReading(newReading);
@@ -192,7 +192,7 @@ public class MultiWordChunker implements Disambiguator {
   }
   
   private String annotateToken(final String prevAnot, final String oldReading, final String newReading) {
-      StringBuilder sb = new StringBuilder();
+      final StringBuilder sb = new StringBuilder();
       sb.append(prevAnot);
       sb.append("\nMULTIWORD_CHUNKER: ");
       sb.append(oldReading);
