@@ -38,6 +38,7 @@ public class BritishEnglish extends English {
     return "English (GB)";
   }
 
+  @Override
   public List<Class<? extends Rule>> getRelevantRules() {
     final List<Class<? extends Rule>> rules = new ArrayList<Class<? extends Rule>>();
     rules.addAll(super.getRelevantRules());    

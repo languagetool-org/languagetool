@@ -37,6 +37,7 @@ public class EnglishTaggerTest extends TestCase {
   private EnglishTagger tagger;
   private WordTokenizer tokenizer;
   
+  @Override
   public void setUp() {
     tagger = new EnglishTagger();
     tokenizer = new WordTokenizer();

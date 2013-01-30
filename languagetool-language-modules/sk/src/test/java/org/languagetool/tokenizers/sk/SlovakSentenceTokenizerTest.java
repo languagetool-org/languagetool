@@ -34,6 +34,7 @@ public class SlovakSentenceTokenizerTest extends TestCase {
   // accept only \n\n as paragraph:
   private final SentenceTokenizer stokenizer2 = new SRXSentenceTokenizer(lang);
 
+  @Override
   public final void setUp() {
     stokenizer.setSingleLineBreaksMarksParagraph(true);
     stokenizer2.setSingleLineBreaksMarksParagraph(false);
@@ -70,7 +71,7 @@ public class SlovakSentenceTokenizerTest extends TestCase {
     testSplit(new String[] { "Here's a sentence. ",
             "And here's one that's not comp" });
 
-    testSplit(new String[] { "„Prezydent jest niemądry”. ", "Tak wyszło." });
+    testSplit(new String[]{"„Prezydent jest niemądry”. ", "Tak wyszło."});
     testSplit(new String[] { "„Prezydent jest niemądry”, powiedział premier" });
 
     testSplit(new String[] { "Das Schreiben ist auf den 3.10. datiert." });

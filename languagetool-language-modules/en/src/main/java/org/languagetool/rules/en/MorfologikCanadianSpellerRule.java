@@ -39,6 +39,7 @@ public final class MorfologikCanadianSpellerRule extends MorfologikSpellerRule {
     return RESOURCE_FILENAME;
   }
 
+  @Override
   public final String getId() {
     return "MORFOLOGIK_RULE_EN_CA";
   }

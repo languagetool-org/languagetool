@@ -32,6 +32,7 @@ import java.io.IOException;
  */
 public class RussianCompoundRuleTest extends CompoundRuleTestAbs {
 
+  @Override
   protected void setUp() throws Exception {
     super.setUp();
     langTool = new JLanguageTool(new Russian());

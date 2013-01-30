@@ -30,6 +30,7 @@ public class DutchTaggerTest extends TestCase {
   private DutchTagger tagger;
   private WordTokenizer tokenizer;
       
+  @Override
   public void setUp() {
     tagger = new DutchTagger();
     tokenizer = new WordTokenizer();

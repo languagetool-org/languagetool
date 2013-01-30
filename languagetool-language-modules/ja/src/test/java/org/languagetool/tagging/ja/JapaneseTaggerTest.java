@@ -29,6 +29,7 @@ public class JapaneseTaggerTest extends TestCase {
   private JapaneseTagger tagger;
   private JapaneseWordTokenizer tokenizer;
   
+  @Override
   public void setUp() {
     tagger = new JapaneseTagger();
     tokenizer = new JapaneseWordTokenizer();

@@ -30,6 +30,7 @@ public class PolishTaggerTest extends TestCase {
   private PolishTagger tagger;
   private WordTokenizer tokenizer;
 
+  @Override
   public void setUp() {
     tagger = new PolishTagger();
     tokenizer = new WordTokenizer();

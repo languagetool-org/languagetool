@@ -40,6 +40,7 @@ public abstract class RomanianTaggerTestAbs extends TestCase {
   private RomanianTagger tagger;
   private WordTokenizer tokenizer;
 
+  @Override
   public void setUp() {
     tagger = createTagger();
     tokenizer = new WordTokenizer();

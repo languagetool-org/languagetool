@@ -40,6 +40,7 @@ public final class MorfologikBritishSpellerRule extends MorfologikSpellerRule {
     return RESOURCE_FILENAME;
   }
 
+  @Override
   public final String getId() {
     return RULE_ID;
   }

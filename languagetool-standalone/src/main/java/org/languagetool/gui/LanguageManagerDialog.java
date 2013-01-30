@@ -153,7 +153,7 @@ public class LanguageManagerDialog implements ActionListener {
         ruleFiles.add(ruleFile);
         list.setListData(ruleFiles.toArray(new File[]{}));
       } else {
-        JOptionPane jop = new JOptionPane();
+        final JOptionPane jop = new JOptionPane();
         JOptionPane.showMessageDialog(jop, messages.getString("guiDuplicate"),
                 messages.getString("guiWarning"), JOptionPane.WARNING_MESSAGE);
       }

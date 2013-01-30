@@ -30,6 +30,7 @@ public class RussianTaggerTest extends TestCase {
   private RussianTagger tagger;
   private WordTokenizer tokenizer;
       
+  @Override
   public void setUp() {
     tagger = new RussianTagger();
     tokenizer = new WordTokenizer();

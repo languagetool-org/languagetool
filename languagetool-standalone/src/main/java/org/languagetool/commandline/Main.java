@@ -220,7 +220,7 @@ class Main {
       long sentences = 0;
       final long startTime = System.currentTimeMillis();
       try {
-        isr = getInputStreamReader(filename, encoding, isr);
+        isr = getInputStreamReader(filename, encoding);
         br = new BufferedReader(isr);
         String line;
         int lineCount = 0;
@@ -302,8 +302,9 @@ class Main {
     }
   }
 
-  private InputStreamReader getInputStreamReader(String filename, String encoding, InputStreamReader isr)
+  private InputStreamReader getInputStreamReader(String filename, String encoding)
           throws UnsupportedEncodingException, FileNotFoundException {
+    final InputStreamReader isr;
     if (!"-".equals(filename)) {
       final File file = new File(filename);
       if (encoding != null) {

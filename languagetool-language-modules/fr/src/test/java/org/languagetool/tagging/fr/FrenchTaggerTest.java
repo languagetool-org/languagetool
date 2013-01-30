@@ -30,6 +30,7 @@ public class FrenchTaggerTest extends TestCase {
   private FrenchTagger tagger;
   private WordTokenizer tokenizer;
 
+  @Override
   public void setUp() {
     tagger = new FrenchTagger();
     tokenizer = new WordTokenizer();

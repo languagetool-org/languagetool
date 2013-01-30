@@ -39,6 +39,7 @@ public final class MorfologikGermanyGermanSpellerRule extends MorfologikSpellerR
     return RESOURCE_FILENAME;
   }
 
+  @Override
   public final String getId() {
     return "MORFOLOGIK_RULE_DE_DE";
   }

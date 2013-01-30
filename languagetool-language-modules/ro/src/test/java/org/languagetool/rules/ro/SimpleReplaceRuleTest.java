@@ -44,6 +44,7 @@ public class SimpleReplaceRuleTest extends TestCase {
   private SimpleReplaceRule rule;
   private JLanguageTool langTool;
 
+  @Override
   protected void setUp() throws Exception {
     super.setUp();
     rule = new SimpleReplaceRule(TestTools.getMessages("ro"));
@@ -54,11 +55,11 @@ public class SimpleReplaceRuleTest extends TestCase {
    * Make sure that the suggested word is not the same as the wrong word
    */
   public void testInvalidSuggestion()  {
-    List<String> invalidSuggestions = new ArrayList<String>();
-    List<Map<String,String>> wrongWords = rule.getWrongWords();
+    final List<String> invalidSuggestions = new ArrayList<String>();
+    final List<Map<String,String>> wrongWords = rule.getWrongWords();
     for (Map<String, String> ruleEntry : wrongWords) {
       for (Map.Entry<String,String> fromWord : ruleEntry.entrySet()) {
-        String toWord = fromWord.getValue();
+        final String toWord = fromWord.getValue();
         if (toWord == null || fromWord.equals(toWord)) {
           invalidSuggestions.add(toWord);
         }
@@ -115,7 +116,6 @@ public class SimpleReplaceRuleTest extends TestCase {
     checkSimpleReplaceRule("Iată un (cau-boi).", "cowboy");
     checkSimpleReplaceRule("văcar=cau-boi", "cowboy");
 
-
     // multiple suggestions
     checkSimpleReplaceRule("A fost adăogită o altă regulă.", "adăugită/adăugată");
     checkSimpleReplaceRule("A venit adinioarea.", "adineaori/adineauri");
@@ -129,21 +129,17 @@ public class SimpleReplaceRuleTest extends TestCase {
   /**
    * Check if a specific replace rule applies.
    *
-   * @param sentence
-   *            the sentence containing the incorrect/misspeled word.
-   * @param words
-   *            the words that are correct (the suggested replacement). Use "/" to separate multiple forms.
-   * @throws IOException
+   * @param sentence the sentence containing the incorrect/misspelled word.
+   * @param words the words that are correct (the suggested replacement). Use "/" to separate multiple forms.
    */
   private void checkSimpleReplaceRule(String sentence, String... words)
           throws IOException {
-    RuleMatch[] matches;
-    matches = rule.match(langTool.getAnalyzedSentence(sentence));
+    final RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(sentence));
     assertEquals("Invalid matches.length while checking sentence: "
             + sentence, words.length, matches.length);
     for (int i = 0; i < words.length; i++) {
-      String word = words[i];
-      String[] replacements = word.split("\\/");
+      final String word = words[i];
+      final String[] replacements = word.split("\\/");
       assertEquals("Invalid replacement count wile checking sentence: "
               + sentence, replacements.length, matches[i].getSuggestedReplacements().size());
       for (int j = 0; j < replacements.length; j++) {

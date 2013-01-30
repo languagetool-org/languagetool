@@ -39,6 +39,7 @@ public class FrenchRuleDisambiguatorTest extends TestCase {
   private DemoDisambiguator disamb2;
   private JLanguageTool lt; 
   
+  @Override
   public void setUp() {
     tagger = new FrenchTagger();
     tokenizer = new WordTokenizer();
@@ -86,7 +87,7 @@ public class FrenchRuleDisambiguatorTest extends TestCase {
   }
 
   public void testAnnotations() throws IOException {
-     AnalyzedSentence sent = lt.getAnalyzedSentence("Les avions");
+     final AnalyzedSentence sent = lt.getAnalyzedSentence("Les avions");
      assertEquals(sent.getAnnotations(), "Disambiguator log: \n\n" +
         "RP-D_N_AMBIG: Les[le/D e p*,les/R pers obj 3 p*] -> Les[le/D e p*]"+
              "\nRB-LE_LA_LES: Les[le/D e p*] -> Les[le/D e p*]" +

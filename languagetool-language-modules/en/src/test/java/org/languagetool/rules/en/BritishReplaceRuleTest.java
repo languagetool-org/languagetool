@@ -34,6 +34,7 @@ public class BritishReplaceRuleTest extends TestCase {
   private BritishReplaceRule rule;
   private JLanguageTool langTool;
 
+  @Override
   protected void setUp() throws Exception {
     super.setUp();
     rule = new BritishReplaceRule(TestTools.getMessages("en"));

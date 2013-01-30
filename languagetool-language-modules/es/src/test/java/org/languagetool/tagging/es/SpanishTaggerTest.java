@@ -30,6 +30,7 @@ public class SpanishTaggerTest extends TestCase {
   private SpanishTagger tagger;
   private WordTokenizer tokenizer;
 
+  @Override
   public void setUp() {
     tagger = new SpanishTagger();
     tokenizer = new WordTokenizer();

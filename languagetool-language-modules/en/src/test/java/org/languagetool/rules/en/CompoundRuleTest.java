@@ -29,6 +29,7 @@ import org.languagetool.rules.CompoundRuleTestAbs;
  */
 public class CompoundRuleTest extends CompoundRuleTestAbs {
 
+  @Override
   protected void setUp() throws Exception {
     super.setUp();
     langTool = new JLanguageTool(new English());

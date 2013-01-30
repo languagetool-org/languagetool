@@ -37,6 +37,7 @@ public class RomanianSentenceTokenizerTest extends TestCase {
   // accept only \n\n as paragraph:
   private final SentenceTokenizer stokenizer2 = new SRXSentenceTokenizer(lang);
 
+  @Override
   public final void setUp() {
     stokenizer.setSingleLineBreaksMarksParagraph(true);
     stokenizer2.setSingleLineBreaksMarksParagraph(false);

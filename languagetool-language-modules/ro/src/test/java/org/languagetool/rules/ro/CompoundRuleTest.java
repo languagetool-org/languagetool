@@ -21,18 +21,16 @@ package org.languagetool.rules.ro;
 import java.io.IOException;
 
 import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
 import org.languagetool.TestTools;
 import org.languagetool.language.Romanian;
 import org.languagetool.rules.CompoundRuleTestAbs;
 
 /**
- * Tests for {@link CompoundRule} class.
- * 
  * @author Ionuț Păduraru
  */
 public class CompoundRuleTest extends CompoundRuleTestAbs {
 
+  @Override
   protected void setUp() throws Exception {
     super.setUp();
     langTool = new JLanguageTool(new Romanian());

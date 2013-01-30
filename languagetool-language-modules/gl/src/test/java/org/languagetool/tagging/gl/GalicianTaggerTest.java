@@ -34,6 +34,7 @@ public class GalicianTaggerTest extends TestCase {
   private GalicianTagger tagger;
   private WordTokenizer tokenizer;
   
+  @Override
   public void setUp() {
     tagger = new GalicianTagger();
     tokenizer = new WordTokenizer();

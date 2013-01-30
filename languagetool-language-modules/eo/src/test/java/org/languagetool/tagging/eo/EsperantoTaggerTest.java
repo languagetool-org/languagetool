@@ -30,6 +30,7 @@ public class EsperantoTaggerTest extends TestCase {
   private EsperantoTagger tagger;
   private WordTokenizer tokenizer;
 
+  @Override
   public void setUp() {
     tagger = new EsperantoTagger();
     tokenizer = new WordTokenizer();

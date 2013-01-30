@@ -35,6 +35,7 @@ public class SimpleReplaceRuleTest extends TestCase {
   private SimpleReplaceRule rule;
   private JLanguageTool langTool;
 
+  @Override
   protected void setUp() throws Exception {
     super.setUp();
     rule = new SimpleReplaceRule(TestTools.getMessages("pl"));

@@ -30,6 +30,7 @@ public class SlovakTaggerTest extends TestCase {
   private SlovakTagger tagger;
   private WordTokenizer tokenizer;
       
+  @Override
   public void setUp() {
     tagger = new SlovakTagger();
     tokenizer = new WordTokenizer();

@@ -39,6 +39,7 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
     return RESOURCE_FILENAME;
   }
 
+  @Override
   public String getId() {
     return "MORFOLOGIK_RULE_CA_ES";
   }

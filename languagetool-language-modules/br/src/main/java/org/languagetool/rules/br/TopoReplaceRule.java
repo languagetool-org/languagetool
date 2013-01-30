@@ -72,10 +72,12 @@ public class TopoReplaceRule extends Rule {
     wrongWords = loadWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream(getFileName()));
   }
 
+  @Override
   public final String getId() {
     return BRETON_TOPO;
   }
 
+  @Override
   public String getDescription() {
     return "anvioù-lec’h e brezhoneg";
   }
