@@ -27,20 +27,20 @@ import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 
 public final class MorfologikUkrainianSpellerRule extends MorfologikSpellerRule {
 
-    private static final String RESOURCE_FILENAME = "/uk/hunspell/uk_UA.dict";
-    
-    public MorfologikUkrainianSpellerRule(ResourceBundle messages,
-            Language language) throws IOException {
-        super(messages, language);
-    }
+  private static final String RESOURCE_FILENAME = "/uk/hunspell/uk_UA.dict";
 
-    @Override
-    public String getFileName() {
-        return RESOURCE_FILENAME;
-    }
-    
-    public String getId() {
-        return "MORFOLOGIK_RULE_UK_UA";
-    }
+  public MorfologikUkrainianSpellerRule(ResourceBundle messages,
+                                        Language language) throws IOException {
+    super(messages, language);
+  }
+
+  @Override
+  public String getFileName() {
+    return RESOURCE_FILENAME;
+  }
+
+  public String getId() {
+    return "MORFOLOGIK_RULE_UK_UA";
+  }
 
 }

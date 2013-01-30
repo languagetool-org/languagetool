@@ -27,20 +27,20 @@ import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 
 public final class MorfologikMalayalamSpellerRule extends MorfologikSpellerRule {
 
-    private static final String RESOURCE_FILENAME = "/ml/hunspell/ml_IN.dict";
-    
-    public MorfologikMalayalamSpellerRule(ResourceBundle messages,
-            Language language) throws IOException {
-        super(messages, language);
-    }
+  private static final String RESOURCE_FILENAME = "/ml/hunspell/ml_IN.dict";
 
-    @Override
-    public String getFileName() {
-        return RESOURCE_FILENAME;
-    }
-    
-    public String getId() {
-        return "MORFOLOGIK_RULE_ML_IN";
-    }
+  public MorfologikMalayalamSpellerRule(ResourceBundle messages,
+                                        Language language) throws IOException {
+    super(messages, language);
+  }
+
+  @Override
+  public String getFileName() {
+    return RESOURCE_FILENAME;
+  }
+
+  public String getId() {
+    return "MORFOLOGIK_RULE_ML_IN";
+  }
 
 }

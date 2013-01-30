@@ -30,93 +30,69 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * <p>
- * Root class for RomanianTagger tests
- * </p>
- * <p>
+ * Root class for RomanianTagger tests.
  * Provides convenient methods to find specific lemma/pos
- * </p>
- * 
  * 
  * @author Ionuț Păduraru
- * @since 20.02.2009 19:36:32
- * 
  */
 public abstract class RomanianTaggerTestAbs extends TestCase {
 
-	private RomanianTagger tagger;
-	private WordTokenizer tokenizer;
+  private RomanianTagger tagger;
+  private WordTokenizer tokenizer;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see junit.framework.TestCase#setUp()
-	 */
-	public void setUp() {
-		tagger = createTagger();
-		tokenizer = new WordTokenizer();
-	}
+  public void setUp() {
+    tagger = createTagger();
+    tokenizer = new WordTokenizer();
+  }
 
-	public void testDictionary() throws IOException {
+  public void testDictionary() throws IOException {
     TestTools.testDictionary(tagger, new Romanian());
   }
-	
-	/**
-	 * 
-	 * @author Ionuț Păduraru
-	 * @since 08.03.2009 22:09:01
-	 * @return
-	 */
-	protected RomanianTagger createTagger() {
-		// override this if you need need another dictionary (a dictionary
-		// based on another file)
-		return new RomanianTagger();
-	}
 
-	/**
-	 * Verify if <code>inflected</code> contains the specified lemma and pos
-	 * 
-	 * @author Ionuț Păduraru
-	 * @since 20.02.2009 19:17:54
-	 * @param inflected
-	 *            - input word, inflected form
-	 * @param lemma
-	 *            expected lemma
-	 * @param posTag
-	 *            expected tag for lemma
-	 * @throws IOException
-	 */
-	protected void assertHasLemmaAndPos(String inflected, String lemma,
-			String posTag) throws IOException {
-		final List<AnalyzedTokenReadings> tags = tagger.tag(Arrays.asList(inflected));
-		final StringBuilder allTags = new StringBuilder();
-		boolean found = false;
-		for (AnalyzedTokenReadings analyzedTokenReadings : tags) {
-			final int length = analyzedTokenReadings.getReadingsLength();
-			for (int i = 0; i < length; i++) {
-				final AnalyzedToken token = analyzedTokenReadings.getAnalyzedToken(i);
-				final String crtLemma = token.getLemma();
-				final String crtPOSTag = token.getPOSTag();
-				allTags.append(String.format("[%s/%s]", crtLemma, crtPOSTag));
-				found = ((null == lemma) || (lemma.equals(crtLemma)))
-						&& ((null == posTag) || (posTag.equals(crtPOSTag)));
-				if (found)
-					break;
-			} // for i
-			if (found)
-				break;
-		} // foreach tag
-		assertTrue(String.format("Lemma and POS not found for word [%s]! "
-				+ "Expected [%s/%s]. Actual: %s", inflected, lemma, posTag,
-				allTags.toString()), found);
-	}
+  protected RomanianTagger createTagger() {
+    // override this if you need need another dictionary (a dictionary
+    // based on another file)
+    return new RomanianTagger();
+  }
 
-	public RomanianTagger getTagger() {
-		return tagger;
-	}
+  /**
+   * Verify if <code>inflected</code> contains the specified lemma and pos
+   *
+   * @param inflected input word, inflected form
+   * @param lemma expected lemma
+   * @param posTag expected tag for lemma
+   */
+  protected void assertHasLemmaAndPos(String inflected, String lemma,
+                                      String posTag) throws IOException {
+    final List<AnalyzedTokenReadings> tags = tagger.tag(Arrays.asList(inflected));
+    final StringBuilder allTags = new StringBuilder();
+    boolean found = false;
+    for (AnalyzedTokenReadings analyzedTokenReadings : tags) {
+      final int length = analyzedTokenReadings.getReadingsLength();
+      for (int i = 0; i < length; i++) {
+        final AnalyzedToken token = analyzedTokenReadings.getAnalyzedToken(i);
+        final String crtLemma = token.getLemma();
+        final String crtPOSTag = token.getPOSTag();
+        allTags.append(String.format("[%s/%s]", crtLemma, crtPOSTag));
+        found = ((null == lemma) || (lemma.equals(crtLemma)))
+                && ((null == posTag) || (posTag.equals(crtPOSTag)));
+        if (found)
+          break;
+      } // for i
+      if (found)
+        break;
+    } // foreach tag
+    assertTrue(String.format("Lemma and POS not found for word [%s]! "
+            + "Expected [%s/%s]. Actual: %s", inflected, lemma, posTag,
+            allTags.toString()), found);
+  }
 
-	public WordTokenizer getTokenizer() {
-		return tokenizer;
-	}
+  public RomanianTagger getTagger() {
+    return tagger;
+  }
+
+  public WordTokenizer getTokenizer() {
+    return tokenizer;
+  }
 
 }

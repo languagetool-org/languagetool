@@ -27,20 +27,20 @@ import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 
 public final class MorfologikSlovenianSpellerRule extends MorfologikSpellerRule {
 
-    private static final String RESOURCE_FILENAME = "/sl/hunspell/sl_SI.dict";
-    
-    public MorfologikSlovenianSpellerRule(ResourceBundle messages,
-            Language language) throws IOException {
-        super(messages, language);
-    }
+  private static final String RESOURCE_FILENAME = "/sl/hunspell/sl_SI.dict";
 
-    @Override
-    public String getFileName() {
-        return RESOURCE_FILENAME;
-    }
-    
-    public String getId() {
-        return "MORFOLOGIK_RULE_SL_SI";
-    }
+  public MorfologikSlovenianSpellerRule(ResourceBundle messages,
+                                        Language language) throws IOException {
+    super(messages, language);
+  }
+
+  @Override
+  public String getFileName() {
+    return RESOURCE_FILENAME;
+  }
+
+  public String getId() {
+    return "MORFOLOGIK_RULE_SL_SI";
+  }
 
 }

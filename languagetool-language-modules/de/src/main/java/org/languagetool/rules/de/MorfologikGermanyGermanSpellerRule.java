@@ -27,20 +27,20 @@ import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 
 public final class MorfologikGermanyGermanSpellerRule extends MorfologikSpellerRule {
 
-    private static final String RESOURCE_FILENAME = "/de/hunspell/de_DE.dict";
-    
-    public MorfologikGermanyGermanSpellerRule(ResourceBundle messages,
-            Language language) throws IOException {
-        super(messages, language);
-    }
+  private static final String RESOURCE_FILENAME = "/de/hunspell/de_DE.dict";
 
-    @Override
-    public String getFileName() {
-        return RESOURCE_FILENAME;
-    }
-    
-    public final String getId() {
-        return "MORFOLOGIK_RULE_DE_DE";
-    }
+  public MorfologikGermanyGermanSpellerRule(ResourceBundle messages,
+                                            Language language) throws IOException {
+    super(messages, language);
+  }
+
+  @Override
+  public String getFileName() {
+    return RESOURCE_FILENAME;
+  }
+
+  public final String getId() {
+    return "MORFOLOGIK_RULE_DE_DE";
+  }
 
 }

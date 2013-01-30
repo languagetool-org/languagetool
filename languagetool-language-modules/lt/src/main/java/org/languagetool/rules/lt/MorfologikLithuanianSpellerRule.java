@@ -27,20 +27,20 @@ import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 
 public final class MorfologikLithuanianSpellerRule extends MorfologikSpellerRule {
 
-    private static final String RESOURCE_FILENAME = "/lt/hunspell/lt_LT.dict";
-    
-    public MorfologikLithuanianSpellerRule(ResourceBundle messages,
-            Language language) throws IOException {
-        super(messages, language);
-    }
+  private static final String RESOURCE_FILENAME = "/lt/hunspell/lt_LT.dict";
 
-    @Override
-    public String getFileName() {
-        return RESOURCE_FILENAME;
-    }
-    
-    public String getId() {
-        return "MORFOLOGIK_RULE_LT_LT";
-    }
+  public MorfologikLithuanianSpellerRule(ResourceBundle messages,
+                                         Language language) throws IOException {
+    super(messages, language);
+  }
+
+  @Override
+  public String getFileName() {
+    return RESOURCE_FILENAME;
+  }
+
+  public String getId() {
+    return "MORFOLOGIK_RULE_LT_LT";
+  }
 
 }

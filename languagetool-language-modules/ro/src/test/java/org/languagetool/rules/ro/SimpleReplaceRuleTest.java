@@ -41,115 +41,115 @@ import org.languagetool.rules.RuleMatch;
  */
 public class SimpleReplaceRuleTest extends TestCase {
 
-	private SimpleReplaceRule rule;
-	private JLanguageTool langTool;
+  private SimpleReplaceRule rule;
+  private JLanguageTool langTool;
 
-	protected void setUp() throws Exception {
-		super.setUp();
-		rule = new SimpleReplaceRule(TestTools.getMessages("ro"));
-		langTool = new JLanguageTool(new Romanian());
-	}
+  protected void setUp() throws Exception {
+    super.setUp();
+    rule = new SimpleReplaceRule(TestTools.getMessages("ro"));
+    langTool = new JLanguageTool(new Romanian());
+  }
 
-	/**
-	 * Make sure that the suggested word is not the same as the wrong word
-	 */
-	public void testInvalidSuggestion()  {
-		List<String> invalidSuggestions = new ArrayList<String>();
-		List<Map<String,String>> wrongWords = rule.getWrongWords();
-		for (Map<String, String> ruleEntry : wrongWords) {
-			for (Map.Entry<String,String> fromWord : ruleEntry.entrySet()) {
-				String toWord = fromWord.getValue();
-				if (toWord == null || fromWord.equals(toWord)) {
-					invalidSuggestions.add(toWord);
-				}
-			}
-		}
-		if (!invalidSuggestions.isEmpty()) {
-			fail("Invalid suggestions found for: " + Arrays.toString(invalidSuggestions.toArray(new String[]{})));
-		}
-	}
-	public void testRule() throws IOException {
+  /**
+   * Make sure that the suggested word is not the same as the wrong word
+   */
+  public void testInvalidSuggestion()  {
+    List<String> invalidSuggestions = new ArrayList<String>();
+    List<Map<String,String>> wrongWords = rule.getWrongWords();
+    for (Map<String, String> ruleEntry : wrongWords) {
+      for (Map.Entry<String,String> fromWord : ruleEntry.entrySet()) {
+        String toWord = fromWord.getValue();
+        if (toWord == null || fromWord.equals(toWord)) {
+          invalidSuggestions.add(toWord);
+        }
+      }
+    }
+    if (!invalidSuggestions.isEmpty()) {
+      fail("Invalid suggestions found for: " + Arrays.toString(invalidSuggestions.toArray(new String[]{})));
+    }
+  }
+  public void testRule() throws IOException {
 
-		// correct sentences:
-		assertEquals(0, rule.match(langTool.getAnalyzedSentence("Paisprezece case.")).length);
+    // correct sentences:
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Paisprezece case.")).length);
 
-		// incorrect sentences:
+    // incorrect sentences:
 
-		// at the beginning of a sentence (Romanian replace rule is case-sensitive)
-		checkSimpleReplaceRule("Patrusprezece case.", "Paisprezece");
-		// inside sentence
-		checkSimpleReplaceRule("Satul are patrusprezece case.", "paisprezece");
-		checkSimpleReplaceRule("Satul are (patrusprezece) case.", "paisprezece");
-		checkSimpleReplaceRule("Satul are «patrusprezece» case.", "paisprezece");
-		
-		checkSimpleReplaceRule("El are șasesprezece ani.", "șaisprezece");
-		checkSimpleReplaceRule("El a luptat pentru întâiele cărți.", "întâile");
-		checkSimpleReplaceRule("El are cinsprezece cărți.", "cincisprezece");
-		checkSimpleReplaceRule("El a fost patruzecioptist.", "pașoptist");
-		checkSimpleReplaceRule("M-am adresat întâiei venite.", "întâii");
-		checkSimpleReplaceRule("M-am adresat întâielor venite.", "întâilor");
-		checkSimpleReplaceRule("A ajuns al douăzecelea.", "douăzecilea");
-		checkSimpleReplaceRule("A ajuns al zecilea.", "zecelea");
-		checkSimpleReplaceRule("A primit jumate de litru de lapte.", "jumătate");
+    // at the beginning of a sentence (Romanian replace rule is case-sensitive)
+    checkSimpleReplaceRule("Patrusprezece case.", "Paisprezece");
+    // inside sentence
+    checkSimpleReplaceRule("Satul are patrusprezece case.", "paisprezece");
+    checkSimpleReplaceRule("Satul are (patrusprezece) case.", "paisprezece");
+    checkSimpleReplaceRule("Satul are «patrusprezece» case.", "paisprezece");
 
-		// multiple words / compounds
-			// space-delimited
-		checkSimpleReplaceRule("aqua forte", "acvaforte");
-		checkSimpleReplaceRule("aqua forte.", "acvaforte");
-		checkSimpleReplaceRule("A folosit «aqua forte».", "acvaforte");
-		checkSimpleReplaceRule("Aqua forte.", "Acvaforte");
-		checkSimpleReplaceRule("este aqua forte", "acvaforte");
-		checkSimpleReplaceRule("este aqua forte.", "acvaforte");
-		checkSimpleReplaceRule("este Aqua Forte.", "Acvaforte");
-		checkSimpleReplaceRule("este AquA Forte.", "Acvaforte");
-		checkSimpleReplaceRule("A primit jumate de litru de lapte și este aqua forte.", "jumătate", "acvaforte");
-		checkSimpleReplaceRule("du-te vino", "du-te-vino");
-			// dash-delimited
-		checkSimpleReplaceRule("cou-boi", "cowboy");
-		checkSimpleReplaceRule("cow-boy", "cowboy");
-		checkSimpleReplaceRule("cau-boi", "cowboy");
-		checkSimpleReplaceRule("Cau-boi", "Cowboy");
-		checkSimpleReplaceRule("cowboy"); // correct, no replacement
-		checkSimpleReplaceRule("Iată un cau-boi", "cowboy");
-		checkSimpleReplaceRule("Iată un cau-boi.", "cowboy");
-		checkSimpleReplaceRule("Iată un (cau-boi).", "cowboy");
-		checkSimpleReplaceRule("văcar=cau-boi", "cowboy");
-		
-		
-		// multiple suggestions
-		checkSimpleReplaceRule("A fost adăogită o altă regulă.", "adăugită/adăugată");
-		checkSimpleReplaceRule("A venit adinioarea.", "adineaori/adineauri");
-		
-		// words with multiple wrong forms
-		checkSimpleReplaceRule("A pus axterix.", "asterisc");
-		checkSimpleReplaceRule("A pus axterics.", "asterisc");
-		checkSimpleReplaceRule("A pus asterics.", "asterisc");
-	}
+    checkSimpleReplaceRule("El are șasesprezece ani.", "șaisprezece");
+    checkSimpleReplaceRule("El a luptat pentru întâiele cărți.", "întâile");
+    checkSimpleReplaceRule("El are cinsprezece cărți.", "cincisprezece");
+    checkSimpleReplaceRule("El a fost patruzecioptist.", "pașoptist");
+    checkSimpleReplaceRule("M-am adresat întâiei venite.", "întâii");
+    checkSimpleReplaceRule("M-am adresat întâielor venite.", "întâilor");
+    checkSimpleReplaceRule("A ajuns al douăzecelea.", "douăzecilea");
+    checkSimpleReplaceRule("A ajuns al zecilea.", "zecelea");
+    checkSimpleReplaceRule("A primit jumate de litru de lapte.", "jumătate");
 
-	/**
-	 * Check if a specific replace rule applies.
-	 * 
-	 * @param sentence
-	 *            the sentence containing the incorrect/misspeled word.
-	 * @param words
-	 *            the words that are correct (the suggested replacement). Use "/" to separate multiple forms.
-	 * @throws IOException
-	 */
-	private void checkSimpleReplaceRule(String sentence, String... words)
-			throws IOException {
-		RuleMatch[] matches;
-		matches = rule.match(langTool.getAnalyzedSentence(sentence));
-		assertEquals("Invalid matches.length while checking sentence: "
-				+ sentence, words.length, matches.length);
-		for (int i = 0; i < words.length; i++) {
-			String word = words[i];
-			String[] replacements = word.split("\\/"); 
-			assertEquals("Invalid replacement count wile checking sentence: "
-					+ sentence, replacements.length, matches[i].getSuggestedReplacements().size());
-			for (int j = 0; j < replacements.length; j++) {
-				assertEquals("Invalid suggested replacement while checking sentence: "
-					+ sentence, replacements[j], matches[i].getSuggestedReplacements().get(j));
-			}
-		}
-	}
+    // multiple words / compounds
+    // space-delimited
+    checkSimpleReplaceRule("aqua forte", "acvaforte");
+    checkSimpleReplaceRule("aqua forte.", "acvaforte");
+    checkSimpleReplaceRule("A folosit «aqua forte».", "acvaforte");
+    checkSimpleReplaceRule("Aqua forte.", "Acvaforte");
+    checkSimpleReplaceRule("este aqua forte", "acvaforte");
+    checkSimpleReplaceRule("este aqua forte.", "acvaforte");
+    checkSimpleReplaceRule("este Aqua Forte.", "Acvaforte");
+    checkSimpleReplaceRule("este AquA Forte.", "Acvaforte");
+    checkSimpleReplaceRule("A primit jumate de litru de lapte și este aqua forte.", "jumătate", "acvaforte");
+    checkSimpleReplaceRule("du-te vino", "du-te-vino");
+    // dash-delimited
+    checkSimpleReplaceRule("cou-boi", "cowboy");
+    checkSimpleReplaceRule("cow-boy", "cowboy");
+    checkSimpleReplaceRule("cau-boi", "cowboy");
+    checkSimpleReplaceRule("Cau-boi", "Cowboy");
+    checkSimpleReplaceRule("cowboy"); // correct, no replacement
+    checkSimpleReplaceRule("Iată un cau-boi", "cowboy");
+    checkSimpleReplaceRule("Iată un cau-boi.", "cowboy");
+    checkSimpleReplaceRule("Iată un (cau-boi).", "cowboy");
+    checkSimpleReplaceRule("văcar=cau-boi", "cowboy");
+
+
+    // multiple suggestions
+    checkSimpleReplaceRule("A fost adăogită o altă regulă.", "adăugită/adăugată");
+    checkSimpleReplaceRule("A venit adinioarea.", "adineaori/adineauri");
+
+    // words with multiple wrong forms
+    checkSimpleReplaceRule("A pus axterix.", "asterisc");
+    checkSimpleReplaceRule("A pus axterics.", "asterisc");
+    checkSimpleReplaceRule("A pus asterics.", "asterisc");
+  }
+
+  /**
+   * Check if a specific replace rule applies.
+   *
+   * @param sentence
+   *            the sentence containing the incorrect/misspeled word.
+   * @param words
+   *            the words that are correct (the suggested replacement). Use "/" to separate multiple forms.
+   * @throws IOException
+   */
+  private void checkSimpleReplaceRule(String sentence, String... words)
+          throws IOException {
+    RuleMatch[] matches;
+    matches = rule.match(langTool.getAnalyzedSentence(sentence));
+    assertEquals("Invalid matches.length while checking sentence: "
+            + sentence, words.length, matches.length);
+    for (int i = 0; i < words.length; i++) {
+      String word = words[i];
+      String[] replacements = word.split("\\/");
+      assertEquals("Invalid replacement count wile checking sentence: "
+              + sentence, replacements.length, matches[i].getSuggestedReplacements().size());
+      for (int j = 0; j < replacements.length; j++) {
+        assertEquals("Invalid suggested replacement while checking sentence: "
+                + sentence, replacements[j], matches[i].getSuggestedReplacements().get(j));
+      }
+    }
+  }
 }

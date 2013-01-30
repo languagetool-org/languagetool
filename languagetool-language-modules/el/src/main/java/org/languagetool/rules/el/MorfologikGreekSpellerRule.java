@@ -27,20 +27,20 @@ import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 
 public final class MorfologikGreekSpellerRule extends MorfologikSpellerRule {
 
-    private static final String RESOURCE_FILENAME = "/el/hunspell/el_GR.dict";
-    
-    public MorfologikGreekSpellerRule(ResourceBundle messages,
-            Language language) throws IOException {
-        super(messages, language);
-    }
+  private static final String RESOURCE_FILENAME = "/el/hunspell/el_GR.dict";
 
-    @Override
-    public String getFileName() {
-        return RESOURCE_FILENAME;
-    }
-    
-    public String getId() {
-        return "MORFOLOGIK_RULE_EL_GR";
-    }
+  public MorfologikGreekSpellerRule(ResourceBundle messages,
+                                    Language language) throws IOException {
+    super(messages, language);
+  }
+
+  @Override
+  public String getFileName() {
+    return RESOURCE_FILENAME;
+  }
+
+  public String getId() {
+    return "MORFOLOGIK_RULE_EL_GR";
+  }
 
 }
