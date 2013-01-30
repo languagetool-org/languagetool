@@ -21,6 +21,7 @@ package org.languagetool.tools;
 import junit.framework.TestCase;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.language.Contributor;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
@@ -47,21 +48,15 @@ public class StringToolsTest extends TestCase {
     try {
       StringTools.assureSet("", "varName");
       fail();
-    } catch (IllegalArgumentException expected) {
-      // expected exception
-    }
+    } catch (IllegalArgumentException expected) {}
     try {
       StringTools.assureSet(" \t", "varName");
       fail();
-    } catch (IllegalArgumentException expected) {
-      // expected exception
-    }
+    } catch (IllegalArgumentException expected) {}
     try {
       StringTools.assureSet(null, "varName");
       fail();
-    } catch (NullPointerException expected) {
-      // expected exception
-    }
+    } catch (NullPointerException expected) {}
     StringTools.assureSet("foo", "varName");
   }
 
@@ -99,7 +94,7 @@ public class StringToolsTest extends TestCase {
   public void testIsCapitalizedWord() {
     assertTrue(StringTools.isCapitalizedWord("Abc"));
     assertTrue(StringTools.isCapitalizedWord("Uppercase"));
-    assertTrue(StringTools.isCapitalizedWord("Ipod"));    
+    assertTrue(StringTools.isCapitalizedWord("Ipod"));
     
     assertFalse(StringTools.isCapitalizedWord(""));
     assertFalse(StringTools.isCapitalizedWord("ABC"));
@@ -262,9 +257,7 @@ public class StringToolsTest extends TestCase {
     try {
       assertEquals(null, StringTools.trimWhitespace(null));
       fail();
-    } catch (NullPointerException expected) {
-      // expected
-    }
+    } catch (NullPointerException expected) {}
     assertEquals("", StringTools.trimWhitespace(""));
     assertEquals("", StringTools.trimWhitespace(" "));
     assertEquals("XXY", StringTools.trimWhitespace(" \nXX\t Y"));
@@ -277,9 +270,13 @@ public class StringToolsTest extends TestCase {
     assertEquals("", StringTools.addSpace(",", Language.DEMO));
     assertEquals("", StringTools.addSpace(",", Language.DEMO));
     assertEquals("", StringTools.addSpace(",", Language.DEMO));
+    assertEquals("", StringTools.addSpace(".", new FakeLanguage("fr")));
+    assertEquals("", StringTools.addSpace(".", new FakeLanguage("de")));
+    assertEquals(" ", StringTools.addSpace("!", new FakeLanguage("fr")));
+    assertEquals("", StringTools.addSpace("!", new FakeLanguage("de")));
   }
   
-  public void testGetLabel() {    
+  public void testGetLabel() {
     assertEquals("This is a Label", StringTools.getLabel("This is a &Label"));
     assertEquals("Bits & Pieces", StringTools.getLabel("Bits && Pieces"));
   }
@@ -292,10 +289,8 @@ public class StringToolsTest extends TestCase {
   public void testGetMnemonic() {
     assertEquals('F', StringTools.getMnemonic("&File"));
     assertEquals('O', StringTools.getMnemonic("&OK"));
-    assertEquals('\u0000', 
-        StringTools.getMnemonic("File && String operations"));
-    assertEquals('O', 
-      StringTools.getMnemonic("File && String &Operations"));
+    assertEquals('\u0000', StringTools.getMnemonic("File && String operations"));
+    assertEquals('O', StringTools.getMnemonic("File && String &Operations"));
   }
   
   public void testIsWhitespace() {
@@ -341,6 +336,40 @@ public class StringToolsTest extends TestCase {
     @Override
     public String getLocQualityIssueType() {
       return "misspelling";
+    }
+  }
+  
+  private class FakeLanguage extends Language {
+
+    private final String code;
+
+    private FakeLanguage(String code) {
+      this.code = code;
+    }
+
+    @Override
+    public String getShortName() {
+      return code;
+    }
+
+    @Override
+    public String getName() {
+      return "Fakelanguage-" + code;
+    }
+
+    @Override
+    public String[] getCountryVariants() {
+      return new String[] {"XX"};
+    }
+
+    @Override
+    public Contributor[] getMaintainers() {
+      return null;
+    }
+
+    @Override
+    public List<Class<? extends Rule>> getRelevantRules() {
+      return null;
     }
   }
 

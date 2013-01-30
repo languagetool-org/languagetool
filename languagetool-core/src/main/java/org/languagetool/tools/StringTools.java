@@ -509,16 +509,14 @@ public final class StringTools {
    */
   public static String addSpace(final String word, final Language language) {
     String space = " ";
-    final int len = word.length();
-    if (len == 1) {
+    if (word.length() == 1) {
       final char c = word.charAt(0);
       if ("fr".equals(language.getShortName())) {
         if (c == '.' || c == ',') {
           space = "";
         }
       } else {
-        if (c == '.' || c == ',' || c == ';' || c == ':' || c == '?'
-          || c == '!') {
+        if (c == '.' || c == ',' || c == ';' || c == ':' || c == '?' || c == '!') {
           space = "";
         }
       }
