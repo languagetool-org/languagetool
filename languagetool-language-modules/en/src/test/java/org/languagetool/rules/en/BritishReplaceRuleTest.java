@@ -31,41 +31,41 @@ import org.languagetool.rules.RuleMatch;
 
 public class BritishReplaceRuleTest extends TestCase {
 
-	private BritishReplaceRule rule;
-	private JLanguageTool langTool;
+  private BritishReplaceRule rule;
+  private JLanguageTool langTool;
 
-	protected void setUp() throws Exception {
-		super.setUp();
-		rule = new BritishReplaceRule(TestTools.getMessages("en"));
-		langTool = new JLanguageTool(new BritishEnglish());
-	}
+  protected void setUp() throws Exception {
+    super.setUp();
+    rule = new BritishReplaceRule(TestTools.getMessages("en"));
+    langTool = new JLanguageTool(new BritishEnglish());
+  }
 
-	public void testRule() throws IOException {
+  public void testRule() throws IOException {
 
-		// correct sentences:
-		assertEquals(0, rule.match(langTool.getAnalyzedSentence("Buy some petrol.")).length);
+    // correct sentences:
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Buy some petrol.")).length);
 
-		// incorrect sentences:
+    // incorrect sentences:
 
-		// at the beginning of a sentence (Romanian replace rule is case-sensitive)
-		checkSimpleReplaceRule("Diapers for sale!", "Nappies");
-		// inside sentence
-		checkSimpleReplaceRule("We have some diapers for sale.", "nappies");
-	}
+    // at the beginning of a sentence (Romanian replace rule is case-sensitive)
+    checkSimpleReplaceRule("Diapers for sale!", "Nappies");
+    // inside sentence
+    checkSimpleReplaceRule("We have some diapers for sale.", "nappies");
+  }
 
-	/**
-	 * Check if a specific replace rule applies.
-	 * @param sentence the sentence containing the incorrect/misspelled word.
-	 * @param word the word that is correct (the suggested replacement).
-	 * @throws IOException
-	 */
-	private void checkSimpleReplaceRule(String sentence, String word) throws IOException {
+  /**
+   * Check if a specific replace rule applies.
+   * @param sentence the sentence containing the incorrect/misspelled word.
+   * @param word the word that is correct (the suggested replacement).
+   * @throws IOException
+   */
+  private void checkSimpleReplaceRule(String sentence, String word) throws IOException {
     final RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(sentence));
-		assertEquals("Invalid matches.length while checking sentence: "
-				+ sentence, 1, matches.length);
-		assertEquals("Invalid replacement count wile checking sentence: "
-				+ sentence, 1, matches[0].getSuggestedReplacements().size());
-		assertEquals("Invalid suggested replacement while checking sentence: "
-				+ sentence, word, matches[0].getSuggestedReplacements().get(0));
-	}
+    assertEquals("Invalid matches.length while checking sentence: "
+            + sentence, 1, matches.length);
+    assertEquals("Invalid replacement count wile checking sentence: "
+            + sentence, 1, matches[0].getSuggestedReplacements().size());
+    assertEquals("Invalid suggested replacement while checking sentence: "
+            + sentence, word, matches[0].getSuggestedReplacements().get(0));
+  }
 }

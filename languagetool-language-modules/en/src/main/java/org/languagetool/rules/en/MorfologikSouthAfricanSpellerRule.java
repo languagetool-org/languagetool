@@ -27,20 +27,20 @@ import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 
 public final class MorfologikSouthAfricanSpellerRule extends MorfologikSpellerRule {
 
-    private static final String RESOURCE_FILENAME = "/en/hunspell/en_ZA.dict";
-    
-    public MorfologikSouthAfricanSpellerRule(ResourceBundle messages,
-            Language language) throws IOException {
-        super(messages, language);
-    }
+  private static final String RESOURCE_FILENAME = "/en/hunspell/en_ZA.dict";
 
-    @Override
-    public String getFileName() {
-        return RESOURCE_FILENAME;
-    }
-    
-    public final String getId() {
-        return "MORFOLOGIK_RULE_EN_ZA";
-    }
+  public MorfologikSouthAfricanSpellerRule(ResourceBundle messages,
+                                           Language language) throws IOException {
+    super(messages, language);
+  }
+
+  @Override
+  public String getFileName() {
+    return RESOURCE_FILENAME;
+  }
+
+  public final String getId() {
+    return "MORFOLOGIK_RULE_EN_ZA";
+  }
 
 }
