@@ -267,9 +267,10 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
    * @param path Path to an item from the {@code /resource} directory.
    * @return {@code true} if the resource file exists.
    */
+  @Override
   public boolean resourceExists(String path) {
-	  final String completePath = this.getCompleteResourceUrl(path);
-	  return ResourceDataBroker.class.getResource(completePath) != null;  
+    final String completePath = this.getCompleteResourceUrl(path);
+    return ResourceDataBroker.class.getResource(completePath) != null;
   }
   
   /**
@@ -279,9 +280,10 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
    * @param path Path to an item from the {@code /rules} directory.
    * @return {@code true} if the resource file exists.
    */
+  @Override
   public boolean ruleFileExists(String path) {
-	  final String completePath = this.getCompleteRulesUrl(path);
-	  return ResourceDataBroker.class.getResource(completePath) != null;	      
+    final String completePath = this.getCompleteRulesUrl(path);
+    return ResourceDataBroker.class.getResource(completePath) != null;
   }
 
   

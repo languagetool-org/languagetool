@@ -131,6 +131,7 @@ public class HunspellRule extends SpellingCheckRule {
     return sb.toString();
   }
 
+  @Override
   protected void init() throws IOException {
     super.init();
     final String langCountry = language.getShortName()

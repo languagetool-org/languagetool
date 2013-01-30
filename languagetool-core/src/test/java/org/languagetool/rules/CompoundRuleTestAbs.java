@@ -38,6 +38,7 @@ public abstract class CompoundRuleTestAbs extends TestCase {
   // the rule that checks that compounds (if in the list) are not written as separate words. Language specific.
   protected AbstractCompoundRule rule;
 
+  @Override
   protected void setUp() throws Exception {
     super.setUp();
     // concrete classes will initialize langTool and rule variables here.

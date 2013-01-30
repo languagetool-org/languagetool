@@ -33,6 +33,7 @@ public class SameRuleGroupFilter implements RuleMatchFilter {
   /**
    * @param ruleMatches list of matches
    */
+  @Override
   public List<RuleMatch> filter(List<RuleMatch> ruleMatches) {
     Collections.sort(ruleMatches);
     final List<RuleMatch> filteredRules = new ArrayList<RuleMatch>();
@@ -46,7 +47,6 @@ public class SameRuleGroupFilter implements RuleMatchFilter {
       }
       filteredRules.add(match);
     }
-
     return filteredRules;
   }
 

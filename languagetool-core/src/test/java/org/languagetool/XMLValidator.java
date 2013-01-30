@@ -145,6 +145,7 @@ public final class XMLValidator {
  */
 class ErrorHandler extends DefaultHandler {
 
+  @Override
   public void warning (SAXParseException e) throws SAXException {
     System.err.println(e.getMessage()
         + " Problem found at line " + e.getLineNumber() 
@@ -152,6 +153,7 @@ class ErrorHandler extends DefaultHandler {
     throw e;
   }
 
+  @Override
   public void error (SAXParseException e) throws SAXException {
     System.err.println(e.getMessage()
         + " Problem found at line " + e.getLineNumber() 

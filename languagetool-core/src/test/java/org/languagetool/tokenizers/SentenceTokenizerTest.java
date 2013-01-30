@@ -32,6 +32,7 @@ public class SentenceTokenizerTest extends TestCase {
   // accept only \n\n as paragraph:
   private final SentenceTokenizer stokenizer2 = new SentenceTokenizer();
   
+  @Override
   public void setUp() {
     stokenizer.setSingleLineBreaksMarksParagraph(true);  
     stokenizer2.setSingleLineBreaksMarksParagraph(false);  
