@@ -28,53 +28,45 @@ import org.languagetool.rules.RuleMatch;
 import java.io.IOException;
 
 /**
- * 
- * Simple tests for rules/pl/SimpleReplaceRule class
- * 
  * @author Ionuț Păduraru
  */
 public class SimpleReplaceRuleTest extends TestCase {
 
-	private SimpleReplaceRule rule;
-	private JLanguageTool langTool;
+  private SimpleReplaceRule rule;
+  private JLanguageTool langTool;
 
-	protected void setUp() throws Exception {
-		super.setUp();
-		rule = new SimpleReplaceRule(TestTools.getMessages("pl"));
-		langTool = new JLanguageTool(new Polish());
-	}
+  protected void setUp() throws Exception {
+    super.setUp();
+    rule = new SimpleReplaceRule(TestTools.getMessages("pl"));
+    langTool = new JLanguageTool(new Polish());
+  }
 
-	public void testRule() throws IOException {
+  public void testRule() throws IOException {
 
-		// correct sentences:
-		assertEquals(0, rule.match(langTool.getAnalyzedSentence("Wszystko w porządku.")).length);
+    // correct sentences:
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Wszystko w porządku.")).length);
 
-		// incorrect sentences:
+    // incorrect sentences:
+    // at the beginning of a sentence (Romanian replace rule is case-sensitive)
+    checkSimpleReplaceRule("Piaty przypadek.", "Piąty");
+    // inside sentence
+    checkSimpleReplaceRule("To piaty przypadek.", "piąty");
+  }
 
-		// at the beginning of a sentence (Romanian replace rule is case-sensitive)
-		checkSimpleReplaceRule("Piaty przypadek.", "Piąty");
-		// inside sentence
-		checkSimpleReplaceRule("To piaty przypadek.", "piąty");
-	}
-
-	/**
-	 * Check if a specific replace rule applies.
-	 * 
-	 * @param sentence
-	 *            the sentence containing the incorrect/misspeled word.
-	 * @param word
-	 *            the word that is correct (the suggested replacement).
-	 * @throws IOException
-	 */
-	private void checkSimpleReplaceRule(String sentence, String word)
-			throws IOException {
-		RuleMatch[] matches;
-		matches = rule.match(langTool.getAnalyzedSentence(sentence));
-		assertEquals("Invalid matches.length while checking sentence: "
-				+ sentence, 1, matches.length);
-		assertEquals("Invalid replacement count wile checking sentence: "
-				+ sentence, 1, matches[0].getSuggestedReplacements().size());
-		assertEquals("Invalid suggested replacement while checking sentence: "
-				+ sentence, word, matches[0].getSuggestedReplacements().get(0));
-	}
+  /**
+   * Check if a specific replace rule applies.
+   *
+   * @param sentence the sentence containing the incorrect/misspelled word.
+   * @param word the word that is correct (the suggested replacement).
+   * @throws IOException
+   */
+  private void checkSimpleReplaceRule(String sentence, String word) throws IOException {
+    final RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(sentence));
+    assertEquals("Invalid matches.length while checking sentence: "
+            + sentence, 1, matches.length);
+    assertEquals("Invalid replacement count wile checking sentence: "
+            + sentence, 1, matches[0].getSuggestedReplacements().size());
+    assertEquals("Invalid suggested replacement while checking sentence: "
+            + sentence, word, matches[0].getSuggestedReplacements().get(0));
+  }
 }
