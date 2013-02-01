@@ -1560,10 +1560,11 @@ $Id$
                     <token>l</token>
                     <token>cap</token>
                 </pattern>
-                <message>Ús pronominal incorrecte. Cal dir: <suggestion><match no="2" /></suggestion>.</message>
+                <message>Ús pronominal incorrecte. Cal eliminar el pronom reflexiu.</message> 
+                <suggestion><match no="2" regexp_match="'(.+)" regexp_replace="e$1"/></suggestion>
                 <short>Ús pronominal incorrecte</short>
                 <example type="incorrect" correction="li">A Joan mai no <marker>se li</marker> ha passat pel cap fer això.</example>
-                <example type="incorrect" correction="'ns">Mai no <marker>se'ns</marker> ha passat pel cap fer això.</example>
+                <example type="incorrect" correction="ens">Mai no <marker>se'ns</marker> ha passat pel cap fer això.</example>
                 <example type="correct">No li ha passat mai pel cap.</example>
             </rule>
             <rule>
@@ -1574,9 +1575,12 @@ $Id$
                         <token inflected="yes">passar</token>
                     </marker>
                 </pattern>
-                <message>Ús pronominal incorrecte. Podeu dir: <suggestion>(descuidar-se de)</suggestion>, <suggestion><match no="2" include_skipped="all"/> <match no="3"/> per alt</suggestion>.</message>
+                <message>Ús pronominal incorrecte. Canvieu l'expressió o elimineu el pronom reflexiu. </message>
+                <suggestion>(descuidar-se de)</suggestion>
+                <suggestion><match no="2" include_skipped="all" regexp_match="'(.+)" regexp_replace="e$1"/> <match no="3"/> per alt</suggestion>
                 <short>Ús pronominal incorrecte</short>
-                <example type="incorrect">A Joan mai no <marker>se li ha passat</marker> fer això.</example>
+                <example type="incorrect" correction="(descuidar-se de)|li ha passat per alt">A Joan mai no <marker>se li ha passat</marker> fer això.</example>
+                <example type="incorrect" correction="(Descuidar-se de)|Em degué passar per alt"><marker>Se'm degué passar</marker>.</example>
                 <example type="correct">No li ha passat mai pel cap.</example>
             </rule>
         </rulegroup> 
@@ -1586,7 +1590,7 @@ $Id$
                     <token regexp="yes">el|la|l'</token>
                     <token inflected="yes" regexp="yes">telefonar|abellir|agradar|pegar|xocar|sobreviure</token>
                 </pattern>
-                <message>Aquest verb és intransitiu. Cal dir <suggestion>li <match no="2"></match></suggestion>.</message>
+                <message>Aquest verb és intransitiu. Cal dir <suggestion>li <match no="2"/></suggestion>.</message>
                 <short>Verb intransitiu.</short>
                 <example type="incorrect">No <marker>l'abelleix</marker></example>
                 <example type="correct">No <marker>li abelleix</marker></example>
@@ -1922,7 +1926,8 @@ $Id$
                 </marker>
                 <token><exception postag="V.[NG].*" postag_regexp="yes"/><exception postag="_perfet|_obligacio" postag_regexp="yes"/></token>
             </pattern>
-            <message>Cal escriure "haver-hi" en singular: <suggestion>hi <match no="2" postag="(VA..3)P(.)" postag_regexp="yes" postag_replace="$1S$2"/></suggestion></message>
+            <message>En llenguatge formal, és preferible conjugar l'impersonal "haver-hi" en singular.</message>
+            <suggestion>hi <match no="2" postag="(VA..3)P(.)" postag_regexp="yes" postag_replace="$1S$2"/></suggestion>
             <short>Expressió incorrecta</short>
             <example type="incorrect">No <marker>hi han</marker> bananes</example>
             <example type="correct">No hi ha bananes</example>
