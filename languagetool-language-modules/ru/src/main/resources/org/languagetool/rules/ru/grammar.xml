@@ -156,6 +156,24 @@ $Id$
     </category>
 
     <category name="Пунктуация">
+
+       <rule default="on" id="Prep_i" name="Пропущена запятая перед предлгом и">
+            <pattern>
+                <!--           NN:.*   VB:.*    и      NN:.*   VB:.*   -->
+                <marker>
+                    <token postag="VB:.*" postag_regexp="yes"></token>           
+                    <token postag="NN:.*" postag_regexp="yes" skip="-1"><exception scope="next">,</exception></token>
+                    <token regexp="yes">и</token>
+                    <token postag="VB:.*" postag_regexp="yes"></token>           
+                    <token postag="NN:.*" postag_regexp="yes" ></token>
+                </marker>              
+            </pattern>
+            <message>Пропущена запятая перед предлгом и: <suggestion>\1 \2, \3 \4 \5</suggestion></message>
+            <short>Пропущена запятая в сложном предложении.</short>
+            <example type="correct">Пролетели года, и настало время.</example>
+            <example type="incorrect"><marker>Пролетели года и настало время</marker>.</example>
+        </rule>        
+  
         <rule default="on" id="ABREV_DOT" name="Точка после сокращений">
             <pattern case_sensitive="yes">
                 <marker>
