@@ -6,21 +6,29 @@ if [ ! $# -eq 2 ] && [ ! $# -eq 3 ]; then
   exit -1
 fi
 
-path_old="http://languagetool.svn.sourceforge.net/viewvc/languagetool/branches/$1/src/main/resources/org/languagetool/rules"
+path_old="http://languagetool.svn.sourceforge.net/viewvc/languagetool/branches/$1/languagetool/languagetool-language-modules/en/src/main/resources/org/languagetool/rules"
 if [ $2 == "trunk" ]; then
-  path_new="http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/JLanguageTool/src/main/resources/org/languagetool/rules"
+  path_new="http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/languagetool/languagetool-language-modules/en/src/main/resources/org/languagetool/rules"
 else
-  path_new="http://languagetool.svn.sourceforge.net/viewvc/languagetool/branches/$2/src/main/resources/org/languagetool/rules"
+  path_new="http://languagetool.svn.sourceforge.net/viewvc/languagetool/branches/$2/languagetool/languagetool-language-modules/en/src/main/resources/org/languagetool/rules"
 fi
 
 # check whether the path exists; if it's not the case, we probably have to use the old paths
 response=`curl -o /dev/null --silent --head --write-out '%{http_code}\n' $path_old`
 if [ $response == "404" ]; then
-  path_old="http://languagetool.svn.sourceforge.net/viewvc/languagetool/branches/$1/src/rules"
+  path_old="http://languagetool.svn.sourceforge.net/viewvc/languagetool/branches/$1/src/main/resources/org/languagetool/rules"
+  response=`curl -o /dev/null --silent --head --write-out '%{http_code}\n' $path_old`
+  if [ $response == "404" ]; then
+    path_old="http://languagetool.svn.sourceforge.net/viewvc/languagetool/branches/$1/src/rules"
+  fi
 fi
 response=`curl -o /dev/null --silent --head --write-out '%{http_code}\n' $path_new`
 if [ $response == "404" ]; then
-  path_new="http://languagetool.svn.sourceforge.net/viewvc/languagetool/branches/$2/src/rules"
+  path_new="http://languagetool.svn.sourceforge.net/viewvc/languagetool/branches/$2/src/main/resources/org/languagetool/rules"
+  response=`curl -o /dev/null --silent --head --write-out '%{http_code}\n' $path_new`
+  if [ $response == "404" ]; then
+    path_new="http://languagetool.svn.sourceforge.net/viewvc/languagetool/branches/$2/src/rules"
+  fi
 fi
 
 javac VersionDiffGenerator.java -Xlint:deprecation
@@ -50,8 +58,11 @@ mkdir $folder
 
 # find all currently supported languages if no lang paramter is given
 if [ $# -eq 2 ]; then
-  langs=`ls -d ../../../resources/org/languagetool/rules/*/ -l | awk -F / '{print $(NF-1)}'`
-  langs=$langs" "`ls -d ../../../resources/org/languagetool/rules/*/*/ -l | awk -F / '{print $(NF-2)"/"$(NF-1)}'` # country variants
+  langs=`ls -d ../../../../../../languagetool-language-modules/*/ -l | awk -F / '{print $(NF-1)}'`
+  for l in $langs
+  do
+    langs=$langs" "`ls -d ../../../../../../languagetool-language-modules/$l/src/main/resources/org/languagetool/rules/*/*/ -l 2> /dev/null | awk -F / '{print $(NF-2)"/"$(NF-1)}'` # country variants
+  done
   langs=`echo "$langs" | tr " " "\n" | sort |tr "\n" " "` # sort
 else
   langs=$3
@@ -59,6 +70,10 @@ fi
 
 for l in $langs
 do
+  if [ $l = "all" ]; then
+    continue
+  fi
+  
   l_base=`echo $l | sed "s/\/.*//g"`
   l_variant=`echo $l | sed "s/.*\///g"`
   
@@ -66,8 +81,10 @@ do
   echo $l \($l_base / $l_variant\)
   echo ------------------$(tput sgr0)
   
-  wget $path_old/$l/grammar.xml -O old
-  wget $path_new/$l/grammar.xml -O new
+  m_path_old=`echo $path_old | sed -e "s|/en/|/$l_base/|g"`
+  m_path_new=`echo $path_new | sed -e "s|/en/|/$l_base/|g"`
+  wget $m_path_old/$l/grammar.xml -O old
+  wget $m_path_new/$l/grammar.xml -O new
   
   # remove xml comments
   gawk -v RS='<!--|-->' 'NR%2' old > old~
