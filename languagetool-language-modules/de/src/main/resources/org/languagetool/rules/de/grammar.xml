@@ -589,7 +589,7 @@ $Id$
                 <example type="correct">Der Mann <marker>starrte</marker> mich an.</example>
             </rule>
         </rulegroup>
-        <rule id="SPASSE" name="Möglicher Tippfehler: 'viel Spaße (Spaß)'">
+        <rule id="VIEL_SPASSE" name="Möglicher Tippfehler: 'viel Spaße (Spaß)'">
             <pattern>
                 <token>viel</token>
                 <marker>
@@ -3118,6 +3118,18 @@ $Id$
                 <short>Mögliche Wortverwechslung</short>
                 <example type="correct">Die Art und <marker>Weise</marker> ist entscheidend.</example>
                 <example type="incorrect" correction="Weise">Die Art und <marker>Waise</marker> ist entscheidend.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes" skip="2">Waisen?|Weißen?</token>
+                    </marker>
+                    <token>Morgenland</token>
+                </pattern>
+                <message>&verw;Meinten Sie <suggestion><match no="1" regexp_match="Wais|Weiß" regexp_replace="Weis"/></suggestion> (Gelehrter)?</message>
+                <short>Mögliche Wortverwechslung</short>
+                <example type="correct">Die <marker>Weisen</marker> aus dem Morgenland sind dargestellt.</example>
+                <example type="incorrect" correction="Weisen">Die <marker>Waisen</marker> aus dem Morgenland sind dargestellt.</example>
             </rule>
         </rulegroup>
         <rulegroup id="WAGE_VAGE" name="Mögliche Wortverwechslung: wage/vage">
