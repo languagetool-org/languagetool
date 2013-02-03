@@ -589,6 +589,17 @@ $Id$
                 <example type="correct">Der Mann <marker>starrte</marker> mich an.</example>
             </rule>
         </rulegroup>
+        <rule id="SPASSE" name="Möglicher Tippfehler: 'viel Spaße (Spaß)'">
+            <pattern>
+                <token>viel</token>
+                <marker>
+                    <token>Spaße</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion>Spaß</suggestion>?</message>
+            <example type="correct">Das Spiel macht mir viel <marker>Spaß</marker>.</example>
+            <example correction="Spaß" type="incorrect">Das Spiel macht mir viel <marker>Spaße</marker>.</example>
+        </rule>
         <rulegroup id="GEGEN_GEGEBEN" name="Möglicher Tippfehler: 'gegen (gegeben)'">
             <rule>
                 <pattern>
@@ -8451,7 +8462,7 @@ $Id$
             <example type="incorrect">Wegen des starken <marker>Zahnwehs</marker>...</example>
         </rule>
 
-        <rule id="TAUCHERBRILLE" name="'Taucherbrille (Schwimmbrille, Tauchermaske)'">
+        <rule id="TAUCHERBRILLE" name="Umgangssprache: 'Taucherbrille (Schwimmbrille, Tauchermaske)'">
             <pattern>
                 <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes">Lok.*|Baureihe|Spitzname.*|478|754</exception></token>
                     <marker>
@@ -8465,7 +8476,7 @@ $Id$
             <example type="incorrect" correction="Tauchermasken|Schwimmbrillen">Wir schwimmen nur mit <marker>Taucherbrillen</marker>.</example>
             <example type="correct">Die ČSD-Baureihe T 478.4 hat den Spitznamen <marker>Taucherbrille</marker>.</example>
         </rule>
-        <rulegroup id="GOTTESTEILCHEN" name="'Gottesteilchen (Higgs-Boson)'">
+        <rulegroup id="GOTTESTEILCHEN" name="Umgangssprache: 'Gottesteilchen (Higgs-Boson)'">
             <rule>
                 <pattern>
                     <token regexp="yes">Gottes\-?teilchen</token>
@@ -9672,7 +9683,7 @@ $Id$
             </pattern>
             <message>Nach der Grußformel <suggestion>Mit freundlichen Grüßen</suggestion> steht laut Empfehlung des Duden kein Satzzeichen.</message>
             <url>http://de.wikipedia.org/wiki/Gru%C3%9Fformel_(Korrespondenz)#Allgemeine_Gru.C3.9Fformeln</url>
-			<short>Nach der Schlussformel sollte kein Satzzeichen stehen.</short>
+            <short>Nach der Schlussformel sollte kein Satzzeichen stehen.</short>
             <example type="correct"><marker>Mit freundlichen Grüßen</marker></example>
             <example correction="Mit freundlichen Grüßen" type="incorrect"><marker>Mit freundlichen Grüßen,</marker></example>
         </rule>
