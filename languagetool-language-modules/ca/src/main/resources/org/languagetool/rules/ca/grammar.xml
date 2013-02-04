@@ -316,9 +316,10 @@ $Id$
                     <token postag="A..F[SP].*|V.P..[SP]F|PX.F[SP].*|A..MP.*|V.P..PM|PX.MP.*" postag_regexp="yes"><exception postag="A..[MC][SN0].*|V.P..SM|PX.[MC][SN0].*" postag_regexp="yes"></exception></token>
                 </marker>
             </pattern>
-            <message>Error de concordança. Podria ser: <suggestion><match no="2" postag="A..[MC][SN0].*" postag_regexp="yes" /></suggestion></message>
+            <message>Error de concordança.</message>
+            <suggestion><match no="2" postag="A..[MC][SN0].*" postag_regexp="yes" /></suggestion>
             <short>Error de concordança.</short>
-            <example type="incorrect">Això <marker>vermells</marker>.</example>
+            <example type="incorrect" correction="vermell">Això <marker>vermells</marker>.</example>
             <example type="correct">Això vermell.</example>
         </rule>
         <rulegroup id="CONCORDANCES_DET_POS_NOM" name="concordances determinant + possessiu + nom">
@@ -332,12 +333,11 @@ $Id$
                         <token postag="N.M.*" postag_regexp="yes"></token>
                     </unify>
                 </pattern>
-                <message>Error de concordança. Podria ser:
-                    <suggestion>el <match no="2" postag="PX.MS.*" postag_regexp="yes" /> <match no="3" postag="N.[MC][SN].*" postag_regexp="yes" /></suggestion>,
-                    <suggestion>els <match no="2" postag="PX.[MC]P.*" postag_regexp="yes" /> <match no="3" postag="N.[MC][PN].*" postag_regexp="yes" /></suggestion>,
-                </message>
+                <message>Error de concordança.</message>
+                    <suggestion>el <match no="2" postag="PX.MS.*" postag_regexp="yes" /> <match no="3" postag="N.[MC][SN].*" postag_regexp="yes" /></suggestion>
+                    <suggestion>els <match no="2" postag="PX.[MC]P.*" postag_regexp="yes" /> <match no="3" postag="N.[MC][PN].*" postag_regexp="yes" /></suggestion>
                 <short>Error de concordança.</short>
-                <example type="incorrect"><marker>Els teves llibres</marker>.</example>
+                <example type="incorrect" correction="El teu llibre|Els teus llibres"><marker>Els teves llibres</marker>.</example>
                 <example type="correct">els teus llibres.</example>
             </rule>
             <rule>
@@ -395,9 +395,10 @@ $Id$
                         <token postag="A.*|V.P.*" postag_regexp="yes"><exception postag="_GN_.*|_GV_" postag_regexp="yes" /></token>
                     </unify>
                 </pattern>
-                <message>Error de concordança. Podria ser: <suggestion><match no="3" postag="DTa" /></suggestion>.</message>
+                <message>Error de concordança.</message>
+                <suggestion><match no="3" postag="DTa" /></suggestion>
                 <short>Error de concordança.</short>
-                <example type="incorrect"><marker>als únic</marker></example>
+                <example type="incorrect" correction="a l'únic|a l'única|a les úniques|als únics"><marker>als únic</marker></example>
                 <example type="correct">als únics</example>
             </rule>
             <rule>
@@ -410,9 +411,10 @@ $Id$
                         <token postag="A.*|V.P.*" postag_regexp="yes"><exception postag="_GN_.*|_GV_" postag_regexp="yes" /></token>
                     </unify>
                 </pattern>
-                <message>Error de concordança. Podria ser: <suggestion><match no="3" postag="DTde" /></suggestion>.</message>
+                <message>Error de concordança.</message>
+                <suggestion><match no="3" postag="DTde" /></suggestion>
                 <short>Error de concordança.</short>
-                <example type="incorrect"><marker>dels únic</marker></example>
+                <example type="incorrect" correction="de l'únic|de l'única|de les úniques|dels únics"><marker>dels únic</marker></example>
                 <example type="correct">dels únics</example>
                 <example type="correct">a la Sala dels Nou del Palazzo</example>
             </rule>
@@ -426,9 +428,10 @@ $Id$
                         <token postag="A.*|V.P.*" postag_regexp="yes"><exception postag="_GN_.*|_GV_" postag_regexp="yes" /></token>
                     </unify>
                 </pattern>
-                <message>Error de concordança. Podria ser: <suggestion><match no="3" postag="DTper" /></suggestion>.</message>
+                <message>Error de concordança.</message>
+                <suggestion><match no="3" postag="DTper" /></suggestion>
                 <short>Error de concordança.</short>
-                <example type="incorrect"><marker>pels úniques</marker></example>
+                <example type="incorrect" correction="pels únics|per l'únic|per l'única|per les úniques"><marker>pels úniques</marker></example>
                 <example type="correct">per les úniques</example>
             </rule>
             <rule>
@@ -442,7 +445,7 @@ $Id$
                 </pattern>
                 <message>Error de concordança. Podria ser: <suggestion><match no="2" postag="DT" /></suggestion>.</message>
                 <short>Error de concordança.</short>
-                <example type="incorrect">Porta <marker>el roges</marker>.</example>
+                <example type="incorrect" correction="el roig|els roigs|els rojos|la roja|les roges">Porta <marker>el roges</marker>.</example>
                 <example type="correct">Porta els rojos.</example>
                 <example type="correct">amb la nou del coll</example>
             </rule>
@@ -455,13 +458,13 @@ $Id$
                         <token postag="A.*|V.P.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes" /></token>
                     </unify>
                 </pattern>
-                <message>Error de concordança. Podria ser:
-                    <suggestion><match no="1" postag="D..MS.*" postag_regexp="yes" /> <match no="2" postag="A..[MC][SN].*|V.P..SM" postag_regexp="yes" /></suggestion>,
-                    <suggestion><match no="1" postag="D..FS.*" postag_regexp="yes" /> <match no="2" postag="A..[FC][SN].*|V.P..SF" postag_regexp="yes" /></suggestion>,
-                    <suggestion><match no="1" postag="D..MP.*" postag_regexp="yes" /> <match no="2" postag="A..[MC][PN].*|V.P..PM" postag_regexp="yes" /></suggestion>,
-                    <suggestion><match no="1" postag="D..FP.*" postag_regexp="yes" /> <match no="2" postag="A..[FC][PN].*|V.P..PF" postag_regexp="yes" /></suggestion>.</message>
+                <message>Error de concordança.</message>
+                    <suggestion><match no="1" postag="D..MS.*" postag_regexp="yes" /> <match no="2" postag="A..[MC][SN].*|V.P..SM" postag_regexp="yes" /></suggestion>
+                    <suggestion><match no="1" postag="D..FS.*" postag_regexp="yes" /> <match no="2" postag="A..[FC][SN].*|V.P..SF" postag_regexp="yes" /></suggestion>
+                    <suggestion><match no="1" postag="D..MP.*" postag_regexp="yes" /> <match no="2" postag="A..[MC][PN].*|V.P..PM" postag_regexp="yes" /></suggestion>
+                    <suggestion><match no="1" postag="D..FP.*" postag_regexp="yes" /> <match no="2" postag="A..[FC][PN].*|V.P..PF" postag_regexp="yes" /></suggestion>
                 <short>Error de concordança.</short>
-                <example type="incorrect">Porta'n d'<marker>aquell vermelles</marker>.</example>
+                <example type="incorrect" correction="aquell vermell|aquella vermella|aquells vermells|aquelles vermelles">Porta'n d'<marker>aquell vermelles</marker>.</example>
                 <example type="correct">Porta'n d'aquells vermells.</example>
                 <example type="correct">una vers el nord</example>
             </rule>
@@ -477,9 +480,10 @@ $Id$
                         <token postag="N.*" postag_regexp="yes"><exception postag="N.CN.*|_GN_.*|_GV_" postag_regexp="yes" /><exception postag="V.*" postag_regexp="yes" /></token>
                     </unify>
                 </pattern>
-                <message>Error de concordança. Podria ser: <suggestion><match no="3" postag="DTa" /></suggestion>.</message>
+                <message>Error de concordança.</message>
+                <suggestion><match no="3" postag="DTa" /></suggestion>
                 <short>Error de concordança.</short>
-                <example type="incorrect"><marker>al camions</marker>.</example>
+                <example type="incorrect" correction="al camió|als camions"><marker>al camions</marker>.</example>
                 <example type="correct">als camions</example>
                 <example type="correct">a can Garcia</example>
             </rule>
@@ -493,10 +497,10 @@ $Id$
                         <token postag="N.*" postag_regexp="yes"><exception postag="N.CN.*|_GN_.*|_GV_" postag_regexp="yes" /><exception postag="V.*" postag_regexp="yes" /></token>
                     </unify>
                 </pattern>
-                <message>Error de concordança. Podria ser: <suggestion><match no="3" postag="DTde" /></suggestion>.</message>
+                <message>Error de concordança.</message>
+                <suggestion><match no="3" postag="DTde" /></suggestion>
                 <short>Error de concordança.</short>
-                <example type="incorrect"><marker>del camions</marker>
-                </example>
+                <example type="incorrect" correction="del camió|dels camions"><marker>del camions</marker></example>
                 <example type="correct">dels camions</example>
             </rule>
             <rule>
@@ -509,10 +513,10 @@ $Id$
                         <token postag="N.*" postag_regexp="yes"><exception postag="N.CN.*|_GN_.*|_GV_" postag_regexp="yes" /><exception postag="V.*" postag_regexp="yes" /></token>
                     </unify>
                 </pattern>
-                <message>Error de concordança. Podria ser: <suggestion><match no="3" postag="DTper" /></suggestion>.</message>
+                <message>Error de concordança.</message>
+                <suggestion><match no="3" postag="DTper" /></suggestion>
                 <short>Error de concordança.</short>
-                <example type="incorrect"><marker>pel camions</marker>
-                </example>
+                <example type="incorrect" correction="pel camió|pels camions"><marker>pel camions</marker></example>
                 <example type="correct">pels camions</example>
             </rule>
             <rule>
@@ -524,10 +528,11 @@ $Id$
                         <token postag="N.*" postag_regexp="yes"><exception postag="N.CN.*|_GN_.*|_GV_" postag_regexp="yes" /><exception postag="V.*" postag_regexp="yes" /></token>
                     </unify>
                 </pattern>
-                <message>Error de concordança. Podria ser: <suggestion><match no="2" postag="DT" /></suggestion>.</message>
+                <message>Error de concordança.</message>
+                <suggestion><match no="2" postag="DT" /></suggestion>
                 <short>Error de concordança.</short>
-                <example type="incorrect">Porta <marker>el camions</marker>.</example>
-                <example type="incorrect"><marker>Els pis</marker> del meu amic.</example>
+                <example type="incorrect" correction="el camió|els camions">Porta <marker>el camions</marker>.</example>
+                <example type="incorrect" correction="El pi|El pis|Els pins|Els pisos|La pi|Les pis"><marker>Els pis</marker> del meu amic.</example>
                 <example type="correct">Els pisos.</example>
                 <example type="correct">Els pins.</example>
                 <example type="correct">Porta els camions.</example>
@@ -550,15 +555,17 @@ $Id$
                         </unify>
                     </marker>
                 </pattern>
-                <message>Error de concordança. Podria ser: <suggestion><match no="2" postag="D..[MC][SN].*" postag_regexp="yes" /> <match no="3" postag="N.[MC][SN].*" postag_regexp="yes" /></suggestion>, <suggestion><match no="2" postag="D..[MC][PN].*" postag_regexp="yes" /> <match no="3" postag="N.[MC][PN].*" postag_regexp="yes" /></suggestion>.</message>
+                <message>Error de concordança.</message>
+                <suggestion><match no="2" postag="D..[MC][SN].*" postag_regexp="yes" /> <match no="3" postag="N.[MC][SN].*" postag_regexp="yes" /></suggestion>
+                <suggestion><match no="2" postag="D..[MC][PN].*" postag_regexp="yes" /> <match no="3" postag="N.[MC][PN].*" postag_regexp="yes" /></suggestion>
                 <short>Error de concordança.</short>
-                <example type="incorrect">Porta <marker>aquell camions</marker>.</example>
-                <example type="incorrect"><marker>Aquells pis</marker>.</example>
+                <example type="incorrect" correction="aquell camió|aquells camions">Porta <marker>aquell camions</marker>.</example>
+                <example type="incorrect" correction="tant home|tants homes|tants hòmens">Per què hi ha <marker>tant homes</marker>?</example>
+                <!-- <example type="incorrect" correction="Aquell pi|Aquell pis|Aquells pins|Aquells pisos"><marker>Aquells pis</marker>.</example> -->
                 <example type="correct">Aquests pisos.</example>
                 <example type="correct">Aqueixos pins.</example>
                 <example type="correct">Porta eixos camions.</example>
                 <example type="correct">cent un anys.</example>
-                <example type="incorrect">Per què hi ha <marker>tant homes</marker>?</example>
                 <example type="correct">tant homes com dones</example>
                 <example type="correct">de passar tanta set</example>
                 <example type="correct">tant planetes com cometes</example>
@@ -576,10 +583,12 @@ $Id$
                         </unify>
                     </marker>
                 </pattern>
-                <message>Error de concordança. Podria ser: <suggestion><match no="2" postag="D..[FC][SN].*" postag_regexp="yes" /> <match no="3" postag="N.[FC][SN].*" postag_regexp="yes" /></suggestion>, <suggestion><match no="2" postag="D..[FC][PN].*" postag_regexp="yes" /> <match no="3" postag="N.[FC][PN].*" postag_regexp="yes" /></suggestion>.</message>
+                <message>Error de concordança.</message>
+                <suggestion><match no="2" postag="D..[FC][SN].*" postag_regexp="yes" /> <match no="3" postag="N.[FC][SN].*" postag_regexp="yes" /></suggestion>
+                <suggestion><match no="2" postag="D..[FC][PN].*" postag_regexp="yes" /> <match no="3" postag="N.[FC][PN].*" postag_regexp="yes" /></suggestion>
                 <short>Error de concordança.</short>
-                <example type="incorrect"><marker>aquell metgesses</marker></example>
-                <example type="incorrect"><marker>Aquells metgessa</marker>.</example>
+                <example type="incorrect" correction="aquella metgessa|aquelles metgesses"><marker>aquell metgesses</marker></example>
+                <example type="incorrect" correction="Aquella metgessa|Aquelles metgesses"><marker>Aquells metgessa</marker>.</example>
                 <example type="correct">Aquestes metgesses.</example>
                 <example type="correct">Aqueixa metgessa.</example>
                 <example type="correct">Eixes metgesses.</example>
@@ -603,16 +612,15 @@ $Id$
                         <token postag="N.M.*" postag_regexp="yes"><exception postag="N.CN.*|A.*|V.[PIS].*|ignore_concordance|.*LOC_ADV.*" postag_regexp="yes" /></token>
                     </unify>
                 </pattern>
-                <message>Error de concordança.</message><!--  Podria ser:
-                    <suggestion><match no="1" postag="(PX|A.).[MC][SN].*" postag_regexp="yes" /> <match no="2" postag="N.[MC][SN].*" postag_regexp="yes" /></suggestion>,
-                    <suggestion><match no="1" postag="(PX|A.).[MC][PN].*" postag_regexp="yes" /> <match no="2" postag="N.[MC][PN].*" postag_regexp="yes" /></suggestion>,
-                 -->
+                <message>Error de concordança.</message>
+                <suggestion><match no="1" postag="(PX|A.).[MC][SN].*" postag_regexp="yes" /> <match no="2" postag="N.[MC][SN].*" postag_regexp="yes" /></suggestion>
+                <suggestion><match no="1" postag="(PX|A.).[MC][PN].*" postag_regexp="yes" /> <match no="2" postag="N.[MC][PN].*" postag_regexp="yes" /></suggestion>
                 <short>Error de concordança.</short>
-                <example type="incorrect"><marker>Magnífiques ganivets</marker>.</example>
-                <example type="incorrect">d'<marker>altre ocells</marker> petits</example> 
+                <example type="incorrect" correction="Magnífic ganivet|Magnífics ganivets"><marker>Magnífiques ganivets</marker>.</example>
+                <example type="incorrect" correction="Magnífic ganivet|Magnífics ganivets"><marker>Magnífic ganivets</marker>.</example>
+                <example type="incorrect" correction="Magnífic ganivet|Magnífics ganivets"><marker>Magnífiques ganivet</marker>.</example>
+                <example type="incorrect" correction="altre ocell|altres ocells">d'<marker>altre ocells</marker> petits</example> 
                 <example type="correct">Magnífics ganivets.</example>
-                <example type="incorrect"><marker>Magnífic ganivets</marker>.</example>
-                <example type="incorrect"><marker>Magnífiques ganivet</marker>.</example>
                 <example type="correct">Aquesta situació ha sigut acumulativa any rere any,</example>
                 <example type="correct">Durant el període medieval gremis d'artesans</example>
                 <example type="correct">Les altres deu ho sentiren.</example>
@@ -628,17 +636,17 @@ $Id$
                         <token postag="N.F.*" postag_regexp="yes"><exception postag="N.CN.*|A.*|V.[PIS].*|ignore_concordance|.*LOC_ADV.*" postag_regexp="yes" /><exception>ca</exception></token>
                     </unify>
                 </pattern>
-                <message>Error de concordança.</message> <!-- Podria ser:
-                    <suggestion><match no="1" postag="(PX|A.).[FC][SN].*" postag_regexp="yes" /> <match no="2" postag="N.[FC][SN].*" postag_regexp="yes" /></suggestion>,
-                    <suggestion><match no="1" postag="(PX|A.).[FC][PN].*" postag_regexp="yes" /> <match no="2" postag="N.[FC][PN].*" postag_regexp="yes" /></suggestion>. -->
+                <message>Error de concordança.</message>
+                <suggestion><match no="1" postag="(PX|A.).[FC][SN].*" postag_regexp="yes" /> <match no="2" postag="N.[FC][SN].*" postag_regexp="yes" /></suggestion>
+                <suggestion><match no="1" postag="(PX|A.).[FC][PN].*" postag_regexp="yes" /> <match no="2" postag="N.[FC][PN].*" postag_regexp="yes" /></suggestion>
                 <short>Error de concordança.</short>
-                <example type="incorrect">amb <marker>magnífics culleres</marker>.</example>
-                <example type="incorrect"><marker>Magnífiques cullera</marker>.</example>
-                <example type="incorrect"><marker>Magnífics cullera</marker>.</example>
-                <example type="incorrect">Els <marker>primers arades</marker>.</example>
-                <example type="incorrect">Amb els <marker>primers arades</marker>.</example>
+                <example type="incorrect" correction="magnífica cullera|magnífiques culleres">amb <marker>magnífics culleres</marker>.</example>
+                <example type="incorrect" correction="magnífica cullera|magnífiques culleres"><marker>magnífiques cullera</marker>.</example>
+                <example type="incorrect" correction="magnífica cullera|magnífiques culleres"><marker>magnífics cullera</marker>.</example>
+                <!-- <example type="incorrect" correction="primera arada|primeres arades">Els <marker>primers arades</marker>.</example>
+                <example type="incorrect" correction="primera arada|primeres arades">Amb els <marker>primers arades</marker>.</example> -->
+                <example type="incorrect" correction="última ullada|últimes ullades">Dóna-hi l'<marker>últim ullada</marker>.</example>
                 <example type="correct">apareixen amb els homes prehistòrics arades noves</example>
-                <example type="incorrect">Dóna-hi l'<marker>últim ullada</marker>.</example>
                 <example type="correct">Els adobs químics Can Gros.</example>
                 <example type="correct">Tens raó.</example>
                 <example type="correct">Els altres deu ho sentiren.</example>
@@ -661,7 +669,9 @@ $Id$
                         </marker>
                     </unify>
                 </pattern>
-                <message>Error de concordança. Podria ser: <suggestion><match no="1" postag="V.P.*SM" postag_regexp="yes" /> <match no="2" postag="N.[MC][SN].*" postag_regexp="yes" /></suggestion>, <suggestion><match no="1" postag="V.P.*PM" postag_regexp="yes" /> <match no="2" postag="N.[MC][PN].*" postag_regexp="yes" /></suggestion>.</message>
+                <message>Error de concordança.</message>
+                <suggestion><match no="1" postag="V.P.*SM" postag_regexp="yes" /> <match no="2" postag="N.[MC][SN].*" postag_regexp="yes" /></suggestion>
+                <suggestion><match no="1" postag="V.P.*PM" postag_regexp="yes" /> <match no="2" postag="N.[MC][PN].*" postag_regexp="yes" /></suggestion>
                 <short>Error de concordança.</short>
                 <!-- <example type="incorrect">Amb <marker>esmolades ganivets</marker>.</example> -->
                 <example type="incorrect" correction="deformat ganivet|deformats ganivets">Amb <marker>deformats ganivet</marker>.</example>
@@ -686,7 +696,9 @@ $Id$
                         </marker>
                     </unify>
                 </pattern>
-                <message>Error de concordança. Podria ser: <suggestion><match no="1" postag="V.P.*SF" postag_regexp="yes" /> <match no="2" postag="N.[FC][SN].*" postag_regexp="yes" /></suggestion>, <suggestion><match no="1" postag="V.P.*PF" postag_regexp="yes" /> <match no="2" postag="N.[FC][PN].*" postag_regexp="yes" /></suggestion>.</message>
+                <message>Error de concordança.</message>
+                <suggestion><match no="1" postag="V.P.*SF" postag_regexp="yes" /> <match no="2" postag="N.[FC][SN].*" postag_regexp="yes" /></suggestion> 
+                <suggestion><match no="1" postag="V.P.*PF" postag_regexp="yes" /> <match no="2" postag="N.[FC][PN].*" postag_regexp="yes" /></suggestion>
                 <short>Error de concordança.</short>
                 <example type="incorrect" correction="comptada excepció|comptades excepcions">En <marker>comptats excepcions</marker>.</example>
                 <example type="incorrect" correction="comptada excepció|comptades excepcions">En <marker>comptat excepcions</marker>.</example>
