@@ -14335,12 +14335,28 @@ $Id$
         <rulegroup id="PROPER" name="proper/que ve/vinent">
             <rule>
                 <pattern>
-                    <token inflected="yes" skip="1">proper</token>
+                    <token inflected="yes">proper</token>
                     <token regexp="yes" inflected="yes">legislatura|minut|hora|dia|setmana|mes|trimestre|quadrimestre|semestre|any|lustre|dècada|segel|mil·lenni|instant|moment|dilluns|dimarts|dimecres|dijous|divendres|dissabte|diumenge</token>
                 </pattern>
-                <message>Val més dir: <suggestion><match no="1" include_skipped="following"/> <match no="2"/> <match no="1" postag="AQ0.(.)." postag_regexp="yes" postag_replace="AQ0C$10">vinent</match></suggestion>, <suggestion><match no="1" include_skipped="following"/> <match no="2"/> que <match no="1" postag="AQ0.(.)." postag_regexp="yes" postag_replace="VMIP3$10">venir</match></suggestion>, <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">pròxim</match> <match no="1" include_skipped="following"/> <match no="2"/></suggestion></message>
+                <message>En aquest cas val més evitar l'adjectiu "<match no="1"/>".</message> 
+                <suggestion><match no="2"/> <match no="1" postag="AQ0.(.)." postag_regexp="yes" postag_replace="AQ0C$10">vinent</match></suggestion>
+                <suggestion><match no="2"/> que <match no="1" postag="AQ0.(.)." postag_regexp="yes" postag_replace="VMIP3$10">venir</match></suggestion>
+                <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">pròxim</match> <match no="2"/></suggestion>
                 <short>Expressió preferible</short>
-                <!-- <example type="incorrect" correction="any vinent|any que ve|pròxim any">Aquest <marker>proper any</marker></example> -->
+                <example type="incorrect" correction="any vinent|any que ve|pròxim any">Aquest <marker>proper any</marker></example>
+                <example type="correct">L'any que ve</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">proper</token>
+                    <token/>
+                    <token regexp="yes" inflected="yes">legislatura|minut|hora|dia|setmana|mes|trimestre|quadrimestre|semestre|any|lustre|dècada|segel|mil·lenni|instant|moment|dilluns|dimarts|dimecres|dijous|divendres|dissabte|diumenge</token>
+                </pattern>
+                <message>En aquest cas val més evitar l'adjectiu "<match no="1"/>".</message> 
+                <suggestion><match no="2"/> <match no="3"/> <match no="1" postag="AQ0.(.)." postag_regexp="yes" postag_replace="AQ0C$10">vinent</match></suggestion>
+                <suggestion><match no="2"/> <match no="3"/> que <match no="1" postag="AQ0.(.)." postag_regexp="yes" postag_replace="VMIP3$10">venir</match></suggestion>
+                <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">pròxim</match> <match no="2"/> <match no="3"/></suggestion>
+                <short>Expressió preferible</short>
                 <example type="incorrect" correction="10 anys vinents|10 anys que vénen|pròxims 10 anys"> Els <marker>propers 10 anys</marker></example>
                 <example type="correct">L'any que ve</example>
             </rule>
@@ -14349,9 +14365,26 @@ $Id$
                     <token>proper</token>
                     <token regexp="yes">\d+</token>
                 </pattern>
-                <message>'Proper' és inadequat o redundant en expressions de temps. Val més dir: <suggestion><match no="2"/></suggestion>, <suggestion>pròxim <match no="2"/></suggestion>, <suggestion>propvinent <match no="2"/></suggestion></message>
+                <message>'Proper' és inadequat o redundant en expressions de temps.</message>
+                <suggestion><match no="2"/></suggestion>
+                <suggestion>pròxim <match no="2"/></suggestion>
+                <suggestion>propvinent <match no="2"/></suggestion>
                 <short>Expressió preferible</short>
                 <example type="incorrect" correction="4|pròxim 4|propvinent 4">El <marker>proper 4</marker> de febrer</example>
+                <example type="correct">El considera proper</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>proper</token>
+                    <token>dia</token>
+                    <token regexp="yes">\d+</token>
+                </pattern>
+                <message>'Proper' és inadequat o redundant en expressions de temps.</message>
+                <suggestion>dia <match no="3"/></suggestion>
+                <suggestion>pròxim dia <match no="3"/></suggestion>
+                <suggestion>propvinent dia <match no="3"/></suggestion>
+                <short>Expressió preferible</short>
+                <example type="incorrect" correction="dia 4|pròxim dia 4|propvinent dia 4">El <marker>proper dia 4</marker> de febrer</example>
                 <example type="correct">El considera proper</example>
             </rule>
         </rulegroup>
