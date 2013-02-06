@@ -1741,9 +1741,11 @@ $Id$
                     </marker>
                     <token postag="V.N.*" postag_regexp="yes"></token>
                 </pattern>
-                <message>Incorrecte quan vol dir <suggestion>es <match no="1" postag="(VMI.+)" postag_regexp="yes" postag_replace="$1">poder</match></suggestion>, <suggestion>hom <match no="1" postag="(VMI.+)" postag_regexp="yes" postag_replace="$1">poder</match></suggestion>.</message>
-                <short>Incorrecte.</short>
-                <example type="incorrect"><marker>Cabria</marker> imaginar.</example>
+                <message>Expressió incorrecta.</message> 
+                <suggestion>es <match no="1" postag="(VM.+)" postag_regexp="yes" postag_replace="$1">poder</match></suggestion>
+                <suggestion>hom <match no="1" postag="(VM.+)" postag_regexp="yes" postag_replace="$1">poder</match></suggestion>
+                <suggestion><match no="1" postag="VM(.+)" postag_regexp="yes" postag_replace="VS$1">ser</match> possible</suggestion>
+                <example type="incorrect" correction="Es podria|Hom podria|Fóra possible|Seria possible"><marker>Cabria</marker> imaginar.</example>
                 <example type="correct">Es podria imaginar.</example>
             </rule>
             <rule>
@@ -1753,9 +1755,12 @@ $Id$
                     </marker>
                     <token postag="V.N.*" postag_regexp="yes"></token>
                 </pattern>
-                <message>Incorrecte quan vol dir <suggestion>es <match no="1" postag="(VMI.+)" postag_regexp="yes" postag_replace="$1">poder</match></suggestion>, <suggestion>hom <match no="1" postag="(VMI.+)" postag_regexp="yes" postag_replace="$1">poder</match></suggestion>.</message>
+                <message>Expressió incorrecta.</message>
+                <suggestion>es pot</suggestion>
+                <suggestion>hom pot</suggestion>
+                <suggestion>és possible</suggestion>
                 <short>Incorrecte.</short>
-                <example type="incorrect">Només <marker>cap</marker> esperar que no passi.</example>
+                <example type="incorrect" correction="es pot|hom pot|és possible">Només <marker>cap</marker> esperar que no passi.</example>
                 <example type="correct">Només es pot esperar que no passi.</example>
                 <example type="correct">No tindries cap poder sobre mi</example>
             </rule>
@@ -2480,7 +2485,7 @@ $Id$
             <rule>
                 <pattern case_sensitive="yes">
                     <marker>
-                        <token postag="UNKNOWN" regexp="yes" spacebefore="yes">[MCDXLVI]+</token>
+                        <token regexp="yes" spacebefore="yes">[MCDXLVI]+<exception regexp="yes">(?=.)M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})</exception></token>
                     </marker>
                 </pattern>
                 <message>Nombre romà incorrecte.</message>
@@ -2491,7 +2496,7 @@ $Id$
             <rule>
                 <pattern case_sensitive="yes">
                     <marker>
-                        <token postag="UNKNOWN" regexp="yes" spacebefore="yes">[mcdxlvi]+</token>
+                        <token regexp="yes" spacebefore="yes">[mcdxlvi]+<exception regexp="yes">(?=.)m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|iv|v?i{0,3})</exception></token>
                     </marker>
                 </pattern>
                 <message>Nombre romà incorrecte.</message>
@@ -3304,7 +3309,7 @@ $Id$
             </rule>
             <rule> <!--  caldria posar-hi ordinals en general: primer, segon, últim en/a fer -->
                 <pattern>
-                    <token inflected="yes" regexp="yes" skip="3">primer|encaparrar|obcec.+|estar|raure|afany|afanyar|basar|centrar|complaença|complaure|confiar|consisitir|consistir|convertir|creença|creure|delit|delitar|entestar|entossudir|entretenir|equivocació|equivocar|esforçar|especialitzar|especialista|excel·lir|exercitar|incórrer|influir|influència|insistir|insistència|interessar|interès|invertir|obsessi.+|obstinar|part|participació|participant|participar|pensar|tardança|tardar|tossud.*|treballar|trigança|trigar|vacil·lació|vacil·lar<exception scope="next" postag="V.P.*|C.*|AQ.*" postag_regexp="yes"/></token>
+                    <token inflected="yes" regexp="yes" skip="3">primer|encaparrar|obcec.+|estar|raure|afany|afanyar|basar|centrar|complaença|complaure|confiar|consisitir|consistir|convertir|creença|creure|delit|delitar|entestar|entossudir|entretenir|equivocació|equivocar|esforçar|especialitzar|especialista|excel·lir|exercitar|incórrer|influir|influència|insistir|insistència|interessar|interès|invertir|obsessi.+|obstinar|part|participació|participant|participar|pensar|tardança|tardar|tossud.*|treballar|trigança|trigar|vacil·lació|vacil·lar<exception scope="next" postag="V.P.*|C.*|AQ.*" postag_regexp="yes"/><exception scope="next">lloc</exception></token>
                     <marker>
                         <token>en</token>
                     </marker>
@@ -3320,6 +3325,7 @@ $Id$
                 <example type="correct">el corrent no augmentarà en augmentar la tensió</example>
                 <example type="correct">Els israelites van creure i, en sentir que el Senyor havia decidit</example>
                 <example type="correct">que la gent estigui contenta en arribar a port</example>
+                <example type="correct">En primer lloc, en llegir les mesures,</example>
             </rule>
         </rulegroup>
         <rulegroup id="QUAN_PREPOSICIO" name="quan (com a preposició): *quan la guerra">
@@ -8037,15 +8043,28 @@ $Id$
                 <pattern>
                     <token postag="V.[MNG].*" postag_regexp="yes" regexp="yes">.+[aei]</token>
                     <marker>
-                        <token postag="P0.*|PP.*" postag_regexp="yes" regexp="yes" inflected="yes">jo|mi|tu|ell|en<exception regexp="yes">[^-].*</exception><exception regexp="yes">-us|-la|-les|-li|jo|mi|tu|ella?|nosaltres|vosaltres|elle?s|vost[èé]s?|vós</exception></token>
+                        <token postag="P0.*|PP.*" postag_regexp="yes" regexp="yes">-(me|te|se|nos|lo|los|ne)</token>
+                    </marker>
+                    <token postag="V.[^NGP].*|P0.*|PP.*" postag_regexp="yes" negate_pos="yes"></token>
+                </pattern>
+                <message>Forma de pronom feble incorrecta.</message>
+                <suggestion><match no="2" regexp_match="-([mntsl])[eo](s?)" regexp_replace="'$1$2"/></suggestion>
+                <example type="incorrect" correction="'l">Veure<marker>-lo</marker>.</example>
+                <example type="incorrect" correction="'ns">Veure<marker>-nos</marker>.</example>
+                <example type="incorrect" correction="'n">Veure<marker>-ne</marker>.</example>
+                <example type="correct">Veure'l.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="V.[MNG].*" postag_regexp="yes" regexp="yes">.+[aei]</token>
+                    <marker>
+                        <token postag="P0.*|PP.*" postag_regexp="yes">-vos</token>
                     </marker>
                     <token postag="V.[^NGP].*|P0.*|PP.*" postag_regexp="yes" negate_pos="yes"></token>
                 </pattern>
                 <message>Forma de pronom incorrecta.</message>
-                <short>Forma de pronom incorrecta.</short>
-                <example type="incorrect">Veure<marker>-lo</marker>.</example>
-                <example type="incorrect">Veure<marker>-vos</marker>.</example>
-                <example type="correct">Veure'l.</example>
+                <suggestion>-us</suggestion>
+                <example type="incorrect" correction="-us">Veure<marker>-vos</marker>.</example>
                 <example type="correct">Veure-us.</example>
             </rule>
             <rule>
@@ -8950,10 +8969,12 @@ $Id$
                     </marker>
                     <token spacebefore="no" regexp="yes">[^-].*</token>
                 </pattern>
-                <message>Cal substituir el guionet per guió: <suggestion>—</suggestion>.</message>
+                <message>Cal substituir el guionet per guió.</message>
+                <suggestion>—</suggestion>
                 <short>Cal substituir el guionet</short>
                 <example type="incorrect">Vine <marker>-</marker>digué.</example>
                 <example type="correct">Vine —digué.</example>
+                <example type="correct">Té un nivell mitjà-alt.</example>
             </rule>
             <rule>
                 <pattern>
@@ -8961,11 +8982,14 @@ $Id$
                     <marker>
                         <token spacebefore="no">-</token>
                     </marker>
+                    <token spacebefore="yes"/>
                 </pattern>
-                <message>Cal substituir el guionet per guió: <suggestion>—</suggestion>.</message>
+                <message>Cal substituir el guionet per guió.</message>
+                <suggestion>—</suggestion>
                 <short>Cal substituir el guionet</short>
                 <example type="incorrect">digué<marker>-</marker> vine.</example>
                 <example type="correct">digué— vine</example>
+                <example type="correct">Té un nivell mitjà-alt.</example>
             </rule>
             <rule>
                 <pattern>
@@ -8975,7 +8999,8 @@ $Id$
                     </marker>
                     <token regexp="yes">;|,|\.</token>
                 </pattern>
-                <message>Cal substituir el guionet per guió: <suggestion>—</suggestion>.</message>
+                <message>Cal substituir el guionet per guió.</message>
+                <suggestion>—</suggestion>
                 <short>Cal substituir el guionet</short>
                 <example type="incorrect">digué<marker>-</marker>, vine.</example>
                 <example type="correct">digué—, vine</example>
@@ -8987,7 +9012,8 @@ $Id$
                         <token>-</token>
                     </marker>
                 </pattern>
-                <message>Cal substituir els guionets per guió: <suggestion>—</suggestion>.</message>
+                <message>Cal substituir els guionets per guió.</message>
+                <suggestion>—</suggestion>
                 <short>Cal substituir els guionets</short>
                 <example type="incorrect"><marker>--</marker></example>
                 <example type="correct"><marker>—</marker></example>
@@ -11606,32 +11632,54 @@ $Id$
                 <example type="correct">poc a poc</example>
             </rule>
         </rulegroup>
-        <rule id="A_POC_DE" name="*a poc de">
-            <pattern>
-                <token>a<exception postag="LOC_ADV"/></token>
-                <token>poc</token>
-                <token regexp="yes">de|d'</token>
-            </pattern>
-            <message>¿Volíeu dir <suggestion>poc després <match no="3"/></suggestion>, <suggestion>poc abans <match no="3"/></suggestion>, <suggestion>al cap de poc <match no="3"/></suggestion>?</message>
-            <example type="incorrect"><marker>a poc de</marker> casar-se</example>
-            <example type="correct">poc abans de casar-se</example>
-            <example type="correct">passar a poc a poc dels bullits als rostits</example>
-        </rule>
+        <rulegroup id="A_POC_DE" name="*a poc de">
+        	<rule>
+	            <pattern>
+	                <token>a<exception postag="LOC_ADV"/></token>
+	                <token>poc</token>
+	                <token regexp="yes">de|d'|que</token>
+	            </pattern>
+	            <message>Expressió incorrecta.</message>
+	            <suggestion>poc després <match no="3"/></suggestion>
+	            <suggestion>poc abans <match no="3"/></suggestion>
+	            <suggestion>al cap de poc <match no="3"/></suggestion>
+	            <example type="incorrect" correction="poc després de|poc abans de|al cap de poc de"><marker>a poc de</marker> casar-se</example>
+	            <example type="correct">poc abans de casar-se</example>
+	            <example type="correct">passar a poc a poc dels bullits als rostits</example>
+	        </rule>
+	        <rule>
+	            <pattern>
+	            	<marker>
+	                <token>a<exception postag="LOC_ADV"/></token>
+					<unify><feature id="nombre"/><feature id="genere"/>	               
+		                <token inflected="yes">poc</token>
+		                <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">segon|minut|hora|dia|setmana|mes|(tri|quadri|se)mestre|any|lustre|dècada|segle|mil·leni|moment|instant|temps</token>
+	                </unify>
+	                <token regexp="yes">de|d'|que</token>
+	                </marker>
+	            </pattern>
+	            <message>Expressió incorrecta</message> 
+	            <suggestion><match no="2"/> <match no="3"/> abans <match no="4"/></suggestion>
+	            <suggestion><match no="2"/> <match no="3"/> després <match no="4"/></suggestion>
+	            <example type="incorrect" correction="pocs dies abans que|pocs dies després que"><marker>a pocs dies que</marker> Torres declari</example>
+	            <example type="correct">poc abans de casar-se</example>
+	        </rule>
+	    </rulegroup>    
         <rule id="PUR_I_DUR" name="*pur i dur">
             <pattern>
                 <token postag="AQ.*" postag_regexp="yes" inflected="yes">pur</token>
                 <token>i</token>
                 <token postag="AQ.*" postag_regexp="yes" inflected="yes">dur</token>
             </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" postag="AQ0(.)(.)0" postag_regexp="yes" postag_replace="AQ0C$20">implacable</match></suggestion>,
-                <suggestion><match no="1" postag="AQ0(.)(.)0" postag_regexp="yes" postag_replace="AQ0C$20">inflexible</match></suggestion>,
-                <suggestion>a ultrança</suggestion>, 
-                <suggestion><match no="1"/></suggestion>,
-                <suggestion><match no="1" postag="AQ0(.)(.)0" postag_regexp="yes" postag_replace="AQ0$1$20">nu</match> i <match no="1" postag="AQ0(.)(.)0" postag_regexp="yes" postag_replace="AQ0$1$20">cru</match></suggestion>,
-                <suggestion><match no="1" postag="AQ0(.)(.)0" postag_regexp="yes" postag_replace="AQ0$1$20">cru</match> i <match no="1" postag="AQ0(.)(.)0" postag_regexp="yes" postag_replace="VMP00$2$1">pelar</match></suggestion>,
-                ?</message>
+            <message>És preferible usar una altra expressió.</message>
+            <suggestion><match no="1" postag="AQ0(.)(.)0" postag_regexp="yes" postag_replace="AQ0C$20">implacable</match></suggestion>
+            <suggestion><match no="1" postag="AQ0(.)(.)0" postag_regexp="yes" postag_replace="AQ0C$20">inflexible</match></suggestion>
+            <suggestion>a ultrança</suggestion>
+            <suggestion><match no="1"/></suggestion>
+            <suggestion><match no="1" postag="AQ0(.)(.)0" postag_regexp="yes" postag_replace="AQ0$1$20">nu</match> i <match no="1" postag="AQ0(.)(.)0" postag_regexp="yes" postag_replace="AQ0$1$20">cru</match></suggestion>
+            <suggestion><match no="1" postag="AQ0(.)(.)0" postag_regexp="yes" postag_replace="AQ0$1$20">cru</match> i <match no="1" postag="AQ0(.)(.)0" postag_regexp="yes" postag_replace="VMP00$2$1">pelar</match></suggestion>
             <url>http://esadir.cat/lexic/entrades/puridur</url>
-            <example type="incorrect">el feixisme més <marker>pur i dur</marker></example>
+            <example type="incorrect" correction="implacable|inflexible|a ultrança|pur|nu i cru|cru i pelat">el feixisme més <marker>pur i dur</marker></example>
             <example type="correct">el feixisme més implacable</example>
         </rule>
         <rulegroup id="QUAN_NO" name="*quan no + adjectiu">
@@ -13350,9 +13398,12 @@ $Id$
                     </marker>
                     <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">segon|minut|hora|dia|setmana|mes|(tri|quadri|se)mestre|any|lustre|dècada|segle|mil·lenni|moment|instant|temps|poc|molt</token>
                 </pattern>
-            <message>Cal dir: <suggestion>quan falten</suggestion>, <suggestion>quan faltaven</suggestion>.</message>
+            <message>Construcció incorrecta en expressions de temps.</message>
+            <suggestion>quan falten</suggestion>
+            <suggestion>quan faltaven</suggestion>
             <url>http://esadir.cat/lexic/entrades/entry_20030718132249_3</url>
-            <example type="incorrect"><marker>A falta de</marker> tres minuts per al final del partit.</example>
+            <short>Expresssió incorrecta</short>
+            <example type="incorrect" correction="Quan falten|Quan faltaven"><marker>A falta de</marker> tres minuts per al final del partit.</example>
             <example type="correct">Quan faltaven tres minuts per al final.</example>
             </rule>
             <rule>
@@ -13364,9 +13415,12 @@ $Id$
                     </marker>
                     <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">segon|minut|hora|dia|setmana|mes|(tri|quadri|se)mestre|any|lustre|dècada|segle|mil·lenni|moment|instant|temps|poc|molt</token>
                 </pattern>
-            <message>Cal dir: <suggestion>quan falta</suggestion>, <suggestion>quan faltava </suggestion>.</message>
+            <message>Construcció incorrecta en expressions de temps.</message>
+            <suggestion>quan falten </suggestion>
+            <suggestion>quan faltaven </suggestion>
             <url>http://esadir.cat/lexic/entrades/entry_20030718132249_3</url>
-            <example type="incorrect"><marker>A falta d'</marker>un segon per al final del partit.</example>
+            <short>Expresssió incorrecta</short>
+            <example type="incorrect" correction="Quan falten |Quan faltaven "><marker>A falta d'</marker>un segon per al final del partit.</example>
             <example type="correct">Quan faltava un minut per al final.</example>
             </rule>
         </rulegroup>
@@ -13627,6 +13681,7 @@ $Id$
             <message>Correcte si equival a '<match no="1"/> <match no="3" include_skipped="all"/> <match no="2"/>'. Altrament, potser cal dir: <suggestion><match no="1"/> <match no="2" postag="AQ0(..)0" postag_regexp="yes" postag_replace="AQ0$10">mateix</match> <match no="3"/></suggestion>.</message>
             <url>http://esadir.cat/lexic/entrades/entry_20030718132249_829</url>
             <example type="incorrect" correction="el mateix president">Ho digué <marker>el propi president</marker>.</example>
+            <!-- <example type="incorrect" correction="el mateix Felber">Ho digué <marker>el propi Felber</marker>.</example> -->
             <example type="correct">Ho digué el mateix president.</example>
             <example type="correct">Ho va fer amb les pròpies mans.</example>
         </rule>
@@ -15664,9 +15719,12 @@ $Id$
                         <token regexp="yes">que|què</token>
                     </marker>
                 </pattern>
-                <message>Reviseu la construcció de relatiu. Potser cal escriure: <suggestion><match no="2" /> <match no="3"/> qual</suggestion>, <suggestion><match no="2" /> què</suggestion>, <suggestion><match no="2" /> qui</suggestion>.</message>
+                <message>Reviseu la construcció de relatiu.</message> 
+                <suggestion><match no="2" /> <match no="3"/> qual</suggestion>
+                <suggestion><match no="2" /> què</suggestion>
+                <suggestion><match no="2" /> qui</suggestion>
                 <short>Reviseu la construcció de relatiu</short>
-                <example type="incorrect">l'home <marker>amb el que</marker> vaig parlar</example>
+                <example type="incorrect" correction="amb el qual|amb què|amb qui">l'home <marker>amb el que</marker> vaig parlar</example>
                 <example type="correct">l'home amb el qual vaig parlar</example>
                 <example type="correct">tothom estava d'acord amb el que s'havia dit</example>
             </rule>
@@ -15679,9 +15737,12 @@ $Id$
                         <token regexp="yes">que|què</token>
                     </marker>
                 </pattern>
-                <message>Reviseu la construcció de relatiu. Potser cal escriure: <suggestion><match no="2" /><match no="3"/> qual</suggestion>, <suggestion><match no="2" /> què</suggestion>, <suggestion><match no="2" /> qui</suggestion>.</message>
+                <message>Reviseu la construcció de relatiu.</message>
+                <suggestion><match no="2" /><match no="3"/> qual</suggestion>
+                <suggestion><match no="2" /> què</suggestion>
+                <suggestion><match no="2" /> qui</suggestion>
                 <short>Reviseu la construcció de relatiu</short>
-                <example type="incorrect">l'home <marker>al que</marker> vaig trobar</example>
+                <example type="incorrect" correction="al qual|a què|a qui">l'home <marker>al que</marker> vaig trobar</example>
                 <example type="correct">l'home al qual vaig trobar</example>
             </rule>
             <rule>
@@ -15693,9 +15754,12 @@ $Id$
                         <token regexp="yes">que|què</token>
                     </marker>
                 </pattern>
-                <message>Reviseu la construcció de relatiu. Potser cal escriure: <suggestion><match no="2" /><match no="3"/> qual</suggestion>, <suggestion><match no="2" />r què</suggestion>, <suggestion><match no="2" />r qui</suggestion>.</message>
+                <message>Reviseu la construcció de relatiu.</message>
+                <suggestion><match no="2" /><match no="3"/> qual</suggestion>
+                <suggestion><match no="2" />r què</suggestion>
+                <suggestion><match no="2" />r qui</suggestion>
                 <short>Reviseu la construcció de relatiu</short>
-                <example type="incorrect">l'home <marker>pel que</marker> vaig trobar</example>
+                <example type="incorrect" correction="pel qual|per què|per qui">l'home <marker>pel que</marker> vaig trobar</example>
                 <example type="correct">l'home pel qual vaig parlar</example>
             </rule>
             <rule>
@@ -15707,9 +15771,12 @@ $Id$
                         <token regexp="yes">que|què</token>
                     </marker>
                 </pattern>
-                <message>Reviseu la construcció de relatiu. Potser cal escriure: <suggestion><match no="2" /> <match no="3"/> qual</suggestion>, <suggestion><match no="2" /> què</suggestion>, <suggestion><match no="2" /> qui</suggestion>.</message>
+                <message>Reviseu la construcció de relatiu.</message> 
+                <suggestion><match no="2" /> <match no="3"/> qual</suggestion>
+                <suggestion><match no="2" /> què</suggestion>
+                <suggestion><match no="2" /> qui</suggestion>
                 <short>Reviseu la construcció de relatiu</short>
-                <example type="incorrect">la dona <marker>amb la que</marker> vaig parlar</example>
+                <example type="incorrect" correction="amb la qual|amb què|amb qui">la dona <marker>amb la que</marker> vaig parlar</example>
                 <example type="correct">la dona amb la qual vaig parlar</example>
                 <example type="correct">una dada relacionada amb la que van trobar els altres</example>
                 <example type="correct">amb menys humitat de la que és habitual</example>
@@ -15725,9 +15792,12 @@ $Id$
                         <token regexp="yes">que|què</token>
                     </marker>
                 </pattern>
-                <message>Reviseu la construcció de relatiu. Potser cal escriure: <suggestion><match no="2" /> <match no="3"/> quals</suggestion>, <suggestion><match no="2" /> què</suggestion>, <suggestion><match no="2" /> qui</suggestion>.</message>
+                <message>Reviseu la construcció de relatiu.</message>
+                <suggestion><match no="2" /> <match no="3"/> quals</suggestion>
+                <suggestion><match no="2" /> què</suggestion>
+                <suggestion><match no="2" /> qui</suggestion>
                 <short>Reviseu la construcció de relatiu</short>
-                <example type="incorrect">els homes <marker>amb els que</marker> vaig parlar</example>
+                <example type="incorrect" correction="amb els quals|amb què|amb qui">els homes <marker>amb els que</marker> vaig parlar</example>
                 <example type="correct">els homes amb els quals vaig parlar</example>
                 <example type="correct">aquests són semblants als que va trobar ell</example>
             </rule>
@@ -15740,9 +15810,12 @@ $Id$
                         <token regexp="yes">que|què</token>
                     </marker>
                 </pattern>
-                <message>Reviseu la construcció de relatiu. Potser cal escriure: <suggestion><match no="2" /><match no="3"/> quals</suggestion>, <suggestion><match no="2" /> què</suggestion>, <suggestion><match no="2" /> qui</suggestion>.</message>
+                <message>Reviseu la construcció de relatiu.</message>
+                <suggestion><match no="2" /><match no="3"/> quals</suggestion>
+                <suggestion><match no="2" /> què</suggestion>
+                <suggestion><match no="2" /> qui</suggestion>
                 <short>Reviseu la construcció de relatiu</short>
-                <example type="incorrect">els homes <marker>als que</marker> vaig parlar</example>
+                <example type="incorrect" correction="als quals|a què|a qui">els homes <marker>als que</marker> vaig parlar</example>
                 <example type="correct">els homes amb els quals vaig parlar</example>
             </rule>
             <rule>
@@ -15754,9 +15827,12 @@ $Id$
                         <token regexp="yes">que|què</token>
                     </marker>
                 </pattern>
-                <message>Reviseu la construcció de relatiu. Potser cal escriure: <suggestion><match no="2" /><match no="3"/> quals</suggestion>, <suggestion><match no="2" />r què</suggestion>, <suggestion><match no="2" />r qui</suggestion>.</message>
+                <message>Reviseu la construcció de relatiu.</message>
+                <suggestion><match no="2" /><match no="3"/> quals</suggestion>
+                <suggestion><match no="2" />r què</suggestion>
+                <suggestion><match no="2" />r qui</suggestion>
                 <short>Reviseu la construcció de relatiu</short>
-                <example type="incorrect">els homes <marker>pels que</marker> vaig parlar</example>
+                <example type="incorrect" correction="pels quals|per què|per qui">els homes <marker>pels que</marker> vaig parlar</example>
                 <example type="correct">els homes amb els quals vaig parlar</example>
             </rule>
             <rule>
@@ -15768,9 +15844,12 @@ $Id$
                         <token regexp="yes">que|què</token>
                     </marker>
                 </pattern>
-                <message>Reviseu la construcció de relatiu. Potser cal escriure: <suggestion><match no="2" /> <match no="3"/> quals</suggestion>, <suggestion><match no="2" /> què</suggestion>, <suggestion><match no="2" /> qui</suggestion>.</message>
+                <message>Reviseu la construcció de relatiu.</message>
+                <suggestion><match no="2" /> <match no="3"/> quals</suggestion>
+                <suggestion><match no="2" /> què</suggestion>
+                <suggestion><match no="2" /> qui</suggestion>
                 <short>Reviseu la construcció de relatiu</short>
-                <example type="incorrect">les dones <marker>amb les que</marker> vaig parlar</example>
+                <example type="incorrect" correction="amb les quals|amb què|amb qui">les dones <marker>amb les que</marker> vaig parlar</example>
                 <example type="correct">les dones amb les quals vaig parlar</example>
                 <example type="correct">va dir coses similars a les que vaig dir jo</example>
                 <example type="correct">el grup d'espècies relacionades amb les que Darwin trobà a les illes Galàpagos</example>
@@ -15785,9 +15864,10 @@ $Id$
                         <token regexp="yes">que|què</token>
                     </marker>
                 </pattern>
-                <message>Reviseu la construcció de relatiu. Potser cal escriure: <suggestion>qual</suggestion>.</message>
+                <message>Reviseu la construcció de relatiu.</message>
+                <suggestion>qual</suggestion>
                 <short>Reviseu la construcció de relatiu</short>
-                <example type="incorrect">un conductor a través del <marker>que</marker> passa el corrent</example>
+                <example type="incorrect" correction="qual">un conductor a través del <marker>que</marker> passa el corrent</example>
                 <example type="correct">l'home amb el qual vaig parlar</example>
             </rule>
             <rule>
@@ -15799,9 +15879,10 @@ $Id$
                         <token regexp="yes">que|què</token>
                     </marker>
                 </pattern>
-                <message>Reviseu la construcció de relatiu. Potser cal escriure: <suggestion>qual</suggestion>.</message>
+                <message>Reviseu la construcció de relatiu.</message>
+                <suggestion>qual</suggestion>
                 <short>Reviseu la construcció de relatiu</short>
-                <example type="incorrect">la dona a casa de la <marker>que</marker> vaig anar</example>
+                <example type="incorrect" correction="qual">la dona a casa de la <marker>que</marker> vaig anar</example>
                 <example type="correct">la dona a casa de la qual vaig anar</example>
             </rule>
             <rule>
@@ -15813,9 +15894,10 @@ $Id$
                         <token regexp="yes">que|què</token>
                     </marker>
                 </pattern>
-                <message>Reviseu la construcció de relatiu. Potser cal escriure: <suggestion>quals</suggestion>.</message>
+                <message>Reviseu la construcció de relatiu.</message>
+                <suggestion>quals</suggestion>
                 <short>Reviseu la construcció de relatiu</short>
-                <example type="incorrect">els homes per mitjà dels <marker>que</marker> m'hi vaig introduir</example>
+                <example type="incorrect" correction="quals">els homes per mitjà dels <marker>que</marker> m'hi vaig introduir</example>
                 <example type="correct">els homes per mitjà dels quals m'hi vaig introduir</example>
             </rule>
             <rule>
@@ -15827,9 +15909,10 @@ $Id$
                         <token regexp="yes">que|què</token>
                     </marker>
                 </pattern>
-                <message>Reviseu la construcció de relatiu. Potser cal escriure: <suggestion>quals</suggestion>.</message>
+                <message>Reviseu la construcció de relatiu.</message>
+                <suggestion>quals</suggestion>
                 <short>Reviseu la construcció de relatiu</short>
-                <example type="incorrect">les regles en contra de les <marker>que</marker> va lluitar</example>
+                <example type="incorrect" correction="quals">les regles en contra de les <marker>que</marker> va lluitar</example>
                 <example type="correct">les regles en contra de les quals va lluitar</example>
             </rule>
         </rulegroup>
