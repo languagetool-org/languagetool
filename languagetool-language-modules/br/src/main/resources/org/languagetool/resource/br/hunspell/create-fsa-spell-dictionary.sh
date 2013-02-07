@@ -2,20 +2,25 @@
 
 # Create the Breton FSA spelling dictionary from
 # Hunspell dictionary.
+# 
+# Download morforlogik-distribution-1.5.4.zip at:
+# http://sourceforge.net/projects/morfologik/files/morfologik-stemming/1.5.4/morfologik-distribution-1.5.4.zip/download?use_mirror=freefr
 #
-# Run the script without argument, it will
+# Run: $ unzip morforlogik-distribution-1.5.4.zip
+#
+# Then run the script without argument, it will
 # create the FSA spelling dictionary br_FR.dict.
 #
 # Author: Dominique Pelle <dominique.pelle@gmail.com>
 
-
-if [ ! -f dict-br_0.10.oxt ]; then
+file_oxt=dict-br-0.11.oxt
+if [ ! -f $file_oxt ]; then
   # Download the Breton Hunspell dictionary, if not already done.
-  wget http://extensions.libreoffice.org/extension-center/an-drouizig-breton-spellchecker/pscreleasefolder.2012-08-22.5582266403/0.10/dict-br_0.10.oxt
+  wget http://extensions.libreoffice.org/extension-center/an-drouizig-breton-spellchecker/releases/0.11/$file_oxt
 fi
 
 # We're only interested in 2 files (*.aff and *.dic) files in the *.oxt zip file. 
-unzip -o dict-br_0.10.oxt dictionaries/br_FR.aff dictionaries/br_FR.dic
+unzip -o $file_oxt dictionaries/br_FR.aff dictionaries/br_FR.dic
 
 # File .info is used by morfologik.
 ln -sf br_FR.info .info
