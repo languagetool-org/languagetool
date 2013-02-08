@@ -352,8 +352,9 @@ public class AnalyzedTokenReadings {
     sb.append("[");
     for (final AnalyzedToken element : anTokReadings) {
       sb.append(element);
-      if (!element.isWhitespaceBefore())
-    	  sb.append("*");
+      if (!element.isWhitespaceBefore()) {
+        sb.append("*");
+      }
       sb.append(",");
     }
     sb.delete(sb.length() - 1, sb.length());

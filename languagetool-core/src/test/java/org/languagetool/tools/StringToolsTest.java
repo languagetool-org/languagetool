@@ -296,7 +296,7 @@ public class StringToolsTest extends TestCase {
   public void testIsWhitespace() {
     assertEquals(true, StringTools.isWhitespace("  "));
     assertEquals(true, StringTools.isWhitespace("\t"));
-    assertEquals(true, StringTools.isWhitespace("\u2002"));    
+    assertEquals(true, StringTools.isWhitespace("\u2002"));
     //non-breaking space is not a whitespace
     assertEquals(false, StringTools.isWhitespace("\u00a0"));
     assertEquals(false, StringTools.isWhitespace("abc"));
@@ -307,13 +307,13 @@ public class StringToolsTest extends TestCase {
   
   public void testIsPositiveNumber() {
     assertEquals(true, StringTools.isPositiveNumber('3'));
-    assertEquals(false, StringTools.isPositiveNumber('a'));      
+    assertEquals(false, StringTools.isPositiveNumber('a'));
   }
   
   public void testIsEmpty() {
     assertEquals(true, StringTools.isEmpty(""));
     assertEquals(true, StringTools.isEmpty(null));
-    assertEquals(false, StringTools.isEmpty("a"));      
+    assertEquals(false, StringTools.isEmpty("a"));
   }
 
   public void testFilterXML() {
