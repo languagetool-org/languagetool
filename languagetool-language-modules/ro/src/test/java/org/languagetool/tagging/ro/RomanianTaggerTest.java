@@ -23,92 +23,92 @@ import java.io.IOException;
 import org.languagetool.TestTools;
 
 /**
- * 
+ *
  * @author Ionuț Păduraru
  * @since 20.02.2009 19:36:32
  */
 public class RomanianTaggerTest extends RomanianTaggerTestAbs {
 
-	/**
-	 * First we test if the tagger works fine with single words
-	 * 
-	 * @author Ionuț Păduraru
-	 * @since 20.02.2009 19:50:10
-	 * @throws Exception
-	 */
-	public void testTagger_Merge() throws Exception {
-		// merge - verb indicativ imperfect, persoana întâi, singular
-		assertHasLemmaAndPos("mergeam", "merge", "V0s1000ii0");
-		// merge - verb indicativ imperfect, persoana întâi, plural
-		assertHasLemmaAndPos("mergeam", "merge", "V0p1000ii0");
-		// merge - verb indicativ imperfect, persoana întâi, plural
-	}
+  /**
+   * First we test if the tagger works fine with single words
+   *
+   * @author Ionuț Păduraru
+   * @since 20.02.2009 19:50:10
+   * @throws Exception
+   */
+  public void testTagger_Merge() throws Exception {
+    // merge - verb indicativ imperfect, persoana întâi, singular
+    assertHasLemmaAndPos("mergeam", "merge", "V0s1000ii0");
+    // merge - verb indicativ imperfect, persoana întâi, plural
+    assertHasLemmaAndPos("mergeam", "merge", "V0p1000ii0");
+    // merge - verb indicativ imperfect, persoana întâi, plural
+  }
 
-	/**
-	 * <code>merseserăm</code> had some problems (incorect lemma - mege -
-	 * missing "r")
-	 * 
-	 * @author Ionuț Păduraru
-	 * @since 20.02.2009 20:24:55
-	 * @throws Exception
-	 */
-	public void testTagger_Merseseram() throws Exception {
-		// first make sure lemma is correct (ignore POS)
-		assertHasLemmaAndPos("merseserăm", "merge", null);
-		// now that lemma is correct, also check POS
-		assertHasLemmaAndPos("merseserăm", "merge", "V0p1000im0");
-	}
-	
-	/**
-	 * A special word: a fi (to be) - eu sunt (i am) + ei sunt (they are)
-	 * 
-	 * @author Ionuț Păduraru
-	 * @since 20.02.2009 20:21:10
-	 * @throws Exception
-	 */
-	public void testTagger_Fi() throws Exception {
-		// fi - verb indicativ prezent, persoana întâi, singular
-		assertHasLemmaAndPos("sunt", "fi", "V0s1000izf");
-		// fi verb indicativ prezent, persoana a treia, plural
-		assertHasLemmaAndPos("sunt", "fi", "V0p3000izf");
-	}
+  /**
+   * <code>merseserăm</code> had some problems (incorect lemma - mege -
+   * missing "r")
+   *
+   * @author Ionuț Păduraru
+   * @since 20.02.2009 20:24:55
+   * @throws Exception
+   */
+  public void testTagger_Merseseram() throws Exception {
+    // first make sure lemma is correct (ignore POS)
+    assertHasLemmaAndPos("merseserăm", "merge", null);
+    // now that lemma is correct, also check POS
+    assertHasLemmaAndPos("merseserăm", "merge", "V0p1000im0");
+  }
 
-	/**
-	 * Test for entries in used dictionary.
-	 * @throws Exception
-	 */
-	public void testTagger_UserDict() throws Exception {
-		assertHasLemmaAndPos("configurați", "configura", "V0p2000cz0"); // de adăugat formele pentru infinitiv și participiu
-		// to be updated when the words from added.txt are moved to romanian.dict  
-	}
-	
-	/**
-	 * the big picture: test is tagger performs well with a sentence
-	 * 
-	 * @author ionuț păduraru
-	 * @since 20.02.2009 01:12:33
-	 * @throws IOException
-	 */
-	public void testTagger() throws IOException {
-		TestTools
-				.myAssert(
-						"Cartea este frumoasă.",
-						"Cartea/[carte]Sfs3aac000 -- este/[fi]V0s3000izb -- frumoasă/[frumos]Afs3an0000",
-						getTokenizer(), getTagger());
-	}
+  /**
+   * A special word: a fi (to be) - eu sunt (i am) + ei sunt (they are)
+   *
+   * @author Ionuț Păduraru
+   * @since 20.02.2009 20:21:10
+   * @throws Exception
+   */
+  public void testTagger_Fi() throws Exception {
+    // fi - verb indicativ prezent, persoana întâi, singular
+    assertHasLemmaAndPos("sunt", "fi", "V0s1000izf");
+    // fi verb indicativ prezent, persoana a treia, plural
+    assertHasLemmaAndPos("sunt", "fi", "V0p3000izf");
+  }
 
-	/**
-	 * 
-	 * @author ionuț păduraru
-	 * @since 20.02.2009 01:44:50
-	 * @throws IOException
-	 */
-	public void testTaggerMerseseram() throws IOException {
-		TestTools.myAssert("merseserăm", "merseserăm/[merge]V0p1000im0",
-				getTokenizer(), getTagger());
-	}
+  /**
+   * Test for entries in used dictionary.
+   * @throws Exception
+   */
+  public void testTagger_UserDict() throws Exception {
+    assertHasLemmaAndPos("configurați", "configura", "V0p2000cz0"); // de adăugat formele pentru infinitiv și participiu
+    // to be updated when the words from added.txt are moved to romanian.dict  
+  }
 
-	public static void main(String[] args) {
-		junit.textui.TestRunner.run(RomanianTaggerTest.class);
-	}
+  /**
+   * the big picture: test is tagger performs well with a sentence
+   *
+   * @author ionuț păduraru
+   * @since 20.02.2009 01:12:33
+   * @throws IOException
+   */
+  public void testTagger() throws IOException {
+    TestTools
+            .myAssert(
+                    "Cartea este frumoasă.",
+                    "Cartea/[carte]Sfs3aac000 -- este/[fi]V0s3000izb -- frumoasă/[frumos]Afs3an0000",
+                    getTokenizer(), getTagger());
+  }
+
+  /**
+   *
+   * @author ionuț păduraru
+   * @since 20.02.2009 01:44:50
+   * @throws IOException
+   */
+  public void testTaggerMerseseram() throws IOException {
+    TestTools.myAssert("merseserăm", "merseserăm/[merge]V0p1000im0",
+            getTokenizer(), getTagger());
+  }
+
+  public static void main(String[] args) {
+    junit.textui.TestRunner.run(RomanianTaggerTest.class);
+  }
 }
