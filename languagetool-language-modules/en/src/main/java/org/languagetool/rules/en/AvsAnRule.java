@@ -167,8 +167,6 @@ public class AvsAnRule extends EnglishRule {
         !parts[0].equalsIgnoreCase("a")) {  // avoid false alarm on "A-levels are..."
       word = parts[0];
     }
-    //html entities!
-    word = word.replaceAll("&quot|&amp|&lt|&gt|[^a-zA-Z0-9]", "");         // e.g. >>an "industry party"<<
     if (StringTools.isEmpty(word)) {
       return word;
     }
