@@ -24,6 +24,7 @@ import java.util.ResourceBundle;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.tools.StringTools;
 
 /**
  * A rule that matches commas and closing parenthesis preceded by whitespace and
@@ -60,22 +61,22 @@ public class CommaWhitespaceRule extends Rule {
     int prevLen = 0;
     for (int i = 0; i < tokens.length; i++) {
       final String token = tokens[i].getToken();
-      final boolean isWhite = tokens[i].isWhitespace() 
-      || tokens[i].isFieldCode();      
+      final boolean isWhitespace = tokens[i].isWhitespace() || StringTools.isNonBreakingWhitespace(token)
+              || tokens[i].isFieldCode();
       String msg = null;
       int fixLen = 0;
       String suggestionText = null;
-      if (isWhite && isLeftBracket(prevToken)) {
+      if (isWhitespace && isLeftBracket(prevToken)) {
         msg = messages.getString("no_space_after");
         suggestionText = prevToken;
         fixLen = 1;
-      } else if (!isWhite && prevToken.equals(",") 
+      } else if (!isWhitespace && prevToken.equals(",") 
           && isNotQuoteOrHyphen(token) 
           && containsNoNumber(prevPrevToken) 
           && containsNoNumber(token)
-          && !",".equals(prevPrevToken)) {                          
+          && !",".equals(prevPrevToken)) {
         msg = messages.getString("missing_space_after_comma");
-        suggestionText = ", ";        
+        suggestionText = ", ";
       } else if (prevWhite) {
         if (isRightBracket(token)) {
           msg = messages.getString("no_space_before");
@@ -111,7 +112,7 @@ public class CommaWhitespaceRule extends Rule {
       }
       prevPrevToken = prevToken;
       prevToken = token;
-      prevWhite = isWhite && !tokens[i].isFieldCode(); //OOo code before comma/dot
+      prevWhite = isWhitespace && !tokens[i].isFieldCode(); //OOo code before comma/dot
       prevLen = tokens[i].getToken().length();
     }
 

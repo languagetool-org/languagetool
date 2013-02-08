@@ -48,6 +48,7 @@ public class CommaWhitespaceRuleTest extends TestCase {
     assertMatches("This is $1,000,000.", 0);
     assertMatches("This is 1,5.", 0);
     assertMatches("This is a ,,test''.", 0);
+    assertMatches("This is,\u00A0really,\u00A0non-breaking whitespace.", 0);
     //test OpenOffice field codes:
     assertMatches("In his book,\u0002 Einstein proved this to be true.", 0);
 

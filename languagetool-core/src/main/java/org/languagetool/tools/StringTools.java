@@ -572,12 +572,11 @@ public final class StringTools {
 
   /**
    * Checks if a string contains only whitespace, including all Unicode
-   * whitespace. This differs a bit from the definition of whitespace in Java 7
-   * because of the way we want to interpret Khmer.
+   * whitespace, but not the non-breaking space. This differs a bit from the 
+   * definition of whitespace in Java 7 because of the way we want to interpret Khmer.
    * 
-   * @param str
-   *          String to check
-   * @return true if the string is whitespace-only.
+   * @param str String to check
+   * @return true if the string is whitespace-only
    */
   public static boolean isWhitespace(final String str) {
     if ("\u0002".equals(str) // unbreakable field, e.g. a footnote number in OOo
@@ -596,6 +595,14 @@ public final class StringTools {
       return java.lang.Character.isWhitespace(trimStr.charAt(0));
     }
     return false;
+  }
+  
+  /**
+   * Checks if a string is the non-breaking whitespace (<code>\u00A0</code>).
+   * @since 2.1
+   */
+  public static boolean isNonBreakingWhitespace(final String str) {
+    return "\u00A0".equals(str);
   }
 
   /**
