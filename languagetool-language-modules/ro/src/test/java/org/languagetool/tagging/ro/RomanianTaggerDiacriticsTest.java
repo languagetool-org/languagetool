@@ -19,13 +19,11 @@
 package org.languagetool.tagging.ro;
 
 /**
- *
- * These tests are kept to make sure UTF-8 dictionaries are correctly read.<br/>
+ * These tests are kept to make sure UTF-8 dictionaries are correctly read.
  * Prior to morfologik 1.1.4 some words containing diacritics were not correctly
  * returned.
  *
  * @author Ionuț Păduraru
- * @since 08.03.2009 19:25:50
  */
 public class RomanianTaggerDiacriticsTest extends RomanianTaggerTestAbs {
 
@@ -49,26 +47,16 @@ public class RomanianTaggerDiacriticsTest extends RomanianTaggerTestAbs {
    * <p>
    * cuțitul cuțit 002
    * </p>
-   *
-   * @author Ionuț Păduraru
-   * @since 08.03.2009 19:15:59
-   * @throws Exception
    */
   @Override
   protected RomanianTagger createTagger() {
-    RomanianTagger res = new RomanianTagger(
-            "/ro/test_diacritics.dict", null);
-    return res;
+    return new RomanianTagger("/ro/test_diacritics.dict", null);
   }
 
   /**
    * Prior to morfologik 1.1.4: For "merseserăm" the lemma is incorect: "mege"
    * instead of "merge". If the dictionary is used from
    * command-line(/fsa_morph -d ...), the correct lemma is returned.
-   *
-   * @author Ionuț Păduraru
-   * @since 08.03.2009 19:25:59
-   * @throws Exception
    */
   public void testTaggerMerseseram() throws Exception {
     // these tests are using "test_diacritics.dict"
@@ -78,17 +66,10 @@ public class RomanianTaggerDiacriticsTest extends RomanianTaggerTestAbs {
     assertHasLemmaAndPos("merseserăm", "merge", "002");
   }
 
-  /**
-   *
-   * @author Ionuț Păduraru
-   * @since 24.03.2009 21:39:25
-   * @throws Exception
-   */
   public void testTaggerCuscaCutit() throws Exception {
     // these tests are using "test_diacritics.dict"
     // all these are correct, they are here just to prove that "some" words
-    // are corectly returned
-
+    // are correctly returned
     assertHasLemmaAndPos("cușcă", "cușcă", "001");
     assertHasLemmaAndPos("cuțit", "cuțit", "001");
     assertHasLemmaAndPos("cuțitul", "cuțit", "002");
