@@ -2714,11 +2714,11 @@ $Id$
                         <token postag="V.P.*" postag_regexp="yes"/>
                     </marker>
                 </pattern>
-                <message>Expressió incorrecta. Podria ser: <suggestion><match no="2" postag="(V.P.*)" postag_regexp="yes" postag_replace="$1" >acabar</match> de <match no="2" postag="V.N.*" postag_regexp="yes"/></suggestion>, 
-                    <suggestion><match no="2"/> de poc</suggestion>, 
-                    <suggestion><match no="2"/> de nou</suggestion>.</message>
-                <short>Expressió incorrecta.</short>
-                <example type="incorrect"><marker>recent casats</marker></example>
+                <message>"Recent" no és un adverbi.</message>
+                <suggestion><match no="2" postag="(V.P.*)" postag_regexp="yes" postag_replace="$1" >acabar</match> de <match no="2" postag="V.N.*" postag_regexp="yes"/></suggestion> 
+                <suggestion><match no="2"/> de poc</suggestion> 
+                <suggestion><match no="2"/> de nou</suggestion>
+                <example type="incorrect" correction="acabats de casar|casats de poc|casats de nou"><marker>recent casats</marker></example>
                 <example type="correct">acabats de casar</example>
             </rule>
         </rulegroup>
@@ -3428,7 +3428,14 @@ $Id$
                     <token postag="V.[SI].*" postag_regexp="yes" skip="-1"><exception postag="V.[SI].*" postag_regexp="yes" scope="next"/></token>
                     <token postag="SENT_END"/>
                 </pattern>
-                <message>'Quan' no és preposició. Podeu dir: <suggestion>durant</suggestion>, <suggestion>per</suggestion>, <suggestion>arran de</suggestion>, <suggestion>quant</suggestion>, <suggestion>com</suggestion>, <suggestion>si</suggestion>, <suggestion>en l'època de</suggestion>. O bé reviseu la puntuació. </message>
+                <message>'Quan' no és preposició. Useu una altra construcció o bé reviseu la puntuació.</message>
+                <suggestion>durant</suggestion>
+                <suggestion>per</suggestion>
+                <suggestion>arran de</suggestion>
+                <suggestion>quant</suggestion>
+                <suggestion>com</suggestion>
+                <suggestion>si</suggestion>
+                <suggestion>en l'època de</suggestion>
                 <example type="incorrect"><marker>Quan</marker> la guerra, va passar tot això.</example>
                 <example type="incorrect"><marker>Quan</marker> la guerra, afortunadament, es va acabar.</example>
                 <example type="correct">Quan la guerra, afortunadament, es va acabar, desaparegueren els problemes.</example>
