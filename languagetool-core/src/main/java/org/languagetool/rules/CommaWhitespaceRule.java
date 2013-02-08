@@ -127,9 +127,6 @@ public class CommaWhitespaceRule extends Rule {
         return false;
       }
     } else {
-      if ("&quot".equals(str)) {
-        return false;
-      }
       return containsNoNumber(str);
     }
     return true;

@@ -41,8 +41,6 @@ public class CommaWhitespaceRuleTest extends TestCase {
     assertMatches("This is a test sentence.", 0);
     assertMatches("This, is, a test sentence.", 0);
     assertMatches("This (foo bar) is a test!.", 0);
-    //we get only entities into the comma rule, so let's test for entities:
-    assertMatches("&quot;This is it,&quot; he said.", 0);
     assertMatches("Das kostet €2,45.", 0);
     assertMatches("Das kostet 50,- Euro", 0);
     assertMatches("This is a sentence with ellipsis ...", 0);
