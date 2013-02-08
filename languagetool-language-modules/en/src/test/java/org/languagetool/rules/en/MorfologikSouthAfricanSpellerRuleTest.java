@@ -30,36 +30,36 @@ import org.languagetool.rules.RuleMatch;
 
 public class MorfologikSouthAfricanSpellerRuleTest {
 
-    @Test
-    public void testMorfologikSpeller() throws IOException {
-      final SouthAfricanEnglish language = new SouthAfricanEnglish();
-      final MorfologikSouthAfricanSpellerRule rule =
-                new MorfologikSouthAfricanSpellerRule (TestTools.getMessages("English"), language);
+  @Test
+  public void testMorfologikSpeller() throws IOException {
+    final SouthAfricanEnglish language = new SouthAfricanEnglish();
+    final MorfologikSouthAfricanSpellerRule rule =
+            new MorfologikSouthAfricanSpellerRule (TestTools.getMessages("English"), language);
 
-        final JLanguageTool langTool = new JLanguageTool(language);
+    final JLanguageTool langTool = new JLanguageTool(language);
 
-        // correct sentences:
-        assertEquals(0, rule.match(langTool.getAnalyzedSentence("This is an example: we get behaviour as a dictionary word.")).length);
-        assertEquals(0, rule.match(langTool.getAnalyzedSentence("Why don't we speak today.")).length);
-        //with doesn't
-        assertEquals(0, rule.match(langTool.getAnalyzedSentence("He doesn't know what to do.")).length);
-        assertEquals(0, rule.match(langTool.getAnalyzedSentence(",")).length);
-        assertEquals(0, rule.match(langTool.getAnalyzedSentence("123454")).length);
+    // correct sentences:
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("This is an example: we get behaviour as a dictionary word.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Why don't we speak today.")).length);
+    //with doesn't
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("He doesn't know what to do.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence(",")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("123454")).length);
 
-        //South African dict:
-        assertEquals(0, rule.match(langTool.getAnalyzedSentence("Amanzimnyama")).length);        
-        
-        //incorrect sentences:
+    //South African dict:
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Amanzimnyama")).length);
 
-        final RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("behavior"));
-        // check match positions:
-        assertEquals(1, matches.length);
-        assertEquals(0, matches[0].getFromPos());
-        assertEquals(8, matches[0].getToPos());
-        assertEquals("behaviour", matches[0].getSuggestedReplacements().get(0));
+    //incorrect sentences:
 
-        assertEquals(1, rule.match(langTool.getAnalyzedSentence("aõh")).length);
-        assertEquals(0, rule.match(langTool.getAnalyzedSentence("a")).length);
-    }
+    final RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("behavior"));
+    // check match positions:
+    assertEquals(1, matches.length);
+    assertEquals(0, matches[0].getFromPos());
+    assertEquals(8, matches[0].getToPos());
+    assertEquals("behaviour", matches[0].getSuggestedReplacements().get(0));
+
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("aõh")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("a")).length);
+  }
 
 }
