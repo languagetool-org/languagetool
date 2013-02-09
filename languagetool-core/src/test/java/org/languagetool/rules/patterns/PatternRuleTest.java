@@ -19,6 +19,7 @@
 package org.languagetool.rules.patterns;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.String;
 import java.util.*;
 import java.util.Arrays;
@@ -133,7 +134,13 @@ public class PatternRuleTest extends TestCase {
     final String grammarFile = getGrammarFileName(lang);
     System.out.println("Running XML validation for " + grammarFile + "...");
     final String rulesDir = JLanguageTool.getDataBroker().getRulesDir();
-    validator.validate(rulesDir + "/" + grammarFile, rulesDir + "/rules.xsd");
+    final String ruleFilePath = rulesDir + "/" + grammarFile;
+    final InputStream xmlStream = this.getClass().getResourceAsStream(ruleFilePath);
+    if (xmlStream != null) {
+      validator.validate(ruleFilePath, rulesDir + "/rules.xsd");
+    } else {
+      System.out.println("No rule file found at " + ruleFilePath);
+    }
   }
 
   private void disableSpellingRules(JLanguageTool languageTool) {
