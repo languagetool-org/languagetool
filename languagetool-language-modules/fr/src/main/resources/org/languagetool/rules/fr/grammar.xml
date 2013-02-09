@@ -5790,7 +5790,9 @@ though, and has since been slightly modified)-->
         <pattern>
           <token postag="SENT_START|C coor|R rel .*" postag_regexp="yes"/>
           <token postag="D.*" postag_regexp="yes"/>
-          <token postag="N . p" postag_regexp="yes"/>
+          <token postag="N . p" postag_regexp="yes">
+            <exception postag="N . sp?" postag_regexp="yes"/>
+          </token>
           <!-- Not all combinations of tokens are actually possible -->
           <token regexp="yes">[lmnt]|[mnt]e|la|les?|lui|leur</token>
           <token regexp="yes">[’´'‛′‘]|[mnt]e|la|les?|[vn]ous|en|y|lui|leur</token>
@@ -5805,6 +5807,7 @@ though, and has since been slightly modified)-->
         <example type="correct">Les camions n’arrivent pas.</example>
         <example type="correct">Les cuillères en bois commencent à moisir.</example>
         <example type="correct">Ces choses nous les partageons.</example>
+        <example type="correct">Mon fils n’arrive pas à faire les additions.</example>
       </rule>
       <rule name="sujet pluriel + 3 tokens + verbe singulier">
         <pattern>
