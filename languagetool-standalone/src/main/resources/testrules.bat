@@ -1,6 +1,6 @@
 @echo off
 
-SET CPATH=.;junit.jar;languagetool-core.jar;lucene-gosen-ipadic.jar;ictclas4j.jar;cjftransform.jar;languagetool-core-tests.jar;jwordsplitter.jar;commons-logging.jar;segment.jar;morfologik-fsa.jar;morfologik-speller.jar;morfologik-stemming.jar
+SET CPATH=.;libs/junit.jar;libs/languagetool-core.jar;libs/lucene-gosen-ipadic.jar;libs/ictclas4j.jar;libs/cjftransform.jar;libs/languagetool-core-tests.jar;libs/jwordsplitter.jar;libs/commons-logging.jar;libs/segment.jar;libs/morfologik-fsa.jar;libs/morfologik-speller.jar;libs/morfologik-stemming.jar
 
 java -cp %CPATH% org.languagetool.rules.patterns.PatternRuleTest %1
 java -cp %CPATH% org.languagetool.tagging.disambiguation.rules.DisambiguationRuleTest %1

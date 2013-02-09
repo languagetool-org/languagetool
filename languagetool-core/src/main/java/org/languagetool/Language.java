@@ -65,6 +65,7 @@ public abstract class Language {
   
   private static Language[] getLanguages() {
     final List<Language> languages = new ArrayList<Language>();
+    final Set<String> languageClassNames = new HashSet<String>();
     try {
       final Enumeration<URL> propertyFiles = Language.class.getClassLoader().getResources(PROPERTIES_PATH);
       while (propertyFiles.hasMoreElements()) {
@@ -80,7 +81,16 @@ public abstract class Language {
           }
           for (String classNames : classNamesStr) {
             final String[] classNamesSplit = classNames.split("\\s*,\\s*");
-            languages.addAll(createLanguageObject(url, classNamesSplit));
+            for (String className : classNamesSplit) {
+              if (languageClassNames.contains(className)) {
+                // avoid duplicates - this way we are robust against problems with the maven assembly
+                // plugin which aggregates files more than once (in case the deployment descriptor
+                // contains both <format>zip</format> and <format>dir</format>):
+                continue;
+              }
+              languages.add(createLanguageObjects(url, className));
+              languageClassNames.add(className);
+            }
           }
         } finally {
           inputStream.close();
@@ -93,20 +103,16 @@ public abstract class Language {
     return languages.toArray(new Language[languages.size()]);
   }
 
-  private static List<Language> createLanguageObject(URL url, String[] classNames) {
-    final List<Language> result = new ArrayList<Language>();
-    for (String className : classNames) {
-      try {
-        final Class<?> aClass = Class.forName(className);
-        final Constructor<?> constructor = aClass.getConstructor();
-        result.add((Language) constructor.newInstance());
-      } catch (ClassNotFoundException e) {
-        throw new RuntimeException("Class '" + className + "' specified in " + url + " could not be found in classpath", e);
-      } catch (Exception e) {
-        throw new RuntimeException("Object for class '" + className + "' specified in " + url + " could not created", e);
-      }
+  private static Language createLanguageObjects(URL url, String className) {
+    try {
+      final Class<?> aClass = Class.forName(className);
+      final Constructor<?> constructor = aClass.getConstructor();
+      return (Language) constructor.newInstance();
+    } catch (ClassNotFoundException e) {
+      throw new RuntimeException("Class '" + className + "' specified in " + url + " could not be found in classpath", e);
+    } catch (Exception e) {
+      throw new RuntimeException("Object for class '" + className + "' specified in " + url + " could not created", e);
     }
-    return result;
   }
 
   /**

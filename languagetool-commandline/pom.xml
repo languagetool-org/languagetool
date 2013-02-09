@@ -48,7 +48,8 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathLayoutType>custom</classpathLayoutType>
-                            <customClasspathLayout>$${artifact.artifactId}$${dashClassifier?}.$${artifact.extension}</customClasspathLayout>
+                            <!-- this artifact is used in languagetool-standalone, so adapt the path accordingly: -->
+                            <customClasspathLayout>libs/$${artifact.artifactId}$${dashClassifier?}.$${artifact.extension}</customClasspathLayout>
                         </manifest>
                         <manifestEntries>
                             <!-- as we later unzip the language JARs (see languagetool-standalone's pom.xml), we need to add the top directory to the classpath: -->
