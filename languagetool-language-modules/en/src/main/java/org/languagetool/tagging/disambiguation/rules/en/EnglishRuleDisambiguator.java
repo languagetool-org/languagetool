@@ -27,7 +27,7 @@ public class EnglishRuleDisambiguator extends AbstractRuleDisambiguator {
 
   @Override
   protected Language getLanguage() {
-    return English.ENGLISH;
+    return new English();
   }
 
 }

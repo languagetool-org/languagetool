@@ -33,10 +33,9 @@ import org.xml.sax.SAXException;
 
 /**
  * Rule-based disambiguator.
- * Implements an idea by Agnes Souque.   
+ * Implements an idea by Agnes Souque.
  * 
  * @author Marcin Miłkowski
- *
  */
 public abstract class AbstractRuleDisambiguator implements Disambiguator {
 
@@ -77,6 +76,5 @@ public abstract class AbstractRuleDisambiguator implements Disambiguator {
     final DisambiguationRuleLoader ruleLoader = new DisambiguationRuleLoader();    
     return ruleLoader.getRules(Tools.getStream(filename));
   }
-
 
 }

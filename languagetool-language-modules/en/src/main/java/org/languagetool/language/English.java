@@ -44,10 +44,7 @@ import org.languagetool.tokenizers.SentenceTokenizer;
 
 public class English extends Language {
 
-  // TODO: remove?!
-  public static final Language ENGLISH = new English();
-  public static final Language AMERICAN_ENGLISH = new AmericanEnglish();
-  public static final Language BRITISH_ENGLISH = new BritishEnglish();
+  private static final Language AMERICAN_ENGLISH = new AmericanEnglish();
   
   private Tagger tagger;
   private SentenceTokenizer sentenceTokenizer;
