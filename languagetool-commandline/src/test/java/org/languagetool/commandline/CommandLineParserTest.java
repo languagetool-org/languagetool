@@ -50,18 +50,18 @@ public class CommandLineParserTest extends TestCase {
     assertEquals("filename.txt", options.getFilename());
     assertFalse(options.isVerbose());
 
-    options = parser.parseOptions(new String[]{"--language", "de", "filename.txt"});
-    assertEquals("de", options.getLanguage().getShortName());
+    options = parser.parseOptions(new String[]{"--language", "xx", "filename.txt"});
+    assertEquals("xx", options.getLanguage().getShortName());
     assertEquals("filename.txt", options.getFilename());
     assertFalse(options.isVerbose());
 
-    options = parser.parseOptions(new String[]{"-l", "de", "filename.txt"});
-    assertEquals("de", options.getLanguage().getShortName());
+    options = parser.parseOptions(new String[]{"-l", "xx", "filename.txt"});
+    assertEquals("xx", options.getLanguage().getShortName());
     assertEquals("filename.txt", options.getFilename());
     assertFalse(options.isVerbose());
 
-    options = parser.parseOptions(new String[]{"-v", "-l", "de", "filename.txt"});
-    assertEquals("de", options.getLanguage().getShortName());
+    options = parser.parseOptions(new String[]{"-v", "-l", "xx", "filename.txt"});
+    assertEquals("xx", options.getLanguage().getShortName());
     assertEquals("filename.txt", options.getFilename());
     assertTrue(options.isVerbose());
 
