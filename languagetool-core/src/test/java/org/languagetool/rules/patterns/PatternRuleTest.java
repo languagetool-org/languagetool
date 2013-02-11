@@ -120,6 +120,7 @@ public class PatternRuleTest extends TestCase {
     }
     final JLanguageTool allRulesLanguageTool = new JLanguageTool(lang);
     allRulesLanguageTool.activateDefaultPatternRules();
+    validateRuleIds(lang, allRulesLanguageTool);
     final List<PatternRule> rules = new ArrayList<PatternRule>();
     for (String patternRuleFileName : lang.getRuleFileName()) {
       rules.addAll(languageTool.loadPatternRules(patternRuleFileName));
@@ -128,7 +129,7 @@ public class PatternRuleTest extends TestCase {
     testGrammarRulesFromXML(rules, languageTool, allRulesLanguageTool, lang);
     System.out.println(rules.size() + " rules tested.");
   }
-  
+
   private void validatePatternFile(Language lang) throws IOException {
     final XMLValidator validator = new XMLValidator();
     final String grammarFile = getGrammarFileName(lang);
@@ -141,6 +142,24 @@ public class PatternRuleTest extends TestCase {
     } else {
       System.out.println("No rule file found at " + ruleFilePath);
     }
+  }
+
+  private void validateRuleIds(Language lang, JLanguageTool languageTool) {
+    final List<Rule> allRules = languageTool.getAllRules();
+    final Set<String> ids = new HashSet<String>();
+    final Set<Class> ruleClasses = new HashSet<Class>();
+    for (Rule rule : allRules) {
+      assertIdUniqueness(ids, ruleClasses, lang, rule);
+    }
+  }
+
+  private void assertIdUniqueness(Set<String> ids, Set<Class> ruleClasses, Language language, Rule rule) {
+    final String ruleId = rule.getId();
+    if (ids.contains(ruleId) && !ruleClasses.contains(rule.getClass())) {
+      throw new RuntimeException("Rule id occurs more than once: '" + ruleId + "', language: " + language);
+    }
+    ids.add(ruleId);
+    ruleClasses.add(rule.getClass());
   }
 
   private void disableSpellingRules(JLanguageTool languageTool) {
