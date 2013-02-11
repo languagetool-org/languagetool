@@ -1714,17 +1714,58 @@ though, and has since been slightly modified)-->
       <example type="incorrect" correction="soutien">Il dépend du <marker>soutient</marker> de ses parents.</example>
       <example type="correct">Il dépend du <marker>soutien</marker> de ses parents.</example>
     </rule>
-    <rule id="ENTRAIN" name="être entrain (être en train)">
-      <pattern>
-        <token inflected="yes">être</token>
-        <marker>
-          <token>entrain</token>
-        </marker>
-      </pattern>
-      <message>Voulez-vous écrire <suggestion>en train</suggestion> ?</message>
-      <example type="incorrect">Ils sont <marker>entrain</marker> de jouer au tennis.</example>
-      <example type="correct">Ils sont <marker>en train</marker> de jouer au tennis.</example>
-    </rule>
+    <rulegroup id="ENTRAIN" name="entrain ou en train">
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">être|voyager|surprendre|venir</token>
+          <marker>
+            <token>entrain</token>
+          </marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>en train</suggestion> ?</message>
+        <example type="incorrect">Ils sont <marker>entrain</marker> de jouer au tennis.</example>
+        <example type="correct">Ils sont <marker>en train</marker> de jouer au tennis.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">être|voyager|surprendre|venir</token>
+          <token regexp="yes">jamais|parfois|moins|pas|plus|souvent|toujours</token>
+          <marker>
+            <token>entrain</token>
+          </marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>en train</suggestion> ?</message>
+        <example type="incorrect">Ils sont souvent <marker>entrain</marker> de jouer au tennis.</example>
+        <example type="correct">Ils sont souvent <marker>en train</marker> de jouer au tennis.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">avec|quel|sans|son</token>
+          <marker>
+            <token>en</token>
+            <token>train</token>
+          </marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>entrain</suggestion> ?</message>
+        <example type="incorrect">Ils travaillent sans <marker>en train</marker>.</example>
+        <example type="correct">Ils travaillent sans <marker>entrain</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">[dl]</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+          <marker>
+            <token>en</token>
+            <token>train</token>
+          </marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>entrain</suggestion> ?</message>
+        <example type="incorrect">Je déplore son manque d’<marker>en train</marker>.</example>
+        <example type="correct">Je déplore son manque d’<marker>entrain</marker>.</example>
+        <example type="incorrect">Il met de l’<marker>en train</marker> dans son travail.</example>
+        <example type="correct">Il met de l’<marker>entrain</marker> dans son travail.</example>
+      </rule>
+    </rulegroup>
     <rule id="BALLADE" name="ballade (balade)">
       <pattern>
         <token inflected="yes" regexp="yes" skip="1">partir|faire|amener|sortir|[mts]e|[nv]ous|tour</token>
