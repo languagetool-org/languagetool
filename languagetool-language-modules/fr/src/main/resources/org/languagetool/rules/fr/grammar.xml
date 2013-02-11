@@ -1717,7 +1717,7 @@ though, and has since been slightly modified)-->
     <rulegroup id="ENTRAIN" name="entrain ou en train">
       <rule>
         <pattern>
-          <token inflected="yes" regexp="yes">être|voyager|surprendre|venir</token>
+          <token inflected="yes" regexp="yes">être|voyager|surprendre|venir|.*-(je|tu|on|ils?|elles?|[nv]ous)</token>
           <marker>
             <token>entrain</token>
           </marker>
@@ -1725,6 +1725,8 @@ though, and has since been slightly modified)-->
         <message>Voulez-vous écrire <suggestion>en train</suggestion> ?</message>
         <example type="incorrect">Ils sont <marker>entrain</marker> de jouer au tennis.</example>
         <example type="correct">Ils sont <marker>en train</marker> de jouer au tennis.</example>
+        <example type="incorrect">Étiez-vous <marker>entrain</marker> de travailler ?</example>
+        <example type="correct">Étiez-vous en train de travailler ?</example>
       </rule>
       <rule>
         <pattern>
