@@ -47,25 +47,24 @@ public class BitextPatternRuleTest extends TestCase {
   }
 
   private void testBitextRulesFromXML(final Set<Language> ignoredLanguages) throws IOException {
-    int testCount = 0;
     for (final Language lang : Language.LANGUAGES) {
       if (ignoredLanguages != null && ignoredLanguages.contains(lang)) {
         continue;
       }
       final BitextPatternRuleLoader ruleLoader = new BitextPatternRuleLoader();
       final String name = "/" + lang.getShortName() + "/bitext.xml";
+      final InputStream is;
       try {
-        testCount++;
-        final InputStream is = JLanguageTool.getDataBroker().getFromRulesDirAsStream(name);
-        System.out.println("Running tests for " + lang.getName() + "...");
-        final JLanguageTool languageTool = new JLanguageTool(lang);
-        final List<BitextPatternRule> rules = ruleLoader.getRules(is, name);
-        testBitextRulesFromXML(rules, languageTool, lang);
+        is = JLanguageTool.getDataBroker().getFromRulesDirAsStream(name);
       } catch (RuntimeException ignored) {
         // thrown if there is no bitext.xml file
+        continue;
       }
+      System.out.println("Running tests for " + lang.getName() + "...");
+      final JLanguageTool languageTool = new JLanguageTool(lang);
+      final List<BitextPatternRule> rules = ruleLoader.getRules(is, name);
+      testBitextRulesFromXML(rules, languageTool, lang);
     }
-    assertTrue(testCount >= 1);
   }
   
   private void testBitextRulesFromXML(final List<BitextPatternRule> rules,
@@ -182,7 +181,7 @@ public class BitextPatternRuleTest extends TestCase {
     }
   }
 
-  protected String cleanXML(final String str) {
+  private String cleanXML(final String str) {
     return str.replaceAll("<([^<].*?)>", "");
   }
   
