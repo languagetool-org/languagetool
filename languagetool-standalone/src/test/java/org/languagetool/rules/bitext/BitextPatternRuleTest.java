@@ -16,7 +16,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-
 package org.languagetool.rules.bitext;
 
 import java.io.IOException;
@@ -40,11 +39,10 @@ import org.languagetool.rules.patterns.bitext.BitextPatternRuleLoader;
 public class BitextPatternRuleTest extends TestCase {
 
   public void testBitextRulesFromXML() throws IOException {
-    testBitextRulesFromXML(null, false);
+    testBitextRulesFromXML(null);
   }
 
-  private void testBitextRulesFromXML(final Set<Language> ignoredLanguages,
-                                      final boolean verbose) throws IOException {
+  private void testBitextRulesFromXML(final Set<Language> ignoredLanguages) throws IOException {
     int testCount = 0;
     for (final Language lang : Language.LANGUAGES) {
       if (ignoredLanguages != null && ignoredLanguages.contains(lang)) {
@@ -55,9 +53,7 @@ public class BitextPatternRuleTest extends TestCase {
       try {
         testCount++;
         final InputStream is = JLanguageTool.getDataBroker().getFromRulesDirAsStream(name);
-        if (verbose) {
-          System.out.println("Running tests for " + lang.getName() + "...");
-        }
+        System.out.println("Running tests for " + lang.getName() + "...");
         final JLanguageTool languageTool = new JLanguageTool(lang);
         final List<BitextPatternRule> rules = ruleLoader.getRules(is, name);
         testBitextRulesFromXML(rules, languageTool, lang);
@@ -211,10 +207,10 @@ public class BitextPatternRuleTest extends TestCase {
     final BitextPatternRuleTest prt = new BitextPatternRuleTest();
     System.out.println("Running XML bitext pattern tests...");   
     if (args.length == 0) {
-      prt.testBitextRulesFromXML(null, true);
+      prt.testBitextRulesFromXML(null);
     } else {
       final Set<Language> ignoredLanguages = TestTools.getLanguagesExcept(args);
-      prt.testBitextRulesFromXML(ignoredLanguages, true);
+      prt.testBitextRulesFromXML(ignoredLanguages);
     }
     System.out.println("Tests successful.");
   }
