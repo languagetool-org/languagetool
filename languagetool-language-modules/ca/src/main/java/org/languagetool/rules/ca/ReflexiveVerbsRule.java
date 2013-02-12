@@ -214,7 +214,7 @@ public class ReflexiveVerbsRule extends CatalanRule {
 					&& isThereBefore(tokens, i, LEMMA_PRONOM_CD, POSTAG_PRONOM_CD)  
 					&& matchRegexp(tokens[i + 1].getToken(), REFLEXIU_POSPOSAT) ) {
 					// the rule matches
-					final String msg = "En aquesta perífrasi verbal el pronom reflexiu posterior és redundant.<suggestion></suggestion>";
+					final String msg = "En aquesta perífrasi verbal el pronom reflexiu posterior és redundant.";
 					final RuleMatch ruleMatch = new RuleMatch(this,
 							tokens[i+1].getStartPos(), tokens[i+1].getStartPos()
 									+ tokens[i+1].getToken().length(), msg, "Pronom redundant");
