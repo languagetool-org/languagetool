@@ -49,21 +49,21 @@ public class DisambiguationRuleTest extends TestCase {
     }
   }
 
-  public void testDisambiguationRulesFromXML() throws IOException,
-      ParserConfigurationException, SAXException {
-    testDisambiguationRulesFromXML(null, false);
+  /**
+   * To be called from standalone - calling it here in core doesn't make
+   * much sense actually as we don't have any languages.
+   */
+  public void testDisambiguationRulesFromXML() throws Exception {
+    testDisambiguationRulesFromXML(null);
   }
 
-  private void testDisambiguationRulesFromXML(
-      final Set<Language> ignoredLanguages, final boolean verbose)
+  private void testDisambiguationRulesFromXML(final Set<Language> ignoredLanguages)
       throws IOException, ParserConfigurationException, SAXException {
     for (final Language lang : Language.LANGUAGES) {
       if (ignoredLanguages != null && ignoredLanguages.contains(lang)) {
         continue;
       }
-      if (verbose) {
-        System.out.println("Running disambiguation tests for " + lang.getName() + "...");
-      }
+      System.out.println("Running disambiguation tests for " + lang.getName() + "...");
       final DisambiguationRuleLoader ruleLoader = new DisambiguationRuleLoader();
       final JLanguageTool languageTool = new JLanguageTool(lang);
       if (!(languageTool.getLanguage().getDisambiguator() instanceof DemoDisambiguator)
@@ -208,10 +208,10 @@ public class DisambiguationRuleTest extends TestCase {
     System.out.println("Running disambiguator rule tests...");
     test.setUp();
     if (args.length == 0) {
-      test.testDisambiguationRulesFromXML(null, true);
+      test.testDisambiguationRulesFromXML(null);
     } else {
       final Set<Language> ignoredLanguages = TestTools.getLanguagesExcept(args);
-      test.testDisambiguationRulesFromXML(ignoredLanguages, true);
+      test.testDisambiguationRulesFromXML(ignoredLanguages);
     }
     System.out.println("Tests successful.");
   }
