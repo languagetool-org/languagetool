@@ -38,6 +38,10 @@ import org.languagetool.rules.patterns.bitext.BitextPatternRuleLoader;
 
 public class BitextPatternRuleTest extends TestCase {
 
+  /**
+   * To be called from standalone - calling it here in core doesn't make
+   * much sense actually as we don't have any languages.
+   */  
   public void testBitextRulesFromXML() throws IOException {
     testBitextRulesFromXML(null);
   }
