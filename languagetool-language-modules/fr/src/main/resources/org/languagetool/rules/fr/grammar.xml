@@ -1570,7 +1570,7 @@ though, and has since been slightly modified)-->
         <marker>
           <token postag="N.*" postag_regexp="yes">
             <exception negate_pos="yes" postag="N.*" postag_regexp="yes"/>
-            <exception regexp="yes">n|non</exception>
+            <exception regexp="yes">n|non|rendez-vous</exception>
           </token>
         </marker>
       </pattern>
@@ -1580,6 +1580,7 @@ though, and has since been slightly modified)-->
       <example type="correct"><marker>Nous n</marker>’affirmons rien.</example>
       <example type="correct">Je compte sur vous mercredi.</example>
       <example type="correct">Nous non plus</example>
+      <example type="correct">Où vous rendez-vous habituellement ?</example>
     </rule>
     <rule default="off" id="CETTE_CEST" name="CETTE au lieu de C’EST">
       <pattern>
@@ -5818,7 +5819,9 @@ though, and has since been slightly modified)-->
         <pattern>
           <token postag="SENT_START|C coor|R rel .*" postag_regexp="yes"/>
           <token postag="D.*" postag_regexp="yes"/>
-          <token postag="N . p" postag_regexp="yes"/>
+          <token postag="N . p" postag_regexp="yes">
+            <exception postag="N . sp?" postag_regexp="yes"/>
+          </token>
           <token regexp="yes">[lmnt]e|la|les|leur|lui|en|y</token>
           <marker>
             <token postag="V.*" postag_regexp="yes">
@@ -5829,6 +5832,7 @@ though, and has since been slightly modified)-->
         <message>Le verbe « \5 » devrait être à la 3e personne du pluriel.</message>
         <example type="incorrect">Les enfants en <marker>manges</marker>.</example>
         <example type="correct">Les enfants en mangent.</example>
+        <example type="correct">Mon fils ne passera pas.</example>
       </rule>
       <rule name="sujet pluriel + 2 tokens + verbe singulier">
         <pattern>
