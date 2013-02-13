@@ -2887,12 +2887,27 @@ Copyright (C) 2012 Jaume Ortolà i Font
         	<disambig action="add"><wd pos="NCMS000"/></disambig>
         </rule>
     </rulegroup>
+    <rulegroup id="COP" name="cop no verb balear">
+    	<rule>
+    		<pattern>
+	    		<unify>
+	    		<feature id="genere"/>
+                <feature id="nombre"/>
+		    		<token postag="D.*|A.*" postag_regexp="yes"/>
+		    		<marker>
+		    			<token regexp="yes">cops?</token>
+		    		</marker>
+	    		</unify>
+    		</pattern>
+    		<disambig action="filter" postag="[^V].*"/>
+    	</rule>
+    </rulegroup>
     <rulegroup id="LOCUCIONS_FREQUENCIA" name="locucions adverbials de freqüència: dues vegades més alt">
     	<rule>
             <pattern>
                 <unify>
-                <feature id="genere"></feature>
-                <feature id="nombre"></feature>
+                <feature id="genere"/>
+                <feature id="nombre"/>
                     <marker>
                     	<token inflected="yes">un</token>
                         <token postag="DN.*" postag_regexp="yes"/>

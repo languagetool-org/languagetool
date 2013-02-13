@@ -13174,7 +13174,40 @@ $Id$
             <message>¿Volíeu dir <suggestion><match no="1" regexp_match="po(.+)" regexp_replace="pu$1"/></suggestion> (sentits més habituals) en comptes de "<match no="1"/>" (sentits menys habituals)?</message>
             <example type="incorrect" correction="purgar">Cal <marker>porgar</marker>-lo.</example>
             <example type="correct">purgar</example>
-        </rule>      
+        </rule>    
+        <rule id="DAR" name="dar">
+            <pattern>
+                <token postag="V.[^P].*" postag_regexp="yes" inflected="yes">dar</token>
+            </pattern>
+            <message>El verb "dar" sol usar-se només en expressions fossilitzades</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">donar</match></suggestion>
+            <example type="incorrect" correction="donarem">Què li <marker>darem</marker>.</example>
+            <example type="correct">Li ho donaré.</example>
+            <example type="correct">Ara van mal dades</example>
+            <example type="correct">Tot està dat i beneït.</example>
+        </rule>  
+        <rule id="DEPARAR" name="deparar">
+            <pattern>
+                <token inflected="yes">deparar</token>
+            </pattern>
+            <message>"Deparar" és un arcaisme. Val més usar un altre verb.</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">oferir</match></suggestion>
+            <suggestion><match no="1" regexp_match="depar(.+)" regexp_replace="proporcion$1"/></suggestion>
+            <suggestion><match no="1" regexp_match="depar(.+)" regexp_replace="present$1"/></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fornir</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">donar</match></suggestion>
+            <short>Arcaisme</short>
+            <example type="incorrect" correction="ofereix|oferix|proporciona|presenta|forneix|fornix|dóna">Veurem què ens <marker>depara</marker> el futur.</example>
+            <example type="correct">purgar</example>
+        </rule> 
+        <rule id="FADIGAR_FATIGAR" name="porgar/purgar">
+            <pattern>
+                <token inflected="yes">fadigar</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="fad(.+)" regexp_replace="fat$1"/></suggestion> (cansar) en comptes de "<match no="1"/>" (pagar el dret de fadiga)?</message>
+            <example type="incorrect" correction="fatigar">Em vaig <marker>fadigar</marker> molt.</example>
+            <example type="correct">fatigar</example>
+        </rule>  
         <rule id="ESTELA" name="estela">
             <pattern>
                 <marker>
@@ -13183,7 +13216,8 @@ $Id$
                     <token>estela</token>
                 </marker>
             </pattern>
-            <message>Expressió incorrecta si vol dir: <suggestion><match no="1"/> les petjades</suggestion>, <suggestion><match no="1"/> el rastre</suggestion>.</message>
+            <message>Expressió incorrecta si vol dir: <suggestion><match no="1"/> les petjades</suggestion>.</message>
+            <suggestion><match no="1"/> el rastre</suggestion>
             <short>Expressió incorrecta</short>
             <example type="incorrect"><marker>Segueix l'estela</marker> del campió.</example>
             <example type="correct">una estela funerària</example>
@@ -17349,6 +17383,19 @@ $Id$
                 <example type="correct">Ell usa un sistema Unix.</example>
                 <example type="correct">Rue de la Paix</example>
             </rule>
+            <rule>
+            	<pattern>
+            		<token postag="V.*" postag_regexp="yes" regexp="yes">.*(tra|ja|ve|cre)e(m|nt|u)<exception inflected="yes">crear</exception></token>
+            	</pattern>
+            	<message>Forma verbal pròpia del valencià.</message>
+            	<suggestion><match no="1" regexp_match="(.+[ae])(em|ent|eu)" regexp_replace="$1i$2"/></suggestion>
+            	<short>Forma valenciana.</short>
+            	<example type="incorrect" correction="extraient">Va <marker>extraent</marker>.</example>
+            	<example type="incorrect" correction="veiem">No ho <marker>veem</marker>.</example>
+            	<example type="incorrect" correction="creient">Se'n va <marker>creent</marker> que sí.</example>
+            	<example type="correct">nosaltres creem, vosaltres creeu</example>
+            	<example type="correct">Jaieu.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="EVITA_VERBS_BALEARS" name="Evita verbs balears (pens, patesqui, cantàssim, cantau)">
             <rule>
@@ -17386,9 +17433,9 @@ $Id$
                 <example type="correct">acompanyat de Picol</example>
                 <example type="correct">Cristian Cirici i Alomar.</example>
                 <example type="correct">Lluc Capsigrany.</example>
-                <!-- <example type="correct">Fou tres cops campió mundial</example>
+                <example type="correct">Fou tres cops campió mundial</example>
                 <example type="correct">Obtingué per primer cop cristalls d'insulina</example>
-                <example type="correct">Doctor enginyer industrial</example>
+                <!-- <example type="correct">Doctor enginyer industrial</example>
                 <example type="correct">cas Frares</example> -->
             </rule>
             <rule>
@@ -17414,6 +17461,16 @@ $Id$
                 <example type="correct">Vosaltres canteu.</example>
                 <example type="correct">Vam, finalment, pensa que sí.</example>
                 <example type="correct">i Adoram, fill d'Abdà,</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes">.*corrs?</token>
+                </pattern>
+                <message>Forma verbal pròpia del balear.</message>
+                <short>Forma balear.</short>
+                <example type="incorrect"><marker>incorrs</marker>.</example>
+                <example type="incorrect"><marker>concorr</marker>.</example>
+                <example type="correct">corro</example>
             </rule>
         </rulegroup>
         <rulegroup id="EVITA_VERBS_BALEARS_VALENCIANS" name="Evita verbs balears i valencians (pensàs, patesc, meresc)">
