@@ -1117,24 +1117,25 @@ $Id$
                 <!-- Només detecta els casos pròxims. Hi ha falsos positius? -->
                 <pattern>
                     <token skip="1">un</token>
-                    <token regexp="yes">i|ni</token>
+                    <token regexp="yes" skip="1">i|ni</token>
                     <token regexp="yes">l'|una</token>
                     <token>altra</token>
                 </pattern>
-                <message>Possible falta de concordança «un...altre».</message>
+                <message>Possible falta de concordança «un... altre».</message>
                 <short>Concordança de gènere dubtosa.</short>
                 <example type="incorrect">Entre <marker>un costat i l'altra</marker>.</example>
+                <example type="incorrect">d’<marker>un costat i l’altra</marker> del riu</example>
                 <example type="correct">Entre un costat i l'altre.</example>
             </rule>
             <rule>
                 <!-- Només detecta els casos pròxims. Hi ha falsos positius? -->
                 <pattern>
                     <token skip="1">una</token>
-                    <token regexp="yes">i|ni</token>
+                    <token regexp="yes" skip="1">i|ni</token>
                     <token regexp="yes">l'|un</token>
                     <token>altre</token>
                 </pattern>
-                <message>Possible falta de concordança «un...altre».</message>
+                <message>Possible falta de concordança «un... altre».</message>
                 <short>Concordança de gènere dubtosa.</short>
                 <example type="incorrect">Entre <marker>una cosa i l'altre</marker>.</example>
                 <example type="correct">Entre una cosa i l'altra.</example>
@@ -17259,6 +17260,7 @@ $Id$
                 </pattern>
                 <message>Forma verbal pròpia del valencià.</message>
                 <!-- per a fer suggeriments cal mirar les conjugacions-->
+                <!-- <suggestion><match no="1" postag="(V.[^N].*)" postag_regexp="yes" postag_replace="$1"/></suggestion> -->
                 <short>Forma valenciana.</short>
                 <example type="incorrect">Jo ho <marker>pense</marker>.</example>
                 <example type="correct">Jo ho <marker>penso</marker>.</example>
@@ -17268,9 +17270,10 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="V.S.*" postag_regexp="yes" regexp="yes">.+(a|en?)<exception postag="_GN.*|V.N.*|N.*|V.I.*|_possible_nompropi" postag_regexp="yes" /><exception regexp="yes">(s|c)àpig(a|uen)|vinga|fóra|visca</exception><exception postag="_possible_nompropi"/></token>
+                    <token postag="V.SP.*" postag_regexp="yes" regexp="yes">.+(a|en?)<exception postag="_GN.*|V.N.*|N.*|V.I.*|_possible_nompropi" postag_regexp="yes" /><exception regexp="yes">(s|c)àpig(a|uen)|vinga|fóra|visca</exception><exception postag="_possible_nompropi"/></token>
                 </pattern>
                 <message>Forma verbal pròpia del valencià.</message>
+                <!-- <suggestion><match no="1" postag="(V.S.*)" postag_regexp="yes" postag_replace="$1"/></suggestion> -->
                 <short>Forma valenciana.</short>
                 <example type="incorrect">Que ells ho <marker>diguen</marker>.</example>
                 <example type="incorrect">Que se'n <marker>vaja</marker>.</example>
@@ -17282,9 +17285,10 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="V.S.*" postag_regexp="yes" regexp="yes">.+es<exception postag="_GN.*|N.*|V.[MI].*|_possible_nompropi" postag_regexp="yes" /><exception regexp="yes">(s|c)àpigues|fes</exception></token>
+                    <token postag="V.SP.*" postag_regexp="yes" regexp="yes">.+es<exception postag="_GN.*|N.*|V.[MI].*|_possible_nompropi" postag_regexp="yes" /><exception regexp="yes">(s|c)àpigues|fes</exception></token>
                 </pattern>
                 <message>Forma verbal pròpia del valencià.</message>
+                <!-- <suggestion><match no="1" postag="(V.S.*)" postag_regexp="yes" postag_replace="$1"/></suggestion> -->
                 <short>Forma valenciana.</short>
                 <example type="incorrect">Que els ho <marker>digues</marker>, ho faran.</example>
                 <example type="incorrect">Quan hi <marker>sigues</marker>, truca'm.</example>
@@ -17298,9 +17302,10 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="V.M.*" postag_regexp="yes" regexp="yes">.+en?<exception postag="_GN.*|N.*|V.[IN].*|_possible_nompropi" postag_regexp="yes" /><exception regexp="yes">(s|c)àpiguen|vine|obre|omple|pren|ven|fen|.*corre</exception></token>
+                    <token postag="V.M.*" postag_regexp="yes" regexp="yes">.+en?<exception postag="_GN.*|N.*|V.[IN].*|_possible_nompropi" postag_regexp="yes" /><exception regexp="yes">(s|c)àpiguen|vine|.*obre|.*omple|pren|ven|fen|.*corre</exception></token>
                 </pattern>
                 <message>Forma verbal pròpia del valencià.</message>
+                <!-- <suggestion><match no="1" postag="(V.M.*)" postag_regexp="yes" postag_replace="$1"/></suggestion> -->
                 <short>Forma valenciana.</short>
                 <example type="incorrect"><marker>Porte</marker>'n tres.</example>
                 <example type="correct"><marker>Porti</marker>'n tres.</example>
@@ -17315,6 +17320,7 @@ $Id$
                     <token postag="V.M03S0" postag_regexp="yes" regexp="yes">.+a<exception postag="_GN.*|N.*|V.I.*|V.M02S0|_possible_nompropi" postag_regexp="yes" /><exception regexp="yes">(s|c)àpiga|vinga|visca</exception><exception postag="_possible_nompropi"/></token>
                 </pattern>
                 <message>Forma verbal pròpia del valencià.</message>
+                <!-- <suggestion><match no="1" postag="(V.M03S0)" postag_regexp="yes" postag_replace="$1"/></suggestion> -->
                 <short>Forma valenciana.</short>
                 <example type="incorrect"><marker>Diga</marker>'n tres.</example>
                 <example type="incorrect"><marker>Vaja</marker> on vulgui.</example>
@@ -17328,6 +17334,7 @@ $Id$
                     <token postag="VMS.*" postag_regexp="yes" regexp="yes">.+(ara|era|ira)<exception postag="VMI.*|NP.*|_possible_nompropi" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Forma verbal pròpia del valencià.</message>
+                <!-- <suggestion><match no="1" postag="(VMS.*)" postag_regexp="yes" postag_replace="$1"/></suggestion> -->
                 <short>Forma valenciana.</short>
                 <example type="incorrect">Si ell <marker>cantara</marker>.</example>
                 <example type="correct">Si ell <marker>cantés</marker>.</example>
@@ -17339,9 +17346,10 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="V.SI.*" postag_regexp="yes" regexp="yes">.+(asses|àssem|àsseu|assen|esses|éssem|ésseu|essen)<exception postag="_GN.*|VMI.*|NP.*|_possible_nompropi" postag_regexp="yes" /></token>
+                    <token postag="V.SI.*" postag_regexp="yes" regexp="yes">.+(asses|àssem|àsseu|assen|esses|éssem|ésseu|essen|íssem|ísseu|issen)<exception postag="_GN.*|VMI.*|NP.*|_possible_nompropi" postag_regexp="yes" /></token>
                 </pattern>
                 <message>Forma verbal pròpia del valencià.</message>
+                <!-- <suggestion><match no="1" postag="(V.SI.*)" postag_regexp="yes" postag_replace="$1"/></suggestion> -->
                 <short>Forma valenciana.</short>
                 <example type="incorrect">Si ells <marker>cantassen</marker>.</example>
                 <example type="incorrect">Si ells <marker>cantessen</marker>.</example>
@@ -17353,6 +17361,7 @@ $Id$
                     <token postag="V.*" postag_regexp="yes" regexp="yes">.*[iï](sc|sca|sques|squem|squeu|squen)|.+e(sca|sques|squen)<exception regexp="yes">.*(visc|visquem|visqueu)</exception><exception inflected="yes" regexp="yes">.*[ei]scar</exception><exception>visca</exception></token>
                 </pattern>
                 <message>Forma verbal pròpia del valencià.</message>
+                <!-- <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1"/></suggestion> -->
                 <short>Forma valenciana.</short>
                 <example type="incorrect">Que no <marker>patisca</marker>.</example>
                 <example type="correct">Que no <marker>pateixi</marker>.</example>
@@ -17361,9 +17370,10 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">.*òmplic|.*òbric</token>
+                    <token regexp="yes">.*òmplic|.*òbric|.*córrec</token>
                 </pattern>
                 <message>Forma verbal pròpia del valencià.</message>
+                <!-- <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1"/></suggestion> -->
                 <short>Forma valenciana.</short>
                 <example type="incorrect">Jo no <marker>òbric</marker>.</example>
                 <example type="correct">Jo no <marker>obro</marker>.</example>
@@ -17372,7 +17382,8 @@ $Id$
                 <pattern>
                     <token postag="V.*" postag_regexp="yes" regexp="yes">.+([^e]i|ï)(xo|x|xes|xen)<exception inflected="yes" regexp="yes">.+eixir|.+uixir|.+uixar|.+aixar|.+oixar|.+àixer|.*néixer|.+éixer</exception><exception postag="VMIP1S0"/><exception regexp="yes">(?-i)Unix</exception></token>
                 </pattern>
-                <message>Incoatiu en -ix. Substitueix per <suggestion><match no="1" regexp_match="^(.+)(i|ï)(x|xes|xen)" regexp_replace="$1ei$3"></match></suggestion></message>
+                <message>Incoatiu en -ix.</message>
+                <!-- <suggestion><match no="1" regexp_match="^(.+)(i|ï)(x|xes|xen)" regexp_replace="$1ei$3"></match></suggestion> -->
                 <short>Incoatiu en -ix.</short>
                 <example type="incorrect">Ell <marker>patix</marker>.</example>
                 <example type="correct">Ell pateix.</example>
@@ -17396,13 +17407,15 @@ $Id$
             	<example type="correct">nosaltres creem, vosaltres creeu</example>
             	<example type="correct">Jaieu.</example>
             </rule>
+            <!-- Falta: tix, tiny, vist, deim i semblants -->
         </rulegroup>
         <rulegroup id="EVITA_VERBS_BALEARS" name="Evita verbs balears (pens, patesqui, cantàssim, cantau)">
             <rule>
                 <pattern>
-                    <token postag="V.*" postag_regexp="yes" regexp="yes">.+(esqui|esquis|esquin)|fé<exception inflected="yes" regexp="yes">.+escar</exception></token>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes">.+(esqui|esquis|esquin)|.*fé<exception inflected="yes" regexp="yes">.+escar</exception></token>
                 </pattern>
                 <message>Forma verbal pròpia del balear.</message>
+                <!-- <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1"/></suggestion> -->
                 <short>Forma balear.</short>
                 <example type="incorrect">Que no <marker>patesqui</marker>.</example>
                 <example type="incorrect"><marker>Fé</marker>-li això.</example>
@@ -17410,9 +17423,10 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="V.SI.*" postag_regexp="yes" regexp="yes">.+.(assis|àssim|àssiu|assin)<exception postag="_GN.*|V.I.*|V.SP.*" postag_regexp="yes" /></token>
+                    <token postag="V.SI.*" postag_regexp="yes" regexp="yes">.+(assis|àssim|àssiu|assin)<exception postag="_GN.*|V.I.*|V.SP.*" postag_regexp="yes" /></token>
                 </pattern>
                 <message>Forma verbal pròpia del balear.</message>
+                <!-- <suggestion><match no="1" postag="(V.SI.*)" postag_regexp="yes" postag_replace="$1"/></suggestion> -->
                 <short>Forma balear.</short>
                 <example type="incorrect">Que no <marker>cantàssim</marker>.</example>
                 <example type="correct">Que no cantéssim.</example>
@@ -17422,10 +17436,11 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token postag="VMIP1S0"><exception regexp="yes">.+[eo]|.+scric|.*tr[ea]c|.*faig|.*[vt]inc|.*[ïie]sc</exception><exception regexp="yes">guard|sent|absolc|adic|aparec|aprehenc|aprenc|assec|bec|benveig|caic|calc|carvenc|cloc|coc|colc|commoc|comparec|complac|componc|comprenc|concloc|condolc|conec|confonc|contradic|corfonc|corprenc|corresponc|crec|dec|decaic|defenc|depenc|desaparec|desaprenc|desatenc|descloc|descomplac|descomponc|desconec|descrec|desdic|desentenc|despenc|desplac|desponc|desprenc|dic|difonc|dissolc|distenc|dolc|duc|embec|emprenc|encenc|encloc|enduc|enfonc|entenc|entredic|entreploc|entreveig|equivalc|escaic|estenc|estic|excloc|expenc|exsolc|fonc|incloc|infonc|interdic|llec|maldic|malentenc|malprenc|malveig|malvenc|malvull|mamprenc|marfonc|menyscrec|moc|molc|noc|ofenc|olc|parec|plac|ploc|ponc|predic|prenc|pretenc|prevalc|preveig|promoc|puc|rac|reabsolc|reaparec|rebec|recaic|recloc|recoc|recomponc|reconec|redic|refonc|remoc|remolc|reprenc|resolc|responc|retonc|retrovenc|reveig|ric|romanc|salprenc|sec|sobreentenc|sobreprenc|sobresec|sobrevalc|solc|somoc|somric|sorprenc|suspenc|sé|tolc|tonc|transfonc|ullprenc|vaig|valc|veig|venc|vull|ajac|ajec|hac|hec|jac|jec</exception><exception postag="VMIP1S0|_GV_" postag_regexp="yes" negate_pos="yes" /><exception postag="N.*|_possible_nompropi" postag_regexp="yes"/></token>
+                        <token postag="VMIP1S0"><exception regexp="yes">.+[eo]|.+scric|.*tr[ea]c|.*faig|.*[vt]inc|.*[ïie]sc</exception><exception regexp="yes">acut|.*córrec|pertanc|planc|complanc|guard|sent|absolc|adic|aparec|aprehenc|aprenc|assec|bec|benveig|caic|calc|carvenc|cloc|coc|colc|commoc|comparec|complac|componc|comprenc|concloc|condolc|conec|confonc|contradic|corfonc|corprenc|corresponc|crec|dec|decaic|defenc|depenc|desaparec|desaprenc|desatenc|descloc|descomplac|descomponc|desconec|descrec|desdic|desentenc|despenc|desplac|desponc|desprenc|dic|difonc|dissolc|distenc|dolc|duc|embec|emprenc|encenc|encloc|enduc|enfonc|entenc|entredic|entreploc|entreveig|equivalc|escaic|estenc|estic|excloc|expenc|exsolc|fonc|incloc|infonc|interdic|llec|maldic|malentenc|malprenc|malveig|malvenc|malvull|mamprenc|marfonc|menyscrec|moc|molc|noc|ofenc|olc|parec|plac|ploc|ponc|predic|prenc|pretenc|prevalc|preveig|promoc|puc|rac|reabsolc|reaparec|rebec|recaic|recloc|recoc|recomponc|reconec|redic|refonc|remoc|remolc|reprenc|resolc|responc|retonc|retrovenc|reveig|ric|romanc|salprenc|sec|sobreentenc|sobreprenc|sobresec|sobrevalc|solc|somoc|somric|sorprenc|suspenc|sé|tolc|tonc|transfonc|ullprenc|vaig|valc|veig|venc|vull|ajac|ajec|hac|hec|jac|jec</exception><exception postag="VMIP1S0|_GV_" postag_regexp="yes" negate_pos="yes" /><exception postag="N.*|_possible_nompropi" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Forma verbal pròpia del balear.</message>
+                <!-- <suggestion><match no="1" postag="(VMIP1S0)" postag_regexp="yes" postag_replace="$1"/></suggestion> -->
                 <short>Forma balear.</short>
                 <example type="incorrect">Jo <marker>pens</marker>.</example>
                 <example type="correct">Jo penso, dic i faig.</example>
@@ -17443,6 +17458,7 @@ $Id$
                     <token postag="VMIP1S0" regexp="yes">desatrac|plovisc|nevisc|envisc|entreobr|reompl|tenc|ompl|obr|vénc|abstenc|advenc|atenc|avenc|captenc|cartenc|contenc|contrafaç|contravenc|convenc|desavenc|desconvenc|desfaç|detenc|entretenc|entrevenc|esdevenc|estrafaç|intervenc|mantenc|menystenc|obtenc|obvenc|perfaç|pervenc|prevenc|provenc|rarefaç|reconvenc|refaç|retenc|revenc|satisfaç|sobrevenc|sostenc|subvenc|viltenc|faç</token>
                 </pattern>
                 <message>Forma verbal pròpia del balear.</message>
+                <!-- <suggestion><match no="1" postag="(VMIP1S0)" postag_regexp="yes" postag_replace="$1"/></suggestion> -->
                 <short>Forma balear.</short>
                 <example type="incorrect">Jo <marker>desatrac</marker>.</example>
                 <example type="correct">Jo desatraco.</example>
@@ -17454,6 +17470,7 @@ $Id$
                     </marker>    
                 </pattern>
                 <message>Forma verbal pròpia del balear.</message>
+                <!-- <suggestion><match no="1" postag="(VM[MI].[12]P0)" postag_regexp="yes" postag_replace="$1"/></suggestion> -->
                 <short>Forma balear.</short>
                 <example type="incorrect"><marker>Anam</marker> a la ciutat</example>
                 <example type="incorrect">Vosaltres <marker>cantau</marker>.</example>
@@ -17467,6 +17484,7 @@ $Id$
                     <token postag="V.*" postag_regexp="yes" regexp="yes">.*corrs?</token>
                 </pattern>
                 <message>Forma verbal pròpia del balear.</message>
+                <!-- <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1"/></suggestion> -->
                 <short>Forma balear.</short>
                 <example type="incorrect"><marker>incorrs</marker>.</example>
                 <example type="incorrect"><marker>concorr</marker>.</example>
@@ -17479,15 +17497,17 @@ $Id$
                     <token postag="V.I.*" postag_regexp="yes" regexp="yes">.+esc</token>
                 </pattern>
                 <message>Forma verbal pròpia del balear o del valencià.</message>
+                <!-- <suggestion><match no="1" postag="(V.I.*)" postag_regexp="yes" postag_replace="$1"/></suggestion> -->
                 <short>Forma balear o valenciana.</short>
                 <example type="incorrect">Jo <marker>patesc</marker>.</example>
                 <example type="correct">Jo no <marker>pateixo</marker>.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token postag="V.S.*" postag_regexp="yes" regexp="yes">.+às<exception postag="AQ.*|N.*|V..F.*|_possible_nompropi" postag_regexp="yes"/></token>
+                    <token postag="V.SI.*" postag_regexp="yes" regexp="yes">.+às<exception postag="AQ.*|N.*|V..F.*|_possible_nompropi" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Forma verbal pròpia del balear o del valencià.</message>
+                <!-- <suggestion><match no="1" postag="(V.S.*)" postag_regexp="yes" postag_replace="$1"/></suggestion> -->
                 <short>Forma balear o valenciana.</short>
                 <example type="incorrect">Que no <marker>pensàs</marker>.</example>
                 <example type="correct">Que no pensés.</example>
@@ -17501,15 +17521,17 @@ $Id$
                     <token regexp="yes">complanc|cresc|decresc|desisc|desmeresc|isc|iresc|meresc|pertanc|planc|recresc|reïsc|sobrecresc|sobreïsc</token>
                 </pattern>
                 <message>Forma verbal pròpia del balear o del valencià.</message>
+                <!-- <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1"/></suggestion> -->
                 <short>Forma balear o valenciana.</short>
                 <example type="incorrect">Que jo no <marker>meresc</marker>.</example>
                 <example type="correct">Que jo no <marker>mereixo</marker>.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token postag="VMIP1S0">sent<exception postag="VMIP1S0" negate_pos="yes"/></token>
+                    <token postag="VMIP1S0" regexp="yes">acut|.*sent<exception postag="VMIP1S0" negate_pos="yes"/></token>
                 </pattern>
-                <message>Forma verbal pròpia del balear o del valencià: <suggestion>sento</suggestion></message>
+                <message>Forma verbal pròpia del balear o del valencià.</message>
+                <suggestion>sento</suggestion>
                 <short>Forma balear o valenciana.</short>
                 <example type="incorrect">Jo <marker>sent</marker> que sí.</example>
                 <example type="correct">Jo sento que sí.</example>
