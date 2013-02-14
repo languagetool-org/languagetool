@@ -111,6 +111,7 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
 		assertCorrect("Era un home força misteriós");
 		
 		// errors:
+		assertIncorrect("La casa destrossat");
 		assertIncorrect("pantalons curt o llargs");
 		assertIncorrect("sota les grans persianes de color verd recalcada");
 		assertIncorrect("sota les grans persianes de color verd recalcat");

@@ -80,12 +80,12 @@ public class ReflexiveVerbsRule extends CatalanRule {
   private static final Pattern VERB_PRONOM = Pattern.compile("V.*|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00");
   //cal restringir les preposicions  
   
-  private static final Pattern VERB_1S = Pattern.compile("V...1S.");
-  private static final Pattern VERB_2S = Pattern.compile("V...2S.");
-  private static final Pattern VERB_3S = Pattern.compile("V...3S.");
-  private static final Pattern VERB_1P = Pattern.compile("V...1P.");
-  private static final Pattern VERB_2P = Pattern.compile("V...2P.");
-  private static final Pattern VERB_3P = Pattern.compile("V...3P.");
+  private static final Pattern VERB_1S = Pattern.compile("V...1S..?");
+  private static final Pattern VERB_2S = Pattern.compile("V...2S..?");
+  private static final Pattern VERB_3S = Pattern.compile("V...3S..?");
+  private static final Pattern VERB_1P = Pattern.compile("V...1P..?");
+  private static final Pattern VERB_2P = Pattern.compile("V...2P..?");
+  private static final Pattern VERB_3P = Pattern.compile("V...3P..?");
   
   private static final Pattern PRONOM_FEBLE_1S = Pattern.compile("P010S000");
   private static final Pattern PRONOM_FEBLE_2S = Pattern.compile("P020S000");

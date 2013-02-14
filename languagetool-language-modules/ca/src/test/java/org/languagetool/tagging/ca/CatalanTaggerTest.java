@@ -42,7 +42,7 @@ public class CatalanTaggerTest extends TestCase {
 
   public void testTagger() throws IOException {
     TestTools.myAssert("Sóc un home molt honrat.",
-        "Sóc/[ser]VSIP1S0 -- un/[un]DI0MS0|un/[un]PI0MS000 -- home/[home]I|home/[home]NCMS000 -- molt/[molt]DI0MS0|molt/[molt]PI0MS000|molt/[molt]RG -- honrat/[honrar]VMP00SM", tokenizer, tagger);
+        "Sóc/[ser]VSIP1S00 -- un/[un]DI0MS0|un/[un]PI0MS000 -- home/[home]I|home/[home]NCMS000 -- molt/[molt]DI0MS0|molt/[molt]PI0MS000|molt/[molt]RG -- honrat/[honrar]VMP00SM0", tokenizer, tagger);
 // Need to fix the separator character: al - a+el+SP+DA
 //    TestTools.myAssert("Frase recitada al matí.",
 //        "Frase/[frase]NCFS000 -- recitada/[recitar]VMP00SF -- al/[a]el+SP+DA -- matí/[matar]VMIS1S0|[matí]NCMS000", tokenizer, tagger);

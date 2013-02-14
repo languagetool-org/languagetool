@@ -70,16 +70,16 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
 	private static final Pattern GN_CS = Pattern.compile("N.[FMC][SN].*|D[NDA0I]0[FM]S0");
 
 	private static final Pattern ADJECTIU = Pattern.compile("AQ.*|V.P.*|PX.*|.*LOC_ADJ.*");
-	private static final Pattern ADJECTIU_MS = Pattern.compile("A..[MC][SN].*|V.P..SM|PX.MS.*");
-	private static final Pattern ADJECTIU_FS = Pattern.compile("A..[FC][SN].*|V.P..SF|PX.FS.*");
-	private static final Pattern ADJECTIU_MP = Pattern.compile("A..[MC][PN].*|V.P..PM|PX.MP.*");
-	private static final Pattern ADJECTIU_FP = Pattern.compile("A..[FC][PN].*|V.P..PF|PX.FP.*");
+	private static final Pattern ADJECTIU_MS = Pattern.compile("A..[MC][SN].*|V.P..SM.?|PX.MS.*");
+	private static final Pattern ADJECTIU_FS = Pattern.compile("A..[FC][SN].*|V.P..SF.?|PX.FS.*");
+	private static final Pattern ADJECTIU_MP = Pattern.compile("A..[MC][PN].*|V.P..PM.?|PX.MP.*");
+	private static final Pattern ADJECTIU_FP = Pattern.compile("A..[FC][PN].*|V.P..PF.?|PX.FP.*");
 	private static final Pattern ADJECTIU_CP = Pattern.compile("A..C[PN].*");
 	private static final Pattern ADJECTIU_CS = Pattern.compile("A..C[SN].*");
-	//private static final Pattern ADJECTIU_M = Pattern.compile("A..[MC].*|V.P...M|PX.M.*");
-	//private static final Pattern ADJECTIU_F = Pattern.compile("A..[FC].*|V.P...F|PX.F.*");
-	private static final Pattern ADJECTIU_S = Pattern.compile("A...[SN].*|V.P..S.|PX..S.*");
-	private static final Pattern ADJECTIU_P = Pattern.compile("A...[PN].*|V.P..P.|PX..P.*");
+	//private static final Pattern ADJECTIU_M = Pattern.compile("A..[MC].*|V.P...M.?|PX.M.*");
+	//private static final Pattern ADJECTIU_F = Pattern.compile("A..[FC].*|V.P...F.?|PX.F.*");
+	private static final Pattern ADJECTIU_S = Pattern.compile("A...[SN].*|V.P..S..?|PX..S.*");
+	private static final Pattern ADJECTIU_P = Pattern.compile("A...[PN].*|V.P..P..?|PX..P.*");
 	private static final Pattern ADVERBI = Pattern.compile("R.|.*LOC_ADV.*");
 	private static final Pattern LOC_ADV = Pattern.compile(".*LOC_ADV.*");
 	private static final Pattern ADVERBIS_ACCEPTATS = Pattern.compile("RG_anteposat");

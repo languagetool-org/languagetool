@@ -35,11 +35,11 @@ public class CatalanSynthesizerTest extends TestCase {
 
     assertEquals("[nostres]", synth("nostre", "PX1CP0P0"));
     assertEquals("[presidents]", synth("president", "NCMP000"));
-    assertEquals("[comprovat]", synth("comprovar", "VMP00SM"));
+    assertEquals("[comprovat]", synth("comprovar", "VMP00SM.?"));
 
     //with regular expressions:
     assertEquals("[comprovades, comprovats, comprovada, comprovat]", synthRegex("comprovar", "V.P.*"));
-    assertEquals("[contestant, contestar]", synthRegex("contestar", "VM[GN]0000"));
+    assertEquals("[contestant, contestar]", synthRegex("contestar", "VM[GN]0000.?"));
 
     //with special definite article:
     assertEquals("[les universitats, la universitat]", synthNonRegex("universitat", "DT"));
