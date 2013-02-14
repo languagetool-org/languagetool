@@ -684,16 +684,39 @@ RB => Règles Brutes
   
   <!-- This is to catch frequent errors such as "J'ai manger" which would not
          be caught without disambiguation as "manger" can also be a noun -->
-  <rule name="Etre/Avoir + verb" id="ETRE_AVOIR_V_ER">
-    <pattern>
-      <token postag="V avoir .*" postag_regexp="yes"/>
-      <marker>
-        <token regexp="yes" postag="V inf">.*er</token>
-      </marker>
-    </pattern>
-    <disambig postag="V inf"/>
-  </rule>
-  
+  <rulegroup name="Etre/Avoir + verb" id="ETRE_AVOIR_V_ER">
+    <rule>
+      <pattern>
+        <token postag="V avoir .*" postag_regexp="yes"/>
+        <marker>
+          <token regexp="yes" postag="V inf">.*er</token>
+        </marker>
+      </pattern>
+      <disambig postag="V inf"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token postag="V avoir .*" postag_regexp="yes"/>
+        <token regexp="yes">assez|beaucoup|bien|encore|énormément|guerre|moins|parfois|pas|peu|plus|presque|toujours|très|trop</token>
+        <marker>
+          <token regexp="yes" postag="V inf">.*er</token>
+        </marker>
+      </pattern>
+      <disambig postag="V inf"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token postag="V avoir .*" postag_regexp="yes"/>
+        <token regexp="yes">assez|beaucoup|pas|plus|presque|jamais|toujours|très|trop</token>
+        <token regexp="yes">assez|beaucoup|bien|encore|énormément|peu|plus|très|trop</token>
+        <marker>
+          <token regexp="yes" postag="V inf">.*er</token>
+        </marker>
+      </pattern>
+      <disambig postag="V inf"/>
+    </rule>
+  </rulegroup>
+
   <rulegroup name="RP : Etre/avoir + participe passé ambigu" id="RP-ÊTRE_AVOIR_VPPA_AMBIG">
     <rule name="ppa masc sing">
       <pattern>
@@ -714,7 +737,7 @@ RB => Règles Brutes
       <disambig action="replace"><wd lemma="être" pos="V etre ppa m s"/></disambig>
     </rule>
   </rulegroup>
-  
+
   <rulegroup name="RP : Que" id="RP-QUE">
     <rule name="que relatif">
       <pattern>
