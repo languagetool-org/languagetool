@@ -2545,7 +2545,7 @@ $Id$
             <rule>
                 <pattern case_sensitive="yes">
                     <marker>
-                        <token regexp="yes" spacebefore="yes">[MCDXLVI]+<exception regexp="yes">(?=.)M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})</exception><exception postag="[NDV].*" postag_regexp="yes"/></token>
+                        <token regexp="yes" spacebefore="yes">[MCDXLVI]+<exception regexp="yes">(?=.)M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})</exception><exception postag="[ANDV].*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Nombre romà incorrecte.</message>
@@ -2556,13 +2556,14 @@ $Id$
             <rule>
                 <pattern case_sensitive="yes">
                     <marker>
-                        <token regexp="yes" spacebefore="yes">[mcdxlvi]+<exception regexp="yes">(?=.)m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|iv|v?i{0,3})</exception><exception postag="[NDV].*" postag_regexp="yes"/></token>
+                        <token regexp="yes" spacebefore="yes">[mcdxlvi]+<exception regexp="yes">(?=.)m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|iv|v?i{0,3})</exception><exception postag="[ANDV].*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Nombre romà incorrecte.</message>
                 <example type="incorrect">Hi ha <marker>xxvxxi</marker> solucions.</example>
                 <example type="correct">Hi ha xxi solucions.</example>
                 <example type="correct">Tinc mil coses</example>
+                <example type="correct">És d'obra civil.</example>
             </rule>
         </rulegroup>
     </category>
@@ -6599,13 +6600,14 @@ $Id$
             </rule>
         </rulegroup>    
         <rulegroup id="SON" name="son/són">
+        	<!-- Cal millorar la regla, perquè ja no es considera determinant i no funciona la regla de concordança per a detectar error-->
             <rule>
                 <pattern>
                     <token><exception inflected="yes">tenir</exception><exception postag="D[AD]0[MF]S0" postag_regexp="yes"/><exception regexp="yes">de|d'</exception></token>
                     <marker>
                         <token>son</token>
                     </marker>
-                    <token postag="D[AI].*" postag_regexp="yes"/>
+                    <token postag="D[AID].*" postag_regexp="yes"/>
                 </pattern>
                 <message>Si és del verb 'ser', cal accentuar: <suggestion>són</suggestion>.</message>
                 <short>Accent diacrític.</short>
@@ -6630,6 +6632,19 @@ $Id$
                 <message>Si és del verb 'ser', cal accentuar: <suggestion>són</suggestion>.</message>
                 <short>Accent diacrític.</short>
                 <example type="incorrect" correction="són">Les temperatures mitjanes <marker>son</marker> de 15 i 16ºC.</example>
+                <example type="correct">una restricció sostinguda del son de quatre hores al dia</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>son<exception postag="_GN.*" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="[AN].*|_GN.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Si és del verb 'ser', cal accentuar: <suggestion>són</suggestion>.</message>
+                <short>Accent diacrític.</short>
+                <example type="incorrect" correction="són">Novament <marker>son</marker> casos evidents de malbaratment.</example>
+                <example type="incorrect" correction="són">Aquestes <marker>son</marker> boniques.</example>
                 <example type="correct">una restricció sostinguda del son de quatre hores al dia</example>
             </rule>
         </rulegroup>
