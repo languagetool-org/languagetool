@@ -4640,21 +4640,40 @@ $Id$
                 <example type="correct">en relació de parella</example>
             </rule>
         </rulegroup>    
-        <rule id="ABASTAMENT_A_BASTAMENT" name="abastament / a bastament">
-            <pattern>
-                <token postag="SPS00" negate_pos="yes"/> 
-                <marker>
-                    <token>abastament<exception postag="_GN_MS"/></token>
-                </marker>
-            </pattern>
-            <message>¿Volíeu dir <suggestion>a bastament</suggestion>?</message>
-            <short>Possible confusió</short>
-            <example type="incorrect">van usar <marker>abastament</marker></example>
-            <example type="correct">a bastament</example>
-            <example type="correct">l'abastament de la ciutat</example>
-            <example type="correct">els problemes d'abastament de la ciutat</example>
-            <example type="correct">avió d'abastament</example>
-        </rule>
+        <rulegroup id="ABASTAMENT_A_BASTAMENT" name="abastament / a bastament">
+        	<rule>
+	            <pattern>
+	                <token postag="SPS00" negate_pos="yes"/> 
+	                <marker>
+	                    <token>abastament<exception postag="_GN_MS"/></token>
+	                </marker>
+	                <token><exception regexp="yes">de|d'</exception></token>
+	            </pattern>
+	            <message>¿Volíeu dir <suggestion>a bastament</suggestion>?</message>
+	            <short>Possible confusió</short>
+	            <example type="incorrect">van cantar <marker>abastament</marker>.</example>
+	            <example type="correct">l'abastament de la ciutat</example>
+	            <example type="correct">els problemes d'abastament de la ciutat</example>
+	            <example type="correct">avió d'abastament</example>
+	        </rule>
+	        <rule>
+	            <pattern>
+	                <token postag="SPS00" negate_pos="yes"/> 
+	                <marker>
+	                    <token>abastament<exception postag="_GN_MS"/></token>
+	                </marker>
+	                <token regexp="yes">de|d'</token>
+	                <token><exception regexp="yes" inflected="yes">llum|aigua|aliment|energia</exception></token>
+	            </pattern>
+	            <message>¿Volíeu dir <suggestion>a bastament</suggestion>?</message>
+	            <short>Possible confusió</short>
+	            <example type="incorrect">van abusar <marker>abastament</marker> del seu dret</example>
+	            <example type="correct">abastament de llum</example>
+	            <example type="correct">l'abastament de la ciutat</example>
+	            <example type="correct">els problemes d'abastament de la ciutat</example>
+	            <example type="correct">avió d'abastament</example>
+	        </rule>
+	    </rulegroup>    
         <rule id="ESTANT_ESTAN_FENT" name="Confusió: *estant/estan fent">
             <pattern>
                 <marker>
@@ -8580,12 +8599,13 @@ $Id$
                 <example type="correct">Em porten dos plats.</example>
                 <example type="correct">Ells són set.</example>
                 <example type="correct">la suma dels estats d'oxidació dóna zero.</example>
+                <example type="correct">Taula 15. Superfície artificial al País Valencià</example>
             </rule>
             <rule>
                 <pattern>
                     <token postag="SENT_START" skip="-1"><exception postag="PP3CN000" scope="next" inflected="yes">en</exception></token>
                     <marker>
-                        <token postag="V[^S][SI].*" postag_regexp="yes"/>
+                        <token postag="V[^S][SI].*" postag_regexp="yes"><exception>taula</exception></token>
                         <token postag="DN.*" postag_regexp="yes"><exception regexp="yes">zero|set</exception></token>
                     </marker>
                     <token>,</token>
@@ -15000,6 +15020,23 @@ $Id$
         </rulegroup>
     </category>
     <category name="C7) Expressions preferibles" default="on">
+    	<rule id="PASSAR_PER" name="passer per + infinitiu">
+    		<pattern>
+    			<marker>
+	    			<token inflected="yes">passar</token>
+	    			<token>per</token>
+    			</marker>
+    			<token postag="V.N.*" postag_regexp="yes"/>
+    		</pattern>
+    		<message>Val més usar una altra expressió.</message>
+    		<suggestion><match no="1" postag="(V.[IS].*)" postag_regexp="yes" postag_replace="$1">implicar</match></suggestion>
+    		<suggestion><match no="1" postag="(V.[IS].*)" postag_regexp="yes" postag_replace="$1">dependre</match> de</suggestion>
+    		<suggestion><match no="1" postag="(V.[IS].*)" postag_regexp="yes" postag_replace="$1">exigir</match></suggestion>
+    		<suggestion><match no="1" postag="(V.[IS].*)" postag_regexp="yes" postag_replace="$1">demanar</match></suggestion>
+    		<suggestion><match no="1" postag="(V.[IS].*)" postag_regexp="yes" postag_replace="$1">estar</match> en funció de</suggestion>
+    		<example type="incorrect" correction="implica|depèn de|depén de|exigeix|demana|està en funció de">La solució <marker>passa per</marker> negar-li el dret.</example>
+    		<example type="correct">No passis per la plaça.</example>
+    	</rule>
     	<rule id="A_FI_DE_COMPTES" name="a fi de comptes">
             <pattern>
                 <token>a</token>
