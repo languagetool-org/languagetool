@@ -4023,6 +4023,18 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions">
+    	<rule id="PUGIN_PUGUIN" name="pugin/puguin">
+    		<pattern>
+    			<marker>
+    				<token skip="1" inflected="yes">pujar</token>
+    			</marker>
+    			<token postag="V.N.*" postag_regexp="yes"/>
+    		</pattern>
+    		<message>¿Volíeu dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">poder</match></suggestion> (del verb "poder") en comptes de <match no="1"/> (del verb "pujar")</message>
+    		<example type="incorrect" correction="puguin">que <marker>pugin</marker> fer-ho</example>
+    		<example type="incorrect" correction="poguéssiu">si <marker>pugéssiu</marker> fer-ho</example>
+    		<example type="correct">no pugeu el menjar</example>
+    	</rule>
         <rule id="MALDADES_MAL_DADES" name="maldades / mal dades">
             <pattern>
                 <token inflected="yes" regexp="yes" skip="1">venir|anar</token>
