@@ -611,6 +611,26 @@ though, and has since been slightly modified)-->
         <example type="correct">J’ai obtenu un prêt de la banque.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="COTE" name="coté et côté">
+      <rule>
+        <pattern>
+          <token regexp="yes">à|au|autre|bon|[cdl]e|du|[mts]on|[nv]otre|chaque|un|leur</token>
+          <marker><token>coté</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>côté</suggestion> ?</message>
+        <example type="incorrect">Je reste à son <marker>coté</marker>.</example>
+        <example type="correct">Je reste à son <marker>côté</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">aux|autres|bons|[cdl]es|[mts]es|[nv]os|leurs</token>
+          <marker><token>cotés</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>côtés</suggestion> ?</message>
+        <example type="incorrect">Je reste à ses <marker>cotés</marker>.</example>
+        <example type="correct">Je reste à ses <marker>côtés</marker>.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="CA_SA" name="ÇA au lieu de SA">
       <rule>
         <pattern>
