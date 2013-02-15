@@ -4272,7 +4272,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token postag="V avoir .*" postag_regexp="yes"/>
-          <token regexp="yes">assez|beaucoup|bien|encore|enfin|énormément|guerre|mieux|moins|parfois|pas|peu|plus|presque|toujours|très|trop</token>
+          <token regexp="yes">assez|beaucoup|bien|déjà|encore|enfin|énormément|guerre|mieux|moins|parfois|pas|peu|plus|presque|toujours|très|trop</token>
           <marker>
             <token postag="V (inf|ind|sub|con|ppr).*" postag_regexp="yes"><exception postag="[RND] .*|V .*ppa.*" postag_regexp="yes"/></token>
           </marker>
@@ -4293,6 +4293,31 @@ though, and has since been slightly modified)-->
         <message>Après l’auxiliaire « \1 », le verbe devrait être au participe passé</message>
         <example type="incorrect">Je n’ai pas encore <marker>manger</marker>.</example>
         <example type="correct">Je n’ai pas encore <marker>mangé</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">(a|aura)-t-(ils?|elles|on)|(a[is]|avi?ons|avi?ez|ont|avai[st]|avaient|aurai[st]|aurions|auriez|auraient|eut|eurent|eusses|eût|eussions|eussiez|eussent)-(je|tu|ils?|elles?|on|[nv]ous)</token>
+          <marker>
+            <token postag="V (inf|ind|sub|con|ppr).*" postag_regexp="yes"><exception postag="[RND] .*|V .*ppa.*" postag_regexp="yes"/></token>
+          </marker>
+        </pattern>
+        <message>Après l’auxiliaire « \1 », le verbe devrait être au participe passé</message>
+        <example type="incorrect">Avez-vous <marker>signez</marker> le contrat ?</example>
+        <example type="incorrect">Avez-vous <marker>signer</marker> le contrat ?</example>
+        <example type="correct">Avez-vous <marker>signé</marker> le contrat ?</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">(a|aura)-t-(ils?|elles|on)|(a[is]|avi?ons|avi?ez|ont|avai[st]|avaient|aurai[st]|aurions|auriez|auraient|eut|eurent|eusses|eût|eussions|eussiez|eussent)-(je|tu|ils?|elles?|on|[nv]ous)</token>
+          <token regexp="yes">assez|beaucoup|bien|déjà|encore|enfin|énormément|guerre|mieux|moins|parfois|pas|peu|plus|presque|toujours|trop</token>
+          <marker>
+            <token postag="V (inf|ind|sub|con|ppr).*" postag_regexp="yes"><exception postag="[RND] .*|V .*ppa.*" postag_regexp="yes"/></token>
+          </marker>
+        </pattern>
+        <message>Après l’auxiliaire « \1 », le verbe devrait être au participe passé</message>
+        <example type="incorrect">Avez-vous déjà <marker>signez</marker> le contrat ?</example>
+        <example type="incorrect">Avez-vous déjà <marker>signer</marker> le contrat ?</example>
+        <example type="correct">Avez-vous déjà <marker>signé</marker> le contrat ?</example>
       </rule>
     </rulegroup>
     <rule id="AVOIR_PU" name="Avoir pu suivi d’un verbe conjugué">
