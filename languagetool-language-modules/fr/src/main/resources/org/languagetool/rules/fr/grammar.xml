@@ -614,7 +614,7 @@ though, and has since been slightly modified)-->
     <rulegroup id="COTE" name="coté et côté">
       <rule>
         <pattern>
-          <token regexp="yes">à|au|autre|bon|[cdl]e|du|[mts]on|[nv]otre|chaque|un|leur</token>
+          <token regexp="yes">à|au|autre|bon|mauvais|[cdl]e|du|[mts]on|[nv]otre|chaque|un|leur</token>
           <marker><token>coté</token></marker>
         </pattern>
         <message>Voulez-vous écrire <suggestion>côté</suggestion> ?</message>
@@ -623,12 +623,22 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">aux|autres|bons|[cdl]es|[mts]es|[nv]os|leurs</token>
+          <token regexp="yes">aux|autres|bons|mauvais|[cdl]es|[mts]es|[nv]os|leurs</token>
           <marker><token>cotés</token></marker>
         </pattern>
         <message>Voulez-vous écrire <suggestion>côtés</suggestion> ?</message>
         <example type="incorrect">Je reste à ses <marker>cotés</marker>.</example>
         <example type="correct">Je reste à ses <marker>côtés</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">cotes?</token></marker>
+          <token>de</token>
+          <token regexp="yes">porcs?|bœuf|boeuf|veaux?</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>côté</suggestion> ?</message>
+        <example type="incorrect">Une <marker>cote</marker> de veau.</example>
+        <example type="correct">Une <marker>côte</marker> de veau.</example>
       </rule>
     </rulegroup>
     <rulegroup id="CA_SA" name="ÇA au lieu de SA">
