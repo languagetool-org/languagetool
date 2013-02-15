@@ -6567,7 +6567,8 @@ $Id$
 			        </marker>
 			        <token><exception postag="SENT_END|PUNCT.*" postag_regexp="yes"/></token>
 			    </pattern>
-			    <message>Cal escriure <suggestion><match no="1"/> que</suggestion>. </message>
+			    <message>Cal escriure <suggestion><match no="1"/> que</suggestion>.</message>
+			    <short>Diacrític</short>
 			    <example type="incorrect" correction="ja que"><marker>ja què</marker> són així</example>
 			    <example type="correct">ja que</example>
 			</rule>
@@ -6578,9 +6579,25 @@ $Id$
 			        <token>què</token>
 			    </pattern>
 			    <message>Cal escriure <suggestion>tot i que</suggestion>.</message>
+			    <short>Diacrític</short>
 			    <example type="incorrect" correction="tot i que"><marker>tot i què</marker> no m'interessa</example>
 			    <example type="correct">tot i que és possible</example>
 			</rule>
+            <rule>
+                <pattern>
+                    <token postag="V.[SI].*|_GV_" postag_regexp="yes"/>
+                    <token>el</token>
+                    <marker>
+                        <token>què</token>
+                    </marker>
+                    <token postag="V.[SI].*|_GV_" postag_regexp="yes"/>
+                </pattern>
+                <message>Cal escriure: <suggestion>que</suggestion>.</message>
+                <short>Diacrític</short>
+                <example type="incorrect">per què escriuen el <marker>què</marker> escriuen</example>
+                <example type="incorrect">per què han escrit el <marker>què</marker> han escrit</example>
+                <example type="correct">per què van escriure el que han escrit</example>
+            </rule>
 		</rulegroup>	
         <rulegroup id="FEU" name="feu/féu">
             <!-- Cal estudiar "que el feu". Mirar que no hi hagi cap verb ni pronom de 2P abans. "que el feu famós"... -->
@@ -6645,6 +6662,7 @@ $Id$
                 <short>Accent diacrític.</short>
                 <example type="incorrect" correction="són">Novament <marker>son</marker> casos evidents de malbaratment.</example>
                 <example type="incorrect" correction="són">Aquestes <marker>son</marker> boniques.</example>
+                <example type="incorrect" correction="Són"><marker>Son</marker> dos exemples dels centenars que existeixen.</example>
                 <example type="correct">una restricció sostinguda del son de quatre hores al dia</example>
             </rule>
         </rulegroup>
@@ -6773,23 +6791,6 @@ $Id$
                 <example type="correct">excepte pel fet que va dir-ho</example>
                 <example type="correct">perseguit de prop pels aliats.</example>
              </rule>
-        </rulegroup>
-        <rulegroup id="QUE" name="que/què">
-            <rule>
-                <pattern>
-                    <token postag="V.[SI].*|_GV_" postag_regexp="yes"/>
-                    <token>el</token>
-                    <marker>
-                        <token>què</token>
-                    </marker>
-                    <token postag="V.[SI].*|_GV_" postag_regexp="yes"/>
-                </pattern>
-                <message>Cal escriure: <suggestion>que</suggestion>.</message>
-                <short>Confusió</short>
-                <example type="incorrect">per què escriuen el <marker>què</marker> escriuen</example>
-                <example type="incorrect">per què han escrit el <marker>què</marker> han escrit</example>
-                <example type="correct">per què van escriure el que han escrit</example>
-            </rule>
         </rulegroup>
         <rulegroup id="FORA" name="Confusió: *fora/fóra bo/atacat">
             <rule>

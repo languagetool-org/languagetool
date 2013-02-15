@@ -40,7 +40,7 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
 	}
 
 	public void testRule() throws IOException { 
-
+	  
 		// correct sentences:
 		//es van posar en camí proveïts de presents 
 		assertCorrect("Bernabé i Saule, un cop acomplerta la seva missió a Jerusalem");
@@ -111,6 +111,7 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
 		assertCorrect("Era un home força misteriós");
 		
 		// errors:
+		assertIncorrect("Son molt boniques");
 		assertIncorrect("La casa destrossat");
 		assertIncorrect("pantalons curt o llargs");
 		assertIncorrect("sota les grans persianes de color verd recalcada");

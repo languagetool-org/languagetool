@@ -316,11 +316,12 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
 							j++;
 						}
 						
-						//previous token is a non-agreeing noun or it is adjective or adverb (not preceded my verb)
-						if (!isException && ( (matchPostagRegexp(tokens[i-1],NOM) && !matchPostagRegexp(tokens[i-1],substPattern)) ||
-								(i>3 /*&& !matchPostagRegexp(tokens[i],NOM)*/ && (( matchPostagRegexp(tokens[i-1],ADJECTIU) && !matchPostagRegexp(tokens[i-1],adjPattern) ) || matchPostagRegexp(tokens[i-1],ADVERBIS_ACCEPTATS) || matchPostagRegexp(tokens[i-1],LOC_ADV) ) 
-										&& !matchPostagRegexp(tokens[i-2],VERB) && !matchPostagRegexp(tokens[i-3],VERB)))) {  
-							j=1;
+						//previous token is a non-agreeing noun or it is adjective or adverb (not preceded by verb) /*&& !matchPostagRegexp(tokens[i],NOM)*/
+            if (!isException && ((matchPostagRegexp(tokens[i - 1], NOM) && !matchPostagRegexp(tokens[i - 1], substPattern)) 
+                || (i > 2 && ((matchPostagRegexp(tokens[i - 1], ADJECTIU) && !matchPostagRegexp(tokens[i - 1], adjPattern))
+                        || matchPostagRegexp(tokens[i - 1], ADVERBIS_ACCEPTATS) || matchPostagRegexp(tokens[i - 1], LOC_ADV))
+                    && !matchPostagRegexp(tokens[i - 2], VERB) && !matchPostagRegexp(tokens[i - 3], VERB)) )) {
+              j = 1;
 							keepCounting=true;
 							while (i-j>0 && !adjectiveAgrees && keepCounting)
 							{
