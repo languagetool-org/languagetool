@@ -40,24 +40,48 @@
     <build>
         <plugins>
             <plugin>
-              <artifactId>maven-assembly-plugin</artifactId>
-              <configuration>
-                <archive>
-                  <manifest>
-                    <mainClass>org.languagetool.dev.wikipedia.Main</mainClass>
-                  </manifest>
-                </archive>
-                <descriptorRefs>
-                  <descriptorRef>jar-with-dependencies</descriptorRef>
-                </descriptorRefs>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathLayoutType>custom</classpathLayoutType>
+                            <customClasspathLayout>libs/$${artifact.artifactId}$${dashClassifier?}.$${artifact.extension}</customClasspathLayout>
+                        </manifest>
+                        <manifestEntries>
+                            <!-- as we later unzip the language JARs (see zip.xml), we need to add the top directory to the classpath: -->
+                            <Class-Path>./</Class-Path>
+                            <Main-Class>org.languagetool.dev.wikipedia.Main</Main-Class>
+                            <ComponentVersion>${project.version}</ComponentVersion>
+                            <Implementation-Date>${maven.build.timestamp}</Implementation-Date>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <descriptor>src/main/assembly/zip.xml</descriptor>
+                    <finalName>LanguageTool-wikipedia-${project.version}</finalName>
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <addExtensions>false</addExtensions>
+                        </manifest>
+                    </archive>
                 </configuration>
                 <executions>
-                  <execution>
-                    <phase>package</phase>
-                      <goals>
-                        <goal>single</goal>
-                      </goals>
-                  </execution>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
                 </executions>
             </plugin>
         </plugins>
