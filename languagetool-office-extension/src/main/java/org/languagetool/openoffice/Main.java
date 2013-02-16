@@ -272,25 +272,29 @@ public class Main extends WeakBase implements XJobExecutor,
           initLanguageTool();
         }
 
-        synchronized (config) {
-          final Set<String> disabledRuleIds = config.getDisabledRuleIds();
-          if (disabledRuleIds != null) {
-            for (final String id : disabledRuleIds) {
-              langTool.disableRule(id);
-            }
+        final Set<String> disabledRuleIds = config.getDisabledRuleIds();
+        if (disabledRuleIds != null) {
+          // copy as the config thread may access this as well
+          final ArrayList<String> list = new ArrayList<String>(disabledRuleIds);
+          for (final String id : list) {
+            langTool.disableRule(id);
           }
-          final Set<String> disabledCategories = config.getDisabledCategoryNames();
-          if (disabledCategories != null) {
-            for (final String categoryName : disabledCategories) {
-              langTool.disableCategory(categoryName);
-            }
+        }
+        final Set<String> disabledCategories = config.getDisabledCategoryNames();
+        if (disabledCategories != null) {
+          // copy as the config thread may access this as well
+          final ArrayList<String> list = new ArrayList<String>(disabledCategories);
+          for (final String categoryName : list) {
+            langTool.disableCategory(categoryName);
           }
-          final Set<String> enabledRuleIds = config.getEnabledRuleIds();
-          if (enabledRuleIds != null) {
-            for (String ruleName : enabledRuleIds) {
-              langTool.enableDefaultOffRule(ruleName);
-              langTool.enableRule(ruleName);
-            }
+        }
+        final Set<String> enabledRuleIds = config.getEnabledRuleIds();
+        if (enabledRuleIds != null) {
+          // copy as the config thread may access this as well
+          final ArrayList<String> list = new ArrayList<String>(enabledRuleIds);
+          for (String ruleName : list) {
+            langTool.enableDefaultOffRule(ruleName);
+            langTool.enableRule(ruleName);
           }
         }
         try {
