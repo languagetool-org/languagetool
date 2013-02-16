@@ -157,17 +157,17 @@ public class WikipediaQuickCheck {
   }*/
     
   public static void main(String[] args) throws IOException {
+    if (args.length != 1) {
+      System.out.println("Usage: " + WikipediaQuickCheck.class.getName() + " <url>");
+      System.exit(1);
+    }
     final WikipediaQuickCheck check = new WikipediaQuickCheck();
-    //final String urlString = "http://de.wikipedia.org/wiki/Hof";
-    //final String urlString = "http://de.wikipedia.org/wiki/Gütersloh";
-    //final String urlString = "http://de.wikipedia.org/wiki/Bielefeld";
-    //final String urlString = "http://de.wikipedia.org/wiki/Berlin";
-    //final String urlString = "http://de.wikipedia.org/wiki/Köln";
+    // URL examples:
     //final String urlString = "http://de.wikipedia.org/wiki/Angela_Merkel";
-    //final String urlString = "http://de.wikipedia.org/wiki/Wortschatz";
     //final String urlString = "https://de.wikipedia.org/wiki/Benutzer_Diskussion:Dnaber";
     //final String urlString = "https://secure.wikimedia.org/wikipedia/de/wiki/G%C3%BCtersloh";
-    final String urlString = "https://secure.wikimedia.org/wikipedia/de/wiki/Benutzer_Diskussion:Dnaber";
+    //final String urlString = "https://secure.wikimedia.org/wikipedia/de/wiki/Benutzer_Diskussion:Dnaber";
+    final String urlString = args[0];
     final URL url = new URL(urlString);
     final String mediaWikiContent = check.getMediaWikiContent(url);
     final String plainText = check.getPlainText(mediaWikiContent);
