@@ -4024,6 +4024,16 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions">
+    	<rule id="CONSEGUENT_CONSEQUENT" name="conseguent/consequent">
+		    <pattern>
+		        <token>per</token>
+		        <token>conseqüent</token>
+		    </pattern>
+		    <message>En el sentit de "per tant", cal dir: <suggestion>per consegüent</suggestion>.</message>
+		    <short>Confusió</short>
+		    <example type="incorrect"><marker>per conseqüent</marker></example>
+		    <example type="correct">per consegüent</example>
+		</rule>
     	<rule id="PUGIN_PUGUIN" name="pugin/puguin">
     		<pattern>
     			<marker>
@@ -7376,6 +7386,32 @@ $Id$
                 <example type="incorrect" correction="més">si res <marker>mes</marker> no</example>
                 <example type="incorrect" correction="més">No passarà mai <marker>mes</marker></example>
                 <example type="correct">si res més no</example>
+            </rule>
+            <rule>
+            	<pattern>
+            		<marker>
+            			<token>mes</token>
+            		</marker>
+            		<token regexp="yes">i|o|ni|,</token>
+            		<token regexp="yes">menys|manco</token>
+            	</pattern>
+            	<message>S'accentua quan és adjectiu o adverbi.</message>
+                <suggestion>més</suggestion>
+                <short>Accent diacrític.</short>
+                <example type="incorrect" correction="més">De manera <marker>mes</marker> o menys immediata</example>
+                <example type="correct">més o menys</example>
+            </rule>
+            <rule>
+            	<pattern>
+            		<token>cada</token>
+            		<token regexp="yes">volta|vegada|col?p|pic</token>
+            		<marker><token>mes</token></marker>
+            	</pattern>
+            	<message>S'accentua quan és adjectiu o adverbi.</message>
+                <suggestion>més</suggestion>
+                <short>Accent diacrític.</short>
+                <example type="incorrect" correction="més">Retarden cada vegada <marker>mes</marker> l'edat d'emancipació.</example>
+                <example type="correct">Cada cop més.</example>
             </rule>
             <!-- Situació inversa: accentuar "més" quan no toca-->
             <rule id="UN_MES" name="un més/mes">
