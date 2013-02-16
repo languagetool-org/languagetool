@@ -390,12 +390,10 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
 
     try {
       final String newURLStr = "jar:" + file.toURI().toURL().toExternalForm() + "!/" + originalURLPath;
-      url = new URL(newURLStr);
+      return new URL(newURLStr);
     } catch (MalformedURLException e) {
       return url;
     }
-
-    return url;
   }
 
 }
