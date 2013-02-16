@@ -19,7 +19,6 @@
 package org.languagetool.dev.wikipedia;
 
 import org.languagetool.Language;
-import org.languagetool.dev.tools.RomanianDiacriticsModifier;
 
 /**
  * Helper class.

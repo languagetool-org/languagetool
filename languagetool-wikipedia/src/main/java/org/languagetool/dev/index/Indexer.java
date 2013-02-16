@@ -38,9 +38,6 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.tokenizers.SentenceTokenizer;
 
-import static org.languagetool.dev.index.PatternRuleQueryBuilder.FIELD_NAME;
-import static org.languagetool.dev.index.PatternRuleQueryBuilder.FIELD_NAME_LOWERCASE;
-
 /**
  * A class with a main() method that takes a text file and indexes its sentences, including POS tags
  * 
@@ -49,6 +46,8 @@ import static org.languagetool.dev.index.PatternRuleQueryBuilder.FIELD_NAME_LOWE
 public class Indexer {
 
   private static final Version LUCENE_VERSION = Version.LUCENE_40;
+  private static final String FIELD_NAME = "field";
+  private static final String FIELD_NAME_LOWERCASE = "fieldLowercase";
 
   private final IndexWriter writer;
   private final SentenceTokenizer sentenceTokenizer;
