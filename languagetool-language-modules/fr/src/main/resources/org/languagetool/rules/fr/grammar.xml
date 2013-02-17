@@ -665,7 +665,7 @@ though, and has since been slightly modified)-->
           </marker>
           <token postag="N .*" postag_regexp="yes">
             <exception postag="V .*" postag_regexp="yes"/>
-            <exception regexp="yes">[a-z]|oui</exception>
+            <exception regexp="yes">[a-z]|oui|non</exception>
           </token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>sa</suggestion> ?</message>
@@ -6021,7 +6021,7 @@ though, and has since been slightly modified)-->
           </token>
           <marker>
             <token postag="V.*" postag_regexp="yes">
-              <exception postag="V .* 3 s|V ppa . s|V.* ppr|J.*" postag_regexp="yes"/>
+              <exception postag="V .* 3 s|V ppa . s|V.* ppr|[NJ].*" postag_regexp="yes"/>
             </token>
           </marker>
         </pattern>
@@ -6039,6 +6039,7 @@ though, and has since been slightly modified)-->
         <example type="correct">Les boissons et la nourriture étaient servis à volonté.</example>
         <example type="correct">Quel âge ont vos enfants ?</example>
         <example type="correct">Ni la Terre, ni son orbite ne sont parfaitement circulaires.</example>
+        <example type="correct">Un petit sourire.</example>
       </rule>
       <rule name="sujet singulier + 1 token + verbe pluriel">
         <pattern>
@@ -7319,6 +7320,7 @@ though, and has since been slightly modified)-->
       <example type="correct">Le canal de Suez.</example>
       <example type="correct">Ils sont par <marker>contre restés</marker> à la maison.</example>
       <example type="correct">Le cinéma tire à hue et à dia.</example>
+      <example type="correct">L’autour <marker>attrapa</marker> une souris.</example>
     </rule>
     <rule id="DOUBLE_NEG" name="Double négation">
       <pattern>
