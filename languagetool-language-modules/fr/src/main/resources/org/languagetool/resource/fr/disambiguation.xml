@@ -718,14 +718,35 @@ RB => Règles Brutes
   </rulegroup>
 
   <rulegroup name="RP : Etre/avoir + participe passé ambigu" id="RP-ÊTRE_AVOIR_VPPA_AMBIG">
-    <rule name="ppa masc sing">
+    <rule>
       <pattern>
-        <token postag="V etre .*|V avoir .*" postag_regexp="yes" skip="2"/>
+        <token postag="V etre .*|V avoir .*" postag_regexp="yes"/>
         <marker>
           <token postag="V ppa .*" postag_regexp="yes"/>
         </marker>
       </pattern>
       <disambig><match no="2" postag_regexp="yes" postag="V ppa .*"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <token postag="V etre .*|V avoir .*" postag_regexp="yes"/>
+        <token postag="A"/>
+        <marker>
+          <token postag="V ppa .*" postag_regexp="yes"/>
+        </marker>
+      </pattern>
+      <disambig><match no="3" postag_regexp="yes" postag="V ppa .*"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <token postag="V etre .*|V avoir .*" postag_regexp="yes"/>
+        <token postag="A"/>
+        <token postag="A"/>
+        <marker>
+          <token postag="V ppa .*" postag_regexp="yes"/>
+        </marker>
+      </pattern>
+      <disambig><match no="4" postag_regexp="yes" postag="V ppa .*"/></disambig>
     </rule>
     <rule name="avoir été">
       <pattern>
