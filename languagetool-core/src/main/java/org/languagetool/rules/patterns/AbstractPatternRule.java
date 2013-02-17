@@ -45,6 +45,7 @@ public abstract class AbstractPatternRule extends Rule {
   protected final boolean testUnification;
   protected final boolean sentStart;
 
+  protected String subId; // because there can be more than one rule in a rule group
   protected Unifier unifier;
   protected AnalyzedTokenReadings[] unifiedTokens;
   protected int startPositionCorrection;
@@ -91,9 +92,8 @@ public abstract class AbstractPatternRule extends Rule {
     return false;
   }
 
-  @Override
   public String toString() {
-    return id + ":" + patternElements + ":" + description;
+    return id + "[" + subId + "]:" + patternElements + ":" + description;
   }
 
   @Override
@@ -129,6 +129,14 @@ public abstract class AbstractPatternRule extends Rule {
 
   public final int getEndPositionCorrection() {
     return this.endPositionCorrection;
+  }
+
+  public final String getSubId() {
+    return subId;
+  }
+
+  public final void setSubId(final String subId) {
+    this.subId = subId;
   }
 
   protected void setupAndGroup(final int firstMatchToken,

@@ -43,7 +43,6 @@ public class PatternRule extends AbstractPatternRule {
    */
   private final List<Integer> elementNo;
 
-  private String subId; // because there can be more than one rule in a rule group
   private String message;
   private String suggestionsOutMsg; // extra suggestions outside message
 
@@ -136,14 +135,6 @@ public class PatternRule extends AbstractPatternRule {
     this(id, language, elements, description, message, shortMessage, suggestionsOutMsg);
     this.isMemberOfDisjunctiveSet = isMember;
   }  
-
-  public final String getSubId() {
-    return subId;
-  }
-
-  public final void setSubId(final String subId) {
-    this.subId = subId;
-  }
 
   public final String getMessage() {
     return message;
@@ -238,9 +229,4 @@ public class PatternRule extends AbstractPatternRule {
     return suggestionMatchesOutMsg;
   }
 
-  @Override
-  public final String toString() {
-    return getId() + "[" + subId + "]" + ":" + patternElements + ":" + getDescription();
-  }
-  
 }

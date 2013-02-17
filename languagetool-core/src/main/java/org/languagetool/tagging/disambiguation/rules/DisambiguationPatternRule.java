@@ -378,7 +378,7 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
 
   private void annotateChange(AnalyzedTokenReadings atr, final String prevValue, String prevAnot) {
     atr.setHistoricalAnnotations(prevAnot + "\n" +
-            this.getId() + ": " + prevValue + " -> " + atr.toString());
+            this.getId() + ":" + this.getSubId() + " " + prevValue + " -> " + atr.toString());
   }
   
   /**

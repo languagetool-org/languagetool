@@ -66,6 +66,7 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
   private static final String ACTION = "action";
   private static final String DISAMBIG = "disambig";
 
+  private int subId;
   private String name;
   private String ruleGroupId;
   private String ruleGroupName;
@@ -108,6 +109,9 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
       final String qName, final Attributes attrs) throws SAXException {
     if (qName.equals("rule")) {
       id = attrs.getValue("id");
+      if (inRuleGroup) {
+        subId++;
+      }
       name = attrs.getValue("name");
       if (inRuleGroup && id == null) {
         id = ruleGroupId;
@@ -212,6 +216,7 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
       ruleGroupId = attrs.getValue("id");
       ruleGroupName = attrs.getValue("name");
       inRuleGroup = true;
+      subId = 0;
     } else if (qName.equals(UNIFICATION)) {
       uFeature = attrs.getValue(FEATURE);
       inUnificationDef = true;
@@ -260,6 +265,7 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
         startPos = 0;
         endPos = tokenCountForMarker;
       }
+      rule.setSubId(inRuleGroup ? Integer.toString(subId) : "1");
 
       final int matchedTokenCount = endPos - startPos;
       if (newWdList != null) {
