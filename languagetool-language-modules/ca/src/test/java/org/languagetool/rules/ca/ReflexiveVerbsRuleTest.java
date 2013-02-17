@@ -46,6 +46,7 @@ public class ReflexiveVerbsRuleTest extends TestCase {
 		//assertCorrect("la festa de Rams es commemora anant a l'església a beneir el palmó");
 		//assertCorrect("les circumstàncies m'obliguen a gloriar-me"); Cal buscar la concordança amb (m')
 		//assertCorrect("es van agenollar i prosternar");
+	  assertCorrect("No li ho ensenyis, que el faràs delir.");
 		assertCorrect("m'aniria bé probablement posar els quilos");
 		assertCorrect("per a portar-te aigua");
 		assertCorrect("que no em costi d'anar al llit");
@@ -192,6 +193,7 @@ public class ReflexiveVerbsRuleTest extends TestCase {
 		assertCorrect("Joan no es va a jugar la feina.");	
 		 	
 		// errors:
+		assertIncorrect("Delia per menjar-ne.");
 		assertIncorrect("Ells es volen dur les ànimes a l'Inframón");
 		assertIncorrect("Joan es va portar el carretó");
 		assertIncorrect("en aquesta vida ens portem moltes sorpreses");
