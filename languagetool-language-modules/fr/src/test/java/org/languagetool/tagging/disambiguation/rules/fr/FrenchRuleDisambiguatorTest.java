@@ -54,12 +54,6 @@ public class FrenchRuleDisambiguatorTest extends TestCase {
   }
 
   public void testChunker() throws IOException {
-    TestTools.myAssert("Je ne suis pas la seule.",
-        "/[null]SENT_START Je/[je]R pers suj 1 s  /[null]null ne/[null]A  /[null]null suis/[être]V etre ind pres 1 s  /[null]null pas/[pas]A  /[null]null la/[le]D f s  /[null]null seule/[seul]J f s ./[null]null", 
-        tokenizer, sentenceTokenizer, tagger, disambiguator);
-    TestTools.myAssert("Je ne suis pas la seule.",
-        "/[null]SENT_START Je/[je]R pers suj 1 s  /[null]null ne/[null]null  /[null]null suis/[suivre]V imp pres 2 s|suis/[suivre]V ind pres 1 s|suis/[suivre]V ind pres 2 s|suis/[être]V etre ind pres 1 s  /[null]null pas/[pas]N f sp|pas/[pas]N m sp  /[null]null la/[la]N m sp|la/[la]R pers obj 3 f s|la/[le]D f s  /[null]null seule/[seul]D f s|seule/[seul]J f s|seule/[seul]N f s ./[null]null", 
-        tokenizer, sentenceTokenizer, tagger, disamb2); 
     TestTools.myAssert("Il a enfin publié son livre.",
         "/[null]SENT_START Il/[il]R pers suj 3 m s  /[null]null a/[avoir]V avoir ind pres 3 s  /[null]null enfin/[enfin]A  /[null]null publié/[publier]V ppa m s  /[null]null son/[son]D e s  /[null]null livre/[livre]N e s ./[null]null", 
         tokenizer, sentenceTokenizer, tagger, disambiguator);

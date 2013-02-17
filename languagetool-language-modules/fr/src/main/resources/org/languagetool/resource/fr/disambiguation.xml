@@ -776,15 +776,38 @@ RB => Règles Brutes
     </pattern>
     <disambig><match no="2" postag_regexp="yes" postag="V avoir ind pres .*"/></disambig>
   </rule>
-  <rule name="RP : Être + adj ambigu" id="RP-ETRE_ADJ_AMBIG">
-    <pattern>
-      <token postag="V etre .*" postag_regexp="yes" skip="2"/>
-      <marker>
-        <token postag="J.*" postag_regexp="yes"><exception>torse</exception></token>
-      </marker>
-    </pattern>
-    <disambig><match no="2" postag_regexp="yes" postag="J.*"/></disambig>
-  </rule>
+  <rulegroup name="RP : Être + adj ambigu" id="RP-ETRE_ADJ_AMBIG">
+    <rule>
+      <pattern>
+        <token postag="V etre .*" postag_regexp="yes"/>
+        <marker>
+          <token postag="J.*" postag_regexp="yes"><exception>torse</exception></token>
+        </marker>
+      </pattern>
+      <disambig><match no="2" postag_regexp="yes" postag="J.*"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <token postag="V etre .*" postag_regexp="yes"/>
+        <token postag="A"/>
+        <marker>
+          <token postag="J.*" postag_regexp="yes"/>
+        </marker>
+      </pattern>
+      <disambig><match no="3" postag_regexp="yes" postag="J.*"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <token postag="V etre .*" postag_regexp="yes"/>
+        <token postag="A"/>
+        <token postag="A"/>
+        <marker>
+          <token postag="J.*" postag_regexp="yes"/>
+        </marker>
+      </pattern>
+      <disambig><match no="4" postag_regexp="yes" postag="J.*"/></disambig>
+    </rule>
+  </rulegroup>
   <rule name="RB : le la les" id="RB-LE_LA_LES">
     <pattern>
       <marker>
