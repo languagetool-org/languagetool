@@ -56,7 +56,7 @@ abstract class BaseWikipediaDumpHandler extends DefaultHandler {
   private StringBuilder text = new StringBuilder();
   private String title;
 
-  private TextFilter textFilter = new BlikiWikipediaTextFilter();
+  private TextFilter textFilter = new SwebleWikipediaTextFilter();
 
   //===========================================================
   // SAX DocumentHandler methods

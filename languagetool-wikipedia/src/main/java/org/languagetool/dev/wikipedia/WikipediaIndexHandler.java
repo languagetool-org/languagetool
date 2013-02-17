@@ -38,7 +38,6 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 /**
- * 
  * Wikipedia handler for indexing. See {@link org.languagetool.dev.index.Searcher} for a
  * class that lets you use this index.
  * 
@@ -62,7 +61,7 @@ public class WikipediaIndexHandler extends DefaultHandler {
   private boolean inTitle = false;
   private StringBuilder text = new StringBuilder();
   private StringBuilder title = new StringBuilder();
-  private TextFilter textFilter = new BlikiWikipediaTextFilter();
+  private TextFilter textFilter = new SwebleWikipediaTextFilter();
 
   // ===========================================================
   // SAX DocumentHandler methods
@@ -73,7 +72,7 @@ public class WikipediaIndexHandler extends DefaultHandler {
     this.start = start;
     this.end = end;
     if (start > end && end != 0) {
-      throw new RuntimeException("\"start\" should be smaller than \"end\"");
+      throw new RuntimeException("\"start\" should be smaller than \"end\": " + start + ", " + end);
     }
     textFilter = TextFilterTools.getTextFilter(language);
   }

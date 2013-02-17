@@ -22,18 +22,15 @@ import junit.framework.TestCase;
 
 public class WikipediaTextFilterTest extends TestCase {
 
-  final BlikiWikipediaTextFilter blikiFilter = new BlikiWikipediaTextFilter();
   final SwebleWikipediaTextFilter swebleFilter = new SwebleWikipediaTextFilter();
   
   public void testImageRemoval() throws Exception {
     final String input = "foo [[Datei:Bundesarchiv Bild 183-1990-0803-017.jpg|miniatur|Mit Lothar de Maizière im August 1990]] bar";
-    assertEquals("foo  bar", blikiFilter.filter(input));
     assertEquals("foo bar", swebleFilter.filter(input));
   }
   
   public void testRemovalOfImageWithLink() throws Exception {
     final String input = "foo [[Datei:Bundesarchiv Bild 183-1990-0803-017.jpg|miniatur|Mit [[Lothar de Maizière]] im August 1990]] bar [[Link]]";
-    assertEquals("foo  bar Link", blikiFilter.filter(input));
     assertEquals("foo bar Link", swebleFilter.filter(input));
   }
 
