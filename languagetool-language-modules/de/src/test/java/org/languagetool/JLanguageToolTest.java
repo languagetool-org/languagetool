@@ -1,0 +1,66 @@
+/* LanguageTool, a natural language style checker 
+ * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+ * 
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+ * USA
+ */
+package org.languagetool;
+
+import junit.framework.TestCase;
+import org.languagetool.language.German;
+import org.languagetool.language.GermanyGerman;
+import org.languagetool.rules.RuleMatch;
+
+import java.io.IOException;
+import java.util.List;
+
+public class JLanguageToolTest extends TestCase {
+
+  public void testGerman() throws IOException {
+    final JLanguageTool tool = new JLanguageTool(new German());
+    assertEquals(0, tool.check("Ein Test, der keine Fehler geben sollte.").size());
+    assertEquals(1, tool.check("Ein Test Test, der Fehler geben sollte.").size());
+    tool.activateDefaultPatternRules();
+    tool.setListUnknownWords(true);
+    // no spelling mistakes as we have not created a variant:
+    assertEquals(0, tool.check("I can give you more a detailed description").size());
+    //test unknown words listing
+    assertEquals("[I, can, detailed, give, more, you]", tool.getUnknownWords().toString());    
+  }
+
+  public void testGermanyGerman() throws IOException {
+    final JLanguageTool tool = new JLanguageTool(new GermanyGerman());
+    assertEquals(0, tool.check("Ein Test, der keine Fehler geben sollte.").size());
+    assertEquals(1, tool.check("Ein Test Test, der Fehler geben sollte.").size());
+    tool.activateDefaultPatternRules();
+    tool.setListUnknownWords(true);
+    // German rule has no effect with English error, but they are spelling mistakes:
+    assertEquals(6, tool.check("I can give you more a detailed description").size());
+    //test unknown words listing
+    assertEquals("[I, can, detailed, give, more, you]", tool.getUnknownWords().toString());
+  }
+
+  public void testPositionsWithGerman() throws IOException {
+    final JLanguageTool tool = new JLanguageTool(new German());
+    tool.activateDefaultPatternRules();
+    final List<RuleMatch> matches = tool.check("Stundenkilometer");
+    assertEquals(1, matches.size());
+    final RuleMatch match = matches.get(0);
+    // TODO: values should be either 0-based or 1-based, it should not be mixed up!
+    assertEquals(0, match.getLine());
+    assertEquals(1, match.getColumn());
+  }
+
+}

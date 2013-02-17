@@ -25,6 +25,7 @@ import org.languagetool.language.German;
 
 import java.util.ResourceBundle;
 
+import static junit.framework.Assert.assertEquals;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -40,6 +41,14 @@ public class JLanguageToolTest {
 
     final ResourceBundle bundle3 = JLanguageTool.getMessageBundle(new AmericanEnglish());
     assertThat(bundle3.getString("de"), is("German"));
+  }
+
+  @Test
+  public void testCountLines() {
+    assertEquals(0, JLanguageTool.countLineBreaks(""));
+    assertEquals(1, JLanguageTool.countLineBreaks("Hallo,\nnächste Zeile"));
+    assertEquals(2, JLanguageTool.countLineBreaks("\nZweite\nDritte"));
+    assertEquals(4, JLanguageTool.countLineBreaks("\nZweite\nDritte\n\n"));
   }
 
 }

@@ -708,7 +708,8 @@ public final class JLanguageTool {
     return words;
   }
 
-  private static int countLineBreaks(final String s) {
+  // non-private only for test case
+  static int countLineBreaks(final String s) {
     int pos = -1;
     int count = 0;
     while (true) {
