@@ -235,7 +235,7 @@ public class ReflexiveVerbsRule extends CatalanRule {
 				if (isThereReflexivePronoun(tokens, i)) 
 					continue loop;
 				// the rule matches
-				final String msg = "Aquest verb és pronominal. Falta un pronom.";
+				final String msg = "Aquest verb és pronominal. Probablement falta un pronom.";
 				final RuleMatch ruleMatch = new RuleMatch(this,
 						tokens[i].getStartPos(), tokens[i].getStartPos()
 								+ token.length(), msg,
@@ -270,11 +270,11 @@ public class ReflexiveVerbsRule extends CatalanRule {
 					continue loop;
 				
 				// the rule matches
-				final String msg = "Aquest verb no és pronominal. Sobra un pronom.";
+				final String msg = "Aquest verb no és pronominal. Probablement sobra un pronom.";
 				final RuleMatch ruleMatch = new RuleMatch(this,
 						tokens[i].getStartPos(), tokens[i].getStartPos()
 								+ token.length(), msg,
-						"Verb no pronominal: sobra un pronom");
+						"Verb no pronominal");
 				ruleMatches.add(ruleMatch);
 			}
 			
