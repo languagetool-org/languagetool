@@ -8848,6 +8848,23 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
 
     </category>
     <category name="Commonly Confused Words" type="misspelling">
+        <rule id="KNEW_NEW" name="knew (new)">
+            <pattern>
+                <token postag="JJ">
+                    <exception regexp="yes">only|ever|already|or|then|likely|soon|now|one|else|few|much</exception>
+                    <exception postag_regexp="yes" postag="NN.*"></exception>
+                </token>
+                <marker>
+                    <token>knew</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>new</suggestion>?</message>
+            <short>Possible typo</short>
+            <example type="correct">This is very <marker>new</marker> to me.</example>
+            <example type="correct">The artistic community <marker>knew</marker> his name.</example>
+            <example type="correct">If I only <marker>knew</marker> how.</example>
+            <example type="incorrect" correction="new">This is very <marker>knew</marker> to me.</example>
+        </rule>
         <rulegroup id="PRICE_PRIZE" name="price (prize)">
             <rule>
                 <pattern>
