@@ -19,7 +19,6 @@
 package org.languagetool;
 
 import junit.framework.TestCase;
-import org.languagetool.language.English;
 import org.languagetool.tools.StringTools;
 
 import java.io.File;
@@ -34,7 +33,7 @@ public class TranslationTest extends TestCase {
 
   public void testTranslationKeyExistence() throws IOException {
     // use English version as the reference:
-    final File englishFile = getTranslationFile(new English());
+    final File englishFile = getEnglishTranslationFile();
     final Properties enProps = new Properties();
     enProps.load(new FileInputStream(englishFile));
     final Set<Object> englishKeys = enProps.keySet();
@@ -58,9 +57,6 @@ public class TranslationTest extends TestCase {
     }
   }
 
-  /**
-   * Make sure values are not empty.
-   */
   public void testTranslationsAreNotEmpty() throws IOException {
     for (int i = 0; i < Language.LANGUAGES.length; i++) {
       final Language lang = Language.LANGUAGES[i];
@@ -98,6 +94,11 @@ public class TranslationTest extends TestCase {
       scanner.close();
     }
     return l;
+  }
+
+  private File getEnglishTranslationFile() {
+    final String name = "../languagetool-core/src/main/resources/org/languagetool/MessagesBundle_en.properties";
+    return new File(name.replace("/", File.separator));
   }
 
   private File getTranslationFile(Language lang) {
