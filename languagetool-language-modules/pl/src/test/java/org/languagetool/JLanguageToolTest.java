@@ -80,9 +80,9 @@ public class JLanguageToolTest extends TestCase {
             sent.getAnnotations());
     sent = tool.getAnalyzedSentence("Nie mamy żadnej ryby.");
     assertEquals("Disambiguator log: "
-            + "\n\nNIE_ADAMP: Nie[nie/qub*,on/ppron3:pl:acc:f.m2.m3.n.p2.p3:ter:praep*,on/ppron3:sg:acc:n:ter:praep*] -> Nie[nie/qub*]"
-            + "\n\nunify_adj_subst: żadnej[żaden/adj:sg:dat:f:pos,żaden/adj:sg:gen:f:pos,żaden/adj:sg:loc:f:pos] -> żadnej[żaden/adj:sg:gen:f:pos]" +
-            "\n\nunify_adj_subst: ryby[ryba/subst:pl:acc:f,ryba/subst:pl:nom:f,ryba/subst:pl:voc:f,ryba/subst:sg:gen:f] -> ryby[ryba/subst:sg:gen:f]\n",
+            + "\n\nNIE_ADAMP:1 Nie[nie/qub*,on/ppron3:pl:acc:f.m2.m3.n.p2.p3:ter:praep*,on/ppron3:sg:acc:n:ter:praep*] -> Nie[nie/qub*]"
+            + "\n\nunify_adj_subst:1 żadnej[żaden/adj:sg:dat:f:pos,żaden/adj:sg:gen:f:pos,żaden/adj:sg:loc:f:pos] -> żadnej[żaden/adj:sg:gen:f:pos]" +
+            "\n\nunify_adj_subst:1 ryby[ryba/subst:pl:acc:f,ryba/subst:pl:nom:f,ryba/subst:pl:voc:f,ryba/subst:sg:gen:f] -> ryby[ryba/subst:sg:gen:f]\n",
             sent.getAnnotations());
     
   }
