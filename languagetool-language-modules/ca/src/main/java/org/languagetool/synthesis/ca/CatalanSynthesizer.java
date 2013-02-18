@@ -51,10 +51,10 @@ public class CatalanSynthesizer extends BaseSynthesizer {
 //	private static final String ADD_DETERMINER = "DT";
 
 	/** Patterns for number and gender **/
-	private static final Pattern pMS = Pattern.compile("(N|A.).[MC][SN].*|V.P.*SM");
-	private static final Pattern pFS = Pattern.compile("(N|A.).[FC][SN].*|V.P.*SF");
-	private static final Pattern pMP = Pattern.compile("(N|A.).[MC][PN].*|V.P.*PM");
-	private static final Pattern pFP = Pattern.compile("(N|A.).[FC][PN].*|V.P.*PF");
+	private static final Pattern pMS = Pattern.compile("(N|A.).[MC][SN].*|V.P.*SM.?");
+	private static final Pattern pFS = Pattern.compile("(N|A.).[FC][SN].*|V.P.*SF.?");
+	private static final Pattern pMP = Pattern.compile("(N|A.).[MC][PN].*|V.P.*PM.?");
+	private static final Pattern pFP = Pattern.compile("(N|A.).[FC][PN].*|V.P.*PF.?");
 
 	/** Pattern for previous preposition passed in the postag **/
 	private static final Pattern pPrep = Pattern.compile("(DT)(.*)");
