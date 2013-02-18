@@ -1227,6 +1227,19 @@ $Id$
       </rule>
       <rule>
         <pattern>
+          <token>da</token>
+          <token regexp="yes">['’]</token>
+          <token>z</token>
+          <marker>
+            <token regexp="yes">b.*</token>
+          </marker>
+        </pattern>
+        <message>Ur c’hemmadur dre galetaat a zlefe bezañ goude «\1 \2\3». Ha fellout a rae deoc’h skrivañ <suggestion><match no="4" regexp_match="^." regexp_replace="p"/></suggestion>? (CHALM B3.3)</message>
+        <example type="incorrect" correction="plog">Ret eo dit lakaat un anv da ’z <marker>blog</marker>.</example>
+        <example type="correct">Ret eo dit lakaat un anv da ’z plog.</example>
+      </rule>
+      <rule>
+        <pattern>
           <token>da’</token>
           <token>z</token>
           <marker>
@@ -1239,6 +1252,19 @@ $Id$
       </rule>
       <rule>
         <pattern>
+          <token>da</token>
+          <token regexp="yes">['’]</token>
+          <token>z</token>
+          <marker>
+            <token regexp="yes">d.*</token>
+          </marker>
+        </pattern>
+        <message>Ur c’hemmadur dre galetaat a zlefe bezañ goude «\1 \2\3». Ha fellout a rae deoc’h skrivañ <suggestion><match no="4" regexp_match="^." regexp_replace="t"/></suggestion>? (CHALM B3.3)</message>
+        <example type="incorrect" correction="tilhad">Ret eo ober ur c’hempenn da ’z <marker>dilhad</marker>.</example>
+        <example type="correct">Ret eo ober ur c’hempenn da ’z tilhad.</example>
+      </rule>
+      <rule>
+        <pattern>
           <token>da’</token>
           <token>z</token>
           <marker>
@@ -1248,6 +1274,19 @@ $Id$
         <message>Ur c’hemmadur dre galetaat a zlefe bezañ goude «\1\2». Ha fellout a rae deoc’h skrivañ <suggestion><match no="3" regexp_match="^." regexp_replace="k"/></suggestion>? (CHALM B3.3)</message>
         <example type="incorrect" correction="kwelet">Me zo deuet da’z <marker>gwelet</marker>.</example>
         <example type="correct">Me zo deuet da’z kwelet.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>da</token>
+          <token regexp="yes">['’]</token>
+          <token>z</token>
+          <marker>
+            <token regexp="yes">g.*</token>
+          </marker>
+        </pattern>
+        <message>Ur c’hemmadur dre galetaat a zlefe bezañ goude «\1\2». Ha fellout a rae deoc’h skrivañ <suggestion><match no="4" regexp_match="^." regexp_replace="k"/></suggestion>? (CHALM B3.3)</message>
+        <example type="incorrect" correction="kwelet">Me zo deuet da ’z <marker>gwelet</marker>.</example>
+        <example type="correct">Me zo deuet da ’z kwelet.</example>
       </rule>
     </rulegroup>
 
@@ -4313,6 +4352,15 @@ $Id$
       <example type="incorrect">War e <marker>varc’h houarn</marker> ez ae.</example>
       <example type="correct">War e <marker>varc’h-houarn</marker> ez ae.</example>
     </rule>
+    <rule id="PINVIDIK_MOR" name="pinvidik mor → pinvidik-mor">
+      <pattern>
+        <token regexp="yes">[pb]invidik</token>
+        <token>mor</token>
+      </pattern>
+      <message>Implijit <suggestion>\1-\2</suggestion>.</message>
+      <example type="incorrect"><marker>Pinvidik mor</marker> eo hemañ.</example>
+      <example type="correct"><marker>Pinvidik-mor</marker> eo hemañ.</example>
+    </rule>
     <rule id="POUEZ_MOUEZH" name="pouez mouezh → pouez-mouezh">
       <pattern>
         <token regexp="yes">[pb]ouez</token>
@@ -6882,17 +6930,31 @@ $Id$
       <example type="correct">Ret eo diwall.</example>
     </rule>
 
-    <rule id="E_Z_A_Z" name="e’z, a’z → ez, az">
-      <pattern>
-        <token regexp="yes">[ae]’</token>
-        <token>z</token>
-      </pattern>
-      <message>Ret eo skrivañ <suggestion><match no="1" regexp_match="(.)." regexp_replace="$1z"/></suggestion>. (CHALM M1.4.1)</message>
-      <example type="incorrect" correction="ez">Em sac’h <marker>e’z</marker> eus peadra da zebriñ..</example>
-      <example type="correct">Em sac’h ez eus peadra da zebriñ.</example>
-      <example type="incorrect" correction="az">Ni <marker>a’z</marker> tapo deiz pe zeiz.</example>
-      <example type="correct">Ni az tapo deiz pe zeiz.</example>
-    </rule>
+    <rulegroup id="E_Z_A_Z" name="e’z, a’z → ez, az">
+      <rule>
+        <pattern>
+          <token regexp="yes">[ae]’</token>
+          <token>z</token>
+        </pattern>
+        <message>Ret eo skrivañ <suggestion><match no="1" regexp_match="(.)." regexp_replace="$1z"/></suggestion>. (CHALM M1.4.1)</message>
+        <example type="incorrect" correction="ez">Em sac’h <marker>e’z</marker> eus peadra da zebriñ..</example>
+        <example type="correct">Em sac’h ez eus peadra da zebriñ.</example>
+        <example type="incorrect" correction="az">Ni <marker>a’z</marker> tapo deiz pe zeiz.</example>
+        <example type="correct">Ni az tapo deiz pe zeiz.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">[ae]</token>
+          <token regexp="yes">[’']</token>
+          <token>z</token>
+        </pattern>
+        <message>Ret eo skrivañ <suggestion>\1z</suggestion>. (CHALM M1.4.1)</message>
+        <example type="incorrect" correction="ez">Em sac’h <marker>e ’z</marker> eus peadra da zebriñ..</example>
+        <example type="correct">Em sac’h ez eus peadra da zebriñ.</example>
+        <example type="incorrect" correction="az">Ni <marker>a ’z</marker> tapo deiz pe zeiz.</example>
+        <example type="correct">Ni az tapo deiz pe zeiz.</example>
+      </rule>
+    </rulegroup>
 
     <rule id="AN_NIVER_AR" name="an niver ar → an niver a">
       <pattern>
