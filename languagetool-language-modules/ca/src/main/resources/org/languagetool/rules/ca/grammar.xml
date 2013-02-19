@@ -2547,7 +2547,7 @@ $Id$
             <rule>
                 <pattern case_sensitive="yes">
                     <marker>
-                        <token regexp="yes" spacebefore="yes">[MCDXLVI]+<exception regexp="yes">(?=.)M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})</exception><exception postag="[ANDV].*" postag_regexp="yes"/></token>
+                        <token regexp="yes" spacebefore="yes">[MCDXLVI]+<exception regexp="yes">(?=.)M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})</exception><exception postag="[ANDV].*|.*LOC.*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Nombre romà incorrecte.</message>
@@ -2558,7 +2558,7 @@ $Id$
             <rule>
                 <pattern case_sensitive="yes">
                     <marker>
-                        <token regexp="yes" spacebefore="yes">[mcdxlvi]+<exception regexp="yes">(?=.)m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|iv|v?i{0,3})</exception><exception postag="[ANDV].*" postag_regexp="yes"/></token>
+                        <token regexp="yes" spacebefore="yes">[mcdxlvi]+<exception regexp="yes">(?=.)m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|iv|v?i{0,3})</exception><exception postag="[ANDV].*|.*LOC.*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Nombre romà incorrecte.</message>
@@ -2566,6 +2566,7 @@ $Id$
                 <example type="correct">Hi ha xxi solucions.</example>
                 <example type="correct">Tinc mil coses</example>
                 <example type="correct">És d'obra civil.</example>
+                <example type="correct">Al cim del cimbori.</example>
             </rule>
         </rulegroup>
     </category>
@@ -3619,39 +3620,42 @@ $Id$
             <example type="correct">sota el pont</example>
             <example type="correct">donar una ullada per sobre als diaris</example>
         </rule>
-        <rule id="CAP_ELS_CAP_ALS" name="*cap els/cap als">
+        <rulegroup id="CAP_ELS_CAP_ALS" name="*cap el/cap al">
         <!-- Falten excepcions!! -->
-            <pattern>
-                <token negate="yes">a<exception postag="V.*" postag_regexp="yes" inflected="yes">fer</exception></token>
-                <marker>
-                    <token>cap<exception postag="_GN_.*" postag_regexp="yes"/></token>
-                    <token>els</token>
-                </marker>
-            </pattern>
-            <message>Volíeu dir <suggestion>cap als</suggestion>?</message>
-            <example type="incorrect">la confiança <marker>cap els</marker> partits</example>
-            <example type="correct">la confiança cap als partits</example>
-            <example type="correct">que portaren a cap els comtes</example>
-            <example type="correct">on fan cap els comtes</example>
-            <example type="correct">tocar amb el cap els esquís de la gent</example>
-        </rule>
-        <rule id="CAP_EL_CAP_AL" name="*cap el/cap al">
-        <!-- Falten excepcions!! -->
-            <pattern>
-                <token negate="yes">a<exception postag="V.*" postag_regexp="yes" inflected="yes">fer</exception></token>
-                <marker>
-                    <token>cap<exception postag="_GN_.*" postag_regexp="yes"/></token>
-                    <token>el</token>
-                </marker>
-            </pattern>
-            <message>¿Volíeu dir <suggestion>cap al</suggestion>?</message>
-            <example type="incorrect">la confiança <marker>cap el</marker> partit</example>
-            <!-- <example type="incorrect">un sistema electoral orientat <marker>cap el</marker> ciutadà</example> -->
-            <example type="correct">la confiança cap al partit</example>
-            <example type="correct">que tingué com a cap el Comte d'Espanya</example>
-            <example type="correct">on fa cap el Comte</example>
-            <example type="correct">la Colònia del Cap el 1788</example>
-        </rule>
+        	<rule>
+	            <pattern>
+	                <token negate="yes">a<exception postag="V.*" postag_regexp="yes" inflected="yes">fer</exception></token>
+	                <marker>
+	                    <token>cap<exception postag="_GN_.*" postag_regexp="yes"/></token>
+	                    <token regexp="yes">els?</token>
+	                </marker>
+	            </pattern>
+	            <message>Volíeu dir <suggestion>cap <match no="3" regexp_match="e(ls?)" regexp_replace="a$1"/></suggestion>?</message>
+	            <example type="incorrect" correction="cap als">la confiança <marker>cap els</marker> partits</example>
+	            <example type="correct">la confiança cap als partits</example>
+	            <example type="correct">que portaren a cap els comtes</example>
+	            <example type="correct">on fan cap els comtes</example>
+	            <example type="correct">tocar amb el cap els esquís de la gent</example>
+	            <example type="incorrect" correction="cap al">la confiança <marker>cap el</marker> partit</example>
+	            <!-- <example type="incorrect">un sistema electoral orientat <marker>cap el</marker> ciutadà</example> -->
+	            <example type="correct">la confiança cap al partit</example>
+	            <example type="correct">que tingué com a cap el Comte d'Espanya</example>
+	            <example type="correct">on fa cap el Comte</example>
+	            <example type="correct">la Colònia del Cap el 1788</example>
+	        </rule>
+	        <rule>
+	            <pattern>
+	                <token negate="yes">a<exception postag="V.*" postag_regexp="yes" inflected="yes">fer</exception></token>
+	                <marker>
+	                    <token>cap<exception postag="_GN_.*" postag_regexp="yes"/></token>
+	                    <token regexp="yes">la|les</token>
+	                </marker>
+	            </pattern>
+	            <message>¿Volíeu dir <suggestion>cap a <match no="3"/></suggestion>?</message>
+	            <example type="incorrect" correction="cap a la">Camina <marker>cap la</marker> primavera</example>
+	            <example type="correct">la Colònia del Cap el 1788</example>
+	        </rule>
+	    </rulegroup>    
         <rulegroup id="DACI_A" name="d'ací a">
             <rule>
                 <pattern>
@@ -3899,7 +3903,7 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token skip="1" postag="V.[MSING].*|_GV_" postag_regexp="yes" inflected="yes" regexp="yes">necessitar|necessita(t|ts|da|des)|requerir|requeri(t|ts|da|des)<exception postag="_GN_.*|NC.*" postag_regexp="yes"/><exception scope="next" regexp="yes">més|menys</exception></token>
+                        <token skip="1" postag="V.[MSING].*|_GV_" postag_regexp="yes" inflected="yes" regexp="yes">necessitar|necessita(t|ts|da|des)|requerir|requeri(t|ts|da|des)<exception postag="_GN_.*|NC.*" postag_regexp="yes"/><exception scope="next" postag="_GN_.*|NC.*" postag_regexp="yes"/><exception scope="next" regexp="yes">més|menys</exception></token>
                         <token regexp="yes">de|d'<exception postag=".*LOC_ADV.*" postag_regexp="yes"/></token>
                     </marker>    
                     <token><exception regexp="yes">manera|forma|què|qui(ns|na|nes)?|mi</exception><exception postag="PP.*" postag_regexp="yes"/></token>
@@ -3924,6 +3928,7 @@ $Id$
                 <example type="correct">Sí que hi havia, en canvi, necessitat de tota mena de llibertat.</example>
                 <example type="correct">Necessiten més de 24 hores.</example>
                 <example type="correct">Necessiten menys de 24 hores.</example>
+                <example type="correct">Necessiten entreteniment de tertúlia.</example>
             </rule>
         </rulegroup>
     </category>
@@ -6489,6 +6494,20 @@ $Id$
             </rule>
             <rule>
                 <pattern>
+                    <token>col</token>
+                    <token>-</token>
+                    <token>i</token>
+                    <token>-</token>
+                    <token regexp="yes">flors?</token>
+                </pattern>
+                <message>S'escriu sense guionets.</message>
+                <suggestion>coli<match no="5"/></suggestion>
+                <short>Error ortogràfic</short>
+                <example type="incorrect" correction="coliflors">Les <marker>col-i-flors</marker> del president</example>
+                <example type="correct">La coliflor.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token>vetes</token>
                     <token>-</token>
                     <token>i</token>
@@ -6622,13 +6641,14 @@ $Id$
             <!-- Cal estudiar "que el feu". Mirar que no hi hagi cap verb ni pronom de 2P abans. "que el feu famós"... -->
             <rule>
                 <pattern>
-                    <token postag="P0300000|PP3.S000|_GN_.S|N..S.*" postag_regexp="yes"><exception postag="D.0MS0|PX3MS0C0|DP3CSP" postag_regexp="yes"/></token>
+                    <token skip="1" postag="P0300000|PP3.S000|_GN_.S|N..S.*" postag_regexp="yes"><exception postag="D.0MS0|PX3MS0C0|DP3CSP" postag_regexp="yes"/></token>
                     <marker>
                         <token>feu</token>
                     </marker>
                 </pattern>
                 <message>Si el verb és en passat, cal escriure <suggestion>féu</suggestion>.</message>
                 <example type="incorrect">es <marker>feu</marker> l'any passat</example>
+                <example type="incorrect">Que se li <marker>feu</marker> cas</example>
                 <example type="correct">vosaltres ho feu bé</example>
                 <example type="correct">cal que ho feu bé</example>
                 <example type="correct">Feu-ho bé</example>
@@ -11309,7 +11329,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token><exception regexp="yes">en|donat|posat|fos|fóra|sigui|siga</exception><exception postag="D.*" postag_regexp="yes" /><exception postag="V.*" postag_regexp="yes" inflected="yes">fer</exception></token>
+                    <token><exception regexp="yes">en|donat|posat|fos|fóra|sigui|siga|per</exception><exception postag="D.*" postag_regexp="yes" /><exception postag="V.*" postag_regexp="yes" inflected="yes">fer</exception></token>
                     <marker>
                         <token>cas<exception postag="_GN_.*" postag_regexp="yes"/></token>
                         <token skip="3">que</token>
@@ -11325,6 +11345,7 @@ $Id$
                 <example type="correct">, en cas que aquest no fos bisbe.</example>
                 <example type="incorrect">o, <marker>cas que</marker> no ho fossin,</example>
                 <example type="correct">o, en cas que no ho fossin,</example>
+                <example type="correct">Posem per cas que sigui així.</example>
             </rule>
         </rulegroup>
         <rulegroup id="DE_PEU" name="de peu">
@@ -11462,9 +11483,9 @@ $Id$
                     <token>vistes</token>
                     <token>a</token> <!-- excepcions: nom propi (de lloc), llocs: mar, etc.  -->
                 </marker>
-                <token><exception postag="NP.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">vila|poble|ciutat|riu|mar|platja|façana|vall</exception></token>
-                <token><exception postag="NP.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">vila|poble|ciutat|riu|mar|platja|façana|vall</exception></token>
-                <token><exception postag="NP.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">vila|poble|ciutat|riu|mar|platja|façana|vall</exception></token>
+                <token><exception postag="NP.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">carrer|vila|poble|ciutat|riu|mar|platja|façana|vall</exception></token>
+                <token><exception postag="NP.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">carrer|vila|poble|ciutat|riu|mar|platja|façana|vall</exception></token>
+                <token><exception postag="NP.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">carrer|vila|poble|ciutat|riu|mar|platja|façana|vall</exception></token>
             </pattern>
             <message>Cal dir <suggestion>amb vista <match no="3"></match></suggestion> quan significa "pensant en".</message>
             <short>Expressió incorrecta.</short>
