@@ -45,7 +45,7 @@ import org.languagetool.tokenizers.SentenceTokenizer;
  */
 public class Indexer {
 
-  private static final Version LUCENE_VERSION = Version.LUCENE_40;
+  private static final Version LUCENE_VERSION = Version.LUCENE_41;
   private static final String FIELD_NAME = "field";
   private static final String FIELD_NAME_LOWERCASE = "fieldLowercase";
 

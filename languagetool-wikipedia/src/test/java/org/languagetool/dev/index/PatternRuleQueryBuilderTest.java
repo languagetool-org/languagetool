@@ -46,7 +46,7 @@ import static org.languagetool.dev.index.PatternRuleQueryBuilder.FIELD_NAME_LOWE
 
 public class PatternRuleQueryBuilderTest extends LuceneTestCase {
 
-  private static final Version LUCENE_VERSION = Version.LUCENE_40;
+  private static final Version LUCENE_VERSION = Version.LUCENE_41;
 
   private IndexSearcher searcher;
   private DirectoryReader reader;
