@@ -370,9 +370,7 @@ public class PatternRuleTest extends TestCase {
       System.err.println("The " + lang.toString() + " rule: "
           + ruleId + ", token [" + tokenIndex + "], contains an empty string " + "\""
           + stringValue + "\" that is marked as regular expression.");
-    } else if (isRegularExpression
-        && !PROBABLE_PATTERN.matcher(stringValue)
-            .find()) {
+    } else if (isRegularExpression && !PROBABLE_PATTERN.matcher(stringValue).find()) {
       System.err.println("The " + lang.toString() + " rule: "
           + ruleId + ", token [" + tokenIndex + "], contains " + "\"" + stringValue
           + "\" that is marked as regular expression but probably is not one.");
@@ -394,6 +392,11 @@ public class PatternRuleTest extends TestCase {
           + ruleId + ", token [" + tokenIndex + "], marked as regular expression contains "
           + "regular expression \".*\" which is useless: "
           + "(use an empty string without regexp=\"yes\" such as <token/>)");
+    }
+    if (isRegularExpression && stringValue.contains("||")) {
+      System.err.println("The " + lang.toString() + " rule: "
+          + ruleId + ", token [" + tokenIndex + "], marked as regular expression contains "
+          + " '||', which is probably wrong");
     }
 
     if (isRegularExpression) {
