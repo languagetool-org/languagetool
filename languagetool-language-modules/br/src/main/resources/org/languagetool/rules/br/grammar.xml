@@ -1078,20 +1078,57 @@ $Id$
     <rulegroup id="KEMM_DRE_VLOTAAT_DEIZ" name="Kemmadur dre vlotaat gant an deiziad">
       <rule>
         <pattern>
-          <token>ar</token>
+          <token regexp="yes">a[rn]</token>
           <marker><token regexp="yes">[zt]ri(zek|wec’h)?|[zt]regont</token></marker>
           <token>eus</token>
           <token>ar</token>
           <token>miz</token>
         </pattern>
         <message>Ur c’hemmadur dre vlotaat a zlefe bezañ. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="^." regexp_replace="d"/></suggestion>? (CHALM P6)</message>
-        <example type="incorrect" correction="driwec’h">D’ar <marker>triwec’h</marker> eus ar miz.</example>
+        <example type="incorrect" correction="driwec’h">D’an <marker>triwec’h</marker> eus ar miz.</example>
         <example type="incorrect" correction="driwec’h">D’ar <marker>zriwec’h</marker> eus ar miz.</example>
-        <example type="correct">D’ar <marker>driwec’h</marker> eus ar miz.</example>
+        <example type="correct">D’an <marker>driwec’h</marker> eus ar miz.</example>
       </rule>
       <rule>
         <pattern>
+          <token regexp="yes">a[rn]</token>
+          <marker><token regexp="yes">[zt]ri(zek|wec’h)?|[zt]regont</token></marker>
+          <token>a</token>
+          <token>viz</token>
+        </pattern>
+        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="^." regexp_replace="d"/></suggestion>? (CHALM P6)</message>
+        <example type="incorrect" correction="driwec’h">D’an <marker>triwec’h</marker> a viz.</example>
+        <example type="incorrect" correction="driwec’h">D’ar <marker>zriwec’h</marker> a viz.</example>
+        <example type="correct">D’an <marker>driwec’h</marker> eus a viz.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">a[rn]</token>
+          <marker><token regexp="yes">[zd]rede|[zd]ri(wec’h)vet|[zd]regontvet</token></marker>
+          <token>eus</token>
           <token>ar</token>
+          <token>miz</token>
+        </pattern>
+        <message>Ne vez ket graet ar c’hemmadur gant an niveroù pegementiñ en deiziad. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="^." regexp_replace="t"/></suggestion>? (CHALM P6)</message>
+        <example type="incorrect" correction="trede">D’an <marker>drede</marker> eus ar miz.</example>
+        <example type="incorrect" correction="trede">D’ar <marker>zrede</marker> eus ar miz.</example>
+        <example type="correct" correction="trede">D’an <marker>trede</marker> eus ar miz.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">a[rn]</token>
+          <marker><token regexp="yes">[zd]rede|[zd]ri(wec’h)vet|[zd]regontvet</token></marker>
+          <token>a</token>
+          <token>viz</token>
+        </pattern>
+        <message>Ne vez ket graet ar c’hemmadur gant an niveroù pegementiñ en deiziad. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="^." regexp_replace="t"/></suggestion>? (CHALM P6)</message>
+        <example type="incorrect" correction="trede">D’an <marker>drede</marker> a viz.</example>
+        <example type="incorrect" correction="trede">D’ar <marker>zrede</marker> a viz.</example>
+        <example type="correct" correction="trede">D’an <marker>trede</marker> a viz.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">a[rn]</token>
           <marker><token regexp="yes">[zt]ri</token></marker>
           <token>warn-ugent</token>
           <token>eus</token>
@@ -1099,9 +1136,49 @@ $Id$
           <token>miz</token>
         </pattern>
         <message>Ur c’hemmadur dre vlotaat a zlefe bezañ. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="^." regexp_replace="d"/></suggestion>? (CHALM P6)</message>
-        <example type="incorrect" correction="dri">D’ar <marker>tri</marker> warn-ugent eus ar miz.</example>
+        <example type="incorrect" correction="dri">D’an <marker>tri</marker> warn-ugent eus ar miz.</example>
         <example type="incorrect" correction="dri">D’ar <marker>zri</marker> warn-ugent eus ar miz.</example>
-        <example type="correct">D’ar <marker>dri</marker> eus ar miz.</example>
+        <example type="correct">D’an <marker>dri</marker> eus ar miz.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">a[rn]</token>
+          <marker><token regexp="yes">[zt]ri</token></marker>
+          <token>warn-ugent</token>
+          <token>a</token>
+          <token>viz</token>
+        </pattern>
+        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="^." regexp_replace="d"/></suggestion>? (CHALM P6)</message>
+        <example type="incorrect" correction="dri">D’an <marker>tri</marker> warn-ugent a viz.</example>
+        <example type="incorrect" correction="dri">D’ar <marker>zri</marker> warn-ugent a viz.</example>
+        <example type="correct">D’an <marker>dri</marker> a miz.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">a[rn]</token>
+          <marker><token regexp="yes">[dz]rede</token></marker>
+          <token>warn-ugent</token>
+          <token>eus</token>
+          <token>ar</token>
+          <token>miz</token>
+        </pattern>
+        <message>Ne vez ket graet ar c’hemmadur gant an niveroù pegementiñ en deiziad. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="^." regexp_replace="t"/></suggestion>? (CHALM P6)</message>
+        <example type="incorrect" correction="trede">D’an <marker>drede</marker> warn-ugent eus ar miz.</example>
+        <example type="incorrect" correction="trede">D’ar <marker>zrede</marker> warn-ugent eus ar miz.</example>
+        <example type="correct">D’an <marker>trede</marker> eus ar miz.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">a[rn]</token>
+          <marker><token regexp="yes">[dz]rede</token></marker>
+          <token>warn-ugent</token>
+          <token>a</token>
+          <token>viz</token>
+        </pattern>
+        <message>Ne vez ket graet ar c’hemmadur gant an niveroù pegementiñ en deiziad. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="^." regexp_replace="t"/></suggestion>? (CHALM P6)</message>
+        <example type="incorrect" correction="trede">D’an <marker>drede</marker> warn-ugent a viz.</example>
+        <example type="incorrect" correction="trede">D’ar <marker>zrede</marker> warn-ugent a viz.</example>
+        <example type="correct">D’an <marker>trede</marker> a miz.</example>
       </rule>
       <rule>
         <pattern>
@@ -1119,6 +1196,43 @@ $Id$
       <rule>
         <pattern>
           <token>ar</token>
+          <marker><token regexp="yes">[fp](et|evar|evarzek|emp|emzek)</token></marker>
+          <token>a</token>
+          <token>viz</token>
+        </pattern>
+        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="^." regexp_replace="b"/></suggestion>? (CHALM P6)</message>
+        <example type="incorrect" correction="bemzek">D’ar <marker>pemzek</marker> a viz.</example>
+        <example type="incorrect" correction="bemzek">D’ar <marker>femzek</marker> a viz.</example>
+        <example type="correct">D’ar <marker>bemzek</marker> a viz.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>ar</token>
+          <marker><token regexp="yes">[bf](etvet|evare|evarvet|evarzekvet|empet|empvet|emzekvet)</token></marker>
+          <token>eus</token>
+          <token>ar</token>
+          <token>miz</token>
+        </pattern>
+        <message>Ne vez ket graet ar c’hemmadur gant an niveroù pegementiñ en deiziad. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="^." regexp_replace="p"/></suggestion>? (CHALM P6)</message>
+        <example type="incorrect" correction="pemzekvet">D’ar <marker>bemzekvet</marker> eus ar miz.</example>
+        <example type="incorrect" correction="pemzekvet">D’ar <marker>femzekvet</marker> eus ar miz.</example>
+        <example type="correct">D’ar <marker>pemzekvet</marker> eus ar miz.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>ar</token>
+          <marker><token regexp="yes">[bf](etvet|evare|evarvet|evarzekvet|empet|empvet|emzekvet)</token></marker>
+          <token>a</token>
+          <token>viz</token>
+        </pattern>
+        <message>Ne vez ket graet ar c’hemmadur gant an niveroù pegementiñ en deiziad. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="^." regexp_replace="p"/></suggestion>? (CHALM P6)</message>
+        <example type="incorrect" correction="pemzekvet">D’ar <marker>bemzekvet</marker> a viz.</example>
+        <example type="incorrect" correction="pemzekvet">D’ar <marker>femzekvet</marker> a viz.</example>
+        <example type="correct">D’ar <marker>pemzekvet</marker> a viz.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>ar</token>
           <marker><token regexp="yes">[pf](evar|emp)</token></marker>
           <token>warn-ugent</token>
           <token>eus</token>
@@ -1129,6 +1243,46 @@ $Id$
         <example type="incorrect" correction="bemp">D’ar <marker>pemp</marker> warn-ugent eus ar miz.</example>
         <example type="incorrect" correction="bemp">D’ar <marker>femp</marker> warn-ugent eus ar miz.</example>
         <example type="correct">D’ar <marker>bemp</marker> warn-ugent eus ar miz.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>ar</token>
+          <marker><token regexp="yes">[pf](evar|emp)</token></marker>
+          <token>warn-ugent</token>
+          <token>a</token>
+          <token>viz</token>
+        </pattern>
+        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="^." regexp_replace="b"/></suggestion>? (CHALM P6)</message>
+        <example type="incorrect" correction="bemp">D’ar <marker>pemp</marker> warn-ugent a viz.</example>
+        <example type="incorrect" correction="bemp">D’ar <marker>femp</marker> warn-ugent a viz.</example>
+        <example type="correct">D’ar <marker>bemp</marker> warn-ugent a viz.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>ar</token>
+          <marker><token regexp="yes">[bf](evare|evarvet|empv?et)</token></marker>
+          <token>warn-ugent</token>
+          <token>eus</token>
+          <token>ar</token>
+          <token>miz</token>
+        </pattern>
+        <message>Ne vez ket graet un c’hemmadur gant an niveroù pegementiñ en deiziad. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="^." regexp_replace="p"/></suggestion>? (CHALM P6)</message>
+        <example type="incorrect" correction="pempvet">D’ar <marker>bempvet</marker> warn-ugent eus ar miz.</example>
+        <example type="incorrect" correction="pempvet">D’ar <marker>fempvet</marker> warn-ugent eus ar miz.</example>
+        <example type="correct">D’ar <marker>pempvet</marker> warn-ugent eus ar miz.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>ar</token>
+          <marker><token regexp="yes">[bf](evare|evarvet|empv?et)</token></marker>
+          <token>warn-ugent</token>
+          <token>a</token>
+          <token>viz</token>
+        </pattern>
+        <message>Ne vez ket graet un c’hemmadur gant an niveroù pegementiñ en deiziad. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="^." regexp_replace="p"/></suggestion>? (CHALM P6)</message>
+        <example type="incorrect" correction="pempvet">D’ar <marker>bempvet</marker> warn-ugent a viz.</example>
+        <example type="incorrect" correction="pempvet">D’ar <marker>fempvet</marker> warn-ugent a viz.</example>
+        <example type="correct">D’ar <marker>pempvet</marker> warn-ugent a viz.</example>
       </rule>
       <rule>
         <pattern>
