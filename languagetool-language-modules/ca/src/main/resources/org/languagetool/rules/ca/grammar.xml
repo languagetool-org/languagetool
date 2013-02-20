@@ -4036,6 +4036,18 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions">
+    	<rule id="ESTABLAR_ESTABLIR" name="establir/establar">
+            <pattern>
+                <marker>
+                    <token regexp="yes">establis?</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" regexp_match=".+i(s?)" regexp_replace="establí$1" /></suggestion> (v. "establir") en lloc de "<match no="1"/>" (v. "establar").</message>
+			<short>Possible confusió</short>
+			<example type="incorrect" correction="establís">Que hi <marker>establis</marker> una relació.</example>
+			<example type="incorrect" correction="Establí"><marker>Establi</marker> els seus principis.</example>
+			<example type="correct">Que hi establís una relació.</example>             
+        </rule>        
     	<rule id="CONSEGUENT_CONSEQUENT" name="conseguent/consequent">
 		    <pattern>
 		        <token>per</token>
