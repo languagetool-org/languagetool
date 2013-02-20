@@ -1584,19 +1584,31 @@ though, and has since been slightly modified)-->
       <example type="correct">Au son de la voix</example>
       <example type="correct">Même son de cloche</example>
     </rule>
-    <!-- according to Hanse dictionary,checked with Google-->
-    <rule default="off" id="ET_BIEN" name="ET BIEN au lieu de EH BIEN">
-      <pattern>
-        <token postag="SENT_START"/>
-        <marker>
-          <token>Et</token>
-        </marker>
-        <token>bien</token>
-      </pattern>
-      <message>« Et bien » peut être une impropriété. Employez <suggestion>eh</suggestion> au besoin.</message>
-      <example type="correct">Eh bien, soit !</example>
-      <example type="incorrect"><marker>Et</marker> bien, soit !</example>
-    </rule>
+    <rulegroup id="ET_BIEN" name="ET BIEN au lieu de EH BIEN">
+      <rule>
+        <pattern>
+          <token postag="SENT_START"/>
+          <marker><token>Et</token></marker>
+          <token>bien</token>
+          <token><exception regexp="yes">sûr|que?</exception></token>
+        </pattern>
+        <message>Employez <suggestion>Eh</suggestion>.</message>
+        <example type="incorrect"><marker>Et</marker> bien, soit !</example>
+        <example type="correct">Eh bien, soit !</example>
+        <example type="correct">Et bien sûr, il n’est pas venu.</example>
+        <example type="correct">Et bien qu’il commençât en retard, il termina en avance.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="SENT_START"/>
+          <marker><token>Hé</token></marker>
+          <token>bien</token>
+        </pattern>
+        <message>Employez <suggestion>Eh</suggestion>.</message>
+        <example type="incorrect"><marker>Hé</marker> bien, soit !</example>
+        <example type="correct">Eh bien, soit !</example>
+      </rule>
+    </rulegroup>
     <!-- added by Agnes Souque -->
     <rule id="CONF_VERBE_NOM" name="Nom au lieu de Verbe">
       <pattern>
