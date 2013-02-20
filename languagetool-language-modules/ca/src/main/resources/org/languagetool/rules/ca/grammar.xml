@@ -13352,14 +13352,15 @@ $Id$
         </rule>
         <rule id="DAR" name="dar">
             <pattern>
-                <token postag="V.[^P].*" postag_regexp="yes" inflected="yes">dar</token>
+                <token postag="V.[^P].*" postag_regexp="yes" inflected="yes">dar<exception inflected="yes">deure</exception></token>
             </pattern>
-            <message>El verb "dar" sol usar-se només en expressions fossilitzades</message>
+            <message>El verb "dar" sol usar-se només en expressions fossilitzades.</message>
             <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">donar</match></suggestion>
             <example type="incorrect" correction="donarem">Què li <marker>darem</marker>.</example>
             <example type="correct">Li ho donaré.</example>
             <example type="correct">Ara van mal dades</example>
             <example type="correct">Tot està dat i beneït.</example>
+            <example type="correct">Se li deu això.</example>
         </rule>  
         <rule id="DEPARAR" name="deparar">
             <pattern>
