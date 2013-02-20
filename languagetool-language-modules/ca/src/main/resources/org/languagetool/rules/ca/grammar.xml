@@ -13321,6 +13321,23 @@ $Id$
             <example type="incorrect" correction="purgar">Cal <marker>porgar</marker>-lo.</example>
             <example type="correct">purgar</example>
         </rule>    
+        <rule id="CIMENTAR" name="cimentar/fonamentar">
+            <pattern>
+                <token inflected="yes">cimentar</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="ciment(.+)" regexp_replace="fonament$1"/></suggestion> (sentits més habituals) en comptes de "<match no="1"/>" (sentits menys habituals)?</message>
+            <suggestion><match no="1" regexp_match="ciment(.+)" regexp_replace="pos$1"/> els fonaments</suggestion>
+            <example type="incorrect" correction="fonamentéssim|poséssim els fonaments">Calia que <marker>cimentéssim</marker> bé la casa.</example>
+            <example type="correct">purgar</example>
+        </rule>
+        <rule id="CIMENT" name="ciment">
+            <pattern>
+                <token inflected="yes" regexp="yes">ciment|cimentació</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>fonaments</suggestion> (sentits més habituals) en comptes de "<match no="1"/>" (sentits menys habituals)?</message>
+            <example type="incorrect" correction="fonaments">Calia que posar els <marker>ciments</marker> de la casa.</example>
+            <example type="correct">purgar</example>
+        </rule>
         <rule id="DAR" name="dar">
             <pattern>
                 <token postag="V.[^P].*" postag_regexp="yes" inflected="yes">dar</token>
