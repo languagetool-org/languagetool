@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 Russian grammar and typo rules for LanguageTool.
 See resource/ru/russian_tags.txt for the meaning of the POS tags.
 
-Copyright © 2008-2012 Yakov Reztsov
+Copyright © 2008-2013 Yakov Reztsov
 http://www.languagetool.org
 
 This library is free software; you can redistribute it and/or
@@ -156,23 +156,41 @@ $Id$
     </category>
 
     <category name="Пунктуация">
-
-       <rule default="on" id="Prep_i" name="Пропущена запятая перед предлгом и">
-            <pattern>
-                <!--           NN:.*   VB:.*    и      NN:.*   VB:.*   -->
-                <marker>
-                    <token postag="VB:.*" postag_regexp="yes"></token>           
-                    <token postag="NN:.*" postag_regexp="yes" skip="-1"><exception scope="next">,</exception></token>
-                    <token regexp="yes">и</token>
-                    <token postag="VB:.*" postag_regexp="yes"></token>           
-                    <token postag="NN:.*" postag_regexp="yes" ></token>
-                </marker>              
-            </pattern>
-            <message>Пропущена запятая перед предлгом и: <suggestion>\1 \2, \3 \4 \5</suggestion></message>
-            <short>Пропущена запятая в сложном предложении.</short>
-            <example type="correct">Пролетели года, и настало время.</example>
-            <example type="incorrect"><marker>Пролетели года и настало время</marker>.</example>
-        </rule>        
+        <rulegroup default="on" id="Prep_i" name="Пропущена запятая перед предлгом и">
+            <rule>     
+                <pattern>
+                    <!--           NN:.*   VB:.*    и      NN:.*   VB:.*   -->
+                    <marker>
+                        <token postag="VB:.*" postag_regexp="yes"></token>           
+                        <token postag="NN:.*" postag_regexp="yes" skip="-1"><exception scope="next">,</exception></token>
+                        <token>и</token>
+                        <token postag="VB:.*" postag_regexp="yes"></token>           
+                        <token postag="NN:.*" postag_regexp="yes" ></token>
+                    </marker>              
+                </pattern>
+                <message>Пропущена запятая перед предлгом и: <suggestion>\1 \2, \3 \4 \5</suggestion></message>
+                <short>Пропущена запятая в сложном предложении.</short>
+                <example type="correct">Пролетели года, и настало время.</example>
+                <example type="incorrect"><marker>Пролетели года и настало время</marker>.</example>
+            </rule>        
+            <rule>
+                <pattern>
+                    <!--             VB:.*   NN:.*   и      VB:.*   NN:.*     -->
+                    <marker>
+                        <token postag="NN:.*" postag_regexp="yes"></token>           
+                        <token postag="VB:.*" postag_regexp="yes" skip="-1"><exception scope="next">,</exception></token>
+                        <token>и</token>
+                        <token postag="NN:.*" postag_regexp="yes"></token>           
+                        <token postag="VB:.*" postag_regexp="yes" ></token>
+                    </marker>              
+                </pattern>
+                <message>Пропущена запятая перед предлгом и: <suggestion>\1 \2, \3 \4 \5</suggestion></message>
+                <short>Пропущена запятая в сложном предложении.</short>
+                <example type="correct">Года пролетелт, и время настало.</example>
+                <example type="incorrect"><marker>Года пролетели и время настало</marker>.</example>
+            </rule>        
+        </rulegroup>        
+        
   
         <rule default="on" id="ABREV_DOT" name="Точка после сокращений">
             <pattern case_sensitive="yes">
