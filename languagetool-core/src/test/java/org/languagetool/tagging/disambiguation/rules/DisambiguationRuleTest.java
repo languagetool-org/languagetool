@@ -20,6 +20,7 @@
 package org.languagetool.tagging.disambiguation.rules;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -28,11 +29,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import junit.framework.TestCase;
 
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.TestTools;
+import org.languagetool.*;
 import org.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
 import org.languagetool.tagging.disambiguation.xx.TrimDisambiguator;
 import org.languagetool.tools.StringTools;
@@ -70,13 +67,26 @@ public class DisambiguationRuleTest extends TestCase {
           && !(languageTool.getLanguage().getDisambiguator() instanceof TrimDisambiguator)) {
         final String name = JLanguageTool.getDataBroker().getResourceDir() + "/" + lang.getShortName()
             + "/disambiguation.xml";
+        validateRuleFile(name);
         final List<DisambiguationPatternRule> rules = ruleLoader
             .getRules(ruleLoader.getClass().getResourceAsStream(name));
         testDisambiguationRulesFromXML(rules, languageTool, lang);
       }
     }
   }
-  
+
+  private void validateRuleFile(String filePath) throws IOException {
+    final XMLValidator validator = new XMLValidator();
+    final InputStream stream = this.getClass().getResourceAsStream(filePath);
+    try {
+      if (stream != null) {
+        validator.validate(filePath, JLanguageTool.getDataBroker().getResourceDir() + "/disambiguation.xsd");
+      }
+    } finally {
+      if (stream != null) { stream.close(); }
+    }
+  }
+
   private static String sortForms(final String wordForms) {
     if (",[,]".equals(wordForms)) {
       return wordForms;
