@@ -583,7 +583,7 @@ $Id$
                         <unify negate="yes">
                             <feature id="nombre" />
                             <feature id="genere" />
-                            <token postag="D[^ARN].*" postag_regexp="yes"><exception postag="complement.*|_GN_.*|allow_tant|contraccio" postag_regexp="yes" /><exception postag="allow_masculine">tot</exception></token>
+                            <token postag="D[^ARN].*" postag_regexp="yes"><exception postag="_GN_.*|allow_tant|contraccio" postag_regexp="yes" /><exception postag="allow_masculine">tot</exception><exception postag="complement.*" postag_regexp="yes" inflected="yes">tot</exception></token>
                             <token postag="N.F.*" postag_regexp="yes"><exception postag="N.CN.*|_GN_.*|V.[IS].*" postag_regexp="yes" /></token>
                         </unify>
                     </marker>
@@ -594,6 +594,7 @@ $Id$
                 <short>Error de concordança.</short>
                 <example type="incorrect" correction="aquella metgessa|aquelles metgesses"><marker>aquell metgesses</marker></example>
                 <example type="incorrect" correction="Aquella metgessa|Aquelles metgesses"><marker>Aquells metgessa</marker>.</example>
+                <example type="incorrect" correction="aquella olor|aquelles olors">Amb <marker>aquell olor</marker> tan agradable.</example>
                 <example type="correct">Aquestes metgesses.</example>
                 <example type="correct">Aqueixa metgessa.</example>
                 <example type="correct">Eixes metgesses.</example>
@@ -4061,7 +4062,7 @@ $Id$
     	<rule id="PUGIN_PUGUIN" name="pugin/puguin">
     		<pattern>
     			<marker>
-    				<token skip="1" inflected="yes">pujar</token>
+    				<token postag="V.S.*" postag_regexp="yes" inflected="yes">pujar</token>
     			</marker>
     			<token postag="V.N.*" postag_regexp="yes"/>
     		</pattern>
@@ -4069,6 +4070,7 @@ $Id$
     		<example type="incorrect" correction="puguin">que <marker>pugin</marker> fer-ho</example>
     		<example type="incorrect" correction="poguéssiu">si <marker>pugéssiu</marker> fer-ho</example>
     		<example type="correct">no pugeu el menjar</example>
+    		<example type="correct">Veure pujar o baixar el preu del meló.</example>
     	</rule>
         <rule id="MALDADES_MAL_DADES" name="maldades / mal dades">
             <pattern>
@@ -5184,6 +5186,32 @@ $Id$
                 <message>Cal accentuar: <suggestion>renúncia</suggestion>.</message>
                 <short>Cal accentuar.</short>
                 <example type="incorrect">La <marker>renuncia</marker> a la corona.</example>
+                <example type="correct">La renúncia a la corona.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>les</token>
+                    <marker>
+                        <token>distancies</token>
+                    </marker>
+                    <token regexp="yes">de|d'</token>
+                </pattern>
+                <message>Si és nom, cal accentuar: <suggestion>distàncies</suggestion>.</message>
+                <short>Cal accentuar.</short>
+                <example type="incorrect" correction="distàncies">Salvades les <marker>distancies</marker> de temps.</example>
+                <example type="correct">La renúncia a la corona.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>la</token>
+                    <marker>
+                        <token>distancia</token>
+                    </marker>
+                    <token regexp="yes">de|d'</token>
+                </pattern>
+                <message>Si és nom, cal accentuar: <suggestion>distància</suggestion>.</message>
+                <short>Cal accentuar.</short>
+                <example type="incorrect" correction="distància">Salvada la <marker>distancia</marker> de temps.</example>
                 <example type="correct">La renúncia a la corona.</example>
             </rule>
             <rule>
@@ -7724,6 +7752,19 @@ $Id$
                 <example type="incorrect"><marker>és</marker> veu que </example>
                 <example type="correct">es veu que</example>
             </rule>
+            <rule id="ES_POT" name="es pot">
+                <pattern>
+                    <marker>
+                        <token>és</token>
+                    </marker>
+                    <token>pot</token>
+                </pattern>
+                <message>Només s'accentua quan és del verb "ser".</message>
+                <suggestion>es</suggestion>
+                <short>Possible confusió</short>
+                <example type="incorrect" correction="es">Més del <marker>és</marker> pot.</example>
+                <example type="correct">es pot fer</example>
+            </rule>
         </rulegroup>
         <rulegroup id="DONA" name="dona/dóna">
             <rule>
@@ -8834,6 +8875,19 @@ $Id$
                 <example type="incorrect" correction="hi">no <marker>i</marker> vingueu</example>
                 <example type="incorrect" correction="ho">no <marker>o</marker> digues</example>
                 <example type="correct">no hi era</example>
+            </rule>
+            <rule id="I_O_SON" name="i (h)o són">
+            	<pattern>
+            		<token postag="C.*" postag_regexp="yes"/>
+            		<marker>
+            			<token regexp="yes">o|i</token>
+            		</marker>
+            		<token postag="V.[^NGP].*" postag_regexp="yes"/>
+            	</pattern>
+            	<message>Si és un pronom, cal escriure <suggestion>h<match no="2"/></suggestion>.</message>
+            	<example type="incorrect" correction="hi">Ni <marker>i</marker> vaig pensar</example>
+            	<example type="incorrect" correction="ho">Però <marker>o</marker> vaig pensar</example>
+            	<example type="correct">Vaig dir i repetir.</example>
             </rule>
         </rulegroup>
         <rulegroup id="HI_REDUNDANT" name="pronom 'hi' redundant">
@@ -11899,6 +11953,32 @@ $Id$
                 <short>Preposició inadequada</short>
                 <example type="incorrect" correction="olor de">tenia <marker>olor a</marker> maduixa</example>
                 <example type="correct">tenia olor de maduixa</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="D[^R].*" postag_regexp="yes"/>
+                    <marker>
+                        <token regexp="yes">gust|olor|pudor|flaire</token>
+                        <token>a</token>
+                    </marker>
+                </pattern>
+                <message>Incorrecte si vol dir: <suggestion><match no="2"/> de</suggestion>.</message>
+                <short>Preposició inadequada</short>
+                <example type="incorrect" correction="olor de">Amb aquella <marker>olor a</marker> resclosit</example>
+                <example type="correct">tenia olor de maduixa</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>amb</token>
+                    <marker>
+                        <token regexp="yes">gust|olor|pudor|flaire</token>
+                        <token>a</token>
+                    </marker>
+                </pattern>
+                <message>Incorrecte si vol dir: <suggestion><match no="2"/> de</suggestion>.</message>
+                <short>Preposició inadequada</short>
+                <example type="incorrect" correction="gust de">Amb <marker>gust a</marker> plàstic</example>
+                <example type="correct">amb olor de maduixa</example>
             </rule>
         </rulegroup>
         <rulegroup id="JUNT_A" name="*junt a, *juntament a">
@@ -16660,6 +16740,7 @@ $Id$
                 </pattern>
                 <message>Si és causal, val més usar una altra construcció.</message>
                 <suggestion>com que no (...)</suggestion>
+                <suggestion>perquè no (...)</suggestion>
                 <url>http://esadir.cat/sintaxi/enalinf</url>
                 <short>Expressió preferible</short>
                 <example type="incorrect"><marker>en no tenir</marker> efectes pràctics,</example>
