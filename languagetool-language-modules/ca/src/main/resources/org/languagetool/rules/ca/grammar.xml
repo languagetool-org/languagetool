@@ -1294,6 +1294,18 @@ $Id$
                 <example type="correct">a un altre jove</example>
                 <example type="correct">escrigué un altre final</example>
             </rule>
+            <rule id="CONCORDANCES_MIG" name="concordança mig/mitja">
+                <pattern>
+                    <marker>
+                        <token>mig</token>
+                    </marker>
+                    <token postag="N.FS.*" postag_regexp="yes"><exception postag="_GN_MS"/></token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>mitja</suggestion>?</message>
+                <short>Possible error de concordança</short>
+                <example type="incorrect" correction="mitja">Va vindre <marker>mig</marker> hora despés</example>
+                <example type="correct">Ho sap mig món.</example>
+            </rule>
             <rule id="ANTIPODES" name="als antípodes">
                 <pattern>
                     <marker>
@@ -7216,7 +7228,6 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token>a</token>
                     <marker>
                         <token>ma</token>
                     </marker>
@@ -7225,6 +7236,21 @@ $Id$
                 <message>S'accentua quan és nom: <suggestion>mà</suggestion>.</message>
                 <short>S'accentua quan és nom.</short>
                 <example type="incorrect" correction="mà">A <marker>ma</marker> esquerra hi ha el carrer.</example>
+                <example type="correct">A ma estimada mare.</example>
+                <example type="correct">A ma mare.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>ma</token>
+                    </marker>
+                    <token postag="AQ.FS.*|V.P..SF." postag_regexp="yes"/>
+                    <token><exception regexp="yes">mare|cosina|tia|germana</exception></token>
+                </pattern>
+                <message>S'accentua quan és nom: <suggestion>mà</suggestion>.</message>
+                <short>S'accentua quan és nom.</short>
+                <example type="incorrect" correction="mà">De <marker>ma</marker> humana.</example>
+                <example type="incorrect" correction="mà">Amb <marker>ma</marker> decidida.</example>
                 <example type="correct">A ma estimada mare.</example>
                 <example type="correct">A ma mare.</example>
             </rule>
