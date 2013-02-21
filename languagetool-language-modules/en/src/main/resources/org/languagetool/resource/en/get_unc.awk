@@ -98,5 +98,5 @@ else
 		print $0}
 	}
 else 
-	print $0
+	if ($0!="") print $0
 }
