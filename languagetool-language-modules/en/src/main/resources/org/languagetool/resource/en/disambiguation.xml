@@ -1523,5 +1523,19 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
 		<example type="ambiguous" inputform="can[can/MD,can/NN]" outputform="can[can/MD]">This <marker>can</marker> only be eliminated.</example>
 	</rule>
 		
+	<rule id="VBN_VBD" name="Past Participle">
+		<pattern>
+			<token inflected="yes" regexp="yes">be|have</token>
+			<marker>
+				<and>
+					<token postag="VBD"/>
+					<token postag="VBN"/>
+				</and>
+			</marker>
+		</pattern>
+		<disambig postag="VBN"/>
+		<example type="untouched">He has a car.</example>
+		<example type="ambiguous" inputform="made[make/VBD,make/VBN]" outputform="made[make/VBN]">He has <marker>made</marker> a mistake.</example>		
+	</rule>
 	</rulegroup>
 </rules>

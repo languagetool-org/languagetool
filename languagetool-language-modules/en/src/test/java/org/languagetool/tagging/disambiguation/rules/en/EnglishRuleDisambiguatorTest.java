@@ -24,12 +24,13 @@ import java.io.IOException;
 import junit.framework.TestCase;
 
 import org.languagetool.TestTools;
+import org.languagetool.tagging.disambiguation.rules.DisambiguationRuleTest;
 import org.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
 import org.languagetool.tagging.en.EnglishTagger;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.WordTokenizer;
 
-public class EnglishRuleDisambiguatorTest extends TestCase {
+public class EnglishRuleDisambiguatorTest extends DisambiguationRuleTest {
   
   private EnglishTagger tagger;
   private WordTokenizer tokenizer;
@@ -45,6 +46,11 @@ public class EnglishRuleDisambiguatorTest extends TestCase {
     disambiguator = new EnglishRuleDisambiguator();
     disamb2 = new DemoDisambiguator(); 
   }
+  
+  public void testRules() throws Exception {
+      testDisambiguationRulesFromXML();
+    }
+
 
   public void testChunker() throws IOException {
     TestTools.myAssert("I cannot have it.",
