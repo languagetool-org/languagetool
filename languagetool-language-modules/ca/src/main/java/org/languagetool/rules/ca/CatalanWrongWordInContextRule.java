@@ -31,7 +31,7 @@ public class CatalanWrongWordInContextRule extends WrongWordInContextRule {
   
   @Override
   protected String getCategoryString() {
-    return "Paraules fàcils de confondre";
+    return "Z) Confusions";
   }
   
   @Override
@@ -41,7 +41,7 @@ public class CatalanWrongWordInContextRule extends WrongWordInContextRule {
   
   @Override
   public String getDescription() {
-    return "Confusió de paraules (rendible/rentable, etc.)";
+    return "Confusió segons el context (infligir/infringir, etc.)";
   }
   
   @Override
@@ -51,7 +51,7 @@ public class CatalanWrongWordInContextRule extends WrongWordInContextRule {
   
   @Override
   protected String getMessageString() {
-    return "Possible confusió: ¿Volíeu dir <suggestion>$SUGGESTION</suggestion> en lloc de '$WRONGWORD'?";
+    return "¿Volíeu dir <suggestion>$SUGGESTION</suggestion> en lloc de '$WRONGWORD'?";
   }
   
   @Override
@@ -61,7 +61,7 @@ public class CatalanWrongWordInContextRule extends WrongWordInContextRule {
   
   @Override
   protected String getLongMessageString() {
-    return "Possible confusió: ¿Volíeu dir <suggestion>$SUGGESTION</suggestion> (= $EXPLANATION_SUGGESTION) en lloc de '$WRONGWORD' (= $EXPLANATION_WRONGWORD)?";
+    return "¿Volíeu dir <suggestion>$SUGGESTION</suggestion> (= $EXPLANATION_SUGGESTION) en lloc de '$WRONGWORD' (= $EXPLANATION_WRONGWORD)?";
   }
 
 }
