@@ -5664,6 +5664,18 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category name="Grammar" type="grammar">
+        <rule id="DOES_X_HAS" name="does ... has(have)">
+            <pattern>
+                <token>does</token>
+                <token />
+                <marker>
+                    <token>has</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>have</suggestion>? As 'do' is already inflected, 'have' cannot also be inflected.</message>
+            <example type="correct">Does anybody have an idea about that?</example>
+            <example type="incorrect" correction="have">Does anybody <marker>has</marker> an idea about that?</example>
+        </rule>
         <rulegroup id="WANT_THAT_I" name="want that I(want me to)">
             <!-- TODO: extend this rule to cover more than personal pronouns. This is actually a very common error for German speakers. -->
             <rule>
@@ -5745,7 +5757,7 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
                 <example type="correct">They <marker>want them to</marker> send him an email.</example>
             </rule>
         </rulegroup>
-        <rule id="THE_SENT_END" name="Sentance ending with 'the.' or 'a.'">
+        <rule id="THE_SENT_END" name="Sentence ending with 'the.' or 'a.'">
             <pattern case_sensitive="yes">
                 <token><exception regexp="yes">’|'|\.</exception><exception postag="SENT_START"></exception></token>
                 <marker>
