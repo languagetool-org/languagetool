@@ -21,8 +21,6 @@ package org.languagetool.tagging.disambiguation.rules.en;
 
 import java.io.IOException;
 
-import junit.framework.TestCase;
-
 import org.languagetool.TestTools;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationRuleTest;
 import org.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
