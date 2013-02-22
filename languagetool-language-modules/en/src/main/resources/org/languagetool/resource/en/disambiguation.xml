@@ -257,6 +257,18 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <example type="untouched">I cannot do it.</example>
         <example type="ambiguous" inputform="t[t]" outputform="t[not/RB]">I can'<marker>t</marker> do it.</example>
     </rule>
+    <rule name="re -> be" id="RE_VBP">
+    	<pattern>
+    		<token regexp="yes">they|we|what|who|you</token>
+    		<token>'</token>
+    		<marker>
+    			<token spacebefore="no">re</token>
+    		</marker>
+    	</pattern>
+    	<disambig action="replace"><wd lemma="be" pos="VBP">re</wd></disambig>
+    	<example type="untouched">Re: your letter</example>
+    	<example type="ambiguous" inputform="re[re/IN,re/NN:U]" outputform="re[be/VBP]">They'<marker>re</marker> leaving.</example>
+    </rule>
     <rule name="don't they" id='dont'>
     	<pattern>
     		<marker>
@@ -1522,8 +1534,8 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
 		<example type="untouched">It is a can of soup.</example>
 		<example type="ambiguous" inputform="can[can/MD,can/NN]" outputform="can[can/MD]">This <marker>can</marker> only be eliminated.</example>
 	</rule>
-		
-	<rule id="VBN_VBD" name="Past Participle">
+	</rulegroup>
+		<rule id="VBN_VBD" name="Past Participle">
 		<pattern>
 			<token inflected="yes" regexp="yes">be|have</token>
 			<marker>
@@ -1537,5 +1549,34 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
 		<example type="untouched">He has a car.</example>
 		<example type="ambiguous" inputform="made[make/VBD,make/VBN]" outputform="made[make/VBN]">He has <marker>made</marker> a mistake.</example>		
 	</rule>
-	</rulegroup>
+	
+	<rule id="JJ_VB" name="companies: verb to noun if preceded by adj">
+		<pattern>
+			<token postag="JJ.*" postag_regexp="yes"/>
+			<marker>
+			<and>
+				<token>companies</token>
+				<token postag="VBZ"/>
+				<token postag="NNP?S" postag_regexp="yes"/>
+			</and>
+			</marker>
+		</pattern>
+		<disambig><match no="2" postag="NNP?S" postag_regexp="yes"></match></disambig>
+	</rule>
+		<rule id="VBP_NN_VBZ" name="company -> noun">
+			<pattern>
+				<token regexp="yes" postag="VB[ZPG]?" postag_regexp="yes" inflected="yes">be|have</token>
+				<marker>
+				<and>
+					<token postag="NN.*" postag_regexp="yes"><exception postag="JJ.*" postag_regexp="yes"></exception></token>
+					<token postag="VB[ZP]?" postag_regexp="yes"/>
+				</and>
+				</marker>
+			</pattern>
+			<disambig><match no="2" postag="NN.*" postag_regexp="yes"></match></disambig>
+			<example type="untouched">It's still valid.</example>
+			<example type="ambiguous" inputform="companies[company/NNS,company/VBZ]" outputform="companies[company/NNS]">They have <marker>companies</marker>.</example>
+		</rule>
+	
 </rules>
+ 
