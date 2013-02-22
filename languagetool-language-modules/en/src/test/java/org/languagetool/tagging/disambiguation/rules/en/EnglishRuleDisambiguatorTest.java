@@ -16,7 +16,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-
 package org.languagetool.tagging.disambiguation.rules.en;
 
 import java.io.IOException;
@@ -44,11 +43,10 @@ public class EnglishRuleDisambiguatorTest extends DisambiguationRuleTest {
     disambiguator = new EnglishRuleDisambiguator();
     disamb2 = new DemoDisambiguator(); 
   }
-  
-  public void testRules() throws Exception {
-      testDisambiguationRulesFromXML();
-    }
 
+  public void testRules() throws Exception {
+    testDisambiguationRulesFromXML();
+  }
 
   public void testChunker() throws IOException {
     TestTools.myAssert("I cannot have it.",
