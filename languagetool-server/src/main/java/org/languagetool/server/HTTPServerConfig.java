@@ -31,6 +31,7 @@ public class HTTPServerConfig {
   protected boolean verbose = false;
   protected boolean publicAccess = false;
   protected int port = DEFAULT_PORT;
+  protected String allowOriginUrl = null;
 
   public HTTPServerConfig() {
     this.port = DEFAULT_PORT;
@@ -59,6 +60,8 @@ public class HTTPServerConfig {
         verbose = true;
       } else if ("--public".equals(args[i])) {
         publicAccess = true;
+      } else if ("--allow-origin".equals(args[i])) {
+        allowOriginUrl = args[++i];
       }
     }
   }
@@ -76,6 +79,13 @@ public class HTTPServerConfig {
 
   public int getPort() {
     return port;
+  }
+
+  /**
+   * URL of server whose visitors may request data via Ajax, or {@code *} (= anyone) or {@code null} (= no support for CORS).
+   */
+  public String getAllowOriginUrl() {
+    return allowOriginUrl;
   }
 
 }

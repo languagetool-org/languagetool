@@ -69,6 +69,7 @@ public class HTTPSServer extends Server {
       final RequestLimiter limiter = getRequestLimiterOrNull(config);
       final LanguageToolHttpHandler httpHandler = new LanguageToolHttpHandler(config.isVerbose(), allowedIps, runInternally, limiter);
       httpHandler.setMaxTextLength(config.getMaxTextLength());
+      httpHandler.setAllowOriginUrl(config.getAllowOriginUrl());
       server.createContext("/", httpHandler);
     } catch (BindException e) {
       final ResourceBundle messages = JLanguageTool.getMessageBundle();
