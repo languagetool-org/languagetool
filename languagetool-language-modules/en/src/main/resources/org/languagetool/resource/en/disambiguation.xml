@@ -260,7 +260,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     <rule name="re -> be" id="RE_VBP">
     	<pattern>
     		<token regexp="yes">they|we|what|who|you</token>
-    		<token>'</token>
+    		<token regexp="yes">['’]</token>
     		<marker>
     			<token spacebefore="no">re</token>
     		</marker>
@@ -268,6 +268,18 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     	<disambig action="replace"><wd lemma="be" pos="VBP">re</wd></disambig>
     	<example type="untouched">Re: your letter</example>
     	<example type="ambiguous" inputform="re[re/IN,re/NN:U]" outputform="re[be/VBP]">They'<marker>re</marker> leaving.</example>
+    </rule>
+    <rule name="ve -> have" id="VE_VBP">
+    	<pattern>
+    		<token regexp="yes">I|they|we|what|who|you</token>
+    		<token regexp="yes">['’]</token>
+    		<marker>
+    			<token spacebefore="no">ve</token>
+    		</marker>
+    	</pattern>
+    	<disambig action="replace"><wd lemma="have" pos="VBP">ve</wd></disambig>
+    	<example type="untouched">-ve is added in front of verbs</example>
+    	<example type="ambiguous" inputform="ve[ve]" outputform="ve[have/VBP]">They'<marker>ve</marker> made a mistake.</example>
     </rule>
     <rule name="don't they" id='dont'>
     	<pattern>
