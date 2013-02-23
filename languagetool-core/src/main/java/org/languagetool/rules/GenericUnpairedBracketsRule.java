@@ -19,11 +19,7 @@
 
 package org.languagetool.rules;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedSentence;
@@ -100,7 +96,8 @@ public class GenericUnpairedBracketsRule extends Rule {
   
   /**
    * Generic method to specify an exception. For unspecified
-   * language, it simply returns true, which means no exception.
+   * language, it simply returns true (which means no exception) unless
+   * there's a common smiley like :-) or ;-).
    * @param token String token
    * @param tokens Sentence tokens
    * @param i Current token index
@@ -111,6 +108,14 @@ public class GenericUnpairedBracketsRule extends Rule {
       final AnalyzedTokenReadings[] tokens, final int i, final int j,
       final boolean precSpace,
       final boolean follSpace) {
+    // Smiley ":-)"
+    if (i >= 2 && tokens[i-2].getToken().equals(":") && tokens[i-1].getToken().equals("-") && tokens[i].getToken().equals(")")) {
+      return false;
+    }
+    // Smiley ";-)"
+    if (i >= 2 && tokens[i-2].getToken().equals(";") && tokens[i-1].getToken().equals("-") && tokens[i].getToken().equals(")")) {
+      return false;
+    }
     return true;
   }
 

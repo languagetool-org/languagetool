@@ -45,6 +45,8 @@ public class EnglishUnpairedBracketsRuleTest extends TestCase {
     // correct sentences:
     assertCorrect("(This is a test sentence).");
     assertCorrect("This is a word 'test'.");
+    assertCorrect("This is a sentence with a smiley :-)");
+    assertCorrect("This is a sentence with a smiley ;-) and so on...");
     assertCorrect("This is the joint presidents' declaration.");
     assertCorrect("The screen is 20\" wide.");
     assertCorrect("This is a [test] sentence...");
@@ -70,6 +72,9 @@ public class EnglishUnpairedBracketsRuleTest extends TestCase {
     assertIncorrect("&'");
     assertIncorrect("!'");
     assertIncorrect("What?'");
+
+    // this is currently considered incorrect... although people often use smileys this way:
+    assertIncorrect("Some text (and some funny remark :-) with more text to follow");
 
     RuleMatch[] matches;
     matches = rule.match(langTool.getAnalyzedSentence("(This is a test” sentence."));

@@ -59,6 +59,11 @@ public class EnglishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
       return true;
     }
     
+    final boolean superException = !super.isNoException(tokenStr, tokens, i, j, precSpace, follSpace);
+    if (superException) {
+      return false;
+    }
+    
     if (!precSpace && follSpace) {
       // exception for English inches, e.g., 20"
       final AnalyzedTokenReadings prevToken = tokens[i - 1];

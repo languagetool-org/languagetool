@@ -57,6 +57,11 @@ public class CatalanUnpairedBracketsRule extends GenericUnpairedBracketsRule {
 			return true;
 		}
 
+    final boolean superException = !super.isNoException(tokenStr, tokens, i, j, precSpace, follSpace);
+    if (superException) {
+      return false;
+    }
+    
 		if (i == 1 && tokenStr.equals("»"))
 			return false;
 
