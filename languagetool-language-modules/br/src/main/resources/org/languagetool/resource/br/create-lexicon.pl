@@ -1723,6 +1723,7 @@ my @anv_lies_tud = (
   "trucherion",
   "truilhenned",
   "tud",
+  "tudigoù",
   "tudoniourien",
   "tudonourien",
   "tudonourion",
