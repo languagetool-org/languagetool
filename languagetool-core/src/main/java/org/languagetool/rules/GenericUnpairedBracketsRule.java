@@ -134,29 +134,28 @@ public class GenericUnpairedBracketsRule extends Rule {
           if (startSymbols[j].equals(endSymbols[j])) {
             precededByWhitespace = tokens[i - 1].isSentStart()
                 || tokens[i].isWhitespaceBefore()
-                || PUNCTUATION_NO_DOT.matcher(tokens[i - 1].getToken())
-                    .matches();
+                || PUNCTUATION_NO_DOT.matcher(tokens[i - 1].getToken()).matches();
           }
 
           boolean followedByWhitespace = true;
           if (i < tokens.length - 1 && startSymbols[j].equals(endSymbols[j])) {
             followedByWhitespace = tokens[i + 1].isWhitespaceBefore()
                 || PUNCTUATION.matcher(tokens[i + 1].getToken()).matches();
-          }         
+          }
 
           final boolean noException = isNoException(token, tokens, i, j,
-                precededByWhitespace, followedByWhitespace);          
+                  precededByWhitespace, followedByWhitespace);
 
           if (noException && precededByWhitespace
-              && token.equals(startSymbols[j])) {
+                  && token.equals(startSymbols[j])) {
             symbolStack.push(new SymbolLocator(startSymbols[j], i));
             break;
           } else if (noException && followedByWhitespace
-              && token.equals(endSymbols[j])) {            
-            if (i > 1 && endSymbols[j].equals(")") 
-                && (numerals.matcher(tokens[i - 1].getToken()).matches()
-                && !(!symbolStack.empty() 
-               && "(".equals(symbolStack.peek().symbol)))) {        
+                  && token.equals(endSymbols[j])) {
+            if (i > 1 && endSymbols[j].equals(")")
+                    && (numerals.matcher(tokens[i - 1].getToken()).matches()
+                    && !(!symbolStack.empty()
+                    && "(".equals(symbolStack.peek().symbol)))) {
             } else {
               if (symbolStack.empty()) {
                 symbolStack.push(new SymbolLocator(endSymbols[j], i));
@@ -171,8 +170,8 @@ public class GenericUnpairedBracketsRule extends Rule {
                     break;
                   } else {
                     if (j == endSymbols.length - 1) {
-                    symbolStack.push(new SymbolLocator(endSymbols[j], i));
-                    break;
+                      symbolStack.push(new SymbolLocator(endSymbols[j], i));
+                      break;
                     }
                   }
                 }
@@ -183,8 +182,7 @@ public class GenericUnpairedBracketsRule extends Rule {
       }
     }
     for (final SymbolLocator sLoc : symbolStack) {
-      final RuleMatch rMatch = createMatch(tokens[sLoc.index].getStartPos(),
-          sLoc.symbol);
+      final RuleMatch rMatch = createMatch(tokens[sLoc.index].getStartPos(), sLoc.symbol);
       if (rMatch != null) {
         ruleMatches.add(rMatch);
       }
@@ -222,8 +220,7 @@ public class GenericUnpairedBracketsRule extends Rule {
     }
     ruleMatchStack.push(new RuleMatchLocator(symbol, ruleMatchIndex, ruleMatches.size()));
     ruleMatchIndex++;
-    return new RuleMatch(this, startPos, startPos + symbol.length(), messages
-        .getString("unpaired_brackets"));
+    return new RuleMatch(this, startPos, startPos + symbol.length(), messages.getString("unpaired_brackets"));
   }
 
   private int findSymbolNum(final String ch) {
