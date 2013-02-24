@@ -2226,7 +2226,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token inflected="yes">aller|donner|don</token>
+          <token inflected="yes" regexp="yes">aller|donner|don</token>
           <token>de</token>
           <marker><token regexp="yes">soi[te]</token></marker>
         </pattern>
@@ -3293,13 +3293,13 @@ though, and has since been slightly modified)-->
           <token postag="[DJN] .* s" postag_regexp="yes" skip="1">
             <!-- Following exception skip words both singular/plural as well as adverbs -->
             <exception negate_pos="yes" postag="A|[JNZ] .* s?p|SENT_END" postag_regexp="yes" scope="next"/>
-            <exception postag="V inf|[JANZ] .* s?p" postag_regexp="yes" scope="current"/>
+            <exception postag="V inf|[DJNZ] .* s?p" postag_regexp="yes" scope="current"/>
             <exception postag="&lt;/DE&gt;" scope="previous"/>
             <exception regexp="yes" scope="previous">et|de|du</exception>
             <exception regexp="yes">air|car|juste</exception>
           </token>
           <token postag="[JNZ] . p" postag_regexp="yes">
-            <exception postag="V .*|[JNZ] .* sp" postag_regexp="yes"/>
+            <exception postag="V .*|[JNZ] .* sp?" postag_regexp="yes"/>
             <exception scope="previous">peu</exception>
           </token>
         </pattern>
@@ -3331,6 +3331,7 @@ though, and has since been slightly modified)-->
         <example type="correct">Les lois antitrust américaines.</example>
         <example type="correct">Des roquettes sont <marker>même retombées</marker>.</example>
         <example type="correct">Ils sont <marker>juste amis</marker>.</example>
+        <example type="correct">Parmi les <marker>mieux cotés</marker>.</example>
       </rule>
       <rule name="pluriel suivi du singulier">
         <pattern>
