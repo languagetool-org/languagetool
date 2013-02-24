@@ -7353,6 +7353,44 @@ $Id$
         <example type="correct">Digoret em eus ur <marker>gont</marker>.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="OAD_AOD" name="oad pe aod">
+      <rule>
+        <pattern>
+          <token>boued</token>
+          <marker><token>oad</token></marker>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>aod</suggestion> ?</message>
+        <example type="incorrect">Kavout a ran mat boued <marker>oad</marker>.</example>
+        <example type="correct">Kavout a ran mat boued <marker>aod</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">war|paotr(ed)?|e-kerzh</token>
+          <token>an</token>
+          <marker><token>oad</token></marker>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>aod</suggestion> ?</message>
+        <example type="incorrect">Un ti war an <marker>oad</marker>.</example>
+        <example type="correct">Un ti war an <marker>aod</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">pe</token>
+          <marker><token>aod</token></marker>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>oad</suggestion> ?</message>
+        <example type="incorrect">Pe <marker>aod</marker> out?</example>
+        <example type="correct">Pe <marker>oad</marker> out?</example>
+      </rule>
+    </rulegroup>
+    <rule id="CHARR_TAN" name="c’har-tann → c’harr-tan">
+      <pattern>
+        <token regexp="yes">(c’h|[kg])arr?-tann</token>
+      </pattern>
+      <message>Ha fellout a rae deoc’h skrivañ <suggestion>c’harr-tan</suggestion> ?</message>
+      <example type="incorrect">Ur <marker>c’harr-tann</marker> nevez am eus.</example>
+      <example type="correct">Ur c’harr-tan nevez am eus.</example>
+    </rule>
   </category>
   <!-- vim: foldmethod=marker foldmarker=<category,</category:
   -->
