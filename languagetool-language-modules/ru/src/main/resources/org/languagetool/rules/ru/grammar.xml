@@ -27,7 +27,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 $Id$
 -->
 <rules lang="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
-
+    
     <category name="Логические ошибки">
         <rulegroup id="Logical_reshit_zatanuvshujusa_problemu" name="Логические ошибки «решит эту затянувшуюся проблему»">
             <rule> 
@@ -114,35 +114,35 @@ $Id$
             <example type="incorrect"><marker>в этой связи</marker></example>
             <example type="correct">в связи с этим</example>
         </rule>
-
-
- <rulegroup id="Logical_odel_nadel" name="Логические ошибки (одеть/надеть)">
-      <!-- TODO скрытый/скрытный   -->
-      <rule>      
-            <pattern>
-                <token>одел</token>
-                <token inflected="yes" regexp="yes">рубашка|одежда|платье|юбка|пальто|куртка|брюки|майка|носок|обувь|туфли|сапоги|ботинки|сарафан</token>
-            </pattern>
-            <message>Логическая ошибка: <suggestion>надел \2</suggestion>?</message>
-            <url>http://ru.wikipedia.org/wiki/%D0%9F%D0%B0%D1%80%D0%BE%D0%BD%D0%B8%D0%BC%D0%B8%D1%8F</url>
-            <short>Логическая ошибка.</short>
-            <example type="incorrect">Он <marker>одел рубашку</marker>.</example>
-            <example type="correct">Он надел рубашку.</example>
-      </rule>   
-<rule>      
-            <pattern>
-                <token>надел</token>
-                <token postag="NNN:.*|NNP:.*|NNF:.*" postag_regexp="yes"><exception regexp="yes">майку|майки</exception></token>
-            </pattern>
-            <message>Логическая ошибка: <suggestion>одел \2</suggestion>?</message>
-            <url>http://ru.wikipedia.org/wiki/%D0%9F%D0%B0%D1%80%D0%BE%D0%BD%D0%B8%D0%BC%D0%B8%D1%8F</url>
-            <short>Логическая ошибка.</short>
-            <example type="incorrect">Он <marker>надел Ивана</marker>.</example>
-            <example type="correct">Он одел Ивана.</example>
-      </rule>       
- </rulegroup>
-   
- <rule id="Linguistics_hrabry" name="Лингвистические ошибки «(храбрая или смелая) мысль, решение, идея»">
+        
+        
+        <rulegroup id="Logical_odel_nadel" name="Логические ошибки (одеть/надеть)">
+            <!-- TODO скрытый/скрытный   -->
+            <rule>      
+                <pattern>
+                    <token>одел</token>
+                    <token inflected="yes" regexp="yes">рубашка|одежда|платье|юбка|пальто|куртка|брюки|майка|носок|обувь|туфли|сапоги|ботинки|сарафан</token>
+                </pattern>
+                <message>Логическая ошибка: <suggestion>надел \2</suggestion>?</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%9F%D0%B0%D1%80%D0%BE%D0%BD%D0%B8%D0%BC%D0%B8%D1%8F</url>
+                <short>Логическая ошибка.</short>
+                <example type="incorrect">Он <marker>одел рубашку</marker>.</example>
+                <example type="correct">Он надел рубашку.</example>
+            </rule>   
+            <rule>      
+                <pattern>
+                    <token>надел</token>
+                    <token postag="NNN:.*|NNP:.*|NNF:.*" postag_regexp="yes"><exception regexp="yes">майку|майки</exception></token>
+                </pattern>
+                <message>Логическая ошибка: <suggestion>одел \2</suggestion>?</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%9F%D0%B0%D1%80%D0%BE%D0%BD%D0%B8%D0%BC%D0%B8%D1%8F</url>
+                <short>Логическая ошибка.</short>
+                <example type="incorrect">Он <marker>надел Ивана</marker>.</example>
+                <example type="correct">Он одел Ивана.</example>
+            </rule>       
+        </rulegroup>
+        
+        <rule id="Linguistics_hrabry" name="Лингвистические ошибки «(храбрая или смелая) мысль, решение, идея»">
             <pattern>
                 <token>храбрая</token>
                 <token regexp="yes">мысль|решение|идея</token>
@@ -154,21 +154,22 @@ $Id$
             <example type="correct">Это смелая идея.</example>
         </rule>        
     </category>
-
+    
     <category name="Пунктуация">
-        <rulegroup default="on" id="Prep_i" name="Пропущена запятая перед предлгом и">
+        <rulegroup default="on" id="Prep_i" name="Пропущена запятая перед предлгом и в сложном предложении">
             <rule>     
                 <pattern>
                     <!--           NN:.*   VB:.*    и      NN:.*   VB:.*   -->
                     <marker>
                         <token postag="VB:.*" postag_regexp="yes"></token>           
                         <token postag="NN:.*" postag_regexp="yes" skip="-1"><exception scope="next">,</exception></token>
-                        <token>и</token>
+                        <token skip="-1">и</token>
                         <token postag="VB:.*" postag_regexp="yes"></token>           
                         <token postag="NN:.*" postag_regexp="yes" ></token>
                     </marker>              
                 </pattern>
                 <message>Пропущена запятая перед предлгом и: <suggestion>\1 \2, \3 \4 \5</suggestion></message>
+                <url>http://ru.wikipedia.org/wiki/%D0%A1%D0%BB%D0%BE%D0%B6%D0%BD%D0%BE%D1%81%D0%BE%D1%87%D0%B8%D0%BD%D1%91%D0%BD%D0%BD%D0%BE%D0%B5_%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5</url>
                 <short>Пропущена запятая в сложном предложении.</short>
                 <example type="correct">Пролетели года, и настало время.</example>
                 <example type="incorrect"><marker>Пролетели года и настало время</marker>.</example>
@@ -179,19 +180,20 @@ $Id$
                     <marker>
                         <token postag="NN:.*" postag_regexp="yes"></token>           
                         <token postag="VB:.*" postag_regexp="yes" skip="-1"><exception scope="next">,</exception></token>
-                        <token>и</token>
+                        <token skip="-1">и</token>
                         <token postag="NN:.*" postag_regexp="yes"></token>           
                         <token postag="VB:.*" postag_regexp="yes" ></token>
                     </marker>              
                 </pattern>
                 <message>Пропущена запятая перед предлгом и: <suggestion>\1 \2, \3 \4 \5</suggestion></message>
+                <url>http://ru.wikipedia.org/wiki/%D0%A1%D0%BB%D0%BE%D0%B6%D0%BD%D0%BE%D1%81%D0%BE%D1%87%D0%B8%D0%BD%D1%91%D0%BD%D0%BD%D0%BE%D0%B5_%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5</url>
                 <short>Пропущена запятая в сложном предложении.</short>
-                <example type="correct">Года пролетелт, и время настало.</example>
+                <example type="correct">Года пролетели, и время настало.</example>
                 <example type="incorrect"><marker>Года пролетели и время настало</marker>.</example>
             </rule>        
         </rulegroup>        
         
-  
+        
         <rule default="on" id="ABREV_DOT" name="Точка после сокращений">
             <pattern case_sensitive="yes">
                 <marker>
@@ -934,7 +936,7 @@ $Id$
             </rule>
             
         </rulegroup>
-  <rulegroup default="on" id="NEIZVESTNO_KTO" name="Цельные выражения: «неизвестно кто», ...">
+        <rulegroup default="on" id="NEIZVESTNO_KTO" name="Цельные выражения: «неизвестно кто», ...">
             <!-- Запятая не ставится в цельных выражениях:
             неизвестно кто,
 	    ... ,
@@ -943,7 +945,7 @@ $Id$
             <rule>
                 <pattern>
                     <token regexp="yes">неизвестно|непонятно</token>
-		    <token>,</token>
+                    <token>,</token>
                     <token regexp="yes">кто|что|какой|где|куда|откуда|чей</token>
                 </pattern>
                 <message>Запятая не нужна:<suggestion>\1 \3</suggestion>.</message>
@@ -951,7 +953,7 @@ $Id$
                 <example type="correct">Ещё неизвестно кто победил.</example>
                 <example type="incorrect">Ещё <marker>неизвестно, кто</marker> победил.</example>
             </rule>
-	    <!-- Запятая не ставится в цельных выражениях:
+            <!-- Запятая не ставится в цельных выражениях:
             всё равно кто,
 	    ... ,
             все равно чей 
@@ -959,8 +961,8 @@ $Id$
             <rule>
                 <pattern>
                     <token regexp="yes">все|всё</token>
-		    <token>равно</token>
-		    <token>,</token>
+                    <token>равно</token>
+                    <token>,</token>
                     <token regexp="yes">кто|что|какой|где|куда|откуда|чей</token>
                 </pattern>
                 <message>Запятая не нужна:<suggestion>\1 \2 \4</suggestion>.</message>
@@ -968,9 +970,9 @@ $Id$
                 <example type="correct">Всё равно кто выполнит задание.</example>
                 <example type="incorrect"><marker>Всё равно, кто</marker> выполнит задание.</example>
             </rule>
-       </rulegroup>
-<rulegroup default="on" id="EST_CHEM_ZANJATSA" name="Цельные выражения: «есть чем заняться», ...">
-             <!-- Запятая не ставится в цельных выражениях:
+        </rulegroup>
+        <rulegroup default="on" id="EST_CHEM_ZANJATSA" name="Цельные выражения: «есть чем заняться», ...">
+            <!-- Запятая не ставится в цельных выражениях:
             есть чем заняться,
 	    ... ,
             не нахожу что сказать
@@ -990,7 +992,7 @@ $Id$
                 <example type="correct">Он не нашёлся что ответить.</example>
                 <example type="incorrect">Он не <marker>нашёлся, что ответить</marker>.</example>
             </rule>
-<rule>
+            <rule>
                 <pattern>
                     <token regexp="yes">есть|нахожу|найду|нашёлся|нашелся|было|осталось</token>
                     <token>,</token>
@@ -1003,9 +1005,9 @@ $Id$
                 <example type="correct">Ему было о чём подумать.</example>
                 <example type="incorrect">Ему <marker>было, о чём подумать</marker>.</example>
             </rule>
-</rulegroup>
+        </rulegroup>
     </category>
-   	 <category name="Типографика">
+    <category name="Типографика">
         <rule default="off" id="KAVITCHKI" name="„ → ”">
             <pattern>
                 <token>“</token>
@@ -1854,22 +1856,22 @@ $Id$
             </rule>
             
             <rule>            
-                  <!-- заранее           
+                <!-- заранее           
   -->          
-           <pattern case_sensitive="no">
-                     <marker>
+                <pattern case_sensitive="no">
+                    <marker>
                         <token>за</token>
                         <token>ранее</token>
                     </marker>
-                         <token>.</token>
+                    <token>.</token>
                 </pattern>
                 <message>Слово пишется слитно: <suggestion>\1\2</suggestion>.</message>
                 <short>Пишется слитно.</short>
                 <example type="correct">Он прибыл на станцию <marker>заранее</marker>.</example>
                 <example type="incorrect">Он прибыл на станцию <marker>за ранее</marker>.</example>
             </rule>
-
-
+            
+            
             
             <rule>
                 <!-- поверх, подо, помимо              
@@ -2401,7 +2403,7 @@ $Id$
             <example type="incorrect">Работа должна быть выполнена <marker>в течении часа</marker>.</example>
             <example type="correct">Работа должна быть выполнена в течение часа.</example>
         </rule>
-         <rule id="V_PRODOLJENIЕ" name="Словосочетание «в продолжение (отрезка времени)»">
+        <rule id="V_PRODOLJENIЕ" name="Словосочетание «в продолжение (отрезка времени)»">
             <pattern>
                 <token>в</token>
                 <token>продолжении</token>
