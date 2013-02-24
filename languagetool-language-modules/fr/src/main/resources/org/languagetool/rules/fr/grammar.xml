@@ -2182,6 +2182,17 @@ though, and has since been slightly modified)-->
       <example type="incorrect">La langue d’<marker>hoc</marker>.</example>
       <example type="correct">La langue d’<marker>oc</marker>.</example>
     </rule>
+    <rulegroup id="SOI_SOIT" name="soit → soit">
+      <rule>
+        <pattern>
+          <token regexp="yes">chez|sur</token>
+          <marker><token>soit</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>soi</suggestion> ?</message>
+        <example type="incorrect">Comment gagner de l’argent en restant chez <marker>soit</marker>.</example>
+        <example type="correct">Comment gagner de l’argent en restant chez <marker>soi</marker>.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="VOIE_VOIX" name="voie → voix">
       <rule>
         <pattern>
@@ -2216,6 +2227,26 @@ though, and has since been slightly modified)-->
         <example type="correct">Il y avait une émotion dans sa voix.</example>
         <example type="correct">Combien y a-t-il d’étoiles dans la Voie Lactée ?</example>
         <example type="correct">Dans leurs voies respiratoires.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>à</token>
+          <token>haute</token>
+          <marker><token regexp="yes">voi[set]</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>voix</suggestion> ?</message>
+        <example type="incorrect">Il a déclaré à haute <marker>voie</marker>.</example>
+        <example type="correct">Il a déclaré à haute <marker>voix</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>à</token>
+          <marker><token regexp="yes">voi[set]</token></marker>
+          <token regexp="yes">basse|haute</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>voix</suggestion> ?</message>
+        <example type="incorrect">Ils discutaient à <marker>voie</marker> basse.</example>
+        <example type="correct">Ils discutaient à <marker>voix</marker> basse.</example>
       </rule>
     </rulegroup>
     <rulegroup id="VOIX_VOIE" name="voix → voie">
@@ -7432,6 +7463,26 @@ though, and has since been slightly modified)-->
       <example type="incorrect" correction="prévu">La rencontre s’est déroulée comme <marker>prévues</marker>.</example>
       <example type="correct">La rencontre s’est déroulée comme <marker>prévu</marker>.</example>
     </rule>
+    <rulegroup id="SOI_DISANT" name="soit-disant → soi-disant">
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">soit?-disante?s?<exception>soi-disant</exception></token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>soi-disant</suggestion> (invariable) ?</message>
+        <example type="incorrect">Méfiez-vous de cette <marker>soi-disante</marker> sorcière.</example>
+        <example type="incorrect">Méfiez-vous de cette <marker>soit-disant</marker> sorcière.</example>
+        <example type="correct">Méfiez-vous de cette <marker>soi-disant</marker> sorcière.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">soit?</token>
+          <token regexp="yes">disante?s?</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>soi-disant</suggestion> (invariable) ?</message>
+        <example type="incorrect">Méfiez-vous de cette <marker>soi disant</marker> sorcière.</example>
+        <example type="correct">Méfiez-vous de cette <marker>soi-disant</marker> sorcière.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category default="off" name="Régionalismes">
     <!--The following rules were created by Hugo Voisard-->
