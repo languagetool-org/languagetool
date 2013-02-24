@@ -5513,6 +5513,16 @@ though, and has since been slightly modified)-->
         <example type="correct">Envoie-la-nous.</example>
         <example type="correct">Voulez-vous vous en aller ?</example>
       </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">conv(enons|enez)<exception scope="previous" regexp="yes">en|[nv]ous</exception></token>
+          <token>en</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>\1-\2</suggestion> ?</message>
+        <example type="incorrect">La cuisine anglaise, <marker>convenons en</marker>, ne jouit pas d’une bonne réputation.</example>
+        <example type="correct">La cuisine anglaise, <marker>convenons-en</marker>, ne jouit pas d’une bonne réputation.</example>
+        <example type="correct">Nous convenons en particulier ce qui suit.</example>
+      </rule>
     </rulegroup>
     <rulegroup id="QUI_VCONJ" name="Verbe conjugué après pronom relatif qui">
       <rule>
