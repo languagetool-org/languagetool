@@ -29,6 +29,17 @@ $Id$
 <rules lang="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
     
     <category name="Логические ошибки">
+        <rule id="BLIZKIJ_BLIZHNIJ" name="Употребление слов «близкий/ближний»">
+            <pattern>
+                <token>близкий</token>
+                <token>свет</token>
+            </pattern>
+            <message>Имелось в виду <suggestion>ближний</suggestion>?</message>
+            <short>Логическая ошибка.</short>
+            <example type="incorrect">Водитель включил <marker>близкий свет</marker> фар.</example>
+            <example type="correct">Водитель включил ближний свет фар.</example>
+        </rule>
+        
         <rulegroup id="Logical_reshit_zatanuvshujusa_problemu" name="Логические ошибки «решит эту затянувшуюся проблему»">
             <rule> 
                 <pattern>
