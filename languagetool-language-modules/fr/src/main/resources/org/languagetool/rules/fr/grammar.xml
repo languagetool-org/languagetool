@@ -2182,15 +2182,102 @@ though, and has since been slightly modified)-->
       <example type="incorrect">La langue d’<marker>hoc</marker>.</example>
       <example type="correct">La langue d’<marker>oc</marker>.</example>
     </rule>
-    <rulegroup id="SOI_SOIT" name="soit → soit">
+    <rulegroup id="SOI_SOIT_SOIE" name="soit, soi, ou soie">
       <rule>
         <pattern>
-          <token regexp="yes">chez|sur</token>
-          <marker><token>soit</token></marker>
+          <token regexp="yes">chez|pour|sur</token>
+          <marker><token regexp="yes">soi[te]</token></marker>
         </pattern>
         <message>Voulez-vous écrire <suggestion>soi</suggestion> ?</message>
         <example type="incorrect">Comment gagner de l’argent en restant chez <marker>soit</marker>.</example>
         <example type="correct">Comment gagner de l’argent en restant chez <marker>soi</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">confiance|croire</token>
+          <token>en</token>
+          <marker><token regexp="yes">soi[te]</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>soi</suggestion> ?</message>
+        <example type="incorrect">Il a toujours confiance en <marker>soit</marker>.</example>
+        <example type="correct">Il a toujours confiance en <marker>soi</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">bas|chemises?|chemisiers?|coussins?|cravates?|draps?|étoffes?|fils?|juste-au-corps|lingerie|nuisettes?|peignoirs?|robes?|soutien-gorges?|tissus|vêtue?s?</token>
+          <token regexp="yes">de|en</token>
+          <marker><token regexp="yes">soit?</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>soie</suggestion> ?</message>
+        <example type="incorrect">Ces draps en <marker>soi</marker> sont hors de prix.</example>
+        <example type="correct">Ces draps en <marker>soie</marker> sont hors de prix.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>en</token>
+          <marker><token>soit</token></marker>
+          <token postag="M fin"/>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>soi</suggestion> ou <suggestion>soie</suggestion> ?</message>
+        <example type="incorrect">Un drap en <marker>soit</marker>.</example>
+        <example type="correct">Un drap en <marker>soie</marker>.</example>
+        <example type="incorrect">Il n’est pas mauvais en <marker>soit</marker>.</example>
+        <example type="correct">Il n’est pas mauvais en <marker>soi</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">aller|donner|don</token>
+          <token>de</token>
+          <marker><token regexp="yes">soi[te]</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>soi</suggestion> ?</message>
+        <example type="incorrect">Ça va de <marker>soit</marker>.</example>
+        <example type="correct">Ça va de <marker>soi</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">vouloir|désirer|souhaiter|ordonner|exiger</token>
+          <token>que</token>
+          <token postag="D.*" postag_regexp="yes"/>
+          <token postag="N.*" postag_regexp="yes"/>
+          <marker><token regexp="yes">soie?</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>soit</suggestion> ?</message>
+        <example type="incorrect">Je veux que cette soirée <marker>soi</marker> mémorable.</example>
+        <example type="correct">Je veux que cette soirée <marker>soit</marker> mémorable.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>que</token>
+          <token>l</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+          <token>on</token>
+          <marker><token regexp="yes">soie?</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>soit</suggestion> ?</message>
+        <example type="incorrect">Il faut que l’on <marker>soi</marker> à l’heure.</example>
+        <example type="correct">Il faut que l’on <marker>soit</marker> à l’heure.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>qu</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+          <token regexp="yes">il|elle</token>
+          <marker><token regexp="yes">soie?</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>soit</suggestion> ?</message>
+        <example type="incorrect">Il se peut qu’il <marker>soi</marker> en retard.</example>
+        <example type="correct">Il se peut qu’il <marker>soit</marker> en retard.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">vers?|lépidoptères?</token>
+          <token regexp="yes">[àa]</token>
+          <token regexp="yes">soit?</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>\1 à soie</suggestion> ?</message>
+        <example type="incorrect">Un <marker>ver à soi</marker>.</example>
+        <example type="correct">Un ver à soie.</example>
       </rule>
     </rulegroup>
     <rulegroup id="VOIE_VOIX" name="voie → voix">
