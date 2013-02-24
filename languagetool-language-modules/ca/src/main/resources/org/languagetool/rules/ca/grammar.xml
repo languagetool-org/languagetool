@@ -1555,10 +1555,10 @@ $Id$
                     <marker>
                         <token postag="V.*" postag_regexp="yes" inflected="yes">dormir</token>
                     </marker>
-                    <token postag="_GN_.*" postag_regexp="yes"><exception>cada</exception><exception postag="DN.*" postag_regexp="yes"/></token>
+                    <token postag="DA.*" postag_regexp="yes"><exception>cada</exception><exception postag="DN.*" postag_regexp="yes"/></token>
                     <token><exception regexp="yes">son|vegada|quart|hora|estona</exception></token>
                 </pattern>
-                <message>¿Volíeu dir <suggestion><match no="2" regexp_match="(dorm.*)" regexp_replace="a$1"/></suggestion>?</message>
+                <message>¿Volíeu dir <suggestion><match no="2" regexp_match="([Dd]orm.*)" regexp_replace="a$1"/></suggestion>?</message>
                 <example type="incorrect" correction="adormir">Joan va <marker>dormir</marker> la nena.</example>
                 <example type="incorrect" correction="adormit">Joan ha <marker>dormit</marker> el nen.</example>
                 <example type="correct">Joan va adormir el nen.</example>
@@ -1568,6 +1568,7 @@ $Id$
                 <example type="correct">dormiran un son etern</example>
                 <example type="correct">anà a dormir altra vegada</example>
                 <example type="correct">En aquella sala dormia una cuinera</example>
+                <example type="correct">Dormint lenta agonia.</example>
             </rule>
         </rulegroup>
         <!-- <rulegroup id="VERBS_PRONOMINALS" name="verbs reflexius: desperta't"> 
@@ -6771,16 +6772,17 @@ $Id$
         	<!-- Cal millorar la regla, perquè ja no es considera determinant i no funciona la regla de concordança per a detectar error-->
             <rule>
                 <pattern>
-                    <token><exception inflected="yes">tenir</exception><exception postag="D[AD]0[MF]S0" postag_regexp="yes"/><exception regexp="yes">de|d'</exception></token>
+                    <token><exception inflected="yes">tenir</exception><exception postag="D[ADI]0[MF]S0" postag_regexp="yes"/><exception regexp="yes">de|d'</exception></token>
                     <marker>
                         <token>son</token>
                     </marker>
-                    <token postag="D[AID].*|PD0NS000" postag_regexp="yes"/>
+                    <token postag="D[AID].*|PD0NS000|_PUNCT.*" postag_regexp="yes"/>
                 </pattern>
                 <message>Si és del verb 'ser', cal accentuar: <suggestion>són</suggestion>.</message>
                 <short>Accent diacrític.</short>
                 <example type="incorrect" correction="són">No <marker>son</marker> les galetes de nata.</example>
                 <example type="incorrect" correction="Són"><marker>Son</marker> allò que volem.</example>
+                <example type="incorrect" correction="són">Aquestes <marker>son</marker>, com deia Joan, adorables.</example>
                 <!-- <example type="incorrect" correction="Són"><marker>Son</marker> cada dia més intel·ligents.</example> -->
                 <example type="correct">son pare no té nas</example>
                 <example type="correct">tenia son els diumenges al matí</example>
@@ -6790,6 +6792,7 @@ $Id$
                 <example type="correct">moltes hores de son cada dia</example>
                 <example type="correct">aquell son fou reparador</example>
                 <example type="correct">aquella son era irresistible</example>
+                <example type="correct">Tinc molta son, me'n vaig.</example>
             </rule>
             <rule>
                 <pattern>
