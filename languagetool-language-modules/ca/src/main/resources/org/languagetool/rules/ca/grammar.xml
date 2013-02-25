@@ -5611,13 +5611,12 @@ $Id$
                     <marker>
                         <token regexp="yes">aquet(a|s|es)?</token>
                     </marker>
-                    <token postag="N.*" postag_regexp="yes"></token>
                 </pattern>
-                <message>Possible confusió.</message>
+                <message>Possible confusió. "Aquet" existeix com a terme de zoologia.</message>
                 <suggestion><match no="1" regexp_match="[Aa]que(t|ta|ts|tes)" regexp_replace="aques$1"/></suggestion>
                 <short>Possible confusió</short>
                 <example type="incorrect" correction="Aquest"><marker>Aquet</marker> home.</example>
-                <example type="incorrect" correction="Aquestes"><marker>Aquetes</marker> dones.</example>
+                <example type="incorrect" correction="aquestes">Ho fan <marker>aquetes</marker>.</example>
                 <example type="correct">Aquest home.</example>
             </rule>
         </rulegroup>
@@ -13452,6 +13451,20 @@ $Id$
     
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="BOBO" name="bobo">
+        	<pattern>
+        		<token regexp="yes">bobos?</token>
+        	</pattern>
+        	<message>Incorrecte si volíeu dir <suggestion><match no="1" postag=".+([SP]).+" postag_regexp="yes" postag_replace="AQ0M$10">beneit</match></suggestion>. "Bobo" existeix com a nom d'un poble sudanès.</message>
+        	<suggestion><match no="1" postag=".+([SP]).+" postag_regexp="yes" postag_replace="AQ0M$10">badoc</match></suggestion>
+        	<suggestion><match no="1" postag=".+([SP]).+" postag_regexp="yes" postag_replace="AQ0M$10">babau</match></suggestion>
+        	<suggestion><match no="1" postag=".+([SP]).+" postag_regexp="yes" postag_replace="AQ0M$10">bajà</match></suggestion>
+        	<suggestion><match no="1" postag=".+([SP]).+" postag_regexp="yes" postag_replace="AQ0M$10">talòs</match></suggestion>
+        	<short>Possible error</short>
+        	<example type="incorrect" correction="beneits|badocs|babaus|bajans|talossos">Pareixen <marker>bobos</marker>.</example>
+        	<example type="incorrect" correction="beneit|badoc|babau|bajà|talòs">Pareix <marker>bobo</marker>.</example>
+        	<example type="correct">Ets un simple.</example>
+        </rule>
         <rule id="LLIURAR" name="lliurar/deslliurar">
         	<pattern>
         		<marker>
@@ -13461,6 +13474,7 @@ $Id$
         	</pattern>
         	<message>Incorrecte si equival a <suggestion>des<match no="1"/></suggestion>.</message>
         	<suggestion><match no="1" regexp_match="lliur(.*)" regexp_replace="alliber$1"/></suggestion>
+        	<short>Possible error</short>
         	<example type="incorrect" correction="deslliuraren|alliberaren">Es <marker>lliuraren</marker> del podriment.</example>
         	<example type="correct">Es van lliurar a la beguda.</example>
         </rule>
