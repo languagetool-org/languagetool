@@ -27,8 +27,9 @@ import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 
 public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
 
-  private static final String RESOURCE_FILENAME = "/ca/hunspell/ca_ES.dict";
-
+  //private static final String RESOURCE_FILENAME = "/ca/hunspell/ca_ES.dict";
+  private static final String RESOURCE_FILENAME = "/ca/catalan.dict";
+  
   public MorfologikCatalanSpellerRule(ResourceBundle messages,
                                       Language language) throws IOException {
     super(messages, language);
