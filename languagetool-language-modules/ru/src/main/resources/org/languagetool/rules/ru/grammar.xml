@@ -29,17 +29,28 @@ $Id$
 <rules lang="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
     
     <category name="Логические ошибки">
-        <rule id="BLIZKIJ_BLIZHNIJ" name="Употребление слов «близкий/ближний»">
-            <pattern>
-                <token>близкий</token>
-                <token>свет</token>
-            </pattern>
-            <message>Имелось в виду <suggestion>ближний</suggestion>?</message>
-            <short>Логическая ошибка.</short>
-            <example type="incorrect">Водитель включил <marker>близкий свет</marker> фар.</example>
-            <example type="correct">Водитель включил ближний свет фар.</example>
-        </rule>
-        
+        <rulegroup id="BLIZKIJ_BLIZHNIJ" name="Употребление слов «близкий/ближний»">
+            <rule> 
+                <pattern>
+                    <token>близкий</token>
+                    <token>свет</token>
+                </pattern>
+                <message>Имелось в виду <suggestion>ближний \2</suggestion>?</message>
+                <short>Логическая ошибка.</short>
+                <example type="incorrect">Водитель включил <marker>близкий свет</marker> фар.</example>
+                <example type="correct">Водитель включил ближний свет фар.</example>
+            </rule>
+            <rule> 
+                <pattern>
+                    <token>ближний</token>
+                    <token regexp = "yes" >человек|друг|товарищ</token>
+                </pattern>
+                <message>Имелось в виду <suggestion>близкий \2</suggestion>?</message>
+                <short>Логическая ошибка.</short>
+                <example type="incorrect">Он - <marker>ближний друг</marker>.</example>
+                <example type="correct">Он - близкий друг.</example>
+            </rule>
+        </rulegroup> 
         <rulegroup id="Logical_reshit_zatanuvshujusa_problemu" name="Логические ошибки «решит эту затянувшуюся проблему»">
             <rule> 
                 <pattern>
