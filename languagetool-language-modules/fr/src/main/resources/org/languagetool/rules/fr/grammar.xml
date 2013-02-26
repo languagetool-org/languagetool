@@ -3048,6 +3048,71 @@ though, and has since been slightly modified)-->
         <example type="correct">Il faut maintenir le statu quo.</example>
       </rule>
     </rulegroup>
+
+    <rulegroup id="GRES_GRE" name="gré ou grès">
+      <rule>
+        <pattern>
+          <token regexp="yes">à|de|contre|selon</token>
+          <token regexp="yes">[mts]on|[nv]otre|leur</token>
+          <marker><token>grès</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>gré</suggestion> ?</message>
+        <example type="incorrect">Il peut se déplacer à son <marker>grès</marker>.</example>
+        <example type="correct">Il peut se déplacer à son gré.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">bon|mal|plein|prôpre</token>
+          <marker><token>grès</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>gré</suggestion> ?</message>
+        <example type="incorrect">Il viendra bon <marker>grès</marker> ou mal gré.</example>
+        <example type="correct">Il viendra bon gré ou mal gré.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>au</token>
+          <marker><token>grès</token></marker>
+          <token regexp="yes">des?|du?</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>gré</suggestion> ?</message>
+        <example type="incorrect">Errer au <marker>grès</marker> des vents.</example>
+        <example type="incorrect">Errer au <marker>grès</marker> du vent.</example>
+        <example type="correct">Errer au gré des vent.</example>
+        <example type="correct">Errer au gré du vent.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>de</token>
+          <marker><token>grès</token></marker>
+          <token>ou</token>
+          <token>de</token>
+          <token>force</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>gré</suggestion> ?</message>
+        <example type="incorrect">Il acceptera de <marker>grès</marker> ou de force.</example>
+        <example type="correct">Il acceptera de gré ou de force.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">savoir</token>
+          <marker><token>grès</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>gré</suggestion> ?</message>
+        <example type="incorrect">Je vous sais <marker>grès</marker> d’être là.</example>
+        <example type="correct">Je vous sais gré d’être là.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">prendre</token>
+          <token>en</token>
+          <marker><token>grès</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>gré</suggestion> ?</message>
+        <example type="incorrect">Il faut prendre en <marker>grès</marker> les afflictions que Dieu nous envoie.</example>
+        <example type="correct">Il faut prendre en gré les afflictions que Dieu nous envoie.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category name="Élision">
     <!-- I find conflicting information about élision, so this needs to be reviewed.
