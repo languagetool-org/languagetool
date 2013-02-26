@@ -3048,22 +3048,85 @@ though, and has since been slightly modified)-->
         <example type="correct">Il faut maintenir le statu quo.</example>
       </rule>
     </rulegroup>
-
+    <rulegroup id="FOIS_FOIE_FOI" name="fois, foie ou foi">
+      <rule>
+        <pattern>
+          <token>de</token>
+          <token regexp="yes">bonne|mauvaise</token>
+          <marker><token regexp="yes">foi[se]</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>foi</suggestion> ?</message>
+        <example type="incorrect">Elle est de mauvaise <marker>foie</marker>.</example>
+        <example type="incorrect">Elle est de mauvaise <marker>fois</marker>.</example>
+        <example type="correct">Elle est de mauvaise <marker>foi</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">avoir</token>
+          <marker><token regexp="yes">foi[se]</token></marker>
+          <token>en</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>foi</suggestion> ?</message>
+        <example type="incorrect">Il a <marker>foie</marker> en Dieu.</example>
+        <example type="correct">Il a <marker>foi</marker> en Dieu.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>sans</token>
+          <marker><token regexp="yes">foi[se]</token></marker>
+          <token>ni</token>
+          <token>loi</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>foi</suggestion> ?</message>
+        <example type="incorrect">Il est sans <marker>foie</marker> ni loi.</example>
+        <example type="correct">Il est sans <marker>foi</marker> ni loi.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">mal|maux|terrines?|pâtés?|radios?|cancers?|maladies?|malades?</token>
+          <token regexp="yes">au|d[eu]</token>
+          <marker><token regexp="yes">fois?</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>foie</suggestion> (l’organe) ?</message>
+        <example type="incorrect">Il a mal au <marker>foi</marker>.</example>
+        <example type="correct">Il a mal au <marker>foie</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">autre|cette|prochaine</token>
+          <marker><token regexp="yes">foie?</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>fois</suggestion> ?</message>
+        <example type="incorrect">À la prochaine <marker>foie</marker>.</example>
+        <example type="correct">À la prochaine <marker>fois</marker>.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="GRES_GRE" name="gré ou grès">
       <rule>
         <pattern>
-          <token regexp="yes">à|de|contre|selon</token>
+          <token regexp="yes">contre|selon</token>
           <token regexp="yes">[mts]on|[nv]otre|leur</token>
-          <marker><token>grès</token></marker>
+          <marker><token regexp="yes">gr[èé]s</token></marker>
         </pattern>
         <message>Voulez-vous écrire <suggestion>gré</suggestion> ?</message>
-        <example type="incorrect">Il peut se déplacer à son <marker>grès</marker>.</example>
-        <example type="correct">Il peut se déplacer à son gré.</example>
+        <example type="incorrect">Il est venu contre son <marker>grès</marker>.</example>
+        <example type="correct">Il est venu contre son gré.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">à|de</token>
+          <token regexp="yes">[mt]on|[nv]otre|leur</token>
+          <marker><token regexp="yes">gr[èé]s</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>gré</suggestion> ?</message>
+        <example type="incorrect">Tu peux se déplacer à ton <marker>grès</marker>.</example>
+        <example type="correct">Tu peux se déplacer à ton gré.</example>
+        <example type="correct">Une renommée qu'elle doit à la particularité de son grès.</example>
       </rule>
       <rule>
         <pattern>
           <token regexp="yes">bon|mal|plein|prôpre</token>
-          <marker><token>grès</token></marker>
+          <marker><token regexp="yes">gr[èé]s</token></marker>
         </pattern>
         <message>Voulez-vous écrire <suggestion>gré</suggestion> ?</message>
         <example type="incorrect">Il viendra bon <marker>grès</marker> ou mal gré.</example>
@@ -3072,7 +3135,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token>au</token>
-          <marker><token>grès</token></marker>
+          <marker><token regexp="yes">gr[èé]s</token></marker>
           <token regexp="yes">des?|du?</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>gré</suggestion> ?</message>
@@ -3084,7 +3147,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token>de</token>
-          <marker><token>grès</token></marker>
+          <marker><token regexp="yes">gr[èé]s</token></marker>
           <token>ou</token>
           <token>de</token>
           <token>force</token>
@@ -3096,7 +3159,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token inflected="yes">savoir</token>
-          <marker><token>grès</token></marker>
+          <marker><token regexp="yes">gr[èé]s</token></marker>
         </pattern>
         <message>Voulez-vous écrire <suggestion>gré</suggestion> ?</message>
         <example type="incorrect">Je vous sais <marker>grès</marker> d’être là.</example>
@@ -3106,7 +3169,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <token inflected="yes">prendre</token>
           <token>en</token>
-          <marker><token>grès</token></marker>
+          <marker><token regexp="yes">gr[èé]s</token></marker>
         </pattern>
         <message>Voulez-vous écrire <suggestion>gré</suggestion> ?</message>
         <example type="incorrect">Il faut prendre en <marker>grès</marker> les afflictions que Dieu nous envoie.</example>
