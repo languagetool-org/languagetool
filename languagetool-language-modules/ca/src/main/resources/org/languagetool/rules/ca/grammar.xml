@@ -3870,7 +3870,7 @@ $Id$
                     <marker>
                         <token>fins</token>
                     </marker>
-                    <token regexp="yes">sobre|sota|quasi|gairebé</token>
+                    <token regexp="yes">sobre|sota|quasi|gairebé|mitjan</token>
                 </pattern>
                 <message>Correcte si vol dir "fins i tot"; si no, cal escriure <suggestion>fins a</suggestion>.</message>
                 <example type="incorrect" correction="Fins a"><marker>Fins</marker> sota el font.</example>
@@ -6010,6 +6010,17 @@ $Id$
                 <example type="incorrect">que volíem deixar enrere <marker>amb a</marker>l procés</example>
                 <example type="correct">que volíem deixar enrere amb el procés</example>
                 <example type="correct">amb A. Moncunill.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">(?-i)a</token> 
+                    <token regexp="yes">arrere|enrere|endarrere|avant|endavant|envant</token>
+                </pattern>
+                <message>Sobra la preposició 'a'.</message>
+                <suggestion><match no="2"/></suggestion>
+                <short>Sobra un element</short>
+                <example type="incorrect" correction="enrere">Cap a dins i cap <marker>a enrere</marker>.</example>
+                <example type="correct">Anaven avant.</example>
             </rule>
             <!-- <rule>
                 <pattern>
@@ -11286,15 +11297,18 @@ $Id$
         </rule>
         <rule id="COM_A_MOLT" name="com a molt">
             <pattern>
-                <token>com</token>
-                <token>a</token>
-                <token>molt</token>
+            	<marker>
+	                <token>com</token>
+	                <token>a</token>
+	                <token>molt</token>
+                </marker>
+                <token><exception postag="AQ.*" postag_regexp="yes" /></token>
             </pattern>
             <message>Expressió incorrecta si vol dir <suggestion>com a màxim</suggestion>.</message>
             <suggestion>a tot estirar</suggestion>
             <short>Expressió incorrecta</short>
             <example type="incorrect"><marker>com a molt</marker> te'n donaré tres</example>
-            <example type="correct"><marker>a tot estirar</marker> te'n donaré tres</example>
+            <example type="correct">És vist com a molt greu.</example>
         </rule>
         <rule id="COBRAMENT_REVERTIT" name="cobrament revertit">
             <pattern>
@@ -14192,21 +14206,37 @@ $Id$
             <example type="incorrect" correction="autodidàctic">Promou l'aprenentatge <marker>autodidacte</marker></example>
             <example type="correct">És un sistema autodidàctic.</example>
         </rule>
-        <rule id="DESVETLLAR" name="desvetllar / desvelar">
-            <pattern>
-                <marker>
-                    <token inflected="yes" skip="5">desvetllar</token>
-                </marker>
-                <token postag="N.*" postag_regexp="yes" inflected="yes" regexp="yes">causa|origen|veritat|jo|secret|misteri</token>
-            </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">desvelar</match></suggestion> en comptes de "<match no="1" case_conversion="alllower"/>" (= treure la son, suscitar)?</message>
-            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">descobrir</match></suggestion>
-            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">revelar</match></suggestion>
-            <short>Possible error</short>
-            <example type="incorrect">Diu que vol <marker>desvetllar</marker> tots els secrets.</example>
-            <example type="correct">vol desvetllar interès</example>
-            <example type="correct">Desvetlla't, no ens rebutgis per sempre.</example>
-        </rule>
+        <rulegroup id="DESVETLLAR" name="desvetllar / desvelar">
+        	<rule>
+	            <pattern>
+	                <marker>
+	                    <token inflected="yes" skip="5">desvetllar</token>
+	                </marker>
+	                <token postag="N.*" postag_regexp="yes" inflected="yes" regexp="yes">causa|origen|veritat|jo|secret|misteri</token>
+	            </pattern>
+	            <message>¿Volíeu dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">desvelar</match></suggestion> en comptes de "<match no="1" case_conversion="alllower"/>" (= treure la son, suscitar)?</message>
+	            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">descobrir</match></suggestion>
+	            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">revelar</match></suggestion>
+	            <short>Possible error</short>
+	            <example type="incorrect" correction="desvelar|descobrir|revelar">Diu que vol <marker>desvetllar</marker> tots els secrets.</example>
+	            <example type="correct">vol desvetllar interès</example>
+	            <example type="correct">Desvetlla't, no ens rebutgis per sempre.</example>
+	        </rule>
+	        <rule>
+	            <pattern>
+	                <marker>
+	                    <token inflected="yes">desvetllar</token>
+	                </marker>
+	                <token>que</token>
+	            </pattern>
+	            <message>¿Volíeu dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">desvelar</match></suggestion> en comptes de "<match no="1" case_conversion="alllower"/>" (= treure la son, suscitar)?</message>
+	            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">descobrir</match></suggestion>
+	            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">revelar</match></suggestion>
+	            <short>Possible error</short>
+	            <example type="incorrect" correction="desvelà|descobrí|revelà">Li <marker>desvetllà</marker> que era ell.</example>
+	            <example type="correct">vol desvetllar interès</example>
+	        </rule>
+        </rulegroup>
         <rulegroup id="FALLAR" name="fallar">
             <rule>
                 <pattern>
@@ -15549,7 +15579,7 @@ $Id$
         </rule>
         <rule id="POSSESIU_CARREC_FAVOR_PARER" name="possessiu + càrrec/favor/parer">
             <pattern>
-                <token><exception inflected="yes" regexp="yes">.*tornar|.*integrar</exception></token>
+                <token><exception inflected="yes" regexp="yes">.*tornar|.*integrar|renunciar</exception></token>
                 <marker>
                     <token>a</token>
                     <token spacebefore="no">l</token>
