@@ -166,10 +166,10 @@ public class DisambiguationRuleTest extends TestCase {
               break;
             }
           }
-          assertTrue("The input form for the rule " + id + " in the example: "
+          assertEquals("The input form for the rule " + id + " in the example: "
               + example.toString() + " is different than expected (expected "
               + inputForms + " but got " + sortForms(reading) + "). The token has been changed by the disambiguator: " + annotations, 
-              sortForms(reading).equals(inputForms));
+              inputForms, sortForms(reading));
           for (final AnalyzedTokenReadings readings : disambiguatedSent.getTokens()) {
             if (readings.isSentStart() && !outputForms.contains("<S>")) {
               continue;
@@ -182,10 +182,10 @@ public class DisambiguationRuleTest extends TestCase {
               break;
             }
           }
-          assertTrue("The output form for the rule " + id + " in the example: "
+          assertEquals("The output form for the rule " + id + " in the example: "
               + example.toString() + " is different than expected (expected "
               + outputForms + " but got " + sortForms(reading) + "). The token has been changed by the disambiguator: " + annotations,
-              sortForms(reading).equals(outputForms));
+              outputForms, sortForms(reading));
         }
       }
     }
