@@ -508,10 +508,10 @@ public class PatternRuleTest extends TestCase {
             assertTrue("You specified a correction but your message has no suggestions in rule " + rule,
               rule.getMessage().contains("<suggestion>") || rule.getSuggestionsOutMsg().contains("<suggestion>")
             );
-            assertTrue(lang + ": Incorrect suggestions: "
+            assertEquals(lang + ": Incorrect suggestions: "
                 + suggestedCorrections.toString() + " != "
                 + matches.get(0).getSuggestedReplacements() + " for rule " + rule + " on input: " + badSentence,
-                suggestedCorrections.equals(matches.get(0).getSuggestedReplacements()));
+                suggestedCorrections, matches.get(0).getSuggestedReplacements());
           }
           // make sure the suggested correction doesn't produce an error:
           if (matches.get(0).getSuggestedReplacements().size() > 0) {
