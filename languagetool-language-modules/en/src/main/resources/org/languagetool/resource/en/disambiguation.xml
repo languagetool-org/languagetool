@@ -6,6 +6,16 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
 	-->
 <rules lang="en" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd">
+
+    <rule id="AULD_LANG_SYNE" name="Auld Lang Syne - title of a famous song">
+        <pattern>
+            <token>auld</token>
+            <token>lang</token>
+            <token>syne</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+    
     <rule name="Modal verb + verb/noun -&gt; modal verb + verb" id="MD_VB">
         <pattern>
             <token postag="MD"></token>
