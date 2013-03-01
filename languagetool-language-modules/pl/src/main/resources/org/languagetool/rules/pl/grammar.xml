@@ -9917,6 +9917,17 @@ $Id$
                 <example correction="dr. Kowalskiemu" type="incorrect">Dzięki <marker>dr Kowalskiemu</marker> rozwiązaliśmy zagadkę morderstwa.</example>
                 <example type="correct">To samodzielna praca dr. Kowalskiego.</example>
             </rule>
+            <rule>
+            	<pattern>
+				<token regexp="yes">M*(D?C{0,3}|C[DM])(L?X{0,3}|X[LC])(V?I{0,3}|I[VX])|\d+<exception postag="SENT_START"/></token>
+				<marker><token>w</token></marker>				
+				<token><exception>.</exception></token>
+			</pattern>
+			<message>Prawdopodobnie brak kropki: <suggestion>\2.</suggestion></message>
+			<short>Brak kropki</short>
+			<example type="correct">Działo się to w XVII w.</example>
+			<example type="incorrect" correction="w.">Na początku XVII <marker>w</marker> chłopi byli warstwą uciskaną.</example> 
+            </rule>
         </rulegroup>
         <rule id="POD_KONTEM" name="„pod kontem czegoś” (pod kątem)">
             <pattern>
