@@ -1599,6 +1599,16 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
 			<example type="untouched">It's still valid.</example>
 			<example type="ambiguous" inputform="companies[company/NNS,company/VBZ]" outputform="companies[company/NNS]">They have <marker>companies</marker>.</example>
 		</rule>
+		
+		<rule name="saw as a verb" id="PRP_SAW">
+			<pattern>
+			<token postag="PRP"/>
+			<marker><token>saw</token></marker>
+			</pattern>
+			<disambig postag="VBD"/>
+			<example type="untouched">I used my saw.</example>
+			<example type="ambiguous" inputform="saw[saw/NN,saw/VB,saw/VBP,see/VBD]" outputform="saw[see/VBD]">This is what he <marker>saw</marker>.</example>
+		</rule>
 	
 </rules>
  
