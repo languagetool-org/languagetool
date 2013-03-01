@@ -5665,17 +5665,54 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category name="Grammar" type="grammar">
-        <rule id="DOES_X_HAS" name="does ... has(have)">
+        <rulegroup id="DONT_NEEDS" name="don't ... 3rd person verb">
+            <rule>
+                <pattern>
+                    <token regexp="yes">don|won</token>
+                    <token>'</token>
+                    <token>t</token>
+                    <marker>
+                        <token postag="VBZ" />
+                    </marker>
+                </pattern>
+                <message>Did you mean the base form of '\4'?</message>
+                <example type="correct">I don't <marker>need</marker> help with that.</example>
+                <example type="correct">You don't <marker>have</marker> a bicycle?</example>
+                <example type="incorrect">I don't <marker>needs</marker> help with that.</example>
+                <example type="incorrect">You don't <marker>has</marker> a bicycle?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">do|will</token>
+                    <token>not</token>
+                    <marker>
+                        <token postag="VBZ" />
+                    </marker>
+                </pattern>
+                <message>Did you mean the base form of '\3'?</message>
+                <example type="correct">I do not <marker>need</marker> help with that.</example>
+                <example type="correct">You do not <marker>have</marker> a bicycle?</example>
+                <example type="incorrect">I do not <marker>needs</marker> help with that.</example>
+                <example type="incorrect">You do not <marker>has</marker> a bicycle?</example>
+            </rule>
+        </rulegroup>
+        <rule id="DOES_X_HAS" name="does ... 3rd person verb">
             <pattern>
                 <token>does</token>
-                <token />
+                <token>
+                    <exception regexp="yes">so|this|that|and|,</exception>
+                    <exception postag_regexp="yes" postag="VB|VBP|VBG"></exception>
+                </token>
                 <marker>
-                    <token>has</token>
+                    <token postag="VBZ" />
                 </marker>
             </pattern>
-            <message>Did you mean <suggestion>have</suggestion>? As 'do' is already inflected, 'have' cannot also be inflected.</message>
+            <message>Did you mean the base form of '\3'? As 'do' is already inflected, the verb cannot also be inflected.</message>
+            <example type="correct">He does not have expertise about that.</example>
             <example type="correct">Does anybody have an idea about that?</example>
-            <example type="incorrect" correction="have">Does anybody <marker>has</marker> an idea about that?</example>
+            <example type="correct">An algorithm that does so is usually considered invalid.</example>
+            <example type="incorrect">He does not <marker>has</marker> expertise about that.</example>
+            <example type="incorrect">Does anybody <marker>has</marker> an idea about that?</example>
         </rule>
         <rulegroup id="WANT_THAT_I" name="want that I(want me to)">
             <!-- TODO: extend this rule to cover more than personal pronouns. This is actually a very common error for German speakers. -->
