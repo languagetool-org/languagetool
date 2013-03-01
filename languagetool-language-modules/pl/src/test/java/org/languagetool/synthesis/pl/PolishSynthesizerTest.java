@@ -38,12 +38,12 @@ public class PolishSynthesizerTest extends TestCase {
     assertEquals("[Aarona]", Arrays.toString(synth.synthesize(dummyToken("Aaron"), "subst:sg:gen:m1")));
     assertEquals("[Abchazem]", Arrays.toString(synth.synthesize(dummyToken("Abchaz"), "subst:sg:inst:m1")));
     // assertEquals("[nieduży]", Arrays.toString(synth.synthesize(dummyToken("nieduży"), "adj:sg:nom:m:pos:neg")));        
-    assertEquals("[miała]", Arrays.toString(synth.synthesize(dummyToken("mieć"), "verb:praet:sg:ter:f:imperf")));
+    assertEquals("[miała]", Arrays.toString(synth.synthesize(dummyToken("mieć"), "verb:praet:sg:f:ter:imperf:refl.nonrefl")));
         assertEquals("[brzydziej]", Arrays.toString(synth.synthesize(dummyToken("brzydko"), "adv:com")));
     //with regular expressions
     assertEquals("[tonera]", Arrays.toString(synth.synthesize(dummyToken("toner"), "subst:sg:gen:m.*", true)));
     assertEquals("[nieduży, niedużego]", Arrays.toString(synth.synthesize(dummyToken("nieduży"), "adj:sg.*(m[0-9]?|m.n):pos", true)));    
-    assertEquals("[miałaś, miałam, miała, miał, miałeś, miało, miałem, miałabym, miałbym, miałabyś, miałoby, miałbyś, miałby, miałaby]", 
+    assertEquals("[miałaś, miałam, miała, miał, miałeś, miało, miałobyś, miałobym, miałem, miałabym, miałabyś, miałbym, miałoby, miałbyś, miałby, miałoś, miałaby, miałom]", 
           Arrays.toString(synth.synthesize(dummyToken("mieć"), ".*praet:sg.*", true)));
   }
 

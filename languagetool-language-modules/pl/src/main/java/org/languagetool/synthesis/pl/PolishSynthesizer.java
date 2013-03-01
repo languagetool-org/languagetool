@@ -172,7 +172,9 @@ public class PolishSynthesizer implements Synthesizer {
     } else {
       wordForms = synthesizer.lookup(token.getLemma() + "|" + posTag);      
       for (WordData wd : wordForms) {
-        forms.add(wd.getStem().toString());
+          if (wd.getStem() != null) {
+              forms.add(wd.getStem().toString());
+          }
       }      
     }
     
