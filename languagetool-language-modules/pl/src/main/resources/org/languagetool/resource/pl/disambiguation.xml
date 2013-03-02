@@ -273,6 +273,36 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     </rule>
     </rulegroup>
     
+    <rule name="względem - prep lub subst" id="wzgledem_subst">
+    	<pattern>
+    		<token>tym</token>
+    		<marker>
+    			<token>względem</token>
+    		</marker>
+    	</pattern>
+    	<disambig postag="subst:sg:inst:m3"/>
+    	<example type="ambiguous" inputform="względem[wzgląd/subst:sg:inst:m3,względem/prep:gen]" outputform="względem[wzgląd/subst:sg:inst:m3]">Pod tym <marker>względem</marker> Brazylia jest szczególna.</example>
+    	<example type="untouched">Nie bądź względem niego taki ostry!</example>
+    </rule>
+    
+    <rule name="godzinę temu" id="temu">
+    	<pattern>    		
+    		<token regexp="yes" inflected="yes">godzina|rok|miesiąc|tydzień|minuta|chwila|moment|wiek|stulecie</token>
+    		<marker><token>temu</token></marker>
+    	</pattern>
+    	<disambig postag="prep:acc"/>
+    	<example type="ambiguous" inputform="temu[temu/prep:acc,ten/adj:sg:dat:m1.m2.m3.n1.n2:pos,to/subst:sg:dat:n2]" outputform="temu[temu/prep:acc]">Było to godzinę <marker>temu</marker>.</example>
+    	<example type="untouched">Nie dziwię się temu.</example>
+    </rule>
+    <rule name="temu to nie prep" id="temu_non_prep">
+    	<pattern>
+    		<marker><token postag_regexp="yes" postag="adj.*|subst.*">temu</token></marker>
+    	</pattern>
+    	<disambig action="filter" postag="^(?!prep:acc).*"/>
+    	<example type="untouched">To było już godzinę temu.</example>
+    	<example type="ambiguous" inputform="temu[temu/prep:acc,ten/adj:sg:dat:m1.m2.m3.n1.n2:pos,to/subst:sg:dat:n2]" outputform="temu[ten/adj:sg:dat:m1.m2.m3.n1.n2:pos,to/subst:sg:dat:n2]">Dziwię się <marker>temu</marker> zachowaniu.</example>
+    </rule>     
+    
     <rulegroup name="O - dezambiguacja" id="O_brev_interj">
     	<rule>
     		<pattern>
@@ -369,7 +399,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
 			<pattern>
 				<token postag_regexp="yes" postag="prep:(acc|loc):nwok">w</token>
 			</pattern>
-			<disambig action="filter" postag="prep:(acc|loc):nwok"/>
+			<disambig action="filter" postag="^(?!brev:pun).*"/>
 			<example type="ambiguous" inputform="w[w/prep:acc:nwok,w/prep:loc:nwok,wiek/brev:pun]" outputform="w[w/prep:acc:nwok,w/prep:loc:nwok]">Mam to <marker>w</marker> szufladzie.</example>
 			<example type="untouched">Dziwny XIX w.</example>
 	</rule>
@@ -1228,7 +1258,8 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     		<marker><token>wiadomo</token></marker>
     	</pattern>
     	<disambig postag="pred"/>
-    	<example type="ambiguous" inputform="wiadomo[wiadomo/adv:pos,wiadomo/pred]" outputform="wiadomo[wiadomo/pred]">Jak <marker>wiadomo</marker>, nie tylko Marsjanie lubili pierogi.</example>
-    	
-    </rule>    
+    	<example type="ambiguous" inputform="wiadomo[wiadomo/adv:pos,wiadomo/pred]" outputform="wiadomo[wiadomo/pred]">Jak <marker>wiadomo</marker>, nie tylko Marsjanie lubili pierogi.</example>    	
+    </rule>
+    
+        
 </rules>
