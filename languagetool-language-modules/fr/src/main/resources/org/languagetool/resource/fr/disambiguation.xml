@@ -1146,9 +1146,25 @@ RB => Règles Brutes
     </pattern>
     <disambig action="filter" postag="Z.*"/>
   </rule>
+  <rulegroup id="LA_UNE" name="la une (des journaux)">
+    <rule>
+      <pattern>
+        <token>la</token>
+        <marker><token>une</token></marker>
+      </pattern>
+      <disambig postag="N f s"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token>les</token>
+        <marker><token>unes</token></marker>
+      </pattern>
+      <disambig postag="N f p"/>
+    </rule>
+  </rulegroup>
   <rule id="UNE_DES" name="une des">
     <pattern>
-      <token>une</token>
+      <token postag="D f s">une</token>
       <marker>
         <token>des</token>
       </marker>
