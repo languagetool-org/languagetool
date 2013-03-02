@@ -4210,9 +4210,9 @@ $Id$
             <example type="correct">amb el cap cot</example>
             <example type="correct">un cap buit no pot adquirir saviesa</example>
         </rule>
-        <rule id="CONFUSIO_NOMBRE" name="Confusions de nombre: catequesis, anàlisis">
+        <rule id="CONFUSIO_NOMBRE" name="Confusions de nombre: catequesis, diesis">
             <pattern>
-                <token>catequesis<exception postag="_GN_FP"/></token>
+                <token regexp="yes">catequesis|diesis|deisis|èmesis<exception postag="_GN_FP"/></token>
             </pattern>
             <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(.+)s" regexp_replace="$1"/></suggestion> (singular) en comptes de "<match no="1"/>" (plural)?</message>
             <short>Possible confusió</short>
@@ -15918,7 +15918,8 @@ $Id$
             <pattern>
                 <token>inclusive</token>
             </pattern>
-            <message>Arcaisme. Val més dir: <suggestion>inclusivament</suggestion>.</message>
+            <message>Arcaisme.</message>
+            <suggestion>inclusivament</suggestion>
             <short>Arcaisme</short>
             <example type="incorrect"><marker>inclusive</marker></example>
             <example type="correct">inclusivament</example>
@@ -16944,10 +16945,10 @@ $Id$
             </rule>
             <rule id="EVITA_INFINITIUS_INDRE" name="Evita infinitius i noms en -vindre, -tindre" default="on">
 	            <pattern>
-	                <token regexp="yes">.+[tv]indre</token>
+	                <token regexp="yes">.+[tv]indres?</token>
 	            </pattern>
 	            <message>Variant informal.</message>
-	            <suggestion><match no="1" regexp_match="(.+[tv])indre" regexp_replace="$1enir" /></suggestion>
+	            <suggestion><match no="1" regexp_match="(.+[tv])indre(s?)" regexp_replace="$1enir$2" /></suggestion>
 	            <url>http://esadir.cat/morfologia/tenirvenirvaler</url>
 	            <example type="incorrect" correction="esdevenir">No heu d'<marker>esdevindre</marker> mandrosos.</example>
 	            <example type="correct">Heu d'esdevenir lliures.</example>
