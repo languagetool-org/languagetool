@@ -3072,6 +3072,15 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
+          <token>ma</token>
+          <marker><token>fois</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>foi</suggestion> ?</message>
+        <example type="incorrect">C’est ma <marker>fois</marker> vrai !</example>
+        <example type="correct">C’est ma <marker>foi</marker> vrai !</example>
+      </rule>
+      <rule>
+        <pattern>
           <token>sans</token>
           <marker><token regexp="yes">foi[se]</token></marker>
           <token>ni</token>
@@ -6995,7 +7004,9 @@ though, and has since been slightly modified)-->
           <token postag="D.*" postag_regexp="yes">
             <exception>des</exception>
           </token>
-          <token postag="[AN] . p" postag_regexp="yes"><exception postag="[AN] . sp?" postag_regexp="yes"/></token>
+          <token postag="[AN] . p" postag_regexp="yes">
+            <exception postag="[AN] . sp?" postag_regexp="yes"/>
+          </token>
         </pattern>
         <message>Vérifiez l’accord en nombre entre « \1 » et « \3 ».</message>
         <example type="incorrect">Il marche <marker>tout</marker> les matins.</example>
@@ -7012,7 +7023,9 @@ though, and has since been slightly modified)-->
             <token>toute</token>
           </marker>
           <token postag="D.*" postag_regexp="yes"/>
-          <token postag="[AN] . p" postag_regexp="yes"/>
+          <token postag="[AN] . p" postag_regexp="yes">
+            <exception postag="[AN] . sp?" postag_regexp="yes"/>
+          </token>
         </pattern>
         <message>Vérifiez l’accord en nombre entre « \1 » et « \3 ».</message>
         <example type="incorrect"><marker>Toute</marker> ces erreurs qu’il fait</example>
@@ -7048,7 +7061,7 @@ though, and has since been slightly modified)-->
             <exception>des</exception>
           </token>
           <token postag="[AN] f .*" postag_regexp="yes">
-            <exception postag="V inf"/>
+            <exception postag="V inf|[AN] [me] .*" postag_regexp="yes"/>
           </token>
         </pattern>
         <message>Vérifiez l’accord en genre entre « \1 » et « \3 ».</message>
@@ -7065,13 +7078,16 @@ though, and has since been slightly modified)-->
             <token>tout<exception regexp="yes" scope="previous">avant|après|du</exception></token>
           </marker>
           <token postag="D.*" postag_regexp="yes"/>
-          <token postag="[AN] f .*" postag_regexp="yes"/>
+          <token postag="[ANZ] f .*" postag_regexp="yes">
+            <exception postag="[ANZ] [me] .*" postag_regexp="yes"/>
+          </token>
         </pattern>
         <message>Vérifiez l’accord en genre entre « \1 » et « \3 ».</message>
         <example type="incorrect"><marker>Tout</marker> la saison</example>
         <example type="correct"><marker>Toute</marker> la saison</example>
         <example type="correct">Après tout ma douleur n’est pas si forte.</example>
         <example type="correct">Je n’aime pas du tout la télévision.</example>
+        <example type="correct">Tout le Canada.</example>
       </rule>
       <rule>
         <pattern>
@@ -7079,8 +7095,8 @@ though, and has since been slightly modified)-->
             <token regexp="yes">toutes?</token>
           </marker>
           <token postag="D.*" postag_regexp="yes"><exception>des</exception></token>
-          <token postag="[AN] m .*" postag_regexp="yes">
-            <exception postag="[AN] f .*" postag_regexp="yes"/>
+          <token postag="[ANZ] m .*" postag_regexp="yes">
+            <exception postag="[ANZ] [fe] .*" postag_regexp="yes"/>
           </token>
         </pattern>
         <message>Vérifiez l’accord en genre entre « \1 » et « \3 ».</message>
