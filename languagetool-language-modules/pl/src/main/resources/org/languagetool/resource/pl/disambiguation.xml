@@ -322,7 +322,17 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     		<example type="untouched">Porozmawiajmy o literaturze.</example>
     		<example type="ambiguous" inputform="O[o/interj,o/prep:acc,o/prep:loc,ocean/brev:pun,ojciec/brev:pun]" outputform="O[ojciec/brev:pun]"><marker>O</marker>. Pio nie jadał pierogów.</example>
     	</rule>
-    </rulegroup>    
+    </rulegroup>
+    
+    <rule name="głosować przeciw" id="glosowac_przeciw">
+    	<pattern>
+    		<token regexp="yes" inflected="yes">głosować|wystąpić</token>
+    		<marker><token>przeciw</token></marker>
+    	</pattern>
+    	<disambig postag="prep:dat"/>
+    	<example type="untouched">Przeciw się przemocy!</example>
+    	<example type="ambiguous" inputform="przeciw[przeciw/prep:dat,przeciwić/verb:impt:sg:sec:imperf:refl]" outputform="przeciw[przeciw/prep:dat]">Głosujemy <marker>przeciw</marker> tej propozycji.</example>
+    </rule>    
             
     <rulegroup name="prep + czasownik -> ~ czasownik" id="prep_verb">
         <!--  przyimki zawsze z tym samym przypadkiem --> 
