@@ -11717,6 +11717,40 @@ $Id$
                 <example type="correct">Pojechał wraz ze mną na targ.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="WESPOL_BURK" name="„wespół” (wespół z)">
+        <rule>
+        	<pattern>
+        		<marker><token>wespół</token></marker>
+        		<token><exception>z</exception><exception>w</exception></token>
+        	</pattern>
+        	<message>Prawdopodobna literówka. Czy chodziło o <suggestion>\1 z</suggestion>?</message>
+        	<short>Prawdopodobna literówka</short>
+        	<example type="correct">Zróbmy to wespół w zespół.</example>
+        	<example type="incorrect" correction="wespół z">Zróbmy to <marker>wespół</marker> kimś.</example>
+        </rule>
+        <rule>
+        	<pattern>
+        		<marker><token>wespół</token>
+        		<token>zespół</token>
+        		</marker>
+        	</pattern>
+        	<message>Prawdopodobna literówka. Czy chodziło o <suggestion>\1 w \2</suggestion>?</message>
+        	<short>Prawdopodobna literówka</short>
+        	<example type="correct">Zróbmy to wespół w zespół.</example>
+        	<example type="incorrect" correction="wespół w zespół">Zróbmy to <marker>wespół zespół</marker>.</example>
+        </rule>
+        <rule>
+        	<pattern>
+        		<marker><token>wespół</token></marker>
+        		<token>w</token>
+        		<token><exception>zespół</exception></token>
+        	</pattern>
+        	<message>Prawdopodobna literówka. Czy chodziło o <suggestion>\1 z</suggestion>?</message>
+        	<short>Prawdopodobna literówka</short>
+        	<example type="correct">Zróbmy to wespół w zespół.</example>
+        	<example type="incorrect" correction="wespół z">Zróbmy to <marker>wespół</marker> w radnymi.</example>
+        </rule>
+        </rulegroup>
         <rule id="PRZE_TO" name="„prze to” (przez to, przeto)">
             <pattern>
                 <token>prze</token>
