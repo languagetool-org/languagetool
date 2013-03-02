@@ -35,6 +35,16 @@
     </developers>
     
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>org/languagetool/resource/de/words-incorrect.txt</exclude>
+                    <exclude>org/languagetool/resource/de/words-correct.txt</exclude>
+                    <exclude>org/languagetool/resource/de/words-similar.txt</exclude>
+                </excludes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -42,7 +52,7 @@
                 <configuration>
                   <tagBase>https://languagetool.svn.sourceforge.net/svnroot/languagetool/tags/</tagBase>
                 </configuration>
-            </plugin>            
+            </plugin>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.3.2</version>
