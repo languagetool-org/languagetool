@@ -34,11 +34,11 @@ import org.languagetool.Language;
  */
 public class PatternTestTools {
 
-    private static final Pattern PROBABLE_PATTERN = Pattern.compile(".*([^*]\\*|[.+?^{}()|\\[\\]].*|\\\\d).*");
+    private static final Pattern PROBABLE_PATTERN = Pattern.compile(".*([^*]\\*|[.+?{}()|\\[\\]].*|\\\\d).*");
 
     // Polish POS tags use dots, so do not consider the presence of a dot
     // as indicating a probable regular expression.
-    private static final Pattern PROBABLE_PATTERN_PL_POS = Pattern.compile(".*([^*]\\*|[+?^{}()|\\[\\]].*|\\\\d).*");
+    private static final Pattern PROBABLE_PATTERN_PL_POS = Pattern.compile(".*([^*]\\*|[+?{}()|\\[\\]].*|\\\\d).*");
 
     private static final Pattern EMPTY_DISJUNCTION = Pattern.compile("^[|]|[|][|]|[|]$");
     private static final Pattern CHAR_SET_PATTERN = Pattern.compile("(\\(\\?-i\\))?.*(?<!\\\\)\\[^?([^\\]]+)\\]");
