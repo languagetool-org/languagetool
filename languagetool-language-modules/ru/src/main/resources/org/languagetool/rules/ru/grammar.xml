@@ -2513,6 +2513,72 @@ $Id$
             </rule>
         </rulegroup>
         
+        <rulegroup default="on" id="VB_O_KOM" name="Глагол + о ком (о чём)">
+            <!-- 
+       считать о чём    ->  считать что
+       советовать о чём ->  советовать что
+       принять меры о чём   ->  принять меры для чего   
+       надеяться о чём  ->  надеяться на что
+       убедиться о том  ->  убедиться в том
+       утверждает о том    ->   утверждает то     
+       -->
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">считать|советовать</token>
+                    <token regexp="yes">о|об</token>
+                    <token postag="NN:.*:.*:.*" postag_regexp="yes"></token>
+                </pattern>
+                <message>Глагол \1 с предлогом «о» не употребляется. Возможная замена:
+                <suggestion><match no="1"></match> <match no="3" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:V"></match></suggestion></message>
+                <short>С предлогом «о» не употребляется.</short>
+                <example type="correct">Он советовал покупку.</example>
+                <example type="incorrect">Он <marker>советовал о покупке</marker>.</example>
+            </rule>
+            
+            <rule>
+                <pattern>
+                    <token inflected="yes">надеяться</token>
+                    <token regexp="yes">о|об</token>
+                    <token postag="NN:.*:.*:.*" postag_regexp="yes"></token>
+                </pattern>
+                <message>Глагол \1 с предлогом «о» не употребляется. Возможная замена:
+                <suggestion><match no="1"></match> на <match no="3" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:V"></match></suggestion></message>
+                <short>С предлогом «о» не употребляется.</short>
+                <example type="correct">Он надеялся на удачу.</example>
+                <example type="incorrect">Он <marker>надеялся об удаче</marker>.</example>
+            </rule>
+            
+            <rule>
+                <pattern>
+                    <token inflected="yes">убедиться</token>
+                    <token regexp="yes">о|об</token>
+                    <token postag="NN:.*:.*:.*" postag_regexp="yes"></token>
+                </pattern>
+                <message>Глагол \1 с предлогом «о» не употребляется. Возможная замена:
+                <suggestion><match no="1"></match> в <match no="3" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:V"></match></suggestion></message>
+                <short>С предлогом «о» не употребляется.</short>
+                <example type="correct">Он убедился в надёжности системы.</example>
+                <example type="incorrect">Он <marker>убедился о надёжности</marker> системы.</example>
+            </rule>
+            
+            <rule>
+                <pattern>
+                    <token inflected="yes" >принять</token>
+                    <token>меры</token>
+                    <token regexp="yes">о|об</token>
+                    <token postag="NN:.*:.*:.*" postag_regexp="yes"></token>
+                </pattern>
+                <message>Глагол \1 с предлогом «о» не употребляется. Возможная замена:
+                <suggestion><match no="1"></match> <match no="2"></match> для <match no="3" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:R"></match></suggestion></message>
+                <short>С предлогом «о» не употребляется.</short>
+                <example type="correct">Он принял меры для безопасности.</example>
+                <example type="incorrect">Он <marker>принял меры о безопасности</marker>.</example>
+            </rule>
+            
+            
+            
+        </rulegroup>
+        
         <rulegroup default="on" id="strong_m" name="Пропуск обязательных зависимых слов">
             <rule>
                 <pattern>
