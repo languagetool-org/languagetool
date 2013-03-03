@@ -3086,10 +3086,7 @@ $Id$
       <rule>
         <pattern>
           <token postag="A"><exception>a-walc’h</exception></token>
-          <marker>
-            <token regexp="yes">a[mz]|ac’h</token>
-          </marker>
-          <token regexp="yes">p?eus|[bp]oa?</token>
+          <marker><token regexp="yes" postag="X KAOUT1">a[mz]|ac’h</token></marker>
         </pattern>
         <message>Lakaet e vez a rannig verb «e» goude an adverb. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="^." regexp_replace="e"/></suggestion>?</message>
         <example type="incorrect" correction="em">Alies <marker>am</marker> eus debret se.</example>
@@ -3103,10 +3100,7 @@ $Id$
           <token postag="SENT_START"/>
           <token postag="P"><exception>kalz</exception></token>
           <token postag="N.*" postag_regexp="yes"/>
-          <marker>
-            <token regexp="yes">a[mz]|ac’h</token>
-          </marker>
-          <token regexp="yes">p?eus|[bp]oa?</token>
+          <marker><token regexp="yes" postag="X KAOUT1">a[mz]|ac’h</token></marker>
         </pattern>
         <message>Lakaet e vez a rannig verb «e» goude ar renadenn dieeun. Ha fellout a rae deoc’h skrivañ <suggestion><match no="4" regexp_match="^." regexp_replace="e"/></suggestion>?</message>
         <example type="incorrect" correction="em">E Breizh <marker>am</marker> eus kavet se.</example>
@@ -3602,14 +3596,20 @@ $Id$
       <rule>
         <pattern>
           <token postag="V ppa"/>
-          <marker>
-            <token regexp="yes">a[mz]|ac’h</token>
-          </marker>
-          <token regexp="yes">p?eus|[bp](oa?|e[fz]e?|ije)</token>
+          <marker><token regexp="yes" postag="X KAOUT1">a[mz]|ac’h</token></marker>
         </pattern>
         <message>Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="^." regexp_replace="e"/></suggestion>?</message>
         <example type="incorrect" correction="em">Debret <marker>am</marker> eus.</example>
         <example type="correct">Debret em eus.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>N’</token>
+          <marker><token postag="X KAOUT1" regexp="yes">a[mz]|ac’h</token></marker>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="^." regexp_replace="e"/></suggestion>?</message>
+        <example type="incorrect" correction="em">N’<marker>am</marker> eus ket c’hoant da vont ganit.</example>
+        <example type="correct">N’em eus ket c’hoant da vont ganit.</example>
       </rule>
     </rulegroup>
 
@@ -7375,7 +7375,7 @@ $Id$
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">pe</token>
+          <token>pe</token>
           <marker><token>aod</token></marker>
         </pattern>
         <message>Ha fellout a rae deoc’h skrivañ <suggestion>oad</suggestion> ?</message>
