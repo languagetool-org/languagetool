@@ -47,11 +47,13 @@ public class PatternRuleTest extends TestCase {
   // it makes the tests very slow:
   private static final boolean CHECK_WITH_SENTENCE_SPLITTING = false;
 
-  // The  [^cfmnt123]\\.|\\.[^mvngl]  part is there to consider a string as a
-  // regexp if and only if it is not enclosed on both sides by those characters.
-  // This is to cope with Polish POS tags which contain dots without being
-  // a regexp.
-  private static final Pattern PROBABLE_PATTERN = Pattern.compile("(.+[+?^{}()|\\[\\]].*)|(.*[+?^{}()|\\[\\]].+)|(\\(.*\\))|(\\\\[^0-9].*)|[^cfmnt123]\\.|\\.[^ampvngl]|(.+\\.$)");
+  // Check whether string is probably a regexp.
+  private static final Pattern PROBABLE_PATTERN = Pattern.compile(".*([^*]\\*|[.+?^{}()|\\[\\]].*|\\\\d).*");
+
+  // Polish POS tags use dots, so do not consider the presence of a dot
+  // as indicating a probable regular expression.
+  private static final Pattern PROBABLE_PATTERN_PL_POS = Pattern.compile(".*([^*]\\*|[+?^{}()|\\[\\]].*|\\\\d).*");
+
   private static final Pattern EMPTY_DISJUNCTION = Pattern.compile("^[|]|[|][|]|[|]$");
   private static final Pattern CHAR_SET_PATTERN = Pattern.compile("(\\(\\?-i\\))?.*(?<!\\\\)\\[^?([^\\]]+)\\]");
 
@@ -91,7 +93,7 @@ public class PatternRuleTest extends TestCase {
   private String getGrammarFileName(Language lang) {
     final String shortNameWithVariant = lang.getShortNameWithVariant();
     final String fileName;
-    if (shortNameWithVariant.contains("-") && !shortNameWithVariant.equals("xx-XX") 
+    if (shortNameWithVariant.contains("-") && !shortNameWithVariant.equals("xx-XX")
             && !shortNameWithVariant.endsWith("-ANY") && Language.REAL_LANGUAGES.length > 1) {
       fileName = lang.getShortName() + "/" + shortNameWithVariant + "/" + JLanguageTool.PATTERN_FILE;
     } else {
@@ -217,7 +219,9 @@ public class PatternRuleTest extends TestCase {
           element.getCaseSensitive(),
           element.getNegation(),
           element.isInflected(),
-          lang, rule.getId() + ":" + rule.getSubId(),
+          false,  // not a POS
+          lang,
+          rule.getId() + ":" + rule.getSubId(),
           i);
 
         // Check postag="..." is consistent with postag_regexp="..."
@@ -226,8 +230,10 @@ public class PatternRuleTest extends TestCase {
           element.isPOStagRegularExpression(),
           element.getCaseSensitive(),
           element.getPOSNegation(),
-          false,
-          lang, rule.getId() + ":" + rule.getSubId() + " (POS tag)",
+          false,  // isInflected is relevant for POS.
+          true,   // a POS.
+          lang,
+          rule.getId() + ":" + rule.getSubId() + " (POS tag)",
           i);
 
         final List<Element> exceptionElements = new ArrayList<Element>();
@@ -253,6 +259,7 @@ public class PatternRuleTest extends TestCase {
                 exception.getCaseSensitive(),
                 exception.getNegation(),
                 exception.isInflected(),
+                false,  // not a POS
                 lang,
                 rule.getId() + ":" + rule.getSubId()+ " (exception in token [" + i + "])",
                 i);
@@ -264,6 +271,7 @@ public class PatternRuleTest extends TestCase {
               exception.getCaseSensitive(),
               exception.getPOSNegation(),
               false,
+              true,  // a POS
               lang,
               rule.getId() + ":" + rule.getSubId() + " (exception in POS tag of token [" + i + "])",
               i);
@@ -355,12 +363,20 @@ public class PatternRuleTest extends TestCase {
       final boolean isCaseSensitive,
       final boolean isNegated,
       final boolean isInflected,
+      final boolean isPos,
       final Language lang,
       final String ruleId,
       final int tokenIndex) {
 
-    if (!isRegularExpression
-        && PROBABLE_PATTERN.matcher(stringValue).find()) {
+    // Use a different regexp to check for probably regexp in Polish POS tags
+    // since Polish uses dot '.' in POS tags. So a dot does not indicate that
+    // it's a probable regexp for Polish POS tags.
+    final Pattern regexPattern = (isPos && lang.getShortName().equals("pl"))
+                               ? PROBABLE_PATTERN_PL_POS // Polish POS tag.
+                               : PROBABLE_PATTERN;       // something else than Polish POS tag.
+
+    if (!isRegularExpression && stringValue.length() > 1
+        && regexPattern.matcher(stringValue).find()) {
       System.err.println("The " + lang.toString() + " rule: "
           + ruleId + ", token [" + tokenIndex + "], contains " + "\"" + stringValue
           + "\" that is not marked as regular expression but probably is one.");
@@ -370,7 +386,8 @@ public class PatternRuleTest extends TestCase {
       System.err.println("The " + lang.toString() + " rule: "
           + ruleId + ", token [" + tokenIndex + "], contains an empty string " + "\""
           + stringValue + "\" that is marked as regular expression.");
-    } else if (isRegularExpression && !PROBABLE_PATTERN.matcher(stringValue).find()) {
+    } else if (isRegularExpression && stringValue.length() > 1
+               && !regexPattern.matcher(stringValue).find()) {
       System.err.println("The " + lang.toString() + " rule: "
           + ruleId + ", token [" + tokenIndex + "], contains " + "\"" + stringValue
           + "\" that is marked as regular expression but probably is not one.");
@@ -413,7 +430,7 @@ public class PatternRuleTest extends TestCase {
         }
 
         /* Disabled case insensitive check for now: it gives several errors
-         * in German which are minor and debatable whether it adds value. 
+         * in German which are minor and debatable whether it adds value.
         final boolean caseSensitive = matcher.group(1) != null || isCaseSensitive;
         if (!caseSensitive) {
           s = s.toLowerCase();
