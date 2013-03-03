@@ -30,6 +30,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import junit.framework.TestCase;
 
 import org.languagetool.*;
+import org.languagetool.rules.patterns.PatternRule;
+import org.languagetool.rules.patterns.PatternTestTools;
 import org.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
 import org.languagetool.tagging.disambiguation.xx.TrimDisambiguator;
 import org.languagetool.tools.StringTools;
@@ -70,6 +72,10 @@ public class DisambiguationRuleTest extends TestCase {
         validateRuleFile(name);
         final List<DisambiguationPatternRule> rules = ruleLoader
             .getRules(ruleLoader.getClass().getResourceAsStream(name));
+        for (DisambiguationPatternRule rule : rules) {
+            PatternTestTools.warnIfRegexpSyntaxNotKosher(rule.getElements(),
+                    rule.getId(), rule.getSubId(), lang);
+        }
         testDisambiguationRulesFromXML(rules, languageTool, lang);
       }
     }
