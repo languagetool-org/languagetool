@@ -73,9 +73,9 @@ public class PatternTestTools {
             element.getPOStag() == null ? "" : element.getPOStag(),
             element.isPOStagRegularExpression(),
             element.getCaseSensitive(),
-            element.getPOSNegation(),
-            true,   // a POS.
+            element.getPOSNegation(),            
             false,
+            true,   // a POS.
             lang, ruleId + ":" + ruleSubId + " (POS tag)",
             i);
 
