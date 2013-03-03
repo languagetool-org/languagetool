@@ -408,5 +408,13 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
   public List<String> getUntouchedExamples() {
     return untouchedExamples;
   }
+  
+  /**
+   * For testing only.
+   */
+  public final List<Element> getElements() {
+    return patternElements;
+  }
+
 
 }
