@@ -31,7 +31,7 @@ public class VersionNumberTest extends TestCase {
 
   public void testVersionNumber() throws IOException {
     final String buildFile = StringTools.readFile(new FileInputStream("pom.xml"));
-    final Pattern p1 = Pattern.compile("<version>([0-9\\.]+(-SNAPSHOT)?)</version>");
+    final Pattern p1 = Pattern.compile("<version>([0-9\\.]+(-SNAPSHOT|-beta[0-9])?)</version>");
     final Matcher m1 = p1.matcher(buildFile);
     m1.find();
     final String javaFile = StringTools.readFile(new FileInputStream("src/main/java/org/languagetool/JLanguageTool.java"));
