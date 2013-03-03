@@ -7057,7 +7057,10 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <marker>
-            <token>tous<exception scope="previous" regexp="yes">à|pas|pour</exception></token>
+            <token>tous
+              <exception scope="previous" regexp="yes">à|pas|pour</exception>
+              <exception scope="previous" postag="V.*" postag_regexp="yes"/>
+            </token>
           </marker>
           <token postag="D.*" postag_regexp="yes">
             <exception>des</exception>
@@ -7073,6 +7076,7 @@ though, and has since been slightly modified)-->
         <example type="correct">Mes amis n’apprécient pas tous la musique.</example>
         <example type="correct">On a tous des qualités.</example>
         <example type="correct">Je peux tous les lire.</example>
+        <example type="correct">Ils ont tous une moto.</example>
       </rule>
       <rule>
         <pattern>
@@ -7094,9 +7098,11 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <marker>
-            <token regexp="yes">toutes?</token>
+            <token regexp="yes">toutes?
+              <exception scope="previous" postag="V.*" postag_regexp="yes">toutes</exception>
+            </token>
           </marker>
-          <token postag="D.*" postag_regexp="yes"><exception>des</exception></token>
+          <token postag="D.*" postag_regexp="yes"><exception regexp="yes">des|du</exception></token>
           <token postag="[ANZ] m .*" postag_regexp="yes">
             <exception postag="[ANZ] [fe] .*" postag_regexp="yes"/>
           </token>
@@ -7106,6 +7112,7 @@ though, and has since been slightly modified)-->
         <example type="correct">Tout cet équipement</example>
         <example type="correct">Toutes les cours de récréation</example>
         <example type="correct">Les femmes portent <marker>toutes</marker> des noms à consonance étrangère.</example>
+        <example type="correct">Elle font toutes du business avec eux.</example>
       </rule>
     </rulegroup>
     <rule id="TOUT_DE_SUITE" name="toute de suite → tout de suite">
