@@ -357,7 +357,7 @@ RB => Règles Brutes
         <marker>
           <token>s</token>
         </marker>
-        <token postag=".*" postag_regexp="yes"/>
+        <token regexp="yes">[’´'‛′‘]</token>
         <token postag="V.*" postag_regexp="yes"/>
       </pattern>
       <disambig postag="R pers obj 3 sp"/>
@@ -377,12 +377,12 @@ RB => Règles Brutes
         <marker>
           <token>m</token>
         </marker>
-        <token postag=".*" postag_regexp="yes"/>
+        <token regexp="yes">[’´'‛′‘]</token>
         <token postag="V.*" postag_regexp="yes"/>
       </pattern>
       <disambig postag="R pers obj 1 s"/>
     </rule>
-    
+
     <rule name="lui">
       <pattern>
         <marker>
@@ -697,7 +697,7 @@ RB => Règles Brutes
     <rule>
       <pattern>
         <token postag="V avoir .*" postag_regexp="yes"/>
-        <token regexp="yes">assez|beaucoup|bien|déjà|encore|enfin||énormément|guerre|mieux|moins|parfois|pas|peu|peut-être|plus|presque|toujours|très|trop</token>
+        <token regexp="yes">assez|beaucoup|bien|déjà|encore|enfin|énormément|guerre|mieux|moins|parfois|pas|peu|peut-être|plus|presque|toujours|très|trop</token>
         <marker>
           <token regexp="yes" postag="V inf">.*er</token>
         </marker>
@@ -976,14 +976,6 @@ RB => Règles Brutes
       </marker>
     </pattern>
     <disambig postag="A"/>
-  </rule>
-  <rule name="RB : participes passés" id="RB-PPA">
-    <pattern>
-      <marker>
-        <token postag="V ppa .*"/>
-      </marker>
-    </pattern>
-    <disambig><match no="1" postag_regexp="yes" postag="V ppa .*"/></disambig>
   </rule>
   <rule name="RB : pronoms relatifs" id="RB-PRO_RELATIFS">
     <pattern>
