@@ -94,6 +94,45 @@ $Id$
     <!-- Tippfehler -->
     <!-- ====================================================================== -->
     <category name="Mögliche Tippfehler">
+        <rule id="BEIM_BEI" name="Möglicher Tippfehler: 'bei beim' etc.">
+            <pattern>
+                <token regexp="yes">beim?</token>
+                <token regexp="yes">beim?</token>
+            </pattern>
+            <message>Möglicherweise ist hier ein Wort zu viel. Vorschläge: <suggestion>bei</suggestion>, <suggestion>beim</suggestion></message>
+            <short>Möglicherweise ist hier ein Wort</short>
+            <example type="incorrect">Begründe, weshalb solche Zustände des Elektrons die gleichen wie <marker>bei beim</marker> Hg-Atom sind.</example>
+            <example type="correct">Begründe, weshalb solche Zustände des Elektrons die gleichen wie <marker>beim</marker> Hg-Atom sind.</example>
+        </rule>
+        <rulegroup id="WALTER_WALZER" name="Möglicher Tippfehler: 'Walter (Walzer)'">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token skip="1">Walter</token>
+                    </marker>
+                    <token regexp="yes">[a-h]</token>
+                    <token negate="yes">.</token>
+                </pattern>
+                <message>Möglicher Tippfehler: Meinten Sie <suggestion>Walzer</suggestion>?</message>
+                <short>Möglicher Tippfehler</short>
+                <example type="correct">Der <marker>Walzer</marker> in A ist sehr schön.</example>
+                <example type="correct"><marker>Walter</marker> H. Hunt</example>
+                <example type="incorrect" correction="Walzer">Der <marker>Walter</marker> in A ist sehr schön.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token skip="1">Walter</token>
+                    </marker>
+                    <token regexp="yes">[a-h]?\-?(Dur|Moll)</token>
+                </pattern>
+                <message>Möglicher Tippfehler: Meinten Sie <suggestion>Walzer</suggestion>?</message>
+                <short>Möglicher Tippfehler</short>
+                <example type="correct">Der <marker>Walzer</marker> in A-Dur ist sehr schön.</example>
+                <example type="correct"><marker>Walter</marker> H. Hunt</example>
+                <example type="incorrect" correction="Walzer">Der <marker>Walter</marker> in A-Dur ist sehr schön.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="EN_OHNE_PASSANT" name="Möglicher Tippfehler: 'en (eng, in)'">
             <rule>
                 <pattern case_sensitive="yes">
