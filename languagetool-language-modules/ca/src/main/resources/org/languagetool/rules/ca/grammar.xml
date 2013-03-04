@@ -11718,7 +11718,7 @@ $Id$
                 <token>electró</token>
                 <token>volt</token>
             </pattern>
-            <message>¿Volíeu der <suggestion>electronvolt</suggestion> o <suggestion>electró-volt</suggestion>?</message>
+            <message>¿Volíeu dir <suggestion>electronvolt</suggestion> o <suggestion>electró-volt</suggestion>?</message>
             <example type="incorrect">L'<marker>electró volt</marker></example>
             <example type="correct">L'electronvolt</example>
         </rule>
@@ -14188,7 +14188,7 @@ $Id$
             <pattern>
                 <token>bestia</token>
             </pattern>
-            <message>¿Volíeu dir <suggestion>bèstia</suggestion> (animal) o <suggestion>bes-tia</suggestion>/bestia (germana de l'avi o de l'àvia)?</message>
+            <message>¿Volíeu dir <suggestion>bèstia</suggestion> (animal) o bestia (bes-tia, germana de l'avi o de l'àvia)?</message>
             <short>Possible confusió</short>
             <example type="incorrect"><marker>bestia</marker></example>
             <example type="correct">bes-tia</example>
@@ -15697,11 +15697,11 @@ $Id$
         </rule>
         <rule id="FAXS" name="faxs">
             <pattern>
-                <token>faxs</token>
+                <token regexp="yes">(tele)?faxs</token>
             </pattern>
-            <message>Val més dir: <suggestion>faxos</suggestion>. </message>
+            <message>Val més dir: <suggestion><match no="1" regexp_match="(.*fax)s" regexp_replace="$1os"/></suggestion>.</message>
             <short>Expressió preferible</short>
-            <example type="incorrect"><marker>faxs</marker></example>
+            <example type="incorrect" correction="faxos"><marker>faxs</marker></example>
             <example type="correct">faxos</example>
         </rule>
         <rule id="AL_MATI_SEGUENT" name="al matí següent">
@@ -16834,6 +16834,15 @@ $Id$
 	                <example type="correct">En els encreuaments.</example>
 	            </rule>
 	        </rulegroup>    
+	        <rule id="VIVENDA" name="vivenda">
+                <pattern>
+                    <token inflected="yes">vivenda</token>
+                </pattern>
+                <message>Paraula admesa només en alguns diccionaris.</message>
+                <suggestion><match no="1" postag="NCF(.).*" postag_regexp="yes" postag_replace="NCM$1.*">habitatge</match></suggestion>
+                <example type="incorrect" correction="habitatge">Va comprar una <marker>vivenda</marker>.</example>
+                <example type="correct">Un bon habitatge.</example>
+            </rule>
             <rule id="COLLISIONAR" name="col·lisionar">
                 <pattern>
                     <token inflected="yes">col·lisionar</token>
