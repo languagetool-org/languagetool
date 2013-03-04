@@ -26,6 +26,7 @@ import org.languagetool.Language;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.languagetool.AnalyzedToken; 
 
 import java.io.IOException;
 import java.nio.charset.CharacterCodingException;
@@ -40,6 +41,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
 
     private MorfologikSpeller speller;
     private Locale conversionLocale;
+    private boolean ignoreTaggedWords=false;
 
     /**
      * Get the filename, e.g., <tt>/resource/pl/spelling.dict</tt>.
@@ -78,10 +80,17 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
                 return toRuleMatchArray(ruleMatches);
             }
         }
+        skip:
         for (AnalyzedTokenReadings token : tokens) {
             final String word = token.getToken();
             if (ignoreWord(word) || token.isImmunized()) {
                 continue;
+            }
+            if (ignoreTaggedWords) {
+              for (AnalyzedToken at : token.getReadings()) {
+                if (!at.hasNoTag())
+                  continue skip; // if it HAS a POS tag then it is a known word.
+              }
             }
             if (tokenizingPattern() == null) {
                 ruleMatches.addAll(getRuleMatch(word, token.getStartPos()));
@@ -129,6 +138,10 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
      */
     public Pattern tokenizingPattern() {
         return null;
+    }
+    
+    public void setIgnoreTaggedWords() {
+      ignoreTaggedWords=true;
     }
     
 }

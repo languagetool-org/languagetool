@@ -57,7 +57,9 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("N'hi ha de color vermell, blau, verd, etc.")).length);
         
         // Test for Multiwords.
-        //assertEquals(0, rule.match(langTool.getAnalyzedSentence("Era vox populi.")).length);
+        assertEquals(0, rule.match(langTool.getAnalyzedSentence("Era vox populi.")).length);
+        assertEquals(0, rule.match(langTool.getAnalyzedSentence("Aquell era l'statu quo.")).length);
+        assertEquals(0, rule.match(langTool.getAnalyzedSentence("Va ser la XIV edició.")).length);
         
         //test for "LanguageTool":
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("LanguageTool!")).length);
@@ -72,6 +74,13 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals(0, matches[0].getFromPos());
         assertEquals(9, matches[0].getToPos());
         assertEquals("abatussats", matches[0].getSuggestedReplacements().get(0));
+        
+        matches = rule.match(langTool.getAnalyzedSentence("L'statu"));
+        // check match positions:
+        assertEquals(1, matches.length);
+        assertEquals(2, matches[0].getFromPos());
+        assertEquals(7, matches[0].getToPos());
+        assertEquals("sta tu", matches[0].getSuggestedReplacements().get(0));
 
       //incorrect sentences:
         matches = rule.match(langTool.getAnalyzedSentence("Pecra"));
