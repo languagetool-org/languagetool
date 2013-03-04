@@ -34,6 +34,7 @@ public class Example {
     final Language[] realLanguages = Language.REAL_LANGUAGES;
     System.out.println("This example will test a short string with all languages known to LanguageTool.");
     System.out.println("It's just a test to make sure there's at least no crash.");
+    System.out.println("Using LanguageTool " + JLanguageTool.VERSION + " (" + JLanguageTool.BUILD_DATE + ")");
     for (Language language : realLanguages) {
       final JLanguageTool langTool = new JLanguageTool(language);
       final String input = "And the the";
