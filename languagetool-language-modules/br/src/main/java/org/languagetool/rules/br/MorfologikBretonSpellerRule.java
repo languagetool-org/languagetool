@@ -35,6 +35,7 @@ public final class MorfologikBretonSpellerRule extends MorfologikSpellerRule {
   public MorfologikBretonSpellerRule(ResourceBundle messages,
                                      Language language) throws IOException {
     super(messages, language);
+    this.setIgnoreTaggedWords();
   }
 
   @Override
