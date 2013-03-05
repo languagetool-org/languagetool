@@ -1310,13 +1310,13 @@ $Id$
             <rule id="ANTIPODES" name="als antípodes">
                 <pattern>
                     <marker>
-                        <token>a</token>
+                        <token regexp="yes">a|de</token>
                         <token>les</token>
                         <token>antípodes</token>
                     </marker>
                 </pattern>
                 <message>Com a referència geogràfica, "antípodes" és nom masculí.</message>
-                <suggestion>als antípodes</suggestion>
+                <suggestion><match no="1"/>ls antípodes</suggestion>
                 <short>Possible error de concordança</short>
                 <example type="incorrect" correction="als antípodes">Viuen <marker>a les antípodes</marker>.</example>
                 <example type="correct">als antípodes</example>
@@ -2324,7 +2324,7 @@ $Id$
                     <marker>
                         <token postag="V.*" postag_regexp="yes" inflected="yes" skip="3">fer<exception scope="next" postag="V.[NMSI].*" postag_regexp="yes"/><exception scope="next">que</exception></token>
                     </marker>
-                    <token regexp="yes">ullad(a|es)|col?ps?<exception scope="previous" regexp="yes">a|de</exception></token>
+                    <token regexp="yes">ullad(a|es)|col?ps?<exception scope="previous" regexp="yes">a|de|cada</exception></token>
                 </pattern>
                 <message>Val més dir: <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">donar</match></suggestion>.</message>
                 <url>http://esadir.cat/lexic/entrades/entry_20030820190348_41</url>
@@ -2338,6 +2338,7 @@ $Id$
                 <example type="correct">fas morir d'un cop tot aquest poble</example>
                 <example type="correct">que Déu faci que el cop de sabre</example>
                 <example type="correct">Fins que ho feien de cop.</example>
+                <example type="correct">Ho fa cada cop més difícil.</example>
             </rule>
         </rulegroup>
         <!-- Només funciona per a algunes situacions: van beguts, considerin oportú. <rulegroup id="concorda_verb_objecte" name="Comprova concordança: verb + participi/adjectiu">
@@ -3190,14 +3191,15 @@ $Id$
                     <marker>
                         <token>tan</token>
                     </marker>
-                    <token postag="RG" skip="10"><exception regexp="yes">abans|ja|on|quan|que|com|menys|doncs|però|ara|emperò|ans</exception></token>
+                    <token postag="RG" skip="10"><exception regexp="yes">abans|ja|on|quan|que|com|menys|doncs|però|ara|emperò|ans|poc</exception></token>
                     <token>com</token>
-                    <token postag="RG"><exception regexp="yes">abans|ja|on|quan|que|com|menys|doncs|però|ara|emperò|ans</exception></token>
+                    <token postag="RG"><exception regexp="yes">abans|ja|on|quan|que|com|menys|doncs|però|ara|emperò|ans|poc</exception></token>
                 </pattern>
                 <message>Hauria de ser: <suggestion>tant</suggestion>.</message>
                 <short>Confusió.</short>
                 <example type="incorrect"><marker>tan</marker> dins com fora del Japó.</example>
                 <example type="correct">Tant dins com fora del Japó.</example>
+                <example type="correct">Elements tan poc comercials com clarament icònics.</example>
             </rule>
             <rule>
             <!--  coneixements tant científics com de les més variades disciplines-->
@@ -9742,6 +9744,19 @@ $Id$
         </rulegroup>
     </category>
     <category name="Expressions">
+    	<rule id="VENIR_EN_GANA" name="venir en gana">
+	    		<pattern>
+	    			<token skip="1" inflected="yes">venir</token>
+	    			<token>en</token>
+	    			<token>gana</token>
+	    		</pattern>
+	    		<message>Expressió incorrecta.</message>
+	    		<suggestion><match no="1" include_skipped="all"/> de gust</suggestion>
+	    		<suggestion><match no="1" include_skipped="all"/> de grat</suggestion>
+	    		<suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">abellir</match></suggestion>
+	    		<example type="incorrect" correction="vingué de gust|vingué de grat|abellí">No li <marker>vingué en gana</marker>.</example>
+	    		<example type="correct">Li van vindre de gust.</example>
+	    	</rule>
     	<rulegroup id="MONTAR_UN_POLLO" name="*montar un pollo">
     		<rule>
 	    		<pattern>
