@@ -82,7 +82,6 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals(7, matches[0].getToPos());
         assertEquals("sta tu", matches[0].getSuggestedReplacements().get(0));
 
-      //incorrect sentences:
         matches = rule.match(langTool.getAnalyzedSentence("Pecra"));
         // check match positions:
         assertEquals(1, matches.length);
@@ -90,10 +89,16 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals(5, matches[0].getToPos());
         assertEquals("peca", matches[0].getSuggestedReplacements().get(2));
         
-        assertEquals(1, rule.match(langTool.getAnalyzedSentence("aõh")).length);
-        assertEquals(0, rule.match(langTool.getAnalyzedSentence("a")).length);
-
+        //capitalized wrong words
+        matches = rule.match(langTool.getAnalyzedSentence("En la Pecra"));
+        // check match positions:
+        assertEquals(1, matches.length);
+        assertEquals(6, matches[0].getFromPos());
+        assertEquals(11, matches[0].getToPos());
+        assertEquals("peca", matches[0].getSuggestedReplacements().get(2));
         
+        assertEquals(1, rule.match(langTool.getAnalyzedSentence("aõh")).length);
+        assertEquals(0, rule.match(langTool.getAnalyzedSentence("a")).length);        
         
     }
     
