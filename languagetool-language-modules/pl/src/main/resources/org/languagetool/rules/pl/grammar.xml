@@ -7846,7 +7846,7 @@ $Id$
             </rule>
         </rulegroup>
     </category>
-    <category name="Błędy ortograficzne">
+    <category name="Błędy ortograficzne">    
         <rule id="Z_TYMZE" name="„z tymże” (z tym że)">
             <pattern>
                 <marker>
@@ -8311,15 +8311,31 @@ $Id$
             <example correction="ot, tak" type="incorrect">Zrobiłem to <marker>od tak</marker>.</example>
             <example type="correct">Od tak zwanych mikrobów chroni nas produkt firmy chińskiej.</example>
         </rule>
-        <rule id="POKARZ" name="„pokarz” (pokaż)">
-            <pattern>
-                <token>pokarz</token>
-            </pattern>
-            <message>Prawdopodobnie błąd ortograficzny. Czy na pewno chodzi o tryb rozkazujący od „pokarać” (=ukarać)? Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać”, czyli <suggestion>pokaż</suggestion>.</message>
-            <short>Błąd ortograficzny</short>
-            <example correction="Pokaż" type="incorrect"><marker>Pokarz</marker> mi swój samochód, a nie powiem ci, kim jesteś.</example>
-            <example type="correct">Pokaż mi swój samochód.</example>
-        </rule>
+        <rulegroup id="POKARZ" name="„pokarz” (pokaż)">
+    		<rule>
+    			<pattern>
+    				<marker>
+    					<token regexp="yes">pokarz(?:my|[ęe])?</token>
+    				</marker>
+    				<token>,</token>
+    				<token regexp="yes">że|iż|jak|dlaczego</token>
+    			</pattern>
+    			<message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion><match no="1" regexp_match="rz" regexp_replace="ż"/></suggestion> (formę czasownika „pokazać”)?</message>
+    			<example type="incorrect" correction="pokażę">Dziś <marker>pokarzę</marker>, że w okularach można ładnie wyglądać.</example>
+    			<example type="correct">Dziś pokażę, że w okularach można ładnie wyglądać.</example>    			
+    		</rule>
+    		<rule>
+    			<pattern>
+    				<marker>
+    					<token regexp="yes">pokarz(?:my|[ęe])?</token>
+    				</marker>    				
+    				<token postag_regexp="yes" postag="ppron\d+:.*dat.*"/>
+    			</pattern>
+    			<message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion><match no="1" regexp_match="rz" regexp_replace="ż"/></suggestion> (formę czasownika „pokazać”)?</message>
+    			<example correction="Pokaż" type="incorrect"><marker>Pokarz</marker> mi swój samochód, a nie powiem ci, kim jesteś.</example>
+            	<example type="correct">Pokaż mi swój samochód.</example>
+    		</rule>    	               
+       </rulegroup>
         <rulegroup id="WIEZY_WIERZY" name="„wieży w” (wierzy)">
             <rule>
                 <pattern>
