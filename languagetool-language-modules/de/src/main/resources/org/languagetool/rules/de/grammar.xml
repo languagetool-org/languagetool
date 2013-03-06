@@ -24655,6 +24655,17 @@ $Id$
     <!-- Regeln, die nur für Wikipedia-Artikel nützlich sind -->
     <!-- ====================================================================== -->
     <category name="Wikipedia" default="off">
+        <rule id="ANDERS_ALS_OFT_BEHAUPTET" name="'Anders als of behauptet'">
+            <pattern case_sensitive="no">
+                <token>anders</token>
+                <token>als</token>
+                <token>oft</token>
+                <token>behauptet</token>
+            </pattern>
+            <message>Diese Phrase ergibt ohne Quellenangabe oft keinen Sinn. Eventuell sollte sie entfernt werden.</message>
+            <example type="incorrect"><marker>Anders als oft behauptet</marker> unterscheiden sich diese nicht im Fettgehalt.</example>
+            <example type="correct">Diese unterscheiden sich nicht im Fettgehalt.</example>
+        </rule>
         <rulegroup id="VOR_KURZEM" name="Relative Zeitangaben – 'vor/seit Kurzem' u.ä.">
             <rule>
                 <pattern case_sensitive="no">
