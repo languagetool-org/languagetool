@@ -709,8 +709,8 @@ $Id$
             <token postag="Z [^M]*" postag_regexp="yes" regexp="yes">(?-i)K.*</token>
           </marker>
         </pattern>
-        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude ar ger «\1» gant an anv divoutin. Ha fellout a rae deoc’h skrivañ <suggestion>g\2</suggestion> pe <suggestion><match no="2" regexp_match="^." regexp_replace="G"/></suggestion>?</message>
-        <example type="incorrect">Mont a reas da <marker>Kemper</marker>.</example>
+        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude ar ger «\1» gant an anv divoutin. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" case_conversion="startlower" regexp_match="^" regexp_replace="g"/></suggestion> pe <suggestion><match no="2" regexp_match="^." regexp_replace="G"/></suggestion>?</message>
+        <example type="incorrect" correction="gKemper|Gemper">Mont a reas da <marker>Kemper</marker>.</example>
         <example type="correct">Mont a reas da <marker>gKemper</marker>.</example>
         <example type="correct">Mont a reas da <marker>Gemper</marker>.</example>
       </rule>
@@ -718,25 +718,16 @@ $Id$
         <pattern>
           <token>da</token>
           <marker>
-            <token postag="Z [^M]*" postag_regexp="yes" regexp="yes">(?-i)M.*</token>
+            <token postag="Z [^M]*" postag_regexp="yes" regexp="yes">(?-i)[MB].*</token>
           </marker>
         </pattern>
-        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude ar ger «\1» gant an anv divoutin. Ha fellout a rae deoc’h skrivañ <suggestion>v\2</suggestion> pe <suggestion><match no="2" regexp_match="^." regexp_replace="V"/></suggestion>?</message>
-        <example type="incorrect">Mont a reas da <marker>Montroulez</marker>.</example>
-        <example type="correct">Mont a reas da <marker>Vontroulez</marker>.</example>
-        <example type="correct">Mont a reas da <marker>vMontroulez</marker>.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>da</token>
-          <marker>
-            <token postag="Z [^M]*" postag_regexp="yes" regexp="yes">(?-i)B.*</token>
-          </marker>
-        </pattern>
-        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude ar ger «\1» gant an anv divoutin. Ha fellout a rae deoc’h skrivañ <suggestion>v\2</suggestion> pe <suggestion><match no="2" regexp_match="^." regexp_replace="V"/></suggestion>?</message>
-        <example type="incorrect">Mont a reas da <marker>Brest</marker>.</example>
+        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude ar ger «\1» gant an anv divoutin. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" case_conversion="startlower" regexp_match="^" regexp_replace="v"/></suggestion> pe <suggestion><match no="2" regexp_match="^." regexp_replace="V"/></suggestion>?</message>
+        <example type="incorrect" correction="vBrest|Vrest">Mont a reas da <marker>Brest</marker>.</example>
         <example type="correct">Mont a reas da <marker>Vrest</marker>.</example>
         <example type="correct">Mont a reas da <marker>vBrest</marker>.</example>
+        <example type="incorrect" correction="vMontroulez|Vontroulez">Mont a reas da <marker>Montroulez</marker>.</example>
+        <example type="correct">Mont a reas da <marker>Vontroulez</marker>.</example>
+        <example type="correct">Mont a reas da <marker>vMontroulez</marker>.</example>
       </rule>
       <rule>
         <pattern>
@@ -745,8 +736,8 @@ $Id$
             <token postag="Z [^M]*" postag_regexp="yes" regexp="yes">(?-i)P.*</token>
           </marker>
         </pattern>
-        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude ar ger «\1» gant an anv divoutin. Ha fellout a rae deoc’h skrivañ <suggestion>b\2</suggestion> pe <suggestion><match no="2" regexp_match="^." regexp_replace="B"/></suggestion>?</message>
-        <example type="incorrect">Mont a reas da <marker>Perroz-Gireg</marker>.</example>
+        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude ar ger «\1» gant an anv divoutin. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" case_conversion="startlower" regexp_match="^" regexp_replace="b"/></suggestion> pe <suggestion><match no="2" regexp_match="^." regexp_replace="B"/></suggestion>?</message>
+        <example type="incorrect" correction="bPerroz-Gireg|Berroz-Gireg">Mont a reas da <marker>Perroz-Gireg</marker>.</example>
         <example type="correct">Mont a reas da <marker>Berroz-Gireg</marker>.</example>
         <example type="correct">Mont a reas da <marker>bPerroz-Gireg</marker>.</example>
       </rule>
@@ -757,8 +748,8 @@ $Id$
             <token postag="Z [^M]*" postag_regexp="yes" regexp="yes">(?-i)D.*</token>
           </marker>
         </pattern>
-        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude ar ger «\1» gant an anv divoutin. Ha fellout a rae deoc’h skrivañ <suggestion>z\2</suggestion> pe <suggestion><match no="2" regexp_match="^." regexp_replace="Z"/></suggestion>?</message>
-        <example type="incorrect">Mont a reas da <marker>Daoulaz</marker>.</example>
+        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude ar ger «\1» gant an anv divoutin. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" case_conversion="startlower" regexp_match="^" regexp_replace="z"/></suggestion> pe <suggestion><match no="2" regexp_match="^." regexp_replace="Z"/></suggestion>?</message>
+        <example type="incorrect" correction="zDaoulaz|Zaoulaz">Mont a reas da <marker>Daoulaz</marker>.</example>
         <example type="correct">Mont a reas da <marker>Zaoulaz</marker>.</example>
         <example type="correct">Mont a reas da <marker>zDaoulaz</marker>.</example>
       </rule>
@@ -769,8 +760,8 @@ $Id$
             <token postag="Z [^M]*" postag_regexp="yes" regexp="yes">(?-i)T.*</token>
           </marker>
         </pattern>
-        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude ar ger «\1» gant an anv divoutin. Ha fellout a rae deoc’h skrivañ <suggestion>d\2</suggestion> pe <suggestion><match no="2" regexp_match="^." regexp_replace="D"/></suggestion>?</message>
-        <example type="incorrect">Mont a reas da <marker>Trebeurden</marker>.</example>
+        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude ar ger «\1» gant an anv divoutin. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" case_conversion="startlower" regexp_match="^" regexp_replace="d"/></suggestion> pe <suggestion><match no="2" regexp_match="^." regexp_replace="D"/></suggestion>?</message>
+        <example type="incorrect" correction="dTrebeurden|Drebeurden">Mont a reas da <marker>Trebeurden</marker>.</example>
         <example type="correct">Mont a reas da <marker>Drebeurden</marker>.</example>
         <example type="correct">Mont a reas da <marker>dTrebeurden</marker>.</example>
       </rule>
@@ -782,7 +773,7 @@ $Id$
           </marker>
         </pattern>
         <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude ar ger «\1» gant an anv divoutin. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="^.." regexp_replace="W"/></suggestion>?</message>
-        <example type="incorrect">Mont a reas da <marker>Gwipavaz</marker>.</example>
+        <example type="incorrect" correction="Wipavaz">Mont a reas da <marker>Gwipavaz</marker>.</example>
         <example type="correct">Mont a reas da <marker>Wipavaz</marker>.</example>
       </rule>
     </rulegroup>
@@ -6130,7 +6121,7 @@ $Id$
           <token spacebefore="yes"><exception postag="J.*" postag_regexp="yes"/><match no="0"/></token>
         </pattern>
         <message>Ger doublet «\1 \2». Ha fellout a rae deoc’h skrivañ <suggestion>\1</suggestion>?</message>
-        <example type="incorrect">Pelec’h <marker>emañ emañ</marker> an ti-gar?</example>
+        <example type="incorrect" correction="emañ">Pelec’h <marker>emañ emañ</marker> an ti-gar?</example>
         <example type="correct">Pelec’h <marker>emañ</marker> an ti-gar?</example>
         <example type="correct">N’eo ket fur-fur.</example>
         <example type="correct">Perak ez ez kuit?</example>
@@ -6157,7 +6148,7 @@ $Id$
           <token spacebefore="yes" postag="J.*" postag_regexp="yes"><match no="0"/></token>
         </pattern>
         <message>Ger doublet «\1 \2». Ha fellout a rae deoc’h skrivañ <suggestion>\1</suggestion> pe gant ur varrennig-stagañ <suggestion>\1-\2</suggestion>?</message>
-        <example type="incorrect"><marker>Brav brav</marker> eo an ti.</example>
+        <example type="incorrect" correction="Brav|Brav-brav"><marker>Brav brav</marker> eo an ti.</example>
         <example type="correct">Brav-brav eo an ti.</example>
       </rule>
     </rulegroup>
