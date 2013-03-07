@@ -126,7 +126,7 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
    */
   public final AnalyzedSentence replace(final AnalyzedSentence text)
       throws IOException {
-    final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
+    final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace(); 
     AnalyzedTokenReadings[] whTokens = text.getTokens();
     final int[] tokenPositions = new int[tokens.length + 1];
     final int patternSize = patternElements.size();

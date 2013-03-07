@@ -119,8 +119,15 @@ public class DisambiguationRuleTest extends TestCase {
           assertTrue(goodSentence.trim().length() > 0);
           final AnalyzedSentence sent = disambiguateUntil(rules, id,
               languageTool.getRawAnalyzedSentence(goodSentence));
-          assertTrue("The untouched example (" + goodSentence + ") for rule " + id + "was touched!",
-              sent.equals(rule.replace(sent)));
+          final AnalyzedSentence sentToReplace = disambiguateUntil(rules, id,
+                  languageTool.getRawAnalyzedSentence(goodSentence));
+          //note: we're testing only if string representations are equal
+          //it's because getRawAnalyzedSentence does not set all properties
+          //in AnalyzedSentence, and during equal test they are set for the
+          //left-hand side
+          assertEquals("The untouched example (" + goodSentence + ") for " + lang.getName() + 
+                  " rule " + id +"["+ rule.getSubId() +"] was touched!",
+              sent.toString(), rule.replace(sentToReplace).toString());
         }
       }
       final List<DisambiguatedExample> examples = rule.getExamples();
