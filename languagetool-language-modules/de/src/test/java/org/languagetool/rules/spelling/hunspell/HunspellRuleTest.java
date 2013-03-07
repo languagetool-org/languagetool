@@ -45,6 +45,10 @@ public class HunspellRuleTest {
     commonGermanAsserts(rule, langTool);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Der äußere Übeltäter.")).length);  // umlauts
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Der äussere Übeltäter.")).length);
+    // ignore URLs:
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Unter http://foo.org/bar steht was.")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("dasdassda http://foo.org/bar steht was.")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Unter http://foo.org/bar steht dasdassda.")).length);
   }
 
   @Test

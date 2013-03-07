@@ -32,6 +32,7 @@ import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.Category;
@@ -82,7 +83,7 @@ public class HunspellRule extends SpellingCheckRule {
       // some languages might not have a dictionary, be silent about it
       return toRuleMatchArray(ruleMatches);
     }
-    final String[] tokens = tokenizeText(getSentenceText(text));
+    final String[] tokens = tokenizeText(getSentenceTextWithoutUrls(text));
 
     // starting with the first token to skip the zero-length START_SENT
     int len = text.getTokens()[1].getStartPos();
@@ -123,10 +124,19 @@ public class HunspellRule extends SpellingCheckRule {
     return nonWordPattern.split(sentence);
   }
 
-  private String getSentenceText(final AnalyzedSentence sentence) {
+  private String getSentenceTextWithoutUrls(final AnalyzedSentence sentence) {
     final StringBuilder sb = new StringBuilder();
-    for (int i = 1; i < sentence.getTokens().length; i++) {
-      sb.append(sentence.getTokens()[i].getToken());
+    final AnalyzedTokenReadings[] sentenceTokens = sentence.getTokens();
+    for (int i = 1; i < sentenceTokens.length; i++) {
+      final String token = sentenceTokens[i].getToken();
+      if (isUrl(token)) {
+        // replace URLs with whitespace to ignore them for spell checking:
+        for (int j = 0; j < token.length(); j++) {
+          sb.append(" ");
+        }
+      } else {
+        sb.append(token);
+      }
     }
     return sb.toString();
   }

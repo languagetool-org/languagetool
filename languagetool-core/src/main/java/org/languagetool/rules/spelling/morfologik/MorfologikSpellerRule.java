@@ -81,6 +81,9 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     }
     skip:
     for (AnalyzedTokenReadings token : tokens) {
+      if (isUrl(token.getToken())) {
+        continue;
+      }
       final String word = token.getToken();
       if (ignoreWord(word) || token.isImmunized()) {
         continue;

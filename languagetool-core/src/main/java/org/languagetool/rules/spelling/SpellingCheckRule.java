@@ -27,6 +27,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.tokenizers.WordTokenizer;
 
 /**
  * An abstract rule for spellchecking rules.
@@ -101,6 +102,15 @@ public abstract class SpellingCheckRule extends Rule {
     return wordsToBeIgnored.contains(cleanWord);
   }
 
+  protected boolean isUrl(String token) {
+    for (String protocol : WordTokenizer.getProtocols()) {
+      if (token.startsWith(protocol + "://")) {
+        return true;
+      }
+    }
+    return false;
+  }
+  
   protected void init() throws IOException {
     loadFileIfExists(language.getShortName() + SPELLING_IGNORE_FILE);
   }
