@@ -4064,8 +4064,8 @@ $Id$
         <token><match no="0"/></token>
       </pattern>
       <message>Ha fellout a rea deoc’h skrivañ <suggestion>\1-\2-\3</suggestion>?</message>
-      <example type="incorrect"><marker>Tamm ha tamm</marker> e vez graet vragoù da Yann.</example>
-      <example type="correct">Tamm-ha-tamm e vez graet vragoù da Yann.</example>
+      <example type="incorrect"><marker>Tamm ha tamm</marker> e vez graet e vragoù da Yann.</example>
+      <example type="correct">Tamm-ha-tamm e vez graet e vragoù da Yann.</example>
     </rule>
     <rule id="A_WALCH" name="just-a-walc’h → just a-walc’h (hag all)">
       <pattern>
@@ -4105,6 +4105,24 @@ $Id$
       </rule>
       <rule>
         <pattern>
+          <token postag="P m 3 s"/>
+          <token>eñ</token>
+        </pattern>
+        <message>Ne vez ket implijet «\1 \2». Ha fellout a rae deoc’h skrivañ <suggestion>\1</suggestion> (CHALM M1.3.5).</message>
+        <example type="incorrect"><marker>Gantañ eñ</marker></example>
+        <example type="correct"><marker>Gantañ</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="P f 3 s"/>
+          <token>hi</token>
+        </pattern>
+        <message>Ne vez ket implijet «\1 \2». Ha fellout a rae deoc’h skrivañ <suggestion>\1</suggestion> (CHALM M1.3.5).</message>
+        <example type="incorrect"><marker>Ganti hi</marker></example>
+        <example type="correct"><marker>Ganti</marker></example>
+      </rule>
+      <rule>
+        <pattern>
           <token postag="P e 1 p"/>
           <token>ni</token>
         </pattern>
@@ -4120,6 +4138,17 @@ $Id$
         <message>Implijit <suggestion>\1-\2</suggestion> (CHALM M1.3.5).</message>
         <example type="incorrect"><marker>Ganeoc’h c’hwi</marker></example>
         <example type="correct"><marker>Ganeoc’h-c’hwi</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="P e 3 p"/>
+          <token regexp="yes">i|int</token>
+        </pattern>
+        <message>Ne vez ket implijet «\1 \2». Ha fellout a rae deoc’h skrivañ <suggestion>\1</suggestion> (CHALM M1.3.5).</message>
+        <example type="incorrect"><marker>Ganto i</marker></example>
+        <example type="incorrect"><marker>Gante i</marker></example>
+        <example type="correct"><marker>Ganto</marker></example>
+        <example type="correct"><marker>Gante</marker></example>
       </rule>
       <rule>
         <pattern>
@@ -5627,7 +5656,7 @@ $Id$
         <example type="correct">Gant yezhadurourien</example>
         <example type="correct">Daou geloù</example>
         <example type="correct">Ken ar c’hentañ mignoned.</example>
-        <example type="correct">Ar c’hentañ sudiadennoù.</example>
+        <example type="correct">Ar c’hentañ studiadennoù.</example>
       </rule>
       <rule>
         <pattern>
@@ -7104,8 +7133,8 @@ $Id$
         <message>Ha fellout a rae deoc’h skrivañ <suggestion>pegen</suggestion>?</message>
         <example type="incorrect">Na <marker>pegent</marker> brav!</example>
         <example type="correct">Na <marker>pegen</marker> brav!</example>
-        <example type="incorrect">Ne zisonjfez ket <marker>pegent</marker> brav eo.</example>
-        <example type="correct">Ne zisonjfez ket pegen brav eo.</example>
+        <example type="incorrect">Ne zisoñjit ket <marker>pegent</marker> brav eo.</example>
+        <example type="correct">Ne zisoñjit ket pegen brav eo.</example>
       </rule>
       <rule>
         <pattern>
@@ -7355,12 +7384,20 @@ $Id$
     <rulegroup id="OAD_AOD" name="oad pe aod">
       <rule>
         <pattern>
-          <token>boued</token>
-          <marker><token>oad</token></marker>
+          <token>boued-oad</token>
         </pattern>
-        <message>Ha fellout a rae deoc’h skrivañ <suggestion>aod</suggestion> ?</message>
-        <example type="incorrect">Kavout a ran mat boued <marker>oad</marker>.</example>
-        <example type="correct">Kavout a ran mat boued <marker>aod</marker>.</example>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>boed-aod</suggestion> ?</message>
+        <example type="incorrect">Kavout a ran mat <marker>boued-oad</marker>.</example>
+        <example type="correct">Kavout a ran mat <marker>boued-aod</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>boued</token>
+          <token>oad</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>boed-aod</suggestion> ?</message>
+        <example type="incorrect">Kavout a ran mat <marker>boued oad</marker>.</example>
+        <example type="correct">Kavout a ran mat <marker>boued-aod</marker>.</example>
       </rule>
       <rule>
         <pattern>
