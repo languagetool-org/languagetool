@@ -4078,7 +4078,7 @@ $Id$
     <rule id="SETU_ME" name="setu me → setu-me (hag all)">
       <pattern>
         <token>setu</token>
-        <token regexp="yes">me|te|eñ|hi|ni|c’hwi|int</token>
+        <token regexp="yes">me|te|eñ|hi|ni|c’hwi|int|i</token>
       </pattern>
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
       <example type="incorrect"><marker>Setu me</marker> o komz brezhoneg.</example>
@@ -4087,39 +4087,47 @@ $Id$
     <rulegroup id="GANIN_ME" name="ganin me → ganin-me (hag all)">
       <rule>
         <pattern>
-          <token regexp="yes">ganin|evidon</token>
+          <token postag="P e 1 s"/>
           <token>me</token>
         </pattern>
-        <message>Implijit <suggestion>\1-\2</suggestion>.</message>
+        <message>Implijit <suggestion>\1-\2</suggestion>. (CHALM M1.3.5)</message>
         <example type="incorrect"><marker>Ganin me</marker></example>
         <example type="correct"><marker>Ganin-me</marker></example>
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">ganit|evidout</token>
+          <token postag="P e 2 s"/>
           <token>te</token>
         </pattern>
-        <message>Implijit <suggestion>\1-\2</suggestion>.</message>
+        <message>Implijit <suggestion>\1-\2</suggestion> (CHALM M1.3.5).</message>
         <example type="incorrect"><marker>Ganit te</marker></example>
-        <example type="correct"><marker>Ganin-te</marker></example>
+        <example type="correct"><marker>Ganit-te</marker></example>
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">ganimp|evidomp</token>
+          <token postag="P e 1 p"/>
           <token>ni</token>
         </pattern>
-        <message>Implijit <suggestion>\1-\2</suggestion>.</message>
+        <message>Implijit <suggestion>\1-\2</suggestion> (CHALM M1.3.5).</message>
         <example type="incorrect"><marker>Ganimp ni</marker></example>
         <example type="correct"><marker>Ganimp-ni</marker></example>
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">ganeoc’h|evidoc’h</token>
+          <token postag="P e 2 p"/>
           <token>c’hwi</token>
         </pattern>
-        <message>Implijit <suggestion>\1-\2</suggestion>.</message>
+        <message>Implijit <suggestion>\1-\2</suggestion> (CHALM M1.3.5).</message>
         <example type="incorrect"><marker>Ganeoc’h c’hwi</marker></example>
         <example type="correct"><marker>Ganeoc’h-c’hwi</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">(anezhañ|arao[kz]añ|dezhañ|(di)?(gantañ|outañ|warnañ)|[dz]indanañ|drezañ|egetañ|egistañ|ennañ|eveltañ|evitañ|heptañ|hervezañ|nemetañ)-eñ|(anezhi|arao[kz]i|dezhi|(di)?(ganti|outi|warni)|[dz]indani|drezi|egeti|egisti|enni|evelti|eviti|hebti|hervezi|nemeti)-hi|(enezh|arao[kz]|dezh|enn|(di)?(gant|out|warn)|[dz]indan|drez|eget|egist|evelt|hebt[oe]|hervez|evit|nemet)[oe]-(i|int)|ac’hanon-me|ac’hanout-te|ac’hanomp-ni|ac’hanoc’h-c’hwi</token>
+        </pattern>
+        <message>Ne vez ket implijet «\1». Ha fallout a rae deoc’h skrivañ <suggestion><match no="1" regexp_match="-.*" regexp_replace=""/></suggestion>? (CHALM M1.3.5)</message>
+        <example type="incorrect" correction="Gantañ"><marker>Gantañ-eñ</marker>.</example>
+        <example type="correct">Gantañ.</example>
       </rule>
     </rulegroup>
     <rule id="BARRENNIG_STAGAN" name="barrennig stagañ → barrennig-stagañ">
@@ -5243,7 +5251,7 @@ $Id$
       <rule>
         <pattern>
           <token>e-kichen</token>
-          <token regexp="yes">int|anezh[oe]</token>
+          <token regexp="yes">i|int|anezh[oe]</token>
         </pattern>
         <message>Ha fellout a rae deoc’h skrivañ <suggestion>en o c’hichen</suggestion>?</message>
         <example type="incorrect"><marker>E-kichen int</marker> e oa.</example>
