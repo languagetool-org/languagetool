@@ -26,10 +26,9 @@ import org.languagetool.Language;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.SpellingCheckRule;
-import org.languagetool.AnalyzedToken; 
+import org.languagetool.AnalyzedToken;
 
 import java.io.IOException;
-import java.nio.charset.CharacterCodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -39,109 +38,109 @@ import java.util.regex.Pattern;
 
 public abstract class MorfologikSpellerRule extends SpellingCheckRule {
 
-    private MorfologikSpeller speller;
-    private Locale conversionLocale;
-    private boolean ignoreTaggedWords=false;
+  private MorfologikSpeller speller;
+  private Locale conversionLocale;
+  private boolean ignoreTaggedWords=false;
 
-    /**
-     * Get the filename, e.g., <tt>/resource/pl/spelling.dict</tt>.
-     */
-    public abstract String getFileName();
-    
-    public MorfologikSpellerRule(ResourceBundle messages, Language language) throws IOException {
-        super(messages, language);
-        super.setCategory(new Category(messages.getString("category_typo")));
-        init();
-    }
+  /**
+   * Get the filename, e.g., <tt>/resource/pl/spelling.dict</tt>.
+   */
+  public abstract String getFileName();
 
-    @Override
-    public abstract String getId();
+  public MorfologikSpellerRule(ResourceBundle messages, Language language) throws IOException {
+    super(messages, language);
+    super.setCategory(new Category(messages.getString("category_typo")));
+    init();
+  }
 
-    @Override
-    public String getDescription() {
-        return messages.getString("desc_spelling");
-    }
-    
-    public void setLocale(Locale locale) {
-        conversionLocale = locale;
-    }
-    
-    @Override
-    public RuleMatch[] match(AnalyzedSentence text) throws IOException {
-        final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
-        final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
-        //lazy init
-        if (speller == null) {
-            if (JLanguageTool.getDataBroker().resourceExists(getFileName())) {
-                speller = new MorfologikSpeller(getFileName(), conversionLocale);
-            } else {
-                // should not happen, as we only configure this rule (or rather its subclasses)
-                // when we have the resources:
-                return toRuleMatchArray(ruleMatches);
-            }
-        }
-        skip:
-        for (AnalyzedTokenReadings token : tokens) {
-            final String word = token.getToken();
-            if (ignoreWord(word) || token.isImmunized()) {
-                continue;
-            }
-            if (ignoreTaggedWords) {
-              for (AnalyzedToken at : token.getReadings()) {
-                if (!at.hasNoTag())
-                  continue skip; // if it HAS a POS tag then it is a known word.
-              }
-            }
-            if (tokenizingPattern() == null) {
-                ruleMatches.addAll(getRuleMatch(word, token.getStartPos()));
-            } else {
-                int index = 0;
-                final Matcher m = tokenizingPattern().matcher(word);
-                while (m.find()) {
-                    final String match = word.subSequence(index, m.start()).toString();
-                    ruleMatches.addAll(getRuleMatch(match, token.getStartPos() + index));
-                    index = m.end();
-                }
-                if (index == 0) { // tokenizing char not found
-                    ruleMatches.addAll(getRuleMatch(word, token.getStartPos()));
-                } else {
-                    ruleMatches.addAll(getRuleMatch(word.subSequence(
-                            index, word.length()).toString(), token.getStartPos() + index));
-                }
-            }
-        }
+  @Override
+  public abstract String getId();
+
+  @Override
+  public String getDescription() {
+    return messages.getString("desc_spelling");
+  }
+
+  public void setLocale(Locale locale) {
+    conversionLocale = locale;
+  }
+
+  @Override
+  public RuleMatch[] match(AnalyzedSentence text) throws IOException {
+    final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
+    final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
+    //lazy init
+    if (speller == null) {
+      if (JLanguageTool.getDataBroker().resourceExists(getFileName())) {
+        speller = new MorfologikSpeller(getFileName(), conversionLocale);
+      } else {
+        // should not happen, as we only configure this rule (or rather its subclasses)
+        // when we have the resources:
         return toRuleMatchArray(ruleMatches);
+      }
     }
-
-    private List<RuleMatch> getRuleMatch(final String word, final int startPos) {
-        final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
-        if (speller.isMisspelled(word)) {
-            final RuleMatch ruleMatch = new RuleMatch(this,
-                    startPos, startPos + word.length(),
-                    messages.getString("spelling"),
-                    messages.getString("desc_spelling_short"));
-            final List<String> suggestions = speller.getSuggestions(word);
-            if (!suggestions.isEmpty()) {
-                ruleMatch.setSuggestedReplacements(suggestions);
-            }
-            ruleMatches.add(ruleMatch);
+    skip:
+    for (AnalyzedTokenReadings token : tokens) {
+      final String word = token.getToken();
+      if (ignoreWord(word) || token.isImmunized()) {
+        continue;
+      }
+      if (ignoreTaggedWords) {
+        for (AnalyzedToken at : token.getReadings()) {
+          if (!at.hasNoTag())
+            continue skip; // if it HAS a POS tag then it is a known word.
         }
-        return ruleMatches;
+      }
+      if (tokenizingPattern() == null) {
+        ruleMatches.addAll(getRuleMatch(word, token.getStartPos()));
+      } else {
+        int index = 0;
+        final Matcher m = tokenizingPattern().matcher(word);
+        while (m.find()) {
+          final String match = word.subSequence(index, m.start()).toString();
+          ruleMatches.addAll(getRuleMatch(match, token.getStartPos() + index));
+          index = m.end();
+        }
+        if (index == 0) { // tokenizing char not found
+          ruleMatches.addAll(getRuleMatch(word, token.getStartPos()));
+        } else {
+          ruleMatches.addAll(getRuleMatch(word.subSequence(
+                  index, word.length()).toString(), token.getStartPos() + index));
+        }
+      }
     }
+    return toRuleMatchArray(ruleMatches);
+  }
 
-    /**
-     * Get the regular expression pattern used to tokenize
-     * the words as in the source dictionary. For example,
-     * it may contain a hyphen, if the words with hyphens are
-     * not included in the dictionary
-     * @return A compiled {@link Pattern} that is used to tokenize words or null.
-     */
-    public Pattern tokenizingPattern() {
-        return null;
+  private List<RuleMatch> getRuleMatch(final String word, final int startPos) {
+    final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
+    if (speller.isMisspelled(word)) {
+      final RuleMatch ruleMatch = new RuleMatch(this,
+              startPos, startPos + word.length(),
+              messages.getString("spelling"),
+              messages.getString("desc_spelling_short"));
+      final List<String> suggestions = speller.getSuggestions(word);
+      if (!suggestions.isEmpty()) {
+        ruleMatch.setSuggestedReplacements(suggestions);
+      }
+      ruleMatches.add(ruleMatch);
     }
-    
-    public void setIgnoreTaggedWords() {
-      ignoreTaggedWords=true;
-    }
-    
+    return ruleMatches;
+  }
+
+  /**
+   * Get the regular expression pattern used to tokenize
+   * the words as in the source dictionary. For example,
+   * it may contain a hyphen, if the words with hyphens are
+   * not included in the dictionary
+   * @return A compiled {@link Pattern} that is used to tokenize words or null.
+   */
+  public Pattern tokenizingPattern() {
+    return null;
+  }
+
+  public void setIgnoreTaggedWords() {
+    ignoreTaggedWords=true;
+  }
+
 }
