@@ -45,7 +45,7 @@ public class PolishSynthesizerTest extends TestCase {
             getSortedArray(synth.synthesize(dummyToken("toner"), "subst:sg:gen:m.*", true))));
     assertEquals("[niedużego, nieduży]", Arrays.toString(
             getSortedArray(synth.synthesize(dummyToken("nieduży"), "adj:sg.*(m[0-9]?|m.n):pos", true))));    
-    assertEquals("[miał, miała, miałaby, miałabym, miałabyś, miałam, miałaś, miałby, miałbym, miałbyś, miałem, miałeś, miało, miałoby, miałobym, miałobyś, miałom, miałoś]", 
+    assertEquals("[miał, miała, miałam, miałaś, miałem, miałeś, miało, miałom, miałoś]", 
           Arrays.toString(
                   getSortedArray(synth.synthesize(dummyToken("mieć"), ".*praet:sg.*", true))));
   }
