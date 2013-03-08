@@ -115,7 +115,11 @@ License:
  License (LGPL), available at:
  http://extensions.libreoffice.org/extension-center/an-drouizig-breton-spellchecker/pscreleasefolder.2012-08-22.5582266403/0.10/dict-br_0.10.oxt
 
-
+ Catalan:
+ The Catalan data for part-of-speech tagging were created by Jaume Ortolà 
+ based on the Freeling 3.0 and Softcatalà 2.5.0 dictionaries, both released 
+ under the GNU General Public License. 
+ 
  Chinese:
  The Chinese data and code for part-of-speech tagging is based on ictclas4j project
  (http://code.google.com/p/ictclas4j/) under Apache License 2.0.
