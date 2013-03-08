@@ -81,7 +81,9 @@ public class PatternRuleTest extends TestCase {
   private String getGrammarFileName(Language lang) {
     final String shortNameWithVariant = lang.getShortNameWithVariant();
     final String fileName;
-    if (shortNameWithVariant.contains("-") && !shortNameWithVariant.equals("xx-XX")
+    if (shortNameWithVariant.contains("-x-")) {
+      fileName = lang.getShortName() + "/" + JLanguageTool.PATTERN_FILE;
+    } else if (shortNameWithVariant.contains("-") && !shortNameWithVariant.equals("xx-XX")
             && !shortNameWithVariant.endsWith("-ANY") && Language.REAL_LANGUAGES.length > 1) {
       fileName = lang.getShortName() + "/" + shortNameWithVariant + "/" + JLanguageTool.PATTERN_FILE;
     } else {

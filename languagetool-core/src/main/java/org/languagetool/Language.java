@@ -296,7 +296,8 @@ public abstract class Language {
    */
   public final String getShortNameWithVariant() {
     String name = getShortName();
-    if (getCountryVariants().length == 1) {
+    if (getCountryVariants().length == 1 
+            && !name.contains("-x-")) {   // e.g. "de-DE-x-simple-language"
       name += "-" + getCountryVariants()[0];
     }
     return name;
@@ -400,7 +401,14 @@ public abstract class Language {
   private static Language getLanguageForShortNameOrNull(final String langCode) {
     StringTools.assureSet(langCode, "langCode");
     Language result = null;
-    if (langCode.indexOf('-') != -1) {
+    if (langCode.contains("-x-")) {
+      for (Language element : Language.LANGUAGES) {
+        if (element.getShortName().equals(langCode)) {
+          // e.g. "de-DE-x-simple-language"
+          return element;
+        }
+      }
+    } else if (langCode.contains("-")) {
       final String[] parts = langCode.split("-");
       if (parts.length != 2) {
         throw new IllegalArgumentException("'" + langCode + "' isn't a valid language code");
