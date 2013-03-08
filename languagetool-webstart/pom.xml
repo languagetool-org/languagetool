@@ -1,63 +1,150 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>org.languagetool</groupId>
-    <artifactId>languagetool-parent</artifactId>
-    <version>2.1-SNAPSHOT</version>
-  </parent>
+	<parent>
+		<groupId>org.languagetool</groupId>
+		<artifactId>languagetool-parent</artifactId>
+		<version>2.1-beta1</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
 
-  <!-- Note: I include the version and groups in each pom, because they will become archetypes -->
-  <groupId>org.languagetool</groupId>
+	<!-- Note: I include the version and groups in each pom, because they will 
+		become archetypes -->
   <artifactId>languagetool-webstart</artifactId>
-  <version>2.1-SNAPSHOT</version>
+  <name>LanguageTool WebStart version</name>
   
-  <packaging>bundle</packaging>
-  <name>jbundle-util-webapp-website - simple website</name>
+  <build>
+	  <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+            <resource>
+                <directory>${basedir}</directory>
+                <targetPath>META-INF</targetPath>
+            </resource>
+        </resources>
+    <plugins>
+    	<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <configuration>
+                  <tagBase>https://languagetool.svn.sourceforge.net/svnroot/languagetool/tags/</tagBase>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+            </plugin>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.12</version>
+                <configuration>
+                    <argLine>-Xms256m -Xmx256m</argLine>
+                </configuration>
+            </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>webstart-maven-plugin</artifactId>
+        <version>1.0-beta-3</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>jnlp-inline</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
 
-  <description>This project provides a template for a simple web site.
-        Just drop your html files into the root directory and voilà, you have a web site.</description>
+ 		<excludeTransitive>true</excludeTransitive>
+          
+          <jnlp>
+            <!-- we play with the resource path and template relative path to test MOJO-391 -->
+            <!--inputTemplateResourcePath>${project.basedir}/src/</inputTemplateResourcePath> -->
+            <inputTemplate>jnlp/template_standalone.vm</inputTemplate>
+            <outputFile>LanguageTool.jnlp</outputFile>
+            <mainClass>/src/main/java/org/languagetool/gui/Main.java</mainClass>
+          </jnlp>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.felix</groupId>
-				<artifactId>maven-bundle-plugin</artifactId>
-				<extensions>true</extensions>
-				<configuration>
-					<instructions>
-						<Bundle-Activator>${project.artifactId}.HttpServiceActivator</Bundle-Activator>
-					</instructions>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+          <!-- SIGNING -->
+          <!-- defining this will automatically sign the jar and its dependencies -->
+          <sign>
+            <keystore>myalias.p12</keystore>
+            <keypass>blabla</keypass>
+            <storepass>blabla</storepass>
+            <!--sigfile>m2m2m2</sigfile-->
+            <alias>alias</alias>
+            <validity>180</validity>
 
-  <dependencies>
-    <dependency>
-      <groupId>org.jbundle.util.webapp</groupId>
-      <artifactId>org.jbundle.util.webapp.osgi</artifactId>
-      <version>1.0.1-SNAPSHOT</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>org.apache.tomcat</groupId>
-      <artifactId>catalina</artifactId>
-      <scope>provided</scope>	<!-- This is usually included in distributions. If you do include this, the servlet is tiny, the jar is huge -->
-    </dependency>
+            <dnameCn>www.example.com</dnameCn>
+            <dnameOu>None</dnameOu>
+            <dnameO>ExampleOrg</dnameO>
+            <dnameL>Seattle</dnameL>
+            <dnameSt>Washington</dnameSt>
+            <dnameC>US</dnameC>
 
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
-      <scope>provided</scope>
-    </dependency>
+            <verify>true</verify>
 
-	<dependency>
-		<groupId>org.osgi</groupId>
-		<artifactId>org.osgi.core</artifactId>
-		<scope>provided</scope> <!-- This better be provided -->
-	</dependency>
-  </dependencies>
+            <keystoreConfig>
+              <delete>true</delete>
+              <gen>true</gen>
+            </keystoreConfig>
 
+          </sign>
+
+          <verbose>false</verbose>
+        </configuration>
+      </plugin>
+      <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <descriptor>src/main/assembly/jnlp.xml</descriptor>
+                    <finalName>LanguageTool-${project.version}</finalName>
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <addExtensions>false</addExtensions>
+                        </manifest>
+                    </archive>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+      
+    </plugins>
+  </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.languagetool</groupId>
+            <artifactId>languagetool-standalone</artifactId>
+            <version>2.1-beta1</version>
+         </dependency>
+    </dependencies>    
+
+    <repositories>
+        <repository>
+            <id>info-bliki-repository</id>
+            <url>http://gwtwiki.googlecode.com/svn/maven-repository/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <packaging>pom</packaging>
 </project>
+
