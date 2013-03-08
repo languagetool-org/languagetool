@@ -578,7 +578,7 @@ though, and has since been slightly modified)-->
         </pattern>
         <message>Voulez-vous écrire <suggestion>près</suggestion> ?</message>
         <example type="incorrect">C’est à peu <marker>prêt</marker> la même chose.</example>
-        <example type="correct">C’est à peut <marker>près</marker> la même chose.</example>
+        <example type="correct">C’est à peu <marker>près</marker> la même chose.</example>
       </rule>
       <rule>
         <pattern>
@@ -763,7 +763,7 @@ though, and has since been slightly modified)-->
         <message>Voulez-vous écrire <suggestion>d’avantage</suggestion> ?</message>
         <example type="incorrect">Il a assez <marker>davantage</marker>.</example>
         <example type="correct">Il a assez d’avantages.</example>
-        <example type="correct">Si vous aimeriez en savoir davantage, veuillez me contacter.</example>
+        <example type="correct">Si vous souhaitez en savoir davantage, veuillez me contacter.</example>
       </rule>
     </rulegroup>
     <rulegroup id="D_AVANTAGE" name="D’avantage au lieu de davantage">
@@ -2151,7 +2151,7 @@ though, and has since been slightly modified)-->
         <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="im(.*)" regexp_replace="é$1"/></suggestion> ?</message>
         <example type="incorrect" correction="éminent">Mon <marker>imminent</marker> collègue.</example>
         <example type="correct">Mon <marker>éminent</marker> collègue.</example>
-        <example type="correct">L’arrivée des imminente.</example>
+        <example type="correct">L’arrivée est imminente.</example>
       </rule>
       <rule>
         <pattern>
@@ -2163,7 +2163,7 @@ though, and has since been slightly modified)-->
         <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="im(.*)" regexp_replace="é$1"/></suggestion> ?</message>
         <example type="incorrect" correction="éminents">Des scientifiques les plus <marker>imminents</marker>.</example>
         <example type="correct">Des scientifiques les plus <marker>éminents</marker>.</example>
-        <example type="correct">L’arrivée des imminente.</example>
+        <example type="correct">L’arrivée est imminente.</example>
         <example type="incorrect" correction="éminent">Un paléontologue <marker>imminent</marker>.</example>
         <example type="correct">Des paléontologues éminents.</example>
       </rule>
@@ -2759,7 +2759,7 @@ though, and has since been slightly modified)-->
           <token>Selma</token>
           <token regexp="yes">Ha[yj]ec?k</token>
         </pattern>
-        <message>Écrivez <suggestion>Salma Hayek</suggestion> de l’actrice mexico-americaine.</message>
+        <message>Écrivez <suggestion>Salma Hayek</suggestion> de l’actrice mexico-américaine.</message>
         <example type="incorrect"><marker>Selma Hayek</marker></example>
         <example type="correct"><marker>Salma Hayek</marker></example>
       </rule>
@@ -3151,7 +3151,7 @@ though, and has since been slightly modified)-->
         <message>Voulez-vous écrire <suggestion>gré</suggestion> ?</message>
         <example type="incorrect">Errer au <marker>grès</marker> des vents.</example>
         <example type="incorrect">Errer au <marker>grès</marker> du vent.</example>
-        <example type="correct">Errer au gré des vent.</example>
+        <example type="correct">Errer au gré des vents.</example>
         <example type="correct">Errer au gré du vent.</example>
       </rule>
       <rule>
@@ -3980,6 +3980,7 @@ though, and has since been slightly modified)-->
       <pattern>
         <token postag="V .*" postag_regexp="yes" skip="1">
           <exception inflected="yes" postag="V inf|V etre .*|V avoir .*|N .*" postag_regexp="yes" regexp="yes">avoir|être|paraître|sembler|devenir|demeurer|rester</exception>
+          <exception postag="J.*" postag_regexp="yes"/>
           <exception regexp="yes" scope="current">,|tu|à</exception>
         </token>
         <marker>
@@ -4010,6 +4011,7 @@ though, and has since been slightly modified)-->
       <example type="correct">Les livraisons ont en revanche augmenté.</example>
       <example type="correct">Avec contrôle accru.</example>
       <example type="correct">Il avait même été débriefé.</example>
+      <example type="correct">Les cotisations <marker>retraites payées</marker> en retard.</example>
     </rule>
     <rulegroup id="NON_V" name="pronom sujet + nom/adj">
       <rule>
@@ -4504,7 +4506,7 @@ though, and has since been slightly modified)-->
         <example type="incorrect">Est-il <marker>souriante</marker> ?</example>
         <example type="incorrect">Est-il <marker>souriants</marker> ?</example>
         <example type="incorrect">Est-il <marker>souriantes</marker> ?</example>
-        <example type="correct">Est-il <marker>sourianes</marker> ?</example>
+        <example type="correct">Est-il <marker>souriant</marker> ?</example>
       </rule>
       <rule>
         <pattern>
@@ -5881,8 +5883,8 @@ though, and has since been slightly modified)-->
         <message>Le participe « \5 » devrait être au pluriel.</message>
         <example type="incorrect">Nous les avons <marker>mangé</marker>.</example>
         <example type="incorrect">Nous les avons <marker>mangée</marker>.</example>
-        <example type="correct">Nous l’avons mangés.</example>
-        <example type="correct">Nous l’avons mangées.</example>
+        <example type="correct">Nous les avons mangés.</example>
+        <example type="correct">Nous les avons mangées.</example>
         <example type="incorrect">Il les a <marker>prise</marker> en train de voler.</example>
         <example type="correct">Il les a pris en train de voler.</example>
         <example type="correct">Il les a prises en train de voler.</example>
@@ -7059,7 +7061,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <marker>
             <token>tous
-              <exception scope="previous" regexp="yes">à|pas|pour</exception>
+              <exception scope="previous" regexp="yes">à|pas|pour|[nv]ous|eux</exception>
               <exception scope="previous" postag="V.*" postag_regexp="yes"/>
             </token>
           </marker>
@@ -7078,11 +7080,12 @@ though, and has since been slightly modified)-->
         <example type="correct">On a tous des qualités.</example>
         <example type="correct">Je peux tous les lire.</example>
         <example type="correct">Ils ont tous une moto.</example>
+        <example type="correct">C’est pour nous tous une mauvaise nouvelle.</example>
       </rule>
       <rule>
         <pattern>
           <marker>
-            <token>tout<exception regexp="yes" scope="previous">avant|après|du</exception></token>
+            <token>tout<exception regexp="yes" scope="previous">avant|après|du|en</exception></token>
           </marker>
           <token postag="D.*" postag_regexp="yes"/>
           <token postag="[ANZ] f .*" postag_regexp="yes">
@@ -7095,6 +7098,7 @@ though, and has since been slightly modified)-->
         <example type="correct">Après tout ma douleur n’est pas si forte.</example>
         <example type="correct">Je n’aime pas du tout la télévision.</example>
         <example type="correct">Tout le Canada.</example>
+        <example type="correct">Ce qui fait en <marker>tout</marker> deux personnes.</example>
       </rule>
       <rule>
         <pattern>
@@ -7113,7 +7117,7 @@ though, and has since been slightly modified)-->
         <example type="correct">Tout cet équipement</example>
         <example type="correct">Toutes les cours de récréation</example>
         <example type="correct">Les femmes portent <marker>toutes</marker> des noms à consonance étrangère.</example>
-        <example type="correct">Elle font toutes du business avec eux.</example>
+        <example type="correct">Elles font toutes du business avec eux.</example>
       </rule>
     </rulegroup>
     <rule id="TOUT_DE_SUITE" name="toute de suite → tout de suite">
@@ -21364,11 +21368,11 @@ though, and has since been slightly modified)-->
     <rulegroup id="PAS_DE_TRAIT_UNION" name="en-bas → en bas (etc.)">
       <rule>
         <pattern>
-          <token regexp="yes">deux-tièrs|en-(bas|haut|dessous|deça)</token>
+          <token regexp="yes">deux-tiers|en-(bas|haut|dessous|deça)</token>
         </pattern>
         <message>« \1 » est une faute de typographie. Employez <suggestion><match no="1" regexp_match="-" regexp_replace=" "/></suggestion>.</message>
-        <example type="incorrect" correction="deux tièrs">La bouteille est aux <marker>deux-tièrs</marker> pleine.</example>
-        <example type="correct">La bouteille est aux deux tièrs pleine.</example>
+        <example type="incorrect" correction="deux tiers">La bouteille est aux <marker>deux-tiers</marker> pleine.</example>
+        <example type="correct">La bouteille est aux deux tiers pleine.</example>
       </rule>
       <rule>
         <pattern><token regexp="yes">tout-[aà]-fait</token></pattern>
@@ -21476,8 +21480,8 @@ though, and has since been slightly modified)-->
           <token>vient</token>
         </pattern>
         <message>Il manque les traits d’union : <suggestion>va-et-vient</suggestion>.</message>
-        <example type="incorrect">Il y a un <marker>va et vient</marker> dans cetter maison.</example>
-        <example type="correct">Il y a un va-et-vient dans cetter maison.</example>
+        <example type="incorrect">Il y a un <marker>va et vient</marker> dans cette maison.</example>
+        <example type="correct">Il y a un va-et-vient dans cette maison.</example>
       </rule>
       <rule>
         <pattern>
@@ -23833,8 +23837,8 @@ though, and has since been slightly modified)-->
         <example type="correct">Il est capable de te <marker>faire faire</marker> des choses surprenantes.</example>
         <example type="correct">En en demandant deux</example>
         <example type="correct">C’est donnant donnant</example>
-        <example type="incorrect">Il <marker>est est</marker> de ce coté.</example>
-        <example type="correct">L’est est de ce coté.</example>
+        <example type="incorrect">Il <marker>est est</marker> de ce côté.</example>
+        <example type="correct">L’est est de ce côté.</example>
         <example type="correct">Les poules du couvent couvent.</example>
       </rule>
       <rule>
