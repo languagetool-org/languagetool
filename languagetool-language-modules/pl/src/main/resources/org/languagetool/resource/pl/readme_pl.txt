@@ -3,9 +3,9 @@
 Morfologik to projekt tworzenia polskich słowników morfosyntaktycznych (stąd nazwa) służących do znakowania 
 morfosyntaktycznego i syntezy gramatycznej.
 
-WERSJA: 2.0 PoliMorf RC3
+WERSJA: 2.0 PoliMorf
 
-UTWORZONA:  3 mar 2013 11:52:40
+UTWORZONA:  8 mar 2013 12:05:02
 
 LICENCJA
 

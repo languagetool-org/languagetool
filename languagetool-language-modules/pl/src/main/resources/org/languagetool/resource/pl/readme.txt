@@ -4,9 +4,9 @@ Morfologik is a project aiming at generating Polish morphosyntactic
 dictionaries (hence the name) used for part-of-speech tagging and
 part-of-speech synthesis.
 
-VERSION: 2.0 PoliMorf RC3
+VERSION: 2.0 PoliMorf
 
-BUILD:  3 mar 2013 11:52:40
+BUILD:  8 mar 2013 12:05:02
 
 LICENCE
 
