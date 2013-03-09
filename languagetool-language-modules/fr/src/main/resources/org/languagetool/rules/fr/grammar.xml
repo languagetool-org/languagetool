@@ -885,18 +885,27 @@ though, and has since been slightly modified)-->
         <example type="correct">Peut-être viendra-t-il ?</example>
       </rule>
     </rulegroup>
-    <rulegroup id="PEUT_PEU" name="Peut au lieu de peu">
+    <rulegroup id="PEUT_PEUX_PEU" name="Peut ou peux au lieu de peu">
       <rule>
         <pattern>
           <token regexp="yes">très|trop|un|de|quelque|pour|à<exception scope="previous" regexp="yes">[’´'‛′‘]</exception></token>
-          <marker>
-            <token regexp="yes">peu[tx]</token>
-          </marker>
+          <marker><token regexp="yes">peu[tx]</token></marker>
         </pattern>
         <message>Voulez-vous écrire <suggestion>peu</suggestion> ?</message>
         <example type="incorrect">Il travaille trop <marker>peut</marker>.</example>
         <example type="correct">Il travaille trop <marker>peu</marker>.</example>
         <example type="correct">Est-ce que quelqu’un <marker>peut</marker> m’aider ?</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">peu[tx]</token></marker>
+          <token regexp="yes">de?</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>peu</suggestion> ?</message>
+        <example type="incorrect"><marker>Peut</marker> de gens.</example>
+        <example type="correct"><marker>Peu</marker> de gens.</example>
+        <example type="incorrect"><marker>Peut</marker> d’amis.</example>
+        <example type="correct"><marker>Peu</marker> d’amis.</example>
       </rule>
     </rulegroup>
     <rule id="FOR_INTERIEUR" name="fort intérieur au lieu de for intérieur">
