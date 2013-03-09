@@ -94,11 +94,27 @@ $Id$
     <!-- Tippfehler -->
     <!-- ====================================================================== -->
     <category name="Mögliche Tippfehler">
+        
+       <!-- <rule id="IM_IHM" name="Möglicher Tippfehler: 'im (ihm)'">
+            <pattern>
+                <marker>
+                    <token>im</token>
+                </marker>
+                <token postag="VER:[123]:.*" postag_regexp="yes"><exception postag="VER:.*" postag_regexp="yes" negate_pos="yes"/></token>
+            </pattern>
+            <message>Möglicher Tippfehler: Meinten Sie <suggestion>ihm</suggestion>?</message>
+            <short>Möglicher Tippfehler</short>
+            <example type="incorrect"><marker>Im</marker> folgt Merkel.</example>
+            <example type="correct"><marker>Ihm</marker> folgt Merkel.</example>
+            <example type="correct"><marker>Im<marker> gleichen T-Shirt sah er besser aus.</example>
+        </rule>-->
         <rulegroup id="AUFFUEHREN_AUSFUEHREN" name="Möglicher Tippfehler: 'aufführen (ausführen)' etc.">
             <rule>
                 <pattern case_sensitive="yes">
                     <token skip="1" regexp="yes">Aktion(en)?|Befehle?n?|Anwendung(en)?</token>
-                    <token inflected="yes">aufführen</token>
+                    <marker>
+                        <token inflected="yes">aufführen</token>
+                    </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion><match case_conversion="alllower" no="2" regexp_match="auf" regexp_replace="aus"/></suggestion>?</message>
                 <short>Möglicher Tippfehler</short>
@@ -107,7 +123,9 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token skip="2">Aufführen</token>
+                    <marker>
+                        <token skip="2">Aufführen</token>
+                    </marker>
                     <token regexp="yes">Aktion(en)?|Befehle?n?|Anwendung(en)?</token>
                 </pattern>
                 <message>Meinten Sie <suggestion><match case_conversion="startupper" no="1" regexp_match="Auf" regexp_replace="Aus"/></suggestion>?</message>
