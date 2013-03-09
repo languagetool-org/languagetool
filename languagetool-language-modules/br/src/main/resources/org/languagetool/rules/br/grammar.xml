@@ -211,10 +211,10 @@ $Id$
         <pattern>
           <token regexp="yes">[au]n</token>
           <marker>
-            <token regexp="yes">tra(-(mañ|se|hont))?</token>
+            <token regexp="yes">tra(ig)?(-(mañ|se|hont))?</token>
           </marker>
         </pattern>
-        <message>Kemmañ a ra ar ger «\2» evel pa vije benel. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="^." regexp_replace="d"/></suggestion>?</message>
+        <message>Kemmañ a ra ar ger «\2» evel pa vije benel. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="^." regexp_replace="d"/></suggestion>? (CHALM B3.1.1.1)</message>
         <example type="incorrect" correction="dra">Un <marker>tra</marker></example>
         <example type="correct">Un dra</example>
       </rule>
@@ -225,7 +225,7 @@ $Id$
             <token regexp="yes">brud(-(mañ|se|hont))?</token>
           </marker>
         </pattern>
-        <message>Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="^." regexp_replace="v"/></suggestion>?</message>
+        <message>Kemmañ a ra ar ger «\2» evel pa vije benel. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="^." regexp_replace="v"/></suggestion>? (CHALM B3.1.1.1)</message>
         <example type="incorrect" correction="vrud">Ur <marker>brud</marker></example>
         <example type="correct">Ur vrud</example>
       </rule>
@@ -236,9 +236,20 @@ $Id$
             <token regexp="yes">[fb]lac’h(ig)?(-(mañ|se|hont))?</token>
           </marker>
         </pattern>
-        <message>Ar ger benel «\2» a chom digemm war-lerc’h ar ger-mell. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="^." regexp_replace="p"/></suggestion>?</message>
+        <message>Ar ger benel «\2» a chom digemm war-lerc’h ar ger-mell. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="^." regexp_replace="p"/></suggestion>? (CHALM B3.1.1.1)</message>
         <example type="incorrect" correction="plac’hig-se">Fur eo ar <marker>blac’hig-se</marker>.</example>
         <example type="correct">Fur eo ar plac’hig-se.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">[au]r</token>
+          <marker>
+            <token regexp="yes">(c’havotenn|c’hreg|c’haletezenn)(ig)?(-(mañ|se|hont))?</token>
+          </marker>
+        </pattern>
+        <message>Ar ger benel «\2» a chom digemm war-lerc’h ar ger-mell. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="^..." regexp_replace="g"/></suggestion>? (CHALM B3.1.1.1)</message>
+        <example type="incorrect" correction="gavotenn">Ar <marker>c’havotenn</marker>.</example>
+        <example type="correct">Ar <marker>gavotenn</marker>.</example>
       </rule>
     </rulegroup>
     <rule id="AR_K" name="ar + k-word">
