@@ -225,9 +225,9 @@ public class UnifierTest extends TestCase {
     final AnalyzedToken sing1 = new AnalyzedToken("mały", "adj:sg:blahblah:m", "mały");
     AnalyzedToken sing1a = new AnalyzedToken("mały", "adj:pl:blahblah:f", "mały");
     AnalyzedToken sing1b = new AnalyzedToken("mały", "adj:pl:blahblah:f", "mały");
-    AnalyzedToken sing2 = new AnalyzedToken("zgarbiony", "adj:pl:blahblah:f", "zgarbiony");
+    AnalyzedToken sing2 = new AnalyzedToken("zgarbiony", "adj:pl:blahblah:f", "zgarbiony");    
     final AnalyzedToken sing3 = new AnalyzedToken("człowiek", "subst:sg:blahblah:m", "człowiek");
-
+    
     final Map<String, List<String>> equiv = new HashMap<String, List<String>>();
     equiv.put("number", null);
     equiv.put("gender", null);
@@ -274,6 +274,21 @@ public class UnifierTest extends TestCase {
     assertEquals(true, uni.isUnified(sing2b, equiv, true));
     assertEquals("[osobiste[osobisty/adj:sg:nom.acc.voc:n:pos:aff*], godło[godło/subst:sg:nom.acc.voc:n*]]", Arrays.toString(uni.getFinalUnified()));
     uni.reset();
+    
+    //check if two features are left out correctly (both match) 
+    AnalyzedToken plur1 = new AnalyzedToken("zgarbieni", "adj:pl:foobar:m", "zgarbiony");
+    AnalyzedToken plur2 = new AnalyzedToken("zgarbieni", "adj:pl:blabla:m", "zgarbiony");
+    
+    AnalyzedToken plur3 = new AnalyzedToken("ludzie", "subst:pl:blabla:m", "człowiek");
+    AnalyzedToken plur4 = new AnalyzedToken("ludzie", "subst:pl:pampam:m", "człowiek");
+
+    uni.isUnified(plur1, equiv, false);
+    uni.isUnified(plur2, equiv, true);
+    uni.isUnified(plur3, equiv, false);
+    assertTrue(uni.isUnified(plur4, equiv, true));
+    assertEquals("[zgarbieni[zgarbiony/adj:pl:foobar:m*,zgarbiony/adj:pl:blabla:m*], " +
+    		"ludzie[człowiek/subst:pl:blabla:m*,człowiek/subst:pl:pampam:m*]]", Arrays.toString(uni.getFinalUnified()));
+    
   }
 
   public void testNegation() {
@@ -299,7 +314,7 @@ public class UnifierTest extends TestCase {
       
       //Let's pretend Latin has determiners
       final AnalyzedToken det_sing_fem = new AnalyzedToken("una", "det:sg:blahblah:f", "unus");
-      final AnalyzedToken det_plur_fem = new AnalyzedToken("unae", "det:sg:blahblah:f", "unus");
+      final AnalyzedToken det_plur_fem = new AnalyzedToken("unae", "det:pl:blahblah:f", "unus");
       final AnalyzedToken det_sing_masc = new AnalyzedToken("unus", "det:sg:blahblah:m", "unus");
       final AnalyzedToken det_plur_masc = new AnalyzedToken("uni", "det:sg:blahblah:m", "unus");
       
