@@ -99,7 +99,6 @@ public class Main extends WeakBase implements XJobExecutor,
   /**
    * Sentence tokenization-related members.
    */
-
   private String currentPara;
   private List<String> tokenizedSentences;
   private int position;
@@ -119,8 +118,8 @@ public class Main extends WeakBase implements XJobExecutor,
 
   private XComponentContext xContext;
 
-  public Main(final XComponentContext xCompContext) {    
-      changeContext(xCompContext);            
+  public Main(final XComponentContext xCompContext) {
+      changeContext(xCompContext);
       xEventListeners = new ArrayList<XLinguServiceEventListener>();    
   }
 
@@ -260,9 +259,9 @@ public class Main extends WeakBase implements XJobExecutor,
     if (!StringTools.isEmpty(paraText) && hasLocale(locale)) {
         Language langForShortName;
         try {
-        	langForShortName = Language.getLanguageForShortName(locale.Language + "-" + locale.Variant);
+          langForShortName = Language.getLanguageForShortName(locale.Language + "-" + locale.Variant);
         } catch (java.lang.IllegalArgumentException e) {
-        	langForShortName = Language.getLanguageForShortName(locale.Language);
+          langForShortName = Language.getLanguageForShortName(locale.Language);
         }
         if (!langForShortName.equals(docLanguage) || langTool == null || recheck) {
           docLanguage = langForShortName;
