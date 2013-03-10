@@ -1466,6 +1466,21 @@ $Id$
           <token regexp="yes">ho|ez|az</token>
           <marker>
             <and>
+              <token regexp="yes" inflected="yes">g.*</token>
+              <token regexp="yes">(c’h|g).*</token>
+            </and>
+          </marker>
+        </pattern>
+        <message>Ur c’hemmadur dre galetaat a zlefe bezañ goude ar ger «\1». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="^(c’h|g)(.*)" regexp_replace="k$2"/></suggestion>? (CHALM B3.3)</message>
+        <example type="incorrect" correction="kenoù">Ho <marker>genoù</marker>.</example>
+        <example type="incorrect" correction="kenoù">Ho <marker>c’henoù</marker>.</example>
+        <example type="correct">Ho kenoù.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">ho|ez|az</token>
+          <marker>
+            <and>
               <token regexp="yes" inflected="yes">m.*</token>
               <token regexp="yes">v.*</token>
             </and>
