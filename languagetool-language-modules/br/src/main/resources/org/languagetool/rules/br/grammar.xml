@@ -200,12 +200,25 @@ $Id$
         <pattern>
           <token regexp="yes">[au]n</token>
           <marker>
-            <token regexp="yes">dor(-(mañ|se|hont))?</token>
+            <token regexp="yes">dor(-.*)?</token>
           </marker>
         </pattern>
-        <message>Direizh eo kemmadur ar ger «\2». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="^." regexp_replace="n"/></suggestion>?</message>
+        <message>Direizh eo kemmadur ar ger «\2». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="^." regexp_replace="n"/></suggestion>? (CHALM B3.1.1.1)</message>
         <example type="incorrect" correction="nor">Serr an <marker>dor</marker> ’ta.</example>
         <example type="correct">Serr an nor ’ta.</example>
+        <example type="incorrect" correction="nor-dal">Serr an <marker>dor-dal</marker> ’ta.</example>
+        <example type="correct">Serr an nor-dal ’ta.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">[au]n</token>
+          <marker>
+            <token regexp="yes">norioù(-.*)?</token>
+          </marker>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="^." regexp_replace="d"/></suggestion>?</message>
+        <example type="incorrect" correction="dorioù">Serr an <marker>norioù</marker> ’ta.</example>
+        <example type="correct">Serr an dorioù ’ta.</example>
       </rule>
       <rule>
         <pattern>
@@ -4223,6 +4236,15 @@ $Id$
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
       <example type="incorrect">Uhel eo an <marker>tour tan</marker>.</example>
       <example type="correct">Uhel eo an <marker>tour-tan</marker>.</example>
+    </rule>
+    <rule id="DOR_DAL" name="dor dal → dor-dal (hag all)">
+      <pattern>
+        <token regexp="yes">[dz]or(ioù)?|[nz]or</token>
+        <token regexp="yes">(dal|volz)?(-(mañ|se|hont))?</token>
+      </pattern>
+      <message>Implijit <suggestion>\1-\2</suggestion>.</message>
+      <example type="incorrect">Serr an <marker>nor dal</marker>.</example>
+      <example type="correct">Serr an <marker>nor-dal</marker>.</example>
     </rule>
     <rule id="BLEIZ_MOR" name="bleiz mor → bleiz-mor">
       <pattern>
