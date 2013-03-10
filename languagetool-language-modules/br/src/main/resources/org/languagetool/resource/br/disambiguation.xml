@@ -311,18 +311,47 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
     <rule>
       <pattern>
         <token regexp="yes">dirak|en|e-pad|eus|evit|(di)?(gant|ouzh|war)<exception postag="X KAOUT2"/></token>
-        <marker>
-          <token>e</token>
-        </marker>
+        <marker><token>e</token></marker>
       </pattern>
       <disambig action="remove"><wd lemma="e" pos="P"/></disambig>
     </rule>
     <rule>
       <pattern>
         <token regexp="yes">dirak|en|e-pad|eus|evit|(di)?(gant|ouzh|war)<exception postag="X KAOUT2"/></token>
-        <marker>
-          <token>e</token>
-        </marker>
+        <marker><token>e</token></marker>
+      </pattern>
+      <disambig action="remove"><wd lemma="e" pos="L e"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker><token>e</token></marker>
+        <token postag="N.*" postag_regexp="yes"/>
+        <token>zo</token>
+      </pattern>
+      <disambig action="remove"><wd lemma="e" pos="P"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker><token>e</token></marker>
+        <token postag="N.*" postag_regexp="yes"/>
+        <token>zo</token>
+      </pattern>
+      <disambig action="remove"><wd lemma="e" pos="L e"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker><token>e</token></marker>
+        <token postag="N.*" postag_regexp="yes"/>
+        <token regexp="yes">[a’]</token>
+      </pattern>
+      <disambig action="remove"><wd lemma="e" pos="P"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker><token>e</token></marker>
+        <token postag="N.*" postag_regexp="yes"/>
+        <token regexp="yes">[a’]</token>
+        <token>zo</token>
       </pattern>
       <disambig action="remove"><wd lemma="e" pos="L e"/></disambig>
     </rule>
