@@ -2999,7 +2999,7 @@ $Id$
                     <marker>
                         <token>tan</token>
                     </marker>
-                    <token postag="AQ.[MC][SN].*|V.P.*SM.?" postag_regexp="yes" skip="10"/>
+                    <token postag="AQ.[MC][SN].*|V.P.*SM.?" postag_regexp="yes" skip="10"><exception scope="next">tant</exception></token>
                     <token>com</token>
                     <token postag="AQ.[MC][SN].*|V.P.*SM.?" postag_regexp="yes"/>
                 </pattern>
@@ -7323,7 +7323,7 @@ $Id$
                         <token>ma</token>
                     </marker>
                     <token postag="AQ.FS.*|V.P..SF." postag_regexp="yes"/>
-                    <token><exception regexp="yes">mare|cosina|tia|germana</exception></token>
+                    <token><exception regexp="yes">iaia|mare|cosina|tia|germana|àvia|besàvia|rebesàvia|bestia|néta|besnéta|rebesnéta</exception></token>
                 </pattern>
                 <message>S'accentua quan és nom: <suggestion>mà</suggestion>.</message>
                 <short>S'accentua quan és nom.</short>
@@ -7331,6 +7331,7 @@ $Id$
                 <example type="incorrect" correction="mà">Amb <marker>ma</marker> decidida.</example>
                 <example type="correct">A ma estimada mare.</example>
                 <example type="correct">A ma mare.</example>
+                <example type="correct">Fou ma venerada besàvia.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SI" name="si/sí">
@@ -17754,7 +17755,7 @@ $Id$
         <rulegroup id="EXIGEIX_VERBS_CENTRAL" name="Exigeix formes verbals del català central">
         	<rule>
         		<pattern>
-        			<token postag="V.{6}[VBZ]" postag_regexp="yes"><exception postag="V.{6}[0CXY]|_possible_nompropi|N.*" postag_regexp="yes"/><exception>vinga</exception></token>
+        			<token postag="V.{6}[VBZ]" postag_regexp="yes"><exception postag="V.{6}[0CXY]|_possible_nompropi|N.*|AQ.*" postag_regexp="yes"/><exception>vinga</exception></token>
         		</pattern>
         		<message>Forma verbal valenciana o balear.</message>
         		<suggestion><match no="1" postag="(V.+)." postag_regexp="yes" postag_replace="$1[CXY0]"/></suggestion>
@@ -17862,7 +17863,7 @@ $Id$
         <rulegroup id="EXIGEIX_VERBS_VALENCIANS" name="Exigeix formes verbals valencianes" default="off">
         	<rule>
         		<pattern>
-        			<token postag="V.{6}[CBY]" postag_regexp="yes"><exception postag="V.{6}[0VXZ]|_possible_nompropi|N.*" postag_regexp="yes"/><exception>vinga</exception></token>
+        			<token postag="V.{6}[CBY]" postag_regexp="yes"><exception postag="V.{6}[0VXZ]|_possible_nompropi|N.*|AQ.*" postag_regexp="yes"/><exception>vinga</exception></token>
         		</pattern>
         		<message>Forma verbal no valenciana.</message>
         		<suggestion><match no="1" postag="(V.+)." postag_regexp="yes" postag_replace="$1[0VXZ]"/></suggestion>
@@ -17906,7 +17907,7 @@ $Id$
         <rulegroup id="EXIGEIX_VERBS_BALEARS" name="Exigeix formes verbals balears" default="off">
         	<rule>
         		<pattern>
-        			<token postag="V.{6}[CVX]" postag_regexp="yes"><exception postag="V.{6}[0BYZ]|_possible_nompropi|N.*" postag_regexp="yes"/><exception>vinga</exception></token>
+        			<token postag="V.{6}[CVX]" postag_regexp="yes"><exception postag="V.{6}[0BYZ]|_possible_nompropi|N.*|AQ.*" postag_regexp="yes"/><exception>vinga</exception></token>
         		</pattern>
         		<message>Forma verbal no balear.</message>
         		<suggestion><match no="1" postag="(V.+)." postag_regexp="yes" postag_replace="$1[0BYZ]"/></suggestion>
@@ -17995,7 +17996,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">vostés?|allén|atés</token> <!-- atés que: loc_conj en disambiguation -->
+                    <token regexp="yes">vostés?|allén|atés|Filomé|Godofré|Josués?|Manfré|Mercés?</token> <!-- atés que: loc_conj en disambiguation -->
                 </pattern>
                 <message>Accentuació valenciana.</message>
                 <suggestion><match no="1" regexp_match="^(.+)é(n|s)?" regexp_replace="$1è$2"></match></suggestion>
@@ -18235,7 +18236,7 @@ $Id$
     <category name="C5) Formes de plural opcionals" default="off">
         <rule id="EXIGEIX_PLURALS_S" name="Exigeix plurals en -s: homes, joves..." default="off">
             <pattern>
-                <token regexp="yes">àsens|còvens|fréixens|hòmens|jóvens|màrgens|òrfens|ràvens|térmens|vèrgens</token>
+                <token regexp="yes">àsens|còvens|fréixens|hòmens|jóvens|màrgens|òrfens|(bleda-|col)?ràvens|térmens|vèrgens|(clavi)?òrguens</token>
             </pattern>
             <message>Existeix una forma de plural en -s.</message>
             <short>Hi ha un plural en -s.</short>
@@ -18244,7 +18245,7 @@ $Id$
         </rule>
         <rule id="EXIGEIX_PLURALS_NS" name="Exigeix plurals en -ns: hòmens, jóvens..." default="off">
                 <pattern>
-                    <token regexp="yes">ases|coves|freixes|homes|joves|marges|orfes|raves|termes|verges</token>
+                    <token regexp="yes">ases|coves|freixes|homes|joves|marges|orfes|(bleda-|col)?raves|termes|verges|(clavi)?orgues</token>
                 </pattern>
                 <message>Existeix una forma de plural en -ns.</message>
                 <short>Hi ha un plural en -ns.</short>
