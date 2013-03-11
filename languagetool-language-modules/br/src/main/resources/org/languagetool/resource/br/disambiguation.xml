@@ -310,6 +310,24 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
   <rulegroup id="E_R" name="e pronom">
     <rule>
       <pattern>
+        <marker><token>e</token></marker>
+        <token postag="V inf.*" postag_regexp="yes"/>
+        <token>a</token>
+        <token inflected="yes">ober</token>
+      </pattern>
+      <disambig action="remove"><wd lemma="e" pos="P"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker><token>E</token></marker>
+        <token postag="V inf.*" postag_regexp="yes"/>
+        <token>a</token>
+        <token inflected="yes">ober</token>
+      </pattern>
+      <disambig action="remove"><wd lemma="e" pos="L e"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
         <token regexp="yes">dirak|en|e-pad|eus|evit|(di)?(gant|ouzh|war)<exception postag="X KAOUT2"/></token>
         <marker><token>e</token></marker>
       </pattern>
