@@ -31,7 +31,6 @@ import org.apache.lucene.store.RAMDirectory;
 import org.apache.lucene.util.LuceneTestCase;
 import org.apache.lucene.util.Version;
 import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
 import org.languagetool.language.English;
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.rules.patterns.PatternRuleLoader;
@@ -46,7 +45,7 @@ import static org.languagetool.dev.index.PatternRuleQueryBuilder.FIELD_NAME_LOWE
 
 public class PatternRuleQueryBuilderTest extends LuceneTestCase {
 
-  private static final Version LUCENE_VERSION = Version.LUCENE_41;
+  private static final Version LUCENE_VERSION = Version.LUCENE_42;
 
   private IndexSearcher searcher;
   private DirectoryReader reader;
