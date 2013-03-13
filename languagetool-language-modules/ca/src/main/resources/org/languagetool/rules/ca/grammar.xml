@@ -4068,6 +4068,27 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions">
+    	<rule id="SERIEM" name="seriem/seríem">
+    		<pattern>
+    			<token regexp="yes">serie[mu]</token>
+    		</pattern>
+    		<message>¿Volíeu dir <suggestion><match no="1" regexp_match=".+(.)" regexp_replace="seríe$1"/></suggestion> (v. 'ser') en lloc de <match no="1"/> (v. 'seriar')?</message>
+    		<short>Possible confusió</short>
+    		<example type="incorrect" correction="Seríeu">¿<marker>Serieu</marker> tan amables de fer-ho?</example>
+    		<example type="correct">Seríem els millors.</example>
+    	</rule>
+    	<rule id="ELA_EL_LA" name="ela/el/la">
+    		<pattern>
+    			<marker>
+    				<token>ela</token>
+    			</marker>
+    			<token postag="NC.[SN].*" postag_regexp="yes"/>
+    		</pattern>
+    		<message>¿Volíeu dir <suggestion><match no="2" postag="NC(.).*" postag_regexp="yes" postag_replace="DA0$1S0">el</match></suggestion>?</message>
+    		<short>Possible confusió</short>
+    		<example type="incorrect" correction="El"><marker>Ela</marker> costum que tenen.</example>
+    		<example type="correct">És la lletra ela.</example>
+    	</rule>
     	<rule id="TEMPS_AVENIR" name="temps avenir">
 		    <pattern>
 		        <token>temps</token>
