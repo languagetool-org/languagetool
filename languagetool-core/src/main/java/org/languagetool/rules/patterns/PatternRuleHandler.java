@@ -32,16 +32,17 @@ import org.xml.sax.SAXException;
 
 public class PatternRuleHandler extends XMLRuleHandler {
 
-  private int subId;
-
-  private boolean defaultOff;
-  private boolean defaultOn;
-
   protected Category category;
   protected String categoryIssueType;
   protected String ruleGroupIssueType;
   protected String ruleIssueType;
   protected String name;
+
+  private int subId;
+
+  private boolean defaultOff;
+  private boolean defaultOn;
+
   private String ruleGroupDescription;
   private int startPos = -1;
   private int endPos = -1;
@@ -139,7 +140,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
       inMessage = true;
       inSuggestion = false;
       message = new StringBuilder();
-    } else if ("suggestion".equals(qName) && !inMessage) {  //suggestions outside message      
+    } else if ("suggestion".equals(qName) && !inMessage) {  //suggestions outside message
         if (YES.equals(attrs.getValue("suppress_misspelled"))) {
           suggestionsOutMsg.append("<pleasespellme/>");
         }
@@ -211,7 +212,6 @@ public class PatternRuleHandler extends XMLRuleHandler {
             ph.addAll(new ArrayList<Element>(elementList));
           }
         }
-
         for (final ArrayList<Element> phraseElement : phraseElementList) {
           processElement(phraseElement);
           final PatternRule rule = new PatternRule(id, language, phraseElement,
@@ -261,10 +261,10 @@ public class PatternRuleHandler extends XMLRuleHandler {
       exampleCorrection = new StringBuilder();
     } else if (MESSAGE.equals(qName)) {
       suggestionMatches = addLegacyMatches(suggestionMatches,message.toString(),true);
-      inMessage = false;        
+      inMessage = false;
     } else if ("suggestion".equals(qName) && !inMessage) { //suggestion outside message
-      suggestionsOutMsg.append("</suggestion>");      
-      inSuggestion = false;      
+      suggestionsOutMsg.append("</suggestion>");
+      inSuggestion = false;
     } else if ("short".equals(qName)) {
       inShortMessage = false;
     } else if ("url".equals(qName)) {
@@ -273,7 +273,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
       if (inMessage) {
         suggestionMatches.get(suggestionMatches.size() - 1).
             setLemmaString(match.toString());
-      } else if (inSuggestion && !inMessage) {
+      } else if (inSuggestion) {
           suggestionMatchesOutMsg.get(suggestionMatchesOutMsg.size() - 1).
               setLemmaString(match.toString());
       } else if (inToken) {
@@ -310,8 +310,8 @@ public class PatternRuleHandler extends XMLRuleHandler {
       //set negation on the last token only!
       final int lastElement = elementList.size() - 1;
       elementList.get(lastElement).setLastInUnification();
-      if (uniNegation) {            
-    	  elementList.get(lastElement).setUniNegation();
+      if (uniNegation) {
+        elementList.get(lastElement).setUniNegation();
       }
     }
   }
@@ -344,9 +344,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
       for (final Match m : suggestionMatchesOutMsg) {
         rule.addSuggestionMatchOutMsg(m);
       }
-      //if (phraseElementList.size() <= 1) {
       suggestionMatchesOutMsg.clear();
-      //}
     }
     if (defaultOff) {
       rule.setDefaultOff();
@@ -386,7 +384,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
       match.append(s);
     } else if (inMessage) {
       message.append(s);
-    } else if (inSuggestion && !inMessage) {  //Suggestion outside message
+    } else if (inSuggestion) {  //Suggestion outside message
       suggestionsOutMsg.append(s);
     } else if (inShortMessage) {
       shortMessage.append(s);
