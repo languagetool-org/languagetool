@@ -2051,6 +2051,125 @@ $Id$
             </rule>
         </rulegroup>
         
+        <rulegroup default="on" id="Frazeologizm_nevernij" name="Ошибки во фразеологизмах «щекотливая дилемма»,  ">
+            <!--  Щекотливая дилемма - щекотливый вопрос
+                  Вся пресса поёт в одну дуду  -  поёт в один голос
+                  не упасть лицом в грязь - не ударить лицом в грязь
+                  отдал руку и сердце - предложил руку и сердце
+                  избиение  грешников - избиение младенцев
+                  закадычная подруга - лучшая подруга
+                  промокли до костей - промокли до нитки
+                  промёрзли до нитки - промёрзли до костей
+                  глас, вопиющий в пустыне - глас вопиющего в пустыне
+            -->
+
+            
+            <rule>
+                <pattern case_sensitive="no">
+                    <token>щекотливая</token>
+                    <token>дилемма</token>
+                </pattern>
+                <message>Фразеологизм:<suggestion>щекотливый вопрос</suggestion>.</message>
+                <short>Ошибка.</short>
+                <example type="correct">щекотливый вопрос</example>
+                <example type="incorrect"><marker>щекотливая дилемма</marker></example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="no">
+                    <token>поёт</token>
+                    <token>в</token>
+                    <token>одну</token>
+                    <token>дуду</token>
+                </pattern>
+                <message>Фразеологизм:<suggestion>/1 /2 один голос</suggestion>.</message>
+                <short>Ошибка.</short>
+                <example type="correct">Вся пресса поёт в один голос.</example>
+                <example type="incorrect">Вся пресса <marker>поёт в одну дуду</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="no">
+                    <token>не</token>
+                    <token>упасть</token>
+                    <token>лицом</token>
+                    <token>в</token>
+                    <token>грязь</token>
+                </pattern>
+                <message>Фразеологизм:<suggestion>/1 ударить /3 /4 /5</suggestion>.</message>
+                <short>Ошибка.</short>
+                <example type="correct">не ударить лицом в грязь</example>
+                <example type="incorrect"><marker>не упасть лицом в грязь</marker></example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="no">
+                    <token>отдал</token>
+                    <token>руку</token>
+                    <token>и</token>
+                    <token>сердце</token>
+                </pattern>
+                <message>Фразеологизм:<suggestion>предложил /2 /3 /4</suggestion>.</message>
+                <short>Ошибка.</short>
+                <example type="correct">предложил руку и сердце</example>
+                <example type="incorrect"><marker>отдал руку и сердце</marker></example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="no">
+                    <token>избиение</token>
+                    <token>грешников</token>
+                </pattern>
+                <message>Фразеологизм:<suggestion>/1 младенцев</suggestion>.</message>
+                <short>Ошибка.</short>
+                <example type="correct">избиение младенцев</example>
+                <example type="incorrect"><marker>избиение грешников</marker></example>
+            </rule>
+            
+            <rule>
+                <pattern case_sensitive="no">
+                    <token>закадычная</token>
+                    <token>подруга</token>
+                </pattern>
+                <message>Фразеологизм:<suggestion>лучшая /2</suggestion>.</message>
+                <short>Ошибка.</short>
+                <example type="correct">Она - лучшая подруга.</example>
+                <example type="incorrect">Она - <marker>закадычная подруга</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="no">
+                    <token>промокли</token>
+                    <token>до</token>
+                    <token>костей</token>
+                </pattern>
+                <message>Фразеологизм:<suggestion>/1 /2 нитки</suggestion>.</message>
+                <short>Ошибка.</short>
+                <example type="correct">промокли до нитки</example>
+                <example type="incorrect"><marker>промокли до костей</marker></example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="no">
+                    <token>замёрзли</token>
+                    <token>до</token>
+                    <token>нитки</token>
+                </pattern>
+                <message>Фразеологизм:<suggestion>/1 /2 костей</suggestion>.</message>
+                <short>Ошибка.</short>
+                <example type="correct">замёрзли до костей</example>
+                <example type="incorrect"><marker>замёрзли до нитки</marker></example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="no">
+                    <token>глас</token>
+                    <token>,</token>
+                    <token>вопиющий</token>
+                    <token>в</token>
+                    <token>пустыне</token>
+                </pattern>
+                <message>Фразеологизм:<suggestion>/1 вопиющего /4 /5</suggestion>.</message>
+                <short>Ошибка.</short>
+                <example type="correct">глас вопиющего в пустыне</example>
+                <example type="incorrect"><marker>глас, вопиющий в пустыне</marker></example>
+            </rule>
+        </rulegroup>
+        
+        
         <rulegroup default="on" id="V_K_S" name="Беглая гласная в предлогах: «в», «к», «с», «без», «из» ...">
             <rule>
                 <pattern>
