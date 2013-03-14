@@ -28,20 +28,16 @@ import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
 import org.apache.lucene.analysis.tokenattributes.PositionIncrementAttribute;
 import org.apache.lucene.analysis.tokenattributes.TypeAttribute;
 import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
 import org.languagetool.language.English;
 
 public class LanguageToolFilterTest extends BaseTokenStreamTestCase {
   
   public void testFilter() throws Exception {
-    String input = "How do you thin?";
+    final String input = "How do you thin?";
 
-    TokenStream stream = new AnyCharTokenizer(TEST_VERSION_CURRENT, new StringReader(input));
-    LanguageToolFilter filter;
+    final TokenStream stream = new AnyCharTokenizer(TEST_VERSION_CURRENT, new StringReader(input));
+    final LanguageToolFilter filter = new LanguageToolFilter(stream, new JLanguageTool(new English()), false);
     //displayTokensWithFullDetails(filter);
-
-    stream = new AnyCharTokenizer(TEST_VERSION_CURRENT, new StringReader(input));
-    filter = new LanguageToolFilter(stream, new JLanguageTool(new English()), false);
 
     assertTokenStreamContents(filter, new String[] { "_POS_SENT_START", "How", "_POS_WRB", "do",
         "_POS_VBP", "_POS_VB", "you", "_POS_PRP", "thin", "_POS_VBP", "_POS_VB", "_POS_JJ", "?",
@@ -52,13 +48,13 @@ public class LanguageToolFilterTest extends BaseTokenStreamTestCase {
   }
 
   private static void displayTokensWithFullDetails(TokenStream stream) throws IOException {
-    CharTermAttribute term = stream.addAttribute(CharTermAttribute.class);
-    PositionIncrementAttribute posIncr = stream.addAttribute(PositionIncrementAttribute.class);
-    OffsetAttribute offset = stream.addAttribute(OffsetAttribute.class);
-    TypeAttribute type = stream.addAttribute(TypeAttribute.class);
+    final CharTermAttribute term = stream.addAttribute(CharTermAttribute.class);
+    final PositionIncrementAttribute posIncr = stream.addAttribute(PositionIncrementAttribute.class);
+    final OffsetAttribute offset = stream.addAttribute(OffsetAttribute.class);
+    final TypeAttribute type = stream.addAttribute(TypeAttribute.class);
     int position = 0;
     while (stream.incrementToken()) {
-      int increment = posIncr.getPositionIncrement();
+      final int increment = posIncr.getPositionIncrement();
       if (increment > 0) {
         position = position + increment;
         System.out.println();
