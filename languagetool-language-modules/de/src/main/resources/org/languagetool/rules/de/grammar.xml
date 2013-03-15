@@ -3074,6 +3074,20 @@ $Id$
     <!-- ====================================================================== -->
     <category name="Leicht zu verwechselnde Wörter">
         <!-- TODO emphatisch/empathisch -->
+        <rule id="DEZIDIERTER_SERVER" name="Mögliche Wortverwechslung: 'dezidierter(dedizierter) Server'">
+           <pattern case_sensitive="yes">
+                <marker>
+                    <token inflected="yes">dezidiert</token>
+                  </marker>
+                <token regexp="yes">.*server|Server|Rechner|Computer</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>dediziert</suggestion>? 'dezidiert' bedeutet 'entschieden, energisch'.</message>
+            <short>Mögliche Wortverwechslung</short>
+            <example type="incorrect" correction="dediziert">Ich habe jetzt einen <marker>dezidierten</marker> Spieleserver.</example>
+            <example type="incorrect" correction="dediziert">Ich habe jetzt einen <marker>dezidierten</marker> Server.</example>
+            <example type="correct">Ich habe jetzt einen <marker>dedizierten</marker> Spieleserver.</example>
+            <example type="correct">Ich habe jetzt einen <marker>dedizierten</marker> Server.</example>
+        </rule>
         <rulegroup id="FIKTIV_FIKTIONAL" name="Mögliche Wortverwechslung: fiktiv/fiktional">
             <rule>
 			    <pattern case_sensitive="yes">
