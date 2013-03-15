@@ -68,6 +68,13 @@ public class MorfologikCatalanSpellerRuleTest {
 
         //incorrect sentences:
 
+        matches = rule.match(langTool.getAnalyzedSentence("joan"));
+        // check match positions:
+        assertEquals(1, matches.length);
+        assertEquals(0, matches[0].getFromPos());
+        assertEquals(4, matches[0].getToPos());
+        assertEquals("Joan", matches[0].getSuggestedReplacements().get(0));
+        
         matches = rule.match(langTool.getAnalyzedSentence("abatusats"));
         // check match positions:
         assertEquals(1, matches.length);

@@ -20,6 +20,7 @@ package org.languagetool.tagging.ca;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -28,8 +29,11 @@ import morfologik.stemming.DictionaryLookup;
 import morfologik.stemming.IStemmer;
 import morfologik.stemming.WordData;
 
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.tagging.BaseTagger;
+import org.languagetool.tools.StringTools;
 
 /**
  * Catalan Tagger
@@ -52,6 +56,7 @@ public class CatalanTagger extends BaseTagger {
 	public CatalanTagger() {
 		super();
 		setLocale(new Locale("ca"));
+		this.dontTagLowercaseWithUppercase();
 	}
 
 	public boolean existsWord(String word) throws IOException {
@@ -71,4 +76,8 @@ public class CatalanTagger extends BaseTagger {
 		}
 		return true;
 	}
+	
+	
+	
+	
 }

@@ -6097,7 +6097,7 @@ $Id$
                 <pattern>
                     <marker>
                         <token>de</token>
-                        <token regexp="yes">1|11</token>
+                        <token regexp="yes">(1|11)%?</token>
                     </marker>
                     <token><exception postag="decimal_comma"/></token>
                 </pattern>
@@ -6113,7 +6113,7 @@ $Id$
                 <pattern>
                     <marker>
                         <token>el</token>
-                        <token regexp="yes">1|11</token>
+                        <token regexp="yes">(1|11)%?</token>
                     </marker>
                     <token><exception postag="decimal_comma"/></token>
                 </pattern>
@@ -6122,6 +6122,7 @@ $Id$
                 <short>Error ortogràfic</short>
                 <example type="incorrect" correction="l'1"><marker>el 1</marker> de febrer</example>
                 <example type="incorrect" correction="l'1"><marker>el 1</marker>, el 2 i el 3 de febrer</example>
+                <example type="incorrect" correction="L'11%"><marker>El 11%</marker> dels assistents.</example>
                 <example type="correct">el 1.400</example>
             </rule>
             <rule>
@@ -6129,7 +6130,7 @@ $Id$
                     <marker>
                         <token regexp="yes">a|de</token>
                         <token spacebefore="no">l</token>
-                        <token regexp="yes">1|11</token>
+                        <token regexp="yes">(1|11)%?</token>
                     </marker>
                     <token><exception postag="decimal_comma"/></token>
                 </pattern>
@@ -6145,7 +6146,7 @@ $Id$
                     <marker>
                         <token>pe</token>
                         <token spacebefore="no">l</token>
-                        <token regexp="yes">1|11</token>
+                        <token regexp="yes">(1|11)%?</token>
                     </marker>
                     <token><exception postag="decimal_comma"/></token>
                 </pattern>
@@ -9207,6 +9208,14 @@ $Id$
                 <example type="correct">Lo Rat Penat</example>
                 <example type="correct">Lo Rat-Penat</example>
             </rule>
+            <rule id="LOS" name="los">
+            	<pattern>
+            		<token>los</token>
+            	</pattern>
+            	<message>¿Volíeu dir <suggestion>els</suggestion>?</message>
+            	<example type="incorrect" correction="els">Són <marker>los</marker> millors.</example>
+            	<example type="correct">Són els millors.</example>
+            </rule>
         </rulegroup>
     </category>
     <category name="D1) Revisions opcionals">
@@ -10754,10 +10763,10 @@ $Id$
             <suggestion><match no="1" postag="V.([ISNGP].*)" postag_regexp="yes" postag_replace="VM$1">anar</match></suggestion>
             <suggestion><match no="1" postag="V.([ISNGP].*)" postag_regexp="yes" postag_replace="VS$1">ser</match></suggestion>
             <short>Expressió incorrecta.</short>
-            <example type="incorrect" correction="aniran|seran">Les despeses <marker>correran</marker> a càrrec meu.</example>
+            <example type="incorrect" correction="aniran|iran|seran">Les despeses <marker>correran</marker> a càrrec meu.</example>
             <example type="correct">Les despeses seran a càrrec meu.</example>
         </rule>
-        <rule id="ENMIG" name="*en mig de / enmig de">
+        <!-- <rule id="ENMIG" name="*en mig de / enmig de">
             <pattern>
                 <marker>
                     <token>en</token>
@@ -10771,7 +10780,7 @@ $Id$
             <example type="correct">En mig de les timonedes.</example>
             <example type="correct">en mig país</example>
             <example type="correct">Enmig de les timonedes.</example>
-        </rule>
+        </rule> -->
         <rule id="CASC_ANTIC" name="casc antic">
             <pattern>
                 <token inflected="yes">casc</token>

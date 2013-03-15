@@ -43,6 +43,7 @@ public abstract class BaseTagger implements Tagger {
 
   private IStemmer dictLookup;
   private Locale conversionLocale = Locale.getDefault();  
+  boolean tagLowercaseWithUppercase = true;
 
   /**
    * Get the filename, e.g., <tt>/resource/fr/french.dict</tt>.
@@ -84,7 +85,7 @@ public abstract class BaseTagger implements Tagger {
 
       //uppercase
       if (lowerTaggerTokens.isEmpty() && taggerTokens.isEmpty()) {
-        if (isLowercase) {          
+        if (tagLowercaseWithUppercase && isLowercase) {          
           upperTaggerTokens = asAnalyzedTokenList(word, 
               dictLookup.lookup(StringTools.uppercaseFirstChar(word)));
           if (!upperTaggerTokens.isEmpty()) {
@@ -149,6 +150,10 @@ public abstract class BaseTagger implements Tagger {
   @Override
   public AnalyzedToken createToken(String token, String posTag) {
     return new AnalyzedToken(token, posTag, null);
+  }
+  
+  public void dontTagLowercaseWithUppercase() {
+    tagLowercaseWithUppercase=false;
   }
 
 }
