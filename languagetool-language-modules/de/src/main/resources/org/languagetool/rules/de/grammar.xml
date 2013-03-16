@@ -24710,7 +24710,7 @@ $Id$
     <!-- ====================================================================== -->
     <category name="Wikipedia" default="off">
         <rule id="ANDERS_ALS_OFT_BEHAUPTET" name="'Anders als oft behauptet'">
-            <pattern case_sensitive="no">
+            <pattern>
                 <token>anders</token>
                 <token>als</token>
                 <token>oft</token>
@@ -24722,7 +24722,7 @@ $Id$
         </rule>
         <rulegroup id="VOR_KURZEM" name="Relative Zeitangaben – 'vor/seit Kurzem' u.ä.">
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token regexp="yes">vor|seit</token>
                     <token regexp="yes">kurzem|längerem</token>
                 </pattern>
@@ -24731,7 +24731,7 @@ $Id$
                 <example type="correct">Seit März 2009 ist sie Bundeskanzlerin.</example>
             </rule>
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token regexp="yes">vor|seit</token>
                     <token regexp="yes">kurzer|einiger</token>
                     <token>Zeit</token>
@@ -24741,7 +24741,17 @@ $Id$
                 <example type="correct">Seit März 2009 ist sie Bundeskanzlerin.</example>
             </rule>
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
+                    <token>in</token>
+                    <token>letzter</token>
+                    <token>Zeit</token>
+                </pattern>
+                <message>Eine relative Zeitangabe wie 'in letzter Zeit' ist für Wikipedia-Artikel nicht gut geeignet und sollte möglicherweise durch eine absolute Zeitangabe ersetzt werden.</message>
+                <example type="incorrect"><marker>In letzter Zeit</marker> werden mehr und mehr vage Behauptungen aufgestellt.</example>
+                <example type="correct"><marker>Seit Januar 2011</marker> werden mehr und mehr konkrete Behauptungen aufgestellt.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token regexp="yes">vor|seit</token>
                     <token regexp="yes">wenigen|einigen</token>
                     <token regexp="yes">&zeiteinheiten;</token>
