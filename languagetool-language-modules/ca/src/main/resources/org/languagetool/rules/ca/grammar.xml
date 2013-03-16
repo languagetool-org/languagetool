@@ -2115,7 +2115,7 @@ $Id$
         <rulegroup id="PASSAT_PERIFRASTIC" name="Comprova: passat perifràstic">
             <rule>
                 <pattern>
-                    <token regexp="yes" skip="5">vam|vau|vàrem|vàreu<exception scope="next" postag="V.N.*" postag_regexp="yes"/></token>
+                    <token regexp="yes" skip="5">vam|vau|vàrem|vàreu|vàgim|vàgem|vàgeu|vàgiu<exception scope="next" postag="V.N.*" postag_regexp="yes"/></token>
                     <marker>
                         <token postag="V.[^N].*" postag_regexp="yes"><exception postag="V.N.*" postag_regexp="yes"/><exception regexp="yes">de|d'</exception></token>
                     </marker>
@@ -15516,6 +15516,33 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
+                    	<token postag="D..F.*" postag_regexp="yes"></token>
+                        <token postag="_GN_F." postag_regexp="yes" regexp="yes">ordes?</token>                    
+                    	<token postag="AQ0[FC].*" postag_regexp="yes" inflected="yes" regexp="yes">religiós|franciscà|benedictí|jesuïta|templari|cavalleresc|militar|major|menor</token>
+                    </marker>
+                </pattern>
+                <message>En el sentit de "societat de religiosos" o de "ritu cristià", "orde" és masculí.</message>
+                <suggestion><match no="1" postag="(D..).(..)" postag_regexp="yes" postag_replace="$1M$2"/> <match no="2" regexp_match="([Oo]rd)r(e.*)" regexp_replace="$1$2"/> <match no="3" postag="AQ0.(.)." postag_regexp="yes" postag_replace="AQ0[MC]$10"/></suggestion>
+                <url>http://esadir.cat/lexic/entrades/entry_20030730164326_116</url>
+                <example type="incorrect" correction="els ordes religiosos"><marker>les ordes religioses</marker></example>
+                <example type="incorrect" correction="els ordes majors">Va rebre <marker>les ordes majors</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="_GN_F." postag_regexp="yes" regexp="yes">ordes?</token>                    
+                    <token postag="AQ0[FC].*" postag_regexp="yes" inflected="yes" regexp="yes">religiós|franciscà|benedictí|jesuïta|templari|cavalleresc|militar|major|menor</token>
+                    </marker>
+                </pattern>
+                <message>En el sentit de "societat de religiosos" o de "ritu cristià", "orde" és masculí.</message>
+                <suggestion><match no="1" regexp_match="([Oo]rd)r(e.*)" regexp_replace="$1$2"/> <match no="2" postag="AQ0.(.)." postag_regexp="yes" postag_replace="AQ0[MC]$10"/></suggestion>
+                <url>http://esadir.cat/lexic/entrades/entry_20030730164326_116</url>
+                <example type="incorrect" correction="ordes religiosos"><marker>ordes religioses</marker></example>
+                <example type="incorrect" correction="orde franciscà">l'<marker>orde franciscana</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
                         <token regexp="yes">ordres?</token>
                     </marker>
                     <token skip="1">de</token>
@@ -18266,7 +18293,7 @@ $Id$
     <category name="C5) Formes de plural opcionals" default="off">
         <rule id="EXIGEIX_PLURALS_S" name="Exigeix plurals en -s: homes, joves..." default="off">
             <pattern>
-                <token regexp="yes">àsens|còvens|fréixens|hòmens|jóvens|màrgens|òrfens|(bleda-|col)?ràvens|térmens|vèrgens|(clavi)?òrguens</token>
+                <token regexp="yes">àsens|còvens|fréixens|(super)?hòmens|jóvens|(salta)?màrgens|òrfens|(bleda-|col)?ràvens|térmens|vèrgens|(clavi)?òrguens|.*órdens</token>
             </pattern>
             <message>Existeix una forma de plural en -s.</message>
             <short>Hi ha un plural en -s.</short>
@@ -18275,7 +18302,7 @@ $Id$
         </rule>
         <rule id="EXIGEIX_PLURALS_NS" name="Exigeix plurals en -ns: hòmens, jóvens..." default="off">
                 <pattern>
-                    <token regexp="yes">ases|coves|freixes|homes|joves|marges|orfes|(bleda-|col)?raves|termes|verges|(clavi)?orgues</token>
+                    <token regexp="yes">ases|coves|freixes|(super)?homes|joves|(salta)?marges|orfes|(bleda-|col)?raves|termes|verges|(clavi)?orgues|.*ordes</token>
                 </pattern>
                 <message>Existeix una forma de plural en -ns.</message>
                 <short>Hi ha un plural en -ns.</short>
