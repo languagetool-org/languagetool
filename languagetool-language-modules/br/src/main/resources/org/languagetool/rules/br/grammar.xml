@@ -7546,6 +7546,29 @@ $Id$
       <example type="incorrect">Ur <marker>c’harr-tann</marker> nevez am eus.</example>
       <example type="correct">Ur c’harr-tan nevez am eus.</example>
     </rule>
+    <rulegroup id="ENDRO" name="en-dro pe endro">
+      <rule>
+        <pattern>
+          <token regexp="yes">[au]n|hon</token>
+          <marker><token>en-dro</token></marker>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>endro</suggestion>?</message>
+        <example type="incorrect" correction="endro">Ret eo difenn an <marker>en-dro</marker>.</example>
+        <example type="correct">Ret eo difenn an endro.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">[au]n|hon</token>
+          <marker>
+            <token>en</token>
+            <token>dro</token>
+          </marker>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>endro</suggestion>?</message>
+        <example type="incorrect" correction="endro">Ret eo difenn an <marker>en dro</marker>.</example>
+        <example type="correct">Ret eo difenn an endro.</example>
+      </rule>
+    </rulegroup>
   </category>
   <!-- vim: foldmethod=marker foldmarker=<category,</category:
   -->
