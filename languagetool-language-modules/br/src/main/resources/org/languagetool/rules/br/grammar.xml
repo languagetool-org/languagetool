@@ -4947,16 +4947,26 @@ $Id$
       <example type="incorrect" correction="skiant-prenet">Ret eo dit tapout <marker>skiant prenet</marker>.</example>
       <example type="correct">Ret eo dit tapout skiant-prenet.</example>
     </rule>
-    <rule id="DEIZ_HA_BLOAZ" name="deiz ha bloaz → deiz-ha-bloaz">
-      <pattern>
-        <token regexp="yes">[dtz]eiz</token>
-        <token>ha</token>
-        <token>bloaz</token>
-      </pattern>
-      <message>Implijit <suggestion>\1-\2-\3</suggestion>.</message>
-      <example type="incorrect"><marker>Deiz ha bloaz</marker> laouen deoc’h!</example>
-      <example type="correct">Deiz-ha-bloaz laouen deoc’h!</example>
-    </rule>
+    <rulegroup id="DEIZ_HA_BLOAZ" name="deiz ha bloaz → deiz-ha-bloaz">
+      <rule>
+        <pattern>
+          <token regexp="yes">[dtz]eizh?</token>
+          <token regexp="yes">h?a</token>
+          <token regexp="yes">[bv]loazh?</token>
+        </pattern>
+        <message>Implijit <suggestion>deiz-ha-bloaz</suggestion>.</message>
+        <example type="incorrect"><marker>Deiz ha bloaz</marker> laouen deoc’h!</example>
+        <example type="correct">Deiz-ha-bloaz laouen deoc’h!</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">[dtz]eizh?-h?a-[bv]loazh?<exception>deiz-ha-bloaz</exception></token>
+        </pattern>
+        <message>Implijit <suggestion>\1-ha-bloaz</suggestion>.</message>
+        <example type="incorrect"><marker>Deiz-a-bloaz</marker> laouen deoc’h!</example>
+        <example type="correct">Deiz-ha-bloaz laouen deoc’h!</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="NEMETKEN" name="nemet ken → nemetken">
       <rule>
         <pattern>
