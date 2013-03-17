@@ -2863,7 +2863,44 @@ $Id$
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">[au][lnr]|er</token>
+          <token regexp="yes">[au][nr]|er</token>
+          <marker>
+            <and>
+              <token postag="N m [^M]*" postag_regexp="yes" inflected="yes" regexp="yes">[tpgdbm].*</token>
+              <token postag="N f [^M]*" postag_regexp="yes" inflected="yes" regexp="yes">[tpgdbm].*</token>
+            </and>
+            <token postag="J[^M]*M.*:1:.*" postag_regexp="yes" inflected="yes" regexp="yes">[ktpgdbm].*
+              <exception postag="J[^M]*" postag_regexp="yes"/>
+            </token>
+          </marker>
+        </pattern>
+        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ en anv «\2» pe ne zlefe ket bezañ ur c’hemmadur en anv gwan «\3».</message>
+        <example type="incorrect">Ur <marker>gouel vras</marker>.</example>
+        <example type="correct">Ur <marker>gouel bras</marker>.</example>
+        <example type="correct">Ur <marker>ouel vras</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">[au][nr]|er</token>
+          <marker>
+            <and>
+              <token postag="N m [^M]*M.*:(1|0a):.*" postag_regexp="yes"/>
+              <token postag="N f [^M]*M.*:(1|0a):.*" postag_regexp="yes"/>
+            </and>
+            <token postag="J[^M]*" postag_regexp="yes" regexp="yes" inflected="yes">[ktpgdbm].*
+              <exception postag="J[^M]*M.*:1:.*" postag_regexp="yes"/>
+              <exception postag="J[^M]*" postag_regexp="yes" inflected="yes" regexp="yes">[^ktpgdbm].*</exception>
+            </token>
+          </marker>
+        </pattern>
+        <message>Ne zlefe ket bezañ ur c’hemmadur en anv «\2» pe e tlefe bezañ ur c’hemmadur en anv-gwan «\3».</message>
+        <example type="incorrect">Ur <marker>ouel bras</marker>.</example>
+        <example type="correct">Ur <marker>ouel vras</marker>.</example>
+        <example type="correct">Ur <marker>gouel bras</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">[au][nr]|er</token>
           <marker>
             <token postag="N e [^M]*" postag_regexp="yes" inflected="yes" regexp="yes">[tpgdbm].*</token>
             <token postag="J[^M]*M.*:1:.*" postag_regexp="yes" inflected="yes" regexp="yes">[ktpgdbm].*
@@ -2878,7 +2915,7 @@ $Id$
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">[au][lnr]|er|hor</token>
+          <token regexp="yes">[au][nr]|er</token>
           <marker>
             <token postag="N e[^M]*M.*:(1|0a):.*" postag_regexp="yes"/>
             <token postag="J[^M]*" postag_regexp="yes" regexp="yes" inflected="yes">[ktpgdbm].*
