@@ -221,9 +221,14 @@ public class TopoReplaceRule extends Rule {
       }
       final int len = variants.size(); // prevTokensList and variants have now the same length
       for (int j = 0; j < len; j++) {  // longest words first
-        final String crt = variants.get(j);
         final int crtWordCount = len - j;
-        final String crtMatch = isCaseSensitive() ? wrongWords.get(crtWordCount - 1).get(crt) : wrongWords.get(crtWordCount- 1).get(crt.toLowerCase(getLocale()));
+        if (prevTokensList.get(len - crtWordCount).isImmunized()) {
+          continue;
+        }
+        final String crt = variants.get(j);
+        final String crtMatch = isCaseSensitive() 
+                              ? wrongWords.get(crtWordCount - 1).get(crt)
+                              : wrongWords.get(crtWordCount- 1).get(crt.toLowerCase(getLocale()));
         if (crtMatch != null) {
           final List<String> replacements = Arrays.asList(crtMatch.split("\\|"));
           String msg = crt + getSuggestion();
