@@ -231,8 +231,9 @@ public class TopoReplaceRule extends Rule {
             if (k > 0) {
               msg = msg + (k == replacements.size() - 1 ? getSuggestionsSeparator(): ", ");
             }
-            msg += "<suggestion>" + replacements.get(k) + "</suggestion>?";
+            msg += "<suggestion>" + replacements.get(k) + "</suggestion>";
           }
+          msg += "?";
           final int startPos = prevTokensList.get(len - crtWordCount).getStartPos();
           final int endPos = prevTokensList.get(len - 1).getStartPos() + prevTokensList.get(len - 1).getToken().length();
           final RuleMatch potentialRuleMatch = new RuleMatch(this, startPos, endPos, msg, getShort());
