@@ -2861,6 +2861,37 @@ $Id$
         <example type="correct">Mari gozh</example>
         <example type="correct">Azen <marker>gornek</marker> ma’z out!</example>
       </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">[au][lnr]|er</token>
+          <marker>
+            <token postag="N e [^M]*" postag_regexp="yes" inflected="yes" regexp="yes">[tpgdbm].*</token>
+            <token postag="J[^M]*M.*:1:.*" postag_regexp="yes" inflected="yes" regexp="yes">[ktpgdbm].*
+              <exception postag="J[^M]*" postag_regexp="yes"/>
+            </token>
+          </marker>
+        </pattern>
+        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ en anv «\2» pe ne zlefe ket bezañ ur c’hemmadur anv gwan «\3».</message>
+        <example type="incorrect">Un <marker>trubuilh vras</marker>.</example>
+        <example type="correct">Un trubuilh bras.</example>
+        <example type="correct">Un drubuilh vras.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">[au][lnr]|er|hor</token>
+          <marker>
+            <token postag="N e[^M]*M.*:(1|0a):.*" postag_regexp="yes"/>
+            <token postag="J[^M]*" postag_regexp="yes" regexp="yes" inflected="yes">[ktpgdbm].*
+              <exception postag="J[^M]*M.*:1:.*" postag_regexp="yes"/>
+              <exception postag="J[^M]*" postag_regexp="yes" inflected="yes" regexp="yes">[^ktpgdbm].*</exception>
+            </token>
+          </marker>
+        </pattern>
+        <message>Ne zlefe ket bezañ ur c’hemmadur en anv «\2» pe e tlefe bezañ ur c’hemmadur en anv-gwan «\3».</message>
+        <example type="incorrect">Un <marker>drubuilh bras</marker>.</example>
+        <example type="correct">Un drubuilh vras.</example>
+        <example type="correct">Un trubuilh bras.</example>
+      </rule>
     </rulegroup>
 
     <rulegroup id="AR_PAOURKAEZH" name="Ar baourkaezh den → ar paourkaezh den">
