@@ -3285,19 +3285,34 @@ $Id$
                 <example type="correct">Der wird seine zwanzig Kilo auf die <marker>Waage</marker> bringen.</example>
             </rule>
         </rulegroup>
-        <rule id="SANG_UND_KLAGLOS" name="Mögliche Wortverwechslung: klaglos/klanglos">
-            <pattern>
-                <token>sang-</token>
-                <token>und</token>
-                <marker>
-                    <token>klaglos</token>
-                </marker>
-            </pattern>
-            <message>Meinten Sie <suggestion>klanglos</suggestion>? 'sang- und klanglos' ist eine feste Wendung.</message>
-            <short>Meinten Sie 'klanglos'?</short>
-            <example type="incorrect">Sowas geht doch immer sang- und <marker>klaglos</marker> unter.</example>
-            <example type="correct">Sowas geht doch immer sang- und <marker>klanglos</marker> unter.</example>
-        </rule>
+        <rulegroup id="SANG_UND_KLAGLOS" name="Mögliche Wortverwechslung: klaglos/klanglos">
+            <rule>
+                <pattern>
+                    <token>sang-</token>
+                    <token>und</token>
+                    <marker>
+                        <token>klaglos</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>klanglos</suggestion>? 'sang- und klanglos' ist eine feste Wendung.</message>
+                <short>Meinten Sie 'klanglos'?</short>
+                <example type="incorrect">Sowas geht doch immer sang- und <marker>klaglos</marker> unter.</example>
+                <example type="correct">Sowas geht doch immer sang- und <marker>klanglos</marker> unter.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>sang</token>
+                    </marker>
+                    <token>und</token>
+                    <token>klanglos</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>sang-</suggestion>? 'sang- und klanglos' ist eine feste Wendung.</message>
+                <short>Meinten Sie 'sang-'?</short>
+                <example type="incorrect">Sowas geht doch immer <marker>sang</marker> und klanglos unter.</example>
+                <example type="correct">Sowas geht doch immer <marker>sang-</marker> und klanglos unter.</example>
+            </rule>
+        </rulegroup>
         <rule id="SPURTEN_SPUTEN" name="Mögliche Wortverwechslung: spurten/sputen">
             <pattern>
                 <token regexp="yes" skip="2">mich|dich|sich|uns|euch</token>
