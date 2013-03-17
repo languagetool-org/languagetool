@@ -1,0 +1,32 @@
+
+The tags used by the German tagger are based on Morphy. They
+are described in the PDF "Die Wortklassensysteme von Morphy" linked 
+on http://www.wolfganglezius.de/lib/exe/fetch.php?media=cl:wklassen.pdf
+
+LanguageTool will tag words by returning one string per reading.
+For example, "Baum" will be tagged with these strings:
+
+SUB:AKK:SIN:MAS
+SUB:DAT:SIN:MAS
+SUB:NOM:SIN:MAS
+
+These are abbreviations for:
+
+Substantiv, Akkusativ, Singular, Maskulinum
+Substantiv, Dativ, Singular, Maskulinum
+Substantiv, Nominativ, Singular, Maskulinum
+
+For example, if you want to have a rule that matches all adjectives use this:
+
+  <token postag_regexp="yes" postag="ADJ:.*" />
+
+For a rule that matches plural nouns use:
+
+  <token postag_regexp="yes" postag="SUB:.*:PLU:.*" />
+
+For a rule that matches singular nouns use:
+
+  <token postag_regexp="yes" postag="SUB:.*:SIN:.*" />
+
+Also try to run LanguageTool on the command line with the -v option,
+it will display how words have been tagged.
