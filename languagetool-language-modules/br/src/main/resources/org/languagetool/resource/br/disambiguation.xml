@@ -132,7 +132,7 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
       <disambig postag="L a"/>
     </rule>
   </rulegroup>
-  <rulegroup id="NA_L" name="na">
+  <rulegroup id="NA" name="na">
     <rule>
       <pattern>
         <token postag="SENT_START"/>
@@ -188,18 +188,51 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
     <rule>
       <pattern>
         <marker><token>na</token></marker>
-        <token/>
-        <token>na</token>
-        <token/>
+        <token postag="[NJ].*|V inf.*" postag_regexp="yes"/>
+        <token regexp="yes">nag?</token>
       </pattern>
       <disambig postag="C coor"/>
     </rule>
     <rule>
       <pattern>
-        <token>na</token>
-        <token/>
         <marker><token>na</token></marker>
-        <token/>
+        <token postag="[NJ].*|V inf.*" postag_regexp="yes"/>
+        <token>,</token>
+        <token regexp="yes">nag?</token>
+      </pattern>
+      <disambig postag="C coor"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token regexp="yes">na|hep</token>
+        <token postag="[NJ].*|V inf.*" postag_regexp="yes"/>
+        <marker><token>na</token></marker>
+      </pattern>
+      <disambig postag="C coor"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token regexp="yes">na|hep</token>
+        <token postag="[NJ].*|V inf.*" postag_regexp="yes"/>
+        <token>,</token>
+        <marker><token>na</token></marker>
+      </pattern>
+      <disambig postag="C coor"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token regexp="yes">n[e’]</token>
+        <token postag="V.*" postag_regexp="yes"/>
+        <marker><token>na</token></marker>
+      </pattern>
+      <disambig postag="C coor"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token regexp="yes">n[e’]</token>
+        <token postag="V.*" postag_regexp="yes"/>
+        <token>,</token>
+        <marker><token>na</token></marker>
       </pattern>
       <disambig postag="C coor"/>
     </rule>
@@ -517,4 +550,12 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
       <disambig postag="N f s"/>
     </rule>
   </rulegroup>
+
+  <rule id="FRANCE_3" name="France 3">
+    <pattern>
+      <token>France</token>
+      <token regexp="yes">[23]|Bleue</token>
+    </pattern>
+    <disambig action="immunize"/>
+  </rule>
 </rules>
