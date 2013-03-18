@@ -27,7 +27,8 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.*;
-import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.store.Directory;
+import org.apache.lucene.store.SimpleFSDirectory;
 import org.apache.lucene.util.Counter;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
@@ -36,6 +37,7 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.rules.patterns.PatternRuleLoader;
 
+import static org.languagetool.dev.index.PatternRuleQueryBuilder.*;
 import static org.languagetool.dev.wikipedia.WikipediaIndexHandler.MAX_DOC_COUNT_FIELD;
 import static org.languagetool.dev.wikipedia.WikipediaIndexHandler.MAX_DOC_COUNT_FIELD_VAL;
 import static org.languagetool.dev.wikipedia.WikipediaIndexHandler.MAX_DOC_COUNT_VALUE;
@@ -53,23 +55,29 @@ public class Searcher {
 
   private int maxHits = 1000;
   private int maxSearchTimeMillis = 5000;
+  
+  private Directory directory;
+  private IndexSearcher indexSearcher;
+  private DirectoryReader reader;
 
-  public Searcher() {
+  public Searcher(Directory directory) throws IOException {
+    //openIndex(directory);
+    this.directory = directory;
   }
 
-  public SearcherResult findRuleMatchesOnIndex(PatternRule rule, Language language, File indexDir) throws IOException {
-    final FSDirectory directory = FSDirectory.open(indexDir);
-    final DirectoryReader reader = DirectoryReader.open(directory);
-    try {
-      final IndexSearcher indexSearcher = new IndexSearcher(reader);
-      return findRuleMatchesOnIndex(rule, language, indexSearcher);
-    } finally {
+  private void open() throws IOException {
+    reader = DirectoryReader.open(directory);
+    indexSearcher = new IndexSearcher(reader);
+    //System.out.println("Opened index " + directory + " with " + indexSearcher.getIndexReader().numDocs() + " docs");
+  }
+
+  private void close() throws IOException {
+    if (reader != null) {
       reader.close();
     }
   }
-
-  public int getDocCount(File indexDir) throws IOException {
-    final FSDirectory directory = FSDirectory.open(indexDir);
+  
+  public int getDocCount() throws IOException {
     final DirectoryReader reader = DirectoryReader.open(directory);
     try {
       final IndexSearcher indexSearcher = new IndexSearcher(reader);
@@ -106,46 +114,83 @@ public class Searcher {
     this.maxSearchTimeMillis = maxSearchTimeMillis;
   }
 
-  public SearcherResult findRuleMatchesOnIndex(PatternRule rule, Language language, final IndexSearcher indexSearcher) throws IOException {
-    final PossiblyRelaxedQuery query = createQuery(rule);
-    if (query.query == null) {
-      throw new NullPointerException("Cannot search on null query for rule: " + rule);
-    }
-
-    final SearchRunnable runnable = new SearchRunnable(indexSearcher, query, language, rule);
-    final Thread searchThread = new Thread(runnable);
-    searchThread.start();
+  public SearcherResult findRuleMatchesOnIndex(PatternRule rule, Language language) throws IOException, UnsupportedPatternRuleException {
+    // it seems wasteful to re-open the index every time, but I had strange problems (OOM, Array out of bounds, ...)
+    // when not doing so...
+    open();
     try {
-      searchThread.join(maxSearchTimeMillis);
-      searchThread.interrupt();
-    } catch (InterruptedException e) {
-      throw new RuntimeException("Search thread got interrupted for query " + query, e);
+      final PatternRuleQueryBuilder patternRuleQueryBuilder = new PatternRuleQueryBuilder(language);
+      final Query query = patternRuleQueryBuilder.buildRelaxedQuery(rule);
+      if (query == null) {
+        throw new NullPointerException("Cannot search on null query for rule: " + rule.getId());
+      }
+  
+      final SearchRunnable runnable = new SearchRunnable(indexSearcher, query, language, rule);
+      final Thread searchThread = new Thread(runnable);
+      searchThread.start();
+      try {
+        // using a TimeLimitingCollector is not enough, as it doesn't cover all time required to
+        // search for a complicated regex, so interrupt the whole thread instead:
+        searchThread.join(maxSearchTimeMillis);
+        searchThread.interrupt();
+      } catch (InterruptedException e) {
+        throw new RuntimeException("Search thread got interrupted for query " + query, e);
+      }
+      if (searchThread.isInterrupted()) {
+        throw new SearchTimeoutException("Search timeout of " + maxSearchTimeMillis + "ms reached");
+      }
+      final Exception exception = runnable.getException();
+      if (exception != null) {
+        if (exception instanceof SearchTimeoutException) {
+          throw (SearchTimeoutException)exception;
+        }
+        throw new RuntimeException("Exception during search for query " + query + " on rule " + rule.getId(), exception);
+      }
+  
+      final List<MatchingSentence> matchingSentences = runnable.getMatchingSentences();
+      final int sentencesChecked = getSentenceCheckCount(query, indexSearcher);
+      final SearcherResult searcherResult = new SearcherResult(matchingSentences, sentencesChecked, query);
+      searcherResult.setDocCount(getDocCount(indexSearcher));
+      //TODO: the search itself could also timeout, don't just ignore that:
+      //searcherResult.setResultIsTimeLimited(limitedTopDocs.resultIsTimeLimited);
+      return searcherResult;
+    } finally {
+      close();
     }
-
-    if (searchThread.isInterrupted()) {
-      throw new SearchTimeoutException("Search timeout of " + maxSearchTimeMillis + "ms reached");
-    }
-
-    final Exception exception = runnable.getException();
-    if (exception != null) {
-      throw new RuntimeException("Exception during search for query " + query, exception);
-    }
-
-    final List<MatchingSentence> matchingSentences = runnable.getMatchingSentences();
-    final int sentencesChecked = getSentenceCheckCount(query, indexSearcher);
-    final SearcherResult searcherResult = new SearcherResult(matchingSentences, sentencesChecked, query);
-    searcherResult.setDocCount(getDocCount(indexSearcher));
-    //TODO: the search itself could also timeout, don't just ignore that:
-    //searcherResult.setResultIsTimeLimited(limitedTopDocs.resultIsTimeLimited);
-    return searcherResult;
   }
 
-  private PossiblyLimitedTopDocs getTopDocs(IndexSearcher indexSearcher, PossiblyRelaxedQuery query, Sort sort) throws IOException {
+  private PossiblyLimitedTopDocs getTopDocs(Query query, Sort sort) throws IOException {
     final TopFieldCollector topCollector = TopFieldCollector.create(sort, maxHits, true, false, false, false);
-    final TimeLimitingCollector collector = new TimeLimitingCollector(topCollector, Counter.newCounter(), maxSearchTimeMillis);
+    final Counter clock = Counter.newCounter(true);
+    final int waitMillis = 1000;
+    // TODO: if we interrupt the whole thread anyway, do we still need the TimeLimitingCollector?
+    final TimeLimitingCollector collector = new TimeLimitingCollector(topCollector, clock, maxSearchTimeMillis / waitMillis);
+    collector.setBaseline(0);
+    final Thread counterThread = new Thread() {
+      @Override
+      public void run() {
+        final long startTime = System.currentTimeMillis();
+        while (true) {
+          final long runTimeMillis = System.currentTimeMillis() - startTime;
+          if (runTimeMillis > maxSearchTimeMillis) {
+            // make sure there's no lingering thread for too long
+            return;
+          }
+          clock.addAndGet(1);
+          try {
+            Thread.sleep(waitMillis);
+          } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+          }
+        }
+      }
+    };
+    counterThread.setName("LuceneSearchTimeoutThread");
+    counterThread.start();
+    
     boolean timeLimitActivated = false;
     try {
-      indexSearcher.search(query.query, collector);
+      indexSearcher.search(query, collector);
     } catch (TimeLimitingCollector.TimeExceededException e) {
       timeLimitActivated = true;
     }
@@ -163,48 +208,26 @@ public class Searcher {
     throw new PatternRuleNotFoundException(ruleId, xmlRuleFile);
   }
 
-  private int getSentenceCheckCount(PossiblyRelaxedQuery query, IndexSearcher indexSearcher) {
-    final int sentencesChecked;
+  private int getSentenceCheckCount(Query query, IndexSearcher indexSearcher) {
     final int indexSize = indexSearcher.getIndexReader().numDocs();
-    if (query.isRelaxed) {
-      // unsupported rules: we actually check up to maxHits sentences:
-      sentencesChecked = Math.min(maxHits, indexSize);
-    } else {
-      // supported rules: no need to run LT (other than getting the exact match position), so we can claim
-      // that we really have checked all the sentences in the index:
-      sentencesChecked = indexSize;
-    }
+    // we actually check up to maxHits sentences:
+    // TODO: ??
+    final int sentencesChecked = Math.min(maxHits, indexSize);
     return sentencesChecked;
   }
 
   private List<MatchingSentence> findMatchingSentences(IndexSearcher indexSearcher, TopDocs topDocs, JLanguageTool languageTool) throws IOException {
     final List<MatchingSentence> matchingSentences = new ArrayList<MatchingSentence>();
-    //long t = System.currentTimeMillis();
     for (ScoreDoc match : topDocs.scoreDocs) {
       final Document doc = indexSearcher.doc(match.doc);
-      final String sentence = doc.get(PatternRuleQueryBuilder.FIELD_NAME);
+      final String sentence = doc.get(FIELD_NAME);
       final List<RuleMatch> ruleMatches = languageTool.check(sentence);
       if (ruleMatches.size() > 0) {
         final MatchingSentence matchingSentence = new MatchingSentence(sentence, ruleMatches);
         matchingSentences.add(matchingSentence);
       }
     }
-    //System.out.println(">>>" + (System.currentTimeMillis() - t) + "ms for " + topDocs.scoreDocs.length + " docs");
     return matchingSentences;
-  }
-
-  private PossiblyRelaxedQuery createQuery(PatternRule rule) {
-    final PatternRuleQueryBuilder patternRuleQueryBuilder = new PatternRuleQueryBuilder();
-    Query query;
-    boolean relaxed;
-    try {
-      query = patternRuleQueryBuilder.buildQuery(rule);
-      relaxed = false;
-    } catch (UnsupportedPatternRuleException e) {
-      query = patternRuleQueryBuilder.buildPossiblyRelaxedQuery(rule);
-      relaxed = true;
-    }
-    return new PossiblyRelaxedQuery(query, relaxed);
   }
 
   private JLanguageTool getLanguageToolWithOneRule(Language lang, PatternRule patternRule) throws IOException {
@@ -226,22 +249,6 @@ public class Searcher {
     }
   }
 
-  class PossiblyRelaxedQuery {
-
-    Query query;
-    boolean isRelaxed;
-
-    PossiblyRelaxedQuery(Query query, boolean relaxed) {
-      this.query = query;
-      isRelaxed = relaxed;
-    }
-
-    @Override
-    public String toString() {
-      return query.toString() + "[relaxed=" + isRelaxed + "]";
-    }
-  }
-
   private static void ensureCorrectUsageOrExit(String[] args) {
     if (args.length != 4) {
       System.err.println("Usage: Searcher <ruleId> <ruleXML> <languageCode> <indexDir>");
@@ -256,14 +263,14 @@ public class Searcher {
   class SearchRunnable implements Runnable {
 
     private final IndexSearcher indexSearcher;
-    private final PossiblyRelaxedQuery query;
+    private final Query query;
     private final Language language;
     private final PatternRule rule;
 
     private List<MatchingSentence> matchingSentences;
     private Exception exception;
 
-    SearchRunnable(IndexSearcher indexSearcher, PossiblyRelaxedQuery query, Language language, PatternRule rule) {
+    SearchRunnable(IndexSearcher indexSearcher, Query query, Language language, PatternRule rule) {
       this.indexSearcher = indexSearcher;
       this.query = query;
       this.language = language;
@@ -274,9 +281,16 @@ public class Searcher {
     public void run() {
       try {
         final Sort sort = new Sort(new SortField("docCount", SortField.Type.INT));  // do not sort by relevance as this will move the shortest documents to the top
-        final PossiblyLimitedTopDocs limitedTopDocs = getTopDocs(indexSearcher, query, sort);
+        final long t1 = System.currentTimeMillis();
         final JLanguageTool languageTool = getLanguageToolWithOneRule(language, rule);
+        final long langToolCreationTime = System.currentTimeMillis() - t1;
+        final long t2 = System.currentTimeMillis();
+        final PossiblyLimitedTopDocs limitedTopDocs = getTopDocs(query, sort);
+        final long luceneTime = System.currentTimeMillis() - t2;
+        final long t3 = System.currentTimeMillis();
         matchingSentences = findMatchingSentences(indexSearcher, limitedTopDocs.topDocs, languageTool);
+        System.out.println("Check done in " + langToolCreationTime + "/" + luceneTime + "/" + (System.currentTimeMillis() - t3) 
+                + "ms (LT creation/Lucene/matching) for " + limitedTopDocs.topDocs.scoreDocs.length + " docs, query " + query.toString(FIELD_NAME_LOWERCASE));
       } catch (Exception e) {
         exception = e;
       }
@@ -293,19 +307,29 @@ public class Searcher {
 
   public static void main(String[] args) throws Exception {
     ensureCorrectUsageOrExit(args);
-    final Searcher searcher = new Searcher();
-    final String ruleId = args[0];
+    final long startTime = System.currentTimeMillis();
+    final String[] ruleIds = args[0].split(",");
     final File ruleFile = new File(args[1]);
     final String languageCode = args[2];
     final Language language = Language.getLanguageForShortName(languageCode);
     final File indexDir = new File(args[3]);
-    final PatternRule rule = searcher.getRuleById(ruleId, ruleFile);
-    final SearcherResult searcherResult = searcher.findRuleMatchesOnIndex(rule, language, indexDir);
-    int i = 1;
-    for (MatchingSentence ruleMatch : searcherResult.getMatchingSentences()) {
-      System.out.println(i + ": " + ruleMatch.getSentence());
-      i++;
+    final Searcher searcher = new Searcher(new SimpleFSDirectory(indexDir));
+    for (String ruleId : ruleIds) {
+      final long ruleStartTime = System.currentTimeMillis();
+      final PatternRule rule = searcher.getRuleById(ruleId, ruleFile);
+      final SearcherResult searcherResult = searcher.findRuleMatchesOnIndex(rule, language);
+      int i = 1;
+      if (searcherResult.getMatchingSentences().size() == 0) {
+        System.out.println("[no matches]");
+      }
+      for (MatchingSentence ruleMatch : searcherResult.getMatchingSentences()) {
+        System.out.println(i + ": " + ruleMatch.getSentence());
+        i++;
+      }
+      System.out.println("Time: " + (System.currentTimeMillis() - ruleStartTime) + "ms");
+      System.out.println("==============================================================");
     }
+    System.out.println("Total time: " + (System.currentTimeMillis() - startTime) + "ms");
   }
 
 }

@@ -38,6 +38,9 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.tokenizers.SentenceTokenizer;
 
+import static org.languagetool.dev.index.PatternRuleQueryBuilder.FIELD_NAME;
+import static org.languagetool.dev.index.PatternRuleQueryBuilder.FIELD_NAME_LOWERCASE;
+
 /**
  * A class with a main() method that takes a text file and indexes its sentences, including POS tags
  * 
@@ -45,9 +48,7 @@ import org.languagetool.tokenizers.SentenceTokenizer;
  */
 public class Indexer {
 
-  private static final Version LUCENE_VERSION = Version.LUCENE_42;
-  private static final String FIELD_NAME = "field";
-  private static final String FIELD_NAME_LOWERCASE = "fieldLowercase";
+  private static final Version LUCENE_VERSION = Version.LUCENE_41;
 
   private final IndexWriter writer;
   private final SentenceTokenizer sentenceTokenizer;
@@ -150,7 +151,7 @@ public class Indexer {
     type.setIndexed(true);
     type.setTokenized(true);
     doc.add(new Field(FIELD_NAME, sentence, type));
-    doc.add(new Field(FIELD_NAME_LOWERCASE, sentence.toLowerCase(), type));
+    doc.add(new Field(FIELD_NAME_LOWERCASE, sentence, type));
     if (docCount != -1) {
       final FieldType countType = new FieldType();
       countType.setStored(true);
@@ -164,10 +165,4 @@ public class Indexer {
     writer.close();
   }
 
-  class DoNotUseAnalyzer extends Analyzer {
-    @Override
-    protected TokenStreamComponents createComponents(String s, Reader reader) {
-      throw new RuntimeException("This analyzer is not supposed to be called");
-    }
-  }
 }

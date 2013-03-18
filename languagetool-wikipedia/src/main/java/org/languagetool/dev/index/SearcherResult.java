@@ -18,6 +18,8 @@
  */
 package org.languagetool.dev.index;
 
+import org.apache.lucene.search.Query;
+
 import java.util.List;
 
 /**
@@ -27,15 +29,15 @@ public class SearcherResult {
 
   private final List<MatchingSentence> matchingSentences;
   private final int checkedSentences;
-  private final Searcher.PossiblyRelaxedQuery possiblyRelaxedQuery;
+  private final Query relaxedQuery;
 
   private boolean resultIsTimeLimited;
   private int docCount;
 
-  public SearcherResult(List<MatchingSentence> matchingSentences, int checkedSentences, Searcher.PossiblyRelaxedQuery relaxedQuery) {
+  public SearcherResult(List<MatchingSentence> matchingSentences, int checkedSentences, Query relaxedQuery) {
     this.matchingSentences = matchingSentences;
     this.checkedSentences = checkedSentences;
-    this.possiblyRelaxedQuery = relaxedQuery;
+    this.relaxedQuery = relaxedQuery;
   }
 
   public List<MatchingSentence> getMatchingSentences() {
@@ -46,12 +48,8 @@ public class SearcherResult {
     return checkedSentences;
   }
 
-  public Searcher.PossiblyRelaxedQuery getPossiblyRelaxedQuery() {
-    return possiblyRelaxedQuery;
-  }
-
-  public boolean isRelaxedQuery() {
-    return possiblyRelaxedQuery.isRelaxed;
+  public Query getRelaxedQuery() {
+    return relaxedQuery;
   }
 
   public boolean isResultIsTimeLimited() {

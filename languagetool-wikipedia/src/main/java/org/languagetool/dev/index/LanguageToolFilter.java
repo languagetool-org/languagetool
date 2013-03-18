@@ -137,7 +137,11 @@ public final class LanguageToolFilter extends TokenFilter {
     }
 
     current = captureState();
-    termAtt.append(tr.getAnalyzedToken(0).getToken());
+    if (toLowerCase) {
+      termAtt.append(tr.getAnalyzedToken(0).getToken().toLowerCase());
+    } else {
+      termAtt.append(tr.getAnalyzedToken(0).getToken());
+    }
 
     return true;
 
