@@ -93,7 +93,10 @@ public class CatalanWordTokenizer implements Tokenizer {
 	public List<String> tokenize(final String text) {
 		final List<String> l = new ArrayList<String>();
 		final StringTokenizer st = new StringTokenizer(
-				text.replaceAll("([\\p{L}])['’]([\\p{L}])", "$1##CA_APOS##$2")
+				text
+				    // allows correcting typographical errors in "ela geminada"
+            .replaceAll("([aeiouàéèíóòúïü])l[.\u2022-]l([aeiouàéèíóòúïü])", "$1##ELA_GEMINADA##$2")
+            .replaceAll("([\\p{L}])['’]([\\p{L}])", "$1##CA_APOS##$2")
 						// Cases: d'1 km, és l'1 de gener, és d'1.4 kg
 						.replaceAll("([dlDL])['’](1[\\s\\.,])", "$1##CA_APOS##$2")
 				         //it's necessary for words like "vint-i-quatre"
@@ -101,9 +104,7 @@ public class CatalanWordTokenizer implements Tokenizer {
 						.replaceAll("([\\p{L}])-([\\p{L}\\d])", "$1##CA_HYPHEN##$2")
 						.replaceAll("([\\d])\\.([\\d])", "$1##CA_DECIMALPOINT##$2")
 						.replaceAll("([\\d]),([\\d])","$1##CA_DECIMALCOMMA##$2")
-						.replaceAll("([\\d]) ([\\d])","$1##CA_SPACE##$2")
-						// allows correcting typographical errors in "ela geminada"
-						.replaceAll("l\\.l", "##ELA_GEMINADA##"), 
+						.replaceAll("([\\d]) ([\\d])","$1##CA_SPACE##$2"), 
 				"\u0020\u00A0\u115f\u1160\u1680"
 						+ "\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007"
 						+ "\u2008\u2009\u200A\u200B\u200c\u200d\u200e\u200f"

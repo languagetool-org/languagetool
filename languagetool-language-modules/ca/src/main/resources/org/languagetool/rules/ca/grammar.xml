@@ -4068,6 +4068,17 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions">
+    	<rule id="CERO" name="cero/zero">
+    		<pattern>
+                <marker>
+                    <token regexp="yes">ceros?</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="cero(s?)" regexp_replace="zero$1" /></suggestion> (nombre) en lloc de "<match no="1"/>" (variant de "cérvol").</message>
+			<short>Possible confusió</short>
+			<example type="incorrect" correction="zero">Té un valor de <marker>cero</marker>.</example>
+			<example type="correct">Té un valor de zero.</example>
+    	</rule>
     	<rule id="SERIEM" name="seriem/seríem">
     		<pattern>
     			<token regexp="yes">serie[mu]</token>
@@ -9514,16 +9525,18 @@ $Id$
         </rule>
     </category>
     <category name="A1) Ortotipografia">
-        <!-- <rule id="ELA_GEMINADA" name="Errors en la ela geminada.">
+        <rule id="ELA_GEMINADA" name="Errors en la ela geminada.">
             <pattern case_sensitive="no">
                 <marker>
-                    <token regexp="yes">.+l\.l.+</token>
+                    <token regexp="yes">.*[aeiouàéèíóòúïü]l[•.\-]l[aeiouàéèíóòúïü].*</token>
                 </marker>
             </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(.+l)\.(l.+)" regexp_replace="$1·$2"/></suggestion></message>
+            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(.+l)[•.-](l.+)" regexp_replace="$1·$2"/></suggestion></message>
+            <example type="incorrect" correction="sol·licitud">La <marker>sol•licitud</marker>.</example>
+            <example type="incorrect" correction="sol·licitud">La <marker>sol-licitud</marker>.</example>
             <example type="incorrect" correction="sol·licitud">La <marker>sol.licitud</marker>.</example>
             <example type="correct">la col·laboració</example>
-        </rule> -->
+        </rule>
         <rule id="ESPAI_DESPRES_DE_PUNT" name="Comprova que hi ha espai deprés de punt.">
             <pattern>
                 <marker>
