@@ -30,6 +30,7 @@ import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.SimpleFSDirectory;
 import org.apache.lucene.util.Counter;
+import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.Rule;
@@ -223,7 +224,8 @@ public class Searcher {
       final String sentence = doc.get(FIELD_NAME);
       final List<RuleMatch> ruleMatches = languageTool.check(sentence);
       if (ruleMatches.size() > 0) {
-        final MatchingSentence matchingSentence = new MatchingSentence(sentence, ruleMatches);
+        final AnalyzedSentence analyzedSentence = languageTool.getAnalyzedSentence(sentence);
+        final MatchingSentence matchingSentence = new MatchingSentence(sentence, analyzedSentence, ruleMatches);
         matchingSentences.add(matchingSentence);
       }
     }

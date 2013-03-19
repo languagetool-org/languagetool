@@ -20,6 +20,7 @@ package org.languagetool.dev.index;
 
 import java.util.List;
 
+import org.languagetool.AnalyzedSentence;
 import org.languagetool.rules.RuleMatch;
 
 /**
@@ -28,15 +29,21 @@ import org.languagetool.rules.RuleMatch;
 public class MatchingSentence {
 
   private final String sentence;
+  private final AnalyzedSentence analyzedSentence;
   private final List<RuleMatch> ruleMatches;
 
-  MatchingSentence(String sentence, List<RuleMatch> ruleMatches) {
+  MatchingSentence(String sentence, AnalyzedSentence analyzedSentence, List<RuleMatch> ruleMatches) {
     this.sentence = sentence;
+    this.analyzedSentence = analyzedSentence;
     this.ruleMatches = ruleMatches;
   }
 
   public String getSentence() {
     return sentence;
+  }
+
+  public AnalyzedSentence getAnalyzedSentence() {
+    return analyzedSentence;
   }
 
   public List<RuleMatch> getRuleMatches() {
