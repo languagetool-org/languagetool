@@ -235,9 +235,9 @@ public class TextConverter
 	
 	public void visit(ExternalLink link)
 	{
-		write('[');
+		/*write('[');
 		write(extLinkNum++);
-		write(']');
+		write(']');*/
 	}
 	
 	public void visit(InternalLink link)
