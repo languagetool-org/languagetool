@@ -26,6 +26,7 @@ import java.util.ResourceBundle;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
+import org.languagetool.tools.StringTools;
 
 /**
  * Check if there is duplicated whitespace in a sentence.
@@ -65,9 +66,11 @@ public class WhitespaceRule extends Rule {
     while (i < tokens.length) {
       final boolean tokenIsTab = tokens[i].getToken().equals("\t");
       final boolean prevTokenIsLinebreak = tokens[i -1].isLinebreak();
-      if (tokens[i].isWhitespace() && prevWhite && !tokenIsTab && !prevTokenIsLinebreak) {
+      if ((tokens[i].isWhitespace() || 
+              StringTools.isNonBreakingWhitespace(tokens[i].getToken())) && prevWhite && !tokenIsTab && !prevTokenIsLinebreak) {
         final int pos = tokens[i -1].getStartPos();
-        while (i < tokens.length && tokens[i].isWhitespace()) {
+        while (i < tokens.length && (tokens[i].isWhitespace() || 
+                StringTools.isNonBreakingWhitespace(tokens[i].getToken()))) {
           prevLen += tokens[i].getToken().length();
           i++;
         }
@@ -77,7 +80,7 @@ public class WhitespaceRule extends Rule {
         ruleMatches.add(ruleMatch);
       }
       if (i < tokens.length) {
-        prevWhite = tokens[i].isWhitespace();
+        prevWhite = tokens[i].isWhitespace() || StringTools.isNonBreakingWhitespace(tokens[i].getToken());
         prevLen = tokens[i].getToken().length();
         prevPos = tokens[i].getStartPos();
         i++;

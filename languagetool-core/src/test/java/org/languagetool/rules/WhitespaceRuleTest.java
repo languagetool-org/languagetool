@@ -52,6 +52,7 @@ public class WhitespaceRuleTest extends TestCase {
     assertEquals(1, matches.length);
     assertEquals(4, matches[0].getFromPos());
     assertEquals(6, matches[0].getToPos());
+    
     matches = rule.match(langTool.getAnalyzedSentence("This is a test   sentence."));
     assertEquals(1, matches.length);
     assertEquals(14, matches[0].getFromPos());
@@ -66,6 +67,11 @@ public class WhitespaceRuleTest extends TestCase {
     assertEquals(20, matches[2].getToPos());
     matches = rule.match(langTool.getAnalyzedSentence("\t\t\t    \t\t\t\t  "));
     assertEquals(1, matches.length);
+    //with non-breakable spaces
+    matches = rule.match(langTool.getAnalyzedSentence("This \u00A0is a test sentence."));
+    assertEquals(1, matches.length);
+    assertEquals(4, matches[0].getFromPos());
+    assertEquals(6, matches[0].getToPos());    
   }
 
 }
