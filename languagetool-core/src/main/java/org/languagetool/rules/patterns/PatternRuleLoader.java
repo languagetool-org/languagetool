@@ -36,6 +36,8 @@ import org.xml.sax.helpers.DefaultHandler;
  */
 public class PatternRuleLoader extends DefaultHandler {
 
+  private boolean relaxedMode = false;
+
   /**
    * @param file XML file with pattern rules
    */
@@ -50,12 +52,22 @@ public class PatternRuleLoader extends DefaultHandler {
   }
 
   /**
+   * If set to true, don't throw an exception if id or name is not set.
+   * Used for online rule editor.
+   * @since 2.1
+   */
+  public void setRelaxedMode(boolean relaxedMode) {
+    this.relaxedMode = relaxedMode;
+  }
+
+  /**
    * @param is stream with the XML rules
    * @param filename used only for verbose exception message - should refer to where the stream comes from
    */
   public final List<PatternRule> getRules(final InputStream is, final String filename) throws IOException {
     try {
       final PatternRuleHandler handler = new PatternRuleHandler();
+      handler.setRelaxedMode(relaxedMode);
       final SAXParserFactory factory = SAXParserFactory.newInstance();
       final SAXParser saxParser = factory.newSAXParser();
       saxParser.getXMLReader().setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);

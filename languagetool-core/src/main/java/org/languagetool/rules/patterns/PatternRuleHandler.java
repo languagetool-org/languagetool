@@ -47,6 +47,17 @@ public class PatternRuleHandler extends XMLRuleHandler {
   private int startPos = -1;
   private int endPos = -1;
   private int tokenCountForMarker = 0;
+  
+  private boolean relaxedMode = false;
+
+  /**
+   * If set to true, don't throw an exception if id or name is not set.
+   * Used for online rule editor.
+   * @since 2.1
+   */
+  void setRelaxedMode(boolean relaxedMode) {
+    this.relaxedMode = relaxedMode;
+  }
 
   // ===========================================================
   // SAX DocumentHandler methods
@@ -201,6 +212,12 @@ public class PatternRuleHandler extends XMLRuleHandler {
     } else if (RULE.equals(qName)) {
       suggestionMatchesOutMsg = addLegacyMatches(suggestionMatchesOutMsg,suggestionsOutMsg.toString(),false);
       phraseElementInit();
+      if (relaxedMode && id == null) {
+        id = "";
+      }
+      if (relaxedMode && name == null) {
+        name = "";
+      }
       if (phraseElementList.isEmpty()) {
         final PatternRule rule = new PatternRule(id, language, elementList,
                 name, message.toString(), shortMessage.toString(), suggestionsOutMsg.toString());
