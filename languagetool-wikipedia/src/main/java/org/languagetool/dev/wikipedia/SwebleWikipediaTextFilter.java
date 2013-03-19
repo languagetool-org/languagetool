@@ -32,14 +32,25 @@ public class SwebleWikipediaTextFilter implements TextFilter {
 
   private static final int WRAP_COL = Integer.MAX_VALUE;
 
+  private final SimpleWikiConfiguration config;
+  private final Compiler compiler;
+  private final PageId pageId;
+  
+  public SwebleWikipediaTextFilter() {
+    try {
+      config = new SimpleWikiConfiguration(
+              "classpath:/org/languagetool/resource/dev/SimpleWikiConfiguration.xml");
+      compiler = new Compiler(config);
+      final PageTitle pageTitle = PageTitle.make(config, "fileTitle");
+      pageId = new PageId(pageTitle, -1);
+    } catch (Exception e) {
+      throw new RuntimeException("Could not set up text filter", e);
+    }
+  }
+
   @Override
   public String filter(String wikiText) {
     try {
-      final SimpleWikiConfiguration config = new SimpleWikiConfiguration(
-              "classpath:/org/languagetool/resource/dev/SimpleWikiConfiguration.xml");
-      final Compiler compiler = new Compiler(config);
-      final PageTitle pageTitle = PageTitle.make(config, "fileTitle");
-      final PageId pageId = new PageId(pageTitle, -1);
       final CompiledPage compiledPage = compiler.postprocess(pageId, wikiText, null);
       final TextConverter textConverter = new TextConverter(config, WRAP_COL);
       return (String) textConverter.go(compiledPage.getPage());

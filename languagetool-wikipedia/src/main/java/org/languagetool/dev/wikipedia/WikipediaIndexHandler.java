@@ -102,9 +102,15 @@ public class WikipediaIndexHandler extends DefaultHandler {
         throw new DocumentLimitReachedException(end);
       }
       try {
-        final String textToCheck = textFilter.filter(text.toString());
-        if (!textToCheck.contains("#REDIRECT") && !textToCheck.trim().equals("")) {
-          indexer.index(textToCheck, false, articleCount);
+        final String textToCheck;
+        try {
+          textToCheck = textFilter.filter(text.toString());
+          if (!textToCheck.contains("#REDIRECT") && !textToCheck.trim().equals("")) {
+            indexer.index(textToCheck, false, articleCount);
+          }
+        } catch (Exception e) {
+          System.err.println("Exception when filtering '" + title + "' - skipping file. Stacktrace follows:");
+          e.printStackTrace();
         }
       } catch (Exception e) {
         throw new RuntimeException("Failed checking article " + articleCount, e);
