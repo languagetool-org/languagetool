@@ -178,15 +178,15 @@ $Id$
     </category>
     
     <category name="Пунктуация">
-        <rulegroup default="on" id="Prep_i" name="Пропущена запятая перед предлгом «и» в сложном предложении">
+        <rulegroup default="off" id="Prep_i" name="Пропущена запятая перед предлгом «и» в сложном предложении">
             <rule>     
                 <pattern>
-                    <!--           NN:.*   VB:.*    и      NN:.*   VB:.*   -->
+                    <!--           NN:.*   VB:.*    и      NN:.*   VB:.*       TODO: Need improve    -->
                     <marker>
-                        <token postag="VB:.*" postag_regexp="yes" skip="-1"></token>           
+                        <token postag="VB:.*" postag_regexp="yes" ></token>           
                         <token postag="NN:.*" postag_regexp="yes" skip="-1"><exception regexp="yes" scope="next">,|-</exception></token>
                         <token skip="-1">и</token>
-                        <token postag="VB:.*" postag_regexp="yes" skip="-1"></token>           
+                        <token postag="VB:.*" postag_regexp="yes" ></token>           
                         <token postag="NN:.*" postag_regexp="yes" ></token>
                     </marker>              
                 </pattern>
