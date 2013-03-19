@@ -2810,7 +2810,7 @@ $Id$
                     </marker>
                     <token postag="[AR].*|V.P.*" postag_regexp="yes"><exception regexp="yes">abans|ja|on|quan|que|com|menys|doncs|però|ara|emperò|ans</exception><exception postag="N.[MC][SN].*" postag_regexp="yes"/></token>
                 </pattern>
-                <message>Davant d'adjectiu o adverbi cal escriure <suggestion>tan</suggestion>. Correcte en la loc. distributiva "tant... com...".</message>
+                <message>Davant d'adjectiu o adverbi cal escriure <suggestion>tan</suggestion>.</message>
                 <short>Confusió.</short>
                 <example type="incorrect">És <marker>tant</marker> bonic.</example>
                 <example type="incorrect" correction="tan">Han estat <marker>tant</marker> elogiats.</example>
@@ -9788,6 +9788,18 @@ $Id$
         </rulegroup>
     </category>
     <category name="Expressions">
+    	<rule id="TENIR_EN_MENT" name="	tenir en ment">
+	    		<pattern>
+	    			<token skip="1" inflected="yes">tenir</token>
+	    			<token>en</token>
+	    			<token>ment</token>
+	    		</pattern>
+	    		<message>Expressió incorrecta.</message>
+	    		<suggestion><match no="1" include_skipped="all"/> al cap</suggestion>
+	    		<suggestion><match no="1" include_skipped="all"/> present</suggestion>
+	    		<example type="incorrect" correction="tenia sempre al cap|tenia sempre present">Ho <marker>tenia sempre en ment</marker>.</example>
+	    		<example type="correct">Ho tinc present.</example>
+	    	</rule>
     	<rule id="VENIR_EN_GANA" name="venir en gana">
 	    		<pattern>
 	    			<token skip="1" inflected="yes">venir</token>
@@ -14431,6 +14443,33 @@ $Id$
                 <example type="correct">Se sentia afeblit</example>
             </rule>
         </rulegroup>
+        <rulegroup id="PROVAR_TASTAR" name="provar / tastar">
+            <!-- es pot completar amb més paraules -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes" skip="7">provar</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">menjar|vi|aliment|carn|pa|pastís</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">tastar</match></suggestion> en lloc de "<match no="1"/>"?</message>
+                <short>Possible confusió</short>
+                <example type="incorrect" correction="tastar">No va voler <marker>provar</marker> la carn.</example>
+                <example type="correct">doblegà el full</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes" skip="7">menjar|vi|aliment|carn|pa|pastís</token>
+                    <marker>
+                        <token inflected="yes">provar</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">tastar</match></suggestion> en lloc de "<match no="2"/>"?</message>
+                <short>Possible confusió</short>
+                <example type="incorrect" correction="tastà">El vi no el <marker>provà</marker>.</example>
+                <example type="correct">Tasta el vi.</example>
+            </rule>
+        </rulegroup> 
         <rulegroup id="DOBLAR_DOBLEGAR" name="doblar / doblegar">
             <!-- es pot completar amb més paraules -->
             <rule>
