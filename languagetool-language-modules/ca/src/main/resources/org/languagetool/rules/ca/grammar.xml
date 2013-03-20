@@ -13207,6 +13207,22 @@ $Id$
     </category>
     <category name="C4) Construccions desaconsellades per alguns manuals d'estil" default="off">
     <!-- Expressions condemnades per alguns manuals d'estil de manera no sempre justifiada -->
+    	<rule id="ALS_EFECTES_DE" name="als efectes de">
+    		<pattern>
+    			<marker>
+	    			<token>a</token>
+	    			<token>ls</token>
+	    			<token>efectes</token>
+    			</marker>
+    			<token regexp="yes">de|d'</token>
+    			<token postag="V.N.*" postag_regexp="yes"/>
+    		</pattern>
+    		<message>Expressió incorrecta.</message>
+    		<suggestion>a l'efecte</suggestion>
+    		<short>Expressió incorrecta</short>
+    		<example type="incorrect" correction="A l'efecte"><marker>Als efectes</marker> de permetre-ho.</example>
+    		<example type="correct">Es deu als efectes de la radiació</example>
+    	</rule>
         <rulegroup id="ESTAR_DE_MES" name="*estar de més">
             <rule>
                 <pattern>
@@ -13641,13 +13657,14 @@ $Id$
         	<rule>
         		<pattern>
 	        		<marker>
-	        			<token>número</token>
+	        			<token skip="1">número</token>
 	        		</marker>
 	        		<token regexp="yes">de|d'</token>
 	        		<token postag="N..P.*" postag_regexp="yes"/>
         		</pattern>
         		<message>En el sentit de "quantitat" cal dir <suggestion>nombre</suggestion>.</message>
         		<example type="incorrect" correction="nombre">un gran <marker>número</marker> de ciutadans</example>
+        		<example type="incorrect" correction="nombre">És preferible un <marker>número</marker> reduït de regidors.</example>
         		<example type="correct">el número de la seguretat social</example>
         	</rule>      	
         </rulegroup>
@@ -18405,7 +18422,15 @@ $Id$
             </rule>
         </rulegroup>
     </category>
-    <category name="C5) Formes de plural opcionals" default="off">
+    <category name="C5) Formes de plural opcionals" default="on">
+    	<rule id="AQUESTOS" name="exigeix la forma 'aquests' en lloc de 'aquestos'">
+		    <pattern>
+		        <token>aquestos</token>
+		    </pattern>
+		    <message>És preferible usar la forma: <suggestion>aquests</suggestion>.</message>
+		    <example type="incorrect" correction="aquests">En <marker>aquestos</marker> casos</example>
+		    <example type="correct">En aquests casos</example>
+		</rule>
         <rule id="EXIGEIX_PLURALS_S" name="Exigeix plurals en -s: homes, joves..." default="off">
             <pattern>
                 <token regexp="yes">àsens|còvens|fréixens|(super)?hòmens|jóvens|(salta)?màrgens|òrfens|(bleda-|col)?ràvens|térmens|vèrgens|(clavi)?òrguens|.*órdens</token>
