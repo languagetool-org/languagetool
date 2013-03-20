@@ -1852,9 +1852,13 @@ $Id$
                     </marker>
                     <token postag="V.N.*" postag_regexp="yes"/>
                 </pattern>
-                <message>¿Volíeu dir <suggestion><match no="1" postag="..(.{5})" postag_regexp="yes" postag_replace="VM$1">caldre</match></suggestion>?</message>
-                <example type="incorrect"><marker>és precís</marker> fer-ho</example>
-                <example type="correct">cal fer-ho</example>
+                <message>Incorrecte com a perífrasi d'obligació</message>
+                <suggestion><match no="1" postag="..(.+)" postag_regexp="yes" postag_replace="VM$1">caldre</match></suggestion>
+                <suggestion><match no="1"/> necessari</suggestion>
+                <suggestion><match no="1"/> forçós</suggestion>
+                <suggestion><match no="1"/> imperiós</suggestion>
+                <example type="incorrect" correction="Cal|És necessari|És forçós|És imperiós"><marker>És precís</marker> fer-ho</example>
+                <example type="correct">Cal fer-ho</example>
             </rule>
             <rule id="HI_HA_QUE" name="Incorrecte: «haver-hi que»">
                 <pattern>
@@ -10117,6 +10121,7 @@ $Id$
                 <suggestion>(exterminar)</suggestion>
                 <suggestion>(aniquilar)</suggestion>
                 <suggestion>(liquidar)</suggestion>
+                <suggestion>(resoldre)</suggestion>
                 <short>Expressió incorrecta</short>
                 <example type="incorrect">Va contribuir a <marker>acabar amb</marker> el problema.</example>
                 <example type="correct">acostuma a acabar amb un fort plaer</example>
@@ -10157,7 +10162,10 @@ $Id$
                     <token>suec</token>
                 </marker>
             </pattern>
-            <message>Cal dir: <suggestion>l'orni</suggestion>, <suggestion>el pagès</suggestion>. </message>
+            <message>Expressió incorrecta.</message> 
+            <suggestion>l'orni</suggestion>
+            <suggestion>el pagès</suggestion>
+            <suggestion>el distret</suggestion>
             <short>Expressió incorrecta</short>
             <example type="incorrect">va fer <marker>el suec</marker></example>
             <example type="correct">va fer l'orni</example>
@@ -10174,6 +10182,7 @@ $Id$
             <message>Expressió incorrecta.</message>
             <suggestion>pastar fang</suggestion>
             <suggestion>la porra</suggestion>
+            <suggestion>prendre la fresca</suggestion>
             <example type="incorrect">L'envià a <marker>fregir espàrrecs</marker>.</example>
             <example type="incorrect">Vés a <marker>fregir espàrrecs</marker>.</example>
             <example type="correct">El va enviar a pastar fang</example>
@@ -12972,8 +12981,10 @@ $Id$
                 <token regexp="yes">davant|endavant</token>
                 <token>que</token>
             </pattern>
-            <message>Expressió incorrecta. <suggestion>Val a dir que</suggestion>, <suggestion>Cal advertir que</suggestion>, 
-                <suggestion>Primer de tot cal dir que</suggestion>.</message>
+            <message>Expressió incorrecta.</message>
+            <suggestion>Val a dir que</suggestion>
+            <suggestion>Cal advertir que</suggestion> 
+            <suggestion>Primer de tot cal dir que</suggestion>
             <example type="incorrect"><marker>Vagi per endavant que</marker> estic en contra d'aquestes dues idees</example>
             <example type="correct">val a dir que</example>
         </rule>
@@ -16916,7 +16927,8 @@ $Id$
                 <suggestion>sense encís</suggestion>
                 <suggestion><match no="1" regexp_match="desangela(.+)" regexp_replace="apaga$1" /></suggestion>
                 <suggestion><match no="1" regexp_match="desangela[td](.*)" regexp_replace="fred$1" /></suggestion>
-                <example type="incorrect">Una casa <marker>desangelada</marker>.</example>
+                <suggestion><match no="1" postag="AQ0(..)0" postag_regexp="yes" postag_replace="AQ0$10">gris</match></suggestion>
+                <example type="incorrect" correction="sense encant|sense gràcia|sense encís|apagada|freda|grisa">Una casa <marker>desangelada</marker>.</example>
                 <example type="correct">Una casa sense gràcia.</example>
             </rule>
             <rule id="SENTINELLA" name="sentinel·la">
