@@ -108,6 +108,19 @@ $Id$
             <example type="correct"><marker>Ihm</marker> folgt Merkel.</example>
             <example type="correct"><marker>Im<marker> gleichen T-Shirt sah er besser aus.</example>
         </rule>-->
+        <rule id="ETWAS_ZAHL" name="Möglicher Tippfehler: 'etwas (etwa) [Zahl]'">
+            <pattern>
+                <marker>
+                    <token>etwas</token>
+                </marker>
+                <token regexp="yes">[0-9]+</token>
+                <token negate="yes">mal</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>etwa</suggestion>?</message>
+            <example type="incorrect">Es gibt <marker>etwas</marker> 24 bis 25 Millionen Wikipedia-Artikel</example>
+            <example type="correct">Es gibt <marker>etwa</marker> 24 bis 25 Millionen Wikipedia-Artikel</example>
+            <example type="correct">Etwas 16 mal 10 nehmen.</example>
+        </rule>
         <rulegroup id="AUFFUEHREN_AUSFUEHREN" name="Möglicher Tippfehler: 'aufführen (ausführen)' etc.">
             <rule>
                 <pattern case_sensitive="yes">
