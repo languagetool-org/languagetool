@@ -9950,13 +9950,14 @@ $Id$
             </rule>
             <rule>
             	<pattern>
-				<token regexp="yes">M*(D?C{0,3}|C[DM])(L?X{0,3}|X[LC])(V?I{0,3}|I[VX])|\d+<exception postag="SENT_START"/></token>
+				<token regexp="yes">M*(D?C{0,3}|C[DM])(L?X{0,3}|X[LC])(V?I{0,3}|I[VX])|\d+<exception postag="SENT_START"/><exception>i</exception></token>
 				<marker><token>w</token></marker>				
 				<token><exception>.</exception></token>
 			</pattern>
 			<message>Prawdopodobnie brak kropki: <suggestion>\2.</suggestion></message>
 			<short>Brak kropki</short>
 			<example type="correct">Działo się to w XVII w.</example>
+			<example type="correct">To środowisko, które widzi użytkownik i w którym pracuje.</example>
 			<example type="incorrect" correction="w.">Na początku XVII <marker>w</marker> chłopi byli warstwą uciskaną.</example> 
             </rule>
         </rulegroup>
