@@ -5058,16 +5058,16 @@ $Id$
           <token regexp="yes">h?a</token>
           <token regexp="yes">[bv]loazh?</token>
         </pattern>
-        <message>Implijit <suggestion>deiz-ha-bloaz</suggestion>.</message>
-        <example type="incorrect"><marker>Deiz ha bloaz</marker> laouen deoc’h!</example>
+        <message>Implijit <suggestion><match no="1" regexp_match="^(.).*" regexp_replace="$1eiz-ha-bloaz"/></suggestion>.</message>
+        <example type="incorrect" correction="Deiz-ha-bloaz"><marker>Deiz ha bloaz</marker> laouen deoc’h!</example>
         <example type="correct">Deiz-ha-bloaz laouen deoc’h!</example>
       </rule>
       <rule>
         <pattern>
           <token regexp="yes">[dtz]eizh?-h?a-[bv]loazh?<exception>deiz-ha-bloaz</exception></token>
         </pattern>
-        <message>Implijit <suggestion>\1-ha-bloaz</suggestion>.</message>
-        <example type="incorrect"><marker>Deiz-a-bloaz</marker> laouen deoc’h!</example>
+        <message>Implijit <suggestion><match no="1" regexp_match="^(.).*" regexp_replace="$1eiz-ha-bloaz"/></suggestion>.</message>
+        <example type="incorrect" correction="Deiz-ha-bloaz"><marker>Deiz-a-bloaz</marker> laouen deoc’h!</example>
         <example type="correct">Deiz-ha-bloaz laouen deoc’h!</example>
       </rule>
     </rulegroup>
@@ -5078,7 +5078,7 @@ $Id$
           <token>ken</token>
         </pattern>
         <message>Implijit <suggestion>\1\2</suggestion>.</message>
-        <example type="incorrect">E brezhoneg <marker>nemet ken</marker>.</example>
+        <example type="incorrect" correction="nemetken">E brezhoneg <marker>nemet ken</marker>.</example>
         <example type="correct">E brezhoneg <marker>nemetken</marker>.</example>
       </rule>
       <rule>
@@ -5120,7 +5120,7 @@ $Id$
           </marker>
         </pattern>
         <message>Implijit <suggestion>\2-\3</suggestion>.</message>
-        <example type="incorrect">Ma <marker>lunedoù me</marker>.</example>
+        <example type="incorrect" correction="lunedoù-me">Ma <marker>lunedoù me</marker>.</example>
         <example type="correct">Ma lunedoù-me.</example>
       </rule>
       <rule>
@@ -5132,7 +5132,7 @@ $Id$
           </marker>
         </pattern>
         <message>Implijit <suggestion>\2-\3</suggestion>.</message>
-        <example type="incorrect">Da <marker>lunedoù te</marker>.</example>
+        <example type="incorrect" correction="lunedoù-te">Da <marker>lunedoù te</marker>.</example>
         <example type="correct">Da lunedoù-te.</example>
       </rule>
       <rule>
@@ -5144,7 +5144,7 @@ $Id$
           </marker>
         </pattern>
         <message>Implijit <suggestion>\2-\3</suggestion>.</message>
-        <example type="incorrect">He <marker>lunedoù hi</marker>.</example>
+        <example type="incorrect" correction="lunedoù-hi">He <marker>lunedoù hi</marker>.</example>
         <example type="correct">He lunedoù-hi.</example>
       </rule>
       <rule>
@@ -5156,7 +5156,7 @@ $Id$
           </marker>
         </pattern>
         <message>Implijit <suggestion>\2-\3</suggestion>.</message>
-        <example type="incorrect">Hol <marker>lunedoù ni</marker>.</example>
+        <example type="incorrect" correction="lunedoù-ni">Hol <marker>lunedoù ni</marker>.</example>
         <example type="correct">Hol lunedoù-ni.</example>
       </rule>
       <rule>
@@ -5168,7 +5168,7 @@ $Id$
           </marker>
         </pattern>
         <message>Implijit <suggestion>\2-\3</suggestion>.</message>
-        <example type="incorrect">Ho <marker>lunedoù c’hwi</marker>.</example>
+        <example type="incorrect" correction="lunedoù-c’hwi">Ho <marker>lunedoù c’hwi</marker>.</example>
         <example type="correct">Ho lunedoù-c’hwi.</example>
       </rule>
     </rulegroup>
@@ -5177,8 +5177,8 @@ $Id$
         <token regexp="yes">vi|vioù</token>
         <token>koukoug</token>
       </pattern>
-      <message>Implijit <suggestion>\2-\3</suggestion>.</message>
-      <example type="incorrect">Ur <marker>vi koukoug</marker> en deus graet.</example>
+      <message>Implijit <suggestion>\1-\2</suggestion>.</message>
+      <example type="incorrect" correction="vi-koukoug">Ur <marker>vi koukoug</marker> en deus graet.</example>
       <example type="correct">Ur <marker>vi-koukoug</marker> en deus graet.</example>
     </rule>
     <rule id="MEMES_TRA" name="memes-tra → memes tra">
