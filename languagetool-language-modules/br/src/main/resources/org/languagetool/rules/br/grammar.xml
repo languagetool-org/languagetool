@@ -4137,6 +4137,26 @@ $Id$
         <example type="correct">Ez an da gousket.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="NACH" name="An nac‘hañ">
+      <rule>
+        <pattern>
+          <token postag="SENT_START"/>
+          <token postag="D . s?p" postag_regexp="yes"/>
+          <token postag="N . p.*" postag_regexp="yes"><exception postag="N . sp?.*" postag_regexp="yes"/></token>
+          <token regexp="yes">n[e’]</token>
+          <marker>
+            <token postag="V.*" postag_regexp="yes"><exception postag="V.* 3 p.*" postag_regexp="yes"/></token>
+          </marker>
+          <token>ket</token>
+        </pattern>
+        <message>Er stumm nac’h e rank ar verb heuliañ an displegadur personel. Ar verb a zlefe bezañ er trede gour lies neuze.</message>
+        <example type="incorrect">Ma zud ne <marker>bren</marker> ket ar gazetenn.</example>
+        <example type="correct">Ma zud ne brenont ket ar gazetenn.</example>
+        <example type="correct">Ma zud ne brenent ket ar gazetenn.</example>
+        <example type="incorrect">Ma c’hoarezed n’<marker>emañ</marker> ket o c‘hoari.</example>
+        <example type="correct">Ma c’hoarezed n’emaint ket o c‘hoari.</example>
+      </rule>
+    </rulegroup>
   </category>
 
   <category name="Barrennig-stagañ">
