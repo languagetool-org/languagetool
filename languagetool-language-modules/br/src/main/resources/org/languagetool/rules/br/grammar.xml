@@ -2055,7 +2055,7 @@ $Id$
             <token postag="N [^M]*M.*" postag_regexp="yes" regexp="yes" inflected="yes">b.*
               <exception postag="(N [ef] s|N m p t) M.*:1a:.*" postag_regexp="yes"/>
               <exception regexp="yes" inflected="yes">[vp].*</exception>
-              <exception regexp="yes">vrud(-(mañ|se|hont))?</exception>
+              <exception regexp="yes">vrud(-(mañ|se|hont))?|pez</exception>
             </token>
           </marker>
         </pattern>
@@ -4232,6 +4232,7 @@ $Id$
       <example type="incorrect"><marker>Brudet mat</marker> eo.</example>
       <example type="correct"><marker>Brudet-mat</marker> eo.</example>
       <example type="correct">Pe mat pe fall e oa.</example>
+      <example type="correct">Gouzout a <marker>rez mat</marker> n’omp ket pinvidik.</example>
     </rule>
     <rule id="BERR_HA_BERR" name="berr ha berr → berr-ha-berr (hag all)">
       <pattern>
@@ -7703,7 +7704,7 @@ $Id$
           </marker>
         </pattern>
         <message>Ha fellout a rae deoc’h skrivañ <suggestion>en-dro</suggestion>?</message>
-        <example type="incorrect">N’a ket an urzhiater <marker>en dro</marker>.</example>
+        <example type="incorrect" correction="en-dro">N’a ket an urzhiater <marker>en dro</marker>.</example>
         <example type="correct">N’a ket an urzhiater <marker>en-dro</marker>.</example>
       </rule>
     </rulegroup>
@@ -7712,9 +7713,41 @@ $Id$
         <token>war-lec’h</token>
       </pattern>
       <message>Ha fellout a rae deoc’h skrivañ <suggestion>war-lerc’h</suggestion>?</message>
-      <example type="incorrect"><marker>War-lec’h</marker> ar brezel.</example>
+      <example type="incorrect" correction="War-lerc’h"><marker>War-lec’h</marker> ar brezel.</example>
       <example type="correct">War-lerc’h ar brezel.</example>
     </rule>
+    <rule id="PEZH" name="ar pez → a pezh">
+      <pattern>
+        <token>ar</token>
+        <marker><token>pez</token></marker>
+      </pattern>
+      <message>Ha fellout a rae deoc’h skrivañ <suggestion>pezh</suggestion>?</message>
+      <example type="incorrect" correction="pezh">Ar <marker>pez</marker> a lavarez.</example>
+      <example type="correct">Ar <marker>pezh</marker> a lavarez.</example>
+    </rule>
+    <rulegroup id="GECHALL_GOZH" name="Gwechall-kozh → Gwechall-gozh">
+      <rule>
+        <pattern>
+          <token regexp="yes">gwe[cz]hall?-?[kg]ozh?<exception regexp="yes">gwe[cz]hall-gozh</exception></token>
+        </pattern>
+        <message>Ha fellout a rae deoc'h skrivañ <suggestion><match no="1" regexp_match="^(....).*" regexp_replace="$1hall-gozh"/></suggestion>?</message>
+        <example type="incorrect" correction="Gwechall-gozh"><marker>Gwechall-kozh</marker>.</example>
+        <example type="incorrect" correction="Gwezhall-gozh"><marker>Gwezhall-kozh</marker>.</example>
+        <example type="correct"><marker>Gwechall-gozh</marker>.</example>
+        <example type="correct"><marker>Gwezhall-gozh</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">gwe[cz]hall?</token>
+          <token regexp="yes">[gk]ozh?</token>
+        </pattern>
+        <message>Ha fellout a rae deoc'h skrivañ <suggestion><match no="1" regexp_match="^(....).*" regexp_replace="$1hall-gozh"/></suggestion>?</message>
+        <example type="incorrect" correction="Gwechall-gozh"><marker>Gwechall kozh</marker>.</example>
+        <example type="incorrect" correction="Gwezhall-gozh"><marker>Gwezhall kozh</marker>.</example>
+        <example type="correct"><marker>Gwechall-gozh</marker>.</example>
+        <example type="correct"><marker>Gwezhall-gozh</marker>.</example>
+      </rule>
+    </rulegroup>
   </category>
   <!-- vim: foldmethod=marker foldmarker=<category,</category:
   -->
