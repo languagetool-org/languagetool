@@ -1316,6 +1316,7 @@ my @anv_lies_tud = (
   "mistri-prezegennerion",
   "mistri-skol",
   "mistri-vicherour",
+  "mogned",
   "monitourien",
   "monitourion",
   "moraerien",
@@ -2027,12 +2028,16 @@ while (<LT_EXPAND>) {
   # even though Apertium does not tag them with both gender.
   # There are probably many other such words that could be added
   # here. I add them one by one as I stumbled upon them.
-  if (($lemma eq 'trubuilh'  and $word =~ /^[tdz]rubuilh(où)?$/)   or
-      ($lemma eq 'siminal'   and $word =~ /^siminal(ioù)?$/)       or
-      ($lemma eq 'breserezh' and $word =~ /^[bpv]reserezh(ioù)?$/) or
-      ($lemma eq 'barzhoneg' and $word =~ /^[bpv]arzhoneg(où)?$/)  or
-      ($lemma eq 'brud'      and $word =~ /^[bpv]brud$/)           or
-      ($lemma eq 'ment'      and $word =~ /^[mv]ent$/)) {
+  if (($lemma eq 'barzhoneg' and $word =~ /^[bpv]arzhoneg(où)?$/)   or
+      ($lemma eq 'boaz'      and $word =~ /^[bpv]boaz(ioù)?$/)      or
+      ($lemma eq 'breserezh' and $word =~ /^[bpv]reserezh(ioù)?$/)  or
+      ($lemma eq 'bruched'   and $word =~ /^[bpv]vruched(où)?$/)    or
+      ($lemma eq 'brud'      and $word =~ /^[bpv]brud$/)            or
+      ($lemma eq 'kammed'    and $word =~ /^([kg]|c’h)ammed(où)?$/) or
+      ($lemma eq 'kurun'     and $word =~ /^([kg]|c’h)urun(où)?$/)  or
+      ($lemma eq 'ment'      and $word =~ /^[mv]ent$/)              or
+      ($lemma eq 'siminal'   and $word =~ /^siminal(ioù)?$/)        or
+      ($lemma eq 'trubuilh'  and $word =~ /^[tdz]rubuilh(où)?$/)) {
     $tag =~ s/^N [fm]/N e/;
   }
 
