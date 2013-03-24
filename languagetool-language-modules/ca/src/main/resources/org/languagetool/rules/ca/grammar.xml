@@ -9559,10 +9559,22 @@ $Id$
     				<token regexp="yes">[?!]</token>
     				<token>.</token>
     			</pattern>
-    			<message>Combinació impossible de símbols de puntuació</message>
+    			<message>Possible error de puntuació</message>
     			<suggestion><match no="1"/></suggestion>
+    			<short>Error de punutació</short>
     			<example type="incorrect" correction="?">¿Vols dir<marker>?.</marker> No!</example>
     			<example type="correct">¿Vols dir?</example>
+    		</rule>
+    		<rule>
+    			<pattern>
+    				<token>,</token>
+    				<token regexp="yes">[-–—]</token>
+    			</pattern>
+    			<message>Possible error de puntuació</message>
+    			<suggestion><match no="2"/></suggestion>
+    			<short>Error de punutació</short>
+    			<example type="incorrect" correction="—">Vine<marker>, —</marker>va dir Joan.</example>
+    			<example type="correct">Vine, digué.</example>
     		</rule>
     	</rulegroup>
         <rule id="ELA_GEMINADA" name="Errors en la ela geminada.">
