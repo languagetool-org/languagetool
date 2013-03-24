@@ -143,8 +143,8 @@ $Id$
                 </pattern>
                 <message>Meinten Sie <suggestion><match case_conversion="startupper" no="1" regexp_match="Auf" regexp_replace="Aus"/></suggestion>?</message>
                 <short>Möglicher Tippfehler</short>
-                <example type="incorrect" correction="Ausführen">Das <marker>Aufführen</marker> großer Anwendungen benötigt viel Arbeitsspeicher-</example>
-                <example type="correct">Das <marker>Ausführen</marker> großer Anwendungen benötigt viel Arbeitsspeicher-</example>
+                <example type="incorrect" correction="Ausführen">Das <marker>Aufführen</marker> großer Anwendungen benötigt viel Arbeitsspeicher.</example>
+                <example type="correct">Das <marker>Ausführen</marker> großer Anwendungen benötigt viel Arbeitsspeicher.</example>
             </rule>
         </rulegroup>
         <rule id="BEIM_BEI" name="Möglicher Tippfehler: 'bei beim' etc.">
@@ -692,6 +692,32 @@ $Id$
             <example type="correct">Das Spiel macht mir viel <marker>Spaß</marker>.</example>
             <example correction="Spaß" type="incorrect">Das Spiel macht mir viel <marker>Spaße</marker>.</example>
         </rule>
+        <rulegroup id="MIT_FREUNDLICHEN_GRUESSE" name="Möglicher Tippfehler: 'Mit freundlichen Grüße (Grüßen)' etc.">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>Mit</token>
+                        <token regexp="yes">freundliche?</token>
+                        <token regexp="yes">Grüßen?</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>Mit freundlichen Grüßen</suggestion>?</message>
+                <example type="correct"><marker>Mit freundlichen Grüßen</marker></example>
+                <example correction="Mit freundlichen Grüßen" type="incorrect"><marker>Mit freundliche Grüße</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>Mit</token>
+                    <token regexp="yes">freundliche?n?</token>
+                    <marker>
+                        <token>Grüße</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie Mit freundlichen <suggestion>Grüßen</suggestion>?</message>
+                <example type="correct">Mit freundlichen <marker>Grüßen</marker></example>
+                <example correction="Grüßen" type="incorrect">Mit freundlichen <marker>Grüße</marker></example>
+            </rule>
+        </rulegroup>
         <rulegroup id="GEGEN_GEGEBEN" name="Möglicher Tippfehler: 'gegen (gegeben)'">
             <rule>
                 <pattern>
