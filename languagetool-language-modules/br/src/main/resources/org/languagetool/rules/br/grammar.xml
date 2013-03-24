@@ -4512,7 +4512,7 @@ $Id$
     <rule id="KARR_TAN" name="karr tan → karr-tan">
       <pattern>
         <token regexp="yes">([kg]|c’h)(arr|irri)</token>
-        <token regexp="yes">boutin|nezañ|nij|samm|tan</token>
+        <token regexp="yes">boutin|nezañ|nij|samm|(dre-)?tan|redek</token>
       </pattern>
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
       <example type="incorrect">Ho pilhed <marker>karr nij</marker> mar plij.</example>
@@ -7514,62 +7514,6 @@ $Id$
       <example type="correct">An niver a gentelioù</example>
     </rule>
 
-    <rulegroup id="KELENNER_WAR_AR" name="kelenner brezhoneg → kelenner war ar brezhoneg">
-      <rule>
-        <pattern>
-          <token inflected="yes">kelenner</token>
-          <token regexp="yes">brezhoneg|filozofiezh|fizik|gallaoueg|galleg|gitar|gouezeleg|gresianek|gwir|gregach|japaneg|jedoniezh|prederouriezh|matematik(où)?|psikologiezh|saozneg|skiantoù|sañskriteg|sonerezh|sport(où)?|yezhoniezh|yezh(où)?|yoga</token>
-        </pattern>
-        <message>Implijit <suggestion>\1 war ar \2</suggestion>.</message>
-        <example type="incorrect" correction="Kelennerez war ar brezhoneg"><marker>Kelennerez brezhoneg</marker> e oa.</example>
-        <example type="correct">Kelennerez war ar brezhoneg e oa.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token inflected="yes">kelenner</token>
-          <token regexp="yes">latin|lizhiri</token>
-        </pattern>
-        <message>Implijit <suggestion>\1 war al latin</suggestion>.</message>
-        <example type="incorrect" correction="Kelennerez war al latin"><marker>Kelennerez latin</marker> e oa.</example>
-        <example type="correct">Kelenner war al latin e oa.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token inflected="yes">kelenner</token>
-          <token regexp="yes">kan|kastillaneg|kembraeg|keltieg</token>
-        </pattern>
-        <message>Implijit <suggestion>\1 war ar <match no="2" regexp_match="^." regexp_replace="c’h"/></suggestion>.</message>
-        <example type="incorrect" correction="Kelennerez war ar c’han"><marker>Kelennerez kan</marker> e oa.</example>
-        <example type="correct">Kelenner war ar c’han e oa.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token inflected="yes">kelenner</token>
-          <token regexp="yes">alamaneg|doueoniezh|hebraeg|istor|italianeg|iwerzhoneg</token>
-        </pattern>
-        <message>Implijit <suggestion>\1 war an \2</suggestion>.</message>
-        <example type="incorrect" correction="Kelennerez war an istor"><marker>Kelennerez istor</marker> e oa.</example>
-        <example type="correct">Kelenner war an istor e oa.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token inflected="yes">kelenner</token>
-          <token>bevoniezh</token>
-        </pattern>
-        <message>Implijit <suggestion>\1 war ar <match no="2" regexp_match="^." regexp_replace="v"/></suggestion>.</message>
-        <example type="incorrect" correction="Kelenner war ar vevoniezh"><marker>Kelenner bevoniezh</marker> e oa.</example>
-        <example type="correct">Kelenner war ar vevoniezh e oa.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token inflected="yes">kelenner</token>
-          <token>prederouriezh</token>
-        </pattern>
-        <message>Implijit <suggestion>\1 war ar brederouriezh</suggestion>.</message>
-        <example type="incorrect" correction="Kelennerez war ar brederouriezh"><marker>Kelennerez prederouriezh</marker> e oa.</example>
-        <example type="correct">Kelennerez war ar brederouriezh e oa.</example>
-      </rule>
-    </rulegroup>
     <rule id="NE_KET" name="ne ket → neket pe n’eo ket">
       <pattern>
         <token>ne</token>
