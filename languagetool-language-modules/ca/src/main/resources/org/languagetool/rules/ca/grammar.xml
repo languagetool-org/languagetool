@@ -15837,6 +15837,17 @@ $Id$
             <rule>
                 <pattern>
                     <token inflected="yes">proper</token>
+                    <token regexp="yes" inflected="yes">futur|versió</token>
+                </pattern>
+                <message>En aquest cas val més evitar l'adjectiu "<match no="1"/>".</message>
+                <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">pròxim</match> <match no="2"/></suggestion>
+                <short>Expressió preferible</short>
+                <example type="incorrect" correction="pròximes versions">En les <marker>properes versions</marker></example>
+                <example type="correct">L'any que ve</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">proper</token>
                     <token/>
                     <token regexp="yes" inflected="yes">legislatura|minut|hora|dia|setmana|mes|trimestre|quadrimestre|semestre|any|lustre|dècada|segel|mil·lenni|instant|moment|dilluns|dimarts|dimecres|dijous|divendres|dissabte|diumenge</token>
                 </pattern>
@@ -15875,6 +15886,16 @@ $Id$
                 <example type="incorrect" correction="dia 4|pròxim dia 4|propvinent dia 4">El <marker>proper dia 4</marker> de febrer</example>
                 <example type="correct">El considera proper</example>
             </rule>
+        	<rule>
+        		<pattern>
+        			<token>properament</token>
+        		</pattern>
+        		<message>Val més usar una altra expressió.</message>
+        		<suggestion>pròximament</suggestion>
+        		<short>Expressió preferible</short>
+        		<example type="incorrect" correction="pròximament">Es publicarà <marker>properament</marker>.</example>
+        		<example type="correct">Es publicarà pròximament.</example>
+        	</rule>
         </rulegroup>
         <rule id="A_AQUEST_FI" name="a aquest fi">
             <pattern>
