@@ -4472,6 +4472,17 @@ $Id$
     <!-- ====================================================================== -->
     <category name="Falschschreibung prominenter/geographischer Eigennamen">
         <!-- geographische Namen u. ä. -->
+        <rule id="JUECHEN_JUELICH" name="Eigenname: 'Forschungszentrum Jüchen (Jülich)'">
+            <pattern>
+                <token regexp="yes" skip="1">.*forschungszentrums?</token>
+                <marker>
+                    <token>Jüchen</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie das Forschungszentrum in <suggestion>Jülich</suggestion>?</message>
+            <example type="correct">Sie arbeitet beim Forschungszentrum <marker>Jülich</marker>.</example>
+            <example type="incorrect" correction="Jülich">Sie arbeitet beim Forschungszentrum <marker>Jüchen</marker>.</example>
+        </rule>
         <rule id="AM_REIN" name="Eigenname: 'am Rein (Rhein)'">
             <pattern case_sensitive="yes">
                 <token>am</token>
