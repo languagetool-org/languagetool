@@ -2228,41 +2228,61 @@ $Id$
         <example type="correct">Ar gweleoù</example>
       </rule>
     </rulegroup>
-    <rule id="FAZ_KEMM" name="kemmadur faziet">
-      <pattern>
-        <token postag="SENT_START|K e .*|V.*|X KAOUT2|J sup .*" postag_regexp="yes">
-          <exception regexp="yes">[dtz]aou|[dtz]iv|[dtz]ri|[tdz]eir|[pbf]evar|[pbf]eder|nav|eme</exception>
-          <exception negate_pos="yes" postag="SENT_START|K e .*|V.*|X KAOUT2|J sup .*" postag_regexp="yes"/>
-        </token>
-        <marker>
-          <token postag="[^M]*M.*" postag_regexp="yes">
-            <exception negate_pos="yes" postag="[^M]*M:.*|SENT_END" postag_regexp="yes"/>
-            <exception regexp="yes">va[dt]|vloaz</exception>
+    <rulegroup id="FAZ_KEMM" name="kemmadur faziet">
+      <rule>
+        <pattern>
+          <token postag="SENT_START|V.*|X KAOUT2|J sup .*" postag_regexp="yes">
+            <exception>eme</exception>
+            <exception negate_pos="yes" postag="SENT_START|V.*|X KAOUT2|J sup .*" postag_regexp="yes"/>
           </token>
-        </marker>
-      </pattern>
-      <message>Ne zlefe ket bezañ ur c’hemmadur dre vlotaat amañ.</message>
-      <example type="incorrect"><marker>Zebriñ</marker> a ran.</example>
-      <example type="correct"><marker>Debriñ</marker> a ran.</example>
-      <example type="incorrect"><marker>C’hallout</marker> a ran.</example>
-      <example type="correct"><marker>Gallout</marker> a ran.</example>
-      <example type="correct">Vad a raio ur c’hafe tomm.</example>
-      <example type="incorrect">Pemp <marker>c’hi</marker>.</example>
-      <example type="incorrect">Pemp <marker>gi</marker>.</example>
-      <example type="correct">Pemp ki.</example>
-      <example type="correct">Tri c’hi.</example>
-      <example type="incorrect">Gwelet em eus <marker>vagoù</marker>.</example>
-      <example type="incorrect">Gwelet en doa <marker>vagoù</marker>.</example>
-      <example type="correct">Gwelet em eus bagoù.</example>
-      <example type="incorrect">N’out ket chomet <marker>bell</marker>.</example>
-      <example type="correct">N’out ket chomet pell.</example>
-      <example type="incorrect">Boutin eo <marker>c’hentelioù-noz</marker></example>
-      <example type="correct">Boutin eo ar c’hentelioù-noz</example>
-      <example type="correct">"N’ouzon ket" eme zTony.</example>
-      <example type="correct">Seitek vloaz.</example>
-      <example type="incorrect">Ar wellañ <marker>vaouez</marker>.</example>
-      <example type="correct">Ar wellañ <marker>maouez</marker>.</example>
-    </rule>
+          <marker>
+            <token postag="[^M]*M.*" postag_regexp="yes">
+              <exception negate_pos="yes" postag="[^M]*M:.*|SENT_END" postag_regexp="yes"/>
+              <exception regexp="yes">va[dt]|vloaz</exception>
+            </token>
+          </marker>
+        </pattern>
+        <message>Ne zlefe ket bezañ ur c’hemmadur dre vlotaat amañ.</message>
+        <example type="incorrect"><marker>Zebriñ</marker> a ran.</example>
+        <example type="correct"><marker>Debriñ</marker> a ran.</example>
+        <example type="incorrect"><marker>C’hallout</marker> a ran.</example>
+        <example type="correct"><marker>Gallout</marker> a ran.</example>
+        <example type="correct">Vad a raio ur c’hafe tomm.</example>
+        <example type="incorrect">Gwelet em eus <marker>vagoù</marker>.</example>
+        <example type="incorrect">Gwelet en doa <marker>vagoù</marker>.</example>
+        <example type="correct">Gwelet em eus bagoù.</example>
+        <example type="incorrect">N’out ket chomet <marker>bell</marker>.</example>
+        <example type="correct">N’out ket chomet pell.</example>
+        <example type="incorrect">Boutin eo <marker>c’hentelioù-noz</marker></example>
+        <example type="correct">Boutin eo ar c’hentelioù-noz</example>
+        <example type="correct">"N’ouzon ket" eme zTony.</example>
+        <example type="correct">Seitek vloaz.</example>
+        <example type="incorrect">Ar wellañ <marker>vaouez</marker>.</example>
+        <example type="correct">Ar wellañ <marker>maouez</marker>.</example>
+        <example type="correct">Div, unan vihan, hag unan vras.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="K e .*" postag_regexp="yes">
+            <exception regexp="yes">[dtz]aou|[dtz]iv|[dtz]ri|[tdz]eir|[pbf]evar|[pbf]eder|nav</exception>
+          </token>
+          <marker>
+            <token postag="[^M]*M.*" postag_regexp="yes">
+              <exception negate_pos="yes" postag="[^M]*M:.*|SENT_END" postag_regexp="yes"/>
+              <exception regexp="yes">va[dt]|vloaz</exception>
+              <exception postag="J.*" postag_regexp="yes"/>
+            </token>
+          </marker>
+        </pattern>
+        <message>Ne zlefe ket bezañ ur c’hemmadur dre vlotaat amañ.</message>
+        <example type="incorrect">Pemp <marker>c'hi</marker>.</example>
+        <example type="incorrect">Pemp <marker>gi</marker>.</example>
+        <example type="correct">Pemp <marker>ki</marker>.</example>
+        <example type="correct">Tri <marker>c'hi</marker>.</example>
+        <example type="correct">Daou <marker>gi</marker>.</example>
+        <example type="correct">Div, unan <marker>vihan</marker>, hag unan <marker>vras</marker>.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="KEMM_MESKET_MA" name="kemmadur mesket goude ar stagell ma">
       <rule>
         <pattern>
