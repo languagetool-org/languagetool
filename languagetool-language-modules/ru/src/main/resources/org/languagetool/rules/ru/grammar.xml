@@ -187,8 +187,9 @@ $Id$
                         <token postag="NN:.*" postag_regexp="yes" skip="-1"><exception regexp="yes" scope="next">,|-</exception></token>
                         <token skip="-1">и</token>
                         <token postag="VB:.*" postag_regexp="yes" ></token>           
-                        <token postag="NN:.*" postag_regexp="yes" ></token>
-                    </marker>              
+                        <token postag="NN:.*" postag_regexp="yes" ><exception regexp="yes" scope="next">,|-</exception></token>
+                    </marker>
+                    <token>.</token>
                 </pattern>
                 <message>Пропущена запятая перед предлгом и: <suggestion>\1 \2, \3 \4 \5</suggestion></message>
                 <url>http://ru.wikipedia.org/wiki/%D0%A1%D0%BB%D0%BE%D0%B6%D0%BD%D0%BE%D1%81%D0%BE%D1%87%D0%B8%D0%BD%D1%91%D0%BD%D0%BD%D0%BE%D0%B5_%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5</url>
@@ -204,8 +205,9 @@ $Id$
                         <token postag="VB:.*" postag_regexp="yes" skip="-1"><exception  regexp="yes" scope="next">,|-</exception></token>
                         <token skip="-1">и</token>
                         <token postag="NN:.*" postag_regexp="yes"></token>           
-                        <token postag="VB:.*" postag_regexp="yes" ></token>
-                    </marker>              
+                        <token postag="VB:.*" postag_regexp="yes" ><exception regexp="yes" scope="next">,|-</exception></token>
+                    </marker>
+                    <token>.</token>
                 </pattern>
                 <message>Пропущена запятая перед предлгом и: <suggestion>\1 \2, \3 \4 \5</suggestion></message>
                 <url>http://ru.wikipedia.org/wiki/%D0%A1%D0%BB%D0%BE%D0%B6%D0%BD%D0%BE%D1%81%D0%BE%D1%87%D0%B8%D0%BD%D1%91%D0%BD%D0%BD%D0%BE%D0%B5_%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5</url>
@@ -2154,7 +2156,7 @@ $Id$
                 <example type="correct">замёрзли до костей</example>
                 <example type="incorrect"><marker>замёрзли до нитки</marker></example>
             </rule>
-<rule>
+            <rule>
                 <pattern case_sensitive="no">
                     <token>промёрзли</token>
                     <token>до</token>
