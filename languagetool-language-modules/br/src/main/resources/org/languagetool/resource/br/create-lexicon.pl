@@ -1512,6 +1512,7 @@ my @anv_lies_tud = (
   "rektorion",
   "renerien",
   "renerion",
+  "republikaned",
   "repuidi",
   "reveulzierien",
   "reveulzierion",
@@ -2033,7 +2034,6 @@ while (<LT_EXPAND>) {
       ($lemma eq 'breserezh' and $word =~ /^[bpv]reserezh(ioù)?$/)  or
       ($lemma eq 'bruched'   and $word =~ /^[bpv]vruched(où)?$/)    or
       ($lemma eq 'brud'      and $word =~ /^[bpv]brud$/)            or
-      ($lemma eq 'kammed'    and $word =~ /^([kg]|c’h)ammed(où)?$/) or
       ($lemma eq 'kurun'     and $word =~ /^([kg]|c’h)urun(où)?$/)  or
       ($lemma eq 'ment'      and $word =~ /^[mv]ent$/)              or
       ($lemma eq 'siminal'   and $word =~ /^siminal(ioù)?$/)        or
@@ -2155,6 +2155,10 @@ print "handled [$out_count] words, unhandled [$err_count] words\n";
 print OUT "kiz\tkiz\tN f s\n";
 print OUT "c’hiz\tkiz\tN f s M:0a:2:\n";
 print OUT "giz\tkiz\tN f s M:1:1a:\n";
+print OUT "vaerioù\tmaer\tN m p M:1:1a:1b:4:\n";
+print OUT "maerioù\tmaer\tN m p\n";
+print OUT "vestroù\tmestr\tN m p M:1:1a:1b:4:\n";
+print OUT "mestroù\tmestr\tN m p\n";
 
 print "Lemma words missing from dictionary:\n";
 foreach (sort keys %all_lemmas) { print "$_\n" unless exists $all_words{$_}; }
