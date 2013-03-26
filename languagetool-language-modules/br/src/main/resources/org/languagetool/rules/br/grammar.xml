@@ -4330,7 +4330,7 @@ $Id$
           <token postag="P m 3 s"/>
           <token>eñ</token>
         </pattern>
-        <message>Ne vez ket implijet «\1 \2». Ha fellout a rae deoc’h skrivañ <suggestion>\1</suggestion> (CHALM M1.3.5).</message>
+        <message>Ne vez ket implijet «\1 \2». Ha fellout a rae deoc’h skrivañ <suggestion>\1</suggestion>? (CHALM M1.3.5).</message>
         <example type="incorrect"><marker>Gantañ eñ</marker></example>
         <example type="correct"><marker>Gantañ</marker></example>
       </rule>
@@ -4339,7 +4339,7 @@ $Id$
           <token postag="P f 3 s"/>
           <token>hi</token>
         </pattern>
-        <message>Ne vez ket implijet «\1 \2». Ha fellout a rae deoc’h skrivañ <suggestion>\1</suggestion> (CHALM M1.3.5).</message>
+        <message>Ne vez ket implijet «\1 \2». Ha fellout a rae deoc’h skrivañ <suggestion>\1</suggestion>? (CHALM M1.3.5).</message>
         <example type="incorrect"><marker>Ganti hi</marker></example>
         <example type="correct"><marker>Ganti</marker></example>
       </rule>
@@ -4366,7 +4366,7 @@ $Id$
           <token postag="P e 3 p"/>
           <token regexp="yes">i|int</token>
         </pattern>
-        <message>Ne vez ket implijet «\1 \2». Ha fellout a rae deoc’h skrivañ <suggestion>\1</suggestion> (CHALM M1.3.5).</message>
+        <message>Ne vez ket implijet «\1 \2». Ha fellout a rae deoc’h skrivañ <suggestion>\1</suggestion>? (CHALM M1.3.5).</message>
         <example type="incorrect"><marker>Ganto i</marker></example>
         <example type="incorrect"><marker>Gante i</marker></example>
         <example type="correct"><marker>Ganto</marker></example>
@@ -4624,10 +4624,55 @@ $Id$
         <example type="correct">An dud a-youl vat.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="A_GREIZ_HOLL" name="a greiz holl → a-greiz-holl">
+      <rule>
+        <pattern>
+          <token>a</token>
+          <token regexp="yes">greizh?</token>
+          <token regexp="yes">holl|tout</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>\1-greiz-\3</suggestion>?</message>
+        <example type="incorrect" correction="A-greiz-holl"><marker>A greiz holl</marker>!</example>
+        <example type="incorrect" correction="A-greiz-tout"><marker>A greiz tout</marker>!</example>
+        <example type="correct"><marker>A-greiz-holl</marker>!</example>
+        <example type="correct"><marker>A-greiz-tout</marker>!</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">a-greizh?</token>
+          <token regexp="yes">holl|tout</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>a-greiz-\2</suggestion>?</message>
+        <example type="incorrect" correction="A-greiz-holl"><marker>A-greiz holl</marker>!</example>
+        <example type="incorrect" correction="A-greiz-tout"><marker>A-greiz tout</marker>!</example>
+        <example type="correct"><marker>A-greiz-holl</marker>!</example>
+        <example type="correct"><marker>A-greiz-tout</marker>!</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>a</token>
+          <token regexp="yes">greizh?-(holl|tout)</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>\1-<match no="2" regexp_match="zh*" regexp_replace="z"/></suggestion>?</message>
+        <example type="incorrect" correction="A-greiz-holl"><marker>A greiz-holl</marker>!</example>
+        <example type="incorrect" correction="A-greiz-tout"><marker>A greiz-tout</marker>!</example>
+        <example type="correct"><marker>A-greiz-holl</marker>!</example>
+        <example type="correct"><marker>A-greiz-tout</marker>!</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>a</token>
+          <token regexp="yes">greizh?</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>\1-greiz</suggestion>?</message>
+        <example type="incorrect" correction="A-greiz"><marker>A greiz</marker> kalon.</example>
+        <example type="correct"><marker>A-greiz</marker> kalon.</example>
+      </rule>
+    </rulegroup>
     <rule id="A_DREUZ" name="a dreuz → a-dreuz (hag all)">
       <pattern>
         <token>a<exception scope="previous" regexp="yes">kement|meur|nag</exception></token>
-        <token regexp="yes">barzh|beban|belec’h|benn(adoù|-kaer)?|bik|bil|blad|blaen|blom|boan|bouez(-penn)?|boullad|c’houde(vezh)?|c’hwenn|dal|dammoù|denn-askell|dizh|douez|doulladoù|drak|dreist|drek|dreñv|dreuz|drugarez|du|enep|feson|fet|feur|flav|fourch|fuilh|geñver|gevret|gleiz|greiz(-holl)?|grenn|hed(-all)?|herr|hervez|hevelep|istribilh|led|leizh|nevez|ouez|raok|ratozh|skouer|stlabez|viskoazh|vremañ|walc’h|wechoù|wezhioù|zehou|zevri|ziabarzh|ziabell|ziadreñv|ziagent|ziaraok|ziavaez|zindan(on|out|nañ|ni|nomp|noc’h|nor?)?|zioc’h|ziouzh|zivout|ziwar(non|nout|nañ|nezhañ|ni|nezhi|nomp|noc’h|nezho|nor?|-(c’horre|dro|laez|lerc’h))?|zoare</token>
+        <token regexp="yes">barzh|beban|belec’h|benn(adoù|-kaer)?|bik|bil|blad|blaen|blom|boan|bouez(-penn)?|boullad|c’houde(vezh)?|c’hwenn|dal|dammoù|denn-askell|dizh|douez|doulladoù|drak|dreist|drek|dreñv|dreuz|drugarez|du|enep|feson|fet|feur|flav|fourch|fuilh|geñver|gevret|gleiz|grenn|hed(-all)?|herr|hervez|hevelep|istribilh|led|leizh|nevez|ouez|raok|ratozh|skouer|stlabez|viskoazh|vremañ|walc’h|wechoù|wezhioù|zehou|zevri|ziabarzh|ziabell|ziadreñv|ziagent|ziaraok|ziavaez|zindan(on|out|nañ|ni|nomp|noc’h|nor?)?|zioc’h|ziouzh|zivout|ziwar(non|nout|nañ|nezhañ|ni|nezhi|nomp|noc’h|nezho|nor?|-(c’horre|dro|laez|lerc’h))?|zoare</token>
       </pattern>
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
       <example type="incorrect">Amzer <marker>a walc’h</marker> am eus.</example>
@@ -5759,7 +5804,7 @@ $Id$
         </marker>
         <token regexp="yes">\p{Lu}.*<exception regexp="yes">Liamm|Here</exception></token>
       </pattern>
-      <message>Pennlizherenn ebet e gerioù-mell an anvioù divoutin pa vezont e-kreiz ul lavarenn. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" case_conversion="alllower"/></suggestion>.</message>
+      <message>Pennlizherenn ebet e gerioù-mell an anvioù divoutin pa vezont e-kreiz ul lavarenn. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" case_conversion="alllower"/></suggestion>?</message>
       <example type="incorrect" correction="ar">Kantonioù <marker>Ar</marker> C’hastell-Nevez</example>
       <example type="correct">Kantonioù ar C’hastell-Nevez</example>
       <example type="correct">An Oriant a zo pell ac’hann.</example>
