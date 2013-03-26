@@ -5665,6 +5665,53 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category name="Grammar" type="grammar">
+        <rulegroup id="NON_ACTION_CONTINUOUS" name="Use of continuous form with non-action verbs">
+            <rule>
+                <pattern>
+                    <token regexp="yes">had|has|have</token>
+                    <token>been</token>
+                    <token regexp="yes">knowing|belonging|meaning|supposing</token>
+                </pattern>
+                <message>The verb <match no="3" postag="VB"/> is usually not used with a continuous form, use the simple form instead. Suggestion: <suggestion>\1 <match no="3" postag="VBN"/></suggestion></message>
+                <url>http://www.eslbase.com/grammar/present-perfect-continuous</url>
+                <short>Probably incorrect use of continuous form</short>
+                <example type="incorrect" correction="had known">He <marker>had been knowing</marker> it.</example>
+                <example type="correct">He <marker>had known</marker> it.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">were|was</token>
+                    <token regexp="yes">knowing|belonging|meaning|supposing</token>
+                </pattern>
+                <message>The verb <match no="2" postag="VB"/> is usually not used with a continuous form, use the simple form instead. Suggestion: <suggestion><match no="2" postag="VBD"/></suggestion></message>
+                <url>http://www.eslbase.com/grammar/past-continuous</url>
+                <short>Probably incorrect use of continuous form</short>
+                <example type="incorrect" correction="knew">She <marker>was knowing</marker> it.</example>
+                <example type="correct">He <marker>knew</marker> it.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>is</token>
+                    <token regexp="yes">knowing|belonging|meaning|supposing</token>
+                </pattern>
+                <message>The verb <match no="2" postag="VB"/> is usually not used with a continuous form, use the simple form instead. Suggestion: <suggestion><match no="2" postag="VBZ"/></suggestion></message>
+                <url>http://www.eslbase.com/grammar/present-continuous</url>
+                <short>Probably incorrect use of continuous form</short>
+                <example type="incorrect" correction="knows">She <marker>is knowing</marker> it.</example>
+                <example type="correct">He <marker>knows</marker> it.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">am|are|were</token>
+                    <token regexp="yes">knowing|belonging|meaning|supposing</token>
+                </pattern>
+                <message>The verb <match no="2" postag="VB"/> is usually not used with a continuous form, use the simple form instead. Suggestion: <suggestion><match no="2" postag="VBP"/></suggestion></message>
+                <url>http://www.eslbase.com/grammar/present-continuous</url>
+                <short>Probably incorrect use of continuous form</short>
+                <example type="incorrect" correction="know">I <marker>am knowing</marker> it.</example>
+                <example type="correct">I <marker>know</marker> it.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="DONT_NEEDS" name="don't ... 3rd person verb">
             <rule>
                 <pattern>
