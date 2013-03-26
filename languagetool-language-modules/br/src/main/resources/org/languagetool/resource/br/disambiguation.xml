@@ -61,6 +61,15 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
       </pattern>
       <disambig postag="P"/>
     </rule>
+    <rule>
+      <pattern>
+        <token regexp="yes">u[nr]</token>
+        <token postag="J.*" postag_regexp="yes"/>
+        <marker><token>a</token></marker>
+        <token postag="N.*" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="filter" postag="[LP].*"/>
+    </rule>
   </rulegroup>
   <rule id="O_R" name="O pronoun">
     <pattern>
