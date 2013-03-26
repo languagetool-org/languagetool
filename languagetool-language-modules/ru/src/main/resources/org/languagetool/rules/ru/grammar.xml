@@ -183,11 +183,11 @@ $Id$
                 <pattern>
                     <!--           NN:.*   VB:.*    и      NN:.*   VB:.*       TODO: Need improve    -->
                     <marker>
-                        <token postag="VB:.*" postag_regexp="yes" ></token>           
+                        <token postag="VB:.*" postag_regexp="yes" ><exception scope="previous" regexp="yes">[\p{Punct}]</exception></token>           
                         <token postag="NN:.*" postag_regexp="yes" skip="-1"><exception regexp="yes" scope="next">,|-</exception></token>
                         <token skip="-1">и</token>
                         <token postag="VB:.*" postag_regexp="yes" ></token>           
-                        <token postag="NN:.*" postag_regexp="yes" ><exception regexp="yes" scope="next">,|-</exception></token>
+                        <token postag="NN:.*" postag_regexp="yes" ><exception regexp="yes" scope="next">[\p{Punct}]|-</exception></token>
                     </marker>
                     <token>.</token>
                 </pattern>
@@ -201,11 +201,11 @@ $Id$
                 <pattern>
                     <!--             VB:.*   NN:.*   и      VB:.*   NN:.*     -->
                     <marker>
-                        <token postag="NN:.*" postag_regexp="yes"></token>           
+                        <token postag="NN:.*" postag_regexp="yes"><exception scope="previous" regexp="yes">[\p{Punct}]</exception></token>           
                         <token postag="VB:.*" postag_regexp="yes" skip="-1"><exception  regexp="yes" scope="next">,|-</exception></token>
                         <token skip="-1">и</token>
                         <token postag="NN:.*" postag_regexp="yes"></token>           
-                        <token postag="VB:.*" postag_regexp="yes" ><exception regexp="yes" scope="next">,|-</exception></token>
+                        <token postag="VB:.*" postag_regexp="yes" ><exception regexp="yes" scope="next">[\p{Punct}]|-</exception></token>
                     </marker>
                     <token>.</token>
                 </pattern>
