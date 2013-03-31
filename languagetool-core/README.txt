@@ -3,7 +3,7 @@ Chinese, French, Dutch, Russian, Italian, Danish and more languages
 (see http://www.languagetool.org/languages/ for a list)
 
 Copyright (C) 2005-2013 Daniel Naber (naber at danielnaber de)
-Version ###VERSION###, ###DATE###
+Version 2.1, 2013-03-31
 Homepage: http://www.languagetool.org
 
 Requirements:
@@ -17,12 +17,12 @@ Usage:
  -To integrate LanguageTool into OpenOffice.org or LibreOffice, you
   can use two methods:
  
- 1. Double-click LanguageTool-###VERSION###.oxt. The extension should
+ 1. Double-click LanguageTool-2.1.oxt. The extension should
   start installing. Follow the on-screen instructions.
  
  2. If the above method doesn't work, call Tools > Extension 
   Manager > Add... in OpenOffice.org/LibreOffice and browse for the
-  LanguageTool-###VERSION###.oxt file. 
+  LanguageTool-2.1.oxt file. 
   
   Close and restart OpenOffice.org/LibreOffice Writer. Remember to close
   the QuickStarter as well if you use it. Type text with
@@ -55,11 +55,11 @@ Usage:
   Please see http://www.languagetool.org/issues/ if you
   experience problems
   
- -To use the simple demo GUI, double click on the LanguageToolGUI.jar file
-  or call 'java -jar LanguageToolGUI.jar'
+ -To use the simple demo GUI, double click on the languagetool-standalone.jar file
+  or call 'java -jar languagetool-standalone.jar'
 
  -To check plain text files from the command line:
-  java -jar LanguageTool.jar <filename>
+  java -jar languagetool-commandline.jar <filename>
 
 ------------------------------------------------ 
 
