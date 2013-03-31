@@ -1,89 +1,92 @@
 ﻿LanguageTool Change Log
 
-2.1-dev (release planned for 2013-03-31)
+2.1 (2013-03-31)
 
  -Breton:
-  -added/improved several rules.
-  -fixed several incorrect suggestions thanks to added tests on corrections.
+  -added/improved several rules
+  -fixed several incorrect suggestions thanks to added tests on corrections
   -spelling checker now ignores words with a POS tag, hence accepting words
-   which are in Apertium or in An Drouizig spelling checker.
+   which are in Apertium or in An Drouizig spelling checker
   -updated FSA spelling dictionary from An Drouizig Breton Spellchecker 0.11
   -updated POS dictionary from Apertium (svn r43173)
 
  -Catalan:
-  -added/improved several rules.
-  -fixed multiple false alarms.
-  -improved sentence and word tokenization.
+  -added/improved several rules
+  -fixed multiple false alarms
+  -improved sentence and word tokenization
   -the tagger dictionary has been fixed and expanded (added 9000 nameplaces; 
-  115000 tagged forms from Softcatalà dictionary).
-  -verbal forms have been tagged according to regional variants (with script tag_verbs.pl).
-  -Hunspell dictionary (Softcatalà) has been replaced with LT tagger dictionary 
-  for spellchecking. 
-  -spelling checker now ignores words with a POS tag (from multiwords.txt or disambiguation.xml).
+   115000 tagged forms from Softcatalà dictionary)
+  -verbal forms have been tagged according to regional variants (with script tag_verbs.pl)
+  -Hunspell dictionary (Softcatalà) has been replaced with LT tagger dictionary for spellchecking
+  -spelling checker now ignores words with a POS tag (from multiwords.txt or disambiguation.xml)
 
  -English:
+  -fixed some false alarms
+  -added a few new rules
   -updated the tagger and synthesizer dictionaries to recognize more words, including
    plural forms of nouns, new verbs, and missing cardinal numerals (fixes Sourceforge
    bug #3560624)
   -updated the dictionary building script
-  -fixed some false alarms
 
  -Esperanto:
-  -added/improved several rules.
-  -fixed several incorrect suggestions thanks to added tests on corrections.
-  -single quotes at beginning/end of word no longer cause false spelling error.
+  -added/improved several rules
+  -fixed several incorrect suggestions thanks to added tests on corrections
+  -single quotes at beginning/end of word no longer cause false spelling error
 
  -French:
-  -updated POS tag dictionary and Hunspell dictionary to Dicollecte-4.9.
-  -added/improved several rules.
-  -fixed several incorrect suggestions thanks to added tests on corrections.
-  -SRX sentence tokenization.
-  -single quotes at beginning/end of word no longer cause false spelling error.
+  -added/improved several rules
+  -updated POS tag dictionary and Hunspell dictionary to Dicollecte-4.9
+  -fixed several incorrect suggestions thanks to added tests on corrections
+  -SRX sentence tokenization
+  -single quotes at beginning/end of word no longer cause false spelling error
 
  -German:
-  -the German spell checker now returns suggestions. We combine Hunspell and our own
+  -added/improved several rules
+  -The German spell checker now returns suggestions. We combine Hunspell and our own
    morfologik-based spell checker to create the suggestions for good performance,
    but they are far from perfect yet. First, some misspelled compound words fail to have
    a suggestion. Second, sometimes the best suggestion is not at the front of the list
    of suggestions.
    org/languagetool/resource/de/hunspell/create_dict.sh can be used to create
    the three morfologik spell checker dictionaries (German, Austrian, and Swiss).
-  -new language variant "Simple German", with rules contributed by Annika Nietzio.
-   This variant uses 'de-DE-x-simple-language' as a language code. It's not
-   yet available in the stand-alone GUI, but in the server and the command
-   line version.
+  -New language variant "Simple German", with rules contributed by Annika Nietzio.
+   This variant uses 'de-DE-x-simple-language' as a language code.
  
+ -Italian:
+  -added/improved a few rules
+
  -Malayalam:
   -now uses the default sentence tokenizer, not the English one (because languages
    are now modules that don't depend on each other)
 
+ -Polish:
+  -false alarm fixes
+  -added and improved some rules
+  -major tagger and synthesis dictionary update (to Morfologik 2.0 PoliMorf), 
+   which also fixes sf.net bug #3554018 
+
  -Portuguese:
-  -it now has over 1500 compound words taken from a huge Porto Editora dictionary
   -added/improved several rules
+  -it now has over 1500 compound words taken from a huge Porto Editora dictionary
 
  -Russian:
-   -bugfix: the uppercase sentence rule sometimes was not triggered
-   -several new rules
+  -several new rules
+  -bugfix: the uppercase sentence rule sometimes was not triggered
    
- -Polish:
-   -major tagger and synthesis dictionary update (to Morfologik 2.0 PoliMorf), which also
-    fixes sf.net bug #3554018 
-   -false alarm fixes
-   -added and improved some rules
 
  -spell checking: URLs, if specified like "http://www.foo.org", are now ignored and
   don't cause a spelling error anymore
  
  -API: Languagetool has been split up into several Maven modules. This causes
   some API changes:
-  -No more language constants: "Language.GERMAN" now needs to be "new German()", similarly
-   for all other languages
+  -No more language constants: "Language.GERMAN" now needs to be "new German()",
+   similarly for all other languages
   -org.languagetool.gui.ResourceBundleWithFallback is now org.languagetool.ResourceBundleWithFallback
   -org.languagetool.gui.ContextTools is now org.languagetool.tools.ContextTools
   -LanguageIdentifierTools.ADDITIONAL_LANGUAGES has been removed, languages are
    detected at runtime now
 
- -rule syntax: Suggestions now are also allowed outside the <message> element. Example:
+ -rule syntax: Suggestions are now also allowed outside the <message> element. Example:
     <message>Did you mean <suggestion>A</suggestion>?<message>
     <suggestion>B</suggestion>
     <suggestion>C</suggestion>
@@ -93,9 +96,11 @@
 
  -bugfix: Portuguese translation was not used
  
- -bugfix: fix false alarm of unpaired bracket rule on smileys :-) and ;-) (Sourceforge bug #3604367)
+ -bugfix: fix false alarm of unpaired bracket rule on smileys :-) and ;-)
+  (Sourceforge bug #3604367)
  
- -bugfix: testrules now report all cases when untouched examples were touched (Sourceforge bug #3600995)
+ -bugfix: testrules now report all cases when untouched examples were touched
+  (Sourceforge bug #3600995)
  
  -bugfix: the whitespace rule now reports also combinations of non-breaking space and white space 
   characters (Sourceforge bug #3608410)
@@ -108,17 +113,17 @@
    allow limiting the maximum number of requests:
     requestLimit - the maximum number of requests
     requestLimitPeriodInSeconds - the time period in which the requests are considered, in seconds
-  -bugfix: only the first line a POST request's body was considered
+  -bugfix: only the first line of a POST request's body was considered
 
  -OpenOffice/LibreOffice integration:
   -Another try to fix the ConcurrentModificationException (Sourceforge bug #3572536)
 
  -Command line:
-   -In verbose mode, the subId of disambiguator matched rules is displayed.
+  -In verbose mode, the subId of disambiguator matched rules is displayed.
    
  -Testing rules:
-   -Now regular expressions in disambiguation rules are heuristically tested
-    (Sourceforge bug #3599002)
+  -Now regular expressions in disambiguation rules are heuristically tested
+   (Sourceforge bug #3599002)
 
 
 2.0 (2012-12-30)
