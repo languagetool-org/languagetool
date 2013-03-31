@@ -3,7 +3,7 @@ Chinese, French, Dutch, Russian, Italian, Danish and more languages
 (see http://www.languagetool.org/languages/ for a list)
 
 Copyright (C) 2005-2013 Daniel Naber (naber at danielnaber de)
-Version 2.1, 2013-03-31
+Version 2.2-SNAPSHOT, 2013-xx-yy
 Homepage: http://www.languagetool.org
 
 Requirements:
