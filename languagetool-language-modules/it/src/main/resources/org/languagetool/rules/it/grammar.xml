@@ -25,8 +25,8 @@ $Id$
  ================================================================================
  Italian Grammar and Style Rules for Italian
  Paolo Bianchini
- Date: 07/01/2013
- Ver:  0.9.6.1
+ Date: 31/04/2013
+ Ver:  0.9.6.2
  ================================================================================
  Categorie delle regole
     gruppi delle regole
@@ -114,6 +114,7 @@ $Id$
  PB010    Reworked repetition rule ST_03_002
  PB011    Reworked rule GR_04_002 exteneded to all words ending with à|è|é|ì|ò|ù
  PB012    Added exception for article of the word dei
+ 3609558  False positive in rule ER_02_002 'al'-'la'
  ======== ===========================================================================
 -->
 
@@ -1596,8 +1597,13 @@ $Id$
                 <!-- "la" + sostantivo maschile -->
                 <pattern>
                     <token>la</token>
-                    <token postag="NOUN-M:s"></token>
-                </pattern>
+<!-- 3609558 + -->
+<!--
+					<token postag="NOUN-M:s"></token>
+-->                
+					<token postag="NOUN-M:s"><exception postag="NOUN-F:s"></exception></token>
+<!-- 3609558 + -->
+				</pattern>
                 <message>Forse volevi dire <suggestion>al <match no="2"></match></suggestion>?</message>
                 <example type="incorrect">Sono andato <marker>la circo</marker>.</example>
                 <example type="correct">Sono andato <marker>al circo</marker>.</example>
@@ -1617,8 +1623,13 @@ $Id$
                 <!-- "al" + sostantivo femminile -->
                 <pattern>
                     <token>al</token>
+<!-- 3609558 + -->
+<!-- 
                     <token postag="NOUN-F:s"></token>
-                </pattern>
+-->
+                    <token postag="NOUN-F:s"><exception postag="NOUN-M:s"></exception></token> 
+<!-- 3609558 - -->
+                    </pattern>
                 <message>Forse volevi dire <suggestion>la <match no="2"></match></suggestion>?</message>
                 <example type="incorrect">Ho mangiato <marker>al mela</marker>.</example>
                 <example type="correct">Ho mangiato <marker>la mela</marker>.</example>
