@@ -18,8 +18,9 @@ cd i18n-temp
 
 SOURCE=downloaded.tmp
 
-# list of languages in the same order as on https://www.transifex.com/projects/p/languagetool/:
-for lang in en ast be br ca zh da nl eo fr gl de el_GR it pl ru sl es tl uk ro sk sv is lt km pt_PT pt_BR
+# List of languages in the same order as on https://www.transifex.com/projects/p/languagetool/:
+# Do not list 'en', it's the source and taken from SVN. 
+for lang in ast be br ca zh da nl eo fr gl de el_GR it pl ru sl es tl uk ro sk sv is lt km pt_PT pt_BR
 do
   shortCode=$(echo "$lang" | sed -e 's/_.*//')
   # download and hackish JSON cleanup:
