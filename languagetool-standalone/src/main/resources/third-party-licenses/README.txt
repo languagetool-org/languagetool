@@ -17,3 +17,5 @@ tika-core-0.9.jar: Apache License 2.0, http://tika.apache.org
 xml-text-editor-0.0.3.jar: Apache License 2.0, http://code.google.com/p/xml-text-editor/
 jna.jar: LGPL version 2.1 or later, https://github.com/twall/jna
 native-lib/*hunspell*: GPL/LGPL/MPL triple license, http://hunspell.sourceforge.net/
+
+See README.txt in the top directory for the licenses of the language resources.
