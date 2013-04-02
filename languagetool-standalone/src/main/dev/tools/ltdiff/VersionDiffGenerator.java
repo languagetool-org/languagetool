@@ -133,7 +133,7 @@ class VersionDiffGenerator {
 
             for (int k = 0; k < r.correct.size(); k++) { // remove examples which already exist in old rule
 
-              for (int l = 0; l < oldRules.get(j).correct.size(); l++) {
+              for (int l = 0; l < oldRules.get(j).correct.size() && r.correct.size()>0; l++) {
 
                 if (r.correct.get(k).equals(oldRules.get(j).correct.get(l))) {
 
@@ -148,7 +148,7 @@ class VersionDiffGenerator {
 
             for (int k = 0; k < r.incorrect.size(); k++) { // remove examples which already exist in old rule
 
-              for (int l = 0; l < oldRules.get(j).incorrect.size(); l++) {
+              for (int l = 0; l < oldRules.get(j).incorrect.size() && r.incorrect.size()>0; l++) {
 
                 if (r.incorrect.get(k).equals(oldRules.get(j).incorrect.get(l))) {
 
