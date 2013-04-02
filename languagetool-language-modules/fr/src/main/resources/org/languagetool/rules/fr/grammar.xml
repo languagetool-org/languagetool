@@ -6898,15 +6898,18 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <and>
-            <token postag="V.* 3 s" postag_regexp="yes">
-              <exception>cela</exception>
-              <exception postag="N.*" postag_regexp="yes"/>
-              <exception postag="R pers suj .*" postag_regexp="yes" scope="previous"/>
-            </token>
-            <token regexp="yes">.*[aec]</token>
-          </and>
-          <token regexp="yes">(t-)?(il|elle|on)</token>
+          <marker>
+            <and>
+              <token postag="V.* 3 s" postag_regexp="yes">
+                <exception>cela</exception>
+                <exception postag="N.*" postag_regexp="yes"/>
+                <exception postag="R pers suj .*" postag_regexp="yes" scope="previous"/>
+              </token>
+              <token regexp="yes">.*[aec]</token>
+            </and>
+            <token regexp="yes">(t-)?(il|elle|on)</token>
+          </marker>
+          <token><exception>y</exception></token>
         </pattern>
         <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
         <example type="incorrect">Que <marker>mange il</marker> ?</example>
@@ -6917,6 +6920,7 @@ though, and has since been slightly modified)-->
         <example type="correct">Quel âge a-t-elle ?</example>
         <example type="correct">Comme cela elle n’a pas à cuisiner.</example>
         <example type="correct">Les jours de fête on ne travaille pas.</example>
+        <example type="correct">L’histoire <marker>commence il</marker> y a longtemps.</example>
       </rule>
       <rule>
         <pattern>
@@ -21411,6 +21415,28 @@ though, and has since been slightly modified)-->
         <message>« \1 » est une faute de typographie. Employez <suggestion><match no="1" regexp_match="-" regexp_replace=" "/></suggestion>.</message>
         <example type="incorrect" correction="deux tiers">La bouteille est aux <marker>deux-tiers</marker> pleine.</example>
         <example type="correct">La bouteille est aux deux tiers pleine.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>les</token>
+          <marker><token>trois-quarts</token></marker>
+          <token regexp="yes">du|des</token>
+        </pattern>
+        <message>« \1 » est une faute de typographie. Employez <suggestion><match no="2" regexp_match="-" regexp_replace=" "/></suggestion> s’il s’agit d’une fraction.</message>
+        <example type="incorrect" correction="trois quarts">Les <marker>trois-quarts</marker> du temps, il ne fait rien.</example>
+        <example type="correct">Les <marker>trois quarts</marker> du temps, il ne fait rien.</example>
+        <example type="correct">Un <marker>trois-quarts</marker> de rugby.</example>
+        <example type="correct">Les <marker>trois-quarts</marker> de l’équipe de rugby.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>aux</token>
+          <marker><token>trois-quarts</token></marker>
+        </pattern>
+        <message>« \1 » est une faute de typographie. Employez <suggestion><match no="2" regexp_match="-" regexp_replace=" "/></suggestion>.</message>
+        <example type="incorrect" correction="trois quarts">La bouteille est aux <marker>trois-quarts</marker> pleine.</example>
+        <example type="correct">La bouteille est aux trois quarts pleine.</example>
+        <example type="correct">Un <marker>trois-quarts</marker> de rugby.</example>
       </rule>
       <rule>
         <pattern><token regexp="yes">tout-[aà]-fait</token></pattern>
