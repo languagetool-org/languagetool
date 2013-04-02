@@ -1,33 +1,35 @@
 #!/bin/bash
 if [ ! $# -eq 2 ] && [ ! $# -eq 3 ]; then
-  echo Usage: ./ltdiff.bash old_branch new_branch [lang]
-  echo e.g. ./ltdiff.bash V_1_6 V_1_7
+  echo Usage: ./ltdiff.bash old_tag new_tag\|trunk [lang]
+  echo e.g. ./ltdiff.bash V_2_0 languagetool-2.1
+  echo "     ./ltdiff.bash V_1_6 V_1_7"
   echo "     ./ltdiff.bash V_1_7 trunk en"
+  echo "see http://languagetool.svn.sourceforge.net/viewvc/languagetool/tags/ for a list of available tags"
   exit -1
 fi
 
-path_old="http://languagetool.svn.sourceforge.net/viewvc/languagetool/branches/$1/languagetool/languagetool-language-modules/en/src/main/resources/org/languagetool/rules"
+path_old="http://languagetool.svn.sourceforge.net/viewvc/languagetool/tags/$1/languagetool-language-modules/en/src/main/resources/org/languagetool/rules"
 if [ $2 == "trunk" ]; then
   path_new="http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/languagetool/languagetool-language-modules/en/src/main/resources/org/languagetool/rules"
 else
-  path_new="http://languagetool.svn.sourceforge.net/viewvc/languagetool/branches/$2/languagetool/languagetool-language-modules/en/src/main/resources/org/languagetool/rules"
+  path_new="http://languagetool.svn.sourceforge.net/viewvc/languagetool/tags/$2/languagetool-language-modules/en/src/main/resources/org/languagetool/rules"
 fi
 
 # check whether the path exists; if it's not the case, we probably have to use the old paths
 response=`curl -o /dev/null --silent --head --write-out '%{http_code}\n' $path_old`
 if [ $response == "404" ]; then
-  path_old="http://languagetool.svn.sourceforge.net/viewvc/languagetool/branches/$1/src/main/resources/org/languagetool/rules"
+  path_old="http://languagetool.svn.sourceforge.net/viewvc/languagetool/tags/$1/src/main/resources/org/languagetool/rules"
   response=`curl -o /dev/null --silent --head --write-out '%{http_code}\n' $path_old`
   if [ $response == "404" ]; then
-    path_old="http://languagetool.svn.sourceforge.net/viewvc/languagetool/branches/$1/src/rules"
+    path_old="http://languagetool.svn.sourceforge.net/viewvc/languagetool/tags/$1/src/rules"
   fi
 fi
 response=`curl -o /dev/null --silent --head --write-out '%{http_code}\n' $path_new`
 if [ $response == "404" ]; then
-  path_new="http://languagetool.svn.sourceforge.net/viewvc/languagetool/branches/$2/src/main/resources/org/languagetool/rules"
+  path_new="http://languagetool.svn.sourceforge.net/viewvc/languagetool/tags/$2/src/main/resources/org/languagetool/rules"
   response=`curl -o /dev/null --silent --head --write-out '%{http_code}\n' $path_new`
   if [ $response == "404" ]; then
-    path_new="http://languagetool.svn.sourceforge.net/viewvc/languagetool/branches/$2/src/rules"
+    path_new="http://languagetool.svn.sourceforge.net/viewvc/languagetool/tags/$2/src/rules"
   fi
 fi
 
@@ -38,8 +40,8 @@ if [ ! $? -eq 0 ]; then
   exit 1
 fi
 
-oldv=`echo $1 | sed "s/_/./g" | sed "s/V.//g"`
-newv=`echo $2 | sed "s/_/./g" | sed "s/V.//g"`
+oldv=`echo $1 | sed "s/_/./g" | sed "s/V.//g" | sed "s/languagetool-//g"`
+newv=`echo $2 | sed "s/_/./g" | sed "s/V.//g" | sed "s/languagetool-//g"`
 
 folder=${1}_to_${2}
 
@@ -95,6 +97,11 @@ do
   cd ../..
   
   java tools.ltdiff.VersionDiffGenerator $l_variant
+  
+  if [ ! $? -eq 0 ]; then
+    echo ltdiff failed
+    exit 2
+  fi
   
   mv changes_$l_variant.html tools/ltdiff/
   cd tools/ltdiff
