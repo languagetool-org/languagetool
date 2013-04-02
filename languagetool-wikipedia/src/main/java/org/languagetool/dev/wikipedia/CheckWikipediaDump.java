@@ -137,10 +137,12 @@ public class CheckWikipediaDump {
     } catch (ArticleLimitReachedException e) {
       System.out.println(e);
     } finally {
-      if (xmlHandler != null) { xmlHandler.close(); }
-      final float matchesPerDoc = (float)xmlHandler.getRuleMatchCount() / xmlHandler.getArticleCount();
-      System.out.printf(lang + ": %d total matches\n", xmlHandler.getRuleMatchCount());
-      System.out.printf(lang + ": ø%.2f rule matches per document\n", matchesPerDoc);
+      if (xmlHandler != null) {
+        final float matchesPerDoc = (float)xmlHandler.getRuleMatchCount() / xmlHandler.getArticleCount();
+        System.out.printf(lang + ": %d total matches\n", xmlHandler.getRuleMatchCount());
+        System.out.printf(lang + ": ø%.2f rule matches per document\n", matchesPerDoc);
+        xmlHandler.close();
+      }
     }
   }
 
