@@ -15863,6 +15863,19 @@ $Id$
             </rule>
         </rulegroup>
         <rulegroup id="PROPER" name="proper/que ve/vinent">
+        	<rule>
+                <pattern>
+                	<token postag="DA.*" postag_regexp="yes"/>
+                    <token inflected="yes">proper</token>
+                    <token regexp="yes" inflected="yes">primavera|estiu|tardor|hivern|Nadal|Pasqua|falla|gener|febrer|març|abril|maig|juny|juliol|agost|setembre|octubre|novembre|desembre</token>
+                </pattern>
+                <message>En aquest cas val més evitar l'adjectiu "<match no="2"/>".</message> 
+                <suggestion><match no="3" postag="N.(..).*" postag_regexp="yes" postag_replace="DD0$10">aquest</match> <match no="3"/></suggestion>
+                <short>Expressió preferible</short>
+                <example type="incorrect" correction="Aquesta tardor"><marker>La propera tardor</marker></example>
+                <example type="incorrect" correction="Aquest Nadal"><marker>El proper Nadal</marker></example>
+                <example type="correct">L'any que ve</example>
+            </rule>
             <rule>
                 <pattern>
                     <token inflected="yes">proper</token>
@@ -15893,7 +15906,7 @@ $Id$
             <rule>
                 <pattern>
                     <token inflected="yes">proper</token>
-                    <token regexp="yes" inflected="yes">versió|tren|reunió|novel·la|edició</token>
+                    <token regexp="yes" inflected="yes">versió|tren|reunió|novel·la|edició|capítol</token>
                 </pattern>
                 <message>En aquest cas val més evitar l'adjectiu "<match no="1"/>".</message>
                 <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">pròxim</match> <match no="2"/></suggestion>
@@ -15970,7 +15983,7 @@ $Id$
                     <token inflected="yes">proper</token>
                     <token regexp="yes" inflected="yes">vegada|volta|cop</token>
                 </pattern>
-                <message>En aquest cas val més evitar l'adjectiu "<match no="1"/>".</message>
+                <message>En aquest cas val més evitar l'adjectiu "<match no="2"/>".</message>
                 <suggestion><match no="3" postag="NC(.).*" postag_regexp="yes" postag_replace="DI0$1S0">un</match> <match no="3" postag="NC(.).*" postag_regexp="yes" postag_replace="AQ0$1S0">altre</match> <match no="3"/></suggestion>
                 <short>Expressió preferible</short>
                 <example type="incorrect" correction="Una altra vegada"><marker>La propera vegada</marker></example>
@@ -15982,9 +15995,9 @@ $Id$
         			<token>properament</token>
         		</pattern>
         		<message>Val més usar una altra expressió.</message>
-        		<suggestion>pròximament</suggestion>
+        		<suggestion>aviat</suggestion>
         		<short>Expressió preferible</short>
-        		<example type="incorrect" correction="pròximament">Es publicarà <marker>properament</marker>.</example>
+        		<example type="incorrect" correction="aviat">Es publicarà <marker>properament</marker>.</example>
         		<example type="correct">Es publicarà pròximament.</example>
         	</rule>
         </rulegroup>
