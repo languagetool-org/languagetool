@@ -55,6 +55,7 @@ class LanguageToolHttpHandler implements HttpHandler {
   
   private String[] enabledRules = {};
   private String[] disabledRules = {};
+  private boolean useEnabledOnly;
   private int maxTextLength = Integer.MAX_VALUE;
 
   /**
@@ -191,10 +192,20 @@ class LanguageToolHttpHandler implements HttpHandler {
       enabledRules = enabledParam.split(",");
     }
     
+    useEnabledOnly = false;
+    final String enabledOnly = parameters.get("enabledOnly");
+    if (null != enabledOnly) {
+      useEnabledOnly = (enabledOnly.equals("yes"));        
+    }
+    
     final String disabledParam = parameters.get("disabled");
     disabledRules = new String[0];
     if (null != disabledParam) {
       disabledRules = disabledParam.split(",");
+    }
+    
+    if (disabledRules.length > 0 && useEnabledOnly) {
+      throw new IllegalArgumentException("You cannot specify disabled rules using enabledOnly=yes");
     }
     
     useQuerySettings = enabledRules.length > 0 || disabledRules.length > 0; 
@@ -278,7 +289,7 @@ class LanguageToolHttpHandler implements HttpHandler {
       configureGUI(newLanguageTool);
     }
     if (useQuerySettings) {
-      Tools.selectRules(newLanguageTool, disabledRules, enabledRules, true);
+      Tools.selectRules(newLanguageTool, disabledRules, enabledRules, useEnabledOnly);
     }
     return newLanguageTool;
   }

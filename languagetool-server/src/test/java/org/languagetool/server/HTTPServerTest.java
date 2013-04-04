@@ -117,20 +117,24 @@ public class HTTPServerTest {
     //test for no changed if no options set
     final String[] nothing = new String[0];
     assertEquals(check(english, german, "We will berate you"), 
-    		checkWithOptions(english, german, "We will berate you", nothing, nothing));
+    		checkWithOptions(english, german, "We will berate you", nothing, nothing, false));
     
     //disabling
     final String[] disableAvsAn = new String[1];
     disableAvsAn[0] = "EN_A_VS_AN";
     assertTrue(!checkWithOptions(
-            english, german, "This is an test", nothing, disableAvsAn).contains("an test"));
+            english, german, "This is an test", nothing, disableAvsAn, false).contains("an test"));
 
     //enabling
     assertTrue(checkWithOptions(
-            english, german, "This is an test", disableAvsAn, nothing).contains("an test"));
+            english, german, "This is an test", disableAvsAn, nothing, false).contains("an test"));
     //should also mean _NOT_ disabling all other rules...
     assertTrue(checkWithOptions(
-            english, german, "We will berate you", disableAvsAn, nothing).contains("BERATE"));
+            english, german, "We will berate you", disableAvsAn, nothing, false).contains("BERATE"));
+    //..unless explicitly stated.
+    assertTrue(!checkWithOptions(
+        english, german, "We will berate you", disableAvsAn, nothing, true).contains("BERATE"));
+    
     
     //test if two rules get enabled as well
     
@@ -139,14 +143,14 @@ public class HTTPServerTest {
     twoRules[1] = "BERATE";
     
     String resultEn = checkWithOptions(
-            english, german, "This is an test. We will berate you.", twoRules, nothing);
+            english, german, "This is an test. We will berate you.", twoRules, nothing, false);
     
     assertTrue(resultEn.contains("EN_A_VS_AN"));
     assertTrue(resultEn.contains("BERATE"));
 
     //check two disabled options
     resultEn = checkWithOptions(
-            english, german, "This is an test. We will berate you.", nothing, twoRules);
+            english, german, "This is an test. We will berate you.", nothing, twoRules, false);
     
     assertTrue(!resultEn.contains("EN_A_VS_AN"));
     assertTrue(!resultEn.contains("BERATE"));
@@ -154,7 +158,7 @@ public class HTTPServerTest {
     //two disabled, one enabled, so enabled wins
     
     resultEn = checkWithOptions(
-            english, german, "This is an test. We will berate you.", disableAvsAn, twoRules);
+            english, german, "This is an test. We will berate you.", disableAvsAn, twoRules, false);
 
     assertTrue(resultEn.contains("EN_A_VS_AN"));
     assertTrue(!resultEn.contains("BERATE"));
@@ -169,6 +173,22 @@ public class HTTPServerTest {
       try {
         System.out.println("Testing 'access denied' check now, please ignore the exception");
         check(new German(), "no ip address allowed, so this cannot work");
+        fail();
+      } catch (IOException expected) {}
+    } finally {
+      server.stop();
+    }
+  }
+  
+  @Test
+  public void testEnabledOnlyParameter() throws Exception {
+    final HTTPServer server = new HTTPServer(new HTTPServerConfig(), false);
+    try {
+      server.run();
+      try {
+        System.out.println("Testing 'enabledOnly parameter' now, please ignore the exception");
+        final URL url = new URL("http://localhost:" + DEFAULT_PORT + "/?text=foo&language=en-US&disabled=EN_A_VS_AN&enabledOnly=yes");
+        HTTPTools.checkAtUrl(url);
         fail();
       } catch (IOException expected) {}
     } finally {
@@ -218,7 +238,7 @@ public class HTTPServerTest {
   }
 
   private String checkWithOptions(Language lang, Language motherTongue, String text,
-                                  String[] enabledRules, String[] disabledRules) throws IOException {
+                                  String[] enabledRules, String[] disabledRules, boolean useEnabledOnly) throws IOException {
     String urlOptions = "/?language=" + lang.getShortName();
     urlOptions += "&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
     if (null != motherTongue) {
@@ -230,6 +250,9 @@ public class HTTPServerTest {
     }
     if (enabledRules.length > 0) {
       urlOptions += "&enabled=" + StringUtils.join(enabledRules, ",");
+    }
+    if (useEnabledOnly) {
+      urlOptions += "&enabledOnly=yes";
     }
 
     final URL url = new URL("http://localhost:" + DEFAULT_PORT + urlOptions);
