@@ -278,7 +278,7 @@ class LanguageToolHttpHandler implements HttpHandler {
       configureGUI(newLanguageTool);
     }
     if (useQuerySettings) {
-      Tools.selectRules(newLanguageTool, disabledRules, enabledRules);
+      Tools.selectRules(newLanguageTool, disabledRules, enabledRules, true);
     }
     return newLanguageTool;
   }

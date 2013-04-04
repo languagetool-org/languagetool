@@ -128,8 +128,8 @@ public class HTTPServerTest {
     //enabling
     assertTrue(checkWithOptions(
             english, german, "This is an test", disableAvsAn, nothing).contains("an test"));
-    //should also mean disabling all other rules...
-    assertTrue(!checkWithOptions(
+    //should also mean _NOT_ disabling all other rules...
+    assertTrue(checkWithOptions(
             english, german, "We will berate you", disableAvsAn, nothing).contains("BERATE"));
     
     //test if two rules get enabled as well
