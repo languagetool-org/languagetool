@@ -459,7 +459,7 @@ class Main {
       System.exit(1);
     }
     if (options.isPrintVersion()) {
-      System.out.println("LanguageTool version " + JLanguageTool.VERSION);
+      System.out.println("LanguageTool version " + JLanguageTool.VERSION + " (" + JLanguageTool.BUILD_DATE + ")");
       System.exit(0);
     }
     if (options.isPrintLanguages()) {
