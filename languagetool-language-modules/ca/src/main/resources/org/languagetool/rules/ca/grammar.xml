@@ -3274,13 +3274,14 @@ $Id$
         <rule id="SI_QUE" name="*sí m'agrada/sí que m'agrada">
             <pattern>
                 <marker>
-                    <token skip="3">sí<exception postag="_GN_MS"/><exception postag="PP.*|P0.*|V.*|_GV_|_perfet|SENT_END" scope="next" postag_regexp="yes" negate_pos="yes"/></token>
+                    <token skip="3">sí<exception postag="_GN_MS"/><exception postag="PP.*|P0.*|V.*|_GV_|_perfet|_obligacio|SENT_END" scope="next" postag_regexp="yes" negate_pos="yes"/></token>
                 </marker>
                 <token postag="V.[MIS].*" postag_regexp="yes"/>
             </pattern>
             <message>Cal dir: <suggestion>sí que</suggestion>.</message>
             <example type="incorrect">Tu <marker>sí</marker> hauries respost bé.</example>
             <example type="incorrect">Tu <marker>sí</marker> li hauries respost bé.</example>
+            <example type="incorrect"><marker>Sí</marker> haurà de ser obligat.</example>
             <example type="correct">Tu sí que hauries respost bé.</example>
             <example type="correct">El sí va acompanyat de dubtes.</example>
         </rule>
@@ -6063,7 +6064,7 @@ $Id$
              <rule>
                 <pattern>
                     <token>amb</token>
-                    <token regexp="yes">(?-i)a</token>
+                    <token regexp="yes">(?-i)a<exception postag=".*LOC_.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Combinació impossible de preposicions.</message>
                 <suggestion><match no="2"/>
@@ -6072,6 +6073,7 @@ $Id$
                 <example type="incorrect">que volíem deixar enrere <marker>amb a</marker>l procés</example>
                 <example type="correct">que volíem deixar enrere amb el procés</example>
                 <example type="correct">amb A. Moncunill.</example>
+                <example type="correct">Amb a penes tres anys.</example>
             </rule>
             <rule>
                 <pattern>
@@ -18197,6 +18199,7 @@ $Id$
 				<example type="incorrect" correction="sento">Jo <marker>sent</marker> que sí.</example>
 				<example type="correct">Ell sent que sí.</example>
 				<example type="correct">Més tard, ho va aconseguir.</example>
+				<example type="correct">Demano que el tema es resolgui de pressa.</example>
         	</rule>
         </rulegroup> 
         <rulegroup id="EXIGEIX_VERBS_VALENCIANS" name="Exigeix formes verbals valencianes" default="off">
