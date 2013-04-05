@@ -68,7 +68,7 @@ class OutputDumpHandler extends BaseWikipediaDumpHandler {
           System.out.println(StringTools.getContext(match.getFromPos(), match.getToPos(), text, CONTEXT_SIZE));
           i++;
           errorCount++;
-          if (maxErrors > 0 && errorCount > maxErrors) {
+          if (maxErrors > 0 && errorCount >= maxErrors) {
             throw new ErrorLimitReachedException(maxErrors);
           }
         }

@@ -113,7 +113,7 @@ class DatabaseDumpHandler extends BaseWikipediaDumpHandler {
           prepSt.setString(9, URL_PREFIX.replaceAll(LANG_MARKER, langCode) + title);
           prepSt.executeUpdate();
           errorCount++;
-          if (maxErrors > 0 && errorCount > maxErrors) {
+          if (maxErrors > 0 && errorCount >= maxErrors) {
             throw new ErrorLimitReachedException(maxErrors);
           }
         }
