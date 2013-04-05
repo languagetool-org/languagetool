@@ -13647,6 +13647,32 @@ $Id$
     
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="RECOLZAMENT" name="recolzament">
+        	<pattern>
+        		<token regexp="yes">recolzaments?</token>
+        	</pattern>
+        	<message>Incorrecte si volíeu dir <suggestion><match no="1" postag="NCM([SP]).+" postag_regexp="yes" postag_replace="NCM$1.*">suport</match></suggestion>. Correcte en altres sentits.</message>
+        	<short>Possible error</short>
+        	<example type="incorrect" correction="suport">Sense <marker>recolzament</marker> popular.</example>
+        	<example type="correct">Sense suport.</example>
+        </rule>
+        <rule id="RECOLZAR" name="recolzar">
+            <pattern>
+                <token postag="SENT_START" skip="-1"><exception scope="next" postag="NP..G.." postag_regexp="yes"/><exception scope="next" regexp="yes" inflected="yes">sobre|paret|escala|arbre|mur|esquena</exception></token>
+                <marker>
+                    <token inflected="yes" skip="-1">recolzar<exception scope="next" postag="NP..G.." postag_regexp="yes"/><exception scope="next" regexp="yes" inflected="yes">sobre|paret|escala|arbre|mur|esquena</exception></token>
+                </marker>
+                <token postag="SENT_END" />
+            </pattern>
+            <message>Incorrecte en el sentit de "donar suport".</message>
+            <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">donar</match> suport</suggestion>
+            <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match> costat</suggestion>
+            <url>http://esadir.cat/lexic/entrades/assentarse</url>
+            <example type="incorrect" correction="donéssim suport|féssim costat">No volia que <marker>recolzéssim</marker> al president.</example>
+            <example type="correct">Una teoria que recolza sobre fets indiscutibles.</example>
+            <example type="correct">Posa l'escala que recolzi a la paret.</example>
+            <example type="correct">Em vaig recolzar d'esquena en un arbre.</example>
+        </rule>
         <rule id="BOBO" name="bobo">
         	<pattern>
         		<token regexp="yes">bobos?</token>
@@ -14475,7 +14501,6 @@ $Id$
             </rule>
         </rulegroup>
         <rule id="ASSENTAR_ASSEURE" name="assentar-se/asseure's">
-            <!-- es podria espeficicar Nom propi geogràfic -->
             <pattern>
                 <token postag="SENT_START" skip="-1"><exception scope="next" postag="NP..G.." postag_regexp="yes"/><exception scope="next" regexp="yes" inflected="yes">bàvar|eslau|roca|ciutat|pedra|morter|tossal|muralla|castell|fonament|sòcol|plana|agricultor|poblat|sedentari.*|mite|història|sistema|producció|cultura|creença|judici|juí|teoria|illa|sobirania|fet|austral|base|categoria|colon|colonitz.*|colònia|comarca|comunitat|errant|est|fermament|habitant|hàbitat|medi|meridional|natural|nord|nord-est|nord-oest|nucli|nòmada|occident|occidental|oest|organització|orient|oriental|península|població|poblador|poblament|poblar|poble|província|puig|recurs|regió|regne|residència|rural|septentrional|societat|sud|sud-est|sud-oest|terra|territori|tribu|turó|tècnica|vall|vida|zona|ètnia|ètnic</exception></token>
                 <marker>
