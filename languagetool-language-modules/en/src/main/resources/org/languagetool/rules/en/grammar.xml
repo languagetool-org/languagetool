@@ -1567,6 +1567,35 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
             <example type="correct">Please <marker>note</marker> that saying “Open Source” does not mean very much.</example>
             <example correction="note" type="incorrect">Please <marker>not</marker> that saying “Open Source” does not mean very much.</example>
         </rule>
+        <rulegroup id="I_AM_NOTE_SURE" name="I'm note (not) sure">
+            <rule>
+                <pattern>
+                    <token>I</token>
+                    <token>am</token>
+                    <marker>
+                        <token>note</token>
+                    </marker>
+                    <token>sure</token>
+                </pattern>
+                <message>Did you mean <suggestion>not</suggestion>?</message>
+                <example type="incorrect" correction="not">I am <marker>note</marker> sure.</example>
+                <example type="correct">I am <marker>not</marker> sure.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>I</token>
+                    <token>'</token>
+                    <token>m</token>
+                    <marker>
+                        <token>note</token>
+                    </marker>
+                    <token>sure</token>
+                </pattern>
+                <message>Did you mean <suggestion>not</suggestion>?</message>
+                <example type="incorrect" correction="not">I'm <marker>note</marker> sure.</example>
+                <example type="correct">I'm <marker>not</marker> sure.</example>
+            </rule>
+        </rulegroup>
         <rule id="NUT_NOT" name="nut (not)">
             <pattern>
                 <marker>
