@@ -91,6 +91,7 @@ public class AccentuationCheckRule extends CatalanRule {
     if (messages != null) {
       super.setCategory(new Category(messages.getString("category_misc")));
     }
+    setLocQualityIssueType("misspelling");
     relevantWords = loadWords(FILE_NAME);
     relevantWords2 = loadWords(FILE_NAME2);
   }

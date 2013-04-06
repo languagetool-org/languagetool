@@ -144,6 +144,7 @@ public class ReflexiveVerbsRule extends CatalanRule {
 	  if (messages != null) {
 		  super.setCategory(new Category("Verbs"));
 	  }
+	  setLocQualityIssueType("grammar");
   }
 
   

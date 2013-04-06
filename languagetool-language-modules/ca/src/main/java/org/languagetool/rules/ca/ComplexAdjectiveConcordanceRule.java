@@ -101,6 +101,7 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
 		if (messages != null) {
 			super.setCategory(new Category("Z) Concordances en grups nominals"));
 		}
+		setLocQualityIssueType("grammar");
 	}
 
 	@Override

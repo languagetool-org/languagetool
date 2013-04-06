@@ -32,6 +32,7 @@ public class CatalanUnpairedExclamationMarksRule extends GenericUnpairedBrackets
   public CatalanUnpairedExclamationMarksRule(final ResourceBundle messages,
       final Language language) {
     super(messages, language);
+    setLocQualityIssueType("style");
     setDefaultOff();
     startSymbols = CA_START_SYMBOLS;
     endSymbols = CA_END_SYMBOLS;
