@@ -1,0 +1,120 @@
+/* LanguageTool, a natural language style checker 
+ * Copyright (C) 2010 Daniel Naber (http://www.languagetool.org)
+ * 
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+ * USA
+ */
+
+package org.languagetool.rules.ca;
+
+import java.io.IOException;
+import java.util.List;
+
+import junit.framework.TestCase;
+
+import org.languagetool.JLanguageTool;
+import org.languagetool.TestTools;
+import org.languagetool.language.Catalan;
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.RuleMatch;
+
+public class CatalanUnpairedBracketsRuleTest extends TestCase {
+
+  private Rule rule;
+  private JLanguageTool langTool;
+  
+  @Override
+  public void setUp() throws IOException {
+    rule = new CatalanUnpairedBracketsRule(TestTools.getEnglishMessages(), new Catalan());
+    langTool = new JLanguageTool(new Catalan());
+  }
+  
+  public void testRule() throws IOException {
+    // correct sentences:
+    assertCorrect("(Una frase de prova).");
+    assertCorrect("Aquesta és la paraula 'prova'.");
+    assertCorrect("This is a sentence with a smiley :-)");
+    assertCorrect("This is a sentence with a smiley ;-) and so on...");
+    assertCorrect("Aquesta és l'hora de les decisions.");
+    assertCorrect("Aquesta és l’hora de les decisions.");
+    
+    //assertCorrect("The screen is 20\" wide.");
+    assertCorrect("This is a [test] sentence...");
+    assertCorrect("The plight of Tamil refugees caused a surge of support from most of the Tamil political parties.[90]");
+    assertCorrect("This is what he said: \"We believe in freedom. This is what we do.\"");
+    assertCorrect("(([20] [20] [20]))");
+    // test for a case that created a false alarm after disambiguation
+    assertCorrect("This is a \"special test\", right?");
+    // numerical bullets
+    assertCorrect("We discussed this in Chapter 1).");
+    assertCorrect("The jury recommended that: (1) Four additional deputies be employed.");
+    assertCorrect("We discussed this in section 1a).");
+    assertCorrect("We discussed this in section iv).");
+    //inches exception shouldn't match " here:
+    assertCorrect("In addition, the government would pay a $1,000 \"cost of education\" grant to the schools.");
+    //assertCorrect("Paradise lost to the alleged water needs of Texas' big cities Thursday.");
+    assertCorrect ("Porta'l cap ací.");
+    assertCorrect ("Porta-me'n cinquanta!");
+
+    // incorrect sentences:
+    assertIncorrect("Aquesta és l‘hora de les decisions.");
+    assertIncorrect("(This is a test sentence.");
+    assertIncorrect("This is a test with an apostrophe &'.");
+    assertIncorrect("&'");
+    assertIncorrect("!'");
+    assertIncorrect("What?'");
+
+    // this is currently considered incorrect... although people often use smileys this way:
+    assertIncorrect("Some text (and some funny remark :-) with more text to follow");
+
+    RuleMatch[] matches;
+    matches = rule.match(langTool.getAnalyzedSentence("(This is a test” sentence."));
+    assertEquals(2, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("This [is (a test} sentence."));
+    assertEquals(3, matches.length);
+  }
+
+  private void assertCorrect(String sentence) throws IOException {
+    final RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(sentence));
+    assertEquals(0, matches.length);
+  }
+
+  private void assertIncorrect(String sentence) throws IOException {
+    final RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(sentence));
+    assertEquals(1, matches.length);
+  }
+  
+  public void testMultipleSentences() throws IOException {
+    final JLanguageTool tool = new JLanguageTool(new Catalan());
+    tool.enableRule("CA_UNPAIRED_BRACKETS");
+
+    List<RuleMatch> matches;
+    matches = tool
+        .check("Aquesta és una sentència múltiple amb claudàtors: "
+            + "[Ací hi ha un claudàtor. Amb algun text.] i ací continua.\n");
+    assertEquals(0, matches.size());
+    matches = tool
+        .check("Aquesta és una sentència múltiple amb claudàtors: "
+            + "[Ací hi ha un claudàtor. Amb algun text. I ací continua.\n\n");
+    assertEquals(1, matches.size());
+    // now with a paragraph end inside - we get two alarms because of paragraph
+    // resetting
+    matches = tool
+        .check("Aquesta és una sentència múltiple amb parèntesis "
+            + "(Ací hi ha un parèntesi. \n\n Amb algun text.) i ací continua.");
+    assertEquals(2, matches.size());
+  }
+
+}

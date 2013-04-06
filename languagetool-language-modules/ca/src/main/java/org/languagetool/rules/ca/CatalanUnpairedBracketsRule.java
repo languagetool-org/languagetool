@@ -29,8 +29,9 @@ import org.languagetool.rules.GenericUnpairedBracketsRule;
 
 public class CatalanUnpairedBracketsRule extends GenericUnpairedBracketsRule {
 
-	private static final String[] CA_START_SYMBOLS = { "[", "(", "{", "“", "«" };
-	private static final String[] CA_END_SYMBOLS = { "]", ")", "}", "”", "»" };
+	private static final String[] CA_START_SYMBOLS = { "[", "(", "{", "“", "«", "\"", "'", "‘" };
+	private static final String[] CA_END_SYMBOLS   = { "]", ")", "}", "”", "»", "\"", "'", "’" };
+
 
 	private static final Pattern VALID_BEFORE_CLOSING_PARENTHESIS = Pattern
 			.compile("\\d+|[a-zA-Z]", Pattern.UNICODE_CASE);
