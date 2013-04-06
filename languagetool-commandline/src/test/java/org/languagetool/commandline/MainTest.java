@@ -191,7 +191,7 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue("Got: " + output, output.contains("<error fromy=\"4\" fromx=\"5\" toy=\"4\" tox=\"10\" " +
             "ruleId=\"ENGLISH_WORD_REPEAT_RULE\" msg=\"Possible typo: you repeated a word\" replacements=\"is\" " +
             "context=\"This is is a test of language tool. \" contextoffset=\"5\" offset=\"5\" errorlength=\"5\" " +
-            "category=\"Miscellaneous\" locqualityissuetype=\"addition\"/>"));
+            "category=\"Miscellaneous\" locqualityissuetype=\"duplication\"/>"));
     // note: the offset is relative to the sentence... this seems wrong - it happens because of the way
     // the command line client feeds the data into the check() methods.
   }
