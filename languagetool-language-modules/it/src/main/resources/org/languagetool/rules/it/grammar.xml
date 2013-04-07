@@ -100,7 +100,7 @@ $Id$
 <!--
  ================================================================================
  Fixes
- ======== ===========================================================================
+ ======== ===================================================================================
  PB001    Removed prepositions and two letter words in repetition check
  PB002    Added some preposition usage checks (moved a gratis rule)
  2957133  name/article concordance (un vs uno)
@@ -115,7 +115,8 @@ $Id$
  PB011    Reworked rule GR_04_002 exteneded to all words ending with à|è|é|ì|ò|ù
  PB012    Added exception for article of the word dei
  3609558  False positive in rule ER_02_002 'al'-'la'
- ======== ===========================================================================
+ 3610220  False positive in 'per lo meno' for rule GR_02_001 changed so that adv are skipped
+ ======== ==================================================================================
 -->
 
 <rules lang="it" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
@@ -172,112 +173,112 @@ $Id$
             <!-- la -->
             <rule>
                 <pattern>
-                    <token regexp="yes">il|lo|i|gli|le</token>
-                    <token postag="NOUN-F.s" postag_regexp="yes"><exception postag="(NOUN-F.p)|(NOUN-M.s)" postag_regexp="yes"></exception></token>
+                    <marker><token skip="1" regexp="yes">il|lo|i|gli|le</token></marker>
+                    <token postag="NOUN-F.s" postag_regexp="yes"><exception postag="(NOUN-F.p)|(NOUN-M.s)|(ADV)" postag_regexp="yes"></exception></token>
                 </pattern>
-                <message>L'articolo non concorda: <suggestion>la <match no="2"></match></suggestion>.</message>
-                <example type="incorrect">Vidi <marker>il mucca</marker> pascolare nel campo.</example>
-                <example type="correct">Vidi <marker>la mucca</marker> pascolare nel campo.</example>
+                <message>L'articolo non concorda, usare: <suggestion>la</suggestion>.</message>
+                <example type="incorrect">Vidi <marker>il</marker> mucca pascolare nel campo.</example>
+                <example type="correct">Vidi <marker>la</marker> mucca pascolare nel campo.</example>
             </rule>
             <!-- le -->
             <rule>
                 <pattern>
-                    <token regexp="yes">il|lo|i|gli|la</token>
-                    <token postag="NOUN-F.p" postag_regexp="yes"><exception postag="(NOUN-F.s)|(NOUN-M.p)" postag_regexp="yes"></exception></token>
+                    <marker><token skip="1" regexp="yes">il|lo|i|gli|la</token></marker>
+                    <token postag="NOUN-F.p" postag_regexp="yes"><exception postag="(NOUN-F.s)|(NOUN-M.p)|(ADV)" postag_regexp="yes"></exception></token>
                 </pattern>
-                <message>L'articolo non concorda: <suggestion>le <match no="2"></match></suggestion>.</message>
-                <example type="incorrect">Vidi <marker>il mucche</marker> pascolare nel campo.</example>
-                <example type="correct">Vidi <marker>le mucche</marker> pascolare nel campo.</example>
+                <message>L'articolo non concorda, usare: <suggestion>le</suggestion>.</message>
+                <example type="incorrect">Vidi <marker>il</marker> mucche pascolare nel campo.</example>
+                <example type="correct">Vidi <marker>le</marker> mucche pascolare nel campo.</example>
             </rule>
             <!-- una -->
             <rule>
                 <pattern>
-                    <token regexp="yes">un|uno</token>
-                    <token postag="NOUN-F.s" postag_regexp="yes"><exception postag="(NOUN-F.p)|(NOUN-M.s)" postag_regexp="yes"></exception></token>
+                    <marker><token skip="1" regexp="yes">un|uno</token></marker>
+                    <token postag="NOUN-F.s" postag_regexp="yes"><exception postag="(NOUN-F.p)|(NOUN-M.s)|(ADV)" postag_regexp="yes"></exception></token>
                 </pattern>
-                <message>L'articolo non concorda: <suggestion>una <match no="2"></match></suggestion>.</message>
-                <example type="incorrect">Vidi <marker>un mucca</marker> pascolare nel campo.</example>
-                <example type="correct">Vidi <marker>una mucche</marker> pascolare nel campo.</example>
+                <message>L'articolo non concorda, usare: <suggestion>una</suggestion>.</message>
+                <example type="incorrect">Vidi <marker>un</marker> mucca pascolare nel campo.</example>
+                <example type="correct">Vidi <marker>una</marker> mucche pascolare nel campo.</example>
             </rule>
             <!-- il -->
             <rule>
                 <pattern>
-                    <token regexp="yes">lo|la|i|gli|le</token>
-                    <token postag="NOUN-M.s" postag_regexp="yes" regexp="yes">[bcdfghlmnpqrstv][aeiou].*|[bcdfglmnqrtv][bcdfglmnpqrtv].*<exception postag="(NOUN-M.p)|(NOUN-F.s)" postag_regexp="yes"></exception></token>
+                    <marker><token skip="1" regexp="yes">lo|la|i|gli|le</token></marker>
+                    <token postag="NOUN-M.s" postag_regexp="yes" regexp="yes">[bcdfghlmnpqrstv][aeiou].*|[bcdfglmnqrtv][bcdfglmnpqrtv].*<exception postag="(NOUN-M.p)|(NOUN-F.s)|(ADV)" postag_regexp="yes"></exception></token>
                 </pattern>
-                <message>L'articolo non concorda: <suggestion>il <match no="2"></match></suggestion>.</message>
-                <example type="incorrect">Quanto costa <marker>lo vino</marker>?</example>
-                <example type="correct">Quanto costa <marker>il vino</marker>?</example>
+                <message>L'articolo non concorda, usare: <suggestion>il</suggestion>.</message>
+                <example type="incorrect">Quanto costa <marker>lo</marker> vino?</example>
+                <example type="correct">Quanto costa <marker>il</marker> vino?</example>
             </rule>
             <!-- i -->
             <rule>
                 <pattern>
-                    <token regexp="yes">lo|la|il|gli|le</token>
-                    <token postag="NOUN-M.p" postag_regexp="yes" regexp="yes">[bcdfghlmnpqrstv][aeiou].*|[bcdfglmnqrtv][bcdfglmnpqrtv].*<exception postag="(NOUN-M.s)|(NOUN-F.p)" postag_regexp="yes"></exception>
+                    <marker><token skip="1" regexp="yes">lo|la|il|gli|le</token></marker>
+                    <token postag="NOUN-M.p" postag_regexp="yes" regexp="yes">[bcdfghlmnpqrstv][aeiou].*|[bcdfglmnqrtv][bcdfglmnpqrtv].*<exception postag="(NOUN-M.s)|(NOUN-F.p)|(ADV)" postag_regexp="yes"></exception>
 <!-- PB0012 + -->
                     	<exception>dei</exception>
 <!-- PB0012 - -->                        
                     </token>
                 </pattern>
-                <message>L'articolo non concorda: <suggestion>i <match no="2"></match></suggestion>.</message>
-                <example type="incorrect">Hai fatto <marker>le compiti</marker>?</example>
-                <example type="correct">Hai fatto <marker>i compiti</marker>?</example>
+                <message>L'articolo non concorda, usare: <suggestion>i</suggestion>.</message>
+                <example type="incorrect">Hai fatto <marker>le</marker> compiti?</example>
+                <example type="correct">Hai fatto <marker>i</marker> compiti?</example>
             </rule>
             <!-- un -->
             <rule>
                 <pattern>
-                    <token regexp="yes">uno|una</token>
-                    <token postag="NOUN-M.s" postag_regexp="yes" regexp="yes">[bcdfghlmnpqrstv][aeiou].*|[bcdfghlmnqrtv][bcdfghlmnpqrtv].*<exception postag="(NOUN-M.p)|(NOUN-F.s)" postag_regexp="yes"></exception></token>
+                    <marker><token skip="1" regexp="yes">uno|una</token></marker>
+                    <token postag="NOUN-M.s" postag_regexp="yes" regexp="yes">[bcdfghlmnpqrstv][aeiou].*|[bcdfghlmnqrtv][bcdfghlmnpqrtv].*<exception postag="(NOUN-M.p)|(NOUN-F.s)|(ADV)" postag_regexp="yes"></exception></token>
                 </pattern>
-                <message>L'articolo non concorda: <suggestion>un <match no="2"></match></suggestion>.</message>
-                <example type="incorrect">Mi insegni <marker>uno trucco</marker>?</example>
-                <example type="correct">Mi insegni <marker>un trucco</marker>?</example>
+                <message>L'articolo non concorda, usare: <suggestion>un</suggestion>.</message>
+                <example type="incorrect">Mi insegni <marker>uno</marker> trucco?</example>
+                <example type="correct">Mi insegni <marker>un</marker> trucco?</example>
             </rule>
             <!-- lo -->
             <rule>
                 <pattern>
-                    <token regexp="yes">i|la|il|gli|le</token>
-                    <token postag="NOUN-M.s" postag_regexp="yes" regexp="yes">[zx].*|s[bcdfghlmnpqrstv].*|p[ns].*|gn.*|[iy][aeiou].*<exception postag="(NOUN-M.p)|(NOUN-F.s)" postag_regexp="yes"></exception></token>
+                    <marker><token skip="1" regexp="yes">i|la|il|gli|le</token></marker>
+                    <token postag="NOUN-M.s" postag_regexp="yes" regexp="yes">[zx].*|s[bcdfghlmnpqrstv].*|p[ns].*|gn.*|[iy][aeiou].*<exception postag="(NOUN-M.p)|(NOUN-F.s)|(ADV)" postag_regexp="yes"></exception></token>
                 </pattern>
-                <message>L'articolo non concorda: <suggestion>lo <match no="2"></match></suggestion>.</message>
-                <example type="incorrect">Ho forato <marker>il pneumatico</marker>.</example>
-                <example type="correct">Hai forato <marker>lo pneumatico</marker>.</example>
+                <message>L'articolo non concorda, usare: <suggestion>lo</suggestion>.</message>
+                <example type="incorrect">Ho forato <marker>il</marker> pneumatico.</example>
+                <example type="correct">Hai forato <marker>lo</marker> pneumatico.</example>
             </rule>
             <!-- gli -->
             <rule>
                 <pattern>
-                    <token regexp="yes">i|la|il|lo|le</token>
+                    <marker><token skip="1" regexp="yes">i|la|il|lo|le</token></marker>
                     <token postag="NOUN-M.p" postag_regexp="yes" regexp="yes">[zx].*|s[bcdfghlmnpqrstv].*|p[ns].*|gn.*|[iy][aeiou].*<exception postag="(NOUN-M.s)|(NOUN-F.p)" postag_regexp="yes"></exception></token>
                 </pattern>
-                <message>L'articolo non concorda: <suggestion>gli <match no="2"></match></suggestion>.</message>
-                <example type="incorrect">Come raccontano <marker>i storici</marker>...</example>
-                <example type="correct">Come raccontano <marker>gli storici</marker>...</example>
+                <message>L'articolo non concorda, usare: <suggestion>gli</suggestion>.</message>
+                <example type="incorrect">Come raccontano <marker>i</marker> storici...</example>
+                <example type="correct">Come raccontano <marker>gli</marker> storici...</example>
             </rule>
             <!-- uno -->
             <rule>
                 <pattern>
-                    <token regexp="yes">un|una</token>
+                    <marker><token skip="1" regexp="yes">un|una</token></marker>
                     <!-- 2957133 + -->
                     <!--
                                         <token postag="NOUN-M.s" postag_regexp="yes" regexp="yes">[zx].*|s[bcdfghlmnpqrstv].*|p[ns].*|[gn].*|[iy][aeiou].*<exception postag="(NOUN-M.p)|(NOUN-F.s)" postag_regexp="yes"/></token>
                     -->
-                    <token postag="NOUN-M.s" postag_regexp="yes" regexp="yes">[zx].*|s[bcdfghlmnpqrstv].*|p[ns].*|gn.*|[iy][aeiou].*<exception postag="(NOUN-M.p)|(NOUN-F.s)" postag_regexp="yes"></exception></token>
+                    <token postag="NOUN-M.s" postag_regexp="yes" regexp="yes">[zx].*|s[bcdfghlmnpqrstv].*|p[ns].*|gn.*|[iy][aeiou].*<exception postag="(NOUN-M.p)|(NOUN-F.s)|(ADV)" postag_regexp="yes"></exception></token>
                     <!-- 2957133 - -->
                 </pattern>
-                <message>L'articolo non concorda: <suggestion>uno <match no="2"></match></suggestion>.</message>
-                <example type="incorrect">Devi andare da <marker>un psicologo</marker>.</example>
-                <example type="correct">Devi andare da <marker>uno psicologo</marker>.</example>
+                <message>L'articolo non concorda, usare: <suggestion>uno</suggestion>.</message>
+                <example type="incorrect">Devi andare da <marker>un</marker> psicologo.</example>
+                <example type="correct">Devi andare da <marker>uno</marker> psicologo.</example>
             </rule>
 <!-- PB012 + -->            
             <!-- gli dei-->
             <rule>
                 <pattern>
-                    <token regexp="yes">i|la|il|lo|le</token>
+                    <marker><token regexp="yes">i|la|il|lo|le</token></marker>
                     <token>dei</token>
                 </pattern>
-                <message>L'articolo non concorda: <suggestion>gli <match no="2"></match></suggestion>.</message>
-                <example type="incorrect">Adoravano <marker>i dei</marker> del suono.</example>
-                <example type="correct">Adoravano <marker>gli dei</marker> del suono.</example>
+                <message>L'articolo non concorda, usare: <suggestion>gli</suggestion>.</message>
+                <example type="incorrect">Adoravano <marker>i</marker> dei del suono.</example>
+                <example type="correct">Adoravano <marker>gli</marker> dei del suono.</example>
             </rule>
 <!-- PB012 - -->
 		</rulegroup>
