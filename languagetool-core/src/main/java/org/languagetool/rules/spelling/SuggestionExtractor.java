@@ -156,8 +156,8 @@ public class SuggestionExtractor {
         final List<String> tokens = getSuggestionTokens(rule, lang);
         tokenCount += tokens.size();
         for (String token : tokens) {
-          final AnalyzedSentence analyzedToken = languageTool.getAnalyzedSentence(token);
-          final RuleMatch[] matches = spellcheckRule.match(analyzedToken);
+          final AnalyzedSentence sentence = languageTool.getAnalyzedSentence(token);
+          final RuleMatch[] matches = spellcheckRule.match(sentence);
           if (matches.length > 0) {
             suggestionTokens.add(token);
           } else {

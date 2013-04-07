@@ -541,20 +541,20 @@ public final class JLanguageTool {
     unknownWords = new HashSet<String>();
     for (final String sentence : sentences) {
       sentenceCount++;      
-      AnalyzedSentence analyzedText = getAnalyzedSentence(sentence);
-      rememberUnknownWords(analyzedText);
+      AnalyzedSentence analyzedSentence = getAnalyzedSentence(sentence);
+      rememberUnknownWords(analyzedSentence);
 
       if (sentenceCount == sentences.size()) {
-        final AnalyzedTokenReadings[] anTokens = analyzedText.getTokens();        
+        final AnalyzedTokenReadings[] anTokens = analyzedSentence.getTokens();
         anTokens[anTokens.length - 1].setParaEnd();
-        analyzedText = new AnalyzedSentence(anTokens);
+        analyzedSentence = new AnalyzedSentence(anTokens);
       }
       
-      printIfVerbose(analyzedText.toString());
-      printIfVerbose(analyzedText.getAnnotations());
+      printIfVerbose(analyzedSentence.toString());
+      printIfVerbose(analyzedSentence.getAnnotations());
       final List<RuleMatch> sentenceMatches = 
       checkAnalyzedSentence(paraMode, allRules, charCount, lineCount,
-          columnCount, sentence, analyzedText);
+          columnCount, sentence, analyzedSentence);
 
       Collections.sort(sentenceMatches);
       ruleMatches.addAll(sentenceMatches);
@@ -596,7 +596,7 @@ public final class JLanguageTool {
 
   public List<RuleMatch> checkAnalyzedSentence(final ParagraphHandling paraMode,
       final List<Rule> allRules, int tokenCount, int lineCount,
-      int columnCount, final String sentence, AnalyzedSentence analyzedText) 
+      int columnCount, final String sentence, AnalyzedSentence analyzedSentence)
         throws IOException {
     final List<RuleMatch> sentenceMatches = new ArrayList<RuleMatch>();
     for (final Rule rule : allRules) {
@@ -627,7 +627,7 @@ public final class JLanguageTool {
         default:
       }
 
-      final RuleMatch[] thisMatches = rule.match(analyzedText);
+      final RuleMatch[] thisMatches = rule.match(analyzedSentence);
       for (final RuleMatch element1 : thisMatches) {
         final RuleMatch thisMatch = adjustRuleMatchPos(element1,
             tokenCount, columnCount, lineCount, sentence);    

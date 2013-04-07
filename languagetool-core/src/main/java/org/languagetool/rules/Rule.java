@@ -79,8 +79,11 @@ public abstract class Rule {
   public abstract String getDescription();
 
   /**
-   * Check whether the given text matches this error rule, i.e. whether the text
-   * contains this error.
+   * Check whether the given sentence matches this error rule, i.e. whether it
+   * contains the error detected by this rule. Note that the order in which
+   * this method is called is not always guaranteed, i.e. the sentence order in the
+   * text may be different than the order in which you get the sentences (this may be the
+   * case when LanguageTool is used as a LibreOffice/OpenOffice add-on, for example).
    *
    * @param text a pre-analyzed sentence
    * @return an array of {@link RuleMatch} objects

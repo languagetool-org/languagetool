@@ -77,10 +77,10 @@ public class BitextPatternRule extends BitextRule {
   }
 
   @Override
-  public RuleMatch[] match(AnalyzedSentence sourceText,
-      AnalyzedSentence targetText) throws IOException {
-    if (srcRule.match(sourceText).length > 0)  {    
-      return trgRule.match(targetText);
+  public RuleMatch[] match(AnalyzedSentence sourceSentence,
+      AnalyzedSentence targetSentence) throws IOException {
+    if (srcRule.match(sourceSentence).length > 0)  {
+      return trgRule.match(targetSentence);
     }
     return new RuleMatch[0];
   }
