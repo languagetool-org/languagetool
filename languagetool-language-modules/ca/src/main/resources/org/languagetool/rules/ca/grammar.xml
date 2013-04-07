@@ -9081,7 +9081,7 @@ $Id$
         <rulegroup id="HI_REDUNDANT" name="pronom 'hi' redundant">
             <rule>
                 <pattern>
-                    <token skip="3">on<exception scope="next" postag="PUNCT.*" postag_regexp="yes"/></token>
+                    <token skip="3">on<exception scope="next" postag="_PUNCT.*" postag_regexp="yes"/></token>
                     <marker>
                         <token>hi</token>
                     </marker>
@@ -9098,7 +9098,7 @@ $Id$
             <rule>
                 <pattern>
                     <token postag="SPS00"><exception>per</exception></token>
-                    <token skip="3">què<exception scope="next" postag="PUNCT.*" postag_regexp="yes"/><exception postag=".*LOC_CONJ.*" postag_regexp="yes"/></token>
+                    <token skip="3">què<exception scope="next" postag="_PUNCT.*" postag_regexp="yes"/><exception postag=".*LOC_CONJ.*" postag_regexp="yes"/></token>
                     <marker>
                         <token>hi</token>
                     </marker>
@@ -9847,7 +9847,7 @@ $Id$
                 <example type="correct"><marker>veure's</marker> així.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="MAJUSCULES" name="Majúscules i minúscules">
+        <rulegroup id="MAJUSCULES" name="Majúscules i minúscules">    	
             <rule id="MESOS_ANY" name="Exigeix mesos de l'any en minúscula en dates">
                 <pattern>
                     <token regexp="yes">\d{1,2}|des</token>
@@ -16439,7 +16439,7 @@ $Id$
             <rule>
                 <pattern>
                     <token inflected="yes">proper</token>
-                    <token regexp="yes" inflected="yes">versió|tren|reunió|novel·la|edició|capítol</token>
+                    <token regexp="yes" inflected="yes">versió|tren|reunió|novel·la|edició|capítol|partit|revisió</token>
                 </pattern>
                 <message>En aquest cas val més evitar l'adjectiu "<match no="1"/>".</message>
                 <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">pròxim</match> <match no="2"/></suggestion>
@@ -16451,14 +16451,14 @@ $Id$
             <rule>
                 <pattern>
                     <token inflected="yes">proper</token>
-                    <token inflected="yes">carrer</token>
+                    <token inflected="yes" regexp="yes">carrer|cantonada</token>
                 </pattern>
                 <message>En aquest cas val més evitar l'adjectiu "<match no="1"/>".</message>
-                <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">pròxim</match> <match no="2"/></suggestion>
-                <suggestion><match no="1" regexp_match="proper[ae]?(s)?" regexp_replace="següent$1"/> <match no="2"/></suggestion>
                 <suggestion><match no="1" regexp_match="proper(.*)?" regexp_replace="primer$1"/> <match no="2"/></suggestion>
+                <suggestion><match no="1" regexp_match="proper[ae]?(s)?" regexp_replace="següent$1"/> <match no="2"/></suggestion>
+                <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">pròxim</match> <match no="2"/></suggestion>
                 <short>Expressió preferible</short>
-                <example type="incorrect" correction="pròxim carrer|següent carrer|primer carrer">Gira al <marker>proper carrer</marker> a la dreta</example>
+                <example type="incorrect" correction="primer carrer|següent carrer|pròxim carrer">Gira al <marker>proper carrer</marker> a la dreta</example>
                 <example type="correct">L'any que ve</example>
             </rule>
             <rule>
