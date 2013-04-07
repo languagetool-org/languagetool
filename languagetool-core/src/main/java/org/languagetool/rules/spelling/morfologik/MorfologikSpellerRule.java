@@ -35,6 +35,8 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.text.Normalizer;
+import java.text.Normalizer.Form;
 
 public abstract class MorfologikSpellerRule extends SpellingCheckRule {
 
@@ -118,11 +120,23 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   private List<RuleMatch> getRuleMatch(final String word, final int startPos) {
     final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     if (speller.isMisspelled(word)) {
-      final RuleMatch ruleMatch = new RuleMatch(this,
-              startPos, startPos + word.length(),
-              messages.getString("spelling"),
-              messages.getString("desc_spelling_short"));
-      final List<String> suggestions = speller.getSuggestions(word);
+      final RuleMatch ruleMatch = new RuleMatch(this, startPos, startPos
+          + word.length(), messages.getString("spelling"),
+          messages.getString("desc_spelling_short"));
+      List<String> suggestions = speller.getSuggestions(word);
+      //If few suggestions are found, try to get more from the word without diacritics
+      final String wordWithoutDiacritics=removeAccents(word);
+      if (suggestions.size() < 5 && !word.equals(wordWithoutDiacritics)) {
+        List<String> moreSuggestions = speller.getSuggestions(wordWithoutDiacritics);
+        if (!speller.isMisspelled(wordWithoutDiacritics)) {
+          moreSuggestions.add(wordWithoutDiacritics);
+        }
+        for (int i = 0; i < moreSuggestions.size(); i++) {
+          if (!suggestions.contains(moreSuggestions.get(i))) {
+            suggestions.add(moreSuggestions.get(i));
+          }
+        }
+      }
       if (!suggestions.isEmpty()) {
         ruleMatch.setSuggestedReplacements(suggestions);
       }
@@ -144,6 +158,15 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
 
   public void setIgnoreTaggedWords() {
     ignoreTaggedWords=true;
+  }
+  
+  /*
+   * Remove any diacritical mark from a String
+   */
+  private static String removeAccents(String text) {
+    return text == null ? null
+        : Normalizer.normalize(text, Form.NFD)
+            .replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
   }
 
 }

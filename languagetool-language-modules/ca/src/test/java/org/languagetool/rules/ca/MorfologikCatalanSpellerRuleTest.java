@@ -76,33 +76,63 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals("Joan", matches[0].getSuggestedReplacements().get(0));
         
         matches = rule.match(langTool.getAnalyzedSentence("abatusats"));
-        // check match positions:
         assertEquals(1, matches.length);
         assertEquals(0, matches[0].getFromPos());
         assertEquals(9, matches[0].getToPos());
         assertEquals("abatussats", matches[0].getSuggestedReplacements().get(0));
         
         matches = rule.match(langTool.getAnalyzedSentence("L'statu"));
-        // check match positions:
         assertEquals(1, matches.length);
         assertEquals(2, matches[0].getFromPos());
         assertEquals(7, matches[0].getToPos());
         assertEquals("sta tu", matches[0].getSuggestedReplacements().get(0));
 
         matches = rule.match(langTool.getAnalyzedSentence("Pecra"));
-        // check match positions:
         assertEquals(1, matches.length);
         assertEquals(0, matches[0].getFromPos());
         assertEquals(5, matches[0].getToPos());
         assertEquals("Pera", matches[0].getSuggestedReplacements().get(2));
         
+        matches = rule.match(langTool.getAnalyzedSentence("argüit"));
+        assertEquals(1, matches.length);
+        assertEquals(0, matches[0].getFromPos());
+        assertEquals(6, matches[0].getToPos());
+        assertEquals("argüint", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("argüir", matches[0].getSuggestedReplacements().get(1));
+        assertEquals("arguït", matches[0].getSuggestedReplacements().get(2));
+        
+        matches = rule.match(langTool.getAnalyzedSentence("ángel"));
+        assertEquals(1, matches.length);
+        assertEquals(0, matches[0].getFromPos());
+        assertEquals(5, matches[0].getToPos());
+        assertEquals("Àngel", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("àngel", matches[0].getSuggestedReplacements().get(1));
+        assertEquals("angle", matches[0].getSuggestedReplacements().get(2));
+        assertEquals("anhel", matches[0].getSuggestedReplacements().get(3));
+        
+        matches = rule.match(langTool.getAnalyzedSentence("caçessim"));
+        assertEquals(1, matches.length);
+        assertEquals(0, matches[0].getFromPos());
+        assertEquals(8, matches[0].getToPos());
+        assertEquals("caçàssim", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("cacessin", matches[0].getSuggestedReplacements().get(1));
+        assertEquals("cacessis", matches[0].getSuggestedReplacements().get(2));
+        assertEquals("cacéssim", matches[0].getSuggestedReplacements().get(3));
+        
+        matches = rule.match(langTool.getAnalyzedSentence("cantaríà"));
+        assertEquals(1, matches.length);
+        assertEquals(0, matches[0].getFromPos());
+        assertEquals(8, matches[0].getToPos());
+        assertEquals("cantarà", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("cantaria", matches[0].getSuggestedReplacements().get(1));
+        
         //capitalized wrong words
         matches = rule.match(langTool.getAnalyzedSentence("En la Pecra"));
-        // check match positions:
         assertEquals(1, matches.length);
         assertEquals(6, matches[0].getFromPos());
         assertEquals(11, matches[0].getToPos());
-        assertEquals("Pera", matches[0].getSuggestedReplacements().get(2));
+        assertEquals("Pedra", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("Peira", matches[0].getSuggestedReplacements().get(1));
         
         assertEquals(1, rule.match(langTool.getAnalyzedSentence("aõh")).length);
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("a")).length);        
