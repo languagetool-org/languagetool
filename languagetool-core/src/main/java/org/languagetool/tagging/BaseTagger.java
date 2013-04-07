@@ -74,29 +74,34 @@ public abstract class BaseTagger implements Tagger {
       taggerTokens = asAnalyzedTokenList(word, dictLookup.lookup(word));
       lowerTaggerTokens = asAnalyzedTokenList(word, dictLookup.lookup(lowerWord));
       final boolean isLowercase = word.equals(lowerWord);
+      final boolean isMixedcase = StringTools.isMixedCase(word);
 
       //normal case
       addTokens(taggerTokens, l);
 
-      if (!isLowercase) {             
-        //lowercase        
+      //tag alluppercase or startuppercase word (but not mixedcase) 
+      //with lowercase word tags
+      if (!isLowercase && !isMixedcase) {        
         addTokens(lowerTaggerTokens, l);
       }
 
-      //uppercase
-      if (lowerTaggerTokens.isEmpty() && taggerTokens.isEmpty()) {
-        if (tagLowercaseWithUppercase && isLowercase) {          
-          upperTaggerTokens = asAnalyzedTokenList(word, 
-              dictLookup.lookup(StringTools.uppercaseFirstChar(word)));
-          if (!upperTaggerTokens.isEmpty()) {
-            addTokens(upperTaggerTokens, l);
-          } else {
-            l.add(new AnalyzedToken(word, null, null));
+      //tag lowercase word with startuppercase word tags
+      if (tagLowercaseWithUppercase) {
+        if (lowerTaggerTokens.isEmpty() && taggerTokens.isEmpty()) {
+          if (isLowercase) {
+            upperTaggerTokens = asAnalyzedTokenList(word,
+                dictLookup.lookup(StringTools.uppercaseFirstChar(word)));
+            if (!upperTaggerTokens.isEmpty()) {
+              addTokens(upperTaggerTokens, l);
+            }
           }
-        } else {
-          l.add(new AnalyzedToken(word, null, null));
         }
-      }          
+      }
+      
+      if (l.isEmpty()) {
+        l.add(new AnalyzedToken(word, null, null));
+      }
+      
       tokenReadings.add(new AnalyzedTokenReadings(l, pos));
       pos += word.length();
     }

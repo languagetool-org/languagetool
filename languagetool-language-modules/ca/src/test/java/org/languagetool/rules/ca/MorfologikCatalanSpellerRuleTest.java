@@ -65,11 +65,14 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("LanguageTool!")).length);
         assertEquals(0, rule.match(langTool.getAnalyzedSentence(",")).length);
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("123454")).length);
+        
+        //tests for mixed case words
+        assertEquals(0, rule.match(langTool.getAnalyzedSentence("pH")).length);
+        assertEquals(0, rule.match(langTool.getAnalyzedSentence("McDonald")).length);
 
         //incorrect sentences:
 
         matches = rule.match(langTool.getAnalyzedSentence("joan"));
-        // check match positions:
         assertEquals(1, matches.length);
         assertEquals(0, matches[0].getFromPos());
         assertEquals(4, matches[0].getToPos());
@@ -81,6 +84,7 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals(9, matches[0].getToPos());
         assertEquals("abatussats", matches[0].getSuggestedReplacements().get(0));
         
+        // incomplete multiword
         matches = rule.match(langTool.getAnalyzedSentence("L'statu"));
         assertEquals(1, matches.length);
         assertEquals(2, matches[0].getFromPos());
@@ -103,8 +107,6 @@ public class MorfologikCatalanSpellerRuleTest {
         
         matches = rule.match(langTool.getAnalyzedSentence("ángel"));
         assertEquals(1, matches.length);
-        assertEquals(0, matches[0].getFromPos());
-        assertEquals(5, matches[0].getToPos());
         assertEquals("Àngel", matches[0].getSuggestedReplacements().get(0));
         assertEquals("àngel", matches[0].getSuggestedReplacements().get(1));
         assertEquals("angle", matches[0].getSuggestedReplacements().get(2));
@@ -112,8 +114,6 @@ public class MorfologikCatalanSpellerRuleTest {
         
         matches = rule.match(langTool.getAnalyzedSentence("caçessim"));
         assertEquals(1, matches.length);
-        assertEquals(0, matches[0].getFromPos());
-        assertEquals(8, matches[0].getToPos());
         assertEquals("caçàssim", matches[0].getSuggestedReplacements().get(0));
         assertEquals("cacessin", matches[0].getSuggestedReplacements().get(1));
         assertEquals("cacessis", matches[0].getSuggestedReplacements().get(2));
@@ -121,16 +121,36 @@ public class MorfologikCatalanSpellerRuleTest {
         
         matches = rule.match(langTool.getAnalyzedSentence("cantaríà"));
         assertEquals(1, matches.length);
-        assertEquals(0, matches[0].getFromPos());
-        assertEquals(8, matches[0].getToPos());
         assertEquals("cantarà", matches[0].getSuggestedReplacements().get(0));
         assertEquals("cantaria", matches[0].getSuggestedReplacements().get(1));
+        
+        //incorrect mixed case words
+        matches = rule.match(langTool.getAnalyzedSentence("tAula"));
+        assertEquals(1, matches.length);
+        assertEquals("taula", matches[0].getSuggestedReplacements().get(0));
+        
+        matches = rule.match(langTool.getAnalyzedSentence("TAula"));
+        assertEquals(1, matches.length);
+        assertEquals("Tula", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("taula", matches[0].getSuggestedReplacements().get(1));
+        
+        matches = rule.match(langTool.getAnalyzedSentence("col·Labora"));
+        assertEquals(1, matches.length);
+        assertEquals("col·labora", matches[0].getSuggestedReplacements().get(0));
+        
+        matches = rule.match(langTool.getAnalyzedSentence("col·laborÀ"));
+        assertEquals(1, matches.length);
+        assertEquals("col·labor", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("col·labora", matches[0].getSuggestedReplacements().get(1));
+        assertEquals("col·labore", matches[0].getSuggestedReplacements().get(2));
+        assertEquals("col·labori", matches[0].getSuggestedReplacements().get(3));
+        assertEquals("col·laboro", matches[0].getSuggestedReplacements().get(4));
+        assertEquals("col·laborà", matches[0].getSuggestedReplacements().get(5)); //-->Better in the first place!
+        assertEquals("col·laborí", matches[0].getSuggestedReplacements().get(6));
         
         //capitalized wrong words
         matches = rule.match(langTool.getAnalyzedSentence("En la Pecra"));
         assertEquals(1, matches.length);
-        assertEquals(6, matches[0].getFromPos());
-        assertEquals(11, matches[0].getToPos());
         assertEquals("Pedra", matches[0].getSuggestedReplacements().get(0));
         assertEquals("Peira", matches[0].getSuggestedReplacements().get(1));
         

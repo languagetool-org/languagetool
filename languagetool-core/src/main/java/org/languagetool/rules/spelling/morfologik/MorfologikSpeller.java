@@ -80,7 +80,8 @@ public class MorfologikSpeller {
             && !containsDigit(word)
             && !LANGUAGETOOL.equals(word)
             && !speller.isInDictionary(word)
-            && !speller.isInDictionary(word.toLowerCase(conversionLocale));
+            && !(!StringTools.isMixedCase(word) 
+                && speller.isInDictionary(word.toLowerCase(conversionLocale)));
   }
 
   public List<String> getSuggestions(String word) {

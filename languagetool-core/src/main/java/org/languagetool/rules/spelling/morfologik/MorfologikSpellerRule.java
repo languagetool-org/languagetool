@@ -52,6 +52,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   public MorfologikSpellerRule(ResourceBundle messages, Language language) throws IOException {
     super(messages, language);
     super.setCategory(new Category(messages.getString("category_typo")));
+    this.conversionLocale = conversionLocale != null ? conversionLocale : Locale.getDefault();
     init();
   }
 
@@ -124,8 +125,8 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
           + word.length(), messages.getString("spelling"),
           messages.getString("desc_spelling_short"));
       List<String> suggestions = speller.getSuggestions(word);
-      //If few suggestions are found, try to get more from the word without diacritics
-      final String wordWithoutDiacritics=removeAccents(word);
+      //If few suggestions are found, try to get more from the word without diacritics and lowercase
+      final String wordWithoutDiacritics=removeAccents(word).toLowerCase(conversionLocale);
       if (suggestions.size() < 5 && !word.equals(wordWithoutDiacritics)) {
         List<String> moreSuggestions = speller.getSuggestions(wordWithoutDiacritics);
         if (!speller.isMisspelled(wordWithoutDiacritics)) {
@@ -161,7 +162,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   }
   
   /*
-   * Remove any diacritical mark from a String
+   * Remove all diacritical marks from a String
    */
   private static String removeAccents(String text) {
     return text == null ? null
