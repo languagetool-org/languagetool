@@ -12993,12 +12993,12 @@ $Id$
                 <example type="correct">passeu <marker>d'una a una</marker></example>
             </rule>
         </rulegroup>
-        <rulegroup id="ALS_TEMPS" name="*als + expr. de temps"> 
+        <rulegroup id="ALS_TRES_MESOS" name="*als tres mesos/al cap de tres mesos"> 
         <!-- Falta el singular :a l'hora de discurs 
         i sense article: a dos mesos de -->
             <rule>
                 <pattern>
-                    <token regexp="yes" negate="yes">corresponents?</token>
+                    <token><exception regexp="yes" inflected="yes">corresponent|proper|pròxim</exception><exception>respecte</exception><exception postag="DN.*" postag_regexp="yes"/></token>
                     <marker>
                         <token>a</token>
                         <token spacebefore="no">ls</token>
@@ -13007,15 +13007,18 @@ $Id$
                     </marker>
                     <!-- eliminat: anys -->
                 </pattern>
-                <message>Incorrecte si vol dir <suggestion>al cap de <match no="4"></match> <match no="5"></match></suggestion> o <suggestion><match no="4"></match> <match no="5"></match> després</suggestion>.</message>
+                <message>Incorrecte si equival a <suggestion>al cap de <match no="4"/> <match no="5"/></suggestion>.</message>
+                <suggestion><match no="4"/> <match no="5"/> després</suggestion>
                 <short>Expressió incorrecta</short>
-                <example type="incorrect"><marker>Als tres minuts</marker></example>
-                <example type="correct"><marker>Tres minuts després</marker></example>
+                <example type="incorrect" correction="Al cap de tres minuts|Tres minuts després"><marker>Als tres minuts</marker></example>
+                <example type="correct">Tres minuts després</example>
                 <example type="correct">corresponents als dotze mesos de l'any</example>
+                <example type="correct">L'ensenyament és gratuït i obligatori dels 6 als 15 anys.</example>
+                <example type="correct">L'ensenyament és gratuït i obligatori dels sis als quinze anys.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes" negate="yes">corresponents?</token>
+                    <token><exception regexp="yes" inflected="yes">corresponent|proper|pròxim</exception><exception>respecte</exception><exception postag="DN.*" postag_regexp="yes"/></token>
                     <marker>
                         <token>a</token>
                         <token>les</token>
@@ -13023,12 +13026,31 @@ $Id$
                         <token regexp="yes">hores|setmanes|dècades</token>
                     </marker>
                 </pattern>
-                <message>Incorrecte si vol dir <suggestion>al cap de <match no="4"></match> <match no="5"></match></suggestion> o <suggestion><match no="4"></match> <match no="5"></match> després</suggestion>.</message>
+                <message>Incorrecte si equival a <suggestion>al cap de <match no="4"/> <match no="5"/></suggestion>.</message>
+                <suggestion><match no="4"/> <match no="5"/> després</suggestion>
                 <short>Expressió incorrecta</short>
-                <example type="incorrect"><marker>A les tres hores</marker>
-                </example>
-                <example type="correct"><marker>Al cap de tres hores</marker>
-                </example>
+                <example type="incorrect" correction="Al cap de tres hores|Tres hores després"><marker>A les tres hores</marker></example>
+                <example type="correct">Al cap de tres hores</example>
+                <example type="correct"> respecte a les dues dècades anteriors</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception regexp="yes" inflected="yes">corresponent|proper|pròxim</exception><exception>respecte</exception><exception postag="DN.*" postag_regexp="yes"/></token>
+					<marker>
+                        <token>a</token>
+                        <token spacebefore="no">ls</token>
+                        <token postag="DN.*|DI.*" postag_regexp="yes"/>
+                        <token>anys</token>
+					</marker>
+                    <token regexp="yes">de|d'</token>
+                    <token><exception>edat</exception></token>
+                    <!-- eliminat: anys -->
+                </pattern>
+                <message>Incorrecte si equival a <suggestion>al cap de <match no="4"></match> <match no="5"></match></suggestion>.</message>
+                <suggestion><match no="4"></match> <match no="5"></match> després</suggestion>
+                <short>Expressió incorrecta</short>
+                <example type="incorrect" correction="Al cap de tres anys|Tres anys després"><marker>Als tres anys</marker> d'arribar</example>
+                <example type="correct">Ho va fer als tres anys d'edat.</example>
             </rule>
         </rulegroup>
         <rule id="DONAR_LABAST" name="*donar a l'abast/donar l'abast">
@@ -16253,6 +16275,26 @@ $Id$
         </rule>
     </category>
     <category name="C7) Expressions preferibles" default="on" type="style">
+    	<rule id="ALS_TRES_ANYS" name="Revisa: als tres anys/a tres anys/al cap de tres anys">
+            <pattern>
+                <token><exception regexp="yes" inflected="yes">corresponent|proper|pròxim</exception><exception>respecte</exception><exception postag="DN.*" postag_regexp="yes"/></token>
+				<marker>
+                    <token>a</token>
+                    <token spacebefore="no">ls</token>
+                    <token postag="DN.*|DI.*" postag_regexp="yes"/>
+                    <token>anys</token>
+				</marker>
+                <token><exception regexp="yes">de|d'</exception></token>
+            </pattern>
+            <message>Referit a l'edat d'una persona, també es pot dir <suggestion><match no="2"></match> <match no="4"/> <match no="5"/></suggestion>. És incorrecte si equival a <suggestion>al cap de <match no="4"></match> <match no="5"></match></suggestion>.</message>
+            <suggestion><match no="4"></match> <match no="5"></match> després</suggestion>
+            <short>Expressió incorrecta</short>
+            <example type="incorrect" correction="A tres anys|Al cap de tres anys|Tres anys després"><marker>Als tres anys</marker>.</example>
+            <example type="correct">Tres minuts després</example>
+            <example type="correct">corresponents als dotze mesos de l'any</example>
+            <example type="correct">L'ensenyament és gratuït i obligatori dels 6 als 15 anys.</example>
+            <example type="correct">L'ensenyament és gratuït i obligatori dels sis als quinze anys.</example>
+        </rule>
     	<rule id="VESSANT" name="vessant">
     		<pattern>
     			<token><exception postag="N.F.*" postag_regexp="yes"/></token>
