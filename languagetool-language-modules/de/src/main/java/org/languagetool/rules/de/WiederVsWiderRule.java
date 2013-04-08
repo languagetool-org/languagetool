@@ -73,10 +73,11 @@ public class WiederVsWiderRule extends GermanRule {
         if (foundSpiegelt && foundWieder && !foundWider &&
             !(tokens.length > i + 2 && (tokens[i + 1].getToken().equals("wider") || tokens[i + 2].getToken().equals("wider")) )
            ) {
+          final String shortMsg = "'wider' in 'widerspiegeln' wird mit 'i' geschrieben";
           final String msg = "'wider' in 'widerspiegeln' wird mit 'i' statt mit 'ie' " +
                   "geschrieben, z.B. 'Das spiegelt die Situation gut wider.'";
           final int pos = tokens[i].getStartPos();
-          final RuleMatch ruleMatch = new RuleMatch(this, pos, pos + token.length(), msg);
+          final RuleMatch ruleMatch = new RuleMatch(this, pos, pos + token.length(), msg, shortMsg);
           ruleMatch.setSuggestedReplacement("wider");
           ruleMatches.add(ruleMatch);
           foundSpiegelt = false;
