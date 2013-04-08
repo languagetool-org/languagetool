@@ -79,8 +79,7 @@ public abstract class BaseTagger implements Tagger {
       //normal case
       addTokens(taggerTokens, l);
 
-      //tag alluppercase or startuppercase word (but not mixedcase) 
-      //with lowercase word tags
+      //tag alluppercase or startuppercase word (but not mixedcase) with lowercase word tags
       if (!isLowercase && !isMixedcase) {        
         addTokens(lowerTaggerTokens, l);
       }

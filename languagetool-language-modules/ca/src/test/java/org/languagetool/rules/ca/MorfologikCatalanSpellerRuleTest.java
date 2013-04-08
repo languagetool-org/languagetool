@@ -125,14 +125,17 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals("cantaria", matches[0].getSuggestedReplacements().get(1));
         
         //incorrect mixed case words
+        assertEquals(1, rule.match(langTool.getAnalyzedSentence("PH")).length);
+        assertEquals(1, rule.match(langTool.getAnalyzedSentence("Ph")).length);
+        assertEquals(1, rule.match(langTool.getAnalyzedSentence("MCDonald")).length);
+        
         matches = rule.match(langTool.getAnalyzedSentence("tAula"));
         assertEquals(1, matches.length);
         assertEquals("taula", matches[0].getSuggestedReplacements().get(0));
         
         matches = rule.match(langTool.getAnalyzedSentence("TAula"));
         assertEquals(1, matches.length);
-        assertEquals("Tula", matches[0].getSuggestedReplacements().get(0));
-        assertEquals("taula", matches[0].getSuggestedReplacements().get(1));
+        assertEquals("taula", matches[0].getSuggestedReplacements().get(0));
         
         matches = rule.match(langTool.getAnalyzedSentence("col·Labora"));
         assertEquals(1, matches.length);
@@ -140,13 +143,7 @@ public class MorfologikCatalanSpellerRuleTest {
         
         matches = rule.match(langTool.getAnalyzedSentence("col·laborÀ"));
         assertEquals(1, matches.length);
-        assertEquals("col·labor", matches[0].getSuggestedReplacements().get(0));
-        assertEquals("col·labora", matches[0].getSuggestedReplacements().get(1));
-        assertEquals("col·labore", matches[0].getSuggestedReplacements().get(2));
-        assertEquals("col·labori", matches[0].getSuggestedReplacements().get(3));
-        assertEquals("col·laboro", matches[0].getSuggestedReplacements().get(4));
-        assertEquals("col·laborà", matches[0].getSuggestedReplacements().get(5)); //-->Better in the first place!
-        assertEquals("col·laborí", matches[0].getSuggestedReplacements().get(6));
+        assertEquals("col·laborà", matches[0].getSuggestedReplacements().get(0));
         
         //capitalized wrong words
         matches = rule.match(langTool.getAnalyzedSentence("En la Pecra"));

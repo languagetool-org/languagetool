@@ -30,6 +30,7 @@ import org.languagetool.AnalyzedToken;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -123,7 +124,14 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     if (speller.isMisspelled(word)) {
       final RuleMatch ruleMatch = new RuleMatch(this, startPos, startPos
           + word.length(), messages.getString("spelling"),
-          messages.getString("desc_spelling_short"));
+          messages.getString("desc_spelling_short")); 
+      //If lower case word is not a misspelled word, return it as the only suggestion 
+      if (!speller.isMisspelled(word.toLowerCase(conversionLocale))) {
+        List<String> suggestion = Arrays.asList(word.toLowerCase(conversionLocale));
+        ruleMatch.setSuggestedReplacements(suggestion);
+        ruleMatches.add(ruleMatch);
+        return ruleMatches;
+      }
       List<String> suggestions = speller.getSuggestions(word);
       //If few suggestions are found, try to get more from the word without diacritics and lowercase
       final String wordWithoutDiacritics=removeAccents(word).toLowerCase(conversionLocale);
