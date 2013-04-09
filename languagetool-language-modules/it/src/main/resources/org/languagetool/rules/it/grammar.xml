@@ -26,7 +26,7 @@ $Id$
  Italian Grammar and Style Rules for Italian
  Paolo Bianchini
  Date: 09/04/2013
- Ver:  2.1.0.1
+ Ver:  2.1.0.2
  ================================================================================
  Categorie delle regole
     gruppi delle regole
@@ -113,10 +113,11 @@ $Id$
  PB009    Created uso corretto under verbs and added adire vie legali
  PB010    Reworked repetition rule ST_03_002
  PB011    Reworked rule GR_04_002 exteneded to all words ending with à|è|é|ì|ò|ù
- PB012    Added exception for article of the word dei
+ PB012    Added exception for article of the word "dei"
  3609558  False positive in rule ER_02_002 'al'-'la'
  3610220  False positive in 'per lo meno' for rule GR_02_001 changed so that adv are skipped
  3610360  False positive in dates for rule ST_04_001
+ 3610289  False positive il artice for word "Signore"
  ======== ==================================================================================
 -->
 
@@ -185,7 +186,11 @@ $Id$
             <rule>
                 <pattern>
                     <marker><token skip="1" regexp="yes">il|lo|i|gli|la</token></marker>
-                    <token postag="NOUN-F.p" postag_regexp="yes"><exception postag="(NOUN-F.s)|(NOUN-M.p)|(ADV)" postag_regexp="yes"></exception></token>
+                    <token postag="NOUN-F.p" postag_regexp="yes"><exception postag="(NOUN-F.s)|(NOUN-M.p)|(ADV)" postag_regexp="yes"></exception>
+<!-- 3610289 + -->
+                    	<exception regexp="yes">(?-i)Signore</exception>
+<!-- 3610289 - -->
+                    </token>
                 </pattern>
                 <message>L'articolo non concorda, usare: <suggestion>le</suggestion>.</message>
                 <example type="incorrect">Vidi <marker>il</marker> mucche pascolare nel campo.</example>
