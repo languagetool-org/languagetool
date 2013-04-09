@@ -25,8 +25,8 @@ $Id$
  ================================================================================
  Italian Grammar and Style Rules for Italian
  Paolo Bianchini
- Date: 31/03/2013
- Ver:  0.9.6.2
+ Date: 09/04/2013
+ Ver:  2.1.0.1
  ================================================================================
  Categorie delle regole
     gruppi delle regole
@@ -116,6 +116,7 @@ $Id$
  PB012    Added exception for article of the word dei
  3609558  False positive in rule ER_02_002 'al'-'la'
  3610220  False positive in 'per lo meno' for rule GR_02_001 changed so that adv are skipped
+ 3610360  False positive in dates for rule ST_04_001
  ======== ==================================================================================
 -->
 
@@ -1367,93 +1368,123 @@ $Id$
         <rulegroup name="in cifre se minori di 10" id="ST_04_001">
             <rule>
                 <pattern>
-                    <token>0</token>
+					<marker><token>0</token></marker>
                 </pattern>
                 <message><suggestion>zero</suggestion></message>
-                <example type="incorrect"><marker>0</marker></example>
-                <example type="correct"><marker>zero</marker></example>
+                <example type="incorrect"><marker>0</marker> volte</example>
+                <example type="correct"><marker>zero</marker> volte</example>
             </rule>
             <rule>
                 <pattern>
-                    <token>1</token>
+<!-- 3610360 + -->
+                    <marker><token>1</token></marker>
+					<token><exception regexp="yes">Gennaio|Febbario|Aprile|Marzo|Maggio|Giugno|Luglio|Agosto|Settembre|Ottobre|Novembre|Dicembre|/</exception></token>
+<!-- 3610360 - -->
                 </pattern>
                 <message><suggestion>uno</suggestion></message>
-                <example type="incorrect"><marker>1</marker></example>
-                <example type="correct"><marker>uno</marker></example>
+                <example type="incorrect"><marker>1</marker> volte</example>
+                <example type="correct"><marker>uno</marker> volte</example>
             </rule>
             <rule>
                 <pattern>
-                    <token>2</token>
+<!-- 3610360 + -->
+                    <marker><token>2</token></marker>
+					<token><exception regexp="yes">Gennaio|Febbario|Aprile|Marzo|Maggio|Giugno|Luglio|Agosto|Settembre|Ottobre|Novembre|Dicembre|/</exception></token>
+<!-- 3610360 - -->
                 </pattern>
                 <message><suggestion>due</suggestion></message>
-                <example type="incorrect"><marker>2</marker></example>
-                <example type="correct"><marker>due</marker></example>
+                <example type="incorrect"><marker>2</marker> volte</example>
+                <example type="correct"><marker>due</marker> volte</example>
             </rule>
             <rule>
                 <pattern>
-                    <token>3</token>
+<!-- 3610360 + -->
+                    <marker><token>3</token></marker>
+					<token><exception regexp="yes">Gennaio|Febbario|Aprile|Marzo|Maggio|Giugno|Luglio|Agosto|Settembre|Ottobre|Novembre|Dicembre|/</exception></token>
+<!-- 3610360 - -->
                 </pattern>
                 <message><suggestion>tre</suggestion></message>
-                <example type="incorrect"><marker>3</marker></example>
-                <example type="correct"><marker>tre</marker></example>
+                <example type="incorrect"><marker>3</marker>  volte</example>
+                <example type="correct"><marker>tre</marker> volte</example>
             </rule>
             <rule>
                 <pattern>
-                    <token>4</token>
+<!-- 3610360 + -->
+                    <marker><token>4</token></marker>
+					<token><exception regexp="yes">Gennaio|Febbario|Aprile|Marzo|Maggio|Giugno|Luglio|Agosto|Settembre|Ottobre|Novembre|Dicembre|/</exception></token>
+<!-- 3610360 - -->
                 </pattern>
                 <message><suggestion>quattro</suggestion></message>
-                <example type="incorrect"><marker>4</marker></example>
-                <example type="correct"><marker>quattro</marker></example>
+                <example type="incorrect"><marker>4</marker> volte</example>
+                <example type="correct"><marker>quattro</marker> volte</example>
             </rule>
             <rule>
                 <pattern>
-                    <token>5</token>
+<!-- 3610360 + -->
+                    <marker><token>5</token></marker>
+					<token><exception regexp="yes">Gennaio|Febbario|Aprile|Marzo|Maggio|Giugno|Luglio|Agosto|Settembre|Ottobre|Novembre|Dicembre|/</exception></token>
+<!-- 3610360 - -->
                 </pattern>
                 <message><suggestion>cinque</suggestion></message>
-                <example type="incorrect"><marker>5</marker></example>
-                <example type="correct"><marker>cinque</marker></example>
+                <example type="incorrect"><marker>5</marker> volte</example>
+                <example type="correct"><marker>cinque</marker> volte</example>
             </rule>
             <rule>
                 <pattern>
-                    <token>6</token>
+<!-- 3610360 + -->
+                    <marker><token>6</token></marker>
+					<token><exception regexp="yes">Gennaio|Febbario|Aprile|Marzo|Maggio|Giugno|Luglio|Agosto|Settembre|Ottobre|Novembre|Dicembre|/</exception></token>
+<!-- 3610360 - -->
                 </pattern>
                 <message><suggestion>sei</suggestion></message>
-                <example type="incorrect"><marker>6</marker></example>
-                <example type="correct"><marker>sei</marker></example>
+                <example type="incorrect"><marker>6</marker> volte</example>
+                <example type="correct"><marker>sei</marker> volte</example>
             </rule>
             <rule>
                 <pattern>
-                    <token>7</token>
+<!-- 3610360 + -->
+                    <marker><token>7</token></marker>
+					<token><exception regexp="yes">Gennaio|Febbario|Aprile|Marzo|Maggio|Giugno|Luglio|Agosto|Settembre|Ottobre|Novembre|Dicembre|/</exception></token>
+<!-- 3610360 - -->
                 </pattern>
                 <message><suggestion>sette</suggestion></message>
-                <example type="incorrect"><marker>7</marker></example>
-                <example type="correct"><marker>sette</marker></example>
+                <example type="incorrect"><marker>7</marker> volte</example>
+                <example type="correct"><marker>sette</marker> volte</example>
             </rule>
             <rule>
                 <pattern>
-                    <token>8</token>
+<!-- 3610360 + -->
+                    <marker><token>8</token></marker>
+					<token><exception regexp="yes">Gennaio|Febbario|Aprile|Marzo|Maggio|Giugno|Luglio|Agosto|Settembre|Ottobre|Novembre|Dicembre|/</exception></token>
+<!-- 3610360 - -->
                 </pattern>
                 <message><suggestion>otto</suggestion></message>
-                <example type="incorrect"><marker>8</marker></example>
-                <example type="correct"><marker>otto</marker></example>
+                <example type="incorrect"><marker>8</marker> volte</example>
+                <example type="correct"><marker>otto</marker> volte</example>
             </rule>
             <rule>
                 <pattern>
-                    <token>9</token>
+<!-- 3610360 + -->
+                    <marker><token>9</token></marker>
+					<token><exception regexp="yes">Gennaio|Febbario|Aprile|Marzo|Maggio|Giugno|Luglio|Agosto|Settembre|Ottobre|Novembre|Dicembre|/</exception></token>
+<!-- 3610360 - -->
                 </pattern>
                 <message><suggestion>nove</suggestion></message>
-                <example type="incorrect"><marker>9</marker></example>
-                <example type="correct"><marker>nove</marker></example>
+                <example type="incorrect"><marker>9</marker> volte</example>
+                <example type="correct"><marker>nove</marker> volte</example>
             </rule>
         </rulegroup>
         <rulegroup name="in cifre se minori di 100" id="ST_04_002">
             <rule>
                 <pattern>
-                    <token regexp="yes">[123456789][0123456789]</token>
+<!-- 3610360 + -->
+                    <marker><token regexp="yes">[123456789][0123456789]</token></marker>
+					<token><exception regexp="yes">Gennaio|Febbario|Aprile|Marzo|Maggio|Giugno|Luglio|Agosto|Settembre|Ottobre|Novembre|Dicembre|/</exception></token>
+<!-- 3610360 - -->
                 </pattern>
                 <message>Cambiare con il corrispondente in cifre</message>
-                <example type="incorrect"><marker>99</marker></example>
-                <example type="correct"><marker>novantanove</marker></example>
+                <example type="incorrect"><marker>99</marker> volte</example>
+                <example type="correct"><marker>novantanove</marker> volte</example>
             </rule>
         </rulegroup>
     </category>
