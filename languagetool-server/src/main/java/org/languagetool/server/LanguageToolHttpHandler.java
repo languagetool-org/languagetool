@@ -195,7 +195,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     useEnabledOnly = false;
     final String enabledOnly = parameters.get("enabledOnly");
     if (null != enabledOnly) {
-      useEnabledOnly = (enabledOnly.equals("yes"));        
+      useEnabledOnly = enabledOnly.equals("yes");
     }
     
     final String disabledParam = parameters.get("disabled");
@@ -318,7 +318,6 @@ class LanguageToolHttpHandler implements HttpHandler {
       }
     }
   }
- 
 
   /**
    * Construct an XML string containing all supported languages. <br/>The XML format looks like this:<br/><br/>
