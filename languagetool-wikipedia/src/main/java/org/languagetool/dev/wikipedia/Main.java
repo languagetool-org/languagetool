@@ -58,7 +58,8 @@ public class Main {
   private static void printUsageAndExit() {
     System.out.println("Usage: " + Main.class.getName() + " <command> <command-specific-arguments>");
     System.out.println("Where <command> is one of:");
-    System.out.println("   check-dump - check a Wikipedia XML dump");
+    System.out.println("   check-dump - check a Wikipedia XML dump,");
+    System.out.println("                like those available from http://dumps.wikimedia.org/backup-index.html");
     System.out.println("   wiki-index - index a Wikipedia XML dump");
     System.out.println("   wiki-check - check a single Wikipedia page, fetched via the Mediawiki API");
     System.out.println("   index      - index a plain text file, putting the analysis in a Lucene index for faster rule match search");

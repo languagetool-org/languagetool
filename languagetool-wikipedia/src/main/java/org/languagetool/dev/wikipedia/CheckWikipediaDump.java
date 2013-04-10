@@ -93,7 +93,8 @@ public class CheckWikipediaDump {
       System.err.println("  propertyFile      a file to set database access properties. Use '-' to print results to stdout.");
       System.err.println("  rulePropertyFile  a file to set rules which should be disabled per language (e.g. en=RULE1,RULE2 or all=RULE3,RULE4). Use '-' to ignore.");
       System.err.println("  language          language code like 'en' or 'de'");
-      System.err.println("  filename          path to unpacked Wikipedia XML dump");
+      System.err.println("  filename          path to unpacked Wikipedia XML dump;");
+      System.err.println("                    dumps are available from http://dumps.wikimedia.org/backup-index.html");
       System.err.println("  ruleIds           comma-separated list of rule-ids to activate. Use '-' to activate the default rules.");
       System.err.println("  maxArticles       maximum number of articles to check, 0 for no limit");
       System.err.println("  maxErrors         stop when reaching this many errors, 0 for no limit");
