@@ -50,49 +50,6 @@ $Id$
         </equivalence>
     </unification>
     <category name="Z) Concordances en grups nominals" type="grammar">
-    	<rulegroup id="ALLO_ADJECTIU" name="allò + adjectiu (valor abstractiu)">
-    		<rule>
-			    <pattern>
-			        <token>allò</token>
-			        <token postag="A..[MC]S.*" postag_regexp="yes" regexp="yes">h?[aeiouàéèíóòú].+</token>
-			    </pattern>
-			    <message>Amb valor abstractiu val més usar una altra construcció. Correcte si equival a "aquella cosa <match no="2" postag="AQ.*" postag_regexp="yes" postag_replace="AQ0[FC]S0"/>".</message>
-			    <suggestion>el fet <match no="2"/></suggestion>
-			    <suggestion>la cosa <match no="2" postag="AQ.*" postag_regexp="yes" postag_replace="AQ0[FC]S0"/></suggestion>
-			    <suggestion>les coses <match no="2" postag="AQ.*" postag_regexp="yes" postag_replace="AQ0[FC]P0"/></suggestion>
-			    <suggestion>l'<match no="2"/></suggestion>
-			    <short>Possible construcció incorrecta</short>
-			    <example type="incorrect" correction="el fet important|la cosa important|les coses importants|l'important"><marker>allò important</marker></example>
-			    <example type="correct">l'important</example>
-			</rule>
-			<rule>
-			    <pattern>
-			        <token>allò</token>
-			        <token postag="A..[MC]S.*" postag_regexp="yes"><exception regexp="yes">h?[aeiouàéèíóòú].+</exception></token>
-			    </pattern>
-			    <message>Amb valor abstractiu val més usar una altra construcció.. Correcte si equival a "aquella cosa <match no="2" postag="AQ.*" postag_regexp="yes" postag_replace="AQ0[FC]S0"/>".</message>
-			    <suggestion>el fet <match no="2"/></suggestion>
-			    <suggestion>la cosa <match no="2" postag="AQ.*" postag_regexp="yes" postag_replace="AQ0[FC]S0"/></suggestion>
-			    <suggestion>les coses <match no="2" postag="AQ.*" postag_regexp="yes" postag_replace="AQ0[FC]P0"/></suggestion>
-			    <suggestion>el <match no="2"/></suggestion>
-			    <short>Possible construcció incorrecta</short>
-			    <example type="incorrect" correction="el fet considerable|la cosa considerable|les coses considerables|el considerable"><marker>allò considerable</marker></example>
-			    <example type="correct">l'important</example>
-			</rule><rule>
-			    <pattern>
-			        <token>allò</token>
-			        <token postag="VMP.*SM." postag_regexp="yes"></token>
-			    </pattern>
-			    <message>Amb valor abstractiu val més usar una altra construcció. Correcte si equival a "aquella cosa <match no="2" postag="AQ.*" postag_regexp="yes" postag_replace="AQ0[FC]S0"/>".</message>
-			    <suggestion>el que <match no="2" postag="VMP.*SM." postag_regexp="yes" postag_replace="VMIP3S00"/></suggestion>
-			    <suggestion>allò que <match no="2" postag="VMP.*SM." postag_regexp="yes" postag_replace="VMIP3S00"/></suggestion>
-			    <suggestion>el fet <match no="2"/></suggestion>
-			    <suggestion>la cosa <match no="2" postag="VMP.*SM." postag_regexp="yes" postag_replace="VMP.*SF."/></suggestion>
-			    <short>Possible construcció incorrecta</short>
-			    <example type="incorrect" correction="el que estableix|allò que estableix|el fet establert|la cosa establerta|la cosa establida"><marker>allò establert</marker></example>
-			    <example type="correct">l'important</example>
-			</rule>
-		</rulegroup>
         <rulegroup id="CONCORDANCES_NUMERALS" name="concordances en numerals">
             <!-- noms, adjectius en singular  -->
             <rule>
@@ -17499,6 +17456,49 @@ $Id$
 	        </rule>
     </category>
     <category name="Sintaxi" type="grammar">
+    	<rulegroup id="ALLO_ADJECTIU" name="allò + adjectiu (valor abstractiu)">
+    		<rule>
+			    <pattern>
+			        <token>allò</token>
+			        <token postag="A..[MC]S.*" postag_regexp="yes" regexp="yes">h?[aeiouàéèíóòú].+</token>
+			    </pattern>
+			    <message>Amb valor abstractiu val més usar una altra construcció. Correcte si equival a "aquella cosa <match no="2" postag="AQ.*" postag_regexp="yes" postag_replace="AQ0[FC]S0"/>".</message>
+			    <suggestion>el fet <match no="2"/></suggestion>
+			    <suggestion>la cosa <match no="2" postag="AQ.*" postag_regexp="yes" postag_replace="AQ0[FC]S0"/></suggestion>
+			    <suggestion>les coses <match no="2" postag="AQ.*" postag_regexp="yes" postag_replace="AQ0[FC]P0"/></suggestion>
+			    <suggestion>l'<match no="2"/></suggestion>
+			    <short>Possible construcció incorrecta</short>
+			    <example type="incorrect" correction="el fet important|la cosa important|les coses importants|l'important"><marker>allò important</marker></example>
+			    <example type="correct">l'important</example>
+			</rule>
+			<rule>
+			    <pattern>
+			        <token>allò</token>
+			        <token postag="A..[MC]S.*" postag_regexp="yes"><exception regexp="yes">h?[aeiouàéèíóòú].+</exception></token>
+			    </pattern>
+			    <message>Amb valor abstractiu val més usar una altra construcció. Correcte si equival a "aquella cosa <match no="2" postag="AQ.*" postag_regexp="yes" postag_replace="AQ0[FC]S0"/>".</message>
+			    <suggestion>el fet <match no="2"/></suggestion>
+			    <suggestion>la cosa <match no="2" postag="AQ.*" postag_regexp="yes" postag_replace="AQ0[FC]S0"/></suggestion>
+			    <suggestion>les coses <match no="2" postag="AQ.*" postag_regexp="yes" postag_replace="AQ0[FC]P0"/></suggestion>
+			    <suggestion>el <match no="2"/></suggestion>
+			    <short>Possible construcció incorrecta</short>
+			    <example type="incorrect" correction="el fet considerable|la cosa considerable|les coses considerables|el considerable"><marker>allò considerable</marker></example>
+			    <example type="correct">l'important</example>
+			</rule><rule>
+			    <pattern>
+			        <token>allò</token>
+			        <token postag="VMP.*SM." postag_regexp="yes"></token>
+			    </pattern>
+			    <message>Amb valor abstractiu val més usar una altra construcció. Correcte si equival a "aquella cosa <match no="2" postag="AQ.*" postag_regexp="yes" postag_replace="AQ0[FC]S0"/>".</message>
+			    <suggestion>el que <match no="2" postag="VMP.*SM." postag_regexp="yes" postag_replace="VMIP3S00"/></suggestion>
+			    <suggestion>allò que <match no="2" postag="VMP.*SM." postag_regexp="yes" postag_replace="VMIP3S00"/></suggestion>
+			    <suggestion>el fet <match no="2"/></suggestion>
+			    <suggestion>la cosa <match no="2" postag="VMP.*SM." postag_regexp="yes" postag_replace="VMP.*SF."/></suggestion>
+			    <short>Possible construcció incorrecta</short>
+			    <example type="incorrect" correction="el que estableix|allò que estableix|el fet establert|la cosa establerta|la cosa establida"><marker>allò establert</marker></example>
+			    <example type="correct">el que estableix</example>
+			</rule>
+		</rulegroup>
         <rulegroup id="RELATIUS" name="Comprova les contruccions de relatiu: amb el que/amb el qual" default="on">
             <rule>
                 <pattern>
