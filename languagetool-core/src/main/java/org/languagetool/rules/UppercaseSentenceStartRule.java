@@ -20,6 +20,7 @@ package org.languagetool.rules;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 import org.languagetool.AnalyzedSentence;
@@ -95,9 +96,9 @@ public class UppercaseSentenceStartRule extends Rule {
     boolean preventError = false;
     // TODO: why do only *these* languages have that special case?
     final String langCode = language.getShortName();
-    final boolean languageHasSpecialCases = langCode.equals("ru") || langCode.equals("pl") 
-            || langCode.equals("uk") || langCode.equals("be") || langCode.equals("en")
-            || langCode.equals("it") || langCode.equals("de");
+    final boolean languageHasSpecialCases = langCode.equals("ru") || langCode.equals("pl")
+            || langCode.equals("uk") || langCode.equals("be") || langCode.equals(Locale.ENGLISH.getLanguage())
+            || langCode.equals(Locale.ITALIAN.getLanguage()) || langCode.equals(Locale.GERMAN.getLanguage());
     if (languageHasSpecialCases) {
       //fix for lists; note - this will not always work for the last point in OOo,
       //as OOo might serve paragraphs in any order.

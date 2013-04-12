@@ -89,7 +89,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   }
 
   private static MorfologikSpeller getSpeller(Language language) {
-    if (!language.getShortName().equals("de")) {
+    if (!language.getShortName().equals(Locale.GERMAN.getLanguage())) {
       throw new RuntimeException("Language is not a variant of German: " + language);
     }
     try {
