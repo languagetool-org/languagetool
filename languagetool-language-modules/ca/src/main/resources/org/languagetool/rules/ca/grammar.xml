@@ -2815,7 +2815,7 @@ $Id$
                 <pattern>
                     <token negate="yes">per</token>
                     <marker>
-                        <token>tant<exception postag="allow_tant"/></token>
+                        <token>tant<exception postag="allow_tant|.*LOC_ADV.*" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="[AR].*|V.P.*" postag_regexp="yes"><exception regexp="yes">abans|ja|on|quan|que|com|menys|doncs|però|ara|emperò|ans</exception><exception postag="N.[MC][SN].*" postag_regexp="yes"/></token>
                 </pattern>
@@ -2825,12 +2825,13 @@ $Id$
                 <example type="incorrect" correction="tan">Han estat <marker>tant</marker> elogiats.</example>
                 <example type="correct">És tan bonic.</example>
                 <example type="correct">Tant quan sigui així com quan no ho sigui.</example>
+                <example type="correct">De tant en tant altres qüestions apareixen</example>
             </rule>
             <rule> <!-- mots que probablement són adjectius -->
                 <pattern>
                     <token negate="yes">per</token>
                     <marker>
-                        <token>tant<exception postag="allow_tant"/></token>
+                        <token>tant<exception postag="allow_tant|.*LOC_ADV.*" postag_regexp="yes"/></token>
                     </marker>
                     <token>fort</token>
                 </pattern>
@@ -6593,7 +6594,7 @@ $Id$
             <example type="correct"><marker>estat</marker>.</example>
         </rule>
         <rule id="PERO_ALLO" name="*peró/però alló/allò">
-         <pattern>
+            <pattern>
                 <token postag="SENT_START"/>
                 <marker>
                     <token regexp="yes">peró|alló</token>
@@ -6613,6 +6614,18 @@ $Id$
             <example type="incorrect"><marker>sènia</marker>.</example>
             <example type="correct"><marker>sénia</marker>.</example>
         </rule>
+        <rulegroup id="MOTS_AMB_GUIONETS" name="mots amb guionets: boca-orella">
+        	<rule>
+			    <pattern>
+			        <token>boca</token>
+			        <token regexp="yes">orell(a|es)</token>
+			    </pattern>
+			    <message>S'escriu amb guionet.</message>
+			    <suggestion><match no="1"/>-<match no="2"/></suggestion>
+			    <example type="incorrect" correction="boca-orella">Em va arribar pel <marker>boca orella</marker>.</example>
+			    <example type="correct">El boca-orella sempre és efectiu.</example>
+			</rule>
+        </rulegroup>
         <rulegroup id="MOTS_SENSE_GUIONETS" name="mots sense guionets: *gin-tònic, *vist-i-plau,...">
         <!-- This rulegroup would be unnecessary if LibreOffice/OpenOffice tokenized the words containing hyphens like LanguageTool -->
         	<rule id="COMPRAVENDA" name="compravenda">
@@ -12784,13 +12797,17 @@ $Id$
         </rulegroup>
         <rule id="DE_QUAN_EN_QUAN_DE_TANT_EN_TANT" name="*de quan en quan/de tant en tant">
             <pattern>
-                <token regexp="yes">de|en</token>
+                <token regexp="yes">de|en<exception postag=".*LOC_ADV.*" postag_regexp="yes"/></token>
                 <token regexp="yes">quant?|tant?</token>
                 <token>en</token>
-                <token regexp="yes">quant?</token>
+                <token regexp="yes">quant?|tant?</token>
             </pattern>
             <message>¿Volíeu dir <suggestion>de tant en tant</suggestion>?</message>
             <example type="incorrect">Ho feien <marker>de quan en quan</marker>.</example>
+            <example type="incorrect">Ho feien <marker>de tan en quant</marker>.</example>
+            <example type="incorrect">Ho feien <marker>de tant en quan</marker>.</example>
+            <example type="incorrect">Ho feien <marker>de tant en tan</marker>.</example>
+            <example type="incorrect">Ho feien <marker>de tan en tant</marker>.</example>
             <example type="correct">Ho feien de tant en tant.</example>
         </rule>
         <rulegroup id="QUANT_ABANS" name="*quant abans">
@@ -17468,10 +17485,11 @@ $Id$
 			    <message>Amb valor abstractiu val més usar una altra construcció. Correcte si equival a "aquella cosa <match no="2" postag="AQ.*" postag_regexp="yes" postag_replace="AQ0[FC]S0"/>".</message>
 			    <suggestion>el fet <match no="2"/></suggestion>
 			    <suggestion>la cosa <match no="2" postag="AQ.*" postag_regexp="yes" postag_replace="AQ0[FC]S0"/></suggestion>
-			    <suggestion>les coses <match no="2" postag="AQ.*" postag_regexp="yes" postag_replace="AQ0[FC]P0"/></suggestion>
+			    <suggestion>el punt <match no="2"/></suggestion>
+			    <suggestion>el que és <match no="2"/></suggestion>
 			    <suggestion>l'<match no="2"/></suggestion>
 			    <short>Possible construcció incorrecta</short>
-			    <example type="incorrect" correction="el fet important|la cosa important|les coses importants|l'important"><marker>allò important</marker></example>
+			    <example type="incorrect" correction="el fet important|la cosa important|el punt important|el que és important|l'important"><marker>allò important</marker></example>
 			    <example type="correct">l'important</example>
 			</rule>
 			<rule>
@@ -17482,10 +17500,11 @@ $Id$
 			    <message>Amb valor abstractiu val més usar una altra construcció. Correcte si equival a "aquella cosa <match no="2" postag="AQ.*" postag_regexp="yes" postag_replace="AQ0[FC]S0"/>".</message>
 			    <suggestion>el fet <match no="2"/></suggestion>
 			    <suggestion>la cosa <match no="2" postag="AQ.*" postag_regexp="yes" postag_replace="AQ0[FC]S0"/></suggestion>
-			    <suggestion>les coses <match no="2" postag="AQ.*" postag_regexp="yes" postag_replace="AQ0[FC]P0"/></suggestion>
+			    <suggestion>el punt <match no="2"/></suggestion>
+			    <suggestion>el que és <match no="2"/></suggestion>
 			    <suggestion>el <match no="2"/></suggestion>
 			    <short>Possible construcció incorrecta</short>
-			    <example type="incorrect" correction="el fet considerable|la cosa considerable|les coses considerables|el considerable"><marker>allò considerable</marker></example>
+			    <example type="incorrect" correction="el fet considerable|la cosa considerable|el punt considerable|el que és considerable|el considerable"><marker>allò considerable</marker></example>
 			    <example type="correct">l'important</example>
 			</rule><rule>
 			    <pattern>
@@ -17496,9 +17515,10 @@ $Id$
 			    <suggestion>el que <match no="2" postag="VMP.*SM." postag_regexp="yes" postag_replace="VMIP3S00"/></suggestion>
 			    <suggestion>allò que <match no="2" postag="VMP.*SM." postag_regexp="yes" postag_replace="VMIP3S00"/></suggestion>
 			    <suggestion>el fet <match no="2"/></suggestion>
+			    <suggestion>el punt <match no="2"/></suggestion>
 			    <suggestion>la cosa <match no="2" postag="VMP.*SM." postag_regexp="yes" postag_replace="VMP.*SF."/></suggestion>
 			    <short>Possible construcció incorrecta</short>
-			    <example type="incorrect" correction="el que estableix|allò que estableix|el fet establert|la cosa establerta|la cosa establida"><marker>allò establert</marker></example>
+			    <example type="incorrect" correction="el que estableix|allò que estableix|el fet establert|el punt establert|la cosa establerta|la cosa establida"><marker>allò establert</marker></example>
 			    <example type="correct">el que estableix</example>
 			</rule>
 		</rulegroup>
