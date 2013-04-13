@@ -38,6 +38,18 @@ $Id$
 			<example type="incorrect">Είχα <marker>πάω</marker>.</example>
 			<example type="correct">Είχα πάει.</example>
 		</rule>
+        <rule id="GREEK_AGREEMENT_1" name="μέθοδοι αυτές">
+            <pattern>
+                <token regexp="yes">μέθοδοι|παράμετροι</token>
+                <marker>
+                    <token>αυτοί</token>
+                </marker>
+            </pattern>
+            <message>Το ουσιαστικό μέθοδος είναι γένους Θηλυκού. Χρησιμοποιήστε την αντωνυμία <suggestion>αυτές</suggestion></message>
+            <short>Πρόβλημα συμφωνίας</short>
+            <example type="incorrect">Οι βελτιώσεις των προσεγγίσεων είναι εμφανείς και οι μέθοδοι <marker>αυτοί</marker> είναι κατάλληλοι για την κατανόηση των μεθόδων μεγαλύτερης τάξης.</example>
+            <example type="correct">Οι βελτιώσεις των προσεγγίσεων είναι εμφανείς και οι μέθοδοι αυτές είναι κατάλληλοι για την κατανόηση των μεθόδων μεγαλύτερης τάξης.</example>
+        </rule>
 	</category>
 	<category name="Orthography">
 		<rule id="GREEK_WHERE-" name="πού;">
@@ -166,4 +178,47 @@ $Id$
 			<example type="correct">Στη συνέχεια ακολουθεί η αυτοψία αρχιτέκτονα στο κτίριο</example>
 		</rule>
 	</category>
+    <category name="Homonymy">
+        <rule id="GREEK_PARTICLE_ARTICLE" name="η/ή">
+            <pattern>
+                <marker>
+                    <token>η</token>
+                </marker>
+                <token regexp="yes">θα|να</token>
+            </pattern>
+            <message>Μήπως εννοείτε τον διαζευκτικό σύνδεσμο <suggestion>ή</suggestion> (με τόνο);</message>
+            <short>Πρόβλημα ομωνυμίας</short>
+            <example type="incorrect">Θα κλείσει <marker>η</marker> θα μεταφερθεί;</example>
+            <example type="correct">Θα κλείσει ή θα μεταφερθεί;</example>
+            <example type="incorrect">Να ζει κανείς <marker>η</marker> να μη ζει;</example>
+            <example type="correct">Να ζει κανείς ή να μη ζει;</example>
+        </rule>
+    </category>
+    <category name="Syntax">
+        <rule id="GREEK_SYNTAX_1" name="περισσότεροι από έναν">
+            <pattern>
+                <token>περισσότεροι</token>
+                <marker>
+                    <token>από</token>
+                    <token>ένας</token>
+                </marker>
+            </pattern>
+            <message>Μετά από επίθετο συγκριτικού βαθμού ακολουθεί συνήθως <suggestion>από έναν</suggestion> ή σπανιότερα <suggestion>του ενός</suggestion>.</message>
+            <short>Συντακτικό λάθος</short>
+            <example type="incorrect">Περισσότεροι <marker>από ένας</marker> στους τέσσερις οι άνεργοι.</example>
+            <example type="correct">Περισσότεροι από έναν στους τέσσερις οι άνεργοι.</example>
+        </rule>
+        <rule id="GREEK_SYNTAX_2" name="ανεξαρτήτως ηλικίας">
+            <pattern>
+                <marker>
+                    <token>ανεξαρτήτου</token>
+                </marker>
+                <token>ηλικίας</token>
+            </pattern>
+            <message>Η σωστή έκφραση είναι <suggestion>ανεξαρτήτως</suggestion> ηλικίας.</message>
+            <short>Συντακτικό λάθος</short>
+            <example type="incorrect">Γίνονται όλοι δεκτοί <marker>ανεξαρτήτου</marker> ηλικίας.</example>
+            <example type="correct">Γίνονται όλοι δεκτοί ανεξαρτήτως ηλικίας.</example>
+        </rule>
+    </category>
 </rules>
