@@ -3290,6 +3290,22 @@ $Id$
         </rule>
     </category>
     <category name="Z) Conjuncions" type="grammar">
+    	<rule id="NO_OBSTANT" name="no obstant/això no obstant">
+		    <pattern>
+		    	<token><exception>això</exception></token>
+		    	<marker>
+			        <token>no</token>
+			        <token>obstant</token>
+		        </marker>
+		        <token>,</token>
+		    </pattern>
+		    <message>Com a conjunció, és preferible usar una altra expressió. Correcte com a loc. prepositiva (=malgrat).</message>
+		    <suggestion>això no obstant</suggestion>
+		    <suggestion>no obstant això</suggestion>
+		    <short>Expressió preferible</short>
+		    <example type="incorrect" correction="Això no obstant|No obstant això"><marker>No obstant</marker>, vingué.</example>
+		    <example type="correct">Això no obstant, vingué.</example>
+		</rule>
         <rule id="CONFORME_CONJUNCIO" name="*conforme (conjunció)">
             <pattern>
                 <token><exception postag="V.[SI].*|_GV_" postag_regexp="yes" inflected="yes" regexp="yes">ser|estar|anar|quedar|restar</exception></token>
@@ -3438,6 +3454,36 @@ $Id$
             <example type="correct">El llibre <marker>tracta</marker> aspectes importants de les matemàtiques</example>
             <example type="correct">El llibre <marker>tracta</marker> a més a més aspectes importants de les matemàtiques</example>
         </rule> -->
+        <rulegroup id="COM_COM_A" name="com / com a">
+        	<rule>
+        		<pattern>
+        		<token postag="V.P.*" skip="1" postag_regexp="yes" regexp="yes" inflected="yes">reconèixer|conèixer|definir|veure|entendre|interpretar</token>
+        		<marker>
+        			<token>com</token>
+        		</marker>
+        		<token><exception>a</exception><exception postag="D[AI].*" postag_regexp="yes" inflected="yes" regexp="yes">el|un</exception></token>
+        		</pattern>
+        		<message>Probablement cal escriure <suggestion>com a</suggestion>.</message>
+        		<url>http://esadir.cat/sintaxi/advcomcoma/view</url>
+        		<short>Possible error</short>
+        		<example type="incorrect" correction="com a">Francesc Sabaté Llopart, conegut <marker>com</marker> Quico Sabaté</example>
+                <example type="correct">És conegut com el millor pastisser del món.</example>
+        		<example type="correct">És reconegut com un dels millors</example>
+        	</rule>
+        	<rule>
+        		<pattern>
+        		<marker>
+        			<token>com</token>
+        		</marker>
+        		<token regexp="yes">autors?|president[ae]?s?|representants?</token>
+        		</pattern>
+        		<message>Probablement cal escriure <suggestion>com a</suggestion>.</message>
+        		<url>http://esadir.cat/sintaxi/advcomcoma/view</url>
+        		<short>Possible error</short>
+        		<example type="incorrect" correction="com a">Hi va acudir <marker>com</marker> representant del sindicat</example>
+                <example type="correct">És conegut com a autor de teatre.</example>
+        	</rule>
+        </rulegroup>
         <rule id="PER_A_DESPRES" name="per a després">
 		    <pattern>
 		        <token>per</token>
@@ -4353,6 +4399,15 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+    	<rule id="DE_BADES_DEBADES" name="de bades / debades">
+		    <pattern>
+		        <token>de</token>
+		        <token>bades</token>
+		    </pattern>
+		    <message>¿Volíeu dir <suggestion>debades</suggestion>?</message>
+		    <example type="incorrect"><marker>de bades</marker></example>
+		    <example type="correct">debades</example>
+		</rule>
     	<rule id="AVANS" name="avanç/abans de">
 		    <pattern>
 		        <marker>
@@ -17000,7 +17055,7 @@ $Id$
                 <token>d'</token>
                 <token>edat</token>
             </pattern>
-            <message>Redundància. Val més dir: <suggestion>anys</suggestion></message>
+            <message>Redundància. Val més dir: <suggestion><match no="1"/></suggestion></message>
             <short>Redundància</short>
             <example type="incorrect" correction="anys">Té 30 <marker>anys d'edat</marker>.</example>
             <example type="correct">Té 30 anys.</example>
