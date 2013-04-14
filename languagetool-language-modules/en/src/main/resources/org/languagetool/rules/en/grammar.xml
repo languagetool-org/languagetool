@@ -5694,6 +5694,18 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category name="Grammar" type="grammar">
+        <rule id="GOING_TO_VBD" name="Use of past form with 'going to ...'">
+            <pattern>
+                <token>going</token>
+                <token>to</token>
+                <marker>
+                    <token postag="VBD"></token>
+                </marker>
+            </pattern>
+            <message>'Going to' requires the base form: <suggestion><match no="3" postag="VB"></match></suggestion></message>
+            <example type="incorrect" correction="write">I'm going to <marker>wrote</marker> him.</example>
+            <example type="correct">I'm going to <marker>write</marker> him.</example>
+        </rule>
         <rulegroup id="NON_ACTION_CONTINUOUS" name="Use of continuous form with non-action verbs">
             <rule>
                 <pattern>
