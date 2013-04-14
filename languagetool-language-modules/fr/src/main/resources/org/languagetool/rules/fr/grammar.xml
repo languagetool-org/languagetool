@@ -3196,6 +3196,48 @@ though, and has since been slightly modified)-->
         <example type="correct">Il faut prendre en gré les afflictions que Dieu nous envoie.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="VENENEUX_VENIMEUX" name="vénéneux ou venimeux">
+      <rule>
+        <pattern>
+          <token regexp="yes" skip="1">(serpents|araignée|scorpion|vipère|cobra|crapaud|grenouille|dendrobate|poulpe|guêpe|abeille|méduse|morsure|piqûre|dard|dent|croc|chochet)s?</token>
+          <marker><token regexp="yes">v[ée]n[ée][nm]eu(x|ses?)</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="^....." regexp_replace="venim"/></suggestion>?</message>
+        <example type="incorrect" correction="venimeuses">Des araignées <marker>vénéneuses</marker>.</example>
+        <example type="correct">Des araignées <marker>venimeuses</marker>.</example>
+        <example type="correct">Un champignon <marker>vénéneux</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes" skip="1">(serpents|araignée|scorpion|vipère|couleuvre|cobra|crapaud|grenouille|dendrobate|poulpe|guêpe|abeille|méduse|morsure|piqûre|dard|dent|croc|chochet)s?</token>
+          <token postag="V etre.*" postag_regexp="yes" skip="1"/>
+          <marker><token regexp="yes">v[ée]n[ée][nm]eu(x|ses?)</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion><match no="3" regexp_match="^....." regexp_replace="venim"/></suggestion>?</message>
+        <example type="incorrect" correction="venimeuses">Les couleuvres ne sont pas <marker>vénéneuses</marker>.</example>
+        <example type="correct">Les couleuvres ne sont pas <marker>venimeuses</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes" skip="1">(plante|champignon|lépiote|fruit|herbe|fleur|chair|moule|humus|substance)s?|végétaux|végétal</token>
+        <marker><token regexp="yes">v[eé][nm]i[mn]eu(x|ses?)</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="^....." regexp_replace="vénén"/></suggestion>?</message>
+        <example type="incorrect" correction="vénéneux">Des champignons non <marker>venimeux</marker>.</example>
+        <example type="correct">Des champignons non <marker>vénémeux</marker>.</example>
+        <example type="correct">Un cobra très <marker>venimeux</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes" skip="1">(plante|champignon|lépiote|fruit|herbe|fleur|chair|moule|humus|substance)s?|végétaux|végétal</token>
+          <token postag="V etre.*" postag_regexp="yes" skip="1"/>
+        <marker><token regexp="yes">v[eé][nm]i[mn]eu(x|ses?)</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion><match no="3" regexp_match="^....." regexp_replace="vénén"/></suggestion>?</message>
+        <example type="incorrect" correction="vénéneuses">Ces plantes ne sont pas <marker>venimeuses</marker>.</example>
+        <example type="correct">Ces plantes ne sont pas <marker>vénéneuses</marker>.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category name="Élision">
     <!-- I find conflicting information about élision, so this needs to be reviewed.
