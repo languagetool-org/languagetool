@@ -3475,11 +3475,11 @@ $Id$
         <rulegroup id="COM_COM_A" name="com / com a">
         	<rule>
         		<pattern>
-        		<token postag="V.P.*" skip="1" postag_regexp="yes" regexp="yes" inflected="yes">reconèixer|conèixer|definir|veure|entendre|interpretar</token>
-        		<marker>
-        			<token>com</token>
-        		</marker>
-        		<token><exception>a</exception><exception postag="D[AI].*" postag_regexp="yes" inflected="yes" regexp="yes">el|un</exception></token>
+	        		<token postag="V.P.*" skip="1" postag_regexp="yes" regexp="yes" inflected="yes">reconèixer|conèixer|definir|veure|entendre|interpretar</token>
+	        		<marker>
+	        			<token>com</token>
+	        		</marker>
+	        		<token><exception>a</exception><exception inflected="yes" regexp="yes">el|un|tot</exception><exception regexp="yes">['"‘“«]</exception></token>
         		</pattern>
         		<message>Probablement cal escriure <suggestion>com a</suggestion>.</message>
         		<url>http://esadir.cat/sintaxi/advcomcoma/view</url>
@@ -3487,13 +3487,31 @@ $Id$
         		<example type="incorrect" correction="com a">Francesc Sabaté Llopart, conegut <marker>com</marker> Quico Sabaté</example>
                 <example type="correct">És conegut com el millor pastisser del món.</example>
         		<example type="correct">És reconegut com un dels millors</example>
+        		<example type="correct">Conegut com "el mirador de la comtessa".</example>
+        		<example type="correct">Els amfibis són definits com tots els descendents de l'avantpassat comú.</example>
         	</rule>
         	<rule>
         		<pattern>
-        		<marker>
-        			<token>com</token>
-        		</marker>
-        		<token regexp="yes">autors?|president[ae]?s?|representants?</token>
+	        		<token postag="V.P.*" skip="1" postag_regexp="yes" regexp="yes" inflected="yes">reconèixer|conèixer|definir|veure|entendre|interpretar</token>
+	        		<marker>
+	        			<token>com</token>
+	        		</marker>
+	        		<token regexp="yes">['"‘“«]</token>
+	        		<token><exception inflected="yes" regexp="yes">el|un|tot</exception></token>
+        		</pattern>
+        		<message>Probablement cal escriure <suggestion>com a</suggestion>.</message>
+        		<url>http://esadir.cat/sintaxi/advcomcoma/view</url>
+        		<short>Possible error</short>
+        		<example type="incorrect" correction="com a">Conegut <marker>com</marker> "lleonès medieval"</example>
+                <example type="correct">És conegut com "el millor pastisser del món".</example>
+        		<example type="correct">Conegut com "el mirador de la comtessa".</example>
+        	</rule>
+        	<rule>
+        		<pattern>
+	        		<marker>
+	        			<token>com</token>
+	        		</marker>
+	        		<token regexp="yes">autors?|president[ae]?s?|representants?</token>
         		</pattern>
         		<message>Probablement cal escriure <suggestion>com a</suggestion>.</message>
         		<url>http://esadir.cat/sintaxi/advcomcoma/view</url>
