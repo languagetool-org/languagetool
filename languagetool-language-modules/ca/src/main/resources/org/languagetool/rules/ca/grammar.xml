@@ -3267,11 +3267,29 @@ $Id$
                     <token regexp="yes">i|o|ni</token>
                     <token postag="RG" regexp="yes">.+ment<exception>malament</exception></token>
                 </pattern>
-                <message>¿Potser volíeu dir <suggestion><match no="2"></match>ment</suggestion>?</message>
+                <message>Quan hi ha més d'un adverbi no s'ha de suprimir el sufix -ment.</message>
+                <suggestion><match no="2"></match>ment</suggestion>
+                <url>http://esadir.cat/sintaxi/advermanera/view</url>
                 <short>Possible error</short>
                 <example type="incorrect" correction="clarament"><marker>clara</marker> i evidentment</example>
                 <example type="correct">Un problema inextricable i evidentment irresoluble</example>
                 <!-- <example type="correct">un embolic de cordes inextricable i extremament difícil d’aclarir</example> -->
+            </rule>
+            <rule>
+                <pattern>
+                    <token>tant</token>
+                    <marker>
+                        <token postag="A..[CF]S.|V.P..SF.?" postag_regexp="yes"/>
+                    </marker>
+                    <token>com</token>
+                    <token postag="RG" regexp="yes">.+ment<exception>malament</exception></token>
+                </pattern>
+                <message>Quan hi ha més d'un adverbi no s'ha de suprimir el sufix -ment.</message>
+                <suggestion><match no="2"></match>ment</suggestion>
+                <url>http://esadir.cat/sintaxi/advermanera/view</url>
+                <short>Possible error</short>
+                <example type="incorrect" correction="culturalment">tant <marker>cultural</marker> com econòmicament.</example>
+                <example type="correct">Tant culturalment com econòmicament</example>
             </rule>
         </rulegroup>
         <rule id="SI_QUE" name="*sí m'agrada/sí que m'agrada">
