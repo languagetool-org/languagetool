@@ -559,7 +559,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rulegroup id="Nom_propi" name="noms propis">
         <rule>
             <pattern>
-                <token><exception postag="SENT_START"/><exception regexp="yes">[¿?¡!"«»—–:\-]</exception></token>
+                <token><exception postag="SENT_START"/><exception regexp="yes">[¿?¡!"'‘“«»—–:\-]</exception></token>
                 <marker>
                     <token postag="NP.*" postag_regexp="yes"/>
                 </marker>
@@ -578,7 +578,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule> <!-- Lluís Nadal exigeix -->
             <pattern>
-                <token regexp="yes">[¿?¡!"«»—–:\-]</token>
+                <token regexp="yes">[¿?¡!"'‘“«»—–:\-]</token>
                 <marker>
                     <token postag="NP.*" postag_regexp="yes" skip="3"><exception postag="A.*" postag_regexp="yes"/><exception scope="next" postag="V.P.*" postag_regexp="yes"/><exception scope="next" postag="P.*" postag_regexp="yes" regexp="yes">['-].+</exception></token>
                 </marker>
@@ -8380,14 +8380,14 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>  
     </rulegroup>
     <rule id="possible_nom_propi" name="possible nom propi">
-            <pattern>
-                <token><exception postag="SENT_START"/><exception regexp="yes" spacebefore="yes">[—–\-]</exception><exception regexp="yes">[¿¡"«»‘“:]</exception></token>
-                <marker>
-                    <token postag="AQ.*|DA.*|PP.*|P0.*|V.[GMSI].*|NP.*" postag_regexp="yes" regexp="yes">\p{Lu}.*</token>
-                </marker>
-            </pattern>
-            <disambig action="add"><wd pos="_possible_nompropi"/></disambig>
-     </rule>
+         <pattern>
+             <token><exception postag="SENT_START"/><exception regexp="yes" spacebefore="yes">[—–\-]</exception><exception regexp="yes">[¿¡"'«»‘“:]</exception></token>
+             <marker>
+                 <token postag="AQ.*|DA.*|PP.*|P0.*|V.[GMSI].*|NP.*" postag_regexp="yes" regexp="yes">\p{Lu}.*</token>
+             </marker>
+         </pattern>
+         <disambig action="add"><wd pos="_possible_nompropi"/></disambig>
+  	 </rule>	
      <rulegroup id="lo_admissible" name="Tirant lo Blanc">
         <rule>
             <pattern case_sensitive="yes">
