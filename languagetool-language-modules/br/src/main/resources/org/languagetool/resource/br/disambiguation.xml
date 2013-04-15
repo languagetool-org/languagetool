@@ -567,11 +567,28 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
     </pattern>
     <disambig postag="V pres 2 s"/>
   </rule>
-  <rule id="FRANCE_3" name="France 3">
-    <pattern case_sensitive="yes">
-      <marker><token>France</token></marker>
-      <token regexp="yes">[23]|Bleue</token>
+  <rulegroup id="FRANCE" name="France">
+    <rule>
+      <pattern case_sensitive="yes">
+        <marker><token>France</token></marker>
+        <token regexp="yes">[23]|Bleu</token>
+      </pattern>
+      <disambig action="immunize"/>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+        <token>Radio</token>
+        <marker><token>France</token></marker>
+      </pattern>
+      <disambig action="immunize"/>
+    </rule>
+  </rulegroup>
+  <rule id="DA_LAVARET_EO" name="Da lavaret eo">
+    <pattern>
+      <token>da</token>
+      <token>lavaret</token>
+      <marker><token>eo</token></marker>
     </pattern>
-    <disambig action="immunize"/>
+    <disambig action="add"><wd lemma="bezañ" pos="X DA_LAVARET_EO"/>eo</disambig>
   </rule>
 </rules>
