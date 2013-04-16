@@ -1,13 +1,13 @@
 _______________________________________________________________________________
 
    DICTIONNAIRES ORTHOGRAPHIQUES FRANÇAIS
-   version 4.9
+   version 4.10
 
    Olivier R. - dicollecte<at>free<dot>fr
    Dicollecte : http://www.dicollecte.org/
 
    Licence :
-   * MPL : Mozilla Public License
+     MPL : Mozilla Public License
      version 2.0  --  http://www.mozilla.org/MPL/2.0/
 
    Ce dictionnaire ne peut fonctionner qu’avec un logiciel utilisant le
@@ -53,12 +53,12 @@ _______________________________________________________________________________
    de chacun, quatre dictionnaires existent, respectant différemment cette
    réforme.
 
-    Dictionnaire «Moderne»  [recommandé]
+    Dictionnaire «Moderne»
         Ce dictionnaire propose une sélection des graphies classiques et
         réformées, suivant la lente évolution de l’orthographe actuelle. Ce
         dictionnaire contient les graphies les moins polémiques de la réforme.
 
-    Dictionnaire «Classique»
+    Dictionnaire «Classique»  [recommandé]
         Ce dictionnaire est une extension du dictionnaire «Moderne» et propose
         en sus des graphies alternatives, parfois encore très usitées, parfois
         tombées en désuétude.
