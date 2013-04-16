@@ -680,19 +680,49 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
             <example correction="away from" type="incorrect">He is <marker>away fro</marker> the sea.</example>
             <example type="correct">He is away from the sea.</example>
         </rule>
-        <rule id="FRO_A_WHILE" name="fro a while (for a while)">
-            <pattern>
-                <marker>
-                    <token>fro</token>
-                </marker>
-                <token regexp="yes">a|an</token>
-                <token regexp="yes">while|weekend|month|year|hour|minute|second|week</token>
-            </pattern>
-            <message>Did you mean <suggestion>for</suggestion>?</message>
-            <short>Possible typo</short>
-            <example type="correct">I went there for a weekend.</example>
-            <example correction="for" type="incorrect">I went there <marker>fro</marker> a weekend.</example>
-        </rule>
+        <rulegroup id="FOR_FRO" name="fro a while (for a while)">
+            <rule>
+                <pattern>
+                    <!-- phrase "to and fro" = to back and forth -->
+                    <!-- problem with double negation - does not detect: "For him and fro me." -->
+                    <token negate="yes">to</token>
+                    <token negate="yes">and</token>
+                    <marker>
+                        <token>fro</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>for</suggestion>?</message>
+                <example type="correct"><marker>For</marker> me.</example>
+                <example type="correct">And <marker>for</marker> me.</example>
+                <example type="correct">That's good <marker>for</marker> your.</example>
+                <example correction="for" type="incorrect">That's good <marker>fro</marker> your.</example>
+                <example correction="for" type="incorrect">And good <marker>fro</marker> your.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"></token>
+                    <marker>
+                        <token>Fro</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>for</suggestion>?</message>
+                <example type="correct"><marker>For</marker> me.</example>
+                <example correction="For" type="incorrect"><marker>Fro</marker> me.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>fro</token>
+                    </marker>
+                    <token regexp="yes">a|an</token>
+                    <token regexp="yes">while|weekend|month|year|hour|minute|second|week</token>
+                </pattern>
+                <message>Did you mean <suggestion>for</suggestion>?</message>
+                <short>Possible typo</short>
+                <example type="correct">I went there for a weekend.</example>
+                <example correction="for" type="incorrect">I went there <marker>fro</marker> a weekend.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="HOUR_OUR" name="half an our (half an hour)">
             <rule>
                 <pattern>
