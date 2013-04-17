@@ -25,8 +25,8 @@ $Id$
  ================================================================================
  Italian Grammar and Style Rules for Italian
  Paolo Bianchini
- Date: 09/04/2013
- Ver:  2.1.0.2
+ Date: 17/04/2013
+ Ver:  2.1.0.3
  ================================================================================
  Categorie delle regole
     gruppi delle regole
@@ -116,7 +116,7 @@ $Id$
  PB012    Added exception for article of the word "dei"
  3609558  False positive in rule ER_02_002 'al'-'la'
  3610220  False positive in 'per lo meno' for rule GR_02_001 changed so that adv are skipped
- 3610360  False positive in dates for rule ST_04_001
+ 3610360  False positive in dates for rule ST_04_001 fixes also 3611066
  3610289  False positive il artice for word "Signore"
  ======== ==================================================================================
 -->
@@ -1382,7 +1382,7 @@ $Id$
             <rule>
                 <pattern>
 <!-- 3610360 + -->
-                    <marker><token>1</token></marker>
+                    <marker><token>1<exception scope="previous" regexp="yes">Lunedì|Martedì|Mercoledì|Giovedì|Venerdì|Sabato|Domenica</exception></token></marker>
 					<token><exception regexp="yes">Gennaio|Febbario|Aprile|Marzo|Maggio|Giugno|Luglio|Agosto|Settembre|Ottobre|Novembre|Dicembre|/</exception></token>
 <!-- 3610360 - -->
                 </pattern>
@@ -1393,7 +1393,7 @@ $Id$
             <rule>
                 <pattern>
 <!-- 3610360 + -->
-                    <marker><token>2</token></marker>
+                    <marker><token>2<exception scope="previous" regexp="yes">Lunedì|Martedì|Mercoledì|Giovedì|Venerdì|Sabato|Domenica</exception></token></marker>
 					<token><exception regexp="yes">Gennaio|Febbario|Aprile|Marzo|Maggio|Giugno|Luglio|Agosto|Settembre|Ottobre|Novembre|Dicembre|/</exception></token>
 <!-- 3610360 - -->
                 </pattern>
@@ -1404,7 +1404,7 @@ $Id$
             <rule>
                 <pattern>
 <!-- 3610360 + -->
-                    <marker><token>3</token></marker>
+                    <marker><token>3<exception scope="previous" regexp="yes">Lunedì|Martedì|Mercoledì|Giovedì|Venerdì|Sabato|Domenica</exception></token></marker>
 					<token><exception regexp="yes">Gennaio|Febbario|Aprile|Marzo|Maggio|Giugno|Luglio|Agosto|Settembre|Ottobre|Novembre|Dicembre|/</exception></token>
 <!-- 3610360 - -->
                 </pattern>
@@ -1415,7 +1415,7 @@ $Id$
             <rule>
                 <pattern>
 <!-- 3610360 + -->
-                    <marker><token>4</token></marker>
+                    <marker><token>4<exception scope="previous" regexp="yes">Lunedì|Martedì|Mercoledì|Giovedì|Venerdì|Sabato|Domenica</exception></token></marker>
 					<token><exception regexp="yes">Gennaio|Febbario|Aprile|Marzo|Maggio|Giugno|Luglio|Agosto|Settembre|Ottobre|Novembre|Dicembre|/</exception></token>
 <!-- 3610360 - -->
                 </pattern>
@@ -1426,7 +1426,7 @@ $Id$
             <rule>
                 <pattern>
 <!-- 3610360 + -->
-                    <marker><token>5</token></marker>
+                    <marker><token>5<exception scope="previous" regexp="yes">Lunedì|Martedì|Mercoledì|Giovedì|Venerdì|Sabato|Domenica</exception></token></marker>
 					<token><exception regexp="yes">Gennaio|Febbario|Aprile|Marzo|Maggio|Giugno|Luglio|Agosto|Settembre|Ottobre|Novembre|Dicembre|/</exception></token>
 <!-- 3610360 - -->
                 </pattern>
@@ -1437,7 +1437,7 @@ $Id$
             <rule>
                 <pattern>
 <!-- 3610360 + -->
-                    <marker><token>6</token></marker>
+                    <marker><token>6<exception scope="previous" regexp="yes">Lunedì|Martedì|Mercoledì|Giovedì|Venerdì|Sabato|Domenica</exception></token></marker>
 					<token><exception regexp="yes">Gennaio|Febbario|Aprile|Marzo|Maggio|Giugno|Luglio|Agosto|Settembre|Ottobre|Novembre|Dicembre|/</exception></token>
 <!-- 3610360 - -->
                 </pattern>
@@ -1448,7 +1448,7 @@ $Id$
             <rule>
                 <pattern>
 <!-- 3610360 + -->
-                    <marker><token>7</token></marker>
+                    <marker><token>7<exception scope="previous" regexp="yes">Lunedì|Martedì|Mercoledì|Giovedì|Venerdì|Sabato|Domenica</exception></token></marker>
 					<token><exception regexp="yes">Gennaio|Febbario|Aprile|Marzo|Maggio|Giugno|Luglio|Agosto|Settembre|Ottobre|Novembre|Dicembre|/</exception></token>
 <!-- 3610360 - -->
                 </pattern>
@@ -1459,7 +1459,7 @@ $Id$
             <rule>
                 <pattern>
 <!-- 3610360 + -->
-                    <marker><token>8</token></marker>
+                    <marker><token>8<exception scope="previous" regexp="yes">Lunedì|Martedì|Mercoledì|Giovedì|Venerdì|Sabato|Domenica</exception></token></marker>
 					<token><exception regexp="yes">Gennaio|Febbario|Aprile|Marzo|Maggio|Giugno|Luglio|Agosto|Settembre|Ottobre|Novembre|Dicembre|/</exception></token>
 <!-- 3610360 - -->
                 </pattern>
@@ -1470,7 +1470,7 @@ $Id$
             <rule>
                 <pattern>
 <!-- 3610360 + -->
-                    <marker><token>9</token></marker>
+                    <marker><token>9<exception scope="previous" regexp="yes">Lunedì|Martedì|Mercoledì|Giovedì|Venerdì|Sabato|Domenica</exception></token></marker>
 					<token><exception regexp="yes">Gennaio|Febbario|Aprile|Marzo|Maggio|Giugno|Luglio|Agosto|Settembre|Ottobre|Novembre|Dicembre|/</exception></token>
 <!-- 3610360 - -->
                 </pattern>
@@ -1483,7 +1483,7 @@ $Id$
             <rule>
                 <pattern>
 <!-- 3610360 + -->
-                    <marker><token regexp="yes">[123456789][0123456789]</token></marker>
+                    <marker><token regexp="yes">[123456789][0123456789]<exception scope="previous" regexp="yes">Lunedì|Martedì|Mercoledì|Giovedì|Venerdì|Sabato|Domenica</exception></token></marker>
 					<token><exception regexp="yes">Gennaio|Febbario|Aprile|Marzo|Maggio|Giugno|Luglio|Agosto|Settembre|Ottobre|Novembre|Dicembre|/</exception></token>
 <!-- 3610360 - -->
                 </pattern>
