@@ -729,6 +729,7 @@ $Id$
                     </unify>
                 </pattern>
                 <message>Error de concordança.</message>
+                <!-- <suggestion><match no="2" postag=".+([MFC][PSN]).+"</suggestion> -->
                 <short>Error de concordança</short>
                 <example type="incorrect"><marker>El metges</marker> pacients.</example>
                 <example type="incorrect">en <marker>la pendent</marker> descendent dels últims anys.</example>
@@ -11645,6 +11646,20 @@ $Id$
             <example type="correct">Ell és, <marker>no cal dir-ho</marker>, el millor.</example>
         </rule>
         <rulegroup id="COM_CONDICIONAL" name="*com + subjuntiu / si + indicatiu">
+        	<rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token>com</token>
+                        <token postag="VMS.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">poder|voler</exception><exception postag="V.I.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Construcció incorrecta: "com + subjuntiu" condicional.</message>
+                <suggestion>si <match no="3" postag="(V.).(.+[SP]0).?" postag_regexp="yes" postag_replace="$1I$2.?"/></suggestion>
+                <short>Construcció incorrecta</short>
+                <example type="incorrect" correction="Si véns"><marker>Com vinguis</marker>, m'enfadaré.</example>
+                <example type="correct">Si véns, m'enfadaré.</example>
+            </rule>    
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
@@ -11656,7 +11671,6 @@ $Id$
                 <message>Construcció incorrecta: "com + subjuntiu" condicional.</message>
                 <suggestion>si <match no="2" include_skipped="following"/> <match no="3" postag="(V.).(.+[SP]0).?" postag_regexp="yes" postag_replace="$1I$2.?"/></suggestion>
                 <short>Construcció incorrecta</short>
-                <!-- <example type="incorrect" correction="Si véns"><marker>Com vinguis</marker>, m'enfadaré.</example> -->
                 <example type="correct">Si véns, m'enfadaré.</example>
                 <example type="incorrect" correction="Si no m'ho portes"><marker>Com no m'ho portis</marker>, m'enfadaré.</example>
                 <example type="incorrect" correction="Si no véns"><marker>Com no vinguis</marker>, m'enfadaré.</example>
@@ -11666,7 +11680,7 @@ $Id$
                 <example type="correct">Com podeu veure.</example>
                 <example type="incorrect" correction="Si es juguen"><marker>Com es juguin</marker> els punts</example>
                 <example type="correct">Com es juguen els punts</example>
-            </rule>    
+            </rule>
             <rule>
                 <pattern>
                     <token>com</token>
@@ -18303,7 +18317,8 @@ $Id$
                         <token postag="V.[^NGP].*" postag_regexp="yes" regexp="yes">[\p{Ll}·]+<exception postag="_GN_.*|N.*|A.*|V.[NGP].*|.*LOC.*|_loc_nosequi" postag_regexp="yes"/><exception regexp="yes">di|cap</exception></token>
                     </marker>
                 </pattern> 
-                <message>Oració subordinada condicional avançada a l'oració principal. Potser falta una coma entre les oracions.</message>
+                <message>Potser falta una coma entre les oracions. Oració subordinada condicional avançada a l'oració principal.</message>
+                <short>Potser falta una coma.</short>
                 <example type="incorrect">Si <marker>volem pujar un semitò haurem</marker> de multiplicar la freqüència per dos.</example>
                 <example type="correct">Si volem pujar un semitò, haurem de multiplicar la freqüència per dos.</example>
                 <example type="correct">festa que -si no perdem de vista els seus orígens- enalteix el grotesc</example>
