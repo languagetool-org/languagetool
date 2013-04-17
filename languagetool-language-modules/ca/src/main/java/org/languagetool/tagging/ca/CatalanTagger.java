@@ -20,20 +20,18 @@ package org.languagetool.tagging.ca;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import morfologik.stemming.Dictionary;
 import morfologik.stemming.DictionaryLookup;
-import morfologik.stemming.IStemmer;
 import morfologik.stemming.WordData;
 
 import org.languagetool.AnalyzedToken;
-import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.tagging.BaseTagger;
-import org.languagetool.tools.StringTools;
 
 /**
  * Catalan Tagger
@@ -45,8 +43,7 @@ import org.languagetool.tools.StringTools;
 public class CatalanTagger extends BaseTagger {
 
 	private static final String DICT_FILENAME = "/ca/catalan.dict";
-	private IStemmer morfologik;
-	private final Locale plLocale = new Locale("ca");
+	private static final Pattern ADJ_PART_FS = Pattern.compile("VMP00SF.|A[QO]0[FC][SN].");
 
 	@Override
 	public final String getFileName() {
@@ -56,28 +53,46 @@ public class CatalanTagger extends BaseTagger {
 	public CatalanTagger() {
 		super();
 		setLocale(new Locale("ca"));
-		this.dontTagLowercaseWithUppercase();
+		this.dontTagLowercaseWithUppercase();		
 	}
 
 	public boolean existsWord(String word) throws IOException {
 		// caching Lametyzator instance - lazy init
-		if (morfologik == null) {
-			final URL url = JLanguageTool.getDataBroker()
-					.getFromResourceDirAsUrl(DICT_FILENAME);
-			morfologik = new DictionaryLookup(Dictionary.read(url));
+		if (dictLookup == null) {
+			final URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(DICT_FILENAME);
+			dictLookup = new DictionaryLookup(Dictionary.read(url));
 		}
-		final String lowerWord = word.toLowerCase(plLocale);
-		List<WordData> posTagsFromDict = morfologik.lookup(lowerWord);
+		final String lowerWord = word.toLowerCase(conversionLocale);
+		List<WordData> posTagsFromDict = dictLookup.lookup(lowerWord);
 		if (posTagsFromDict.isEmpty())
 		{
-			posTagsFromDict = morfologik.lookup(word);
+			posTagsFromDict = dictLookup.lookup(word);
 			if (posTagsFromDict.isEmpty())
 				return false;
 		}
 		return true;
 	}
 	
-	
+	@Override
+	public AnalyzedToken additionalTag(String word) {
+	  //Any well formed adverb with suffix -ment is tagged as an adverb (RG)
+	  //Adjectiu femení singular o participi femení singular + -ment
+	  if (word.endsWith("ment")){
+	    final String possibleAdj=word.replaceAll("^(.+)ment$", "$1");
+	    List<AnalyzedToken> taggerTokens;    
+	    taggerTokens = asAnalyzedTokenList(possibleAdj, dictLookup.lookup(possibleAdj));
+	    for (AnalyzedToken taggerToken : taggerTokens ) {
+	      final String posTag = taggerToken.getPOSTag();
+	      if (posTag != null) {
+	        final Matcher m = ADJ_PART_FS.matcher(posTag);
+	        if (m.matches()) {
+	          return new AnalyzedToken(word, "RG", word);
+	        }
+	      }
+	    }
+	  }
+	  return null;
+  }
 	
 	
 }

@@ -41,8 +41,8 @@ import org.languagetool.tools.StringTools;
  */
 public abstract class BaseTagger implements Tagger {
 
-  private IStemmer dictLookup;
-  private Locale conversionLocale = Locale.getDefault();  
+  protected IStemmer dictLookup;
+  protected Locale conversionLocale = Locale.getDefault();  
   boolean tagLowercaseWithUppercase = true;
 
   /**
@@ -95,6 +95,13 @@ public abstract class BaseTagger implements Tagger {
             }
           }
         }
+      }
+      
+      if (l.isEmpty()) {
+        AnalyzedToken aToken=additionalTag(lowerWord);
+        if (aToken != null) {
+          l.add(aToken);
+        }       
       }
       
       if (l.isEmpty()) {
@@ -158,6 +165,13 @@ public abstract class BaseTagger implements Tagger {
   
   public void dontTagLowercaseWithUppercase() {
     tagLowercaseWithUppercase=false;
+  }
+  
+  /*
+   *  Additional tagging in some language-dependent circumstances
+   */
+  public AnalyzedToken additionalTag(String word) {
+    return null;
   }
 
 }

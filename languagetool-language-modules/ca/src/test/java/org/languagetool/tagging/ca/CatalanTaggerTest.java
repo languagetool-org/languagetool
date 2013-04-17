@@ -46,6 +46,8 @@ public class CatalanTaggerTest extends TestCase {
 // Need to fix the separator character: al - a+el+SP+DA
 //    TestTools.myAssert("Frase recitada al matí.",
 //        "Frase/[frase]NCFS000 -- recitada/[recitar]VMP00SF -- al/[a]el+SP+DA -- matí/[matar]VMIS1S0|[matí]NCMS000", tokenizer, tagger);
-    TestTools.myAssert("blablabla","blablabla/[null]null", tokenizer, tagger);        
+    TestTools.myAssert("blablabla","blablabla/[null]null", tokenizer, tagger);       
+    TestTools.myAssert("inajornablement", "inajornablement/[inajornablement]RG", tokenizer, tagger);
+    TestTools.myAssert("acomplexadament", "acomplexadament/[acomplexadament]RG", tokenizer, tagger);
   }
 }
