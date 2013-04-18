@@ -100,7 +100,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     }
   }
 
-  // Use hunspell-style replacements to get got suggestions for "heisse", namely "heiße"
+  // Use hunspell-style replacements to get good suggestions for "heisse", namely "heiße" etc
   // TODO: remove this when the Morfologik speller can do this directly during tree iteration:
   @Override
   protected List<String> sortSuggestionByQuality(String misspelling, List<String> suggestions) {
