@@ -4213,18 +4213,6 @@ $Id$
             <example type="incorrect">La possibilitat <marker>de que</marker> ho facis</example>
             <example type="correct">La possibilitat <marker>que</marker> ho facis</example>
         </rule>
-        <rule id="DES_DE" name="des de/que">
-            <pattern>
-                <marker>
-                    <token>des</token>
-                </marker>
-                <token regexp="yes" negate="yes">d'|de|que</token>
-            </pattern>
-            <message>Cal dir <suggestion>des que</suggestion> o <suggestion>des de</suggestion>.</message>
-            <short>Expressió incorrecta</short>
-            <example type="incorrect"><marker>Des</marker> dins.</example>
-            <example type="correct">Des de dins.</example>
-        </rule>
         <rule id="D_ENCA" name="d'ençà *(de|que)">
             <pattern>
                 <marker>
@@ -4455,12 +4443,27 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+    	<rule id="DES_DE" name="des de/que">
+            <pattern>
+                <marker>
+                    <token>des</token>
+                </marker>
+                <token regexp="yes" negate="yes">d'|de|que</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>des que</suggestion>?</message>
+            <suggestion>des de</suggestion>
+            <suggestion>dels</suggestion>
+            <short>Possible confusió</short>
+            <example type="incorrect"><marker>Des</marker> dins.</example>
+            <example type="correct">Des de dins.</example>
+        </rule>
     	<rule id="DE_BADES_DEBADES" name="de bades / debades">
 		    <pattern>
 		        <token>de</token>
 		        <token>bades</token>
 		    </pattern>
 		    <message>¿Volíeu dir <suggestion>debades</suggestion>?</message>
+		    <short>Possible confusió</short>
 		    <example type="incorrect"><marker>de bades</marker></example>
 		    <example type="correct">debades</example>
 		</rule>
@@ -4473,6 +4476,7 @@ $Id$
 		        <token postag="V.N.*" postag_regexp="yes"/>
 		    </pattern>
 		    <message>¿Volíeu dir <suggestion>abans</suggestion>?</message>
+		    <short>Possible confusió</short>
 		    <example type="incorrect" correction="abans"><marker>avanç</marker> d'arribar</example>
 		    <example type="correct">per a després</example>
 		</rule>
