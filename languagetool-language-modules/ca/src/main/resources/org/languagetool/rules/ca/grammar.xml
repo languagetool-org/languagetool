@@ -4443,6 +4443,15 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+    	<rule id="CONFOSAMENT" name="confosament, difosament">
+    		<pattern>
+    			<token regexp="yes">(con|di)fosament</token>
+    		</pattern>
+    		<message>¿Volíeu dir <suggestion><match no="1" regexp_match="(con|di)fosament" regexp_replace="$1fusament" /></suggestion> (derivat de <match no="1" regexp_match="(con|di)fosament" regexp_replace="$1fús"/>) en comptes de <match no="1"/> (derovat de <match no="1" regexp_match="(con|di)fosament" regexp_replace="$1fondre" />)?</message>
+    		<short>Possible confusió</short>
+    		<example type="incorrect" correction="difusament"><marker>difosament</marker></example>
+    		<example type="correct">confusament</example>
+    	</rule>
     	<rule id="DES_DE" name="des de/que">
             <pattern>
                 <marker>
@@ -18377,8 +18386,8 @@ $Id$
                 <marker>
                     <token regexp="yes">de|d'<exception postag="_complement_directe|_obligacio" postag_regexp="yes"/></token>
                 </marker>
-                <token postag="V.N.*" postag_regexp="yes" skip="-1"><exception postag="[NA].*|_GN_.*" postag_regexp="yes"/><exception scope="next" postag="_PUNCT" /></token>
-                <token skip="-1">,<exception scope="next" postag="PP3CN000" inflected="yes">en</exception></token>
+                <token postag="V.N.*" postag_regexp="yes" skip="-1"><exception postag="[NA].*|_GN_.*" postag_regexp="yes"/><exception scope="next" postag="_PUNCT"/></token>
+                <token skip="-1">,<exception scope="next" postag="PP3CN000" inflected="yes">en</exception><exception scope="next" postag="_PUNCT|C.*" postag_regexp="yes" /></token>
                 <token postag="V..[CF].*" postag_regexp="yes"/>
             </pattern>
             <message>Incorrecte si és una construcció de condicional</message> 

@@ -2177,23 +2177,44 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <marker>
-                    <token inflected="yes" skip="5">haver<exception scope="next" postag="_GV_|_PUNCT_CONT|P.*|R.*|.*LOC_ADV.*|V.*|SENT_END|[NAS].*|CC|complement" postag_regexp="yes" negate_pos="yes"/></token>
+                    <token inflected="yes" skip="5">haver</token>
+                    <!-- <exception scope="next" postag="_GV_|_PUNCT_CONT|P.*|R.*|.*LOC_ADV.*|V.*|SENT_END|[NAS].*|CC|complement" postag_regexp="yes" negate_pos="yes"/> -->
                 </marker>
                 <token regexp="yes">de|d'</token>
                 <token postag="V.N.*" postag_regexp="yes"/>
             </pattern>
             <disambig action="add"><wd pos="_obligacio" lemma="haver"></wd></disambig>
         </rule>
-        <rule>
+        <!-- <rule>
             <pattern>
-                <token inflected="yes" skip="5">haver<exception scope="next" postag="_GV_|_PUNCT_CONT|P.*|R.*|.*LOC_ADV.*|V.*|SENT_END|[NAS].*|CC|complement" postag_regexp="yes" negate_pos="yes"/></token>
+                <token inflected="yes" skip="5">haver</token>
                 <marker>
                     <token regexp="yes">de|d'</token>
                 </marker>
                 <token postag="V.N.*" postag_regexp="yes"/>
             </pattern>
             <disambig action="add"><wd pos="_obligacio" lemma="haver"></wd></disambig>
+        </rule> -->
+        <rule>
+            <pattern>
+                <marker>
+                	<token inflected="yes">haver</token>
+                </marker>
+                <token skip="3">de</token>
+                <token postag="V.N.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="add"><wd pos="_obligacio" lemma="haver"></wd></disambig>
         </rule>
+        <!-- <rule>
+            <pattern>
+                <token inflected="yes">haver</token>
+                <marker>
+                    <token skip="3">de</token>
+                </marker>
+                <token postag="V.N.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="add"><wd pos="_obligacio" lemma="haver"></wd></disambig>
+        </rule> -->
     </rulegroup>
     <rulegroup id="NUCLIS_VERBALS" name="nuclis verbals amb noms">
         <rule>
