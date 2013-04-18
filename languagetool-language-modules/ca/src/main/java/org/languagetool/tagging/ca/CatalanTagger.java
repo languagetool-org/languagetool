@@ -35,64 +35,62 @@ import org.languagetool.tagging.BaseTagger;
 
 /**
  * Catalan Tagger
- * 
+ *
  * Based on FreeLing tagger dictionary
- * 
+ *
  * @author Jaume Ortolà 
  */
 public class CatalanTagger extends BaseTagger {
 
-	private static final String DICT_FILENAME = "/ca/catalan.dict";
-	private static final Pattern ADJ_PART_FS = Pattern.compile("VMP00SF.|A[QO]0[FC][SN].");
+  private static final String DICT_FILENAME = "/ca/catalan.dict";
+  private static final Pattern ADJ_PART_FS = Pattern.compile("VMP00SF.|A[QO]0[FC][SN].");
 
-	@Override
-	public final String getFileName() {
-		return DICT_FILENAME;
-	}
-
-	public CatalanTagger() {
-		super();
-		setLocale(new Locale("ca"));
-		this.dontTagLowercaseWithUppercase();		
-	}
-
-	public boolean existsWord(String word) throws IOException {
-		// caching Lametyzator instance - lazy init
-		if (dictLookup == null) {
-			final URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(DICT_FILENAME);
-			dictLookup = new DictionaryLookup(Dictionary.read(url));
-		}
-		final String lowerWord = word.toLowerCase(conversionLocale);
-		List<WordData> posTagsFromDict = dictLookup.lookup(lowerWord);
-		if (posTagsFromDict.isEmpty())
-		{
-			posTagsFromDict = dictLookup.lookup(word);
-			if (posTagsFromDict.isEmpty())
-				return false;
-		}
-		return true;
-	}
-	
-	@Override
-	public AnalyzedToken additionalTag(String word) {
-	  //Any well formed adverb with suffix -ment is tagged as an adverb (RG)
-	  //Adjectiu femení singular o participi femení singular + -ment
-	  if (word.endsWith("ment")){
-	    final String possibleAdj=word.replaceAll("^(.+)ment$", "$1");
-	    List<AnalyzedToken> taggerTokens;    
-	    taggerTokens = asAnalyzedTokenList(possibleAdj, dictLookup.lookup(possibleAdj));
-	    for (AnalyzedToken taggerToken : taggerTokens ) {
-	      final String posTag = taggerToken.getPOSTag();
-	      if (posTag != null) {
-	        final Matcher m = ADJ_PART_FS.matcher(posTag);
-	        if (m.matches()) {
-	          return new AnalyzedToken(word, "RG", word);
-	        }
-	      }
-	    }
-	  }
-	  return null;
+  @Override
+  public final String getFileName() {
+    return DICT_FILENAME;
   }
-	
-	
+
+  public CatalanTagger() {
+    super();
+    setLocale(new Locale("ca"));
+    this.dontTagLowercaseWithUppercase();
+  }
+
+  public boolean existsWord(String word) throws IOException {
+    // caching Lametyzator instance - lazy init
+    if (dictLookup == null) {
+      final URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(DICT_FILENAME);
+      dictLookup = new DictionaryLookup(Dictionary.read(url));
+    }
+    final String lowerWord = word.toLowerCase(conversionLocale);
+    List<WordData> posTagsFromDict = dictLookup.lookup(lowerWord);
+    if (posTagsFromDict.isEmpty()) {
+      posTagsFromDict = dictLookup.lookup(word);
+      if (posTagsFromDict.isEmpty())
+        return false;
+    }
+    return true;
+  }
+
+  @Override
+  public AnalyzedToken additionalTag(String word) {
+    //Any well formed adverb with suffix -ment is tagged as an adverb (RG)
+    //Adjectiu femení singular o participi femení singular + -ment
+    if (word.endsWith("ment")){
+      final String possibleAdj = word.replaceAll("^(.+)ment$", "$1");
+      List<AnalyzedToken> taggerTokens;
+      taggerTokens = asAnalyzedTokenList(possibleAdj, dictLookup.lookup(possibleAdj));
+      for (AnalyzedToken taggerToken : taggerTokens ) {
+        final String posTag = taggerToken.getPOSTag();
+        if (posTag != null) {
+          final Matcher m = ADJ_PART_FS.matcher(posTag);
+          if (m.matches()) {
+            return new AnalyzedToken(word, "RG", word);
+          }
+        }
+      }
+    }
+    return null;
+  }
+
 }
