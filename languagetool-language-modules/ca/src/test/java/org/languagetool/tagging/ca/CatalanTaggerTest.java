@@ -48,6 +48,6 @@ public class CatalanTaggerTest extends TestCase {
 //        "Frase/[frase]NCFS000 -- recitada/[recitar]VMP00SF -- al/[a]el+SP+DA -- matí/[matar]VMIS1S0|[matí]NCMS000", tokenizer, tagger);
     TestTools.myAssert("blablabla","blablabla/[null]null", tokenizer, tagger);       
     TestTools.myAssert("inajornablement", "inajornablement/[inajornablement]RG", tokenizer, tagger);
-    TestTools.myAssert("acomplexadament", "acomplexadament/[acomplexadament]RG", tokenizer, tagger);
+    TestTools.myAssert("Acomplexadament", "Acomplexadament/[acomplexadament]RG", tokenizer, tagger);
   }
 }

@@ -77,7 +77,8 @@ public class CatalanTagger extends BaseTagger {
     //Any well formed adverb with suffix -ment is tagged as an adverb (RG)
     //Adjectiu femení singular o participi femení singular + -ment
     if (word.endsWith("ment")){
-      final String possibleAdj = word.replaceAll("^(.+)ment$", "$1");
+      final String lowerWord = word.toLowerCase(conversionLocale);
+      final String possibleAdj = lowerWord.replaceAll("^(.+)ment$", "$1");
       List<AnalyzedToken> taggerTokens;
       taggerTokens = asAnalyzedTokenList(possibleAdj, dictLookup.lookup(possibleAdj));
       for (AnalyzedToken taggerToken : taggerTokens ) {
@@ -85,7 +86,7 @@ public class CatalanTagger extends BaseTagger {
         if (posTag != null) {
           final Matcher m = ADJ_PART_FS.matcher(posTag);
           if (m.matches()) {
-            return new AnalyzedToken(word, "RG", word);
+            return new AnalyzedToken(word, "RG", lowerWord);
           }
         }
       }

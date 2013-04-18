@@ -98,7 +98,7 @@ public abstract class BaseTagger implements Tagger {
       }
       
       if (l.isEmpty()) {
-        AnalyzedToken aToken = additionalTag(lowerWord);
+        AnalyzedToken aToken = additionalTag(word);
         if (aToken != null) {
           l.add(aToken);
         }       
