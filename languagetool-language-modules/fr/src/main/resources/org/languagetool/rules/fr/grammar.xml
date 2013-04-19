@@ -4073,7 +4073,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <token regexp="yes">je|tu|ils?|on</token>
           <marker>
-            <token postag="[ACNJZP].*" postag_regexp="yes">
+            <token postag="[ACKNJZP].*" postag_regexp="yes">
               <exception postag="V.*" postag_regexp="yes"/>
               <exception regexp="yes">[lmnsty]|en|ou|ne?|soussignée?</exception>
             </token>
@@ -4084,13 +4084,15 @@ though, and has since been slightly modified)-->
         <example type="correct">Tu <marker>sors</marker> ce soir.</example>
         <example type="correct">Je soussigné Pierre Dupont déclare avoir pris connaissance des conditions de ce contrat.</example>
         <example type="correct">Il ou elle se trouve là.</example>
+        <example type="incorrect">Elle <marker>dix</marker> la vérité.</example>
+        <example type="correct">Elle <marker>dit</marker> la vérité.</example>
       </rule>
       <rule>
         <pattern>
           <token regexp="yes">je|tu|ils?|on</token>
           <token regexp="yes">[mnst]e|la|les?|[nv]ous|lui|leur|y|en</token>
           <marker>
-            <token postag="[ACNJZP].*" postag_regexp="yes">
+            <token postag="[ACKNJZP].*" postag_regexp="yes">
               <exception postag="V.*" postag_regexp="yes"/>
               <exception regexp="yes">y|en|[lmnst]</exception>
             </token>
@@ -4100,6 +4102,8 @@ though, and has since been slightly modified)-->
         <example type="incorrect">Tu ne <marker>sorts</marker> pas ce soir.</example>
         <example type="correct">Tu ne <marker>sors</marker> pas ce soir.</example>
         <example type="correct">Je ne <marker>donne</marker> rien.</example>
+        <example type="incorrect">Je ne <marker>dix</marker> rien.</example>
+        <example type="correct">Je ne <marker>dis</marker> rien.</example>
       </rule>
       <rule>
         <pattern>
@@ -4107,7 +4111,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">[lmnst]|[mnts]e|la|les?|[nv]ous|lui|leur</token>
           <token regexp="yes">[’´'‛′‘]|[mnt]e|la|les?|[vn]ous|en|y|lui|leur</token>
           <marker>
-            <token postag="[ACNJZP].*" postag_regexp="yes">
+            <token postag="[ACKNJZP].*" postag_regexp="yes">
               <exception postag="V.*" postag_regexp="yes"/>
               <exception regexp="yes">y|en</exception>
             </token>
@@ -4124,7 +4128,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">[lmst]|lui|leur|[nv]ous</token>
           <token regexp="yes">[’´'‛′‘]|y|en</token>
           <marker>
-            <token postag="[ACNJZP].*" postag_regexp="yes">
+            <token postag="[ACKNJZP].*" postag_regexp="yes">
               <exception postag="V.*" postag_regexp="yes"/>
               <exception regexp="yes">y|en</exception>
             </token>
