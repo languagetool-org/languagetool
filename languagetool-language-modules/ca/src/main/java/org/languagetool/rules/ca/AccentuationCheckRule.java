@@ -279,8 +279,9 @@ public class AccentuationCheckRule extends CatalanRule {
 
       }
       if (replacement != null) {
-        final String msg = "Si \u00E9s un nom o un adjectiu, ha de portar accent: <suggestion>" +replacement+ "</suggestion>.";
+        final String msg = "Si \u00E9s un nom o un adjectiu, ha de portar accent.";
         final RuleMatch ruleMatch = new RuleMatch(this, tokens[i].getStartPos(), tokens[i].getStartPos()+token.length(), msg, "Falta un accent");
+        ruleMatch.setSuggestedReplacement(replacement);
         ruleMatches.add(ruleMatch);
       }
     }
