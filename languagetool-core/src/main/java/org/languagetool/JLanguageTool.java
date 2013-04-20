@@ -362,7 +362,7 @@ public final class JLanguageTool {
 
   /**
    * Loads and activates the pattern rules from
-   * <code>rules/&lt;language&gt;/grammar.xml</code>.
+   * <code>org/languagetool/rules/&lt;languageCode&gt;/grammar.xml</code>.
    */
   public void activateDefaultPatternRules() throws IOException {
     final List<PatternRule> patternRules = new ArrayList<PatternRule>();

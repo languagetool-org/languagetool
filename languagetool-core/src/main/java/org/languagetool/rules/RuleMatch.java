@@ -177,7 +177,9 @@ public class RuleMatch implements Comparable<RuleMatch> {
   }
 
   /**
-   * A human-readable explanation describing the error.
+   * A human-readable explanation describing the error. This may contain
+   * one or more corrections marked up with &lt;suggestion&gt;...&lt;/suggestion&gt;.
+   * @see #getSuggestedReplacements()
    */
   public String getMessage() {
     return message;
@@ -189,7 +191,6 @@ public class RuleMatch implements Comparable<RuleMatch> {
   public String getShortMessage() {
     return shortMessage;
   }
-
 
   /**
    * @see #getSuggestedReplacements()
@@ -213,9 +214,8 @@ public class RuleMatch implements Comparable<RuleMatch> {
 
   /**
    * The text fragments which might be an appropriate fix for the problem. One
-   * of these fragments can be used to replace the old text between getFromPos()
-   * to getToPos(). Text between &lt;suggestion&gt; and &lt;/suggestion&gt; is
-   * taken as the suggested replacement. 
+   * of these fragments can be used to replace the old text between {@link #getFromPos()}
+   * to {@link #getToPos()}.
    * @return List of String objects or an empty List
    */
   public List<String> getSuggestedReplacements() {
