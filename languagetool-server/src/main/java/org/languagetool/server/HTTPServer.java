@@ -95,7 +95,9 @@ public class HTTPServer extends Server {
       } else {
         server = HttpServer.create(new InetSocketAddress(host, port), 0);
       }
-      server.createContext("/", new LanguageToolHttpHandler(config.isVerbose(), allowedIps, runInternally, null));
+      final LanguageToolHttpHandler httpHandler = new LanguageToolHttpHandler(config.isVerbose(), allowedIps, runInternally, null);
+      httpHandler.setAllowOriginUrl(config.getAllowOriginUrl());
+      server.createContext("/", httpHandler);
     } catch (Exception e) {
       final ResourceBundle messages = JLanguageTool.getMessageBundle();
       final String message = Tools.makeTexti18n(messages, "http_server_start_failed", host, Integer.toString(port));

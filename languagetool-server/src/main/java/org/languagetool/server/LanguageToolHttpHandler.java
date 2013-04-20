@@ -57,6 +57,7 @@ class LanguageToolHttpHandler implements HttpHandler {
   private String[] disabledRules = {};
   private boolean useEnabledOnly;
   private int maxTextLength = Integer.MAX_VALUE;
+  private String allowOriginUrl;
 
   /**
    * @param verbose print the input text in case of exceptions
@@ -73,6 +74,15 @@ class LanguageToolHttpHandler implements HttpHandler {
 
   void setMaxTextLength(int maxTextLength) {
     this.maxTextLength = maxTextLength;
+  }
+
+  /**
+   * Value to set as the "Access-Control-Allow-Origin" http header. Use {@code null}
+   * to not return that header at all. Use {@code *} to run a server that any other web site
+   * can use from Javascript/Ajax (search Cross-origin resource sharing (CORS) for details).
+   */
+  void setAllowOriginUrl(String allowOriginUrl) {
+    this.allowOriginUrl = allowOriginUrl;
   }
 
   @Override
@@ -134,12 +144,19 @@ class LanguageToolHttpHandler implements HttpHandler {
   }
 
   private void printListOfLanguages(HttpExchange httpExchange) throws IOException {
-    httpExchange.getResponseHeaders().set("Content-Type", CONTENT_TYPE_VALUE);
+    setCommonHeaders(httpExchange);
     final String response = getSupportedLanguagesAsXML();
     httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);
     httpExchange.getResponseBody().write(response.getBytes(ENCODING));
   }
-  
+
+  private void setCommonHeaders(HttpExchange httpExchange) {
+    httpExchange.getResponseHeaders().set("Content-Type", CONTENT_TYPE_VALUE);
+    if (allowOriginUrl != null) {
+      httpExchange.getResponseHeaders().set("Access-Control-Allow-Origin", allowOriginUrl);
+    }
+  }
+
   private static Language detectLanguageOfString(final String text, final String fallbackLanguage) {
     // TODO: use identifier.isReasonablyCertain() - but make sure it works!
     if (text.length() < MIN_LENGTH_FOR_AUTO_DETECTION && fallbackLanguage != null) {
@@ -227,7 +244,7 @@ class LanguageToolHttpHandler implements HttpHandler {
       final List<BitextRule> bRules = Tools.getBitextRules(motherTongue, lang);
       matches = Tools.checkBitext(sourceText, text, sourceLt, targetLt, bRules);
     }
-    httpExchange.getResponseHeaders().set("Content-Type", CONTENT_TYPE_VALUE);
+    setCommonHeaders(httpExchange);
     final String response = StringTools.ruleMatchesToXML(matches, text,
             CONTEXT_SIZE, StringTools.XmlPrintMode.NORMAL_XML, lang, motherTongue);
     httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);
