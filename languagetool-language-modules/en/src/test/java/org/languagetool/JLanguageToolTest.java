@@ -21,6 +21,7 @@ package org.languagetool;
 import junit.framework.TestCase;
 import org.languagetool.JLanguageTool.ParagraphHandling;
 import org.languagetool.language.AmericanEnglish;
+import org.languagetool.language.BritishEnglish;
 import org.languagetool.language.English;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.Rule;
@@ -35,23 +36,21 @@ import java.util.List;
 
 public class JLanguageToolTest extends TestCase {
 
-  // used on http://www.languagetool.org/usage/
-  /*
-  public void testDemo() throws IOException {
-    JLanguageTool langTool = new JLanguageTool(Language.ENGLISH);
+  // used on http://languagetool.org/java-api/
+  public void demoCodeForHomepage() throws IOException {
+    JLanguageTool langTool = new JLanguageTool(new BritishEnglish());
     langTool.activateDefaultPatternRules();
-    List<RuleMatch> matches = langTool.check("A sentence " + 
-        "with a error in the Hitchhiker's Guide tot he Galaxy");
+    List<RuleMatch> matches = langTool.check("A sentence " +
+            "with a error in the Hitchhiker's Guide tot he Galaxy");
     for (RuleMatch match : matches) {
       System.out.println("Potential error at line " +
-          match.getEndLine() + ", column " +
-          match.getColumn() + ": " + match.getMessage());
+              match.getEndLine() + ", column " +
+              match.getColumn() + ": " + match.getMessage());
       System.out.println("Suggested correction: " +
-          match.getSuggestedReplacements());
+              match.getSuggestedReplacements());
     }
   }
-  */
-  
+
   public void testEnglish() throws IOException {
     final JLanguageTool tool = new JLanguageTool(new English());
     assertEquals(0, tool.check("A test that should not give errors.").size());
