@@ -197,6 +197,10 @@ License:
  The Tagger Dictionary and the Tagset are made available under LGPL.
  The Trigram Training Data is available at: The Trigram Training Data is available at: https://sourceforge.net/projects/tattoi.u/files/Trigram%20Text/
 
+ Ukrainian:
+ The Ukrainian data for part-of-speech tagging were created by Andriy Rysin
+ It's based on spell-uk (http://sourceforge.net/projects/ispell-uk/) which is licensed under GPL/LGPL.
+
 ------------------------------------------------ 
  
  English:
