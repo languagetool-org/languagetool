@@ -230,7 +230,7 @@ $Id$
 </rule>
 <rule id="nr698" name="XYZ ding">
 <pattern case_sensitive="yes">
-<token regexp="yes">06|[A-Z]{2,4}</token>
+  <token regexp="yes">06|[A-Z]{2,4}<exception regexp="yes">GB|MB|MS|BV</exception></token>
 <token postag="NN.*" postag_regexp="yes"><exception postag="VB.*|AJ.*" postag_regexp="yes"></exception><exception regexp="yes">iets|GB|MB|^[A-Z].*|bent|heeft|waar|ja|bij|II|III|X|een|zult|.|hoe|voor|na</exception></token>
 </pattern>
 <message>Als <match no="1"></match> en <match no="2"></match> samen één (Nederlandstalig) begrip zijn, dan is het: <suggestion><match no="1"></match>-<match no="2"></match></suggestion></message>
@@ -1582,14 +1582,13 @@ $Id$
 </rule>
 <rule id="nr100009" name="Komma vergeten?">
   <pattern>
-  <token postag_regexp="yes" postag="VB1|VB3|VBh1"></token>
-  <token postag_regexp="yes" postag="VB1|VB3|VBh1"><exception regexp="yes">wel|niet</exception></token>
+    <token postag_regexp="yes" postag="VB1|VB3|VBh1"><exception postag_regexp="yes" postag="AJe|NN.*"></exception><exception regexp="yes">maart|pas|echt|eigen|mijn|zeker|weer|kan|men|maar|nodig|heel|veel|jij|meer|wel|niet|uit|in</exception></token>
+    <token postag_regexp="yes" postag="VB1|VB3|VBh1"><exception postag_regexp="yes" postag="AJe|NN.*|VBp"></exception><exception regexp="yes">maart|pas|echt|eigen|mijn|zeker|weer|kan|men|maar|nodig|heel|veel|jij|meer|wel|niet|uit|in</exception></token>
   </pattern>
   <message>Mogelijk bent u een komma vergeten: <suggestion>\1, \2</suggestion>.</message>
   <short>komma?</short>
   <example type="incorrect">Als hij langs <marker>loopt is</marker> het tijd.</example>
   <example type="correct">Als hij langs <marker>loopt, is</marker> het tijd.</example>
-  
 </rule>
 </category>
 <category name="Leenwoorden (gangbaar alternatief)">
@@ -2577,14 +2576,14 @@ $Id$
 </rule>
 <rule id="nr820" name="mogelijke overdrijving">
 <pattern>
-<token regexp="yes">erg|heel|vreselijk|gigantisch|enorm</token>
+<token regexp="yes">vreselijk|gigantisch|enorm</token>
 </pattern>
 <message>Is hier wellicht sprake van overdrijving?</message>
 <short>Overdreven?</short>
 <example type="incorrect">Het is een <marker>gigantisch</marker> probleem.</example>
 <example type="correct">Het is <marker>een</marker> probleem.</example>
-
 </rule>
+
 </category>
 <category name="Streektaal">
 <rule id="nr855" name="te bed">
