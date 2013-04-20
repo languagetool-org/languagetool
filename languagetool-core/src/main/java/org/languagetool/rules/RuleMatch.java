@@ -26,7 +26,7 @@ import java.util.regex.Pattern;
 import org.languagetool.tools.StringTools;
 
 /**
- * A class that holds information about where a rule matches text.
+ * Information about an error rule that matches text and the position of the match.
  * 
  * @author Daniel Naber
  */
@@ -48,12 +48,24 @@ public class RuleMatch implements Comparable<RuleMatch> {
 
   private List<String> suggestedReplacements = new ArrayList<String>();
 
-  //TODO: remove this one after all rules get their short comments in place
+  /**
+   * Creates a RuleMatch object, taking the rule that triggered
+   * this match, position of the match and an explanation message.
+   * This message is scanned for &lt;suggestion&gt;...&lt;/suggestion&gt;
+   * to get suggested fixes for the problem detected by this rule.
+   */
   public RuleMatch(Rule rule, int fromPos, int toPos, String message) {
     this(rule, fromPos, toPos, message, null, false, null);
   }
-  
-  // TODO: remove this constructor?
+
+  /**
+   * Creates a RuleMatch object, taking the rule that triggered
+   * this match, position of the match and an explanation message.
+   * This message is scanned for &lt;suggestion&gt;...&lt;/suggestion&gt;
+   * to get suggested fixes for the problem detected by this rule.
+   *
+   * @param shortMessage used for example in OpenOffice/LibreOffice's context menu
+   */
   public RuleMatch(Rule rule, int fromPos, int toPos, String message, String shortMessage) {
     this(rule, fromPos, toPos, message, shortMessage, false, null);
   }
@@ -64,7 +76,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
    * This message is scanned for &lt;suggestion&gt;...&lt;/suggestion&gt;
    * to get suggested fixes for the problem detected by this rule. 
    * 
-   * @param shortMessage used in OpenOffice/LibreOffice's context menu
+   * @param shortMessage used for example in OpenOffice/LibreOffice's context menu
    * @param startWithUppercase whether the original text at the position
    *    of the match starts with an uppercase character
    */
@@ -76,7 +88,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
     this.message = message;
     this.shortMessage = shortMessage;
     // extract suggestion from <suggestion>...</suggestion> in message:
-    final Matcher matcher = SUGGESTION_PATTERN.matcher(message+suggestionsOutMsg);
+    final Matcher matcher = SUGGESTION_PATTERN.matcher(message + suggestionsOutMsg);
     int pos = 0;
     while (matcher.find(pos)) {
       pos = matcher.end();
@@ -180,6 +192,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
    * A human-readable explanation describing the error. This may contain
    * one or more corrections marked up with &lt;suggestion&gt;...&lt;/suggestion&gt;.
    * @see #getSuggestedReplacements()
+   * @see #getShortMessage()
    */
   public String getMessage() {
     return message;
@@ -187,6 +200,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
 
   /**
    * A shorter human-readable explanation describing the error.
+   * @see #getMessage()
    */
   public String getShortMessage() {
     return shortMessage;
@@ -196,8 +210,9 @@ public class RuleMatch implements Comparable<RuleMatch> {
    * @see #getSuggestedReplacements()
    */
   public void setSuggestedReplacement(final String replacement) {
-    if (replacement == null)
+    if (replacement == null) {
       throw new NullPointerException("replacement might be empty but not null");
+    }
     final List<String> replacements = new ArrayList<String>();
     replacements.add(replacement);
     setSuggestedReplacements(replacements);
@@ -206,10 +221,11 @@ public class RuleMatch implements Comparable<RuleMatch> {
   /**
    * @see #getSuggestedReplacements()
    */
-  public void setSuggestedReplacements(final List<String> replacement) {
-    if (replacement == null)
-      throw new NullPointerException("replacement might be empty but not null");
-    this.suggestedReplacements = replacement;
+  public void setSuggestedReplacements(final List<String> replacements) {
+    if (replacements == null) {
+      throw new NullPointerException("replacements might be empty but not null");
+    }
+    this.suggestedReplacements = replacements;
   }
 
   /**
@@ -230,12 +246,15 @@ public class RuleMatch implements Comparable<RuleMatch> {
   /** Compare by start position. */
   @Override
   public int compareTo(final RuleMatch other) {
-    if (other == null)
+    if (other == null) {
       throw new ClassCastException();
-    if (getFromPos() < other.getFromPos())
+    }
+    if (getFromPos() < other.getFromPos()) {
       return -1;
-    if (getFromPos() > other.getFromPos())
+    }
+    if (getFromPos() > other.getFromPos()) {
       return 1;
+    }
     return 0;
   }
 
