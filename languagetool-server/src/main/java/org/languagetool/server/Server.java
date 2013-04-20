@@ -81,12 +81,17 @@ abstract class Server {
   }
 
   protected static boolean usageRequested(String[] args) {
-    return args.length == 1 && (args[0].equals("-h") || args[0].equals("--help"));
+    final boolean helpRequested = args.length == 1 && (args[0].equals("-h") || args[0].equals("--help"));
+    return args.length == 0 || helpRequested;
   }
 
   protected static void printCommonOptions() {
     System.out.println("  --port, -p     port to bind to, defaults to " + DEFAULT_PORT + " if not specified");
-    System.out.println("  --public       allow this server process to be connected from anywhere (not recommended)");
+    System.out.println("  --public       allow this server process to be connected from anywhere; if not set,");
+    System.out.println("                 it can only be connected from the computer it was started on");
+    System.out.println("  --allow-origin ORIGIN  set the Access-Control-Allow-Origin header in the HTTP response,");
+    System.out.println("                         used for direct (non-proxy) JavaScript-based access from browsers;");
+    System.out.println("                         example: --allow-origin \"*\"");
   }
 
 }
