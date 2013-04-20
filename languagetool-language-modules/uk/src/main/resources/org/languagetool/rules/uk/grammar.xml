@@ -24,20 +24,12 @@ $Id$
 <rules lang="uk" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
 
     <category name="Пунктуація">
-        <!-- TODO:
-              Вставні вирази: "з іншого боку", "на мою думку", "на жаль"
-              Вставні слова : "певно", "напевно", "вірите", ""
-
-            Question:
-                can "surround by commas" rule be more compact-written?
-          -->
-
         <rulegroup id="PLEASE_NO_COMMA" name="«будь ласка» виділяється комами">
             <rule>
                 <pattern>
                     <token>будь</token>
                     <token>ласка</token>
-                    <token negate="yes" regexp="yes">,|\.</token>
+                    <token negate="yes" regexp="yes">,|\.|!</token>
                 </pattern>
                 <message>Відсутня права кома: <suggestion>\1 \2, \3</suggestion>.</message>
                 <example type="correct">Запитайте, <marker>будь ласка, у</marker> водія.</example>
@@ -45,7 +37,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token negate="yes">,<exception postag="SENT_START"></exception></token>
+                    <token negate="yes" regexp="yes">[\p{Punct}–—\(]<exception postag="SENT_START"></exception></token>
                     <token>будь</token>
                     <token>ласка</token>
                 </pattern>
@@ -59,16 +51,16 @@ $Id$
             <rule>
                 <pattern>
                     <token regexp="yes">мабуть|врешті|по-перше|по-друге|по-третє|щоправда|о?крім того|а втім</token>
-                    <token negate="yes" regexp="yes">,|\.</token>
+                    <token negate="yes" regexp="yes">[\p{Punct}–—]</token>
                 </pattern>
                 <message>Відсутня права кома: <suggestion>\1, \2</suggestion>.</message>
                 <example type="correct">Це, <marker>мабуть,</marker> водій.</example>
                 <example type="incorrect">Це, <marker>мабуть водій</marker>.</example>
             </rule>
             <rule>
-                <pattern>
-                    <token negate="yes">,<exception postag="SENT_START"></exception></token>
-                    <token regexp="yes">мабуть|по-перше|по-друге|по-третє|щоправда|о?крім того|а втім</token>
+                <pattern case_sensitive="yes">
+                    <token negate="yes" regexp="yes">[\p{Punct}–—\(]|[АаІі]<exception postag="SENT_START"></exception></token>
+                    <token regexp="yes">мабуть|врешті|по-перше|по-друге|по-третє|щоправда|о?крім того|втім</token>
                 </pattern>
                 <message>Відсутня ліва кома: <suggestion>\1, \2</suggestion>.</message>
                 <example type="correct"><marker>Мабуть,</marker> це водій.</example>
@@ -77,26 +69,11 @@ $Id$
             </rule>
         </rulegroup>
 
-        <!--
-            не працює надійно, окрім того може перекриватися з правилами, які вимагають кому
-              <rule id="LIST_AND_NO_COMMA" name="та і або у списках не виділяється комою">
-                <pattern mark_from="2">
-                  <token regexp="yes">.*</token>
-                  <token>,</token>
-                  <token regexp="yes">.*</token>
-                  <token>,</token>
-                  <token regexp="yes">і|та|або</token>
-                </pattern>
-                <message>"та", "і" та "або" в переліку, зазвичай, не виділяється комою: <suggestion>\3 \5</suggestion>.</message>
-                <example type="correct">Підтримує німецьку, <marker>англійську та</marker> українську мови.</example>
-                <example type="incorrect">Підтримує німецьку, <marker>англійську, та</marker> українську мови.</example>
-              </rule>
-        -->
         <rulegroup name="Відсутня кома перед «але», «однак», ..." id="COMMA_BEFORE_BUT">
             <rule>
-                <pattern>
-                    <token regexp="yes" negate="yes">[\p{Punct}–—\(]<exception postag="SENT_START"></exception></token>
-                    <token regexp="yes">а|але|однак|проте|зате|хоч|хоча</token>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes" negate="yes">[\p{Punct}–—«\(]|[нН]у|[Аа]<exception postag="SENT_START"></exception></token>
+                    <token regexp="yes">а|але|однак|проте|зате</token>
                 </pattern>
                 <message>Відсутня кома перед сполучником: <suggestion>\1, \2</suggestion></message>
                 <example type="correct">Вгадав всі літери, але не зміг прочитати слово.</example>
@@ -108,19 +85,19 @@ $Id$
     </category>
 
     <category name="Граматика">
-        <!-- TODO:
-                додати підтримку POS та словоформ
-        -->
-        <rulegroup name="Узгодженість частин речення" id="CONISTENCY_SENTENSE_PARTS_1">
+
+        <rulegroup name="Узгодженість частин речення" id="CONSISTENCY_SENTENSE_PARTS_1">
             <rule>
                 <pattern>
-                    <token postag_regexp="yes" postag="pryim.*"></token>
-                    <token postag_regexp="yes" postag="verb.*"></token>
+                    <token postag_regexp="yes" negate_pos="no" postag="(pryim|adj).*"/>
+                    <token postag_regexp="yes" postag="verb.*"/>
                 </pattern>
-                <message>Прийменник перед дієсловом <suggestion>\2</suggestion></message>
+                <message>Прийменник \1 перед дієсловом <suggestion>\2</suggestion></message>
                 <example type="correct">Їм треба їхати.</example>
                 <example type="correct">Їм треба в'їхати.</example>
+                <example type="correct">Просто неба.</example>
                 <example type="incorrect">Їм треба <marker>в їхати</marker>.</example>
+                <example type="incorrect">Їм треба <marker>зелений їхати</marker>.</example>
             </rule>
         </rulegroup>
 
@@ -128,7 +105,7 @@ $Id$
             <rule>
                 <pattern>
                     <token postag_regexp="yes" postag="pryim:rv_rod.*"></token>
-                    <token postag_regexp="yes" postag=".*:v_[^r].*"></token>
+                    <token postag_regexp="yes" negate_pos="yes" postag=".*:(v_rod|v_zna).*"></token>
                 </pattern>
                 <message>Прийменник вимагає родового відмінку <suggestion>\2</suggestion></message>
                 <example type="correct">Для відтінку.</example>
@@ -140,8 +117,8 @@ $Id$
         <rulegroup name="Узгодженість роду" id="CONISTENCY_GENDER">
                 <rule>
                     <pattern>
-                        <token postag_regexp="yes" postag=".*:m:.*"/>
-                        <token postag_regexp="yes" postag=".*:n:.*"/>
+                        <token postag_regexp="yes" postag="adj:m:.*"/>
+                        <token postag_regexp="yes" postag="noun:n:.*"/>
                     </pattern>
                     <message>Неузгодженість роду</message>
                     <example type="correct">абонентське абонування</example>
@@ -151,12 +128,27 @@ $Id$
     </category>
 
     <category name="Стиль">
+    
+        <rulegroup name="Самий з прикметниками" id="SAMYI">
+            <rule>
+                <pattern>
+                    <token inflected="yes">самий</token>
+                    <token postag_regexp="yes" postag="adj:.*"/>
+                </pattern>
+                <message>Замість «самий» + прикметник тре вживати <suggestion>най</suggestion>\2</message>
+                <example type="correct">Самий цвіт</example>
+                <example type="correct">Сама прийшла</example>
+                <example type="incorrect"><marker>Самий сильний</marker>.</example>
+                <example type="incorrect"><marker>Сама тривала</marker>.</example>
+            </rule>
+        </rulegroup>
+    
         <!-- TODO:
             проблеми: 1) як пропонувати "й", якщо наступне не почитанється з "й", і "та", якщо далі не йде "а"
                       2) як пропонувати частину слова "дощ йде" -> "дощ іде"?
         -->
-        <rulegroup name="Милозвучність" id="NICE">
             <!--
+        <rulegroup name="Милозвучність" id="NICE">
                   <rule>
                       <pattern>
                           <token regexp="yes">.*[аеєиіїоуюя]</token>
@@ -167,7 +159,6 @@ $Id$
                       <example type="correct">Поле та ліс.</example>
                       <example type="incorrect"><marker>Поле і</marker> ліс.</example>
                   </rule>
-              -->
 
             <rule>
                 <pattern>
@@ -363,25 +354,44 @@ $Id$
                 <example type="incorrect">Бере книжку <marker>з</marker> стола.</example>
             </rule>
         </rulegroup>
+              -->
     </category>
 
-    <!--
     <category name="Borrowings">
-     TODO:
-            1) залежні від лексем
-            2) незалежні (невідмінювані)
-    -->
-
-    <!-- незалежні
      <rulegroup id="NON_LEXEM_BORROWING" name="калькування">
+
        <rule>
          <pattern>
-           <token regexp="yes"></token>
+           <token>в</token>
+           <token>деякій</token>
+           <token>мірі</token>
           </pattern>
-         <message>Неукраїнське слово: <suggestion></suggestion>.</message>
+         <message>Правильно: <suggestion>деякою мірою</suggestion>.</message>
+         <example type="incorrect"><marker>В деякій мірі</marker></example>
+         <example type="correct"><marker>деякою мірою</marker></example>
        </rule>
+       <rule>
+         <pattern>
+            <!-- TODO: make reflective forms as a base in tag dictionary? -->
+           <token inflected="yes">користувати</token>
+           <token>попитом</token>
+          </pattern>
+         <message>Правильно: <suggestion>мати попит</suggestion>.</message>
+         <example type="incorrect"><marker>користуватися попитом</marker></example>
+         <example type="correct"><marker>мав попит</marker></example>
+       </rule>
+       <rule>
+         <pattern>
+           <token inflected="yes">вільний</token>
+           <token inflected="yes">вакансія</token>
+          </pattern>
+         <message>Правильно: <suggestion><match no="1"/></suggestion>.</message>
+         <example type="incorrect"><marker>Вільної вакансії</marker></example>
+         <example type="correct"><marker>вакансію</marker></example>
+       </rule>
+
      </rulegroup>
 
-   </category> -->
+   </category> 
 
 </rules>

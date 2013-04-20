@@ -20,6 +20,7 @@ package org.languagetool.language;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import org.languagetool.Language;
 import org.languagetool.rules.CommaWhitespaceRule;
@@ -31,14 +32,25 @@ import org.languagetool.rules.uk.MorfologikUkrainianSpellerRule;
 import org.languagetool.rules.uk.SimpleReplaceRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.uk.UkrainianTagger;
+import org.languagetool.synthesis.Synthesizer;
+import org.languagetool.synthesis.uk.UkrainianSynthesizer;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.Tokenizer;
+import org.languagetool.tokenizers.uk.UkrainianWordTokenizer;
 
 
 public class Ukrainian extends Language {
 
   private Tagger tagger;
   private SentenceTokenizer sentenceTokenizer;
+  private Tokenizer wordTokenizer;
+  private Synthesizer synthesizer;
+
+  @Override
+  public Locale getLocale() {
+    return new Locale(getShortName());
+  }
 
   @Override
   public String getName() {
@@ -71,6 +83,22 @@ public class Ukrainian extends Language {
       tagger = new UkrainianTagger();
     }
     return tagger;
+  }
+
+  @Override
+  public Synthesizer getSynthesizer() {
+    if (synthesizer == null) {
+      synthesizer = new UkrainianSynthesizer();
+    }
+    return synthesizer;
+  }
+
+  @Override
+  public final Tokenizer getWordTokenizer() {
+    if (wordTokenizer == null) {
+      wordTokenizer = new UkrainianWordTokenizer();
+    }
+    return wordTokenizer;
   }
   
   @Override
