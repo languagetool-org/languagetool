@@ -143,7 +143,7 @@ public class CatalanWordTokenizer implements Tokenizer {
 		return l;
 	}
 	
-	/* Splits a word containing hyphen(-) it it doesn't exist in the dictionary*/
+	/* Splits a word containing hyphen(-) if it doesn't exist in the dictionary*/
 	private List<String> wordsToAdd(String s) {
 		final List<String> l = new ArrayList<String>();
 		if (!s.contains("-"))
