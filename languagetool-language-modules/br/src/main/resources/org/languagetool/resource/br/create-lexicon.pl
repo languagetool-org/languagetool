@@ -248,6 +248,7 @@ my @anv_lies_tud = (
   "animatourion",
   "annezerien",
   "annezerion",
+  "annezidi",
   "antropologourien",
   "antropologourion",
   "aozerien",
@@ -557,6 +558,7 @@ my @anv_lies_tud = (
   "denoniourion",
   "dentourien",
   "dentourion",
+  "deraouidi",
   "deroerien",
   "deroerion",
   "deskadourien",
@@ -564,6 +566,7 @@ my @anv_lies_tud = (
   "deskarded",
   "deskerien",
   "deskerion",
+  "deskidi",
   "deuñved",
   "deuñvien",
   "dezvarnourien",
@@ -588,6 +591,8 @@ my @anv_lies_tud = (
   "difraosterion",
   "diktatourien",
   "diktatourion",
+  "dilennidi",
+  "dileuridi",
   "diorroerien",
   "diorroerion",
   "diouganerien",
@@ -690,6 +695,7 @@ my @anv_lies_tud = (
   "eosterion",
   "erbederien",
   "erbederion",
+  "erlec’hidi",
   "ergerzherien",
   "ergerzherion",
   "estlammerien",
@@ -937,6 +943,8 @@ my @anv_lies_tud = (
   "kantreerion",
   "kapitalourien",
   "kapitalourion",
+  "karidi",
+  "kargidi",
   "kariaded",
   "karngerzherien",
   "karngerzherion",
@@ -1013,6 +1021,7 @@ my @anv_lies_tud = (
   "kenstriverion",
   "kenurzhierien",
   "kenurzhierion",
+  "kenvroidi",
   "kenwallerien",
   "kenwallerion",
   "kenwerzherien",
@@ -1177,6 +1186,7 @@ my @anv_lies_tud = (
   "liperion",
   "lipouzerien",
   "lipouzerion",
+  "liseidi",
   "liverien",
   "liverion",
   "livourien",
@@ -1190,6 +1200,7 @@ my @anv_lies_tud = (
   "lomaned",
   "lonkerien",
   "lonkerion",
+  "loreidi",
   "louzaouerien",
   "louzaouerion",
   "louzawourien",
@@ -1245,8 +1256,9 @@ my @anv_lies_tud = (
   "marvailherion",
   "mañsonerien",
   "mañsonerion",
-  "marc'heien",
-  "marc'heion",
+  "marc’heien",
+  "marc’heion",
+  "merdeidi",
   "mederien",
   "medisined",
   "medisinourien",
@@ -1400,6 +1412,7 @@ my @anv_lies_tud = (
   "pardonerion",
   "pareourien",
   "pareourion",
+  "pastored",
   "pec’herien",
   "pec’herion",
   "peizanted",
@@ -1426,6 +1439,7 @@ my @anv_lies_tud = (
   "personed",
   "perukennerien",
   "perukennerion",
+  "perzhidi",
   "peskedoniourien",
   "peskedoniourion",
   "peskerien",
@@ -1585,6 +1599,9 @@ my @anv_lies_tud = (
   "skoazellerion",
   "skolaerien",
   "skolaerion",
+  "skolajidi",
+  "skolidi",
+  "skolveuridi",
   "skorerien",
   "skorerion",
   "skraperien",
@@ -1633,8 +1650,10 @@ my @anv_lies_tud = (
   "sportourion",
   "stadrenerien",
   "stadrenerion",
+  "stajidi",
   "stalierien",
   "stalierion",
+  "sterdeidi",
   "steredoniourien",
   "steredoniourion",
   "steredourien",
@@ -1713,6 +1732,7 @@ my @anv_lies_tud = (
   "trapezerion",
   "trec’hourien",
   "trec’hourion",
+  "tredeidi",
   "tredanerien",
   "tredanerion",
   "tredeeged",
@@ -2151,7 +2171,7 @@ print "handled [$out_count] words, unhandled [$err_count] words\n";
 # Adding missing words in dictionary.
 # "kiz" exists only in expressions in Apertium (which is OK) but
 # for LanguageTool, it's easier to make it a normal word so we
-# don't give false positive on "war ho c'hiz", etc.
+# don't give false positive on "war ho c’hiz", etc.
 print OUT "kiz\tkiz\tN f s\n";
 print OUT "c’hiz\tkiz\tN f s M:0a:2:\n";
 print OUT "giz\tkiz\tN f s M:1:1a:\n";
@@ -2159,6 +2179,7 @@ print OUT "vaerioù\tmaer\tN m p M:1:1a:1b:4:\n";
 print OUT "maerioù\tmaer\tN m p\n";
 print OUT "vestroù\tmestr\tN m p M:1:1a:1b:4:\n";
 print OUT "mestroù\tmestr\tN m p\n";
+close(OUT) or die "can't close [$dic_out]\n";
 
 print "Lemma words missing from dictionary:\n";
 foreach (sort keys %all_lemmas) { print "$_\n" unless exists $all_words{$_}; }
@@ -2168,7 +2189,22 @@ foreach (sort keys %anv_lies_tud) {
   print STDERR "*** plural noun [$_] is missing in Apertium dictionary.\n" unless $anv_lies_tud{$_};
 }
 
-`java -jar morfologik-stemming-nodict-1.4.0.jar tab2morph -i apertium-br-fr.br.dix-LT.txt -o output.txt`;
+`java -jar morfologik-stemming-nodict-1.4.0.jar tab2morph -i $dic_out -o output.txt`;
 `java -jar morfologik-stemming-nodict-1.4.0.jar fsa_build -i output.txt -o breton.dict`;
+
+# Create the list of unique tags.
+my %all_tags;
+open(OUT, "< $dic_out") or die "can't open $dic_out: $!\n";
+while (<OUT>) {
+  my $tag = (split('\t', $_))[-1];
+  ++$all_tags{$tag};
+}
+close(OUT) or die "can't close [$dic_out]\n";
+open(ALL_TAGS, "> all_tags.txt") or die "can't open [all_tags]: $!\n";
+print "# freq  tag\n";
+foreach (sort keys %all_tags) {
+  print ALL_TAGS $all_tags{$_}, "\t$_";
+}
+close(ALL_TAGS) or die "can't close [all_tags.txt]\n";
 
 print "Created [$out_count] words, unhandled [$err_count] words\n";
