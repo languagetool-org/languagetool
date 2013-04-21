@@ -20,7 +20,10 @@
 package org.languagetool.rules.ca;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 import org.languagetool.Language;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
@@ -45,5 +48,25 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
   public String getId() {
     return "MORFOLOGIK_RULE_CA_ES";
   }
+  
+  @Override
+	protected List<String> getAdditionalSuggestions(List<String> suggestions, String word) {
+	  final String wordWithoutDiacritics=removeAccents(word).toLowerCase(conversionLocale);
+	  List<String> moreSuggestions = new ArrayList<String>();
+	 //If few suggestions are found, try to get more from the word without diacritics and lowercase
+	  if (suggestions.size() < 5 && !word.equals(wordWithoutDiacritics)) {
+	    moreSuggestions = speller.getSuggestions(wordWithoutDiacritics);
+	    if (!speller.isMisspelled(wordWithoutDiacritics)) {
+	      moreSuggestions.add(wordWithoutDiacritics);
+	    }
+	  }
+	  //Add non previously existing suggestions  
+	  for (int i = 0; i < moreSuggestions.size(); i++) {
+	    if (!suggestions.contains(moreSuggestions.get(i))) {
+	      suggestions.add(moreSuggestions.get(i));
+	    }
+	  }
+	  return suggestions;
+	}
 
 }
