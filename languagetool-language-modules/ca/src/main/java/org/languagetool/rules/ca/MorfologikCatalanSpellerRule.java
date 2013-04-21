@@ -23,8 +23,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang.StringUtils;
 import org.languagetool.Language;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 
@@ -32,6 +34,8 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
 
   //private static final String RESOURCE_FILENAME = "/ca/hunspell/ca_ES.dict";
   private static final String RESOURCE_FILENAME = "/ca/catalan.dict";
+  private static final Pattern CHAR_PAIRS = Pattern.compile("ou|uo|bv|vb",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  //|aà|eè|eé|ií|oó|oò|uú|iï|uü
   
   public MorfologikCatalanSpellerRule(ResourceBundle messages,
                                       Language language) throws IOException {
@@ -68,5 +72,38 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
 	  }
 	  return suggestions;
 	}
+  
+  @Override
+  protected List<String> orderSuggestions(List<String> suggestions, String word) {
+    List<String> orderedSuggestions = new ArrayList<String>();
+    List<String> orderedSuggestions1 = new ArrayList<String>();
+    List<String> orderedSuggestions2 = new ArrayList<String>();
+    String myWord= removeAccents(word);
+    for (String suggestion : suggestions) {
+      int iod=StringUtils.indexOfDifference(suggestion,myWord);
+      String dif="";
+      if (iod<0) {
+        orderedSuggestions1.add(suggestion);
+      }
+      else if ( iod<myWord.length() && iod<suggestion.length()
+          && myWord.substring(iod+1,myWord.length()).equals(suggestion.substring(iod+1,suggestion.length() ))) {
+        dif  = myWord.substring(iod, iod+1);
+        dif += suggestion.substring(iod, iod+1);     
+        Matcher mCharPairs=CHAR_PAIRS.matcher(dif);
+        if (mCharPairs.matches()) {
+          orderedSuggestions1.add(suggestion);
+        } 
+        else {
+          orderedSuggestions2.add(suggestion);
+        }
+      } 
+      else {
+        orderedSuggestions2.add(suggestion);
+      }      
+    }  
+    orderedSuggestions.addAll(orderedSuggestions1);
+    orderedSuggestions.addAll(orderedSuggestions2);
+    return orderedSuggestions;
+  }
 
 }

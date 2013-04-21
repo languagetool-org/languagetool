@@ -121,8 +121,13 @@ public class MorfologikCatalanSpellerRuleTest {
         
         matches = rule.match(langTool.getAnalyzedSentence("cantaríà"));
         assertEquals(1, matches.length);
-        assertEquals("cantarà", matches[0].getSuggestedReplacements().get(0));
-        assertEquals("cantaria", matches[0].getSuggestedReplacements().get(1));
+        assertEquals("cantaria", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("cantarà", matches[0].getSuggestedReplacements().get(1));
+        
+        //best suggestion first
+        matches = rule.match(langTool.getAnalyzedSentence("poguem"));
+        assertEquals(1, matches.length);
+        assertEquals("puguem", matches[0].getSuggestedReplacements().get(0));
         
         //incorrect mixed case words
         assertEquals(1, rule.match(langTool.getAnalyzedSentence("PH")).length);
