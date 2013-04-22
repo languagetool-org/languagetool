@@ -3498,7 +3498,7 @@ $Id$
 	        		<marker>
 	        			<token>com</token>
 	        		</marker>
-	        		<token><exception>a</exception><exception inflected="yes" regexp="yes">el|un|tot</exception><exception regexp="yes">['"‘“«]</exception></token>
+	        		<token postag="[AN].*|_possible_nompropi" postag_regexp="yes"><exception>a</exception><exception inflected="yes" regexp="yes">el|un|tot</exception><exception regexp="yes">['"‘“«]</exception></token>
         		</pattern>
         		<message>Probablement cal escriure <suggestion>com a</suggestion>.</message>
         		<url>http://esadir.cat/sintaxi/advcomcoma/view</url>
@@ -3508,6 +3508,7 @@ $Id$
         		<example type="correct">És reconegut com un dels millors</example>
         		<example type="correct">Conegut com "el mirador de la comtessa".</example>
         		<example type="correct">Els amfibis són definits com tots els descendents de l'avantpassat comú.</example>
+        		<example type="correct">hem vist com es promovia una literatura</example>
         	</rule>
         	<rule>
         		<pattern>
@@ -3516,7 +3517,7 @@ $Id$
 	        			<token>com</token>
 	        		</marker>
 	        		<token regexp="yes">['"‘“«]</token>
-	        		<token><exception inflected="yes" regexp="yes">el|un|tot</exception></token>
+	        		<token postag="[AN].*|_possible_nompropi" postag_regexp="yes"><exception inflected="yes" regexp="yes">el|un|tot</exception></token>
         		</pattern>
         		<message>Probablement cal escriure <suggestion>com a</suggestion>.</message>
         		<url>http://esadir.cat/sintaxi/advcomcoma/view</url>
@@ -3530,7 +3531,7 @@ $Id$
 	        		<marker>
 	        			<token>com</token>
 	        		</marker>
-	        		<token regexp="yes">autors?|president[ae]?s?|representants?</token>
+	        		<token regexp="yes">autors?|president[ae]?s?|representants?|actors?|actrius?</token>
         		</pattern>
         		<message>Probablement cal escriure <suggestion>com a</suggestion>.</message>
         		<url>http://esadir.cat/sintaxi/advcomcoma/view</url>
@@ -7598,6 +7599,19 @@ $Id$
                 <short>Accent diacrític</short>
                 <example type="incorrect" correction="si">Fortament relacionades entre <marker>sí</marker>.</example>
                 <example type="correct">s'ho fan a si mateixos</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>sí</token>
+                    </marker>
+                    <token>bé</token>
+                </pattern>
+                <message>Només s'accentua quan és una afirmació.</message>
+                <suggestion>si</suggestion>
+                <short>Accent diacrític</short>
+                <example type="incorrect" correction="si">I <marker>sí</marker> bé a tots ens agrada,</example>
+                <example type="correct">I si bé a tots ens agrada,</example>
             </rule>
             <rule>
                 <pattern>
@@ -16686,7 +16700,7 @@ $Id$
             <rule>
                 <pattern>
                     <token inflected="yes">proper</token>
-                    <token regexp="yes" inflected="yes">legislatura|minut|hora|dia|setmana|mes|trimestre|quadrimestre|semestre|any|lustre|dècada|segel|mil·lenni|instant|moment|dilluns|dimarts|dimecres|dijous|divendres|dissabte|diumenge</token>
+                    <token regexp="yes" inflected="yes">legislatura|curs|minut|hora|dia|setmana|mes|trimestre|quadrimestre|semestre|any|lustre|dècada|segel|mil·lenni|instant|moment|dilluns|dimarts|dimecres|dijous|divendres|dissabte|diumenge</token>
                 </pattern>
                 <message>En aquest cas val més evitar l'adjectiu "<match no="1"/>".</message> 
                 <suggestion><match no="2"/> <match no="1" postag="AQ0.(.)." postag_regexp="yes" postag_replace="AQ0C$10">vinent</match></suggestion>
