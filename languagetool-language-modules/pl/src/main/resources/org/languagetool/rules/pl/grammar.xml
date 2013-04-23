@@ -145,7 +145,7 @@ $Id$
             </includephrases>
         </phrase>
     </phrases>
-    <category name="Błędy interpunkcyjne">
+    <category name="Błędy interpunkcyjne" type="typographical">
         <rulegroup id="ZDANIA_ZLOZONE" name="Brak przecinka w zdaniu złożonym">
             <rule>
                 <pattern>
@@ -1961,7 +1961,7 @@ $Id$
             </rule>
         </rulegroup>
     </category>
-    <category name="Błędy typograficzne">
+    <category name="Błędy typograficzne" type="typographical">
         <rulegroup id="BRAK_SPACJI" name="Brak spacji po znakach interpunkcyjnych">
             <rule>
                 <pattern case_sensitive="yes">
@@ -2303,7 +2303,7 @@ $Id$
             <example type="correct">Skrót „gr.”</example>
         </rule>
     </category>
-    <category name="Błędy odmiany">
+    <category name="Błędy odmiany" type="grammar">
         <rule id="BALI_BALOW" name="„bali maskowych” (balów)">
             <pattern>
                 <marker>
@@ -3097,7 +3097,7 @@ $Id$
             </rule>
         </rulegroup>
     </category>
-    <category name="Błędy w szyku wyrazów">
+    <category name="Błędy w szyku wyrazów" type="grammar">
         <rulegroup id="Z_KIMS_NA_CZELE" name="„z... na czele” (na czele z...)">
             <rule>
                 <pattern>
@@ -3168,7 +3168,7 @@ $Id$
             <example type="correct">On może zabić (się)</example>
         </rule>
     </category>
-    <category name="Błędy składniowe">
+    <category name="Błędy składniowe" type="grammar">
         <rule id="BEDZIE_POTRAFIC" name="„będzie potrafić” (będzie umieć)">
             <pattern>
                 <token postag="verb:bedzie.*" postag_regexp="yes"></token>
@@ -4133,7 +4133,7 @@ $Id$
             <example correction="tym" type="incorrect">Im większa, <marker>o tyle</marker> lepiej.</example>
         </rule>
     </category>
-    <category name="Błędy leksykalne">
+    <category name="Błędy leksykalne" type="style">
         <rule id="DOKONAC_BLEDU" name="„dokonać błędu” (popełnić błąd)">
             <pattern>
                 <token inflected="yes">dokonać</token>
@@ -6067,7 +6067,7 @@ $Id$
             <example type="correct">Ludwik miał atak padaczki.</example>
         </rule>
     </category>
-    <category name="Pleonazmy">
+    <category name="Pleonazmy" type="style">
         <rule id="EFEKT_KONCOWY" name="„efekt końcowy” (efekt)">
             <pattern>
                 <unify>
@@ -6834,7 +6834,7 @@ $Id$
             </rule>
         </rulegroup>
     </category>
-    <category name="Błędy fonetyczne">
+    <category name="Błędy fonetyczne" type="misspelling">
         <rulegroup id="W_WE" name="„w” przed „f/w…” i spółgłoską (we)">
             <rule>
                 <pattern>
@@ -6998,7 +6998,7 @@ $Id$
             <example correction="przede" type="incorrect">Może coś <marker>przed</marker> mną chowasz?</example>
         </rule>
     </category>
-    <category name="Błędy różne">
+    <category name="Błędy różne" type="uncategorized">
         <rulegroup default="off" id="RYMY" name="Rymujące się wyrazy">
             <rule>
                 <pattern case_sensitive="no">
@@ -7140,7 +7140,7 @@ $Id$
             <example type="incorrect">Kazio bawił się <marker>pantałykiem</marker>.</example>
         </rule>
     </category>
-    <category name="Błędy rodzaju gramatycznego">
+    <category name="Błędy rodzaju gramatycznego" type="grammar">
         <rulegroup id="TEN_POMARANCZ" name="„ten pomarańcz” (ta pomarańcza)">
             <rule>
                 <pattern>
@@ -7262,7 +7262,7 @@ $Id$
             <example type="correct">Nie uronił ani jednego wiórka z całego opakowania.</example>
         </rule>
     </category>
-    <category name="Wyrazy modne i nadużywane">
+    <category name="Wyrazy modne i nadużywane" type="style">
         <rulegroup id="W_BLISKIEJ_ODLEGLOSCI" name="„w bliskiej odległości” (blisko)">
             <rule>
                 <pattern>
@@ -7561,7 +7561,7 @@ $Id$
             <example type="correct">W razie braku ubezpieczenia poszkodowany nie może liczyć na pomoc państwa.</example>
         </rule>
     </category>
-    <category name="Pisownia małą i wielką literą">
+    <category name="Pisownia małą i wielką literą" type="misspelling">
         <rule id="CI_KTORZY" name="Zbędna litera w wyrazach mylonych z zaimkami">
             <pattern case_sensitive="yes">
                 <token><exception postag="SENT_START"></exception></token>
@@ -7846,7 +7846,7 @@ $Id$
             </rule>
         </rulegroup>
     </category>
-    <category name="Błędy ortograficzne">    
+    <category name="Błędy ortograficzne" type="misspelling">    
         <rule id="Z_TYMZE" name="„z tymże” (z tym że)">
             <pattern>
                 <marker>
@@ -11003,7 +11003,7 @@ $Id$
             <example type="correct">Józek upadł na zad.</example>
         </rule>
     </category>
-    <category name="Prawdopodobne literówki">
+    <category name="Prawdopodobne literówki" type="misspelling">
        <rule id="M_IM" name="„m.im.” (m.in.)">
         	<pattern case_sensitive="yes">
 				<token>m</token>
@@ -12746,6 +12746,26 @@ $Id$
             <example correction="zawiera" type="incorrect">Ta strona <marker>zwiera</marker> wszystkie informacje.</example>
             <example type="correct">Partia zwiera szeregi przed kolejnymi wyborami.</example>
         </rule>
+        <rule id="POLWIEKU_TEMU" name="„półwieku temu” (pół wieku)">
+        	<pattern>
+        		<marker>><token>półwieku</token></marker>
+        		<token>temu</token>        		
+        	</pattern>
+        	<message>Prawdopodobna literówka. Czy chodziło o <suggestion>pół wieku</suggestion>?</message>
+        	<example correction="pół wieku" type="incorrect">Było to <marker>półwieku</marker> temu.</example>
+        	<example type="correct">Po półwieku Teatr Telewizji wraca do przedstawień na żywo.</example>
+        </rule>
+        <rule id="NASTAWIAC_KARKU" name="„nastawiać karku” (nadstawiać)">
+			<pattern>
+			<marker>
+			<token inflected="yes">nastawiać</token>			
+			</marker>
+			<token>karku</token>
+			</pattern>  
+			<message>Prawdopodobna literówka. Czy chodziło o <suggestion><match no="1" regexp_match="(na)(.*)" regexp_replace="$1d$2"></match></suggestion>?</message>
+			<example type="correct">Nie chcę za was nadstawiać karku.</example>
+			<example type="incorrect" correction="nadstawiał">Nie będę za was <marker>nastawiał</marker> karku.</example>      
+        </rule>
         <rule id="JETEM" name="„jetem” (jestem)">
             <pattern>
                 <token><exception regexp="yes" scope="previous">z|jumbo</exception>jetem</token>
@@ -12894,7 +12914,7 @@ $Id$
         	<example type="correct">Ten przyrząd służy do wodzenia kursora po ekranie.</example>
         </rule>
     </category>
-    <category name="Błędy frazeologiczne">
+    <category name="Błędy frazeologiczne" type="style">
         <rule id="KROPLA_DZIEGCIU" name="„kropla dziegciu” (łyżka dziegciu)">
             <pattern>
                 <token inflected="yes">kropla</token>
