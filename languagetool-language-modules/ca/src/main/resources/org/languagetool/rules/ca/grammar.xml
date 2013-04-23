@@ -5343,9 +5343,9 @@ $Id$
                         <token regexp="yes">presa|preses</token>
                     </marker>
                 </pattern>
-                <message>¿Volíeu dir <suggestion><match no="2" regexp_match="pres(.+)" regexp_replace="press$1"/> (= desig de fer una cosa ràpidament)</suggestion>?</message>
+                <message>¿Volíeu dir <suggestion><match no="2" regexp_match="pres(.+)" regexp_replace="press$1"/></suggestion> (= desig de fer una cosa ràpidament)?</message>
                 <short>Possible confusió</short>
-                <example type="incorrect">sense <marker>presa</marker></example>
+                <example type="incorrect" correction="pressa">sense <marker>presa</marker></example>
                 <example type="correct">sense pressa</example>
             </rule>        
         </rulegroup>
@@ -6080,20 +6080,35 @@ $Id$
         
     </category>
     <category name="Errors gramaticals" type="grammar">
-        <rule id="TOT_I_GERUNDI" name="tot i + *gerundi/infinitiu">
-            <pattern>
-                <token>tot</token>
-                <token>i</token>
-                <marker>
-                    <token postag="V.G.*" postag_regexp="yes"></token>
-                </marker>
-            </pattern>
-            <message>El verb ha d'anar en infinitiu:<suggestion><match no="3" postag="V.N.*" postag_regexp="yes"></match></suggestion>.</message>
-            <short>Falta un infinitiu</short>
-            <example type="incorrect">Tot i <marker>estant</marker> així.</example>
-            <example type="correct">Tot i <marker>estar</marker> així.</example>
-        </rule>
-         
+        <rulegroup id="TOT_I_GERUNDI" name="tot i + *gerundi/infinitiu">
+        	<rule>
+	            <pattern>
+	                <token>tot</token>
+	                <token>i</token>
+	                <marker>
+	                    <token postag="V.G.*" postag_regexp="yes"></token>
+	                </marker>
+	            </pattern>
+	            <message>El verb ha d'anar en infinitiu:<suggestion><match no="3" postag="V.N.*" postag_regexp="yes"></match></suggestion>.</message>
+	            <short>Falta un infinitiu</short>
+	            <example type="incorrect">Tot i <marker>estant</marker> així.</example>
+	            <example type="correct">Tot i <marker>estar</marker> així.</example>
+	        </rule>
+	        <rule>
+	            <pattern>
+	                <token>tot</token>
+	                <token>i</token>
+	                <marker>
+	                    <token>havent</token>
+	                </marker>
+	            </pattern>
+	            <message>El verb ha d'anar en infinitiu.</message>
+	            <suggestion>haver</suggestion>
+	            <short>Falta un infinitiu</short>
+	            <example type="incorrect" correction="haver">Tot i <marker>havent</marker> aparcant bé.</example>
+	            <example type="correct">Tot i <marker>estar</marker> així.</example>
+	        </rule>
+         </rulegroup>
     </category>
     <category name="Repeticions" type="duplication">
         <rulegroup id="PHRASE_REPETITION" name="Repetició de dues paraules ('a la a la')">
