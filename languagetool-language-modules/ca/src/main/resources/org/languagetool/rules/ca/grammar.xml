@@ -2454,7 +2454,7 @@ $Id$
                 </marker>
                 <token postag="SENT_END"/>
             </pattern>
-            <message>Falta un verb en condicional: <suggestion><match no="3" postag="VASI(.+)" postag_regexp="yes" postag_replace="VAIC$1"/></suggestion></message>
+            <message>Falta un verb en condicional: <suggestion><match no="3" postag="VASI(.+)." postag_regexp="yes" postag_replace="VAIC$1."/></suggestion></message>
             <example type="incorrect" correction="haguera|hauria">Aquí no s'<marker>hagués</marker> permès.</example>
             <example type="correct">Aquí no s'hauria permès.</example>
             <example type="correct">Aquí no s'haguera permès.</example>
@@ -2474,7 +2474,7 @@ $Id$
                 </marker>
                 <token postag="SENT_END"/>
             </pattern>
-            <message>Falta un verb en condicional: <suggestion><match no="4" postag="VASI(.+)" postag_regexp="yes" postag_replace="VAIC$1"/></suggestion></message>
+            <message>Falta un verb en condicional: <suggestion><match no="4" postag="VASI(.+)." postag_regexp="yes" postag_replace="VAIC$1."/></suggestion></message>
             <example type="incorrect" correction="haguera|hauria">Si haguessis avisat, t'<marker>hagués</marker> esperat</example>
             <example type="correct">Si haguessis avisat...</example>
             <example type="correct">Si haguessis avisat, t'haguera esperat</example>
@@ -2493,7 +2493,7 @@ $Id$
                 <token skip="-1">si</token>
                 <token postag="VASI.*" postag_regexp="yes" inflected="yes">haver</token>
             </pattern>
-            <message>Falta un verb en condicional: <suggestion><match no="2" postag="VASI(.+)" postag_regexp="yes" postag_replace="VAIC$1"/></suggestion></message>
+            <message>Falta un verb en condicional: <suggestion><match no="2" postag="VASI(.+)." postag_regexp="yes" postag_replace="VAIC$1."/></suggestion></message>
             <example type="incorrect" correction="haguera|hauria">T'<marker>hagués</marker> esperat si haguessis avisat</example>
             <example type="correct">T'haguera esperat si haguessis avisat</example>
             <example type="correct">T'hauria esperat si haguessis avisat</example>
@@ -8103,14 +8103,16 @@ $Id$
                     <marker>
                         <token>es<exception postag="DA0MN0"/></token>
                     </marker>
-                    <token postag="V.[^NPG].*" postag_regexp="yes" negate_pos="yes"><exception postag="V.[^NPG].3.*|_possible_nompropi" postag_regexp="yes"></exception></token>
+                    <token><exception postag="V.[^NPG].3.*|_possible_nompropi" postag_regexp="yes"></exception></token>
                 </pattern>
                 <message>S'accentua quan és del verb "ser".</message>
                 <suggestion>és</suggestion>
                 <short>Accent diacrític</short>
                 <example type="incorrect" correction="és">La bruixa <marker>es</marker> vella.</example>
+                <example type="incorrect" correction="és">Que <marker>es</marker> penso això.</example>
                 <!-- <example type="incorrect" correction="és">Ell <marker>es</marker> Joan.</example> -->
                 <example type="correct">pujar a la punta d'es Mut</example>
+                <example type="correct">Que es pense això</example>
             </rule>
             <rule id="ES_VEU_QUE" name="es veu que">
                 <pattern>
@@ -8361,7 +8363,7 @@ $Id$
                 <pattern>
                     <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|V.[MNG].*" postag_regexp="yes"/></token>
                     <marker>
-                        <token postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"><exception postag="_GV_|_possible_nompropi" postag_regexp="yes"/><exception postag="allow_saxon_genitive"/><exception>te</exception><exception regexp="yes">(?-i)SE</exception></token>
+                        <token postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"><exception postag="_GV_|_possible_nompropi" postag_regexp="yes"/><exception postag="allow_saxon_genitive"/><exception regexp="yes">te|es</exception><exception regexp="yes">(?-i)SE</exception></token>
                     </marker>
                     <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|V.[SI].*" postag_regexp="yes"/><exception regexp="yes">["‘“«]</exception></token>
                 </pattern>
