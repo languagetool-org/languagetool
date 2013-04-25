@@ -21,7 +21,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.046 2013-03-07 13:35:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.047 2013-04-25 23:55:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -968,6 +968,32 @@ $Id: grammar.xml,v 1.046 2013-03-07 13:35:00 marcoagpinto Exp $
 
 
 
+    <!-- MEIA BARALHADA meio baralhada -->
+    <rule id="MEIA_BARALHADA" name="meio baralhada">
+      <pattern>
+        <token>meia</token>
+        <token>baralhada</token>
+      </pattern>
+      <message>Substituir «meia baralhada» por <suggestion>meio baralhada</suggestion>.</message>
+      <example type="incorrect">Ela está <marker>meia baralhada</marker>.</example>
+      <example type="correct">Ela está <marker>meio baralhada</marker>.</example>
+    </rule>
+
+
+
+    <!-- MEIA CHEIA meio cheia -->
+    <rule id="MEIA_CHEIA" name="meio cheia">
+      <pattern>
+        <token>meia</token>
+        <token>cheia</token>
+      </pattern>
+      <message>Substituir «meia cheia» por <suggestion>meio cheia</suggestion>.</message>
+      <example type="incorrect">A tigela está <marker>meia cheia</marker>.</example>
+      <example type="correct">A tigela está <marker>meio cheia</marker>.</example>
+    </rule>
+
+
+
     <!-- MEIA LOUCA meio louca -->
     <rule id="MEIA_LOUCA" name="meio louca">
       <pattern>
@@ -1004,6 +1030,19 @@ $Id: grammar.xml,v 1.046 2013-03-07 13:35:00 marcoagpinto Exp $
       <message>Substituir «mulher carteiro» por <suggestion>carteira</suggestion>.</message>
       <example type="incorrect">A Ana é <marker>mulher carteiro</marker>.</example>
       <example type="correct">A Ana é <marker>carteira</marker>.</example>
+    </rule>
+
+
+
+    <!-- MULHER MÚSICO música -->
+    <rule id="MULHER_MÚSICO" name="música">
+      <pattern>
+        <token>mulher</token>
+        <token>músico</token>
+      </pattern>
+      <message>Substituir «mulher músico» por <suggestion>música</suggestion>.</message>
+      <example type="incorrect">A Ana é uma <marker>mulher músico</marker>.</example>
+      <example type="correct">A Ana é uma <marker>música</marker>.</example>
     </rule>
 
 
