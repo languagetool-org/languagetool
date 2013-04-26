@@ -1743,7 +1743,7 @@ $Id$
             <rule>
                 <pattern>
                     <token>li</token>
-                    <token inflected="yes" regexp="yes">concernir|cansar|preocupar|molestar</token>
+                    <token inflected="yes" regexp="yes">afectar|concernir|cansar|preocupar|molestar</token>
                 </pattern>
                 <message>Aquest verb és transitiu. Cal canviar el pronom.</message>
                 <suggestion>el <match no="2"></match></suggestion>
@@ -1771,7 +1771,7 @@ $Id$
                 <pattern>
                     <token>li</token>
                     <token postag="V.[^MNGP].*" postag_regexp="yes" inflected="yes" regexp="yes">haver|anar<exception regexp="yes">v.+</exception></token>
-                    <token postag="V.[NPG].*" postag_regexp="yes" inflected="yes" regexp="yes">emprenyar|concernir|cansar|empipar|preocupar|molestar|espantar|apassionar|atr[ae]ure</token>
+                    <token postag="V.[NPG].*" postag_regexp="yes" inflected="yes" regexp="yes">afectar|emprenyar|concernir|cansar|empipar|preocupar|molestar|espantar|apassionar|atr[ae]ure</token>
                 </pattern>
                 <message>Aquest verb és transitiu. Cal canviar el pronom.</message>
                 <suggestion>l'<match no="2"></match> <match no="3"></match></suggestion>
@@ -1784,7 +1784,7 @@ $Id$
                 <pattern>
                     <token>li</token>
                     <token postag="V.[^MNGP].*" postag_regexp="yes" inflected="yes" regexp="yes">anar|fer<exception regexp="yes">a.+</exception></token>
-                    <token postag="V.[NPG].*" postag_regexp="yes" inflected="yes" regexp="yes">emprenyar|concernir|cansar|empipar|preocupar|molestar|espantar|apassionar|atr[ae]ure</token>
+                    <token postag="V.[NPG].*" postag_regexp="yes" inflected="yes" regexp="yes">afectar|emprenyar|concernir|cansar|empipar|preocupar|molestar|espantar|apassionar|atr[ae]ure</token>
                 </pattern>
                 <message>Aquest verb és transitiu. Cal canviar el pronom.</message>
                 <suggestion>el <match no="2"></match> <match no="3"></match></suggestion>
@@ -1796,7 +1796,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="V.[NG].*" postag_regexp="yes" inflected="yes" regexp="yes">emprenyar|concernir|cansar|empipar|preocupar|molestar|espantar|apassionar|atr[ae]ure</token>
+                    <token postag="V.[NG].*" postag_regexp="yes" inflected="yes" regexp="yes">afectar|emprenyar|concernir|cansar|empipar|preocupar|molestar|espantar|apassionar|atr[ae]ure</token>
                     <token>-li</token>
                 </pattern>
                 <message>Aquest verb és transitiu. Cal canviar el pronom.</message>
@@ -1805,6 +1805,32 @@ $Id$
                 <short>Verb transitiu</short>
                 <example type="incorrect" correction="empipar-lo|empipar-la">No vaig <marker>empipar-li</marker></example>
                 <example type="correct">No vaig empipar-lo</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">afectar|emprenyar|concernir|cansar|empipar|preocupar|molestar|espantar|apassionar|atr[ae]ure</token>
+                    <token>a</token>
+                    <token regexp="yes">ls?</token>
+                </pattern>
+                <message>Aquest verb és transitiu. Probablement cal eliminar la preposició 'a'.</message>
+                <suggestion><match no="1"/> e<match no="3"/></suggestion>
+                <short>Verb transitiu</short>
+                <example type="incorrect" correction="emprenyeu el">No <marker>emprenyeu al</marker> comissari.</example>
+                <example type="correct">No emprenyeu el comissari</example>
+            </rule>
+            <rule>
+                <pattern>
+                	<marker>
+	                    <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">afectar|emprenyar|concernir|cansar|empipar|preocupar|molestar|espantar|apassionar|atr[ae]ure</token>
+	                    <token>a</token>
+                    </marker>
+                    <token><exception regexp="yes">ls?</exception></token>
+                </pattern>
+                <message>Aquest verb és transitiu. Probablement cal eliminar la preposició 'a'.</message>
+                <suggestion><match no="1"/></suggestion>
+                <short>Verb transitiu</short>
+                <example type="incorrect" correction="emprenyeu">No <marker>emprenyeu a</marker> la comissària.</example>
+                <example type="correct">No emprenyeu la comissària</example>
             </rule>
         </rulegroup>
         <rulegroup id="CABRE" name="*cabre + infinitiu">
@@ -16717,7 +16743,7 @@ $Id$
             <rule>
                 <pattern>
                     <token inflected="yes">proper</token>
-                    <token regexp="yes" inflected="yes">legislatura|curs|minut|hora|dia|setmana|mes|trimestre|quadrimestre|semestre|any|lustre|dècada|segel|mil·lenni|instant|moment|dilluns|dimarts|dimecres|dijous|divendres|dissabte|diumenge</token>
+                    <token regexp="yes" inflected="yes">temporada|legislatura|curs|minut|hora|dia|setmana|mes|trimestre|quadrimestre|semestre|any|lustre|dècada|segel|mil·lenni|instant|moment|dilluns|dimarts|dimecres|dijous|divendres|dissabte|diumenge</token>
                 </pattern>
                 <message>En aquest cas val més evitar l'adjectiu "<match no="1"/>".</message> 
                 <suggestion><match no="2"/> <match no="1" postag="AQ0.(.)." postag_regexp="yes" postag_replace="AQ0C$10">vinent</match></suggestion>
@@ -16731,7 +16757,7 @@ $Id$
                 <pattern>
                     <token inflected="yes">proper</token>
                     <token/>
-                    <token regexp="yes" inflected="yes">legislatura|minut|hora|dia|setmana|mes|trimestre|quadrimestre|semestre|any|lustre|dècada|segel|mil·lenni|instant|moment|dilluns|dimarts|dimecres|dijous|divendres|dissabte|diumenge</token>
+                    <token regexp="yes" inflected="yes">minut|hora|dia|setmana|mes|trimestre|quadrimestre|semestre|any|lustre|dècada|segel|mil·lenni|instant|moment|dilluns|dimarts|dimecres|dijous|divendres|dissabte|diumenge</token>
                 </pattern>
                 <message>En aquest cas val més evitar l'adjectiu "<match no="1"/>".</message> 
                 <suggestion><match no="2"/> <match no="3"/> <match no="1" postag="AQ0.(.)." postag_regexp="yes" postag_replace="AQ0C$10">vinent</match></suggestion>
