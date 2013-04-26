@@ -28,7 +28,10 @@ import org.languagetool.rules.GenericUnpairedBracketsRule;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.UppercaseSentenceStartRule;
 import org.languagetool.rules.WhitespaceRule;
-import org.languagetool.rules.WordRepeatRule;
+// 181 +
+//import org.languagetool.rules.WordRepeatRule;
+import org.languagetool.rules.it.ItalianWordRepeatRule;
+// 181 -
 import org.languagetool.rules.it.MorfologikItalianSpellerRule;
 // 3607406 +
 import org.languagetool.rules.WhitespaceBeforePunctuationRule;
@@ -91,7 +94,10 @@ public class Italian extends Language {
             GenericUnpairedBracketsRule.class,
             MorfologikItalianSpellerRule.class,
             UppercaseSentenceStartRule.class,
-            WordRepeatRule.class,
+// 181 +
+//            WordRepeatRule.class,
+            ItalianWordRepeatRule.class,
+// 181 -
             WhitespaceRule.class
     );
   }
