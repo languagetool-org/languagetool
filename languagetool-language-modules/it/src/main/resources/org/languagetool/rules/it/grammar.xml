@@ -26,7 +26,7 @@ $Id$
  Italian Grammar and Style Rules for Italian
  Paolo Bianchini
  Date: 26/04/2013
- Ver:  2.1.0.4
+ Ver:  2.1.0.5
  ================================================================================
  Categorie delle regole
     gruppi delle regole
@@ -119,6 +119,7 @@ $Id$
  3610360  False positive in dates for rule ST_04_001 fixes also 3611066
  3610289  False positive il artice for word "Signore"
  182      False positive in 'ai peccati' suggests 'hai'
+ 181	  Don't apply word repetition rule on 'via via' and 'così così'
  ======== ==================================================================================
 -->
 
@@ -1358,7 +1359,12 @@ $Id$
 					<token skip="-1" postag_regexp="yes" postag="ADJ.*|ADV.*|NOUN.*|VER.*"></token>
 <!-- PB001 - -->
                     <marker>
-                    	<token><match no="0"></match></token>
+                    	<token>
+                    	    <match no="0"></match>
+<!-- 181 + -->
+                    	    <exception scope="previous" regexp="yes">via|così</exception>
+<!-- 181 - -->                    	    
+						</token>
                     </marker>
 <!-- PB010 - -->
                 </pattern>
