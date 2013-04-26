@@ -25,8 +25,8 @@ $Id$
  ================================================================================
  Italian Grammar and Style Rules for Italian
  Paolo Bianchini
- Date: 17/04/2013
- Ver:  2.1.0.3
+ Date: 26/04/2013
+ Ver:  2.1.0.4
  ================================================================================
  Categorie delle regole
     gruppi delle regole
@@ -118,6 +118,7 @@ $Id$
  3610220  False positive in 'per lo meno' for rule GR_02_001 changed so that adv are skipped
  3610360  False positive in dates for rule ST_04_001 fixes also 3611066
  3610289  False positive il artice for word "Signore"
+ 182      False positive in 'ai peccati' suggests 'hai'
  ======== ==================================================================================
 -->
 
@@ -1531,8 +1532,13 @@ $Id$
                 <!-- "ai" + un participio passato -->
                 <pattern>
                     <token>ai</token>
+<!--  182 + -->
+<!-- 
                     <token postag="VER:part.+past.*" postag_regexp="yes"></token>
-                </pattern>
+-->
+                    <token postag="VER:part.+past.*" postag_regexp="yes"><exception postag="NOUN-M:p"></exception></token>
+<!--  182 - -->
+                    </pattern>
                 <message>Forse volevi dire <suggestion>hai <match no="2"></match></suggestion>?</message>
                 <example type="incorrect"><marker>Ai fatto</marker> i compiti?</example>
                 <example type="correct"><marker>Hai fatto</marker> i compiti?</example>
