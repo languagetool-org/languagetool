@@ -1743,7 +1743,7 @@ $Id$
             <rule>
                 <pattern>
                     <token>li</token>
-                    <token inflected="yes" regexp="yes">afectar|concernir|cansar|preocupar|molestar</token>
+                    <token inflected="yes" regexp="yes">concernir|cansar|preocupar|molestar</token>
                 </pattern>
                 <message>Aquest verb és transitiu. Cal canviar el pronom.</message>
                 <suggestion>el <match no="2"></match></suggestion>
@@ -1757,7 +1757,7 @@ $Id$
             <rule>
                 <pattern>
                     <token>li</token>
-                    <token inflected="yes" regexp="yes">emprenyar|empipar|espantar|apassionar|atr[ae]ure</token>
+                    <token inflected="yes" regexp="yes">afectar|emprenyar|empipar|espantar|apassionar|atr[ae]ure</token>
                 </pattern>
                 <message>Aquest verb és transitiu. Cal canviar el pronom.</message>
                 <suggestion>l'<match no="2"></match></suggestion>
@@ -2026,7 +2026,7 @@ $Id$
             <!-- Error de picatge comú amb infinitiu o gerundi -->
             <rule>
                 <pattern>
-                    <token postag="VA.*" postag_regexp="yes" inflected="yes" skip="3">haver<exception postag="_perfet|_obligacio|V.P.*" postag_regexp="yes"/><exception scope="next" postag="RG.*|.*LOC_ADV.*|V.[NG].*|PP3CN000|SENT_END" postag_regexp="yes" negate_pos="yes"/></token>
+                    <token postag="VA.*" postag_regexp="yes" inflected="yes" skip="1">haver<exception postag="_obligacio|V.P.*" postag_regexp="yes"/><exception scope="next" postag="RG.*|.*LOC_ADV.*|V.[NG].*|PP3CN000|SENT_END" postag_regexp="yes" negate_pos="yes"/></token>
                     <marker>
                         <token postag="V.[NG].*" postag_regexp="yes"></token>
                     </marker>
@@ -2043,6 +2043,7 @@ $Id$
                 <example type="incorrect">Aquell hi ha gairebé <marker>realitzar</marker>.</example>
                 <example type="incorrect">que hagen <marker>generant</marker> per tant un resultat</example> 
                 <example type="incorrect">Hem <marker>cantant</marker>.</example>
+                <example type="incorrect">Ha <marker>votar</marker> en contra de les mesures adoptades.</example>
                 <example type="correct">No s'ha realitzat.</example>  
                 <example type="correct">No hi haurà complicitat per assumir l'austeritat</example>
                 <example type="correct">N'hi ha per a complicar la situació</example>  
@@ -2170,7 +2171,7 @@ $Id$
                 <pattern>
                     <token regexp="yes" skip="5">vam|vau|vàrem|vàreu|vàgim|vàgem|vàgeu|vàgiu<exception scope="next" postag="V.N.*" postag_regexp="yes"/></token>
                     <marker>
-                        <token postag="V.[^N].*" postag_regexp="yes"><exception postag="V.N.*" postag_regexp="yes"/><exception regexp="yes">de|d'</exception></token>
+                        <token postag="V.[^N].*" postag_regexp="yes"><exception postag="V.N.*" postag_regexp="yes"/><exception scope="previous" regexp="yes">de|d'</exception></token>
                     </marker>
                     <!-- fer també del v. ferir-->
                 </pattern>
@@ -2183,7 +2184,23 @@ $Id$
                 <example type="correct">vam, inicialment, pensar</example>
                 <example type="correct">Vàrem, si més no, poder enviar-los.</example> 
                 <example type="correct">No sé quant vam trigar, però recordo que anava molt a poc a poc.</example>
-            </rule>             
+            </rule>   
+            <rule>
+                <pattern>
+                    <marker>
+                    	<token regexp="yes" skip="-1">vam|vau|vàrem|vàreu|vàgim|vàgem|vàgeu|vàgiu<exception scope="next" postag="V.N.*" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <message>Falta un infinitiu darrere del verb l'auxiliar.</message>
+                <short>Falta un infinitiu</short>
+                <example type="incorrect"><marker>Vam</marker>.</example>                 
+                <example type="correct">Vam córrer.</example>
+                <example type="correct">vam "descobrir"</example>
+                <example type="correct">vam, inicialment, pensar</example>
+                <example type="correct">Vàrem, si més no, poder enviar-los.</example> 
+                <example type="correct">No sé quant vam trigar, però recordo que anava molt a poc a poc.</example>
+            </rule>           
             <rule>
                 <pattern>
                     <token postag="SENT_START|CC" postag_regexp="yes" skip="-1"><exception postag="PR.*" postag_regexp="yes" scope="next"/><exception scope="next">perquè</exception></token>
@@ -3582,6 +3599,7 @@ $Id$
         				<token>sobre</token>
         			</marker>
         			<token postag="DN.*" postag_regexp="yes"></token>
+        			<token><exception>pilars</exception></token>
         		</pattern>
         		<message>Incorrecte amb valor aproximatiu.</message>
         		<suggestion>al voltant de</suggestion>
@@ -3590,6 +3608,7 @@ $Id$
         		<short>Possible error</short>
         		<example type="incorrect" correction="al voltant de|cap a|vora"><marker>sobre</marker> 200.000 habitatges</example>
         		<example type="correct">sobre la finestra</example>
+        		<example type="correct">S'assenten sobre dos pilars bàsics.</example>
         	</rule>
         	<rule>
         		<pattern>
@@ -16743,7 +16762,7 @@ $Id$
             <rule>
                 <pattern>
                     <token inflected="yes">proper</token>
-                    <token regexp="yes" inflected="yes">temporada|legislatura|curs|minut|hora|dia|setmana|mes|trimestre|quadrimestre|semestre|any|lustre|dècada|segel|mil·lenni|instant|moment|dilluns|dimarts|dimecres|dijous|divendres|dissabte|diumenge</token>
+                    <token regexp="yes" inflected="yes">elecció|temporada|legislatura|curs|minut|hora|dia|setmana|mes|trimestre|quadrimestre|semestre|any|lustre|dècada|segel|mil·lenni|instant|moment|dilluns|dimarts|dimecres|dijous|divendres|dissabte|diumenge</token>
                 </pattern>
                 <message>En aquest cas val més evitar l'adjectiu "<match no="1"/>".</message> 
                 <suggestion><match no="2"/> <match no="1" postag="AQ0.(.)." postag_regexp="yes" postag_replace="AQ0C$10">vinent</match></suggestion>
