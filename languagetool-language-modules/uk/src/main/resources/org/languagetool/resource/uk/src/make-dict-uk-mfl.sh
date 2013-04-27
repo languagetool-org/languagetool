@@ -5,20 +5,21 @@ function encode() {
 #    cat
 }
 
-MFL_JAR="./mfl/morfologik-tools-*-standalone.jar"
+#MFL_CMD="java -jar ./mfl/morfologik-tools-*-standalone.jar"
+MFL_CMD="mfl"
 
 LANG=POSIX
 #FSA_FLAGS="-f cfsa2"
 
 grep -h "^[^#].*[a-z]" tagged.*.txt | encode | tr ' ' '\t' | sort -u > all.tagged.tmp
-java -jar $MFL_JAR tab2morph -i all.tagged.tmp | \
-java -jar $MFL_JAR fsa_build $FSA_FLAGS -o ukrainian.dict
+$MFL_CMD tab2morph -i all.tagged.tmp | \
+$MFL_CMD fsa_build $FSA_FLAGS -o ukrainian.dict
 
 echo "Generating synthesizer dictionary"
 
 awk -F '\t' '{print $2"|"$3"\t"$1"\t"}' all.tagged.tmp | \
-java -jar $MFL_JAR tab2morph | \
-java -jar $MFL_JAR fsa_build $FSA_FLAGS -o ukrainian_synth.dict
+$MFL_CMD tab2morph | \
+$MFL_CMD fsa_build $FSA_FLAGS -o ukrainian_synth.dict
 
 rm -f all.tagged.tmp
 

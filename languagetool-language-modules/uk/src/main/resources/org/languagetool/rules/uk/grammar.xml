@@ -40,7 +40,7 @@ $Id$
             <token postag=".*[\.:]m([\.:].*)?" postag_regexp="yes"/>
         </equivalence>
         <equivalence type="n">
-            <token postag=".*[\.:]n([\.:].*)?" postag_regexp="yes"></token>
+            <token postag=".*[\.:]n([\.:].*)?" postag_regexp="yes"/>
         </equivalence>
     </unification>
     <unification feature="case">
@@ -85,7 +85,7 @@ $Id$
                 <pattern>
                     <token>будь</token>
                     <token>ласка</token>
-                    <token negate="yes" regexp="yes">,|\.|!</token>
+                    <token negate="yes" regexp="yes">[,\.!»]</token>
                 </pattern>
                 <message>Відсутня права кома: <suggestion>\1 \2, \3</suggestion>.</message>
                 <example type="correct">Запитайте, <marker>будь ласка, у</marker> водія.</example>
@@ -93,7 +93,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token negate="yes" regexp="yes">[\p{Punct}–—\(]<exception postag="SENT_START"></exception></token>
+                    <token negate="yes" regexp="yes">[\p{Punct}–—\(«]<exception postag="SENT_START"></exception></token>
                     <token>будь</token>
                     <token>ласка</token>
                 </pattern>
@@ -107,7 +107,7 @@ $Id$
             <rule>
                 <pattern>
                     <token regexp="yes">мабуть|врешті|по-перше|по-друге|по-третє|щоправда|о?крім того|а втім</token>
-                    <token negate="yes" regexp="yes">[\p{Punct}–—]</token>
+                    <token negate="yes" regexp="yes">[\p{Punct}–—»]</token>
                 </pattern>
                 <message>Відсутня права кома: <suggestion>\1, \2</suggestion>.</message>
                 <example type="correct">Це, <marker>мабуть,</marker> водій.</example>
@@ -115,7 +115,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">[\p{Punct}–—\(]|[АаІі]<exception postag="SENT_START"></exception></token>
+                    <token negate="yes" regexp="yes">[\p{Punct}–—\(«АаІі]<exception postag="SENT_START"></exception></token>
                     <token regexp="yes">мабуть|врешті|по-перше|по-друге|по-третє|щоправда|о?крім того|втім</token>
                 </pattern>
                 <message>Відсутня ліва кома: <suggestion>\1, \2</suggestion>.</message>
@@ -128,8 +128,11 @@ $Id$
         <rulegroup name="Відсутня кома перед «але», «однак», ..." id="COMMA_BEFORE_BUT">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes" negate="yes">[\p{Punct}–—«\(]|[нН]у|[Аа]<exception postag="SENT_START"></exception></token>
+                    <marker>
+                    <token regexp="yes" negate="yes">[\p{Punct}–—«\(]|[нН]у|[АаІіЙй]|але<exception postag="SENT_START"></exception></token>
                     <token regexp="yes">а|але|однак|проте|зате</token>
+                    </marker>
+                    <token regexp="yes" negate="yes">[\p{Punct}–—«\(]</token>
                 </pattern>
                 <message>Відсутня кома перед сполучником: <suggestion>\1, \2</suggestion></message>
                 <example type="correct">Вгадав всі літери, але не зміг прочитати слово.</example>
@@ -159,6 +162,23 @@ $Id$
                 <example type="correct">Просто неба.</example>
                 <example type="incorrect">Їм треба <marker>в їхати</marker>.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag_regexp="yes" postag="prysudk_sl.*">
+                        <exception negate_pos="yes" postag_regexp="yes" postag="prysudk_sl.*" />
+                    </token>
+                    <marker>
+                    <token postag_regexp="yes" postag="verb:.*">
+                        <exception postag_regexp="yes" postag="verb:inf.*"/>
+                    </token>
+                    </marker>
+                </pattern>
+                <message>Дієслово після присудкового слова має йти інфінітивом: <suggestion><match no="2" postag="verb:inf"/></suggestion></message>
+                <example type="correct">Повинен їхати</example>
+                <example type="correct">Йому треба писати</example>
+                <example type="incorrect">Повинен <marker>писатиме</marker>.</example>
+                <example type="incorrect">Треба <marker>писав</marker>.</example>
+            </rule>
         </rulegroup>
 
         <rulegroup name="Узгодженість відмінків з прийменниками" id="CONSISTENCY_VIDM_PRYIM">
@@ -182,17 +202,18 @@ $Id$
         <rulegroup name="Узгодженість" id="CONISTENCY_VIDM_1">
             <rule>
                 <pattern>
-                   <unify>
-                        <feature id="number"></feature>
+                   <unify negate="yes">
                         <feature id="gender"></feature>
+                        <feature id="number"></feature>
                         <feature id="case"></feature>
                         <token postag_regexp="yes" postag="adj:.*"></token>
                         <token postag_regexp="yes" postag="noun:.*"></token>
                     </unify>
                 </pattern>
                 <message>Неузгоджений рід/число/відмінок</message>
-                <example type="correct">Синього відтінку.</example>
-                <example type="incorrect"><marker>Синя відтінок</marker>.</example>
+                <example type="correct">Синя яхта</example>
+                <example type="correct">Гарні вірші</example>
+                <example type="incorrect"><marker>Синій яхта</marker>.</example>
             </rule>
         </rulegroup>
 -->
@@ -271,7 +292,7 @@ $Id$
             </rule>
         </rulegroup>
 -->
-        <rulegroup name="Більш з числівниками" id="BILSH_WITH_NUMERICS">
+        <rulegroup name="Більш з числівниками" id="BILSHE_WITH_NUMERICS">
             <rule>
                 <pattern>
                     <token>більше</token>
@@ -494,7 +515,7 @@ $Id$
                 <example type="incorrect">Бере книжку <marker>з</marker> стола.</example>
             </rule>
         </rulegroup>
-              -->
+            -->
     </category>
 
     <category name="Borrowings">
@@ -538,7 +559,53 @@ $Id$
          <example type="incorrect"><marker>Вільної вакансії</marker></example>
          <example type="correct"><marker>вакансію</marker></example>
        </rule>
-
+       <rule>
+         <pattern>
+           <token inflected="yes">уявляти</token>
+           <token>з</token>
+           <token>себе</token>
+          </pattern>
+         <message>Правильно: <suggestion>являти собою</suggestion>, <suggestion>бути</suggestion>, <suggestion>становити</suggestion>.</message>
+         <example type="incorrect">Рід <marker>уявляє з себе</marker> справді щось стале</example>
+         <example type="correct">Рід є справді щось стале</example>
+       </rule>
+       <rule>
+         <pattern>
+           <token>нема</token>
+           <token>необхідності</token>
+          </pattern>
+         <message>Правильно: <suggestion>нема потреби</suggestion>.</message>
+         <example type="incorrect"><marker>Нема необхідності</marker> щось робити</example>
+         <example type="correct">Нема потреби щось робити</example>
+       </rule>
+       <rule>
+         <pattern>
+           <marker>
+           <token inflected="yes">любий</token>
+           </marker>
+           <token postag="noun.*" postag_regexp="yes">
+                <exception postag=".*v_(kly|dav).*" postag_regexp="yes"/>
+          </token>
+          </pattern>
+         <message>Правильно: <suggestion>будь-який</suggestion>, <suggestion>перший кращий</suggestion>, <suggestion>усякий</suggestion>, часом також <suggestion>аби-який</suggestion>.</message>
+         <example type="incorrect"><marker>Любого</marker> метелика можна впіймати</example>
+         <example type="correct">Будь-якого метелика можна впіймати</example>
+         <example type="correct">А оце, любий друже, вже серйозно</example>
+         <example type="correct">Любий серцю портрет</example>
+       </rule>
+       <!--
+       <rule>
+         <pattern>
+           <marker>
+           <token inflected="yes">вибачаюсь</token>
+           </marker>
+           <token regexp="yes">[,]</token>
+          </pattern>
+         <message>Правильно: <suggestion>вибачайте</suggestion>, <suggestion>вибачте</suggestion>, <suggestion>даруйте</suggestion>, <suggestion>пробачте</suggestion>.</message>
+         <example type="incorrect">Це, <marker>вибачаюсь</marker>, вже зовсім непорядно</example>
+         <example type="correct">Це, даруйте, вже зовсім непорядно</example>
+       </rule>
+        -->
      </rulegroup>
 
    </category> 
