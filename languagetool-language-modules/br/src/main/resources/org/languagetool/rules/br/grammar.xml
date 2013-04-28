@@ -1558,7 +1558,7 @@ $Id$
       <rule>
         <pattern>
           <token>da</token>
-          <token regexp="yes">['’]</token>
+          <token>’</token>
           <token>z</token>
           <marker>
             <token regexp="yes">b.*</token>
@@ -1583,7 +1583,7 @@ $Id$
       <rule>
         <pattern>
           <token>da</token>
-          <token regexp="yes">['’]</token>
+          <token>’</token>
           <token>z</token>
           <marker>
             <token regexp="yes">d.*</token>
@@ -1608,7 +1608,7 @@ $Id$
       <rule>
         <pattern>
           <token>da</token>
-          <token regexp="yes">['’]</token>
+          <token>’</token>
           <token>z</token>
           <marker>
             <token regexp="yes">g.*</token>
@@ -7602,7 +7602,7 @@ $Id$
       <rule>
         <pattern>
           <token regexp="yes">[ae]</token>
-          <token regexp="yes">[’']</token>
+          <token>’</token>
           <token>z</token>
         </pattern>
         <message>Ret eo skrivañ <suggestion>\1z</suggestion>. (CHALM M1.4.1)</message>
@@ -7823,6 +7823,260 @@ $Id$
         <example type="incorrect" correction="Gwezhall-gozh"><marker>Gwezhall kozh</marker>.</example>
         <example type="correct"><marker>Gwechall-gozh</marker>.</example>
         <example type="correct"><marker>Gwezhall-gozh</marker>.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="O_DA" name="o →  da">
+      <rule>
+        <pattern>
+          <token regexp="yes">aon|bec’h|diegi|displijadur|glac’har|mezh|poan|plijadur</token>
+          <token postag="X KAOUT1"/>
+          <token postag="X KAOUT2"/>
+          <marker><token>da</token></marker>
+          <token postag="V inf" regexp="yes">[^aeiouh].*</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>o</suggestion>?</message>
+        <example type="incorrect">Plijadur am bez <marker>da</marker> selaou ar mor.</example>
+        <example type="correct">Plijadur am bez <marker>o</marker> selaou ar mor.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">aon|bec’h|diegi|displijadur|glac’har|mezh|poan|plijadur</token>
+          <token postag="X KAOUT1"/>
+          <token postag="X KAOUT2"/>
+          <marker><token regexp="yes">d[a’]</token></marker>
+          <token postag="V inf" regexp="yes" spacebefore="yes">[aeiouh].*</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>oc’h</suggestion>?</message>
+        <example type="incorrect">Plijadur am bez <marker>da</marker> ober se.</example>
+        <example type="incorrect">Plijadur am bez <marker>d’</marker> ober se.</example>
+        <example type="correct">Plijadur am bez <marker>oc’h</marker> obser se.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">aon|bec’h|diegi|displijadur|glac’har|mezh|poan|plijadur</token>
+          <token postag="X KAOUT1"/>
+          <token postag="X KAOUT2"/>
+          <marker>
+            <token>d’</token>
+            <token postag="V inf" regexp="yes" spacebefore="no">[aeiouh].*</token>
+          </marker>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>oc’h \5</suggestion>?</message>
+        <example type="incorrect">Plijadur am bez <marker>d’ober</marker> se.</example>
+        <example type="correct">Plijadur am bez <marker>och d’ober</marker> se.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">aon|bec’h|diegi|displijadur|glac’har|mezh|poan|plijadur</token>
+          <token postag="X KAOUT1"/>
+          <token postag="X KAOUT2"/>
+          <marker><token>da</token></marker>
+          <token postag="V inf M:1:.*:" postag_regexp="yes" regexp="yes" inflected="yes">[mgb].*</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>o</suggestion>?</message>
+        <example type="incorrect">Plijadur am beze <marker>da</marker> vont di.</example>
+        <example type="correct">Plijadur am beze o vont di.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">aon|bec’h|diegi|displijadur|glac’har|mezh|poan|plijadur</token>
+          <token postag="X KAOUT1"/>
+          <token postag="X KAOUT2"/>
+          <marker>
+            <token>da</token>
+            <token postag="V inf M:1:1a:" regexp="yes" inflected="yes">k.*</token>
+          </marker>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>o <match no="5" regexp_match="^." regexp_replace="k"/></suggestion>?</message>
+        <example type="incorrect">Plijadur am eus <marker>da glevout</marker> se.</example>
+        <example type="correct">Plijadur am eus o klevout se.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">aon|bec’h|diegi|displijadur|glac’har|mezh|poan|plijadur</token>
+          <token postag="X KAOUT1"/>
+          <token postag="X KAOUT2"/>
+          <marker>
+            <token>da</token>
+            <token postag="V inf M:1:1a:" regexp="yes" inflected="yes">p.*</token>
+          </marker>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>o <match no="5" regexp_match="^." regexp_replace="p"/></suggestion>?</message>
+        <example type="incorrect" correction="o prenañ">Plijadur am eus <marker>da brenañ</marker> se.</example>
+        <example type="correct">Plijadur am eus <marker>o</marker> prenañ se.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">aon|bec’h|diegi|displijadur|glac’har|mezh|poan|plijadur</token>
+          <token postag="X KAOUT1"/>
+          <token postag="X KAOUT2"/>
+          <marker>
+            <token>da</token>
+            <token postag="V inf M:1:1a:" regexp="yes" inflected="yes">t.*</token>
+          </marker>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>o <match no="5" regexp_match="^." regexp_replace="t"/></suggestion>?</message>
+        <example type="incorrect" correction="o touzañ">Plijadur am eus <marker>da douzañ</marker> al leton.</example>
+        <example type="correct">Plijadur am eus <marker>o touzañ</marker> al leton.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">aon|bec’h|diegi|displijadur|glac’har|mezh|poan|plijadur</token>
+          <token postag="X KAOUT1"/>
+          <token postag="X KAOUT2"/>
+          <marker>
+            <token>da</token>
+            <token postag="V inf M:1:1b:4:" regexp="yes" inflected="yes">d.*</token>
+          </marker>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>o <match no="5" regexp_match="^." regexp_replace="t"/></suggestion>?</message>
+        <example type="incorrect" correction="o teskiñ">Plijadur am eus <marker>da zeskiñ</marker> brezhoneg.</example>
+        <example type="correct">Plijadur am eus teskiñ brezhoneg.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token regexp="yes">estonet|klañv|laouen|nec’het|plijet|skuizh|souezhet|spontet|trist</token>
+          <token regexp="yes">on|out|eo|omp|oc’h|int|eur</token>
+          <marker><token>da</token></marker>
+          <token postag="V inf" regexp="yes">[^aeiouh].*</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>o</suggestion>?</message>
+        <example type="incorrect">Laouen on <marker>da</marker> lenn e plij deoc’h.</example>
+        <example type="correct">Laouen on o lenn e plij deoc’h.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">estonet|klañv|laouen|nec’het|plijet|skuizh|souezhet|spontet|trist</token>
+          <token regexp="yes">on|out|eo|omp|oc’h|int|eur</token>
+          <marker><token regexp="yes">d[a’]</token></marker>
+          <token postag="V inf" regexp="yes" spacebefore="yes">[aeiouh].*</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>oc’h</suggestion>?</message>
+        <example type="incorrect" correction="oc’h">Laouen on <marker>da</marker> ober anaoudegezh ganeoc’h.</example>
+        <example type="incorrect" correction="oc’h">Laouen on <marker>d’</marker> ober anaoudegezh ganeoc’h.</example>
+        <example type="correct">Laouen on oc’h ober anaoudegezh ganeoc’h.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes"estonet|>klañv|laouen|nec’het|plijet|skuizh|souezhet|spontet|trist</token>
+          <token regexp="yes">on|out|eo|omp|oc’h|int|eur</token>
+          <marker>
+            <token>d’</token>
+            <token postag="V inf" regexp="yes" spacebefore="no">[aeiouh].*</token>
+          </marker>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>oc’h \4</suggestion>?</message>
+        <example type="incorrect" correction="oc’h ober">Laouen on <marker>d’ober</marker> anaoudegezh ganeoc’h.</example>
+        <example type="correct">Laouen on oc’h ober anaoudegezh ganeoc’h.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token regexp="yes"estonet|>klañv|laouen|nec’het|plijet|skuizh|souezhet|spontet|trist</token>
+          <token>e</token>
+          <token regexp="yes">oan|oas|oa|oamp|oac‘h|oant|oad|vin|vi|vo|vimp|viot|vioc’h|vint|vior|vezan|vezez|vez|vezomp|vezit|vezont|vezer|vezen|vezes|veze|vezemp|vezec’h|vezent|vezed|vezin|vezi|vezo|vezimp|vezoc’h|vezint|vezor|vefen|vefes|vefemp|vefec’h|vefent|vefed|vijen|vijes|vije|vijemp|vijec’h|vijent|vijed</token>
+          <marker><token>da</token></marker>
+          <token postag="V inf" regexp="yes">[^aeiouh].*</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>o</suggestion>?</message>
+        <example type="incorrect">Laouen e oan <marker>da</marker> lenn e plije deoc’h.</example>
+        <example type="correct">Laouen e oan o lenn e plije deoc’h.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes"estonet|>klañv|laouen|nec’het|plijet|skuizh|souezhet|spontet|trist</token>
+          <token>e</token>
+          <token regexp="yes">oan|oas|oa|oamp|oac‘h|oant|oad|vin|vi|vo|vimp|viot|vioc’h|vint|vior|vezan|vezez|vez|vezomp|vezit|vezont|vezer|vezen|vezes|veze|vezemp|vezec’h|vezent|vezed|vezin|vezi|vezo|vezimp|vezoc’h|vezint|vezor|vefen|vefes|vefemp|vefec’h|vefent|vefed|vijen|vijes|vije|vijemp|vijec’h|vijent|vijed</token>
+          <marker><token regexp="yes">d[a’]</token></marker>
+          <token postag="V inf" regexp="yes" spacebefore="yes">[aeiouh].*</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>oc’h</suggestion>?</message>
+        <example type="incorrect">Laouen e oan <marker>da</marker> ober anaoudegezh ganeoc’h.</example>
+        <example type="incorrect">Laouen e oan <marker>d’</marker> ober anaoudegezh ganeoc’h.</example>
+        <example type="correct">Laouen e oan oc’h ober anaoudegezh ganeoc’h.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes"estonet|>klañv|laouen|nec’het|plijet|skuizh|souezhet|spontet|trist</token>
+          <token>e</token>
+          <token regexp="yes">oan|oas|oa|oamp|oac‘h|oant|oad|vin|vi|vo|vimp|viot|vioc’h|vint|vior|vezan|vezez|vez|vezomp|vezit|vezont|vezer|vezen|vezes|veze|vezemp|vezec’h|vezent|vezed|vezin|vezi|vezo|vezimp|vezoc’h|vezint|vezor|vefen|vefes|vefemp|vefec’h|vefent|vefed|vijen|vijes|vije|vijemp|vijec’h|vijent|vijed</token>
+          <marker>
+            <token>d’</token>
+            <token postag="V inf" regexp="yes" spacebefore="no">[aeiouh].*</token>
+          </marker>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>oc’h \5</suggestion>?</message>
+        <example type="incorrect" correction="oc’h ober">Laouen e oamp <marker>d’ober</marker> anaoudegezh ganeoc’h.</example>
+        <example type="correct">Laouen e oamp oc’h ober anaoudegezh ganeoc’h.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes"estonet|>klañv|laouen|nec’het|plijet|skuizh|souezhet|spontet|trist</token>
+          <token>e</token>
+          <token regexp="yes">oan|oas|oa|oamp|oac‘h|oant|oad|vin|vi|vo|vimp|viot|vioc’h|vint|vior|vezan|vezez|vez|vezomp|vezit|vezont|vezer|vezen|vezes|veze|vezemp|vezec’h|vezent|vezed|vezin|vezi|vezo|vezimp|vezoc’h|vezint|vezor|vefen|vefes|vefemp|vefec’h|vefent|vefed|vijen|vijes|vije|vijemp|vijec’h|vijent|vijed</token>
+          <marker><token>da</token></marker>
+          <token postag="V inf M:1:.*:" postag_regexp="yes" regexp="yes" inflected="yes">[mgb].*</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>o</suggestion>?</message>
+        <example type="incorrect">Laouen e oan <marker>da</marker> vont.</example>
+        <example type="correct">Laouen e oan <marker>o</marker> vont.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes"estonet|>klañv|laouen|nec’het|plijet|skuizh|souezhet|spontet|trist</token>
+          <token>e</token>
+          <token regexp="yes">oan|oas|oa|oamp|oac‘h|oant|oad|vin|vi|vo|vimp|viot|vioc’h|vint|vior|vezan|vezez|vez|vezomp|vezit|vezont|vezer|vezen|vezes|veze|vezemp|vezec’h|vezent|vezed|vezin|vezi|vezo|vezimp|vezoc’h|vezint|vezor|vefen|vefes|vefemp|vefec’h|vefent|vefed|vijen|vijes|vije|vijemp|vijec’h|vijent|vijed</token>
+          <marker>
+            <token>da</token>
+            <token postag="V inf M:1:1a:" regexp="yes" inflected="yes">k.*</token>
+          </marker>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>o <match no="5" regexp_match="^." regexp_replace="k"/></suggestion>?</message>
+        <example type="incorrect" correction="o klevout">Laouen e oan <marker>da glevout</marker> se.</example>
+        <example type="correct">Laouen e oan <marker>o klevout</marker> se.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes"estonet|>klañv|laouen|nec’het|plijet|skuizh|souezhet|spontet|trist</token>
+          <token>e</token>
+          <token regexp="yes">oan|oas|oa|oamp|oac‘h|oant|oad|vin|vi|vo|vimp|viot|vioc’h|vint|vior|vezan|vezez|vez|vezomp|vezit|vezont|vezer|vezen|vezes|veze|vezemp|vezec’h|vezent|vezed|vezin|vezi|vezo|vezimp|vezoc’h|vezint|vezor|vefen|vefes|vefemp|vefec’h|vefent|vefed|vijen|vijes|vije|vijemp|vijec’h|vijent|vijed</token>
+          <marker>
+            <token>da</token>
+            <token postag="V inf M:1:1a:" regexp="yes" inflected="yes">p.*</token>
+          </marker>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>o <match no="5" regexp_match="^." regexp_replace="p"/></suggestion>?</message>
+        <example type="incorrect" correction="o prenañ">Laouen e oan <marker>da brenañ</marker> se.</example>
+        <example type="correct">Laouen e oan <marker>da prenañ</marker> se.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes"estonet|>klañv|laouen|nec’het|plijet|skuizh|souezhet|spontet|trist</token>
+          <token>e</token>
+          <token regexp="yes">oan|oas|oa|oamp|oac‘h|oant|oad|vin|vi|vo|vimp|viot|vioc’h|vint|vior|vezan|vezez|vez|vezomp|vezit|vezont|vezer|vezen|vezes|veze|vezemp|vezec’h|vezent|vezed|vezin|vezi|vezo|vezimp|vezoc’h|vezint|vezor|vefen|vefes|vefemp|vefec’h|vefent|vefed|vijen|vijes|vije|vijemp|vijec’h|vijent|vijed</token>
+          <marker>
+            <token>da</token>
+            <token postag="V inf M:1:1a:" regexp="yes" inflected="yes">t.*</token>
+          </marker>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>o <match no="5" regexp_match="^." regexp_replace="t"/></suggestion>?</message>
+        <example type="incorrect" correction="o touzañ">Laouen e oan <marker>da douzañ</marker> ho leton.</example>
+        <example type="correct">Laouen e oan <marker>o touzañ</marker> ho leton.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes"estonet|>klañv|laouen|nec’het|plijet|skuizh|souezhet|spontet|trist</token>
+          <token>e</token>
+          <token regexp="yes">oan|oas|oa|oamp|oac‘h|oant|oad|vin|vi|vo|vimp|viot|vioc’h|vint|vior|vezan|vezez|vez|vezomp|vezit|vezont|vezer|vezen|vezes|veze|vezemp|vezec’h|vezent|vezed|vezin|vezi|vezo|vezimp|vezoc’h|vezint|vezor|vefen|vefes|vefemp|vefec’h|vefent|vefed|vijen|vijes|vije|vijemp|vijec’h|vijent|vijed</token>
+          <marker>
+            <token>da</token>
+            <token postag="V inf M:1:1b:4:" regexp="yes" inflected="yes">d.*</token>
+          </marker>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>o <match no="5" regexp_match="^." regexp_replace="t"/></suggestion>?</message>
+        <example type="incorrect" correction="o teskiñ">Laouen e oan <marker>da zeskiñ</marker> brezhoneg.</example>
+        <example type="correct">Laouen e oan o teskiñ brezhoneg.</example>
       </rule>
     </rulegroup>
   </category>
