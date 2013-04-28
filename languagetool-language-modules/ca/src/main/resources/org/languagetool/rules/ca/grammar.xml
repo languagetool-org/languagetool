@@ -4491,6 +4491,17 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+    	<rule id="ANALS_ANNALS" name="anals / annals">
+		    <pattern>
+		        <token postag="D[DAI].*" postag_regexp="yes"/>
+		        <marker>
+		        	<token>anals</token>
+		        </marker>
+		    </pattern>
+		    <message>¿Volíeu dir <suggestion>annals</suggestion> en comptes de "anal" (= relatiu a l'anus)</message>
+		    <example type="incorrect" correction="annals">Segons els <marker>anals</marker> del monestir</example>
+		    <example type="correct">els annals</example>
+		</rule>
     	<rule id="CONFOSAMENT" name="confosament, difosament">
     		<pattern>
     			<token regexp="yes">(con|di)fosament</token>
@@ -10985,13 +10996,14 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="D[^R].FS.*" postag_regexp="yes"/>
+                    <token postag="D[^R].F.*" postag_regexp="yes"/>
                     <marker>
-                        <token>abaixada</token>
+                        <token regexp="yes">abaixad(a|es)</token>
                     </marker>
                 </pattern>
-                <message>¿Volíeu dir <suggestion>baixada</suggestion>?</message>
-                <example type="incorrect">una <marker>abaixada</marker> de preus</example>
+                <message>¿Volíeu dir <suggestion><match no="2" regexp_match="a(.+)" regexp_replace="$1" /></suggestion>?</message>
+                <example type="incorrect" correction="baixada">una <marker>abaixada</marker> de preus</example>
+                <example type="incorrect" correction="baixades">Tantes <marker>abaixades</marker> de pantalons</example>
                 <example type="correct">una baixada de preus</example>
             </rule>
         </rulegroup>
@@ -15173,7 +15185,7 @@ $Id$
                     <marker>
                         <token inflected="yes" skip="-1">acomplir</token>
                     </marker> <!-- casos dubtosos: tràmits, missió -->
-                    <token regexp="yes">profeci(a|es)|pronòstics?|deures?|obligaci(ó|ons)|promes(a|es)|objectius?|anys?|desigs?|desitjos|mes|mesos|setman(a|es)|requisits?</token>
+                    <token regexp="yes">condici(ó|ons)|profeci(a|es)|pronòstics?|deures?|obligaci(ó|ons)|promes(a|es)|objectius?|anys?|desigs?|desitjos|mes|mesos|setman(a|es)|requisits?</token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="1" regexp_match="a(.+)" regexp_replace="$1"/></suggestion> en comptes de '<match no="1"/>' (=dur a terme, executar) .</message>
                 <example type="incorrect" correction="complir">Ahir va <marker>acomplir</marker> tres anys.</example>
@@ -15181,7 +15193,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes" skip="-1">profeci(a|es)|pronòstics?|deures?|obligaci(ó|ons)|promes(a|es)|objectius?|anys?|desigs?|desitjos|mes|mesos|setman(a|es)|requisits?</token>
+                    <token regexp="yes" skip="-1">condici(ó|ons)|profeci(a|es)|pronòstics?|deures?|obligaci(ó|ons)|promes(a|es)|objectius?|anys?|desigs?|desitjos|mes|mesos|setman(a|es)|requisits?</token>
                     <marker>
                         <token inflected="yes">acomplir</token>
                     </marker>
@@ -16587,7 +16599,7 @@ $Id$
     	</rulegroup>
     	<rule id="ALS_TRES_ANYS" name="Revisa: als tres anys/a tres anys/al cap de tres anys">
             <pattern>
-                <token><exception regexp="yes" inflected="yes">corresponent|proper|pròxim</exception><exception>respecte</exception><exception postag="DN.*" postag_regexp="yes"/></token>
+                <token><exception regexp="yes" inflected="yes">corresponent|proper|pròxim|homenatge</exception><exception>respecte</exception><exception postag="DN.*" postag_regexp="yes"/></token>
 				<marker>
                     <token>a</token>
                     <token spacebefore="no">ls</token>
@@ -17189,7 +17201,7 @@ $Id$
             <example type="correct">en forma de dit polze </example>
         </rule>
         <rulegroup id="MONT_MUNTANYA" name="mont/muntanya">
-            <rule>
+            <!-- <rule>
                 <pattern>
                     <marker>
                         <token postag="D[^R].*" postag_regexp="yes"/>
@@ -17202,20 +17214,34 @@ $Id$
                 <example type="incorrect" correction="aquestes muntanyes">Són <marker>aquests monts</marker>.</example>
                 <example type="correct">el mont Carmel</example>
                 <example type="correct">dels monts Universals</example>
-            </rule>
+            </rule> -->
             <rule>
                 <pattern>
-                    <token postag="D[^R].*" postag_regexp="yes" negate_pos="yes"/>
                     <marker>
                         <token regexp="yes">monts?<exception postag="_possible_nompropi"/></token>
                     </marker>
-                    <token><exception regexp="yes">\p{Lu}[\p{Ll}·]*</exception></token>
+                    <token><exception regexp="yes">\p{Lu}[\p{Ll}·]*|de</exception></token>
                 </pattern>
-                <message>Val més dir: <suggestion><match no="2" postag="NCM(.*)" postag_regexp="yes" postag_replace="NCF$1">muntanya</match></suggestion>.</message>
-                <example type="incorrect" correction="muntanya"><marker>mont</marker> del Sinaí</example>
+                <message>Val més dir: <suggestion><match no="1" postag="NCM(.*)" postag_regexp="yes" postag_replace="NCF$1">muntanya</match></suggestion>.</message>
+                <example type="incorrect" correction="muntanyes">Són aquests <marker>monts</marker>.</example>
                 <example type="incorrect" correction="muntanyes">Són <marker>monts</marker> magnífics.</example>
                 <example type="correct">mont Carmel</example>
                 <example type="correct">monts Universals</example>
+                <example type="correct">monts de pietat</example>
+                <example type="correct">mont de Venus</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">monts?<exception postag="_possible_nompropi"/></token>
+                    </marker>
+                    <token>de</token>
+                    <token><exception regexp="yes">Venus|pietat</exception></token>
+                </pattern>
+                <message>Val més dir: <suggestion><match no="1" postag="NCM(.*)" postag_regexp="yes" postag_replace="NCF$1">muntanya</match></suggestion>.</message>
+                <example type="incorrect" correction="muntanya"><marker>mont</marker> del Sinaí</example>
+                <example type="correct">monts de pietat</example>
+                <example type="correct">mont de Venus</example>
             </rule>
         </rulegroup>
         <rule id="AMB_MOLT" name="amb molt">
