@@ -1476,6 +1476,34 @@ $Id$
         </rulegroup>
     </category>
     <category name="Verbs" type="grammar">
+    	<rulegroup id="CONCORDANCES_CALDRE" name="concordança del verb caldre">
+    		<rule>
+			    <pattern>
+			    	<marker>
+			        	<token postag="VM..3S.." postag_regexp="yes" inflected="yes">caldre</token>
+			        </marker>
+			        <token postag="N..P.*|_GN_.P" postag_regexp="yes"/>
+			    </pattern>
+			    <message>Possible error de concordança.</message>
+			    <suggestion><match no="1" postag="(VM..3)S(..)" postag_regexp="yes" postag_replace="$1P$2"/></suggestion>
+			    <short>Error de concordança</short>
+			    <example type="incorrect" correction="Calien"><marker>Calia</marker> accions contundents.</example>
+			    <example type="correct">calen accions</example>
+			</rule>
+			<rule>
+			    <pattern>
+			    	<marker>
+			        	<token postag="VM..3P.." postag_regexp="yes" inflected="yes">caldre</token>
+			        </marker>
+			        <token postag="N..S.*|_GN_.S" postag_regexp="yes"/>
+			    </pattern>
+			    <message>Possible error de concordança</message>
+			    <suggestion><match no="1" postag="(VM..3)P(..)" postag_regexp="yes" postag_replace="$1S$2"/></suggestion>
+			    <short>Error de concordança</short>
+			    <example type="incorrect" correction="Caldria"><marker>Caldrien</marker> una acció directa.</example>
+			    <example type="correct">caldrien accions</example>
+			</rule>
+		</rulegroup>
         <rule id="VENIR_GERUNDI" name="*venir + gerundi">
             <pattern>
                 <token>es</token>
