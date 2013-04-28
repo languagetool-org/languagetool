@@ -555,7 +555,7 @@ $Id$
                         <unify negate="yes">
                             <feature id="nombre" />
                             <feature id="genere" />
-                            <token postag="D[^ARN].*" postag_regexp="yes"><exception postag="complement.*|_GN_.*|allow_tant|contraccio" postag_regexp="yes" /></token>
+                            <token postag="D[^ARN].*" postag_regexp="yes"><exception postag="_GN_.*|allow_tant|contraccio" postag_regexp="yes" /><exception postag="complement.*" postag_regexp="yes" regexp="yes">tot(a|s|es)?</exception></token>
                             <token postag="N.M.*" postag_regexp="yes"><exception postag="N.CN.*|_GN_.*|V.[IS].*" postag_regexp="yes" /></token>
                         </unify>
                     </marker>
@@ -566,6 +566,7 @@ $Id$
                 <short>Error de concordança</short>
                 <example type="incorrect" correction="aquell camió|aquells camions">Porta <marker>aquell camions</marker>.</example>
                 <example type="incorrect" correction="tant home|tants homes|tants hòmens">Per què hi ha <marker>tant homes</marker>?</example>
+                <example type="incorrect" correction="algun error|alguns errors">Per a <marker>algunes errors</marker> que detecta.</example>
                 <!-- <example type="incorrect" correction="Aquell pi|Aquell pis|Aquells pins|Aquells pisos"><marker>Aquells pis</marker>.</example> -->
                 <example type="correct">Aquests pisos.</example>
                 <example type="correct">Aqueixos pins.</example>
