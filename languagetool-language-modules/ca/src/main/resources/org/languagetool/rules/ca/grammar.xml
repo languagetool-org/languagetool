@@ -3401,6 +3401,44 @@ $Id$
         </rule>
     </category>
     <category name="Z) Conjuncions" type="grammar">
+    	<rulegroup id="DONCS_CAUSAL" name="*'doncs' causal">
+    		<rule>
+			    <pattern>
+			    	<token regexp="yes">[,;]</token>
+			        <marker>
+			        	<token>doncs</token>
+			        </marker>
+			        <token><exception>,</exception></token>
+			    </pattern>
+			    <message>'Doncs' no té valor causal. És correcte si equival a "per tant", però llavors sol anar entre comes: <suggestion>doncs,</suggestion></message> 
+			    <suggestion>perquè</suggestion>
+			    <suggestion>ja que</suggestion>
+			    <suggestion>puix</suggestion>
+			    <suggestion>puix que</suggestion>
+			    <url>http://esadir.cat/sintaxi/conjdoncs/view</url>
+			    <short>Possible error</short>
+			    <example type="incorrect">Vingué, <marker>doncs</marker> això li agradava.</example>
+			    <example type="correct">Això era, doncs, el que li agradava.</example>
+			</rule>
+			<!-- <rule>
+			    <pattern>
+			    	<token><exception regexp="yes">[,;]</exception></token>
+			        <marker>
+			        	<token>doncs</token>
+			        </marker>
+			        <token><exception>,</exception></token>
+			    </pattern>
+			    <message>'Doncs' no té valor causal. Correcte si equival a "per tant", però llavors sol anar entre comes: <suggestion>, doncs,</suggestion></message> 
+			    <suggestion>perquè</suggestion>
+			    <suggestion>ja que</suggestion>
+			    <suggestion>puix</suggestion>
+			    <suggestion>puix que</suggestion>
+			    <url>http://esadir.cat/sintaxi/conjdoncs/view</url>
+			    <short>Possible error</short>
+			    <example type="incorrect">Vingué <marker>doncs</marker> això li agradava.</example>
+			    <example type="correct">Això era, doncs, el que li agradava.</example>
+			</rule> -->
+		</rulegroup>	
     	<rule id="NO_OBSTANT" name="no obstant/això no obstant">
 		    <pattern>
 		    	<token><exception>això</exception></token>
@@ -10131,6 +10169,18 @@ $Id$
         </rulegroup>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+    	<rule id="ERRA_QUE_ERRA" name="erra que erra">
+		    <pattern>
+		        <token regexp="yes">err[ea]</token>
+		        <token>que</token>
+		        <token regexp="yes">err[ea]</token>
+		    </pattern>
+		    <message>Expressió incorrecta.</message>
+		    <suggestion>tretze són tretze</suggestion>
+		    <suggestion>tossut que tossut</suggestion>
+		    <example type="incorrect"><marker>erra que erra</marker></example>
+		    <example type="correct">tretze són tretze</example>
+		</rule>
     	<rule id="AIXECAR_AMPOLLES" name="* aixecar/alçar ampolles/butllofes">
             <pattern>
                 <marker>
@@ -18360,6 +18410,7 @@ $Id$
                 <example type="correct">us barrarem el pas espasa en mà</example>
                 <example type="correct">com a exemple exemple</example>
                 <example type="correct">a fer tantes coses anys enrere.</example>
+                <example type="correct">No s'hi ha fet front.</example>
             </rule>
         </rulegroup>
         <rulegroup id="FALTA_ELEMENT_ENTRE_GN" name="Falta un element entre grups nominals" default="off">
