@@ -1290,6 +1290,7 @@ $Id$
             <rule id="EDITORIAL" name="editorial (m/f)">
                 <pattern>
                     <token skip="5" regexp="yes" inflected="yes">defensar|expressar|rebre|enviar|consensuar|acordar|escriure|redactar|fer|llegir|firmar|signar</token>
+                    <token postag="D[^R].*" postag_regexp="yes"/>
                     <marker>
                         <token postag="_GN_F.*" postag_regexp="yes" regexp="yes">editorials?<exception postag="_GN_M.*" postag_regexp="yes"/></token>
                     </marker>
@@ -1298,6 +1299,7 @@ $Id$
                 <message>En el sentit de 'article de fons' és masculí. En el sentit de 'empresa editora' és femení.</message>
                 <short>Possible error de concordança</short>
                 <example type="incorrect">Vaig llegir aquella <marker>editorial</marker> horrorosa</example>
+                <example type="correct">Tal com ho hem fet: amb independència editorial</example>
                 <example type="correct">Vaig llegir l'editorial</example>
                 <example type="correct">de l'editorial Nova Terra</example>
                 <example type="correct">que va trobar publicada en una petita editorial</example>
@@ -2980,7 +2982,9 @@ $Id$
                     </marker>
                     <token postag="N.*" postag_regexp="yes"><exception postag="A.*|V.P.*|PX.*|DI.*" postag_regexp="yes"/><exception inflected="yes">ase</exception></token>
                 </pattern>
-                <message>Davant de nom cal escriure <suggestion>tant</suggestion>, <suggestion>tant de</suggestion> o <suggestion>tant d'</suggestion>.</message>
+                <message>Davant de nom cal escriure <suggestion>tant</suggestion>.</message>
+                <suggestion>tant de</suggestion>
+                <suggestion>tant d'</suggestion>
                 <short>Confusió</short>
                 <example type="incorrect">Fa <marker>tan</marker> vent!</example>
                 <example type="correct">Fa tant vent!</example>
@@ -12397,7 +12401,8 @@ $Id$
                         <token regexp="yes">de|d'</token>
                     </marker>
                 </pattern>
-                <message>Val més dir <suggestion>entorn <match no="5"></match></suggestion> o <suggestion>al voltant <match no="5"></match></suggestion>.</message>
+                <message>Val més dir <suggestion>entorn <match no="5"></match></suggestion>.</message>
+                 <suggestion>al voltant <match no="5"/></suggestion>
                 <short>Expressió preferible</short>
                 <example type="incorrect"><marker>A l'entorn de</marker> la botiga hi ha molta gent</example>
                 <example type="correct">Al voltant la botiga hi ha molta gent</example>
@@ -12412,7 +12417,8 @@ $Id$
                         <token regexp="yes">de|d'</token>
                     </marker>
                 </pattern>
-                <message>Val més dir <suggestion>entorn <match no="5"></match></suggestion> o <suggestion>tot al voltant <match no="5"></match></suggestion>.</message>
+                <message>Val més dir <suggestion>entorn <match no="5"></match></suggestion>.</message>
+                <suggestion>tot al voltant <match no="5"/></suggestion>
                 <short>Expressió preferible</short>
                 <example type="incorrect"><marker>Tot a l'entorn de</marker> la botiga hi ha molta gent</example>
                 <example type="correct">Tot al voltant de la botiga hi ha molta gent</example>
