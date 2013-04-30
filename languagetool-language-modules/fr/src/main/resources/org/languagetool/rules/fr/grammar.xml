@@ -2150,6 +2150,18 @@ though, and has since been slightly modified)-->
       <example type="correct">Tu viendras quand même ?</example>
       <example type="correct">Comme même ses meilleurs amis n’étaient pas venus, il était triste.</example>
     </rule>
+    <rule id="DE_PUIS" name="de puis → depuis">
+      <pattern>
+        <marker>
+          <token>de</token>
+          <token regexp="yes">(?-i)puis</token>
+        </marker>
+      </pattern>
+      <message>Voulez-vous écrire <suggestion>\1puis</suggestion> ?</message>
+      <example type="incorrect" correction="depuis">J’habite <marker>de puis</marker> longtemps à Paris.</example>
+      <example type="correct">J’habite <marker>depuis</marker> longtemps à Paris.</example>
+      <example type="correct">Mon nom est Robert <marker>de Puis</marker>.</example>
+    </rule>
     <rulegroup id="IMMINENT_EMINENT" name="imminent et éminent">
       <rule>
         <pattern>
@@ -7838,6 +7850,14 @@ though, and has since been slightly modified)-->
         <example type="correct">Méfiez-vous de cette <marker>soi-disant</marker> sorcière.</example>
       </rule>
     </rulegroup>
+    <rule id="EUX_MEMES" name="eux-même → eux-mêmes">
+      <pattern><token regexp="yes">(nous|eux|elles)-même</token></pattern>
+      <message>Voulez-vous écrire <suggestion>\1s</suggestion> ?</message>
+      <example type="incorrect">Elles y arrivent <marker>elles-même</marker>.</example>
+      <example type="correct">Elles y arrivent elles-mêmes.</example>
+      <example type="correct">Vous y arriverez vous-mêmes.</example>
+      <example type="correct">Monsieur, vous y arriverez vous-même.</example>
+    </rule>
   </category>
   <category default="off" name="Régionalismes">
     <!--The following rules were created by Hugo Voisard-->
