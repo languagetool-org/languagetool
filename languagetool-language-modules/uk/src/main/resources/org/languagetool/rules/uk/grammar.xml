@@ -116,12 +116,21 @@ $Id$
             <rule>
                 <pattern case_sensitive="yes">
                     <token negate="yes" regexp="yes">[\p{Punct}–—\(«АаІі]<exception postag="SENT_START"></exception></token>
-                    <token regexp="yes">мабуть|врешті|по-перше|по-друге|по-третє|щоправда|о?крім того|втім</token>
+                    <token regexp="yes">мабуть|врешті|щоправда|о?крім того|втім</token>
                 </pattern>
                 <message>Відсутня ліва кома: <suggestion>\1, \2</suggestion>.</message>
-                <example type="correct"><marker>Мабуть,</marker> це водій.</example>
-                <example type="correct">Це<marker>, мабуть</marker>, водій.</example>
+                <example type="correct">Мабуть, це водій.</example>
+                <example type="correct">Це, мабуть, водій.</example>
                 <example type="incorrect"><marker>Це мабуть</marker>, водій.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token negate="yes" regexp="yes">[\p{Punct}–—\(«АаІі]|Це<exception postag="SENT_START"></exception></token>
+                    <token regexp="yes">по-перше|по-друге|по-третє</token>
+                </pattern>
+                <message>Відсутня ліва кома: <suggestion>\1, \2</suggestion>.</message>
+                <example type="correct">Це по-перше.</example>
+                <example type="incorrect">По-перше, <marker>нашпигувати по-друге</marker>, запекти.</example>
             </rule>
         </rulegroup>
 

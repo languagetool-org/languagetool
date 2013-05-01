@@ -44,14 +44,14 @@ public class UkrainianWordTokenizer implements Tokenizer {
 
   @Override
   public List<String> tokenize(final String text) {
-    final List<String> l = new ArrayList<String>();
+    final List<String> tokenList = new ArrayList<String>();
     final StringTokenizer st = new StringTokenizer(text, SPLIT_CHARS, true);
         
     while (st.hasMoreElements()) {
-      l.add( clean(st.nextToken()) );
+      tokenList.add( clean(st.nextToken()) );
     }
     
-    return l;
+    return tokenList;
   }
   
   private static String clean(String token) {
