@@ -1963,10 +1963,11 @@ $Id$
                     <token postag="V.N.*" postag_regexp="yes"></token>
                 </pattern>
                 <message>Incorrecte com a perífrasi d'obligació.</message>
-                <suggestion><match no="1" postag="..(.*)" postag_regexp="yes" postag_replace="VA$1" setpos="yes">haver</match> de</suggestion>
+                <suggestion><match no="1" postag="..([SI].*)" postag_regexp="yes" postag_replace="VA$1" setpos="yes">haver</match> de</suggestion>
                 <!-- This doesn't keep several postags-->
                 <short>Incorrecte quan perífrasi d'obligació</short>
                 <example type="incorrect" correction="havem de|hem de">No <marker>tenim que</marker> fer res</example>
+                <example type="incorrect" correction="ha de">No <marker>té que</marker> veure res</example>
                 <example type="correct">No <marker>hem de</marker> fer res</example>
             </rule>
             <rule id="CALDRE" name="Comprova: «caldre» seguit de verb en infinitiu">
@@ -17030,7 +17031,13 @@ $Id$
                 <token>vergonya</token>
                 <token>aliena</token>
             </pattern>
-            <message>Val més dir: <suggestion>vergonya pels altres</suggestion>, <suggestion>vergonya per ell</suggestion>, <suggestion>vergonya per ella</suggestion>, <suggestion>vergonya pels altres</suggestion>, <suggestion>vergonya per ells</suggestion>, <suggestion>vergonya</suggestion>.</message>
+            <message>Val més usar una altra expressió.</message>
+            <suggestion>vergonya pels altres</suggestion>
+            <suggestion>vergonya per ell</suggestion>
+            <suggestion>vergonya per ella</suggestion>
+            <suggestion>vergonya pels altres</suggestion>
+            <suggestion>vergonya per ells</suggestion>
+            <suggestion>vergonya</suggestion>
             <short>Forma preferible</short>
             <example type="incorrect"><marker>vergonya aliena</marker></example>
             <example type="correct">vergonya pels altres</example>
