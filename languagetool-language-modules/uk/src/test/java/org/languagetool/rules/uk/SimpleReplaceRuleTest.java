@@ -26,6 +26,7 @@ import org.languagetool.language.Ukrainian;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 
 public class SimpleReplaceRuleTest extends TestCase {
@@ -44,6 +45,11 @@ public class SimpleReplaceRuleTest extends TestCase {
 		matches = rule.match(langTool.getAnalyzedSentence("Ці рядки повинні співпадати."));
 		assertEquals(1, matches.length);
 		assertEquals(1, matches[0].getSuggestedReplacements().size());
-		assertEquals("збігатися", matches[0].getSuggestedReplacements().get(0));
+		assertEquals(Arrays.asList("збігатися"), matches[0].getSuggestedReplacements());
+		
+		matches = rule.match(langTool.getAnalyzedSentence("Нападаючий"));
+		assertEquals(1, matches.length);
+		assertEquals(Arrays.asList("Нападник", "Нападальний", "Нападний"), matches[0].getSuggestedReplacements());
+
 	}
 }

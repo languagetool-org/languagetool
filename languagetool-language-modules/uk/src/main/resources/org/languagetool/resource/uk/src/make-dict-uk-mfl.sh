@@ -17,7 +17,7 @@ $MFL_CMD fsa_build $FSA_FLAGS -o ukrainian.dict
 
 echo "Generating synthesizer dictionary"
 
-awk -F '\t' '{print $2"|"$3"\t"$1"\t"}' all.tagged.tmp | \
+grep -v ":bad" all.tagged.tmp | awk -F '\t' '{print $2"|"$3"\t"$1"\t"}' | \
 $MFL_CMD tab2morph | \
 $MFL_CMD fsa_build $FSA_FLAGS -o ukrainian_synth.dict
 

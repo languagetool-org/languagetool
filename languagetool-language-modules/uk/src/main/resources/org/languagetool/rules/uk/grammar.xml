@@ -125,12 +125,13 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">[\p{Punct}–—\(«АаІі]|Це<exception postag="SENT_START"></exception></token>
+                    <token negate="yes" regexp="yes">[\p{Punct}–—\(«АаІі]|[Цц]е<exception postag="SENT_START"></exception></token>
                     <token regexp="yes">по-перше|по-друге|по-третє</token>
+                    <token negate="yes">ж</token>
                 </pattern>
                 <message>Відсутня ліва кома: <suggestion>\1, \2</suggestion>.</message>
                 <example type="correct">Це по-перше.</example>
-                <example type="incorrect">По-перше, <marker>нашпигувати по-друге</marker>, запекти.</example>
+                <example type="incorrect">По-перше, треба його <marker>нашпигувати по-друге,</marker> запекти.</example>
             </rule>
         </rulegroup>
 
@@ -159,6 +160,7 @@ $Id$
                 <pattern>
                     <token postag_regexp="yes" postag="pryim.*">
                         <exception negate_pos="yes" postag_regexp="yes" postag="pryim.*" />
+                        <exception>крім</exception>
                     </token>
                     <token postag_regexp="yes" postag="verb.*">
                         <exception negate_pos="yes" postag_regexp="yes" postag="verb.*" />
@@ -169,6 +171,7 @@ $Id$
                 <example type="correct">Їм треба в'їхати.</example>
                 <example type="correct">Просто взяти.</example>
                 <example type="correct">Просто неба.</example>
+                <example type="correct">не залишається нічого іншого, крім чекати.</example>
                 <example type="incorrect">Їм треба <marker>в їхати</marker>.</example>
             </rule>
             <rule>
@@ -206,6 +209,42 @@ $Id$
                 <example type="incorrect">згідно <marker>статуту</marker></example>
                 <example type="incorrect">згідно <marker>до</marker> правила</example>
             </rule>
+        </rulegroup>
+
+        <rulegroup name="Пасивний предикат або пасивний атрибут (ev. апозиція) з інструменталем дієвої особи" id="PASSIVE_PREDICATE">
+            <rule>
+                <pattern>
+                    <token postag_regexp="yes" postag="(noun|pron).*v_zna"/>
+                    <marker>
+                    <token postag="impers"/>    <!-- TODO: add skip adj -->
+                    <token postag_regexp="yes" postag="(noun|pron).*v_oru"/>
+                    </marker>
+                </pattern>
+                <message>Невластива мові конструкція: пасивний предикат</message>
+                <url>http://kurylo.wikidot.com/3-nevlastyva-ukrainskii-movi-konstruktsiia:pasyvnyi-predykat</url>
+                <example type="correct">Користувача авторизовано</example>
+                <example type="correct">Справу порушено за фактом</example>
+                <example type="incorrect">Справу <marker>порушено судом</marker></example>
+                <!--
+                <example type="incorrect">Справу <marker>порушено міським судом</marker></example>
+                -->
+                <example type="incorrect">Користувача <marker>авторизовано адміністратором</marker></example>
+            </rule>
+        <!--
+            <rule>
+                <pattern>
+                    <token postag_regexp="yes" postag="(noun|pron).*(v_oru)"/>
+                    <marker>
+                    <token postag_regexp="yes" postag="verb:rev.*"/>
+                    <token postag_regexp="yes" postag="(noun|pron).*v_zna"/>
+                    </marker>
+                </pattern>
+                <message>Невластива мові конструкція: пасивний предикат</message>
+                <url>http://kurylo.wikidot.com/3-nevlastyva-ukrainskii-movi-konstruktsiia:pasyvnyi-predykat</url>
+                <example type="correct">Видається багато книжок</example>
+                <example type="incorrect">Ним <marker>видаються книжки</marker></example>
+            </rule>
+        -->
         </rulegroup>
 <!--
         <rulegroup name="Узгодженість" id="CONISTENCY_VIDM_1">

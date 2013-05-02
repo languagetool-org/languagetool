@@ -41,8 +41,7 @@ public class UkrainianSRXSentenceTokenizerTest extends TestCase {
 //    testSplit("На початок 1994 р. державний борг України становив 4,8 млрд. ", "Досить значна сума.");
     testSplit("Київ, вул. Сагайдачного, буд. 43, кв. 4.");
     testSplit("Наша зустріч з А. Марчуком відбулася в грудні минулого року.");
-//	  TODO:
-//    testSplit("Наша зустріч з А.Марчуком відбулася в грудні минулого року.");
+    testSplit("Наша зустріч з А.Марчуком відбулася в грудні минулого року.");
   }
 
   private void testSplit(final String... sentences) {
