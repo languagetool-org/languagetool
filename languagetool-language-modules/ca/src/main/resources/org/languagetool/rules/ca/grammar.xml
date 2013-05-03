@@ -9554,11 +9554,11 @@ $Id$
                     </marker>
                 </pattern>
                 <message>Cal evitar el «lo» neutre</message>
-                <suggestion>el <match no="2" postag="A..MS.*" postag_regexp="yes"></match></suggestion>
-                <suggestion>el que és <match no="2" postag="A..MS.*" postag_regexp="yes"></match></suggestion>
-                <suggestion>la cosa <match no="2" postag="A..FS.*" postag_regexp="yes"></match></suggestion>
+                <suggestion>el <match no="2" postag="A..[MC]S.*" postag_regexp="yes"></match></suggestion>
+                <suggestion>el que és <match no="2" postag="A..[MC]S.*" postag_regexp="yes"></match></suggestion>
+                <suggestion>la cosa <match no="2" postag="A..[FC]S.*" postag_regexp="yes"></match></suggestion>
                 <short>Error gramatical</short>
-                <example type="incorrect"><marker>Lo cert</marker> és això.</example>
+                <example type="incorrect" correction="El millor|El que és millor|La cosa millor"><marker>Lo millor</marker> és això.</example>
                 <example type="correct">El cert és això.</example>
                 <example type="correct">Tirant lo Blanc</example>
             </rule>
@@ -17873,6 +17873,7 @@ $Id$
             </pattern>
             <message>Davant del so de 's' és recomanable usar la forma plena.</message>
             <suggestion>se</suggestion>
+            <url>http://esadir.cat/sintaxi/pronfebesse/view</url>
             <short>Usem la forma plena</short>
             <example type="incorrect" correction="se">Això <marker>es</marker> celebra.</example>
             <example type="correct">Això <marker>se</marker> celebra.</example>
@@ -19203,9 +19204,11 @@ $Id$
        			<token postag="(V.IP...|VMM02S0).?" postag_regexp="yes" regexp="yes">.+([^e]i|ï)(x|xes|xen)<exception inflected="yes" regexp="yes">.+ix[ae]r|eixir|(re|sobre|des)eixir|.*cruixir</exception></token>
        		</pattern>
        		<message>Esteu usant terminacions verbals en -eix.</message>
-       		<suggestion><match no="1" regexp_match="(.+)(i|ï)(x|xes|xen)" regexp_replace="$1ei$3"/></suggestion>
+       		<!-- <suggestion><match no="1" regexp_match="(.+)(i|ï)(x|xes|xen)" regexp_replace="$1ei$3"/></suggestion> -->
+       		<suggestion><match no="1" postag="(V.IP...|VMM02S0)." postag_regexp="yes" postag_replace="$10" /></suggestion>
        		<example type="incorrect" correction="exigeix">Ell ens <marker>exigix</marker> un resultat.</example>
        		<example type="incorrect" correction="encoixeix">Ell <marker>encoixix</marker>.</example>
+       		<example type="incorrect" correction="argüeix">Ell <marker>arguïx</marker>.</example>
        		<example type="correct">Ix, cruix, cruixen, amoixen, desixen, es fixen, pixen.</example>
         </rule>	
         <rulegroup id="EXIGEIX_VERBS_ISC" name="Exigeix terminacions verbals en -isc" default="off">
@@ -19220,24 +19223,46 @@ $Id$
 	        </rule>
 	        <rule>
 	       		<pattern>
-	       			<token postag="(V.IP1S0|V.SP...|VMM03.0)[VZ]" postag_regexp="yes" regexp="yes">.+[^aeiou]e(sc|sca|sques|squen)</token>
+	       			<token postag="(V.IP1S0|V.SP...|VMM03.0)[VZ]" postag_regexp="yes" regexp="yes">.+[^aeiouü]e(sc|sca|sques|squen)</token>
 	       		</pattern>
 	       		<message>Esteu usant terminacions verbals en -isc.</message>
 	       		<suggestion><match no="1" regexp_match="(.+[^aeiou])e(sc|sca|sques|squen)" regexp_replace="$1i$2" /></suggestion>
 	       		<example type="incorrect" correction="oferisca">Que ell ens ho <marker>oferesca</marker>.</example>
 	       		<example type="correct">Servisca.</example>
+	       		<example type="correct">Argüesca.</example>
+	        </rule>
+	        <rule>
+	       		<pattern>
+	       			<token postag="(V.IP1S0|V.SP...|VMM03.0)[VZ]" postag_regexp="yes" regexp="yes">.+üe(sc|sca|sques|squen)</token>
+	       		</pattern>
+	       		<message>Esteu usant terminacions verbals en -isc.</message>
+	       		<suggestion><match no="1" regexp_match="(.+)üe(sc|sca|sques|squen)" regexp_replace="$1uï$2" /></suggestion>
+	       		<example type="incorrect" correction="arguïsca">Que ell ens ho <marker>argüesca</marker>.</example>
+	       		<example type="correct">Que ho arguïsquen.</example>
 	        </rule>
 	    </rulegroup>    
-    	<rule id="EXIGEIX_VERBS_ESC" name="Exigeix terminacions verbals en -esc" default="off">
-       		<pattern>
-	       			<token postag="(V.IP1S0|V.SP...|VMM03.0)[VZ]" postag_regexp="yes" regexp="yes">.+[iï](sc|sca|sques|squen)</token>
+    	<rulegroup id="EXIGEIX_VERBS_ESC" name="Exigeix terminacions verbals en -esc" default="off">
+    		<rule>
+	       		<pattern>
+	       			<token postag="(V.IP1S0|V.SP...|VMM03.0)[VZ]" postag_regexp="yes" regexp="yes">.+[iï](sc|sca|sques|squen)<exception inflected="yes" regexp="yes">.*argüir</exception></token>
 	       		</pattern>
 	       		<message>Esteu usant terminacions verbals en -esc.</message>
 	       		<suggestion><match no="1" regexp_match="(.+)[iï](sc|sca|sques|squen)" regexp_replace="$1e$2" /></suggestion>
 	       		<example type="incorrect" correction="agraesca">Que ell ens ho <marker>agraïsca</marker>.</example>
 	       		<example type="incorrect" correction="servesquen">Que ell ens ho <marker>servisquen</marker>.</example>
 	       		<example type="correct">Visc a la Rambla i envisc pardals.</example>
-        </rule>	
+	       		<example type="correct">Que argüesca i arguïsca.</example>
+	        </rule>
+	        <rule>
+	       		<pattern>
+	       			<token postag="(V.IP1S0|V.SP...|VMM03.0)[VZ]" postag_regexp="yes" regexp="yes">.*arguï(sc|sca|sques|squen)</token>
+	       		</pattern>
+	       		<message>Esteu usant terminacions verbals en -esc.</message>
+	       		<suggestion><match no="1" regexp_match="(.*arg)uï(sc|sca|sques|squen)" regexp_replace="$1üe$2" /></suggestion>
+	       		<example type="incorrect" correction="argüesca">Que ell ens ho <marker>arguïsca</marker>.</example>
+	       		<example type="correct">Que ens argüesquen.</example>
+	        </rule>	
+	    </rulegroup>	
     </category>
     <category name="C5) Formes de plural opcionals" default="on" type="style">
     	<rule id="AQUESTOS" name="exigeix la forma 'aquests' en lloc de 'aquestos'">
