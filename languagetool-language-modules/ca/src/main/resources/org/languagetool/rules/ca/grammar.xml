@@ -18707,6 +18707,7 @@ $Id$
         		<example type="incorrect" correction="pensi|penso">Jo ho <marker>pense</marker>.</example>
         		<example type="incorrect" correction="Digui">"<marker>Diga</marker> el que digui".</example>
 				<example type="correct">No es va poder encendre mai.</example>
+				<example type="correct">Visc a la muntanya</example>
 				<example type="correct">un mosaic d’exotismes digne de veure</example>
 				<example type="correct">l'aeroport de Mais-Grate</example>
 				<example type="incorrect" correction="diguin">Que ells ho <marker>diguen</marker>.</example>
@@ -18772,6 +18773,7 @@ $Id$
 				<example type="incorrect" correction="penso">Jo <marker>pens</marker>.</example>
 				<example type="correct">Jo penso, dic i faig.</example>
 				<example type="correct">Déu me'n guard!</example>
+				<example type="correct">Déu lo guard!</example>
 				<example type="correct">acompanyat de Picol</example>
 				<example type="correct">Cristian Cirici i Alomar.</example>
 				<example type="correct">Lluc Capsigrany.</example>
@@ -18817,6 +18819,7 @@ $Id$
         		<example type="incorrect" correction="tinguérem|tinguéssem">Si <marker>tinguéssim</marker> sort.</example>
         		<example type="incorrect" correction="pense">Jo <marker>penso</marker>.</example>
         		<example type="incorrect" correction="facen">Que ells <marker>facin</marker>.</example>
+        		<example type="correct">Visc a la muntanya</example>
         		<!-- balears -->	
 				<example type="incorrect" correction="patesca|patisca">Que no <marker>patesqui</marker>.</example>
 				<example type="incorrect" correction="Fes"><marker>Fé</marker>-li això.</example>
@@ -18861,6 +18864,7 @@ $Id$
         		<!-- valencians -->
         		<example type="incorrect" correction="pens|pensi">Jo ho <marker>pense</marker>.</example>
 				<example type="correct">No es va poder encendre mai.</example>
+				<example type="correct">Visc a la muntanya</example>
 				<example type="correct">un mosaic d’exotismes digne de veure</example>
 				<example type="correct">l'aeroport de Mais-Grate</example>
 				<example type="incorrect" correction="diguin">Que ells ho <marker>diguen</marker>.</example>
@@ -19203,7 +19207,37 @@ $Id$
        		<example type="incorrect" correction="exigeix">Ell ens <marker>exigix</marker> un resultat.</example>
        		<example type="incorrect" correction="encoixeix">Ell <marker>encoixix</marker>.</example>
        		<example type="correct">Ix, cruix, cruixen, amoixen, desixen, es fixen, pixen.</example>
-        </rule>		
+        </rule>	
+        <rulegroup id="EXIGEIX_VERBS_ISC" name="Exigeix terminacions verbals en -isc" default="off">
+        	<rule>
+	       		<pattern>
+	       			<token postag="(V.IP1S0|V.SP...|VMM03.0)[VZ]" postag_regexp="yes" regexp="yes">.+[aeiou]e(sc|sca|sques|squen)</token>
+	       		</pattern>
+	       		<message>Esteu usant terminacions verbals en -isc.</message>
+	       		<suggestion><match no="1" regexp_match="(.+[aeiou])e(sc|sca|sques|squen)" regexp_replace="$1ï$2" /></suggestion>
+	       		<example type="incorrect" correction="agraïsca">Que ell ens ho <marker>agraesca</marker>.</example>
+	       		<example type="correct">Agraïsca.</example>
+	        </rule>
+	        <rule>
+	       		<pattern>
+	       			<token postag="(V.IP1S0|V.SP...|VMM03.0)[VZ]" postag_regexp="yes" regexp="yes">.+[^aeiou]e(sc|sca|sques|squen)</token>
+	       		</pattern>
+	       		<message>Esteu usant terminacions verbals en -isc.</message>
+	       		<suggestion><match no="1" regexp_match="(.+[^aeiou])e(sc|sca|sques|squen)" regexp_replace="$1i$2" /></suggestion>
+	       		<example type="incorrect" correction="oferisca">Que ell ens ho <marker>oferesca</marker>.</example>
+	       		<example type="correct">Servisca.</example>
+	        </rule>
+	    </rulegroup>    
+    	<rule id="EXIGEIX_VERBS_ESC" name="Exigeix terminacions verbals en -esc" default="on">
+       		<pattern>
+	       			<token postag="(V.IP1S0|V.SP...|VMM03.0)[VZ]" postag_regexp="yes" regexp="yes">.+[iï](sc|sca|sques|squen)</token>
+	       		</pattern>
+	       		<message>Esteu usant terminacions verbals en -isc.</message>
+	       		<suggestion><match no="1" regexp_match="(.+)[iï](sc|sca|sques|squen)" regexp_replace="$1e$2" /></suggestion>
+	       		<example type="incorrect" correction="agraesca">Que ell ens ho <marker>agraïsca</marker>.</example>
+	       		<example type="incorrect" correction="servesquen">Que ell ens ho <marker>servisquen</marker>.</example>
+	       		<example type="correct">Visc a la Rambla i envisc pardals.</example>
+        </rule>	
     </category>
     <category name="C5) Formes de plural opcionals" default="on" type="style">
     	<rule id="AQUESTOS" name="exigeix la forma 'aquests' en lloc de 'aquestos'">
