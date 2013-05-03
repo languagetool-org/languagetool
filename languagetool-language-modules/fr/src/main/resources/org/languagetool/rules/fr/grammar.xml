@@ -4785,6 +4785,31 @@ though, and has since been slightly modified)-->
         <example type="correct">Ne sommes-nous pas <marker>aveugles</marker> ?</example>
       </rule>
     </rulegroup>
+    <rulegroup id="IL_NOUS_A_VPPA" name="il nous a informé → il nous a informés">
+      <rule>
+        <pattern>
+          <token postag="R pers suj.*|Z.*" postag_regexp="yes"/>
+          <token regexp="yes">nous|les</token>
+          <token postag="V avoir .*" postag_regexp="yes"/>
+          <marker>
+            <token postag="V ppa . s" postag_regexp="yes" regexp="yes" inflected="yes">abandonner|absorber|r?accompagner|accueillir|accuser|aimer|amuser|apercevoir|arrêter|attendre|avertir|baiser|choquer|combattre|combler|condamner|connaître|contacter|contaminer|contraindre|contrarier|convaincre|craindre|défendre|dépasser|dépouiller|divertir|divorcer|éclabousser|écouter|éduquer|effrayer|élire|embarrasser|embêter|embrasser|emmener|enchanter|entendre|engueuler|entraîner|étonner|exciter|exterminer|féliciter|forcer|frôler|gâter|gêner|guider|guérir|héberger|informer|inviter|gronder|marier|nourrir|observer|offenser|offusquer|oublier|percuter|prévenir|protéger|priver|quitter|ranger|recevoir|(re)?conduire|regarder|rencontrer|remarquer|redouter|rejoindre|rescaper|renseigner|respecter|retarder|sauver|(pour)?suivre|surprendre|taquiner|torturer|trahir|transporter|tromper|tuer|vexer|visiter|voir</token>
+          </marker>
+        </pattern>
+        <message>Le participe passé employé avec l’auxiliaire 'avoir' doit s’accorder avec le complément d’objet direct '\2' quand celui-ci est antéposé. Voulez-vous écrire <suggestion>\4s</suggestion> ?</message>
+        <example type="incorrect" correction="informés">Il nous a <marker>informé</marker>.</example>
+        <example type="incorrect" correction="informées">Il nous a <marker>informée</marker>.</example>
+        <example type="correct">Il nous a informés.</example>
+        <example type="correct">Il nous a informées.</example>
+        <example type="correct">Il vous a informé.</example>
+        <example type="correct">Il vous a informés.</example>
+        <example type="incorrect" correction="renseignés">Dominique les a <marker>renseigné</marker>.</example>
+        <example type="incorrect" correction="renseignées">Dominique les a <marker>renseignée</marker>.</example>
+        <example type="correct">Dominique les a renseingnés.</example>
+        <example type="correct">Dominique les a renseingnées.</example>
+        <example type="correct">Il nous a montré le chemin.</example>
+        <example type="correct">Il nous a donné du pain.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="PEUT_ETRE_VPPA_OU_ADJ" name="peut être + participe présent">
       <rule>
         <pattern>
