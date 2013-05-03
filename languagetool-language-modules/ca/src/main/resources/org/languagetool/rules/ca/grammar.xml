@@ -1857,13 +1857,14 @@ $Id$
 	                    <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">afectar|emprenyar|concernir|cansar|empipar|preocupar|molestar|espantar|apassionar|atr[ae]ure</token>
 	                    <token>a</token>
                     </marker>
-                    <token><exception regexp="yes">ls?</exception></token>
+                    <token><exception regexp="yes">ls?</exception><exception postag="V.N.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Aquest verb és transitiu. Probablement cal eliminar la preposició 'a'.</message>
                 <suggestion><match no="1"/></suggestion>
                 <short>Verb transitiu</short>
                 <example type="incorrect" correction="emprenyeu">No <marker>emprenyeu a</marker> la comissària.</example>
                 <example type="correct">No emprenyeu la comissària</example>
+                <example type="correct">Sense que es molesti a desmentir-ho</example>
             </rule>
         </rulegroup>
         <rulegroup id="CABRE" name="*cabre + infinitiu">
