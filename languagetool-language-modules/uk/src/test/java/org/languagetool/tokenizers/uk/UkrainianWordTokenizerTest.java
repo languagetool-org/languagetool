@@ -31,7 +31,7 @@ public class UkrainianWordTokenizerTest extends TestCase {
     List<String> testList = w.tokenize("Вони прийшли додому.");
     assertEquals(Arrays.asList("Вони", " ", "прийшли", " ", "додому", "."), testList);
 
-    testList = w.tokenize("Вони\u0301 прийшли пʼятими зів’ялими.");
+    testList = w.tokenize("Вони\u0301 при\u00ADйшли пʼятими зів’ялими.");
     assertEquals(Arrays.asList("Вони", " ", "прийшли", " ", "п'ятими", " ", "зів'ялими", "."), testList);
 
     testList = w.tokenize("Засідав І.Єрмолюк.");

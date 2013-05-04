@@ -11,13 +11,15 @@ MFL_CMD="mfl"
 LANG=POSIX
 #FSA_FLAGS="-f cfsa2"
 
+# grep -v ":bad"
+
 grep -h "^[^#].*[a-z]" tagged.*.txt | encode | tr ' ' '\t' | sort -u > all.tagged.tmp
 $MFL_CMD tab2morph -i all.tagged.tmp | \
 $MFL_CMD fsa_build $FSA_FLAGS -o ukrainian.dict
 
 echo "Generating synthesizer dictionary"
 
-grep -v ":bad" all.tagged.tmp | awk -F '\t' '{print $2"|"$3"\t"$1"\t"}' | \
+cat all.tagged.tmp | awk -F '\t' '{print $2"|"$3"\t"$1"\t"}' | \
 $MFL_CMD tab2morph | \
 $MFL_CMD fsa_build $FSA_FLAGS -o ukrainian_synth.dict
 

@@ -24,18 +24,17 @@ import java.util.Locale;
 
 import org.languagetool.Language;
 import org.languagetool.rules.CommaWhitespaceRule;
-import org.languagetool.rules.DoublePunctuationRule;
 import org.languagetool.rules.Rule;
-import org.languagetool.rules.UppercaseSentenceStartRule;
 import org.languagetool.rules.WhitespaceRule;
 import org.languagetool.rules.uk.MorfologikUkrainianSpellerRule;
 import org.languagetool.rules.uk.SimpleReplaceRule;
-import org.languagetool.tagging.Tagger;
-import org.languagetool.tagging.uk.UkrainianTagger;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.uk.UkrainianSynthesizer;
+import org.languagetool.tagging.Tagger;
+import org.languagetool.tagging.disambiguation.Disambiguator;
+import org.languagetool.tagging.disambiguation.uk.UkrainianHybridDisambiguator;
+import org.languagetool.tagging.uk.UkrainianTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
-import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.uk.UkrainianWordTokenizer;
 
@@ -43,9 +42,10 @@ import org.languagetool.tokenizers.uk.UkrainianWordTokenizer;
 public class Ukrainian extends Language {
 
   private Tagger tagger;
-  private SentenceTokenizer sentenceTokenizer;
+  private SRXSentenceTokenizer sentenceTokenizer;
   private Tokenizer wordTokenizer;
   private Synthesizer synthesizer;
+  private Disambiguator disambiguator;
 
   @Override
   public Locale getLocale() {
@@ -94,6 +94,14 @@ public class Ukrainian extends Language {
   }
 
   @Override
+  public Disambiguator getDisambiguator() {
+    if (disambiguator == null) {
+      disambiguator = new UkrainianHybridDisambiguator();
+    }
+    return disambiguator;
+  }
+
+  @Override
   public final Tokenizer getWordTokenizer() {
     if (wordTokenizer == null) {
       wordTokenizer = new UkrainianWordTokenizer();
@@ -102,7 +110,7 @@ public class Ukrainian extends Language {
   }
   
   @Override
-  public SentenceTokenizer getSentenceTokenizer() {
+  public SRXSentenceTokenizer getSentenceTokenizer() {
     if (sentenceTokenizer == null) {
        sentenceTokenizer = new SRXSentenceTokenizer(this);
     }
@@ -120,9 +128,11 @@ public class Ukrainian extends Language {
   public List<Class<? extends Rule>> getRelevantRules() {
     return Arrays.asList(
             CommaWhitespaceRule.class,
-            DoublePunctuationRule.class,
+// TODO: does not handle !.. and ?..            
+//            DoublePunctuationRule.class,
             MorfologikUkrainianSpellerRule.class,
-            UppercaseSentenceStartRule.class,
+// TODO: does not handle dot in abbreviations in the middle of the sentence, and also !.., ?..          
+//            UppercaseSentenceStartRule.class,
             WhitespaceRule.class,
             // specific to Ukrainian:
             SimpleReplaceRule.class

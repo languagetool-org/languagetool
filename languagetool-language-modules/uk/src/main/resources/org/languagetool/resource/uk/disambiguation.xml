@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Ukrainian Disambiguation Rules for LanguageTool (www.languagetool.org)
+    Copyright (C) 2013 Andriy Rysin
+-->
+<rules lang="uk"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd">
+
+    <rule name="Слова з великої літери в середині речення - це іменники" id="PROPER_NOUN_INSIDE_SENTENCE">
+        <pattern case_sensitive="yes">
+            <token regexp="yes">[А-ЯІЇЄҐ][а-яіїєґ'-]+<exception scope="previous" postag="SENT_START"/></token>
+        </pattern>
+        <disambig><match no="1" postag="noun.*" postag_regexp="yes"/></disambig>
+        <example type="ambiguous" 
+            inputform="Люба[&lt;/S&gt;,Люба/noun:f:v_naz,любий/adj:f:v_naz]" 
+            outputform="Люба[&lt;/S&gt;,Люба/noun:f:v_naz]">Агов <marker>Люба</marker></example>
+        <example type="untouched">Їм треба в їхати.</example>
+    </rule>
+
+</rules>

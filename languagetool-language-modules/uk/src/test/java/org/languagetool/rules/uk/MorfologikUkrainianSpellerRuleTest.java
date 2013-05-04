@@ -41,6 +41,8 @@ public class MorfologikUkrainianSpellerRuleTest {
     assertEquals(0, rule.match(langTool.getAnalyzedSentence(",")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("123454")).length);
 
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("До нас приїде The Beatles!")).length);
+
     //incorrect sentences:
 
     RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("атакуючий"));
@@ -53,6 +55,13 @@ public class MorfologikUkrainianSpellerRuleTest {
     assertEquals("скляний", matches[0].getSuggestedReplacements().get(0));
 
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("а")).length);
+    
+    // mix alphabets
+    matches = rule.match(langTool.getAnalyzedSentence("прийдешнiй"));   // latin 'i'
+
+    assertEquals(1, matches.length);
+    assertEquals("прийдешній", matches[0].getSuggestedReplacements().get(0));
+
   }
 
 }

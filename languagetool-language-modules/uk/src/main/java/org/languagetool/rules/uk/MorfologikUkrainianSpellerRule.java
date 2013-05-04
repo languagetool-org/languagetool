@@ -21,6 +21,7 @@ package org.languagetool.rules.uk;
 
 import java.io.IOException;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 import org.languagetool.Language;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
@@ -28,6 +29,7 @@ import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 public final class MorfologikUkrainianSpellerRule extends MorfologikSpellerRule {
 
   private static final String RESOURCE_FILENAME = "/uk/hunspell/uk_UA.dict";
+  private static final Pattern UKRAINIAN_LETTERS = Pattern.compile(".*[а-яіїєґА-ЯІЇЄҐ].*");
 
   public MorfologikUkrainianSpellerRule(ResourceBundle messages,
                                         Language language) throws IOException {
@@ -43,5 +45,12 @@ public final class MorfologikUkrainianSpellerRule extends MorfologikSpellerRule 
   public String getId() {
     return "MORFOLOGIK_RULE_UK_UA";
   }
+  
+  // don't check words that don't have Ukrainian letters
+  @Override
+  protected boolean ignoreWord(String word) throws IOException {
+  	return ! UKRAINIAN_LETTERS.matcher(word).matches() || super.ignoreWord(word);
+  }
+  
 
 }

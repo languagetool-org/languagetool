@@ -85,7 +85,7 @@ $Id$
                 <pattern>
                     <token>будь</token>
                     <token>ласка</token>
-                    <token negate="yes" regexp="yes">[,\.!»]</token>
+                    <token negate="yes" regexp="yes">[,\.!:»]</token>
                 </pattern>
                 <message>Відсутня права кома: <suggestion>\1 \2, \3</suggestion>.</message>
                 <example type="correct">Запитайте, <marker>будь ласка, у</marker> водія.</example>
@@ -110,8 +110,8 @@ $Id$
                     <token negate="yes" regexp="yes">[\p{Punct}–—»]</token>
                 </pattern>
                 <message>Відсутня права кома: <suggestion>\1, \2</suggestion>.</message>
-                <example type="correct">Це, <marker>мабуть,</marker> водій.</example>
-                <example type="incorrect">Це, <marker>мабуть водій</marker>.</example>
+                <example type="correct">Це, мабуть, його водій.</example>
+                <example type="incorrect">Це, <marker>мабуть його</marker> водій.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -172,6 +172,7 @@ $Id$
                 <example type="correct">Просто взяти.</example>
                 <example type="correct">Просто неба.</example>
                 <example type="correct">не залишається нічого іншого, крім чекати.</example>
+                <example type="correct">Наїхали на Мела Гібсона</example>
                 <example type="incorrect">Їм треба <marker>в їхати</marker>.</example>
             </rule>
             <rule>
@@ -180,14 +181,16 @@ $Id$
                         <exception negate_pos="yes" postag_regexp="yes" postag="prysudk_sl.*" />
                     </token>
                     <marker>
-                    <token postag_regexp="yes" postag="verb:.*">
+                    <token postag_regexp="yes" postag="verb.*">
                         <exception postag_regexp="yes" postag="verb:inf.*"/>
+                        <exception negate_pos="yes" postag_regexp="yes" postag="verb.*"/>
                     </token>
                     </marker>
                 </pattern>
                 <message>Дієслово після присудкового слова має йти інфінітивом: <suggestion><match no="2" postag="verb:inf"/></suggestion></message>
                 <example type="correct">Повинен їхати</example>
                 <example type="correct">Йому треба писати</example>
+                <example type="correct">Чи варто їм таке писати?</example>
                 <example type="incorrect">Повинен <marker>писатиме</marker>.</example>
                 <example type="incorrect">Треба <marker>писав</marker>.</example>
             </rule>
@@ -628,11 +631,13 @@ $Id$
        </rule>
        <rule>
          <pattern>
+           <token negate="yes" inflected="yes" regexp="yes">свій|мій|твій|його|її|наш|ваш|їхній|такий</token>
            <marker>
            <token inflected="yes">любий</token>
            </marker>
            <token postag="noun.*" postag_regexp="yes">
                 <exception postag=".*v_(kly|dav).*" postag_regexp="yes"/>
+                <exception inflected="yes" regexp="yes">друзі|чадо</exception>
           </token>
           </pattern>
          <message>Правильно: <suggestion>будь-який</suggestion>, <suggestion>перший кращий</suggestion>, <suggestion>усякий</suggestion>, часом також <suggestion>аби-який</suggestion>.</message>
@@ -640,6 +645,10 @@ $Id$
          <example type="correct">Будь-якого метелика можна впіймати</example>
          <example type="correct">А оце, любий друже, вже серйозно</example>
          <example type="correct">Любий серцю портрет</example>
+         <example type="correct">Свого любого сина</example>
+         <example type="correct">Відіслати своє любе чадо</example>
+         <example type="correct">Прийдуть любі друзі</example>
+         <example type="correct">Принесла Люба метелика</example>
        </rule>
        <!--
        <rule>

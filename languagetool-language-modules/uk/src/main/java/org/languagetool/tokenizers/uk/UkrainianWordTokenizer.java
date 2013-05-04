@@ -62,7 +62,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
   }
 
   private static String clean(String token) {
-    return token.replace("\u0301", "").replace('’', '\'').replace('ʼ', '\'');
+    return token.replace("\u0301", "").replace("\u00AD", "").replace('’', '\'').replace('ʼ', '\'');
   }
   
 }
