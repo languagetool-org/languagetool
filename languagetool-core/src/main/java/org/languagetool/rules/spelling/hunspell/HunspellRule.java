@@ -55,7 +55,8 @@ public class HunspellRule extends SpellingCheckRule {
   protected boolean needsInit = true;
   protected Hunspell.Dictionary dictionary = null;
   
-  private final static String NON_ALPHABETIC = "[^\\p{L}]";
+  private static final String NON_ALPHABETIC = "[^\\p{L}]";
+
   private Pattern nonWordPattern;
 
   public HunspellRule(final ResourceBundle messages, final Language language) {

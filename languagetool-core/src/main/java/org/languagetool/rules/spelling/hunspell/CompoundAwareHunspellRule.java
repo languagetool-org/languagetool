@@ -31,9 +31,9 @@ import java.util.*;
  * to support compound words and offer fast suggestions for some misspelled
  * compound words.
  */
-abstract public class CompoundAwareHunspellRule extends HunspellRule {
+public abstract class CompoundAwareHunspellRule extends HunspellRule {
 
-  private final static int MAX_SUGGESTIONS = 20;
+  private static final int MAX_SUGGESTIONS = 20;
   
   private final AbstractWordSplitter wordSplitter;
   private final MorfologikSpeller morfoSpeller;
