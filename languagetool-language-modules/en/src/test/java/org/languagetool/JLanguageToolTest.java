@@ -51,6 +51,24 @@ public class JLanguageToolTest extends TestCase {
     }
   }
 
+  // used on http://languagetool.org/java-spell-checker/
+  public void spellCheckerDemoCodeForHomepage() throws IOException {
+    JLanguageTool langTool = new JLanguageTool(new BritishEnglish());
+    for (Rule rule : langTool.getAllRules()) {
+      if (!rule.isSpellingRule()) {
+        langTool.disableRule(rule.getId());
+      }
+    }
+    List<RuleMatch> matches = langTool.check("A speling error");
+    for (RuleMatch match : matches) {
+      System.out.println("Potential typo at line " +
+              match.getLine() + ", column " +
+              match.getColumn() + ": " + match.getMessage());
+      System.out.println("Suggested correction(s): " +
+              match.getSuggestedReplacements());
+    }
+  }
+
   public void testEnglish() throws IOException {
     final JLanguageTool tool = new JLanguageTool(new English());
     assertEquals(0, tool.check("A test that should not give errors.").size());
