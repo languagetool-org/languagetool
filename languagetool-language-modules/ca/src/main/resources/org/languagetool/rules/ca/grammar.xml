@@ -1961,15 +1961,29 @@ $Id$
                         <token inflected="yes">tenir</token>
                         <token>que</token>
                     </marker>
-                    <token postag="V.N.*" postag_regexp="yes"></token>
+                    <token postag="V.N.*" postag_regexp="yes"><exception regexp="yes">h?[aeiou].+</exception></token>
                 </pattern>
                 <message>Incorrecte com a perífrasi d'obligació.</message>
-                <suggestion><match no="1" postag="..([SI].*)" postag_regexp="yes" postag_replace="VA$1" setpos="yes">haver</match> de</suggestion>
+                <suggestion><match no="1" postag="V.([^M].*)" postag_regexp="yes" postag_replace="VA$1" setpos="yes">haver</match> de</suggestion>
                 <!-- This doesn't keep several postags-->
                 <short>Incorrecte quan perífrasi d'obligació</short>
                 <example type="incorrect" correction="havem de|hem de">No <marker>tenim que</marker> fer res</example>
-                <example type="incorrect" correction="ha de">No <marker>té que</marker> veure res</example>
-                <example type="correct">No <marker>hem de</marker> fer res</example>
+                <example type="incorrect" correction="hagut de">No ha <marker>tingut que</marker> fer res</example>
+                <example type="correct">No hem de fer res</example>
+            </rule>
+            <rule id="TENIR_QUE2" name="Incorrecte: «tenir que»">
+                <pattern>
+                    <marker>
+                        <token inflected="yes">tenir</token>
+                        <token>que</token>
+                        <token postag="V.N.*" postag_regexp="yes" regexp="yes">h?[aeiou].+</token>
+                    </marker>    
+                </pattern>
+                <message>Incorrecte com a perífrasi d'obligació.</message>
+                <suggestion><match no="1" postag="V.([^M].*)" postag_regexp="yes" postag_replace="VA$1" setpos="yes">haver</match> d'<match no="3"/></suggestion>
+                <short>Incorrecte quan perífrasi d'obligació</short>
+                <example type="incorrect" correction="havem d'ensenyar|hem d'ensenyar">No <marker>tenim que ensenyar</marker> res</example>
+                <example type="correct">No hem de fer res</example>
             </rule>
             <rule id="CALDRE" name="Comprova: «caldre» seguit de verb en infinitiu">
                 <pattern>
@@ -3414,7 +3428,7 @@ $Id$
 			        <marker>
 			        	<token>doncs</token>
 			        </marker>
-			        <token><exception>,</exception></token>
+			        <token><exception postag="_PUNCT.*" postag_regexp="yes"/></token>
 			    </pattern>
 			    <message>'Doncs' no té valor causal. És correcte si equival a "per tant", però llavors sol anar entre comes: <suggestion>doncs,</suggestion></message> 
 			    <suggestion>perquè</suggestion>
@@ -3425,6 +3439,7 @@ $Id$
 			    <short>Possible error</short>
 			    <example type="incorrect">Vingué, <marker>doncs</marker> això li agradava.</example>
 			    <example type="correct">Això era, doncs, el que li agradava.</example>
+			    <example type="correct">¿Com va anar, doncs?</example>
 			</rule>
 			<!-- <rule>
 			    <pattern>
@@ -3671,6 +3686,7 @@ $Id$
         <rulegroup id="SOBRE" name="sobre">
         	<rule>
         		<pattern>
+        			<token><exception regexp="yes" inflected="yes">sustentar|sostenir|recolzar</exception></token>
         			<marker>
         				<token>sobre</token>
         			</marker>
@@ -3685,6 +3701,7 @@ $Id$
         		<example type="incorrect" correction="al voltant de|cap a|vora"><marker>sobre</marker> 200.000 habitatges</example>
         		<example type="correct">sobre la finestra</example>
         		<example type="correct">S'assenten sobre dos pilars bàsics.</example>
+        		<example type="correct">se sustentara sobre 43 cadàvers silenciats</example>
         	</rule>
         	<rule>
         		<pattern>
@@ -8861,9 +8878,9 @@ $Id$
                     <token postag="P.*" postag_regexp="yes" regexp="yes">se|es|te|et|me|em</token>
                     <token>els</token>
                 </pattern>
-                <message>Cal apostrofar: <suggestion><match no="1" regexp_match="[Ee]?([^e])e?" regexp_replace="$1e"></match> <match no="2" regexp_match="e?([^e]{1,2})e?" regexp_replace="'$1"></match></suggestion>.</message>
+                <message>Cal apostrofar: <suggestion><match no="1" regexp_match="[Ee]?([^e])e?" regexp_replace="$1e"></match><match no="2" regexp_match="e?([^e]{1,2})e?" regexp_replace="'$1"></match></suggestion>.</message>
                 <short>Cal apostrofar</short>
-                <example type="incorrect"><marker>Se els</marker> omple de gent.</example>
+                <example type="incorrect" correction="Se'ls"><marker>Se els</marker> omple de gent.</example>
                 <example type="correct"><marker>Se'ls</marker> omple de gent.</example>
             </rule>
             <rule>
@@ -8874,9 +8891,9 @@ $Id$
                     </marker>
                     <token postag="V.*" postag_regexp="yes"><exception regexp="yes">h?[aeiouàèéíòóú].*</exception></token>
                 </pattern>
-                <message>Cal apostrofar: <suggestion><match no="1" regexp_match="[Ee]?([^e])e?" regexp_replace="$1e"></match> <match no="2" regexp_match="e?([^e]{1,2})e?" regexp_replace="'$1"></match></suggestion>.</message>
+                <message>Cal apostrofar: <suggestion><match no="1" regexp_match="[Ee]?([^e])e?" regexp_replace="$1e"></match><match no="2" regexp_match="e?([^e]{1,2})e?" regexp_replace="'$1"></match></suggestion>.</message>
                 <short>Cal apostrofar</short>
-                <example type="incorrect"><marker>Se et</marker> buida de gent.</example>
+                <example type="incorrect" correction="Se't"><marker>Se et</marker> buida de gent.</example>
                 <example type="correct"><marker>Se't</marker> buida de gent.</example>
             </rule>
             <rule>
@@ -16664,7 +16681,7 @@ $Id$
     			</pattern>
     			<message>Val més evitar aquesta expressió.</message>
     			<suggestion>en l'àmbit <match no="3"/></suggestion>
-    			<suggestion>a escala <match no="3"/></suggestion>
+    			<suggestion>a escala <match no="3" postag="AQ0[MC][SN]0" postag_regexp="yes" postag_replace="AQ0[FC][SN]0"/></suggestion>
     			<suggestion><match no="3" postag="AQ0[MC][SN]0" postag_regexp="yes" postag_replace="AQ0[FC][SN]0"/>ment</suggestion>
     			<suggestion><match no="3"/></suggestion>
     			<url>http://esadir.cat/lexic/entrades/entry_20030718132249_8/view</url>
