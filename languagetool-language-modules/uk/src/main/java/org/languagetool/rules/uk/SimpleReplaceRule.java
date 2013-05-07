@@ -32,6 +32,7 @@ import java.util.Scanner;
 import org.apache.commons.lang.StringUtils;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.AnalyzedToken;
 import org.languagetool.JLanguageTool;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.Rule;
@@ -102,18 +103,34 @@ public class SimpleReplaceRule extends Rule {
     return FILE_ENCODING;
   }
 
+  private String cleanup(String word) {
+    if( ! isCaseSensitive() ) {
+      word = word.toLowerCase(getLocale());
+    }
+    return word;
+  }
+  
   @Override
   public final RuleMatch[] match(final AnalyzedSentence text) {
     List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
 
     for (AnalyzedTokenReadings tokenReadings: tokens) {
-    	String tokenString = tokenReadings.getToken();
+    	String tokenString = cleanup( tokenReadings.getToken() );
 
-    	if( ! isCaseSensitive() ) {
-    		tokenString = tokenString.toLowerCase(getLocale());
-    	}
-    	
+        if( ! wrongWords.containsKey(tokenString) ) {
+          for(AnalyzedToken analyzedToken: tokenReadings.getReadings()) {
+    	    String lemma = analyzedToken.getLemma();
+    	    if( lemma != null ) {
+    	      lemma = cleanup(lemma);
+    	      if( wrongWords.containsKey(lemma) ) {
+    	        tokenString = lemma;
+    	        break;
+    	      }
+    	    }
+          }
+        }
+
     	List<String> replacements = wrongWords.get(tokenString);
       
     	if (replacements != null && replacements.size() > 0 ) {

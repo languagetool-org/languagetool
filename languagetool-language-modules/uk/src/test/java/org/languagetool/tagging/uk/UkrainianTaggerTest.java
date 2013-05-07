@@ -44,10 +44,10 @@ public class UkrainianTaggerTest extends TestCase {
     TestTools.myAssert("Справу порушено судом", 
       "Справу/[справа]noun:f:v_zna -- порушено/[порушено]impers -- судом/[суд]noun:m:v_oru|судом/[судома]noun:p:v_rod",
        tokenizer, tagger);
-    
+       
     String expected = 
-      "Майже/[null]null -- два/[два]noun:m:v_naz//n:v_naz -- роки/[рік]noun:p:v_naz|роки/[рік]noun:p:v_zna -- тому/[той]pron|тому/[том]noun:m:v_rod"
-    + " -- Люба/[Люба]noun:f:v_naz|Люба/[любий]adj:f:v_naz -- разом/[раз]noun:m:v_oru -- із/[із]pryim:rv_rod/rv_zna/rv_oru"
+      "Майже/[null]null -- два/[два]noun:m:v_naz|два/[два]noun:m:v_zna|два/[два]noun:n:v_naz|два/[два]noun:n:v_zna -- роки/[рік]noun:p:v_naz|роки/[рік]noun:p:v_zna -- тому/[той]pron|тому/[том]noun:m:v_rod"
+    + " -- Люба/[Люба]noun:f:v_naz|Люба/[любий]adj:f:v_naz -- разом/[раз]noun:m:v_oru -- із/[із]pryim:rv_rod:rv_zna:rv_oru"
     + " -- чоловіком/[чоловік]noun:m:v_oru -- Степаном/[Степан]noun:m:v_oru -- виїхали/[виїхати]verb:past:m -- туди/[туди]adv"
     + " -- на/[на]pryim:rv_zna:rv_mis -- проживання/[проживання]noun:n:v_naz|проживання/[проживання]noun:n:v_rod|проживання/[проживання]noun:n:v_zna";
   

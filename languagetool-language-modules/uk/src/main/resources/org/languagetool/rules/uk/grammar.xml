@@ -139,7 +139,7 @@ $Id$
             <rule>
                 <pattern case_sensitive="yes">
                     <marker>
-                    <token regexp="yes" negate="yes">[\p{Punct}–—«\(]|[нН]у|[АаІіЙй]|але<exception postag="SENT_START"></exception></token>
+                    <token regexp="yes" negate="yes">[\p{Punct}–—«\(„]|[нН]у|[АаІіЙй]|але<exception postag="SENT_START"></exception></token>
                     <token regexp="yes">а|але|однак|проте|зате</token>
                     </marker>
                     <token regexp="yes" negate="yes">[\p{Punct}–—«\(]</token>
@@ -347,24 +347,27 @@ $Id$
             </rule>
         </rulegroup>
 -->
+<!--
         <rulegroup name="Більш з числівниками" id="BILSHE_WITH_NUMERICS">
             <rule>
                 <pattern>
                     <token>більше</token>
-                    <token postag_regexp="yes" postag="numr.*"/>
+                    <token postag_regexp="yes" postag="numr.*">
+                        <exception regexp="yes" inflected="yes">один</exception>
+                    <token>
                 </pattern>
                 <message>З числівником замість «більше» треба вживати «понад»: <suggestion>понад <match no="2" postag="numr:v_naz"/></suggestion></message>
                 <example type="correct">Більше галасу</example>
                 <example type="incorrect"><marker>Більше ста</marker>.</example>
             </rule>
         </rulegroup>
-    
+-->
         <!-- TODO:
             проблеми: 1) як пропонувати "й", якщо наступне не почитанється з "й", і "та", якщо далі не йде "а"
                       2) як пропонувати частину слова "дощ йде" -> "дощ іде"?
         -->
-            <!--
         <rulegroup name="Милозвучність" id="NICE">
+            <!--
                   <rule>
                       <pattern>
                           <token regexp="yes">.*[аеєиіїоуюя]</token>
@@ -555,22 +558,26 @@ $Id$
                 <example type="incorrect">Родина <marker>з</marker> шести осіб.</example>
                 <example type="incorrect">Родина <marker>зі</marker> шести осіб.</example>
             </rule>
+            -->
 
             <rule>
                 <pattern>
                     <marker>
                         <token regexp="yes">із|з</token>
                     </marker>
-                    <token regexp="yes">[зсцчшщ][ь]*[56789ґйцкнгшщзхфвпрлджчсмтбqwrtpsdfghjklzxcvbnm].*</token>
+                    <token regexp="yes">[зсшщ]ь?[56789ґйцкнгшщзхфвпрлджчсмтбqwrtpsdfghjklzxcvbnm].*
+                        <exception regexp="yes">\p{Lu}\p{Lu}.*</exception>
+                    </token>
                 </pattern>
                 <message>Перед сполученням приголосних із початковим свистячим або шиплячим пишемо зі: <suggestion>зі</suggestion> \2</message>
                 <example type="correct">Бере книжку зі стола.</example>
                 <example type="correct">Висновок із цього.</example>
+                <example type="correct">Балада зі знаком запитання.</example>
+                <example type="correct">Організація з США підкуплена.</example>
                 <example type="incorrect">Бере книжку <marker>із</marker> стола.</example>
                 <example type="incorrect">Бере книжку <marker>з</marker> стола.</example>
             </rule>
         </rulegroup>
-            -->
     </category>
 
     <category name="Borrowings">
@@ -704,6 +711,7 @@ $Id$
             <token>що</token>
          </pattern>
          <message>Правильно: <suggestion>вважати</suggestion>, <suggestion>гадати</suggestion></message>
+         <url>http://kurylo.wikidot.com/23-deiaki-khybno-vzhyvani-slova</url>
          <example type="incorrect">Він <marker>рахував</marker>, що все буде гаразд.</example>
          <example type="correct">Він вважав, що все буде гаразд.</example>
        </rule>
@@ -714,8 +722,40 @@ $Id$
             <token>про</token>
          </pattern>
          <message>Правильно: <suggestion>йдеться про</suggestion></message>
+         <url>http://kurylo.wikidot.com/23-deiaki-khybno-vzhyvani-slova</url>
          <example type="incorrect"><marker>Мова йде про</marker> наслідки перемовин.</example>
          <example type="correct">Йдеться про наслідки перемовин.</example>
+       </rule>
+       <rule>
+         <pattern>
+            <token>справа</token>
+            <token>в</token>
+            <token>тому</token>
+         </pattern>
+         <message>Правильно: <suggestion>річ у тому</suggestion>, <suggestion>річ у тім</suggestion></message>
+         <url>http://kurylo.wikidot.com/23-deiaki-khybno-vzhyvani-slova</url>
+         <example type="incorrect"><marker>Справа в тому</marker>, що його немає.</example>
+         <example type="correct">Річ у тім, що його немає.</example>
+       </rule>
+       <rule>
+         <pattern>
+            <token>без</token>
+            <token regexp="yes" inflected="yes">(усякий|весь)</token>
+         </pattern>
+         <message>Правильно: <suggestion>без ніякого</suggestion>, <suggestion>без нічого</suggestion></message>
+         <url>http://kurylo.wikidot.com/23-deiaki-khybno-vzhyvani-slova</url>
+         <example type="incorrect">Вони виходять на попа <marker>без усякої</marker> науки.</example>
+         <example type="correct">Вони виходять на попа без ніякої науки.</example>
+       </rule>
+       <rule>
+         <pattern>
+            <token>один</token>
+            <token inflected="yes">другий</token>
+         </pattern>
+         <message>Правильно: <suggestion>один одного</suggestion></message>
+         <url>http://kurylo.wikidot.com/23-deiaki-khybno-vzhyvani-slova</url>
+         <example type="incorrect"><marker>Один другому</marker> допомагають.</example>
+         <example type="correct">Один одному допомагають.</example>
        </rule>
        <rule>
          <pattern> <!-- TODO: make it more generic -->
