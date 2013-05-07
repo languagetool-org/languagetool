@@ -306,16 +306,17 @@ $Id$
     </category>
 
     <category name="Стиль">
-<!--
-    TODO: треба виключити випадки де самий не є частиною творення найвищого ступеня
+
         <rulegroup name="Самий з прикметниками" id="SAMYI">
             <rule>
                 <pattern>
                     <token inflected="yes">самий
                         <exception scope="previous" regexp="yes" inflected="yes">(такий|той)</exception>
                     </token>
-                    <token postag_regexp="yes" postag="adj:.*">
+                    <token postag_regexp="yes" postag="adj:(comp|supr).*">
+                    <!--
                         <exception regexp="yes" inflected="yes">такий</exception>
+                    -->
                         <exception postag_regexp="yes" postag="noun.*"></exception>
                     </token>
                 </pattern>
@@ -324,11 +325,14 @@ $Id$
                 <example type="correct">Сама прийшла</example>
                 <example type="correct">Саме такий</example>
                 <example type="correct">Ті ж самі пісні</example>
+                <example type="incorrect"><marker>Самий кращий</marker>.</example>
+                <example type="incorrect"><marker>Сама гірша</marker>.</example>
+<!-- TODO:
                 <example type="incorrect"><marker>Самий сильний</marker>.</example>
                 <example type="incorrect"><marker>Сама тривала</marker>.</example>
+-->
             </rule>
         </rulegroup>
--->
 <!--
     Уживання складеноє форми є дозволеним, хоча перевага надається простій формі
         <rulegroup name="Більш/менш з прикметниками" id="BILSH_WITH_ADJ">
@@ -649,6 +653,78 @@ $Id$
          <example type="correct">Відіслати своє любе чадо</example>
          <example type="correct">Прийдуть любі друзі</example>
          <example type="correct">Принесла Люба метелика</example>
+       </rule>
+       <rule>
+         <pattern>
+            <token>ні</token>
+            <token>в</token>
+            <token>якому</token>
+            <token>разі</token>
+         </pattern>
+         <message>Правильно: <suggestion>у жодному разі</suggestion></message>
+         <example type="incorrect"><marker>Ні в якому разі</marker> не можна панікувати.</example>
+         <example type="correct">В такому разі не можна панікувати.</example>
+       </rule>
+       <rule>
+         <pattern>
+            <token>так</token>
+            <token>як</token>
+         </pattern>
+         <message>Правильно: <suggestion>бо</suggestion>, <suggestion>через те, що</suggestion>, <suggestion>тому, що</suggestion>, <suggestion>оскільки</suggestion></message>
+         <example type="incorrect">Збори не відбулися, <marker>так як</marker> прийшло мало людей.</example>
+         <example type="correct">Збори не відбулися тому, що прийшло мало людей.</example>
+       </rule>
+       <rule>
+         <pattern>
+            <token>до</token>
+            <token>цих</token>
+            <token>пір</token>
+         </pattern>
+         <message>Правильно: <suggestion>досі</suggestion></message>
+         <example type="incorrect">Чому економіці <marker>до цих пір</marker> не вистачає кредитів?</example>
+         <example type="correct">Чому економіці досі не вистачає кредитів?</example>
+       </rule>
+       <rule>
+         <pattern>
+            <token inflected="yes" regexp="yes">(прийняти|приймати)</token>
+            <token>міри</token>
+         </pattern>
+         <message>Правильно: <suggestion>вживати заходів</suggestion></message>
+         <example type="incorrect"><marker>Прийняти міри</marker> щодо цього.</example>
+         <example type="incorrect"><marker>Прийняли міри</marker>, щоб цього не сталося.</example>
+         <example type="incorrect"><marker>Приймуть міри</marker>, щоб цього не сталося.</example>
+         <example type="correct">Приняли мірою ваги кілограм.</example>
+       </rule>
+       <rule>
+         <pattern>
+            <marker>
+            <token inflected="yes">рахувати</token>
+            </marker>
+            <token>,</token>
+            <token>що</token>
+         </pattern>
+         <message>Правильно: <suggestion>вважати</suggestion>, <suggestion>гадати</suggestion></message>
+         <example type="incorrect">Він <marker>рахував</marker>, що все буде гаразд.</example>
+         <example type="correct">Він вважав, що все буде гаразд.</example>
+       </rule>
+       <rule>
+         <pattern>
+            <token>мова</token>
+            <token>йде</token>
+            <token>про</token>
+         </pattern>
+         <message>Правильно: <suggestion>йдеться про</suggestion></message>
+         <example type="incorrect"><marker>Мова йде про</marker> наслідки перемовин.</example>
+         <example type="correct">Йдеться про наслідки перемовин.</example>
+       </rule>
+       <rule>
+         <pattern> <!-- TODO: make it more generic -->
+            <token regexp="yes">(дві|три|чотири)</token>
+            <token>неділі</token>
+         </pattern>
+         <message>Правильно: <suggestion>... тижні</suggestion></message>
+         <example type="incorrect">Це зайняло нам <marker>дві неділі</marker></example>
+         <example type="correct">Це зайняло нам два тижні.</example>
        </rule>
        <!--
        <rule>

@@ -110,7 +110,11 @@ public class SimpleReplaceRule extends Rule {
     for (AnalyzedTokenReadings tokenReadings: tokens) {
     	String tokenString = tokenReadings.getToken();
 
-    	List<String> replacements = isCaseSensitive() ? wrongWords.get(tokenString) : wrongWords.get(tokenString.toLowerCase(getLocale()));
+    	if( ! isCaseSensitive() ) {
+    		tokenString = tokenString.toLowerCase(getLocale());
+    	}
+    	
+    	List<String> replacements = wrongWords.get(tokenString);
       
     	if (replacements != null && replacements.size() > 0 ) {
     			RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, replacements);
@@ -148,6 +152,10 @@ public class SimpleReplaceRule extends Rule {
         String line = scanner.nextLine();
         if (line.length() < 1 || line.charAt(0) == '#') { //  # = comment
           continue;
+        }
+        
+        if( ! isCaseSensitive() ) {
+        	line = line.toLowerCase(getLocale());
         }
         
         String[] parts = line.split("=");

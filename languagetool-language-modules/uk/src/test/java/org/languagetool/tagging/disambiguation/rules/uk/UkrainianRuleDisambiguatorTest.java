@@ -21,10 +21,11 @@ package org.languagetool.tagging.disambiguation.rules.uk;
 import java.io.IOException;
 
 import org.languagetool.TestTools;
+import org.languagetool.language.Ukrainian;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationRuleTest;
+import org.languagetool.tagging.disambiguation.uk.UkrainianHybridDisambiguator;
 import org.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
 import org.languagetool.tagging.uk.UkrainianTagger;
-import org.languagetool.language.Ukrainian;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.uk.UkrainianWordTokenizer;
 
@@ -33,7 +34,7 @@ public class UkrainianRuleDisambiguatorTest extends DisambiguationRuleTest {
   private UkrainianTagger tagger;
   private UkrainianWordTokenizer tokenizer;
   private SRXSentenceTokenizer sentenceTokenizer;
-  private UkrainianRuleDisambiguator disambiguator;
+  private UkrainianHybridDisambiguator disambiguator;
   private DemoDisambiguator demoDisambiguator;
   
   @Override
@@ -41,7 +42,7 @@ public class UkrainianRuleDisambiguatorTest extends DisambiguationRuleTest {
     tagger = new UkrainianTagger();
     tokenizer = new UkrainianWordTokenizer();
     sentenceTokenizer = new SRXSentenceTokenizer(new Ukrainian());
-    disambiguator = new UkrainianRuleDisambiguator();
+    disambiguator = new UkrainianHybridDisambiguator();
     demoDisambiguator = new DemoDisambiguator(); 
   }
 
@@ -51,6 +52,11 @@ public class UkrainianRuleDisambiguatorTest extends DisambiguationRuleTest {
 
   public void testChunker() throws IOException {
 
+    TestTools.myAssert("Танцювати до впаду", 
+    	"/[null]SENT_START Танцювати/[танцювати]verb:inf  /[null]null до/[до впаду]<adv>|до/[до]pryim:rv_rod  /[null]null " +
+    	"впаду/[впасти]verb:pres:s:1|впаду/[до впаду]</adv>",
+      tokenizer, sentenceTokenizer, tagger, disambiguator);
+    
     TestTools.myAssert("Прийшла Люба додому.", 
       "/[null]SENT_START Прийшла/[прийти]verb:past:f  /[null]null Люба/[Люба]noun:f:v_naz|Люба/[любий]adj:f:v_naz  /[null]null додому/[додому]adv ./[null]null",
        tokenizer, sentenceTokenizer, tagger, demoDisambiguator);
