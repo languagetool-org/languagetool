@@ -7970,6 +7970,71 @@ $Id$
         <example type="incorrect" correction="oc’h ober">Laouen on <marker>d’ober</marker> anaoudegezh ganeoc’h.</example>
         <example type="correct">Laouen on oc’h ober anaoudegezh ganeoc’h.</example>
       </rule>
+
+      <rule>
+        <pattern>
+          <token regexp="yes">(estonet|klañv|laouen|nec’het|plijet|skuizh|sabatuet|souezhet|spontet|trist)(-(holl|kenañ|krenn|meurbet|marv|mik|tre))?</token>
+          <token regexp="yes">on|out|eo|omp|oc’h|int|eur</token>
+          <marker><token>da</token></marker>
+          <token postag="V inf M:1:.*:" postag_regexp="yes" regexp="yes" inflected="yes">[mgb].*</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>o</suggestion>?</message>
+        <example type="incorrect">Laouen on <marker>da</marker> vezañ ganit.</example>
+        <example type="correct">Laouen on <marker>o</marker> vezañ ganit.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">(estonet|klañv|laouen|nec’het|plijet|skuizh|sabatuet|souezhet|spontet|trist)(-(holl|kenañ|krenn|meurbet|marv|mik|tre))?</token>
+          <token regexp="yes">on|out|eo|omp|oc’h|int|eur</token>
+          <marker>
+            <token>da</token>
+            <token postag="V inf M:1:1a:" regexp="yes" inflected="yes">k.*</token>
+          </marker>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>o <match no="4" regexp_match="^." regexp_replace="k"/></suggestion>?</message>
+        <example type="incorrect" correction="o klevout">Laouen on <marker>da glevout</marker> se.</example>
+        <example type="correct">Laouen on <marker>o klevout</marker> se.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">(estonet|klañv|laouen|nec’het|plijet|skuizh|sabatuet|souezhet|spontet|trist)(-(holl|kenañ|krenn|meurbet|marv|mik|tre))?</token>
+          <token regexp="yes">on|out|eo|omp|oc’h|int|eur</token>
+          <marker>
+            <token>da</token>
+            <token postag="V inf M:1:1a:" regexp="yes" inflected="yes">p.*</token>
+          </marker>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>o <match no="4" regexp_match="^." regexp_replace="p"/></suggestion>?</message>
+        <example type="incorrect" correction="o prenañ">Laouen omp <marker>da brenañ</marker> se.</example>
+        <example type="correct">Laouen omp <marker>o prenañ</marker> se.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">(estonet|klañv|laouen|nec’het|plijet|skuizh|sabatuet|souezhet|spontet|trist)(-(holl|kenañ|krenn|meurbet|marv|mik|tre))?</token>
+          <token regexp="yes">on|out|eo|omp|oc’h|int|eur</token>
+          <marker>
+            <token>da</token>
+            <token postag="V inf M:1:1a:" regexp="yes" inflected="yes">t.*</token>
+          </marker>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>o <match no="4" regexp_match="^." regexp_replace="t"/></suggestion>?</message>
+        <example type="incorrect" correction="o touzañ">Laouen on <marker>da douzañ</marker> ho leton.</example>
+        <example type="correct">Laouen on <marker>o touzañ</marker> ho leton.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">(estonet|klañv|laouen|nec’het|plijet|skuizh|sabatuet|souezhet|spontet|trist)(-(holl|kenañ|krenn|meurbet|marv|mik|tre))?</token>
+          <token regexp="yes">on|out|eo|omp|oc’h|int|eur</token>
+          <marker>
+            <token>da</token>
+            <token postag="V inf M:1:1b:4:" regexp="yes" inflected="yes">d.*</token>
+          </marker>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>o <match no="4" regexp_match="^." regexp_replace="t"/></suggestion>?</message>
+        <example type="incorrect" correction="o teskiñ">Laouen on <marker>da zeskiñ</marker> brezhoneg.</example>
+        <example type="correct">Laouen on o teskiñ brezhoneg.</example>
+      </rule>
+
       <rule>
         <pattern>
           <token regexp="yes">(estonet|klañv|laouen|nec’het|plijet|skuizh|sabatuet|souezhet|spontet|trist)(-(holl|kenañ|krenn|meurbet|marv|mik|tre))?</token>
