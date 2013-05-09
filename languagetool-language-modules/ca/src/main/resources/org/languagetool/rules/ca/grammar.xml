@@ -17942,7 +17942,7 @@ $Id$
     		<rule>
 			    <pattern>
 			        <token>allò</token>
-			        <token postag="A..[MC]S.*" postag_regexp="yes" regexp="yes">h?[aeiouàéèíóòú].+</token>
+			        <token postag="A..[MC]S.*" postag_regexp="yes" regexp="yes">h?[aeiouàéèíóòú].+<exception>altre</exception></token>
 			    </pattern>
 			    <message>Amb valor abstractiu val més usar una altra construcció. Correcte si equival a "aquella cosa <match no="2" postag="AQ.*" postag_regexp="yes" postag_replace="AQ0[FC]S0"/>".</message>
 			    <suggestion>el fet <match no="2"/></suggestion>
@@ -17953,6 +17953,7 @@ $Id$
 			    <short>Possible construcció incorrecta</short>
 			    <example type="incorrect" correction="el fet important|la cosa important|el punt important|el que és important|l'important"><marker>allò important</marker></example>
 			    <example type="correct">l'important</example>
+			    <example type="correct">Allò altre no m'interessa tant.</example>
 			</rule>
 			<rule>
 			    <pattern>
@@ -18719,10 +18720,10 @@ $Id$
         <rulegroup id="EXIGEIX_VERBS_CENTRAL" name="Exigeix formes verbals del català central">
         	<rule>
         		<pattern>
-        			<token postag="V.{6}[VBZ]" postag_regexp="yes"><exception postag="V.{6}[0CXY]|_possible_nompropi|N.*|AQ.*" postag_regexp="yes"/><exception>vinga</exception></token>
+        			<token postag="V.{6}[VBZ34567]" postag_regexp="yes"><exception postag="V.{6}[0CXY12]|_possible_nompropi|N.*|AQ.*" postag_regexp="yes"/><exception>vinga</exception></token>
         		</pattern>
         		<message>Forma verbal valenciana o balear.</message>
-        		<suggestion><match no="1" postag="(V.+)." postag_regexp="yes" postag_replace="$1[CXY0]"/></suggestion>
+        		<suggestion><match no="1" postag="(V.+)." postag_regexp="yes" postag_replace="$1[CXY012]"/></suggestion>
         		<example type="incorrect" correction="pensi|penso">Jo ho <marker>pense</marker>.</example>
         		<example type="incorrect" correction="Digui">"<marker>Diga</marker> el que digui".</example>
 				<example type="correct">No es va poder encendre mai.</example>
@@ -18831,10 +18832,10 @@ $Id$
         <rulegroup id="EXIGEIX_VERBS_VALENCIANS" name="Exigeix formes verbals valencianes" default="off">
         	<rule>
         		<pattern>
-        			<token postag="V.{6}[CBY]" postag_regexp="yes"><exception postag="V.{6}[0VXZ]|_possible_nompropi|N.*|AQ.*" postag_regexp="yes"/><exception>vinga</exception></token>
+        			<token postag="V.{6}[CBY24]" postag_regexp="yes"><exception postag="V.{6}[0VXZ13567]|_possible_nompropi|N.*|AQ.*" postag_regexp="yes"/><exception>vinga</exception></token>
         		</pattern>
         		<message>Forma verbal no valenciana.</message>
-        		<suggestion><match no="1" postag="(V.+)." postag_regexp="yes" postag_replace="$1[0VXZ]"/></suggestion>
+        		<suggestion><match no="1" postag="(V.+)." postag_regexp="yes" postag_replace="$1[0VXZ13567]"/></suggestion>
         		<example type="incorrect" correction="tinguérem|tinguéssem">Si <marker>tinguéssim</marker> sort.</example>
         		<example type="incorrect" correction="pense">Jo <marker>penso</marker>.</example>
         		<example type="incorrect" correction="facen">Que ells <marker>facin</marker>.</example>
@@ -18876,10 +18877,10 @@ $Id$
         <rulegroup id="EXIGEIX_VERBS_BALEARS" name="Exigeix formes verbals balears" default="off">
         	<rule>
         		<pattern>
-        			<token postag="V.{6}[CVX]" postag_regexp="yes"><exception postag="V.{6}[0BYZ]|_possible_nompropi|N.*|AQ.*" postag_regexp="yes"/><exception>vinga</exception></token>
+        			<token postag="V.{6}[CVX356]" postag_regexp="yes"><exception postag="V.{6}[0BYZ1247]|_possible_nompropi|N.*|AQ.*" postag_regexp="yes"/><exception>vinga</exception></token>
         		</pattern>
         		<message>Forma verbal no balear.</message>
-        		<suggestion><match no="1" postag="(V.+)." postag_regexp="yes" postag_replace="$1[0BYZ]"/></suggestion>
+        		<suggestion><match no="1" postag="(V.+)." postag_regexp="yes" postag_replace="$1[0BYZ1247]"/></suggestion>
         		<!-- valencians -->
         		<example type="incorrect" correction="pens|pensi">Jo ho <marker>pense</marker>.</example>
 				<example type="correct">No es va poder encendre mai.</example>
@@ -18976,7 +18977,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">(apreh|apr|carv|compr|corpr|def|dep|desapr|desp|despr|empr|exp|malpr|malv|mampr|of|repr|retrov|rev|salpr|sobrepr|sorpr|susp|ullpr)én</token>
+                    <token regexp="yes">(apreh|apr|carv|compr|corpr|def|dep|desapr|desp|despr|depr|empr|exp|malpr|malv|mampr|of|repr|retrov|rev|salpr|sobrepr|sorpr|susp|ullpr)én</token>
                 </pattern>
                 <message>Accentuació valenciana.</message>
                 <suggestion><match no="1" regexp_match="^(.+)én" regexp_replace="$1èn"></match></suggestion>
