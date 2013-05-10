@@ -130,6 +130,8 @@ public class HTTPSServer extends Server {
       System.out.println("                 'keystore' - a Java keystore with an SSL certificate");
       System.out.println("                 'password' - the keystore's password");
       System.out.println("                 'maxTextLength' - maximum text length, longer texts will cause an error (optional)");
+      System.out.println("                 'requestLimit' - maximum number of requests (optional)");
+      System.out.println("                 'requestLimitPeriodInSeconds' - time period to which requestLimit applies (optional)");
       printCommonOptions();
       System.exit(1);
     }
