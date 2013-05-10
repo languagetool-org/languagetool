@@ -96,7 +96,8 @@ class LanguageToolHttpHandler implements HttpHandler {
                 " denied - too many requests. Allowed maximum requests: " + requestLimiter.getRequestLimit() +
                 " requests per " + requestLimiter.getRequestLimitPeriodInSeconds() + " seconds";
         sendError(httpExchange, HttpURLConnection.HTTP_FORBIDDEN, errorMessage);
-        throw new RuntimeException(errorMessage);
+        print(errorMessage);
+        return;
       }
       final Map<String, String> parameters = getRequestQuery(httpExchange, requestedUri);
       if (allowedIps == null || allowedIps.contains(remoteAddress)) {
