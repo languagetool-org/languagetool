@@ -6513,7 +6513,7 @@ $Id$
             <rule>
                 <pattern>
                     <token>el</token>
-                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+|o|i|host</exception><exception inflected="yes">ordinal</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
+                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+|o|i|host</exception><exception inflected="yes" regexp="yes">halar|io[dt]itzar</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Cal apostrofar.</message>
                 <suggestion>l'<match no="2"></match></suggestion>
@@ -8898,6 +8898,19 @@ $Id$
                 <message>Cal apostrofar: <suggestion><match no="1" regexp_match="[Ee]?([^e])e?" regexp_replace="$1e"></match><match no="2" regexp_match="e?([^e]{1,2})e?" regexp_replace="'$1"></match></suggestion>.</message>
                 <short>Cal apostrofar</short>
                 <example type="incorrect" correction="Se't"><marker>Se et</marker> buida de gent.</example>
+                <example type="correct"><marker>Se't</marker> buida de gent.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="P.*" postag_regexp="yes" regexp="yes">se|es|te|et|me|em</token>
+                        <token postag="P.*" postag_regexp="yes" regexp="yes">el|te|et|me|em|en|ne</token>
+                    </marker>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">halar|io[dt]itzar</token>
+                </pattern>
+                <message>Cal apostrofar: <suggestion><match no="1" regexp_match="[Ee]?([^e])e?" regexp_replace="$1e"></match><match no="2" regexp_match="e?([^e]{1,2})e?" regexp_replace="'$1"></match></suggestion>.</message>
+                <short>Cal apostrofar</short>
+                <example type="incorrect" correction="Se't"><marker>Se et</marker> halen de seguida.</example>
                 <example type="correct"><marker>Se't</marker> buida de gent.</example>
             </rule>
             <rule>
