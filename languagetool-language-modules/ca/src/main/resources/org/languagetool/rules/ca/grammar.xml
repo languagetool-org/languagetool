@@ -3625,6 +3625,7 @@ $Id$
             <example type="correct">El llibre <marker>tracta</marker> a més a més aspectes importants de les matemàtiques</example>
         </rule> -->
         <rulegroup id="COM_COM_A" name="com / com a">
+        <!-- en quins casos es poden usar tots els temps verbals, no sols el participi? -->
         	<rule>
         		<pattern>
 	        		<token postag="V.P.*" skip="1" postag_regexp="yes" regexp="yes" inflected="yes">figurar|reconèixer|conèixer|definir|veure|entendre|interpretar</token>
@@ -8851,14 +8852,17 @@ $Id$
                     <token><exception postag="V.[MGN].*" postag_regexp="yes"/><exception postag="P[P0].*" postag_regexp="yes" regexp="yes">-.+</exception></token>
                     <marker>
                         <token postag="P.*" postag_regexp="yes" regexp="yes">el|se|es|te|et|me|em|en|ne|'[ltsnm]<exception postag="allow_saxon_genitive"/></token>
-                        <token postag="V.[^NGP].*|P[P0].*" postag_regexp="yes" regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">io[dt].*</exception><exception regexp="yes">us|el|els|et|en|em</exception></token>
+                        <token postag="V.[^NGP].*|P[P0].*" postag_regexp="yes" regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">us|el|els|et|en|em</exception><exception regexp="yes" inflected="yes">halar|io[td]itzar</exception></token>
                     </marker>
                 </pattern>
                 <message>Cal apostrofar: <suggestion><match no="2" regexp_match="[Ee']?(.)[e]?" regexp_replace="$1'"></match><match no="3"/></suggestion>.</message>
                 <short>Cal apostrofar</short>
                 <example type="incorrect" correction="s'omple">La plaça <marker>se omple</marker> de gent.</example>
-                <example type="correct">La plaça s' omple de gent.</example>
                 <example type="incorrect" correction="n'he">quan me<marker>'n he</marker> posat de curts</example>
+                <example type="incorrect" correction="T'ionitza"><marker>Et ionitza</marker>.</example>
+                <example type="correct">Se'l hala sencer</example>
+                <example type="correct">Se't ioditza</example>
+                <example type="correct">La plaça s'omple de gent.</example>
                 <example type="correct">quan me n'he posat de curts</example>
                 <example type="correct">En portar-me'l obrí la caixa</example>
                 <example type="correct">McDonald’s és una empresa</example>
@@ -8913,29 +8917,46 @@ $Id$
                 <pattern>
                     <token postag="P0.*" postag_regexp="yes" negate_pos="yes"></token>
                     <marker>
-                        <token postag="P.*" postag_regexp="yes" regexp="yes">(s|t|m|n)['e]</token>
+                        <token postag="P.*" postag_regexp="yes" regexp="yes">(s|t|m|n|l)['e]<exception>se</exception></token>                   
+                    	<token postag="V.*" postag_regexp="yes"><exception regexp="yes">h?[aeiouàèéíòóú].*</exception><exception>guard</exception></token>
                     </marker>
-                    <token postag="V.*" postag_regexp="yes"><exception regexp="yes">h?[aeiouàèéíòóú].*</exception><exception regexp="yes">s.*|c[ei].*</exception><exception>guard</exception></token>
                 </pattern>
-                <message>Cal usar la forma reforçada: <suggestion><match no="2" regexp_match="(.)." regexp_replace="e$1" case_conversion="alllower"></match></suggestion>.</message>
+                <message>Cal usar la forma reforçada.</message>
+                <suggestion><match no="2" regexp_match="(.)." regexp_replace="e$1" case_conversion="alllower"/> <match no="3"/></suggestion>
                 <short>Cal usar la forma reforçada</short>
-                <example type="incorrect">Això <marker>se</marker> diu.</example>
-                <example type="incorrect">Ell <marker>se</marker> diu.</example>
-                <example type="correct">Això <marker>es</marker> diu.</example>
+                <example type="incorrect" correction="et diu">Això <marker>te diu</marker>.</example>
+                <example type="correct">Això et diu.</example>
                 <example type="correct">Déu te guard</example>
             </rule>
             <rule>
                 <pattern>
-                    <token postag="V.*|P[P0].*" postag_regexp="yes" negate_pos="yes"><exception regexp="yes">jo|mi|tu|ella?|nosaltres|vosaltres|elle?s|vost[èé]s?|vós</exception></token>
+                    <token postag="P0.*" postag_regexp="yes" negate_pos="yes"></token>
                     <marker>
-                        <token postag="P.*" postag_regexp="yes" regexp="yes">(s|t|m|n)['e]</token>
+                        <token postag="P.*" postag_regexp="yes">se</token>
+                    	<token postag="V.*" postag_regexp="yes"><exception regexp="yes">h?[aeiouàèéíòóú].*</exception><exception regexp="yes">s.*|c[ei].*</exception><exception>guard</exception></token>
                     </marker>
-                    <token postag="V.*" postag_regexp="yes" regexp="yes">io[dt].*</token>
                 </pattern>
-                <message>Cal usar la forma reforçada: <suggestion><match no="2" regexp_match="(.)." regexp_replace="e$1"></match></suggestion>.</message>
+                <message>Cal usar la forma reforçada.</message>
+                <suggestion><match no="2" regexp_match="(.)." regexp_replace="e$1" case_conversion="alllower"/> <match no="3"/></suggestion>
                 <short>Cal usar la forma reforçada</short>
-                <example type="incorrect">Això <marker>s'</marker>ioditza.</example>
-                <example type="correct">Això <marker>es</marker> ioditza.</example>
+                <example type="incorrect" correction="es diu">Això <marker>se diu</marker>.</example>
+                <example type="correct">Això se celebra.</example>
+                <example type="correct">Déu te guard</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <!-- <token postag="V.*|P[P0].*" postag_regexp="yes" negate_pos="yes"><exception regexp="yes">jo|mi|tu|ella?|nosaltres|vosaltres|elle?s|vost[èé]s?|vós</exception></token> -->
+                    <marker>
+                        <token postag="P.*" postag_regexp="yes" regexp="yes">(s|t|m|n|l)['e]</token>
+                    	<token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">io[dt]itzar|halar</token>
+                    </marker>
+                </pattern>
+                <message>Cal usar la forma reforçada.</message>
+                <suggestion><match no="1" regexp_match="(.)." regexp_replace="e$1" case_conversion="alllower"/> <match no="2"/></suggestion>
+                <short>Cal usar la forma reforçada.</short>
+                <example type="incorrect" correction="es hala">Ell <marker>s'hala</marker> una barra.</example>
+                <example type="incorrect" correction="es hala">Això <marker>se hala</marker> una barra.</example>
+                <example type="correct">Això s'ionitza.</example>       
             </rule>
             <!-- darrere del verb-->
             <rule>
