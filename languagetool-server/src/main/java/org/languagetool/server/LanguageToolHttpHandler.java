@@ -91,6 +91,10 @@ class LanguageToolHttpHandler implements HttpHandler {
     try {
       final URI requestedUri = httpExchange.getRequestURI();
       final String remoteAddress = httpExchange.getRemoteAddress().getAddress().getHostAddress();
+      // According to the Javadoc, "Closing an exchange without consuming all of the request body is
+      // not an error but may make the underlying TCP connection unusable for following exchanges.",
+      // so we consume the request now, even before checking for request limits:
+      final Map<String, String> parameters = getRequestQuery(httpExchange, requestedUri);
       if (requestLimiter != null && !requestLimiter.isAccessOkay(remoteAddress)) {
         final String errorMessage = "Error: Access from " + StringTools.escapeXML(remoteAddress) +
                 " denied - too many requests. Allowed maximum requests: " + requestLimiter.getRequestLimit() +
@@ -99,7 +103,6 @@ class LanguageToolHttpHandler implements HttpHandler {
         print(errorMessage);
         return;
       }
-      final Map<String, String> parameters = getRequestQuery(httpExchange, requestedUri);
       if (allowedIps == null || allowedIps.contains(remoteAddress)) {
         if (requestedUri.getRawPath().endsWith("/Languages")) {
           // request type: list known languages
