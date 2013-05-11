@@ -6327,7 +6327,10 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token negate="yes" regexp="yes">plus|moins|de|[’´'‛′‘]/</token>
-          <token postag="N f .*" postag_regexp="yes"><exception regexp="yes">impression|fois</exception></token>
+          <token postag="N f .*" postag_regexp="yes">
+            <exception regexp="yes">impression|fois</exception>
+            <exception inflected="yes">estimer</exception>
+          </token>
           <token regexp="yes" skip="2">que?<exception scope="next">quand</exception></token>
           <marker>
             <token postag="V avoir ind.*" postag_regexp="yes" skip="2"/>
@@ -6344,6 +6347,7 @@ though, and has since been slightly modified)-->
         <example type="incorrect">La femme que j’<marker>ai beaucoup aidé</marker>.</example>
         <example type="incorrect">La femme que j’<marker>ai un peu aidé</marker>.</example>
         <example type="correct">Une meilleure situation que quand il <marker>a pris</marker> ses fonctions.</example>
+        <example type="correct">L'expert estime que les climatosceptiques <marker>ont fait</marker> pression.</example>
       </rule>
       <rule>
         <pattern>
