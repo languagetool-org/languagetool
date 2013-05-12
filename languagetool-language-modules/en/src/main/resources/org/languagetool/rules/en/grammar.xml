@@ -39,6 +39,17 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
     <!-- Possible typos -->
     <!-- ====================================================================== -->
     <category name="Possible Typos" type="misspelling">
+        <rule id="ON_OF_THE" name="one (one) of the most/least/...">
+            <pattern>
+                <token>on</token>
+                <token>of</token>
+                <token>the</token>
+                <token regexp="yes">more|most|less|least|best|worst</token>
+            </pattern>
+            <message>Did you mean <suggestion>one</suggestion>?</message>
+            <example type="incorrect" correction="one">It's <marker>on of the most</marker> popular songs.</example>
+            <example type="correct">It's <marker>one</marker> of the most popular songs.</example>
+        </rule>
     	<rule id="ASK_WETHER" name="ask wether/weather (whether)">
     		<pattern>
     		<token inflected="yes" skip="1" regexp="yes">ask|question</token>
