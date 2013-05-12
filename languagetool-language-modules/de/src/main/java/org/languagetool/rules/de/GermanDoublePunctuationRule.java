@@ -18,6 +18,8 @@
  */
 package org.languagetool.rules.de;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ResourceBundle;
 
 import org.languagetool.rules.DoublePunctuationRule;
@@ -29,6 +31,11 @@ public class GermanDoublePunctuationRule extends DoublePunctuationRule {
   
   public GermanDoublePunctuationRule(final ResourceBundle messages) {
     super(messages);
+    try {
+      setUrl(new URL("http://www.canoo.net/services/GermanSpelling/Amtlich/Interpunktion/pgf101-105.html#pgf103"));
+    } catch (MalformedURLException e) {
+      throw new RuntimeException(e);
+    }
   }
   
   @Override
