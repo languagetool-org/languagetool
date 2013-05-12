@@ -8509,7 +8509,7 @@ $Id$
         </rulegroup>
     </category>
     <category name="Pronoms febles" type="grammar">
-        <rulegroup id="PRONOMS_FEBLES" name="Comprova les combinacions de pronoms febles">
+        <rulegroup id="PRONOMS_FEBLES_SOLTS" name="Comprova pronoms febles solts: *li cantar">
             <!-- pronom feble solt: caldria diferenciar dos casos: posposat i anteposat-->
             <rule>
                 <pattern>
@@ -8558,6 +8558,8 @@ $Id$
                 <example type="incorrect">Jo no <marker>m'hi</marker> sentit mai espanyol.</example>
                 <example type="correct">Jo no m'he sentit mai espanyol.</example>
             </rule>
+        </rulegroup>
+        <rulegroup id="PRONOMS_FEBLES_TEMPS_VERBAL" name="Comprova temps verbal (infinitiu, gerundi, imperatiu): *diguéssim-li-ho">
             <rule>
                 <pattern>
                     <marker>
@@ -8569,8 +8571,10 @@ $Id$
                 <short>Temps verbal incorrecte</short>
                 <example type="incorrect"><marker>Diguéssim</marker>-li-ho.</example>    
                 <example type="correct">Diguem-li-ho.</example>
-            </rule>
-            <!-- Norma aplicada: 3a p refl. (se) +2a p (et, us) + 1a p (em, ens) + datiu (3a p: li, els) + acusatiu (3a p: el, la, els, les, ho) + en + hi -->
+            </rule>            
+        </rulegroup>
+        <!-- Norma aplicada: 3a p refl. (se) +2a p (et, us) + 1a p (em, ens) + datiu (3a p: li, els) + acusatiu (3a p: el, la, els, les, ho) + en + hi -->
+        <rulegroup id="PRONOMS_FEBLES_ORDENACIO" name="Ordenació dels pronoms febles: *li se, *hi us">    
             <rule>
                 <pattern>
                     <token postag="P0.*|PP.*" postag_regexp="yes"><exception regexp="yes">['-].+|jo|mi|tu|ella?|nosaltres|vosaltres|elle?s|vost[èé]s?|vós</exception></token>
@@ -8838,6 +8842,8 @@ $Id$
 <example type="incorrect"><marker>Se me li n'hi</marker> porta.</example>
 <example type="correct">Se'ns n'hi va.</example>
 </rule> -->
+		</rulegroup>
+        <rulegroup id="PRONOMS_FEBLES_DAVANT_VERB" name="Formes incorrectes davant de verb: *se omple, *se'l emporta">
             <rule>
                 <pattern>
                     <token postag="P0.*|PP.*" postag_regexp="yes" regexp="yes">-?[stm]'?</token>
@@ -8974,6 +8980,8 @@ $Id$
                 <example type="correct">Això s'ionitza.</example>       
             </rule>
             <!-- darrere del verb-->
+        </rulegroup>
+        <rulegroup id="PRONOMS_FEBLES_DARRERE_VERB" name="Formes incorrectes darrere de verb: *veure-lo, *emporteu-vos-ne">
             <rule>
                 <pattern>
                     <token postag="V.[MNG].*" postag_regexp="yes"><exception postag="V.[^MNG].*" postag_regexp="yes"></exception></token>
@@ -9144,6 +9152,8 @@ $Id$
                 <example type="incorrect" correction="-en">Emporteu-vos<marker>-ne</marker>.</example>
                 <example type="correct">Emporta-vos-en.</example>
             </rule>
+        </rulegroup>
+        <rulegroup id="PRONOMS_FEBLES_LIS" name="Formes incorrectes: *lis">
             <rule>
                 <pattern>
                     <marker>
@@ -9181,6 +9191,8 @@ $Id$
                 <example type="incorrect" correction="truca'ls">Has de <marker>truca-lis</marker>.</example>
                 <example type="correct">Truca'ls.</example>
             </rule>
+        </rulegroup>
+        <rulegroup id="PRONOMS_FEBLES_COMBINACIONS_SE" name="Combinacions incorrectes: *se'l donem/l'hi donem/li'l donem">    
             <rule>
                 <pattern>
                     <token postag="V.M.*" postag_regexp="yes"></token>
@@ -9546,7 +9558,7 @@ $Id$
                 <example type="correct">es pot fer correctament</example>
             </rule>
         </rulegroup>
-        <rulegroup id="EXIGEIX_US" name="Exigeix la forma 'us'. Ex. Què vos/us sembla?">
+        <rulegroup id="EXIGEIX_US" name="Exigeix la forma 'us': ¿Què vos/us sembla?">
             <rule>
                 <pattern>
                     <marker>
