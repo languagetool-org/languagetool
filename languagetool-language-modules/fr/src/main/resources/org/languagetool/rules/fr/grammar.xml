@@ -2327,6 +2327,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
+          <token><exception>la</exception></token>
           <marker><token regexp="yes">voies?</token></marker>
           <token regexp="yes" skip="2">aux|à</token>
           <token regexp="yes">élections?</token>
@@ -2334,6 +2335,7 @@ though, and has since been slightly modified)-->
         <message>Voulez-vous écrire <suggestion>voix</suggestion> ?</message>
         <example type="incorrect">La majorité des <marker>voies</marker> aux élections.</example>
         <example type="correct">La majorité des <marker>voix</marker> aux élections.</example>
+        <example type="correct">Cette décision ouvre la voie à des élections.</example>
       </rule>
       <rule>
         <pattern>
@@ -3977,6 +3979,7 @@ though, and has since been slightly modified)-->
         <example type="correct">J’aimerais changer de travail.</example>
         <example type="correct">Je l’ai tout à fait oublié.</example>
         <example type="correct">Puis assigné à résidence.</example>
+        <example type="correct">Je me suis en fait amusé.</example>
       </rule>
       <rule>
         <pattern>
@@ -4011,7 +4014,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <token regexp="yes">comment|pour|pourquoi|quand|où</token>
           <marker>
-            <token postag="V.* ppa.*" postag_regexp="yes" regexp="yes">.*é<exception postag="V inf"/></token>
+            <token postag="V.* ppa.*" postag_regexp="yes" regexp="yes">.*é</token>
           </marker>
         </pattern>
         <message>Le verbe « \2 » devrait être à l’infinitif après « \1 ».</message>
@@ -4023,7 +4026,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <token inflected="yes" regexp="yes">&lt;/[MTS]E&gt;|[mts]e|lui</token>
           <marker>
-            <token postag="V.* ppa.*" postag_regexp="yes" regexp="yes">.*é<exception postag="V inf"/></token>
+            <token postag="V.* ppa.*" postag_regexp="yes" regexp="yes">.*é</token>
           </marker>
         </pattern>
         <message>Le verbe « \2 » devrait être à l’infinitif après « \1 ».</message>
@@ -4035,7 +4038,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">comment|pour|pouquoi|quand|où</token>
           <token postag="A"/>
           <marker>
-            <token postag="V.* ppa.*" postag_regexp="yes" regexp="yes">.*é<exception postag="V inf"/></token>
+            <token postag="V.* ppa.*" postag_regexp="yes" regexp="yes">.*é</token>
           </marker>
         </pattern>
         <message>Le verbe « \3 » devrait être à l’infinitif après « \1 \2 ».</message>
@@ -4497,6 +4500,7 @@ though, and has since been slightly modified)-->
         <message>Le mot singulier « \5 » n’est pas accordé en nombre avec le mot pluriel « \2 ».</message>
         <example type="incorrect">Nous étions trop <marker>fatigué</marker>.</example>
         <example type="correct">Nous étions trop <marker>fatigués</marker>.</example>
+        <example type="correct">Ils sont bien <marker>sûr</marker> ressortis indemnes.</example>
       </rule>
       <rule>
         <pattern>
@@ -14390,24 +14394,6 @@ though, and has since been slightly modified)-->
       <message>« Aller en ondes » est un anglicisme (to go on the air). Employez <suggestion>passer sur les ondes</suggestion>, <suggestion>passer à l’antenne</suggestion>, <suggestion>être diffusé</suggestion>.</message>
       <example type="incorrect"><marker>aller en ondes</marker>.</example>
       <example type="correct"><marker>être diffusé</marker>.</example>
-    </rule>
-    <rule id="DISPOSER_DUN_ADVERSAIRE" name="disposer d’un adversaire">
-      <pattern>
-        <token inflected="yes" skip="6">disposer</token>
-        <token regexp="yes">adversaires?</token>
-      </pattern>
-      <message>« Disposer d’un adversaire » est un anglicisme (to go on the air). Employez <suggestion>battre un adversaire</suggestion>, <suggestion>vaincre un adversaire</suggestion>, <suggestion>avoir raison d’un adversaire</suggestion>.</message>
-      <example type="incorrect"><marker>disposer d’un adversaire</marker>.</example>
-      <example type="correct"><marker>battre un adversaire</marker>.</example>
-    </rule>
-    <rule id="DISPOSER_DUN_PROBLEME" name="disposer d’un adversaire">
-      <pattern>
-        <token inflected="yes" skip="6">disposer</token>
-        <token regexp="yes">problèmes?</token>
-      </pattern>
-      <message>« Disposer d’un adversaire » est un anglicisme (to go on the air). Employez <suggestion>résoudre un problème</suggestion>.</message>
-      <example type="incorrect"><marker>disposer d’un problème</marker>.</example>
-      <example type="correct"><marker>résoudre un problème</marker>.</example>
     </rule>
     <rule id="ALLER_EN_REFERENDUM" name="aller en référendum">
       <pattern>

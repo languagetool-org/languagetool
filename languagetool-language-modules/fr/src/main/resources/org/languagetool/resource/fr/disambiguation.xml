@@ -1178,6 +1178,24 @@ RB => Règles Brutes
     </pattern>
     <disambig postag="D m p"/>
   </rule>
+  <rulegroup name="en fait" id="EN_FAIT">
+    <rule>
+      <pattern>
+        <token><exception postag="Z.*" postag_regexp="yes"/><exception regexp="yes">il|elle|on|[’´'‛′‘]</exception></token>
+        <marker><token>en</token></marker>
+        <token>fait</token>
+      </pattern>
+      <disambig postag="A"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token><exception postag="Z.*" postag_regexp="yes"/><exception regexp="yes">il|elle|on|[’´'‛′‘]</exception></token>
+        <token>en</token>
+        <marker><token>fait</token></marker>
+      </pattern>
+      <disambig postag="A"/>
+    </rule>
+  </rulegroup>
   <rule id="EN_GENERAL" name="en général">
     <pattern>
       <token>en</token>
@@ -1211,6 +1229,15 @@ RB => Règles Brutes
     <pattern>
       <token>sans</token>
       <token regexp="yes">doute|cesse</token>
+    </pattern>
+    <disambig action="replace"><wd pos="A"/><wd pos="A"/></disambig>
+  </rule>
+  <rule id="BIEN_SUR" name="bien sûr">
+    <pattern>
+      <marker>
+        <token>bien</token>
+        <token>sûr</token>
+      </marker>
     </pattern>
     <disambig action="replace"><wd pos="A"/><wd pos="A"/></disambig>
   </rule>
