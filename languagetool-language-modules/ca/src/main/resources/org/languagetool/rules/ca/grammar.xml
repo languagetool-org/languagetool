@@ -6331,15 +6331,16 @@ $Id$
         <rulegroup id="DUES_PREPOSICIONS" name="Dues preposicions: a amb">
             <rule>
                 <pattern>
-                    <token postag="SPS00" regexp="yes">(?-i)a</token> 
-                    <token postag="SPS00" regexp="yes">amb|per|en</token>
+                    <token postag="SPS00" regexp="yes">(?-i)a|per</token> 
+                    <token postag="SPS00" regexp="yes">amb|per|en|des|de|d'</token>
                 </pattern>
                 <message>Combinació impossible de preposicions.</message>
                 <suggestion><match no="2"/></suggestion>
                 <suggestion><match no="1"/></suggestion>
                 <short>Element repetit</short>
-                <example type="incorrect">Pensava que <marker>a amb</marker> ell me'n sortiria.</example>
-                <example type="incorrect">Anaven <marker>a en</marker> ell.</example>
+                <example type="incorrect" correction="amb|a">Pensava que <marker>a amb</marker> ell me'n sortiria.</example>
+                <example type="incorrect" correction="en|a">Anaven <marker>a en</marker> ell.</example>
+                <!-- <example type="incorrect">hem tingut <marker>per des</marker> d'equips amb Windows.</example> -->
                 <example type="correct">Pensava que amb ell sí.</example>
                 <example type="correct">Li ho van donar a en Pere.</example>
                 <example type="correct">Per a ell sí.</example>
