@@ -3155,7 +3155,7 @@ though, and has since been slightly modified)-->
         <message>Voulez-vous écrire <suggestion>gré</suggestion> ?</message>
         <example type="incorrect">Tu peux se déplacer à ton <marker>grès</marker>.</example>
         <example type="correct">Tu peux se déplacer à ton gré.</example>
-        <example type="correct">Une renommée qu'elle doit à la particularité de son grès.</example>
+        <example type="correct">Une renommée qu’elle doit à la particularité de son grès.</example>
       </rule>
       <rule>
         <pattern>
@@ -3213,7 +3213,7 @@ though, and has since been slightly modified)-->
     <rulegroup id="VENENEUX_VENIMEUX" name="vénéneux ou venimeux">
       <rule>
         <pattern>
-          <token regexp="yes" skip="1">(serpent|araignée|scorpion|vipère|cobra|crapaud|grenouille|dendrobate|poulpe|guêpe|abeille|méduse|morsure|piqûre|dard|dent|croc|chochet)s?</token>
+          <token regexp="yes" skip="1">(serpent|araignée|tarentule|scorpion|vipère|cobra|crapaud|grenouille|dendrobate|poulpe|guêpe|abeille|méduse|raie|morsure|piqûre|dard|dent|croc|chochet)s?</token>
           <marker><token regexp="yes">v[ée]n[ée][nm]eu(x|ses?)</token></marker>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="^....." regexp_replace="venim"/></suggestion>?</message>
@@ -3223,7 +3223,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes" skip="1">(serpent|araignée|scorpion|vipère|couleuvre|cobra|crapaud|grenouille|dendrobate|poulpe|guêpe|abeille|méduse|morsure|piqûre|dard|dent|croc|chochet)s?</token>
+          <token regexp="yes" skip="1">(serpent|araignée|tarentule|scorpion|vipère|couleuvre|cobra|crapaud|grenouille|dendrobate|poulpe|guêpe|abeille|raie|méduse|morsure|piqûre|dard|dent|croc|chochet)s?</token>
           <token postag="V etre.*" postag_regexp="yes" skip="1"/>
           <marker><token regexp="yes">v[ée]n[ée][nm]eu(x|ses?)</token></marker>
         </pattern>
@@ -4799,7 +4799,7 @@ though, and has since been slightly modified)-->
             <token postag="V ppa . s" postag_regexp="yes" regexp="yes" inflected="yes">abandonner|absorber|r?accompagner|accueillir|accuser|aimer|amuser|apercevoir|arrêter|attendre|avertir|baiser|choquer|combattre|combler|condamner|connaître|contacter|contaminer|contraindre|contrarier|convaincre|craindre|défendre|dépasser|dépouiller|divertir|divorcer|éclabousser|écouter|éduquer|effrayer|élire|embarrasser|embêter|embrasser|emmener|enchanter|entendre|engueuler|entraîner|étonner|exciter|exterminer|féliciter|forcer|frôler|gâter|gêner|guider|guérir|héberger|informer|inviter|gronder|marier|nourrir|observer|offenser|offusquer|oublier|percuter|prévenir|protéger|priver|quitter|ranger|recevoir|(re)?conduire|regarder|rencontrer|remarquer|redouter|rejoindre|rescaper|renseigner|respecter|retarder|sauver|(pour)?suivre|surprendre|taquiner|torturer|trahir|transporter|tromper|tuer|vexer|visiter|voir</token>
           </marker>
         </pattern>
-        <message>Le participe passé employé avec l’auxiliaire 'avoir' doit s’accorder avec le complément d’objet direct '\2' quand celui-ci est antéposé. Voulez-vous écrire <suggestion>\4s</suggestion> ?</message>
+        <message>Le participe passé employé avec l’auxiliaire « avoir » doit s’accorder avec le complément d’objet direct '\2' quand celui-ci est antéposé. Voulez-vous écrire <suggestion>\4s</suggestion> ?</message>
         <example type="incorrect" correction="informés">Il nous a <marker>informé</marker>.</example>
         <example type="incorrect" correction="informées">Il nous a <marker>informée</marker>.</example>
         <example type="correct">Il nous a informés.</example>
@@ -5795,7 +5795,7 @@ though, and has since been slightly modified)-->
     <rulegroup id="QUI_VCONJ" name="Verbe conjugué après pronom relatif qui">
       <rule>
         <pattern>
-          <token>moi<exception regexp="yes" scope="previous">en|ou</exception></token>
+          <token>moi<exception scope="previous" regexp="yes">(?-i)en|ou|et</exception></token>
           <token skip="1">qui</token>
           <marker>
             <token postag="V.*" postag_regexp="yes">
@@ -5814,6 +5814,9 @@ though, and has since been slightly modified)-->
         <example type="correct">C’est moi qui suis allé là-bas.</example>
         <example type="incorrect">C’est moi qui <marker>dit</marker> ça.</example>
         <example type="correct">C’est moi qui dis ça.</example>
+        <example type="incorrect">Et moi qui <marker>pensait</marker> qu’il m’aimait.</example>
+        <example type="correct">Et moi qui pensais qu’il m’aimait.</example>
+        <example type="correct">Il n’y avait qu’elle et moi qui savions.</example>
       </rule>
       <rule>
         <pattern>
@@ -6351,7 +6354,7 @@ though, and has since been slightly modified)-->
         <example type="incorrect">La femme que j’<marker>ai beaucoup aidé</marker>.</example>
         <example type="incorrect">La femme que j’<marker>ai un peu aidé</marker>.</example>
         <example type="correct">Une meilleure situation que quand il <marker>a pris</marker> ses fonctions.</example>
-        <example type="correct">L'expert estime que les climatosceptiques <marker>ont fait</marker> pression.</example>
+        <example type="correct">L’expert estime que les climatosceptiques <marker>ont fait</marker> pression.</example>
       </rule>
       <rule>
         <pattern>
