@@ -9291,7 +9291,7 @@ $Id$
                 <pattern>
                     <token postag="SENT_START" skip="-1"><exception postag="PP3CN000" scope="next" inflected="yes">en</exception></token>
                     <marker>
-                        <token postag="V[^S][SI].*" postag_regexp="yes"><exception>taula</exception></token>
+                        <token postag="V[^S][SI].*" postag_regexp="yes"><exception regexp="yes">taula|mapa</exception></token>
                         <token postag="DN.*" postag_regexp="yes"><exception regexp="yes">zero|set</exception></token>
                     </marker>
                     <token regexp="yes">[.;?!]</token>
@@ -9305,6 +9305,7 @@ $Id$
                 <example type="correct">Ells són set.</example>
                 <example type="correct">la suma dels estats d'oxidació dóna zero.</example>
                 <example type="correct">Taula 15. Superfície artificial al País Valencià</example>
+                <example type="correct">Mapa 2. Superfície artificial al País Valencià</example>
             </rule>
             <rule>
                 <pattern>
@@ -16724,7 +16725,7 @@ $Id$
     	<rulegroup id="A_NIVELL" name="a nivell / a nivell de">
     		<rule>
     			<pattern>
-    				<token>a</token>
+    				<token>a<exception postag=".*LOC.*" postag_regexp="yes"/></token>
     				<token>nivell</token>
     				<token postag="AQ0[MC][SN]0" postag_regexp="yes"/>
     			</pattern>
@@ -16737,10 +16738,11 @@ $Id$
     			<short>Expressió preferible</short>
     			<example type="incorrect" correction="en l'àmbit mundial|a escala mundial|mundialment|mundial">Ho varen fer <marker>a nivell mundial</marker>.</example>
     			<example type="correct">Aquest terra no és a nivell.</example>
+    			<example type="correct">Quant a nivell de renda, són els més alts.</example>
     		</rule>
     		<rule>
     			<pattern>
-    				<token>a</token>
+    				<token>a<exception postag=".*LOC.*" postag_regexp="yes"/></token>
     				<token>nivell</token>
     				<token regexp="yes">de|d'</token>
     			</pattern>
