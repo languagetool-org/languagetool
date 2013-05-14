@@ -21,7 +21,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.048 2013-05-12 15:40:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.049 2013-05-14 12:25:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -500,8 +500,11 @@ $Id: grammar.xml,v 1.048 2013-05-12 15:40:00 marcoagpinto Exp $
     <!-- DEPOIS DE após -->
     <rule id="DEPOIS_DE" name="após">
       <pattern>
-        <token>depois</token>
-        <token>de</token>
+  	    <marker>
+  	    <token>depois</token>
+  	    <token>de</token>
+  	    </marker>
+  	    <token><exception>amanhã</exception></token> 
       </pattern>
       <message>Substituir «depois de» por <suggestion>após</suggestion>.</message>
       <example type="incorrect">Faz isso <marker>depois de</marker> saber os resultados.</example>
