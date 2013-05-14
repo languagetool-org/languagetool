@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rules targetLang="pl" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/bitext.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<rules targetLang="ru" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/bitext.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <category name="negation">
-        <rule lang="pl" id="there_is" name="There is -> Istnieje">
+        <rule lang="ru" id="there_is" name="There is -> Это">
             <pattern>
                 <source lang="en">
                     <token>there</token>
@@ -10,20 +10,19 @@
                 </source>
                 <target>
                     <marker>
-                        <token>nie</token>
-                        <token regexp="yes">ma|jest</token>
+                        <token>нет</token>
                     </marker>
                     <token/>
                 </target>
             </pattern>
-            <message>Czy chodziło o <suggestion>istnieje</suggestion>?</message>
+            <message>Было ли это <suggestion>там</suggestion>?</message>
             <example type="correct">
                 <srcExample>There is a dog.</srcExample>
-                <trgExample>Jest pies.</trgExample>
+                <trgExample>Это собака.</trgExample>
             </example>
             <example type="incorrect">
                 <srcExample><marker>There is a</marker> dog.</srcExample>
-                <trgExample><marker>Nie ma</marker> psa.</trgExample>
+                <trgExample><marker>Нет</marker> собаки.</trgExample>
             </example>
         </rule>
     </category>
