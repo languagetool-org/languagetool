@@ -2509,13 +2509,14 @@ $Id$
             <pattern>
                 <marker>
                     <token inflected="yes">ser<exception>estat</exception></token>
+                    <token>en</token>
+                    <token regexp="yes">joc|marxa|obres|ordre|guerra|pau|perill|crisi|vaga|dejú</token>
                 </marker>
-                <token>en</token>
-                <token regexp="yes">joc|marxa|obres|ordre|guerra|pau|perill|crisi|vaga|dejú</token>
             </pattern>
-            <message>Val més dir: <suggestion><match no="1" postag="VS(.+)" postag_regexp="yes" postag_replace="VM$1">estar</match></suggestion>.</message>
+            <message>Val més usar el verb 'estar'.</message>
+            <suggestion><match no="1" postag="VS(.+)" postag_regexp="yes" postag_replace="VM$1">estar</match> <match no="2"/> <match no="3"/></suggestion>
             <short>Possible confusió</short>
-            <example type="incorrect" correction="estaven">Les coses <marker>eren</marker> en ordre</example>
+            <example type="incorrect" correction="estaven en ordre">Les coses <marker>eren en ordre</marker>.</example>
             <example type="correct">Estan en marxa</example>           
             <example type="correct">Han estat en perill des de fa temps.</example>
         </rule>
@@ -2524,13 +2525,14 @@ $Id$
                 <marker>
                     <token>hi</token>
                     <token inflected="yes">haver</token>
-                </marker>
-                <token>en</token>
-                <token regexp="yes">joc|marxa|obres|ordre|guerra|pau|perill|crisi|vaga|dejú</token>
+                    <token>en</token>
+                    <token regexp="yes">joc|marxa|obres|ordre|guerra|pau|perill|crisi|vaga|dejú</token>
+                </marker>     
             </pattern> <!-- no proposa bé el nombre sing/plural -->
-            <message>Val més dir: <suggestion><match no="2" postag="VA(.+)" postag_regexp="yes" postag_replace="VM$1">estar</match></suggestion>.</message>
+            <message>Val més usar el verb 'estar'.</message>
+            <suggestion><match no="2" postag="VA(.+)" postag_regexp="yes" postag_replace="VM$1">estar</match> <match no="3"/> <match no="4"/></suggestion>
             <short>Possible confusió</short>
-            <example type="incorrect" correction="Estava"><marker>Hi havia</marker> en joc el futur.</example>
+            <example type="incorrect" correction="Estava en joc"><marker>Hi havia en joc</marker> el futur.</example>
             <example type="correct">Estaven en marxa</example>           
             <example type="correct">Hi havia moltes coses en joc.</example>
         </rule>
@@ -6345,6 +6347,7 @@ $Id$
                 <example type="correct">Li ho van donar a en Pere.</example>
                 <example type="correct">Per a ell sí.</example>
                 <example type="correct">Vitamina A en forma de</example>
+                <!-- <example type="correct">va ser introduït a Europa per en Minoru Mochizuki</example> -->
             </rule>
             <rule>
                 <pattern>
@@ -7198,9 +7201,9 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token>son<exception postag="_GN.*" postag_regexp="yes"/></token>
+                        <token skip="1">son<exception postag="_GN.*" postag_regexp="yes"/></token>
                     </marker>
-                    <token postag="[AN].*|_GN.*" postag_regexp="yes"/>
+                    <token postag="[AN].*|_GN.*|V.P..P.." postag_regexp="yes"/>
                 </pattern>
                 <message>Si és del verb 'ser', cal accentuar.</message>
                 <suggestion>són</suggestion>
@@ -7208,6 +7211,7 @@ $Id$
                 <example type="incorrect" correction="són">Novament <marker>son</marker> casos evidents de malbaratment.</example>
                 <example type="incorrect" correction="són">Aquestes <marker>son</marker> boniques.</example>
                 <example type="incorrect" correction="Són"><marker>Son</marker> dos exemples dels centenars que existeixen.</example>
+                <example type="incorrect" correction="són">I els seus correus <marker>son</marker> immediatament destruïts.</example>
                 <example type="correct">una restricció sostinguda del son de quatre hores al dia</example>
             </rule>
         </rulegroup>
@@ -10013,7 +10017,7 @@ $Id$
         <rule id="PUNT_EN_ABREVIATURES" name="Comprova que hi ha punt en abreviatures: pàg., núm., etc.">
             <pattern case_sensitive="no">
                 <marker> <!-- Eliminades les abreviatures d'una sola lletra. spacebefore="yes" -->
-                    <token regexp="yes">(abr|abs|acad|add|adj|adm|admdor|admdora|admtiu|admtiva|adv|ag|agl|agr|agron|agròn|aj|alim|ampl|ap|apmt|apnt|apr|aprox|apt|arq|arqueol|arquit|atm|aut|aux|batx|bda|bibl|bl|bnc|butll|bxs|calef|cartogr|catedr|catol|cf|cin|climat|col·l|constr|contr|conv|corp|corr|cpl|cpt|cra|cró|ct|cte|ctra|cts|dc|dept|desp|dg|dip|disp|distr|div|dj|Dr|Dra|drec|ds|dt|dta|dte|dupl|dv|econ|ed|Emm|entl|esp|espf|esq|etc|exc|Excm|Excma|exp|exped|ext|fac|fca|febr|gov|gr|gral|Hble|Il·lm|Il·lma|Il·ltre|Im|Ima|imp|impr|impt|inc|insp|int|inv|jul|jurispr|leg|llic|loc|ltda|làm|Mgfc|Mgfca|mil·l|Mn|màx|mín|nov|nre|núm|oct|op|paq|pda|pg|pl|ppda|ppt|pral|prev|prof|progr|pta|ptes|ptge|pvt|pàg|rbla|ref|rev|secr|sgt|sotsp|Sr|Sra|Sres|Srs|St|Sta|supl|supt|telegr|trad|trans|transcr|transf|tripl|trv|tt|tèc|univ|urb|veg|vid|vig|vocab|vs|àt|íd)<exception postag="NP.*" postag_regexp="yes"/></token>
+                    <token regexp="yes">(abr|abs|acad|add|adj|adm|admdor|admdora|admtiu|admtiva|adv|ag|agl|agr|agron|agròn|aj|alim|ampl|ap|apmt|apnt|apr|aprox|apt|arq|arqueol|arquit|atm|aut|aux|batx|bda|bibl|bl|bnc|butll|bxs|calef|cartogr|catedr|catol|cf|cin|climat|col·l|constr|contr|conv|corp|corr|cpl|cpt|cra|cró|ct|cte|ctra|cts|dc|dept|desp|dg|dip|disp|distr|div|dj|Dr|Dra|drec|ds|dt|dta|dte|dupl|dv|econ|ed|Emm|entl|esp|espf|esq|etc|exc|Excm|Excma|exp|exped|ext|fac|fca|febr|gov|gr|gral|hab|Hble|Il·lm|Il·lma|Il·ltre|Im|Ima|imp|impr|impt|inc|insp|int|inv|jul|jurispr|leg|llic|loc|ltda|làm|Mgfc|Mgfca|mil·l|Mn|màx|mín|nov|nre|núm|oct|op|paq|pda|pg|pl|ppda|ppt|pral|prev|prof|progr|pta|ptes|ptge|pvt|pàg|rbla|ref|rev|secr|sgt|sotsp|Sr|Sra|Sres|Srs|St|Sta|supl|supt|telegr|trad|trans|transcr|transf|tripl|trv|tt|tèc|univ|urb|veg|vid|vig|vocab|vs|àt|íd)<exception postag="NP.*" postag_regexp="yes"/></token>
                 </marker>
                 <token><exception>.</exception></token>
             </pattern>
@@ -16738,7 +16742,7 @@ $Id$
     			<short>Expressió preferible</short>
     			<example type="incorrect" correction="en l'àmbit mundial|a escala mundial|mundialment|mundial">Ho varen fer <marker>a nivell mundial</marker>.</example>
     			<example type="correct">Aquest terra no és a nivell.</example>
-    			<example type="correct">Quant a nivell de renda, són els més alts.</example>
+    			<!-- <example type="incorrect">tant a nivell català com a nivell europeu.</example> -->
     		</rule>
     		<rule>
     			<pattern>
@@ -16755,6 +16759,7 @@ $Id$
     			<short>Expressió preferible</short>
     			<example type="incorrect" correction="A|En|En l'àmbit d'|A escala d'"><marker>A nivell d'</marker>Europa.</example>
     			<example type="correct">Al nivell del mar.</example>
+    			<!-- <example type="correct">Pel que fa a nivell de renda, són els més alts.</example> -->
     		</rule>
     	</rulegroup>
     	<rule id="ALS_TRES_ANYS" name="Revisa: als tres anys/a tres anys/al cap de tres anys">
@@ -17551,7 +17556,7 @@ $Id$
             <example type="correct">sense desmerèixer els anteriors, incloent-hi el muntatge de la Fura dels Baus</example>
         </rule>
     </category>      
-    <category name="C1) Evita formes impròpies d'un regsitre formal" type="style">
+    <category name="C1) Evita formes impròpies d'un registre formal" type="style">
     	<rule id="TIO" name="tio">
 	         <pattern>
 	             <token regexp="yes">tios?</token>
