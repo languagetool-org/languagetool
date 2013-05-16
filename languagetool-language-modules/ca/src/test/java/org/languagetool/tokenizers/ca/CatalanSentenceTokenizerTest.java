@@ -48,6 +48,7 @@ public class CatalanSentenceTokenizerTest extends TestCase {
     // Initials
     testSplit(new String[] { "A l'atenció d'A. Comes." });
     testSplit(new String[] { "A l'atenció d'À. Comes." });
+    testSplit(new String[] { "Núm. operació 220130000138." });
 
     // Ellipsis
     testSplit(new String[] { "Desenganyeu-vos… ",
