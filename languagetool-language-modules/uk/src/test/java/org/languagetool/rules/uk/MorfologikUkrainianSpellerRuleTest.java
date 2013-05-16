@@ -62,6 +62,12 @@ public class MorfologikUkrainianSpellerRuleTest {
     assertEquals(1, matches.length);
     assertEquals("прийдешній", matches[0].getSuggestedReplacements().get(0));
 
+    // compounding
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Жакет був синьо-жовтого кольору")).length);
+
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Він багато сидів на інтернет-форумах")).length);
+
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Він багато сидів на інтермет-форумах")).length);
   }
 
 }

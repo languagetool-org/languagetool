@@ -19,8 +19,10 @@
 package org.languagetool.tagging.uk;
 
 import java.util.Locale;
+import java.util.regex.Pattern;
 
 import org.languagetool.tagging.BaseTagger;
+import org.languagetool.AnalyzedToken;
 
 /** 
  * Ukrainian part-of-speech tagger.
@@ -30,6 +32,7 @@ import org.languagetool.tagging.BaseTagger;
  * @author Andriy Rysin
  */
 public class UkrainianTagger extends BaseTagger {
+  private static final Pattern NUMBER = Pattern.compile("[+-]?[0-9]+(,[0-9]+)?");
 
   @Override
   public final String getFileName() {
@@ -40,4 +43,13 @@ public class UkrainianTagger extends BaseTagger {
     super();
     setLocale(new Locale("uk", "UA"));
   }
+  
+  @Override
+  public AnalyzedToken additionalTag(String word) {
+    if ( NUMBER.matcher(word).matches() ){
+        return new AnalyzedToken(word, IPOSTag.numr.toString(), word);
+    }
+    return null;
+  }
+
 }

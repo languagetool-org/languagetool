@@ -869,6 +869,18 @@ $Id$
        <rule>
          <pattern>
             <marker>
+              <token>порівняно</token>
+              <token>з</token>
+            </marker>
+         </pattern>
+         <message>Правильно: <suggestion>як порівняти з</suggestion>, <suggestion>проти</suggestion></message>
+         <url>http://yak-my-hovorymo.wikidot.com/porivnyannya-u-porivnyanni-porivnyano-yak-porivnyaty-proty</url>
+         <example type="incorrect"><marker>Порівняно з</marker> феодалізмом, капіталізм був кроком уперед.</example>
+         <example type="correct">Як порівняти з феодалізмом, капіталізм був кроком уперед.</example>
+       </rule>
+       <rule>
+         <pattern>
+            <marker>
               <token>при</token>
               <token>порівнянні</token>
             </marker>
@@ -877,6 +889,45 @@ $Id$
          <url>http://yak-my-hovorymo.wikidot.com/porivnyannya-u-porivnyanni-porivnyano-yak-porivnyaty-proty</url>
          <example type="incorrect"><marker>При порівнянні</marker> середніх місячних температур виходить, що найтеплішим місяцем у північній півкулі є липень.</example>
          <example type="correct">Як порівняти середні місячні температури виходить, що найтеплішим місяцем у північній півкулі є липень.</example>
+       </rule>
+       <rule>
+         <pattern>
+            <marker>
+              <token>на</token>
+              <token>сьогоднішній</token>
+              <token>день</token>
+            </marker>
+         </pattern>
+         <message>Правильно: <suggestion>сьогодні</suggestion>, <suggestion>на сьогодні</suggestion>, <suggestion>нині</suggestion>, <suggestion>тепер</suggestion></message>
+         <url>http://slovoua.com/questions/149</url>
+         <example type="incorrect"><marker>На сьогоднішній день</marker> банкірів більше ніж дентистів.</example>
+         <example type="correct">На сьогодні заборгованість становить 10 тис.</example>
+       </rule>
+       <rule>
+         <pattern>
+            <marker>
+              <token>незважаючи</token>
+              <token>на</token>
+            </marker>
+         </pattern>
+         <message>Правильно: <suggestion>не зважаючи на</suggestion>, <suggestion>не вважаючи на</suggestion>, <suggestion>всупереч</suggestion>, <suggestion>наперекір</suggestion>, <suggestion>попри</suggestion></message>
+         <example type="incorrect">Гра тривала <marker>незважаючи на</marker> сильну зливу.</example>
+         <example type="correct">Гра тривала не зважаючи на сильну зливу.</example>
+       </rule>
+     </rulegroup>
+     
+     <rulegroup id="NON_LEXEM_BORROWING_SOFT" name="калькування (стилістичне)">
+       <rule>
+         <pattern>
+            <marker>
+              <token regexp="yes">більше?</token>
+              <token>за</token>
+              <token>все</token>
+            </marker>
+         </pattern>
+         <message>Правильно: <suggestion>найбільше</suggestion>, <suggestion>понад усе</suggestion>, <suggestion>над усе</suggestion></message>
+         <example type="incorrect">Він любив футбол <marker>більш за все</marker>.</example>
+         <example type="correct">Він любив футбол понад усе.</example>
        </rule>
      </rulegroup>
 

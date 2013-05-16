@@ -119,14 +119,19 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     return toRuleMatchArray(ruleMatches);
   }
 
+
+  protected boolean isMisspelled(MorfologikSpeller speller, String word) {
+    return speller.isMisspelled(word);
+  }
+
   private List<RuleMatch> getRuleMatch(final String word, final int startPos) {
     final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
-    if (speller.isMisspelled(word)) {
+    if (isMisspelled(speller, word)) {
       final RuleMatch ruleMatch = new RuleMatch(this, startPos, startPos
           + word.length(), messages.getString("spelling"),
           messages.getString("desc_spelling_short")); 
       //If lower case word is not a misspelled word, return it as the only suggestion 
-      if (!speller.isMisspelled(word.toLowerCase(conversionLocale))) {
+      if (!isMisspelled(speller, word.toLowerCase(conversionLocale))) {
         List<String> suggestion = Arrays.asList(word.toLowerCase(conversionLocale));
         ruleMatch.setSuggestedReplacements(suggestion);
         ruleMatches.add(ruleMatch);

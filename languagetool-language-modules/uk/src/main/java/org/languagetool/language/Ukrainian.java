@@ -27,6 +27,7 @@ import org.languagetool.rules.CommaWhitespaceRule;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.WhitespaceRule;
 import org.languagetool.rules.uk.MorfologikUkrainianSpellerRule;
+import org.languagetool.rules.uk.MixedAlphabetsRule;
 import org.languagetool.rules.uk.SimpleReplaceRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.uk.UkrainianSynthesizer;
@@ -131,6 +132,7 @@ public class Ukrainian extends Language {
 // TODO: does not handle !.. and ?..            
 //            DoublePunctuationRule.class,
             MorfologikUkrainianSpellerRule.class,
+            MixedAlphabetsRule.class,
 // TODO: does not handle dot in abbreviations in the middle of the sentence, and also !.., ?..          
 //            UppercaseSentenceStartRule.class,
             WhitespaceRule.class,
