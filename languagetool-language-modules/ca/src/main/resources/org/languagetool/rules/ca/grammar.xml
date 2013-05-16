@@ -3430,15 +3430,17 @@ $Id$
     </category>
     <category name="Z) Conjuncions" type="grammar">
     	<rulegroup id="DONCS_CAUSAL" name="*'doncs' causal">
+    		<!-- La regla aprofita que és més probable que després del 'doncs' il·latiu hi hagi un verb
+    		     i darrere del 'doncs' causal un subjecte. -->
     		<rule>
 			    <pattern>
 			    	<token regexp="yes">[,;]</token>
 			        <marker>
 			        	<token>doncs</token>
 			        </marker>
-			        <token><exception postag="_PUNCT.*" postag_regexp="yes"/></token>
+			        <token><exception postag="_PUNCT.*|V.[ISM].*" postag_regexp="yes"/></token>
 			    </pattern>
-			    <message>'Doncs' no té valor causal. És correcte si equival a "per tant", però llavors sol anar entre comes.</message> 
+			    <message>'Doncs' no té valor causal. És correcte si equival a 'per tant', però llavors sol anar entre comes.</message> 
 			    <suggestion>perquè</suggestion>
 			    <suggestion>ja que</suggestion>
 			    <suggestion>puix</suggestion>
@@ -3447,6 +3449,9 @@ $Id$
 			    <url>http://esadir.cat/sintaxi/conjdoncs/view</url>
 			    <short>Possible error</short>
 			    <example type="incorrect">Vingué, <marker>doncs</marker> això li agradava.</example>
+			    <example type="incorrect">La indicació no és certa, <marker>doncs</marker> aquesta opció no hi és.</example>
+			    <example type="correct">Bé, doncs vam arribar a mig matí.</example>
+			    <example type="correct">Bé, doncs digueu-li-ho de seguida.</example>
 			    <example type="correct">Això era, doncs, el que li agradava.</example>
 			    <example type="correct">¿Com va anar, doncs?</example>
 			</rule>
@@ -17955,6 +17960,7 @@ $Id$
             <example type="incorrect" correction="en"><marker>al</marker> pensar en ell</example>
             <example type="correct">contrària al pensar generalitzat</example>
             <example type="correct">anem al pedregar</example>
+            <example type="correct">No em remuntaré als temps dels Estats Pontificis ni al poder dels Savoia.</example>
         </rule>
         <rule id="SE_DAVANT_SC" name="Exigeix 'se' davant verb que comença amb so de s (se sap, se celebra)">
             <pattern>

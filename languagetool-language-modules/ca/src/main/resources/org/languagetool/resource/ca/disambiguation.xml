@@ -1652,6 +1652,18 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="V.N.*"></disambig>
     </rule>
+    <rule id="poder_substantiu" name="poder (substantiu) + de">
+        <pattern>
+            <marker>
+                <and>
+                    <token postag="N.*" postag_regexp="yes">poder</token>
+                    <token postag="V.N.*" postag_regexp="yes"></token>
+                </and>
+            </marker>
+            <token regexp="yes">de|d'</token>
+        </pattern>
+        <disambig action="filter" postag="N.*"></disambig>
+    </rule>
     <rule id="menjar_substantiu" name="menjar substantiu">
         <pattern>
             <token postag="D[^R].MS.*" postag_regexp="yes"/>
