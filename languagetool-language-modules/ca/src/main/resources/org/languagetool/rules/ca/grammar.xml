@@ -3513,11 +3513,13 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token skip="2">sinó<exception scope="next" regexp="yes">que|també|perquè|com|on|què</exception></token>
+                        <token skip="2">sinó<exception scope="next" regexp="yes">que|també|perquè|com|on|què|qui</exception></token>
                     </marker>
                     <token postag="V.[^NGP].*" postag_regexp="yes"></token>
                 </pattern>
-                <message>Cal escriure: <suggestion>si no</suggestion>.</message>
+                <message>Possible confusió.</message>
+                <suggestion>si no</suggestion>
+                <url>http://www.ub.edu/criteris-cub/criteri.php?id=1035</url>
                 <short>Possible confusió</short>
                 <example type="incorrect"><marker>Sinó</marker> hi véns, serà pitjor.</example>
                 <example type="incorrect">¿Què podia fer <marker>sinó</marker> volia resignar-me?</example>
@@ -3527,6 +3529,7 @@ $Id$
                 <example type="correct">no només per on estan les coses sinó per què estan situades on es troben</example>
                 <example type="correct">començaren a fugir, no cap a València, sinó cap a Castella.</example>
                 <example type="correct">no eren missions lunars sinó només vols de prova</example>
+                <example type="correct">No és qui té la raó sinó qui té el poder.</example>
             </rule>
             <rule>
                 <pattern>
@@ -3537,25 +3540,30 @@ $Id$
                     </marker>
                     <token postag="V.[NGP].*" postag_regexp="yes"></token>
                 </pattern>
-                <message>Cal escriure: <suggestion>sinó</suggestion>.</message>
+                <message>Possible confusió.</message>
+                <suggestion>sinó</suggestion>
+                <url>http://www.ub.edu/criteris-cub/criteri.php?id=1035</url>
                 <short>Possible confusió</short>
                 <example type="incorrect">No va cantar, <marker>si no</marker> ballar.</example>
-                <example type="correct">No va cantar, sinó ballar.</example>
                 <example type="incorrect">¿Què podia fer <marker>si no</marker> resignar-me?.</example>
+                <example type="correct">No va cantar, sinó ballar.</example>
                 <example type="correct">Què podia fer sinó resignar-me.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token postag="RN|PT.*" postag_regexp="yes" skip="-1"/>
+                    <token postag="RN|PT.*" postag_regexp="yes" skip="-1"><exception scope="next" postag="RN|PT.*" postag_regexp="yes"/></token> 
                     <marker>
                         <token>si</token>
                         <token>no</token>
                     </marker>
-                    <token regexp="yes">que|també|perquè|on|com|què</token>
+                    <token regexp="yes">que|també|perquè|on|com|què|qui</token>
                 </pattern>
-                <message>Cal escriure: <suggestion>sinó</suggestion>.</message>
+                <message>Possible confusió.</message>
+                <suggestion>sinó</suggestion>
+                <url>http://www.ub.edu/criteris-cub/criteri.php?id=1035</url>
                 <short>Possible confusió</short>
                 <example type="incorrect">No només el peix, <marker>si no</marker> també la carn.</example>
+                <example type="incorrect">No és qui té la raó <marker>si no</marker> qui té el poder.</example>
                 <example type="correct">No només el peix, sinó també la carn.</example>
             </rule>
             <rule>
@@ -3567,7 +3575,9 @@ $Id$
                     </marker>
                     <token postag="SENT_END|_PUNCT.*" postag_regexp="yes"></token>
                 </pattern>
-                <message>Cal escriure: <suggestion>sinó</suggestion>.</message>
+                <message>Possible confusió.</message>
+                <suggestion>sinó</suggestion>
+                <url>http://www.ub.edu/criteris-cub/criteri.php?id=1035</url>
                 <short>Possible confusió</short>
                 <example type="incorrect">No ho ha fet ell <marker>si no</marker> el seu germà.</example>
                 <example type="correct">No ho ha fet ell sinó el seu germà.</example>
@@ -3589,7 +3599,9 @@ $Id$
                         <token>sinó</token>
                     </marker>
                 </pattern>
-                <message>Cal escriure: <suggestion>si no</suggestion>.</message>
+                <message>Possible confusió.</message>
+                <suggestion>si no</suggestion>
+                <url>http://www.ub.edu/criteris-cub/criteri.php?id=1035</url>
                 <short>Possible confusió</short>
                 <example type="incorrect">Preguntem-li <marker>sinó</marker> al president.</example>
                 <example type="incorrect">Preguntem-li-ho, <marker>sinó</marker>, al president.</example>
@@ -3606,7 +3618,9 @@ $Id$
                         <token>sinó</token>
                     </marker>
                 </pattern>
-                <message>¿Volíeu dir <suggestion>si no</suggestion>? O bé falta una negació prèviament.</message>
+                <message>Possible confusió. Potser falta una negació prèviament</message>
+                <suggestion>si no</suggestion>
+                <url>http://www.ub.edu/criteris-cub/criteri.php?id=1035</url>
                 <short>Possible confusió</short>
                 <example type="incorrect" correction="si no">Preguntem <marker>sinó</marker> al president.</example>
                 <example type="incorrect">Preguntem-li <marker>sinó</marker> al president.</example>
@@ -14976,9 +14990,9 @@ $Id$
         </rulegroup>
         <rule id="ASSENTAR_ASSEURE" name="assentar-se/asseure's">
             <pattern>
-                <token postag="SENT_START" skip="-1"><exception scope="next" postag="NP..G.." postag_regexp="yes"/><exception scope="next" regexp="yes" inflected="yes">bàvar|eslau|roca|ciutat|pedra|morter|tossal|muralla|castell|fonament|sòcol|plana|agricultor|poblat|sedentari.*|mite|història|sistema|producció|cultura|creença|judici|juí|teoria|illa|sobirania|fet|austral|base|categoria|colon|colonitz.*|colònia|comarca|comunitat|errant|est|fermament|habitant|hàbitat|medi|meridional|natural|nord|nord-est|nord-oest|nucli|nòmada|occident|occidental|oest|organització|orient|oriental|península|població|poblador|poblament|poblar|poble|província|puig|recurs|regió|regne|residència|rural|septentrional|societat|sud|sud-est|sud-oest|terra|territori|tribu|turó|tècnica|vall|vida|zona|ètnia|ètnic</exception></token>
+                <token postag="SENT_START" skip="-1"><exception scope="next" postag="NP..G.." postag_regexp="yes"/><exception scope="next" regexp="yes" inflected="yes">pilar|bàvar|eslau|roca|ciutat|pedra|morter|tossal|muralla|castell|fonament|sòcol|plana|agricultor|poblat|sedentari.*|mite|història|sistema|producció|cultura|creença|judici|juí|teoria|illa|sobirania|fet|austral|base|categoria|colon|colonitz.*|colònia|comarca|comunitat|errant|est|fermament|habitant|hàbitat|medi|meridional|natural|nord|nord-est|nord-oest|nucli|nòmada|occident|occidental|oest|organització|orient|oriental|península|població|poblador|poblament|poblar|poble|província|puig|recurs|regió|regne|residència|rural|septentrional|societat|sud|sud-est|sud-oest|terra|territori|tribu|turó|tècnica|vall|vida|zona|ètnia|ètnic</exception></token>
                 <marker>
-                    <token inflected="yes" skip="-1">assentar<exception scope="next" postag="NP..G.." postag_regexp="yes"/><exception scope="next" regexp="yes" inflected="yes">bàvar|eslau|roca|ciutat|pedra|morter|tossal|muralla|castell|fonament|sòcol|plana|agricultor|poblat|sedentari.*|mite|història|sistema|producció|cultura|creença|judici|juí|teoria|illa|sobirania|fet|austral|base|categoria|colon|colonitz.*|colònia|comarca|comunitat|errant|est|fermament|habitant|hàbitat|medi|meridional|natural|nord|nord-est|nord-oest|nucli|nòmada|occident|occidental|oest|organització|orient|oriental|península|població|poblador|poblament|poblar|poble|província|puig|recurs|regió|regne|residència|rural|septentrional|societat|sud|sud-est|sud-oest|terra|territori|tribu|turó|tècnica|vall|vida|zona|ètnia|ètnic</exception></token>
+                    <token inflected="yes" skip="-1">assentar<exception scope="next" postag="NP..G.." postag_regexp="yes"/><exception scope="next" regexp="yes" inflected="yes">pilar|bàvar|eslau|roca|ciutat|pedra|morter|tossal|muralla|castell|fonament|sòcol|plana|agricultor|poblat|sedentari.*|mite|història|sistema|producció|cultura|creença|judici|juí|teoria|illa|sobirania|fet|austral|base|categoria|colon|colonitz.*|colònia|comarca|comunitat|errant|est|fermament|habitant|hàbitat|medi|meridional|natural|nord|nord-est|nord-oest|nucli|nòmada|occident|occidental|oest|organització|orient|oriental|península|població|poblador|poblament|poblar|poble|província|puig|recurs|regió|regne|residència|rural|septentrional|societat|sud|sud-est|sud-oest|terra|territori|tribu|turó|tècnica|vall|vida|zona|ètnia|ètnic</exception></token>
                 </marker>
                 <token postag="SENT_END" />
             </pattern>
@@ -18576,6 +18590,7 @@ $Id$
                 <example type="correct">com a exemple exemple</example>
                 <example type="correct">a fer tantes coses anys enrere.</example>
                 <example type="correct">No s'hi ha fet front.</example>
+                <example type="correct">És des de fa pocs dies presidenta de l’Acadèmia.</example>
             </rule>
         </rulegroup>
         <rulegroup id="FALTA_ELEMENT_ENTRE_GN" name="Falta un element entre grups nominals" default="off">
@@ -18642,8 +18657,8 @@ $Id$
                 <pattern>
                     <token postag="SENT_START|V.[^NGP].*" postag_regexp="yes" skip="-1"><exception postag="PR.*|PT.*|DT.*|.*LOC_CONJ.*|C.*" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">perquè|com</exception></token>
                     <marker>
-                        <token postag="V.[^NGP].*" postag_regexp="yes" regexp="yes" skip="-1">[\p{Ll}·]+<exception postag="_GN_.*|N.*|A.*|V.[NGP].*|_loc_nosequi" postag_regexp="yes"/><exception>di</exception><exception scope="next" regexp="yes">,|com|perquè|que</exception><exception postag="_PUNCT.*|C.*|PR.*|PT.*|DT.*|.*LOC_CONJ.*|_loc_unavegada" postag_regexp="yes" scope="next"/></token>
-                        <token postag="V.[^NGP].*" postag_regexp="yes" regexp="yes">[\p{Ll}·]+<exception postag="_GN_.*|N.*|A.*|V.[NGP].*|.*LOC.*|_loc_nosequi" postag_regexp="yes"/><exception regexp="yes">di|cap</exception></token>
+                        <token postag="V.[^NGP].*" postag_regexp="yes" regexp="yes" skip="-1">[\p{Ll}·]+<exception postag="_GN_.*|N.*|A.*|V.[NGP].*|_loc_nosequi|.*LOC_ADV.*" postag_regexp="yes"/><exception>di</exception><exception scope="next" regexp="yes">,|com|perquè|que</exception><exception postag="_PUNCT.*|C.*|PR.*|PT.*|DT.*|.*LOC_CONJ.*|_loc_unavegada" postag_regexp="yes" scope="next"/></token>
+                        <token postag="V.[^NGP].*" postag_regexp="yes" regexp="yes">[\p{Ll}·]+<exception postag="_GN_.*|N.*|A.*|V.[NGP].*|.*LOC.*|_loc_nosequi|.*LOC_ADV.*" postag_regexp="yes"/><exception regexp="yes">di|cap</exception></token>
                     </marker>
                 </pattern> 
                 <message>Falta algun element entre verbs: coma, conjunció, pronom relatiu, etc.</message>
@@ -18717,7 +18732,7 @@ $Id$
                 <pattern>
                     <token skip="-1">si<exception postag="PR.*|PT.*|DT.*|.*LOC_CONJ.*|C.*" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">perquè|com</exception></token>
                     <marker>
-                        <token postag="V.[^NGP].*" postag_regexp="yes" regexp="yes" skip="-1">[\p{Ll}·]+<exception postag="_GN_.*|N.*|A.*|V.[NGP].*|_loc_nosequi" postag_regexp="yes"/><exception>di</exception><exception scope="next" regexp="yes">com|perquè|que</exception><exception postag="C.*|PR.*|PT.*|DT.*|.*LOC_CONJ.*|_PUNCT.*" postag_regexp="yes" scope="next"/></token>
+                        <token postag="V.[^NGP].*" postag_regexp="yes" regexp="yes" skip="-1">[\p{Ll}·]+<exception postag="_GN_.*|N.*|A.*|V.[NGP].*|.*LOC.*|_loc_nosequi" postag_regexp="yes"/><exception>di</exception><exception scope="next" regexp="yes">com|perquè|que</exception><exception postag="C.*|PR.*|PT.*|DT.*|.*LOC_CONJ.*|_PUNCT.*" postag_regexp="yes" scope="next"/></token>
                         <token postag="V.[^NGP].*" postag_regexp="yes" regexp="yes">[\p{Ll}·]+<exception postag="_GN_.*|N.*|A.*|V.[NGP].*|.*LOC.*|_loc_nosequi" postag_regexp="yes"/><exception regexp="yes">di|cap</exception></token>
                     </marker>
                 </pattern> 
@@ -18726,7 +18741,9 @@ $Id$
                 <example type="incorrect">Si <marker>volem pujar un semitò haurem</marker> de multiplicar la freqüència per dos.</example>
                 <example type="correct">Si volem pujar un semitò, haurem de multiplicar la freqüència per dos.</example>
                 <example type="correct">festa que -si no perdem de vista els seus orígens- enalteix el grotesc</example>
-                <example type="correct">Si busquem variants d'aquest gen més actives,</example>
+                <example type="correct">Si busquem variants d'aquest gen més actives</example>
+                <example type="correct">Si no vingué fa tres dies, ara tampoc no vindrà.</example>
+                <example type="correct">Si fa tres dies no vingué, ara tampoc no vindrà.</example>
             </rule>
         <rulegroup id="PREP_VERB_CONJUGAT" name="combinació impossible: preposició + verb conjugat">
             <rule>
