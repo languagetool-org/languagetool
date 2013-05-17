@@ -118,12 +118,12 @@ public class CatalanWordTokenizer implements Tokenizer {
 
 		while (st.hasMoreElements()) {
 			s = st.nextToken()
-					.replaceAll("##CA_APOS##", "'")
-					.replaceAll("##CA_HYPHEN##", "-")
-					.replaceAll("##CA_DECIMALPOINT##", ".")
-					.replaceAll("##CA_DECIMALCOMMA##", ",")
-					.replaceAll("##CA_SPACE##", " ")
-					.replaceAll("##ELA_GEMINADA##", "l.l");
+					.replace("##CA_APOS##", "'")
+					.replace("##CA_HYPHEN##", "-")
+					.replace("##CA_DECIMALPOINT##", ".")
+					.replace("##CA_DECIMALCOMMA##", ",")
+					.replace("##CA_SPACE##", " ")
+					.replace("##ELA_GEMINADA##", "l.l");
 			Matcher matcher = null;
 			boolean matchFound = false;
 			int j = 0;
