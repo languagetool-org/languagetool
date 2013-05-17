@@ -27,7 +27,11 @@ public class CatalanWordTokenizerTest extends TestCase {
 
 	public void testTokenize() {
 		CatalanWordTokenizer wordTokenizer = new CatalanWordTokenizer();
-		List<String> tokens = wordTokenizer
+		List<String> tokens;
+		tokens = wordTokenizer.tokenize("L'\"ala bastarda\".");
+    assertEquals(tokens.size(), 7);
+    assertEquals("[L', \", ala,  , bastarda, \", .]", tokens.toString());
+    		tokens = wordTokenizer
 				.tokenize("Emporta-te'ls a l'observatori dels mars");
 		assertEquals(tokens.size(), 13);
 		assertEquals(

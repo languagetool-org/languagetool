@@ -96,7 +96,7 @@ public class CatalanWordTokenizer implements Tokenizer {
 				text
 				    // allows correcting typographical errors in "ela geminada"
             .replaceAll("([aeiouàéèíóòúïü])l[.\u2022-]l([aeiouàéèíóòúïü])", "$1##ELA_GEMINADA##$2")
-            .replaceAll("([\\p{L}])['’]([\\p{L}])", "$1##CA_APOS##$2")
+            .replaceAll("([\\p{L}])['’]([\\p{L}\"‘“«])", "$1##CA_APOS##$2")
 						// Cases: d'1 km, és l'1 de gener, és d'1.4 kg
 						.replaceAll("([dlDL])['’](1[\\s\\.,])", "$1##CA_APOS##$2")
 				         //it's necessary for words like "vint-i-quatre"
@@ -146,7 +146,7 @@ public class CatalanWordTokenizer implements Tokenizer {
 	/* Splits a word containing hyphen(-) if it doesn't exist in the dictionary*/
 	private List<String> wordsToAdd(String s) {
 		final List<String> l = new ArrayList<String>();
-		if (!s.contains("-"))
+		if (!s.contains("-") && !s.isEmpty())
 			l.add(s);
 		else {
 			try {
