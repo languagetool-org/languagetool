@@ -46,9 +46,11 @@ public class ReflexiveVerbsRuleTest extends TestCase {
 		//assertCorrect("la festa de Rams es commemora anant a l'església a beneir el palmó");
 		//assertCorrect("les circumstàncies m'obliguen a gloriar-me"); Cal buscar la concordança amb (m')
 		//assertCorrect("es van agenollar i prosternar");
-	  assertCorrect("el cor m'anava a cent per hora.");
+	  assertCorrect("m'aniria bé probablement posar els quilos");
+	  assertCorrect("el cor m'anava a cent per hora."); 
+    //Però: "Jo m'anava a cent per hora". La qüestió no és si hi ha adverbi, 
+	  // sinó determinar el subjecte (que no és possible al 100%)
 	  assertCorrect("No li ho ensenyis, que el faràs delir.");
-		assertCorrect("m'aniria bé probablement posar els quilos");
 		assertCorrect("per a portar-te aigua");
 		assertCorrect("que no em costi d'anar al llit");
 		assertCorrect("el senyor Colomines s'anà progressivament reposant");
