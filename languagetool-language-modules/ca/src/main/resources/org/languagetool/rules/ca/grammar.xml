@@ -1186,14 +1186,14 @@ $Id$
                     </unify>
                 </pattern>
                 <message>Error de concordança.</message>
-                <suggestion><match no="3" postag="AQ.*|V.P.*" postag_regexp="yes" postag_replace="AQ0[FC][SN]0|V.P00SF.?"/></suggestion>
+                <suggestion><match no="3" postag="AQ.*|V.P.*" postag_regexp="yes" postag_replace="AQ.[FC][SN].|V.P00SF.?"/></suggestion>
                 <example type="incorrect" correction="autodidàctica">en català de manera <marker>autodidàctic</marker>.</example>
                 <example type="correct">Ho va fer de manera natural.</example>
             </rule>
             <rule id="ALTRE_CASA" name="altre casa">
                 <pattern>
                     <marker>
-                        <token postag="AQ0MS0|AQ0.P0|D[^R]0MS0|D[^R]0.P0" postag_regexp="yes"><exception postag="_GN_FS"/></token>
+                        <token postag="AQ.MS.|AQ..P.|D[^R]0MS0|D[^R]0.P0" postag_regexp="yes"><exception postag="_GN_FS"/></token>
                     </marker>
                     <token>casa</token>
                 </pattern>
@@ -4929,7 +4929,7 @@ $Id$
                 <marker>
                     <token>las</token>
                 </marker>
-                <token postag="NC[FC][PN].*|_GN_FP|AQ0[FC][PN]0" postag_regexp="yes"/>
+                <token postag="NC[FC][PN].*|_GN_FP|AQ.[FC][PN]." postag_regexp="yes"/>
             </pattern>
             <message>¿Volíeu dir <suggestion>les</suggestion> en lloc de "las" (adj. masc. sing.)?</message>
             <short>Possible confusió</short>
@@ -6232,7 +6232,7 @@ $Id$
                         <token spacebefore="no">l</token>
                         <token>menys</token>
                     </marker>
-                    <token><exception postag="AQ0[MC][SN]0" postag_regexp="yes" /></token>
+                    <token><exception postag="AQ.[MC][SN]." postag_regexp="yes" /></token>
                 </pattern>
                 <message>Gairebé sempre és: <suggestion>almenys</suggestion>.</message>
                 <short>Possible confusió</short>
@@ -6850,7 +6850,7 @@ $Id$
             <rule>
                 <pattern>
                     <token postag="contraccio">cal</token>
-                    <token postag="N.[MC][SN].*|AQ0[MC][SN]0" postag_regexp="yes" regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóò].+</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
+                    <token postag="N.[MC][SN].*|AQ.[MC][SN]." postag_regexp="yes" regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóò].+</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Cal apostrofar.</message>
                 <suggestion>ca l'<match no="2"></match></suggestion>
@@ -12419,7 +12419,7 @@ $Id$
                         <token>en</token>
                         <token>ocasions</token>
                     </marker>
-                    <token><exception postag="AQ0[FC][PN]0|RG_anteposat" postag_regexp="yes"/></token>
+                    <token><exception postag="AQ.[FC][PN].|RG_anteposat" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Expressió incorrecta si equival a <suggestion>a vegades</suggestion>.</message>
                 <suggestion>a voltes</suggestion>
@@ -12437,7 +12437,7 @@ $Id$
                         <token>ocasions</token>
                     </marker>
                     <token postag="RG_anteposat"/>
-                    <token><exception postag="AQ0[FC][PN]0" postag_regexp="yes"/></token>
+                    <token><exception postag="AQ.[FC][PN]." postag_regexp="yes"/></token>
                 </pattern>
                 <message>Expressió incorrecta si equival a <suggestion>a vegades</suggestion>.</message>
                 <suggestion>a voltes</suggestion>
@@ -14478,7 +14478,7 @@ $Id$
                     <marker>
                         <token>caire</token>
                     </marker>
-                    <token postag="AQ0[MC][SN]0" postag_regexp="yes"/>
+                    <token postag="AQ.[MC][SN]." postag_regexp="yes"/>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>caràcter</suggestion> en lloc de "caire" (=aspecte)?</message>
                 <example type="incorrect" correction="caràcter">Prengué una decisió de <marker>caire</marker> polític.</example>
@@ -14491,7 +14491,7 @@ $Id$
                         <token>caire</token>
                     </marker>
                     <token postag="RG_anteposat"/>
-                    <token postag="AQ0[MC][SN]0" postag_regexp="yes"/>
+                    <token postag="AQ.[MC][SN]." postag_regexp="yes"/>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>caràcter</suggestion> en lloc de "caire" (=aspecte)?</message>
                 <example type="incorrect" correction="caràcter">Prengué una decisió de <marker>caire</marker> marcadament polític.</example>
@@ -14600,7 +14600,10 @@ $Id$
                     <token postag="V.P.*" postag_regexp="yes" inflected="yes">desenfadar</token> 
                 </marker>
             </pattern>
-            <message>Incorrecte si volíeu dir <suggestion><match no="2" postag="(VMP.*)" postag_regexp="yes" postag_replace="$1">despreocupar</match></suggestion>, <suggestion><match no="2" postag="VMP00(.)(.)" postag_regexp="yes" postag_replace="AQ0$2$10">desimbolt</match></suggestion>, <suggestion><match no="2" postag="VMP00(.)(.)" postag_regexp="yes" postag_replace="AQ0C$10">informal</match></suggestion>, <suggestion><match no="2" postag="VMP00(.)(.)" postag_regexp="yes" postag_replace="AQ0C$10">alegre</match></suggestion>.</message>
+            <message>Incorrecte si volíeu dir <suggestion><match no="2" postag="(VMP.*)" postag_regexp="yes" postag_replace="$1">despreocupar</match></suggestion>.</message>
+            <suggestion><match no="2" postag="VMP00(.)(.)" postag_regexp="yes" postag_replace="AQ0$2$10">desimbolt</match></suggestion>
+            <suggestion><match no="2" postag="VMP00(.)(.)" postag_regexp="yes" postag_replace="AQ0C$10">informal</match></suggestion>
+            <suggestion><match no="2" postag="VMP00(.)(.)" postag_regexp="yes" postag_replace="AQ0C$10">alegre</match></suggestion>
             <short>Possible error</short>
             <example type="incorrect">Practica un humorisme <marker>desenfadat</marker> i anecdòtic.</example>
             <example type="correct">Practica un humorisme desimbolt i anecdòtic.</example>
@@ -14633,7 +14636,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="D[^R]0FP0|PX.FP.*|AQ0FP0" postag_regexp="yes"/>
+                    <token postag="D[^R]0FP0|PX.FP.*|AQ.FP." postag_regexp="yes"/>
                     <marker>
                         <token>correries</token>
                     </marker>
@@ -14707,7 +14710,7 @@ $Id$
             </rule>
            <rule>
                 <pattern>
-                    <token><exception postag="NC.*|RG|.*LOC_ADV.*|V.[MSI].*|VS.*|_GV_|AQ0FP0|D[^R]0FP0" postag_regexp="yes"/><exception>per</exception></token>
+                    <token><exception postag="NC.*|RG|.*LOC_ADV.*|V.[MSI].*|VS.*|_GV_|AQ.FP.|D[^R]0FP0" postag_regexp="yes"/><exception>per</exception></token>
                     <marker>
                         <token regexp="yes">complexes|reflexes<exception postag="_GN_FP"/></token>
                     </marker>
@@ -14747,7 +14750,7 @@ $Id$
                     <marker>
                         <token regexp="yes">complexes|reflexes</token>
                     </marker>
-                    <token postag="AQ0MP0" />
+                    <token postag="AQ.MP." postag_regexp="yes"/>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(.+)es" regexp_replace="$1os" /></suggestion> (nom masc. pl.) en comptes de "<match no="1"/>" (adj. fem. sing.)?</message>
                 <short>Possible confusió</short>
@@ -15530,7 +15533,7 @@ $Id$
                 </marker>
                 <token><exception postag="_GN_.*" postag_regexp="yes"/></token>
             </pattern>
-            <message>Correcte si equival a '<match no="1"/> <match no="3" include_skipped="all"/> <match no="2"/>'. Altrament, potser cal dir: <suggestion><match no="1"/> <match no="2" postag="AQ0(..)0" postag_regexp="yes" postag_replace="AQ0$10">mateix</match> <match no="3"/></suggestion>.</message>
+            <message>Correcte si equival a '<match no="1"/> <match no="3" include_skipped="all"/> <match no="2"/>'. Si no, potser cal dir: <suggestion><match no="1"/> <match no="2" postag="AQ0(..)0" postag_regexp="yes" postag_replace="AQ0$10">mateix</match> <match no="3"/></suggestion>.</message>
             <url>http://esadir.cat/lexic/entrades/entry_20030718132249_829</url>
             <example type="incorrect" correction="el mateix president">Ho digué <marker>el propi president</marker>.</example>
             <!-- <example type="incorrect" correction="el mateix Felber">Ho digué <marker>el propi Felber</marker>.</example> -->
@@ -15583,7 +15586,7 @@ $Id$
                     <marker>
                         <token>descontent</token>
                     </marker>
-                    <token postag="AQ0[MC][SN].*|V.P.*SM.?" postag_regexp="yes"/>
+                    <token postag="AQ.[MC][SN].|V.P.*SM.?" postag_regexp="yes"/>
                 </pattern>
                 <message>'Descontent' sols pot ser adjectiu.</message>
                 <suggestion>descontentament</suggestion>
@@ -15716,7 +15719,7 @@ $Id$
                     <token>l</token>
                     <token>moment</token>
                 </marker>
-                <token><exception regexp="yes">de|d'|en</exception><exception postag="AQ0[MC][SN]0|RG" postag_regexp="yes"/></token>
+                <token><exception regexp="yes">de|d'|en</exception><exception postag="AQ.[MC][SN].|RG" postag_regexp="yes"/></token>
             </pattern>
             <message>¿Volíeu dir <suggestion>de moment</suggestion> o <suggestion>per al moment</suggestion>?</message>
             <example type="incorrect">impedeixen <marker>pel moment</marker> construir-los</example>
@@ -15881,7 +15884,7 @@ $Id$
                         <token>més</token>
                         <token>bé</token>
                     </marker>
-                    <token postag="AQ0[MC][SN]0" postag_regexp="yes"/>
+                    <token postag="AQ.[MC][SN]." postag_regexp="yes"/>
                 </pattern>
                 <message>Probablement cal dir <suggestion>més aviat</suggestion></message>
                 <suggestion>més aïna</suggestion>
@@ -15896,7 +15899,7 @@ $Id$
                         <token>més</token>
                         <token>bé</token>
                     </marker>
-                    <token postag="AQ0[FC][SN]0" postag_regexp="yes"/>
+                    <token postag="AQ.[FC][SN]." postag_regexp="yes"/>
                 </pattern>
                 <message>Probablement cal dir <suggestion>més aviat</suggestion></message>
                 <suggestion>més aïna</suggestion>
@@ -15911,7 +15914,7 @@ $Id$
                         <token>més</token>
                         <token>bé</token>
                     </marker>
-                    <token postag="AQ0[MC][PN]0" postag_regexp="yes"/>
+                    <token postag="AQ.[MC][PN]." postag_regexp="yes"/>
                 </pattern>
                 <message>Probablement cal dir <suggestion>més aviat</suggestion></message>
                 <suggestion>més aïna</suggestion>
@@ -15926,7 +15929,7 @@ $Id$
                         <token>més</token>
                         <token>bé</token>
                     </marker>
-                    <token postag="AQ0[FC][PN]0" postag_regexp="yes"/>
+                    <token postag="AQ.[FC][PN]." postag_regexp="yes"/>
                 </pattern>
                 <message>Probablement cal dir <suggestion>més aviat</suggestion></message>
                 <suggestion>més aïna</suggestion>
@@ -16770,12 +16773,12 @@ $Id$
     			<pattern>
     				<token>a<exception postag=".*LOC.*" postag_regexp="yes"/></token>
     				<token>nivell</token>
-    				<token postag="AQ0[MC][SN]0" postag_regexp="yes"/>
+    				<token postag="AQ.[MC][SN]." postag_regexp="yes"/>
     			</pattern>
     			<message>Val més evitar aquesta expressió.</message>
     			<suggestion>en l'àmbit <match no="3"/></suggestion>
-    			<suggestion>a escala <match no="3" postag="AQ0[MC][SN]0" postag_regexp="yes" postag_replace="AQ0[FC][SN]0"/></suggestion>
-    			<suggestion><match no="3" postag="AQ0[MC][SN]0" postag_regexp="yes" postag_replace="AQ0[FC][SN]0"/>ment</suggestion>
+    			<suggestion>a escala <match no="3" postag="AQ.[MC][SN]." postag_regexp="yes" postag_replace="AQ.[FC][SN]."/></suggestion>
+    			<suggestion><match no="3" postag="AQ.[MC][SN]." postag_regexp="yes" postag_replace="AQ.[FC][SN]."/>ment</suggestion>
     			<suggestion><match no="3"/></suggestion>
     			<url>http://esadir.cat/lexic/entrades/entry_20030718132249_8/view</url>
     			<short>Expressió preferible</short>
@@ -18062,9 +18065,9 @@ $Id$
 			        <token>allò</token>
 			        <token postag="A..[MC]S.*" postag_regexp="yes" regexp="yes">h?[aeiouàéèíóòú].+<exception>altre</exception></token>
 			    </pattern>
-			    <message>Amb valor abstractiu val més usar una altra construcció. Correcte si equival a "aquella cosa <match no="2" postag="AQ.*" postag_regexp="yes" postag_replace="AQ0[FC]S0"/>".</message>
+			    <message>Amb valor abstractiu val més usar una altra construcció. Correcte si equival a "aquella cosa <match no="2" postag="A.*" postag_regexp="yes" postag_replace="A..[FC]S."/>".</message>
 			    <suggestion>el fet <match no="2"/></suggestion>
-			    <suggestion>la cosa <match no="2" postag="AQ.*" postag_regexp="yes" postag_replace="AQ0[FC]S0"/></suggestion>
+			    <suggestion>la cosa <match no="2" postag="A.*" postag_regexp="yes" postag_replace="A..[FC]S."/></suggestion>
 			    <suggestion>el punt <match no="2"/></suggestion>
 			    <suggestion>el que és <match no="2"/></suggestion>
 			    <suggestion>l'<match no="2"/></suggestion>
@@ -18078,9 +18081,9 @@ $Id$
 			        <token>allò</token>
 			        <token postag="A..[MC]S.*" postag_regexp="yes"><exception regexp="yes">h?[aeiouàéèíóòú].+</exception></token>
 			    </pattern>
-			    <message>Amb valor abstractiu val més usar una altra construcció. Correcte si equival a "aquella cosa <match no="2" postag="AQ.*" postag_regexp="yes" postag_replace="AQ0[FC]S0"/>".</message>
+			    <message>Amb valor abstractiu val més usar una altra construcció. Correcte si equival a "aquella cosa <match no="2" postag="A.*" postag_regexp="yes" postag_replace="A..[FC]S."/>".</message>
 			    <suggestion>el fet <match no="2"/></suggestion>
-			    <suggestion>la cosa <match no="2" postag="AQ.*" postag_regexp="yes" postag_replace="AQ0[FC]S0"/></suggestion>
+			    <suggestion>la cosa <match no="2" postag="A.*" postag_regexp="yes" postag_replace="A..[FC]S."/></suggestion>
 			    <suggestion>el punt <match no="2"/></suggestion>
 			    <suggestion>el que és <match no="2"/></suggestion>
 			    <suggestion>el <match no="2"/></suggestion>
@@ -18093,7 +18096,7 @@ $Id$
 			        <token>allò</token>
 			        <token postag="VMP.*SM." postag_regexp="yes"></token>
 			    </pattern>
-			    <message>Amb valor abstractiu val més usar una altra construcció. Correcte si equival a "aquella cosa <match no="2" postag="AQ.*" postag_regexp="yes" postag_replace="VMP.*SF."/>".</message>
+			    <message>Amb valor abstractiu val més usar una altra construcció. Correcte si equival a "aquella cosa <match no="2" postag="VMP.*SM." postag_regexp="yes" postag_replace="VMP.*SF."/>".</message>
 			    <suggestion>el que <match no="2" postag="VMP.*SM." postag_regexp="yes" postag_replace="VMIP3S00"/></suggestion>
 			    <suggestion>allò que <match no="2" postag="VMP.*SM." postag_regexp="yes" postag_replace="VMIP3S00"/></suggestion>
 			    <suggestion>el fet <match no="2"/></suggestion>
@@ -18113,10 +18116,10 @@ $Id$
 				        <token postag="A..[MC]S.*|VMP.*SM." postag_regexp="yes"/>
 			        </marker>
 			    </pattern>
-			    <message>Amb valor abstractiu val més usar una altra construcció. Correcte si equival a "aquella cosa <match no="3"/> <match no="4" postag="AQ.*" postag_regexp="yes" postag_replace="AQ0[FC]S0|VMP.*SF."/>".</message>
+			    <message>Amb valor abstractiu val més usar una altra construcció. Correcte si equival a "aquella cosa <match no="3"/> <match no="4" postag="A.*" postag_regexp="yes" postag_replace="A..[FC]S.|VMP.*SF."/>".</message>
 			    <suggestion>el <match no="3"/> <match no="4"/></suggestion>
 			    <suggestion>el fet <match no="3"/> <match no="4"/></suggestion>
-			    <suggestion>la cosa <match no="3"/> <match no="4" postag="AQ.*" postag_regexp="yes" postag_replace="AQ0[FC]S0|VMP.*SF."/></suggestion>
+			    <suggestion>la cosa <match no="3"/> <match no="4" postag="A.*" postag_regexp="yes" postag_replace="A..[FC]S.|VMP.*SF."/></suggestion>
 			    <suggestion>el punt <match no="3"/> <match no="4"/></suggestion>
 			    <suggestion>el que és <match no="3"/> <match no="4"/></suggestion>
 			    <short>Possible construcció incorrecta</short>
@@ -18132,10 +18135,10 @@ $Id$
 				        <token postag="A..[MC]S.*|VMP.*SM." postag_regexp="yes"/>
 			        </marker>
 			    </pattern>
-			    <message>Amb valor abstractiu val més usar una altra construcció. Correcte si equival a "aquella cosa <match no="3"/> <match no="4" postag="AQ.*" postag_regexp="yes" postag_replace="AQ0[FC]S0|VMP.*SF."/>".</message>
+			    <message>Amb valor abstractiu val més usar una altra construcció. Correcte si equival a "aquella cosa <match no="3"/> <match no="4" postag="A.*" postag_regexp="yes" postag_replace="A..[FC]S.|VMP.*SF."/>".</message>
 			    <suggestion>del <match no="3"/> <match no="4"/></suggestion>
 			    <suggestion>del fet <match no="3"/> <match no="4"/></suggestion>
-			    <suggestion>de la cosa <match no="3"/> <match no="4" postag="AQ.*" postag_regexp="yes" postag_replace="AQ0[FC]S0|VMP.*SF."/></suggestion>
+			    <suggestion>de la cosa <match no="3"/> <match no="4" postag="A.*" postag_regexp="yes" postag_replace="A..[FC]S.|VMP.*SF."/></suggestion>
 			    <suggestion>del punt <match no="3"/> <match no="4"/></suggestion>
 			    <suggestion>del que és <match no="3"/> <match no="4"/></suggestion>
 			    <short>Possible construcció incorrecta</short>
