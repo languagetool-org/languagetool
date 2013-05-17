@@ -10149,12 +10149,14 @@ $Id$
         <rulegroup id="CARACTERS_INCORRECTES" name="caràcters incorrectes">
             <rule id="COMETES_INCORRECTES" name="Detecta cometes en posició incorrecta">
                 <pattern>
-                    <token><exception postag="_PUNCT.*" postag_regexp="yes"/></token>
+                    <token><exception regexp="yes">[lnmtsd]'</exception></token>
                     <marker>
                         <token spacebefore="no">‘</token>
                     </marker>
                 </pattern>
-                <message>Caràcter d'obertura de cometes simples. Useu el caràcter de tancament (<suggestion>’</suggestion>) o l'apòstrof (<suggestion>'</suggestion>).</message>
+                <message>El caràcter d'obertura de cometes simples no es pot usar com a apòstrof.</message> 
+                <suggestion>’</suggestion>
+                <suggestion>'</suggestion>
                 <short>Caràcter incorrecte</short>
                 <example type="incorrect">El pou d<marker>‘</marker>Avall.</example>
                 <example type="correct">El pou d'Avall.</example>
@@ -16783,20 +16785,23 @@ $Id$
     		</rule>
     		<rule>
     			<pattern>
-    				<token>a<exception postag=".*LOC.*" postag_regexp="yes"/></token>
-    				<token>nivell</token>
-    				<token regexp="yes">de|d'</token>
+    				<token><exception regexp="yes">quant|fa|respecte</exception></token>
+    				<marker>
+	    				<token>a<exception postag=".*LOC.*" postag_regexp="yes"/></token>
+	    				<token>nivell</token>
+	    				<token regexp="yes">de|d'</token>
+    				</marker>
     			</pattern>
     			<message>Val més evitar aquesta expressió.</message>
     			<suggestion>a</suggestion>
     			<suggestion>en</suggestion>
-    			<suggestion>en l'àmbit <match no="3"/></suggestion>
-    			<suggestion>a escala <match no="3"/></suggestion>
+    			<suggestion>en l'àmbit <match no="4"/></suggestion>
+    			<suggestion>a escala <match no="4"/></suggestion>
     			<url>http://esadir.cat/lexic/entrades/entry_20030718132249_8/view</url>
     			<short>Expressió preferible</short>
     			<example type="incorrect" correction="A|En|En l'àmbit d'|A escala d'"><marker>A nivell d'</marker>Europa.</example>
     			<example type="correct">Al nivell del mar.</example>
-    			<!-- <example type="correct">Pel que fa a nivell de renda, són els més alts.</example> -->
+    			<example type="correct">Pel que fa a nivell de renda, són els més alts.</example>
     		</rule>
     	</rulegroup>
     	<rule id="ALS_TRES_ANYS" name="Revisa: als tres anys/a tres anys/al cap de tres anys">
