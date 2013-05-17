@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
@@ -38,6 +39,9 @@ public class UppercaseSentenceStartRule extends Rule {
   private final Language language;
 
   private String lastParagraphString = "";
+  
+  private static final Pattern NUMERALS_EN =
+      Pattern.compile("[a-z]|(m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|iv|v?i{0,3}))$");
 
   public UppercaseSentenceStartRule(final ResourceBundle messages,
       final Language language) {
@@ -113,6 +117,13 @@ public class UppercaseSentenceStartRule extends Rule {
     } 
 
     lastParagraphString = lastToken;
+    
+    //allows enumeration with lowercase letters: a), iv., etc.
+    if (NUMERALS_EN.matcher(tokens[matchTokenPos].getToken()).matches()
+        && (tokens[matchTokenPos+1].getToken().equals(".")
+            || tokens[matchTokenPos+1].getToken().equals(")"))) {
+          preventError = true;
+        }
 
     if (checkToken.length() > 0) {
         final char firstChar = checkToken.charAt(0);
