@@ -43,6 +43,8 @@ public class CatalanUnpairedBracketsRuleTest extends TestCase {
   
   public void testRule() throws IOException {
     // correct sentences:
+    assertCorrect("(l'execució a mans d'\"especialistes\")");
+    assertCorrect("\"Vine\", li va dir.");
     assertCorrect("(Una frase de prova).");
     assertCorrect("Aquesta és la paraula 'prova'.");
     assertCorrect("This is a sentence with a smiley :-)");
@@ -69,6 +71,7 @@ public class CatalanUnpairedBracketsRuleTest extends TestCase {
     assertCorrect ("Porta-me'n cinquanta!");
 
     // incorrect sentences:
+    assertIncorrect("Vine\", li va dir.");
     assertIncorrect("Aquesta és l‘hora de les decisions.");
     assertIncorrect("(This is a test sentence.");
     assertIncorrect("This is a test with an apostrophe &'.");
