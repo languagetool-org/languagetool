@@ -137,31 +137,32 @@ public class CatalanWordTokenizer implements Tokenizer {
 					groupStr = matcher.group(i);
 					l.addAll(wordsToAdd(groupStr));
 				}
-			} else 
+			} else {
 				l.addAll(wordsToAdd(s));
+            }
 		}
 		return l;
 	}
 	
-	/* Splits a word containing hyphen(-) if it doesn't exist in the dictionary*/
+	/* Splits a word containing hyphen(-) if it doesn't exist in the dictionary. */
 	private List<String> wordsToAdd(String s) {
 		final List<String> l = new ArrayList<String>();
-		if (!s.contains("-") && !s.isEmpty())
+		if (!s.contains("-") && !s.isEmpty()) {
 			l.add(s);
-		else {
+        } else {
 			try {
 				// words containing hyphen (-) are looked up in the dictionary
-				if (tagger.existsWord(s))
+				if (tagger.existsWord(s)) {
 					l.add(s);
-				else {
+                } else {
 					// if not found, the word is split
 					final StringTokenizer st2 = new StringTokenizer(s, "-",	true);
-					while (st2.hasMoreElements()) 
+					while (st2.hasMoreElements()) {
 						l.add(st2.nextToken());
+                    }
 				}
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+                throw new RuntimeException(e);
 			}
 		}
 		return l;		
