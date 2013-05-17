@@ -36,8 +36,8 @@ import org.languagetool.JLanguageTool;
 public class BaseSynthesizer implements Synthesizer {
  
   protected IStemmer synthesizer;
-
   protected ArrayList<String> possibleTags;
+
   private final String tagFileName;
   private final String resourceFileName;
   
@@ -94,6 +94,11 @@ public class BaseSynthesizer implements Synthesizer {
     return synthesize(token, posTag);
   }
 
+  @Override
+  public String getPosTagCorrection(final String posTag) {
+    return posTag;
+  }
+
   protected void initPossibleTags() throws IOException {
     if (possibleTags == null) {
       possibleTags = SynthesizerTools.loadWords(JLanguageTool.getDataBroker().getFromResourceDirAsStream(tagFileName));
@@ -105,11 +110,6 @@ public class BaseSynthesizer implements Synthesizer {
       final URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(resourceFileName);
       synthesizer = new DictionaryLookup(Dictionary.read(url));
     }
-  }
-
-  @Override
-  public String getPosTagCorrection(final String posTag) {
-    return posTag;
   }
 
 }
