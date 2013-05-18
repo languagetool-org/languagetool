@@ -119,7 +119,8 @@ public class UppercaseSentenceStartRule extends Rule {
     lastParagraphString = lastToken;
     
     //allows enumeration with lowercase letters: a), iv., etc.
-    if (NUMERALS_EN.matcher(tokens[matchTokenPos].getToken()).matches()
+    if (matchTokenPos+1 < tokens.length
+        && NUMERALS_EN.matcher(tokens[matchTokenPos].getToken()).matches()
         && (tokens[matchTokenPos+1].getToken().equals(".")
             || tokens[matchTokenPos+1].getToken().equals(")"))) {
           preventError = true;
