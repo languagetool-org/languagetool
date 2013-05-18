@@ -42,11 +42,13 @@ public class EnglishUnpairedBracketsRuleTest extends TestCase {
   }
   
   public void testRule() throws IOException {
+    
     // correct sentences:
     assertCorrect("(This is a test sentence).");
     assertCorrect("This is a word 'test'.");
     assertCorrect("This is a sentence with a smiley :-)");
     assertCorrect("This is a sentence with a smiley ;-) and so on...");
+    assertCorrect("I don't know.");
     assertCorrect("This is the joint presidents' declaration.");
     assertCorrect("The screen is 20\" wide.");
     assertCorrect("This is a [test] sentence...");
@@ -65,6 +67,12 @@ public class EnglishUnpairedBracketsRuleTest extends TestCase {
     assertCorrect("Paradise lost to the alleged water needs of Texas' big cities Thursday.");
     assertCorrect("Kill 'em all!");
     assertCorrect("Puttin' on the Ritz");
+    //some more cases
+    assertCorrect("(Ketab fi Isti'mal al-'Adad al-Hindi)");
+    assertCorrect("On their 'host' societies.");
+    assertCorrect("On their 'host society'.");
+    //Should be correct!
+    //assertCorrect("On their 'host societies'.");   
 
     // incorrect sentences:
     assertIncorrect("(This is a test sentence.");
