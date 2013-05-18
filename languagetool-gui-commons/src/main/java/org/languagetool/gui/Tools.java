@@ -41,7 +41,7 @@ public class Tools {
   private static final String MARKER_END = "</font></b>";
 
   private Tools() {
-    // no constructor
+    // no public constructor
   }
 
   public static String makeTexti18n(final ResourceBundle messages, final String key,
@@ -87,20 +87,13 @@ public class Tools {
    * Get the context (<code>contextSize</code> characters) of the given text
    * range, highlighting the range with the given marker strings.
    * 
-   * @param fromPos
-   *          the start position of the error in characters
-   * @param toPos
-   *          the end position of the error in characters
-   * @param text
-   *          the text from which the context should be taken
-   * @param contextSize
-   *          the size of the context in characters
-   * @param markerStart
-   *          the string used to mark the beginning of the error
-   * @param markerEnd
-   *          the string used to mark the end of the error
-   * @param escapeHTML
-   *          whether HTML/XML characters should be escaped
+   * @param fromPos the start position of the error in characters
+   * @param toPos the end position of the error in characters
+   * @param text the text from which the context should be taken
+   * @param contextSize the size of the context in characters
+   * @param markerStart the string used to mark the beginning of the error
+   * @param markerEnd the string used to mark the end of the error
+   * @param escapeHTML whether HTML/XML characters should be escaped
    * @deprecated use {@link ContextTools}
    */
   public static String getContext(final int fromPos, final int toPos,
@@ -122,11 +115,7 @@ public class Tools {
     final JFileChooser jfc = new JFileChooser();
     jfc.setFileFilter(fileFilter);
     jfc.showOpenDialog(frame);
-    final File file = jfc.getSelectedFile();
-    if (file == null) {
-      return null;
-    }
-    return file;
+    return jfc.getSelectedFile();
   }
 
   /**
@@ -139,8 +128,8 @@ public class Tools {
   }
 
   /**
-   * Show the exception (message without stacktrace) in a dialog and print it to
-   * STDERR.
+   * Show the exception (message without stacktrace) in a dialog and print the
+   * stacktrace to STDERR.
    */
   static void showErrorMessage(final Exception e) {
     final String msg = e.getMessage();
