@@ -54,6 +54,7 @@ public class GermanWrongWordInContextRuleTest extends TestCase {
     assertGood("Ich male ein Bild einer Mühle.");
     assertGood("Das Bild zeigt eine mahlende Mühle.");
     assertGood("Eine mahlende Mühle zeigt das Bild.");
+    assertGood("Wenn du mal etwas Mehl brauchst, kannst du zu mir kommen.");
     assertBad("Weizen ausmalen.");
     assertBad("Ich mahle das Bild aus.");
     assertBad("Eine Mühle wird zum Malen verwendet.");
