@@ -108,6 +108,45 @@ $Id$
             <example type="correct"><marker>Ihm</marker> folgt Merkel.</example>
             <example type="correct"><marker>Im<marker> gleichen T-Shirt sah er besser aus.</example>
         </rule>-->
+        <rule id="UM_UM" name="Möglicher Tippfehler: 'um gestern um 12 Uhr'">
+            <pattern>
+                <token postag="VER.*" postag_regexp="yes" skip="1"><exception scope="next" regexp="yes">,|oder|und</exception></token>
+                <marker>
+                    <token skip="1">um</token>
+                    <token>um</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="2" include_skipped="following"/> um</suggestion>?</message>
+            <example type="incorrect" correction="morgen um">Sie kommt <marker>um morgen um</marker> 12 Uhr.</example>
+            <example type="correct">Sie kommt <marker>morgen um</marker> 12 Uhr.</example>
+            <example type="correct"><marker>Um morgen um</marker> 12 Uhr pünktlich anzukommen, musst du früh aufstehen.</example>
+        </rule>
+        <rule id="SONDERN_KEIN_NICHT" name="Möglicher Tippfehler: fehlende Verneinung bei sondern-Konstruktion">
+            <pattern>
+                <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes">nie|nicht|kein.*|kaum</exception></token>
+                <marker>
+                    <token skip="-1">aber<exception scope="next" regexp="yes">nie|nicht|kein.*|kaum</exception></token>
+                    <token>sondern</token>
+                </marker>
+            </pattern>
+            <message>Bitte prüfen Sie, ob ein 'nicht', 'nie', kaum' oder 'kein' fehlt.</message>
+            <example type="incorrect"><marker>Aber das mache ich mit Gas, sondern</marker> mit Öl.</example>
+            <example type="correct"><marker>Aber das mache ich nicht mit Gas, sondern</marker> mit Öl.</example>
+        </rule>
+        <rule id="AUF_AUS" name="Möglicher Tippfehler: 'auf (aus) der Liste entfernen'">
+            <pattern>
+                <token postag="SENT_START" skip="-1"><exception scope="next">aus</exception></token>
+                <marker>
+                    <token skip="6">auf<exception scope="next" regexp="yes">,|\(|oder|und|aus</exception></token>
+                </marker>
+                <token inflected="yes">entfernen</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>aus</suggestion>?</message>
+            <example type="incorrect" correction="aus">Das Element wird dann <marker>auf</marker> der linearen Liste entfernt.</example>
+            <example type="correct">Das Element wird dann <marker>aus</marker> der linearen Liste entfernt.</example>
+            <example type="correct">Ich gucke <marker>auf</marker> Bilder entfernter Städte.</example>
+            <example type="correct">Der Text wurde aus der Aufgabenstellung auf dem Blatt entfernt.</example>
+        </rule>
         <rule id="ETWAS_ZAHL" name="Möglicher Tippfehler: 'etwas (etwa) [Zahl]'">
             <pattern>
                 <marker>
@@ -396,7 +435,7 @@ $Id$
                 <marker>
                     <token>du</token>
                 </marker>
-                <token skip="-1" postag="SUB:(NOM:SIN:FEM|AKK:SIN:FEM|NOM:PLU|AKK:PLU).*" postag_regexp="yes"><exception scope="next" postag="VER.*2:SIN.*" postag_regexp="yes"></exception><!--<exception scope="next" postag="UNKNOWN"/>TODO not working--></token>
+                <token skip="-1" postag="SUB:(NOM:SIN:FEM|AKK:SIN:FEM|NOM:PLU|AKK:PLU).*" postag_regexp="yes"><exception scope="next" postag="VER.*2:SIN.*" postag_regexp="yes"></exception><!--<exception scope="next" postag="UNKNOWN"/>TODO not working--><exception>Schlampe</exception></token>
                 <token postag="SENT_END"/>
             </pattern>
             <message>Meinten Sie <suggestion>die</suggestion>?</message>
@@ -1400,6 +1439,23 @@ $Id$
                 <short>Möglicher Tippfehler</short>
                 <example type="incorrect" correction="E-Mail-Adresse">Das ist meine <marker>E-Mailadresse</marker>.</example>
                 <example type="correct">Das ist meine <marker>E-Mail-Adresse</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token negate="yes">per</token>
+                    <marker>
+                        <token regexp="yes">e\-?mail</token>
+                        <token regexp="yes">Adressen?</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>E-Mail-\3</suggestion>?</message>
+                <url>http://www.korrekturen.de/beliebte_fehler/email.shtml</url>
+                <short>Möglicher Tippfehler</short>
+                <example type="incorrect" correction="E-Mail-Adresse">Das ist meine <marker>eMail Adresse</marker>.</example>
+                <example type="incorrect" correction="E-Mail-Adressen">Das sind meine <marker>Email Adressen</marker>.</example>
+                <example type="incorrect" correction="E-Mail-Adressen">Das sind meine <marker>E-Mail Adressen</marker>.</example>
+                <example type="correct">Das ist meine <marker>E-Mail-Adresse</marker>.</example>
+                <example type="correct">Darf man per <marker>E-Mail</marker> Adressen verschicken?</example>
             </rule>
         </rulegroup>
         <rule id="ZWEIT" name="Möglicher Tippfehler: 'zweit (zweite)' etc.">
@@ -4755,6 +4811,19 @@ $Id$
                 <example type="correct">Apache <marker>OpenOffice</marker> ist freie Software.</example>
                 <example type="incorrect" correction="OpenOffice">Apache <marker>OpenOffice.org</marker> ist freie Software.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token>Open-Office</token>
+                </pattern>
+                <message>Meinten Sie das freie Apache <suggestion>OpenOffice</suggestion>, Oracle/Sun <suggestion>OpenOffice.org</suggestion> oder das kostenpflichtige Oracle <suggestion>Open Office</suggestion>?</message>
+                <url>http://de.wikipedia.org/wiki/Apache_OpenOffice</url>
+                <short>Möglicherweise falsch geschriebene Produktbezeichnung.</short>
+                <example type="correct">Sun <marker>OpenOffice.org</marker> war freie Software.</example>
+                <example type="correct">Oracle <marker>OpenOffice.org</marker> ist freie Software.</example>
+                <example type="correct">Oracle <marker>Open Office</marker> hat Geld gekostet.</example>
+                <example type="correct">Apache <marker>OpenOffice</marker> ist freie Software.</example>
+                <example type="incorrect" correction="OpenOffice|OpenOffice.org|Open Office">Apache <marker>Open-Office</marker> ist freie Software.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="LIBREOFFICE" name="Produktname: 'Libre Office (LibreOffice)'">
             <rule>
@@ -4766,6 +4835,15 @@ $Id$
                 <short>Möglicherweise falsch geschriebene Produktbezeichnung.</short>
                 <example type="correct"><marker>LibreOffice</marker> ist freie Software.</example>
                 <example type="incorrect" correction="LibreOffice"><marker>Libre Office</marker> ist freie Software.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>Libre-Office</token>
+                </pattern>
+                <message>Meinten Sie das freie Programmpaket <suggestion>LibreOffice</suggestion>?</message>
+                <short>Möglicherweise falsch geschriebene Produktbezeichnung.</short>
+                <example type="correct"><marker>LibreOffice</marker> ist freie Software.</example>
+                <example type="incorrect" correction="LibreOffice"><marker>Libre-Office</marker> ist freie Software.</example>
             </rule>
         </rulegroup>
         <rulegroup id="BLUE_RAY" name="Produktname: 'Blue Ray (Blu-ray)'">
@@ -4833,6 +4911,41 @@ $Id$
                 <example type="correct">Der <marker>Girls’ Day</marker> findet einmal im Jahr statt.</example>
                 <example type="incorrect" correction="Girls’ Day">Der <marker>Girl's Day</marker> findet einmal im Jahr statt.</example>
                 <example type="incorrect" correction="Boys’ Day">Der <marker>Boy`s Day</marker> ist ein Aktionstag.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="OPEN_STREET_MAP" name="Eigenname: 'Open Street Map (OpenStreetMap)'">
+            <rule>
+                <pattern>
+                    <token>Open</token>
+                    <token>Street</token>
+                    <token regexp="yes">Maps?</token>
+                </pattern>
+                <message>Meinten Sie die freie Geodatenbank <suggestion>OpenStreetMap</suggestion>?</message>
+                <short>&eigenname;</short>
+                <example type="correct">Bei <marker>OpenStreetMap</marker> handelt es sich um eine freie Geodatenbank.</example>
+                <example type="incorrect" correction="OpenStreetMap">Bei <marker>Open Street Map</marker> handelt es sich um eine freie Geodatenbank.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>Open</token>
+                    <token regexp="yes">Streetmaps?</token>
+                </pattern>
+                <message>Meinten Sie die freie Geodatenbank <suggestion>OpenStreetMap</suggestion>?</message>
+                <short>&eigenname;</short>
+                <example type="correct">Bei <marker>OpenStreetMap</marker> handelt es sich um eine freie Geodatenbank.</example>
+                <example type="incorrect" correction="OpenStreetMap">Bei <marker>Open Streetmaps</marker> handelt es sich um eine freie Geodatenbank.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[oO]pen\-?[sS]treet\-?[mM]aps?<exception>OpenStreetMap</exception></token>
+                </pattern>
+                <message>Meinten Sie die freie Geodatenbank <suggestion>OpenStreetMap</suggestion>?</message>
+                <short>&eigenname;</short>
+                <example type="correct">Bei <marker>OpenStreetMap</marker> handelt es sich um eine freie Geodatenbank.</example>
+                <example type="incorrect" correction="OpenStreetMap">Bei <marker>Open-Streetmap</marker> handelt es sich um eine freie Geodatenbank.</example>
+                <example type="incorrect" correction="OpenStreetMap">Bei <marker>Open-Street-Map</marker> handelt es sich um eine freie Geodatenbank.</example>
+                <example type="incorrect" correction="OpenStreetMap">Bei <marker>Openstreetmap</marker> handelt es sich um eine freie Geodatenbank.</example>
+                <example type="incorrect" correction="OpenStreetMap">Bei <marker>Openstreetmaps</marker> handelt es sich um eine freie Geodatenbank.</example>
             </rule>
         </rulegroup>
         <!-- Prominente -->
@@ -14310,6 +14423,19 @@ $Id$
                 <example type="incorrect" correction="Morgen">Am nächsten <marker>morgen</marker> reiste er ab.</example>
                 <example type="correct">Am nächsten <marker>Morgen</marker> reiste er ab.</example>
             </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">([Vv]or)?[gG]estern|([Üü]ber)morgen|[Hh]eute</token>
+                    <marker>
+                        <token regexp="yes">morgen|vormittag|nachmittag|abend|nacht</token>
+                    </marker>
+                </pattern>
+                <message>Tageszeitangaben werden nach "<match no="1" case_conversion="alllower"/>" großgeschrieben. Vorschlag: <suggestion><match no="2" case_conversion="startupper"/></suggestion></message>
+                <url>http://www.canoo.net/services/GermanSpelling/Regeln/Gross-klein/Nomen.html#Anchor-Tageszeitangaben-47857</url>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Morgen">Heute <marker>morgen</marker> war ich sehr müde.</example>
+                <example type="correct">Heute <marker>Morgen</marker> war ich sehr müde.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="FADEN_SUBST" name="Groß-/Kleinschreibung: 'am seidenen faden (Faden)' etc.">
             <rule>
@@ -21464,6 +21590,21 @@ $Id$
                 <example type="incorrect" correction="Paar">Ich gab ihm ein <marker>paar</marker> Winterstiefel.</example>
             </rule>
         </rulegroup>
+        <rule id="ZAHLSUBST_GROSS" name="Groß-/Kleinschreibung: 'zwei Dutzend (dutzend) Eier'">
+            <pattern case_sensitive="yes">
+                <token postag="ZAL"/>
+                <marker>
+                    <token regexp="yes">dutzend|paar</token>
+                </marker>
+                <token regexp="yes">Äpfel|Bananen|Birnen|Eier|.+chuhe</token>
+            </pattern>
+            <message>Zahlsubstantive werden (bei bestimmten Mengen) großgeschrieben. Vorschlag: <suggestion><match no="2" case_conversion="startupper"/></suggestion></message>
+            <url>http://www.canoo.net/services/GermanSpelling/Regeln/Gross-klein/Nomen.html#Anchor-Zahlnomen-49575</url>
+            <example type="correct">Ich möchte zwei <marker>Dutzend</marker> Bananen.</example>
+            <example type="correct">Es wurden ein <marker>paar</marker> Schuhe auf die Straßen geworfen.</example>
+            <example type="incorrect" correction="Dutzend">Ich möchte zwei <marker>dutzend</marker> Bananen.</example>
+            <example type="incorrect" correction="Paar">Ich möchte neun <marker>paar</marker> Handschuhe.</example>
+        </rule>
         <rule id="GUTEN_UND_SCHLECHTEN" name="Groß-/Kleinschreibung: 'in Guten (guten) wie in Schlechten (schlechten) Zeiten'">
             <pattern case_sensitive="yes">
                 <token regexp="yes">[Ii]n</token>
@@ -22389,6 +22530,38 @@ $Id$
             <example type="incorrect"><marker>Meines Erachtens nach</marker> ist diese Formulierung falsch.</example>
             <example type="correct"><marker>Meines Erachtens</marker> ist diese Formulierung richtig.</example>
         </rule>
+        <rulegroup id="HILFSVERB_HABEN_SEIN" name="Grammatik: falsches Hilfsverb für Perfekt (z.B. 'hat (ist) gegangen)'">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes" skip="6">haben<exception scope="next" regexp="yes">,|\(|:|oder|und</exception></token>
+                        <token regexp="yes">.*(gekommen|begegnet|geblieben|gegangen|gelaufen|geschlafen|gewesen|geworden|verblüht)</token><!-- TODO erweitern -->
+                    </marker>
+                </pattern>
+                <message>Bitte prüfen Sie, ob eine Form des Hilfsverbs 'sein' verwendet werden muss.</message>
+                <url>http://www.canoo.net/services/OnlineGrammar/Wort/Verb/Tempora/HabenSein.html</url>
+                <example type="incorrect">Sie <marker>hat gegangen</marker>.</example>
+                <example type="incorrect">Der Brief <marker>hat gestern angekommen</marker>.</example>
+                <example type="incorrect">Sie <marker>hat gestern Abend eingeschlafen</marker>.</example>
+                <example type="correct">Sie <marker>ist gegangen</marker>.</example>
+                <example type="correct">Sie <marker>haben gesungen und sind eingeschlafen</marker>.</example>
+            </rule>
+           <!-- <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes" skip="6">sein<exception scope="current">sein</exception><exception scope="next" regexp="yes">,|\(|:|oder|und</exception></token>
+                        <token regexp="yes">begangen|gearbeitet|geblüht|gedämmert|gefreut|gefunden|geglichen|geputzt|geregnet|geschämt|geschienen|geschlafen|geschneit|gesehen|gesprochen|gesucht|getroffen|getrunken|gewaschen|versprochen|widersprochen</token>
+                    </marker>
+                </pattern>
+                <message>Bitte prüfen Sie, ob eine Form des Hilfsverbs 'haben' verwendet werden muss.</message>
+                <url>http://www.canoo.net/services/OnlineGrammar/Wort/Verb/Tempora/HabenSein.html</url>
+                <example type="incorrect">Sie <marker>ist sich gefreut</marker>.</example>
+                <example type="incorrect">Sie <marker>sind ein schweres Verbrechen begangen</marker>.</example>
+                <example type="correct">Sie <marker>haben ein schweres Verbrechen begangen</marker>.</example>
+                <example type="correct">Sie <marker>sind eingeschlafen und haben geschnarcht</marker>.</example>
+                <example type="correct">Die Worte <marker>sind gesprochen</marker>.</example> TODO
+            </rule>-->
+        </rulegroup>
         <rulegroup id="ERSATZINFINITIV" name="Grammatik: 'ich habe es kommen gesehen (sehen)' u.ä." default="on">
             <rule>
                 <pattern case_sensitive="yes">
@@ -23578,6 +23751,53 @@ $Id$
             <example type="correct"><marker>2.</marker> Element der Aufzählung.</example>
             <example type="incorrect" correction="3.|3)"><marker>3.)</marker> Element der Aufzählung.</example>
         </rule>
+        <rulegroup id="ZAHL_PUNKT_KOMMA" name="Zeichensetzung: Komma als Tausendertrennzeichen, z.B. '27,182,818'">
+            <rule>
+                <pattern>
+                    <token regexp="yes">[0-9]+</token>
+                    <token spacebefore="no">,</token>
+                    <token spacebefore="no" regexp="yes">[0-9]+</token>
+                    <token spacebefore="no">,</token>
+                    <token spacebefore="no" regexp="yes">[0-9]+</token>
+                </pattern>
+                <message>Als Tausendertrennzeichen wird i.d.R. ein schmales Leerzeichen (<suggestion>\1 \3 \5</suggestion>) oder ein Punkt (<suggestion>\1.\3.\5</suggestion>) verwendet.</message>
+                <url>http://de.wikipedia.org/wiki/Tausendertrennzeichen</url>
+                <example type="correct">Die Lösung ist <marker>27.182.818</marker>.</example>
+                <example type="correct">Die Lösung ist <marker>27 182 818</marker>.</example>
+                <example type="correct">Die Lösungen sind <marker>27, 182, 818</marker>.</example>
+                <example type="incorrect" correction="27 182 818|27.182.818">Die Lösung ist <marker>27,182,818</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[0-9]+</token>
+                    <token spacebefore="no">,</token>
+                    <token spacebefore="no" regexp="yes">[0-9]+</token>
+                    <token spacebefore="no">.</token>
+                    <token spacebefore="no" regexp="yes">[0-9]+</token>
+                </pattern>
+                <message>Als Dezimaltrennzeichen wird ein Komma, als Tausendertrennzeichen i.d.R. ein schmales Leerzeichen (<suggestion>\1 \3,\5</suggestion>) oder ein Punkt (<suggestion>\1.\3,\5</suggestion>) verwendet.</message>
+                <url>http://de.wikipedia.org/wiki/Dezimaltrennzeichen</url>
+                <example type="correct">Die Lösung ist <marker>27.182,81</marker>.</example>
+                <example type="correct">Die Lösung ist <marker>27 182,81</marker>.</example>
+                <example type="incorrect" correction="27 182,81|27.182,81">Die Lösung ist <marker>27,182.81</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[0-9]+</token>
+                    <token spacebefore="no">,</token>
+                    <token spacebefore="no" regexp="yes">[0-9]+</token>
+                    <token spacebefore="no">,</token>
+                    <token spacebefore="no" regexp="yes">[0-9]+</token>
+                    <token spacebefore="no">.</token>
+                    <token spacebefore="no" regexp="yes">[0-9]+</token>
+                </pattern>
+                <message>Als Dezimaltrennzeichen wird ein Komma, als Tausendertrennzeichen i.d.R. ein schmales Leerzeichen (<suggestion>\1 \3 \5,\7</suggestion>) oder ein Punkt (<suggestion>\1.\3.\5,\7</suggestion>) verwendet.</message>
+                <url>http://de.wikipedia.org/wiki/Dezimaltrennzeichen</url>
+                <example type="correct">Die Lösung ist <marker>27.182.818,28</marker>.</example>
+                <example type="correct">Die Lösung ist <marker>27 182 818,28</marker>.</example>
+                <example type="incorrect" correction="27 182 818,28|27.182.818,28">Die Lösung ist <marker>27,182,818.28</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="PUNKT_NACH_ORDINALZAHL" name="Zeichensetzung: Punkt nach Ordinalzahlen">
             <!-- TODO: SEHR VIEL allgemeiner; [zahl] - Wort im Sg.? -->
             <rule>
@@ -23925,7 +24145,7 @@ $Id$
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START" skip="-1"/>
                     <token skip="-1" postag=".*VER.*" postag_regexp="yes"><exception scope="next" regexp="yes">(,|und|oder)</exception></token>
-                    <token skip="-1" regexp="yes">(nicht|kein.*|kaum)<exception scope="next" regexp="yes">(,|und|oder|—|\-|\–|\()</exception></token>
+                    <token skip="-1" regexp="yes">(nicht|kein.*|kaum|nie)<exception scope="next" regexp="yes">(,|und|oder|—|\-|\–|\()</exception></token>
                     <marker>
                         <token>sondern</token>
                     </marker>
@@ -23941,7 +24161,25 @@ $Id$
             <rule>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START" skip="-1"/>
-                    <token skip="-1" regexp="yes">(?iu)(nicht|kein.*|kaum)<exception scope="next" regexp="yes">(,|und|oder)</exception></token>
+                    <token skip="-1">,</token>
+                    <token skip="-1" postag=".*VER.*" postag_regexp="yes"><exception scope="next" regexp="yes">(,|und|oder)</exception></token>
+                    <token skip="-1" regexp="yes">(nicht|kein.*|kaum|nie)<exception scope="next" regexp="yes">(,|und|oder|—|\-|\–|\()</exception></token>
+                    <marker>
+                        <token>sondern</token>
+                    </marker>
+                </pattern>
+                <message>Vor der Konjunktion 'sondern' steht immer ein Komma.</message>
+                <url>http://www.duden.de/sprachwissen/sprachratgeber/besonderheiten-von--em-sondern--em-</url>
+                <short>Vor der Konjunktion 'sondern' steht immer ein Komma.</short>
+                <example type="correct">Sie läuft nicht, sie geht nicht, <marker>sondern</marker> schwimmt.</example>
+                <example type="correct">Sie schwimmt nicht, sie laufen nicht und <marker>sondern</marker> trotzdem Schweiß ab.</example>
+                <example type="incorrect">Sie läuft nicht, sie geht nicht <marker>sondern</marker> sie schwimmt.</example>
+                <example type="correct">Sie läuft nicht, sie geht nicht — <marker>sondern</marker> schwimmt</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START" skip="-1"/>
+                    <token skip="-1" regexp="yes">(?iu)(nicht|kein.*|kaum|nie)<exception scope="next" regexp="yes">(,|und|oder)</exception></token>
                     <token skip="-1" postag=".*VER.*" postag_regexp="yes"><exception scope="next" regexp="yes">(,|und|oder|—|\-|\–|\()</exception></token>
                     <marker>
                         <token>sondern</token>
@@ -23951,6 +24189,21 @@ $Id$
                 <example type="correct">Kein Bisschen hat er getan, <marker>sondern</marker> nur herumgelegen.</example>
                 <example type="correct">Sie sind nicht auf Jagd gegangen und <marker>sondern</marker> trotzdem Schweiß ab.</example>
                 <example type="incorrect">Kein Bisschen hat er getan <marker>sondern</marker> nur herumgelegen.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START" skip="-1"/>
+                    <token skip="-1">,</token>
+                    <token skip="-1" regexp="yes">(?iu)(nicht|kein.*|kaum|nie)<exception scope="next" regexp="yes">(,|und|oder)</exception></token>
+                    <token skip="-1" postag=".*VER.*" postag_regexp="yes"><exception scope="next" regexp="yes">(,|und|oder|—|\-|\–|\()</exception></token>
+                    <marker>
+                        <token>sondern</token>
+                    </marker>
+                </pattern>
+                <message>Vor der Konjunktion 'sondern' steht immer ein Komma.</message>
+                <example type="correct">Er ist nie faul, kein Bisschen hat er getan, <marker>sondern</marker> nur herumgelegen.</example>
+                <example type="correct">Sie sind nie faul, sie sind nicht auf Jagd gegangen und <marker>sondern</marker> trotzdem Schweiß ab.</example>
+                <example type="incorrect">Er ist nie faul, kein Bisschen hat er getan <marker>sondern</marker> nur herumgelegen.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SUBJUNKTION_KOMMA" name="Zeichensetzung: Fehlendes Komma bei Subjunktion">
