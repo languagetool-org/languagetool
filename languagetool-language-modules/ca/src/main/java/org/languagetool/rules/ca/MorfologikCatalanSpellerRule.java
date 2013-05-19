@@ -54,53 +54,50 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
   }
   
   @Override
-	protected List<String> getAdditionalSuggestions(List<String> suggestions, String word) {
-	  final String wordWithoutDiacritics=removeAccents(word).toLowerCase(conversionLocale);
-	  List<String> moreSuggestions = new ArrayList<String>();
-	 //If few suggestions are found, try to get more from the word without diacritics and lowercase
-	  if (suggestions.size() < 5 && !word.equals(wordWithoutDiacritics)) {
-	    moreSuggestions = speller.getSuggestions(wordWithoutDiacritics);
-	    if (!speller.isMisspelled(wordWithoutDiacritics)) {
-	      moreSuggestions.add(wordWithoutDiacritics);
-	    }
-	  }
-	  //Add non previously existing suggestions  
-	  for (int i = 0; i < moreSuggestions.size(); i++) {
-	    if (!suggestions.contains(moreSuggestions.get(i))) {
-	      suggestions.add(moreSuggestions.get(i));
-	    }
-	  }
-	  return suggestions;
-	}
+  protected List<String> getAdditionalSuggestions(List<String> suggestions, String word) {
+    final String wordWithoutDiacritics = removeAccents(word).toLowerCase(conversionLocale);
+    List<String> moreSuggestions = new ArrayList<String>();
+    //If few suggestions are found, try to get more from the word without diacritics and lowercase
+    if (suggestions.size() < 5 && !word.equals(wordWithoutDiacritics)) {
+      moreSuggestions = speller.getSuggestions(wordWithoutDiacritics);
+      if (!speller.isMisspelled(wordWithoutDiacritics)) {
+        moreSuggestions.add(wordWithoutDiacritics);
+      }
+    }
+    //Add non previously existing suggestions
+    for (String moreSuggestion : moreSuggestions) {
+      if (!suggestions.contains(moreSuggestion)) {
+        suggestions.add(moreSuggestion);
+      }
+    }
+    return suggestions;
+  }
   
   @Override
   protected List<String> orderSuggestions(List<String> suggestions, String word) {
-    List<String> orderedSuggestions = new ArrayList<String>();
     List<String> orderedSuggestions1 = new ArrayList<String>();
     List<String> orderedSuggestions2 = new ArrayList<String>();
-    String myWord= removeAccents(word);
+    String myWord = removeAccents(word);
     for (String suggestion : suggestions) {
-      int iod=StringUtils.indexOfDifference(suggestion,myWord);
-      String dif="";
-      if (iod<0) {
+      int diffIdx = StringUtils.indexOfDifference(suggestion, myWord);
+      String dif = "";
+      if (diffIdx < 0) {
         orderedSuggestions1.add(suggestion);
-      }
-      else if ( iod<myWord.length() && iod<suggestion.length()
-          && myWord.substring(iod+1,myWord.length()).equals(suggestion.substring(iod+1,suggestion.length() ))) {
-        dif  = myWord.substring(iod, iod+1);
-        dif += suggestion.substring(iod, iod+1);     
-        Matcher mCharPairs=CHAR_PAIRS.matcher(dif);
+      } else if (diffIdx < myWord.length() && diffIdx < suggestion.length()
+          && myWord.substring(diffIdx+1, myWord.length()).equals(suggestion.substring(diffIdx+1, suggestion.length()))) {
+        dif = myWord.substring(diffIdx, diffIdx+1);
+        dif += suggestion.substring(diffIdx, diffIdx+1);
+        Matcher mCharPairs = CHAR_PAIRS.matcher(dif);
         if (mCharPairs.matches()) {
           orderedSuggestions1.add(suggestion);
-        } 
-        else {
+        } else {
           orderedSuggestions2.add(suggestion);
         }
-      } 
-      else {
+      } else {
         orderedSuggestions2.add(suggestion);
       }      
-    }  
+    }
+    List<String> orderedSuggestions = new ArrayList<String>();
     orderedSuggestions.addAll(orderedSuggestions1);
     orderedSuggestions.addAll(orderedSuggestions2);
     return orderedSuggestions;
