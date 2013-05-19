@@ -51,6 +51,7 @@ public class CatalanUnpairedBracketsRuleTest extends TestCase {
     assertCorrect("This is a sentence with a smiley ;-) and so on...");
     assertCorrect("Aquesta és l'hora de les decisions.");
     assertCorrect("Aquesta és l’hora de les decisions.");
+    assertCorrect("(fig. 20)");
     
     //assertCorrect("The screen is 20\" wide.");
     assertCorrect("This is a [test] sentence...");
