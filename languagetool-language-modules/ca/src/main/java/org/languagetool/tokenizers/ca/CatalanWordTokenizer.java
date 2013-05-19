@@ -44,6 +44,25 @@ public class CatalanWordTokenizer implements Tokenizer {
     private Pattern[] patterns = new Pattern[maxPatterns];
     
     private CatalanTagger tagger;
+    
+    //Patterns to avoid splitting words in certain special cases
+    // allows correcting typographical errors in "ela geminada"
+    private static final Pattern ELA_GEMINADA = Pattern.compile("([aeiouàéèíóòúïü])l[.\u2022-]l([aeiouàéèíóòúïü])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+    // apostrophe 
+    private static final Pattern APOSTROPHE = Pattern.compile("([\\p{L}])['’]([\\p{L}\"‘“«])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+    // apostrophe before number 1. Ex.: d'1 km, és l'1 de gener, és d'1.4 kg
+    private static final Pattern APOSTROPHE_1 = Pattern.compile("([dlDL])['’](1[\\s\\.,])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+    // nearby hyphens. Ex.: vint-i-quatre 
+    private static final Pattern NEARBY_HYPHENS= Pattern.compile("([\\p{L}])-([\\p{L}])-([\\p{L}])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+    // hyphens. Ex.: vint-i-quatre 
+    private static final Pattern HYPHENS= Pattern.compile("([\\p{L}])-([\\p{L}\\d])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+    // decimal point between digits
+    private static final Pattern DECIMAL_POINT= Pattern.compile("([\\d])\\.([\\d])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+    // decimal comma between digits
+    private static final Pattern DECIMAL_COMMA= Pattern.compile("([\\d]),([\\d])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+    // space between digits
+    private static final Pattern SPACE_DIGITS= Pattern.compile("([\\d]) ([\\d])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+    
 
 	public CatalanWordTokenizer() {
 		
@@ -80,7 +99,8 @@ public class CatalanWordTokenizer implements Tokenizer {
 
         //contraction: can
         patterns[10] = Pattern.compile("^(ca)(n)$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-
+        
+       
 	}
 
 	/**
@@ -92,19 +112,26 @@ public class CatalanWordTokenizer implements Tokenizer {
 	@Override
 	public List<String> tokenize(final String text) {
 		final List<String> l = new ArrayList<String>();
-		final StringTokenizer st = new StringTokenizer(
-				text
-				    // allows correcting typographical errors in "ela geminada"
-            .replaceAll("([aeiouàéèíóòúïü])l[.\u2022-]l([aeiouàéèíóòúïü])", "$1##ELA_GEMINADA##$2")
-            .replaceAll("([\\p{L}])['’]([\\p{L}\"‘“«])", "$1##CA_APOS##$2")
-						// Cases: d'1 km, és l'1 de gener, és d'1.4 kg
-						.replaceAll("([dlDL])['’](1[\\s\\.,])", "$1##CA_APOS##$2")
-				         //it's necessary for words like "vint-i-quatre"
-						.replaceAll("([\\p{L}])-([\\p{L}])-([\\p{L}])", "$1##CA_HYPHEN##$2##CA_HYPHEN##$3") 
-						.replaceAll("([\\p{L}])-([\\p{L}\\d])", "$1##CA_HYPHEN##$2")
-						.replaceAll("([\\d])\\.([\\d])", "$1##CA_DECIMALPOINT##$2")
-						.replaceAll("([\\d]),([\\d])","$1##CA_DECIMALCOMMA##$2")
-						.replaceAll("([\\d]) ([\\d])","$1##CA_SPACE##$2"), 
+		String auxText=text;
+		
+		Matcher matcher=ELA_GEMINADA.matcher(auxText);
+		auxText = matcher.replaceAll("$1##ELA_GEMINADA##$2");
+		matcher=APOSTROPHE.matcher(auxText);
+    auxText = matcher.replaceAll("$1##CA_APOS##$2");
+    matcher=APOSTROPHE_1.matcher(auxText);
+    auxText = matcher.replaceAll("$1##CA_APOS##$2");
+    matcher=NEARBY_HYPHENS.matcher(auxText);
+    auxText = matcher.replaceAll("$1##CA_HYPHEN##$2##CA_HYPHEN##$3");
+    matcher=HYPHENS.matcher(auxText);
+    auxText = matcher.replaceAll("$1##CA_HYPHEN##$2");
+    matcher=DECIMAL_POINT.matcher(auxText);
+    auxText = matcher.replaceAll("$1##CA_DECIMALPOINT##$2");
+    matcher=DECIMAL_COMMA.matcher(auxText);
+    auxText = matcher.replaceAll("$1##CA_DECIMALCOMMA##$2");
+    matcher=SPACE_DIGITS.matcher(auxText);
+    auxText = matcher.replaceAll("$1##CA_SPACE##$2");
+				
+		final StringTokenizer st = new StringTokenizer(auxText, 
 				"\u0020\u00A0\u115f\u1160\u1680"
 						+ "\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007"
 						+ "\u2008\u2009\u200A\u200B\u200c\u200d\u200e\u200f"
@@ -124,7 +151,6 @@ public class CatalanWordTokenizer implements Tokenizer {
 					.replace("##CA_DECIMALCOMMA##", ",")
 					.replace("##CA_SPACE##", " ")
 					.replace("##ELA_GEMINADA##", "l.l");
-			Matcher matcher = null;
 			boolean matchFound = false;
 			int j = 0;
 			while (j < maxPatterns && !matchFound) {
