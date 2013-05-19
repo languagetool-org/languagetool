@@ -43,7 +43,8 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
 
   protected MorfologikSpeller speller;
   protected Locale conversionLocale;
-  private boolean ignoreTaggedWords=false;
+
+  private boolean ignoreTaggedWords = false;
 
   /**
    * Get the filename, e.g., <tt>/resource/pl/spelling.dict</tt>.
@@ -67,6 +68,14 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
 
   public void setLocale(Locale locale) {
     conversionLocale = locale;
+  }
+
+  /**
+   * Skip words that are known in the POS tagging dictionary, assuming they
+   * cannot be incorrect.
+   */
+  public void setIgnoreTaggedWords() {
+    ignoreTaggedWords = true;
   }
 
   @Override
@@ -94,8 +103,9 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       }
       if (ignoreTaggedWords) {
         for (AnalyzedToken at : token.getReadings()) {
-          if (!at.hasNoTag())
+          if (!at.hasNoTag()) {
             continue skip; // if it HAS a POS tag then it is a known word.
+          }
         }
       }
       if (tokenizingPattern() == null) {
@@ -158,11 +168,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     return null;
   }
 
-  public void setIgnoreTaggedWords() {
-    ignoreTaggedWords=true;
-  }
-  
-  /*
+  /**
    * Remove all diacritical marks from a String
    */
   protected static String removeAccents(String text) {
@@ -171,8 +177,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
             .replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
   }
   
-  protected List<String> getAdditionalSuggestions(List<String> suggestions,
-      String word) {
+  protected List<String> getAdditionalSuggestions(List<String> suggestions, String word) {
     return suggestions;
   }
   
