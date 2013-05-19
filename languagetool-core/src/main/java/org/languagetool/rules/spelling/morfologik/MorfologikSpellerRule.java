@@ -44,6 +44,8 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   protected MorfologikSpeller speller;
   protected Locale conversionLocale;
 
+  private static final Pattern DIACRITICAL_REGEX = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+
   private boolean ignoreTaggedWords = false;
 
   /**
@@ -172,9 +174,13 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
    * Remove all diacritical marks from a String
    */
   protected static String removeAccents(String text) {
-    return text == null ? null
-        : Normalizer.normalize(text, Form.NFD)
-            .replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+    if (text == null) {
+      return null;
+    } else {
+      final String normalized = Normalizer.normalize(text, Form.NFD);
+      final Matcher matcher = DIACRITICAL_REGEX.matcher(normalized);
+      return matcher.replaceAll("");
+    }
   }
   
   protected List<String> getAdditionalSuggestions(List<String> suggestions, String word) {
