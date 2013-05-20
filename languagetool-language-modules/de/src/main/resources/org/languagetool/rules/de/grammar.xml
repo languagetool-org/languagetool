@@ -25046,17 +25046,55 @@ $Id$
     <!-- Regeln, die nur für Wikipedia-Artikel nützlich sind -->
     <!-- ====================================================================== -->
     <category name="Wikipedia" default="off">
-        <rule id="ANDERS_ALS_OFT_BEHAUPTET" name="'Anders als oft behauptet'">
-            <pattern>
-                <token>anders</token>
-                <token>als</token>
-                <token>oft</token>
-                <token>behauptet</token>
-            </pattern>
-            <message>Diese Phrase ergibt ohne Quellenangabe oft keinen Sinn. Eventuell sollte sie entfernt werden.</message>
-            <example type="incorrect"><marker>Anders als oft behauptet</marker> unterscheiden sich diese nicht im Fettgehalt.</example>
-            <example type="correct">Diese unterscheiden sich nicht im Fettgehalt.</example>
-        </rule>
+        <rulegroup id="WISSENSCHAFTLER_BEHAUPTEN" name="'Wissenschaftler behaupten' (etc.)">
+            <rule>
+                <pattern>
+                    <token regexp="yes">viele|meisten</token>
+                    <token>Wissenschaftler</token>
+                    <token regexp="yes" inflected="yes">glauben|denken|behaupten|sagen</token>
+                </pattern>
+                <message>Diese Phrase ergibt ohne Quellenangabe oft keinen Sinn.</message>
+                <url>http://de.wikipedia.org/wiki/Wikipedia:Vermeide_hohle_Phrasen</url>
+                <example type="incorrect">Die <marker>meisten Wissenschaftler denken</marker>, die Erde sei rund.</example>
+                <example type="correct"><marker>Es wurde bewiesen (Quellenangabe!)</marker>, dass die Erde rund ist.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>es</token>
+                    <token regexp="yes">ist|wurde</token>
+                    <token regexp="yes">erwiesen|bewiesen</token>
+                </pattern>
+                <message>Diese Phrase ergibt ohne Quellenangabe oft keinen Sinn.</message>
+                <url>http://de.wikipedia.org/wiki/Wikipedia:Vermeide_hohle_Phrasen</url>
+                <example type="incorrect"><marker>Es ist erwiesen</marker>, dass die Erde rund ist.</example>
+                <example type="correct"><marker>Es wurde im Jahre XYZ bewiesen (Quellenangabe!)</marker>, dass die Erde rund ist.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ANDERS_ALS_OFT_BEHAUPTET" name="'Anders als oft behauptet'">
+            <rule>
+                <pattern>
+                    <token>anders</token>
+                    <token>als</token>
+                    <token>oft</token>
+                    <token>behauptet</token>
+                </pattern>
+                <message>Diese Phrase ergibt ohne Quellenangabe oft keinen Sinn. Eventuell sollte sie entfernt werden.</message>
+                <url>http://de.wikipedia.org/wiki/Wikipedia:Vermeide_hohle_Phrasen</url>
+                <example type="incorrect"><marker>Anders als oft behauptet</marker> unterscheiden sich diese nicht im Fettgehalt.</example>
+                <example type="correct">Diese unterscheiden sich nicht im Fettgehalt.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>entgegen</token>
+                    <token>landläufiger</token>
+                    <token>Meinung</token>
+                </pattern>
+                <message>Diese Phrase ergibt ohne Quellenangabe oft keinen Sinn. Eventuell sollte sie entfernt werden.</message>
+                <url>http://de.wikipedia.org/wiki/Wikipedia:Vermeide_hohle_Phrasen</url>
+                <example type="incorrect"><marker>Entgegen landläufiger Meinung</marker> unterscheiden sich diese nicht im Fettgehalt.</example>
+                <example type="correct">Diese unterscheiden sich nicht im Fettgehalt.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="VOR_KURZEM" name="Relative Zeitangaben – 'vor/seit Kurzem' u.ä.">
             <rule>
                 <pattern>
