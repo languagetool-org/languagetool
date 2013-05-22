@@ -8,8 +8,8 @@ if [ ! $# -eq 1 ]; then
 fi
 
 if [ $1 == "all" ]; then
-  langs=`ls -d ../../resources/org/languagetool/rules/*/ -l | awk -F / '{print $(NF-1)}'`
-  langs=$langs" "`ls -d ../../resources/org/languagetool/rules/*/*/ -l | awk -F / '{print $(NF-2)"/"$(NF-1)}'` # country variants
+  langs=`ls -d ../../../../../languagetool-language-modules/*/src/main/resources/org/languagetool/rules/*/ -l | awk -F / '{print $(NF-1)}'`
+  langs=$langs" "`ls -d ../../../../../languagetool-language-modules/*/src/main/resources/org/languagetool/rules/*/*/ -l | awk -F / '{print $(NF-2)"/"$(NF-1)}'` # country variants
   langs=`echo "$langs" | tr " " "\n" | sort |tr "\n" " "` # sort
 else
   langs=$1
@@ -19,7 +19,7 @@ for lang in $langs
 do
   i=0
 
-  for url in `grep \<url\> ../../resources/org/languagetool/rules/$lang/grammar.xml | sed -r "s/.*<url>(.*)<\/url>/\1/g"`
+  for url in `grep \<url\> ../../../../../languagetool-language-modules/*/src/main/resources/org/languagetool/rules/$lang/grammar.xml | sed -r "s/.*<url>(.*)<\/url>/\1/g"`
   do
     response=`curl -o /dev/null --silent --head --write-out '%{http_code}\n' $url`
     if [ ! $response == "200" ]; then
@@ -28,7 +28,7 @@ do
     fi
   done
 
-  echo $i of `grep \<url\> ../../resources/org/languagetool/rules/$lang/grammar.xml | wc -l` \<url\>s in $lang/grammar.xml are problematic
+  echo $i of `grep \<url\> ../../../../../languagetool-language-modules/*/src/main/resources/org/languagetool/rules/$lang/grammar.xml | wc -l` \<url\>s in $lang/grammar.xml are problematic
 done
 
 exit 0
