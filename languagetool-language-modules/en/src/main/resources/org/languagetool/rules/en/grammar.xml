@@ -1207,6 +1207,33 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
             <example type="incorrect">That's the kind <marker>if</marker> blue I like.</example>
             <example type="correct">This is the kind of journalism that I like!</example>
         </rule>
+        <rulegroup id="IF_IS" name="if it if (is)">
+            <rule>
+                <pattern>
+                    <token skip="2">if<exception scope="next" regexp="yes">,|is|and|or</exception></token>
+                    <marker>
+                        <token>if</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>is</suggestion>?</message>
+                <short>Possible typo</short>
+                <example type="incorrect" correction="is">I wonder if the context <marker>if</marker> actually important.</example>
+                <example type="correct">I wonder if the context <marker>is</marker> actually important.</example>
+                <example type="correct">if and only if</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">which|who</token>
+                    <marker>
+                        <token>if</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>is</suggestion>?</message>
+                <short>Possible typo</short>
+                <example type="incorrect" correction="is">The rules are testes, which <marker>if</marker> quite fast.</example>
+                <example type="correct">The rules are testes, which <marker>is</marker> quite fast.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="SHELL_WE" name="shell (shall) we">
             <rule>
                 <pattern case_sensitive="yes">
@@ -5806,6 +5833,19 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
                 <example type="correct">I <marker>know</marker> it.</example>
             </rule>
         </rulegroup>
+        <rule id="ON_FIRST_GLANCE" name="on (at) first glance">
+            <pattern>
+                <marker>
+                    <token regexp="yes" skip="1">on</token>
+                </marker>
+                <token regexp="yes" skip="1">first|a</token>
+                <token>glance</token>
+            </pattern>
+            <message>Did you mean <suggestion>at</suggestion>?</message>
+            <short>Wrong preposition</short>
+            <example type="incorrect" correction="At"><marker>On</marker> first glance it seems to be a good idea.</example>
+            <example type="correct"><marker>At</marker> first glance it seems to be a good idea.</example>
+        </rule>
         <rulegroup id="DONT_NEEDS" name="don't ... 3rd person verb">
             <rule>
                 <pattern>
@@ -6607,25 +6647,39 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
             <example type="correct">He spoke to chosen people.</example>
             <example correction="learn" type="incorrect">I was surprised to <marker>learns</marker> this.</example>
         </rule>
-        <rule id="MANY_FEW_UNCOUNTABLE" name="'many/few' + uncountable noun, e.g. 'many (much) food'">
-            <!-- fixme: more uncountable nouns   -->
-            <pattern>
-                <token>as</token>
-                <marker>
-                    <token regexp="yes">many|few</token>
-                </marker>
-                <token postag="NN:U"></token>
-                <!--      &lt;token regexp=&quot;yes&quot;&gt;air|money|software|cattle|knowledge|sand|furniture|meat|food|news|success|water|freedom|maturity|intelligence|life|information&lt;/token&gt;
- -->
-                <token>as</token>
-            </pattern>
-            <message>Use <suggestion>much</suggestion> or <suggestion>little</suggestion> with uncountable nouns.</message>
-            <short>Grammatical problem with uncountable noun</short>
-            <example type="correct">John eats as <marker>much</marker> food as Peter.</example>
-            <example type="correct">John eats as <marker>little</marker> food as Peter.</example>
-            <example type="incorrect">John eats as <marker>many</marker> food as Peter.</example>
-            <example type="incorrect">John eats as <marker>few</marker> food as Peter.</example>
-        </rule>
+        <rulegroup id="MANY_FEW_UNCOUNTABLE" name="'many/few' + uncountable noun, e.g. 'many (much) food'">
+            <rule>
+                <pattern>
+                    <token>as</token>
+                    <marker>
+                        <token regexp="yes">many|few</token>
+                    </marker>
+                    <token postag="NN:U"></token>
+                    <token>as</token>
+                </pattern>
+                <message>Use <suggestion>much</suggestion> or <suggestion>little</suggestion> with uncountable nouns.</message>
+                <short>Grammatical problem with uncountable noun</short>
+                <example type="correct">John eats as <marker>much</marker> food as Peter.</example>
+                <example type="correct">John eats as <marker>little</marker> food as Peter.</example>
+                <example type="incorrect">John eats as <marker>many</marker> food as Peter.</example>
+                <example type="incorrect">John eats as <marker>few</marker> food as Peter.</example>
+            </rule>
+            <rule>
+                <!-- TODO: more uncountable nouns   -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes">many|few</token>
+                    </marker>
+                    <token regexp="yes">air|food|freedom|furniture|information|intelligence|knowledge|life|maturity|meat|money|news|sand|software|success|water</token>
+                    <token><exception postag="NNS"/></token>
+                </pattern>
+                <message>Use <suggestion>much</suggestion> or <suggestion>little</suggestion> with uncountable nouns.</message>
+                <short>Grammatical problem with uncountable noun</short>
+                <example type="correct">She has <marker>much</marker> money.</example>
+                <example type="correct">There are <marker>many</marker> food plants.</example>
+                <example type="incorrect">She has <marker>many</marker> money.</example>
+            </rule>
+        </rulegroup>
         <!-- 
     &quot;an information&quot; is used in the legal US jargon, deleting
     
@@ -8528,6 +8582,7 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
                     <token postag="``"></token>
                 </pattern>
                 <message>Use a smart opening quote here: <suggestion>“</suggestion>.</message>
+                <url>http://en.wikipedia.org/wiki/Smart_quote#Typing_quotation_marks_on_a_computer_keyboard</url>
                 <short>Use smart quotes</short>
                 <example correction="“" type="incorrect">This is a (<marker>&quot;</marker>test&quot;).</example>
                 <example correction="“" type="incorrect"><marker>&quot;</marker>Test&quot;!</example>
@@ -8539,10 +8594,32 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
                     <token postag="''"></token>
                 </pattern>
                 <message>Use a smart closing quote here: <suggestion>”</suggestion>.</message>
+                <url>http://en.wikipedia.org/wiki/Smart_quote#Typing_quotation_marks_on_a_computer_keyboard</url>
+                <short>Use smart quotes</short>
                 <example correction="”" type="incorrect">This is a (&quot;test<marker>&quot;</marker>)</example>
                 <example correction="”" type="incorrect">Use a quote &quot;here<marker>&quot;</marker> to say something.</example>
                 <example correction="”" type="incorrect">This is another &quot;test<marker>&quot;</marker>.</example>
                 <example type="correct">“Test”!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>`</token>
+                    <token spacebefore="no">`</token>
+                </pattern>
+                <message>Use a smart opening quote here: <suggestion>“</suggestion>.</message>
+                <url>http://en.wikipedia.org/wiki/Smart_quote#Typing_quotation_marks_on_a_computer_keyboard</url>
+                <short>Use smart quotes</short>
+                <example correction="“" type="incorrect"><marker>``</marker>Test”.</example>
+                <example type="correct"><marker>“</marker>Test”.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>„</token>
+                </pattern>
+                <message>Possibly wrong smart opening quote: <suggestion>“</suggestion>.</message>
+                <url>http://en.wikipedia.org/wiki/„</url>
+                <example correction="“" type="incorrect"><marker>``</marker>Test”.</example>
+                <example type="correct"><marker>“</marker>Test”.</example>
             </rule>
         </rulegroup>
         <rule default="off" id="ELLIPSIS" name="Smart ellipsis (…)">
