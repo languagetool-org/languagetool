@@ -100,17 +100,15 @@ public abstract class SpellingCheckRule extends Rule {
   }
 
   /**
-   * @param word
-   * @return
    * @throws IOException
-   * @Deprecated please use {@link #ignoreToken(AnalyzedTokenReadings[], int)}
+   * @deprecated please use {@link #ignoreToken(AnalyzedTokenReadings[], int)} - deprecated since 2.2
    */
   protected boolean ignoreWord(String word) throws IOException {
     if (!considerIgnoreWords) {
       return false;
     }
-    if( ! wordsWithDotsPresent ) {
-    // TODO?: this is needed at least for German as Hunspell tokenization includes the dot:
+    if(!wordsWithDotsPresent) {
+      // TODO?: this is needed at least for German as Hunspell tokenization includes the dot:
       word = word.endsWith(".") ? word.substring(0, word.length() - 1) : word;
     }
     return wordsToBeIgnored.contains(word);
@@ -167,6 +165,4 @@ public abstract class SpellingCheckRule extends Rule {
     }
   }
 
-  
-  
 }

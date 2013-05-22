@@ -97,7 +97,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     int idx = -1;
     skip:
     for (AnalyzedTokenReadings token : tokens) {
-    	idx++;
+      idx++;
       if (isUrl(token.getToken())) {
         continue;
       }

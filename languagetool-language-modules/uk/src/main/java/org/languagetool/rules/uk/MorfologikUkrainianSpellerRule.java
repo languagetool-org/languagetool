@@ -31,7 +31,7 @@ import org.languagetool.rules.spelling.morfologik.MorfologikSpeller;
 public final class MorfologikUkrainianSpellerRule extends MorfologikSpellerRule {
 
   private static final String ABBREVIATION_CHAR = ".";
-	private static final String COMPOUND_CHAR = "-";
+  private static final String COMPOUND_CHAR = "-";
   private static final String RESOURCE_FILENAME = "/uk/hunspell/uk_UA.dict";
   private static final Pattern UKRAINIAN_LETTERS = Pattern.compile(".*[а-яіїєґА-ЯІЇЄҐ].*");
 
@@ -49,44 +49,45 @@ public final class MorfologikUkrainianSpellerRule extends MorfologikSpellerRule 
   public String getId() {
     return "MORFOLOGIK_RULE_UK_UA";
   }
-  
+
   @Override
   protected boolean ignoreToken(AnalyzedTokenReadings[] tokens, int idx) throws IOException {
-		String word = tokens[idx].getToken();
+    String word = tokens[idx].getToken();
 
-	  // don't check words that don't have Ukrainian letters
-		if( ! UKRAINIAN_LETTERS.matcher(word).matches() )
-			return true;
+    // don't check words that don't have Ukrainian letters
+    if( ! UKRAINIAN_LETTERS.matcher(word).matches() )
+      return true;
 
-  	if( super.ignoreToken(tokens, idx) )
-  		return true;
-		
-		if( idx < tokens.length - 1 && tokens[idx+1].getToken().equals(ABBREVIATION_CHAR) ) {
-			if( super.ignoreWord(word + ABBREVIATION_CHAR) )
-			  return true;
-			
-			if( word.matches("[А-ЯІЇЄҐ]") )   //TODO: only do this for initials when last name is followed
-			  return true;
-		}
+    if( super.ignoreToken(tokens, idx) )
+      return true;
 
-		
-		return false;
+    if( idx < tokens.length - 1 && tokens[idx+1].getToken().equals(ABBREVIATION_CHAR) ) {
+      if( super.ignoreWord(word + ABBREVIATION_CHAR) ) {
+        return true;
+      }
+      if( word.matches("[А-ЯІЇЄҐ]") ) {  //TODO: only do this for initials when last name is followed
+        return true;
+      }
+    }
+
+    return false;
   }
-  
+
   @Override
   protected boolean isMisspelled(MorfologikSpeller speller, String word) {
     if (! super.isMisspelled(speller, word))
-        return false;
+      return false;
 
     if (word.contains(COMPOUND_CHAR)) {
-        String[] words = word.split(COMPOUND_CHAR);
-        for(String singleWord: words) {
-            if( speller.isMisspelled(singleWord) )
-                return true;
+      String[] words = word.split(COMPOUND_CHAR);
+      for (String singleWord: words) {
+        if (speller.isMisspelled(singleWord)) {
+          return true;
         }
-        return false;
+      }
+      return false;
     }
-    
+
     return true;
   }
 

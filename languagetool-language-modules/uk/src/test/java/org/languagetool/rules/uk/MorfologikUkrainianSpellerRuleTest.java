@@ -57,7 +57,7 @@ public class MorfologikUkrainianSpellerRuleTest {
     assertEquals("скляний", matches[0].getSuggestedReplacements().get(0));
 
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("а")).length);
-    
+
     // mix alphabets
     matches = rule.match(langTool.getAnalyzedSentence("прийдешнiй"));   // latin 'i'
 
@@ -70,20 +70,20 @@ public class MorfologikUkrainianSpellerRuleTest {
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Він багато сидів на інтернет-форумах")).length);
 
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Він багато сидів на інтермет-форумах")).length);
-    
+
     // abbreviations
 
     RuleMatch[] match = rule.match(langTool.getAnalyzedSentence("Читання віршів Т.Г.Шевченко і Г.Тютюнника"));
-		assertEquals(new ArrayList<RuleMatch>(), Arrays.asList(match));
+    assertEquals(new ArrayList<RuleMatch>(), Arrays.asList(match));
 
     match = rule.match(langTool.getAnalyzedSentence("Читання віршів Т. Г. Шевченко і Г. Тютюнника"));
-		assertEquals(new ArrayList<RuleMatch>(), Arrays.asList(match));
+    assertEquals(new ArrayList<RuleMatch>(), Arrays.asList(match));
 
     match = rule.match(langTool.getAnalyzedSentence("Англі́йська мова (англ. English language, English) належить до германської групи"));
-		assertEquals(new ArrayList<RuleMatch>(), Arrays.asList(match));
+    assertEquals(new ArrayList<RuleMatch>(), Arrays.asList(match));
 
-		match = rule.match(langTool.getAnalyzedSentence("Англі́йська мова (англ English language, English) належить до германської групи"));
-		assertEquals(1, match.length);
+    match = rule.match(langTool.getAnalyzedSentence("Англі́йська мова (англ English language, English) належить до германської групи"));
+    assertEquals(1, match.length);
   }
 
 }

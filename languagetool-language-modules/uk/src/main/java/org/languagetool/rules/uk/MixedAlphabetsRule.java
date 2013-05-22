@@ -39,6 +39,7 @@ import org.languagetool.rules.RuleMatch;
  * @author Andriy Rysin
  */
 public class MixedAlphabetsRule extends Rule {
+
 	private static final Pattern LIKELY_LATIN_NUMBER = Pattern.compile("[XVIХІ]{2,8}");
 	private static final Pattern LATIN_NUMBER_WITH_CYRILLICS = Pattern.compile("Х{1,3}І{1,3}|І{1,3}Х{1,3}|Х{2,3}|І{2,3}");
 	private static final Pattern MIXED_ALPHABETS = Pattern.compile(".*([a-zA-Z]'?[а-яіїєґА-ЯІЇЄҐ]|[а-яіїєґА-ЯІЇЄҐ]'?[a-zA-Z]).*");
@@ -130,10 +131,10 @@ public class MixedAlphabetsRule extends Rule {
 	public void reset() {
 	}
 
-	private static HashMap<Character, Character> toLatMap = new HashMap<Character, Character>();
-	private static HashMap<Character, Character> toCyrMap = new HashMap<Character, Character>();
-	private static String cyrChars = "аеікморстухАВЕІКМНОРСТУХ";
-	private static String latChars = "aeikmopctyxABEIKMHOPCTYX";
+	private static final HashMap<Character, Character> toLatMap = new HashMap<Character, Character>();
+	private static final HashMap<Character, Character> toCyrMap = new HashMap<Character, Character>();
+	private static final String cyrChars = "аеікморстухАВЕІКМНОРСТУХ";
+	private static final String latChars = "aeikmopctyxABEIKMHOPCTYX";
 
 	static {
 		for(int i=0; i<cyrChars.length(); i++) {
