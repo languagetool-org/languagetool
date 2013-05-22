@@ -914,6 +914,30 @@ $Id$
          <example type="incorrect">Гра тривала <marker>незважаючи на</marker> сильну зливу.</example>
          <example type="correct">Гра тривала не зважаючи на сильну зливу.</example>
        </rule>
+       <rule>
+         <pattern>
+            <marker>
+              <token inflected="yes" skip="1">доля</token>
+            </marker>
+              <token regexp="yes">(капіталу|статуту|споживання|виробництва|акцій|голосів|%|відсотків)</token>
+         </pattern>
+         <message>Правильно: <suggestion>частка</suggestion></message>
+         <example type="incorrect"><marker>Доля</marker> іноземного капіталу в банках України скорочується.</example>
+         <example type="incorrect">Відносна <marker>доля</marker> споживання все більше і більше скорочується.</example>
+         <example type="correct">Доля людини – це її життєвий шлях від зачаття до вироку Страшного Суду після смерті.</example>
+       </rule>
+       <rule>
+         <pattern>
+            <token regexp="yes" inflected="yes">(збільшувати(ся)?|зменшувати(ся)?|переважати|перевищувати|значний|переважний)</token>
+            <marker>
+              <token inflected="yes">доля</token>
+            </marker>
+         </pattern>
+         <message>Правильно: <suggestion>частка</suggestion></message>
+         <example type="incorrect">Збільшується <marker>доля</marker> промислових підприємств у виробництві валового національного продукту.</example>
+         <example type="incorrect">Значна <marker>доля</marker> теплового випромінювання утримується парниковими газами.</example>
+         <example type="correct">циганська доля.</example>
+       </rule>
      </rulegroup>
      
      <rulegroup id="NON_LEXEM_BORROWING_SOFT" name="калькування (стилістичне)">

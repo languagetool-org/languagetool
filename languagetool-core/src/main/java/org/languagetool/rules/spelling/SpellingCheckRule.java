@@ -23,6 +23,7 @@ import java.io.InputStream;
 import java.util.*;
 
 import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.Rule;
@@ -40,6 +41,7 @@ public abstract class SpellingCheckRule extends Rule {
 
   private static final String SPELLING_IGNORE_FILE = "/hunspell/ignore.txt";
   private final Set<String> wordsToBeIgnored = new HashSet<String>();
+  private boolean wordsWithDotsPresent = false;
 
   private boolean considerIgnoreWords = true;
 
@@ -93,13 +95,25 @@ public abstract class SpellingCheckRule extends Rule {
     }
   }
 
+  protected boolean ignoreToken(AnalyzedTokenReadings[] tokens, int idx) throws IOException {
+  	return ignoreWord(tokens[idx].getToken());
+  }
+
+  /**
+   * @param word
+   * @return
+   * @throws IOException
+   * @Deprecated please use {@link #ignoreToken(AnalyzedTokenReadings[], int)}
+   */
   protected boolean ignoreWord(String word) throws IOException {
     if (!considerIgnoreWords) {
       return false;
     }
+    if( ! wordsWithDotsPresent ) {
     // TODO?: this is needed at least for German as Hunspell tokenization includes the dot:
-    final String cleanWord = word.endsWith(".") ? word.substring(0, word.length() - 1) : word;
-    return wordsToBeIgnored.contains(cleanWord);
+      word = word.endsWith(".") ? word.substring(0, word.length() - 1) : word;
+    }
+    return wordsToBeIgnored.contains(word);
   }
 
   protected boolean isUrl(String token) {
@@ -141,6 +155,9 @@ public abstract class SpellingCheckRule extends Rule {
           } else {
             wordsToBeIgnored.add(line);
           }
+          if (line.endsWith(".")) {
+            wordsWithDotsPresent = true;
+          }
         }
       } finally {
         scanner.close();
@@ -150,4 +167,6 @@ public abstract class SpellingCheckRule extends Rule {
     }
   }
 
+  
+  
 }

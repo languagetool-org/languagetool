@@ -94,13 +94,14 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
         return toRuleMatchArray(ruleMatches);
       }
     }
+    int idx = -1;
     skip:
     for (AnalyzedTokenReadings token : tokens) {
+    	idx++;
       if (isUrl(token.getToken())) {
         continue;
       }
-      final String word = token.getToken();
-      if (ignoreWord(word) || token.isImmunized()) {
+      if (ignoreToken(tokens, idx) || token.isImmunized()) {
         continue;
       }
       if (ignoreTaggedWords) {
@@ -110,6 +111,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
           }
         }
       }
+      final String word = token.getToken();
       if (tokenizingPattern() == null) {
         ruleMatches.addAll(getRuleMatch(word, token.getStartPos()));
       } else {

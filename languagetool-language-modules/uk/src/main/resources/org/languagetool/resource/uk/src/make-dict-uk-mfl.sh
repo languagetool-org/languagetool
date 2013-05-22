@@ -43,4 +43,5 @@ if [ "$1" == "-f" ]; then
     cat  all.tagged.tmp | #$MFL_CMD tab2morph -i all.tagged.tmp | \
     $MFL_CMD fsa_build $FSA_FLAGS -o uk_UA.dict && \
     mv uk_UA.dict ../hunspell/
+    rm -f all.tagged.tmp
 fi

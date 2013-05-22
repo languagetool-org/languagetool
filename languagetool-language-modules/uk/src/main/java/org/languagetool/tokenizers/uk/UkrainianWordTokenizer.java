@@ -44,8 +44,6 @@ public class UkrainianWordTokenizer implements Tokenizer {
 
   @Override
   public List<String> tokenize(String text) {
-	text = cleanupSentence(text);
-	  
     List<String> tokenList = new ArrayList<String>();
     StringTokenizer st = new StringTokenizer(text, SPLIT_CHARS, true);
         
@@ -56,11 +54,6 @@ public class UkrainianWordTokenizer implements Tokenizer {
     return tokenList;
   }
   
-  // remove name abbreviation from name+surname, e.g. Т.Шевченко
-  private String cleanupSentence(String text) {
-  	return text.replaceAll("(\\s)[А-ЯІЇЄҐ]\\.([А-ЯІЇЄҐ]\\.)?([А-ЯІЇЄҐ][а-яіїєґ'-]+)", "$1$3");
-  }
-
   private static String clean(String token) {
     return token.replace("\u0301", "").replace("\u00AD", "").replace('’', '\'').replace('ʼ', '\'');
   }

@@ -23,13 +23,15 @@ import java.io.IOException;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
+import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpeller;
 
 public final class MorfologikUkrainianSpellerRule extends MorfologikSpellerRule {
 
-  private static final String COMPOUND_CHAR = "-";
+  private static final String ABBREVIATION_CHAR = ".";
+	private static final String COMPOUND_CHAR = "-";
   private static final String RESOURCE_FILENAME = "/uk/hunspell/uk_UA.dict";
   private static final Pattern UKRAINIAN_LETTERS = Pattern.compile(".*[а-яіїєґА-ЯІЇЄҐ].*");
 
@@ -48,10 +50,27 @@ public final class MorfologikUkrainianSpellerRule extends MorfologikSpellerRule 
     return "MORFOLOGIK_RULE_UK_UA";
   }
   
-  // don't check words that don't have Ukrainian letters
   @Override
-  protected boolean ignoreWord(String word) throws IOException {
-    return ! UKRAINIAN_LETTERS.matcher(word).matches() || super.ignoreWord(word);
+  protected boolean ignoreToken(AnalyzedTokenReadings[] tokens, int idx) throws IOException {
+		String word = tokens[idx].getToken();
+
+	  // don't check words that don't have Ukrainian letters
+		if( ! UKRAINIAN_LETTERS.matcher(word).matches() )
+			return true;
+
+  	if( super.ignoreToken(tokens, idx) )
+  		return true;
+		
+		if( idx < tokens.length - 1 && tokens[idx+1].getToken().equals(ABBREVIATION_CHAR) ) {
+			if( super.ignoreWord(word + ABBREVIATION_CHAR) )
+			  return true;
+			
+			if( word.matches("[А-ЯІЇЄҐ]") )   //TODO: only do this for initials when last name is followed
+			  return true;
+		}
+
+		
+		return false;
   }
   
   @Override

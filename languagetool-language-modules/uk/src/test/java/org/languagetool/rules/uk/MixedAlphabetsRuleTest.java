@@ -54,10 +54,20 @@ public class MixedAlphabetsRuleTest {
     assertEquals(1, matches.length);
     assertEquals(Arrays.asList("mixed"), matches[0].getSuggestedReplacements());
     
-//    matches = rule.match(langTool.getAnalyzedSentence("ХI"));	// cyrillic X and latin I
-//
-//    assertEquals(1, matches.length);
-//    assertEquals(Arrays.asList("ХІ", "XI"), matches[0].getSuggestedReplacements());
+    matches = rule.match(langTool.getAnalyzedSentence("XІ"));	// cyrillic І and latin X
+
+    assertEquals(1, matches.length);
+    assertEquals(Arrays.asList("XI"), matches[0].getSuggestedReplacements());
+
+    matches = rule.match(langTool.getAnalyzedSentence("ХI"));	// cyrillic X and latin I
+
+    assertEquals(1, matches.length);
+    assertEquals(Arrays.asList("XI"), matches[0].getSuggestedReplacements());
+
+    matches = rule.match(langTool.getAnalyzedSentence("ХІ"));	// cyrillic both X and I used for latin number
+
+    assertEquals(1, matches.length);
+    assertEquals(Arrays.asList("XI"), matches[0].getSuggestedReplacements());
 
   }
 

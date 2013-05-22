@@ -34,12 +34,14 @@ import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 
 /**
- * A rule that matches words latin and cyrillic characters in them
+ * A rule that matches words Latin and Cyrillic characters in them
  * 
  * @author Andriy Rysin
  */
 public class MixedAlphabetsRule extends Rule {
-	private static final Pattern MIXED_ALPHABETS = Pattern.compile(".*([a-zA-Z][а-яіїєґА-ЯІЇЄҐ]|[а-яіїєґІЇЄҐ]'?[a-zA-Z]).*");
+	private static final Pattern LIKELY_LATIN_NUMBER = Pattern.compile("[XVIХІ]{2,8}");
+	private static final Pattern LATIN_NUMBER_WITH_CYRILLICS = Pattern.compile("Х{1,3}І{1,3}|І{1,3}Х{1,3}|Х{2,3}|І{2,3}");
+	private static final Pattern MIXED_ALPHABETS = Pattern.compile(".*([a-zA-Z]'?[а-яіїєґА-ЯІЇЄҐ]|[а-яіїєґА-ЯІЇЄҐ]'?[a-zA-Z]).*");
 	private static final Pattern CYRILLIC_ONLY = Pattern.compile(".*[бвгґдєжзйїлнпфцчшщьюяБГҐДЄЖЗИЙЇЛПФЦЧШЩЬЮЯ].*");
 	private static final Pattern LATIN_ONLY = Pattern.compile(".*[bdfghjlqrsvzDFGLNQRSUVZ].*");
 
@@ -86,13 +88,13 @@ public class MixedAlphabetsRule extends Rule {
 			String tokenString = tokenReadings.getToken();
 
 			if( MIXED_ALPHABETS.matcher(tokenString).matches() ) {
-
+			
 				List<String> replacements = new ArrayList<String>();
 
-				if( ! LATIN_ONLY.matcher(tokenString).matches() ) {
+				if( ! LATIN_ONLY.matcher(tokenString).matches() && ! LIKELY_LATIN_NUMBER.matcher(tokenString).matches() ) {
 					replacements.add( toCyrillic(tokenString) );
 				}
-				if( ! CYRILLIC_ONLY.matcher(tokenString).matches() ) {
+				if( ! CYRILLIC_ONLY.matcher(tokenString).matches() || LIKELY_LATIN_NUMBER.matcher(tokenString).matches() ) {
 					replacements.add( toLatin(tokenString) );
 				}
 
@@ -100,6 +102,13 @@ public class MixedAlphabetsRule extends Rule {
 					RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, replacements);
 					ruleMatches.add(potentialRuleMatch);
 				}
+			}
+			else if( LATIN_NUMBER_WITH_CYRILLICS.matcher(tokenString).matches() ) {
+				List<String> replacements = new ArrayList<String>();
+				replacements.add( toLatin(tokenString) );
+
+				RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, replacements);
+				ruleMatches.add(potentialRuleMatch);
 			}
 		}
 		return toRuleMatchArray(ruleMatches);
