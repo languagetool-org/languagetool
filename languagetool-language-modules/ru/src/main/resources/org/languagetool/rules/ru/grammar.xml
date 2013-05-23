@@ -2971,7 +2971,7 @@ $Id$
                     <token regexp="yes">[1-9][0-9]</token>
                     <token regexp="yes">,</token>
                     <token regexp="yes">[0-9]</token>
-                    <token postag="NN:.*:PL:R" postag_regexp="yes"><exception>лет</exception></token>
+                    <token postag="NN:.*:PL:R" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:PL:R" postag_regexp="yes"></exception><exception>лет</exception></token>
                 </pattern>
                 <message>Существительное с дробным числительным должено употребляться в единственном числе (например 35,5 процента), а не во множественном (35,5 процентов):
                     <suggestion><match no="1"></match><match no="2"></match><match no="3"></match> <match no="4" postag="NN:(.*):PL:R" postag_regexp="yes" postag_replace="NN:$1:Sin:R"></match></suggestion>
