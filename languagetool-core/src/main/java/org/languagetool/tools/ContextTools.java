@@ -18,8 +18,6 @@
  */
 package org.languagetool.tools;
 
-import org.languagetool.tools.StringTools;
-
 /**
  * Helper class to mark errors in text.
  */
@@ -46,14 +44,14 @@ public class ContextTools {
       startContent = 0;
     }
     int endContent = toPos + contextSize;
-    final int fileLen = text.length();
-    if (endContent > fileLen) {
+    final int textLength = text.length();
+    if (endContent > textLength) {
       postfix = "";
-      endContent = fileLen;
+      endContent = textLength;
     }
     // make "^" marker. inefficient but robust implementation:
     final StringBuilder marker = new StringBuilder();
-    final int totalLen = fileLen + prefix.length();
+    final int totalLen = textLength + prefix.length();
     for (int i = 0; i < totalLen; i++) {
       if (i >= fromPos && i < toPos) {
         marker.append('^');

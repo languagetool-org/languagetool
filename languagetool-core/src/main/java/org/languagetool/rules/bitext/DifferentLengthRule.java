@@ -29,7 +29,6 @@ import org.languagetool.rules.RuleMatch;
  * (smaller than 30% or longer by 250%).
  * 
  * @author Marcin Miłkowski
- *
  */
 public class DifferentLengthRule extends BitextRule {
 
@@ -49,7 +48,7 @@ public class DifferentLengthRule extends BitextRule {
 
   @Override
   public String getMessage() {
-    return "Source and target translation lengths are very different!";
+    return "Source and target translation lengths are very different";
   }
 
   @Override
@@ -57,11 +56,9 @@ public class DifferentLengthRule extends BitextRule {
       AnalyzedSentence targetText) throws IOException {
    
     if (isLengthDifferent(getPureText(sourceText), getPureText(targetText))) {
-      final RuleMatch[] ruleMatch = new RuleMatch[1];
       final AnalyzedTokenReadings[] tokens = targetText.getTokens();
       final int len = tokens[tokens.length - 1].getStartPos() + tokens[tokens.length - 1].getToken().length();
-      ruleMatch[0] = new RuleMatch(this, 1, len, getMessage());
-      return ruleMatch;
+      return new RuleMatch[] { new RuleMatch(this, 1, len, getMessage()) };
     }
     return new RuleMatch[0];
   }

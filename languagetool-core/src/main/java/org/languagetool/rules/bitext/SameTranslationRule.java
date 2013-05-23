@@ -29,7 +29,6 @@ import org.languagetool.rules.RuleMatch;
  * is different.
  * 
  * @author Marcin Miłkowski
- *
  */
 public class SameTranslationRule extends BitextRule {
 
@@ -49,7 +48,7 @@ public class SameTranslationRule extends BitextRule {
 
   @Override
   public String getMessage() {
-    return "Source and target translation are the same!";
+    return "Source and target translation are the same";
   }
 
   @Override
@@ -59,11 +58,9 @@ public class SameTranslationRule extends BitextRule {
     //This is just heuristics, checking word count
     if (sourceText.getTokensWithoutWhitespace().length > 3 
         && getPureText(sourceText).equals(getPureText(targetText))) {
-      final RuleMatch[] ruleMatch = new RuleMatch[1];
       final AnalyzedTokenReadings[] tokens = targetText.getTokens();
       final int len = tokens[tokens.length - 1].getStartPos() + tokens[tokens.length - 1].getToken().length();
-      ruleMatch[0] = new RuleMatch(this, 1, len, getMessage());
-      return ruleMatch;
+      return new RuleMatch[] { new RuleMatch(this, 1, len, getMessage()) };
     }
     return new RuleMatch[0];
   }
