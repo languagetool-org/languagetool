@@ -64,6 +64,89 @@ $Id$
                 នោះ​<marker>ហើយនឹង</marker>​នេះ។
             </example>
         </rule>
+        <rule id="HARA_PLANT" name="ហោរ៉ា (ហោរា)">
+            <pattern>
+                <marker>
+                    <token>ហោរ៉ា</token>
+                </marker>
+            </pattern>
+            <message>Did you really mean the plant or a prophet?
+                <suggestion>ហោរា</suggestion>?
+            </message>
+            <example type="correct">
+                របស់​ពួក​​<marker>ហោរា</marker>​​ម្នាក់
+            </example>
+            <example type="incorrect" correction="ហោរា">
+                របស់​ពួក​​<marker>ហោរ៉ា</marker>​ម្នាក់
+            </example>
+        </rule>
+		<rule id="TBUT_DBUT" name="ត្បិត (ដ្បិត)">
+            <pattern>
+			<token><exception>រឹត</exception></token>
+					<marker>
+					<token>ត្បិត</token>
+					</marker>
+            </pattern>
+            <message>Consider using the spelling of Chuon Nath
+                <suggestion>ដ្បិត</suggestion>?
+            </message>
+            <example type="correct">
+                កាត់​<marker>ដ្បិត</marker>​សេចក្តី​សប្បុរស
+            </example>
+            <example type="incorrect" correction="ដ្បិត">
+              ​​​កាត់​<marker>ត្បិត</marker>​សេចក្តី​សប្បុរស
+            </example>
+        </rule>
+		<rule id="KHANG_VITNEAN" name="ខាងវិញ្ញាណ (ខាងឯវិញ្ញាណ)">
+            <pattern>
+				<marker>
+					<token>ខាង</token>					
+					<token>វិញ្ញាណ</token>
+				</marker>
+            </pattern>
+            <message>Stylistic suggestion. Use:
+                <suggestion>ខាងឯវិញ្ញាណ</suggestion>?
+            </message>
+            <example type="correct">
+                ជីវិត​<marker>ខាងឯវិញ្ញាណ</marker>​ដ៏​ល្អ
+            </example>
+            <example type="incorrect" correction="ខាងឯវិញ្ញាណ">
+              ​​​ជីវិត​<marker>ខាង​វិញ្ញាណ</marker>​ដ៏​ល្អ
+            </example>
+        </rule>
+		<rule id="THUA_BAU" name="ទោះបើ (ទោះបី)">
+            <pattern>
+                    <token>ទោះ</token>
+					<marker>
+					<token>បើ</token>
+					</marker>
+            </pattern>
+            <message>Stylistic suggestion. Use:
+                ទោះ<suggestion>បី</suggestion> instead.
+            </message>
+            <example type="correct">
+                ខ្លួន​ទោះ​<marker>បី</marker>​ជា​ប្រឈម
+            </example>
+            <example type="incorrect" correction="បី">
+                ខ្លួន​ទោះ​<marker>បើ</marker>​ជា​ប្រឈម
+            </example>
+			</rule>
+		<rule id="BANAT_VERB" name="បញ្ញត្ត (បញ្ញត្តិ)">
+            <pattern>
+                <marker>
+                    <token>បញ្ញត្ត</token>
+                </marker>
+            </pattern>
+            <message>បញ្ញត្ត is a verb, did you mean to use បញ្ញត្តិ the noun form?
+                <suggestion>បញ្ញត្តិ</suggestion>?
+            </message>
+            <example type="correct">
+                មាន​​<marker>បញ្ញត្តិ</marker>​​ជា​អារម្មណ៍
+            </example>
+            <example type="incorrect" correction="បញ្ញត្តិ">
+                មាន​​<marker>បញ្ញត្ត</marker>​ជា​អារម្មណ៍
+            </example>
+        </rule>
         <rule id="NUNG_PDOAL" name="និង​ថ្កល់ (នឹង​ថ្កល់​)">
             <pattern>
                 <token>និង</token>
@@ -483,6 +566,39 @@ $Id$
             </example>
             <example type="incorrect" correction="ការអភិវឌ្ឍ">
                 <marker>ការអភិវឌ្ឍន៍</marker>​សង្គម។
+            </example>
+        </rule>
+		<rule id="DOUBLE_NOUNS" name="Do not double up nouns">
+            <pattern>
+                <token regexp="yes">(សេចក្តី|សេចក្ដី|ការ|ភាព|អំពើ)(ជំនឿ|ទំនាក់ទំនង|តម្រូវការ)</token>
+            </pattern>
+            <message>Do not add a noun modifier to a word that is already a noun.
+                <suggestion><match no="1" regexp_match="(សេចក្តី|សេចក្ដី|ការ|ភាព|អំពើ)(ជំនឿ|ទំនាក់ទំនង|តម្រូវការ)" regexp_replace="$2"></match></suggestion>
+            </message>
+            <short>Do not add a noun modifier to a word that is already a noun.</short>
+            <example type="correct">
+                <marker>ជំនឿ</marker>ដ៏​ពិត។
+            </example>
+            <example type="incorrect" correction="ជំនឿ">
+                <marker>ការជំនឿ</marker>​ដ៏​ពិត។
+            </example>
+        </rule>
+		<rule id="DOUBLE_NOUNS2" name="Do not double up nouns 2">
+            <pattern>
+				<marker>
+					<token regexp="yes">(សេចក្តី|សេចក្ដី|ការ|ភាព|អំពើ)</token>
+					<token regexp="yes">(ជំនឿ|ទំនាក់ទំនង|តម្រូវការ)</token>
+				</marker>
+            </pattern>
+            <message>Do not add a noun modifier to a word that is already a noun.
+                <suggestion>\2</suggestion>
+            </message>
+            <short>Do not add a noun modifier to a word that is already a noun.</short>
+            <example type="correct">
+                <marker>ជំនឿ</marker>ដ៏​ពិត។
+            </example>
+            <example type="incorrect" correction="ជំនឿ">
+                <marker>ការ​ជំនឿ</marker>​ដ៏​ពិត។
             </example>
         </rule>
     </category>
