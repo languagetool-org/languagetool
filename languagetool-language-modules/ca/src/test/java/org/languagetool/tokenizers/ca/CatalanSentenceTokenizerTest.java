@@ -51,6 +51,7 @@ public class CatalanSentenceTokenizerTest extends TestCase {
     testSplit(new String[] { "Núm. operació 220130000138." });
 
     // Ellipsis
+    testSplit(new String[] { "el vi no és gens propi de monjos, amb tot...\" vetllant, això sí" });
     testSplit(new String[] { "Desenganyeu-vos… ",
         "L’únic problema seriós de l'home en aquest món és el de subsistir." });
     testSplit(new String[] { "és clar… traduir és una feina endimoniada" });
