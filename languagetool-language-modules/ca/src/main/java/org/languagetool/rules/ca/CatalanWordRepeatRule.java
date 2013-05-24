@@ -40,10 +40,9 @@ public class CatalanWordRepeatRule extends WordRepeatRule {
 
   @Override
   public boolean ignore(AnalyzedTokenReadings[] tokens, int position) {
-    if (tokens[position].isImmunized() || tokens[position-1].isImmunized()) {
+    if (position > 0 && (tokens[position].isImmunized() || tokens[position-1].isImmunized())) {
       return true;
     }
-
     return false;
   }
 
