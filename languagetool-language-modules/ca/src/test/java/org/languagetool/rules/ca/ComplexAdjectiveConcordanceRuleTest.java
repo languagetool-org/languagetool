@@ -43,6 +43,30 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
 	  
 		// correct sentences:
 		//es van posar en camí proveïts de presents 
+	  /*
+	     d'una banda tossut i, de l'altra, del tot inepte
+	   
+	   principis mascle i femella de la foscor//els elements reproductors mascle i femella// les formigues mascle i femella
+	   
+	   era poderós, força estrabul·lat, //Zeus, força cansat de tantes recents lluites// és força llunyà
+	   és força amarg, són força capriciosos; són força desconegudes.
+	   
+	  va respondre, força humiliat,//aquest bon home està força preocupat
+	  de barba i cabellera blanques
+	  */
+	  /*multiwords: en aparença, en essència,per essència, amb excés,en repòs, amb rapidesa, en algun grau, per molt de temps
+	    altres vegades estacionat,  en molts casos subordinada?, era al principi instintiva, de moment imperfectament conegudes
+	    de llarg menys perfectes, és de totes passades exactament intermèdia,
+	      és, en conjunt, gairebé intermèdia 
+	      en cert grau paral·lela
+	      en algun grau
+	      en grau lleuger menys distintes
+	      han estat de fet exterminades
+	   */
+	  // (en especial si hi ha un adverbi entremig: en algun grau més distintes
+	  assertCorrect("un caràcter fix, per molt extraordinària que sigui la manera");
+	  assertCorrect("una quantitat copiosa de llavors olioses");
+	  assertCorrect("que criï sense variació, per molt lleugers que fossin");
 		assertCorrect("Bernabé i Saule, un cop acomplerta la seva missió a Jerusalem");
 		assertCorrect("he passat una nit i un dia sencers a la deriva");
 		assertCorrect("L'olor dels teus perfums, més agradable que tots els bàlsams.");

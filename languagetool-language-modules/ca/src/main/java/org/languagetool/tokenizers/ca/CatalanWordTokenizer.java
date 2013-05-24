@@ -51,7 +51,7 @@ public class CatalanWordTokenizer implements Tokenizer {
     // apostrophe 
     private static final Pattern APOSTROPHE = Pattern.compile("([\\p{L}])['’]([\\p{L}\"‘“«])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
     // apostrophe before number 1. Ex.: d'1 km, és l'1 de gener, és d'1.4 kg
-    private static final Pattern APOSTROPHE_1 = Pattern.compile("([dlDL])['’](1[\\s\\.,])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+    private static final Pattern APOSTROPHE_1 = Pattern.compile("([dlDL])['’](\\d[\\d\\s\\.,]?)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
     // nearby hyphens. Ex.: vint-i-quatre 
     private static final Pattern NEARBY_HYPHENS= Pattern.compile("([\\p{L}])-([\\p{L}])-([\\p{L}])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
     // hyphens. Ex.: vint-i-quatre 

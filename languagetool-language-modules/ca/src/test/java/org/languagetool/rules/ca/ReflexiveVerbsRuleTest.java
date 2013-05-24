@@ -50,6 +50,19 @@ public class ReflexiveVerbsRuleTest extends TestCase {
 	  assertCorrect("el cor m'anava a cent per hora."); 
     //Però: "Jo m'anava a cent per hora". La qüestió no és si hi ha adverbi, 
 	  // sinó determinar el subjecte (que no és possible al 100%)
+	  
+	  //donar-se compte
+	  assertCorrect("D'aquest Decret se n'ha donat compte al Ple de l'Ajuntament");
+	  assertCorrect("Encara em cal donar compte d'un altre recull");
+	  assertCorrect("Michael Kirby ens dóna compte a Anàlisi estructural");
+	  //assertCorrect("tractant-se de cas d'urgència i donant-se compte al Ple de l'Ajuntament");
+	  assertIncorrect("Ell es va donar compte de l'error");
+	  //assertIncorrect("Es va donar compte de l'error"); //cas dubtós
+	  assertIncorrect("Joan es va donar compte de l'error");
+	  assertIncorrect("Algú se n'hauria de donar compte.");
+	  assertIncorrect("Vas donar-te compte de l'error");
+	  //
+	  
 	  assertCorrect("No li ho ensenyis, que el faràs delir.");
 		assertCorrect("per a portar-te aigua");
 		assertCorrect("que no em costi d'anar al llit");

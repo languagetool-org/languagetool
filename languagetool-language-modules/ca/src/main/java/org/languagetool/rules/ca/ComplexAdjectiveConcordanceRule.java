@@ -141,6 +141,13 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
 				Pattern gnPattern = null;
 				Pattern adjPattern = null;
 				Matcher isUpperCase = UPPERCASE.matcher(token);
+				
+				//Some exceptions
+			  //per molt lleuger 
+				if (prevPrevToken.equals("per") && prevToken.equals("molt")) {
+          break;
+        }
+				
 
 				//Counts nouns and determiners before the adjectives. 
 				//Takes care of acceptable combinations. 

@@ -52,6 +52,7 @@ public class CatalanUnpairedBracketsRuleTest extends TestCase {
     assertCorrect("Aquesta és l'hora de les decisions.");
     assertCorrect("Aquesta és l’hora de les decisions.");
     assertCorrect("(fig. 20)");
+    assertCorrect("\"Sóc la teva filla. El corcó no et rosegarà més.\"\n\n");
     
     //assertCorrect("The screen is 20\" wide.");
     assertCorrect("This is a [test] sentence...");
@@ -108,6 +109,12 @@ public class CatalanUnpairedBracketsRuleTest extends TestCase {
     matches = tool
         .check("Aquesta és una sentència múltiple amb claudàtors: "
             + "[Ací hi ha un claudàtor. Amb algun text.] i ací continua.\n");
+    assertEquals(0, matches.size());
+    matches = tool
+        .check("\"Sóc la teva filla. El corcó no et rosegarà més.\"\n\n");
+    assertEquals(0, matches.size());
+    matches = tool
+        .check("\"Sóc la teva filla. El corcó no et rosegarà més\".\n\n");
     assertEquals(0, matches.size());
     matches = tool
         .check("Aquesta és una sentència múltiple amb claudàtors: "

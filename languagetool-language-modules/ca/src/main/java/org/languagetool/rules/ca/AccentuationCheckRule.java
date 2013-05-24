@@ -210,7 +210,7 @@ public class AccentuationCheckRule extends CatalanRule {
       	else if ( !token.equals("pronuncia") && !token.equals("pronuncies") && !token.equals("venia") && !token.equals("venies")
       	          && !token.equals("tenia") && !token.equals("tenies") && !token.equals("continua") && !token.equals("continues")
       	          && !token.equals("faria") && !token.equals("faries")
-      	          && !token.equals("genera")
+      	          && !token.equals("genera") && !token.equals("figuri")
       	          && (i<tokens.length-1) &&
       	          (
       	            (matchPostagRegexp(relevantWords.get(token),NOM_MS) && matchPostagRegexp(tokens[i+1],ADJECTIU_MS))

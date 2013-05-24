@@ -53,6 +53,9 @@ public class CatalanWordTokenizerTest extends TestCase {
 		tokens = wordTokenizer.tokenize("És d'1,5 km.");
 		assertEquals(tokens.size(), 7);
 		assertEquals("[És,  , d', 1,5,  , km, .]", tokens.toString());
+		tokens = wordTokenizer.tokenize("És d'5 km.");
+		assertEquals(tokens.size(), 7);
+		assertEquals("[És,  , d', 5,  , km, .]", tokens.toString());
 		tokens = wordTokenizer.tokenize("la direcció E-SE");
 		assertEquals(tokens.size(), 7);
 		assertEquals("[la,  , direcció,  , E, -, SE]", tokens.toString());
