@@ -150,7 +150,6 @@ $Id$
             </rule>
         </rulegroup>
 
-
     </category>
 
     <category name="Граматика">
@@ -250,7 +249,7 @@ $Id$
         -->
         </rulegroup>
 <!--
-        <rulegroup name="Узгодженість" id="CONISTENCY_VIDM_1">
+        <rulegroup name="Узгодженість" id="CONISTENCY">
             <rule>
                 <pattern>
                    <unify negate="yes">
@@ -366,20 +365,7 @@ $Id$
             проблеми: 1) як пропонувати "й", якщо наступне не почитанється з "й", і "та", якщо далі не йде "а"
                       2) як пропонувати частину слова "дощ йде" -> "дощ іде"?
         -->
-        <rulegroup name="Милозвучність" id="NICE">
-            <!--
-                  <rule>
-                      <pattern>
-                          <token regexp="yes">.*[аеєиіїоуюя]</token>
-                          <token regexp="yes">і</token>
-                      </pattern>
-                      <message>Зіяння <suggestion>\1 й</suggestion> <suggestion>\1 та</suggestion></message>
-                      <example type="correct">Поле й ліс.</example>
-                      <example type="correct">Поле та ліс.</example>
-                      <example type="incorrect"><marker>Поле і</marker> ліс.</example>
-                  </rule>
-
--->
+        <rulegroup name="Милозвучність" id="EUPHONY">
             <rule>
                 <pattern>
                     <token regexp="yes">.*[156789ґйцкнгшщзхфвпрлджчсмтбьqwrtpsdfghjklzxcvbnm]</token>
@@ -388,7 +374,7 @@ $Id$
                     </marker>
                     <token regexp="yes">[234567890ґйцкнгшщзхфвпрлджчсмтьбqwrtpsdfghjklzxcvbnm].*</token>
                 </pattern>
-                <message>Між двома приголосними варто писати у:\1 <suggestion>у</suggestion> \3</message>
+                <message>Між двома приголосними варто писати у: \1 <suggestion>у</suggestion> \3</message>
                 <example type="correct">Стіг у степу.</example>
                 <example type="incorrect">Стіг <marker>в</marker> степу.</example>
             </rule>
@@ -405,7 +391,6 @@ $Id$
                 <example type="incorrect"><marker>в</marker> вівторок.</example>
                 <example type="incorrect">Сьогодні <marker>в</marker> Львові.</example>
             </rule>
-<!--
             <rule>
                 <pattern>
                     <token postag="SENT_START"></token>
@@ -415,30 +400,8 @@ $Id$
                     <token regexp="yes">[1234567890ґйцкнгшщзхфвпрлджчсмтьбqwrtpsdfghjklzxcvbnm].*</token>
                 </pattern>
                 <message>На початку речення перед приголосними варто писати у: <suggestion>У</suggestion> \3</message>
-                <example type="correct">У закладі.</example>
-                <example type="incorrect"><marker>В</marker> закладі.</example>
-            </rule>
-
-            <rule>
-                <pattern>
-                    <token postag="SENT_START"></token>
-                    <token>всі</token>
-                </pattern>
-                <message>На початку речення бажано писати <suggestion>Усі</suggestion></message>
-                <example type="correct">Усі заклади.</example>
-                <example type="incorrect"><marker>Всі</marker> заклади.</example>
-            </rule>
-
-            <rule>
-                <pattern>
-                    <token regexp="yes">[(){}:;,./?!]*</token>
-                    <marker>
-                        <token>всі</token>
-                    </marker>
-                </pattern>
-                <message>після паузи варто писати <suggestion>усі</suggestion></message>
-                <example type="correct">Звичайно, усі заклади.</example>
-                <example type="incorrect">Звичайно, <marker>всі</marker> заклади.</example>
+                <example type="correct">У будинку сталася пожежа.</example>
+                <example type="incorrect"><marker>В</marker> будинку сталася пожежа.</example>
             </rule>
 
             <rule>
@@ -466,44 +429,7 @@ $Id$
                 <example type="correct">В Україні.</example>
                 <example type="incorrect"><marker>У</marker> Україні.</example>
             </rule>
--->
-            <rule>
-                <pattern>
-                    <token regexp="yes">.*[уеїіаоєяиюeyuioa23]</token>
-                    <marker>
-                        <token>у</token>
-                    </marker>
-                    <token regexp="yes">[уеїіаоєяиюeyuioa1].*</token>
-                </pattern>
-                <message>Між двома голосними варто писати «в»: \1 <suggestion>в</suggestion> \3</message>
-                <example type="correct">Країна в Азії.</example>
-                <example type="incorrect">Країна <marker>у</marker> Азії.</example>
-            </rule>
-<!--
-            <rule>
-                <pattern>
-                    <token regexp="yes">.*[уеїіаоєяиюeyuioa]</token>
-                    <marker>
-                        <token>і</token>
-                    </marker>
-                    <token regexp="yes">[уеіаоиeioa].*</token>
-                </pattern>
-                <message>Між двома голосними варто писати й: \1 <suggestion>й</suggestion> \3</message>
-                <example type="correct">Марко й Іван.</example>
-                <example type="incorrect">Марко <marker>і</marker> Іван.</example>
-            </rule>
 
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>й</token>
-                    </marker>
-                    <token regexp="yes">[йїєяюyu].*</token>
-                </pattern>
-                <message>Перед й,ї,є,я,ю варто писати і: <suggestion>і</suggestion> \2</message>
-                <example type="correct">Хто і як?</example>
-                <example type="incorrect">Хто <marker>й</marker> як?</example>
-            </rule>
             <rule>
                 <pattern>
                     <token regexp="yes">.*[уеїіаоєяиюeyuioa]</token>
@@ -517,7 +443,82 @@ $Id$
                 <example type="correct">Вулиця у Львові.</example>
                 <example type="incorrect">Балка <marker>у</marker> степу.</example>
             </rule>
+<!--
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"></token>
+                    <token>всі</token>
+                </pattern>
+                <message>На початку речення бажано писати <suggestion>Усі</suggestion></message>
+                <example type="correct">Усі заклади.</example>
+                <example type="incorrect"><marker>Всі</marker> заклади.</example>
+            </rule>
 
+            <rule>
+                <pattern>
+                    <token regexp="yes">[(){}:;,./?!]*</token>
+                    <marker>
+                        <token>всі</token>
+                    </marker>
+                </pattern>
+                <message>після паузи варто писати <suggestion>усі</suggestion></message>
+                <example type="correct">Звичайно, усі заклади.</example>
+                <example type="incorrect">Звичайно, <marker>всі</marker> заклади.</example>
+            </rule>
+-->
+            <rule>
+                <pattern>
+                    <token regexp="yes">(.*[ґйцкнгшщзхпрлджчсмтьбqwrtpsdghjklzxcbnm156789]|[,:;…])</token>
+                    <marker>
+                        <token>й</token>
+                    </marker>
+                    <token regexp="yes">[^йєїюя].*</token>
+                </pattern>
+                <message>Після приголосної або після паузи треба писати «і»: \1 <suggestion>і</suggestion> \3</message>
+                <example type="correct">Пам’ять і серце</example>
+                <example type="incorrect">Пам’ять <marker>й</marker> серце.</example>
+                <example type="incorrect">1 <marker>й</marker> 3.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token>й</token>
+                    </marker>
+                    <token regexp="yes">[^йєїюяyu].*</token>
+                </pattern>
+                <message>На початку речення треба писати «і»: \1 <suggestion>і</suggestion> \3</message>
+                <example type="incorrect"><marker>Й</marker> долом геть собі село понад водою простяглось.</example>
+                <example type="correct">І долом геть собі село понад водою простяглось</example>
+            </rule>
+
+            <rule>
+                <pattern>
+                    <token regexp="yes">.*[уеїіаоєяиюeyuioa234]</token>
+                    <marker>
+                        <token>і</token>
+                    </marker>
+                    <token regexp="yes">[уеіаоиeioa1].*</token>
+                </pattern>
+                <message>Між двома голосними варто писати й: \1 <suggestion>й</suggestion> \3</message>
+                <example type="correct">Марко й Іван.</example>
+                <example type="incorrect">Марко <marker>і</marker> Іван.</example>
+                <example type="incorrect">2 <marker>і</marker> 1.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>й</token>
+                    </marker>
+                    <token regexp="yes">[йїєяюyu].*</token>
+                </pattern>
+                <message>Перед й, ї, є, я, ю краще писати і: <suggestion>і</suggestion> \2</message>
+                <example type="correct">Хто і як?</example>
+                <example type="incorrect">Хто <marker>й</marker> як?</example>
+                <example type="incorrect">Йому <marker>й</marker> їй?</example>
+            </rule>
+
+<!--
             <rule>
                 <pattern>
                     <marker>
@@ -852,6 +853,7 @@ $Id$
          <example type="incorrect"><marker>Вибачаюсь</marker>, що не зміг до вас зайти</example>
          <example type="correct">Вибачте, що не зміг до вас зайти</example>
        </rule>
+       <!--
        <rule>
          <pattern>
             <marker>
@@ -866,6 +868,7 @@ $Id$
          <example type="correct">Як порівняти з феодалізмом, капіталізм був кроком уперед.</example>
          <example type="correct">У порівнянні підсумків цьогорічного сезону з минулим — нема ніякої тенденційності</example>
        </rule>
+       -->
        <rule>
          <pattern>
             <marker>
@@ -937,6 +940,252 @@ $Id$
          <example type="incorrect">Збільшується <marker>доля</marker> промислових підприємств у виробництві валового національного продукту.</example>
          <example type="incorrect">Значна <marker>доля</marker> теплового випромінювання утримується парниковими газами.</example>
          <example type="correct">циганська доля.</example>
+       </rule>
+       <rule>
+         <pattern>
+            <token inflected="yes">палата</token>
+            <marker>
+              <token>общин</token>
+            </marker>
+         </pattern>
+         <message>Правильно: <suggestion>громад</suggestion></message>
+         <url>http://mova.kreschatic.kiev.ua/17.php</url>
+         <example type="incorrect">Палата <marker>общин</marker></example>
+         <example type="correct">Палата громад</example>
+       </rule>
+       <rule>
+         <pattern>
+            <token>дай</token>
+            <marker>
+              <token>бог</token>
+            </marker>
+         </pattern>
+         <message>Правильно: <suggestion>Боже</suggestion></message>
+         <url>http://mova.kreschatic.kiev.ua/3.php</url>
+         <example type="incorrect">Дай <marker>Бог</marker> вам здоров’я</example>
+         <example type="correct">Дай Боже вам здоров’я</example>
+       </rule>
+       <rule>
+         <pattern>
+            <marker>
+              <token>за</token>
+            </marker>
+            <token regexp="yes">(поданням|зверненням|вимогою|пропозицією|проханням)</token>
+         </pattern>
+         <message>Правильно: <suggestion>на</suggestion> подання, звернення...</message>
+         <url>http://mova.kreschatic.kiev.ua/9.php</url>
+         <example type="incorrect"><marker>За</marker> зверненням депутата</example>
+         <example type="correct">На звернення депутата</example>
+       </rule>
+       <rule>
+         <pattern>
+            <marker>
+              <token inflected="yes">справа</token>
+              <token>до</token>
+              <token>провадження</token>
+            </marker>
+         </pattern>
+         <message>Правильно: <suggestion>справа до судочинства</suggestion></message>
+         <url>http://mova.kreschatic.kiev.ua/9.php</url>
+         <example type="incorrect">про допуск <marker>справи до провадження</marker> у Верховному Суді</example>
+         <example type="correct">про допуск справи до судочинства у Верховному Суді</example>
+       </rule>
+       <rule>
+         <pattern>
+              <token inflected="yes" regexp="yes">(одружуватися|одружитися|оженитися)</token>
+            <marker>
+              <token>на</token>
+            </marker>
+         </pattern>
+         <message>Правильно: одружитися <suggestion>з</suggestion> кимсь</message>
+         <url>http://mova.kreschatic.kiev.ua/11.php</url>
+         <example type="incorrect">Джонні Депп вирішив одружитися <marker>на</marker> Ембер Херд</example>
+         <example type="correct">Джонні Депп вирішив одружитися з Ембер Херд</example>
+       </rule>
+       <rule>
+         <pattern>
+            <marker>
+              <token>в</token>
+            </marker>
+            <token postag_regexp="yes" postag="pron.*v_zna.*"></token>
+            <token>честь</token>
+         </pattern>
+         <message>Правильно: <suggestion>на</suggestion> чиюсь честь</message>
+         <url>http://mova.kreschatic.kiev.ua/11.php</url>
+         <example type="incorrect"><marker>В</marker> його честь назвали шпиталь</example>
+         <example type="correct">На його честь назвали шпиталь</example>
+       </rule>
+       <rule>
+         <pattern>
+            <marker>
+              <token>в</token>
+            </marker>
+            <token>честь</token>
+            <token postag_regexp="yes" postag="noun.*v_zna.*"></token>
+         </pattern>
+         <message>Правильно: <suggestion>на</suggestion> честь когось</message>
+         <url>http://mova.kreschatic.kiev.ua/11.php</url>
+         <example type="incorrect"><marker>В</marker> честь Амосова назвали шпиталь</example>
+         <example type="correct">На честь Амосова назвали шпиталь</example>
+       </rule>
+       <rule>
+         <pattern>
+            <marker>
+              <token inflected="yes">громадянський</token>
+            </marker>
+            <token inflected="yes">шлюб</token>
+         </pattern>
+         <message>Правильно: <suggestion>цивільний</suggestion> шлюб</message>
+         <url>http://mova.kreschatic.kiev.ua/12.php</url>
+         <example type="incorrect"><marker>Громадянський</marker> шлюб: за і проти</example>
+         <example type="correct">Цивільний шлюб: за і проти</example>
+       </rule>
+       <rule>
+         <pattern>
+            <token inflected="yes">говорити</token>
+            <token>по</token>
+            <token>правді</token>
+         </pattern>
+         <message>Правильно: <suggestion>направду казати</suggestion></message>
+         <url>http://mova.kreschatic.kiev.ua/12.php</url>
+         <example type="incorrect"><marker>Говорити по правді</marker></example>
+         <example type="correct">Направду казати</example>
+       </rule>
+       <rule>
+         <pattern>
+            <token inflected="yes" skip="1">дати</token>
+            <token>знати</token>
+         </pattern>
+         <message>Правильно: <suggestion>повідомляти</suggestion>, <suggestion>сповіщати</suggestion></message>
+         <url>http://mova.kreschatic.kiev.ua/12.php</url>
+         <example type="incorrect">Він <marker>дав знати</marker> командиру</example>
+         <example type="incorrect">Він <marker>дав їй знати</marker></example>
+         <example type="correct">Він їй повідомив</example>
+       </rule>
+       <rule>
+         <pattern>
+           <marker>
+            <token inflected="yes">дійсний</token>
+          </marker>
+            <token>до</token>
+         </pattern>
+         <message>Правильно: <suggestion>чинний</suggestion> до</message>
+         <url>http://mova.kreschatic.kiev.ua/12.php</url>
+         <example type="incorrect">Квиток <marker>дійсний</marker> до грудня</example>
+         <example type="correct">Квиток чинний до грудня</example>
+       </rule>
+       <rule>
+         <pattern>
+           <marker>
+            <token inflected="yes">дощовий</token>
+          </marker>
+            <token inflected="yes" regexp="yes">(день|тиждень|місяць|рік|весна|літо|осінь|зима|погода)</token>
+         </pattern>
+         <message>Правильно: <suggestion>дощовитий</suggestion></message>
+         <url>http://mova.kreschatic.kiev.ua/13.php</url>
+         <example type="incorrect"><marker>Дощове</marker> літо</example>
+         <example type="correct">Дощові хмари</example>
+       </rule>
+       <rule>
+         <pattern>
+           <marker>
+            <token>за</token>
+            <token>суттю</token>
+          </marker>
+         </pattern>
+         <message>Правильно: <suggestion>по суті</suggestion></message>
+         <url>http://mova.kreschatic.kiev.ua/14.php</url>
+         <example type="incorrect"><marker>За суттю</marker></example>
+         <example type="correct">По суті</example>
+       </rule>
+       <rule>
+         <pattern>
+            <token inflected="yes" regexp="yes">(науковий|вчений)</token>
+           <marker>
+            <token>степінь</token>
+          </marker>
+         </pattern>
+         <message>Правильно: <suggestion>ступінь</suggestion></message>
+         <example type="incorrect">Науковий <marker>степінь</marker></example>
+         <example type="correct">Піднесення до степеня</example>
+         <example type="correct">Науковий ступінь</example>
+       </rule>
+       <rule>
+         <pattern>
+            <token inflected="yes">ставити</token>
+           <marker>
+            <token>у</token>
+            <token>вину</token>
+          </marker>
+         </pattern>
+         <message>Правильно: <suggestion>за провину</suggestion></message>
+         <example type="incorrect">ставити <marker>у вину</marker> порушення лише деяких норм</example>
+         <example type="correct">ставити за провину порушення лише деяких норм</example>
+       </rule>
+       <rule>
+         <pattern>
+           <marker>
+            <token inflected="yes">вірний</token>
+          </marker>
+            <token inflected="yes">спосіб</token>
+         </pattern>
+         <message>Правильно: <suggestion>надійний</suggestion></message>
+         <example type="incorrect"><marker>Вірний</marker> спосіб</example>
+         <example type="correct">Вірний джура</example>
+       </rule>
+       <rule>
+         <pattern>
+           <marker>
+            <token inflected="yes">вірний</token>
+          </marker>
+            <token inflected="yes" regexp="yes">(результат|відповідь|рішення)</token>
+         </pattern>
+         <message>Правильно: <suggestion>правильний</suggestion></message>
+         <example type="incorrect"><marker>Вірна</marker> відповідь</example>
+         <example type="correct">Вірна дружина</example>
+       </rule>
+       <rule>
+         <pattern>
+           <marker>
+            <token inflected="yes">об'єм</token>
+          </marker>
+            <token inflected="yes" regexp="yes">(продукція|постачання|робота)</token>
+         </pattern>
+         <message>Правильно: <suggestion>обсяг</suggestion></message>
+         <example type="incorrect"><marker>Об'єм</marker> продукції збільшився вдвічи</example>
+         <example type="correct">Об'єм двигуна - 3 кубічних дециметри</example>
+       </rule>
+       <rule>
+         <pattern>
+           <marker>
+            <token inflected="yes" regexp="yes">(потискувати|потискати|потиснути)</token>
+          </marker>
+            <token inflected="yes">плече</token>
+         </pattern>
+         <message>Правильно: <suggestion>знизувати</suggestion> плечима</message>
+         <example type="incorrect">Він лише <marker>потиснув</marker> плечима</example>
+         <example type="correct">Він лише знизав плечима</example>
+       </rule>
+       <rule>
+         <pattern>
+            <token skip="1">велике</token>
+            <token>спасибі</token>
+         </pattern>
+         <message>Правильно: <suggestion>дуже дякую</suggestion>, <suggestion>спасибі</suggestion></message>
+         <example type="incorrect">Велике, дуже <marker>велике спасибі</marker> вам</example>
+         <example type="incorrect">Велике, дуже <marker>велике вам спасибі</marker></example>
+         <example type="correct">Дуже вам дякую</example>
+       </rule>
+       <rule>
+         <pattern>
+           <marker>
+            <token inflected="yes" regexp="yes" skip="1">(розділяти|розділити)</token>
+           </marker>
+            <token inflected="yes" regexp="yes">(думка|погляди|позиція|оптимізм|тривога|почуття|радість)</token>
+         </pattern>
+         <message>Правильно: <suggestion>поділяти</suggestion></message>
+         <example type="incorrect">Всі <marker>розділяли</marker> мою радість</example>
+         <example type="correct">Всі поділяли мою радість</example>
        </rule>
      </rulegroup>
      

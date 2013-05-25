@@ -53,7 +53,7 @@ public class UkrainianRuleDisambiguatorTest extends DisambiguationRuleTest {
   public void testChunker() throws IOException {
 
     TestTools.myAssert("Танцювати до впаду", 
-    	"/[null]SENT_START Танцювати/[танцювати]verb:inf  /[null]null до/[до впаду]<adv>|до/[до]pryim:rv_rod  /[null]null " +
+    	"/[null]SENT_START Танцювати/[танцювати]verb:inf  /[null]null до/[до впаду]<adv>|до/[до]noun:n:nv|до/[до]pryim:rv_rod  /[null]null " +
     	"впаду/[впасти]verb:pres:s:1|впаду/[до впаду]</adv>",
       tokenizer, sentenceTokenizer, tagger, disambiguator);
     

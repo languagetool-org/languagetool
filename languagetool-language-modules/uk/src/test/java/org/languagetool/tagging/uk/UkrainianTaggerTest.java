@@ -42,7 +42,7 @@ public class UkrainianTaggerTest extends TestCase {
   
   public void testTagger() throws IOException {
     TestTools.myAssert("300 р. до н. е.", 
-      "300/[300]numr -- р/[null]null -- до/[до]pryim:rv_rod -- н/[null]null -- е/[null]null",
+      "300/[300]numr -- р/[null]null -- до/[до]noun:n:nv|до/[до]pryim:rv_rod -- н/[null]null -- е/[null]null",
        tokenizer, tagger);
     
   
@@ -51,10 +51,10 @@ public class UkrainianTaggerTest extends TestCase {
        tokenizer, tagger);
        
     String expected = 
-      "Майже/[null]null -- два/[два]noun:m:v_naz|два/[два]noun:m:v_zna|два/[два]noun:n:v_naz|два/[два]noun:n:v_zna -- роки/[рік]noun:p:v_naz|роки/[рік]noun:p:v_zna -- тому/[той]pron|тому/[том]noun:m:v_rod"
+      "Майже/[майже]todo -- два/[два]noun:m:v_naz|два/[два]noun:m:v_zna|два/[два]noun:n:v_naz|два/[два]noun:n:v_zna -- роки/[рік]noun:p:v_naz|роки/[рік]noun:p:v_zna -- тому/[той]pron|тому/[том]noun:m:v_rod"
     + " -- Люба/[Люба]noun:f:v_naz|Люба/[любий]adj:f:v_naz -- разом/[раз]noun:m:v_oru -- із/[із]pryim:rv_rod:rv_zna:rv_oru"
     + " -- чоловіком/[чоловік]noun:m:v_oru -- Степаном/[Степан]noun:m:v_oru -- виїхали/[виїхати]verb:past:m -- туди/[туди]adv"
-    + " -- на/[на]pryim:rv_zna:rv_mis -- проживання/[проживання]noun:n:v_naz|проживання/[проживання]noun:n:v_rod|проживання/[проживання]noun:n:v_zna";
+    + " -- на/[на]excl|на/[на]part|на/[на]pryim:rv_zna:rv_mis -- проживання/[проживання]noun:n:v_naz|проживання/[проживання]noun:n:v_rod|проживання/[проживання]noun:n:v_zna";
   
     TestTools.myAssert("Майже два роки тому Люба разом із чоловіком Степаном виїхали туди на проживання.",
         expected, tokenizer, tagger);
