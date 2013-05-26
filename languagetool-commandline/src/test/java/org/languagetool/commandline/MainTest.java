@@ -370,7 +370,7 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(output.indexOf("Expected text language: Polish") == 0);
     assertTrue(output.contains("Message: Hint: \"aktualny\" (Polish) means \"current\", \"(the) latest\", \"up-to-date\" (English). Did you mean 'rzeczywisty'?"));
     assertTrue(output.contains("Line 1, column 32, Rule ID: ACTUAL"));
-    assertTrue(output.contains("Line 3, column 4, Rule ID: TRANSLATION_LENGTH"));
+    assertTrue(output.contains("Line 3, column 3, Rule ID: TRANSLATION_LENGTH"));
   }
 
   public void testBitextModeWithDisabledRule() throws Exception {
