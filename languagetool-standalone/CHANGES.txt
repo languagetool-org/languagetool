@@ -27,6 +27,7 @@ LanguageTool Change Log
   -added new segmentation rules
   -added false-friend rule
   -added bitext rule
+  -added new style rules  
 
  -Ukrainian:
   -new POS dictionary
@@ -42,6 +43,8 @@ LanguageTool Change Log
   -enabling and disabling rules at the same time (keeping the rest of the default options) is now allowed. 
   To disable all the rules except those explicitly enabled, you can use the parameter enabledOnly=yes. Ex.: 
   http://localhost:8081/?language=en&enabled=STRANGE_RULE,ANOTHER_RULE&enabledOnly=yes&text=my+text
+ 
+ -Fix bug "java.lang.StringIndexOutOfBoundsException" in DifferentLengthRule (Ex.:http://localhost:8081/?language=ru&text=№&srctext=No.&motherTongue=en )
 
  -Updated Tika (used for language detection) from 0.9 to 1.3
 
