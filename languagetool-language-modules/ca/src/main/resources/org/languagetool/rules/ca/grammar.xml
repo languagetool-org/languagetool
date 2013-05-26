@@ -767,7 +767,8 @@ $Id$
                 <example type="correct">una quinta de tos aparatosa</example>
                 <example type="correct">Feu servir a tots idèntica vedella amb pèsols</example>
                 <example type="correct">Enyorava moltíssim ma mare</example>
-                <!-- <example type="correct">així com per la molt posterior Patlabor.</example> -->             
+                <!-- <example type="correct">així com per la molt posterior Patlabor.</example> 
+                a fer tots botànica cultural-->             
             </rule>
         </rulegroup>
         <!--  concordança DA-DR el qual -->
@@ -4155,9 +4156,9 @@ $Id$
             <rule id="MALGRAT_QUE" name="malgrat (que)">
                 <pattern>
                     <marker>
-                        <token skip="8">malgrat<exception scope="next" regexp="yes">,|que|quals?|què</exception><exception postag="_possible_nompropi"/></token>
+                        <token skip="8">malgrat<exception scope="next" regexp="yes">,|que|quals?|què|com</exception><exception postag="_possible_nompropi"/></token>
                     </marker>
-                    <token postag="V.[IS].*" postag_regexp="yes"><exception postag="_GN.*|V.N.*" postag_regexp="yes"/></token>
+                    <token postag="V.[IS].*" postag_regexp="yes"></token> <!-- <exception postag="_GN.*|V.N.*" postag_regexp="yes"/> -->
                 </pattern>
                 <message>Potser és <suggestion>malgrat que</suggestion> o falta una coma abans del verb.</message>
                 <short>Expressió incorrecta</short>
@@ -4169,6 +4170,7 @@ $Id$
                 <example type="correct">malgrat la qual Pere I penetrà al País Valencià</example>
                 <example type="correct">Malgrat les condicions en què s'han desenvolupat</example>
                 <example type="correct">Malgrat ser el més ràpid, arribà tard.</example>
+                <example type="correct">malgrat ésser tan bon indici de romanització com he raonat, no corresponen a la densitat</example>
             </rule>
             <rule id="MALGRAT_MALGRAT_TOT" name="malgrat / malgrat tot">
                 <pattern>
@@ -8284,30 +8286,114 @@ $Id$
         <rulegroup id="BE" name="be/bé">
             <rule>
                 <pattern>
-                    <token negate="yes">la</token>
+                	<token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">animal|porc|cabra|gallina|pastor|pastura|pasturar|bestiar|boví|vaca|gos|ramat|cleda|rabera|escorxar|escorxador|pasqual|llana</exception></token>
                     <marker>
-                        <token>be</token>
+                        <token skip="-1">be<exception scope="previous">la</exception><exception scope="next" regexp="yes" inflected="yes">animal|porc|cabra|gallina|pastor|pastura|pasturar|bestiar|boví|vaca|gos|ramat|cleda|rabera|escorxar|escorxador|pasqual|llana</exception></token>
                     </marker>
-                    <token><exception>negre</exception></token>
+                    <token postag="SENT_END"/>
                 </pattern>
-                <message>"Be" només va sense accent quan és un animal o un nom de lletra.</message>
+                <message>Només va sense accent quan és un animal o un nom de lletra.</message>
                 <suggestion>bé</suggestion>
                 <short>Accent diacrític</short>
-                <example type="incorrect">Ho fas <marker>be</marker>.</example>
+                <example type="incorrect">Ho fas tan <marker>be</marker> com ell.</example>
                 <example type="correct">Ho fas <marker>bé</marker>.</example>
                 <example type="correct">Entendre la a per la be.</example>
-                <example type="correct">I un be negre!</example>
+                <!-- <example type="correct">I un be negre!</example> -->
             </rule>
             <rule>
                 <pattern>
-                    <token>bens</token>
+                	<token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">animal|porc|cabra|gallina|pastor|pastura|pasturar|bestiar|boví|vaca|gos|ramat|cleda|rabera|escorxar|escorxador|pasqual|llana</exception></token>
+                	<marker>
+                    	<token skip="-1">bens<exception scope="next" regexp="yes" inflected="yes">animal|porc|cabra|gallina|pastor|pastura|pasturar|bestiar|boví|vaca|gos|ramat|cleda|rabera|escorxar|escorxador|pasqual|llana</exception></token>
+                    </marker>
+                    <token postag="SENT_END"/>
                 </pattern>
-                <message>"Bens" només va sense accent quan és un animal.</message>
+                <message>Només va sense accent quan és un animal.</message>
                 <suggestion>béns</suggestion>
                 <short>Accent diacrític</short>
                 <example type="incorrect">Els <marker>bens</marker> d'aquest món.</example>
                 <example type="correct">Els <marker>béns</marker> d'aquest món.</example>
             </rule>
+            <rule>
+                <pattern>
+                	<token skip="-1" regexp="yes" inflected="yes">animal|porc|cabra|gallina|pastor|pastura|pasturar|bestiar|boví|vaca|gos|ramat|cleda|rabera|escorxar|escorxador|pasqual|llana</token>
+                	<marker>
+                    	<token>bé<exception scope="previous" regexp="yes">que|si|ara|molt|per|i|o|ni|més|['-].+</exception><exception scope="previous" postag="V.*|_PUNCT.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Va sense accent quan és un animal.</message>
+                <suggestion>be</suggestion>
+                <short>Accent diacrític</short>
+                <example type="incorrect" correction="be">El pastor s'endugué el <marker>bé</marker>.</example>
+                <example type="correct">Els porcs i els bens.</example>
+                <example type="correct">s'afegeix a la resta del suc on ha cuit la llana, barrejant-ho bé.</example>
+            </rule>
+            <rule>
+                <pattern>
+                	<token><exception regexp="yes">que|si|ara|molt|per|i|o|ni|més|['-].+</exception><exception postag="V.*|_PUNCT.*" postag_regexp="yes"/></token>
+                	<marker>
+                    	<token skip="-1">bé</token>
+                    </marker>
+                    <token regexp="yes" inflected="yes">animal|porc|cabra|gallina|pastor|pastura|pasturar|bestiar|boví|vaca|gos|ramat|cleda|rabera|escorxar|escorxador|pasqual|llana</token>
+                </pattern>
+                <message>Va sense accent quan és un animal.</message>
+                <suggestion>be</suggestion>
+                <short>Accent diacrític</short>
+                <example type="incorrect" correction="be">El pastor s'endugué el <marker>bé</marker> a la cleda.</example>
+                <example type="correct">Els bens i les gallines.</example>
+            </rule>
+            <rule>
+                <pattern>
+                	<token skip="-1" regexp="yes" inflected="yes">animal|porc|cabra|gallina|pastor|pastura|pasturar|bestiar|boví|vaca|gos|ramat|cleda|rabera|escorxar|escorxador|pasqual|llana</token>
+                	<marker>
+                    	<token>béns</token>
+                    </marker>
+                </pattern>
+                <message>Va sense accent quan és un animal.</message>
+                <suggestion>bens</suggestion>
+                <short>Accent diacrític</short>
+                <example type="incorrect" correction="bens">El pastor s'endugué els <marker>béns</marker>.</example>
+                <example type="correct">Els porcs i els bens.</example>
+            </rule>
+            <rule>
+                <pattern>
+                	<marker>
+                    	<token skip="-1">béns</token>
+                    </marker>
+                    <token regexp="yes" inflected="yes">animal|porc|cabra|gallina|pastor|pastura|pasturar|bestiar|boví|vaca|gos|ramat|cleda|rabera|escorxar|escorxador|pasqual|llana</token>
+                </pattern>
+                <message>Va sense accent quan és un animal.</message>
+                <suggestion>bens</suggestion>
+                <short>Accent diacrític</short>
+                <example type="incorrect" correction="bens">El pastor s'endugué els <marker>béns</marker> a la cleda.</example>
+                <example type="correct">Els bens i les gallines.</example>
+            </rule>
+            <rule>
+                <pattern>
+                	<token regexp="yes">que|si|ara|molt|per|i|o|ni|més|,|['-].+</token>
+                	<marker>
+                    	<token>be</token>
+                    </marker>
+                </pattern>
+                <message>Només va sense accent quan és un animal o un nom de lletra.</message>
+                <suggestion>bé</suggestion>
+                <short>Accent diacrític</short>
+                <example type="incorrect" correction="bé">El pastor ho va fer molt <marker>be</marker> a la cleda.</example>
+                <example type="correct">Els bens i les gallines.</example>
+            </rule>
+            <rule>
+                <pattern>
+                	<token postag="V.*|_PUNCT.*" postag_regexp="yes"/>
+                	<marker>
+                    	<token>be</token>
+                    </marker>
+                </pattern>
+                <message>Només va sense accent quan és un animal o un nom de lletra.</message>
+                <suggestion>bé</suggestion>
+                <short>Accent diacrític</short>
+                <example type="incorrect" correction="bé">El pastor ho va fer <marker>be</marker> a la cleda.</example>
+                <example type="correct">Els bens i les gallines.</example>
+            </rule>           
         </rulegroup>
         <rulegroup id="TE" name="te/té">
             <rule>
@@ -14560,13 +14646,13 @@ $Id$
             <example type="incorrect" correction="fonamentéssim|poséssim els fonaments">Calia que <marker>cimentéssim</marker> bé la casa.</example>
             <example type="correct">purgar</example>
         </rule>
-        <rule id="CIMENT" name="ciment">
+        <rule id="CIMENTS" name="ciments/fonaments">
             <pattern>
-                <token inflected="yes" regexp="yes">ciment|cimentació</token>
+                <token regexp="yes">ciments|cimentacions</token>
             </pattern>
             <message>¿Volíeu dir <suggestion>fonaments</suggestion> (sentits més habituals) en comptes de "<match no="1"/>" (sentits menys habituals)?</message>
             <example type="incorrect" correction="fonaments">Calia que posar els <marker>ciments</marker> de la casa.</example>
-            <example type="correct">purgar</example>
+            <example type="correct">La imparable expansió de la rajola i el ciment</example>
         </rule>
         <rule id="DAR" name="dar">
             <pattern>
@@ -14619,15 +14705,18 @@ $Id$
         <rulegroup id="LIDERAT_LIDERATGE" name="liderat/lideratge, filtrat/filtratge...">
             <rule>
                 <pattern>
-                    <token><exception postag="RG_anteposat|N.*|CC|_PUNCT.*|SENT_START|.*LOC_ADV.*" postag_regexp="yes"/></token>
+                    <!-- <token><exception postag="RG_anteposat|N.*|AQ.*|CC|_PUNCT.*|SENT_START|.*LOC_ADV.*" postag_regexp="yes"/></token> -->
+                    <token postag="D[^R].*|PX.*|SPS00" postag_regexp="yes"/>
                     <marker>
                         <token regexp="yes">etiquetats?|liderats?|filtrats?|empaquetats?|equilibrats?|embotellats?<exception postag="_GV_" /></token>
                     </marker>
-                    <token><exception regexp="yes">per|pe|des|després</exception></token>
+                    <token><exception postag="N.*" postag_regexp="yes"/></token>
+                    <!-- <token><exception regexp="yes">per|pe|des|després</exception><exception postag="N.*" postag_regexp="yes"/></token> -->
                 </pattern>
                 <message>Quan indica un procés, una condició, cal dir: <suggestion><match no="2" regexp_match="(.+)t(s?)" regexp_replace="$1tge$2"/></suggestion>.</message>
                 <short>Forma preferible</short>
                 <example type="incorrect" correction="lideratge">amb el seu <marker>liderat</marker>.</example>
+                <example type="incorrect" correction="lideratge">Cal un <marker>liderat</marker> fort.</example>
                 <example type="incorrect" correction="filtratge">Cal vigilar el <marker>filtrat</marker> del vi.</example>
                 <example type="incorrect" correction="empaquetatge">El procés d'<marker>empaquetat</marker>.</example>
                 <example type="incorrect" correction="equilibratges">Els <marker>equilibrats</marker> de les rodes.</example>
@@ -14646,6 +14735,10 @@ $Id$
                 <example type="correct">Processat després de la mort de Carles II</example>
                 <example type="correct">Processat diverses vegades</example>
                 <example type="correct">moltes vegades empaquetat amb pressa</example>
+                <example type="correct">és llavors embotellat i llançat al mercat</example>
+                <example type="correct">la comercialització de vi embotellat amb les firmes comercials</example>
+                <example type="correct">eixia al mercat el vi blanc embotellat amb la marca</example>
+                <example type="correct">que arribi a un equilibrat matrimoni</example>       
             </rule>
             <rule>
                 <pattern>
@@ -15165,7 +15258,7 @@ $Id$
         	<rule>
 	            <pattern>
 	                <marker>
-	                    <token inflected="yes" skip="5">desvetllar</token>
+	                    <token inflected="yes" skip="5" regexp="yes">desvetl?lar</token>
 	                </marker>
 	                <token postag="N.*" postag_regexp="yes" inflected="yes" regexp="yes">causa|origen|veritat|jo|secret|misteri</token>
 	            </pattern>
@@ -15180,7 +15273,7 @@ $Id$
 	        <rule>
 	            <pattern>
 	                <marker>
-	                    <token inflected="yes">desvetllar</token>
+	                    <token inflected="yes" regexp="yes">desvetl?lar</token>
 	                </marker>
 	                <token>que</token>
 	            </pattern>
@@ -18296,7 +18389,7 @@ $Id$
                 <marker>
                     <token postag="P.*" postag_regexp="yes">es</token>
                 </marker>
-                <token postag="V.*" postag_regexp="yes" regexp="yes">s.*|c[ei].*</token>
+                <token postag="V.*[^NGP].*" postag_regexp="yes" regexp="yes">s.*|c[ei].*</token>
             </pattern>
             <message>Davant del so de 's' és recomanable usar la forma plena.</message>
             <suggestion>se</suggestion>
@@ -19011,7 +19104,7 @@ $Id$
                 <example type="correct">esgotament d'una deu poètica.</example>
                 <example type="correct">La resta ha estat molt vaga i incerta</example>
                 <example type="correct">La setmana passada anà a Roses per no sé quin afer.</example>
-                <example type="correct">El passallís del Fluvià era molt poc som.</example>
+                <!-- <example type="correct">El passallís del Fluvià era molt poc som.</example> -->
                 <example type="correct">han aparegut no sé d'on</example>
             </rule>
             <rule> <!-- verb forma simple a l'inici de frase (en majúscula) -->
