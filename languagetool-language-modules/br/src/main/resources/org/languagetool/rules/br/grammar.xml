@@ -2733,7 +2733,7 @@ $Id$
     <rulegroup id="GER_KEMM" name="kemmadur ebet goude gerioù">
       <rule>
         <pattern>
-          <token regexp="yes">abaoe|ahont|amañ|arabat|aze|a-(benn|berzh|dal|dreñv|dreuz|drugarez|enep|hed|raok|us|walc’h|wechoù|wezhioù|ziwar)|bep|bet|betek|daoust|diouzh|dirak|diwar-(benn|goust)|eget|ent|etrezek|eus|[e’](vel|vit)(-se)?|e-(barzh|giz|keñver|kerz|kichen(ig)?|get|kreiz|lerc’h|mesk|pad|ser)|gant|goude|hag?|hep|hervez|hevelep|[kg]alz(ig)?|[kg]ement|kenetre|ke[nt]|krenn|lies|mard?|mell(ad|où)?|met|nemet|nompa[sz]|manier|memes|mui|na|nebeud(ig)?|nep|ouzh|ouzhpenn|panevet|pas|paourkaezh|pep|pebezh|pegen|peotramant|pere|peseurt|pet|petore|petvet|pezh(iad(où)?)?|pikol(ioù)?|rak|setu|seurt|war-(bouez|c’horre|dro|du|giz|lerc’h|nes|zu)<exception postag="L n">na</exception><exception postag="X KAOUT2">eus</exception></token>
+          <token regexp="yes">abaoe|ahont|amañ|arabat|aze|a-(benn|berzh|dal|dreñv|dreuz|drugarez|enep|hed|raok|us|walc’h|wechoù|wezhioù|ziwar)|bep|bet|betek|daoust|diouzh|dirak|diwar-(benn|goust)|eget|ent|etrezek|eus|[e’](vel|vit)(-se)?|e-(barzh|giz|keñver|kerz|kichen(ig)?|get|kreiz|lerc’h|mesk|pad|ser)|gant|goude|hag?|hep|hervez|hevelep|[kg]alz(ig)?|[kg]ement|kenetre|ke[nt]|krenn|lies|mard?|mell(ad)?(où)?|met|nemet|nompa[sz]|manier|memes|mui|na|nebeud(ig)?|nep|ouzh|ouzhpenn|panevet|pas|paourkaezh|pep|pebezh|pegen|peotramant|pere|peseurt|pet|petore|petvet|pezh(iad)?|pezhi(ad)?où|pikol(ioù)?|rak|setu|seurt|war-(bouez|c’horre|dro|du|giz|lerc’h|nes|zu)<exception postag="L n">na</exception><exception postag="X KAOUT2">eus</exception></token>
           <marker>
             <token postag="[^M]*M:.*" postag_regexp="yes">
               <exception negate_pos="yes" postag="[^M]*M:.*" postag_regexp="yes"/>
@@ -3602,7 +3602,7 @@ $Id$
       <pattern>
         <token regexp="yes">dousenn(ad)?</token>
         <marker>
-          <token postag="N . s" postag_regexp="yes">
+          <token postag="N . s( t)?" postag_regexp="yes">
             <exception postag="N . .?p" postag_regexp="yes"/>
           </token>
         </marker>
@@ -8157,6 +8157,35 @@ $Id$
         <message>Ha fellout a rae deoc’h skrivañ <suggestion>o <match no="5" regexp_match="^." regexp_replace="t"/></suggestion>?</message>
         <example type="incorrect" correction="o teskiñ">Laouen e oan <marker>da zeskiñ</marker> brezhoneg.</example>
         <example type="correct">Laouen e oan o teskiñ brezhoneg.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="PIKOLIOU" name="pikol → pikolioù">
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">pikol|pezh</token></marker>
+          <token postag="N . p( t)?" postag_regexp="yes"><exception postag="N . sp?( t)?" postag_regexp="yes"/></token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>\1ioù</suggestion> a-raok an anv lies «\2»? (CHALM Se)</message>
+        <example type="incorrect" correction="pikolioù">Ar <marker>pikol</marker> traoù-se.</example>
+        <example type="correct">Ar <marker>pikolioù</marker> traoù-se.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">mell(ad)?|pezhiad</token></marker>
+          <token postag="N . p( t)?" postag_regexp="yes"><exception postag="N . sp?( t)?" postag_regexp="yes"/></token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>\1où</suggestion> a-raok an anv lies «\2»? (CHALM Se)</message>
+        <example type="incorrect" correction="Melloù"><marker>Mell</marker> paotred.</example>
+        <example type="correct"><marker>Melloù</marker> paotred.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">pikolioù|pezhi(ad)?où|mell(ad)où</token></marker>
+          <token postag="N . s( t)?" postag_regexp="yes"><exception postag="N . s?p( t)?" postag_regexp="yes"/></token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion><match no="1" regexp_match="(.*[^i])i?où" regexp_replace="$1"/></suggestion> a-raok an anv unan «\2»? (CHALM Se)</message>
+        <example type="incorrect" correction="pikol">Ur <marker>pikolioù</marker> paotr</example>
+        <example type="correct">Ur <marker>pikol</marker> paotr</example>
       </rule>
     </rulegroup>
   </category>
