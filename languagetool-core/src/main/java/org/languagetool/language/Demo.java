@@ -29,7 +29,7 @@ import org.languagetool.tagging.xx.DemoTagger;
 
 public class Demo extends Language {
 
-  public final static String SHORT_NAME = "xx";
+  public static final String SHORT_NAME = "xx";
   
   private Tagger tagger;
 

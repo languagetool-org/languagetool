@@ -34,7 +34,7 @@ import org.languagetool.tagging.Tagger;
  */
 public class ManualTaggerAdapterTest extends TestCase {
 
-  private final static String TEST_DATA =
+  private static final String TEST_DATA =
           "# some test data\n" +
                   "inflectedform11\tlemma1\tPOS1\n" +
                   "inflectedform121\tlemma1\tPOS2\n" +

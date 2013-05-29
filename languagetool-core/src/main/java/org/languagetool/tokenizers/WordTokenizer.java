@@ -34,8 +34,8 @@ import java.util.regex.Pattern;
  */
 public class WordTokenizer implements Tokenizer {
 
-  private final static List<String> PROTOCOLS = Collections.unmodifiableList(Arrays.asList("http", "https", "ftp"));
-  private final static Pattern URL_CHARS = Pattern.compile("[a-zA-Z0-9/%$-_.+!*'(),\\?]+");
+  private static final List<String> PROTOCOLS = Collections.unmodifiableList(Arrays.asList("http", "https", "ftp"));
+  private static final Pattern URL_CHARS = Pattern.compile("[a-zA-Z0-9/%$-_.+!*'(),\\?]+");
 
   /**
    * Get the protocols that the tokenizer knows about.

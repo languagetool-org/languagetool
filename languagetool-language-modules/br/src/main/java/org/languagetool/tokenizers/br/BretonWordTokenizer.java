@@ -63,7 +63,7 @@ public class BretonWordTokenizer extends WordTokenizer {
       String word = itr.next().replace("##BR_APOS##", "’");
       tokens.add(word);
       if (!word.equals("’") && word.endsWith("’")) {
-        word = itr.next(); // Skip the next spurious white space.
+        itr.next(); // Skip the next spurious white space.
       }
     }
     return tokens;

@@ -35,8 +35,8 @@ import java.util.regex.Pattern;
  */
 public class SuggestionExtractor {
 
-  private final static Pattern SUGGESTION_PATTERN = Pattern.compile("<suggestion.*?>(.*?)</suggestion>");
-  private final static Pattern BACK_REFERENCE_PATTERN = Pattern.compile("\\\\" + "\\d+");
+  private static final Pattern SUGGESTION_PATTERN = Pattern.compile("<suggestion.*?>(.*?)</suggestion>");
+  private static final Pattern BACK_REFERENCE_PATTERN = Pattern.compile("\\\\" + "\\d+");
 
   public SuggestionExtractor() {
   }

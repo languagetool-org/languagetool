@@ -35,7 +35,7 @@ import java.util.Locale;
  */
 public class MorfologikSpeller {
 
-  private final static String LANGUAGETOOL = "LanguageTool";
+  private static final String LANGUAGETOOL = "LanguageTool";
 
   private final Speller speller;
   private final Locale conversionLocale;
