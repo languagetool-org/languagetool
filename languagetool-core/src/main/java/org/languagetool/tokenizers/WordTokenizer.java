@@ -67,7 +67,7 @@ public class WordTokenizer implements Tokenizer {
   }
 
   // see rfc1738 and http://stackoverflow.com/questions/1856785/characters-allowed-in-a-url
-  private List<String> joinUrls(List<String> l) {
+  protected List<String> joinUrls(List<String> l) {
     final List<String> newList = new ArrayList<String>();
     boolean inUrl = false;
     final StringBuilder url = new StringBuilder();
