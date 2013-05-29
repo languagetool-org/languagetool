@@ -20,7 +20,6 @@ package org.languagetool.rules.km;
 
 import junit.framework.TestCase;
 import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
 import org.languagetool.TestTools;
 import org.languagetool.language.Khmer;
 import org.languagetool.rules.km.KhmerSpaceBeforeRule;
