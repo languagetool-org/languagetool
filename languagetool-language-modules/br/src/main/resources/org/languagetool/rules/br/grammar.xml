@@ -4309,7 +4309,7 @@ $Id$
       <pattern>
         <marker><token regexp="yes">.+-holl-(se|mañ|hont)</token></marker>
       </pattern>
-      <message>Ha fellout a rae deoc’h skrivañ <suggestion><match no="1" regexp_match="(.+)-(holl)-(se|mañ|hont)" regexp_replace="$1-$3-$2"/></suggestion>? (CHALM  R1.1.2)</message>
+      <message>Ha fellout a rae deoc’h skrivañ <suggestion><match no="1" regexp_match="(.+)-(holl)-(se|mañ|hont)" regexp_replace="$1-$3-$2"/></suggestion>? (CHALM R1.1.2)</message>
       <example type="incorrect" correction="bed-mañ-holl">Ar <marker>bed-holl-mañ</marker>.</example>
       <example type="correct">Ar bed-mañ-holl.</example>
     </rule>
@@ -6073,6 +6073,31 @@ $Id$
         <example type="correct">Un dra bennak</example>
       </rule>
     </rulegroup>
+
+    <rulegroup id="AR_BENNAK" name="ar + bennak">
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">a[lrn]</token></marker>
+          <token postag="N . s.*" postag_regexp="yes"/>
+          <token>bennak</token>
+        </pattern>
+        <message>Ne c’hell «bennak» bezañ lakaet nemet war-lerc’h un anv gant ar ger-mell amstrizh dirazañ. Ha fellout a rae deoc’h skrivañ <suggestion><match no="1" regexp_match="^." regexp_replace="u"/></suggestion>? (CHALM R2.3)</message>
+        <example type="incorrect" correction="Un"><marker>An</marker> dra bennak.</example>
+        <example type="correct" correction="Un"><marker>un</marker> dra bennak.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">a[lrn]</token></marker>
+          <token regexp="yes">banne|tamm</token>
+          <token postag="N . s.*" postag_regexp="yes"/>
+          <token>bennak</token>
+        </pattern>
+        <message>Ne c’hell «bennak» bezañ lakaet nemet war-lerc’h un anv gant ar ger-mell amstrizh dirazañ. Ha fellout a rae deoc’h skrivañ <suggestion><match no="1" regexp_match="^." regexp_replace="u"/></suggestion>? (CHALM R2.3)</message>
+        <example type="incorrect" correction="Ur"><marker>Ar</marker> banne dour bennak.</example>
+        <example type="correct"><marker>ur</marker> banne dour bennak.</example>
+      </rule>
+    </rulegroup>
+
     <rulegroup id="HE_HEC_H" name="he, hec’h">
       <rule>
         <pattern>
@@ -7841,7 +7866,7 @@ $Id$
         <example type="correct"><marker>Gwezhall-gozh</marker>.</example>
       </rule>
     </rulegroup>
-    <rulegroup id="O_DA" name="o →  da">
+    <rulegroup id="O_DA" name="o → da">
       <rule>
         <pattern>
           <token regexp="yes">aon|bec’h|diegi|displijadur|glac’har|mezh|poan|plijadur</token>
