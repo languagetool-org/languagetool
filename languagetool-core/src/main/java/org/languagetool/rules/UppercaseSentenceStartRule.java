@@ -27,6 +27,7 @@ import java.util.regex.Pattern;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
+import org.languagetool.tokenizers.WordTokenizer;
 import org.languagetool.tools.StringTools;
 
 /**
@@ -125,6 +126,10 @@ public class UppercaseSentenceStartRule extends Rule {
             || tokens[matchTokenPos+1].getToken().equals(")"))) {
           preventError = true;
         }
+    
+    if (isUrl(checkToken)) {
+      preventError = true;
+    }
 
     if (checkToken.length() > 0) {
         final char firstChar = checkToken.charAt(0);
@@ -154,6 +159,15 @@ public class UppercaseSentenceStartRule extends Rule {
 
   @Override
   public void reset() {
+  }
+  
+  protected boolean isUrl(String token) {
+    for (String protocol : WordTokenizer.getProtocols()) {
+      if (token.startsWith(protocol + "://")) {
+        return true;
+      }
+    }
+    return false;
   }
 
 }

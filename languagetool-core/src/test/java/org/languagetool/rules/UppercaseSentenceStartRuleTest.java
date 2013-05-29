@@ -48,6 +48,8 @@ public class UppercaseSentenceStartRuleTest extends TestCase {
     assertEquals(0, matches.length);
     matches = rule.match(langTool.getAnalyzedSentence(""));
     assertEquals(0, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("http://www.languagetool.org"));
+    assertEquals(0, matches.length);
    
     
     // incorrect sentences:
