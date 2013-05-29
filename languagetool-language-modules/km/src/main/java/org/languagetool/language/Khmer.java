@@ -26,6 +26,7 @@ import org.languagetool.rules.Rule;
 import org.languagetool.rules.km.KhmerSimpleReplaceRule;
 import org.languagetool.rules.km.KhmerUnpairedBracketsRule;
 import org.languagetool.rules.km.KhmerWordRepeatRule;
+import org.languagetool.rules.km.KhmerSpaceBeforeRule;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
@@ -102,7 +103,8 @@ public class Khmer extends Language {
       // specific to Khmer:
       KhmerSimpleReplaceRule.class,
       KhmerWordRepeatRule.class,
-      KhmerUnpairedBracketsRule.class
+      KhmerUnpairedBracketsRule.class,
+      KhmerSpaceBeforeRule.class
     );
   }
 
