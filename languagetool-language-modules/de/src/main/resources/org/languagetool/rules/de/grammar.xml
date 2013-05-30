@@ -95,7 +95,7 @@ $Id$
     <!-- ====================================================================== -->
     <category name="Mögliche Tippfehler">
         
-       <!-- <rule id="IM_IHM" name="Möglicher Tippfehler: 'im (ihm)'">
+       <!-- <rule id="IM_IHM" name="Möglicher Tippfehler: 'im (ihm)'"> TODO
             <pattern>
                 <marker>
                     <token>im</token>
@@ -108,6 +108,51 @@ $Id$
             <example type="correct"><marker>Ihm</marker> folgt Merkel.</example>
             <example type="correct"><marker>Im<marker> gleichen T-Shirt sah er besser aus.</example>
         </rule>-->
+        <rulegroup id="SCHREIBEN_SCHRIEBEN" name="Möglicher Tippfehler: 'im Schrieben (Schreiben)'">
+            <!-- also covers Groß-/Kleinschreibung: 'schreiben (Schreiben)' -->
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="PRP.*" postag_regexp="yes"/>
+                    <token postag="ART.*" postag_regexp="yes"/>
+                    <token postag="ADJ.*" postag_regexp="yes"/>
+                    <marker>
+                        <token regexp="yes">[sS]chrieben|schreiben</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>Schreiben</suggestion>?</message>
+                <example type="incorrect" correction="Schreiben">In dem ersten <marker>schrieben</marker> wurde diese Tatsache nicht erwähnt.</example>
+                <example type="incorrect" correction="Schreiben">In dem ersten <marker>Schrieben</marker> wurde diese Tatsache nicht erwähnt.</example>
+                <example type="incorrect" correction="Schreiben">In dem ersten <marker>schreiben</marker> wurde diese Tatsache nicht erwähnt.</example>
+                <example type="correct">In dem ersten <marker>Schreiben</marker> wurde diese Tatsache nicht erwähnt.</example>
+                <example type="correct">Für das Kabarett <marker>schrieben</marker> bekannte Autoren.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="PRP.*" postag_regexp="yes"/>
+                    <token postag="ART.*" postag_regexp="yes"/>
+                    <marker>
+                        <token regexp="yes">[sS]chrieben|schreiben</token>
+                    </marker>
+                    <token negate="yes" regexp="yes">wir|sie|diese</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Schreiben</suggestion>?</message>
+                <example type="incorrect" correction="Schreiben">In dem <marker>Schrieben</marker> wurde diese Tatsache nicht erwähnt.</example>
+                <example type="incorrect" correction="Schreiben">In dem <marker>schreiben</marker> wurde diese Tatsache nicht erwähnt.</example>
+                <example type="correct">In dem <marker>Schreiben</marker> wurde diese Tatsache nicht erwähnt.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[Ii]m</token>
+                    <marker>
+                        <token regexp="yes">[sS]chrieben|schreiben</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>Schreiben</suggestion>?</message>
+                <example type="incorrect" correction="Schreiben">Im <marker>Schrieben</marker> vom 3.6.2013 wurde diese Tatsache nicht erwähnt.</example>
+                <example type="incorrect" correction="Schreiben">Im <marker>schrieben</marker> vom 3.6.2013 wurde diese Tatsache nicht erwähnt.</example>
+                <example type="correct">Im <marker>Schreiben</marker> vom 3.6.2013 wurde diese Tatsache nicht erwähnt.</example>
+            </rule>
+        </example>
         <rule id="UM_UM" name="Möglicher Tippfehler: 'um gestern um 12 Uhr'">
             <pattern>
                 <token postag="VER.*" postag_regexp="yes" skip="1"><exception scope="next" regexp="yes">,|oder|und</exception></token>
