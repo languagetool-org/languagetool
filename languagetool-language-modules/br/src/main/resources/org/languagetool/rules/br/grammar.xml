@@ -6206,7 +6206,7 @@ $Id$
           <marker>
             <token regexp="yes">tamm(ig)?</token>
           </marker>
-          <token regexp="yes">avel|chistr|chouchenn|chug(-.*)?|dour|digor-kalon|eoul|glav|gouloù|gwin|heol|kafe|laezh|lambig|sistr|soubenn</token>
+          <token regexp="yes">avel|bier|chistr|chouchenn|chug(-.*)?|dour|digor-kalon|eoul|glav|gouloù|gwin|heol|kafe|laezh(-ribod)?|lambig|sistr|soubenn</token>
         </pattern>
         <message>Implijit <suggestion>banne</suggestion> dirak an evajoù.</message>
         <example type="incorrect">Un <marker>tamm</marker> kafe tomm am bo.</example>
@@ -6718,7 +6718,7 @@ $Id$
           <token inflected="yes">ne</token>
           <token postag="V.*" postag_regexp="yes"/>
           <marker>
-            <token regexp="yes">avel|chistr|chouchenn|chug(-.*)?|dour|digor-kalon|eoul|glav|gouloù|gwin|heol|kafe|laezh|lambig|sistr|soubenn</token>
+            <token regexp="yes">avel|bier|chistr|chouchenn|chug(-.*)?|dour|digor-kalon|eoul|glav|gouloù|gwin|heol|kafe|laezh(-ribod)?|lambig|sistr|soubenn</token>
             <token>ebet</token>
           </marker>
         </pattern>
@@ -8225,11 +8225,20 @@ $Id$
       </rule>
       <rule>
         <pattern>
+          <token>da</token>
+          <marker><token>wazh</token></marker>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>waz</suggestion>?</message>
+        <example type="incorrect">Ne zeuas ket da <marker>wazh</marker> en-dro.</example>
+        <example type="correct">Ne zeuas ket da waz en-dro.</example>
+      </rule>
+      <rule>
+        <pattern>
           <token>ho</token>
           <marker><token>kwazh</token></marker>
         </pattern>
-        <message>Ha fellout a rae deoc’h skrivañ <suggestion>kwaz</suggestion>?</message>
-        <example type="incorrect">Amañ eo ho <marker>kwazh</marker>?</example>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion><match no="1" regexp_match="h" regexp_replace=""/></suggestion>?</message>
+        <example type="incorrect" correction="kwaz">Amañ eo ho <marker>kwazh</marker>?</example>
         <example type="correct">Amañ eo ho kwaz?</example>
       </rule>
       <rule>
@@ -8242,6 +8251,23 @@ $Id$
         <example type="incorrect"><marker>Gwaz</marker> a se.</example>
         <example type="correct"><marker>Gwazh</marker> a se.</example>
       </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">[gk]?waz</token></marker>
+          <token regexp="yes">RSS|Web|XML</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion><match no="1" regexp_match="$" regexp_replace="h"/></suggestion>?</message>
+        <example type="incorrect" correction="Gwazh"><marker>Gwaz</marker> RSS.</example>
+        <example type="correct"><marker>Gwazh</marker> RSS.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">[gk]?waz-(dour|kreiz|rinier|stêr|vor)</token></marker>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion><match no="1" regexp_match="-" regexp_replace="h-"/></suggestion>?</message>
+        <example type="incorrect"><marker>Gwaz-dour</marker>.</example>
+        <example type="correct"><marker>Gwazh-dour</marker>.</example>
+      </rule>
     </rulegroup>
     <rule id="KOZHOCH" name="kozhoc’h → koshoc’h">
       <pattern>
@@ -8250,6 +8276,8 @@ $Id$
       <message>«\1» a zo ur verb diasur. Ha fellout a rae deoc’h skrivañ <suggestion><match no="1" regexp_match="z" regexp_replace="s"/></suggestion> kentoc’h? (CHALM Sb4)</message>
       <example type="incorrect" correction="Koshoc’h"><marker>Kozhoc’h</marker> eo ma gwreg egedon.</example>
       <example type="correct">Koshoc’h eo ma gwreg egedon.</example>
+      <example type="correct">C’wi a gozho’h.</example>
+      <example type="correct">Kozhañ a ran</example>
       <example type="incorrect" correction="nevesañ">Pellgargit ar stumm <marker>nevezañ</marker>.</example>
       <example type="correct" correction="nevesañ">Pellgargit ar stumm nevesañ.</example>
     </rule>
