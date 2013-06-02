@@ -181,7 +181,7 @@ public class AccentuationCheckRule extends CatalanRule {
       	//circumstancies d'una altra classe
       	else if  ( !matchPostagRegexp(tokens[i],PARTICIPI_MS)
       			   && !token.equals("venia") && !token.equals("venies") && !token.equals("tenia") && !token.equals("tenies")
-      			   && !token.equals("faria") && !token.equals("faries")
+      			   && !token.equals("faria") && !token.equals("faries") && !token.equals("espero")
       	           && !token.equals("continua") && !token.equals("continues") && !token.equals("cantar")
       	           && !prevToken.equals("que") && !prevToken.equals("qui") && !prevToken.equals("què")
       	           && mPreposicioDE.matches() && !matchPostagRegexp(tokens[i-1],NOT_IN_PREV_TOKEN)

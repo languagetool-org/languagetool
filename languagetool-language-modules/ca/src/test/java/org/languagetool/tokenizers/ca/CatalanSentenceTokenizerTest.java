@@ -44,6 +44,8 @@ public class CatalanSentenceTokenizerTest extends TestCase {
     testSplit(new String[] { "Ja ho tinc! ", "Què vols dir?" });
     testSplit(new String[] { "Us explicaré com va anar: ",
         "»La Maria va engegar el cotxe" });
+    testSplit(new String[] { "diu que va dir. ",
+    "A mi em feia estrany." });    
 
     // Initials
     testSplit(new String[] { "A l'atenció d'A. Comes." });
