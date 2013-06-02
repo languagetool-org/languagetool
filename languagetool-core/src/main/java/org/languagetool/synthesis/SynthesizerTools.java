@@ -18,11 +18,10 @@
  */
 package org.languagetool.synthesis;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class SynthesizerTools {
   
@@ -30,33 +29,19 @@ public class SynthesizerTools {
     // static methods only, no public constructor
   }
 
-  public static ArrayList<String> loadWords(final InputStream file) throws IOException {
+  public static ArrayList<String> loadWords(final InputStream stream) throws IOException {
     final ArrayList<String> set = new ArrayList<String>();
-    InputStreamReader isr = null;
-    BufferedReader br = null;
+    final Scanner scanner = new Scanner(stream, "UTF-8");
     try {
-      isr = new InputStreamReader(file);
-      br = new BufferedReader(isr);
-      String line;
-      
-      while ((line = br.readLine()) != null) {
-        line = line.trim();
-        if (line.length() < 1) {
+      while (scanner.hasNextLine()) {
+        final String line = scanner.nextLine().trim();
+        if (line.length() < 1 || line.charAt(0) == '#') {  // ignore empty lines and comments
           continue;
         }
-        if (line.charAt(0) == '#') {      // ignore comments
-          continue;
-        }        
         set.add(line);
       }
-      
     } finally {
-      if (br != null) {
-        br.close();
-      }
-      if (isr != null) {
-        isr.close();
-      }
+      scanner.close();
     }
     return set;
   }
