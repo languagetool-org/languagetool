@@ -1682,7 +1682,21 @@ $Id$
                 <example type="incorrect">Здесь были <marker>четверо подруг</marker>.</example>
             </rule>
         </rulegroup>
-        
+
+        <rulegroup default="on" id="Para_NN" name="Числительное пара + существительное">
+            <rule>
+                <pattern>
+                    <token>пара</token>
+                    <token>брюк</token>
+                </pattern>
+                <message>Числительное пара не употребляется с существительными, существующими только в форме множественного числа: <suggestion>двое <match no="2"></match></suggestion>.</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%A1%D0%BE%D0%B1%D0%B8%D1%80%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5</url>
+                <short>Грамматическая ошибка.</short>
+                <example type="correct">двое брюк</example>
+                <example type="incorrect"><marker>пара брюк</marker></example>
+            </rule>        
+        </rulegroup>
+
         <rulegroup default="on" id="Oba_obe" name="Числительные оба/обе">
             <rule>
                 <pattern>
