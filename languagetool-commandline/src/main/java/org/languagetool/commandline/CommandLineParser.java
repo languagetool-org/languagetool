@@ -130,6 +130,10 @@ public class CommandLineParser {
     printUsage(System.out);
   }
 
+  /*
+   * NOTE: please keep http://wiki.languagetool.org/command-line-options
+   * up-to-date if you add an option
+   */
   public void printUsage(PrintStream stream) {
     stream.println("Usage: java -jar LanguageTool.jar [OPTION]... FILE\n"
             + " FILE                      plain text file to be checked\n"
