@@ -1696,6 +1696,22 @@ $Id$
                 <example type="incorrect"><marker>пара брюк</marker></example>
             </rule>        
         </rulegroup>
+        
+        <rulegroup default="on" id="dva_i_bolee" name="Два и более + существительное">
+            <rule>
+                <pattern>
+                    <token regexp="yes">два|три|четыре</token>
+                    <token>и</token>
+                    <token>более</token>
+                    <token postag="NN:.*:.*:.*" postag_regexp="yes"><exception postag="NN:.*:Sin:R" postag_regexp="yes"></exception></token>
+                </pattern>
+                <message>В сочетаниях (два и более + существительное) управляемое существительное ставится в родительном падеже единственного числа: <suggestion><match no="1"></match> <match no="2"></match> <match no="3"></match> <match no="4" postag="NN:(.*):.*:.*" postag_regexp="yes" postag_replace="NN:$1:Sin:R"></match></suggestion>.</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%A1%D0%BE%D0%B1%D0%B8%D1%80%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5</url>
+                <short>Грамматическая ошибка.</short>
+                <example type="correct">В задании может быть два и более варианта.</example>
+                <example type="incorrect">В задании может быть <marker>два и более вариантов</marker>.</example>
+            </rule>
+        </rulegroup>
 
         <rulegroup default="on" id="Oba_obe" name="Числительные оба/обе">
             <rule>
