@@ -8080,15 +8080,20 @@ $Id$
                 <example type="correct">Si, per la raó que fos, ens veiéssim obligats a prescindir del ressopó que la Marieta ens serveix a la matinada, trobaríem que la vida a penes té sentit, que és absurda i amarga.</example>
                 <!-- <example type="correct">si, doncs, no posseïm igualment</example> -->
             </rule>
-            <!-- Les regles de concordança fan millor la detecció  <rule>
+            <rule>
                 <pattern>
-                    <token>son<exception postag="_GN.*" postag_regexp="yes"></exception></token>
+                    <marker>
+                        <token>si<exception postag="_GN_MS"/></token>
+                    </marker>
+                    <token postag="SENT_END|_PUNCT.*" postag_regexp="yes"/>
                 </pattern>
-                <message>S'accentua quan és del verb ser: <suggestion>són</suggestion>.</message>
-                <short>S'accentua si és del verb "ser"</short>
-                <example type="incorrect">Més del que <marker>son</marker>.</example>
-                <example type="correct">Més del que <marker>són</marker>.</example>
-            </rule> -->
+                <message>S'accentua quan és una afirmació.</message>
+                <suggestion>sí</suggestion>
+                <short>Accent diacrític</short>
+                <example type="incorrect"><marker>Si</marker>.</example>
+                <example type="incorrect">Has de dir que <marker>si</marker>.</example>
+                <example type="correct">El va trobar en el seu si.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="MES" name="mes/més">    
             <rule>
@@ -10459,52 +10464,51 @@ $Id$
         </rule>
     </category>
     <category name="A1) Ortotipografia" type="typographical">
-    	<rulegroup id="PUNTUACIO_INCORRECTA" name="combinacions de puntuació incorrectes">
-    		<rule>
-    			<pattern>
-    				<marker>
-	    				<token regexp="yes">[?!]</token>
-	    				<token>.</token>
-    				</marker>
-    				<token><exception>.</exception></token>
-    			</pattern>
-    			<message>Possible error de puntuació</message>
-    			<suggestion><match no="1"/></suggestion>
-    			<short>Error de puntuació</short>
-    			<example type="incorrect" correction="?">¿Vols dir<marker>?.</marker> No!</example>
-    			<example type="correct">¿què importa?...</example>
-    			<example type="correct">si l'home es torna científic!...</example>
-    		</rule>
-    		<rule>
-    			<pattern>
-    				<marker>
-	    				<token regexp="yes">[?!]</token>
-	    				<token spacebefore="yes">.</token>
-	    				<token spacebefore="no">.</token>
-	    				<token spacebefore="no">.</token>
-    				</marker>
-    			</pattern>
-    			<message>Possible error de puntuació</message>
-    			<suggestion><match no="1"/>...</suggestion>
-    			<short>Error de puntuació</short>
-    			<example type="incorrect" correction="?...">¿Vols dir<marker>? ...</marker> No!</example>
-    			<example type="correct">¿què importa?...</example>
-    		</rule>
-    		<rule>
-    			<pattern>
-    				<marker>
-	    				<token>,</token>
-	    				<token regexp="yes">[-–—]</token>
-    				</marker>
-    				<token><exception regexp="yes">\d.*</exception></token>
-    			</pattern>
-    			<message>Possible error de puntuació</message>
-    			<suggestion><match no="2"/></suggestion>
-    			<short>Error de puntuació</short>
-    			<example type="incorrect" correction="—">Vine<marker>, —</marker>va dir Joan.</example>
-    			<example type="correct">Vine, digué.</example>
-    			<example type="correct">indiqueu els punts A(-2, -6)</example>
-    		</rule>
+        <rulegroup id="PUNTUACIO_INCORRECTA" name="combinacions de puntuació incorrectes">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[?!]</token>
+                        <token postag="SENT_END">.</token>
+                    </marker>
+                </pattern>
+                <message>Possible error de puntuació</message>
+                <suggestion><match no="1"/></suggestion>
+                <short>Error de puntuació</short>
+                <example type="incorrect" correction="?">¿Vols dir<marker>?.</marker></example>
+                <example type="correct">¿què importa?...</example>
+                <example type="correct">si l'home es torna científic!...</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[?!]</token>
+                        <token spacebefore="yes">.</token>
+                        <token spacebefore="no">.</token>
+                        <token spacebefore="no">.</token>
+                    </marker>
+                </pattern>
+                <message>Possible error de puntuació</message>
+                <suggestion><match no="1"/>...</suggestion>
+                <short>Error de puntuació</short>
+                <example type="incorrect" correction="?...">¿Vols dir<marker>? ...</marker> No!</example>
+                <example type="correct">¿què importa?...</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>,</token>
+                        <token regexp="yes">[-–—]</token>
+                    </marker>
+                    <token><exception regexp="yes">\d.*</exception></token>
+                </pattern>
+                <message>Possible error de puntuació</message>
+                <suggestion><match no="2"/></suggestion>
+                <short>Error de puntuació</short>
+                <example type="incorrect" correction="—">Vine<marker>, —</marker>va dir Joan.</example>
+                <example type="correct">Vine, digué.</example>
+                <example type="correct">indiqueu els punts A(-2, -6)</example>
+            </rule>
     	</rulegroup>
         <rule id="ELA_GEMINADA" name="Errors en la ela geminada." type="misspelling">
             <pattern case_sensitive="no">
@@ -10522,13 +10526,14 @@ $Id$
         </rule>
         <rule id="ESPAI_DESPRES_DE_PUNT" name="Comprova que hi ha espai deprés de punt.">
             <pattern>
+                <token><exception>www</exception></token>
                 <marker>
                     <token>.<exception postag="SENT_END"/></token>
                     <token spacebefore="no" regexp="yes">[\p{L}·'-]{2,}<exception postag="SENT_END"/><exception regexp="yes">ac|ad|ae|aero|af|ag|ai|al|am|an|ao|aq|ar|arpa|as|asia|at|au|aw|ax|az|ba|bb|bd|be|bf|bg|bh|bi|biz|bj|bm|bn|bo|br|bs|bt|bv|bw|by|bz|ca|cat|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|com|coop|cr|cu|cv|cw|cx|cy|cz|de|dj|dk|dm|do|dz|ec|edu|ee|eg|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gov|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|info|int|io|iq|ir|is|it|je|jm|jo|jobs|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mg|mh|mil|mk|ml|mm|mn|mo|mobi|mp|mq|mr|ms|mt|mu|museum|mv|mw|mx|my|mz|na|name|nc|ne|net|nf|ng|ni|nl|no|np|nr|nu|nz|om|org|pa|pe|pf|pg|ph|pk|pl|pm|pn|post|pr|pro|ps|pt|pw|py|qa|re|ro|rs|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj|sk|sl|sm|sn|so|sr|st|su|sv|sx|sy|sz|tc|td|tel|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|travel|tt|tv|tw|tz|ua|ug|uk|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|xn|xxx|ye|yt|za|zm|zw</exception></token>
                 </marker>
             </pattern>
             <message>Falta un espai després del punt.</message>
-            <suggestion><match no="1"/> <match no="2" case_conversion="startupper"/></suggestion>
+            <suggestion><match no="2"/> <match no="3" case_conversion="startupper"/></suggestion>
             <short>Error tipogràfic</short>
             <example type="incorrect" correction=". Sempre">És així<marker>.sempre</marker>.</example>
             <example type="correct">És així. Sempre.</example>
@@ -10541,6 +10546,7 @@ $Id$
             <example type="correct">ha expressat [...] la necessitat</example>
             <example type="correct">o simplement ornamental.[1]</example>
             <example type="correct">Benvinguts a valencianisme.com</example>
+            <example type="correct">Benvinguts a www.softcatala.org</example>
         </rule>
         <rule id="PUNT_EN_ABREVIATURES" name="Comprova que hi ha punt en abreviatures: pàg., núm., etc.">
             <pattern case_sensitive="no">
@@ -13564,14 +13570,18 @@ $Id$
         </rule>
         <rule id="AL_TERRA" name="al terra">
             <pattern>
-                <token>a</token>
-                <token spacebefore="no">l</token>
-                <token>terra</token>
+                <token><exception>per</exception></token>
+                <marker>
+                    <token>a</token>
+                    <token spacebefore="no">l</token>
+                    <token>terra</token>
+                </marker>
+                <token><exception postag="AQ.[MC][SN].|V.P..SM." postag_regexp="yes"/><exception regexp="yes">de|d'</exception></token>
             </pattern>
             <message>Cal dir <suggestion>a terra</suggestion>.</message>
             <short>Expressió incorrecta</short>
             <example type="incorrect">Hi ha coses <marker>al terra</marker>.</example>
-            <example type="correct">Hi ha coses <marker>a terra </marker>.</example>
+            <example type="correct">Els taulons per al terra.</example>
         </rule>
         <rule id="PER_DE_PROMPTE" name="per de prompte">
             <pattern>
