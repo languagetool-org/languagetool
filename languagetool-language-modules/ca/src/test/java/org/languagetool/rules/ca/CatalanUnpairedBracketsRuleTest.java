@@ -53,6 +53,10 @@ public class CatalanUnpairedBracketsRuleTest extends TestCase {
     assertCorrect("Aquesta és l’hora de les decisions.");
     assertCorrect("(fig. 20)");
     assertCorrect("\"Sóc la teva filla. El corcó no et rosegarà més.\"\n\n");
+    assertCorrect("–\"Club dels llagoters\" –va repetir en Ron.");
+    assertCorrect("—\"Club dels llagoters\" –va repetir en Ron.");
+    assertCorrect("»Això em porta a demanar-t'ho.");
+    assertCorrect("»Això em porta (sí) a demanar-t'ho.");
     
     //assertCorrect("The screen is 20\" wide.");
     assertCorrect("This is a [test] sentence...");
@@ -120,6 +124,11 @@ public class CatalanUnpairedBracketsRuleTest extends TestCase {
         .check("Aquesta és una sentència múltiple amb claudàtors: "
             + "[Ací hi ha un claudàtor. Amb algun text. I ací continua.\n\n");
     assertEquals(1, matches.size());
+    
+    matches = tool
+        .check("«Els manaments diuen: \"No desitjaràs la dona del teu veí\"»");
+    //assertEquals(0, matches.size());
+            
     // now with a paragraph end inside - we get two alarms because of paragraph
     // resetting
     matches = tool
