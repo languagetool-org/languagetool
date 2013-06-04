@@ -8037,7 +8037,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">entre|en|de|amb</token>
+                    <token regexp="yes">entre|en|de|amb|per</token>
                     <marker>
                         <token>sí</token>
                     </marker>
@@ -8082,18 +8082,18 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token><exception regexp="yes">entre|en|de|amb</exception></token>
+                    <token><exception regexp="yes">entre|en|de|amb|per</exception></token>
                     <marker>
                         <token>si<exception postag="_GN_MS"/></token>
                     </marker>
-                    <token postag="SENT_END|_PUNCT.*" postag_regexp="yes"><exception postag="_PUNCT_CONT"/></token>
+                    <token postag="SENT_END" regexp="yes">[.!?]</token>
                 </pattern>
                 <message>S'accentua quan és una afirmació.</message>
                 <suggestion>sí</suggestion>
                 <short>Accent diacrític</short>
                 <example type="incorrect"><marker>Si</marker>.</example>
-                <example type="incorrect">Has de dir que <marker>si</marker>.</example>
-                <example type="correct">El va trobar en el seu si.</example>
+                <example type="incorrect">Has de dir que <marker>si</marker>?</example>
+                <example type="correct">Què passaria si...?</example>
             </rule>
         </rulegroup>
         <rulegroup id="MES" name="mes/més">    
