@@ -26,7 +26,7 @@ $Id$
 
     <unification feature="number">
         <equivalence type="s">
-            <token postag=".*:s:.*" postag_regexp="yes"></token>
+            <token postag=".*:[smnf]:.*" postag_regexp="yes"></token>
         </equivalence>
         <equivalence type="p">
             <token postag=".*:p:.*" postag_regexp="yes"></token>
@@ -34,13 +34,13 @@ $Id$
     </unification>
     <unification feature="gender">
         <equivalence type="f">
-            <token postag=".*[\.:]f([\.:].*)?" postag_regexp="yes"/>
+            <token postag=".*:f:.*" postag_regexp="yes"/>
         </equivalence>
         <equivalence type="m">
-            <token postag=".*[\.:]m([\.:].*)?" postag_regexp="yes"/>
+            <token postag=".*:m:.*" postag_regexp="yes"/>
         </equivalence>
         <equivalence type="n">
-            <token postag=".*[\.:]n([\.:].*)?" postag_regexp="yes"/>
+            <token postag=".*:n:.*" postag_regexp="yes"/>
         </equivalence>
     </unification>
     <unification feature="case">
@@ -115,7 +115,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">[\p{Punct}–—\(«АаІі]<exception postag="SENT_START"></exception></token>
+                    <token negate="yes" regexp="yes">[\p{Punct}–—\(«АаІій]<exception postag="SENT_START"></exception></token>
                     <token regexp="yes">мабуть|врешті|щоправда|о?крім того|втім</token>
                 </pattern>
                 <message>Відсутня ліва кома: <suggestion>\1, \2</suggestion>.</message>
@@ -183,7 +183,7 @@ $Id$
                     <token postag_regexp="yes" postag="verb.*">
                         <exception postag_regexp="yes" postag="verb:inf.*"/>
                         <exception negate_pos="yes" postag_regexp="yes" postag="verb.*"/>
-                        <exception>буде</exception>
+                        <exception regexp="yes">буде|було|був</exception>
                     </token>
                     </marker>
                 </pattern>
@@ -191,6 +191,7 @@ $Id$
                 <example type="correct">Повинен їхати</example>
                 <example type="correct">Йому треба писати</example>
                 <example type="correct">Чи варто їм таке писати?</example>
+                <example type="correct">Чи варто було їм таке писати?</example>
                 <example type="correct">Треба буде таке писати</example>
                 <example type="incorrect">Повинен <marker>писатиме</marker>.</example>
                 <example type="incorrect">Треба <marker>писав</marker>.</example>
@@ -218,23 +219,41 @@ $Id$
         <rulegroup name="Узгодженість числа іменників з числівниками" id="CONSISTENCY_NOUN_NUMERIC">
             <rule>
                 <pattern>
-                    <token regexp="yes">(два|три|чотири)</token>
+                    <token regexp="yes">два|дві|обидва|обидві|три|чотири|.*[2-9]?[234]</token>
                     <marker>
+<!--
                         <token postag_regexp="yes" postag="noun:m:.*">
                             <exception postag_regexp="yes" postag="(noun|adj):p:.*"/>
                             <exception postag_regexp="yes" postag="pron.*"/>
-                            <exception>чверті</exception>
+                            <exception regexp="yes">тис|року|роком|Закону|чверті|січня|лютого|березня|квітня|травня|червня|липня|серпня|вересня|жовтня|листопада|грудня</exception>
+                        </token>
+-->
+                        <token postag_regexp="yes" postag="noun:m:v_rod.*" regexp="yes">.*[ая]
+                        <!--
+                            <exception negate_pos="yes" postag_regexp="yes" postag="noun:.*"/>
+                        -->
+                            <exception postag_regexp="yes" postag="noun:p:v_naz.*"/>
+                            <exception regexp="yes">січня|лютого|березня|квітня|травня|червня|липня|серпня|вересня|жовтня|листопада|грудня</exception>
                         </token>
                     </marker>
                 </pattern>
-                <message>Після числівика більше одиниці іменник має стояти в множині: <suggestion><match no="2" postag="noun:p:v_naz.*" postag_regexp="yes"/></suggestion></message>
+                <message>Після числівника що закінчується на 2-4 іменник має стояти в називному відмінку множини: <suggestion><match no="2" postag="noun:p:v_naz.*" postag_regexp="yes"/></suggestion></message>
                 <example type="incorrect">двадцять три <marker>вулика</marker></example>
+                <example type="incorrect">24 <marker>тижня</marker></example>
+                <example type="incorrect">обидва <marker>автомобіля</marker></example>
                 <example type="correct">двадцять три вулики</example>
                 <example type="correct">двадцять три дні</example>
                 <example type="correct">три чверті</example>
+                <!-- TODO
                 <example type="correct">три головні завдання</example>
+                -->
                 <example type="correct">три століття</example>
                 <example type="correct">три роки тому</example>
+                <example type="correct">1992 року</example>
+                <example type="correct">три тис. грн.</example>
+                <example type="correct">3 липня 1998р.</example>
+                <example type="correct">ст. 53 Закону</example>
+                <example type="correct">статті 43 Закону</example>
             </rule>
         </rulegroup>
 
@@ -334,27 +353,44 @@ $Id$
         <rulegroup name="Самий з прикметниками" id="SAMYI">
             <rule>
                 <pattern>
+                  <unify>
+                   <feature id="gender"/>
+                   <feature id="number"/>
+                   <feature id="case"/>
+                      
                     <token inflected="yes">самий
-                        <exception scope="previous" regexp="yes" inflected="yes">(такий|той)</exception>
+                        <exception scope="previous" regexp="yes" inflected="yes">(такий|той|же?|чим)</exception>
                     </token>
-                    <token postag_regexp="yes" postag="adj:(comp|supr).*">
-                    <!--
-                        <exception regexp="yes" inflected="yes">такий</exception>
-                    -->
-                        <exception postag_regexp="yes" postag="noun.*"></exception>
+                    <token postag_regexp="yes" postag="adj:.*:(comp|super).*">
+                        <exception postag_regexp="yes" postag="(pro)?noun.*"></exception>
                     </token>
+                  </unify>
                 </pattern>
-                <message>Замість «самий» + прикметник тре вживати <suggestion>най</suggestion>\2</message>
+                <message>Замість «самий» + прикметник тре вживати найвищу ступінь з <suggestion>най-</suggestion></message>
                 <example type="correct">Самий цвіт</example>
                 <example type="correct">Сама прийшла</example>
                 <example type="correct">Саме такий</example>
+                <example type="correct">Саме вони</example>
+                <example type="correct">представник саме романтичного націоналізму</example>
+                <example type="correct">вирізняється саме гострою конкуренцією</example>
+                <example type="correct">частину галузі становить саме чорна металургія</example>
                 <example type="correct">Ті ж самі пісні</example>
                 <example type="incorrect"><marker>Самий кращий</marker>.</example>
                 <example type="incorrect"><marker>Сама гірша</marker>.</example>
-<!-- TODO:
                 <example type="incorrect"><marker>Самий сильний</marker>.</example>
                 <example type="incorrect"><marker>Сама тривала</marker>.</example>
--->
+            </rule>
+        </rulegroup>
+
+        <rulegroup name="Більш з прикметниками" id="BILSH_WITH_ADJ">
+            <rule>
+                <pattern>
+                    <token>більш</token>
+                    <token postag_regexp="yes" postag="adj.*:compr.*"/>
+                </pattern>
+                <message>Замість «більш» + вищий ступінь прикметника треба вживати «більш» + нульова форма прикметника</message>
+                <example type="incorrect"><marker>Більш світліший</marker>.</example>
+                <example type="correct">Більш світлий.</example>
             </rule>
         </rulegroup>
 <!--
@@ -1253,6 +1289,170 @@ $Id$
          <message>Правильно: <suggestion>гідно</suggestion></message>
          <example type="incorrect">Він він себе <marker>достойним чином</marker></example>
          <example type="correct">Він поводився гідно</example>
+       </rule>
+       <rule>
+         <pattern>
+           <marker>
+            <token>коротше</token>
+           </marker>
+            <token>кажучи</token>
+         </pattern>
+         <message>Правильно: <suggestion>коротко</suggestion></message>
+         <example type="incorrect"><marker>Коротше</marker> кажучи</example>
+         <example type="correct">Коротко кажучи</example>
+       </rule>
+       <rule>
+         <pattern>
+           <marker>
+            <token inflected="yes" regexp="yes" skip="1">(здавати|здати)</token>
+          </marker>
+            <token inflected="yes" regexp="yes">(екзамен|іспит|тест)</token>
+         </pattern>
+         <message>Правильно: <suggestion>складати</suggestion></message>
+         <example type="incorrect">Він <marker>здав</marker> екзамен</example>
+         <example type="correct">Він склав екзамен</example>
+       </rule>
+       <rule>
+         <pattern>
+            <token inflected="yes">більший</token>
+            <token inflected="yes">половина</token>
+         </pattern>
+         <message>Правильно: <suggestion>більша частина</suggestion>, <suggestion>більш ніж половина</suggestion></message>
+         <example type="incorrect"><marker>Більшої половини</marker> класу</example>
+         <example type="correct">Більш ніж половина</example>
+       </rule>
+       <rule>
+         <pattern>
+            <token>по</token>
+            <token>спеціальності</token>
+         </pattern>
+         <message>Правильно: <suggestion>за спеціальністю</suggestion></message>
+         <example type="incorrect">Закінчив політехніку <marker>по спеціальності</marker></example>
+         <example type="correct">Закінчив політехніку за спеціальністю</example>
+       </rule>
+       <rule>
+         <pattern>
+            <token inflected="yes" regexp="yes">(екзаменаційний|щасливий|кредитний|казначейський|лотерейний|банківський)</token>
+            <marker>
+            <token inflected="yes">квиток</token>
+            </marker>
+         </pattern>
+         <message>Правильно: <suggestion>білет</suggestion></message>
+         <example type="incorrect">Екзаменаційний <marker>квиток</marker></example>
+         <example type="correct">Екзаменаційний білет</example>
+       </rule>
+       <rule>
+         <pattern>
+            <marker>
+            <token inflected="yes" skip="1">квиток</token>
+            </marker>
+            <token>лотереї</token>
+         </pattern>
+         <message>Правильно: <suggestion>білет</suggestion></message>
+         <example type="incorrect"><marker>Квиток</marker> лотереї</example>
+         <example type="incorrect"><marker>Квиток</marker> грошової лотереї</example>
+         <example type="correct">Білет грошової лотереї</example>
+       </rule>
+       <rule>
+         <pattern>
+            <token inflected="yes" regexp="yes">(партійний|трамвайний|проїзний|вхідний)</token>
+            <marker>
+            <token inflected="yes">білет</token>
+            </marker>
+         </pattern>
+         <message>Правильно: <suggestion>квиток</suggestion></message>
+         <example type="incorrect">Проїзний <marker>білет</marker></example>
+         <example type="correct">Проїзний квиток</example>
+       </rule>
+       <rule>
+         <pattern>
+          <marker>
+            <token inflected="yes">білет</token>
+          </marker>
+          <token>на</token>
+          <token inflected="yes" regexp="yes">(проїзд|автобус|тролейбус|трамвай|літак|пароплав)</token>
+         </pattern>
+         <message>Правильно: <suggestion>квиток</suggestion></message>
+         <example type="incorrect"><marker>Білет</marker> на автобус</example>
+         <example type="correct">Квиток на автобус</example>
+       </rule>
+       <rule>
+         <pattern>
+          <marker>
+            <token inflected="yes">вартувати</token>
+          </marker>
+          <token postag_regexp="yes" postag="numr.*"></token>
+         </pattern>
+         <message>Правильно: <suggestion>коштує</suggestion>, <suggestion>бути вартим</suggestion>, <suggestion>мати ціну</suggestion></message>
+         <example type="incorrect">Квиток <marker>вартує</marker> 100 грн.</example>
+         <example type="correct">Він вартує на каланчі</example>
+       </rule>
+       <rule>
+         <pattern>
+          <marker>
+            <token inflected="yes" skip="1">вартувати</token>
+          </marker>
+          <token postag_regexp="yes" postag="verb:inf.*"></token>
+         </pattern>
+         <message>Правильно: <suggestion>варт</suggestion>, <suggestion>варто</suggestion>, <suggestion>треба</suggestion></message>
+         <example type="incorrect">Чи <marker>вартує</marker> так робити.</example>
+         <example type="correct">Він вартує на каланчі</example>
+       </rule>
+       <rule>
+         <pattern>
+          <marker>
+            <token>вибачаюсь</token>
+          </marker>
+          <token regexp="yes">[,:]</token>
+         </pattern>
+         <message>Правильно: <suggestion>вибачте мені</suggestion>, <suggestion>пробачте</suggestion>, <suggestion>даруйте</suggestion>, <suggestion>перепрошую</suggestion></message>
+         <example type="incorrect">Це <marker>вибачаюсь</marker>, зовсім негарно.</example>
+         <example type="correct">Я вибачаюсь і йду</example>
+       </rule>
+       <rule>
+         <pattern>
+          <marker>
+            <token inflected="yes">воєнний</token>
+          </marker>
+          <token inflected="yes" regexp="yes">(присяга|форма|справа|трибунал|училище|звання)</token>
+         </pattern>
+         <message>Правильно: <suggestion>військовий</suggestion></message>
+         <example type="incorrect">Пішов до <marker>воєнного</marker> училища.</example>
+         <example type="correct">Воєнний стан</example>
+       </rule>
+       <rule>
+         <pattern>
+          <marker>
+            <token inflected="yes">область</token>
+          </marker>
+          <token regexp="yes">(науки|знань|судочинства|права|господарства|промисловості)</token>
+         </pattern>
+         <message>Правильно: <suggestion>галузь</suggestion>, <suggestion>сфера</suggestion>, <suggestion>царина</suggestion></message>
+         <url>http://mova.kreschatic.kiev.ua/242.htm</url>
+         <example type="incorrect">В сучасних <marker>областях</marker> науки.</example>
+         <example type="correct">В західних областях України</example>
+       </rule>
+       <rule>
+         <pattern>
+          <marker>
+            <token inflected="yes" regexp="yes">(поступати|поступити)</token>
+          </marker>
+          <token skip="1">до</token>
+          <token inflected="yes" regexp="yes">(університет|інститут|технікум|училище|школу|виш|вуз)</token>
+         </pattern>
+         <message>Правильно: <suggestion>вступати</suggestion></message>
+         <example type="incorrect">Він <marker>поступив</marker> до військового училища.</example>
+         <example type="correct">Він поступив негарно</example>
+       </rule>
+       <rule>
+         <pattern>
+            <token inflected="yes">текучий</token>
+          <token inflected="yes">середовище</token>
+         </pattern>
+         <message>Правильно: <suggestion>плин</suggestion></message>
+         <url>http://msu.kharkov.ua/tc/cons/fluid.html</url>
+         <example type="incorrect">характер <marker>текучого середовища</marker></example>
+         <example type="correct">характер плину</example>
        </rule>
        <!-- TODO: тре поладити теги майбутнього часу для дієслів доконаного виду в словнику
        <rule>
