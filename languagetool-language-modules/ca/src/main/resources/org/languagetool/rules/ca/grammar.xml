@@ -6605,9 +6605,9 @@ $Id$
             <rule>
                 <pattern>
                     <token regexp="yes">de|d'</token>
-                    <token regexp="yes">(?-i)de|d'</token>
+                    <token regexp="yes">(?-i)de|d'|a</token>
                 </pattern>
-                <message>Elimineu la duplicació.</message>
+                <message>Combinació incorrecta de preposicions.</message>
                 <suggestion><match no="1"/></suggestion>
                 <suggestion><match no="2"/></suggestion>
                 <short>Element repetit</short>
@@ -10468,6 +10468,19 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
+                        <token/>
+                        <token spacebefore="yes" regexp="yes">[?!]</token>
+                    </marker>
+                </pattern>
+                <message>Sobra un espai.</message>
+                <suggestion><match no="1"/><match no="2"/></suggestion>
+                <short>Error de puntuació</short>
+                <example type="incorrect" correction="dir?">¿Vols <marker>dir ?</marker></example>
+                <example type="correct">¿què importa?...</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
                         <token regexp="yes">[?!]</token>
                         <token postag="SENT_END">.</token>
                     </marker>
@@ -10784,6 +10797,52 @@ $Id$
         </rulegroup>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rulegroup id="FALTARIA_MES" name="faltaria més/només faltaria">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>faltaria</token>
+                        <token>més</token>
+                    </marker>
+                    <token postag="SENT_END|_PUNCT.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Expressió incorrecta.</message>
+                <suggestion>només faltaria</suggestion>
+                <suggestion>només caldria</suggestion>
+                <short>Expressió incorrecta</short>
+                <example type="incorrect"><marker>Faltaria més</marker>!</example>
+                <example type="correct">Només caldria</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>no</token>
+                        <token>faltaria</token>
+                        <token>més</token>
+                    </marker>
+                    <token postag="SENT_END|_PUNCT.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Expressió incorrecta.</message>
+                <suggestion>només faltaria</suggestion>
+                <suggestion>només caldria</suggestion>
+                <short>Expressió incorrecta</short>
+                <example type="incorrect"><marker>No faltaria més</marker>!</example>
+                <example type="correct">Només caldria</example>
+            </rule>
+        </rulegroup>
+        <rule id="A_SOVINT" name="a sovint">
+            <pattern>
+                <token>a</token>
+                <token>sovint</token>
+            </pattern>
+            <message>Cal dir: <suggestion>sovint</suggestion>.</message>
+            <suggestion>tot sovint</suggestion>
+            <short>Expressió incorrecta</short>
+            <example type="incorrect" correction="sovint|tot sovint"><marker>a sovint</marker></example>
+            <example type="correct">sovint</example>
+        </rule>
     	<rule id="COLZE_A_COLZE" name="colze a colze">
 		    <pattern>
 		        <token>colze</token>
@@ -17657,7 +17716,7 @@ $Id$
             <rule>
                 <pattern>
                     <token inflected="yes">proper</token>
-                    <token regexp="yes" inflected="yes">futur|passat</token>
+                    <token regexp="yes" inflected="yes">futur|passat|esdeveniment</token>
                 </pattern>
                 <message>En aquest cas val més evitar l'adjectiu "<match no="1"/>".</message>
                 <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">pròxim</match> <match no="2"/></suggestion>
@@ -17667,7 +17726,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes" inflected="yes">futur|passat</token>
+                    <token regexp="yes" inflected="yes">futur|passat|esdeveniment</token>
                     <token inflected="yes">proper</token>
                 </pattern>
                 <message>En aquest cas val més evitar l'adjectiu "<match no="1"/>".</message>
