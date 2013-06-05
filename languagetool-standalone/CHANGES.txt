@@ -2,6 +2,9 @@ LanguageTool Change Log
 
 2.2-dev (release planned for 2013-06-30)
 
+ -Breton:
+  -added/improved several rules
+  -fixed some false alarms
 
  -Catalan:
   -improved rules
@@ -13,8 +16,10 @@ LanguageTool Change Log
   -updated rules to fix false alarms, thanks to Ruud Baars
 
  -French:
+  -added/improved several rules
+  -fixed some false alarms
   -updated POS tag dictionary and Hunspell dictionary to Dicollecte-4.10
-  
+
  -Greek:
   -added a few rules (by Panagiotis Minos)
 
@@ -27,7 +32,7 @@ LanguageTool Change Log
   -added new segmentation rules
   -added false-friend rule
   -added bitext rule
-  -added new style rules  
+  -added new style rules
 
  -Ukrainian:
   -new POS dictionary
@@ -40,10 +45,10 @@ LanguageTool Change Log
 
 
  -HTTP server:
-  -enabling and disabling rules at the same time (keeping the rest of the default options) is now allowed. 
+  -enabling and disabling rules at the same time (keeping the rest of the default options) is now allowed.
    To disable all the rules except those explicitly enabled, you can use the parameter enabledOnly=yes. Ex.:
    http://localhost:8081/?language=en&enabled=STRANGE_RULE,ANOTHER_RULE&enabledOnly=yes&text=my+text
- 
+
  -Fix bug "java.lang.StringIndexOutOfBoundsException" in DifferentLengthRule
   (Ex.:http://localhost:8081/?language=ru&text=№&srctext=No.&motherTongue=en )
 
@@ -67,7 +72,7 @@ LanguageTool Change Log
   -added/improved several rules
   -fixed multiple false alarms
   -improved sentence and word tokenization
-  -the tagger dictionary has been fixed and expanded (added 9000 nameplaces; 
+  -the tagger dictionary has been fixed and expanded (added 9000 nameplaces;
    115000 tagged forms from Softcatalà dictionary)
   -verbal forms have been tagged according to regional variants (with script tag_verbs.pl)
   -Hunspell dictionary (Softcatalà) has been replaced with LT tagger dictionary for spellchecking
@@ -104,7 +109,7 @@ LanguageTool Change Log
    the three morfologik spell checker dictionaries (German, Austrian, and Swiss).
   -New language variant "Simple German", with rules contributed by Annika Nietzio.
    This variant uses 'de-DE-x-simple-language' as a language code.
- 
+
  -Italian:
   -added/improved a few rules
 
@@ -115,8 +120,8 @@ LanguageTool Change Log
  -Polish:
   -false alarm fixes
   -added and improved some rules
-  -major tagger and synthesis dictionary update (to Morfologik 2.0 PoliMorf), 
-   which also fixes sf.net bug #3554018 
+  -major tagger and synthesis dictionary update (to Morfologik 2.0 PoliMorf),
+   which also fixes sf.net bug #3554018
 
  -Portuguese:
   -added/improved several rules
@@ -125,11 +130,11 @@ LanguageTool Change Log
  -Russian:
   -several new rules
   -bugfix: the uppercase sentence rule sometimes was not triggered
-   
+
 
  -spell checking: URLs, if specified like "http://www.foo.org", are now ignored and
   don't cause a spelling error anymore
- 
+
  -API: Languagetool has been split up into several Maven modules. This causes
   some API changes:
   -No more language constants: "Language.GERMAN" now needs to be "new German()",
@@ -148,14 +153,14 @@ LanguageTool Change Log
  -bugfix: suggestions for compounds parts were missing sometimes
 
  -bugfix: Portuguese translation was not used
- 
+
  -bugfix: fix false alarm of unpaired bracket rule on smileys :-) and ;-)
   (Sourceforge bug #3604367)
- 
+
  -bugfix: testrules now report all cases when untouched examples were touched
   (Sourceforge bug #3600995)
- 
- -bugfix: the whitespace rule now reports also combinations of non-breaking space and white space 
+
+ -bugfix: the whitespace rule now reports also combinations of non-breaking space and white space
   characters (Sourceforge bug #3608410)
 
  -stand-alone GUI: the very first check for languages with a lot of rules
@@ -173,7 +178,7 @@ LanguageTool Change Log
 
  -Command line:
   -In verbose mode, the subId of disambiguator matched rules is displayed.
-   
+
  -Testing rules:
   -Now regular expressions in disambiguation rules are heuristically tested
    (Sourceforge bug #3599002)
