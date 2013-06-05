@@ -209,20 +209,34 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="add"><wd lemma="en va" pos="&lt;LOC_ADV&gt;"/><wd lemma="en va" pos="&lt;/LOC_ADV&gt;"/></disambig>
         </rule>
         <rule>
-			<pattern>
-				<token><exception>el</exception></token>
-				<marker>
-					<token>primer</token>
-					<token>de</token>
-					<token>tot</token>
-				</marker>
-			</pattern>
-			<disambig action="add">
-				<wd lemma="primer de tot" pos="&lt;LOC_ADV&gt;" />
-				<wd lemma="primer de tot" pos="&lt;LOC_ADV&gt;" />
-				<wd lemma="primer de tot" pos="&lt;/LOC_ADV&gt;" />
-			</disambig>
-		</rule>
+            <pattern>
+                <token><exception>el</exception></token>
+                <marker>
+                    <token>primer</token>
+                    <token>de</token>
+                    <token>tot</token>
+                </marker>
+            </pattern>
+            <disambig action="add">
+            <wd lemma="primer de tot" pos="&lt;LOC_ADV&gt;" />
+            <wd lemma="primer de tot" pos="&lt;LOC_ADV&gt;" />
+            <wd lemma="primer de tot" pos="&lt;/LOC_ADV&gt;" />
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>a</token>
+                    <token>la</token>
+                    <token>lleugera</token>
+                </marker>
+                <token><exception postag="NC[FC][SN].*" postag_regexp="yes"/></token>
+            </pattern>
+            <disambig action="add"><wd lemma="a la lleugera" pos="&lt;LOC_ADV&gt;" />
+                <wd lemma="a la lleugera" pos="&lt;LOC_ADV&gt;" />
+                <wd lemma="a la lleugera" pos="&lt;/LOC_ADV&gt;" /></disambig>
+            <example type="untouched">Es deu <marker>a la lleugera</marker> millora del mercat.</example>    
+        </rule>
         <rule>
             <pattern>
                 <token>en</token>
