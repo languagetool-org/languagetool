@@ -7954,18 +7954,18 @@ $Id$
             </rule>
         </rulegroup>
         <rulegroup id="MA" name="ma/mà">
-            <rule>
+            <!--<rule>
                 <pattern>
                     <marker>
                         <token>ma</token>
                     </marker>
-                    <token regexp="yes">de|d'</token>
+                    <token postag="SPS00|_PUNCT.*|SENT_END" postag_regexp="yes"/>
                 </pattern>
                 <message>S'accentua quan és nom.</message>
                 <suggestion>mà</suggestion>
                 <short>Accent diacrític</short>
                 <example type="incorrect"><marker>Ma</marker> d'obra barata.</example>
-                <example type="correct"><marker>Mà</marker> d'obra barata.</example>
+                <example type="incorrect">De primera <marker>ma</marker> a les festes.</example>
             </rule>
             <rule>
                 <pattern>
@@ -7982,21 +7982,27 @@ $Id$
                 <example type="correct">Aquella mà.</example>
                 <example type="correct">Estimava moltíssim ma mare.</example>   
                 <example type="correct">En tota ma vida.</example>
-            </rule>
+            </rule>-->
             <rule>
                 <pattern>
-                    <token regexp="yes">a|en</token>
+                    <!--<token regexp="yes">a|en</token>-->
                     <marker>
                         <token>ma</token>
                     </marker>
-                    <token><exception postag="N.FS.*|A..FS.*" postag_regexp="yes"/></token>
+                    <token><exception postag="N.[FC]S.*|A..[FC]S.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>S'accentua quan és nom.</message>
                 <suggestion>mà</suggestion>
                 <short>Accent diacrític</short>
                 <example type="incorrect" correction="mà">Fet a <marker>ma</marker>.</example>
                 <example type="incorrect" correction="mà">Dioscòrides en <marker>ma</marker>.</example>
+                <example type="incorrect">Aquella <marker>ma</marker>.</example>
                 <example type="correct">A ma mare.</example>
+                <example type="incorrect"><marker>Ma</marker> d'obra barata.</example>
+                <example type="incorrect">De primera <marker>ma</marker> a les festes.</example>
+                <example type="correct">Aquella mà.</example>
+                <example type="correct">Estimava moltíssim ma mare.</example>   
+                <example type="correct">En tota ma vida.</example>
             </rule>
             <rule>
                 <pattern>
