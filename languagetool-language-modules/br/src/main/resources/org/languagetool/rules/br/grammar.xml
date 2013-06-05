@@ -3423,7 +3423,7 @@ $Id$
             <token regexp="yes">[dtz]aou</token>
           </marker>
           <token postag_regexp="yes" postag="N f.*">
-            <exception postag_regexp="yes" postag="N m [^M]*M:1:.*"/>
+            <exception postag_regexp="yes" postag="N [em].*"/>
             <exception>a</exception>
           </token>
         </pattern>
@@ -3440,7 +3440,7 @@ $Id$
           </marker>
           <token>a</token>
           <token postag_regexp="yes" postag="N f.*">
-            <exception postag_regexp="yes" postag="N m [^M]*M:1:.*"/>
+            <exception postag_regexp="yes" postag="N [em].*"/>
           </token>
         </pattern>
         <message>Implijit <suggestion><match no="1" regexp_match="aou" regexp_replace="iv"/></suggestion> dirak ar ger benel «\3». (CHALM P1.3)</message>
@@ -3452,16 +3452,17 @@ $Id$
       <rule>
         <pattern>
           <marker>
-            <token>div</token>
+            <token regexp="yes">[dzt]iv</token>
           </marker>
           <token postag_regexp="yes" postag="N m.*">
-            <exception postag_regexp="yes" postag="N f [^M]*M:1:.*"/>
+            <exception postag_regexp="yes" postag="N [ef].*"/>
             <exception>a</exception>
           </token>
         </pattern>
         <message>Implijit <suggestion><match no="1" regexp_match="iv" regexp_replace="aou"/></suggestion> dirak ar ger gourel «\2». (CHALM P1.3)</message>
         <example type="incorrect" correction="Daou"><marker>Div</marker> paotr.</example>
         <example type="correct">Daou baotr.</example>
+        <example type="correct">Div c’hoar.</example>
       </rule>
       <rule>
         <pattern>
@@ -3470,13 +3471,14 @@ $Id$
           </marker>
           <token>a</token>
           <token postag_regexp="yes" postag="N m.*">
-            <exception postag_regexp="yes" postag="N f [^M]*M:1:.*"/>
+            <exception postag_regexp="yes" postag="N [ef].*"/>
             <exception>a</exception>
           </token>
         </pattern>
         <message>Implijit <suggestion><match no="1" regexp_match="iv" regexp_replace="aou"/></suggestion> dirak ar ger gourel «\3». (CHALM P1.3)</message>
         <example type="incorrect" correction="Daou"><marker>Div</marker> a paotr.</example>
         <example type="correct">Daou a baotr.</example>
+        <example type="correct">Div a c’hoar.</example>
       </rule>
     </rulegroup>
     <rule id="TRI" name="tri">
@@ -3485,7 +3487,7 @@ $Id$
           <token regexp="yes">[tdz]ri</token>
         </marker>
         <token postag_regexp="yes" postag="N f.*">
-          <exception postag_regexp="yes" postag="N m.*"/>
+          <exception postag_regexp="yes" postag="N [em].*"/>
         </token>
       </pattern>
       <message>Implijit <suggestion><match no="1" regexp_match="..$" regexp_replace="eir"/></suggestion> dirak ar ger benel «\2». (CHALM P1.3)</message>
@@ -3500,7 +3502,7 @@ $Id$
           <token>teir</token>
         </marker>
         <token postag_regexp="yes" postag="N m.*">
-          <exception postag_regexp="yes" postag="N f.*"/>
+          <exception postag_regexp="yes" postag="N [ef].*"/>
           <exception>a</exception>
         </token>
       </pattern>
@@ -3515,7 +3517,7 @@ $Id$
           <token regexp="yes">[pbf]evar</token>
         </marker>
         <token postag_regexp="yes" postag="N f.*">
-          <exception postag_regexp="yes" postag="N m.*"/>
+          <exception postag_regexp="yes" postag="N [em].*"/>
         </token>
       </pattern>
       <message>Implijit <suggestion><match no="1" regexp_match="var" regexp_replace="der"/></suggestion> dirak ar ger benel «\2». (CHALM P1.3)</message>
@@ -3530,7 +3532,7 @@ $Id$
           <token regexp="yes">[pbf]eder</token>
         </marker>
         <token postag_regexp="yes" postag="N m.*">
-          <exception postag_regexp="yes" postag="N f.*"/>
+          <exception postag_regexp="yes" postag="N [ef].*"/>
         </token>
       </pattern>
       <message>Implijit <suggestion><match no="1" regexp_match="...$" regexp_replace="var"/></suggestion> dirak ar ger gourel «\2». (CHALM P1.3)</message>
@@ -8317,6 +8319,59 @@ $Id$
         <message>Ha fellout a rae deoc’h skrivañ <suggestion>da belec’h</suggestion>? (CHALM F3.3)</message>
         <example type="incorrect"><marker>Pelec’h</marker> a yay?</example>
         <example type="correct">Da belec’h a yay?</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token>pelec’h<exception regexp="yes">dre|da|e</exception></token></marker>
+          <token>mont</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>da belec’h</suggestion>? (CHALM F3.3)</message>
+        <example type="incorrect">N’ouzon ket <marker>pelec’h</marker> mont.</example>
+        <example type="correct">N’ouzon ket da belec’h mont.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token>pelec’h<exception regexp="yes">dre|da|e</exception></token></marker>
+          <token>e</token>
+          <token inflected="yes" regexp="yes">gallout|rankout</token>
+          <token>mont</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>da belec’h</suggestion>? (CHALM F3.3)</message>
+        <example type="incorrect"><marker>Pelec’h</marker> e c'haller mont bremañ?</example>
+        <example type="correct">Da belec’h e c'haller mont bremañ?</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token>pelec’h<exception regexp="yes">dre|da|e</exception></token></marker>
+          <token>e</token>
+          <token>fell</token>
+          <token regexp="yes">di[nt]|dezhañ|dezhi|dimp|deomp|deoc’h|dezh[eo]</token>
+          <token>mont</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>da belec’h</suggestion>? (CHALM F3.3)</message>
+        <example type="incorrect"><marker>Pelec’h</marker> e fell dit mont?</example>
+        <example type="correct">Da belec’h e fell dit mont?</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token>pelec’h<exception regexp="yes">dre|da|e</exception></token></marker>
+          <token regexp="yes">on|out|eo|omp|oc’h|int</token>
+          <token>aet</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>da belec’h</suggestion>? (CHALM F3.3)</message>
+        <example type="incorrect"><marker>Pelec’h</marker> eo aet Yann?</example>
+        <example type="correct">Da belec’h eo aet Yann?</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token>pelec’h<exception regexp="yes">dre|da|e</exception></token></marker>
+          <token>e</token>
+          <token regexp="yes">oa[ns]?|oamp|oac’h|oant</token>
+          <token>aet</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>da belec’h</suggestion>? (CHALM F3.3)</message>
+        <example type="incorrect"><marker>Pelec’h</marker> e oa aet Yann?</example>
+        <example type="correct">Da belec’h e oa aet Yann?</example>
       </rule>
     </rulegroup>
   </category>
