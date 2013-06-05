@@ -25,6 +25,7 @@ $Id$
     <!ENTITY exceptions_AL_FRONT "(?-i)matar|pelat|pelada|arruga|cabellera|cabell|cop|suor|petó|bes|besada|visera|taca|ditada|cara|mirada|lepra|cendra|marca|marcar|batalla|besar|voluntari|corona|bony|militar|enviar|caos|disparar|mocador|lligar|incorpor.*|ferir|expressió|cicatriu|exèrcit|mobilitzar|aigua|clavar|mà|co?lp|guerra|soldat|desaparèixer|afusell.*|empreson.*|reclut.*|morir|mort|vidu|orfe|viudo|traum.*">
     <!ENTITY exceptions_BE "crit|animal|porc|cabra|gallina|pastor|pastura|pasturar|bestiar|boví|vaca|gos|ramat|cleda|rabera|escorxar|escorxador|pasqual|llana">
     <!ENTITY excep_exceptions_BE "ben|prou|tan|que|si|ara|molt|per|i|o|ni|més|['-].+">
+    <!ENTITY exceptions_ALS_TRES_MESOS "arribar|corresponent|proper|pròxim|inferior|superior">
 ]>
     
 <rules lang="ca" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
@@ -4743,21 +4744,29 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
-    	<rule id="HAM_DIT" name="*ham dit/hem dit">
-		    <pattern>
-		    	  <token><exception postag="SPS00"/></token>
-		    		<token><exception postag="SPS00"/></token>
-		    	  <marker>
-		            <token>ham</token>
-		        </marker>
-		        <token postag="V.P..SM." postag_regexp="yes"/>
-		    </pattern>
-		    <message>¿Volíeu dir <suggestion>han</suggestion>?</message>
-		    <suggestion>hem</suggestion>
-		    <example type="incorrect" correction="han|hem">¿Què <marker>ham</marker> dit?</example>
-		    <example type="correct">Què han dit.</example>
-		    <example type="correct">Depenent de la mida de l'ham utilitzat.</example>
-		  </rule>
+        <rule id="VESAR" name="vesar/avesar/vessar">
+            <pattern>
+                <token inflected="yes">vesar</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="ves(.*)" regexp_replace="vess$1"/></suggestion>? Correcte com a forma secundària de <suggestion>a<match no="1"/></suggestion>.</message>
+            <example type="incorrect" correction="vessaren|avesaren"><marker>vesaren</marker></example>
+            <example type="correct">vessar</example>
+        </rule>
+        <rule id="HAM_DIT" name="*ham dit/hem dit">
+            <pattern>
+                <token><exception postag="SPS00"/></token>
+                <token><exception postag="SPS00"/></token>
+                <marker>
+                    <token>ham</token>
+                </marker>
+                <token postag="V.P..SM." postag_regexp="yes"/>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>han</suggestion>?</message>
+            <suggestion>hem</suggestion>
+            <example type="incorrect" correction="han|hem">¿Què <marker>ham</marker> dit?</example>
+            <example type="correct">Què han dit.</example>
+            <example type="correct">Depenent de la mida de l'ham utilitzat.</example>
+        </rule>
     	<rule id="A_TOTA_HORA" name="a *tot/tota hora">
 		    <pattern>
 		        <token>a</token>
@@ -14077,7 +14086,7 @@ $Id$
         i sense article: a dos mesos de -->
             <rule>
                 <pattern>
-                    <token><exception regexp="yes" inflected="yes">corresponent|proper|pròxim|inferior|superior</exception><exception>respecte</exception><exception postag="DN.*" postag_regexp="yes"/></token>
+                    <token><exception regexp="yes" inflected="yes">&exceptions_ALS_TRES_MESOS;</exception><exception>respecte</exception><exception postag="DN.*" postag_regexp="yes"/></token>
                     <marker>
                         <token>a</token>
                         <token spacebefore="no">ls</token>
@@ -14098,7 +14107,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token><exception regexp="yes" inflected="yes">corresponent|proper|pròxim</exception><exception>respecte</exception><exception postag="DN.*" postag_regexp="yes"/></token>
+                    <token><exception regexp="yes" inflected="yes">&exceptions_ALS_TRES_MESOS;</exception><exception>respecte</exception><exception postag="DN.*" postag_regexp="yes"/></token>
                     <marker>
                         <token>a</token>
                         <token>les</token>
@@ -14116,7 +14125,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token><exception regexp="yes" inflected="yes">corresponent|proper|pròxim</exception><exception>respecte</exception><exception postag="DN.*" postag_regexp="yes"/></token>
+                    <token><exception regexp="yes" inflected="yes">&exceptions_ALS_TRES_MESOS;</exception><exception>respecte</exception><exception postag="DN.*" postag_regexp="yes"/></token>
 					<marker>
                         <token>a</token>
                         <token spacebefore="no">ls</token>
@@ -17497,7 +17506,7 @@ $Id$
     	</rulegroup>
     	<rule id="ALS_TRES_ANYS" name="Revisa: als tres anys/a tres anys/al cap de tres anys">
             <pattern>
-                <token><exception regexp="yes" inflected="yes">corresponent|proper|pròxim|homenatge</exception><exception>respecte</exception><exception postag="DN.*" postag_regexp="yes"/></token>
+                <token><exception regexp="yes" inflected="yes">&exceptions_ALS_TRES_MESOS;|homenatge</exception><exception>respecte</exception><exception postag="DN.*" postag_regexp="yes"/></token>
 				<marker>
                     <token>a</token>
                     <token spacebefore="no">ls</token>
