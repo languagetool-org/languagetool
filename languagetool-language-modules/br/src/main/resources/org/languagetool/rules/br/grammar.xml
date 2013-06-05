@@ -3423,7 +3423,7 @@ $Id$
             <token regexp="yes">[dtz]aou</token>
           </marker>
           <token postag_regexp="yes" postag="N f.*">
-            <exception postag_regexp="yes" postag="N [em].*"/>
+            <exception postag_regexp="yes" postag="N [em][^M]*(:1:.*)?"/>
             <exception>a</exception>
           </token>
         </pattern>
@@ -3440,7 +3440,7 @@ $Id$
           </marker>
           <token>a</token>
           <token postag_regexp="yes" postag="N f.*">
-            <exception postag_regexp="yes" postag="N [em].*"/>
+            <exception postag_regexp="yes" postag="N [em][^M]*(:1:.*)?"/>
           </token>
         </pattern>
         <message>Implijit <suggestion><match no="1" regexp_match="aou" regexp_replace="iv"/></suggestion> dirak ar ger benel «\3». (CHALM P1.3)</message>
@@ -3455,7 +3455,7 @@ $Id$
             <token regexp="yes">[dzt]iv</token>
           </marker>
           <token postag_regexp="yes" postag="N m.*">
-            <exception postag_regexp="yes" postag="N [ef].*"/>
+            <exception postag_regexp="yes" postag="N [ef][^M]*(:1:.*)?"/>
             <exception>a</exception>
           </token>
         </pattern>
@@ -3471,7 +3471,7 @@ $Id$
           </marker>
           <token>a</token>
           <token postag_regexp="yes" postag="N m.*">
-            <exception postag_regexp="yes" postag="N [ef].*"/>
+            <exception postag_regexp="yes" postag="N [ef][^M]*(:1:.*)?"/>
             <exception>a</exception>
           </token>
         </pattern>
@@ -3487,7 +3487,7 @@ $Id$
           <token regexp="yes">[tdz]ri</token>
         </marker>
         <token postag_regexp="yes" postag="N f.*">
-          <exception postag_regexp="yes" postag="N [em].*"/>
+          <exception postag_regexp="yes" postag="N [em][^M]*(.*:2:.*)?"/>
         </token>
       </pattern>
       <message>Implijit <suggestion><match no="1" regexp_match="..$" regexp_replace="eir"/></suggestion> dirak ar ger benel «\2». (CHALM P1.3)</message>
@@ -3502,7 +3502,7 @@ $Id$
           <token>teir</token>
         </marker>
         <token postag_regexp="yes" postag="N m.*">
-          <exception postag_regexp="yes" postag="N [ef].*"/>
+          <exception postag_regexp="yes" postag="N [ef][^M]*(.*:2:.*)?"/>
           <exception>a</exception>
         </token>
       </pattern>
@@ -3517,7 +3517,7 @@ $Id$
           <token regexp="yes">[pbf]evar</token>
         </marker>
         <token postag_regexp="yes" postag="N f.*">
-          <exception postag_regexp="yes" postag="N [em].*"/>
+          <exception postag_regexp="yes" postag="N [em][^M]*(.*:2:.*)?"/>
         </token>
       </pattern>
       <message>Implijit <suggestion><match no="1" regexp_match="var" regexp_replace="der"/></suggestion> dirak ar ger benel «\2». (CHALM P1.3)</message>
@@ -3532,7 +3532,7 @@ $Id$
           <token regexp="yes">[pbf]eder</token>
         </marker>
         <token postag_regexp="yes" postag="N m.*">
-          <exception postag_regexp="yes" postag="N [ef].*"/>
+          <exception postag_regexp="yes" postag="N [ef][^M]*(.*:2:.*)?"/>
         </token>
       </pattern>
       <message>Implijit <suggestion><match no="1" regexp_match="...$" regexp_replace="var"/></suggestion> dirak ar ger gourel «\2». (CHALM P1.3)</message>
@@ -8290,7 +8290,7 @@ $Id$
       <rule>
         <pattern>
           <marker><token>pelec’h<exception regexp="yes">dre|da|e</exception></token></marker>
-          <token regexp="yes">ema(on|ñ?|out|oc’h|int|eur)|edo([nsd]?|mp|oc’h|nt)</token>
+          <token regexp="yes">(emaon|edon)(-me)?|(emout|edos)(-te)?|(emañ|edo)?(-(eñ|hi))?|(emaomp|edomp)(-ni)?|(emaoc’h|edoc’h)(-c’hwi)?|(emaint|edont)(-(i|int))?|emeur|edod</token>
           <token>o</token>
           <token>vont</token>
         </pattern>
@@ -8355,7 +8355,7 @@ $Id$
       <rule>
         <pattern>
           <marker><token>pelec’h<exception regexp="yes">dre|da|e</exception></token></marker>
-          <token regexp="yes">on|out|eo|omp|oc’h|int</token>
+          <token regexp="yes">on(-me)?|out(-te)?|eo(-(eñ|hi))?|omp(-ni)?|oc’h(-c’hwi)?|int(-i)?</token>
           <token>aet</token>
         </pattern>
         <message>Ha fellout a rae deoc’h skrivañ <suggestion>da belec’h</suggestion>? (CHALM F3.3)</message>
@@ -8366,7 +8366,7 @@ $Id$
         <pattern>
           <marker><token>pelec’h<exception regexp="yes">dre|da|e</exception></token></marker>
           <token>e</token>
-          <token regexp="yes">oa[ns]?|oamp|oac’h|oant</token>
+          <token regexp="yes">oan(-me)?|oas(-te)?|oa(-(eñ|hi))?|oamp(-ni)?|oac’h(-c’hwi)?|oant(-(i|int))?</token>
           <token>aet</token>
         </pattern>
         <message>Ha fellout a rae deoc’h skrivañ <suggestion>da belec’h</suggestion>? (CHALM F3.3)</message>
