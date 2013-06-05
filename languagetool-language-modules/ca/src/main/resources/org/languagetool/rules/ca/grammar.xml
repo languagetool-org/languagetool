@@ -4744,6 +4744,25 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+            <rule id="INGENI_ENGINY_GINY" name="ingeni/enginy/giny">
+                <pattern>
+                    <token regexp="yes">ingenis?</token>
+                </pattern>
+                <message>Possible confusió. "Ingeni" només és correcte en el sentit de "plantació de canya de sucre".</message>
+                    <suggestion><match no="1" regexp_match="ingeni(s?)" regexp_replace="enginy$1"/></suggestion>
+                    <suggestion><match no="1" regexp_match="ingeni(s?)" regexp_replace="giny$1"/></suggestion>
+                <short>Possible confusió</short>    
+                <example type="incorrect" correction="enginy|giny"><marker>ingeni</marker></example>
+                <example type="correct">enginy</example>
+            </rule>
+            <rule id="DOLAR" name="dolar">
+                <pattern>
+                    <token>dolar</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>dòlar</suggestion> (moneda) en comptes de "dolar" (verb poc usual)?</message>
+                <example type="incorrect"><marker>dolar</marker></example>
+                <example type="correct">dòlar</example>
+            </rule>
         <rule id="VESAR" name="vesar/avesar/vessar">
             <pattern>
                 <token inflected="yes">vesar</token>
@@ -9992,14 +10011,6 @@ $Id$
             </rule>
         </rulegroup>   
         <rulegroup id="CONFUSIONS_PRONOMS_FEBLES" name="confusions amb pronoms febles">
-            <rule id="DOLAR" name="dolar">
-                <pattern>
-                    <token>dolar</token>
-                </pattern>
-                <message>¿Volíeu dir <suggestion>dòlar</suggestion> (moneda) en comptes de "dolar" (verb poc usual)?</message>
-                <example type="incorrect"><marker>dolar</marker></example>
-                <example type="correct">dòlar</example>
-            </rule>
             <rule id="EM_VAM" name="em vam">
                 <pattern>
                     <marker>
