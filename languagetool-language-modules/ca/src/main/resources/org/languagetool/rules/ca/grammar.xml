@@ -4767,7 +4767,7 @@ $Id$
             <pattern>
                 <token inflected="yes">vesar</token>
             </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="ves(.*)" regexp_replace="vess$1"/></suggestion>? Correcte com a forma secundària de <suggestion>a<match no="1"/></suggestion>.</message>
+            <message>¿Volíeu dir <suggestion><match no="1" regexp_match=".es(.*)" regexp_replace="vess$1" case_conversion="alllower"/></suggestion>? Correcte com a forma secundària de <suggestion>a<match no="1" case_conversion="alllower"/></suggestion>.</message>
             <example type="incorrect" correction="vessaren|avesaren"><marker>vesaren</marker></example>
             <example type="correct">vessar</example>
         </rule>
@@ -7973,35 +7973,6 @@ $Id$
             </rule>
         </rulegroup>
         <rulegroup id="MA" name="ma/mà">
-            <!--<rule>
-                <pattern>
-                    <marker>
-                        <token>ma</token>
-                    </marker>
-                    <token postag="SPS00|_PUNCT.*|SENT_END" postag_regexp="yes"/>
-                </pattern>
-                <message>S'accentua quan és nom.</message>
-                <suggestion>mà</suggestion>
-                <short>Accent diacrític</short>
-                <example type="incorrect"><marker>Ma</marker> d'obra barata.</example>
-                <example type="incorrect">De primera <marker>ma</marker> a les festes.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="D[^R].FS.*" postag_regexp="yes"/>
-                    <marker>
-                        <token>ma</token>
-                    </marker>
-                    <token><exception>vida</exception></token>
-                </pattern>
-                <message>S'accentua quan és nom.</message>
-                <suggestion>mà</suggestion>
-                <short>Accent diacrític</short>
-                <example type="incorrect">Aquella <marker>ma</marker>.</example>
-                <example type="correct">Aquella mà.</example>
-                <example type="correct">Estimava moltíssim ma mare.</example>   
-                <example type="correct">En tota ma vida.</example>
-            </rule>-->
             <rule>
                 <pattern>
                     <!--<token regexp="yes">a|en</token>-->
@@ -10839,6 +10810,26 @@ $Id$
         </rulegroup>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="TOTS_ELS_DIES" name="tots els dies">
+            <pattern>
+                <token>tots</token>
+                <token>els</token>
+                <token>dies</token>
+            </pattern>
+            <message>Amb valor freqüentatiu val més dir <suggestion>cada dia</suggestion>.</message>
+            <example type="incorrect"><marker>tots els dies</marker> canta</example>
+            <example type="correct">cada dia canta</example>
+        </rule>
+        <rule id="TOTES_LES_SETMANES" name="totes les setmanes">
+            <pattern>
+                <token>totes</token>
+                <token>les</token>
+                <token>setmanes</token>
+            </pattern>
+            <message>Amb valor freqüentatiu val més dir <suggestion>cada setmana</suggestion>.</message>
+            <example type="incorrect"><marker>totes les setmanes</marker> canta</example>
+            <example type="correct">cada setmana canta</example>
+        </rule>
         <rulegroup id="FALTARIA_MES" name="faltaria més/només faltaria">
             <rule>
                 <pattern>
@@ -19629,7 +19620,7 @@ $Id$
         		<pattern>
         		    <token postag="V.{6}[VBZ34567]" postag_regexp="yes"><exception postag="V.{6}[0CXY12]|_possible_nompropi|N.*|AQ.*|SPS00" postag_regexp="yes"/><exception regexp="yes">vinga|aviam</exception></token>
         		</pattern>
-        		<message>Forma verbal valenciana o balear.</message>
+        		<message>Useu formes verbals generals.</message>
         		<suggestion><match no="1" postag="(V.+)." postag_regexp="yes" postag_replace="$1[CXY012]"/></suggestion>
         		<example type="incorrect" correction="pensi|penso">Jo ho <marker>pense</marker>.</example>
         		<example type="incorrect" correction="Digui">"<marker>Diga</marker> el que digui".</example>
@@ -19743,7 +19734,7 @@ $Id$
         		<pattern>
         			<token postag="V.{6}[CBY24]" postag_regexp="yes"><exception postag="V.{6}[0VXZ13567]|_possible_nompropi|N.*|AQ.*" postag_regexp="yes"/><exception>vinga</exception></token>
         		</pattern>
-        		<message>Forma verbal no valenciana.</message>
+        		<message>Useu formes verbals valencianes.</message>
         		<suggestion><match no="1" postag="(V.+)." postag_regexp="yes" postag_replace="$1[0VXZ13567]"/></suggestion>
         		<example type="incorrect" correction="tinguérem|tinguéssem">Si <marker>tinguéssim</marker> sort.</example>
         		<example type="incorrect" correction="pense">Jo <marker>penso</marker>.</example>
@@ -19788,7 +19779,7 @@ $Id$
         		<pattern>
         			<token postag="V.{6}[CVX356]" postag_regexp="yes"><exception postag="V.{6}[0BYZ1247]|_possible_nompropi|N.*|AQ.*|SPS00" postag_regexp="yes"/><exception>vinga</exception></token>
         		</pattern>
-        		<message>Forma verbal no balear.</message>
+        		<message>Useu formes verbals balears.</message>
         		<suggestion><match no="1" postag="(V.+)." postag_regexp="yes" postag_replace="$1[0BYZ1247]"/></suggestion>
         		<!-- valencians -->
         		<example type="incorrect" correction="pens|pensi">Jo ho <marker>pense</marker>.</example>
@@ -19859,7 +19850,7 @@ $Id$
                 <pattern>
                     <token postag="A.*" postag_regexp="yes" regexp="yes">.+és?<exception regexp="yes">faisandés|fulés|faisandé|fulé|buthanés|confés|exprés|inconfés|obsés|profés|revés</exception></token>
                 </pattern>
-                <message>Accentuació valenciana.</message>
+                <message>Useu accentuació general.</message>
                 <suggestion><match no="1" regexp_match="^(.+)é(s)?" regexp_replace="$1è$2"></match></suggestion>
                 <example type="incorrect">El <marker>quaranta-quatré</marker>.</example>
                 <example type="correct">El <marker>quaranta-quatrè</marker>.</example>
@@ -19868,7 +19859,7 @@ $Id$
                 <pattern>
                     <token postag="NC.*" postag_regexp="yes" regexp="yes">.+é(n|s)?<exception regexp="yes">melés|catipén|koiné|melé|més|abecés|abonarés|balancés|brillantés|cabriolés|calés|canalés|cartonés|clixés|consomés|dublés|elapés|fricassés|frivolités|giroflés|glacés|jaqués|karités|macramés|matinés|moarés|negligés|pagarés|patés|peronés|purés|quinqués|relés|sargés|suflés|ximpanzés|xinés|abecé|abonaré|abscés|accés|aiguavés|aprés|avés|azobé|balancé|brillanté|bé|cabriolé|calcés|calé|canalé|cartoné|carés|claqué|clixé|combés|confés|congrés|consomé|decés|dublé|elapé|excés|exprés|fricassé|frivolité|galzés|giroflé|glacé|granité|ingrés|inrevés|insuccés|jaqué|karité|macoré|macramé|matiné|moaré|negligé|obsés|ocumé|pagaré|paté|patén|peroné|piqué|plaqué|possés|praliné|procés|profés|progrés|puré|quinqué|recés|regrés|reingrés|relé|retrocés|revés|rés|sargé|succés|suflé|tacaé|teleprocés|través|vaivé|ximpanzé|xiné|Salomés|Salomé|Mamés|Efrén|Rubén|Senén</exception></token>
                 </pattern>
-                <message>Accentuació valenciana.</message>
+                <message>Useu accentuació general.</message>
                 <suggestion><match no="1" regexp_match="^(.+)é(n|s)?" regexp_replace="$1è$2"></match></suggestion>
                 <example type="incorrect">El <marker>café</marker>.</example>
                 <example type="correct">El <marker>cafè</marker>.</example>
@@ -19878,7 +19869,7 @@ $Id$
                 <pattern>
                     <token regexp="yes">vostés?|allén|atés|Filomé|Godofré|Josués?|Manfré|Mercés?</token> <!-- atés que: loc_conj en disambiguation -->
                 </pattern>
-                <message>Accentuació valenciana.</message>
+                <message>Useu accentuació general.</message>
                 <suggestion><match no="1" regexp_match="^(.+)é(n|s)?" regexp_replace="$1è$2"></match></suggestion>
                 <example type="incorrect"><marker>vostés</marker>.</example>
                 <example type="incorrect" correction="Atès"><marker>Atés</marker> que no m'agrada</example>
@@ -19888,7 +19879,7 @@ $Id$
                 <pattern>
                     <token regexp="yes">(apreh|apr|carv|compr|corpr|def|dep|desapr|desp|despr|depr|empr|exp|malpr|malv|mampr|of|repr|retrov|rev|salpr|sobrepr|sorpr|susp|ullpr)én</token>
                 </pattern>
-                <message>Accentuació valenciana.</message>
+                <message>Useu accentuació general.</message>
                 <suggestion><match no="1" regexp_match="^(.+)én" regexp_replace="$1èn"></match></suggestion>
                 <example type="incorrect">Ell <marker>aprén</marker>.</example>
                 <example type="correct">Ell <marker>aprèn</marker>.</example>
@@ -19897,9 +19888,9 @@ $Id$
                 <pattern>
                     <token postag="VMP00SM.?" postag_regexp="yes" regexp="yes">.+és<exception postag="VMSI[13]S0.?" postag_regexp="yes"/><exception postag="RG" regexp="yes">després|demés</exception></token>
                 </pattern>
-                <message>Accentuació valenciana. Si és participi, l'accent és obert.</message> 
+                <message>Useu accentuació general. Si és participi, l'accent és obert.</message>
                 <suggestion><match no="1" regexp_match="^(.+)és" regexp_replace="$1ès"></match></suggestion>
-                <short>Accentuació valenciana</short>
+                <short>Accentuació general</short>
                 <example type="incorrect">Ell ho ha <marker>admés</marker>.</example>
                 <example type="correct">El ho ha <marker>admès</marker>.</example>
                 <example type="correct">Hi ha una pausa llarga i després diu:</example>
@@ -19913,7 +19904,7 @@ $Id$
                 <pattern>
                     <token postag="VMN.*" postag_regexp="yes" regexp="yes">.+é(ixer|nyer|ncer)<exception regexp="yes">(cr|acr|decr|n|p|recr|ren|sobrecr|sobren)éixer</exception></token>
                 </pattern>
-                <message>Accentuació valenciana.</message> 
+                <message>Useu accentuació general.</message> 
                 <suggestion><match no="1" regexp_match="^(.+)é(ixer|nyer|ncer)" regexp_replace="$1è$2"></match></suggestion>
                 <example type="incorrect">Ell el va <marker>conéixer</marker>.</example>
                 <example type="correct">Ell el va <marker>conèixer</marker>.</example>
@@ -19922,7 +19913,7 @@ $Id$
                 <pattern>
                     <token regexp="yes">.+éie(m|u)</token>
                 </pattern>
-                <message>Accentuació valenciana.</message>
+                <message>Useu accentuació general.</message> 
                 <suggestion><match no="1" regexp_match="^(.+)éie(m|u)" regexp_replace="$1èie$2"></match></suggestion>
                 <example type="incorrect">Vosaltres <marker>féieu</marker>.</example>
                 <example type="correct">Vosaltres <marker>fèieu</marker>.</example>
@@ -19931,7 +19922,7 @@ $Id$
                 <pattern>
                     <token regexp="yes">(terratrémol|ségol|pésol|trévol|cércol)s?|(térbol|grévol)(s|a|es)?</token>
                 </pattern>
-                <message>Accentuació valenciana.</message>
+                <message>Useu accentuació general.</message> 
                 <suggestion><match no="1" regexp_match="^(.+)é(.+)" regexp_replace="$1è$2"></match></suggestion>
                 <example type="incorrect">El <marker>terratrémol</marker>.</example>
                 <example type="correct">El <marker>terratrèmol</marker>.</example>
@@ -19942,9 +19933,9 @@ $Id$
                 <pattern>
                     <token regexp="yes">.+è|.+ès|.+èn<exception regexp="yes">perquès?|quès?|Novetlè|collibè</exception></token>
                 </pattern>
-                <message>Accentuació no valenciana.</message>
+                <message>Useu accentuació valenciana.</message> 
                 <suggestion><match no="1" regexp_match="^(.+)è(s|n)?" regexp_replace="$1é$2"></match></suggestion>
-                <short>Accentuació no valenciana</short>
+                <short>Accentuació valenciana</short>
                 <example type="incorrect">El <marker>cafè</marker>.</example>
                 <example type="correct">El <marker>café</marker>.</example>
                 <example type="correct">Perquè m'agrada.</example>
@@ -19954,9 +19945,9 @@ $Id$
                 <pattern>
                     <token postag="VMN.*" postag_regexp="yes" regexp="yes">.+è(ixer|nyer|ncer)</token>
                 </pattern>
-                <message>Accentuació no valenciana.</message>
+                <message>Useu accentuació valenciana.</message> 
                 <suggestion><match no="1" regexp_match="^(.+)è(ixer|nyer|ncer)" regexp_replace="$1é$2"></match></suggestion>
-                <short>Accentuació no valenciana</short>
+                <short>Accentuació valenciana</short>
                 <example type="incorrect">Ell el va <marker>conèixer</marker>.</example>
                 <example type="correct">Ell el va <marker>conéixer</marker>.</example>
             </rule>
@@ -19964,9 +19955,9 @@ $Id$
                 <pattern>
                     <token regexp="yes">.+èie(m|u)</token>
                 </pattern>
-                <message>Accentuació no valenciana.</message>
+                <message>Useu accentuació valenciana.</message> 
                 <suggestion><match no="1" regexp_match="^(.+)èie(m|u)" regexp_replace="$1éie$2"></match></suggestion>
-                <short>Accentuació no valenciana</short>
+                <short>Accentuació valenciana</short>
                 <example type="incorrect">Vosaltres <marker>fèieu</marker>.</example>
                 <example type="correct">Vosaltres <marker>féieu</marker>.</example>
             </rule>
@@ -19974,7 +19965,7 @@ $Id$
                 <pattern>
                     <token regexp="yes">(terratrèmol|sègol|pèsol|trèvol|cèrcol)s?|(tèrbol|grèvol)(s|a|es)?</token>
                 </pattern>
-                <message>Accentuació valenciana.</message>
+                <message>Useu accentuació valenciana.</message> 
                 <suggestion><match no="1" regexp_match="^(.+)è(.+)" regexp_replace="$1é$2"></match></suggestion>
                 <short>Accentuació valenciana</short>
                 <example type="incorrect">El <marker>terratrèmol</marker>.</example>
