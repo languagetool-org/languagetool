@@ -75,7 +75,7 @@ public class ReflexiveVerbsRule extends CatalanRule {
   private static final Pattern VERB_GERUNDI = Pattern.compile("V.G.*");
   private static final Pattern VERB_PARTICIPI = Pattern.compile("V.P.*");
   private static final Pattern VERB_AUXILIAR = Pattern.compile("VA.*");
-  private static final Pattern PREP_VERB_PRONOM = Pattern.compile("_PUNCT_CONT|SPS00|V.*|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00");
+  private static final Pattern PREP_VERB_PRONOM = Pattern.compile("RN|_PUNCT_CONT|SPS00|V.*|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00");
   private static final Pattern PREP_VERB_PRONOM_ADV = Pattern.compile("RG.*|.*LOC_ADV.*|_PUNCT_CONT|SPS00|V.*|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00");
   //potser convé diferenciar la coma(,) de les cometes(") en _PUNCT_CONT -> no incloure la coma
   private static final Pattern VERB_PRONOM = Pattern.compile("V.*|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00");
@@ -474,23 +474,39 @@ public class ReflexiveVerbsRule extends CatalanRule {
 			}
 		}
 		// 3) s'ha queixat, se li ha queixat, se li n'ha queixat.
-		if (matchPostagRegexp(tokens[i], VERB_PARTICIPI)) {
-			if (matchLemmaRegexp(tokens[i - 1], VERB_HAVER)
-					&& matchPostagRegexp(tokens[i - 1], VERB_INDSUBJ)) {
-				pPronomBuscat = pronomPattern(tokens[i - 1]);
-				if (pPronomBuscat != null) {
-					int j = 2;
-					boolean keepCounting = true;
-					while (i - j > 0 && j < 5 && keepCounting) {
-						if (matchPostagRegexp(tokens[i - j], pPronomBuscat)
-								&& matchRegexp(tokens[i -j].getToken(), REFLEXIU_ANTEPOSAT))
-							return true;
-						keepCounting = matchPostagRegexp(tokens[i - j],
-								PRONOM_FEBLE);
-						j++;
-					}
-				}
-			}
+    if (matchPostagRegexp(tokens[i], VERB_PARTICIPI)) {
+      if (matchLemmaRegexp(tokens[i - 1], VERB_HAVER)) {
+        if (matchPostagRegexp(tokens[i - 1], VERB_INDSUBJ)) {
+          pPronomBuscat = pronomPattern(tokens[i - 1]);
+          if (pPronomBuscat != null) {
+            int j = 2;
+            boolean keepCounting = true;
+            while (i - j > 0 && j < 5 && keepCounting) {
+              if (matchPostagRegexp(tokens[i - j], pPronomBuscat)
+                  && matchRegexp(tokens[i - j].getToken(), REFLEXIU_ANTEPOSAT))
+                return true;
+              keepCounting = matchPostagRegexp(tokens[i - j], PRONOM_FEBLE);
+              j++;
+            }
+          }
+        }
+        // es podria haver endut
+        else if (matchPostagRegexp(tokens[i - 1], VERB_INF)
+            && matchPostagRegexp(tokens[i - 2], VERB_INDSUBJ)) {
+          pPronomBuscat = pronomPattern(tokens[i - 2]);
+          if (pPronomBuscat != null) {
+            int j = 3;
+            boolean keepCounting = true;
+            while (i - j > 0 && j < 5 && keepCounting) {
+              if (matchPostagRegexp(tokens[i - j], pPronomBuscat)
+                  && matchRegexp(tokens[i - j].getToken(), REFLEXIU_ANTEPOSAT))
+                return true;
+              keepCounting = matchPostagRegexp(tokens[i - j], PRONOM_FEBLE);
+              j++;
+            }
+          }
+        }
+      }
 			// *havent queixat, *haver queixat
 //			else if (!(matchLemmaRegexp(tokens[i - 1], VERB_HAVER) && matchPostagRegexp(
 //					tokens[i - 1], VERB_INFGER)))
@@ -558,8 +574,9 @@ public class ReflexiveVerbsRule extends CatalanRule {
 					keepCounting = matchPostagRegexp(tokens[i - j],
 							PREP_VERB_PRONOM);
 					if (tokens[i-j].getToken().equalsIgnoreCase("per")
-							&& tokens[i-j+1].getToken().equalsIgnoreCase("a"))
+							&& tokens[i-j+1].getToken().equalsIgnoreCase("a")) {
 						keepCounting=false;
+					}
 					j++;
 				}
 			}

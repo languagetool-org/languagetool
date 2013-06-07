@@ -25,7 +25,9 @@ $Id$
     <!ENTITY exceptions_AL_FRONT "(?-i)matar|pelat|pelada|arruga|cabellera|cabell|cop|suor|petó|bes|besada|visera|taca|ditada|cara|mirada|lepra|cendra|marca|marcar|batalla|besar|voluntari|corona|bony|militar|enviar|caos|disparar|mocador|lligar|incorpor.*|ferir|expressió|cicatriu|exèrcit|mobilitzar|aigua|clavar|mà|co?lp|guerra|soldat|desaparèixer|afusell.*|empreson.*|reclut.*|morir|mort|vidu|orfe|viudo|traum.*">
     <!ENTITY exceptions_BE "crit|animal|porc|cabra|gallina|pastor|pastura|pasturar|bestiar|boví|vaca|gos|ramat|cleda|rabera|escorxar|escorxador|pasqual|llana">
     <!ENTITY excep_exceptions_BE "ben|prou|tan|que|si|ara|molt|per|i|o|ni|més|['-].+">
-    <!ENTITY exceptions_ALS_TRES_MESOS "arribar|corresponent|proper|pròxim|inferior|superior">
+    <!ENTITY exceptions_ALS_TRES_MESOS "per|fins|arribar|corresponent|proper|pròxim|inferior|superior">
+    <!ENTITY exceptions_RECOLZAR "cap|espatll?a|cara|punta|marc|porta|contra|banc|mà|genoll|cama|colze|peu|braç|butaca|en|sobre|damunt|paret|escala|arbre|mur|esquena">
+    
 ]>
     
 <rules lang="ca" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
@@ -2413,7 +2415,7 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token inflected="yes" skip="3">donar</token>
+                        <token inflected="yes" skip="3">donar<exception scope="next">curs</exception></token>
                     </marker>
                     <token regexp="yes">fàstic|ràbia|por|llàstima|set|calor|pena<exception postag="DN.*" postag_regexp="yes"/></token>
                 </pattern>
@@ -2423,6 +2425,7 @@ $Id$
                 <example type="incorrect" correction="fer"><marker>donar</marker> fàstic</example>
                 <example type="correct">feia vergonya</example>
                 <example type="correct">que ens donin set homes descendents seus.</example>
+                <example type="correct">va donar curs a la pena</example>
             </rule>
             <rule>
                 <pattern>
@@ -2511,6 +2514,7 @@ $Id$
                     </marker>
                     <token regexp="yes">col?ps?<exception scope="previous" regexp="yes">a|de|cada|aquest|sol</exception><exception postag="_loc_unavegada"/></token>
                     <token regexp="yes">de|d'</token>
+                    <token><exception>cap</exception></token>
                 </pattern>
                 <message>Val més dir: <suggestion><match no="1" postag="(V.*)." postag_regexp="yes" postag_replace="$1.">donar</match></suggestion>.</message>
                 <url>http://esadir.cat/lexic/entrades/entry_20030820190348_41</url>
@@ -2529,6 +2533,7 @@ $Id$
                 <example type="correct">ho feien menys d'un cop a l'any</example>
                 <example type="correct">es feia d'un sol cop</example>
                 <example type="correct">ho va fer un cop.</example>
+                <example type="correct">Llavors farem un cop de cap.</example>
             </rule>
         </rulegroup>
         <!-- Només funciona per a algunes situacions: van beguts, considerin oportú. <rulegroup id="concorda_verb_objecte" name="Comprova concordança: verb + participi/adjectiu">
@@ -3501,58 +3506,38 @@ $Id$
         </rule>
     </category>
     <category name="Z) Conjuncions" type="grammar">
-    	<rulegroup id="DONCS_CAUSAL" name="*'doncs' causal">
-    		<!-- La regla aprofita que és més probable que després del 'doncs' il·latiu hi hagi un verb
-    		     i darrere del 'doncs' causal un subjecte.
-    		     False alarm: que allò que no veuen, doncs simplement no existeix. -->
-    		<rule>
-			    <pattern>
-			    	<token><exception>bé</exception></token>
-			    	<token regexp="yes">[,;]</token>
-			        <marker>
-			        	<token>doncs</token>
-			        </marker>
-			        <token><exception postag="_PUNCT.*" postag_regexp="yes"/><exception>bé</exception></token>
-			    </pattern>
-			    <message>'Doncs' no té valor causal. És correcte si equival a 'per tant', però llavors sol anar entre comes.</message> 
-			    <suggestion>perquè</suggestion>
-			    <suggestion>ja que</suggestion>
-			    <suggestion>puix</suggestion>
-			    <suggestion>puix que</suggestion>
-			    <suggestion>doncs,</suggestion>
-			    <url>http://esadir.cat/sintaxi/conjdoncs/view</url>
-			    <short>Possible error</short>
-			    <example type="incorrect">Vingué, <marker>doncs</marker> això li agradava.</example>
-			    <example type="incorrect">La indicació no és certa, <marker>doncs</marker> aquesta opció no hi és.</example>
-			    <example type="correct">Bé, doncs vam arribar a mig matí.</example>
-			    <example type="correct">Bé, doncs digueu-li-ho de seguida.</example>
-			    <example type="correct">Això era, doncs, el que li agradava.</example>
-			    <example type="correct">¿Com va anar, doncs?</example>
-			    <example type="correct">Bé, doncs Arquimedes va trobar que un cos submergit</example>
-			    <example type="correct">Bé, doncs sí, els pètals</example>
-			    <example type="correct">; doncs bé, jo us dic</example>
-			    <!-- Ja sé que tot això us sembla exagerat; doncs el que sentireu encara ho és més -->
-			</rule>
-			
-			<!-- <rule>
-			    <pattern>
-			    	<token><exception regexp="yes">[,;]</exception></token>
-			        <marker>
-			        	<token>doncs</token>
-			        </marker>
-			        <token><exception>,</exception></token>
-			    </pattern>
-			    <message>'Doncs' no té valor causal. Correcte si equival a "per tant", però llavors sol anar entre comes: <suggestion>, doncs,</suggestion></message> 
-			    <suggestion>perquè</suggestion>
-			    <suggestion>ja que</suggestion>
-			    <suggestion>puix</suggestion>
-			    <suggestion>puix que</suggestion>
-			    <url>http://esadir.cat/sintaxi/conjdoncs/view</url>
-			    <short>Possible error</short>
-			    <example type="incorrect">Vingué <marker>doncs</marker> això li agradava.</example>
-			    <example type="correct">Això era, doncs, el que li agradava.</example>
-			</rule> -->
-		</rulegroup>	
+        <rule id="DONCS_CAUSAL" name="*'doncs' causal">
+        <!-- La regla aprofita que és més probable que després del 'doncs' il·latiu hi hagi un verb
+        i darrere del 'doncs' causal un subjecte.
+        False alarm: que allò que no veuen, doncs simplement no existeix. -->
+            <pattern>
+                <token postag="SENT_START" skip="-1"><exception scope="next">si</exception></token>
+                <token regexp="yes">[,;]<exception scope="previous" regexp="yes">bé|home|senyor</exception></token>
+                <marker>
+                    <token>doncs</token>
+                </marker>
+                <token><exception postag="_PUNCT.*" postag_regexp="yes"/><exception regexp="yes">bé|sí|vinga</exception></token>
+            </pattern>
+            <message>'Doncs' no té valor causal. Correcte si equival a 'per tant' (sol anar entre comes) o indica continuació (ex. "Doncs no ho farem").</message> 
+            <suggestion>perquè</suggestion>
+            <suggestion>ja que</suggestion>
+            <suggestion>puix</suggestion>
+            <suggestion>puix que</suggestion>
+            <suggestion>doncs,</suggestion>
+            <url>http://esadir.cat/sintaxi/conjdoncs/view</url>
+            <short>Possible error</short>
+            <example type="incorrect">Vingué, <marker>doncs</marker> això li agradava.</example>
+            <example type="incorrect">La indicació no és certa, <marker>doncs</marker> aquesta opció no hi és.</example>
+            <example type="correct">Bé, doncs vam arribar a mig matí.</example>
+            <example type="correct">Bé, doncs digueu-li-ho de seguida.</example>
+            <example type="correct">Això era, doncs, el que li agradava.</example>
+            <example type="correct">¿Com va anar, doncs?</example>
+            <example type="correct">Bé, doncs Arquimedes va trobar que un cos submergit</example>
+            <example type="correct">Bé, doncs sí, els pètals</example>
+            <example type="correct">; doncs bé, jo us dic</example>
+            <example type="correct">Si això us sembla exagerat; doncs el que sentireu encara ho és més.</example>			    
+            <!-- Ja sé que tot això us sembla exagerat; doncs el que sentireu encara ho és més -->
+        </rule>
     	<rule id="NO_OBSTANT" name="no obstant/això no obstant">
 		    <pattern>
 		    	<token><exception>això</exception></token>
@@ -10810,6 +10795,19 @@ $Id$
         </rulegroup>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="PORTAR_LA_CONTRARIA" name="portar la *contrària/contra">
+            <pattern>
+                <token regexp="yes" skip="1" inflected="yes">portar|dur|fer</token>
+                <marker>
+                    <token>la</token>
+                    <token>contrària</token>
+                </marker>
+            </pattern>
+            <message>Expressió incorrecta.</message>
+            <suggestion>la contra</suggestion>
+            <example type="incorrect" correction="la contra">Deixa de dur-me <marker>la contrària</marker>.</example>
+            <example type="correct">No li facis la contra.</example>
+        </rule>
         <rule id="TOTS_ELS_DIES" name="tots els dies">
             <pattern>
                 <token>tots</token>
@@ -14797,9 +14795,9 @@ $Id$
         </rule>
         <rule id="RECOLZAR" name="recolzar">
             <pattern>
-                <token postag="SENT_START" skip="-1"><exception scope="next" postag="NP..G.." postag_regexp="yes"/><exception scope="next" regexp="yes" inflected="yes">en|sobre|paret|escala|arbre|mur|esquena</exception></token>
+                <token postag="SENT_START" skip="-1"><exception scope="next" postag="NP..G.." postag_regexp="yes"/><exception scope="next" regexp="yes" inflected="yes">&exceptions_RECOLZAR;</exception></token>
                 <marker>
-                    <token inflected="yes" skip="-1">recolzar<exception scope="previous">hi</exception><exception scope="next" postag="NP..G.." postag_regexp="yes"/><exception scope="next" regexp="yes" inflected="yes">en|sobre|damunt|paret|escala|arbre|mur|esquena|bastó</exception></token>
+                    <token inflected="yes" skip="-1">recolzar<exception scope="previous">hi</exception><exception scope="next" postag="NP..G.." postag_regexp="yes"/><exception scope="next" regexp="yes" inflected="yes">&exceptions_RECOLZAR;</exception></token>
                 </marker>
                 <token postag="SENT_END" />
             </pattern>
@@ -14816,6 +14814,7 @@ $Id$
             <example type="correct">i s'hi recolzen</example>
             <example type="correct">el concepte en què recolza</example>
             <example type="correct">recolzant-se en un bastó</example>
+            <example type="correct">El cap el recolzà al bagul</example>
         </rule>
         <rule id="BOBO" name="bobo">
         	<pattern>

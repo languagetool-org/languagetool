@@ -47,9 +47,13 @@ public class ReflexiveVerbsRuleTest extends TestCase {
 		//assertCorrect("les circumstàncies m'obliguen a gloriar-me"); Cal buscar la concordança amb (m')
 		//assertCorrect("es van agenollar i prosternar");
 	  assertCorrect("m'aniria bé probablement posar els quilos");
+	  //assertCorrect("tot m'havia anat bé");
+	  assertCorrect("tot m'aniria bé");
 	  assertCorrect("el cor m'anava a cent per hora."); 
     //Però: "Jo m'anava a cent per hora". La qüestió no és si hi ha adverbi, 
 	  // sinó determinar el subjecte (que no és possible al 100%)
+	  
+	  //potser em vindria de gust fer un mossec
 	  
 	  //donar-se compte
 	  assertCorrect("D'aquest Decret se n'ha donat compte al Ple de l'Ajuntament");
@@ -70,10 +74,16 @@ public class ReflexiveVerbsRuleTest extends TestCase {
 		assertCorrect("en sentir els plors s'encongeix automàticament,");
 		assertCorrect("La penya de l'Ateneu es va de mica en mica reconstruint");
 		assertCorrect("no m'he pogut endur l'espasa");
+		assertCorrect("un llop es podria haver endut la criatura");
+		assertCorrect("Quan se'l van haver endut a casa");
+		assertCorrect("Ja et deus haver adonat que no");
+		assertCorrect("fins que se'n va haver desempallegat");
+		assertCorrect("per haver-se deixat endur per l'orgull");
 		assertCorrect("i de venir-vos a trobar");
 		assertCorrect("el sol s'havia post, li anaven portant tots els malalts");
 		assertCorrect("que no em caigui la casa");
 		assertCorrect("que no em caigui al damunt res");
+		assertCorrect("Em queia bé.");
 		assertCorrect("Els qui s'havien dispersat van anar pertot arreu");
 		assertCorrect("Els qui volen enriquir-se cauen en temptacions");
 		assertCorrect("Després d'acomiadar-nos vam pujar a la nau");
@@ -114,6 +124,7 @@ public class ReflexiveVerbsRuleTest extends TestCase {
 		assertCorrect("ens preparem per a anar");
 		assertCorrect("comencen queixant-se");
 		assertCorrect("comenceu a queixar-vos");
+		assertCorrect("no em podia pas queixar");
 		assertCorrect("em puc queixar");
 		assertCorrect("en teniu prou amb queixar-vos");
 		assertCorrect("ens en podem queixar");
@@ -267,7 +278,7 @@ public class ReflexiveVerbsRuleTest extends TestCase {
 		assertIncorrect("Va baixar-se del cotxe en marxa.");
 		assertIncorrect("A Joan se li va anar la mà");	
 		assertIncorrect("Al pare se li va anar la mà");	
-   		assertIncorrect("Escriu que quan era mosso «se li anaven els ulls»");
+   	assertIncorrect("Escriu que quan era mosso «se li anaven els ulls»");
 		assertIncorrect("comencen queixant");
 		assertIncorrect("comenceu a queixar-nos");
 		assertIncorrect("et puc queixar");
