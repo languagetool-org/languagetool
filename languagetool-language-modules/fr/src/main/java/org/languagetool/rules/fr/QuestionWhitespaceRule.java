@@ -144,7 +144,7 @@ public class QuestionWhitespaceRule extends FrenchRule {
         suggestionText = "« ";
         fixLen = 1;
       } else if (!StringTools.isEmpty(token) && prevToken.equals("«")
-          && !token.equals("\u00a0") & !token.equals("\u202f")) {
+          && !token.equals("\u00a0") && !token.equals("\u202f")) {
         msg = "Le guillemet ouvrant est suivi d'une espace fine insécable.";
         // non-breaking space
         suggestionText = "« ";
