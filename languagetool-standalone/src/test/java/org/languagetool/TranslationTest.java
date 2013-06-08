@@ -47,12 +47,17 @@ public class TranslationTest extends TestCase {
       if (!langFile.exists()) {
         continue;
       }
-      langProps.load(new FileInputStream(langFile));
-      final Set<Object> langKeys = langProps.keySet();
-      for (Object englishKey : englishKeys) {
-        if (!langKeys.contains(englishKey)) {
-          System.err.println("***** No key '" + englishKey + "' in file " + langFile);
+      FileInputStream stream = new FileInputStream(langFile);
+      try {
+        langProps.load(stream);
+        final Set<Object> langKeys = langProps.keySet();
+        for (Object englishKey : englishKeys) {
+          if (!langKeys.contains(englishKey)) {
+            System.err.println("***** No key '" + englishKey + "' in file " + langFile);
+          }
         }
+      } finally {
+        stream.close();
       }
     }
   }

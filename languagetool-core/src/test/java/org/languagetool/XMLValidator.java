@@ -81,11 +81,17 @@ public final class XMLValidator {
    * Validate XML file with the given DTD. Throws exception on error. 
    */
   public final void validate(String filename, String dtdFile, String docType) throws IOException {
+    InputStream xmlStream = this.getClass().getResourceAsStream(filename);
+    if (xmlStream == null) {
+      throw new IOException("Not found in classpath: " + filename);
+    }
     try {
-      final String xml = StringTools.readFile(this.getClass().getResourceAsStream(filename), "utf-8");
+      final String xml = StringTools.readFile(xmlStream, "utf-8");
       validateInternal(xml, dtdFile, docType);
     } catch (Exception e) {
       throw new IOException("Cannot load or parse '" + filename + "'", e);
+    } finally {
+      xmlStream.close();
     }
   }
 
@@ -101,11 +107,15 @@ public final class XMLValidator {
       if (xmlStream == null) {
         throw new IOException("Not found in classpath: " + filename);
       }
-      final URL schemaStream = this.getClass().getResource(xmlSchema);
-      if (schemaStream == null) {
-        throw new IOException("Not found in classpath: " + xmlSchema);
+      try {
+        final URL schemaStream = this.getClass().getResource(xmlSchema);
+        if (schemaStream == null) {
+          throw new IOException("Not found in classpath: " + xmlSchema);
+        }
+        validateInternal(xmlStream, schemaStream);
+      } finally {
+        xmlStream.close();
       }
-      validateInternal(xmlStream, schemaStream);
     } catch (Exception e) {
       throw new IOException("Cannot load or parse '" + filename + "'", e);
     }
