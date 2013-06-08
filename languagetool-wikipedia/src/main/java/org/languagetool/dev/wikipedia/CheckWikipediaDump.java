@@ -66,9 +66,14 @@ public class CheckWikipediaDump {
         throw new IOException("File not found or isn't a file: " + disabledRulesPropFile.getAbsolutePath());
       }
       final Properties disabledRules = new Properties();
-      disabledRules.load(new FileInputStream(disabledRulesPropFile));
-      addDisabledRules("all", disabledRuleIds, disabledRules);
-      addDisabledRules(languageCode, disabledRuleIds, disabledRules);
+      FileInputStream stream = new FileInputStream(disabledRulesPropFile);
+      try {
+        disabledRules.load(stream);
+        addDisabledRules("all", disabledRuleIds, disabledRules);
+        addDisabledRules(languageCode, disabledRuleIds, disabledRules);
+      } finally {
+        stream.close();
+      }
     }
     final int maxArticles = Integer.parseInt(args[5]);
     final int maxErrors = Integer.parseInt(args[6]);

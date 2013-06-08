@@ -132,10 +132,14 @@ public class PatternRuleTest extends TestCase {
     final String rulesDir = JLanguageTool.getDataBroker().getRulesDir();
     final String ruleFilePath = rulesDir + "/" + grammarFile;
     final InputStream xmlStream = this.getClass().getResourceAsStream(ruleFilePath);
-    if (xmlStream != null) {
-      validator.validate(ruleFilePath, rulesDir + "/rules.xsd");
-    } else {
+    if (xmlStream == null) {
       System.out.println("No rule file found at " + ruleFilePath);
+      return;
+    }
+    try {
+      validator.validate(ruleFilePath, rulesDir + "/rules.xsd");
+    } finally {
+      xmlStream.close();
     }
   }
 

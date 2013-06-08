@@ -91,18 +91,22 @@ public class Indexer {
       System.exit(1);
     }
     final BufferedReader reader = new BufferedReader(new FileReader(file));
-    System.out.println("Indexing to directory '" + indexDir + "'...");
-    final FSDirectory directory = FSDirectory.open(new File(indexDir));
     try {
-      final Language language = Language.getLanguageForShortName(languageCode);
-      final Indexer indexer = new Indexer(directory, language);
+      System.out.println("Indexing to directory '" + indexDir + "'...");
+      final FSDirectory directory = FSDirectory.open(new File(indexDir));
       try {
-        run(reader, indexer, false);
+        final Language language = Language.getLanguageForShortName(languageCode);
+        final Indexer indexer = new Indexer(directory, language);
+        try {
+          run(reader, indexer, false);
+        } finally {
+          indexer.close();
+        }
       } finally {
-        indexer.close();
+        directory.close();
       }
     } finally {
-      directory.close();
+      reader.close();
     }
     System.out.println("Index complete!");
   }
