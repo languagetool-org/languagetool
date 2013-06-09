@@ -286,6 +286,7 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
         for (int i = 0; i < matchingTokens - startPositionCorrection + endPositionCorrection; i++) {
           whTokens[text.getOriginalPosition(firstMatchToken + correctedStPos + i)].immunize();
         }
+        break;
       case FILTER:
         if (matchElement == null) { // same as REPLACE if using <match>
           final Match tmpMatchToken = new Match(disambiguatedPOS, null, true,
@@ -298,6 +299,7 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
           annotateChange(whTokens[fromPos], prevValue, prevAnot);
           filtered = true;
         }
+        // FALLTHROUGH
       case REPLACE:
       default:
         if (!filtered) {
