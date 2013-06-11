@@ -1467,13 +1467,14 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">eMail.+|e\-Mail.+|e\-mail.+|E\-mail.+|Email[\-]?([aA]dresse|[pP]rogramm).*</token>
+                    <token regexp="yes">eMail.+|e\-Mail.+|e\-mail.+|E\-mail.+|Email[\-]?([aA]dresse|[pP]rogramm|[aA]nwendung|[cC]lient).*</token>
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="1" regexp_match=".*ail(.*)" regexp_replace="E-Mail$1"/></suggestion>?</message>
                 <url>http://www.korrekturen.de/beliebte_fehler/email.shtml</url>
                 <short>Möglicher Tippfehler</short>
                 <example type="incorrect" correction="E-Mail-Adresse">Das ist meine <marker>eMail-Adresse</marker>.</example>
                 <example type="incorrect" correction="E-Mail-Adressen">Das sind meine <marker>Email-Adressen</marker>.</example>
+                <example type="incorrect" correction="E-Mail-Anwendung">Ich benutze diese <marker>Email-Anwendung</marker>.</example>
                 <example type="correct">Das ist meine <marker>E-Mail-Adresse</marker>.</example>
                 <example type="correct">Das ist <marker>Email</marker>.</example>
             </rule>
@@ -1492,15 +1493,16 @@ $Id$
                     <token negate="yes">per</token>
                     <marker>
                         <token regexp="yes">e\-?mail</token>
-                        <token regexp="yes">Adressen?</token>
+                        <token regexp="yes">Adressen?|Programme?n?s?|Anwendunge?n?|Cliente?n?s?</token>
                     </marker>
                 </pattern>
-                <message>Meinten Sie <suggestion>E-Mail-\3</suggestion>?</message>
+                <message>Meinten Sie <suggestion>E-Mail-<match no="3" case_conversion="startupper"/></suggestion>?</message>
                 <url>http://www.korrekturen.de/beliebte_fehler/email.shtml</url>
                 <short>Möglicher Tippfehler</short>
                 <example type="incorrect" correction="E-Mail-Adresse">Das ist meine <marker>eMail Adresse</marker>.</example>
                 <example type="incorrect" correction="E-Mail-Adressen">Das sind meine <marker>Email Adressen</marker>.</example>
                 <example type="incorrect" correction="E-Mail-Adressen">Das sind meine <marker>E-Mail Adressen</marker>.</example>
+                <example type="incorrect" correction="E-Mail-Programm">Thunderbird ist mein <marker>E-Mail programm</marker>.</example>
                 <example type="correct">Das ist meine <marker>E-Mail-Adresse</marker>.</example>
                 <example type="correct">Darf man per <marker>E-Mail</marker> Adressen verschicken?</example>
             </rule>
@@ -24429,20 +24431,33 @@ $Id$
                 <example type="incorrect" correction="Von Zeile 7 bis 11"><marker>Von Zeile 7 - 11</marker> wird geprüft, ob die Zahl eine Primzahl ist.</example>
                 <example type="incorrect" correction="Von Zeile 7 bis 11"><marker>Von Zeile 7 – 11</marker> wird geprüft, ob die Zahl eine Primzahl ist.</example>
             </rule>
-            <!-- commented out because of the warning in PatternRuleTest if CHECK_WITH_SENTENCE_SPLITTING = true
             <rule>
-                <pattern case_sensitive="yes">
-                    <token regexp="yes">[vV]o[nm]</token>
-                    <token regexp="yes">([0-9]{1,5})</token>
-                    <token regexp="yes">\.</token>
+                <pattern>
+                    <token regexp="yes">vo[nm]</token>
+                    <token regexp="yes">[0-9]{1,5}</token>
+                    <token>.</token>
+                    <token regexp="yes">(\-|–)[0-9]{1,5}</token>
+                    <token>.</token>
+                </pattern>
+                <message>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus: <suggestion>\1 \2\3 bis <match no="4" regexp_match="\-|–" regexp_replace=""/>\5</suggestion>.</message>
+                <example type="correct"><marker>Vom 9. bis 10.</marker> April.</example>
+                <example type="incorrect" correction="Vom 7. bis 10."><marker>Vom 7.-10.</marker> März.</example>
+            </rule>
+            <!-- commented out because of the warning in PatternRuleTest if CHECK_WITH_SENTENCE_SPLITTING = true TODO
+            <rule>
+                <pattern>
+                    <token regexp="yes">vo[nm]</token>
+                    <token regexp="yes">[0-9]{1,5}</token>
+                    <token>.</token>
                     <token regexp="yes">(\-|–)</token>
-                    <token regexp="yes">([0-9]{1,5})</token>
-                    <token regexp="yes">\.</token>
+                    <token regexp="yes">[0-9]{1,5}</token>
+                    <token>.</token>
                 </pattern>
                 <message>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus: <suggestion>\1 \2\3 bis \5\6</suggestion>.</message>
                 <example type="correct"><marker>Vom 9. bis 10.</marker> April.</example>
                 <example type="incorrect" correction="Vom 9. bis 10."><marker>Vom 9. – 10.</marker> April.</example>
                 <example type="incorrect" correction="vom 9. bis 10.">Und <marker>vom 9. – 10.</marker> April.</example>
+                <example type="incorrect" correction="Vom 7. bis 10."><marker>Vom 7.-10.</marker> März.</example>
             </rule>
             -->
         </rulegroup>
@@ -24723,7 +24738,18 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token spacebefore="yes" regexp="yes">´|`|‘</token>
+                    <token spacebefore="yes">‘</token>
+                    <token regexp="yes">n|nen?</token>
+                </pattern>
+                <message>Wollten Sie einen Apostroph verwenden? Vorschlag: <suggestion>'\2</suggestion> oder <suggestion>’\2</suggestion></message>
+                <short>Akzent statt Apostroph</short>
+                <example type="correct">Das war vielleicht <marker>’ne</marker> Party!</example>
+                <example type="correct">Das war vielleicht <marker>'ne</marker> Party!</example>
+                <example type="incorrect" correction="'ne|’ne">Das war vielleicht <marker>‘ne</marker> Party!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">´|`</token>
                     <token regexp="yes">n|nen?</token>
                 </pattern>
                 <message>Wollten Sie einen Apostroph verwenden? Vorschlag: <suggestion>'\2</suggestion> oder <suggestion>’\2</suggestion></message>
@@ -24732,7 +24758,18 @@ $Id$
                 <example type="correct">Das war vielleicht <marker>'ne</marker> Party!</example>
                 <example type="incorrect" correction="'ne|’ne">Das war vielleicht <marker>´ne</marker> Party!</example>
                 <example type="incorrect" correction="'ne|’ne">Das war vielleicht <marker>`ne</marker> Party!</example>
-                <example type="incorrect" correction="'ne|’ne">Das war vielleicht <marker>‘ne</marker> Party!</example>
+                <example type="incorrect" correction="'n|’n">Auf<marker>´n</marker> Dachboden musst du gehen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>c</token>
+                    <token regexp="yes">´|`|‘</token>
+                    <token>t</token>
+                </pattern>
+                <message>Der Name der Computerzeitschrift <suggestion>c’t</suggestion> wird mit einem Apostroph geschrieben.</message>
+                <short>Akzent statt Apostroph</short>
+                <example type="correct">Die <marker>c’t</marker> ist eine Computerzeitschrift.</example>
+                <example type="incorrect" correction="c’t">Die <marker>c`t</marker> ist eine Computerzeitschrift.</example>
             </rule>
         </rulegroup>
         <rule id="BISSTRICH" name="Typographie: Bis-Strich vs. Bindestrich">
