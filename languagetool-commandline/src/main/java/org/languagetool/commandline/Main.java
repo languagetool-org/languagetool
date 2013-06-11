@@ -25,6 +25,7 @@ import org.languagetool.bitext.TabBitextReader;
 import org.languagetool.language.English;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.bitext.BitextRule;
+import org.languagetool.tools.JnaTools;
 import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
 import org.xml.sax.SAXException;
@@ -435,6 +436,7 @@ class Main {
    * Command line tool to check plain text files.
    */
   public static void main(final String[] args) throws IOException, ParserConfigurationException, SAXException {
+    JnaTools.setBugWorkaroundProperty();
     final CommandLineParser commandLineParser = new CommandLineParser();
     CommandLineOptions options = null;
     try {

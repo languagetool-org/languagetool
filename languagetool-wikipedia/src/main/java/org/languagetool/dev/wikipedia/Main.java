@@ -21,6 +21,7 @@ package org.languagetool.dev.wikipedia;
 import org.languagetool.JLanguageTool;
 import org.languagetool.dev.index.Indexer;
 import org.languagetool.dev.index.Searcher;
+import org.languagetool.tools.JnaTools;
 
 import java.util.Arrays;
 
@@ -31,6 +32,7 @@ import java.util.Arrays;
 public class Main {
 
   public static void main(String[] args) throws Exception {
+    JnaTools.setBugWorkaroundProperty();
     if (args.length == 0) {
       printUsageAndExit();
     } else {

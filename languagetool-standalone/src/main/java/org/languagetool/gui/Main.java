@@ -27,6 +27,7 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.server.HTTPServer;
 import org.languagetool.server.HTTPServerConfig;
 import org.languagetool.server.PortBindingException;
+import org.languagetool.tools.JnaTools;
 import org.languagetool.tools.LanguageIdentifierTools;
 import org.languagetool.tools.StringTools;
 
@@ -603,6 +604,7 @@ public final class Main implements ActionListener {
   }
 
   public static void main(final String[] args) {
+    JnaTools.setBugWorkaroundProperty();
     try {
       final Main prg = new Main();
       if (args.length == 1 && (args[0].equals("-t") || args[0].equals("--tray"))) {
