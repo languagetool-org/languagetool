@@ -82,7 +82,17 @@ public class AgreementRule extends GermanRule {
     "ADJ:DAT:PLU:MAS:GRU", "ADJ:DAT:PLU:NEU:GRU", "ADJ:DAT:PLU:FEM:GRU",    // den Berliner Autos
     "ADJ:AKK:PLU:MAS:GRU", "ADJ:AKK:PLU:NEU:GRU", "ADJ:AKK:PLU:FEM:GRU",    // den Berliner Bewohnern
   };
-
+  
+  /*
+   * The heuristic of maybeAddAdjectiveReadings considers every noun ending with "er" as city name.
+   * The nouns in this list are NOT considered as city names.
+   * NOTE: Only nouns for which cutting off the final "er" produces a valid noun must be added to this list.
+   */
+  private static final Set<String> ER_TO_BE_IGNORED = new HashSet<String>(Arrays.asList(
+    "Alter",
+    "Kinder",
+    "Rinder"
+  ));
   
   private static final Set<String> REL_PRONOUN = new HashSet<String>();
   static {
@@ -183,15 +193,15 @@ public class AgreementRule extends GermanRule {
       boolean ignore = couldBeRelativeClause(tokens, i);
       if (i > 0) {
         final String prevToken = tokens[i-1].getToken().toLowerCase();
-        if ((prevToken.equals("der") || prevToken.equals("die") || prevToken.equals("das"))
+        if ((prevToken.equals("der") || prevToken.equals("die") || prevToken.equals("das") || prevToken.equals("des"))
             && (tokens[i].getToken().equals("eine") || tokens[i].getToken().equals("einen"))) {
           // TODO: "der eine Polizist" -> nicht ignorieren, sondern "der polizist" checken; "auf der einen Seite"
           ignore = true;
         }
       }
       
-      // avoid false alarm on "nichts Gutes":
-      if (analyzedToken.getToken().equals("nichts")) {
+      // avoid false alarm on "nichts Gutes" and "alles Gute"
+      if (analyzedToken.getToken().equals("nichts") || analyzedToken.getToken().equals("alles")) {
         ignore = true;
       }
 
@@ -224,7 +234,7 @@ public class AgreementRule extends GermanRule {
         }
       }
            
-    }
+    } // for each token
     return toRuleMatchArray(ruleMatches);
   }
 
@@ -259,7 +269,7 @@ public class AgreementRule extends GermanRule {
     final String nextTerm = nextToken.getToken();
     // Just a heuristic: nouns and proper nouns that end with "er" are considered
     // city names:
-    if (nextTerm.endsWith("er") && tokens.length > tokenPos+1) {
+    if (nextTerm.endsWith("er") && tokens.length > tokenPos+1 && !ER_TO_BE_IGNORED.contains(nextTerm)) {
       final AnalyzedGermanTokenReadings nextNextToken = (AnalyzedGermanTokenReadings)tokens[tokenPos+1];
       try {
         final AnalyzedGermanTokenReadings nextATR = tagger.lookup(nextTerm.substring(0, nextTerm.length()-2));

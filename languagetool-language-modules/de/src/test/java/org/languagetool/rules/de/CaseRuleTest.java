@@ -79,6 +79,9 @@ public class CaseRuleTest extends TestCase {
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Die Schlinge zieht sich zu.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Die Schlingen ziehen sich zu.")).length);
     
+    // used to trigger error because of "abbriviation"
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Sie fällt auf durch ihre hilfsbereite Art. Zudem zeigt sie soziale Kompetenz.")).length);
+    
     // TODO: nach dem Doppelpunkt wird derzeit nicht auf groß/klein getestet:
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das ist es: kein Satz.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das ist es: Kein Satz.")).length);

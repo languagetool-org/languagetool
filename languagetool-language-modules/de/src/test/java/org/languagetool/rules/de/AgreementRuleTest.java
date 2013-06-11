@@ -114,6 +114,9 @@ public class AgreementRuleTest extends TestCase {
     assertGood("Das Gütersloher Radio.");
     assertGood("Das wirklich Wichtige kommt jetzt erst.");
     assertGood("Besonders wenn wir Wermut oder Absinth trinken.");
+    assertGood("Ich wünsche dir alles Gute.");
+    assertGood("Es ist nicht bekannt, mit welchem Alter Kinder diese Fähigkeit erlernen.");
+    assertGood("Dieser ist nun in den Ortungsbereich des einen Roboters gefahren.");
 
     // incorrect sentences:
     assertBad("Es sind die Tisch.");

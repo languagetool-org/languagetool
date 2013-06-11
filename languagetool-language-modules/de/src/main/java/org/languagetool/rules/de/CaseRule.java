@@ -71,6 +71,7 @@ public class CaseRule extends GermanRule {
     sentenceStartExceptions.add("“");
     sentenceStartExceptions.add("«");
     sentenceStartExceptions.add("»");
+    sentenceStartExceptions.add(".");
   }
   
   private static final Set<String> exceptions = new HashSet<String>();
@@ -488,7 +489,7 @@ public class CaseRule extends GermanRule {
         !analyzedToken.hasReadingOfType(POSType.PROPER_NOUN) &&
         !isNilReading(analyzedToken) &&
         !analyzedToken.isSentenceEnd() &&
-        !( (tokens[i-1].getToken().equals("]") || tokens[i-1].getToken().equals(")")) &&
+        !( (tokens[i-1].getToken().equals("]") || tokens[i-1].getToken().equals(")")) && // sentence starts with […]
            ( (i == 4 && tokens[i-2].getToken().equals("…")) || (i == 6 && tokens[i-2].getToken().equals(".")) ) ) &&
         !isExceptionPhrase(i, tokens)) {
       final String msg = "Außer am Satzanfang werden nur Nomen und Eigennamen großgeschrieben";
