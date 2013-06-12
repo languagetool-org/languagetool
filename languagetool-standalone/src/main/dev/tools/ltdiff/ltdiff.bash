@@ -4,32 +4,32 @@ if [ ! $# -eq 2 ] && [ ! $# -eq 3 ]; then
   echo e.g. ./ltdiff.bash V_2_0 languagetool-2.1
   echo "     ./ltdiff.bash V_1_6 V_1_7"
   echo "     ./ltdiff.bash V_1_7 trunk en"
-  echo "see http://languagetool.svn.sourceforge.net/viewvc/languagetool/tags/ for a list of available tags"
+  echo "see http://sourceforge.net/p/languagetool/code/HEAD/tree/tags/ for a list of available tags"
   exit -1
 fi
 
-path_old="http://languagetool.svn.sourceforge.net/viewvc/languagetool/tags/$1/languagetool-language-modules/en/src/main/resources/org/languagetool/rules"
+path_old="http://sourceforge.net/p/languagetool/code/HEAD/tree/tags/$1/languagetool-language-modules/en/src/main/resources/org/languagetool/rules"
 if [ $2 == "trunk" ]; then
-  path_new="http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/languagetool/languagetool-language-modules/en/src/main/resources/org/languagetool/rules"
+  path_new="http://sourceforge.net/p/languagetool/code/HEAD/tree/trunk/languagetool/languagetool-language-modules/en/src/main/resources/org/languagetool/rules"
 else
-  path_new="http://languagetool.svn.sourceforge.net/viewvc/languagetool/tags/$2/languagetool-language-modules/en/src/main/resources/org/languagetool/rules"
+  path_new="http://sourceforge.net/p/languagetool/code/HEAD/tree/tags/$2/languagetool-language-modules/en/src/main/resources/org/languagetool/rules"
 fi
 
 # check whether the path exists; if it's not the case, we probably have to use the old paths
 response=`curl -o /dev/null --silent --head --write-out '%{http_code}\n' $path_old`
-if [ $response == "404" ]; then
-  path_old="http://languagetool.svn.sourceforge.net/viewvc/languagetool/tags/$1/src/main/resources/org/languagetool/rules"
+if [[ $response == "404" || $response == "500" ]]; then
+  path_old="http://sourceforge.net/p/languagetool/code/HEAD/tree/tags/$1/src/main/resources/org/languagetool/rules"
   response=`curl -o /dev/null --silent --head --write-out '%{http_code}\n' $path_old`
-  if [ $response == "404" ]; then
-    path_old="http://languagetool.svn.sourceforge.net/viewvc/languagetool/tags/$1/src/rules"
+  if [[ $response == "404" || $response == "500" ]]; then
+    path_old="http://sourceforge.net/p/languagetool/code/HEAD/tree/tags/$1/src/rules"
   fi
 fi
 response=`curl -o /dev/null --silent --head --write-out '%{http_code}\n' $path_new`
-if [ $response == "404" ]; then
-  path_new="http://languagetool.svn.sourceforge.net/viewvc/languagetool/tags/$2/src/main/resources/org/languagetool/rules"
+if [[ $response == "404" || $response == "500" ]]; then
+  path_new="http://sourceforge.net/p/languagetool/code/HEAD/tree/tags/$2/src/main/resources/org/languagetool/rules"
   response=`curl -o /dev/null --silent --head --write-out '%{http_code}\n' $path_new`
-  if [ $response == "404" ]; then
-    path_new="http://languagetool.svn.sourceforge.net/viewvc/languagetool/tags/$2/src/rules"
+  if [[ $response == "404" || $response == "500" ]]; then
+    path_new="http://sourceforge.net/p/languagetool/code/HEAD/tree/tags/$2/src/rules"
   fi
 fi
 
@@ -85,8 +85,8 @@ do
   
   m_path_old=`echo $path_old | sed -e "s|/en/|/$l_base/|g"`
   m_path_new=`echo $path_new | sed -e "s|/en/|/$l_base/|g"`
-  wget $m_path_old/$l/grammar.xml -O old
-  wget $m_path_new/$l/grammar.xml -O new
+  wget $m_path_old/$l/grammar.xml?format=raw -O old
+  wget $m_path_new/$l/grammar.xml?format=raw -O new
   
   # remove xml comments
   gawk -v RS='<!--|-->' 'NR%2' old > old~
