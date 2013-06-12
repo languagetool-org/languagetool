@@ -4577,6 +4577,25 @@ $Id$
     <!-- ====================================================================== -->
     <category name="Falschschreibung prominenter/geographischer Eigennamen">
         <!-- geographische Namen u. ä. -->
+        <rulegroup id="RHEINLAND_FALZ" name="Eigenname: 'Rheinland-Falz(Pfalz)'">
+            <rule>
+                <pattern>
+                    <token>Rheinland-Falz</token>
+                </pattern>
+                <message>Meinten Sie das Bundesland <suggestion>Rheinland-Pfalz</suggestion>?</message>
+                <example type="correct">Mainz liegt in <marker>Rheinland-Pfalz</marker>.</example>
+                <example type="incorrect" correction="Rheinland-Pfalz">Mainz liegt in <marker>Rheinland-Falz</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>Rheinland</token>
+                    <token>Falz</token>
+                </pattern>
+                <message>Meinten Sie das Bundesland <suggestion>Rheinland-Pfalz</suggestion>?</message>
+                <example type="correct">Mainz liegt in <marker>Rheinland-Pfalz</marker>.</example>
+                <example type="incorrect" correction="Rheinland-Pfalz">Mainz liegt in <marker>Rheinland Falz</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="JUECHEN_JUELICH" name="Eigenname: 'Forschungszentrum Jüchen (Jülich)'">
             <pattern>
                 <token regexp="yes" skip="1">.*forschungszentrums?</token>
