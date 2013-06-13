@@ -121,6 +121,7 @@ $Id$
  182      False positive in 'ai peccati' suggests 'hai'
  181	  Don't apply word repetition rule on 'via via' and 'così così'
  180	  Fix some false positives in al for la 
+ PB013	  Added ma però rule
  ======== ==================================================================================
 -->
 
@@ -1064,6 +1065,18 @@ $Id$
         <!-- PB004- -->
 
         <rulegroup name="pleonasmi" id="ST_01_003">
+<!-- PB0013 + -->
+            <!-- ma però grazie Valerio Summo per il suggerimento-->
+			<rule>
+				<pattern>
+					<token>ma</token>
+					<token>però</token>
+				</pattern>
+				<message>Ma e però non possono essere usati insieme.</message>
+				<example type="incorrect">Sono arrivato <marker>ma però</marker> me ne vado subito.</example>
+				<example type="correct">Sono arrivato però me ne vado subito.</example>
+			</rule>
+<!-- PB0013 -->            
             <!-- a me mi -->
             <rule>
                 <pattern case_sensitive="no">
