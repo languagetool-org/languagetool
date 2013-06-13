@@ -39,6 +39,9 @@ public class UkrainianWordTokenizerTest extends TestCase {
 
     testList = w.tokenize("Засідав І.П.Єрмолюк.");
     assertEquals(Arrays.asList("Засідав", " ", "І", ".", "П", ".", "Єрмолюк", "."), testList);
+
+    testList = w.tokenize("надійшло 2,2 мільйона");
+    assertEquals(Arrays.asList("надійшло", " ", "2,2", " ", "мільйона"), testList);
   }
 
 }
