@@ -64,7 +64,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
   }
 
   private static String substitute(String text) {
-    return DECIMAL_COMMA_PATTERN.matcher(text).replaceAll("$1"+DECIMAL_COMMA_SUBST+"2");
+    return DECIMAL_COMMA_PATTERN.matcher(text).replaceAll("$1"+DECIMAL_COMMA_SUBST+"$2");
   }
 
   private static String clean(String token) {
