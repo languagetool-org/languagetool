@@ -5,6 +5,10 @@
 Catalan Disambiguation Rules for LanguageTool
 Copyright (C) 2012 Jaume Ortolà i Font
 -->
+
+<!DOCTYPE rules [
+    <!ENTITY exceptions_QUE_COMPARATIU "pretensió|algun|objectiu|vocació|missió|sortida|eixida|alternativa|recurs|remei|solució|opció|camí">    
+]>
 <rules lang="ca" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <unification feature="nombre">
         <equivalence type="S">
@@ -1433,7 +1437,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <token>déu</token>
                 <marker>
-                    <token>pare</token>
+                    <token regexp="yes">pare|fill|esperit</token>
                 </marker>
             </pattern>
             <disambig action="filter" postag="AQ0MS0" />
@@ -1465,6 +1469,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
             </pattern>
             <disambig action="filter" postag="AQ0CN0" />
+        </rule>
+        <rule>
+            <pattern>
+                <token>pantalons</token>
+                <marker>
+                    <token>bombatxos</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="AQ0MP0" />
         </rule>
         <rule>
             <pattern>
@@ -5350,7 +5363,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                         </and>
                     </marker>
                 </unify>
-                <token inflected="yes">de</token>
+                <token regexp="yes">de|d'</token>
             </pattern>
             <disambig action="filter" postag="N.*"></disambig>
         </rule>
@@ -5363,14 +5376,14 @@ Copyright (C) 2012 Jaume Ortolà i Font
                         <token postag="NC.*" postag_regexp="yes"></token>
                     </and>
                 </marker>
-                <token inflected="yes">de</token>
+                <token regexp="yes">de|d'</token>
             </pattern>
             <disambig action="filter" postag="N.*"></disambig>
         </rule>
         <rule id="objecte_de" name="objecte de"><!-- es pot generalitzar? -->
             <pattern>
                 <marker>
-                    <token>objecte</token>
+                    <token regexp="yes">objectes?|creus?</token>
                 </marker>
                 <token regexp="yes">de|d'</token>
             </pattern> 
@@ -5541,8 +5554,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="[^N].*"></disambig> <!-- sobre -->
     </rule>
-    <rule id="nom_nomverb2" name="nom + adv + verb/nom">
-        <pattern> <!-- el seu disseny també queda -->
+    <!-- el seu disseny també queda 
+        Però: posar en explotació prou terres-->
+    <!--<rule id="nom_nomverb2" name="nom + adv + verb/nom">
+        <pattern> 
             <token postag="N.*" postag_regexp="yes"><exception postag="V.*|D.*|A.*|V.P.*|_GV_|C.*|RG.*|complement" postag_regexp="yes" /></token> 
             <token postag="RG_anteposat"/>
             <marker>
@@ -5552,8 +5567,8 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </and>
             </marker>
         </pattern>
-        <disambig action="filter" postag="[^N].*"></disambig> <!-- sobre -->
-    </rule>
+        <disambig action="filter" postag="[^N].*"></disambig> 
+    </rule>--><!-- sobre -->
     <rule id="nomverb_nom" name="nom + verb/nom">
         <pattern>
             <token><exception postag="SPS00|D[DI].*" postag_regexp="yes"/></token>
@@ -5648,7 +5663,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <pattern>
             <marker>
                 <and>
-                    <token postag="N.*" postag_regexp="yes" regexp="yes">baixa|porto|troba|trobes|fan|ara|esper|vau|he|deixa|deixes|sap|pren|allò|breu|sec|personal|creu|cau|fou|crec|davant|darrere|damunt|davall|sota|ve|tornés|seré|estic|som|sou|amples?|creix|fem|res|si|bé|perquè|però|dins|real|era|eres|dius?<exception postag="_GN.*" postag_regexp="yes" /></token>
+                    <token postag="N.*" postag_regexp="yes" regexp="yes">queda|baixa|porto|troba|trobes|fan|ara|esper|vau|he|deixa|deixes|sap|pren|allò|breu|sec|personal|creu|cau|fou|crec|davant|darrere|damunt|davall|sota|ve|tornés|seré|estic|som|sou|amples?|creix|fem|res|si|bé|perquè|però|dins|real|era|eres|dius?<exception postag="_GN.*" postag_regexp="yes" /></token>
                     <token postag="N.*" postag_regexp="yes" negate_pos="yes"></token>
                 </and>
             </marker>
@@ -6928,6 +6943,20 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="RG.*"></disambig>
     </rule>
+    <rule id="siVerbBalear" name="sí verb balear"> <!-- el calç-->
+        <pattern>
+            <token postag="_GV_"/>
+            <marker>
+                <and>
+                    <token postag="VMIP1S0B"/>
+                    <token postag="N.*|A.*" postag_regexp="yes"><exception postag="_GN_.*|RG" postag_regexp="yes"/></token>
+                    <token postag="_GV_" postag_regexp="yes"/>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="V.*|_GV_"></disambig>
+    </rule>
+    <!--<exception regexp="yes">.+[oe]|faig|estic|dic|fenc|incloc|moc|predic|ric|sec|solc|coc|contradic|crec|duc|escórrec|hac|jac</exception>-->
     <rulegroup id="noVerbBalear" name="no verb balear">
         <!-- No és verb balear, si no hi ha res que ho hagi indicat prèviament -->
         <rule>
@@ -6945,14 +6974,14 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <marker>
                     <and>
-                        <token postag="VMIP1S0B"><exception regexp="yes">.+[oe]|faig|estic|dic|fenc|incloc|moc|predic|ric|sec|solc|coc|contradic|crec|duc|escórrec|hac|jac</exception></token>
+                        <token postag="VMIP1S0B"/>
                         <token postag="N.*|A.*" postag_regexp="yes"></token>
-                        <token postag="V...[^1].*" postag_regexp="yes" negate_pos="yes"></token>
+                        <!--<token postag="V...[^1].*" postag_regexp="yes" negate_pos="yes"></token>-->
                     </and>
                 </marker>
             </pattern>
             <disambig action="remove"><wd pos="VMIP1S0B"></wd></disambig>
-        </rule>
+        </rule>   
         <rule>
             <pattern>
                 <marker>
@@ -7640,6 +7669,18 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="N.*|A.*|V.P.*"></disambig>
     </rule> 
+    <rule id="PrepNom_llevat" name="preposició o nom: llevat"> <!-- potser no és prep.: cap  -->
+        <pattern>
+            <marker>
+                <and>
+                    <token postag="SPS.*" postag_regexp="yes">llevat</token>
+                    <token postag="N.*" postag_regexp="yes"></token>
+                </and>
+            </marker>
+            <token><exception regexp="yes">això|de|d'</exception></token>
+        </pattern>
+        <disambig action="filter" postag="[^S].*"></disambig>
+    </rule>
     <rule id="PrepNom" name="preposició + nom: prep. Ex: contra"> <!-- potser no és prep.: cap  -->
         <pattern>
             <marker>
@@ -8688,7 +8729,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
          -->       
         <rule>
             <pattern>
-                <token inflected="yes" regexp="yes" skip="5">tenir|trobar<exception scope="next" inflected="yes" regexp="yes">algun|objectiu|vocació|missió|sortida|eixida|alternativa|recurs|remei|solució|opció|camí</exception></token>
+                <token inflected="yes" regexp="yes" skip="5">tenir|trobar<exception scope="next" inflected="yes" regexp="yes">&exceptions_QUE_COMPARATIU;</exception></token>
                 <marker>
                     <token>que</token>
                 </marker>
@@ -8698,7 +8739,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token inflected="yes" regexp="yes" skip="5">tenir|trobar<exception scope="next" inflected="yes" regexp="yes">algun|objectiu|vocació|missió|sortida|eixida|alternativa|recurs|remei|solució|opció|camí</exception></token>
+                <token inflected="yes" regexp="yes" skip="5">tenir|trobar<exception scope="next" inflected="yes" regexp="yes">&exceptions_QUE_COMPARATIU;</exception></token>
                 <marker>
                     <token>que</token>
                 </marker>
@@ -8709,7 +8750,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <token skip="1">hi</token>
-                <token inflected="yes" skip="5">haver<exception scope="next" inflected="yes" regexp="yes">algun|objectiu|vocació|missió|sortida|eixida|alternativa|recurs|remei|solució|opció|camí</exception></token>
+                <token inflected="yes" skip="5">haver<exception scope="next" inflected="yes" regexp="yes">&exceptions_QUE_COMPARATIU;</exception></token>
                 <marker>
                     <token>que</token>
                 </marker>
@@ -8720,7 +8761,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <token inflected="yes">haver</token>
-                <token skip="5">-hi<exception scope="next" inflected="yes" regexp="yes">algun|objectiu|vocació|sortida|eixida|alternativa|recurs|remei|solució|opció|camí</exception></token>
+                <token skip="5">-hi<exception scope="next" inflected="yes" regexp="yes">&exceptions_QUE_COMPARATIU;</exception></token>
                 <marker>
                     <token>que</token>
                 </marker>
@@ -8879,7 +8920,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token regexp="yes">equivalent|part|comparació|diferents?|distint(s|a|es)?|nord|sud|oest|est|centre|doble|triple|precedent|millor|contraris?</token>
+                <token regexp="yes">.*%|equivalent|part|comparació|diferents?|distint(s|a|es)?|nord|sud|oest|est|centre|doble|triple|precedent|millor|contraris?</token>
                 <marker>
                     <token>de</token>
                 </marker>
