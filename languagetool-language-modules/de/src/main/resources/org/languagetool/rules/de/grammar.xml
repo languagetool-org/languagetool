@@ -153,6 +153,32 @@ $Id$
                 <example type="correct">Im <marker>Schreiben</marker> vom 3.6.2013 wurde diese Tatsache nicht erwähnt.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="REIZ_MICH" name="Möglicher Tippfehler: 'es reiz (reizt) mich'">
+            <rule>
+                <pattern>
+                    <token postag=".*NOM.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>reiz</token>
+                    </marker>
+                    <token regexp="yes">mich|dich|ihn|sie|es|uns|euch</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>reizt</suggestion>?</message>
+                <example type="incorrect" correction="reizt">Dies <marker>reiz</marker> mich an der Arbeit eines Wirtschaftsinformatikers.</example>
+                <example type="correct">Dies <marker>reizt</marker> mich an der Arbeit eines Wirtschaftsinformatikers.</example>
+                <example type="correct"><marker>Reiz</marker> mich nicht!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">mich|dich|ihn|sie|es|uns|euch</token>
+                    <marker>
+                        <token>reiz</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>reizt</suggestion>?</message>
+                <example type="incorrect" correction="reizt">Mich <marker>reiz</marker> Folgendes an der Arbeit eines Wirtschaftsinformatikers.</example>
+                <example type="correct">Mich <marker>reizt</marker> Folgendes an der Arbeit eines Wirtschaftsinformatikers.</example>
+            </rule>
+        </rulegroup>
         <rule id="UM_UM" name="Möglicher Tippfehler: 'um gestern um 12 Uhr'">
             <pattern>
                 <token postag="VER.*" postag_regexp="yes" skip="1"><exception scope="next" regexp="yes">,|oder|und</exception></token>
@@ -6708,7 +6734,7 @@ $Id$
         </rule>
         <rule id="DAS_SELBE" name="Zusammen-/Getrenntschreibung: 'das selbe (dasselbe)' etc.">
             <pattern case_sensitive="no">
-                <token regexp="yes">(der|die|das|des|dem|den)</token>
+                <token regexp="yes">der|die|das|des|dem|den</token>
                 <token regexp="yes">selbe(n)?</token>
             </pattern>
             <message><suggestion>\1<match no="2" case_conversion="startlower"/></suggestion> wird zusammengeschrieben.</message>
@@ -9699,6 +9725,17 @@ $Id$
                 <example type="correct">Mit freundlichen <marker>Grüßen</marker></example>
                 <example correction="Grüßen" type="incorrect">Mit freundlichen <marker>Grüße</marker></example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>Viel</token>
+                    </marker>
+                    <token>Grüße</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Viele</suggestion> Grüße?</message>
+                <example type="correct"><marker>Viele</marker> Grüße</example>
+                <example correction="Viele" type="incorrect"><marker>Viel</marker> Grüße</example>
+            </rule>
         </rulegroup>
         <rulegroup id="ANREDE" name="Möglicher Tippfehler: 'Sehr geehrte (geehrter) Herr Müller' u.ä.">
             <rule>
@@ -9857,7 +9894,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">(Herz|Freund)liche|Liebe</token>
+                    <token regexp="yes">(Herz|Freund)liche|Liebe|Viele</token>
                     <marker>
                         <token>grüße</token>
                     </marker>
@@ -9865,6 +9902,7 @@ $Id$
                 <message>Meinten Sie <suggestion>Grüße</suggestion>?</message>
                 <example type="correct">Herzliche <marker>Grüße</marker></example>
                 <example type="incorrect" correction="Grüße">Herzliche <marker>grüße</marker></example>
+                <example type="incorrect" correction="Grüße">Viele <marker>grüße</marker></example>
             </rule>
         </rulegroup>
         <rulegroup id="VERBLEIBEN_WIR" name="Stil: 'verbleibe ich' (altmodische Formel)" default="off">
@@ -10037,20 +10075,37 @@ $Id$
                 <example type="incorrect" correction="Sie">Wenn <marker>sie</marker> wollen ...</example>
             </rule>
         </rulegroup>
-        <rule id="MIT_FREUNDLICHEN_GRUESSEN_KOMMA" name="Zeichensetzung: Falsches Satzzeichen nach 'Mit freundlichen Grüßen'">
-            <pattern>
-                <token postag="SENT_START"/>
-                <token>Mit</token>
-                <token>freundlichen</token>
-                <token>Grüßen</token>
-                <token regexp="yes">(,|\.|:|\!|;)</token>
-            </pattern>
-            <message>Nach der Grußformel <suggestion>Mit freundlichen Grüßen</suggestion> steht laut Empfehlung des Duden kein Satzzeichen.</message>
-            <url>http://de.wikipedia.org/wiki/Gru%C3%9Fformel_(Korrespondenz)#Allgemeine_Gru.C3.9Fformeln</url>
-            <short>Nach der Schlussformel sollte kein Satzzeichen stehen.</short>
-            <example type="correct"><marker>Mit freundlichen Grüßen</marker></example>
-            <example correction="Mit freundlichen Grüßen" type="incorrect"><marker>Mit freundlichen Grüßen,</marker></example>
-        </rule>
+        <rulegroup id="MIT_FREUNDLICHEN_GRUESSEN_KOMMA" name="Zeichensetzung: Falsches Satzzeichen nach 'Mit freundlichen Grüßen' etc.">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token>Mit</token>
+                    <token regexp="yes">freundliche[mn]|beste[nm]|schöne[nm]</token>
+                    <token regexp="yes">Grüßen|Gruße?</token>
+                    <token regexp="yes">,|\.|:|\!|;</token>
+                </pattern>
+                <message>Nach der Grußformel <suggestion>Mit \3 \4</suggestion> steht laut Empfehlung des Duden kein Satzzeichen.</message>
+                <url>http://de.wikipedia.org/wiki/Gru%C3%9Fformel_(Korrespondenz)#Allgemeine_Gru.C3.9Fformeln</url>
+                <short>Nach der Schlussformel sollte kein Satzzeichen stehen.</short>
+                <example type="correct"><marker>Mit freundlichen Grüßen</marker></example>
+                <example type="correct"><marker>Mit freundlichem Gruß</marker></example>
+                <example correction="Mit freundlichen Grüßen" type="incorrect"><marker>Mit freundlichen Grüßen,</marker></example>
+                <example correction="Mit freundlichem Gruß" type="incorrect"><marker>Mit freundlichem Gruß,</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes">Viele|Freundliche|Beste</token>
+                    <token>Grüße</token>
+                    <token regexp="yes">,|\.|:|\!|;</token>
+                </pattern>
+                <message>Nach der Grußformel <suggestion>\2 \3</suggestion> steht laut Empfehlung des Duden kein Satzzeichen.</message>
+                <url>http://de.wikipedia.org/wiki/Gru%C3%9Fformel_(Korrespondenz)#Allgemeine_Gru.C3.9Fformeln</url>
+                <short>Nach der Schlussformel sollte kein Satzzeichen stehen.</short>
+                <example type="correct"><marker>Viele Grüße</marker></example>
+                <example correction="Viele Grüße" type="incorrect"><marker>Viele Grüße,</marker></example>
+            </rule>
+        </rulegroup>
         <rule id="ANREDE_KOMMA" name="Zeichensetzung: Fehlendes Komma nach der Anrede">
             <!-- TODO not triggered if there is no punctuation mark at all -->
             <pattern case_sensitive="yes">
@@ -24932,7 +24987,7 @@ $Id$
                 <pattern case_sensitive="yes">
                     <token regexp="yes">z|Z</token>
                     <token spacebefore="no">.</token>
-                    <token regexp="yes">B|K|Zt|Hd?<exception scope="previous">&nbsp;|&nnbsp;|&thinsp;</exception></token>
+                    <token regexp="yes">B|K|T|Zt|Hd?<exception scope="previous">&nbsp;|&nnbsp;|&thinsp;</exception></token>
                     <token spacebefore="no">.</token>
                 </pattern>
                 <message>&glalong;<suggestion>\1\2&nbsp;\3\4</suggestion>&glalongende;</message>
@@ -24940,6 +24995,7 @@ $Id$
                 <short>&gla;</short>
                 <example type="correct">Das ist z.&nbsp;B. richtig.</example>
                 <example type="incorrect" correction="z.&nbsp;B.">Das ist <marker>z.B.</marker> falsch.</example>
+                <example type="incorrect" correction="z.&nbsp;T.">Das ist <marker>z.T.</marker> falsch.</example>
                 <example type="incorrect" correction="z.&nbsp;B.">Das ist <marker>z. B.</marker> auch nicht gut.</example>
             </rule>
             <rule>

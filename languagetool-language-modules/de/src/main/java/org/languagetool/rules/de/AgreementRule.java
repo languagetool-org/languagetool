@@ -201,7 +201,8 @@ public class AgreementRule extends GermanRule {
       }
       
       // avoid false alarm on "nichts Gutes" and "alles Gute"
-      if (analyzedToken.getToken().equals("nichts") || analyzedToken.getToken().equals("alles")) {
+      if (analyzedToken.getToken().equals("nichts") || analyzedToken.getToken().equals("alles")
+          || analyzedToken.getToken().equals("dies")) {
         ignore = true;
       }
 
