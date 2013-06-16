@@ -3218,6 +3218,20 @@ $Id$
     <!-- ====================================================================== -->
     <category name="Leicht zu verwechselnde Wörter">
         <!-- TODO emphatisch/empathisch -->
+        <rule id="SPAET_JEMANDEN_AUS" name="Mögliche Wortverwechslung: spät (späht) jemanden aus">
+            <pattern>
+                <token negate="yes">zu</token>
+                <marker>
+                    <token>spät</token>
+                </marker>
+                <token regexp="yes">mich|dich|uns|jemanden</token>
+                <token>aus</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>späht</suggestion> (Form von spähen)?</message>
+            <example type="incorrect">Google <marker>spät</marker> mich aus.</example>
+            <example type="correct">Google späht mich aus.</example>
+            <example type="correct">Aber es war auch bereits zu spät mich anders zu entscheiden.</example>
+        </rule>
         <rule id="DEZIDIERTER_SERVER" name="Mögliche Wortverwechslung: 'dezidierter(dedizierter) Server'">
            <pattern case_sensitive="yes">
                 <marker>
