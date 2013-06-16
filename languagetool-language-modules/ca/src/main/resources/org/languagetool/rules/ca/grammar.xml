@@ -4746,34 +4746,58 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
-            <rule id="DARRERE" name="d'arrere">
-                <pattern>
-                    <token>d'</token>
-                    <token>arrere</token>
-                </pattern>
-                <message>¿Volíeu dir <suggestion>darrere</suggestion>?</message>
-                <example type="incorrect"><marker>d'arrere</marker></example>
-                <example type="correct">darrere</example>
-            </rule>
-            <rule id="INGENI_ENGINY_GINY" name="ingeni/enginy/giny">
-                <pattern>
-                    <token regexp="yes">ingenis?</token>
-                </pattern>
-                <message>Possible confusió. "Ingeni" només és correcte en el sentit de "plantació de canya de sucre".</message>
-                    <suggestion><match no="1" regexp_match="ingeni(s?)" regexp_replace="enginy$1"/></suggestion>
-                    <suggestion><match no="1" regexp_match="ingeni(s?)" regexp_replace="giny$1"/></suggestion>
-                <short>Possible confusió</short>    
-                <example type="incorrect" correction="enginy|giny"><marker>ingeni</marker></example>
-                <example type="correct">enginy</example>
-            </rule>
-            <rule id="DOLAR" name="dolar">
-                <pattern>
-                    <token>dolar</token>
-                </pattern>
-                <message>¿Volíeu dir <suggestion>dòlar</suggestion> (moneda) en comptes de "dolar" (verb poc usual)?</message>
-                <example type="incorrect"><marker>dolar</marker></example>
-                <example type="correct">dòlar</example>
-            </rule>
+        <rule id="CONTRA_DE" name="contra de/en contra de">
+            <pattern>
+                <token><exception>en</exception></token>
+                <marker>
+                    <token>contra</token>
+                </marker>
+                <token inflected="yes">de</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>en contra</suggestion>?</message>
+            <example type="incorrect" correction="en contra">Ell està <marker>contra</marker> de l'oficialitat.</example>
+            <example type="correct">En contra de tots.</example>
+        </rule>
+        <rule id="CONSEQUENT_CONSEGUENT" name="conseqüent/consegüent">
+            <pattern>
+                <token postag="D[^R].*" postag_regexp="yes"/>
+                <marker>
+                    <token inflected="yes">conseqüent</token>
+                </marker>
+                <token postag="NC.*" postag_regexp="yes"/>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="2" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">consegüent</match></suggestion> (= que segueix) en comptes de "conseqüent" (= que té conseqüència lògica)?</message>
+            <example type="incorrect" correction="consegüent">i del <marker>conseqüent</marker> debat.</example>
+            <example type="correct">Del consegüent debat</example>
+        </rule>
+        <rule id="DARRERE" name="d'arrere">
+            <pattern>
+                <token>d'</token>
+                <token>arrere</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>darrere</suggestion>?</message>
+            <example type="incorrect"><marker>d'arrere</marker></example>
+            <example type="correct">darrere</example>
+        </rule>
+        <rule id="INGENI_ENGINY_GINY" name="ingeni/enginy/giny">
+            <pattern>
+                <token regexp="yes">ingenis?</token>
+            </pattern>
+            <message>Possible confusió. "Ingeni" només és correcte en el sentit de "plantació de canya de sucre".</message>
+                <suggestion><match no="1" regexp_match="ingeni(s?)" regexp_replace="enginy$1"/></suggestion>
+                <suggestion><match no="1" regexp_match="ingeni(s?)" regexp_replace="giny$1"/></suggestion>
+            <short>Possible confusió</short>    
+            <example type="incorrect" correction="enginy|giny"><marker>ingeni</marker></example>
+            <example type="correct">enginy</example>
+        </rule>
+        <rule id="DOLAR" name="dolar">
+            <pattern>
+                <token>dolar</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>dòlar</suggestion> (moneda) en comptes de "dolar" (verb poc usual)?</message>
+            <example type="incorrect"><marker>dolar</marker></example>
+            <example type="correct">dòlar</example>
+        </rule>
         <rule id="VESAR" name="vesar/avesar/vessar">
             <pattern>
                 <token inflected="yes">vesar</token>
@@ -6611,9 +6635,9 @@ $Id$
         </rulegroup>
         <rulegroup id="DUES_PREPOSICIONS" name="Dues preposicions: a amb">
             <rule>
-                <pattern>
-                    <token postag="SPS00" regexp="yes">(?-i)a|per|Per</token> 
-                    <token postag="SPS00" regexp="yes">(?-i)amb|per?|des|de</token>
+                <pattern case_sensitive="yes">
+                    <token postag="SPS00" regexp="yes">a|per|Per</token> 
+                    <token postag="SPS00" regexp="yes">amb|per?|des|de</token>
                 </pattern>
                 <message>Combinació impossible de preposicions.</message>
                 <suggestion><match no="2"/></suggestion>
@@ -7432,7 +7456,7 @@ $Id$
     		<rule>
 			    <pattern>
 			    	<marker>
-				        <token regexp="yes">ja|fins</token>
+				        <token regexp="yes">ja|fins|més</token>
 				        <token>què</token>
 			        </marker>
 			        <token><exception postag="SENT_END|_PUNCT.*|V.N.*" postag_regexp="yes"/></token>
@@ -7440,6 +7464,7 @@ $Id$
 			    <message>Cal escriure <suggestion><match no="1"/> que</suggestion>.</message>
 			    <short>Diacrític</short>
 			    <example type="incorrect" correction="ja que"><marker>ja què</marker> són així</example>
+			    <example type="incorrect" correction="més que">La <marker>més què</marker> probable reelecció.</example>
 			    <example type="correct">ja que</example>
 			    <example type="correct">No saben ja què fer.</example>
 			</rule>
@@ -7477,7 +7502,7 @@ $Id$
             <!-- Cal estudiar "que el feu". Mirar que no hi hagi cap verb ni pronom de 2P abans. "que el feu famós"... -->
             <rule>
                 <pattern>
-                    <token skip="1" postag="P0300000|PP3.S000|_GN_.S|N..S.*|_PUNCT.*" postag_regexp="yes"><exception postag="D.0MS0|PX3MS0C0|DP3CSP|complement.*" postag_regexp="yes"/><exception scope="next" postag="_PUNCT.*|CC|CS" postag_regexp="yes"/></token>
+                    <token skip="1" postag="P0300000|PP3.S000|_GN_.S|N..S.*" postag_regexp="yes"><exception postag="D.0MS0|PX3MS0C0|DP3CSP|complement.*" postag_regexp="yes"/><exception scope="next" postag="_PUNCT.*|CC|CS" postag_regexp="yes"/></token>
                     <marker>
                         <token>feu</token>
                     </marker>
@@ -12176,7 +12201,7 @@ $Id$
         <rule id="A_BEN_SEGUR" name="a ben segur">
             <pattern>
                 <token>a</token>
-                <token>ben</token>
+                <token regexp="yes">ben|bon</token>
                 <token>segur</token>
             </pattern>
             <message>Expressió incorrecta.</message>
@@ -19924,7 +19949,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">vostés?|allén|atés|Filomé|Godofré|Josués?|Manfré|Mercés?</token> <!-- atés que: loc_conj en disambiguation -->
+                    <token regexp="yes">vostés?|allén|atés|Filomé|Godofré|Josués?|Manfré|Mercés?|Jahvé</token> <!-- atés que: loc_conj en disambiguation -->
                 </pattern>
                 <message>Useu accentuació general.</message>
                 <suggestion><match no="1" regexp_match="^(.+)é(n|s)?" regexp_replace="$1è$2"></match></suggestion>
