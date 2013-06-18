@@ -12249,30 +12249,44 @@ $Id$
             <example type="incorrect">em llevo d'hora <marker>a diari</marker>.</example>
             <example type="correct">em llevo d'hora <marker>cada dia</marker></example>
         </rule>
-        <rule id="A_ESQUENES_DE" name="a esquenes de">
-            <pattern>
-                <token>a</token>
-                <token>esquenes</token>
-                <token regexp="yes">de|d'</token>
-            </pattern>
-            <message>Expressió incorrecta.</message>
-            <suggestion>a l'esquena <match no="3"></match></suggestion>
-            <suggestion>a esquena <match no="3"></match></suggestion>
-            <short>Expressió incorrecta</short>
-            <example type="incorrect">Això ho has fet <marker>a esquenes de</marker> ton pare</example>
-            <example type="correct">Això ho has fet <marker>a l'esquena de</marker> ton pare</example>
-        </rule>
-        <rule id="DESQUENES_A" name="d'esquenes a">
-            <pattern>
-                <token>d'</token>
-                <token>esquenes</token>
-                <token>a</token>
-            </pattern>
-            <message>Expressió incorrecta.</message>
-            <suggestion>d'esquena a</suggestion>
-            <example type="incorrect"><marker>d'esquenes a</marker></example>
-            <example type="correct">d'esquena a</example>
-        </rule>
+        <rulegroup id="ESQUENES" name="a esquenes de">
+            <rule>
+                <pattern>
+                    <token>a</token>
+                    <token>esquenes</token>
+                    <token regexp="yes">de|d'</token>
+                </pattern>
+                <message>Expressió incorrecta.</message>
+                <suggestion>a l'esquena <match no="3"></match></suggestion>
+                <suggestion>a esquena <match no="3"></match></suggestion>
+                <short>Expressió incorrecta</short>
+                <example type="incorrect">Això ho has fet <marker>a esquenes de</marker> ton pare</example>
+                <example type="correct">Això ho has fet <marker>a l'esquena de</marker> ton pare</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>d'</token>
+                    <token>esquenes</token>
+                    <token>a</token>
+                </pattern>
+                <message>Expressió incorrecta.</message>
+                <suggestion>d'esquena a</suggestion>
+                <example type="incorrect"><marker>d'esquenes a</marker></example>
+                <example type="correct">d'esquena a</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>a</token>
+                    <token skip="1">les</token>
+                    <token>esquenes</token>
+                </pattern>
+                <message>Expressió probablement incorrecta. "Esquena" sol usar-se un singular.</message>
+                <suggestion>d'esquena a</suggestion>
+                <short>Expressió incorrecta</short>
+                <example type="incorrect">El tenim <marker>a les nostres esquenes</marker></example>
+                <example type="correct">El tenim a l'esquena</example>
+            </rule>
+        </rulegroup>    
         <rule id="A_LIGUAL_QUE" name="a l'igual que">
             <pattern>
                 <token>a</token>
