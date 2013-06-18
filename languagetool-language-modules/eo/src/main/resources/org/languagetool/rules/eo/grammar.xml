@@ -200,14 +200,16 @@ $Id$
     <rulegroup id="AKCENTO_AKCXENTO" name="ankcento kaj akĉento">
       <rule>
         <pattern>
-          <token inflected="yes" regexp="yes" skip="1">angla|araba|bela|bretona|ĉarma|diversa|loka|fremda|fremdlanda|franca|germana|hebrea|itala|hispana|irlanda|japana|portugala|rusa|skota|usona|[lmnŝv]ian|terura|havi|[mvlŝn]ia</token>
+          <token inflected="yes" regexp="yes" skip="1">angla|araba|bela|bretona|ĉarma|diversa|loka|fremda|fremdlanda|franca|germana|hebrea|hinda|hispana|itala|hispana|irlanda|itala|japana|nederlanda|pola|portugala|rusa|skota|usona|[lmnŝv]ian|terura|havi|[mvlŝn]ia</token>
           <marker>
             <token inflected="yes">akcento</token>
           </marker>
+          <token><exception regexp="yes">sur|en</exception></token>
         </pattern>
         <message>Laŭ la kunteksto, ŝajnas ke vi intencis diri <suggestion><match no="2" regexp_match="c" regexp_replace="ĉ"/></suggestion>.</message>
         <example type="incorrect" correction="akĉenton">Ŝi havas fortan francan <marker>akcenton</marker>.</example>
         <example type="correct">Ŝi havas fortan francan akĉenton.</example>
+        <example type="correct">La vorto havas akcenton sur la antaŭlasta silabo.</example>
       </rule>
       <rule>
         <pattern>
@@ -455,7 +457,8 @@ $Id$
       <pattern>
         <token inflected="yes">deflankiĝi</token>
       </pattern>
-      <message>«\1» estas evitinda. Preferu <suggestion>forflankiĝi</suggestion>.</message>
+      <message>Laŭ ReVo, «\1» estas evitinda. Preferu <suggestion>forflankiĝi</suggestion>.</message>
+      <url>http://www.reta-vortaro.de/revo/art/flank.html#flank.de0igxi</url>
       <example type="incorrect">Mi devis <marker>deflankiĝi</marker>.</example>
       <example type="correct">Mi devis <marker>forflankiĝi</marker>.</example>
     </rule>
@@ -1921,6 +1924,7 @@ $Id$
       <example type="correct">Kion vi konsideras vera?</example>
       <example type="correct">Li loĝas tie sola.</example>
       <example type="correct">Mi trovas tion inteligenta.</example>
+      <example type="correct">Ni havis maltro por manĝi.</example>
     </rule>
     <rule id="NAK_NAK_VTR" name="mankanta akuzativo">
       <pattern>
