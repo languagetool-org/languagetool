@@ -108,6 +108,55 @@ $Id$
             <example type="correct"><marker>Ihm</marker> folgt Merkel.</example>
             <example type="correct"><marker>Im<marker> gleichen T-Shirt sah er besser aus.</example>
         </rule>-->
+        <rulegroup id="DAR_DER" name="Möglicher Tippfehler: 'dar (der)'">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>dar</token>
+                    </marker>
+                    <token postag_regexp="yes" postag=".*(NOM:SIN:MAS|GEN:SIN:(FEM|NEU)|DAT:SIN:FEM).*"/>
+                </pattern>
+                <message>Meinten Sie <suggestion>der</suggestion>?</message>
+                <short>Möglicher Tippfehler</short>
+                <example type="incorrect" correction="Der"><marker>Dar</marker> Betrag muss bis Sonntag überwiesen werden.</example>
+                <example type="correct"><marker>Der</marker> Betrag muss bis Sonntag überwiesen werden.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="DA_DAS" name="Möglicher Tippfehler: 'da (das)'">
+            <rule>
+                <pattern>
+                    <token regexp="yes">an|auf|durch|für|gegen|über</token>
+                    <marker>
+                        <token skip="1">da</token>
+                    </marker>
+                    <token postag_regexp="yes" postag=".*(NOM|AKK):SIN:NEU.*"/>
+                    <token postag_regexp="yes" postag=".*(NOM|AKK):SIN:NEU.*|VER:(PA)?[123].*"/>
+                </pattern>
+                <message>Meinten Sie <suggestion>das</suggestion>?</message>
+                <short>Möglicher Tippfehler</short>
+                <example type="incorrect" correction="das">Ich habe die Bettwäsche auf <marker>da</marker> Bett gelegt.</example>
+                <example type="incorrect" correction="das">Dieses Puzzleteil wird dann an <marker>da</marker> gelegte Teil angelegt.</example>
+                <example type="incorrect" correction="das">Dieses Puzzleteil wird dann an <marker>da</marker> zuletzt gelegte Teil angelegt.</example>
+                <example type="correct">Dieses Puzzleteil wird dann an <marker>das</marker> gelegte Teil angelegt.</example>
+                <example type="correct">Dieses Puzzleteil wird dann an <marker>da</marker> abgelegte Teile angelegt.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="KLEINSCHREIBEN_UNG" name="Möglicher Tippfehler: 'unter Beachtung von Kleinschreiben (Kleinschreibung)' etc.">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">Beachtung|Berücksichtigung</token>
+                    <token skip="2">von</token>
+                    <marker>
+                        <token regexp="yes">(Klein|Groß|Zusammen|Getrennt)schreiben</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="3" regexp_match="ben" regexp_replace="bung"/></suggestion>?</message>
+                <short>Möglicher Tippfehler</short>
+                <example type="incorrect" correction="Kleinschreibung">Sortierung unter Beachtung von Groß- und <marker>Kleinschreiben</marker> ist notwendig.</example>
+                <example type="correct">Sortierung unter Beachtung von Groß- und <marker>Kleinschreibung</marker> ist notwendig.</example>
+                <example type="correct">Ich habe von Groß- und <marker>Kleinschreibung</marker> keine Ahnung.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="SCHREIBEN_SCHRIEBEN" name="Möglicher Tippfehler: 'im Schrieben (Schreiben)'">
             <!-- also covers Groß-/Kleinschreibung: 'schreiben (Schreiben)' -->
             <rule>
@@ -179,6 +228,17 @@ $Id$
                 <example type="correct">Mich <marker>reizt</marker> Folgendes an der Arbeit eines Wirtschaftsinformatikers.</example>
             </rule>
         </rulegroup>
+        <rule id="ZUR_DER" name="Möglicher Tippfehler: 'zur (zu) der Veranstaltung'">
+            <pattern>
+                <marker>
+                    <token>zur</token>
+                </marker>
+                <token>der</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>zu</suggestion>?</message>
+            <example type="incorrect" correction="zu">Wir kommen <marker>zur</marker> der Abschlussveranstaltung.</example>
+            <example type="correct">Wir kommen <marker>zu</marker> der Abschlussveranstaltung.</example>
+        </rule>
         <rule id="UM_UM" name="Möglicher Tippfehler: 'um gestern um 12 Uhr'">
             <pattern>
                 <token postag="VER.*" postag_regexp="yes" skip="1"><exception scope="next" regexp="yes">,|oder|und</exception></token>
@@ -5019,6 +5079,17 @@ $Id$
                 <example type="correct">Der <marker>Girls’ Day</marker> findet einmal im Jahr statt.</example>
                 <example type="incorrect" correction="Girls’ Day">Der <marker>Girl's Day</marker> findet einmal im Jahr statt.</example>
                 <example type="incorrect" correction="Boys’ Day">Der <marker>Boy`s Day</marker> ist ein Aktionstag.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">girls|boys</token>
+                    <token>day</token>
+                </pattern>
+                <message>Meinten Sie den Aktionstag <suggestion>\1’ Day</suggestion>?</message>
+                <short>&eigenname;</short>
+                <example type="correct">Der <marker>Girls’ Day</marker> findet einmal im Jahr statt.</example>
+                <example type="incorrect" correction="Girls’ Day">Der <marker>Girls Day</marker> findet einmal im Jahr statt.</example>
+                <example type="incorrect" correction="Boys’ Day">Der <marker>Boys Day</marker> ist ein Aktionstag.</example>
             </rule>
         </rulegroup>
         <rulegroup id="OPEN_STREET_MAP" name="Eigenname: 'Open Street Map (OpenStreetMap)'">
@@ -16130,6 +16201,32 @@ $Id$
                 <example type="correct">Der <marker>olympische</marker> Gedanke</example>
                 <example type="incorrect" correction="olympische">Das <marker>Olympische</marker> Feuer</example>
             </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token negate_pos="yes" postag="SENT_START"/>
+                    <marker>
+                        <token regexp="yes">Analytischen?</token>
+                    </marker>
+                    <token regexp="yes">Geometrie</token>
+                </pattern>
+                <message>Meinten Sie <suggestion><match case_conversion="startlower" no="2"/></suggestion> \3 (kein Eigenname)?</message>
+                <short>&prgk;.</short>
+                <example type="correct">Das Thema der Klausur war <marker>analytische</marker> Geometrie.</example>
+                <example type="incorrect" correction="analytische">Das Thema der Klausur war <marker>Analytische</marker> Geometrie.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token negate_pos="yes" postag="SENT_START"/>
+                    <marker>
+                        <token regexp="yes">Linearen?</token>
+                    </marker>
+                    <token regexp="yes">Algebra</token>
+                </pattern>
+                <message>Meinten Sie <suggestion><match case_conversion="startlower" no="2"/></suggestion> \3 (kein Eigenname)?</message>
+                <short>&prgk;.</short>
+                <example type="correct">Das Thema der Klausur war <marker>lineare</marker> Algebra.</example>
+                <example type="incorrect" correction="lineare">Das Thema der Klausur war <marker>Lineare</marker> Algebra.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="SORGEN_MACHEN" name="Groß-/Kleinschreibung: 'sorgen (Sorgen) machen etc.'">
             <rule>
@@ -25187,18 +25284,77 @@ $Id$
           <example type="correct">Die <marker>Frauenfrage</marker> ist strittig.</example>
         </rule>
         -->
-        <rule id="DE_PHRASE_REPETITION" name="Wiederholung von Wortgruppen (z.B. 'auf der auf der Straße')">
-            <pattern>
-                <token negate_pos="yes" postag="SENT_START" regexp="yes"><exception>und</exception>\p{L}+</token>
-                <token regexp="yes"><exception>und</exception>\p{L}+</token>
-                <token><match no="0"/></token>
-                <token><match no="1"/></token>
-            </pattern>
-            <message>Hier werden zwei Wörter wiederholt. Meinten Sie <suggestion>\1 \2</suggestion>?</message>
-            <short>Wiederholung von zwei Wörtern</short>
-            <example correction="auf der" type="incorrect">Wir standen <marker>auf der auf der</marker> Brücke.</example>
-            <example type="correct">Wir standen <marker>auf der</marker> Brücke.</example>
-        </rule>
+        <rulegroup id="DE_PHRASE_REPETITION" name="Wiederholung von Wortgruppen (z.B. 'auf der auf der Straße')">
+            <rule>
+                <pattern>
+                    <token negate_pos="yes" postag="SENT_START" regexp="yes"><exception>und</exception>\p{L}+</token>
+                    <token regexp="yes"><exception>und</exception>\p{L}+</token>
+                    <token><match no="0"/></token>
+                    <token><match no="1"/></token>
+                </pattern>
+                <message>Hier werden zwei Wörter wiederholt. Meinten Sie <suggestion>\1 \2</suggestion>?</message>
+                <short>Wiederholung von zwei Wörtern</short>
+                <example correction="auf der" type="incorrect">Wir standen <marker>auf der auf der</marker> Brücke.</example>
+                <example type="correct">Wir standen <marker>auf der</marker> Brücke.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token negate_pos="yes" postag="SENT_START" regexp="yes"><exception>und</exception>\p{L}+</token>
+                    <token regexp="yes"><exception>und</exception>\p{L}+</token>
+                    <token><exception regexp="yes">und|oder|,|-|–|—</exception></token>
+                    <token><match no="0"/></token>
+                    <token><match no="1"/></token>
+                </pattern>
+                <message>Hier werden zwei Wörter wiederholt.</message>
+                <short>Wiederholung von zwei Wörtern</short>
+                <example type="incorrect">Er hat sie <marker>im Stich dann im Stich</marker> gelassen.</example>
+                <example type="correct">Er hat sie <marker>dann im Stich</marker> gelassen.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="SICH_SICH" name="Wiederholung eines Wortes (z.B. 'sich … sich', 'dann … dann', 'weder … weder' etc.)">
+            <rule>
+                <pattern>
+                    <token regexp="yes" skip="5">[dms]ich|uns|euch|auch|nie|nicht<exception scope="next" regexp="yes">und|oder|,</exception></token>
+                    <token><match no="0"/></token>
+                </pattern>
+                <message>Hier ist möglicherweise ein 'sich' zu viel. Vorschläge: <suggestion><match no="1" include_skipped="following"/> \2</suggestion>, <suggestion><match no="1" include_skipped="all"/></suggestion></message>
+                <short>Wiederholung eines Wortes</short>
+                <example correction="die Roboter sich|sich die Roboter" type="incorrect">Die Grundidee des Algorithmus ist, dass <marker>sich die Roboter sich</marker> an der Position des zuletzt abgeworfenen Roboters treffen.</example>
+                <example type="correct">Die Grundidee des Algorithmus ist, dass <marker>sich die Roboter</marker> an der Position des zuletzt abgeworfenen Roboters treffen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="ADV.*TMP.*" postag_regexp="yes" skip="-1"/>
+                    <token><match no="0"/></token>
+                </pattern>
+                <message>Hier ist möglicherweise ein '\1' zu viel. Vorschläge: <suggestion><match no="1" include_skipped="following"/> \2</suggestion>, <suggestion><match no="1" include_skipped="all"/></suggestion></message>
+                <short>Wiederholung eines Wortes</short>
+                <example correction="Werden in einer Schleife anschließend|Anschließend werden in einer Schleife" type="incorrect"><marker>Anschließend werden in einer Schleife anschließend</marker> von den Positionen die eigene Position abgezogen.</example>
+                <example type="correct"><marker>Anschließend werden in einer Schleife</marker> von den Positionen die eigene Position abgezogen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token skip="-1">weder<exception scope="next">noch</exception></token>
+                    <marker>
+                        <token>weder</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>noch</suggestion>?</message>
+                <example correction="noch" type="incorrect">Er will weder schlafen <marker>weder</marker> ist er müde.</example>
+                <example type="correct">Er will weder schlafen <marker>noch</marker> ist er müde.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token skip="-1">sowohl<exception scope="next">auch</exception></token>
+                    <marker>
+                        <token>sowohl</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>als auch</suggestion>?</message>
+                <example correction="als auch" type="incorrect">Es kann sowohl schwimmen <marker>sowohl</marker> fahren.</example>
+                <example type="correct">Es kann sowohl schwimmen <marker>als auch</marker> fahren.</example>
+            </rule>
+        </rulegroup>
         <!-- Commented for the time being
         <rule id="SPELLCHECK" name="(NICHT EMPFOHLEN) Nicht im LT-Wörterbuch enthaltene Wörter markieren" default="off">
             <pattern>
