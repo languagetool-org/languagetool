@@ -3734,20 +3734,53 @@ $Id$
       <example type="incorrect">Ar brezhoneg e Wened <marker>ne zo ket</marker> evel e Leon.</example>
       <example type="correct">Ar brezhoneg e Wened n’eo ket evel e Leon.</example>
     </rule>
-    <rule id="EN_EM_FAZIAN" name="en em faziañ → faziañ">
-      <pattern>
-        <token regexp="yes">e?n</token>
-        <token>em</token>
-        <token inflected="yes" regexp="yes">azezañ|dihuniñ|diskuizhañ|ebatal|faziañ|hastañ|klemm|kluchañ|stouiñ|tevel|treiñ|troc’hañ</token>
-      </pattern>
-      <message>Ne vez ket implijet «en em» gant ar verb «\3». Ha fellout a rae doc’h skrivañ <suggestion>\3</suggestion>?</message>
-      <example type="incorrect" correction="Faziañ"><marker>En em faziañ</marker> a rit.</example>
-      <example type="correct">Faziañ a rit.</example>
-      <example type="correct">En em gemer a rez re ziwezhat.</example>
-      <example type="incorrect">Pa <marker>en em zihunan</marker> re abred, ne savan ket diouzhtu.</example>
-      <example type="correct">Pa zihunan re abred, ne savan ket diouzhtu.</example>
-      <example type="correct">En em savet int ouzh o gwaskerien.</example>
-    </rule>
+    <rulegroup id="EN_EM_FAZIAN" name="en em faziañ → faziañ">
+      <rule>
+        <pattern>
+          <token regexp="yes">e?n</token>
+          <token>em</token>
+          <token inflected="yes" regexp="yes">azezañ|dihuniñ|diskuizhañ|ebatal|faziañ|hastañ|klemm|kluchañ|stouiñ|tevel|treiñ|troc’hañ</token>
+        </pattern>
+        <message>Ne vez ket implijet «en em» gant ar verb «\3». Ha fellout a rae deoc’h skrivañ <suggestion>\3</suggestion>?</message>
+        <example type="incorrect" correction="Faziañ"><marker>En em faziañ</marker> a rit.</example>
+        <example type="correct">Faziañ a rit.</example>
+        <example type="correct">En em gemer a rez re ziwezhat.</example>
+        <example type="incorrect">Pa <marker>en em zihunan</marker> re abred, ne savan ket diouzhtu.</example>
+        <example type="correct">Pa zihunan re abred, ne savan ket diouzhtu.</example>
+        <example type="correct">En em savet int ouzh o gwaskerien.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes">e?n</token>
+            <token>em</token>
+            <token inflected="yes">sevel</token>
+          </marker>
+          <token regexp="yes">bep|abred|abretoc’h(ik)?|diwezhat(oc’h)|diouzhtu|da</token>
+        </pattern>
+        <message>Ne vez ket implijet «en em» gant ar verb «\3». Ha fellout a rae deoc’h skrivañ <suggestion>\3</suggestion>?</message>
+        <example type="incorrect" correction="sevel">Ret eo <marker>en em sevel</marker> abred.</example>
+        <example type="correct">Ret eo sevel abred.</example>
+        <example type="correct">En em savet int ouzh o gwaskerien.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes">e?n</token>
+            <token>em</token>
+            <token>sevel</token>
+          </marker>
+          <token>a</token>
+          <token inflected="yes">ober</token>
+          <token regexp="yes">bep|abred|abretoc’h(ik)?|diwezhat(oc’h)?|diouzhtu|da</token>
+        </pattern>
+        <message>Ne vez ket implijet «en em» gant ar verb «\3». Ha fellout a rae deoc’h skrivañ <suggestion>\3</suggestion>?</message>
+        <example type="incorrect" correction="Sevel"><marker>En em sevel</marker> a rin diwezhat warc’hoazh.</example>
+        <example type="correct">Sevel a rin diwezhat warc’hoazh.</example>
+        <example type="incorrect" correction="Sevel"><marker>En em sevel</marker> a ran da eizh eur.</example>
+        <example type="correct">Sevel a ran da eizh eur.</example>
+      </rule>
+    </rulegroup>
     <rule id="EN_DEUS" name="eñ deus/doa → en deus/doa">
       <pattern>
         <marker>
@@ -3755,7 +3788,7 @@ $Id$
         </marker>
         <token regexp="yes">deus|do[ae]?|de[fz]e?|dije|devezet?|devezo|devo[ae]?</token>
       </pattern>
-      <message>Ha fellout a rae doc’h skrivañ <suggestion><match no="1" regexp_match="(.)." regexp_replace="$1n"/></suggestion>?</message>
+      <message>Ha fellout a rae deoc’h skrivañ <suggestion><match no="1" regexp_match="(.)." regexp_replace="$1n"/></suggestion>?</message>
       <example type="incorrect" correction="en">Naon <marker>eñ</marker> deus.</example>
       <example type="correct">Naon en deus.</example>
     </rule>
