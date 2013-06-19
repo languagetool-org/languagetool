@@ -25297,7 +25297,7 @@ $Id$
                 <example correction="auf der" type="incorrect">Wir standen <marker>auf der auf der</marker> Brücke.</example>
                 <example type="correct">Wir standen <marker>auf der</marker> Brücke.</example>
             </rule>
-            <rule>
+            <!--<rule>
                 <pattern>
                     <token negate_pos="yes" postag="SENT_START" regexp="yes"><exception>und</exception>\p{L}+</token>
                     <token regexp="yes"><exception>und</exception>\p{L}+</token>
@@ -25309,12 +25309,13 @@ $Id$
                 <short>Wiederholung von zwei Wörtern</short>
                 <example type="incorrect">Er hat sie <marker>im Stich dann im Stich</marker> gelassen.</example>
                 <example type="correct">Er hat sie <marker>dann im Stich</marker> gelassen.</example>
-            </rule>
+            </rule>-->
         </rulegroup>
+        <!-- TODO needs some testing
         <rulegroup id="SICH_SICH" name="Wiederholung eines Wortes (z.B. 'sich … sich', 'dann … dann', 'weder … weder' etc.)">
             <rule>
                 <pattern>
-                    <token regexp="yes" skip="5">[dms]ich|uns|euch|auch|nie|nicht<exception scope="next" regexp="yes">und|oder|,</exception></token>
+                    <token regexp="yes" skip="5">[dms]ich|uns|euch|auch|nie|nicht<exception scope="next" regexp="yes">und|oder|,|;|\.|:</exception></token>
                     <token><match no="0"/></token>
                 </pattern>
                 <message>Hier ist möglicherweise ein 'sich' zu viel. Vorschläge: <suggestion><match no="1" include_skipped="following"/> \2</suggestion>, <suggestion><match no="1" include_skipped="all"/></suggestion></message>
@@ -25355,6 +25356,7 @@ $Id$
                 <example type="correct">Es kann sowohl schwimmen <marker>als auch</marker> fahren.</example>
             </rule>
         </rulegroup>
+        -->
         <!-- Commented for the time being
         <rule id="SPELLCHECK" name="(NICHT EMPFOHLEN) Nicht im LT-Wörterbuch enthaltene Wörter markieren" default="off">
             <pattern>
