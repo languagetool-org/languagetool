@@ -4184,7 +4184,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rule id="nomverb_nom0" name="nom + verb/nom">
         <!-- la segona porta accent. Excep: el seu germà, necessità deu anys. -->
         <pattern>
-            <token><exception postag="SPS00|D[DI].*" postag_regexp="yes"/></token>
+            <token><exception postag="SPS00|D[DI].*|PX.*" postag_regexp="yes"/></token>
             <marker>
                 <and>
                     <token postag="V.[IS].*" postag_regexp="yes"><exception inflected="yes" regexp="yes">nom|persona|ritme</exception><exception postag="VMIP1S0B"/></token>
@@ -8666,6 +8666,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token postag="N.*" postag_regexp="yes"/>
             </pattern>
             <disambig action="add"><wd pos="allow_tant"></wd></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>tant</token>
+                <token postag="N.*" postag_regexp="yes" skip="20"/>
+                <marker>
+                    <token>com</token>
+                </marker>
+                <token postag="N.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="add"><wd pos="allow_com"></wd></disambig>
         </rule>
         <rule>
             <pattern>
