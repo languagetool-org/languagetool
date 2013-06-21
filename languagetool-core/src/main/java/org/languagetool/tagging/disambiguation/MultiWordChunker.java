@@ -19,19 +19,14 @@
 
 package org.languagetool.tagging.disambiguation;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
 
 /**
  * Multiword tagger-chunker.
@@ -52,8 +47,8 @@ public class MultiWordChunker implements Disambiguator {
   }
   
   /*
-  * Lazy init, thanks to Artur Trzewik
-  */
+   * Lazy init, thanks to Artur Trzewik
+   */
   private void lazyInit() throws IOException {
 
     if (mStartSpace != null) {
@@ -103,8 +98,7 @@ public class MultiWordChunker implements Disambiguator {
    * Implements multiword POS tags, e.g., &lt;ELLIPSIS&gt; for ellipsis (...)
    * start, and &lt;/ELLIPSIS&gt; for ellipsis end.
    *
-   * @param input
-   *          The tokens to be chunked.
+   * @param input The tokens to be chunked.
    * @return AnalyzedSentence with additional markers.
    * @throws IOException
    */
@@ -181,7 +175,7 @@ public class MultiWordChunker implements Disambiguator {
   private AnalyzedTokenReadings setAndAnnotate(final AnalyzedTokenReadings oldReading, 
           final AnalyzedToken newReading) {      
       final String old = oldReading.toString();
-      final String prevAnot =  oldReading.getHistoricalAnnotations();
+      final String prevAnot = oldReading.getHistoricalAnnotations();
       final AnalyzedTokenReadings newAtr = new AnalyzedTokenReadings(oldReading.getReadings(), 
               oldReading.getStartPos());
       newAtr.setWhitespaceBefore(oldReading.isWhitespaceBefore());
@@ -200,19 +194,13 @@ public class MultiWordChunker implements Disambiguator {
       sb.append(newReading);
       return sb.toString();
   }
-  
 
-  private List<String> loadWords(final InputStream file) throws IOException {
-    InputStreamReader isr = null;
-    BufferedReader br = null;
+  private List<String> loadWords(final InputStream stream) throws IOException {
     final List<String> lines = new ArrayList<String>();
+    final Scanner scanner = new Scanner(stream, "UTF-8");
     try {
-      isr = new InputStreamReader(file, "UTF-8");
-      br = new BufferedReader(isr);
-      String line;
-
-      while ((line = br.readLine()) != null) {
-        line = line.trim();
+      while (scanner.hasNextLine()) {
+        final String line = scanner.nextLine().trim();
         if (line.length() < 1) {
           continue;
         }
@@ -221,14 +209,8 @@ public class MultiWordChunker implements Disambiguator {
         }
         lines.add(line);
       }
-
     } finally {
-      if (br != null) {
-        br.close();
-      }
-      if (isr != null) {
-        isr.close();
-      }
+      scanner.close();
     }
     return lines;
   }

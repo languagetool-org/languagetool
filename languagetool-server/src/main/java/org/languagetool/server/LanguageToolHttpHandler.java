@@ -346,7 +346,7 @@ class LanguageToolHttpHandler implements HttpHandler {
    *    &nbsp;&nbsp;&lt;language name="Catalan" abbr="ca" abbrWithVariant="ca-ES"/&gt;<br/>
    *    &nbsp;&nbsp;&lt;language name="German" abbr="de" abbrWithVariant="de"/&gt;<br/>
    *    &nbsp;&nbsp;&lt;language name="German (Germany)" abbr="de" abbrWithVariant="de-DE"/&gt;<br/>
-   *  &lt;languages&gt;<br/><br/>
+   *  &lt;/languages&gt;<br/><br/>
    *  The languages are sorted alphabetically by their name.
    * @return an XML document listing all supported languages
    */
