@@ -18,7 +18,6 @@
  */
 package org.languagetool.dev.wikipedia;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -58,10 +57,6 @@ abstract class BaseWikipediaDumpHandler extends DefaultHandler {
 
   private TextFilter textFilter = new SwebleWikipediaTextFilter();
 
-  //===========================================================
-  // SAX DocumentHandler methods
-  //===========================================================
-
   protected BaseWikipediaDumpHandler(JLanguageTool languageTool, Date dumpDate, String langCode, Language lang) {
     this.languageTool = languageTool;
     this.dumpDate = dumpDate;
@@ -85,6 +80,10 @@ abstract class BaseWikipediaDumpHandler extends DefaultHandler {
     return ruleMatchCount;
   }
 
+  //===========================================================
+  // SAX DocumentHandler methods
+  //===========================================================
+
   @Override
   @SuppressWarnings("unused")
   public void startElement(String namespaceURI, String lName, String qName,
@@ -105,25 +104,21 @@ abstract class BaseWikipediaDumpHandler extends DefaultHandler {
     } else if (qName.equals("text")) {
       final String textToCheck = textFilter.filter(text.toString());
       if (!textToCheck.contains("#REDIRECT")) {
+        articleCount++;
+        if (maxArticles > 0 && articleCount > maxArticles) {
+          throw new ArticleLimitReachedException(maxArticles);
+        }
         try {
-          articleCount++;
-          if (maxArticles > 0 && articleCount > maxArticles) {
-            throw new ArticleLimitReachedException(maxArticles);
-          }
           final List<RuleMatch> ruleMatches = languageTool.check(textToCheck);
-          System.out.println("Checking article " + articleCount + " (" +
-              textToCheck.length()/1024 + "KB, '" + title + "')" + 
-              ", found " + ruleMatches.size() + " matches");
-          try {
-            handleResult(title, ruleMatches, textToCheck, languageTool.getLanguage());
-          } catch (ErrorLimitReachedException e) {
-            throw e;
-          } catch (Exception e) {
-            throw new RuntimeException(e);
-          }
           ruleMatchCount += ruleMatches.size();
-        } catch (IOException e) {
-          throw new RuntimeException(e);
+          System.out.println("Checking article " + articleCount + " (" +
+                  textToCheck.length()/1024 + "KB, '" + title + "')" +
+                  ", found " + ruleMatches.size() + " matches");
+          handleResult(title, ruleMatches, textToCheck, languageTool.getLanguage());
+        } catch (ErrorLimitReachedException e) {
+          throw e;
+        } catch (Exception e) {
+          throw new RuntimeException("Error checking '" + title + "' (" + articleCount + ")", e);
         }
       }
       text = new StringBuilder();

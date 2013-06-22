@@ -85,7 +85,7 @@ public class CheckWikipediaDump {
   }
 
   private static void addDisabledRules(String languageCode, Set<String> disabledRuleIds, Properties disabledRules) {
-    final String disabledRulesString = (String)disabledRules.get(languageCode);
+    final String disabledRulesString = disabledRules.getProperty(languageCode);
     if (disabledRulesString != null) {
       final String[] ids = disabledRulesString.split(",");
       disabledRuleIds.addAll(Arrays.asList(ids));
