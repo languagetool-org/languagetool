@@ -2051,10 +2051,10 @@ $Id$
                     </marker>
                 </pattern>
                 <message>Possible error.</message>
-                <suggestion><match no="1"/> <match no="2" postag="V.N.*" postag_regexp="yes"></match></suggestion>
-                <suggestion><match no="1"/> que <match no="2"/></suggestion>
-                <suggestion><match no="1"/>, <match no="2"/></suggestion>
-                <example type="incorrect">No <marker>cal corre</marker>.</example>
+                <suggestion><match no="2"/> <match no="3" postag="V.N.*" postag_regexp="yes"></match></suggestion>
+                <suggestion><match no="2"/> que <match no="3"/></suggestion>
+                <suggestion><match no="2"/>, <match no="3"/></suggestion>
+                <example type="incorrect" correction="cal córrer|cal que corre|cal, corre">No <marker>cal corre</marker>.</example>
                 <example type="correct">No cal córrer.</example>
                 <example type="correct">Anem a cal Cego.</example>
                 <example type="correct">El model estàndard del Big Bang calent erra en l'objectiu</example>
@@ -3778,7 +3778,7 @@ $Id$
 	        		<marker>
 	        			<token>com<exception postag="allow_com"/></token>
 	        		</marker>
-	        		<token regexp="yes">autors?|president[ae]?s?|representants?|actors?|actrius?</token>
+	        		<token regexp="yes">exemples?|autors?|president[ae]?s?|representants?|actors?|actrius?</token>
         		</pattern>
         		<message>Probablement cal escriure <suggestion>com a</suggestion>.</message>
         		<url>http://esadir.cat/sintaxi/advcomcoma/view</url>
@@ -4746,6 +4746,18 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+        <rule id="OS_US" name="*os/us agrada">
+            <pattern>
+                <marker>
+                    <token>os<exception postag="_GN_MS"/></token>
+                </marker>
+                <token postag="V.[MSI].*" postag_regexp="yes"/>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>us</suggestion>?</message>
+            <example type="incorrect" correction="Us">¿<marker>Os</marker> agraden les cloïsses?</example>
+            <example type="correct">Té un os trencat.</example>
+            <example type="correct">L'os creix bé.</example>
+        </rule>
         <rule id="CONTRA_DE" name="contra de/en contra de">
             <pattern>
                 <token><exception>en</exception></token>
@@ -14203,26 +14215,41 @@ $Id$
                         <token>a</token>
                         <token>les</token>
                         <token postag="DN.*|DI.*" postag_regexp="yes"/>
-                        <token regexp="yes">hores|setmanes|dècades</token>
+                        <token regexp="yes">setmanes|dècades</token>
+                    </marker>
+                </pattern>
+                <message>Incorrecte si equival a <suggestion>al cap de <match no="4"/> <match no="5"/></suggestion>.</message>
+                <suggestion><match no="4"/> <match no="5"/> després</suggestion>
+                <short>Expressió incorrecta</short>
+                <example type="incorrect" correction="Al cap de tres setmanes|Tres setmanes després"><marker>A les tres setmanes</marker></example>
+                <example type="correct"> respecte a les dues dècades anteriors</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception regexp="yes" inflected="yes">&exceptions_ALS_TRES_MESOS;</exception><exception>respecte</exception><exception postag="DN.*" postag_regexp="yes"/></token>
+                    <marker>
+                        <token>a</token>
+                        <token>les</token>
+                        <token postag="DN.*|DI.*" postag_regexp="yes"><exception regexp="yes">[12]?\d(.[1-5]\d)?</exception></token>
+                        <token>hores</token>
                     </marker>
                 </pattern>
                 <message>Incorrecte si equival a <suggestion>al cap de <match no="4"/> <match no="5"/></suggestion>.</message>
                 <suggestion><match no="4"/> <match no="5"/> després</suggestion>
                 <short>Expressió incorrecta</short>
                 <example type="incorrect" correction="Al cap de tres hores|Tres hores després"><marker>A les tres hores</marker></example>
-                <example type="correct">Al cap de tres hores</example>
-                <example type="correct"> respecte a les dues dècades anteriors</example>
+                <example type="correct">A les 19.30 hores</example>
                 <example type="correct">A les 13.30 h obrirà l'exposició.</example>
             </rule>
             <rule>
                 <pattern>
                     <token><exception regexp="yes" inflected="yes">&exceptions_ALS_TRES_MESOS;</exception><exception>respecte</exception><exception postag="DN.*" postag_regexp="yes"/></token>
-					<marker>
+                    <marker>
                         <token>a</token>
                         <token spacebefore="no">ls</token>
                         <token postag="DN.*|DI.*" postag_regexp="yes"/>
                         <token>anys</token>
-					</marker>
+                    </marker>
                     <token regexp="yes">de|d'</token>
                     <token><exception>edat</exception></token>
                     <!-- eliminat: anys -->
@@ -15748,7 +15775,6 @@ $Id$
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">adjudicar</match></suggestion>
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">concedir</match></suggestion>
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">atorgar</match></suggestion>
-                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">adjudicar</match></suggestion>
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">decidir</match></suggestion>
                 <short>Possible error</short>
                 <example type="incorrect">Diu que vol <marker>fallar</marker> sentència avui.</example>
@@ -15767,7 +15793,6 @@ $Id$
                 <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">adjudicar</match></suggestion>
                 <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">concedir</match></suggestion>
                 <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">atorgar</match></suggestion>
-                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">adjudicar</match></suggestion>
                 <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">decidir</match></suggestion>
                 <short>Possible error</short>
                 <example type="incorrect">El jutge va <marker>fallar</marker> així.</example>
@@ -17644,21 +17669,25 @@ $Id$
             <example type="correct">L'ensenyament és gratuït i obligatori dels 6 als 15 anys.</example>
             <example type="correct">L'ensenyament és gratuït i obligatori dels sis als quinze anys.</example>
         </rule>
-    	<rule id="VESSANT" name="vessant">
-    		<pattern>
-    			<token><exception postag="N.F.*" postag_regexp="yes"/></token>
-    			<marker>
-    				<token postag="_GN_F." postag_regexp="yes" regexp="yes">vessants?<exception postag="_GN_M." postag_regexp="yes"/></token>
-    			</marker>
-    		</pattern>
-    		<message>Sempre és preferible usar "vessant" com a nom masculí. En alguns sentits, no és correcte en femení.</message>
-    		<short>Forma preferible</short>
-    		<example type="incorrect">A les <marker>vessants</marker> de la muntanya.</example>
-    		<example type="incorrect">En la seva <marker>vessant</marker> humorística.</example>
-    		<example type="correct">En el vessant anterior.</example>
-    		<example type="correct">Aigües vessants.</example>
-    		<example type="correct">presenta tres vessants</example>
-    	</rule>
+        <rule id="VESSANT" name="vessant">
+            <pattern>
+                <token><exception postag="N.F.*" postag_regexp="yes"/></token>
+                <marker>
+                    <and>
+                        <token postag="_GN_F." postag_regexp="yes" regexp="yes">vessants?<exception postag="_GN_M." postag_regexp="yes"/></token>
+                        <token postag="N.*" postag_regexp="yes"/>
+                    </and>    
+                </marker>
+            </pattern>
+            <message>Sempre és preferible usar "vessant" com a nom masculí. En alguns sentits, no és correcte en femení.</message>
+            <short>Forma preferible</short>
+            <example type="incorrect">A les <marker>vessants</marker> de la muntanya.</example>
+            <example type="incorrect">En la seva <marker>vessant</marker> humorística.</example>
+            <example type="correct">En el vessant anterior.</example>
+            <example type="correct">Aigües vessants.</example>
+            <example type="correct">presenta tres vessants</example>
+            <example type="correct">a la mà enlairada vessant aigua</example>
+        </rule>
     	<rule id="A_RAN_DE" name="a ran de">
 		    <pattern>
 		    	<marker>
@@ -19462,8 +19491,8 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token postag="NC.*" postag_regexp="yes" regexp="yes">\p{Ll}[\p{Ll}·]+<exception postag="A.*|V.P.*|V.[NMSI].*|complement.*|DN.*|_GV_|.*LOC_ADV.*" postag_regexp="yes" /><exception regexp="yes">\p{Lu}[\p{Ll}·]*</exception><exception regexp="yes" inflected="yes">mots?|paraul(a|es)|termes?|expressi(ó|ons)|vocables?|nombres?|lletr(a|es)|colors?|vegad(a|es)|volt(a|es)|cops?|noms?</exception></token>
-                        <token postag="NC.*" postag_regexp="yes" regexp="yes">\p{Ll}[\p{Ll}·]+<exception postag="A.*|V.P.*|V.[NMSI].*|_GN.*|DN.*|_loc_enma|.*LOC_ADV.*" postag_regexp="yes" /><exception regexp="yes">\p{Lu}[\p{Ll}·]*|fra|don</exception></token>
+                        <token postag="NC.*" postag_regexp="yes" regexp="yes">\p{Ll}[\p{Ll}·]+<exception postag="A.*|V.P.*|V.[NMSI].*|complement.*|DN.*|_GV_|.*LOC_ADV.*|_loc_meitat" postag_regexp="yes" /><exception regexp="yes">\p{Lu}[\p{Ll}·]*</exception><exception regexp="yes" inflected="yes">mots?|paraul(a|es)|termes?|expressi(ó|ons)|vocables?|nombres?|lletr(a|es)|colors?|vegad(a|es)|volt(a|es)|cops?|noms?|majoria</exception></token>
+                        <token postag="NC.*" postag_regexp="yes" regexp="yes">\p{Ll}[\p{Ll}·]+<exception postag="A.*|V.P.*|V.[NMSI].*|_GN.*|DN.*|_loc_enma|.*LOC_ADV.*|_loc_meitat" postag_regexp="yes" /><exception regexp="yes">\p{Lu}[\p{Ll}·]*|fra|don</exception></token>
                     </marker>
                     <token><exception regexp="yes">amunt|avall|enllà</exception></token>
                 </pattern>

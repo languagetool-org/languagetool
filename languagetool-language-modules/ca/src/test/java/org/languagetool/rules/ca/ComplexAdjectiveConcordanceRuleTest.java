@@ -48,10 +48,6 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
 	   
 	   principis mascle i femella de la foscor//els elements reproductors mascle i femella// les formigues mascle i femella
 	   
-	   era poderós, força estrabul·lat, //Zeus, força cansat de tantes recents lluites// és força llunyà
-	   és força amarg, són força capriciosos; són força desconegudes.
-	   
-	  va respondre, força humiliat,//aquest bon home està força preocupat
 	  de barba i cabellera blanques
 	  */
 	  /*multiwords: en aparença, en essència,per essència, amb excés,en repòs, amb rapidesa, en algun grau, per molt de temps
@@ -64,6 +60,11 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
 	      han estat de fet exterminades
 	   */
 	  // (en especial si hi ha un adverbi entremig: en algun grau més distintes
+	  assertCorrect("la meitat mascles i la meitat femelles");
+	  assertCorrect("És força amarg");
+	  assertCorrect("Era poderós, força estrabul·lat");
+	  assertCorrect("Són força desconegudes");
+	  assertCorrect("Zeus, força cansat de tot");
 	  assertCorrect("un caràcter fix, per molt extraordinària que sigui la manera");
 	  assertCorrect("una quantitat copiosa de llavors olioses");
 	  assertCorrect("que criï sense variació, per molt lleugers que fossin");

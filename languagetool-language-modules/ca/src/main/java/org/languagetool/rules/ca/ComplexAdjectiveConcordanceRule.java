@@ -95,6 +95,7 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
 	private static final Pattern VERB = Pattern.compile("V.[^P].*|_GV_");
 	private static final Pattern EXCEPCIONS_PARTICIPI = Pattern.compile("atès|atés|atesa|atesos|ateses|donat|donats|donada|donades");
 	private static final Pattern EXCEPCIONS_PREVIA = Pattern.compile("termes?|paraul(a|es)|mots?|vocables?|expressi(ó|ons)|noms?|tipus|denominaci(ó|ons)");
+	private static final Pattern EXCEPCIONS_PREVIA_POSTAG = Pattern.compile("_loc_meitat");
 
 	public ComplexAdjectiveConcordanceRule(ResourceBundle messages)
 			throws IOException {
@@ -274,6 +275,9 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
 				//exception: termes, paraules, etc.
 				if (!isException && matchRegexp(prevToken,EXCEPCIONS_PREVIA)) {
 					isException=true;}
+				//exceptions: la meitat mascles 
+				if (!isException && matchPostagRegexp(tokens[i-1],EXCEPCIONS_PREVIA_POSTAG)) {
+          isException=true;}
 				//exceptions: llevat de, tret de, majúsucula inicial
 				if ( !isException && ( ((token.equals("tret") || token.equals("llevat") ) && nextToken.equals("de")) 
 						|| token.equals("primer") || token.equals("junts")  
