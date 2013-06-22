@@ -15710,11 +15710,11 @@ $Id$
         </rule>
         <rule id="BESTIA" name="bestia">
             <pattern>
-                <token>bestia</token>
+                <token regexp="yes">besti(a|es)</token>
             </pattern>
-            <message>¿Volíeu dir <suggestion>bèstia</suggestion> (animal)? Correcte en el sentit de germana de l'avi o de l'àvia (bes-tia).</message>
+            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="besti(.+)" regexp_replace="bèsti$1"/></suggestion> (animal)? Correcte en el sentit de germana de l'avi o de l'àvia (bes-tia).</message>
             <short>Possible confusió</short>
-            <example type="incorrect"><marker>bestia</marker></example>
+            <example type="incorrect" correction="bèstia"><marker>bestia</marker></example>
             <example type="correct">bes-tia</example>
         </rule>
         <rule id="AUTODIDACTE" name="autodidacte/autodidàctic">
