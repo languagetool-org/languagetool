@@ -55,10 +55,10 @@ public class JapaneseTagger implements Tagger {
   }
 
   private AnalyzedToken asAnalyzedToken(final String word) {
-    if (!word.contains(" ")) {
+    String[] parts = word.split(" ");
+    if (parts.length != 3) {
       return new AnalyzedToken(" ", null, null);
     }
-    String[] parts = word.split(" ");
     return new AnalyzedToken(parts[0], parts[1], parts[2]);
   }
 
