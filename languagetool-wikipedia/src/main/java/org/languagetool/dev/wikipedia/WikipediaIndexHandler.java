@@ -95,6 +95,7 @@ public class WikipediaIndexHandler extends DefaultHandler {
       inTitle = false;
     } else if (qName.equals("text")) {
       System.out.println(++articleCount + ": " + title);
+      final String tempTitle = title.toString();
       title = new StringBuilder();
       if (articleCount < start) {
         return;
@@ -109,11 +110,11 @@ public class WikipediaIndexHandler extends DefaultHandler {
             indexer.index(textToCheck, false, articleCount);
           }
         } catch (Exception e) {
-          System.err.println("Exception when filtering '" + title + "' - skipping file. Stacktrace follows:");
+          System.err.println("Exception when filtering/indexing '" + tempTitle + "' (" + articleCount + ") - skipping file. Stacktrace follows:");
           e.printStackTrace();
         }
       } catch (Exception e) {
-        throw new RuntimeException("Failed checking article " + articleCount, e);
+        throw new RuntimeException("Failed checking article '" + tempTitle + "' (" + articleCount + ")", e);
       }
     }
     text = new StringBuilder();
