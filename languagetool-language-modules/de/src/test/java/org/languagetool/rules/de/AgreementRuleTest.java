@@ -118,6 +118,7 @@ public class AgreementRuleTest extends TestCase {
     assertGood("Es ist nicht bekannt, mit welchem Alter Kinder diese Fähigkeit erlernen.");
     assertGood("Dieser ist nun in den Ortungsbereich des einen Roboters gefahren.");
     assertGood("Wenn dies großen Erfolg hat, werden wir es weiter fördern.");
+    assertGood("Die Ereignisse dieses einen Jahres waren sehr schlimm.");
 
     // incorrect sentences:
     assertBad("Es sind die Tisch.");

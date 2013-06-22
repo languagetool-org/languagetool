@@ -1553,7 +1553,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">eMail.+|e\-Mail.+|e\-mail.+|E\-mail.+|Email[\-]?([aA]dresse|[pP]rogramm|[aA]nwendung|[cC]lient).*</token>
+                    <token regexp="yes">eMail.+|e\-Mail.+|e\-mail.+|E\-mail.+|Email\-?([aA]dresse|[aA]nwendung|[cC]lient|[kK]ontakt|[pP]rogramm).*</token>
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="1" regexp_match=".*ail(.*)" regexp_replace="E-Mail$1"/></suggestion>?</message>
                 <url>http://www.korrekturen.de/beliebte_fehler/email.shtml</url>
@@ -1561,6 +1561,7 @@ $Id$
                 <example type="incorrect" correction="E-Mail-Adresse">Das ist meine <marker>eMail-Adresse</marker>.</example>
                 <example type="incorrect" correction="E-Mail-Adressen">Das sind meine <marker>Email-Adressen</marker>.</example>
                 <example type="incorrect" correction="E-Mail-Anwendung">Ich benutze diese <marker>Email-Anwendung</marker>.</example>
+                <example type="incorrect" correction="E-Mail-Kontakt">Ich werde diesen <marker>eMail-Kontakt</marker> hinzufügen.</example>
                 <example type="correct">Das ist meine <marker>E-Mail-Adresse</marker>.</example>
                 <example type="correct">Das ist <marker>Email</marker>.</example>
             </rule>
@@ -5892,6 +5893,19 @@ $Id$
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category name="Zusammen-/Getrenntschreibung">
+        <rule id="GEZWUNGENER_MASSEN" name="Zusammen-/Getrenntschreibung: gezwungener maßen (gezwungenermaßen)">
+            <pattern>
+                <marker>
+                    <token>gezwungener</token>
+                    <token>maßen</token>
+                </marker>
+            </pattern>
+            <message>Das Adverb <suggestion>gezwungenermaßen</suggestion> wird zusammengeschrieben.</message>
+            <url>http://www.duden.de/rechtschreibung/gezwungenermaszen</url>
+            <short>&getrennt;</short>
+            <example type="incorrect" correction="gezwungenermaßen">Ich muss <marker>gezwungener maßen</marker> in Java programmieren..</example>
+            <example type="correct">Ich muss <marker>gezwungenermaßen</marker> in Java programmieren..</example>
+        </rule>
         <rule id="INNE_HABEN" name="Zusammen-/Getrenntschreibung: inne haben (innehaben)">
             <pattern>
                 <marker>
@@ -24749,13 +24763,14 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">'|`|’|‘|′</token>
+                        <token regexp="yes">'|`|´|’|‘|′</token>
                         <token spacebefore="no"><match no="0"/></token>
                     </marker>
                 </pattern>
                 <message>Wollen Sie ein typografisches Anführungszeichen (<suggestion>„</suggestion> <suggestion>“</suggestion>, <suggestion>»</suggestion> <suggestion>«</suggestion>) oder das Sekunden-/Zollzeichen (<suggestion>″</suggestion>) verwenden?</message>
                 <example type="correct">f<marker>″</marker> ist einfach zu berechnen.</example>
                 <example type="incorrect" correction="„|“|»|«|″">f<marker>''</marker> ist einfach zu berechnen.</example>
+                <example type="incorrect" correction="„|“|»|«|″">f<marker>´´</marker> ist einfach zu berechnen.</example>
             </rule>
             <rule>
                 <pattern>

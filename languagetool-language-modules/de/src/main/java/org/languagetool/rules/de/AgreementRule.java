@@ -193,8 +193,8 @@ public class AgreementRule extends GermanRule {
       boolean ignore = couldBeRelativeClause(tokens, i);
       if (i > 0) {
         final String prevToken = tokens[i-1].getToken().toLowerCase();
-        if ((prevToken.equals("der") || prevToken.equals("die") || prevToken.equals("das") || prevToken.equals("des"))
-            && (tokens[i].getToken().equals("eine") || tokens[i].getToken().equals("einen"))) {
+        if ((tokens[i].getToken().equals("eine") || tokens[i].getToken().equals("einen"))
+            && (prevToken.equals("der") || prevToken.equals("die") || prevToken.equals("das") || prevToken.equals("des") || prevToken.equals("dieses"))) {
           // TODO: "der eine Polizist" -> nicht ignorieren, sondern "der polizist" checken; "auf der einen Seite"
           ignore = true;
         }
