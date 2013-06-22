@@ -34,9 +34,7 @@ public class JapaneseTagger implements Tagger {
     int pos = 0;
 
     for (String word : sentenceTokens) {
-
       final List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
-
       AnalyzedToken at = asAnalyzedToken(word);
       l.add(at);
       tokenReadings.add(new AnalyzedTokenReadings(l, pos));
@@ -57,16 +55,18 @@ public class JapaneseTagger implements Tagger {
   }
 
   private AnalyzedToken asAnalyzedToken(final String word) {
-    if (word.indexOf(" ") < 0) {
+    if (!word.contains(" ")) {
       return new AnalyzedToken(" ", null, null);
     }
     String[] parts = word.split(" ");
     return new AnalyzedToken(parts[0], parts[1], parts[2]);
   }
 
+  /**
+   * @deprecated deprecated since LanguageTool 2.2
+   */
   public static final String arrayToString(byte[] bytes) {
     StringBuffer buff = new StringBuffer();
-
     for (int i = 0; i < bytes.length; i++) {
       buff.append(bytes[i] + " ");
     }
