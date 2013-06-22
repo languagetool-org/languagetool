@@ -3455,13 +3455,14 @@ though, and has since been slightly modified)-->
       <rule name="nombre singulier suivi du pluriel">
         <pattern>
           <token regexp="yes">[01]<exception regexp="yes" scope="previous">,|et|ou</exception></token>
-          <token postag="[JN] . p" postag_regexp="yes"/>
+          <token postag="[JN] . p" postag_regexp="yes"><exception postag="[JN] . sp?" postag_regexp="yes"/></token>
         </pattern>
         <message>« \1 » et « \2 » ne semblent pas bien accordés en nombre.</message>
         <example type="correct">J’ai 1 enfant.</example>
         <example type="incorrect">J’ai <marker>1 enfants</marker>.</example>
         <example type="correct">Cela coûte 2,1 Euros.</example>
         <example type="correct">Ils sont âgés de 4 et 1 ans.</example>
+        <example type="correct">1 fois.</example>
       </rule>
       <rule>
         <pattern>
