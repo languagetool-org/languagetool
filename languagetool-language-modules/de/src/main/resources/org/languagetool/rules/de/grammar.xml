@@ -2062,7 +2062,7 @@ $Id$
         <rulegroup id="DIE_DE" name="Möglicher Tippfehler: 'de (die)'">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token negate="yes">.</token>
+                    <token negate="yes" regexp="yes">\.|van</token>
                     <marker>
                         <token>de</token>
                     </marker>
@@ -2073,6 +2073,8 @@ $Id$
                 <example type="correct">Und <marker>de</marker> Beukelaer macht in Keksen.</example>
                 <example type="correct">Auf example.<marker>de</marker> Fachartikel lesen.</example>
                 <example type="correct">Die Gemeinde <marker>De</marker> Panne</example>
+                <example type="correct">Henry van <marker>de</marker> Velde</example>
+                <example type="correct">Hans van <marker>de</marker> Haar</example>
                 <example type="incorrect" correction="die|der">Und <marker>de</marker> Programmierung mit Plain Old Java Objects soll einfacher werden.</example>
             </rule>
             <rule>
@@ -7529,7 +7531,7 @@ $Id$
                         <exception scope="current">je</exception>
                         <exception scope="current">seitwärts</exception></token>
                     <token>zu</token>
-                    <token postag=".*VER:.*INF.*" postag_regexp="yes"><exception regexp="yes" scope="current">einigen|agieren|sieben|weiten|sein|unter.+en|ermöglichen</exception></token>
+                    <token postag=".*VER:.*INF.*" postag_regexp="yes"><exception regexp="yes" scope="current">einigen|agieren|sieben|weiten|sein|unter.+en|ermöglichen|berichten</exception></token>
                 </pattern>
                 <message>&getrennt;: Meinten Sie <suggestion><match no="1"/><match no="2"/><match no="3"/></suggestion>?</message>
                 <example type="correct">Ist es gut, Geld <marker>auszugeben</marker>?</example>
@@ -9718,6 +9720,7 @@ $Id$
                 <example type="correct"><marker>Von 9 bis 10</marker> Uhr.</example>
                 <example type="incorrect" correction="Zwischen 10 und 11|Von 10 bis 11"><marker>Zwischen 10 bis 11</marker> Uhr.</example>
                 <example type="incorrect" correction="Zwischen 10 und 11|Von 10 bis 11"><marker>Seit 10 bis 11</marker> Uhr.</example>
+                <!-- TODO: "Seit 3000 bis 4000 Jahren" - das gibt einen Fehlalarm, denke ich -->
             </rule>
             <rule>
                 <pattern>
