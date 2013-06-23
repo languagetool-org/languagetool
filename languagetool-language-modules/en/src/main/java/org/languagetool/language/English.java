@@ -42,6 +42,10 @@ import org.languagetool.tagging.en.EnglishTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 
+/**
+ * Support for English - use the sub classes {@link BritishEnglish}, {@link AmericanEnglish},
+ * etc. if you need spell checking.
+ */
 public class English extends Language {
 
   private static final Language AMERICAN_ENGLISH = new AmericanEnglish();

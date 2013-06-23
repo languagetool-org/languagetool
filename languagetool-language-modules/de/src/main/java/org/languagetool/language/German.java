@@ -43,6 +43,10 @@ import org.languagetool.tagging.de.GermanTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 
+/**
+ * Support for German - use the sub classes {@link GermanyGerman}, {@link SwissGerman}, or {@link AustrianGerman}
+ * if you need spell checking.
+ */
 public class German extends Language {
 
   private Tagger tagger;
