@@ -243,7 +243,7 @@ $Id$
             <pattern>
                 <token postag="VER.*" postag_regexp="yes" skip="1"><exception scope="next" regexp="yes">,|oder|und</exception></token>
                 <marker>
-                    <token skip="1">um</token>
+                    <token skip="1">um<exception scope="next" regexp="yes">\-|–|—|,|;|&klam;</exception></token>
                     <token>um</token>
                 </marker>
             </pattern>
@@ -251,6 +251,7 @@ $Id$
             <example type="incorrect" correction="morgen um">Sie kommt <marker>um morgen um</marker> 12 Uhr.</example>
             <example type="correct">Sie kommt <marker>morgen um</marker> 12 Uhr.</example>
             <example type="correct"><marker>Um morgen um</marker> 12 Uhr pünktlich anzukommen, musst du früh aufstehen.</example>
+            <example type="correct">Er stieg auf das Auto <marker>um, um</marker> schneller in der Schule zu sein.</example>
         </rule>
         <rule id="SONDERN_KEIN_NICHT" name="Möglicher Tippfehler: fehlende Verneinung bei sondern-Konstruktion">
             <pattern>
@@ -2062,7 +2063,7 @@ $Id$
         <rulegroup id="DIE_DE" name="Möglicher Tippfehler: 'de (die)'">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">\.|van</token>
+                    <token negate="yes" regexp="yes">\.|van|/|.*[ÁáÀàÇçÉéÈèÍíÌìÓóÒòÚúÙù].*</token>
                     <marker>
                         <token>de</token>
                     </marker>
@@ -2075,6 +2076,8 @@ $Id$
                 <example type="correct">Die Gemeinde <marker>De</marker> Panne</example>
                 <example type="correct">Henry van <marker>de</marker> Velde</example>
                 <example type="correct">Hans van <marker>de</marker> Haar</example>
+                <example type="correct">Collège Européen <marker>de</marker> Police</example>
+                <example type="correct">http://example.com/<marker>de</marker> Beispiele für die Entwicklung</example>
                 <example type="incorrect" correction="die|der">Und <marker>de</marker> Programmierung mit Plain Old Java Objects soll einfacher werden.</example>
             </rule>
             <rule>
@@ -5316,6 +5319,29 @@ $Id$
                 <example type="correct">Johannes <marker>Gutenberg</marker> ist der Erfinder des Buchdrucks mit beweglichen Lettern.</example>
                 <example type="correct">Karl-Theodor zu <marker>Guttenberg</marker> ist wegen einer Plagiatsaffäre zurückgetreten.</example>
                 <example type="incorrect" correction="Guttenberg">Karl Theodor zu <marker>Gutenberg</marker> ist wegen einer Plagiatsaffäre zurückgetreten.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ELISABETH_SELBERT" name="Eigenname: 'Elisabeth Selber (Selbert)' etc.">
+            <rule>
+                <pattern>
+                    <token regexp="yes">Eli[zs]abeth?<exception>Elisabeth</exception></token>
+                    <token regexp="yes">Selbert?h?</token>
+                </pattern>
+                <message>Meinten Sie Andreas <suggestion>Elisabeth Selbert</suggestion> (deutsche Politikerin)?</message>
+                <short>&eigenname;</short>
+                <example type="correct"><marker>Elisabeth Selbert</marker> was eine der vier „Mütter des Grundgesetzes“.</example>
+                <example type="incorrect" correction="Elisabeth Selbert"><marker>Elizabeth Selbert</marker> war eine der vier „Mütter des Grundgesetzes“.</example>
+                <example type="incorrect" correction="Elisabeth Selbert"><marker>Elizabeth Selber</marker> war eine der vier „Mütter des Grundgesetzes“.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">Elisabeth</token>
+                    <token regexp="yes">Selber(th)?</token>
+                </pattern>
+                <message>Meinten Sie Andreas <suggestion>Elisabeth Selbert</suggestion> (deutsche Politikerin)?</message>
+                <short>&eigenname;</short>
+                <example type="correct"><marker>Elisabeth Selbert</marker> was eine der vier „Mütter des Grundgesetzes“.</example>
+                <example type="incorrect" correction="Elisabeth Selbert"><marker>Elisabeth Selber</marker> war eine der vier „Mütter des Grundgesetzes“.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ANDREAS_BAADER" name="Eigenname: 'Andreas Bader (Baader)'">
@@ -19278,13 +19304,14 @@ $Id$
                     <marker>
                         <token>antike</token>
                     </marker>
-                    <token regexp="yes" negate="yes">[A-ZÄÖÜ].+</token>
+                    <token regexp="yes" negate="yes">[A-ZÄÖÜ].+|und</token>
                 </pattern>
                 <message>&subanfang;<suggestion>Antike</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example type="incorrect" correction="Antike">In der <marker>antike</marker> war das Leben der Sklaven hart.</example>
                 <example type="correct">Die Renaissance, in der <marker>antike</marker> Vorbilder beliebt waren.</example>
                 <example type="correct">In der <marker>Antike</marker> war das Leben der Sklaven hart.</example>
+                <example type="correct">Die Mauer, in der <marker>antike</marker> und christliche Elemente zu sehen sind, ist alt.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -19293,7 +19320,7 @@ $Id$
                     <marker>
                         <token>spätantike</token>
                     </marker>
-                    <token regexp="yes" negate="yes">[A-ZÄÖÜ].+</token>
+                    <token regexp="yes" negate="yes">[A-ZÄÖÜ].+|und</token>
                 </pattern>
                 <message>&subanfang;<suggestion>Spätantike</suggestion>&subende;</message>
                 <short>&prgk;.</short>
@@ -22420,7 +22447,7 @@ $Id$
             <rule>
                 <pattern>
                     <token postag="(ART:(IND|DEF)|PRO:POS):NOM:SIN:FEM.*" postag_regexp="yes"/>
-                    <token postag="ADJ:PRD:GRU"><exception postag="ADJ:NOM:SIN:FEM.*" postag_regexp="yes"/><exception regexp="yes">&meinkleinhausausnahmen;h</exception></token>
+                    <token postag="ADJ:PRD:GRU"><exception postag="ADJ:NOM:SIN:FEM.*" postag_regexp="yes"/><exception regexp="yes">&meinkleinhausausnahmen;</exception></token>
                     <token postag="SUB:NOM:SIN:FEM"/>
                 </pattern>
                 <message>Möglicherweise fehlende grammatische Übereinstimmung zwischen Artikel, Adjektiv und Nomen bezüglich Kasus, Numerus oder Genus. Beispiel: 'mein klein Haus' statt 'mein kleines Haus'</message>
@@ -23179,12 +23206,14 @@ $Id$
                     <marker>
                         <token postag="SUB:DAT:SIN:.+" postag_regexp="yes"><exception postag="SUB:(.+):PLU:.+" postag_regexp="yes"/><exception regexp="yes">.*teilen|Übereinkommen</exception></token>
                     </marker>
+                    <token><exception postag="SUB:.+:PLU:.+" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Müsste dieses Wort im Plural stehen?</message>
                 <short>Müsste dieses Wort im Plural stehen?</short>
                 <example type="incorrect">Wir haben eine Vielzahl von <marker>Möglichkeit</marker>.</example>
                 <example type="incorrect">Wir haben eine Reihe von <marker>Möglichkeit</marker>.</example>
                 <example type="correct">Wir haben eine Reihe von <marker>Möglichkeiten</marker>.</example>
+                <example type="correct">Wir haben eine Vielzahl von <marker>Game</marker> Boys.</example>
             </rule>
             <rule>
                 <pattern>
@@ -23194,14 +23223,16 @@ $Id$
                         <token postag="SUB:.+:SIN:.+" postag_regexp="yes">
                             <exception postag=".+:ADJ" postag_regexp="yes"/>
                             <exception postag="SUB:(.+):PLU:.+" postag_regexp="yes"/>
-                            <exception regexp="yes">Bier|Wasser|Glas|.*teilen|Übereinkommen|Mal|.*Prozent|Fuß|Paar|Mark|Reichsmark|Pfund|Dollar|Euro|Stück|Grad|Gramm|Kilo.*|Milli.+|Mann|Schuss</exception>
+                            <exception regexp="yes">Bier|Wasser|Glas|.*teilen|Übereinkommen|Mal|.*Prozent|Fuß|Paar|Mark|Reichsmark|Rentenmark|Pfund|Dollar|Euro|Stück|Grad|Gramm|Kilo.*|Milli.+|Mann|Schuss</exception>
                         </token>
                     </marker>
+                    <token><exception postag="SUB:.+:PLU:.+" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Möglicher Tippfehler: Müsste dieses Wort im Plural stehen?</message>
                 <short>Müsste dieses Wort im Plural stehen?</short>
                 <example type="incorrect">Wir haben ein paar <marker>Ei</marker> gegessen.</example>
                 <example type="correct">Wir haben ein paar <marker>Eier</marker> gegessen.</example>
+                <example type="correct">Wir haben ein paar <marker>Game</marker> Boys.</example>
             </rule>
             <rule>
                 <pattern>
@@ -23210,14 +23241,16 @@ $Id$
                         <token postag="SUB:.+:SIN:.+" postag_regexp="yes">
                             <exception postag=".+:ADJ" postag_regexp="yes"/>
                             <exception postag="SUB:(.+):PLU:.+" postag_regexp="yes"/>
-                            <exception regexp="yes">Bier|Wasser|Glas|.*teilen|Übereinkommen|Mal|.*Prozent|Fuß|Paar|Mark|Reichsmark|Pfund|Dollar|Euro|Stück|Grad|Gramm|Kilo.*|Milli.+|Mann|Schuss|Uhr</exception>
+                            <exception regexp="yes">Bier|Wasser|Glas|.*teilen|Übereinkommen|Mal|.*Prozent|Fuß|Paar|Mark|Reichsmark|Rentenmark|Pfund|Dollar|Euro|Stück|Grad|Gramm|Kilo.*|Milli.+|Mann|Schuss|Uhr</exception>
                         </token>
                     </marker>
+                    <token><exception postag="SUB:.+:PLU:.+" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Möglicher Tippfehler: Müsste dieses Wort im Plural stehen?</message>
                 <short>Müsste dieses Wort im Plural stehen?</short>
                 <example type="incorrect">Wir haben drei <marker>Möglichkeit</marker>.</example>
                 <example type="correct">Wir haben hier drei <marker>Möglichkeiten</marker>.</example>
+                <example type="correct">Zwei <marker>Game</marker> Boys können verbunden werden.</example>
             </rule>
             <rule>
                 <pattern>
@@ -23227,15 +23260,17 @@ $Id$
                             <exception postag="SUB:AKK:SIN:MAS"/>
                             <exception postag=".+:ADJ" postag_regexp="yes"/>
                             <exception postag="SUB:(.+):PLU:.+" postag_regexp="yes"/>
-                            <exception regexp="yes">Bier|Wasser|Glas|.*teilen|Übereinkommen|Mal|.*Prozent|Paar|Stück|Fuß|Grad|Gramm|Kilo.*|Milli.+|Mark|Reichsmark|Zeit|Irritation|Pfund|Einwanderung|Auswanderung|Kritik|Literatur|Aufmerksamkeit|Verwirrung|Bar|Gold</exception>
+                            <exception regexp="yes">Bier|Wasser|Glas|.*teilen|Übereinkommen|Mal|.*Prozent|Paar|Stück|Fuß|Grad|Gramm|Kilo.*|Milli.+|Mark|Reichsmark|Rentenmark|Zeit|Irritation|Pfund|Einwanderung|Auswanderung|Kritik|Literatur|Aufmerksamkeit|Verwirrung|Bar|Gold</exception>
                         </token>
                     </marker>
+                    <token><exception postag="SUB:.+:PLU:.+" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Möglicher Tippfehler: Müsste dieses Wort im Plural stehen?</message>
                 <short>Müsste dieses Wort im Plural stehen?</short>
                 <example type="incorrect">Wir haben viele <marker>Möglichkeit</marker>.</example>
                 <example type="correct">Wir haben hier viele <marker>Möglichkeiten</marker>.</example>
                 <example type="correct">Er hatte einigen <marker>Erfolg</marker> mit seiner Idee.</example>
+                <example type="correct">Sie hatte einige <marker>Game</marker> Boys.</example>
             </rule>
         </rulegroup>
     </category>
