@@ -158,7 +158,7 @@ public class TextConverter
 
     public void visit(ItemizationItem i)
     {
-        newline(1);
+        newline(2);
         iterate(i.getContent());
     }
     
@@ -169,7 +169,7 @@ public class TextConverter
 
     public void visit(EnumerationItem item)
     {
-        newline(1);
+        newline(2);
         iterate(item.getContent());
     }
     

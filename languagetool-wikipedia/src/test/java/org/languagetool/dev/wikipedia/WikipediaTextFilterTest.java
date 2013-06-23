@@ -51,9 +51,9 @@ public class WikipediaTextFilterTest extends TestCase {
 
   public void testLists() throws Exception {
     final String input1 = "# one\n# two\n";
-    assertEquals("one\ntwo", swebleFilter.filter(input1));
+    assertEquals("one\n\ntwo", swebleFilter.filter(input1));
     final String input2 = "* one\n* two\n";
-    assertEquals("one\ntwo", swebleFilter.filter(input2));
+    assertEquals("one\n\ntwo", swebleFilter.filter(input2));
   }
     
 }
