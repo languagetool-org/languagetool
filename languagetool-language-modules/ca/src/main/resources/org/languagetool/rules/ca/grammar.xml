@@ -28,6 +28,7 @@ $Id$
     <!ENTITY exceptions_ALS_TRES_MESOS "per|fins|arribar|corresponent|proper|pròxim|inferior|superior">
     <!ENTITY exceptions_RECOLZAR "cap|espatll?a|cara|punta|marc|porta|contra|banc|mà|genoll|cama|colze|peu|braç|butaca|en|sobre|damunt|paret|escala|arbre|mur|esquena">   
     <!ENTITY exceptions_ASSENTAR_ASSEURE "geològi.*|pilar|bàvar|eslau|roca|ciutat|pedra|morter|tossal|muralla|castell|fonament|sòcol|plana|agricultor|poblat|sedentari.*|mite|història|sistema|producció|cultura|creença|judici|juí|teoria|illa|sobirania|fet|austral|base|categoria|colon|colonitz.*|colònia|comarca|comunitat|errant|est|fermament|habitant|hàbitat|medi|meridional|natural|nord|nord-est|nord-oest|nucli|nòmada|occident|occidental|oest|organització|orient|oriental|península|població|poblador|poblament|poblar|poble|província|puig|recurs|regió|regne|residència|rural|septentrional|societat|sud|sud-est|sud-oest|terra|territori|tribu|turó|tècnica|vall|vida|zona|ètnia|ètnic|principi|conducta|establir|distribució|genital|estructura|recinte|esplanada|pla|superfície">
+    <!ENTITY exceptions_A_DIT_HA_DIT "concedir|crèdit|selecció|subvenció|atorgar|designar|designació|contractar|contractació|plaça|assignar|assignació|nomenar|nomenament|col·locar|col·locació|ajudicar|adjudicació|càrrec">
 ]>
     
 <rules lang="ca" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
@@ -2252,6 +2253,34 @@ $Id$
                 <example type="correct">amb mitja dotzena de cases a tret de fona</example>
                 <example type="correct">uns poms de flors a costat i costat</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>a</token>
+                    </marker>
+                    <token>deixat</token>
+                </pattern>  
+                <message>Si és del v. "haver", s'escriu amb hac.</message>
+                <suggestion>ha</suggestion>
+                <short>Haver s'escriu amb hac</short>
+                <example type="incorrect" correction="ha">Ell <marker>a</marker> deixat clar que no.</example>  
+                <example type="correct">Ho ha deixat clar.</example> 
+            </rule>    
+            <rule id="A_DIT_HA_DIT" name="a dit/ha dit">
+                <pattern>
+                    <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">&exceptions_A_DIT_HA_DIT;</exception></token>
+                    <marker>
+                        <token>a</token>
+                    </marker>
+                    <token skip="-1">dit<exception scope="next" regexp="yes" inflected="yes">&exceptions_A_DIT_HA_DIT;</exception></token>
+                    <token postag="SENT_END" />
+                </pattern>
+                <message>Si és del v. "haver", s'escriu amb hac.</message>
+                <suggestion>ha</suggestion>
+                <short>Haver s'escriu amb hac</short>
+                <example type="incorrect" correction="ha">Ell <marker>a</marker> dit que sí.</example>  
+                <example type="correct">Les adjucacions es van fer a dit.</example>
+            </rule>    
             <rule>
                 <pattern>
                     <token>tant</token>
@@ -4748,13 +4777,15 @@ $Id$
     <category name="Z) Confusions" type="grammar">
         <rule id="OS_US" name="*os/us agrada">
             <pattern>
+                <token><exception postag="SPS.*|.*LOC_PREP.*" postag_regexp="yes"/></token>
                 <marker>
                     <token>os<exception postag="_GN_MS"/></token>
                 </marker>
-                <token postag="V.[MSI].*" postag_regexp="yes"/>
+                <token postag="V.[MSI].*|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"/>
             </pattern>
             <message>¿Volíeu dir <suggestion>us</suggestion>?</message>
             <example type="incorrect" correction="Us">¿<marker>Os</marker> agraden les cloïsses?</example>
+            <example type="incorrect" correction="Us">¿<marker>Os</marker> l'emportareu?</example>
             <example type="correct">Té un os trencat.</example>
             <example type="correct">L'os creix bé.</example>
         </rule>
@@ -18496,6 +18527,19 @@ $Id$
         </rule>
     </category>      
     <category name="C1) Evita formes impròpies d'un registre formal" type="style">
+        <rule id="MOS_ENS" name="*mos/ens agrada">
+            <pattern>
+                <token><exception postag="SPS.*|.*LOC_PREP.*" postag_regexp="yes"/></token>
+                <marker>
+                    <token>mos<exception postag="_GN_MS"/></token>
+                </marker>
+                <token postag="V.[MSI].*|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"/>
+            </pattern>
+            <message>En un registre formal cal dir: <suggestion>ens</suggestion></message>
+            <example type="incorrect" correction="Ens"><marker>Mos</marker> agrada anar a la platja.</example>
+            <example type="incorrect" correction="Ens"><marker>Mos</marker> l'hem emportat a la platja.</example>
+            <example type="correct">D'un mos trencà l'os</example>
+        </rule>
     	<rule id="AVIAM" name="aviam/vejam/a veure">
 	         <pattern>
 	             <token>aviam</token>
