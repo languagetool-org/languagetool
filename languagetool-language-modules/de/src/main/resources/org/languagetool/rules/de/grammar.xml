@@ -73,7 +73,7 @@ $Id$
     <!ENTITY seitewoerter ".*Buchs?|.*Lektüre|umblätter\w\w?|umgeblättert|umzublättern|(ge)?lesen|las(en)?|geschrieben|schreiben?">
     <!ENTITY saitewoerter "aufziehen|.*ontrabass(es)?|.*Bratsche|.*Cellos?|.*Harfen?|.*Geigen?|.*Gitarren?|.*Violas?|.*Violinen?|Klavier">
     <!ENTITY leidwoerter "Angst|Armut|Bevölkerung|Blut(vergießens?)?|Einsamkeit|Elend|Entbehrung(en)?|Entsagung|Flüchtling(en?)?|Gewalt|Krankheit(en?)?|Mitleid|Not|Ohnmacht|Qual(en?)?|Schadens?|Schrecken|Unterdrückung|Vertreibung|Verzweiflung|Zerstörung(en?)?|Zivilbevölkerung|bitteres|endloses|ertragen|geschieht|geteiltes|psychisches|unendliches|unermessliches|unerträgliches|ungeheures|unsagbares|unsägliches|unvorstellbares|vermeidbares|verursacht|zugefügt">
-    <!ENTITY meinkleinhausausnahmen "ausreichend|erst|ganz|laut|traditionell|ursprünglich|wenig|zusätzlich|reichlich|weltweit|täglich">
+    <!ENTITY meinkleinhausausnahmen "ausreichend|erst|ganz|genau|laut|maximal|reichlich|täglich|traditionell|ursprünglich|weltweit|wenig|zusätzlich">
     <!ENTITY anfauf "„|&quot;|»|›|‚|'">
     <!ENTITY anfzu "‘|“|‹|«|&quot;|'">
     <!ENTITY anf "&anfauf;|‘|“|‹|«">
@@ -22436,13 +22436,17 @@ $Id$
                 <example type="correct">Es wird immer <marker>ein wenig Material</marker> entfernt.</example>
                 <example type="correct"><marker>In ganz Ostafrika</marker> leben Menschen.</example>
                 <example type="correct">Du darfst nicht <marker>zu schnell Öl</marker> hinzufügen.</example>
+                <example type="correct">Das Signal kann <marker>mit maximal Lichtgeschwindigkeit</marker> den Beobachter erreichen.</example>
             </rule>
             <!-- TODO ergaenzen -->
             <rule>
                 <pattern>
-                    <token postag="(ART:(IND|DEF)|PRO:POS):NOM:SIN:MAS.*" postag_regexp="yes"/>
-                    <token postag="ADJ:PRD:GRU"><exception postag="ADJ:NOM:SIN:MAS.*" postag_regexp="yes"/><exception regexp="yes">&meinkleinhausausnahmen;</exception></token>
-                    <token postag="SUB:NOM:SIN:MAS"/>
+                    <token><exception>,</exception></token>
+                    <marker>
+                        <token postag="(ART:(IND|DEF)|PRO:POS):NOM:SIN:MAS.*" postag_regexp="yes"/>
+                        <token postag="ADJ:PRD:GRU"><exception postag="ADJ:NOM:SIN:MAS.*" postag_regexp="yes"/><exception regexp="yes">&meinkleinhausausnahmen;</exception></token>
+                        <token postag="SUB:NOM:SIN:MAS"/>
+                    </marker>
                 </pattern>
                 <message>Möglicherweise fehlende grammatische Übereinstimmung zwischen Artikel, Adjektiv und Nomen bezüglich Kasus, Numerus oder Genus. Beispiel: 'mein klein Haus' statt 'mein kleines Haus'</message>
                 <short>Möglicherweise fehlende grammatische Übereinstimmung zwischen Artikel, Adjektiv und Nomen.</short>
@@ -22451,9 +22455,12 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="(ART:(IND|DEF)|PRO:POS):NOM:SIN:FEM.*" postag_regexp="yes"/>
-                    <token postag="ADJ:PRD:GRU"><exception postag="ADJ:NOM:SIN:FEM.*" postag_regexp="yes"/><exception regexp="yes">&meinkleinhausausnahmen;</exception></token>
-                    <token postag="SUB:NOM:SIN:FEM"/>
+                    <token><exception>,</exception></token>
+                    <marker>
+                        <token postag="(ART:(IND|DEF)|PRO:POS):NOM:SIN:FEM.*" postag_regexp="yes"/>
+                        <token postag="ADJ:PRD:GRU"><exception postag="ADJ:NOM:SIN:FEM.*" postag_regexp="yes"/><exception regexp="yes">&meinkleinhausausnahmen;</exception></token>
+                        <token postag="SUB:NOM:SIN:FEM"/>
+                    </marker>
                 </pattern>
                 <message>Möglicherweise fehlende grammatische Übereinstimmung zwischen Artikel, Adjektiv und Nomen bezüglich Kasus, Numerus oder Genus. Beispiel: 'mein klein Haus' statt 'mein kleines Haus'</message>
                 <short>Möglicherweise fehlende grammatische Übereinstimmung zwischen Artikel, Adjektiv und Nomen.</short>
@@ -22462,12 +22469,16 @@ $Id$
                 <example type="incorrect"><marker>Meine schön Frau</marker> ist nett.</example>
                 <example type="correct"><marker>Eine blaue Markierung</marker> wird verwendet, um Grammatikfehler zu kennzeichnen.</example>
                 <example type="correct"><marker>Die erst Mitte</marker> der 1920er Jahre veröffentliche Untersuchung ist fehlerhaft.</example>
+                <example type="correct">Dies ist eine Wortform, <marker>die gleichzeitig Person</marker> und Numerus anzeigt.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token postag="(ART:(IND|DEF)|PRO:POS):NOM:SIN:NEU.*" postag_regexp="yes"/>
-                    <token postag="ADJ:PRD:GRU"><exception postag="ADJ:NOM:SIN:NEU.*" postag_regexp="yes"/><exception regexp="yes">&meinkleinhausausnahmen;</exception></token>
-                    <token postag="SUB:NOM:SIN:NEU"/>
+                    <token><exception>,</exception></token>
+                    <marker>
+                        <token postag="(ART:(IND|DEF)|PRO:POS):NOM:SIN:NEU.*" postag_regexp="yes"/>
+                        <token postag="ADJ:PRD:GRU"><exception postag="ADJ:NOM:SIN:NEU.*" postag_regexp="yes"/><exception regexp="yes">&meinkleinhausausnahmen;</exception></token>
+                        <token postag="SUB:NOM:SIN:NEU"/>
+                    </marker>
                 </pattern>
                 <message>Möglicherweise fehlende grammatische Übereinstimmung zwischen Artikel, Adjektiv und Nomen bezüglich Kasus, Numerus oder Genus. Beispiel: 'mein klein Haus' statt 'mein kleines Haus'</message>
                 <short>Möglicherweise fehlende grammatische Übereinstimmung zwischen Artikel, Adjektiv und Nomen.</short>
