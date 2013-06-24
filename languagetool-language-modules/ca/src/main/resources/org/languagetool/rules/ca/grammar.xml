@@ -29,6 +29,7 @@ $Id$
     <!ENTITY exceptions_RECOLZAR "cap|espatll?a|cara|punta|marc|porta|contra|banc|mà|genoll|cama|colze|peu|braç|butaca|en|sobre|damunt|paret|escala|arbre|mur|esquena">   
     <!ENTITY exceptions_ASSENTAR_ASSEURE "geològi.*|pilar|bàvar|eslau|roca|ciutat|pedra|morter|tossal|muralla|castell|fonament|sòcol|plana|agricultor|poblat|sedentari.*|mite|història|sistema|producció|cultura|creença|judici|juí|teoria|illa|sobirania|fet|austral|base|categoria|colon|colonitz.*|colònia|comarca|comunitat|errant|est|fermament|habitant|hàbitat|medi|meridional|natural|nord|nord-est|nord-oest|nucli|nòmada|occident|occidental|oest|organització|orient|oriental|península|població|poblador|poblament|poblar|poble|província|puig|recurs|regió|regne|residència|rural|septentrional|societat|sud|sud-est|sud-oest|terra|territori|tribu|turó|tècnica|vall|vida|zona|ètnia|ètnic|principi|conducta|establir|distribució|genital|estructura|recinte|esplanada|pla|superfície">
     <!ENTITY exceptions_A_DIT_HA_DIT "concedir|crèdit|selecció|subvenció|atorgar|designar|designació|contractar|contractació|plaça|assignar|assignació|nomenar|nomenament|col·locar|col·locació|ajudicar|adjudicació|càrrec">
+    <!ENTITY dies_setmana "dilluns|dimarts|dimecres|dijous|divendres|dissabte|diumenge">
 ]>
     
 <rules lang="ca" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
@@ -4438,7 +4439,7 @@ $Id$
                         <token>fins</token>
                         <token>a</token>
                     </marker>
-                    <token regexp="yes">dilluns|dimarts|dimecres|dijous|divendres|dissabte|diumenge</token>
+                    <token regexp="yes">&dies_setmana;</token>
                 </pattern>
                 <message>Cal escriure <suggestion>fins</suggestion>.</message>
                 <example type="incorrect"><marker>Fins a</marker> diumenge.</example>
@@ -17869,7 +17870,7 @@ $Id$
             <rule>
                 <pattern>
                     <token inflected="yes">proper</token>
-                    <token regexp="yes" inflected="yes">elecció|temporada|legislatura|curs|minut|hora|dia|setmana|mes|trimestre|quadrimestre|semestre|any|lustre|dècada|segel|mil·lenni|instant|moment|dilluns|dimarts|dimecres|dijous|divendres|dissabte|diumenge</token>
+                    <token regexp="yes" inflected="yes">elecció|temporada|legislatura|curs|minut|hora|dia|setmana|mes|trimestre|quadrimestre|semestre|any|lustre|dècada|segel|mil·lenni|instant|moment|&dies_setmana;</token>
                 </pattern>
                 <message>En aquest cas val més evitar l'adjectiu "<match no="1"/>".</message> 
                 <suggestion><match no="2"/> <match no="1" postag="AQ0.(.)." postag_regexp="yes" postag_replace="AQ0C$10">vinent</match></suggestion>
@@ -17883,7 +17884,7 @@ $Id$
                 <pattern>
                     <token inflected="yes">proper</token>
                     <token/>
-                    <token regexp="yes" inflected="yes">minut|hora|dia|setmana|mes|trimestre|quadrimestre|semestre|any|lustre|dècada|segel|mil·lenni|instant|moment|dilluns|dimarts|dimecres|dijous|divendres|dissabte|diumenge</token>
+                    <token regexp="yes" inflected="yes">minut|hora|dia|setmana|mes|trimestre|quadrimestre|semestre|any|lustre|dècada|segel|mil·lenni|instant|moment|&dies_setmana;</token>
                 </pattern>
                 <message>En aquest cas val més evitar l'adjectiu "<match no="1"/>".</message> 
                 <suggestion><match no="2"/> <match no="3"/> <match no="1" postag="AQ0.(.)." postag_regexp="yes" postag_replace="AQ0C$10">vinent</match></suggestion>
@@ -18464,7 +18465,7 @@ $Id$
                 <marker>
                     <token/>
                     <token>proper</token>
-                    <token regexp="yes" skip="1">dilluns|dimarts|dimecres|dijous|divendres|dissabte|diumenge</token>
+                    <token regexp="yes" skip="1">&dies_setmana;</token>
                 </marker>
                 <token regexp="yes">\d+</token>
             </pattern>
@@ -19535,8 +19536,8 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token postag="NC.*" postag_regexp="yes" regexp="yes">\p{Ll}[\p{Ll}·]+<exception postag="A.*|V.P.*|V.[NMSI].*|complement.*|DN.*|_GV_|.*LOC_ADV.*|_loc_meitat" postag_regexp="yes" /><exception regexp="yes">\p{Lu}[\p{Ll}·]*</exception><exception regexp="yes" inflected="yes">mots?|paraul(a|es)|termes?|expressi(ó|ons)|vocables?|nombres?|lletr(a|es)|colors?|vegad(a|es)|volt(a|es)|cops?|noms?|majoria</exception></token>
-                        <token postag="NC.*" postag_regexp="yes" regexp="yes">\p{Ll}[\p{Ll}·]+<exception postag="A.*|V.P.*|V.[NMSI].*|_GN.*|DN.*|_loc_enma|.*LOC_ADV.*|_loc_meitat" postag_regexp="yes" /><exception regexp="yes">\p{Lu}[\p{Ll}·]*|fra|don</exception></token>
+                        <token postag="NC.*" postag_regexp="yes" regexp="yes">\p{Ll}[\p{Ll}·]+<exception postag="A.*|V.P.*|V.[NMSI].*|complement.*|DN.*|_GV_|.*LOC_ADV.*|_loc_meitat" postag_regexp="yes" /><exception regexp="yes">\p{Lu}.*</exception><exception regexp="yes" inflected="yes">mots?|paraul(a|es)|termes?|expressi(ó|ons)|vocables?|nombres?|lletr(a|es)|colors?|vegad(a|es)|volt(a|es)|cops?|noms?|majoria|&dies_setmana;</exception></token>
+                        <token postag="NC.*" postag_regexp="yes" regexp="yes">\p{Ll}[\p{Ll}·]+<exception postag="A.*|V.P.*|V.[NMSI].*|_GN.*|DN.*|_loc_enma|.*LOC_ADV.*|_loc_meitat" postag_regexp="yes" /><exception regexp="yes">\p{Lu}.*|fra|don|&dies_setmana;|.+ador(a|s|es)?</exception></token>
                     </marker>
                     <token><exception regexp="yes">amunt|avall|enllà</exception></token>
                 </pattern>
@@ -19567,12 +19568,12 @@ $Id$
                     <marker>
                         <token postag="DA.*" postag_regexp="yes"/>
                         <and>
-                            <token postag="NC.*" postag_regexp="yes"><exception postag="DN.*" postag_regexp="yes" /><exception inflected="yes" regexp="yes">teatre|setmanari|òpera|revista|pel·lícula|poema|alto|llibre|documental|conte|novel·la|sintagma|mot|paraula|terme|expressió|vocable|nom|tipus|denominació</exception><exception regexp="yes" inflected="yes">endemà|any|dia|mes|setmana|gener|febrer|març|abril|maig|juny|juliol|agost|setembre|octubre|novembre|desembre|dilluns|dimarts|dimecres|dijous|divendres|dissabte|diumenge</exception></token>
+                            <token postag="NC.*" postag_regexp="yes"><exception postag="DN.*" postag_regexp="yes" /><exception inflected="yes" regexp="yes">teatre|setmanari|òpera|revista|pel·lícula|poema|alto|llibre|documental|conte|novel·la|sintagma|mot|paraula|terme|expressió|vocable|nom|tipus|denominació</exception><exception regexp="yes" inflected="yes">endemà|any|dia|mes|setmana|gener|febrer|març|abril|maig|juny|juliol|agost|setembre|octubre|novembre|desembre|&dies_setmana;</exception></token>
                             <token postag="_GN_.*" postag_regexp="yes"/>
                         </and>
                         <token postag="DA.*" postag_regexp="yes"/>
                         <and>
-                            <token postag="NC.*" postag_regexp="yes"><exception regexp="yes" inflected="yes">endemà|any|dia|mes|setmana|gener|febrer|març|abril|maig|juny|juliol|agost|setembre|octubre|novembre|desembre|dilluns|dimarts|dimecres|dijous|divendres|dissabte|diumenge</exception></token>
+                            <token postag="NC.*" postag_regexp="yes"><exception regexp="yes" inflected="yes">endemà|any|dia|mes|setmana|gener|febrer|març|abril|maig|juny|juliol|agost|setembre|octubre|novembre|desembre|&dies_setmana;</exception></token>
                             <token postag="_GN_.*" postag_regexp="yes"/>
                         </and>
                     </marker>
@@ -19601,12 +19602,12 @@ $Id$
                     <marker>
                         <token postag="DA.*" postag_regexp="yes"/>
                         <and>
-                            <token postag="NC.*" postag_regexp="yes"><exception postag="DN.*" postag_regexp="yes" /><exception inflected="yes" regexp="yes">teatre|setmanari|òpera|revista|pel·lícula|poema|alto|llibre|documental|conte|novel·la|sintagma|mot|paraula|terme|expressió|vocable|nom|tipus|denominació</exception><exception regexp="yes" inflected="yes">endemà|any|dia|mes|setmana|gener|febrer|març|abril|maig|juny|juliol|agost|setembre|octubre|novembre|desembre|dilluns|dimarts|dimecres|dijous|divendres|dissabte|diumenge</exception></token>
+                            <token postag="NC.*" postag_regexp="yes"><exception postag="DN.*" postag_regexp="yes" /><exception inflected="yes" regexp="yes">teatre|setmanari|òpera|revista|pel·lícula|poema|alto|llibre|documental|conte|novel·la|sintagma|mot|paraula|terme|expressió|vocable|nom|tipus|denominació</exception><exception regexp="yes" inflected="yes">endemà|any|dia|mes|setmana|gener|febrer|març|abril|maig|juny|juliol|agost|setembre|octubre|novembre|desembre|&dies_setmana;</exception></token>
                             <token postag="_GN_.*" postag_regexp="yes"/>
                         </and>
                         <token postag="DA.*" postag_regexp="yes"/>
                         <and>
-                            <token postag="NC.*" postag_regexp="yes"><exception regexp="yes" inflected="yes">endemà|any|dia|mes|setmana|gener|febrer|març|abril|maig|juny|juliol|agost|setembre|octubre|novembre|desembre|dilluns|dimarts|dimecres|dijous|divendres|dissabte|diumenge</exception></token>
+                            <token postag="NC.*" postag_regexp="yes"><exception regexp="yes" inflected="yes">endemà|any|dia|mes|setmana|gener|febrer|març|abril|maig|juny|juliol|agost|setembre|octubre|novembre|desembre|&dies_setmana;</exception></token>
                             <token postag="_GN_.*" postag_regexp="yes"/>
                         </and>
                     </marker>

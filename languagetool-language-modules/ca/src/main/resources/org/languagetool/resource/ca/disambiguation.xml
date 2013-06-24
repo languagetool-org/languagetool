@@ -288,6 +288,28 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="add"><wd pos="LOC_ADJ"/><wd pos="LOC_ADJ"/></disambig>
             <example type="untouched">No us heu <marker>de fiar</marker> de ningú.</example>
         </rule>
+        <!--  Locucions adverbials-->
+        <rule id="loc_adv3paraules" name="locució adverbial 3 paraules">
+            <pattern>
+                <token postag="&lt;LOC_ADV&gt;"></token>
+                <marker>
+                    <token/>
+                </marker>
+                <token postag="&lt;/LOC_ADV&gt;"></token>
+            </pattern>
+            <disambig action="add"><wd lemma="loc_adv" pos="LOC_ADV"/></disambig>
+        </rule>
+        <rule id="loc_adv4paraules" name="locució adverbial 4 paraules">
+            <pattern>
+                <token postag="&lt;LOC_ADV&gt;"></token>
+                <marker>
+                    <token/>
+                    <token/>
+                </marker>
+                <token postag="&lt;/LOC_ADV&gt;"></token>
+            </pattern>
+            <disambig action="add"><wd lemma="loc_adv" pos="LOC_ADV"/><wd lemma="loc_adv" pos="LOC_ADV"/></disambig>
+        </rule>
         <!--locucions adverbials de temps-->
         <rule id="any_a_any" name="any a any">
             <pattern>
@@ -364,28 +386,18 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="replace"><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/></disambig>
         </rule>
-        <!--  Locucions adverbials-->
-        <rule id="loc_adv3paraules" name="locució adverbial 3 paraules">
+        <rule id="entre_classe_i_classe" name="entre classe i classe">
             <pattern>
-                <token postag="&lt;LOC_ADV&gt;"></token>
                 <marker>
-                    <token/>
+                    <token>entre</token>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <token>i</token>
+                    <token><match no="1"/></token>
                 </marker>
-                <token postag="&lt;/LOC_ADV&gt;"></token>
             </pattern>
-            <disambig action="add"><wd lemma="loc_adv" pos="LOC_ADV"/></disambig>
+            <disambig action="add"><wd pos="&lt;LOC_ADV&gt;"/><wd pos="&lt;LOC_ADV&gt;"/><wd pos="&lt;LOC_ADV&gt;"/><wd pos="&lt;/LOC_ADV&gt;"/></disambig>
         </rule>
-        <rule id="loc_adv4paraules" name="locució adverbial 4 paraules">
-            <pattern>
-                <token postag="&lt;LOC_ADV&gt;"></token>
-                <marker>
-                    <token/>
-                    <token/>
-                </marker>
-                <token postag="&lt;/LOC_ADV&gt;"></token>
-            </pattern>
-            <disambig action="add"><wd lemma="loc_adv" pos="LOC_ADV"/><wd lemma="loc_adv" pos="LOC_ADV"/></disambig>
-        </rule>
+        <!-- Filtra Locucions adverbials-->
         <rule id="loc_adv_filtra" name="locució adverbial filtra">
             <pattern>
                 <marker>
@@ -1161,7 +1173,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <token postag="N.*|_GV_|V.*|_GN.*" postag_regexp="yes"></token>
                 <marker>
-                    <token regexp="yes">sobre|entre</token>
+                    <token postag="[VN].*" postag_regexp="yes" regexp="yes">sobre|entre</token>
                 </marker>
             </pattern>
             <disambig action="filter" postag="[^VN].*" />
@@ -1294,7 +1306,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <marker>
-                    <token>entre</token>
+                    <token postag="SPS00">entre</token>
                 </marker>
                 <token/>
                 <token regexp="yes">i|o</token>
@@ -1377,7 +1389,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token postag="(DD|PD).*|V.*|P[P0].*|NP.*|NC.*" postag_regexp="yes"><exception postag="C.*|R.*|DA.*|V.N.*" postag_regexp="yes"/><exception regexp="yes">tu|e[mts]|[mts]e|ens|us|[mtsln]'|'[mtsln]|li|els?|la|les|en|hi|ho|any|dia</exception></token>
                 <marker>
                     <and>
-                        <token postag="V.[IS].2S0.?" postag_regexp="yes"><exception regexp="yes">trobes|dius|vas|prens|pots|vols|sols|tens|confesses|veus</exception></token>
+                        <token postag="V.[IS].2S0.?" postag_regexp="yes"><exception regexp="yes">esperes|deus|trobes|dius|vas|prens|pots|vols|sols|tens|confesses|veus</exception></token>
                         <token postag="N.*|A.*|V.P.*" postag_regexp="yes" />
                     </and>
                 </marker>
@@ -1576,6 +1588,24 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token>comtes</token>
                 <marker>
                     <token>ducs</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="AQ0MP0" />
+        </rule>
+        <rule>
+            <pattern>
+                <token>home</token>
+                <marker>
+                    <token>llop</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="AQ0MS0" />
+        </rule>
+        <rule>
+            <pattern>
+                <token>homes</token>
+                <marker>
+                    <token>llop</token>
                 </marker>
             </pattern>
             <disambig action="filter" postag="AQ0MP0" />
@@ -2326,7 +2356,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <and>
                         <token postag="N.*" postag_regexp="yes"/>
-                        <token postag="V.P.*" postag_regexp="yes"><exception regexp="yes">fet|acabat|col·locat</exception></token>
+                        <token postag="V.P.*" postag_regexp="yes"><exception regexp="yes">ratllat|escrit|fet|acabat|col·locat</exception></token>
                     </and>
                 </marker>
             </pattern>
@@ -4690,7 +4720,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <feature id="nombre"/>
                     <feature id="genere"/>
                         <marker>
-                            <token postag="D..[MF].." postag_regexp="yes"/>
+                            <token postag="D[^R].[MF].." postag_regexp="yes"/>
                             <token postag="A.*|V.P.*|PX.*" postag_regexp="yes"/>
                             <token postag="N.*" postag_regexp="yes"><exception regexp="yes">perquè|trenca|era|diu|si|però|escull|creix|dura|parla|mira|queda|estima|passa|escolta|troba</exception><exception postag="DN.*" postag_regexp="yes" /></token>
                         </marker>
@@ -4704,7 +4734,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <feature id="nombre"/>
                     <feature id="genere"/>
                         <marker>
-                            <token postag="D..C.." postag_regexp="yes"/>
+                            <token postag="D[^R].C.." postag_regexp="yes"/>
                             <token postag="A.*|V.P.*|PX.*" postag_regexp="yes"/>
                             <token postag="N.*" postag_regexp="yes"><exception regexp="yes">perquè|diu|si|però|era</exception><exception postag="DN.*|V[MA]IP3S0.?" postag_regexp="yes" /></token>
                         </marker>
@@ -4715,7 +4745,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <marker>
-                    <token postag="D..[MC][SN0].*" postag_regexp="yes"/>
+                    <token postag="D[^R].[MC][SN0].*" postag_regexp="yes"/>
                     <token postag="A..[MC][SN0].*|V.P..SM.?|PX.[MC][SN0].*" postag_regexp="yes"/>
                     <token postag="N.[MC][SN0].*" postag_regexp="yes"><exception regexp="yes">perquè|diu|si|però|escull|creix|escolta|troba</exception></token>
                 </marker>
@@ -4725,7 +4755,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <marker>
-                    <token postag="D..[FC][SN0].*" postag_regexp="yes"/>
+                    <token postag="D[^R].[FC][SN0].*" postag_regexp="yes"/>
                     <token postag="A..[FC][SN0].*|V.P..SF.?|PX.[FC][SN0].*" postag_regexp="yes"/>
                     <token postag="N.[FC][SN0].*" postag_regexp="yes"><exception regexp="yes">era|mira|queda|estima|passa|escolta|troba</exception></token>
                 </marker>    
@@ -4735,7 +4765,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <marker>
-                    <token postag="D..[MC][PN0].*" postag_regexp="yes"/>
+                    <token postag="D[^R].[MC][PN0].*" postag_regexp="yes"/>
                     <token postag="A..[MC][PN0].*|V.P..PM.?|PX.[MC][PN0].*" postag_regexp="yes"/>
                     <token postag="N.[MC][PN0].*" postag_regexp="yes"><exception postag="DN.*" postag_regexp="yes" /></token>
                 </marker>
@@ -4745,7 +4775,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <marker>
-                    <token postag="D..[FC][PN0].*" postag_regexp="yes"/>
+                    <token postag="D[^R].[FC][PN0].*" postag_regexp="yes"/>
                     <token postag="A..[FC][PN0].*|V.P..PF.?|PX.[FC][PN0].*" postag_regexp="yes"/>
                     <token postag="N.[FC][PN0].*" postag_regexp="yes"/>
                 </marker>
@@ -5918,7 +5948,19 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token postag="N.*" postag_regexp="yes"/>
         </pattern>
         <disambig action="filter" postag="[^N].*"></disambig>
-    </rule>    
+    </rule>  
+    <rule id="TOT_gerundi" name="tot + gerundi">
+        <pattern>
+            <token>tot</token>
+            <marker>
+                <and>
+                    <token postag="NC.*" postag_regexp="yes"/>
+                    <token postag="V.G.*" postag_regexp="yes"/>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="[^N].*"></disambig>
+    </rule>     
     <rulegroup id="DetNom" name="Determinant + nom">
         <!-- Caldria diferenciar/elimianr alguns casos. Per exemple DN + DI
              CAL SEPARAR EL CAS DA+NC QUE ÉS L'UNIC PROBLEMÀTIC -->
@@ -7400,7 +7442,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <marker>
                 <and>
                     <token postag="A.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes" /><exception regexp="yes">\p{Lu}+[\p{Ll}·]*</exception><exception regexp="yes">[\p{Ll}·]+(e|[aei]sses|[ae]res|era)</exception></token>
-                    <token postag="V.*" postag_regexp="yes"><exception postag="_GV_|VMIP1S0.?|V.G.*" postag_regexp="yes" /><exception>nou</exception></token>
+                    <token postag="V.*" postag_regexp="yes"><exception postag="_GV_|VMIP1S0.?|V.G.*" postag_regexp="yes" /><exception regexp="yes">nou|massissa</exception></token>
                 </and>
             </marker>
         </pattern>
@@ -7594,8 +7636,8 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <token><exception postag="RG_anteposat"/></token>
                 <marker>
-                <and>
-                    <token postag="A.*" postag_regexp="yes" regexp="yes" inflected="yes">dret|titular|redactor|directiu|carreter|mural|promotor|director|estranger|missatger|motius|part|restaurants|parella<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                <and> <!--dret-->
+                    <token postag="A.*" postag_regexp="yes" regexp="yes" inflected="yes">titular|redactor|directiu|carreter|mural|promotor|director|estranger|missatger|motiu|part|restaurant|parella<exception postag="_GN_.*" postag_regexp="yes"/></token>
                     <token postag="A.*" postag_regexp="yes" negate_pos="yes"></token>
                 </and>
                 </marker>
