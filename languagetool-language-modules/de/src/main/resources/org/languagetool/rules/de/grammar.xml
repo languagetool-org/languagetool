@@ -2065,7 +2065,7 @@ $Id$
                 <pattern case_sensitive="yes">
                     <token negate="yes" regexp="yes">\.|van|/|.*[ÁáÀàÇçÉéÈèÍíÌìÓóÒòÚúÙù].*</token>
                     <marker>
-                        <token>de</token>
+                        <token skip="1">de<exception scope="next" negate_pos="yes" postag="(ADJ|SUB):.*|SENT_END" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="SUB:.*" postag_regexp="yes"/>
                 </pattern>
@@ -2079,12 +2079,14 @@ $Id$
                 <example type="correct">Collège Européen <marker>de</marker> Police</example>
                 <example type="correct">http://example.com/<marker>de</marker> Beispiele für die Entwicklung</example>
                 <example type="incorrect" correction="die|der">Und <marker>de</marker> Programmierung mit Plain Old Java Objects soll einfacher werden.</example>
+                <example type="correct">An <marker>der</marker> blauen See waren wir.</example>
+                <example type="incorrect" correction="die|der">An <marker>de</marker> blauen See waren wir.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"/>
                     <marker>
-                        <token>De</token>
+                        <token skip="1">De<exception scope="next" negate_pos="yes" postag="(ADJ|SUB):.*|SENT_END" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="SUB:.*" postag_regexp="yes"/>
                 </pattern>
@@ -2094,6 +2096,8 @@ $Id$
                 <example type="correct">Auf example.<marker>de</marker> Fachartikel lesen.</example>
                 <example type="correct">Die Gemeinde <marker>De</marker> Panne</example>
                 <example type="incorrect" correction="Die|Der"><marker>De</marker> Programmierung mit Plain Old Java Objects soll einfacher werden.</example>
+                <example type="correct"><marker>Die</marker> blaue See ist schön.</example>
+                <example type="incorrect" correction="Die|Der"><marker>De</marker> blaue See ist schön.</example>
             </rule>
         </rulegroup>
         <rulegroup id="BIS_BISS" name="Möglicher Tippfehler: 'biss (bis)'">
@@ -7505,12 +7509,13 @@ $Id$
                         <token>des</token>
                         <token>wegen</token>
                     </marker>
-                    <token negate_pos="yes" postag_regexp="yes" postag=".*:GEN:.*"/>
+                    <token><exception postag_regexp="yes" postag=".*:GEN:.*"/></token>
                 </pattern>
                 <message>&getrennt;: Meinten Sie <suggestion>deswegen</suggestion>?</message>
                 <example type="correct"><marker>Deswegen</marker> fuhren sie nach Hause.</example>
                 <example type="incorrect"><marker>Des wegen</marker> fuhren sie nach Hause.</example>
                 <example type="correct">Die Strafe <marker>des wegen</marker> Mordes vorbestraften Verbrechers wird hoch ausfallen.</example>
+                <example type="correct">Sie ist die Nachfolgerin <marker>des wegen</marker> der Spitzel-Affäre zurückgetretenen Ministers.</example>
             </rule>
         </rulegroup>
         <rulegroup id="CONTRA_PRODUKTIV" name="Zusammen-/Getrenntschreibung: 'contra produktiv (kontraproduktiv)'">

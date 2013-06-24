@@ -42,7 +42,8 @@ import org.languagetool.rules.RuleMatch;
  * wenn nur ein mögliches finites Verb -> das nehmen (Max machen das.)
  * Sie (i>1)
  * bei ich/du/er/wir sofort prüfen, damit alle vorkommen geprüft werden (Ich geht jetzt nach Hause und dort gehe ich sofort unter die Dusche.) [aber: isNear]
- *
+ * Alle Verbvorkommen merken (Er präsentieren wollte und Video hätte keine Pläne.)
+ * 
  * @author Markus Brenneis
  */
 public class VerbAgreementRule extends GermanRule {
@@ -89,10 +90,10 @@ public class VerbAgreementRule extends GermanRule {
     // position of the pronouns
     int posIch = -1, posDu = -1, posEr = -1, posWir = -1;
     // positions of verbs which do match in person and number, and do not match any other person nor number
-    int posVer1Sin = -1, posVer2Sin = -1, posVer1Plu = -1, posVer2Plu = -1;
+    int posVer1Sin = -1, posVer2Sin = -1, posVer1Plu = -1/*, posVer2Plu = -1*/;
     // positions of verbs which do match in person and number
     int posPossibleVer1Sin = -1, posPossibleVer2Sin = -1, posPossibleVer3Sin = -1,
-        posPossibleVer1Plu = -1, posPossibleVer2Plu = -1;
+        posPossibleVer1Plu = -1/*, posPossibleVer2Plu = -1*/;
     
     for (int i = 1; i < tokens.length; ++i) { // ignore SENT_START
       
@@ -120,8 +121,8 @@ public class VerbAgreementRule extends GermanRule {
           posVer2Sin = i;
         } else if (hasUnambiguouslyPersonAndNumber(tokens[i], "1", "PLU")) {
           posVer1Plu = i;
-        } else if (hasUnambiguouslyPersonAndNumber(tokens[i], "2", "PLU")) {
-          posVer2Plu = i;
+//        } else if (hasUnambiguouslyPersonAndNumber(tokens[i], "2", "PLU")) {
+//          posVer2Plu = i;
         }
         
         if (tokens[i].hasPartialPosTag(":1:SIN"))
@@ -132,8 +133,8 @@ public class VerbAgreementRule extends GermanRule {
           posPossibleVer3Sin = i;
         if (tokens[i].hasPartialPosTag(":1:PLU"))
           posPossibleVer1Plu = i;
-        if (tokens[i].hasPartialPosTag(":2:PLU"))
-          posPossibleVer2Plu = i;
+//        if (tokens[i].hasPartialPosTag(":2:PLU"))
+//          posPossibleVer2Plu = i;
         
       }
            
