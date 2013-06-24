@@ -51,9 +51,13 @@ public class VerbAgreementRule extends GermanRule {
   private AnalyzedTokenReadings finiteVerb;
   
   private static final Set<String> BIN_IGNORE = new HashSet<String>(Arrays.asList(
+    "Abdul",
+    "Abdulla",
     "Abdullah",
     "Isa",
+    "Muhammed",
     "Osama",
+    "Said",
     "Turki",
     "/"
   ));
