@@ -1508,7 +1508,7 @@ $Id$
                 <pattern>
                     <token><exception postag="D[DAIN].*|N.*" postag_regexp="yes"/></token> 
                     <marker>
-                        <token regexp="yes">nostr(a|e)<exception postag="LOC_ADV"/></token>
+                        <token regexp="yes">nostr(a|e)<exception postag="LOC_ADV|_C_LLOC" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="N.*" postag_regexp="yes"><exception regexp="yes">(?-i)(Senyora?|Pare|Dona|Mare)</exception></token>
                 </pattern>
@@ -1523,7 +1523,7 @@ $Id$
                 <pattern>
                     <token><exception postag="D[DAIN].*|N.*" postag_regexp="yes"/></token> 
                     <marker>
-                        <token regexp="yes">nostr(a|e)<exception postag="LOC_ADV"/></token>
+                        <token regexp="yes">nostr(a|e)<exception postag="LOC_ADV|_C_LLOC" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="A.*|V.P.*" postag_regexp="yes"><exception regexp="yes">(?-i)Senyora?</exception></token>
                     <token postag="N.*" postag_regexp="yes"><exception regexp="yes">(?-i)(Senyora?|Pare|Dona|Mare)</exception></token>
@@ -8755,7 +8755,7 @@ $Id$
                 <pattern>
                     <!-- hi ha moltes possibles ambigüitats (es fera...), però són combinacions poc habituals o del balear-->
                     <marker>
-                        <token>es<exception postag="DA0MN0"/></token>
+                        <token>es<exception postag="DA0MN0|.*LOC_ADV.*" postag_regexp="yes"/></token>
                     </marker>
                     <token><exception postag="V.[^NPG].3.*|_possible_nompropi" postag_regexp="yes"/><exception regexp="yes">['"‘“«]|mig|ben</exception></token>
                 </pattern>
@@ -8770,6 +8770,7 @@ $Id$
                 <example type="correct">es "carrega"</example>
                 <example type="correct">es ben mereixeria</example>
                 <example type="correct">es mig situava</example>
+                <example type="correct">És així es digui com es digui.</example>
             </rule>
             <rule>
                 <pattern>
@@ -19746,6 +19747,7 @@ $Id$
                 <example type="correct">Fer la declaració de la renda.</example>
                 <example type="correct">Segons m'han informat</example>
                 <example type="correct">El pa àzim o pa sense llevat s'elabora</example> 
+                <example type="correct">Per dintre l'ofegava la sorpresa.</example> 
             </rule>
             <rule>
                 <pattern>
