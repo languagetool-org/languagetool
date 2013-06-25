@@ -39,6 +39,11 @@ public class GermanWrongWordInContextRuleTest extends TestCase {
   }
   
   public void testRule() throws IOException {
+    // Laiche/Leiche
+    assertBad("Eine Laiche ist ein toter Körper.");
+    assertGood("Eine Leiche ist ein toter Körper.");
+    assertGood("Die Leichen der Verstorbenen wurden ins Wasser geworfen.");
+    
     // Lid/Lied
     assertGood("Ihre Lider sind entzündet.");
     assertGood("Er hat entzündete Lider.");
