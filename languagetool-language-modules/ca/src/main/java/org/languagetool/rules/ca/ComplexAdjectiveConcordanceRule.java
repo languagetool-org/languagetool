@@ -280,7 +280,7 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
           isException=true;}
 				//exceptions: llevat de, tret de, majúsucula inicial
 				if ( !isException && ( ((token.equals("tret") || token.equals("llevat") ) && nextToken.equals("de")) 
-						|| token.equals("primer") || token.equals("junts")  
+						|| token.equals("primer") || token.equals("junts") || token.equals("plegats")    
 						|| isUpperCase.matches() ) ) {
 					isException=true;}
 				//exceptions: atès, atesos..., donat, donats... 

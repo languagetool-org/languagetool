@@ -6911,7 +6911,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="SENT_START" skip="-1"><exception scope="next" inflected="yes" regexp="yes">trobar|tenir|fixar|culminar</exception></token>
+                    <token postag="SENT_START" skip="10"><exception scope="next" inflected="yes" regexp="yes">trobar|tenir|fixar|culminar|aturar</exception></token>
                     <marker>
                         <token postag="DA0MS0">en</token>
                         <token postag="NPMSSP0" regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/><exception regexp="yes">Aristòtil|Homer|Empèdocles|Horaci|Abraham|Orestes|Adam|Ezequiel</exception></token>
@@ -10073,9 +10073,10 @@ $Id$
                     <token postag="V...1P0.?" postag_regexp="yes"/>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(.*)[Mm](.*)" regexp_replace="$1n$2"/></suggestion>?</message>
+                <suggestion>ens</suggestion>
                 <short>Pronom feble incorrecte</short>
-                <example type="incorrect" correction="N'"><marker>M'</marker>acollírem tres aquell any.</example>
-                <example type="incorrect" correction="en">Sí que <marker>em</marker> farem una de bona.</example>
+                <example type="incorrect" correction="N'|Ens"><marker>M'</marker>acollírem tres aquell any.</example>
+                <example type="incorrect" correction="en|ens">Sí que <marker>em</marker> farem una de bona.</example>
                 <example type="correct">en vam fer dues</example>
             </rule>
             <rule id="ET_VAU" name="et vau">
@@ -19622,7 +19623,7 @@ $Id$
         <rulegroup id="FALTA_ELEMENT_ENTRE_VERBS" name="Falta un element entre verbs: hi ha una cosa *(que) és clara">
             <rule>
                 <pattern>
-                    <token postag="SENT_START|V.[^NGP].*" postag_regexp="yes" skip="-1"><exception postag="PR.*|PT.*|DT.*|.*LOC_CONJ.*|C.*" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">perquè|com</exception></token>
+                    <token postag="SENT_START|V.[^NGP].*" postag_regexp="yes" skip="-1"><exception postag="_possible_nompropi"/><exception postag="PR.*|PT.*|DT.*|.*LOC_CONJ.*|C.*" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">perquè|com</exception></token>
                     <marker>
                         <token postag="V.[^NGP].*" postag_regexp="yes" regexp="yes" skip="-1">[\p{Ll}·]+<exception postag="_GN_.*|N.*|A.*|V.[NGP].*|_loc_nosequi|.*LOC_ADV.*" postag_regexp="yes"/><exception>di</exception><exception scope="next" regexp="yes">,|com|perquè|que</exception><exception postag="_PUNCT.*|C.*|PR.*|PT.*|DT.*|.*LOC_CONJ.*|_loc_unavegada" postag_regexp="yes" scope="next"/></token>
                         <token postag="V.[^NGP].*" postag_regexp="yes" regexp="yes">[\p{Ll}·]+<exception postag="_GN_.*|N.*|A.*|V.[NGP].*|.*LOC.*|_loc_nosequi|.*LOC_ADV.*" postag_regexp="yes"/><exception regexp="yes">di|cap</exception></token>
