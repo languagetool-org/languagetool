@@ -5154,11 +5154,13 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <disambig action="filter" postag="[^R].*"></disambig>
     </rule>
     <rule id="aviat" name="aviat adverbi">
-    	<pattern>
-    		<!--<token regexp="yes">ben|més|tan|massa</token>-->
-    		<marker><token>aviat</token><exception postag="_GV_"/></marker>
-    	</pattern>
-    	<disambig action="filter" postag="R.*"></disambig>
+        <pattern>
+            <!--<token regexp="yes">ben|més|tan|massa</token>-->
+            <marker>
+                <token postag="RG">aviat<exception postag="_GV_"/></token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="R.*"></disambig>
     </rule>  
     <rulegroup id="nom_adv_adj" name="nom + adverbi + adjectiu que concorden">
         <rule id="aa2" name="aa1: Era la feina més dura ">
