@@ -589,7 +589,38 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="add"><wd pos="&lt;LOC_CONJ&gt;"/><wd pos="&lt;LOC_CONJ&gt;"/><wd pos="&lt;LOC_CONJ&gt;"/><wd pos="&lt;/LOC_CONJ&gt;"/></disambig>
         </rule>
-    </rulegroup>        
+    </rulegroup>  
+    <rulegroup id="nompropi_multiword" name="noms propis en multiwords">    
+        <rule id="nompropi3paraules" name="nom propi 3 paraules">
+            <pattern>
+                <token postag="&lt;NP.*&gt;" postag_regexp="yes"></token>
+                <marker>
+                    <token/>
+                </marker>
+                <token postag="&lt;/NP.*&gt;" postag_regexp="yes"></token>
+            </pattern>
+            <disambig action="add"><wd lemma="NP" pos="NP00000"/></disambig>
+        </rule>
+        <rule id="nompropi4paraules" name="nom propi 4 paraules">
+            <pattern>
+                <token postag="&lt;NP.*&gt;" postag_regexp="yes"></token>
+                <marker>
+                    <token/>
+                    <token/>
+                </marker>
+                <token postag="&lt;/NP.*&gt;" postag_regexp="yes"></token>
+            </pattern>
+            <disambig action="add"><wd lemma="NP" pos="NP00000"/><wd lemma="NP" pos="NP00000"/></disambig>
+        </rule>  
+        <rule id="nompropi_filtra" name="nompropi filtra">
+            <pattern>
+                <marker>
+                    <token postag="NP00000"/>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="NP00000"></disambig>
+        </rule>   
+    </rulegroup>    
     <rule id="CURT" name="curt no adverbi">
         <pattern>
             <token><exception postag="V.[MSI].*|_GV_" postag_regexp="yes"/></token>
@@ -1235,7 +1266,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <pattern>
             <token><exception postag="D[DAI]0MS0" postag_regexp="yes" regexp="yes">el|un|aquest|algun</exception></token>
             <marker>
-                <token regexp="yes">fa|la</token>                
+                <token postag="NC.*" postag_regexp="yes" regexp="yes">fa|la</token>                
             </marker>
             <token><exception regexp="yes">menor|major|sostingut|bemoll|diesi|becaire</exception></token>
         </pattern>
@@ -9293,7 +9324,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rulegroup id="HAC_ASPIRADA" name="hac aspirada inicial">
         <rule>
             <pattern>
-                <token regexp="yes">Holmes.*|Hamlet.*|hunting.*|Hilda|hippy|hippies|high.*halar|holdings?|Hunter|Holstein|horst|Hansa|Hesse|Halloweens?|Haydn|Heilig.*|Honolu.+|heav.*|Hitch.*|Hong|hongk.+|Haifa|herbert.*|hinden.*|hein.*|humbold.*|hardware|Hampton|Husserl|Hill|high|Heiden.*|Hans|Hereford|His|Heitz|h[òo]bbits?|hawk.*|Heisen.*|Hohen.*|Havilland|Higgs|Howard|hilbert.*|hoover.*|harry|hopkins|hearst|hamilton.*|harrods?|handicaps?|harolds?|Helen|hollywood.*|Houston|Heard|hawai.*|Hudson|Harvard|Hannover|Hayworth|Hepburn|Henry|Hubble|Harrison|Hamas|Hamàs|hegel.*|henna|hennes|Hezboll.+|Hirado|hitler.*|h[oò]ldings?|husseinit.+|Haruki|H[ou]f.*|Hartmann?|hall.*</token>
+                <token regexp="yes">Hamada|Holmes.*|Hamlet.*|hunting.*|Hilda|hippy|hippies|high.*halar|holdings?|Hunter|Holstein|horst|Hansa|Hesse|Halloweens?|Haydn|Heilig.*|Honolu.+|heav.*|Hitch.*|Hong|hongk.+|Haifa|herbert.*|hinden.*|hein.*|humbold.*|hardware|Hampton|Husserl|Hill|high|Heiden.*|Hans|Hereford|His|Heitz|h[òo]bbits?|hawk.*|Heisen.*|Hohen.*|Havilland|Higgs|Howard|hilbert.*|hoover.*|harry|hopkins|hearst|hamilton.*|harrods?|handicaps?|harolds?|Helen|hollywood.*|Houston|Heard|hawai.*|Hudson|Harvard|Hannover|Hayworth|Hepburn|Henry|Hubble|Harrison|Hamas|Hamàs|hegel.*|henna|hennes|Hezboll.+|Hirado|hitler.*|h[oò]ldings?|husseinit.+|Haruki|H[ou]f.*|Hartmann?|hall.*</token>
             </pattern>
             <disambig action="add"><wd pos="hac_aspirada"></wd></disambig>
         </rule>
@@ -9437,7 +9468,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
 		<rule>
 			<pattern>
 				<marker>
-					<token regexp="yes">parlant|r[eo]dolant|adés|així|ai</token>
+					<token regexp="yes">parlant|r[eo]dolant|adés|així|ai|Bío</token>
 				    <token><match no="0"/></token>
 				</marker>
 			</pattern>

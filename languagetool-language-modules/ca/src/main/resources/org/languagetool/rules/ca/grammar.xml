@@ -562,7 +562,7 @@ $Id$
                     <unify negate="yes">
                         <feature id="nombre" />
                         <feature id="genere" />
-                        <token postag="DA.*" postag_regexp="yes"><exception postag="_GN_.*|contraccio" postag_regexp="yes" /></token>
+                        <token postag="DA.*" postag_regexp="yes"><exception postag="_GN_.*|contraccio|(&lt;)?NP.*" postag_regexp="yes" /></token>
                         <token postag="N.*" postag_regexp="yes"><exception postag="N.CN.*|_GN_.*|_GV_" postag_regexp="yes" /><exception postag="V.*" postag_regexp="yes" /></token>
                     </unify>
                 </pattern>
@@ -4909,9 +4909,9 @@ $Id$
     	<rule id="DES_DE" name="des de/que">
             <pattern>
                 <marker>
-                    <token>des</token>
+                    <token>des<exception postag="(&lt;)?NP.*" postag_regexp="yes"/></token>
                 </marker>
-                <token regexp="yes" negate="yes">d'|de|que</token>
+                <token><exception regexp="yes">d'|de|que</exception></token>
             </pattern>
             <message>¿Volíeu dir <suggestion>des que</suggestion>?</message>
             <suggestion>des de</suggestion>
@@ -5160,7 +5160,7 @@ $Id$
         </rule>
         <rule id="AM_AMB" name="am/amb">
             <pattern case_sensitive="yes">
-                <token regexp="yes">am|Am</token>
+                <token regexp="yes">am|Am<exception postag="NP.*" postag_regexp="yes"/></token>
             </pattern>
             <message>¿Volíeu dir <suggestion>amb</suggestion>?</message>
             <short>Possible confusió</short>
@@ -7157,7 +7157,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token>la</token>
+                    <token>la<exception postag="(&lt;)?NP.*" postag_regexp="yes"/></token>
                     <token regexp="yes">h?[aeoàèéíòóú].*|h?[ui][^aeiouàèéíòóúüï]+[aeiou][ns]?|urbs|URSS<exception regexp="yes">host|ira|inxa|[aeiou]|efa|hac|ela|ema|en|ena|ene|er|erra|erre|essa|ics|una</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/><exception regexp="yes">(?-i)Haia</exception></token>
                 </pattern>
                 <message>Cal apostrofar.</message>
@@ -8769,7 +8769,7 @@ $Id$
                 <pattern>
                     <!-- hi ha moltes possibles ambigüitats (es fera...), però són combinacions poc habituals o del balear-->
                     <marker>
-                        <token>es<exception postag="DA0MN0|.*LOC_ADV.*" postag_regexp="yes"/></token>
+                        <token>es<exception postag="DA0MN0|.*LOC_ADV.*|(&lt;)?NP.*" postag_regexp="yes"/></token>
                     </marker>
                     <token><exception postag="V.[^NPG].3.*|_possible_nompropi" postag_regexp="yes"/><exception regexp="yes">['"‘“«]|mig|ben</exception></token>
                 </pattern>
@@ -10272,11 +10272,12 @@ $Id$
             </rule>
             <rule id="LOS" name="los">
             	<pattern>
-            		<token>los</token>
+            		<token>los<exception postag="NP.*" postag_regexp="yes"/></token>
             	</pattern>
             	<message>¿Volíeu dir <suggestion>els</suggestion>?</message>
             	<example type="incorrect" correction="els">Són <marker>los</marker> millors.</example>
             	<example type="correct">Són els millors.</example>
+            	<example type="correct">Vinc de Los Angeles.</example>
             </rule>
         </rulegroup>
     </category>
@@ -12663,7 +12664,9 @@ $Id$
                     <token regexp="yes">de|d'</token>
                 </marker>
             </pattern>
-            <message>Correcte com a nom de lloc. Incorrecte si equival a <suggestion>cap a</suggestion>, <suggestion>anant cap a</suggestion>, <suggestion>pel camí <match no="3"/></suggestion>.</message>
+            <message>Correcte com a nom de lloc. Incorrecte si equival a <suggestion>cap a</suggestion>.</message>
+            <suggestion>anant cap a</suggestion>
+            <suggestion>pel camí <match no="3"/></suggestion>
             <example type="incorrect" correction="Cap a|Anant cap a|Pel camí de"><marker>Camí de</marker> París</example>
             <example type="correct">L'antic camí de Sant Feliu</example>
             <example type="correct">en camí de fer-ho</example>
@@ -15177,7 +15180,7 @@ $Id$
         </rule>
         <rule id="DAR" name="dar">
             <pattern>
-                <token postag="V.[^P].*" postag_regexp="yes" inflected="yes">dar<exception inflected="yes">deure</exception></token>
+                <token postag="V.[^P].*" postag_regexp="yes" inflected="yes">dar<exception inflected="yes">deure</exception><exception postag="(&lt;)?NP.*" postag_regexp="yes"/></token>
             </pattern>
             <message>El verb "dar" sol usar-se només en expressions fossilitzades.</message>
             <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">donar</match></suggestion>
