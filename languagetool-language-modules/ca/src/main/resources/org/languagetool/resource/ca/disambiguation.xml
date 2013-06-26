@@ -6320,7 +6320,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <!-- Espero que trobeu totes la pàgina -->
             <!-- ens volen fer pagar entre tots la mala gestió  -->
         </rule>
-        <!-- <rule> determinant si concorda amb les paraules següents
+        <rule> <!--determinant si concorda amb les paraules següents-->
             <pattern>
                 <unify>
                 <feature id="nombre"/>
@@ -6335,7 +6335,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </unify>
             </pattern>
             <disambig action="filter" postag="D.*|_GN_.*"></disambig>
-        </rule> -->   
+        </rule>
          <rule> <!-- tot això-->
             <pattern>
                 <marker>
@@ -6383,6 +6383,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <token postag="PI.*"  postag_regexp="yes" inflected="yes">tot</token>
                 </marker>
                 <token regexp="yes">de|d'</token>
+            </pattern>
+            <disambig action="filter" postag="PI.*"></disambig>
+        </rule>
+        <rule> <!-- tot, -->
+            <pattern>
+                <marker>
+                    <token postag="PI.*"  postag_regexp="yes" inflected="yes">tot</token>
+                </marker>
+                <token postag="_PUNCT.*" postag_regexp="yes"/>
             </pattern>
             <disambig action="filter" postag="PI.*"></disambig>
         </rule>

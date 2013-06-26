@@ -4057,10 +4057,11 @@ $Id$
         <rule id="AMB_O_SENSE" name="amb o sense">
             <pattern>
                 <token>amb</token>
-                <token>o</token>
+                <token regexp="yes">o|i</token>
                 <token>sense</token>
             </pattern>
-            <message>Cal dir 'amb ... o sense'</message>
+            <message>Cal dir 'amb ... <match no="2"/> sense'.</message>
+            <url>http://esadir.cat/sintaxi/ambosense/view</url>
             <example type="incorrect"><marker>amb o sense</marker> rebaixa</example>
             <example type="correct">amb rebaixa o sense</example>
         </rule>
@@ -7860,6 +7861,19 @@ $Id$
             </rule>
         </rulegroup>    
         <rulegroup id="VENEN" name="*venen/vénen a dir">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>venen</token>
+                    </marker>
+                    <token regexp="yes">de|des|d'</token>
+                    <token><exception postag="PI0MS000">tot</exception></token>
+                </pattern>
+                <message>Si és del verb "venir", cal escriure <suggestion>vénen</suggestion>. Correcte si és del verb "vendre".</message>
+                <example type="incorrect" correction="vénen">Ells <marker>venen</marker> del comunisme.</example>
+                <example type="incorrect" correction="Vénen"><marker>Venen</marker> de tot el món.</example>
+                <example type="correct">Una botiga d'aquestes que hi venen de tot.</example>
+            </rule>
             <rule>
                 <pattern>
                     <marker>
