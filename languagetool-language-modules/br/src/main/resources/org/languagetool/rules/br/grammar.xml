@@ -8265,6 +8265,44 @@ $Id$
         <example type="correct">Ur <marker>pikol</marker> paotr</example>
       </rule>
     </rulegroup>
+    <rulegroup id="ARZH_ARZ" name="arzh pe arz">
+      <rule>
+        <pattern>
+          <marker><token>arz</token></marker>
+          <token regexp="yes">artikel|du|gell|gwenn|gweuzek|lunedek</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>arzh</suggestion>?</message>
+        <example type="incorrect">Un <marker>arz</marker> gwenn.</example>
+        <example type="correct">Un arzh gwenn.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token>arz</token></marker>
+          <token>ar</token>
+          <token>mougevioù</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>arzh</suggestion>?</message>
+        <example type="incorrect">Un <marker>arz</marker> ar mougevioù.</example>
+        <example type="correct">Un <marker>arzh</marker> ar mougevioù.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">arz-(du|gell|gwenn)</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion><match no="1" regexp_match="-" regexp_replace="h-"/></suggestion>?</message>
+        <example type="incorrect" correction="arzh-gwenn">Un <marker>arz-gwenn</marker>.</example>
+        <example type="correct">Un arzh-gwenn.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>oberenn</token>
+          <marker><token>arzh</token></marker>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>arz</suggestion>?</message>
+        <example type="incorrect">Un oberenn <marker>arzh</marker> e oa.</example>
+        <example type="correct">Un oberenn arz e oa.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="GWAZH_GWAZ" name="gwazh pe gwaz">
       <rule>
         <pattern>
@@ -8383,7 +8421,7 @@ $Id$
         <pattern>
           <marker><token>pelec’h<exception regexp="yes">dre|da|e</exception></token></marker>
           <token>e</token>
-          <token inflected="yes" regexp="yes">gallout|rankout</token>
+          <token inflected="yes" regexp="yes">gallout|rankout|karout</token>
           <token>mont</token>
         </pattern>
         <message>Ha fellout a rae deoc’h skrivañ <suggestion>da belec’h</suggestion>? (CHALM F3.3)</message>
