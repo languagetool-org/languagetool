@@ -411,21 +411,46 @@ $Id$
             </rule>
         </rulegroup>
 -->
-<!--
-        <rulegroup name="Більш з числівниками" id="BILSHE_WITH_NUMERICS">
+        <rulegroup name="Більш з іменниками часу" id="BILSHE_WITH_TIME_NOUNS">
             <rule>
                 <pattern>
                     <token>більше</token>
-                    <token postag_regexp="yes" postag="numr.*">
-                        <exception regexp="yes" inflected="yes">один</exception>
-                    <token>
+                    <token postag_regexp="yes" postag="numr:.*v_rod">
+                        <exception inflected="yes">один</exception>
+                    </token>
                 </pattern>
-                <message>З числівником замість «більше» треба вживати «понад»: <suggestion>понад <match no="2" postag="numr:v_naz"/></suggestion></message>
+                <message>З числівником замість «більше» треба вживати «понад», або «ніж/як»: <suggestion>понад <match no="2" postag="numr:v_zna"/></suggestion>, <suggestion>більш як <match no="2" postag="numr:v_zna"/></suggestion></message>
+                <example type="correct">Більше одного</example>
+                <example type="incorrect" correction="понад сто|більш як сто"><marker>більше ста</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>більше</token>
+                    <token postag="numr" regexp="yes">[0-9,]+
+                    </token>
+                </pattern>
+                <message>З числівником замість «більше» треба вживати «понад», або «ніж/як»: <suggestion>понад <match no="2"/></suggestion>, <suggestion>більш як <match no="2"/></suggestion></message>
+                <example type="correct">Більш як 40</example>
+                <example type="incorrect" correction="понад 500|більш як 500"><marker>більше 500</marker>.</example>
+            </rule>
+
+            <rule>
+                <pattern>
+                    <token>більше</token>
+                    <token regexp="yes" inflected="yes" postag_regexp="yes" postag="noun:[mf]:v_rod">хвилина|година|день|доба|тиждень|місяць|рік</token>
+                </pattern>
+                <message>З іменником часу замість «більше» треба вживати «понад», або «ніж/як»: <suggestion>понад <match no="2" postag_regexp="yes" postag="(noun:[mf]):v_rod" postag_replace="$1:v_zna"/></suggestion>, <suggestion>більше як <match no="2" postag_regexp="yes" postag="(noun:[mf]):v_rod" postag_replace="$1:v_zna"/></suggestion></message>
                 <example type="correct">Більше галасу</example>
-                <example type="incorrect"><marker>Більше ста</marker>.</example>
+                <example type="correct">Більше одного</example>
+                <example type="incorrect" correction="понад тиждень|більше як тиждень"><marker>більше тижня</marker>.</example>
+                <example type="incorrect" correction="понад хвилину|більше як хвилину"><marker>більше хвилини</marker>.</example>
+                <example type="incorrect" correction="понад добу|більше як добу"><marker>більше доби</marker>.</example>
+                <!-- TODO: fix the correction
+                <example type="incorrect" correction="понад рік|більше як рік"><marker>більше року</marker>.</example>
+                -->
             </rule>
         </rulegroup>
--->
+
         <!-- TODO:
             проблеми: 1) як пропонувати "й", якщо наступне не почитанється з "й", і "та", якщо далі не йде "а"
                       2) як пропонувати частину слова "дощ йде" -> "дощ іде"?

@@ -43,7 +43,6 @@ public class UkrainianWordTokenizer implements Tokenizer {
   // decimal comma between digits
   private static final Pattern DECIMAL_COMMA_PATTERN = Pattern.compile("([\\d]),([\\d])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final String DECIMAL_COMMA_SUBST = "#DECIMAL_COMMA#";
-  private static final Pattern DECIMAL_COMMA_SUBST_PATTERN = Pattern.compile("#DECIMAL_COMMA#");
 
   public UkrainianWordTokenizer() {
   }
@@ -69,7 +68,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
 
   private static String clean(String token) {
     token = token.replace("\u0301", "").replace("\u00AD", "").replace('’', '\'').replace('ʼ', '\'');
-    token = DECIMAL_COMMA_SUBST_PATTERN.matcher(token).replaceAll(",");
+    token = token.replace(DECIMAL_COMMA_SUBST, ",");
     return token;
   }
   

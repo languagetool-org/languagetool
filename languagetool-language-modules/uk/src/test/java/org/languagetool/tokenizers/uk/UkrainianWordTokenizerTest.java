@@ -42,6 +42,9 @@ public class UkrainianWordTokenizerTest extends TestCase {
 
     testList = w.tokenize("надійшло 2,2 мільйона");
     assertEquals(Arrays.asList("надійшло", " ", "2,2", " ", "мільйона"), testList);
+
+    testList = w.tokenize("надійшло 84,46 мільйона");
+    assertEquals(Arrays.asList("надійшло", " ", "84,46", " ", "мільйона"), testList);
   }
 
 }
