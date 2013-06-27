@@ -20,6 +20,7 @@ package org.languagetool.tagging.ca;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
@@ -44,6 +45,7 @@ public class CatalanTagger extends BaseTagger {
 
   private static final String DICT_FILENAME = "/ca/catalan.dict";
   private static final Pattern ADJ_PART_FS = Pattern.compile("VMP00SF.|A[QO]0[FC][SN].");
+  private static final Pattern VERB = Pattern.compile("V.+");
 
   @Override
   public final String getFileName() {
@@ -73,8 +75,9 @@ public class CatalanTagger extends BaseTagger {
   }
 
   @Override
-  public AnalyzedToken additionalTag(String word) {
-    //Any well formed adverb with suffix -ment is tagged as an adverb (RG)
+  public List<AnalyzedToken> additionalTags(String word) {
+    List<AnalyzedToken> additionalTaggedTokens = new ArrayList<AnalyzedToken>();
+    //Any well-formed adverb with suffix -ment is tagged as an adverb (RG)
     //Adjectiu femení singular o participi femení singular + -ment
     if (word.endsWith("ment")){
       final String lowerWord = word.toLowerCase(conversionLocale);
@@ -86,10 +89,29 @@ public class CatalanTagger extends BaseTagger {
         if (posTag != null) {
           final Matcher m = ADJ_PART_FS.matcher(posTag);
           if (m.matches()) {
-            return new AnalyzedToken(word, "RG", lowerWord);
+            additionalTaggedTokens.add(new AnalyzedToken(word, "RG", lowerWord));
+            return additionalTaggedTokens;
           }
         }
       }
+    }
+    //Any well-formed verb with preffix auto- is tagged as a verb copying the original tags 
+    if (word.startsWith("auto")){
+      final String lowerWord = word.toLowerCase(conversionLocale);
+      final String possibleVerb = lowerWord.replaceAll("^auto(.+)$", "$1");
+      List<AnalyzedToken> taggerTokens;
+      taggerTokens = asAnalyzedTokenList(possibleVerb, dictLookup.lookup(possibleVerb));
+      for (AnalyzedToken taggerToken : taggerTokens ) {
+        final String posTag = taggerToken.getPOSTag();
+        if (posTag != null) {
+          final Matcher m = VERB.matcher(posTag);
+          if (m.matches()) {
+            String lemma="auto".concat(taggerToken.getLemma());
+            additionalTaggedTokens.add(new AnalyzedToken(word, posTag, lemma));
+          }
+        }
+      }
+      return additionalTaggedTokens;
     }
     return null;
   }

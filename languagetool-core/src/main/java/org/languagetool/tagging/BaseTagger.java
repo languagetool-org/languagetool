@@ -97,11 +97,10 @@ public abstract class BaseTagger implements Tagger {
         }
       }
       
+      // Additional language-dependent-tagging 
       if (l.isEmpty()) {
-        AnalyzedToken aToken = additionalTag(word);
-        if (aToken != null) {
-          l.add(aToken);
-        }       
+        List<AnalyzedToken> additionalTaggedTokens = additionalTags(word);
+        addTokens(additionalTaggedTokens, l);       
       }
       
       if (l.isEmpty()) {
@@ -170,7 +169,7 @@ public abstract class BaseTagger implements Tagger {
   /*
    *  Additional tagging in some language-dependent circumstances
    */
-  public AnalyzedToken additionalTag(String word) {
+  public List<AnalyzedToken> additionalTags(String word) {
     return null;
   }
 

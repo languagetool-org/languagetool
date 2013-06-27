@@ -18,6 +18,8 @@
  */
 package org.languagetool.tagging.uk;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
@@ -45,9 +47,11 @@ public class UkrainianTagger extends BaseTagger {
   }
   
   @Override
-  public AnalyzedToken additionalTag(String word) {
+  public List<AnalyzedToken> additionalTags(String word) {
     if ( NUMBER.matcher(word).matches() ){
-        return new AnalyzedToken(word, IPOSTag.numr.toString(), word);
+      List<AnalyzedToken> additionalTaggedTokens  = new ArrayList<AnalyzedToken>();
+      additionalTaggedTokens.add(new AnalyzedToken(word, IPOSTag.numr.toString(), word));
+        return additionalTaggedTokens;
     }
     return null;
   }

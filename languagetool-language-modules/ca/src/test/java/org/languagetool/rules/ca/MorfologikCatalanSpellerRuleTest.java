@@ -40,6 +40,8 @@ public class MorfologikCatalanSpellerRuleTest {
         RuleMatch[] matches;
         JLanguageTool langTool = new JLanguageTool(new Catalan());
 
+        // prefixes and suffixes.
+        assertEquals(0, rule.match(langTool.getAnalyzedSentence("S'autodefineixin com a populars.")).length);
 
         // correct sentences:
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("Abacallanada")).length);
@@ -55,6 +57,8 @@ public class MorfologikCatalanSpellerRuleTest {
         // checks abbreviations 
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("Viu al núm. 23 del carrer Nou.")).length);
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("N'hi ha de color vermell, blau, verd, etc.")).length);
+        
+        
         
         // Test for Multiwords.
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("Era vox populi.")).length);
