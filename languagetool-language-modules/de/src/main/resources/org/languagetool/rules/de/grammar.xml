@@ -255,15 +255,16 @@ $Id$
         </rule>
         <rule id="SONDERN_KEIN_NICHT" name="Möglicher Tippfehler: fehlende Verneinung bei sondern-Konstruktion">
             <pattern>
-                <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes">nie|nicht|kein.*|kaum</exception></token>
+                <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes">nie|niemals|nicht|noch|kein.*|kaum|weniger</exception></token>
                 <marker>
-                    <token skip="-1">aber<exception scope="next" regexp="yes">nie|nicht|kein.*|kaum</exception></token>
+                    <token skip="-1">aber<exception scope="next" regexp="yes">nie|niemals|nicht|noch|kein.*|kaum|weniger</exception></token>
                     <token>sondern</token>
                 </marker>
             </pattern>
             <message>Bitte prüfen Sie, ob ein 'nicht', 'nie', kaum' oder 'kein' fehlt.</message>
             <example type="incorrect"><marker>Aber das mache ich mit Gas, sondern</marker> mit Öl.</example>
             <example type="correct"><marker>Aber das mache ich nicht mit Gas, sondern</marker> mit Öl.</example>
+            <example type="correct"><marker>Aber das mache ich niemals mit Gas, sondern</marker> mit Öl.</example>
         </rule>
         <rule id="AUF_AUS" name="Möglicher Tippfehler: 'auf (aus) einer Liste entfernen'">
             <pattern>
@@ -964,16 +965,21 @@ $Id$
         </rule>
         <rule id="SO_SCHNELLE_WIE" name="Möglicher Tippfehler: 'so schnelle (schnell) wie' etc.">
             <pattern>
+                <token><exception>auch</exception></token>
                 <token>so</token>
                 <marker>
                     <token postag="ADJ:.*" postag_regexp="yes"><exception postag="ADJ:PRD:GRU"></exception><exception>lange</exception></token>
                 </marker>
                 <token>wie</token>
+                <token><exception postag_regexp="yes" postag="ADJ.[NGDA].*"/></token>
             </pattern>
-            <message>Meinten Sie die Form <suggestion><match no="2" regexp_match="(e|em|en|es|ere|eren|erem|erer|eres|ste|stem|ster|stes)$" regexp_replace=""/></suggestion>?</message>
+            <message>Meinten Sie die Form <suggestion><match no="3" regexp_match="(e|em|en|es|ere|eren|erem|erer|eres|ste|stem|ster|stes)$" regexp_replace=""/></suggestion>?</message>
             <short>Möglicher Tippfehler</short>
             <example type="incorrect" correction="schnell">Wir müssen so <marker>schnelle</marker> wie möglich reagieren.</example>
             <example type="correct">Wir müssen so <marker>schnell</marker> wie möglich reagieren.</example>
+            <example type="correct">Es gibt auch so <marker>seltene</marker> wie der Seeadler.</example>
+            <example type="correct">Es gibt auch so <marker>seltene</marker> wie der Seeadler.</example>
+            <example type="correct">Er beschreibt Guevara als so <marker>ineffektiven</marker> wie brutalen Taktiker</example>
         </rule>
         <rulegroup id="ALS_OHNE_KOMPARATIV" name="Möglicher Tippfehler: 'schnelle (schneller) als' etc.">
             <rule>
@@ -1598,7 +1604,7 @@ $Id$
         <rule id="ZWEIT" name="Möglicher Tippfehler: 'zweit (zweite)' etc.">
             <!-- please note that 'siebt' (verb) and 'acht' are intentionally omitted -->
             <pattern>
-                <token negate="yes">zu</token>
+                <token><exception regexp="yes">zu|und|oder|,|bis</exception></token>
                 <marker>
                     <token regexp="yes">zweit|dritt|viert|fünft|sechst|neunt|zehnt|elft|zwölft</token>
                 </marker>
@@ -1607,6 +1613,7 @@ $Id$
             <short>Möglicher Tippfehler</short>
             <example type="correct">Wir waren zu <marker>zweit</marker>.</example>
             <example type="correct">Das war jetzt schon das <marker>zweite</marker> Mal.</example>
+            <example type="correct">Selten treten die Blütenteile zu fünft bis <marker>neunt</marker> auf.</example>
             <example type="incorrect">Das war jetzt schon das <marker>zweit</marker> Mal.</example>
         </rule>
         <rule id="WENIGSTEN_VS_WENIGSTENS" name="Möglicher Tippfehler: 'wenigsten (wenigstens)'">
@@ -2157,7 +2164,7 @@ $Id$
             <rule>
                 <pattern>
                     <token negate="yes">zu</token>
-                    <token inflected="yes" skip="5">nehmen</token>
+                    <token inflected="yes" skip="5">nehmen<exception regexp="yes" scope="next">,|:|;|&klam;</exception></token>
                     <marker>
                         <token>war</token>
                     </marker>
@@ -2168,6 +2175,7 @@ $Id$
                 <example type="correct">Die erste Hürde, die zu nehmen <marker>war</marker>, war einfach.</example>
                 <example type="incorrect">So nehme ich das <marker>war</marker>.</example>
                 <example type="incorrect">So nimmst du das <marker>war</marker>.</example>
+                <example type="correct">Diese Aufgabe, die viel Zeit in  Anspruch nahm, <marker>war</marker> einfach.</example>
             </rule>
         </rulegroup>
         <rulegroup id="DAS_AMEN" name="Möglicher Tippfehler: 'das Armen (Amen)'">
@@ -3663,7 +3671,7 @@ $Id$
             <rule>
                 <pattern case_sensitive="no">
                     <token>je</token>
-                    <token postag="ADJ:PRD:KOM" skip="-1"><exception postag="SENT_END" scope="next"></exception></token>
+                    <token postag="ADJ:PRD:KOM" skip="-1"><exception regexp="yes" scope="next">bzw|und</exception></token>
                     <marker>
                         <token>je</token>
                     </marker>
@@ -3674,6 +3682,7 @@ $Id$
                 <short>Je ... desto ...</short>
                 <example type="correct">Je größer, <marker>desto</marker> besser.</example>
                 <example type="incorrect" correction="desto|umso">Je größer, <marker>je</marker> besser.</example>
+                <example type="correct">Je größer und je besser wir bauen, <marker>desto</marker> beeindruckter werden die Besucher sein.</example>
             </rule>
         </rulegroup>
         <rulegroup id="CHAMPIGNON_CHAMPION" name="Mögliche Wortverwechslung: Champignon/Champion">
@@ -4598,7 +4607,7 @@ $Id$
                     <marker>
                         <token>Iden</token>
                     </marker>
-                    <token negate="yes" regexp="yes" skip="-1">des<exception regexp="yes" scope="next">Tag.*</exception></token>
+                    <token negate="yes" skip="-1">des<exception regexp="yes" scope="next">Tag.*</exception></token>
                     <token postag="SENT_END"/>
                 </pattern>
                 <message>Meinten Sie <suggestion>Ideen</suggestion> (Einfälle) statt 'Iden' (röm. Kalendertage)?</message>
@@ -6452,7 +6461,7 @@ $Id$
             <rule>
                 <pattern case_sensitive="no">
                     <token>je</token>
-                    <token postag="ADJ:PRD:KOM" skip="-1"><exception postag="SENT_END" scope="next"></exception></token>
+                    <token postag="ADJ:PRD:KOM" skip="-1"/>
                     <marker>
                         <token>um</token>
                         <token>so</token>
@@ -12600,6 +12609,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
+                    <token><exception regexp="yes">\(|,|;</exception></token>
                     <token regexp="yes">[dD]er</token>
                     <marker>
                         <token regexp="yes">&massubklein;</token>
@@ -12607,13 +12617,14 @@ $Id$
                     <token regexp="yes">des|eines|dieses|seines|meines|ihres|deines|unseres|eures</token>
                     <token postag="SUB:GEN:SIN:(MAS|NEU)" postag_regexp="yes"/>
                 </pattern>
-                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
+                <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example type="incorrect" correction="Angriff">Der <marker>angriff</marker> des Gegners kam unerwartet.</example>
                 <example type="correct">Der <marker>Angriff</marker> des Gegners kam unerwartet.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
+                    <token><exception regexp="yes">\(|,|;</exception></token>
                     <token regexp="yes">[dD]er</token>
                     <marker>
                         <token regexp="yes">&massubklein;</token>
@@ -12621,10 +12632,11 @@ $Id$
                     <token regexp="yes">der|einer|dieser</token>
                     <token postag="SUB:GEN:SIN:FEM"/>
                 </pattern>
-                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
+                <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example type="incorrect" correction="Angriff">Der <marker>angriff</marker> der Person kam unerwartet.</example>
                 <example type="correct">Der <marker>Angriff</marker> der Person kam unerwartet.</example>
+                <example type="correct">Der Löwe, der <marker>laut</marker> der Sage zwei Köpfe hat, existiert nicht.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -12649,7 +12661,7 @@ $Id$
                     <marker>
                         <token regexp="yes">&massubklein;</token>
                     </marker>
-                    <token postag="VER:3:SIN:.*" postag_regexp="yes"/>
+                    <token postag="VER:3:SIN:.*" postag_regexp="yes" regexp="yes">[a-zäöü].*<exception negate_pos="yes" postag=".*VER.*:[123]:.*|PA2:PRD:GRU:VER|VER:PA2:[A-Z]{3}|.*VER:IMP.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
                 <short>&prgk;.</short>
@@ -12740,7 +12752,7 @@ $Id$
                     <marker>
                       <token regexp="yes">&femsubklein;<exception>oder</exception></token>
                     </marker>
-                    <token postag="VER:3:SIN:.*" postag_regexp="yes"/>
+                    <token postag="VER:3:SIN:.*" postag_regexp="yes" regexp="yes">[a-zäöü].*<exception negate_pos="yes" postag=".*VER.*:[123]:.*|PA2:PRD:GRU:VER|VER:PA2:[A-Z]{3}|.*VER:IMP.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
                 <short>&prgk;.</short>
@@ -12757,6 +12769,7 @@ $Id$
                 <example type="incorrect" correction="Wüste">Die <marker>wüste</marker> lebt.</example>
                 <example type="correct">Die <marker>Zentrale</marker> war völlig unvorbereitet.</example>
                 <example type="correct">Die <marker>Fahrt</marker> war schnell vorbei.</example>
+                <example type="correct">Die <marker>drei</marker> Körperabschnitte sind wichtig.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -12846,12 +12859,13 @@ $Id$
                     <marker>
                         <token regexp="yes">&neusubklein;</token>
                     </marker>
-                    <token postag="VER:3:SIN:.*" postag_regexp="yes"/>
+                    <token postag="VER:3:SIN:.*" postag_regexp="yes" regexp="yes">[a-zäöü].*<exception negate_pos="yes" postag=".*VER.*:[123]:.*|PA2:PRD:GRU:VER|VER:PA2:[A-Z]{3}|.*VER:IMP.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example type="incorrect" correction="Ende">Das <marker>ende</marker> ist nah.</example>
                 <example type="correct">Das <marker>Ende</marker> war völlig überraschend.</example>
+                <example type="correct">Das <marker>recht</marker> bekannte Lied war sehr erfolgreich.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -12909,7 +12923,7 @@ $Id$
         </rule>
         <rulegroup id="MIT_ABSTAND" name="Groß-/Kleinschreibung: 'mit abstand (Abstand)' etc.">
             <rule>
-				<pattern case_sensitive="yes">
+                <pattern case_sensitive="yes">
                     <token regexp="yes">[mM]it</token>
                     <marker>
                         <token>abstand</token>
@@ -12921,7 +12935,7 @@ $Id$
                 <example type="incorrect" correction="Abstand">Das war mit <marker>abstand</marker> das Schlechteste, was ich je gesehen habe!</example>
             </rule>
             <rule>
-				<pattern case_sensitive="yes">
+                <pattern case_sensitive="yes">
                     <token regexp="yes">[mM]it|[aA]us</token>
                     <token postag="ADJ:DAT:SIN:MAS:.+" postag_regexp="yes"/>
                     <marker>
@@ -12935,7 +12949,7 @@ $Id$
                 <example type="incorrect" correction="Abstand">Sie verfolgten das Geschehen aus sicherem <marker>abstand</marker>.</example>
             </rule>
             <rule>
-				<pattern case_sensitive="yes">
+                <pattern case_sensitive="yes">
                     <token regexp="yes" inflected="yes" skip="1">halten|nehmen</token>
                     <marker>
                         <token>abstand</token>
@@ -12949,7 +12963,7 @@ $Id$
                 <example type="incorrect" correction="Abstand">Er hielt respektvollen <marker>abstand</marker>.</example>
             </rule>
             <rule>
-				<pattern case_sensitive="yes">
+                <pattern case_sensitive="yes">
                     <marker>
                         <token skip="1">abstand</token>
                     </marker>
@@ -22839,9 +22853,10 @@ $Id$
         <rulegroup id="HILFSVERB_HABEN_SEIN" name="Grammatik: falsches Hilfsverb für Perfekt (z.B. 'hat (ist) gegangen)'">
             <rule>
                 <pattern>
+                    <token negate="yes">zu</token>
                     <marker>
-                        <token inflected="yes" skip="6">haben<exception scope="next" regexp="yes">,|\(|:|oder|und</exception></token>
-                        <token regexp="yes">.*(gekommen|begegnet|geblieben|gegangen|gelaufen|geschlafen|gewesen|geworden|verblüht)</token><!-- TODO erweitern -->
+                        <token inflected="yes" skip="6">haben<exception scope="next" regexp="yes">,|;|\(|\[|:|oder|und</exception></token>
+                        <token regexp="yes">.*(gekommen|begegnet|geblieben|gegangen|gelaufen|eingeschlafen|gewesen|geworden|verblüht)</token><!-- TODO erweitern -->
                     </marker>
                 </pattern>
                 <message>Bitte prüfen Sie, ob eine Form des Hilfsverbs 'sein' verwendet werden muss.</message>
@@ -22851,6 +22866,7 @@ $Id$
                 <example type="incorrect">Sie <marker>hat gestern Abend eingeschlafen</marker>.</example>
                 <example type="correct">Sie <marker>ist gegangen</marker>.</example>
                 <example type="correct">Sie <marker>haben gesungen und sind eingeschlafen</marker>.</example>
+                <example type="correct">Er wäre dafür zu <marker>haben gewesen</marker>.</example>
             </rule>
            <!-- <rule>
                 <pattern>
@@ -23215,11 +23231,14 @@ $Id$
             <!-- vgl. http://www.duden.de/rechtschreibung/von_aus_ab_durch_per_seitens#Bedeutung5c -->
             <rule>
                 <pattern>
-                    <token regexp="yes">.*S(a|ä)tz.*</token>
-                    <token>von</token>
-                    <token regexp="yes">(Pythagoras|Euklid|Thales)</token>
+                    <token><exception>des</exception></token>
+                    <marker>
+                        <token regexp="yes">.*S(a|ä)tz.*</token>
+                        <token>von</token>
+                        <token regexp="yes">(Pythagoras|Euklid|Thales)</token>
+                    </marker>
                 </pattern>
-                <message>Meinten Sie <suggestion>\1 des \3</suggestion>? Die Bezeichnung '\1 \2 \3' ist umgangssprachlich.</message>
+                <message>Meinten Sie <suggestion>\2 des \4</suggestion>? Die Bezeichnung '\2 \3 \4' ist umgangssprachlich.</message>
                 <example type="correct">Der <marker>Satz des Pythagoras</marker> ist einer der fundamentalen Sätze der euklidischen Geometrie.</example>
                 <example type="incorrect" correction="Satzgruppe des Pythagoras">Die <marker>Satzgruppe von Pythagoras</marker> gilt als fundamental.</example>
                 <example type="incorrect" correction="Sätze des Thales">Die <marker>Sätze von Thales</marker> gelten als fundamental.</example>
