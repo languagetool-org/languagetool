@@ -4777,6 +4777,44 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+        <rulegroup id="GALA_GALLA" name="gala/gal·la">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token><exception inflected="yes">fer</exception><exception>de</exception><exception postag="D..FS." postag_regexp="yes"/></token>
+                    <marker>
+                        <token>gala</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>gal·la</suggestion> (= francesa)?</message>
+                <example type="incorrect" correction="gal·la">Es un representant de la ultradreta <marker>gala</marker>.</example>
+                <example type="correct">Féu gala de les seves virtuts.</example>
+                <example type="correct">Es va posar el vestit de gala.</example>
+                <example type="correct">Una gala benèfica</example>
+                <example type="correct">La fundació Gala Dalí.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token><exception>millors</exception><exception postag="D..FP." postag_regexp="yes"/></token>
+                    <marker>
+                        <token>gales</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>gal·les</suggestion> (= franceses)?</message>
+                <example type="incorrect" correction="gal·les">Les tropes <marker>gales</marker> envairen el país.</example>
+                <example type="correct">Mostrà les seves millors gales.</example>
+                <example type="correct">Totes les gales de televisió.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>Gales</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>Gal·les</suggestion> (nom de país)?</message>
+                <example type="incorrect" correction="Gal·les">El país de <marker>Gales</marker>.</example>
+                <example type="correct">Mostrà les seves millors gales.</example>
+            </rule>
+        </rulegroup>            
         <rule id="OS_US" name="*os/us agrada">
             <pattern>
                 <token><exception postag="SPS.*|.*LOC_PREP.*" postag_regexp="yes"/></token>
@@ -6895,7 +6933,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token>el</token>
+                    <token>el<exception postag="(&lt;)?NP.*" postag_regexp="yes"/></token>
                     <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+|o|i|host</exception><exception inflected="yes">ordinal</exception><exception inflected="yes" regexp="yes">halar|io[dt]itzar</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Cal apostrofar.</message>
@@ -6909,6 +6947,7 @@ $Id$
                 <example type="correct">el o els conqueridors</example>
                 <example type="correct">reflectit en el IV Congrés Internacional d'Arqueologia</example>
                 <example type="correct">En el II Congrés Internacional d'Arqueologia</example>
+                <example type="correct">El Ejido</example>
             </rule>
             <rule>
                 <pattern>
