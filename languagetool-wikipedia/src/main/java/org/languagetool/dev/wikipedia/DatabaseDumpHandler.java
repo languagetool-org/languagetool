@@ -26,6 +26,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
+import org.apache.commons.lang.StringUtils;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.gui.Tools;
@@ -105,7 +106,7 @@ class DatabaseDumpHandler extends BaseWikipediaDumpHandler {
             prepSt.setNull(3, Types.VARCHAR);
           }
           prepSt.setString(4, rule.getDescription());
-          prepSt.setString(5, match.getMessage());
+          prepSt.setString(5, StringUtils.abbreviate(match.getMessage(), 255));
           prepSt.setString(6, Tools.getContext(match.getFromPos(),
                 match.getToPos(), text, CONTEXT_SIZE, MARKER_START, MARKER_END));
           prepSt.setDate(7, dumpSqlDate);
