@@ -2218,7 +2218,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rulegroup id="te_infusio_lletra" name="te (nom d'infusió, lletra te)">
         <rule>
             <pattern>
-                <token regexp="yes" inflected="yes">de|prendre</token>
+                <token regexp="yes" skip="1" inflected="yes">prendre|servir|preparar|voler</token>
+                <marker>
+                    <token>te</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="N.*"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>de</token>
                 <marker>
                     <token>te</token>
                 </marker>
@@ -5557,7 +5566,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <token regexp="yes">objectes?|creus?</token>
                 </marker>
-                <token regexp="yes">de|d'</token>
+                <token regexp="yes">de|d'<exception postag=".*LOC_.*" postag_regexp="yes"/></token>
             </pattern> 
             <disambig action="filter" postag="[^V].*"/>
         </rule>
