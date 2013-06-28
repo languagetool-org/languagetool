@@ -27,6 +27,7 @@ import junit.framework.TestCase;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.rules.patterns.PatternRule;
 
 public class RuleTest extends TestCase {
 
@@ -39,6 +40,13 @@ public class RuleTest extends TestCase {
       for (Rule rule : allRules) {
         assertIdUniqueness(ids, ruleClasses, language, rule);
         assertIdValidity(language, rule);
+        if (rule instanceof PatternRule) {
+          // doesn't make sense, but that's the way it works for PatternRules
+          // and it's documented that it always returns false:
+          assertFalse(rule.supportsLanguage(language));
+        } else {
+          assertTrue(rule.supportsLanguage(language));
+        }
       }
     }
   }
