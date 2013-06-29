@@ -29,10 +29,10 @@ import java.util.Properties;
 import org.apache.commons.lang.StringUtils;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
-import org.languagetool.gui.Tools;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.PatternRule;
+import org.languagetool.tools.ContextTools;
 
 /**
  * Writes result of LanguageTool check to database. Used for community.languagetool.org.
@@ -42,6 +42,7 @@ import org.languagetool.rules.patterns.PatternRule;
 class DatabaseDumpHandler extends BaseWikipediaDumpHandler {
 
     private final Connection conn;
+    private final ContextTools contextTools;
 
     DatabaseDumpHandler(JLanguageTool lt, Date dumpDate, String langCode,
             File propertiesFile, Language lang) throws IOException {
@@ -63,6 +64,10 @@ class DatabaseDumpHandler extends BaseWikipediaDumpHandler {
       } finally {
         inStream.close();
       }
+      contextTools = new ContextTools();
+      contextTools.setContextSize(CONTEXT_SIZE);
+      contextTools.setErrorMarkerStart(MARKER_START);
+      contextTools.setErrorMarkerEnd(MARKER_END);
     }
     
     @Override
@@ -107,8 +112,7 @@ class DatabaseDumpHandler extends BaseWikipediaDumpHandler {
           }
           prepSt.setString(4, rule.getDescription());
           prepSt.setString(5, StringUtils.abbreviate(match.getMessage(), 255));
-          prepSt.setString(6, Tools.getContext(match.getFromPos(),
-                match.getToPos(), text, CONTEXT_SIZE, MARKER_START, MARKER_END));
+          prepSt.setString(6, contextTools.getContext(match.getFromPos(), match.getToPos(), text));
           prepSt.setDate(7, dumpSqlDate);
           prepSt.setDate(8, nowDate);
           prepSt.setString(9, URL_PREFIX.replaceAll(LANG_MARKER, langCode) + title);
