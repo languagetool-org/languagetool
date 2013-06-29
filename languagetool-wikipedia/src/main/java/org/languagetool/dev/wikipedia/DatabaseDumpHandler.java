@@ -112,7 +112,12 @@ class DatabaseDumpHandler extends BaseWikipediaDumpHandler {
           }
           prepSt.setString(4, rule.getDescription());
           prepSt.setString(5, StringUtils.abbreviate(match.getMessage(), 255));
-          prepSt.setString(6, contextTools.getContext(match.getFromPos(), match.getToPos(), text));
+          final String context = contextTools.getContext(match.getFromPos(), match.getToPos(), text);
+          if (context.length() > 255) {
+            // let's skip these strange cases, as shortening the text might leave us behind with invalid markup etc
+            continue;
+          }
+          prepSt.setString(6, context);
           prepSt.setDate(7, dumpSqlDate);
           prepSt.setDate(8, nowDate);
           prepSt.setString(9, URL_PREFIX.replaceAll(LANG_MARKER, langCode) + title);
