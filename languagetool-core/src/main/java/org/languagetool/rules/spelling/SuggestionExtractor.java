@@ -179,12 +179,13 @@ public class SuggestionExtractor {
   }
 
   private File getLanguageDir(Language language) {
-    final File dir = new File("org/languagetool/resource", language.getShortName());
+    final String langCode = language.getShortName();
+    final File dir = new File("org/languagetool/resource", langCode);
     if (dir.exists()) {
       return dir;
     } else {
       // during development (in SVN):
-      return new File("src/main/resources/org/languagetool/resource/", language.getShortName());
+      return new File(langCode + "/src/main/resources/org/languagetool/resource/", langCode);
     }
   }
 
@@ -200,6 +201,14 @@ public class SuggestionExtractor {
   }
 
   public static void main(String[] args) throws IOException {
+    if (Language.REAL_LANGUAGES.length < 5) {
+      throw new RuntimeException("Found only " + Language.REAL_LANGUAGES.length + " languages in classpath. " +
+              "Please run this class with the classpath of 'languagetool-standalone' to have access to all languages.");
+    }
+    final List<String> dirs = Arrays.asList(new File(".").list());
+    if (!dirs.contains("en") || !dirs.contains("de")) {
+      throw new RuntimeException("Please set the working directory to 'languagetool-language-modules' when running this class");
+    }
     final SuggestionExtractor extractor = new SuggestionExtractor();
     extractor.writeIgnoreTokensForLanguages();
   }
