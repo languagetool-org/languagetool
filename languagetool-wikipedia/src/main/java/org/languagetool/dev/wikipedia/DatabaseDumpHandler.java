@@ -68,6 +68,7 @@ class DatabaseDumpHandler extends BaseWikipediaDumpHandler {
       contextTools.setContextSize(CONTEXT_SIZE);
       contextTools.setErrorMarkerStart(MARKER_START);
       contextTools.setErrorMarkerEnd(MARKER_END);
+      contextTools.setEscapeHtml(false);
     }
     
     @Override
