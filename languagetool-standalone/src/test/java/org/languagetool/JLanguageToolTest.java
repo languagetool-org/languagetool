@@ -23,6 +23,8 @@ import org.languagetool.language.AmericanEnglish;
 import org.languagetool.language.English;
 import org.languagetool.language.German;
 
+import java.io.IOException;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import static junit.framework.Assert.assertEquals;
@@ -49,6 +51,15 @@ public class JLanguageToolTest {
     assertEquals(1, JLanguageTool.countLineBreaks("Hallo,\nnächste Zeile"));
     assertEquals(2, JLanguageTool.countLineBreaks("\nZweite\nDritte"));
     assertEquals(4, JLanguageTool.countLineBreaks("\nZweite\nDritte\n\n"));
+  }
+
+  @Test
+  public void testSentenceTokenize() throws IOException {
+    JLanguageTool languageTool = new JLanguageTool(new English());
+    List<String> sentences = languageTool.sentenceTokenize("This is a sentence! This is another one.");
+    assertEquals(2, sentences.size());
+    assertEquals("This is a sentence! ", sentences.get(0));
+    assertEquals("This is another one.", sentences.get(1));
   }
 
 }
