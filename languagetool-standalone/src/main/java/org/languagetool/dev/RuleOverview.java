@@ -107,7 +107,7 @@ public final class RuleOverview {
         xmlRules = xmlRules.replaceAll("(?s)<rules.*?>", "");
         final int count = countXmlRules(xmlRules);
         final int countInRuleGroup = countXmlRuleGroupRules(xmlRules);
-        final String ruleBase = "http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/languagetool/languagetool-language-modules/" 
+        final String ruleBase = "http://svn.code.sf.net/p/languagetool/code/trunk/languagetool/languagetool-language-modules/"
                 + langCode + "/src/main/resources/org/languagetool/rules/";
         System.out.print("<td valign=\"top\" align=\"right\">" + (count + countInRuleGroup) + "</td>");
         System.out.print("<td valign=\"top\" align=\"right\">" +
@@ -127,7 +127,7 @@ public final class RuleOverview {
         final int javaCount = javaRules.length;
         if (javaCount > 0) {
           final String sourceCodeLink = 
-                  "http://languagetool.svn.sourceforge.net/viewvc/languagetool/trunk/languagetool/languagetool-language-modules/" 
+                  "http://svn.code.sf.net/p/languagetool/code/trunk/languagetool/languagetool-language-modules/"
                   + langCode + "/src/main/java/org/languagetool/rules/" 
                   + langCode + "/";
           System.out.print("<td valign=\"top\" align=\"right\"><a href=\"" + sourceCodeLink + "\">" + javaCount + "</a></td>");
