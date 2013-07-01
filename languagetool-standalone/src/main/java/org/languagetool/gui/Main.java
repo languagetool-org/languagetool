@@ -162,6 +162,10 @@ public final class Main implements ActionListener {
     maybeStartServer();
   }
 
+  Component getFrame() {
+    return frame;
+  }
+
   private void createGUI() {
     frame = new JFrame("LanguageTool " + JLanguageTool.VERSION);
 
@@ -248,6 +252,7 @@ public final class Main implements ActionListener {
 
     frame.pack();
     frame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+    frame.setLocationByPlatform(true);
   }
 
   private void warmUpChecker() {

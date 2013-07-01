@@ -18,6 +18,7 @@
  */
 package org.languagetool.gui;
 
+import java.awt.*;
 import java.util.ResourceBundle;
 
 import javax.swing.JOptionPane;
@@ -34,15 +35,17 @@ import org.languagetool.tools.StringTools;
 public class AboutDialog {
 
   protected final ResourceBundle messages;
-  
-  public AboutDialog(final ResourceBundle messages) {
+
+  private final Component parent;
+
+  public AboutDialog(final ResourceBundle messages, Component parent) {
     this.messages = messages;
+    this.parent = parent;
   }
   
   public void show() {
-    final String aboutText = 
-      StringTools.getLabel(messages.getString("guiMenuAbout"));
-    JOptionPane.showMessageDialog(null, getAboutText(),
+    final String aboutText = StringTools.getLabel(messages.getString("guiMenuAbout"));
+    JOptionPane.showMessageDialog(parent, getAboutText(),
         aboutText, JOptionPane.INFORMATION_MESSAGE);
   }
 

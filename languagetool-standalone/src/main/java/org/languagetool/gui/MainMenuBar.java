@@ -119,7 +119,7 @@ class MainMenuBar extends JMenuBar implements ActionListener {
     } else if (e.getActionCommand().equals(quitText)) {
       prg.quit();
     } else if (e.getActionCommand().equals(aboutText)) {
-      final AboutDialog about = new AboutDialog(messages);
+      final AboutDialog about = new AboutDialog(messages, prg.getFrame());
       about.show();
     } else {
       throw new IllegalArgumentException("Unknown action " + e);

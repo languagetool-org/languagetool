@@ -292,6 +292,7 @@ private JCheckBox serverSettingsCheckbox;
     final Dimension frameSize = dialog.getSize();
     dialog.setLocation(screenSize.width / 2 - frameSize.width / 2,
         screenSize.height / 2 - frameSize.height / 2);
+    dialog.setLocationByPlatform(true);
     dialog.setVisible(true);
   }
 

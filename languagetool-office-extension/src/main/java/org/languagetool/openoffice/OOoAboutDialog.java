@@ -38,9 +38,8 @@ public class OOoAboutDialog extends AboutDialog {
 
   private final XWindowPeer winPeer;
 
-  public OOoAboutDialog(final ResourceBundle messages,
-      final XWindowPeer parentWindowPeer) {
-    super(messages);
+  public OOoAboutDialog(final ResourceBundle messages, final XWindowPeer parentWindowPeer) {
+    super(messages, null);
     winPeer = parentWindowPeer;
   }
 

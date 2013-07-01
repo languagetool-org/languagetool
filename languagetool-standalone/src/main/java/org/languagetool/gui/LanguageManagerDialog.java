@@ -137,10 +137,7 @@ public class LanguageManagerDialog implements ActionListener {
     
     dialog.pack();
     dialog.setSize(300, 200);
-    // center on screen:
-    final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    final Dimension frameSize = dialog.getSize();
-    dialog.setLocation(screenSize.width/2 - (frameSize.width/2), screenSize.height/2 - (frameSize.height/2));
+    dialog.setLocationByPlatform(true);
     dialog.setVisible(true);
   }
 
