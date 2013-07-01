@@ -60,7 +60,7 @@ public class LanguageManagerDialog implements ActionListener {
   private final ResourceBundle messages;
 
   private JDialog dialog;
-  private JList<File> list;
+  private JList list;
   private JButton addButton;
   private JButton removeButton;
   private JButton closeButton;
@@ -95,7 +95,7 @@ public class LanguageManagerDialog implements ActionListener {
     final Container contentPane = dialog.getContentPane();
     contentPane.setLayout(new GridBagLayout());
     
-    list = new JList<File>(ruleFiles.toArray(new File[]{}));
+    list = new JList(ruleFiles.toArray(new File[]{}));
     GridBagConstraints cons = new GridBagConstraints();
     cons.insets = new Insets(4, 4, 4, 4);
     cons.gridx = 0;

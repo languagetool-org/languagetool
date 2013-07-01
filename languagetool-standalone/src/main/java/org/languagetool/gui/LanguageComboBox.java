@@ -31,7 +31,7 @@ import org.languagetool.Language;
 /**
  * Combo box with list of available languages.
  */
-public class LanguageComboBox extends JComboBox<I18nLanguage> {
+public class LanguageComboBox extends JComboBox {
 
   private final ResourceBundle messages;
   private final List<I18nLanguage> i18nLanguages = new ArrayList<I18nLanguage>();
