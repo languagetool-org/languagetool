@@ -55,17 +55,16 @@ import org.languagetool.language.LanguageBuilder;
  */
 public class LanguageManagerDialog implements ActionListener {
 
+  private final List<File> ruleFiles = new ArrayList<File>();
+  private final Frame owner;
+  private final ResourceBundle messages;
+
   private JDialog dialog;
-  
-  private JList list; 
+  private JList<File> list;
   private JButton addButton;
   private JButton removeButton;
   private JButton closeButton;
-  private final List<File> ruleFiles = new ArrayList<File>();
-  
-  private final Frame owner;
-  private final ResourceBundle messages;
-  
+
   public LanguageManagerDialog(Frame owner, List<Language> languages) {
     this.owner = owner;
     for (Language lang : languages) {
@@ -96,7 +95,7 @@ public class LanguageManagerDialog implements ActionListener {
     final Container contentPane = dialog.getContentPane();
     contentPane.setLayout(new GridBagLayout());
     
-    list = new JList(ruleFiles.toArray(new File[]{}));
+    list = new JList<File>(ruleFiles.toArray(new File[]{}));
     GridBagConstraints cons = new GridBagConstraints();
     cons.insets = new Insets(4, 4, 4, 4);
     cons.gridx = 0;
@@ -151,7 +150,7 @@ public class LanguageManagerDialog implements ActionListener {
       final File ruleFile = Tools.openFileDialog(null, new XMLFileFilter());
       if (!ruleFiles.contains(ruleFile)) {
         ruleFiles.add(ruleFile);
-        list.setListData(ruleFiles.toArray(new File[]{}));
+        list.setListData(ruleFiles.toArray(new File[ruleFiles.size()]));
       } else {
         final JOptionPane jop = new JOptionPane();
         JOptionPane.showMessageDialog(jop, messages.getString("guiDuplicate"),
@@ -160,7 +159,7 @@ public class LanguageManagerDialog implements ActionListener {
     } else if (e.getSource() == removeButton) {
       if (list.getSelectedIndex() != -1) {
         ruleFiles.remove(list.getSelectedIndex());
-        list.setListData(ruleFiles.toArray(new File[]{}));
+        list.setListData(ruleFiles.toArray(new File[ruleFiles.size()]));
       }
     } else if (e.getSource() == closeButton) {
       dialog.setVisible(false);
