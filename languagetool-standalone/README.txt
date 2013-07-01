@@ -63,23 +63,6 @@ Usage:
 
 ------------------------------------------------ 
 
-Using LanguageTool from .NET:
-
- Thanks to IKVM (http://www.ikvm.net/) you can easily turn LanguageTool
- into a .NET exe or dll (without the GUI and the OpenOffice.org integration).
- You will need a fairly recent version of IKVM that uses OpenJDK to make it work.
- Just adapt these commands to you local path names (this example shows using mono):
-
- export MONO_PATH=/path/to/ikvm/bin
- mono /path/to/ikvm/bin/ikvmc.exe -target:library -r:/path/to/ikvm/bin/IKVM.OpenJDK.Core.dll libs/###morfologik.lib###
- mono /path/to/ikvm/bin/ikvmc.exe -target:library -r:/path/to/ikvm/bin/IKVM.OpenJDK.Core.dll libs/jWordSplitter.jar
- mono /path/to/ikvm/bin/ikvmc.exe -r:/path/to/ikvm/bin/IKVM.OpenJDK.Core.dll -r:###morfologik.lib### -r:jWordSplitter.dll LanguageTool.jar
-
- However, the resulting LanguageTool.exe has not been tested much yet. You can expect
- problems with resource loading (path names are not recognized properly).
-
------------------------------------------------- 
-
 License:
  
  Unless otherwise noted, this software is distributed under 
