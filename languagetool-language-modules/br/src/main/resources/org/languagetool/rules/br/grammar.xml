@@ -8265,6 +8265,67 @@ $Id$
         <example type="correct">Ur <marker>pikol</marker> paotr</example>
       </rule>
     </rulegroup>
+    <rulegroup id="KANNAN_KANAN" name="kannañ pe kanañ">
+      <rule>
+        <pattern>
+          <token regexp="yes">poull(où)?-kanañ</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion><match no="1" regexp_match="n" regexp_replace="nn"/></suggestion>?</message>
+        <example type="incorrect" correction="poull-kannañ">Ur <marker>poull-kanañ</marker>.</example>
+        <example type="correct">Ur poull-kannañ.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token>kanañ</token></marker>
+          <token>an</token>
+          <token>dilhad</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion><match no="1" regexp_match="n" regexp_replace="nn"/></suggestion>?</message>
+        <example type="incorrect" correction="Kannañ"><marker>Kanañ</marker> an dilhad.</example>
+        <example type="correct">Kannañ an dilhad.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">dilhad|mekanik|roched(où)?|loer(où)?</token>
+          <token>da</token>
+          <marker><token>ganañ</token></marker>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion><match no="3" regexp_match="n" regexp_replace="nn"/></suggestion>?</message>
+        <example type="incorrect" correction="gannañ">Ar mekanik da <marker>ganañ</marker>.</example>
+        <example type="correct">Ar mekanik da <marker>gannañ</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>en</token>
+          <token>em</token>
+          <marker><token>ganañ</token></marker>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion><match no="3" regexp_match="n" regexp_replace="nn"/></suggestion>?</message>
+        <example type="incorrect" correction="gannañ">Oc’h en em <marker>ganañ</marker> e oant.</example>
+        <example type="correct">Oc’h en em gannañ e oant.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token>kannañ</token></marker>
+          <token>a</token>
+          <token inflected="yes">ober</token>
+          <token regexp="yes">(brav|mat|faos)(-(kenañ|kaer|tre))?</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion><match no="1" regexp_match="nn" regexp_replace="n"/></suggestion>?</message>
+        <example type="incorrect" correction="Kanañ"><marker>Kannañ</marker> a rae mat-kenañ.</example>
+        <example type="correct">Kanañ a rae mat-kenañ.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">[kg]annañ</token></marker>
+          <token regexp="yes">[au][rn]</token>
+          <token regexp="yes">(c’han|c’hantik(où)?|dañs|destenn(où)?|gavotenn(où)?|genaouenn(où)?|g?werz|himn|oferenn|plinn|rimadell|son|sonenn|ton(-ioù)?)(-(mañ|se))?</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion><match no="1" regexp_match="nn" regexp_replace="n"/></suggestion>?</message>
+        <example type="incorrect" correction="Kanañ"><marker>Kannañ</marker> ur c’hantik.</example>
+        <example type="correct">Kanañ ur c’hantik.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="ARZH_ARZ" name="arzh pe arz">
       <rule>
         <pattern>
