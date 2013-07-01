@@ -4777,6 +4777,18 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+        <rule id="FEN_FENT" name="fen/fent">
+            <pattern>
+                <token postag="V.*" postag_regexp="yes"/>
+                <marker>
+                    <token>fen</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>fent</suggestion> (del verb "fer")?</message>
+            <example type="incorrect" correction="fent">I ell ho continua <marker>fen</marker>.</example>
+            <example type="incorrect" correction="fent">I ell continua <marker>fen</marker>-me propostes.</example>
+            <example type="correct">Fen l'aire.</example>
+        </rule>
         <rulegroup id="GALA_GALLA" name="gala/gal·la">
             <rule>
                 <pattern case_sensitive="yes">
@@ -5065,7 +5077,7 @@ $Id$
                     <token>maldades</token>
                 </marker>
             </pattern>
-            <message>¿Volíu dir <suggestion>mal dades</suggestion>?</message>
+            <message>¿Volíeu dir <suggestion>mal dades</suggestion>?</message>
             <short>Possible confusió</short>
             <example type="incorrect">Ara que van tan <marker>maldades</marker>.</example>
             <example type="correct">Ara que van mal dades</example>
@@ -5874,18 +5886,6 @@ $Id$
                 informació sobre tot i tothom-->
             </rule>
         </rulegroup>
-        <rule id="FEN_FENT" name="*fen-me/fent-me">
-            <pattern>
-                <marker>
-                    <token>fen</token>
-                </marker>
-                <token regexp="yes">-.+</token>
-            </pattern>
-            <message>¿Volíeu dir <suggestion>fent</suggestion>?</message>
-            <short>Possible confusió</short>
-            <example type="incorrect" correction="fent"><marker>fen</marker>-me recomanacions</example>
-            <example type="correct">fent recomanacions</example>
-        </rule>
         <rule id="DONS_DONCS" name="*dons/doncs">
             <pattern>
                 <token><exception inflected="yes" regexp="yes">repartir|oferir|presentar|ofrenar|intercanviar|bescanviar|de</exception></token>
