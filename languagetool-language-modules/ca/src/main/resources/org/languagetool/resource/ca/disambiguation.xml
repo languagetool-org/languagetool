@@ -201,6 +201,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rule>
     <rulegroup id="LOCUCIONS" name="locucions adverbials, preposicionals, conjuntives">
         <!-- locucions concretes-->
+        <rule id="temps_ha" name="temps ha (locució advervial)">
+            <pattern>
+                <marker>
+                    <token>temps</token>
+                    <token>ha</token>
+                </marker>
+                <token><exception postag="V.P.*" postag_regexp="yes"/></token> 
+            </pattern>
+            <disambig action="add"><wd lemma="temps ha" pos="&lt;LOC_ADV&gt;"/><wd lemma="temps ha" pos="&lt;/LOC_ADV&gt;"/></disambig>
+        </rule>
         <rule id="en_va1" name="en va (locució advervial)">
             <pattern>
                 <token><exception regexp="yes">'ls|'ns|us</exception></token>
