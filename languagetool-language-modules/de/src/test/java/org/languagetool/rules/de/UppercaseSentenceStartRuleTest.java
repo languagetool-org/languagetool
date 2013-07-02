@@ -29,6 +29,8 @@ public class UppercaseSentenceStartRuleTest extends TestCase {
   public void testRule() throws IOException {
     final JLanguageTool lt = new JLanguageTool(new German());
     
+    assertEquals(2, lt.check("etwas beginnen. und der auch nicht").size());
+    
     assertEquals(0, lt.check("Dies ist ein Satz. Und hier kommt noch einer").size());
     assertEquals(0, lt.check("Dies ist ein Satz. Ätsch, noch einer mit Umlaut.").size());
     assertEquals(0, lt.check("Dieser Satz ist bspw. okay so.").size());
@@ -38,13 +40,14 @@ public class UppercaseSentenceStartRuleTest extends TestCase {
     assertEquals(0, lt.check("'Dies ist ein Satz!'").size());
     
     assertEquals(0, lt.check("Sehr geehrte Frau Merkel,\nwie wir Ihnen schon früher mitgeteilt haben...").size());
-    assertEquals(0, lt.check("Dies ist ein Satz. aber das hier noch nicht").size());
+    //assertEquals(0, lt.check("Dies ist ein Satz. aber das hier noch nicht").size());
     
     assertEquals(1, lt.check("Dies ist ein Satz. ätsch, noch einer mit Umlaut.").size());
     assertEquals(1, lt.check("Dies ist ein Satz. \"aber der hier auch!\"").size());
     assertEquals(1, lt.check("Dies ist ein Satz. „aber der hier auch!“").size());
     assertEquals(1, lt.check("\"dies ist ein Satz!\"").size());
     assertEquals(1, lt.check("'dies ist ein Satz!'").size());
+    
   }
 
 }

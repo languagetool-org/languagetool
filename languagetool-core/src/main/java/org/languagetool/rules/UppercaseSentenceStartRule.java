@@ -100,7 +100,7 @@ public class UppercaseSentenceStartRule extends Rule {
     
     boolean preventError = false;
     // TODO: why do only *these* languages have that special case?
-    final String langCode = language.getShortName();
+    /*final String langCode = language.getShortName();
     final boolean languageHasSpecialCases = langCode.equals("ru") || langCode.equals("pl")
             || langCode.equals("uk") || langCode.equals("be") || langCode.equals(Locale.ENGLISH.getLanguage())
             || langCode.equals(Locale.ITALIAN.getLanguage()) || langCode.equals(Locale.GERMAN.getLanguage());
@@ -115,8 +115,15 @@ public class UppercaseSentenceStartRule extends Rule {
       if (!lastToken.matches("[.?!…]")) {
         preventError = true;
       }
-    } 
+    } */
 
+    if (lastParagraphString.matches("[;,]")) {
+      preventError = true;
+    }
+    if (lastParagraphString.matches(":") && lastToken.matches("[;,]")) {
+      preventError = true;
+    }
+    
     lastParagraphString = lastToken;
     
     //allows enumeration with lowercase letters: a), iv., etc.
