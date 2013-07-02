@@ -30,6 +30,8 @@ $Id$
     <!ENTITY exceptions_ASSENTAR_ASSEURE "geològi.*|pilar|bàvar|eslau|roca|ciutat|pedra|morter|tossal|muralla|castell|fonament|sòcol|plana|agricultor|poblat|sedentari.*|mite|història|sistema|producció|cultura|creença|judici|juí|teoria|illa|sobirania|fet|austral|base|categoria|colon|colonitz.*|colònia|comarca|comunitat|errant|est|fermament|habitant|hàbitat|medi|meridional|natural|nord|nord-est|nord-oest|nucli|nòmada|occident|occidental|oest|organització|orient|oriental|península|població|poblador|poblament|poblar|poble|província|puig|recurs|regió|regne|residència|rural|septentrional|societat|sud|sud-est|sud-oest|terra|territori|tribu|turó|tècnica|vall|vida|zona|ètnia|ètnic|principi|conducta|establir|distribució|genital|estructura|recinte|esplanada|pla|superfície">
     <!ENTITY exceptions_A_DIT_HA_DIT "concedir|crèdit|selecció|subvenció|atorgar|designar|designació|contractar|contractació|plaça|assignar|assignació|nomenar|nomenament|col·locar|col·locació|ajudicar|adjudicació|càrrec">
     <!ENTITY dies_setmana "dilluns|dimarts|dimecres|dijous|divendres|dissabte|diumenge">
+    <!ENTITY ordes "agustinià|salesià|religiós|franciscà|benedictí|templari|cavalleresc|cistercenc|escolapi|monàstic|mercedari|teutònic|cartoixà|dominic|jerònim">
+    <!ENTITY ordes_invariable "militar|major|menor|marista|jesuïta|regular">
 ]>
     
 <rules lang="ca" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
@@ -17167,7 +17169,7 @@ $Id$
                 <pattern>
                     <marker>
                         <token regexp="yes">ordres?</token>                    
-                    <token inflected="yes" regexp="yes">religiós|franciscà|benedictí|jesuïta|templari|cavalleresc|militar|major|menor</token>
+                    <token inflected="yes" regexp="yes">&ordes;|&ordes_invariable;</token>
                     </marker>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="1" regexp_match="([Oo]rd)r(e.*)" regexp_replace="$1$2"/> <match no="2" postag="AQ0.(.)." postag_regexp="yes" postag_replace="AQ0[MC]$10"/></suggestion>?</message>
@@ -17182,7 +17184,7 @@ $Id$
                     <marker>
                     	<token postag="D..F.*" postag_regexp="yes"></token>
                         <token postag="_GN_F." postag_regexp="yes" regexp="yes">ordes?</token>                    
-                    	<token postag="AQ0[FC].*" postag_regexp="yes" inflected="yes" regexp="yes">religiós|franciscà|benedictí|jesuïta|templari|cavalleresc|militar|major|menor</token>
+                    	<token postag="AQ0[FC].*" postag_regexp="yes" inflected="yes" regexp="yes">&ordes;|&ordes_invariable;</token>
                     </marker>
                 </pattern>
                 <message>En el sentit de "societat de religiosos" o de "ritu cristià", "orde" és masculí.</message>
@@ -17196,7 +17198,7 @@ $Id$
                 <pattern>
                     <marker>
                         <token postag="_GN_F." postag_regexp="yes" regexp="yes">ordes?</token>                    
-                    <token postag="AQ0[FC].*" postag_regexp="yes" inflected="yes" regexp="yes">religiós|franciscà|benedictí|templari|cavalleresc</token>
+                    <token postag="AQ0[FC].*" postag_regexp="yes" inflected="yes" regexp="yes">&ordes;</token>
                     </marker>
                 </pattern>
                 <message>En el sentit de "societat de religiosos" o de "ritu cristià", "orde" és masculí.</message>
@@ -17214,7 +17216,7 @@ $Id$
                         <token regexp="yes">ordres?</token>
                     </marker>
                     <token skip="1">de</token>
-                    <token regexp="yes">temple|sant|cavalleri(a|es)</token>
+                    <token regexp="yes">temple|sant|cavalleri(a|es)|Cartoixa|Cister</token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="1" regexp_match="([Oo]rd)r(e.*)" regexp_replace="$1$2"/></suggestion>?</message>
                 <url>http://esadir.cat/lexic/entrades/entry_20030730164326_116</url>
