@@ -81,8 +81,7 @@ abstract class Server {
   }
 
   protected static boolean usageRequested(String[] args) {
-    final boolean helpRequested = args.length == 1 && (args[0].equals("-h") || args[0].equals("--help"));
-    return args.length == 0 || helpRequested;
+    return args.length == 1 && (args[0].equals("-h") || args[0].equals("--help"));
   }
 
   protected static void printCommonOptions() {
