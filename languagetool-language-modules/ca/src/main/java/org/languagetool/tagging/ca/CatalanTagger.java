@@ -46,6 +46,7 @@ public class CatalanTagger extends BaseTagger {
   private static final String DICT_FILENAME = "/ca/catalan.dict";
   private static final Pattern ADJ_PART_FS = Pattern.compile("VMP00SF.|A[QO]0[FC][SN].");
   private static final Pattern VERB = Pattern.compile("V.+");
+  private static final Pattern NOUN = Pattern.compile("NC.+");
 
   @Override
   public final String getFileName() {
@@ -95,7 +96,7 @@ public class CatalanTagger extends BaseTagger {
         }
       }
     }
-    //Any well-formed verb with preffix auto- is tagged as a verb copying the original tags 
+    //Any well-formed verb with prefix auto- is tagged as a verb copying the original tags 
     if (word.startsWith("auto")){
       final String lowerWord = word.toLowerCase(conversionLocale);
       final String possibleVerb = lowerWord.replaceAll("^auto(.+)$", "$1");
@@ -107,6 +108,24 @@ public class CatalanTagger extends BaseTagger {
           final Matcher m = VERB.matcher(posTag);
           if (m.matches()) {
             String lemma="auto".concat(taggerToken.getLemma());
+            additionalTaggedTokens.add(new AnalyzedToken(word, posTag, lemma));
+          }
+        }
+      }
+      return additionalTaggedTokens;
+    }
+    // Any well-formed noun with prefix ex- is tagged as a noun copying the original tags
+    if (word.startsWith("ex")) {
+      final String lowerWord = word.toLowerCase(conversionLocale);
+      final String possibleNoun = lowerWord.replaceAll("^ex(.+)$", "$1");
+      List<AnalyzedToken> taggerTokens;
+      taggerTokens = asAnalyzedTokenList(possibleNoun,dictLookup.lookup(possibleNoun));
+      for (AnalyzedToken taggerToken : taggerTokens) {
+        final String posTag = taggerToken.getPOSTag();
+        if (posTag != null) {
+          final Matcher m = NOUN.matcher(posTag);
+          if (m.matches()) {
+            String lemma = "ex".concat(taggerToken.getLemma());
             additionalTaggedTokens.add(new AnalyzedToken(word, posTag, lemma));
           }
         }
