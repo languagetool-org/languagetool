@@ -93,7 +93,7 @@ public class UppercaseSentenceStartRule extends Rule {
     }
 
     String lastToken = tokens[tokens.length - 1].getToken();
-    if (lastToken.matches("[ \"'„»«“]") && tokens.length >= 2) {
+    if (lastToken.matches("[ \"'„»«“\\n]") && tokens.length >= 2) {
       // ignore trailing whitespace or quote
       lastToken = tokens[tokens.length - 2].getToken();
     }
@@ -120,7 +120,10 @@ public class UppercaseSentenceStartRule extends Rule {
     if (lastParagraphString.matches("[;,]")) {
       preventError = true;
     }
-    if (lastParagraphString.matches(":") && lastToken.matches("[;,]")) {
+    /*if (lastParagraphString.matches(":") && lastToken.matches("[;,]")) {
+      preventError = true;
+    }*/  
+    if (!lastParagraphString.matches("[.?!…]|") && !lastToken.matches("[.?!…]")) {
       preventError = true;
     }
     
