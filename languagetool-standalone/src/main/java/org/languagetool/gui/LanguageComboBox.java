@@ -58,6 +58,10 @@ public class LanguageComboBox extends JComboBox {
     }
   }
 
+  Language getSelectedLanguage() {
+    return ((I18nLanguage) getSelectedItem()).getLanguage();
+  }
+
   Language getDefaultLanguage() {
     if (config.getLanguage() != null) {
       return config.getLanguage();
