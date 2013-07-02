@@ -198,7 +198,7 @@ public final class Main implements ActionListener {
     buttonCons.gridy = 0;
     buttonCons.anchor = GridBagConstraints.WEST;
     insidePanel.add(new JLabel(" " + messages.getString("textLanguage") + " "), buttonCons);
-    languageBox = new LanguageComboBox(messages);
+    languageBox = new LanguageComboBox(messages, config);
     languageBox.addItemListener(new ItemListener() {
       @Override
       public void itemStateChanged(ItemEvent e) {
@@ -353,6 +353,7 @@ public final class Main implements ActionListener {
   void quit() {
     stopServer();
     try {
+      config.setLanguage(((I18nLanguage) languageBox.getSelectedItem()).getLanguage());
       config.saveConfiguration(getCurrentLanguage());
     } catch (IOException e) {
       Tools.showError(e);

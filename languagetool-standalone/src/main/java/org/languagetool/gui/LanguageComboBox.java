@@ -34,10 +34,12 @@ import org.languagetool.Language;
 public class LanguageComboBox extends JComboBox {
 
   private final ResourceBundle messages;
+  private final Configuration config;
   private final List<I18nLanguage> i18nLanguages = new ArrayList<I18nLanguage>();
 
-  public LanguageComboBox(ResourceBundle messages) {
+  public LanguageComboBox(ResourceBundle messages, Configuration config) {
     this.messages = messages;
+    this.config = config;
     populateLanguageBox();
   }
 
@@ -57,7 +59,11 @@ public class LanguageComboBox extends JComboBox {
   }
 
   Language getDefaultLanguage() {
-    return Language.getLanguageForLocale(Locale.getDefault());
+    if (config.getLanguage() != null) {
+      return config.getLanguage();
+    } else {
+      return Language.getLanguageForLocale(Locale.getDefault());
+    }
   }
 
   private void initAllLanguages() {

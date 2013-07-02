@@ -38,6 +38,7 @@ public class Configuration {
   private static final String DISABLED_RULES_CONFIG_KEY = "disabledRules";
   private static final String ENABLED_RULES_CONFIG_KEY = "enabledRules";
   private static final String DISABLED_CATEGORIES_CONFIG_KEY = "disabledCategories";
+  private static final String LANGUAGE_CONFIG_KEY = "language";
   private static final String MOTHER_TONGUE_CONFIG_KEY = "motherTongue";
   private static final String AUTO_DETECT_CONFIG_KEY = "autoDetect";
   private static final String SERVER_RUN_CONFIG_KEY = "serverMode";
@@ -51,6 +52,7 @@ public class Configuration {
   private Set<String> disabledRuleIds = new HashSet<String>();
   private Set<String> enabledRuleIds = new HashSet<String>();
   private Set<String> disabledCategoryNames = new HashSet<String>();
+  private Language language;
   private Language motherTongue;
   private boolean runServer;
   private boolean autoDetect;
@@ -104,6 +106,14 @@ public class Configuration {
 
   public void setDisabledCategoryNames(final Set<String> categoryNames) {
     disabledCategoryNames = categoryNames;
+  }
+
+  public Language getLanguage() {
+    return language;
+  }
+
+  public void setLanguage(final Language language) {
+    this.language = language;
   }
 
   public Language getMotherTongue() {
@@ -161,6 +171,10 @@ public class Configuration {
       enabledRuleIds.addAll(getListFromProperties(props, ENABLED_RULES_CONFIG_KEY + qualifier));
       disabledCategoryNames.addAll(getListFromProperties(props, DISABLED_CATEGORIES_CONFIG_KEY + qualifier));
       
+      final String languageStr = (String) props.get(LANGUAGE_CONFIG_KEY);
+      if (languageStr != null) {
+        language = Language.getLanguageForShortName(languageStr);
+      }
       final String motherTongueStr = (String) props.get(MOTHER_TONGUE_CONFIG_KEY);
       if (motherTongueStr != null) {
         motherTongue = Language.getLanguageForShortName(motherTongueStr);
@@ -230,6 +244,9 @@ public class Configuration {
     addListToProperties(props, DISABLED_RULES_CONFIG_KEY + qualifier, disabledRuleIds);
     addListToProperties(props, ENABLED_RULES_CONFIG_KEY + qualifier, enabledRuleIds);
     addListToProperties(props, DISABLED_CATEGORIES_CONFIG_KEY + qualifier, disabledCategoryNames);
+    if (language != null) {
+      props.setProperty(LANGUAGE_CONFIG_KEY, language.getShortNameWithVariant());
+    }
     if (motherTongue != null) {
       props.setProperty(MOTHER_TONGUE_CONFIG_KEY, motherTongue.getShortName());
     }
