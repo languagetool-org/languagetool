@@ -194,8 +194,16 @@ public abstract class Language {
 
   /**
    * Get the location of the rule file(s).
+   * @deprecated use {@link #getRuleFileNames()} instead (deprecated since 2.3)
    */
   public List<String> getRuleFileName() {
+    return getRuleFileNames();
+  }
+
+  /**
+   * Get the location of the rule file(s).
+   */
+  public List<String> getRuleFileNames() {
     final List<String> ruleFiles = new ArrayList<String>();
     final ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
     ruleFiles.add(dataBroker.getRulesDir()

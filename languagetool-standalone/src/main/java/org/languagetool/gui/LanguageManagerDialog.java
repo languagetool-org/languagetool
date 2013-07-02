@@ -68,7 +68,7 @@ public class LanguageManagerDialog implements ActionListener {
   public LanguageManagerDialog(Frame owner, List<Language> languages) {
     this.owner = owner;
     for (Language lang : languages) {
-        for (final String ruleFile : lang.getRuleFileName()) {
+        for (final String ruleFile : lang.getRuleFileNames()) {
             ruleFiles.add(new File(ruleFile));
         }
     }

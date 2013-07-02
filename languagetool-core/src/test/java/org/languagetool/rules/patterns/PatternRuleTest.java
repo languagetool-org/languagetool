@@ -114,7 +114,7 @@ public class PatternRuleTest extends TestCase {
     allRulesLanguageTool.activateDefaultPatternRules();
     validateRuleIds(lang, allRulesLanguageTool);
     final List<PatternRule> rules = new ArrayList<PatternRule>();
-    for (String patternRuleFileName : lang.getRuleFileName()) {
+    for (String patternRuleFileName : lang.getRuleFileNames()) {
       rules.addAll(languageTool.loadPatternRules(patternRuleFileName));
     }
     for (PatternRule rule : rules) {

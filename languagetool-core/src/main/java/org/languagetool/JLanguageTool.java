@@ -353,7 +353,7 @@ public final class JLanguageTool {
    */
   public void activateDefaultPatternRules() throws IOException {
     final List<PatternRule> patternRules = new ArrayList<PatternRule>();
-    for (String patternRuleFileName : language.getRuleFileName()) {
+    for (String patternRuleFileName : language.getRuleFileNames()) {
       patternRules.addAll(loadPatternRules(patternRuleFileName));
     }    
     userRules.addAll(patternRules);
