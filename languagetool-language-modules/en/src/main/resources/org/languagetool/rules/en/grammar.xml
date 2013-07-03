@@ -5774,6 +5774,35 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category name="Grammar" type="grammar">
+        <rulegroup id="ADVERB_WORD_ORDER" name="Word order: Wrong position of adverb, e.g. 'Always I am happy. (I am always happy.)'">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token regexp="yes">Always|Rarely|Seldom|Hardly|Ever|Never</token>
+                    </marker>
+                    <token><exception postag="VB.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>The adverb \1 is usually not used at the beginning of a sentence.</message>
+                <url>http://faculty.washington.edu/marynell/grammar/AdverbPl.html</url>
+                <example type="incorrect"><marker>Always</marker> I am happy.</example>
+                <example type="correct">I am <marker>always</marker> happy.</example>
+                <example type="correct"><marker>Always</marker> wear your helmet.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception postag="VB.*" postag_regexp="yes"/></token>
+                    <marker>
+                        <token regexp="yes">always|rarely|seldom|hardly|never</token>
+                    </marker>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <message>The adverb \1 is usually not used at the end of a sentence.</message>
+                <url>http://faculty.washington.edu/marynell/grammar/AdverbPl.html</url>
+                <example type="incorrect">I am happy <marker>always</marker>.</example>
+                <example type="correct">I am <marker>always</marker> happy.</example>
+            </rule>
+        </rulegroup>
         <rule id="GOING_TO_VBD" name="Use of past form with 'going to ...'">
             <pattern>
                 <token>going</token>
