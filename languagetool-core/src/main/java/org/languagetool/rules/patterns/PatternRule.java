@@ -173,13 +173,17 @@ public class PatternRule extends AbstractPatternRule {
   }
 
   /**
-   * Return the pattern as an XML string. FIXME: this is not complete, information might be lost!
+   * Return the rule's definition as an XML string, loaded from the XML rule files.
    * 
    * @since 0.9.3
    */
   public final String toXML() {
     final PatternRuleXmlCreator xmlCreator = new PatternRuleXmlCreator();
-    return xmlCreator.toXML(this);
+    try {
+      return xmlCreator.toXML(new PatternRuleId(getId(), getSubId()), getLanguage());
+    } catch (IOException e) {
+      throw new RuntimeException("Could not return string representation of rule", e);
+    }
   }
 
   public final void setMessage(final String message) {

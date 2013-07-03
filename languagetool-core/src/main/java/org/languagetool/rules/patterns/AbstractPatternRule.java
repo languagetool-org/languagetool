@@ -92,6 +92,7 @@ public abstract class AbstractPatternRule extends Rule {
     return false;
   }
 
+  @Override
   public String toString() {
     return id + "[" + subId + "]:" + patternElements + ":" + description;
   }
@@ -113,6 +114,13 @@ public abstract class AbstractPatternRule extends Rule {
 
   @Override
   public void reset() {
+  }
+
+  /**
+   * @since 2.3
+   */
+  public final Language getLanguage() {
+    return language;
   }
 
   public final void setStartPositionCorrection(final int startPositionCorrection) {

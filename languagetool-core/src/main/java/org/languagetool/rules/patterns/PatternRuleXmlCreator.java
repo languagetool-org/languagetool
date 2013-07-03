@@ -18,84 +18,103 @@
  */
 package org.languagetool.rules.patterns;
 
-import org.languagetool.rules.IncorrectExample;
-import org.languagetool.tools.StringTools;
+import org.languagetool.Language;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathFactory;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringWriter;
+import java.util.List;
 
 /**
- * Serializes a PatternRule object to XML.
+ * Makes XML definition of rules accessible as strings.
  *
- * @since 1.8
+ * @since 1.8, public since 2.3
  */
-class PatternRuleXmlCreator {
+public class PatternRuleXmlCreator {
 
   /**
-   * Return the pattern as an XML string. FIXME: this is not complete, information might be lost!
+   * Return the given pattern rule as an XML string.
+   * @since 2.3
    */
-  public final String toXML(PatternRule rule) {
-    final StringBuilder sb = new StringBuilder();
-    sb.append("<rule id=\"");
-    sb.append(StringTools.escapeXML(rule.getId()));
-    sb.append("\" name=\"");
-    sb.append(StringTools.escapeXML(rule.getDescription()));
-    sb.append("\">\n");
-    sb.append("<pattern mark_from=\"");
-    sb.append(rule.startPositionCorrection);
-    sb.append("\" mark_to=\"");
-    sb.append(rule.endPositionCorrection);
-    sb.append('"');
-    // for now, case sensitivity is per pattern, not per element,
-    // so just use the setting of the first element:
-    if (!rule.patternElements.isEmpty() && rule.patternElements.get(0).getCaseSensitive()) {
-      sb.append(" case_sensitive=\"yes\"");
-    }
-    sb.append(">\n");
-    for (Element patternElement : rule.patternElements) {
-      sb.append("<token");
-      if (patternElement.getNegation()) {
-        sb.append(" negate=\"yes\"");
-      }
-      if (patternElement.isRegularExpression()) {
-        sb.append(" regexp=\"yes\"");
-      }
-      if (patternElement.getPOStag() != null) {
-        sb.append(" postag=\"");
-        sb.append(patternElement.getPOStag());
-        sb.append('"');
-      }
-      if (patternElement.getPOSNegation()) {
-        sb.append(" negate_pos=\"yes\"");
-      }
-      if (patternElement.isInflected()) {
-        sb.append(" inflected=\"yes\"");
-      }
-      sb.append('>');
-      if (patternElement.getString() != null) {
-        sb.append(StringTools.escapeXML(patternElement.getString()));
-      } else {
-        // TODO
-      }
-      sb.append("</token>\n");
-    }
-    sb.append("</pattern>\n");
-    sb.append("<message>");
-    sb.append(StringTools.escapeXML(rule.getMessage()));
-    sb.append("</message>\n");
-    if (rule.getIncorrectExamples() != null) {
-      for (IncorrectExample example : rule.getIncorrectExamples()) {
-        sb.append("<example type=\"incorrect\">");
-        sb.append(StringTools.escapeXML(example.getExample()));
-        sb.append("</example>\n");
+  public final String toXML(PatternRuleId ruleId, Language language) throws IOException {
+    final List<String> filenames = language.getRuleFileNames();
+    final XPath xpath = XPathFactory.newInstance().newXPath();
+    for (String filename : filenames) {
+      final InputStream is = this.getClass().getResourceAsStream(filename);
+      try {
+        final Document doc = getDocument(is);
+        final Node ruleNode = (Node) xpath.evaluate("/rules/category/rule[@id='" + ruleId.getId() + "']", doc, XPathConstants.NODE);
+        if (ruleNode != null) {
+          return nodeToString(ruleNode);
+        }
+        if (ruleId.getSubId() != null) {
+          final NodeList ruleGroupNodes = (NodeList) xpath.evaluate("/rules/category/rulegroup[@id='" + ruleId.getId() + "']/rule", doc, XPathConstants.NODESET);
+          if (ruleGroupNodes != null) {
+            for (int i = 1; i <= ruleGroupNodes.getLength(); i++) {
+              if (Integer.toString(i).equals(ruleId.getSubId())) {
+                return nodeToString(ruleGroupNodes.item(i - 1));
+              }
+            }
+          }
+        } else {
+          final Node ruleGroupNode = (Node) xpath.evaluate("/rules/category/rulegroup[@id='" + ruleId.getId() + "']", doc, XPathConstants.NODE);
+          if (ruleGroupNode != null) {
+            return nodeToString(ruleGroupNode);
+          }
+        }
+      } catch (Exception e) {
+        throw new RuntimeException("Could not turn rule " + ruleId + " for language " + language + " into a string", e);
+      } finally {
+        is.close();
       }
     }
-    if (rule.getCorrectExamples() != null) {
-      for (String example : rule.getCorrectExamples()) {
-        sb.append("<example type=\"correct\">");
-        sb.append(StringTools.escapeXML(example));
-        sb.append("</example>\n");
-      }
+    throw new RuntimeException("Could not find rule " + ruleId + " for language " + language);
+  }
+
+  private Document getDocument(InputStream is) throws ParserConfigurationException, SAXException, IOException {
+    final InputSource inputSource = new InputSource(is);
+    final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+    factory.setNamespaceAware(false);  // we just ignore namespaces
+    final DocumentBuilder builder = factory.newDocumentBuilder();
+    return builder.parse(inputSource);
+  }
+
+  private String nodeToString(Node node) {
+    final StringWriter sw = new StringWriter();
+    try {
+      final Transformer t = TransformerFactory.newInstance().newTransformer();
+      t.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+      t.setOutputProperty(OutputKeys.INDENT, "yes");
+      t.transform(new DOMSource(node), new StreamResult(sw));
+    } catch (TransformerException e) {
+      throw new RuntimeException(e);
     }
-    sb.append("</rule>");
-    return sb.toString();
+    return cleanIndent(sw.toString());
+  }
+
+  // not sure why this is necessary, but the "indent" looks broken otherwise
+  private String cleanIndent(String xml) {
+    String cleanXml = xml;
+    cleanXml = cleanXml.replace("\n</", "</");
+    cleanXml = cleanXml.replace("\n<", "<");
+    return cleanXml;
   }
 
 }
