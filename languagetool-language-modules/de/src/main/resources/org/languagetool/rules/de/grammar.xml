@@ -18715,7 +18715,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">[sS]eit</token>
+                    <token regexp="yes">[sS]eit|[vV]or|[nN]ach</token>
                     <marker>
                         <token regexp="yes">tagen|stunden</token>
                     </marker>
@@ -18727,7 +18727,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">[Ii]n|[Ss]eit</token>
+                    <token regexp="yes">[Ii]n|[Ss]eit|[vV]or|[nN]ach</token>
                     <token regexp="yes">wenigen|einigen|mehreren|vielen</token>
                     <marker>
                         <token regexp="yes">tagen|stunden</token>
@@ -18737,10 +18737,11 @@ $Id$
                 <short>&prgk;.</short>
                 <example type="correct">Seit einigen <marker>Tagen</marker> läuft es wieder.</example>
                 <example type="incorrect" correction="Tagen">Seit einigen <marker>tagen</marker> läuft es wieder.</example>
+                <example type="incorrect" correction="Stunden">Nach einigen <marker>stunden</marker> lief es wieder.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">[Ii]n|[Ss]eit</token>
+                    <token regexp="yes">[Ii]n|[Ss]eit|[vV]or|[nN]ach</token>
                     <token postag="ZAL"/>
                     <marker>
                         <token regexp="yes">tagen|stunden</token>
@@ -18753,7 +18754,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">[Ii]n|[Ss]eit</token>
+                    <token regexp="yes">[Ii]n|[Ss]eit|[vV]or|[nN]ach</token>
                     <token>ein</token>
                     <token>paar</token>
                     <marker>
@@ -21838,7 +21839,7 @@ $Id$
                         <token regexp="yes">[Ee]in</token>
                         <token>Paar</token>
                     </marker>
-                    <token postag_regexp="yes" postag="SUB:.*PLU:.*" negate="yes" regexp="yes">(.*)([Ss]chuhe|[Ss]ocken|[Ss]trümpfe|[Ss]tiefel|[Ss]andalen|[Hh]osen|[aA]ugen|[oO]hren|[hH]ände|[fF]üße|Brüste)</token>
+                    <token postag_regexp="yes" postag="SUB:.*PLU:.*" negate="yes" regexp="yes">(.*)([Ss]chuhe|[Ss]ocken|[Ss]trümpfe|[Ss]tiefel|[Ss]andalen|[Hh]osen|[aA]ugen|[oO]hren|[hH]ände|[fF]äust(ling)?en?|[fF]üße|Brüste)</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>ein paar</suggestion> (=einige), im Unterschied zu 'ein Paar' (=genau zwei)?</message>
                 <url>http://www.canoo.net/services/GermanSpelling/Regeln/Gross-klein/Denominalisierung.html#Anchor-Die-14210</url>
@@ -21853,6 +21854,7 @@ $Id$
                 <example type="correct"><marker>Ein Paar</marker> Nylonstrumpfhosen.</example>
                 <example type="correct"><marker>Ein Paar</marker> Gummistiefel.</example>
                 <example type="correct"><marker>Ein Paar</marker> Ledersandalen.</example>
+                <example type="correct"><marker>Ein Paar</marker> Fäustlinge.</example>
                 <example type="correct"><marker>Ein paar</marker> Münzen.</example>
                 <example type="incorrect" correction="Ein paar"><marker>Ein Paar</marker> Münzen.</example>
                 <!--
