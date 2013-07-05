@@ -47,6 +47,8 @@ public class CatalanTagger extends BaseTagger {
   private static final Pattern ADJ_PART_FS = Pattern.compile("VMP00SF.|A[QO]0[FC][SN].");
   private static final Pattern VERB = Pattern.compile("V.+");
   private static final Pattern NOUN = Pattern.compile("NC.+");
+  
+  private static final Pattern PREFIXES_FOR_VERBS = Pattern.compile("(auto|re)(.+)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
 
   @Override
   public final String getFileName() {
@@ -96,10 +98,10 @@ public class CatalanTagger extends BaseTagger {
         }
       }
     }
-    //Any well-formed verb with prefix auto- is tagged as a verb copying the original tags 
-    if (word.startsWith("auto")){
-      final String lowerWord = word.toLowerCase(conversionLocale);
-      final String possibleVerb = lowerWord.replaceAll("^auto(.+)$", "$1");
+    //Any well-formed verb with prefixes is tagged as a verb copying the original tags   
+    Matcher matcher=PREFIXES_FOR_VERBS.matcher(word);
+    if (matcher.matches()) {
+      final String possibleVerb = matcher.group(2).toLowerCase();
       List<AnalyzedToken> taggerTokens;
       taggerTokens = asAnalyzedTokenList(possibleVerb, dictLookup.lookup(possibleVerb));
       for (AnalyzedToken taggerToken : taggerTokens ) {
@@ -107,7 +109,7 @@ public class CatalanTagger extends BaseTagger {
         if (posTag != null) {
           final Matcher m = VERB.matcher(posTag);
           if (m.matches()) {
-            String lemma="auto".concat(taggerToken.getLemma());
+            String lemma=matcher.group(1).toLowerCase().concat(taggerToken.getLemma());
             additionalTaggedTokens.add(new AnalyzedToken(word, posTag, lemma));
           }
         }
