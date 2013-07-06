@@ -21,7 +21,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.050 2013-06-02 16:30:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.051 2013-07-06 13:03:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -91,6 +91,19 @@ $Id: grammar.xml,v 1.050 2013-06-02 16:30:00 marcoagpinto Exp $
 
 
 
+    <!-- A APRENDIZ a aprendiza -->
+    <rule id="A_APRENDIZ" name="a aprendiza">
+      <pattern>
+        <token>a</token>
+        <token>aprendiz</token>
+      </pattern>
+      <message>Substituir «a aprendiz» por <suggestion>a aprendiza</suggestion>.</message>
+      <example type="incorrect">Vamos ver <marker>a aprendiz</marker>.</example>
+      <example type="correct">Vamos ver <marker>a aprendiza</marker>.</example>
+    </rule>
+
+
+
     <!-- A PREÇO PELO apreço pelo -->
     <rule id="A_PREÇO_PELO" name="apreço pelo">
       <pattern>
@@ -142,6 +155,19 @@ $Id: grammar.xml,v 1.050 2013-06-02 16:30:00 marcoagpinto Exp $
       <message>Substituir «a gente vamos» por <suggestion>a gente vai</suggestion>.</message>
       <example type="incorrect">Hoje <marker>a gente vamos</marker> à praia.</example>
       <example type="correct">Hoje <marker>a gente vai</marker> à praia.</example>
+    </rule>
+
+
+
+    <!-- A GUARDA-NOCTURNO a guarda-nocturna -->
+    <rule id="A_GUARDA-NOCTURNO" name="a guarda-nocturna">
+      <pattern>
+        <token>a</token>
+        <token>guarda-nocturno</token>
+      </pattern>
+      <message>Substituir «a guarda-nocturno» por <suggestion>a guarda-nocturna</suggestion>.</message>
+      <example type="incorrect">Vamos ver <marker>a guarda-nocturno</marker>.</example>
+      <example type="correct">Vamos ver <marker>a guarda-nocturna</marker>.</example>
     </rule>
 
 
@@ -506,6 +532,34 @@ $Id: grammar.xml,v 1.050 2013-06-02 16:30:00 marcoagpinto Exp $
       <message>Substituir «dar os bons dias» por <suggestion>dar os bons-dias</suggestion>.</message>
       <example type="incorrect">Vou <marker>dar os bons dias</marker> ao Miguel.</example>
       <example type="correct">Vou <marker>dar os bons-dias</marker> ao Miguel.</example>
+    </rule>
+
+
+
+    <!-- DE ALTO ABAIXO de alto a baixo -->
+    <rule id="DE_ALTO_ABAIXO" name="de alto a baixo">
+      <pattern>
+        <token>de</token>
+        <token>alto</token>
+        <token>abaixo</token>
+      </pattern>
+      <message>Substituir «de alto abaixo» por <suggestion>de alto a baixo</suggestion>.</message>
+      <example type="incorrect">Ele olhou-me <marker>de alto abaixo</marker>.</example>
+      <example type="correct">Ele olhou-me <marker>de alto a baixo</marker>.</example>
+    </rule>
+
+
+
+    <!-- DE CIMA ABAIXO de cima a baixo -->
+    <rule id="DE_CIMA_ABAIXO" name="de cima a baixo">
+      <pattern>
+        <token>de</token>
+        <token>cima</token>
+        <token>abaixo</token>
+      </pattern>
+      <message>Substituir «de cima abaixo» por <suggestion>de cima a baixo</suggestion>.</message>
+      <example type="incorrect">Ele olhou-me <marker>de cima abaixo</marker>.</example>
+      <example type="correct">Ele olhou-me <marker>de cima a baixo</marker>.</example>
     </rule>
 
 
