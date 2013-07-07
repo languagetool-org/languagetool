@@ -88,7 +88,7 @@ public class MorfologikSpeller {
     final List<String> suggestions = new ArrayList<String>();
     try {
       suggestions.addAll(speller.findReplacements(word));
-      if (!word.toLowerCase(conversionLocale).equals(word)) {
+      if (suggestions.isEmpty() && !word.toLowerCase(conversionLocale).equals(word)) {
         suggestions.addAll(speller.findReplacements(word.toLowerCase(conversionLocale)));
       }
       suggestions.addAll(speller.replaceRunOnWords(word));
