@@ -8579,7 +8579,7 @@ $Id$
                     <marker>    
                         <token skip="1">més</token>
                     </marker>
-                    <token regexp="yes">vinent|propvinent|passat|proppassat|intercalar|anterior|següent|ve</token>                
+                    <token regexp="yes">dedicat|vinent|propvinent|passat|proppassat|intercalar|anterior|següent|ve</token>                
                 </pattern>
                 <message>No s'accentua si és un nom (<suggestion>mes</suggestion> de l'any).</message>
                 <short>Sobra l'accent diacrític</short>                
@@ -19801,6 +19801,19 @@ $Id$
                 <example type="correct">Cap a la una dinàvem.</example>
                 <example type="correct">Encara els quedaria un temps</example>
                 <example type="correct">Fa 50 anys es naixia a casa.</example>
+            </rule>
+             <rule> <!-- Frase que comença amb conjunció: I..., O..., Però... -->
+                <pattern>
+                    <token postag="SENT_START"></token>
+                    <token regexp="yes" skip="-1">i|o|però|ni<exception postag="_possible_nompropi"/><exception postag="PR.*|PT.*|DT.*|.*LOC_CONJ.*|C.*" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">perquè|com</exception></token>
+                    <marker>
+                        <token postag="V.[^NGP].*" postag_regexp="yes" skip="-1"><exception postag="_GN_.*|N.*|A.*|V.[NGP].*|.*LOC.*|_loc_nosequi" postag_regexp="yes"/><exception>di</exception><exception scope="next" regexp="yes">,|com|perquè|que</exception><exception postag="_PUNCT.*|C.*|PR.*|PT.*|DT.*|.*LOC_CONJ.*|_loc_unavegada" postag_regexp="yes" scope="next"/></token>
+                        <token postag="V.[^NGP].*" postag_regexp="yes" regexp="yes">[\p{Ll}·]+<exception postag="_GN_.*|N.*|A.*|V.[NGP].*|.*LOC.*|_loc_nosequi" postag_regexp="yes"/><exception regexp="yes">di|cap</exception></token>
+                    </marker>
+                </pattern> 
+                <message>Falta algun element entre verbs: coma, conjunció, pronom relatiu, etc.</message>
+                <example type="incorrect">I el cas <marker>és Mirabeau va</marker> tenir èxit.</example>
+                <example type="correct">I el cas és que Mirabeau va tenir èxit.</example>
             </rule>
             <rule> <!--  formes verbals compostes en majúscula -->
                 <pattern>
