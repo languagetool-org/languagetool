@@ -21,7 +21,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.052 2013-07-08 11:22:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.053 2013-07-09 00:40:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -1356,6 +1356,22 @@ $Id: grammar.xml,v 1.052 2013-07-08 11:22:00 marcoagpinto Exp $
       <message>Substituir «pré aviso» por <suggestion>pré-aviso</suggestion>.</message>
       <example type="incorrect">O período de <marker>pré aviso</marker> é de uma semana.</example>
       <example type="correct">O período de <marker>pré-aviso</marker> é de uma semana.</example>
+    </rule>
+
+
+
+    <!-- SUA a sua -->
+    <rule id="A_SUA" name="a sua">
+      <pattern>
+        <marker>
+          <token>sua<exception scope="previous">a</exception></token>
+        </marker>
+        <token><exception regexp="yes">majestade|realeza|divindade|excelência|eminência</exception></token>
+      </pattern>
+      <message>Do you mean <suggestion>a sua</suggestion>?</message>
+      <example type="incorrect">Tudo bem, mas <marker>sua</marker> mãe está zangada.</example>
+      <example type="correct">Tudo bem, mas a <marker>sua</marker> mãe está zangada.</example>
+      <example type="correct">Tudo bem, mas <marker>sua</marker> majestade está zangada.</example>
     </rule>
 
 
