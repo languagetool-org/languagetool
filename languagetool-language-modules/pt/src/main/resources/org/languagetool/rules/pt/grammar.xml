@@ -21,7 +21,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.051 2013-07-06 13:03:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.052 2013-07-08 11:22:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -752,6 +752,20 @@ $Id: grammar.xml,v 1.051 2013-07-06 13:03:00 marcoagpinto Exp $
       <message>Substituir «em uma» por <suggestion>numa</suggestion>.</message>
       <example type="incorrect">Está <marker>em uma</marker> gaveta.</example>
       <example type="correct">Está <marker>numa</marker> gaveta.</example>
+    </rule>
+
+
+
+    <!-- EM VÊS DE em vez de -->
+    <rule id="EM_VÊS_DE" name="em vez de">
+      <pattern>
+        <token>em</token>
+        <token>vês</token>
+        <token>de</token>
+      </pattern>
+      <message>Substituir «em vês de» por <suggestion>em vez de</suggestion>.</message>
+      <example type="incorrect">Ele falou <marker>em vês de</marker> escrever.</example>
+      <example type="correct">Ele falou <marker>em vez de</marker> escrever.</example>
     </rule>
 
 
