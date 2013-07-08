@@ -18,6 +18,8 @@
  */
 package org.languagetool.rules.patterns;
 
+import org.apache.commons.lang.Validate;
+
 /**
  * A {@link PatternRule}'s id with an optional sub-id.
  */
@@ -30,6 +32,7 @@ public class PatternRuleId {
    * @param id the rule id
    */
   public PatternRuleId(String id) {
+    Validate.notEmpty(id, "id must be set");
     this.id = id;
     this.subId = null;
   }
@@ -39,6 +42,8 @@ public class PatternRuleId {
    * @param subId the sub id of a rulegroup, starting at {@code 1}
    */
   public PatternRuleId(String id, String subId) {
+    Validate.notEmpty(id, "id must be set");
+    Validate.notEmpty(subId, "subId must be set, if specified");
     this.id = id;
     this.subId = subId;
   }
@@ -56,7 +61,11 @@ public class PatternRuleId {
 
   @Override
   public String toString() {
-    return id + "/" + subId;
+    if (subId != null) {
+      return id + "/" + subId;
+    } else {
+      return id;
+    }
   }
 
 }
