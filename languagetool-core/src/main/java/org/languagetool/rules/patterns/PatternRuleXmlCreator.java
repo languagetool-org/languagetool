@@ -18,15 +18,16 @@
  */
 package org.languagetool.rules.patterns;
 
+import com.sun.org.apache.xerces.internal.dom.DOMInputImpl;
 import org.languagetool.Language;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
+import org.w3c.dom.bootstrap.DOMImplementationRegistry;
+import org.w3c.dom.ls.DOMImplementationLS;
+import org.w3c.dom.ls.LSParser;
 import org.xml.sax.SAXException;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
@@ -50,7 +51,7 @@ import java.util.List;
 public class PatternRuleXmlCreator {
 
   /**
-   * Return the given pattern rule as an XML string.
+   * Return the given pattern rule as a properly indented XML string.
    * @since 2.3
    */
   public final String toXML(PatternRuleId ruleId, Language language) throws IOException {
@@ -85,36 +86,32 @@ public class PatternRuleXmlCreator {
         is.close();
       }
     }
-    throw new RuntimeException("Could not find rule " + ruleId + " for language " + language);
+    throw new RuntimeException("Could not find rule " + ruleId + " for language " + language + " in files: " + filenames);
   }
 
-  private Document getDocument(InputStream is) throws ParserConfigurationException, SAXException, IOException {
-    final InputSource inputSource = new InputSource(is);
-    final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-    factory.setNamespaceAware(false);  // we just ignore namespaces
-    final DocumentBuilder builder = factory.newDocumentBuilder();
-    return builder.parse(inputSource);
+  private Document getDocument(InputStream is) throws ParserConfigurationException, SAXException, IOException, InstantiationException, IllegalAccessException, ClassNotFoundException {
+    final DOMImplementationRegistry registry = DOMImplementationRegistry.newInstance();
+    final DOMImplementationLS impl = (DOMImplementationLS)registry.getDOMImplementation("LS");
+    final LSParser parser = impl.createLSParser(DOMImplementationLS.MODE_SYNCHRONOUS, null);
+    // we need to ignore whitespace here so the nodeToString() method will be able to indent it properly:
+    parser.setFilter(new IgnoreWhitespaceFilter());
+    final DOMInputImpl domInput = new DOMInputImpl();
+    domInput.setByteStream(is);
+    return parser.parse(domInput);
   }
 
-  private String nodeToString(Node node) {
+  private String nodeToString(Node node) throws ParserConfigurationException, IOException, SAXException {
     final StringWriter sw = new StringWriter();
     try {
       final Transformer t = TransformerFactory.newInstance().newTransformer();
       t.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
       t.setOutputProperty(OutputKeys.INDENT, "yes");
+      t.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
       t.transform(new DOMSource(node), new StreamResult(sw));
     } catch (TransformerException e) {
       throw new RuntimeException(e);
     }
-    return cleanIndent(sw.toString());
-  }
-
-  // not sure why this is necessary, but the "indent" looks broken otherwise
-  private String cleanIndent(String xml) {
-    String cleanXml = xml;
-    cleanXml = cleanXml.replace("\n</", "</");
-    cleanXml = cleanXml.replace("\n<", "<");
-    return cleanXml;
+    return sw.toString();
   }
 
 }
