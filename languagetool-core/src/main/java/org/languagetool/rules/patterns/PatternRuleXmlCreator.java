@@ -51,7 +51,7 @@ import java.util.List;
 public class PatternRuleXmlCreator {
 
   /**
-   * Return the given pattern rule as a properly indented XML string.
+   * Return the given pattern rule as an indented XML string.
    * @since 2.3
    */
   public final String toXML(PatternRuleId ruleId, Language language) throws IOException {
@@ -109,13 +109,24 @@ public class PatternRuleXmlCreator {
     try {
       final Transformer t = TransformerFactory.newInstance().newTransformer();
       t.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-      t.setOutputProperty(OutputKeys.INDENT, "yes");
-      t.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
       t.transform(new DOMSource(node), new StreamResult(sw));
     } catch (TransformerException e) {
       throw new RuntimeException(e);
     }
-    return sw.toString();
+    // We have to use our own simple indentation. as the Java transformer indentation
+    // introduces whitespace e.g. in the <suggestion> elements, breaking rules:
+    final String xml = sw.toString()
+      .replace("<token", "\n    <token")
+      .replace("<pattern", "\n  <pattern")
+      .replace("</pattern", "\n  </pattern")
+      .replace("</rule>", "\n</rule>")
+      .replace("<message", "\n  <message")
+      .replace("<short", "\n  <short")
+      .replace("<url", "\n  <url")
+      .replace("<example", "\n  <example")
+      .replace("</suggestion><suggestion>", "</suggestion>\n  <suggestion>")
+      .replace("</message><suggestion>", "</message>\n  <suggestion>");
+    return xml;
   }
 
 }

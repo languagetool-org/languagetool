@@ -32,10 +32,17 @@ public class PatternRuleXmlCreatorTest extends TestCase {
     PatternRuleId ruleId = new PatternRuleId("DEMO_RULE");
     PatternRuleXmlCreator creator = new PatternRuleXmlCreator();
     String xml = creator.toXML(ruleId, new Demo());
-    assertTrue(xml.contains("<token>foo</token>"));
-    assertTrue(xml.contains("<token>bar</token>"));
-    assertTrue(xml.contains("<example type=\"correct\">"));
-    assertTrue(xml.contains("type=\"incorrect\">"));
+    assertEquals(
+            "<rule id=\"DEMO_RULE\" name=\"Find 'foo bar'\"><!-- a trivial demo rule that matches \"foo\" followed by \"bar\" -->\n" +
+            "  <pattern case_sensitive=\"no\">\n" +
+            "    <token>foo</token>\n" +
+            "    <token>bar</token>\n" +
+            "  </pattern>\n" +
+            "  <message>Did you mean <suggestion><match no=\"1\"/> fuu bah</suggestion>?</message>\n" +
+            "  <url>http://fake-server.org/foo-bar-error-explained</url>\n" +
+            "  <example type=\"correct\">This is <marker>fuu bah</marker>.</example>\n" +
+            "  <example correction=\"foo fuu bah\" type=\"incorrect\">This is <marker>foo bar</marker>.</example>\n" +
+            "</rule>", xml);
   }
 
   public void testToXMLWithRuleGroup() throws IOException {
