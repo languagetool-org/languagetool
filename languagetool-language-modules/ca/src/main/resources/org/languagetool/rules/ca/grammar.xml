@@ -4794,6 +4794,27 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+    	<rule id="EXERCIT" name="exercit/exèrcit">
+            <pattern>
+                <marker>
+                	<token regexp="yes">exercits?<exception postag="_GV_"/></token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="exercit(.?)" regexp_replace="exèrcit$1"/></suggestion>? Correcte com a participi de "exercir".</message>
+            <example type="incorrect" correction="exèrcit">No volen tenir <marker>exercit</marker> propi.</example>
+            <example type="correct">Ha exercit un paper important.</example>
+        </rule>
+    	<rule id="CIRCUIT" name="circuït/circuit">
+            <pattern>
+                <marker>
+                	<token regexp="yes">circuïts?<exception postag="_GV_"/></token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="circuït(.?)" regexp_replace="circuit$1"/></suggestion>? Correcte com a participi de "circuir".</message>
+            <example type="incorrect" correction="circuits">Van construir-hi dos <marker>circuïts</marker>.</example>
+            <example type="incorrect" correction="circuit">Hi han fet un <marker>circuït</marker>.</example>
+            <example type="correct">Han circuït el castell.</example>
+        </rule>
     	<rule id="AVERIA_AVARIA" name="averia/avaria">
             <pattern>
                 <marker>
