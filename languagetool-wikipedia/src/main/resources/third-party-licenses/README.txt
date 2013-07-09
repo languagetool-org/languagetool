@@ -13,9 +13,9 @@ lucene-core|queries|test-framework.jar: Apache License 2.0, http://lucene.apache
 lucene-gosen-1.2.1-ipadic.jar: LGPL v2.1, http://code.google.com/p/lucene-gosen/
 morfologik-*.jar: Morfologik-license.txt, http://morfologik.blogspot.com, http://www.cs.put.poznan.pl/dweiss
 segment-1.4.1.jar: segment-license.txt, http://sourceforge.net/projects/segment/
-tika-core-0.9.jar: Apache License 2.0, http://tika.apache.org
+tika-core.jar: Apache License 2.0, http://tika.apache.org
 xml-text-editor-0.0.3.jar: Apache License 2.0, http://code.google.com/p/xml-text-editor/
-jna.jar: LGPL version 2.1 or later, https://github.com/twall/jna
+jna.jar: LGPL version 2.1 or later or Apache License 2.0, https://github.com/twall/jna
 native-lib/*hunspell*: GPL/LGPL/MPL triple license, http://hunspell.sourceforge.net/
 
 See README.txt in the top directory for the licenses of the language resources.
