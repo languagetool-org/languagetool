@@ -6,6 +6,7 @@ then
   echo "Usage: `basename $0` <project> <goals...>"
   echo "Examples:"
   echo "  ./`basename $0` languagetool-standalone clean package (will package the standalone module)"
+  echo "  ./`basename $0` languagetool-standalone clean package -DskipTests (as above but without running tests)"
   echo "  ./`basename $0` en clean test (will test the English module)"
   exit 1
 fi
@@ -21,3 +22,8 @@ COMMAND="mvn --projects $MODULE --also-make ${@:2}"
 echo "Running: $COMMAND"
 
 $COMMAND
+
+# these don't work on their own, so delete them to avoid confusion:
+rm languagetool-standalone/target/languagetool-standalone-*.jar
+rm languagetool-wikipedia/target/languagetool-wikipedia-*.jar
+rm languagetool-commandline/target/languagetool-commandline-*.jar
