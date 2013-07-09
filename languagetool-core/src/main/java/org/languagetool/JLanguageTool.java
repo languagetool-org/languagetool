@@ -450,7 +450,7 @@ public final class JLanguageTool {
   }
 
   /**
-   * Enable a rule that was switched off by default.
+   * Enable a rule that is switched off by default ({@code default="off"} in the XML).
    * 
    * @param ruleId the id of the turned off rule to enable.
    */
@@ -467,6 +467,8 @@ public final class JLanguageTool {
 
   /**
    * Re-enable a given rule so the check methods like {@link #check(String)} will use it.
+   * Note that you need to use {@link #enableDefaultOffRule(String)} for rules that
+   * are off by default.
    * 
    * @param ruleId the id of the rule to enable
    */
