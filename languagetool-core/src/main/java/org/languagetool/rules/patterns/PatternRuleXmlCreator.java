@@ -117,6 +117,9 @@ public class PatternRuleXmlCreator {
     // introduces whitespace e.g. in the <suggestion> elements, breaking rules:
     final String xml = sw.toString()
       .replace("<token", "\n    <token")
+      .replace("<and", "\n    <and")
+      .replace("</and>", "\n    </and>")
+      .replace("<phraseref", "\n    <phraseref")
       .replace("<pattern", "\n  <pattern")
       .replace("</pattern", "\n  </pattern")
       .replace("</rule>", "\n</rule>")
