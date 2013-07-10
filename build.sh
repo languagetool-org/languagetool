@@ -24,6 +24,6 @@ echo "Running: $COMMAND"
 $COMMAND
 
 # these don't work on their own, so delete them to avoid confusion:
-rm languagetool-standalone/target/languagetool-standalone-*.jar
-rm languagetool-wikipedia/target/languagetool-wikipedia-*.jar
-rm languagetool-commandline/target/languagetool-commandline-*.jar
+rm languagetool-standalone/target/languagetool-standalone-*.jar 2> /dev/null
+rm languagetool-wikipedia/target/languagetool-wikipedia-*.jar 2> /dev/null
+rm languagetool-commandline/target/languagetool-commandline-*.jar 2> /dev/null
