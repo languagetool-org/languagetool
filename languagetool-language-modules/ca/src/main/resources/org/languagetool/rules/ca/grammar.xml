@@ -3583,10 +3583,11 @@ $Id$
 	        </rule>
 	        <rule>
 	            <pattern case_sensitive="yes">
-                	<token><exception regexp="yes">coordenad(a|es)|cromosom(a|es)|i|o</exception></token>
+                	<token><exception regexp="yes">coordenad(a|es)|cromosom(a|es)|i|o|neuropèptids?</exception></token>
                 	<marker>
                     	<token>Y</token>
                     </marker>
+                    <token><exception regexp="yes">[.,;]</exception></token>
 	            </pattern>
 	            <message>Si és conjunció, cal escriure <suggestion>I</suggestion>.</message>
 	            <short>Conjunció 'i'</short>
@@ -4941,6 +4942,18 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+    	<rule id="GRACIA" name="gracia/gràcia">
+            <pattern>
+                <marker>
+                	<token regexp="yes">graci(a|es)</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="[Gg]raci(a|es)" regexp_replace="gràci$1"/></suggestion>? Correcte com a forma del verb "graciar".</message>
+            <example type="incorrect" correction="Gràcies"><marker>Gracies</marker> de nou i adéu.</example>
+            <example type="incorrect" correction="gràcia">No saps la <marker>gracia</marker> que em fa.</example>
+            <!-- <example type="correct">El tribunal el gracia amb el seu perdó.</example> -->
+            <example type="correct">Quina gràcia!</example>
+        </rule>
     	<rule id="EXERCIT" name="exercit/exèrcit">
             <pattern>
                 <marker>
@@ -7332,6 +7345,18 @@ $Id$
                 <example type="incorrect" correction="el iugoslau"><marker>l'iugoslau</marker></example>
                 <example type="correct">l'uixer</example>
                 <example type="correct">l'Uixó</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[ld]'</token>
+                    <token regexp="yes">[qwrtpsdfgjklñzxcvbnmç].*</token>
+                </pattern>
+                <message>No s'apostrofa.</message>
+                <short>Error ortogràfic</short>
+                <example type="incorrect"><marker>l'dimoni</marker></example>
+                <example type="incorrect"><marker>d'madrilenys</marker></example>
+                <example type="correct">l'uixer</example>
+                <example type="correct">l'hora</example>
             </rule>
         </rulegroup>
         <rulegroup id="L_D_NOM_LLETRA" name="apostrofació: no davant de nom de lletra">                        
@@ -10399,6 +10424,8 @@ $Id$
                     <token postag="V...[12][SP]0.?" postag_regexp="yes"><exception  postag="V...3[SP]0.?" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Error de concordança.</message>
+                <suggestion>ens</suggestion>
+                <suggestion>us</suggestion>
                 <short>Pronom feble o verb incorrecte</short>
                 <example type="incorrect"><marker>Es</marker> podem posar.</example>
                 <example type="incorrect"><marker>Es</marker> penso dir jo.</example>
