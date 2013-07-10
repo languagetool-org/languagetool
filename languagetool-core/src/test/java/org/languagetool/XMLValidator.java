@@ -18,6 +18,7 @@
  */
 package org.languagetool;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
@@ -117,6 +118,25 @@ public final class XMLValidator {
       }
     } catch (Exception e) {
       throw new IOException("Cannot load or parse '" + filename + "'", e);
+    }
+  }
+
+  /**
+   * Validate XML file using the given XSD. Throws an exception on error.
+   * @param xml the XML string to be validated
+   * @param xmlSchemaPath XML schema file in classpath
+   * @since 2.3
+   */
+  public void validateStringWithXmlSchema(String xml, String xmlSchemaPath) throws IOException {
+    try {
+      final URL schemaUrl = this.getClass().getResource(xmlSchemaPath);
+      if (schemaUrl == null) {
+        throw new IOException("XML schema not found in classpath: " + xmlSchemaPath);
+      }
+      final ByteArrayInputStream stream = new ByteArrayInputStream(xml.getBytes("utf-8"));
+      validateInternal(stream, schemaUrl);
+    } catch (SAXException e) {
+      throw new RuntimeException(e);
     }
   }
 
