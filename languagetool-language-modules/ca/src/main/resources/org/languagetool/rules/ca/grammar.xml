@@ -3569,6 +3569,153 @@ $Id$
         </rule>
     </category>
     <category name="Z) Conjuncions" type="grammar">
+    	<rulegroup id="Y_CONJUNCIO" name="conjunció *y/i">
+    		<rule>
+	            <pattern case_sensitive="yes">
+	                <marker>
+	                    <token>y</token>
+	                </marker>
+	            </pattern>
+	            <message>Si és conjunció, cal escriure <suggestion>i</suggestion>.</message>
+	            <short>Conjunció 'i'</short>
+	            <example type="incorrect" correction="i">França <marker>y</marker> Itàlia.</example>
+	            <example type="correct">França i Itàlia</example>
+	        </rule>
+	        <rule>
+	            <pattern case_sensitive="yes">
+                	<token><exception regexp="yes">coordenad(a|es)|cromosom(a|es)|i|o</exception></token>
+                	<marker>
+                    	<token>Y</token>
+                    </marker>
+	            </pattern>
+	            <message>Si és conjunció, cal escriure <suggestion>I</suggestion>.</message>
+	            <short>Conjunció 'i'</short>
+	            <example type="incorrect" correction="I">¿<marker>Y</marker> quan tornaràs?</example>
+	            <example type="correct">Sistema de coordenades X i Y.</example>
+	        </rule>
+	    </rulegroup>    
+    	<rulegroup id="E_U_CONJUNCIO" name="França *e/i Itàlia; dona *u/o home">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>e</token>
+                    </marker>
+                    <token postag="N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Si és conjunció, cal escriure <suggestion>i</suggestion>.</message>
+                <short>Conjunció 'i'</short>
+                <example type="incorrect">França <marker>e</marker> Itàlia.</example>
+                <example type="correct">França i Itàlia</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>e</token>
+                    </marker>
+                    <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Si és conjunció, cal escriure <suggestion>i</suggestion>.</message>
+                <short>Conjunció 'i'</short>
+                <example type="incorrect">inútil <marker>e</marker> ignorant.</example>
+                <example type="correct">inútil i ignorant</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="V.[NGSI].*|_GV_" postag_regexp="yes"/>
+                    <marker>
+                        <token>e</token>
+                    </marker>
+                    <token postag="V.[NGSI].*|_GV_" postag_regexp="yes"/>
+                </pattern>
+                <message>Si és conjunció, cal escriure <suggestion>i</suggestion>.</message>
+                <short>Conjunció 'i'</short>
+                <example type="incorrect">saber <marker>e</marker> ignorar.</example>
+                <example type="correct">saber i ignorar</example>
+                <example type="correct">és e oberta</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="RG.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>e</token>
+                    </marker>
+                    <token postag="RG.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Si és conjunció, cal escriure <suggestion>i</suggestion>.</message>
+                <short>Conjunció 'i'</short>
+                <example type="incorrect">dins <marker>e</marker> fora.</example>
+                <example type="correct">dins i fora</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>u</token>
+                    </marker>
+                    <token postag="N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Si és conjunció, cal escriure <suggestion>o</suggestion>.</message>
+                <short>Conjunció 'i'</short>
+                <example type="incorrect">França <marker>u</marker> Itàlia.</example>
+                <example type="correct">França o Itàlia</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>u</token>
+                    </marker>
+                    <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Si és conjunció, cal escriure <suggestion>o</suggestion>.</message>
+                <short>Conjunció 'i'</short>
+                <example type="incorrect">inútil <marker>u</marker> ignorant.</example>
+                <example type="correct">inútil o ignorant</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="V.[NGSI].*|_GV_" postag_regexp="yes"/>
+                    <marker>
+                        <token>u</token>
+                    </marker>
+                    <token postag="V.[NGSI].*|_GV_" postag_regexp="yes"/>
+                </pattern>
+                <message>Si és conjunció, cal escriure <suggestion>o</suggestion>.</message>
+                <short>Conjunció 'i'</short>
+                <example type="incorrect">saber <marker>u</marker> ignorar.</example>
+                <example type="correct">saber o ignorar</example>
+                <example type="correct">és u oberta</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="RG.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>u</token>
+                    </marker>
+                    <token postag="RG.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Si és conjunció, cal escriure <suggestion>o</suggestion>.</message>
+                <short>Conjunció 'o'</short>
+                <example type="incorrect">dins <marker>u</marker> fora.</example>
+                <example type="correct">dins o fora</example>
+            </rule>
+             <rule>
+                <pattern>
+                    <token inflected="yes" skip="1">un</token>
+                    <marker>
+                        <token>u</token>
+                    </marker>
+                    <token inflected="yes">altre</token>
+                </pattern>
+                <message>Si és conjunció, cal escriure <suggestion>o</suggestion>.</message>
+                <short>Conjunció 'o'</short>
+                <example type="incorrect" correction="o">Cal dir una cosa <marker>u</marker> altra.</example>
+                <example type="incorrect" correction="o">Vindrà un <marker>u</marker> altre.</example>
+                <example type="correct">dins o fora</example>
+            </rule>
+        </rulegroup>
         <rule id="DONCS_CAUSAL" name="*'doncs' causal">
         <!-- La regla aprofita que és més probable que després del 'doncs' il·latiu hi hagi un verb
         i darrere del 'doncs' causal un subjecte.
@@ -17315,128 +17462,6 @@ $Id$
             <example type="correct">en contes de Pere Calders</example>
             <example type="correct">en contes de terror</example>
         </rule>
-        <rulegroup id="E_U_CONJUNCIO" name="França *e/i Itàlia; dona *u/o home">
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token postag="N.*" postag_regexp="yes"/>
-                    <marker>
-                        <token>e</token>
-                    </marker>
-                    <token postag="N.*" postag_regexp="yes"/>
-                </pattern>
-                <message>Si és conjunció, cal escriure <suggestion>i</suggestion>.</message>
-                <short>Conjunció 'i'</short>
-                <example type="incorrect">França <marker>e</marker> Itàlia.</example>
-                <example type="correct">França i Itàlia</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token postag="A.*|V.P.*" postag_regexp="yes"/>
-                    <marker>
-                        <token>e</token>
-                    </marker>
-                    <token postag="A.*|V.P.*" postag_regexp="yes"/>
-                </pattern>
-                <message>Si és conjunció, cal escriure <suggestion>i</suggestion>.</message>
-                <short>Conjunció 'i'</short>
-                <example type="incorrect">inútil <marker>e</marker> ignorant.</example>
-                <example type="correct">inútil i ignorant</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token postag="V.[NGSI].*|_GV_" postag_regexp="yes"/>
-                    <marker>
-                        <token>e</token>
-                    </marker>
-                    <token postag="V.[NGSI].*|_GV_" postag_regexp="yes"/>
-                </pattern>
-                <message>Si és conjunció, cal escriure <suggestion>i</suggestion>.</message>
-                <short>Conjunció 'i'</short>
-                <example type="incorrect">saber <marker>e</marker> ignorar.</example>
-                <example type="correct">saber i ignorar</example>
-                <example type="correct">és e oberta</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token postag="RG.*" postag_regexp="yes"/>
-                    <marker>
-                        <token>e</token>
-                    </marker>
-                    <token postag="RG.*" postag_regexp="yes"/>
-                </pattern>
-                <message>Si és conjunció, cal escriure <suggestion>i</suggestion>.</message>
-                <short>Conjunció 'i'</short>
-                <example type="incorrect">dins <marker>e</marker> fora.</example>
-                <example type="correct">dins i fora</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token postag="N.*" postag_regexp="yes"/>
-                    <marker>
-                        <token>u</token>
-                    </marker>
-                    <token postag="N.*" postag_regexp="yes"/>
-                </pattern>
-                <message>Si és conjunció, cal escriure <suggestion>o</suggestion>.</message>
-                <short>Conjunció 'i'</short>
-                <example type="incorrect">França <marker>u</marker> Itàlia.</example>
-                <example type="correct">França o Itàlia</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token postag="A.*|V.P.*" postag_regexp="yes"/>
-                    <marker>
-                        <token>u</token>
-                    </marker>
-                    <token postag="A.*|V.P.*" postag_regexp="yes"/>
-                </pattern>
-                <message>Si és conjunció, cal escriure <suggestion>o</suggestion>.</message>
-                <short>Conjunció 'i'</short>
-                <example type="incorrect">inútil <marker>u</marker> ignorant.</example>
-                <example type="correct">inútil o ignorant</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token postag="V.[NGSI].*|_GV_" postag_regexp="yes"/>
-                    <marker>
-                        <token>u</token>
-                    </marker>
-                    <token postag="V.[NGSI].*|_GV_" postag_regexp="yes"/>
-                </pattern>
-                <message>Si és conjunció, cal escriure <suggestion>o</suggestion>.</message>
-                <short>Conjunció 'i'</short>
-                <example type="incorrect">saber <marker>u</marker> ignorar.</example>
-                <example type="correct">saber o ignorar</example>
-                <example type="correct">és u oberta</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token postag="RG.*" postag_regexp="yes"/>
-                    <marker>
-                        <token>u</token>
-                    </marker>
-                    <token postag="RG.*" postag_regexp="yes"/>
-                </pattern>
-                <message>Si és conjunció, cal escriure <suggestion>o</suggestion>.</message>
-                <short>Conjunció 'o'</short>
-                <example type="incorrect">dins <marker>u</marker> fora.</example>
-                <example type="correct">dins o fora</example>
-            </rule>
-             <rule>
-                <pattern>
-                    <token inflected="yes" skip="1">un</token>
-                    <marker>
-                        <token>u</token>
-                    </marker>
-                    <token inflected="yes">altre</token>
-                </pattern>
-                <message>Si és conjunció, cal escriure <suggestion>o</suggestion>.</message>
-                <short>Conjunció 'o'</short>
-                <example type="incorrect" correction="o">Cal dir una cosa <marker>u</marker> altra.</example>
-                <example type="incorrect" correction="o">Vindrà un <marker>u</marker> altre.</example>
-                <example type="correct">dins o fora</example>
-            </rule>
-        </rulegroup>
         <rule id="CERCAT_TANCA_CLOS" name="cercat/tanca, clos">
             <pattern>
                 <token postag="D[ID].*" postag_regexp="yes"/> <!-- "el cercat" és dubtós -->
