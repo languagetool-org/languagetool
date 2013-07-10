@@ -137,7 +137,7 @@ public class PatternRuleTest extends TestCase {
       return;
     }
     try {
-      validator.validate(ruleFilePath, rulesDir + "/rules.xsd");
+      validator.validateWithXmlSchema(ruleFilePath, rulesDir + "/rules.xsd");
     } finally {
       xmlStream.close();
     }

@@ -30,7 +30,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import junit.framework.TestCase;
 
 import org.languagetool.*;
-import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.rules.patterns.PatternTestTools;
 import org.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
 import org.languagetool.tagging.disambiguation.xx.TrimDisambiguator;
@@ -86,7 +85,7 @@ public class DisambiguationRuleTest extends TestCase {
     final InputStream stream = this.getClass().getResourceAsStream(filePath);
     try {
       if (stream != null) {
-        validator.validate(filePath, JLanguageTool.getDataBroker().getResourceDir() + "/disambiguation.xsd");
+        validator.validateWithXmlSchema(filePath, JLanguageTool.getDataBroker().getResourceDir() + "/disambiguation.xsd");
       }
     } finally {
       if (stream != null) { stream.close(); }

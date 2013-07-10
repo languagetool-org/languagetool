@@ -27,7 +27,7 @@ public class ValidateFalseFriendsXmlTest extends TestCase {
   public void testFalseFriendsXML() throws IOException {
     System.out.println("Validating false-friends.xml...");
     final XMLValidator validator = new XMLValidator();
-    validator.validate(JLanguageTool.getDataBroker().getRulesDir() + "/false-friends.xml",
+    validator.validateWithDtd(JLanguageTool.getDataBroker().getRulesDir() + "/false-friends.xml",
             JLanguageTool.getDataBroker().getRulesDir() + "/false-friends.dtd", "rules");
     System.out.println("Validation successfully finished.");
   }

@@ -78,16 +78,16 @@ public final class XMLValidator {
   }
 
   /**
-   * Validate XML file with the given DTD. Throws exception on error. 
+   * Validate XML file in classpath with the given DTD. Throws exception on error.
    */
-  public final void validate(String filename, String dtdFile, String docType) throws IOException {
+  public void validateWithDtd(String filename, String dtdPath, String docType) throws IOException {
     InputStream xmlStream = this.getClass().getResourceAsStream(filename);
     if (xmlStream == null) {
       throw new IOException("Not found in classpath: " + filename);
     }
     try {
       final String xml = StringTools.readFile(xmlStream, "utf-8");
-      validateInternal(xml, dtdFile, docType);
+      validateInternal(xml, dtdPath, docType);
     } catch (Exception e) {
       throw new IOException("Cannot load or parse '" + filename + "'", e);
     } finally {
@@ -96,23 +96,22 @@ public final class XMLValidator {
   }
 
   /**
-   * Validate XML file using the given XSD. Throws an exception on error  
-   * @param filename File in classpath to validate.
-   * @param xmlSchema Schema to use.
-   * @throws IOException Thrown on error.
+   * Validate XML file using the given XSD. Throws an exception on error.
+   * @param filename File in classpath to validate
+   * @param xmlSchemaPath XML schema file in classpath
    */
-  public final void validate(String filename, String xmlSchema) throws IOException {
+  public void validateWithXmlSchema(String filename, String xmlSchemaPath) throws IOException {
     try {
       final InputStream xmlStream = this.getClass().getResourceAsStream(filename);
       if (xmlStream == null) {
-        throw new IOException("Not found in classpath: " + filename);
+        throw new IOException("File not found in classpath: " + filename);
       }
       try {
-        final URL schemaStream = this.getClass().getResource(xmlSchema);
-        if (schemaStream == null) {
-          throw new IOException("Not found in classpath: " + xmlSchema);
+        final URL schemaUrl = this.getClass().getResource(xmlSchemaPath);
+        if (schemaUrl == null) {
+          throw new IOException("XML schema not found in classpath: " + xmlSchemaPath);
         }
-        validateInternal(xmlStream, schemaStream);
+        validateInternal(xmlStream, schemaUrl);
       } finally {
         xmlStream.close();
       }
@@ -121,21 +120,25 @@ public final class XMLValidator {
     }
   }
 
-  private void validateInternal(String xml, String dtdFile, String docType) throws SAXException, IOException, ParserConfigurationException {
+  private void validateInternal(String xml, String dtdPath, String docType) throws SAXException, IOException, ParserConfigurationException {
     final SAXParserFactory factory = SAXParserFactory.newInstance();
     factory.setValidating(true);
     final SAXParser saxParser = factory.newSAXParser();
     //used for removing existing DOCTYPE from grammar.xml files
-    xml = xml.replaceAll("<!DOCTYPE.+>", "");
+    final String cleanXml = xml.replaceAll("<!DOCTYPE.+>", "");
     final String decl = "<?xml version=\"1.0\"";
     final String endDecl = "?>";
-    final String dtd = "<!DOCTYPE " + docType + " PUBLIC \"-//W3C//DTD Rules 0.1//EN\" \"" +this.getClass().getResource(dtdFile)+ "\">";
-    final int pos = xml.indexOf(decl);
-    final int endPos = xml.indexOf(endDecl);
-    if (pos == -1) {
-      throw new IOException("No XML declaration found in '" + xml.substring(0, Math.min(100, xml.length())) + "...'");
+    final URL dtdUrl = this.getClass().getResource(dtdPath);
+    if (dtdUrl == null) {
+      throw new RuntimeException("DTD not found in classpath: " + dtdPath);
     }
-    final String newXML = xml.substring(0, endPos+endDecl.length()) + "\r\n" + dtd + xml.substring(endPos+endDecl.length());
+    final String dtd = "<!DOCTYPE " + docType + " PUBLIC \"-//W3C//DTD Rules 0.1//EN\" \"" + dtdUrl + "\">";
+    final int pos = cleanXml.indexOf(decl);
+    final int endPos = cleanXml.indexOf(endDecl);
+    if (pos == -1) {
+      throw new IOException("No XML declaration found in '" + cleanXml.substring(0, Math.min(100, cleanXml.length())) + "...'");
+    }
+    final String newXML = cleanXml.substring(0, endPos+endDecl.length()) + "\r\n" + dtd + cleanXml.substring(endPos+endDecl.length());
     final InputSource is = new InputSource(new StringReader(newXML));
     saxParser.parse(is, new ErrorHandler());
   }
@@ -148,27 +151,27 @@ public final class XMLValidator {
     validator.validate(new StreamSource(xml));
   }
 
-}
+  /**
+   * XML handler that throws exception on error and warning, does nothing otherwise.
+   */
+  static class ErrorHandler extends DefaultHandler {
 
-/**
- * XML handler that throws exception on error and warning, does nothing otherwise.
- */
-class ErrorHandler extends DefaultHandler {
+    @Override
+    public void warning (SAXParseException e) throws SAXException {
+      System.err.println(e.getMessage()
+              + " Problem found at line " + e.getLineNumber()
+              + ", column " + e.getColumnNumber() + ".");
+      throw e;
+    }
 
-  @Override
-  public void warning (SAXParseException e) throws SAXException {
-    System.err.println(e.getMessage()
-        + " Problem found at line " + e.getLineNumber() 
-        + ", column " + e.getColumnNumber() + ".");
-    throw e;
-  }
+    @Override
+    public void error (SAXParseException e) throws SAXException {
+      System.err.println(e.getMessage()
+              + " Problem found at line " + e.getLineNumber()
+              + ", column " + e.getColumnNumber() + ".");
+      throw e;
+    }
 
-  @Override
-  public void error (SAXParseException e) throws SAXException {
-    System.err.println(e.getMessage()
-        + " Problem found at line " + e.getLineNumber() 
-        + ", column " + e.getColumnNumber() + ".");
-    throw e;
   }
 
 }
