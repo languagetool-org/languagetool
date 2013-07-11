@@ -2669,36 +2669,24 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="add"><wd pos="_obligacio" lemma="haver"></wd></disambig>
         </rule>
-        <!-- <rule>
-            <pattern>
-                <token inflected="yes" skip="5">haver</token>
-                <marker>
-                    <token regexp="yes">de|d'</token>
-                </marker>
-                <token postag="V.N.*" postag_regexp="yes"/>
-            </pattern>
-            <disambig action="add"><wd pos="_obligacio" lemma="haver"></wd></disambig>
-        </rule> -->
         <rule>
             <pattern>
                 <marker>
-                	<token inflected="yes">haver</token>
+                	<token inflected="yes">haver<exception postag="_obligacio"/></token>
                 </marker>
-                <token skip="3">de</token>
+                <token skip="3" regexp="yes">de|d'</token>
                 <token postag="V.N.*" postag_regexp="yes"/>
             </pattern>
             <disambig action="add"><wd pos="_obligacio" lemma="haver"></wd></disambig>
         </rule>
-        <!-- <rule>
+        <rule>
             <pattern>
-                <token inflected="yes">haver</token>
                 <marker>
-                    <token skip="3">de</token>
+                	<token postag="_obligacio" inflected="yes">haver</token>
                 </marker>
-                <token postag="V.N.*" postag_regexp="yes"/>
             </pattern>
-            <disambig action="add"><wd pos="_obligacio" lemma="haver"></wd></disambig>
-        </rule> -->
+            <disambig action="filter" postag="VA.*|_obligacio"></disambig>
+        </rule>
     </rulegroup>
     <rulegroup id="NUCLIS_VERBALS" name="nuclis verbals amb noms">
         <rule>
@@ -3754,7 +3742,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <marker>
-                    <token postag="VA.*" postag_regexp="yes" inflected="yes" skip="5">anar<exception scope="next" postag="_GV_|_PUNCT_CONT|R.*|.*LOC_ADV.*|V.N.*|SENT_END|[NA].*|complement" postag_regexp="yes" negate_pos="yes"/></token>
+                    <token postag="VA.*" postag_regexp="yes" inflected="yes" skip="5">anar<exception scope="next" postag="_GV_|_PUNCT_CONT|R.*|.*LOC_ADV.*|V.N.*|SENT_END|[NA].*|complement|_obligacio" postag_regexp="yes" negate_pos="yes"/></token>
                 </marker>
                 <token postag="V.N.*" postag_regexp="yes"/>
             </pattern>
@@ -3762,7 +3750,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token postag="VA.*" postag_regexp="yes" inflected="yes" skip="5">anar<exception scope="next" postag="_GV_|_PUNCT_CONT|R.*|.*LOC_ADV.*|V.N.*|SENT_END|[NA].*|complement" postag_regexp="yes" negate_pos="yes"/></token>
+                <token postag="VA.*" postag_regexp="yes" inflected="yes" skip="5">anar<exception scope="next" postag="_GV_|_PUNCT_CONT|R.*|.*LOC_ADV.*|V.N.*|SENT_END|[NA].*|complement|_obligacio" postag_regexp="yes" negate_pos="yes"/></token>
                 <marker>
                     <token postag="V.N.*" postag_regexp="yes"></token>
                 </marker>
@@ -3772,7 +3760,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <marker>
-                    <token postag="VA.*" postag_regexp="yes" inflected="yes" skip="5">anar<exception scope="next" postag="_GV_|_PUNCT_CONT|R.*|.*LOC_ADV.*|V.N.*|SENT_END|[NA].*|complement" postag_regexp="yes" negate_pos="yes"/></token>
+                    <token postag="VA.*" postag_regexp="yes" inflected="yes" skip="5">anar<exception scope="next" postag="_GV_|_PUNCT_CONT|R.*|.*LOC_ADV.*|V.N.*|SENT_END|[NA].*|complement|_obligacio" postag_regexp="yes" negate_pos="yes"/></token>
                 </marker>
                 <token postag="V.N.*" postag_regexp="yes"></token>
             </pattern>
@@ -3780,7 +3768,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token postag="VA.*" postag_regexp="yes" inflected="yes" skip="5">anar<exception scope="next" postag="_GV_|_PUNCT_CONT|R.*|.*LOC_ADV.*|V.N.*|SENT_END|[NA].*|complement" postag_regexp="yes" negate_pos="yes"/></token>
+                <token postag="VA.*" postag_regexp="yes" inflected="yes" skip="5">anar<exception scope="next" postag="_GV_|_PUNCT_CONT|R.*|.*LOC_ADV.*|V.N.*|SENT_END|[NA].*|complement|_obligacio" postag_regexp="yes" negate_pos="yes"/></token>
                 <marker>
                     <token postag="V.N.*" postag_regexp="yes"></token>
                 </marker>
