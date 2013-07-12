@@ -7349,7 +7349,8 @@ $Id$
             <rule>
                 <pattern>
                     <token regexp="yes">[ld]'</token>
-                    <token regexp="yes">[qwrtpsdfgjklñzxcvbnmç].*</token>
+                    <token regexp="yes">[qwrtpdfgjklñzxcvbnmç].*<exception regexp="yes">(?-i)[A-Z]+</exception></token> 
+                    <!-- Removed: aeiouhs -->
                 </pattern>
                 <message>No s'apostrofa.</message>
                 <short>Error ortogràfic</short>
@@ -7357,6 +7358,8 @@ $Id$
                 <example type="incorrect"><marker>d'madrilenys</marker></example>
                 <example type="correct">l'uixer</example>
                 <example type="correct">l'hora</example>
+                <example type="correct">l’scala naturae</example>
+                <example type="correct">d’RNA</example>
             </rule>
         </rulegroup>
         <rulegroup id="L_D_NOM_LLETRA" name="apostrofació: no davant de nom de lletra">                        
