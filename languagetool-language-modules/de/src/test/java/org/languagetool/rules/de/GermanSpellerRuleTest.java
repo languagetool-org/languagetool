@@ -163,7 +163,7 @@ public class GermanSpellerRuleTest {
     assertCorrectionsByOrder(rule, "Aerger", "Ärger");
     assertCorrectionsByOrder(rule, "Walt", "Wald");
     assertCorrectionsByOrder(rule, "Rythmus", "Rhythmus");
-    assertCorrectionsByOrder(rule, "Rytmus", "Remus", "Rhythmus");
+    assertCorrectionsByOrder(rule, "Rytmus", "Rhythmus", "Remus");
   }
   
   private void assertCorrection(HunspellRule rule, String input, String... expectedTerms) throws IOException {
