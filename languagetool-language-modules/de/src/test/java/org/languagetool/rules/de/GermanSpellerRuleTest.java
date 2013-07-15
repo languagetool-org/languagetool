@@ -154,7 +154,7 @@ public class GermanSpellerRuleTest {
     final HunspellRule rule = new GermanSpellerRule(TestTools.getMessages("German"), new GermanyGerman());
     assertCorrectionsByOrder(rule, "heisst", "heißt", "heilst", "heimst");  // "heißt" should be first
     assertCorrectionsByOrder(rule, "heissen", "heißen");
-    assertCorrectionsByOrder(rule, "müßte", "müsste", "büßte");  // "müsste" should be first
+    assertCorrectionsByOrder(rule, "müßte", "müsste", "Mute");  // "müsste" should be first
     assertCorrectionsByOrder(rule, "schmohren", "schmoren");
     assertCorrectionsByOrder(rule, "Fänomen", "Phänomen");
     assertCorrectionsByOrder(rule, "homofob", "homophob");
@@ -163,7 +163,7 @@ public class GermanSpellerRuleTest {
     assertCorrectionsByOrder(rule, "Aerger", "Ärger");
     assertCorrectionsByOrder(rule, "Walt", "Wald");
     assertCorrectionsByOrder(rule, "Rythmus", "Rhythmus");
-    assertCorrectionsByOrder(rule, "Rytmus", "Rhythmus");
+    assertCorrectionsByOrder(rule, "Rytmus", "Remus", "Rhythmus");
   }
   
   private void assertCorrection(HunspellRule rule, String input, String... expectedTerms) throws IOException {
