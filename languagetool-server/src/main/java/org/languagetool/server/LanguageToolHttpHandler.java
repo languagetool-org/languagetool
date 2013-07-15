@@ -257,7 +257,8 @@ class LanguageToolHttpHandler implements HttpHandler {
     if (motherTongue != null) {
       languageMessage += " (mother tongue: " + motherTongue.getShortNameWithVariant() + ")";
     }
-    print("Check done: " + text.length() + " characters, language " + languageMessage + ", "
+    final String referrer = httpExchange.getRequestHeaders().getFirst("Referer");
+    print("Check done: " + text.length() + " chars, " + languageMessage + ", " + referrer + ", "
             + (System.currentTimeMillis() - timeStart) + "ms");
   }
 
