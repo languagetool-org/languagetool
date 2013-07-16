@@ -16,11 +16,13 @@
  */
 package org.languagetool.dev.wikipedia;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import de.fau.cs.osr.ptk.common.ast.StringContentNode;
 import org.sweble.wikitext.engine.Page;
 import org.sweble.wikitext.engine.PageTitle;
 import org.sweble.wikitext.engine.utils.EntityReferences;
@@ -147,10 +149,7 @@ public class TextConverter extends Visitor {
   // =========================================================================
 
   public void visit(AstNode n) {
-    // Fallback for all nodes that are not explicitly handled below
-    write("<");
-    write(n.getNodeName());
-    write(" />");
+    // Fallback for all nodes that are not explicitly handled elsewhere
   }
 
   public void visit(NodeList n) {
@@ -185,6 +184,7 @@ public class TextConverter extends Visitor {
   }
 
   public void visit(Whitespace w) {
+    addMapping(w);
     write(" ");
   }
 
@@ -201,10 +201,12 @@ public class TextConverter extends Visitor {
   }
 
   public void visit(XmlCharRef cr) {
+    addMapping(cr);
     write(Character.toChars(cr.getCodePoint()));
   }
 
   public void visit(XmlEntityRef er) {
+    addMapping(er);
     String ch = EntityReferences.resolve(er.getName());
     if ("nbsp".equals(er.getName())) {
       write(' ');
@@ -218,12 +220,27 @@ public class TextConverter extends Visitor {
   }
 
   public void visit(Url url) {
+    addMapping(url);
     write(url.getProtocol());
     write(':');
     write(url.getPath());
   }
 
   public void visit(ExternalLink link) {
+    StringBuilder out = new StringBuilder();
+    for (AstNode node : link.getTitle()) {
+      try {
+        if (node instanceof StringContentNode) {
+          out.append(((StringContentNode)node).getContent());
+        } else {
+          node.toString(out);
+        }
+      } catch (IOException e) {
+        throw new RuntimeException("Error getting content of external link " + link, e);
+      }
+    }
+    addMapping(link);
+    write(out.toString());
     /*write('[');
 		write(extLinkNum++);
 		write(']');*/
@@ -237,13 +254,15 @@ public class TextConverter extends Visitor {
     } catch (LinkTargetException e) {
     }
 
-    write(link.getPrefix());
     addMapping(link);
+    write(link.getPrefix());
 
     if (link.getTitle().getContent() == null
             || link.getTitle().getContent().isEmpty()) {
+      addMapping(link);
       write(link.getTarget());
     } else {
+      addMapping(link);
       iterate(link.getTitle());
     }
     write(link.getPostfix());
@@ -285,6 +304,7 @@ public class TextConverter extends Visitor {
     }
 
     newline(2);
+    addMapping(s);
     write(title);
     //newline(1);
     //write(StringUtils.strrep('-', title.length()));
@@ -350,7 +370,9 @@ public class TextConverter extends Visitor {
   private void addMapping(Locatable loc) {
     String contentSoFar = sb.toString() + line;
     int textPos = contentSoFar.length() + 1 + (needSpace ? 1 : 0);
-    mapping.put(textPos, loc.getLocation());
+    if (loc.hasLocation()) {
+      mapping.put(textPos, loc.getLocation());
+    }
   }
 
   private void newline(int num) {

@@ -32,6 +32,8 @@ public class SuggestionReplacer {
 
   private final PlainTextMapping textMapping;
   private final String originalText;
+  private final String errorMarkerStart;
+  private final String errorMarkerEnd;
 
   /**
    * @param originalText the original text that includes markup
@@ -39,29 +41,95 @@ public class SuggestionReplacer {
   public SuggestionReplacer(PlainTextMapping textMapping, String originalText) {
     this.textMapping = textMapping;
     this.originalText = originalText;
+    this.errorMarkerStart = "<span class=\"error\">";
+    this.errorMarkerEnd = "</span>";
   }
 
-  public List<String> applySuggestionsToOriginalText(RuleMatch match) {
+  public SuggestionReplacer(PlainTextMapping textMapping, String originalText, String errorMarkerStart, String errorMarkerEnd) {
+    this.textMapping = textMapping;
+    this.originalText = originalText;
+    this.errorMarkerStart = errorMarkerStart;
+    this.errorMarkerEnd = errorMarkerEnd;
+  }
+
+  /**
+   * Applies the suggestions from the rule to the original text. For rules that
+   * have no suggestion, a pseudo-correction is generated that contains the same
+   * text as before.
+   */
+  public List<RuleApplication> applySuggestionsToOriginalText(RuleMatch match) {
     final List<String> replacements = match.getSuggestedReplacements();
-    final List<String> newTexts = new ArrayList<String>();
+    final boolean hasRealReplacements = replacements.size() > 0;
+    if (!hasRealReplacements) {
+      // create a pseudo replacement with the error text itself
+      String plainText = textMapping.getPlainText();
+      replacements.add(plainText.substring(match.getFromPos(), match.getToPos()));
+    }
+
+    final List<RuleApplication> ruleApplications = new ArrayList<RuleApplication>();
     final Location fromPosLocation = textMapping.getOriginalTextPositionFor(match.getFromPos() + 1);  // not zero-based!
     final Location toPosLocation = textMapping.getOriginalTextPositionFor(match.getToPos() + 1);
 
+    /*System.out.println("=========");
+    System.out.println(textMapping.getMapping());
+    System.out.println("=========");
+    System.out.println(textMapping.getPlainText());
+    System.out.println("=========");
+    System.out.println(originalText);
+    System.out.println("=========");*/
+
     final int fromPos = LocationHelper.absolutePositionFor(fromPosLocation, originalText);
     final int toPos = LocationHelper.absolutePositionFor(toPosLocation, originalText);
-    final int contextSize = 5;  // that's a guessed value so we don't have to be 100% exact in our mapping
     for (String replacement : replacements) {
       final String errorText = textMapping.getPlainText().substring(match.getFromPos(), match.getToPos());
-      // it's too dangerous to replace the error text everywhere, so only replace is at the error position:
-      final int contextFrom = Math.max(fromPos - contextSize, 0);
-      final int contextTo = Math.min(toPos + contextSize, originalText.length());
+      // the algorithm is off a bit sometimes due to the complex syntax, so consider the next whitespace:
+      final int contextFrom = findNextWhitespaceToTheLeft(originalText, fromPos);
+      final int contextTo = findNextWhitespaceToTheRight(originalText, toPos);
+
+      /*System.out.println(match + ":");
+      System.out.println(match.getFromPos() + "/" + match.getToPos());
+      System.out.println(fromPosLocation + "/" + toPosLocation);
+      System.out.println(fromPos + "/" + toPos);
+      System.out.println(contextFrom + "/" + contextTo + " @ " + originalText.length());*/
+
+      final String text = originalText.substring(0, contextFrom)
+              + errorMarkerStart
+              + originalText.substring(contextFrom, contextTo)
+              + errorMarkerEnd
+              + originalText.substring(contextTo);
       final String newText = originalText.substring(0, contextFrom)
               // we do a simple string replacement as that works even if our mapping if off a bit:
+              + errorMarkerStart
               + originalText.substring(contextFrom, contextTo).replace(errorText, replacement)
+              + errorMarkerEnd
               + originalText.substring(contextTo);
-      newTexts.add(newText);
+      final RuleApplication application;
+      if (hasRealReplacements) {
+        application = RuleApplication.forMatchWithReplacement(match, text, newText, errorMarkerStart, errorMarkerEnd);
+      } else {
+        application = RuleApplication.forMatchWithoutReplacement(match, text, newText, errorMarkerStart, errorMarkerEnd);
+      }
+      ruleApplications.add(application);
     }
-    return newTexts;
+    return ruleApplications;
+  }
+
+  int findNextWhitespaceToTheRight(String text, int position) {
+    for (int i = position; i < text.length(); i++) {
+      if (Character.isWhitespace(text.charAt(i))) {
+        return i;
+      }
+    }
+    return text.length();
+  }
+
+  int findNextWhitespaceToTheLeft(String text, int position) {
+    for (int i = position; i >= 0; i--) {
+      if (Character.isWhitespace(text.charAt(i))) {
+        return i + 1;
+      }
+    }
+    return 1;
   }
 
 }

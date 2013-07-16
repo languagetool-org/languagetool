@@ -33,12 +33,16 @@ class LocationHelper {
     int col = 1;
     int pos = 0;
     boolean ignoreMode = false;
+    final StringBuilder relevantLine = new StringBuilder();
     for (int i = 0; i < text.length(); i++) {
+      char ch = text.charAt(i);
+      if (line == location.line) {
+        relevantLine.append(ch);
+      }
       if (line == location.line && col == location.column) {
         return pos;
       }
       char prevCh = i > 0 ? text.charAt(i - 1) : '-';
-      char ch = text.charAt(i);
       if (ignoreMode) {
         //
         if (ch == '}' && prevCh == '}') {
@@ -58,7 +62,9 @@ class LocationHelper {
     if (line == location.line && col == location.column) {
       return pos;
     }
-    throw new RuntimeException("Could not find location " + location + " in text: '" + text + "'. Max line/col was: " + line + "/" + col);
+    throw new RuntimeException("Could not find location " + location + " in text: '" + text + "'. " +
+            "Max line/col was: " + line + "/" + col + ", Content of relevant line (" + location.line + "): '"
+            + relevantLine + "' (" + relevantLine.length() + " chars)");
   }
 
 }

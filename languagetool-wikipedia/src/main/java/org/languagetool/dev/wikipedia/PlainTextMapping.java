@@ -53,10 +53,12 @@ public class PlainTextMapping {
     }
     final Location origPosition = mapping.get(plainTextPosition);
     if (origPosition != null) {
+      //System.out.println("mapping " + plainTextPosition + " to " + origPosition + " [direct]");
       return origPosition;
     }
     int minDiff = Integer.MAX_VALUE;
     Location bestMatch = null;
+    //Integer bestMaybeClosePosition = null;
     // algorithm: find the closest lower position
     for (Map.Entry<Integer, Location> entry : mapping.entrySet()) {
       int maybeClosePosition = entry.getKey();
@@ -64,6 +66,7 @@ public class PlainTextMapping {
         int diff = plainTextPosition - maybeClosePosition;
         if (diff >= 0 && diff < minDiff) {
           bestMatch = entry.getValue();
+          //bestMaybeClosePosition = maybeClosePosition;
           minDiff = diff;
         }
       }
@@ -73,6 +76,8 @@ public class PlainTextMapping {
     }
     // we assume that when we have found the closest match there's a one-to-one mapping
     // in this region, thus we can add 'minDiff' to get the exact position:
+    //System.out.println("mapping " + plainTextPosition + " to line " + bestMatch.line + ", column " +
+    //        bestMatch.column + "+" +  minDiff + ", bestMatch was: " + bestMaybeClosePosition +"=>"+ bestMatch);
     return new Location(bestMatch.file, bestMatch.line, bestMatch.column + minDiff);
   }
 

@@ -38,16 +38,20 @@ public class SuggestionReplacerTest extends TestCase {
   public void testApplySuggestionToOriginalText() throws Exception {
     JLanguageTool langTool = getLanguageTool();
     SwebleWikipediaTextFilter filter = new SwebleWikipediaTextFilter();
-    applySuggestion(langTool, filter, "Die CD ROM.", "Die CD-ROM.");
-    applySuggestion(langTool, filter, "Die [[verlinkte]] CD ROM.", "Die [[verlinkte]] CD-ROM.");
-    applySuggestion(langTool, filter, "Die [[Link|verlinkte]] CD ROM.", "Die [[Link|verlinkte]] CD-ROM.");
-    applySuggestion(langTool, filter, "Die [[CD ROM]].", "Die [[CD-ROM]].");
+    applySuggestion(langTool, filter, "Die CD ROM.", "Die <s>CD-ROM.</s>");
+    applySuggestion(langTool, filter, "Die [[verlinkte]] CD ROM.", "Die [[verlinkte]] <s>CD-ROM.</s>");
+    applySuggestion(langTool, filter, "Die [[Link|verlinkte]] CD ROM.", "Die [[Link|verlinkte]] <s>CD-ROM.</s>");
+    applySuggestion(langTool, filter, "Die [[CD ROM]].", "Die <s>[[CD-ROM]].</s>");
     applySuggestion(langTool, filter, "Der [[Abschied]].\n\n==Überschrift==\n\nEin Ab schied.",
-            "Der [[Abschied]].\n\n==Überschrift==\n\nEin Abschied.");
+                                      "Der [[Abschied]].\n\n==Überschrift==\n\nEin <s>Abschied.</s>");
     applySuggestion(langTool, filter, "Ein ökonomischer Gottesdienst.",
-            "Ein ökumenisch Gottesdienst.");  // known problem: does not inflect
+                                      "Ein <s>ökumenisch</s> Gottesdienst.");  // known problem: does not inflect
     applySuggestion(langTool, filter, "Ein ökonomischer Gottesdienst mit ökonomischer Planung.",
-            "Ein ökumenisch Gottesdienst mit ökonomischer Planung.");
+                                      "Ein <s>ökumenisch</s> Gottesdienst mit ökonomischer Planung.");
+    applySuggestion(langTool, filter, "\nEin ökonomischer Gottesdienst.\n",
+                                      "\nEin <s>ökumenisch</s> Gottesdienst.\n");
+    applySuggestion(langTool, filter, "\n\nEin ökonomischer Gottesdienst.\n",
+                                      "\n\nEin <s>ökumenisch</s> Gottesdienst.\n");
   }
 
   public void testComplexText() throws Exception {
@@ -65,7 +69,7 @@ public class SuggestionReplacerTest extends TestCase {
             "'''Wikipedia''' [{{IPA|ˌvɪkiˈpeːdia}}] (auch: ''die Wikipedia'') ist ein am [[15. Januar|15.&nbsp;Januar]] [[2001]] gegründetes Projekt. Und und so.\n";
     JLanguageTool langTool = getLanguageTool();
     SwebleWikipediaTextFilter filter = new SwebleWikipediaTextFilter();
-    applySuggestion(langTool, filter, markup, markup.replace("Und und so.", "Und so."));
+    applySuggestion(langTool, filter, markup, markup.replace("Und und so.", "<s>Und so.</s>"));
   }
 
   public void testCompleteText() throws Exception {
@@ -86,14 +90,39 @@ public class SuggestionReplacerTest extends TestCase {
     String markup = origMarkup;
     int oldPos = 0;
     for (RuleMatch match : matches) {
-      SuggestionReplacer replacer = new SuggestionReplacer(mapping, markup);
-      List<String> newTexts = replacer.applySuggestionsToOriginalText(match);
-      assertThat(newTexts.size(), is(1));
-      String newText = newTexts.get(0);
-      assertThat(StringUtils.countMatches(newText, "absichtlicher absichtlicher"), is(2));
-      int pos = newText.indexOf("in absichtlicher Fehler");  // 'in' because of Ein/ein
-      assertTrue(pos > oldPos);
+      SuggestionReplacer replacer = new SuggestionReplacer(mapping, markup, "<s>", "</s>");
+      List<RuleApplication> ruleApplications = replacer.applySuggestionsToOriginalText(match);
+      assertThat(ruleApplications.size(), is(1));
+      RuleApplication ruleApplication = ruleApplications.get(0);
+      assertThat(StringUtils.countMatches(ruleApplication.getTextWithCorrection(), "absichtlicher absichtlicher"), is(2));
+      int pos = ruleApplication.getTextWithCorrection().indexOf("<s>absichtlicher</s> Fehler");
+      if (pos == -1) {
+        // markup area varies because our mapping is sometimes a bit off:
+        pos = ruleApplication.getTextWithCorrection().indexOf("<s>absichtlicher Fehler</s>");
+      }
+      assertTrue("Found correction at: " + pos, pos > oldPos);
       oldPos = pos;
+    }
+  }
+
+  public void testCompleteText2() throws Exception {
+    InputStream stream = SuggestionReplacerTest.class.getResourceAsStream("/org/languagetool/dev/wikipedia/wikipedia2.txt");
+    String origMarkup = IOUtils.toString(stream);
+    JLanguageTool langTool = new JLanguageTool(new GermanyGerman());
+    langTool.activateDefaultPatternRules();
+    SwebleWikipediaTextFilter filter = new SwebleWikipediaTextFilter();
+    PlainTextMapping mapping = filter.filter(origMarkup);
+    List<RuleMatch> matches = langTool.check(mapping.getPlainText());
+    assertTrue("Expected >= 30 matches, got: " + matches, matches.size() >= 30);
+    String markup = origMarkup;
+    for (RuleMatch match : matches) {
+      SuggestionReplacer replacer = new SuggestionReplacer(mapping, markup, "<s>", "</s>");
+      List<RuleApplication> ruleApplications = replacer.applySuggestionsToOriginalText(match);
+      if (ruleApplications.size() == 0) {
+        continue;
+      }
+      RuleApplication ruleApplication = ruleApplications.get(0);
+      assertThat(StringUtils.countMatches(ruleApplication.getTextWithCorrection(), "<s>"), is(1));
     }
   }
 
@@ -108,10 +137,10 @@ public class SuggestionReplacerTest extends TestCase {
     PlainTextMapping mapping = filter.filter(text);
     List<RuleMatch> matches = langTool.check(mapping.getPlainText());
     assertThat("Expected 1 match, got: " + matches, matches.size(), is(1));
-    SuggestionReplacer replacer = new SuggestionReplacer(mapping, text);
-    List<String> newTexts = replacer.applySuggestionsToOriginalText(matches.get(0));
-    assertThat(newTexts.size(), is(1));
-    assertThat(newTexts.get(0), is(expected));
+    SuggestionReplacer replacer = new SuggestionReplacer(mapping, text, "<s>", "</s>");
+    List<RuleApplication> ruleApplications = replacer.applySuggestionsToOriginalText(matches.get(0));
+    assertThat(ruleApplications.size(), is(1));
+    assertThat(ruleApplications.get(0).getTextWithCorrection(), is(expected));
   }
 
 }

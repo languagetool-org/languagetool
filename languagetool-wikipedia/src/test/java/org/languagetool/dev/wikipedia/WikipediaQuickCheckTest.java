@@ -19,9 +19,53 @@
 package org.languagetool.dev.wikipedia;
 
 import junit.framework.TestCase;
+import org.languagetool.language.German;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.List;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 public class WikipediaQuickCheckTest extends TestCase {
-  
+
+  // only for interactive use, as it accesses a remote API
+  public void noTestCheckPage() throws IOException {
+    final WikipediaQuickCheck check = new WikipediaQuickCheck();
+    //final String url = "http://de.wikipedia.org/wiki/Benutzer_Diskussion:Dnaber";
+    //final String url = "http://de.wikipedia.org/wiki/OpenThesaurus";
+    //final String url = "http://de.wikipedia.org/wiki/Gütersloh";
+    final String url = "http://de.wikipedia.org/wiki/Bielefeld";
+    final MarkupAwareWikipediaResult result = check.checkPage(new URL(url));
+    final List<RuleApplication> ruleApplications = result.getRuleApplications();
+    for (RuleApplication ruleApplication : ruleApplications) {
+      System.out.println("Rule     : " + ruleApplication.getRuleMatch().getRule().getDescription());
+      System.out.println("Original : " + ruleApplication.getOriginalErrorContext().replace("\n", " "));
+      if (ruleApplication.isHasRealReplacement()) {
+        System.out.println("Corrected: " + ruleApplication.getCorrectedErrorContext().replace("\n", " "));
+      }
+      System.out.println();
+    }
+  }
+
+  public void testCheckWikipediaMarkup() throws IOException {
+    final WikipediaQuickCheck check = new WikipediaQuickCheck();
+    final String markup = "== Beispiele ==\n\n" +
+            "Eine kleine Auswahl von Fehlern.\n\n" +
+            "Das Komma ist richtig, wegen dem Leerzeichen.";
+    final MarkupAwareWikipediaResult result = check.checkWikipediaMarkup(markup, new German());
+    final List<RuleApplication> ruleApplications = result.getRuleApplications();
+    // even though this error has no suggestion, there's a (pseudo) correction:
+    assertThat(ruleApplications.size(), is(1));
+    for (RuleApplication ruleApplication : ruleApplications) {
+      //System.out.println("Original: " + ruleApplication.getOriginalText());
+      //System.out.println("Application: " + ruleApplication.getTextWithCorrection());
+      assertTrue("Got: " + ruleApplication.getTextWithCorrection(),
+              ruleApplication.getTextWithCorrection().contains("<span class=\"error\">wegen dem Leerzeichen.</span>"));
+    }
+  }
+
   public void testGetFilteredWikiContent() {
     final WikipediaQuickCheck check = new WikipediaQuickCheck();
     final String filteredContent = check.getPlainText(
@@ -41,7 +85,7 @@ public class WikipediaQuickCheckTest extends TestCase {
                     text +
                     "</rev></revisions></page></pages></query></api>");
 
-    assertEquals("Test Link und noch einer und Foo bar.", filteredContent.getPlainText());
+    assertEquals("Test Link und noch einer und external link Foo bar.", filteredContent.getPlainText());
     assertEquals(1, filteredContent.getOriginalTextPositionFor(1).line);
     assertEquals(1, filteredContent.getOriginalTextPositionFor(1).column);
     assertEquals(filteredContent.getPlainText().charAt(0), text.charAt(0));
