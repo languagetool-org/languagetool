@@ -152,7 +152,7 @@ public class GermanSpellerRuleTest {
   @Test
   public void testGetSuggestionOrder() throws Exception {
     final HunspellRule rule = new GermanSpellerRule(TestTools.getMessages("German"), new GermanyGerman());
-    assertCorrectionsByOrder(rule, "heisst", "heißt", "heilst", "heimst");  // "heißt" should be first
+    assertCorrectionsByOrder(rule, "heisst", "heißt");  // "heißt" should be first
     assertCorrectionsByOrder(rule, "heissen", "heißen");
     assertCorrectionsByOrder(rule, "müßte", "müsste", "Mute");  // "müsste" should be first
     assertCorrectionsByOrder(rule, "schmohren", "schmoren");
