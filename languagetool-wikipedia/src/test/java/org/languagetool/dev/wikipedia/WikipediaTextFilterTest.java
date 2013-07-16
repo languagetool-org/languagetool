@@ -26,34 +26,34 @@ public class WikipediaTextFilterTest extends TestCase {
   
   public void testImageRemoval() throws Exception {
     final String input = "foo [[Datei:Bundesarchiv Bild 183-1990-0803-017.jpg|miniatur|Mit Lothar de Maizière im August 1990]] bar";
-    assertEquals("foo bar", swebleFilter.filter(input));
+    assertEquals("foo bar", swebleFilter.filter(input).getPlainText());
   }
   
   public void testRemovalOfImageWithLink() throws Exception {
     final String input = "foo [[Datei:Bundesarchiv Bild 183-1990-0803-017.jpg|miniatur|Mit [[Lothar de Maizière]] im August 1990]] bar [[Link]]";
-    assertEquals("foo bar Link", swebleFilter.filter(input));
+    assertEquals("foo bar Link", swebleFilter.filter(input).getPlainText());
   }
 
   public void testLink1() throws Exception {
     final String input = "foo [[Test]] bar";
-    assertEquals("foo Test bar", swebleFilter.filter(input));
+    assertEquals("foo Test bar", swebleFilter.filter(input).getPlainText());
   }
 
   public void testLink2() throws Exception {
     final String input = "foo [[Target|visible link]] bar";
-    assertEquals("foo visible link bar", swebleFilter.filter(input));
+    assertEquals("foo visible link bar", swebleFilter.filter(input).getPlainText());
   }
 
   public void testEntity() throws Exception {
     final String input = "rund 20&nbsp;Kilometer südlich";
-    assertEquals("rund 20 Kilometer südlich", swebleFilter.filter(input));
+    assertEquals("rund 20 Kilometer südlich", swebleFilter.filter(input).getPlainText());
   }
 
   public void testLists() throws Exception {
     final String input1 = "# one\n# two\n";
-    assertEquals("one\n\ntwo", swebleFilter.filter(input1));
+    assertEquals("one\n\ntwo", swebleFilter.filter(input1).getPlainText());
     final String input2 = "* one\n* two\n";
-    assertEquals("one\n\ntwo", swebleFilter.filter(input2));
+    assertEquals("one\n\ntwo", swebleFilter.filter(input2).getPlainText());
   }
     
 }

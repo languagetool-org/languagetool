@@ -19,7 +19,6 @@
 package org.languagetool.dev.wikipedia;
 
 import org.languagetool.Language;
-import org.languagetool.TextFilter;
 
 /**
  * Helper class.
@@ -29,15 +28,16 @@ class TextFilterTools {
   private TextFilterTools() {
   }
 
-  static TextFilter getTextFilter(Language lang) {
+  static SwebleWikipediaTextFilter getTextFilter(Language lang) {
     final SwebleWikipediaTextFilter textFilter;
     if (lang.getShortName().equals("ro")) {
       textFilter = new SwebleWikipediaTextFilter() {
         @Override
-        public String filter(String arg0) {
-          final String tmp = super.filter(arg0);
+        public PlainTextMapping filter(String arg0) {
+          final PlainTextMapping tmp = super.filter(arg0);
           // diacritics correction (comma-bellow instead of sedilla for ș and ț)
-          return RomanianDiacriticsModifier.correctDiacritics(tmp);
+          final String text = RomanianDiacriticsModifier.correctDiacritics(tmp.getPlainText());
+          return new PlainTextMapping(text, tmp.getMapping());
         }
       };
     } else {

@@ -23,7 +23,6 @@ import java.util.List;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
-import org.languagetool.TextFilter;
 import org.languagetool.rules.RuleMatch;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -55,7 +54,7 @@ abstract class BaseWikipediaDumpHandler extends DefaultHandler {
   private StringBuilder text = new StringBuilder();
   private String title;
 
-  private TextFilter textFilter = new SwebleWikipediaTextFilter();
+  private TextMapFilter textFilter = new SwebleWikipediaTextFilter();
 
   protected BaseWikipediaDumpHandler(JLanguageTool languageTool, Date dumpDate, String langCode, Language lang) {
     this.languageTool = languageTool;
@@ -102,7 +101,8 @@ abstract class BaseWikipediaDumpHandler extends DefaultHandler {
       title = text.toString();
       text = new StringBuilder();
     } else if (qName.equals("text")) {
-      final String textToCheck = textFilter.filter(text.toString());
+      final PlainTextMapping mapping = textFilter.filter(text.toString());
+      final String textToCheck = mapping.getPlainText();
       if (!textToCheck.contains("#REDIRECT")) {
         articleCount++;
         if (maxArticles > 0 && articleCount > maxArticles) {

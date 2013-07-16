@@ -32,7 +32,6 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
-import org.languagetool.TextFilter;
 import org.languagetool.language.German;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
@@ -100,12 +99,23 @@ public class WikipediaQuickCheck {
     getUrlMatcher(wikipediaUrl.toString());
   }
 
-  String getPlainText(String completeWikiContent) {
+  /**
+   * @param completeWikiContent the Mediawiki syntax as it comes from the API, including surrounding XML
+   */
+  public String getPlainText(String completeWikiContent) {
     final String wikiContent = getRevisionContent(completeWikiContent);
     final String cleanedWikiContent = removeInterLanguageLinks(wikiContent);
-    final TextFilter filter = new SwebleWikipediaTextFilter();
-    final String plainText = filter.filter(cleanedWikiContent);
-    return plainText;
+    final TextMapFilter filter = new SwebleWikipediaTextFilter();
+    return filter.filter(cleanedWikiContent).getPlainText();
+  }
+
+  /**
+   * @param completeWikiContent the Mediawiki syntax as it comes from the API, including surrounding XML
+   */
+  public PlainTextMapping getPlainTextMapping(String completeWikiContent) {
+    final String wikiContent = getRevisionContent(completeWikiContent);
+    final SwebleWikipediaTextFilter filter = new SwebleWikipediaTextFilter();
+    return filter.filter(wikiContent);
   }
 
   // catches most, not all links ("[[pt:Linux]]", but not "[[zh-min-nan:Linux]]"). Might remove some non-interlanguage links.

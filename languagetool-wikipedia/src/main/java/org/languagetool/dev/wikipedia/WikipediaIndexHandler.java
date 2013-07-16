@@ -31,7 +31,6 @@ import org.apache.lucene.document.StringField;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.languagetool.Language;
-import org.languagetool.TextFilter;
 import org.languagetool.dev.index.Indexer;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -61,7 +60,7 @@ public class WikipediaIndexHandler extends DefaultHandler {
   private boolean inTitle = false;
   private StringBuilder text = new StringBuilder();
   private StringBuilder title = new StringBuilder();
-  private TextFilter textFilter = new SwebleWikipediaTextFilter();
+  private TextMapFilter textFilter = new SwebleWikipediaTextFilter();
 
   // ===========================================================
   // SAX DocumentHandler methods
@@ -105,7 +104,7 @@ public class WikipediaIndexHandler extends DefaultHandler {
       try {
         final String textToCheck;
         try {
-          textToCheck = textFilter.filter(text.toString());
+          textToCheck = textFilter.filter(text.toString()).getPlainText();
           if (!textToCheck.contains("#REDIRECT") && !textToCheck.trim().equals("")) {
             indexer.index(textToCheck, false, articleCount);
           }

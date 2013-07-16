@@ -16,7 +16,9 @@
  */
 package org.languagetool.dev.wikipedia;
 
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.sweble.wikitext.engine.Page;
@@ -53,6 +55,8 @@ import de.fau.cs.osr.ptk.common.Visitor;
 import de.fau.cs.osr.ptk.common.ast.AstNode;
 import de.fau.cs.osr.ptk.common.ast.NodeList;
 import de.fau.cs.osr.ptk.common.ast.Text;
+import xtc.tree.Locatable;
+import xtc.tree.Location;
 
 /**
  * A visitor to convert an article AST into a pure text representation. To
@@ -86,7 +90,9 @@ public class TextConverter
 	private final SimpleWikiConfiguration config;
 	
 	private final int wrapCol;
-	
+
+  private Map<Integer, Location> mapping = new HashMap<Integer, Location>();
+
 	private StringBuilder sb;
 	
 	private StringBuilder line;
@@ -102,7 +108,7 @@ public class TextConverter
 	private boolean noWrap;
 	
 	private LinkedList<Integer> sections;
-	
+
 	// =========================================================================
 	
 	public TextConverter(SimpleWikiConfiguration config, int wrapCol)
@@ -110,6 +116,13 @@ public class TextConverter
 		this.config = config;
 		this.wrapCol = wrapCol;
 	}
+
+  /**
+   * Return a mapping from converted text positions to original text positions.
+   */
+  public Map<Integer,Location> getMapping() {
+    return mapping;
+  }
 	
 	@Override
 	protected boolean before(AstNode node)
@@ -117,6 +130,7 @@ public class TextConverter
 		// This method is called by go() before visitation starts
 		sb = new StringBuilder();
 		line = new StringBuilder();
+    mapping = new HashMap<Integer, Location>();
 		extLinkNum = 1;
 		pastBod = false;
 		needNewlines = 0;
@@ -177,12 +191,13 @@ public class TextConverter
 	{
 		iterate(p.getContent());
 	}
-	
+
 	public void visit(Text text)
 	{
+    addMapping(text);
 		write(text.getContent());
 	}
-	
+
 	public void visit(Whitespace w)
 	{
 		write(" ");
@@ -251,8 +266,10 @@ public class TextConverter
 		catch (LinkTargetException e)
 		{
 		}
-		
+
 		write(link.getPrefix());
+    addMapping(link);
+
 		if (link.getTitle().getContent() == null
 		        || link.getTitle().getContent().isEmpty())
 		{
@@ -379,7 +396,14 @@ public class TextConverter
 	}
 	
 	// =========================================================================
-	
+
+  private void addMapping(Locatable loc)
+  {
+    String contentSoFar = sb.toString() + line;
+    int textPos = contentSoFar.length() + 1 + (needSpace ? 1 : 0);
+    mapping.put(textPos, loc.getLocation());
+  }
+
 	private void newline(int num)
 	{
 		if (pastBod)
