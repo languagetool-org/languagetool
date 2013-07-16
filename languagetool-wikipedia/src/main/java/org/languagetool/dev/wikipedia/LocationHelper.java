@@ -32,29 +32,34 @@ class LocationHelper {
     int line = 1;
     int col = 1;
     int pos = 0;
-    boolean ignoreMode = false;
+    int ignoreLevel = 0;
     final StringBuilder relevantLine = new StringBuilder();
     for (int i = 0; i < text.length(); i++) {
       char ch = text.charAt(i);
       if (line == location.line) {
         relevantLine.append(ch);
       }
+      //System.out.println(line  + "/" + col + ", ignoreLevel: " + ignoreLevel);
       if (line == location.line && col == location.column) {
         return pos;
       }
       char prevCh = i > 0 ? text.charAt(i - 1) : '-';
-      if (ignoreMode) {
-        //
-        if (ch == '}' && prevCh == '}') {
-          // ignore templates
-          ignoreMode = false;
+      if (i < text.length() - 4 && text.substring(i, i + 4).equals("<!--")) {
+        // HTML comment
+        ignoreLevel++;
+      } else if (i < text.length() - 3 && text.substring(i, i + 3).equals("-->")) {
+        ignoreLevel--;
+      } else if (ch == '}' && prevCh == '}') {
+        if (ignoreLevel > 0) {
+          ignoreLevel--;
         }
       } else if (ch == '{' && prevCh == '{') {
-        ignoreMode = true;
-      } else if (ch == '\n') {
+        // ignore templates
+        ignoreLevel++;
+      } else if (ch == '\n' && ignoreLevel == 0) {
         line++;
         col = 1;
-      } else {
+      } else if (ignoreLevel == 0) {
         col++;
       }
       pos++;
@@ -62,7 +67,7 @@ class LocationHelper {
     if (line == location.line && col == location.column) {
       return pos;
     }
-    throw new RuntimeException("Could not find location " + location + " in text: '" + text + "'. " +
+    throw new RuntimeException("Could not find location " + location + " in text. " +
             "Max line/col was: " + line + "/" + col + ", Content of relevant line (" + location.line + "): '"
             + relevantLine + "' (" + relevantLine.length() + " chars)");
   }

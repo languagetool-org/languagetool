@@ -36,9 +36,11 @@ public class WikipediaQuickCheckTest extends TestCase {
     //final String url = "http://de.wikipedia.org/wiki/Benutzer_Diskussion:Dnaber";
     //final String url = "http://de.wikipedia.org/wiki/OpenThesaurus";
     //final String url = "http://de.wikipedia.org/wiki/Gütersloh";
-    final String url = "http://de.wikipedia.org/wiki/Bielefeld";
+    //final String url = "http://de.wikipedia.org/wiki/Bielefeld";
+    final String url = "http://de.wikipedia.org/wiki/Augsburg";
     final MarkupAwareWikipediaResult result = check.checkPage(new URL(url));
     final List<RuleApplication> ruleApplications = result.getRuleApplications();
+    System.out.println("ruleApplications: " + ruleApplications.size());
     for (RuleApplication ruleApplication : ruleApplications) {
       System.out.println("Rule     : " + ruleApplication.getRuleMatch().getRule().getDescription());
       System.out.println("Original : " + ruleApplication.getOriginalErrorContext().replace("\n", " "));
@@ -54,7 +56,7 @@ public class WikipediaQuickCheckTest extends TestCase {
     final String markup = "== Beispiele ==\n\n" +
             "Eine kleine Auswahl von Fehlern.\n\n" +
             "Das Komma ist richtig, wegen dem Leerzeichen.";
-    final MarkupAwareWikipediaResult result = check.checkWikipediaMarkup(markup, new German());
+    final MarkupAwareWikipediaResult result = check.checkWikipediaMarkup(new URL("http://fake-url.org"), markup, new German());
     final List<RuleApplication> ruleApplications = result.getRuleApplications();
     // even though this error has no suggestion, there's a (pseudo) correction:
     assertThat(ruleApplications.size(), is(1));

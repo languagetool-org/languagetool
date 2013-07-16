@@ -54,6 +54,27 @@ public class SuggestionReplacerTest extends TestCase {
                                       "\n\nEin <s>ökumenisch</s> Gottesdienst.\n");
   }
 
+  public void testNestedTemplates() throws Exception {
+    JLanguageTool langTool = getLanguageTool();
+    SwebleWikipediaTextFilter filter = new SwebleWikipediaTextFilter();
+    String markup = "{{FNBox|\n" +
+            "  {{FNZ|1|1979 und 1984}}\n" +
+            "  {{FNZ|2|[[Rundungsfehler]]}}\n" +
+            "}}\n\nEin ökonomischer Gottesdienst.\n";
+    applySuggestion(langTool, filter, markup, markup.replace("ökonomischer", "<s>ökumenisch</s>"));
+  }
+
+  public void testKnownBug() throws Exception {
+    JLanguageTool langTool = getLanguageTool();
+    SwebleWikipediaTextFilter filter = new SwebleWikipediaTextFilter();
+    String markup = "{{HdBG GKZ|9761000}}.";
+    try {
+      applySuggestion(langTool, filter, markup, markup);
+    } catch (RuntimeException e) {
+      // known problem - Sweble's location seems to be wrong?!
+    }
+  }
+
   public void testComplexText() throws Exception {
     String markup = "{{Dieser Artikel|behandelt die freie Onlineenzyklopädie Wikipedia; zu dem gleichnamigen Asteroiden siehe [[(274301) Wikipedia]].}}\n" +
             "\n" +

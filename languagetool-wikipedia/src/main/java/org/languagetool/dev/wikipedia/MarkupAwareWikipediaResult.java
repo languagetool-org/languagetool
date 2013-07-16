@@ -27,13 +27,24 @@ import java.util.List;
 public class MarkupAwareWikipediaResult {
 
   private final List<RuleApplication> ruleApplications;
+  private final int internalErrors;
 
-  public MarkupAwareWikipediaResult(List<RuleApplication> ruleApplications) {
+  public MarkupAwareWikipediaResult(List<RuleApplication> ruleApplications, int internalErrors) {
     this.ruleApplications = ruleApplications;
+    this.internalErrors = internalErrors;
   }
 
   public List<RuleApplication> getRuleApplications() {
     return ruleApplications;
+  }
+
+  /**
+   * Mapping the Wikipedia syntax is complicated and it sometimes fails. We
+   * try to skip over those problems and increase this counter. Each increment
+   * here means that one rule match is missing from the rule applications.
+   */
+  public int getInternalErrorCount() {
+    return internalErrors;
   }
 
 }

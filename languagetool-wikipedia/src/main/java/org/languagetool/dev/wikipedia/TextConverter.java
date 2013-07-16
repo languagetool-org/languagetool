@@ -372,6 +372,7 @@ public class TextConverter extends Visitor {
     int textPos = contentSoFar.length() + 1 + (needSpace ? 1 : 0);
     if (loc.hasLocation()) {
       mapping.put(textPos, loc.getLocation());
+      //System.out.println("PUT " + textPos + " -> " + loc.getLocation());
     }
   }
 
