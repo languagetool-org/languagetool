@@ -93,7 +93,7 @@ public class RuleApplication {
     return errorMarkerEnd;
   }
 
-  public boolean isHasRealReplacement() {
+  public boolean hasRealReplacement() {
     return hasRealReplacement;
   }
 }

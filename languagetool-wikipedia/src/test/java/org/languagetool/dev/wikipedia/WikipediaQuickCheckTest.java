@@ -44,7 +44,7 @@ public class WikipediaQuickCheckTest extends TestCase {
     for (RuleApplication ruleApplication : ruleApplications) {
       System.out.println("Rule     : " + ruleApplication.getRuleMatch().getRule().getDescription());
       System.out.println("Original : " + ruleApplication.getOriginalErrorContext().replace("\n", " "));
-      if (ruleApplication.isHasRealReplacement()) {
+      if (ruleApplication.hasRealReplacement()) {
         System.out.println("Corrected: " + ruleApplication.getCorrectedErrorContext().replace("\n", " "));
       }
       System.out.println();
