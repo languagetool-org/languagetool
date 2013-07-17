@@ -56,7 +56,9 @@ public class WikipediaQuickCheckTest extends TestCase {
     final String markup = "== Beispiele ==\n\n" +
             "Eine kleine Auswahl von Fehlern.\n\n" +
             "Das Komma ist richtig, wegen dem Leerzeichen.";
-    final MarkupAwareWikipediaResult result = check.checkWikipediaMarkup(new URL("http://fake-url.org"), markup, new German());
+    final MediaWikiContent wikiContent = new MediaWikiContent(markup, "2012-11-11T20:00:00");
+    final MarkupAwareWikipediaResult result = check.checkWikipediaMarkup(new URL("http://fake-url.org"), wikiContent, new German());
+    assertThat(result.getLastEditTimestamp(), is("2012-11-11T20:00:00"));
     final List<RuleApplication> ruleApplications = result.getRuleApplications();
     // even though this error has no suggestion, there's a (pseudo) correction:
     assertThat(ruleApplications.size(), is(1));

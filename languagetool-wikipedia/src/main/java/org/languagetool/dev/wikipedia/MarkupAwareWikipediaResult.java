@@ -26,12 +26,12 @@ import java.util.List;
  */
 public class MarkupAwareWikipediaResult {
 
-  private final String originalWikiMarkup;
+  private final MediaWikiContent originalWikiMarkup;
   private final List<RuleApplication> ruleApplications;
   private final int internalErrors;
 
-  public MarkupAwareWikipediaResult(String originalWikiMarkup, List<RuleApplication> ruleApplications, int internalErrors) {
-    this.originalWikiMarkup = originalWikiMarkup;
+  public MarkupAwareWikipediaResult(MediaWikiContent wikiContent, List<RuleApplication> ruleApplications, int internalErrors) {
+    this.originalWikiMarkup = wikiContent;
     this.ruleApplications = ruleApplications;
     this.internalErrors = internalErrors;
   }
@@ -50,6 +50,10 @@ public class MarkupAwareWikipediaResult {
   }
 
   public String getOriginalWikiMarkup() {
-    return originalWikiMarkup;
+    return originalWikiMarkup.getContent();
+  }
+
+  public String getLastEditTimestamp() {
+    return originalWikiMarkup.getTimestamp();
   }
 }
