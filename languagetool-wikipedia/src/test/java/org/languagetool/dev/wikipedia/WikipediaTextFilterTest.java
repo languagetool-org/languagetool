@@ -25,48 +25,45 @@ public class WikipediaTextFilterTest extends TestCase {
   final SwebleWikipediaTextFilter swebleFilter = new SwebleWikipediaTextFilter();
   
   public void testImageRemoval() throws Exception {
-    final String input = "foo [[Datei:Bundesarchiv Bild 183-1990-0803-017.jpg|miniatur|Mit Lothar de Maizière im August 1990]] bar";
-    assertEquals("foo bar", swebleFilter.filter(input).getPlainText());
+    assertExtract("foo [[Datei:Bundesarchiv Bild 183-1990-0803-017.jpg|miniatur|Mit Lothar de Maizière im August 1990]] bar",
+                  "foo bar");
   }
-  
+
   public void testRemovalOfImageWithLink() throws Exception {
-    final String input = "foo [[Datei:Bundesarchiv Bild 183-1990-0803-017.jpg|miniatur|Mit [[Lothar de Maizière]] im August 1990]] bar [[Link]]";
-    assertEquals("foo bar Link", swebleFilter.filter(input).getPlainText());
+    assertExtract("foo [[Datei:Bundesarchiv Bild 183-1990-0803-017.jpg|miniatur|Mit [[Lothar de Maizière]] im August 1990]] bar [[Link]]",
+                  "foo bar Link");
   }
 
   public void testLink1() throws Exception {
-    final String input = "foo [[Test]] bar";
-    assertEquals("foo Test bar", swebleFilter.filter(input).getPlainText());
+    assertExtract("foo [[Test]] bar", "foo Test bar");
   }
 
   public void testLink2() throws Exception {
-    final String input = "foo [[Target|visible link]] bar";
-    assertEquals("foo visible link bar", swebleFilter.filter(input).getPlainText());
+    assertExtract("foo [[Target|visible link]] bar", "foo visible link bar");
   }
 
   public void testEntity() throws Exception {
-    final String input = "rund 20&nbsp;Kilometer südlich";
-    assertEquals("rund 20 Kilometer südlich", swebleFilter.filter(input).getPlainText());
+    assertExtract("rund 20&nbsp;Kilometer südlich", "rund 20 Kilometer südlich");
   }
 
   public void testLists() throws Exception {
-    final String input1 = "# one\n# two\n";
-    assertEquals("one\n\ntwo", swebleFilter.filter(input1).getPlainText());
-    final String input2 = "* one\n* two\n";
-    assertEquals("one\n\ntwo", swebleFilter.filter(input2).getPlainText());
+    assertExtract("# one\n# two\n", "one\n\ntwo");
+    assertExtract("* one\n* two\n", "one\n\ntwo");
   }
 
   public void testOtherStuff() throws Exception {
-    final String input1 = "Daniel Guerin, ''[http://theanarchistlibrary.org Anarchism: From Theory to Practice]''";
-    assertEquals("Daniel Guerin, Anarchism: From Theory to Practice", swebleFilter.filter(input1).getPlainText());
-    final String input2 = "foo <ref>\"At the end of the century in France [http://theanarchistlibrary.org] [[Daniel Guérin]]. ''Anarchism'']</ref>";
-    assertEquals("foo", swebleFilter.filter(input2).getPlainText());
-    final String input3 = "* [http://theanarchistlibrary.org ''Anarchism: From Theory to Practice''] by [[Daniel Guerin]]. Monthly Review Press.\n";
-    assertEquals("Anarchism: From Theory to Practice by Daniel Guerin. Monthly Review Press.", swebleFilter.filter(input3).getPlainText());
-    final String input4 = "The <code>$pattern</code>";
-    assertEquals("The $pattern", swebleFilter.filter(input4).getPlainText());
-    final String input5 = "<source lang=\"bash\">some source</source>";
-    assertEquals("some source", swebleFilter.filter(input5).getPlainText());
+    assertExtract("Daniel Guerin, ''[http://theanarchistlibrary.org Anarchism: From Theory to Practice]''",
+                  "Daniel Guerin, Anarchism: From Theory to Practice");
+    assertExtract("foo <ref>\"At the end of the century in France [http://theanarchistlibrary.org] [[Daniel Guérin]]. ''Anarchism'']</ref>",
+                  "foo");
+    assertExtract("* [http://theanarchistlibrary.org ''Anarchism: From Theory to Practice''] by [[Daniel Guerin]]. Monthly Review Press.\n",
+                  "Anarchism: From Theory to Practice by Daniel Guerin. Monthly Review Press.");
+    assertExtract("The <code>$pattern</code>", "The $pattern");
+    assertExtract("<source lang=\"bash\">some source</source>", "some source");
+  }
+
+  private void assertExtract(String input, String expected) {
+    assertEquals(expected, swebleFilter.filter(input).getPlainText());
   }
 
 }
