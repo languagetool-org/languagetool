@@ -25,8 +25,6 @@ import org.languagetool.rules.RuleMatch;
  */
 public class RuleApplication {
 
-  private static final int CONTEXT_SIZE = 10;
-
   private final RuleMatch ruleMatch;
   private final String text;
   private final String textWithCorrection;
@@ -57,19 +55,19 @@ public class RuleApplication {
     this.hasRealReplacement = hasRealReplacement;
   }
 
-  public String getOriginalErrorContext() {
-    return getContext(text);
+  public String getOriginalErrorContext(int contextSize) {
+    return getContext(text, contextSize);
   }
 
-  public String getCorrectedErrorContext() {
-    return getContext(textWithCorrection);
+  public String getCorrectedErrorContext(int contextSize) {
+    return getContext(textWithCorrection, contextSize);
   }
 
-  private String getContext(String text) {
+  private String getContext(String text, int contextSize) {
     int errorStart = textWithCorrection.indexOf(errorMarkerStart);
     int errorEnd = textWithCorrection.indexOf(errorMarkerEnd);
-    int errorContextStart = Math.max(errorStart - CONTEXT_SIZE, 0);
-    int errorContentEnd = Math.min(errorEnd + CONTEXT_SIZE, text.length());
+    int errorContextStart = Math.max(errorStart - contextSize, 0);
+    int errorContentEnd = Math.min(errorEnd + contextSize, text.length());
     return text.substring(errorContextStart, errorContentEnd);
   }
 

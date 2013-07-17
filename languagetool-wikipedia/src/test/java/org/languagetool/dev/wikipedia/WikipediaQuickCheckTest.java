@@ -43,9 +43,9 @@ public class WikipediaQuickCheckTest extends TestCase {
     System.out.println("ruleApplications: " + ruleApplications.size());
     for (RuleApplication ruleApplication : ruleApplications) {
       System.out.println("Rule     : " + ruleApplication.getRuleMatch().getRule().getDescription());
-      System.out.println("Original : " + ruleApplication.getOriginalErrorContext().replace("\n", " "));
+      System.out.println("Original : " + ruleApplication.getOriginalErrorContext(10).replace("\n", " "));
       if (ruleApplication.hasRealReplacement()) {
-        System.out.println("Corrected: " + ruleApplication.getCorrectedErrorContext().replace("\n", " "));
+        System.out.println("Corrected: " + ruleApplication.getCorrectedErrorContext(10).replace("\n", " "));
       }
       System.out.println();
     }
@@ -60,12 +60,11 @@ public class WikipediaQuickCheckTest extends TestCase {
     final List<RuleApplication> ruleApplications = result.getRuleApplications();
     // even though this error has no suggestion, there's a (pseudo) correction:
     assertThat(ruleApplications.size(), is(1));
-    for (RuleApplication ruleApplication : ruleApplications) {
-      //System.out.println("Original: " + ruleApplication.getOriginalText());
-      //System.out.println("Application: " + ruleApplication.getTextWithCorrection());
-      assertTrue("Got: " + ruleApplication.getTextWithCorrection(),
-              ruleApplication.getTextWithCorrection().contains("<span class=\"error\">wegen dem Leerzeichen.</span>"));
-    }
+    RuleApplication ruleApplication = ruleApplications.get(0);
+    assertTrue("Got: " + ruleApplication.getTextWithCorrection(),
+            ruleApplication.getTextWithCorrection().contains("<span class=\"error\">wegen dem Leerzeichen.</span>"));
+    assertThat(ruleApplication.getOriginalErrorContext(10), is(" richtig, <span class=\"error\">wegen dem Leerzeichen.</span>"));
+    assertThat(ruleApplication.getCorrectedErrorContext(10), is(" richtig, <span class=\"error\">wegen dem Leerzeichen.</span>"));
   }
 
   public void testGetFilteredWikiContent() {

@@ -112,7 +112,7 @@ public class WikipediaQuickCheck {
         internalErrors++;
       }
     }
-    return new MarkupAwareWikipediaResult(ruleApplications, internalErrors);
+    return new MarkupAwareWikipediaResult(wikiMarkup, ruleApplications, internalErrors);
   }
 
   public WikipediaQuickCheckResult checkPage(String plainText, Language lang) throws IOException {
