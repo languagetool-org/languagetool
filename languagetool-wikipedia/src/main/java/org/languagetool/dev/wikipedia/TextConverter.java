@@ -22,7 +22,7 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import de.fau.cs.osr.ptk.common.ast.StringContentNode;
+import de.fau.cs.osr.ptk.common.ast.*;
 import org.sweble.wikitext.engine.Page;
 import org.sweble.wikitext.engine.PageTitle;
 import org.sweble.wikitext.engine.utils.EntityReferences;
@@ -54,9 +54,6 @@ import org.sweble.wikitext.lazy.utils.XmlCharRef;
 import org.sweble.wikitext.lazy.utils.XmlEntityRef;
 
 import de.fau.cs.osr.ptk.common.Visitor;
-import de.fau.cs.osr.ptk.common.ast.AstNode;
-import de.fau.cs.osr.ptk.common.ast.NodeList;
-import de.fau.cs.osr.ptk.common.ast.Text;
 import xtc.tree.Locatable;
 import xtc.tree.Location;
 
@@ -96,8 +93,6 @@ public class TextConverter extends Visitor {
 
   private StringBuilder line;
 
-  private int extLinkNum;
-
   private boolean pastBod;
 
   private int needNewlines;
@@ -128,7 +123,6 @@ public class TextConverter extends Visitor {
     sb = new StringBuilder();
     line = new StringBuilder();
     mapping = new HashMap<Integer, Location>();
-    extLinkNum = 1;
     pastBod = false;
     needNewlines = 0;
     needSpace = false;
@@ -230,20 +224,13 @@ public class TextConverter extends Visitor {
     StringBuilder out = new StringBuilder();
     for (AstNode node : link.getTitle()) {
       try {
-        if (node instanceof StringContentNode) {
-          out.append(((StringContentNode)node).getContent());
-        } else {
-          node.toString(out);
-        }
+        out.append(toText(node));
       } catch (IOException e) {
         throw new RuntimeException("Error getting content of external link " + link, e);
       }
     }
     addMapping(link);
     write(out.toString());
-    /*write('[');
-		write(extLinkNum++);
-		write(']');*/
   }
 
   public void visit(InternalLink link) {
@@ -366,6 +353,19 @@ public class TextConverter extends Visitor {
   }
 
   // =========================================================================
+
+  private String toText(AstNode node) throws IOException {
+    StringBuilder out = new StringBuilder();
+    if (node instanceof StringContentNode) {
+      out.append(((StringContentNode)node).getContent());
+    } else if (node instanceof ContentNode) {
+      NodeList nodes = ((ContentNode) node).getContent();
+      for (AstNode subNode : nodes) {
+        out.append(toText(subNode));
+      }
+    }
+    return out.toString();
+  }
 
   private void addMapping(Locatable loc) {
     String contentSoFar = sb.toString() + line;

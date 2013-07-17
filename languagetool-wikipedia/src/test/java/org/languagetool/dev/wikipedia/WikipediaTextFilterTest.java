@@ -55,5 +55,18 @@ public class WikipediaTextFilterTest extends TestCase {
     final String input2 = "* one\n* two\n";
     assertEquals("one\n\ntwo", swebleFilter.filter(input2).getPlainText());
   }
-    
+
+  public void testOtherStuff() throws Exception {
+    final String input1 = "Daniel Guerin, ''[http://theanarchistlibrary.org Anarchism: From Theory to Practice]''";
+    assertEquals("Daniel Guerin, Anarchism: From Theory to Practice", swebleFilter.filter(input1).getPlainText());
+    final String input2 = "foo <ref>\"At the end of the century in France [http://theanarchistlibrary.org] [[Daniel Guérin]]. ''Anarchism'']</ref>";
+    assertEquals("foo", swebleFilter.filter(input2).getPlainText());
+    final String input3 = "* [http://theanarchistlibrary.org ''Anarchism: From Theory to Practice''] by [[Daniel Guerin]]. Monthly Review Press.\n";
+    assertEquals("Anarchism: From Theory to Practice by Daniel Guerin. Monthly Review Press.", swebleFilter.filter(input3).getPlainText());
+    final String input4 = "The <code>$pattern</code>";
+    assertEquals("The $pattern", swebleFilter.filter(input4).getPlainText());
+    final String input5 = "<source lang=\"bash\">some source</source>";
+    assertEquals("some source", swebleFilter.filter(input5).getPlainText());
+  }
+
 }
