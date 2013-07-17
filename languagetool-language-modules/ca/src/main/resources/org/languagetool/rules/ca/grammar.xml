@@ -16346,17 +16346,18 @@ $Id$
                     <marker>
                         <token inflected="yes" skip="7">assecar<exception>assec</exception></token>
                     </marker>
-                    <token inflected="yes" regexp="yes">mà|plat|llavi|cabell|suor|llàgrima|cara|roba|peu|front|gasa</token>
+                    <token inflected="yes" regexp="yes">mà|plat|llavi|cabell|suor|llàgrima|cara|roba|peu|front|gasa|tovallola</token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">eixugar</match></suggestion>?</message>
                 <short>Possible confusió</short>
                 <example type="incorrect" correction="eixugà">s'<marker>assecà</marker> les mans</example>
                 <example type="incorrect" correction="eixugar">i servia per a <marker>assecar</marker>, entre altres coses, les gases dels petits.</example>
+                <example type="incorrect" correction="Eixuga"><marker>Asseca</marker>'t amb la tovallola.</example>
                 <example type="correct">s'assecà, aquell arbre</example>
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes" regexp="yes" skip="7">mà|plat|llavi|cabell|suor|llàgrima|cara|roba|peu|front|gasa</token>
+                    <token inflected="yes" regexp="yes" skip="7">mà|plat|llavi|cabell|suor|llàgrima|cara|roba|peu|front|gasa|tovallola</token>
                     <marker>
                         <token inflected="yes">assecar<exception>assec</exception></token>
                     </marker>
@@ -16483,7 +16484,7 @@ $Id$
         <rulegroup id="A_L_ACTUALITAT" name="a l'actualitat">
             <rule>
                 <pattern>
-                    <token postag="SENT_START|_PUNCT.*" postag_regexp="yes" skip="-1"><exception regexp="yes" scope="next">de|d'</exception></token>
+                    <token postag="SENT_START|_PUNCT.*|SPS00" postag_regexp="yes" skip="-1"><exception scope="next" regexp="yes">de|d'</exception><exception regexp="yes">de|d'</exception></token>
                     <marker>
                         <token>a<exception scope="previous" regexp="yes">per|fins</exception><exception scope="previous" inflected="yes">tornar</exception></token>
                         <token>l'</token>
@@ -16495,6 +16496,7 @@ $Id$
                 <suggestion>actualment</suggestion>
                 <example type="incorrect">No fa res <marker>a l'actualitat</marker>.</example>
                 <example type="incorrect"><marker>A l'actualitat</marker> no fa res.</example>
+                <example type="incorrect">Ni al seu temps ni <marker>a l'actualitat</marker>.</example>
                 <example type="correct">Dels origens a l'actualitat.</example>
                 <example type="correct">Ha sobreviscut fins a l'actualitat.</example>
                 <example type="correct">Ara tornem a l'actualitat.</example>
