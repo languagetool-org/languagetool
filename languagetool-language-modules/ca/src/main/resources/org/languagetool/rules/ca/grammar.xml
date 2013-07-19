@@ -25,7 +25,7 @@ $Id$
     <!ENTITY exceptions_AL_FRONT "(?-i)matar|pelat|pelada|arruga|cabellera|cabell|cop|suor|petó|bes|besada|visera|taca|ditada|cara|mirada|lepra|cendra|marca|marcar|batalla|besar|voluntari|corona|bony|militar|enviar|caos|disparar|mocador|lligar|incorpor.*|ferir|expressió|cicatriu|exèrcit|mobilitzar|aigua|clavar|mà|co?lp|guerra|soldat|desaparèixer|afusell.*|empreson.*|reclut.*|morir|mort|vidu|orfe|viudo|traum.*">
     <!ENTITY exceptions_BE "crit|animal|porc|cabra|gallina|pastor|pastura|pasturar|bestiar|boví|vaca|gos|ramat|cleda|rabera|escorxar|escorxador|pasqual|llana">
     <!ENTITY excep_exceptions_BE "ben|prou|tan|que|si|ara|molt|per|i|o|ni|més|['-].+">
-    <!ENTITY exceptions_ALS_TRES_MESOS "per|fins|arribar|corresponent|proper|pròxim|inferior|superior">
+    <!ENTITY exceptions_ALS_TRES_MESOS "per|fins|arribar|corresponent|proper|pròxim|inferior|superior|referència">
     <!ENTITY exceptions_RECOLZAR "cap|espatll?a|cara|punta|marc|porta|contra|banc|mà|genoll|cama|colze|peu|braç|butaca|en|sobre|damunt|paret|escala|arbre|mur|esquena">   
     <!ENTITY exceptions_ASSENTAR_ASSEURE "geològi.*|pilar|bàvar|eslau|roca|ciutat|pedra|morter|tossal|muralla|castell|fonament|sòcol|plana|agricultor|poblat|sedentari.*|mite|història|sistema|producció|cultura|creença|judici|juí|teoria|illa|sobirania|fet|austral|base|categoria|colon|colonitz.*|colònia|comarca|comunitat|errant|est|fermament|habitant|hàbitat|medi|meridional|natural|nord|nord-est|nord-oest|nucli|nòmada|occident|occidental|oest|organització|orient|oriental|península|població|poblador|poblament|poblar|poble|província|puig|recurs|regió|regne|residència|rural|septentrional|societat|sud|sud-est|sud-oest|terra|territori|tribu|turó|tècnica|vall|vida|zona|ètnia|ètnic|principi|conducta|establir|distribució|genital|estructura|recinte|esplanada|pla|superfície">
     <!ENTITY exceptions_A_DIT_HA_DIT "concedir|crèdit|selecció|subvenció|atorgar|designar|designació|contractar|contractació|plaça|assignar|assignació|nomenar|nomenament|col·locar|col·locació|ajudicar|adjudicació|càrrec">
@@ -4946,6 +4946,30 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+    	<rule id="DRET_A_LLEI" name="*dret a llei/dreta llei">
+		    <pattern>
+		        <token><exception>amb</exception></token>
+		        <marker>
+			        <token>dret</token>
+			        <token>a</token>
+			        <token>llei</token>
+		        </marker>
+		    </pattern>
+		    <message>¿Volíeu dir <suggestion>dreta llei</suggestion>?</message>
+		    <short>Possible confusió</short>
+		    <example type="incorrect" correction="dreta llei">No li correspon a <marker>dret a llei</marker></example>
+		    <example type="correct">Amb dret a llei de dependència</example>
+		</rule>
+    	<rule id="A_HORABAIXA" name="a *horabaixa/hora baixa">
+		    <pattern>
+		        <token>a</token>
+		        <token>horabaixa</token>
+		    </pattern>
+		    <message>¿Volíeu dir <suggestion>a hora baixa</suggestion>?</message>
+		    <short>Possible confusió</short>
+		    <example type="incorrect" correction="a hora baixa">Avui <marker>a horabaixa</marker></example>
+		    <example type="correct">Va arribar a hora baixa</example>
+		</rule>
     	<rule id="ESPIRAL" name="espiral (nom femení)">
             <pattern>
                 <marker>
@@ -14567,13 +14591,13 @@ $Id$
                         <token postag="DN.*|DI.*" postag_regexp="yes"/>
                         <token regexp="yes">segons|minuts|dies|mesos</token>
                     </marker>
+                    <token><exception>que</exception></token>
                     <!-- eliminat: anys -->
                 </pattern>
                 <message>Incorrecte si equival a <suggestion>al cap de <match no="4"/> <match no="5"/></suggestion>.</message>
                 <suggestion><match no="4"/> <match no="5"/> després</suggestion>
                 <short>Expressió incorrecta</short>
-                <example type="incorrect" correction="Al cap de tres minuts|Tres minuts després"><marker>Als tres minuts</marker></example>
-                <example type="correct">Tres minuts després</example>
+                <example type="incorrect" correction="Al cap de tres minuts|Tres minuts després"><marker>Als tres minuts</marker> se n'anà.</example>
                 <example type="correct">corresponents als dotze mesos de l'any</example>
                 <example type="correct">L'ensenyament és gratuït i obligatori dels 6 als 15 anys.</example>
                 <example type="correct">L'ensenyament és gratuït i obligatori dels sis als quinze anys.</example>
@@ -14588,11 +14612,12 @@ $Id$
                         <token postag="DN.*|DI.*" postag_regexp="yes"/>
                         <token regexp="yes">setmanes|dècades</token>
                     </marker>
+                    <token><exception>que</exception></token>
                 </pattern>
                 <message>Incorrecte si equival a <suggestion>al cap de <match no="4"/> <match no="5"/></suggestion>.</message>
                 <suggestion><match no="4"/> <match no="5"/> després</suggestion>
                 <short>Expressió incorrecta</short>
-                <example type="incorrect" correction="Al cap de tres setmanes|Tres setmanes després"><marker>A les tres setmanes</marker></example>
+                <example type="incorrect" correction="Al cap de tres setmanes|Tres setmanes després"><marker>A les tres setmanes</marker> partí.</example>
                 <example type="correct"> respecte a les dues dècades anteriors</example>
             </rule>
             <rule>
@@ -14604,11 +14629,12 @@ $Id$
                         <token postag="DN.*|DI.*" postag_regexp="yes"><exception regexp="yes">[12]?\d(.[1-5]\d)?</exception></token>
                         <token>hores</token>
                     </marker>
+                    <token><exception>que</exception></token>
                 </pattern>
                 <message>Incorrecte si equival a <suggestion>al cap de <match no="4"/> <match no="5"/></suggestion>.</message>
                 <suggestion><match no="4"/> <match no="5"/> després</suggestion>
                 <short>Expressió incorrecta</short>
-                <example type="incorrect" correction="Al cap de tres hores|Tres hores després"><marker>A les tres hores</marker></example>
+                <example type="incorrect" correction="Al cap de tres hores|Tres hores després"><marker>A les tres hores</marker> se'n va anar.</example>
                 <example type="correct">A les 19.30 hores</example>
                 <example type="correct">A les 13.30 h obrirà l'exposició.</example>
             </rule>
@@ -17917,7 +17943,7 @@ $Id$
                     <token postag="DN.*|DI.*" postag_regexp="yes"/>
                     <token>anys</token>
 				</marker>
-                <token><exception regexp="yes">de|d'</exception></token>
+                <token><exception regexp="yes">de|d'|que</exception></token>
             </pattern>
             <message>Referit a l'edat d'una persona, també es pot dir <suggestion><match no="2"></match> <match no="4"/> <match no="5"/></suggestion>. És incorrecte si equival a <suggestion>al cap de <match no="4"></match> <match no="5"></match></suggestion>.</message>
             <suggestion><match no="4"></match> <match no="5"></match> després</suggestion>
@@ -17927,6 +17953,7 @@ $Id$
             <example type="correct">corresponents als dotze mesos de l'any</example>
             <example type="correct">L'ensenyament és gratuït i obligatori dels 6 als 15 anys.</example>
             <example type="correct">L'ensenyament és gratuït i obligatori dels sis als quinze anys.</example>
+            <example type="correct">Fa referència als tres anys que hi va dedicar</example>
         </rule>
         <rule id="VESSANT" name="vessant">
             <pattern>
