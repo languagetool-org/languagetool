@@ -11258,6 +11258,16 @@ $Id$
         </rulegroup>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="REEMPRENDRE" name="reemprendre"> 
+        <!-- "reemprendre" no és al diccionari, però es forma amb el prefix re+emprendre -->
+            <pattern>
+                <token inflected="yes">reemprendre</token>
+            </pattern>
+            <message>Cal usar el verb "reprendre".</message>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">reprendre</match></suggestion>
+            <example type="incorrect" correction="reprenguessis">Si <marker>reemprenguessis</marker> la iniciativa.</example>
+            <example type="correct">reprendre</example>
+        </rule>
         <rule id="DE_PERDUTS_AL_RIU" name="*de perduts al riu">
             <pattern>
                 <marker>
@@ -18901,6 +18911,17 @@ $Id$
                 <suggestion><match no="1" regexp_match="suboficial(.*)" regexp_replace="sotsoficial$1" /></suggestion>
                 <example type="incorrect" correction="sotsoficials"><marker>suboficials</marker></example>
                 <example type="correct">sotsoficial</example>
+            </rule>
+             <rule id="QUANTIOS" name="quantiós">
+                <pattern>
+                    <token inflected="yes">quantiós</token>
+                </pattern>
+                <message>Paraula admesa només en alguns diccionaris.</message>
+                <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">copiós</match></suggestion>
+                <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">abundós</match></suggestion>
+                <suggestion><match no="1" postag="AQ..(.)." postag_regexp="yes" postag_replace="AQ.C$1.">abundant</match></suggestion>    
+                <example type="incorrect" correction="copiosa|abundosa|abundant">Una <marker>quantiosa</marker> presènica d'autoritats.</example>
+                <example type="correct">una presència abundant</example>
             </rule>
             <rulegroup id="PAULATI" name="paulatí, paulatinament">
 	            <rule>
