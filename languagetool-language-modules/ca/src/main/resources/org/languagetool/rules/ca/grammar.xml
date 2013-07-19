@@ -32,6 +32,7 @@ $Id$
     <!ENTITY dies_setmana "dilluns|dimarts|dimecres|dijous|divendres|dissabte|diumenge">
     <!ENTITY ordes "agustinià|salesià|religiós|franciscà|benedictí|templari|cavalleresc|cistercenc|escolapi|monàstic|mercedari|teutònic|cartoixà|dominic|jerònim">
     <!ENTITY ordes_invariable "militar|major|menor|marista|jesuïta|regular">
+    <!ENTITY precedits_per_TAN "fort|(in)?comprensible|(in)?substancial|covard">
 ]>
     
 <rules lang="ca" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
@@ -3076,20 +3077,22 @@ $Id$
                 <example type="correct">Tant quan sigui així com quan no ho sigui.</example>
                 <example type="correct">De tant en tant altres qüestions apareixen</example>
             </rule>
-            <rule> <!-- mots que probablement són adjectius -->
+            <rule> 
+            <!-- mots que probablement són adjectius, 
+                 o que probablement requereixen "tan" (encara que vagin seguits per "com") -->
                 <pattern>
-                    <token negate="yes">per</token>
+                    <token><exception>per</exception></token>
                     <marker>
-                        <token>tant<exception postag="allow_tant|.*LOC_ADV.*" postag_regexp="yes"/></token>
+                        <token>tant<exception postag=".*LOC_ADV.*" postag_regexp="yes"/></token>
                     </marker>
-                    <token>fort</token>
+                    <token regexp="yes" inflected="yes">&precedits_per_TAN;</token>
                 </pattern>
-                <message>Davant d'adjectiu o adverbi cal escriure <suggestion>tan</suggestion>.</message>
+                <message>Probablement cal escriure <suggestion>tan</suggestion>.</message>
                 <short>Confusió</short>
                 <example type="incorrect" correction="tan">És <marker>tant</marker> fort.</example>
                 <example type="incorrect" correction="tan">Han estat <marker>tant</marker> fort.</example>
-                <example type="correct">És tan fort.</example>
-                <example type="correct">No és tant fort com hàbil.</example>
+                <example type="incorrect" correction="tan">És <marker>tant</marker> comprensible com inútil.</example>
+                <example type="correct">És tan fort.</example>       
             </rule>
             <rule>
                 <pattern>
@@ -3264,7 +3267,7 @@ $Id$
                     <marker>
                         <token>tan</token>
                     </marker>
-                    <token postag="AQ.[MC][SN].*|V.P.*SM.?" postag_regexp="yes" skip="10"><exception scope="next">tant</exception></token>
+                    <token postag="AQ.[MC][SN].*|V.P.*SM.?" postag_regexp="yes" skip="10"><exception scope="next">tant</exception><exception regexp="yes" inflected="yes">&precedits_per_TAN;</exception></token>
                     <token>com</token>
                     <token postag="AQ.[MC][SN].*|V.P.*SM.?" postag_regexp="yes"><exception>qualsevol</exception></token>
                 </pattern>
@@ -3275,14 +3278,14 @@ $Id$
                 <example type="correct">tan coneixedor com servidora</example>    
                 <example type="correct">es mostrava tan atent com qualsevol mare</example> 
                 <example type="correct">era tan inútil, o tan útil, com qualsevol altre nom</example> 
-                <!-- <example type="correct">és tan covard com oportunista.</example> -->
+                <example type="correct">és tan covard com oportunista.</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
                         <token>tan</token>
                     </marker>
-                    <token postag="AQ.[FC][SN].*|V.P.*SF.?" postag_regexp="yes" skip="10"/>
+                    <token postag="AQ.[FC][SN].*|V.P.*SF.?" postag_regexp="yes" skip="10"><exception regexp="yes" inflected="yes">&precedits_per_TAN;</exception></token>
                     <token>com</token>
                     <token postag="AQ.[FC][SN].*|V.P.*SF.?" postag_regexp="yes"><exception>qualsevol</exception></token>
                 </pattern>
@@ -3291,14 +3294,14 @@ $Id$
                 <example type="incorrect"><marker>tan</marker> física com estètica.</example>
                 <example type="correct">Tant física com estètica.</example>
                 <example type="correct">tan coneixedor com servidora</example> 
-                <!-- <example type="correct">tan substancial com allunyada</example> -->   
+                <example type="correct">tan substancial com allunyada</example>   
             </rule>
             <rule>
                 <pattern>
                     <marker>
                         <token>tan</token>
                     </marker>
-                    <token postag="AQ.[MC][PN].*|V.P.*PM.?" postag_regexp="yes" skip="10"/>
+                    <token postag="AQ.[MC][PN].*|V.P.*PM.?" postag_regexp="yes" skip="10"><exception regexp="yes" inflected="yes">&precedits_per_TAN;</exception></token>
                     <token>com</token>
                     <token postag="AQ.[MC][PN].*|V.P.*PM.?" postag_regexp="yes"><exception>qualssevol</exception></token>
                 </pattern>
@@ -3313,7 +3316,7 @@ $Id$
                     <marker>
                         <token>tan</token>
                     </marker>
-                    <token postag="AQ.[FC][PN].*|V.P.*PF.?" postag_regexp="yes" skip="10"/>
+                    <token postag="AQ.[FC][PN].*|V.P.*PF.?" postag_regexp="yes" skip="10"><exception regexp="yes" inflected="yes">&precedits_per_TAN;</exception></token>
                     <token>com</token>
                     <token postag="AQ.[FC][PN].*|V.P.*PF.?" postag_regexp="yes"><exception>qualssevol</exception></token>
                 </pattern>
