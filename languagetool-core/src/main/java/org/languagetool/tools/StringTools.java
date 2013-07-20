@@ -37,8 +37,6 @@ import java.util.regex.Pattern;
  */
 public final class StringTools {
 
-  private static final int DEFAULT_CONTEXT_SIZE = 25;  
-
   /**
    * Constants for printing XML rule matches.
    */
@@ -63,9 +61,9 @@ public final class StringTools {
     CONTINUE_XML
   }
 
+  private static final int DEFAULT_CONTEXT_SIZE = 25;
   private static final Pattern XML_COMMENT_PATTERN = Pattern.compile("<!--.*?-->", Pattern.DOTALL);
   private static final Pattern XML_PATTERN = Pattern.compile("(?<!<)<[^<>]+>", Pattern.DOTALL);
-
 
   private StringTools() {
     // only static stuff
@@ -79,38 +77,45 @@ public final class StringTools {
       throw new NullPointerException(varName + " cannot be null");
     }
     if (isEmpty(s.trim())) {
-      throw new IllegalArgumentException(varName
-          + " cannot be empty or whitespace only");
+      throw new IllegalArgumentException(varName + " cannot be empty or whitespace only");
     }
   }
 
   /**
    * Read a file's content.
+   * @deprecated use {@link #readStream(java.io.InputStream, String)} instead (deprecated since LT 2.3)
    */
   public static String readFile(final InputStream file) throws IOException {
     return readFile(file, null);
   }
 
   /**
-   * Read the text file using the given encoding.
-   * 
-   * @param file
-   *          InputStream to a file to be read
-   * @param encoding
-   *          the file's character encoding (e.g. <code>iso-8859-1</code>)
-   * @return a string with the file's content, lines separated by
-   *         <code>\n</code>
-   * @throws IOException
+   * Read the text stream using the given encoding.
+   *
+   * @deprecated use {@link #readStream(java.io.InputStream, String)} instead (deprecated since LT 2.3)
    */
-  public static String readFile(final InputStream file, final String encoding) throws IOException {
+  public static String readFile(final InputStream stream, final String encoding) throws IOException {
+    return readStream(stream, encoding);
+  }
+
+  /**
+   * Read the text stream using the given encoding.
+   *
+   * @param stream InputStream the stream to be read
+   * @param encoding the stream's character encoding, e.g. {@code utf-8}
+   * @return a string with the stream's content, lines separated by {@code \n}
+   * @throws IOException
+   * @since LanguageTool 2.3
+   */
+  public static String readStream(final InputStream stream, final String encoding) throws IOException {
     InputStreamReader isr = null;
     BufferedReader br = null;
     final StringBuilder sb = new StringBuilder();
     try {
       if (encoding == null) {
-        isr = new InputStreamReader(file);
+        isr = new InputStreamReader(stream);
       } else {
-        isr = new InputStreamReader(file, encoding);
+        isr = new InputStreamReader(stream, encoding);
       }
       br = new BufferedReader(isr);
       String line;
@@ -143,8 +148,8 @@ public final class StringTools {
    */
   public static boolean isMixedCase(final String str) {
     return !isAllUppercase(str)
-    && !isCapitalizedWord(str)
-    && !str.equals(str.toLowerCase());
+        && !isCapitalizedWord(str)
+        && !str.equals(str.toLowerCase());
   }
 
   /**
@@ -182,7 +187,7 @@ public final class StringTools {
    * determined as the first alphabetic character.
    */
   public static String uppercaseFirstChar(final String str) {
-      return changeFirstCharCase(str, true);
+    return changeFirstCharCase(str, true);
   }
 
   /**
@@ -192,7 +197,7 @@ public final class StringTools {
    * determined as the first alphabetic character.
    */
   public static String lowercaseFirstChar(final String str) {
-      return changeFirstCharCase(str, false);
+    return changeFirstCharCase(str, false);
   }
 
   /**
@@ -246,7 +251,7 @@ public final class StringTools {
     }
   }
 
-   public static String streamToString(final InputStream is, String charsetName) throws IOException {
+  public static String streamToString(final InputStream is, String charsetName) throws IOException {
     final InputStreamReader isr = new InputStreamReader(is, charsetName);
     try {
       return readerToString(isr);
@@ -256,7 +261,7 @@ public final class StringTools {
   } 
   
   /**
-   * Calls escapeHTML(String).
+   * Calls {@link #escapeHTML(String)}.
    */
   public static String escapeXML(final String s) {
     return escapeHTML(s);
@@ -272,22 +277,22 @@ public final class StringTools {
     for (int i = 0; i < n; i++) {
       final char c = s.charAt(i);
       switch (c) {
-      case '<':
-        sb.append("&lt;");
-        break;
-      case '>':
-        sb.append("&gt;");
-        break;
-      case '&':
-        sb.append("&amp;");
-        break;
-      case '"':
-        sb.append("&quot;");
-        break;
+        case '<':
+          sb.append("&lt;");
+          break;
+        case '>':
+          sb.append("&gt;");
+          break;
+        case '&':
+          sb.append("&amp;");
+          break;
+        case '"':
+          sb.append("&quot;");
+          break;
 
-      default:
-        sb.append(c);
-      break;
+        default:
+          sb.append(c);
+        break;
       }
     }
     return sb.toString();
@@ -296,11 +301,8 @@ public final class StringTools {
   /**
    * Get an XML representation of the given rule matches.
    * 
-   * @param text
-   *          the original text that was checked, used to get the context of the
-   *          matches
-   * @param contextSize
-   *          the desired context size in characters
+   * @param text the original text that was checked, used to get the context of the matches
+   * @param contextSize the desired context size in characters
    * @deprecated Use {@link #ruleMatchesToXML(List,String,int,XmlPrintMode)} instead
    */
   public static String ruleMatchesToXML(final List<RuleMatch> ruleMatches,
@@ -310,17 +312,12 @@ public final class StringTools {
 
   /**
    * Get an XML representation of the given rule matches.
-   * @param text
-   *          the original text that was checked, used to get the context of the
-   *          matches
-   * @param contextSize
-   *          the desired context size in characters
-   * @param xmlMode
-   *          how to print the XML
-   * @param lang
-   *          the language of the text (might be null)
-   * @param motherTongue
-   *          the mother tongue of the user (might be null)
+   *
+   * @param text the original text that was checked, used to get the context of the matches
+   * @param contextSize the desired context size in characters
+   * @param xmlMode how to print the XML
+   * @param lang the language of the text (might be null)
+   * @param motherTongue the mother tongue of the user (might be null)
    */
   public static String ruleMatchesToXML(final List<RuleMatch> ruleMatches,
       final String text, final int contextSize, final XmlPrintMode xmlMode,
@@ -404,11 +401,9 @@ public final class StringTools {
 
   /**
    * Get an XML representation of the given rule matches.
-   * @param text
-   *          the original text that was checked, used to get the context of the
-   *          matches
-   * @param contextSize
-   *          the desired context size in characters
+   *
+   * @param text the original text that was checked, used to get the context of the matches
+   * @param contextSize the desired context size in characters
    * @param xmlMode how to print the XML
    */
   public static String ruleMatchesToXML(final List<RuleMatch> ruleMatches,
@@ -480,8 +475,7 @@ public final class StringTools {
    * Filters any whitespace characters. Useful for trimming the contents of
    * token elements that cannot possibly contain any spaces.
    * 
-   * @param str
-   *          String to be filtered.
+   * @param str String to be filtered.
    * @return Filtered string.
    */
   public static String trimWhitespace(final String str) {
@@ -498,8 +492,7 @@ public final class StringTools {
   /**
    * Adds spaces before words that are not punctuation.
    * 
-   * @param word
-   *          Word to add the preceding space.
+   * @param word Word to add the preceding space.
    * @param language
    *          Language of the word (to check typography conventions). Currently
    *          French convention of not adding spaces only before '.' and ',' is
@@ -528,8 +521,7 @@ public final class StringTools {
    * Returns translation of the UI element without the control character "&". To
    * have "&" in the UI, use "&&".
    * 
-   * @param label
-   *          Label to convert.
+   * @param label Label to convert.
    * @return String UI element string without mnemonics.
    */
   public static String getLabel(final String label) {
@@ -541,22 +533,18 @@ public final class StringTools {
    * Returns the UI element string with mnemonics encoded in OpenOffice.org
    * convention (using "~").
    * 
-   * @param label
-   *          Label to convert
-   * @return String UI element with ~ replacing &.
+   * @param label Label to convert
+   * @return String UI element with {@code ~} replacing {@code &}.
    */
   public static String getOOoLabel(final String label) {
-    return label.replaceAll("&([^&])", "~$1").
-    replaceAll("&&", "&");
+    return label.replaceAll("&([^&])", "~$1").replaceAll("&&", "&");
   }
 
   /**
    * Returns mnemonic of a UI element.
    * 
-   * @param label
-   *          String Label of the UI element
-   * @return @char Mnemonic of the UI element, or \u0000 in case of no mnemonic
-   *         set.
+   * @param label String Label of the UI element
+   * @return @char Mnemonic of the UI element, or \u0000 in case of no mnemonic set.
    */
   public static char getMnemonic(final String label) {
     int mnemonicPos = label.indexOf('&');
@@ -606,22 +594,18 @@ public final class StringTools {
   }
 
   /**
-   * 
-   * @param ch
-   *          Character to check
-   * @return True if the character is a positive number (decimal digit from 1 to
-   *         9).
+   * @param ch Character to check
+   * @return True if the character is a positive number (decimal digit from 1 to 9).
    */
   public static boolean isPositiveNumber(final char ch) {
     return ch >= '1' && ch <= '9';
   }
 
   /**
-   * Helper method to replace calls to "".equals().
+   * Helper method to replace calls to {@code "".equals()}.
    * 
-   * @param str
-   *          String to check
-   * @return true if string is empty OR null
+   * @param str String to check
+   * @return true if string is empty or {@code null}
    */
   public static boolean isEmpty(final String str) {
     return str == null || str.length() == 0;
@@ -647,7 +631,7 @@ public final class StringTools {
   }
   
   /**
-   * Mimicks Java 1.7 Character.isAlphabetic() (needed as we require only 1.6)
+   * Mimicks Java 1.7 {@link Character#isAlphabetic} (needed as we require only Java 1.6)
    *  
    * @param codePoint The input character.
    * @return True if the character is a Unicode alphabetic character.
