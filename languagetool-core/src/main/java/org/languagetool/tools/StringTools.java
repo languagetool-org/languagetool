@@ -428,11 +428,19 @@ public final class StringTools {
     return sb.toString();
   }
 
+  /**
+   * Get a plain text context that uses {@code ^} characters in a new line as a marker of the
+   * given string region.
+   */
   public static String getContext(final int fromPos, final int toPos,
-      final String fileContents) {
-    return getContext(fromPos, toPos, fileContents, DEFAULT_CONTEXT_SIZE);
+      final String contents) {
+    return getContext(fromPos, toPos, contents, DEFAULT_CONTEXT_SIZE);
   }
 
+  /**
+   * Get a plain text context that uses {@code ^} characters in a new line as a marker of the
+   * given string region.
+   */
   public static String getContext(final int fromPos, final int toPos,
       final String contents, final int contextSize) {
     final String fileContents = contents.replace('\n', ' ');
