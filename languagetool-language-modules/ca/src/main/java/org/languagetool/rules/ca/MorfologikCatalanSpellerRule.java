@@ -27,17 +27,12 @@ import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 
 public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
 
-  //private static final String RESOURCE_FILENAME = "/ca/hunspell/ca_ES.dict";
   private static final String RESOURCE_FILENAME = "/ca/catalan.dict";
-  //private static final String FILE_NAME = "/ca/frequentwords.txt";
-  //private static final String FILE_ENCODING = "utf-8";
-  //private final List<String> frequentWords;
-  
-  public MorfologikCatalanSpellerRule(ResourceBundle messages,
-                                      Language language) throws IOException {
+
+  public MorfologikCatalanSpellerRule(ResourceBundle messages, Language language)
+      throws IOException {
     super(messages, language);
     this.setIgnoreTaggedWords();
-    //frequentWords=loadWords(FILE_NAME);
   }
 
   @Override
@@ -49,47 +44,5 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
   public String getId() {
     return "MORFOLOGIK_RULE_CA_ES";
   }
-  
- /* @Override
-  protected List<String> orderSuggestions(List<String> suggestions, String word) {
-    List<String> orderedSuggestions1 = new ArrayList<String>();
-    List<String> orderedSuggestions2 = new ArrayList<String>();
-    for (String suggestion : suggestions) {
-        if (frequentWords.contains(suggestion)) {
-          orderedSuggestions1.add(suggestion);
-        } else {
-          orderedSuggestions2.add(suggestion);
-        }      
-    }
-    List<String> orderedSuggestions = new ArrayList<String>();
-    orderedSuggestions.addAll(orderedSuggestions1);
-    orderedSuggestions.addAll(orderedSuggestions2);
-    return orderedSuggestions;
-  }*/
-  
-  /**
-   * Load words.
-   */
-  /*private List<String> loadWords(String fileName) throws IOException {
-    final ArrayList<String> list = new ArrayList<String>();
-    final InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(fileName);
-    final Scanner scanner = new Scanner(inputStream, FILE_ENCODING);
-    try {
-      while (scanner.hasNextLine()) {
-        final String line = scanner.nextLine().trim();
-        if (line.length() < 1) {
-          continue;
-        }
-        if (line.charAt(0) == '#') {      // ignore comments
-          continue;
-        }
-        list.add(line);
-      }
-    } finally {
-      scanner.close();
-    }
-    return list;
-  }*/
-  
 
 }
