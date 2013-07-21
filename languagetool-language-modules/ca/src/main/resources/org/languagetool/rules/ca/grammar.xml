@@ -4387,6 +4387,20 @@ $Id$
 	            <example type="correct">la Colònia del Cap el 1788</example>
 	            <example type="correct">Si així fos, hi cap la possibilitat de fer una numeració particular</example>
 	        </rule>
+	        <rule>
+	            <pattern>
+	                <token><exception regexp="yes">a|hi</exception><exception postag="V.*" postag_regexp="yes" inflected="yes">fer</exception></token>
+	                <marker>
+	                    <token>cap<exception postag="_GN_.*" postag_regexp="yes"/></token>    
+	                <token postag="DI.*" postag_regexp="yes" inflected="yes" regexp="yes">un|algun</token>
+	                </marker>
+	            </pattern>
+	            <message>¿Volíeu dir <suggestion>cap a <match no="3"/></suggestion>?</message>
+	            <example type="incorrect" correction="cap a un">Tot apunta <marker>cap un</marker> canvi.</example>
+	            <example type="incorrect" correction="cap a unes">Tot apunta <marker>cap unes</marker> eleccions.</example>
+	            <example type="correct">Ací no hi cap un bou</example>
+	            <!-- <example type="correct">Ací cap un bou?</example> -->
+	        </rule>
 	    </rulegroup>    
         <rulegroup id="DACI_A" name="d'ací a">
             <rule>
@@ -7775,7 +7789,20 @@ $Id$
                 <example type="incorrect">a <marker>coll-i-be</marker></example>
                 <example type="correct">a collibè</example>
             </rule>
-        </rulegroup>    
+        </rulegroup>
+        <rulegroup id="MOTS_NO_SEPARATS" name="mots no separats: *súper heroi">
+        	<rule>
+                <pattern>
+                    <token regexp="yes">s[úu]per</token>
+                    <token regexp="yes" inflected="yes">abundància|abundant|abundantment|abundar|àcid|aerodinàmica|axil·lar|calandratge|carburant|classe|clúster|complex|computació|computador|conductivitat|conductor|corda|crític|cúmul|dominància|dominant|dotat|ego|eminència|eminent|espècie|estatge|estructura|família|fecundació|femella|fluid|fluïdesa|fosfat|heterodí|heroi|home|humeral|índex|infecció|intendència|intendent|mascle|mercat|mortalitat|nova|numerari|ordre|òxid|plàstic|plasticitat|població|poblat|posar|posició|potència|producció|purgació|realisme|realista|simetria|sònic|substancial|tensió|visar|visió|visor|vivència|vivent</token>
+                </pattern>
+                <message>S'escriu junt.</message>
+                <suggestion>super<match no="3"/></suggestion>
+                <short>Error ortogràfic</short>
+                <example type="incorrect" correction="superherois">Tres <marker>súper herois</marker>.</example>
+                <example type="correct">El superheroi</example>
+            </rule>
+        </rulegroup>      
         <rulegroup id="CONTRACCIONS" name="contraccions">
             <rule>
                 <pattern>
@@ -10307,11 +10334,27 @@ $Id$
                         <token postag="PX.*" postag_regexp="yes"/>
                     </marker>
                 </pattern>
-                <message>Possible ús redudant. Escriu: <suggestion><match no="2"/> <match no="3"/></suggestion> o <suggestion> <match no="3"/> <match no="4"/></suggestion></message>
+                <message>Possible ús redudant.</message> 
+                <suggestion><match no="2"/> <match no="3"/></suggestion>
+                <suggestion> <match no="3"/> <match no="4"/></suggestion>
                 <short>Redundància</short>
                 <example type="incorrect">ser<marker>-ne el seu</marker> amic</example>
                 <example type="correct">van decidir fer-ne la seva residència permanent</example>
                 <example type="correct">diguem-ne la seva ànima</example>
+            </rule>
+            <rule id="ADONARSEN_DE" name="'en' redundant: adonar-se'n de/que">
+                <pattern>
+                    <marker>
+                        <token regexp="yes" skip="1">'n|n'</token>
+                    </marker>
+                    <token inflected="yes">adonar</token>
+                    <token regexp="yes">de|que<exception postag=".*LOC.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>El pronom 'en' probablement és redudant.</message>
+                <short>Redundància</short>
+                <example type="incorrect">Se<marker>'n</marker> va adonar de l'error.</example>
+                <example type="incorrect">Se <marker>n'</marker>adonà que era un error.</example>
+                <example type="correct">Se'n va adonar de seguida</example>
             </rule>
         </rulegroup>
         <rulegroup id="PRONOM_FEBLE_HI" name="Comprovacions del pronom feble 'hi'">
@@ -16919,7 +16962,7 @@ $Id$
                         <token regexp="yes">\p{Lu}.+</token>
 	                </marker>
 	            </pattern>
-	            <message>Correcte si equival a '<match no="1"/> <match no="3"/> <match no="2"/>'. Si no, potser cal dir: <suggestion><match no="1"/> <match no="2" postag=".+([MF][SP]).+" postag_regexp="yes" postag_replace="AQ0$10">mateix</match> <match no="3"/></suggestion>.</message>
+	            <message>Probablement cal dir: <suggestion><match no="1"/> <match no="2" postag=".+([MF][SP]).+" postag_regexp="yes" postag_replace="AQ0$10">mateix</match> <match no="3"/></suggestion>.</message>
 	            <url>http://esadir.cat/lexic/entrades/entry_20030718132249_829</url>
 	            <example type="incorrect" correction="el mateix Felber">Ho digué <marker>el propi Felber</marker>.</example>
 	            <example type="correct">Ho digué el mateix president.</example>
@@ -18062,6 +18105,7 @@ $Id$
                 <token>que</token>
             </pattern>
             <message>Alguns prefereixen usar <suggestion>a mesura que</suggestion>. Per a altres és acceptable.</message>
+            <url>http://esadir.cat/lexic/entrades/entry_20030718132249_7/view</url>
             <short>Expressió preferible</short>
             <example type="incorrect" correction="A mesura que"><marker>A mida que</marker> aneu eixint, pagueu.</example>
             <example type="correct">A mesura que eixiu, pagueu.</example>
