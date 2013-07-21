@@ -5661,6 +5661,16 @@ $Id$
             <example type="correct">ho va fer de mal grat</example>
             <example type="correct">que, de bon o mal grat, l'autoritat ha de tolerar</example>
         </rule>
+        <rule id="BEN_INTENCIONAT" name="*ben intencionat/benintencionat">
+            <pattern>
+                <token regexp="yes">ben|mal</token>
+                <token regexp="yes">intencionats?|intencionad(a|es)</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1"/><match no="2"/></suggestion>?</message>
+            <short>Possible confusió</short>
+            <example type="incorrect" correction="malintencionada">Una persona molt <marker>mal intencionada</marker></example>
+            <example type="correct">Ell és benintencionat.</example>
+        </rule>
         <rule id="BEN_VINGUT" name="ben vingut">
             <pattern>
                 <token>ben</token>
@@ -7881,16 +7891,17 @@ $Id$
 			</rule>
 			<rule>
 			    <pattern>
-			    	  <marker>
-			    	  <token>tot</token>
-			        <token regexp="yes">i|el</token>
-			        <token>què</token>
+			    	<token regexp="yes">tot|pe</token>
+				    <token regexp="yes">i|el|l</token>
+				    <marker>    
+				        <token>què</token>
 			        </marker>
 			        <token><exception>?</exception></token>
 			    </pattern>
-			    <message>Cal escriure <suggestion>tot <match no="2"/> que</suggestion>.</message>
+			    <message>Cal escriure <suggestion>que</suggestion>.</message>
 			    <short>Diacrític</short>
-			    <example type="incorrect" correction="tot i que"><marker>tot i què</marker> no m'interessa</example>
+			    <example type="incorrect" correction="que">tot i <marker>què</marker> no m'interessa</example>
+			    <example type="incorrect" correction="que">Pel <marker>què</marker> fa a això</example>
 			    <example type="correct">De tot el què?</example>
 			</rule>
             <rule>
@@ -11291,6 +11302,33 @@ $Id$
         </rulegroup>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+    	<rule id="POR_A_LES_ALCADES" name="*por a les alçades/por a les altures">
+            <pattern>
+                <marker>
+                    <token>por</token>
+                    <token regexp="yes">a|de</token>
+                    <token>les</token>
+                    <token>alçades</token>
+                </marker>
+            </pattern>
+            <message>Cal dir: <suggestion>por <match no="2"/> les altures</suggestion>.</message>
+            <short>Expressió incorrecta</short>
+            <example type="incorrect" correction="por a les altures">Tinc <marker>por a les alçades</marker></example>
+            <example type="correct">No té por de les altures.</example>
+        </rule>
+    	<rule id="VISTA_GROSSA" name="*fer la vista grossa/fer els ulls grossos">
+            <pattern>
+                <marker>
+                    <token>la</token>
+                    <token>vista</token>
+                    <token regexp="yes">gorda|grossa</token>
+                </marker>
+            </pattern>
+            <message>Cal dir <suggestion>els ulls grossos</suggestion>.</message>
+            <short>Expressió incorrecta</short>
+            <example type="incorrect" correction="els ulls grossos">No facis <marker>la vista grossa</marker></example>
+            <example type="correct">No fa mai els ulls grossos</example>
+        </rule>
     	<rule id="TENIR_AMB_COMPTE" name="tenir *amb/en compte">
             <pattern>
                 <token inflected="yes" skip="1">tenir</token>
@@ -18006,6 +18044,28 @@ $Id$
         </rule>
     </category>
     <category name="C7) Expressions preferibles" default="on" type="style">
+    	<rule id="LA_GRAN_PANTALLA" name="la gran pantalla/la pantalla gran">
+            <pattern>
+                <token>la</token>
+                <token regexp="yes">gran|petita</token>
+                <token>pantalla</token>
+            </pattern>
+            <message>Val més dir: <suggestion>la pantalla <match no="2"/></suggestion>.</message>
+            <short>Expressió preferible</short>
+            <example type="incorrect" correction="la pantalla gran">Ho veurem a <marker>la gran pantalla</marker>.</example>
+            <example type="correct">Ho veurem a la pantalla petita.</example>
+        </rule>
+    	<rule id="A_MIDA_QUE" name="a mida que/a mesura que">
+            <pattern>
+                <token>a</token>
+                <token>mida</token>
+                <token>que</token>
+            </pattern>
+            <message>Alguns prefereixen usar <suggestion>a mesura que</suggestion>. Per a altres és acceptable.</message>
+            <short>Expressió preferible</short>
+            <example type="incorrect" correction="A mesura que"><marker>A mida que</marker> aneu eixint, pagueu.</example>
+            <example type="correct">A mesura que eixiu, pagueu.</example>
+        </rule>
     	<rulegroup id="A_NIVELL" name="a nivell / a nivell de">
     		<rule>
     			<pattern>
@@ -19004,6 +19064,15 @@ $Id$
     </category>
     <category name="C6) Evita paraules incloses només en alguns diccionaris" default="on" type="style">
             <!--  verbs valencians: caquejar -->
+             <rule id="MANUALITAT" name="manualitat">
+                <pattern>
+                    <token regexp="yes">manualitats?</token>
+                </pattern>
+                <message>Paraula admesa només en alguns diccionaris.</message>
+                <suggestion>treball<match no="1" regexp_match="manualitat(.*)" regexp_replace="$1" /> manual<match no="1" regexp_match="manualitat(.*)" regexp_replace="$1" /></suggestion>
+                <example type="incorrect" correction="treballs manuals">Li agrada fer <marker>manualitats</marker>.</example>
+                <example type="correct">Classe de treballs manuals</example>
+            </rule>
             <rule id="SUBOFICIAL" name="suboficial">
                 <pattern>
                     <token regexp="yes">suboficials?</token>
