@@ -411,17 +411,11 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
     </rule>
     <rule>
       <pattern>
+        <token postag="SENT_START|C coor" postag_regexp="yes"/>
         <marker><token>e</token></marker>
         <token postag="N.*" postag_regexp="yes"/>
         <token>zo</token>
-      </pattern>
-      <disambig action="remove"><wd lemma="e" pos="P"/></disambig>
-    </rule>
-    <rule>
-      <pattern>
-        <marker><token>e</token></marker>
-        <token postag="N.*" postag_regexp="yes"/>
-        <token>zo</token>
+        <token postag="J"/>
       </pattern>
       <disambig action="remove"><wd lemma="e" pos="L e"/></disambig>
     </rule>
@@ -596,7 +590,7 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
     <rule>
       <pattern case_sensitive="yes">
         <marker><token>France</token></marker>
-        <token regexp="yes">[23]|Bleu</token>
+        <token regexp="yes">[23]|Bleu|Télécom</token>
       </pattern>
       <disambig action="immunize"/>
     </rule>
