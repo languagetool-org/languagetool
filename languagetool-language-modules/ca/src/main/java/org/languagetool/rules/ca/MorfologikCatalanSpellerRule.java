@@ -20,13 +20,8 @@
 package org.languagetool.rules.ca;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import org.apache.commons.lang.StringUtils;
 import org.languagetool.Language;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 
@@ -34,13 +29,15 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
 
   //private static final String RESOURCE_FILENAME = "/ca/hunspell/ca_ES.dict";
   private static final String RESOURCE_FILENAME = "/ca/catalan.dict";
-  private static final Pattern CHAR_PAIRS = Pattern.compile("ou|uo|bv|vb",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-  //|aà|eè|eé|ií|oó|oò|uú|iï|uü
+  //private static final String FILE_NAME = "/ca/frequentwords.txt";
+  //private static final String FILE_ENCODING = "utf-8";
+  //private final List<String> frequentWords;
   
   public MorfologikCatalanSpellerRule(ResourceBundle messages,
                                       Language language) throws IOException {
     super(messages, language);
     this.setIgnoreTaggedWords();
+    //frequentWords=loadWords(FILE_NAME);
   }
 
   @Override
@@ -53,54 +50,46 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
     return "MORFOLOGIK_RULE_CA_ES";
   }
   
-  @Override
-  protected List<String> getAdditionalSuggestions(List<String> suggestions, String word) {
-    final String wordWithoutDiacritics = removeAccents(word).toLowerCase(conversionLocale);
-    List<String> moreSuggestions = new ArrayList<String>();
-    //If few suggestions are found, try to get more from the word without diacritics and lowercase
-    if (suggestions.size() < 5 && !word.equals(wordWithoutDiacritics)) {
-      moreSuggestions = speller.getSuggestions(wordWithoutDiacritics);
-      if (!speller.isMisspelled(wordWithoutDiacritics)) {
-        moreSuggestions.add(wordWithoutDiacritics);
-      }
-    }
-    //Add non previously existing suggestions
-    for (String moreSuggestion : moreSuggestions) {
-      if (!suggestions.contains(moreSuggestion)) {
-        suggestions.add(moreSuggestion);
-      }
-    }
-    return suggestions;
-  }
-  
-  @Override
+ /* @Override
   protected List<String> orderSuggestions(List<String> suggestions, String word) {
     List<String> orderedSuggestions1 = new ArrayList<String>();
     List<String> orderedSuggestions2 = new ArrayList<String>();
-    String myWord = removeAccents(word);
     for (String suggestion : suggestions) {
-      int diffIdx = StringUtils.indexOfDifference(suggestion, myWord);
-      String dif = "";
-      if (diffIdx < 0) {
-        orderedSuggestions1.add(suggestion);
-      } else if (diffIdx < myWord.length() && diffIdx < suggestion.length()
-          && myWord.substring(diffIdx+1, myWord.length()).equals(suggestion.substring(diffIdx+1, suggestion.length()))) {
-        dif = myWord.substring(diffIdx, diffIdx+1);
-        dif += suggestion.substring(diffIdx, diffIdx+1);
-        Matcher mCharPairs = CHAR_PAIRS.matcher(dif);
-        if (mCharPairs.matches()) {
+        if (frequentWords.contains(suggestion)) {
           orderedSuggestions1.add(suggestion);
         } else {
           orderedSuggestions2.add(suggestion);
-        }
-      } else {
-        orderedSuggestions2.add(suggestion);
-      }      
+        }      
     }
     List<String> orderedSuggestions = new ArrayList<String>();
     orderedSuggestions.addAll(orderedSuggestions1);
     orderedSuggestions.addAll(orderedSuggestions2);
     return orderedSuggestions;
-  }
+  }*/
+  
+  /**
+   * Load words.
+   */
+  /*private List<String> loadWords(String fileName) throws IOException {
+    final ArrayList<String> list = new ArrayList<String>();
+    final InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(fileName);
+    final Scanner scanner = new Scanner(inputStream, FILE_ENCODING);
+    try {
+      while (scanner.hasNextLine()) {
+        final String line = scanner.nextLine().trim();
+        if (line.length() < 1) {
+          continue;
+        }
+        if (line.charAt(0) == '#') {      // ignore comments
+          continue;
+        }
+        list.add(line);
+      }
+    } finally {
+      scanner.close();
+    }
+    return list;
+  }*/
+  
 
 }

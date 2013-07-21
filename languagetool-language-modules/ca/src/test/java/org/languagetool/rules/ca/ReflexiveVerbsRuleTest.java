@@ -43,6 +43,7 @@ public class ReflexiveVerbsRuleTest extends TestCase {
 
 		//TODO: se'n vola / s'envola
 		// correct sentences:
+	  // Deixa'm dir-t'ho a l'orella
 		//assertCorrect("la festa de Rams es commemora anant a l'església a beneir el palmó");
 		//assertCorrect("les circumstàncies m'obliguen a gloriar-me"); Cal buscar la concordança amb (m')
 		//assertCorrect("es van agenollar i prosternar");

@@ -76,7 +76,7 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("McDonald")).length);
 
         //incorrect sentences:
-        //TODO: quna --> quan ?
+        //TODO: quna --> quan ?, uan --> una, Qie-Què, línees->línies
         
         matches = rule.match(langTool.getAnalyzedSentence("quna"));
         assertEquals(1, matches.length);
