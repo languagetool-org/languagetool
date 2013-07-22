@@ -18,6 +18,7 @@
  */
 package org.languagetool.dev.wikipedia;
 
+import org.apache.commons.lang.StringUtils;
 import org.languagetool.rules.RuleMatch;
 import xtc.tree.Location;
 
@@ -59,7 +60,7 @@ public class SuggestionReplacer {
    */
   public List<RuleMatchApplication> applySuggestionsToOriginalText(RuleMatch match) {
     final List<String> replacements = match.getSuggestedReplacements();
-    final boolean hasRealReplacements = replacements.size() > 0;
+    boolean hasRealReplacements = replacements.size() > 0;
     if (!hasRealReplacements) {
       // create a pseudo replacement with the error text itself
       String plainText = textMapping.getPlainText();
@@ -92,15 +93,25 @@ public class SuggestionReplacer {
       System.out.println(fromPos + "/" + toPos);
       System.out.println(contextFrom + "/" + contextTo + " @ " + originalText.length());*/
 
+      final String context = originalText.substring(contextFrom, contextTo);
       final String text = originalText.substring(0, contextFrom)
               + errorMarkerStart
-              + originalText.substring(contextFrom, contextTo)
+              + context
               + errorMarkerEnd
               + originalText.substring(contextTo);
+      String newContext;
+      if (StringUtils.countMatches(context, errorText) == 1) {
+        newContext = context.replace(errorText, replacement);
+      } else {
+        // This may happen especially for very short strings. As this is an
+        // error, we don't claim to have real replacements:
+        newContext = context;
+        hasRealReplacements = false;
+      }
       final String newText = originalText.substring(0, contextFrom)
-              // we do a simple string replacement as that works even if our mapping if off a bit:
+              // we do a simple string replacement as that works even if our mapping is off a bit:
               + errorMarkerStart
-              + originalText.substring(contextFrom, contextTo).replace(errorText, replacement)
+              + newContext
               + errorMarkerEnd
               + originalText.substring(contextTo);
       final RuleMatchApplication application;
