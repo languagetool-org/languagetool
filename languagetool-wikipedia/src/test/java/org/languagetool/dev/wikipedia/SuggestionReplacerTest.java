@@ -112,14 +112,14 @@ public class SuggestionReplacerTest extends TestCase {
     int oldPos = 0;
     for (RuleMatch match : matches) {
       SuggestionReplacer replacer = new SuggestionReplacer(mapping, markup, "<s>", "</s>");
-      List<RuleApplication> ruleApplications = replacer.applySuggestionsToOriginalText(match);
-      assertThat(ruleApplications.size(), is(1));
-      RuleApplication ruleApplication = ruleApplications.get(0);
-      assertThat(StringUtils.countMatches(ruleApplication.getTextWithCorrection(), "absichtlicher absichtlicher"), is(2));
-      int pos = ruleApplication.getTextWithCorrection().indexOf("<s>absichtlicher</s> Fehler");
+      List<RuleMatchApplication> ruleMatchApplications = replacer.applySuggestionsToOriginalText(match);
+      assertThat(ruleMatchApplications.size(), is(1));
+      RuleMatchApplication ruleMatchApplication = ruleMatchApplications.get(0);
+      assertThat(StringUtils.countMatches(ruleMatchApplication.getTextWithCorrection(), "absichtlicher absichtlicher"), is(2));
+      int pos = ruleMatchApplication.getTextWithCorrection().indexOf("<s>absichtlicher</s> Fehler");
       if (pos == -1) {
         // markup area varies because our mapping is sometimes a bit off:
-        pos = ruleApplication.getTextWithCorrection().indexOf("<s>absichtlicher Fehler</s>");
+        pos = ruleMatchApplication.getTextWithCorrection().indexOf("<s>absichtlicher Fehler</s>");
       }
       assertTrue("Found correction at: " + pos, pos > oldPos);
       oldPos = pos;
@@ -138,12 +138,12 @@ public class SuggestionReplacerTest extends TestCase {
     String markup = origMarkup;
     for (RuleMatch match : matches) {
       SuggestionReplacer replacer = new SuggestionReplacer(mapping, markup, "<s>", "</s>");
-      List<RuleApplication> ruleApplications = replacer.applySuggestionsToOriginalText(match);
-      if (ruleApplications.size() == 0) {
+      List<RuleMatchApplication> ruleMatchApplications = replacer.applySuggestionsToOriginalText(match);
+      if (ruleMatchApplications.size() == 0) {
         continue;
       }
-      RuleApplication ruleApplication = ruleApplications.get(0);
-      assertThat(StringUtils.countMatches(ruleApplication.getTextWithCorrection(), "<s>"), is(1));
+      RuleMatchApplication ruleMatchApplication = ruleMatchApplications.get(0);
+      assertThat(StringUtils.countMatches(ruleMatchApplication.getTextWithCorrection(), "<s>"), is(1));
     }
   }
 
@@ -159,9 +159,9 @@ public class SuggestionReplacerTest extends TestCase {
     List<RuleMatch> matches = langTool.check(mapping.getPlainText());
     assertThat("Expected 1 match, got: " + matches, matches.size(), is(1));
     SuggestionReplacer replacer = new SuggestionReplacer(mapping, text, "<s>", "</s>");
-    List<RuleApplication> ruleApplications = replacer.applySuggestionsToOriginalText(matches.get(0));
-    assertThat(ruleApplications.size(), is(1));
-    assertThat(ruleApplications.get(0).getTextWithCorrection(), is(expected));
+    List<RuleMatchApplication> ruleMatchApplications = replacer.applySuggestionsToOriginalText(matches.get(0));
+    assertThat(ruleMatchApplications.size(), is(1));
+    assertThat(ruleMatchApplications.get(0).getTextWithCorrection(), is(expected));
   }
 
 }

@@ -23,7 +23,7 @@ import org.languagetool.rules.RuleMatch;
 /**
  * Original text with a potential error and (one of) its applied corrections.
  */
-public class RuleApplication {
+public class RuleMatchApplication {
 
   private final RuleMatch ruleMatch;
   private final String text;
@@ -32,15 +32,15 @@ public class RuleApplication {
   private final String errorMarkerEnd;
   private final boolean hasRealReplacement;
 
-  static RuleApplication forMatchWithReplacement(RuleMatch ruleMatch, String text, String textWithCorrection, String errorMarkerStart, String errorMarkerEnd) {
-    return new RuleApplication(ruleMatch, text, textWithCorrection, errorMarkerStart, errorMarkerEnd, true);
+  static RuleMatchApplication forMatchWithReplacement(RuleMatch ruleMatch, String text, String textWithCorrection, String errorMarkerStart, String errorMarkerEnd) {
+    return new RuleMatchApplication(ruleMatch, text, textWithCorrection, errorMarkerStart, errorMarkerEnd, true);
   }
 
-  static RuleApplication forMatchWithoutReplacement(RuleMatch ruleMatch, String text, String textWithCorrection, String errorMarkerStart, String errorMarkerEnd) {
-    return new RuleApplication(ruleMatch, text, textWithCorrection, errorMarkerStart, errorMarkerEnd, false);
+  static RuleMatchApplication forMatchWithoutReplacement(RuleMatch ruleMatch, String text, String textWithCorrection, String errorMarkerStart, String errorMarkerEnd) {
+    return new RuleMatchApplication(ruleMatch, text, textWithCorrection, errorMarkerStart, errorMarkerEnd, false);
   }
 
-  private RuleApplication(RuleMatch ruleMatch, String text, String textWithCorrection, String errorMarkerStart, String errorMarkerEnd, boolean hasRealReplacement) {
+  private RuleMatchApplication(RuleMatch ruleMatch, String text, String textWithCorrection, String errorMarkerStart, String errorMarkerEnd, boolean hasRealReplacement) {
     if (!textWithCorrection.contains(errorMarkerStart)) {
       throw new IllegalArgumentException("No start error marker (" + errorMarkerEnd + ") found in text with correction");
     }

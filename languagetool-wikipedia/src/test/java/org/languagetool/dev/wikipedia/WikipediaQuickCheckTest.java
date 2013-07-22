@@ -44,10 +44,10 @@ public class WikipediaQuickCheckTest extends TestCase {
     for (AppliedRuleMatch ruleWithApplication : ruleWithApplications) {
       System.out.println("=====");
       System.out.println("Rule     : " + ruleWithApplication.getRuleMatch().getRule().getDescription() + "\n");
-      for (RuleApplication ruleApplication : ruleWithApplication.getRuleApplications()) {
-        System.out.println("Original : " + ruleApplication.getOriginalErrorContext(10).replace("\n", " "));
-        if (ruleApplication.hasRealReplacement()) {
-          System.out.println("Corrected: " + ruleApplication.getCorrectedErrorContext(10).replace("\n", " "));
+      for (RuleMatchApplication ruleMatchApplication : ruleWithApplication.getRuleMatchApplications()) {
+        System.out.println("Original : " + ruleMatchApplication.getOriginalErrorContext(10).replace("\n", " "));
+        if (ruleMatchApplication.hasRealReplacement()) {
+          System.out.println("Corrected: " + ruleMatchApplication.getCorrectedErrorContext(10).replace("\n", " "));
         }
         System.out.println();
       }
@@ -66,12 +66,12 @@ public class WikipediaQuickCheckTest extends TestCase {
     // even though this error has no suggestion, there's a (pseudo) correction:
     assertThat(ruleWithApplications.size(), is(1));
     final AppliedRuleMatch firstRuleWithApplications = ruleWithApplications.get(0);
-    assertThat(firstRuleWithApplications.getRuleApplications().size(), is(1));
-    RuleApplication ruleApplication = firstRuleWithApplications.getRuleApplications().get(0);
-    assertTrue("Got: " + ruleApplication.getTextWithCorrection(),
-            ruleApplication.getTextWithCorrection().contains("<span class=\"error\">wegen dem Leerzeichen.</span>"));
-    assertThat(ruleApplication.getOriginalErrorContext(10), is(" richtig, <span class=\"error\">wegen dem Leerzeichen.</span>"));
-    assertThat(ruleApplication.getCorrectedErrorContext(10), is(" richtig, <span class=\"error\">wegen dem Leerzeichen.</span>"));
+    assertThat(firstRuleWithApplications.getRuleMatchApplications().size(), is(1));
+    RuleMatchApplication ruleMatchApplication = firstRuleWithApplications.getRuleMatchApplications().get(0);
+    assertTrue("Got: " + ruleMatchApplication.getTextWithCorrection(),
+            ruleMatchApplication.getTextWithCorrection().contains("<span class=\"error\">wegen dem Leerzeichen.</span>"));
+    assertThat(ruleMatchApplication.getOriginalErrorContext(10), is(" richtig, <span class=\"error\">wegen dem Leerzeichen.</span>"));
+    assertThat(ruleMatchApplication.getCorrectedErrorContext(10), is(" richtig, <span class=\"error\">wegen dem Leerzeichen.</span>"));
   }
 
   public void testGetFilteredWikiContent() {

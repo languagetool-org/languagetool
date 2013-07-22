@@ -28,23 +28,23 @@ import java.util.List;
 public class AppliedRuleMatch {
 
   private final RuleMatch ruleMatch;
-  private final List<RuleApplication> ruleApplications;
+  private final List<RuleMatchApplication> ruleMatchApplications;
 
-  public AppliedRuleMatch(RuleMatch ruleMatch, List<RuleApplication> ruleApplications) {
+  public AppliedRuleMatch(RuleMatch ruleMatch, List<RuleMatchApplication> ruleMatchApplications) {
     this.ruleMatch = ruleMatch;
-    this.ruleApplications = ruleApplications;
+    this.ruleMatchApplications = ruleMatchApplications;
   }
 
   public RuleMatch getRuleMatch() {
     return ruleMatch;
   }
 
-  public List<RuleApplication> getRuleApplications() {
-    return ruleApplications;
+  public List<RuleMatchApplication> getRuleMatchApplications() {
+    return ruleMatchApplications;
   }
 
   @Override
   public String toString() {
-    return ruleMatch + ":" + ruleApplications;
+    return ruleMatch + ":" + ruleMatchApplications;
   }
 }

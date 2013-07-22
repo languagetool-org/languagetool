@@ -57,7 +57,7 @@ public class SuggestionReplacer {
    * have no suggestion, a pseudo-correction is generated that contains the same
    * text as before.
    */
-  public List<RuleApplication> applySuggestionsToOriginalText(RuleMatch match) {
+  public List<RuleMatchApplication> applySuggestionsToOriginalText(RuleMatch match) {
     final List<String> replacements = match.getSuggestedReplacements();
     final boolean hasRealReplacements = replacements.size() > 0;
     if (!hasRealReplacements) {
@@ -66,7 +66,7 @@ public class SuggestionReplacer {
       replacements.add(plainText.substring(match.getFromPos(), match.getToPos()));
     }
 
-    final List<RuleApplication> ruleApplications = new ArrayList<RuleApplication>();
+    final List<RuleMatchApplication> ruleMatchApplications = new ArrayList<RuleMatchApplication>();
     final Location fromPosLocation = textMapping.getOriginalTextPositionFor(match.getFromPos() + 1);  // not zero-based!
     final Location toPosLocation = textMapping.getOriginalTextPositionFor(match.getToPos() + 1);
 
@@ -103,15 +103,15 @@ public class SuggestionReplacer {
               + originalText.substring(contextFrom, contextTo).replace(errorText, replacement)
               + errorMarkerEnd
               + originalText.substring(contextTo);
-      final RuleApplication application;
+      final RuleMatchApplication application;
       if (hasRealReplacements) {
-        application = RuleApplication.forMatchWithReplacement(match, text, newText, errorMarkerStart, errorMarkerEnd);
+        application = RuleMatchApplication.forMatchWithReplacement(match, text, newText, errorMarkerStart, errorMarkerEnd);
       } else {
-        application = RuleApplication.forMatchWithoutReplacement(match, text, newText, errorMarkerStart, errorMarkerEnd);
+        application = RuleMatchApplication.forMatchWithoutReplacement(match, text, newText, errorMarkerStart, errorMarkerEnd);
       }
-      ruleApplications.add(application);
+      ruleMatchApplications.add(application);
     }
-    return ruleApplications;
+    return ruleMatchApplications;
   }
 
   int findNextWhitespaceToTheRight(String text, int position) {

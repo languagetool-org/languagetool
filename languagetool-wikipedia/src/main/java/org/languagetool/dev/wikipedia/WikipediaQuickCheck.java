@@ -108,8 +108,8 @@ public class WikipediaQuickCheck {
     for (RuleMatch match : matches) {
       final SuggestionReplacer replacer = new SuggestionReplacer(mapping, wikiContent.getContent());
       try {
-        final List<RuleApplication> ruleApplications = replacer.applySuggestionsToOriginalText(match);
-        appliedMatches.add(new AppliedRuleMatch(match, ruleApplications));
+        final List<RuleMatchApplication> ruleMatchApplications = replacer.applySuggestionsToOriginalText(match);
+        appliedMatches.add(new AppliedRuleMatch(match, ruleMatchApplications));
       } catch (Exception e) {
         System.err.println("Failed to apply suggestion for rule match '" + match + "' for URL " + url + ": " + e.toString());
         internalErrors++;
