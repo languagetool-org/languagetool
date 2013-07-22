@@ -102,19 +102,20 @@ public class WikipediaQuickCheck {
     final SwebleWikipediaTextFilter filter = new SwebleWikipediaTextFilter();
     final PlainTextMapping mapping = filter.filter(wikiContent.getContent());
     final JLanguageTool langTool = getLanguageTool(language);
-    final List<RuleApplication> ruleApplications = new ArrayList<RuleApplication>();
+    final List<AppliedRuleMatch> appliedMatches = new ArrayList<AppliedRuleMatch>();
     final List<RuleMatch> matches = langTool.check(mapping.getPlainText());
     int internalErrors = 0;
     for (RuleMatch match : matches) {
       final SuggestionReplacer replacer = new SuggestionReplacer(mapping, wikiContent.getContent());
       try {
-        ruleApplications.addAll(replacer.applySuggestionsToOriginalText(match));
+        final List<RuleApplication> ruleApplications = replacer.applySuggestionsToOriginalText(match);
+        appliedMatches.add(new AppliedRuleMatch(match, ruleApplications));
       } catch (Exception e) {
         System.err.println("Failed to apply suggestion for rule match '" + match + "' for URL " + url + ": " + e.toString());
         internalErrors++;
       }
     }
-    return new MarkupAwareWikipediaResult(wikiContent, ruleApplications, internalErrors);
+    return new MarkupAwareWikipediaResult(wikiContent, appliedMatches, internalErrors);
   }
 
   public WikipediaQuickCheckResult checkPage(String plainText, Language lang) throws IOException {

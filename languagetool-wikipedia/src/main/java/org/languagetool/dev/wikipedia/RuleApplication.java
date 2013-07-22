@@ -21,7 +21,7 @@ package org.languagetool.dev.wikipedia;
 import org.languagetool.rules.RuleMatch;
 
 /**
- * Original text with a potential error and a its correction.
+ * Original text with a potential error and (one of) its applied corrections.
  */
 public class RuleApplication {
 
@@ -93,5 +93,10 @@ public class RuleApplication {
 
   public boolean hasRealReplacement() {
     return hasRealReplacement;
+  }
+
+  @Override
+  public String toString() {
+    return ruleMatch.toString();
   }
 }

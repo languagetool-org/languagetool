@@ -27,17 +27,17 @@ import java.util.List;
 public class MarkupAwareWikipediaResult {
 
   private final MediaWikiContent originalWikiMarkup;
-  private final List<RuleApplication> ruleApplications;
+  private final List<AppliedRuleMatch> appliedRuleMatch;
   private final int internalErrors;
 
-  public MarkupAwareWikipediaResult(MediaWikiContent wikiContent, List<RuleApplication> ruleApplications, int internalErrors) {
+  public MarkupAwareWikipediaResult(MediaWikiContent wikiContent, List<AppliedRuleMatch> appliedRuleMatch, int internalErrors) {
     this.originalWikiMarkup = wikiContent;
-    this.ruleApplications = ruleApplications;
+    this.appliedRuleMatch = appliedRuleMatch;
     this.internalErrors = internalErrors;
   }
 
-  public List<RuleApplication> getRuleApplications() {
-    return ruleApplications;
+  public List<AppliedRuleMatch> getRuleApplications() {
+    return appliedRuleMatch;
   }
 
   /**
