@@ -69,12 +69,12 @@ public class WikipediaQuickCheckTest extends TestCase {
     assertThat(firstAppliedMatch.getRuleMatchApplications().size(), is(1));
     RuleMatchApplication ruleMatchApplication = firstAppliedMatch.getRuleMatchApplications().get(0);
     assertTrue("Got: " + ruleMatchApplication.getTextWithCorrection(),
-            ruleMatchApplication.getTextWithCorrection().contains("<span class=\"error\">wegen dem Leerzeichen.</span>"));
-    assertThat(ruleMatchApplication.getOriginalErrorContext(10), is(" richtig, <span class=\"error\">wegen dem Leerzeichen.</span>"));
-    assertThat(ruleMatchApplication.getCorrectedErrorContext(10), is(" richtig, <span class=\"error\">wegen dem Leerzeichen.</span>"));
+            ruleMatchApplication.getTextWithCorrection().contains("<span class=\"error\">wegen dem</span> Leerzeichen."));
+    assertThat(ruleMatchApplication.getOriginalErrorContext(10), is(" richtig, <span class=\"error\">wegen dem</span> Le"));
+    assertThat(ruleMatchApplication.getCorrectedErrorContext(10), is(" richtig, <span class=\"error\">wegen dem</span> Le"));
   }
 
-  public void testGetFilteredWikiContent() {
+  public void testGetPlainText() {
     final WikipediaQuickCheck check = new WikipediaQuickCheck();
     final String filteredContent = check.getPlainText(
             "<?xml version=\"1.0\"?><api><query><normalized><n from=\"Benutzer_Diskussion:Dnaber\" to=\"Benutzer Diskussion:Dnaber\" />" +
@@ -104,7 +104,7 @@ public class WikipediaQuickCheckTest extends TestCase {
     assertEquals(15, filteredContent.getOriginalTextPositionFor(11).column);
   }
 
-  public void testGetPlainTextMappingMultiLine() {
+  public void testGetPlainTextMappingMultiLine1() {
     final WikipediaQuickCheck check = new WikipediaQuickCheck();
     final String text = "Test [[Link]] und [[AnotherLink|noch einer]].\nUnd [[NextLink]] Foobar.\n";
     final PlainTextMapping filteredContent = check.getPlainTextMapping(
@@ -123,8 +123,8 @@ public class WikipediaQuickCheckTest extends TestCase {
     assertEquals(2, filteredContent.getOriginalTextPositionFor(27).line);
 
     assertEquals(45, filteredContent.getOriginalTextPositionFor(25).column);
-    assertEquals(46, filteredContent.getOriginalTextPositionFor(26).column);
-    assertEquals(1, filteredContent.getOriginalTextPositionFor(27).column);
+    assertEquals(1, filteredContent.getOriginalTextPositionFor(26).column);
+    assertEquals(2, filteredContent.getOriginalTextPositionFor(27).column);
   }
 
   public void testGetPlainTextMappingMultiLine2() {
@@ -145,8 +145,8 @@ public class WikipediaQuickCheckTest extends TestCase {
     assertEquals(3, filteredContent.getOriginalTextPositionFor(28).line);
     assertEquals(45, filteredContent.getOriginalTextPositionFor(25).column);
     assertEquals(46, filteredContent.getOriginalTextPositionFor(26).column);
-    assertEquals(1, filteredContent.getOriginalTextPositionFor(27).column);
-    assertEquals(2, filteredContent.getOriginalTextPositionFor(28).column);
+    assertEquals(47, filteredContent.getOriginalTextPositionFor(27).column);
+    assertEquals(1, filteredContent.getOriginalTextPositionFor(28).column);
   }
 
   public void testRemoveInterLanguageLinks() {

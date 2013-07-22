@@ -369,7 +369,7 @@ public class TextConverter extends Visitor {
 
   private void addMapping(Locatable loc) {
     String contentSoFar = sb.toString() + line;
-    int textPos = contentSoFar.length() + 1 + (needSpace ? 1 : 0);
+    int textPos = contentSoFar.length() + needNewlines + 1;
     if (loc.hasLocation()) {
       mapping.put(textPos, loc.getLocation());
       //System.out.println("PUT " + textPos + " -> " + loc.getLocation());

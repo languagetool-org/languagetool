@@ -22,6 +22,8 @@ import junit.framework.TestCase;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.language.English;
 import org.languagetool.language.GermanyGerman;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.de.GermanSpellerRule;
@@ -62,6 +64,20 @@ public class SuggestionReplacerTest extends TestCase {
             "  {{FNZ|2|[[Rundungsfehler]]}}\n" +
             "}}\n\nEin ökonomischer Gottesdienst.\n";
     applySuggestion(langTool, filter, markup, markup.replace("ökonomischer", "<s>ökumenisch</s>"));
+  }
+
+  public void testErrorAtTextBeginning() throws Exception {
+    JLanguageTool langTool = getLanguageTool(new English());
+    SwebleWikipediaTextFilter filter = new SwebleWikipediaTextFilter();
+    String markup = "A hour ago\n";
+    applySuggestion(langTool, filter, markup, markup.replace("A", "<s>An</s>"));
+  }
+
+  public void testErrorAtParagraphBeginning() throws Exception {
+    JLanguageTool langTool = getLanguageTool(new English());
+    SwebleWikipediaTextFilter filter = new SwebleWikipediaTextFilter();
+    String markup = "X\n\nA hour ago\n";
+    applySuggestion(langTool, filter, markup, markup.replace("A", "<s>An</s>"));
   }
 
   public void testKnownBug() throws Exception {
@@ -148,9 +164,14 @@ public class SuggestionReplacerTest extends TestCase {
   }
 
   private JLanguageTool getLanguageTool() throws IOException {
-    JLanguageTool langTool = new JLanguageTool(new GermanyGerman());
-    langTool.activateDefaultPatternRules();
+    JLanguageTool langTool = getLanguageTool(new GermanyGerman());
     langTool.disableRule("DE_CASE");
+    return langTool;
+  }
+
+  private JLanguageTool getLanguageTool(Language language) throws IOException {
+    JLanguageTool langTool = new JLanguageTool(language);
+    langTool.activateDefaultPatternRules();
     return langTool;
   }
 

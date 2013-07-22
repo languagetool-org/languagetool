@@ -88,10 +88,10 @@ public class SuggestionReplacer {
       final int contextTo = findNextWhitespaceToTheRight(originalText, toPos);
 
       /*System.out.println(match + ":");
-      System.out.println(match.getFromPos() + "/" + match.getToPos());
-      System.out.println(fromPosLocation + "/" + toPosLocation);
-      System.out.println(fromPos + "/" + toPos);
-      System.out.println(contextFrom + "/" + contextTo + " @ " + originalText.length());*/
+      System.out.println("match.getFrom/ToPos(): " + match.getFromPos() + "/" + match.getToPos());
+      System.out.println("from/toPosLocation: " + fromPosLocation + "/" + toPosLocation);
+      System.out.println("from/toPos: " + fromPos + "/" + toPos);
+      System.out.println("contextFrom/To: " + contextFrom + "/" + contextTo);*/
 
       final String context = originalText.substring(contextFrom, contextTo);
       final String text = originalText.substring(0, contextFrom)
@@ -140,7 +140,7 @@ public class SuggestionReplacer {
         return i + 1;
       }
     }
-    return 1;
+    return 0;
   }
 
 }
