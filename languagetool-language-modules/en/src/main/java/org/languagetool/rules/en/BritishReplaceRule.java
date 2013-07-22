@@ -19,9 +19,11 @@
 package org.languagetool.rules.en;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import org.apache.commons.lang.StringUtils;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
 
 /**
@@ -62,10 +64,11 @@ public class BritishReplaceRule extends AbstractSimpleReplaceRule {
   public String getShort() {
     return "American word";
   }
-
+  
   @Override
-  public String getSuggestion() {
-    return " is a common American expression, in British English it is more common to use: ";
+  public String getMessage(String tokenStr, List<String> replacements) {
+    return tokenStr + " is a common American expression, in British English it is more common to use: "
+        + StringUtils.join(replacements, ", ") + ".";
   }
 
   /**

@@ -19,9 +19,11 @@
 package org.languagetool.rules.pl;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import org.apache.commons.lang.StringUtils;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
 
 /**
@@ -64,10 +66,11 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
   public String getShort() {
     return "Literówka";
   }
-
+  
   @Override
-  public String getSuggestion() {
-    return " to typowa literówka, poprawnie: ";
+  public String getMessage(String tokenStr, List<String> replacements) {
+    return tokenStr + " to typowa literówka, poprawnie: "
+        + StringUtils.join(replacements, ", ") + ".";
   }
 
   /**
