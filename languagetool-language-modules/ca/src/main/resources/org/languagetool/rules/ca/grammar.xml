@@ -15466,6 +15466,20 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="PUES_DONCS" name="*pues/doncs">
+		    <pattern>
+		        <token><exception postag="SPS00|CC" postag_regexp="yes"/></token>
+		        <marker>
+		            <token>pues<exception postag="_GN_FP"/></token>
+		        </marker>
+		    </pattern>
+		    <message>Si és conjunció, cal dir <suggestion>doncs</suggestion>. Correcte com a plural de 'pua'.</message>
+		    <short>Possible castellanisme</short>
+		    <example type="incorrect">i la teologia, <marker>pues</marker> a ningú se li oculta</example>
+		    <example type="correct">Un grapat de pues</example>
+		    <example type="correct">Les pues d'una pinta</example>
+		    <example type="correct">Amb pintes o pues</example>
+		</rule>
         <rule id="ACERA" name="*acera/vorera">
         	<pattern>
         		<token regexp="yes">acer(a|es)</token>
