@@ -429,8 +429,7 @@ public final class StringTools {
   }
 
   /**
-   * Get a plain text context that uses {@code ^} characters in a new line as a marker of the
-   * given string region.
+   * @deprecated use {@link ContextTools#getPlainTextContext(int, int, String, int)} instead (deprecated since LanguageTool 2.3)
    */
   public static String getContext(final int fromPos, final int toPos,
       final String contents) {
@@ -438,45 +437,12 @@ public final class StringTools {
   }
 
   /**
-   * Get a plain text context that uses {@code ^} characters in a new line as a marker of the
-   * given string region.
+   * @deprecated use {@link ContextTools#getPlainTextContext(int, int, String, int)} instead (deprecated since LanguageTool 2.3)
    */
   public static String getContext(final int fromPos, final int toPos,
       final String contents, final int contextSize) {
-    final String fileContents = contents.replace('\n', ' ');
-    // calculate context region:
-    int startContent = fromPos - contextSize;
-    String prefix = "...";
-    String postfix = "...";
-    String markerPrefix = "   ";
-    if (startContent < 0) {
-      prefix = "";
-      markerPrefix = "";
-      startContent = 0;
-    }
-    int endContent = toPos + contextSize;
-    if (endContent > fileContents.length()) {
-      postfix = "";
-      endContent = fileContents.length();
-    }
-    // make "^" marker. inefficient but robust implementation:
-    final StringBuilder marker = new StringBuilder();
-    for (int i = 0; i < fileContents.length() + prefix.length(); i++) {
-      if (i >= fromPos && i < toPos) {
-        marker.append('^');
-      } else {
-        marker.append(' ');
-      }
-    }
-    // now build context string plus marker:
-    final StringBuilder sb = new StringBuilder();
-    sb.append(prefix);
-    sb.append(fileContents.substring(startContent, endContent));
-    sb.append(postfix);
-    sb.append('\n');
-    sb.append(markerPrefix);
-    sb.append(marker.substring(startContent, endContent));
-    return sb.toString();
+    ContextTools contextTools = new ContextTools();
+    return contextTools.getPlainTextContext(fromPos, toPos, contents, contextSize);
   }
 
   /**

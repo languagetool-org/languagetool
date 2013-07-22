@@ -35,6 +35,7 @@ import org.languagetool.Language;
 import org.languagetool.language.German;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.tools.ContextTools;
 import org.languagetool.tools.StringTools;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
@@ -47,8 +48,9 @@ import org.xml.sax.helpers.DefaultHandler;
 public class WikipediaQuickCheck {
 
   private static final Pattern WIKIPEDIA_URL_REGEX = Pattern.compile("https?://(..)\\.wikipedia\\.org/wiki/(.*)"); 
-  private static final Pattern SECURE_WIKIPEDIA_URL_REGEX = Pattern.compile("https://secure\\.wikimedia\\.org/wikipedia/(..)/wiki/(.*)"); 
-    
+  private static final Pattern SECURE_WIKIPEDIA_URL_REGEX = Pattern.compile("https://secure\\.wikimedia\\.org/wikipedia/(..)/wiki/(.*)");
+  private static final int CONTEXT_SIZE = 25;
+
   private List<String> disabledRuleIds = new ArrayList<String>();
 
   public String getMediaWikiContent(URL wikipediaUrl) throws IOException {
@@ -209,9 +211,10 @@ public class WikipediaQuickCheck {
     final String mediaWikiContent = check.getMediaWikiContent(url);
     final String plainText = check.getPlainText(mediaWikiContent);
     final WikipediaQuickCheckResult checkResult = check.checkPage(plainText, new German());
+    final ContextTools contextTools = new ContextTools();
     for (RuleMatch ruleMatch : checkResult.getRuleMatches()) {
       System.out.println(ruleMatch.getMessage());
-      final String context = StringTools.getContext(ruleMatch.getFromPos(), ruleMatch.getToPos(), checkResult.getText());
+      final String context = contextTools.getPlainTextContext(ruleMatch.getFromPos(), ruleMatch.getToPos(), checkResult.getText(), CONTEXT_SIZE);
       System.out.println(context);
     }
   }

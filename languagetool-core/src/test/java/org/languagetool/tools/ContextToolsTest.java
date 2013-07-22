@@ -30,6 +30,13 @@ public class ContextToolsTest extends TestCase {
     assertEquals("xxx<b><font bgcolor=\"#ff8b8b\">&nbsp;&nbsp;</font></b> yyy", context2);
   }
 
+  public void testPlainTextContext() throws Exception {
+    final ContextTools contextTools = new ContextTools();
+    final String input = "This is a test sentence. Here's another sentence with more text.";
+    final String result = contextTools.getPlainTextContext(8, 14, input, 5);
+    assertEquals("...s is a test sent...\n        ^^^^^^     ", result);
+  }
+
   public void testLargerContext() throws Exception {
     final ContextTools contextTools = new ContextTools();
     contextTools.setContextSize(100);

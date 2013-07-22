@@ -25,6 +25,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.PatternRule;
+import org.languagetool.tools.ContextTools;
 import org.languagetool.tools.StringTools;
 
 /**
@@ -33,6 +34,8 @@ import org.languagetool.tools.StringTools;
  * @author Daniel Naber
  */
 class OutputDumpHandler extends BaseWikipediaDumpHandler {
+
+    private static final ContextTools contextTools = new ContextTools();
 
     OutputDumpHandler(JLanguageTool lt, Date dumpDate, String langCode,
             Language lang) {
@@ -65,7 +68,7 @@ class OutputDumpHandler extends BaseWikipediaDumpHandler {
           if (!replacements.isEmpty()) {
             System.out.println("Suggestion: " + StringTools.listToString(replacements, "; "));
           }
-          System.out.println(StringTools.getContext(match.getFromPos(), match.getToPos(), text, CONTEXT_SIZE));
+          System.out.println(contextTools.getPlainTextContext(match.getFromPos(), match.getToPos(), text, CONTEXT_SIZE));
           i++;
           errorCount++;
           if (maxErrors > 0 && errorCount >= maxErrors) {
