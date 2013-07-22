@@ -19,9 +19,11 @@
 package org.languagetool.rules.gl;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import org.apache.commons.lang.StringUtils;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
 
 /**
@@ -66,10 +68,11 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
   public String getShort() {
     return "Erros léxicos";
   }
-
+  
   @Override
-  public String getSuggestion() {
-    return " non existe en galego. Talvez quería vostede dicir: ";
+  public String getMessage(String tokenStr, List<String> replacements) {
+    return tokenStr + " non existe en galego. Talvez quería vostede dicir: "
+        + StringUtils.join(replacements, ", ") + ".";
   }
 
   /**

@@ -19,9 +19,11 @@
 package org.languagetool.rules.gl;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import org.apache.commons.lang.StringUtils;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
 
 /**
@@ -66,10 +68,11 @@ public class CastWordsRule extends AbstractSimpleReplaceRule {
   public String getShort() {
     return "Castelanismos léxicos";
   }
-
+  
   @Override
-  public String getSuggestion() {
-    return " é un castelanismo. Empregue no seu sitio: ";
+  public String getMessage(String tokenStr, List<String> replacements) {
+    return tokenStr + " é un castelanismo. Empregue no seu sitio: "
+        + StringUtils.join(replacements, ", ") + ".";
   }
 
   /**
