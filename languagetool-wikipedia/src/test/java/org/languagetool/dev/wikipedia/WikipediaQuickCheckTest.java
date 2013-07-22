@@ -39,12 +39,12 @@ public class WikipediaQuickCheckTest extends TestCase {
     //final String url = "http://de.wikipedia.org/wiki/Bielefeld";
     final String url = "http://de.wikipedia.org/wiki/Augsburg";
     final MarkupAwareWikipediaResult result = check.checkPage(new URL(url));
-    final List<AppliedRuleMatch> ruleWithApplications = result.getAppliedRuleMatches();
-    System.out.println("ruleApplications: " + ruleWithApplications.size());
-    for (AppliedRuleMatch ruleWithApplication : ruleWithApplications) {
+    final List<AppliedRuleMatch> appliedMatches = result.getAppliedRuleMatches();
+    System.out.println("ruleApplications: " + appliedMatches.size());
+    for (AppliedRuleMatch appliedMatch : appliedMatches) {
       System.out.println("=====");
-      System.out.println("Rule     : " + ruleWithApplication.getRuleMatch().getRule().getDescription() + "\n");
-      for (RuleMatchApplication ruleMatchApplication : ruleWithApplication.getRuleMatchApplications()) {
+      System.out.println("Rule     : " + appliedMatch.getRuleMatch().getRule().getDescription() + "\n");
+      for (RuleMatchApplication ruleMatchApplication : appliedMatch.getRuleMatchApplications()) {
         System.out.println("Original : " + ruleMatchApplication.getOriginalErrorContext(10).replace("\n", " "));
         if (ruleMatchApplication.hasRealReplacement()) {
           System.out.println("Corrected: " + ruleMatchApplication.getCorrectedErrorContext(10).replace("\n", " "));
@@ -62,12 +62,12 @@ public class WikipediaQuickCheckTest extends TestCase {
     final MediaWikiContent wikiContent = new MediaWikiContent(markup, "2012-11-11T20:00:00");
     final MarkupAwareWikipediaResult result = check.checkWikipediaMarkup(new URL("http://fake-url.org"), wikiContent, new German());
     assertThat(result.getLastEditTimestamp(), is("2012-11-11T20:00:00"));
-    final List<AppliedRuleMatch> ruleWithApplications = result.getAppliedRuleMatches();
+    final List<AppliedRuleMatch> appliedMatches = result.getAppliedRuleMatches();
     // even though this error has no suggestion, there's a (pseudo) correction:
-    assertThat(ruleWithApplications.size(), is(1));
-    final AppliedRuleMatch firstRuleWithApplications = ruleWithApplications.get(0);
-    assertThat(firstRuleWithApplications.getRuleMatchApplications().size(), is(1));
-    RuleMatchApplication ruleMatchApplication = firstRuleWithApplications.getRuleMatchApplications().get(0);
+    assertThat(appliedMatches.size(), is(1));
+    final AppliedRuleMatch firstAppliedMatch = appliedMatches.get(0);
+    assertThat(firstAppliedMatch.getRuleMatchApplications().size(), is(1));
+    RuleMatchApplication ruleMatchApplication = firstAppliedMatch.getRuleMatchApplications().get(0);
     assertTrue("Got: " + ruleMatchApplication.getTextWithCorrection(),
             ruleMatchApplication.getTextWithCorrection().contains("<span class=\"error\">wegen dem Leerzeichen.</span>"));
     assertThat(ruleMatchApplication.getOriginalErrorContext(10), is(" richtig, <span class=\"error\">wegen dem Leerzeichen.</span>"));
