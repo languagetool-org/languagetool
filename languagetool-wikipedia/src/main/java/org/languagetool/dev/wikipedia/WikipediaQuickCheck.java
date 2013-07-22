@@ -212,9 +212,10 @@ public class WikipediaQuickCheck {
     final String plainText = check.getPlainText(mediaWikiContent);
     final WikipediaQuickCheckResult checkResult = check.checkPage(plainText, new German());
     final ContextTools contextTools = new ContextTools();
+    contextTools.setContextSize(CONTEXT_SIZE);
     for (RuleMatch ruleMatch : checkResult.getRuleMatches()) {
       System.out.println(ruleMatch.getMessage());
-      final String context = contextTools.getPlainTextContext(ruleMatch.getFromPos(), ruleMatch.getToPos(), checkResult.getText(), CONTEXT_SIZE);
+      final String context = contextTools.getPlainTextContext(ruleMatch.getFromPos(), ruleMatch.getToPos(), checkResult.getText());
       System.out.println(context);
     }
   }

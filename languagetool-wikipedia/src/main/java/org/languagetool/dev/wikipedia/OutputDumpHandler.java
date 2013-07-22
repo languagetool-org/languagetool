@@ -40,6 +40,7 @@ class OutputDumpHandler extends BaseWikipediaDumpHandler {
     OutputDumpHandler(JLanguageTool lt, Date dumpDate, String langCode,
             Language lang) {
       super(lt, dumpDate, langCode, lang);
+      contextTools.setContextSize(CONTEXT_SIZE);
     }
     
     @Override
@@ -68,7 +69,7 @@ class OutputDumpHandler extends BaseWikipediaDumpHandler {
           if (!replacements.isEmpty()) {
             System.out.println("Suggestion: " + StringTools.listToString(replacements, "; "));
           }
-          System.out.println(contextTools.getPlainTextContext(match.getFromPos(), match.getToPos(), text, CONTEXT_SIZE));
+          System.out.println(contextTools.getPlainTextContext(match.getFromPos(), match.getToPos(), text));
           i++;
           errorCount++;
           if (maxErrors > 0 && errorCount >= maxErrors) {

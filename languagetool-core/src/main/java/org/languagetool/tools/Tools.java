@@ -158,6 +158,7 @@ public final class Tools {
       final int prevMatches, final String contents, final int contextSize) {
     int i = 1;
     final ContextTools contextTools = new ContextTools();
+    contextTools.setContextSize(contextSize);
     for (final RuleMatch match : ruleMatches) {
       String output = i + prevMatches + ".) Line " + (match.getLine() + 1) + ", column "
         + match.getColumn() + ", Rule ID: " + match.getRule().getId();
@@ -175,7 +176,7 @@ public final class Tools {
         System.out.println("Suggestion: "
             + StringTools.listToString(replacements, "; "));
       }
-      System.out.println(contextTools.getPlainTextContext(match.getFromPos(), match.getToPos(), contents, contextSize));
+      System.out.println(contextTools.getPlainTextContext(match.getFromPos(), match.getToPos(), contents));
       if (match.getRule().getUrl() != null) {
     	  System.out.println("More info: " + 
     			  match.getRule().getUrl().toString());

@@ -32,8 +32,9 @@ public class ContextToolsTest extends TestCase {
 
   public void testPlainTextContext() throws Exception {
     final ContextTools contextTools = new ContextTools();
+    contextTools.setContextSize(5);
     final String input = "This is a test sentence. Here's another sentence with more text.";
-    final String result = contextTools.getPlainTextContext(8, 14, input, 5);
+    final String result = contextTools.getPlainTextContext(8, 14, input);
     assertEquals("...s is a test sent...\n        ^^^^^^     ", result);
   }
 

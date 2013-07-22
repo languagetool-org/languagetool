@@ -429,20 +429,23 @@ public final class StringTools {
   }
 
   /**
-   * @deprecated use {@link ContextTools#getPlainTextContext(int, int, String, int)} instead (deprecated since LanguageTool 2.3)
+   * @deprecated use {@link ContextTools#getPlainTextContext(int, int, String)} instead (deprecated since LanguageTool 2.3)
    */
   public static String getContext(final int fromPos, final int toPos,
       final String contents) {
-    return getContext(fromPos, toPos, contents, DEFAULT_CONTEXT_SIZE);
+    final ContextTools contextTools = new ContextTools();
+    contextTools.setContextSize(DEFAULT_CONTEXT_SIZE);
+    return contextTools.getPlainTextContext(fromPos, toPos, contents);
   }
 
   /**
-   * @deprecated use {@link ContextTools#getPlainTextContext(int, int, String, int)} instead (deprecated since LanguageTool 2.3)
+   * @deprecated use {@link ContextTools#getPlainTextContext(int, int, String)} instead (deprecated since LanguageTool 2.3)
    */
   public static String getContext(final int fromPos, final int toPos,
       final String contents, final int contextSize) {
-    ContextTools contextTools = new ContextTools();
-    return contextTools.getPlainTextContext(fromPos, toPos, contents, contextSize);
+    final ContextTools contextTools = new ContextTools();
+    contextTools.setContextSize(contextSize);
+    return contextTools.getPlainTextContext(fromPos, toPos, contents);
   }
 
   /**

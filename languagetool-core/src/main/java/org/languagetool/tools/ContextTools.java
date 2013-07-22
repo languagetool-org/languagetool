@@ -31,8 +31,8 @@ public class ContextTools {
   public ContextTools() {
   }
 
-  public String getContext(final int fromPos, final int toPos, String text) {
-    text = text.replace('\n', ' ');
+  public String getContext(final int fromPos, final int toPos, final String contents) {
+    final String text = contents.replace('\n', ' ');
     // calculate context region:
     int startContent = fromPos - contextSize;
     String prefix = "...";
@@ -49,16 +49,7 @@ public class ContextTools {
       postfix = "";
       endContent = textLength;
     }
-    // make "^" marker. inefficient but robust implementation:
-    final StringBuilder marker = new StringBuilder();
-    final int totalLen = textLength + prefix.length();
-    for (int i = 0; i < totalLen; i++) {
-      if (i >= fromPos && i < toPos) {
-        marker.append('^');
-      } else {
-        marker.append(' ');
-      }
-    }
+    final StringBuilder marker = getMarker(fromPos, toPos, textLength + prefix.length());
     // now build context string plus marker:
     final StringBuilder sb = new StringBuilder();
     sb.append(prefix);
@@ -86,12 +77,11 @@ public class ContextTools {
 
   /**
    * Get a plain text context that uses {@code ^} characters in a new line as a marker of the
-   * given string region.
+   * given string region. Ignores {@link #setEscapeHtml(boolean)}.
    * @since 2.3
    */
-  public String getPlainTextContext(final int fromPos, final int toPos,
-                                  final String contents, final int contextSize) {
-    final String fileContents = contents.replace('\n', ' ');
+  public String getPlainTextContext(final int fromPos, final int toPos, final String contents) {
+    final String text = contents.replace('\n', ' ');
     // calculate context region:
     int startContent = fromPos - contextSize;
     String prefix = "...";
@@ -103,23 +93,15 @@ public class ContextTools {
       startContent = 0;
     }
     int endContent = toPos + contextSize;
-    if (endContent > fileContents.length()) {
+    if (endContent > text.length()) {
       postfix = "";
-      endContent = fileContents.length();
+      endContent = text.length();
     }
-    // make "^" marker. inefficient but robust implementation:
-    final StringBuilder marker = new StringBuilder();
-    for (int i = 0; i < fileContents.length() + prefix.length(); i++) {
-      if (i >= fromPos && i < toPos) {
-        marker.append('^');
-      } else {
-        marker.append(' ');
-      }
-    }
+    final StringBuilder marker = getMarker(fromPos, toPos, text.length() + prefix.length());
     // now build context string plus marker:
     final StringBuilder sb = new StringBuilder();
     sb.append(prefix);
-    sb.append(fileContents.substring(startContent, endContent));
+    sb.append(text.substring(startContent, endContent));
     sb.append(postfix);
     sb.append('\n');
     sb.append(markerPrefix);
@@ -141,5 +123,18 @@ public class ContextTools {
 
   public void setEscapeHtml(boolean escapeHtml) {
     this.escapeHtml = escapeHtml;
+  }
+
+  private StringBuilder getMarker(int fromPos, int toPos, int textLength) {
+    // make "^" marker. inefficient but robust implementation:
+    final StringBuilder marker = new StringBuilder();
+    for (int i = 0; i < textLength; i++) {
+      if (i >= fromPos && i < toPos) {
+        marker.append('^');
+      } else {
+        marker.append(' ');
+      }
+    }
+    return marker;
   }
 }
