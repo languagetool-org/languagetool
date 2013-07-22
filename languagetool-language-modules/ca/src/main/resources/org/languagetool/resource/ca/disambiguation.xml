@@ -7522,6 +7522,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="add"><wd pos="_loc_enma"/></disambig>
     </rule>
+    <rule id="verbnom_andana" name="verb/nom -> nom: andana">
+        <pattern>
+            <marker>
+                <and>
+                    <token postag="VM[ISM].*" postag_regexp="yes" regexp="yes">andan(a|es)</token>
+                    <token postag="NC.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/></token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="NC.*|_GN_.."></disambig>
+    </rule>
     <rule id="VerbNom" name="verb i nom que no ha concordat"> <!-- Això fou estrany -->
         <pattern>
             <token><exception postag="V.[MSI].*|_GV_|R[GN]|.*LOC_ADV.*|C.*|_PUNCT.*" postag_regexp="yes"/><exception regexp="yes">["“«'‘(]</exception><exception inflected="yes" regexp="yes">mot|paraula|terme|expressió|vocable|nom|tipus</exception></token>
