@@ -39,7 +39,7 @@ public class WikipediaQuickCheckTest extends TestCase {
     //final String url = "http://de.wikipedia.org/wiki/Bielefeld";
     final String url = "http://de.wikipedia.org/wiki/Augsburg";
     final MarkupAwareWikipediaResult result = check.checkPage(new URL(url));
-    final List<AppliedRuleMatch> ruleWithApplications = result.getRuleApplications();
+    final List<AppliedRuleMatch> ruleWithApplications = result.getAppliedRuleMatches();
     System.out.println("ruleApplications: " + ruleWithApplications.size());
     for (AppliedRuleMatch ruleWithApplication : ruleWithApplications) {
       System.out.println("=====");
@@ -62,7 +62,7 @@ public class WikipediaQuickCheckTest extends TestCase {
     final MediaWikiContent wikiContent = new MediaWikiContent(markup, "2012-11-11T20:00:00");
     final MarkupAwareWikipediaResult result = check.checkWikipediaMarkup(new URL("http://fake-url.org"), wikiContent, new German());
     assertThat(result.getLastEditTimestamp(), is("2012-11-11T20:00:00"));
-    final List<AppliedRuleMatch> ruleWithApplications = result.getRuleApplications();
+    final List<AppliedRuleMatch> ruleWithApplications = result.getAppliedRuleMatches();
     // even though this error has no suggestion, there's a (pseudo) correction:
     assertThat(ruleWithApplications.size(), is(1));
     final AppliedRuleMatch firstRuleWithApplications = ruleWithApplications.get(0);

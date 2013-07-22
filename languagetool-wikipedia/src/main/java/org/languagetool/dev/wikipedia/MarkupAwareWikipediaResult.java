@@ -36,7 +36,7 @@ public class MarkupAwareWikipediaResult {
     this.internalErrors = internalErrors;
   }
 
-  public List<AppliedRuleMatch> getRuleApplications() {
+  public List<AppliedRuleMatch> getAppliedRuleMatches() {
     return appliedRuleMatch;
   }
 
