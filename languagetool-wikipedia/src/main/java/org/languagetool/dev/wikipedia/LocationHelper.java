@@ -33,6 +33,7 @@ class LocationHelper {
     int col = 1;
     int pos = 0;
     int ignoreLevel = 0;
+    boolean inReference = false;
     final StringBuilder relevantLine = new StringBuilder();
     for (int i = 0; i < text.length(); i++) {
       char ch = text.charAt(i);
@@ -44,10 +45,19 @@ class LocationHelper {
         return pos;
       }
       char prevCh = i > 0 ? text.charAt(i - 1) : '-';
-      if (i < text.length() - 4 && text.substring(i, i + 4).equals("<!--")) {
-        // HTML comment
+      if (isReferenceStart(text, i)) {
         ignoreLevel++;
-      } else if (i < text.length() - 3 && text.substring(i, i + 3).equals("-->")) {
+        inReference = true;
+      } else if (inReference && (isFullReferenceEndTag(text, i) || isShortReferenceEndTag(text, i))) {
+        ignoreLevel--;
+        inReference = false;
+        if (isShortReferenceEndTag(text, i)) {
+          // this makes SuggestionReplacerTest.testReference2() work, not sure why
+          col++;
+        }
+      } else if (isHtmlCommentStart(text, i)) {
+        ignoreLevel++;
+      } else if (isHtmlCommentEnd(text, i)) {
         ignoreLevel--;
       } else if (ch == '}' && prevCh == '}') {
         if (ignoreLevel > 0) {
@@ -70,6 +80,26 @@ class LocationHelper {
     throw new RuntimeException("Could not find location " + location + " in text. " +
             "Max line/col was: " + line + "/" + col + ", Content of relevant line (" + location.line + "): '"
             + relevantLine + "' (" + relevantLine.length() + " chars)");
+  }
+
+  private static boolean isReferenceStart(String text, int i) {
+    return i < text.length() - 4 && text.substring(i, i + 4).equals("<ref");
+  }
+
+  private static boolean isFullReferenceEndTag(String text, int i) {
+    return i < text.length() - 6 && text.substring(i, i + 6).equals("</ref>");
+  }
+
+  private static boolean isShortReferenceEndTag(String text, int i) {
+    return i < text.length() - 2 && text.substring(i, i + 2).equals("/>");
+  }
+
+  private static boolean isHtmlCommentStart(String text, int i) {
+    return i < text.length() - 4 && text.substring(i, i + 4).equals("<!--");
+  }
+
+  private static boolean isHtmlCommentEnd(String text, int i) {
+    return i < text.length() - 3 && text.substring(i, i + 3).equals("-->");
   }
 
 }

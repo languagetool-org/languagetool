@@ -66,6 +66,21 @@ public class SuggestionReplacerTest extends TestCase {
     applySuggestion(langTool, filter, markup, markup.replace("ökonomischer", "<s>ökumenisch</s>"));
   }
 
+  public void testReference1() throws Exception {
+    JLanguageTool langTool = getLanguageTool();
+    SwebleWikipediaTextFilter filter = new SwebleWikipediaTextFilter();
+    String markup = "Hier <ref name=isfdb>\n" +
+            "Retrieved 2012-07-31.</ref> steht der Haus.";
+    applySuggestion(langTool, filter, markup, markup.replace("steht der Haus.", "<s>steht der Haus.</s>"));
+  }
+
+  public void testReference2() throws Exception {
+    JLanguageTool langTool = getLanguageTool();
+    SwebleWikipediaTextFilter filter = new SwebleWikipediaTextFilter();
+    String markup = "Hier <ref name=\"NPOVxxx\" /> steht der Haus.";
+    applySuggestion(langTool, filter, markup, markup.replace("steht der Haus.", "steht <s>der Haus.</s>"));
+  }
+
   public void testErrorAtTextBeginning() throws Exception {
     JLanguageTool langTool = getLanguageTool(new English());
     SwebleWikipediaTextFilter filter = new SwebleWikipediaTextFilter();
