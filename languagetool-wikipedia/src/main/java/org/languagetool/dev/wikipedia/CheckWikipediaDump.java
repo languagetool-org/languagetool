@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -109,6 +110,7 @@ public class CheckWikipediaDump {
 
   private void run(File propFile, Set<String> disabledRules, String langCode, String xmlFileName, String[] ruleIds, int maxArticles, int maxErrors)
       throws IOException, SAXException, ParserConfigurationException {
+    final long startTime = System.currentTimeMillis();
     final File file = new File(xmlFileName);
     if (!file.exists() || !file.isFile()) {
       throw new IOException("File doesn't exist or isn't a file: " + xmlFileName);
@@ -147,6 +149,7 @@ public class CheckWikipediaDump {
         final float matchesPerDoc = (float)xmlHandler.getRuleMatchCount() / xmlHandler.getArticleCount();
         System.out.printf(lang + ": %d total matches\n", xmlHandler.getRuleMatchCount());
         System.out.printf(lang + ": ø%.2f rule matches per document\n", matchesPerDoc);
+        System.out.printf(lang + ": %s total runtime\n", getRunTime(startTime));
         xmlHandler.close();
       }
     }
@@ -209,6 +212,14 @@ public class CheckWikipediaDump {
     } catch (ParseException e) {
       throw new IOException("Unexpected date format '" + parts[1] + "', must be yyyymmdd", e);
     }
+  }
+
+  private String getRunTime(long startTime) {
+    final long runtime = System.currentTimeMillis() - startTime;
+    return String.format("%02d:%02d",
+            TimeUnit.MILLISECONDS.toMinutes(runtime),
+            TimeUnit.MILLISECONDS.toSeconds(runtime) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(runtime))
+    );
   }
 
 }
