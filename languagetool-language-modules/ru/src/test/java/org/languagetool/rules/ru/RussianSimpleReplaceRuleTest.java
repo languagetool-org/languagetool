@@ -43,6 +43,9 @@ public class RussianSimpleReplaceRuleTest extends TestCase {
 		JLanguageTool langTool = new JLanguageTool(new Russian());
 		
 		// correct sentences:
+    matches = rule.match(langTool.getAnalyzedSentence("Рост кораллов тут самый быстрый,"));
+    assertEquals(0, matches.length);
+		
 		matches = rule.match(langTool.getAnalyzedSentence("Книга была порвана."));
 		assertEquals(0, matches.length);
 
