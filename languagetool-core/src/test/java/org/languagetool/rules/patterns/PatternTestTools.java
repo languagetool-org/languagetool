@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2013 Marcin Miłkowski (www.languagetool.org)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -28,8 +28,8 @@ import java.util.regex.Pattern;
 import org.languagetool.Language;
 
 /**
- * Common pattern test routines (usable for Disambiguation rules as well). 
- * 
+ * Common pattern test routines (usable for Disambiguation rules as well).
+ *
  * @author Marcin Miłkowski
  */
 public class PatternTestTools {
@@ -40,15 +40,13 @@ public class PatternTestTools {
     // as indicating a probable regular expression.
     private static final Pattern PROBABLE_PATTERN_PL_POS = Pattern.compile(".*([^*]\\*|[+?{}()|\\[\\]].*|\\\\d).*");
 
-    private static final Pattern EMPTY_DISJUNCTION = Pattern.compile("^[|]|[|][|]|[|]$");
     private static final Pattern CHAR_SET_PATTERN = Pattern.compile("(\\(\\?-i\\))?.*(?<!\\\\)\\[^?([^\\]]+)\\]");
 
-    
     // TODO: probably this would be more useful for exceptions
     // instead of adding next methods to PatternRule
     // we can probably validate using XSD and specify regexes straight there
     public static void warnIfRegexpSyntaxNotKosher(final List<Element> elements,
-            final String ruleId,final String ruleSubId, final Language lang) {      
+            final String ruleId,final String ruleSubId, final Language lang) {
         int i = 0;
         for (final Element element : elements) {
           i++;
@@ -73,7 +71,7 @@ public class PatternTestTools {
             element.getPOStag() == null ? "" : element.getPOStag(),
             element.isPOStagRegularExpression(),
             element.getCaseSensitive(),
-            element.getPOSNegation(),            
+            element.getPOSNegation(),
             false,
             true,   // a POS.
             lang, ruleId + ":" + ruleSubId + " (POS tag)",
@@ -82,14 +80,34 @@ public class PatternTestTools {
           final List<Element> exceptionElements = new ArrayList<Element>();
           if (element.getExceptionList() != null) {
             for (final Element exception: element.getExceptionList()) {
-              // Detect useless exception or missing skip="...".
+              // Detect useless exception or missing skip="...". I.e. things like this:
+              // <token postag="..."><exception scope="next">foo</exception</token>
               if (exception.hasNextException() && element.getSkipNext() == 0) {
                 System.err.println("The " + lang.toString() + " rule: "
                     + ruleId + ":" + ruleSubId
                     + " (exception in token [" + i + "])"
                     + " has no skip=\"...\" and yet contains scope=\"next\""
-                    + " so the exception never applies. "
+                    + " so the exception never applies."
                     + " Did you forget skip=\"...\"?");
+              }
+
+              // Detect exception that can't possibly be matched. Example:
+              // <token>foo<exception>bar</exception></token>
+              // This could be improved to detect for example useless
+              // exception in :
+              // <token regexp="yes">foo|bar<exception>xxx</exception></token>
+              if (!element.isRegularExpression()
+                && !element.getString().isEmpty()
+                && !element.getNegation()
+                && !element.isInflected()
+                && element.getSkipNext() == 0
+                && element.getPOStag() == null
+                && exception.getPOStag() == null
+                && element.getCaseSensitive() == exception.getCaseSensitive()) {
+                System.err.println("The " + lang.toString() + " rule: "
+                    + ruleId + ":" + ruleSubId
+                    + " exception in token [" + i + "] seems useless."
+                    + " Did you forget skip=\"...\" or scope=\"previous\"?");
               }
 
               // Check whether exception value is consistent with regexp="..."
@@ -122,7 +140,7 @@ public class PatternTestTools {
               // Search for duplicate exceptions (which are useless).
               // Since there are 2 nested loops on the list of exceptions,
               // this has thus a O(n^2) complexity, where n is the number
-              // of exception in a token. But n is small and it is also
+              // of exceptions in a token. But n is small and it is also
               // for testing only so that's OK.
               for (final Element otherException: exceptionElements) {
                 if (equalException(exception, otherException)) {
@@ -141,7 +159,7 @@ public class PatternTestTools {
             }
           }
         }
-      
+
     }
 
     /**
@@ -253,11 +271,6 @@ public class PatternTestTools {
                 + "regular expression \".*\" which is useless: "
                 + "(use an empty string without regexp=\"yes\" such as <token/>)");
           }
-          if (isRegularExpression && stringValue.contains("||")) {
-            System.err.println("The " + lang.toString() + " rule: "
-                + ruleId + ", token [" + tokenIndex + "], marked as regular expression contains "
-                + " '||', which is probably wrong");
-          }
 
           if (isRegularExpression) {
             final Matcher matcher = CHAR_SET_PATTERN.matcher(stringValue);
@@ -294,44 +307,45 @@ public class PatternTestTools {
                 }
               }
             }
-          }
-
-          if (isRegularExpression && stringValue.contains("|")) {
-            final Matcher matcher = EMPTY_DISJUNCTION.matcher(stringValue);
-            if (matcher.find()) {
-              // Empty disjunctions in regular expression are most likely not intended.
-              System.err.println("The " + lang.toString() + " rule: "
-                  + ruleId + ", token [" + tokenIndex + "], contains empty "
-                  + "disjunction | within " + "\"" + stringValue + "\".");
-            }
-            final String[] groups = stringValue.split("\\)");
-            for (final String group : groups) {
-              final String[] alt = group.split("\\|");
-              final Set<String> partSet = new HashSet<String>();
-              final Set<String> partSetNoCase = new HashSet<String>();
-              for (String part : alt) {
-                final String partNoCase = isCaseSensitive ? part : part.toLowerCase();
-                if (partSetNoCase.contains(partNoCase)) {
-                  if (partSet.contains(part)) {
-                    // Duplicate disjunction parts "foo|foo".
-                    System.err.println("The " + lang.toString() + " rule: "
-                        + ruleId + ", token [" + tokenIndex + "], contains "
-                        + "duplicated disjunction part ("
-                        + part + ") within " + "\"" + stringValue + "\".");
-                  } else {
-                    // Duplicate disjunction parts "Foo|foo" since element ignores case.
-                    System.err.println("The " + lang.toString() + " rule: "
-                        + ruleId + ", token [" + tokenIndex + "], contains duplicated "
-                        + "non case sensitive disjunction part ("
-                        + part + ") within " + "\"" + stringValue + "\". Did you "
-                        + "forget case_sensitive=\"yes\"?");
+            if (stringValue.contains("|")) {
+              if ( stringValue.indexOf("||") >= 0
+                || stringValue.charAt(0) == '|'
+                || stringValue.charAt(stringValue.length() - 1) == '|') {
+                // Empty disjunctions in regular expression are most likely not intended.
+                System.err.println("The " + lang.toString() + " rule: "
+                    + ruleId + ", token [" + tokenIndex + "], contains empty "
+                    + "disjunction | within " + "\"" + stringValue + "\".");
+              }
+              final String[] groups = stringValue.split("\\)");
+              for (final String group : groups) {
+                final String[] alt = group.split("\\|");
+                final Set<String> partSet = new HashSet<String>();
+                final Set<String> partSetNoCase = new HashSet<String>();
+                for (String part : alt) {
+                  final String partNoCase = isCaseSensitive ? part : part.toLowerCase();
+                  if (partSetNoCase.contains(partNoCase)) {
+                    if (partSet.contains(part)) {
+                      // Duplicate disjunction parts "foo|foo".
+                      System.err.println("The " + lang.toString() + " rule: "
+                          + ruleId + ", token [" + tokenIndex + "], contains "
+                          + "duplicated disjunction part ("
+                          + part + ") within " + "\"" + stringValue + "\".");
+                    } else {
+                      // Duplicate disjunction parts "Foo|foo" since element ignores case.
+                      System.err.println("The " + lang.toString() + " rule: "
+                          + ruleId + ", token [" + tokenIndex + "], contains duplicated "
+                          + "non case sensitive disjunction part ("
+                          + part + ") within " + "\"" + stringValue + "\". Did you "
+                          + "forget case_sensitive=\"yes\"?");
+                    }
                   }
+                  partSetNoCase.add(partNoCase);
+                  partSet.add(part);
                 }
-                partSetNoCase.add(partNoCase);
-                partSet.add(part);
               }
             }
           }
+
         }
 
 
