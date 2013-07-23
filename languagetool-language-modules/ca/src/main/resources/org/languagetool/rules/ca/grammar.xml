@@ -2091,13 +2091,14 @@ $Id$
             </rule>
             <rule id="DEURE" name="Comprova: «deure» seguit de verb en infinitiu">
                 <pattern>
+                	<token><exception postag="SPS00"/></token>
                     <token inflected="yes">deure<exception postag="_GN_.*" postag_regexp="yes"/></token>
                     <marker>
                         <token postag="VM[^N].*" postag_regexp="yes"></token>
                     </marker>
                 </pattern>
                 <message>Darrere de «\1» va un infinitiu.</message>
-                <suggestion><match no="2" postag="V.N.*" postag_regexp="yes"></match></suggestion>
+                <suggestion><match no="3" postag="V.N.*" postag_regexp="yes"></match></suggestion>
                 <short>Falta un infinitiu</short>
                 <example type="incorrect" correction="quedar">En deuen <marker>quedat</marker> tres.</example>
                 <example type="correct">En deuen quedar tres.</example>
@@ -3911,7 +3912,7 @@ $Id$
                         <token>sinó</token>
                     </marker>
                 </pattern>
-                <message>Possible confusió. Potser falta una negació prèviament</message>
+                <message>Possible confusió. Potser falta una negació prèviament.</message>
                 <suggestion>si no</suggestion>
                 <url>http://www.ub.edu/criteris-cub/criteri.php?id=1035</url>
                 <short>Possible confusió</short>
@@ -6934,7 +6935,7 @@ $Id$
 	                    <token postag="V.G.*" postag_regexp="yes"></token>
 	                </marker>
 	            </pattern>
-	            <message>El verb ha d'anar en infinitiu:<suggestion><match no="4" postag="V.N.*" postag_regexp="yes"></match></suggestion>.</message>
+	            <message>El verb ha d'anar en infinitiu: <suggestion><match no="4" postag="V.N.*" postag_regexp="yes"></match></suggestion>.</message>
 	            <short>Falta un infinitiu</short>
 	            <example type="incorrect">Tot i <marker>estant</marker> així.</example>
 	            <example type="correct">Tot i <marker>estar</marker> així.</example>
@@ -8543,7 +8544,7 @@ $Id$
         <rulegroup id="SI" name="si/sí">
             <rule>
                 <pattern>
-                	<token><exception>entre</exception></token>
+                	<token><exception regexp="yes">entre|sobre</exception></token>
                     <marker>
                         <token>si<exception postag="_GN_MS"/></token>
                     </marker>
@@ -10348,7 +10349,7 @@ $Id$
                         <token postag="PX.*" postag_regexp="yes"/>
                     </marker>
                 </pattern>
-                <message>Possible ús redudant.</message> 
+                <message>Possible ús redundant.</message> 
                 <suggestion><match no="2"/> <match no="3"/></suggestion>
                 <suggestion> <match no="3"/> <match no="4"/></suggestion>
                 <short>Redundància</short>
@@ -10364,7 +10365,7 @@ $Id$
                     <token inflected="yes">adonar</token>
                     <token regexp="yes">de|que<exception postag=".*LOC.*" postag_regexp="yes"/></token>
                 </pattern>
-                <message>El pronom 'en' probablement és redudant.</message>
+                <message>El pronom 'en' probablement és redundant.</message>
                 <short>Redundància</short>
                 <example type="incorrect">Se<marker>'n</marker> va adonar de l'error.</example>
                 <example type="incorrect">Se <marker>n'</marker>adonà que era un error.</example>
@@ -17686,7 +17687,7 @@ $Id$
                     <token inflected="yes" regexp="yes">&ordes;|&ordes_invariable;</token>
                     </marker>
                 </pattern>
-                <message>¿Volíeu dir <suggestion><match no="1" regexp_match="([Oo]rd)r(e.*)" regexp_replace="$1$2"/> <match no="2" postag="AQ0.(.)." postag_regexp="yes" postag_replace="AQ0[MC]$10"/></suggestion>?</message>
+                <message>En el sentit de 'societat religiosa' cal dir: <suggestion><match no="1" regexp_match="([Oo]rd)r(e.*)" regexp_replace="$1$2"/> <match no="2" postag="AQ0.(.)." postag_regexp="yes" postag_replace="AQ0[MC]$10"/></suggestion>.</message>
                 <url>http://esadir.cat/lexic/entrades/entry_20030730164326_116</url>
                 <example type="incorrect" correction="ordes religiosos">les <marker>ordres religioses</marker></example>
                 <example type="incorrect" correction="orde franciscà">l'<marker>ordre franciscana</marker></example>
@@ -18212,7 +18213,7 @@ $Id$
                     </and>    
                 </marker>
             </pattern>
-            <message>Sempre és preferible usar "vessant" com a nom masculí. En alguns sentits, no és correcte en femení.</message>
+            <message>Sempre és preferible usar "vessant" com a nom masculí. En alguns sentits no és correcte en femení.</message>
             <short>Forma preferible</short>
             <example type="incorrect">A les <marker>vessants</marker> de la muntanya.</example>
             <example type="incorrect">En la seva <marker>vessant</marker> humorística.</example>
