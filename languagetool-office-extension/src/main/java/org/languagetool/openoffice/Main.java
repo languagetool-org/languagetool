@@ -35,28 +35,22 @@ import java.util.Set;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
+import com.sun.star.lang.*;
+import com.sun.star.lang.IllegalArgumentException;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.gui.AboutDialog;
 import org.languagetool.gui.Configuration;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
 
-import com.sun.star.awt.XWindow;
-import com.sun.star.awt.XWindowPeer;
 import com.sun.star.beans.PropertyState;
 import com.sun.star.beans.PropertyValue;
 import com.sun.star.beans.XPropertySet;
 import com.sun.star.frame.XDesktop;
 import com.sun.star.frame.XModel;
-import com.sun.star.lang.IllegalArgumentException;
-import com.sun.star.lang.Locale;
-import com.sun.star.lang.XComponent;
-import com.sun.star.lang.XMultiComponentFactory;
-import com.sun.star.lang.XServiceDisplayName;
-import com.sun.star.lang.XServiceInfo;
-import com.sun.star.lang.XSingleComponentFactory;
 import com.sun.star.lib.uno.helper.Factory;
 import com.sun.star.lib.uno.helper.WeakBase;
 import com.sun.star.linguistic2.ProofreadingResult;
@@ -730,11 +724,10 @@ public class Main extends WeakBase implements XJobExecutor,
 
     @Override
     public void run() {
-      final XModel model = (XModel) UnoRuntime.queryInterface(XModel.class,getXComponent());
-      final XWindow parentWindow = model.getCurrentController().getFrame().getContainerWindow();
-      final XWindowPeer parentWindowPeer = (XWindowPeer) UnoRuntime
-          .queryInterface(XWindowPeer.class, parentWindow);
-      final OOoAboutDialog about = new OOoAboutDialog(messages, parentWindowPeer);
+      // TODO: null can cause the dialog to appear on the wrong screen in a
+      // multi-monitor setup, but we just don't have a proper java.awt.Component
+      // here which we could use instead:
+      final AboutDialog about = new AboutDialog(messages, null);
       about.show();
     }
   }
