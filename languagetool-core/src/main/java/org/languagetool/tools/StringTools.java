@@ -135,7 +135,7 @@ public final class StringTools {
   }
 
   /**
-   * Returns true if <code>str</code> is made up of all-uppercase characters
+   * Returns true if the given string is made up of all-uppercase characters
    * (ignoring characters for which no upper-/lowercase distinction exists).
    */
   public static boolean isAllUppercase(final String str) {
@@ -143,8 +143,9 @@ public final class StringTools {
   }
 
   /**
-   * @param str - input str
-   * Returns true if str is MixedCase.
+   * Returns true if the given string is mixed case, like {@code MixedCase} or {@code mixedCase}
+   * (but not {@code Mixedcase}).
+   * @param str input str
    */
   public static boolean isMixedCase(final String str) {
     return !isAllUppercase(str)
@@ -153,7 +154,7 @@ public final class StringTools {
   }
 
   /**
-   * @param str - input string
+   * @param str input string
    */
   public static boolean isCapitalizedWord(final String str) {
     if (isEmpty(str)) {

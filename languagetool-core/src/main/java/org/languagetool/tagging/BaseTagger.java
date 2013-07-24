@@ -74,13 +74,13 @@ public abstract class BaseTagger implements Tagger {
       taggerTokens = asAnalyzedTokenList(word, dictLookup.lookup(word));
       lowerTaggerTokens = asAnalyzedTokenList(word, dictLookup.lookup(lowerWord));
       final boolean isLowercase = word.equals(lowerWord);
-      final boolean isMixedcase = StringTools.isMixedCase(word);
+      final boolean isMixedCase = StringTools.isMixedCase(word);
 
       //normal case
       addTokens(taggerTokens, l);
 
-      //tag alluppercase or startuppercase word (but not mixedcase) with lowercase word tags
-      if (!isLowercase && !isMixedcase) {        
+      //tag non-lowercase (alluppercase or startuppercase), but not mixedcase word with lowercase word tags
+      if (!isLowercase && !isMixedCase) {
         addTokens(lowerTaggerTokens, l);
       }
 
