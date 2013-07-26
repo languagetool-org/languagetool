@@ -110,7 +110,7 @@ public class CheckWikipediaDump {
 
   private void run(File propFile, Set<String> disabledRules, String langCode, String xmlFileName, String[] ruleIds, int maxArticles, int maxErrors)
       throws IOException, SAXException, ParserConfigurationException {
-    final long startTime = System.currentTimeMillis();
+    //final long startTime = System.currentTimeMillis();
     final File file = new File(xmlFileName);
     if (!file.exists() || !file.isFile()) {
       throw new IOException("File doesn't exist or isn't a file: " + xmlFileName);
@@ -149,7 +149,7 @@ public class CheckWikipediaDump {
         final float matchesPerDoc = (float)xmlHandler.getRuleMatchCount() / xmlHandler.getArticleCount();
         System.out.printf(lang + ": %d total matches\n", xmlHandler.getRuleMatchCount());
         System.out.printf(lang + ": ø%.2f rule matches per document\n", matchesPerDoc);
-        System.out.printf(lang + ": %s total runtime\n", getRunTime(startTime));
+        //System.out.printf(lang + ": %s total runtime\n", getRunTime(startTime));
         xmlHandler.close();
       }
     }
