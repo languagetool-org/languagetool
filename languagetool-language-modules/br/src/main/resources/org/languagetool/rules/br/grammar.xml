@@ -1927,6 +1927,22 @@ $Id$
         <example type="correct">Hor c’houst.</example>
       </rule>
     </rulegroup>
+    <rule id="FAZ_KEMM_E" name="kemmadur goude e.">
+      <pattern>
+        <and>
+          <token postag="L e">e</token>
+          <token postag="D m sp">e</token>
+        </and>
+        <marker>
+          <token postag="[^M]+M[^M]*:[23]:.*" postag_regexp="yes">
+            <exception postag="[^M]+[^M]*:[14]:.*" postag_regexp="yes"/>
+          </token>
+        </marker>
+      </pattern>
+      <message>Kemmadur fall goude «e».</message>
+      <example type="incorrect">E <marker>zad</marker>.</example>
+      <example type="correct">E dad.</example>
+    </rule>
     <rulegroup id="FAZ_KEMM_DRE_VLOTAAT_AR" name="kemmadur dre vlotaat en anv goude ar ger-mell.">
       <rule>
         <pattern>
