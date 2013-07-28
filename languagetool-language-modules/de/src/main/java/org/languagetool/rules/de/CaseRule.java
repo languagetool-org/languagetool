@@ -362,6 +362,7 @@ public class CaseRule extends GermanRule {
     substVerbenExceptions.add("gehören");
     substVerbenExceptions.add("bedeutet");    // "und das bedeutet..."
     substVerbenExceptions.add("ermöglicht");    // "und das ermöglicht..."
+    substVerbenExceptions.add("funktioniert");    // "Das funktioniert..."
     substVerbenExceptions.add("sollen");
     substVerbenExceptions.add("werden");
     substVerbenExceptions.add("dürfen");
