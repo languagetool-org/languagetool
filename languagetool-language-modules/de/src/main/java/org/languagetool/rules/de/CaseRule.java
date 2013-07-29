@@ -221,6 +221,7 @@ public class CaseRule extends GermanRule {
     exceptions.add("Verwandter");
     exceptions.add("Vielfaches");
     exceptions.add("Vorsitzender");
+    exceptions.add("Fraktionsvorsitzender");
     exceptions.add("Weitem");
     exceptions.add("Weiteres");
     exceptions.add("Wicht");
