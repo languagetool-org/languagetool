@@ -75,7 +75,7 @@ public final class RuleOverview {
     //setup false friends counting
     final String falseFriendFile = JLanguageTool.getDataBroker().getRulesDir() + File.separator + "false-friends.xml";
     final URL falseFriendUrl = this.getClass().getResource(falseFriendFile);
-    final String falseFriendRules = StringTools.readFile(Tools.getStream(falseFriendFile))
+    final String falseFriendRules = StringTools.readStream(Tools.getStream(falseFriendFile), "utf-8")
       .replaceAll("(?s)<!--.*?-->", "")
       .replaceAll("(?s)<rules.*?>", "");
 
@@ -102,7 +102,7 @@ public final class RuleOverview {
         System.out.println("<td valign=\"top\" align=\"right\">0</td>");
       } else {
         // count XML rules:
-        String xmlRules = StringTools.readFile(Tools.getStream(xmlFile));
+        String xmlRules = StringTools.readStream(Tools.getStream(xmlFile), "utf-8");
         xmlRules = xmlRules.replaceAll("(?s)<!--.*?-->", "");
         xmlRules = xmlRules.replaceAll("(?s)<rules.*?>", "");
         final int count = countXmlRules(xmlRules);
