@@ -46,14 +46,14 @@ public class FalseFriendsAsBitextLoader {
           final Language language) throws ParserConfigurationException,
           SAXException, IOException {
     final FalseFriendRuleLoader ruleLoader = new FalseFriendRuleLoader();
-    final List<BitextPatternRule> bRules = new ArrayList<BitextPatternRule>();
+    final List<BitextPatternRule> bRules = new ArrayList<>();
     final List<PatternRule> rules1 = ruleLoader.getRules(JLanguageTool
             .getDataBroker().getFromRulesDirAsStream(filename),
             motherTongue, language);
     final List<PatternRule> rules2 = ruleLoader.getRules(JLanguageTool
             .getDataBroker().getFromRulesDirAsStream(filename),
             language, motherTongue);
-    final HashMap<String, PatternRule> srcRules = new HashMap<String, PatternRule>();
+    final HashMap<String, PatternRule> srcRules = new HashMap<>();
     for (PatternRule rule : rules1) {
       srcRules.put(rule.getId(), rule);
     }

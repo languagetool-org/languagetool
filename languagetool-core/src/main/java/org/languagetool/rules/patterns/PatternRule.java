@@ -89,7 +89,7 @@ public class PatternRule extends AbstractPatternRule {
     if (description == null) throw new NullPointerException("description/name cannot be null");
     this.message = message;
     this.shortMessage = shortMessage;
-    this.elementNo = new ArrayList<Integer>();
+    this.elementNo = new ArrayList<>();
     this.suggestionsOutMsg="";
     String prevName = "";
     String curName = "";
@@ -165,7 +165,7 @@ public class PatternRule extends AbstractPatternRule {
    * @since 0.9.2
    */
   public final String toPatternString() {
-    final List<String> strList = new ArrayList<String>();
+    final List<String> strList = new ArrayList<>();
     for (Element patternElement : patternElements) {
       strList.add(patternElement.toString());
     }
@@ -198,14 +198,14 @@ public class PatternRule extends AbstractPatternRule {
 
   public final void addSuggestionMatch(final Match m) {
     if (suggestionMatches == null) {
-      suggestionMatches = new ArrayList<Match>();
+      suggestionMatches = new ArrayList<>();
     }
     suggestionMatches.add(m);
   }
   
   public final void addSuggestionMatchOutMsg (final Match m) {
     if (suggestionMatchesOutMsg == null) {
-      suggestionMatchesOutMsg = new ArrayList<Match>();
+      suggestionMatchesOutMsg = new ArrayList<>();
     }
     suggestionMatchesOutMsg.add(m);
   }

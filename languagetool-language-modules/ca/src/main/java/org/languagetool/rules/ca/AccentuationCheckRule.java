@@ -108,7 +108,7 @@ public class AccentuationCheckRule extends CatalanRule {
   
   @Override
   public RuleMatch[] match(final AnalyzedSentence text) {
-    final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
+    final List<RuleMatch> ruleMatches = new ArrayList<>();
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
     for (int i = 1; i < tokens.length; i++) {   //ignoring token 0, i.e., SENT_START      
       final String token;
@@ -311,7 +311,7 @@ public class AccentuationCheckRule extends CatalanRule {
    * Load words.
    */
   private Map<String, AnalyzedTokenReadings> loadWords(String fileName) throws IOException {
-    final Map<String, AnalyzedTokenReadings> map = new HashMap<String, AnalyzedTokenReadings>();
+    final Map<String, AnalyzedTokenReadings> map = new HashMap<>();
     final InputStream inputStream = JLanguageTool.getDataBroker().getFromRulesDirAsStream(fileName);
     final Scanner scanner = new Scanner(inputStream, FILE_ENCODING);
     try {

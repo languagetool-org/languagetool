@@ -69,7 +69,7 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
     directory = FSDirectory.open(indexPath);*/
 
     // TODO: avoid duplication - use Indexer.java!
-    final Map<String, Analyzer> analyzerMap = new HashMap<String, Analyzer>();
+    final Map<String, Analyzer> analyzerMap = new HashMap<>();
     analyzerMap.put(FIELD_NAME, new LanguageToolAnalyzer(LUCENE_VERSION, new JLanguageTool(language), false));
     analyzerMap.put(FIELD_NAME_LOWERCASE, new LanguageToolAnalyzer(LUCENE_VERSION, new JLanguageTool(language), true));
     final Analyzer analyzer = new PerFieldAnalyzerWrapper(new DoNotUseAnalyzer(), analyzerMap);

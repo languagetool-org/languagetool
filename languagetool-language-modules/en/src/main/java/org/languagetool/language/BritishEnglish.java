@@ -40,7 +40,7 @@ public class BritishEnglish extends English {
 
   @Override
   public List<Class<? extends Rule>> getRelevantRules() {
-    final List<Class<? extends Rule>> rules = new ArrayList<Class<? extends Rule>>();
+    final List<Class<? extends Rule>> rules = new ArrayList<>();
     rules.addAll(super.getRelevantRules());    
     // specific to British English:
     rules.add(BritishReplaceRule.class);

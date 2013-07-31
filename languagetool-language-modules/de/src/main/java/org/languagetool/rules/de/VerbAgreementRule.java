@@ -50,7 +50,7 @@ public class VerbAgreementRule extends GermanRule {
   
   private AnalyzedTokenReadings finiteVerb;
   
-  private static final Set<String> BIN_IGNORE = new HashSet<String>(Arrays.asList(
+  private static final Set<String> BIN_IGNORE = new HashSet<>(Arrays.asList(
     "Abdul",
     "Abdulla",
     "Abdullah",
@@ -62,7 +62,7 @@ public class VerbAgreementRule extends GermanRule {
     "/"
   ));
   
-  private static final Set<String> QUOTATION_MARKS = new HashSet<String>(Arrays.asList(
+  private static final Set<String> QUOTATION_MARKS = new HashSet<>(Arrays.asList(
     "\"", "„"
   ));
     
@@ -85,7 +85,7 @@ public class VerbAgreementRule extends GermanRule {
   @Override
   public RuleMatch[] match(final AnalyzedSentence text) {
     
-    final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
+    final List<RuleMatch> ruleMatches = new ArrayList<>();
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
     
     if (tokens.length < 4) // ignore one-word sentences (3 tokens: SENT_START, one word, SENT_END)

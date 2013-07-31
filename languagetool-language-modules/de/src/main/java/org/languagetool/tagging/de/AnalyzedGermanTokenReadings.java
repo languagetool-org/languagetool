@@ -49,7 +49,7 @@ public class AnalyzedGermanTokenReadings extends AnalyzedTokenReadings {
    * @return a list of {@link AnalyzedGermanToken}s.
    */
   public List<AnalyzedGermanToken> getGermanReadings() {
-    final List<AnalyzedGermanToken> tokens = new ArrayList<AnalyzedGermanToken>();
+    final List<AnalyzedGermanToken> tokens = new ArrayList<>();
     for (AnalyzedToken reading : anTokReadings) {
       if (reading.getPOSTag() != null) {
         if (!reading.getPOSTag().equals(JLanguageTool.SENTENCE_END_TAGNAME) && !reading.getPOSTag().equals(JLanguageTool.PARAGRAPH_END_TAGNAME)) {
@@ -135,7 +135,7 @@ public class AnalyzedGermanTokenReadings extends AnalyzedTokenReadings {
       return super.getAnalyzedToken(0).getToken() + "[?]";
     }
     final StringBuilder sb = new StringBuilder(super.getAnalyzedToken(0).getToken());
-    final Set<String> printed = new HashSet<String>();
+    final Set<String> printed = new HashSet<>();
     sb.append('[');
     for (AnalyzedToken reading : anTokReadings) {
       if (!printed.contains(reading.toString())) {
@@ -158,7 +158,7 @@ public class AnalyzedGermanTokenReadings extends AnalyzedTokenReadings {
       return super.getAnalyzedToken(0).getToken() + "[?]";
     }
     final StringBuilder sb = new StringBuilder(super.getAnalyzedToken(0).getToken());
-    final Set<String> elements = new TreeSet<String>();
+    final Set<String> elements = new TreeSet<>();
     sb.append('[');
     for (AnalyzedToken reading : anTokReadings) {
       if (!elements.contains(reading.toString())) {

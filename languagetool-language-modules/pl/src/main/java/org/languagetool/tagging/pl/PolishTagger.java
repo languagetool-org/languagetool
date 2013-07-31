@@ -57,7 +57,7 @@ public class PolishTagger extends BaseTagger {
     List<AnalyzedToken> taggerTokens;
     List<AnalyzedToken> lowerTaggerTokens;
     List<AnalyzedToken> upperTaggerTokens;    
-    final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<AnalyzedTokenReadings>();
+    final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
     int pos = 0;
     // caching Lametyzator instance - lazy init
     if (morfologik == null) {      
@@ -66,7 +66,7 @@ public class PolishTagger extends BaseTagger {
     }
 
     for (String word : sentenceTokens) {
-      final List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
+      final List<AnalyzedToken> l = new ArrayList<>();
       final String lowerWord = word.toLowerCase(plLocale);
       taggerTokens = asAnalyzedTokenList(word, morfologik.lookup(word));
       lowerTaggerTokens = asAnalyzedTokenList(word, morfologik.lookup(lowerWord));       

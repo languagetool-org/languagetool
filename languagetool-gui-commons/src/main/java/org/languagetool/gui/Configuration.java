@@ -49,9 +49,9 @@ public class Configuration {
   private final File configFile;
   private final HashMap<String, String> configForOtherLangs;
 
-  private Set<String> disabledRuleIds = new HashSet<String>();
-  private Set<String> enabledRuleIds = new HashSet<String>();
-  private Set<String> disabledCategoryNames = new HashSet<String>();
+  private Set<String> disabledRuleIds = new HashSet<>();
+  private Set<String> enabledRuleIds = new HashSet<>();
+  private Set<String> disabledCategoryNames = new HashSet<>();
   private Language language;
   private Language motherTongue;
   private boolean runServer;
@@ -76,7 +76,7 @@ public class Configuration {
       throw new IllegalArgumentException("Not a directory: " + baseDir);
     }
     configFile = new File(baseDir, filename);
-    configForOtherLangs = new HashMap<String, String>();
+    configForOtherLangs = new HashMap<>();
     loadConfiguration(lang);
   }
 
@@ -228,7 +228,7 @@ public class Configuration {
 
   private Collection<? extends String> getListFromProperties(final Properties props, final String key) {
     final String value = (String) props.get(key);
-    final List<String> list = new ArrayList<String>();
+    final List<String> list = new ArrayList<>();
     if (value != null) {
       final String[] names = value.split(DELIMITER);
       list.addAll(Arrays.asList(names));

@@ -60,7 +60,7 @@ public abstract class BaseTagger implements Tagger {
     List<AnalyzedToken> taggerTokens;
     List<AnalyzedToken> lowerTaggerTokens;
     List<AnalyzedToken> upperTaggerTokens;
-    final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<AnalyzedTokenReadings>();
+    final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
     int pos = 0;
     // caching IStemmer instance - lazy init
     if (dictLookup == null) {
@@ -69,7 +69,7 @@ public abstract class BaseTagger implements Tagger {
     }
 
     for (String word : sentenceTokens) {
-      final List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
+      final List<AnalyzedToken> l = new ArrayList<>();
       final String lowerWord = word.toLowerCase(conversionLocale);
       taggerTokens = asAnalyzedTokenList(word, dictLookup.lookup(word));
       lowerTaggerTokens = asAnalyzedTokenList(word, dictLookup.lookup(lowerWord));
@@ -116,7 +116,7 @@ public abstract class BaseTagger implements Tagger {
   }
 
   protected List<AnalyzedToken> asAnalyzedTokenList(final String word, final List<WordData> wdList) {
-    final List<AnalyzedToken> aTokenList = new ArrayList<AnalyzedToken>();
+    final List<AnalyzedToken> aTokenList = new ArrayList<>();
     for (WordData wd : wdList) {
       aTokenList.add(asAnalyzedToken(word, wd));
     }

@@ -88,7 +88,7 @@ public class CatalanSynthesizer extends BaseSynthesizer {
 		} else {
 			p = Pattern.compile(posTag);
 		}
-		final ArrayList<String> results = new ArrayList<String>();
+		final ArrayList<String> results = new ArrayList<>();
 		for (final String tag : possibleTags) {
 			final Matcher m = p.matcher(tag);
 			if (m.matches()) {

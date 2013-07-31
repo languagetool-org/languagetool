@@ -50,8 +50,8 @@ public class ConfigurationTest extends TestCase {
 
   private void createConfiguration(File configFile, Language lang) throws Exception {
     final Configuration conf = new Configuration(configFile.getParentFile(), configFile.getName(), lang);
-    conf.setDisabledRuleIds(new HashSet<String>(Arrays.asList("FOO1", "Foo2")));
-    conf.setEnabledRuleIds(new HashSet<String>(Arrays.asList("enabledRule")));
+    conf.setDisabledRuleIds(new HashSet<>(Arrays.asList("FOO1", "Foo2")));
+    conf.setEnabledRuleIds(new HashSet<>(Arrays.asList("enabledRule")));
     conf.saveConfiguration(lang);
   }
 
@@ -78,7 +78,7 @@ public class ConfigurationTest extends TestCase {
       enabledRuleIds = conf.getEnabledRuleIds();
       assertTrue(enabledRuleIds.isEmpty());
 
-      conf.setEnabledRuleIds(new HashSet<String>(Arrays.asList("enabledBYRule")));
+      conf.setEnabledRuleIds(new HashSet<>(Arrays.asList("enabledBYRule")));
       conf.saveConfiguration(new Belarusian());
 
       //and back...

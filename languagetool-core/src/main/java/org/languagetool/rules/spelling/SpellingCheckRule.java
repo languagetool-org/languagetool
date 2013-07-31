@@ -40,7 +40,7 @@ public abstract class SpellingCheckRule extends Rule {
   protected final Language language;
 
   private static final String SPELLING_IGNORE_FILE = "/hunspell/ignore.txt";
-  private final Set<String> wordsToBeIgnored = new HashSet<String>();
+  private final Set<String> wordsToBeIgnored = new HashSet<>();
   private boolean wordsWithDotsPresent = false;
 
   private boolean considerIgnoreWords = true;

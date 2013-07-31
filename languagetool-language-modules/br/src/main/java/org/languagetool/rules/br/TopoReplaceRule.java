@@ -139,7 +139,7 @@ public class TopoReplaceRule extends Rule {
    */
   private List<Map<String, String>> loadWords(final InputStream file)
           throws IOException {
-    final List<Map<String, String>> list = new ArrayList<Map<String, String>>();
+    final List<Map<String, String>> list = new ArrayList<>();
     InputStreamReader isr = null;
     BufferedReader br = null;
     try {
@@ -184,7 +184,7 @@ public class TopoReplaceRule extends Rule {
       }
     }
     // seal the result (prevent modification from outside this class)
-    final List<Map<String,String>> result = new ArrayList<Map<String, String>>();
+    final List<Map<String,String>> result = new ArrayList<>();
     for (Map<String, String> map : list) {
       result.add(Collections.unmodifiableMap(map));
     }
@@ -202,16 +202,16 @@ public class TopoReplaceRule extends Rule {
 
   @Override
   public RuleMatch[] match(final AnalyzedSentence text) {
-    final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
+    final List<RuleMatch> ruleMatches = new ArrayList<>();
     final AnalyzedTokenReadings[] tokens = text
             .getTokensWithoutWhitespace();
 
-    final Queue<AnalyzedTokenReadings> prevTokens = new ArrayBlockingQueue<AnalyzedTokenReadings>(wrongWords.size());
+    final Queue<AnalyzedTokenReadings> prevTokens = new ArrayBlockingQueue<>(wrongWords.size());
 
     for (int i = 1; i < tokens.length; i++) {
       addToQueue(tokens[i], prevTokens);
       final StringBuilder sb = new StringBuilder();
-      final ArrayList<String> variants = new ArrayList<String>();
+      final ArrayList<String> variants = new ArrayList<>();
       final List<AnalyzedTokenReadings> prevTokensList = Arrays.asList(prevTokens.toArray(new AnalyzedTokenReadings[] {}));
       for (int j = prevTokensList.size() - 1; j >= 0; j--) {
         if (j != prevTokensList.size() - 1 && prevTokensList.get(j + 1).isWhitespaceBefore())

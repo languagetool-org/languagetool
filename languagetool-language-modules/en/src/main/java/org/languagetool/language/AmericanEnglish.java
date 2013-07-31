@@ -43,7 +43,7 @@ public class AmericanEnglish extends English {
   
   @Override
   public List<Class<? extends Rule>> getRelevantRules() {
-    final List<Class<? extends Rule>> rules = new ArrayList<Class<? extends Rule>>();
+    final List<Class<? extends Rule>> rules = new ArrayList<>();
     rules.addAll(super.getRelevantRules());    
     // American English speller...
     rules.add(MorfologikAmericanSpellerRule.class);

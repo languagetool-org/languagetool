@@ -55,9 +55,9 @@ public class MultiWordChunker implements Disambiguator {
       return;
     }
 
-    mStartSpace = new HashMap<String, Integer>();
-    mStartNoSpace = new HashMap<String, Integer>();
-    mFull = new HashMap<String, String>();
+    mStartSpace = new HashMap<>();
+    mStartNoSpace = new HashMap<>();
+    mFull = new HashMap<>();
 
     final List<String> posTokens = loadWords(JLanguageTool.getDataBroker().getFromResourceDirAsStream(filename));
     for (String posToken : posTokens) {
@@ -196,7 +196,7 @@ public class MultiWordChunker implements Disambiguator {
   }
 
   private List<String> loadWords(final InputStream stream) throws IOException {
-    final List<String> lines = new ArrayList<String>();
+    final List<String> lines = new ArrayList<>();
     final Scanner scanner = new Scanner(stream, "UTF-8");
     try {
       while (scanner.hasNextLine()) {

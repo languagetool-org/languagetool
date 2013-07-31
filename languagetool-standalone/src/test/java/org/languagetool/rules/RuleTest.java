@@ -32,8 +32,8 @@ import org.languagetool.rules.patterns.PatternRule;
 public class RuleTest extends TestCase {
 
   public void testJavaRuleIds() throws IOException {
-    final Set<String> ids = new HashSet<String>();
-    final Set<Class> ruleClasses = new HashSet<Class>();
+    final Set<String> ids = new HashSet<>();
+    final Set<Class> ruleClasses = new HashSet<>();
     for (Language language : Language.LANGUAGES) {
       final JLanguageTool lt = new JLanguageTool(language);
       final List<Rule> allRules = lt.getAllRules();

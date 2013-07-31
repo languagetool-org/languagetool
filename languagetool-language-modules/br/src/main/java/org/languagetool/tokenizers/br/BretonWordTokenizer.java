@@ -55,7 +55,7 @@ public class BretonWordTokenizer extends WordTokenizer {
                           .replaceAll("(\\p{L})['’‘ʼ]", "$1##BR_APOS## ");
 
     final List<String> tokenList = super.tokenize(replaced);
-    List<String> tokens = new ArrayList<String>();
+    List<String> tokens = new ArrayList<>();
     
     // Put back apostrophes and remove spurious spaces.
     Iterator<String> itr = tokenList.iterator();

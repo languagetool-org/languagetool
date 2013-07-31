@@ -77,7 +77,7 @@ public class ElwithFemRule extends SpanishRule {
 
   @Override
   public RuleMatch[] match(final AnalyzedSentence text) {
-    final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
+    final List<RuleMatch> ruleMatches = new ArrayList<>();
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
     String prevToken = "";
     int prevPos = 0;
@@ -146,7 +146,7 @@ public class ElwithFemRule extends SpanishRule {
    */
   private TreeSet<String> loadWords(final InputStream file) throws IOException {
     BufferedReader br = null;
-    final TreeSet<String> set = new TreeSet<String>();
+    final TreeSet<String> set = new TreeSet<>();
     try {
       br = new BufferedReader(new InputStreamReader(file, "utf-8"));
       String line;

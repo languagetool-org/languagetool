@@ -117,7 +117,7 @@ class Main {
     Tools.selectRules(srcLt, disabledRules, enabledRules);
     bRules = Tools.getBitextRules(sourceLang, lt.getLanguage());
 
-    List<BitextRule> bRuleList = new ArrayList<BitextRule>(bRules);
+    List<BitextRule> bRuleList = new ArrayList<>(bRules);
     for (final BitextRule bitextRule : bRules) {
       for (final String disabledRule : disabledRules) {
         if (bitextRule.getId().equals(disabledRule)) {
@@ -127,7 +127,7 @@ class Main {
     }
     bRules = bRuleList;
     if (enabledRules.length > 0) {
-      bRuleList = new ArrayList<BitextRule>();
+      bRuleList = new ArrayList<>();
       for (final String enabledRule : enabledRules) {
         for (final BitextRule bitextRule : bRules) {
           if (bitextRule.getId().equals(enabledRule)) {
@@ -213,7 +213,7 @@ class Main {
     BufferedReader br = null;
     int lineOffset = 0;
     int tmpLineOffset = 0;
-    final List<String> unknownWords = new ArrayList<String>();
+    final List<String> unknownWords = new ArrayList<>();
     StringBuilder sb = new StringBuilder();
     for (int ruleIndex = 0; !rules.isEmpty() && ruleIndex < runCount; ruleIndex++) {
       currentRule = rules.get(ruleIndex);
@@ -506,7 +506,7 @@ class Main {
   }
 
   private static void printLanguages() {
-    final List<String> languages = new ArrayList<String>();
+    final List<String> languages = new ArrayList<>();
     for (Language language : Language.REAL_LANGUAGES) {
       languages.add(language.getShortNameWithVariant() + " " + language.getName());
     }

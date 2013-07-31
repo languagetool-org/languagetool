@@ -48,7 +48,7 @@ public class CaseRule extends GermanRule {
 
   // wenn hinter diesen Wörtern ein Verb steht, ist es wohl ein substantiviertes Verb,
   // muss also groß geschrieben werden:
-  private static final Set<String> nounIndicators = new HashSet<String>();
+  private static final Set<String> nounIndicators = new HashSet<>();
   static {
     nounIndicators.add("das");
     nounIndicators.add("sein");
@@ -61,7 +61,7 @@ public class CaseRule extends GermanRule {
     //indicator.add("ihren");
   }
   
-  private static final Set<String> sentenceStartExceptions = new HashSet<String>();
+  private static final Set<String> sentenceStartExceptions = new HashSet<>();
   static {
     sentenceStartExceptions.add("(");
     sentenceStartExceptions.add(":");
@@ -74,7 +74,7 @@ public class CaseRule extends GermanRule {
     sentenceStartExceptions.add(".");
   }
   
-  private static final Set<String> exceptions = new HashSet<String>();
+  private static final Set<String> exceptions = new HashSet<>();
   static {
     /*
      * These are words that Morphy only knows as non-nouns. The proper
@@ -319,7 +319,7 @@ public class CaseRule extends GermanRule {
     exceptions.add("Eures");
   }
   
-  private static final Set<String> myExceptionPhrases = new HashSet<String>();
+  private static final Set<String> myExceptionPhrases = new HashSet<>();
   static {
     // use proper upper/lowercase spelling here:
     myExceptionPhrases.add("ohne Wenn und Aber");
@@ -357,7 +357,7 @@ public class CaseRule extends GermanRule {
     myExceptionPhrases.add("ein Muss");
   }
 
-  private static final Set<String> substVerbenExceptions = new HashSet<String>();
+  private static final Set<String> substVerbenExceptions = new HashSet<>();
   static {
     substVerbenExceptions.add("einen");
     substVerbenExceptions.add("gehören");
@@ -402,7 +402,7 @@ public class CaseRule extends GermanRule {
 
   @Override
   public RuleMatch[] match(final AnalyzedSentence text) throws IOException {
-    final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
+    final List<RuleMatch> ruleMatches = new ArrayList<>();
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
     
     boolean prevTokenIsDas = false;

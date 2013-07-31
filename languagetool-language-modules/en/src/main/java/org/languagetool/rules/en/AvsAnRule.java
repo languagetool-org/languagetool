@@ -73,7 +73,7 @@ public class AvsAnRule extends EnglishRule {
 
   @Override
   public RuleMatch[] match(final AnalyzedSentence text) {
-    final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
+    final List<RuleMatch> ruleMatches = new ArrayList<>();
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
     String prevToken = "";
     int prevPos = 0;
@@ -212,7 +212,7 @@ public class AvsAnRule extends EnglishRule {
    * Load words, normalized to lowercase unless starting with '*'.
    */
   private Set<String> loadWords(final InputStream file) throws IOException {
-    final Set<String> set = new TreeSet<String>();
+    final Set<String> set = new TreeSet<>();
     final Scanner scanner = new Scanner(file, "utf-8");
     try {
       while (scanner.hasNextLine()) {

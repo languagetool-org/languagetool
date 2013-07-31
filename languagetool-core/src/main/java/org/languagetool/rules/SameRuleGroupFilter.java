@@ -36,7 +36,7 @@ public class SameRuleGroupFilter implements RuleMatchFilter {
   @Override
   public List<RuleMatch> filter(List<RuleMatch> ruleMatches) {
     Collections.sort(ruleMatches);
-    final List<RuleMatch> filteredRules = new ArrayList<RuleMatch>();
+    final List<RuleMatch> filteredRules = new ArrayList<>();
     for (int i = 0; i < ruleMatches.size(); i++) {
       final RuleMatch match = ruleMatches.get(i);
       if (i <  ruleMatches.size() - 1) {

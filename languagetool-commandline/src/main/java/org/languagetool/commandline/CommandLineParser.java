@@ -169,7 +169,7 @@ public class CommandLineParser {
     try {
       return Language.getLanguageForShortName(userSuppliedLangCode);
     } catch (IllegalArgumentException e){
-      final List<String> supportedLanguages = new ArrayList<String>();
+      final List<String> supportedLanguages = new ArrayList<>();
       for (final Language lang : Language.LANGUAGES) {
         supportedLanguages.add(lang.getShortNameWithVariant());
       }

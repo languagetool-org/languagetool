@@ -69,7 +69,7 @@ public class RomanianTagger extends BaseTagger {
   @Override
   public final List<AnalyzedTokenReadings> tag(
       final List<String> sentenceTokens) throws IOException {
-    final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<AnalyzedTokenReadings>();
+    final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
     int pos = 0;
     // caching Lametyzator instance - lazy init
     if (morfologik == null) {      
@@ -82,7 +82,7 @@ public class RomanianTagger extends BaseTagger {
 
 
     for (final String word : sentenceTokens) {
-      final List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
+      final List<AnalyzedToken> l = new ArrayList<>();
       final String lowerCaseWord = word.toLowerCase(roLocale);
       final List<WordData> taggerTokens = morfologik.lookup(lowerCaseWord);
       if (taggerTokens != null) {

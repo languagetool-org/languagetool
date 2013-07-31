@@ -55,7 +55,7 @@ import org.languagetool.language.LanguageBuilder;
  */
 public class LanguageManagerDialog implements ActionListener {
 
-  private final List<File> ruleFiles = new ArrayList<File>();
+  private final List<File> ruleFiles = new ArrayList<>();
   private final Frame owner;
   private final ResourceBundle messages;
 
@@ -169,7 +169,7 @@ public class LanguageManagerDialog implements ActionListener {
    * Return all external Languages.
    */
   List<Language> getLanguages() {
-    final List<Language> languages = new ArrayList<Language>();
+    final List<Language> languages = new ArrayList<>();
     for (File ruleFile : ruleFiles) {
       if (ruleFile != null) {
         final Language newLanguage = LanguageBuilder.makeAdditionalLanguage(ruleFile);

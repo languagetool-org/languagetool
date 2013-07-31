@@ -268,7 +268,7 @@ public class Match {
         if (synthesizer == null) {
           formattedString[0] = formattedToken.getToken();
         } else if (postagRegexp) {
-          final TreeSet<String> wordForms = new TreeSet<String>();
+          final TreeSet<String> wordForms = new TreeSet<>();
           boolean oneForm = false;
           for (int k = 0; k < readingCount; k++) {
             if (formattedToken.getAnalyzedToken(k).getLemma() == null) {
@@ -311,7 +311,7 @@ public class Match {
             formattedString = wordForms.toArray(new String[wordForms.size()]);
           }
         } else {
-          final TreeSet<String> wordForms = new TreeSet<String>();
+          final TreeSet<String> wordForms = new TreeSet<>();
           for (int i = 0; i < readingCount; i++) {
             final String[] possibleWordForms = synthesizer.synthesize(
                 formattedToken.getAnalyzedToken(i), posTag);
@@ -367,7 +367,7 @@ public class Match {
   // on the other hand, many POS tags = too many suggestions?
   public final String getTargetPosTag() {
     String targetPosTag = posTag;
-    final List<String> posTags = new ArrayList<String>();
+    final List<String> posTags = new ArrayList<>();
     if (staticLemma) {
       final int numRead = matchedToken.getReadingsLength();
       for (int i = 0; i < numRead; i++) {
@@ -502,7 +502,7 @@ public class Match {
   }
 
   public final AnalyzedTokenReadings filterReadings() {
-    final ArrayList<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
+    final ArrayList<AnalyzedToken> l = new ArrayList<>();
     if (formattedToken != null) {
       if (staticLemma) {
         /*
@@ -569,7 +569,7 @@ public class Match {
   }
 
   private AnalyzedToken[] getNewToken(final int numRead, final String token) {
-    final List<AnalyzedToken> list = new ArrayList<AnalyzedToken>();
+    final List<AnalyzedToken> list = new ArrayList<>();
     String lemma = "";
     for (int j = 0; j < numRead; j++) {
       if (formattedToken.getAnalyzedToken(j).getPOSTag() != null) {

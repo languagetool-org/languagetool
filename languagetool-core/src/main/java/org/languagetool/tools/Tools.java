@@ -259,14 +259,14 @@ public final class Tools {
     final long startTime = System.currentTimeMillis();
     final int contextSize = DEFAULT_CONTEXT_SIZE;
     XmlPrintMode xmlMode = StringTools.XmlPrintMode.START_XML;
-    final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
+    final List<RuleMatch> ruleMatches = new ArrayList<>();
     int matchCount = 0;
     int sentCount = 0;
     for (StringPair srcAndTrg : reader) {
       final List<RuleMatch> curMatches = checkBitext(
           srcAndTrg.getSource(), srcAndTrg.getTarget(), 
           srcLt, trgLt, bRules);
-      final List<RuleMatch> fixedMatches = new ArrayList<RuleMatch>();      
+      final List<RuleMatch> fixedMatches = new ArrayList<>();
       for (RuleMatch thisMatch : curMatches) {
         fixedMatches.add(  
             trgLt.adjustRuleMatchPos(thisMatch, 
@@ -343,7 +343,7 @@ public final class Tools {
    */
   public static List<BitextRule> getBitextRules(final Language source, 
       final Language target) throws IOException, ParserConfigurationException, SAXException {
-    final List<BitextRule> bRules = new ArrayList<BitextRule>();
+    final List<BitextRule> bRules = new ArrayList<>();
     //try to load the bitext pattern rules for the language...
     final BitextPatternRuleLoader ruleLoader = new BitextPatternRuleLoader();          
     final String name = "/" + target.getShortName() + "/bitext.xml";
@@ -373,7 +373,7 @@ public final class Tools {
     // implement rule
     // precedence
 
-    final List<BitextRule> rules = new ArrayList<BitextRule>();
+    final List<BitextRule> rules = new ArrayList<>();
     try {
       final List<Class<? extends BitextRule>> classes = BitextRule.getRelevantRules();
             
@@ -500,7 +500,7 @@ public final class Tools {
       final List<RuleMatch> curMatches = checkBitext(
           srcAndTrg.getSource(), srcAndTrg.getTarget(), 
           sourceLt, targetLt, bRules);
-      final List<RuleMatch> fixedMatches = new ArrayList<RuleMatch>();      
+      final List<RuleMatch> fixedMatches = new ArrayList<>();
       for (RuleMatch thisMatch : curMatches) {
         fixedMatches.add(  
             targetLt.adjustRuleMatchPos(thisMatch,
@@ -521,7 +521,7 @@ public final class Tools {
       final String contents, final List<RuleMatch> matches) {
     final StringBuilder sb = new StringBuilder(contents);
     //build error list:
-    final List<String> errors = new ArrayList<String>();
+    final List<String> errors = new ArrayList<>();
     for (RuleMatch rm : matches) {
       final List<String> replacements = rm.getSuggestedReplacements();
       if (!replacements.isEmpty()) {
@@ -589,7 +589,7 @@ public final class Tools {
     }
     // enable rules
     if (enabledRules.length > 0) {
-      final Set<String> enabledRuleIDs = new HashSet<String>(Arrays.asList(enabledRules));
+      final Set<String> enabledRuleIDs = new HashSet<>(Arrays.asList(enabledRules));
       for (String ruleName : enabledRuleIDs) {
         lt.enableDefaultOffRule(ruleName);
         lt.enableRule(ruleName);

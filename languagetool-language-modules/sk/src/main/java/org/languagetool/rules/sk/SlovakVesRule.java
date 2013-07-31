@@ -54,7 +54,7 @@ public class SlovakVesRule extends SlovakRule {
 
   @Override
   public final RuleMatch[] match(final AnalyzedSentence text) {
-    final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
+    final List<RuleMatch> ruleMatches = new ArrayList<>();
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
     // never read        boolean prve_uvodzovky;
     boolean tag, tag2, tag3;

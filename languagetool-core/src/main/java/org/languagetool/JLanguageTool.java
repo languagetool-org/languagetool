@@ -105,11 +105,11 @@ public final class JLanguageTool {
   
   private static ResourceDataBroker dataBroker = new DefaultResourceDataBroker();
 
-  private final List<Rule> builtinRules = new ArrayList<Rule>();
-  private final List<Rule> userRules = new ArrayList<Rule>(); // rules added via addRule() method
-  private final Set<String> disabledRules = new HashSet<String>();
-  private final Set<String> enabledRules = new HashSet<String>();
-  private final Set<String> disabledCategories = new HashSet<String>();
+  private final List<Rule> builtinRules = new ArrayList<>();
+  private final List<Rule> userRules = new ArrayList<>(); // rules added via addRule() method
+  private final Set<String> disabledRules = new HashSet<>();
+  private final Set<String> enabledRules = new HashSet<>();
+  private final Set<String> disabledCategories = new HashSet<>();
 
   private Language language;
   private Language motherTongue;
@@ -147,7 +147,7 @@ public final class JLanguageTool {
     ONLYNONPARA
   }
   
-  private static List<File> temporaryFiles = new ArrayList<File>();
+  private static List<File> temporaryFiles = new ArrayList<>();
   
   /**
    * Create a JLanguageTool and setup the built-in Java rules for the
@@ -276,7 +276,7 @@ public final class JLanguageTool {
   }
 
   private Rule[] getAllBuiltinRules(final Language language, final ResourceBundle messages) {
-    final List<Rule> rules = new ArrayList<Rule>();
+    final List<Rule> rules = new ArrayList<>();
     final List<Class<? extends Rule>> languageRules = language.getRelevantRules();
     for (Class<? extends Rule> ruleClass : languageRules) {
       final Constructor[] constructors = ruleClass.getConstructors();
@@ -340,7 +340,7 @@ public final class JLanguageTool {
   public List<PatternRule> loadFalseFriendRules(final String filename)
       throws ParserConfigurationException, SAXException, IOException {
     if (motherTongue == null) {
-      return new ArrayList<PatternRule>();
+      return new ArrayList<>();
     }
     final FalseFriendRuleLoader ruleLoader = new FalseFriendRuleLoader();
     return ruleLoader.getRules(this.getClass().getResourceAsStream(filename),
@@ -352,7 +352,7 @@ public final class JLanguageTool {
    * <code>org/languagetool/rules/&lt;languageCode&gt;/grammar.xml</code>.
    */
   public void activateDefaultPatternRules() throws IOException {
-    final List<PatternRule> patternRules = new ArrayList<PatternRule>();
+    final List<PatternRule> patternRules = new ArrayList<>();
     for (String patternRuleFileName : language.getRuleFileNames()) {
       patternRules.addAll(loadPatternRules(patternRuleFileName));
     }    
@@ -415,7 +415,7 @@ public final class JLanguageTool {
   }
 
   private List<String> getAllIgnoreWords(List<Rule> allActiveRules) {
-    final List<String> suggestionTokens = new ArrayList<String>();
+    final List<String> suggestionTokens = new ArrayList<>();
     for (Rule activeRule : allActiveRules) {
       if (activeRule instanceof PatternRule) {
         final SuggestionExtractor extractor = new SuggestionExtractor();
@@ -514,16 +514,16 @@ public final class JLanguageTool {
     if (tokenizeText) { 
       sentences = sentenceTokenize(text);
     } else {
-      sentences = new ArrayList<String>();
+      sentences = new ArrayList<>();
       sentences.add(text);
     }
-    final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
+    final List<RuleMatch> ruleMatches = new ArrayList<>();
     final List<Rule> allRules = getAllRules();
     printIfVerbose(allRules.size() + " rules activated for language " + language);
     int charCount = 0;
     int lineCount = 0;
     int columnCount = 1;
-    unknownWords = new HashSet<String>();
+    unknownWords = new HashSet<>();
     for (final String sentence : sentences) {
       sentenceCount++;      
       AnalyzedSentence analyzedSentence = getAnalyzedSentence(sentence);
@@ -583,7 +583,7 @@ public final class JLanguageTool {
       final List<Rule> allRules, int tokenCount, int lineCount,
       int columnCount, final String sentence, AnalyzedSentence analyzedSentence)
         throws IOException {
-    final List<RuleMatch> sentenceMatches = new ArrayList<RuleMatch>();
+    final List<RuleMatch> sentenceMatches = new ArrayList<>();
     for (final Rule rule : allRules) {
       if (disabledRules.contains(rule.getId())
           || (rule.isDefaultOff() && !enabledRules.contains(rule.getId()))) {
@@ -688,7 +688,7 @@ public final class JLanguageTool {
     if (!listUnknownWords) {
       throw new IllegalStateException("listUnknownWords is set to false, unknown words not stored");
     }
-    final List<String> words = new ArrayList<String>(unknownWords);
+    final List<String> words = new ArrayList<>(unknownWords);
     Collections.sort(words);
     return words;
   }
@@ -725,7 +725,7 @@ public final class JLanguageTool {
    */
   public AnalyzedSentence getRawAnalyzedSentence(final String sentence) throws IOException {
     final List<String> tokens = wordTokenizer.tokenize(sentence);
-    final Map<Integer, String> softHyphenTokens = new HashMap<Integer, String>();
+    final Map<Integer, String> softHyphenTokens = new HashMap<>();
 
     //for soft hyphens inside words, happens especially in OOo:
     for (int i = 0; i < tokens.size(); i++) {
@@ -786,7 +786,7 @@ public final class JLanguageTool {
    * @return a List of {@link Rule} objects
    */
   public List<Rule> getAllRules() {
-    final List<Rule> rules = new ArrayList<Rule>();
+    final List<Rule> rules = new ArrayList<>();
     rules.addAll(builtinRules);
     rules.addAll(userRules);
     // Some rules have an internal state so they can do checks over sentence
@@ -805,8 +805,8 @@ public final class JLanguageTool {
    * @return a List of {@link Rule} objects
    */
   public List<Rule> getAllActiveRules() {
-    final List<Rule> rules = new ArrayList<Rule>();
-    final List<Rule> rulesActive = new ArrayList<Rule>();
+    final List<Rule> rules = new ArrayList<>();
+    final List<Rule> rulesActive = new ArrayList<>();
     rules.addAll(builtinRules);
     rules.addAll(userRules);
     // Some rules have an internal state so they can do checks over sentence

@@ -145,7 +145,7 @@ public class IndexerSearcherTest extends LuceneTestCase {
   }
 
   private List<String> getRuleMatchIds(List<RuleMatch> ruleMatches) {
-    final List<String> ids = new ArrayList<String>();
+    final List<String> ids = new ArrayList<>();
     for (RuleMatch ruleMatch : ruleMatches) {
       if (ruleMatch.getRule() instanceof PatternRule) {
         final PatternRule patternRule = (PatternRule) ruleMatch.getRule();

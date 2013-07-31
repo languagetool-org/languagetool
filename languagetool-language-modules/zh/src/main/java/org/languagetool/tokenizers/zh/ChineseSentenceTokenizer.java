@@ -33,7 +33,7 @@ public class ChineseSentenceTokenizer extends SentenceTokenizer {
 
     final SentenceSeg ss = new SentenceSeg(text);
     final ArrayList<Sentence> sens = ss.getSens();
-    final ArrayList<String> list = new ArrayList<String>();
+    final ArrayList<String> list = new ArrayList<>();
 
     for (Sentence sen : sens) {
       String str = sen.getContent();

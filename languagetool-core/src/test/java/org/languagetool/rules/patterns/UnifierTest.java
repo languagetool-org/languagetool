@@ -47,8 +47,8 @@ public class UnifierTest extends TestCase {
     final AnalyzedToken upperAll1 = new AnalyzedToken("JOHN", "NNP", "John");
     final AnalyzedToken upperAll2 = new AnalyzedToken("JAMES", "NNP", "James");
 
-    final Map<String, List<String>> equiv = new HashMap<String, List<String>>();
-    final List<String> list1 = new ArrayList<String>();
+    final Map<String, List<String>> equiv = new HashMap<>();
+    final List<String> list1 = new ArrayList<>();
     list1.add("lowercase");
     equiv.put("case-sensitivity", list1);
     boolean satisfied = uni.isSatisfied(lower1, equiv);
@@ -114,8 +114,8 @@ public class UnifierTest extends TestCase {
     final AnalyzedToken sing1 = new AnalyzedToken("mały", "adj:sg:blahblah", "mały");
     final AnalyzedToken sing2 = new AnalyzedToken("człowiek", "subst:sg:blahblah", "człowiek");
 
-    final Map<String, List<String>> equiv = new HashMap<String, List<String>>();
-    final List<String> list1 = new ArrayList<String>();
+    final Map<String, List<String>> equiv = new HashMap<>();
+    final List<String> list1 = new ArrayList<>();
     list1.add("singular");
     equiv.put("number", list1);
 
@@ -188,7 +188,7 @@ public class UnifierTest extends TestCase {
     final AnalyzedToken sing1b = new AnalyzedToken("małe", "adj:pl:blahblah:m", "mały");
     final AnalyzedToken sing2 = new AnalyzedToken("człowiek", "subst:sg:blahblah:m", "człowiek");
 
-    final Map<String, List<String>> equiv = new HashMap<String, List<String>>();
+    final Map<String, List<String>> equiv = new HashMap<>();
     equiv.put("number", null);
     equiv.put("gender", null);
 
@@ -228,7 +228,7 @@ public class UnifierTest extends TestCase {
     AnalyzedToken sing2 = new AnalyzedToken("zgarbiony", "adj:pl:blahblah:f", "zgarbiony");    
     final AnalyzedToken sing3 = new AnalyzedToken("człowiek", "subst:sg:blahblah:m", "człowiek");
     
-    final Map<String, List<String>> equiv = new HashMap<String, List<String>>();
+    final Map<String, List<String>> equiv = new HashMap<>();
     equiv.put("number", null);
     equiv.put("gender", null);
 
@@ -326,7 +326,7 @@ public class UnifierTest extends TestCase {
       
       //now we should have 4x4x4 combinations...
       
-      final Map<String, List<String>> equiv = new HashMap<String, List<String>>();
+      final Map<String, List<String>> equiv = new HashMap<>();
       equiv.put("number", null);
       equiv.put("gender", null);
 

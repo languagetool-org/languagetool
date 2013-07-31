@@ -48,7 +48,7 @@ public class LongSentenceRule extends Rule {
 
   @Override
   public RuleMatch[] match(AnalyzedSentence text) throws IOException {
-    final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
+    final List<RuleMatch> ruleMatches = new ArrayList<>();
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
     final String msg = "Sentence is over 40 words long, consider revising.";
     int numWords = 0;

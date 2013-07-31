@@ -64,7 +64,7 @@ public class EnglishTaggerTest extends TestCase {
   
   public void testLemma() throws IOException {
     EnglishTagger tagger = new EnglishTagger();
-    List<String> words = new ArrayList<String>();
+    List<String> words = new ArrayList<>();
     words.add("Oliver");
     words.add("works");
     List<AnalyzedTokenReadings> aToken = tagger.tag(words);

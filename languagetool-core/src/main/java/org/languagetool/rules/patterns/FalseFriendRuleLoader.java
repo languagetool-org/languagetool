@@ -111,11 +111,11 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
   private Language language;
   private Language translationLanguage;
   private Language currentTranslationLanguage;
-  private List<StringBuilder> translations = new ArrayList<StringBuilder>();
+  private List<StringBuilder> translations = new ArrayList<>();
   private StringBuilder translation = new StringBuilder();
-  private final List<String> suggestions = new ArrayList<String>();
+  private final List<String> suggestions = new ArrayList<>();
   // rule ID -> list of translations:
-  private final Map<String, List<String>> suggestionMap = new HashMap<String, List<String>>();
+  private final Map<String, List<String>> suggestionMap = new HashMap<>();
 
   private boolean inTranslation;
 
@@ -140,7 +140,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
   public void startElement(final String namespaceURI, final String lName,
       final String qName, final Attributes attrs) throws SAXException {
     if (qName.equals(RULE)) {
-      translations = new ArrayList<StringBuilder>();
+      translations = new ArrayList<>();
       id = attrs.getValue("id");
       if (!(inRuleGroup && defaultOff)) {
         defaultOff = "off".equals(attrs.getValue("default"));
@@ -148,8 +148,8 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
       if (inRuleGroup && id == null) {
         id = ruleGroupId;
       }
-      correctExamples = new ArrayList<String>();
-      incorrectExamples = new ArrayList<IncorrectExample>();
+      correctExamples = new ArrayList<>();
+      incorrectExamples = new ArrayList<>();
     } else if (qName.equals(PATTERN)) {
       inPattern = true;
       final String languageStr = attrs.getValue("lang");
@@ -249,7 +249,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
       inMessage = false;
     } else if (qName.equals(RULEGROUP)) {
       if (!suggestions.isEmpty()) {
-        final List<String> l = new ArrayList<String>(suggestions);
+        final List<String> l = new ArrayList<>(suggestions);
         suggestionMap.put(id, l);
         suggestions.clear();
       }

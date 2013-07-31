@@ -43,7 +43,7 @@ public class ManualSynthesizerAdapter extends BaseSynthesizer implements Synthes
     synthesizer = new IStemmer() { // null synthesiser 
       @Override
       public List<WordData> lookup(CharSequence word) {
-        return new ArrayList<WordData>();
+        return new ArrayList<>();
       }
     };
   }
@@ -51,7 +51,7 @@ public class ManualSynthesizerAdapter extends BaseSynthesizer implements Synthes
   @Override
   protected void initPossibleTags() throws IOException {
     if (possibleTags == null) {
-      possibleTags = new ArrayList<String>(manualSynthesizer.getPossibleTags());
+      possibleTags = new ArrayList<>(manualSynthesizer.getPossibleTags());
     }
   }
 

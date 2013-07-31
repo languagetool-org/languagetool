@@ -103,9 +103,9 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
 
   @Override
   public final RuleMatch[] match(final AnalyzedSentence text) {
-    List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
+    List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
-    List<String> replacements = new ArrayList<String>(); 
+    List<String> replacements = new ArrayList<>();
 
     for (AnalyzedTokenReadings tokenReadings : tokens) {
       String originalTokenStr = tokenReadings.getToken();
@@ -165,7 +165,7 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
 
   private Map<String, List<String>> loadWords(final InputStream stream)
       throws IOException {
-    Map<String, List<String>> map = new HashMap<String, List<String>>();
+    Map<String, List<String>> map = new HashMap<>();
     Scanner scanner = new Scanner(stream, getEncoding());
 
     try {

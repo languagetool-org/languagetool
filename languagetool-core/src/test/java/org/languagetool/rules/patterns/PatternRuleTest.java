@@ -113,7 +113,7 @@ public class PatternRuleTest extends TestCase {
     final JLanguageTool allRulesLanguageTool = new JLanguageTool(lang);
     allRulesLanguageTool.activateDefaultPatternRules();
     validateRuleIds(lang, allRulesLanguageTool);
-    final List<PatternRule> rules = new ArrayList<PatternRule>();
+    final List<PatternRule> rules = new ArrayList<>();
     for (String patternRuleFileName : lang.getRuleFileNames()) {
       rules.addAll(languageTool.loadPatternRules(patternRuleFileName));
     }
@@ -145,8 +145,8 @@ public class PatternRuleTest extends TestCase {
 
   private void validateRuleIds(Language lang, JLanguageTool languageTool) {
     final List<Rule> allRules = languageTool.getAllRules();
-    final Set<String> ids = new HashSet<String>();
-    final Set<Class> ruleClasses = new HashSet<Class>();
+    final Set<String> ids = new HashSet<>();
+    final Set<Class> ruleClasses = new HashSet<>();
     for (Rule rule : allRules) {
       assertIdUniqueness(ids, ruleClasses, lang, rule);
     }
@@ -173,14 +173,14 @@ public class PatternRuleTest extends TestCase {
   private void testGrammarRulesFromXML(final List<PatternRule> rules,
                                        final JLanguageTool languageTool,
                                        final JLanguageTool allRulesLanguageTool, final Language lang) throws IOException {
-    final HashMap<String, PatternRule> complexRules = new HashMap<String, PatternRule>();
+    final HashMap<String, PatternRule> complexRules = new HashMap<>();
     for (final PatternRule rule : rules) {
       testCorrectSentences(languageTool, allRulesLanguageTool, lang, rule);
       testBadSentences(languageTool, allRulesLanguageTool, lang, complexRules, rule);
     }
     if (!complexRules.isEmpty()) {
       final Set<String> set = complexRules.keySet();
-      final List<PatternRule> badRules = new ArrayList<PatternRule>();
+      final List<PatternRule> badRules = new ArrayList<>();
       for (String aSet : set) {
         final PatternRule badRule = complexRules.get(aSet);
         if (badRule != null) {
@@ -366,7 +366,7 @@ public class PatternRuleTest extends TestCase {
       }
       languageTool.enableRule(rule.getId());
       final List<RuleMatch> realMatches = languageTool.check(sentence);
-      final List<String> realMatchRuleIds = new ArrayList<String>();
+      final List<String> realMatchRuleIds = new ArrayList<>();
       for (RuleMatch realMatch : realMatches) {
         realMatchRuleIds.add(realMatch.getRule().getId());
       }
@@ -461,7 +461,7 @@ public class PatternRuleTest extends TestCase {
 
   private PatternRule makePatternRule(final String s,
       final boolean caseSensitive, final boolean regex) {
-    final List<Element> elements = new ArrayList<Element>();
+    final List<Element> elements = new ArrayList<>();
     final String[] parts = s.split(" ");
     boolean pos = false;
     Element se;

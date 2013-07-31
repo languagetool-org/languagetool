@@ -49,10 +49,10 @@ public class GenericUnpairedBracketsRule extends Rule {
   /**
    * The stack for pairing symbols.
    */
-  protected final UnsyncStack<SymbolLocator> symbolStack = new UnsyncStack<SymbolLocator>();
+  protected final UnsyncStack<SymbolLocator> symbolStack = new UnsyncStack<>();
 
   // Stack of rule matches.
-  private final UnsyncStack<RuleMatchLocator> ruleMatchStack = new UnsyncStack<RuleMatchLocator>();
+  private final UnsyncStack<RuleMatchLocator> ruleMatchStack = new UnsyncStack<>();
 
   private boolean endOfParagraph;
   private int ruleMatchIndex;
@@ -83,7 +83,7 @@ public class GenericUnpairedBracketsRule extends Rule {
   }
 
   public void uniqueMapInit() {
-    uniqueMap = new HashMap<String, Boolean>();
+    uniqueMap = new HashMap<>();
     for (String endSymbol : endSymbols) {
       int found = 0;
       for (String endSymbol1 : endSymbols) {
@@ -122,7 +122,7 @@ public class GenericUnpairedBracketsRule extends Rule {
 
   @Override
   public final RuleMatch[] match(final AnalyzedSentence text) {
-    ruleMatches = new ArrayList<RuleMatch>();
+    ruleMatches = new ArrayList<>();
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
 
     if (endOfParagraph) {

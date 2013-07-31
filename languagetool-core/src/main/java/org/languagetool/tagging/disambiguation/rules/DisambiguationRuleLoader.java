@@ -230,10 +230,10 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
     } else if (qName.equals(EXAMPLE)) {
       inExample = true;
       if (untouchedExamples == null) {
-        untouchedExamples = new ArrayList<String>();
+        untouchedExamples = new ArrayList<>();
       }
       if (disambExamples == null) {
-        disambExamples = new ArrayList<DisambiguatedExample>();
+        disambExamples = new ArrayList<>();
       }
       untouched = attrs.getValue(TYPE).equals("untouched");
       if (attrs.getValue(TYPE).equals("ambiguous")) {
@@ -382,10 +382,10 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
       tokenCounter = 0;
     } else if ("feature".equals(qName)) {      
       equivalenceFeatures.put(uFeature, uTypeList);
-      uTypeList = new ArrayList<String>();
+      uTypeList = new ArrayList<>();
     } else if (qName.equals(UNIFY)) {
       inUnification = false;
-      equivalenceFeatures = new HashMap<String, List<String>>();
+      equivalenceFeatures = new HashMap<>();
       //set negation on the last token only!
       final int lastElement = elementList.size() - 1;
       elementList.get(lastElement).setLastInUnification();
@@ -414,7 +414,7 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
       final String pos) {
     final AnalyzedToken newWd = new AnalyzedToken(word, pos, lemma);
     if (newWdList == null) {
-      newWdList = new ArrayList<AnalyzedToken>();
+      newWdList = new ArrayList<>();
     }
     newWdList.add(newWd);
   }

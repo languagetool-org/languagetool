@@ -68,7 +68,7 @@ public abstract class WrongWordInContextRule extends Rule {
 
   @Override
   public RuleMatch[] match(final AnalyzedSentence text) {
-    final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
+    final List<RuleMatch> ruleMatches = new ArrayList<>();
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
     for (ContextWords contextWords: contextWordsSet) {
       final boolean[] matchedWord = {false, false};
@@ -167,7 +167,7 @@ public abstract class WrongWordInContextRule extends Rule {
    * Load words, contexts, and explanations.
    */
   private List<ContextWords> loadContextWords(final InputStream file) {
-    final List<ContextWords> set = new ArrayList<ContextWords>();
+    final List<ContextWords> set = new ArrayList<>();
     final Scanner scanner = new Scanner(file, "utf-8");
     try {
       while (scanner.hasNextLine()) {

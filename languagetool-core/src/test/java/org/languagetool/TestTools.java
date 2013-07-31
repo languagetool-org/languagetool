@@ -56,7 +56,7 @@ public final class TestTools {
   }
 
   public static Set<Language> getLanguagesExcept(String[] langCodes) {
-    final Set<Language> languages = new HashSet<Language>();
+    final Set<Language> languages = new HashSet<>();
     languages.addAll(Arrays.asList(Language.LANGUAGES));
     if (langCodes != null) {
       for (String langCode : langCodes) {
@@ -81,7 +81,7 @@ public final class TestTools {
   public static void testSplit(final String[] sentences,
       final SentenceTokenizer sTokenizer) {
     final StringBuilder inputString = new StringBuilder();
-    final List<String> input = new ArrayList<String>();
+    final List<String> input = new ArrayList<>();
     Collections.addAll(input, sentences);
     for (final String string : input) {
       inputString.append(string);
@@ -92,7 +92,7 @@ public final class TestTools {
   public static void myAssert(final String input, final String expected,
       final Tokenizer tokenizer, final Tagger tagger) throws IOException {
     final List<String> tokens = tokenizer.tokenize(input);
-    final List<String> noWhitespaceTokens = new ArrayList<String>();
+    final List<String> noWhitespaceTokens = new ArrayList<>();
     // whitespace confuses tagger, so give it the tokens but no whitespace
     // tokens:
     for (final String token : tokens) {
@@ -106,7 +106,7 @@ public final class TestTools {
         .hasNext();) {
       final AnalyzedTokenReadings token = iter.next();
       final int readingsNumber = token.getReadingsLength();
-      final List<String> readings = new ArrayList<String>();
+      final List<String> readings = new ArrayList<>();
       for (int j = 0; j < readingsNumber; j++) {
         final StringBuilder readingStr = new StringBuilder();
         readingStr.append(token.getAnalyzedToken(j).getToken());
@@ -135,7 +135,7 @@ public final class TestTools {
     final List<String> sentences = sentenceTokenizer.tokenize(input);
     for (final String sentence : sentences) {
       final List<String> tokens = tokenizer.tokenize(sentence);
-      final List<String> noWhitespaceTokens = new ArrayList<String>();
+      final List<String> noWhitespaceTokens = new ArrayList<>();
       // whitespace confuses tagger, so give it the tokens but no whitespace
       // tokens:
       for (final String token : tokens) {
@@ -177,7 +177,7 @@ public final class TestTools {
       for (int i = 0; i < output.length; i++) {
         final AnalyzedTokenReadings token = output[i];
         final int readingsNumber = token.getReadingsLength();
-        final List<String> readings = new ArrayList<String>();
+        final List<String> readings = new ArrayList<>();
         for (int j = 0; j < readingsNumber; j++) {
           final StringBuilder readingStr = new StringBuilder();
           readingStr.append(token.getAnalyzedToken(j).getToken());

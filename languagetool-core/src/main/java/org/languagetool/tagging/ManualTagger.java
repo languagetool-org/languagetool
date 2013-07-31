@@ -60,7 +60,7 @@ public class ManualTagger {
     if (l == null) {
       return null;
     }
-    final List<String> plainResult = new ArrayList<String>();
+    final List<String> plainResult = new ArrayList<>();
     for (final Object element : l) {
       final LookedUpTerm lookedUpTerm = (LookedUpTerm) element;
       plainResult.add(lookedUpTerm.baseform);
@@ -73,7 +73,7 @@ public class ManualTagger {
   }
 
   private Map<String, List<LookedUpTerm>> loadMapping(final InputStream inputStream, final String encoding) throws IOException {
-    final Map<String, List<LookedUpTerm>> map = new HashMap<String, List<LookedUpTerm>>();
+    final Map<String, List<LookedUpTerm>> map = new HashMap<>();
     final Scanner scanner = new Scanner(inputStream, encoding);
     try {
       while (scanner.hasNextLine()) {
@@ -87,7 +87,7 @@ public class ManualTagger {
         }
         List<LookedUpTerm> terms = map.get(parts[0]);
         if (terms == null) {
-          terms = new ArrayList<LookedUpTerm>();
+          terms = new ArrayList<>();
         }
         terms.add(new LookedUpTerm(parts[1], parts[2]));
         map.put(parts[0], terms);

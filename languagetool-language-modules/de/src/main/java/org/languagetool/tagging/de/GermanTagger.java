@@ -56,7 +56,7 @@ public class GermanTagger implements Tagger {
   }
 
   public AnalyzedGermanTokenReadings lookup(final String word) throws IOException {
-    final List<String> words = new ArrayList<String>();
+    final List<String> words = new ArrayList<>();
     words.add(word);
     final List<AnalyzedTokenReadings> result = tag(words, false);
     final AnalyzedGermanTokenReadings atr = (AnalyzedGermanTokenReadings) result.get(0);
@@ -74,7 +74,7 @@ public class GermanTagger implements Tagger {
   public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens, final boolean ignoreCase) throws IOException {
     String[] taggerTokens;
     boolean firstWord = true;
-    final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<AnalyzedTokenReadings>();
+    final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
     int pos = 0;
     // caching Lametyzator instance - lazy init
     if (morfologik == null) {      
@@ -89,7 +89,7 @@ public class GermanTagger implements Tagger {
     }
 
     for (String word: sentenceTokens) {
-      final List<AnalyzedGermanToken> l = new ArrayList<AnalyzedGermanToken>();
+      final List<AnalyzedGermanToken> l = new ArrayList<>();
       taggerTokens = lexiconLookup(word);
       if (firstWord && taggerTokens == null && ignoreCase) { // e.g. "Das" -> "das" at start of sentence
         taggerTokens = lexiconLookup(word.toLowerCase());
@@ -202,7 +202,7 @@ public class GermanTagger implements Tagger {
    */
   public static void main(final String[] args) throws IOException {
     final GermanTagger gt = new GermanTagger();
-    final List<String> l = new ArrayList<String>();
+    final List<String> l = new ArrayList<>();
     l.add("Einfacher");
     //System.err.println(gt.lookup("Treffen", 0));
     final List<AnalyzedTokenReadings> res = gt.tag(l);

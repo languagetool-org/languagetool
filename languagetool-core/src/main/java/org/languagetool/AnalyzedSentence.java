@@ -99,7 +99,7 @@ public class AnalyzedSentence {
       int whCounter = 0;
       int nonWhCounter = 0;
       final int[] mapping = new int[tokens.length + 1];
-      final List<AnalyzedTokenReadings> l = new ArrayList<AnalyzedTokenReadings>();
+      final List<AnalyzedTokenReadings> l = new ArrayList<>();
       for (final AnalyzedTokenReadings token : tokens) {
         if (!token.isWhitespace() || token.isSentStart() || token.isSentEnd()
             || token.isParaEnd()) {

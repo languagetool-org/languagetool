@@ -43,10 +43,10 @@ public class ManualTaggerAdapter implements Tagger {
   @Override
   public List<AnalyzedTokenReadings> tag(List<String> sentenceTokens)
           throws IOException {
-    final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<AnalyzedTokenReadings>();
+    final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
     int pos = 0;
     for (final String word : sentenceTokens) {
-      final List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
+      final List<AnalyzedToken> l = new ArrayList<>();
       final String[] manualTags = manualTagger.lookup(word.toLowerCase());
       if (manualTags != null) {
         for (int i = 0; i < manualTags.length; i = i + 2) {

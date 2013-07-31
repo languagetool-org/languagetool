@@ -31,7 +31,7 @@ import java.util.*;
  */
 public class MultiKeyProperties {
 
-  private final Map<String, List<String>> properties = new HashMap<String, List<String>>();
+  private final Map<String, List<String>> properties = new HashMap<>();
 
   public MultiKeyProperties(InputStream inStream) {
     final Scanner scanner = new Scanner(inStream);
@@ -49,7 +49,7 @@ public class MultiKeyProperties {
         final String value = parts[1];
         List<String> list = properties.get(key);
         if (list == null) {
-          list = new ArrayList<String>();
+          list = new ArrayList<>();
         }
         list.add(value);
         properties.put(key, list);

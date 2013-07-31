@@ -55,7 +55,7 @@ public abstract class Language {
   private static final String PROPERTIES_PATH = "META-INF/org/languagetool/language-module.properties";
   private static final String PROPERTIES_KEY = "languageClasses";
   
-  private static List<Language> externalLanguages = new ArrayList<Language>();
+  private static List<Language> externalLanguages = new ArrayList<>();
   
   /**
    * All languages supported by LanguageTool. This includes at least a "demo" language
@@ -64,8 +64,8 @@ public abstract class Language {
   public static Language[] LANGUAGES = getLanguages();
   
   private static Language[] getLanguages() {
-    final List<Language> languages = new ArrayList<Language>();
-    final Set<String> languageClassNames = new HashSet<String>();
+    final List<Language> languages = new ArrayList<>();
+    final Set<String> languageClassNames = new HashSet<>();
     try {
       final Enumeration<URL> propertyFiles = Language.class.getClassLoader().getResources(PROPERTIES_PATH);
       while (propertyFiles.hasMoreElements()) {
@@ -204,7 +204,7 @@ public abstract class Language {
    * Get the location of the rule file(s).
    */
   public List<String> getRuleFileNames() {
-    final List<String> ruleFiles = new ArrayList<String>();
+    final List<String> ruleFiles = new ArrayList<>();
     final ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
     ruleFiles.add(dataBroker.getRulesDir()
             + "/" + getShortName() + "/" + JLanguageTool.PATTERN_FILE);
@@ -357,7 +357,7 @@ public abstract class Language {
    * @return A list of all languages, including external ones and country variants (e.g. en-US)
    */
   public static List<Language> getAllLanguages() {
-    final List<Language> langList = new ArrayList<Language>();
+    final List<Language> langList = new ArrayList<>();
     Collections.addAll(langList, LANGUAGES);
     langList.addAll(externalLanguages);
     return langList;
@@ -509,11 +509,11 @@ public abstract class Language {
    */
   public static String getAllMaintainers(final ResourceBundle messages) {
     final StringBuilder maintainersInfo = new StringBuilder();
-    final List<String> toSort = new ArrayList<String>();
+    final List<String> toSort = new ArrayList<>();
     for (final Language lang : Language.REAL_LANGUAGES) {
       if (!lang.isVariant()) {
         if (lang.getMaintainers() != null) {
-          final List<String> names = new ArrayList<String>();
+          final List<String> names = new ArrayList<>();
           for (Contributor contributor : lang.getMaintainers()) {
             names.add(contributor.getName());
           }

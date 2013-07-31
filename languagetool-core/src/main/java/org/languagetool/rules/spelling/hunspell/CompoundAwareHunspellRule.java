@@ -55,7 +55,7 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
     if (needsInit) {
       init();
     }
-    final List<String> candidates = new ArrayList<String>();
+    final List<String> candidates = new ArrayList<>();
     
     final List<String> noSplitSuggestions = morfoSpeller.getSuggestions(word);
     candidates.addAll(noSplitSuggestions);
@@ -81,7 +81,7 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
           suggestions = morfoSpeller.getSuggestions(StringTools.uppercaseFirstChar(part));
         }
         for (String suggestion : suggestions) {
-          final List<String> partsCopy = new ArrayList<String>(parts);
+          final List<String> partsCopy = new ArrayList<>(parts);
           partsCopy.set(partCount, suggestion);
           candidates.add(StringTools.listToString(partsCopy, ""));
         }
@@ -101,7 +101,7 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
   }
 
   private void filterDupes(List<String> words) {
-    final Set<String> seen = new HashSet<String>();
+    final Set<String> seen = new HashSet<>();
     final Iterator<String> iterator = words.iterator();
     while (iterator.hasNext()) {
       final String word = iterator.next();
@@ -113,7 +113,7 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
   }
   
   private List<String> getCorrectWords(List<String> wordsOrPhrases) {
-    final List<String> result = new ArrayList<String>();
+    final List<String> result = new ArrayList<>();
     for (String wordOrPhrase : wordsOrPhrases) {
       // this might be a phrase like "aufgrund dessen", so it needs to be split: 
       final String[] words = tokenizeText(wordOrPhrase);

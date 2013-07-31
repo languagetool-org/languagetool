@@ -168,7 +168,7 @@ public final class RuleOverview {
   }
 
   private List<String> getSortedLanguages() {
-    final List<String> sortedLanguages = new ArrayList<String>();
+    final List<String> sortedLanguages = new ArrayList<>();
     for (Language element : Language.LANGUAGES) {
       if (element == Language.DEMO) {
         continue;

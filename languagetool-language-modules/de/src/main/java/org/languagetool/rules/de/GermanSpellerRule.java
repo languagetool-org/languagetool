@@ -32,7 +32,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   public static final String RULE_ID = "GERMAN_SPELLER_RULE";
   
   private static final int MAX_EDIT_DISTANCE = 2;
-  private static final List<Replacement> REPL = new ArrayList<Replacement>();
+  private static final List<Replacement> REPL = new ArrayList<>();
   static {
     // see de_DE.aff:
     REPL.add(new Replacement("f", "ph"));
@@ -104,7 +104,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   // TODO: remove this when the Morfologik speller can do this directly during tree iteration:
   @Override
   protected List<String> sortSuggestionByQuality(String misspelling, List<String> suggestions) {
-    final List<String> result = new ArrayList<String>();
+    final List<String> result = new ArrayList<>();
     for (String suggestion : suggestions) {
       boolean moveSuggestionToTop = false;
       for (Replacement replacement : REPL) {

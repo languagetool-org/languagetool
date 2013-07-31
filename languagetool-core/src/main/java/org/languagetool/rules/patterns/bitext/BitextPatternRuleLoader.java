@@ -73,9 +73,9 @@ class BitextPatternRuleHandler extends PatternRuleHandler {
 
   private Language srcLang;
 
-  private List<StringPair> correctExamples = new ArrayList<StringPair>();
-  private List<IncorrectBitextExample> incorrectExamples = new ArrayList<IncorrectBitextExample>();
-  private final List<BitextPatternRule> rules = new ArrayList<BitextPatternRule>();
+  private List<StringPair> correctExamples = new ArrayList<>();
+  private List<IncorrectBitextExample> incorrectExamples = new ArrayList<>();
+  private final List<BitextPatternRule> rules = new ArrayList<>();
 
   List<BitextPatternRule> getBitextRules() {
     return rules;
@@ -93,8 +93,8 @@ class BitextPatternRuleHandler extends PatternRuleHandler {
       language = Language.getLanguageForShortName(languageStr);
     } else if (qName.equals("rule")) {
       super.startElement(namespaceURI, lName, qName, attrs);
-      correctExamples = new ArrayList<StringPair>();
-      incorrectExamples = new ArrayList<IncorrectBitextExample>();
+      correctExamples = new ArrayList<>();
+      incorrectExamples = new ArrayList<>();
     } else if (qName.equals("target")) {
       startPattern(attrs);
     } else if (qName.equals("source")) {
@@ -179,7 +179,7 @@ class BitextPatternRuleHandler extends PatternRuleHandler {
     } else {
       if (!elementList.isEmpty()) {
         for (final ArrayList<Element> ph : phraseElementList) {
-          ph.addAll(new ArrayList<Element>(elementList));
+          ph.addAll(new ArrayList<>(elementList));
         }
       }
       for (final ArrayList<Element> phraseElement : phraseElementList) {

@@ -163,8 +163,8 @@ class ResultArea extends JTextPane {
   }
 
   void setRuleMatches(List<RuleMatch> ruleMatches) {
-    this.allRuleMatches = new ArrayList<RuleMatch>(ruleMatches);
-    this.ruleMatches = new ArrayList<RuleMatch>(ruleMatches);
+    this.allRuleMatches = new ArrayList<>(ruleMatches);
+    this.ruleMatches = new ArrayList<>(ruleMatches);
   }
 
   void displayResult() {
@@ -187,7 +187,7 @@ class ResultArea extends JTextPane {
   }
 
   private List<RuleMatch> filterRuleMatches() {
-    final List<RuleMatch> filtered = new ArrayList<RuleMatch>();
+    final List<RuleMatch> filtered = new ArrayList<>();
     final Set<String> disabledRuleIds = config.getDisabledRuleIds();
     for (RuleMatch ruleMatch : allRuleMatches) {
       if (!disabledRuleIds.contains(ruleMatch.getRule().getId())) {

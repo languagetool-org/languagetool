@@ -105,8 +105,8 @@ public class PatternRuleHandler extends XMLRuleHandler {
       if (inRuleGroup && name == null) {
         name = ruleGroupDescription;
       }
-      correctExamples = new ArrayList<String>();
-      incorrectExamples = new ArrayList<IncorrectExample>();
+      correctExamples = new ArrayList<>();
+      incorrectExamples = new ArrayList<>();
       if (suggestionMatches != null) {
         suggestionMatches.clear();
       }
@@ -226,7 +226,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
       } else {
         if (!elementList.isEmpty()) {
           for (final ArrayList<Element> ph : phraseElementList) {
-            ph.addAll(new ArrayList<Element>(elementList));
+            ph.addAll(new ArrayList<>(elementList));
           }
         }
         for (final ArrayList<Element> phraseElement : phraseElementList) {
@@ -319,11 +319,11 @@ public class PatternRuleHandler extends XMLRuleHandler {
       inUnificationDef = false;
     } else if (FEATURE.equals(qName)) {
       equivalenceFeatures.put(uFeature, uTypeList);
-      uTypeList = new ArrayList<String>();
+      uTypeList = new ArrayList<>();
     } else if (UNIFY.equals(qName)) {
       inUnification = false;
       //clear the features...
-      equivalenceFeatures = new HashMap<String, List<String>>();
+      equivalenceFeatures = new HashMap<>();
       //set negation on the last token only!
       final int lastElement = elementList.size() - 1;
       elementList.get(lastElement).setLastInUnification();

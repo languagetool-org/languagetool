@@ -64,7 +64,7 @@ public class KhmerWordRepeatRule extends Rule {
   @Override
   // LEN modified July, 2011 - add general comments, modify code for Khmer repeated word processing
   public RuleMatch[] match(final AnalyzedSentence text) {
-    final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
+    final List<RuleMatch> ruleMatches = new ArrayList<>();
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace(); // LEN original
     final AnalyzedTokenReadings[] tokensWithWS = text.getTokens(); // LEN with whitespace!
 
@@ -95,7 +95,7 @@ public class KhmerWordRepeatRule extends Rule {
         //     use RuleMatch.setSuggestedReplacements(final List<String> replacement)		
         final RuleMatch ruleMatch = new RuleMatch(this, prevPos, pos+prevToken.length(), msg,
                 messages.getString("desc_repetition_short"));
-        final List<String> replacementSuggs = new ArrayList<String>(); // LEN create empty list of suggestion strings
+        final List<String> replacementSuggs = new ArrayList<>(); // LEN create empty list of suggestion strings
         replacementSuggs.add(prevToken+" "+token);	// LEN case 1: replace zero-width space w/ real space 
         replacementSuggs.add(prevToken);			// LEN case 2: remove repeated word - same as original suggestion 
         replacementSuggs.add(prevToken+"ៗ");			// LEN case 3: same as case 2, just add "repetition character"

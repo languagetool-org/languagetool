@@ -54,7 +54,7 @@ public class EsperantoWordTokenizer extends WordTokenizer {
       "(?<!')\\b([a-zA-ZĉĝĥĵŝŭĈĜĤĴŜŬ]+)'(?=[a-zA-ZĉĝĥĵŝŭĈĜĤĴŜŬ-])",
       "$1##EO_APOS2## ");
     final List<String> tokenList = super.tokenize(replaced);
-    List<String> tokens = new ArrayList<String>();
+    List<String> tokens = new ArrayList<>();
 
     // Put back apostrophes and remove spurious spaces.
     Iterator<String> itr = tokenList.iterator();

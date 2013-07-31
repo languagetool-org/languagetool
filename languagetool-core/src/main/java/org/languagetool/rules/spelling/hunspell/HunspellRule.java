@@ -76,7 +76,7 @@ public class HunspellRule extends SpellingCheckRule {
 
   @Override
   public RuleMatch[] match(AnalyzedSentence text) throws IOException {
-    final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
+    final List<RuleMatch> ruleMatches = new ArrayList<>();
     if (needsInit) {
       init();
     }

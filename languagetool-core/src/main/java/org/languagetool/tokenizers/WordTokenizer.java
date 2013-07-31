@@ -51,7 +51,7 @@ public class WordTokenizer implements Tokenizer {
 
   @Override
   public List<String> tokenize(final String text) {
-    final List<String> l = new ArrayList<String>();
+    final List<String> l = new ArrayList<>();
     final StringTokenizer st = new StringTokenizer(text, 
         "\u0020\u00A0\u115f\u1160\u1680" 
         + "\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007" 
@@ -68,7 +68,7 @@ public class WordTokenizer implements Tokenizer {
 
   // see rfc1738 and http://stackoverflow.com/questions/1856785/characters-allowed-in-a-url
   protected List<String> joinUrls(List<String> l) {
-    final List<String> newList = new ArrayList<String>();
+    final List<String> newList = new ArrayList<>();
     boolean inUrl = false;
     final StringBuilder url = new StringBuilder();
     for (int i = 0; i < l.size(); i++) {

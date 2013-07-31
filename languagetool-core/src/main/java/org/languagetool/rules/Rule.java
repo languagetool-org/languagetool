@@ -173,7 +173,7 @@ public abstract class Rule {
    */
   public final void addRuleMatch(final RuleMatch ruleMatch) {
     if (previousMatches == null) {
-      previousMatches = new ArrayList<RuleMatch>();
+      previousMatches = new ArrayList<>();
     }
     previousMatches.add(ruleMatch);
   }
@@ -186,7 +186,7 @@ public abstract class Rule {
    */
   public final void setAsDeleted(final int index) {
     if (removedMatches == null) {
-      removedMatches = new ArrayList<RuleMatch>();
+      removedMatches = new ArrayList<>();
     }
     removedMatches.add(previousMatches.get(index));
   }

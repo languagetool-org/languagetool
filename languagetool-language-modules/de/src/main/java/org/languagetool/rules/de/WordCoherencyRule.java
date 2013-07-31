@@ -51,7 +51,7 @@ public class WordCoherencyRule extends GermanRule {
   private static final String FILE_ENCODING = "utf-8";
   
   private final Map<String, String> relevantWords;        // e.g. "aufwendig -> aufwändig"
-  private Map<String, RuleMatch> shouldNotAppearWord = new HashMap<String, RuleMatch>();  // e.g. aufwändig -> RuleMatch of aufwendig
+  private Map<String, RuleMatch> shouldNotAppearWord = new HashMap<>();  // e.g. aufwändig -> RuleMatch of aufwendig
 
   public WordCoherencyRule(ResourceBundle messages) throws IOException {
     if (messages != null) {
@@ -72,7 +72,7 @@ public class WordCoherencyRule extends GermanRule {
 
   @Override
   public RuleMatch[] match(AnalyzedSentence text) {
-    final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
+    final List<RuleMatch> ruleMatches = new ArrayList<>();
     final AnalyzedTokenReadings[] tokens = text.getTokens();
     int pos = 0;
     for (AnalyzedTokenReadings tmpToken : tokens) {
@@ -114,7 +114,7 @@ public class WordCoherencyRule extends GermanRule {
   }
 
   private Map<String, String> loadWords(InputStream file) throws IOException {
-    final Map<String, String> map = new HashMap<String, String>();
+    final Map<String, String> map = new HashMap<>();
     final Scanner scanner = new Scanner(file, FILE_ENCODING);
     try {
       while (scanner.hasNextLine()) {
@@ -140,7 +140,7 @@ public class WordCoherencyRule extends GermanRule {
   
   @Override
   public void reset() {
-    shouldNotAppearWord = new HashMap<String, RuleMatch>();
+    shouldNotAppearWord = new HashMap<>();
   }
 
 }

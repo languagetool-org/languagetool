@@ -49,7 +49,7 @@ public class UkrainianTagger extends BaseTagger {
   @Override
   public List<AnalyzedToken> additionalTags(String word) {
     if ( NUMBER.matcher(word).matches() ){
-      List<AnalyzedToken> additionalTaggedTokens  = new ArrayList<AnalyzedToken>();
+      List<AnalyzedToken> additionalTaggedTokens  = new ArrayList<>();
       additionalTaggedTokens.add(new AnalyzedToken(word, IPOSTag.numr.toString(), word));
         return additionalTaggedTokens;
     }

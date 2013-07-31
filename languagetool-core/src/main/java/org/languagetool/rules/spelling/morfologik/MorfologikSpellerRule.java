@@ -82,7 +82,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
 
   @Override
   public RuleMatch[] match(AnalyzedSentence text) throws IOException {
-    final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
+    final List<RuleMatch> ruleMatches = new ArrayList<>();
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
     //lazy init
     if (speller == null) {
@@ -139,7 +139,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   }
 
   private List<RuleMatch> getRuleMatch(final String word, final int startPos) {
-    final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
+    final List<RuleMatch> ruleMatches = new ArrayList<>();
     if (isMisspelled(speller, word)) {
       final RuleMatch ruleMatch = new RuleMatch(this, startPos, startPos
           + word.length(), messages.getString("spelling"),

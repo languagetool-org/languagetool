@@ -36,7 +36,7 @@ abstract class Server {
 
   protected abstract String getProtocol();
 
-  protected static final Set<String> DEFAULT_ALLOWED_IPS = new HashSet<String>(Arrays.asList(
+  protected static final Set<String> DEFAULT_ALLOWED_IPS = new HashSet<>(Arrays.asList(
             "0:0:0:0:0:0:0:1",     // Suse Linux IPv6 stuff
             "0:0:0:0:0:0:0:1%0",   // some(?) Mac OS X
             "127.0.0.1"

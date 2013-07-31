@@ -111,7 +111,7 @@ public class CatalanWordTokenizer extends WordTokenizer {
 	 */
 	@Override
 	public List<String> tokenize(final String text) {
-		final List<String> l = new ArrayList<String>();
+		final List<String> l = new ArrayList<>();
 		String auxText=text;
 		
 		Matcher matcher=ELA_GEMINADA.matcher(auxText);
@@ -172,7 +172,7 @@ public class CatalanWordTokenizer extends WordTokenizer {
 	
 	/* Splits a word containing hyphen(-) if it doesn't exist in the dictionary. */
 	private List<String> wordsToAdd(String s) {
-		final List<String> l = new ArrayList<String>();
+		final List<String> l = new ArrayList<>();
 		if (!s.contains("-") && !s.isEmpty()) {
 			l.add(s);
         } else {

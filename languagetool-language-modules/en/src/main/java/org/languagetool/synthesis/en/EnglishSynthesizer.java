@@ -88,7 +88,7 @@ public class EnglishSynthesizer extends BaseSynthesizer {
         synthesizer = new DictionaryLookup(Dictionary.read(url));
       }
       final List<WordData> wordData = synthesizer.lookup(token.getLemma() + "|" + posTag);
-      final List<String> wordForms = new ArrayList<String>();
+      final List<String> wordForms = new ArrayList<>();
       for (WordData wd : wordData) {
         wordForms.add(wd.getStem().toString());
       }

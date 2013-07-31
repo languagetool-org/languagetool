@@ -96,7 +96,7 @@ public class PolishSynthesizer implements Synthesizer {
         final URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(RESOURCE_FILENAME);
         synthesizer = new DictionaryLookup(Dictionary.read(url));
       }
-      final ArrayList<String> results = new ArrayList<String>();
+      final ArrayList<String> results = new ArrayList<>();
 
       boolean isNegated = false;
       if (token.getPOSTag() != null) {
@@ -122,7 +122,7 @@ public class PolishSynthesizer implements Synthesizer {
         }
       }
       //remove duplicates
-      HashSet<String> hs = new HashSet<String>();
+      HashSet<String> hs = new HashSet<>();
       hs.addAll(results);
       results.clear();
       results.addAll(hs);     
@@ -159,7 +159,7 @@ public class PolishSynthesizer implements Synthesizer {
 
   private List<String> getWordForms(final AnalyzedToken token, final String posTag,
       final boolean isNegated) {
-    final List<String> forms = new ArrayList<String>();
+    final List<String> forms = new ArrayList<>();
     final List<WordData> wordForms;
     if (isNegated) {
       wordForms = synthesizer.lookup(token.getLemma() + "|"

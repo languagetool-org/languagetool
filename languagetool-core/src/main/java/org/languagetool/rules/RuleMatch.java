@@ -46,7 +46,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
   private final String message;
   private final String shortMessage;   // for OOo/LO context menu
 
-  private List<String> suggestedReplacements = new ArrayList<String>();
+  private List<String> suggestedReplacements = new ArrayList<>();
 
   /**
    * Creates a RuleMatch object, taking the rule that triggered
@@ -213,7 +213,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
     if (replacement == null) {
       throw new NullPointerException("replacement might be empty but not null");
     }
-    final List<String> replacements = new ArrayList<String>();
+    final List<String> replacements = new ArrayList<>();
     replacements.add(replacement);
     setSuggestedReplacements(replacements);
   }

@@ -47,7 +47,7 @@ public class ManualSynthesizer {
 
   /** a map with the key composed by the lemma and POS (separated by "|"). The values are lists of inflected forms. */ 
   private final Map<String, List<String>> mapping;
-  private Set<String> possibleTags = new HashSet<String>();
+  private Set<String> possibleTags = new HashSet<>();
 
   public ManualSynthesizer(final InputStream inputStream) throws IOException {
     mapping = loadMapping(inputStream, "utf8");
@@ -73,7 +73,7 @@ public class ManualSynthesizer {
   }
 
   private Map<String, List<String>> loadMapping(final InputStream inputStream, final String encoding) throws IOException {
-    final Map<String, List<String>> map = new HashMap<String, List<String>>();
+    final Map<String, List<String>> map = new HashMap<>();
     final Scanner scanner = new Scanner(inputStream, encoding);
     try {
       while (scanner.hasNextLine()) {

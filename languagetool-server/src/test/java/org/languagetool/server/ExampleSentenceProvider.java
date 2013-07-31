@@ -35,7 +35,7 @@ class ExampleSentenceProvider {
   private final int minSentences;
   private final int maxSentences;
   private final Random rnd = new Random(12345);
-  private final Map<Language, List<ExampleSentence>> languageToExamples = new HashMap<Language, List<ExampleSentence>>();
+  private final Map<Language, List<ExampleSentence>> languageToExamples = new HashMap<>();
 
   ExampleSentenceProvider(int minSentences, int maxSentences) {
     if (minSentences > maxSentences) {
@@ -56,7 +56,7 @@ class ExampleSentenceProvider {
     final JLanguageTool lt = new JLanguageTool(language);
     lt.activateDefaultPatternRules();
     final List<Rule> rules = lt.getAllActiveRules();
-    final List<ExampleSentence> sentences = new ArrayList<ExampleSentence>();
+    final List<ExampleSentence> sentences = new ArrayList<>();
     for (Rule rule : rules) {
       if (rule instanceof PatternRule && !rule.isDefaultOff()) {
         final List<IncorrectExample> incorrectExamples = rule.getIncorrectExamples();
@@ -70,7 +70,7 @@ class ExampleSentenceProvider {
   }
 
   List<ExampleSentence> getRandomSentences(Language lang) {
-    final List<ExampleSentence> sentences = new ArrayList<ExampleSentence>(languageToExamples.get(lang));
+    final List<ExampleSentence> sentences = new ArrayList<>(languageToExamples.get(lang));
     final int sentenceCount = rnd.nextInt(Math.max(1, maxSentences - minSentences)) + minSentences;
     Collections.shuffle(sentences, rnd);
     return sentences.subList(0, Math.min(sentences.size(), sentenceCount));

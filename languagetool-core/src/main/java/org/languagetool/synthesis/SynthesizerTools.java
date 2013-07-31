@@ -30,7 +30,7 @@ public class SynthesizerTools {
   }
 
   public static ArrayList<String> loadWords(final InputStream stream) throws IOException {
-    final ArrayList<String> set = new ArrayList<String>();
+    final ArrayList<String> set = new ArrayList<>();
     final Scanner scanner = new Scanner(stream, "UTF-8");
     try {
       while (scanner.hasNextLine()) {

@@ -39,8 +39,8 @@ public class JapaneseWordTokenizer implements Tokenizer {
   @Override	
   public List<String> tokenize(String text){
 	  init();
-	  final ArrayList<String> ret = new ArrayList<String>();
-	  List<Token> tokens = new ArrayList<Token>();
+	  final ArrayList<String> ret = new ArrayList<>();
+	  List<Token> tokens = new ArrayList<>();
 	  String basicForm;
 	  try {
 		  stringtagger.analyze(text, tokens);

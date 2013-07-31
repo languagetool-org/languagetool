@@ -48,7 +48,7 @@ public class HTTPServerLoadTest extends HTTPServerTest {
       server.run();
       assertTrue(server.isRunning());
       final ExecutorService executorService = Executors.newFixedThreadPool(THREAD_COUNT);
-      final List<Future> futures = new ArrayList<Future>();
+      final List<Future> futures = new ArrayList<>();
       for (int i = 0; i < THREAD_COUNT; i++) {
         final Future<?> future = executorService.submit(new TestRunnable());
         futures.add(future);

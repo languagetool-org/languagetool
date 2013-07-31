@@ -88,13 +88,13 @@ public class AgreementRule extends GermanRule {
    * The nouns in this list are NOT considered as city names.
    * NOTE: Only nouns for which cutting off the final "er" produces a valid noun must be added to this list.
    */
-  private static final Set<String> ER_TO_BE_IGNORED = new HashSet<String>(Arrays.asList(
+  private static final Set<String> ER_TO_BE_IGNORED = new HashSet<>(Arrays.asList(
     "Alter",
     "Kinder",
     "Rinder"
   ));
   
-  private static final Set<String> REL_PRONOUN = new HashSet<String>();
+  private static final Set<String> REL_PRONOUN = new HashSet<>();
   static {
     REL_PRONOUN.add("der");
     REL_PRONOUN.add("die");
@@ -111,7 +111,7 @@ public class AgreementRule extends GermanRule {
     REL_PRONOUN.add("welches");
   }
 
-  private static final Set<String> PREPOSITIONS = new HashSet<String>();
+  private static final Set<String> PREPOSITIONS = new HashSet<>();
   static {
     PREPOSITIONS.add("in");
     PREPOSITIONS.add("auf");
@@ -127,7 +127,7 @@ public class AgreementRule extends GermanRule {
   
   final GermanTagger tagger = (GermanTagger) new German().getTagger();
 
-  private static final Set<String> PRONOUNS_TO_BE_IGNORED = new HashSet<String>(Arrays.asList(
+  private static final Set<String> PRONOUNS_TO_BE_IGNORED = new HashSet<>(Arrays.asList(
     "ich",
     "du",
     "er", "sie", "es",
@@ -176,7 +176,7 @@ public class AgreementRule extends GermanRule {
 
   @Override
   public RuleMatch[] match(final AnalyzedSentence text) {
-    final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
+    final List<RuleMatch> ruleMatches = new ArrayList<>();
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();    
     for (int i = 0; i < tokens.length; i++) {
       //defaulting to the first reading
@@ -345,7 +345,7 @@ public class AgreementRule extends GermanRule {
   }
 
   private List<String> getCategoriesCausingError(AnalyzedGermanTokenReadings token1, AnalyzedGermanTokenReadings token2) {
-    final List<String> categories = new ArrayList<String>();
+    final List<String> categories = new ArrayList<>();
     final List<GrammarCategory> categoriesToCheck = Arrays.asList(GrammarCategory.KASUS, GrammarCategory.GENUS, GrammarCategory.NUMERUS);
     for (GrammarCategory category : categoriesToCheck) {
       if (agreementWithCategoryRelaxation(token1, token2, category)) {
@@ -424,7 +424,7 @@ public class AgreementRule extends GermanRule {
   
   /** Return Kasus, Numerus, Genus. */
   private Set<String> getAgreementCategories(final AnalyzedGermanTokenReadings aToken, Set<GrammarCategory> omit) {
-    final Set<String> set = new HashSet<String>();
+    final Set<String> set = new HashSet<>();
     final List<AnalyzedGermanToken> readings = aToken.getGermanReadings();
     for (AnalyzedGermanToken reading : readings) {
       if (reading.getCasus() == null && reading.getNumerus() == null &&
@@ -445,7 +445,7 @@ public class AgreementRule extends GermanRule {
 
   private String makeString(GermanToken.Kasus casus, GermanToken.Numerus num, GermanToken.Genus gen,
       Set<GrammarCategory> omit) {
-    final List<String> l = new ArrayList<String>();
+    final List<String> l = new ArrayList<>();
     if (casus != null && !omit.contains(GrammarCategory.KASUS)) {
       l.add(casus.toString());
     }

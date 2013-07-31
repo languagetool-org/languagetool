@@ -36,7 +36,7 @@ public class MalayalamWordTokenizer implements Tokenizer {
   
   @Override
   public List<String> tokenize(final String text) {
-    final List<String> tokens = new ArrayList<String>();
+    final List<String> tokens = new ArrayList<>();
     final StringTokenizer st = new StringTokenizer(text, 
         "\u0020\u00A0\u115f\u1160\u1680" 
         /** 

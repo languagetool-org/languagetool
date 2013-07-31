@@ -68,7 +68,7 @@ public class ChineseWordTokenizer implements Tokenizer {
       // ArrayIndexOutOfBoundsException, due to some internal bugs of ictclas4j. The reasons of the
       // bugs and how to resolve them are unknown now. In this case, we can just bypass the sentence
       // and return a empty List.
-      return new ArrayList<String>();
+      return new ArrayList<>();
     }
     final String[] list = result.split(" ");
     return Arrays.asList(list);

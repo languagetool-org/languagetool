@@ -47,7 +47,7 @@ class PatternRuleMatcher {
 
   final RuleMatch[] match(final AnalyzedSentence text)
     throws IOException {
-      final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
+      final List<RuleMatch> ruleMatches = new ArrayList<>();
       final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
       final int[] tokenPositions = new int[tokens.length + 1];
       final int patternSize = rule.patternElements.size();
@@ -377,7 +377,7 @@ class PatternRuleMatcher {
         }
                 
       } else {
-        final List<String[]> matchList = new ArrayList<String[]>();
+        final List<String[]> matchList = new ArrayList<>();
         for (int i = 0; i < len; i++) {
           final int skippedTokens = nextTokenPos - (tokenIndex + i);
           suggestionMatches.get(start).setToken(tokens, tokenIndex - 1 + i, skippedTokens);
@@ -423,7 +423,7 @@ class PatternRuleMatcher {
    */
   private static String[] combineLists(final String[][] input,
           final String[] output, final int r, final Language lang) {
-      final List<String> outputList = new ArrayList<String>();
+      final List<String> outputList = new ArrayList<>();
       if (r == input.length) {
           final StringBuilder sb = new StringBuilder();
           for (int k = 0; k < output.length; k++) {

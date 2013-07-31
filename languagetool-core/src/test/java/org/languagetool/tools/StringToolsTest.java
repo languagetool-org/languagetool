@@ -153,7 +153,7 @@ public class StringToolsTest extends TestCase {
   }
 
   public void testRuleMatchesToXML() throws IOException {
-    final List<RuleMatch> matches = new ArrayList<RuleMatch>();
+    final List<RuleMatch> matches = new ArrayList<>();
     final String text = "This is an test sentence. Here's another sentence with more text.";
     final FakeRule rule = new FakeRule();
     final RuleMatch match = new RuleMatch(rule, 8, 10, "myMessage");
@@ -176,7 +176,7 @@ public class StringToolsTest extends TestCase {
   }
 
   public void testRuleMatchesToXMLWithCategory() throws IOException {
-    final List<RuleMatch> matches = new ArrayList<RuleMatch>();
+    final List<RuleMatch> matches = new ArrayList<>();
     final String text = "This is a test sentence.";
     final List<Element> elements = Collections.emptyList();
     final Rule patternRule = new PatternRule("MY_ID", Language.DEMO, elements, "my description", "my message", "short message");
@@ -196,7 +196,7 @@ public class StringToolsTest extends TestCase {
   }
 
   public void testRuleMatchesWithUrlToXML() throws IOException {
-    final List<RuleMatch> matches = new ArrayList<RuleMatch>();
+    final List<RuleMatch> matches = new ArrayList<>();
     final String text = "This is an test sentence. Here's another sentence with more text.";
     final RuleMatch match = new RuleMatch(new FakeRule() {
       @Override
@@ -222,7 +222,7 @@ public class StringToolsTest extends TestCase {
   }
 
   public void testRuleMatchesToXMLEscapeBug() throws IOException {
-    final List<RuleMatch> matches = new ArrayList<RuleMatch>();
+    final List<RuleMatch> matches = new ArrayList<>();
     final String text = "This is \"an test sentence. Here's another sentence with more text.";
     final RuleMatch match = new RuleMatch(new FakeRule(), 9, 11, "myMessage");
     match.setColumn(99);
@@ -239,7 +239,7 @@ public class StringToolsTest extends TestCase {
   }
 
   public void testListToString() {
-    final List<String> list = new ArrayList<String>();
+    final List<String> list = new ArrayList<>();
     list.add("foo");
     list.add("bar");
     list.add(",");

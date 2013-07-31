@@ -56,7 +56,7 @@ public class FalseFriendsAsBitextLoaderTest extends TestCase {
   private List<RuleMatch> check(final List<BitextPatternRule> bRules, 
       final String src, final String trg, 
       final JLanguageTool srcTool, final JLanguageTool trgTool) throws IOException {
-    final List<RuleMatch> allMatches = new ArrayList<RuleMatch>();
+    final List<RuleMatch> allMatches = new ArrayList<>();
     for (BitextPatternRule bRule : bRules) {
      final RuleMatch[] matches = match(bRule, src, trg, srcTool, trgTool);
      if (matches != null) {

@@ -89,7 +89,7 @@ public class TranslationTest extends TestCase {
   }
   
   private List<String> loadFile(File file) throws IOException {
-    final List<String> l = new ArrayList<String>();
+    final List<String> l = new ArrayList<>();
     final Scanner scanner = new Scanner(file);
     try {
       while (scanner.hasNextLine()) {

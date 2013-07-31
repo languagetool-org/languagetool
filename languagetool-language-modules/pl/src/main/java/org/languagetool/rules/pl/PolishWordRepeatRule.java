@@ -92,10 +92,10 @@ public class PolishWordRepeatRule extends PolishRule {
    */
   @Override
   public final RuleMatch[] match(final AnalyzedSentence text) {
-    final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
+    final List<RuleMatch> ruleMatches = new ArrayList<>();
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
     boolean repetition = false;
-    final TreeSet<String> inflectedWords = new TreeSet<String>();
+    final TreeSet<String> inflectedWords = new TreeSet<>();
     String prevLemma, curLemma;
     int curToken = 0;
     // start from real token, 0 = SENT_START

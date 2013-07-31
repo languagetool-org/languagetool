@@ -117,7 +117,7 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
 
 	@Override
 	public RuleMatch[] match(final AnalyzedSentence text) {
-		final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
+		final List<RuleMatch> ruleMatches = new ArrayList<>();
 		final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
 		for (int i = 1; i < tokens.length; i++) {   //ignoring token 0, i.e., SENT_START
 			if ( matchPostagRegexp(tokens[i],ADJECTIU) && !matchPostagRegexp(tokens[i],CONCORDA) )

@@ -84,7 +84,7 @@ public class SentenceTokenizer implements Tokenizer {
       "cf", "Inc", "Ms", "Gen", "Sen", "Prof", "Corp", "Co"
   };
 
-  private final Set<Pattern> abbreviationPatterns = new HashSet<Pattern>();
+  private final Set<Pattern> abbreviationPatterns = new HashSet<>();
 
   /**
    * Month names like "Dezember" that should not be considered a sentence
@@ -106,7 +106,7 @@ public class SentenceTokenizer implements Tokenizer {
    * additionally to the built-in ones.
    */
   public SentenceTokenizer(final String[] abbrevList) {
-    final List<String> allAbbreviations = new ArrayList<String>();
+    final List<String> allAbbreviations = new ArrayList<>();
     allAbbreviations.addAll(Arrays.asList(abbrevList));
     allAbbreviations.addAll(Arrays.asList(ABBREV_LIST));
     for (String element : allAbbreviations) {
@@ -142,7 +142,7 @@ public class SentenceTokenizer implements Tokenizer {
     s = splitUnsplitStuff(s);
     final StringTokenizer stringTokenizer =
       new StringTokenizer(s, EOS);
-    final List<String> l = new ArrayList<String>();
+    final List<String> l = new ArrayList<>();
     while (stringTokenizer.hasMoreTokens()) {
       final String sentence = stringTokenizer.nextToken();
       l.add(sentence);

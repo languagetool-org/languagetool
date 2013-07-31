@@ -55,7 +55,7 @@ public class SRXSentenceTokenizer extends SentenceTokenizer {
     try {
       srxReader = new BufferedReader(new InputStreamReader(
               JLanguageTool.getDataBroker().getFromResourceDirAsStream(RULES), "utf-8"));
-      final Map<String, Object> parserParameters = new HashMap<String, Object>();
+      final Map<String, Object> parserParameters = new HashMap<>();
       parserParameters.put(Srx2SaxParser.VALIDATE_PARAMETER, true);
       final SrxParser srxParser = new Srx2SaxParser(parserParameters);
       final SrxDocument document = srxParser.parse(srxReader);
@@ -86,7 +86,7 @@ public class SRXSentenceTokenizer extends SentenceTokenizer {
 
   @Override
   public final List<String> tokenize(final String text) {
-    final List<String> segments = new ArrayList<String>();
+    final List<String> segments = new ArrayList<>();
     final TextIterator textIterator = new SrxTextIterator(document, languageCode + parCode, text);
     while (textIterator.hasNext()) {
       segments.add(textIterator.next());

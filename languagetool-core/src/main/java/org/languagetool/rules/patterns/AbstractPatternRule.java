@@ -65,7 +65,7 @@ public abstract class AbstractPatternRule extends Rule {
       boolean getUnified) {
     this.id = id; 
     this.description = description;
-    this.patternElements = new ArrayList<Element>(elements); // copy elements
+    this.patternElements = new ArrayList<>(elements); // copy elements
     this.language = language;
     this.getUnified = getUnified;
     unifier = language.getUnifier();

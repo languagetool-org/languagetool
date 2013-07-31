@@ -68,7 +68,7 @@ public abstract class KhmerWordCoherencyRule extends KhmerRule {
 
   @Override
   public final RuleMatch[] match(final AnalyzedSentence text) {
-    final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
+    final List<RuleMatch> ruleMatches = new ArrayList<>();
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
 
     for (int i = 1; i < tokens.length; i++) {
@@ -116,7 +116,7 @@ public abstract class KhmerWordCoherencyRule extends KhmerRule {
   }
 
   private Map<String, String> loadWords(final InputStream file) throws IOException {
-    final Map<String, String> map = new HashMap<String, String>();
+    final Map<String, String> map = new HashMap<>();
     final Scanner scanner = new Scanner(file, FILE_ENCODING);
     try {
       while (scanner.hasNextLine()) {

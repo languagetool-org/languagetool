@@ -82,7 +82,7 @@ public class EsperantoTagger implements Tagger {
   private Set<String> loadWords(final InputStream file) throws IOException {
     InputStreamReader isr = null;
     BufferedReader br = null;
-    final Set<String> words = new HashSet<String>();
+    final Set<String> words = new HashSet<>();
     try {
       isr = new InputStreamReader(file, "UTF-8");
       br = new BufferedReader(isr);
@@ -186,9 +186,9 @@ public class EsperantoTagger implements Tagger {
     Matcher matcher;
 
     final List<AnalyzedTokenReadings> tokenReadings = 
-      new ArrayList<AnalyzedTokenReadings>();    
+      new ArrayList<>();
     for (String word : sentenceTokens) {
-      final List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
+      final List<AnalyzedToken> l = new ArrayList<>();
 
       // No Esperanto word is made of one letter only. This check avoids
       // spurious tagging as single letter words "A", "O", "E", etc.

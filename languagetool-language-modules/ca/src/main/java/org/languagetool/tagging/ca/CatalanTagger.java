@@ -79,7 +79,7 @@ public class CatalanTagger extends BaseTagger {
 
   @Override
   public List<AnalyzedToken> additionalTags(String word) {
-    List<AnalyzedToken> additionalTaggedTokens = new ArrayList<AnalyzedToken>();
+    List<AnalyzedToken> additionalTaggedTokens = new ArrayList<>();
     //Any well-formed adverb with suffix -ment is tagged as an adverb (RG)
     //Adjectiu femení singular o participi femení singular + -ment
     if (word.endsWith("ment")){

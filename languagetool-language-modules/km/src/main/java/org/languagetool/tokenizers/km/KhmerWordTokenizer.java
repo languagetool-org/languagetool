@@ -36,7 +36,7 @@ public class KhmerWordTokenizer implements Tokenizer {
   
   @Override
   public List<String> tokenize(final String text) {
-    final List<String> tokens = new ArrayList<String>();
+    final List<String> tokens = new ArrayList<>();
     final StringTokenizer st = new StringTokenizer(text, 
           "\u17D4\u17D5\u0020\u00A0\u115f\u1160\u1680" 
         + "\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007" 

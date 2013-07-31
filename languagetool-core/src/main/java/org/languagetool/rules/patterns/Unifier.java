@@ -94,14 +94,14 @@ public class Unifier {
   public Unifier() {
     tokCnt = -1;
     readingsCounter = 1;
-    equivalencesMatched = new ArrayList<Map<String, Set<String>>>();
-    equivalenceTypes = new HashMap<EquivalenceTypeLocator, Element>();
-    equivalenceFeatures = new HashMap<String, List<String>>();
-    equivalencesToBeRemoved = new HashMap<String, Set<String>>();
-    equivalencesToBeKept = new HashMap<String, Set<String>>();
-    featuresFound = new ArrayList<Boolean>();
-    tmpFeaturesFound = new ArrayList<Boolean>();
-    tokSequence = new ArrayList<AnalyzedTokenReadings>();
+    equivalencesMatched = new ArrayList<>();
+    equivalenceTypes = new HashMap<>();
+    equivalenceFeatures = new HashMap<>();
+    equivalencesToBeRemoved = new HashMap<>();
+    equivalencesToBeKept = new HashMap<>();
+    featuresFound = new ArrayList<>();
+    tmpFeaturesFound = new ArrayList<>();
+    tokSequence = new ArrayList<>();
   }
 
   /**
@@ -127,7 +127,7 @@ public class Unifier {
     if (equivalenceFeatures.containsKey(feature)) {
       lTypes = equivalenceFeatures.get(feature);
     } else {
-      lTypes = new ArrayList<String>();
+      lTypes = new ArrayList<>();
     }
     lTypes.add(type);
     equivalenceFeatures.put(feature, lTypes);
@@ -175,7 +175,7 @@ public class Unifier {
           }
           if (testElem.isMatched(aToken)) {
             if (!equivalencesMatched.get(tokCnt).containsKey(feat.getKey())) {
-              final Set<String> typeSet = new HashSet<String>();
+              final Set<String> typeSet = new HashSet<>();
               typeSet.add(typeName);
               equivalencesMatched.get(tokCnt).put(feat.getKey(), typeSet);
             } else {
@@ -204,7 +204,7 @@ public class Unifier {
     boolean unifiedNext = true;
     boolean anyFeatUnified = false;    
     List<String> types;   
-    final ArrayList<Boolean> tokenFeaturesFound = new ArrayList<Boolean>(tmpFeaturesFound);
+    final ArrayList<Boolean> tokenFeaturesFound = new ArrayList<>(tmpFeaturesFound);
     if (allFeatsIn) {
       for (int i = 0; i <= tokCnt; i++) {
         boolean allFeatsUnified = true;
@@ -223,7 +223,7 @@ public class Unifier {
                 //Stores equivalences to be removed and kept
 				if (!testElem.isMatched(aToken)) {
 					if (!equivalencesToBeRemoved.containsKey(feat.getKey())) {
-						final Set<String> typeSet = new HashSet<String>();
+						final Set<String> typeSet = new HashSet<>();
 						typeSet.add(typeName);
 						equivalencesToBeRemoved.put(feat.getKey(),typeSet);
 					} else {
@@ -231,7 +231,7 @@ public class Unifier {
 					}
 				} else {
 					if (!equivalencesToBeKept.containsKey(feat.getKey())) {
-						final Set<String> typeSet = new HashSet<String>();
+						final Set<String> typeSet = new HashSet<>();
 						typeSet.add(typeName);
 						equivalencesToBeKept.put(feat.getKey(),typeSet);
 					} else {
@@ -267,7 +267,7 @@ public class Unifier {
    * Call after every complete token (AnalyzedTokenReadings) checked.
    */
 	public final void startNextToken() {
-		featuresFound = new ArrayList<Boolean>(tmpFeaturesFound);
+		featuresFound = new ArrayList<>(tmpFeaturesFound);
 		readingsCounter++;
 		// Removes features
 		List<String> types;
@@ -300,7 +300,7 @@ public class Unifier {
     for (int i = 0; i <= tokCnt; i++) {
       featuresFound.add(true);
     } 
-    tmpFeaturesFound = new ArrayList<Boolean>(featuresFound);
+    tmpFeaturesFound = new ArrayList<>(featuresFound);
   }
   
   /**

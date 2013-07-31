@@ -52,17 +52,17 @@ public class ConfigurationDialog implements ActionListener {
   private JCheckBox serverCheckbox;
   private JTextField serverPortField;
 
-  private final List<JCheckBox> checkBoxes = new ArrayList<JCheckBox>();
-  private final List<String> checkBoxesRuleIds = new ArrayList<String>();
-  private final List<String> checkBoxesCategories = new ArrayList<String>();
+  private final List<JCheckBox> checkBoxes = new ArrayList<>();
+  private final List<String> checkBoxesRuleIds = new ArrayList<>();
+  private final List<String> checkBoxesCategories = new ArrayList<>();
 
-  private final List<String> defaultOffRules = new ArrayList<String>();
+  private final List<String> defaultOffRules = new ArrayList<>();
 
-  private Set<String> inactiveRuleIds = new HashSet<String>();
-  private Set<String> enabledRuleIds = new HashSet<String>();
-  private Set<String> inactiveCategoryNames = new HashSet<String>();
-  private final List<JCheckBox> categoryCheckBoxes = new ArrayList<JCheckBox>();
-  private final List<String> checkBoxesCategoryNames = new ArrayList<String>();
+  private Set<String> inactiveRuleIds = new HashSet<>();
+  private Set<String> enabledRuleIds = new HashSet<>();
+  private Set<String> inactiveCategoryNames = new HashSet<>();
+  private final List<JCheckBox> categoryCheckBoxes = new ArrayList<>();
+  private final List<String> checkBoxesCategoryNames = new ArrayList<>();
   private Language motherTongue;
   private boolean serverMode;
   private int serverPort;
@@ -337,7 +337,7 @@ private JCheckBox serverSettingsCheckbox;
   }
 
   private Object[] getPossibleMotherTongues() {
-    final List<Object> motherTongues = new ArrayList<Object>();
+    final List<Object> motherTongues = new ArrayList<>();
     motherTongues.add(NO_MOTHER_TONGUE);
     for (final Language lang : Language.LANGUAGES) {
       if (lang != Language.DEMO) {

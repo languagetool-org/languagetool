@@ -114,7 +114,7 @@ public class Main extends WeakBase implements XJobExecutor,
 
   public Main(final XComponentContext xCompContext) {
       changeContext(xCompContext);
-      xEventListeners = new ArrayList<XLinguServiceEventListener>();    
+      xEventListeners = new ArrayList<>();
   }
 
   private void prepareConfig(final Language lang) {
@@ -123,9 +123,9 @@ public class Main extends WeakBase implements XJobExecutor,
       config = new Configuration(homeDir, CONFIG_FILE, lang);
       disabledRules = config.getDisabledRuleIds();
       if (disabledRules == null) {
-        disabledRules = new HashSet<String>();
+        disabledRules = new HashSet<>();
       }
-      disabledRulesUI = new HashSet<String>(disabledRules);
+      disabledRulesUI = new HashSet<>(disabledRules);
     } catch (final Throwable t) {
       showError(t);
     }
@@ -268,7 +268,7 @@ public class Main extends WeakBase implements XJobExecutor,
         final Set<String> disabledRuleIds = config.getDisabledRuleIds();
         if (disabledRuleIds != null) {
           // copy as the config thread may access this as well
-          final ArrayList<String> list = new ArrayList<String>(disabledRuleIds);
+          final ArrayList<String> list = new ArrayList<>(disabledRuleIds);
           for (final String id : list) {
             langTool.disableRule(id);
           }
@@ -276,7 +276,7 @@ public class Main extends WeakBase implements XJobExecutor,
         final Set<String> disabledCategories = config.getDisabledCategoryNames();
         if (disabledCategories != null) {
           // copy as the config thread may access this as well
-          final ArrayList<String> list = new ArrayList<String>(disabledCategories);
+          final ArrayList<String> list = new ArrayList<>(disabledCategories);
           for (final String categoryName : list) {
             langTool.disableCategory(categoryName);
           }
@@ -284,7 +284,7 @@ public class Main extends WeakBase implements XJobExecutor,
         final Set<String> enabledRuleIds = config.getEnabledRuleIds();
         if (enabledRuleIds != null) {
           // copy as the config thread may access this as well
-          final ArrayList<String> list = new ArrayList<String>(enabledRuleIds);
+          final ArrayList<String> list = new ArrayList<>(enabledRuleIds);
           for (String ruleName : list) {
             langTool.enableDefaultOffRule(ruleName);
             langTool.enableRule(ruleName);
@@ -399,7 +399,7 @@ public class Main extends WeakBase implements XJobExecutor,
     }
     if (paragraphMatches != null && !paragraphMatches.isEmpty()
         && docID.equals(this.docID)) {
-      final List<SingleProofreadingError> errorList = new ArrayList<SingleProofreadingError>(
+      final List<SingleProofreadingError> errorList = new ArrayList<>(
           paragraphMatches.size());
       for (final RuleMatch myRuleMatch : paragraphMatches) {
         final int startErrPos = myRuleMatch.getFromPos();
@@ -601,7 +601,7 @@ public class Main extends WeakBase implements XJobExecutor,
       recheck = true;
       disabledRules = config.getDisabledRuleIds();
       if (disabledRules == null) {
-        disabledRules = new HashSet<String>();
+        disabledRules = new HashSet<>();
       }
     }
   }

@@ -35,7 +35,7 @@ public class LanguageComboBox extends JComboBox {
 
   private final ResourceBundle messages;
   private final Configuration config;
-  private final List<I18nLanguage> i18nLanguages = new ArrayList<I18nLanguage>();
+  private final List<I18nLanguage> i18nLanguages = new ArrayList<>();
 
   public LanguageComboBox(ResourceBundle messages, Configuration config) {
     this.messages = messages;

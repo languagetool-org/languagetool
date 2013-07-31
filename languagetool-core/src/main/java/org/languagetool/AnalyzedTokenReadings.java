@@ -167,7 +167,7 @@ public class AnalyzedTokenReadings {
    * @param token - new reading, given as {@link AnalyzedToken}  
    */
   public final void addReading(final AnalyzedToken token) {
-    final ArrayList<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
+    final ArrayList<AnalyzedToken> l = new ArrayList<>();
     for (int i = 0; i < anTokReadings.length - 1; i++) {
       l.add(anTokReadings[i]);
     }
@@ -193,7 +193,7 @@ public class AnalyzedTokenReadings {
    * @param token - reading to be removed.
    */
   public final void removeReading(final AnalyzedToken token) {
-    final ArrayList<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
+    final ArrayList<AnalyzedToken> l = new ArrayList<>();
     final AnalyzedToken tmpTok = new AnalyzedToken(token.getToken(), token
         .getPOSTag(), token.getLemma());
     tmpTok.setWhitespaceBefore(isWhitespaceBefore);
@@ -215,7 +215,7 @@ public class AnalyzedTokenReadings {
    * @param token Token to be matched
    */
   public final void leaveReading(final AnalyzedToken token) {
-    final ArrayList<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
+    final ArrayList<AnalyzedToken> l = new ArrayList<>();
     final AnalyzedToken tmpTok = new AnalyzedToken(token.getToken(), token
         .getPOSTag(), token.getLemma());
     tmpTok.setWhitespaceBefore(isWhitespaceBefore);

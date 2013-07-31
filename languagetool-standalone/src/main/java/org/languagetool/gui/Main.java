@@ -81,7 +81,7 @@ public final class Main implements ActionListener {
 
   private HTTPServer httpServer;
 
-  private final Map<Language, ConfigurationDialog> configDialogs = new HashMap<Language, ConfigurationDialog>();
+  private final Map<Language, ConfigurationDialog> configDialogs = new HashMap<>();
 
   private TrayIcon trayIcon;
   private boolean closeHidesToTray;

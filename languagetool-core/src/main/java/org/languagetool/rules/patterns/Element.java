@@ -254,7 +254,7 @@ public class Element {
   public final void setAndGroupElement(final Element andToken) {
     if (andToken != null) {
       if (andGroupList == null) {
-        andGroupList = new ArrayList<Element>();
+        andGroupList = new ArrayList<>();
       }
       if (!andGroupSet) {
         andGroupSet = true;
@@ -436,10 +436,10 @@ public class Element {
   private void setException(final Element elem, final boolean scopePrevious) {
     exceptionValidPrevious |= scopePrevious;
     if (exceptionList == null && !scopePrevious) {
-      exceptionList = new ArrayList<Element>();
+      exceptionList = new ArrayList<>();
     }
     if (previousExceptionList == null && scopePrevious) {
-      previousExceptionList = new ArrayList<Element>();
+      previousExceptionList = new ArrayList<>();
     }
     if (scopePrevious) {
       previousExceptionList.add(elem);

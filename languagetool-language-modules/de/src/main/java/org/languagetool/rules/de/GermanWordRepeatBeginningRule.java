@@ -42,7 +42,7 @@ public class GermanWordRepeatBeginningRule extends WordRepeatBeginningRule {
     return "GERMAN_WORD_REPEAT_BEGINNING_RULE";
   }
   
-  private static final Set<String> ADVERBS = new HashSet<String>();
+  private static final Set<String> ADVERBS = new HashSet<>();
   static {
     ADVERBS.add("Auch");
     ADVERBS.add("Anschließend");

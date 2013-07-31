@@ -49,7 +49,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
 
   @Override
   public List<String> tokenize(String text) {
-    List<String> tokenList = new ArrayList<String>();
+    List<String> tokenList = new ArrayList<>();
 
     text = substitute(text);
 

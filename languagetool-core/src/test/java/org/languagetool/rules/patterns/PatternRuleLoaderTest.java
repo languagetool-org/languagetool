@@ -65,7 +65,7 @@ public class PatternRuleLoaderTest extends TestCase {
   }
 
   private Set<String> getCategoryNames(List<PatternRule> rules) {
-    final Set<String> categories = new HashSet<String>();
+    final Set<String> categories = new HashSet<>();
     for (PatternRule rule : rules) {
       categories.add(rule.getCategory().getName());
     }
@@ -82,7 +82,7 @@ public class PatternRuleLoaderTest extends TestCase {
   }
 
   private List<Rule> getRulesById(String id, List<PatternRule> rules) {
-    final List<Rule> result = new ArrayList<Rule>();
+    final List<Rule> result = new ArrayList<>();
     for (Rule rule : rules) {
       if (rule.getId().equals(id)) {
         result.add(rule);

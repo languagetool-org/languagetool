@@ -47,9 +47,9 @@ public abstract class AbstractCompoundRule extends Rule {
 
   private static final int MAX_TERMS = 5;  
 
-  private final Set<String> incorrectCompounds = new HashSet<String>();
-  private final Set<String> noDashSuggestion = new HashSet<String>();
-  private final Set<String> onlyDashSuggestion = new HashSet<String>();
+  private final Set<String> incorrectCompounds = new HashSet<>();
+  private final Set<String> noDashSuggestion = new HashSet<>();
+  private final Set<String> onlyDashSuggestion = new HashSet<>();
 
   private final String withHyphenMessage;
   private final String withoutHyphenMessage;
@@ -96,11 +96,11 @@ public abstract class AbstractCompoundRule extends Rule {
 
   @Override
   public RuleMatch[] match(final AnalyzedSentence text) {
-    final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
+    final List<RuleMatch> ruleMatches = new ArrayList<>();
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
 
     RuleMatch prevRuleMatch = null;
-    final Queue<AnalyzedTokenReadings> prevTokens = new ArrayBlockingQueue<AnalyzedTokenReadings>(MAX_TERMS);
+    final Queue<AnalyzedTokenReadings> prevTokens = new ArrayBlockingQueue<>(MAX_TERMS);
     for (int i = 0; i < tokens.length + MAX_TERMS-1; i++) {
       final AnalyzedTokenReadings token;
       // we need to extend the token list so we find matches at the end of the original list:
@@ -117,9 +117,9 @@ public abstract class AbstractCompoundRule extends Rule {
       final StringBuilder sb = new StringBuilder();
       int j = 0;
       AnalyzedTokenReadings firstMatchToken = null;
-      final List<String> stringsToCheck = new ArrayList<String>();
-      final List<String> origStringsToCheck = new ArrayList<String>();    // original upper/lowercase spelling
-      final Map<String, AnalyzedTokenReadings> stringToToken = new HashMap<String, AnalyzedTokenReadings>();
+      final List<String> stringsToCheck = new ArrayList<>();
+      final List<String> origStringsToCheck = new ArrayList<>();    // original upper/lowercase spelling
+      final Map<String, AnalyzedTokenReadings> stringToToken = new HashMap<>();
       for (AnalyzedTokenReadings atr : prevTokens) {
         if (j == 0) {
           firstMatchToken = atr;
@@ -143,7 +143,7 @@ public abstract class AbstractCompoundRule extends Rule {
         if (incorrectCompounds.contains(stringToCheck)) {
           final AnalyzedTokenReadings atr = stringToToken.get(stringToCheck);
           String msg = null;
-          final List<String> replacement = new ArrayList<String>();
+          final List<String> replacement = new ArrayList<>();
           if (!noDashSuggestion.contains(stringToCheck)) {
             replacement.add(origStringToCheck.replace(' ', '-'));
             msg = withHyphenMessage;

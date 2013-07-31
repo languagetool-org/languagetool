@@ -41,12 +41,12 @@ import org.xml.sax.helpers.DefaultHandler;
 public class XMLRuleHandler extends DefaultHandler {
 
   public XMLRuleHandler() {
-    elementList = new ArrayList<Element>();
-    equivalenceFeatures = new HashMap<String, List<String>>();
-    uTypeList = new ArrayList<String>();
+    elementList = new ArrayList<>();
+    equivalenceFeatures = new HashMap<>();
+    uTypeList = new ArrayList<>();
   }
   
-  List<PatternRule> rules = new ArrayList<PatternRule>();
+  List<PatternRule> rules = new ArrayList<>();
 
   protected Language language;
   
@@ -59,8 +59,8 @@ public class XMLRuleHandler extends DefaultHandler {
   protected StringBuilder elements;
   protected StringBuilder exceptions;
 
-  List<String> correctExamples = new ArrayList<String>();
-  List<IncorrectExample> incorrectExamples = new ArrayList<IncorrectExample>();
+  List<String> correctExamples = new ArrayList<>();
+  List<IncorrectExample> incorrectExamples = new ArrayList<>();
 
   protected boolean inPattern;
   protected boolean inCorrectExample;
@@ -237,7 +237,7 @@ public class XMLRuleHandler extends DefaultHandler {
   protected void phraseElementInit() {
     // lazy init
     if (phraseElementList == null) {
-      phraseElementList = new ArrayList<ArrayList<Element>>();
+      phraseElementList = new ArrayList<>();
     }
   }
   protected void preparePhrase(final Attributes attrs) {
@@ -248,11 +248,11 @@ public class XMLRuleHandler extends DefaultHandler {
           e.setPhraseName(phraseIdRef);
         }
         if (elementList.isEmpty()) {
-          phraseElementList.add(new ArrayList<Element>(curPhrEl));
+          phraseElementList.add(new ArrayList<>(curPhrEl));
         } else {
-          final ArrayList<Element> prevList = new ArrayList<Element>(elementList);
+          final ArrayList<Element> prevList = new ArrayList<>(elementList);
           prevList.addAll(curPhrEl);
-          phraseElementList.add(new ArrayList<Element>(prevList));
+          phraseElementList.add(new ArrayList<>(prevList));
           prevList.clear();
         }
       }
@@ -263,14 +263,14 @@ public class XMLRuleHandler extends DefaultHandler {
   protected void finalizePhrase() {
     // lazy init
     if (phraseMap == null) {
-      phraseMap = new HashMap<String, List<List<Element>>>();
+      phraseMap = new HashMap<>();
     }
     phraseElementInit();
     if (phraseElementList.isEmpty()) {
-      phraseElementList.add(new ArrayList<Element>(elementList));
+      phraseElementList.add(new ArrayList<>(elementList));
     } else {
       for (final ArrayList<Element> ph : phraseElementList) {
-        ph.addAll(new ArrayList<Element>(elementList));
+        ph.addAll(new ArrayList<>(elementList));
       }
     }
 
@@ -333,7 +333,7 @@ public class XMLRuleHandler extends DefaultHandler {
     mWorker.setInMessageOnly(!inSuggestion);
     if (inMessage) {
       if (suggestionMatches == null) {
-        suggestionMatches = new ArrayList<Match>();
+        suggestionMatches = new ArrayList<>();
       }
       suggestionMatches.add(mWorker);
       // add incorrect XML character for simplicity
@@ -342,7 +342,7 @@ public class XMLRuleHandler extends DefaultHandler {
       checkNumber(attrs);
     } else if (inSuggestion && !inMessage) {
       if (suggestionMatchesOutMsg == null) {
-        suggestionMatchesOutMsg = new ArrayList<Match>();
+        suggestionMatchesOutMsg = new ArrayList<>();
       }
       suggestionMatchesOutMsg.add(mWorker);
       // add incorrect XML character for simplicity     
@@ -463,7 +463,7 @@ public class XMLRuleHandler extends DefaultHandler {
     if (existingSugMatches == null || existingSugMatches.isEmpty()) {
       return null;
     }
-    final List<Match> sugMatch = new ArrayList<Match>();
+    final List<Match> sugMatch = new ArrayList<>();
     //final String messageStr = message.toString();
     int pos = 0;
     int ind = 0;

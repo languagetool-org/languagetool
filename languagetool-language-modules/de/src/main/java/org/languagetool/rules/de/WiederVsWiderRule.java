@@ -52,7 +52,7 @@ public class WiederVsWiderRule extends GermanRule {
 
   @Override
   public RuleMatch[] match(AnalyzedSentence text) {
-    final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
+    final List<RuleMatch> ruleMatches = new ArrayList<>();
     final AnalyzedTokenReadings[] tokens = text.getTokens();
     boolean foundSpiegelt = false;
     boolean foundWieder = false;

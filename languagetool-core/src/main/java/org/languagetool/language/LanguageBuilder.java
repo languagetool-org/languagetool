@@ -97,7 +97,7 @@ public class LanguageBuilder {
       }
       @Override
       public List<String> getRuleFileName() {
-          final List<String> ruleFiles = new ArrayList<String>();
+          final List<String> ruleFiles = new ArrayList<>();
           ruleFiles.add(file.getAbsolutePath());
           return ruleFiles;
       }

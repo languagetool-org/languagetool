@@ -42,7 +42,7 @@ public class EnglishWordRepeatBeginningRule extends WordRepeatBeginningRule {
     return "ENGLISH_WORD_REPEAT_BEGINNING_RULE";
   }
   
-  private static final Set<String> ADVERBS = new HashSet<String>();
+  private static final Set<String> ADVERBS = new HashSet<>();
   static {
     ADVERBS.add("Additionally");
     ADVERBS.add("Besides");

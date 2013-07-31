@@ -38,7 +38,7 @@ public class GermanyGerman extends German {
 
   @Override
   public List<Class<? extends Rule>> getRelevantRules() {
-    final List<Class<? extends Rule>> rules = new ArrayList<Class<? extends Rule>>(super.getRelevantRules());
+    final List<Class<? extends Rule>> rules = new ArrayList<>(super.getRelevantRules());
     rules.add(GermanSpellerRule.class);
     return rules;
   }

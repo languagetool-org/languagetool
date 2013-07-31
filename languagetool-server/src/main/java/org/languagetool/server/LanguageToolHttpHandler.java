@@ -263,7 +263,7 @@ class LanguageToolHttpHandler implements HttpHandler {
   }
 
   private Map<String, String> parseQuery(String query) throws UnsupportedEncodingException {
-    final Map<String, String> parameters = new HashMap<String, String>();
+    final Map<String, String> parameters = new HashMap<>();
     if (query != null) {
       final String[] pairs = query.split("[&]");
       final Map<String, String> parameterMap = getParameterMap(pairs);
@@ -273,7 +273,7 @@ class LanguageToolHttpHandler implements HttpHandler {
   }
 
   private Map<String, String> getParameterMap(String[] pairs) throws UnsupportedEncodingException {
-    final Map<String, String> parameters = new HashMap<String, String>();
+    final Map<String, String> parameters = new HashMap<>();
     for (String pair : pairs) {
       final int delimPos = pair.indexOf("=");
       if (delimPos != -1) {

@@ -82,7 +82,7 @@ public class MixedAlphabetsRule extends Rule {
 
 	@Override
 	public final RuleMatch[] match(final AnalyzedSentence text) {
-		List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
+		List<RuleMatch> ruleMatches = new ArrayList<>();
 		AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
 
 		for (AnalyzedTokenReadings tokenReadings: tokens) {
@@ -90,7 +90,7 @@ public class MixedAlphabetsRule extends Rule {
 
 			if( MIXED_ALPHABETS.matcher(tokenString).matches() ) {
 			
-				List<String> replacements = new ArrayList<String>();
+				List<String> replacements = new ArrayList<>();
 
 				if( ! LATIN_ONLY.matcher(tokenString).matches() && ! LIKELY_LATIN_NUMBER.matcher(tokenString).matches() ) {
 					replacements.add( toCyrillic(tokenString) );
@@ -105,7 +105,7 @@ public class MixedAlphabetsRule extends Rule {
 				}
 			}
 			else if( LATIN_NUMBER_WITH_CYRILLICS.matcher(tokenString).matches() ) {
-				List<String> replacements = new ArrayList<String>();
+				List<String> replacements = new ArrayList<>();
 				replacements.add( toLatin(tokenString) );
 
 				RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, replacements);
@@ -131,8 +131,8 @@ public class MixedAlphabetsRule extends Rule {
 	public void reset() {
 	}
 
-	private static final HashMap<Character, Character> toLatMap = new HashMap<Character, Character>();
-	private static final HashMap<Character, Character> toCyrMap = new HashMap<Character, Character>();
+	private static final HashMap<Character, Character> toLatMap = new HashMap<>();
+	private static final HashMap<Character, Character> toCyrMap = new HashMap<>();
 	private static final String cyrChars = "аеікморстухАВЕІКМНОРСТУХ";
 	private static final String latChars = "aeikmopctyxABEIKMHOPCTYX";
 

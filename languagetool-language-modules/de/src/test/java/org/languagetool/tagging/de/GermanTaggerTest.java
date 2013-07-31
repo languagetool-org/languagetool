@@ -147,7 +147,7 @@ public class GermanTaggerTest extends TestCase {
   public void testTag() throws IOException {
     final GermanTagger tagger = new GermanTagger();
 
-    final List<String> upperCaseWord = new ArrayList<String>();
+    final List<String> upperCaseWord = new ArrayList<>();
     upperCaseWord.add("Das");
 
     List<AnalyzedTokenReadings> readings = tagger.tag(upperCaseWord);

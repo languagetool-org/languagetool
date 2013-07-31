@@ -45,7 +45,7 @@ public class SuggestionExtractor {
    * Get the tokens of simple suggestions, i.e. those that don't use back references.
    */
   public List<String> getSuggestionTokens(Rule rule, Language language) {
-    final List<String> wordsToBeIgnored = new ArrayList<String>();
+    final List<String> wordsToBeIgnored = new ArrayList<>();
     if (rule instanceof PatternRule) {
       final PatternRule patternRule = (PatternRule) rule;
       final String message = patternRule.getMessage();
@@ -62,7 +62,7 @@ public class SuggestionExtractor {
   List<String> getSimpleSuggestions(String message) {
     final Matcher matcher = SUGGESTION_PATTERN.matcher(message);
     int startPos = 0;
-    final List<String> suggestions = new ArrayList<String>();
+    final List<String> suggestions = new ArrayList<>();
     while (matcher.find(startPos)) {
       final String suggestion = matcher.group(1);
       startPos = matcher.end();
@@ -82,7 +82,7 @@ public class SuggestionExtractor {
   }
 
   private List<String> getSuggestionTokens(List<String> suggestions, Language language) {
-    final List<String> tokens = new ArrayList<String>();
+    final List<String> tokens = new ArrayList<>();
     for (String suggestion : suggestions) {
       final List<String> suggestionTokens = language.getWordTokenizer().tokenize(suggestion);
       for (String suggestionToken : suggestionTokens) {
@@ -139,9 +139,9 @@ public class SuggestionExtractor {
    * We don't support sub-language resources yet, so collect all variants for one language.
    */
   private Map<Language, Set<String>> getLanguageToIgnoreTokensMapping() throws IOException {
-    final Map<Language, Set<String>> langToIgnoreTokens = new HashMap<Language, Set<String>>();
+    final Map<Language, Set<String>> langToIgnoreTokens = new HashMap<>();
     for (Language lang : Language.REAL_LANGUAGES) {
-      final Set<String> suggestionTokens = new HashSet<String>();
+      final Set<String> suggestionTokens = new HashSet<>();
       final JLanguageTool languageTool = new JLanguageTool(lang);
       final Rule spellcheckRule = getSpellcheckRule(languageTool);
       if (spellcheckRule == null) {

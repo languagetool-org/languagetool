@@ -33,7 +33,7 @@ import org.xml.sax.SAXParseException;
  */
 class DisambXMLRuleHandler extends XMLRuleHandler {
 
-  final List<DisambiguationPatternRule> rules = new ArrayList<DisambiguationPatternRule>();
+  final List<DisambiguationPatternRule> rules = new ArrayList<>();
 
   boolean inDisambiguation;
   

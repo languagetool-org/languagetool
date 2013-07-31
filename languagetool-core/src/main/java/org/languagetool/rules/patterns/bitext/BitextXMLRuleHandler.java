@@ -35,10 +35,10 @@ import org.xml.sax.SAXParseException;
  */
 class BitextXMLRuleHandler extends XMLRuleHandler {
 
-  List<BitextPatternRule> rules = new ArrayList<BitextPatternRule>();
+  List<BitextPatternRule> rules = new ArrayList<>();
 
-  List<StringPair> correctExamples = new ArrayList<StringPair>();
-  List<IncorrectBitextExample> incorrectExamples = new ArrayList<IncorrectBitextExample>();
+  List<StringPair> correctExamples = new ArrayList<>();
+  List<IncorrectBitextExample> incorrectExamples = new ArrayList<>();
 
   List<BitextPatternRule> getBitextRules() {
     return rules;

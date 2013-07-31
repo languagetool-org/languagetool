@@ -55,7 +55,7 @@ public class SimpleReplaceRuleTest extends TestCase {
    * Make sure that the suggested word is not the same as the wrong word
    */
   public void testInvalidSuggestion()  {
-    final List<String> invalidSuggestions = new ArrayList<String>();
+    final List<String> invalidSuggestions = new ArrayList<>();
     final List<Map<String,String>> wrongWords = rule.getWrongWords();
     for (Map<String, String> ruleEntry : wrongWords) {
       for (Map.Entry<String,String> fromWord : ruleEntry.entrySet()) {

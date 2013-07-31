@@ -77,7 +77,7 @@ public class PatternTestTools {
             lang, ruleId + ":" + ruleSubId + " (POS tag)",
             i);
 
-          final List<Element> exceptionElements = new ArrayList<Element>();
+          final List<Element> exceptionElements = new ArrayList<>();
           if (element.getExceptionList() != null) {
             for (final Element exception: element.getExceptionList()) {
               // Detect useless exception or missing skip="...". I.e. things like this:
@@ -319,8 +319,8 @@ public class PatternTestTools {
               final String[] groups = stringValue.split("\\)");
               for (final String group : groups) {
                 final String[] alt = group.split("\\|");
-                final Set<String> partSet = new HashSet<String>();
-                final Set<String> partSetNoCase = new HashSet<String>();
+                final Set<String> partSet = new HashSet<>();
+                final Set<String> partSetNoCase = new HashSet<>();
                 for (String part : alt) {
                   final String partNoCase = isCaseSensitive ? part : part.toLowerCase();
                   if (partSetNoCase.contains(partNoCase)) {

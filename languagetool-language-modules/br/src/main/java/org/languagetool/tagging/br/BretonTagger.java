@@ -78,7 +78,7 @@ public class BretonTagger extends BaseTagger {
     List<AnalyzedToken> taggerTokens;
     List<AnalyzedToken> lowerTaggerTokens;
     List<AnalyzedToken> upperTaggerTokens;
-    final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<AnalyzedTokenReadings>();
+    final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
     int pos = 0;
     // caching IStemmer instance - lazy init
     if (dictLookup == null) {
@@ -93,7 +93,7 @@ public class BretonTagger extends BaseTagger {
       // This loop happens when we need to retry probing the dictionary
       // which happens rarely when trying to remove suffixes -mañ, -se, etc.
       for (;;) {
-        final List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
+        final List<AnalyzedToken> l = new ArrayList<>();
         final String lowerWord = probeWord.toLowerCase(conversionLocale);
         taggerTokens = asAnalyzedTokenList(word, dictLookup.lookup(probeWord));
         lowerTaggerTokens = asAnalyzedTokenList(word, dictLookup.lookup(lowerWord));

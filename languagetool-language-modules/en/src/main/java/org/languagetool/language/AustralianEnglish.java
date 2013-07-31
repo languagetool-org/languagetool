@@ -39,7 +39,7 @@ public class AustralianEnglish extends English {
 
   @Override
   public List<Class<? extends Rule>> getRelevantRules() {
-    final List<Class<? extends Rule>> rules = new ArrayList<Class<? extends Rule>>();
+    final List<Class<? extends Rule>> rules = new ArrayList<>();
     rules.addAll(super.getRelevantRules());    
     // Australian English speller...
     rules.add(MorfologikAustralianSpellerRule.class);
