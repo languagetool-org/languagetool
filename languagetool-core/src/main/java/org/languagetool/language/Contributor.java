@@ -18,6 +18,8 @@
  */
 package org.languagetool.language;
 
+import java.util.Objects;
+
 /**
  * A person that contributed rules or code to LanguageTool.
  * 
@@ -30,10 +32,7 @@ public class Contributor {
   private String url;
 
   Contributor(String name) {
-    if (name == null) {
-      throw new NullPointerException("name cannot be null");
-    }
-    this.name = name;
+    this.name = Objects.requireNonNull(name, "name cannot be null");
   }
   
   public String getName() {

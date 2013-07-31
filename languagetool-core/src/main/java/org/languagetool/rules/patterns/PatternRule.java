@@ -83,14 +83,10 @@ public class PatternRule extends AbstractPatternRule {
       final List<Element> elements, final String description,
       final String message, final String shortMessage) {
     super(id, description, language, elements, false);
-    if (id == null) throw new NullPointerException("id cannot be null");
-    if (language == null) throw new NullPointerException("language cannot be null");
-    if (elements == null) throw new NullPointerException("elements cannot be null");
-    if (description == null) throw new NullPointerException("description/name cannot be null");
     this.message = message;
     this.shortMessage = shortMessage;
     this.elementNo = new ArrayList<>();
-    this.suggestionsOutMsg="";
+    this.suggestionsOutMsg = "";
     String prevName = "";
     String curName = "";
     int cnt = 0;

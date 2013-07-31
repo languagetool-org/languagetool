@@ -19,10 +19,7 @@
 package org.languagetool.language;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 import org.languagetool.Language;
 import org.languagetool.rules.Rule;
@@ -47,9 +44,7 @@ public class LanguageBuilder {
    * a Language object for that language.
    */
   private static Language makeLanguage(final File file, final boolean isAdditional) {
-    if (file == null) {
-      throw new NullPointerException("file argument cannot be null");
-    }
+    Objects.requireNonNull(file, "file cannot be null");
     if (!file.getName().endsWith(".xml")) {
       throw new RuleFilenameException(file);
     }
@@ -96,7 +91,7 @@ public class LanguageBuilder {
         return Collections.emptyList();
       }
       @Override
-      public List<String> getRuleFileName() {
+      public List<String> getRuleFileNames() {
           final List<String> ruleFiles = new ArrayList<>();
           ruleFiles.add(file.getAbsolutePath());
           return ruleFiles;

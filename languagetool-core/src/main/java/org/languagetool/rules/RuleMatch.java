@@ -20,6 +20,7 @@ package org.languagetool.rules;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -210,9 +211,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
    * @see #getSuggestedReplacements()
    */
   public void setSuggestedReplacement(final String replacement) {
-    if (replacement == null) {
-      throw new NullPointerException("replacement might be empty but not null");
-    }
+    Objects.requireNonNull(replacement, "replacement may be empty but not null");
     final List<String> replacements = new ArrayList<>();
     replacements.add(replacement);
     setSuggestedReplacements(replacements);
@@ -222,10 +221,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
    * @see #getSuggestedReplacements()
    */
   public void setSuggestedReplacements(final List<String> replacements) {
-    if (replacements == null) {
-      throw new NullPointerException("replacements might be empty but not null");
-    }
-    this.suggestedReplacements = replacements;
+    this.suggestedReplacements = Objects.requireNonNull(replacements, "replacements may be empty but not null");
   }
 
   /**

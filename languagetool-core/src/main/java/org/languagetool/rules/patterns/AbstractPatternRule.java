@@ -22,6 +22,7 @@ package org.languagetool.rules.patterns;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
@@ -63,10 +64,10 @@ public abstract class AbstractPatternRule extends Rule {
       final Language language,
       final List<Element> elements,
       boolean getUnified) {
-    this.id = id; 
-    this.description = description;
-    this.patternElements = new ArrayList<>(elements); // copy elements
-    this.language = language;
+    this.id = Objects.requireNonNull(id, "id cannot be null");
+    this.description = Objects.requireNonNull(description, "description cannot be null");
+    this.patternElements = new ArrayList<>(Objects.requireNonNull(elements, "elements cannot be null")); // copy elements
+    this.language = Objects.requireNonNull(language, "language cannot be null");
     this.getUnified = getUnified;
     unifier = language.getUnifier();
     testUnification = initUnifier();

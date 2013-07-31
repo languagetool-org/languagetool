@@ -52,10 +52,10 @@ public class CommandLineParser {
       } else if (args[i].equals("-t") || args[i].equals("--taggeronly")) {
         options.setTaggerOnly(true);
         if (options.isListUnknown()) {
-          throw new IllegalArgumentException("You cannot list unknown words when tagging only.");
+          throw new IllegalArgumentException("You cannot list unknown words when tagging only");
         }
         if (options.isApplySuggestions()) {
-          throw new IllegalArgumentException("You cannot apply suggestions when tagging only.");
+          throw new IllegalArgumentException("You cannot apply suggestions when tagging only");
         }
       } else if (args[i].equals("-r") || args[i].equals("--recursive")) {
         options.setRecursive(true);
@@ -87,33 +87,33 @@ public class CommandLineParser {
       } else if (args[i].equals("-u") || args[i].equals("--list-unknown")) {
         options.setListUnknown(true);
         if (options.isTaggerOnly()) {
-          throw new IllegalArgumentException("You cannot list unknown words when tagging only.");
+          throw new IllegalArgumentException("You cannot list unknown words when tagging only");
         }
       } else if (args[i].equals("-b")) {
         options.setSingleLineBreakMarksParagraph(true);
       } else if (args[i].equals("--api")) {
         options.setApiFormat(true);
         if (options.isApplySuggestions()) {
-          throw new IllegalArgumentException("API format makes no sense for automatic application of suggestions.");
+          throw new IllegalArgumentException("API format makes no sense for automatic application of suggestions");
         }
       } else if (args[i].equals("-a") || args[i].equals("--apply")) {
         options.setApplySuggestions(true);
         if (options.isTaggerOnly()) {
-          throw new IllegalArgumentException("You cannot apply suggestions when tagging only.");
+          throw new IllegalArgumentException("You cannot apply suggestions when tagging only");
         }
         if (options.isApiFormat()) {
-          throw new IllegalArgumentException("API format makes no sense for automatic application of suggestions.");
+          throw new IllegalArgumentException("API format makes no sense for automatic application of suggestions");
         }
       } else if (args[i].equals("-p") || args[i].equals("--profile")) {
         options.setProfile(true);
         if (options.isApiFormat()) {
-          throw new IllegalArgumentException("API format makes no sense for profiling.");
+          throw new IllegalArgumentException("API format makes no sense for profiling");
         }
         if (options.isApplySuggestions()) {
-          throw new IllegalArgumentException("Applying suggestions makes no sense for profiling.");
+          throw new IllegalArgumentException("Applying suggestions makes no sense for profiling");
         }
         if (options.isTaggerOnly()) {
-          throw new IllegalArgumentException("Tagging makes no sense for profiling.");
+          throw new IllegalArgumentException("Tagging makes no sense for profiling");
         }
       } else if (args[i].equals("--xmlfilter")) {
         options.setXmlFiltering(true);

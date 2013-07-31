@@ -493,7 +493,7 @@ class Main {
     }
     if (options.isBitext()) {
       if (options.getMotherTongue() == null) {
-        throw new IllegalArgumentException("You have to set the source language (as mother tongue) in bitext mode.");
+        throw new IllegalArgumentException("You have to set the source language (as mother tongue) in bitext mode");
       }
       prg.setBitextMode(options.getMotherTongue(), options.getDisabledRules(), options.getEnabledRules());
     }

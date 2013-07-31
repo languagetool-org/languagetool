@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.MissingResourceException;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.jar.Manifest;
@@ -169,10 +170,7 @@ public final class JLanguageTool {
    */
   public JLanguageTool(final Language language, final Language motherTongue)
       throws IOException {
-    if (language == null) {
-      throw new NullPointerException("language cannot be null");
-    }
-    this.language = language;
+    this.language = Objects.requireNonNull(language, "language cannot be null");
     this.motherTongue = motherTongue;
     final ResourceBundle messages = getMessageBundle(language);
     final Rule[] allBuiltinRules = getAllBuiltinRules(language, messages);

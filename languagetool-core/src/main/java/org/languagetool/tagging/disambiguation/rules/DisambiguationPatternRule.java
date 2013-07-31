@@ -79,18 +79,6 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
       final String disamb, final Match posSelect,
       final DisambiguatorAction disambAction) {
     super(id, description, language, elements, true);
-    if (id == null) {
-      throw new NullPointerException("id cannot be null");
-    }
-    if (language == null) {
-      throw new NullPointerException("language cannot be null");
-    }
-    if (elements == null) {
-      throw new NullPointerException("elements cannot be null");
-    }
-    if (description == null) {
-      throw new NullPointerException("description cannot be null");
-    }
     if (disamb == null && posSelect == null
         && disambAction != DisambiguatorAction.UNIFY
         && disambAction != DisambiguatorAction.ADD
@@ -239,8 +227,8 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
         if (newTokenReadings != null) {
           if (newTokenReadings.length == matchingTokens - startPositionCorrection
                   + endPositionCorrection) {
-            String lemma = "";
-            String token = "";
+            String lemma;
+            String token;
             for (int i = 0; i < newTokenReadings.length; i++) {
               final int position = text.getOriginalPosition(firstMatchToken + correctedStPos
                       + i);
@@ -305,12 +293,12 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
         if (!filtered) {
           if (newTokenReadings != null && newTokenReadings.length > 0) {
             if (newTokenReadings.length == matchingTokens - startPositionCorrection + endPositionCorrection) {
-              String lemma = "";
-              String token = "";
+              String lemma;
+              String token;
               for (int i = 0; i < newTokenReadings.length; i++) {
                 final int position = text.getOriginalPosition(firstMatchToken + correctedStPos
                         + i);
-                if ("".equals(newTokenReadings[i].getToken())) { //empty token 
+                if ("".equals(newTokenReadings[i].getToken())) { //empty token
                   token = whTokens[position].getToken();
                 } else {
                   token = newTokenReadings[i].getToken();
