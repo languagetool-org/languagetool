@@ -16,10 +16,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-
-/*
- * Created on 01.10.2010
- */
 package org.languagetool.tagging.eo;
 
 import java.io.BufferedReader;
@@ -301,8 +297,7 @@ public class EsperantoTagger implements Tagger {
         // Single letter word (no tag).
         l.add(new AnalyzedToken(word, null, null));
       }
-      tokenReadings.add(new AnalyzedTokenReadings(
-        l.toArray(new AnalyzedToken[0]), 0));
+      tokenReadings.add(new AnalyzedTokenReadings(l, 0));
     }
     return tokenReadings;
   }

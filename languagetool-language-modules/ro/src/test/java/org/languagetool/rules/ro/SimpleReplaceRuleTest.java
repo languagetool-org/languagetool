@@ -21,14 +21,12 @@ package org.languagetool.rules.ro;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import junit.framework.TestCase;
 
 import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
 import org.languagetool.TestTools;
 import org.languagetool.language.Romanian;
 import org.languagetool.rules.RuleMatch;
@@ -66,7 +64,7 @@ public class SimpleReplaceRuleTest extends TestCase {
       }
     }
     if (!invalidSuggestions.isEmpty()) {
-      fail("Invalid suggestions found for: " + Arrays.toString(invalidSuggestions.toArray(new String[]{})));
+      fail("Invalid suggestions found for: " + invalidSuggestions);
     }
   }
   public void testRule() throws IOException {

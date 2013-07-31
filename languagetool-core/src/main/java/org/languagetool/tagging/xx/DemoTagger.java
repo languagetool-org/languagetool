@@ -16,10 +16,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-
-/*
- * Created on 23.12.2005
- */
 package org.languagetool.tagging.xx;
 
 import java.util.ArrayList;
@@ -46,7 +42,7 @@ public class DemoTagger implements Tagger {
       // a real tagger would need to assign a POS tag
       // in the next line instead of null:
       l.add(new AnalyzedToken(word, null, null));      
-      tokenReadings.add(new AnalyzedTokenReadings(l.toArray(new AnalyzedToken[0]), 0));
+      tokenReadings.add(new AnalyzedTokenReadings(l, 0));
     }
     return tokenReadings;
   }

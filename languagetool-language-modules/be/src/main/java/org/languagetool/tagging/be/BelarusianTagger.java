@@ -40,8 +40,7 @@ public class BelarusianTagger implements Tagger {
         // a real tagger would need to assign a POS tag
         // in the next line instead of null:
         l.add(new AnalyzedToken(word, null, null));
-        tokenReadings.add(new AnalyzedTokenReadings(l
-                .toArray(new AnalyzedToken[0]), 0));
+        tokenReadings.add(new AnalyzedTokenReadings(l, 0));
       }
       return tokenReadings;
     }
