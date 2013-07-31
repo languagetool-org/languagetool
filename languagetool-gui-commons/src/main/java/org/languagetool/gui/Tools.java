@@ -20,7 +20,7 @@ package org.languagetool.gui;
 
 import org.languagetool.tools.ContextTools;
 
-import java.awt.Frame;
+import java.awt.*;
 import java.io.File;
 import java.text.MessageFormat;
 import java.util.ResourceBundle;
@@ -131,10 +131,18 @@ public class Tools {
    * Show the exception (message without stacktrace) in a dialog and print the
    * stacktrace to STDERR.
    */
-  static void showErrorMessage(final Exception e) {
+  static void showErrorMessage(final Exception e, final Component parent) {
     final String msg = e.getMessage();
-    JOptionPane.showMessageDialog(null, msg, "Error", JOptionPane.ERROR_MESSAGE);
+    JOptionPane.showMessageDialog(parent, msg, "Error", JOptionPane.ERROR_MESSAGE);
     e.printStackTrace();
+  }
+
+  /**
+   * Show the exception (message without stacktrace) in a dialog and print the
+   * stacktrace to STDERR.
+   */
+  static void showErrorMessage(final Exception e) {
+    showErrorMessage(e, null);
   }
 
 }

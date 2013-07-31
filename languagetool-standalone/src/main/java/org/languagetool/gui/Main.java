@@ -134,7 +134,7 @@ public final class Main implements ActionListener {
     try {
       Language.reInit(lmd.getLanguages());
     } catch (RuleFilenameException e) {
-      Tools.showErrorMessage(e);
+      Tools.showErrorMessage(e, frame);
     }
     languageBox.populateLanguageBox();
   }

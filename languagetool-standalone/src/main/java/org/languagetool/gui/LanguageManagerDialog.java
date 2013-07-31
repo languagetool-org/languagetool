@@ -144,7 +144,7 @@ public class LanguageManagerDialog implements ActionListener {
   @Override
   public void actionPerformed(ActionEvent e) {
     if (e.getSource() == addButton) {
-      final File ruleFile = Tools.openFileDialog(null, new XMLFileFilter());
+      final File ruleFile = Tools.openFileDialog(owner, new XMLFileFilter());
       if (!ruleFiles.contains(ruleFile)) {
         ruleFiles.add(ruleFile);
         list.setListData(ruleFiles.toArray(new File[ruleFiles.size()]));
