@@ -46,7 +46,7 @@ import static org.languagetool.dev.index.PatternRuleQueryBuilder.FIELD_NAME_LOWE
  * 
  * @author Tao Lin, Miaojuan Dai
  */
-public class Indexer {
+public class Indexer implements AutoCloseable {
 
   private static final Version LUCENE_VERSION = Version.LUCENE_41;
 
@@ -165,6 +165,7 @@ public class Indexer {
     writer.addDocument(doc);
   }
 
+  @Override
   public void close() throws IOException {
     writer.close();
   }

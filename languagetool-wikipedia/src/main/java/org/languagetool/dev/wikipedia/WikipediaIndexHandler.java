@@ -42,7 +42,7 @@ import org.xml.sax.helpers.DefaultHandler;
  * 
  * @author Tao Lin
  */
-public class WikipediaIndexHandler extends DefaultHandler {
+public class WikipediaIndexHandler extends DefaultHandler implements AutoCloseable {
 
   public static final String MAX_DOC_COUNT_VALUE = "maxDocCountValue";
   public static final String MAX_DOC_COUNT_FIELD = "maxDocCount";
@@ -130,6 +130,7 @@ public class WikipediaIndexHandler extends DefaultHandler {
     }
   }
 
+  @Override
   public void close() throws Exception {
     indexer.close();
   }
