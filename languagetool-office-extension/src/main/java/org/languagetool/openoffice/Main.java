@@ -668,9 +668,9 @@ public class Main extends WeakBase implements XJobExecutor,
     if (version != null
         && (version.startsWith("1.0") || version.startsWith("1.1")
             || version.startsWith("1.2") || version.startsWith("1.3") 
-            || version .startsWith("1.4") || version.startsWith("1.5"))) {
+            || version .startsWith("1.4") || version.startsWith("1.5") || version.startsWith("1.6"))) {
       final DialogThread dt = new DialogThread(
-          "Error: LanguageTool requires Java 6.0 or later. Current version: " + version);
+          "Error: LanguageTool requires Java 7.0 or later. Current version: " + version);
       dt.start();
       return false;
     }
