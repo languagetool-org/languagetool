@@ -42,6 +42,7 @@ import java.io.*;
 import java.net.URL;
 import java.util.*;
 import java.util.List;
+import org.apache.tika.language.LanguageIdentifier;
 
 /**
  * A simple GUI to check texts with.
@@ -75,7 +76,7 @@ public final class Main implements ActionListener {
   private ResultArea resultArea;
   private JButton checkTextButton;
   private LanguageComboBox languageBox;
-  private LanguageDetectionCheckbox autoDetectBox;
+  private JCheckBox autoDetectBox;
   private Cursor prevCursor;
   private CheckboxMenuItem enableHttpServerItem;
 
@@ -215,7 +216,14 @@ public final class Main implements ActionListener {
     buttonCons.gridy = 0;
     insidePanel.add(checkTextButton, buttonCons);
 
-    autoDetectBox = new LanguageDetectionCheckbox(messages, languageBox, config);
+    autoDetectBox = new JCheckBox(messages.getString("atd"), config.getAutoDetect());
+    autoDetectBox.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        languageBox.setEnabled(!autoDetectBox.isSelected());
+        config.setAutoDetect(autoDetectBox.isSelected());
+      }
+    });
     languageBox.setEnabled(!autoDetectBox.isSelected());
 
     buttonCons.gridx = 1;
@@ -453,9 +461,25 @@ public final class Main implements ActionListener {
     }
   }
 
+  private Language autoDetectLanguage(String text) {
+    final LanguageIdentifier langIdentifier = new LanguageIdentifier(text);
+    Language lang;
+    try {
+      lang = Language.getLanguageForShortName(langIdentifier.getLanguage());
+    } catch (IllegalArgumentException e) {
+      lang = Language.getLanguageForLocale(Locale.getDefault());
+    }
+    if (lang.hasVariant()) {
+      // UI only shows variants like "English (American)", not just "English", so use that:
+      lang = lang.getDefaultVariant();
+    }
+    languageBox.selectLanguage(lang);
+    return lang;
+  }
+    
   private Language getCurrentLanguage() {
     if (autoDetectBox.isSelected()) {
-      return autoDetectBox.autoDetectLanguage(textArea.getText());
+      return autoDetectLanguage(textArea.getText());
     } else {
       return languageBox.getSelectedLanguage();
     }
