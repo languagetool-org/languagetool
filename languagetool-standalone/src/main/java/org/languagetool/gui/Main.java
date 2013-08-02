@@ -200,6 +200,7 @@ public final class Main implements ActionListener {
     buttonCons.anchor = GridBagConstraints.WEST;
     insidePanel.add(new JLabel(" " + messages.getString("textLanguage") + " "), buttonCons);
     languageBox = new LanguageComboBox(messages, config);
+    languageBox.setRenderer(new LanguageComboBoxRenderer());
     languageBox.addItemListener(new ItemListener() {
       @Override
       public void itemStateChanged(ItemEvent e) {
