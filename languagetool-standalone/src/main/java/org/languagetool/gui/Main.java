@@ -94,6 +94,7 @@ public final class Main implements ActionListener {
   private LanguageToolSupport ltSupport;
   private CheckAction checkAction;
   private File currentFile;
+  private UndoRedoSupport undoRedo;
   
   private Main() throws IOException {
     LanguageIdentifierTools.addLtProfiles();
@@ -221,6 +222,7 @@ public final class Main implements ActionListener {
     textArea.setWrapStyleWord(true);
     textArea.addKeyListener(new ControlReturnTextCheckingListener());
     resultArea = new ResultArea(messages, textArea, config);
+    undoRedo = new UndoRedoSupport(this.textArea);
     frame.setJMenuBar(createMenuBar());
     checkTextButton = new JButton(checkAction);
     //checkTextButton.setMnemonic(StringTools.getMnemonic(messages.getString("checkText")));
@@ -356,6 +358,15 @@ public final class Main implements ActionListener {
     
     helpMenu.add(new AboutAction());
 
+    undoRedo.undoAction.putValue(Action.NAME, getLabel("guiMenuUndo"));
+    undoRedo.undoAction.putValue(Action.MNEMONIC_KEY, getMnemonic("guiMenuUndo"));
+    undoRedo.redoAction.putValue(Action.NAME, getLabel("guiMenuRedo"));
+    undoRedo.redoAction.putValue(Action.MNEMONIC_KEY, getMnemonic("guiMenuRedo"));
+            
+    editMenu.add(undoRedo.undoAction);
+    editMenu.add(undoRedo.redoAction);
+    editMenu.addSeparator();
+    
     Action a;
     Image img;
 
