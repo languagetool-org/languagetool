@@ -19,6 +19,7 @@
 package org.languagetool.gui;
 
 import java.awt.Component;
+import java.util.ResourceBundle;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -26,6 +27,7 @@ import javax.swing.ListCellRenderer;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
 import org.languagetool.databroker.ResourceDataBroker;
 
 /**
@@ -33,18 +35,28 @@ import org.languagetool.databroker.ResourceDataBroker;
  *
  * @author Panagiotis Minos
  */
-class LanguageComboBoxRenderer extends JLabel implements ListCellRenderer<I18nLanguage> {
+class LanguageComboBoxRenderer extends JLabel implements ListCellRenderer<Language> {
 
   private static final Border BORDER = new EmptyBorder(1, 3, 1, 1);
+  private final ResourceBundle messages;
 
-  LanguageComboBoxRenderer() {
+  LanguageComboBoxRenderer(ResourceBundle messages) {
     super();
     setOpaque(true);
     setBorder(BORDER);
+    this.messages = messages;
+  }
+
+  private String getTranslatedName(Language language) {
+    if (language.isExternal()) {
+      return language.getName() + Main.EXTERNAL_LANGUAGE_SUFFIX;
+    } else {
+      return language.getTranslatedName(messages);
+    }
   }
 
   @Override
-  public Component getListCellRendererComponent(JList list, I18nLanguage value, int index, boolean isSelected, boolean cellHasFocus) {
+  public Component getListCellRendererComponent(JList list, Language value, int index, boolean isSelected, boolean cellHasFocus) {
     setComponentOrientation(list.getComponentOrientation());
     if (isSelected) {
       setBackground(list.getSelectionBackground());
@@ -53,8 +65,8 @@ class LanguageComboBoxRenderer extends JLabel implements ListCellRenderer<I18nLa
       setBackground(list.getBackground());
       setForeground(list.getForeground());
     }
-    setText(value.toString());
-    String country = value.getLanguage().getLocaleWithCountry().getCountry().toLowerCase();
+    setText(getTranslatedName(value));
+    String country = value.getLocaleWithCountry().getCountry().toLowerCase();
     String filename = "flags/" + country + ".png";
     ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
     if (!dataBroker.resourceExists(filename)) {

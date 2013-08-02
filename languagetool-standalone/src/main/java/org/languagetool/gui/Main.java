@@ -89,6 +89,8 @@ public final class Main implements ActionListener {
   private boolean isInTray;
   private boolean isAlreadyChecking;
 
+  private Language currentLanguage;
+
   private Main() throws IOException {
     LanguageIdentifierTools.addLtProfiles();
     config = new Configuration(new File(System.getProperty("user.home")), CONFIG_FILE, null);
@@ -200,11 +202,15 @@ public final class Main implements ActionListener {
     buttonCons.anchor = GridBagConstraints.WEST;
     insidePanel.add(new JLabel(" " + messages.getString("textLanguage") + " "), buttonCons);
     languageBox = new LanguageComboBox(messages, config);
-    languageBox.setRenderer(new LanguageComboBoxRenderer());
+    languageBox.setRenderer(new LanguageComboBoxRenderer(messages));
     languageBox.addItemListener(new ItemListener() {
       @Override
       public void itemStateChanged(ItemEvent e) {
-        langTool = null;  // we cannot re-use the existing LT object anymore
+        if(e.getStateChange() == ItemEvent.SELECTED)
+        {
+          langTool = null;  // we cannot re-use the existing LT object anymore
+          currentLanguage = (Language) languageBox.getSelectedItem();
+        }
       }
     });
     buttonCons.gridx = 1;
@@ -218,11 +224,16 @@ public final class Main implements ActionListener {
     insidePanel.add(checkTextButton, buttonCons);
 
     autoDetectBox = new JCheckBox(messages.getString("atd"), config.getAutoDetect());
-    autoDetectBox.addActionListener(new ActionListener() {
+    autoDetectBox.addItemListener(new ItemListener() {
       @Override
-      public void actionPerformed(ActionEvent e) {
-        languageBox.setEnabled(!autoDetectBox.isSelected());
-        config.setAutoDetect(autoDetectBox.isSelected());
+      public void itemStateChanged(ItemEvent e) {
+        boolean selected = (e.getStateChange() == ItemEvent.SELECTED);
+        languageBox.setEnabled(!selected);
+        config.setAutoDetect(selected);
+        if (selected) {
+          Language detected = autoDetectLanguage(textArea.getText());
+          languageBox.setSelectedItem(detected);
+        }
       }
     });
     languageBox.setEnabled(!autoDetectBox.isSelected());
@@ -257,11 +268,20 @@ public final class Main implements ActionListener {
     cons.gridy = 3;
     contentPane.add(panel, cons);
     
+    currentLanguage = getDefaultLanguage();
     warmUpChecker();
 
     frame.pack();
     frame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
     frame.setLocationByPlatform(true);
+  }
+
+  private Language getDefaultLanguage() {
+    if (config.getLanguage() != null) {
+      return config.getLanguage();
+    } else {
+      return Language.getLanguageForLocale(Locale.getDefault());
+    }
   }
 
   private void warmUpChecker() {
@@ -270,7 +290,7 @@ public final class Main implements ActionListener {
     // rules. We just assume that the default language is the language that the user
     // often uses and init the LT object for that now, not just when it's first used.
     // This makes the first check feel much faster:
-    getCurrentLanguageTool(languageBox.getDefaultLanguage());
+    getCurrentLanguageTool(currentLanguage);
   }
 
   private void setLookAndFeel() {
@@ -362,7 +382,7 @@ public final class Main implements ActionListener {
   void quit() {
     stopServer();
     try {
-      config.setLanguage(languageBox.getSelectedLanguage());
+      config.setLanguage(currentLanguage);
       config.saveConfiguration(getCurrentLanguage());
     } catch (IOException e) {
       Tools.showError(e);
@@ -474,16 +494,11 @@ public final class Main implements ActionListener {
       // UI only shows variants like "English (American)", not just "English", so use that:
       lang = lang.getDefaultVariant();
     }
-    languageBox.selectLanguage(lang);
     return lang;
   }
     
   private Language getCurrentLanguage() {
-    if (autoDetectBox.isSelected()) {
-      return autoDetectLanguage(textArea.getText());
-    } else {
-      return languageBox.getSelectedLanguage();
-    }
+    return this.currentLanguage;
   }
 
   private ConfigurationDialog getCurrentConfigDialog(Language language) {

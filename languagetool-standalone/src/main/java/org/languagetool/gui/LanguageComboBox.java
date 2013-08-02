@@ -31,11 +31,11 @@ import org.languagetool.Language;
 /**
  * Combo box with list of available languages.
  */
-public class LanguageComboBox extends JComboBox<I18nLanguage> {
+public class LanguageComboBox extends JComboBox<Language> {
 
   private final ResourceBundle messages;
   private final Configuration config;
-  private final List<I18nLanguage> i18nLanguages = new ArrayList<>();
+  private final List<Language> i18nLanguages = new ArrayList<>();
 
   public LanguageComboBox(ResourceBundle messages, Configuration config) {
     this.messages = messages;
@@ -43,26 +43,13 @@ public class LanguageComboBox extends JComboBox<I18nLanguage> {
     populateLanguageBox();
   }
 
-  void populateLanguageBox() {
+  final void populateLanguageBox() {
     removeAllItems();
     initAllLanguages();
     preselectDefaultLanguage();
   }
-
-  void selectLanguage(Language language) {
-    final String translatedName = language.getTranslatedName(messages);
-    for (final I18nLanguage i18nLanguage : i18nLanguages) {
-      if (i18nLanguage.toString().equals(translatedName)) {
-        setSelectedItem(i18nLanguage);
-      }
-    }
-  }
-
-  Language getSelectedLanguage() {
-    return ((I18nLanguage) getSelectedItem()).getLanguage();
-  }
-
-  Language getDefaultLanguage() {
+  
+  private Language getDefaultLanguage() {
     if (config.getLanguage() != null) {
       return config.getLanguage();
     } else {
@@ -77,17 +64,17 @@ public class LanguageComboBox extends JComboBox<I18nLanguage> {
       // TODO: "Simple German" would hide "German (Germany)" - find a proper solution
       final boolean simpleGermanWorkaround = language.getShortNameWithVariant().equals("de-DE");
       if (!skip || simpleGermanWorkaround) {
-        i18nLanguages.add(new I18nLanguage(language, messages));
+        i18nLanguages.add(language);
       }
     }
-    Collections.sort(i18nLanguages);
-    for (final I18nLanguage i18nLanguage : i18nLanguages) {
+    Collections.sort(i18nLanguages, new LanguageComparator(messages));
+    for (final Language i18nLanguage : i18nLanguages) {
       addItem(i18nLanguage);
     }
   }
 
   private void preselectDefaultLanguage() {
-    selectLanguage(getDefaultLanguage());
+    setSelectedItem(getDefaultLanguage());
   }
-
+ 
 }

@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker 
- * Copyright (C) 2011 Daniel Naber (http://www.danielnaber.de)
+ * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,53 +18,33 @@
  */
 package org.languagetool.gui;
 
+import java.util.Comparator;
 import java.util.ResourceBundle;
-
 import org.languagetool.Language;
 
 /**
- * An item in the language selection combo box.
+ * Comparator class for sorting Language by locale name
+ * 
+ * @author Panagiotis Minos
  */
-class I18nLanguage implements Comparable<I18nLanguage> {
+class LanguageComparator implements Comparator<Language> {
 
-  private final Language language;
   private final ResourceBundle messages;
 
-  I18nLanguage(Language language, ResourceBundle messages) {
-    this.language = language;
+  LanguageComparator(ResourceBundle messages) {
     this.messages = messages;
   }
 
-  Language getLanguage() {
-    return language;
+  @Override
+  public int compare(Language o1, Language o2) {
+    return getTranslatedName(o1).compareTo(getTranslatedName(o2));
   }
 
-  // used by the GUI:
-  @Override
-  public String toString() {
+  private String getTranslatedName(Language language) {
     if (language.isExternal()) {
       return language.getName() + Main.EXTERNAL_LANGUAGE_SUFFIX;
     } else {
       return language.getTranslatedName(messages);
     }
   }
-
-  @Override
-  public int compareTo(I18nLanguage o) {
-    return toString().compareTo(o.toString());
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    final I18nLanguage other = (I18nLanguage) o;
-    return language.toString().equals(other.toString()) && language.isExternal() == other.language.isExternal();
-  }
-
-  @Override
-  public int hashCode() {
-    return toString().hashCode();
-  }
 }
-
