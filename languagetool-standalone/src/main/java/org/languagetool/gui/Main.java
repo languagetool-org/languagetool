@@ -50,7 +50,7 @@ import org.apache.tika.language.LanguageIdentifier;
  *
  * @author Daniel Naber
  */
-public final class Main implements ActionListener {
+public final class Main {
 
   static final String EXTERNAL_LANGUAGE_SUFFIX = " (ext.)";
   static final String HTML_FONT_START = "<font face='Arial,Helvetica'>";
@@ -75,7 +75,6 @@ public final class Main implements ActionListener {
   private JFrame frame;
   private JTextArea textArea;
   private ResultArea resultArea;
-  private JButton checkTextButton;
   private LanguageComboBox languageBox;
   private JCheckBox autoDetectBox;
   private Cursor prevCursor;
@@ -92,28 +91,20 @@ public final class Main implements ActionListener {
 
   private Language currentLanguage;
   private LanguageToolSupport ltSupport;
+  private OpenAction openAction;
+  private SaveAction saveAction;
+  private SaveAsAction saveAsAction;
+  private AutoCheckAction autoCheckAction;
+
   private CheckAction checkAction;
   private File currentFile;
   private UndoRedoSupport undoRedo;
-  
+
   private Main() throws IOException {
     LanguageIdentifierTools.addLtProfiles();
     config = new Configuration(new File(System.getProperty("user.home")), CONFIG_FILE, null);
     messages = JLanguageTool.getMessageBundle();
     maybeStartServer();
-  }
-
-  @Override
-  public void actionPerformed(final ActionEvent e) {
-    try {
-      if (e.getActionCommand().equals(StringTools.getLabel(messages.getString("checkText")))) {
-        checkTextAndDisplayResults();
-      } else {
-        throw new IllegalArgumentException("Unknown action " + e);
-      }
-    } catch (Exception exc) {
-      Tools.showError(exc);
-    }
   }
 
   void loadFile() {
@@ -128,10 +119,10 @@ public final class Main implements ActionListener {
         final String fileContents = StringTools.readFile(inputStream);
         textArea.setText(fileContents);
         currentFile = file;
+        updateTitle();
       } finally {
         inputStream.close();
       }
-      checkTextAndDisplayResults();
     } catch (IOException e) {
       Tools.showError(e);
     }
@@ -149,6 +140,7 @@ public final class Main implements ActionListener {
         return;
       }
       currentFile = file;
+      updateTitle();
     }
     BufferedWriter writer = null;
     try {
@@ -205,11 +197,23 @@ public final class Main implements ActionListener {
     return frame;
   }
 
+  private void updateTitle()
+  {
+    if(currentFile == null)
+      frame.setTitle("LanguageTool " + JLanguageTool.VERSION);
+    else
+      frame.setTitle(currentFile.getName() +" - LanguageTool " + JLanguageTool.VERSION);
+  }
+
   private void createGUI() {
     frame = new JFrame("LanguageTool " + JLanguageTool.VERSION);
 
     setLookAndFeel();
+    openAction = new OpenAction();
+    saveAction = new SaveAction();
+    saveAsAction = new SaveAsAction();
     checkAction = new CheckAction();
+    autoCheckAction = new AutoCheckAction(true);
 
     frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
     frame.addWindowListener(new CloseListener());
@@ -224,9 +228,6 @@ public final class Main implements ActionListener {
     resultArea = new ResultArea(messages, textArea, config);
     undoRedo = new UndoRedoSupport(this.textArea);
     frame.setJMenuBar(createMenuBar());
-    checkTextButton = new JButton(checkAction);
-    //checkTextButton.setMnemonic(StringTools.getMnemonic(messages.getString("checkText")));
-    //checkTextButton.addActionListener(this);
 
     final JPanel panel = new JPanel();
     panel.setOpaque(false);    // to get rid of the gray background
@@ -260,7 +261,6 @@ public final class Main implements ActionListener {
     panel.add(insidePanel);
     buttonCons.gridx = 2;
     buttonCons.gridy = 0;
-    insidePanel.add(checkTextButton, buttonCons);
 
     autoDetectBox = new JCheckBox(messages.getString("atd"), config.getAutoDetect());
     autoDetectBox.addItemListener(new ItemListener() {
@@ -287,12 +287,47 @@ public final class Main implements ActionListener {
     final GridBagLayout gridLayout = new GridBagLayout();
     contentPane.setLayout(gridLayout);
     final GridBagConstraints cons = new GridBagConstraints();
+
+    cons.gridx = 0;
+    cons.gridy = 1;
+    cons.fill = GridBagConstraints.HORIZONTAL;
+    cons.anchor = GridBagConstraints.FIRST_LINE_START;
+    JToolBar toolbar = new JToolBar("Toolbar", JToolBar.HORIZONTAL);
+    toolbar.setFloatable(false);
+    contentPane.add(toolbar,cons);
+
+    JButton openbutton = new JButton(openAction);
+    openbutton.setHideActionText(true);
+    openbutton.setFocusable(false);
+    toolbar.add(openbutton);
+
+    JButton savebutton = new JButton(saveAction);
+    savebutton.setHideActionText(true);
+    savebutton.setFocusable(false);
+    toolbar.add(savebutton);
+
+    JButton saveasbutton = new JButton(saveAsAction);
+    saveasbutton.setHideActionText(true);
+    saveasbutton.setFocusable(false);
+    toolbar.add(saveasbutton);
+
+    JButton spellbutton = new JButton(this.checkAction);
+    spellbutton.setHideActionText(true);
+    spellbutton.setFocusable(false);
+    toolbar.add(spellbutton);
+
+    JToggleButton autospellbutton = new JToggleButton("AutoCheck", true);
+    autospellbutton.setAction(autoCheckAction);
+    autospellbutton.setHideActionText(true);
+    autospellbutton.setFocusable(false);
+    toolbar.add(autospellbutton);
+
     cons.insets = new Insets(5, 5, 5, 5);
     cons.fill = GridBagConstraints.BOTH;
     cons.weightx = 10.0f;
     cons.weighty = 10.0f;
     cons.gridx = 0;
-    cons.gridy = 1;
+    cons.gridy = 2;
     cons.weighty = 5.0f;
     final JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
             new JScrollPane(textArea), new JScrollPane(resultArea));
@@ -306,19 +341,19 @@ public final class Main implements ActionListener {
     cons.insets = new Insets(1, 10, 10, 1);
     cons.gridy = 3;
     contentPane.add(panel, cons);
-    
+
     currentLanguage = getDefaultLanguage();
     warmUpChecker();
     ltSupport = new LanguageToolSupport(this.langTool, this.textArea);
     if(config.getAutoDetect()) {
       languageBox.selectLanguage(autoDetectLanguage(textArea.getText()));
     }
-    
+
     frame.pack();
     frame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
     frame.setLocationByPlatform(true);
   }
-  
+
   private String getLabel(String key) {
     return StringTools.getLabel(messages.getString(key));
   }
@@ -342,15 +377,19 @@ public final class Main implements ActionListener {
     final JMenu helpMenu = new JMenu(getLabel("guiMenuHelp"));
     helpMenu.setMnemonic(getMnemonic("guiMenuHelp"));
     
-    fileMenu.add(new OpenAction());
-    fileMenu.add(new SaveAction());
-    fileMenu.add(new SaveAsAction());
+    fileMenu.add(openAction);
+    fileMenu.add(saveAction);
+    fileMenu.add(saveAsAction);
     fileMenu.addSeparator();
     fileMenu.add(new HideAction());
     fileMenu.addSeparator();
     fileMenu.add(new QuitAction());
     
     grammarMenu.add(checkAction);
+    JCheckBoxMenuItem item = new JCheckBoxMenuItem();
+    item.setSelected(true);
+    item.setAction(autoCheckAction);
+    grammarMenu.add(item);
     grammarMenu.add(new CheckClipboardAction());
     grammarMenu.add(new TagTextAction());
     grammarMenu.add(new AddRulesAction());
@@ -1141,6 +1180,30 @@ public final class Main implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
       checkTextAndDisplayResults();
+    }
+  }
+  
+  class AutoCheckAction extends AbstractAction {
+
+    private boolean enable;
+
+    public AutoCheckAction(boolean initial) {
+      super(getLabel("autoCheckText"));
+      putValue(Action.MNEMONIC_KEY, getMnemonic("autoCheckText"));
+      this.enable = initial;
+      Image img;
+      img = Toolkit.getDefaultToolkit().getImage(
+              JLanguageTool.getDataBroker().getFromResourceDirAsUrl("sc_spellonline.png"));
+      putValue(Action.SMALL_ICON, new ImageIcon(img));
+      img = Toolkit.getDefaultToolkit().getImage(
+              JLanguageTool.getDataBroker().getFromResourceDirAsUrl("lc_spellonline.png"));
+      putValue(Action.LARGE_ICON_KEY, new ImageIcon(img));
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      enable=!enable;
+      ltSupport.setBackgroundCheckEnabled(enable);
     }
   }
 }

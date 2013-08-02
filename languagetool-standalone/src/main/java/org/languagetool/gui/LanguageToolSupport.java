@@ -37,8 +37,6 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
@@ -79,7 +77,6 @@ public class LanguageToolSupport implements Runnable {
   private ActionListener actionListener;
   private int delay = 3000;//ms
   private AtomicInteger check;
-  private boolean enabled = true;
   private boolean popupMenuEnabled = true;
   private boolean backgroundCheckEnabled = true;
 
@@ -117,21 +114,25 @@ public class LanguageToolSupport implements Runnable {
     this.textComponent.getDocument().addDocumentListener(documentListener = new DocumentListener() {
       @Override
       public void insertUpdate(DocumentEvent e) {
-        //recalculateSpans(e.getOffset(), e.getLength(), false);
-        removeHighlights();
-        checkDelayed();
+        recalculateSpans(e.getOffset(), e.getLength(), false);
+        if (backgroundCheckEnabled) {
+          checkDelayed();
+        }
       }
 
       @Override
       public void removeUpdate(DocumentEvent e) {
-        //recalculateSpans(e.getOffset(), e.getLength(), true);
-        removeHighlights();
-        checkDelayed();
+        recalculateSpans(e.getOffset(), e.getLength(), true);
+        if (backgroundCheckEnabled) {
+          checkDelayed();
+        }
       }
 
       @Override
       public void changedUpdate(DocumentEvent e) {
-        checkDelayed();
+        if (backgroundCheckEnabled) {
+          checkDelayed();
+        }
       }
     });
 
@@ -224,9 +225,7 @@ public class LanguageToolSupport implements Runnable {
     }
     this.backgroundCheckEnabled = backgroundCheckEnabled;
     if (backgroundCheckEnabled) {
-      textComponent.getDocument().addDocumentListener(documentListener);
-    } else {
-      textComponent.getDocument().removeDocumentListener(documentListener);
+      checkImmediately();
     }
   }
 
@@ -328,9 +327,6 @@ public class LanguageToolSupport implements Runnable {
 
   @Override
   public void run() {
-    if (!enabled) {
-      return;
-    }
 
     int v = check.decrementAndGet();
     if (v != 0) {
@@ -339,7 +335,6 @@ public class LanguageToolSupport implements Runnable {
     try {
       _check();
     } catch (IOException ex) {
-      Logger.getLogger(LanguageToolSupport.class.getName()).log(Level.SEVERE, null, ex);
     }
   }
 
@@ -349,15 +344,18 @@ public class LanguageToolSupport implements Runnable {
    */
   synchronized List<RuleMatch> _check() throws IOException {
     final List<RuleMatch> matches = this.languageTool.check(this.textComponent.getText());
-    if (!SwingUtilities.isEventDispatchThread()) {
-      SwingUtilities.invokeLater(new Runnable() {
-        @Override
-        public void run() {
-          updateHighlights(matches);
-        }
-      });
-    } else {
-      updateHighlights(matches);
+    int v = check.get();
+    if (v == 0) {
+      if (!SwingUtilities.isEventDispatchThread()) {
+        SwingUtilities.invokeLater(new Runnable() {
+          @Override
+          public void run() {
+            updateHighlights(matches);
+          }
+        });
+      } else {
+        updateHighlights(matches);
+      }
     }
     return matches;
   }
@@ -423,12 +421,8 @@ public class LanguageToolSupport implements Runnable {
   }
 
   private void updateHighlights() {
-
     removeHighlights();
 
-    if (!enabled) {
-      return;
-    }
     Highlighter h = textComponent.getHighlighter();
     ArrayList<Span> spellErrors = new ArrayList();
     ArrayList<Span> grammarErrors = new ArrayList();

@@ -66,12 +66,18 @@ class LanguageComboBoxRenderer extends JLabel implements ListCellRenderer<Langua
       setForeground(list.getForeground());
     }
     setText(getTranslatedName(value));
+    String langTag = value.getLocaleWithCountry().toLanguageTag();
     String country = value.getLocaleWithCountry().getCountry().toLowerCase();
-    String filename = "flags/" + country + ".png";
     ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
+    
+    String filename = "flags/bytag/" + langTag + ".png";
+    if (!dataBroker.resourceExists(filename)) {
+      filename = "flags/" + country + ".png";
+    }
     if (!dataBroker.resourceExists(filename)) {
       filename = "flags/empty.png";
     }
+    
     ImageIcon icon = new ImageIcon(dataBroker.getFromResourceDirAsUrl(filename));
     setIcon(icon);
     setEnabled(list.isEnabled());
