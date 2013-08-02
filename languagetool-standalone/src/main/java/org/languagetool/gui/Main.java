@@ -42,6 +42,7 @@ import java.io.*;
 import java.net.URL;
 import java.util.*;
 import java.util.List;
+import javax.swing.text.DefaultEditorKit;
 import org.apache.tika.language.LanguageIdentifier;
 
 /**
@@ -91,7 +92,9 @@ public final class Main implements ActionListener {
 
   private Language currentLanguage;
   private LanguageToolSupport ltSupport;
-
+  private CheckAction checkAction;
+  private File currentFile;
+  
   private Main() throws IOException {
     LanguageIdentifierTools.addLtProfiles();
     config = new Configuration(new File(System.getProperty("user.home")), CONFIG_FILE, null);
@@ -123,12 +126,43 @@ public final class Main implements ActionListener {
       try {
         final String fileContents = StringTools.readFile(inputStream);
         textArea.setText(fileContents);
+        currentFile = file;
       } finally {
         inputStream.close();
       }
       checkTextAndDisplayResults();
     } catch (IOException e) {
       Tools.showError(e);
+    }
+  }
+
+  private void saveFile(boolean newFile) {
+    if (currentFile == null || newFile) {
+      final JFileChooser jfc = new JFileChooser();
+      jfc.setFileFilter(new PlainTextFileFilter());
+      jfc.showSaveDialog(frame);
+
+      File file = jfc.getSelectedFile();
+      if (file == null) {
+        // user clicked cancel
+        return;
+      }
+      currentFile = file;
+    }
+    BufferedWriter writer = null;
+    try {
+      writer = new BufferedWriter(new FileWriter(currentFile));
+      writer.write(textArea.getText());
+    } catch (IOException ex) {
+      Tools.showError(ex);
+    } finally {
+      if (writer != null) {
+        try {
+          writer.close();
+        } catch (IOException ex) {
+          Tools.showError(ex);
+        }
+      }
     }
   }
 
@@ -174,12 +208,12 @@ public final class Main implements ActionListener {
     frame = new JFrame("LanguageTool " + JLanguageTool.VERSION);
 
     setLookAndFeel();
+    checkAction = new CheckAction();
 
     frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
     frame.addWindowListener(new CloseListener());
     final URL iconUrl = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(TRAY_ICON);
     frame.setIconImage(new ImageIcon(iconUrl).getImage());
-    frame.setJMenuBar(new MainMenuBar(this, messages));
 
     textArea = new JTextArea(messages.getString("guiDemoText"));
     // TODO: wrong line number is displayed for lines that are wrapped automatically:
@@ -187,9 +221,10 @@ public final class Main implements ActionListener {
     textArea.setWrapStyleWord(true);
     textArea.addKeyListener(new ControlReturnTextCheckingListener());
     resultArea = new ResultArea(messages, textArea, config);
-    checkTextButton = new JButton(StringTools.getLabel(messages.getString("checkText")));
-    checkTextButton.setMnemonic(StringTools.getMnemonic(messages.getString("checkText")));
-    checkTextButton.addActionListener(this);
+    frame.setJMenuBar(createMenuBar());
+    checkTextButton = new JButton(checkAction);
+    //checkTextButton.setMnemonic(StringTools.getMnemonic(messages.getString("checkText")));
+    //checkTextButton.addActionListener(this);
 
     final JPanel panel = new JPanel();
     panel.setOpaque(false);    // to get rid of the gray background
@@ -273,12 +308,104 @@ public final class Main implements ActionListener {
     currentLanguage = getDefaultLanguage();
     warmUpChecker();
     ltSupport = new LanguageToolSupport(this.langTool, this.textArea);
-
+    if(config.getAutoDetect()) {
+      languageBox.selectLanguage(autoDetectLanguage(textArea.getText()));
+    }
+    
     frame.pack();
     frame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
     frame.setLocationByPlatform(true);
   }
+  
+  private String getLabel(String key) {
+    return StringTools.getLabel(messages.getString(key));
+  }
 
+  private int getMnemonic(String key) {
+    return StringTools.getMnemonic(messages.getString(key));
+  }
+  
+  private KeyStroke getMenuKeyStroke(int keyEvent) {
+    return KeyStroke.getKeyStroke(keyEvent, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask());
+  }
+  
+  private JMenuBar createMenuBar() {
+    JMenuBar menuBar = new JMenuBar();
+    final JMenu fileMenu = new JMenu(getLabel("guiMenuFile"));
+    fileMenu.setMnemonic(getMnemonic("guiMenuFile"));
+    final JMenu editMenu = new JMenu(getLabel("guiMenuEdit"));
+    editMenu.setMnemonic(getMnemonic("guiMenuEdit"));
+    final JMenu grammarMenu = new JMenu(getLabel("guiMenuGrammar"));
+    grammarMenu.setMnemonic(getMnemonic("guiMenuGrammar"));
+    final JMenu helpMenu = new JMenu(getLabel("guiMenuHelp"));
+    helpMenu.setMnemonic(getMnemonic("guiMenuHelp"));
+    
+    fileMenu.add(new OpenAction());
+    fileMenu.add(new SaveAction());
+    fileMenu.add(new SaveAsAction());
+    fileMenu.addSeparator();
+    fileMenu.add(new HideAction());
+    fileMenu.addSeparator();
+    fileMenu.add(new QuitAction());
+    
+    grammarMenu.add(checkAction);
+    grammarMenu.add(new CheckClipboardAction());
+    grammarMenu.add(new TagTextAction());
+    grammarMenu.add(new AddRulesAction());
+    grammarMenu.add(new OptionsAction());
+    
+    helpMenu.add(new AboutAction());
+
+    Action a;
+    Image img;
+
+    a = this.textArea.getActionMap().get(DefaultEditorKit.cutAction);
+    img = Toolkit.getDefaultToolkit().getImage(
+            JLanguageTool.getDataBroker().getFromResourceDirAsUrl("sc_cut.png"));
+    a.putValue(Action.SMALL_ICON, new ImageIcon(img));
+    img = Toolkit.getDefaultToolkit().getImage(
+            JLanguageTool.getDataBroker().getFromResourceDirAsUrl("lc_cut.png"));
+    a.putValue(Action.LARGE_ICON_KEY, new ImageIcon(img));
+    a.putValue(Action.NAME, getLabel("guiMenuCut"));
+    a.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_T);
+    editMenu.add(a);
+
+    a = textArea.getActionMap().get(DefaultEditorKit.copyAction);
+    img = Toolkit.getDefaultToolkit().getImage(
+            JLanguageTool.getDataBroker().getFromResourceDirAsUrl("sc_copy.png"));
+    a.putValue(Action.SMALL_ICON, new ImageIcon(img));
+    img = Toolkit.getDefaultToolkit().getImage(
+            JLanguageTool.getDataBroker().getFromResourceDirAsUrl("lc_copy.png"));
+    a.putValue(Action.LARGE_ICON_KEY, new ImageIcon(img));
+    a.putValue(Action.NAME, getLabel("guiMenuCopy"));
+    a.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_C);
+    editMenu.add(a);
+
+    a = textArea.getActionMap().get(DefaultEditorKit.pasteAction);
+    img = Toolkit.getDefaultToolkit().getImage(
+            JLanguageTool.getDataBroker().getFromResourceDirAsUrl("sc_paste.png"));
+    a.putValue(Action.SMALL_ICON, new ImageIcon(img));
+    img = Toolkit.getDefaultToolkit().getImage(
+            JLanguageTool.getDataBroker().getFromResourceDirAsUrl("lc_paste.png"));
+    a.putValue(Action.LARGE_ICON_KEY, new ImageIcon(img));
+    a.putValue(Action.NAME, getLabel("guiMenuPaste"));
+    a.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_P);
+    editMenu.add(a);
+
+    editMenu.addSeparator();
+
+    a = textArea.getActionMap().get(DefaultEditorKit.selectAllAction);
+    a.putValue(Action.NAME, getLabel("guiMenuSelectAll"));
+    a.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_A);
+    editMenu.add(a);
+
+    menuBar.add(fileMenu);
+    menuBar.add(editMenu);
+    menuBar.add(grammarMenu);
+    menuBar.add(helpMenu);
+    return menuBar;
+  }
+  
   private Language getDefaultLanguage() {
     if (config.getLanguage() != null) {
       return config.getLanguage();
@@ -575,7 +702,7 @@ public final class Main implements ActionListener {
                   if (!isAlreadyChecking) {
                       isAlreadyChecking = true;
                       setWaitCursor();
-                      checkTextButton.setEnabled(false);
+                      checkAction.setEnabled(false);
                       try {
                           final long startTime = System.currentTimeMillis();
                           final String startCheckText = HTML_GREY_FONT_START +
@@ -596,7 +723,7 @@ public final class Main implements ActionListener {
                             resultArea.displayText(error);
                           }
                       } finally {
-                          checkTextButton.setEnabled(true);
+                          checkAction.setEnabled(true);
                           unsetWaitCursor();
                           isAlreadyChecking = false;
                       }
@@ -651,7 +778,7 @@ public final class Main implements ActionListener {
   private void setTrayMode(boolean trayMode) {
     this.closeHidesToTray = trayMode;
   }
-
+  
   public static void main(final String[] args) {
     JnaTools.setBugWorkaroundProperty();
     try {
@@ -827,5 +954,182 @@ public final class Main implements ActionListener {
     }
 
   }
+  
+  class OpenAction extends AbstractAction {
 
+    public OpenAction() {
+      super(getLabel("guiMenuOpen"));
+      putValue(Action.MNEMONIC_KEY, getMnemonic("guiMenuOpen"));
+      putValue(Action.ACCELERATOR_KEY, getMenuKeyStroke(KeyEvent.VK_O));
+      Image img;
+      img = Toolkit.getDefaultToolkit().getImage(
+              JLanguageTool.getDataBroker().getFromResourceDirAsUrl("sc_open.png"));
+      putValue(Action.SMALL_ICON, new ImageIcon(img));
+      img = Toolkit.getDefaultToolkit().getImage(
+              JLanguageTool.getDataBroker().getFromResourceDirAsUrl("lc_open.png"));
+      putValue(Action.LARGE_ICON_KEY, new ImageIcon(img));
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      loadFile();
+    }
+  }
+
+  class SaveAction extends AbstractAction {
+
+    public SaveAction() {
+      super(getLabel("guiMenuSave"));
+      putValue(Action.MNEMONIC_KEY, getMnemonic("guiMenuSave"));
+      putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+      Image img;
+      img = Toolkit.getDefaultToolkit().getImage(
+              JLanguageTool.getDataBroker().getFromResourceDirAsUrl("sc_save.png"));
+      putValue(Action.SMALL_ICON, new ImageIcon(img));
+      img = Toolkit.getDefaultToolkit().getImage(
+              JLanguageTool.getDataBroker().getFromResourceDirAsUrl("lc_save.png"));
+      putValue(Action.LARGE_ICON_KEY, new ImageIcon(img));
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      saveFile(false);
+    }
+  }
+
+  class SaveAsAction extends AbstractAction {
+
+    public SaveAsAction() {
+      super(getLabel("guiMenuSaveAs"));
+      putValue(Action.MNEMONIC_KEY, getMnemonic("guiMenuSaveAs"));
+      Image img;
+      img = Toolkit.getDefaultToolkit().getImage(
+              JLanguageTool.getDataBroker().getFromResourceDirAsUrl("sc_saveas.png"));
+      putValue(Action.SMALL_ICON, new ImageIcon(img));
+      img = Toolkit.getDefaultToolkit().getImage(
+              JLanguageTool.getDataBroker().getFromResourceDirAsUrl("lc_saveas.png"));
+      putValue(Action.LARGE_ICON_KEY, new ImageIcon(img));
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      saveFile(true);
+    }
+  }
+  class CheckClipboardAction extends AbstractAction {
+
+    public CheckClipboardAction() {
+      super(getLabel("guiMenuCheckClipboard"));
+      putValue(Action.MNEMONIC_KEY, getMnemonic("guiMenuCheckClipboard"));
+      putValue(Action.ACCELERATOR_KEY, getMenuKeyStroke(KeyEvent.VK_Y));
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      checkClipboardText();
+    }
+  }
+
+  class TagTextAction extends AbstractAction {
+
+    public TagTextAction() {
+      super(getLabel("guiTagText"));
+      putValue(Action.MNEMONIC_KEY, getMnemonic("guiTagText"));
+      putValue(Action.ACCELERATOR_KEY, getMenuKeyStroke(KeyEvent.VK_T));
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      tagText();
+    }
+  }
+
+  class AddRulesAction extends AbstractAction {
+
+    public AddRulesAction() {
+      super(getLabel("guiMenuAddRules"));
+      putValue(Action.MNEMONIC_KEY, getMnemonic("guiMenuAddRules"));
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      addLanguage();
+    }
+  }
+
+  class OptionsAction extends AbstractAction {
+
+    public OptionsAction() {
+      super(getLabel("guiMenuOptions"));
+      putValue(Action.MNEMONIC_KEY, getMnemonic("guiMenuOptions"));
+      putValue(Action.ACCELERATOR_KEY, getMenuKeyStroke(KeyEvent.VK_S));
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      showOptions();
+    }
+  }
+
+  class HideAction extends AbstractAction {
+
+    public HideAction() {
+      super(getLabel("guiMenuHide"));
+      putValue(Action.MNEMONIC_KEY, getMnemonic("guiMenuHide"));
+      putValue(Action.ACCELERATOR_KEY, getMenuKeyStroke(KeyEvent.VK_D));
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      hideToTray();
+    }
+  }
+
+  class QuitAction extends AbstractAction {
+
+    public QuitAction() {
+      super(getLabel("guiMenuQuit"));
+      putValue(Action.MNEMONIC_KEY, getMnemonic("guiMenuQuit"));
+      putValue(Action.ACCELERATOR_KEY, getMenuKeyStroke(KeyEvent.VK_Q));
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      quit();
+    }
+  }
+
+  class AboutAction extends AbstractAction {
+
+    public AboutAction() {
+      super(getLabel("guiMenuAbout"));
+      putValue(Action.MNEMONIC_KEY, getMnemonic("guiMenuAbout"));
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      AboutDialog about = new AboutDialog(messages, getFrame());
+      about.show();
+    }
+  }
+ 
+  class CheckAction extends AbstractAction {
+
+    public CheckAction() {
+      super(getLabel("checkText"));
+      putValue(Action.MNEMONIC_KEY, getMnemonic("checkText"));
+      Image img;
+      img = Toolkit.getDefaultToolkit().getImage(
+              JLanguageTool.getDataBroker().getFromResourceDirAsUrl("sc_spelldialog.png"));
+      putValue(Action.SMALL_ICON, new ImageIcon(img));
+      img = Toolkit.getDefaultToolkit().getImage(
+              JLanguageTool.getDataBroker().getFromResourceDirAsUrl("lc_spelldialog.png"));
+      putValue(Action.LARGE_ICON_KEY, new ImageIcon(img));
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      checkTextAndDisplayResults();
+    }
+  }
 }

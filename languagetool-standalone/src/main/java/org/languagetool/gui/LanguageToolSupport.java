@@ -117,7 +117,6 @@ public class LanguageToolSupport implements Runnable {
     this.textComponent.getDocument().addDocumentListener(documentListener = new DocumentListener() {
       @Override
       public void insertUpdate(DocumentEvent e) {
-        System.out.println(e);
         //recalculateSpans(e.getOffset(), e.getLength(), false);
         removeHighlights();
         checkDelayed();
@@ -125,7 +124,6 @@ public class LanguageToolSupport implements Runnable {
 
       @Override
       public void removeUpdate(DocumentEvent e) {
-        System.out.println(e);
         //recalculateSpans(e.getOffset(), e.getLength(), true);
         removeHighlights();
         checkDelayed();
@@ -133,7 +131,6 @@ public class LanguageToolSupport implements Runnable {
 
       @Override
       public void changedUpdate(DocumentEvent e) {
-        System.out.println(e);
         checkDelayed();
       }
     });
@@ -269,17 +266,14 @@ public class LanguageToolSupport implements Runnable {
           popup.addPopupMenuListener(new PopupMenuListener() {
             @Override
             public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
-              //System.out.println("popupMenuWillBecomeVisible: " + e);
             }
 
             @Override
             public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
-              //System.out.println("popupMenuWillBecomeInvisible: " + e);
             }
 
             @Override
             public void popupMenuCanceled(PopupMenuEvent e) {
-              //System.out.println("popupMenuCanceled: " + e);
               textComponent.setCaretPosition(span.start);
             }
           });
@@ -371,9 +365,7 @@ public class LanguageToolSupport implements Runnable {
   private void removeHighlights() {
 
     for (Highlighter.Highlight hl : textComponent.getHighlighter().getHighlights()) {
-      //System.out.println(hl);
       if (hl.getPainter() == rhp || hl.getPainter() == bhp) {
-        //System.out.println("Removing: " + hl);
         textComponent.getHighlighter().removeHighlight(hl);
       }
     }
