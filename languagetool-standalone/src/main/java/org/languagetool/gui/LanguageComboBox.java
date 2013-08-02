@@ -35,7 +35,7 @@ public class LanguageComboBox extends JComboBox<Language> {
 
   private final ResourceBundle messages;
   private final Configuration config;
-  private final List<Language> i18nLanguages = new ArrayList<>();
+  private final List<Language> languages = new ArrayList<>();
 
   public LanguageComboBox(ResourceBundle messages, Configuration config) {
     this.messages = messages;
@@ -48,7 +48,15 @@ public class LanguageComboBox extends JComboBox<Language> {
     initAllLanguages();
     preselectDefaultLanguage();
   }
-  
+
+  void selectLanguage(Language language) {
+    for (final Language lang : languages) {
+      if (lang.toString().equals(language.toString())) {
+        setSelectedItem(lang);
+      }
+    }
+  }
+
   private Language getDefaultLanguage() {
     if (config.getLanguage() != null) {
       return config.getLanguage();
@@ -58,23 +66,23 @@ public class LanguageComboBox extends JComboBox<Language> {
   }
 
   private void initAllLanguages() {
-    i18nLanguages.clear();
+    languages.clear();
     for (Language language : Language.LANGUAGES) {
       final boolean skip = (language == Language.DEMO) || language.hasVariant();
       // TODO: "Simple German" would hide "German (Germany)" - find a proper solution
       final boolean simpleGermanWorkaround = language.getShortNameWithVariant().equals("de-DE");
       if (!skip || simpleGermanWorkaround) {
-        i18nLanguages.add(language);
+        languages.add(language);
       }
     }
-    Collections.sort(i18nLanguages, new LanguageComparator(messages));
-    for (final Language i18nLanguage : i18nLanguages) {
-      addItem(i18nLanguage);
+    Collections.sort(languages, new LanguageComparator(messages));
+    for (final Language language : languages) {
+      addItem(language);
     }
   }
 
   private void preselectDefaultLanguage() {
-    setSelectedItem(getDefaultLanguage());
+    selectLanguage(getDefaultLanguage());
   }
  
 }

@@ -90,6 +90,7 @@ public final class Main implements ActionListener {
   private boolean isAlreadyChecking;
 
   private Language currentLanguage;
+  private LanguageToolSupport ltSupport;
 
   private Main() throws IOException {
     LanguageIdentifierTools.addLtProfiles();
@@ -210,6 +211,7 @@ public final class Main implements ActionListener {
         {
           langTool = null;  // we cannot re-use the existing LT object anymore
           currentLanguage = (Language) languageBox.getSelectedItem();
+          ltSupport.setLanguageTool(getCurrentLanguageTool(currentLanguage));
         }
       }
     });
@@ -232,7 +234,7 @@ public final class Main implements ActionListener {
         config.setAutoDetect(selected);
         if (selected) {
           Language detected = autoDetectLanguage(textArea.getText());
-          languageBox.setSelectedItem(detected);
+          languageBox.selectLanguage(detected);
         }
       }
     });
@@ -270,6 +272,7 @@ public final class Main implements ActionListener {
     
     currentLanguage = getDefaultLanguage();
     warmUpChecker();
+    ltSupport = new LanguageToolSupport(this.langTool, this.textArea);
 
     frame.pack();
     frame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -581,7 +584,7 @@ public final class Main implements ActionListener {
                           resultArea.repaint();
                           try {
                             final JLanguageTool langTool = getCurrentLanguageTool(lang);
-                            ruleMatches = langTool.check(textArea.getText());
+                            ruleMatches = ltSupport._check();
                             resultArea.setStartText(startCheckText);
                             resultArea.setInputText(textArea.getText());
                             resultArea.setRuleMatches(ruleMatches);
