@@ -39,6 +39,18 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
     <!-- Possible typos -->
     <!-- ====================================================================== -->
     <category name="Possible Typos" type="misspelling">
+        <rule id="THE_SOME_DAY" name="the some (same) day">
+            <pattern case_sensitive="yes">
+                <token regexp="yes">[Tt]he</token>
+                <marker>
+                    <token>some</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>same</suggestion>?</message>
+            <example type="incorrect">It happened on the <marker>some</marker> day.</example>
+            <example type="correct">It happened on the same day.</example>
+            <example type="correct">The Some Mothers Do 'Ave 'Em Episode Guide</example>
+        </rule>
         <rule id="MAKE_US_OF" name="make us (use) of">
             <pattern>
                 <token regexp="yes">make|makes|made|making</token>
