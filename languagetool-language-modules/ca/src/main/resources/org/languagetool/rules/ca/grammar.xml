@@ -4979,6 +4979,19 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+    	<rule id="VE_SER" name="*ve ser/va ser/ve a ser">
+		    <pattern>
+		        <marker>
+			        <token>ve</token>
+		        </marker>
+		        <token postag="V.N.*" postag_regexp="yes"></token>
+		    </pattern>
+		    <message>¿Volíeu dir <suggestion>va</suggestion>?</message>
+		    <suggestion>ve a</suggestion>
+		    <short>Possible confusió</short>
+		    <example type="incorrect" correction="va|ve a">Qui ho va fer <marker>ve</marker> ser Löscher.</example>
+		    <example type="correct">Ho va fer ell.</example>
+		</rule>
     	<rule id="DRET_A_LLEI" name="*dret a llei/dreta llei">
 		    <pattern>
 		        <token><exception>amb</exception></token>
