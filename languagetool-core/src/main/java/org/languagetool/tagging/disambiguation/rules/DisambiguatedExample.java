@@ -28,29 +28,22 @@ package org.languagetool.tagging.disambiguation.rules;
 public class DisambiguatedExample {
 
   private final String example;
-  
-  private String inputForms;
-  private String outputForms;
-  
+  private final String input;
+  private final String output;
 
   public DisambiguatedExample(final String example) {
-    this.example = example;
+    this(example, null, null);
   }
   
   /**
-   * @param example
-   *      Example sentence
-   * @param input
-   *       Ambiguous forms of a token 
-   *       (specify in 'word[lemma/POS]' format)
-   * @param output
-   *      Disambiguated forms of a token
-   *      (specify in 'word[lemma/POS]' format)  
+   * @param example Example sentence
+   * @param input Ambiguous forms of a token (specify in 'word[lemma/POS]' format)
+   * @param output Disambiguated forms of a token (specify in 'word[lemma/POS]' format)
    */
   public DisambiguatedExample(final String example, final String input, final String output) {
-    this(example);
-    inputForms = input;
-    outputForms = output;
+    this.example = example;
+    this.input = input;
+    this.output = output;
   }
   
   /**
@@ -60,20 +53,20 @@ public class DisambiguatedExample {
     return example;
   }
 
+  public String getAmbiguous() {
+    return input;
+  }
+
   /**
-   * Return the possible corrections. May be null.
+   * Return the possible corrections. May be {@code null}.
    */
   public String getDisambiguated() {
-    return outputForms;
+    return output;
   }
-  
-  public String getAmbiguous() {
-    return inputForms;
-  }
-  
+
   @Override
   public String toString() {
-    return example + ": " + inputForms + " -> " + outputForms;
+    return example + ": " + input + " -> " + output;
   }
 
 }
