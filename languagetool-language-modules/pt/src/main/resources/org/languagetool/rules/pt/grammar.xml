@@ -21,7 +21,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.056 2013-07-27 01:16:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.057 2013-08-05 02:00:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -478,6 +478,23 @@ $Id: grammar.xml,v 1.056 2013-07-27 01:16:00 marcoagpinto Exp $
       <message>Substituir «comer o almoço» por <suggestion>almoçar</suggestion>.</message>
       <example type="incorrect">Vou <marker>comer o almoço</marker> daqui a pouco.</example>
       <example type="correct">Vou <marker>almoçar</marker> daqui a pouco.</example>
+    </rule>
+
+
+
+    <!-- COM VOSSA com a vossa -->
+    <rule id="COM_VOSSA" name="com a vossa">
+      <pattern>
+        <marker>
+            <token>com</token>
+            <token>vossa</token>
+        </marker>
+        <token><exception regexp="yes">majestade|realeza|divindade|excelência|eminência</exception></token>
+      </pattern>
+      <message>Querias dizer <suggestion>com a vossa</suggestion>?</message>
+      <example type="incorrect">Usei o texto <marker>com vossa</marker> permissão.</example>
+      <example type="correct">Usei o texto <marker>com a vossa</marker> permissão.</example>
+      <example type="correct">Queria falar <marker>com vossa</marker> majestade.</example>
     </rule>
 
 
@@ -1026,19 +1043,6 @@ $Id: grammar.xml,v 1.056 2013-07-27 01:16:00 marcoagpinto Exp $
 
 
 
-    <!-- MEIO AMBIENTE meio-ambiente -->
-    <rule id="MEIO_AMBIENTE" name="meio-ambiente">
-      <pattern>
-        <token>meio</token>
-        <token>ambiente</token>
-      </pattern>
-      <message>Substituir «meio ambiente» por <suggestion>meio-ambiente</suggestion>.</message>
-      <example type="incorrect">Preservar o <marker>meio ambiente</marker> é importante.</example>
-      <example type="correct">Preservar o <marker>meio-ambiente</marker> é importante.</example>
-    </rule>
-
-
-
     <!-- MEIA BARALHADA meio baralhada -->
     <rule id="MEIA_BARALHADA" name="meio baralhada">
       <pattern>
@@ -1291,19 +1295,6 @@ $Id: grammar.xml,v 1.056 2013-07-27 01:16:00 marcoagpinto Exp $
       <message>Substituir «por forma a que» por <suggestion>para que</suggestion>.</message>
       <example type="incorrect">Isto é feito <marker>por forma a que</marker> os cidadãos possam ser livres.</example>
       <example type="correct">Isto é feito <marker>para que</marker> os cidadãos possam ser livres.</example>
-    </rule>
-
-
-
-    <!-- PRÉ AVISO pré-aviso -->
-    <rule id="PRÉ_AVISO" name="pré-aviso">
-      <pattern>
-        <token>pré</token>
-        <token>aviso</token>
-      </pattern>
-      <message>Substituir «pré aviso» por <suggestion>pré-aviso</suggestion>.</message>
-      <example type="incorrect">O período de <marker>pré aviso</marker> é de uma semana.</example>
-      <example type="correct">O período de <marker>pré-aviso</marker> é de uma semana.</example>
     </rule>
 
 
