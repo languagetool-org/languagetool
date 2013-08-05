@@ -1009,6 +1009,8 @@ public final class Main {
 
     public OpenAction() {
       super(getLabel("guiMenuOpen"));
+      putValue(Action.SHORT_DESCRIPTION, messages.getString("guiMenuOpenShortDesc"));
+      putValue(Action.LONG_DESCRIPTION, messages.getString("guiMenuOpenLongDesc"));
       putValue(Action.MNEMONIC_KEY, getMnemonic("guiMenuOpen"));
       putValue(Action.ACCELERATOR_KEY, getMenuKeyStroke(KeyEvent.VK_O));
       Image img;
@@ -1030,6 +1032,8 @@ public final class Main {
 
     public SaveAction() {
       super(getLabel("guiMenuSave"));
+      putValue(Action.SHORT_DESCRIPTION, messages.getString("guiMenuSaveShortDesc"));
+      putValue(Action.LONG_DESCRIPTION, messages.getString("guiMenuSaveLongDesc"));
       putValue(Action.MNEMONIC_KEY, getMnemonic("guiMenuSave"));
       putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
       Image img;
@@ -1051,6 +1055,8 @@ public final class Main {
 
     public SaveAsAction() {
       super(getLabel("guiMenuSaveAs"));
+      putValue(Action.SHORT_DESCRIPTION, messages.getString("guiMenuSaveAsShortDesc"));
+      putValue(Action.LONG_DESCRIPTION, messages.getString("guiMenuSaveAsLongDesc"));
       putValue(Action.MNEMONIC_KEY, getMnemonic("guiMenuSaveAs"));
       Image img;
       img = Toolkit.getDefaultToolkit().getImage(
@@ -1167,6 +1173,8 @@ public final class Main {
 
     public CheckAction() {
       super(getLabel("checkText"));
+      putValue(Action.SHORT_DESCRIPTION, messages.getString("checkTextShortDesc"));
+      putValue(Action.LONG_DESCRIPTION, messages.getString("checkTextLongDesc"));
       putValue(Action.MNEMONIC_KEY, getMnemonic("checkText"));
       Image img;
       img = Toolkit.getDefaultToolkit().getImage(
@@ -1189,6 +1197,8 @@ public final class Main {
 
     public AutoCheckAction(boolean initial) {
       super(getLabel("autoCheckText"));
+      putValue(Action.SHORT_DESCRIPTION, messages.getString("autoCheckTextShortDesc"));
+      putValue(Action.LONG_DESCRIPTION, messages.getString("autoCheckTextLongDesc"));
       putValue(Action.MNEMONIC_KEY, getMnemonic("autoCheckText"));
       this.enable = initial;
       Image img;

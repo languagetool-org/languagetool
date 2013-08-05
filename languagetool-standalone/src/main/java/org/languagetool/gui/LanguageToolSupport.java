@@ -32,11 +32,13 @@ import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
@@ -79,6 +81,7 @@ public class LanguageToolSupport implements Runnable {
   private AtomicInteger check;
   private boolean popupMenuEnabled = true;
   private boolean backgroundCheckEnabled = true;
+  private final ResourceBundle messages;
 
   /**
    * LanguageTool support for a JTextComponent
@@ -89,6 +92,7 @@ public class LanguageToolSupport implements Runnable {
   public LanguageToolSupport(JLanguageTool languageTool, JTextComponent textComponent) {
     this.languageTool = languageTool;
     this.textComponent = textComponent;
+    messages = JLanguageTool.getMessageBundle();
     init();
   }
 
@@ -240,6 +244,11 @@ public class LanguageToolSupport implements Runnable {
     }
   }
 
+  private void disableRule(String rule) {
+    languageTool.disableRule(rule);
+    updateHighlights(rule);
+  }
+
   private void showPopup(MouseEvent event) {
     if (documentSpans.isEmpty()) {
       return;
@@ -251,9 +260,20 @@ public class LanguageToolSupport implements Runnable {
       if (span.end > span.start) {
         if ((span.start <= offset) && (offset < span.end)) {
           JPopupMenu popup = new JPopupMenu("Grammar Menu");
-          JMenuItem msgItem = new JMenuItem(span.msg);
+          JLabel msgItem = new JLabel(span.msg);
           msgItem.setToolTipText(span.desc);
+          msgItem.setBorder(new JMenuItem().getBorder());
           popup.add(msgItem);
+          popup.add(new JSeparator());
+          JMenuItem ignoreItem = new JMenuItem(messages.getString("guiOOoIgnoreButton"));
+
+          ignoreItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+              disableRule(span.rule);
+            }
+          });
+          popup.add(ignoreItem);
           popup.add(new JSeparator());
           for (String r : span.replacement) {
             ReplaceMenuItem item = new ReplaceMenuItem(r, i);
@@ -280,7 +300,6 @@ public class LanguageToolSupport implements Runnable {
         }
       }
     }
-
   }
 
   private void _actionPerformed(ActionEvent e) {
@@ -400,6 +419,33 @@ public class LanguageToolSupport implements Runnable {
     updateHighlights();
   }
 
+  private void updateHighlights(String rule) {
+    ArrayList<Span> spans = new ArrayList();
+    ArrayList<RuleMatch> matches = new ArrayList();
+
+    for (RuleMatch match : ruleMatches) {
+      if (match.getRule().getId().equals(rule)) {
+        continue;
+      }
+      matches.add(match);
+      Span t = new Span();
+      t.start = match.getFromPos();
+      t.end = match.getToPos();
+      t.msg = match.getShortMessage() != null ? match.getShortMessage() : match.getMessage();
+      t.desc = match.getMessage();
+      t.replacement = new ArrayList();
+      t.replacement.addAll(match.getSuggestedReplacements());
+      t.spelling = match.getRule().isSpellingRule();
+      t.rule = match.getRule().getId();
+      spans.add(t);
+    }
+    ruleMatches.clear();
+    documentSpans.clear();
+    ruleMatches.addAll(matches);
+    documentSpans.addAll(spans);
+    updateHighlights();
+  }
+
   private void updateHighlights(List<RuleMatch> matches) {
     ArrayList<Span> spans = new ArrayList();
     for (RuleMatch match : matches) {
@@ -411,6 +457,7 @@ public class LanguageToolSupport implements Runnable {
       t.replacement = new ArrayList();
       t.replacement.addAll(match.getSuggestedReplacements());
       t.spelling = match.getRule().isSpellingRule();
+      t.rule = match.getRule().getId();
       spans.add(t);
     }
     ruleMatches.clear();
@@ -589,5 +636,6 @@ public class LanguageToolSupport implements Runnable {
     private String desc;
     private ArrayList<String> replacement;
     private boolean spelling;
+    private String rule;
   }
 }
