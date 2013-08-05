@@ -4995,6 +4995,19 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+    	<rule id="GAIRE_BE" name="gaire bé/gairebé">
+    		<pattern>
+    			<token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes">no|ni</exception></token>
+    			<marker>
+    				<token>gaire</token>
+    				<token>bé</token>
+    			</marker>
+    		</pattern>
+    		<message>¿Volíeu dir <suggestion>gairebé</suggestion> (= quasi)?</message>
+    		<short>Possible confusió</short>
+    		<example type="incorrect" correction="gairebé">L'antimatèria és <marker>gaire bé</marker> absent en l'univers.</example>
+    		<example type="correct">No li va semblar gaire bé.</example>
+    	</rule>
     	<rule id="VE_SER" name="*ve ser/va ser/ve a ser">
 		    <pattern>
 		        <marker>
