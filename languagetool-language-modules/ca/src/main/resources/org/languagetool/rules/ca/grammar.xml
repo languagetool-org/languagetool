@@ -3948,7 +3948,23 @@ $Id$
             <example type="correct">El llibre <marker>tracta</marker> aspectes importants de les matemàtiques</example>
             <example type="correct">El llibre <marker>tracta</marker> a més a més aspectes importants de les matemàtiques</example>
         </rule> -->
-        <rulegroup id="COM_COM_A" name="com / com a">
+        <rulegroup id="COM_A_COM" name="*com a / com">
+        	<rule>
+        		<pattern>
+	        		<marker>
+	        			<token>com</token>
+	        			<token>a</token>
+	        		</marker>
+	        		<token regexp="yes">ara|avui|hui</token>
+        		</pattern>
+        		<message>Probablement cal escriure <suggestion>com</suggestion>.</message>
+        		<url>http://esadir.cat/sintaxi/advcomcoma/view</url>
+        		<short>Possible confusió</short>
+        		<example type="incorrect" correction="com">Són persones <marker>com a</marker> ara en Joan.</example>
+				<example type="correct">És conegut com a pastisser.</example>
+			</rule>
+		</rulegroup>
+        <rulegroup id="COM_COM_A" name="*com / com a">
         <!-- en quins casos es poden usar tots els temps verbals, no sols el participi? -->
         	<rule>
         		<pattern>
@@ -3963,7 +3979,7 @@ $Id$
         		<short>Possible error</short>
         		<example type="incorrect" correction="com a">Francesc Sabaté Llopart, conegut <marker>com</marker> Quico Sabaté</example>
         		<example type="incorrect" correction="com a">també conegut <marker>com</marker> baudrier</example>
-            <example type="correct">És conegut com el millor pastisser del món.</example>
+				<example type="correct">És conegut com el millor pastisser del món.</example>
         		<example type="correct">És reconegut com un dels millors</example>
         		<example type="correct">Conegut com "el mirador de la comtessa".</example>
         		<example type="correct">Els amfibis són definits com tots els descendents de l'avantpassat comú.</example>
