@@ -21,7 +21,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.057 2013-08-05 02:00:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.058 2013-08-06 13:05:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -597,11 +597,27 @@ $Id: grammar.xml,v 1.057 2013-08-05 02:00:00 marcoagpinto Exp $
 
 
 
+    <!-- DEVEM DE devem -->
+    <rule id="DEVEM_DE" name="devem">
+      <pattern>
+        <token>devem</token>
+        <token>de</token>
+      </pattern>
+      <message>Substituir «devem de» por <suggestion>devem</suggestion>.</message>
+      <example type="incorrect">Eles <marker>devem de</marker> vir mais tarde.</example>
+      <example type="correct">Eles <marker>devem</marker> vir mais tarde.</example>
+    </rule>
+
+
+
     <!-- DE CERTO decerto -->
     <rule id="DE_CERTO" name="decerto">
       <pattern>
-        <token>de</token>
-        <token>certo</token>
+	      <marker>
+	        <token>de</token>
+	        <token>certo</token>
+	      </marker>  
+        <token><exception regexp="yes">valor|montante|assunto|tema|produto|modo|indivíduo|período</exception></token>
       </pattern>
       <message>Substituir «de certo» por <suggestion>decerto</suggestion>.</message>
       <example type="incorrect">Isso irá <marker>de certo</marker> lesar os trabalhadores.</example>
