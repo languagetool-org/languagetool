@@ -42,28 +42,29 @@ import org.languagetool.tagging.ManualTagger;
  */
 public class RomanianTagger extends BaseTagger {
 
-  private String RESOURCE_FILENAME = "/ro/romanian.dict";
-  private String USER_DICT_FILENAME = "/ro/added.txt";
+  private static final String DEFAULT_BINARY_DICT = "/ro/romanian.dict";
+  private static final String DEFAULT_PLAINTEXT_DICT = "/ro/added.txt";
+  private static final Locale RO_LOCALE = new Locale("ro");
+
+  private final String binaryDictPath;
+  private final String plaintextDictPath;
 
   private IStemmer morfologik;
   private ManualTagger manualTagger;
-  private static final Locale roLocale = new Locale("ro");
-
-  @Override
-  public final String getFileName() {
-    return RESOURCE_FILENAME;
-  }
 
   public RomanianTagger() {
-    super();
-    setLocale(roLocale);
+    this(DEFAULT_BINARY_DICT, DEFAULT_PLAINTEXT_DICT);
   }
 
   public RomanianTagger(final String dictFileName, final String userDictFileName) {
-    super();
-    RESOURCE_FILENAME = dictFileName;
-    USER_DICT_FILENAME = userDictFileName;
-    setLocale(roLocale);
+    binaryDictPath = dictFileName;
+    plaintextDictPath = userDictFileName;
+    setLocale(RO_LOCALE);
+  }
+
+  @Override
+  public final String getFileName() {
+    return DEFAULT_BINARY_DICT;
   }
 
   @Override
@@ -73,17 +74,16 @@ public class RomanianTagger extends BaseTagger {
     int pos = 0;
     // caching Lametyzator instance - lazy init
     if (morfologik == null) {      
-      final URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(RESOURCE_FILENAME);
+      final URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(binaryDictPath);
       morfologik = new DictionaryLookup(Dictionary.read(url));
     }
-    if (manualTagger == null && USER_DICT_FILENAME != null) {
-        manualTagger = new ManualTagger(JLanguageTool.getDataBroker().getFromResourceDirAsStream(USER_DICT_FILENAME));
+    if (manualTagger == null && plaintextDictPath != null) {
+      manualTagger = new ManualTagger(JLanguageTool.getDataBroker().getFromResourceDirAsStream(plaintextDictPath));
     }
-
 
     for (final String word : sentenceTokens) {
       final List<AnalyzedToken> l = new ArrayList<>();
-      final String lowerCaseWord = word.toLowerCase(roLocale);
+      final String lowerCaseWord = word.toLowerCase(RO_LOCALE);
       final List<WordData> taggerTokens = morfologik.lookup(lowerCaseWord);
       if (taggerTokens != null) {
         for (WordData wd : taggerTokens) {
@@ -111,7 +111,6 @@ public class RomanianTagger extends BaseTagger {
     }
 
     return tokenReadings;
-
   }
 
 }
