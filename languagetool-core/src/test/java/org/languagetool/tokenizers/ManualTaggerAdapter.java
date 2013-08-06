@@ -57,7 +57,7 @@ public class ManualTaggerAdapter implements Tagger {
       if (l.isEmpty()) {
         l.add(new AnalyzedToken(word, null, null));
       }
-      tokenReadings.add(new AnalyzedTokenReadings(l.toArray(new AnalyzedToken[l.size()]), pos));
+      tokenReadings.add(new AnalyzedTokenReadings(l, pos));
       pos += word.length();
     }
 
