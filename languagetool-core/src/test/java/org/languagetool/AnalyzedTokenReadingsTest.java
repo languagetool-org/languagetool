@@ -57,25 +57,24 @@ public class AnalyzedTokenReadingsTest extends TestCase {
     final AnalyzedTokenReadings testReadings = new AnalyzedTokenReadings(aTok3);
     testReadings.removeReading(aTok3);
     assertTrue(testReadings.getReadingsLength()==1);
-    assertEquals(testReadings.getToken(), "word");
+    assertEquals("word", testReadings.getToken());
     assertTrue(!testReadings.hasPosTag("POS"));
     //now what about removing something that does not belong to testReadings?
     testReadings.leaveReading(aTok2);
-    assertEquals(testReadings.getToken(), "word");
+    assertEquals("word", testReadings.getToken());
     assertTrue(!testReadings.hasPosTag("POS"));
     
     testReadings.removeReading(aTok2);
-    assertEquals(testReadings.getToken(), "word");
+    assertEquals("word", testReadings.getToken());
     assertTrue(!testReadings.hasPosTag("POS"));
-    
   }
 
   public void testToString() {
     final AnalyzedTokenReadings tokenReadings = new AnalyzedTokenReadings(new AnalyzedToken("word", "POS", "lemma"));
-    assertEquals(tokenReadings.toString(), "word[lemma/POS*]");
+    assertEquals("word[lemma/POS*]", tokenReadings.toString());
     final AnalyzedToken aTok2 = new AnalyzedToken("word", "POS2", "lemma2");
     tokenReadings.addReading(aTok2);
-    assertEquals(tokenReadings.toString(), "word[lemma/POS*,lemma2/POS2*]");
+    assertEquals("word[lemma/POS*,lemma2/POS2*]", tokenReadings.toString());
   }
 
   public void testHasPosTag() {
