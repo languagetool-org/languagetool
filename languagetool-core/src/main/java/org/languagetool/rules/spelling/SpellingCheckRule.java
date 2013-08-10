@@ -37,12 +37,24 @@ import org.languagetool.tokenizers.WordTokenizer;
  */
 public abstract class SpellingCheckRule extends Rule {
 
+  /**
+   * The string {@code LanguageTool}.
+   * @since 2.3
+   */
+  public static final String LANGUAGETOOL = "LanguageTool";
+  /**
+   * The name of the LanguageTool Firefox extension, {@code LanguageToolFx}.
+   * @since 2.3
+   */
+  public static final String LANGUAGETOOL_FX = "LanguageToolFx";
+
   protected final Language language;
 
   private static final String SPELLING_IGNORE_FILE = "/hunspell/ignore.txt";
-  private final Set<String> wordsToBeIgnored = new HashSet<>();
-  private boolean wordsWithDotsPresent = false;
 
+  private final Set<String> wordsToBeIgnored = new HashSet<>();
+
+  private boolean wordsWithDotsPresent = false;
   private boolean considerIgnoreWords = true;
 
   public SpellingCheckRule(final ResourceBundle messages, final Language language) {
