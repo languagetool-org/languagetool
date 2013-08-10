@@ -6011,10 +6011,24 @@ $Id$
                 <token regexp="yes">Bundestag|Bundesrat|Geräte|Landtag</token>
                 <token>Wahl</token>
             </pattern>
-            <message>Meinten Sie <suggestion><match no="1" case_conversion="startupper"/><match no="2" case_conversion="startlower"/></suggestion>.</message>
+            <message>Meinten Sie <suggestion><match no="1" case_conversion="startupper"/><match no="2" case_conversion="startlower"/></suggestion>?</message>
             <short>&getrennt;</short>
             <example type="incorrect" correction="Gerätewahl">Die <marker>Geräte Wahl</marker> ist schwierig.</example>
             <example type="correct">Die <marker>Gerätewahl</marker> ist schwierig.</example>
+        </rule>
+        <rule id="PLAN_MAESSIG" name="Zusammen-/Getrenntschreibung: 'plan mäßig (planmäßig)' etc.">
+            <pattern>
+                <token><exception postag="ART:.*" postag_regexp="yes"/></token>
+                <marker>
+                    <token regexp="yes">plan|regel|zweck</token>
+                    <token>mäßig</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="2" case_conversion="startlower"/><match no="3" case_conversion="startlower"/></suggestion>?</message>
+            <short>&getrennt;</short>
+            <example type="incorrect" correction="planmäßig">Die Migration wurde <marker>Plan mäßig</marker> durchgeführt.</example>
+            <example type="correct">Die Migration wurde <marker>planmäßig</marker> durchgeführt.</example>
+            <example type="correct">Ich habe den <marker>Plan mäßig</marker> durchgeführt.</example>
         </rule>
         <rule id="GEZWUNGENER_MASSEN" name="Zusammen-/Getrenntschreibung: gezwungener maßen (gezwungenermaßen)">
             <pattern>
