@@ -61,7 +61,19 @@ Usage:
  -To check plain text files from the command line:
   java -jar languagetool-commandline.jar <filename>
 
------------------------------------------------- 
+------------------------------------------------
+
+Source code history:
+
+On 2013-08-08 we moved our source code from Subversion at Sourceforge to
+git at github (https://github.com/languagetool-org/languagetool). Most
+history has been preserved. History is lost for:
+ * binary files
+ * branches and tags
+If you need this history, the old subversion repository will be available
+at http://svn.code.sf.net/p/languagetool/code/trunk/languagetool/
+
+------------------------------------------------
 
 License:
  
