@@ -28,17 +28,16 @@ import org.languagetool.rules.LongSentenceRule;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.UppercaseSentenceStartRule;
 import org.languagetool.rules.WhitespaceRule;
-import org.languagetool.rules.ca.CatalanWordRepeatRule;
 import org.languagetool.rules.ca.AccentuationCheckRule;
+import org.languagetool.rules.ca.CatalanUnpairedBracketsRule;
 import org.languagetool.rules.ca.CatalanUnpairedExclamationMarksRule;
 import org.languagetool.rules.ca.CatalanUnpairedQuestionMarksRule;
+import org.languagetool.rules.ca.CatalanWordRepeatRule;
+import org.languagetool.rules.ca.CatalanWrongWordInContextRule;
 import org.languagetool.rules.ca.ComplexAdjectiveConcordanceRule;
 import org.languagetool.rules.ca.MorfologikCatalanSpellerRule;
-import org.languagetool.rules.ca.CatalanWrongWordInContextRule;
 import org.languagetool.rules.ca.ReflexiveVerbsRule;
-import org.languagetool.rules.ca.CatalanUnpairedBracketsRule;
 import org.languagetool.rules.ca.SimpleReplaceRule;
-import org.languagetool.rules.patterns.Unifier;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.ca.CatalanSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -57,7 +56,6 @@ public class Catalan extends Language {
   private Tokenizer wordTokenizer;
   private Synthesizer synthesizer;
   private Disambiguator disambiguator;
-  private Unifier unifier;
 
   @Override
   public String getName() {
@@ -125,14 +123,6 @@ public class Catalan extends Language {
       sentenceTokenizer = new SRXSentenceTokenizer(this);
     }
     return sentenceTokenizer;
-  }
-  
-  @Override
-  public Unifier getUnifier() {
-    if (unifier == null) {
-    	unifier = new Unifier();
-    }
-    return unifier;
   }
   
   @Override

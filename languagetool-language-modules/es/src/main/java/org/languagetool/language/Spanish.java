@@ -98,22 +98,6 @@ public class Spanish extends Language {
   }
   
   @Override
-  public Unifier getUnifier() {
-    if (unifier == null) {
-      unifier = new Unifier();
-    }
-    return unifier;
-  }
-
-  @Override
-  public Unifier getDisambiguationUnifier() {
-    if (disambiguationUnifier == null) {
-    	disambiguationUnifier = new Unifier();
-    }
-    return disambiguationUnifier; 
-  }
-  
-  @Override
   public final Tokenizer getWordTokenizer() {
     if (wordTokenizer == null) {
       wordTokenizer = new SpanishWordTokenizer();

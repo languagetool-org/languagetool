@@ -356,7 +356,7 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
         }
       }
       if (inUnificationDef) {
-        language.getDisambiguationUnifier().setEquivalence(uFeature, uType, tokenElement);
+        language.getDisambiguationUnifierConfiguration().setEquivalence(uFeature, uType, tokenElement);
         elementList.clear();
       }
       if (tokenSpaceBeforeSet) {

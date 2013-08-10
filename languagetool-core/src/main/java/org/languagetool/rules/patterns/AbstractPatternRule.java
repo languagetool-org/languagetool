@@ -25,8 +25,6 @@ import java.util.List;
 import java.util.Objects;
 
 import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedToken;
-import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
@@ -47,11 +45,8 @@ public abstract class AbstractPatternRule extends Rule {
   protected final boolean sentStart;
 
   protected String subId; // because there can be more than one rule in a rule group
-  protected Unifier unifier;
-  protected AnalyzedTokenReadings[] unifiedTokens;
   protected int startPositionCorrection;
   protected int endPositionCorrection;
-  protected boolean prevMatched;
 
   private final String id;
   private final String description;
@@ -69,7 +64,6 @@ public abstract class AbstractPatternRule extends Rule {
     this.patternElements = new ArrayList<>(Objects.requireNonNull(elements, "elements cannot be null")); // copy elements
     this.language = Objects.requireNonNull(language, "language cannot be null");
     this.getUnified = getUnified;
-    unifier = language.getUnifier();
     testUnification = initUnifier();
     sentStart = patternElements.size() > 0 && patternElements.get(0).isSentStart();    
     if (!testUnification) {
@@ -148,100 +142,23 @@ public abstract class AbstractPatternRule extends Rule {
     this.subId = subId;
   }
 
-  protected void setupAndGroup(final int firstMatchToken,
-      final Element elem, final AnalyzedTokenReadings[] tokens)
-  throws IOException {    
-    if (elem.hasAndGroup()) {
-      for (final Element andElement : elem.getAndGroup()) {
-        if (andElement.isReferenceElement()) {
-          setupRef(firstMatchToken, andElement, tokens);
-        }
-      }      
-      elem.setupAndGroup();
-    }    
+  public boolean isGroupsOrUnification() {
+	return groupsOrUnification;
   }
-
-  //TODO: add .compile for all exceptions of the element?
-  protected void setupRef(final int firstMatchToken, final Element elem,
-      final AnalyzedTokenReadings[] tokens) throws IOException {
-    if (elem.isReferenceElement()) {
-      final int refPos = firstMatchToken + elem.getMatch().getTokenRef();
-      if (refPos < tokens.length) {
-        elem.compile(tokens[refPos], language.getSynthesizer());
-      }
-    }
-  }  
-
-  protected boolean testAllReadings(final AnalyzedTokenReadings[] tokens,
-      final Element elem, final Element prevElement, final int tokenNo,
-      final int firstMatchToken, final int prevSkipNext) throws IOException {    
-    boolean thisMatched = false;
-    final int numberOfReadings = tokens[tokenNo].getReadingsLength();
-    setupAndGroup(firstMatchToken, elem, tokens);
-    for (int l = 0; l < numberOfReadings; l++) {
-      final AnalyzedToken matchToken = tokens[tokenNo].getAnalyzedToken(l);
-      prevMatched = prevMatched || prevSkipNext > 0 && prevElement != null
-      && prevElement.isMatchedByScopeNextException(matchToken);
-      if (prevMatched) {
-        return false;
-      }
-      thisMatched = thisMatched || elem.isMatched(matchToken);
-      if (!thisMatched && !elem.isInflected() && elem.getPOStag() == null 
-          && (prevElement != null && prevElement.getExceptionList() == null)) {
-        return false; // the token is the same, we will not get a match
-      }
-      if (groupsOrUnification) {
-        thisMatched &= testUnificationAndGroups(thisMatched,
-            l + 1 == numberOfReadings, matchToken, elem);
-      }
-    }
-    if (thisMatched) {
-      for (int l = 0; l < numberOfReadings; l++) {
-        if (elem.isExceptionMatchedCompletely(tokens[tokenNo].getAnalyzedToken(l)))
-          return false;
-      }    
-      if (tokenNo > 0 && elem.hasPreviousException()) {
-        if (elem.isMatchedByPreviousException(tokens[tokenNo - 1]))
-          return false;
-      }
-    }
-    return thisMatched;
+  
+  public boolean isGetUnified() {
+	return getUnified;
   }
-
-  protected boolean testUnificationAndGroups(final boolean matched,
-          final boolean lastReading, final AnalyzedToken matchToken,
-          final Element elem) {
-      boolean thisMatched = matched;
-      final boolean elemIsMatched = elem.isMatched(matchToken);
-      if (testUnification) {
-          if (matched && elem.isUnified()) {
-              if (elem.isUniNegated()) {
-                  thisMatched = !(thisMatched && unifier.isUnified(matchToken, elem.getUniFeatures(), 
-                          lastReading,elemIsMatched));
-              } else {
-                  if (elem.isLastInUnification()) {
-                      thisMatched = thisMatched && unifier.isUnified(matchToken, elem.getUniFeatures(), 
-                              lastReading,elemIsMatched);
-                  } else { //we don't care about the truth value, let it run
-                      unifier.isUnified(matchToken, elem.getUniFeatures(), 
-                              lastReading, elemIsMatched);
-                  }
-
-              }
-          }
-          if (thisMatched && getUnified) {
-              unifiedTokens = unifier.getFinalUnified();
-          }
-          if (!elem.isUnified()) {
-              unifier.reset();
-          }
-      }    
-      elem.addMemberAndGroup(matchToken);
-      if (lastReading) {
-          thisMatched &= elem.checkAndGroup(thisMatched);
-      }        
-      return thisMatched;
+  
+  public boolean isSentStart() {
+	return sentStart;
   }
-
-
+  
+  public boolean isTestUnification() {
+	return testUnification;
+  }
+  
+  public List<Element> getPatternElements() {
+	return patternElements;
+  }
 }

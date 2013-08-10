@@ -49,7 +49,6 @@ public class RomanianTagger extends BaseTagger {
   private final String binaryDictPath;
   private final String plaintextDictPath;
 
-  private IStemmer morfologik;
   private ManualTagger manualTagger;
 
   public RomanianTagger() {
@@ -72,11 +71,7 @@ public class RomanianTagger extends BaseTagger {
       final List<String> sentenceTokens) throws IOException {
     final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
     int pos = 0;
-    // caching Lametyzator instance - lazy init
-    if (morfologik == null) {      
-      final URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(binaryDictPath);
-      morfologik = new DictionaryLookup(Dictionary.read(url));
-    }
+    IStemmer morfologik = new DictionaryLookup(this.getDictionary());
     if (manualTagger == null && plaintextDictPath != null) {
       manualTagger = new ManualTagger(JLanguageTool.getDataBroker().getFromResourceDirAsStream(plaintextDictPath));
     }

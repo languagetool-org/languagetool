@@ -29,7 +29,12 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import junit.framework.TestCase;
 
-import org.languagetool.*;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.TestTools;
+import org.languagetool.XMLValidator;
 import org.languagetool.rules.patterns.PatternTestTools;
 import org.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
 import org.languagetool.tagging.disambiguation.xx.TrimDisambiguator;

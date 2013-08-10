@@ -19,18 +19,15 @@
 package org.languagetool.tagging.pl;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import morfologik.stemming.Dictionary;
 import morfologik.stemming.DictionaryLookup;
 import morfologik.stemming.IStemmer;
 
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
 import org.languagetool.tagging.BaseTagger;
 import org.languagetool.tools.StringTools;
 
@@ -43,7 +40,6 @@ import org.languagetool.tools.StringTools;
 public class PolishTagger extends BaseTagger {
 
   private static final String RESOURCE_FILENAME = "/pl/polish.dict";
-  private IStemmer morfologik;
   private final Locale plLocale = new Locale("pl");
 
   @Override
@@ -59,11 +55,7 @@ public class PolishTagger extends BaseTagger {
     List<AnalyzedToken> upperTaggerTokens;    
     final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
     int pos = 0;
-    // caching Lametyzator instance - lazy init
-    if (morfologik == null) {      
-      final URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(getFileName());
-      morfologik = new DictionaryLookup(Dictionary.read(url));
-    }
+    IStemmer morfologik = new DictionaryLookup(getDictionary());
 
     for (String word : sentenceTokens) {
       final List<AnalyzedToken> l = new ArrayList<>();
