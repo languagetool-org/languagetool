@@ -21,6 +21,7 @@ package org.languagetool.rules.spelling.morfologik;
 import morfologik.speller.Speller;
 import morfologik.stemming.Dictionary;
 import org.languagetool.JLanguageTool;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
@@ -34,8 +35,6 @@ import java.util.Locale;
  * Morfologik-based spell checker.
  */
 public class MorfologikSpeller {
-
-  private static final String LANGUAGETOOL = "LanguageTool";
 
   private final Speller speller;
   private final Locale conversionLocale;
@@ -78,7 +77,8 @@ public class MorfologikSpeller {
     }
     return word.length() > 0 && isAlphabetic
             && !containsDigit(word)
-            && !LANGUAGETOOL.equals(word)
+            && !SpellingCheckRule.LANGUAGETOOL.equals(word)
+            && !SpellingCheckRule.LANGUAGETOOL_FX.equals(word)
             && !speller.isInDictionary(word)
             && !(!StringTools.isMixedCase(word) 
                 && speller.isInDictionary(word.toLowerCase(conversionLocale)));

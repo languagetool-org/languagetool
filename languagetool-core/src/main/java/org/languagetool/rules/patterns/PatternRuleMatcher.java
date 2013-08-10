@@ -153,17 +153,13 @@ class PatternRuleMatcher {
 
       final int toPos = tokens[lastMatchToken + correctedEndPos].getStartPos()
               + tokens[lastMatchToken + correctedEndPos].getToken().length();
-      if (fromPos < toPos) { // this can happen with some skip="-1" when the last
-        // token is not matched
-
+      if (fromPos < toPos) { // this can happen with some skip="-1" when the last token is not matched
         //now do some spell-checking:
-      if (!(errMessage.contains("<pleasespellme/>") && errMessage
-          .contains("<mistake/>"))) {
-        final String clearMsg = errMessage.replaceAll("<pleasespellme/>", "")
-            .replaceAll("<mistake/>", "");
-        return new RuleMatch(rule, fromPos, toPos, clearMsg,
-            rule.getShortMessage(), startsWithUppercase, suggestionsOutMsg);
-      }
+        if (!(errMessage.contains("<pleasespellme/>") && errMessage.contains("<mistake/>"))) {
+          final String clearMsg = errMessage.replaceAll("<pleasespellme/>", "").replaceAll("<mistake/>", "");
+          return new RuleMatch(rule, fromPos, toPos, clearMsg,
+              rule.getShortMessage(), startsWithUppercase, suggestionsOutMsg);
+        }
       } // failed to create any rule match...
       return null;
     }

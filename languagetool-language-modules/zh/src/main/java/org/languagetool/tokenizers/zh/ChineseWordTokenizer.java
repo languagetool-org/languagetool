@@ -60,9 +60,13 @@ public class ChineseWordTokenizer implements Tokenizer {
   @Override
   public List<String> tokenize(String text) {
     init();
-    final String result;
+    String result;
     try {
       result = seg.split(chinesdJF.chineseFan2Jan(text)).getFinalResult();
+      // a hacky workaround for http://sourceforge.net/p/languagetool/bugs/186/ and
+      // http://code.google.com/p/ictclas4j/issues/detail?id=14 which otherwise causes a StringIndexOutOfBoundsException
+      // TODO: fix the original cause
+      result = result.replace("始##始年/t", "年/t");
     } catch (Exception e) {
       // Occasionally, the Chinese tokenization/segment component throws NullPointerException or
       // ArrayIndexOutOfBoundsException, due to some internal bugs of ictclas4j. The reasons of the
