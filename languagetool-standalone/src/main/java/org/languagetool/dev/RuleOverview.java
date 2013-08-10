@@ -107,12 +107,12 @@ public final class RuleOverview {
         xmlRules = xmlRules.replaceAll("(?s)<rules.*?>", "");
         final int count = countXmlRules(xmlRules);
         final int countInRuleGroup = countXmlRuleGroupRules(xmlRules);
-        final String ruleBase = "http://svn.code.sf.net/p/languagetool/code/trunk/languagetool/languagetool-language-modules/"
+        final String ruleBase = "https://github.com/languagetool-org/languagetool/blob/master/languagetool-language-modules/"
                 + langCode + "/src/main/resources/org/languagetool/rules/";
         System.out.print("<td valign=\"top\" align=\"right\">" + (count + countInRuleGroup) + "</td>");
         System.out.print("<td valign=\"top\" align=\"right\">" +
             //"<a href=\"" + ruleBase + langCode + "/grammar.xml" + "\">Show</a> / " +
-            "<a href=\"" + ruleBase + langCode + "/grammar.xml?content-type=text%2Fplain" + "\">XML</a> / " +
+            "<a href=\"" + ruleBase + langCode + "/grammar.xml\">XML</a> / " +
             "<a href=\"http://community.languagetool.org/rule/list?lang=" + langCode + "\">Browse</a>" +
             "</td>");
       }
@@ -127,7 +127,7 @@ public final class RuleOverview {
         final int javaCount = javaRules.length;
         if (javaCount > 0) {
           final String sourceCodeLink = 
-                  "http://svn.code.sf.net/p/languagetool/code/trunk/languagetool/languagetool-language-modules/"
+                  "https://github.com/languagetool-org/languagetool/blob/master/languagetool-language-modules/"
                   + langCode + "/src/main/java/org/languagetool/rules/" 
                   + langCode + "/";
           System.out.print("<td valign=\"top\" align=\"right\"><a href=\"" + sourceCodeLink + "\">" + javaCount + "</a></td>");
@@ -155,8 +155,7 @@ public final class RuleOverview {
     }
       
     if (overallJavaCount == 0) {
-      throw new RuntimeException("No Java rules found - start this script from the LanguageTool directory so " +
-              "that the sources are at 'src/main/java/org/languagetool/rules'");
+      throw new RuntimeException("No Java rules found - start this script from the languagetool-standalone directory");
     }
     if (langSpecificWebsiteCount == 0) {
       throw new RuntimeException("No language specific websites found - please let the web root parameter " +
