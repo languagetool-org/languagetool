@@ -168,6 +168,7 @@ public class HunspellRule extends SpellingCheckRule {
         }
 
         dictionary.addWord("LanguageTool"); // to make demo text check 4 times faster...
+        dictionary.addWord("LanguageToolFx");
       }
     }
     nonWordPattern = Pattern.compile(wordChars + NON_ALPHABETIC);

@@ -36,6 +36,7 @@ import java.util.Locale;
 public class MorfologikSpeller {
 
   private static final String LANGUAGETOOL = "LanguageTool";
+  private static final String LANGUAGETOOL_FX = "LanguageToolFx";
 
   private final Speller speller;
   private final Locale conversionLocale;
@@ -79,6 +80,7 @@ public class MorfologikSpeller {
     return word.length() > 0 && isAlphabetic
             && !containsDigit(word)
             && !LANGUAGETOOL.equals(word)
+            && !LANGUAGETOOL_FX.equals(word)
             && !speller.isInDictionary(word)
             && !(!StringTools.isMixedCase(word) 
                 && speller.isInDictionary(word.toLowerCase(conversionLocale)));
