@@ -60,7 +60,7 @@ $Id$
     <!ENTITY verw "Mögliche Wortverwechslung: ">
     <!ENTITY redundanz "Diese Wendung ist möglicherweise redundant. ">
     <!ENTITY also "also|folglich|demnach|deshalb|mithin|somit">
-    <!ENTITY fast "annähernd|beinah(e)?|fast|nahezu|ungefähr">
+    <!ENTITY fast "annähernd|beinahe?|fast|nahezu|ungefähr">
     <!ENTITY modal "halt|eben|doch|wohl|eigentlich|auch|schon|aber|recht|ziemlich">
     <!ENTITY neusubklein "alter|ansinnen|band|bedenken|bündel|delta|differential|double|drittel|eck|eislaufen|elend|ende|erbe|erbrecht|fach|fest|fett|gebrechen|gemach|gerät|gewissen|gut|gutachten|hoch|ideal|junge|kapital|kollektiv|konditional|können|leben|leck|leid|licht|lokal|los|mal|manifest|maß|mittelalter|morden|paar|patent|pfeifen|präsent|recht|reich|rennen|scheitern|schloss|schweigen|sitzen|stillschweigen|tief|totem|ungeheuer|unrecht|verbot|verdeck|verdienst|verfahren|vergnügen|verhör|verlangen|vermögen|versprechen|wettrennen|wohl|wunder|zeug|ziel|zimmer">
     <!ENTITY massubklein "abgeordnete|abkomme|abriss|abschied|abschnitt|abstieg|ahne|andrang|angriff|anklang|anschnitt|anstieg|anstrich|antrieb|antritt|ärger|arm|aufriss|aufschnitt|aufstand|aufstieg|aufstrich|auftritt|ausklang|ausritt|ausschnitt|ausstand|ausstieg|austritt|band|bau|bedarf|begriff|beistand|beitritt|belang|bestand|betrieb|betrug|blick|block|bogen|braten|brauch|brocken|dank|dichter|drang|durchschnitt|einband|eingriff|einschnitt|einstand|einstieg|eintritt|ernst|ertrag|feind|filz|floh|forscher|fortschritt|fremde|frieden?|gefreite|geselle|gläubiger|gleichstand|graben|herzog|husten|intrigant|junge|jünger|knebel|knick|knoten|koch|komparativ|kragen|krieg|laden|lappen|lauf|laut|lumpen|mitschnitt|morgen|nachklang|nachkomme|nachwuchs|pfiff|pfropfen|plan|planer|platz|plural|pole|preis|rang|rasen|rausschmiss|reif(en)?|rücken|rüde|samt|schaden|schal|scherz|schiefer|schlag|schluck|schnitt|schnupfen|schock|schotte|schreck(en)?|schritt|schubs|schuft|schund|schütze|schwamm|sitz|spitz|stand|stecken|stich|stillstand|stolz|stoß|streifen|strich|strick|träger|trieb|tritt|tropf(en)?|trotz|türke|übergriff|übertritt|umriss|unterschied|untertan|verband|verbrauch|verdacht|verdienst|verkauf|verkehr|verlass|verlauf|verleih|vermerk|verriss|verschlag|verstand|verstoß|versuch|vertrieb|verzehr|virtuose|vokal|vorbehalt|vorgriff|vorstand|vortritt|vorwärtsschritt|wagen|weg|wein|weise|wert|wettstreit|wicht|widerstand|wuchs|zank|zeuge|zügel|zugriff|zusammenschnitt|zustand|zutritt|zwang|zweifel">
@@ -952,7 +952,7 @@ $Id$
             <pattern>
                 <token regexp="yes">ist|sind|war(st|t|en)?|bin|bist|seid</token>
                 <marker>
-                    <token postag="ADJ:.*" postag_regexp="yes"><exception postag="ADJ:PRD:KOM"></exception><exception postag="ADJ:PRD:GRU"></exception><exception regexp="yes">dehnbarer|andere|lange|höher|einige|solche|folgende(r|s)?</exception></token>
+                    <token postag="ADJ:.*" postag_regexp="yes"><exception postag="ADJ:PRD:KOM"></exception><exception postag="ADJ:PRD:GRU"></exception><exception regexp="yes">dehnbarer|andere|lange|höher|einige|solche|folgende[rs]?</exception></token>
                 </marker>
                 <token postag="SENT_END"/>
             </pattern>
@@ -1072,7 +1072,7 @@ $Id$
                         <token regexp="yes">nährten?</token>
                         <token>sich</token>
                     </marker>
-                    <token regexp="yes">mir|dir|ihm|ihr|den|ihnen|ihrer|ihren|euch|uns|unsere(n|m|r)|meine(n|m|r)|deine(n|m|r)|seine(n|m|r)</token>
+                    <token regexp="yes">mir|dir|ihm|ihr|den|ihnen|ihrer|ihren|euch|uns|unsere[nmr]|meine[nmr]|deine[nmr]|seine[nmr]</token>
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="1" regexp_match="ährte" regexp_replace="äherte"/> \2</suggestion> (kam näher)?</message>
                 <short>Möglicher Tippfehler</short>
@@ -1466,7 +1466,7 @@ $Id$
                     <token>für</token>
                     <token regexp="yes">[dDm]ich|[sS]ie|ihn|[eE]uch</token>
                     <marker>
-                        <token regexp="yes">bette(n|t)?</token>
+                        <token regexp="yes">bette[nt]?</token>
                     </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="3" regexp_match="bette" regexp_replace="bete"/></suggestion>?</message>
@@ -1849,11 +1849,11 @@ $Id$
             <rule>
                 <pattern case_sensitive="yes">
                     <marker>
-                        <token regexp="yes">(n|N)ach</token>
+                        <token regexp="yes">[nN]ach</token>
                     </marker>
-                    <token regexp="yes">(am|in|im)</token>
+                    <token regexp="yes">am|in|im</token>
                     <token>selben</token>
-                    <token regexp="yes">(Tag|Nacht|Monat|Jahr.*)</token>
+                    <token regexp="yes">Tag|Nacht|Monat|Jahr.*</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>noch</suggestion>?</message>
                 <short>Möglicher Tippfehler</short>
@@ -1864,11 +1864,11 @@ $Id$
             <rule>
                 <pattern case_sensitive="yes">
                     <marker>
-                        <token regexp="yes">(n|N)ach</token>
+                        <token regexp="yes">[nN]ach</token>
                     </marker>
                     <token>in</token>
                     <token regexp="yes">(der|dem)selben</token>
-                    <token regexp="yes">(Tag|Nacht|Monat|Jahr.*)</token>
+                    <token regexp="yes">Tag|Nacht|Monat|Jahr.*</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>noch</suggestion>?</message>
                 <short>Möglicher Tippfehler</short>
@@ -1920,7 +1920,7 @@ $Id$
         </rule>
         <rule id="WOLLTE_GRAD" name="Möglicher Tippfehler: 'Grad (gerade)'">
             <pattern>
-                <token regexp="yes">wollt(e)?</token>
+                <token regexp="yes">wollte?</token>
                 <token>ich</token>
                 <token>auch</token>
                 <marker>
@@ -2178,7 +2178,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">([0-9]*|Uhr)</token>
+                    <token regexp="yes">[0-9]*|Uhr</token>
                     <marker>
                         <token>biss</token>
                     </marker>
@@ -3441,7 +3441,7 @@ $Id$
         </rule>
         <rule id="SCHARFES_SZ" name="Mögliche Wortverwechslung: scharfes ß (S)">
             <pattern>
-                <token regexp="yes">scharfe(s|n)?</token>
+                <token regexp="yes">scharfe[sn]?</token>
                 <token>ß</token>
             </pattern>
             <message>Meinten Sie <suggestion>\1 S</suggestion>, eine andere Bezeichnung für den Buchstaben 'ß'?</message>
@@ -4264,7 +4264,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">ökumenische(r|n)?</token>
+                    <token regexp="yes">ökumenische[rn]?</token>
                     <token regexp="yes">.*Messe.*</token>
                 </pattern>
                 <message>Bestandteil einer Messe ist das Abendmahl, welches nicht ökumenisch gefeiert wird. Meinten Sie <suggestion>ökumenischer Gottesdienst</suggestion> oder nur <suggestion>\2</suggestion>?</message>
@@ -4278,7 +4278,7 @@ $Id$
                 <marker>
                     <token regexp="yes">karikative[rns]?</token>
                 </marker>
-                <token regexp="yes">Aktion(en)?|Angebot(en|s|es)?|Anstalt(en)?|Arbeit|Dienst(en|s|es)?|Einrichtung(en)?|Engagements?|Events?|Hilfen?|Institution(en)?|Jobs?|Organisation(en)?|Projekt(en|s|es)?|Sammlers?|Sammlung|Stiftung(en)?|Veranstaltung(en)?|Verband(s|es)?|Verbände(n)?|Vereins?|Vereinigung(en)?|Wohnheim(en)?|Zweck(en?)?</token>
+                <token regexp="yes">Aktion(en)?|Angebot(en|s|es)?|Anstalt(en)?|Arbeit|Dienst(en|s|es)?|Einrichtung(en)?|Engagements?|Events?|Hilfen?|Institution(en)?|Jobs?|Organisation(en)?|Projekt(en|s|es)?|Sammlers?|Sammlung|Stiftung(en)?|Veranstaltung(en)?|Verband(s|es)?|Verbänden?|Vereins?|Vereinigung(en)?|Wohnheim(en)?|Zweck(en?)?</token>
             </pattern>
             <message>&verw;Meinten Sie <suggestion><match no="1" regexp_match="arikativ" regexp_replace="aritativ"/></suggestion> (wohltätig, humanitär)? 'Karikativ' bedeutet 'nach Art einer Karikatur'.</message>
             <url>http://www.korrekturen.de/beliebte_fehler/karikativ.shtml</url>
@@ -4341,7 +4341,7 @@ $Id$
                         <exception scope="next" postag=".*NEU.*|UNKNOWN" postag_regexp="yes"></exception>
                         <exception scope="next" postag="UNKNOWN"></exception>
                     </token>
-                    <token regexp="yes" inflected="yes">(sagen|berichten|meinen|glauben|schreiben|denken)</token>
+                    <token regexp="yes" inflected="yes">sagen|berichten|meinen|glauben|schreiben|denken</token>
                     <token>,</token>
                     <marker>
                         <token skip="-1">das
@@ -4548,7 +4548,7 @@ $Id$
         <rulegroup id="NIVEA" name="Mögliche Wortverwechslung: Nivea/Niveau">
             <rule>
                 <pattern>
-                    <token regexp="yes">hohe(n|m|s)?</token>
+                    <token regexp="yes">hohe[nms]?</token>
                     <marker>
                         <token>Nivea</token>
                     </marker>
@@ -5293,7 +5293,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">J(e|o)?an</token>
+                    <token regexp="yes">J[eo]?an</token>
                     <token>Austen</token>
                 </pattern>
                 <message>Meinten Sie evt. <suggestion>Jane Austen</suggestion>, die britische Schriftstellerin?</message>
@@ -5459,7 +5459,7 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">Russelsche(n)?</token>
+                        <token regexp="yes">Russelschen?</token>
                     </marker>
                     <token>Antinomie</token>
                 </pattern>
@@ -5969,7 +5969,7 @@ $Id$
         <rulegroup id="RAF" name="Eigenname: 'Rote Armee Fraktion'">
             <rule>
                 <pattern>
-                    <token regexp="yes">Rote(n|r)</token>
+                    <token regexp="yes">Rote[nr]</token>
                     <token>Armee</token>
                     <token>Fraktion</token>
                 </pattern>
@@ -6062,7 +6062,7 @@ $Id$
                 <marker>
                     <token>Dipl</token>
                     <token>.</token>
-                    <token regexp="yes">(Ing|Jur|Math|Met|Inf|Bibl|Biol|Chem|Hdl|Kff|Kffr|Kfm)</token>
+                    <token regexp="yes">Ing|Jur|Math|Met|Inf|Bibl|Biol|Chem|Hdl|Kff|Kffr|Kfm</token>
                     <token>.</token>
                 </marker>
             </pattern>
@@ -6844,7 +6844,7 @@ $Id$
         </rule>
         <rule id="PFLEGE_FALL" name="Zusammen-/Getrenntschreibung: 'Pflege Fall (Pflegefall)' u.ä.">
             <pattern case_sensitive="no">
-                <token regexp="yes">ein(e(n|m)?)?|zum</token>
+                <token regexp="yes">ein(e[nm]?)?|zum</token>
                 <marker>
                     <token regexp="yes">pflege|s(o|pe)zial|sonder</token>
                     <token>Fall</token>
@@ -6900,7 +6900,7 @@ $Id$
         </rule>
         <rule id="FRAGE_ZEICHEN" name="Zusammen-/Getrenntschreibung: 'ein Frage Zeichen (Fragezeichen)'">
             <pattern case_sensitive="no">
-                <token regexp="yes">drei|ein(em)?|große(n|m|s)?|einziges</token>
+                <token regexp="yes">drei|ein(em)?|große[nms]?|einziges</token>
                 <marker>
                     <token>Frage</token>
                     <token>Zeichen</token>
@@ -6973,7 +6973,7 @@ $Id$
         <rule id="DAS_SELBE" name="Zusammen-/Getrenntschreibung: 'das selbe (dasselbe)' etc.">
             <pattern case_sensitive="no">
                 <token regexp="yes">der|die|das|des|dem|den</token>
-                <token regexp="yes">selbe(n)?</token>
+                <token regexp="yes">selben?</token>
             </pattern>
             <message><suggestion>\1<match no="2" case_conversion="startlower"/></suggestion> wird zusammengeschrieben.</message>
             <short>&getrennt;.</short>
@@ -7354,7 +7354,7 @@ $Id$
         </rule>
         <rule id="REIHEN_FOLGE" name="Zusammen-/Getrenntschreibung: 'reihen folge (Reihenfolge)'">
             <pattern>
-                <token regexp="yes">der|dieser|richtige(n)?|falsche(n)?|andere([rn])?</token>
+                <token regexp="yes">der|dieser|richtigen?|falschen?|andere([rn])?</token>
                 <marker>
                     <token>reihen</token>
                     <token>folge</token>
@@ -8377,7 +8377,7 @@ $Id$
         <rulegroup id="SEMANTISCHE_BEDEUTUNG" name="Verdoppelung: 'semantische Bedeutung'">
             <rule>
                 <pattern>
-                    <token regexp="yes">semantische(n|r)?</token>
+                    <token regexp="yes">semantische[nr]?</token>
                     <token inflected="yes">Bedeutung</token>
                 </pattern>
                 <message>Diese Formulierung ist möglicherweise redundant; 'semantisch' heißt 'auf die Bedeutung bezogen'. Vorschlag: <suggestion>\2</suggestion>.</message>
@@ -8388,7 +8388,7 @@ $Id$
             <rule>
                 <pattern>
                     <token>semantisch</token>
-                    <token regexp="yes">bedeute(n|t)</token>
+                    <token regexp="yes">bedeute[nt]</token>
                 </pattern>
                 <message>Diese Formulierung ist möglicherweise redundant; 'semantisch' heißt 'auf die Bedeutung bezogen'. Vorschlag: <suggestion>\2</suggestion>.</message>
                 <short>&redundanz;</short>
@@ -8397,7 +8397,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">bedeute(n|t)</token>
+                    <token regexp="yes">bedeute[nt]</token>
                     <token>semantisch</token>
                 </pattern>
                 <message>Diese Formulierung ist möglicherweise redundant; 'semantisch' heißt 'auf die Bedeutung bezogen'. Vorschlag: <suggestion>\1</suggestion>.</message>
@@ -8588,7 +8588,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">(künstlich|geschaffen)e(n|s)?</token>
+                    <token regexp="yes">(künstlich|geschaffen)e[ns]?</token>
                     <token regexp="yes">Artefakt(en?)?</token>
                 </pattern>
                 <message>Die Bedeutung des Substantivs \2 beinhaltet bereits das durch das Adjektiv \1 ausgedrückte Merkmal. In vielen Kontexten kann diese Formulierung deswegen redundant erscheinen. Vorschlag: <suggestion>\2</suggestion></message>
@@ -8609,7 +8609,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">(kreis)?runde(r|n)?</token>
+                    <token regexp="yes">(kreis)?runde[rn]?</token>
                     <token regexp="yes">Kugeln?|Kreis(e[ns]?)?</token>
                 </pattern>
                 <message>Die Bedeutung des Substantivs \2 beinhaltet bereits das durch das Adjektiv \1 ausgedrückte Merkmal. In vielen Kontexten kann diese Formulierung deswegen redundant erscheinen. Vorschlag: <suggestion>\2</suggestion></message>
@@ -8619,7 +8619,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">(recht|vier)?eckige(s|n|m)?</token>
+                    <token regexp="yes">(recht|vier)?eckige[snm]?</token>
                     <token regexp="yes">Quadrat(en?)?|(Recht|Vier)eck(e[ns]?)?</token>
                 </pattern>
                 <message>Die Bedeutung des Substantivs \2 beinhaltet bereits das durch das Adjektiv \1 ausgedrückte Merkmal. In vielen Kontexten kann diese Formulierung deswegen redundant erscheinen. Vorschlag: <suggestion>\2</suggestion></message>
@@ -8629,7 +8629,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">tote(r|n)?</token>
+                    <token regexp="yes">tote[rn]?</token>
                     <token regexp="yes">Leichen?</token>
                 </pattern>
                 <message>Die Bedeutung des Substantivs \2 beinhaltet bereits das durch das Adjektiv \1 ausgedrückte Merkmal. In vielen Kontexten kann diese Formulierung deswegen redundant erscheinen. Vorschlag: <suggestion>\2</suggestion></message>
@@ -8639,7 +8639,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">schwarze(r|n)?</token>
+                    <token regexp="yes">schwarze[rn]?</token>
                     <token regexp="yes">Rappen?</token>
                 </pattern>
                 <message>Die Bedeutung des Substantivs \2 beinhaltet bereits das durch das Adjektiv \1 ausgedrückte Merkmal. In vielen Kontexten kann diese Formulierung deswegen redundant erscheinen. Vorschlag: <suggestion>\2</suggestion></message>
@@ -8797,7 +8797,7 @@ $Id$
         <rulegroup id="ERHOEHTER_HOCHDRUCK" name="Verdoppelung: 'erhöhter Bluthochdruck'">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">erhöhte(m|n|r)?</token>
+                    <token regexp="yes">erhöhte[mnr]?</token>
                     <token regexp="yes">Bluthochdrucks?</token>
                 </pattern>
                 <message>&redundanz;Vorschlag: <suggestion>\1 <match no="2" regexp_replace="" regexp_match="hoch"/></suggestion></message>
@@ -8810,7 +8810,7 @@ $Id$
         <rulegroup id="SYNONYME_BEDEUTUNG" name="Verdoppelung: 'synonyme Bedeutung'">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">synonyme(n|r)?</token>
+                    <token regexp="yes">synonyme[nr]?</token>
                     <token regexp="yes">Bedeutung(en)?</token>
                 </pattern>
                 <message>&unstimmig;Nicht Bedeutungen, sondern Ausdrücke sind synonym, nämlich dann, wenn sie dieselbe Bedeutung haben. Vorschlag: <suggestion><match no="1" regexp_replace="gleich" regexp_match="synonym"/> \2</suggestion></message>
@@ -8822,7 +8822,7 @@ $Id$
         <rulegroup id="ANONYMER_NAME" name="Verdoppelung: 'anonymer Name'">
             <rule>
                 <pattern>
-                    <token regexp="yes">anonyme(m|n|r)?</token>
+                    <token regexp="yes">anonyme[mnr]?</token>
                     <token regexp="yes">Namen?</token>
                 </pattern>
                 <message>&unstimmig;Nicht Namen, sondern Personen sind anonym, nämlich dann, wenn sie ihren Namen verschweigen.</message>
@@ -8944,7 +8944,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">ISBN-Nummer(n)?</token>
+                    <token regexp="yes">ISBN-Nummern?</token>
                 </pattern>
                 <message>'ISBN' steht für 'International Standard Book Number' – ersetzen durch <suggestion>ISBN</suggestion>?</message>
                 <short>&redundanz;</short>
@@ -8953,7 +8953,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">PIN-Nummer(n)?</token>
+                    <token regexp="yes">PIN-Nummern?</token>
                 </pattern>
                 <message>'PIN' steht für 'Personal Identification Number' – ersetzen durch <suggestion>PIN</suggestion>?</message>
                 <short>&redundanz;</short>
@@ -8962,7 +8962,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">DTV-Verlag(e)?(s)?</token>
+                    <token regexp="yes">DTV-Verlage?s?</token>
                 </pattern>
                 <message>'DTV' steht für 'Deutscher Taschenbuch-Verlag' – ersetzen durch <suggestion>DTV</suggestion>?</message>
                 <short>&redundanz;</short>
@@ -8971,7 +8971,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">ABM-Maßnahme(n)?</token>
+                    <token regexp="yes">ABM-Maßnahmen?</token>
                 </pattern>
                 <message>'ABM' steht für 'Arbeitsbeschaffungsmaßnahme' – ersetzen durch <suggestion>ABM</suggestion> oder <suggestion>Arbeitsbeschaffungsmaßnahme</suggestion>?</message>
                 <short>&redundanz;</short>
@@ -8980,7 +8980,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">LCD-Display(s)?</token>
+                    <token regexp="yes">LCD-Displays?</token>
                 </pattern>
                 <message>'LCD' steht für 'Liquid Crystal Display' – ersetzen durch <suggestion>LCD</suggestion>?</message>
                 <short>&redundanz;</short>
@@ -9319,7 +9319,7 @@ $Id$
             <rule>
                 <pattern>
                     <token skip="-1" postag="SENT_START"><exception scope="next" regexp="yes">geb(urt|or).*</exception></token>
-                    <token regexp="yes">(am|in|im)</token>
+                    <token regexp="yes">am|in|im</token>
                     <marker>
                         <token regexp="yes">gleiche.*</token>
                     </marker>
@@ -9340,7 +9340,7 @@ $Id$
                     <token skip="-1" postag="SENT_START"><exception scope="next" regexp="yes">geb(urt|or).*</exception></token>
                     <token>in</token>
                     <marker>
-                        <token regexp="yes">(der|dem)</token>
+                        <token regexp="yes">der|dem</token>
                         <token regexp="yes">gleiche.*</token>
                     </marker>
                     <token regexp="yes" skip="-1">Tag|Nacht|Monat|Jahr.*<exception scope="next" regexp="yes">geb(urt|or).*</exception></token>
@@ -9562,7 +9562,7 @@ $Id$
                     <marker>
                         <token skip="2">Kilo<exception scope="next">,</exception></token>
                     </marker>
-                    <token inflected="yes" regexp="yes">(wiegen|schwer)</token>
+                    <token inflected="yes" regexp="yes">wiegen|schwer</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>Kilogramm</suggestion>? 'Kilo'&umgangsspr;</message>
                 <example type="incorrect">Es ist nicht schlimm, zwei <marker>Kilo</marker> schwerer zu sein.</example>
@@ -9574,7 +9574,7 @@ $Id$
                     <marker>
                         <token skip="2">Kilo<exception scope="next">,</exception></token>
                     </marker>
-                    <token inflected="yes" regexp="yes">(wiegen|schwer)</token>
+                    <token inflected="yes" regexp="yes">wiegen|schwer</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>Kilogramm</suggestion>? 'Kilo'&umgangsspr;</message>
                 <example type="incorrect">Es ist nicht schlimm, nur 4,5 <marker>Kilo</marker> zu wiegen.</example>
@@ -9601,7 +9601,7 @@ $Id$
                     <marker>
                         <token skip="2">Kilometer<exception scope="next" regexp="yes">(,|pro|durch|je|in)</exception></token>
                     </marker>
-                    <token inflected="yes" regexp="yes">(schnell|langsam)</token>
+                    <token inflected="yes" regexp="yes">schnell|langsam</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>Kilometer pro Stunde</suggestion> oder <suggestion><match regexp_match="Kilometer" regexp_replace="km/h" case_conversion="startlower" no="2"/></suggestion> (Maßeinheit der Geschwindigkeit)? 'Kilometer' ist eine Längenmaßeinheit.</message>
                 <example type="incorrect">Er ist 5,2 <marker>Kilometer</marker> schneller.</example>
@@ -9629,7 +9629,7 @@ $Id$
                     <marker>
                         <token skip="2">Kilometer<exception scope="next" regexp="yes">(,|pro|durch|je|in)</exception></token>
                     </marker>
-                    <token inflected="yes" regexp="yes">(schnell|langsam)</token>
+                    <token inflected="yes" regexp="yes">schnell|langsam</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>Kilometer pro Stunde</suggestion> oder <suggestion><match regexp_match="Kilometer" regexp_replace="km/h" case_conversion="startlower" no="2"/></suggestion> (Maßeinheit der Geschwindigkeit)? 'Kilometer' ist eine Längenmaßeinheit.</message>
                 <example type="incorrect">Er ist fünf <marker>Kilometer</marker> schneller.</example>
@@ -9795,7 +9795,7 @@ $Id$
                 <pattern>
                     <token postag="SENT_START" skip="-1"><exception scope="next" postag="ZAL"/><exception scope="next" regexp="yes">([0-9]+|pro|je|Einheit)</exception></token>
                     <marker>
-                        <token regexp="yes">Voltmeter(s|n)?</token>
+                        <token regexp="yes">Voltmeter[sn]?</token>
                     </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion>Spannungsmessgerät</suggestion> oder <suggestion>Spannungsmesser</suggestion>? '\2' wird inzwischen nur noch umgangssprachlich verwendet, da nicht die Einheit (Volt), sondern die physikalische Größe (Spannung) gemessen wird.</message>
@@ -9807,7 +9807,7 @@ $Id$
                 <pattern>
                     <token postag="SENT_START" skip="-1"><exception scope="next" postag="ZAL"/><exception scope="next" regexp="yes">([0-9]+|pro|je|Einheit)</exception></token>
                     <marker>
-                        <token regexp="yes">Amperemeter(s|n)?</token>
+                        <token regexp="yes">Amperemeter[sn]?</token>
                     </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion>Strommessgerät</suggestion> oder <suggestion>Strommesser</suggestion>? '\2' wird inzwischen nur noch umgangssprachlich verwendet, da nicht die Einheit (Ampere), sondern die physikalische Größe (Stromstärke) gemessen wird.</message>
@@ -9838,7 +9838,7 @@ $Id$
         </rule>
         <rule id="MAENNER_VS_LEUTE" name="Stil: 'Kaufleute' usw. statt 'Kaufmänner'">
             <pattern case_sensitive="no">
-                <token regexp="yes">(.*kauf|See|Feuerwehr|Gewährs|Edel)männer(n)?</token>
+                <token regexp="yes">(.*kauf|See|Feuerwehr|Gewährs|Edel)männern?</token>
             </pattern>
             <message>Meinten Sie <suggestion><match no="1" regexp_match="(Kauf|.*kauf|See|Feuerwehr|Gewährs|Edel)männer(n)?" regexp_replace="$1leute$2"/></suggestion>?</message>
             <example type="correct">Es waren viele <marker>Feuerwehrleute</marker> im Einsatz.</example>
@@ -9897,7 +9897,7 @@ $Id$
               <pattern mark_from="1">
                 <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes">('|"|»|„|›|‚|‘|‹|«)</exception></token>
                 <token>(</token>
-                <token regexp="yes">(S|Z)</token>
+                <token regexp="yes">S|Z</token>
               </pattern>
               <message>Bei indirekten Zitaten steht ein 'vgl.' vor der Zeilenangabe. Vorschlag: <suggestion>(vgl. \3</suggestion></message>
               <example type="correct">Er sagt, Rota solle kommen (vgl. S. 1).</example>
@@ -10355,7 +10355,7 @@ $Id$
                 <token regexp="yes">geehrt.+</token>
                 <token regexp="yes">Frau|Herr</token>
                 <token regexp="yes">[A-ZÄÖÜ][a-zäöüßáàâêéèëíìîïòóôõûçñšž]+</token>
-                <token regexp="yes">(\-|\.|:|\!|;)</token>
+                <token regexp="yes">\-|\.|:|\!|;</token>
             </pattern>
             <message>Nach der Anredeformel sollte ein Komma stehen: <suggestion>\2 \3 \4 \5,</suggestion></message>
             <short>Nach der Anredeformel sollte ein Komma stehen.</short>
@@ -10810,7 +10810,7 @@ $Id$
                     <marker>
                         <token>ehren</token>
                     </marker>
-                    <token regexp="yes">von|des|der|(&meindein;)e(r|s)</token>
+                    <token regexp="yes">von|des|der|(&meindein;)e[rs]</token>
                 </pattern>
                 <message>&subanfang;<suggestion>Ehren</suggestion>&subende;</message>
                 <short>&prgk;.</short>
@@ -14229,7 +14229,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">wahre(n|s)?</token>
+                    <token regexp="yes">wahre[ns]?</token>
                     <marker>
                         <token>wunder</token>
                     </marker>
@@ -15645,7 +15645,7 @@ $Id$
             <!-- TODO Maybe we should make a Java rule for this and maintain a list -->
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">rote(n)?</token>
+                    <token regexp="yes">roten?</token>
                     <token>Armee</token>
                 </pattern>
                 <message>Meinten Sie <suggestion><match case_conversion="startupper" no="1"/> Armee</suggestion>? &namengross;</message>
@@ -15656,9 +15656,9 @@ $Id$
             <rule>
                 <pattern case_sensitive="yes">
                     <marker>
-                        <token regexp="yes">(erste|zweite)(r|n|m)?</token>
+                        <token regexp="yes">(erste|zweite)[rnm]?</token>
                     </marker>
-                    <token regexp="yes">Weltkrieg(e)?(s)?</token>
+                    <token regexp="yes">Weltkriege?s?</token>
                 </pattern>
                 <message>Meinten Sie <suggestion><match case_conversion="startupper" no="1"/></suggestion> \2? &namengross;</message>
                 <short>&namengross;</short>
@@ -15670,7 +15670,7 @@ $Id$
             <rule>
                 <pattern case_sensitive="yes">
                     <marker>
-                        <token regexp="yes">französische(r|n)?</token>
+                        <token regexp="yes">französische[rn]?</token>
                     </marker>
                     <token>Revolution</token>
                 </pattern>
@@ -15683,11 +15683,11 @@ $Id$
             <rule>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START" skip="-1"><exception scope="next">Mercedes</exception></token>
-                    <token regexp="yes" skip="-1">.*(s|S)tern.*</token>
+                    <token regexp="yes" skip="-1">.*[sS]tern.*</token>
                     <marker>
-                        <token regexp="yes">(kleine(r|n)?|große(r|n)?)</token>
+                        <token regexp="yes">kleine[rn]?|große[rn]?</token>
                     </marker>
-                    <token regexp="yes">(Bär|Wagen)</token>
+                    <token regexp="yes">Bär|Wagen</token>
                 </pattern>
                 <message>Meinten Sie <suggestion><match case_conversion="startupper" no="3"/></suggestion> \4 (Sternbild)? &namengross;</message>
                 <short>Meinten Sie das Sternbild? &namengross;</short>
@@ -15698,10 +15698,10 @@ $Id$
             <rule>
                 <pattern case_sensitive="yes">
                     <marker>
-                        <token regexp="yes">(kleine(r|n)?|große(r|n)?)</token>
+                        <token regexp="yes">kleine[rn]?|große[rn]?</token>
                     </marker>
-                    <token regexp="yes" skip="-1">(Bär|Wagen)</token>
-                    <token regexp="yes">.*(s|S)tern.*</token>
+                    <token regexp="yes" skip="-1">Bär|Wagen</token>
+                    <token regexp="yes">.*[sS]tern.*</token>
                 </pattern>
                 <message>Meinten Sie <suggestion><match case_conversion="startupper" no="1"/></suggestion> \2 (Sternbild)? &namengross;</message>
                 <short>Meinten Sie das Sternbild? &namengross;</short>
@@ -15710,7 +15710,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">(d|D)(er|en)</token>
+                    <token regexp="yes">[dD](er|en)</token>
                     <marker>
                         <token regexp="yes">englischen?</token>
                     </marker>
@@ -15724,7 +15724,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">(d|D)(ie|er|en)</token>
+                    <token regexp="yes">[dD](ie|er|en)</token>
                     <marker>
                         <token>hängenden</token>
                     </marker>
@@ -15750,9 +15750,9 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">((D|d)(er|es|em|en)|(v|V)om|(i|I)m)</token>
+                    <token regexp="yes">([Dd](er|es|em|en)|[vV]om|[iI]m)</token>
                     <marker>
-                        <token regexp="yes">heilige(r|n)?</token>
+                        <token regexp="yes">heilige[rn]?</token>
                     </marker>
                     <token regexp="yes">Geiste?s?</token>
                 </pattern>
@@ -15763,7 +15763,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">(D|d)(er|es|em|en)</token>
+                    <token regexp="yes">[Dd](er|es|em|en)</token>
                     <marker>
                         <token>hl</token>
                     </marker>
@@ -15778,11 +15778,11 @@ $Id$
             <rule>
                 <pattern case_sensitive="yes">
                     <marker>
-                        <token regexp="yes">schiefe(r|n|m)?</token>
+                        <token regexp="yes">schiefe[rnm]?</token>
                     </marker>
                     <token regexp="yes">Turm(e?s)?</token>
                     <token>von</token>
-                    <token regexp="yes">(Pisa|Dausenau|Thorn|Ząbkowice|Frankenstein)</token>
+                    <token regexp="yes">Pisa|Dausenau|Thorn|Ząbkowice|Frankenstein</token>
                 </pattern>
                 <message>Meinten Sie <suggestion><match case_conversion="startupper" no="1"/></suggestion> \2 \3 \4? &namengross;</message>
                 <short>&namengross;</short>
@@ -15791,7 +15791,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">(d|D)(ie|er)</token>
+                    <token regexp="yes">[dD](ie|er)</token>
                     <marker>
                         <token regexp="yes">ewigen?</token>
                     </marker>
@@ -15804,9 +15804,9 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">((D|d)(er|es|em|en)|(v|V)om|(i|I)m)</token>
+                    <token regexp="yes">([Dd](er|es|em|en)|[vV]om|[iI]m)</token>
                     <marker>
-                        <token regexp="yes">(pazifische(r|n)?|indische(r|n)?|atlantische(r|n)?)</token>
+                        <token regexp="yes">pazifische[rn]?|indische[rn]?|atlantische[rn]?</token>
                     </marker>
                     <token regexp="yes">Ozeane?s?</token>
                 </pattern>
@@ -15832,7 +15832,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">(D|d)(ie|er|en)</token>
+                    <token regexp="yes">[Dd](ie|er|en)</token>
                     <marker>
                         <token>vereinigten</token>
                     </marker>
@@ -15871,7 +15871,7 @@ $Id$
                 <pattern case_sensitive="yes">
                     <marker>
                         <token regexp="yes">(erste|zweite)n?</token>
-                        <token regexp="yes">(d|D)eutschen?</token>
+                        <token regexp="yes">[dD]eutschen?</token>
                     </marker>
                     <token regexp="yes">Fernsehens?</token>
                 </pattern>
@@ -15884,7 +15884,7 @@ $Id$
             <rule>
                 <pattern case_sensitive="yes">
                     <marker>
-                        <token regexp="yes">((e|E)rste|(z|Z)weite)n?</token>
+                        <token regexp="yes">([eE]rste|[zZ]weite)n?</token>
                         <token regexp="yes">deutschen?</token>
                     </marker>
                     <token regexp="yes">Fernsehens?</token>
@@ -15925,7 +15925,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">((D|d)(as|es|em)|(v|V)om|(i|I|a|A)m)</token>
+                    <token regexp="yes">([Dd](as|es|em)|[vV]om|[iIaA]m)</token>
                     <marker>
                         <token regexp="yes">((tote|rote|schwarze)[sn]?)</token>
                     </marker>
@@ -15940,12 +15940,12 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">((D|d)(as|es|em)|(v|V)om|(i|I|a|A)m)</token>
+                    <token regexp="yes">([Dd](as|es|em)|[vV]om|[iIaA]m)</token>
                     <marker>
-                        <token regexp="yes">(h|H)eilige(s|n)?</token>
-                        <token regexp="yes">römische(n)?</token>
+                        <token regexp="yes">[hH]eilige[sn]?</token>
+                        <token regexp="yes">römischen?</token>
                     </marker>
-                    <token regexp="yes">Reich(e)?(s)?</token>
+                    <token regexp="yes">Reiche?s?</token>
                 </pattern>
                 <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/> <match case_conversion="startupper" no="3"/></suggestion> \4 (bis 1806)? &namengross;</message>
                 <short>&namengross;</short>
@@ -15955,12 +15955,12 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">((D|d)(as|es|em)|(v|V)om|(i|I|a|A)m)</token>
+                    <token regexp="yes">([Dd](as|es|em)|[vV]om|[iIaA]m)</token>
                     <marker>
-                        <token regexp="yes">heilige(s|n)?</token>
-                        <token regexp="yes">(r|R)ömische(n)?</token>
+                        <token regexp="yes">heilige[sn]?</token>
+                        <token regexp="yes">[rR]ömischen?</token>
                     </marker>
-                    <token regexp="yes">Reich(e)?(s)?</token>
+                    <token regexp="yes">Reiche?s?</token>
                 </pattern>
                 <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/> <match case_conversion="startupper" no="3"/></suggestion> \4 (bis 1806)? &namengross;</message>
                 <short>&namengross;</short>
@@ -15970,10 +15970,10 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">((D|d)(as|es|em)|(v|V)om|(i|I|a|A)m)</token>
-                    <token regexp="yes">(h|H)eilige(s|n)?</token>
-                    <token regexp="yes">(R|r)ömische(n)?</token>
-                    <token regexp="yes">Reich(e)?(s)?</token>
+                    <token regexp="yes">([Dd](as|es|em)|[vV]om|[iIaA]m)</token>
+                    <token regexp="yes">[hH]eilige[sn]?</token>
+                    <token regexp="yes">[Rr]ömischen?</token>
+                    <token regexp="yes">Reiche?s?</token>
                     <marker>
                         <token>deutscher</token>
                     </marker>
@@ -15988,8 +15988,8 @@ $Id$
             <!-- TODO I don't know whether it's capitalized only if referring to soccer
             <rule>
               <pattern mark_to="-1" mark_from="1" case_sensitive="yes">
-                <token regexp="yes">(D|d)(ie|er)</token>
-                <token regexp="yes">(erste|zweite)(n)?</token>
+                <token regexp="yes">[Dd](ie|er)</token>
+                <token regexp="yes">(erste|zweite)n?</token>
                 <token>Bundesliga</token>
               </pattern>
               <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/></suggestion> \3? &namengross;</message>
@@ -15998,9 +15998,9 @@ $Id$
             </rule>-->
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">(d|D)(ie|er)</token>
+                    <token regexp="yes">[dD](ie|er)</token>
                     <marker>
-                        <token regexp="yes">unbefleckte(n)?</token>
+                        <token regexp="yes">unbefleckten?</token>
                     </marker>
                     <token>Empfängnis</token>
                 </pattern>
@@ -16011,9 +16011,9 @@ $Id$
             <rule>
                 <pattern case_sensitive="yes">
                     <marker>
-                        <token regexp="yes">(mittlere(n)?|ferne(n)?|weite(n)?)</token>
+                        <token regexp="yes">mittleren?|fernen?|weiten?</token>
                     </marker>
-                    <token regexp="yes">(Osten(s)?)</token>
+                    <token regexp="yes">Ostens?</token>
                 </pattern>
                 <message>Meinten Sie <suggestion><match case_conversion="startupper" no="1"/></suggestion> \2? &namengross;</message>
                 <short>&namengross;</short>
@@ -16022,7 +16022,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">([Dd](er|es|em|en)|[vV]om|[iI]m)</token>
+                    <token regexp="yes">[Dd](er|es|em|en)|[vV]om|[iI]m</token>
                     <marker>
                         <token regexp="yes">gelbe[rn]?</token>
                     </marker>
@@ -16075,7 +16075,7 @@ $Id$
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[Dd](er|es|en|em)|[Ii]m|[vV]om</token>
                     <marker>
-                        <token regexp="yes">deutsche(r|n)?</token>
+                        <token regexp="yes">deutsche[rn]?</token>
                     </marker>
                     <token regexp="yes">Bunde?s?</token>
                 </pattern>
@@ -16117,11 +16117,11 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">((D|d)(er|es|em|en)|(v|V)om|(i|I)m)</token>
+                    <token regexp="yes">([Dd](er|es|em|en)|[vV]om|[iI]m)</token>
                     <marker>
-                        <token regexp="yes">heilige(r|n)?</token>
+                        <token regexp="yes">heilige[rn]?</token>
                     </marker>
-                    <token regexp="yes">Vater(s)?</token>
+                    <token regexp="yes">Vaters?</token>
                 </pattern>
                 <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/></suggestion> \3 (Papst)? &titelgross;</message>
                 <short>Meinten Sie den Papst? &titelgross;</short>
@@ -16132,7 +16132,7 @@ $Id$
             <rule>
                 <pattern case_sensitive="yes">
                     <marker>
-                        <token regexp="yes">königliche(n)?</token>
+                        <token regexp="yes">königlichen?</token>
                     </marker>
                     <token>Hoheit</token>
                 </pattern>
@@ -16142,12 +16142,12 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">(D|d)(er|es|em|en)</token>
+                    <token regexp="yes">[Dd](er|es|em|en)</token>
                     <marker>
                         <token>hl</token>
                     </marker>
                     <token>.</token>
-                    <token regexp="yes">Vater(s)?</token>
+                    <token regexp="yes">Vaters?</token>
                 </pattern>
                 <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/></suggestion>\3 \4 (Papst)? &titelgross;</message>
                 <short>&titelgross;</short>
@@ -16158,7 +16158,7 @@ $Id$
         <rulegroup id="GROSSSCHREIBUNG_KALENDERTAGE" name="Groß-/Kleinschreibung: Besondere Kalendertage 'Tag der deutschen (Deutschen) Einheit etc.'">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">Tag(e)?(s)?</token>
+                    <token regexp="yes">Tage?s?</token>
                     <token>der</token>
                     <marker>
                         <token>deutschen</token>
@@ -16173,9 +16173,9 @@ $Id$
             <rule>
                 <pattern case_sensitive="yes">
                     <marker>
-                        <token regexp="yes">weiße(r|n)</token>
+                        <token regexp="yes">weiße[rn]</token>
                     </marker>
-                    <token regexp="yes">Sonntag((e)?s)?</token>
+                    <token regexp="yes">Sonntag(e?s)?</token>
                 </pattern>
                 <message>Meinten Sie <suggestion><match case_conversion="startupper" no="1"/></suggestion> \2 (Sonntag nach Ostern)? &taggross;</message>
                 <short>&taggross;</short>
@@ -16184,11 +16184,11 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">((D|d)(er|es|em|en)|(v|V)om|(a|A)m)</token>
+                    <token regexp="yes">([Dd](er|es|em|en)|[vV]om|[aA]m)</token>
                     <marker>
                         <token regexp="yes">heiligen?</token>
                     </marker>
-                    <token regexp="yes">Abend(s)?</token>
+                    <token regexp="yes">Abends?</token>
                 </pattern>
                 <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/></suggestion> \3 (24. Dezember)? &taggross;</message>
                 <short>&taggross;</short>
@@ -16199,11 +16199,11 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">((D|d)(er|es|em|en)|(v|V)om)</token>
+                    <token regexp="yes">([Dd](er|es|em|en)|[vV]om)</token>
                     <marker>
-                        <token regexp="yes">erste(n)?</token>
+                        <token regexp="yes">ersten?</token>
                     </marker>
-                    <token regexp="yes">Mai(s)?</token>
+                    <token regexp="yes">Mais?</token>
                 </pattern>
                 <message>Meinten Sie <suggestion><match case_conversion="startupper" no="2"/></suggestion> \3 (Tag der Arbeit)? &taggross;</message>
                 <short>Meinten Sie den Tag der Arbeit? &taggross;</short>
@@ -16219,9 +16219,9 @@ $Id$
                 <pattern case_sensitive="yes">
                     <token negate_pos="yes" postag="SENT_START"/>
                     <marker>
-                        <token regexp="yes">Englische(r|n|m)?</token>
+                        <token regexp="yes">Englische[rnm]?</token>
                     </marker>
-                    <token regexp="yes">Rasen(s)?</token>
+                    <token regexp="yes">Rasens?</token>
                 </pattern>
                 <message>Meinten Sie <suggestion><match case_conversion="startlower" no="2"/></suggestion> \3 (kein Eigenname)?</message>
                 <short>&prgk;.</short>
@@ -16233,9 +16233,9 @@ $Id$
                 <pattern case_sensitive="yes">
                     <token negate_pos="yes" postag="SENT_START"/>
                     <marker>
-                        <token regexp="yes">(Schwarze(r|n|m)?|Grüne(r|n|m)?)</token>
+                        <token regexp="yes">Schwarze[rnm]?|Grüne[rnm]?</token>
                     </marker>
-                    <token regexp="yes">Tee(s)?</token>
+                    <token regexp="yes">Tees?</token>
                 </pattern>
                 <message>Meinten Sie <suggestion><match case_conversion="startlower" no="2"/></suggestion> \3 (kein Eigenname)?</message>
                 <short>&prgk;.</short>
@@ -16247,7 +16247,7 @@ $Id$
                 <pattern case_sensitive="yes">
                     <token negate_pos="yes" postag="SENT_START"/>
                     <marker>
-                        <token regexp="yes">(Kleine(s|n|m)?|Große(s|n|m)?)</token>
+                        <token regexp="yes">Kleine[snm]?|Große[snm]?</token>
                     </marker>
                     <token>Einmaleins</token>
                 </pattern>
@@ -16260,9 +16260,9 @@ $Id$
                 <pattern case_sensitive="yes">
                     <token negate_pos="yes" postag="SENT_START"/>
                     <marker>
-                        <token regexp="yes">(Neue(r|n)?|Alte(r|n)?)</token>
+                        <token regexp="yes">Neue[rn]?|Alte[rn]?</token>
                     </marker>
-                    <token regexp="yes">(Bundes)?(l|L)änder(n)?</token>
+                    <token regexp="yes">(Bundes)?[lL]ändern?</token>
                 </pattern>
                 <message>Meinten Sie <suggestion><match case_conversion="startlower" no="2"/></suggestion> \3 (kein Eigenname)?</message>
                 <short>&prgk;.</short>
@@ -16274,9 +16274,9 @@ $Id$
                 <pattern case_sensitive="yes">
                     <token negate_pos="yes" postag="SENT_START"/>
                     <marker>
-                        <token regexp="yes">Rechte(r|n|m)?</token>
+                        <token regexp="yes">Rechte[rnm]?</token>
                     </marker>
-                    <token regexp="yes">Winkel(s|n)?</token>
+                    <token regexp="yes">Winkel[sn]?</token>
                 </pattern>
                 <message>Meinten Sie <suggestion><match case_conversion="startlower" no="2"/></suggestion> \3 (kein Eigenname)?</message>
                 <short>&prgk;.</short>
@@ -16285,7 +16285,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">Tag(e)?(s)?</token>
+                    <token regexp="yes">Tage?s?</token>
                     <token>der</token>
                     <marker>
                         <token>Offenen</token>
@@ -16301,7 +16301,7 @@ $Id$
                 <pattern case_sensitive="yes">
                     <token negate_pos="yes" postag="SENT_START"/>
                     <marker>
-                        <token regexp="yes">Künstliche(r|n)?</token>
+                        <token regexp="yes">Künstliche[rn]?</token>
                     </marker>
                     <token regexp="yes">Intelligenz(en)?</token>
                 </pattern>
@@ -16314,7 +16314,7 @@ $Id$
                 <pattern case_sensitive="yes">
                     <token negate_pos="yes" postag="SENT_START"/>
                     <marker>
-                        <token regexp="yes">Elektrische(r|n)?</token>
+                        <token regexp="yes">Elektrische[rn]?</token>
                     </marker>
                     <token regexp="yes">Feld(stärke|konstante)?</token>
                 </pattern>
@@ -16327,9 +16327,9 @@ $Id$
                 <pattern case_sensitive="yes">
                     <token negate_pos="yes" postag="SENT_START"/>
                     <marker>
-                        <token regexp="yes">Neue(s|n)?</token>
+                        <token regexp="yes">Neue[sn]?</token>
                     </marker>
-                    <token regexp="yes">Jahr(e)?(s)?</token>
+                    <token regexp="yes">Jahre?s?</token>
                 </pattern>
                 <message>Meinten Sie <suggestion><match case_conversion="startlower" no="2"/></suggestion> \3 (kein Eigenname)?</message>
                 <short>&prgk;.</short>
@@ -16340,9 +16340,9 @@ $Id$
                 <pattern case_sensitive="yes">
                     <token negate_pos="yes" postag="SENT_START"/>
                     <marker>
-                        <token regexp="yes">Mittlere(n)?</token>
+                        <token regexp="yes">Mittleren?</token>
                     </marker>
-                    <token regexp="yes">(Reife|(Bildungs|Schul)abschl(u|ü)ss(es|e)?)</token>
+                    <token regexp="yes">(Reife|(Bildungs|Schul)abschl[uü]ss(es|e)?)</token>
                 </pattern>
                 <message>Meinten Sie <suggestion><match case_conversion="startlower" no="2"/></suggestion> \3 (kein Eigenname)?</message>
                 <short>&prgk;.</short>
@@ -16353,9 +16353,22 @@ $Id$
                 <pattern case_sensitive="yes">
                     <token negate_pos="yes" postag="SENT_START"/>
                     <marker>
+                        <token regexp="yes">Allgemeinen?|Fachgebundenen?</token>
+                    </marker>
+                    <token regexp="yes">Hochschulreifen?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion><match case_conversion="startlower" no="2"/></suggestion> \3 (kein Eigenname)?</message>
+                <short>&prgk;.</short>
+                <example type="correct">Sie hat die <marker>allgemeine</marker> Hochschulreife erworben.</example>
+                <example type="incorrect" correction="allgemeine">Sie hat die <marker>Allgemeine</marker> Hochschulreife erworben.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token negate_pos="yes" postag="SENT_START"/>
+                    <marker>
                         <token regexp="yes">Olympisch(e|en)?</token>
                     </marker>
-                    <token regexp="yes">(Gedanke(n(s)?)?|Feuer(s)?|Eid(e|s)?)</token>
+                    <token regexp="yes">(Gedanke(ns?)?|Feuers?|Eid[es]?)</token>
                 </pattern>
                 <message>Meinten Sie <suggestion><match case_conversion="startlower" no="2"/></suggestion> \3 (kein Eigenname)?</message>
                 <short>&prgk;.</short>
@@ -17175,7 +17188,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">lebende(n)?|verbreitete(n)?</token>
+                    <token regexp="yes">lebenden?|verbreiteten?</token>
                     <marker>
                         <token>legende</token>
                     </marker>
@@ -17487,7 +17500,7 @@ $Id$
         </rule>
         <rule id="GUTER_DINGE" name="Groß-/Kleinschreibung: 'guter dinge (Dinge)'">
             <pattern case_sensitive="yes">
-                <token regexp="yes">gute(n|r)</token>
+                <token regexp="yes">gute[nr]</token>
                 <marker>
                     <token>dinge</token>
                 </marker>
@@ -17569,7 +17582,7 @@ $Id$
                     <marker>
                         <token>liebe</token>
                     </marker>
-                    <token regexp="yes">zu(r|m)?</token>
+                    <token regexp="yes">zu[rm]?</token>
                 </pattern>
                 <message>&subanfang;<suggestion>Liebe</suggestion>&subende;</message>
                 <short>&prgk;.</short>
@@ -18860,7 +18873,7 @@ $Id$
         <rulegroup id="DANK_SUBST" name="Groß-/Kleinschreibung: 'dank (Dank)'">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">(D|d|W|w)as</token>
+                    <token regexp="yes">[DdWw]as</token>
                     <token regexp="yes" skip="1">war|ist</token>
                     <token regexp="yes">&meindein;|der</token>
                     <marker>
@@ -19930,9 +19943,9 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">(ihr|weich|klein|groß|winzig|riesig|entblößt|nackt|schlaff|herunterhängend|herabhängend)e(n)?</token>
+                    <token regexp="yes">(ihr|weich|klein|groß|winzig|riesig|entblößt|nackt|schlaff|herunterhängend|herabhängend)en?</token>
                     <marker>
-                        <token regexp="yes">brüste(n)?</token>
+                        <token regexp="yes">brüsten?</token>
                     </marker>
                 </pattern>
                 <message>&subanfang;<suggestion><match case_conversion="startupper" no="2"/></suggestion>&subende;</message>
@@ -19986,7 +19999,7 @@ $Id$
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[iI]n</token>
                     <token>einem</token>
-                    <token regexp="yes">(solch|so)</token>
+                    <token regexp="yes">solch|so</token>
                     <token regexp="yes">(gut|schlecht|katastrophal|labil|unbrauchbar|inakzeptabl)en</token>
                     <marker>
                         <token>zustand</token>
@@ -20074,7 +20087,7 @@ $Id$
         <rulegroup id="ALLERLEI_SUBST" name="Groß-/Kleinschreibung: 'allerlei (Allerlei)'">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">(bunt|chaotisch|fröhlich|verwirrend|wild|wirr)e(n|s)?|Leipziger</token>
+                    <token regexp="yes">(bunt|chaotisch|fröhlich|verwirrend|wild|wirr)e[ns]?|Leipziger</token>
                     <marker>
                         <token>allerlei</token>
                     </marker>
@@ -20090,7 +20103,7 @@ $Id$
         <rulegroup id="DURCHEINANDER_SUBST" name="Groß-/Kleinschreibung: 'durcheinander (Durcheinander)'">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">(bunt|chaotisch|fröhlich|furchtbar|gewaltig|heillos|hektisch|hoffnungslos|schlimm|schrecklich|toll|total|unbeschreiblich|unentwirrbar|unglaublich|verwirrend|völlig|wild|wirr|wüst|ziemlich|üblich)e(n|s)?</token>
+                    <token regexp="yes">(bunt|chaotisch|fröhlich|furchtbar|gewaltig|heillos|hektisch|hoffnungslos|schlimm|schrecklich|toll|total|unbeschreiblich|unentwirrbar|unglaublich|verwirrend|völlig|wild|wirr|wüst|ziemlich|üblich)e[ns]?</token>
                     <marker>
                         <token>durcheinander</token>
                     </marker>
@@ -20105,9 +20118,9 @@ $Id$
         <rulegroup id="LUEGE_SUBST" name="Groß-/Kleinschreibung: 'lüge (Lüge)'">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">(freche|faustdicke|dreiste|dreckige|niederträchtige|infame|glatte|verdammte|unverschämte|rotzfreche)(n)?</token>
+                    <token regexp="yes">(freche|faustdicke|dreiste|dreckige|niederträchtige|infame|glatte|verdammte|unverschämte|rotzfreche)n?</token>
                     <marker>
-                        <token regexp="yes">lüge(n)?</token>
+                        <token regexp="yes">lügen?</token>
                     </marker>
                 </pattern>
                 <message>&subanfang;<suggestion><match case_conversion="startupper" no="2"/></suggestion>&subende;</message>
@@ -20121,7 +20134,7 @@ $Id$
                     <marker>
                         <token>lügen</token>
                     </marker>
-                    <token regexp="yes">gestraft|strafte(n)?</token>
+                    <token regexp="yes">gestraft|straften?</token>
                 </pattern>
                 <message>&subanfang;<suggestion>Lügen</suggestion>&subende;</message>
                 <short>&prgk;.</short>
@@ -20342,7 +20355,7 @@ $Id$
                     <token regexp="yes">(k)?eine</token>
                     <token postag="ADJ:.*" postag_regexp="yes"/>
                     <marker>
-                        <token regexp="yes">rolle(n)?</token>
+                        <token regexp="yes">rollen?</token>
                     </marker>
                 </pattern>
                 <message>&subanfang;<suggestion>Rolle</suggestion>&subende;</message>
@@ -20354,7 +20367,7 @@ $Id$
                 <pattern case_sensitive="yes">
                     <token regexp="yes">(k)?eine</token>
                     <marker>
-                        <token regexp="yes">rolle(n)?</token>
+                        <token regexp="yes">rollen?</token>
                     </marker>
                 </pattern>
                 <message>&subanfang;<suggestion>Rolle</suggestion>&subende;</message>
@@ -20466,7 +20479,7 @@ $Id$
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[uU]m</token>
-                    <token regexp="yes">(&meindein;)</token>
+                    <token regexp="yes">&meindein;</token>
                     <marker>
                         <token>leben</token>
                     </marker>
@@ -21211,7 +21224,7 @@ $Id$
                     <marker>
                         <token>gute</token>
                     </marker>
-                    <token regexp="yes">zu(m|r)?</token>
+                    <token regexp="yes">zu[mr]?</token>
                 </pattern>
                 <message>In der Glückwunschformel 'alles Gute' wird <suggestion>Gute</suggestion> großgeschrieben.</message>
                 <short>&prgk;.</short>
@@ -21676,7 +21689,7 @@ $Id$
         <rule id="ZUR_FOLGE" name="Groß-/Kleinschreibung: 'zur folge (Folge)'">
             <!-- TODO: could this be covered by excepting nouns after "zur"? -->
             <pattern case_sensitive="yes">
-                <token regexp="yes">(z|Z)ur</token>
+                <token regexp="yes">[zZ]ur</token>
                 <marker>
                     <token>folge</token>
                 </marker>
@@ -21688,7 +21701,7 @@ $Id$
         </rule>
         <rule id="ZUR_REDE" name="Groß-/Kleinschreibung: 'zur rede (Rede)'">
             <pattern case_sensitive="yes">
-                <token regexp="yes">(z|Z)ur</token>
+                <token regexp="yes">[zZ]ur</token>
                 <marker>
                     <token>rede</token>
                 </marker>
@@ -21823,7 +21836,7 @@ $Id$
                 <pattern case_sensitive="yes">
                     <token regexp="yes">(\-)?[0-9]{1,}</token>
                     <marker>
-                        <token regexp="yes">(KB|kib|kiB)</token>
+                        <token regexp="yes">KB|kib|kiB</token>
                     </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion><match regexp_match="(KB|kib|kiB)" regexp_replace="kB" case_conversion="startlower" no="2"/></suggestion> (=1000 Byte) oder <suggestion>KiB</suggestion> (=1024 Byte)?</message>
@@ -21836,7 +21849,7 @@ $Id$
                 <pattern case_sensitive="yes">
                     <token regexp="yes">(\-)?[0-9]{1,}</token>
                     <marker>
-                        <token regexp="yes">(k|K)(w|W)(h|H)<exception>kWh</exception></token>
+                        <token regexp="yes">[kK][wW][hH]<exception>kWh</exception></token>
                     </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion><match regexp_match="(\-)?[0-9]{1,}" regexp_replace="kWh" case_conversion="startlower" no="1"/></suggestion>?</message>
@@ -22282,7 +22295,7 @@ $Id$
             <!-- TODO V-Leute, G-Punkt -->
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">I\-Punkt(e(n|s)?)?|I\-Tüpfelchen</token>
+                    <token regexp="yes">I\-Punkt(e[ns]?)?|I\-Tüpfelchen</token>
                 </pattern>
                 <message>In dem Wort 'i-Punkt' wird entgegen sonstigen Regeln das i kleingeschrieben, weil es sich um einen ikonischen Gebrauch handelt: <suggestion><match case_conversion="startlower" no="1"/></suggestion>.</message>
                 <url>http://www.canoo.net/services/Controller?dispatch=spelling&amp;input=i-Punkt</url>
@@ -22292,7 +22305,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">(PH|Ph)\-Wert(e(n|s)?)?</token>
+                    <token regexp="yes">(PH|Ph)\-Wert(e[ns]?)?</token>
                 </pattern>
                 <message>In dem Wort 'pH-Wert' wird entgegen sonstigen Regeln das p kleingeschrieben: <suggestion><match no="1" regexp_match="Ph|PH" regexp_replace="pH" case_conversion="startlower"/></suggestion>.</message>
                 <url>http://www.canoo.net/services/Controller?dispatch=spelling&amp;input=pH-Wert</url>
@@ -22302,7 +22315,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">(X|Y|Z)\-Achse</token>
+                    <token regexp="yes">[XYZ]\-Achse</token>
                 </pattern>
                 <message>Bei der Bezeichnung von Achsen des Koordinatensystems wird entgegen sonstigen Regeln der erste Buchstabe kleingeschrieben: <suggestion><match no="1" case_conversion="startlower"/></suggestion>.</message>
                 <url>http://www.canoo.net/services/Controller?dispatch=spelling&amp;input=x-Achse</url>
@@ -22488,7 +22501,7 @@ $Id$
                     <token skip="-1" postag="SENT_START"><exception scope="next" postag="SUB.*:GEN:.*" postag_regexp="yes"/></token>
                     <marker>
                         <token regexp="yes">wegen|(ab|zu)züglich|seitens</token><!-- TODO … liegt abseits das …-->
-                        <token regexp="yes">(das|dem|den|die)(selben?)?|ein|[Ddsm]?eine(m|n)?|(eu|ih|Ih|unse)re(m|n)?|(jene|deine|diese)(m|n)?</token>
+                        <token regexp="yes">(das|dem|den|die)(selben?)?|ein|[Ddsm]?eine[mn]?|(eu|ih|Ih|unse)re[mn]?|(jene|deine|diese)[mn]?</token>
                     </marker>
                 </pattern>
                 <message>Die Präposition '\2' erfordert in der Regel den Genitiv.</message>
@@ -22513,8 +22526,8 @@ $Id$
             <rule>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"/>
-                    <token regexp="yes">(Wegen|Abzüglich)</token><!-- TODO Abseits das …-->
-                    <token regexp="yes">(das|dem|den|die)(selben?)?|ein|[Ddsm]?eine(m|n)?|(eu|ih|Ih|unse)re(m|n)?|(jene|deine|diese)(m|n)?</token>
+                    <token regexp="yes">Wegen|Abzüglich</token><!-- TODO Abseits das …-->
+                    <token regexp="yes">(das|dem|den|die)(selben?)?|ein|[Ddsm]?eine[mn]?|(eu|ih|Ih|unse)re[mn]?|(jene|deine|diese)[mn]?</token>
                 </pattern>
                 <message>Die Präposition '<match no="2" case_conversion="startlower"/>' erfordert in der Regel den Genitiv.</message> <!-- TODO \2 should be lowercase-->
                 <url>http://www.canoo.net/services/OnlineGrammar/Wort/Praeposition/Kasus/Genitiv.html</url>
@@ -23381,7 +23394,7 @@ $Id$
                     <marker>
                         <token regexp="yes">.*S(a|ä)tz.*</token>
                         <token>von</token>
-                        <token regexp="yes">(Pythagoras|Euklid|Thales)</token>
+                        <token regexp="yes">Pythagoras|Euklid|Thales</token>
                     </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion>\2 des \4</suggestion>? Die Bezeichnung '\2 \3 \4' ist umgangssprachlich.</message>
@@ -23591,7 +23604,7 @@ $Id$
                 <pattern>
                     <token>im</token>
                     <marker>
-                        <token regexp="yes">Zaun|(B|S)aum</token>
+                        <token regexp="yes">Zaun|[BS]aum</token>
                     </marker>
                     <token inflected="yes">halten</token>
                 </pattern>
@@ -24303,7 +24316,7 @@ $Id$
             <rule>
                 <pattern>
                     <token regexp="yes">[0-9]{1,2}</token>
-                    <token regexp="yes">Jahrhundert(s)?|&monate;</token>
+                    <token regexp="yes">Jahrhunderts?|&monate;</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>\1. \2</suggestion>? Möglicherweise haben Sie einen Punkt nach '\1' vergessen, oder '\2' müsste im Plural stehen.</message>
                 <short>Meinten Sie \1. \2?</short>
@@ -24370,7 +24383,7 @@ $Id$
             <rule>
               <pattern>
                 <token>&lt;</token>
-                <token regexp="yes">(\-|=)</token>
+                <token regexp="yes">\-|=</token>
                 <token>></token>
               </pattern>
               <message>Wollen Sie einen Pfeil verwenden? Vorschläge: <suggestion>↔</suggestion>, <suggestion>⇿</suggestion>, <suggestion>⇄</suggestion>, <suggestion>⇆</suggestion>, <suggestion>⇋</suggestion>, <suggestion>⇌</suggestion>, <suggestion>⇔</suggestion> (&tippformel;)</message>
@@ -24452,7 +24465,7 @@ $Id$
         <rulegroup id="EINHEIT_LEERZEICHEN" name="Zeichensetzung: Falsches/Fehlendes Leerzeichen zwischen Zahl und Einheit">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">(\-)?[0-9]{1,}(%|°C|°F|°Ra|°De|°D|°Ré|°Re|°R|°Rø|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?m|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?N|(k|K|M|G|T|P|E|Z|Y){1}(i)?B|(k|m|µ|n|p)g|(M|k)t|kWh|GWa|MWd|MWh)</token>
+                    <token regexp="yes">\-?[0-9]+(%|°C|°F|°Ra|°De|°D|°Ré|°Re|°R|°Rø|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?m|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?N|[kKMGTPEZY]i?B|[kmµnp]g|[Mk]t|kWh|GWa|MWd|MWh)</token>
                 </pattern>
                 <message>Vor Einheitenzeichen sollte ein Leerzeichen gesetzt werden. Vorschlag: <suggestion><match no="1" regexp_match="((\-)?[0-9]{1,})" regexp_replace="$1 "/></suggestion></message>
                 <url>http://de.wikipedia.org/wiki/DIN_5008#Schriftzeichen_f.C3.BCr_W.C3.B6rter_und_Rechenzeichen_.28Abschnitte_7_und_8.29</url>
@@ -24514,7 +24527,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">(kw|KW|kW)</token>
+                    <token regexp="yes">kw|KW|kW</token>
                     <token>/</token>
                     <token>h</token>
                 </pattern>
@@ -24525,11 +24538,11 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">(M|k)bits</token>
+                        <token regexp="yes">[Mk]bits</token>
                     </marker>
                     <token regexp="yes" inflected="yes">(schnell|langsam|.*Geschwindigkeit|(.*Übertragungs|.*load|Daten)rate)</token>
                 </pattern>
-                <message>Meinten Sie <suggestion><match no="1" regexp_match="(M|k).*" regexp_replace="$1bit/s"/></suggestion> (Datenübertragungsrate) oder <suggestion><match no="1" regexp_match="(.*)s" regexp_replace="$1"/></suggestion> (Datenmenge)?</message>
+                <message>Meinten Sie <suggestion><match no="1" regexp_match="([Mk]).*" regexp_replace="$1bit/s"/></suggestion> (Datenübertragungsrate) oder <suggestion><match no="1" regexp_match="(.*)s" regexp_replace="$1"/></suggestion> (Datenmenge)?</message>
                 <example type="correct">Der DSL-Anschluss ist 16000 Mbit/s schnell.</example>
                 <example type="incorrect">Der DSL-Anschluss ist 16000 <marker>Mbits</marker> schnell.</example>
             </rule>
@@ -24537,21 +24550,21 @@ $Id$
                 <pattern>
                     <token regexp="yes" inflected="yes" skip="3">(schnell|langsam|.*Geschwindigkeit|(.*Übertragungs|.*load|Daten)rate)</token>
                     <marker>
-                        <token regexp="yes">(M|k)bits</token>
+                        <token regexp="yes">[Mk]bits</token>
                     </marker>
                 </pattern>
-                <message>Meinten Sie <suggestion><match no="2" regexp_match="(M|k).*" regexp_replace="$1bit/s"/></suggestion> (Datenübertragungsrate) oder <suggestion><match no="2" regexp_match="(.*)s" regexp_replace="$1"/></suggestion> (Datenmenge)?</message>
+                <message>Meinten Sie <suggestion><match no="2" regexp_match="([Mk]).*" regexp_replace="$1bit/s"/></suggestion> (Datenübertragungsrate) oder <suggestion><match no="2" regexp_match="(.*)s" regexp_replace="$1"/></suggestion> (Datenmenge)?</message>
                 <example type="correct">Der DSL-Anschluss bietet eine Datenübertragungsrate von 16000 Mbit/s.</example>
                 <example type="incorrect">Der DSL-Anschluss bietet eine Datenübertragungsrate von 16000 <marker>Mbits</marker>.</example>
             </rule>
         </rulegroup>
         <rule id="MALZEICHEN" name="Zeichensetzung: Sternchen statt Malzeichen">
             <pattern>
-                <token regexp="yes">([0-9]+[a-z]*|[a-z])</token>
+                <token regexp="yes">[0-9]+[a-z]*|[a-z]</token>
                 <marker>
                     <token>*</token>
                 </marker>
-                <token regexp="yes">([0-9]+[a-z]*|[a-z])</token>
+                <token regexp="yes">[0-9]+[a-z]*|[a-z]</token>
             </pattern>
             <message>Wollen Sie statt des Sternchens (*) einen Mittelpunkt (<suggestion>·</suggestion>), ein Malzeichen (<suggestion>×</suggestion>) oder einen Sternoperator (<suggestion>∗</suggestion>) verwenden? (&tippformel;)</message>
             <example type="correct">a = 2 · x² + 5</example>
@@ -24799,7 +24812,7 @@ $Id$
                     <token>von</token>
                     <marker>
                         <token>a</token>
-                        <token regexp="yes">(\-|–)</token>
+                        <token regexp="yes">\-|–</token>
                         <token>z</token>
                     </marker>
                     <token negate="yes">bis</token>
@@ -24815,7 +24828,7 @@ $Id$
             <rule>
                 <pattern case_sensitive="yes">
                     <!-- TODO Warum diese Ausnahmen? Quelle? -->
-                    <token regexp="yes" negate="yes">Breiten?|[A-ZÄÖÜ].+breiten?|innerhalb|Verzögerung(en)?|Gewicht(e)?(s)?|[A-ZÄÖÜ].+gewicht(e)?(s)?|Dauer|Umfang(e)?(s)?|Größe(n)?|Länge(n)?|Durchmesser([ns])?|(R|.+r)adius|Masse|(T|.+t)emperatur(en)?|(D|.+d)ruck(e?s)?|Anzahl(en)?|Alters?|Tagesdosis|Dosis|Bereichs?|[A-ZÄÖÜ].+wert(en?)?|Wert(en?)?|(A|[A-ZÄÖÜ].+a)nteil(s|en?)?|(K|.+k)onzentration(en)?|(R|[A-ZÄÖÜ].+r)aten?|(B|[A-ZÄÖÜ].+b)estand(e?s)?|(G|[A-ZÄÖÜ].+g)eschwindigkeit(en)?|Tragfähigkeit</token>
+                    <token regexp="yes" negate="yes">Breiten?|[A-ZÄÖÜ].+breiten?|innerhalb|Verzögerung(en)?|Gewichte?s?|[A-ZÄÖÜ].+gewichte?s?|Dauer|Umfange?s?|Größen?|Längen?|Durchmesser([ns])?|(R|.+r)adius|Masse|(T|.+t)emperatur(en)?|(D|.+d)ruck(e?s)?|Anzahl(en)?|Alters?|Tagesdosis|Dosis|Bereichs?|[A-ZÄÖÜ].+wert(en?)?|Wert(en?)?|(A|[A-ZÄÖÜ].+a)nteil(s|en?)?|(K|.+k)onzentration(en)?|(R|[A-ZÄÖÜ].+r)aten?|(B|[A-ZÄÖÜ].+b)estand(e?s)?|(G|[A-ZÄÖÜ].+g)eschwindigkeit(en)?|Tragfähigkeit</token>
                     <marker>
                         <token regexp="yes">[vV]o[nm]</token>
                         <token regexp="yes">([0-9]{1,5})(\-|–)([0-9]{1,5})</token>
@@ -24834,7 +24847,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes" negate="yes">Breiten?|[A-ZÄÖÜ].+breiten?|innerhalb|Verzögerung(en)?|Gewicht(e)?(s)?|[A-ZÄÖÜ].+gewicht(e)?(s)?|Dauer|Umfang(e)?(s)?|Größe(n)?|Länge(n)?|Durchmesser([ns])?|(R|.+r)adius|Masse|(T|.+t)emperatur(en)?|(D|.+d)ruck(e?s)?|Anzahl(en)?|Alters?|Tagesdosis|Dosis|Bereichs?|[A-ZÄÖÜ].+wert(en?)?|Wert(en?)?|(A|[A-ZÄÖÜ].+a)nteil(s|en?)?|(K|.+k)onzentration(en)?|(R|[A-ZÄÖÜ].+r)aten?|(B|[A-ZÄÖÜ].+b)estand(e?s)?|(G|[A-ZÄÖÜ].+g)eschwindigkeit(en)?|Tragfähigkeit</token>
+                    <token regexp="yes" negate="yes">Breiten?|[A-ZÄÖÜ].+breiten?|innerhalb|Verzögerung(en)?|Gewichte?s?|[A-ZÄÖÜ].+gewichte?s?|Dauer|Umfange?s?|Größen?|Längen?|Durchmesser([ns])?|(R|.+r)adius|Masse|(T|.+t)emperatur(en)?|(D|.+d)ruck(e?s)?|Anzahl(en)?|Alters?|Tagesdosis|Dosis|Bereichs?|[A-ZÄÖÜ].+wert(en?)?|Wert(en?)?|(A|[A-ZÄÖÜ].+a)nteil(s|en?)?|(K|.+k)onzentration(en)?|(R|[A-ZÄÖÜ].+r)aten?|(B|[A-ZÄÖÜ].+b)estand(e?s)?|(G|[A-ZÄÖÜ].+g)eschwindigkeit(en)?|Tragfähigkeit</token>
                     <marker>
                         <token regexp="yes">[vV]o[nm]</token>
                         <token regexp="yes">[0-9]{1,5}</token>
@@ -24900,7 +24913,7 @@ $Id$
                     <token regexp="yes">vo[nm]</token>
                     <token regexp="yes">[0-9]{1,5}</token>
                     <token>.</token>
-                    <token regexp="yes">(\-|–)</token>
+                    <token regexp="yes">\-|–</token>
                     <token regexp="yes">[0-9]{1,5}</token>
                     <token>.</token>
                 </pattern>
