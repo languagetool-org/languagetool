@@ -91,46 +91,17 @@ public class Unifier {
   /**
    * Instantiates the unifier.
    */
-  public Unifier() {
+  public Unifier(Map<EquivalenceTypeLocator, Element> equivalenceTypes, Map<String, List<String>> equivalenceFeatures) {
     tokCnt = -1;
     readingsCounter = 1;
     equivalencesMatched = new ArrayList<>();
-    equivalenceTypes = new HashMap<>();
-    equivalenceFeatures = new HashMap<>();
+    this.equivalenceTypes = equivalenceTypes;
+    this.equivalenceFeatures = equivalenceFeatures;
     equivalencesToBeRemoved = new HashMap<>();
     equivalencesToBeKept = new HashMap<>();
     featuresFound = new ArrayList<>();
     tmpFeaturesFound = new ArrayList<>();
     tokSequence = new ArrayList<>();
-  }
-
-  /**
-   * Prepares equivalence types for features to be tested. All equivalence types
-   * are given as {@link Element}s. They create an equivalence set (with
-   * abstraction).
-   * 
-   * @param feature
-   *          Feature to be tested, like gender, grammatical case or number.
-   * @param type
-   *          Type of equivalence for the feature, for example plural, first
-   *          person, genitive.
-   * @param elem
-   *          Element specifying the equivalence.
-   */
-  public final void setEquivalence(final String feature, final String type,
-      final Element elem) {
-    if (equivalenceTypes.containsKey(new EquivalenceTypeLocator(feature, type))) {
-      return;
-    }
-    equivalenceTypes.put(new EquivalenceTypeLocator(feature, type), elem);
-    final List<String> lTypes;
-    if (equivalenceFeatures.containsKey(feature)) {
-      lTypes = equivalenceFeatures.get(feature);
-    } else {
-      lTypes = new ArrayList<>();
-    }
-    lTypes.add(type);
-    equivalenceFeatures.put(feature, lTypes);
   }
 
   /**

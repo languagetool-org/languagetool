@@ -18,21 +18,26 @@
  */
 package org.languagetool.rules.de;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.util.Set;
+
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
-import org.languagetool.language.German;
+import org.languagetool.Language;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.de.AnalyzedGermanToken;
 import org.languagetool.tagging.de.AnalyzedGermanTokenReadings;
 import org.languagetool.tagging.de.GermanTagger;
 import org.languagetool.tagging.de.GermanToken;
 import org.languagetool.tagging.de.GermanToken.POSType;
 import org.languagetool.tools.StringTools;
-
-import java.io.IOException;
-import java.util.*;
 
 /**
  * Check that adjectives and verbs are not written with an uppercase
@@ -44,7 +49,7 @@ import java.util.*;
  */
 public class CaseRule extends GermanRule {
 
-  private final GermanTagger tagger = (GermanTagger) new German().getTagger();
+	private GermanTagger tagger;
 
   // wenn hinter diesen Wörtern ein Verb steht, ist es wohl ein substantiviertes Verb,
   // muss also groß geschrieben werden:
@@ -387,9 +392,19 @@ public class CaseRule extends GermanRule {
     substVerbenExceptions.add("bekommen");
   }
 
-  public CaseRule(final ResourceBundle messages) {
+  public CaseRule(final ResourceBundle messages, final Language language) {
     if (messages != null)
       super.setCategory(new Category(messages.getString("category_case")));
+    
+    if (language == null) {
+    	throw new IllegalArgumentException("A language is required");
+    }
+
+    Tagger tagger = language.getTagger();
+    if (!(tagger instanceof GermanTagger)) {
+    	throw new IllegalArgumentException("Requires a german language");
+    }
+    this.tagger = (GermanTagger) tagger;
   }
   
   @Override

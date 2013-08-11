@@ -40,8 +40,7 @@ import org.languagetool.tools.StringTools;
  * @author Marcin Milkowski
  */
 public abstract class BaseTagger implements Tagger {
-
-  protected IStemmer dictLookup;
+	private Dictionary dictionary;	
   protected Locale conversionLocale = Locale.getDefault();  
   boolean tagLowercaseWithUppercase = true;
 
@@ -53,6 +52,19 @@ public abstract class BaseTagger implements Tagger {
   public void setLocale(Locale locale) {
     conversionLocale = locale;
   }
+  
+  protected Dictionary getDictionary() throws IOException {
+	  if (this.dictionary == null) {
+		  synchronized (this) {
+			  if (this.dictionary == null) {
+			      URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(getFileName());
+				  this.dictionary = Dictionary.read(url); 
+			  }
+		  }
+	  }
+	  
+	  return this.dictionary;
+  }
 
   @Override
   public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens)
@@ -62,11 +74,7 @@ public abstract class BaseTagger implements Tagger {
     List<AnalyzedToken> upperTaggerTokens;
     final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
     int pos = 0;
-    // caching IStemmer instance - lazy init
-    if (dictLookup == null) {
-      final URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(getFileName());
-      dictLookup = new DictionaryLookup(Dictionary.read(url));
-    }
+    IStemmer dictLookup = new DictionaryLookup(this.getDictionary());
 
     for (String word : sentenceTokens) {
       final List<AnalyzedToken> l = new ArrayList<>();

@@ -29,11 +29,10 @@ import org.languagetool.rules.Rule;
 import org.languagetool.rules.UppercaseSentenceStartRule;
 import org.languagetool.rules.WhitespaceRule;
 import org.languagetool.rules.WordRepeatRule;
-import org.languagetool.rules.patterns.Unifier;
 import org.languagetool.rules.ro.CompoundRule;
+import org.languagetool.rules.ro.MorfologikRomanianSpellerRule;
 import org.languagetool.rules.ro.RomanianWordRepeatBeginningRule;
 import org.languagetool.rules.ro.SimpleReplaceRule;
-import org.languagetool.rules.ro.MorfologikRomanianSpellerRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.ro.RomanianSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -57,8 +56,6 @@ public class Romanian extends Language {
   private Disambiguator disambiguator;
   private Tokenizer wordTokenizer;
   private SentenceTokenizer sentenceTokenizer;
-  private Unifier unifier;
-  private Unifier disambiguationUnifier;
 
   @Override
   public String getName() {
@@ -148,21 +145,4 @@ public class Romanian extends Language {
     }
     return sentenceTokenizer;
   }
-  
-  @Override
-  public Unifier getUnifier() {
-    if (unifier == null) {
-      unifier = new Unifier();
-    }
-    return unifier;
-  }
-
-  @Override
-  public Unifier getDisambiguationUnifier() {
-    if (disambiguationUnifier == null) {
-    	disambiguationUnifier = new Unifier();
-    }
-    return disambiguationUnifier; 
-  }
-
 }

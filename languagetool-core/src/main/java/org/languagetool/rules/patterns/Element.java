@@ -20,7 +20,6 @@ package org.languagetool.rules.patterns;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -37,7 +36,7 @@ import org.languagetool.tools.StringTools;
  * 
  * @author Daniel Naber
  */
-public class Element {
+public class Element implements Cloneable {
 
   /** Matches only tokens without any POS tag. **/
   public static final String UNKNOWN_TAG = "UNKNOWN";
@@ -80,14 +79,10 @@ public class Element {
 
   private boolean andGroupSet;
 
-  private boolean[] andGroupCheck;
-
   private int skip;
 
   private Pattern p;
   private Pattern pPos;
-  private Matcher m;
-  private Matcher mPos;
 
   /** The reference to another element in the pattern. **/
   private Match tokenReference;
@@ -146,7 +141,7 @@ public class Element {
    * @param token AnalyzedToken to check matching against
    * @return True if token matches, false otherwise.
    */
-  public final boolean isMatched(final AnalyzedToken token) {
+  final boolean isMatched(final AnalyzedToken token) {
     if (testWhitespace && !isWhitespaceBefore(token)) {
       return false;
     }
@@ -158,9 +153,6 @@ public class Element {
       matched = (!negation) && (isPosTokenMatched(token) ^ posNegation);
     }
 
-    if (andGroupSet) {
-      andGroupCheck[0] |= matched;
-    }
     return matched;
   }
 
@@ -181,45 +173,6 @@ public class Element {
       }
     }
     return false;
-  }
-
-  /**
-   * Enables testing multiple conditions specified by different elements. Doesn't test exceptions.
-   * 
-   * Works as logical AND operator only if preceded with {@link #setupAndGroup()}, and followed by
-   * {@link #checkAndGroup(boolean)}.
-   * 
-   * @param token the token checked.
-   */
-  public final void addMemberAndGroup(final AnalyzedToken token) {
-    if (andGroupSet) {
-      for (int i = 0; i < andGroupList.size(); i++) {
-        if (!andGroupCheck[i + 1]) {
-          final Element testAndGroup = andGroupList.get(i);
-          if (testAndGroup.isMatched(token)) {
-            andGroupCheck[i + 1] = true;
-          }
-        }
-      }
-    }
-  }
-
-  public final void setupAndGroup() {
-    if (andGroupSet) {
-      andGroupCheck = new boolean[andGroupList.size() + 1];
-      Arrays.fill(andGroupCheck, false);
-    }
-  }
-
-  public final boolean checkAndGroup(final boolean previousValue) {
-    if (andGroupSet) {
-      boolean allConditionsMatch = true;
-      for (final boolean testValue : andGroupCheck) {
-        allConditionsMatch &= testValue;
-      }
-      return allConditionsMatch;
-    }
-    return previousValue;
   }
 
   /**
@@ -378,11 +331,7 @@ public class Element {
     posRegExp = regExp;
     if (posRegExp) {
       pPos = Pattern.compile(posToken);
-      if (mPos == null) {
-        mPos = pPos.matcher(UNKNOWN_TAG);
-      } else {
-        mPos.reset(UNKNOWN_TAG);
-      }
+      Matcher mPos = pPos.matcher(UNKNOWN_TAG);
       posUnknown = mPos.matches();        
     } else {
       posUnknown = UNKNOWN_TAG.equals(posToken); 
@@ -472,11 +421,7 @@ public class Element {
     }
     boolean match;
     if (posRegExp) {
-      if (mPos == null) {
-        mPos = pPos.matcher(token.getPOSTag());
-      } else {
-        mPos.reset(token.getPOSTag());
-      }
+    	Matcher mPos = pPos.matcher(token.getPOSTag());
       match = mPos.matches();
     } else {
       match = posToken.equals(token.getPOSTag());
@@ -497,11 +442,7 @@ public class Element {
   private boolean isStringTokenMatched(final AnalyzedToken token) {
     final String testToken = getTestToken(token);
     if (stringRegExp) {
-      if (m == null) {
-        m = p.matcher(testToken);
-      } else {
-        m.reset(testToken);
-      }
+    	Matcher m = p.matcher(testToken);
       return m.matches();
     }
     if (caseSensitive) {
@@ -604,30 +545,36 @@ public class Element {
    * @param token the token specified as {@link AnalyzedTokenReadings}
    * @param synth the language synthesizer ({@link Synthesizer})
    */
-  public final void compile(final AnalyzedTokenReadings token, final Synthesizer synth)
+  public final Element compile(final AnalyzedTokenReadings token, final Synthesizer synth)
       throws IOException {
+	  Element compiledElement = null;
+	  try {
+		  compiledElement = (Element) this.clone();
+	  } catch (CloneNotSupportedException e) {
+		  throw new IllegalStateException("Could not clone element", e);
+	  }
+	  compiledElement.doCompile(token, synth);
+	    
+	  return compiledElement;
+  }
 
-    m = null;
-    p = null;
-    tokenReference.setToken(token);
-    tokenReference.setSynthesizer(synth);
+  void doCompile(final AnalyzedTokenReadings token, final Synthesizer synth) throws IOException {
+	  this.p = null;
+	  MatchState matchState = tokenReference.createState(synth, token);
 
-    if (StringTools.isEmpty(referenceString)) {
-      referenceString = stringToken;
+    if (StringTools.isEmpty(this.referenceString)) {
+    	this.referenceString = this.stringToken;
     }
-    if (tokenReference.setsPos()) {
-      final String posReference = tokenReference.getTargetPosTag();
+    if (this.tokenReference.setsPos()) {
+      final String posReference = matchState.getTargetPosTag();
       if (posReference != null) {
-        if (mPos != null) {
-          mPos = null;
-        }
-        setPosElement(posReference, tokenReference.posRegExp(), negation);
+    	  this.setPosElement(posReference, tokenReference.posRegExp(), negation);
       }
-      setStringElement(referenceString.replace("\\" + tokenReference.getTokenRef(), ""));
-      inflected = true;
+      this.setStringElement(this.referenceString.replace("\\" + tokenReference.getTokenRef(), ""));
+      this.inflected = true;
     } else {
-      setStringElement(referenceString.replace("\\" + tokenReference.getTokenRef(),
-          tokenReference.toTokenString()));
+    	this.setStringElement(this.referenceString.replace("\\" + tokenReference.getTokenRef(),
+          matchState.toTokenString()));
     }
   }
 

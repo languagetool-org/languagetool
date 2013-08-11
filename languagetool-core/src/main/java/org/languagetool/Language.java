@@ -18,11 +18,29 @@
  */
 package org.languagetool;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Constructor;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
+import java.util.Set;
+
 import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.language.Contributor;
 import org.languagetool.language.Demo;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.patterns.Unifier;
+import org.languagetool.rules.patterns.UnifierConfiguration;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
@@ -33,12 +51,6 @@ import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.WordTokenizer;
 import org.languagetool.tools.MultiKeyProperties;
 import org.languagetool.tools.StringTools;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Constructor;
-import java.net.URL;
-import java.util.*;
 
 /**
  * Base class for any supported language (English, German, etc). Language classes
@@ -135,7 +147,9 @@ public abstract class Language {
   private static final Tagger DEMO_TAGGER = new DemoTagger();
   private static final SentenceTokenizer SENTENCE_TOKENIZER = new SentenceTokenizer();
   private static final WordTokenizer WORD_TOKENIZER = new WordTokenizer();
-  private static final Unifier MATCH_UNIFIER = new Unifier();
+  
+  private UnifierConfiguration unifierConfiguration = new UnifierConfiguration();
+  private UnifierConfiguration disambiguationUnifierConfiguration = new UnifierConfiguration();
 
   // -------------------------------------------------------------------------
 
@@ -268,7 +282,7 @@ public abstract class Language {
    * @return Feature unifier for analyzed tokens.
    */
   public Unifier getUnifier() {
-    return MATCH_UNIFIER;
+	  return this.unifierConfiguration.createUnifier();
   }
   
   /**
@@ -277,7 +291,15 @@ public abstract class Language {
    * @return Feature unifier for analyzed tokens.
    */
   public Unifier getDisambiguationUnifier() {
-    return MATCH_UNIFIER;
+	  return this.disambiguationUnifierConfiguration.createUnifier();
+  }
+  
+  public UnifierConfiguration getUnifierConfiguration() {
+	  return this.unifierConfiguration;
+  }
+  
+  public UnifierConfiguration getDisambiguationUnifierConfiguration() {
+	  return this.disambiguationUnifierConfiguration;
   }
   
   /**

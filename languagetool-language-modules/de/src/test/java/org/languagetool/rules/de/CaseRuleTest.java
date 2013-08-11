@@ -32,12 +32,12 @@ import org.languagetool.language.German;
 public class CaseRuleTest extends TestCase {
 
   public void testRuleActivation() throws IOException {
-    CaseRule rule = new CaseRule(null);
+    CaseRule rule = new CaseRule(null, new German());
     assertTrue(rule.supportsLanguage(new German()));
   }
 
   public void testRule() throws IOException {
-    CaseRule rule = new CaseRule(null);
+    CaseRule rule = new CaseRule(null, new German());
     JLanguageTool langTool = new JLanguageTool(new German());
 
     // correct sentences:
@@ -95,7 +95,7 @@ public class CaseRuleTest extends TestCase {
   }
 
   public void testSubstantivierteVerben() throws IOException {
-    CaseRule rule = new CaseRule(null);
+    CaseRule rule = new CaseRule(null, new German());
     JLanguageTool langTool = new JLanguageTool(new German());
 
     // correct sentences:
@@ -141,7 +141,7 @@ public class CaseRuleTest extends TestCase {
   }
 
   public void testPhraseExceptions() throws IOException {
-    CaseRule rule = new CaseRule(null);
+    CaseRule rule = new CaseRule(null, new German());
     JLanguageTool langTool = new JLanguageTool(new German());
 
     // correct sentences:

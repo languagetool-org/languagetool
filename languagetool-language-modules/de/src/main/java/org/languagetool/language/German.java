@@ -85,7 +85,11 @@ public class German extends Language {
   @Override
   public Tagger getTagger() {
     if (tagger == null) {
-      tagger = new GermanTagger();
+    	synchronized (this) {
+    		if (tagger == null) {
+    			tagger = new GermanTagger();
+    		}
+    	}
     }
     return tagger;
   }

@@ -28,7 +28,6 @@ import org.languagetool.rules.Rule;
 import org.languagetool.rules.UppercaseSentenceStartRule;
 import org.languagetool.rules.WhitespaceRule;
 import org.languagetool.rules.WordRepeatRule;
-import org.languagetool.rules.patterns.Unifier;
 import org.languagetool.rules.pl.CompoundRule;
 import org.languagetool.rules.pl.MorfologikPolishSpellerRule;
 import org.languagetool.rules.pl.PolishUnpairedBracketsRule;
@@ -44,9 +43,6 @@ import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 
 public class Polish extends Language {
-
-  private static final Unifier POLISH_UNIFIER = new Unifier();
-  private static final Unifier POLISH_DISAMB_UNIFIER = new Unifier();
 
   private Tagger tagger;
   private SentenceTokenizer sentenceTokenizer;
@@ -90,16 +86,6 @@ public class Polish extends Language {
       disambiguator = new PolishHybridDisambiguator();
     }
     return disambiguator;
-  }
- 
-  @Override
-  public Unifier getUnifier() {
-    return POLISH_UNIFIER;
-  }
-
-  @Override
-  public Unifier getDisambiguationUnifier() {
-    return POLISH_DISAMB_UNIFIER;
   }
   
   @Override
