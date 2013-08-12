@@ -39,6 +39,17 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
     <!-- Possible typos -->
     <!-- ====================================================================== -->
     <category name="Possible Typos" type="misspelling">
+        <rule id="YOUR_SHOULD" name="YOUR_SHOULD">
+            <pattern case_sensitive="yes">
+                <marker>
+                    <token>your</token>
+                </marker>
+                <token regexp="yes">should|could</token>
+            </pattern>
+            <message>Did you mean <suggestion>you</suggestion>?</message>
+            <example type="incorrect" correction="you">If it's running, <marker>your</marker> should deactivate it.</example>
+            <example type="correct">If it's running, <marker>you</marker> should deactivate it.</example>
+        </rule>
         <rule id="THE_SOME_DAY" name="the some (same) day">
             <pattern case_sensitive="yes">
                 <token regexp="yes">[Tt]he</token>
