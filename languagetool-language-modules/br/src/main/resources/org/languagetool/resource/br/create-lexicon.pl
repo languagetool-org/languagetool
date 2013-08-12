@@ -2250,7 +2250,7 @@ while (<LT_EXPAND>) {
       ($lemma eq 'breserezh' and $word =~ /^[bpv]reserezh(ioù)?$/)  or
       ($lemma eq 'bruched'   and $word =~ /^[bpv]vruched(où)?$/)    or
       ($lemma eq 'brud'      and $word =~ /^[bpv]brud$/)            or
-      ($lemma eq 'froud'     and $word =~ /^froudoù$/)              or
+      ($lemma eq 'froud'     and $word =~ /^froud(où)?$/)           or
       ($lemma eq 'kurun'     and $word =~ /^([kg]|c’h)urun(où)?$/)  or
       ($lemma eq 'ment'      and $word =~ /^[mv]ent$/)              or
       ($lemma eq 'siminal'   and $word =~ /^siminal(ioù)?$/)        or
