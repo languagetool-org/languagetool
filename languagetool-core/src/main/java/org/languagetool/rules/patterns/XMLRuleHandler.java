@@ -40,14 +40,7 @@ import org.xml.sax.helpers.DefaultHandler;
  */
 public class XMLRuleHandler extends DefaultHandler {
 
-  public XMLRuleHandler() {
-    elementList = new ArrayList<>();
-    equivalenceFeatures = new HashMap<>();
-    uTypeList = new ArrayList<>();
-  }
-  
-  List<PatternRule> rules = new ArrayList<>();
-
+  protected List<PatternRule> rules = new ArrayList<>();
   protected Language language;
   
   protected StringBuilder correctExample = new StringBuilder();
@@ -59,8 +52,8 @@ public class XMLRuleHandler extends DefaultHandler {
   protected StringBuilder elements;
   protected StringBuilder exceptions;
 
-  List<String> correctExamples = new ArrayList<>();
-  List<IncorrectExample> incorrectExamples = new ArrayList<>();
+  protected List<String> correctExamples = new ArrayList<>();
+  protected List<IncorrectExample> incorrectExamples = new ArrayList<>();
 
   protected boolean inPattern;
   protected boolean inCorrectExample;
@@ -108,21 +101,13 @@ public class XMLRuleHandler extends DefaultHandler {
 
   /** Current phrase ID. **/
   protected String phraseId;
-
   protected int skipPos;
-
   protected String ruleGroupId;
-
   protected String id;
-
   protected Element tokenElement;
-
   protected Match tokenReference;
-
   protected List<Match> suggestionMatches;
-  
   protected List<Match> suggestionMatchesOutMsg;
-
   protected Locator pLocator;
 
   protected int startPositionCorrection;
@@ -156,7 +141,6 @@ public class XMLRuleHandler extends DefaultHandler {
 
   protected Map<String, List<String>> equivalenceFeatures;
 
-  
   /** Definitions of values in XML files. */
   protected static final String YES = "yes";
   protected static final String POSTAG = "postag";
@@ -189,6 +173,11 @@ public class XMLRuleHandler extends DefaultHandler {
   protected static final String MESSAGE = "message";
   protected static final String SUGGESTION = "suggestion";
 
+  public XMLRuleHandler() {
+    elementList = new ArrayList<>();
+    equivalenceFeatures = new HashMap<>();
+    uTypeList = new ArrayList<>();
+  }
 
   public List<PatternRule> getRules() {
     return rules;

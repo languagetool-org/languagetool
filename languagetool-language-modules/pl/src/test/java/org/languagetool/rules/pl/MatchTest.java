@@ -26,7 +26,6 @@ import org.languagetool.rules.patterns.Match;
 import org.languagetool.rules.patterns.Match.CaseConversion;
 import org.languagetool.rules.patterns.Match.IncludeRange;
 
-import java.io.IOException;
 import java.util.Arrays;
 
 public class MatchTest extends TestCase {
@@ -35,12 +34,12 @@ public class MatchTest extends TestCase {
     return new AnalyzedTokenReadings(new AnalyzedToken(token, posTag, lemma), 0);
   }
 
-  private Match getMatch(String posTag, String posTagReplace, boolean spell) throws IOException {
+  private Match getMatch(String posTag, String posTagReplace, boolean spell) {
     final Match match = new Match(posTag, posTagReplace, true, null, null, CaseConversion.NONE, false, spell, IncludeRange.NONE);
     return match;
   }
 
-  private Match getTextMatch(String regexMatch, String regexpReplace, boolean spell) throws IOException {
+  private Match getTextMatch(String regexMatch, String regexpReplace, boolean spell) {
     final Match match = new Match(null, null, false, regexMatch, regexpReplace, CaseConversion.NONE, false, spell, IncludeRange.NONE);
     return match;
   }

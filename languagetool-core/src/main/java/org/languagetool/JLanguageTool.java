@@ -707,18 +707,21 @@ public final class JLanguageTool {
   }
 
   /**
-   * Tokenizes the given <code>sentence</code> into words and analyzes it,
+   * Tokenizes the given {@code sentence} into words and analyzes it,
    * and then disambiguates POS tags.
+   *
+   * @param sentence sentence to be analyzed
    */
   public AnalyzedSentence getAnalyzedSentence(final String sentence) throws IOException {
-    // disambiguate assigned tags & return
     return disambiguator.disambiguate(getRawAnalyzedSentence(sentence));
   }
 
   /**
-   * Tokenizes the given <code>sentence</code> into words and analyzes it.
+   * Tokenizes the given {@code sentence} into words and analyzes it.
+   * This is the same as {@link #getAnalyzedSentence(String)} but it does not run
+   * the disambiguator.
    * 
-   * @param sentence Sentence to be analyzed 
+   * @param sentence sentence to be analyzed
    * @since 0.9.8
    */
   public AnalyzedSentence getRawAnalyzedSentence(final String sentence) throws IOException {

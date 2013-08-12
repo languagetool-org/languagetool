@@ -20,7 +20,6 @@ package org.languagetool.rules.patterns;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 
 import junit.framework.TestCase;
@@ -65,23 +64,13 @@ public class MatchTest extends TestCase {
     return new AnalyzedTokenReadings(new AnalyzedToken(token, posTag, lemma), 0);
   }
 
-  private Match getMatch(String posTag, String posTagReplace, CaseConversion caseConversion) throws IOException {
+  private Match getMatch(String posTag, String posTagReplace, CaseConversion caseConversion) {
     final Match match = new Match(posTag, posTagReplace, true, null, null, caseConversion, false, false, IncludeRange.NONE);
     match.setSynthesizer(synthesizer);
     return match;
   }
 
-  private Match getMatch(String posTag, String posTagReplace, boolean spell) throws IOException {
-    final Match match = new Match(posTag, posTagReplace, true, null, null, CaseConversion.NONE, false, spell, IncludeRange.NONE);
-    return match;
-  }
-
-  private Match getTextMatch(String regexMatch, String regexpReplace, boolean spell) throws IOException {
-    final Match match = new Match(null, null, false, regexMatch, regexpReplace, CaseConversion.NONE, false, spell, IncludeRange.NONE);
-    return match;
-  }
-
-  private Match getMatch(String posTag, String posTagReplace, IncludeRange includeRange) throws IOException {
+  private Match getMatch(String posTag, String posTagReplace, IncludeRange includeRange) {
     final Match match = new Match(posTag, posTagReplace, true, null, null, CaseConversion.NONE, false, false, includeRange);
     match.setSynthesizer(synthesizer);
     return match;

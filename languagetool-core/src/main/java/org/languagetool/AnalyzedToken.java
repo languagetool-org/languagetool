@@ -80,10 +80,9 @@ public class AnalyzedToken {
 
   
   /**
-   * @since 1.5
    * @param an AnalyzedToken to test
-   * @return true if all of the non-null values (lemma, POS, token)
-   * of AnalyzedToken match this token.
+   * @return true if all of the non-null values (lemma, POS, token) of AnalyzedToken match this token
+   * @since 1.5
    */
   public final boolean matches(final AnalyzedToken an) {
     if (this.equals(an)) {
@@ -108,21 +107,19 @@ public class AnalyzedToken {
   }
   
   /**
+   * @return true if the AnalyzedToken has no real POS tag (= is not null or a special tag)
    * @since 1.5
-   * @return true if the AnalyzedToken has no real POS tag 
-   * (= is not null or a special tag)
    */
   public final boolean hasNoTag() {
     return hasNoPOSTag;
   }
   
   /** 
-   * @since 1.5
    * If other readings of the token have real POS tags,
    * you can set the flag here that they do, so that the
    * test in the Element class would be correct for all
    * cases. 
-   * 
+   * @since 1.5
    */
   public final void setNoPOSTag(final boolean noTag) {
     hasNoPOSTag = noTag;

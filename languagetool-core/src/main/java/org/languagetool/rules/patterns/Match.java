@@ -19,10 +19,7 @@
 package org.languagetool.rules.patterns;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedToken;
@@ -47,9 +44,8 @@ public class Match {
     /**
      * Converts string to the constant enum.
      * 
-     * @param str
-     *          String value to be converted.
-     * @return CaseConversion enum.
+     * @param str String value to be converted
+     * @return CaseConversion enum
      */
     public static CaseConversion toCase(final String str) {
       try {
@@ -66,9 +62,8 @@ public class Match {
     /**
      * Converts string to the constant enum.
      * 
-     * @param str
-     *          String value to be converted.
-     * @return IncludeRange enum.
+     * @param str String value to be converted
+     * @return IncludeRange enum
      */
     public static IncludeRange toRange(final String str) {
       try {
@@ -159,8 +154,7 @@ public class Match {
    * including the skipped tokens.
    * @param tokens Array of tokens
    * @param index  Index of the token to be formatted
-   * @param next   Position of the next token (the skipped tokens
-   * are the ones between the tokens[index] and tokens[next]
+   * @param next   Position of the next token (the skipped tokens are the ones between the tokens[index] and tokens[next]
    */
   public final void setToken(final AnalyzedTokenReadings[] tokens, final int index, final int next) {
     setToken(tokens[index]);
@@ -181,16 +175,6 @@ public class Match {
       skippedTokens = "";
     }
   }
-  
-  /**
-  private String[] addSkipped(final String[] formattedString) {
-    if (skippedTokens != null && !"".equals(skippedTokens)) {
-      String[] finalStrings = new String[formattedString.length];
-      for (int i = 1; i <= formattedString.length; i++)
-    }
-  }
-  
-  **/
   
   /**
    * Checks if the Match element is used for setting the part of speech Element.
@@ -249,11 +233,9 @@ public class Match {
   
   /**
    * Gets all strings formatted using the match element.
- * @param lang TODO
-   * 
+   *
    * @return array of strings
-   * @throws IOException
-   *           in case of synthesizer-related disk problems.
+   * @throws IOException in case of synthesizer-related I/O problems
    */
   public final String[] toFinalString(Language lang) throws IOException {
     String[] formattedString = new String[1];
@@ -505,26 +487,20 @@ public class Match {
     final ArrayList<AnalyzedToken> l = new ArrayList<>();
     if (formattedToken != null) {
       if (staticLemma) {
-        /*
-        formattedToken = new AnalyzedTokenReadings(new AnalyzedToken(
-            matchedToken.getToken(), posTag, formattedToken.getToken()),
-            matchedToken.getStartPos());
-        formattedToken.setWhitespaceBefore(matchedToken.isWhitespaceBefore());
-        */
         matchedToken.leaveReading(new AnalyzedToken(
             matchedToken.getToken(), posTag, formattedToken.getToken()));
         formattedToken = matchedToken;
       }
       String token = formattedToken.getToken();
       if (pRegexMatch != null && regexReplace != null) {
-    	/* only replace if it is something to replace*/
+      	/* only replace if it is something to replace */
         token = pRegexMatch.matcher(token).replaceAll(regexReplace);
       }
       token = convertCase(token, token);
       if (posTag != null) {
         final int numRead = formattedToken.getReadingsLength();
         if (postagRegexp) {
-          String targetPosTag = posTag;
+          String targetPosTag;
           for (int i = 0; i < numRead; i++) {
             final String tst = formattedToken.getAnalyzedToken(i).getPOSTag();
             if (tst != null && pPosRegexMatch.matcher(tst).matches()) {
@@ -539,14 +515,10 @@ public class Match {
             }
           }
           if (l.isEmpty()) {
-            for (final AnalyzedToken anaTok : getNewToken(numRead, token)) {
-              l.add(anaTok);
-            }
+            l.addAll(getNewToken(numRead, token));
           }
         } else {
-          for (final AnalyzedToken anaTok : getNewToken(numRead, token)) {
-            l.add(anaTok);
-          }          
+          l.addAll(getNewToken(numRead, token));
         }
         if (formattedToken.isSentEnd()) {
           l.add(new AnalyzedToken(formattedToken.getToken(),
@@ -568,7 +540,7 @@ public class Match {
     return anTkRead;
   }
 
-  private AnalyzedToken[] getNewToken(final int numRead, final String token) {
+  private List<AnalyzedToken> getNewToken(final int numRead, final String token) {
     final List<AnalyzedToken> list = new ArrayList<>();
     String lemma = "";
     for (int j = 0; j < numRead; j++) {
@@ -585,12 +557,11 @@ public class Match {
           setWhitespaceBefore(formattedToken.isWhitespaceBefore());
       }
     }
-    return list.toArray(new AnalyzedToken[list.size()]);
+    return list;
   }
 
   /**
-   * @param inMessageOnly
-   *          the inMessageOnly to set
+   * @param inMessageOnly the inMessageOnly to set
    */
   public void setInMessageOnly(final boolean inMessageOnly) {
     this.inMessageOnly = inMessageOnly;

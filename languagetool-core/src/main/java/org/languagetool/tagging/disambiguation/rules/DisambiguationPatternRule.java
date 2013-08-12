@@ -45,9 +45,8 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
     /**
      * Converts string to the constant enum.
      * 
-     * @param str
-     *          String value to be converted.
-     * @return DisambiguatorAction enum.
+     * @param str String value to be converted
+     * @return DisambiguatorAction enum
      */
     public static DisambiguatorAction toAction(final String str) {
       try {
