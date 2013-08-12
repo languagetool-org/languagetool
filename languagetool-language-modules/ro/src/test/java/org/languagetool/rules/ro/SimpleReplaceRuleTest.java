@@ -32,9 +32,6 @@ import org.languagetool.language.Romanian;
 import org.languagetool.rules.RuleMatch;
 
 /**
- * 
- * Simple tests for rules/ro/SimpleReplaceRule class
- * 
  * @author Ionuț Păduraru
  */
 public class SimpleReplaceRuleTest extends TestCase {
@@ -56,8 +53,9 @@ public class SimpleReplaceRuleTest extends TestCase {
     final List<String> invalidSuggestions = new ArrayList<>();
     final List<Map<String,String>> wrongWords = rule.getWrongWords();
     for (Map<String, String> ruleEntry : wrongWords) {
-      for (Map.Entry<String,String> fromWord : ruleEntry.entrySet()) {
-        final String toWord = fromWord.getValue();
+      for (Map.Entry<String,String> entry : ruleEntry.entrySet()) {
+        final String fromWord = entry.getKey();
+        final String toWord = entry.getValue();
         if (toWord == null || fromWord.equals(toWord)) {
           invalidSuggestions.add(toWord);
         }
@@ -67,6 +65,7 @@ public class SimpleReplaceRuleTest extends TestCase {
       fail("Invalid suggestions found for: " + invalidSuggestions);
     }
   }
+
   public void testRule() throws IOException {
 
     // correct sentences:
