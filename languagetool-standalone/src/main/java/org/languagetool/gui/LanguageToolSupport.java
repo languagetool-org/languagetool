@@ -39,6 +39,7 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
@@ -56,6 +57,7 @@ import javax.swing.text.JTextComponent;
 import javax.swing.text.Position;
 import javax.swing.text.View;
 import org.languagetool.JLanguageTool;
+import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 
 /**
@@ -77,7 +79,7 @@ public class LanguageToolSupport implements Runnable {
   private DocumentListener documentListener;
   private MouseListener mouseListener;
   private ActionListener actionListener;
-  private int delay = 3000;//ms
+  private int delay = 1500;//ms
   private AtomicInteger check;
   private boolean popupMenuEnabled = true;
   private boolean backgroundCheckEnabled = true;
@@ -248,7 +250,12 @@ public class LanguageToolSupport implements Runnable {
     languageTool.disableRule(rule);
     updateHighlights(rule);
   }
-
+  
+  private void enableRule(String rule) {
+    languageTool.enableRule(rule);
+    checkImmediately();
+  }
+  
   private void showPopup(MouseEvent event) {
     if (documentSpans.isEmpty()) {
       return;
@@ -274,6 +281,33 @@ public class LanguageToolSupport implements Runnable {
             }
           });
           popup.add(ignoreItem);
+          if (!this.languageTool.getDisabledRules().isEmpty()) {
+            // TODO: i18n
+            JMenu activateRuleItem = new JMenu("Activate Rule");
+            int count = 0;
+            for (String ruleId : languageTool.getDisabledRules()) {
+              Rule rule = getRuleForId(ruleId);
+              if (rule == null) {
+                continue;
+              }
+              if (rule.isDefaultOff()) {
+                continue;
+              }
+              final String id = rule.getId();
+              JMenuItem ruleItem = new JMenuItem(rule.getDescription());
+              ruleItem.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                  enableRule(id);
+                }
+              });
+              activateRuleItem.add(ruleItem);
+              count++;
+            }
+            if (count > 0) {
+              popup.add(activateRuleItem);
+            }
+          }
           popup.add(new JSeparator());
           for (String r : span.replacement) {
             ReplaceMenuItem item = new ReplaceMenuItem(r, i);
@@ -300,6 +334,16 @@ public class LanguageToolSupport implements Runnable {
         }
       }
     }
+  }
+
+  private Rule getRuleForId(String ruleId) {
+    final List<Rule> allRules = languageTool.getAllRules();
+    for (Rule rule : allRules) {
+      if (rule.getId().equals(ruleId)) {
+        return rule;
+      }
+    }
+    return null;
   }
 
   private void _actionPerformed(ActionEvent e) {
@@ -432,6 +476,7 @@ public class LanguageToolSupport implements Runnable {
       t.start = match.getFromPos();
       t.end = match.getToPos();
       t.msg = match.getShortMessage() != null ? match.getShortMessage() : match.getMessage();
+      t.msg = shortenComment(t.msg);
       t.desc = match.getMessage();
       t.replacement = new ArrayList();
       t.replacement.addAll(match.getSuggestedReplacements());
@@ -453,6 +498,7 @@ public class LanguageToolSupport implements Runnable {
       t.start = match.getFromPos();
       t.end = match.getToPos();
       t.msg = match.getShortMessage() != null ? match.getShortMessage() : match.getMessage();
+      t.msg = shortenComment(t.msg);
       t.desc = match.getMessage();
       t.replacement = new ArrayList();
       t.replacement.addAll(match.getSuggestedReplacements());
@@ -465,6 +511,29 @@ public class LanguageToolSupport implements Runnable {
     ruleMatches.addAll(matches);
     documentSpans.addAll(spans);
     updateHighlights();
+  }
+
+  // TODO: move to common
+  private String shortenComment(String comment) {
+    final int maxCommentLength = 100;
+    if(comment.length() > maxCommentLength) {
+      // if there is text in brackets, drop it (beginning at the end)
+      while (comment.lastIndexOf(" [") > 0
+              && comment.lastIndexOf("]") > comment.lastIndexOf(" [")
+              && comment.length() > maxCommentLength) {
+        comment = comment.substring(0,comment.lastIndexOf(" [")) + comment.substring(comment.lastIndexOf("]")+1);
+      }
+      while (comment.lastIndexOf(" (") > 0
+              && comment.lastIndexOf(")") > comment.lastIndexOf(" (")
+              && comment.length() > maxCommentLength) {
+        comment = comment.substring(0,comment.lastIndexOf(" (")) + comment.substring(comment.lastIndexOf(")")+1);
+      }
+      // in case it's still not short enough, shorten at the end
+      if(comment.length() > maxCommentLength) {
+        comment = comment.substring(0,maxCommentLength-1) + "…";
+      }
+    }
+    return comment;
   }
 
   private void updateHighlights() {
