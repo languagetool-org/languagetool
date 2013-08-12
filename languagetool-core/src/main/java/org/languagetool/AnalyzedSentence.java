@@ -29,34 +29,6 @@ import java.util.List;
  */
 public class AnalyzedSentence {
 
-  @Override
-  public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + Arrays.hashCode(nonBlankTokens);
-    result = prime * result + Arrays.hashCode(tokens);
-    result = prime * result + Arrays.hashCode(whPositions);
-    return result;
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj)
-      return true;
-    if (obj == null)
-      return false;
-    if (getClass() != obj.getClass())
-      return false;
-    final AnalyzedSentence other = (AnalyzedSentence) obj;
-    if (!Arrays.equals(nonBlankTokens, other.nonBlankTokens))
-      return false;
-    if (!Arrays.equals(tokens, other.tokens))
-      return false;
-    if (!Arrays.equals(whPositions, other.whPositions))
-      return false;
-    return true;
-  }
-
   private final AnalyzedTokenReadings[] tokens;
 
   private AnalyzedTokenReadings[] nonBlankTokens;
@@ -70,16 +42,16 @@ public class AnalyzedSentence {
   /**
    * Sets {@link AnalyzedTokenReadings}. Whitespace is also a token.
    */
-  public AnalyzedSentence(final AnalyzedTokenReadings[] tokens) {    
+  public AnalyzedSentence(final AnalyzedTokenReadings[] tokens) {
     this.tokens = tokens;
   }
-  
-  public AnalyzedSentence(final AnalyzedTokenReadings[] tokens, final 
+
+  public AnalyzedSentence(final AnalyzedTokenReadings[] tokens, final
       int[] whPositions) {
     this.tokens = tokens;
     this.setWhPositions(whPositions);
     getTokensWithoutWhitespace();
-  } 
+  }
 
   /**
    * Returns the {@link AnalyzedTokenReadings} of the analyzed text. Whitespace
@@ -118,10 +90,9 @@ public class AnalyzedSentence {
   /**
    * Get a position of a non-whitespace token in the original sentence with
    * whitespace.
-   * 
-   * @param nonWhPosition
-   *          Position of a non-whitespace token
-   * @return int position in the original sentence.
+   *
+   * @param nonWhPosition position of a non-whitespace token
+   * @return position in the original sentence.
    */
   public final int getOriginalPosition(final int nonWhPosition) {
     if (nonBlankTokens == null) {
@@ -134,7 +105,7 @@ public class AnalyzedSentence {
   public final String toString() {
     return toString(",");
   }
-  
+
   public final String toString(String posTagDelimiter) {
     final StringBuilder sb = new StringBuilder();
     for (final AnalyzedTokenReadings element : tokens) {
@@ -190,7 +161,7 @@ public class AnalyzedSentence {
     }
     return sb.toString();
   }
-  
+
   /**
    * @param whPositions the whPositions to set
    */
@@ -210,6 +181,34 @@ public class AnalyzedSentence {
    */
   public void setNonBlankTokens(AnalyzedTokenReadings[] nonBlankTokens) {
     this.nonBlankTokens = nonBlankTokens;
-  } 
-  
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    final AnalyzedSentence other = (AnalyzedSentence) obj;
+    if (!Arrays.equals(nonBlankTokens, other.nonBlankTokens))
+      return false;
+    if (!Arrays.equals(tokens, other.tokens))
+      return false;
+    if (!Arrays.equals(whPositions, other.whPositions))
+      return false;
+    return true;
+  }
+
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + Arrays.hashCode(nonBlankTokens);
+    result = prime * result + Arrays.hashCode(tokens);
+    result = prime * result + Arrays.hashCode(whPositions);
+    return result;
+  }
+
 }
