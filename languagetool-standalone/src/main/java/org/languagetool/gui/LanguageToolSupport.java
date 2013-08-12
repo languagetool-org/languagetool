@@ -20,6 +20,9 @@ package org.languagetool.gui;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Desktop;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -30,6 +33,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -38,14 +42,20 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
+import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
+import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 import javax.swing.text.AbstractDocument;
@@ -250,12 +260,12 @@ public class LanguageToolSupport implements Runnable {
     languageTool.disableRule(rule);
     updateHighlights(rule);
   }
-  
+
   private void enableRule(String rule) {
     languageTool.enableRule(rule);
     checkImmediately();
   }
-  
+
   private void showPopup(MouseEvent event) {
     if (documentSpans.isEmpty()) {
       return;
@@ -272,6 +282,15 @@ public class LanguageToolSupport implements Runnable {
           msgItem.setBorder(new JMenuItem().getBorder());
           popup.add(msgItem);
           popup.add(new JSeparator());
+          // TODO: i18n
+          JMenuItem moreItem = new JMenuItem("More...");
+          moreItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+              showDialog(textComponent, span.msg, span.desc, span.url);
+            }
+          });
+          popup.add(moreItem);
           JMenuItem ignoreItem = new JMenuItem(messages.getString("guiOOoIgnoreButton"));
 
           ignoreItem.addActionListener(new ActionListener() {
@@ -475,13 +494,14 @@ public class LanguageToolSupport implements Runnable {
       Span t = new Span();
       t.start = match.getFromPos();
       t.end = match.getToPos();
-      t.msg = match.getShortMessage() != null ? match.getShortMessage() : match.getMessage();
+      t.msg = (match.getShortMessage() != null && !match.getShortMessage().isEmpty()) ? match.getShortMessage() : match.getMessage();
       t.msg = shortenComment(t.msg);
       t.desc = match.getMessage();
       t.replacement = new ArrayList();
       t.replacement.addAll(match.getSuggestedReplacements());
       t.spelling = match.getRule().isSpellingRule();
       t.rule = match.getRule().getId();
+      t.url = match.getRule().getUrl();
       spans.add(t);
     }
     ruleMatches.clear();
@@ -497,13 +517,14 @@ public class LanguageToolSupport implements Runnable {
       Span t = new Span();
       t.start = match.getFromPos();
       t.end = match.getToPos();
-      t.msg = match.getShortMessage() != null ? match.getShortMessage() : match.getMessage();
+      t.msg = (match.getShortMessage() != null && !match.getShortMessage().isEmpty()) ? match.getShortMessage() : match.getMessage();
       t.msg = shortenComment(t.msg);
       t.desc = match.getMessage();
       t.replacement = new ArrayList();
       t.replacement.addAll(match.getSuggestedReplacements());
       t.spelling = match.getRule().isSpellingRule();
       t.rule = match.getRule().getId();
+      t.url = match.getRule().getUrl();
       spans.add(t);
     }
     ruleMatches.clear();
@@ -516,21 +537,21 @@ public class LanguageToolSupport implements Runnable {
   // TODO: move to common
   private String shortenComment(String comment) {
     final int maxCommentLength = 100;
-    if(comment.length() > maxCommentLength) {
+    if (comment.length() > maxCommentLength) {
       // if there is text in brackets, drop it (beginning at the end)
       while (comment.lastIndexOf(" [") > 0
               && comment.lastIndexOf("]") > comment.lastIndexOf(" [")
               && comment.length() > maxCommentLength) {
-        comment = comment.substring(0,comment.lastIndexOf(" [")) + comment.substring(comment.lastIndexOf("]")+1);
+        comment = comment.substring(0, comment.lastIndexOf(" [")) + comment.substring(comment.lastIndexOf("]") + 1);
       }
       while (comment.lastIndexOf(" (") > 0
               && comment.lastIndexOf(")") > comment.lastIndexOf(" (")
               && comment.length() > maxCommentLength) {
-        comment = comment.substring(0,comment.lastIndexOf(" (")) + comment.substring(comment.lastIndexOf(")")+1);
+        comment = comment.substring(0, comment.lastIndexOf(" (")) + comment.substring(comment.lastIndexOf(")") + 1);
       }
       // in case it's still not short enough, shorten at the end
-      if(comment.length() > maxCommentLength) {
-        comment = comment.substring(0,maxCommentLength-1) + "…";
+      if (comment.length() > maxCommentLength) {
+        comment = comment.substring(0, maxCommentLength - 1) + "…";
       }
     }
     return comment;
@@ -570,6 +591,49 @@ public class LanguageToolSupport implements Runnable {
         //Tools.showError(ex);
       }
     }
+  }
+
+  static void showDialog(Component parent, String title, String message, URL url) {
+    int dialogWidth = 320;
+    JTextPane textPane = new JTextPane();
+    textPane.setEditable(false);
+    textPane.setContentType("text/html");
+    textPane.setBorder(BorderFactory.createEmptyBorder());
+    textPane.setOpaque(false);
+    textPane.setBackground(new Color(0, 0, 0, 0));
+    message = message.replaceAll("<suggestion>", "<b>")
+            .replaceAll("</suggestion>", "</b>");
+    textPane.addHyperlinkListener(new HyperlinkListener() {
+      @Override
+      public void hyperlinkUpdate(HyperlinkEvent e) {
+        if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
+          if (Desktop.isDesktopSupported()) {
+            try {
+              Desktop.getDesktop().browse(e.getURL().toURI());
+            } catch (Exception ex) {
+            }
+          }
+        }
+      }
+    });
+    textPane.setSize(dialogWidth, Short.MAX_VALUE);
+    textPane.setText("<html>" + message + formatURL(url) + "</html>");
+    JScrollPane scrollPane = new JScrollPane(textPane);
+    scrollPane.setPreferredSize(
+            new Dimension(dialogWidth, textPane.getPreferredSize().height));
+    scrollPane.setBorder(BorderFactory.createEmptyBorder());
+
+    JOptionPane.showMessageDialog(parent, scrollPane, title,
+            JOptionPane.INFORMATION_MESSAGE);
+
+  }
+
+  private static String formatURL(URL url) {
+    if (url == null) {
+      return "";
+    }
+    return String.format("<br/><br/><a href=\"%s\">%s</a>",
+            url.toExternalForm(), "external link");
   }
 
   private static class HighlightPainter extends DefaultHighlighter.DefaultHighlightPainter {
@@ -706,5 +770,6 @@ public class LanguageToolSupport implements Runnable {
     private ArrayList<String> replacement;
     private boolean spelling;
     private String rule;
+    private URL url;
   }
 }
