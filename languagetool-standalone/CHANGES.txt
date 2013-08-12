@@ -6,6 +6,11 @@ LanguageTool Change Log
   -added a workaround for a StringIndexOutOfBoundsException
    (http://sourceforge.net/p/languagetool/bugs/186/)
 
+ -Portuguese:
+  -added/improved a few rules
+  -it now has around 2500 compound words
+
+
  -the source code has been moved to github:
   https://github.com/languagetool-org/languagetool
 
@@ -17,10 +22,6 @@ LanguageTool Change Log
 
  -embedded server: uses default port (8081) again if started without arguments
 
- -Portuguese:
-  -added/improved a few rules
-  -it now has around 2500 compound words
-
  -updated the morfologik-stemming library to version 1.7.1 to enable better suggestions,
   including proper handling of diacritics and replacement patterns (equivalents of MAP
   and REP features in hunspell dictionaries)
@@ -29,6 +30,10 @@ LanguageTool Change Log
 
  -OpenOffice/LibreOffice integration:
   -fix: the "About" dialog didn't work in Apache OpenOffice 4.0
+
+ -API: JLanguageTool.loadFalseFriendRules() now behaves like JLanguageTool.loadPatternRules():
+  it looks in the class path first, and then, if the given file is not found there, in
+  the filesystem
 
  -text extraction from Wikipedia dumps has been improved
 

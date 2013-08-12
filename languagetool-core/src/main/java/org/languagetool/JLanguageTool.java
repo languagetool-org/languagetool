@@ -313,7 +313,8 @@ public final class JLanguageTool {
   /**
    * Load pattern rules from an XML file. Use {@link #addRule(Rule)} to add these
    * rules to the checking process.
-   * 
+   *
+   * @param filename path to an XML file in the classpath or in the filesystem - the classpath is checked first
    * @return a List of {@link PatternRule} objects
    */
   public List<PatternRule> loadPatternRules(final String filename) throws IOException {
@@ -332,8 +333,9 @@ public final class JLanguageTool {
    * that match the current text language and the mother tongue specified in the
    * JLanguageTool constructor. Use {@link #addRule(Rule)} to add these rules to the
    * checking process.
-   * 
-   * @return a List of {@link PatternRule} objects
+   *
+   * @param filename path to an XML file in the classpath or in the filesystem - the classpath is checked first
+   * @return a List of {@link PatternRule} objects, or an empty list if mother tongue is not set
    */
   public List<PatternRule> loadFalseFriendRules(final String filename)
       throws ParserConfigurationException, SAXException, IOException {
@@ -341,8 +343,12 @@ public final class JLanguageTool {
       return new ArrayList<>();
     }
     final FalseFriendRuleLoader ruleLoader = new FalseFriendRuleLoader();
-    return ruleLoader.getRules(this.getClass().getResourceAsStream(filename),
-        language, motherTongue);
+    final InputStream is = this.getClass().getResourceAsStream(filename);
+    if (is == null) {
+      return ruleLoader.getRules(new File(filename), language, motherTongue);
+    } else {
+      return ruleLoader.getRules(is, language, motherTongue);
+    }
   }
 
   /**

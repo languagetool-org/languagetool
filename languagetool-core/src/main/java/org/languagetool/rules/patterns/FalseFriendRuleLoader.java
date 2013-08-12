@@ -18,6 +18,8 @@
  */
 package org.languagetool.rules.patterns;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.MessageFormat;
@@ -49,6 +51,18 @@ import org.xml.sax.helpers.DefaultHandler;
 public class FalseFriendRuleLoader extends DefaultHandler {
   
   public FalseFriendRuleLoader() {
+  }
+
+  /**
+   * @param file XML file with false friend rules
+   * @since 2.3
+   */
+  public final List<PatternRule> getRules(final File file, final Language language, final Language motherTongue) throws IOException {
+    try (InputStream inputStream = new FileInputStream(file)) {
+      return getRules(inputStream, language, motherTongue);
+    } catch (ParserConfigurationException | SAXException e) {
+      throw new IOException("Could not load false friend rules from " + file, e);
+    }
   }
 
   public final List<PatternRule> getRules(final InputStream file,
