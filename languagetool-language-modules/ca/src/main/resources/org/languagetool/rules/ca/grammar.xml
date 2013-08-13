@@ -15544,7 +15544,22 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
-        <rule id="PUES_DONCS" name="*pues/doncs">
+            <rule id="RODALIES" name="rodalies/rodalia">
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes">Renfe|Catalunya|RENFE|FGC</exception></token>
+                    <marker>
+                        <token skip="-1">rodalies<exception scope="next" regexp="yes">Renfe|Catalunya|RENFE|FGC</exception></token>
+                    </marker>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <message>Normalment s'usa en singular.</message>
+                <suggestion>rodalia</suggestion>
+                <url>http://esadir.cat/morfologia/entry_20030915145619_11/view</url>
+                <short>Preferència</short>
+                <example type="incorrect" correction="rodalia">Per la ciutat i les seves <marker>rodalies</marker>.</example>
+                <example type="correct">El servei de rodalies de Renfe.</example>
+            </rule>           
+            <rule id="PUES_DONCS" name="*pues/doncs">
 		    <pattern>
 		        <token><exception postag="SPS00|CC" postag_regexp="yes"/><exception inflected="yes">tenir</exception></token>
 		        <marker>
