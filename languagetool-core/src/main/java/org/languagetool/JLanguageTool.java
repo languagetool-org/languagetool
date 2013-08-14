@@ -36,6 +36,7 @@ import java.util.MissingResourceException;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.concurrent.*;
 import java.util.jar.Manifest;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -499,11 +500,11 @@ public final class JLanguageTool {
   public List<RuleMatch> check(final String text) throws IOException {
     return check(text, true, ParagraphHandling.NORMAL);
   }
-  
+
   /**
    * The main check method. Tokenizes the text into sentences and matches these
    * sentences against all currently active rules.
-   * 
+   *
    * @param text The text to be checked. Call this method with the complete text to be checked. If you call it
    *          repeatedly with smaller chunks like paragraphs or sentence, those rules that work across
    *          paragraphs/sentences won't work (their status gets reset whenever this method is called).
@@ -515,7 +516,7 @@ public final class JLanguageTool {
   public List<RuleMatch> check(final String text, boolean tokenizeText, final ParagraphHandling paraMode) throws IOException {
     sentenceCount = 0;
     final List<String> sentences;
-    if (tokenizeText) { 
+    if (tokenizeText) {
       sentences = sentenceTokenize(text);
     } else {
       sentences = new ArrayList<>();
@@ -528,42 +529,21 @@ public final class JLanguageTool {
     int lineCount = 0;
     int columnCount = 1;
     unknownWords = new HashSet<>();
-    for (final String sentence : sentences) {
-      sentenceCount++;      
-      AnalyzedSentence analyzedSentence = getAnalyzedSentence(sentence);
-      rememberUnknownWords(analyzedSentence);
 
-      if (sentenceCount == sentences.size()) {
-        final AnalyzedTokenReadings[] anTokens = analyzedSentence.getTokens();
-        anTokens[anTokens.length - 1].setParaEnd();
-        analyzedSentence = new AnalyzedSentence(anTokens);
+    final int threads = Runtime.getRuntime().availableProcessors();
+    final List<Callable<List<RuleMatch>>> callables =
+            createTextCheckCallables(paraMode, sentences, allRules, charCount, lineCount, columnCount, threads);
+
+    final ExecutorService executorService = Executors.newFixedThreadPool(threads);
+    try {
+      final List<Future<List<RuleMatch>>> futures = executorService.invokeAll(callables);
+      for (Future<List<RuleMatch>> future : futures) {
+        ruleMatches.addAll(future.get());
       }
-      
-      printIfVerbose(analyzedSentence.toString());
-      printIfVerbose(analyzedSentence.getAnnotations());
-      final List<RuleMatch> sentenceMatches = 
-      checkAnalyzedSentence(paraMode, allRules, charCount, lineCount,
-          columnCount, sentence, analyzedSentence);
-
-      Collections.sort(sentenceMatches);
-      ruleMatches.addAll(sentenceMatches);
-      charCount += sentence.length();
-      lineCount += countLineBreaks(sentence);
-      
-      // calculate matching column:      
-      final int lineBreakPos = sentence.lastIndexOf('\n');
-      if (lineBreakPos == -1) {
-        columnCount += sentence.length();
-      } else {
-        if (lineBreakPos == 0) {
-          columnCount = sentence.length();
-          if (!language.getSentenceTokenizer().singleLineBreaksMarksPara()) {
-            columnCount--;
-          }
-        } else {
-          columnCount = sentence.length() - lineBreakPos;
-        }
-      }      
+    } catch (InterruptedException | ExecutionException e) {
+      throw new RuntimeException(e);
+    } finally {
+      executorService.shutdownNow();
     }
 
     if (!ruleMatches.isEmpty() && !paraMode.equals(ParagraphHandling.ONLYNONPARA)) {
@@ -583,6 +563,26 @@ public final class JLanguageTool {
     return ruleMatches;
   }
 
+  private List<Callable<List<RuleMatch>>> createTextCheckCallables(ParagraphHandling paraMode,
+       List<String> sentences, List<Rule> allRules, int charCount, int lineCount, int columnCount, int threads) {
+    final int totalRules = allRules.size();
+    final int chunkSize = totalRules / threads;
+    int firstItem = 0;
+    final List<Callable<List<RuleMatch>>> callables = new ArrayList<>();
+    for (int i = 0; i < threads; i++) {
+      final List<Rule> subRules;
+      if (i == threads - 1) {
+        // make sure the last rules are not lost due to rounding issues:
+        subRules = allRules.subList(firstItem, totalRules);
+      } else {
+        subRules = allRules.subList(firstItem, firstItem + chunkSize);
+      }
+      callables.add(new TextCheckCallable(subRules, sentences, paraMode, charCount, lineCount, columnCount));
+      firstItem = firstItem + chunkSize;
+    }
+    return callables;
+  }
+
   public List<RuleMatch> checkAnalyzedSentence(final ParagraphHandling paraMode,
       final List<Rule> allRules, int tokenCount, int lineCount,
       int columnCount, final String sentence, AnalyzedSentence analyzedSentence)
@@ -598,7 +598,7 @@ public final class JLanguageTool {
       if (category != null && disabledCategories.contains(category.getName())) {
         continue;
       }
-      
+
       switch (paraMode) {
         case ONLYNONPARA: {
           if (rule.isParagraphBackTrack()) {
@@ -619,7 +619,7 @@ public final class JLanguageTool {
       final RuleMatch[] thisMatches = rule.match(analyzedSentence);
       for (final RuleMatch element1 : thisMatches) {
         final RuleMatch thisMatch = adjustRuleMatchPos(element1,
-            tokenCount, columnCount, lineCount, sentence);    
+            tokenCount, columnCount, lineCount, sentence);
         sentenceMatches.add(thisMatch);
         if (rule.isParagraphBackTrack()) {
           rule.addRuleMatch(thisMatch);
@@ -632,7 +632,7 @@ public final class JLanguageTool {
 
   /**
    * Change RuleMatch positions so they are relative to the complete text,
-   * not just to the sentence: 
+   * not just to the sentence:
    * @param match RuleMatch
    * @param sentLen Count of characters
    * @param columnCount Current column number
@@ -685,7 +685,7 @@ public final class JLanguageTool {
 
   /**
    * Get the alphabetically sorted list of unknown words in the latest run of one of the {@link #check(String)} methods.
-   * 
+   *
    * @throws IllegalStateException if {@link #setListUnknownWords(boolean)} has been set to <code>false</code>
    */
   public List<String> getUnknownWords() {
@@ -726,7 +726,7 @@ public final class JLanguageTool {
    * Tokenizes the given {@code sentence} into words and analyzes it.
    * This is the same as {@link #getAnalyzedSentence(String)} but it does not run
    * the disambiguator.
-   * 
+   *
    * @param sentence sentence to be analyzed
    * @since 0.9.8
    */
@@ -741,10 +741,10 @@ public final class JLanguageTool {
         tokens.set(i, tokens.get(i).replaceAll("\u00ad", ""));
       }
     }
-    
+
     final List<AnalyzedTokenReadings> aTokens = tagger.tag(tokens);
     final int numTokens = aTokens.size();
-    int posFix = 0; 
+    int posFix = 0;
     for (int i = 1; i < numTokens; i++) {
       aTokens.get(i).setWhitespaceBefore(aTokens.get(i - 1).isWhitespace());
       aTokens.get(i).setStartPos(aTokens.get(i).getStartPos() + posFix);
@@ -755,7 +755,7 @@ public final class JLanguageTool {
         }
       }
     }
-        
+
     final AnalyzedTokenReadings[] tokenArray = new AnalyzedTokenReadings[tokens.size() + 1];
     final AnalyzedToken[] startTokenArray = new AnalyzedToken[1];
     int toArrayCount = 0;
@@ -786,7 +786,7 @@ public final class JLanguageTool {
     }
     return new AnalyzedSentence(tokenArray);
   }
-  
+
   /**
    * Get all rules for the current language that are built-in or that have been
    * added using {@link #addRule(Rule)}.
@@ -799,15 +799,15 @@ public final class JLanguageTool {
     // Some rules have an internal state so they can do checks over sentence
     // boundaries. These need to be reset so the checks don't suddenly
     // work on different texts with the same data. However, it could be useful
-    // to keep the state information if we're checking a continuous text.    
+    // to keep the state information if we're checking a continuous text.
     for (final Rule rule : rules) {
       rule.reset();
     }
     return rules;
   }
-  
+
   /**
-   * Get all active (not disabled) rules for the current language that are built-in or that 
+   * Get all active (not disabled) rules for the current language that are built-in or that
    * have been added using e.g. {@link #addRule(Rule)}.
    * @return a List of {@link Rule} objects
    */
@@ -819,13 +819,13 @@ public final class JLanguageTool {
     // Some rules have an internal state so they can do checks over sentence
     // boundaries. These need to be reset so the checks don't suddenly
     // work on different texts with the same data. However, it could be useful
-    // to keep the state information if we're checking a continuous text.    
+    // to keep the state information if we're checking a continuous text.
     for (final Rule rule : rules) {
       rule.reset();
       if (!disabledRules.contains(rule.getId())) {
         rulesActive.add(rule);
       }
-    }    
+    }
     return rulesActive;
   }
 
@@ -841,7 +841,7 @@ public final class JLanguageTool {
       printStream.println(s);
     }
   }
-  
+
   /**
    * Adds a temporary file to the internal list
    * @param file the file to be added.
@@ -849,13 +849,76 @@ public final class JLanguageTool {
   public static void addTemporaryFile(final File file) {
     temporaryFiles.add(file);
   }
-  
+
   /**
    * Clean up all temporary files, if there are any.
    */
   public static void removeTemporaryFiles() {
     for (File file : temporaryFiles) {
       file.delete();
+    }
+  }
+
+  class TextCheckCallable implements Callable<List<RuleMatch>> {
+
+    private final List<Rule> rules;
+    private List<String> sentences;
+    private final ParagraphHandling paraMode;
+
+    private int charCount;
+    private int lineCount;
+    private int columnCount;
+
+    TextCheckCallable(List<Rule> rules, List<String> sentences, ParagraphHandling paraMode, int charCount, int lineCount, int columnCount) {
+      this.rules = rules;
+      this.sentences = sentences;
+      this.paraMode = paraMode;
+      this.charCount = charCount;
+      this.lineCount = lineCount;
+      this.columnCount = columnCount;
+    }
+
+    @Override
+    public List<RuleMatch> call() throws Exception {
+      final List<RuleMatch> ruleMatches = new ArrayList<>();
+      for (final String sentence : sentences) {
+        sentenceCount++;
+        AnalyzedSentence analyzedSentence = getAnalyzedSentence(sentence);
+        rememberUnknownWords(analyzedSentence);
+
+        if (sentenceCount == sentences.size()) {
+          final AnalyzedTokenReadings[] anTokens = analyzedSentence.getTokens();
+          anTokens[anTokens.length - 1].setParaEnd();
+          analyzedSentence = new AnalyzedSentence(anTokens);
+        }
+
+        printIfVerbose(analyzedSentence.toString());
+        printIfVerbose(analyzedSentence.getAnnotations());
+        final List<RuleMatch> sentenceMatches =
+                checkAnalyzedSentence(paraMode, rules, charCount, lineCount,
+                        columnCount, sentence, analyzedSentence);
+
+        Collections.sort(sentenceMatches);
+        ruleMatches.addAll(sentenceMatches);
+        charCount += sentence.length();
+        lineCount += countLineBreaks(sentence);
+
+        // calculate matching column:
+        final int lineBreakPos = sentence.lastIndexOf('\n');
+        if (lineBreakPos == -1) {
+          columnCount += sentence.length();
+        } else {
+          if (lineBreakPos == 0) {
+            columnCount = sentence.length();
+            if (!language.getSentenceTokenizer().singleLineBreaksMarksPara()) {
+              columnCount--;
+            }
+          } else {
+            columnCount = sentence.length() - lineBreakPos;
+          }
+        }
+      }
+      return ruleMatches;
     }
   }
 
