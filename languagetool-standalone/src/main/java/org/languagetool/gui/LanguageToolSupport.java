@@ -32,17 +32,23 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.swing.BorderFactory;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -67,15 +73,17 @@ import javax.swing.text.JTextComponent;
 import javax.swing.text.Position;
 import javax.swing.text.View;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.tools.LanguageIdentifierTools;
 
 /**
  * Support for associating a LanguageTool instance and a JTextComponent
  *
  * @author Panagiotis Minos
  */
-public class LanguageToolSupport implements Runnable {
+class LanguageToolSupport implements Runnable {
 
   private JLanguageTool languageTool;
   private JTextComponent textComponent;
@@ -94,21 +102,102 @@ public class LanguageToolSupport implements Runnable {
   private boolean popupMenuEnabled = true;
   private boolean backgroundCheckEnabled = true;
   private final ResourceBundle messages;
-
+  private Configuration config;
+  private Language currentLanguage;
+  private static final String CONFIG_FILE = ".languagetool.cfg";
+  private final Map<Language, ConfigurationDialog> configDialogs = new HashMap<>();
+  private JFrame frame;
+  
   /**
    * LanguageTool support for a JTextComponent
    *
-   * @param languageTool the JLanguageTool instance
    * @param textComponent a JTextComponent
    */
-  public LanguageToolSupport(JLanguageTool languageTool, JTextComponent textComponent) {
-    this.languageTool = languageTool;
+  public LanguageToolSupport(JFrame frame, JTextComponent textComponent) {
+    this.frame = frame;
     this.textComponent = textComponent;
-    messages = JLanguageTool.getMessageBundle();
+    this.messages = JLanguageTool.getMessageBundle();
     init();
   }
 
+  private Language getDefaultLanguage() {
+    if (config.getLanguage() != null) {
+      return config.getLanguage();
+    } else {
+      return Language.getLanguageForLocale(Locale.getDefault());
+    }
+  }
+
+  private void warmUpChecker() {
+    // Warm-up: we have a lot of lazy init in LT, which causes the first check to
+    // be very slow (several seconds) for languages with a lot of data and a lot of 
+    // rules. We just assume that the default language is the language that the user
+    // often uses and init the LT object for that now, not just when it's first used.
+    // This makes the first check feel much faster:
+    getCurrentLanguageTool();
+  }
+
+  ConfigurationDialog getCurrentConfigDialog() {
+    Language language = this.currentLanguage;
+    final ConfigurationDialog configDialog;
+    if (configDialogs.containsKey(language)) {
+      configDialog = configDialogs.get(language);
+    } else {
+      configDialog = new ConfigurationDialog(frame, false);
+      configDialog.setMotherTongue(config.getMotherTongue());
+      configDialog.setDisabledRules(config.getDisabledRuleIds());
+      configDialog.setEnabledRules(config.getEnabledRuleIds());
+      configDialog.setDisabledCategories(config.getDisabledCategoryNames());
+      configDialog.setRunServer(config.getRunServer());
+      configDialog.setServerPort(config.getServerPort());
+      configDialog.setUseGUIConfig(config.getUseGUIConfig());
+      configDialogs.put(language, configDialog);
+    }
+    return configDialog;
+  }
+
+  private void getCurrentLanguageTool() {
+
+    try {
+      config = new Configuration(new File(System.getProperty("user.home")), CONFIG_FILE, currentLanguage);
+      final ConfigurationDialog configDialog = getCurrentConfigDialog();
+      languageTool = new JLanguageTool(currentLanguage, configDialog.getMotherTongue());
+      languageTool.activateDefaultPatternRules();
+      languageTool.activateDefaultFalseFriendRules();
+      final Set<String> disabledRules = configDialog.getDisabledRuleIds();
+      if (disabledRules != null) {
+        for (final String ruleId : disabledRules) {
+          languageTool.disableRule(ruleId);
+        }
+      }
+      final Set<String> disabledCategories = configDialog.getDisabledCategoryNames();
+      if (disabledCategories != null) {
+        for (final String categoryName : disabledCategories) {
+          languageTool.disableCategory(categoryName);
+        }
+      }
+      final Set<String> enabledRules = configDialog.getEnabledRuleIds();
+      if (enabledRules != null) {
+        for (String ruleName : enabledRules) {
+          languageTool.enableDefaultOffRule(ruleName);
+          languageTool.enableRule(ruleName);
+        }
+      }
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+
+  }
+
   private void init() {
+    LanguageIdentifierTools.addLtProfiles();
+    try {
+      config = new Configuration(new File(System.getProperty("user.home")), CONFIG_FILE, null);
+    } catch (IOException ex) {
+      throw new RuntimeException(ex);
+    }
+    currentLanguage = getDefaultLanguage();
+    warmUpChecker();
     rhp = new HighlightPainter(Color.red);
     bhp = new HighlightPainter(Color.blue);
     ruleMatches = new ArrayList();
@@ -254,6 +343,20 @@ public class LanguageToolSupport implements Runnable {
     if (backgroundCheckEnabled) {
       checkImmediately();
     }
+  }
+  public void setLanguage(Language language) {
+    this.currentLanguage= language;
+    getCurrentLanguageTool();
+    if (backgroundCheckEnabled) {
+      checkImmediately();
+    }    
+  }
+  public Configuration getConfig() {
+    return config;
+  }
+
+  public JLanguageTool getLanguageTool() {
+    return languageTool;
   }
 
   private void disableRule(String rule) {
@@ -634,6 +737,8 @@ public class LanguageToolSupport implements Runnable {
     }
     return String.format("<br/><br/><a href=\"%s\">%s</a>",
             url.toExternalForm(), "external link");
+
+
   }
 
   private static class HighlightPainter extends DefaultHighlighter.DefaultHighlightPainter {

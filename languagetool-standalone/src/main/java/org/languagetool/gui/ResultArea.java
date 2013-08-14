@@ -53,18 +53,17 @@ class ResultArea {
   private final JTextArea textArea;
   private final JTextPane statusPane;
 
-  private Configuration config;
   private String inputText;
   private String startText;
   private List<RuleMatch> allRuleMatches;
   private List<RuleMatch> ruleMatches;    // will be filtered to not show disabled rules
   private long runTime;
-  private JLanguageTool languageTool;
+  private final LanguageToolSupport ltSupport;
 
-  ResultArea(ResourceBundle messages, JTextArea textArea, Configuration config, JTextPane statusPane) {
+  ResultArea(ResourceBundle messages, JTextArea textArea, LanguageToolSupport ltSupport, JTextPane statusPane) {
     this.messages = messages;
     this.textArea = textArea;
-    this.config = config;
+    this.ltSupport = ltSupport;
     this.statusPane = statusPane;
     statusPane.setContentType("text/html");
     statusPane.setText(Main.HTML_GREY_FONT_START + messages.getString("resultAreaText") + Main.HTML_FONT_END);
@@ -123,7 +122,7 @@ class ResultArea {
     sb.append(messages.getString("deactivatedRulesText"));
     int i = 0;
     int deactivatedRuleCount = 0;
-    for (String ruleId : config.getDisabledRuleIds()) {
+    for (String ruleId : ltSupport.getConfig().getDisabledRuleIds()) {
       if (ruleId.trim().isEmpty()) {
         continue;
       }
@@ -147,7 +146,7 @@ class ResultArea {
   }
 
   private Rule getRuleForId(String ruleId) {
-    final List<Rule> allRules = languageTool.getAllRules();
+    final List<Rule> allRules = ltSupport.getLanguageTool().getAllRules();
     for (Rule rule : allRules) {
       if (rule.getId().equals(ruleId)) {
         return rule;
@@ -184,17 +183,9 @@ class ResultArea {
     statusPane.setCaretPosition(0);
   }
 
-  void setConfiguration(Configuration config) {
-    this.config = config;
-  }
-
-  void setLanguageTool(JLanguageTool languageTool) {
-    this.languageTool = languageTool;
-  }
-
   private List<RuleMatch> filterRuleMatches() {
     final List<RuleMatch> filtered = new ArrayList<>();
-    final Set<String> disabledRuleIds = config.getDisabledRuleIds();
+    final Set<String> disabledRuleIds = ltSupport.getConfig().getDisabledRuleIds();
     for (RuleMatch ruleMatch : allRuleMatches) {
       if (!disabledRuleIds.contains(ruleMatch.getRule().getId())) {
         filtered.add(ruleMatch);
@@ -231,17 +222,17 @@ class ResultArea {
       try {
         final RuleLink ruleLink = RuleLink.getFromString(uri);
         final String ruleId = ruleLink.getId();
-        final Set<String> disabledRuleIds = config.getDisabledRuleIds();
+        final Set<String> disabledRuleIds = ltSupport.getConfig().getDisabledRuleIds();
         if (uri.startsWith(DEACTIVATE_URL)) {
           disabledRuleIds.add(ruleId);
-          languageTool.disableRule(ruleId);
+          ltSupport.getLanguageTool().disableRule(ruleId);
         } else {
           disabledRuleIds.remove(ruleId);
-          languageTool.enableRule(ruleId);
+          ltSupport.getLanguageTool().enableRule(ruleId);
         }
-        config.setDisabledRuleIds(disabledRuleIds);
-        config.saveConfiguration(languageTool.getLanguage());
-        allRuleMatches = languageTool.check(textArea.getText());
+        ltSupport.getConfig().setDisabledRuleIds(disabledRuleIds);
+        ltSupport.getConfig().saveConfiguration(ltSupport.getLanguageTool().getLanguage());
+        allRuleMatches = ltSupport.getLanguageTool().check(textArea.getText());
         reDisplayRuleMatches();
       } finally {
         statusPane.setCursor(prevCursor);

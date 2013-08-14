@@ -21,7 +21,6 @@ package org.languagetool.gui;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javax.swing.JComboBox;
@@ -34,19 +33,16 @@ import org.languagetool.Language;
 public class LanguageComboBox extends JComboBox<Language> {
 
   private final ResourceBundle messages;
-  private final Configuration config;
   private final List<Language> languages = new ArrayList<>();
 
-  public LanguageComboBox(ResourceBundle messages, Configuration config) {
+  public LanguageComboBox(ResourceBundle messages) {
     this.messages = messages;
-    this.config = config;
     populateLanguageBox();
   }
 
   final void populateLanguageBox() {
     removeAllItems();
     initAllLanguages();
-    preselectDefaultLanguage();
   }
 
   void selectLanguage(Language language) {
@@ -54,14 +50,6 @@ public class LanguageComboBox extends JComboBox<Language> {
       if (lang.toString().equals(language.toString())) {
         setSelectedItem(lang);
       }
-    }
-  }
-
-  private Language getDefaultLanguage() {
-    if (config.getLanguage() != null) {
-      return config.getLanguage();
-    } else {
-      return Language.getLanguageForLocale(Locale.getDefault());
     }
   }
 
@@ -80,9 +68,4 @@ public class LanguageComboBox extends JComboBox<Language> {
       addItem(language);
     }
   }
-
-  private void preselectDefaultLanguage() {
-    selectLanguage(getDefaultLanguage());
-  }
- 
 }

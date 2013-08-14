@@ -40,12 +40,9 @@ import java.awt.datatransfer.Transferable;
 import java.awt.event.*;
 import java.io.*;
 import java.net.URL;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.Set;
 import javax.swing.text.DefaultEditorKit;
 import org.apache.tika.language.LanguageIdentifier;
 
@@ -73,8 +70,8 @@ public final class Main {
 
   private final ResourceBundle messages;
 
-  private Configuration config;
-  private JLanguageTool langTool;
+  //private Configuration config;
+  //private JLanguageTool langTool;
   private JFrame frame;
   private JTextArea textArea;
   private JTextPane resultArea;
@@ -86,14 +83,14 @@ public final class Main {
 
   private HTTPServer httpServer;
 
-  private final Map<Language, ConfigurationDialog> configDialogs = new HashMap<>();
+  //private final Map<Language, ConfigurationDialog> configDialogs = new HashMap<>();
 
   private TrayIcon trayIcon;
   private boolean closeHidesToTray;
   private boolean isInTray;
   private boolean isAlreadyChecking;
 
-  private Language currentLanguage;
+  //private Language currentLanguage;
   private LanguageToolSupport ltSupport;
   private OpenAction openAction;
   private SaveAction saveAction;
@@ -106,9 +103,7 @@ public final class Main {
 
   private Main() throws IOException {
     LanguageIdentifierTools.addLtProfiles();
-    config = new Configuration(new File(System.getProperty("user.home")), CONFIG_FILE, null);
     messages = JLanguageTool.getMessageBundle();
-    maybeStartServer();
   }
 
   void loadFile() {
@@ -172,13 +167,15 @@ public final class Main {
       Tools.showErrorMessage(e, frame);
     }
     languageBox.populateLanguageBox();
+    languageBox.selectLanguage(ltSupport.getLanguageTool().getLanguage());
   }
 
   void showOptions() {
-    final JLanguageTool langTool = getCurrentLanguageTool(currentLanguage);
+    final JLanguageTool langTool = ltSupport.getLanguageTool();
     final List<Rule> rules = langTool.getAllRules();
-    final ConfigurationDialog configDialog = getCurrentConfigDialog(currentLanguage);
+    final ConfigurationDialog configDialog = ltSupport.getCurrentConfigDialog();
     configDialog.show(rules); // this blocks until OK/Cancel is clicked in the dialog
+    Configuration config = ltSupport.getConfig();
     config.setDisabledRuleIds(configDialog.getDisabledRuleIds());
     config.setEnabledRuleIds(configDialog.getEnabledRuleIds());
     config.setDisabledCategoryNames(configDialog.getDisabledCategoryNames());
@@ -229,7 +226,6 @@ public final class Main {
     textArea.setWrapStyleWord(true);
     textArea.addKeyListener(new ControlReturnTextCheckingListener());
     resultArea = new JTextPane();
-    resultAreaHelper = new ResultArea(messages, textArea, config, resultArea);
     undoRedo = new UndoRedoSupport(this.textArea);
     frame.setJMenuBar(createMenuBar());
 
@@ -244,16 +240,15 @@ public final class Main {
     buttonCons.gridy = 0;
     buttonCons.anchor = GridBagConstraints.WEST;
     insidePanel.add(new JLabel(" " + messages.getString("textLanguage") + " "), buttonCons);
-    languageBox = new LanguageComboBox(messages, config);
+    languageBox = new LanguageComboBox(messages);
     languageBox.setRenderer(new LanguageComboBoxRenderer(messages));
     languageBox.addItemListener(new ItemListener() {
       @Override
       public void itemStateChanged(ItemEvent e) {
         if(e.getStateChange() == ItemEvent.SELECTED)
         {
-          langTool = null;  // we cannot re-use the existing LT object anymore
-          currentLanguage = (Language) languageBox.getSelectedItem();
-          ltSupport.setLanguageTool(getCurrentLanguageTool(currentLanguage));
+          // we cannot re-use the existing LT object anymore
+          ltSupport.setLanguage((Language) languageBox.getSelectedItem());
         }
       }
     });
@@ -266,13 +261,13 @@ public final class Main {
     buttonCons.gridx = 2;
     buttonCons.gridy = 0;
 
-    autoDetectBox = new JCheckBox(messages.getString("atd"), config.getAutoDetect());
+    autoDetectBox = new JCheckBox(messages.getString("atd"));
     autoDetectBox.addItemListener(new ItemListener() {
       @Override
       public void itemStateChanged(ItemEvent e) {
         boolean selected = (e.getStateChange() == ItemEvent.SELECTED);
         languageBox.setEnabled(!selected);
-        config.setAutoDetect(selected);
+        ltSupport.getConfig().setAutoDetect(selected);
         if (selected) {
           Language detected = autoDetectLanguage(textArea.getText());
           languageBox.selectLanguage(detected);
@@ -347,16 +342,17 @@ public final class Main {
     cons.gridy = 3;
     contentPane.add(panel, cons);
 
-    currentLanguage = getDefaultLanguage();
-    warmUpChecker();
-    ltSupport = new LanguageToolSupport(this.langTool, this.textArea);
-    if(config.getAutoDetect()) {
+    ltSupport = new LanguageToolSupport(this.frame, this.textArea);
+    if(ltSupport.getConfig().getAutoDetect()) {
       languageBox.selectLanguage(autoDetectLanguage(textArea.getText()));
     }
-
+    resultAreaHelper = new ResultArea(messages, textArea, ltSupport, resultArea);
+    autoDetectBox.setSelected(ltSupport.getConfig().getAutoDetect());
+    languageBox.selectLanguage(ltSupport.getLanguageTool().getLanguage());
     frame.pack();
     frame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
     frame.setLocationByPlatform(true);
+    maybeStartServer();
   }
 
   private String getLabel(String key) {
@@ -461,23 +457,6 @@ public final class Main {
     return menuBar;
   }
   
-  private Language getDefaultLanguage() {
-    if (config.getLanguage() != null) {
-      return config.getLanguage();
-    } else {
-      return Language.getLanguageForLocale(Locale.getDefault());
-    }
-  }
-
-  private void warmUpChecker() {
-    // Warm-up: we have a lot of lazy init in LT, which causes the first check to
-    // be very slow (several seconds) for languages with a lot of data and a lot of 
-    // rules. We just assume that the default language is the language that the user
-    // often uses and init the LT object for that now, not just when it's first used.
-    // This makes the first check feel much faster:
-    getCurrentLanguageTool(currentLanguage);
-  }
-
   private void setLookAndFeel() {
     try {
       for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
@@ -575,8 +554,9 @@ public final class Main {
   void quit() {
     stopServer();
     try {
-      config.setLanguage(currentLanguage);
-      config.saveConfiguration(currentLanguage);
+      Configuration config = ltSupport.getConfig();
+      config.setLanguage(ltSupport.getLanguageTool().getLanguage());
+      config.saveConfiguration(ltSupport.getLanguageTool().getLanguage());
     } catch (IOException e) {
       Tools.showError(e);
     }
@@ -648,6 +628,7 @@ public final class Main {
   }
 
   private boolean maybeStartServer() {
+    Configuration config = ltSupport.getConfig();
     if (config.getRunServer()) {
       try {
         final HTTPServerConfig serverConfig = new HTTPServerConfig(config.getServerPort(), false);
@@ -690,60 +671,6 @@ public final class Main {
     return lang;
   }
 
-  private ConfigurationDialog getCurrentConfigDialog(Language language) {
-    final ConfigurationDialog configDialog;
-    if (configDialogs.containsKey(language)) {
-      configDialog = configDialogs.get(language);
-    } else {
-      configDialog = new ConfigurationDialog(frame, false);
-      configDialog.setMotherTongue(config.getMotherTongue());
-      configDialog.setDisabledRules(config.getDisabledRuleIds());
-      configDialog.setEnabledRules(config.getEnabledRuleIds());
-      configDialog.setDisabledCategories(config.getDisabledCategoryNames());
-      configDialog.setRunServer(config.getRunServer());
-      configDialog.setServerPort(config.getServerPort());
-      configDialog.setUseGUIConfig(config.getUseGUIConfig());
-      configDialogs.put(language, configDialog);
-    }
-    return configDialog;
-  }
-
-  private JLanguageTool getCurrentLanguageTool(Language currentLanguage) {
-    if (langTool == null) {
-      try {
-        config = new Configuration(new File(System.getProperty("user.home")), CONFIG_FILE, currentLanguage);
-        resultAreaHelper.setConfiguration(config);
-        final ConfigurationDialog configDialog = getCurrentConfigDialog(currentLanguage);
-        langTool = new JLanguageTool(currentLanguage, configDialog.getMotherTongue());
-        langTool.activateDefaultPatternRules();
-        langTool.activateDefaultFalseFriendRules();
-        resultAreaHelper.setLanguageTool(langTool);
-        final Set<String> disabledRules = configDialog.getDisabledRuleIds();
-        if (disabledRules != null) {
-          for (final String ruleId : disabledRules) {
-            langTool.disableRule(ruleId);
-          }
-        }
-        final Set<String> disabledCategories = configDialog.getDisabledCategoryNames();
-        if (disabledCategories != null) {
-          for (final String categoryName : disabledCategories) {
-            langTool.disableCategory(categoryName);
-          }
-        }
-        final Set<String> enabledRules = configDialog.getEnabledRuleIds();
-        if (enabledRules != null) {
-          for (String ruleName : enabledRules) {
-            langTool.enableDefaultOffRule(ruleName);
-            langTool.enableRule(ruleName);
-          }
-        }
-      } catch (Exception e) {
-        throw new RuntimeException(e);
-      }
-    }
-    return langTool;
-  }
-
   private void checkTextAndDisplayResults() {
     if (StringTools.isEmpty(textArea.getText().trim())) {
       textArea.setText(messages.getString("enterText2"));
@@ -752,7 +679,7 @@ public final class Main {
     if (isAlreadyChecking) {
       return;
     }
-    final Language lang = currentLanguage;
+    final Language lang = ltSupport.getLanguageTool().getLanguage();
     final String langName;
     if (lang.isExternal()) {
       langName = lang.getTranslatedName(messages) + EXTERNAL_LANGUAGE_SUFFIX;
@@ -771,13 +698,11 @@ public final class Main {
       public void run() {
         try {
           try {
-            final JLanguageTool langTool = getCurrentLanguageTool(lang);
             List<RuleMatch> ruleMatches = ltSupport._check();
             resultAreaHelper.setStartText(startCheckText);
             resultAreaHelper.setInputText(textArea.getText());
             resultAreaHelper.setRuleMatches(ruleMatches);
             resultAreaHelper.setRunTime(System.currentTimeMillis() - startTime);
-            resultAreaHelper.setLanguageTool(langTool);
             resultAreaHelper.displayResult();
           } catch (Exception e) {
             final String error = getStackTraceAsHtml(e);
@@ -819,7 +744,7 @@ public final class Main {
   }
 
   private void tagTextAndDisplayResults() {
-    final JLanguageTool langTool = getCurrentLanguageTool(currentLanguage);
+    final JLanguageTool langTool = ltSupport.getLanguageTool();
     // tag text
     final List<String> sentences = langTool.sentenceTokenize(textArea.getText());
     final StringBuilder sb = new StringBuilder();
@@ -863,7 +788,6 @@ public final class Main {
       } else if (args.length >= 1) {
         System.out.println("Usage: java org.languagetool.gui.Main [-t|--tray]");
         System.out.println("  -t, --tray: dock LanguageTool to system tray on startup");
-        prg.stopServer();
       } else {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
           @Override
@@ -908,20 +832,20 @@ public final class Main {
     @Override
     public void itemStateChanged(ItemEvent e) {
       try {
-        final Language language = currentLanguage;
-        final ConfigurationDialog configDialog = configDialogs.get(language);
+        final ConfigurationDialog configDialog = ltSupport.getCurrentConfigDialog();
+        final Configuration config = ltSupport.getConfig();
         if (e.getStateChange() == ItemEvent.SELECTED) {
           config.setRunServer(true);
           final boolean serverStarted = maybeStartServer();
           enableHttpServerItem.setState(serverStarted);
           config.setRunServer(serverStarted);
-          config.saveConfiguration(language);
+          config.saveConfiguration(ltSupport.getLanguageTool().getLanguage());
           if (configDialog != null) {
             configDialog.setRunServer(true);
           }
         } else if (e.getStateChange() == ItemEvent.DESELECTED) {
           config.setRunServer(false);
-          config.saveConfiguration(language);
+          config.saveConfiguration(ltSupport.getLanguageTool().getLanguage());
           if (configDialog != null) {
             configDialog.setRunServer(false);
           }
