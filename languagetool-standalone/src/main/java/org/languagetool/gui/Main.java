@@ -241,7 +241,7 @@ public final class Main {
     buttonCons.anchor = GridBagConstraints.WEST;
     insidePanel.add(new JLabel(" " + messages.getString("textLanguage") + " "), buttonCons);
     languageBox = new LanguageComboBox(messages);
-    languageBox.setRenderer(new LanguageComboBoxRenderer(messages));
+    languageBox.setRenderer(new LanguageComboBoxRenderer(messages, EXTERNAL_LANGUAGE_SUFFIX));
     languageBox.addItemListener(new ItemListener() {
       @Override
       public void itemStateChanged(ItemEvent e) {

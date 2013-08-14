@@ -36,31 +36,35 @@ import javax.swing.undo.UndoManager;
 import org.languagetool.JLanguageTool;
 
 /**
+ * Provides Undo/Redo support and actions for JTextComponent
  *
  * @author Panagiotis Minos
  */
 class UndoRedoSupport {
 
-  UndoAction undoAction;
-  RedoAction redoAction;
-  private UndoManager undo = new UndoManager();
+  final UndoAction undoAction;
+  final RedoAction redoAction;
+  private final UndoManager undoManager;
 
   UndoRedoSupport(JTextComponent textComponent) {
+    undoManager = new UndoManager();
     undoAction = new UndoAction();
     redoAction = new RedoAction();
     textComponent.getDocument().addUndoableEditListener(new UndoableEditListener() {
       @Override
       public void undoableEditHappened(UndoableEditEvent e) {
-        undo.addEdit(e.getEdit());
+        undoManager.addEdit(e.getEdit());
         undoAction.updateUndoState();
         redoAction.updateRedoState();
       }
     });
     InputMap inputMap = textComponent.getInputMap();
-    KeyStroke key = KeyStroke.getKeyStroke(KeyEvent.VK_Z, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask());
+    KeyStroke key = KeyStroke.getKeyStroke(KeyEvent.VK_Z,
+            Toolkit.getDefaultToolkit().getMenuShortcutKeyMask());
     inputMap.put(key, "undo");
     textComponent.getActionMap().put("undo", undoAction);
-    key = KeyStroke.getKeyStroke(KeyEvent.VK_Z, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() | java.awt.event.InputEvent.SHIFT_DOWN_MASK);
+    key = KeyStroke.getKeyStroke(KeyEvent.VK_Z,
+            Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() | java.awt.event.InputEvent.SHIFT_DOWN_MASK);
     inputMap.put(key, "redo");
     textComponent.getActionMap().put("redo", redoAction);
   }
@@ -76,26 +80,28 @@ class UndoRedoSupport {
       img = Toolkit.getDefaultToolkit().getImage(
               JLanguageTool.getDataBroker().getFromResourceDirAsUrl("lc_undo.png"));
       putValue(Action.LARGE_ICON_KEY, new ImageIcon(img));
-      putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_Z, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+      KeyStroke key = KeyStroke.getKeyStroke(KeyEvent.VK_Z,
+              Toolkit.getDefaultToolkit().getMenuShortcutKeyMask());
+      putValue(Action.ACCELERATOR_KEY, key);
       putValue(Action.MNEMONIC_KEY, KeyEvent.VK_U);
-
       setEnabled(false);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
       try {
-        undo.undo();
+        undoManager.undo();
       } catch (CannotUndoException ex) {
+        // ignore
       }
       updateUndoState();
       redoAction.updateRedoState();
     }
 
     private void updateUndoState() {
-      if (undo.canUndo()) {
+      if (undoManager.canUndo()) {
         setEnabled(true);
-        putValue(Action.NAME, undo.getUndoPresentationName());
+        putValue(Action.NAME, undoManager.getUndoPresentationName());
       } else {
         setEnabled(false);
         putValue(Action.NAME, "Undo");
@@ -114,7 +120,9 @@ class UndoRedoSupport {
       img = Toolkit.getDefaultToolkit().getImage(
               JLanguageTool.getDataBroker().getFromResourceDirAsUrl("lc_redo.png"));
       putValue(Action.LARGE_ICON_KEY, new ImageIcon(img));
-      putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_Z, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() | java.awt.event.InputEvent.SHIFT_DOWN_MASK));
+      KeyStroke key = KeyStroke.getKeyStroke(KeyEvent.VK_Z,
+              Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() | java.awt.event.InputEvent.SHIFT_DOWN_MASK);
+      putValue(Action.ACCELERATOR_KEY, key);
       putValue(Action.MNEMONIC_KEY, KeyEvent.VK_R);
       setEnabled(false);
     }
@@ -122,17 +130,18 @@ class UndoRedoSupport {
     @Override
     public void actionPerformed(ActionEvent e) {
       try {
-        undo.redo();
+        undoManager.redo();
       } catch (CannotRedoException ex) {
+        // ignore
       }
       updateRedoState();
       undoAction.updateUndoState();
     }
 
     private void updateRedoState() {
-      if (undo.canRedo()) {
+      if (undoManager.canRedo()) {
         setEnabled(true);
-        putValue(Action.NAME, undo.getRedoPresentationName());
+        putValue(Action.NAME, undoManager.getRedoPresentationName());
       } else {
         setEnabled(false);
         putValue(Action.NAME, "Redo");

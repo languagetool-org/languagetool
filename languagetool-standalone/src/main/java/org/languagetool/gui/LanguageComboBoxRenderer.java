@@ -39,17 +39,19 @@ class LanguageComboBoxRenderer extends JLabel implements ListCellRenderer<Langua
 
   private static final Border BORDER = new EmptyBorder(1, 3, 1, 1);
   private final ResourceBundle messages;
+  private final String extLangSuffix;
 
-  LanguageComboBoxRenderer(ResourceBundle messages) {
+  LanguageComboBoxRenderer(ResourceBundle messages, String extLangSuffix) {
     super();
     setOpaque(true);
     setBorder(BORDER);
     this.messages = messages;
+    this.extLangSuffix = extLangSuffix;
   }
 
   private String getTranslatedName(Language language) {
     if (language.isExternal()) {
-      return language.getName() + Main.EXTERNAL_LANGUAGE_SUFFIX;
+      return language.getName() + extLangSuffix;
     } else {
       return language.getTranslatedName(messages);
     }
@@ -69,7 +71,7 @@ class LanguageComboBoxRenderer extends JLabel implements ListCellRenderer<Langua
     String langTag = value.getLocaleWithCountry().toLanguageTag();
     String country = value.getLocaleWithCountry().getCountry().toLowerCase();
     ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
-    
+
     String filename = "flags/bytag/" + langTag + ".png";
     if (!dataBroker.resourceExists(filename)) {
       filename = "flags/" + country + ".png";
@@ -77,7 +79,7 @@ class LanguageComboBoxRenderer extends JLabel implements ListCellRenderer<Langua
     if (!dataBroker.resourceExists(filename)) {
       filename = "flags/empty.png";
     }
-    
+
     ImageIcon icon = new ImageIcon(dataBroker.getFromResourceDirAsUrl(filename));
     setIcon(icon);
     setEnabled(list.isEnabled());
