@@ -151,7 +151,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
       inMessage = true;
       inSuggestion = false;
       message = new StringBuilder();
-    } else if ("suggestion".equals(qName) && !inMessage) {  //suggestions outside message
+    } else if (SUGGESTION.equals(qName) && !inMessage) {  //suggestions outside message
         if (YES.equals(attrs.getValue("suppress_misspelled"))) {
           suggestionsOutMsg.append("<pleasespellme/>");
         }
@@ -173,7 +173,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
       if (attrs.getValue("type") != null) {
         ruleGroupIssueType = attrs.getValue("type");
       }
-    } else if ("suggestion".equals(qName) && inMessage) {      
+    } else if (SUGGESTION.equals(qName) && inMessage) {
       if (YES.equals(attrs.getValue("suppress_misspelled"))) {
         message.append("<pleasespellme/>");
       }
@@ -279,7 +279,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
     } else if (MESSAGE.equals(qName)) {
       suggestionMatches = addLegacyMatches(suggestionMatches,message.toString(),true);
       inMessage = false;
-    } else if ("suggestion".equals(qName) && !inMessage) { //suggestion outside message
+    } else if (SUGGESTION.equals(qName) && !inMessage) { //suggestion outside message
       suggestionsOutMsg.append("</suggestion>");
       inSuggestion = false;
     } else if ("short".equals(qName)) {
@@ -300,7 +300,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
     } else if (RULEGROUP.equals(qName)) {
       inRuleGroup = false;
       ruleGroupIssueType = null;
-    } else if ("suggestion".equals(qName) && inMessage) {
+    } else if (SUGGESTION.equals(qName) && inMessage) {
       message.append("</suggestion>");      
       inSuggestion = false;
     } else if (MARKER.equals(qName) && inCorrectExample) {
