@@ -19,7 +19,6 @@
 package org.languagetool.gui;
 
 import org.apache.commons.lang.StringUtils;
-import org.languagetool.JLanguageTool;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.SpellingCheckRule;
@@ -72,7 +71,7 @@ class ResultArea {
     statusPane.setTransferHandler(new RetainLineBreakTransferHandler());
   }
 
-  String getRuleMatchHtml(List<RuleMatch> ruleMatches, String text, String startCheckText) {
+  private String getRuleMatchHtml(List<RuleMatch> ruleMatches, String text, String startCheckText) {
     final ContextTools contextTools = new ContextTools();
     final StringBuilder sb = new StringBuilder();
     sb.append(startCheckText);
@@ -126,7 +125,7 @@ class ResultArea {
       if (ruleId.trim().isEmpty()) {
         continue;
       }
-      final Rule rule = getRuleForId(ruleId);
+      final Rule rule = ltSupport.getRuleForId(ruleId);
       if (rule == null || rule.isDefaultOff()) {
         continue;
       }
@@ -143,16 +142,6 @@ class ResultArea {
     } else {
       return sb.toString();
     }
-  }
-
-  private Rule getRuleForId(String ruleId) {
-    final List<Rule> allRules = ltSupport.getLanguageTool().getAllRules();
-    for (Rule rule : allRules) {
-      if (rule.getId().equals(ruleId)) {
-        return rule;
-      }
-    }
-    return null;
   }
 
   void setInputText(String inputText) {
@@ -225,14 +214,14 @@ class ResultArea {
         final Set<String> disabledRuleIds = ltSupport.getConfig().getDisabledRuleIds();
         if (uri.startsWith(DEACTIVATE_URL)) {
           disabledRuleIds.add(ruleId);
-          ltSupport.getLanguageTool().disableRule(ruleId);
+          ltSupport.disableRule(ruleId);
         } else {
           disabledRuleIds.remove(ruleId);
-          ltSupport.getLanguageTool().enableRule(ruleId);
+          ltSupport.enableRule(ruleId);
         }
         ltSupport.getConfig().setDisabledRuleIds(disabledRuleIds);
         ltSupport.getConfig().saveConfiguration(ltSupport.getLanguageTool().getLanguage());
-        allRuleMatches = ltSupport.getLanguageTool().check(textArea.getText());
+        allRuleMatches = ltSupport._check();
         reDisplayRuleMatches();
       } finally {
         statusPane.setCursor(prevCursor);

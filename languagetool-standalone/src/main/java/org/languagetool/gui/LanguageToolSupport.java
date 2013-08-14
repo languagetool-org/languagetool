@@ -334,16 +334,6 @@ class LanguageToolSupport implements Runnable {
     }
   }
 
-  /**
-   *
-   * @param languageTool
-   */
-  public void setLanguageTool(JLanguageTool languageTool) {
-    this.languageTool = languageTool;
-    if (backgroundCheckEnabled) {
-      checkImmediately();
-    }
-  }
   public void setLanguage(Language language) {
     this.currentLanguage= language;
     getCurrentLanguageTool();
@@ -359,12 +349,12 @@ class LanguageToolSupport implements Runnable {
     return languageTool;
   }
 
-  private void disableRule(String rule) {
+  void disableRule(String rule) {
     languageTool.disableRule(rule);
     updateHighlights(rule);
   }
 
-  private void enableRule(String rule) {
+  void enableRule(String rule) {
     languageTool.enableRule(rule);
     checkImmediately();
   }
@@ -458,7 +448,7 @@ class LanguageToolSupport implements Runnable {
     }
   }
 
-  private Rule getRuleForId(String ruleId) {
+  Rule getRuleForId(String ruleId) {
     final List<Rule> allRules = languageTool.getAllRules();
     for (Rule rule : allRules) {
       if (rule.getId().equals(ruleId)) {
