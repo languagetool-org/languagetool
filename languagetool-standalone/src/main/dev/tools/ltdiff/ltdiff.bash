@@ -10,24 +10,24 @@ fi
 
 path_old="http://sourceforge.net/p/languagetool/code/HEAD/tree/tags/$1/languagetool-language-modules/en/src/main/resources/org/languagetool/rules"
 if [ $2 == "trunk" ]; then
-  path_new="http://sourceforge.net/p/languagetool/code/HEAD/tree/trunk/languagetool/languagetool-language-modules/en/src/main/resources/org/languagetool/rules"
+  path_new="https://raw.github.com/languagetool-org/languagetool/master/languagetool-language-modules/en/src/main/resources/org/languagetool/rules"
 else
   path_new="http://sourceforge.net/p/languagetool/code/HEAD/tree/tags/$2/languagetool-language-modules/en/src/main/resources/org/languagetool/rules"
 fi
 
 # check whether the path exists; if it's not the case, we probably have to use the old paths
-response=`curl -o /dev/null --silent --head --write-out '%{http_code}\n' $path_old`
+response=`curl -o /dev/null --silent --head --write-out '%{http_code}\n' $path_old/en/grammar.xml`
 if [[ $response == "404" || $response == "500" ]]; then
   path_old="http://sourceforge.net/p/languagetool/code/HEAD/tree/tags/$1/src/main/resources/org/languagetool/rules"
-  response=`curl -o /dev/null --silent --head --write-out '%{http_code}\n' $path_old`
+  response=`curl -o /dev/null --silent --head --write-out '%{http_code}\n' $path_old/en/grammar.xml`
   if [[ $response == "404" || $response == "500" ]]; then
     path_old="http://sourceforge.net/p/languagetool/code/HEAD/tree/tags/$1/src/rules"
   fi
 fi
-response=`curl -o /dev/null --silent --head --write-out '%{http_code}\n' $path_new`
+response=`curl -o /dev/null --silent --head --write-out '%{http_code}\n' $path_new/en/grammar.xml`
 if [[ $response == "404" || $response == "500" ]]; then
   path_new="http://sourceforge.net/p/languagetool/code/HEAD/tree/tags/$2/src/main/resources/org/languagetool/rules"
-  response=`curl -o /dev/null --silent --head --write-out '%{http_code}\n' $path_new`
+  response=`curl -o /dev/null --silent --head --write-out '%{http_code}\n' $path_new/en/grammar.xml`
   if [[ $response == "404" || $response == "500" ]]; then
     path_new="http://sourceforge.net/p/languagetool/code/HEAD/tree/tags/$2/src/rules"
   fi
