@@ -240,7 +240,7 @@ public final class Main {
     buttonCons.gridy = 0;
     buttonCons.anchor = GridBagConstraints.WEST;
     insidePanel.add(new JLabel(" " + messages.getString("textLanguage") + " "), buttonCons);
-    languageBox = new LanguageComboBox(messages);
+    languageBox = new LanguageComboBox(messages, EXTERNAL_LANGUAGE_SUFFIX);
     languageBox.setRenderer(new LanguageComboBoxRenderer(messages, EXTERNAL_LANGUAGE_SUFFIX));
     languageBox.addItemListener(new ItemListener() {
       @Override

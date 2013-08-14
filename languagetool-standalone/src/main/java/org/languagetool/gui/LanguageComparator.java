@@ -24,15 +24,17 @@ import org.languagetool.Language;
 
 /**
  * Comparator class for sorting Language by locale name
- * 
+ *
  * @author Panagiotis Minos
  */
 class LanguageComparator implements Comparator<Language> {
 
   private final ResourceBundle messages;
+  private final String extLangSuffix;
 
-  LanguageComparator(ResourceBundle messages) {
+  LanguageComparator(ResourceBundle messages, String extLangSuffix) {
     this.messages = messages;
+    this.extLangSuffix = extLangSuffix;
   }
 
   @Override
@@ -42,7 +44,7 @@ class LanguageComparator implements Comparator<Language> {
 
   private String getTranslatedName(Language language) {
     if (language.isExternal()) {
-      return language.getName() + Main.EXTERNAL_LANGUAGE_SUFFIX;
+      return language.getName() + extLangSuffix;
     } else {
       return language.getTranslatedName(messages);
     }

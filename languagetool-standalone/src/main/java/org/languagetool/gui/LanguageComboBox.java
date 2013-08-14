@@ -32,11 +32,11 @@ import org.languagetool.Language;
  */
 public class LanguageComboBox extends JComboBox<Language> {
 
-  private final ResourceBundle messages;
   private final List<Language> languages = new ArrayList<>();
+  private final LanguageComparator langComparator;
 
-  public LanguageComboBox(ResourceBundle messages) {
-    this.messages = messages;
+  public LanguageComboBox(ResourceBundle messages, String extLangSuffix) {
+    this.langComparator = new LanguageComparator(messages, extLangSuffix);
     populateLanguageBox();
   }
 
@@ -63,7 +63,7 @@ public class LanguageComboBox extends JComboBox<Language> {
         languages.add(language);
       }
     }
-    Collections.sort(languages, new LanguageComparator(messages));
+    Collections.sort(languages, langComparator);
     for (final Language language : languages) {
       addItem(language);
     }
