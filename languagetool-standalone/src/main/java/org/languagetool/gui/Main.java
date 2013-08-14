@@ -69,12 +69,12 @@ public final class Main {
 
   private final ResourceBundle messages;
 
-  private List<RuleMatch> ruleMatches;
   private Configuration config;
   private JLanguageTool langTool;
   private JFrame frame;
   private JTextArea textArea;
-  private ResultArea resultArea;
+  private JTextPane resultArea;
+  private ResultArea resultAreaHelper;
   private LanguageComboBox languageBox;
   private JCheckBox autoDetectBox;
   private Cursor prevCursor;
@@ -171,7 +171,6 @@ public final class Main {
   }
 
   void showOptions() {
-    final Language currentLanguage = getCurrentLanguage();
     final JLanguageTool langTool = getCurrentLanguageTool(currentLanguage);
     final List<Rule> rules = langTool.getAllRules();
     final ConfigurationDialog configDialog = getCurrentConfigDialog(currentLanguage);
@@ -225,7 +224,8 @@ public final class Main {
     textArea.setLineWrap(true);
     textArea.setWrapStyleWord(true);
     textArea.addKeyListener(new ControlReturnTextCheckingListener());
-    resultArea = new ResultArea(messages, textArea, config);
+    resultArea = new JTextPane();
+    resultAreaHelper = new ResultArea(messages, textArea, config, resultArea);
     undoRedo = new UndoRedoSupport(this.textArea);
     frame.setJMenuBar(createMenuBar());
 
@@ -316,6 +316,7 @@ public final class Main {
     spellbutton.setFocusable(false);
     toolbar.add(spellbutton);
 
+    // TODO : i18n
     JToggleButton autospellbutton = new JToggleButton("AutoCheck", true);
     autospellbutton.setAction(autoCheckAction);
     autospellbutton.setHideActionText(true);
@@ -542,7 +543,7 @@ public final class Main {
       public void run() {
         setWaitCursor();
         try {
-          final JLanguageTool langTool = getCurrentLanguageTool(getCurrentLanguage());
+          final JLanguageTool langTool = getCurrentLanguageTool(currentLanguage);
           tagTextAndDisplayResults(langTool);
         } finally {
           unsetWaitCursor();
@@ -563,7 +564,7 @@ public final class Main {
     stopServer();
     try {
       config.setLanguage(currentLanguage);
-      config.saveConfiguration(getCurrentLanguage());
+      config.saveConfiguration(currentLanguage);
     } catch (IOException e) {
       Tools.showError(e);
     }
@@ -676,10 +677,6 @@ public final class Main {
     }
     return lang;
   }
-    
-  private Language getCurrentLanguage() {
-    return this.currentLanguage;
-  }
 
   private ConfigurationDialog getCurrentConfigDialog(Language language) {
     final ConfigurationDialog configDialog;
@@ -703,12 +700,12 @@ public final class Main {
     if (langTool == null) {
       try {
         config = new Configuration(new File(System.getProperty("user.home")), CONFIG_FILE, currentLanguage);
-        resultArea.setConfiguration(config);
+        resultAreaHelper.setConfiguration(config);
         final ConfigurationDialog configDialog = getCurrentConfigDialog(currentLanguage);
         langTool = new JLanguageTool(currentLanguage, configDialog.getMotherTongue());
         langTool.activateDefaultPatternRules();
         langTool.activateDefaultFalseFriendRules();
-        resultArea.setLanguageTool(langTool);
+        resultAreaHelper.setLanguageTool(langTool);
         final Set<String> disabledRules = configDialog.getDisabledRuleIds();
         if (disabledRules != null) {
           for (final String ruleId : disabledRules) {
@@ -736,7 +733,7 @@ public final class Main {
   }
 
   private void checkTextAndDisplayResults() {
-      final Language lang = getCurrentLanguage();
+      final Language lang = currentLanguage;
       if (StringTools.isEmpty(textArea.getText().trim())) {
           textArea.setText(messages.getString("enterText2"));
       } else {
@@ -761,16 +758,16 @@ public final class Main {
                           resultArea.repaint();
                           try {
                             final JLanguageTool langTool = getCurrentLanguageTool(lang);
-                            ruleMatches = ltSupport._check();
-                            resultArea.setStartText(startCheckText);
-                            resultArea.setInputText(textArea.getText());
-                            resultArea.setRuleMatches(ruleMatches);
-                            resultArea.setRunTime(System.currentTimeMillis() - startTime);
-                            resultArea.setLanguageTool(langTool);
-                            resultArea.displayResult();
+                            List<RuleMatch> ruleMatches = ltSupport._check();
+                            resultAreaHelper.setStartText(startCheckText);
+                            resultAreaHelper.setInputText(textArea.getText());
+                            resultAreaHelper.setRuleMatches(ruleMatches);
+                            resultAreaHelper.setRunTime(System.currentTimeMillis() - startTime);
+                            resultAreaHelper.setLanguageTool(langTool);
+                            resultAreaHelper.displayResult();
                           } catch (Exception e) {
                             final String error = getStackTraceAsHtml(e);
-                            resultArea.displayText(error);
+                            resultAreaHelper.displayText(error);
                           }
                       } finally {
                           checkAction.setEnabled(true);
@@ -896,7 +893,7 @@ public final class Main {
     @Override
     public void itemStateChanged(ItemEvent e) {
       try {
-        final Language language = getCurrentLanguage();
+        final Language language = currentLanguage;
         final ConfigurationDialog configDialog = configDialogs.get(language);
         if (e.getStateChange() == ItemEvent.SELECTED) {
           config.setRunServer(true);
@@ -1212,7 +1209,7 @@ public final class Main {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-      enable=!enable;
+      enable = !enable;
       ltSupport.setBackgroundCheckEnabled(enable);
     }
   }

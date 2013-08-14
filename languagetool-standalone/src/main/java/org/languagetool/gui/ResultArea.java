@@ -26,19 +26,23 @@ import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.tools.ContextTools;
 import org.languagetool.tools.StringTools;
 
-import javax.swing.*;
+import javax.swing.JTextArea;
+import javax.swing.JTextPane;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
-import java.awt.*;
+import java.awt.Cursor;
+import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
+import java.util.Set;
 
 /**
  * Area where the result of text checking is displayed.
  */
-class ResultArea extends JTextPane {
+class ResultArea {
 
   private static final String DEACTIVATE_URL = "http://languagetool.org/deactivate/";
   private static final String REACTIVATE_URL = "http://languagetool.org/reactivate/";
@@ -47,6 +51,7 @@ class ResultArea extends JTextPane {
 
   private final ResourceBundle messages;
   private final JTextArea textArea;
+  private final JTextPane statusPane;
 
   private Configuration config;
   private String inputText;
@@ -56,15 +61,16 @@ class ResultArea extends JTextPane {
   private long runTime;
   private JLanguageTool languageTool;
 
-  ResultArea(ResourceBundle messages, JTextArea textArea, Configuration config) {
+  ResultArea(ResourceBundle messages, JTextArea textArea, Configuration config, JTextPane statusPane) {
     this.messages = messages;
     this.textArea = textArea;
     this.config = config;
-    setContentType("text/html");
-    setText(Main.HTML_GREY_FONT_START + messages.getString("resultAreaText") + Main.HTML_FONT_END);
-    setEditable(false);
-    addHyperlinkListener(new MyHyperlinkListener());
-    setTransferHandler(new RetainLineBreakTransferHandler());
+    this.statusPane = statusPane;
+    statusPane.setContentType("text/html");
+    statusPane.setText(Main.HTML_GREY_FONT_START + messages.getString("resultAreaText") + Main.HTML_FONT_END);
+    statusPane.setEditable(false);
+    statusPane.addHyperlinkListener(new MyHyperlinkListener());
+    statusPane.setTransferHandler(new RetainLineBreakTransferHandler());
   }
 
   String getRuleMatchHtml(List<RuleMatch> ruleMatches, String text, String startCheckText) {
@@ -174,8 +180,8 @@ class ResultArea extends JTextPane {
   }
 
   void displayText(String text) {
-    setText(Main.HTML_FONT_START + text + Main.HTML_FONT_END);
-    setCaretPosition(0);
+    statusPane.setText(Main.HTML_FONT_START + text + Main.HTML_FONT_END);
+    statusPane.setCaretPosition(0);
   }
 
   void setConfiguration(Configuration config) {
@@ -220,8 +226,8 @@ class ResultArea extends JTextPane {
     }
 
     private void handleRuleLinkClick(String uri) throws IOException {
-      final Cursor prevCursor = getCursor();
-      setCursor(new Cursor(Cursor.WAIT_CURSOR));
+      final Cursor prevCursor = statusPane.getCursor();
+      statusPane.setCursor(new Cursor(Cursor.WAIT_CURSOR));
       try {
         final RuleLink ruleLink = RuleLink.getFromString(uri);
         final String ruleId = ruleLink.getId();
@@ -238,7 +244,7 @@ class ResultArea extends JTextPane {
         allRuleMatches = languageTool.check(textArea.getText());
         reDisplayRuleMatches();
       } finally {
-        setCursor(prevCursor);
+        statusPane.setCursor(prevCursor);
       }
     }
 
