@@ -651,7 +651,7 @@ public class Element {
 
   /**
    * Whether the element matches case sensitively.
-   * 
+   * @deprecated use {@link #isCaseSensitive()} instead (deprecated since 2.3)
    * @since 0.9.3
    */
   public final boolean getCaseSensitive() {
@@ -659,8 +659,16 @@ public class Element {
   }
 
   /**
+   * Whether the element matches case sensitively.
+   * @since 2.3
+   */
+  public final boolean isCaseSensitive() {
+    return caseSensitive;
+  }
+
+  /**
    * Tests whether the element matches a regular expression.
-   * 
+   *
    * @since 0.9.6
    */
   public final boolean isRegularExpression() {
@@ -669,7 +677,7 @@ public class Element {
 
   /**
    * Tests whether the POS matches a regular expression.
-   * 
+   *
    * @since 1.3.0
    */
   public final boolean isPOStagRegularExpression() {

@@ -410,7 +410,7 @@ public class RuleCoverage {
      */
     private Element getReferenceElement(Element e, List<Element> elements, ArrayList<String> examples) {
     	int r = e.getMatch().getTokenRef();
-    	Element newElement = new Element(examples.get(r), elements.get(r).getCaseSensitive(), false, false);
+    	Element newElement = new Element(examples.get(r), elements.get(r).isCaseSensitive(), false, false);
     	newElement.setNegation(e.getNegation());
     	return newElement;
     	

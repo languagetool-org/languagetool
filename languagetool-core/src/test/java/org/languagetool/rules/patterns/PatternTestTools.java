@@ -59,7 +59,7 @@ public class PatternTestTools {
           warnIfElementNotKosher(
             element.getString(),
             element.isRegularExpression(),
-            element.getCaseSensitive(),
+            element.isCaseSensitive(),
             element.getNegation(),
             element.isInflected(),
             false,  // not a POS
@@ -70,7 +70,7 @@ public class PatternTestTools {
           warnIfElementNotKosher(
             element.getPOStag() == null ? "" : element.getPOStag(),
             element.isPOStagRegularExpression(),
-            element.getCaseSensitive(),
+            element.isCaseSensitive(),
             element.getPOSNegation(),
             false,
             true,   // a POS.
@@ -103,7 +103,7 @@ public class PatternTestTools {
                 && element.getSkipNext() == 0
                 && element.getPOStag() == null
                 && exception.getPOStag() == null
-                && element.getCaseSensitive() == exception.getCaseSensitive()) {
+                && element.isCaseSensitive() == exception.isCaseSensitive()) {
                 System.err.println("The " + lang.toString() + " rule: "
                     + ruleId + ":" + ruleSubId
                     + " exception in token [" + i + "] seems useless."
@@ -117,7 +117,7 @@ public class PatternTestTools {
                 warnIfElementNotKosher(
                   exception.getString(),
                   exception.isRegularExpression(),
-                  exception.getCaseSensitive(),
+                  exception.isCaseSensitive(),
                   exception.getNegation(),
                   exception.isInflected(),
                   false,  // not a POS
@@ -129,7 +129,7 @@ public class PatternTestTools {
               warnIfElementNotKosher(
                 exception.getPOStag() == null ? "" : exception.getPOStag(),
                 exception.isPOStagRegularExpression(),
-                exception.getCaseSensitive(),
+                exception.isCaseSensitive(),
                 exception.getPOSNegation(),
                 false,
                 true,  // a POS
@@ -177,7 +177,7 @@ public class PatternTestTools {
     {
       String string1 = exception1.getString() == null ? "" : exception1.getString();
       String string2 = exception2.getString() == null ? "" : exception2.getString();
-      if (!exception1.getCaseSensitive() || !exception2.getCaseSensitive()) {
+      if (!exception1.isCaseSensitive() || !exception2.isCaseSensitive()) {
         // String comparison is done case insensitive if one or both strings
         // are case insensitive, because the case insensitive one would imply
         // the case sensitive one.

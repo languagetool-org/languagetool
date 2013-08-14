@@ -62,10 +62,16 @@ public class AnalyzedToken {
     return posTag;
   }
 
+  /**
+   * @return the token's lemma or {@code null}
+   */
   public final String getLemma() {
     return lemma;
   }
-  
+
+  /**
+   * Like {@link #getLemma()}, but returns the token if the lemma is {@code null}
+   */
   public final String getTokenInflected() {
     return tokenInflected;
   }

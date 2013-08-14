@@ -168,7 +168,7 @@ public class PatternRuleQueryBuilder {
   }
 
   private Term getTermQueryTerm(Element element, String str) {
-    if (element.getCaseSensitive()) {
+    if (element.isCaseSensitive()) {
       return new Term(FIELD_NAME, str);
     } else {
       return new Term(FIELD_NAME_LOWERCASE, str.toLowerCase());
@@ -176,7 +176,7 @@ public class PatternRuleQueryBuilder {
   }
 
   private Term getPosQueryTerm(Element element, String prefix, String pos, String suffix) {
-    if (element.getCaseSensitive()) {
+    if (element.isCaseSensitive()) {
       return new Term(FIELD_NAME, prefix + pos + suffix);
     } else {
       return new Term(FIELD_NAME_LOWERCASE, prefix.toLowerCase() + pos.toLowerCase() + suffix.toLowerCase());
