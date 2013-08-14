@@ -40,8 +40,12 @@ import java.awt.datatransfer.Transferable;
 import java.awt.event.*;
 import java.io.*;
 import java.net.URL;
-import java.util.*;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.ResourceBundle;
+import java.util.Set;
 import javax.swing.text.DefaultEditorKit;
 import org.apache.tika.language.LanguageIdentifier;
 
@@ -538,15 +542,23 @@ public final class Main {
   }
 
   void tagText() {
+    if (StringTools.isEmpty(textArea.getText().trim())) {
+      textArea.setText(messages.getString("enterText2"));
+      return;
+    }
+    setWaitCursor();
     new Thread() {
       @Override
       public void run() {
-        setWaitCursor();
         try {
-          final JLanguageTool langTool = getCurrentLanguageTool(currentLanguage);
-          tagTextAndDisplayResults(langTool);
+          tagTextAndDisplayResults();
         } finally {
-          unsetWaitCursor();
+          SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+              unsetWaitCursor();
+            }
+          });
         }
       }
     }.start();
@@ -733,51 +745,56 @@ public final class Main {
   }
 
   private void checkTextAndDisplayResults() {
-      final Language lang = currentLanguage;
-      if (StringTools.isEmpty(textArea.getText().trim())) {
-          textArea.setText(messages.getString("enterText2"));
-      } else {
-          final String langName;
-          if (lang.isExternal()) {
-              langName = lang.getTranslatedName(messages) + EXTERNAL_LANGUAGE_SUFFIX;
-          } else {
-              langName = lang.getTranslatedName(messages);
+    if (StringTools.isEmpty(textArea.getText().trim())) {
+      textArea.setText(messages.getString("enterText2"));
+      return;
+    }
+    if (isAlreadyChecking) {
+      return;
+    }
+    final Language lang = currentLanguage;
+    final String langName;
+    if (lang.isExternal()) {
+      langName = lang.getTranslatedName(messages) + EXTERNAL_LANGUAGE_SUFFIX;
+    } else {
+      langName = lang.getTranslatedName(messages);
+    }
+    isAlreadyChecking = true;
+    setWaitCursor();
+    checkAction.setEnabled(false);
+    final long startTime = System.currentTimeMillis();
+    final String startCheckText = HTML_GREY_FONT_START
+            + Tools.makeTexti18n(messages, "startChecking", langName) + "..." + HTML_FONT_END;
+    resultArea.setText(startCheckText);
+    new Thread() {
+      @Override
+      public void run() {
+        try {
+          try {
+            final JLanguageTool langTool = getCurrentLanguageTool(lang);
+            List<RuleMatch> ruleMatches = ltSupport._check();
+            resultAreaHelper.setStartText(startCheckText);
+            resultAreaHelper.setInputText(textArea.getText());
+            resultAreaHelper.setRuleMatches(ruleMatches);
+            resultAreaHelper.setRunTime(System.currentTimeMillis() - startTime);
+            resultAreaHelper.setLanguageTool(langTool);
+            resultAreaHelper.displayResult();
+          } catch (Exception e) {
+            final String error = getStackTraceAsHtml(e);
+            resultAreaHelper.displayText(error);
           }
-          new Thread() {
-              @Override
-              public void run() {
-                  if (!isAlreadyChecking) {
-                      isAlreadyChecking = true;
-                      setWaitCursor();
-                      checkAction.setEnabled(false);
-                      try {
-                          final long startTime = System.currentTimeMillis();
-                          final String startCheckText = HTML_GREY_FONT_START +
-                                  Tools.makeTexti18n(messages, "startChecking", langName) + "..." + HTML_FONT_END;
-                          resultArea.setText(startCheckText);
-                          resultArea.repaint();
-                          try {
-                            final JLanguageTool langTool = getCurrentLanguageTool(lang);
-                            List<RuleMatch> ruleMatches = ltSupport._check();
-                            resultAreaHelper.setStartText(startCheckText);
-                            resultAreaHelper.setInputText(textArea.getText());
-                            resultAreaHelper.setRuleMatches(ruleMatches);
-                            resultAreaHelper.setRunTime(System.currentTimeMillis() - startTime);
-                            resultAreaHelper.setLanguageTool(langTool);
-                            resultAreaHelper.displayResult();
-                          } catch (Exception e) {
-                            final String error = getStackTraceAsHtml(e);
-                            resultAreaHelper.displayText(error);
-                          }
-                      } finally {
-                          checkAction.setEnabled(true);
-                          unsetWaitCursor();
-                          isAlreadyChecking = false;
-                      }
-                  }
-              }
-          }.start();
+        } finally {
+          SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+              checkAction.setEnabled(true);
+              unsetWaitCursor();
+              isAlreadyChecking = false;
+            }
+          });
+        }
       }
+    }.start();
   }
 
   private String getStackTraceAsHtml(Exception e) {
@@ -801,25 +818,23 @@ public final class Main {
     resultArea.setCursor(prevCursor);
   }
 
-  private void tagTextAndDisplayResults(final JLanguageTool langTool) {
-    if (StringTools.isEmpty(textArea.getText().trim())) {
-      textArea.setText(messages.getString("enterText2"));
-    } else {
-      // tag text
-      final List<String> sentences = langTool.sentenceTokenize(textArea.getText());
-      final StringBuilder sb = new StringBuilder();
-      try {
-        for (String sent : sentences) {
-          final AnalyzedSentence analyzedText = langTool.getAnalyzedSentence(sent);
-          final String analyzedTextString = StringTools.escapeHTML(analyzedText.toString(", ")).
-                  replace("[", "<font color='#888888'>[").replace("]", "]</font>");
-          sb.append(analyzedTextString).append("\n");
-        }
-      } catch (Exception e) {
-        sb.append(getStackTraceAsHtml(e));
+  private void tagTextAndDisplayResults() {
+    final JLanguageTool langTool = getCurrentLanguageTool(currentLanguage);
+    // tag text
+    final List<String> sentences = langTool.sentenceTokenize(textArea.getText());
+    final StringBuilder sb = new StringBuilder();
+    try {
+      for (String sent : sentences) {
+        final AnalyzedSentence analyzedText = langTool.getAnalyzedSentence(sent);
+        final String analyzedTextString = StringTools.escapeHTML(analyzedText.toString(", ")).
+                replace("[", "<font color='#888888'>[").replace("]", "]</font>");
+        sb.append(analyzedTextString).append("\n");
       }
-      resultArea.setText(HTML_FONT_START + sb.toString() + HTML_FONT_END);
+    } catch (Exception e) {
+      sb.append(getStackTraceAsHtml(e));
     }
+    // This method is thread safe
+    resultArea.setText(HTML_FONT_START + sb.toString() + HTML_FONT_END);
   }
 
   private void setTrayMode(boolean trayMode) {
