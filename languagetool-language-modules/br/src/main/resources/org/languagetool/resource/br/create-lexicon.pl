@@ -335,6 +335,8 @@ my @anv_lies_tud = (
   "bamerion",
   "bangounellerien",
   "bangounellerion",
+  "bankerien",
+  "bankerion",
   "bannerien",
   "bannerion",
   "bannikerien",
