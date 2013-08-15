@@ -19,13 +19,13 @@
 package org.languagetool.gui;
 
 import org.apache.commons.lang.StringUtils;
+import org.languagetool.Language;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.tools.ContextTools;
 import org.languagetool.tools.StringTools;
 
-import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
@@ -49,19 +49,18 @@ class ResultArea {
   private static final String SPELL_ERROR_MARKER_START = "<b><font bgcolor=\"#ffd7d7\">";
 
   private final ResourceBundle messages;
-  private final JTextArea textArea;
   private final JTextPane statusPane;
+  private final LanguageToolSupport ltSupport;
+  private final Object marker = new Object();
 
   private String inputText;
   private String startText;
   private List<RuleMatch> allRuleMatches;
   private List<RuleMatch> ruleMatches;    // will be filtered to not show disabled rules
   private long runTime;
-  private final LanguageToolSupport ltSupport;
 
-  ResultArea(ResourceBundle messages, JTextArea textArea, LanguageToolSupport ltSupport, JTextPane statusPane) {
+  ResultArea(final ResourceBundle messages, final LanguageToolSupport ltSupport, final JTextPane statusPane) {
     this.messages = messages;
-    this.textArea = textArea;
     this.ltSupport = ltSupport;
     this.statusPane = statusPane;
     statusPane.setContentType("text/html");
@@ -69,6 +68,40 @@ class ResultArea {
     statusPane.setEditable(false);
     statusPane.addHyperlinkListener(new MyHyperlinkListener());
     statusPane.setTransferHandler(new RetainLineBreakTransferHandler());
+    ltSupport.addLanguageToolListener(new LanguageToolListener() {
+      @Override
+      public void languageToolEventOccured(LanguageToolEvent event) {
+        if (event.getType() == LanguageToolEvent.CHECKING_STARTED) {
+          final Language lang = ltSupport.getLanguageTool().getLanguage();
+          final String langName;
+          if (lang.isExternal()) {
+            langName = lang.getTranslatedName(messages) + Main.EXTERNAL_LANGUAGE_SUFFIX;
+          } else {
+            langName = lang.getTranslatedName(messages);
+          }
+          final String startCheckText = Main.HTML_GREY_FONT_START
+                  + Tools.makeTexti18n(messages, "startChecking", langName) + "..." + Main.HTML_FONT_END;
+          statusPane.setText(startCheckText);
+          setStartText(startCheckText);
+          if (event.getCaller() == marker) {
+            statusPane.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+          }
+        } else if (event.getType() == LanguageToolEvent.CHECKING_FINISHED) {
+          inputText = event.getSource().getTextComponent().getText();
+          setRuleMatches(event.getSource().getMatches());
+          if (event.getCaller() == marker || event.getCaller() == null) {
+            displayResult();
+            if (event.getCaller() == marker) {
+              statusPane.setCursor(Cursor.getDefaultCursor());
+            }
+          }
+        } else if (event.getType() == LanguageToolEvent.RULE_DISABLED || event.getType() == LanguageToolEvent.RULE_ENABLED) {
+          inputText = event.getSource().getTextComponent().getText();
+          setRuleMatches(event.getSource().getMatches());
+          displayResult();
+        }
+      }
+    });
   }
 
   private String getRuleMatchHtml(List<RuleMatch> ruleMatches, String text, String startCheckText) {
@@ -81,8 +114,8 @@ class ResultArea {
       final String output = Tools.makeTexti18n(messages, "result1", i + 1, match.getLine() + 1, match.getColumn());
       sb.append(output);
       final String msg = match.getMessage()
-          .replaceAll("<suggestion>", "<b>").replaceAll("</suggestion>", "</b>")
-          .replaceAll("<old>", "<b>").replaceAll("</old>", "</b>");
+              .replaceAll("<suggestion>", "<b>").replaceAll("</suggestion>", "</b>")
+              .replaceAll("<old>", "<b>").replaceAll("</old>", "</b>");
       sb.append("<b>").append(messages.getString("errorMessage")).append("</b> ");
       sb.append(msg);
       final RuleLink ruleLink = RuleLink.buildDeactivationLink(match.getRule());
@@ -100,11 +133,11 @@ class ResultArea {
       sb.append("<b>").append(messages.getString("errorContext")).append("</b> ").append(context);
       sb.append("<br>\n");
       if (match.getRule().getUrl() != null && Desktop.isDesktopSupported()) {
-    	  sb.append("<b>").append(messages.getString("moreInfo")).append("</b> <a href=\"");
+        sb.append("<b>").append(messages.getString("moreInfo")).append("</b> <a href=\"");
         final String url = match.getRule().getUrl().toString();
         sb.append(url);
         final String shortUrl = StringUtils.abbreviate(url, 60);
-    	  sb.append("\">").append(shortUrl).append("</a><br>\n");
+        sb.append("\">").append(shortUrl).append("</a><br>\n");
       }
       i++;
     }
@@ -144,11 +177,7 @@ class ResultArea {
     }
   }
 
-  void setInputText(String inputText) {
-    this.inputText = inputText;
-  }
-
-  void setStartText(String startText) {
+  private void setStartText(String startText) {
     this.startText = startText;
   }
 
@@ -167,7 +196,8 @@ class ResultArea {
     displayText(ruleMatchHtml);
   }
 
-  void displayText(String text) {
+  private void displayText(String text) {
+    // TODO: use a JTable for faster rendering
     statusPane.setText(Main.HTML_FONT_START + text + Main.HTML_FONT_END);
     statusPane.setCaretPosition(0);
   }
@@ -206,32 +236,15 @@ class ResultArea {
     }
 
     private void handleRuleLinkClick(String uri) throws IOException {
-      final Cursor prevCursor = statusPane.getCursor();
-      statusPane.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-      try {
-        final RuleLink ruleLink = RuleLink.getFromString(uri);
-        final String ruleId = ruleLink.getId();
-        final Set<String> disabledRuleIds = ltSupport.getConfig().getDisabledRuleIds();
-        if (uri.startsWith(DEACTIVATE_URL)) {
-          disabledRuleIds.add(ruleId);
-          ltSupport.disableRule(ruleId);
-        } else {
-          disabledRuleIds.remove(ruleId);
-          ltSupport.enableRule(ruleId);
-        }
-        ltSupport.getConfig().setDisabledRuleIds(disabledRuleIds);
-        ltSupport.getConfig().saveConfiguration(ltSupport.getLanguageTool().getLanguage());
-        allRuleMatches = ltSupport._check();
-        reDisplayRuleMatches();
-      } finally {
-        statusPane.setCursor(prevCursor);
+      final RuleLink ruleLink = RuleLink.getFromString(uri);
+      final String ruleId = ruleLink.getId();
+      if (uri.startsWith(DEACTIVATE_URL)) {
+        ltSupport.disableRule(ruleId);
+      } else {
+        ltSupport.enableRule(ruleId);
       }
-    }
-
-    private void reDisplayRuleMatches() {
-      ruleMatches = filterRuleMatches();
-      setInputText(textArea.getText());
-      displayResult();
+      ltSupport.getConfig().saveConfiguration(ltSupport.getLanguageTool().getLanguage());
+      ltSupport.checkImmediately(marker);
     }
 
     private void handleHttpClick(URL url) {
@@ -244,7 +257,5 @@ class ResultArea {
         }
       }
     }
-
   }
-
 }

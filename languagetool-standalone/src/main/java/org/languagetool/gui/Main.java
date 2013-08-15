@@ -23,7 +23,6 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.language.RuleFilenameException;
 import org.languagetool.rules.Rule;
-import org.languagetool.rules.RuleMatch;
 import org.languagetool.server.HTTPServer;
 import org.languagetool.server.HTTPServerConfig;
 import org.languagetool.server.PortBindingException;
@@ -41,10 +40,8 @@ import java.awt.event.*;
 import java.io.*;
 import java.net.URL;
 import java.util.List;
-import java.util.Locale;
 import java.util.ResourceBundle;
 import javax.swing.text.DefaultEditorKit;
-import org.apache.tika.language.LanguageIdentifier;
 
 /**
  * A simple GUI to check texts with.
@@ -70,27 +67,21 @@ public final class Main {
 
   private final ResourceBundle messages;
 
-  //private Configuration config;
-  //private JLanguageTool langTool;
   private JFrame frame;
   private JTextArea textArea;
   private JTextPane resultArea;
   private ResultArea resultAreaHelper;
   private LanguageComboBox languageBox;
   private JCheckBox autoDetectBox;
-  private Cursor prevCursor;
   private CheckboxMenuItem enableHttpServerItem;
 
   private HTTPServer httpServer;
 
-  //private final Map<Language, ConfigurationDialog> configDialogs = new HashMap<>();
 
   private TrayIcon trayIcon;
   private boolean closeHidesToTray;
   private boolean isInTray;
-  private boolean isAlreadyChecking;
 
-  //private Language currentLanguage;
   private LanguageToolSupport ltSupport;
   private OpenAction openAction;
   private SaveAction saveAction;
@@ -100,7 +91,8 @@ public final class Main {
   private CheckAction checkAction;
   private File currentFile;
   private UndoRedoSupport undoRedo;
-
+  private long startTime;
+  
   private Main() throws IOException {
     LanguageIdentifierTools.addLtProfiles();
     messages = JLanguageTool.getMessageBundle();
@@ -220,7 +212,7 @@ public final class Main {
     final URL iconUrl = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(TRAY_ICON);
     frame.setIconImage(new ImageIcon(iconUrl).getImage());
 
-    textArea = new JTextArea(messages.getString("guiDemoText"));
+    textArea = new JTextArea();
     // TODO: wrong line number is displayed for lines that are wrapped automatically:
     textArea.setLineWrap(true);
     textArea.setWrapStyleWord(true);
@@ -242,16 +234,7 @@ public final class Main {
     insidePanel.add(new JLabel(" " + messages.getString("textLanguage") + " "), buttonCons);
     languageBox = new LanguageComboBox(messages, EXTERNAL_LANGUAGE_SUFFIX);
     languageBox.setRenderer(new LanguageComboBoxRenderer(messages, EXTERNAL_LANGUAGE_SUFFIX));
-    languageBox.addItemListener(new ItemListener() {
-      @Override
-      public void itemStateChanged(ItemEvent e) {
-        if(e.getStateChange() == ItemEvent.SELECTED)
-        {
-          // we cannot re-use the existing LT object anymore
-          ltSupport.setLanguage((Language) languageBox.getSelectedItem());
-        }
-      }
-    });
+
     buttonCons.gridx = 1;
     buttonCons.gridy = 0;
     insidePanel.add(languageBox, buttonCons);
@@ -262,19 +245,6 @@ public final class Main {
     buttonCons.gridy = 0;
 
     autoDetectBox = new JCheckBox(messages.getString("atd"));
-    autoDetectBox.addItemListener(new ItemListener() {
-      @Override
-      public void itemStateChanged(ItemEvent e) {
-        boolean selected = (e.getStateChange() == ItemEvent.SELECTED);
-        languageBox.setEnabled(!selected);
-        ltSupport.getConfig().setAutoDetect(selected);
-        if (selected) {
-          Language detected = autoDetectLanguage(textArea.getText());
-          languageBox.selectLanguage(detected);
-        }
-      }
-    });
-    languageBox.setEnabled(!autoDetectBox.isSelected());
 
     buttonCons.gridx = 1;
     buttonCons.gridy = 1;
@@ -343,12 +313,56 @@ public final class Main {
     contentPane.add(panel, cons);
 
     ltSupport = new LanguageToolSupport(this.frame, this.textArea);
-    if(ltSupport.getConfig().getAutoDetect()) {
-      languageBox.selectLanguage(autoDetectLanguage(textArea.getText()));
-    }
-    resultAreaHelper = new ResultArea(messages, textArea, ltSupport, resultArea);
-    autoDetectBox.setSelected(ltSupport.getConfig().getAutoDetect());
+    resultAreaHelper = new ResultArea(messages, ltSupport, resultArea);
     languageBox.selectLanguage(ltSupport.getLanguageTool().getLanguage());
+    languageBox.setEnabled(!ltSupport.getConfig().getAutoDetect());
+    autoDetectBox.setSelected(ltSupport.getConfig().getAutoDetect());
+
+    languageBox.addItemListener(new ItemListener() {
+      @Override
+      public void itemStateChanged(ItemEvent e) {
+        if(e.getStateChange() == ItemEvent.SELECTED)
+        {
+          // we cannot re-use the existing LT object anymore
+          ltSupport.setLanguage((Language) languageBox.getSelectedItem());
+        }
+      }
+    });
+    autoDetectBox.addItemListener(new ItemListener() {
+      @Override
+      public void itemStateChanged(ItemEvent e) {
+        boolean selected = (e.getStateChange() == ItemEvent.SELECTED);
+        languageBox.setEnabled(!selected);
+        ltSupport.getConfig().setAutoDetect(selected);
+        if (selected) {
+          Language detected = ltSupport.autoDetectLanguage(textArea.getText());
+          languageBox.selectLanguage(detected);
+        }
+      }
+    });    
+    ltSupport.addLanguageToolListener(new LanguageToolListener() {
+      @Override
+      public void languageToolEventOccured(LanguageToolEvent event) {
+        if (event.getType() == LanguageToolEvent.CHECKING_STARTED) {
+          if(event.getCaller() == getFrame()) {
+            startTime = System.currentTimeMillis();
+            setWaitCursor();
+            checkAction.setEnabled(false);
+          }
+        } else if (event.getType() == LanguageToolEvent.CHECKING_FINISHED) {
+          if(event.getCaller() == getFrame()) {
+            checkAction.setEnabled(true);
+            unsetWaitCursor();
+            resultAreaHelper.setRunTime(System.currentTimeMillis() - startTime);
+            resultAreaHelper.displayResult();
+          }
+        }
+        else if (event.getType() == LanguageToolEvent.LANGUAGE_CHANGED) {
+          languageBox.selectLanguage(ltSupport.getLanguageTool().getLanguage());
+        }
+      }
+    });
+    textArea.setText(messages.getString("guiDemoText"));
     frame.pack();
     frame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
     frame.setLocationByPlatform(true);
@@ -497,7 +511,6 @@ public final class Main {
   void checkClipboardText() {
     final String s = getClipboardText();
     textArea.setText(s);
-    checkTextAndDisplayResults();
   }
 
   void hideToTray() {
@@ -597,7 +610,6 @@ public final class Main {
     final String s = getClipboardText();
     restoreFromTray();
     textArea.setText(s);
-    checkTextAndDisplayResults();
   }
 
   private String getClipboardText() {
@@ -656,70 +668,12 @@ public final class Main {
     }
   }
 
-  private Language autoDetectLanguage(String text) {
-    final LanguageIdentifier langIdentifier = new LanguageIdentifier(text);
-    Language lang;
-    try {
-      lang = Language.getLanguageForShortName(langIdentifier.getLanguage());
-    } catch (IllegalArgumentException e) {
-      lang = Language.getLanguageForLocale(Locale.getDefault());
-    }
-    if (lang.hasVariant()) {
-      // UI only shows variants like "English (American)", not just "English", so use that:
-      lang = lang.getDefaultVariant();
-    }
-    return lang;
-  }
-
   private void checkTextAndDisplayResults() {
     if (StringTools.isEmpty(textArea.getText().trim())) {
       textArea.setText(messages.getString("enterText2"));
       return;
     }
-    if (isAlreadyChecking) {
-      return;
-    }
-    final Language lang = ltSupport.getLanguageTool().getLanguage();
-    final String langName;
-    if (lang.isExternal()) {
-      langName = lang.getTranslatedName(messages) + EXTERNAL_LANGUAGE_SUFFIX;
-    } else {
-      langName = lang.getTranslatedName(messages);
-    }
-    isAlreadyChecking = true;
-    setWaitCursor();
-    checkAction.setEnabled(false);
-    final long startTime = System.currentTimeMillis();
-    final String startCheckText = HTML_GREY_FONT_START
-            + Tools.makeTexti18n(messages, "startChecking", langName) + "..." + HTML_FONT_END;
-    resultArea.setText(startCheckText);
-    new Thread() {
-      @Override
-      public void run() {
-        try {
-          try {
-            List<RuleMatch> ruleMatches = ltSupport._check();
-            resultAreaHelper.setStartText(startCheckText);
-            resultAreaHelper.setInputText(textArea.getText());
-            resultAreaHelper.setRuleMatches(ruleMatches);
-            resultAreaHelper.setRunTime(System.currentTimeMillis() - startTime);
-            resultAreaHelper.displayResult();
-          } catch (Exception e) {
-            final String error = getStackTraceAsHtml(e);
-            resultAreaHelper.displayText(error);
-          }
-        } finally {
-          SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-              checkAction.setEnabled(true);
-              unsetWaitCursor();
-              isAlreadyChecking = false;
-            }
-          });
-        }
-      }
-    }.start();
+    ltSupport.checkImmediately(getFrame());
   }
 
   private String getStackTraceAsHtml(Exception e) {
@@ -729,18 +683,17 @@ public final class Main {
   }
 
   private void setWaitCursor() {
-    prevCursor = resultArea.getCursor();
-    frame.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+    frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
     // For some reason we also have to set the cursor here so it also shows
     // when user starts checking text with Ctrl+Return:
-    textArea.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-    resultArea.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+    textArea.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+    resultArea.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
   }
 
   private void unsetWaitCursor() {
-    frame.setCursor(prevCursor);
-    textArea.setCursor(prevCursor);
-    resultArea.setCursor(prevCursor);
+    frame.setCursor(Cursor.getDefaultCursor());
+    textArea.setCursor(Cursor.getDefaultCursor());
+    resultArea.setCursor(Cursor.getDefaultCursor());
   }
 
   private void tagTextAndDisplayResults() {

@@ -34,6 +34,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -60,6 +61,7 @@ import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.EventListenerList;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.event.PopupMenuEvent;
@@ -72,6 +74,7 @@ import javax.swing.text.Highlighter;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.Position;
 import javax.swing.text.View;
+import org.apache.tika.language.LanguageIdentifier;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.Rule;
@@ -83,7 +86,7 @@ import org.languagetool.tools.LanguageIdentifierTools;
  *
  * @author Panagiotis Minos
  */
-class LanguageToolSupport implements Runnable {
+class LanguageToolSupport {
 
   private JLanguageTool languageTool;
   private JTextComponent textComponent;
@@ -107,10 +110,13 @@ class LanguageToolSupport implements Runnable {
   private static final String CONFIG_FILE = ".languagetool.cfg";
   private final Map<Language, ConfigurationDialog> configDialogs = new HashMap<>();
   private JFrame frame;
-  
+  private EventListenerList listenerList = new EventListenerList();
+  private boolean mustDetectLanguage = false;
+
   /**
    * LanguageTool support for a JTextComponent
    *
+   * @param frame a JFrame
    * @param textComponent a JTextComponent
    */
   public LanguageToolSupport(JFrame frame, JTextComponent textComponent) {
@@ -118,6 +124,36 @@ class LanguageToolSupport implements Runnable {
     this.textComponent = textComponent;
     this.messages = JLanguageTool.getMessageBundle();
     init();
+  }
+
+  void addLanguageToolListener(LanguageToolListener l) {
+    listenerList.add(LanguageToolListener.class, l);
+  }
+
+  void removeLanguageToolListener(LanguageToolListener l) {
+    listenerList.remove(LanguageToolListener.class, l);
+  }
+
+  private void fireEvent(int type, Object caller) {
+    // Guaranteed to return a non-null array
+    Object[] listeners = listenerList.getListenerList();
+    // Process the listeners last to first, notifying
+    // those that are interested in this event
+    LanguageToolEvent event = new LanguageToolEvent(this, type, caller);
+    for (int i = listeners.length - 2; i >= 0; i -= 2) {
+      if (listeners[i] == LanguageToolListener.class) {
+        // Lazily create the event:
+        ((LanguageToolListener) listeners[i + 1]).languageToolEventOccured(event);
+      }
+    }
+  }
+
+  JTextComponent getTextComponent() {
+    return textComponent;
+  }
+
+  List<RuleMatch> getMatches() {
+    return this.ruleMatches;
   }
 
   private Language getDefaultLanguage() {
@@ -186,7 +222,6 @@ class LanguageToolSupport implements Runnable {
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
-
   }
 
   private void init() {
@@ -219,24 +254,33 @@ class LanguageToolSupport implements Runnable {
     this.textComponent.getDocument().addDocumentListener(documentListener = new DocumentListener() {
       @Override
       public void insertUpdate(DocumentEvent e) {
+        if (e.getDocument().getLength() == e.getLength() && config.getAutoDetect() == true) {
+          mustDetectLanguage = true;
+        }
         recalculateSpans(e.getOffset(), e.getLength(), false);
         if (backgroundCheckEnabled) {
-          checkDelayed();
+          checkDelayed(null);
         }
       }
 
       @Override
       public void removeUpdate(DocumentEvent e) {
+        if (e.getDocument().getLength() == 0 && config.getAutoDetect() == true) {
+          mustDetectLanguage = true;
+        }
         recalculateSpans(e.getOffset(), e.getLength(), true);
         if (backgroundCheckEnabled) {
-          checkDelayed();
+          checkDelayed(null);
         }
       }
 
       @Override
       public void changedUpdate(DocumentEvent e) {
+        if (e.getDocument().getLength() == e.getLength() && config.getAutoDetect() == true) {
+          mustDetectLanguage = true;
+        }
         if (backgroundCheckEnabled) {
-          checkDelayed();
+          checkDelayed(null);
         }
       }
     });
@@ -275,8 +319,10 @@ class LanguageToolSupport implements Runnable {
         _actionPerformed(e);
       }
     };
-    if (backgroundCheckEnabled) {
-      checkImmediately();
+
+    mustDetectLanguage = config.getAutoDetect();
+    if ((!this.textComponent.getText().isEmpty()) && backgroundCheckEnabled) {
+      checkImmediately(null);
     }
   }
 
@@ -330,17 +376,18 @@ class LanguageToolSupport implements Runnable {
     }
     this.backgroundCheckEnabled = backgroundCheckEnabled;
     if (backgroundCheckEnabled) {
-      checkImmediately();
+      checkImmediately(null);
     }
   }
 
   public void setLanguage(Language language) {
-    this.currentLanguage= language;
+    this.currentLanguage = language;
     getCurrentLanguageTool();
     if (backgroundCheckEnabled) {
-      checkImmediately();
-    }    
+      checkImmediately(null);
+    }
   }
+
   public Configuration getConfig() {
     return config;
   }
@@ -350,13 +397,17 @@ class LanguageToolSupport implements Runnable {
   }
 
   void disableRule(String rule) {
+    config.getDisabledRuleIds().add(rule);
     languageTool.disableRule(rule);
     updateHighlights(rule);
+    fireEvent(LanguageToolEvent.RULE_DISABLED, null);
   }
 
   void enableRule(String rule) {
+    config.getDisabledRuleIds().remove(rule);
     languageTool.enableRule(rule);
-    checkImmediately();
+    fireEvent(LanguageToolEvent.RULE_ENABLED, null);
+    checkImmediately(null);
   }
 
   private void showPopup(MouseEvent event) {
@@ -489,7 +540,12 @@ class LanguageToolSupport implements Runnable {
    */
   public void checkDelayed() {
     check.getAndIncrement();
-    gcExecutor.schedule(this, delay, TimeUnit.MILLISECONDS);
+    gcExecutor.schedule(new RunnableImpl(null), delay, TimeUnit.MILLISECONDS);
+  }
+
+  public void checkDelayed(Object caller) {
+    check.getAndIncrement();
+    gcExecutor.schedule(new RunnableImpl(caller), delay, TimeUnit.MILLISECONDS);
   }
 
   /**
@@ -497,27 +553,76 @@ class LanguageToolSupport implements Runnable {
    */
   public void checkImmediately() {
     check.getAndIncrement();
-    gcExecutor.schedule(this, 0, TimeUnit.MILLISECONDS);
+    gcExecutor.schedule(new RunnableImpl(null), 0, TimeUnit.MILLISECONDS);
   }
 
-  @Override
-  public void run() {
+  public void checkImmediately(Object caller) {
+    check.getAndIncrement();
+    gcExecutor.schedule(new RunnableImpl(caller), 0, TimeUnit.MILLISECONDS);
+  }
 
-    int v = check.decrementAndGet();
-    if (v != 0) {
-      return;
-    }
+  Language autoDetectLanguage(String text) {
+    final LanguageIdentifier langIdentifier = new LanguageIdentifier(text);
+    Language lang;
     try {
-      _check();
-    } catch (IOException ex) {
+      lang = Language.getLanguageForShortName(langIdentifier.getLanguage());
+    } catch (IllegalArgumentException e) {
+      lang = Language.getLanguageForLocale(Locale.getDefault());
     }
+    if (lang.hasVariant()) {
+      // UI only shows variants like "English (American)", not just "English", so use that:
+      lang = lang.getDefaultVariant();
+    }
+    return lang;
   }
 
   /**
    *
    * @return @throws IOException
    */
-  synchronized List<RuleMatch> _check() throws IOException {
+  private synchronized List<RuleMatch> _check(final Object caller) throws IOException {
+    if (this.mustDetectLanguage) {
+      mustDetectLanguage = false;
+      if (!this.textComponent.getText().isEmpty()) {
+        Language detectedLanguage = autoDetectLanguage(this.textComponent.getText());
+        if (!detectedLanguage.equals(this.currentLanguage)) {
+          this.currentLanguage = detectedLanguage;
+          getCurrentLanguageTool();
+          if (SwingUtilities.isEventDispatchThread()) {
+            fireEvent(LanguageToolEvent.LANGUAGE_CHANGED, caller);
+          } else {
+            try {
+              SwingUtilities.invokeAndWait(new Runnable() {
+                @Override
+                public void run() {
+                  fireEvent(LanguageToolEvent.LANGUAGE_CHANGED, caller);
+                }
+              });
+            } catch (InterruptedException ex) {
+              //ignore
+            } catch (InvocationTargetException ex) {
+              throw new RuntimeException(ex);
+            }
+          }
+        }
+      }
+    }
+    if (SwingUtilities.isEventDispatchThread()) {
+      fireEvent(LanguageToolEvent.CHECKING_STARTED, caller);
+    } else {
+      try {
+        SwingUtilities.invokeAndWait(new Runnable() {
+          @Override
+          public void run() {
+            fireEvent(LanguageToolEvent.CHECKING_STARTED, caller);
+          }
+        });
+      } catch (InterruptedException ex) {
+        //ignore
+      } catch (InvocationTargetException ex) {
+        throw new RuntimeException(ex);
+      }
+    }
     final List<RuleMatch> matches = this.languageTool.check(this.textComponent.getText());
     int v = check.get();
     if (v == 0) {
@@ -526,23 +631,23 @@ class LanguageToolSupport implements Runnable {
           @Override
           public void run() {
             updateHighlights(matches);
+            fireEvent(LanguageToolEvent.CHECKING_FINISHED, caller);
           }
         });
       } else {
         updateHighlights(matches);
+        fireEvent(LanguageToolEvent.CHECKING_FINISHED, caller);
       }
     }
     return matches;
   }
 
   private void removeHighlights() {
-
     for (Highlighter.Highlight hl : textComponent.getHighlighter().getHighlights()) {
       if (hl.getPainter() == rhp || hl.getPainter() == bhp) {
         textComponent.getHighlighter().removeHighlight(hl);
       }
     }
-
   }
 
   private void recalculateSpans(int offset, int length, boolean remove) {
@@ -668,8 +773,6 @@ class LanguageToolSupport implements Runnable {
       }
     }
 
-
-
     for (Span span : grammarErrors) {
       try {
         h.addHighlight(span.start, span.end, bhp);
@@ -704,6 +807,7 @@ class LanguageToolSupport implements Runnable {
             try {
               Desktop.getDesktop().browse(e.getURL().toURI());
             } catch (Exception ex) {
+              //TODO: show exception
             }
           }
         }
@@ -718,7 +822,6 @@ class LanguageToolSupport implements Runnable {
 
     JOptionPane.showMessageDialog(parent, scrollPane, title,
             JOptionPane.INFORMATION_MESSAGE);
-
   }
 
   private static String formatURL(URL url) {
@@ -727,8 +830,6 @@ class LanguageToolSupport implements Runnable {
     }
     return String.format("<br/><br/><a href=\"%s\">%s</a>",
             url.toExternalForm(), "external link");
-
-
   }
 
   private static class HighlightPainter extends DefaultHighlighter.DefaultHighlightPainter {
@@ -866,5 +967,26 @@ class LanguageToolSupport implements Runnable {
     private boolean spelling;
     private String rule;
     private URL url;
+  }
+
+  private class RunnableImpl implements Runnable {
+
+    private Object caller;
+
+    public RunnableImpl(Object caller) {
+      this.caller = caller;
+    }
+
+    @Override
+    public void run() {
+      int v = check.decrementAndGet();
+      if (v != 0) {
+        return;
+      }
+      try {
+        _check(caller);
+      } catch (IOException ex) {
+      }
+    }
   }
 }
