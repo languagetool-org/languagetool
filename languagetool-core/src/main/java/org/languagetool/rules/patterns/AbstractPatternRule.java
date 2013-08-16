@@ -143,22 +143,22 @@ public abstract class AbstractPatternRule extends Rule {
   }
 
   public boolean isGroupsOrUnification() {
-	return groupsOrUnification;
+    return groupsOrUnification;
   }
   
   public boolean isGetUnified() {
-	return getUnified;
+    return getUnified;
   }
   
   public boolean isSentStart() {
-	return sentStart;
+    return sentStart;
   }
   
   public boolean isTestUnification() {
-	return testUnification;
+    return testUnification;
   }
   
   public List<Element> getPatternElements() {
-	return patternElements;
+    return patternElements;
   }
 }
