@@ -198,7 +198,7 @@ public class Hunspell {
     /**
      * This is the cache where we keep the already loaded dictionaries around
      */
-    private HashMap<String, Dictionary> map = new HashMap<String, Dictionary>();
+    private HashMap<String, Dictionary> map = new HashMap<>();
 
     
     private static CharBuffer ensureCapacity(CharBuffer buffer, int capacity) {
@@ -346,7 +346,7 @@ public class Hunspell {
          * @throws CharacterCodingException 
          */
         public List<String> suggest(String word) throws CharacterCodingException {
-            List<String> res = new ArrayList<String>();
+            List<String> res = new ArrayList<>();
             try {		
                 int suggestionsCount = 0;
                 PointerByReference suggestions = new PointerByReference();
