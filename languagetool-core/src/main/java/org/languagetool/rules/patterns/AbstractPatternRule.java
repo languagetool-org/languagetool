@@ -123,7 +123,7 @@ public abstract class AbstractPatternRule extends Rule {
   }
 
   public final int getStartPositionCorrection() {
-    return this.startPositionCorrection;
+    return startPositionCorrection;
   }
 
   public final void setEndPositionCorrection(final int endPositionCorrection) {
@@ -131,7 +131,7 @@ public abstract class AbstractPatternRule extends Rule {
   }
 
   public final int getEndPositionCorrection() {
-    return this.endPositionCorrection;
+    return endPositionCorrection;
   }
 
   public final String getSubId() {

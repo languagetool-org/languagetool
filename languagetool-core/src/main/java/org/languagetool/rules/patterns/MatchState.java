@@ -98,8 +98,7 @@ public class MatchState {
     if (formattedToken != null) {
       if (match.isStaticLemma()) {
         matchedToken.leaveReading(new AnalyzedToken(matchedToken
-                .getToken(), match.getPosTag(), formattedToken
-                .getToken()));
+                .getToken(), match.getPosTag(), formattedToken.getToken()));
         formattedToken = matchedToken;
       }
       String token = formattedToken.getToken();
@@ -119,19 +118,15 @@ public class MatchState {
           String posTagReplace = match.getPosTagReplace();
           String targetPosTag;
           for (int i = 0; i < numRead; i++) {
-            final String tst = formattedToken.getAnalyzedToken(i)
-                    .getPOSTag();
+            final String tst = formattedToken.getAnalyzedToken(i).getPOSTag();
             if (tst != null
                     && pPosRegexMatch.matcher(tst).matches()) {
-              targetPosTag = formattedToken.getAnalyzedToken(i)
-                      .getPOSTag();
+              targetPosTag = formattedToken.getAnalyzedToken(i).getPOSTag();
               if (posTagReplace != null) {
-                targetPosTag = pPosRegexMatch.matcher(
-                        targetPosTag).replaceAll(posTagReplace);
+                targetPosTag = pPosRegexMatch.matcher(targetPosTag).replaceAll(posTagReplace);
               }
               l.add(new AnalyzedToken(token, targetPosTag,
-                      formattedToken.getAnalyzedToken(i)
-                              .getLemma()));
+                      formattedToken.getAnalyzedToken(i).getLemma()));
               l.get(l.size() - 1).setWhitespaceBefore(
                       formattedToken.isWhitespaceBefore());
             }
@@ -212,8 +207,7 @@ public class MatchState {
     String lemma = "";
     for (int j = 0; j < numRead; j++) {
       if (formattedToken.getAnalyzedToken(j).getPOSTag() != null) {
-        if (formattedToken.getAnalyzedToken(j).getPOSTag()
-                .equals(posTag)
+        if (formattedToken.getAnalyzedToken(j).getPOSTag().equals(posTag)
                 && (formattedToken.getAnalyzedToken(j).getLemma() != null)) {
           lemma = formattedToken.getAnalyzedToken(j).getLemma();
         }
@@ -243,8 +237,7 @@ public class MatchState {
       Pattern pRegexMatch = match.getRegexMatch();
       String regexReplace = match.getRegexReplace();
       if (pRegexMatch != null) {
-        formattedString[0] = pRegexMatch.matcher(formattedString[0])
-                .replaceAll(regexReplace);
+        formattedString[0] = pRegexMatch.matcher(formattedString[0]).replaceAll(regexReplace);
       }
 
       String posTag = match.getPosTag();
@@ -269,8 +262,7 @@ public class MatchState {
                         || JLanguageTool.PARAGRAPH_END_TAGNAME
                         .equals(posUnique)) {
                   if (!oneForm) {
-                    wordForms
-                            .add(formattedToken.getToken());
+                    wordForms.add(formattedToken.getToken());
                   }
                   oneForm = true;
                 } else {
@@ -282,13 +274,10 @@ public class MatchState {
           final String targetPosTag = getTargetPosTag();
           if (!oneForm) {
             for (int i = 0; i < readingCount; i++) {
-              final String[] possibleWordForms = synthesizer
-                      .synthesize(
-                              formattedToken.getAnalyzedToken(i),
-                              targetPosTag, true);
+              final String[] possibleWordForms = synthesizer.synthesize(
+                              formattedToken.getAnalyzedToken(i), targetPosTag, true);
               if (possibleWordForms != null) {
-                wordForms.addAll(Arrays
-                        .asList(possibleWordForms));
+                wordForms.addAll(Arrays.asList(possibleWordForms));
               }
             }
           }
@@ -296,25 +285,21 @@ public class MatchState {
             if (match.checksSpelling()) {
               formattedString[0] = "";
             } else {
-              formattedString[0] = "("
-                      + formattedToken.getToken() + ")";
+              formattedString[0] = "(" + formattedToken.getToken() + ")";
             }
           } else {
-            formattedString = wordForms
-                    .toArray(new String[wordForms.size()]);
+            formattedString = wordForms.toArray(new String[wordForms.size()]);
           }
         } else {
           final TreeSet<String> wordForms = new TreeSet<>();
           for (int i = 0; i < readingCount; i++) {
             final String[] possibleWordForms = synthesizer
-                    .synthesize(formattedToken.getAnalyzedToken(i),
-                            posTag);
+                    .synthesize(formattedToken.getAnalyzedToken(i), posTag);
             if (possibleWordForms != null) {
               wordForms.addAll(Arrays.asList(possibleWordForms));
             }
           }
-          formattedString = wordForms.toArray(new String[wordForms
-                  .size()]);
+          formattedString = wordForms.toArray(new String[wordForms.size()]);
         }
       }
     }

@@ -172,15 +172,15 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
         if (newTokenReadings != null) {
           if (newTokenReadings.length == matchingTokens
                   - startPositionCorrection + endPositionCorrection) {
-            String lemma;
-            String token;
             for (int i = 0; i < newTokenReadings.length; i++) {
+              final String token;
               final int position = text.getOriginalPosition(firstMatchToken+ correctedStPos + i);
               if ("".equals(newTokenReadings[i].getToken())) { // empty token
                 token = whTokens[position].getToken();
               } else {
                 token = newTokenReadings[i].getToken();
               }
+              final String lemma;
               if (newTokenReadings[i].getLemma() == null) { // empty lemma
                 lemma = token;
               } else {
@@ -236,15 +236,15 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
         if (!filtered) {
           if (newTokenReadings != null && newTokenReadings.length > 0) {
             if (newTokenReadings.length == matchingTokens - startPositionCorrection + endPositionCorrection) {
-              String lemma;
-              String token;
               for (int i = 0; i < newTokenReadings.length; i++) {
+                final String token;
                 final int position = text.getOriginalPosition(firstMatchToken + correctedStPos + i);
                 if ("".equals(newTokenReadings[i].getToken())) { // empty token
                   token = whTokens[position].getToken();
                 } else {
                   token = newTokenReadings[i].getToken();
                 }
+                final String lemma;
                 if (newTokenReadings[i].getLemma() == null) { // empty lemma
                   lemma = token;
                 } else {

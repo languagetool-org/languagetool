@@ -36,13 +36,11 @@ import org.languagetool.AnalyzedTokenReadings;
  */
 public class Unifier {
 
-  private boolean allFeatsIn;
-
-  private int tokCnt;
-
-  private int readingsCounter;
-
   private final List<AnalyzedTokenReadings> tokSequence;
+
+  private boolean allFeatsIn;
+  private int tokCnt;
+  private int readingsCounter;
 
   /**
    * A Map for storing the equivalence types for features. Features are
@@ -107,10 +105,8 @@ public class Unifier {
   /**
    * Tests if a token has shared features with other tokens.
    * 
-   * @param aToken
-   *          - token to be tested
-   * @param uFeatures
-   *          - features to be tested
+   * @param aToken token to be tested
+   * @param uFeatures features to be tested
    * @return true if the token shares this type of feature with other tokens
    */
   protected final boolean isSatisfied(final AnalyzedToken aToken,
@@ -169,12 +165,12 @@ public class Unifier {
     }
     return unified;
   }
-  
+
   private boolean checkNext(final AnalyzedToken aToken,
-      final Map<String, List<String>> uFeatures) {
+                            final Map<String, List<String>> uFeatures) {
     boolean unifiedNext = true;
-    boolean anyFeatUnified = false;    
-    List<String> types;   
+    boolean anyFeatUnified = false;
+    List<String> types;
     final ArrayList<Boolean> tokenFeaturesFound = new ArrayList<>(tmpFeaturesFound);
     if (allFeatsIn) {
       for (int i = 0; i <= tokCnt; i++) {
@@ -187,32 +183,32 @@ public class Unifier {
           }
           for (final String typeName : types) {
             if (featuresFound.get(i)
-                && equivalencesMatched.get(i).containsKey(feat.getKey())
-                && equivalencesMatched.get(i).get(feat.getKey()).contains(typeName)) {
+                    && equivalencesMatched.get(i).containsKey(feat.getKey())
+                    && equivalencesMatched.get(i).get(feat.getKey()).contains(typeName)) {
               final Element testElem = equivalenceTypes.get(new EquivalenceTypeLocator(feat.getKey(), typeName));
               featUnified = featUnified || testElem.isMatched(aToken);
-                //Stores equivalences to be removed and kept
-				if (!testElem.isMatched(aToken)) {
-					if (!equivalencesToBeRemoved.containsKey(feat.getKey())) {
-						final Set<String> typeSet = new HashSet<>();
-						typeSet.add(typeName);
-						equivalencesToBeRemoved.put(feat.getKey(),typeSet);
-					} else {
-						equivalencesToBeRemoved.get(feat.getKey()).add(typeName);
-					}
-				} else {
-					if (!equivalencesToBeKept.containsKey(feat.getKey())) {
-						final Set<String> typeSet = new HashSet<>();
-						typeSet.add(typeName);
-						equivalencesToBeKept.put(feat.getKey(),typeSet);
-					} else {
-						equivalencesToBeKept.get(feat.getKey()).add(typeName);
-					}
-				}
-			}
+              //Stores equivalences to be removed and kept
+              if (!testElem.isMatched(aToken)) {
+                if (!equivalencesToBeRemoved.containsKey(feat.getKey())) {
+                  final Set<String> typeSet = new HashSet<>();
+                  typeSet.add(typeName);
+                  equivalencesToBeRemoved.put(feat.getKey(),typeSet);
+                } else {
+                  equivalencesToBeRemoved.get(feat.getKey()).add(typeName);
+                }
+              } else {
+                if (!equivalencesToBeKept.containsKey(feat.getKey())) {
+                  final Set<String> typeSet = new HashSet<>();
+                  typeSet.add(typeName);
+                  equivalencesToBeKept.put(feat.getKey(),typeSet);
+                } else {
+                  equivalencesToBeKept.get(feat.getKey()).add(typeName);
+                }
+              }
+            }
           }
-          allFeatsUnified &= featUnified;        	  
-          }
+          allFeatsUnified &= featUnified;
+        }
         tokenFeaturesFound.set(i, allFeatsUnified);
         anyFeatUnified = anyFeatUnified || allFeatsUnified;
       }
@@ -221,12 +217,11 @@ public class Unifier {
         if (tokSequence.size() == readingsCounter) {
           tokSequence.add(new AnalyzedTokenReadings(aToken, 0));
         } else {
-        	 if (readingsCounter<tokSequence.size()) {
-                 tokSequence.get(readingsCounter).addReading(aToken);
-               } else {
-                   unifiedNext = false;
-               }        	 
-                   /* else? */        	
+          if (readingsCounter<tokSequence.size()) {
+            tokSequence.get(readingsCounter).addReading(aToken);
+          } else {
+            unifiedNext = false;
+          }
         }
         tmpFeaturesFound = tokenFeaturesFound;
       }
@@ -237,31 +232,31 @@ public class Unifier {
   /**
    * Call after every complete token (AnalyzedTokenReadings) checked.
    */
-	public final void startNextToken() {
-		featuresFound = new ArrayList<>(tmpFeaturesFound);
-		readingsCounter++;
-		// Removes features
-		List<String> types;
-		for (int i = 0; i <= tokCnt; i++) {
-			//for (Map.Entry<String, List<String>> feat : uFeatures.entrySet()) {
-			for (Map.Entry<String, List<String>> feat : equivalenceFeatures.entrySet()) {
-				types = feat.getValue();
-				for (final String typeName : types) {
-					if (featuresFound.get(i)
-							&& equivalencesToBeRemoved.containsKey(feat.getKey())
-							&& equivalencesToBeRemoved.get(feat.getKey()).contains(typeName)
-							&& !(equivalencesToBeKept.containsKey(feat.getKey())
-								&& equivalencesToBeKept.get(feat.getKey()).contains(typeName))
-							&& equivalencesMatched.get(i).containsKey(feat.getKey())
-							&& equivalencesMatched.get(i).get(feat.getKey()).contains(typeName)) {
-						equivalencesMatched.get(i).get(feat.getKey()).remove(typeName);
-					}
-				}
-			}
-		}
-        equivalencesToBeRemoved.clear();
-        equivalencesToBeKept.clear();
-	}
+  public final void startNextToken() {
+    featuresFound = new ArrayList<>(tmpFeaturesFound);
+    readingsCounter++;
+    // Removes features
+    List<String> types;
+    for (int i = 0; i <= tokCnt; i++) {
+      //for (Map.Entry<String, List<String>> feat : uFeatures.entrySet()) {
+      for (Map.Entry<String, List<String>> feat : equivalenceFeatures.entrySet()) {
+        types = feat.getValue();
+        for (final String typeName : types) {
+          if (featuresFound.get(i)
+                  && equivalencesToBeRemoved.containsKey(feat.getKey())
+                  && equivalencesToBeRemoved.get(feat.getKey()).contains(typeName)
+                  && !(equivalencesToBeKept.containsKey(feat.getKey())
+                  && equivalencesToBeKept.get(feat.getKey()).contains(typeName))
+                  && equivalencesMatched.get(i).containsKey(feat.getKey())
+                  && equivalencesMatched.get(i).get(feat.getKey()).contains(typeName)) {
+            equivalencesMatched.get(i).get(feat.getKey()).remove(typeName);
+          }
+        }
+      }
+    }
+    equivalencesToBeRemoved.clear();
+    equivalencesToBeKept.clear();
+  }
 
   /**
    * Starts testing only those equivalences that were previously matched.
@@ -360,7 +355,7 @@ public class Unifier {
   public final boolean isUnified(final AnalyzedToken matchToken,
       final Map<String, List<String>> uFeatures, final boolean lastReading, final boolean isMatched) {
     if (inUnification) {
-       if (isMatched) {	
+       if (isMatched) {
           uniMatched |= isSatisfied(matchToken, uFeatures); 
        }
       uniAllMatched = uniMatched;
@@ -371,7 +366,7 @@ public class Unifier {
       }
       return uniAllMatched;
     }
-    if (isMatched) {	
+    if (isMatched) {
        isSatisfied(matchToken, uFeatures);
     }
     if (lastReading) {
@@ -383,8 +378,8 @@ public class Unifier {
   }
   
   public final boolean isUnified(final AnalyzedToken matchToken,
-	      final Map<String, List<String>> uFeatures, final boolean lastReading) {
-	  return this.isUnified(matchToken, uFeatures, lastReading, true); 
+      final Map<String, List<String>> uFeatures, final boolean lastReading) {
+    return this.isUnified(matchToken, uFeatures, lastReading, true);
   }
 
   /**

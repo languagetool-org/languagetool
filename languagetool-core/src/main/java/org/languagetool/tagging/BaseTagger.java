@@ -43,8 +43,7 @@ public abstract class BaseTagger implements Tagger {
 
   protected Locale conversionLocale = Locale.getDefault();
 
-  boolean tagLowercaseWithUppercase = true;
-
+  private boolean tagLowercaseWithUppercase = true;
   private Dictionary dictionary;
 
   /**
@@ -122,7 +121,6 @@ public abstract class BaseTagger implements Tagger {
     }
 
     return tokenReadings;
-
   }
 
   protected List<AnalyzedToken> asAnalyzedTokenList(final String word, final List<WordData> wdList) {
@@ -143,25 +141,11 @@ public abstract class BaseTagger implements Tagger {
   private void addTokens(final List<AnalyzedToken> taggedTokens, final List<AnalyzedToken> l) {
     if (taggedTokens != null) {
       for (AnalyzedToken at : taggedTokens) {
-        /*
-        if (!StringTools.isEmpty(at.getPOSTag())) {
-          l.add(at);
-        } else {
-          l.add(new AnalyzedToken(at.getToken(), null, null));
-        }
-        */
         l.add(at);
       }
     }
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see
-   * org.languagetool.tagging.Tagger#createNullToken(java.lang.String
-   * , int)
-   */
   @Override
   public final AnalyzedTokenReadings createNullToken(final String token, final int startPos) {
     return new AnalyzedTokenReadings(new AnalyzedToken(token, null, null), startPos);

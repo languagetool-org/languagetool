@@ -343,7 +343,7 @@ public class Element implements Cloneable {
   }
 
   public final void setStringElement(final String token) {
-    this.stringToken = token;
+    stringToken = token;
     testString = !StringTools.isEmpty(stringToken);
     if (testString && stringRegExp) {
       String regToken = stringToken;
@@ -374,7 +374,7 @@ public class Element implements Cloneable {
       final boolean negation, final boolean scopeNext, final boolean scopePrevious,
       final String posToken, final boolean posRegExp, final boolean posNegation) {
 
-    final Element exception = new Element(token, this.caseSensitive, regExp, inflected);
+    final Element exception = new Element(token, caseSensitive, regExp, inflected);
     exception.setNegation(negation);
     exception.setPosElement(posToken, posRegExp, posNegation);
     exception.exceptionValidNext = scopeNext;
@@ -513,7 +513,7 @@ public class Element implements Cloneable {
    * @since 0.9.3
    */
   public final boolean getNegation() {
-    return this.negation;
+    return negation;
   }
 
   /**

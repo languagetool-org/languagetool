@@ -34,59 +34,53 @@ import org.languagetool.tokenizers.ja.JapaneseWordTokenizer;
 
 public class Japanese extends Language {
 
-	private Tagger tagger;
-	private SentenceTokenizer sentenceTokenizer;
+  private Tagger tagger;
+  private SentenceTokenizer sentenceTokenizer;
 
-	@Override
-	public String getShortName() {
-		return "ja";
-	}
+  @Override
+  public String getShortName() {
+    return "ja";
+  }
 
-	@Override
-	public String getName() {
-		return "Japanese";
-	}
+  @Override
+  public String getName() {
+    return "Japanese";
+  }
 
-	@Override
-	public String[] getCountryVariants() {
-		return new String[] { "JP" };
-	}
+  @Override
+  public String[] getCountryVariants() {
+    return new String[] { "JP" };
+  }
 
-	@Override
-	public Contributor[] getMaintainers() {
-		return new Contributor[] { new Contributor("Takahiro Shinkai")};
-	}
-				
-		
- 	
-	
-	@Override
-	public List<Class<? extends Rule>> getRelevantRules() {
-		return Arrays.asList(DoublePunctuationRule.class, WhitespaceRule.class);
-	}
-		
-	@Override
-	public final Tagger getTagger() {
-		if (tagger == null) {
-			tagger = new JapaneseTagger();
-		}
-		return tagger;
-	}
-	
-	
-	@Override
-	public final Tokenizer getWordTokenizer() {
-		return new JapaneseWordTokenizer();
-	}
-	
-	@Override
-	public final SentenceTokenizer getSentenceTokenizer() {
-		if (sentenceTokenizer == null) {
-			//sentenceTokenizer = new JapaneseSentenceTokenizer();
-			sentenceTokenizer = new SRXSentenceTokenizer(this);
+  @Override
+  public Contributor[] getMaintainers() {
+    return new Contributor[] { new Contributor("Takahiro Shinkai")};
+  }
 
-		}
-		return sentenceTokenizer;
-	}
+  @Override
+  public List<Class<? extends Rule>> getRelevantRules() {
+    return Arrays.asList(DoublePunctuationRule.class, WhitespaceRule.class);
+  }
+
+  @Override
+  public final Tagger getTagger() {
+    if (tagger == null) {
+      tagger = new JapaneseTagger();
+    }
+    return tagger;
+  }
+
+  @Override
+  public final Tokenizer getWordTokenizer() {
+    return new JapaneseWordTokenizer();
+  }
+
+  @Override
+  public final SentenceTokenizer getSentenceTokenizer() {
+    if (sentenceTokenizer == null) {
+      sentenceTokenizer = new SRXSentenceTokenizer(this);
+    }
+    return sentenceTokenizer;
+  }
 
 }

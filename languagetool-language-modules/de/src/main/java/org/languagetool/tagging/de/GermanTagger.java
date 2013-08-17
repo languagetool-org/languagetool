@@ -153,13 +153,13 @@ public class GermanTagger implements Tagger {
       // Lametyzator returns data as String[]
       // first lemma, then annotations
       if (compoundParts != null) {
-          // was originally a compound word
-          final List<String> allButLastPart = compoundParts.subList(0, compoundParts.size() - 1);
-          final String lemma = StringTools.listToString(allButLastPart, "")
-              + StringTools.lowercaseFirstChar(taggerTokens[i]);
-          l.add(new AnalyzedGermanToken(word, taggerTokens[i + 1], lemma));
+        // was originally a compound word
+        final List<String> allButLastPart = compoundParts.subList(0, compoundParts.size() - 1);
+        final String lemma = StringTools.listToString(allButLastPart, "")
+            + StringTools.lowercaseFirstChar(taggerTokens[i]);
+        l.add(new AnalyzedGermanToken(word, taggerTokens[i + 1], lemma));
       } else {
-          l.add(new AnalyzedGermanToken(word, taggerTokens[i + 1], taggerTokens[i]));
+        l.add(new AnalyzedGermanToken(word, taggerTokens[i + 1], taggerTokens[i]));
       }
       i = i + 2;
     }

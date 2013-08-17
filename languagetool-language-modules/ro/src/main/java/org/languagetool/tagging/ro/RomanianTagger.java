@@ -19,12 +19,10 @@
 package org.languagetool.tagging.ro;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import morfologik.stemming.Dictionary;
 import morfologik.stemming.DictionaryLookup;
 import morfologik.stemming.IStemmer;
 import morfologik.stemming.WordData;
@@ -87,20 +85,20 @@ public class RomanianTagger extends BaseTagger {
             l.add(new AnalyzedToken(word, 
                 wd.getTag().toString(), currTag));
           }
-        }			
+        }
       }
       if (manualTagger != null) { // add user tags, if any
-    	  final String[] manualTags = manualTagger.lookup(lowerCaseWord);
-    	  if (manualTags != null) {
-    		  for (int i = 0; i < manualTags.length/2; i=i+2) {
-    			  l.add(new AnalyzedToken(word, manualTags[i+1], manualTags[i]));
-			}
-    	  }
+        final String[] manualTags = manualTagger.lookup(lowerCaseWord);
+        if (manualTags != null) {
+          for (int i = 0; i < manualTags.length / 2; i = i + 2) {
+            l.add(new AnalyzedToken(word, manualTags[i+1], manualTags[i]));
+          }
+        }
       }
 
       if (l.isEmpty()) {
         l.add(new AnalyzedToken(word, null, null));
-      }			
+      }
       tokenReadings.add(new AnalyzedTokenReadings(l, pos));
       pos += word.length();
     }
