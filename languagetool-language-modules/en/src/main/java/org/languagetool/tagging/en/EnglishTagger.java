@@ -25,7 +25,7 @@ import org.languagetool.tagging.BaseTagger;
 /**
  * English Part-of-speech tagger.
  * The POS tagset is described in
- * <a href="https://languagetool.svn.sourceforge.net/svnroot/languagetool/trunk/languagetool/languagetool-language-modules/en/src/main/resources/org/languagetool/resource/en/tagset.txt">tagset.txt</a>
+ * <a href="https://github.com/languagetool-org/languagetool/blob/master/languagetool-language-modules/en/src/main/resources/org/languagetool/resource/en/tagset.txt">tagset.txt</a>
  * 
  * @author Marcin Milkowski
  */
