@@ -202,7 +202,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
 						null, Match.CaseConversion.NONE, false, false,
 						Match.IncludeRange.NONE);
 
-				MatchState matchState = tmpMatchToken.createState(rule.getLanguage().getSynthesizer(), whTokens[fromPos]);
+				MatchState matchState = tmpMatchToken.createState(rule.getLanguage().getSynthesizer(), whTokens[position]);
 				final String prevValue = whTokens[position].toString();
 				final String prevAnot = whTokens[position]
 						.getHistoricalAnnotations();
