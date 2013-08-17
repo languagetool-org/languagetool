@@ -218,11 +218,11 @@ public class Match {
   }
 
   /**
-   * Used to tell whether the Match class will spell-check the result.
+   * Used to tell whether the Match class will spell-check the result so
+   * that misspelled suggestions are suppressed.
    * @return True if this is so.
    */
   public final boolean checksSpelling() {
-    // TODO: really? not !suppressMisspelled ?
     return suppressMisspelled;
   }
 
