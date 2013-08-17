@@ -33,13 +33,13 @@ public class UnifierTest extends TestCase {
 
   // trivial unification = test if the character case is the same
   public void testUnificationCase() {
-    final Unifier uni = new Unifier();
+    final UnifierConfiguration unifierConfig = new UnifierConfiguration();
     final Element elLower = new Element("\\p{Ll}+", true, true, false);
     final Element elUpper = new Element("\\p{Lu}\\p{Ll}+", true, true, false);
     final Element elAllUpper = new Element("\\p{Lu}+$", true, true, false);
-    uni.setEquivalence("case-sensitivity", "lowercase", elLower);
-    uni.setEquivalence("case-sensitivity", "uppercase", elUpper);
-    uni.setEquivalence("case-sensitivity", "alluppercase", elAllUpper);
+    unifierConfig.setEquivalence("case-sensitivity", "lowercase", elLower);
+    unifierConfig.setEquivalence("case-sensitivity", "uppercase", elUpper);
+    unifierConfig.setEquivalence("case-sensitivity", "alluppercase", elAllUpper);
     final AnalyzedToken lower1 = new AnalyzedToken("lower", "JJR", "lower");
     final AnalyzedToken lower2 = new AnalyzedToken("lowercase", "JJ", "lowercase");
     final AnalyzedToken upper1 = new AnalyzedToken("Uppercase", "JJ", "Uppercase");
@@ -47,6 +47,8 @@ public class UnifierTest extends TestCase {
     final AnalyzedToken upperAll1 = new AnalyzedToken("JOHN", "NNP", "John");
     final AnalyzedToken upperAll2 = new AnalyzedToken("JAMES", "NNP", "James");
 
+    final Unifier uni = unifierConfig.createUnifier();
+    
     final Map<String, List<String>> equiv = new HashMap<>();
     final List<String> list1 = new ArrayList<>();
     list1.add("lowercase");
@@ -103,14 +105,17 @@ public class UnifierTest extends TestCase {
 
   // slightly non-trivial unification = test if the grammatical number is the same
   public void testUnificationNumber() {
-    final Unifier uni = new Unifier();
+    final UnifierConfiguration unifierConfig = new UnifierConfiguration();
+
     final Element sgElement = new Element("", false, false, false);
     sgElement.setPosElement(".*[\\.:]sg:.*", true, false);
-    uni.setEquivalence("number", "singular", sgElement);
+    unifierConfig.setEquivalence("number", "singular", sgElement);
     final Element plElement = new Element("", false, false, false);
     plElement.setPosElement(".*[\\.:]pl:.*", true, false);
-    uni.setEquivalence("number", "plural", plElement);
+    unifierConfig.setEquivalence("number", "plural", plElement);
 
+    final Unifier uni = unifierConfig.createUnifier();
+    
     final AnalyzedToken sing1 = new AnalyzedToken("mały", "adj:sg:blahblah", "mały");
     final AnalyzedToken sing2 = new AnalyzedToken("człowiek", "subst:sg:blahblah", "człowiek");
 
@@ -167,21 +172,24 @@ public class UnifierTest extends TestCase {
 
   //slightly non-trivial unification = test if the grammatical number & gender is the same
   public void testUnificationNumberGender() {
-    final Unifier uni = new Unifier();
+    final UnifierConfiguration unifierConfig = new UnifierConfiguration();
+
     final Element sgElement = new Element("", false, false, false);
     sgElement.setPosElement(".*[\\.:]sg:.*", true, false);
-    uni.setEquivalence("number", "singular", sgElement);
+    unifierConfig.setEquivalence("number", "singular", sgElement);
     final Element plElement = new Element("", false, false, false);
     plElement.setPosElement(".*[\\.:]pl:.*", true, false);
-    uni.setEquivalence("number", "plural", plElement);
-
+    unifierConfig.setEquivalence("number", "plural", plElement);
+    
     final Element femElement = new Element("", false, false, false);
     femElement.setPosElement(".*[\\.:]f", true, false);
-    uni.setEquivalence("gender", "feminine", femElement);
+    unifierConfig.setEquivalence("gender", "feminine", femElement);
 
     final Element mascElement = new Element("", false, false, false);
     mascElement.setPosElement(".*[\\.:]m", true, false);
-    uni.setEquivalence("gender", "masculine", mascElement);
+    unifierConfig.setEquivalence("gender", "masculine", mascElement);
+    
+    final Unifier uni = unifierConfig.createUnifier();
 
     final AnalyzedToken sing1 = new AnalyzedToken("mały", "adj:sg:blahblah:m", "mały");
     final AnalyzedToken sing1a = new AnalyzedToken("mała", "adj:sg:blahblah:f", "mały");
@@ -205,23 +213,25 @@ public class UnifierTest extends TestCase {
 
   // checks if all tokens share the same set of features to be unified
   public void testMultipleFeats() {
-    final Unifier uni = new Unifier();
+    final UnifierConfiguration unifierConfig = new UnifierConfiguration();
     final Element sgElement = new Element("", false, false, false);
     sgElement.setPosElement(".*[\\.:]sg:.*", true, false);
-    uni.setEquivalence("number", "singular", sgElement);
+    unifierConfig.setEquivalence("number", "singular", sgElement);
     final Element plElement = new Element("", false, false, false);
     plElement.setPosElement(".*[\\.:]pl:.*", true, false);
-    uni.setEquivalence("number", "plural", plElement);
+    unifierConfig.setEquivalence("number", "plural", plElement);
     final Element femElement = new Element("", false, false, false);
     femElement.setPosElement(".*[\\.:]f([\\.:].*)?", true, false);
-    uni.setEquivalence("gender", "feminine", femElement);
+    unifierConfig.setEquivalence("gender", "feminine", femElement);
     final Element mascElement = new Element("", false, false, false);
     mascElement.setPosElement(".*[\\.:]m([\\.:].*)?", true, false);
-    uni.setEquivalence("gender", "masculine", mascElement);
+    unifierConfig.setEquivalence("gender", "masculine", mascElement);
     final Element neutElement = new Element("", false, false, false);
     neutElement.setPosElement(".*[\\.:]n([\\.:].*)?", true, false);
-    uni.setEquivalence("gender", "neutral", neutElement);
-
+    unifierConfig.setEquivalence("gender", "neutral", neutElement);
+    
+    final Unifier uni = unifierConfig.createUnifier();
+    
     final AnalyzedToken sing1 = new AnalyzedToken("mały", "adj:sg:blahblah:m", "mały");
     AnalyzedToken sing1a = new AnalyzedToken("mały", "adj:pl:blahblah:f", "mały");
     AnalyzedToken sing1b = new AnalyzedToken("mały", "adj:pl:blahblah:f", "mały");
@@ -292,19 +302,21 @@ public class UnifierTest extends TestCase {
   }
 
   public void testNegation() {
-      final Unifier uni = new Unifier();
+      final UnifierConfiguration unifierConfig = new UnifierConfiguration();
       final Element sgElement = new Element("", false, false, false);
       sgElement.setPosElement(".*[\\.:]sg:.*", true, false);
-      uni.setEquivalence("number", "singular", sgElement);
+      unifierConfig.setEquivalence("number", "singular", sgElement);
       final Element plElement = new Element("", false, false, false);
       plElement.setPosElement(".*[\\.:]pl:.*", true, false);
-      uni.setEquivalence("number", "plural", plElement);
+      unifierConfig.setEquivalence("number", "plural", plElement);
       final Element femElement = new Element("", false, false, false);
       femElement.setPosElement(".*:f", true, false);
-      uni.setEquivalence("gender", "feminine", femElement);
+      unifierConfig.setEquivalence("gender", "feminine", femElement);
       final Element mascElement = new Element("", false, false, false);
       mascElement.setPosElement(".*:m", true, false);
-      uni.setEquivalence("gender", "masculine", mascElement);
+      unifierConfig.setEquivalence("gender", "masculine", mascElement);
+
+      final Unifier uni = unifierConfig.createUnifier();
 
       //Latin adjectives
       final AnalyzedToken sing_masc = new AnalyzedToken("parvus", "adj:sg:blahblah:m", "parvus");

@@ -35,7 +35,6 @@ import org.languagetool.tokenizers.ja.JapaneseWordTokenizer;
 public class Japanese extends Language {
 
 	private Tagger tagger;
-	private Tokenizer wordTokenizer;
 	private SentenceTokenizer sentenceTokenizer;
 
 	@Override
@@ -77,10 +76,7 @@ public class Japanese extends Language {
 	
 	@Override
 	public final Tokenizer getWordTokenizer() {
-		if (wordTokenizer == null) {
-			wordTokenizer = new JapaneseWordTokenizer();
-		}
-		return wordTokenizer;
+		return new JapaneseWordTokenizer();
 	}
 	
 	@Override

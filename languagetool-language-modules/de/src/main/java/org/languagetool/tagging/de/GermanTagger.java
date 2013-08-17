@@ -48,11 +48,28 @@ public class GermanTagger implements Tagger {
   private static final String DICT_FILENAME = "/de/german.dict";
   private static final String USER_DICT_FILENAME = "/de/added.txt";
 
-  private IStemmer morfologik;
+  private Dictionary dictionary;
   private ManualTagger manualTagger;
   private GermanCompoundTokenizer compoundTokenizer;
-  
+
   public GermanTagger() {
+  }
+
+  protected void initialize() throws IOException {
+    final URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(DICT_FILENAME);
+    dictionary = Dictionary.read(url);
+    manualTagger = new ManualTagger(JLanguageTool.getDataBroker().getFromResourceDirAsStream(USER_DICT_FILENAME));
+    compoundTokenizer = new GermanCompoundTokenizer();
+  }
+
+  protected void initializeIfRequired() throws IOException {
+    if (dictionary == null || manualTagger == null || compoundTokenizer == null) {
+      synchronized (this) {
+        if (dictionary == null || manualTagger == null || compoundTokenizer == null) {
+          initialize();
+        }
+      }
+    }
   }
 
   public AnalyzedGermanTokenReadings lookup(final String word) throws IOException {
@@ -65,34 +82,27 @@ public class GermanTagger implements Tagger {
     }
     return atr;
   }
-    
+
   @Override
   public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens) throws IOException {
     return tag(sentenceTokens, true);
   }
-  
+
   public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens, final boolean ignoreCase) throws IOException {
+    initializeIfRequired();
+
     String[] taggerTokens;
     boolean firstWord = true;
     final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
     int pos = 0;
-    // caching Lametyzator instance - lazy init
-    if (morfologik == null) {      
-      final URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(DICT_FILENAME);
-      morfologik = new DictionaryLookup(Dictionary.read(url));      
-    }
-    if (manualTagger == null) {
-      manualTagger = new ManualTagger(JLanguageTool.getDataBroker().getFromResourceDirAsStream(USER_DICT_FILENAME));
-    }
-    if (compoundTokenizer == null) {
-      compoundTokenizer = new GermanCompoundTokenizer();
-    }
+
+    final IStemmer morfologik = new DictionaryLookup(dictionary);
 
     for (String word: sentenceTokens) {
       final List<AnalyzedGermanToken> l = new ArrayList<>();
-      taggerTokens = lexiconLookup(word);
+      taggerTokens = lexiconLookup(word, morfologik);
       if (firstWord && taggerTokens == null && ignoreCase) { // e.g. "Das" -> "das" at start of sentence
-        taggerTokens = lexiconLookup(word.toLowerCase());
+        taggerTokens = lexiconLookup(word.toLowerCase(), morfologik);
         firstWord = false;
       }
       if (taggerTokens != null) {
@@ -109,7 +119,7 @@ public class GermanTagger implements Tagger {
             if (StringTools.startsWithUppercase(word)) {
               lastPart = StringTools.uppercaseFirstChar(lastPart);
             }
-            taggerTokens = lexiconLookup(lastPart);
+            taggerTokens = lexiconLookup(lastPart, morfologik);
             if (taggerTokens != null) {
               tagWord(taggerTokens, word, l, compoundParts);
             } else {
@@ -120,7 +130,7 @@ public class GermanTagger implements Tagger {
           l.add(new AnalyzedGermanToken(word, null, null));
         }
       }
-      
+
       //tokenReadings.add(new AnalyzedGermanToken(new AnalyzedTokenReadings((AnalyzedToken[]) l.toArray(new AnalyzedToken[0]))));
       tokenReadings.add(new AnalyzedGermanTokenReadings(l.toArray(new AnalyzedGermanToken[l.size()]), pos));
       pos += word.length();
@@ -129,7 +139,7 @@ public class GermanTagger implements Tagger {
   }
 
   private void tagWord(String[] taggerTokens, String word, List<AnalyzedGermanToken> l) {
-      tagWord(taggerTokens, word, l, null);
+    tagWord(taggerTokens, word, l, null);
   }
 
   /**
@@ -154,8 +164,8 @@ public class GermanTagger implements Tagger {
       i = i + 2;
     }
   }
-  
-  private String[] lexiconLookup(final String word) {
+
+  private String[] lexiconLookup(final String word, final IStemmer morfologik) {
     try {
       final String[] posTagsFromUserDict = manualTagger.lookup(word);
       final List<WordData> posTagsFromDict = morfologik.lookup(word);
@@ -186,7 +196,7 @@ public class GermanTagger implements Tagger {
       throw new RuntimeException("Error looking up word '" + word + "'", e);
     }
   }
-    
+
   @Override
   public final AnalyzedGermanTokenReadings createNullToken(final String token, final int startPos) {
     return new AnalyzedGermanTokenReadings(new AnalyzedGermanToken(token, null, null), startPos);
@@ -196,7 +206,7 @@ public class GermanTagger implements Tagger {
   public AnalyzedToken createToken(String token, String posTag) {
     return new AnalyzedGermanToken(token, posTag);
   }
-  
+
   /**
    * Test only
    */
@@ -208,5 +218,5 @@ public class GermanTagger implements Tagger {
     final List<AnalyzedTokenReadings> res = gt.tag(l);
     System.err.println(res);
   }
-  
+
 }

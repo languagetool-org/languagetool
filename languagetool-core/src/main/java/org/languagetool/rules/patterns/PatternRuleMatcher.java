@@ -32,27 +32,27 @@ import org.languagetool.tools.StringTools;
 /**
  * Matches a pattern rule against plain text.
  */
-class PatternRuleMatcher {
+class PatternRuleMatcher extends AbstractPatternRulePerformer {
 
   private static final String SUGGESTION_START_TAG = "<suggestion>";
   private static final String SUGGESTION_END_TAG = "</suggestion>";
   
-  private final PatternRule rule;
   private final boolean useList;
 
   PatternRuleMatcher(PatternRule rule, boolean useList) {
-    this.rule = rule;
+    super(rule, rule.getLanguage().getUnifier());
     this.useList = useList;
   }
 
   final RuleMatch[] match(final AnalyzedSentence text)
     throws IOException {
+      final List<ElementMatcher> elementMatchers = createElementMatchers();
       final List<RuleMatch> ruleMatches = new ArrayList<>();
       final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
       final int[] tokenPositions = new int[tokens.length + 1];
-      final int patternSize = rule.patternElements.size();
+      final int patternSize = elementMatchers.size();
       final int limit = Math.max(0, tokens.length - patternSize + 1);
-      Element elem = null;
+      ElementMatcher elem = null;
       int i = 0;
       while (i < limit && !(rule.sentStart && i > 0)) {
         boolean allElementsMatch = false;
@@ -64,26 +64,26 @@ class PatternRuleMatcher {
         // of tokens skipped
         int skipShiftTotal = 0;
         if (rule.testUnification) {
-          rule.unifier.reset();
+        	unifier.reset();
         }
         for (int k = 0; k < patternSize; k++) {
-          final Element prevElement = elem;
-          elem = rule.patternElements.get(k);
-          rule.setupRef(firstMatchToken, elem, tokens);
+            final ElementMatcher prevElement = elem;
+            elem = elementMatchers.get(k);
+            elem.resolveReference(firstMatchToken, tokens, rule.getLanguage());
           final int nextPos = i + k + skipShiftTotal;
-          rule.prevMatched = false;
+          prevMatched = false;
           if (prevSkipNext + nextPos >= tokens.length || prevSkipNext < 0) { // SENT_END?
             prevSkipNext = tokens.length - (nextPos + 1);
           }
           final int maxTok = Math.min(nextPos + prevSkipNext, tokens.length - (patternSize - k));
           for (int m = nextPos; m <= maxTok; m++) {
-            allElementsMatch = !tokens[m].isImmunized() && rule.testAllReadings(tokens, elem, prevElement, m,
+            allElementsMatch = !tokens[m].isImmunized() && testAllReadings(tokens, elem, prevElement, m,
                     firstMatchToken, prevSkipNext);
             if (allElementsMatch) {
               lastMatchToken = m;
               final int skipShift = lastMatchToken - nextPos;
               tokenPositions[matchingTokens] = skipShift + 1;
-              prevSkipNext = translateElementNo(elem.getSkipNext());
+              prevSkipNext = translateElementNo(elem.getElement().getSkipNext());
               matchingTokens++;
               skipShiftTotal += skipShift;
               if (firstMatchToken == -1) {
@@ -112,6 +112,7 @@ class PatternRuleMatcher {
   private RuleMatch createRuleMatch(final int[] tokenPositions,
         final AnalyzedTokenReadings[] tokens, final int firstMatchToken,
         final int lastMatchToken, final int matchingTokens) throws IOException {
+      final PatternRule rule = (PatternRule) this.rule;
       final String errMessage = formatMatches(tokens, tokenPositions,
           firstMatchToken, rule.getMessage(), rule.getSuggestionMatches());
       final String suggestionsOutMsg = formatMatches(tokens, tokenPositions,
@@ -173,6 +174,7 @@ class PatternRuleMatcher {
   private boolean matchConvertsCase(List<Match> suggestionMatches) {
     //final List<Match> suggestionMatches = rule.getSuggestionMatches();
     if (suggestionMatches != null && !suggestionMatches.isEmpty()) {
+      final PatternRule rule = (PatternRule) this.rule;
       final int sugStart = rule.getMessage().indexOf(SUGGESTION_START_TAG) + SUGGESTION_START_TAG.length();
       for (Match sMatch : suggestionMatches) {
         if (!sMatch.isInMessageOnly() && sMatch.convertsCase()
@@ -197,6 +199,7 @@ class PatternRuleMatcher {
       return i;
     }
     int j = 0;
+    final PatternRule rule = (PatternRule) this.rule;
     for (int k = 0; k < i; k++) {
       j += rule.getElementNo().get(k);
     }
@@ -362,9 +365,8 @@ class PatternRuleMatcher {
       final Language language = rule.language;
       if (len == 1) {
         final int skippedTokens = nextTokenPos - tokenIndex;
-        suggestionMatches.get(start).setToken(tokens, tokenIndex - 1, skippedTokens);
-        suggestionMatches.get(start).setSynthesizer(language.getSynthesizer());
-        finalMatch = suggestionMatches.get(start).toFinalString(language);
+        final MatchState matchState = suggestionMatches.get(start).createState(language.getSynthesizer(), tokens, tokenIndex - 1, skippedTokens);
+        finalMatch = matchState.toFinalString(language);
         if (suggestionMatches.get(start).checksSpelling()
                 && finalMatch.length == 1
                 && "".equals(finalMatch[0])) {
@@ -376,10 +378,8 @@ class PatternRuleMatcher {
         final List<String[]> matchList = new ArrayList<>();
         for (int i = 0; i < len; i++) {
           final int skippedTokens = nextTokenPos - (tokenIndex + i);
-          suggestionMatches.get(start).setToken(tokens, tokenIndex - 1 + i, skippedTokens);
-          suggestionMatches.get(start)
-                  .setSynthesizer(language.getSynthesizer());
-          matchList.add(suggestionMatches.get(start).toFinalString(language));
+          final MatchState matchState = suggestionMatches.get(start).createState(language.getSynthesizer(), tokens, tokenIndex - 1 + i, skippedTokens);
+          matchList.add(matchState.toFinalString(language));
         }
         return combineLists(matchList.toArray(new String[matchList.size()][]),
             new String[matchList.size()], 0, language);
@@ -397,6 +397,7 @@ class PatternRuleMatcher {
    * @return true if the phrase is under the index, false otherwise.
    **/
   private int phraseLen(final int i) {
+    final PatternRule rule = (PatternRule) this.rule;
     final List<Integer> elementNo = rule.getElementNo();
     if (!useList || i > (elementNo.size() - 1)) {
       return 1;

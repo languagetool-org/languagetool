@@ -53,7 +53,6 @@ public class Greek extends Language {
     private SentenceTokenizer sentenceTokenizer;
     private Synthesizer synthesizer;
     private Tagger tagger;
-    private Tokenizer wordTokenizer;
 
     @Override
     public final String getShortName() {
@@ -109,10 +108,7 @@ public class Greek extends Language {
 
     @Override
     public final Tokenizer getWordTokenizer() {
-        if (wordTokenizer == null) {
-            wordTokenizer = new GreekWordTokenizer();
-        }
-        return wordTokenizer;
+        return new GreekWordTokenizer();
     }
 
     @Override

@@ -23,6 +23,7 @@ import org.languagetool.language.Contributor;
 import org.languagetool.language.Demo;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.patterns.Unifier;
+import org.languagetool.rules.patterns.UnifierConfiguration;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
@@ -135,7 +136,9 @@ public abstract class Language {
   private static final Tagger DEMO_TAGGER = new DemoTagger();
   private static final SentenceTokenizer SENTENCE_TOKENIZER = new SentenceTokenizer();
   private static final WordTokenizer WORD_TOKENIZER = new WordTokenizer();
-  private static final Unifier MATCH_UNIFIER = new Unifier();
+  
+  private UnifierConfiguration unifierConfiguration = new UnifierConfiguration();
+  private UnifierConfiguration disambiguationUnifierConfiguration = new UnifierConfiguration();
 
   // -------------------------------------------------------------------------
 
@@ -268,7 +271,7 @@ public abstract class Language {
    * @return Feature unifier for analyzed tokens.
    */
   public Unifier getUnifier() {
-    return MATCH_UNIFIER;
+    return unifierConfiguration.createUnifier();
   }
   
   /**
@@ -277,7 +280,21 @@ public abstract class Language {
    * @return Feature unifier for analyzed tokens.
    */
   public Unifier getDisambiguationUnifier() {
-    return MATCH_UNIFIER;
+    return disambiguationUnifierConfiguration.createUnifier();
+  }
+
+  /**
+   * @since 2.3
+   */
+  public UnifierConfiguration getUnifierConfiguration() {
+    return unifierConfiguration;
+  }
+
+  /**
+   * @since 2.3
+   */
+  public UnifierConfiguration getDisambiguationUnifierConfiguration() {
+    return disambiguationUnifierConfiguration;
   }
   
   /**

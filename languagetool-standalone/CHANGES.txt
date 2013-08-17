@@ -16,6 +16,13 @@ LanguageTool Change Log
 
  -LanguageTool requires Java 7 now
 
+ -API: Thread-safety has been improved. The recommended way of working is now to
+  create a new LanguageTool object for each thread, but to create the
+  language only once (e.g. new English()) and use that for all LanguageTool
+  instances. This changed the API of some public classes, but for the standard
+  use case of checking texts with the JLanguageTool object it shouldn't make a
+  difference. (patch by Stefan Lotties)
+
  -standalone version: remember the language selection for the next start
 
  -standalone version: improved window and dialog placement in a multi-monitor setup

@@ -30,7 +30,6 @@ import org.languagetool.rules.UppercaseSentenceStartRule;
 import org.languagetool.rules.WhitespaceRule;
 import org.languagetool.rules.gl.CastWordsRule;
 import org.languagetool.rules.gl.SimpleReplaceRule;
-import org.languagetool.rules.patterns.Unifier;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.gl.GalicianSynthesizer;
@@ -50,8 +49,6 @@ public class Galician extends Language {
   private SentenceTokenizer sentenceTokenizer;
   private Synthesizer synthesizer;
   private Disambiguator disambiguator;
-  private Unifier unifier;
-  private Unifier disambiguationUnifier;
 
   @Override
   public final SentenceTokenizer getSentenceTokenizer() {
@@ -116,22 +113,6 @@ public class Galician extends Language {
       disambiguator = new GalicianRuleDisambiguator();
     }
     return disambiguator;
-  }
-
-  @Override
-  public Unifier getUnifier() {
-    if (unifier == null) {
-      unifier = new Unifier();
-    }
-    return unifier;
-  }
-
-  @Override
-  public Unifier getDisambiguationUnifier() {
-    if (disambiguationUnifier == null) {
-    	disambiguationUnifier = new Unifier();
-    }
-    return disambiguationUnifier; 
   }
 
   @Override

@@ -29,7 +29,6 @@ import org.languagetool.rules.Rule;
 import org.languagetool.rules.UppercaseSentenceStartRule;
 import org.languagetool.rules.WhitespaceRule;
 import org.languagetool.rules.WordRepeatRule;
-import org.languagetool.rules.patterns.Unifier;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.es.SpanishSynthesizer;
@@ -49,8 +48,6 @@ public class Spanish extends Language {
   private Synthesizer synthesizer;
   private Tagger tagger;
   private Disambiguator disambiguator;
-  private Unifier unifier;
-  private Unifier disambiguationUnifier;
 
   @Override
   public String getName() {
@@ -95,22 +92,6 @@ public class Spanish extends Language {
       disambiguator = new SpanishRuleDisambiguator();
     }
     return disambiguator;
-  }
-  
-  @Override
-  public Unifier getUnifier() {
-    if (unifier == null) {
-      unifier = new Unifier();
-    }
-    return unifier;
-  }
-
-  @Override
-  public Unifier getDisambiguationUnifier() {
-    if (disambiguationUnifier == null) {
-    	disambiguationUnifier = new Unifier();
-    }
-    return disambiguationUnifier; 
   }
   
   @Override

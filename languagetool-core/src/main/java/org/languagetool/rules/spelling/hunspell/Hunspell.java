@@ -6,14 +6,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.charset.CharacterCodingException;
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetDecoder;
-import java.nio.charset.CharsetEncoder;
-import java.nio.charset.CodingErrorAction;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
@@ -261,22 +257,10 @@ public class Hunspell {
          */
         private String encoding;
 
-
-        private final CharsetEncoder encoder;
-
-        /**
-         * Charset decoder for hunspell.
-         */
-        private final CharsetDecoder decoder;
-        
         /*
          * the tokenization characters
          */
         private final String wordChars;
-
-        ByteBuffer bytes = ByteBuffer.allocate(0);
-
-        CharBuffer charBuffer = CharBuffer.allocate(0);
 
         /**
          * Creates an instance of the dictionary.
@@ -303,12 +287,6 @@ public class Hunspell {
                 encoding = "ISCII91";
             }
 
-            Charset charset = Charset.forName(encoding);
-            encoder = charset.newEncoder();
-            decoder = charset.newDecoder()
-                    .onMalformedInput(CodingErrorAction.REPORT)
-                    .onUnmappableCharacter(CodingErrorAction.REPORT);
-            
             wordChars = getWordCharsFromFile(aff);
         }
 
@@ -352,37 +330,11 @@ public class Hunspell {
          * Convert a Java string to a zero terminated byte array, in the
          * encoding of the dictionary, as expected by the hunspell functions.
          */
-        protected byte[] stringToBytes(String str)
-                throws UnsupportedEncodingException {
-            bytes.clear();		     
-            charBuffer.clear();
-
-            charBuffer = ensureCapacity(charBuffer, str.length() + 1);	        	        
-            for (int i = 0; i < str.length(); i++) {
-                char chr = str.charAt(i);
-                charBuffer.put(chr);
-            }
-            charBuffer.put('\u0000');
-            charBuffer.flip();
-            final int maxCapacity = (int) (charBuffer.remaining() * encoder
-                    .maxBytesPerChar());
-            if (bytes.capacity() <= maxCapacity) {
-                bytes = ByteBuffer.allocate(maxCapacity);
-            }
-
-            charBuffer.mark();
-            encoder.reset();
-            if (encoder.encode(charBuffer, bytes, true).
-                    isError()) { //remove words that cannot be encoded, 
-                                //they are not in the dictionary anyway
-                bytes.clear();
-            }
-            bytes.flip();
-            charBuffer.reset();
-            if (bytes.hasRemaining()) {
-                return bytes.array();	   
-            }
-            return new byte[0];
+        protected byte[] stringToBytes(String str) throws UnsupportedEncodingException {
+          byte[] strBytes = str.getBytes(encoding);
+          byte[] zeroTerminated = Arrays.copyOf(strBytes, strBytes.length + 1);
+          zeroTerminated[zeroTerminated.length - 1] = '\u0000';
+          return zeroTerminated;
         }
 
         /**
@@ -419,12 +371,7 @@ public class Hunspell {
                         }
                         byte[] data = pointerArray[i].getByteArray(0, (int)len);
 
-                        ByteBuffer bb1 = ByteBuffer.allocate((int)len);
-                        bb1.put(data);
-                        bb1.limit((int)len);
-                        bb1.flip();
-                        CharBuffer ch = decoder.decode(bb1);
-                        res.add(ch.toString());
+                        res.add(new String(data, encoding));
                     }
                 }
 
@@ -459,5 +406,5 @@ public class Hunspell {
         }
                 
     }
-    
+
 }
