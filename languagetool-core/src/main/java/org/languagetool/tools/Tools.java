@@ -371,27 +371,33 @@ public final class Tools {
     final List<BitextRule> rules = new ArrayList<>();
     try {
       final List<Class<? extends BitextRule>> classes = BitextRule.getRelevantRules();
-            
       for (final Class class1 : classes) {
         final Constructor[] constructors = class1.getConstructors();
+        boolean foundConstructor = false;
         for (final Constructor constructor : constructors) {
           final Class[] paramTypes = constructor.getParameterTypes();
           if (paramTypes.length == 0) {
             rules.add((BitextRule) constructor.newInstance());
+            foundConstructor = true;
             break;
           }
           if (paramTypes.length == 1
               && paramTypes[0].equals(ResourceBundle.class)) {
             rules.add((BitextRule) constructor.newInstance(messages));
+            foundConstructor = true;
             break;
           }
           if (paramTypes.length == 2
               && paramTypes[0].equals(ResourceBundle.class)
               && paramTypes[1].equals(Language.class)) {
             rules.add((BitextRule) constructor.newInstance(messages, language));
+            foundConstructor = true;
             break;
           }
-          throw new RuntimeException("Unknown constructor type for rule class: " + class1.getName());
+        }
+        if (!foundConstructor) {
+          throw new RuntimeException("Unknown constructor type for rule class " + class1.getName()
+                  + ", it supports only these constructors: " + Arrays.toString(constructors));
         }
       }
     } catch (final Exception e) {
