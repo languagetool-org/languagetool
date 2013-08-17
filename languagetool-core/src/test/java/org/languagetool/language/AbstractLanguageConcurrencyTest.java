@@ -33,10 +33,6 @@ public abstract class AbstractLanguageConcurrencyTest {
 
   @Test
   public void testSpellCheckerFailure() throws Exception {
-    System.setProperty(
-            "javax.xml.parsers.SAXParserFactory",
-            "com.sun.org.apache.xerces.internal.jaxp.SAXParserFactoryImpl");
-
     final String txt = createSampleText();
     final Language language = createLanguage();
 
@@ -53,13 +49,12 @@ public abstract class AbstractLanguageConcurrencyTest {
             synchronized (syncLock) {
               syncLock.notifyAll();
             }
-
             for (int i = 0; i < 100; i++) {
               try {
-                // TODO: also check false friend rules
                 JLanguageTool tool = new JLanguageTool(language);
                 // TODO: why only test spell checking?:
                 //tool.activateDefaultPatternRules();
+                // TODO: also check false friend rules?
                 Assert.assertNotNull(tool.check(txt));
               } catch (Exception e) {
                 // TODO: this only prints to stderr but doesn't make the test fail
