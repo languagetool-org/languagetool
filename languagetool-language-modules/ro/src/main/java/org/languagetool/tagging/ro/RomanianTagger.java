@@ -63,7 +63,7 @@ public class RomanianTagger extends BaseTagger {
 
   @Override
   public final String getFileName() {
-    return DEFAULT_BINARY_DICT;
+    return binaryDictPath;
   }
 
   @Override
