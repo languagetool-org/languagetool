@@ -217,23 +217,23 @@ public final class Tools {
     final int contextSize = DEFAULT_CONTEXT_SIZE;
     final List<RuleMatch> ruleMatches = 
       checkBitext(src, trg, srcLt, trgLt, bRules);
-    for (RuleMatch thisMatch : ruleMatches) {
-      thisMatch = 
-        trgLt.adjustRuleMatchPos(thisMatch, 
-            0, 1, 1, trg);
+    final List<RuleMatch> adaptedMatches = new ArrayList<>();
+    for (RuleMatch match : ruleMatches) {
+      match = trgLt.adjustRuleMatchPos(match, 0, 0, 0, trg);
+      adaptedMatches.add(match);
     }
     if (apiFormat) {
-      final String xml = StringTools.ruleMatchesToXML(ruleMatches, trg, contextSize, xmlMode);
+      final String xml = StringTools.ruleMatchesToXML(adaptedMatches, trg, contextSize, xmlMode);
       final PrintStream out = new PrintStream(System.out, true, "UTF-8");
       out.print(xml);
     } else {
-      printMatches(ruleMatches, 0, trg, contextSize);
+      printMatches(adaptedMatches, 0, trg, contextSize);
     }
     //display stats if it's not in a buffered mode:
     if (xmlMode == StringTools.XmlPrintMode.NORMAL_XML) {
       displayTimeStats(startTime, srcLt.getSentenceCount(), apiFormat);
     }
-    return ruleMatches.size();
+    return adaptedMatches.size();
   }
   
   /**
