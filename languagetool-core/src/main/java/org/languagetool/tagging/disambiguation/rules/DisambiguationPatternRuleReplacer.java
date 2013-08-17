@@ -14,8 +14,6 @@ import org.languagetool.rules.patterns.MatchState;
 import org.languagetool.tools.StringTools;
 
 class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
-	protected AnalyzedTokenReadings[] unifiedTokens;
-
 	public DisambiguationPatternRuleReplacer(DisambiguationPatternRule rule) {
 		super(rule, rule.getLanguage().getDisambiguationUnifier());
 	}
