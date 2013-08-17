@@ -327,7 +327,7 @@ public final class Tools {
         ruleMatches.addAll(Arrays.asList(curMatch));
       }
     }   
-   return ruleMatches;
+    return ruleMatches;
   }
     
   
@@ -359,20 +359,15 @@ public final class Tools {
     bRules.addAll(rules);
 
     //load Java bitext rules:
-    // TODO: get ResourceBundle for possible parameters for rules
     bRules.addAll(getAllBuiltinBitextRules(source, null));
     return bRules;
   }
-  
+
+  /**
+   * Use reflection to add bitext rules.
+   */
   private static List<BitextRule> getAllBuiltinBitextRules(final Language language,
       final ResourceBundle messages) {
-    // use reflection to get a list of all non-pattern rules under
-    // "org.languagetool.rules.bitext"
-    // generic rules first, then language-specific ones
-    // TODO: the order of loading classes is not guaranteed so we may want to
-    // implement rule
-    // precedence
-
     final List<BitextRule> rules = new ArrayList<>();
     try {
       final List<Class<? extends BitextRule>> classes = BitextRule.getRelevantRules();
@@ -396,12 +391,11 @@ public final class Tools {
             rules.add((BitextRule) constructor.newInstance(messages, language));
             break;
           }
-          throw new RuntimeException("Unknown constructor for rule class: "
-              + class1.getName());
+          throw new RuntimeException("Unknown constructor type for rule class: " + class1.getName());
         }
       }
     } catch (final Exception e) {
-      throw new RuntimeException("Failed to load rules: " + e.getMessage(), e);
+      throw new RuntimeException("Failed to load bitext rules", e);
     }
     return rules;
   }
@@ -467,7 +461,7 @@ public final class Tools {
    * Automatically applies suggestions to the text, as suggested
    * by the rules that match.
    * Note: if there is more than one suggestion, always the first
-   * one is applied, and others ignored silently.
+   * one is applied, and others are ignored silently.
    *
    * @param contents String to be corrected
    * @param lt Initialized LanguageTool object
@@ -495,7 +489,6 @@ public final class Tools {
   public static void correctBitext(final BitextReader reader,
       final JLanguageTool sourceLt, final JLanguageTool targetLt,
       final List<BitextRule> bRules) throws IOException {  
-    //TODO: implement a bitext writer for XML formats (like XLIFF)
     for (StringPair srcAndTrg : reader) {
       final List<RuleMatch> curMatches = checkBitext(
           srcAndTrg.getSource(), srcAndTrg.getTarget(), 
@@ -555,7 +548,7 @@ public final class Tools {
   }
 
   /**
-   * Load a file form the classpath using getResourceAsStream().
+   * Load a file from the classpath using {@link Class#getResourceAsStream(String)}.
    * 
    * @return the stream of the file
    * @throws IOException
@@ -581,7 +574,15 @@ public final class Tools {
   public static void selectRules(final JLanguageTool lt, final String[] disabledRules, final String[] enabledRules) {
     selectRules (lt, disabledRules, enabledRules, true);
   }
-  
+
+  /**
+   * Enable and disable rules of the given LanguageTool instance.
+   *
+   * @param lt LanguageTool object
+   * @param disabledRules ids of the rules to be disabled
+   * @param enabledRules ids of the rules to be enabled
+   * @param useEnabledOnly if set to {@code true}, disable all rules except those enabled explicitly
+   */
   public static void selectRules(final JLanguageTool lt, final String[] disabledRules, final String[] enabledRules, boolean useEnabledOnly) {
     // disable rules that are disabled explicitly:
     for (final String disabledRule : disabledRules) {
