@@ -524,7 +524,7 @@ public class XMLRuleHandler extends DefaultHandler {
     }
 
     if (inUnificationDef) {
-      language.getUnifier().setEquivalence(uFeature, uType, tokenElement);
+      language.getUnifierConfiguration().setEquivalence(uFeature, uType, tokenElement);
       elementList.clear();
     }
     if (tokenSpaceBeforeSet) {

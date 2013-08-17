@@ -19,19 +19,17 @@
 package org.languagetool.tagging.ca;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import morfologik.stemming.Dictionary;
 import morfologik.stemming.DictionaryLookup;
+import morfologik.stemming.IStemmer;
 import morfologik.stemming.WordData;
 
 import org.languagetool.AnalyzedToken;
-import org.languagetool.JLanguageTool;
 import org.languagetool.tagging.BaseTagger;
 
 /**
@@ -58,15 +56,11 @@ public class CatalanTagger extends BaseTagger {
   public CatalanTagger() {
     super();
     setLocale(new Locale("ca"));
-    this.dontTagLowercaseWithUppercase();
+    dontTagLowercaseWithUppercase();
   }
 
   public boolean existsWord(String word) throws IOException {
-    // caching Lametyzator instance - lazy init
-    if (dictLookup == null) {
-      final URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(DICT_FILENAME);
-      dictLookup = new DictionaryLookup(Dictionary.read(url));
-    }
+    final IStemmer dictLookup = new DictionaryLookup(getDictionary());
     final String lowerWord = word.toLowerCase(conversionLocale);
     List<WordData> posTagsFromDict = dictLookup.lookup(lowerWord);
     if (posTagsFromDict.isEmpty()) {
@@ -79,6 +73,12 @@ public class CatalanTagger extends BaseTagger {
 
   @Override
   public List<AnalyzedToken> additionalTags(String word) {
+    final IStemmer dictLookup;
+    try {
+      dictLookup = new DictionaryLookup(getDictionary());
+    } catch (IOException e) {
+      throw new RuntimeException("Could not load Catalan dictionary from " + getFileName(), e);
+    }
     List<AnalyzedToken> additionalTaggedTokens = new ArrayList<>();
     //Any well-formed adverb with suffix -ment is tagged as an adverb (RG)
     //Adjectiu femení singular o participi femení singular + -ment

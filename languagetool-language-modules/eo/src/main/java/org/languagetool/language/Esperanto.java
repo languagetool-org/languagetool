@@ -41,7 +41,6 @@ import org.languagetool.tokenizers.eo.EsperantoWordTokenizer;
 
 public class Esperanto extends Language {
 
-  private Tagger tagger;
   private SentenceTokenizer sentenceTokenizer;
   private Tokenizer wordTokenizer;
   private Disambiguator disambiguator;
@@ -80,10 +79,7 @@ public class Esperanto extends Language {
   
   @Override
   public Tagger getTagger() {
-    if (tagger == null) {
-      tagger = new EsperantoTagger();
-    }
-    return tagger;
+    return new EsperantoTagger();
   }
 
   @Override

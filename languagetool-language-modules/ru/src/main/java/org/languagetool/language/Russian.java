@@ -28,7 +28,6 @@ import org.languagetool.rules.Rule;
 import org.languagetool.rules.UppercaseSentenceStartRule;
 import org.languagetool.rules.WhitespaceRule;
 import org.languagetool.rules.WordRepeatRule;
-import org.languagetool.rules.patterns.Unifier;
 import org.languagetool.rules.ru.RussianCompoundRule;
 import org.languagetool.rules.ru.RussianSimpleReplaceRule;
 import org.languagetool.rules.ru.RussianUnpairedBracketsRule;
@@ -45,8 +44,6 @@ import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 
 public class Russian extends Language {
-
-  private static final Unifier RUSSIAN_UNIFIER = new Unifier();
 
   private Tagger tagger;
   private Disambiguator disambiguator;
@@ -98,11 +95,6 @@ public class Russian extends Language {
        sentenceTokenizer = new SRXSentenceTokenizer(this);
     }
     return sentenceTokenizer;
-  }
-
-  @Override
-  public Unifier getUnifier() {
-    return RUSSIAN_UNIFIER;
   }
 
   @Override

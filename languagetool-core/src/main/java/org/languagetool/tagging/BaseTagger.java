@@ -36,14 +36,16 @@ import org.languagetool.tools.StringTools;
 
 /**
  * Base tagger using Lametyzator.
- * 
+ *
  * @author Marcin Milkowski
  */
 public abstract class BaseTagger implements Tagger {
 
-  protected IStemmer dictLookup;
-  protected Locale conversionLocale = Locale.getDefault();  
+  protected Locale conversionLocale = Locale.getDefault();
+
   boolean tagLowercaseWithUppercase = true;
+
+  private Dictionary dictionary;
 
   /**
    * Get the filename, e.g., <tt>/resource/fr/french.dict</tt>.
@@ -54,19 +56,27 @@ public abstract class BaseTagger implements Tagger {
     conversionLocale = locale;
   }
 
+  protected Dictionary getDictionary() throws IOException {
+    if (dictionary == null) {
+      synchronized (this) {
+        if (dictionary == null) {
+          final URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(getFileName());
+          dictionary = Dictionary.read(url);
+        }
+      }
+    }
+    return dictionary;
+  }
+
   @Override
   public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens)
-  throws IOException {    
+          throws IOException {
     List<AnalyzedToken> taggerTokens;
     List<AnalyzedToken> lowerTaggerTokens;
     List<AnalyzedToken> upperTaggerTokens;
     final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
     int pos = 0;
-    // caching IStemmer instance - lazy init
-    if (dictLookup == null) {
-      final URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(getFileName());
-      dictLookup = new DictionaryLookup(Dictionary.read(url));
-    }
+    final IStemmer dictLookup = new DictionaryLookup(getDictionary());
 
     for (String word : sentenceTokens) {
       final List<AnalyzedToken> l = new ArrayList<>();
@@ -96,17 +106,17 @@ public abstract class BaseTagger implements Tagger {
           }
         }
       }
-      
+
       // Additional language-dependent-tagging 
       if (l.isEmpty()) {
         List<AnalyzedToken> additionalTaggedTokens = additionalTags(word);
-        addTokens(additionalTaggedTokens, l);       
+        addTokens(additionalTaggedTokens, l);
       }
-      
+
       if (l.isEmpty()) {
         l.add(new AnalyzedToken(word, null, null));
       }
-      
+
       tokenReadings.add(new AnalyzedTokenReadings(l, pos));
       pos += word.length();
     }
@@ -126,7 +136,7 @@ public abstract class BaseTagger implements Tagger {
   protected AnalyzedToken asAnalyzedToken(final String word, final WordData wd) {
     return new AnalyzedToken(
         word,
-        StringTools.asString(wd.getTag()), 
+        StringTools.asString(wd.getTag()),
         StringTools.asString(wd.getStem()));
   }
 
@@ -140,7 +150,7 @@ public abstract class BaseTagger implements Tagger {
           l.add(new AnalyzedToken(at.getToken(), null, null));
         }
         */
-        l.add(at);         
+        l.add(at);
       }
     }
   }
@@ -151,7 +161,7 @@ public abstract class BaseTagger implements Tagger {
    * @see
    * org.languagetool.tagging.Tagger#createNullToken(java.lang.String
    * , int)
-   */  
+   */
   @Override
   public final AnalyzedTokenReadings createNullToken(final String token, final int startPos) {
     return new AnalyzedTokenReadings(new AnalyzedToken(token, null, null), startPos);
@@ -161,11 +171,11 @@ public abstract class BaseTagger implements Tagger {
   public AnalyzedToken createToken(String token, String posTag) {
     return new AnalyzedToken(token, posTag, null);
   }
-  
+
   public void dontTagLowercaseWithUppercase() {
     tagLowercaseWithUppercase=false;
   }
-  
+
   /*
    *  Additional tagging in some language-dependent circumstances
    */

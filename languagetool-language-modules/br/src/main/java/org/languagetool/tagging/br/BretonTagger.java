@@ -19,20 +19,17 @@
 package org.languagetool.tagging.br;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import morfologik.stemming.Dictionary;
 import morfologik.stemming.DictionaryLookup;
 import morfologik.stemming.IStemmer;
 
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
 import org.languagetool.tagging.BaseTagger;
 import org.languagetool.tools.StringTools;
 
@@ -56,7 +53,6 @@ public class BretonTagger extends BaseTagger {
 
   private static final Pattern patternSuffix = Pattern.compile("(?iu)(..+)-(mañ|se|hont)$");
   private Locale conversionLocale = Locale.getDefault();
-  private IStemmer dictLookup;
 
   @Override
   public final String getFileName() {
@@ -80,11 +76,7 @@ public class BretonTagger extends BaseTagger {
     List<AnalyzedToken> upperTaggerTokens;
     final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
     int pos = 0;
-    // caching IStemmer instance - lazy init
-    if (dictLookup == null) {
-      final URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(getFileName());
-      dictLookup = new DictionaryLookup(Dictionary.read(url));
-    }
+    final IStemmer dictLookup = new DictionaryLookup(getDictionary());
 
     Matcher matcher;
     for (String word : sentenceTokens) {
