@@ -63,6 +63,7 @@ public class GermanTagger implements Tagger {
   }
 
   protected void initializeIfRequired() throws IOException {
+    // Lazy initialize all fields when needed and only once.
     if (dictionary == null || manualTagger == null || compoundTokenizer == null) {
       synchronized (this) {
         if (dictionary == null || manualTagger == null || compoundTokenizer == null) {
