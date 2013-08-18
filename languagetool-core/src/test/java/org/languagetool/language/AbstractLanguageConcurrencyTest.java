@@ -20,6 +20,9 @@ package org.languagetool.language;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -31,46 +34,74 @@ public abstract class AbstractLanguageConcurrencyTest {
   protected abstract Language createLanguage();
   protected abstract String createSampleText();
 
+  volatile int failedTests;
+  
   @Test
   public void testSpellCheckerFailure() throws Exception {
-    final String txt = createSampleText();
+    final String sampleText = createSampleText();
     final Language language = createLanguage();
+    final int threadCount = Runtime.getRuntime().availableProcessors() * 10;
+    final int testRuns = 100;
 
-    final Object syncLock = new Object();
-    int threadCount = Runtime.getRuntime().availableProcessors() * 10;
-
+    final ReadWriteLock testWaitLock = new ReentrantReadWriteLock();
+    final Lock testWriteLock = testWaitLock.writeLock();
+    testWriteLock.lock();
+    
+    failedTests = 0;
+    
     List<Thread> threads = new ArrayList<>();
-    synchronized (syncLock) {
-      for (int i = 0; i < threadCount; i++) {
-        Runnable r = new Runnable() {
-          @Override
-          public void run() {
-            // TODO: can this be removed?
-            synchronized (syncLock) {
-              syncLock.notifyAll();
-            }
-            for (int i = 0; i < 100; i++) {
-              try {
-                JLanguageTool tool = new JLanguageTool(language);
-                // TODO: why only test spell checking?:
-                //tool.activateDefaultPatternRules();
-                // TODO: also check false friend rules?
-                Assert.assertNotNull(tool.check(txt));
-              } catch (Exception e) {
-                // TODO: this only prints to stderr but doesn't make the test fail
-                throw new RuntimeException(e);
-              }
-            }
-          }
-        };
-        Thread t = new Thread(r);
-        t.start();
-        threads.add(t);
-      }
+    for (int i = 0; i < threadCount; i++) {
+      Thread t = new Thread(new TestRunner(testWaitLock, language, testRuns, sampleText));
+      t.start();
+      threads.add(t);
     }
+    
+    // Release the lock and allow all TestRunner threads to do their work.
+    testWriteLock.unlock();
+    
     for (Thread t : threads) {
       t.join();
     }
+    
+    Assert.assertEquals(0, failedTests);
   }
 
+  final class TestRunner implements Runnable {
+    private final ReadWriteLock waitLock;
+    private final Language language;
+    private final int testRuns;
+    private final String sampleText;
+    TestRunner(ReadWriteLock waitLock, Language language, int testRuns, String sampleText) {
+      this.waitLock = waitLock;
+      this.language = language;
+      this.testRuns = testRuns;
+      this.sampleText = sampleText;
+    }
+    
+    @Override
+    public void run() {
+      /* Request a read-lock to force this thread waiting until the main-thread releases the write-lock.
+       * This ensures all TestRunner threads will be executed very concurrently and force threading issues to come up,
+       * in case the tested code is not thread-safe.
+       */
+      Lock lock = waitLock.readLock();
+      lock.lock();
+      lock.unlock();
+
+      for (int i = 0; i < this.testRuns; i++) {
+        try {
+          JLanguageTool tool = new JLanguageTool(this.language);
+          tool.activateDefaultPatternRules();
+          tool.activateDefaultFalseFriendRules();
+          
+          Assert.assertNotNull(tool.check(this.sampleText));
+        } catch (Exception e) {          
+          failedTests += 1;
+          
+          // Force a log message and the debugger to pause.
+          throw new RuntimeException(e);
+        }
+      }
+    }
+  }
 }
