@@ -11427,6 +11427,22 @@ $Id$
         </rulegroup>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+    	<rule id="EL_MES_AVIAT_POSSIBLE" name="*el més aviat possible/al més aviat possible">
+            <pattern>
+                <marker>
+                    <token>el</token>
+                    <token>més</token>
+                    <token regexp="yes">aviat|prompte</token>
+                    <token>possible</token>
+                </marker>
+            </pattern>
+            <message>Expressió incorrecta.</message>
+            <suggestion>al més <match no="3"/> possible</suggestion>
+            <suggestion>com més <match no="3"/> millor</suggestion>
+            <suggestion>tan <match no="3"/> com es pugui</suggestion>
+            <example type="incorrect" correction="al més aviat possible|com més aviat millor|tan aviat com es pugui">Cal que vinguis <marker>el més aviat possible</marker>.</example>
+            <example type="correct">Cal que vinguis al més aviat possible.</example>
+        </rule>
         <rule id="VEGIS_VEGEU" name="vegi's/vegeu">
             <pattern>
                 <token regexp="yes">vegi|veja</token>
