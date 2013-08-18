@@ -71,7 +71,7 @@ class ResultArea {
     ltSupport.addLanguageToolListener(new LanguageToolListener() {
       @Override
       public void languageToolEventOccured(LanguageToolEvent event) {
-        if (event.getType() == LanguageToolEvent.CHECKING_STARTED) {
+        if (event.getType() == LanguageToolEvent.Type.CHECKING_STARTED) {
           final Language lang = ltSupport.getLanguageTool().getLanguage();
           final String langName;
           if (lang.isExternal()) {
@@ -86,7 +86,7 @@ class ResultArea {
           if (event.getCaller() == marker) {
             statusPane.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
           }
-        } else if (event.getType() == LanguageToolEvent.CHECKING_FINISHED) {
+        } else if (event.getType() == LanguageToolEvent.Type.CHECKING_FINISHED) {
           inputText = event.getSource().getTextComponent().getText();
           setRuleMatches(event.getSource().getMatches());
           if (event.getCaller() == marker || event.getCaller() == null) {
@@ -95,7 +95,7 @@ class ResultArea {
               statusPane.setCursor(Cursor.getDefaultCursor());
             }
           }
-        } else if (event.getType() == LanguageToolEvent.RULE_DISABLED || event.getType() == LanguageToolEvent.RULE_ENABLED) {
+        } else if (event.getType() == LanguageToolEvent.Type.RULE_DISABLED || event.getType() == LanguageToolEvent.Type.RULE_ENABLED) {
           inputText = event.getSource().getTextComponent().getText();
           setRuleMatches(event.getSource().getMatches());
           displayResult();

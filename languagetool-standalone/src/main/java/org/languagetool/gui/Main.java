@@ -343,13 +343,13 @@ public final class Main {
     ltSupport.addLanguageToolListener(new LanguageToolListener() {
       @Override
       public void languageToolEventOccured(LanguageToolEvent event) {
-        if (event.getType() == LanguageToolEvent.CHECKING_STARTED) {
+        if (event.getType() == LanguageToolEvent.Type.CHECKING_STARTED) {
           if(event.getCaller() == getFrame()) {
             startTime = System.currentTimeMillis();
             setWaitCursor();
             checkAction.setEnabled(false);
           }
-        } else if (event.getType() == LanguageToolEvent.CHECKING_FINISHED) {
+        } else if (event.getType() == LanguageToolEvent.Type.CHECKING_FINISHED) {
           if(event.getCaller() == getFrame()) {
             checkAction.setEnabled(true);
             unsetWaitCursor();
@@ -357,7 +357,7 @@ public final class Main {
             resultAreaHelper.displayResult();
           }
         }
-        else if (event.getType() == LanguageToolEvent.LANGUAGE_CHANGED) {
+        else if (event.getType() == LanguageToolEvent.Type.LANGUAGE_CHANGED) {
           languageBox.selectLanguage(ltSupport.getLanguageTool().getLanguage());
         }
       }
@@ -893,7 +893,7 @@ public final class Main {
     }
 
   }
-  
+
   class OpenAction extends AbstractAction {
 
     public OpenAction() {
@@ -961,6 +961,7 @@ public final class Main {
       saveFile(true);
     }
   }
+
   class CheckClipboardAction extends AbstractAction {
 
     public CheckClipboardAction() {

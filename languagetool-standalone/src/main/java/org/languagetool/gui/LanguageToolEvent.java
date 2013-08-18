@@ -24,16 +24,19 @@ package org.languagetool.gui;
  */
 class LanguageToolEvent {
 
-  public static final int CHECKING_STARTED = 0;
-  public static final int CHECKING_FINISHED = 1;
-  public static final int LANGUAGE_CHANGED = 2;
-  public static final int RULE_DISABLED = 3;
-  public static final int RULE_ENABLED = 4;
+  public enum Type {
+
+    CHECKING_STARTED,
+    CHECKING_FINISHED,
+    LANGUAGE_CHANGED,
+    RULE_DISABLED,
+    RULE_ENABLED
+  }
   private LanguageToolSupport source;
-  private int type;
+  private Type type;
   private Object caller;
 
-  LanguageToolEvent(LanguageToolSupport source, int type, Object caller) {
+  LanguageToolEvent(LanguageToolSupport source, Type type, Object caller) {
     this.source = source;
     this.type = type;
     this.caller = caller;
@@ -47,7 +50,7 @@ class LanguageToolEvent {
     return caller;
   }
 
-  int getType() {
+  Type getType() {
     return type;
   }
 }

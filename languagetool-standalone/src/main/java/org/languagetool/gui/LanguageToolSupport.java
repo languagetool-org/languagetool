@@ -134,7 +134,7 @@ class LanguageToolSupport {
     listenerList.remove(LanguageToolListener.class, l);
   }
 
-  private void fireEvent(int type, Object caller) {
+  private void fireEvent(LanguageToolEvent.Type type, Object caller) {
     // Guaranteed to return a non-null array
     Object[] listeners = listenerList.getListenerList();
     // Process the listeners last to first, notifying
@@ -400,13 +400,13 @@ class LanguageToolSupport {
     config.getDisabledRuleIds().add(rule);
     languageTool.disableRule(rule);
     updateHighlights(rule);
-    fireEvent(LanguageToolEvent.RULE_DISABLED, null);
+    fireEvent(LanguageToolEvent.Type.RULE_DISABLED, null);
   }
 
   void enableRule(String rule) {
     config.getDisabledRuleIds().remove(rule);
     languageTool.enableRule(rule);
-    fireEvent(LanguageToolEvent.RULE_ENABLED, null);
+    fireEvent(LanguageToolEvent.Type.RULE_ENABLED, null);
     checkImmediately(null);
   }
 
@@ -589,13 +589,13 @@ class LanguageToolSupport {
           this.currentLanguage = detectedLanguage;
           getCurrentLanguageTool();
           if (SwingUtilities.isEventDispatchThread()) {
-            fireEvent(LanguageToolEvent.LANGUAGE_CHANGED, caller);
+            fireEvent(LanguageToolEvent.Type.LANGUAGE_CHANGED, caller);
           } else {
             try {
               SwingUtilities.invokeAndWait(new Runnable() {
                 @Override
                 public void run() {
-                  fireEvent(LanguageToolEvent.LANGUAGE_CHANGED, caller);
+                  fireEvent(LanguageToolEvent.Type.LANGUAGE_CHANGED, caller);
                 }
               });
             } catch (InterruptedException ex) {
@@ -608,13 +608,13 @@ class LanguageToolSupport {
       }
     }
     if (SwingUtilities.isEventDispatchThread()) {
-      fireEvent(LanguageToolEvent.CHECKING_STARTED, caller);
+      fireEvent(LanguageToolEvent.Type.CHECKING_STARTED, caller);
     } else {
       try {
         SwingUtilities.invokeAndWait(new Runnable() {
           @Override
           public void run() {
-            fireEvent(LanguageToolEvent.CHECKING_STARTED, caller);
+            fireEvent(LanguageToolEvent.Type.CHECKING_STARTED, caller);
           }
         });
       } catch (InterruptedException ex) {
@@ -631,12 +631,12 @@ class LanguageToolSupport {
           @Override
           public void run() {
             updateHighlights(matches);
-            fireEvent(LanguageToolEvent.CHECKING_FINISHED, caller);
+            fireEvent(LanguageToolEvent.Type.CHECKING_FINISHED, caller);
           }
         });
       } else {
         updateHighlights(matches);
-        fireEvent(LanguageToolEvent.CHECKING_FINISHED, caller);
+        fireEvent(LanguageToolEvent.Type.CHECKING_FINISHED, caller);
       }
     }
     return matches;
