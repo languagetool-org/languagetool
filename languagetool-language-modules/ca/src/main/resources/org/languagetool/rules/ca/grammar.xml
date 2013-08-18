@@ -15558,6 +15558,23 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+            <rule id="RETRAS_RETARD" name="*retràs/retard">
+		    <pattern>
+		        <token><exception postag="P.*" postag_regexp="yes"/></token>
+		        <marker>
+		            <token>retràs</token>
+		        </marker>
+		        <token><exception regexp="yes">comptes?|homenatge</exception></token>
+		    </pattern>
+		    <message>Incorrecte si volíeu dir <suggestion>retard</suggestion>. Correcte com a forma del verb 'retre' (tu retràs).</message>
+                    <suggestion>endarreriment</suggestion>
+                <url>http://esadir.cat/lexic/entrades/entry_20030718132249_892/view</url>
+		    <short>Possible castellanisme</short>
+		    <example type="incorrect" correction="Retard|Endarreriment"><marker>Retràs</marker> en l'assignació de farmàcies.</example>
+		    <example type="correct">Em retràs la vida.</example>
+		    <example type="correct">¿Retràs homenatge als caiguts?</example>
+		    <example type="correct">Retràs comptes.</example>
+		</rule>
             <rule id="RODALIES" name="rodalies/rodalia">
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes">Renfe|Catalunya|RENFE|FGC</exception></token>
