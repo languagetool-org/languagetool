@@ -18,15 +18,10 @@
  */
 package org.languagetool.rules.patterns;
 
-import com.sun.org.apache.xerces.internal.dom.DOMInputImpl;
-import org.languagetool.Language;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.bootstrap.DOMImplementationRegistry;
-import org.w3c.dom.ls.DOMImplementationLS;
-import org.w3c.dom.ls.LSParser;
-import org.xml.sax.SAXException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringWriter;
+import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
@@ -38,10 +33,16 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringWriter;
-import java.util.List;
+
+import org.languagetool.Language;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.bootstrap.DOMImplementationRegistry;
+import org.w3c.dom.ls.DOMImplementationLS;
+import org.w3c.dom.ls.LSInput;
+import org.w3c.dom.ls.LSParser;
+import org.xml.sax.SAXException;
 
 /**
  * Makes XML definition of rules accessible as strings.
@@ -99,7 +100,7 @@ public class PatternRuleXmlCreator {
     final LSParser parser = impl.createLSParser(DOMImplementationLS.MODE_SYNCHRONOUS, null);
     // we need to ignore whitespace here so the nodeToString() method will be able to indent it properly:
     parser.setFilter(new IgnoreWhitespaceFilter());
-    final DOMInputImpl domInput = new DOMInputImpl();
+    LSInput domInput = impl.createLSInput();
     domInput.setByteStream(is);
     return parser.parse(domInput);
   }
