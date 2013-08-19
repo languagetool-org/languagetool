@@ -54,14 +54,21 @@ public class HTTPServerConfig {
    */
   HTTPServerConfig(String[] args) {
     for (int i = 0; i < args.length; i++) {
-      if ("-p".equals(args[i]) || "--port".equals(args[i])) {
-        port = Integer.parseInt(args[++i]);
-      } else if ("-v".equals(args[i]) || "--verbose".equals(args[i])) {
-        verbose = true;
-      } else if ("--public".equals(args[i])) {
-        publicAccess = true;
-      } else if ("--allow-origin".equals(args[i])) {
-        allowOriginUrl = args[++i];
+      switch (args[i]) {
+        case "-p":
+        case "--port":
+          port = Integer.parseInt(args[++i]);
+          break;
+        case "-v":
+        case "--verbose":
+          verbose = true;
+          break;
+        case "--public":
+          publicAccess = true;
+          break;
+        case "--allow-origin":
+          allowOriginUrl = args[++i];
+          break;
       }
     }
   }
