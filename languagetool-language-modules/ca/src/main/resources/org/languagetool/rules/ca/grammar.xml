@@ -8796,11 +8796,39 @@ $Id$
             </rule>
             <rule>
                 <pattern>
+                    <token regexp="yes">a|de</token>
+                    <marker>
+                        <token>mes</token>
+                    </marker>
+                    <token regexp="yes">de|d'|que|,</token>
+                </pattern>
+                <message>Quan és adjectiu o adverbi cal accentuar.</message>
+                 <suggestion>més</suggestion>
+                <short>Accent diacrític</short>
+                <example type="incorrect">A <marker>mes</marker> de cantar, balla.</example>
+                <example type="correct">a més</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>per</token>
+                    <marker>
+                        <token>mes</token>
+                    </marker>
+                    <token regexp="yes">de|d'|que</token>
+                </pattern>
+                <message>Quan és adjectiu o adverbi cal accentuar.</message>
+                 <suggestion>més</suggestion>
+                <short>Accent diacrític</short>
+                <example type="incorrect">Per <marker>mes</marker> que cantis, no plourà.</example>
+                <example type="correct">Hi va dues vegades per mes, cada mes.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token><exception regexp="yes">cada|un|altre|algun|cert</exception></token>
                     <marker>
                         <token>mes</token>
                     </marker>
-                    <token>de</token>
+                    <token regexp="yes">de|d'</token>
                     <token postag="DN.*|NCCN.*" postag_regexp="yes"/>
                 </pattern>
                 <message>S'accentua quan és adjectiu o adverbi.</message>
@@ -8817,13 +8845,16 @@ $Id$
                     <marker>
                         <token>mes</token>
                     </marker>
-                    <token>de</token>
-                    <token regexp="yes">\d+</token>
+                    <token regexp="yes">de|d'</token>
+                    <token regexp="yes">[\d ,.]+|una?</token>
                 </pattern>
                 <message>S'accentua quan és adjectiu o adverbi.</message>
                 <suggestion>més</suggestion>
                 <short>Accent diacrític</short>
                 <example type="incorrect">Necessita <marker>mes</marker> de 24 hores.</example>
+                <example type="incorrect">De <marker>mes</marker> d'un micró.</example>
+                <example type="incorrect">De <marker>mes</marker> d'11 anys.</example>
+                <example type="incorrect">De <marker>mes</marker> de 3.000 anys.</example>
                 <example type="correct">Necessita <marker>més</marker> de 24 hores.</example>
                 <example type="correct">un mes de 29 dies</example>
             </rule>
