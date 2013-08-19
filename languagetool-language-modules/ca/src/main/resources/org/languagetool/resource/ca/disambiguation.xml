@@ -332,6 +332,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="add"><wd lemma="loc_adv" pos="LOC_ADV"/><wd lemma="loc_adv" pos="LOC_ADV"/></disambig>
         </rule>
         <!--locucions adverbials de temps-->
+        <rule id="de_dos_en_dos" name="de dos en dos">
+            <pattern>
+                <marker>
+                    <token>de</token>
+                    <token><exception regexp="yes">tant?|quant?</exception></token>
+                    <token>en</token>
+                    <token><match no="1"/></token>
+                </marker>
+            </pattern>
+            <disambig action="replace"><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/></disambig>
+        </rule>
         <rule id="any_a_any" name="any a any">
             <pattern>
                 <marker>

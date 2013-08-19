@@ -7031,7 +7031,7 @@ $Id$
                 <pattern>
                     <marker>
                         <token negate_pos="yes" postag="SENT_START" regexp="yes"><exception>i</exception><exception postag="allow_repetition">de</exception>[\p{L}·'-]+</token>
-                        <token regexp="yes" spacebefore="yes">[\p{L}·'-]+<exception>i</exception></token>
+                        <token regexp="yes" spacebefore="yes">[\p{L}·'-]+<exception>i</exception><exception postag=".*LOC.*" postag_regexp="yes">en</exception></token>
                         <token><match no="0"/><exception postag=".*LOC.*" postag_regexp="yes" regexp="yes">poc|més|pas|bat|tant</exception><exception postag=".*/LOC.*" postag_regexp="yes"/></token>
                         <token><match no="1"/><exception postag=".*LOC.*" postag_regexp="yes" regexp="yes">poc|més|bo</exception></token>
                     </marker>
@@ -7048,6 +7048,7 @@ $Id$
                 <example type="correct">Ve ací de tant en tant en lloc d'anar allà</example>
                 <example type="correct">Sigui qui sigui qui vingui.</example>
                 <example type="correct">D'hereu a hereu a través de generacions.</example>
+                <example type="correct">De dos en dos en l'arbre.</example>
                 <!--<exception postag=".*LOC.*" postag_regexp="yes" regexp="yes">a|qui</exception>-->
             </rule> 
             <rule>
