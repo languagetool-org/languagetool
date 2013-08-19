@@ -36,6 +36,7 @@ import java.net.InetSocketAddress;
 import java.security.KeyStore;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.concurrent.Executors;
 
 import static org.languagetool.server.HTTPServerConfig.DEFAULT_HOST;
 
@@ -71,6 +72,7 @@ public class HTTPSServer extends Server {
       httpHandler.setMaxTextLength(config.getMaxTextLength());
       httpHandler.setAllowOriginUrl(config.getAllowOriginUrl());
       server.createContext("/", httpHandler);
+      server.setExecutor(Executors.newFixedThreadPool(HTTPServer.THREAD_POOL_SIZE));
     } catch (BindException e) {
       final ResourceBundle messages = JLanguageTool.getMessageBundle();
       final String message = Tools.makeTexti18n(messages, "https_server_start_failed", host, Integer.toString(port));
