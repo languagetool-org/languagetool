@@ -80,6 +80,7 @@ public class Element implements Cloneable {
   private boolean andGroupSet;
 
   private int skip;
+  private int maxOccurrence;
 
   private Pattern p;
   private Pattern pPos;
@@ -469,6 +470,10 @@ public class Element implements Cloneable {
     return skip;
   }
 
+  public final int getMaxOccurrence() {
+    return maxOccurrence;
+  }
+
   /**
    * Sets the exception scope length.
    * 
@@ -477,6 +482,17 @@ public class Element implements Cloneable {
    */
   public final void setSkipNext(final int i) {
     skip = i;
+  }
+
+  /**
+   * The maximum number of times this element may occur.
+   * @param i a number >= 1 or {@code -1} for unlimited occurrences
+   */
+  public final void setMaxOccurrence(final int i) {
+    if (i == 0) {
+      throw new IllegalArgumentException("maxOccurrences may not be 0: " + i);
+    }
+    maxOccurrence = i;
   }
 
   /**
