@@ -31,7 +31,6 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Set;
 
-import junit.framework.Assert;
 import morfologik.stemming.Dictionary;
 import morfologik.stemming.DictionaryLookup;
 import morfologik.stemming.WordData;
@@ -43,9 +42,8 @@ import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tools.StringTools;
 
-/**
- * @author Daniel Naber
- */
+import static org.junit.Assert.assertEquals;
+
 public final class TestTools {
 
   private TestTools() {
@@ -86,7 +84,7 @@ public final class TestTools {
     for (final String string : input) {
       inputString.append(string);
     }
-    Assert.assertEquals(input, sTokenizer.tokenize(inputString.toString()));
+    assertEquals(input, sTokenizer.tokenize(inputString.toString()));
   }
 
   public static void myAssert(final String input, final String expected,
@@ -124,7 +122,7 @@ public final class TestTools {
         outputStr.append(" -- ");
       }
     }
-    Assert.assertEquals(expected, outputStr.toString());
+    assertEquals(expected, outputStr.toString());
   }
 
   public static void myAssert(final String input, final String expected,
@@ -196,7 +194,7 @@ public final class TestTools {
         }
       }
     }
-    Assert.assertEquals(expected, outputStr.toString());
+    assertEquals(expected, outputStr.toString());
   }
 
   public static boolean isWord(final String token) {
