@@ -34,7 +34,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class HTTPServerLoadTest extends HTTPServerTest {
 
-  // we keep these numbers low so "ant test" stays fast - increase them for serious testing:
+  // we keep these numbers low so the tests stay fast - increase them for serious testing:
   private static final int REPEAT_COUNT = 1;
   private static final int THREAD_COUNT = 2;
 
@@ -74,7 +74,7 @@ public class HTTPServerLoadTest extends HTTPServerTest {
     public void run() {
       try {
         for (int i = 0; i < REPEAT_COUNT; i++) {
-          runTests();          
+          runTests();
         }
       } catch (Exception e) {
         throw new RuntimeException(e);

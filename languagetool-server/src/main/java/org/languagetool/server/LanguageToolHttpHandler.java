@@ -195,25 +195,25 @@ class LanguageToolHttpHandler implements HttpHandler {
     
     final String motherTongueParam = parameters.get("motherTongue");
     Language motherTongue = null;
-    if (null != motherTongueParam) {
+    if (motherTongueParam != null) {
       motherTongue = Language.getLanguageForShortName(motherTongueParam);
     }
 
     final String enabledParam = parameters.get("enabled");
     final List<String> enabledRules = new ArrayList<>();
-    if (null != enabledParam) {
+    if (enabledParam != null) {
       enabledRules.addAll(Arrays.asList(enabledParam.split(",")));
     }
     
     boolean useEnabledOnly = false;
     final String enabledOnlyParam = parameters.get("enabledOnly");
-    if (null != enabledOnlyParam) {
+    if (enabledOnlyParam != null) {
       useEnabledOnly = enabledOnlyParam.equals("yes");
     }
     
     final String disabledParam = parameters.get("disabled");
     final List<String> disabledRules = new ArrayList<>();
-    if (null != disabledParam) {
+    if (disabledParam != null) {
       disabledRules.addAll(Arrays.asList(disabledParam.split(",")));
     }
 
@@ -318,8 +318,7 @@ class LanguageToolHttpHandler implements HttpHandler {
         langTool.disableRule(ruleId);
       }
     }
-    final Set<String> disabledCategories = config.
-            getDisabledCategoryNames();
+    final Set<String> disabledCategories = config.getDisabledCategoryNames();
     if (disabledCategories != null) {
       for (final String categoryName : disabledCategories) {
         langTool.disableCategory(categoryName);
