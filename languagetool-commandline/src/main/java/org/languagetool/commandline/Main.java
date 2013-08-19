@@ -21,6 +21,7 @@ package org.languagetool.commandline;
 import org.apache.tika.language.LanguageIdentifier;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.MultiThreadedJLanguageTool;
 import org.languagetool.bitext.TabBitextReader;
 import org.languagetool.language.English;
 import org.languagetool.rules.Rule;
@@ -83,7 +84,7 @@ class Main {
     bitextMode = false;
     srcLt = null;
     bRules = null;
-    lt = new JLanguageTool(language, motherTongue);
+    lt = new MultiThreadedJLanguageTool(language, motherTongue);
     lt.activateDefaultPatternRules();
     lt.activateDefaultFalseFriendRules();
     Tools.selectRules(lt, disabledRules, enabledRules);
@@ -110,8 +111,8 @@ class Main {
       final String[] disabledRules, final String[] enabledRules) throws IOException, ParserConfigurationException, SAXException {
     bitextMode = true;
     final Language target = lt.getLanguage();
-    lt = new JLanguageTool(target, null);
-    srcLt = new JLanguageTool(sourceLang);
+    lt = new MultiThreadedJLanguageTool(target, null);
+    srcLt = new MultiThreadedJLanguageTool(sourceLang);
     lt.activateDefaultPatternRules();
     Tools.selectRules(lt, disabledRules, enabledRules);
     Tools.selectRules(srcLt, disabledRules, enabledRules);
@@ -420,7 +421,7 @@ class Main {
   private void changeLanguage(Language language, Language motherTongue,
                               String[] disabledRules, String[] enabledRules) {
     try {
-      lt = new JLanguageTool(language, motherTongue);
+      lt = new MultiThreadedJLanguageTool(language, motherTongue);
       lt.activateDefaultPatternRules();
       lt.activateDefaultFalseFriendRules();
       Tools.selectRules(lt, disabledRules, enabledRules);

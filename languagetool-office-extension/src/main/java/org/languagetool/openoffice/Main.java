@@ -39,6 +39,7 @@ import com.sun.star.lang.*;
 import com.sun.star.lang.IllegalArgumentException;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.MultiThreadedJLanguageTool;
 import org.languagetool.gui.AboutDialog;
 import org.languagetool.gui.Configuration;
 import org.languagetool.rules.Rule;
@@ -344,7 +345,7 @@ public class Main extends WeakBase implements XJobExecutor,
   private void initLanguageTool() {
     try {
       prepareConfig(docLanguage);
-      langTool = new JLanguageTool(docLanguage, config.getMotherTongue());
+      langTool = new MultiThreadedJLanguageTool(docLanguage, config.getMotherTongue());
       langTool.activateDefaultPatternRules();
       langTool.activateDefaultFalseFriendRules();
       for (Rule rule : langTool.getAllActiveRules()) {

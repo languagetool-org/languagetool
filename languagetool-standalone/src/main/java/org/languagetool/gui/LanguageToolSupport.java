@@ -77,6 +77,7 @@ import javax.swing.text.View;
 import org.apache.tika.language.LanguageIdentifier;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.MultiThreadedJLanguageTool;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.LanguageIdentifierTools;
@@ -197,7 +198,7 @@ class LanguageToolSupport {
     try {
       config = new Configuration(new File(System.getProperty("user.home")), CONFIG_FILE, currentLanguage);
       final ConfigurationDialog configDialog = getCurrentConfigDialog();
-      languageTool = new JLanguageTool(currentLanguage, configDialog.getMotherTongue());
+      languageTool = new MultiThreadedJLanguageTool(currentLanguage, configDialog.getMotherTongue());
       languageTool.activateDefaultPatternRules();
       languageTool.activateDefaultFalseFriendRules();
       final Set<String> disabledRules = configDialog.getDisabledRuleIds();
