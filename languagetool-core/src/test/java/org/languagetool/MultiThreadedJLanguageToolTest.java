@@ -1,0 +1,86 @@
+/* LanguageTool, a natural language style checker
+ * Copyright (C) 2013 Daniel Naber (http://www.danielnaber.de)
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+ * USA
+ */
+package org.languagetool;
+
+import org.junit.Test;
+import org.languagetool.language.Contributor;
+import org.languagetool.language.Demo;
+import org.languagetool.rules.*;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static junit.framework.TestCase.assertTrue;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+
+public class MultiThreadedJLanguageToolTest {
+
+  @Test
+  public void testCheck() throws IOException {
+    final List<String> ruleMatchIds1 = getRuleMatchIds(new MultiThreadedJLanguageTool(new Demo()));
+    assertTrue(ruleMatchIds1.size() >= 10);
+    final List<String> ruleMatchIds2 = getRuleMatchIds(new JLanguageTool(new Demo()));
+    assertThat(ruleMatchIds1, is(ruleMatchIds2));
+  }
+
+  private List<String> getRuleMatchIds(JLanguageTool langTool) throws IOException {
+    langTool.activateDefaultPatternRules();
+    final String input = "A small toast. No error here. Foo go bar. First goes last there, please!";
+    final List<RuleMatch> matches = langTool.check(input);
+    final List<String> ruleMatchIds = new ArrayList<>();
+    for (RuleMatch match : matches) {
+      ruleMatchIds.add(match.getRule().getId());
+    }
+    return ruleMatchIds;
+  }
+
+  @Test
+  public void testTwoRulesOnly() throws IOException {
+    MultiThreadedJLanguageTool langTool = new MultiThreadedJLanguageTool(new Language() {
+      @Override
+      public String getShortName() {
+        return "zz";
+      }
+      @Override
+      public String getName() {
+        return "Fake Language";
+      }
+      @Override
+      public String[] getCountryVariants() {
+        return new String[0];
+      }
+      @Override
+      public Contributor[] getMaintainers() {
+        return null;
+      }
+      @Override
+      public List<Class<? extends Rule>> getRelevantRules() {
+        // less rules than processors (depending on the machine), should at least not crash
+        return Arrays.asList(
+                UppercaseSentenceStartRule.class,
+                WhitespaceRule.class
+        );
+      }
+    });
+    langTool.check("my test text");
+  }
+}

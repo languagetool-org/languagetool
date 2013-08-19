@@ -20,8 +20,10 @@ package org.languagetool.rules.patterns;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.MultiThreadedJLanguageTool;
 import org.languagetool.tools.StringTools;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
@@ -30,13 +32,11 @@ import java.io.IOException;
  */
 final class PerformanceTest {
 
-  public static void main(String[] args) throws IOException {
-    if (args.length != 2) {
-      System.out.println("Usage: " + RuleNumberScalabilityTest.class.getSimpleName() + " <languageCode> <text_file>");
-      System.exit(1);
-    }
-    JLanguageTool langTool = new JLanguageTool(Language.getLanguageForShortName(args[0]));
-    String text = StringTools.readStream(new FileInputStream(args[1]), "utf-8");
+  private PerformanceTest() {
+  }
+
+  private void run(JLanguageTool langTool, File textFile) throws IOException {
+    String text = StringTools.readStream(new FileInputStream(textFile), "utf-8");
     int sentenceCount = langTool.sentenceTokenize(text).size();
     langTool.activateDefaultPatternRules();
     System.out.println("Text length: " + text.length() + " chars, " + sentenceCount + " sentences");
@@ -54,6 +54,19 @@ final class PerformanceTest {
     long runTime2 = System.currentTimeMillis() - startTime2;
     float timePerSentence2 = (float)runTime2 / sentenceCount;
     System.out.printf("Check time after warmup: " + runTime2 + "ms = %.1fms per sentence\n", timePerSentence2);
+  }
+
+  public static void main(String[] args) throws IOException {
+    if (args.length != 2) {
+      System.out.println("Usage: " + PerformanceTest.class.getSimpleName() + " <languageCode> <text_file>");
+      System.exit(1);
+    }
+    PerformanceTest test = new PerformanceTest();
+    String languageCode = args[0];
+    File textFile = new File(args[1]);
+    //JLanguageTool langTool = new JLanguageTool(Language.getLanguageForShortName(languageCode));
+    JLanguageTool langTool = new MultiThreadedJLanguageTool(Language.getLanguageForShortName(languageCode));
+    test.run(langTool, textFile);
   }
 
 }

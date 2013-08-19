@@ -105,12 +105,12 @@ public class PatternRuleTest extends TestCase {
   private void runTestForLanguage(Language lang) throws IOException {
     validatePatternFile(lang);
     System.out.print("Running pattern rule tests for " + lang.getName() + "... ");
-    final JLanguageTool languageTool = new JLanguageTool(lang);
+    final JLanguageTool languageTool = new MultiThreadedJLanguageTool(lang);
     if (CHECK_WITH_SENTENCE_SPLITTING) {
       languageTool.activateDefaultPatternRules();
       disableSpellingRules(languageTool);
     }
-    final JLanguageTool allRulesLanguageTool = new JLanguageTool(lang);
+    final JLanguageTool allRulesLanguageTool = new MultiThreadedJLanguageTool(lang);
     allRulesLanguageTool.activateDefaultPatternRules();
     validateRuleIds(lang, allRulesLanguageTool);
     final List<PatternRule> rules = new ArrayList<>();
