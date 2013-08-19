@@ -19,6 +19,7 @@
 package org.languagetool.rules.patterns;
 
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.Demo;
@@ -50,6 +51,52 @@ public class PatternRuleMatcherTest {
   }
 
   @Test
+  public void testZeroMinOccurrences() throws Exception {
+    final Element elementB = makeElement("b");
+    elementB.setMinOccurrence(0);
+    final PatternRuleMatcher matcher = getMatcher(makeElement("a"), elementB, makeElement("c"));  // regex syntax: a b? c
+    assertNoMatch("b a", matcher);
+    assertNoMatch("c a b", matcher);
+    assertPartialMatch("b a c", matcher);
+    assertPartialMatch("a c b", matcher);
+    assertNoMatch("a b b c", matcher);
+    assertCompleteMatch("a c", matcher);
+    assertCompleteMatch("a b c", matcher);
+    final RuleMatch[] matches = matcher.match(langTool.getAnalyzedSentence("a b c FOO a b c FOO a c a b c"));
+    //......................................................................^^^^^.....^^^^^.....^^^.^^^^^
+    assertThat(matches.length, is(4));
+    assertPosition(matches[0], 0, 5);
+    assertPosition(matches[1], 10, 15);
+    assertPosition(matches[2], 20, 23);
+    assertPosition(matches[3], 24, 29);
+  }
+
+  @Test
+  @Ignore("min can only be 0 or 1 so far")
+  public void testTwoMinOccurrences() throws Exception {
+    final Element elementB = makeElement("b");
+    elementB.setMinOccurrence(2);
+    elementB.setMaxOccurrence(3);
+    final PatternRuleMatcher matcher = getMatcher(makeElement("a"), elementB, makeElement("c"));  // a b b+ c
+    assertCompleteMatch("a b b c", matcher);
+    assertCompleteMatch("a b b b c", matcher);
+    assertNoMatch("a c", matcher);
+    assertNoMatch("a b c", matcher);
+  }
+
+  @Test
+  public void testZeroMinTwoMaxOccurrences() throws Exception {
+    final Element elementB = makeElement("b");
+    elementB.setMinOccurrence(0);
+    elementB.setMaxOccurrence(2);
+    final PatternRuleMatcher matcher = getMatcher(makeElement("a"), elementB, makeElement("c"));
+    assertCompleteMatch("a c", matcher);
+    assertCompleteMatch("a  b c", matcher);
+    assertCompleteMatch("a  b b c", matcher);
+    assertNoMatch("a b b b c", matcher);
+  }
+
+  @Test
   public void testTwoMaxOccurrences() throws Exception {
     final Element elementB = makeElement("b");
     elementB.setMaxOccurrence(2);
@@ -63,15 +110,12 @@ public class PatternRuleMatcherTest {
     
     final RuleMatch[] matches1 = matcher.match(langTool.getAnalyzedSentence("a b b b"));
     assertThat(matches1.length, is(1));
-    assertThat(matches1[0].getFromPos(), is(0));
-    assertThat(matches1[0].getToPos(), is(5));
+    assertPosition(matches1[0], 0, 5);
 
     final RuleMatch[] matches2 = matcher.match(langTool.getAnalyzedSentence("a b b b foo a b b"));
     assertThat(matches2.length, is(2));
-    assertThat(matches2[0].getFromPos(), is(0));
-    assertThat(matches2[0].getToPos(), is(5));
-    assertThat(matches2[1].getFromPos(), is(12));
-    assertThat(matches2[1].getToPos(), is(17));
+    assertPosition(matches2[0], 0, 5);
+    assertPosition(matches2[1], 12, 17);
   }
 
   @Test
@@ -87,8 +131,7 @@ public class PatternRuleMatcherTest {
     
     final RuleMatch[] matches1 = matcher.match(langTool.getAnalyzedSentence("a b b b b"));
     assertThat(matches1.length , is(1));
-    assertThat(matches1[0].getFromPos() , is(0));
-    assertThat(matches1[0].getToPos() , is(7));
+    assertPosition(matches1[0], 0, 7);
   }
 
   @Test
@@ -119,6 +162,11 @@ public class PatternRuleMatcherTest {
     assertCompleteMatch("a a b b", matcher);
     assertCompleteMatch("a a b b b", matcher);
     assertNoMatch("a x b b b", matcher);
+  }
+
+  private void assertPosition(RuleMatch match, int expectedFromPos, int expectedToPos) {
+    assertThat(match.getFromPos(), is(expectedFromPos));
+    assertThat(match.getToPos(), is(expectedToPos));
   }
 
   private PatternRuleMatcher getMatcher(Element... patternElements) {

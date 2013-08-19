@@ -54,7 +54,9 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
     ElementMatcher elem = null;
     int i = 0;
     int skipShiftTotal = 0;
-    while (i < limit && !(rule.sentStart && i > 0)) {
+    int optionalCount = 0;
+    int minOccurCorrection = getMinOccurrenceCorrection();
+    while (i < limit + minOccurCorrection && !(rule.sentStart && i > 0)) {
       boolean allElementsMatch = false;
       int firstMatchToken = -1;
       int lastMatchToken = -1;
@@ -65,29 +67,33 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
       if (rule.testUnification) {
         unifier.reset();
       }
-      //System.out.println("--------------------------------------------------");
       for (int k = 0; k < patternSize; k++) {
         final ElementMatcher prevElement = elem;
         elem = elementMatchers.get(k);
         elem.resolveReference(firstMatchToken, tokens, rule.getLanguage());
-        //System.out.println("elem: " + elem.getElement() + "@" + k);
         final int nextPos = i + k + skipShiftTotal;
         prevMatched = false;
         if (prevSkipNext + nextPos >= tokens.length || prevSkipNext < 0) { // SENT_END?
           prevSkipNext = tokens.length - (nextPos + 1);
         }
-        final int maxTok = Math.min(nextPos + prevSkipNext, tokens.length - (patternSize - k));
-        //System.out.println("-----------nextPos: " +nextPos);
+        final int maxTok = Math.min(nextPos + prevSkipNext, tokens.length - (patternSize - k) + minOccurCorrection);
         for (int m = nextPos; m <= maxTok; m++) {
-          //System.out.println("  " + tokens[m]);
           allElementsMatch = !tokens[m].isImmunized() && testAllReadings(tokens, elem, prevElement, m,
                   firstMatchToken, prevSkipNext);
+          if (!allElementsMatch && elem.getElement().getMinOccurrence() == 0) {
+            // note: min occurrences != 0 or 1 are not yet supported
+            final ElementMatcher nextElement = elementMatchers.get(k + 1);
+            final boolean nextElementMatch = !tokens[m].isImmunized() && testAllReadings(tokens, nextElement, elem, m,
+                    firstMatchToken, prevSkipNext);
+            if (nextElementMatch) {
+              allElementsMatch = true;
+              optionalCount++;
+            }
+          }
           if (allElementsMatch) {
-            //System.out.println("  <all match> " +elem.getElement().getMaxOccurrence());
             int skipForMax = skipMaxTokens(tokens, elem, firstMatchToken, prevSkipNext, prevElement, m);
             lastMatchToken = m + skipForMax;
             final int skipShift = lastMatchToken - nextPos;
-            //System.out.println("  <last matched token> " + lastMatchToken + "("+tokens[lastMatchToken]+")"+ ", skipShift: " +skipShift);
             tokenPositions[matchingTokens] = skipShift + 1;
             prevSkipNext = translateElementNo(elem.getElement().getSkipNext());
             matchingTokens++;
@@ -103,7 +109,7 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
         }
       }
 
-      if (allElementsMatch && matchingTokens == patternSize) {
+      if ((allElementsMatch && matchingTokens == patternSize) || (matchingTokens == patternSize - optionalCount && firstMatchToken != -1)) {
         final RuleMatch ruleMatch = createRuleMatch(tokenPositions, tokens,
             firstMatchToken, lastMatchToken, matchingTokens);
         if (ruleMatch != null) {
@@ -113,6 +119,16 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
       i++;
     }
     return ruleMatches.toArray(new RuleMatch[ruleMatches.size()]);
+  }
+
+  private int getMinOccurrenceCorrection() {
+    int minOccurCorrection = 0;
+    for (Element element : rule.getPatternElements()) {
+      if (element.getMinOccurrence() == 0) {
+        minOccurCorrection++;
+      }
+    }
+    return minOccurCorrection;
   }
 
   private int skipMaxTokens(AnalyzedTokenReadings[] tokens, ElementMatcher elem, int firstMatchToken, int prevSkipNext, ElementMatcher prevElement, int m) throws IOException {

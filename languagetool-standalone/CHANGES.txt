@@ -20,9 +20,13 @@ LanguageTool Change Log
   hardware, improving performance (this affects the stand-alone version, the
   command line version and the LibreOffice/OpenOffice extension)
   
- -Rule syntax: a new 'max' attribute allows to match an element that appears
-  up to the given number in a row. For example, <token max="2">foo</token> will 
-  match "foo" and "foo foo". Use max="-1" to allow unlimited occurrences.
+ -Rule syntax: new min/max attributes allow to match an element that appears
+  the given number of times. For example:
+    <token min="0">foo</token> will match nothing or "foo", i.e. "foo" is optional
+    <token max="2">foo</token> will match "foo" or "foo foo"
+    <token min="0" max="2">foo</token> will match nothing, "foo", or "foo foo"
+  Use max="-1" to allow unlimited occurrences.
+  For min, only 0 or 1 is supported (1 is the default).
 
  -standalone version: remember the language selection for the next start
 

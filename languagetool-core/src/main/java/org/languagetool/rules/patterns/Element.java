@@ -80,7 +80,8 @@ public class Element implements Cloneable {
   private boolean andGroupSet;
 
   private int skip;
-  private int maxOccurrence;
+  private int minOccurrence = 1;
+  private int maxOccurrence = 1;
 
   private Pattern p;
   private Pattern pPos;
@@ -470,6 +471,16 @@ public class Element implements Cloneable {
     return skip;
   }
 
+  /**
+   * The minimum number of times the element needs to occur.
+   */
+  public final int getMinOccurrence() {
+    return minOccurrence;
+  }
+
+  /**
+   * The maximum number of times the element may occur.
+   */
   public final int getMaxOccurrence() {
     return maxOccurrence;
   }
@@ -482,6 +493,17 @@ public class Element implements Cloneable {
    */
   public final void setSkipNext(final int i) {
     skip = i;
+  }
+
+  /**
+   * The minimum number of times this element may occur.
+   * @param i currently only {@code 0} and {@code 1} are supported
+   */
+  public final void setMinOccurrence(final int i) {
+    if (i != 0 && i != 1) {
+      throw new IllegalArgumentException("minOccurrences must be 0 or 1: " + i);
+    }
+    minOccurrence = i;
   }
 
   /**

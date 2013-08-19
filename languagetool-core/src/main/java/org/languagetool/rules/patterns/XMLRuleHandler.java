@@ -102,6 +102,7 @@ public class XMLRuleHandler extends DefaultHandler {
   /** Current phrase ID. **/
   protected String phraseId;
   protected int skipPos;
+  protected int minOccurrence = 1;
   protected int maxOccurrence = 1;
   protected String ruleGroupId;
   protected String id;
@@ -158,6 +159,7 @@ public class XMLRuleHandler extends DefaultHandler {
   protected static final String SCOPE = "scope";
   protected static final String IGNORE = "ignore";
   protected static final String SKIP = "skip";
+  protected static final String MIN = "min";
   protected static final String MAX = "max";
   protected static final String TOKEN = "token";
   protected static final String FEATURE = "feature";
@@ -426,6 +428,9 @@ public class XMLRuleHandler extends DefaultHandler {
     if (attrs.getValue(SKIP) != null) {
       skipPos = Integer.parseInt(attrs.getValue(SKIP));
     }
+    if (attrs.getValue(MIN) != null) {
+      minOccurrence = Integer.parseInt(attrs.getValue(MIN));
+    }
     if (attrs.getValue(MAX) != null) {
       maxOccurrence = Integer.parseInt(attrs.getValue(MAX));
     }
@@ -505,6 +510,10 @@ public class XMLRuleHandler extends DefaultHandler {
     if (skipPos != 0) {
       tokenElement.setSkipNext(skipPos);
       skipPos = 0;
+    }
+    if (minOccurrence != 1) {
+      tokenElement.setMinOccurrence(minOccurrence);
+      minOccurrence = 1;
     }
     if (maxOccurrence != 1) {
       tokenElement.setMaxOccurrence(maxOccurrence);
