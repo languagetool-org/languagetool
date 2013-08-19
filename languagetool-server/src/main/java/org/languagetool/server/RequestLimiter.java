@@ -30,9 +30,7 @@ class RequestLimiter {
   private static final int API_REQUEST_QUEUE_SIZE = 1000;
 
   private final List<RequestEvent> requestEvents = new ArrayList<>();
-
   private final int requestLimit;
-
   private final int requestLimitPeriodInSeconds;
 
   /**

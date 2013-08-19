@@ -30,7 +30,6 @@ import javax.net.ssl.SSLParameters;
 import javax.net.ssl.TrustManagerFactory;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.net.BindException;
 import java.net.InetSocketAddress;
 import java.security.KeyStore;
@@ -93,9 +92,8 @@ public class HTTPSServer extends Server {
     return null;
   }
 
-  private SSLContext getSslContext(File keyStoreFile, String passPhrase) throws IOException {
-    final FileInputStream keyStoreStream = new FileInputStream(keyStoreFile);
-    try {
+  private SSLContext getSslContext(File keyStoreFile, String passPhrase) {
+    try (FileInputStream keyStoreStream = new FileInputStream(keyStoreFile)) {
       final KeyStore keystore = KeyStore.getInstance("JKS");
       keystore.load(keyStoreStream, passPhrase.toCharArray());
       final KeyManagerFactory kmf = KeyManagerFactory.getInstance("SunX509");
@@ -107,8 +105,6 @@ public class HTTPSServer extends Server {
       return sslContext;
     } catch (Exception e) {
       throw new RuntimeException("Could not set up SSL context", e);
-    } finally {
-      keyStoreStream.close();
     }
   }
 
@@ -124,7 +120,7 @@ public class HTTPSServer extends Server {
         };
   }
 
-  public static void main(String[] args) throws IOException {
+  public static void main(String[] args) {
     if (args.length > 7 || usageRequested(args)) {
       System.out.println("Usage: " + HTTPSServer.class.getSimpleName()
               + " --config propertyFile [--port|-p port] [--public]");

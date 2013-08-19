@@ -88,16 +88,13 @@ public class HTTPSServerConfig extends HTTPServerConfig {
     }
     try {
       final Properties props = new Properties();
-      final FileInputStream fis = new FileInputStream(config);
-      try {
+      try (FileInputStream fis = new FileInputStream(config)) {
         props.load(fis);
         keystore = new File(getProperty(props, "keystore", config));
         keyStorePassword = getProperty(props, "password", config);
         requestLimit = Integer.parseInt(getOptionalProperty(props, "requestLimit", "0"));
         requestLimitPeriodInSeconds = Integer.parseInt(getOptionalProperty(props, "requestLimitPeriodInSeconds", "0"));
         maxTextLength = Integer.parseInt(getOptionalProperty(props, "maxTextLength", Integer.toString(Integer.MAX_VALUE)));
-      } finally {
-        fis.close();
       }
     } catch (IOException e) {
       throw new RuntimeException("Could not load properties from '" + config + "'", e);

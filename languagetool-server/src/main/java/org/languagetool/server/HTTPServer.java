@@ -22,7 +22,6 @@ import com.sun.net.httpserver.HttpServer;
 import org.languagetool.JLanguageTool;
 import org.languagetool.gui.Tools;
 
-import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -109,7 +108,7 @@ public class HTTPServer extends Server {
     }
   }
 
-  public static void main(String[] args) throws IOException {
+  public static void main(String[] args) {
     if (args.length > 3 || usageRequested(args)) {
       System.out.println("Usage: " + HTTPServer.class.getSimpleName() + " [--port|-p port] [--public]");
       printCommonOptions();

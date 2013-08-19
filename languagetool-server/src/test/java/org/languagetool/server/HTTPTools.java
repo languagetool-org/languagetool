@@ -73,13 +73,10 @@ class HTTPTools {
       System.setProperty("http.keepAlive", "false");  // without this, there's an overhead of about 1 second - not sure why
       final URLConnection connection = url.openConnection();
       connection.setDoOutput(true);
-      final OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
-      try {
+      try (OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream())) {
         writer.write(postData);
         writer.flush();
         return StringTools.streamToString(connection.getInputStream(), "UTF-8");
-      } finally {
-        writer.close();
       }
     } finally {
       if (keepAlive != null) {

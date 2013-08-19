@@ -286,14 +286,10 @@ class LanguageToolHttpHandler implements HttpHandler {
   }
 
   /**
-   * Find or create a JLanguageTool instance for a specific language and mother tongue.
-   * The instance will be reused. If any customization is required (like disabled rules), 
-   * it will be done after acquiring this instance.
-   * 
+   * Find or create a JLanguageTool instance for a specific language, mother tongue, and rule configuration.
+   *
    * @param lang the language to be used.
-   * @param motherTongue the user's mother tongue or <code>null</code>
-   * @return a JLanguageTool instance for a specific language and mother tongue.
-   * @throws Exception when JLanguageTool creation failed
+   * @param motherTongue the user's mother tongue or {@code null}
    */
   private JLanguageTool getLanguageToolInstance(Language lang, Language motherTongue, QueryParams params) throws Exception {
     final JLanguageTool newLanguageTool = new JLanguageTool(lang, motherTongue);
