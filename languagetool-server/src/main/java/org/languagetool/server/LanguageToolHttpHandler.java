@@ -48,14 +48,7 @@ class LanguageToolHttpHandler implements HttpHandler {
   private final boolean verbose;
   private final boolean internalServer;
   private final RequestLimiter requestLimiter;
-  
-  private Configuration config;
-  
-  private boolean useQuerySettings;
-  
-  private String[] enabledRules = {};
-  private String[] disabledRules = {};
-  private boolean useEnabledOnly;
+
   private int maxTextLength = Integer.MAX_VALUE;
   private String allowOriginUrl;
 
@@ -64,12 +57,11 @@ class LanguageToolHttpHandler implements HttpHandler {
    * @param allowedIps set of IPs that may connect or <tt>null</tt> to allow any IP
    * @param requestLimiter may be null
    */
-  LanguageToolHttpHandler(boolean verbose, Set<String> allowedIps, boolean internal, RequestLimiter requestLimiter) throws IOException {
+  LanguageToolHttpHandler(boolean verbose, Set<String> allowedIps, boolean internal, RequestLimiter requestLimiter) {
     this.verbose = verbose;
     this.allowedIps = allowedIps;
     this.internalServer = internal;
     this.requestLimiter = requestLimiter;
-    config = new Configuration(null);
   }
 
   void setMaxTextLength(int maxTextLength) {
@@ -208,33 +200,34 @@ class LanguageToolHttpHandler implements HttpHandler {
     }
 
     final String enabledParam = parameters.get("enabled");
-    enabledRules = new String[0];
+    final List<String> enabledRules = new ArrayList<>();
     if (null != enabledParam) {
-      enabledRules = enabledParam.split(",");
+      enabledRules.addAll(Arrays.asList(enabledParam.split(",")));
     }
     
-    useEnabledOnly = false;
-    final String enabledOnly = parameters.get("enabledOnly");
-    if (null != enabledOnly) {
-      useEnabledOnly = enabledOnly.equals("yes");
+    boolean useEnabledOnly = false;
+    final String enabledOnlyParam = parameters.get("enabledOnly");
+    if (null != enabledOnlyParam) {
+      useEnabledOnly = enabledOnlyParam.equals("yes");
     }
     
     final String disabledParam = parameters.get("disabled");
-    disabledRules = new String[0];
+    final List<String> disabledRules = new ArrayList<>();
     if (null != disabledParam) {
-      disabledRules = disabledParam.split(",");
+      disabledRules.addAll(Arrays.asList(disabledParam.split(",")));
     }
-    
-    if (disabledRules.length > 0 && useEnabledOnly) {
+
+    if (disabledRules.size() > 0 && useEnabledOnly) {
       throw new IllegalArgumentException("You cannot specify disabled rules using enabledOnly=yes");
     }
     
-    useQuerySettings = enabledRules.length > 0 || disabledRules.length > 0; 
+    final boolean useQuerySettings = enabledRules.size() > 0 || disabledRules.size() > 0;
+    final QueryParams params = new QueryParams(enabledRules, disabledRules, useEnabledOnly, useQuerySettings);
     
     final List<RuleMatch> matches;
     final String sourceText = parameters.get("srctext");
     if (sourceText == null) {
-      final JLanguageTool lt = getLanguageToolInstance(lang, motherTongue);
+      final JLanguageTool lt = getLanguageToolInstance(lang, motherTongue, params);
       matches = lt.check(text);
     } else {
       if (motherTongueParam == null) {
@@ -243,8 +236,8 @@ class LanguageToolHttpHandler implements HttpHandler {
       print("Checking bilingual text, with source length " + sourceText.length() +
           " and target length " + text.length() + " (characters), source language " +
           motherTongue + " and target language " + langParam);
-      final JLanguageTool sourceLt = getLanguageToolInstance(motherTongue, null);
-      final JLanguageTool targetLt = getLanguageToolInstance(lang, null);
+      final JLanguageTool sourceLt = getLanguageToolInstance(motherTongue, null, params);
+      final JLanguageTool targetLt = getLanguageToolInstance(lang, null, params);
       final List<BitextRule> bRules = Tools.getBitextRules(motherTongue, lang);
       matches = Tools.checkBitext(sourceText, text, sourceLt, targetLt, bRules);
     }
@@ -302,21 +295,21 @@ class LanguageToolHttpHandler implements HttpHandler {
    * @return a JLanguageTool instance for a specific language and mother tongue.
    * @throws Exception when JLanguageTool creation failed
    */
-  private JLanguageTool getLanguageToolInstance(Language lang, Language motherTongue) throws Exception {
+  private JLanguageTool getLanguageToolInstance(Language lang, Language motherTongue, QueryParams params) throws Exception {
     final JLanguageTool newLanguageTool = new JLanguageTool(lang, motherTongue);
     newLanguageTool.activateDefaultPatternRules();
     newLanguageTool.activateDefaultFalseFriendRules();
-    config = new Configuration(lang);
-    if (!useQuerySettings && internalServer && config.getUseGUIConfig()) { // use the GUI config values
-      configureGUI(newLanguageTool);
+    final Configuration config = new Configuration(lang);
+    if (!params.useQuerySettings && internalServer && config.getUseGUIConfig()) { // use the GUI config values
+      configureGUI(newLanguageTool, config);
     }
-    if (useQuerySettings) {
-      Tools.selectRules(newLanguageTool, disabledRules, enabledRules, useEnabledOnly);
+    if (params.useQuerySettings) {
+      Tools.selectRules(newLanguageTool, params.disabledRules, params.enabledRules, params.useEnabledOnly);
     }
     return newLanguageTool;
   }
 
-  private void configureGUI(JLanguageTool langTool) {
+  private void configureGUI(JLanguageTool langTool, Configuration config) {
     print("Using options configured in the GUI");
     //TODO: add a parameter to config to set language
     final Set<String> disabledRules = config.getDisabledRuleIds();
@@ -368,4 +361,19 @@ class LanguageToolHttpHandler implements HttpHandler {
     xmlBuffer.append("</languages>\n");
     return xmlBuffer.toString();
   }
+
+  private class QueryParams {
+    final List<String> enabledRules;
+    final List<String> disabledRules;
+    final boolean useEnabledOnly;
+    final boolean useQuerySettings;
+
+    QueryParams(List<String> enabledRules, List<String> disabledRules, boolean useEnabledOnly, boolean useQuerySettings) {
+      this.enabledRules = enabledRules;
+      this.disabledRules = disabledRules;
+      this.useEnabledOnly = useEnabledOnly;
+      this.useQuerySettings = useQuerySettings;
+    }
+  }
+
 }

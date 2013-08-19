@@ -585,6 +585,18 @@ public final class Tools {
    * Enable and disable rules of the given LanguageTool instance.
    *
    * @param lt LanguageTool object
+   * @param disabledRuleIds ids of the rules to be disabled
+   * @param enabledRuleIds ids of the rules to be enabled
+   * @param useEnabledOnly if set to {@code true}, disable all rules except those enabled explicitly
+   */
+  public static void selectRules(final JLanguageTool lt, final List<String> disabledRuleIds, final List<String> enabledRuleIds, boolean useEnabledOnly) {
+    selectRules(lt, disabledRuleIds.toArray(new String[disabledRuleIds.size()]), enabledRuleIds.toArray(new String[enabledRuleIds.size()]), useEnabledOnly);
+  }
+
+  /**
+   * Enable and disable rules of the given LanguageTool instance.
+   *
+   * @param lt LanguageTool object
    * @param disabledRules ids of the rules to be disabled
    * @param enabledRules ids of the rules to be enabled
    * @param useEnabledOnly if set to {@code true}, disable all rules except those enabled explicitly
