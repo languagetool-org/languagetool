@@ -170,52 +170,52 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
   private RuleMatch createRuleMatch(final int[] tokenPositions,
                                     final AnalyzedTokenReadings[] tokens, final int firstMatchToken,
                                     final int lastMatchToken, int firstMarkerMatchToken, int lastMarkerMatchToken) throws IOException {
-      final PatternRule rule = (PatternRule) this.rule;
-      final String errMessage = formatMatches(tokens, tokenPositions,
-          firstMatchToken, rule.getMessage(), rule.getSuggestionMatches());
-      final String suggestionsOutMsg = formatMatches(tokens, tokenPositions,
-          firstMatchToken, rule.getSuggestionsOutMsg(), rule.getSuggestionMatchesOutMsg());
-      int correctedStPos = 0;
-      if (rule.startPositionCorrection > 0) {
-        for (int l = 0; l <= rule.startPositionCorrection; l++) {
-          correctedStPos += tokenPositions[l];
-        }
-        correctedStPos--;
+    final PatternRule rule = (PatternRule) this.rule;
+    final String errMessage = formatMatches(tokens, tokenPositions,
+        firstMatchToken, rule.getMessage(), rule.getSuggestionMatches());
+    final String suggestionsOutMsg = formatMatches(tokens, tokenPositions,
+        firstMatchToken, rule.getSuggestionsOutMsg(), rule.getSuggestionMatchesOutMsg());
+    int correctedStPos = 0;
+    if (rule.startPositionCorrection > 0) {
+      for (int l = 0; l <= rule.startPositionCorrection; l++) {
+        correctedStPos += tokenPositions[l];
       }
-      AnalyzedTokenReadings firstMatchTokenObj = tokens[firstMatchToken + correctedStPos];
-      boolean startsWithUppercase = StringTools.startsWithUppercase(firstMatchTokenObj.getToken())
-        && !matchConvertsCase(rule.getSuggestionMatches())
-        && !matchConvertsCase(rule.getSuggestionMatchesOutMsg());
-
-      if (firstMatchTokenObj.isSentStart() && tokens.length > firstMatchToken + correctedStPos + 1) {
-        // make uppercasing work also at sentence start:
-        firstMatchTokenObj = tokens[firstMatchToken + correctedStPos + 1];
-        startsWithUppercase = StringTools.startsWithUppercase(firstMatchTokenObj.getToken());
-      }
-      if (firstMarkerMatchToken == -1) {
-        firstMarkerMatchToken = firstMatchToken;
-      }
-      int fromPos = tokens[firstMarkerMatchToken].getStartPos();
-      // FIXME: this is fishy, assumes that comma should always come before whitespace:
-      if (errMessage.contains(SUGGESTION_START_TAG + ",") && firstMarkerMatchToken >= 1) {
-        fromPos = tokens[firstMarkerMatchToken - 1].getStartPos()
-            + tokens[firstMarkerMatchToken - 1].getToken().length();
-      }
-      if (lastMarkerMatchToken == -1) {
-        lastMarkerMatchToken = lastMatchToken;
-      }
-      final AnalyzedTokenReadings token = tokens[Math.min(lastMarkerMatchToken, tokens.length-1)];
-      int toPos = token.getStartPos() + token.getToken().length();
-      if (fromPos < toPos) { // this can happen with some skip="-1" when the last token is not matched
-        //now do some spell-checking:
-        if (!(errMessage.contains("<pleasespellme/>") && errMessage.contains("<mistake/>"))) {
-          final String clearMsg = errMessage.replaceAll("<pleasespellme/>", "").replaceAll("<mistake/>", "");
-          return new RuleMatch(rule, fromPos, toPos, clearMsg,
-              rule.getShortMessage(), startsWithUppercase, suggestionsOutMsg);
-        }
-      } // failed to create any rule match...
-      return null;
+      correctedStPos--;
     }
+    AnalyzedTokenReadings firstMatchTokenObj = tokens[firstMatchToken + correctedStPos];
+    boolean startsWithUppercase = StringTools.startsWithUppercase(firstMatchTokenObj.getToken())
+      && !matchConvertsCase(rule.getSuggestionMatches())
+      && !matchConvertsCase(rule.getSuggestionMatchesOutMsg());
+
+    if (firstMatchTokenObj.isSentStart() && tokens.length > firstMatchToken + correctedStPos + 1) {
+      // make uppercasing work also at sentence start:
+      firstMatchTokenObj = tokens[firstMatchToken + correctedStPos + 1];
+      startsWithUppercase = StringTools.startsWithUppercase(firstMatchTokenObj.getToken());
+    }
+    if (firstMarkerMatchToken == -1) {
+      firstMarkerMatchToken = firstMatchToken;
+    }
+    int fromPos = tokens[firstMarkerMatchToken].getStartPos();
+    // FIXME: this is fishy, assumes that comma should always come before whitespace:
+    if (errMessage.contains(SUGGESTION_START_TAG + ",") && firstMarkerMatchToken >= 1) {
+      fromPos = tokens[firstMarkerMatchToken - 1].getStartPos()
+          + tokens[firstMarkerMatchToken - 1].getToken().length();
+    }
+    if (lastMarkerMatchToken == -1) {
+      lastMarkerMatchToken = lastMatchToken;
+    }
+    final AnalyzedTokenReadings token = tokens[Math.min(lastMarkerMatchToken, tokens.length-1)];
+    int toPos = token.getStartPos() + token.getToken().length();
+    if (fromPos < toPos) { // this can happen with some skip="-1" when the last token is not matched
+      //now do some spell-checking:
+      if (!(errMessage.contains("<pleasespellme/>") && errMessage.contains("<mistake/>"))) {
+        final String clearMsg = errMessage.replaceAll("<pleasespellme/>", "").replaceAll("<mistake/>", "");
+        return new RuleMatch(rule, fromPos, toPos, clearMsg,
+            rule.getShortMessage(), startsWithUppercase, suggestionsOutMsg);
+      }
+    } // failed to create any rule match...
+    return null;
+  }
 
   /**
    * Checks if the suggestion starts with a match that is supposed to convert
@@ -223,7 +223,6 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
    * @return true, if the match converts the case of the token.
    */
   private boolean matchConvertsCase(List<Match> suggestionMatches) {
-    //final List<Match> suggestionMatches = rule.getSuggestionMatches();
     if (suggestionMatches != null && !suggestionMatches.isEmpty()) {
       final PatternRule rule = (PatternRule) this.rule;
       final int sugStart = rule.getMessage().indexOf(SUGGESTION_START_TAG) + SUGGESTION_START_TAG.length();

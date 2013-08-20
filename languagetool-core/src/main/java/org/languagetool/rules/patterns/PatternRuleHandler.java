@@ -200,7 +200,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
       phraseElementInit();
     } else if ("phrase".equals(qName) && inPhrases) {
       phraseId = attrs.getValue("id");
-    } else if ("phraseref".equals(qName) && (attrs.getValue("idref") != null)) {
+    } else if ("phraseref".equals(qName) && attrs.getValue("idref") != null) {
       preparePhrase(attrs);
       tokenCountForMarker++;
     }

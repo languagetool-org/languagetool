@@ -235,6 +235,7 @@ public class XMLRuleHandler extends DefaultHandler {
       phraseElementList = new ArrayList<>();
     }
   }
+  
   protected void preparePhrase(final Attributes attrs) {
     phraseIdRef = attrs.getValue("idref");
     if (phraseMap.containsKey(phraseIdRef)) {
@@ -288,13 +289,11 @@ public class XMLRuleHandler extends DefaultHandler {
     caseSensitive = YES.equals(attrs.getValue(CASE_SENSITIVE));
   }  
   
-  
   /**
    * Calculates the offset of the match reference (if any) in case the match
    * element has been used in the group.
    * 
-   * @param elList
-   *          Element list where the match element was used. It is directly changed.
+   * @param elList Element list where the match element was used. It is directly changed.
    */
   protected void processElement(final List<Element> elList) {
     int counter = 0;
