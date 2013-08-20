@@ -5899,6 +5899,18 @@ $Id$
                 <example type="correct">L'ésser ja no es troba allí.</example>
             </rule> -->
         </rulegroup>    
+        <rule id="ELS_INFINITIU" name="els (infinitiu)">
+            <pattern>
+                <marker>
+                    <token regexp="yes">els|les</token>
+                </marker>
+                <token postag="V.N.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>el</suggestion>?</message>
+            <short>Error de concordança</short>
+            <example type="incorrect"><marker>els</marker> transitar</example>
+            <example type="correct">el transitar</example>
+        </rule>
         <rulegroup id="PERQUE_PER_QUE" name="perquè/per què">
             <rule>
                 <pattern>
