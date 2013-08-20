@@ -2428,6 +2428,19 @@ $Id$
                 <example type="correct">amb les set vares esteses sota la tapa harmònica,</example>  
                 <example type="correct">Tots van vestits iguals.</example>            
              </rule>
+             <rule>
+                <pattern>
+                    <token regexp="yes">vaig|vas|va|van|vares|varen<exception postag="_GN_MS|_GN_FP|complement|.*LOC_ADV.*" postag_regexp="yes"/></token>
+                    <marker>
+                        <token postag="V.P.*" postag_regexp="yes" regexp="yes" inflected="yes">preferir|augmentar</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="2" postag="V.N.*" postag_regexp="yes"/></suggestion>?</message>
+                <suggestion><match no="2" postag="V.G.*" postag_regexp="yes"/></suggestion>
+                <short>Falta un infinitiu</short>
+                <example type="incorrect" correction="augmentar|augmentant">La despesa va <marker>augmentat</marker>.</example>
+                <example type="correct">Ell ho va preferir així.</example> 
+             </rule>
         </rulegroup>
         <rule id="DONAR_DE_MENJAR" name="donar *de menjar/beure/mamar">
             <pattern>
