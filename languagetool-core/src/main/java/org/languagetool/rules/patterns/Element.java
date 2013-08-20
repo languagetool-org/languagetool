@@ -275,29 +275,6 @@ public class Element implements Cloneable {
     return JLanguageTool.SENTENCE_START_TAGNAME.equals(posToken) && !posNegation;
   }
 
-  @Override
-  public final String toString() {
-    final StringBuilder sb = new StringBuilder();
-    if (negation) {
-      sb.append('!');
-    }
-    sb.append(stringToken);
-    if (phraseName != null) {
-      sb.append(" {");
-      sb.append(phraseName);
-      sb.append('}');
-    }
-    if (posToken != null) {
-      sb.append('/');
-      sb.append(posToken);
-    }
-    if (exceptionList != null) {
-      sb.append("/exceptions=");
-      sb.append(exceptionList);
-    }
-    return sb.toString();
-  }
-
   public final void setPosElement(final String posToken, final boolean regExp,
       final boolean negation) {
     this.posToken = posToken;
@@ -377,14 +354,12 @@ public class Element implements Cloneable {
   /**
    * Tests if part of speech matches a given string.
    * Special value UNKNOWN_TAG matches null POS tags.
-   *
    * @param token Token to test.
    * @return true if matches
    */
   private boolean isPosTokenMatched(final AnalyzedToken token) {
-    // if no POS set
-    // defaulting to true
     if (posToken == null) {
+      // if no POS set defaulting to true
       return true;
     }
     if (token.getPOSTag() == null) {      
@@ -455,7 +430,6 @@ public class Element implements Cloneable {
   }
 
   /**
-   * Sets the exception scope length.
    * @param i exception scope length.
    */
   public final void setSkipNext(final int i) {
@@ -738,4 +712,28 @@ public class Element implements Cloneable {
   public final boolean testWhitespace() {
     return testWhitespace;
   }
+
+  @Override
+  public final String toString() {
+    final StringBuilder sb = new StringBuilder();
+    if (negation) {
+      sb.append('!');
+    }
+    sb.append(stringToken);
+    if (phraseName != null) {
+      sb.append(" {");
+      sb.append(phraseName);
+      sb.append('}');
+    }
+    if (posToken != null) {
+      sb.append('/');
+      sb.append(posToken);
+    }
+    if (exceptionList != null) {
+      sb.append("/exceptions=");
+      sb.append(exceptionList);
+    }
+    return sb.toString();
+  }
+
 }
