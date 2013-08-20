@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.languagetool.Language;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.IncorrectExample;
@@ -187,6 +188,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
       incorrectExample.append("<marker>");
     } else if (MARKER.equals(qName) && inPattern) {
       startPos = tokenCounter;
+      inMarker = true;
     } else if (UNIFICATION.equals(qName)) {
       uFeature = attrs.getValue("feature");
       inUnificationDef = true;
@@ -219,7 +221,15 @@ public class PatternRuleHandler extends XMLRuleHandler {
         name = "";
       }
       if (phraseElementList.isEmpty()) {
-        final PatternRule rule = new PatternRule(id, language, elementList,
+        // Elements contain information whether they are inside a <marker>...</marker>,
+        // but for phraserefs this depends on the position where the phraseref is used
+        // not where it's defined. Thus we have to copy the elements so each use of
+        // the phraseref can carry their own information:
+        final List<Element> tmpElements = new ArrayList<>();
+        for (Element element : elementList) {
+          tmpElements.add((Element) ObjectUtils.clone(element));
+        }
+        final PatternRule rule = new PatternRule(id, language, tmpElements,
                 name, message.toString(), shortMessage.toString(), suggestionsOutMsg.toString());
         prepareRule(rule);
         rules.add(rule);
@@ -231,7 +241,11 @@ public class PatternRuleHandler extends XMLRuleHandler {
         }
         for (final ArrayList<Element> phraseElement : phraseElementList) {
           processElement(phraseElement);
-          final PatternRule rule = new PatternRule(id, language, phraseElement,
+          final List<Element> tmpElements = new ArrayList<>();
+          for (Element element : phraseElement) {
+            tmpElements.add((Element) ObjectUtils.clone(element));
+          }
+          final PatternRule rule = new PatternRule(id, language, tmpElements,
               name, message.toString(), shortMessage.toString(), suggestionsOutMsg.toString(),
               phraseElementList.size() > 1);
           prepareRule(rule);
@@ -309,6 +323,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
       incorrectExample.append("</marker>");
     } else if (MARKER.equals(qName) && inPattern) {
       endPos = tokenCountForMarker;
+      inMarker = false;
     } else if ("phrase".equals(qName) && inPhrases) {
       finalizePhrase();
     } else if ("includephrases".equals(qName)) {

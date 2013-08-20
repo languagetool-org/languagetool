@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.languagetool.Language;
 import org.languagetool.rules.IncorrectExample;
 import org.languagetool.tools.StringTools;
@@ -133,6 +134,7 @@ public class XMLRuleHandler extends DefaultHandler {
   protected boolean inUrl;
 
   protected boolean inUnification;
+  protected boolean inMarker;
   protected boolean inUnificationDef;
   protected boolean uniNegation;
 
@@ -240,11 +242,15 @@ public class XMLRuleHandler extends DefaultHandler {
         for (final Element e : curPhrEl) {
           e.setPhraseName(phraseIdRef);
         }
+        final List<Element> copy = (List<Element>) ObjectUtils.clone(curPhrEl);
+        for (Element element : copy) {
+          element.setInsideMarker(inMarker);
+        }
         if (elementList.isEmpty()) {
-          phraseElementList.add(new ArrayList<>(curPhrEl));
+          phraseElementList.add(new ArrayList<>(copy));
         } else {
           final ArrayList<Element> prevList = new ArrayList<>(elementList);
-          prevList.addAll(curPhrEl);
+          prevList.addAll(copy);
           phraseElementList.add(new ArrayList<>(prevList));
           prevList.clear();
         }
@@ -259,6 +265,9 @@ public class XMLRuleHandler extends DefaultHandler {
       phraseMap = new HashMap<>();
     }
     phraseElementInit();
+    for (Element element : elementList) {
+      element.setInsideMarker(inMarker);
+    }
     if (phraseElementList.isEmpty()) {
       phraseElementList.add(new ArrayList<>(elementList));
     } else {
@@ -266,7 +275,7 @@ public class XMLRuleHandler extends DefaultHandler {
         ph.addAll(new ArrayList<>(elementList));
       }
     }
-
+    
     phraseMap.put(phraseId, new ArrayList<List<Element>>(phraseElementList));
     elementList.clear();
 
@@ -540,6 +549,8 @@ public class XMLRuleHandler extends DefaultHandler {
     if (inUnification) {
       tokenElement.setUnification(equivalenceFeatures);
     }
+
+    tokenElement.setInsideMarker(inMarker);
 
     if (inUnificationDef) {
       language.getUnifierConfiguration().setEquivalence(uFeature, uType, tokenElement);

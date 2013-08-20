@@ -184,7 +184,7 @@ public class PatternRuleMatcherTest {
   public void testThreeMaxOccurrences() throws Exception {
     final Element elementB = makeElement("b");
     elementB.setMaxOccurrence(3);
-    final PatternRuleMatcher matcher = getMatcher(makeElement("a"), elementB);
+    final PatternRuleMatcher matcher = getMatcher(makeElement("a"), elementB);  // regex: a b{1,3}
     assertNoMatch("a a", matcher);
     assertCompleteMatch("a b", matcher);
     assertCompleteMatch("a b b", matcher);
@@ -194,6 +194,89 @@ public class PatternRuleMatcherTest {
     final RuleMatch[] matches1 = matcher.match(langTool.getAnalyzedSentence("a b b b b"));
     assertThat(matches1.length , is(1));
     assertPosition(matches1[0], 0, 7);
+  }
+
+  @Test
+  public void testOptionalWithoutExplicitMarker() throws Exception {
+    final Element elementA = makeElement("a");
+    final Element elementB = makeElement("b");
+    elementB.setMinOccurrence(0);
+    final Element elementC = makeElement("c");
+    final PatternRuleMatcher matcher = getMatcher(elementA, elementB, elementC);  // regex syntax: a .? c
+
+    final RuleMatch[] matches1 = matcher.match(langTool.getAnalyzedSentence("A B C ZZZ"));
+    assertThat(matches1.length , is(1));
+    assertPosition(matches1[0], 0, 5);
+
+    final RuleMatch[] matches2 = matcher.match(langTool.getAnalyzedSentence("A C ZZZ"));
+    assertThat(matches2.length , is(1));
+    assertPosition(matches2[0], 0, 3);
+  }
+
+  @Test
+  public void testOptionalWithExplicitMarker() throws Exception {
+    final Element elementA = makeElement("a");
+    elementA.setInsideMarker(true);
+    final Element elementB = makeElement("b");
+    elementB.setMinOccurrence(0);
+    elementB.setInsideMarker(true);
+    final Element elementC = makeElement("c");
+    elementC.setInsideMarker(false);
+    final PatternRuleMatcher matcher = getMatcher(elementA, elementB, elementC);  // regex syntax: (a .?) c
+
+    final RuleMatch[] matches1 = matcher.match(langTool.getAnalyzedSentence("A B C ZZZ"));
+    //.......................................................................^^^--
+    assertThat(matches1.length , is(1));
+    assertPosition(matches1[0], 0, 3);
+
+    final RuleMatch[] matches2 = matcher.match(langTool.getAnalyzedSentence("A C ZZZ"));
+    //.......................................................................^--
+    assertThat(matches2.length , is(1));
+    assertPosition(matches2[0], 0, 1);
+  }
+
+  @Test
+  public void testOptionalAnyTokenWithExplicitMarker() throws Exception {
+    final Element elementA = makeElement("a");
+    elementA.setInsideMarker(true);
+    final Element elementB = makeElement(null);
+    elementB.setMinOccurrence(0);
+    elementB.setInsideMarker(true);
+    final Element elementC = makeElement("c");
+    elementC.setInsideMarker(false);
+    final PatternRuleMatcher matcher = getMatcher(elementA, elementB, elementC);  // regex syntax: (a .?) c
+
+    final RuleMatch[] matches1 = matcher.match(langTool.getAnalyzedSentence("A x C ZZZ"));
+    //.......................................................................^^^--
+    assertThat(matches1.length , is(1));
+    assertPosition(matches1[0], 0, 3);
+
+    final RuleMatch[] matches2 = matcher.match(langTool.getAnalyzedSentence("A C ZZZ"));
+    //.......................................................................^--
+    assertThat(matches2.length , is(1));
+    assertPosition(matches2[0], 0, 1);
+  }
+
+  @Test
+  public void testOptionalAnyTokenWithExplicitMarker2() throws Exception {
+    final Element elementA = makeElement("the");
+    elementA.setInsideMarker(true);
+    final Element elementB = makeElement(null);
+    elementB.setMinOccurrence(0);
+    elementB.setInsideMarker(true);
+    final Element elementC = makeElement("bike");
+    elementC.setInsideMarker(false);
+    final PatternRuleMatcher matcher = getMatcher(elementA, elementB, elementC);  // regex syntax: (a .?) c
+
+    final RuleMatch[] matches1 = matcher.match(langTool.getAnalyzedSentence("the nice bike ZZZ"));
+    //.......................................................................^^^^^^^^-----
+    assertThat(matches1.length , is(1));
+    assertPosition(matches1[0], 0, 8);
+
+    final RuleMatch[] matches2 = matcher.match(langTool.getAnalyzedSentence("the bike ZZZ"));
+    //.......................................................................^^^-----
+    assertThat(matches2.length , is(1));
+    assertPosition(matches2[0], 0, 3);
   }
 
   @Test
@@ -243,7 +326,8 @@ public class PatternRuleMatcherTest {
   private void assertPartialMatch(String input, PatternRuleMatcher matcher) throws IOException {
     final RuleMatch[] matches = matcher.match(langTool.getAnalyzedSentence(input));
     assertThat(matches.length , is(1));
-    assertTrue(matches[0].getFromPos() > 0 || matches[0].getToPos() < input.length());
+    assertTrue("Expected partial match, got '" + matches[0] + "' for '" + input + "'",
+            matches[0].getFromPos() > 0 || matches[0].getToPos() < input.length());
   }
 
   private void assertCompleteMatch(String input, PatternRuleMatcher matcher) throws IOException {

@@ -55,6 +55,7 @@ public class Element implements Cloneable {
   private boolean inflected;
   private boolean testWhitespace;
   private boolean whitespaceBefore;
+  private boolean isInsideMarker = true;
 
   /**  List of exceptions that are valid for the current token and / or some next tokens. */
   private List<Element> exceptionList;
@@ -119,6 +120,11 @@ public class Element implements Cloneable {
     setStringElement(token);
   }
 
+  @Override
+  public Object clone() throws CloneNotSupportedException {
+    return super.clone();
+  }
+  
   /**
    * Checks whether the rule element matches the token given as a parameter.
    * @param token AnalyzedToken to check matching against
@@ -666,6 +672,14 @@ public class Element implements Cloneable {
   public final void setWhitespaceBefore(final boolean isWhite) {
     whitespaceBefore = isWhite;
     testWhitespace = true;
+  }
+
+  public boolean isInsideMarker() {
+    return isInsideMarker;
+  }
+
+  public void setInsideMarker(boolean isInsideMarker) {
+    this.isInsideMarker = isInsideMarker;
   }
 
   /**

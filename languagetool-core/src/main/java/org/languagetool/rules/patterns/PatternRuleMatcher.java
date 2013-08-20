@@ -50,6 +50,13 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
     final int[] tokenPositions = new int[tokens.length + 1];
     final int patternSize = elementMatchers.size();
+
+    /*for (ElementMatcher elementMatcher : elementMatchers) {
+      System.out.println(elementMatcher.getElement() + " > " +  elementMatcher.getElement().isInsideMarker() + " "
+              + elementMatcher.getElement().getMinOccurrence() + "->" + elementMatcher.getElement().getMaxOccurrence());
+    }*/
+    //System.out.println("---------------");
+    
     final int limit = Math.max(0, tokens.length - patternSize + 1);
     ElementMatcher elem = null;
     int i = 0;
@@ -58,7 +65,9 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
     while (i < limit + minOccurCorrection && !(rule.sentStart && i > 0)) {
       boolean allElementsMatch = false;
       int firstMatchToken = -1;
+      int firstMarkerMatchToken = -1;
       int lastMatchToken = -1;
+      int lastMarkerMatchToken = -1;
       int matchingTokens = 0;
       int prevSkipNext = 0;
       if (rule.testUnification) {
@@ -93,6 +102,11 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
           if (allElementsMatch) {
             int skipForMax = skipMaxTokens(tokens, elem, firstMatchToken, prevSkipNext, prevElement, m);
             lastMatchToken = m + skipForMax;
+            //System.out.println("LMT: " + lastMatchToken + ", elem inside marker? " + elem.getElement() + " -> " + elem.getElement().isInsideMarker());
+            //System.out.println("TOKEN: " + tokens[m].getToken());
+            //System.out.println("ELEMENT: " + elem.getElement());
+            //System.out.println("minOccurSkip: " + minOccurSkip);
+            //System.out.println("");
             final int skipShift = lastMatchToken - nextPos;
             tokenPositions[matchingTokens] = skipShift + 1;
             prevSkipNext = translateElementNo(elem.getElement().getSkipNext());
@@ -100,6 +114,12 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
             skipShiftTotal += skipShift;
             if (firstMatchToken == -1) {
               firstMatchToken = lastMatchToken - skipForMax;
+            }
+            if (firstMarkerMatchToken == -1 && elem.getElement().isInsideMarker()) {
+              firstMarkerMatchToken = lastMatchToken - skipForMax;
+            }
+            if (elem.getElement().isInsideMarker()) {
+              lastMarkerMatchToken = lastMatchToken;
             }
             break;
           }
@@ -109,9 +129,10 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
         }
       }
 
+      //System.out.println("? matchingTokens:" + matchingTokens + ", patternSize: "+ patternSize + ", minOccurSkip:" +minOccurSkip);
       if ((allElementsMatch && matchingTokens == patternSize) || (matchingTokens == patternSize - minOccurSkip && firstMatchToken != -1)) {
         final RuleMatch ruleMatch = createRuleMatch(tokenPositions, tokens,
-            firstMatchToken, lastMatchToken, matchingTokens);
+            firstMatchToken, lastMatchToken, firstMarkerMatchToken, lastMarkerMatchToken);
         if (ruleMatch != null) {
           ruleMatches.add(ruleMatch);
         }
@@ -147,8 +168,8 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
   }
 
   private RuleMatch createRuleMatch(final int[] tokenPositions,
-        final AnalyzedTokenReadings[] tokens, final int firstMatchToken,
-        final int lastMatchToken, final int matchingTokens) throws IOException {
+                                    final AnalyzedTokenReadings[] tokens, final int firstMatchToken,
+                                    final int lastMatchToken, int firstMarkerMatchToken, int lastMarkerMatchToken) throws IOException {
       final PatternRule rule = (PatternRule) this.rule;
       final String errMessage = formatMatches(tokens, tokenPositions,
           firstMatchToken, rule.getMessage(), rule.getSuggestionMatches());
@@ -161,14 +182,6 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
         }
         correctedStPos--;
       }
-      int correctedEndPos = 0;
-      if (rule.endPositionCorrection < 0) {
-        int l = 0;
-        while (l > rule.endPositionCorrection) {
-          correctedEndPos -= tokenPositions[matchingTokens + l - 1];
-          l--;
-        }
-      }
       AnalyzedTokenReadings firstMatchTokenObj = tokens[firstMatchToken + correctedStPos];
       boolean startsWithUppercase = StringTools.startsWithUppercase(firstMatchTokenObj.getToken())
         && !matchConvertsCase(rule.getSuggestionMatches())
@@ -179,15 +192,20 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
         firstMatchTokenObj = tokens[firstMatchToken + correctedStPos + 1];
         startsWithUppercase = StringTools.startsWithUppercase(firstMatchTokenObj.getToken());
       }
-      int fromPos = tokens[firstMatchToken + correctedStPos].getStartPos();
-      // FIXME: this is fishy, assumes that comma should always come before whitespace:
-      if (errMessage.contains(SUGGESTION_START_TAG + ",") && firstMatchToken + correctedStPos >= 1) {
-        fromPos = tokens[firstMatchToken + correctedStPos - 1].getStartPos()
-            + tokens[firstMatchToken + correctedStPos - 1].getToken().length();
+      if (firstMarkerMatchToken == -1) {
+        firstMarkerMatchToken = firstMatchToken;
       }
-
-      final int toPos = tokens[lastMatchToken + correctedEndPos].getStartPos()
-              + tokens[lastMatchToken + correctedEndPos].getToken().length();
+      int fromPos = tokens[firstMarkerMatchToken].getStartPos();
+      // FIXME: this is fishy, assumes that comma should always come before whitespace:
+      if (errMessage.contains(SUGGESTION_START_TAG + ",") && firstMarkerMatchToken >= 1) {
+        fromPos = tokens[firstMarkerMatchToken - 1].getStartPos()
+            + tokens[firstMarkerMatchToken - 1].getToken().length();
+      }
+      if (lastMarkerMatchToken == -1) {
+        lastMarkerMatchToken = lastMatchToken;
+      }
+      final AnalyzedTokenReadings token = tokens[Math.min(lastMarkerMatchToken, tokens.length-1)];
+      int toPos = token.getStartPos() + token.getToken().length();
       if (fromPos < toPos) { // this can happen with some skip="-1" when the last token is not matched
         //now do some spell-checking:
         if (!(errMessage.contains("<pleasespellme/>") && errMessage.contains("<mistake/>"))) {
