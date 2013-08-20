@@ -6723,6 +6723,18 @@ $Id$
                 <example type="incorrect" correction="vàries">Diuen que ho va dir <marker>varies</marker> vegades.</example>
                 <example type="correct">varies el rumb</example>
             </rule>
+            <rule id="PRESENCIA" name="presencia">
+                <pattern>
+                    <token>en</token>
+                    <marker>
+                        <token>presencia</token>
+                    </marker>
+                    <token regexp="yes">de|d'</token>
+                </pattern>
+                <message>Si és nom, cal escriure <suggestion>presència</suggestion>. </message>
+                <example type="incorrect">En <marker>presencia</marker> del Senyor.</example>
+                <example type="correct">en presència de</example>
+            </rule>
         </rulegroup>
         <rulegroup id="COMA_COM_A" name="coma / com a">
             <!--alguna falsa alarma?-->
@@ -11486,6 +11498,32 @@ $Id$
         </rulegroup>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="UN_I_ALTRE" name="*un i altre cas/tots dos casos">
+            <pattern>
+                <token>un</token>
+                <token>i</token>
+                <token>altre</token>
+                <token postag="N.MS.*" postag_regexp="yes"/>
+            </pattern>
+            <message>Construcció castellanitzant </message>
+            <suggestion>tots dos <match no="4" postag="N.MS.*" postag_regexp="yes" postag_replace="N.MP.*"></match></suggestion> 
+            <suggestion>tant en un <match no="4"/> com en l'altre</suggestion>
+            <example type="incorrect" correction="tots dos bàndols|tant en un bàndol com en l'altre"><marker>un i altre bàndol</marker></example>
+            <example type="correct">tots dos casos</example>
+        </rule>
+        <rule id="UNA_I_ALTRA" name="*una i altra banda/totes dues bandes">
+            <pattern>
+                <token>una</token>
+                <token>i</token>
+                <token>altra</token>
+                <token postag="N.FS.*" postag_regexp="yes"/>
+            </pattern>
+            <message>Construcció castellanitzant </message>
+            <suggestion>totes dues <match no="4" postag="N.FS.*" postag_regexp="yes" postag_replace="N.FP.*"></match></suggestion> 
+            <suggestion>tant en una <match no="4"/> com en l'altra</suggestion>
+            <example type="incorrect" correction="totes dues bandes|tant en una banda com en l'altra"><marker>una i altra banda</marker></example>
+            <example type="correct">totes dues coses</example>
+        </rule>                
         <rule id="A_HORES_DARA" name="*hores d'ara/a hores d'ara">
             <pattern>
                 <token><exception>a</exception></token>
