@@ -41,9 +41,7 @@ public class Element implements Cloneable {
   /** Matches only tokens without any POS tag. **/
   public static final String UNKNOWN_TAG = "UNKNOWN";
 
-  /**
-   * Parameter passed to regular expression matcher to enable case insensitive Unicode matching.
-   */
+  /** Parameter passed to regular expression matcher to enable case insensitive Unicode matching. */
   private static final String CASE_INSENSITIVE = "(?iu)";
 
   private final boolean caseSensitive;
@@ -58,9 +56,7 @@ public class Element implements Cloneable {
   private boolean testWhitespace;
   private boolean whitespaceBefore;
 
-  /**
-   * List of exceptions that are valid for the current token and / or some next tokens.
-   */
+  /**  List of exceptions that are valid for the current token and / or some next tokens. */
   private List<Element> exceptionList;
 
   /** True if scope=="next". */
@@ -74,9 +70,7 @@ public class Element implements Cloneable {
 
   /** List of exceptions that are valid for a previous token. */
   private List<Element> previousExceptionList;
-
   private List<Element> andGroupList;
-
   private boolean andGroupSet;
 
   private int skip;
@@ -88,28 +82,21 @@ public class Element implements Cloneable {
 
   /** The reference to another element in the pattern. **/
   private Match tokenReference;
-
   /** True when the element stores a formatted reference to another element of the pattern. */
   private boolean containsMatches;
-
   private String referenceString;
-
   /** String ID of the phrase the element is in. **/
   private String phraseName;
 
   /**
    * This var is used to determine if calling {@link #setStringElement} makes sense. This method
    * takes most time so it's best to reduce the number of its calls.
-   **/
+   */
   private boolean testString;
-
   /** Tells if the element is inside the unification, so that {@link Unifier} tests it.  */
   private boolean unified;
-
   private boolean uniNegation;
-
   private Map<String, List<String>> unificationFeatures;
-  
   private boolean posUnknown;
 
   /**
@@ -119,15 +106,10 @@ public class Element implements Cloneable {
 
   /**
    * Creates Element that is used to match tokens in the text.
-   * 
-   * @param token
-   *          String to be matched
-   * @param caseSensitive
-   *          True if the check is case-sensitive.
-   * @param regExp
-   *          True if the check uses regular expressions.
-   * @param inflected
-   *          True if the check refers to base forms (lemmas).
+   * @param token String to be matched
+   * @param caseSensitive True if the check is case-sensitive.
+   * @param regExp True if the check uses regular expressions.
+   * @param inflected True if the check refers to base forms (lemmas).
    */
   public Element(final String token, final boolean caseSensitive, final boolean regExp,
       final boolean inflected) {
@@ -139,7 +121,6 @@ public class Element implements Cloneable {
 
   /**
    * Checks whether the rule element matches the token given as a parameter.
-   * 
    * @param token AnalyzedToken to check matching against
    * @return True if token matches, false otherwise.
    */
@@ -154,13 +135,11 @@ public class Element implements Cloneable {
     } else {
       matched = (!negation) && (isPosTokenMatched(token) ^ posNegation);
     }
-
     return matched;
   }
 
   /**
    * Checks whether an exception matches.
-   * 
    * @param token AnalyzedToken to check matching against
    * @return True if any of the exceptions matches (logical disjunction).
    */
@@ -180,7 +159,6 @@ public class Element implements Cloneable {
   /**
    * Enables testing multiple conditions specified by multiple element exceptions.
    * Works as logical AND operator.
-   * 
    * @param token the token checked for exceptions.
    * @return true if all conditions are met, false otherwise.
    */
@@ -197,7 +175,6 @@ public class Element implements Cloneable {
 
   /**
    * This method checks exceptions both in AND-group and the token. Introduced to for clarity.
-   * 
    * @param token Token to match
    * @return True if matched.
    */
@@ -220,7 +197,6 @@ public class Element implements Cloneable {
 
   /**
    * Checks if this element has an AND group associated with it.
-   * 
    * @return true if the element has a group of elements that all should match.
    */
   public final boolean hasAndGroup() {
@@ -229,7 +205,6 @@ public class Element implements Cloneable {
 
   /**
    * Returns the group of elements linked with AND operator.
-   * 
    * @return List of Elements.
    */
   public final List<Element> getAndGroup() {
@@ -293,11 +268,8 @@ public class Element implements Cloneable {
   }
 
   /**
-   * Checks if the token is a SENT_START.
-   * 
-   * @return True if the element starts the sentence and the element hasn't been set to have negated
-   *         POS token.
-   * 
+   * Checks if the token is a sentence start.
+   * @return True if the element starts the sentence and the element hasn't been set to have negated POS token.
    */
   public final boolean isSentStart() {
     return JLanguageTool.SENTENCE_START_TAGNAME.equals(posToken) && !posNegation;
@@ -436,9 +408,7 @@ public class Element implements Cloneable {
 
   /**
    * Tests whether the string token element matches a given token.
-   * 
-   * @param token
-   *          {@link AnalyzedToken} to match against.
+   * @param token {@link AnalyzedToken} to match against.
    * @return True if matches.
    */
   private boolean isStringTokenMatched(final AnalyzedToken token) {
@@ -464,8 +434,7 @@ public class Element implements Cloneable {
 
   /**
    * Gets the exception scope length.
-   * 
-   * @return Scope length.
+   * @return scope length in tokens
    */
   public final int getSkipNext() {
     return skip;
@@ -487,9 +456,7 @@ public class Element implements Cloneable {
 
   /**
    * Sets the exception scope length.
-   * 
-   * @param i
-   *          Exception scope length.
+   * @param i exception scope length.
    */
   public final void setSkipNext(final int i) {
     skip = i;
@@ -519,7 +486,6 @@ public class Element implements Cloneable {
 
   /**
    * Checks if the element has an exception for a previous token.
-   * 
    * @return True if the element has a previous token matching exception.
    */
   public final boolean hasPreviousException() {
@@ -529,7 +495,6 @@ public class Element implements Cloneable {
   /**
    * Checks if the element has an exception for a next scope.
    * (only used for testing)
-   * 
    * @return True if the element has exception for the next scope.
    */
   public final boolean hasNextException() {
@@ -537,9 +502,7 @@ public class Element implements Cloneable {
   }
 
   /**
-   * Negates the meaning of match().
-   * 
-   * @param negation  true if the meaning of match() is to be negated.
+   * Negates the matching so that non-matching elements match and vice-versa.
    */
   public final void setNegation(final boolean negation) {
     this.negation = negation;
@@ -547,7 +510,6 @@ public class Element implements Cloneable {
 
   /**
    * see {@link #setNegation}
-   * 
    * @since 0.9.3
    */
   public final boolean getNegation() {
@@ -555,7 +517,6 @@ public class Element implements Cloneable {
   }
 
   /**
-   * 
    * @return true when this element refers to another token.
    */
   public final boolean isReferenceElement() {
@@ -564,7 +525,6 @@ public class Element implements Cloneable {
 
   /**
    * Sets the reference to another token.
-   * 
    * @param match Formatting object for the token reference.
    */
   public final void setMatch(final Match match) {
@@ -617,7 +577,6 @@ public class Element implements Cloneable {
 
   /**
    * Sets the phrase the element is in.
-   * 
    * @param s ID of the phrase.
    */
   public final void setPhraseName(final String s) {
@@ -626,7 +585,6 @@ public class Element implements Cloneable {
 
   /**
    * Checks if the Element is in any phrase.
-   * 
    * @return True if the Element is contained in the phrase.
    */
   public final boolean isPartOfPhrase() {
@@ -652,7 +610,6 @@ public class Element implements Cloneable {
 
   /**
    * Tests whether the element matches a regular expression.
-   *
    * @since 0.9.6
    */
   public final boolean isRegularExpression() {
@@ -661,7 +618,6 @@ public class Element implements Cloneable {
 
   /**
    * Tests whether the POS matches a regular expression.
-   *
    * @since 1.3.0
    */
   public final boolean isPOStagRegularExpression() {
@@ -677,18 +633,14 @@ public class Element implements Cloneable {
   }
 
   /**
-   * Tests whether the POS is negated.
-   * 
-   * @return true if so.
+   * @return true if the POS is negated.
    */
   public final boolean getPOSNegation() {
     return posNegation;
   }
 
   /**
-   * Whether the token is inflected.
-   * 
-   * @return True if so.
+   * @return true if the token matches all inflected forms
    */
   public final boolean isInflected() {
     return inflected;
@@ -714,7 +666,6 @@ public class Element implements Cloneable {
 
   /**
    * Get unification features and types.
-   * 
    * @return A map from features to a list of types.
    * @since 1.0.1
    */
@@ -747,19 +698,18 @@ public class Element implements Cloneable {
    * Sets the attribute on the exception that determines matching of patterns
    * that depends on whether there was a space before the token matching the exception
    * or not.
-   * 
    * The same procedure is used for tokens that are valid for previous or current tokens.
    * 
    * @param isWhite If true, the space before exception is required.
    */
-  public final void setExceptionSpaceBefore(final boolean isWhite) {    
-      if (previousExceptionList != null && exceptionValidPrevious) {
-          previousExceptionList.get(previousExceptionList.size() - 1).setWhitespaceBefore(isWhite);
-      } else {
-          if (exceptionList != null) {
-              exceptionList.get(exceptionList.size() - 1).setWhitespaceBefore(isWhite);
-          }
+  public final void setExceptionSpaceBefore(final boolean isWhite) {
+    if (previousExceptionList != null && exceptionValidPrevious) {
+      previousExceptionList.get(previousExceptionList.size() - 1).setWhitespaceBefore(isWhite);
+    } else {
+      if (exceptionList != null) {
+        exceptionList.get(exceptionList.size() - 1).setWhitespaceBefore(isWhite);
       }
+    }
   }
 
   public final boolean isWhitespaceBefore(final AnalyzedToken token) {
@@ -778,7 +728,7 @@ public class Element implements Cloneable {
    * @return List of previous exceptions. Used for testing.
    */
   public final List<Element> getPreviousExceptionList() {
-	  return previousExceptionList;
+    return previousExceptionList;
   }
 
   public final boolean hasExceptionList() {
