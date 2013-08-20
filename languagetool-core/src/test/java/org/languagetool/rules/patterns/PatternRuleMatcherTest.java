@@ -73,6 +73,47 @@ public class PatternRuleMatcherTest {
   }
 
   @Test
+  public void testZeroMinOccurrences2() throws Exception {
+    final Element elementB = makeElement("b");
+    elementB.setMinOccurrence(0);
+    // regex syntax: a b? c d e
+    final PatternRuleMatcher matcher = getMatcher(makeElement("a"), elementB, makeElement("c"), makeElement("d"), makeElement("e"));
+    assertCompleteMatch("a b c d e", matcher);
+    assertCompleteMatch("a c d e", matcher);
+    assertNoMatch("a d", matcher);
+    assertNoMatch("a c b d", matcher);
+    assertNoMatch("a c b d e", matcher);
+  }
+
+  @Test
+  public void testZeroMinOccurrences3() throws Exception {
+    final Element elementC = makeElement("c");
+    elementC.setMinOccurrence(0);
+    // regex syntax: a b c? d e
+    final PatternRuleMatcher matcher = getMatcher(makeElement("a"), makeElement("b"), elementC, makeElement("d"), makeElement("e"));
+    assertCompleteMatch("a b c d e", matcher);
+    assertCompleteMatch("a b d e", matcher);
+    assertPartialMatch("a b c d e x", matcher);
+    assertPartialMatch("x a b c d e", matcher);
+    assertNoMatch("a b c e d", matcher);
+    assertNoMatch("a c b d e", matcher);
+  }
+
+  @Test
+  public void testZeroMinOccurrences4() throws Exception {
+    final Element elementA = makeElement("a");
+    elementA.setMinOccurrence(0);
+    final Element elementC = makeElement("c");
+    elementC.setMinOccurrence(0);
+    // regex syntax: a? b c? d e
+    final PatternRuleMatcher matcher = getMatcher(elementA, makeElement("b"), elementC, makeElement("d"), makeElement("e"));
+    final RuleMatch[] matches = matcher.match(langTool.getAnalyzedSentence("a b c d e"));
+    assertThat(matches.length, is(2));  // not sure if this is correct, it's not a longest match...
+    assertPosition(matches[0], 0, 9);
+    assertPosition(matches[1], 2, 9);
+  }
+
+  @Test
   public void testZeroMinOccurrencesWithEmptyElement() throws Exception {
     final Element elementB = makeElement(null);
     elementB.setMinOccurrence(0);
@@ -207,7 +248,7 @@ public class PatternRuleMatcherTest {
 
   private void assertCompleteMatch(String input, PatternRuleMatcher matcher) throws IOException {
     final RuleMatch[] matches = matcher.match(langTool.getAnalyzedSentence(input));
-    assertThat(matches.length , is(1));
+    assertThat("Got matches: " + Arrays.toString(matches), matches.length , is(1));
     assertThat(matches[0].getFromPos(), is(0));
     assertThat(matches[0].getToPos(), is(input.length()));
   }
