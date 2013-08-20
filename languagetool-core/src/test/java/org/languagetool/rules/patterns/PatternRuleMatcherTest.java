@@ -62,6 +62,7 @@ public class PatternRuleMatcherTest {
     assertNoMatch("a b b c", matcher);
     assertCompleteMatch("a c", matcher);
     assertCompleteMatch("a b c", matcher);
+    assertNoMatch("a X c", matcher);
     final RuleMatch[] matches = matcher.match(langTool.getAnalyzedSentence("a b c FOO a b c FOO a c a b c"));
     //......................................................................^^^^^.....^^^^^.....^^^.^^^^^
     assertThat(matches.length, is(4));
@@ -69,6 +70,26 @@ public class PatternRuleMatcherTest {
     assertPosition(matches[1], 10, 15);
     assertPosition(matches[2], 20, 23);
     assertPosition(matches[3], 24, 29);
+  }
+
+  @Test
+  public void testZeroMinOccurrencesWithEmptyElement() throws Exception {
+    final Element elementB = makeElement(null);
+    elementB.setMinOccurrence(0);
+    final PatternRuleMatcher matcher = getMatcher(makeElement("a"), elementB, makeElement("c"));  // regex syntax: a .? c
+    assertNoMatch("b a", matcher);
+    assertNoMatch("c a b", matcher);
+    assertPartialMatch("b a c", matcher);
+    assertPartialMatch("a c b", matcher);
+    assertNoMatch("a b b c", matcher);
+    assertCompleteMatch("a c", matcher);
+    assertCompleteMatch("a b c", matcher);
+    assertCompleteMatch("a X c", matcher);
+    final RuleMatch[] matches = matcher.match(langTool.getAnalyzedSentence("a b c FOO a X c"));
+    //......................................................................^^^^^.....^^^^^
+    assertThat(matches.length, is(2));
+    assertPosition(matches[0], 0, 5);
+    assertPosition(matches[1], 10, 15);
   }
 
   @Test

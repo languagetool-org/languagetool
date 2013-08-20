@@ -80,7 +80,7 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
         for (int m = nextPos; m <= maxTok; m++) {
           allElementsMatch = !tokens[m].isImmunized() && testAllReadings(tokens, elem, prevElement, m,
                   firstMatchToken, prevSkipNext);
-          if (!allElementsMatch && elem.getElement().getMinOccurrence() == 0) {
+          if (elem.getElement().getMinOccurrence() == 0) {
             // note: min occurrences != 0 or 1 are not yet supported
             final ElementMatcher nextElement = elementMatchers.get(k + 1);
             final boolean nextElementMatch = !tokens[m].isImmunized() && testAllReadings(tokens, nextElement, elem, m,
