@@ -427,8 +427,8 @@ class LanguageToolSupport {
           msgItem.setBorder(new JMenuItem().getBorder());
           popup.add(msgItem);
           popup.add(new JSeparator());
-          // TODO: i18n
-          JMenuItem moreItem = new JMenuItem("More...");
+
+          JMenuItem moreItem = new JMenuItem(messages.getString("guiMore"));
           moreItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -436,8 +436,8 @@ class LanguageToolSupport {
             }
           });
           popup.add(moreItem);
+          
           JMenuItem ignoreItem = new JMenuItem(messages.getString("guiOOoIgnoreButton"));
-
           ignoreItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -445,9 +445,9 @@ class LanguageToolSupport {
             }
           });
           popup.add(ignoreItem);
+
           if (!this.languageTool.getDisabledRules().isEmpty()) {
-            // TODO: i18n
-            JMenu activateRuleItem = new JMenu("Activate Rule");
+            JMenu activateRuleItem = new JMenu(messages.getString("guiActivateRule"));
             int count = 0;
             for (String ruleId : languageTool.getDisabledRules()) {
               Rule rule = getRuleForId(ruleId);
@@ -473,6 +473,7 @@ class LanguageToolSupport {
             }
           }
           popup.add(new JSeparator());
+
           for (String r : span.replacement) {
             ReplaceMenuItem item = new ReplaceMenuItem(r, i);
             popup.add(item);
