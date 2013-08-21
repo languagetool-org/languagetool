@@ -135,12 +135,28 @@ $Id$
             <rule>
                 <pattern>
                     <token postag="D..FP.*" postag_regexp="yes"></token>
-                    <token postag="NCCN000|DN.*" postag_regexp="yes" regexp="yes">.*(dos|un)<exception regexp="yes">nou|deu</exception></token>
+                    <marker>
+                        <token postag="NCCN000|DN.*" postag_regexp="yes" regexp="yes">.*dos</token>
+                    </marker>
                 </pattern>
                 <message>Error de concordança.</message>
+                <suggestion><match no="2" regexp_match="(.*[dD])os" regexp_replace="$1ues" /></suggestion>
                 <short>Error de concordança</short>
-                <example type="incorrect"><marker>Les trenta-dos</marker>.</example>
+                <example type="incorrect" correction="trenta-dues">Les <marker>trenta-dos</marker>.</example>
                 <example type="correct">Les trenta-dues.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="D..FP.*" postag_regexp="yes"></token>
+                    <marker>
+                        <token postag="NCCN000|DN.*" postag_regexp="yes" regexp="yes">.*un</token>
+                    </marker>    
+                </pattern>
+                <message>Error de concordança.</message>
+                <suggestion><match no="2" regexp_match="(.*un)" regexp_replace="$1a"/></suggestion>
+                <short>Error de concordança</short>
+                <example type="incorrect" correction="trenta-una">Aquelles <marker>trenta-un</marker> dones.</example>
+                <example type="correct">Les trenta-una.</example>
             </rule>
             <!-- combinacions masc + fem -->
             <rule>
@@ -150,17 +166,19 @@ $Id$
                     </marker>
                     <token postag="N.FP.*|A..FP.*|V.P..PF.?" postag_regexp="yes"><exception postag="N.[MC]P.*|A..[MC]P.*|V.P..PM.?" postag_regexp="yes" /></token>
                 </pattern>
-                <message>Error de concordança: <suggestion><match no="1" regexp_match="(.*)dos" regexp_replace="$1dues" /></suggestion>.</message>
+                <message>Error de concordança.</message>
+                <suggestion><match no="1" regexp_match="(.*[dD])os" regexp_replace="$1ues" /></suggestion>
                 <short>Error de concordança</short>
-                <example type="incorrect"><marker>Trenta-dos</marker> xiquetes.</example>
+                <example type="incorrect" correction="Trenta-dues"><marker>Trenta-dos</marker> xiquetes.</example>
                 <example type="incorrect" correction="dues">amb <marker>dos</marker> maletes gegantines.</example>
+                <example type="incorrect" correction="Dues"><marker>Dos</marker> empreses.</example>
                 <example type="correct">Trenta-dues xiquetes.</example>
                 
             </rule>
             <rule>
                 <pattern>
                     <marker>
-                        <token postag="DN.*" postag_regexp="yes" regexp="yes">.*un<exception regexp="yes">nou|deu</exception></token>
+                        <token postag="DN.*" postag_regexp="yes" regexp="yes">.*un</token>
                     </marker>
                     <token postag="N.FP.*|A..FP.*|V.P..PF.?" postag_regexp="yes"><exception postag="N.[MC]P.*|A..[MC]P.*|V.P..PM.?" postag_regexp="yes" /></token>
                 </pattern>
@@ -258,7 +276,7 @@ $Id$
             <rule>
                 <pattern>
                     <token postag="DN.*" postag_regexp="yes" regexp="yes" skip="-1">.*(dues|una|centes)<exception postag="NC.*|DN.*|_GN.*|SENT_END" scope="next" postag_regexp="yes" negate_pos="yes" /></token>
-                    <token postag="DN.*|NCCN.*" postag_regexp="yes" regexp="yes">.*(dos|un|cents)<exception regexp="yes">nou|deu</exception></token>
+                    <token postag="DN.*|NCCN.*" postag_regexp="yes" regexp="yes">.*(dos|un|cents)</token>
                 </pattern>
                 <message>Error de concordança.</message>
                 <short>Error de concordança</short>
@@ -3623,7 +3641,7 @@ $Id$
                 	<marker>
                     	<token>Y</token>
                     </marker>
-                    <token><exception regexp="yes">[.,;]</exception></token>
+                    <token><exception regexp="yes">[.,;\)\]]</exception></token>
 	            </pattern>
 	            <message>Si és conjunció, cal escriure <suggestion>I</suggestion>.</message>
 	            <short>Conjunció 'i'</short>
