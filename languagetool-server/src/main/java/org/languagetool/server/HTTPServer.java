@@ -25,6 +25,7 @@ import org.languagetool.gui.Tools;
 import java.net.InetSocketAddress;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import static org.languagetool.server.HTTPServerConfig.DEFAULT_HOST;
@@ -39,7 +40,7 @@ import static org.languagetool.server.HTTPServerConfig.DEFAULT_HOST;
  */
 public class HTTPServer extends Server {
 
-  static final int THREAD_POOL_SIZE = 10;
+  private final ExecutorService executorService;
 
   /**
    * Prepare a server on the given port - use run() to start it. Accepts
@@ -100,12 +101,21 @@ public class HTTPServer extends Server {
       final LanguageToolHttpHandler httpHandler = new LanguageToolHttpHandler(config.isVerbose(), allowedIps, runInternally, null);
       httpHandler.setAllowOriginUrl(config.getAllowOriginUrl());
       server.createContext("/", httpHandler);
-      server.setExecutor(Executors.newFixedThreadPool(THREAD_POOL_SIZE));
+      executorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
+      server.setExecutor(executorService);
     } catch (Exception e) {
       final ResourceBundle messages = JLanguageTool.getMessageBundle();
       final String message = Tools.makeTexti18n(messages, "http_server_start_failed", host, Integer.toString(port));
       throw new PortBindingException(message, e);
     }
+  }
+
+  @Override
+  public void stop() {
+    super.stop();
+    if (executorService != null) {
+      executorService.shutdownNow();
+    }    
   }
 
   public static void main(String[] args) {
