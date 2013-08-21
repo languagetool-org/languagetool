@@ -353,6 +353,24 @@ $Id$
                 <example type="correct">dos o tres mascles</example>
                 <example type="correct">són dos, les bengales i les rodes</example>
             </rule>
+            <rule id="AL_ANYS" name="al/als 34 anys">
+                <pattern>
+                    <marker>
+                        <token>a</token>
+                        <token>l</token>
+                    </marker>
+                    <token regexp="yes">[123456789][1234567890]{0,3}</token>
+                    <token regexp="yes">anys|dies|mesos|minuts|segons|segles</token>
+                </pattern>
+                <message>Error de concordança.</message>
+                <suggestion>als</suggestion>
+                <suggestion>a</suggestion>
+                <short>Error de concordança</short>
+                <example type="incorrect" correction="als|a">Va morir <marker>al</marker> 84 anys.</example>
+                <example type="correct">dos o tres homes</example>
+                <example type="correct">dos o tres mascles</example>
+                <example type="correct">són dos, les bengales i les rodes</example>
+            </rule>
         </rulegroup>  
         <rulegroup id="CONCORDANCES_PRONOM_NEUTRE" name="concordances amb pronom neutre">
             <rule>
