@@ -285,9 +285,7 @@ public final class Main {
     spellbutton.setFocusable(false);
     toolbar.add(spellbutton);
 
-    // TODO : i18n
-    JToggleButton autospellbutton = new JToggleButton("AutoCheck", true);
-    autospellbutton.setAction(autoCheckAction);
+    JToggleButton autospellbutton = new JToggleButton(autoCheckAction);
     autospellbutton.setHideActionText(true);
     autospellbutton.setFocusable(false);
     toolbar.add(autospellbutton);
@@ -401,9 +399,7 @@ public final class Main {
     fileMenu.add(new QuitAction());
     
     grammarMenu.add(checkAction);
-    JCheckBoxMenuItem item = new JCheckBoxMenuItem();
-    item.setSelected(true);
-    item.setAction(autoCheckAction);
+    JCheckBoxMenuItem item = new JCheckBoxMenuItem(autoCheckAction);
     grammarMenu.add(item);
     grammarMenu.add(new CheckClipboardAction());
     grammarMenu.add(new TagTextAction());
@@ -1090,7 +1086,6 @@ public final class Main {
       putValue(Action.SHORT_DESCRIPTION, messages.getString("autoCheckTextShortDesc"));
       putValue(Action.LONG_DESCRIPTION, messages.getString("autoCheckTextLongDesc"));
       putValue(Action.MNEMONIC_KEY, getMnemonic("autoCheckText"));
-      this.enable = initial;
       Image img;
       img = Toolkit.getDefaultToolkit().getImage(
               JLanguageTool.getDataBroker().getFromResourceDirAsUrl("sc_spellonline.png"));
@@ -1098,11 +1093,14 @@ public final class Main {
       img = Toolkit.getDefaultToolkit().getImage(
               JLanguageTool.getDataBroker().getFromResourceDirAsUrl("lc_spellonline.png"));
       putValue(Action.LARGE_ICON_KEY, new ImageIcon(img));
+      enable = initial;
+      putValue(Action.SELECTED_KEY, enable);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
       enable = !enable;
+      putValue(Action.SELECTED_KEY, enable);
       ltSupport.setBackgroundCheckEnabled(enable);
     }
   }
