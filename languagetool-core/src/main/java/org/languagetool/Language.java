@@ -405,7 +405,11 @@ public abstract class Language {
   public static Language getLanguageForShortName(final String langCode) {
     final Language language = getLanguageForShortNameOrNull(langCode);
     if (language == null) {
-      throw new IllegalArgumentException("'" + langCode + "' is not a language code known to LanguageTool. Supported languages: " + Arrays.toString(REAL_LANGUAGES));
+      final StringBuilder sb = new StringBuilder();
+      for (Language realLanguage : LANGUAGES) {
+        sb.append(" ").append(realLanguage.getShortNameWithVariant());
+      }
+      throw new IllegalArgumentException("'" + langCode + "' is not a language code known to LanguageTool. Supported language codes are:" + sb.toString());
     }
     return language;
   }
