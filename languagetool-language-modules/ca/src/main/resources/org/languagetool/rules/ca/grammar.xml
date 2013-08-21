@@ -5030,6 +5030,19 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+        <rule id="A_LLARG_DE" name="a llarg de">
+            <pattern>
+                <marker>
+                    <token>a</token>
+                    <token>llarg</token>
+                </marker>
+                <token regexp="yes">de|d'</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>al llarg</suggestion>?</message>
+            <short>Possible confusió</short>
+            <example type="incorrect" correction="Al llarg"><marker>A llarg</marker> del temps.</example>
+            <example type="correct">al llarg de</example>
+        </rule>
         <rule id="PODAR_PODER" name="podar/poder, volar/voler">
             <pattern>
                 <marker>
@@ -5038,6 +5051,7 @@ $Id$
                 <token postag="V.N.*" postag_regexp="yes"/>
             </pattern>
             <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(.+)ar" regexp_replace="$1er"/></suggestion>?</message>
+            <short>Possible confusió</short>
             <example type="incorrect" correction="poder">No li ho va <marker>podar</marker> donar</example>
             <example type="incorrect" correction="voler">No va <marker>volar</marker>-li donar aquest gust.</example>
             <example type="correct">Vull podar perquè regar no puc fer-ho.</example>
