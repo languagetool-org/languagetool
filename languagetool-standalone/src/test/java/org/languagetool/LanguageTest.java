@@ -60,6 +60,8 @@ public class LanguageTest {
 
   @Test
   public void testGetLanguageForShortName() {
+    assertEquals("en-US", Language.getLanguageForShortName("en-us").getShortNameWithVariant());
+    assertEquals("en-US", Language.getLanguageForShortName("EN-US").getShortNameWithVariant());
     assertEquals("en-US", Language.getLanguageForShortName("en-US").getShortNameWithVariant());
     assertEquals("de", Language.getLanguageForShortName("de").getShortNameWithVariant());
     try {
@@ -70,6 +72,20 @@ public class LanguageTest {
       Language.getLanguageForShortName("YY-KK");
       fail();
     } catch (IllegalArgumentException expected) {}
+  }
+
+  @Test
+  public void testIsLanguageSupported() {
+    assertTrue(Language.isLanguageSupported("xx"));
+    assertTrue(Language.isLanguageSupported("XX"));
+    assertTrue(Language.isLanguageSupported("en-US"));
+    assertTrue(Language.isLanguageSupported("en-us"));
+    assertTrue(Language.isLanguageSupported("EN-US"));
+    assertTrue(Language.isLanguageSupported("de"));
+    assertTrue(Language.isLanguageSupported("de-DE"));
+    assertTrue(Language.isLanguageSupported("de-DE-x-simple-language"));
+    assertTrue(Language.isLanguageSupported("de-DE-x-simple-LANGUAGE"));
+    assertFalse(Language.isLanguageSupported("not-supported"));
   }
 
   @Test(expected=IllegalArgumentException.class)

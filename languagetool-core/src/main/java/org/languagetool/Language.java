@@ -427,9 +427,9 @@ public abstract class Language {
     StringTools.assureSet(langCode, "langCode");
     Language result = null;
     if (langCode.contains("-x-")) {
+      // e.g. "de-DE-x-simple-language"
       for (Language element : Language.LANGUAGES) {
-        if (element.getShortName().equals(langCode)) {
-          // e.g. "de-DE-x-simple-language"
+        if (element.getShortName().equalsIgnoreCase(langCode)) {
           return element;
         }
       }
@@ -439,16 +439,16 @@ public abstract class Language {
         throw new IllegalArgumentException("'" + langCode + "' isn't a valid language code");
       }
       for (Language element : Language.LANGUAGES) {
-        if (parts[0].equals(element.getShortName())
+        if (parts[0].equalsIgnoreCase(element.getShortName())
             && element.getCountryVariants().length == 1
-            && parts[1].equals(element.getCountryVariants()[0])) {
+            && parts[1].equalsIgnoreCase(element.getCountryVariants()[0])) {
           result = element;
           break;
         }
       }
     } else {
       for (Language element : Language.LANGUAGES) {
-        if (langCode.equals(element.getShortName())) {
+        if (langCode.equalsIgnoreCase(element.getShortName())) {
           result = element;
           break;
         }
