@@ -98,7 +98,7 @@ public final class Main {
     messages = JLanguageTool.getMessageBundle();
   }
 
-  void loadFile() {
+  private void loadFile() {
     final File file = Tools.openFileDialog(frame, new PlainTextFileFilter());
     if (file == null) {
       // user clicked cancel
@@ -150,7 +150,7 @@ public final class Main {
     }
   }
 
-  void addLanguage() {
+  private void addLanguage() {
     final LanguageManagerDialog lmd = new LanguageManagerDialog(frame, Language.getExternalLanguages());
     lmd.show();
     try {
@@ -162,7 +162,7 @@ public final class Main {
     languageBox.selectLanguage(ltSupport.getLanguageTool().getLanguage());
   }
 
-  void showOptions() {
+  private void showOptions() {
     final JLanguageTool langTool = ltSupport.getLanguageTool();
     final List<Rule> rules = langTool.getAllRules();
     final ConfigurationDialog configDialog = ltSupport.getCurrentConfigDialog();
@@ -185,7 +185,7 @@ public final class Main {
     maybeStartServer();
   }
 
-  Component getFrame() {
+  private Component getFrame() {
     return frame;
   }
 
@@ -504,12 +504,12 @@ public final class Main {
     return popup;
   }
 
-  void checkClipboardText() {
+  private void checkClipboardText() {
     final String s = getClipboardText();
     textArea.setText(s);
   }
 
-  void hideToTray() {
+  private void hideToTray() {
     if (!isInTray) {
       final SystemTray tray = SystemTray.getSystemTray();
       final String iconPath = tray.getTrayIconSize().height > 16 ? TRAY_ICON : TRAY_SMALL_ICON;
@@ -529,7 +529,7 @@ public final class Main {
     frame.setVisible(false);
   }
 
-  void tagText() {
+  private void tagText() {
     if (StringTools.isEmpty(textArea.getText().trim())) {
       textArea.setText(messages.getString("enterText2"));
       return;
@@ -552,7 +552,7 @@ public final class Main {
     }.start();
   }
 
-  void quitOrHide() {
+  private void quitOrHide() {
     if (closeHidesToTray) {
       hideToTray();
     } else {
@@ -560,7 +560,7 @@ public final class Main {
     }
   }
 
-  void quit() {
+  private void quit() {
     stopServer();
     try {
       Configuration config = ltSupport.getConfig();
