@@ -30,17 +30,18 @@ public class ElementTest extends TestCase {
     final Element element = new Element("", false, false, false);
     element.setPosElement(JLanguageTool.SENTENCE_START_TAGNAME, false, false);
     assertTrue(element.isSentStart());
+    assertTrue(element.isSentenceStart());
     element.setPosElement(JLanguageTool.SENTENCE_START_TAGNAME, false, true);
-    assertFalse(element.isSentStart());
+    assertFalse(element.isSentenceStart());
     element.setPosElement(JLanguageTool.SENTENCE_START_TAGNAME, true, false);
-    assertTrue(element.isSentStart());
+    assertTrue(element.isSentenceStart());
     element.setPosElement(JLanguageTool.SENTENCE_START_TAGNAME, true, true);
-    assertFalse(element.isSentStart());
+    assertFalse(element.isSentenceStart());
 
     //this should be false:
     final Element element2 = new Element("bla|blah", false, true, false);
     element2.setPosElement("foo", true, true);
-    assertFalse(element2.isSentStart());
+    assertFalse(element2.isSentenceStart());
   }
   
   public void testUnknownTag() {

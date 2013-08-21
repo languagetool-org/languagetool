@@ -65,7 +65,7 @@ public abstract class AbstractPatternRule extends Rule {
     this.language = Objects.requireNonNull(language, "language cannot be null");
     this.getUnified = getUnified;
     testUnification = initUnifier();
-    sentStart = patternElements.size() > 0 && patternElements.get(0).isSentStart();    
+    sentStart = patternElements.size() > 0 && patternElements.get(0).isSentenceStart();    
     if (!testUnification) {
       for (Element elem : patternElements) {
         if (elem.hasAndGroup()) {

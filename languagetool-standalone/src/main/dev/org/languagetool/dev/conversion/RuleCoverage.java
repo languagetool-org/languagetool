@@ -349,7 +349,7 @@ public class RuleCoverage {
             
             ArrayList<ArrayList<Pattern>> exceptionAttributes = getExceptionAttributes(exceptions);
 
-            if (e.isSentStart()) {
+            if (e.isSentenceStart()) {
                 return "";
             }
             // <token>word</token>
@@ -750,7 +750,7 @@ public class RuleCoverage {
     	if (e.hasAndGroup()) return false;
     	if (e.getExceptionList() != null) return false;
     	if (e.isReferenceElement()) return false;
-    	if (e.isSentStart()) return false;
+    	if (e.isSentenceStart()) return false;
     	
     	String token = e.getString();
     	String[] ors = token.split("\\|");
