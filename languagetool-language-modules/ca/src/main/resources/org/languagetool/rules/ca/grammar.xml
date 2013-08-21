@@ -3993,74 +3993,75 @@ $Id$
             <example type="correct">El llibre <marker>tracta</marker> a més a més aspectes importants de les matemàtiques</example>
         </rule> -->
         <rulegroup id="COM_A_COM" name="*com a / com">
-        	<rule>
-        		<pattern>
-	        		<marker>
-	        			<token>com</token>
-	        			<token>a</token>
-	        		</marker>
-	        		<token regexp="yes">ara|avui|hui</token>
-        		</pattern>
-        		<message>Probablement cal escriure <suggestion>com</suggestion>.</message>
-        		<url>http://esadir.cat/sintaxi/advcomcoma/view</url>
-        		<short>Possible confusió</short>
-        		<example type="incorrect" correction="com">Són persones <marker>com a</marker> ara en Joan.</example>
-				<example type="correct">És conegut com a pastisser.</example>
-			</rule>
-		</rulegroup>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>com</token>
+                        <token>a</token>
+                    </marker>
+                    <token regexp="yes">ara|avui|hui</token>
+                </pattern>
+                <message>Probablement cal escriure <suggestion>com</suggestion>.</message>
+                <url>http://esadir.cat/sintaxi/advcomcoma/view</url>
+                <short>Possible confusió</short>
+                <example type="incorrect" correction="com">Són persones <marker>com a</marker> ara en Joan.</example>
+                <example type="correct">És conegut com a pastisser.</example>
+            </rule>
+		    </rulegroup>
         <rulegroup id="COM_COM_A" name="*com / com a">
         <!-- en quins casos es poden usar tots els temps verbals, no sols el participi? -->
-        	<rule>
-        		<pattern>
-	        		<token postag="V.P.*" skip="1" postag_regexp="yes" regexp="yes" inflected="yes">figurar|reconèixer|conèixer|definir|veure|entendre|interpretar</token>
-	        		<marker>
-	        			<token>com</token>
-	        		</marker>
-	        		<token postag="[AN].*|_possible_nompropi|UNKNOWN" postag_regexp="yes"><exception>a</exception><exception inflected="yes" regexp="yes">el|un|tot</exception><exception regexp="yes">['"‘“«]</exception></token>
-        		</pattern>
-        		<message>Probablement cal escriure <suggestion>com a</suggestion>.</message>
-        		<url>http://esadir.cat/sintaxi/advcomcoma/view</url>
-        		<short>Possible error</short>
-        		<example type="incorrect" correction="com a">Francesc Sabaté Llopart, conegut <marker>com</marker> Quico Sabaté</example>
-        		<example type="incorrect" correction="com a">també conegut <marker>com</marker> baudrier</example>
-				<example type="correct">És conegut com el millor pastisser del món.</example>
-        		<example type="correct">És reconegut com un dels millors</example>
-        		<example type="correct">Conegut com "el mirador de la comtessa".</example>
-        		<example type="correct">Els amfibis són definits com tots els descendents de l'avantpassat comú.</example>
-        		<example type="correct">hem vist com es promovia una literatura</example>
-        		<example type="correct">tant des del punt de vista teòric com pràctic</example>
-        		<!-- noms coneguts com Fidel García Berlanga, Miguel de Córdova -->
-        	</rule>
-        	<rule>
-        		<pattern>
-	        		<token postag="V.P.*" skip="1" postag_regexp="yes" regexp="yes" inflected="yes">figurar|reconèixer|conèixer|definir|veure|entendre|interpretar</token>
-	        		<marker>
-	        			<token>com</token>
-	        		</marker>
-	        		<token regexp="yes">['"‘“«]</token>
-	        		<token postag="[AN].*|_possible_nompropi|UNKNOWN" postag_regexp="yes"><exception inflected="yes" regexp="yes">el|un|tot</exception></token>
-        		</pattern>
-        		<message>Probablement cal escriure <suggestion>com a</suggestion>.</message>
-        		<url>http://esadir.cat/sintaxi/advcomcoma/view</url>
-        		<short>Possible error</short>
-        		<example type="incorrect" correction="com a">Conegut <marker>com</marker> "lleonès medieval"</example>
-            <example type="correct">És conegut com "el millor pastisser del món".</example>
-        		<example type="correct">Conegut com "el mirador de la comtessa".</example>
-        	</rule>
-        	<rule>
-        		<pattern>
-	        		<marker>
-	        			<token>com<exception postag="allow_com"/></token>
-	        		</marker>
-	        		<token regexp="yes">instruments?|senyals?|exemples?|autors?|president[ae]?s?|representants?|actors?|actrius?</token>
-        		</pattern>
-        		<message>Probablement cal escriure <suggestion>com a</suggestion>.</message>
-        		<url>http://esadir.cat/sintaxi/advcomcoma/view</url>
-        		<short>Possible error</short>
-        		<example type="incorrect" correction="com a">Hi va acudir <marker>com</marker> representant del sindicat.</example>
-        		<example type="incorrect" correction="com a">Els usen <marker>com</marker> instruments de pressió.</example>
-            <example type="correct">Hi ha tant gent de l'esquerra més cultivada com representants de l'Espanya cañí.</example>
-        	</rule>
+            <rule>
+                <pattern>
+                    <token postag="V.P.*" skip="1" postag_regexp="yes" regexp="yes" inflected="yes">figurar|reconèixer|conèixer|definir|veure|entendre|interpretar|percebre</token>
+                    <marker>
+                        <token>com</token>
+                    </marker>
+                    <token postag="[AN].*|_possible_nompropi|UNKNOWN" postag_regexp="yes"><exception>a</exception><exception inflected="yes" regexp="yes">el|un|tot</exception><exception regexp="yes">['"‘“«]</exception></token>
+                </pattern>
+                <message>Probablement cal escriure <suggestion>com a</suggestion>.</message>
+                <url>http://esadir.cat/sintaxi/advcomcoma/view</url>
+                <short>Possible error</short>
+                <example type="incorrect" correction="com a">Francesc Sabaté Llopart, conegut <marker>com</marker> Quico Sabaté</example>
+                <example type="incorrect" correction="com a">també conegut <marker>com</marker> baudrier</example>
+                <example type="correct">És conegut com el millor pastisser del món.</example>
+                <example type="correct">És reconegut com un dels millors</example>
+                <example type="correct">Conegut com "el mirador de la comtessa".</example>
+                <example type="correct">Els amfibis són definits com tots els descendents de l'avantpassat comú.</example>
+                <example type="correct">hem vist com es promovia una literatura</example>
+                <example type="correct">tant des del punt de vista teòric com pràctic</example>
+                <!-- per fer: <example type="incorrect" correction="com a">El perceben <marker>com</marker> normal.</example> -->
+                <!-- noms coneguts com Fidel García Berlanga, Miguel de Córdova -->
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="V.P.*" skip="1" postag_regexp="yes" regexp="yes" inflected="yes">figurar|reconèixer|conèixer|definir|veure|entendre|interpretar|percebre</token>
+                    <marker>
+                        <token>com</token>
+                    </marker>
+                    <token regexp="yes">['"‘“«]</token>
+                    <token postag="[AN].*|_possible_nompropi|UNKNOWN" postag_regexp="yes"><exception inflected="yes" regexp="yes">el|un|tot</exception></token>
+                </pattern>
+                <message>Probablement cal escriure <suggestion>com a</suggestion>.</message>
+                <url>http://esadir.cat/sintaxi/advcomcoma/view</url>
+                <short>Possible error</short>
+                <example type="incorrect" correction="com a">Conegut <marker>com</marker> "lleonès medieval"</example>
+                <example type="correct">És conegut com "el millor pastisser del món".</example>
+                <example type="correct">Conegut com "el mirador de la comtessa".</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>com<exception postag="allow_com"/></token>
+                    </marker>
+                    <token regexp="yes">instruments?|senyals?|exemples?|autors?|president[ae]?s?|representants?|actors?|actrius?</token>
+                </pattern>
+                <message>Probablement cal escriure <suggestion>com a</suggestion>.</message>
+                <url>http://esadir.cat/sintaxi/advcomcoma/view</url>
+                <short>Possible error</short>
+                <example type="incorrect" correction="com a">Hi va acudir <marker>com</marker> representant del sindicat.</example>
+                <example type="incorrect" correction="com a">Els usen <marker>com</marker> instruments de pressió.</example>
+                <example type="correct">Hi ha tant gent de l'esquerra més cultivada com representants de l'Espanya cañí.</example>
+            </rule>
         </rulegroup>
         <rule id="PER_A_DESPRES" name="per a després">
 		    <pattern>
