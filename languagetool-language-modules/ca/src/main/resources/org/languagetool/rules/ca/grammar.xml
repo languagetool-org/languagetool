@@ -21339,16 +21339,19 @@ $Id$
                 <pattern>
                     <token inflected="yes">este<exception postag="_possible_nompropi"/></token>
                 </pattern>
-                <message>També podeu usar <suggestion><match no="1" postag="(DD.*)" postag_regexp="yes" postag_replace="$1">aquest</match></suggestion>.</message>
+                <message>Useu demostratius reforçats.</message>
+                <suggestion><match no="1" postag="(DD.*)" postag_regexp="yes" postag_replace="$1">aquest</match></suggestion>
                 <example type="incorrect" correction="Aquest"><marker>Este</marker> home</example>
-                <example type="correct">Aquesta dona</example>
-                <example type="correct">arles de Borbó i d'Àustria-Este</example>
+                <example type="incorrect" correction="Aquestes"><marker>Estes</marker> dones</example>
+                <example type="correct">Carles de Borbó i d'Àustria-Este</example>
             </rule>
             <rule id="EVITA_DEMOSTRATIUS_EIXE" name="Evita els demostratius 'eixe'">
                 <pattern>
                     <token postag="DD.*" postag_regexp="yes" inflected="yes">eixe</token>
                 </pattern>
-                <message>També podeu usar <suggestion><match no="1" postag="(DD.*)" postag_regexp="yes" postag_replace="$1">aquest</match></suggestion> o <suggestion><match no="1" postag="(DD.*)" postag_regexp="yes" postag_replace="$1">aqueix</match></suggestion>.</message>
+                <message>Useu demostratius reforçats.</message>
+                <suggestion><match no="1" postag="(DD.*)" postag_regexp="yes" postag_replace="$1">aquest</match></suggestion>
+                <suggestion><match no="1" postag="(DD.*)" postag_regexp="yes" postag_replace="$1">aqueix</match></suggestion>
                 <example type="incorrect"><marker>Eixe</marker> home</example>
                 <example type="incorrect" correction="Aquestos|Aquests|Aqueixos"><marker>Eixos</marker> homes</example>
                 <example type="correct">és formada per eixos longitudinals</example>
@@ -21357,7 +21360,8 @@ $Id$
                 <pattern>
                     <token postag="DD.*" postag_regexp="yes" inflected="yes">aquest</token>
                 </pattern>
-                <message>També podeu usar <suggestion><match no="1" postag="(DD.*)" postag_regexp="yes" postag_replace="$1">este</match></suggestion>.</message>
+                <message>Useu demostratius no reforçats.</message>
+                <suggestion><match no="1" postag="(DD.*)" postag_regexp="yes" postag_replace="$1">este</match></suggestion>
                 <example type="incorrect" correction="Estos"><marker>Aquests</marker> homes</example>
                 <example type="correct">Estes cases</example>
             </rule>  
@@ -21365,7 +21369,8 @@ $Id$
                 <pattern>
                     <token postag="DD.*" postag_regexp="yes" inflected="yes">aqueix</token>
                 </pattern>
-                <message>També podeu usar <suggestion><match no="1" postag="(DD.*)" postag_regexp="yes" postag_replace="$1">eixe</match></suggestion>.</message>
+                <message>Useu demostratius no reforçats.</message>
+                <suggestion><match no="1" postag="(DD.*)" postag_regexp="yes" postag_replace="$1">eixe</match></suggestion>
                 <example type="incorrect" correction="Eixos"><marker>Aqueixos</marker> homes</example>
                 <example type="correct">Eixes cases</example>
             </rule>
