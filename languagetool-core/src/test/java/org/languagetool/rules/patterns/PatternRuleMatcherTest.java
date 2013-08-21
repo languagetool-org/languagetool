@@ -64,7 +64,7 @@ public class PatternRuleMatcherTest {
     assertCompleteMatch("a b c", matcher);
     assertNoMatch("a X c", matcher);
     final RuleMatch[] matches = getMatches("a b c FOO a b c FOO a c a b c", matcher);
-    //...............................................^^^^^.....^^^^^.....^^^.^^^^^
+    //......................................^^^^^.....^^^^^.....^^^.^^^^^
     assertThat(matches.length, is(4));
     assertPosition(matches[0], 0, 5);
     assertPosition(matches[1], 10, 15);
