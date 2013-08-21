@@ -20268,7 +20268,10 @@ $Id$
                     </marker>
                     <token postag="VMN.*" postag_regexp="yes"/>
                 </pattern>
-                <message>Si 'que' no és comparatiu, cal escriure: <suggestion>a</suggestion>, <suggestion>per</suggestion>, <suggestion>per a</suggestion>.</message>
+                <message>Si el 'que' no és comparatiu, potser cal canviar-lo.</message>
+                <suggestion>a</suggestion>
+                <suggestion>per</suggestion>
+                <suggestion>per a</suggestion>
                 <short>Construcció incorrecta</short>
                 <example type="incorrect">no tinc res <marker>que</marker> dir</example>
                 <example type="incorrect">ell té molt <marker>que</marker> explicar</example>
@@ -20317,12 +20320,17 @@ $Id$
                         <token>que<exception postag="comparatiu|relatiu|conjuncio" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="VMN.*" postag_regexp="yes"/>
-                    <token postag="SENT_END|_PUNCT.*|comparatiu" postag_regexp="yes"/>
+                    <token postag="SENT_END|_PUNCT.*|comparatiu|SPS00" postag_regexp="yes"/>
                 </pattern>
-                <message>Si 'que' no és comparatiu, cal escriure: <suggestion>a</suggestion>, <suggestion>per</suggestion>, <suggestion>per a</suggestion>.</message>
+                <message>Si el 'que' no és comparatiu, potser cal canviar-lo.</message>
+                <suggestion>a</suggestion>
+                <suggestion>per</suggestion>
+                <suggestion>per a</suggestion>
                 <short>Construcció incorrecta</short>
                 <example type="incorrect">No tenen res millor <marker>que</marker> fer.</example>
                 <example type="incorrect">No tenen res millor <marker>que</marker> fer que anar a caçar bolets.</example>
+                <example type="incorrect">No tenen res millor <marker>que</marker> fer amb els diners.</example>
+                <!--INDECIDIBLE <example type="correct">No hi ha res millor que cantar.</example>-->
                 <example type="correct">No hi ha res millor que fer un canvi.</example>
                 <example type="correct">no hi ha res millor en aquesta vida que menjar, beure i estar content</example> 
             </rule>
