@@ -139,7 +139,7 @@ public class PatternRuleMatcherTest {
     final Element elementB = makeElement("b");
     elementB.setMinOccurrence(2);
     elementB.setMaxOccurrence(3);
-    final PatternRuleMatcher matcher = getMatcher(makeElement("a"), elementB, makeElement("c"));  // a b b+ c
+    final PatternRuleMatcher matcher = getMatcher(makeElement("a"), elementB, makeElement("c"));  // regex: a b b+ c
     assertCompleteMatch("a b b c", matcher);
     assertCompleteMatch("a b b b c", matcher);
     assertNoMatch("a c", matcher);
@@ -156,6 +156,46 @@ public class PatternRuleMatcherTest {
     assertCompleteMatch("a  b c", matcher);
     assertCompleteMatch("a  b b c", matcher);
     assertNoMatch("a b b b c", matcher);
+  }
+
+  @Test
+  @Ignore("currently fails")
+  public void testTwoMaxOccurrencesWithAnyToken() throws Exception {
+    final Element anyElement = makeElement(null);
+    anyElement.setMaxOccurrence(2);
+    final PatternRuleMatcher matcher = getMatcher(makeElement("a"), anyElement, makeElement("c"));
+    assertCompleteMatch("a b c", matcher);
+    assertCompleteMatch("a b b c", matcher);
+    assertNoMatch("a b b b c", matcher);
+  }
+
+  @Test
+  @Ignore("currently fails")
+  public void testThreeMaxOccurrencesWithAnyToken() throws Exception {
+    final Element anyElement = makeElement(null);
+    anyElement.setMaxOccurrence(3);
+    final PatternRuleMatcher matcher = getMatcher(makeElement("a"), anyElement, makeElement("c"));
+    assertCompleteMatch("a b c", matcher);
+    assertCompleteMatch("a b b c", matcher);
+    assertCompleteMatch("a b b b c", matcher);
+    assertNoMatch("a b b b b c", matcher);
+  }
+
+  @Test
+  @Ignore("currently fails")
+  public void testZeroMinTwoMaxOccurrencesWithAnyToken() throws Exception {
+    final Element anyElement = makeElement(null);
+    anyElement.setMinOccurrence(0);
+    anyElement.setMaxOccurrence(2);
+    final PatternRuleMatcher matcher = getMatcher(makeElement("a"), anyElement, makeElement("c"));
+    assertNoMatch("a b", matcher);
+    assertNoMatch("b c", matcher);
+    assertNoMatch("c", matcher);
+    assertNoMatch("a", matcher);
+    assertCompleteMatch("a c", matcher);
+    assertCompleteMatch("a x c", matcher);
+    assertCompleteMatch("a x x c", matcher);
+    assertNoMatch("a x x x c", matcher);
   }
 
   @Test
