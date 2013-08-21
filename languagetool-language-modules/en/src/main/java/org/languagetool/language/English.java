@@ -22,6 +22,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.languagetool.Language;
+import org.languagetool.chunking.Chunker;
+import org.languagetool.chunking.EnglishChunker;
 import org.languagetool.rules.CommaWhitespaceRule;
 import org.languagetool.rules.DoublePunctuationRule;
 import org.languagetool.rules.LongSentenceRule;
@@ -51,6 +53,7 @@ public class English extends Language {
   private static final Language AMERICAN_ENGLISH = new AmericanEnglish();
   
   private Tagger tagger;
+  private Chunker chunker;
   private SentenceTokenizer sentenceTokenizer;
   private Synthesizer synthesizer;
   private Disambiguator disambiguator;
@@ -89,6 +92,17 @@ public class English extends Language {
       tagger = new EnglishTagger();
     }
     return tagger;
+  }
+
+  /**
+   * @since 2.3
+   */
+  @Override
+  public Chunker getChunker() {
+    if (chunker == null) {
+      chunker = new EnglishChunker();
+    }
+    return chunker;
   }
 
   @Override
