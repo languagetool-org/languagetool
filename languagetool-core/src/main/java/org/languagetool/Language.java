@@ -225,7 +225,7 @@ public abstract class Language {
 
   /**
    * Languages that have country variants need to overwrite this to select their most common variant.
-   * @return default country variant or <code>null</code>
+   * @return default country variant or {@code null}
    * @since 1.8
    */
   public Language getDefaultVariant() {
@@ -233,14 +233,15 @@ public abstract class Language {
   }
 
   /**
-   * Get this language's part-of-speech disambiguator implementation.
+   * Get this language's part-of-speech disambiguator implementation or {@code null}.
    */
   public Disambiguator getDisambiguator() {
     return DEMO_DISAMBIGUATOR;
   }
 
   /**
-   * Get this language's part-of-speech tagger implementation.
+   * Get this language's part-of-speech tagger implementation. The tagger must not 
+   * be {@code null}, but it can be a trivial pseudo-tagger that only assigns {@code null} tags.
    */
   public Tagger getTagger() {
     return DEMO_TAGGER;
@@ -380,7 +381,7 @@ public abstract class Language {
   
   /**
    * Return all languages supported by LanguageTool.
-   * @return A list of all languages, including external ones and country variants (e.g. en-US)
+   * @return A list of all languages, including external ones and country variants (e.g. {@code en-US})
    */
   public static List<Language> getAllLanguages() {
     final List<Language> langList = new ArrayList<>();
@@ -393,7 +394,7 @@ public abstract class Language {
    * Get the Language object for the given language name.
    *
    * @param languageName e.g. <code>English</code> or <code>German</code> (case is significant)
-   * @return a Language object or <code>null</code>
+   * @return a Language object or {@code null} if there is no such language
    */
   public static Language getLanguageForName(final String languageName) {
     for (Language element : Language.LANGUAGES) {
@@ -427,9 +428,9 @@ public abstract class Language {
    * Return whether a language with the given language code is supported. Which languages
    * are supported depends on the classpath when the {@code Language} object is initialized.
    *
-   * @param langCode e.g. <code>en</code> or <code>es-US</code>
+   * @param langCode e.g. {@code en} or {@code en-US}
    * @return true if the language is supported
-   * @throws IllegalArgumentException if the language is not supported or if the language code is invalid
+   * @throws IllegalArgumentException in some cases of an invalid language code format
    * @since 2.1
    */
   public static boolean isLanguageSupported(final String langCode) {
@@ -533,9 +534,9 @@ public abstract class Language {
   
   /**
    * Get sorted info about all maintainers (without country variants) to be used in the About dialog.
-   * @since 0.9.9
    * @param messages {{@link ResourceBundle} language bundle to translate the info
    * @return A list of maintainers, sorted by name of language.
+   * @since 0.9.9
    */
   public static String getAllMaintainers(final ResourceBundle messages) {
     final StringBuilder maintainersInfo = new StringBuilder();

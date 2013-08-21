@@ -49,7 +49,7 @@ public class DemoTagger implements Tagger {
 
   @Override
   public AnalyzedTokenReadings createNullToken(String token, int startPos) {
-	  return new AnalyzedTokenReadings(new AnalyzedToken(token, null, null), startPos);
+    return new AnalyzedTokenReadings(new AnalyzedToken(token, null, null), startPos);
   }
 
   @Override

@@ -85,7 +85,13 @@ public class LanguageTest {
     assertTrue(Language.isLanguageSupported("de-DE"));
     assertTrue(Language.isLanguageSupported("de-DE-x-simple-language"));
     assertTrue(Language.isLanguageSupported("de-DE-x-simple-LANGUAGE"));
-    assertFalse(Language.isLanguageSupported("not-supported"));
+    assertFalse(Language.isLanguageSupported("yy-ZZ"));
+    assertFalse(Language.isLanguageSupported("somthing totally invalid"));
+  }
+
+  @Test(expected=IllegalArgumentException.class)
+  public void testIsLanguageSupportedInvalidCode() {
+    Language.isLanguageSupported("somthing-totally-invalid");
   }
 
   @Test(expected=IllegalArgumentException.class)
