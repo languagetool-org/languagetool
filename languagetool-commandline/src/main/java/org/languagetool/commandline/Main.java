@@ -226,39 +226,25 @@ class Main {
         br = new BufferedReader(isr);
         String line;
         int lineCount = 0;
-        while ((line = br.readLine()) != null) {
-          sb.append(line);
-          lineCount++;    
-          // to detect language from the first input line
-          if (lineCount == 1 && autoDetect) {
-            Language language = detectLanguageOfString(line);
-            if (language == null) {
-              System.err.println("Could not detect language well enough, using English");
-              language = new English();
+        if(br.ready()) {
+          while ((line = br.readLine()) != null) {
+            sb.append(line);
+            lineCount++;    
+            // to detect language from the first input line
+            if (lineCount == 1 && autoDetect) {
+              Language language = detectLanguageOfString(line);
+              if (language == null) {
+                System.err.println("Could not detect language well enough, using English");
+                language = new English();
+              }
+              System.out.println("Language used is: " + language.getName());
+              language.getSentenceTokenizer().setSingleLineBreaksMarksParagraph(
+                      singleLineBreakMarksParagraph);
+              changeLanguage(language, motherTongue, disabledRules, enabledRules);
             }
-            System.out.println("Language used is: " + language.getName());
-            language.getSentenceTokenizer().setSingleLineBreaksMarksParagraph(
-                    singleLineBreakMarksParagraph);
-            changeLanguage(language, motherTongue, disabledRules, enabledRules);
-          }
-          sb.append('\n');
-          tmpLineOffset++;
-          if (lt.getLanguage().getSentenceTokenizer().singleLineBreaksMarksPara()) {
-            matches = handleLine(matches, lineOffset, sb);
-            sentences += lt.getSentenceCount();
-            if (profileRules) {
-              sentences += lt.sentenceTokenize(sb.toString()).size();
-            }
-            if (listUnknownWords && !taggerOnly) {
-              for (String word : lt.getUnknownWords())
-                if (!unknownWords.contains(word)) {
-                  unknownWords.add(word);
-                }
-            }
-            sb = new StringBuilder();
-            lineOffset = tmpLineOffset;
-          } else {
-            if ("".equals(line) || sb.length() >= MAX_FILE_SIZE) {
+            sb.append('\n');
+            tmpLineOffset++;
+            if (lt.getLanguage().getSentenceTokenizer().singleLineBreaksMarksPara()) {
               matches = handleLine(matches, lineOffset, sb);
               sentences += lt.getSentenceCount();
               if (profileRules) {
@@ -272,9 +258,27 @@ class Main {
               }
               sb = new StringBuilder();
               lineOffset = tmpLineOffset;
+            } else {
+              if ("".equals(line) || sb.length() >= MAX_FILE_SIZE) {
+                matches = handleLine(matches, lineOffset, sb);
+                sentences += lt.getSentenceCount();
+                if (profileRules) {
+                  sentences += lt.sentenceTokenize(sb.toString()).size();
+                }
+                if (listUnknownWords && !taggerOnly) {
+                  for (String word : lt.getUnknownWords())
+                    if (!unknownWords.contains(word)) {
+                      unknownWords.add(word);
+                    }
+                }
+                sb = new StringBuilder();
+                lineOffset = tmpLineOffset;
+              }
             }
-          }
+          }  
+            
         }
+        
       } finally {
         if (sb.length() > 0) {
           matches = handleLine(matches, tmpLineOffset - 1, sb);
