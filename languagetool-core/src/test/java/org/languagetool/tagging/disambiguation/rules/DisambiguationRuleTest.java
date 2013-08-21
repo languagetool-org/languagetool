@@ -29,7 +29,12 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import junit.framework.TestCase;
 
-import org.languagetool.*;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.TestTools;
+import org.languagetool.XMLValidator;
 import org.languagetool.rules.patterns.PatternTestTools;
 import org.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
 import org.languagetool.tagging.disambiguation.xx.TrimDisambiguator;
@@ -169,7 +174,7 @@ public class DisambiguationRuleTest extends TestCase {
             }
             if (readings.getStartPos() == expectedMatchStart) {
               final AnalyzedTokenReadings r[] = { readings };
-              reading = new AnalyzedSentence(r).toString();
+              reading = new AnalyzedSentence(r).toShortString(",");
               annotations = readings.getHistoricalAnnotations();
               assertTrue(
                   "Wrong marker position in the example for the rule " + id,
@@ -188,7 +193,7 @@ public class DisambiguationRuleTest extends TestCase {
             }
             if (readings.getStartPos() == expectedMatchStart) {
               final AnalyzedTokenReadings r[] = { readings };
-              reading = new AnalyzedSentence(r).toString();
+              reading = new AnalyzedSentence(r).toShortString(",");
               assertTrue(readings.getStartPos() == expectedMatchStart
                   && readings.getStartPos() + readings.getToken().length() == expectedMatchEnd);
               break;

@@ -20,6 +20,9 @@ package org.languagetool;
 
 import java.util.Objects;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.languagetool.chunking.ChunkTag;
+
 /**
  * A word (or punctuation, or whitespace) and its part-of-speech tag.
  * 
@@ -39,6 +42,8 @@ public class AnalyzedToken {
   private boolean isWhitespaceBefore;
   
   private boolean hasNoPOSTag;
+
+  private ChunkTag chunkTag;
 
   public AnalyzedToken(final String token, final String posTag, final String lemma) {
     this.token = Objects.requireNonNull(token, "token cannot be null");
@@ -70,6 +75,21 @@ public class AnalyzedToken {
   }
 
   /**
+   * @return the chunk tag or {@code null}
+   * @since 2.3
+   */
+  public final ChunkTag getChunkTag() {
+    return chunkTag;
+  }
+
+  /**
+   * @since 2.3
+   */
+  public final void setChunkTag(final ChunkTag chunkTag) {
+    this.chunkTag = chunkTag;
+  }
+
+  /**
    * Like {@link #getLemma()}, but returns the token if the lemma is {@code null}
    */
   public final String getTokenInflected() {
@@ -87,7 +107,7 @@ public class AnalyzedToken {
   
   /**
    * @param an AnalyzedToken to test
-   * @return true if all of the non-null values (lemma, POS, token) of AnalyzedToken match this token
+   * @return true if all of the non-null values (lemma, POS, token, chunk) of AnalyzedToken match this token
    * @since 1.5
    */
   public final boolean matches(final AnalyzedToken an) {
@@ -108,6 +128,9 @@ public class AnalyzedToken {
     }
     if (an.getPOSTag() != null) {
       found &= an.getPOSTag().equals(this.posTag);
+    }
+    if (an.getChunkTag() != null) {
+      found &= an.getChunkTag().equals(this.chunkTag);
     }
     return found;
   }
@@ -131,6 +154,19 @@ public class AnalyzedToken {
     hasNoPOSTag = noTag;
   }
   
+  /**
+   * Like {@link #toString()} but with chunk information.
+   * @since 2.3
+   */
+  public String toFullString() {
+    final StringBuilder sb = new StringBuilder();
+    sb.append(toString());
+    if (chunkTag != null) {
+      sb.append('/').append(chunkTag);
+    }
+    return sb.toString();
+  }
+
   @Override
   public String toString() {
     final StringBuilder sb = new StringBuilder();
@@ -149,47 +185,25 @@ public class AnalyzedToken {
     result = prime * result + ((lemma == null) ? 0 : lemma.hashCode());
     result = prime * result + ((posTag == null) ? 0 : posTag.hashCode());    
     result = prime * result + ((token == null) ? 0 : token.hashCode());
+    result = prime * result + ((chunkTag == null) ? 0 : chunkTag.hashCode());
     return result;
   }
 
   @Override
   public final boolean equals(final Object obj) {
-    // TODO: use Apache Commons Lang EqualsBuilder
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null) {
+    if (obj == null) { return false; }
+    if (obj == this) { return true; }
+    if (obj.getClass() != getClass()) {
       return false;
     }
-    if (getClass() != obj.getClass()) {
-      return false;
-    }
-    final AnalyzedToken other = (AnalyzedToken) obj;
-    if (isWhitespaceBefore != other.isWhitespaceBefore) {
-      return false;
-    }
-    if (lemma == null) {
-      if (other.lemma != null) {
-        return false;
-      }
-    } else if (!lemma.equals(other.lemma)) {
-      return false;
-    }
-    if (posTag == null) {
-      if (other.posTag != null) {
-        return false;
-      }
-    } else if (!posTag.equals(other.posTag)) {
-      return false;
-    }    
-    if (token == null) {
-      if (other.token != null) {
-        return false;
-      }
-    } else if (!token.equals(other.token)) {
-      return false;
-    }
-    return true;
+    final AnalyzedToken rhs = (AnalyzedToken) obj;
+    return new EqualsBuilder()
+            .append(token, rhs.token)
+            .append(posTag, rhs.posTag)
+            .append(lemma, rhs.lemma)
+            .append(chunkTag, rhs.chunkTag)
+            .append(isWhitespaceBefore, rhs.isWhitespaceBefore)
+            .isEquals();
   }
 
 }

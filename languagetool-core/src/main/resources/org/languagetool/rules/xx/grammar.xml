@@ -122,6 +122,15 @@ $Id$
       <example type="correct">This is <marker>fuu bah</marker>.</example>
       <example correction="foo fuu bah" type="incorrect">This is <marker>foo bar</marker>.</example>
     </rule>
+    <rule id="DEMO_CHUNK_RULE" name="Rule with chunk attribute">
+      <pattern case_sensitive="no">
+        <token>foo</token>
+        <token chunk="B-NP-singular"></token>
+      </pattern>
+      <message>Did you mean <suggestion>foo bar</suggestion>?</message>
+      <example type="correct">This is <marker>foo bar</marker>.</example>
+      <example type="incorrect">This is <marker>foo chunkbar</marker>.</example>
+    </rule>
     <rule id="API_OUTPUT_TEST_RULE" name="Find 'foo bar'">
       <pattern case_sensitive="no">
         <token>ach</token>

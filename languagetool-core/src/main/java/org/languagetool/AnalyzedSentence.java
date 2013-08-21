@@ -106,7 +106,22 @@ public class AnalyzedSentence {
     return toString(",");
   }
 
-  public final String toString(String posTagDelimiter) {
+  /**
+   * Return string representation without chunk information.
+   * @since 2.3
+   */
+  public final String toShortString(String readingDelimiter) {
+    return toString(readingDelimiter, false);
+  }
+
+  /**
+   * Return string representation with chunk information.
+   */
+  public final String toString(String readingDelimiter) {
+    return toString(readingDelimiter, true);
+  }
+
+  private String toString(String readingDelimiter, boolean includeChunks) {
     final StringBuilder sb = new StringBuilder();
     for (final AnalyzedTokenReadings element : tokens) {
       if (!element.isWhitespace()) {
@@ -129,9 +144,13 @@ public class AnalyzedSentence {
           sb.append(element.getAnalyzedToken(j).getToken());
         } else {
           if (!element.isWhitespace()) {
-            sb.append(element.getAnalyzedToken(j));
+            if (includeChunks) {
+              sb.append(element.getAnalyzedToken(j).toFullString());
+            } else {
+              sb.append(element.getAnalyzedToken(j).toString());
+            }
             if (j < element.getReadingsLength() - 1) {
-              sb.append(posTagDelimiter);
+              sb.append(readingDelimiter);
             }
           }
         }

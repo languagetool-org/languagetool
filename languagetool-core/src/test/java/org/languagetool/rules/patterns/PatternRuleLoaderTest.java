@@ -26,6 +26,7 @@ import java.util.Set;
 import junit.framework.TestCase;
 
 import org.languagetool.JLanguageTool;
+import org.languagetool.chunking.ChunkTag;
 import org.languagetool.rules.IncorrectExample;
 import org.languagetool.rules.Rule;
 
@@ -62,6 +63,12 @@ public class PatternRuleLoaderTest extends TestCase {
     assertEquals(2, categories.size());
     assertTrue(categories.contains("misc"));
     assertTrue(categories.contains("otherCategory"));
+
+    final PatternRule demoRuleWithChunk = (PatternRule) getRuleById("DEMO_CHUNK_RULE", rules);
+    final List<Element> elements = demoRuleWithChunk.getElements();
+    assertEquals(2, elements.size());
+    assertEquals(null, elements.get(1).getPOStag());
+    assertEquals(new ChunkTag("B-NP-singular"), elements.get(1).getChunkTag());
   }
 
   private Set<String> getCategoryNames(List<PatternRule> rules) {

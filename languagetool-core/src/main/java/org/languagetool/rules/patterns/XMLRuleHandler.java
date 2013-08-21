@@ -25,6 +25,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.languagetool.Language;
+import org.languagetool.chunking.ChunkTag;
 import org.languagetool.rules.IncorrectExample;
 import org.languagetool.tools.StringTools;
 import org.xml.sax.Attributes;
@@ -71,6 +72,7 @@ public class XMLRuleHandler extends DefaultHandler {
   protected boolean tokenSpaceBefore;
   protected boolean tokenSpaceBeforeSet;
   protected String posToken;
+  protected ChunkTag chunkTag;
   protected boolean posNegation;
   protected boolean posRegExp;
 
@@ -148,6 +150,7 @@ public class XMLRuleHandler extends DefaultHandler {
   /** Definitions of values in XML files. */
   protected static final String YES = "yes";
   protected static final String POSTAG = "postag";
+  protected static final String CHUNKTAG = "chunk";
   protected static final String POSTAG_REGEXP = "postag_regexp";
   protected static final String REGEXP = "regexp";
   protected static final String NEGATE = "negate";
@@ -448,6 +451,9 @@ public class XMLRuleHandler extends DefaultHandler {
       posRegExp = YES.equals(attrs.getValue(POSTAG_REGEXP));
       posNegation = YES.equals(attrs.getValue(NEGATE_POS));       
     }
+    if (attrs.getValue(CHUNKTAG) != null) {
+      chunkTag = new ChunkTag(attrs.getValue(CHUNKTAG));
+    }
     regExpression = YES.equals(attrs.getValue(REGEXP));
     
     if (attrs.getValue(SPACEBEFORE) != null) {
@@ -529,6 +535,10 @@ public class XMLRuleHandler extends DefaultHandler {
     if (posToken != null) {
       tokenElement.setPosElement(posToken, posRegExp, posNegation);
       posToken = null;
+    }
+    if (chunkTag != null) {
+      tokenElement.setChunkElement(chunkTag);
+      chunkTag = null;
     }
 
     if (tokenReference != null) {

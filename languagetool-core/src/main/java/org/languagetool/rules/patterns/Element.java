@@ -28,6 +28,7 @@ import java.util.regex.Pattern;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
+import org.languagetool.chunking.ChunkTag;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tools.StringTools;
 
@@ -49,6 +50,7 @@ public class Element implements Cloneable {
 
   private String stringToken;
   private String posToken;
+  private ChunkTag chunkToken;
   private boolean posRegExp;
   private boolean negation;
   private boolean posNegation;
@@ -137,9 +139,12 @@ public class Element implements Cloneable {
     final boolean matched;
     if (testString) {
       matched = (isStringTokenMatched(token) ^ negation)
-          && (isPosTokenMatched(token) ^ posNegation);
+          && (isPosTokenMatched(token) ^ posNegation)
+          && isChunkTokenMatched(token);
     } else {
-      matched = (!negation) && (isPosTokenMatched(token) ^ posNegation);
+      matched = (!negation)
+          && (isPosTokenMatched(token) ^ posNegation)
+          && isChunkTokenMatched(token);
     }
     return matched;
   }
@@ -302,6 +307,13 @@ public class Element implements Cloneable {
     }
   }
 
+  /**
+   * @since 2.3
+   */
+  public final void setChunkElement(final ChunkTag chunkTag) {
+    this.chunkToken = chunkTag;
+  }
+
   public final String getString() {
     return stringToken;
   }
@@ -395,11 +407,25 @@ public class Element implements Cloneable {
   }
 
   /**
+   * Tests if a chunk matches.
+   *
+   * @param token Token to test.
+   * @return true if matches
+   */
+  private boolean isChunkTokenMatched(final AnalyzedToken token) {
+    if (chunkToken == null) {
+      // if no chunk required, default to true
+      return true;
+    }
+    return chunkToken.equals(token.getChunkTag());
+  }
+
+  /**
    * Tests whether the string token element matches a given token.
    * @param token {@link AnalyzedToken} to match against.
    * @return True if matches.
    */
-  private boolean isStringTokenMatched(final AnalyzedToken token) {
+  boolean isStringTokenMatched(final AnalyzedToken token) {
     final String testToken = getTestToken(token);
     if (stringRegExp) {
       final Matcher m = p.matcher(testToken);
@@ -612,11 +638,19 @@ public class Element implements Cloneable {
   }
 
   /**
-   * @return the POS of the Element
+   * @return the POS of the Element or {@code null}
    * @since 0.9.6
    */
   public final String getPOStag() {
     return posToken;
+  }
+
+  /**
+   * @return the chunk tag of the Element or {@code null}
+   * @since 2.3
+   */
+  public final ChunkTag getChunkTag() {
+    return chunkToken;
   }
 
   /**

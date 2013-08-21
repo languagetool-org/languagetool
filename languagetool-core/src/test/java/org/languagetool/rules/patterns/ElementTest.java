@@ -23,6 +23,7 @@ import junit.framework.TestCase;
 
 import org.languagetool.AnalyzedToken;
 import org.languagetool.JLanguageTool;
+import org.languagetool.chunking.ChunkTag;
 
 public class ElementTest extends TestCase {
 
@@ -122,6 +123,28 @@ public class ElementTest extends TestCase {
     assertFalse(element3.isMatched(anWithPOS));
     assertTrue(element4.isMatched(anWithPOS)); 
     assertFalse(element5.isMatched(anWithPOS));
+  }
+
+  public void testMatchDoesNotRequireChunk() {
+    Element element = new Element("token", false, false, false);
+    assertTrue(element.isMatched(makeToken("token", "pos", "lemma", null)));
+    assertTrue(element.isMatched(makeToken("token", "pos", "lemma", "chunk1")));
+  }
+
+  public void testMatchRequiresChunk() {
+    Element element = new Element("token", false, false, false);
+    element.setChunkElement(new ChunkTag("chunk1"));
+    assertTrue(element.isMatched(makeToken("token", "pos", "lemma", "chunk1")));
+    assertFalse(element.isMatched(makeToken("token", "pos", "lemma", "chunk2")));
+    assertFalse(element.isMatched(makeToken("token", "pos", "lemma", null)));
+  }
+
+  private AnalyzedToken makeToken(String token, String pos, String lemma, String chunk) {
+    AnalyzedToken analyzedToken = new AnalyzedToken(token, pos, lemma);
+    if (chunk != null) {
+      analyzedToken.setChunkTag(new ChunkTag(chunk));
+    }
+    return analyzedToken;
   }
   
 }

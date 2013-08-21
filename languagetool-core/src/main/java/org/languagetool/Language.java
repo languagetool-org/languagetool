@@ -18,6 +18,7 @@
  */
 package org.languagetool;
 
+import org.languagetool.chunking.Chunker;
 import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.language.Contributor;
 import org.languagetool.language.Demo;
@@ -260,7 +261,15 @@ public abstract class Language {
   }
 
   /**
-   * Get this language's part-of-speech synthesizer implementation or <code>null</code>.
+   * Get this language's chunker implementation or {@code null}.
+   * @since 2.3
+   */
+  public Chunker getChunker() {
+    return null;
+  }
+
+  /**
+   * Get this language's part-of-speech synthesizer implementation or {@code null}.
    */
   public Synthesizer getSynthesizer() {
     return null;

@@ -41,6 +41,7 @@ import java.util.jar.Manifest;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.languagetool.chunking.Chunker;
 import org.languagetool.databroker.DefaultResourceDataBroker;
 import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.rules.Category;
@@ -121,6 +122,7 @@ public class JLanguageTool {
   private Tagger tagger;
   private Tokenizer sentenceTokenizer;
   private Tokenizer wordTokenizer;
+  private Chunker chunker;
 
   private PrintStream printStream;
 
@@ -186,6 +188,7 @@ public class JLanguageTool {
     tagger = language.getTagger();
     sentenceTokenizer = language.getSentenceTokenizer();
     wordTokenizer = language.getWordTokenizer();
+    chunker = language.getChunker();
   }
   
   /**
@@ -780,6 +783,9 @@ public class JLanguageTool {
     }
     
     final List<AnalyzedTokenReadings> aTokens = tagger.tag(tokens);
+    if (chunker != null) {
+      chunker.addChunkTags(aTokens);
+    }
     final int numTokens = aTokens.size();
     int posFix = 0; 
     for (int i = 1; i < numTokens; i++) {

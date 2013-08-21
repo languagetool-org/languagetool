@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.Locale;
 
 import org.languagetool.Language;
+import org.languagetool.chunking.Chunker;
+import org.languagetool.chunking.xx.DemoChunker;
 import org.languagetool.rules.Rule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.xx.DemoTagger;
@@ -32,6 +34,7 @@ public class Demo extends Language {
   public static final String SHORT_NAME = "xx";
   
   private Tagger tagger;
+  private Chunker chunker;
 
   @Override
   public Locale getLocale() {
@@ -59,6 +62,17 @@ public class Demo extends Language {
       tagger = new DemoTagger();
     }
     return tagger;
+  }
+
+  /**
+   * @since 2.3
+   */
+  @Override
+  public Chunker getChunker() {
+    if (chunker == null) {
+      chunker = new DemoChunker();
+    }
+    return chunker;
   }
 
   @Override

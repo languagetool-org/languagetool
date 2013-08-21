@@ -151,6 +151,18 @@
 				default="no" />
 			<xs:attribute name="regexp" type="binaryYesNo" use="optional"
 				default="no" />
+			<xs:attribute name="chunk" use="optional">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<!-- start of noun phrases: -->
+						<xs:enumeration value="B-NP-singular" />
+						<xs:enumeration value="B-NP-plural" />
+						<!-- inside noun phrases: -->
+						<xs:enumeration value="I-NP-singular" />
+						<xs:enumeration value="I-NP-plural" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
 			<xs:attribute name="spacebefore" use="optional" default="ignore">
 				<xs:simpleType>
 					<xs:restriction base="xs:NMTOKEN">
