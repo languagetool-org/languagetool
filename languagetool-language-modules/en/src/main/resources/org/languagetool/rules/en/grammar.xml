@@ -9289,6 +9289,18 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
 
     </category>
     <category name="Commonly Confused Words" type="misspelling">
+        <rule id="THROUGH_THOROUGH" name="a through(thorough) discussion etc.">
+            <pattern>
+                <token>a</token>
+                <marker>
+                    <token>through</token>
+                </marker>
+                <token postag="NN.*" postag_regexp="yes"/>
+            </pattern>
+            <message>Did you mean <suggestion>thorough</suggestion> (accurate, exhaustive)?</message>
+            <example type="incorrect" correction="thorough">The manual does not have a <marker>through</marker> discussion of the topic.</example>
+            <example type="correct">The manual does not have a <marker>thorough</marker> discussion of the topic.</example>
+        </rule>
         <rule id="WAS_WANDERING_IF" name="I was wandering (wondering) if">
             <pattern>
                 <token regexp="yes">am|was|is|been</token>
