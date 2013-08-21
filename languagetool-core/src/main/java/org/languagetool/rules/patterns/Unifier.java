@@ -332,25 +332,21 @@ public class Unifier {
    * Usage note: to test if the sequence of tokens is unified (i.e.,
    * shares a group of features, such as the same gender, number,
    * grammatical case etc.), you need to test all tokens but the last one 
-   * in the following way: call {@link #isUnified} for every reading of a token,
-   * and set lastreading to <code>true</code>. For the last token, check the
+   * in the following way: call {@code isUnified()} for every reading of a token,
+   * and set {@code lastReading} to {@code true}. For the last token, check the
    * truth value returned by this method. In previous cases, it may actually be
    * discarded before the final check. See {@link AbstractPatternRule} for 
    * an example. <p/>
    * 
-   * To make it work in XML rules, the Elements built based on <code>&lt;token&gt;</code>s inside
-   * the unify block, have to be processed in a special way: namely the last Element has to be
+   * To make it work in XML rules, the Elements built based on {@code <token>}s inside
+   * the unify block have to be processed in a special way: namely the last Element has to be
    * marked as the last one (by using {@link Element#setLastInUnification}).
    * 
-   * @param matchToken
-   *          {@link AnalyzedToken} token to unify
-   * @param lastReading
-   *          true when the matchToken is the last reading in the
-   *          {@link AnalyzedTokenReadings}
-   * @param isMatched     
-   *          true if the reading matches the element in the pattern rule,
-   *          otherwise the reading is not considered in the unification    
-   * @return True if the tokens in the sequence are unified.
+   * @param matchToken {@link AnalyzedToken} token to unify
+   * @param lastReading true when the matchToken is the last reading in the {@link AnalyzedTokenReadings}
+   * @param isMatched true if the reading matches the element in the pattern rule,
+   *          otherwise the reading is not considered in the unification
+   * @return true if the tokens in the sequence are unified
    */
   public final boolean isUnified(final AnalyzedToken matchToken,
       final Map<String, List<String>> uFeatures, final boolean lastReading, final boolean isMatched) {

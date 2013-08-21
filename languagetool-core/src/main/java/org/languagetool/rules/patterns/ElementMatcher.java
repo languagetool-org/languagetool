@@ -103,7 +103,7 @@ public class ElementMatcher {
    * Doesn't test exceptions.
    *
    * Works as logical AND operator only if preceded with
-   * {@link #setupAndGroup()}, and followed by {@link #checkAndGroup(boolean)}
+   * {@link #prepareAndGroup(int, org.languagetool.AnalyzedTokenReadings[], org.languagetool.Language)}, and followed by {@link #checkAndGroup(boolean)}
    *
    * @param token the token checked.
    */
