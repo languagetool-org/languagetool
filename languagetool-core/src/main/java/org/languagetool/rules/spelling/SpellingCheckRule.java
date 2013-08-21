@@ -108,7 +108,7 @@ public abstract class SpellingCheckRule extends Rule {
   }
 
   protected boolean ignoreToken(AnalyzedTokenReadings[] tokens, int idx) throws IOException {
-  	return ignoreWord(tokens[idx].getToken());
+    return ignoreWord(tokens[idx].getToken());
   }
 
   /**
@@ -119,7 +119,7 @@ public abstract class SpellingCheckRule extends Rule {
     if (!considerIgnoreWords) {
       return false;
     }
-    if(!wordsWithDotsPresent) {
+    if (!wordsWithDotsPresent) {
       // TODO?: this is needed at least for German as Hunspell tokenization includes the dot:
       word = word.endsWith(".") ? word.substring(0, word.length() - 1) : word;
     }
@@ -148,10 +148,8 @@ public abstract class SpellingCheckRule extends Rule {
   }
 
   private void loadWordsToBeIgnored(String ignoreFile) throws IOException {
-    final InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(ignoreFile);
-    try {
-      final Scanner scanner = new Scanner(inputStream, "utf-8");
-      try {
+    try (InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(ignoreFile)) {
+      try (Scanner scanner = new Scanner(inputStream, "utf-8")) {
         while (scanner.hasNextLine()) {
           final String line = scanner.nextLine();
           final boolean isComment = line.startsWith("#");
@@ -169,11 +167,7 @@ public abstract class SpellingCheckRule extends Rule {
             wordsWithDotsPresent = true;
           }
         }
-      } finally {
-        scanner.close();
       }
-    } finally {
-      inputStream.close();
     }
   }
 

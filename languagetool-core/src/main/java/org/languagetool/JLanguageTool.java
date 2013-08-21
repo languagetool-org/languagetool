@@ -388,19 +388,19 @@ public class JLanguageTool {
     addIgnoreWords(suggestionTokens, allActiveRules);
   }
 
-  private void addIgnoreWords(List<String> suggestionTokens, List<Rule> allActiveRules) {
+  private void addIgnoreWords(List<String> ignoreWords, List<Rule> allActiveRules) {
     for (Rule activeRule : allActiveRules) {
       if (activeRule instanceof SpellingCheckRule) {
-        ((SpellingCheckRule)activeRule).addIgnoreTokens(suggestionTokens);
+        ((SpellingCheckRule)activeRule).addIgnoreTokens(ignoreWords);
       }
     }
   }
 
-  private void setIgnoreWords(List<String> suggestionTokens, List<Rule> allActiveRules) {
+  private void setIgnoreWords(List<String> ignoreWords, List<Rule> allActiveRules) {
     for (Rule activeRule : allActiveRules) {
       if (activeRule instanceof SpellingCheckRule) {
         ((SpellingCheckRule)activeRule).resetIgnoreTokens();
-        ((SpellingCheckRule)activeRule).addIgnoreTokens(suggestionTokens);
+        ((SpellingCheckRule)activeRule).addIgnoreTokens(ignoreWords);
       }
     }
   }
