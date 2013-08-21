@@ -5946,17 +5946,19 @@ $Id$
         <rule id="ALA_A_LA" name="*ala ciutat/a la ciutat">
             <pattern>
                 <marker>
-                    <token>ala</token>
+                    <token regexp="yes">[ae]la</token>
                 </marker>
                 <token postag="NCFS.*" postag_regexp="yes"><exception postag="AQ.[FC][SN].*|V.P.*SF.?" postag_regexp="yes"/><exception>delta</exception></token>
             </pattern>
             <message>¿Volíeu dir <suggestion>a la</suggestion>?</message>
+            <suggestion>la</suggestion>
             <short>Possible confusió</short>
-            <example type="incorrect" correction="a la"><marker>ala</marker> ciutat</example>
+            <example type="incorrect" correction="a la|la"><marker>ala</marker> ciutat</example>
             <example type="incorrect">és situat <marker>ala</marker> zona septentrional de la comarca</example>
             <example type="incorrect">resistència <marker>ala</marker> cisalla,</example>
             <example type="incorrect">En occità com <marker>ala</marker> resta de llengües romàniques</example>
             <example type="incorrect">es troba <marker>ala</marker> façana sud </example>
+            <example type="incorrect">sobre <marker>ela</marker> taxa de capitalització</example>
             <example type="correct">són, ells, ala dreta dels socialistes</example>
             <example type="correct">són ala dreta dels socialistes</example>
             <example type="correct">ala delta</example>
