@@ -93,7 +93,7 @@ public final class Main {
   private UndoRedoSupport undoRedo;
   private long startTime;
   
-  private Main() throws IOException {
+  private Main() {
     LanguageIdentifierTools.addLtProfiles();
     messages = JLanguageTool.getMessageBundle();
   }
@@ -717,41 +717,37 @@ public final class Main {
   
   public static void main(final String[] args) {
     JnaTools.setBugWorkaroundProperty();
-    try {
-      final Main prg = new Main();
-      if (args.length == 1 && (args[0].equals("-t") || args[0].equals("--tray"))) {
-        // dock to systray on startup
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-          @Override
-          public void run() {
-            try {
-              prg.createGUI();
-              prg.setTrayMode(true);
-              prg.hideToTray();
-            } catch (Exception e) {
-              Tools.showError(e);
-              System.exit(1);
-            }
+    final Main prg = new Main();
+    if (args.length == 1 && (args[0].equals("-t") || args[0].equals("--tray"))) {
+      // dock to systray on startup
+      javax.swing.SwingUtilities.invokeLater(new Runnable() {
+        @Override
+        public void run() {
+          try {
+            prg.createGUI();
+            prg.setTrayMode(true);
+            prg.hideToTray();
+          } catch (Exception e) {
+            Tools.showError(e);
+            System.exit(1);
           }
-        });
-      } else if (args.length >= 1) {
-        System.out.println("Usage: java org.languagetool.gui.Main [-t|--tray]");
-        System.out.println("  -t, --tray: dock LanguageTool to system tray on startup");
-      } else {
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-          @Override
-          public void run() {
-            try {
-              prg.createGUI();
-              prg.showGUI();
-            } catch (Exception e) {
-              Tools.showError(e);
-            }
+        }
+      });
+    } else if (args.length >= 1) {
+      System.out.println("Usage: java org.languagetool.gui.Main [-t|--tray]");
+      System.out.println("  -t, --tray: dock LanguageTool to system tray on startup");
+    } else {
+      javax.swing.SwingUtilities.invokeLater(new Runnable() {
+        @Override
+        public void run() {
+          try {
+            prg.createGUI();
+            prg.showGUI();
+          } catch (Exception e) {
+            Tools.showError(e);
           }
-        });
-      }
-    } catch (Exception e) {
-      Tools.showError(e);
+        }
+      });
     }
   }
 
