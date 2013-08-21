@@ -695,7 +695,7 @@ class LanguageToolSupport {
       t.start = match.getFromPos();
       t.end = match.getToPos();
       t.msg = (match.getShortMessage() != null && !match.getShortMessage().isEmpty()) ? match.getShortMessage() : match.getMessage();
-      t.msg = shortenComment(t.msg);
+      t.msg = org.languagetool.gui.Tools.shortenComment(t.msg);
       t.desc = match.getMessage();
       t.replacement = new ArrayList();
       t.replacement.addAll(match.getSuggestedReplacements());
@@ -718,7 +718,7 @@ class LanguageToolSupport {
       t.start = match.getFromPos();
       t.end = match.getToPos();
       t.msg = (match.getShortMessage() != null && !match.getShortMessage().isEmpty()) ? match.getShortMessage() : match.getMessage();
-      t.msg = shortenComment(t.msg);
+      t.msg = org.languagetool.gui.Tools.shortenComment(t.msg);
       t.desc = match.getMessage();
       t.replacement = new ArrayList();
       t.replacement.addAll(match.getSuggestedReplacements());
@@ -732,29 +732,6 @@ class LanguageToolSupport {
     ruleMatches.addAll(matches);
     documentSpans.addAll(spans);
     updateHighlights();
-  }
-
-  // TODO: move to common
-  private String shortenComment(String comment) {
-    final int maxCommentLength = 100;
-    if (comment.length() > maxCommentLength) {
-      // if there is text in brackets, drop it (beginning at the end)
-      while (comment.lastIndexOf(" [") > 0
-              && comment.lastIndexOf("]") > comment.lastIndexOf(" [")
-              && comment.length() > maxCommentLength) {
-        comment = comment.substring(0, comment.lastIndexOf(" [")) + comment.substring(comment.lastIndexOf("]") + 1);
-      }
-      while (comment.lastIndexOf(" (") > 0
-              && comment.lastIndexOf(")") > comment.lastIndexOf(" (")
-              && comment.length() > maxCommentLength) {
-        comment = comment.substring(0, comment.lastIndexOf(" (")) + comment.substring(comment.lastIndexOf(")") + 1);
-      }
-      // in case it's still not short enough, shorten at the end
-      if (comment.length() > maxCommentLength) {
-        comment = comment.substring(0, maxCommentLength - 1) + "…";
-      }
-    }
-    return comment;
   }
 
   private void updateHighlights() {

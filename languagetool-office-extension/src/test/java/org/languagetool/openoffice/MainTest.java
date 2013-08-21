@@ -51,21 +51,5 @@ public class MainTest extends TestCase {
     assertEquals(24, paRes2.nStartOfNextSentencePosition);
     assertEquals(0, paRes2.nStartOfSentencePosition);
   }
-  
-  public void testShortenComment() {
-    final Main prog = new Main(null);
-    final String testString = "Lorem ipsum dolor sit amet, consectetur (adipisici elit), sed eiusmod tempor incidunt.";
-    final String testStringShortened = "Lorem ipsum dolor sit amet, consectetur (adipisici elit), sed eiusmod tempor incidunt.";
-    final String testLongString = "Lorem ipsum dolor sit amet, consectetur (adipisici elit), sed eiusmod tempor incidunt ut labore (et dolore magna aliqua).";
-    final String testLongStringShortened = "Lorem ipsum dolor sit amet, consectetur (adipisici elit), sed eiusmod tempor incidunt ut labore.";
-    final String testVeryLongString = "Lorem ipsum dolor sit amet, consectetur (adipisici elit), sed eiusmod (tempor incidunt [ut labore et dolore magna aliqua]).";
-    final String testVeryLongStringShortened = "Lorem ipsum dolor sit amet, consectetur (adipisici elit), sed eiusmod (tempor incidunt).";
-    final String shortenedString = prog.shortenComment(testString);
-    assertEquals(testStringShortened, shortenedString);
-    final String shortenedLongString = prog.shortenComment(testLongString);
-    assertEquals(testLongStringShortened, shortenedLongString);
-    final String shortenedVeryLongString = prog.shortenComment(testVeryLongString);
-    assertEquals(testVeryLongStringShortened, shortenedVeryLongString);
-  }
 
 }
