@@ -931,7 +931,6 @@ public class JLanguageTool {
                 checkAnalyzedSentence(paraMode, rules, charCount, lineCount,
                         columnCount, sentence, analyzedSentence);
 
-        Collections.sort(sentenceMatches);
         ruleMatches.addAll(sentenceMatches);
         charCount += sentence.length();
         lineCount += countLineBreaks(sentence);
