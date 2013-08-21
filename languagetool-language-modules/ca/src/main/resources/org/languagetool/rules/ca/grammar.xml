@@ -3090,24 +3090,6 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <marker>
-                        <token>un</token>
-                        <token>tant</token>
-                    </marker>
-                    <token postag="AQ.*|V.P.*" postag_regexp="yes"/>
-                </pattern>
-                <message>Expressió incorrecta.</message>
-                <suggestion>una mica</suggestion>
-                <suggestion>més o menys</suggestion>
-                <suggestion>més aviat</suggestion>
-                <suggestion>poc o molt</suggestion>
-                <suggestion>un pèl</suggestion>
-                <short>Expressió incorrecta</short>
-                <example type="incorrect">Una qüestió <marker>un tant</marker> particular.</example>
-                <example type="correct">Una qüestió una mica particular.</example>
-            </rule>
-            <rule>
-                <pattern>
                     <token>tan</token>
                     <token>punt</token>
                 </pattern>
@@ -3120,7 +3102,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token negate="yes">per</token>
+                    <token><exception regexp="yes">per|un</exception></token>
                     <marker>
                         <token>tant<exception postag="allow_tant|.*LOC_ADV.*" postag_regexp="yes"/></token>
                     </marker>
@@ -3140,7 +3122,7 @@ $Id$
             <!-- mots que probablement són adjectius, 
                  o que probablement requereixen "tan" (encara que vagin seguits per "com") -->
                 <pattern>
-                    <token><exception>per</exception></token>
+                    <token><exception regexp="yes">per|un</exception></token>
                     <marker>
                         <token>tant<exception postag=".*LOC_ADV.*" postag_regexp="yes"/></token>
                     </marker>
@@ -12298,6 +12280,7 @@ $Id$
             <suggestion>poc o molt</suggestion>
             <suggestion>un pèl</suggestion>
             <example type="incorrect"><marker>un tant</marker> tímid.</example>
+            <example type="incorrect">una qüestió <marker>un tant</marker> complicada.</example>
             <example type="correct">una mica tímid.</example>
             <example type="correct">Cal pagar un tant cada mes.</example>
             <example type="correct">Cal pagar un tant alçat.</example>
