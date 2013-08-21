@@ -60,9 +60,9 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
     final int limit = Math.max(0, tokens.length - patternSize + 1);
     ElementMatcher elem = null;
     int i = 0;
-    int skipShiftTotal = 0;
     int minOccurCorrection = getMinOccurrenceCorrection();
     while (i < limit + minOccurCorrection && !(rule.sentStart && i > 0)) {
+      int skipShiftTotal = 0;
       boolean allElementsMatch = false;
       int firstMatchToken = -1;
       int firstMarkerMatchToken = -1;
