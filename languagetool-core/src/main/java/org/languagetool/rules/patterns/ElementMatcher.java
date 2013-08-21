@@ -147,4 +147,9 @@ public class ElementMatcher {
   public boolean isMatchedByPreviousException(AnalyzedTokenReadings token) {
     return element.isMatchedByPreviousException(token);
   }
+
+  @Override
+  public String toString() {
+    return "ElementMatcher for " + baseElement;
+  }
 }

@@ -63,8 +63,8 @@ public class PatternRuleMatcherTest {
     assertCompleteMatch("a c", matcher);
     assertCompleteMatch("a b c", matcher);
     assertNoMatch("a X c", matcher);
-    final RuleMatch[] matches = matcher.match(langTool.getAnalyzedSentence("a b c FOO a b c FOO a c a b c"));
-    //......................................................................^^^^^.....^^^^^.....^^^.^^^^^
+    final RuleMatch[] matches = getMatches("a b c FOO a b c FOO a c a b c", matcher);
+    //...............................................^^^^^.....^^^^^.....^^^.^^^^^
     assertThat(matches.length, is(4));
     assertPosition(matches[0], 0, 5);
     assertPosition(matches[1], 10, 15);
@@ -107,7 +107,7 @@ public class PatternRuleMatcherTest {
     elementC.setMinOccurrence(0);
     // regex syntax: a? b c? d e
     final PatternRuleMatcher matcher = getMatcher(elementA, makeElement("b"), elementC, makeElement("d"), makeElement("e"));
-    final RuleMatch[] matches = matcher.match(langTool.getAnalyzedSentence("a b c d e"));
+    final RuleMatch[] matches = getMatches("a b c d e", matcher);
     assertThat(matches.length, is(2));  // not sure if this is correct, it's not a longest match...
     assertPosition(matches[0], 0, 9);
     assertPosition(matches[1], 2, 9);
@@ -126,8 +126,8 @@ public class PatternRuleMatcherTest {
     assertCompleteMatch("a c", matcher);
     assertCompleteMatch("a b c", matcher);
     assertCompleteMatch("a X c", matcher);
-    final RuleMatch[] matches = matcher.match(langTool.getAnalyzedSentence("a b c FOO a X c"));
-    //......................................................................^^^^^.....^^^^^
+    final RuleMatch[] matches = getMatches("a b c FOO a X c", matcher);
+    //......................................^^^^^.....^^^^^
     assertThat(matches.length, is(2));
     assertPosition(matches[0], 0, 5);
     assertPosition(matches[1], 10, 15);
@@ -170,11 +170,11 @@ public class PatternRuleMatcherTest {
     assertPartialMatch("a b b c", matcher);
     assertPartialMatch("x a b b", matcher);
     
-    final RuleMatch[] matches1 = matcher.match(langTool.getAnalyzedSentence("a b b b"));
+    final RuleMatch[] matches1 = getMatches("a b b b", matcher);
     assertThat(matches1.length, is(1));
     assertPosition(matches1[0], 0, 5);
 
-    final RuleMatch[] matches2 = matcher.match(langTool.getAnalyzedSentence("a b b b foo a b b"));
+    final RuleMatch[] matches2 = getMatches("a b b b foo a b b", matcher);
     assertThat(matches2.length, is(2));
     assertPosition(matches2[0], 0, 5);
     assertPosition(matches2[1], 12, 17);
@@ -191,7 +191,7 @@ public class PatternRuleMatcherTest {
     assertCompleteMatch("a b b b", matcher);
     assertPartialMatch("a b b b b", matcher);
     
-    final RuleMatch[] matches1 = matcher.match(langTool.getAnalyzedSentence("a b b b b"));
+    final RuleMatch[] matches1 = getMatches("a b b b b", matcher);
     assertThat(matches1.length, is(1));
     assertPosition(matches1[0], 0, 7);
   }
@@ -204,11 +204,11 @@ public class PatternRuleMatcherTest {
     final Element elementC = makeElement("c");
     final PatternRuleMatcher matcher = getMatcher(elementA, elementB, elementC);  // regex syntax: a .? c
 
-    final RuleMatch[] matches1 = matcher.match(langTool.getAnalyzedSentence("A B C ZZZ"));
+    final RuleMatch[] matches1 = getMatches("A B C ZZZ", matcher);
     assertThat(matches1.length, is(1));
     assertPosition(matches1[0], 0, 5);
 
-    final RuleMatch[] matches2 = matcher.match(langTool.getAnalyzedSentence("A C ZZZ"));
+    final RuleMatch[] matches2 = getMatches("A C ZZZ", matcher);
     assertThat(matches2.length , is(1));
     assertPosition(matches2[0], 0, 3);
   }
@@ -224,13 +224,13 @@ public class PatternRuleMatcherTest {
     elementC.setInsideMarker(false);
     final PatternRuleMatcher matcher = getMatcher(elementA, elementB, elementC);  // regex syntax: (a .?) c
 
-    final RuleMatch[] matches1 = matcher.match(langTool.getAnalyzedSentence("A B C ZZZ"));
-    //.......................................................................^^^--
+    final RuleMatch[] matches1 = getMatches("A B C ZZZ", matcher);
+    //.......................................^^^--
     assertThat(matches1.length , is(1));
     assertPosition(matches1[0], 0, 3);
 
-    final RuleMatch[] matches2 = matcher.match(langTool.getAnalyzedSentence("A C ZZZ"));
-    //.......................................................................^--
+    final RuleMatch[] matches2 = getMatches("A C ZZZ", matcher);
+    //.......................................^--
     assertThat(matches2.length , is(1));
     assertPosition(matches2[0], 0, 1);
   }
@@ -246,13 +246,13 @@ public class PatternRuleMatcherTest {
     elementC.setInsideMarker(false);
     final PatternRuleMatcher matcher = getMatcher(elementA, elementB, elementC);  // regex syntax: (a .?) c
 
-    final RuleMatch[] matches1 = matcher.match(langTool.getAnalyzedSentence("A x C ZZZ"));
-    //.......................................................................^^^--
+    final RuleMatch[] matches1 = getMatches("A x C ZZZ", matcher);
+    //.......................................^^^--
     assertThat(matches1.length , is(1));
     assertPosition(matches1[0], 0, 3);
 
-    final RuleMatch[] matches2 = matcher.match(langTool.getAnalyzedSentence("A C ZZZ"));
-    //.......................................................................^--
+    final RuleMatch[] matches2 = getMatches("A C ZZZ", matcher);
+    //.......................................^--
     assertThat(matches2.length , is(1));
     assertPosition(matches2[0], 0, 1);
   }
@@ -268,13 +268,13 @@ public class PatternRuleMatcherTest {
     elementC.setInsideMarker(false);
     final PatternRuleMatcher matcher = getMatcher(elementA, elementB, elementC);  // regex syntax: (a .?) c
 
-    final RuleMatch[] matches1 = matcher.match(langTool.getAnalyzedSentence("the nice bike ZZZ"));
-    //.......................................................................^^^^^^^^-----
+    final RuleMatch[] matches1 = getMatches("the nice bike ZZZ", matcher);
+    //.......................................^^^^^^^^-----
     assertThat(matches1.length , is(1));
     assertPosition(matches1[0], 0, 8);
 
-    final RuleMatch[] matches2 = matcher.match(langTool.getAnalyzedSentence("the bike ZZZ"));
-    //.......................................................................^^^-----
+    final RuleMatch[] matches2 = getMatches("the bike ZZZ", matcher);
+    //.......................................^^^-----
     assertThat(matches2.length, is(1));
     assertPosition(matches2[0], 0, 3);
   }
@@ -304,17 +304,17 @@ public class PatternRuleMatcherTest {
     assertCompleteMatch("a b b b", matcher);
     assertNoMatch("a a", matcher);
     assertNoMatch("a x b b b", matcher);
-    final RuleMatch[] matches2 = matcher.match(langTool.getAnalyzedSentence("a a b"));
+    final RuleMatch[] matches2 = getMatches("a a b", matcher);
     assertThat(matches2.length , is(2));
     assertPosition(matches2[0], 0, 5);
     assertPosition(matches2[1], 2, 5);
 
-    final RuleMatch[] matches3 = matcher.match(langTool.getAnalyzedSentence("a a b b"));
+    final RuleMatch[] matches3 = getMatches("a a b b", matcher);
     assertThat(matches3.length , is(2));
     assertPosition(matches3[0], 0, 7);
     assertPosition(matches3[1], 2, 7);
 
-    final RuleMatch[] matches4 = matcher.match(langTool.getAnalyzedSentence("a a b b b"));
+    final RuleMatch[] matches4 = getMatches("a a b b b", matcher);
     assertThat(matches4.length , is(2));
     assertPosition(matches4[0], 0, 9);
     assertPosition(matches4[1], 2, 9);
@@ -354,16 +354,24 @@ public class PatternRuleMatcherTest {
     assertNoMatch("b x a", matcher);
     assertNoMatch("a x x b", matcher);
     assertNoMatch("b x x a", matcher);
-    
-    final RuleMatch[] matches = matcher.match(langTool.getAnalyzedSentence("a foo a and b foo b"));
+
+    final RuleMatch[] matches = getMatches("a foo a and b foo b", matcher);
     assertThat(matches.length , is(2));
     assertPosition(matches[0], 0, 7);
     assertPosition(matches[1], 12, 19);
 
-    final RuleMatch[] matches2 = matcher.match(langTool.getAnalyzedSentence("xx a b x x x b a"));
+    final RuleMatch[] matches2 = getMatches("xx a b x x x b a", matcher);
     assertThat(matches2.length , is(2));
     assertPosition(matches2[0], 3, 16);
     assertPosition(matches2[1], 5, 14);
+  }
+
+  private RuleMatch[] getMatches(String input, PatternRuleMatcher matcher) throws IOException {
+    return matcher.match(langTool.getAnalyzedSentence(input));
+  }
+
+  private PatternRuleMatcher getMatcher(Element... patternElements) {
+    return new PatternRuleMatcher(getPatternRule(Arrays.asList(patternElements)), false);
   }
 
   private void assertPosition(RuleMatch match, int expectedFromPos, int expectedToPos) {
@@ -371,24 +379,20 @@ public class PatternRuleMatcherTest {
     assertThat("Wrong end position", match.getToPos(), is(expectedToPos));
   }
 
-  private PatternRuleMatcher getMatcher(Element... patternElements) {
-    return new PatternRuleMatcher(getPatternRule(Arrays.asList(patternElements)), false);
-  }
-
   private void assertNoMatch(String input, PatternRuleMatcher matcher) throws IOException {
-    final RuleMatch[] matches = matcher.match(langTool.getAnalyzedSentence(input));
+    final RuleMatch[] matches = getMatches(input, matcher);
     assertThat(matches.length , is(0));
   }
 
   private void assertPartialMatch(String input, PatternRuleMatcher matcher) throws IOException {
-    final RuleMatch[] matches = matcher.match(langTool.getAnalyzedSentence(input));
+    final RuleMatch[] matches = getMatches(input, matcher);
     assertThat(matches.length , is(1));
     assertTrue("Expected partial match, got '" + matches[0] + "' for '" + input + "'",
             matches[0].getFromPos() > 0 || matches[0].getToPos() < input.length());
   }
 
   private void assertCompleteMatch(String input, PatternRuleMatcher matcher) throws IOException {
-    final RuleMatch[] matches = matcher.match(langTool.getAnalyzedSentence(input));
+    final RuleMatch[] matches = getMatches(input, matcher);
     assertThat("Got matches: " + Arrays.toString(matches), matches.length , is(1));
     assertThat("Wrong start position", matches[0].getFromPos(), is(0));
     assertThat("Wrong end position", matches[0].getToPos(), is(input.length()));

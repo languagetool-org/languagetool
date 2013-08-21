@@ -324,10 +324,9 @@ public class XMLRuleHandler extends DefaultHandler {
       includeRange = Match.IncludeRange.toRange(attrs
           .getValue("include_skipped").toUpperCase());
     }
-    final Match mWorker = new Match(attrs.getValue(POSTAG), attrs
-        .getValue("postag_replace"), YES
-        .equals(attrs.getValue(POSTAG_REGEXP)), attrs
-        .getValue("regexp_match"), attrs.getValue("regexp_replace"),
+    final Match mWorker = new Match(attrs.getValue(POSTAG), attrs.getValue("postag_replace"), 
+        YES.equals(attrs.getValue(POSTAG_REGEXP)), 
+        attrs.getValue("regexp_match"), attrs.getValue("regexp_replace"),
         caseConversion, YES.equals(attrs.getValue("setpos")),
         YES.equals(attrs.getValue("suppress_misspelled")),
         includeRange);
