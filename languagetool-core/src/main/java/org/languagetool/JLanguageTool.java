@@ -531,9 +531,9 @@ public class JLanguageTool {
 
     sentenceCount = sentences.size();
     unknownWords = new HashSet<>();
-    final List<AnalyzedSentence> analyzedSentences = this.analyzeSentences(sentences);    
+    final List<AnalyzedSentence> analyzedSentences = analyzeSentences(sentences);    
     
-    List<RuleMatch> ruleMatches = performCheck(analyzedSentences, sentences, allRules, paraMode);
+    final List<RuleMatch> ruleMatches = performCheck(analyzedSentences, sentences, allRules, paraMode);
     
     if (!ruleMatches.isEmpty() && !paraMode.equals(ParagraphHandling.ONLYNONPARA)) {
       // removing false positives in paragraph-level rules
@@ -553,7 +553,7 @@ public class JLanguageTool {
     return ruleMatches;
   }
   
-  private List<AnalyzedSentence> analyzeSentences(List<String> sentences) throws IOException {
+  private List<AnalyzedSentence> analyzeSentences(final List<String> sentences) throws IOException {
     final List<AnalyzedSentence> analyzedSentences = new ArrayList<>();
     
     int j = 0;
@@ -573,8 +573,9 @@ public class JLanguageTool {
     return analyzedSentences;
   }
   
-  protected List<RuleMatch> performCheck(List<AnalyzedSentence> analyzedSentences, List<String> sentences, final List<Rule> allRules, ParagraphHandling paraMode) throws IOException {
-    Callable<List<RuleMatch>> matcher = new TextCheckCallable(allRules, sentences, analyzedSentences, paraMode, 0, 0, 1);
+  protected List<RuleMatch> performCheck(final List<AnalyzedSentence> analyzedSentences, final List<String> sentences,
+                                         final List<Rule> allRules, ParagraphHandling paraMode) throws IOException {
+    final Callable<List<RuleMatch>> matcher = new TextCheckCallable(allRules, sentences, analyzedSentences, paraMode, 0, 0, 1);
     try {
       return matcher.call();
     } catch (IOException e) {
@@ -672,7 +673,7 @@ public class JLanguageTool {
     return thisMatch;
   }
 
-  protected void rememberUnknownWords(final AnalyzedSentence analyzedText) {
+  private void rememberUnknownWords(final AnalyzedSentence analyzedText) {
     if (listUnknownWords) {
       final AnalyzedTokenReadings[] atr = analyzedText
           .getTokensWithoutWhitespace();

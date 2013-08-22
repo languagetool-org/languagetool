@@ -67,7 +67,6 @@ public class MultiThreadedJLanguageToolTest {
     tool.setThreadPoolSize(0);
     Assert.assertEquals(Runtime.getRuntime().availableProcessors(), tool.getThreadPoolSize());
 
-
     tool.setThreadPoolSize(-1);
     Assert.assertEquals(Runtime.getRuntime().availableProcessors(), tool.getThreadPoolSize());
   }

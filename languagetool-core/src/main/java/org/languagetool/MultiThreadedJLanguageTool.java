@@ -36,6 +36,7 @@ import org.languagetool.rules.RuleMatch;
  * be fast and do not care about the high load that this might cause.
  */
 public class MultiThreadedJLanguageTool extends JLanguageTool {
+  
   private int threadPoolSize = -1;
 
   public MultiThreadedJLanguageTool(Language language) throws IOException {
@@ -47,13 +48,13 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
   }
 
   /**
-   * When no thread pool size is {@link #setThreadPoolSize(int) configured} then the number of available processores is returned. 
+   * When no thread pool size is {@link #setThreadPoolSize(int) configured} then the number of available processors is returned. 
    * 
    * @return the number of processors this system has
    * @see #setThreadPoolSize(int)
    */
   protected int getThreadPoolSize() {
-    int poolSize = this.threadPoolSize;
+    int poolSize = threadPoolSize;
     if (poolSize <= 0) {
       return Runtime.getRuntime().availableProcessors(); 
     } else {
@@ -63,7 +64,6 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
   
   /**
    * Set the amount of threads to use for checking.
-   * @param threadPoolSize
    */
   public void setThreadPoolSize(int threadPoolSize) {
     this.threadPoolSize = threadPoolSize;
@@ -77,7 +77,8 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
   }
   
   @Override
-  protected List<RuleMatch> performCheck(List<AnalyzedSentence> analyzedSentences, List<String> sentences, final List<Rule> allRules, ParagraphHandling paraMode) throws IOException {
+  protected List<RuleMatch> performCheck(final List<AnalyzedSentence> analyzedSentences, final List<String> sentences,
+                                         final List<Rule> allRules, ParagraphHandling paraMode) throws IOException {
     int charCount = 0;
     int lineCount = 0;
     int columnCount = 1;
@@ -103,7 +104,7 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
   }
 
   private List<Callable<List<RuleMatch>>> createTextCheckCallables(ParagraphHandling paraMode,
-      List<AnalyzedSentence> analyzedSentences, List<String> sentences, List<Rule> allRules, int charCount, int lineCount, int columnCount, int threads) throws IOException {
+      List<AnalyzedSentence> analyzedSentences, List<String> sentences, List<Rule> allRules, int charCount, int lineCount, int columnCount, int threads) {
     final int totalRules = allRules.size();
     final int chunkSize = totalRules / threads;
     int firstItem = 0;
