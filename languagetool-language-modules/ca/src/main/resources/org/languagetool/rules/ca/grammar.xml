@@ -1450,7 +1450,20 @@ $Id$
                 <example type="incorrect">El consideraven una <marker>titella</marker>.</example>
                 <example type="incorrect">Els consideraven unes <marker>titelles</marker>.</example>
                 <example type="correct">Eren uns titelles preciosos.</example>
-            </rule>   
+            </rule>
+            <rule id="MOLT_DE_MOLTA" name="molt de/molta">
+                <pattern>
+                    <marker>
+                        <token>molt</token>
+                        <token regexp="yes">de|d'</token>
+                    </marker>
+                    <token postag="N.FS.*" postag_regexp="yes"/>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>molta</suggestion>?</message>
+                <suggestion>molta <match no="2"/></suggestion>
+                <example type="incorrect" correction="molta|molta de">Tenia <marker>molt de</marker> son.</example>
+                <example type="correct">Tenia molt de son pare.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="CONCORDANCES_ADJECTIUS_NEUTRES" name="concordances amb adjectius neutres">
             <rule>
