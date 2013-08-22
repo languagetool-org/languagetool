@@ -127,7 +127,6 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
 
       if (possibleReplacements != null && possibleReplacements.size() > 0) {
     	List<String> replacements = new ArrayList<>();  
-        replacements.clear();
         replacements.addAll(possibleReplacements);
         if (replacements.contains(originalTokenStr)) {
           replacements.remove(originalTokenStr);
