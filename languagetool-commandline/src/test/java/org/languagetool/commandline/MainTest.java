@@ -27,7 +27,6 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.io.PrintWriter;
-import java.net.URISyntaxException;
 
 /**
  * Tests the basic features of the command-line interface.
@@ -45,7 +44,7 @@ public class MainTest extends AbstractSecurityTestCase {
 
   public MainTest(String testName) throws IOException {
     super(testName);
-    enTestFile = populateFile("This is an test.\n\n" +
+    enTestFile = writeToTempFile("This is an test.\n\n" +
             "This is a test of of language tool.\n\n" +
             "This is is a test of language tool.");
   }
@@ -145,7 +144,6 @@ public class MainTest extends AbstractSecurityTestCase {
             "This is a test of language tool.\n\n" +
             "This is a test of language tool.\n", output);
   }
-
 
   public void testEnglishStdIn1() throws Exception {
     final String test = "This is an test.";
@@ -247,7 +245,6 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(output.contains("1.) Line 1, column 1, Rule ID: MORFOLOGIK_RULE_PL_PL"));
   }
 
-
   public void testEnglishFileRuleDisabled() throws Exception {
     final String[] args = new String[] {"-l", "en", "-d", "EN_A_VS_AN", getTestFilePath()};
 
@@ -277,8 +274,6 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(output.indexOf("Expected text language: English") == 0);
   }
 
-
-
   public void testEnglishFileAPI() throws Exception {
     final String[] args = new String[] {"-l", "en", "--api", getTestFilePath()};
 
@@ -292,7 +287,7 @@ public class MainTest extends AbstractSecurityTestCase {
   }
 
   public void testGermanFileWithURL() throws Exception {
-    final File input = populateFile("Ward ihr zufrieden damit?");
+    final File input = writeToTempFile("Ward ihr zufrieden damit?");
 
     final String[] args = new String[] {"-l", "de", "--api", input.getAbsolutePath()};
 
@@ -310,9 +305,8 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(output2.contains("More info: http://www.korrekturen.de/beliebte_fehler/ward.shtml"));
   }
 
-
   public void testPolishFileAPI() throws Exception {
-    final File input = populateFile("To jest świnia która się ślini.");
+    final File input = writeToTempFile("To jest świnia która się ślini.");
 
     final String[] args = new String[] {"-l", "pl", "--api", "-c", "utf-8", input.getAbsolutePath()};
 
@@ -326,7 +320,7 @@ public class MainTest extends AbstractSecurityTestCase {
   }
 
   public void testPolishLineNumbers() throws Exception {
-    final File input = populateFile(
+    final File input = writeToTempFile(
             "Test.\n" +
                     "Test.\n" +
                     "Test.\n" +
@@ -344,12 +338,6 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(output.contains("Line 8, column 1, Rule ID: BRAK_PRZECINKA_KTORY"));
   }
 
-  private File createTempFile() throws IOException {
-    final File input = File.createTempFile(MainTest.class.getName(), ".txt");
-    input.deleteOnExit();
-    return input;
-  }
-
   public void testEnglishTagger() throws Exception {
     final String[] args = new String[] {"-l", "en", "--taggeronly", getTestFilePath()};
     Main.main(args);
@@ -359,7 +347,7 @@ public class MainTest extends AbstractSecurityTestCase {
   }
 
   public void testBitextMode() throws Exception {
-    final File input = populateFile(
+    final File input = writeToTempFile(
             "This is not actual.\tTo nie jest aktualne.\n" +
                     "Test\tTest\n" +
                     "ab\tVery strange data indeed, much longer than input");
@@ -374,7 +362,7 @@ public class MainTest extends AbstractSecurityTestCase {
   }
 
   public void testBitextModeWithDisabledRule() throws Exception {
-    final File input = populateFile(
+    final File input = writeToTempFile(
             "this is not actual.\tTo nie jest aktualne.\n" +
                     "test\tTest\n" +
                     "ab\tVery strange data indeed, much longer than input");
@@ -389,7 +377,7 @@ public class MainTest extends AbstractSecurityTestCase {
   }
 
   public void testBitextModeWithEnabledRule() throws Exception {
-    final File input = populateFile(
+    final File input = writeToTempFile(
             "this is not actual.\tTo nie jest aktualne.\n" +
                     "test\tTest\n" +
                     "ab\tVery strange data indeed, much longer than input");
@@ -404,7 +392,7 @@ public class MainTest extends AbstractSecurityTestCase {
   }
 
   public void testBitextModeApply() throws Exception {
-    final File input = populateFile("There is a dog.\tNie ma psa.");
+    final File input = writeToTempFile("There is a dog.\tNie ma psa.");
     final String[] args = new String[] {"-l", "pl", "--bitext", "-m", "en", "--apply", input.getAbsolutePath()};
     Main.main(args);
     final String output = new String(this.out.toByteArray());
@@ -428,7 +416,7 @@ public class MainTest extends AbstractSecurityTestCase {
   }
 
   public void testLangWithCountryVariant() throws Exception {
-    final File input = populateFile("This is modelling.");
+    final File input = writeToTempFile("This is modelling.");
     final String[] args = new String[] {"-l", "en-US", input.getAbsolutePath()};
     Main.main(args);
     final String output = new String(this.out.toByteArray());
@@ -437,7 +425,7 @@ public class MainTest extends AbstractSecurityTestCase {
   }
 
   public void testNoXmlFilteringByDefault() throws Exception {
-    final File input = populateFile("This < is is > filtered.");
+    final File input = writeToTempFile("This < is is > filtered.");
     final String[] args = new String[] {input.getAbsolutePath()};
     Main.main(args);
     final String output = new String(this.out.toByteArray());
@@ -445,25 +433,28 @@ public class MainTest extends AbstractSecurityTestCase {
   }
 
   public void testXmlFiltering() throws Exception {
-    final File input = populateFile("This < is is > filtered.");
+    final File input = writeToTempFile("This < is is > filtered.");
     final String[] args = new String[] {"--xmlfilter", input.getAbsolutePath()};
     Main.main(args);
     final String output = new String(this.out.toByteArray());
     assertFalse(output.contains("ENGLISH_WORD_REPEAT_RULE"));
   }
 
-  private File populateFile(String content) throws IOException {
+  private File writeToTempFile(String content) throws IOException {
     final File tempFile = createTempFile();
-    final PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(tempFile), "UTF-8"));
-    try {
+    try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(tempFile), "UTF-8"))) {
       writer.println(content);
-    } finally {
-      writer.close();
     }
     return tempFile;
   }
 
-  private String getTestFilePath() throws URISyntaxException {
+  private File createTempFile() throws IOException {
+    final File input = File.createTempFile(MainTest.class.getName(), ".txt");
+    input.deleteOnExit();
+    return input;
+  }
+
+  private String getTestFilePath() {
     return enTestFile.getAbsolutePath();
   }
 
