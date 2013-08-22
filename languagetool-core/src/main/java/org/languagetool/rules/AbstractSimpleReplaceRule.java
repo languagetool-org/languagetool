@@ -105,7 +105,6 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
   public final RuleMatch[] match(final AnalyzedSentence text) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
-    List<String> replacements = new ArrayList<>();
 
     for (AnalyzedTokenReadings tokenReadings : tokens) {
       String originalTokenStr = tokenReadings.getToken();
@@ -127,6 +126,7 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
       List<String> possibleReplacements=wrongWords.get(tokenString);     
 
       if (possibleReplacements != null && possibleReplacements.size() > 0) {
+    	List<String> replacements = new ArrayList<>();  
         replacements.clear();
         replacements.addAll(possibleReplacements);
         if (replacements.contains(originalTokenStr)) {
