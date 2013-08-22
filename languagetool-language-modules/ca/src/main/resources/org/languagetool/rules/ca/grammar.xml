@@ -17593,6 +17593,7 @@ $Id$
                     </unify>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="3" postag="(AQ0.+)" postag_regexp="yes" postag_replace="$1">mitjà</match></suggestion>?</message>
+                <short>Possible error</short>
                 <example type="incorrect" correction="mitjà">No hi ha terme <marker>mig</marker> en la seva vida.</example>
                 <example type="incorrect" correction="mitjà">No hi ha terme <marker>mig</marker></example>
                 <example type="incorrect" correction="mitjanes">Entre les classes <marker>mitges</marker> europees.</example>
@@ -17608,6 +17609,18 @@ $Id$
                 <example type="correct">amb un ull mig aclucat</example>
                 <example type="correct">pel porticó mig tancat.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">cost|terme|valor|preu</token>
+                    <marker>
+                        <token>mig</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>mitjà</suggestion>?</message>
+                <short>Possible error</short>
+                <example type="incorrect">És el terme <marker>mig</marker> ponderat.</example>
+                <example type="correct">amb un ull mig aclucat</example>                    
+            </rule>           
         </rulegroup>
         <rulegroup id="MES_BE" name="*més bé/més aviat">
             <rule>
