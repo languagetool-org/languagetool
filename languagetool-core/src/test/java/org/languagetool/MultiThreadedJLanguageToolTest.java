@@ -18,28 +18,57 @@
  */
 package org.languagetool;
 
-import org.junit.Test;
-import org.languagetool.language.Contributor;
-import org.languagetool.language.Demo;
-import org.languagetool.rules.*;
+import static junit.framework.TestCase.assertTrue;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static junit.framework.TestCase.assertTrue;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import org.junit.Assert;
+import org.junit.Test;
+import org.languagetool.language.Contributor;
+import org.languagetool.language.Demo;
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.UppercaseSentenceStartRule;
+import org.languagetool.rules.WhitespaceRule;
 
 public class MultiThreadedJLanguageToolTest {
 
   @Test
   public void testCheck() throws IOException {
-    final List<String> ruleMatchIds1 = getRuleMatchIds(new MultiThreadedJLanguageTool(new Demo()));
+    JLanguageTool tool;
+    
+    tool = new MultiThreadedJLanguageTool(new Demo());    
+    final List<String> ruleMatchIds1 = getRuleMatchIds(tool);
     assertTrue(ruleMatchIds1.size() >= 10);
-    final List<String> ruleMatchIds2 = getRuleMatchIds(new JLanguageTool(new Demo()));
+    Assert.assertEquals(4, tool.getSentenceCount());
+    
+    tool = new JLanguageTool(new Demo());
+    final List<String> ruleMatchIds2 = getRuleMatchIds(tool);
     assertThat(ruleMatchIds1, is(ruleMatchIds2));
+    Assert.assertEquals(4, tool.getSentenceCount());
+  }
+  
+  @Test
+  public void testConfigurableThreadPoolSize() throws IOException {
+    MultiThreadedJLanguageTool tool = new MultiThreadedJLanguageTool(new Demo());
+    Assert.assertEquals(Runtime.getRuntime().availableProcessors(), tool.getThreadPoolSize());
+    
+    tool.setThreadPoolSize(100);
+    Assert.assertEquals(100, tool.getThreadPoolSize());
+
+    tool.setThreadPoolSize(Integer.MIN_VALUE);
+    Assert.assertEquals(Runtime.getRuntime().availableProcessors(), tool.getThreadPoolSize());
+
+    tool.setThreadPoolSize(0);
+    Assert.assertEquals(Runtime.getRuntime().availableProcessors(), tool.getThreadPoolSize());
+
+    tool.setThreadPoolSize(-1);
+    Assert.assertEquals(Runtime.getRuntime().availableProcessors(), tool.getThreadPoolSize());
   }
 
   private List<String> getRuleMatchIds(JLanguageTool langTool) throws IOException {
