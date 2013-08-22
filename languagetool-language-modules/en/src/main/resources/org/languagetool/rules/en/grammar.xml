@@ -8488,14 +8488,20 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
             <pattern>
                 <marker>
                     <token spacebefore="yes" postag="CD"><exception regexp="yes">one|thou|zero|1</exception><exception postag="NNP"/><exception scope="previous" postag="DT|PRP\$|POS" postag_regexp="yes"/><exception regexp="yes" scope="previous">January|February|March|April|May|June|July|August|September|October|November|December|size|\$\d+</exception><exception spacebefore="no" scope="previous">.</exception></token>
+                    <!--
                     <token postag="NN:UN|NN" postag_regexp="yes"><exception postag="NN:U|NNS|NNPS|JJ.*|IN" postag_regexp="yes"></exception><exception>will</exception>
                         <exception regexp="yes">mm|lb|yd|ft|Msec|km|cm|mg|kg|gm|cc|stat|kc|hr|min|m3|mcg|cpu|KB|MB|saw</exception></token>
+                        -->
+                    <token chunk="I-NP-singular" max="-1">
+                        <exception regexp="yes">January|February|March|April|May|June|July|August|September|October|November|December|size|\$\d+</exception>
+                    </token>
                 </marker>
                 <token><exception postag="NN.*" postag_regexp="yes"></exception><exception>'</exception></token>
             </pattern>
             <message>Possible agreement error. The noun <match no="2"></match> seems to be countable, so consider using: <suggestion suppress_misspelled="yes" ><match no="1"></match> <match no="2" suppress_misspelled="yes" postag="NNS|NNPS" postag_regexp="yes"></match></suggestion>.</message>
             <short>Grammatical problem</short>
             <example correction="five books" type="incorrect">I have <marker>five book</marker>.</example>
+            <example type="incorrect">Additionally, there are over <marker>500 college and university chapter</marker>.</example>
             <example type="correct">I have <marker>ten books</marker>.</example>
             <example type="correct">I have <marker>one bottle</marker> of wine.</example>
             <example type="correct">Exactly 1 hour!</example>
