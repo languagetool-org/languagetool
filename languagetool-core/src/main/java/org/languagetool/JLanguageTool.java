@@ -36,7 +36,7 @@ import java.util.MissingResourceException;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.Set;
-import java.util.concurrent.*;
+import java.util.concurrent.Callable;
 import java.util.jar.Manifest;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -526,31 +526,15 @@ public class JLanguageTool {
       sentences = new ArrayList<>();
       sentences.add(text);
     }
-    final List<RuleMatch> ruleMatches = new ArrayList<>();
     final List<Rule> allRules = getAllRules();
     printIfVerbose(allRules.size() + " rules activated for language " + language);
-    int charCount = 0;
-    int lineCount = 0;
-    int columnCount = 1;
-    unknownWords = new HashSet<>();
+
     sentenceCount = sentences.size();
-
-    final int threads = getThreadPoolSize();
-    final ExecutorService executorService = getExecutorService(threads);
-
-    final List<Callable<List<RuleMatch>>> callables =
-            createTextCheckCallables(paraMode, sentences, allRules, charCount, lineCount, columnCount, threads);
-    try {
-      final List<Future<List<RuleMatch>>> futures = executorService.invokeAll(callables);
-      for (Future<List<RuleMatch>> future : futures) {
-        ruleMatches.addAll(future.get());
-      }
-    } catch (InterruptedException | ExecutionException e) {
-      throw new RuntimeException(e);
-    } finally {
-      executorService.shutdownNow();
-    }
-
+    unknownWords = new HashSet<>();
+    final List<AnalyzedSentence> analyzedSentences = this.analyzeSentences(sentences);    
+    
+    List<RuleMatch> ruleMatches = performCheck(analyzedSentences, sentences, allRules, paraMode);
+    
     if (!ruleMatches.isEmpty() && !paraMode.equals(ParagraphHandling.ONLYNONPARA)) {
       // removing false positives in paragraph-level rules
       for (final Rule rule : allRules) {
@@ -568,32 +552,10 @@ public class JLanguageTool {
     Collections.sort(ruleMatches);
     return ruleMatches;
   }
-
-  /**
-   * Overwrite to set the number of threads used for checking a single text.
-   * The default implementation returns {@code 1}.
-   */
-  protected int getThreadPoolSize() {
-    return 1;
-  }
-
-  /**
-   * Overwrite to get a different executor service for text checking.
-   * The parameter is the value returned by {@link #getThreadPoolSize()}.
-   * The default implementation returns an executor with a single thread,
-   * ignoring the parameter.
-   */
-  protected ExecutorService getExecutorService(int threads) {
-    return Executors.newSingleThreadExecutor();
-  }
-
-  private List<Callable<List<RuleMatch>>> createTextCheckCallables(ParagraphHandling paraMode,
-       List<String> sentences, List<Rule> allRules, int charCount, int lineCount, int columnCount, int threads) throws IOException {
-    final int totalRules = allRules.size();
-    final int chunkSize = totalRules / threads;
-    int firstItem = 0;
-    final List<Callable<List<RuleMatch>>> callables = new ArrayList<>();
+  
+  private List<AnalyzedSentence> analyzeSentences(List<String> sentences) throws IOException {
     final List<AnalyzedSentence> analyzedSentences = new ArrayList<>();
+    
     int j = 0;
     for (final String sentence : sentences) {
       AnalyzedSentence analyzedSentence = getAnalyzedSentence(sentence);
@@ -607,20 +569,19 @@ public class JLanguageTool {
       printIfVerbose(analyzedSentence.toString());
       printIfVerbose(analyzedSentence.getAnnotations());
     }
-    // split the rules - all rules are independent, so it makes more sense to split
-    // the rules than to split the text:
-    for (int i = 0; i < threads; i++) {
-      final List<Rule> subRules;
-      if (i == threads - 1) {
-        // make sure the last rules are not lost due to rounding issues:
-        subRules = allRules.subList(firstItem, totalRules);
-      } else {
-        subRules = allRules.subList(firstItem, firstItem + chunkSize);
-      }
-      callables.add(new TextCheckCallable(subRules, sentences, analyzedSentences, paraMode, charCount, lineCount, columnCount));
-      firstItem = firstItem + chunkSize;
+    
+    return analyzedSentences;
+  }
+  
+  protected List<RuleMatch> performCheck(List<AnalyzedSentence> analyzedSentences, List<String> sentences, final List<Rule> allRules, ParagraphHandling paraMode) throws IOException {
+    Callable<List<RuleMatch>> matcher = new TextCheckCallable(allRules, sentences, analyzedSentences, paraMode, 0, 0, 1);
+    try {
+      return matcher.call();
+    } catch (IOException e) {
+      throw e;
+    } catch (Exception e) {
+      throw new RuntimeException(e);
     }
-    return callables;
   }
 
   public List<RuleMatch> checkAnalyzedSentence(final ParagraphHandling paraMode,
@@ -711,7 +672,7 @@ public class JLanguageTool {
     return thisMatch;
   }
 
-  private void rememberUnknownWords(final AnalyzedSentence analyzedText) {
+  protected void rememberUnknownWords(final AnalyzedSentence analyzedText) {
     if (listUnknownWords) {
       final AnalyzedTokenReadings[] atr = analyzedText
           .getTokensWithoutWhitespace();
@@ -879,7 +840,7 @@ public class JLanguageTool {
     return sentenceCount;
   }
 
-  private void printIfVerbose(final String s) {
+  protected void printIfVerbose(final String s) {
     if (printStream != null) {
       printStream.println(s);
     }

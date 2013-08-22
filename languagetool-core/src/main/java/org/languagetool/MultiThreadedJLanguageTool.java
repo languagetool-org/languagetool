@@ -19,8 +19,16 @@
 package org.languagetool;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.RuleMatch;
 
 /**
  * A variant of {@link JLanguageTool} that uses as many threads as
@@ -28,6 +36,7 @@ import java.util.concurrent.Executors;
  * be fast and do not care about the high load that this might cause.
  */
 public class MultiThreadedJLanguageTool extends JLanguageTool {
+  private int threadPoolSize = -1;
 
   public MultiThreadedJLanguageTool(Language language) throws IOException {
     super(language);
@@ -38,10 +47,26 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
   }
 
   /**
+   * When no thread pool size is {@link #setThreadPoolSize(int) configured} then the number of available processores is returned. 
+   * 
    * @return the number of processors this system has
+   * @see #setThreadPoolSize(int)
    */
   protected int getThreadPoolSize() {
-    return Runtime.getRuntime().availableProcessors();
+    int poolSize = this.threadPoolSize;
+    if (poolSize <= 0) {
+      return Runtime.getRuntime().availableProcessors(); 
+    } else {
+      return poolSize;
+    }
+  }
+  
+  /**
+   * Set the amount of threads to use for checking.
+   * @param threadPoolSize
+   */
+  public void setThreadPoolSize(int threadPoolSize) {
+    this.threadPoolSize = threadPoolSize;
   }
 
   /**
@@ -50,5 +75,53 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
   protected ExecutorService getExecutorService(int threads) {
     return Executors.newFixedThreadPool(threads);
   }
+  
+  @Override
+  protected List<RuleMatch> performCheck(List<AnalyzedSentence> analyzedSentences, List<String> sentences, final List<Rule> allRules, ParagraphHandling paraMode) throws IOException {
+    int charCount = 0;
+    int lineCount = 0;
+    int columnCount = 1;
 
+    final List<RuleMatch> ruleMatches = new ArrayList<>();
+    final int threads = getThreadPoolSize();
+    final ExecutorService executorService = getExecutorService(threads);
+
+    final List<Callable<List<RuleMatch>>> callables =
+            createTextCheckCallables(paraMode, analyzedSentences, sentences, allRules, charCount, lineCount, columnCount, threads);
+    try {
+      final List<Future<List<RuleMatch>>> futures = executorService.invokeAll(callables);
+      for (Future<List<RuleMatch>> future : futures) {
+        ruleMatches.addAll(future.get());
+      }
+    } catch (InterruptedException | ExecutionException e) {
+      throw new RuntimeException(e);
+    } finally {
+      executorService.shutdownNow();
+    }
+    
+    return ruleMatches;
+  }
+
+  private List<Callable<List<RuleMatch>>> createTextCheckCallables(ParagraphHandling paraMode,
+      List<AnalyzedSentence> analyzedSentences, List<String> sentences, List<Rule> allRules, int charCount, int lineCount, int columnCount, int threads) throws IOException {
+    final int totalRules = allRules.size();
+    final int chunkSize = totalRules / threads;
+    int firstItem = 0;
+    final List<Callable<List<RuleMatch>>> callables = new ArrayList<>();
+    
+    // split the rules - all rules are independent, so it makes more sense to split
+    // the rules than to split the text:
+    for (int i = 0; i < threads; i++) {
+      final List<Rule> subRules;
+      if (i == threads - 1) {
+        // make sure the last rules are not lost due to rounding issues:
+        subRules = allRules.subList(firstItem, totalRules);
+      } else {
+        subRules = allRules.subList(firstItem, firstItem + chunkSize);
+      }
+      callables.add(new TextCheckCallable(subRules, sentences, analyzedSentences, paraMode, charCount, lineCount, columnCount));
+      firstItem = firstItem + chunkSize;
+    }
+    return callables;
+  }
 }
