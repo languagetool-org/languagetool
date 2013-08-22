@@ -17453,6 +17453,23 @@ $Id$
             <example type="correct">tres Nadals</example>
             <example type="correct">15 Nadals</example>
         </rule>
+        <rule id="PEL_GENERAL" name="*pel general/en general">
+            <pattern>
+                <token><exception inflected="yes" regexp="yes">dirigir|comandar|encapçalar|derrotar|bombardejar|manar|capitanejar|liderar|vèncer</exception></token>
+                <marker>
+                    <token>pe</token>
+                    <token>l</token>
+                    <token>general</token>
+                </marker>
+                <token><exception postag="A..[MC][SN].|N.[MC][SN].*" postag_regexp="yes"/><exception regexp="yes">\p{Lu}.+|que</exception></token>
+            </pattern>
+            <message>Expressió incorrecta</message>
+            <suggestion>en general</suggestion>
+            <suggestion>generalment</suggestion>
+            <example type="incorrect"><marker>Pel general</marker> són una farsa.</example>
+            <example type="correct">Encapçalats pel general en cap Ramon Cabrera.</example>
+            <example type="correct">Les tropes dirigides pel general Franco.</example>
+        </rule>
         <rule id="PEL_MOMENT" name="*pel moment">
             <pattern>
                 <!--verbs que regeixen 'per' -->
