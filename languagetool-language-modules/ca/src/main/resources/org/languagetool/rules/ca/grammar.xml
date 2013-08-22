@@ -11666,7 +11666,7 @@ $Id$
             <example type="incorrect" correction="en compte">Tingueu sempre <marker>amb compte</marker></example>
             <example type="correct">Tingueu en compte</example>
         </rule>
-    	<rule id="ANAR_EN_COMPTE" name="anar *en/amb compte">
+        <rule id="ANAR_EN_COMPTE" name="anar *en/amb compte">
             <pattern>
                 <token postag="VM.*" postag_regexp="yes" inflected="yes" skip="1">anar</token>
                 <marker>
@@ -11679,16 +11679,30 @@ $Id$
             <example type="incorrect" correction="amb compte">Sempre anaven <marker>en compte</marker></example>
             <example type="correct">No van tenir en compte aquell cas.</example>
         </rule>
-        <rule id="REEMPRENDRE" name="reemprendre"> 
-        <!-- "reemprendre" no és al diccionari, però es forma amb el prefix re+emprendre -->
-            <pattern>
-                <token inflected="yes">reemprendre</token>
-            </pattern>
-            <message>Cal usar el verb "reprendre".</message>
-            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">reprendre</match></suggestion>
-            <example type="incorrect" correction="reprenguessis">Si <marker>reemprenguessis</marker> la iniciativa.</example>
-            <example type="correct">reprendre</example>
-        </rule>
+        <rulegroup id="VERBS_MALFORMATS_RE" name="verbs mal formats amb prefix re-">
+            <!-- Verbs que no són al diccionari, però es formen amb el prefix re- -->
+            <rule id="REEMPRENDRE" name="reemprendre"> 
+                <pattern>
+                    <token inflected="yes">reemprendre</token>
+                </pattern>
+                <message>Cal usar el verb "reprendre".</message>
+                <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">reprendre</match></suggestion>
+                <example type="incorrect" correction="reprenguessis">Si <marker>reemprenguessis</marker> la iniciativa.</example>
+                <example type="correct">reprendre</example>
+            </rule>
+            <rule id="REPONDRE" name="repondre"> 
+                <pattern>
+                    <token inflected="yes">repondre</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">reposar</match></suggestion>?</message>
+                <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">reestrenar</match></suggestion>
+                <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">refer</match></suggestion>
+                <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">replicar</match></suggestion>
+                <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">revenir</match></suggestion>
+                <example type="incorrect" correction="reposaran|reestrenaran|refaran|replicaran|revindran">I la <marker>repondran</marker>?</example>
+                <example type="correct">reposar</example>
+            </rule>
+        </rulegroup>    
         <rule id="DE_PERDUTS_AL_RIU" name="*de perduts al riu">
             <pattern>
                 <marker>
