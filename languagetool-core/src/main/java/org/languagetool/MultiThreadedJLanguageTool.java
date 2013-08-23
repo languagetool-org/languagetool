@@ -84,11 +84,11 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
 
     final List<RuleMatch> ruleMatches = new ArrayList<>();
     final int threads = getThreadPoolSize();
+    
     final ExecutorService executorService = getExecutorService(threads);
-
-    final List<Callable<List<RuleMatch>>> callables =
-            createTextCheckCallables(paraMode, analyzedSentences, sentences, allRules, charCount, lineCount, columnCount, threads);
     try {
+      final List<Callable<List<RuleMatch>>> callables =
+              createTextCheckCallables(paraMode, analyzedSentences, sentences, allRules, charCount, lineCount, columnCount, threads);
       final List<Future<List<RuleMatch>>> futures = executorService.invokeAll(callables);
       for (Future<List<RuleMatch>> future : futures) {
         ruleMatches.addAll(future.get());
