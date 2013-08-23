@@ -31,9 +31,9 @@ import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 
 /**
- * A variant of {@link JLanguageTool} that uses as many threads as
- * the system has processors. Use this if you want text checking to
- * be fast and do not care about the high load that this might cause.
+ * A variant of {@link JLanguageTool} that uses several threads for rule matching.
+ * Use this if you want text checking to be fast and do not care about the 
+ * high load that this might cause.
  */
 public class MultiThreadedJLanguageTool extends JLanguageTool {
   
@@ -48,9 +48,8 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
   }
 
   /**
-   * When no thread pool size is {@link #setThreadPoolSize(int) configured} then the number of available processors is returned. 
+   * When no thread pool size is {@link #setThreadPoolSize(int) configured}, the number of available processors is returned. 
    * 
-   * @return the number of processors this system has
    * @see #setThreadPoolSize(int)
    */
   protected int getThreadPoolSize() {
