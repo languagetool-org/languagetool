@@ -19926,26 +19926,6 @@ $Id$
             <example type="incorrect" correction="prevaler">Ha de <marker>prevaldre</marker> el seny.</example>
             <example type="correct">Deu valer molt.</example>
         </rule>
-        <rulegroup id="VARIANTS_SECUNDARIES" name="Evita vocabulari valencià: mitat, depòsit, depositar">
-            <rule>
-                <pattern>
-                    <token regexp="yes">mitats?</token>
-                </pattern>
-                <message>Variant secundària de <suggestion><match no="1" regexp_match="mitat(.*)" regexp_replace="meitat$1"/></suggestion>.</message>
-                <example type="incorrect" correction="meitat">la <marker>mitat</marker> del peix.</example>
-                <example type="incorrect" correction="meitats">tres <marker>mitats</marker></example>
-                <example type="correct">La meitat del peix.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token inflected="yes" regexp="yes">depositar|depòsit</token>
-                </pattern>
-                <message>Variant secundària de <suggestion><match no="1" regexp_match="dep(.+)" regexp_replace="dip$1"/></suggestion>.</message>
-                <example type="incorrect" correction="dipositaren">Hi <marker>depositaren</marker>.</example>
-                <example type="incorrect" correction="dipòsits">Van omplir els <marker>depòsits</marker>.</example>
-                <example type="correct">Hi dipositarem.</example>
-            </rule>     
-        </rulegroup>
     </category>
     <category name="Sintaxi" type="grammar">
     	<rulegroup id="TEMPS_VERBALS_INADEQUATS" name="Temps verbals inadequats">
@@ -21503,6 +21483,26 @@ $Id$
                 <example type="incorrect" correction="Eixos"><marker>Aqueixos</marker> homes</example>
                 <example type="correct">Eixes cases</example>
             </rule>
+        </rulegroup>
+        <rulegroup id="VOCABULARI_VALENCIA" name="Evita vocabulari valencià: mitat, depòsit, depositar">
+            <rule>
+                <pattern>
+                    <token regexp="yes">mitats?</token>
+                </pattern>
+                <message>Variant secundària de <suggestion><match no="1" regexp_match="mitat(.*)" regexp_replace="meitat$1"/></suggestion>.</message>
+                <example type="incorrect" correction="meitat">la <marker>mitat</marker> del peix.</example>
+                <example type="incorrect" correction="meitats">tres <marker>mitats</marker></example>
+                <example type="correct">La meitat del peix.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">depositar|depòsit</token>
+                </pattern>
+                <message>Variant secundària de <suggestion><match no="1" regexp_match="dep(.+)" regexp_replace="dip$1"/></suggestion>.</message>
+                <example type="incorrect" correction="dipositaren">Hi <marker>depositaren</marker>.</example>
+                <example type="incorrect" correction="dipòsits">Van omplir els <marker>depòsits</marker>.</example>
+                <example type="correct">Hi dipositarem.</example>
+            </rule>     
         </rulegroup>
         <rulegroup id="VOCABULARI_BALEAR" name="Evita vocabulari balear: novia, galleta">
             <rule>
