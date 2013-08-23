@@ -37,8 +37,8 @@ public abstract class AbstractPatternRulePerformer {
   protected AnalyzedTokenReadings[] unifiedTokens;
 
   protected AbstractPatternRulePerformer(AbstractPatternRule rule, Unifier unifier) {
-    this.unifier = unifier;
     this.rule = rule;
+    this.unifier = unifier;
   }
 
   protected List<ElementMatcher> createElementMatchers() {
@@ -71,8 +71,7 @@ public abstract class AbstractPatternRulePerformer {
       if (!thisMatched
               && !elem.getElement().isInflected()
               && elem.getElement().getPOStag() == null
-              && (prevElement != null && prevElement.getElement()
-              .getExceptionList() == null)) {
+              && (prevElement != null && prevElement.getElement().getExceptionList() == null)) {
         return false; // the token is the same, we will not get a match
       }
       if (rule.isGroupsOrUnification()) {

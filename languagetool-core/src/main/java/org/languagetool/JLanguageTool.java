@@ -621,7 +621,7 @@ public class JLanguageTool {
       final RuleMatch[] thisMatches = rule.match(analyzedSentence);
       for (final RuleMatch element1 : thisMatches) {
         final RuleMatch thisMatch = adjustRuleMatchPos(element1,
-            tokenCount, columnCount, lineCount, sentence);    
+            tokenCount, columnCount, lineCount, sentence);
         sentenceMatches.add(thisMatch);
         if (rule.isParagraphBackTrack()) {
           rule.addRuleMatch(thisMatch);
@@ -868,9 +868,9 @@ public class JLanguageTool {
 
     private final List<Rule> rules;
     private final ParagraphHandling paraMode;
+    private final List<String> sentences;
+    private final List<AnalyzedSentence> analyzedSentences;
     
-    private List<String> sentences;
-    private List<AnalyzedSentence> analyzedSentences;
     private int charCount;
     private int lineCount;
     private int columnCount;
