@@ -2756,7 +2756,8 @@ $Id$
                 </marker>
                 <token postag="SENT_END"/>
             </pattern>
-            <message>Falta un verb en condicional: <suggestion><match no="3" postag="VASI(.+)." postag_regexp="yes" postag_replace="VAIC$1."/></suggestion></message>
+            <message>Falta un verb en condicional.</message>
+            <suggestion><match no="3" postag="VASI(.+)." postag_regexp="yes" postag_replace="VAIC$1."/></suggestion>
             <example type="incorrect" correction="haguera|hauria">Aquí no s'<marker>hagués</marker> permès.</example>
             <example type="correct">Aquí no s'hauria permès.</example>
             <example type="correct">Aquí no s'haguera permès.</example>
@@ -2776,7 +2777,8 @@ $Id$
                 </marker>
                 <token postag="SENT_END"/>
             </pattern>
-            <message>Falta un verb en condicional: <suggestion><match no="4" postag="VASI(.+)." postag_regexp="yes" postag_replace="VAIC$1."/></suggestion></message>
+            <message>Falta un verb en condicional.</message>
+            <suggestion><match no="4" postag="VASI(.+)." postag_regexp="yes" postag_replace="VAIC$1."/></suggestion>
             <example type="incorrect" correction="haguera|hauria">Si haguessis avisat, t'<marker>hagués</marker> esperat</example>
             <example type="correct">Si haguessis avisat...</example>
             <example type="correct">Si haguessis avisat, t'haguera esperat</example>
@@ -2796,14 +2798,31 @@ $Id$
                 <token skip="-1">si</token>
                 <token postag="VASI.*" postag_regexp="yes" inflected="yes">haver</token>
             </pattern>
-            <message>Falta un verb en condicional: <suggestion><match no="2" postag="VASI(.+)." postag_regexp="yes" postag_replace="VAIC$1."/></suggestion></message>
+            <message>Falta un verb en condicional.</message>
+            <suggestion><match no="2" postag="VASI(.+)." postag_regexp="yes" postag_replace="VAIC$1."/></suggestion>
             <example type="incorrect" correction="haguera|hauria">T'<marker>hagués</marker> esperat si haguessis avisat</example>
             <example type="correct">T'haguera esperat si haguessis avisat</example>
             <example type="correct">T'hauria esperat si haguessis avisat</example>
             <example type="correct">L'hauria presentat si no hi hagués anat i no n'hagués fugit.</example>
             <example type="correct">No crec que m'ho hagués dit si no s'ho cregués.</example>
             <example type="correct">Si tan sols li agradés, si tan sols volgués!</example>
-        </rule>        
+        </rule>
+        <rule id="EL_MILLOR_HAGUS_ESTAT" name="el millor *hagués estat">
+            <pattern>
+                <token>el</token>
+                <token regexp="yes">preferible|millor|desitjable</token>
+                <marker>
+                    <token>hagués</token>
+                </marker>
+                <token regexp="yes">estat|sigut</token>
+            </pattern>
+            <message>Falta un verb en condicional.</message>
+            <suggestion>hauria</suggestion>
+            <suggestion>haguera</suggestion>
+            <short>Temps verbal</short>
+            <example type="incorrect" correction="hauria|haguera">El millor <marker>hagués</marker> estat això.</example>
+            <example type="correct">el millor hauria estat</example>
+        </rule>   
     </rulegroup>
     <rule id="DEURIA_INFINITIU" name="deuria + infinitiu">
         <pattern>
