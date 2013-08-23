@@ -143,7 +143,7 @@ class Main {
   private void runOnFile(final String filename, final String encoding,
       final boolean listUnknownWords, final boolean xmlFiltering) throws IOException {
     boolean oneTime = false;
-    if (!"-".equals(filename)) {
+    if (!isStdIn(filename)) {
       if (autoDetect) {
         Language language = detectLanguageOfFile(filename, encoding);
         if (language == null) {
@@ -197,7 +197,7 @@ class Main {
       lt.setOutput(System.err);
     }
     if (!apiFormat && !applySuggestions) {
-      if ("-".equals(filename)) {
+      if (isStdIn(filename)) {
         System.out.println("Working on STDIN...");
       } else {
         System.out.println("Working on " + filename + "...");
@@ -294,11 +294,14 @@ class Main {
           }
         }
         printTimingInformation(listUnknownWords, rules, unknownWords, ruleIndex, matches, sentences, startTime);
-        if (br != null) {
-          br.close();
-        }
-        if (isr != null) {
-          isr.close();
+        if (!isStdIn(filename)) {
+          // don't close stdin, would cause a "Stream closed" exception
+          if (br != null) {
+            br.close();
+          }
+          if (isr != null) {
+            isr.close();
+          }
         }
       }
     }
@@ -307,14 +310,14 @@ class Main {
   private InputStreamReader getInputStreamReader(String filename, String encoding)
           throws UnsupportedEncodingException, FileNotFoundException {
     final InputStreamReader isr;
-    if (!"-".equals(filename)) {
+    if (!isStdIn(filename)) {
       final File file = new File(filename);
       if (encoding != null) {
         isr = new InputStreamReader(new BufferedInputStream(
-            new FileInputStream(file.getAbsolutePath())), encoding);
+            new FileInputStream(file)), encoding);
       } else {
         isr = new InputStreamReader(new BufferedInputStream(
-            new FileInputStream(file.getAbsolutePath())));
+            new FileInputStream(file)));
       }
     } else {
       if (encoding != null) {
@@ -324,6 +327,10 @@ class Main {
       }
     }
     return isr;
+  }
+
+  private boolean isStdIn(String filename) {
+    return "-".equals(filename);
   }
 
   private void printTimingInformation(final boolean listUnknownWords, final List<Rule> rules,
