@@ -4096,17 +4096,17 @@ $Id$
             </rule>
         </rulegroup>
         <rule id="PER_A_DESPRES" name="per a després">
-		    <pattern>
-		    	<marker>
-			        <token>per</token>
-			        <token>després</token>
-		        </marker>
-		        <token><exception postag="V.N.*" postag_regexp="yes"/></token>
-		    </pattern>
-		    <message>¿Volíeu dir <suggestion>per a després</suggestion>?</message>
-		    <example type="incorrect"><marker>per després</marker>.</example>
-		    <example type="correct">per a després</example>
-		</rule>
+    		    <pattern>
+    		    	<marker>
+    			        <token>per</token>
+    			        <token>després</token>
+    		        </marker>
+    		        <token><exception postag="V.N.*" postag_regexp="yes"/></token>
+    		    </pattern>
+    		    <message>¿Volíeu dir <suggestion>per a després</suggestion>?</message>
+    		    <example type="incorrect"><marker>per després</marker>.</example>
+    		    <example type="correct">per a després</example>
+    		</rule>
         <rulegroup id="SOBRE" name="sobre">
         	<rule>
         		<pattern>
@@ -4884,7 +4884,7 @@ $Id$
         </rule>
         <rule id="A_QUE" name="a que">
             <pattern>
-            	<token><exception>per</exception></token>
+            	<token><exception regexp="yes">per|degut</exception></token>
             	<marker>
 	                <token>a<exception postag="NP.*" postag_regexp="yes"/></token>
 	                <token>que</token>
@@ -4943,7 +4943,25 @@ $Id$
             <short>Construcció incorrecta</short>
             <example type="incorrect"><marker>Des de que</marker> m'ho vas dir.</example>
             <example type="correct"><marker>Des que</marker> m'ho vas dir.</example>
-        </rule>
+        </rule> 
+        <rule id="DEGUT_A_QUE" name="*degut a que">
+            <pattern>
+                <marker>
+                    <token>degut</token>
+                    <token>a</token>
+                    <token regexp="yes">que|què</token>
+                </marker>
+            </pattern>
+            <message>Expressió incorrecta.</message>
+            <suggestion>com que</suggestion>
+            <suggestion>perquè</suggestion>
+            <suggestion>ja que</suggestion>
+            <suggestion>pel fet que</suggestion>
+            <suggestion>a causa del fet que</suggestion>
+            <suggestion>degut al fet que</suggestion>
+            <example type="incorrect"><marker>degut a que</marker></example>
+            <example type="correct">a causa que</example>
+        </rule>               
         <!-- <rulegroup id="EN_LA_QUE" name="*en la què">
             <rule>
                 <pattern>
@@ -7530,12 +7548,13 @@ $Id$
             </rule>
         </rulegroup>
         <rulegroup id="L_D_N_NO_S_APOSTROFEN" name="apostrofació: no s'apostrofen d', l', n'">     
-        	<rule>
+        	  <rule>
                 <pattern>
                     <token regexp="yes">[ld]'</token>
-                    <token regexp="yes">\d.*<exception regexp="yes">1{1,2}([,.]\d+)?%?|1[,.]?\d{3}[,.]?\d{3}([,.]\d+)?</exception></token>
+                    <token regexp="yes">\d.*|\p{Sc}<exception regexp="yes">1{1,2}([,.]\d+)?%?|1[,.]?\d{3}[,.]?\d{3}([,.]\d+)?</exception></token>
                 </pattern>
                 <message>No s'apostrofa.</message>
+                <url>http://esadir.cat/sintaxi/articles</url>
                 <short>No s'apostrofa</short>
                 <example type="incorrect"><marker>d'116</marker></example>
                 <example type="incorrect"><marker>d'116.43</marker></example>
@@ -7546,7 +7565,21 @@ $Id$
                 <example type="correct">d'11 graus</example>
                 <example type="correct">d'11,4 graus</example>    
                 <example type="correct">L'amortització hauria de ser d'1.200.000 euros.</example>         
-            </rule>   
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[ld]</token>
+                    <token>'</token>
+                    <token regexp="yes">\p{Sc}</token>
+                </pattern>
+                <message>Els símbols no s'apostrofen.</message>
+                <suggestion>de <match no="3"/></suggestion>
+                <suggestion>el <match no="3"/></suggestion>
+                <url>http://esadir.cat/sintaxi/articles</url>
+                <short>No s'apostrofa</short>
+                <example type="incorrect">3 milions <marker>d'€</marker>.</example>
+                <example type="correct">d'1 grau</example>
+            </rule>
             <rule>
                 <pattern>
                     <token>d'</token>
