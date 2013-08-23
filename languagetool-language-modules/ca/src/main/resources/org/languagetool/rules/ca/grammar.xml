@@ -19542,305 +19542,305 @@ $Id$
             <example type="incorrect">Cal tancar els <marker>xiringuitos</marker>.</example>
             <example type="correct">Cal tancar totes les paradetes</example>
          </rule>   
-             <rule id="MANUALITAT" name="manualitat">
+         <rule id="MANUALITAT" name="manualitat">
+            <pattern>
+                <token regexp="yes">manualitats?</token>
+            </pattern>
+            <message>Paraula admesa només en alguns diccionaris.</message>
+            <suggestion>treball<match no="1" regexp_match="manualitat(.*)" regexp_replace="$1" /> manual<match no="1" regexp_match="manualitat(.*)" regexp_replace="$1" /></suggestion>
+            <example type="incorrect" correction="treballs manuals">Li agrada fer <marker>manualitats</marker>.</example>
+            <example type="correct">Classe de treballs manuals</example>
+        </rule>
+        <rule id="EXITOS" name="exitós">
+            <pattern>
+                <token regexp="yes">exitós|exitosa|exitosos|exitoses</token>
+            </pattern>
+            <message>Paraula no recollida pels diccionaris, acceptable per a alguns.</message>
+            <suggestion>d'èxit</suggestion>
+            <suggestion>que té èxit</suggestion>
+            <suggestion>reeixit</suggestion>
+            <suggestion>reeixida</suggestion>
+            <suggestion>reeixits</suggestion>
+            <suggestion>reeixides</suggestion>
+            <example type="incorrect">Una pel·lícula <marker>exitosa</marker></example>
+            <example type="correct">Una pel·lícula d'èxit.</example>
+        </rule>
+        <rule id="SUBOFICIAL" name="suboficial">
+            <pattern>
+                <token regexp="yes">suboficials?</token>
+            </pattern>
+            <message>Paraula admesa per alguns.</message>
+            <suggestion><match no="1" regexp_match="suboficial(.*)" regexp_replace="sotsoficial$1" /></suggestion>
+            <example type="incorrect" correction="sotsoficials"><marker>suboficials</marker></example>
+            <example type="correct">sotsoficial</example>
+        </rule>
+         <rule id="QUANTIOS" name="quantiós">
+            <pattern>
+                <token inflected="yes">quantiós</token>
+            </pattern>
+            <message>Paraula admesa només en alguns diccionaris.</message>
+            <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">copiós</match></suggestion>
+            <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">abundós</match></suggestion>
+            <suggestion><match no="1" postag="AQ..(.)." postag_regexp="yes" postag_replace="AQ.C$1.">abundant</match></suggestion>    
+            <example type="incorrect" correction="copiosa|abundosa|abundant">Una <marker>quantiosa</marker> presènica d'autoritats.</example>
+            <example type="correct">una presència abundant</example>
+        </rule>
+        <rulegroup id="PAULATI" name="paulatí, paulatinament">
+            <rule>
                 <pattern>
-                    <token regexp="yes">manualitats?</token>
+                    <token inflected="yes">paulatí</token>
+                </pattern>
+                <message>Llatinisme no enregistrat pels diccionaris normatius.</message>
+            <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">progressiu</match></suggestion>
+            <suggestion><match no="1" postag="AQ0.(.)0" postag_regexp="yes" postag_replace="AQ0C$10">gradual</match></suggestion>
+            <example type="incorrect">La desaparició <marker>paulatina</marker></example>
+            <example type="correct">la desaparició gradual</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>paulatinament</token>
+                </pattern>
+                <message>Llatinisme no enregistrat pels diccionaris normatius.</message>
+                <suggestion>progressivament</suggestion>
+                <suggestion>gradualment</suggestion>
+            <example type="incorrect"><marker>paulatinament</marker></example>
+            <example type="correct">gradualment</example>
+            </rule>
+        </rulegroup>
+        <rule id="DESANGELAT" name="desangelat">
+            <pattern>
+                <token regexp="yes">desangela(t|ts|da|des)</token>
+            </pattern>
+            <message>Paraula admesa només en alguns diccionaris.</message>
+            <suggestion>sense encant</suggestion>
+            <suggestion>sense gràcia</suggestion>
+            <suggestion>sense encís</suggestion>
+            <suggestion><match no="1" regexp_match="desangela(.+)" regexp_replace="apaga$1" /></suggestion>
+            <suggestion><match no="1" regexp_match="desangela[td](.*)" regexp_replace="fred$1" /></suggestion>
+            <suggestion><match no="1" postag="AQ0(..)0" postag_regexp="yes" postag_replace="AQ0$10">gris</match></suggestion>
+            <example type="incorrect" correction="sense encant|sense gràcia|sense encís|apagada|freda|grisa">Una casa <marker>desangelada</marker>.</example>
+            <example type="correct">Una casa sense gràcia.</example>
+        </rule>
+        <rule id="SENTINELLA" name="sentinel·la">
+            <pattern>
+                <token regexp="yes">sentinel·l(a|es)</token>
+            </pattern>
+            <message>Paraula admesa només en alguns diccionaris.</message>
+            <suggestion><match no="1" regexp_match="sentinel·l(.+)" regexp_replace="sentinell$1" /></suggestion>
+            <example type="incorrect" correction="sentinella">El <marker>sentinel·la</marker>.</example>
+            <example type="correct">El sentinella.</example>
+        </rule>
+        <rule id="MENTRES" name="mentres">
+            <pattern>
+                <token>mentres</token>
+            </pattern>
+            <message>Paraula admesa en alguns diccionaris.</message>
+            <suggestion>mentre</suggestion>
+            <example type="incorrect" correction="mentre"><marker>mentres</marker> cantava</example>
+            <example type="correct">mentre cantava</example>
+        </rule>
+        <rulegroup id="CREUAMENT" name="creuament">
+            <rule>
+                <pattern>
+                    <token>creuament</token>
                 </pattern>
                 <message>Paraula admesa només en alguns diccionaris.</message>
-                <suggestion>treball<match no="1" regexp_match="manualitat(.*)" regexp_replace="$1" /> manual<match no="1" regexp_match="manualitat(.*)" regexp_replace="$1" /></suggestion>
-                <example type="incorrect" correction="treballs manuals">Li agrada fer <marker>manualitats</marker>.</example>
-                <example type="correct">Classe de treballs manuals</example>
+                <suggestion>encreuament</suggestion>
+                <suggestion>cruïlla</suggestion>
+                <example type="incorrect">Atura't al <marker>creuament</marker>.</example>
+                <example type="correct">a la cruïlla</example>
             </rule>
-            <rule id="EXITOS" name="exitós">
+            <rule>
                 <pattern>
-                    <token regexp="yes">exitós|exitosa|exitosos|exitoses</token>
-                </pattern>
-                <message>Paraula no recollida pels diccionaris, acceptable per a alguns.</message>
-                <suggestion>d'èxit</suggestion>
-                <suggestion>que té èxit</suggestion>
-                <suggestion>reeixit</suggestion>
-                <suggestion>reeixida</suggestion>
-                <suggestion>reeixits</suggestion>
-                <suggestion>reeixides</suggestion>
-                <example type="incorrect">Una pel·lícula <marker>exitosa</marker></example>
-                <example type="correct">Una pel·lícula d'èxit.</example>
-            </rule>
-            <rule id="SUBOFICIAL" name="suboficial">
-                <pattern>
-                    <token regexp="yes">suboficials?</token>
-                </pattern>
-                <message>Paraula admesa per alguns.</message>
-                <suggestion><match no="1" regexp_match="suboficial(.*)" regexp_replace="sotsoficial$1" /></suggestion>
-                <example type="incorrect" correction="sotsoficials"><marker>suboficials</marker></example>
-                <example type="correct">sotsoficial</example>
-            </rule>
-             <rule id="QUANTIOS" name="quantiós">
-                <pattern>
-                    <token inflected="yes">quantiós</token>
+                    <token>creuaments</token>
                 </pattern>
                 <message>Paraula admesa només en alguns diccionaris.</message>
-                <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">copiós</match></suggestion>
-                <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">abundós</match></suggestion>
-                <suggestion><match no="1" postag="AQ..(.)." postag_regexp="yes" postag_replace="AQ.C$1.">abundant</match></suggestion>    
-                <example type="incorrect" correction="copiosa|abundosa|abundant">Una <marker>quantiosa</marker> presènica d'autoritats.</example>
-                <example type="correct">una presència abundant</example>
+                <suggestion>encreuaments</suggestion>
+                <suggestion>cruïlles</suggestion>
+                <example type="incorrect">En els <marker>creuaments</marker>.</example>
+                <example type="correct">En els encreuaments.</example>
             </rule>
-            <rulegroup id="PAULATI" name="paulatí, paulatinament">
-	            <rule>
-	                <pattern>
-	                    <token inflected="yes">paulatí</token>
-	                </pattern>
-	                <message>Llatinisme no enregistrat pels diccionaris normatius.</message>
-	                <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">progressiu</match></suggestion>
-	                <suggestion><match no="1" postag="AQ0.(.)0" postag_regexp="yes" postag_replace="AQ0C$10">gradual</match></suggestion>    
-	                <example type="incorrect">La desaparició <marker>paulatina</marker></example>
-	                <example type="correct">la desaparició gradual</example>
-	            </rule>
-	            <rule>
-	                <pattern>
-	                    <token>paulatinament</token>
-	                </pattern>
-	                <message>Llatinisme no enregistrat pels diccionaris normatius.</message>
-	                <suggestion>progressivament</suggestion>
-	                <suggestion>gradualment</suggestion>    
-	                <example type="incorrect"><marker>paulatinament</marker></example>
-	                <example type="correct">gradualment</example>
-	            </rule>
-            </rulegroup>
-            <rule id="DESANGELAT" name="desangelat">
+        </rulegroup>
+        <rule id="SIMPLESA" name="simplesa">
+            <pattern>
+                <token inflected="yes">simplesa</token>
+            </pattern>
+            <message>Paraula admesa només en alguns diccionaris.</message>
+            <suggestion><match no="1" postag="NCF(.).*" postag_regexp="yes" postag_replace="NCF$1.*">simplicitat</match></suggestion>
+            <example type="incorrect" correction="simplicitat">Va actuar amb <marker>simplesa</marker>.</example>
+            <example type="correct">La simplicitat.</example>
+        </rule>
+        <rule id="VACACIONAL" name="vacacional">
+            <pattern>
+                <token inflected="yes">vacacional</token>
+            </pattern>
+            <message>Paraula admesa només en alguns diccionaris.</message>
+            <suggestion>de vacances</suggestion>
+            <example type="incorrect" correction="de vacances">Ciutats <marker>vacacionals</marker>.</example>
+            <example type="correct">Ciutat de vacances.</example>
+        </rule>
+        <rule id="SUGGERENCIA" name="suggerència">
+            <pattern>
+                <token inflected="yes">suggerència</token>
+            </pattern>
+            <message>Paraula admesa només en alguns diccionaris.</message>
+            <suggestion><match no="1" postag="NCF(.).*" postag_regexp="yes" postag_replace="NCM$1.*">suggeriment</match></suggestion>
+            <example type="incorrect" correction="suggeriments">Sense escoltar <marker>suggerències</marker>.</example>
+            <example type="correct">El meu suggeriment.</example>
+        </rule>
+        <rule id="VIVENDA" name="vivenda">
+            <pattern>
+                <token inflected="yes">vivenda</token>
+            </pattern>
+            <message>Paraula admesa només en alguns diccionaris.</message>
+            <suggestion><match no="1" postag="NCF(.).*" postag_regexp="yes" postag_replace="NCM$1.*">habitatge</match></suggestion>
+            <example type="incorrect" correction="habitatge">Va comprar una <marker>vivenda</marker>.</example>
+            <example type="correct">Un bon habitatge.</example>
+        </rule>
+        <rule id="COLLISIONAR" name="col·lisionar">
+            <pattern>
+                <token inflected="yes">col·lisionar</token>
+            </pattern>
+            <message>Paraula admesa només en alguns diccionaris.</message>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">col·lidir</match></suggestion>
+            <example type="incorrect" correction="col·lidí"><marker>col·lisionà</marker></example>
+            <example type="correct">col·lidir</example>
+        </rule>
+        <rule id="DESPEDIDA" name="despedida">
+            <pattern>
+                <token inflected="yes">despedida</token>
+            </pattern>
+            <message>Paraula admesa només en alguns diccionaris.</message>
+            <suggestion><match no="1" regexp_match="despedid[ae](s?)" regexp_replace="comiat$1" /></suggestion>
+            <example type="incorrect" correction="comiat">Fou la seva <marker>despedida</marker></example>
+            <example type="correct">s'acomiadà</example>
+        </rule>
+        <rule id="DESPEDIR" name="despedir">
+            <pattern>
+                <token inflected="yes">despedir</token>
+            </pattern>
+            <message>Paraula admesa només en alguns diccionaris.</message>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">acomiadar</match></suggestion>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">despatxar</match></suggestion>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">dir</match> adéu</suggestion>
+            <example type="incorrect">es <marker>despedí</marker></example>
+            <example type="correct">s'acomiadà</example>
+        </rule>
+        <rule id="DISFRUTAR" name="disfrutar">
+            <pattern>
+                <token inflected="yes">disfrutar</token>
+            </pattern>
+            <message>Paraula admesa només en alguns diccionaris.</message>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">gaudir</match></suggestion>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">fruir</match></suggestion>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">sentir</match> goig</suggestion>
+            <suggestion>(passar-ho bé)</suggestion>
+            <suggestion>(divertir-se)</suggestion>
+            <example type="incorrect"><marker>disfrutar</marker></example>
+            <example type="correct">gaudir</example>
+        </rule>
+        <rule id="EXPLOSIONAR" name="explosionar">
+            <pattern>
+                <token inflected="yes">explosionar</token>
+            </pattern>
+            <message>Paraula admesa només en alguns diccionaris.</message>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">fer</match> explotar</suggestion>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">fer</match> esclatar</suggestion>
+            <example type="incorrect" correction="Féu explotar|Féu esclatar"><marker>Explosionà</marker></example>
+            <example type="correct">la féu esclatar</example>
+        </rule>
+        <rule id="AFINCAR" name="afincar">
+            <pattern>
+                <token inflected="yes">afincar</token>
+            </pattern>
+            <message>Paraula admesa només en alguns diccionaris.</message>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">establir</match></suggestion>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">instal·lar</match></suggestion>
+            <example type="incorrect">s'<marker>afincà</marker> a València</example>
+            <example type="correct">s'establí a València</example>
+        </rule>
+        <rule id="ESCARBAR" name="escarbar">
+            <pattern>
+                <token inflected="yes">escarbar</token>
+            </pattern>
+            <message>Paraula admesa només en alguns diccionaris.</message>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">gratar</match></suggestion>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">furgar</match></suggestion>
+            <example type="incorrect"><marker>escarbà</marker> la terra</example>
+            <example type="correct">va furgar per tot</example>
+        </rule>
+        <rulegroup id="DECEPCIONAR" name="decepcionar, decepcionant">
+            <rule>
                 <pattern>
-                    <token regexp="yes">desangela(t|ts|da|des)</token>
+                    <token inflected="yes">decepcionar<exception postag="AQ.*" postag_regexp="yes" /></token>
                 </pattern>
                 <message>Paraula admesa només en alguns diccionaris.</message>
-                <suggestion>sense encant</suggestion>
-                <suggestion>sense gràcia</suggestion>
-                <suggestion>sense encís</suggestion>
-                <suggestion><match no="1" regexp_match="desangela(.+)" regexp_replace="apaga$1" /></suggestion>
-                <suggestion><match no="1" regexp_match="desangela[td](.*)" regexp_replace="fred$1" /></suggestion>
-                <suggestion><match no="1" postag="AQ0(..)0" postag_regexp="yes" postag_replace="AQ0$10">gris</match></suggestion>
-                <example type="incorrect" correction="sense encant|sense gràcia|sense encís|apagada|freda|grisa">Una casa <marker>desangelada</marker>.</example>
-                <example type="correct">Una casa sense gràcia.</example>
+                <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">decebre</match></suggestion>
+                <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">defraudar</match></suggestion>
+                <example type="incorrect" correction="decebé|defraudà">Ens <marker>decepcionà</marker> molt</example>
+                <example type="correct">ens defraudà</example>
             </rule>
-            <rule id="SENTINELLA" name="sentinel·la">
+            <rule>
                 <pattern>
-                    <token regexp="yes">sentinel·l(a|es)</token>
+                    <token postag="AQ.*" postag_regexp="yes" inflected="yes">decepcionant</token>
                 </pattern>
                 <message>Paraula admesa només en alguns diccionaris.</message>
-                <suggestion><match no="1" regexp_match="sentinel·l(.+)" regexp_replace="sentinell$1" /></suggestion>
-                <example type="incorrect" correction="sentinella">El <marker>sentinel·la</marker>.</example>
-                <example type="correct">El sentinella.</example>
+                <suggestion><match no="1" postag="AQ0.(.)." postag_regexp="yes" postag_replace="AQ0[MF]$10">decebedor</match></suggestion>
+                <example type="incorrect" correction="decebedor|decebedora">va ser molt <marker>decepcionant</marker>.</example>
+                <example type="correct">fou decebedor</example>
             </rule>
-            <rule id="MENTRES" name="mentres">
-                <pattern>
-                    <token>mentres</token>
-                </pattern>
-                <message>Paraula admesa en alguns diccionaris.</message>
-                <suggestion>mentre</suggestion>
-                <example type="incorrect" correction="mentre"><marker>mentres</marker> cantava</example>
-                <example type="correct">mentre cantava</example>
-            </rule>
-            <rulegroup id="CREUAMENT" name="creuament">
-	          <rule>
-	                <pattern>
-	                    <token>creuament</token>
-	                </pattern>
-	                <message>Paraula admesa només en alguns diccionaris.</message>
-	                <suggestion>encreuament</suggestion>
-	                <suggestion>cruïlla</suggestion>
-	                <example type="incorrect">Atura't al <marker>creuament</marker>.</example>
-	                <example type="correct">a la cruïlla</example>
-	            </rule>
-	            <rule>
-	                <pattern>
-	                    <token>creuaments</token>
-	                </pattern>
-	                <message>Paraula admesa només en alguns diccionaris.</message>
-	                <suggestion>encreuaments</suggestion>
-	                <suggestion>cruïlles</suggestion>
-	                <example type="incorrect">En els <marker>creuaments</marker>.</example>
-	                <example type="correct">En els encreuaments.</example>
-	            </rule>
-	        </rulegroup>
-	        <rule id="SIMPLESA" name="simplesa">
-                <pattern>
-                    <token inflected="yes">simplesa</token>
-                </pattern>
-                <message>Paraula admesa només en alguns diccionaris.</message>
-                <suggestion><match no="1" postag="NCF(.).*" postag_regexp="yes" postag_replace="NCF$1.*">simplicitat</match></suggestion>
-                <example type="incorrect" correction="simplicitat">Va actuar amb <marker>simplesa</marker>.</example>
-                <example type="correct">La simplicitat.</example>
-            </rule>
-            <rule id="VACACIONAL" name="vacacional">
-                <pattern>
-                    <token inflected="yes">vacacional</token>
-                </pattern>
-                <message>Paraula admesa només en alguns diccionaris.</message>
-                <suggestion>de vacances</suggestion>
-                <example type="incorrect" correction="de vacances">Ciutats <marker>vacacionals</marker>.</example>
-                <example type="correct">Ciutat de vacances.</example>
-            </rule>  
-	        <rule id="SUGGERENCIA" name="suggerència">
-                <pattern>
-                    <token inflected="yes">suggerència</token>
-                </pattern>
-                <message>Paraula admesa només en alguns diccionaris.</message>
-                <suggestion><match no="1" postag="NCF(.).*" postag_regexp="yes" postag_replace="NCM$1.*">suggeriment</match></suggestion>
-                <example type="incorrect" correction="suggeriments">Sense escoltar <marker>suggerències</marker>.</example>
-                <example type="correct">El meu suggeriment.</example>
-            </rule>
-	        <rule id="VIVENDA" name="vivenda">
-                <pattern>
-                    <token inflected="yes">vivenda</token>
-                </pattern>
-                <message>Paraula admesa només en alguns diccionaris.</message>
-                <suggestion><match no="1" postag="NCF(.).*" postag_regexp="yes" postag_replace="NCM$1.*">habitatge</match></suggestion>
-                <example type="incorrect" correction="habitatge">Va comprar una <marker>vivenda</marker>.</example>
-                <example type="correct">Un bon habitatge.</example>
-            </rule>
-            <rule id="COLLISIONAR" name="col·lisionar">
-                <pattern>
-                    <token inflected="yes">col·lisionar</token>
-                </pattern>
-                <message>Paraula admesa només en alguns diccionaris.</message>
-                <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">col·lidir</match></suggestion>
-                <example type="incorrect" correction="col·lidí"><marker>col·lisionà</marker></example>
-                <example type="correct">col·lidir</example>
-            </rule>
-            <rule id="DESPEDIDA" name="despedida">
-                <pattern>
-                    <token inflected="yes">despedida</token>
-                </pattern>
-                <message>Paraula admesa només en alguns diccionaris.</message>
-                <suggestion><match no="1" regexp_match="despedid[ae](s?)" regexp_replace="comiat$1" /></suggestion>
-                <example type="incorrect" correction="comiat">Fou la seva <marker>despedida</marker></example>
-                <example type="correct">s'acomiadà</example>
-            </rule>
-            <rule id="DESPEDIR" name="despedir">
-                <pattern>
-                    <token inflected="yes">despedir</token>
-                </pattern>
-                <message>Paraula admesa només en alguns diccionaris.</message>
-                <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">acomiadar</match></suggestion>
-                <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">despatxar</match></suggestion>
-                <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">dir</match> adéu</suggestion>
-                <example type="incorrect">es <marker>despedí</marker></example>
-                <example type="correct">s'acomiadà</example>
-            </rule>
-            <rule id="DISFRUTAR" name="disfrutar">
-                <pattern>
-                    <token inflected="yes">disfrutar</token>
-                </pattern>
-                <message>Paraula admesa només en alguns diccionaris.</message> 
-                <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">gaudir</match></suggestion>
-                <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">fruir</match></suggestion>
-                <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">sentir</match> goig</suggestion>
-                <suggestion>(passar-ho bé)</suggestion>
-                <suggestion>(divertir-se)</suggestion>
-                <example type="incorrect"><marker>disfrutar</marker></example>
-                <example type="correct">gaudir</example>
-            </rule>
-            <rule id="EXPLOSIONAR" name="explosionar">
-                <pattern>
-                    <token inflected="yes">explosionar</token>
-                </pattern>
-                <message>Paraula admesa només en alguns diccionaris.</message>
-                <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">fer</match> explotar</suggestion>
-                <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">fer</match> esclatar</suggestion>
-                <example type="incorrect" correction="Féu explotar|Féu esclatar"><marker>Explosionà</marker></example>
-                <example type="correct">la féu esclatar</example>
-            </rule>
-            <rule id="AFINCAR" name="afincar">
-                <pattern>
-                    <token inflected="yes">afincar</token>
-                </pattern>
-                <message>Paraula admesa només en alguns diccionaris.</message>
-                <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">establir</match></suggestion>
-                <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">instal·lar</match></suggestion>
-                <example type="incorrect">s'<marker>afincà</marker> a València</example>
-                <example type="correct">s'establí a València</example>
-            </rule>
-            <rule id="ESCARBAR" name="escarbar">
-                <pattern>
-                    <token inflected="yes">escarbar</token>
-                </pattern>
-                <message>Paraula admesa només en alguns diccionaris.</message>
-                <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">gratar</match></suggestion>
-                <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">furgar</match></suggestion>
-                <example type="incorrect"><marker>escarbà</marker> la terra</example>
-                <example type="correct">va furgar per tot</example>
-            </rule>
-            <rulegroup id="DECEPCIONAR" name="decepcionar, decepcionant">
-            	<rule>
-	                <pattern>
-	                    <token inflected="yes">decepcionar<exception postag="AQ.*" postag_regexp="yes" /></token>
-	                </pattern>
-	                <message>Paraula admesa només en alguns diccionaris.</message>
-	                <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">decebre</match></suggestion>
-	                <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">defraudar</match></suggestion>
-	                <example type="incorrect" correction="decebé|defraudà">Ens <marker>decepcionà</marker> molt</example>
-	                <example type="correct">ens defraudà</example>
-	            </rule>
-	            <rule>
-	                <pattern>
-	                    <token postag="AQ.*" postag_regexp="yes" inflected="yes">decepcionant</token>
-	                </pattern>
-	                <message>Paraula admesa només en alguns diccionaris.</message>
-	                <suggestion><match no="1" postag="AQ0.(.)." postag_regexp="yes" postag_replace="AQ0[MF]$10">decebedor</match></suggestion>
-	                <example type="incorrect" correction="decebedor|decebedora">va ser molt <marker>decepcionant</marker>.</example>
-	                <example type="correct">fou decebedor</example>
-	            </rule>
-	        </rulegroup>    
-            <rule id="ALCANCAR" name="alcançar">
-                <pattern>
-                    <token inflected="yes">alcançar</token>
-                </pattern>
-                <message>Paraula admesa només en alguns diccionaris, que val més evitar en llenguatge formal.</message>
-                <suggestion><match no="1" postag="(V.+)." postag_regexp="yes" postag_replace="$1.">arribar</match> a</suggestion>
-                <suggestion><match no="1" postag="(V.+)." postag_regexp="yes" postag_replace="$1.">assolir</match></suggestion>
-                <suggestion><match no="1" postag="(V.+)." postag_regexp="yes" postag_replace="$1.">aconseguir</match></suggestion>
-                <suggestion><match no="1" postag="(V.+)." postag_regexp="yes" postag_replace="$1.">atrapar</match></suggestion>
-                <suggestion><match no="1" postag="(V.+)." postag_regexp="yes" postag_replace="$1.">obtenir</match></suggestion>
-                <suggestion><match no="1" postag="(V.+)." postag_regexp="yes" postag_replace="$1.">abastar</match></suggestion>
-                <suggestion><match no="1" postag="(V.+)." postag_regexp="yes" postag_replace="$1.">atènyer</match></suggestion>
-                <example type="incorrect">No <marker>alcançà</marker> el resultat</example>
-                <example type="correct">No aconseguí el resultat</example>
-            </rule>
-            <rule id="SUBLEVAR" name="sublevar" default="off">
-                <pattern>
-                    <token inflected="yes">sublevar</token>
-                </pattern>
-                <message>Paraula admesa només en alguns diccionaris.</message>
-                <suggestion><match no="1" regexp_match="sublev(.*)" regexp_replace="revolt$1" /></suggestion>
-                <url>http://esadir.cat/lexic/entrades/entry_20030718132249_953</url>
-                <example type="incorrect" correction="revoltàrem">Ens <marker>sublevàrem</marker>.</example>
-                <example type="correct">Ens revoltàrem.</example>
-            </rule>
-        </category>
-        <category name="C2) Qüestions estilístiques opcionals" type="style"> 
-        <!-- Fins (a)/ Cap (a) aquest. Hi ha diferents opinions segons els llibres d'estil-->
-            <rule id="FINS_CAP_A_DEMOSTRATIU" name="Exigeix 'fins a/cap a' davant de demostratiu" default="off">
-                <pattern>
-                    <marker>
-                        <token regexp="yes">fins|cap</token>
-                    </marker>
-                    <token postag="DD.*" postag_regexp="yes"></token>
-                </pattern>
-                <message>Escrivim <suggestion><match no="1"></match> a</suggestion> davant de demostratiu.</message>
-                <example type="incorrect"><marker>Fins</marker> aquest matí.</example>
-                <example type="correct"><marker>Fins a</marker> aquest matí.</example>
-            </rule>
-            <rule id="FINS_CAP_DEMOSTRATIU" name="Exigeix 'fins/cap' davant de demostratiu" default="off">
-                <pattern>
-                    <marker>
-                        <token regexp="yes">fins|cap</token>
-                        <token>a</token>
-                    </marker>
-                    <token postag="DD.*" postag_regexp="yes"></token>
-                </pattern>
-                <message>Escrivim <suggestion><match no="1"></match></suggestion> davant de demostratiu.</message>
-                <example type="incorrect"><marker>Fins a</marker> aquest matí.</example>
-                <example type="correct"><marker>Fins</marker> aquest matí.</example>
-            </rule>               
+        </rulegroup>    
+        <rule id="ALCANCAR" name="alcançar">
+            <pattern>
+                <token inflected="yes">alcançar</token>
+            </pattern>
+            <message>Paraula admesa només en alguns diccionaris, que val més evitar en llenguatge formal.</message>
+            <suggestion><match no="1" postag="(V.+)." postag_regexp="yes" postag_replace="$1.">arribar</match> a</suggestion>
+            <suggestion><match no="1" postag="(V.+)." postag_regexp="yes" postag_replace="$1.">assolir</match></suggestion>
+            <suggestion><match no="1" postag="(V.+)." postag_regexp="yes" postag_replace="$1.">aconseguir</match></suggestion>
+            <suggestion><match no="1" postag="(V.+)." postag_regexp="yes" postag_replace="$1.">atrapar</match></suggestion>
+            <suggestion><match no="1" postag="(V.+)." postag_regexp="yes" postag_replace="$1.">obtenir</match></suggestion>
+            <suggestion><match no="1" postag="(V.+)." postag_regexp="yes" postag_replace="$1.">abastar</match></suggestion>
+            <suggestion><match no="1" postag="(V.+)." postag_regexp="yes" postag_replace="$1.">atènyer</match></suggestion>
+            <example type="incorrect">No <marker>alcançà</marker> el resultat</example>
+            <example type="correct">No aconseguí el resultat</example>
+        </rule>
+        <rule id="SUBLEVAR" name="sublevar" default="off">
+            <pattern>
+                <token inflected="yes">sublevar</token>
+            </pattern>
+            <message>Paraula admesa només en alguns diccionaris.</message>
+            <suggestion><match no="1" regexp_match="sublev(.*)" regexp_replace="revolt$1" /></suggestion>
+            <url>http://esadir.cat/lexic/entrades/entry_20030718132249_953</url>
+            <example type="incorrect" correction="revoltàrem">Ens <marker>sublevàrem</marker>.</example>
+            <example type="correct">Ens revoltàrem.</example>
+        </rule>
+    </category>
+    <category name="C2) Qüestions estilístiques opcionals" type="style"> 
+    <!-- Fins (a)/ Cap (a) aquest. Hi ha diferents opinions segons els llibres d'estil-->
+        <rule id="FINS_CAP_A_DEMOSTRATIU" name="Exigeix 'fins a/cap a' davant de demostratiu" default="off">
+            <pattern>
+                <marker>
+                    <token regexp="yes">fins|cap</token>
+                </marker>
+                <token postag="DD.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Escrivim <suggestion><match no="1"></match> a</suggestion> davant de demostratiu.</message>
+            <example type="incorrect"><marker>Fins</marker> aquest matí.</example>
+            <example type="correct"><marker>Fins a</marker> aquest matí.</example>
+        </rule>
+        <rule id="FINS_CAP_DEMOSTRATIU" name="Exigeix 'fins/cap' davant de demostratiu" default="off">
+            <pattern>
+                <marker>
+                    <token regexp="yes">fins|cap</token>
+                    <token>a</token>
+                </marker>
+                <token postag="DD.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Escrivim <suggestion><match no="1"></match></suggestion> davant de demostratiu.</message>
+            <example type="incorrect"><marker>Fins a</marker> aquest matí.</example>
+            <example type="correct"><marker>Fins</marker> aquest matí.</example>
+        </rule>               
         <rulegroup id="EN_NO_INFINITIU_CAUSAL" name="Evita: en no + infinitiu (causal)">
             <rule>
                 <pattern>
@@ -19907,26 +19907,26 @@ $Id$
             <example type="correct">Això <marker>se</marker> celebra.</example>
         </rule>
         <rule id="EVITA_INFINITIUS_INDRE" name="Evita infinitius i noms en -vindre, -tindre" default="on">
-	            <pattern>
-	                <token regexp="yes">.+[tv]indres?</token>
-	            </pattern>
-	            <message>Variant informal.</message>
-	            <suggestion><match no="1" regexp_match="(.+[tv])indre(s?)" regexp_replace="$1enir$2" /></suggestion>
-	            <url>http://esadir.cat/morfologia/tenirvenirvaler</url>
-	            <example type="incorrect" correction="esdevenir">No heu d'<marker>esdevindre</marker> mandrosos.</example>
-	            <example type="correct">Heu d'esdevenir lliures.</example>
-	        </rule>
-	        <rule id="EVITA_INFINITIUS_VALDRE" name="Evita infinitius en -valdre" default="off">
-	            <pattern>
-	                <token regexp="yes">.*valdre</token>
-	            </pattern>
-	            <message>Variant informal. Podeu dir: <suggestion><match no="1" regexp_match="(.*)valdre" regexp_replace="$1valer" /></suggestion></message>
-	            <url>http://esadir.cat/morfologia/tenirvenirvaler</url>
-	            <example type="incorrect" correction="valer">Deu <marker>valdre</marker> molt</example>
-	            <example type="incorrect" correction="prevaler">Ha de <marker>prevaldre</marker> el seny.</example>
-	            <example type="correct">Deu valer molt.</example>
-	        </rule>
-	    <rulegroup id="VARIANTS_SECUNDARIES" name="Evita vocabulari valencià: mitat, depòsit, depositar">
+            <pattern>
+                <token regexp="yes">.+[tv]indres?</token>
+            </pattern>
+            <message>Variant informal.</message>
+            <suggestion><match no="1" regexp_match="(.+[tv])indre(s?)" regexp_replace="$1enir$2" /></suggestion>
+            <url>http://esadir.cat/morfologia/tenirvenirvaler</url>
+            <example type="incorrect" correction="esdevenir">No heu d'<marker>esdevindre</marker> mandrosos.</example>
+            <example type="correct">Heu d'esdevenir lliures.</example>
+        </rule>
+        <rule id="EVITA_INFINITIUS_VALDRE" name="Evita infinitius en -valdre" default="off">
+            <pattern>
+                <token regexp="yes">.*valdre</token>
+            </pattern>
+            <message>Variant informal. Podeu dir: <suggestion><match no="1" regexp_match="(.*)valdre" regexp_replace="$1valer" /></suggestion></message>
+            <url>http://esadir.cat/morfologia/tenirvenirvaler</url>
+            <example type="incorrect" correction="valer">Deu <marker>valdre</marker> molt</example>
+            <example type="incorrect" correction="prevaler">Ha de <marker>prevaldre</marker> el seny.</example>
+            <example type="correct">Deu valer molt.</example>
+        </rule>
+        <rulegroup id="VARIANTS_SECUNDARIES" name="Evita vocabulari valencià: mitat, depòsit, depositar">
             <rule>
                 <pattern>
                     <token regexp="yes">mitats?</token>
