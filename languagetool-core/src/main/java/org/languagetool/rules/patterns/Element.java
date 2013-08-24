@@ -416,7 +416,7 @@ public class Element implements Cloneable {
       // if no chunk required, default to true
       return true;
     }
-    return chunkToken.equals(token.getChunkTag());
+    return token.getChunkTags().contains(chunkToken);
   }
 
   /**
@@ -782,6 +782,10 @@ public class Element implements Cloneable {
     if (posToken != null) {
       sb.append('/');
       sb.append(posToken);
+    }
+    if (chunkToken != null) {
+      sb.append('/');
+      sb.append(chunkToken);
     }
     if (exceptionList != null) {
       sb.append("/exceptions=");

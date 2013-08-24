@@ -25,6 +25,8 @@ import org.languagetool.AnalyzedToken;
 import org.languagetool.JLanguageTool;
 import org.languagetool.chunking.ChunkTag;
 
+import java.util.Collections;
+
 public class ElementTest extends TestCase {
 
   public void testSentenceStart() {
@@ -142,7 +144,7 @@ public class ElementTest extends TestCase {
   private AnalyzedToken makeToken(String token, String pos, String lemma, String chunk) {
     AnalyzedToken analyzedToken = new AnalyzedToken(token, pos, lemma);
     if (chunk != null) {
-      analyzedToken.setChunkTag(new ChunkTag(chunk));
+      analyzedToken.setChunkTags(Collections.singletonList(new ChunkTag(chunk)));
     }
     return analyzedToken;
   }

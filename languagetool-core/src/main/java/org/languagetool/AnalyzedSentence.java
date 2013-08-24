@@ -139,7 +139,7 @@ public class AnalyzedSentence {
           sb.append("</S>");
         } else if (JLanguageTool.PARAGRAPH_END_TAGNAME.equals(token.getPOSTag())) {
           sb.append("<P/>");
-        } else if (posTag == null) {
+        } else if (posTag == null && !includeChunks) {
           sb.append(token.getToken());
         } else {
           if (!element.isWhitespace()) {

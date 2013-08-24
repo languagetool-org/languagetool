@@ -23,6 +23,7 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.chunking.ChunkTag;
 import org.languagetool.chunking.Chunker;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -37,7 +38,7 @@ public class DemoChunker implements Chunker {
       if ("chunkbar".equals(tokenReading.getToken())) {
         List<AnalyzedToken> readings = tokenReading.getReadings();
         for (AnalyzedToken reading : readings) {
-          reading.setChunkTag(new ChunkTag("B-NP-singular"));
+          reading.setChunkTags(Collections.singletonList(new ChunkTag("B-NP-singular")));
         }
       }
     }

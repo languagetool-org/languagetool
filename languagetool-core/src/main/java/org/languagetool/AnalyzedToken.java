@@ -18,8 +18,11 @@
  */
 package org.languagetool;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.languagetool.chunking.ChunkTag;
 
@@ -43,7 +46,7 @@ public class AnalyzedToken {
   
   private boolean hasNoPOSTag;
 
-  private ChunkTag chunkTag;
+  private List<ChunkTag> chunkTags = new ArrayList<>();
 
   public AnalyzedToken(final String token, final String posTag, final String lemma) {
     this.token = Objects.requireNonNull(token, "token cannot be null");
@@ -75,18 +78,18 @@ public class AnalyzedToken {
   }
 
   /**
-   * @return the chunk tag or {@code null}
+   * @return the chunk tags or {@code null}
    * @since 2.3
    */
-  public final ChunkTag getChunkTag() {
-    return chunkTag;
+  public final List<ChunkTag> getChunkTags() {
+    return chunkTags;
   }
 
   /**
    * @since 2.3
    */
-  public final void setChunkTag(final ChunkTag chunkTag) {
-    this.chunkTag = chunkTag;
+  public final void setChunkTags(final List<ChunkTag> chunkTags) {
+    this.chunkTags = Objects.requireNonNull(chunkTags);
   }
 
   /**
@@ -129,8 +132,8 @@ public class AnalyzedToken {
     if (an.getPOSTag() != null) {
       found &= an.getPOSTag().equals(this.posTag);
     }
-    if (an.getChunkTag() != null) {
-      found &= an.getChunkTag().equals(this.chunkTag);
+    if (an.getChunkTags().size() > 0) {
+      found &= an.getChunkTags().equals(this.chunkTags);
     }
     return found;
   }
@@ -161,8 +164,8 @@ public class AnalyzedToken {
   public String toFullString() {
     final StringBuilder sb = new StringBuilder();
     sb.append(toString());
-    if (chunkTag != null) {
-      sb.append('/').append(chunkTag);
+    if (chunkTags.size() > 0) {
+      sb.append('/').append(StringUtils.join(chunkTags, ","));
     }
     return sb.toString();
   }
@@ -185,7 +188,7 @@ public class AnalyzedToken {
     result = prime * result + ((lemma == null) ? 0 : lemma.hashCode());
     result = prime * result + ((posTag == null) ? 0 : posTag.hashCode());    
     result = prime * result + ((token == null) ? 0 : token.hashCode());
-    result = prime * result + ((chunkTag == null) ? 0 : chunkTag.hashCode());
+    result = prime * result + chunkTags.hashCode();
     return result;
   }
 
@@ -201,7 +204,7 @@ public class AnalyzedToken {
             .append(token, rhs.token)
             .append(posTag, rhs.posTag)
             .append(lemma, rhs.lemma)
-            .append(chunkTag, rhs.chunkTag)
+            .append(chunkTags, rhs.chunkTags)
             .append(isWhitespaceBefore, rhs.isWhitespaceBefore)
             .isEquals();
   }

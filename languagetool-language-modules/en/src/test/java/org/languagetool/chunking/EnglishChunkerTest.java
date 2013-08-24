@@ -29,7 +29,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import static junit.framework.Assert.assertNull;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -38,18 +37,19 @@ public class EnglishChunkerTest {
   @Test
   public void testAddChunkTags() throws Exception {
     EnglishChunker chunker = new EnglishChunker();
-    List<AnalyzedTokenReadings> readingsList = createReadingsList("A test of the bicycle is needed");
+    List<AnalyzedTokenReadings> readingsList = createReadingsList("A short test of the bicycle is needed");
     chunker.addChunkTags(readingsList);
-    assertThat(readingsList.size(), is(13));
-    // "A test":
-    assertThat(readingsList.get(0).getAnalyzedToken(0).getChunkTag().toString(), is("B-NP-singular"));
-    assertThat(readingsList.get(2).getAnalyzedToken(0).getChunkTag().toString(), is("I-NP-singular"));
+    assertThat(readingsList.size(), is(15));
+    // "A short test":
+    assertThat(readingsList.get(0).getAnalyzedToken(0).getChunkTags().toString(), is("[B-NP-singular]"));
+    assertThat(readingsList.get(2).getAnalyzedToken(0).getChunkTags().toString(), is("[I-NP-singular]"));
+    assertThat(readingsList.get(4).getAnalyzedToken(0).getChunkTags().toString(), is("[E-NP-singular]"));
     // "the chunker":
-    assertThat(readingsList.get(6).getAnalyzedToken(0).getChunkTag().toString(), is("B-NP-singular"));
-    assertThat(readingsList.get(8).getAnalyzedToken(0).getChunkTag().toString(), is("I-NP-singular"));
+    assertThat(readingsList.get(8).getAnalyzedToken(0).getChunkTags().toString(), is("[B-NP-singular]"));
+    assertThat(readingsList.get(10).getAnalyzedToken(0).getChunkTags().toString(), is("[E-NP-singular]"));
     // "is"
-    assertThat(readingsList.get(10).getAnalyzedToken(0).getChunkTag().toString(), is("B-VP"));
-    assertThat(readingsList.get(12).getAnalyzedToken(0).getChunkTag().toString(), is("I-VP"));
+    assertThat(readingsList.get(12).getAnalyzedToken(0).getChunkTags().toString(), is("[B-VP]"));
+    assertThat(readingsList.get(14).getAnalyzedToken(0).getChunkTags().toString(), is("[I-VP]"));
   }
 
   @Test
@@ -57,10 +57,10 @@ public class EnglishChunkerTest {
     JLanguageTool langTool = new JLanguageTool(new English());
     AnalyzedSentence analyzedSentence = langTool.getAnalyzedSentence("I'll be there");
     AnalyzedTokenReadings[] tokens = analyzedSentence.getTokens();
-    assertThat(tokens[1].getReadings().get(0).getChunkTag(), is(new ChunkTag("B-NP-singular")));
-    assertNull(tokens[2].getReadings().get(0).getChunkTag());  // "'" cannot be mapped as we tokenize differently
-    assertNull(tokens[3].getReadings().get(0).getChunkTag());  // "ll" cannot be mapped as we tokenize differently
-    assertThat(tokens[5].getReadings().get(0).getChunkTag(), is(new ChunkTag("I-VP")));
+    assertThat(tokens[1].getReadings().get(0).getChunkTags().get(0), is(new ChunkTag("B-NP-singular")));
+    assertThat(tokens[2].getReadings().get(0).getChunkTags().size(), is(0));  // "'" cannot be mapped as we tokenize differently
+    assertThat(tokens[3].getReadings().get(0).getChunkTags().size(), is(0));  // "ll" cannot be mapped as we tokenize differently
+    assertThat(tokens[5].getReadings().get(0).getChunkTags().get(0), is(new ChunkTag("I-VP")));
   }
 
   private List<AnalyzedTokenReadings> createReadingsList(String sentence) {

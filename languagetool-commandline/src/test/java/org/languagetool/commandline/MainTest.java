@@ -132,7 +132,7 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(output.indexOf("Expected text language: English") == 0);
     assertTrue(output.contains("1.) Line 1, column 9, Rule ID: EN_A_VS_AN"));
     final String tagText = new String(this.err.toByteArray());
-    assertTrue(tagText.contains("<S> This[this/DT]  is[be/VBZ/B-VP]  an[a/DT/B-NP-singular]  test[test/NN].[././O,</S>]"));
+    assertTrue("Got: " + tagText, tagText.contains("<S> This[this/DT/B-NP-singular,E-NP-singular] is[be/VBZ/B-VP] an[a/DT/B-NP-singular] test[test/NN/E-NP-singular].[././O,</S>]"));
   }
 
   public void testEnglishFileApplySuggestions() throws Exception {
@@ -343,7 +343,7 @@ public class MainTest extends AbstractSecurityTestCase {
     Main.main(args);
     final String output = new String(this.out.toByteArray());
     assertTrue(output.indexOf("Expected text language: English") == 0);
-    assertTrue(output.contains("<S> This[this/DT]  is[be/VBZ]  an[a/DT]  test[test/NN].[./.,</S>]"));
+    assertTrue("Got: " + output, output.contains("<S> This[this/DT/B-NP-singular,E-NP-singular] is[be/VBZ/B-VP] an[a/DT/B-NP-singular] test[test/NN/E-NP-singular].[././O,</S>]"));
   }
 
   public void testBitextMode() throws Exception {

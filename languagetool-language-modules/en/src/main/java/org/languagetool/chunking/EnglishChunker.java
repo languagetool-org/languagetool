@@ -30,6 +30,7 @@ import org.languagetool.tools.Tools;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -104,7 +105,7 @@ public class EnglishChunker implements Chunker {
       int endPos = startPos + tokens[i].length();
       //System.out.println("OPEN: " + tokens[i]);
       AnalyzedTokenReadings readings = getAnalyzedTokenReadingsFor(startPos, endPos, tokenReadings);
-      result.add(new ChunkTaggedToken(tokens[i], new ChunkTag(chunkTag), readings));
+      result.add(new ChunkTaggedToken(tokens[i], Collections.singletonList(new ChunkTag(chunkTag)), readings));
       pos = endPos;
       i++;
     }
@@ -119,7 +120,7 @@ public class EnglishChunker implements Chunker {
           // In theory, each reading could have a different chunk tag, but with
           // our approach that uses its own tokenizer and POS tagger this is not
           // the case, so we add the chunk tag to all readings:
-          analyzedToken.setChunkTag(taggedToken.getChunkTag());
+          analyzedToken.setChunkTags(taggedToken.getChunkTags());
         }
       }
     }

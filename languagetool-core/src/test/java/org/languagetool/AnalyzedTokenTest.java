@@ -22,6 +22,8 @@ package org.languagetool;
 import junit.framework.TestCase;
 import org.languagetool.chunking.ChunkTag;
 
+import java.util.Collections;
+
 public class AnalyzedTokenTest extends TestCase {
 
   public void testToString() {
@@ -58,7 +60,7 @@ public class AnalyzedTokenTest extends TestCase {
   private AnalyzedToken makeToken(String token, String pos, String lemma, String chunk) {
     AnalyzedToken analyzedToken = new AnalyzedToken(token, pos, lemma);
     if (chunk != null) {
-      analyzedToken.setChunkTag(new ChunkTag(chunk));
+      analyzedToken.setChunkTags(Collections.singletonList(new ChunkTag(chunk)));
     }
     return analyzedToken;
   }

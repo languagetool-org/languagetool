@@ -18,8 +18,10 @@
  */
 package org.languagetool.chunking;
 
+import org.apache.commons.lang.StringUtils;
 import org.languagetool.AnalyzedTokenReadings;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -30,15 +32,15 @@ import java.util.Objects;
 class ChunkTaggedToken {
 
   private final String token;
-  private final ChunkTag chunkTag;
+  private final List<ChunkTag> chunkTags;
   private final AnalyzedTokenReadings readings;
 
   /**
    * @param readings may be null, caused by differences in tokenization we don't always have a 1:1 mapping
    */
-  ChunkTaggedToken(String token, ChunkTag chunkTag, AnalyzedTokenReadings readings) {
+  ChunkTaggedToken(String token, List<ChunkTag> chunkTags, AnalyzedTokenReadings readings) {
     this.token = Objects.requireNonNull(token);
-    this.chunkTag = Objects.requireNonNull(chunkTag);
+    this.chunkTags = Objects.requireNonNull(chunkTags);
     this.readings = readings;
   }
 
@@ -46,8 +48,8 @@ class ChunkTaggedToken {
     return token;
   }
 
-  ChunkTag getChunkTag() {
-    return chunkTag;
+  List<ChunkTag> getChunkTags() {
+    return chunkTags;
   }
 
   /**
@@ -59,6 +61,6 @@ class ChunkTaggedToken {
 
   @Override
   public String toString() {
-    return token + '/' + chunkTag;
+    return token + '/' + StringUtils.join(chunkTags, ",");
   }
 }

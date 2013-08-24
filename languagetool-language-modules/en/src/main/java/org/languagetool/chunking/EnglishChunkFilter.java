@@ -40,26 +40,29 @@ class EnglishChunkFilter {
     String newChunkTag = null;
     int i = 0;
     for (ChunkTaggedToken taggedToken : tokens) {
+      List<ChunkTag> chunkTags = new ArrayList<>();
       if (isBeginningOfNounPhrase(taggedToken)) {
         ChunkType chunkType = getChunkType(tokens, i);
         if (chunkType == ChunkType.SINGULAR) {
-          result.add(new ChunkTaggedToken(taggedToken.getToken(), new ChunkTag("B-NP-singular"), taggedToken.getReadings()));
-          newChunkTag = "I-NP-singular";
+          chunkTags.add(new ChunkTag("B-NP-singular"));
+          newChunkTag = "NP-singular";
         } else if (chunkType == ChunkType.PLURAL) {
-          result.add(new ChunkTaggedToken(taggedToken.getToken(), new ChunkTag("B-NP-plural"), taggedToken.getReadings()));
-          newChunkTag = "I-NP-plural";
+          chunkTags.add(new ChunkTag("B-NP-plural"));
+          newChunkTag = "NP-plural";
         } else {
           throw new IllegalStateException("Unknown chunk type: " + chunkType);
         }
-      } else if (isContinuationOfNounPhrase(taggedToken)) {
-        if (newChunkTag != null) {
-          result.add(new ChunkTaggedToken(taggedToken.getToken(), new ChunkTag(newChunkTag), taggedToken.getReadings()));
-        } else {
-          result.add(taggedToken);
-        }
-      } else {
-        // NP ends here
+      }
+      if (newChunkTag != null && isEndOfNounPhrase(tokens, i)) {
+        chunkTags.add(new ChunkTag("E-" + newChunkTag));
         newChunkTag = null;
+      }
+      if (newChunkTag != null && isContinuationOfNounPhrase(taggedToken)) {
+        chunkTags.add(new ChunkTag("I-" + newChunkTag));
+      }
+      if (chunkTags.size() > 0) {
+        result.add(new ChunkTaggedToken(taggedToken.getToken(), chunkTags, taggedToken.getReadings()));
+      } else {
         result.add(taggedToken);
       }
       i++;
@@ -68,11 +71,21 @@ class EnglishChunkFilter {
   }
 
   private boolean isBeginningOfNounPhrase(ChunkTaggedToken taggedToken) {
-    return BEGIN_NOUN_PHRASE_TAG.equals(taggedToken.getChunkTag());
+    return taggedToken.getChunkTags().contains(BEGIN_NOUN_PHRASE_TAG);
+  }
+
+  private boolean isEndOfNounPhrase(List<ChunkTaggedToken> tokens, int i) {
+    if (i > tokens.size() - 2) {
+      return true;
+    }
+    if (!isContinuationOfNounPhrase(tokens.get(i + 1))) {
+      return true;
+    }
+    return false;
   }
 
   private boolean isContinuationOfNounPhrase(ChunkTaggedToken taggedToken) {
-    return IN_NOUN_PHRASE_TAG.equals(taggedToken.getChunkTag());
+    return taggedToken.getChunkTags().contains(IN_NOUN_PHRASE_TAG);
   }
 
   /**
