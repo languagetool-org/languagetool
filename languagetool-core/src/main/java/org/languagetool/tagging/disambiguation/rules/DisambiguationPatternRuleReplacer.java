@@ -187,6 +187,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
               }
               final AnalyzedToken newTok = new AnalyzedToken(token,
                       newTokenReadings[i].getPOSTag(), lemma);
+              newTok.setChunkTags(newTokenReadings[i].getChunkTags());
               final String prevValue = whTokens[position].toString();
               final String prevAnot = whTokens[position].getHistoricalAnnotations();
               whTokens[position].addReading(newTok);
@@ -249,8 +250,10 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
                 } else {
                   lemma = newTokenReadings[i].getLemma();
                 }
+                final AnalyzedToken analyzedToken = new AnalyzedToken(token, newTokenReadings[i].getPOSTag(), lemma);
+                analyzedToken.setChunkTags(newTokenReadings[i].getChunkTags());
                 final AnalyzedTokenReadings toReplace = new AnalyzedTokenReadings(
-                        new AnalyzedToken(token, newTokenReadings[i].getPOSTag(), lemma),
+                        analyzedToken,
                         whTokens[fromPos].getStartPos());
                 whTokens[position] = replaceTokens(
                         whTokens[position], toReplace);
@@ -268,9 +271,10 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
               lemma = whTokens[fromPos].getAnalyzedToken(0).getLemma();
             }
 
+            final AnalyzedToken analyzedToken = new AnalyzedToken(whTokens[fromPos].getToken(), disambiguatedPOS, lemma);
+            analyzedToken.setChunkTags(whTokens[fromPos].getAnalyzedToken(0).getChunkTags());
             final AnalyzedTokenReadings toReplace = new AnalyzedTokenReadings(
-                    new AnalyzedToken(whTokens[fromPos].getToken(),
-                            disambiguatedPOS, lemma), whTokens[fromPos].getStartPos());
+                    analyzedToken, whTokens[fromPos].getStartPos());
             whTokens[fromPos] = replaceTokens(whTokens[fromPos], toReplace);
           } else {
             // using the match element
