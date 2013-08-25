@@ -1236,7 +1236,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">pas|rien|.*-(tu|ils?|elles?|on|[nv]ous)</token>
+          <token regexp="yes">attention|pas|rien|.*-(tu|ils?|elles?|on|[nv]ous)</token>
           <marker><token>a</token></marker>
         </pattern>
         <message>Voulez-vous écrire <suggestion>à</suggestion> ?</message>
@@ -22261,6 +22261,15 @@ though, and has since been slightly modified)-->
       <example type="correct">La procédure est semi-automatique.</example>
     </rule>
 
+    <rule id="APOS_QU_IL" name="qu il → qu’il">
+      <pattern>
+        <token>qu</token>
+        <token regexp="yes">[aàâeéêioôuhy].*</token>
+      </pattern>
+      <message>Voulez-vous écrire <suggestion>\1’\2</suggestion>?</message>
+      <example type="incorrect" correction="qu’il">Je pense <marker>qu il</marker> ment.</example>
+      <example type="correct">Je pense qu’il ment.</example>
+    </rule>
     <rule id="APOS_ESPACE" name="apostrophe + espace">
       <pattern>
         <token regexp="yes">(.*-)?[cdjlmnst]|qu|jusqu|lorsqu|aujourd</token>
@@ -22275,7 +22284,7 @@ though, and has since been slightly modified)-->
     </rule>
 
     <!-- "off" par défaut car l’apostrophe ' est très courante -->
-    <rule default="off" id="APOS" name="apostrophe typographique">
+    <rule default="off" id="APOS_TYP" name="apostrophe typographique">
       <pattern>
         <token regexp="yes">(.*-)?[cdjlmnst]|qu|jusqu|lorsqu|aujourd</token>
         <marker>
