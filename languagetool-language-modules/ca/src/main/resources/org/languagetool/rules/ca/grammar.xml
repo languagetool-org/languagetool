@@ -11642,6 +11642,20 @@ $Id$
         </rulegroup>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="PAGAR_EL_PATO" name="pagar el pato">
+            <pattern>
+                <marker>
+                    <token inflected="yes" skip="1">pagar</token>
+                    <token>el</token>
+                    <token>pato</token>
+                </marker>
+            </pattern>
+            <message>Expressió incorrecta</message>
+            <suggestion><match no="1" include_skipped="all"/> els plats trencats</suggestion>
+            <suggestion><match no="1" include_skipped="all"/> la festa</suggestion>
+            <example type="incorrect" correction="pagarà ell els plats trencats|pagarà ell la festa">Al final <marker>pagarà ell el pato</marker>.</example>
+            <example type="correct">Pagaràs la festa.</example>
+        </rule>
         <rule id="MEREIXER_LA_PENA" name="merèixer la pena">
             <pattern>
                 <marker>
