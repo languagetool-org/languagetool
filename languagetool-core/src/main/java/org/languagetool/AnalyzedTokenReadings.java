@@ -345,6 +345,22 @@ public class AnalyzedTokenReadings {
     }
   }
 
+  /**
+   * Used to track disambiguator actions.
+   * @return the historicalAnnotations
+   */
+  public String getHistoricalAnnotations() {
+    return historicalAnnotations;
+  }
+
+  /**
+   * Used to track disambiguator actions.
+   * @param historicalAnnotations the historicalAnnotations to set
+   */
+  public void setHistoricalAnnotations(String historicalAnnotations) {
+    this.historicalAnnotations = historicalAnnotations;
+  }
+
   @Override
   public String toString() {
     final StringBuilder sb = new StringBuilder();
@@ -411,22 +427,6 @@ public class AnalyzedTokenReadings {
     } else if (!token.equals(other.token))
       return false;
     return true;
-  }
-
-  /**
-   * Used to track disambiguator actions.
-   * @return the historicalAnnotations
-   */
-  public String getHistoricalAnnotations() {
-    return historicalAnnotations;
-  }
-
-  /**
-   * Used to track disambiguator actions.
-   * @param historicalAnnotations the historicalAnnotations to set
-   */
-  public void setHistoricalAnnotations(String historicalAnnotations) {
-    this.historicalAnnotations = historicalAnnotations;
   }
   
 }
