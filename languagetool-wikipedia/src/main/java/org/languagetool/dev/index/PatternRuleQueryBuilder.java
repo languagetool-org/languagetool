@@ -108,9 +108,9 @@ public class PatternRuleQueryBuilder {
 
   private SpanQuery asSpanQuery(BooleanClause query) {
     if (query.getQuery() instanceof MultiTermQuery) {
-      return new SpanMultiTermQueryWrapper<MultiTermQuery>((MultiTermQuery) query.getQuery());
+      return new SpanMultiTermQueryWrapper<>((MultiTermQuery) query.getQuery());
     } else {
-      final Set<Term> terms = new HashSet<Term>();
+      final Set<Term> terms = new HashSet<>();
       query.getQuery().extractTerms(terms);
       if (terms.size() != 1) {
         throw new RuntimeException("Expected term set of size 1: " + terms);

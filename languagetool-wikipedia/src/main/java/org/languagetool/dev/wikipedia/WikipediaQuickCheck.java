@@ -51,7 +51,7 @@ public class WikipediaQuickCheck {
   private static final Pattern SECURE_WIKIPEDIA_URL_REGEX = Pattern.compile("https://secure\\.wikimedia\\.org/wikipedia/(..)/wiki/(.*)");
   private static final int CONTEXT_SIZE = 25;
 
-  private List<String> disabledRuleIds = new ArrayList<String>();
+  private List<String> disabledRuleIds = new ArrayList<>();
 
   public String getMediaWikiContent(URL wikipediaUrl) throws IOException {
     final Language lang = getLanguage(wikipediaUrl);
@@ -102,7 +102,7 @@ public class WikipediaQuickCheck {
     final SwebleWikipediaTextFilter filter = new SwebleWikipediaTextFilter();
     final PlainTextMapping mapping = filter.filter(wikiContent.getContent());
     final JLanguageTool langTool = getLanguageTool(language);
-    final List<AppliedRuleMatch> appliedMatches = new ArrayList<AppliedRuleMatch>();
+    final List<AppliedRuleMatch> appliedMatches = new ArrayList<>();
     final List<RuleMatch> matches = langTool.check(mapping.getPlainText());
     int internalErrors = 0;
     for (RuleMatch match : matches) {

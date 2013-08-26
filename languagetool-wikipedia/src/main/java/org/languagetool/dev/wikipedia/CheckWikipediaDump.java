@@ -60,20 +60,17 @@ public class CheckWikipediaDump {
       }
     }
     final String languageCode = args[2];
-    final Set<String> disabledRuleIds = new HashSet<String>();
+    final Set<String> disabledRuleIds = new HashSet<>();
     if (!"-".equals(args[1])) {
       final File disabledRulesPropFile = new File(args[1]);
       if (!disabledRulesPropFile.exists() || disabledRulesPropFile.isDirectory()) {
         throw new IOException("File not found or isn't a file: " + disabledRulesPropFile.getAbsolutePath());
       }
       final Properties disabledRules = new Properties();
-      FileInputStream stream = new FileInputStream(disabledRulesPropFile);
-      try {
+      try (FileInputStream stream = new FileInputStream(disabledRulesPropFile)) {
         disabledRules.load(stream);
         addDisabledRules("all", disabledRuleIds, disabledRules);
         addDisabledRules(languageCode, disabledRuleIds, disabledRules);
-      } finally {
-        stream.close();
       }
     }
     final int maxArticles = Integer.parseInt(args[5]);
@@ -140,9 +137,7 @@ public class CheckWikipediaDump {
       final SAXParserFactory factory = SAXParserFactory.newInstance();
       final SAXParser saxParser = factory.newSAXParser();
       saxParser.parse(file, xmlHandler);
-    } catch (ErrorLimitReachedException e) {
-      System.out.println(e);
-    } catch (ArticleLimitReachedException e) {
+    } catch (ErrorLimitReachedException | ArticleLimitReachedException e) {
       System.out.println(e);
     } finally {
       if (xmlHandler != null) {
@@ -182,7 +177,7 @@ public class CheckWikipediaDump {
     System.out.println("Only these rules are enabled: " + Arrays.toString(ruleIds));
   }
 
-  private void applyRuleDeactivation(JLanguageTool languageTool, Set<String> disabledRules) throws IOException {
+  private void applyRuleDeactivation(JLanguageTool languageTool, Set<String> disabledRules) {
     // disabled via config file, usually to avoid too many false alarms:
     for (String disabledRuleId : disabledRules) {
       languageTool.disableRule(disabledRuleId);

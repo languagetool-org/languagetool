@@ -55,7 +55,7 @@ public class Indexer implements AutoCloseable {
 
   public Indexer(Directory dir, Language language) {
     try {
-      final Map<String, Analyzer> analyzerMap = new HashMap<String, Analyzer>();
+      final Map<String, Analyzer> analyzerMap = new HashMap<>();
       analyzerMap.put(FIELD_NAME, new LanguageToolAnalyzer(LUCENE_VERSION, new JLanguageTool(language), false));
       analyzerMap.put(FIELD_NAME_LOWERCASE, new LanguageToolAnalyzer(LUCENE_VERSION, new JLanguageTool(language), true));
       final Analyzer analyzer = new PerFieldAnalyzerWrapper(new DoNotUseAnalyzer(), analyzerMap);
@@ -90,34 +90,22 @@ public class Indexer implements AutoCloseable {
           + "' does not exist or is not readable, please check the path");
       System.exit(1);
     }
-    final BufferedReader reader = new BufferedReader(new FileReader(file));
-    try {
+    try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
       System.out.println("Indexing to directory '" + indexDir + "'...");
-      final FSDirectory directory = FSDirectory.open(new File(indexDir));
-      try {
+      try (FSDirectory directory = FSDirectory.open(new File(indexDir))) {
         final Language language = Language.getLanguageForShortName(languageCode);
-        final Indexer indexer = new Indexer(directory, language);
-        try {
+        try (Indexer indexer = new Indexer(directory, language)) {
           run(reader, indexer, false);
-        } finally {
-          indexer.close();
         }
-      } finally {
-        directory.close();
       }
-    } finally {
-      reader.close();
     }
     System.out.println("Index complete!");
   }
 
   public static void run(String content, Directory dir, Language language, boolean isSentence) throws IOException {
     final BufferedReader br = new BufferedReader(new StringReader(content));
-    final Indexer indexer = new Indexer(dir, language);
-    try {
+    try (Indexer indexer = new Indexer(dir, language)) {
       run(br, indexer, isSentence);
-    } finally {
-      indexer.close();
     }
   }
 
@@ -131,7 +119,7 @@ public class Indexer implements AutoCloseable {
   }
 
   public void index(BufferedReader reader, boolean isSentence, int docCount) throws IOException {
-    String line = "";
+    String line;
     while ((line = reader.readLine()) != null) {
       if (isSentence) {
         add(-1, line);

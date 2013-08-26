@@ -218,7 +218,7 @@ public class Searcher {
   }
 
   private List<MatchingSentence> findMatchingSentences(IndexSearcher indexSearcher, TopDocs topDocs, JLanguageTool languageTool) throws IOException {
-    final List<MatchingSentence> matchingSentences = new ArrayList<MatchingSentence>();
+    final List<MatchingSentence> matchingSentences = new ArrayList<>();
     for (ScoreDoc match : topDocs.scoreDocs) {
       final Document doc = indexSearcher.doc(match.doc);
       final String sentence = doc.get(FIELD_NAME);

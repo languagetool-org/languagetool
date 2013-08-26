@@ -67,7 +67,7 @@ public class SuggestionReplacer {
       replacements.add(plainText.substring(match.getFromPos(), match.getToPos()));
     }
 
-    final List<RuleMatchApplication> ruleMatchApplications = new ArrayList<RuleMatchApplication>();
+    final List<RuleMatchApplication> ruleMatchApplications = new ArrayList<>();
     final Location fromPosLocation = textMapping.getOriginalTextPositionFor(match.getFromPos() + 1);  // not zero-based!
     final Location toPosLocation = textMapping.getOriginalTextPositionFor(match.getToPos() + 1);
 

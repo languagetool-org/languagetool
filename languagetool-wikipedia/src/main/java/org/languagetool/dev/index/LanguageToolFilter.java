@@ -56,11 +56,11 @@ public final class LanguageToolFilter extends TokenFilter {
   private AttributeSource.State current;
   private Iterator<AnalyzedTokenReadings> tokenIter;
 
-  protected LanguageToolFilter(TokenStream input, JLanguageTool languageTool, boolean toLowerCase) {
+  LanguageToolFilter(TokenStream input, JLanguageTool languageTool, boolean toLowerCase) {
     super(input);
     this.languageTool = languageTool;
     this.toLowerCase = toLowerCase;
-    posStack = new Stack<String>();
+    posStack = new Stack<>();
     termAtt = addAttribute(CharTermAttribute.class);
     offsetAtt = addAttribute(OffsetAttribute.class);
     posIncrAtt = addAttribute(PositionIncrementAttribute.class);

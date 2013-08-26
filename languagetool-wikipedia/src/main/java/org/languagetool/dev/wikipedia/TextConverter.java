@@ -87,7 +87,7 @@ public class TextConverter extends Visitor {
 
   private final int wrapCol;
 
-  private Map<Integer, Location> mapping = new HashMap<Integer, Location>();
+  private Map<Integer, Location> mapping = new HashMap<>();
 
   private StringBuilder sb;
 
@@ -122,12 +122,12 @@ public class TextConverter extends Visitor {
     // This method is called by go() before visitation starts
     sb = new StringBuilder();
     line = new StringBuilder();
-    mapping = new HashMap<Integer, Location>();
+    mapping = new HashMap<>();
     pastBod = false;
     needNewlines = 0;
     needSpace = false;
     noWrap = false;
-    sections = new LinkedList<Integer>();
+    sections = new LinkedList<>();
     return super.before(node);
   }
 
