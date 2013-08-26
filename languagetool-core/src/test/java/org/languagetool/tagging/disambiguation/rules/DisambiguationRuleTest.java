@@ -43,15 +43,6 @@ import org.xml.sax.SAXException;
 
 public class DisambiguationRuleTest extends TestCase {
 
-  private static JLanguageTool langTool;
-
-  @Override
-  public void setUp() throws IOException {
-    if (langTool == null) {
-      langTool = new JLanguageTool(Language.DEMO);
-    }
-  }
-
   /**
    * To be called from standalone - calling it here in core doesn't make
    * much sense actually as we don't have any languages.
@@ -62,7 +53,7 @@ public class DisambiguationRuleTest extends TestCase {
 
   private void testDisambiguationRulesFromXML(final Set<Language> ignoredLanguages)
       throws IOException, ParserConfigurationException, SAXException {
-    for (final Language lang : Language.LANGUAGES) {
+    for (final Language lang : Language.REAL_LANGUAGES) {
       if (ignoredLanguages != null && ignoredLanguages.contains(lang)) {
         continue;
       }
@@ -233,7 +224,6 @@ public class DisambiguationRuleTest extends TestCase {
   public static void main(final String[] args) throws IOException, ParserConfigurationException, SAXException {
     final DisambiguationRuleTest test = new DisambiguationRuleTest();
     System.out.println("Running disambiguator rule tests...");
-    test.setUp();
     if (args.length == 0) {
       test.testDisambiguationRulesFromXML(null);
     } else {
