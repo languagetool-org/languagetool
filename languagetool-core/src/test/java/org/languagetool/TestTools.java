@@ -102,16 +102,15 @@ public final class TestTools {
     final StringBuilder outputStr = new StringBuilder();
     for (final Iterator<AnalyzedTokenReadings> iter = output.iterator(); iter
         .hasNext();) {
-      final AnalyzedTokenReadings token = iter.next();
-      final int readingsNumber = token.getReadingsLength();
+      final AnalyzedTokenReadings tokenReadings = iter.next();
       final List<String> readings = new ArrayList<>();
-      for (int j = 0; j < readingsNumber; j++) {
+      for (AnalyzedToken analyzedToken : tokenReadings) {
         final StringBuilder readingStr = new StringBuilder();
-        readingStr.append(token.getAnalyzedToken(j).getToken());
+        readingStr.append(analyzedToken.getToken());
         readingStr.append("/[");
-        readingStr.append(token.getAnalyzedToken(j).getLemma());
+        readingStr.append(analyzedToken.getLemma());
         readingStr.append(']');
-        readingStr.append(token.getAnalyzedToken(j).getPOSTag());
+        readingStr.append(analyzedToken.getPOSTag());
         readings.add(readingStr.toString());
       }
       // force some order on the result just for the test case - order may vary
@@ -173,16 +172,15 @@ public final class TestTools {
       final AnalyzedTokenReadings[] output = finalSentence.getTokens();
 
       for (int i = 0; i < output.length; i++) {
-        final AnalyzedTokenReadings token = output[i];
-        final int readingsNumber = token.getReadingsLength();
+        final AnalyzedTokenReadings tokenReadings = output[i];
         final List<String> readings = new ArrayList<>();
-        for (int j = 0; j < readingsNumber; j++) {
-          final StringBuilder readingStr = new StringBuilder();
-          readingStr.append(token.getAnalyzedToken(j).getToken());
+        for (AnalyzedToken analyzedToken : tokenReadings) {
+        final StringBuilder readingStr = new StringBuilder();
+          readingStr.append(analyzedToken.getToken());
           readingStr.append("/[");
-          readingStr.append(token.getAnalyzedToken(j).getLemma());
+          readingStr.append(analyzedToken.getLemma());
           readingStr.append(']');
-          readingStr.append(token.getAnalyzedToken(j).getPOSTag());
+          readingStr.append(analyzedToken.getPOSTag());
           readings.add(readingStr.toString());
         }
         // force some order on the result just for the test case - order may vary

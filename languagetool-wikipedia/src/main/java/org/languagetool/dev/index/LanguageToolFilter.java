@@ -102,7 +102,6 @@ public final class LanguageToolFilter extends TokenFilter {
     // It must clear attributes, as it is creating new tokens.
     clearAttributes();
     final AnalyzedTokenReadings tr = tokenIter.next();
-    AnalyzedToken at = tr.getAnalyzedToken(0);
 
     // add POS tag for sentence start.
     if (tr.isSentenceStart()) {
@@ -123,15 +122,15 @@ public final class LanguageToolFilter extends TokenFilter {
       return this.incrementToken();
     }
 
+    final AnalyzedToken at = tr.getAnalyzedToken(0);
     offsetAtt.setOffset(tr.getStartPos(), tr.getStartPos() + at.getToken().length());
 
-    for (int i = 0; i < tr.getReadingsLength(); i++) {
-      at = tr.getAnalyzedToken(i);
-      if (at.getPOSTag() != null) {
+    for (AnalyzedToken token : tr) {
+      if (token.getPOSTag() != null) {
         if (toLowerCase) {
-          posStack.push(POS_PREFIX.toLowerCase() + at.getPOSTag().toLowerCase());
+          posStack.push(POS_PREFIX.toLowerCase() + token.getPOSTag().toLowerCase());
         } else {
-          posStack.push(POS_PREFIX + at.getPOSTag());
+          posStack.push(POS_PREFIX + token.getPOSTag());
         }
       }
     }

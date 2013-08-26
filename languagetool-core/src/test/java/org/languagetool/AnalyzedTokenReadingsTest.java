@@ -21,6 +21,11 @@ package org.languagetool;
 
 import junit.framework.TestCase;
 
+import java.util.Arrays;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+
 public class AnalyzedTokenReadingsTest extends TestCase {
 
   public void testNewTags() {
@@ -99,6 +104,24 @@ public class AnalyzedTokenReadingsTest extends TestCase {
     assertFalse(tokenReadings.hasPartialPosTag("POS:FOO:BARX"));
     assertFalse(tokenReadings.hasPartialPosTag("POS:foo:BAR"));
     assertFalse(tokenReadings.hasPartialPosTag("xaz"));
+  }
+  
+  public void testIteration() {
+    final AnalyzedTokenReadings tokenReadings = new AnalyzedTokenReadings(Arrays.asList(
+              new AnalyzedToken("word1", null, null),
+              new AnalyzedToken("word2", null, null)), 0);
+    int i = 0;
+    for (AnalyzedToken tokenReading : tokenReadings) {
+      System.out.println(tokenReading);
+      if (i == 0) {
+        assertThat(tokenReading.getToken(), is("word1"));
+      } else if (i == 1) {
+        assertThat(tokenReading.getToken(), is("word2"));
+      } else {
+        fail();
+      }
+      i++;
+    }
   }
 
 }

@@ -269,9 +269,8 @@ public class Element implements Cloneable {
    * @return true if any of the exceptions matches.
    */
   public final boolean isMatchedByPreviousException(final AnalyzedTokenReadings prevToken) {
-    final int numReadings = prevToken.getReadingsLength();
-    for (int i = 0; i < numReadings; i++) {
-      if (isMatchedByPreviousException(prevToken.getAnalyzedToken(i))) {
+    for (AnalyzedToken analyzedToken : prevToken) {
+      if (isMatchedByPreviousException(analyzedToken)) {
         return true;
       }
     }

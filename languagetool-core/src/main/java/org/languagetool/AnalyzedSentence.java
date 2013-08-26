@@ -20,6 +20,7 @@ package org.languagetool;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -128,28 +129,28 @@ public class AnalyzedSentence {
         sb.append(element.getToken());
         sb.append('[');
       }
-      for (int j = 0; j < element.getReadingsLength(); j++) {
-        final String posTag = element.getAnalyzedToken(j).getPOSTag();
+      Iterator<AnalyzedToken> iterator = element.iterator();
+      while (iterator.hasNext()) {
+        final AnalyzedToken token = iterator.next();
+        final String posTag = token.getPOSTag();
         if (element.isSentenceStart()) {
           sb.append("<S>");
-        } else if (JLanguageTool.SENTENCE_END_TAGNAME.equals(element
-            .getAnalyzedToken(j).getPOSTag())) {
+        } else if (JLanguageTool.SENTENCE_END_TAGNAME.equals(token.getPOSTag())) {
           sb.append("</S>");
-        } else if (JLanguageTool.PARAGRAPH_END_TAGNAME.equals(element
-            .getAnalyzedToken(j).getPOSTag())) {
+        } else if (JLanguageTool.PARAGRAPH_END_TAGNAME.equals(token.getPOSTag())) {
           sb.append("<P/>");
-        } else if (element.getAnalyzedToken(j) != null && posTag == null
+        } else if (posTag == null
             && !(element.getClass().getName().equals("org.languagetool.tagging.de.AnalyzedGermanTokenReadings"))) {
           // FIXME: don't depend on AnalyzedGermanTokenReadings here
-          sb.append(element.getAnalyzedToken(j).getToken());
+          sb.append(token.getToken());
         } else {
           if (!element.isWhitespace()) {
             if (includeChunks) {
-              sb.append(element.getAnalyzedToken(j).toFullString());
+              sb.append(token.toFullString());
             } else {
-              sb.append(element.getAnalyzedToken(j).toString());
+              sb.append(token.toString());
             }
-            if (j < element.getReadingsLength() - 1) {
+            if (iterator.hasNext()) {
               sb.append(readingDelimiter);
             }
           }

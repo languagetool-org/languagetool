@@ -19,9 +19,8 @@
 
 package org.languagetool;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.languagetool.tools.StringTools;
 
@@ -31,7 +30,7 @@ import org.languagetool.tools.StringTools;
  * 
  * @author Marcin Milkowski
  */
-public class AnalyzedTokenReadings {
+public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
 
   protected AnalyzedToken[] anTokReadings;
 
@@ -462,5 +461,28 @@ public class AnalyzedTokenReadings {
       return false;
     return true;
   }
-  
+
+  @Override
+  public Iterator<AnalyzedToken> iterator() {
+    final AtomicInteger i = new AtomicInteger(0);
+    return new Iterator<AnalyzedToken>() {
+      @Override
+      public boolean hasNext() {
+        return i.get() < getReadingsLength();
+      }
+      @Override
+      public AnalyzedToken next() {
+        try {
+          return anTokReadings[i.getAndAdd(1)];
+        } catch (ArrayIndexOutOfBoundsException e) {
+          throw new NoSuchElementException("No such element: " + i + ", element count: " + anTokReadings.length);
+        }
+      }
+      @Override
+      public void remove() {
+        throw new UnsupportedOperationException();
+      }
+    };
+  }
+
 }

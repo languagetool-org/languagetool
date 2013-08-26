@@ -126,7 +126,6 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
     }
     final int fromPos = text.getOriginalPosition(firstMatchToken
             + correctedStPos);
-    final int numRead = whTokens[fromPos].getReadingsLength();
     final boolean spaceBefore = whTokens[fromPos].isWhitespaceBefore();
     boolean filtered = false;
     final DisambiguationPatternRule.DisambiguatorAction disAction = rule.getAction();
@@ -259,12 +258,10 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
             }
           } else if (matchElement == null) {
             String lemma = "";
-            for (int l = 0; l < numRead; l++) {
-              if (whTokens[fromPos].getAnalyzedToken(l).getPOSTag() != null
-                      && (whTokens[fromPos].getAnalyzedToken(l)
-                      .getPOSTag().equals(disambiguatedPOS) && (whTokens[fromPos]
-                      .getAnalyzedToken(l).getLemma() != null))) {
-                lemma = whTokens[fromPos].getAnalyzedToken(l).getLemma();
+            for (AnalyzedToken analyzedToken : whTokens[fromPos]) {
+              if (analyzedToken.getPOSTag() != null
+                      && (analyzedToken.getPOSTag().equals(disambiguatedPOS) && (analyzedToken.getLemma() != null))) {
+                lemma = analyzedToken.getLemma();
               }
             }
             if (StringTools.isEmpty(lemma)) {

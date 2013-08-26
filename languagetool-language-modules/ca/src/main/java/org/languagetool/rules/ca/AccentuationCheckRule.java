@@ -293,9 +293,8 @@ public class AccentuationCheckRule extends CatalanRule {
    */
   private boolean matchPostagRegexp(AnalyzedTokenReadings aToken, Pattern pattern) {
     boolean matches = false;
-    final int readingsLen = aToken.getReadingsLength();
-    for (int i = 0; i < readingsLen; i++) {
-      final String posTag = aToken.getAnalyzedToken(i).getPOSTag();
+    for (AnalyzedToken analyzedToken : aToken) {
+      final String posTag = analyzedToken.getPOSTag();
       if (posTag != null) {
         final Matcher m = pattern.matcher(posTag);
         if (m.matches()) {

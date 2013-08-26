@@ -69,20 +69,20 @@ public abstract class RomanianTaggerTestAbs extends TestCase {
     final StringBuilder allTags = new StringBuilder();
     boolean found = false;
     for (AnalyzedTokenReadings analyzedTokenReadings : tags) {
-      final int length = analyzedTokenReadings.getReadingsLength();
-      for (int i = 0; i < length; i++) {
-        final AnalyzedToken token = analyzedTokenReadings.getAnalyzedToken(i);
+      for (AnalyzedToken token : analyzedTokenReadings) {
         final String crtLemma = token.getLemma();
         final String crtPOSTag = token.getPOSTag();
         allTags.append(String.format("[%s/%s]", crtLemma, crtPOSTag));
         found = ((null == lemma) || (lemma.equals(crtLemma)))
                 && ((null == posTag) || (posTag.equals(crtPOSTag)));
-        if (found)
+        if (found) {
           break;
-      } // for i
-      if (found)
+        }
+      }
+      if (found) {
         break;
-    } // foreach tag
+      }
+    }
     assertTrue(String.format("Lemma and POS not found for word [%s]! "
             + "Expected [%s/%s]. Actual: %s", inflected, lemma, posTag,
             allTags.toString()), found);

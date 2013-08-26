@@ -26,6 +26,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.RuleMatch;
@@ -109,16 +110,15 @@ public class PolishWordRepeatRule extends PolishRule {
         isWord = false;
       }
 
-      final int readingsLen = tokens[i].getReadingsLength();
-      for (int k = 0; k < readingsLen; k++) {
-        final String posTag = tokens[i].getAnalyzedToken(k).getPOSTag();
+      for (AnalyzedToken analyzedToken : tokens[i]) {
+        final String posTag = analyzedToken.getPOSTag();
         if (posTag != null) {
           if (StringTools.isEmpty(posTag)) {
             isWord = false;
             break;
           }
           // FIXME: too many false alarms here:
-          final String lemma = tokens[i].getAnalyzedToken(k).getLemma();
+          final String lemma = analyzedToken.getLemma();
           if (lemma == null) {
             hasLemma = false;
             break;
@@ -148,18 +148,18 @@ public class PolishWordRepeatRule extends PolishRule {
       prevLemma = "";
       if (isWord) {
         boolean notSentEnd = false;
-        for (int j = 0; j < readingsLen; j++) {
-          final String pos = tokens[i].getAnalyzedToken(j).getPOSTag();
+        for (AnalyzedToken analyzedToken : tokens[i]) {
+          final String pos = analyzedToken.getPOSTag();
           if (pos != null) {
             notSentEnd |= "SENT_END".equals(pos);
           }
           if (hasLemma) {
-            curLemma = tokens[i].getAnalyzedToken(j).getLemma();
+            curLemma = analyzedToken.getLemma();
             if (!prevLemma.equals(curLemma) && !notSentEnd) {
               if (inflectedWords.contains(curLemma) && curToken != i) {
                 repetition = true;
               } else {
-                inflectedWords.add(tokens[i].getAnalyzedToken(j).getLemma());
+                inflectedWords.add(analyzedToken.getLemma());
                 curToken = i;
               }
             }
@@ -188,15 +188,9 @@ public class PolishWordRepeatRule extends PolishRule {
     return toRuleMatchArray(ruleMatches);
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see org.languagetool.rules.Rule#reset()
-   */
   @Override
   public void reset() {
     // nothing
-
   }
 
 }
