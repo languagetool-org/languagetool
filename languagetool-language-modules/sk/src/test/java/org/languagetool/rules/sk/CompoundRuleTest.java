@@ -21,14 +21,13 @@ package org.languagetool.rules.sk;
 import java.io.IOException;
 
 import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
 import org.languagetool.language.Slovak;
-import org.languagetool.rules.CompoundRuleTestAbs;
+import org.languagetool.rules.AbstractCompoundRuleTest;
 
 /**
  * @author Daniel Naber
  */
-public class CompoundRuleTest extends CompoundRuleTestAbs {
+public class CompoundRuleTest extends AbstractCompoundRuleTest {
 
   @Override
   protected void setUp() throws Exception {

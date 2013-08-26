@@ -20,14 +20,14 @@ package org.languagetool.rules.pl;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.Polish;
-import org.languagetool.rules.CompoundRuleTestAbs;
+import org.languagetool.rules.AbstractCompoundRuleTest;
 
 import java.io.IOException;
 
 /**
  * @author Daniel Naber
  */
-public class CompoundRuleTest extends CompoundRuleTestAbs {
+public class CompoundRuleTest extends AbstractCompoundRuleTest {
 
   @Override
   protected void setUp() throws Exception {
