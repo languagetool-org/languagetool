@@ -37,9 +37,8 @@ public class TranslationTest extends TestCase {
     final Properties enProps = new Properties();
     enProps.load(new FileInputStream(englishFile));
     final Set<Object> englishKeys = enProps.keySet();
-    for (int i = 0; i < Language.LANGUAGES.length; i++) {
-      final Language lang = Language.LANGUAGES[i];
-      if (lang.getShortName().equals("en") || lang == Language.DEMO) {
+    for (Language lang : Language.REAL_LANGUAGES) {
+      if (lang.getShortName().equals("en")) {
         continue;
       }
       final Properties langProps = new Properties();
@@ -47,8 +46,7 @@ public class TranslationTest extends TestCase {
       if (!langFile.exists()) {
         continue;
       }
-      FileInputStream stream = new FileInputStream(langFile);
-      try {
+      try (FileInputStream stream = new FileInputStream(langFile)) {
         langProps.load(stream);
         final Set<Object> langKeys = langProps.keySet();
         for (Object englishKey : englishKeys) {
@@ -56,23 +54,19 @@ public class TranslationTest extends TestCase {
             System.err.println("***** No key '" + englishKey + "' in file " + langFile);
           }
         }
-      } finally {
-        stream.close();
       }
     }
   }
 
   public void testTranslationsAreNotEmpty() throws IOException {
-    for (int i = 0; i < Language.LANGUAGES.length; i++) {
-      final Language lang = Language.LANGUAGES[i];
-      if (lang == Language.DEMO) {
-        continue;
-      }
-      final File file = getTranslationFile(lang);
-      if (!file.exists()) {
+    for (Language lang : Language.REAL_LANGUAGES) {
+      final File file1 = getTranslationFile(lang);
+      final File file2 = getTranslationFileWithVariant(lang);
+      if (!file1.exists() && !file2.exists()) {
         System.err.println("Note: no translation available for " + lang);
         continue;
       }
+      final File file = file1.exists() ? file1 : file2;
       final List<String> lines = loadFile(file);
       for (String line : lines) {
         line = line.trim();
@@ -90,13 +84,10 @@ public class TranslationTest extends TestCase {
   
   private List<String> loadFile(File file) throws IOException {
     final List<String> l = new ArrayList<>();
-    final Scanner scanner = new Scanner(file);
-    try {
+    try (Scanner scanner = new Scanner(file)) {
       while (scanner.hasNextLine()) {
         l.add(scanner.nextLine());
       }
-    } finally {
-      scanner.close();
     }
     return l;
   }
@@ -110,6 +101,13 @@ public class TranslationTest extends TestCase {
     final String langCode = lang.getShortName();
     final String name = "../languagetool-language-modules/" + langCode + "/src/main/resources/org/languagetool" 
             + "/MessagesBundle_" + langCode + ".properties";
+    return new File(name.replace("/", File.separator));
+  }
+
+  private File getTranslationFileWithVariant(Language lang) {
+    final String langCode = lang.getShortName();
+    final String name = "../languagetool-language-modules/" + langCode + "/src/main/resources/org/languagetool" 
+            + "/MessagesBundle_" + lang.getShortNameWithVariant().replace('-', '_') + ".properties";
     return new File(name.replace("/", File.separator));
   }
 
