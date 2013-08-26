@@ -8488,19 +8488,24 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
             <pattern>
                 <token spacebefore="yes" postag="CD">
                     <exception regexp="yes">one|thou|zero|1</exception>
+                    <exception regexp="yes">19\d\d</exception><!-- exclude, might be year -->
+                    <exception regexp="yes">20[0123]\d</exception><!-- exclude, might be year -->
                     <exception postag="NNP"/><exception scope="previous" postag="DT|PRP\$|POS" postag_regexp="yes"/>
                     <exception regexp="yes" scope="previous">January|February|March|April|May|June|July|August|September|October|November|December|size|\$\d+</exception>
                     <exception spacebefore="no" scope="previous">.</exception>
                 </token>
-                <token chunk="I-NP-singular" min="0" max="-1"></token>
+                <token chunk="I-NP-singular" min="0" max="-1">
+                </token>
                 <marker>
                     <token chunk="E-NP-singular">
-                        <exception postag="NN:U|NNS|NNPS|JJ.*|IN" postag_regexp="yes"></exception><exception>will</exception>
+                        <exception postag="NN:U|NNS|NNPS|JJ.*|IN" postag_regexp="yes"/>
+                        <exception>will</exception>
                         <exception regexp="yes">mm|lb|yd|ft|Msec|km|cm|mg|kg|gm|cc|stat|kc|hr|min|m3|mcg|cpu|KB|MB|saw</exception>
+                        <exception regexp="yes">January|February|March|April|May|June|July|August|September|October|November|December|size|\$\d+|\d+|\)</exception>
                     </token>
                 </marker>
             </pattern>
-            <message>Possible agreement error. The noun '<match no="3"/>' seems to be countable, so consider using: <suggestion suppress_misspelled="no" ><match no="3" suppress_misspelled="yes" postag="NNS|NNPS" postag_regexp="yes"></match></suggestion>.</message>
+            <message>Possible agreement error. The noun '<match no="3"/>' seems to be countable, so consider using: <suggestion suppress_misspelled="yes" ><match no="3" suppress_misspelled="yes" postag="NNS|NNPS" postag_regexp="yes"></match></suggestion>.</message>
             <short>Grammatical problem</short>
             <example type="incorrect" correction="books">I have five <marker>book</marker>.</example>
             <example type="incorrect" correction="chapters">Additionally, there are over 500 college and university <marker>chapter</marker>.</example>
