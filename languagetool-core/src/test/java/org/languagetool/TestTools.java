@@ -76,8 +76,7 @@ public final class TestTools {
     return messages;
   }
 
-  public static void testSplit(final String[] sentences,
-      final SentenceTokenizer sTokenizer) {
+  public static void testSplit(final String[] sentences, final SentenceTokenizer sTokenizer) {
     final StringBuilder inputString = new StringBuilder();
     final List<String> input = new ArrayList<>();
     Collections.addAll(input, sentences);
@@ -90,32 +89,13 @@ public final class TestTools {
   public static void myAssert(final String input, final String expected,
       final Tokenizer tokenizer, final Tagger tagger) throws IOException {
     final List<String> tokens = tokenizer.tokenize(input);
-    final List<String> noWhitespaceTokens = new ArrayList<>();
-    // whitespace confuses tagger, so give it the tokens but no whitespace
-    // tokens:
-    for (final String token : tokens) {
-      if (isWord(token)) {
-        noWhitespaceTokens.add(token);
-      }
-    }
+    final List<String> noWhitespaceTokens = getNoWhitespaceTokens(tokens);
     final List<AnalyzedTokenReadings> output = tagger.tag(noWhitespaceTokens);
     final StringBuilder outputStr = new StringBuilder();
     for (final Iterator<AnalyzedTokenReadings> iter = output.iterator(); iter
         .hasNext();) {
       final AnalyzedTokenReadings tokenReadings = iter.next();
-      final List<String> readings = new ArrayList<>();
-      for (AnalyzedToken analyzedToken : tokenReadings) {
-        final StringBuilder readingStr = new StringBuilder();
-        readingStr.append(analyzedToken.getToken());
-        readingStr.append("/[");
-        readingStr.append(analyzedToken.getLemma());
-        readingStr.append(']');
-        readingStr.append(analyzedToken.getPOSTag());
-        readings.add(readingStr.toString());
-      }
-      // force some order on the result just for the test case - order may vary
-      // from one version of the lexicon to the next:
-      Collections.sort(readings);
+      final List<String> readings = getAsStrings(tokenReadings);
       outputStr.append(StringTools.listToString(readings, "|"));
       if (iter.hasNext()) {
         outputStr.append(" -- ");
@@ -132,22 +112,13 @@ public final class TestTools {
     final List<String> sentences = sentenceTokenizer.tokenize(input);
     for (final String sentence : sentences) {
       final List<String> tokens = tokenizer.tokenize(sentence);
-      final List<String> noWhitespaceTokens = new ArrayList<>();
-      // whitespace confuses tagger, so give it the tokens but no whitespace
-      // tokens:
-      for (final String token : tokens) {
-        if (isWord(token)) {
-          noWhitespaceTokens.add(token);
-        }
-      }
+      final List<String> noWhitespaceTokens = getNoWhitespaceTokens(tokens);
       final List<AnalyzedTokenReadings> aTokens = tagger
           .tag(noWhitespaceTokens);
-      final AnalyzedTokenReadings[] tokenArray = new AnalyzedTokenReadings[tokens
-          .size() + 1];
+      final AnalyzedTokenReadings[] tokenArray = new AnalyzedTokenReadings[tokens.size() + 1];
       final AnalyzedToken[] startTokenArray = new AnalyzedToken[1];
       int toArrayCount = 0;
-      final AnalyzedToken sentenceStartToken = new AnalyzedToken("",
-          "SENT_START", null);
+      final AnalyzedToken sentenceStartToken = new AnalyzedToken("", JLanguageTool.SENTENCE_START_TAGNAME, null);
       startTokenArray[0] = sentenceStartToken;
       tokenArray[toArrayCount++] = new AnalyzedTokenReadings(startTokenArray, 0);
       int startPos = 0;
@@ -166,26 +137,13 @@ public final class TestTools {
       }
 
       AnalyzedSentence finalSentence = new AnalyzedSentence(tokenArray);
-      // disambiguate assigned tags
       finalSentence = disambiguator.disambiguate(finalSentence);
 
       final AnalyzedTokenReadings[] output = finalSentence.getTokens();
 
       for (int i = 0; i < output.length; i++) {
         final AnalyzedTokenReadings tokenReadings = output[i];
-        final List<String> readings = new ArrayList<>();
-        for (AnalyzedToken analyzedToken : tokenReadings) {
-        final StringBuilder readingStr = new StringBuilder();
-          readingStr.append(analyzedToken.getToken());
-          readingStr.append("/[");
-          readingStr.append(analyzedToken.getLemma());
-          readingStr.append(']');
-          readingStr.append(analyzedToken.getPOSTag());
-          readings.add(readingStr.toString());
-        }
-        // force some order on the result just for the test case - order may vary
-        // from one version of the lexicon to the next:
-        Collections.sort(readings);
+        final List<String> readings = getAsStrings(tokenReadings);
         outputStr.append(StringTools.listToString(readings, "|"));
         if (i < output.length - 1) {
           outputStr.append(' ');
@@ -193,6 +151,38 @@ public final class TestTools {
       }
     }
     assertEquals(expected, outputStr.toString());
+  }
+
+  private static List<String> getAsStrings(AnalyzedTokenReadings tokenReadings) {
+    final List<String> readings = new ArrayList<>();
+    for (AnalyzedToken analyzedToken : tokenReadings) {
+      readings.add(getAsString(analyzedToken));
+    }
+    // force some order on the result just for the test case - order may vary
+    // from one version of the lexicon to the next:
+    Collections.sort(readings);
+    return readings;
+  }
+
+  private static String getAsString(AnalyzedToken analyzedToken) {
+    final StringBuilder readingStr = new StringBuilder();
+    readingStr.append(analyzedToken.getToken());
+    readingStr.append("/[");
+    readingStr.append(analyzedToken.getLemma());
+    readingStr.append(']');
+    readingStr.append(analyzedToken.getPOSTag());
+    return readingStr.toString();
+  }
+
+  private static List<String> getNoWhitespaceTokens(List<String> tokens) {
+    final List<String> noWhitespaceTokens = new ArrayList<>();
+    // whitespace confuses tagger, so give it the tokens but no whitespace tokens:
+    for (final String token : tokens) {
+      if (isWord(token)) {
+        noWhitespaceTokens.add(token);
+      }
+    }
+    return noWhitespaceTokens;
   }
 
   public static boolean isWord(final String token) {
