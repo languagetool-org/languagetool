@@ -18,6 +18,8 @@
  */
 package org.languagetool;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -143,11 +145,7 @@ public class AnalyzedSentence {
           sb.append(token.getToken());
         } else {
           if (!element.isWhitespace()) {
-            if (includeChunks) {
-              sb.append(token.toFullString());
-            } else {
-              sb.append(token.toString());
-            }
+            sb.append(token.toString());
             if (iterator.hasNext()) {
               sb.append(readingDelimiter);
             }
@@ -155,6 +153,10 @@ public class AnalyzedSentence {
         }
       }
       if (!element.isWhitespace()) {
+        /*if (includeChunks) {
+          sb.append(",");
+          sb.append(StringUtils.join(element.getChunkTags(), "|"));
+        }*/
         sb.append(']');
       } else {
         sb.append(' ');

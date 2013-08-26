@@ -20,9 +20,6 @@
 package org.languagetool;
 
 import junit.framework.TestCase;
-import org.languagetool.chunking.ChunkTag;
-
-import java.util.Collections;
 
 public class AnalyzedTokenTest extends TestCase {
 
@@ -47,22 +44,6 @@ public class AnalyzedTokenTest extends TestCase {
     assertFalse(testToken1.matches(new AnalyzedToken("word", "POS", "lemma1")));
     assertTrue(testToken1.matches(new AnalyzedToken("", "POS", "lemma")));
     assertTrue(testToken1.matches(new AnalyzedToken("", null, "lemma")));
-
-    assertTrue(makeToken("word", "POS", "lemma", null).matches(makeToken("word", "POS", "lemma", null)));
-    assertTrue(makeToken("word", "POS", "lemma", "chunk").matches(makeToken("word", "POS", "lemma", "chunk")));
-    assertTrue(makeToken("word", "POS", "lemma", "chunk").matches(makeToken("word", "POS", "lemma", null)));
-
-    assertFalse(makeToken("word", "POS", "lemma", "chunk1").matches(makeToken("word", "POS", "lemma", "chunk2")));
-    assertFalse(makeToken("word", "POS", "lemma", null).matches(makeToken("word", "POS", "lemma", "chunk")));
-    assertFalse(testToken1.matches(makeToken("word", "POS", "lemma", "chunk2")));
-  }
-
-  private AnalyzedToken makeToken(String token, String pos, String lemma, String chunk) {
-    AnalyzedToken analyzedToken = new AnalyzedToken(token, pos, lemma);
-    if (chunk != null) {
-      analyzedToken.setChunkTags(Collections.singletonList(new ChunkTag(chunk)));
-    }
-    return analyzedToken;
   }
   
 }

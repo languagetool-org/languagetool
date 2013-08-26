@@ -139,12 +139,10 @@ public class Element implements Cloneable {
     final boolean matched;
     if (testString) {
       matched = (isStringTokenMatched(token) ^ negation)
-          && (isPosTokenMatched(token) ^ posNegation)
-          && isChunkTokenMatched(token);
+          && (isPosTokenMatched(token) ^ posNegation);
     } else {
       matched = (!negation)
-          && (isPosTokenMatched(token) ^ posNegation)
-          && isChunkTokenMatched(token);
+          && (isPosTokenMatched(token) ^ posNegation);
     }
     return matched;
   }
@@ -403,20 +401,6 @@ public class Element implements Cloneable {
       match = token.hasNoTag();      
     }
     return match;
-  }
-
-  /**
-   * Tests if a chunk matches.
-   *
-   * @param token Token to test.
-   * @return true if matches
-   */
-  private boolean isChunkTokenMatched(final AnalyzedToken token) {
-    if (chunkToken == null) {
-      // if no chunk required, default to true
-      return true;
-    }
-    return token.getChunkTags().contains(chunkToken);
   }
 
   /**

@@ -46,8 +46,6 @@ public class AnalyzedToken {
   
   private boolean hasNoPOSTag;
 
-  private List<ChunkTag> chunkTags = new ArrayList<>();
-
   public AnalyzedToken(final String token, final String posTag, final String lemma) {
     this.token = Objects.requireNonNull(token, "token cannot be null");
     this.posTag = posTag;
@@ -75,21 +73,6 @@ public class AnalyzedToken {
    */
   public final String getLemma() {
     return lemma;
-  }
-
-  /**
-   * @return the chunk tags or {@code null}
-   * @since 2.3
-   */
-  public final List<ChunkTag> getChunkTags() {
-    return chunkTags;
-  }
-
-  /**
-   * @since 2.3
-   */
-  public final void setChunkTags(final List<ChunkTag> chunkTags) {
-    this.chunkTags = Objects.requireNonNull(chunkTags);
   }
 
   /**
@@ -132,9 +115,6 @@ public class AnalyzedToken {
     if (an.getPOSTag() != null) {
       found &= an.getPOSTag().equals(this.posTag);
     }
-    if (an.getChunkTags().size() > 0) {
-      found &= an.getChunkTags().equals(this.chunkTags);
-    }
     return found;
   }
   
@@ -157,19 +137,6 @@ public class AnalyzedToken {
     hasNoPOSTag = noTag;
   }
   
-  /**
-   * Like {@link #toString()} but with chunk information.
-   * @since 2.3
-   */
-  public String toFullString() {
-    final StringBuilder sb = new StringBuilder();
-    sb.append(toString());
-    if (chunkTags.size() > 0) {
-      sb.append('/').append(StringUtils.join(chunkTags, ","));
-    }
-    return sb.toString();
-  }
-
   @Override
   public String toString() {
     final StringBuilder sb = new StringBuilder();
@@ -188,7 +155,6 @@ public class AnalyzedToken {
     result = prime * result + ((lemma == null) ? 0 : lemma.hashCode());
     result = prime * result + ((posTag == null) ? 0 : posTag.hashCode());    
     result = prime * result + ((token == null) ? 0 : token.hashCode());
-    result = prime * result + chunkTags.hashCode();
     return result;
   }
 
@@ -204,7 +170,6 @@ public class AnalyzedToken {
             .append(token, rhs.token)
             .append(posTag, rhs.posTag)
             .append(lemma, rhs.lemma)
-            .append(chunkTags, rhs.chunkTags)
             .append(isWhitespaceBefore, rhs.isWhitespaceBefore)
             .isEquals();
   }

@@ -41,15 +41,15 @@ public class EnglishChunkerTest {
     chunker.addChunkTags(readingsList);
     assertThat(readingsList.size(), is(15));
     // "A short test":
-    assertThat(readingsList.get(0).getAnalyzedToken(0).getChunkTags().toString(), is("[B-NP-singular]"));
-    assertThat(readingsList.get(2).getAnalyzedToken(0).getChunkTags().toString(), is("[I-NP-singular]"));
-    assertThat(readingsList.get(4).getAnalyzedToken(0).getChunkTags().toString(), is("[E-NP-singular]"));
+    assertThat(readingsList.get(0).getChunkTags().toString(), is("[B-NP-singular]"));
+    assertThat(readingsList.get(2).getChunkTags().toString(), is("[I-NP-singular]"));
+    assertThat(readingsList.get(4).getChunkTags().toString(), is("[E-NP-singular]"));
     // "the chunker":
-    assertThat(readingsList.get(8).getAnalyzedToken(0).getChunkTags().toString(), is("[B-NP-singular]"));
-    assertThat(readingsList.get(10).getAnalyzedToken(0).getChunkTags().toString(), is("[E-NP-singular]"));
+    assertThat(readingsList.get(8).getChunkTags().toString(), is("[B-NP-singular]"));
+    assertThat(readingsList.get(10).getChunkTags().toString(), is("[E-NP-singular]"));
     // "is"
-    assertThat(readingsList.get(12).getAnalyzedToken(0).getChunkTags().toString(), is("[B-VP]"));
-    assertThat(readingsList.get(14).getAnalyzedToken(0).getChunkTags().toString(), is("[I-VP]"));
+    assertThat(readingsList.get(12).getChunkTags().toString(), is("[B-VP]"));
+    assertThat(readingsList.get(14).getChunkTags().toString(), is("[I-VP]"));
   }
 
   @Test
@@ -57,10 +57,10 @@ public class EnglishChunkerTest {
     JLanguageTool langTool = new JLanguageTool(new English());
     AnalyzedSentence analyzedSentence = langTool.getAnalyzedSentence("I'll be there");
     AnalyzedTokenReadings[] tokens = analyzedSentence.getTokens();
-    assertThat(tokens[1].getReadings().get(0).getChunkTags().get(0), is(new ChunkTag("B-NP-singular")));
-    assertThat(tokens[2].getReadings().get(0).getChunkTags().size(), is(0));  // "'" cannot be mapped as we tokenize differently
-    assertThat(tokens[3].getReadings().get(0).getChunkTags().size(), is(0));  // "ll" cannot be mapped as we tokenize differently
-    assertThat(tokens[5].getReadings().get(0).getChunkTags().get(0), is(new ChunkTag("I-VP")));
+    assertThat(tokens[1].getChunkTags().get(0), is(new ChunkTag("B-NP-singular")));
+    assertThat(tokens[2].getChunkTags().size(), is(0));  // "'" cannot be mapped as we tokenize differently
+    assertThat(tokens[3].getChunkTags().size(), is(0));  // "ll" cannot be mapped as we tokenize differently
+    assertThat(tokens[5].getChunkTags().get(0), is(new ChunkTag("I-VP")));
   }
 
   private List<AnalyzedTokenReadings> createReadingsList(String sentence) {

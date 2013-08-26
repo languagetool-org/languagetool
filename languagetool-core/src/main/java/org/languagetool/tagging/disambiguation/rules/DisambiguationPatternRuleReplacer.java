@@ -25,6 +25,7 @@ import java.util.List;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.chunking.ChunkTag;
 import org.languagetool.rules.patterns.AbstractPatternRulePerformer;
 import org.languagetool.rules.patterns.Element;
 import org.languagetool.rules.patterns.ElementMatcher;
@@ -187,7 +188,6 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
               }
               final AnalyzedToken newTok = new AnalyzedToken(token,
                       newTokenReadings[i].getPOSTag(), lemma);
-              newTok.setChunkTags(newTokenReadings[i].getChunkTags());
               final String prevValue = whTokens[position].toString();
               final String prevAnot = whTokens[position].getHistoricalAnnotations();
               whTokens[position].addReading(newTok);
@@ -251,7 +251,6 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
                   lemma = newTokenReadings[i].getLemma();
                 }
                 final AnalyzedToken analyzedToken = new AnalyzedToken(token, newTokenReadings[i].getPOSTag(), lemma);
-                analyzedToken.setChunkTags(newTokenReadings[i].getChunkTags());
                 final AnalyzedTokenReadings toReplace = new AnalyzedTokenReadings(
                         analyzedToken,
                         whTokens[fromPos].getStartPos());
@@ -272,7 +271,6 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
             }
 
             final AnalyzedToken analyzedToken = new AnalyzedToken(whTokens[fromPos].getToken(), disambiguatedPOS, lemma);
-            analyzedToken.setChunkTags(whTokens[fromPos].getAnalyzedToken(0).getChunkTags());
             final AnalyzedTokenReadings toReplace = new AnalyzedTokenReadings(
                     analyzedToken, whTokens[fromPos].getStartPos());
             whTokens[fromPos] = replaceTokens(whTokens[fromPos], toReplace);
@@ -305,6 +303,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
     final boolean isParaEnd = oldAtr.isParagraphEnd();
     final boolean spaceBefore = oldAtr.isWhitespaceBefore();
     final int startPosition = oldAtr.getStartPos();
+    final List<ChunkTag> chunkTags = oldAtr.getChunkTags();
     if (isSentEnd) {
       newAtr.setSentEnd();
     }
@@ -313,6 +312,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
     }
     newAtr.setWhitespaceBefore(spaceBefore);
     newAtr.setStartPos(startPosition);
+    newAtr.setChunkTags(chunkTags);
     annotateChange(newAtr, prevValue, prevAnot);
     return newAtr;
   }

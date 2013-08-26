@@ -89,6 +89,9 @@ public abstract class AbstractPatternRulePerformer {
           return false;
       }
     }
+    if (elem.getElement().getChunkTag() != null) {
+      return tokens[tokenNo].getChunkTags().contains(elem.getElement().getChunkTag());
+    }
     return thisMatched;
   }
 

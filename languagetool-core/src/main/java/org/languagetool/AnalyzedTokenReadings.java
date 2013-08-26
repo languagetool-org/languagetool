@@ -22,6 +22,8 @@ package org.languagetool;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.apache.commons.lang.StringUtils;
+import org.languagetool.chunking.ChunkTag;
 import org.languagetool.tools.StringTools;
 
 /**
@@ -36,6 +38,7 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
 
   private int startPos;
   private String token;
+  private List<ChunkTag> chunkTags = new ArrayList<>();
 
   private boolean isWhitespace;
   private boolean isLinebreak;
@@ -407,6 +410,9 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
       sb.append(",");
     }
     sb.delete(sb.length() - 1, sb.length());
+    if (chunkTags.size() > 0) {
+      sb.append(StringUtils.join(chunkTags, "|"));
+    }
     sb.append("]");
     return sb.toString();
   }
@@ -422,6 +428,7 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     result = prime * result + (isSentStart ? 1231 : 1237);
     result = prime * result + (isWhitespace ? 1231 : 1237);
     result = prime * result + (isWhitespaceBefore ? 1231 : 1237);
+    result = prime * result + chunkTags.hashCode();
     result = prime * result + startPos;
     result = prime * result + ((token == null) ? 0 : token.hashCode());
     return result;
@@ -454,6 +461,9 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
       return false;
     if (startPos != other.startPos)
       return false;
+    if (!chunkTags.equals(other.chunkTags)) {
+      return false;
+    }
     if (token == null) {
       if (other.token != null)
         return false;
@@ -488,4 +498,12 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     };
   }
 
+  /**
+   * Used to track disambiguator actions.
+   * @param historicalAnnotations the historicalAnnotations to set
+   */
+  public void setHistoricalAnnotations(String historicalAnnotations) {
+    this.historicalAnnotations = historicalAnnotations;
+  }
+  
 }

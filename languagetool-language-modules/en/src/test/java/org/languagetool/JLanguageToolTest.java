@@ -108,9 +108,9 @@ public class JLanguageToolTest extends TestCase {
   public void testAnalyzedSentence() throws IOException {
     final JLanguageTool tool = new JLanguageTool(new English());
     //test soft-hyphen ignoring:
-    assertEquals("<S> This[this/DT/B-NP-singular,E-NP-singular] is[be/VBZ/B-VP] a[a/DT/B-NP-singular] " +
-            "test­ed[tested/JJ/I-NP-singular,test/VBD/I-NP-singular,test/VBN/I-NP-singular,test­ed/null] " +
-            "sentence[sentence/NN/E-NP-singular,sentence/VB/E-NP-singular,sentence/VBP/E-NP-singular].[././O,</S>]",
+    assertEquals("<S> This[this/DT,B-NP-singular|E-NP-singular] is[be/VBZ,B-VP] a[a/DT,B-NP-singular] " +
+            "test­ed[tested/JJ,test/VBD,test/VBN,test­ed/null,I-NP-singular] " +
+            "sentence[sentence/NN,sentence/VB,sentence/VBP,E-NP-singular].[./.,</S>,O]",
             tool.getAnalyzedSentence("This is a test\u00aded sentence.").toString());
     //test paragraph ends adding
     assertEquals("<S> </S><P/> ", tool.getAnalyzedSentence("\n").toString());

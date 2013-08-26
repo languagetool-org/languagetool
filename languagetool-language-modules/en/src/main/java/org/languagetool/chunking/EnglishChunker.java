@@ -24,7 +24,6 @@ import opennlp.tools.postag.POSModel;
 import opennlp.tools.postag.POSTaggerME;
 import opennlp.tools.tokenize.TokenizerME;
 import opennlp.tools.tokenize.TokenizerModel;
-import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.tools.Tools;
 
@@ -116,12 +115,7 @@ public class EnglishChunker implements Chunker {
     for (ChunkTaggedToken taggedToken : chunkTaggedTokens) {
       AnalyzedTokenReadings readings = taggedToken.getReadings();
       if (readings != null) {
-        for (AnalyzedToken analyzedToken : readings.getReadings()) {
-          // In theory, each reading could have a different chunk tag, but with
-          // our approach that uses its own tokenizer and POS tagger this is not
-          // the case, so we add the chunk tag to all readings:
-          analyzedToken.setChunkTags(taggedToken.getChunkTags());
-        }
+        readings.setChunkTags(taggedToken.getChunkTags());
       }
     }
   }
