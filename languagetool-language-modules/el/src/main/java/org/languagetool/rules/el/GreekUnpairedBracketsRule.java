@@ -29,19 +29,19 @@ import org.languagetool.rules.GenericUnpairedBracketsRule;
  */
 public class GreekUnpairedBracketsRule extends GenericUnpairedBracketsRule {
 
-    private static final String[] EL_START_SYMBOLS = {"[", "(", "{", "“", "\"", "«"};
-    private static final String[] EL_END_SYMBOLS = {"]", ")", "}", "”", "\"", "»"};
+  private static final String[] EL_START_SYMBOLS = {"[", "(", "{", "“", "\"", "«"};
+  private static final String[] EL_END_SYMBOLS = {"]", ")", "}", "”", "\"", "»"};
 
-    public GreekUnpairedBracketsRule(final ResourceBundle messages,
-            final Language language) {
-        super(messages, language);
-        startSymbols = EL_START_SYMBOLS;
-        endSymbols = EL_END_SYMBOLS;
-        uniqueMapInit();
-    }
+  public GreekUnpairedBracketsRule(final ResourceBundle messages,
+                                   final Language language) {
+    super(messages, language);
+    startSymbols = EL_START_SYMBOLS;
+    endSymbols = EL_END_SYMBOLS;
+    uniqueMapInit();
+  }
 
-    @Override
-    public String getId() {
-        return "EL_UNPAIRED_BRACKETS";
-    }
+  @Override
+  public String getId() {
+    return "EL_UNPAIRED_BRACKETS";
+  }
 }

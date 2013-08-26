@@ -28,8 +28,8 @@ import org.languagetool.tagging.disambiguation.rules.AbstractRuleDisambiguator;
  */
 public class GreekRuleDisambiguator extends AbstractRuleDisambiguator {
 
-    @Override
-    protected Language getLanguage() {
-        return new Greek();
-    }
+  @Override
+  protected Language getLanguage() {
+    return new Greek();
+  }
 }
