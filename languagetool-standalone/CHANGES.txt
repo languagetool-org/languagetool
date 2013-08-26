@@ -28,9 +28,11 @@ LanguageTool Change Log
   Use max="-1" to allow unlimited occurrences.
   For min, only 0 or 1 is supported (1 is the default).
 
- -standalone version: remember the language selection for the next start
-
- -standalone version: improved window and dialog placement in a multi-monitor setup
+ -standalone version:
+  -The standalone version now underlines errors with a red (spelling errors) or
+   blue (other errors) line (Panagiotis Minos)
+  -Remember the language selection for the next start
+  -Improved window and dialog placement in a multi-monitor setup
 
  -embedded server: uses default port (8081) again if started without arguments
 
@@ -51,7 +53,7 @@ LanguageTool Change Log
    difference. (patch by Stefan Lotties)
   -The new class MultiThreadedJLanguageTool makes use of as many threads
    as the computer has processors. In our tests this has improved text checking
-   time by about 70%.
+   time by about 70% on an Intel i7 processor when used on 30KB text.
   -JLanguageTool.loadFalseFriendRules() now behaves like JLanguageTool.loadPatternRules():
    it looks in the class path first, and then, if the given file is not found there, in
    the filesystem
