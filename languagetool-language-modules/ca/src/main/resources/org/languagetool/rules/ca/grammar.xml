@@ -11641,6 +11641,44 @@ $Id$
         </rulegroup>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="AL_POR_MENOR" name="al por menor">
+            <pattern>
+                <token>a</token>
+                <token>l</token>
+                <token regexp="yes">por|per</token>
+                <token>menor</token>
+            </pattern>
+            <message>Expressió incorrecta.</message>
+            <suggestion>al detall</suggestion>
+            <suggestion>a la menuda</suggestion>
+            <example type="incorrect"><marker>al por menor</marker></example>
+            <example type="correct">al detall</example>
+        </rule>
+        <rule id="MENJAR_SE_UN_MARRO" name="menjar-se un marró">
+            <pattern>
+                <token inflected="yes" regexp="yes" skip="1">menjar|empassar|tragar|engolir</token>
+                <token regexp="yes">uns?|els?</token>
+                <token regexp="yes">marrón?|marron|marrons</token>
+            </pattern>
+            <message>Expressió incorrecta.</message>
+            <suggestion>(menjar-se un moc)</suggestion>
+            <suggestion>(carregar el mort)</suggestion>
+            <suggestion>(menjar-s'ho amb patates)</suggestion>
+            <suggestion>(menjar-se un gripau)</suggestion>
+            <example type="incorrect">Sempre li toca <marker>menjar-se el marró</marker>.</example>
+            <example type="correct">Carregar el mort.</example>
+        </rule>
+        <rule id="DE_MARRES" name="de marres">
+            <pattern>
+                <token>de</token>
+                <token>marres</token>
+            </pattern>
+            <message>Expressió incorrecta.</message>
+            <suggestion>en qüestió</suggestion>
+            <suggestion>de sempre</suggestion>
+            <example type="incorrect" correction="en qüestió|de sempre">El tema <marker>de marres</marker></example>
+            <example type="correct">en qüestió</example>
+        </rule> 
         <rule id="NUMERO_PRIM" name="*número prim/nombre primer">
             <pattern>
                 <token regexp="yes">números?|nombres?</token>
