@@ -250,7 +250,7 @@ public class AnalyzedTokenReadings {
    * @deprecated use {@link #isSentenceStart()} instead - deprecated since 2.3
    */
   public final boolean isSentStart() {
-    return isSentStart;
+    return isSentenceStart();
   }
 
   /**
@@ -272,7 +272,7 @@ public class AnalyzedTokenReadings {
    * @deprecated use {@link #isParagraphEnd()} instead - deprecated since 2.3
    */
   public final boolean isParaEnd() {
-    return isParaEnd;
+    return isParagraphEnd();
   }
 
   /**
@@ -295,15 +295,23 @@ public class AnalyzedTokenReadings {
   }
 
   /**
-   * @return true when the token is a last token in a sentence.
+   * @deprecated use {@link #isSentenceEnd()} instead - deprecated since 2.3
    */
   public final boolean isSentEnd() {
+    return isSentenceEnd();
+  }
+  
+  /**
+   * @return true when the token is a last token in a sentence.
+   * @since 2.3
+   */
+  public boolean isSentenceEnd() {
     return isSentEnd;
   }
   
   /**
-   * @since 0.9.9
    * @return true if the token is LibreOffice/OpenOffice field code.
+   * @since 0.9.9
    */
   public final boolean isFieldCode() {
     return "\u0001".equals(token) || "\u0002".equals(token);
@@ -313,7 +321,7 @@ public class AnalyzedTokenReadings {
    * Add a SENT_END tag.
    */
   public final void setSentEnd() {
-    if (!isSentEnd()) {
+    if (!isSentenceEnd()) {
       final AnalyzedToken sentenceEnd = new AnalyzedToken(getToken(),
           JLanguageTool.SENTENCE_END_TAGNAME, getAnalyzedToken(0).getLemma());
       addReading(sentenceEnd);

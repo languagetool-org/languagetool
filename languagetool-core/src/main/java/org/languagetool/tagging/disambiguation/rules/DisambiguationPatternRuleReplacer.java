@@ -140,7 +140,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
         if (unifiedTokens != null) {
           if (unifiedTokens.length == matchingTokens - startPositionCorrection + endPositionCorrection) {
             if (whTokens[text.getOriginalPosition(firstMatchToken
-                    + correctedStPos + unifiedTokens.length - 1)].isSentEnd()) {
+                    + correctedStPos + unifiedTokens.length - 1)].isSentenceEnd()) {
               unifiedTokens[unifiedTokens.length - 1].setSentEnd();
             }
             for (int i = 0; i < unifiedTokens.length; i++) {
@@ -300,7 +300,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
                                               final AnalyzedTokenReadings newAtr) {
     final String prevValue = oldAtr.toString();
     final String prevAnot = oldAtr.getHistoricalAnnotations();
-    final boolean isSentEnd = oldAtr.isSentEnd();
+    final boolean isSentEnd = oldAtr.isSentenceEnd();
     final boolean isParaEnd = oldAtr.isParagraphEnd();
     final boolean spaceBefore = oldAtr.isWhitespaceBefore();
     final int startPosition = oldAtr.getStartPos();

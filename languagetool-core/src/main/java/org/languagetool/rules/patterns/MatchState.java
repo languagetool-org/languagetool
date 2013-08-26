@@ -137,7 +137,7 @@ public class MatchState {
         } else {
           l.addAll(getNewToken(numRead, token));
         }
-        if (formattedToken.isSentEnd()) {
+        if (formattedToken.isSentenceEnd()) {
           l.add(new AnalyzedToken(formattedToken.getToken(),
                   JLanguageTool.SENTENCE_END_TAGNAME, formattedToken
                   .getAnalyzedToken(0).getLemma()));
