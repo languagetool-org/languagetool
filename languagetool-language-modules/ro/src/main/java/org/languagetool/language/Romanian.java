@@ -37,7 +37,7 @@ import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.ro.RomanianSynthesizer;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
-import org.languagetool.tagging.disambiguation.rules.ro.RomanianRuleDisambiguator;
+import org.languagetool.tagging.disambiguation.rules.AbstractRuleDisambiguator;
 import org.languagetool.tagging.ro.RomanianTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
@@ -125,7 +125,7 @@ public class Romanian extends Language {
   @Override
   public final Disambiguator getDisambiguator() {
     if (disambiguator == null) {
-      disambiguator = new RomanianRuleDisambiguator();
+      disambiguator = new AbstractRuleDisambiguator(new Romanian());
     }
     return disambiguator;
   }

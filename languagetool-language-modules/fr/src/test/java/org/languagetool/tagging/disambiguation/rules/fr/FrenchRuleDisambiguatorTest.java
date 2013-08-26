@@ -24,6 +24,7 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.French;
+import org.languagetool.tagging.disambiguation.rules.AbstractRuleDisambiguator;
 import org.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
 import org.languagetool.tagging.fr.FrenchTagger;
 import org.languagetool.tokenizers.SentenceTokenizer;
@@ -35,7 +36,7 @@ public class FrenchRuleDisambiguatorTest extends TestCase {
   private FrenchTagger tagger;
   private WordTokenizer tokenizer;
   private SentenceTokenizer sentenceTokenizer;
-  private FrenchRuleDisambiguator disambiguator;
+  private AbstractRuleDisambiguator disambiguator;
   private DemoDisambiguator disamb2;
   private JLanguageTool lt; 
   
@@ -44,7 +45,7 @@ public class FrenchRuleDisambiguatorTest extends TestCase {
     tagger = new FrenchTagger();
     tokenizer = new WordTokenizer();
     sentenceTokenizer = new SentenceTokenizer();
-    disambiguator = new FrenchRuleDisambiguator();
+    disambiguator = new AbstractRuleDisambiguator(new French());
     disamb2 = new DemoDisambiguator();    
     try {
       lt = new JLanguageTool(new French());

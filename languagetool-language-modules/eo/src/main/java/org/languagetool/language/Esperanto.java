@@ -32,7 +32,7 @@ import org.languagetool.rules.WordRepeatRule;
 import org.languagetool.rules.spelling.hunspell.HunspellNoSuggestionRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
-import org.languagetool.tagging.disambiguation.rules.eo.EsperantoRuleDisambiguator;
+import org.languagetool.tagging.disambiguation.rules.AbstractRuleDisambiguator;
 import org.languagetool.tagging.eo.EsperantoTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
@@ -85,7 +85,7 @@ public class Esperanto extends Language {
   @Override
   public final Disambiguator getDisambiguator() {
     if (disambiguator == null) {
-      disambiguator = new EsperantoRuleDisambiguator();
+      disambiguator = new AbstractRuleDisambiguator(new Esperanto());
     }
     return disambiguator;
   }

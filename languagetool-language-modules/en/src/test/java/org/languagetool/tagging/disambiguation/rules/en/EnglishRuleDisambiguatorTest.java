@@ -21,6 +21,8 @@ package org.languagetool.tagging.disambiguation.rules.en;
 import java.io.IOException;
 
 import org.languagetool.TestTools;
+import org.languagetool.language.English;
+import org.languagetool.tagging.disambiguation.rules.AbstractRuleDisambiguator;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationRuleTest;
 import org.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
 import org.languagetool.tagging.en.EnglishTagger;
@@ -32,7 +34,7 @@ public class EnglishRuleDisambiguatorTest extends DisambiguationRuleTest {
   private EnglishTagger tagger;
   private WordTokenizer tokenizer;
   private SentenceTokenizer sentenceTokenizer;
-  private EnglishRuleDisambiguator disambiguator;
+  private AbstractRuleDisambiguator disambiguator;
   private DemoDisambiguator disamb2;
   
   @Override
@@ -40,7 +42,7 @@ public class EnglishRuleDisambiguatorTest extends DisambiguationRuleTest {
     tagger = new EnglishTagger();
     tokenizer = new WordTokenizer();
     sentenceTokenizer = new SentenceTokenizer();
-    disambiguator = new EnglishRuleDisambiguator();
+    disambiguator = new AbstractRuleDisambiguator(new English());
     disamb2 = new DemoDisambiguator(); 
   }
 

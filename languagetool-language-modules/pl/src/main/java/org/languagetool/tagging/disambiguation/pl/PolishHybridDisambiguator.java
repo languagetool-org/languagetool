@@ -22,9 +22,10 @@ package org.languagetool.tagging.disambiguation.pl;
 import java.io.IOException;
 
 import org.languagetool.AnalyzedSentence;
+import org.languagetool.language.Polish;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.MultiWordChunker;
-import org.languagetool.tagging.disambiguation.rules.pl.PolishRuleDisambiguator;
+import org.languagetool.tagging.disambiguation.rules.AbstractRuleDisambiguator;
 
 /**
  * Hybrid chunker-disambiguator for Polish.
@@ -35,7 +36,7 @@ import org.languagetool.tagging.disambiguation.rules.pl.PolishRuleDisambiguator;
 public class PolishHybridDisambiguator implements Disambiguator {
 
   private final Disambiguator chunker = new MultiWordChunker("/pl/multiwords.txt");
-  private final Disambiguator disambiguator = new PolishRuleDisambiguator();
+  private final Disambiguator disambiguator = new AbstractRuleDisambiguator(new Polish());
 
   /**
    * Calls two disambiguator classes: (1) a chunker; (2) a rule-based

@@ -22,9 +22,10 @@ package org.languagetool.tagging.disambiguation.fr;
 import java.io.IOException;
 
 import org.languagetool.AnalyzedSentence;
+import org.languagetool.language.French;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.MultiWordChunker;
-import org.languagetool.tagging.disambiguation.rules.fr.FrenchRuleDisambiguator;
+import org.languagetool.tagging.disambiguation.rules.AbstractRuleDisambiguator;
 
 /**
  * Hybrid chunker-disambiguator for French
@@ -35,7 +36,7 @@ import org.languagetool.tagging.disambiguation.rules.fr.FrenchRuleDisambiguator;
 public class FrenchHybridDisambiguator implements Disambiguator {
 
   private final Disambiguator chunker = new MultiWordChunker("/fr/multiwords.txt");
-  private final Disambiguator disambiguator = new FrenchRuleDisambiguator();
+  private final Disambiguator disambiguator = new AbstractRuleDisambiguator(new French());
 
   /**
    * Calls two disambiguator classes: (1) a chunker; (2) a rule-based
