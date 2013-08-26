@@ -11641,6 +11641,38 @@ $Id$
         </rulegroup>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="MEREIXER_LA_PENA" name="merèixer la pena">
+            <pattern>
+                <marker>
+                    <token inflected="yes">merèixer</token>
+                    <token>la</token>
+                    <token>pena</token>
+                </marker>
+            </pattern>
+            <message>Expressió incorrecta</message>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">valer</match> la pena</suggestion>
+            <suggestion>s'ho <match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">valer</match></suggestion>
+            <example type="incorrect" correction="val la pena|s'ho val">No <marker>mereix la pena</marker>.</example>
+            <example type="incorrect" correction="valdrà la pena|s'ho valdrà">No <marker>mereixerà la pena</marker>.</example>
+            <example type="correct">Fa menys mal</example>
+        </rule>
+        <rule id="MENYS_MAL" name="menys mal">
+            <pattern>
+                <token><exception inflected="yes">fer</exception></token>
+                <marker>
+                    <token regexp="yes">menos|menys</token>
+                    <token>mal</token>
+                </marker>
+            </pattern>
+            <message>Expressió incorrecta</message>
+            <suggestion>encara sort</suggestion>
+            <suggestion>sort</suggestion>
+            <suggestion>encara rai</suggestion>
+            <suggestion>encara bo</suggestion>
+            <suggestion>encara com</suggestion>
+            <example type="incorrect"><marker>Menys mal</marker> que has vingut.</example>
+            <example type="correct">Fa menys mal</example>
+        </rule>
         <rule id="AL_POR_MENOR" name="al por menor">
             <pattern>
                 <token>a</token>
