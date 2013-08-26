@@ -33,7 +33,7 @@ import org.languagetool.rules.br.MorfologikBretonSpellerRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.br.BretonTagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
-import org.languagetool.tagging.disambiguation.rules.AbstractRuleDisambiguator;
+import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
 import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.br.BretonWordTokenizer;
 
@@ -80,7 +80,7 @@ public class Breton extends Language {
   @Override
   public final Disambiguator getDisambiguator() {
     if (disambiguator == null) {
-      disambiguator = new AbstractRuleDisambiguator(new Breton());
+      disambiguator = new XmlRuleDisambiguator(new Breton());
     }
     return disambiguator;
   }

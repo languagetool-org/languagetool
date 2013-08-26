@@ -25,7 +25,7 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.language.Russian;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.MultiWordChunker;
-import org.languagetool.tagging.disambiguation.rules.AbstractRuleDisambiguator;
+import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
 
 /**
  * Hybrid chunker-disambiguator for Russian.
@@ -36,7 +36,7 @@ import org.languagetool.tagging.disambiguation.rules.AbstractRuleDisambiguator;
 public class RussianHybridDisambiguator implements Disambiguator {
 
   private final Disambiguator chunker = new MultiWordChunker("/ru/multiwords.txt");
-  private final Disambiguator disambiguator = new AbstractRuleDisambiguator(new Russian());
+  private final Disambiguator disambiguator = new XmlRuleDisambiguator(new Russian());
 
   /**
    * Calls two disambiguator classes: (1) a chunker; (2) a rule-based

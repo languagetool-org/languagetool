@@ -25,7 +25,7 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.language.French;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.MultiWordChunker;
-import org.languagetool.tagging.disambiguation.rules.AbstractRuleDisambiguator;
+import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
 
 /**
  * Hybrid chunker-disambiguator for French
@@ -36,7 +36,7 @@ import org.languagetool.tagging.disambiguation.rules.AbstractRuleDisambiguator;
 public class FrenchHybridDisambiguator implements Disambiguator {
 
   private final Disambiguator chunker = new MultiWordChunker("/fr/multiwords.txt");
-  private final Disambiguator disambiguator = new AbstractRuleDisambiguator(new French());
+  private final Disambiguator disambiguator = new XmlRuleDisambiguator(new French());
 
   /**
    * Calls two disambiguator classes: (1) a chunker; (2) a rule-based

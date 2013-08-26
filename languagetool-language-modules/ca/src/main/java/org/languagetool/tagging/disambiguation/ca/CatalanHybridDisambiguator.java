@@ -25,7 +25,7 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.language.Catalan;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.MultiWordChunker;
-import org.languagetool.tagging.disambiguation.rules.AbstractRuleDisambiguator;
+import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
 
 /**
  * Hybrid chunker-disambiguator for Catalan
@@ -35,7 +35,7 @@ import org.languagetool.tagging.disambiguation.rules.AbstractRuleDisambiguator;
 public class CatalanHybridDisambiguator implements Disambiguator {
 
   private final Disambiguator chunker = new MultiWordChunker("/ca/multiwords.txt");
-  private final Disambiguator disambiguator = new AbstractRuleDisambiguator(new Catalan());
+  private final Disambiguator disambiguator = new XmlRuleDisambiguator(new Catalan());
 
   /**
    * Calls two disambiguator classes: (1) a chunker; (2) a rule-based

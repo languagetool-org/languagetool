@@ -25,7 +25,7 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.language.Ukrainian;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.MultiWordChunker;
-import org.languagetool.tagging.disambiguation.rules.AbstractRuleDisambiguator;
+import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
 
 /**
  * Hybrid chunker-disambiguator for Ukrainian.
@@ -34,7 +34,7 @@ import org.languagetool.tagging.disambiguation.rules.AbstractRuleDisambiguator;
 public class UkrainianHybridDisambiguator implements Disambiguator {
 
   private final Disambiguator chunker = new MultiWordChunker("/uk/multiwords.txt");
-  private final Disambiguator disambiguator = new AbstractRuleDisambiguator(new Ukrainian());
+  private final Disambiguator disambiguator = new XmlRuleDisambiguator(new Ukrainian());
 
   /**
    * Calls two disambiguator classes: (1) a chunker; (2) a rule-based disambiguator.

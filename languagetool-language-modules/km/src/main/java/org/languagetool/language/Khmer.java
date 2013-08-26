@@ -30,7 +30,7 @@ import org.languagetool.rules.km.KhmerSpaceBeforeRule;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
-import org.languagetool.tagging.disambiguation.rules.AbstractRuleDisambiguator;
+import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
 import org.languagetool.tagging.km.KhmerTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
@@ -86,7 +86,7 @@ public class Khmer extends Language {
   @Override
   public Disambiguator getDisambiguator() {
     if (disambiguator == null) {
-      disambiguator = new AbstractRuleDisambiguator(new Khmer());
+      disambiguator = new XmlRuleDisambiguator(new Khmer());
     }
     return disambiguator;
   }

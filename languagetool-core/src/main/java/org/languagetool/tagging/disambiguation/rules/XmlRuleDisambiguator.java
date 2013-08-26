@@ -38,14 +38,14 @@ import org.xml.sax.SAXException;
  * 
  * @author Marcin Miłkowski
  */
-public class AbstractRuleDisambiguator implements Disambiguator {
+public class XmlRuleDisambiguator implements Disambiguator {
 
   private static final String DISAMBIGUATION_FILE = "disambiguation.xml";
   
   private List<DisambiguationPatternRule> disambiguationRules;
   private final Language language;
 
-  public AbstractRuleDisambiguator(final Language language) {
+  public XmlRuleDisambiguator(final Language language) {
     this.language = Objects.requireNonNull(language);
   }
 

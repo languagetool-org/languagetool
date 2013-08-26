@@ -36,7 +36,7 @@ import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.el.GreekSynthesizer;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
-import org.languagetool.tagging.disambiguation.rules.AbstractRuleDisambiguator;
+import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
 import org.languagetool.tagging.el.GreekTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
@@ -122,7 +122,7 @@ public class Greek extends Language {
   @Override
   public Disambiguator getDisambiguator() {
     if (disambiguator == null) {
-      disambiguator = new AbstractRuleDisambiguator(new Greek());
+      disambiguator = new XmlRuleDisambiguator(new Greek());
     }
     return disambiguator;
   }
