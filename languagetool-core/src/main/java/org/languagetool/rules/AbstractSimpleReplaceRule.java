@@ -187,7 +187,11 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
 
         String[] replacements = parts[1].split("\\|");
 
-        map.put(parts[0], Arrays.asList(replacements));
+        // multiple incorrect forms
+        final String[] wrongForms = parts[0].split("\\|");
+        for (String wrongForm : wrongForms) {
+          map.put(wrongForm, Arrays.asList(replacements));
+        }
       }
     } finally {
       scanner.close();
