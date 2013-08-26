@@ -35,7 +35,7 @@ import java.util.List;
  * 
  * @author Ionuț Păduraru
  */
-public abstract class RomanianTaggerTestAbs extends TestCase {
+public abstract class AbstractRomanianTaggerTest extends TestCase {
 
   private RomanianTagger tagger;
   private WordTokenizer tokenizer;

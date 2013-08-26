@@ -25,7 +25,7 @@ import org.languagetool.TestTools;
 /**
  * @author Ionuț Păduraru
  */
-public class RomanianTaggerTest extends RomanianTaggerTestAbs {
+public class RomanianTaggerTest extends AbstractRomanianTaggerTest {
 
   /**
    * First we test if the tagger works fine with single words
