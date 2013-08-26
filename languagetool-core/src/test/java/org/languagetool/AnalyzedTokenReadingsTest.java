@@ -27,9 +27,10 @@ public class AnalyzedTokenReadingsTest extends TestCase {
     AnalyzedTokenReadings tokenReadings = new AnalyzedTokenReadings(new AnalyzedToken("word", "POS", "lemma"));
     assertEquals(false, tokenReadings.isLinebreak());
     assertEquals(false, tokenReadings.isSentEnd());
-    assertEquals(false, tokenReadings.isParaEnd());
-    assertEquals(false, tokenReadings.isSentStart()); // deprecated
+    assertEquals(false, tokenReadings.isParagraphEnd());
     assertEquals(false, tokenReadings.isSentenceStart());
+    assertEquals(false, tokenReadings.isParaEnd());   // deprecated
+    assertEquals(false, tokenReadings.isSentStart()); // deprecated
     tokenReadings.setSentEnd();
     assertEquals(false, tokenReadings.isSentenceStart());
     assertEquals(true, tokenReadings.isSentEnd());
@@ -38,9 +39,9 @@ public class AnalyzedTokenReadingsTest extends TestCase {
     tokenReadings = new AnalyzedTokenReadings(new AnalyzedToken("word", null, "lemma"));    
     tokenReadings.addReading(new AnalyzedToken("word", "SENT_END", null));
     assertEquals(true, tokenReadings.isSentEnd());
-    assertEquals(false, tokenReadings.isParaEnd());
+    assertEquals(false, tokenReadings.isParagraphEnd());
     tokenReadings.addReading(new AnalyzedToken("word", "PARA_END", null));
-    assertEquals(true, tokenReadings.isParaEnd());
+    assertEquals(true, tokenReadings.isParagraphEnd());
     assertEquals(false, tokenReadings.isSentenceStart());
     //but you can't add SENT_START to a non-empty token
     //and get isSentStart == true

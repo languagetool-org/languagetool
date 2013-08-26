@@ -262,16 +262,32 @@ public class AnalyzedTokenReadings {
 
   /**
    * @return true when the token is a last token in a paragraph.
+   * @since 2.3
+   */
+  public final boolean isParagraphEnd() {
+    return isParaEnd;
+  }
+
+  /**
+   * @deprecated use {@link #isParagraphEnd()} instead - deprecated since 2.3
    */
   public final boolean isParaEnd() {
     return isParaEnd;
   }
 
   /**
-   * Add PARA_END tag.
+   * @deprecated use {@link #isParagraphEnd()} instead - deprecated since 2.3
    */
   public void setParaEnd() {
-    if (!isParaEnd()) {
+    setParagraphEnd();
+  }
+
+  /**
+   * Add a reading with a paragraph end token unless this is already a paragraph end.
+   * @since 2.3
+   */
+  public void setParagraphEnd() {
+    if (!isParagraphEnd()) {
       final AnalyzedToken paragraphEnd = new AnalyzedToken(getToken(),
           JLanguageTool.PARAGRAPH_END_TAGNAME, getAnalyzedToken(0).getLemma());
       addReading(paragraphEnd);

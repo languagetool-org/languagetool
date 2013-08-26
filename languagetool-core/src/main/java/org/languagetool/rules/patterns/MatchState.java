@@ -142,7 +142,7 @@ public class MatchState {
                   JLanguageTool.SENTENCE_END_TAGNAME, formattedToken
                   .getAnalyzedToken(0).getLemma()));
         }
-        if (formattedToken.isParaEnd()) {
+        if (formattedToken.isParagraphEnd()) {
           l.add(new AnalyzedToken(formattedToken.getToken(),
                   JLanguageTool.PARAGRAPH_END_TAGNAME, formattedToken
                   .getAnalyzedToken(0).getLemma()));

@@ -194,7 +194,7 @@ public class GenericUnpairedBracketsRule extends Rule {
       }
     }
     symbolStack.clear();
-    if (tokens[tokens.length - 1].isParaEnd()) {
+    if (tokens[tokens.length - 1].isParagraphEnd()) {
       endOfParagraph = true;
     }
 

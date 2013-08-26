@@ -301,14 +301,14 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
     final String prevValue = oldAtr.toString();
     final String prevAnot = oldAtr.getHistoricalAnnotations();
     final boolean isSentEnd = oldAtr.isSentEnd();
-    final boolean isParaEnd = oldAtr.isParaEnd();
+    final boolean isParaEnd = oldAtr.isParagraphEnd();
     final boolean spaceBefore = oldAtr.isWhitespaceBefore();
     final int startPosition = oldAtr.getStartPos();
     if (isSentEnd) {
       newAtr.setSentEnd();
     }
     if (isParaEnd) {
-      newAtr.setParaEnd();
+      newAtr.setParagraphEnd();
     }
     newAtr.setWhitespaceBefore(spaceBefore);
     newAtr.setStartPos(startPosition);

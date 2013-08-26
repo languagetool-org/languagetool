@@ -562,7 +562,7 @@ public class JLanguageTool {
       rememberUnknownWords(analyzedSentence);
       if (++j == sentences.size()) {
         final AnalyzedTokenReadings[] anTokens = analyzedSentence.getTokens();
-        anTokens[anTokens.length - 1].setParaEnd();
+        anTokens[anTokens.length - 1].setParagraphEnd();
         analyzedSentence = new AnalyzedSentence(anTokens);
       }
       analyzedSentences.add(analyzedSentence);
@@ -787,7 +787,7 @@ public class JLanguageTool {
     tokenArray[lastToken].setSentEnd();
 
     if (tokenArray.length == lastToken + 1 && tokenArray[lastToken].isLinebreak()) {
-      tokenArray[lastToken].setParaEnd();
+      tokenArray[lastToken].setParagraphEnd();
     }
     return new AnalyzedSentence(tokenArray);
   }
