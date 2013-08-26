@@ -21,30 +21,38 @@ package org.languagetool;
 
 import junit.framework.TestCase;
 
+import java.util.Arrays;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+
 public class AnalyzedTokenReadingsTest extends TestCase {
 
   public void testNewTags() {
     AnalyzedTokenReadings tokenReadings = new AnalyzedTokenReadings(new AnalyzedToken("word", "POS", "lemma"));
     assertEquals(false, tokenReadings.isLinebreak());
-    assertEquals(false, tokenReadings.isSentEnd());
-    assertEquals(false, tokenReadings.isParaEnd());
-    assertEquals(false, tokenReadings.isSentStart());
+    assertEquals(false, tokenReadings.isSentenceEnd());
+    assertEquals(false, tokenReadings.isParagraphEnd());
+    assertEquals(false, tokenReadings.isSentenceStart());
+    assertEquals(false, tokenReadings.isSentStart()); // deprecated
+    assertEquals(false, tokenReadings.isSentEnd());   // deprecated
+    assertEquals(false, tokenReadings.isParaEnd());   // deprecated
     tokenReadings.setSentEnd();
-    assertEquals(false, tokenReadings.isSentStart());
-    assertEquals(true, tokenReadings.isSentEnd());
+    assertEquals(false, tokenReadings.isSentenceStart());
+    assertEquals(true, tokenReadings.isSentenceEnd());
     //test SEND_END or PARA_END added without directly via addReading
     //which is possible e.g. in rule disambiguator 
     tokenReadings = new AnalyzedTokenReadings(new AnalyzedToken("word", null, "lemma"));    
     tokenReadings.addReading(new AnalyzedToken("word", "SENT_END", null));
-    assertEquals(true, tokenReadings.isSentEnd());
-    assertEquals(false, tokenReadings.isParaEnd());
+    assertEquals(true, tokenReadings.isSentenceEnd());
+    assertEquals(false, tokenReadings.isParagraphEnd());
     tokenReadings.addReading(new AnalyzedToken("word", "PARA_END", null));
-    assertEquals(true, tokenReadings.isParaEnd());
-    assertEquals(false, tokenReadings.isSentStart());            
+    assertEquals(true, tokenReadings.isParagraphEnd());
+    assertEquals(false, tokenReadings.isSentenceStart());
     //but you can't add SENT_START to a non-empty token
     //and get isSentStart == true
     tokenReadings.addReading(new AnalyzedToken("word", "SENT_START", null));
-    assertEquals(false, tokenReadings.isSentStart());
+    assertEquals(false, tokenReadings.isSentenceStart());
     final AnalyzedToken aTok = new AnalyzedToken("word", "POS", "lemma");
     aTok.setWhitespaceBefore(true);
     tokenReadings = new AnalyzedTokenReadings(aTok);       
@@ -96,6 +104,24 @@ public class AnalyzedTokenReadingsTest extends TestCase {
     assertFalse(tokenReadings.hasPartialPosTag("POS:FOO:BARX"));
     assertFalse(tokenReadings.hasPartialPosTag("POS:foo:BAR"));
     assertFalse(tokenReadings.hasPartialPosTag("xaz"));
+  }
+  
+  public void testIteration() {
+    final AnalyzedTokenReadings tokenReadings = new AnalyzedTokenReadings(Arrays.asList(
+              new AnalyzedToken("word1", null, null),
+              new AnalyzedToken("word2", null, null)), 0);
+    int i = 0;
+    for (AnalyzedToken tokenReading : tokenReadings) {
+      System.out.println(tokenReading);
+      if (i == 0) {
+        assertThat(tokenReading.getToken(), is("word1"));
+      } else if (i == 1) {
+        assertThat(tokenReading.getToken(), is("word2"));
+      } else {
+        fail();
+      }
+      i++;
+    }
   }
 
 }

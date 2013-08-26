@@ -26,10 +26,10 @@ import org.languagetool.synthesis.BaseSynthesizer;
  */
 public class GreekSynthesizer extends BaseSynthesizer {
 
-    private static final String RESOURCE_FILENAME = "/el/el_synth.dict";
-    private static final String TAGS_FILE_NAME = "/el/el_tags.txt";
+  private static final String RESOURCE_FILENAME = "/el/el_synth.dict";
+  private static final String TAGS_FILE_NAME = "/el/el_tags.txt";
 
-    public GreekSynthesizer() {
-        super(RESOURCE_FILENAME, TAGS_FILE_NAME);
-    }
+  public GreekSynthesizer() {
+    super(RESOURCE_FILENAME, TAGS_FILE_NAME);
+  }
 }

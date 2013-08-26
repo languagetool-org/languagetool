@@ -137,12 +137,12 @@ public class MatchState {
         } else {
           l.addAll(getNewToken(numRead, token));
         }
-        if (formattedToken.isSentEnd()) {
+        if (formattedToken.isSentenceEnd()) {
           l.add(new AnalyzedToken(formattedToken.getToken(),
                   JLanguageTool.SENTENCE_END_TAGNAME, formattedToken
                   .getAnalyzedToken(0).getLemma()));
         }
-        if (formattedToken.isParaEnd()) {
+        if (formattedToken.isParagraphEnd()) {
           l.add(new AnalyzedToken(formattedToken.getToken(),
                   JLanguageTool.PARAGRAPH_END_TAGNAME, formattedToken
                   .getAnalyzedToken(0).getLemma()));
@@ -358,11 +358,10 @@ public class MatchState {
     String posTagReplace = match.getPosTagReplace();
 
     if (match.isStaticLemma()) {
-      final int numRead = matchedToken.getReadingsLength();
-      for (int i = 0; i < numRead; i++) {
-        final String tst = matchedToken.getAnalyzedToken(i).getPOSTag();
+      for (AnalyzedToken analyzedToken : matchedToken) {
+        final String tst = analyzedToken.getPOSTag();
         if (tst != null && pPosRegexMatch.matcher(tst).matches()) {
-          targetPosTag = matchedToken.getAnalyzedToken(i).getPOSTag();
+          targetPosTag = analyzedToken.getPOSTag();
           posTags.add(targetPosTag);
         }
       }
@@ -372,13 +371,10 @@ public class MatchState {
                 posTagReplace);
       }
     } else {
-      final int numRead = formattedToken.getReadingsLength();
-      for (int i = 0; i < numRead; i++) {
-        final String tst = formattedToken.getAnalyzedToken(i)
-                .getPOSTag();
+      for (AnalyzedToken analyzedToken : formattedToken) {
+        final String tst = analyzedToken.getPOSTag();
         if (tst != null && pPosRegexMatch.matcher(tst).matches()) {
-          targetPosTag = formattedToken.getAnalyzedToken(i)
-                  .getPOSTag();
+          targetPosTag = analyzedToken.getPOSTag();
           posTags.add(targetPosTag);
         }
       }

@@ -36,7 +36,7 @@ import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.el.GreekSynthesizer;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
-import org.languagetool.tagging.disambiguation.rules.el.GreekRuleDisambiguator;
+import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
 import org.languagetool.tagging.el.GreekTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
@@ -49,81 +49,81 @@ import org.languagetool.tokenizers.el.GreekWordTokenizer;
  */
 public class Greek extends Language {
 
-    private Disambiguator disambiguator;
-    private SentenceTokenizer sentenceTokenizer;
-    private Synthesizer synthesizer;
-    private Tagger tagger;
+  private Disambiguator disambiguator;
+  private SentenceTokenizer sentenceTokenizer;
+  private Synthesizer synthesizer;
+  private Tagger tagger;
 
-    @Override
-    public final String getShortName() {
-        return "el";
-    }
+  @Override
+  public final String getShortName() {
+    return "el";
+  }
 
-    @Override
-    public final String getName() {
-        return "Greek";
-    }
+  @Override
+  public final String getName() {
+    return "Greek";
+  }
 
-    @Override
-    public final String[] getCountryVariants() {
-        return new String[]{"GR"};
-    }
+  @Override
+  public final String[] getCountryVariants() {
+    return new String[]{"GR"};
+  }
 
-    @Override
-    public final Contributor[] getMaintainers() {
-        return new Contributor[]{
-                    new Contributor("Panagiotis Minos")
-                };
-    }
+  @Override
+  public final Contributor[] getMaintainers() {
+    return new Contributor[]{
+            new Contributor("Panagiotis Minos")
+    };
+  }
 
-    @Override
-    public List<Class<? extends Rule>> getRelevantRules() {
-        return Arrays.asList(
-                CommaWhitespaceRule.class,
-                DoublePunctuationRule.class,
-                GreekUnpairedBracketsRule.class,
-                LongSentenceRule.class,
-                MorfologikGreekSpellerRule.class,
-                UppercaseSentenceStartRule.class,
-                WhitespaceRule.class,
-                WordRepeatBeginningRule.class,
-                WordRepeatRule.class);
-    }
+  @Override
+  public List<Class<? extends Rule>> getRelevantRules() {
+    return Arrays.asList(
+            CommaWhitespaceRule.class,
+            DoublePunctuationRule.class,
+            GreekUnpairedBracketsRule.class,
+            LongSentenceRule.class,
+            MorfologikGreekSpellerRule.class,
+            UppercaseSentenceStartRule.class,
+            WhitespaceRule.class,
+            WordRepeatBeginningRule.class,
+            WordRepeatRule.class);
+  }
 
-    @Override
-    public final Tagger getTagger() {
-        if (tagger == null) {
-            tagger = new GreekTagger();
-        }
-        return tagger;
+  @Override
+  public final Tagger getTagger() {
+    if (tagger == null) {
+      tagger = new GreekTagger();
     }
+    return tagger;
+  }
 
-    @Override
-    public final SentenceTokenizer getSentenceTokenizer() {
-        if (sentenceTokenizer == null) {
-            sentenceTokenizer = new SRXSentenceTokenizer(this);
-        }
-        return sentenceTokenizer;
+  @Override
+  public final SentenceTokenizer getSentenceTokenizer() {
+    if (sentenceTokenizer == null) {
+      sentenceTokenizer = new SRXSentenceTokenizer(this);
     }
+    return sentenceTokenizer;
+  }
 
-    @Override
-    public final Tokenizer getWordTokenizer() {
-        return new GreekWordTokenizer();
-    }
+  @Override
+  public final Tokenizer getWordTokenizer() {
+    return new GreekWordTokenizer();
+  }
 
-    @Override
-    public final Synthesizer getSynthesizer() {
-        if (synthesizer == null) {
-            synthesizer = new GreekSynthesizer();
-        }
-        return synthesizer;
+  @Override
+  public final Synthesizer getSynthesizer() {
+    if (synthesizer == null) {
+      synthesizer = new GreekSynthesizer();
     }
+    return synthesizer;
+  }
 
-    @Override
-    public Disambiguator getDisambiguator() {
-        if (disambiguator == null) {
-            disambiguator = new GreekRuleDisambiguator();
-        }
-        return disambiguator;
+  @Override
+  public Disambiguator getDisambiguator() {
+    if (disambiguator == null) {
+      disambiguator = new XmlRuleDisambiguator(new Greek());
     }
+    return disambiguator;
+  }
 }

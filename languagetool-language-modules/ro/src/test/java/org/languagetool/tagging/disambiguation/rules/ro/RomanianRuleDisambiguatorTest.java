@@ -23,6 +23,8 @@ import java.io.IOException;
 import junit.framework.TestCase;
 
 import org.languagetool.TestTools;
+import org.languagetool.language.Romanian;
+import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
 import org.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
 import org.languagetool.tagging.ro.RomanianTagger;
 import org.languagetool.tokenizers.SentenceTokenizer;
@@ -33,7 +35,7 @@ public class RomanianRuleDisambiguatorTest extends TestCase {
   private RomanianTagger tagger;
   private RomanianWordTokenizer tokenizer;
   private SentenceTokenizer sentenceTokenizer;
-  private RomanianRuleDisambiguator disambiguator;
+  private XmlRuleDisambiguator disambiguator;
   private DemoDisambiguator disamb2;
 
   @Override
@@ -41,7 +43,7 @@ public class RomanianRuleDisambiguatorTest extends TestCase {
     tagger = new RomanianTagger();
     tokenizer = new RomanianWordTokenizer();
     sentenceTokenizer = new SentenceTokenizer();
-    disambiguator = new RomanianRuleDisambiguator();
+    disambiguator = new XmlRuleDisambiguator(new Romanian());
     disamb2 = new DemoDisambiguator();
   }
 

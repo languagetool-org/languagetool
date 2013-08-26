@@ -28,9 +28,11 @@ LanguageTool Change Log
   Use max="-1" to allow unlimited occurrences.
   For min, only 0 or 1 is supported (1 is the default).
 
- -standalone version: remember the language selection for the next start
-
- -standalone version: improved window and dialog placement in a multi-monitor setup
+ -standalone version:
+  -The standalone version now underlines errors with a red (spelling errors) or
+   blue (other errors) line (Panagiotis Minos)
+  -Remember the language selection for the next start
+  -Improved window and dialog placement in a multi-monitor setup
 
  -embedded server: uses default port (8081) again if started without arguments
 
@@ -43,15 +45,18 @@ LanguageTool Change Log
 
  -API:
   -Some methods have been deprecated
+  -AbstractRuleDisambiguator has been renamed XmlRuleDisambiguator and is not abstract anymore.
+   The <Language>RuleDisambiguator classes have been removed, XmlRuleDisambiguator can be
+   used directly instead.
   -Thread-safety has been improved. The recommended use case is now to
-   create a new LanguageTool object for each thread, but to create the
-   language only once (e.g. new English()) and use that for all LanguageTool
+   create a new JLanguageTool object for each thread, but to create the
+   language only once (e.g. new English()) and use that for all JLanguageTool
    instances. This changed the API of some public classes, but for the standard
    use case of checking texts with the JLanguageTool object it shouldn't make a
    difference. (patch by Stefan Lotties)
   -The new class MultiThreadedJLanguageTool makes use of as many threads
    as the computer has processors. In our tests this has improved text checking
-   time by about 70%.
+   time by about 70% on an Intel i7 processor when used on 30KB text.
   -JLanguageTool.loadFalseFriendRules() now behaves like JLanguageTool.loadPatternRules():
    it looks in the class path first, and then, if the given file is not found there, in
    the filesystem
@@ -61,6 +66,7 @@ LanguageTool Change Log
    In the grammar.xml, such a token can then be matched with this syntax:
    <token chunk="NP-singular"></token>
    Note that this is just the interface, no language makes use of it yet.
+  -AnalyzedTokenReadings now implements Iterable so it can be used in foreach loops
 
  -Embedded HTTP server: the server now uses 10 threads instead of 1 (thanks to
   Panagiotis Minos)

@@ -37,7 +37,7 @@ import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.en.EnglishSynthesizer;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
-import org.languagetool.tagging.disambiguation.rules.en.EnglishRuleDisambiguator;
+import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
 import org.languagetool.tagging.en.EnglishTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
@@ -102,7 +102,7 @@ public class English extends Language {
   @Override
   public final Disambiguator getDisambiguator() {
     if (disambiguator == null) {
-      disambiguator = new EnglishRuleDisambiguator();
+      disambiguator = new XmlRuleDisambiguator(new English());
     }
     return disambiguator;
   }

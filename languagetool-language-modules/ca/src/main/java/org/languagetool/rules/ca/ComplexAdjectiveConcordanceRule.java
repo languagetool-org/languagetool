@@ -26,6 +26,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.RuleMatch;
@@ -371,9 +372,8 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
 	private boolean matchPostagRegexp(AnalyzedTokenReadings aToken,
 			Pattern pattern) {
 		boolean matches = false;
-		final int readingsLen = aToken.getReadingsLength();
-		for (int i = 0; i < readingsLen; i++) {
-			final String posTag = aToken.getAnalyzedToken(i).getPOSTag();
+		for (AnalyzedToken analyzedToken : aToken) {
+			final String posTag = analyzedToken.getPOSTag();
 			if (posTag != null) {
 				final Matcher m = pattern.matcher(posTag);
 				if (m.matches()) {

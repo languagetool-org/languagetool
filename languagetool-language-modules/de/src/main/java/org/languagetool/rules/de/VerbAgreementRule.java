@@ -26,6 +26,7 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.RuleMatch;
@@ -202,14 +203,14 @@ public class VerbAgreementRule extends GermanRule {
   /**
    * @return true if the verb @param token (if it is a verb) matches @param person and @param number, and matches no other person/number
    */
-  private boolean hasUnambiguouslyPersonAndNumber(final AnalyzedTokenReadings token, final String person, final String number) {
-    if (token.getToken().length() == 0
-        || (Character.isUpperCase(token.getToken().charAt(0)) && !(token.getStartPos() == 0) )
-        || !token.hasPartialPosTag("VER"))
+  private boolean hasUnambiguouslyPersonAndNumber(final AnalyzedTokenReadings tokenReadings, final String person, final String number) {
+    if (tokenReadings.getToken().length() == 0
+        || (Character.isUpperCase(tokenReadings.getToken().charAt(0)) && !(tokenReadings.getStartPos() == 0) )
+        || !tokenReadings.hasPartialPosTag("VER"))
       return false;
-    
-    for (int i = 0; i < token.getReadingsLength(); ++i) {
-      final String postag = token.getReadings().get(i).getPOSTag();
+
+    for (AnalyzedToken analyzedToken : tokenReadings) {
+      final String postag = analyzedToken.getPOSTag();
       if (postag.contains("_END")) // ignore SENT_END and PARA_END
         continue;
       if (!postag.contains(":" + person + ":" + number))

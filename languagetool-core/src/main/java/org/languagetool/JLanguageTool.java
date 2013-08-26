@@ -562,7 +562,7 @@ public class JLanguageTool {
       rememberUnknownWords(analyzedSentence);
       if (++j == sentences.size()) {
         final AnalyzedTokenReadings[] anTokens = analyzedSentence.getTokens();
-        anTokens[anTokens.length - 1].setParaEnd();
+        anTokens[anTokens.length - 1].setParagraphEnd();
         analyzedSentence = new AnalyzedSentence(anTokens);
       }
       analyzedSentences.add(analyzedSentence);
@@ -621,7 +621,7 @@ public class JLanguageTool {
       final RuleMatch[] thisMatches = rule.match(analyzedSentence);
       for (final RuleMatch element1 : thisMatches) {
         final RuleMatch thisMatch = adjustRuleMatchPos(element1,
-            tokenCount, columnCount, lineCount, sentence);    
+            tokenCount, columnCount, lineCount, sentence);
         sentenceMatches.add(thisMatch);
         if (rule.isParagraphBackTrack()) {
           rule.addRuleMatch(thisMatch);
@@ -787,7 +787,7 @@ public class JLanguageTool {
     tokenArray[lastToken].setSentEnd();
 
     if (tokenArray.length == lastToken + 1 && tokenArray[lastToken].isLinebreak()) {
-      tokenArray[lastToken].setParaEnd();
+      tokenArray[lastToken].setParagraphEnd();
     }
     return new AnalyzedSentence(tokenArray);
   }
@@ -868,9 +868,9 @@ public class JLanguageTool {
 
     private final List<Rule> rules;
     private final ParagraphHandling paraMode;
+    private final List<String> sentences;
+    private final List<AnalyzedSentence> analyzedSentences;
     
-    private List<String> sentences;
-    private List<AnalyzedSentence> analyzedSentences;
     private int charCount;
     private int lineCount;
     private int columnCount;

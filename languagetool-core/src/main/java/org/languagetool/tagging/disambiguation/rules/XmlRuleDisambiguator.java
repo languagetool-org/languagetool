@@ -21,6 +21,7 @@ package org.languagetool.tagging.disambiguation.rules;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -37,24 +38,27 @@ import org.xml.sax.SAXException;
  * 
  * @author Marcin Miłkowski
  */
-public abstract class AbstractRuleDisambiguator implements Disambiguator {
+public class XmlRuleDisambiguator implements Disambiguator {
 
-  protected static final String DISAMBIGUATION_FILE = "disambiguation.xml";
-  protected List<DisambiguationPatternRule> disambiguationRules;
+  private static final String DISAMBIGUATION_FILE = "disambiguation.xml";
+  
+  private List<DisambiguationPatternRule> disambiguationRules;
+  private final Language language;
 
-  protected abstract Language getLanguage();
+  public XmlRuleDisambiguator(final Language language) {
+    this.language = Objects.requireNonNull(language);
+  }
 
   @Override
   public AnalyzedSentence disambiguate(final AnalyzedSentence input) throws IOException {
     AnalyzedSentence sentence = input;
     if (disambiguationRules == null) {
       final String disambiguationFile =
-        JLanguageTool.getDataBroker().getResourceDir() + "/" + getLanguage().getShortName() + "/" + DISAMBIGUATION_FILE;
+        JLanguageTool.getDataBroker().getResourceDir() + "/" + language.getShortName() + "/" + DISAMBIGUATION_FILE;
       try {
         disambiguationRules = loadPatternRules(disambiguationFile);
       } catch (final Exception e) {
-        throw new RuntimeException("Problems with parsing disambiguation file: "
-            + disambiguationFile, e);
+        throw new RuntimeException("Problems with loading disambiguation file: " + disambiguationFile, e);
       }
     }
     for (final DisambiguationPatternRule patternRule : disambiguationRules) {
@@ -73,7 +77,7 @@ public abstract class AbstractRuleDisambiguator implements Disambiguator {
    * @return a List of {@link DisambiguationPatternRule} objects
    */
   protected List<DisambiguationPatternRule> loadPatternRules(final String filename) throws ParserConfigurationException, SAXException, IOException {
-    final DisambiguationRuleLoader ruleLoader = new DisambiguationRuleLoader();    
+    final DisambiguationRuleLoader ruleLoader = new DisambiguationRuleLoader();
     return ruleLoader.getRules(Tools.getStream(filename));
   }
 

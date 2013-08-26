@@ -25,7 +25,7 @@ package org.languagetool.tagging.ro;
  *
  * @author Ionuț Păduraru
  */
-public class RomanianTaggerDiacriticsTest extends RomanianTaggerTestAbs {
+public class RomanianTaggerDiacriticsTest extends AbstractRomanianTaggerTest {
 
   /**
    * "test_diacritics.dict" was built from a simple input file :

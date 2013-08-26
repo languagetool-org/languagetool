@@ -22,9 +22,10 @@ package org.languagetool.tagging.disambiguation.ru;
 import java.io.IOException;
 
 import org.languagetool.AnalyzedSentence;
+import org.languagetool.language.Russian;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.MultiWordChunker;
-import org.languagetool.tagging.disambiguation.rules.ru.RussianRuleDisambiguator;
+import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
 
 /**
  * Hybrid chunker-disambiguator for Russian.
@@ -35,7 +36,7 @@ import org.languagetool.tagging.disambiguation.rules.ru.RussianRuleDisambiguator
 public class RussianHybridDisambiguator implements Disambiguator {
 
   private final Disambiguator chunker = new MultiWordChunker("/ru/multiwords.txt");
-  private final Disambiguator disambiguator = new RussianRuleDisambiguator();
+  private final Disambiguator disambiguator = new XmlRuleDisambiguator(new Russian());
 
   /**
    * Calls two disambiguator classes: (1) a chunker; (2) a rule-based

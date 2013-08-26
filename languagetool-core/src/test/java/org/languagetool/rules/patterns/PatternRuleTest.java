@@ -28,7 +28,6 @@ import junit.framework.TestCase;
 
 import org.languagetool.*;
 import org.languagetool.databroker.ResourceDataBroker;
-import org.languagetool.language.Demo;
 import org.languagetool.rules.IncorrectExample;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
@@ -44,25 +43,12 @@ public class PatternRuleTest extends TestCase {
   // This check prints a warning for affected rules, but it's disabled by default because
   // it makes the tests very slow:
   private static final boolean CHECK_WITH_SENTENCE_SPLITTING = false;
-
-  private static JLanguageTool langTool;
-
-  @Override
-  public void setUp() throws IOException {
-    if (langTool == null) {
-      langTool = new JLanguageTool(Language.DEMO);
-    }
+  
+  public void testFake() {
+    // there's no test here - the languages are supposed to extend this class and call runGrammarRulesFromXmlTest() 
   }
 
-  public void testGrammarRulesFromXML2() throws IOException {
-    new PatternRule("-1", Language.DEMO, Collections.<Element>emptyList(), "", "", "");
-  }
-
-  public void testDemoLanguageGrammarRules() throws IOException {
-    runTestForLanguage(new Demo());
-  }
-
-  /** To be called from language modules. */
+  /** To be called from language modules. Language.REAL_LANGUAGES knows only the languages that's in the classpath. */
   protected void runGrammarRulesFromXmlTest() throws IOException {
     for (final Language lang : Language.REAL_LANGUAGES) {
       if (skipCountryVariant(lang)) {
@@ -70,6 +56,9 @@ public class PatternRuleTest extends TestCase {
         continue;
       }
       runTestForLanguage(lang);
+    }
+    if (Language.REAL_LANGUAGES.length == 0) {
+      System.err.println("Warning: no languages found in classpath - cannot run any grammar rule tests");
     }
   }
 
@@ -102,7 +91,7 @@ public class PatternRuleTest extends TestCase {
     }
   }
 
-  private void runTestForLanguage(Language lang) throws IOException {
+  protected void runTestForLanguage(Language lang) throws IOException {
     validatePatternFile(lang);
     System.out.print("Running pattern rule tests for " + lang.getName() + "... ");
     final JLanguageTool languageTool = new MultiThreadedJLanguageTool(lang);
@@ -381,85 +370,7 @@ public class PatternRuleTest extends TestCase {
     return Arrays.asList(matches);
   }
 
-  public void testMakeSuggestionUppercase() throws IOException {
-    final JLanguageTool langTool = new JLanguageTool(Language.DEMO);
-    langTool.activateDefaultPatternRules();
-
-    final Element element = new Element("Were", false, false, false);
-    final String message = "Did you mean: <suggestion>where</suggestion> or <suggestion>we</suggestion>?";
-    final PatternRule rule = new PatternRule("MY_ID", Language.DEMO, Collections.singletonList(element), "desc", message, "msg");
-    final RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("Were are in the process of ..."));
-
-    assertEquals(1, matches.length);
-    final RuleMatch match = matches[0];
-    final List<String> replacements = match.getSuggestedReplacements();
-    assertEquals(2, replacements.size());
-    assertEquals("Where", replacements.get(0));
-    assertEquals("We", replacements.get(1));
-  }
-
-  public void testRule() throws IOException {
-    PatternRule pr;
-    RuleMatch[] matches;
-
-    pr = makePatternRule("one");
-    matches = pr
-        .match(langTool.getAnalyzedSentence("A non-matching sentence."));
-    assertEquals(0, matches.length);
-    matches = pr.match(langTool
-        .getAnalyzedSentence("A matching sentence with one match."));
-    assertEquals(1, matches.length);
-    assertEquals(25, matches[0].getFromPos());
-    assertEquals(28, matches[0].getToPos());
-    // these two are not set if the rule is called standalone (not via
-    // JLanguageTool):
-    assertEquals(-1, matches[0].getColumn());
-    assertEquals(-1, matches[0].getLine());
-    assertEquals("ID1", matches[0].getRule().getId());
-    assertTrue(matches[0].getMessage().equals("user visible message"));
-    assertTrue(matches[0].getShortMessage().equals("short comment"));
-    matches = pr.match(langTool
-        .getAnalyzedSentence("one one and one: three matches"));
-    assertEquals(3, matches.length);
-
-    pr = makePatternRule("one two");
-    matches = pr.match(langTool.getAnalyzedSentence("this is one not two"));
-    assertEquals(0, matches.length);
-    matches = pr.match(langTool.getAnalyzedSentence("this is two one"));
-    assertEquals(0, matches.length);
-    matches = pr.match(langTool.getAnalyzedSentence("this is one two three"));
-    assertEquals(1, matches.length);
-    matches = pr.match(langTool.getAnalyzedSentence("one two"));
-    assertEquals(1, matches.length);
-
-    pr = makePatternRule("one|foo|xxxx two", false, true);
-    matches = pr.match(langTool.getAnalyzedSentence("one foo three"));
-    assertEquals(0, matches.length);
-    matches = pr.match(langTool.getAnalyzedSentence("one two"));
-    assertEquals(1, matches.length);
-    matches = pr.match(langTool.getAnalyzedSentence("foo two"));
-    assertEquals(1, matches.length);
-    matches = pr.match(langTool.getAnalyzedSentence("one foo two"));
-    assertEquals(1, matches.length);
-    matches = pr.match(langTool.getAnalyzedSentence("y x z one two blah foo"));
-    assertEquals(1, matches.length);
-
-    pr = makePatternRule("one|foo|xxxx two|yyy", false, true);
-    matches = pr.match(langTool.getAnalyzedSentence("one, yyy"));
-    assertEquals(0, matches.length);
-    matches = pr.match(langTool.getAnalyzedSentence("one yyy"));
-    assertEquals(1, matches.length);
-    matches = pr.match(langTool.getAnalyzedSentence("xxxx two"));
-    assertEquals(1, matches.length);
-    matches = pr.match(langTool.getAnalyzedSentence("xxxx yyy"));
-    assertEquals(1, matches.length);
-  }
-
-  private PatternRule makePatternRule(final String s) {
-    return makePatternRule(s, false, false);
-  }
-
-  private PatternRule makePatternRule(final String s,
+  protected PatternRule makePatternRule(final String s,
       final boolean caseSensitive, final boolean regex) {
     final List<Element> elements = new ArrayList<>();
     final String[] parts = s.split(" ");
@@ -485,41 +396,6 @@ public class PatternRuleTest extends TestCase {
     return rule;
   }
 
-  public void testSentenceStart() throws IOException {
-    final PatternRule pr = makePatternRule("SENT_START One");
-    RuleMatch[] matches = pr.match(langTool.getAnalyzedSentence("Not One word."));
-    assertEquals(0, matches.length);
-    matches = pr.match(langTool.getAnalyzedSentence("One word."));
-    assertEquals(1, matches.length);
-  }
-
-  /* test private methods as well */
-  public void testFormatMultipleSynthesis() throws Exception {
-    final String[] suggestions1 = { "blah blah", "foo bar" };
-
-    assertEquals(
-        "This is how you should write: <suggestion>blah blah</suggestion>, <suggestion>foo bar</suggestion>.",
-
-        callFormatMultipleSynthesis(suggestions1,
-            "This is how you should write: <suggestion>", "</suggestion>."));
-
-    final String[] suggestions2 = { "test", " " };
-
-    assertEquals(
-        "This is how you should write: <suggestion>test</suggestion>, <suggestion> </suggestion>.",
-
-        callFormatMultipleSynthesis(suggestions2,
-            "This is how you should write: <suggestion>", "</suggestion>."));
-  }
-
-  private static String callFormatMultipleSynthesis(final String[] suggestions,
-      final String left, final String right) throws Exception {
-    final Class[] argClasses = { String[].class, String.class, String.class };
-    final Object[] argObjects = { suggestions, left, right };
-    return TestTools.callStringStaticMethod(PatternRuleMatcher.class,
-        "formatMultipleSynthesis", argClasses, argObjects);
-  }
-
   /**
    * Test XML patterns, as a help for people developing rules that are not
    * programmers.
@@ -527,7 +403,6 @@ public class PatternRuleTest extends TestCase {
   public static void main(final String[] args) throws IOException {
     final PatternRuleTest test = new PatternRuleTest();
     System.out.println("Running XML pattern tests...");
-    test.setUp();
     if (args.length == 0) {
       test.runGrammarRulesFromXmlTestIgnoringLanguages(null);
     } else {

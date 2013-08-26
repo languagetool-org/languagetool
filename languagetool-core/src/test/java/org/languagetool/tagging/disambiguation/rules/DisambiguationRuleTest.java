@@ -43,15 +43,6 @@ import org.xml.sax.SAXException;
 
 public class DisambiguationRuleTest extends TestCase {
 
-  private static JLanguageTool langTool;
-
-  @Override
-  public void setUp() throws IOException {
-    if (langTool == null) {
-      langTool = new JLanguageTool(Language.DEMO);
-    }
-  }
-
   /**
    * To be called from standalone - calling it here in core doesn't make
    * much sense actually as we don't have any languages.
@@ -62,7 +53,7 @@ public class DisambiguationRuleTest extends TestCase {
 
   private void testDisambiguationRulesFromXML(final Set<Language> ignoredLanguages)
       throws IOException, ParserConfigurationException, SAXException {
-    for (final Language lang : Language.LANGUAGES) {
+    for (final Language lang : Language.REAL_LANGUAGES) {
       if (ignoredLanguages != null && ignoredLanguages.contains(lang)) {
         continue;
       }
@@ -169,7 +160,7 @@ public class DisambiguationRuleTest extends TestCase {
           String reading = "";
           String annotations = "";
           for (final AnalyzedTokenReadings readings : sent.getTokens()) {
-            if (readings.isSentStart() && !inputForms.contains("<S>")) {
+            if (readings.isSentenceStart() && !inputForms.contains("<S>")) {
               continue;
             }
             if (readings.getStartPos() == expectedMatchStart) {
@@ -188,7 +179,7 @@ public class DisambiguationRuleTest extends TestCase {
               + inputForms + " but got " + sortForms(reading) + "). The token has been changed by the disambiguator: " + annotations, 
               inputForms, sortForms(reading));
           for (final AnalyzedTokenReadings readings : disambiguatedSent.getTokens()) {
-            if (readings.isSentStart() && !outputForms.contains("<S>")) {
+            if (readings.isSentenceStart() && !outputForms.contains("<S>")) {
               continue;
             }
             if (readings.getStartPos() == expectedMatchStart) {
@@ -233,7 +224,6 @@ public class DisambiguationRuleTest extends TestCase {
   public static void main(final String[] args) throws IOException, ParserConfigurationException, SAXException {
     final DisambiguationRuleTest test = new DisambiguationRuleTest();
     System.out.println("Running disambiguator rule tests...");
-    test.setUp();
     if (args.length == 0) {
       test.testDisambiguationRulesFromXML(null);
     } else {

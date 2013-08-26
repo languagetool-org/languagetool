@@ -23,12 +23,12 @@ import java.io.IOException;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Romanian;
-import org.languagetool.rules.CompoundRuleTestAbs;
+import org.languagetool.rules.AbstractCompoundRuleTest;
 
 /**
  * @author Ionuț Păduraru
  */
-public class CompoundRuleTest extends CompoundRuleTestAbs {
+public class CompoundRuleTest extends AbstractCompoundRuleTest {
 
   @Override
   protected void setUp() throws Exception {

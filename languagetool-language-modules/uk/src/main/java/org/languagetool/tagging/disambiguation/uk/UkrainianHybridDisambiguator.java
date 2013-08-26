@@ -22,9 +22,10 @@ package org.languagetool.tagging.disambiguation.uk;
 import java.io.IOException;
 
 import org.languagetool.AnalyzedSentence;
+import org.languagetool.language.Ukrainian;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.MultiWordChunker;
-import org.languagetool.tagging.disambiguation.rules.uk.UkrainianRuleDisambiguator;
+import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
 
 /**
  * Hybrid chunker-disambiguator for Ukrainian.
@@ -33,7 +34,7 @@ import org.languagetool.tagging.disambiguation.rules.uk.UkrainianRuleDisambiguat
 public class UkrainianHybridDisambiguator implements Disambiguator {
 
   private final Disambiguator chunker = new MultiWordChunker("/uk/multiwords.txt");
-  private final Disambiguator disambiguator = new UkrainianRuleDisambiguator();
+  private final Disambiguator disambiguator = new XmlRuleDisambiguator(new Ukrainian());
 
   /**
    * Calls two disambiguator classes: (1) a chunker; (2) a rule-based disambiguator.

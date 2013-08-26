@@ -31,7 +31,7 @@ import org.languagetool.JLanguageTool;
  *    
  * @author Daniel Naber
  */
-public abstract class CompoundRuleTestAbs extends TestCase {
+public abstract class AbstractCompoundRuleTest extends TestCase {
 
   // the object used for checking text against different rules
   protected JLanguageTool langTool;

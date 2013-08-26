@@ -20,7 +20,7 @@ package org.languagetool.rules.ru;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.Russian;
-import org.languagetool.rules.CompoundRuleTestAbs;
+import org.languagetool.rules.AbstractCompoundRuleTest;
 
 import java.io.IOException;
 
@@ -30,7 +30,7 @@ import java.io.IOException;
  * Based on German Compound rule test
  * @author Daniel Naber
  */
-public class RussianCompoundRuleTest extends CompoundRuleTestAbs {
+public class RussianCompoundRuleTest extends AbstractCompoundRuleTest {
 
   @Override
   protected void setUp() throws Exception {

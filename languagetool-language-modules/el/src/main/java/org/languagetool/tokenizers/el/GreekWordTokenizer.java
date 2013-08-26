@@ -31,22 +31,22 @@ import org.languagetool.tokenizers.Tokenizer;
  */
 public class GreekWordTokenizer implements Tokenizer {
 
-    private GreekWordTokenizerImpl tokenizer = new GreekWordTokenizerImpl(new StringReader(""));
+  private GreekWordTokenizerImpl tokenizer = new GreekWordTokenizerImpl(new StringReader(""));
 
-    public GreekWordTokenizer() {
-    }
+  public GreekWordTokenizer() {
+  }
 
-    @Override
-    public List<String> tokenize(final String text) {
-        final List<String> tokens = new ArrayList<>();
-        tokenizer.yyreset(new StringReader(text));
-        try {
-            while (tokenizer.getNextToken() != GreekWordTokenizerImpl.YYEOF) {
-                tokens.add(tokenizer.getText());
-            }
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
-        return tokens;
+  @Override
+  public List<String> tokenize(final String text) {
+    final List<String> tokens = new ArrayList<>();
+    tokenizer.yyreset(new StringReader(text));
+    try {
+      while (tokenizer.getNextToken() != GreekWordTokenizerImpl.YYEOF) {
+        tokens.add(tokenizer.getText());
+      }
+    } catch (IOException ex) {
+      throw new RuntimeException(ex);
     }
+    return tokens;
+  }
 }

@@ -19,9 +19,8 @@
 
 package org.languagetool;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.languagetool.tools.StringTools;
 
@@ -31,7 +30,7 @@ import org.languagetool.tools.StringTools;
  * 
  * @author Marcin Milkowski
  */
-public class AnalyzedTokenReadings {
+public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
 
   protected AnalyzedToken[] anTokReadings;
 
@@ -208,9 +207,9 @@ public class AnalyzedTokenReadings {
   }
 
   /** 
-   * Removes all the readings but the one that match the token given.
-   * @since 1.5
+   * Removes all readings but the one that matches the token given.
    * @param token Token to be matched
+   * @since 1.5
    */
   public final void leaveReading(final AnalyzedToken token) {
     final ArrayList<AnalyzedToken> l = new ArrayList<>();
@@ -246,22 +245,48 @@ public class AnalyzedTokenReadings {
     return isLinebreak;
   }
 
+  /**
+   * @deprecated use {@link #isSentenceStart()} instead - deprecated since 2.3
+   */
   public final boolean isSentStart() {
+    return isSentenceStart();
+  }
+
+  /**
+   * @since 2.3
+   */
+  public final boolean isSentenceStart() {
     return isSentStart;
   }
 
   /**
    * @return true when the token is a last token in a paragraph.
+   * @since 2.3
    */
-  public final boolean isParaEnd() {
+  public final boolean isParagraphEnd() {
     return isParaEnd;
   }
 
   /**
-   * Add PARA_END tag.
+   * @deprecated use {@link #isParagraphEnd()} instead - deprecated since 2.3
+   */
+  public final boolean isParaEnd() {
+    return isParagraphEnd();
+  }
+
+  /**
+   * @deprecated use {@link #isParagraphEnd()} instead - deprecated since 2.3
    */
   public void setParaEnd() {
-    if (!isParaEnd()) {
+    setParagraphEnd();
+  }
+
+  /**
+   * Add a reading with a paragraph end token unless this is already a paragraph end.
+   * @since 2.3
+   */
+  public void setParagraphEnd() {
+    if (!isParagraphEnd()) {
       final AnalyzedToken paragraphEnd = new AnalyzedToken(getToken(),
           JLanguageTool.PARAGRAPH_END_TAGNAME, getAnalyzedToken(0).getLemma());
       addReading(paragraphEnd);
@@ -269,15 +294,23 @@ public class AnalyzedTokenReadings {
   }
 
   /**
-   * @return true when the token is a last token in a sentence.
+   * @deprecated use {@link #isSentenceEnd()} instead - deprecated since 2.3
    */
   public final boolean isSentEnd() {
+    return isSentenceEnd();
+  }
+  
+  /**
+   * @return true when the token is a last token in a sentence.
+   * @since 2.3
+   */
+  public boolean isSentenceEnd() {
     return isSentEnd;
   }
   
   /**
-   * @since 0.9.9
    * @return true if the token is LibreOffice/OpenOffice field code.
+   * @since 0.9.9
    */
   public final boolean isFieldCode() {
     return "\u0001".equals(token) || "\u0002".equals(token);
@@ -287,7 +320,7 @@ public class AnalyzedTokenReadings {
    * Add a SENT_END tag.
    */
   public final void setSentEnd() {
-    if (!isSentEnd()) {
+    if (!isSentenceEnd()) {
       final AnalyzedToken sentenceEnd = new AnalyzedToken(getToken(),
           JLanguageTool.SENTENCE_END_TAGNAME, getAnalyzedToken(0).getLemma());
       addReading(sentenceEnd);
@@ -343,6 +376,22 @@ public class AnalyzedTokenReadings {
     for (AnalyzedToken an: anTokReadings) {
       an.setNoPOSTag(hasNoPOStag);
     }
+  }
+
+  /**
+   * Used to track disambiguator actions.
+   * @return the historicalAnnotations
+   */
+  public String getHistoricalAnnotations() {
+    return historicalAnnotations;
+  }
+
+  /**
+   * Used to track disambiguator actions.
+   * @param historicalAnnotations the historicalAnnotations to set
+   */
+  public void setHistoricalAnnotations(String historicalAnnotations) {
+    this.historicalAnnotations = historicalAnnotations;
   }
 
   @Override
@@ -413,20 +462,27 @@ public class AnalyzedTokenReadings {
     return true;
   }
 
-  /**
-   * Used to track disambiguator actions.
-   * @return the historicalAnnotations
-   */
-  public String getHistoricalAnnotations() {
-    return historicalAnnotations;
+  @Override
+  public Iterator<AnalyzedToken> iterator() {
+    final AtomicInteger i = new AtomicInteger(0);
+    return new Iterator<AnalyzedToken>() {
+      @Override
+      public boolean hasNext() {
+        return i.get() < getReadingsLength();
+      }
+      @Override
+      public AnalyzedToken next() {
+        try {
+          return anTokReadings[i.getAndAdd(1)];
+        } catch (ArrayIndexOutOfBoundsException e) {
+          throw new NoSuchElementException("No such element: " + i + ", element count: " + anTokReadings.length);
+        }
+      }
+      @Override
+      public void remove() {
+        throw new UnsupportedOperationException();
+      }
+    };
   }
 
-  /**
-   * Used to track disambiguator actions.
-   * @param historicalAnnotations the historicalAnnotations to set
-   */
-  public void setHistoricalAnnotations(String historicalAnnotations) {
-    this.historicalAnnotations = historicalAnnotations;
-  }
-  
 }

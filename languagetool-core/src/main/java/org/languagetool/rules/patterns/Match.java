@@ -44,11 +44,7 @@ public class Match {
      * @return CaseConversion enum
      */
     public static CaseConversion toCase(final String str) {
-      try {
-        return valueOf(str);
-      } catch (final Exception ex) {
-        return NONE;
-      }
+      return valueOf(str);
     }
   }
 
@@ -62,11 +58,7 @@ public class Match {
      * @return IncludeRange enum
      */
     public static IncludeRange toRange(final String str) {
-      try {
-        return valueOf(str);
-      } catch (final Exception ex) {
-        return NONE;
-      }
+      return valueOf(str);
     }
   }
 
