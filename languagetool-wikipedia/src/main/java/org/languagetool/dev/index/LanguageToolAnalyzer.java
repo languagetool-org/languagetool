@@ -36,18 +36,18 @@ public final class LanguageToolAnalyzer extends Analyzer {
 
   private final JLanguageTool languageTool;
   private final boolean toLowerCase;
-  private final Version matchVersion;
+  private final Version luceneVersion;
 
-  public LanguageToolAnalyzer(Version matchVersion, JLanguageTool languageTool, boolean toLowerCase) {
+  public LanguageToolAnalyzer(Version luceneVersion, JLanguageTool languageTool, boolean toLowerCase) {
     super();
-    this.matchVersion = matchVersion;
+    this.luceneVersion = luceneVersion;
     this.languageTool = languageTool;
     this.toLowerCase = toLowerCase;
   }
 
   @Override
   protected TokenStreamComponents createComponents(String s, Reader reader) {
-    final Tokenizer tokenizer = new AnyCharTokenizer(this.matchVersion, reader);
+    final Tokenizer tokenizer = new AnyCharTokenizer(luceneVersion, reader);
     final TokenStream result = new LanguageToolFilter(tokenizer, languageTool, toLowerCase);
     return new TokenStreamComponents(tokenizer, result);
   }
