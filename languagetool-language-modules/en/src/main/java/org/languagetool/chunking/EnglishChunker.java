@@ -52,9 +52,6 @@ public class EnglishChunker implements Chunker {
   private static POSModel posModel;
   private static ChunkerModel chunkerModel;
 
-  private final TokenizerME tokenizer;
-  private final POSTaggerME posTagger;
-  private final ChunkerME chunker;
   private final EnglishChunkFilter chunkFilter;
 
   public EnglishChunker() {
@@ -62,15 +59,12 @@ public class EnglishChunker implements Chunker {
       if (tokenModel == null) {
         tokenModel = new TokenizerModel(Tools.getStream(TOKENIZER_MODEL));
       }
-      tokenizer = new TokenizerME(tokenModel);
       if (posModel == null) {
         posModel = new POSModel(Tools.getStream(POS_TAGGER_MODEL));
       }
-      posTagger = new POSTaggerME(posModel);
       if (chunkerModel == null) {
         chunkerModel = new ChunkerModel(Tools.getStream(CHUNKER_MODEL));
       }
-      chunker = new ChunkerME(chunkerModel);
       chunkFilter = new EnglishChunkFilter();
     } catch (IOException e) {
       throw new RuntimeException("Could not initialize English chunker", e);
@@ -85,6 +79,10 @@ public class EnglishChunker implements Chunker {
   }
 
   private List<ChunkTaggedToken> getChunkTagsForReadings(List<AnalyzedTokenReadings> tokenReadings) {
+    // these are not thread-safe, so create them here, not as members:
+    TokenizerME tokenizer = new TokenizerME(tokenModel);
+    POSTaggerME posTagger = new POSTaggerME(posModel);
+    ChunkerME chunker = new ChunkerME(chunkerModel);
     String sentence = getSentence(tokenReadings);
     String[] tokens = tokenizer.tokenize(sentence);
     String[] posTags = posTagger.tag(tokens);
