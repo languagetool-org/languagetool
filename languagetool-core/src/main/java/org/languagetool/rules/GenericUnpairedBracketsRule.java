@@ -138,7 +138,7 @@ public class GenericUnpairedBracketsRule extends Rule {
         if (token.equals(startSymbols[j]) || token.equals(endSymbols[j])) {
           boolean precededByWhitespace = true;
           if (startSymbols[j].equals(endSymbols[j])) {
-            precededByWhitespace = tokens[i - 1].isSentStart()
+            precededByWhitespace = tokens[i - 1].isSentenceStart()
                 || tokens[i].isWhitespaceBefore()
                 || PUNCTUATION_NO_DOT.matcher(tokens[i - 1].getToken()).matches();
           }

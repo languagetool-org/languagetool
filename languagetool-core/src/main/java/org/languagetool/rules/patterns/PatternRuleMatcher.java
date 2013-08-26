@@ -191,7 +191,7 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
       && !matchConvertsCase(rule.getSuggestionMatches())
       && !matchConvertsCase(rule.getSuggestionMatchesOutMsg());
 
-    if (firstMatchTokenObj.isSentStart() && tokens.length > firstMatchToken + correctedStPos + 1) {
+    if (firstMatchTokenObj.isSentenceStart() && tokens.length > firstMatchToken + correctedStPos + 1) {
       // make uppercasing work also at sentence start:
       firstMatchTokenObj = tokens[firstMatchToken + correctedStPos + 1];
       startsWithUppercase = StringTools.startsWithUppercase(firstMatchTokenObj.getToken());

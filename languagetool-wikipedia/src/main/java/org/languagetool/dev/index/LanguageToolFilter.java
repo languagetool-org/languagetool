@@ -105,7 +105,7 @@ public final class LanguageToolFilter extends TokenFilter {
     AnalyzedToken at = tr.getAnalyzedToken(0);
 
     // add POS tag for sentence start.
-    if (tr.isSentStart()) {
+    if (tr.isSentenceStart()) {
       // TODO: would be needed so negated tokens can match on something (see testNegatedMatchAtSentenceStart())
       // but breaks other cases:
       //termAtt.append("SENT_START");

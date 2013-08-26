@@ -169,7 +169,7 @@ public class DisambiguationRuleTest extends TestCase {
           String reading = "";
           String annotations = "";
           for (final AnalyzedTokenReadings readings : sent.getTokens()) {
-            if (readings.isSentStart() && !inputForms.contains("<S>")) {
+            if (readings.isSentenceStart() && !inputForms.contains("<S>")) {
               continue;
             }
             if (readings.getStartPos() == expectedMatchStart) {
@@ -188,7 +188,7 @@ public class DisambiguationRuleTest extends TestCase {
               + inputForms + " but got " + sortForms(reading) + "). The token has been changed by the disambiguator: " + annotations, 
               inputForms, sortForms(reading));
           for (final AnalyzedTokenReadings readings : disambiguatedSent.getTokens()) {
-            if (readings.isSentStart() && !outputForms.contains("<S>")) {
+            if (readings.isSentenceStart() && !outputForms.contains("<S>")) {
               continue;
             }
             if (readings.getStartPos() == expectedMatchStart) {

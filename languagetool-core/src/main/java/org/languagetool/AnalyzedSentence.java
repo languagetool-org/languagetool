@@ -73,7 +73,7 @@ public class AnalyzedSentence {
       final int[] mapping = new int[tokens.length + 1];
       final List<AnalyzedTokenReadings> l = new ArrayList<>();
       for (final AnalyzedTokenReadings token : tokens) {
-        if (!token.isWhitespace() || token.isSentStart() || token.isSentEnd()
+        if (!token.isWhitespace() || token.isSentenceStart() || token.isSentEnd()
             || token.isParaEnd()) {
           l.add(token);
           mapping[nonWhCounter] = whCounter;
@@ -130,7 +130,7 @@ public class AnalyzedSentence {
       }
       for (int j = 0; j < element.getReadingsLength(); j++) {
         final String posTag = element.getAnalyzedToken(j).getPOSTag();
-        if (element.isSentStart()) {
+        if (element.isSentenceStart()) {
           sb.append("<S>");
         } else if (JLanguageTool.SENTENCE_END_TAGNAME.equals(element
             .getAnalyzedToken(j).getPOSTag())) {

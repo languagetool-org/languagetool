@@ -28,9 +28,10 @@ public class AnalyzedTokenReadingsTest extends TestCase {
     assertEquals(false, tokenReadings.isLinebreak());
     assertEquals(false, tokenReadings.isSentEnd());
     assertEquals(false, tokenReadings.isParaEnd());
-    assertEquals(false, tokenReadings.isSentStart());
+    assertEquals(false, tokenReadings.isSentStart()); // deprecated
+    assertEquals(false, tokenReadings.isSentenceStart());
     tokenReadings.setSentEnd();
-    assertEquals(false, tokenReadings.isSentStart());
+    assertEquals(false, tokenReadings.isSentenceStart());
     assertEquals(true, tokenReadings.isSentEnd());
     //test SEND_END or PARA_END added without directly via addReading
     //which is possible e.g. in rule disambiguator 
@@ -40,11 +41,11 @@ public class AnalyzedTokenReadingsTest extends TestCase {
     assertEquals(false, tokenReadings.isParaEnd());
     tokenReadings.addReading(new AnalyzedToken("word", "PARA_END", null));
     assertEquals(true, tokenReadings.isParaEnd());
-    assertEquals(false, tokenReadings.isSentStart());            
+    assertEquals(false, tokenReadings.isSentenceStart());
     //but you can't add SENT_START to a non-empty token
     //and get isSentStart == true
     tokenReadings.addReading(new AnalyzedToken("word", "SENT_START", null));
-    assertEquals(false, tokenReadings.isSentStart());
+    assertEquals(false, tokenReadings.isSentenceStart());
     final AnalyzedToken aTok = new AnalyzedToken("word", "POS", "lemma");
     aTok.setWhitespaceBefore(true);
     tokenReadings = new AnalyzedTokenReadings(aTok);       

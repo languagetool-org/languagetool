@@ -208,9 +208,9 @@ public class AnalyzedTokenReadings {
   }
 
   /** 
-   * Removes all the readings but the one that match the token given.
-   * @since 1.5
+   * Removes all readings but the one that matches the token given.
    * @param token Token to be matched
+   * @since 1.5
    */
   public final void leaveReading(final AnalyzedToken token) {
     final ArrayList<AnalyzedToken> l = new ArrayList<>();
@@ -246,7 +246,17 @@ public class AnalyzedTokenReadings {
     return isLinebreak;
   }
 
+  /**
+   * @deprecated use {@link #isSentenceStart()} instead - deprecated since 2.3
+   */
   public final boolean isSentStart() {
+    return isSentStart;
+  }
+
+  /**
+   * @since 2.3
+   */
+  public final boolean isSentenceStart() {
     return isSentStart;
   }
 
