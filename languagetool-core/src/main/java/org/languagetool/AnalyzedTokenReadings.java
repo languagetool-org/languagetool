@@ -462,6 +462,9 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     return true;
   }
 
+  /**
+   * @since 2.3
+   */
   @Override
   public Iterator<AnalyzedToken> iterator() {
     final AtomicInteger i = new AtomicInteger(0);
