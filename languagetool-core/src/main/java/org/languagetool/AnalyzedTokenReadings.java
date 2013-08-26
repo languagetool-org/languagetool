@@ -425,6 +425,7 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     }
     sb.delete(sb.length() - 1, sb.length());
     if (chunkTags.size() > 0) {
+      sb.append(",");
       sb.append(StringUtils.join(chunkTags, "|"));
     }
     sb.append("]");
