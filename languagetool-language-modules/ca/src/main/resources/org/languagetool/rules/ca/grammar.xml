@@ -2468,29 +2468,45 @@ $Id$
                 <pattern>
                     <token regexp="yes">vaig|vas|va|van|vares|varen<exception postag="_GN_MS|_GN_FP|complement|.*LOC_ADV.*" postag_regexp="yes"/></token>
                     <marker>
-                        <token postag="V.P.*SM." postag_regexp="yes"><exception postag="V.[NG].*" postag_regexp="yes"/></token>
+                        <token postag="V.P.*SM." postag_regexp="yes" regexp="yes">.+[aiï]t<exception postag="V.[NG].*" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="V.P.*|A.*" postag_regexp="yes"/>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="2" postag="V.N.*" postag_regexp="yes"/></suggestion>?</message>
+                <suggestion><match no="2" postag="V.G.*" postag_regexp="yes"/></suggestion>
                 <short>Falta un infinitiu</short>
-                <example type="incorrect" correction="considerar">ell mateix va <marker>considerat</marker> obert.</example>
+                <example type="incorrect" correction="considerar|considerant">ell mateix va <marker>considerat</marker> obert.</example>
                 <example type="correct">Ell va considerar obert.</example> 
                 <example type="correct">amb les set vares esteses sota la tapa harmònica,</example>  
                 <example type="correct">Tots van vestits iguals.</example>            
              </rule>
              <rule>
                 <pattern>
-                    <token regexp="yes">vaig|vas|va|van|vares|varen<exception postag="_GN_MS|_GN_FP|complement|.*LOC_ADV.*" postag_regexp="yes"/></token>
+                    <token regexp="yes">vaig|vas|va<exception postag="_GN_MS|_GN_FP|complement|.*LOC_ADV.*" postag_regexp="yes"/></token>
                     <marker>
-                        <!-- La llista de verbs serà molt llarga, però no hi ha una altra manera de diferenciar-los -->
-                        <token postag="V.P.*" postag_regexp="yes" regexp="yes" inflected="yes">apuntar|dir|expressar|preferir|augmentar|traduir|considerar</token>
+                        <!-- La llista de verbs serà molt llarga, però no hi ha una altra manera de diferenciar-los  inflected="yes" apuntar|dir|expressar|preferir|augmentar|traduir|considerar|contar|comptar-->
+                    <token postag="V.P.*SM." postag_regexp="yes" regexp="yes">.+[aiï]t<exception postag="V.[NG].*" postag_regexp="yes"/><exception  regexp="yes"></exception></token>
                     </marker>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="2" postag="V.N.*" postag_regexp="yes"/></suggestion>?</message>
                 <suggestion><match no="2" postag="V.G.*" postag_regexp="yes"/></suggestion>
                 <short>Falta un infinitiu</short>
                 <example type="incorrect" correction="augmentar|augmentant">La despesa va <marker>augmentat</marker>.</example>
+                <example type="correct">Ell ho va preferir així.</example> 
+             </rule>
+             <rule>
+                <pattern>
+                    <token regexp="yes">van|vares|varen<exception postag="_GN_MS|_GN_FP|complement|.*LOC_ADV.*" postag_regexp="yes"/></token>
+                    <marker>
+                        <!-- La llista de verbs serà molt llarga, però no hi ha una altra manera de diferenciar-los  inflected="yes" apuntar|dir|expressar|preferir|augmentar|traduir|considerar|contar|comptar-->
+                    <token postag="V.P.*SM." postag_regexp="yes"><exception postag="V.[NG].*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="2" postag="V.N.*" postag_regexp="yes"/></suggestion>?</message>
+                <suggestion><match no="2" postag="V.G.*" postag_regexp="yes"/></suggestion>
+                <suggestion><match no="2" postag="V.G.*PM." postag_regexp="yes"/></suggestion>
+                <short>Falta un infinitiu</short>
+                <example type="incorrect" correction="augmentar|augmentant|augmentats">La despesa van <marker>augmentat</marker>.</example>
                 <example type="correct">Ell ho va preferir així.</example> 
              </rule>
         </rulegroup>
