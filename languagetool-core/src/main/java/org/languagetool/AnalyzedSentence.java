@@ -153,10 +153,10 @@ public class AnalyzedSentence {
         }
       }
       if (!element.isWhitespace()) {
-        /*if (includeChunks) {
+        if (includeChunks) {
           sb.append(",");
           sb.append(StringUtils.join(element.getChunkTags(), "|"));
-        }*/
+        }
         sb.append(']');
       } else {
         sb.append(' ');

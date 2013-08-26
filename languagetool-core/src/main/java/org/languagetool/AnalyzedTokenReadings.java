@@ -397,6 +397,20 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     this.historicalAnnotations = historicalAnnotations;
   }
 
+  /**
+   * @since 2.3
+   */
+  public void setChunkTags(List<ChunkTag> chunkTags) {
+    this.chunkTags = chunkTags;
+  }
+
+  /**
+   * @since 2.3
+   */
+  public List<ChunkTag> getChunkTags() {
+    return chunkTags;
+  }
+
   @Override
   public String toString() {
     final StringBuilder sb = new StringBuilder();
@@ -497,13 +511,4 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
       }
     };
   }
-
-  /**
-   * Used to track disambiguator actions.
-   * @param historicalAnnotations the historicalAnnotations to set
-   */
-  public void setHistoricalAnnotations(String historicalAnnotations) {
-    this.historicalAnnotations = historicalAnnotations;
-  }
-  
 }
