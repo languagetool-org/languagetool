@@ -46,7 +46,7 @@ public class GermanWordRepeatRule extends WordRepeatRule {
     // Don't mark error for cases like:
     // "wie Honda und Samsung, die die Bezahlung ihrer Firmenchefs..."
     // "Das Haus, in das das Kind läuft."
-    if (tokens[position - 1].getToken().length() == 3 && tokens[position - 1].getToken().charAt(0) == 'd' ) {
+    if (tokens[position - 1].getToken().length() == 3 && tokens[position - 1].getToken().charAt(0) == 'd') {
       if (position >= 2 && ",".equals(tokens[position - 2].getToken())) {
         return true;
       }
@@ -58,7 +58,7 @@ public class GermanWordRepeatRule extends WordRepeatRule {
     // "Warum fragen Sie sie nicht selbst?"
     if (position != 2 && tokens[position - 1].getToken().equals("Sie") && tokens[position].getToken().equals("sie") ||
         tokens[position - 1].getToken().equals("sie") && tokens[position].getToken().equals("Sie")) {
-        return true;
+      return true;
     }
     return false;
   }

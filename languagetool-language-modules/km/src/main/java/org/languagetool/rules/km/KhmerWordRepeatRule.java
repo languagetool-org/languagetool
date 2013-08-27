@@ -62,29 +62,21 @@ public class KhmerWordRepeatRule extends Rule {
   }
 
   @Override
-  // LEN modified July, 2011 - add general comments, modify code for Khmer repeated word processing
   public RuleMatch[] match(final AnalyzedSentence text) {
     final List<RuleMatch> ruleMatches = new ArrayList<>();
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace(); // LEN original
     final AnalyzedTokenReadings[] tokensWithWS = text.getTokens(); // LEN with whitespace!
 
     String prevToken = "";
-    //token no. 0 is guaranteed to be SENT_START
-    //note: we start from token 1
+    // we start from token 1, token no. 0 is guaranteed to be SENT_START 
     for (int i = 1; i < tokens.length; i++) {  // LEN i is a counter which runs from 1 to the number of tokens
       final String token = tokens[i].getToken();
       // avoid "..." etc. to be matched:
-      boolean isWord = true;
-      if (token.length() == 1) {
-        final char c = token.charAt(0);
-        if (!Character.isLetter(c)) {
-          isWord = false;
-        }
-      }
+      boolean isWord = isWord(token);
       final boolean isException = ignore(text, tokensWithWS, i); // LEN i represents the current token
       // LEN if we have a word, and the previous token is the same (ignoring case) as the current token and we
       //     do not have an exception, provide the rule in Khmer
-      if (isWord && prevToken.toLowerCase().equals(token.toLowerCase()) && (isException!=true)) {
+      if (isWord && prevToken.equalsIgnoreCase(token) && !isException) {
         final String msg = messages.getString("repetition"); // LEN get the repetition message (long version)
         final int prevPos = tokens[i - 1].getStartPos();     // LEN find the position of the previous token
         final int pos = tokens[i].getStartPos();               // LEN find position of the current token
@@ -106,6 +98,17 @@ public class KhmerWordRepeatRule extends Rule {
     }
 
     return toRuleMatchArray(ruleMatches);
+  }
+
+  private boolean isWord(String token) {
+    boolean isWord = true;
+    if (token.length() == 1) {
+      final char c = token.charAt(0);
+      if (!Character.isLetter(c)) {
+        isWord = false;
+      }
+    }
+    return isWord;
   }
 
   @Override

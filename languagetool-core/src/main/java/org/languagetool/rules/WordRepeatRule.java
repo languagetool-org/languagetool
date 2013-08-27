@@ -67,20 +67,10 @@ public class WordRepeatRule extends Rule {
     final List<RuleMatch> ruleMatches = new ArrayList<>();
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
     String prevToken = "";
-    //note: we start from token 1
-    //token no. 0 is guaranteed to be SENT_START
+    // we start from token 1, token no. 0 is guaranteed to be SENT_START
     for (int i = 1; i < tokens.length; i++) {
       final String token = tokens[i].getToken();
-      // avoid "..." etc. to be matched:
-      boolean isWord = true;
-      if (token.length() == 1) {
-        final char c = token.charAt(0);
-        if (!Character.isLetter(c)) {
-          isWord = false;
-        }
-      }
-      final boolean isException = ignore(tokens, i);
-      if (isWord && prevToken.toLowerCase().equals(token.toLowerCase()) && !isException) {
+      if (isWord(token) && prevToken.equalsIgnoreCase(token) && !ignore(tokens, i)) {
         final String msg = messages.getString("repetition");
         final int prevPos = tokens[i - 1].getStartPos();
         final int pos = tokens[i].getStartPos();
@@ -92,6 +82,18 @@ public class WordRepeatRule extends Rule {
       prevToken = token;
     }
     return toRuleMatchArray(ruleMatches);
+  }
+
+  // avoid "..." etc. to be matched:
+  private boolean isWord(String token) {
+    boolean isWord = true;
+    if (token.length() == 1) {
+      final char c = token.charAt(0);
+      if (!Character.isLetter(c)) {
+        isWord = false;
+      }
+    }
+    return isWord;
   }
 
   @Override
