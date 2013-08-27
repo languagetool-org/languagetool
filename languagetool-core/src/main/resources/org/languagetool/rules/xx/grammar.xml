@@ -110,25 +110,7 @@ $Id$
     </phrase>
   </phrases>
 
-  <category name="misc">
-  <rule id="OR_GROUPS" name="or groups">
-    <pattern>
-      <or>
-        <token>a</token>
-        <token>b</token>
-        <token>d</token>
-      </or>
-      <token>c</token>
-    </pattern>
-    <message>Incorrect expression.</message>
-    <!-- <example type="incorrect"><marker>b c</marker></example>
-    <example type="incorrect"><marker>a c</marker></example> 
-    <example type="incorrect"><marker>b c</marker></example>
-    <example type="incorrect">a <marker>b c</marker></example>-->
-    <example type="correct">d c</example>
-    <example type="correct">c a</example>
-    <example type="correct">c b</example>
-  </rule> 
+  <category name="misc">   
     <rule id="DEMO_RULE" name="Find 'foo bar'">
       <!-- a trivial demo rule that matches "foo" followed by "bar" -->
       <pattern case_sensitive="no">
@@ -140,6 +122,49 @@ $Id$
       <example type="correct">This is <marker>fuu bah</marker>.</example>
       <example correction="foo fuu bah" type="incorrect">This is <marker>foo bar</marker>.</example>
     </rule>
+    <rulegroup id="OR_GROUPS" name="OR groups">
+      <rule>
+        <pattern>
+          <or>
+            <token>a</token>
+            <token>b</token>
+            <token>c</token>
+          </or>
+          <token>d</token>
+        </pattern>
+        <message>Incorrect expression.</message>
+        <example type="incorrect"><marker>b d</marker></example>
+        <example type="incorrect"><marker>a d</marker></example> 
+        <example type="incorrect"><marker>b d</marker></example>
+        <example type="incorrect">a <marker>b d</marker></example>
+        <example type="correct">d a</example>
+        <example type="correct">c a</example>
+        <example type="correct">c b</example>
+      </rule>
+      <rule>
+        <pattern>
+          <or>
+            <token>a</token>
+            <token>b</token>
+            <token>c</token>
+          </or>
+          <token/>
+          <or>
+            <token>x</token>
+            <token>y</token>
+            <token>z</token>
+          </or>
+        </pattern>
+        <message>Incorrect expression.</message>
+        <example type="incorrect"><marker>b f x</marker></example>
+        <example type="incorrect"><marker>a g z</marker></example> 
+        <example type="incorrect"><marker>b d y</marker></example>
+        <example type="incorrect">a <marker>b h z</marker></example>
+        <example type="correct">d a d</example>
+        <example type="correct">c a c</example>
+        <example type="correct">y b y</example>
+      </rule>
+    </rulegroup>
     <rule id="DEMO_CHUNK_RULE" name="Rule with chunk attribute">
       <pattern case_sensitive="no">
         <token>foo</token>

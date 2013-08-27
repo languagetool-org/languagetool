@@ -833,7 +833,26 @@ public class JLanguageTool {
     }    
     return rulesActive;
   }
-
+  
+  /**
+   * Get Pattern rules by Id and SubId
+   * 
+   * @return a List of {@link Rule} objects
+   */
+  public List<PatternRule> getPatternRulesByIdAndSubId(String Id, String subId) {
+    final List<Rule> rules = getAllRules();
+    final List<PatternRule> rulesById = new ArrayList<>();   
+    for (final Rule rule : rules) {
+      rule.reset();
+      if (rule instanceof PatternRule) {
+        if (rule.getId().equals(Id) && ((PatternRule)rule).getSubId().equals(subId)) {
+          rulesById.add((PatternRule) rule);
+        }
+      }
+    }    
+    return rulesById;
+  }
+  
   /**
    * Number of sentences the latest call to a check method like {@link #check(String)} has checked.
    */
