@@ -19,13 +19,12 @@
 package org.languagetool.rules.de;
 
 import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.German;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.tagging.de.AnalyzedGermanToken;
-import org.languagetool.tagging.de.AnalyzedGermanTokenReadings;
 import org.languagetool.tagging.de.GermanTagger;
 import org.languagetool.tagging.de.GermanToken;
 import org.languagetool.tagging.de.GermanToken.POSType;
@@ -424,21 +423,21 @@ public class CaseRule extends GermanRule {
       if (i > 0 && (tokens[i-1].getToken().equals("Herr") || tokens[i-1].getToken().equals("Herrn") || tokens[i-1].getToken().equals("Frau")) ) {   // "Frau Stieg" could be a name, ignore
         continue;
       }
-      final AnalyzedGermanTokenReadings analyzedToken = (AnalyzedGermanTokenReadings)tokens[i];
+      final AnalyzedTokenReadings analyzedToken = tokens[i];
       final String token = analyzedToken.getToken();
-      List<AnalyzedGermanToken> readings = analyzedToken.getGermanReadings();
-      AnalyzedGermanTokenReadings analyzedGermanToken2;
+      List<AnalyzedToken> readings = analyzedToken.getReadings();
+      AnalyzedTokenReadings analyzedGermanToken2;
       
       boolean isBaseform = false;
       if (analyzedToken.getReadingsLength() >= 1 && analyzedToken.hasLemma(token)) {
         isBaseform = true;
       }
-      if ((readings == null || analyzedToken.getAnalyzedToken(0).getPOSTag() == null || analyzedToken.hasReadingOfType(GermanToken.POSType.VERB))
+      if ((readings == null || analyzedToken.getAnalyzedToken(0).getPOSTag() == null || GermanHelper.hasReadingOfType(analyzedToken, GermanToken.POSType.VERB))
           && isBaseform) {
         // no match, e.g. for "Groß": try if there's a match for the lowercased word:
         analyzedGermanToken2 = tagger.lookup(token.toLowerCase());
         if (analyzedGermanToken2 != null) {
-          readings = analyzedGermanToken2.getGermanReadings();
+          readings = analyzedGermanToken2.getReadings();
         }
         boolean nextTokenIsPersonalPronoun = false;
         if (i < tokens.length - 1) {
@@ -451,7 +450,7 @@ public class CaseRule extends GermanRule {
       if (readings == null) {
         continue;
       }
-      final boolean hasNounReading = analyzedToken.hasReadingOfType(GermanToken.POSType.NOMEN);
+      final boolean hasNounReading = GermanHelper.hasReadingOfType(analyzedToken, GermanToken.POSType.NOMEN);
       if (hasNounReading) {  // it's the spell checker's task to check that nouns are uppercase
         continue;
       }
@@ -485,14 +484,13 @@ public class CaseRule extends GermanRule {
     }
   }
 
-  private void potentiallyAddUppercaseMatch(List<RuleMatch> ruleMatches, AnalyzedTokenReadings[] tokens, int i, AnalyzedGermanTokenReadings analyzedToken, String token) {
+  private void potentiallyAddUppercaseMatch(List<RuleMatch> ruleMatches, AnalyzedTokenReadings[] tokens, int i, AnalyzedTokenReadings analyzedToken, String token) {
     if (Character.isUpperCase(token.charAt(0)) &&
         token.length() > 1 &&     // length limit = ignore abbreviations
-        !sentenceStartExceptions.contains(tokens[i-1].getToken()) &&
+        !sentenceStartExceptions.contains(tokens[i - 1].getToken()) &&
         !StringTools.isAllUppercase(token) &&
         !exceptions.contains(token) &&
-        !analyzedToken.hasReadingOfType(POSType.PROPER_NOUN) &&
-        !isNilReading(analyzedToken) &&
+        !GermanHelper.hasReadingOfType(analyzedToken, POSType.PROPER_NOUN) &&
         !analyzedToken.isSentenceEnd() &&
         !( (tokens[i-1].getToken().equals("]") || tokens[i-1].getToken().equals(")")) && // sentence starts with […]
            ( (i == 4 && tokens[i-2].getToken().equals("…")) || (i == 6 && tokens[i-2].getToken().equals(".")) ) ) &&
@@ -505,17 +503,6 @@ public class CaseRule extends GermanRule {
       ruleMatch.setSuggestedReplacement(fixedWord);
       ruleMatches.add(ruleMatch);
     }
-  }
-
-  /** Morphy has about 750 words tagged: wkl="NIL" tip="SUB" - ignore these. */
-  private boolean isNilReading(AnalyzedGermanTokenReadings analyzedToken) {
-    final List<AnalyzedGermanToken> germanReadings = analyzedToken.getGermanReadings();
-    if (germanReadings.size() > 0) {
-      if ("NIL:SUB".equals(germanReadings.get(0).getPOSTag())) {
-        return true;
-      }
-    }
-    return false;
   }
 
   private boolean isExceptionPhrase(int i, AnalyzedTokenReadings[] tokens) {

@@ -38,21 +38,26 @@ public class AnalyzedGermanToken extends AnalyzedToken {
   private Numerus numerus;
   private Genus genus;
 
+  public AnalyzedGermanToken(AnalyzedToken token) {
+    super(token.getToken(), token.getPOSTag(), token.getLemma());
+    init();
+  }
+
   public AnalyzedGermanToken(String token, String posTag) {
     super(token, posTag, null);
-    initFromPOSTagString(posTag);
+    init();
   }
 
   public AnalyzedGermanToken(String token, String posTag, String lemma) {
     super(token, posTag, lemma);
-    initFromPOSTagString(posTag);
+    init();
   }
   
-  private void initFromPOSTagString(String posTagString) {
-    if (posTagString == null) {
+  private void init() {
+    if (getPOSTag() == null) {
       return;
     }
-    final String[] parts = posTagString.split(":");
+    final String[] parts = getPOSTag().split(":");
     if (parts.length < 3) {
       //FIXME ??
       //System.err.println(posTagString);

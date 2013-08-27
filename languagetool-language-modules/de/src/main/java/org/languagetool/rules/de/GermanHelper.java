@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker 
- * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+ * Copyright (C) 2013 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,52 +16,23 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.tagging.de;
+package org.languagetool.rules.de;
 
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
-import org.languagetool.tagging.de.GermanToken.POSType;
+import org.languagetool.tagging.de.AnalyzedGermanToken;
+import org.languagetool.tagging.de.GermanToken;
 
-import java.util.ArrayList;
-import java.util.List;
+public final class GermanHelper {
 
-/**
- * All possible readings of an analyzed German word.
- * 
- * @author Daniel Naber
- */
-public class AnalyzedGermanTokenReadings extends AnalyzedTokenReadings {
-
-  public AnalyzedGermanTokenReadings(AnalyzedGermanToken[] aTokens, final int startPos) {
-    super(aTokens, startPos);
-  }    
-   
-  public AnalyzedGermanTokenReadings(AnalyzedGermanToken aToken, final int startPos) {
-    super(aToken, startPos);
-  }
-  
-  /**
-   * @return a list of {@link AnalyzedGermanToken}s.
-   */
-  public List<AnalyzedGermanToken> getGermanReadings() {
-    final List<AnalyzedGermanToken> tokens = new ArrayList<>();
-    for (AnalyzedToken reading : anTokReadings) {
-      if (reading.getPOSTag() != null) {
-        if (!reading.getPOSTag().equals(JLanguageTool.SENTENCE_END_TAGNAME) && !reading.getPOSTag().equals(JLanguageTool.PARAGRAPH_END_TAGNAME)) {
-          tokens.add((AnalyzedGermanToken)reading);
-        }
-      } else {
-        tokens.add((AnalyzedGermanToken)reading);
-      }
-    }
-    return tokens;
+  private GermanHelper() {
   }
 
-  public boolean hasReadingOfType(POSType type) {
-    if (anTokReadings == null)
+  public static boolean hasReadingOfType(AnalyzedTokenReadings tokenReadings, GermanToken.POSType type) {
+    if (tokenReadings == null)
       return false;
-    for (AnalyzedToken reading : anTokReadings) {
+    for (AnalyzedToken reading : tokenReadings) {
       if (reading.getPOSTag() != null) {
         if (reading.getPOSTag().equals(JLanguageTool.SENTENCE_END_TAGNAME) || reading.getPOSTag().equals(JLanguageTool.PARAGRAPH_END_TAGNAME)) {
           return false;

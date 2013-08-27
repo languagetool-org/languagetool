@@ -35,7 +35,7 @@ public class GermanTaggerTest extends TestCase {
   public void testTagger() throws IOException {
     final GermanTagger tagger = new GermanTagger();
     
-    AnalyzedGermanTokenReadings aToken = tagger.lookup("Haus");
+    AnalyzedTokenReadings aToken = tagger.lookup("Haus");
     assertEquals("Haus[Haus/SUB:AKK:SIN:NEU, Haus/SUB:DAT:SIN:NEU, Haus/SUB:NOM:SIN:NEU]", toSortedString(aToken));
     assertEquals("Haus", aToken.getReadings().get(0).getLemma());
     assertEquals("Haus", aToken.getReadings().get(1).getLemma());
@@ -124,17 +124,17 @@ public class GermanTaggerTest extends TestCase {
   public void testTaggerBaseforms() throws IOException {
     final GermanTagger tagger = new GermanTagger();
     
-    List<AnalyzedGermanToken> readings = tagger.lookup("übrigbleibst").getGermanReadings();
+    List<AnalyzedToken> readings = tagger.lookup("übrigbleibst").getReadings();
     assertEquals(1, readings.size());
     assertEquals("übrigbleiben", readings.get(0).getLemma());
 
-    readings = tagger.lookup("Haus").getGermanReadings();
+    readings = tagger.lookup("Haus").getReadings();
     assertEquals(3, readings.size());
     assertEquals("Haus", readings.get(0).getLemma());
     assertEquals("Haus", readings.get(1).getLemma());
     assertEquals("Haus", readings.get(2).getLemma());
 
-    readings = tagger.lookup("Häuser").getGermanReadings();
+    readings = tagger.lookup("Häuser").getReadings();
     assertEquals(3, readings.size());
     assertEquals("Haus", readings.get(0).getLemma());
     assertEquals("Haus", readings.get(1).getLemma());
@@ -179,7 +179,7 @@ public class GermanTaggerTest extends TestCase {
    * Returns a string representation like {@code toString()}, but sorts
    * the elements alphabetically.
    */
-  private String toSortedString(AnalyzedGermanTokenReadings tokenReadings) {
+  private String toSortedString(AnalyzedTokenReadings tokenReadings) {
     final StringBuilder sb = new StringBuilder(tokenReadings.getToken());
     final Set<String> elements = new TreeSet<>();
     sb.append('[');

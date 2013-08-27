@@ -139,9 +139,7 @@ public class AnalyzedSentence {
           sb.append("</S>");
         } else if (JLanguageTool.PARAGRAPH_END_TAGNAME.equals(token.getPOSTag())) {
           sb.append("<P/>");
-        } else if (posTag == null
-            && !(element.getClass().getName().equals("org.languagetool.tagging.de.AnalyzedGermanTokenReadings"))) {
-          // FIXME: don't depend on AnalyzedGermanTokenReadings here
+        } else if (posTag == null) {
           sb.append(token.getToken());
         } else {
           if (!element.isWhitespace()) {

@@ -26,7 +26,6 @@ import org.languagetool.language.German;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tagging.de.AnalyzedGermanToken;
-import org.languagetool.tagging.de.AnalyzedGermanTokenReadings;
 import org.languagetool.tagging.de.GermanTagger;
 import org.languagetool.tagging.de.GermanToken;
 import org.languagetool.tagging.de.GermanToken.POSType;
@@ -187,7 +186,7 @@ public class AgreementRule extends GermanRule {
         continue;
       //AnalyzedGermanToken analyzedToken = new AnalyzedGermanToken(tokens[i]);
       
-      final AnalyzedGermanTokenReadings analyzedToken = (AnalyzedGermanTokenReadings)tokens[i];
+      final AnalyzedTokenReadings analyzedToken = tokens[i];
       final boolean relevantPronoun = isRelevantPronoun(tokens, i);
      
       boolean ignore = couldBeRelativeClause(tokens, i);
@@ -206,29 +205,29 @@ public class AgreementRule extends GermanRule {
         ignore = true;
       }
 
-      if ((analyzedToken.hasReadingOfType(POSType.DETERMINER) || relevantPronoun) && !ignore) {
+      if ((GermanHelper.hasReadingOfType(analyzedToken, POSType.DETERMINER) || relevantPronoun) && !ignore) {
         int tokenPos = i + 1; 
         if (tokenPos >= tokens.length)
           break;
-        AnalyzedGermanTokenReadings nextToken = (AnalyzedGermanTokenReadings)tokens[tokenPos];
+        AnalyzedTokenReadings nextToken = tokens[tokenPos];
         nextToken = maybeAddAdjectiveReadings(nextToken, tokens, tokenPos);
         if (isNonPredicativeAdjective(nextToken)) {
           tokenPos = i + 2; 
           if (tokenPos >= tokens.length)
             break;
-          final AnalyzedGermanTokenReadings nextNextToken = (AnalyzedGermanTokenReadings)tokens[tokenPos];
-          if (nextNextToken.hasReadingOfType(POSType.NOMEN)) {
+          final AnalyzedTokenReadings nextNextToken = tokens[tokenPos];
+          if (GermanHelper.hasReadingOfType(nextNextToken, POSType.NOMEN)) {
             // TODO: add a case (checkAdjNounAgreement) for special cases like "deren",
             // e.g. "deren komisches Geschenke" isn't yet detected as incorrect
-            final RuleMatch ruleMatch = checkDetAdjNounAgreement((AnalyzedGermanTokenReadings)tokens[i],
-                nextToken, (AnalyzedGermanTokenReadings)tokens[i+2]);
+            final RuleMatch ruleMatch = checkDetAdjNounAgreement(tokens[i],
+                nextToken, tokens[i+2]);
             if (ruleMatch != null) {
               ruleMatches.add(ruleMatch);
             }
           }
-        } else if (nextToken.hasReadingOfType(POSType.NOMEN)) {
-          final RuleMatch ruleMatch = checkDetNounAgreement((AnalyzedGermanTokenReadings)tokens[i],
-              (AnalyzedGermanTokenReadings)tokens[i+1]);
+        } else if (GermanHelper.hasReadingOfType(nextToken, POSType.NOMEN)) {
+          final RuleMatch ruleMatch = checkDetNounAgreement(tokens[i],
+                  tokens[i+1]);
           if (ruleMatch != null) {
             ruleMatches.add(ruleMatch);
           }
@@ -239,7 +238,7 @@ public class AgreementRule extends GermanRule {
     return toRuleMatchArray(ruleMatches);
   }
 
-  private boolean isNonPredicativeAdjective(AnalyzedGermanTokenReadings tokensReadings) {
+  private boolean isNonPredicativeAdjective(AnalyzedTokenReadings tokensReadings) {
     for (AnalyzedToken reading : tokensReadings.getReadings()) {
       if (reading instanceof AnalyzedGermanToken) {
         final AnalyzedGermanToken germanReading = (AnalyzedGermanToken) reading;
@@ -252,8 +251,8 @@ public class AgreementRule extends GermanRule {
   }
 
   private boolean isRelevantPronoun(AnalyzedTokenReadings[] tokens, int pos) {
-    final AnalyzedGermanTokenReadings analyzedToken = (AnalyzedGermanTokenReadings)tokens[pos];
-    boolean relevantPronoun = analyzedToken.hasReadingOfType(POSType.PRONOMEN);
+    final AnalyzedTokenReadings analyzedToken = tokens[pos];
+    boolean relevantPronoun = GermanHelper.hasReadingOfType(analyzedToken, POSType.PRONOMEN);
     // avoid false alarms:
     final String token = tokens[pos].getToken();
     if (pos > 0 && tokens[pos-1].getToken().equalsIgnoreCase("vor") && tokens[pos].getToken().equalsIgnoreCase("allem")) {
@@ -265,29 +264,29 @@ public class AgreementRule extends GermanRule {
   }
 
   // see the comment at ADJ_READINGS:
-  private AnalyzedGermanTokenReadings maybeAddAdjectiveReadings(AnalyzedGermanTokenReadings nextToken,
+  private AnalyzedTokenReadings maybeAddAdjectiveReadings(AnalyzedTokenReadings nextToken,
       AnalyzedTokenReadings[] tokens, int tokenPos) {
     final String nextTerm = nextToken.getToken();
     // Just a heuristic: nouns and proper nouns that end with "er" are considered
     // city names:
     if (nextTerm.endsWith("er") && tokens.length > tokenPos+1 && !ER_TO_BE_IGNORED.contains(nextTerm)) {
-      final AnalyzedGermanTokenReadings nextNextToken = (AnalyzedGermanTokenReadings)tokens[tokenPos+1];
+      final AnalyzedTokenReadings nextNextToken = tokens[tokenPos+1];
       try {
-        final AnalyzedGermanTokenReadings nextATR = tagger.lookup(nextTerm.substring(0, nextTerm.length()-2));
-        final AnalyzedGermanTokenReadings nextNextATR = tagger.lookup(nextNextToken.getToken());
+        final AnalyzedTokenReadings nextATR = tagger.lookup(nextTerm.substring(0, nextTerm.length()-2));
+        final AnalyzedTokenReadings nextNextATR = tagger.lookup(nextNextToken.getToken());
         //System.err.println("nextATR: " + nextATR);
         //System.err.println("nextNextATR: " + nextNextATR);
         // "Münchner": special case as cutting off last two characters doesn't produce city name:
         if ("Münchner".equals(nextTerm) ||
             (nextATR != null &&
             // tagging in Morphy for cities is not coherent:
-            (nextATR.hasReadingOfType(POSType.PROPER_NOUN) || nextATR.hasReadingOfType(POSType.NOMEN) &&
-            nextNextATR != null && nextNextATR.hasReadingOfType(POSType.NOMEN)))) {
+            (GermanHelper.hasReadingOfType(nextATR, POSType.PROPER_NOUN) || GermanHelper.hasReadingOfType(nextATR, POSType.NOMEN) &&
+            nextNextATR != null && GermanHelper.hasReadingOfType(nextNextATR, POSType.NOMEN)))) {
           final AnalyzedGermanToken[] adjReadings = new AnalyzedGermanToken[ADJ_READINGS.length];
           for (int j = 0; j < ADJ_READINGS.length; j++) {
             adjReadings[j] = new AnalyzedGermanToken(nextTerm, ADJ_READINGS[j], null);
           }
-          nextToken = new AnalyzedGermanTokenReadings(adjReadings, nextToken.getStartPos());
+          nextToken = new AnalyzedTokenReadings(adjReadings, nextToken.getStartPos());
         }
       } catch (IOException e) {
         throw new RuntimeException(e);
@@ -320,8 +319,8 @@ public class AgreementRule extends GermanRule {
     return false;
   }
 
-  private RuleMatch checkDetNounAgreement(final AnalyzedGermanTokenReadings token1,
-      final AnalyzedGermanTokenReadings token2) {
+  private RuleMatch checkDetNounAgreement(final AnalyzedTokenReadings token1,
+      final AnalyzedTokenReadings token2) {
     RuleMatch ruleMatch = null;
     final Set<String> set1 = getAgreementCategories(token1);
     if (set1 == null) {
@@ -344,7 +343,7 @@ public class AgreementRule extends GermanRule {
     return ruleMatch;
   }
 
-  private List<String> getCategoriesCausingError(AnalyzedGermanTokenReadings token1, AnalyzedGermanTokenReadings token2) {
+  private List<String> getCategoriesCausingError(AnalyzedTokenReadings token1, AnalyzedTokenReadings token2) {
     final List<String> categories = new ArrayList<>();
     final List<GrammarCategory> categoriesToCheck = Arrays.asList(GrammarCategory.KASUS, GrammarCategory.GENUS, GrammarCategory.NUMERUS);
     for (GrammarCategory category : categoriesToCheck) {
@@ -355,8 +354,8 @@ public class AgreementRule extends GermanRule {
     return categories;
   }
 
-  private RuleMatch checkDetAdjNounAgreement(final AnalyzedGermanTokenReadings token1,
-      final AnalyzedGermanTokenReadings token2, final AnalyzedGermanTokenReadings token3) {
+  private RuleMatch checkDetAdjNounAgreement(final AnalyzedTokenReadings token1,
+      final AnalyzedTokenReadings token2, final AnalyzedTokenReadings token3) {
     final Set<String> set = retainCommonCategories(token1, token2, token3, null);
     RuleMatch ruleMatch = null;
     if (set.size() == 0) {
@@ -371,8 +370,8 @@ public class AgreementRule extends GermanRule {
     return ruleMatch;
   }
 
-  private boolean agreementWithCategoryRelaxation(final AnalyzedGermanTokenReadings token1,
-                                                  final AnalyzedGermanTokenReadings token2, final GrammarCategory categoryToRelax) {
+  private boolean agreementWithCategoryRelaxation(final AnalyzedTokenReadings token1,
+                                                  final AnalyzedTokenReadings token2, final GrammarCategory categoryToRelax) {
     final Set<GrammarCategory> categoryToRelaxSet;
     if (categoryToRelax != null) {
       categoryToRelaxSet = Collections.singleton(categoryToRelax);
@@ -391,8 +390,8 @@ public class AgreementRule extends GermanRule {
     return set1.size() > 0;
   }
   
-  private Set<String> retainCommonCategories(final AnalyzedGermanTokenReadings token1, 
-      final AnalyzedGermanTokenReadings token2, final AnalyzedGermanTokenReadings token3,
+  private Set<String> retainCommonCategories(final AnalyzedTokenReadings token1, 
+      final AnalyzedTokenReadings token2, final AnalyzedTokenReadings token3,
       final GrammarCategory categoryToRelax) {
     final Set<GrammarCategory> categoryToRelaxSet;
     if (categoryToRelax == null) {
@@ -418,15 +417,16 @@ public class AgreementRule extends GermanRule {
     return set1;
   }
 
-  private Set<String> getAgreementCategories(final AnalyzedGermanTokenReadings aToken) {
+  private Set<String> getAgreementCategories(final AnalyzedTokenReadings aToken) {
     return getAgreementCategories(aToken, new HashSet<GrammarCategory>());
   }
   
   /** Return Kasus, Numerus, Genus. */
-  private Set<String> getAgreementCategories(final AnalyzedGermanTokenReadings aToken, Set<GrammarCategory> omit) {
+  private Set<String> getAgreementCategories(final AnalyzedTokenReadings aToken, Set<GrammarCategory> omit) {
     final Set<String> set = new HashSet<>();
-    final List<AnalyzedGermanToken> readings = aToken.getGermanReadings();
-    for (AnalyzedGermanToken reading : readings) {
+    final List<AnalyzedToken> readings = aToken.getReadings();
+    for (AnalyzedToken tmpReading : readings) {
+      final AnalyzedGermanToken reading = new AnalyzedGermanToken(tmpReading);
       if (reading.getCasus() == null && reading.getNumerus() == null &&
           reading.getGenus() == null)
         continue;

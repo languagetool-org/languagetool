@@ -73,11 +73,11 @@ public class GermanTagger implements Tagger {
     }
   }
 
-  public AnalyzedGermanTokenReadings lookup(final String word) throws IOException {
+  public AnalyzedTokenReadings lookup(final String word) throws IOException {
     final List<String> words = new ArrayList<>();
     words.add(word);
     final List<AnalyzedTokenReadings> result = tag(words, false);
-    final AnalyzedGermanTokenReadings atr = (AnalyzedGermanTokenReadings) result.get(0);
+    final AnalyzedTokenReadings atr = result.get(0);
     if (atr.getAnalyzedToken(0).getPOSTag() == null) {
       return null;
     }
@@ -133,7 +133,7 @@ public class GermanTagger implements Tagger {
       }
 
       //tokenReadings.add(new AnalyzedGermanToken(new AnalyzedTokenReadings((AnalyzedToken[]) l.toArray(new AnalyzedToken[0]))));
-      tokenReadings.add(new AnalyzedGermanTokenReadings(l.toArray(new AnalyzedGermanToken[l.size()]), pos));
+      tokenReadings.add(new AnalyzedTokenReadings(l.toArray(new AnalyzedGermanToken[l.size()]), pos));
       pos += word.length();
     }
     return tokenReadings;
@@ -199,8 +199,8 @@ public class GermanTagger implements Tagger {
   }
 
   @Override
-  public final AnalyzedGermanTokenReadings createNullToken(final String token, final int startPos) {
-    return new AnalyzedGermanTokenReadings(new AnalyzedGermanToken(token, null, null), startPos);
+  public final AnalyzedTokenReadings createNullToken(final String token, final int startPos) {
+    return new AnalyzedTokenReadings(new AnalyzedGermanToken(token, null, null), startPos);
   }
 
   @Override
