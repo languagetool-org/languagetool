@@ -37,8 +37,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class SuggestionReplacerTest extends TestCase {
 
+  private final JLanguageTool langTool = getLanguageTool();
+  private final JLanguageTool englishLangTool = getLanguageTool(new English());
+
   public void testApplySuggestionToOriginalText() throws Exception {
-    JLanguageTool langTool = getLanguageTool();
     SwebleWikipediaTextFilter filter = new SwebleWikipediaTextFilter();
     applySuggestion(langTool, filter, "Die CD ROM.", "Die <s>CD-ROM.</s>");
     applySuggestion(langTool, filter, "Die [[verlinkte]] CD ROM.", "Die [[verlinkte]] <s>CD-ROM.</s>");
@@ -57,7 +59,6 @@ public class SuggestionReplacerTest extends TestCase {
   }
 
   public void testNestedTemplates() throws Exception {
-    JLanguageTool langTool = getLanguageTool();
     SwebleWikipediaTextFilter filter = new SwebleWikipediaTextFilter();
     String markup = "{{FNBox|\n" +
             "  {{FNZ|1|1979 und 1984}}\n" +
@@ -67,7 +68,6 @@ public class SuggestionReplacerTest extends TestCase {
   }
 
   public void testReference1() throws Exception {
-    JLanguageTool langTool = getLanguageTool();
     SwebleWikipediaTextFilter filter = new SwebleWikipediaTextFilter();
     String markup = "Hier <ref name=isfdb>\n" +
             "Retrieved 2012-07-31.</ref> steht der Haus.";
@@ -75,28 +75,24 @@ public class SuggestionReplacerTest extends TestCase {
   }
 
   public void testReference2() throws Exception {
-    JLanguageTool langTool = getLanguageTool();
     SwebleWikipediaTextFilter filter = new SwebleWikipediaTextFilter();
     String markup = "Hier <ref name=\"NPOVxxx\" /> steht der Haus.";
     applySuggestion(langTool, filter, markup, markup.replace("steht der Haus.", "steht <s>der Haus.</s>"));
   }
 
   public void testErrorAtTextBeginning() throws Exception {
-    JLanguageTool langTool = getLanguageTool(new English());
     SwebleWikipediaTextFilter filter = new SwebleWikipediaTextFilter();
     String markup = "A hour ago\n";
-    applySuggestion(langTool, filter, markup, markup.replace("A", "<s>An</s>"));
+    applySuggestion(englishLangTool, filter, markup, markup.replace("A", "<s>An</s>"));
   }
 
   public void testErrorAtParagraphBeginning() throws Exception {
-    JLanguageTool langTool = getLanguageTool(new English());
     SwebleWikipediaTextFilter filter = new SwebleWikipediaTextFilter();
     String markup = "X\n\nA hour ago\n";
-    applySuggestion(langTool, filter, markup, markup.replace("A", "<s>An</s>"));
+    applySuggestion(englishLangTool, filter, markup, markup.replace("A", "<s>An</s>"));
   }
 
   public void testKnownBug() throws Exception {
-    JLanguageTool langTool = getLanguageTool();
     SwebleWikipediaTextFilter filter = new SwebleWikipediaTextFilter();
     String markup = "{{HdBG GKZ|9761000}}.";
     try {
@@ -119,7 +115,6 @@ public class SuggestionReplacerTest extends TestCase {
             "}}\n" +
             "\n" +
             "'''Wikipedia''' [{{IPA|ˌvɪkiˈpeːdia}}] (auch: ''die Wikipedia'') ist ein am [[15. Januar|15.&nbsp;Januar]] [[2001]] gegründetes Projekt. Und und so.\n";
-    JLanguageTool langTool = getLanguageTool();
     SwebleWikipediaTextFilter filter = new SwebleWikipediaTextFilter();
     applySuggestion(langTool, filter, markup, markup.replace("Und und so.", "<s>Und so.</s>"));
   }
@@ -178,16 +173,20 @@ public class SuggestionReplacerTest extends TestCase {
     }
   }
 
-  private JLanguageTool getLanguageTool() throws IOException {
+  private JLanguageTool getLanguageTool() {
     JLanguageTool langTool = getLanguageTool(new GermanyGerman());
     langTool.disableRule("DE_CASE");
     return langTool;
   }
 
-  private JLanguageTool getLanguageTool(Language language) throws IOException {
-    JLanguageTool langTool = new JLanguageTool(language);
-    langTool.activateDefaultPatternRules();
-    return langTool;
+  private JLanguageTool getLanguageTool(Language language) {
+    try {
+      JLanguageTool langTool = new JLanguageTool(language);
+      langTool.activateDefaultPatternRules();
+      return langTool;
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   private void applySuggestion(JLanguageTool langTool, SwebleWikipediaTextFilter filter, String text, String expected) throws IOException {
