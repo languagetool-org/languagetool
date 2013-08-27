@@ -371,6 +371,18 @@ $Id$
                 <example type="correct">dos o tres mascles</example>
                 <example type="correct">són dos, les bengales i les rodes</example>
             </rule>
+            <rule id="DOS_DIT" name="dos dit/dits">
+                <pattern>
+                    <token postag="DN.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>dit</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>dits</suggestion>?</message>
+                <short>Error de concordança</short>
+                <example type="incorrect" correction="dits">Dos <marker>dit</marker> de front</example>
+                <example type="correct">No té ni un dit de front</example>
+            </rule>
         </rulegroup>  
         <rulegroup id="CONCORDANCES_PRONOM_NEUTRE" name="concordances amb pronom neutre">
             <rule>
