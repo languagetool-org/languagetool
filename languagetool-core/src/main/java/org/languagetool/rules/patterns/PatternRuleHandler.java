@@ -122,7 +122,10 @@ public class PatternRuleHandler extends XMLRuleHandler {
       tokenCountForMarker = 0;
     } else if (AND.equals(qName)) {
       inAndGroup = true;
-      tokenCountForMarker++;
+      tokenCountForMarker++;      
+    } else if (OR.equals(qName)) {
+      inOrGroup = true;
+      tokenCountForMarker++;  
     } else if (UNIFY.equals(qName)) {
       inUnification = true;
       uniNegation = YES.equals(attrs.getValue(NEGATE));
@@ -133,7 +136,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
       uTypeList.add(uType);
     } else if (TOKEN.equals(qName)) {
       setToken(attrs);
-      if (!inAndGroup) {
+      if (!inAndGroup && !inOrGroup) {
         tokenCountForMarker++;
       }
     } else if (EXCEPTION.equals(qName)) {
@@ -225,14 +228,19 @@ public class PatternRuleHandler extends XMLRuleHandler {
         // but for phraserefs this depends on the position where the phraseref is used
         // not where it's defined. Thus we have to copy the elements so each use of
         // the phraseref can carry their own information:
-        final List<Element> tmpElements = new ArrayList<>();
+        
+        /*final List<Element> tmpElements = new ArrayList<>();
         for (Element element : elementList) {
           tmpElements.add((Element) ObjectUtils.clone(element));
         }
         final PatternRule rule = new PatternRule(id, language, tmpElements,
                 name, message.toString(), shortMessage.toString(), suggestionsOutMsg.toString());
         prepareRule(rule);
-        rules.add(rule);
+        rules.add(rule);*/
+        
+        final List<Element> tmpElements = new ArrayList<>();
+        createRules(new ArrayList<>(elementList), tmpElements, 0);
+        
       } else {
         if (!elementList.isEmpty()) {
           for (final ArrayList<Element> ph : phraseElementList) {
@@ -240,16 +248,9 @@ public class PatternRuleHandler extends XMLRuleHandler {
           }
         }
         for (final ArrayList<Element> phraseElement : phraseElementList) {
-          processElement(phraseElement);
+          processElement(phraseElement);         
           final List<Element> tmpElements = new ArrayList<>();
-          for (Element element : phraseElement) {
-            tmpElements.add((Element) ObjectUtils.clone(element));
-          }
-          final PatternRule rule = new PatternRule(id, language, tmpElements,
-              name, message.toString(), shortMessage.toString(), suggestionsOutMsg.toString(),
-              phraseElementList.size() > 1);
-          prepareRule(rule);
-          rules.add(rule);
+          createRules(phraseElement, tmpElements, 0);
         }
       }
       elementList.clear();
@@ -263,6 +264,10 @@ public class PatternRuleHandler extends XMLRuleHandler {
     } else if (AND.equals(qName)) {
       inAndGroup = false;
       andGroupCounter = 0;
+      tokenCounter++;
+    } else if (OR.equals(qName)) {
+      inOrGroup = false;
+      orGroupCounter = 0;
       tokenCounter++;
     } else if (TOKEN.equals(qName)) {
       finalizeTokens();
@@ -345,6 +350,39 @@ public class PatternRuleHandler extends XMLRuleHandler {
       if (uniNegation) {
         elementList.get(lastElement).setUniNegation();
       }
+    }
+  }
+  
+  /** 
+   * Create rule from phraseElement
+   * 
+   * In case of OR groups, several rules are created recursively
+   * 
+   * @param phraseElement
+   * @param tmpElements
+   * @param numElement
+   */
+  
+  protected void createRules(ArrayList<Element> phraseElement,
+      List<Element> tmpElements, int numElement) {
+    if (numElement >= phraseElement.size()) {
+      final PatternRule rule = new PatternRule(id, language, tmpElements, name,
+          message.toString(), shortMessage.toString(),
+          suggestionsOutMsg.toString(), phraseElementList.size() > 1);
+      prepareRule(rule);
+      rules.add(rule);
+    } else {
+      Element element = phraseElement.get(numElement);
+      if (element.hasOrGroup()) {
+        for (Element elementOfOrGroup : element.getOrGroup()) {
+          final List<Element> tmp2Elements = new ArrayList<>();
+          tmp2Elements.addAll(tmpElements);
+          tmp2Elements.add((Element) ObjectUtils.clone(elementOfOrGroup));
+          createRules(phraseElement, tmp2Elements, numElement + 1);
+        }
+      }
+      tmpElements.add((Element) ObjectUtils.clone(element));
+      createRules(phraseElement, tmpElements, numElement + 1);
     }
   }
 

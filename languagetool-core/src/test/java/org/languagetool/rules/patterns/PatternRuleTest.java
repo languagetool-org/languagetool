@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.String;
 import java.util.*;
-import java.util.Arrays;
 
 import junit.framework.TestCase;
 
@@ -212,6 +211,8 @@ public class PatternRuleTest extends TestCase {
   private void testBadSentences(JLanguageTool languageTool, JLanguageTool allRulesLanguageTool, Language lang,
                                 HashMap<String, PatternRule> complexRules, PatternRule rule) throws IOException {
     final List<IncorrectExample> badSentences = rule.getIncorrectExamples();
+    // necessary for XML Pattern rules containing <or>
+    List<PatternRule> rules=allRulesLanguageTool.getPatternRulesByIdAndSubId(rule.getId(), rule.getSubId());
       for (IncorrectExample origBadExample : badSentences) {
         // enable indentation use
         final String origBadSentence = origBadExample.getExample().replaceAll(
@@ -227,7 +228,13 @@ public class PatternRuleTest extends TestCase {
         }
         final String badSentence = cleanXML(origBadSentence);
         assertTrue(badSentence.trim().length() > 0);
-        List<RuleMatch> matches = getMatches(rule, badSentence, languageTool);
+        
+        // necessary for XML Pattern rules containing <or>
+        List<RuleMatch> matches = new ArrayList<>();
+        for (Rule auxRule : rules) { 
+          matches.addAll(getMatches(auxRule, badSentence, languageTool));
+        }
+        
         if (!rule.isWithComplexPhrase()) {
           assertTrue(lang + ": Did expect one error in: \"" + badSentence
               + "\" (Rule: " + rule + "), but found " + matches.size()
@@ -340,13 +347,20 @@ public class PatternRuleTest extends TestCase {
   private void testCorrectSentences(JLanguageTool languageTool, JLanguageTool allRulesLanguageTool,
                                     Language lang, PatternRule rule) throws IOException {
       final List<String> goodSentences = rule.getCorrectExamples();
+      // necessary for XML Pattern rules containing <or>
+      List<PatternRule> rules=allRulesLanguageTool.getPatternRulesByIdAndSubId(rule.getId(), rule.getSubId());
       for (String goodSentence : goodSentences) {
         // enable indentation use
         goodSentence = goodSentence.replaceAll("[\\n\\t]+", "");
         goodSentence = cleanXML(goodSentence);
-        assertTrue(goodSentence.trim().length() > 0);
+        assertTrue(goodSentence.trim().length() > 0);        
+        boolean isMatched=false;
+        // necessary for XML Pattern rules containing <or>
+        for (Rule auxRule : rules) {
+          isMatched=isMatched || match(auxRule, goodSentence, languageTool);
+        }
         assertFalse(lang + ": Did not expect error in: " + goodSentence
-            + " (Rule: " + rule + ")", match(rule, goodSentence, languageTool));
+             + " (Rule: " + rule + ")", isMatched);     
         // avoid matches with all the *other* rules:
         /*
         final List<RuleMatch> matches = allRulesLanguageTool.check(goodSentence);

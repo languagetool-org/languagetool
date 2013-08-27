@@ -68,6 +68,7 @@ public class XMLRuleHandler extends DefaultHandler {
   protected boolean inException;
   protected boolean inPhrases;
   protected boolean inAndGroup;
+  protected boolean inOrGroup;
 
   protected boolean tokenSpaceBefore;
   protected boolean tokenSpaceBeforeSet;
@@ -129,6 +130,7 @@ public class XMLRuleHandler extends DefaultHandler {
   protected List<ArrayList<Element>> phraseElementList;
 
   protected int andGroupCounter;
+  protected int orGroupCounter;
 
   protected StringBuilder shortMessage = new StringBuilder();
   protected StringBuilder url = new StringBuilder();
@@ -170,6 +172,7 @@ public class XMLRuleHandler extends DefaultHandler {
   protected static final String FEATURE = "feature";
   protected static final String UNIFY = "unify";
   protected static final String AND = "and";
+  protected static final String OR = "or";
   protected static final String EXCEPTION = "exception";
   protected static final String CASE_SENSITIVE = "case_sensitive";
   protected static final String PATTERN = "pattern";
@@ -461,7 +464,7 @@ public class XMLRuleHandler extends DefaultHandler {
       tokenSpaceBeforeSet = !IGNORE.equals(attrs.getValue(SPACEBEFORE));
     }
 
-   if (!inAndGroup) {
+   if (!inAndGroup && !inOrGroup) {
      tokenCounter++;
    }
   }
@@ -547,11 +550,16 @@ public class XMLRuleHandler extends DefaultHandler {
 
     if (inAndGroup && andGroupCounter > 0) {
       elementList.get(elementList.size() - 1).setAndGroupElement(tokenElement);
+    } else if (inOrGroup && orGroupCounter > 0) {
+      elementList.get(elementList.size() - 1).setOrGroupElement(tokenElement);
     } else {
       elementList.add(tokenElement);
     }
     if (inAndGroup) {
       andGroupCounter++;
+    }
+    if (inOrGroup) {
+      orGroupCounter++;
     }
 
     if (inUnification) {

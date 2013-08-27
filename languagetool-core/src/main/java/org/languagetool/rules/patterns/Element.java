@@ -75,6 +75,8 @@ public class Element implements Cloneable {
   private List<Element> previousExceptionList;
   private List<Element> andGroupList;
   private boolean andGroupSet;
+  private List<Element> orGroupList;
+  private boolean orGroupSet;
 
   private int skip;
   private int minOccurrence = 1;
@@ -219,6 +221,40 @@ public class Element implements Cloneable {
   public final List<Element> getAndGroup() {
     return andGroupList;
   }
+  
+  
+  
+  
+  public final void setOrGroupElement(final Element orToken) {
+    if (orToken != null) {
+      if (orGroupList == null) {
+        orGroupList = new ArrayList<>();
+      }
+      if (!orGroupSet) {
+        orGroupSet = true;
+      }
+      orGroupList.add(orToken);
+    }
+  }
+
+  /**
+   * Checks if this element has an OR group associated with it.
+   * @return true if the element has a group of elements that all should match.
+   */
+  public final boolean hasOrGroup() {
+    return orGroupSet;
+  }
+
+  /**
+   * Returns the group of elements linked with AND operator.
+   * @return List of Elements.
+   */
+  public final List<Element> getOrGroup() {
+    return orGroupList;
+  }
+  
+  
+  
 
   /**
    * Checks whether a previously set exception matches (in case the exception had scope == "next").
