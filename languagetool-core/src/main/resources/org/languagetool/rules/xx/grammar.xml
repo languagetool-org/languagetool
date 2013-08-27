@@ -111,6 +111,24 @@ $Id$
   </phrases>
 
   <category name="misc">
+  <rule id="OR_GROUPS" name="or groups">
+    <pattern>
+      <or>
+        <token>a</token>
+        <token>b</token>
+        <token>d</token>
+      </or>
+      <token>c</token>
+    </pattern>
+    <message>Incorrect expression.</message>
+    <!-- <example type="incorrect"><marker>b c</marker></example>
+    <example type="incorrect"><marker>a c</marker></example> 
+    <example type="incorrect"><marker>b c</marker></example>
+    <example type="incorrect">a <marker>b c</marker></example>-->
+    <example type="correct">d c</example>
+    <example type="correct">c a</example>
+    <example type="correct">c b</example>
+  </rule> 
     <rule id="DEMO_RULE" name="Find 'foo bar'">
       <!-- a trivial demo rule that matches "foo" followed by "bar" -->
       <pattern case_sensitive="no">
@@ -444,6 +462,6 @@ $Id$
 	    	<example type="incorrect" correction="blah or|blah blah"><marker>blah and</marker> blah</example>
 	    	<example type="correct">blah or blah</example>
 	    </rule>
-	</rulegroup>    
+	</rulegroup>
   </category>
 </rules>
