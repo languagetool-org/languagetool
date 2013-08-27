@@ -246,7 +246,7 @@ public class Element implements Cloneable {
   }
 
   /**
-   * Returns the group of elements linked with AND operator.
+   * Returns the group of elements linked with OR operator.
    * @return List of Elements.
    */
   public final List<Element> getOrGroup() {

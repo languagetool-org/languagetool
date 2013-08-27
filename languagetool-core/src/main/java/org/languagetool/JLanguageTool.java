@@ -835,7 +835,7 @@ public class JLanguageTool {
   }
   
   /**
-   * Get Pattern rules by Id and SubId
+   * Get pattern rules by Id and SubId
    * 
    * @return a List of {@link Rule} objects
    */

@@ -375,10 +375,10 @@ public class PatternRuleHandler extends XMLRuleHandler {
       Element element = phraseElement.get(numElement);
       if (element.hasOrGroup()) {
         for (Element elementOfOrGroup : element.getOrGroup()) {
-          final List<Element> tmp2Elements = new ArrayList<>();
-          tmp2Elements.addAll(tmpElements);
-          tmp2Elements.add((Element) ObjectUtils.clone(elementOfOrGroup));
-          createRules(phraseElement, tmp2Elements, numElement + 1);
+          final List<Element> tmpElements2 = new ArrayList<>();
+          tmpElements2.addAll(tmpElements);
+          tmpElements2.add((Element) ObjectUtils.clone(elementOfOrGroup));
+          createRules(phraseElement, tmpElements2, numElement + 1);
         }
       }
       tmpElements.add((Element) ObjectUtils.clone(element));
