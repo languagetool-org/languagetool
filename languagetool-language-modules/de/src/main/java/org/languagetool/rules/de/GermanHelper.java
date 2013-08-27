@@ -33,14 +33,14 @@ public final class GermanHelper {
     if (tokenReadings == null) {
       return false;
     }
-    for (AnalyzedToken reading : tokenReadings) {
-      if (reading.getPOSTag() != null) {
-        if (reading.getPOSTag().equals(JLanguageTool.SENTENCE_END_TAGNAME) || reading.getPOSTag().equals(JLanguageTool.PARAGRAPH_END_TAGNAME)) {
+    for (AnalyzedToken token : tokenReadings) {
+      if (token.getPOSTag() != null) {
+        if (token.getPOSTag().equals(JLanguageTool.SENTENCE_END_TAGNAME) || token.getPOSTag().equals(JLanguageTool.PARAGRAPH_END_TAGNAME)) {
           return false;
         }
       }
-      final AnalyzedGermanToken germanReading = (AnalyzedGermanToken) reading;
-      if (germanReading.getType() == type) {
+      final AnalyzedGermanToken germanToken = new AnalyzedGermanToken(token);
+      if (germanToken.getType() == type) {
         return true;
       }
     }
