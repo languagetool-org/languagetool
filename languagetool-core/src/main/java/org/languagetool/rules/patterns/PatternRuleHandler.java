@@ -122,7 +122,10 @@ public class PatternRuleHandler extends XMLRuleHandler {
       tokenCountForMarker = 0;
     } else if (AND.equals(qName)) {
       inAndGroup = true;
-      tokenCountForMarker++;
+      tokenCountForMarker++;      
+    } else if (OR.equals(qName)) {
+      inOrGroup = true;
+      tokenCountForMarker++;  
     } else if (UNIFY.equals(qName)) {
       inUnification = true;
       uniNegation = YES.equals(attrs.getValue(NEGATE));
@@ -133,7 +136,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
       uTypeList.add(uType);
     } else if (TOKEN.equals(qName)) {
       setToken(attrs);
-      if (!inAndGroup) {
+      if (!inAndGroup && !inOrGroup) {
         tokenCountForMarker++;
       }
     } else if (EXCEPTION.equals(qName)) {
@@ -263,6 +266,10 @@ public class PatternRuleHandler extends XMLRuleHandler {
     } else if (AND.equals(qName)) {
       inAndGroup = false;
       andGroupCounter = 0;
+      tokenCounter++;
+    } else if (OR.equals(qName)) {
+      inOrGroup = false;
+      orGroupCounter = 0;
       tokenCounter++;
     } else if (TOKEN.equals(qName)) {
       finalizeTokens();
