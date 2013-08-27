@@ -55,7 +55,7 @@ public class PolishWordRepeatRule extends PolishRule {
   private static final Pattern EXC_POS = Pattern.compile("prep:.*|ppron.*");
 
   /**
-   * Excluded non-words (special symbols, Roman numerals etc.
+   * Excluded non-words (special symbols, Roman numerals etc.)
    */
   private static final Pattern EXC_NONWORDS = Pattern
       .compile("&quot|&gt|&lt|&amp|[0-9].*|"
@@ -68,21 +68,11 @@ public class PolishWordRepeatRule extends PolishRule {
     setDefaultOff();
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see org.languagetool.rules.Rule#getId()
-   */
   @Override
   public final String getId() {
     return "PL_WORD_REPEAT";
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see org.languagetool.rules.Rule#getDescription()
-   */
   @Override
   public final String getDescription() {
     return "Powtórzenia wyrazów w zdaniu (monotonia stylistyczna)";
@@ -179,7 +169,7 @@ public class PolishWordRepeatRule extends PolishRule {
         final String msg = "Powtórzony wyraz w zdaniu";
         final int pos = tokens[i].getStartPos();
         final RuleMatch ruleMatch = new RuleMatch(this, pos, pos
-            + token.length(), msg, "Powtórzenie wyrazu");        
+            + token.length(), msg, "Powtórzenie wyrazu");
         ruleMatches.add(ruleMatch);
         repetition = false;
       }

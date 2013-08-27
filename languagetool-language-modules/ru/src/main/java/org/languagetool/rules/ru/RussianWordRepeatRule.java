@@ -39,6 +39,7 @@ import org.languagetool.tools.StringTools;
  * 
  */
 public class RussianWordRepeatRule extends RussianRule {
+
   /**
    * Excluded dictionary words.
    */
@@ -52,7 +53,7 @@ public class RussianWordRepeatRule extends RussianRule {
   private static final Pattern EXC_POS = Pattern.compile("INTERJECTION|PRDC|PNN:.*");
 
   /**
-   * Excluded non-words (special symbols, Roman numerals etc.
+   * Excluded non-words (special symbols, Roman numerals etc.)
    */
   private static final Pattern EXC_NONWORDS = Pattern
       .compile("&quot|&gt|&lt|&amp|[0-9].*|"
@@ -65,21 +66,11 @@ public class RussianWordRepeatRule extends RussianRule {
     setDefaultOff();   // set default off
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see org.languagetool.rules.Rule#getId()
-   */
   @Override
   public final String getId() {
     return "RU_WORD_REPEAT";
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see org.languagetool.rules.Rule#getDescription()
-   */
   @Override
   public final String getDescription() {
     return "Повтор слов в предложении";
@@ -174,12 +165,7 @@ public class RussianWordRepeatRule extends RussianRule {
         final String msg = "Повтор слов в предложении";
         final int pos = tokens[i].getStartPos();
         final RuleMatch ruleMatch = new RuleMatch(this, pos, pos
-            + token.length(), msg, "Повтор слов в предложении");        
-  //////////
-  //       ruleMatch.setSuggestedReplacement(tokens[i].getAnalyzedToken(0).getLemma());
-  //       example how to correct word
-  //////////
-        
+            + token.length(), msg, "Повтор слов в предложении");
         ruleMatches.add(ruleMatch);
         repetition = false;
       }
