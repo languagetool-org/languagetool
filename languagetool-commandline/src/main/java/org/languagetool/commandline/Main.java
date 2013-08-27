@@ -203,6 +203,9 @@ class Main {
         System.out.println("Working on " + filename + "...");
       }
     }
+    if (profileRules && isStdIn(filename)) {
+      throw new IllegalArgumentException("Profiling mode cannot be used with input from STDIN");
+    }
     int runCount = 1;
     final List<Rule> rules = lt.getAllActiveRules();
     if (profileRules) {
@@ -228,7 +231,7 @@ class Main {
         int lineCount = 0;
         while ((line = br.readLine()) != null) {
           sb.append(line);
-          lineCount++;    
+          lineCount++;
           // to detect language from the first input line
           if (lineCount == 1 && autoDetect) {
             Language language = detectLanguageOfString(line);
@@ -294,14 +297,11 @@ class Main {
           }
         }
         printTimingInformation(listUnknownWords, rules, unknownWords, ruleIndex, matches, sentences, startTime);
-        if (!isStdIn(filename)) {
-          // don't close stdin, would cause a "Stream closed" exception
-          if (br != null) {
-            br.close();
-          }
-          if (isr != null) {
-            isr.close();
-          }
+        if (br != null) {
+          br.close();
+        }
+        if (isr != null) {
+          isr.close();
         }
       }
     }
