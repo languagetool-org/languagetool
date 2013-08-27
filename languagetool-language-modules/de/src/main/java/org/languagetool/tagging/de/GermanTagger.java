@@ -132,7 +132,6 @@ public class GermanTagger implements Tagger {
         }
       }
 
-      //tokenReadings.add(new AnalyzedGermanToken(new AnalyzedTokenReadings((AnalyzedToken[]) l.toArray(new AnalyzedToken[0]))));
       tokenReadings.add(new AnalyzedTokenReadings(l.toArray(new AnalyzedGermanToken[l.size()]), pos));
       pos += word.length();
     }
@@ -172,7 +171,6 @@ public class GermanTagger implements Tagger {
       final List<WordData> posTagsFromDict = morfologik.lookup(word);
       if (posTagsFromUserDict != null && !posTagsFromDict.isEmpty()) {
         final String[] allPosTags = new String[posTagsFromUserDict.length + posTagsFromDict.size() * 2];
-        //System.arraycopy(posTagsFromDict, 0, allPosTags, 0, posTagsFromDict.size());
         int i = 0;
         for (WordData wd : posTagsFromDict) {
           allPosTags[i] = wd.getStem().toString();
@@ -210,7 +208,7 @@ public class GermanTagger implements Tagger {
 
   /**
    * Test only
-   */
+   *
   public static void main(final String[] args) throws IOException {
     final GermanTagger gt = new GermanTagger();
     final List<String> l = new ArrayList<>();
@@ -218,6 +216,6 @@ public class GermanTagger implements Tagger {
     //System.err.println(gt.lookup("Treffen", 0));
     final List<AnalyzedTokenReadings> res = gt.tag(l);
     System.err.println(res);
-  }
+  }*/
 
 }

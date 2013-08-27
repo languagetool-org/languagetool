@@ -506,14 +506,10 @@ public class CaseRule extends GermanRule {
   }
 
   private boolean isExceptionPhrase(int i, AnalyzedTokenReadings[] tokens) {
-    // TODO: speed up?
     for (String exc : myExceptionPhrases) {
       final String[] parts = exc.split(" ");
       for (int j = 0; j < parts.length; j++) {
         if (parts[j].equals(tokens[i].getToken())) {
-          /*System.err.println("*******"+j + " of " + parts.length + ": " + parts[j]);
-          System.err.println("start:" + tokens[i-j].getToken());
-          System.err.println("end:" + tokens[i-j+parts.length-1].getToken());*/
           final int startIndex = i-j;
           if (compareLists(tokens, startIndex, startIndex+parts.length-1, parts)) {
             return true;
@@ -530,9 +526,9 @@ public class CaseRule extends GermanRule {
     }
     int i = 0;
     for (int j = startIndex; j <= endIndex; j++) {
-      //System.err.println("**" +tokens[j].getToken() + " <-> "+ parts[i]);
-      if (i >= parts.length)
+      if (i >= parts.length) {
         return false;
+      }
       if (!tokens[j].getToken().equals(parts[i])) {
         return false;
       }

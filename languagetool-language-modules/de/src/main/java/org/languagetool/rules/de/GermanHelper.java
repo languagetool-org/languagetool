@@ -30,8 +30,9 @@ public final class GermanHelper {
   }
 
   public static boolean hasReadingOfType(AnalyzedTokenReadings tokenReadings, GermanToken.POSType type) {
-    if (tokenReadings == null)
+    if (tokenReadings == null) {
       return false;
+    }
     for (AnalyzedToken reading : tokenReadings) {
       if (reading.getPOSTag() != null) {
         if (reading.getPOSTag().equals(JLanguageTool.SENTENCE_END_TAGNAME) || reading.getPOSTag().equals(JLanguageTool.PARAGRAPH_END_TAGNAME)) {
@@ -39,8 +40,9 @@ public final class GermanHelper {
         }
       }
       final AnalyzedGermanToken germanReading = (AnalyzedGermanToken) reading;
-      if (germanReading.getType() == type)
+      if (germanReading.getType() == type) {
         return true;
+      }
     }
     return false;
   }

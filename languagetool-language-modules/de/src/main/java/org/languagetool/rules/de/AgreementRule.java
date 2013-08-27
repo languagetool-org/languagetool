@@ -186,7 +186,7 @@ public class AgreementRule extends GermanRule {
         continue;
       //AnalyzedGermanToken analyzedToken = new AnalyzedGermanToken(tokens[i]);
       
-      final AnalyzedTokenReadings analyzedToken = tokens[i];
+      final AnalyzedTokenReadings tokenReadings = tokens[i];
       final boolean relevantPronoun = isRelevantPronoun(tokens, i);
      
       boolean ignore = couldBeRelativeClause(tokens, i);
@@ -200,12 +200,12 @@ public class AgreementRule extends GermanRule {
       }
       
       // avoid false alarm on "nichts Gutes" and "alles Gute"
-      if (analyzedToken.getToken().equals("nichts") || analyzedToken.getToken().equals("alles")
-          || analyzedToken.getToken().equals("dies")) {
+      if (tokenReadings.getToken().equals("nichts") || tokenReadings.getToken().equals("alles")
+          || tokenReadings.getToken().equals("dies")) {
         ignore = true;
       }
 
-      if ((GermanHelper.hasReadingOfType(analyzedToken, POSType.DETERMINER) || relevantPronoun) && !ignore) {
+      if ((GermanHelper.hasReadingOfType(tokenReadings, POSType.DETERMINER) || relevantPronoun) && !ignore) {
         int tokenPos = i + 1; 
         if (tokenPos >= tokens.length)
           break;
@@ -215,8 +215,7 @@ public class AgreementRule extends GermanRule {
           tokenPos = i + 2; 
           if (tokenPos >= tokens.length)
             break;
-          final AnalyzedTokenReadings nextNextToken = tokens[tokenPos];
-          if (GermanHelper.hasReadingOfType(nextNextToken, POSType.NOMEN)) {
+          if (GermanHelper.hasReadingOfType(tokens[tokenPos], POSType.NOMEN)) {
             // TODO: add a case (checkAdjNounAgreement) for special cases like "deren",
             // e.g. "deren komisches Geschenke" isn't yet detected as incorrect
             final RuleMatch ruleMatch = checkDetAdjNounAgreement(tokens[i],
