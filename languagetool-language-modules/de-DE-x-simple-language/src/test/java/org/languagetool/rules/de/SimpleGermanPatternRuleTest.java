@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.de;
 
+import org.languagetool.language.German;
 import org.languagetool.rules.patterns.PatternRuleTest;
 
 import java.io.IOException;
@@ -25,7 +26,7 @@ import java.io.IOException;
 public class SimpleGermanPatternRuleTest extends PatternRuleTest {
   
   public void testRules() throws IOException {
-    runGrammarRulesFromXmlTest();
+    runGrammarRulesFromXmlTest(new German());
   }
 
 }

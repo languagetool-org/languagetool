@@ -48,18 +48,43 @@ public class PatternRuleTest extends TestCase {
     // there's no test here - the languages are supposed to extend this class and call runGrammarRulesFromXmlTest() 
   }
 
-  /** To be called from language modules. Language.REAL_LANGUAGES knows only the languages that's in the classpath. */
-  protected void runGrammarRulesFromXmlTest() throws IOException {
+  /**
+   * To be called from language modules. Language.REAL_LANGUAGES knows only the languages that's in the classpath.
+   * @param ignoredLanguage ignore this language - useful to speed up tests from languages that 
+   *                        have another language as a dependency
+   */
+  protected void runGrammarRulesFromXmlTest(Language ignoredLanguage) throws IOException {
+    int count = 0;
     for (final Language lang : Language.REAL_LANGUAGES) {
-      if (skipCountryVariant(lang)) {
-        System.out.println("Skipping " + lang + " because there are no specific rules for that variant");
+      if (ignoredLanguage.getShortNameWithVariant().equals(lang.getShortNameWithVariant())) {
         continue;
       }
-      runTestForLanguage(lang);
+      runGrammarRuleForLanguage(lang);
+      count++;
+    }
+    if (count == 0) {
+      System.err.println("Warning: no languages found in classpath - cannot run any grammar rule tests");
+    }
+  }
+  
+  /**
+   * To be called from language modules. Language.REAL_LANGUAGES knows only the languages that's in the classpath.
+   */
+  protected void runGrammarRulesFromXmlTest() throws IOException {
+    for (final Language lang : Language.REAL_LANGUAGES) {
+      runGrammarRuleForLanguage(lang);
     }
     if (Language.REAL_LANGUAGES.length == 0) {
       System.err.println("Warning: no languages found in classpath - cannot run any grammar rule tests");
     }
+  }
+
+  private void runGrammarRuleForLanguage(Language lang) throws IOException {
+    if (skipCountryVariant(lang)) {
+      System.out.println("Skipping " + lang + " because there are no specific rules for that variant");
+      return;
+    }
+    runTestForLanguage(lang);
   }
 
   private boolean skipCountryVariant(Language lang) {
