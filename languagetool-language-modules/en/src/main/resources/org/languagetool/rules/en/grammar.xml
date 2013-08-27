@@ -8405,7 +8405,10 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
                     <token chunk="B-NP-singular" min="0" max="1"></token>
                     <token chunk="I-NP-singular" min="0" max="-1"></token>
                     <marker>
-                        <token chunk="E-NP-singular"><exception postag="NNPS"/></token>
+                        <token chunk="E-NP-singular">
+                            <exception postag="NNPS"/>
+                            <exception>variety</exception>
+                        </token>
                     </marker>
                 </pattern>
                 <message>Possible agreement error. Did you mean <suggestion><match suppress_misspelled="yes" no="5" postag="NNS|NNPS" postag_regexp="yes"></match></suggestion>?</message>
@@ -8414,6 +8417,7 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
                 <example type="correct">There are many problems in Iraq.</example>
                 <example type="correct">Other than this, there are no known surviving texts.</example>
                 <example type="correct">There are many other deliberately insulting terms.</example>
+                <example type="correct"> There are a variety of other types.</example><!-- common usage, see Google ngram -->
                 <!--TODO: <example type="correct">Among them there are Rachid Boudjedra, Rachid Mimouni, Leila Sebbar, and Tahar Djaout.</example>-->
                 <example correction="problems" type="incorrect">There are a lot <marker>problem</marker> in Iraq but it is not a terrible situation.</example>
                 <example type="correct">There is a whole lot of problems in Iraq.</example>
