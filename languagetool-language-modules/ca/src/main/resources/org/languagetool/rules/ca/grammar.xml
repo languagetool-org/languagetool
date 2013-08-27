@@ -7940,66 +7940,19 @@ $Id$
 			    <example type="correct">El boca-orella sempre és efectiu.</example>
 			</rule>
         </rulegroup>
-        <rulegroup id="MOTS_SENSE_GUIONETS" name="mots sense guionets: *gin-tònic, *vist-i-plau,...">
+        <rulegroup id="MOTS_SENSE_GUIONETS" name="mots sense guionets: *vist-i-plau,...">
         <!-- This rulegroup would be unnecessary if LibreOffice/OpenOffice tokenized the words containing hyphens like LanguageTool -->
-        	<rule id="COMPRAVENDA" name="compravenda">
-			    <pattern>
-			        <token>compra</token>
-			        <token>-</token>
-			        <token regexp="yes">vend(a|es)</token>
-			    </pattern>
-			    <message>S'escriu sense guionet.</message>
-			    <suggestion>compra<match no="3"/></suggestion>
-			    <example type="incorrect" correction="compravenda">La <marker>compra-venda</marker> de vehicles.</example>
-			    <example type="correct">La compravenda de vehicles.</example>
-			</rule>
-            <rule>
-                <pattern>
-                    <token>àudio</token>
-                    <token>-</token>
-                    <token regexp="yes">visuals?</token>
-                </pattern>
-                <message>S'escriu sense guionet.</message>
-                <suggestion>audio<match no="3"/></suggestion>
-                <short>Error ortogràfic</short>
-                <example type="incorrect" correction="audiovisuals">mitjans <marker>àudio-visuals</marker></example>
-                <example type="correct">del sector audiovisual</example>
-            </rule>
             <rule>
                 <pattern>
                     <token>poca</token>
                     <token>-</token>
-                    <token regexp="yes">vergony(a|es)</token>
+                    <token>vergonya</token>
                 </pattern>
-                <message>S'escriu sense guionet.</message>
+                <message>S'escriu junt sense guionet.</message>
                 <suggestion>poca<match no="3"/></suggestion>
                 <short>Error ortogràfic</short>
-                <example type="incorrect" correction="pocavergonyes">Aquells <marker>poca-vergonyes</marker></example>
-                <example type="correct">aquell pocavergonya</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">s[úu]per</token>
-                    <token>-</token>
-                    <token regexp="yes">herois?</token>
-                </pattern>
-                <message>S'escriu sense guionet.</message>
-                <suggestion>super<match no="3"/></suggestion>
-                <short>Error ortogràfic</short>
-                <example type="incorrect" correction="superherois">Tres <marker>súper-herois</marker>.</example>
-                <example type="correct">El superheroi</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>gin</token>
-                    <token>-</token>
-                    <token regexp="yes">tònics?</token>
-                </pattern>
-                <message>S'escriu sense guionet.</message>
-                <suggestion>gin<match no="3"/></suggestion>
-                <short>Error ortogràfic</short>
-                <example type="incorrect" correction="gintònics">Posa'm tres <marker>gin-tònics</marker></example>
-                <example type="correct">Posa'm tres gintònics</example>
+                <example type="incorrect" correction="pocavergonya">Aquell <marker>poca-vergonya</marker></example>
+                <example type="correct">Aquell tenia molt poca vergonya</example>
             </rule>
             <rule>
                 <pattern>
@@ -8009,21 +7962,49 @@ $Id$
                     <token>-</token>
                     <token regexp="yes">plaus?</token>
                 </pattern>
-                <message>S'escriu sense guionets.</message>
+                <message>S'escriu junt sense guionets.</message>
                 <suggestion>visti<match no="5"/></suggestion>
                 <short>Error ortogràfic</short>
                 <example type="incorrect" correction="vistiplau">El <marker>vist-i-plau</marker> del president</example>
                 <example type="correct">El vistiplau del president</example>
             </rule>
+        </rulegroup>
+        <rulegroup id="MOTS_NO_SEPARATS" name="mots no separats: *súper heroi/*súper-heroi/superheroi">
+            <rule>
+                <pattern>
+                    <token>poca</token>
+                    <token min="0">-</token>
+                    <token>vergonyes</token>
+                </pattern>
+                <message>S'escriu junt sense guionet.</message>
+                <suggestion>poca<match no="3"/></suggestion>
+                <short>Error ortogràfic</short>
+                <example type="incorrect" correction="pocavergonyes">Aquells <marker>poca-vergonyes</marker></example>
+                <example type="incorrect" correction="pocavergonyes">Aquells <marker>poca vergonyes</marker></example>
+                <example type="correct">aquell pocavergonya</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>coll</token>
+                    <token min="0">-</token>
+                    <token>i</token>
+                    <token min="0">-</token>
+                    <token>be</token>
+                </pattern>
+                <message>S'escriu junt sense guionets.</message>
+                <suggestion>collibè</suggestion>
+                <example type="incorrect">a <marker>coll-i-be</marker></example>
+                <example type="correct">a collibè</example>
+            </rule>
             <rule>
                 <pattern>
                     <token>col</token>
-                    <token>-</token>
+                    <token min="0">-</token>
                     <token>i</token>
-                    <token>-</token>
+                    <token min="0">-</token>
                     <token regexp="yes">flors?</token>
                 </pattern>
-                <message>S'escriu sense guionets.</message>
+                <message>S'escriu junt sense guionets.</message>
                 <suggestion>coli<match no="5"/></suggestion>
                 <short>Error ortogràfic</short>
                 <example type="incorrect" correction="coliflors">Les <marker>col-i-flors</marker> del president</example>
@@ -8032,12 +8013,12 @@ $Id$
             <rule>
                 <pattern>
                     <token>vetes</token>
-                    <token>-</token>
+                    <token min="0">-</token>
                     <token>i</token>
-                    <token>-</token>
+                    <token min="0">-</token>
                     <token>fils</token>
                 </pattern>
-                <message>S'escriu sense guionet.</message>
+                <message>S'escriu junt sense guionets.</message>
                 <suggestion>vetesifils</suggestion>
                 <short>Error ortogràfic</short>
                 <example type="incorrect" correction="vetesifils">El <marker>vetes-i-fils</marker>.</example>
@@ -8045,25 +8026,78 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token>coll</token><token>-</token><token>i</token><token>-</token><token>be</token>
+                    <token>gin</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">tònics?</token>
                 </pattern>
-                <message>S'escriu sense guionet.</message>
-                <suggestion>collibè</suggestion>
-                <example type="incorrect">a <marker>coll-i-be</marker></example>
-                <example type="correct">a collibè</example>
+                <message>S'escriu junt sense guionet.</message>
+                <suggestion>gin<match no="3"/></suggestion>
+                <short>Error ortogràfic</short>
+                <example type="incorrect" correction="gintònics">Posa'm tres <marker>gin-tònics</marker></example>
+                <example type="correct">Posa'm tres gintònics</example>
             </rule>
-        </rulegroup>
-        <rulegroup id="MOTS_NO_SEPARATS" name="mots no separats: *súper heroi">
-        	<rule>
+            <rule>
+                <pattern>
+                    <token>figa</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">flors?</token>
+                </pattern>
+                <message>S'escriu junt sense guionet.</message>
+                <suggestion>figa<match no="3"/></suggestion>
+                <example type="incorrect" correction="figaflors">Compra'm <marker>figa-flors</marker>.</example>
+                <example type="incorrect" correction="figaflors">Compra'm <marker>figa flors</marker>.</example>
+                <example type="correct">Les figaflors.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>compra</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">vend(a|es)</token>
+                </pattern>
+                <message>S'escriu junt sense guionet.</message>
+                <suggestion>compra<match no="3"/></suggestion>
+                <example type="incorrect" correction="compravenda">La <marker>compra-venda</marker> de vehicles.</example>
+                <example type="incorrect" correction="compravenda">La <marker>compra venda</marker> de vehicles.</example>
+                <example type="correct">La compravenda de vehicles.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[àa]udio</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">visuals?</token>
+                </pattern>
+                <message>S'escriu junt sense guionet.</message>
+                <suggestion>audio<match no="3"/></suggestion>
+                <short>Error ortogràfic</short>
+                <example type="incorrect" correction="audiovisuals">mitjans <marker>àudio-visuals</marker></example>
+                <example type="correct">del sector audiovisual</example>
+            </rule>
+        	  <rule>
                 <pattern>
                     <token regexp="yes">s[úu]per</token>
+                    <token min="0">-</token>
                     <token regexp="yes" inflected="yes">abundància|abundant|abundantment|abundar|àcid|aerodinàmica|axil·lar|calandratge|carburant|classe|clúster|complex|computació|computador|conductivitat|conductor|corda|crític|cúmul|dominància|dominant|dotat|ego|eminència|eminent|espècie|estatge|estructura|família|fecundació|femella|fluid|fluïdesa|fosfat|heterodí|heroi|home|humeral|índex|infecció|intendència|intendent|mascle|mercat|mortalitat|nova|numerari|ordre|òxid|plàstic|plasticitat|població|poblat|posar|posició|potència|producció|purgació|realisme|realista|simetria|sònic|substancial|tensió|visar|visió|visor|vivència|vivent</token>
                 </pattern>
                 <message>S'escriu junt.</message>
                 <suggestion>super<match no="3"/></suggestion>
                 <short>Error ortogràfic</short>
                 <example type="incorrect" correction="superherois">Tres <marker>súper herois</marker>.</example>
+                <example type="incorrect" correction="superherois">Tres <marker>súper-herois</marker>.</example>
                 <example type="correct">El superheroi</example>
+            </rule>
+            <rule id="PREFIXOS_SENSE_GUIONET" name="prefixos sense guionet: *vice-president">
+                <pattern>
+                    <token regexp="yes">arxi|bes|ex|plus|per|pre|pro|pseudo|quasi|semi|sobre|sots|sub|ultra|vice</token>
+                    <token>-</token>
+                    <token postag="[NA].*|V.P.*" postag_regexp="yes"><exception regexp="yes">\p{Lu}.*</exception></token>
+                </pattern>
+                <message>S'escriu sense guionet.</message>
+                <suggestion><match no="1"/><match no="3"/></suggestion>
+                <url>http://www.iecat.net/institucio/seccions/Filologica/llenguacatalana/documentsnormatius/docsf5.htm</url>
+                <short>Sense guionet</short>
+                <example type="incorrect" correction="besnét">Del meu <marker>bes-nét</marker>.</example>
+                <example type="correct">L'ex-Iugoslàvia.</example>
+                <example type="correct">És pro-Israel.</example>
             </rule>
         </rulegroup>      
         <rulegroup id="CONTRACCIONS" name="contraccions">
