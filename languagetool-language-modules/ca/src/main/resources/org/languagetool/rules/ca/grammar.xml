@@ -15996,81 +15996,82 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
-        <rule id="CLOACA" name="cloada/claveguera">
+        <rule id="CLOACA" name="cloaca/claveguera">
             <pattern>
                 <marker>
                     <token inflected="yes">cloaca</token>
                 </marker>
             </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">claveguera</match></suggestion>? Correcte com a terme de zoologia. </message>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">claveguera</match></suggestion>? Correcte com a terme de zoologia.</message>
             <short>Possible confusió</short>
             <example type="incorrect" correction="clavegueres">Les <marker>cloaques</marker> de la ciutat.</example>
             <example type="correct">Les clavegueres.</example>
         </rule>
-            <rule id="RETRAS_RETARD" name="*retràs/retard">
-		    <pattern>
-		        <token><exception postag="P.*" postag_regexp="yes"/></token>
-		        <marker>
-		            <token>retràs</token>
-		        </marker>
-		        <token><exception regexp="yes">comptes?|homenatge</exception></token>
-		    </pattern>
-		    <message>Incorrecte si volíeu dir <suggestion>retard</suggestion>. Correcte com a forma del verb 'retre' (tu retràs).</message>
-                    <suggestion>endarreriment</suggestion>
-                <url>http://esadir.cat/lexic/entrades/entry_20030718132249_892/view</url>
-		    <short>Possible castellanisme</short>
-		    <example type="incorrect" correction="Retard|Endarreriment"><marker>Retràs</marker> en l'assignació de farmàcies.</example>
-		    <example type="correct">Em retràs la vida.</example>
-		    <example type="correct">¿Retràs homenatge als caiguts?</example>
-		    <example type="correct">Retràs comptes.</example>
-		</rule>
-            <rule id="RODALIES" name="rodalies/rodalia">
-                <pattern case_sensitive="yes">
-                    <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes">Renfe|Catalunya|RENFE|FGC</exception></token>
+        <rule id="RETRAS_RETARD" name="*retràs/retard">
+            <pattern>
+                <token><exception postag="P.*" postag_regexp="yes"/></token>
                     <marker>
-                        <token skip="-1">rodalies<exception scope="next" regexp="yes">Renfe|Catalunya|RENFE|FGC</exception></token>
+                        <token>retràs</token>
                     </marker>
-                    <token postag="SENT_END"/>
-                </pattern>
-                <message>Normalment s'usa en singular.</message>
-                <suggestion>rodalia</suggestion>
-                <url>http://esadir.cat/morfologia/entry_20030915145619_11/view</url>
-                <short>Preferència</short>
-                <example type="incorrect" correction="rodalia">Per la ciutat i les seves <marker>rodalies</marker>.</example>
-                <example type="correct">El servei de rodalies de Renfe.</example>
-            </rule>           
-            <rule id="PUES_DONCS" name="*pues/doncs">
-		    <pattern>
-		        <token><exception postag="SPS00|CC" postag_regexp="yes"/><exception inflected="yes">tenir</exception></token>
-		        <marker>
-		            <token>pues<exception postag="_GN_FP"/></token>
-		        </marker>
-		    </pattern>
-		    <message>Si és conjunció, cal dir <suggestion>doncs</suggestion>. Correcte com a plural de 'pua'.</message>
-		    <short>Possible castellanisme</short>
-		    <example type="incorrect">i la teologia, <marker>pues</marker> a ningú se li oculta</example>
-		    <example type="correct">Un grapat de pues</example>
-		    <example type="correct">Les pues d'una pinta</example>
-		    <example type="correct">Amb pintes o pues</example>
-		    <example type="correct">L'eriçó que no tenia pues.</example>
-		</rule>
+                <token><exception regexp="yes">comptes?|homenatge</exception></token>
+            </pattern>
+            <message>Incorrecte si volíeu dir <suggestion>retard</suggestion>. Correcte com a forma del verb 'retre' (tu retràs).</message>
+            <suggestion>endarreriment</suggestion>
+            <url>http://esadir.cat/lexic/entrades/entry_20030718132249_892/view</url>
+            <short>Possible castellanisme</short>
+            <example type="incorrect" correction="Retard|Endarreriment"><marker>Retràs</marker> en l'assignació de farmàcies.</example>
+            <example type="correct">Em retràs la vida.</example>
+            <example type="correct">¿Retràs homenatge als caiguts?</example>
+            <example type="correct">Retràs comptes.</example>
+        </rule>
+        <rule id="RODALIES" name="rodalies/rodalia">
+            <pattern case_sensitive="yes">
+                <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes">Renfe|Catalunya|RENFE|FGC</exception></token>
+                <marker>
+                    <token skip="-1">rodalies<exception scope="next" regexp="yes">Renfe|Catalunya|RENFE|FGC</exception>
+                </token>
+                </marker>
+                <token postag="SENT_END"/>
+            </pattern>
+            <message>Normalment s'usa en singular.</message>
+            <suggestion>rodalia</suggestion>
+            <url>http://esadir.cat/morfologia/entry_20030915145619_11/view</url>
+            <short>Preferència</short>
+            <example type="incorrect" correction="rodalia">Per la ciutat i les seves <marker>rodalies</marker>.</example>
+            <example type="correct">El servei de rodalies de Renfe.</example>
+        </rule>
+        <rule id="PUES_DONCS" name="*pues/doncs">
+            <pattern>
+                <token><exception postag="SPS00|CC" postag_regexp="yes"/><exception inflected="yes">tenir</exception></token>
+                <marker>
+                    <token>pues<exception postag="_GN_FP"/></token>
+                </marker>
+            </pattern>
+            <message>Si és conjunció, cal dir <suggestion>doncs</suggestion>. Correcte com a plural de 'pua'.</message>
+            <short>Possible castellanisme</short>
+            <example type="incorrect">i la teologia, <marker>pues</marker> a ningú se li oculta</example>
+            <example type="correct">Un grapat de pues</example>
+            <example type="correct">Les pues d'una pinta</example>
+            <example type="correct">Amb pintes o pues</example>
+            <example type="correct">L'eriçó que no tenia pues.</example>
+        </rule>
         <rule id="ACERA" name="*acera/vorera">
-        	<pattern>
-        		<token regexp="yes">acer(a|es)</token>
-        	</pattern>
-        	<message>¿Volíeu dir <suggestion><match no="1" regexp_match="acer(a|es)" regexp_replace="vorer$1"/></suggestion> en comptes de <match no="1"/> (del verb acerar)?</message>
-        	<short>Possible error</short>
-        	<example type="incorrect" correction="vorera">Amb una <marker>acera</marker> ben moderna.</example>
-        	<example type="correct">Amb voreres molt decoratives.</example>
+            <pattern>
+                <token regexp="yes">acer(a|es)</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="acer(a|es)" regexp_replace="vorer$1"/></suggestion> en comptes de <match no="1"/> (del verb acerar)?</message>
+            <short>Possible error</short>
+            <example type="incorrect" correction="vorera">Amb una <marker>acera</marker> ben moderna.</example>
+            <example type="correct">Amb voreres molt decoratives.</example>
         </rule>
         <rule id="RECOLZAMENT" name="recolzament">
-        	<pattern>
-        		<token regexp="yes">recolzaments?</token>
-        	</pattern>
-        	<message>Incorrecte si volíeu dir <suggestion><match no="1" postag="NCM([SP]).+" postag_regexp="yes" postag_replace="NCM$1.*">suport</match></suggestion>. Correcte en altres sentits.</message>
-        	<short>Possible error</short>
-        	<example type="incorrect" correction="suport">Sense <marker>recolzament</marker> popular.</example>
-        	<example type="correct">Sense suport.</example>
+            <pattern>
+                <token regexp="yes">recolzaments?</token>
+            </pattern>
+            <message>Incorrecte si volíeu dir <suggestion><match no="1" postag="NCM([SP]).+" postag_regexp="yes" postag_replace="NCM$1.*">suport</match></suggestion>. Correcte en altres sentits.</message>
+            <short>Possible error</short>
+            <example type="incorrect" correction="suport">Sense <marker>recolzament</marker> popular.</example>
+            <example type="correct">Sense suport.</example>
         </rule>
         <rule id="RECOLZAR" name="recolzar">
             <pattern>
@@ -16096,99 +16097,99 @@ $Id$
             <example type="correct">El cap el recolzà al bagul</example>
         </rule>
         <rule id="BOBO" name="bobo">
-        	<pattern>
-        		<token regexp="yes">bobos?</token>
-        	</pattern>
-        	<message>Incorrecte si volíeu dir <suggestion><match no="1" postag=".+([SP]).+" postag_regexp="yes" postag_replace="AQ0M$10">beneit</match></suggestion>. "Bobo" existeix com a nom d'un poble sudanès.</message>
-        	<suggestion><match no="1" postag=".+([SP]).+" postag_regexp="yes" postag_replace="AQ0M$10">badoc</match></suggestion>
-        	<suggestion><match no="1" postag=".+([SP]).+" postag_regexp="yes" postag_replace="AQ0M$10">babau</match></suggestion>
-        	<suggestion><match no="1" postag=".+([SP]).+" postag_regexp="yes" postag_replace="AQ0M$10">bajà</match></suggestion>
-        	<suggestion><match no="1" postag=".+([SP]).+" postag_regexp="yes" postag_replace="AQ0M$10">talòs</match></suggestion>
-        	<short>Possible error</short>
-        	<example type="incorrect" correction="beneits|badocs|babaus|bajans|talossos">Pareixen <marker>bobos</marker>.</example>
-        	<example type="incorrect" correction="beneit|badoc|babau|bajà|talòs">Pareix <marker>bobo</marker>.</example>
-        	<example type="correct">Ets un simple.</example>
+              <pattern>
+                      <token regexp="yes">bobos?</token>
+              </pattern>
+              <message>Incorrecte si volíeu dir <suggestion><match no="1" postag=".+([SP]).+" postag_regexp="yes" postag_replace="AQ0M$10">beneit</match></suggestion>. "Bobo" existeix com a nom d'un poble sudanès.</message>
+              <suggestion><match no="1" postag=".+([SP]).+" postag_regexp="yes" postag_replace="AQ0M$10">badoc</match></suggestion>
+              <suggestion><match no="1" postag=".+([SP]).+" postag_regexp="yes" postag_replace="AQ0M$10">babau</match></suggestion>
+              <suggestion><match no="1" postag=".+([SP]).+" postag_regexp="yes" postag_replace="AQ0M$10">bajà</match></suggestion>
+              <suggestion><match no="1" postag=".+([SP]).+" postag_regexp="yes" postag_replace="AQ0M$10">talòs</match></suggestion>
+              <short>Possible error</short>
+              <example type="incorrect" correction="beneits|badocs|babaus|bajans|talossos">Pareixen <marker>bobos</marker>.</example>
+              <example type="incorrect" correction="beneit|badoc|babau|bajà|talòs">Pareix <marker>bobo</marker>.</example>
+              <example type="correct">Ets un simple.</example>
         </rule>
         <rule id="LLIURAR" name="lliurar/deslliurar">
-        	<pattern>
-        		<marker>
-        			<token inflected="yes">lliurar<exception postag="_GN_F." postag_regexp="yes" regexp="yes">lliura|lliures</exception></token>
-        		</marker>
-        		<token regexp="yes">de|d'</token>
-        	</pattern>
-        	<message>Incorrecte si equival a <suggestion>des<match no="1"/></suggestion>.</message>
-        	<suggestion><match no="1" regexp_match="lliur(.*)" regexp_replace="alliber$1"/></suggestion>
-        	<short>Possible error</short>
-        	<example type="incorrect" correction="deslliuraren|alliberaren">Es <marker>lliuraren</marker> del podriment.</example>
-        	<example type="correct">Es van lliurar a la beguda.</example>
-        	<example type="correct">preneu una lliura de vidre blanc</example>
-        	<example type="correct">per a la secreció de cada lliura de cera</example>
+            <pattern>
+                <marker>
+                    <token inflected="yes">lliurar<exception postag="_GN_F." postag_regexp="yes" regexp="yes">lliura|lliures</exception></token>
+                </marker>
+                <token regexp="yes">de|d'</token>
+            </pattern>
+            <message>Incorrecte si equival a <suggestion>des<match no="1"/></suggestion>.</message>
+            <suggestion><match no="1" regexp_match="lliur(.*)" regexp_replace="alliber$1"/></suggestion>
+            <short>Possible error</short>
+            <example type="incorrect" correction="deslliuraren|alliberaren">Es <marker>lliuraren</marker> del podriment.</example>
+            <example type="correct">Es van lliurar a la beguda.</example>
+            <example type="correct">preneu una lliura de vidre blanc</example>
+            <example type="correct">per a la secreció de cada lliura de cera</example>
         </rule>
         <rule id="GEMA_GEMMA" name="gema/gemma">
-		    <pattern>
-		        <token regexp="yes">gem(a|es)</token>
-		    </pattern>
-		    <message>¿Volíeu dir <suggestion><match no="1" regexp_match="gem(.+)" regexp_replace="gemm$1"/></suggestion> (= òrgan vegetal; mineral) en lloc de "<match no="1"/>" (= pastís de rovell d'ou)?</message>
-		    <short>Possible confusió</short>
-		    <example type="incorrect" correction="gemma">En forma de <marker>gema</marker>.</example>
-		    <example type="correct">Les gemmes floriren.</example>
-		</rule>
+            <pattern>
+                <token regexp="yes">gem(a|es)</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="gem(.+)" regexp_replace="gemm$1"/></suggestion> (= òrgan vegetal; mineral) en lloc de "<match no="1"/>" (= pastís de rovell d'ou)?</message>
+            <short>Possible confusió</short>
+            <example type="incorrect" correction="gemma">En forma de <marker>gema</marker>.</example>
+            <example type="correct">Les gemmes floriren.</example>
+        </rule>
         <rule id="PEGAMENT" name="pegament">
-        	<pattern>
-        		<token>pegament</token>
-        	</pattern>
-        	<message>¿Volíeu dir <suggestion>goma</suggestion>? "Pegament" és correcte com a adverbi (= de manera pega, nècia).</message>
-        	<suggestion>pega</suggestion>
-        	<suggestion>goma d'enganxar</suggestion>
-        	<suggestion>cola</suggestion>
-        	<short>Possible error</short>
-        	<example type="incorrect">¿Has comprat <marker>pegament</marker>?</example>
-        	<example type="correct">No tinc cola</example>
+            <pattern>
+                <token>pegament</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>goma</suggestion>? "Pegament" és correcte com a adverbi (= de manera pega, nècia).</message>
+            <suggestion>pega</suggestion>
+            <suggestion>goma d'enganxar</suggestion>
+            <suggestion>cola</suggestion>
+            <short>Possible error</short>
+            <example type="incorrect">¿Has comprat <marker>pegament</marker>?</example>
+            <example type="correct">No tinc cola</example>
         </rule>
         <rulegroup id="NOMBRE_NUMERO" name="nombre/número">
-        	<rule>
-        		<pattern>
-	        		<marker>
-	        			<token skip="1">número</token>
-	        		</marker>
-	        		<token regexp="yes">de|d'</token>
-	        		<token postag="N..P.*" postag_regexp="yes"/>
-        		</pattern>
-        		<message>En el sentit de "quantitat" cal dir <suggestion>nombre</suggestion>.</message>
-        		<example type="incorrect" correction="nombre">un gran <marker>número</marker> de ciutadans</example>
-        		<example type="incorrect" correction="nombre">És preferible un <marker>número</marker> reduït de regidors.</example>
-        		<example type="correct">el número de la seguretat social</example>
-        	</rule>      	
-      </rulegroup>
-      <rulegroup id="BAIXAR_ABAIXAR" name="Comprova: abaixar/baixar ">
-        	<rule>
-	            <pattern>
-	                <marker>
-	                    <token inflected="yes" skip="3">baixar<exception postag="_GN_FS"/></token>
-	                </marker>
-	                <token postag="NC.*" postag_regexp="yes" regexp="yes" inflected="yes">impost|sou|salari|guàrdia|vela|persiana|cap|braç|veu|to|preu|pressupost|ràdio|volum|tele|televisió|música|teló|vista<exception scope="previous" regexp="yes">de|en</exception><exception postag="complement"/></token>
-	            </pattern>
-	            <message>Quan significa "passar a un nivell més baix", 'baixar' és intransitiu (La marea ha baixat). Com a verb transitiu, cal usar: <suggestion>a<match no="1"/></suggestion> (El govern abaixa els imposts).</message>
-	            <url>http://esadir.cat/sintaxi/entry_20030820190348_1</url>
-	            <example type="incorrect" correction="abaixar">Llavors va <marker>baixar</marker> la vista</example>
-	            <example type="correct">Baixar la roba eixuta del terrat.</example>
-	            <example type="correct">La vitalitat baixava de to.</example>
-	        </rule>
-	        <rule>
-	            <pattern>
-	                <marker>
-	                    <token inflected="yes">abaixar</token>
-	                </marker>
-	                <token>a</token>
-	                <token><exception regexp="yes">[\d\-., %]+</exception><exception postag="V.N.*" postag_regexp="yes"/></token>
-	            </pattern>
-	            <message>En el sentit de "portar (algú o alguna cosa) de dalt a baix", cal dir: <suggestion><match no="1" regexp_match="a(.+)" regexp_replace="$1"/></suggestion>.</message>
-	            <url>http://esadir.cat/sintaxi/entry_20030820190348_1</url>
-	            <example type="incorrect" correction="baixaren">les <marker>abaixaren</marker> al traster</example>
-	            <example type="correct">El tribut també es va abaixar a 14.000 ducats l'any.</example>
-	            <example type="correct">un déu que s’abaixa a plorar com els mortals</example>
-	        </rule>
-	    </rulegroup>    
+            <rule>
+                <pattern>
+                    <marker>
+                        <token skip="1">número</token>
+                    </marker>
+                    <token regexp="yes">de|d'</token>
+                    <token postag="N..P.*" postag_regexp="yes"/>
+                </pattern>
+                <message>En el sentit de "quantitat" cal dir <suggestion>nombre</suggestion>.</message>
+                <example type="incorrect" correction="nombre">un gran <marker>número</marker> de ciutadans</example>
+                <example type="incorrect" correction="nombre">És preferible un <marker>número</marker> reduït de regidors.</example>
+                <example type="correct">el número de la seguretat social</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="BAIXAR_ABAIXAR" name="Comprova: abaixar/baixar ">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes" skip="3">baixar<exception postag="_GN_FS"/></token>
+                    </marker>
+                    <token postag="NC.*" postag_regexp="yes" regexp="yes" inflected="yes">impost|sou|salari|guàrdia|vela|persiana|cap|braç|veu|to|preu|pressupost|ràdio|volum|tele|televisió|música|teló|vista<exception scope="previous" regexp="yes">de|en</exception><exception postag="complement"/></token>
+                </pattern>
+                <message>Quan significa "passar a un nivell més baix", 'baixar' és intransitiu (La marea ha baixat). Com a verb transitiu, cal usar: <suggestion>a<match no="1"/></suggestion> (El govern abaixa els imposts).</message>
+                <url>http://esadir.cat/sintaxi/entry_20030820190348_1</url>
+                <example type="incorrect" correction="abaixar">Llavors va <marker>baixar</marker> la vista</example>
+                <example type="correct">Baixar la roba eixuta del terrat.</example>
+                <example type="correct">La vitalitat baixava de to.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">abaixar</token>
+                    </marker>
+                    <token>a</token>
+                    <token><exception regexp="yes">[\d\-., %]+</exception><exception postag="V.N.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>En el sentit de "portar (algú o alguna cosa) de dalt a baix", cal dir: <suggestion><match no="1" regexp_match="a(.+)" regexp_replace="$1"/></suggestion>.</message>
+                <url>http://esadir.cat/sintaxi/entry_20030820190348_1</url>
+                <example type="incorrect" correction="baixaren">les <marker>abaixaren</marker> al traster</example>
+                <example type="correct">El tribut també es va abaixar a 14.000 ducats l'any.</example>
+                <example type="correct">un déu que s’abaixa a plorar com els mortals</example>
+            </rule>
+        </rulegroup> 
         <rule id="ALBERGAR_ABRIGAR" name="Evita: albergar/abrigar esperances/dubtes">
             <pattern>
                 <marker>
