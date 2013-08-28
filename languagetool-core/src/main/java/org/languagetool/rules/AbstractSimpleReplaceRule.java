@@ -41,6 +41,8 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
   private static final String FILE_ENCODING = "utf-8";
 
   private final Map<String, List<String>> wrongWords;
+  
+  private boolean ignoreTaggedWords = false;
 
   public abstract String getFileName();
 
@@ -64,6 +66,14 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
    */
   public Locale getLocale() {
     return Locale.getDefault();
+  }
+  
+  /**
+   * Skip words that are known in the POS tagging dictionary, assuming they
+   * cannot be incorrect.
+   */
+  public void setIgnoreTaggedWords() {
+    ignoreTaggedWords = true;
   }
 
   public AbstractSimpleReplaceRule(final ResourceBundle messages)
@@ -108,6 +118,9 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
 
     for (AnalyzedTokenReadings tokenReadings : tokens) {
       String originalTokenStr = tokenReadings.getToken();
+      if (ignoreTaggedWords && tokenReadings.isTagged()) {
+          continue;
+      }
       String tokenString = cleanup(originalTokenStr);
 
       if (!wrongWords.containsKey(tokenString)) {

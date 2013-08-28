@@ -46,6 +46,7 @@ public class SimpleReplaceRuleTest extends TestCase {
 
     // correct sentences:
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Això està força bé.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Joan Navarro no és de Navarra ni de Jerez.")).length);
 
     // incorrect sentences:
     final RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("El recader fa huelga."));

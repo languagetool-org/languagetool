@@ -36,15 +36,11 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.text.Normalizer;
-import java.text.Normalizer.Form;
 
 public abstract class MorfologikSpellerRule extends SpellingCheckRule {
 
   protected MorfologikSpeller speller;
   protected Locale conversionLocale;
-
-  private static final Pattern DIACRITICAL_REGEX = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
 
   private boolean ignoreTaggedWords = false;
 
@@ -95,7 +91,6 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       }
     }
     int idx = -1;
-    skip:
     for (AnalyzedTokenReadings token : tokens) {
       idx++;
       if (isUrl(token.getToken())) {
@@ -104,12 +99,8 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       if (ignoreToken(tokens, idx) || token.isImmunized()) {
         continue;
       }
-      if (ignoreTaggedWords) {
-        for (AnalyzedToken at : token.getReadings()) {
-          if (!at.hasNoTag()) {
-            continue skip; // if it HAS a POS tag then it is a known word.
-          }
-        }
+      if (ignoreTaggedWords && token.isTagged()) {
+        continue;
       }
       final String word = token.getToken();
       if (tokenizingPattern() == null) {
@@ -170,19 +161,6 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
    */
   public Pattern tokenizingPattern() {
     return null;
-  }
-
-  /**
-   * Remove all diacritical marks from a String
-   */
-  protected static String removeAccents(String text) {
-    if (text == null) {
-      return null;
-    } else {
-      final String normalized = Normalizer.normalize(text, Form.NFD);
-      final Matcher matcher = DIACRITICAL_REGEX.matcher(normalized);
-      return matcher.replaceAll("");
-    }
   }
   
   protected List<String> getAdditionalSuggestions(List<String> suggestions, String word) {

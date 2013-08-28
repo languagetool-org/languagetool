@@ -49,6 +49,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
     super(messages);
     super.setCategory(new Category("Errors ortogràfics"));
     super.setLocQualityIssueType("misspelling");
+    this.setIgnoreTaggedWords();
   }  
 
   @Override

@@ -431,6 +431,19 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     sb.append("]");
     return sb.toString();
   }
+  
+  /**
+   * @return true if AnalyzedTokenReadings has some real POS tag (= not null or a special tag)
+   * @since 2.3
+   */
+  public boolean isTagged() {
+    for (AnalyzedToken element : anTokReadings) {
+      if (!element.hasNoTag()) {
+        return true; 
+      }
+    }
+    return false;
+  }
 
   @Override
   public int hashCode() {
