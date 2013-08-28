@@ -835,9 +835,11 @@ public class JLanguageTool {
   }
   
   /**
-   * Get pattern rules by Id and SubId
+   * Get pattern rules by Id and SubId. This returns a list because rules that use {@code <or>...</or>}
+   * are internally expanded into several rules.
    * 
    * @return a List of {@link Rule} objects
+   * @since 2.3
    */
   public List<PatternRule> getPatternRulesByIdAndSubId(String Id, String subId) {
     final List<Rule> rules = getAllRules();

@@ -221,10 +221,10 @@ public class Element implements Cloneable {
   public final List<Element> getAndGroup() {
     return andGroupList;
   }
-  
-  
-  
-  
+
+  /**
+   * @since 2.3
+   */
   public final void setOrGroupElement(final Element orToken) {
     if (orToken != null) {
       if (orGroupList == null) {
@@ -240,6 +240,7 @@ public class Element implements Cloneable {
   /**
    * Checks if this element has an OR group associated with it.
    * @return true if the element has a group of elements that all should match.
+   * @since 2.3
    */
   public final boolean hasOrGroup() {
     return orGroupSet;
@@ -248,14 +249,12 @@ public class Element implements Cloneable {
   /**
    * Returns the group of elements linked with OR operator.
    * @return List of Elements.
+   * @since 2.3
    */
   public final List<Element> getOrGroup() {
     return orGroupList;
   }
   
-  
-  
-
   /**
    * Checks whether a previously set exception matches (in case the exception had scope == "next").
    * 

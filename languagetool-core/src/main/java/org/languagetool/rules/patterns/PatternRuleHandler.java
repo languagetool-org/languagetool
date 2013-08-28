@@ -248,7 +248,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
           }
         }
         for (final ArrayList<Element> phraseElement : phraseElementList) {
-          processElement(phraseElement);         
+          processElement(phraseElement);
           final List<Element> tmpElements = new ArrayList<>();
           createRules(phraseElement, tmpElements, 0);
         }
@@ -354,16 +354,11 @@ public class PatternRuleHandler extends XMLRuleHandler {
   }
   
   /** 
-   * Create rule from phraseElement
-   * 
-   * In case of OR groups, several rules are created recursively
-   * 
-   * @param phraseElement
-   * @param tmpElements
-   * @param numElement
-   */
-  
-  protected void createRules(ArrayList<Element> phraseElement,
+   * Create rule from phraseElement.
+   * In case of OR groups, several rules are created recursively.
+   * @since 2.3 
+   */  
+  private void createRules(List<Element> phraseElement,
       List<Element> tmpElements, int numElement) {
     if (numElement >= phraseElement.size()) {
       final PatternRule rule = new PatternRule(id, language, tmpElements, name,
