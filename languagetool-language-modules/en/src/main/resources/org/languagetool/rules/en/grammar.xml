@@ -8408,6 +8408,7 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
                         <token chunk="E-NP-singular">
                             <exception postag="NNPS"/>
                             <exception>variety</exception>
+                            <exception>number</exception><!-- there are a number of -->
                         </token>
                     </marker>
                 </pattern>
@@ -8420,6 +8421,7 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
                 <example type="correct">There are a variety of other types.</example><!-- common usage, see Google ngram -->
                 <example type="correct">There are ten known isoforms of adenylate cyclases in mammals.</example>
                 <!--TODO: <example type="correct">Among them there are Rachid Boudjedra, Rachid Mimouni, Leila Sebbar, and Tahar Djaout.</example>-->
+                <!--TODO: <example type="correct">Though there are several volunteer and semi-professional organizations.</example>-->
                 <example correction="problems" type="incorrect">There are a lot <marker>problem</marker> in Iraq but it is not a terrible situation.</example>
                 <example type="correct">There is a whole lot of problems in Iraq.</example>
             </rule>
@@ -8466,13 +8468,18 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
                     <exception spacebefore="no" scope="previous">.</exception>
                 </token>
                 <token chunk="I-NP-singular" min="0" max="-1">
+                    <exception regexp="yes">Pound|Dollar|percent|minute|megapixel|bit</exception>
+                    <exception regexp="yes">[,;()]</exception>
                 </token>
                 <marker>
                     <token chunk="E-NP-singular">
                         <exception postag="NN:U|NNS|NNPS|JJ.*|IN" postag_regexp="yes"/>
                         <exception>will</exception>
-                        <exception regexp="yes">mm|lb|yd|ft|Msec|km|cm|mg|kg|gm|cc|stat|kc|hr|min|m3|mcg|cpu|KB|MB|saw</exception>
+                        <exception regexp="yes">mm|lb|yd|ft|Msec|km|cm|mg|kg|gm|cc|stat|kc|hr|min|m3|mcg|cpu|KB|MB|GB|saw</exception>
                         <exception regexp="yes">January|February|March|April|May|June|July|August|September|October|November|December|size|\$\d+|\d+|\)</exception>
+                        <exception>year</exception><!-- "16 year old Ahmad" -->
+                        <exception>trained</exception><!-- "300 to 400 being trained each year" - mistagging by OpenNLP -->
+                        <exception regexp="yes">Avenue|Street|Terrace|Square</exception><!-- probably an address, "333 Grant Avenue" -->
                     </token>
                 </marker>
             </pattern>
@@ -8485,6 +8492,9 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
             <example type="correct">I have <marker>one bottle</marker> of wine.</example>
             <example type="correct">Exactly 1 hour!</example>
             <example type="correct">I have two book readers in my palmtop.</example>
+            <example type="correct">US$10,000 for a single 25 minute episode.</example>
+            <example type="correct">Thomas Watson at 333 Grant Avenue in San Francisco.</example>
+            <example type="correct">The 16 year old Ahmad Shah Durrani.</example>
             <example type="correct">At its 1864 convention, the Republican Party selected Andrew Johnson.</example>
             <example type="correct">The 2007 ceremony was watched by more than 40 million Americans.</example>
             <example type="correct">The $6,100,000,000 measure, which was passed last Monday by the Senate...</example>
@@ -8495,6 +8505,7 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
             <example type="correct">The Apollo 8 mission was well covered in the British documentary.</example>
             <example type="correct">This is 3 H2O.</example>
             <example type="correct">A dramatic series in 1956 saw a record that will probably never be beaten.</example>
+            <!-- TODO: while the right half is split into two sliver and black triangles -->
         </rule>
         <rule id="MUCH_COUNTABLE" name="'much' + countable noun, e.g. 'much (many) children'">
             <pattern>
