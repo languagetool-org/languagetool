@@ -15996,6 +15996,17 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="CLOACA" name="cloada/claveguera">
+            <pattern>
+                <marker>
+                    <token inflected="yes">cloaca</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">claveguera</match></suggestion>? Correcte com a terme de zoologia. </message>
+            <short>Possible confusió</short>
+            <example type="incorrect" correction="clavegueres">Les <marker>cloaques</marker> de la ciutat.</example>
+            <example type="correct">Les clavegueres.</example>
+        </rule>
             <rule id="RETRAS_RETARD" name="*retràs/retard">
 		    <pattern>
 		        <token><exception postag="P.*" postag_regexp="yes"/></token>
@@ -16148,8 +16159,8 @@ $Id$
         		<example type="incorrect" correction="nombre">És preferible un <marker>número</marker> reduït de regidors.</example>
         		<example type="correct">el número de la seguretat social</example>
         	</rule>      	
-        </rulegroup>
-        <rulegroup id="BAIXAR_ABAIXAR" name="Comprova: abaixar/baixar ">
+      </rulegroup>
+      <rulegroup id="BAIXAR_ABAIXAR" name="Comprova: abaixar/baixar ">
         	<rule>
 	            <pattern>
 	                <marker>
@@ -16179,19 +16190,19 @@ $Id$
 	        </rule>
 	    </rulegroup>    
         <rule id="ALBERGAR_ABRIGAR" name="Evita: albergar/abrigar esperances/dubtes">
-    		<pattern>
-    			<marker>
-    				<token regexp="yes" inflected="yes" skip="2">abrigar|albergar</token>
-    			</marker>
-    			<token regexp="yes" inflected="yes">esperança|dubte|inquietud|sospita</token>
-    	    </pattern>
-    	    <message>Ús inapropiat en el sentit de <suggestion><match no="1" postag="(V.*)." postag_regexp="yes" postag_replace="$1.">tenir</match></suggestion>.</message>
-    	    <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">alimentar</match></suggestion>
-    	    <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">nodrir</match></suggestion>
-    	    <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">concebre</match></suggestion>
-    	    <example type="incorrect" correction="tenia|alimentava|nodria|concebia">Ja no <marker>abrigava</marker> cap esperança</example>
-    	    <example type="correct">Ja no tenia cap esperança</example>
-    	</rule>
+            <pattern>
+                <marker>
+                <token regexp="yes" inflected="yes" skip="2">abrigar|albergar</token>
+                </marker>
+                <token regexp="yes" inflected="yes">esperança|dubte|inquietud|sospita</token>
+            </pattern>
+            <message>Ús inapropiat en el sentit de <suggestion><match no="1" postag="(V.*)." postag_regexp="yes" postag_replace="$1.">tenir</match></suggestion>.</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">alimentar</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">nodrir</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">concebre</match></suggestion>
+            <example type="incorrect" correction="tenia|alimentava|nodria|concebia">Ja no <marker>abrigava</marker> cap esperança</example>
+            <example type="correct">Ja no tenia cap esperança</example>
+        </rule>
         <rule id="PLANOL_PLA" name="plànol / pla">
             <pattern>
                 <marker>
