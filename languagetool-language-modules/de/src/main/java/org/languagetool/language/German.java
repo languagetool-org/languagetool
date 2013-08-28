@@ -40,6 +40,8 @@ import org.languagetool.rules.de.WiederVsWiderRule;
 import org.languagetool.rules.de.WordCoherencyRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.de.GermanTagger;
+import org.languagetool.tagging.disambiguation.Disambiguator;
+import org.languagetool.tagging.disambiguation.rules.de.GermanRuleDisambiguator;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 
@@ -51,10 +53,19 @@ public class German extends Language {
 
   private Tagger tagger;
   private SentenceTokenizer sentenceTokenizer;
+  private Disambiguator disambiguator;
 
   @Override
   public Language getDefaultVariant() {
     return new GermanyGerman();
+  }
+  
+  @Override
+  public final Disambiguator getDisambiguator() {
+    if (disambiguator == null) {
+      disambiguator = new GermanRuleDisambiguator();
+    }
+    return disambiguator;
   }
 
   @Override
