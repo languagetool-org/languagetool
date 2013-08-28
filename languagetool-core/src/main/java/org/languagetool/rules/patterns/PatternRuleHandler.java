@@ -354,30 +354,35 @@ public class PatternRuleHandler extends XMLRuleHandler {
   }
   
   /** 
-   * Create rule from phraseElement.
+   * Create rule from an Element list.
    * In case of OR groups, several rules are created recursively.
-   * @since 2.3 
+   * @since 2.3
+   *  
+   * @param elemList The complete original Element list 
+   * @param tmpElements Temporary Element list being created
+   * @param numElement Index of elemList being analyzed
    */  
-  private void createRules(List<Element> phraseElement,
+
+  private void createRules(List<Element> elemList,
       List<Element> tmpElements, int numElement) {
-    if (numElement >= phraseElement.size()) {
+    if (numElement >= elemList.size()) {
       final PatternRule rule = new PatternRule(id, language, tmpElements, name,
           message.toString(), shortMessage.toString(),
           suggestionsOutMsg.toString(), phraseElementList.size() > 1);
       prepareRule(rule);
       rules.add(rule);
     } else {
-      Element element = phraseElement.get(numElement);
+      Element element = elemList.get(numElement);
       if (element.hasOrGroup()) {
         for (Element elementOfOrGroup : element.getOrGroup()) {
           final List<Element> tmpElements2 = new ArrayList<>();
           tmpElements2.addAll(tmpElements);
           tmpElements2.add((Element) ObjectUtils.clone(elementOfOrGroup));
-          createRules(phraseElement, tmpElements2, numElement + 1);
+          createRules(elemList, tmpElements2, numElement + 1);
         }
       }
       tmpElements.add((Element) ObjectUtils.clone(element));
-      createRules(phraseElement, tmpElements, numElement + 1);
+      createRules(elemList, tmpElements, numElement + 1);
     }
   }
 
