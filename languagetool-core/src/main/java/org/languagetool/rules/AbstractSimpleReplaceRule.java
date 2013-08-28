@@ -71,6 +71,7 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
   /**
    * Skip words that are known in the POS tagging dictionary, assuming they
    * cannot be incorrect.
+   * @since 2.3
    */
   public void setIgnoreTaggedWords() {
     ignoreTaggedWords = true;
