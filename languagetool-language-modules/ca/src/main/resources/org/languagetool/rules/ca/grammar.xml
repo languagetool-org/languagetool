@@ -11691,6 +11691,29 @@ $Id$
         </rulegroup>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rulegroup id="ENSEGUIDA" name="enseguida">
+            <rule>
+                <pattern>
+                    <token>en</token>
+                    <token>seguida</token>
+                </pattern>
+                <message>Expressió incorrecta.</message>
+                <suggestion>de seguida</suggestion>
+                <suggestion>tot seguit</suggestion>
+                <example type="incorrect">Vine <marker>en seguida</marker></example>
+                <example type="correct">L'ha enseguida.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>enseguida</token>
+                </pattern>
+                <message>Incorrecte si equival a <suggestion>de seguida</suggestion>. Correcte com a participi de 'enseguir'.</message>
+                <suggestion>tot seguit</suggestion>
+                <example type="incorrect">Vine <marker>enseguida</marker></example>
+                <example type="correct">Vine de seguida.</example>
+                <!--<example type="correct">L'ha enseguida.</example>-->
+            </rule>
+        </rulegroup>    
         <rule id="PAGAR_EL_PATO" name="pagar el pato">
             <pattern>
                 <marker>
