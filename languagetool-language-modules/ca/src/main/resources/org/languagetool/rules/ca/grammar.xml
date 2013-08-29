@@ -15998,14 +15998,16 @@ $Id$
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
         <rule id="CLOACA" name="cloaca/claveguera">
             <pattern>
+                <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">intestí|excretar|digestiu|urinari|excretor|reproductor|orifici|rèptil|ocell|amfibi|musell|obertura|ou|aparellar</exception></token>
                 <marker>
-                    <token inflected="yes">cloaca</token>
+                    <token skip="-1" inflected="yes">cloaca<exception scope="next" regexp="yes" inflected="yes">intestí|excretar|digestiu|urinari|excretor|reproductor|orifici|rèptil|ocell|amfibi|musell|obertura|ou|aparellar</exception></token>
                 </marker>
+                <token postag="SENT_END"/>
             </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">claveguera</match></suggestion>? Correcte com a terme de zoologia.</message>
+            <message>¿Volíeu dir <suggestion><match no="2" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">claveguera</match></suggestion>? Correcte com a terme de zoologia.</message>
             <short>Possible confusió</short>
             <example type="incorrect" correction="clavegueres">Les <marker>cloaques</marker> de la ciutat.</example>
-            <example type="correct">Les clavegueres.</example>
+            <example type="correct">En la cloaca desemboquen l'aparell digestiu, l'excretor i el reproductor.</example>
         </rule>
         <rule id="RETRAS_RETARD" name="*retràs/retard">
             <pattern>
@@ -16028,8 +16030,7 @@ $Id$
             <pattern case_sensitive="yes">
                 <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes">Renfe|Catalunya|RENFE|FGC</exception></token>
                 <marker>
-                    <token skip="-1">rodalies<exception scope="next" regexp="yes">Renfe|Catalunya|RENFE|FGC</exception>
-                </token>
+                    <token skip="-1">rodalies<exception scope="next" regexp="yes">Renfe|Catalunya|RENFE|FGC</exception></token>
                 </marker>
                 <token postag="SENT_END"/>
             </pattern>
