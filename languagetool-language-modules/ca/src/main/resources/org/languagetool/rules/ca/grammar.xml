@@ -11926,6 +11926,25 @@ $Id$
         </rule>
         <rulegroup id="VERBS_MALFORMATS_RE" name="verbs mal formats amb prefix re-">
             <!-- Verbs que no són al diccionari, però es formen amb el prefix re- -->
+            <rule id="REVENTA" name="*reventa/revenda/rebenta">
+                <pattern>
+                    <token regexp="yes">revent(a|es)</token>
+                </pattern>
+                <message>Error ortogràfic.</message>
+                <suggestion><match no="1" regexp_match="revent(.+)" regexp_replace="rebent$1"/></suggestion>
+                <suggestion><match no="1" regexp_match="revent(.+)" regexp_replace="revend$1"/></suggestion>
+                <example type="incorrect" correction="rebenta|revenda">La <marker>reventa</marker> d'entrades</example>
+                <example type="correct">La revenda d'entrades</example>
+            </rule>
+            <rule id="REVENTAR" name="*reventar/rebentar"> 
+                <pattern>
+                    <token inflected="yes">reventar<exception regexp="yes">reventa|reventes</exception></token>
+                </pattern>
+                <message>Error ortogràfic.</message>
+                <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">rebentar</match></suggestion>
+                <example type="incorrect" correction="rebentessis">Si <marker>reventessis</marker> de menjar tant.</example>
+                <example type="correct">rebentar</example>
+            </rule>   
             <rule id="REEMPRENDRE" name="reemprendre"> 
                 <pattern>
                     <token inflected="yes">reemprendre</token>
