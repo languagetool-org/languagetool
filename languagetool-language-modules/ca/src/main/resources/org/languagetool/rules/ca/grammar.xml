@@ -7338,14 +7338,15 @@ $Id$
             </rule>
              <rule>
                 <pattern>
-                    <token>amb</token>
+                    <token regexp="yes">amb|en</token>
                     <token regexp="yes">(?-i)a<exception postag=".*LOC_.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Combinació impossible de preposicions.</message>
-                <suggestion><match no="2"/>
-                <match no="1"/></suggestion>
+                <suggestion><match no="1"/></suggestion>
+                <suggestion><match no="2"/></suggestion>
                 <short>Element repetit</short>
-                <example type="incorrect">que volíem deixar enrere <marker>amb a</marker>l procés</example>
+                <example type="incorrect" correction="amb|a">que volíem deixar enrere <marker>amb a</marker>l procés</example>
+                <example type="incorrect" correction="en|a">Deixem-ho <marker>en a</marker> una part.</example>
                 <example type="correct">que volíem deixar enrere amb el procés</example>
                 <example type="correct">amb A. Moncunill.</example>
                 <example type="correct">Amb a penes tres anys.</example>
