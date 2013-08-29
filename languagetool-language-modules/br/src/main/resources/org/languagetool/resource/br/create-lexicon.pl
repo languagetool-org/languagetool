@@ -1258,6 +1258,8 @@ my @anv_lies_tud = (
   "krampouezherion",
   "kravazherien",
   "kravazherion",
+  "krazerien",
+  "krazerion",
   "kreaterien",
   "kreaterion",
   "kredennourien",
