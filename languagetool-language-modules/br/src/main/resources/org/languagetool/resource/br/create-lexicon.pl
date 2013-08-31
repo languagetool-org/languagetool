@@ -1590,6 +1590,7 @@ my @anv_lies_tud = (
   "paotred",
   "paotredoù",
   "paotredigoù",
+  "paparazzied",
   "paramantourien",
   "paramantourion",
   "pardonerien",
