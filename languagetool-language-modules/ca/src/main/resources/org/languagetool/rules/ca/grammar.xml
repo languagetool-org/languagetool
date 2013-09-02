@@ -9517,6 +9517,7 @@ $Id$
                 <short>Accent diacrític</short>
                 <example type="incorrect">Les bruixes <marker>és</marker> pentinen.</example>
                 <example type="correct">Les bruixes <marker>es</marker> pentinen.</example>
+                <example type="correct">Comprova si el correu d'entrada és brossa.</example>
                 <!-- <example type="correct">La bèstia que era i no és serà el vuitè rei</example> 
                 Però: Es serà, No es serà ?-->
             </rule>
@@ -9576,7 +9577,7 @@ $Id$
                     <marker>
                         <token>és</token>
                     </marker>
-                    <token regexp="yes">veu|diu|pensa|creu|busca</token>
+                    <token regexp="yes">veu|diu|pensa|creu|busca|troba|deixa|sap</token>
                     <token>que</token>
                 </pattern>
                 <message>Només s'accentua quan és del verb "ser".</message>
@@ -9590,7 +9591,7 @@ $Id$
                     <marker>
                         <token>és</token>
                     </marker>
-                    <token regexp="yes">pot|deixa|pren|creu|sap|cau|fes|diu</token>
+                    <token regexp="yes">pot|deixa|pren|creu|sap|cau|fes|diu|troba</token>
                 </pattern>
                 <message>Només s'accentua quan és del verb "ser".</message>
                 <suggestion>es</suggestion>
@@ -9598,6 +9599,19 @@ $Id$
                 <example type="incorrect" correction="es">Més del que <marker>és</marker> pot.</example>
                 <example type="correct">es pot fer</example>
                 <!-- <example type="correct">avui és cau de nombrosos limícoles</example> -->
+            </rule>
+            <rule id="ES_BROSSA" name="*es/és brossa">
+                <pattern>
+                    <marker>
+                        <token>es</token>
+                    </marker>
+                    <token>brossa</token> <!-- cal augmentar la llista de paraules -->
+                </pattern>
+                <message>S'accentua quan és del verb "ser".</message>
+                <suggestion>és</suggestion>
+                <short>Possible confusió</short>
+                <example type="incorrect" correction="és">Comprova si l'entrada de correu <marker>es</marker> brossa.</example>
+                <example type="correct">No és brossa.</example>
             </rule>
         </rulegroup>
         <rulegroup id="DONA" name="dona/dóna">
@@ -17968,7 +17982,19 @@ $Id$
                 <short>Possible error</short>
                 <example type="incorrect">És el terme <marker>mig</marker> ponderat.</example>
                 <example type="correct">amb un ull mig aclucat</example>                    
-            </rule>           
+            </rule>       
+             <rule>
+                <pattern>
+                    <marker>
+                        <token>mitja</token>
+                    </marker>
+                    <token regexp="yes">edat|altura|alçària|alçada</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>mitjana</suggestion>?</message>
+                <short>Possible error</short>
+                <example type="incorrect" correction="mitjana">És una persona de <marker>mitja</marker> edat.</example>
+                <example type="correct">amb un ull mig aclucat</example>                    
+            </rule>    
         </rulegroup>
         <rulegroup id="MES_BE" name="*més bé/més aviat">
             <rule>
