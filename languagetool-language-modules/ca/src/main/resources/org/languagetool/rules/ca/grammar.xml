@@ -9516,6 +9516,7 @@ $Id$
                 <suggestion>es</suggestion>
                 <short>Accent diacrític</short>
                 <example type="incorrect">Les bruixes <marker>és</marker> pentinen.</example>
+                <example type="incorrect">I tot <marker>és</marker> fa més passador</example>
                 <example type="correct">Les bruixes <marker>es</marker> pentinen.</example>
                 <example type="correct">Comprova si el correu d'entrada és brossa.</example>
                 <!-- <example type="correct">La bèstia que era i no és serà el vuitè rei</example> 
@@ -9577,35 +9578,51 @@ $Id$
                     <marker>
                         <token>és</token>
                     </marker>
-                    <token regexp="yes">veu|diu|pensa|creu|busca|troba|deixa|sap</token>
+                    <token regexp="yes">manifesta|mostra</token>
                     <token>que</token>
                 </pattern>
                 <message>Només s'accentua quan és del verb "ser".</message>
                 <suggestion>es</suggestion>
                 <short>Possible confusió</short>
-                <example type="incorrect"><marker>és</marker> veu que </example>
-                <example type="correct">es veu que</example>
+                <example type="incorrect"><marker>És</marker> manifesta que va a la seva.</example>
+                <example type="correct">És manifesta la seva incompetència.</example>
             </rule>
             <rule id="ES_POT" name="es pot">
                 <pattern>
                     <marker>
                         <token>és</token>
                     </marker>
-                    <token regexp="yes">pot|deixa|pren|creu|sap|cau|fes|diu|troba</token>
+                    <token regexp="yes">bada|balla|balma|banya|baralla|barri|basa|basi|bat|batega|belluga|bolca|bufa|bull|busca|cala|calca|calça|calcina|captura|cargola|clausura|clava|clivella|cobra|cofa|colga|col·loqui|comporta|compra|conquista|conserva|consigna|consulta|contesta|conversa|corseca|crema|creu|cria|deixa|diu|fes|finança|fon|formi|fot|gira|gita|glaça|lleva|lliga|lliura|lloga|millora|mulla|munta|muntà|neteja|nota|notaria|parla|passa|passi|patí|pensa|perllonga|plany|plasma|plega|pobla|poblà|porta|posa|pot|pren|puja|punxa|quadra|queda|rasca|rebaixa|recompensa|recull|refina|rega|remunta|reserva|ret|revenja|revolta|riu|sap|talla|tanca|tem|tira|tirà|tiri|toca|tomba|torna|tornés|tortura|traça|tracte|tragina|trau|travessa|trena|trenca|treu|troba|val|venera|venja|veu|vol|xifra</token>
                 </pattern>
                 <message>Només s'accentua quan és del verb "ser".</message>
                 <suggestion>es</suggestion>
                 <short>Possible confusió</short>
                 <example type="incorrect" correction="es">Més del que <marker>és</marker> pot.</example>
+                <example type="incorrect"><marker>és</marker> veu que </example>
                 <example type="correct">es pot fer</example>
-                <!-- <example type="correct">avui és cau de nombrosos limícoles</example> -->
+                <example type="correct">es veu que</example>
+                <example type="correct">avui és cau de nombrosos limícoles</example>
             </rule>
+            <rule id="ES_CAU" name="es cau">
+                <pattern>
+                    <marker>
+                        <token>és</token>
+                    </marker>
+                    <token>cau</token>
+                    <token><exception regexp="yes">de|d'</exception></token>
+                </pattern>
+                <message>Només s'accentua quan és del verb "ser".</message>
+                <suggestion>es</suggestion>
+                <short>Possible confusió</short>
+                <example type="incorrect">Sempre <marker>és</marker> cau en el mateix error.</example>
+                <example type="correct">avui és cau de nombrosos limícoles</example>
+            </rule>    
             <rule id="ES_BROSSA" name="*es/és brossa">
                 <pattern>
                     <marker>
                         <token>es</token>
                     </marker>
-                    <token>brossa</token> <!-- cal augmentar la llista de paraules -->
+                    <token regexp="yes">branca|broma|brossa|bruixa|carboni|cendra|complexa|cristiana|dura|fruita|membre|metge|norma|nou|penyora|positiva|rica|senzilla|sobri|sola|terra</token>
                 </pattern>
                 <message>S'accentua quan és del verb "ser".</message>
                 <suggestion>és</suggestion>
@@ -9766,7 +9783,8 @@ $Id$
                         <token>soc</token>
                     </marker>
                 </pattern>
-                <message>S'accentua quan és del verb "ser". Potser és: <suggestion>sóc</suggestion>.</message>
+                <message>S'accentua quan és del verb "ser".</message>
+                <suggestion>sóc</suggestion>
                 <short>Accent diacrític</short>
                 <example type="incorrect">No <marker>soc</marker> imbècil.</example>
                 <example type="correct">No <marker> sóc</marker> imbècil.</example>
@@ -9780,7 +9798,8 @@ $Id$
                     </marker>
                     <token>jo</token>
                 </pattern>
-                <message>S'accentua quan és del verb "ser". Potser és: <suggestion>sóc</suggestion>.</message>
+                <message>S'accentua quan és del verb "ser".</message>
+                <suggestion>sóc</suggestion>
                 <short>Accent diacrític</short>
                 <example type="incorrect">Aquest <marker>soc</marker> jo.</example>
                 <example type="correct">Aquest <marker>sóc</marker> jo.</example>
@@ -9793,7 +9812,8 @@ $Id$
                     </marker>
                     <token negate="yes">jo</token>
                 </pattern>
-                <message>No s'accentua si no és del verb "ser". Potser és: <suggestion>soc</suggestion>.</message>
+                <message>No s'accentua si no és del verb "ser".</message>
+                <suggestion>soc</suggestion>
                 <short>Accent diacrític</short>
                 <example type="incorrect">M'emporto aquest <marker>sóc</marker>.</example>
                 <example type="correct">M'emporto aquest <marker>soc</marker>.</example>
@@ -9807,7 +9827,8 @@ $Id$
                     <token>jo</token>
                     <token postag="PP.*" postag_regexp="yes"></token>
                 </pattern>
-                <message>No s'accentua si no és del verb "ser". Potser és: <suggestion>soc</suggestion>.</message>
+                <message>No s'accentua si no és del verb "ser".</message>
+                <suggestion>soc</suggestion>
                 <short>Accent diacrític</short>
                 <example type="incorrect">Aquest <marker>sóc</marker> jo el tallo.</example>
                 <example type="correct">Aquest <marker>soc</marker> jo el tallo.</example>
@@ -9822,7 +9843,8 @@ $Id$
                     <token>no</token>
                     <token postag="PP.*" postag_regexp="yes"></token>
                 </pattern>
-                <message>No s'accentua si no és del verb "ser". Potser és: <suggestion>soc</suggestion>.</message>
+                <message>No s'accentua si no és del verb "ser".</message>
+                <suggestion>soc</suggestion>
                 <short>Accent diacrític</short>
                 <example type="incorrect">Aquest <marker>sóc</marker> jo no el tallo.</example>
                 <example type="correct">Aquest <marker>soc</marker> jo no el tallo.</example>
