@@ -322,12 +322,12 @@ public class XMLRuleHandler extends DefaultHandler {
     match = new StringBuilder();
     Match.CaseConversion caseConversion = Match.CaseConversion.NONE;
     if (attrs.getValue("case_conversion") != null) {
-      caseConversion = Match.CaseConversion.toCase(attrs
+      caseConversion = Match.CaseConversion.valueOf(attrs
           .getValue("case_conversion").toUpperCase());
     }
     Match.IncludeRange includeRange = Match.IncludeRange.NONE;
     if (attrs.getValue("include_skipped") != null) {
-      includeRange = Match.IncludeRange.toRange(attrs
+      includeRange = Match.IncludeRange.valueOf(attrs
           .getValue("include_skipped").toUpperCase());
     }
     final Match mWorker = new Match(attrs.getValue(POSTAG), attrs.getValue("postag_replace"), 

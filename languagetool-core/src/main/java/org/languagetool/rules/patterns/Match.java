@@ -35,31 +35,11 @@ public class Match {
 
   /** Possible string case conversions. **/
   public enum CaseConversion {
-    NONE, STARTLOWER, STARTUPPER, ALLLOWER, ALLUPPER, PRESERVE;
-
-    /**
-     * Converts string to the constant enum.
-     *
-     * @param str String value to be converted
-     * @return CaseConversion enum
-     */
-    public static CaseConversion toCase(final String str) {
-      return valueOf(str);
-    }
+    NONE, STARTLOWER, STARTUPPER, ALLLOWER, ALLUPPER, PRESERVE
   }
 
   public enum IncludeRange {
-    NONE, FOLLOWING, ALL;
-
-    /**
-     * Converts string to the constant enum.
-     *
-     * @param str String value to be converted
-     * @return IncludeRange enum
-     */
-    public static IncludeRange toRange(final String str) {
-      return valueOf(str);
-    }
+    NONE, FOLLOWING, ALL
   }
 
   private final String posTag;
