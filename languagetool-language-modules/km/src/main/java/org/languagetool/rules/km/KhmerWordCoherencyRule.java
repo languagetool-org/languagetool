@@ -117,8 +117,7 @@ public abstract class KhmerWordCoherencyRule extends KhmerRule {
 
   private Map<String, String> loadWords(final InputStream file) throws IOException {
     final Map<String, String> map = new HashMap<>();
-    final Scanner scanner = new Scanner(file, FILE_ENCODING);
-    try {
+    try (Scanner scanner = new Scanner(file, FILE_ENCODING)) {
       while (scanner.hasNextLine()) {
         final String line = scanner.nextLine().trim();
         if (line.length() < 1) {
@@ -136,8 +135,6 @@ public abstract class KhmerWordCoherencyRule extends KhmerRule {
           map.put(parts[i], parts[parts.length - 1]);
         }
       }
-    } finally {
-      scanner.close();
     }
     return map;
   }

@@ -42,12 +42,9 @@ public class PatternRuleLoader extends DefaultHandler {
    * @param file XML file with pattern rules
    */
   public final List<PatternRule> getRules(final File file) throws IOException {
-    final InputStream inputStream = new FileInputStream(file);
-    try {
+    try (InputStream inputStream = new FileInputStream(file)) {
       final PatternRuleLoader ruleLoader = new PatternRuleLoader();
       return ruleLoader.getRules(inputStream, file.getAbsolutePath());
-    } finally {
-      inputStream.close();
     }
   }
 

@@ -208,16 +208,13 @@ public class HunspellRule extends SpellingCheckRule {
   }
 
   private void fileCopy(final InputStream in, final File targetFile) throws IOException {
-    final OutputStream out = new FileOutputStream(targetFile);
-    try {
+    try (OutputStream out = new FileOutputStream(targetFile)) {
       final byte[] buf = new byte[1024];
       int len;
       while ((len = in.read(buf)) > 0) {
         out.write(buf, 0, len);
       }
       in.close();
-    } finally {
-      out.close();
     }
   }
 

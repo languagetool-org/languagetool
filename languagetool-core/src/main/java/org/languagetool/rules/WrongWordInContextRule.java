@@ -168,8 +168,7 @@ public abstract class WrongWordInContextRule extends Rule {
    */
   private List<ContextWords> loadContextWords(final InputStream file) {
     final List<ContextWords> set = new ArrayList<>();
-    final Scanner scanner = new Scanner(file, "utf-8");
-    try {
+    try (Scanner scanner = new Scanner(file, "utf-8")) {
       while (scanner.hasNextLine()) {
         final String line = scanner.nextLine();
         if (line.charAt(0) == '#') {
@@ -193,8 +192,6 @@ public abstract class WrongWordInContextRule extends Rule {
           set.add(contextWords);
         } // if (column.length >= 6)
       }
-    } finally {
-      scanner.close();
     }
     return set;
   }

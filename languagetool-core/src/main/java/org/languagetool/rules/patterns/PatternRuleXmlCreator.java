@@ -59,8 +59,7 @@ public class PatternRuleXmlCreator {
     final List<String> filenames = language.getRuleFileNames();
     final XPath xpath = XPathFactory.newInstance().newXPath();
     for (String filename : filenames) {
-      final InputStream is = this.getClass().getResourceAsStream(filename);
-      try {
+      try (InputStream is = this.getClass().getResourceAsStream(filename)) {
         final Document doc = getDocument(is);
         final Node ruleNode = (Node) xpath.evaluate("/rules/category/rule[@id='" + ruleId.getId() + "']", doc, XPathConstants.NODE);
         if (ruleNode != null) {
@@ -87,8 +86,6 @@ public class PatternRuleXmlCreator {
         }
       } catch (Exception e) {
         throw new RuntimeException("Could not turn rule " + ruleId + " for language " + language + " into a string", e);
-      } finally {
-        is.close();
       }
     }
     throw new RuntimeException("Could not find rule " + ruleId + " for language " + language + " in files: " + filenames);

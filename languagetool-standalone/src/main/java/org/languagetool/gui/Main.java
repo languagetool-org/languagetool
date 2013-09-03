@@ -105,14 +105,11 @@ public final class Main {
       return;
     }
     try {
-      final FileInputStream inputStream = new FileInputStream(file);
-      try {
+      try (FileInputStream inputStream = new FileInputStream(file)) {
         final String fileContents = StringTools.readFile(inputStream);
         textArea.setText(fileContents);
         currentFile = file;
         updateTitle();
-      } finally {
-        inputStream.close();
       }
     } catch (IOException e) {
       Tools.showError(e);

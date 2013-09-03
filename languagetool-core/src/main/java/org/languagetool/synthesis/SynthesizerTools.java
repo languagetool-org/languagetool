@@ -31,8 +31,7 @@ public class SynthesizerTools {
 
   public static ArrayList<String> loadWords(final InputStream stream) throws IOException {
     final ArrayList<String> set = new ArrayList<>();
-    final Scanner scanner = new Scanner(stream, "UTF-8");
-    try {
+    try (Scanner scanner = new Scanner(stream, "UTF-8")) {
       while (scanner.hasNextLine()) {
         final String line = scanner.nextLine().trim();
         if (line.length() < 1 || line.charAt(0) == '#') {  // ignore empty lines and comments
@@ -40,8 +39,6 @@ public class SynthesizerTools {
         }
         set.add(line);
       }
-    } finally {
-      scanner.close();
     }
     return set;
   }

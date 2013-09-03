@@ -50,8 +50,7 @@ public class LanguageIdentifierTools {
         // as Tika supports most languages out of the box.
         return;
       }
-      final InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(detectionFile);
-      try {
+      try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(detectionFile)) {
         final InputStreamReader in = new InputStreamReader(stream, PROFILE_ENCODING);
         final BufferedReader reader =
                 new BufferedReader(in);
@@ -65,8 +64,6 @@ public class LanguageIdentifierTools {
           }
           line = reader.readLine();
         }
-      } finally {
-        stream.close();
       }
 
       LanguageIdentifier.addProfile(languageCode, profile);

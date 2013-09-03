@@ -179,9 +179,8 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
   private Map<String, List<String>> loadWords(final InputStream stream)
       throws IOException {
     Map<String, List<String>> map = new HashMap<>();
-    Scanner scanner = new Scanner(stream, getEncoding());
 
-    try {
+    try (Scanner scanner = new Scanner(stream, getEncoding())) {
       while (scanner.hasNextLine()) {
         String line = scanner.nextLine();
         if (line.length() < 1 || line.charAt(0) == '#') { // # = comment
@@ -195,7 +194,7 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
         String[] parts = line.split("=");
         if (parts.length != 2) {
           throw new IOException("Format error in file "
-              + JLanguageTool.getDataBroker().getFromRulesDirAsUrl(
+                  + JLanguageTool.getDataBroker().getFromRulesDirAsUrl(
                   getFileName()) + ", line: " + line);
         }
 
@@ -207,8 +206,6 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
           map.put(wrongForm, Arrays.asList(replacements));
         }
       }
-    } finally {
-      scanner.close();
     }
     return map;
   }

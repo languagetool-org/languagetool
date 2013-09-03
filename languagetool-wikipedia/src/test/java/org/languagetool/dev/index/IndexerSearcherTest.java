@@ -156,9 +156,8 @@ public class IndexerSearcherTest extends LuceneTestCase {
   }
 
   private int createIndex(JLanguageTool lt) throws IOException {
-    final Indexer indexer = new Indexer(directory, lt.getLanguage());
     int ruleCount = 0;
-    try {
+    try (Indexer indexer = new Indexer(directory, lt.getLanguage())) {
       final List<Rule> rules = lt.getAllActiveRules();
       for (Rule rule : rules) {
         if (rule instanceof PatternRule && !rule.isDefaultOff()) {
@@ -183,8 +182,6 @@ public class IndexerSearcherTest extends LuceneTestCase {
           ruleCount++;
         }
       }
-    } finally {
-      indexer.close();
     }
     errorSearcher = new Searcher(directory);
     return ruleCount;

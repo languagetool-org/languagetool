@@ -244,20 +244,14 @@ public final class StringTools {
    * @deprecated use {@link #streamToString(java.io.InputStream, String)} instead (deprecated since 1.8)
    */
   public static String streamToString(final InputStream is) throws IOException {
-    final InputStreamReader isr = new InputStreamReader(is);
-    try {
+    try (InputStreamReader isr = new InputStreamReader(is)) {
       return readerToString(isr);
-    } finally {
-      isr.close();
     }
   }
 
   public static String streamToString(final InputStream is, String charsetName) throws IOException {
-    final InputStreamReader isr = new InputStreamReader(is, charsetName);
-    try {
+    try (InputStreamReader isr = new InputStreamReader(is, charsetName)) {
       return readerToString(isr);
-    } finally {
-      isr.close();
     }
   } 
   

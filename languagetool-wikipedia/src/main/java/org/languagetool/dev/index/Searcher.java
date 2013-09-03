@@ -79,12 +79,9 @@ public class Searcher {
   }
   
   public int getDocCount() throws IOException {
-    final DirectoryReader reader = DirectoryReader.open(directory);
-    try {
+    try (DirectoryReader reader = DirectoryReader.open(directory)) {
       final IndexSearcher indexSearcher = new IndexSearcher(reader);
       return getDocCount(indexSearcher);
-    } finally {
-      reader.close();
     }
   }
 

@@ -230,8 +230,7 @@ public abstract class AbstractCompoundRule extends Rule {
   }
 
   private void loadCompoundFile(final InputStream file, final String encoding) throws IOException {
-    final Scanner scanner = new Scanner(file, encoding);
-    try {
+    try (Scanner scanner = new Scanner(file, encoding)) {
       while (scanner.hasNextLine()) {
         String line = scanner.nextLine().trim();
         if (line.length() < 1 || line.charAt(0) == '#') {
@@ -255,8 +254,6 @@ public abstract class AbstractCompoundRule extends Rule {
         }
         incorrectCompounds.add(line.toLowerCase());
       }
-    } finally {
-      scanner.close();
     }
   }
 

@@ -312,8 +312,7 @@ public class AccentuationCheckRule extends CatalanRule {
   private Map<String, AnalyzedTokenReadings> loadWords(String fileName) throws IOException {
     final Map<String, AnalyzedTokenReadings> map = new HashMap<>();
     final InputStream inputStream = JLanguageTool.getDataBroker().getFromRulesDirAsStream(fileName);
-    final Scanner scanner = new Scanner(inputStream, FILE_ENCODING);
-    try {
+    try (Scanner scanner = new Scanner(inputStream, FILE_ENCODING)) {
       while (scanner.hasNextLine()) {
         final String line = scanner.nextLine().trim();
         if (line.length() < 1) {
@@ -330,8 +329,6 @@ public class AccentuationCheckRule extends CatalanRule {
         final AnalyzedToken analyzedToken = new AnalyzedToken(parts[1], parts[2], null);
         map.put(parts[0], new AnalyzedTokenReadings(analyzedToken, 0));
       }
-    } finally {
-      scanner.close();
     }
     return map;
   }

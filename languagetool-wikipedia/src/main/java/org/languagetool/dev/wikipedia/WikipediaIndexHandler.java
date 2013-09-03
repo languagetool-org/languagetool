@@ -166,8 +166,7 @@ public class WikipediaIndexHandler extends DefaultHandler implements AutoCloseab
     final long start = System.currentTimeMillis();
     final SAXParserFactory factory = SAXParserFactory.newInstance();
     final SAXParser saxParser = factory.newSAXParser();
-    final FSDirectory fsDirectory = FSDirectory.open(indexDir);
-    try {
+    try (FSDirectory fsDirectory = FSDirectory.open(indexDir)) {
       final WikipediaIndexHandler handler = new WikipediaIndexHandler(fsDirectory, language, 1, maxDocs);
       try {
         saxParser.parse(new FileInputStream(dumpFile), handler);
@@ -177,8 +176,6 @@ public class WikipediaIndexHandler extends DefaultHandler implements AutoCloseab
         handler.writeMetaDocuments();
         handler.close();
       }
-    } finally {
-      fsDirectory.close();
     }
     final long end = System.currentTimeMillis();
     final float minutes = (end - start) / (float)(1000 * 60);

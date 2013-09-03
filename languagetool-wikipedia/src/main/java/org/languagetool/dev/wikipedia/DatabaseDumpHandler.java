@@ -48,8 +48,7 @@ class DatabaseDumpHandler extends BaseWikipediaDumpHandler {
             File propertiesFile, Language lang) throws IOException {
     super(lt, dumpDate, langCode, lang);
     final Properties dbProperties = new Properties();
-    final FileInputStream inStream = new FileInputStream(propertiesFile);
-    try {
+      try (FileInputStream inStream = new FileInputStream(propertiesFile)) {
         dbProperties.load(inStream);
         final String dbDriver = getProperty(dbProperties, "dbDriver");
         final String dbUrl = getProperty(dbProperties, "dbUrl");
@@ -57,12 +56,8 @@ class DatabaseDumpHandler extends BaseWikipediaDumpHandler {
         final String dbPassword = getProperty(dbProperties, "dbPassword");
         Class.forName(dbDriver);
         conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
-      } catch (ClassNotFoundException e) {
+      } catch (ClassNotFoundException | SQLException e) {
         throw new RuntimeException(e);
-      } catch (SQLException e) {
-        throw new RuntimeException(e);
-      } finally {
-        inStream.close();
       }
       contextTools = new ContextTools();
       contextTools.setContextSize(CONTEXT_SIZE);
@@ -97,8 +92,7 @@ class DatabaseDumpHandler extends BaseWikipediaDumpHandler {
               "(version, language_code, ruleid, rule_subid, rule_description, message, error_context, corpus_date, " +
               "check_date, sourceuri, is_visible) "+
               "VALUES (0, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)";
-      final PreparedStatement prepSt = conn.prepareStatement(sql);
-      try {
+      try (PreparedStatement prepSt = conn.prepareStatement(sql)) {
         final java.sql.Date dumpSqlDate = new java.sql.Date(dumpDate.getTime());
         final java.sql.Date nowDate = new java.sql.Date(new Date().getTime());
         for (RuleMatch match : ruleMatches) {
@@ -128,8 +122,6 @@ class DatabaseDumpHandler extends BaseWikipediaDumpHandler {
             throw new ErrorLimitReachedException(maxErrors);
           }
         }
-      } finally {
-        prepSt.close();
       }
     }
 

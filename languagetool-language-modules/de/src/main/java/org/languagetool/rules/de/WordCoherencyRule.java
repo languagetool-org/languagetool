@@ -115,8 +115,7 @@ public class WordCoherencyRule extends GermanRule {
 
   private Map<String, String> loadWords(InputStream file) throws IOException {
     final Map<String, String> map = new HashMap<>();
-    final Scanner scanner = new Scanner(file, FILE_ENCODING);
-    try {
+    try (Scanner scanner = new Scanner(file, FILE_ENCODING)) {
       while (scanner.hasNextLine()) {
         final String line = scanner.nextLine().trim();
         if (line.length() < 1) {
@@ -132,8 +131,6 @@ public class WordCoherencyRule extends GermanRule {
         map.put(parts[0], parts[1]);
         map.put(parts[1], parts[0]);
       }
-    } finally {
-      scanner.close();
     }
     return map;
   }

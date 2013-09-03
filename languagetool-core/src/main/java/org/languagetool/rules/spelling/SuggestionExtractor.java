@@ -106,17 +106,14 @@ public class SuggestionExtractor {
       }
       final File ignoreFile = new File(hunspellDir, "ignore.txt");
       final Set<String> tokens = entry.getValue();
-      final FileOutputStream fos = new FileOutputStream(ignoreFile);
-      final OutputStreamWriter writer = new OutputStreamWriter(fos, "utf-8");
-      try {
-        writeIntro(writer, language);
-        for (String token : tokens) {
-          writer.write(token);
-          writer.write("\n");
+      try (FileOutputStream fos = new FileOutputStream(ignoreFile)) {
+        try (OutputStreamWriter writer = new OutputStreamWriter(fos, "utf-8")) {
+          writeIntro(writer, language);
+          for (String token : tokens) {
+            writer.write(token);
+            writer.write("\n");
+          }
         }
-      } finally {
-        writer.close();
-        fos.close();
       }
       System.out.println("Wrote " + tokens.size() + " words to " + ignoreFile);
     }

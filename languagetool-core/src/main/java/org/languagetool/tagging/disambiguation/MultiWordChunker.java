@@ -197,8 +197,7 @@ public class MultiWordChunker implements Disambiguator {
 
   private List<String> loadWords(final InputStream stream) throws IOException {
     final List<String> lines = new ArrayList<>();
-    final Scanner scanner = new Scanner(stream, "UTF-8");
-    try {
+    try (Scanner scanner = new Scanner(stream, "UTF-8")) {
       while (scanner.hasNextLine()) {
         final String line = scanner.nextLine().trim();
         if (line.length() < 1) {
@@ -209,8 +208,6 @@ public class MultiWordChunker implements Disambiguator {
         }
         lines.add(line);
       }
-    } finally {
-      scanner.close();
     }
     return lines;
   }

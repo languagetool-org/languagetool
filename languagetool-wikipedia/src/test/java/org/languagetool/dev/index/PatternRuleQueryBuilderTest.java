@@ -75,12 +75,9 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
     final Analyzer analyzer = new PerFieldAnalyzerWrapper(new DoNotUseAnalyzer(), analyzerMap);
 
     final IndexWriterConfig config = new IndexWriterConfig(LUCENE_VERSION, analyzer);
-    final IndexWriter writer = new IndexWriter(directory, config);
-    try {
+    try (IndexWriter writer = new IndexWriter(directory, config)) {
       addDocument(writer, "How do you thin about this wonderful idea?");
       addDocument(writer, "The are several grammar checkers for English, E.G. LanguageTool.");
-    } finally {
-      writer.close();
     }
     reader = DirectoryReader.open(directory);
     searcher = newSearcher(reader);

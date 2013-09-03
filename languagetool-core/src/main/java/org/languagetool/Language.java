@@ -72,8 +72,7 @@ public abstract class Language {
       final Enumeration<URL> propertyFiles = Language.class.getClassLoader().getResources(PROPERTIES_PATH);
       while (propertyFiles.hasMoreElements()) {
         final URL url = propertyFiles.nextElement();
-        final InputStream inputStream = url.openStream();
-        try {
+        try (InputStream inputStream = url.openStream()) {
           // We want to be able to read properties file with duplicate key, as produced by
           // Maven when merging files:
           final MultiKeyProperties props = new MultiKeyProperties(inputStream);
@@ -94,8 +93,6 @@ public abstract class Language {
               languageClassNames.add(className);
             }
           }
-        } finally {
-          inputStream.close();
         }
       }
     } catch (IOException e) {

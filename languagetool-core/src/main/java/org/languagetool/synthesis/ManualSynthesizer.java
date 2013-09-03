@@ -74,8 +74,7 @@ public class ManualSynthesizer {
 
   private Map<String, List<String>> loadMapping(final InputStream inputStream, final String encoding) throws IOException {
     final Map<String, List<String>> map = new HashMap<>();
-    final Scanner scanner = new Scanner(inputStream, encoding);
-    try {
+    try (Scanner scanner = new Scanner(inputStream, encoding)) {
       while (scanner.hasNextLine()) {
         final String line = scanner.nextLine();
         if (StringTools.isEmpty(line) || line.charAt(0) == '#') {
@@ -92,8 +91,6 @@ public class ManualSynthesizer {
         map.get(key).add(parts[0]);
         possibleTags.add(parts[2]); // POS 
       }
-    } finally {
-      scanner.close();
     }
     return map;
   }

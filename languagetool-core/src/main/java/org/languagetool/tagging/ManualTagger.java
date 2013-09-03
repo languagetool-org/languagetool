@@ -74,8 +74,7 @@ public class ManualTagger {
 
   private Map<String, List<LookedUpTerm>> loadMapping(final InputStream inputStream, final String encoding) throws IOException {
     final Map<String, List<LookedUpTerm>> map = new HashMap<>();
-    final Scanner scanner = new Scanner(inputStream, encoding);
-    try {
+    try (Scanner scanner = new Scanner(inputStream, encoding)) {
       while (scanner.hasNextLine()) {
         final String line = scanner.nextLine();
         if (StringTools.isEmpty(line) || line.charAt(0) == '#') {
@@ -92,8 +91,6 @@ public class ManualTagger {
         terms.add(new LookedUpTerm(parts[1], parts[2]));
         map.put(parts[0], terms);
       }
-    } finally {
-      scanner.close();
     }
     return map;
   }

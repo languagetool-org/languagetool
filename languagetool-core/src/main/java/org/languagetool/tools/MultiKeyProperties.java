@@ -34,8 +34,7 @@ public class MultiKeyProperties {
   private final Map<String, List<String>> properties = new HashMap<>();
 
   public MultiKeyProperties(InputStream inStream) {
-    final Scanner scanner = new Scanner(inStream);
-    try {
+    try (Scanner scanner = new Scanner(inStream)) {
       while (scanner.hasNextLine()) {
         final String line = scanner.nextLine().trim();
         if (line.startsWith("#") || line.isEmpty()) {
@@ -54,8 +53,6 @@ public class MultiKeyProperties {
         list.add(value);
         properties.put(key, list);
       }
-    } finally {
-      scanner.close();
     }
   }
 

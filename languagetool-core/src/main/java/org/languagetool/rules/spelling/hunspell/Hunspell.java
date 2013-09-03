@@ -382,17 +382,14 @@ public class Hunspell {
         
         private String getWordCharsFromFile(final File affixFile) throws IOException {
             String affixWordChars = "";
-            final Scanner scanner = new Scanner(affixFile, encoding);
-            try {
-              while (scanner.hasNextLine()) {
-                final String line = scanner.nextLine().trim();
-                if (line.startsWith("WORDCHARS ")) {
-                  affixWordChars = line.substring("WORDCHARS ".length());
-                }
+          try (Scanner scanner = new Scanner(affixFile, encoding)) {
+            while (scanner.hasNextLine()) {
+              final String line = scanner.nextLine().trim();
+              if (line.startsWith("WORDCHARS ")) {
+                affixWordChars = line.substring("WORDCHARS ".length());
               }
-            } finally {
-              scanner.close();
             }
+          }
             return affixWordChars;
           }
         

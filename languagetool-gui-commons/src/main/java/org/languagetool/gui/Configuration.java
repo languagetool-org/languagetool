@@ -259,11 +259,8 @@ public class Configuration {
       props.setProperty(key, configForOtherLangs.get(key));
     }
 
-    final FileOutputStream fos = new FileOutputStream(configFile);
-    try {
+    try (FileOutputStream fos = new FileOutputStream(configFile)) {
       props.store(fos, "LanguageTool configuration");
-    } finally {
-      fos.close();
     }
   }
 
