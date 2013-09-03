@@ -83,6 +83,7 @@ public class AccentuationCheckRule extends CatalanRule {
   private static final Pattern BEFORE_ADJECTIVE_FP = Pattern.compile("SPS00|D[^R].[FC][PN].*|V.[^NGP].*|PX.*");
   private static final Pattern GN = Pattern.compile("_GN_.*|<?/?N[CP].*");
   private static final Pattern EXCEPCIONS_DARRERE_DE = Pattern.compile("forma|manera|por|costat",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern LOCUCIONS = Pattern.compile(".*LOC.*");
       
   private final Map<String, AnalyzedTokenReadings> relevantWords;
   private final Map<String, AnalyzedTokenReadings> relevantWords2;
@@ -91,7 +92,7 @@ public class AccentuationCheckRule extends CatalanRule {
     if (messages != null) {
       super.setCategory(new Category(messages.getString("category_misc")));
     }
-    setLocQualityIssueType("misspelling");
+    setLocQualityIssueType("grammar");
     relevantWords = loadWords(FILE_NAME);
     relevantWords2 = loadWords(FILE_NAME2);
   }
@@ -185,6 +186,7 @@ public class AccentuationCheckRule extends CatalanRule {
       	           && !token.equals("continua") && !token.equals("continues") && !token.equals("cantar")
       	           && !prevToken.equals("que") && !prevToken.equals("qui") && !prevToken.equals("què")
       	           && mPreposicioDE.matches() && !matchPostagRegexp(tokens[i-1],NOT_IN_PREV_TOKEN)
+      	           && !matchPostagRegexp(tokens[i+1],LOCUCIONS)
       	           && (i<tokens.length-2) && !matchPostagRegexp(tokens[i+2],INFINITIU)
       	           && !mExcepcionsDE.matches()
       	           && !tokens[i-1].hasPosTag("RG") )

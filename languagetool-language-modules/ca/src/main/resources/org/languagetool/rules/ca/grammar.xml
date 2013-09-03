@@ -10214,7 +10214,8 @@ $Id$
                         <token postag="V.[^NGP].*|P[P0].*" postag_regexp="yes" regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">us|el|els|et|en|em</exception><exception regexp="yes" inflected="yes">halar|io[td]itzar</exception><exception postag="_GN.*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
-                <message>Cal apostrofar: <suggestion><match no="2" regexp_match="[Ee']?(.)[e]?" regexp_replace="$1'"></match><match no="3"/></suggestion>.</message>
+                <message>Cal apostrofar.</message>
+                <suggestion><match no="2" regexp_match="[Ee']?(.)[e]?" regexp_replace="$1'"></match><match no="3"/></suggestion>
                 <short>Cal apostrofar</short>
                 <example type="incorrect" correction="s'omple">La plaça <marker>se omple</marker> de gent.</example>
                 <example type="incorrect" correction="n'he">quan me<marker>'n he</marker> posat de curts</example>
@@ -10242,7 +10243,8 @@ $Id$
                     <token postag="P.*" postag_regexp="yes" regexp="yes">se|es|te|et|me|em</token>
                     <token>els</token>
                 </pattern>
-                <message>Cal apostrofar: <suggestion><match no="1" regexp_match="[Ee]?([^e])e?" regexp_replace="$1e"></match><match no="2" regexp_match="e?([^e]{1,2})e?" regexp_replace="'$1"></match></suggestion>.</message>
+                <message>Cal apostrofar.</message>
+                <suggestion><match no="1" regexp_match="[Ee]?([^e])e?" regexp_replace="$1e"></match><match no="2" regexp_match="e?([^e]{1,2})e?" regexp_replace="'$1"></match></suggestion>
                 <short>Cal apostrofar</short>
                 <example type="incorrect" correction="Se'ls"><marker>Se els</marker> omple de gent.</example>
                 <example type="correct"><marker>Se'ls</marker> omple de gent.</example>
@@ -10255,7 +10257,8 @@ $Id$
                     </marker>
                     <token postag="V.*" postag_regexp="yes"><exception regexp="yes">h?[aeiouàèéíòóú].*</exception></token>
                 </pattern>
-                <message>Cal apostrofar: <suggestion><match no="1" regexp_match="[Ee]?([^e])e?" regexp_replace="$1e"></match><match no="2" regexp_match="e?([^e]{1,2})e?" regexp_replace="'$1"></match></suggestion>.</message>
+                <message>Cal apostrofar.</message>
+                <suggestion><match no="1" regexp_match="[Ee]?([^e])e?" regexp_replace="$1e"></match><match no="2" regexp_match="e?([^e]{1,2})e?" regexp_replace="'$1"></match></suggestion>
                 <short>Cal apostrofar</short>
                 <example type="incorrect" correction="Se't"><marker>Se et</marker> buida de gent.</example>
                 <example type="correct"><marker>Se't</marker> buida de gent.</example>
@@ -10268,7 +10271,8 @@ $Id$
                     </marker>
                     <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">halar|io[dt]itzar</token>
                 </pattern>
-                <message>Cal apostrofar: <suggestion><match no="1" regexp_match="[Ee]?([^e])e?" regexp_replace="$1e"></match><match no="2" regexp_match="e?([^e]{1,2})e?" regexp_replace="'$1"></match></suggestion>.</message>
+                <message>Cal apostrofar.</message>
+                <suggestion><match no="1" regexp_match="[Ee]?([^e])e?" regexp_replace="$1e"></match><match no="2" regexp_match="e?([^e]{1,2})e?" regexp_replace="'$1"></match></suggestion>
                 <short>Cal apostrofar</short>
                 <example type="incorrect" correction="Se't"><marker>Se et</marker> halen de seguida.</example>
                 <example type="correct"><marker>Se't</marker> buida de gent.</example>
@@ -18811,6 +18815,22 @@ $Id$
         </rule>
     </category>
     <category name="C7) Expressions preferibles" default="on" type="style">
+        <rule id="don" name="don/senyor/en">
+            <pattern>
+                <marker>
+                    <token>don</token>
+                </marker>
+                <token regexp="yes">\p{Lu}.*</token>
+            </pattern>
+            <message>Val més usar una altra expressió.</message>
+            <suggestion>en</suggestion>
+            <suggestion>senyor</suggestion>
+            <suggestion>el senyor</suggestion>
+            <suggestion>sr.</suggestion>
+            <short>Expressió preferible</short>
+            <example type="incorrect" correction="En|Senyor|El senyor|Sr."><marker>Don</marker> Jaume</example>
+            <example type="correct">En Jaume.</example>
+        </rule>
         <rule id="TOTS_ELS_DIES" name="tots els dies">
             <pattern>
                 <token>tots</token>
@@ -18818,6 +18838,7 @@ $Id$
                 <token>dies</token>
             </pattern>
             <message>Amb valor freqüentatiu val més dir <suggestion>cada dia</suggestion>.</message>
+            <short>Expressió preferible</short>
             <example type="incorrect"><marker>tots els dies</marker> canta</example>
             <example type="correct">cada dia canta</example>
         </rule>
@@ -18828,6 +18849,7 @@ $Id$
                 <token>setmanes</token>
             </pattern>
             <message>Amb valor freqüentatiu val més dir <suggestion>cada setmana</suggestion>.</message>
+            <short>Expressió preferible</short>
             <example type="incorrect"><marker>totes les setmanes</marker> canta</example>
             <example type="correct">cada setmana canta</example>
         </rule>

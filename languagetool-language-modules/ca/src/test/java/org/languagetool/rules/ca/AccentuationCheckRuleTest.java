@@ -42,6 +42,7 @@ public class AccentuationCheckRuleTest extends TestCase {
   public void testRule() throws IOException {
 
     // correct sentences:
+	assertCorrect("Carrega de nou l'arxiu.");
     assertCorrect("Espero d'ell moltes coses");
     assertCorrect("cal que abans figuri inscrit en l'Ordre del dia");
     assertCorrect("El lloc era, però, habitat de molt abans,");
@@ -83,6 +84,7 @@ public class AccentuationCheckRuleTest extends TestCase {
     assertCorrect("La magnífica conservació del palau.");
 
     // errors:
+    assertIncorrect("Carrega d'arxius.");
     assertIncorrect("Vaig arribar a fer una radio que no va funcionar mai.");
     assertIncorrect("No em fumaré cap faria com feia abans.");
     assertIncorrect("M'he fumat una faria.");
