@@ -73,7 +73,12 @@ public class MatchState {
    * @param next Position of the next token (the skipped tokens are the ones between the tokens[index] and tokens[next]
    */
   public final void setToken(final AnalyzedTokenReadings[] tokens, final int index, final int next) {
-    setToken(tokens[index]);
+    int idx = index;
+    if (index >= tokens.length) {
+      // TODO: hacky workaround, find a proper solution. See EnglishPatternRuleTest.testBug()
+      idx = tokens.length - 1;
+    }
+    setToken(tokens[idx]);
     IncludeRange includeSkipped = match.getIncludeSkipped();
     if (next > 1 && includeSkipped != IncludeRange.NONE) {
       final StringBuilder sb = new StringBuilder();

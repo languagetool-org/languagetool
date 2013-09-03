@@ -186,7 +186,12 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
       }
       correctedStPos--;
     }
-    AnalyzedTokenReadings firstMatchTokenObj = tokens[firstMatchToken + correctedStPos];
+    int idx = firstMatchToken + correctedStPos;
+    if (idx >= tokens.length) {
+      // TODO: hacky workaround, find a proper solution. See EnglishPatternRuleTest.testBug()
+      idx = tokens.length - 1;
+    }
+    AnalyzedTokenReadings firstMatchTokenObj = tokens[idx];
     boolean startsWithUppercase = StringTools.startsWithUppercase(firstMatchTokenObj.getToken())
       && !matchConvertsCase(rule.getSuggestionMatches())
       && !matchConvertsCase(rule.getSuggestionMatchesOutMsg());

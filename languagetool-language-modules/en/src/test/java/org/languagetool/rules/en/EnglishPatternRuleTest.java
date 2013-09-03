@@ -18,6 +18,8 @@
  */
 package org.languagetool.rules.en;
 
+import org.languagetool.JLanguageTool;
+import org.languagetool.language.English;
 import org.languagetool.rules.patterns.PatternRuleTest;
 
 import java.io.IOException;
@@ -26,6 +28,13 @@ public class EnglishPatternRuleTest extends PatternRuleTest {
   
   public void testRules() throws IOException {
     runGrammarRulesFromXmlTest();
+  }
+
+  // used to cause an ArrayIndexOutOfBoundsException in MatchState.setToken()
+  public void testBug() throws Exception {
+    JLanguageTool langTool = new JLanguageTool(new English());
+    langTool.activateDefaultPatternRules();
+    langTool.check("Alexander between 369 and 358 BC\n\nAlexander");
   }
 
 }
