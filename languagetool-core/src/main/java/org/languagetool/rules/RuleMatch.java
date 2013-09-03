@@ -246,13 +246,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
     if (other == null) {
       throw new ClassCastException();
     }
-    if (getFromPos() < other.getFromPos()) {
-      return -1;
-    }
-    if (getFromPos() > other.getFromPos()) {
-      return 1;
-    }
-    return 0;
+    return Integer.compare(getFromPos(), other.getFromPos());
   }
 
 }
