@@ -21,7 +21,6 @@ package org.languagetool.dev.index;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.FieldType;
-import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.RAMDirectory;
 import org.apache.lucene.util.LuceneTestCase;
@@ -91,49 +90,44 @@ public class IndexerSearcherTest extends LuceneTestCase {
     int ruleProblems = 0;
     int exceptionCount = 0;
 
-    final DirectoryReader reader = DirectoryReader.open(directory);
-    try {
-      final List<Rule> rules = lt.getAllActiveRules();
-      for (Rule rule : rules) {
-        if (rule instanceof PatternRule && !rule.isDefaultOff()) {
-          final PatternRule patternRule = (PatternRule) rule;
-          try {
-            ruleCounter++;
-            final SearcherResult searcherResult = errorSearcher.findRuleMatchesOnIndex(patternRule, language);
-            final List<MatchingSentence> matchingSentences = searcherResult.getMatchingSentences();
-            boolean foundExpectedMatch = false;
-            for (MatchingSentence matchingSentence : matchingSentences) {
-              final List<RuleMatch> ruleMatches = matchingSentence.getRuleMatches();
-              final List<String> ruleMatchIds = getRuleMatchIds(ruleMatches);
-              if (ruleMatchIds.contains(getFullId(patternRule))) {
-                // TODO: there can be more than one expected match, can't it?
-                foundExpectedMatch = true;
-                break;
-              }
+    final List<Rule> rules = lt.getAllActiveRules();
+    for (Rule rule : rules) {
+      if (rule instanceof PatternRule && !rule.isDefaultOff()) {
+        final PatternRule patternRule = (PatternRule) rule;
+        try {
+          ruleCounter++;
+          final SearcherResult searcherResult = errorSearcher.findRuleMatchesOnIndex(patternRule, language);
+          final List<MatchingSentence> matchingSentences = searcherResult.getMatchingSentences();
+          boolean foundExpectedMatch = false;
+          for (MatchingSentence matchingSentence : matchingSentences) {
+            final List<RuleMatch> ruleMatches = matchingSentence.getRuleMatches();
+            final List<String> ruleMatchIds = getRuleMatchIds(ruleMatches);
+            if (ruleMatchIds.contains(getFullId(patternRule))) {
+              // TODO: there can be more than one expected match, can't it?
+              foundExpectedMatch = true;
+              break;
             }
-            if (!foundExpectedMatch) {
-              System.out.println("Error: No match found for " + patternRule);
-              System.out.println("Query   : " + searcherResult.getRelaxedQuery().toString(FIELD_NAME_LOWERCASE));
-              System.out.println("Matches : " + matchingSentences);
-              System.out.println("Examples: " + rule.getIncorrectExamples());
-              System.out.println();
-              ruleProblems++;
-            } else {
-              //final long time = System.currentTimeMillis() - startTime;
-              //System.out.println("Tested " + matchingSentences.size() + " sentences in " + time + "ms for rule " + patternRule);
-            }
-          } catch (UnsupportedPatternRuleException e) {
-            System.out.println("UnsupportedPatternRuleException searching for rule " + getFullId(patternRule) + ": " + e.getMessage());
-            ruleProblems++;
-          } catch (Exception e) {
-            System.out.println("Exception searching for rule " + getFullId(patternRule) + ": " + e.getMessage());
-            e.printStackTrace(System.out);
-            exceptionCount++;
           }
+          if (!foundExpectedMatch) {
+            System.out.println("Error: No match found for " + patternRule);
+            System.out.println("Query   : " + searcherResult.getRelaxedQuery().toString(FIELD_NAME_LOWERCASE));
+            System.out.println("Matches : " + matchingSentences);
+            System.out.println("Examples: " + rule.getIncorrectExamples());
+            System.out.println();
+            ruleProblems++;
+          } else {
+            //final long time = System.currentTimeMillis() - startTime;
+            //System.out.println("Tested " + matchingSentences.size() + " sentences in " + time + "ms for rule " + patternRule);
+          }
+        } catch (UnsupportedPatternRuleException e) {
+          System.out.println("UnsupportedPatternRuleException searching for rule " + getFullId(patternRule) + ": " + e.getMessage());
+          ruleProblems++;
+        } catch (Exception e) {
+          System.out.println("Exception searching for rule " + getFullId(patternRule) + ": " + e.getMessage());
+          e.printStackTrace(System.out);
+          exceptionCount++;
         }
       }
-    } finally {
-      reader.close();
     }
     System.out.println(language + ": problems: " + ruleProblems + ", total rules: " + ruleCounter);
     System.out.println(language + ": exceptions: " + exceptionCount + " (including timeouts)");
