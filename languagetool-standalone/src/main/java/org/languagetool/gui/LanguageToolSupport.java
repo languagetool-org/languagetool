@@ -730,14 +730,14 @@ class LanguageToolSupport {
       try {
         h.addHighlight(span.start, span.end, bluePainter);
       } catch (BadLocationException ex) {
-        //Tools.showError(ex);
+        ex.printStackTrace();
       }
     }
     for (Span span : spellErrors) {
       try {
         h.addHighlight(span.start, span.end, redPainter);
       } catch (BadLocationException ex) {
-        //Tools.showError(ex);
+        ex.printStackTrace();
       }
     }
   }
@@ -934,6 +934,7 @@ class LanguageToolSupport {
       try {
         _check(caller);
       } catch (IOException ex) {
+        ex.printStackTrace();
       }
     }
   }
