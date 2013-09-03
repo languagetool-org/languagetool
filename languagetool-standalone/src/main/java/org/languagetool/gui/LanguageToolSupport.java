@@ -516,7 +516,7 @@ class LanguageToolSupport {
           doc.insertString(start, str, null);
         }
       } catch (BadLocationException e) {
-        throw new IllegalArgumentException(e.getMessage());
+        throw new IllegalArgumentException(e);
       }
     }
   }
@@ -665,18 +665,18 @@ class LanguageToolSupport {
         continue;
       }
       matches.add(match);
-      Span t = new Span();
-      t.start = match.getFromPos();
-      t.end = match.getToPos();
-      t.msg = (match.getShortMessage() != null && !match.getShortMessage().isEmpty()) ? match.getShortMessage() : match.getMessage();
-      t.msg = org.languagetool.gui.Tools.shortenComment(t.msg);
-      t.desc = match.getMessage();
-      t.replacement = new ArrayList<>();
-      t.replacement.addAll(match.getSuggestedReplacements());
-      t.spelling = match.getRule().isSpellingRule();
-      t.rule = match.getRule().getId();
-      t.url = match.getRule().getUrl();
-      spans.add(t);
+      Span span = new Span();
+      span.start = match.getFromPos();
+      span.end = match.getToPos();
+      span.msg = (match.getShortMessage() != null && !match.getShortMessage().isEmpty()) ? match.getShortMessage() : match.getMessage();
+      span.msg = org.languagetool.gui.Tools.shortenComment(span.msg);
+      span.desc = match.getMessage();
+      span.replacement = new ArrayList<>();
+      span.replacement.addAll(match.getSuggestedReplacements());
+      span.spelling = match.getRule().isSpellingRule();
+      span.rule = match.getRule().getId();
+      span.url = match.getRule().getUrl();
+      spans.add(span);
     }
     ruleMatches.clear();
     documentSpans.clear();
@@ -688,18 +688,18 @@ class LanguageToolSupport {
   private void updateHighlights(List<RuleMatch> matches) {
     ArrayList<Span> spans = new ArrayList<>();
     for (RuleMatch match : matches) {
-      Span t = new Span();
-      t.start = match.getFromPos();
-      t.end = match.getToPos();
-      t.msg = (match.getShortMessage() != null && !match.getShortMessage().isEmpty()) ? match.getShortMessage() : match.getMessage();
-      t.msg = org.languagetool.gui.Tools.shortenComment(t.msg);
-      t.desc = match.getMessage();
-      t.replacement = new ArrayList<>();
-      t.replacement.addAll(match.getSuggestedReplacements());
-      t.spelling = match.getRule().isSpellingRule();
-      t.rule = match.getRule().getId();
-      t.url = match.getRule().getUrl();
-      spans.add(t);
+      Span span = new Span();
+      span.start = match.getFromPos();
+      span.end = match.getToPos();
+      span.msg = (match.getShortMessage() != null && !match.getShortMessage().isEmpty()) ? match.getShortMessage() : match.getMessage();
+      span.msg = org.languagetool.gui.Tools.shortenComment(span.msg);
+      span.desc = match.getMessage();
+      span.replacement = new ArrayList<>();
+      span.replacement.addAll(match.getSuggestedReplacements());
+      span.spelling = match.getRule().isSpellingRule();
+      span.rule = match.getRule().getId();
+      span.url = match.getRule().getUrl();
+      spans.add(span);
     }
     ruleMatches.clear();
     documentSpans.clear();
@@ -760,7 +760,7 @@ class LanguageToolSupport {
             try {
               Desktop.getDesktop().browse(e.getURL().toURI());
             } catch (Exception ex) {
-              //TODO: show exception
+              Tools.showError(ex);
             }
           }
         }
@@ -857,32 +857,6 @@ class LanguageToolSupport {
       g2.drawLine(x1, y - 2, x2, y - 2);
       g2.setStroke(OO_STROKE3);
       g2.drawLine(x1, y - 3, x2, y - 3);
-    }
-
-    private void drawFCurvedLine(Graphics g, Rectangle rect) {
-      int x1 = rect.x;
-      int x2 = rect.x + rect.width;
-      int y = rect.y + rect.height;
-      Graphics2D g2 = (Graphics2D) g;
-      //g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-      g2.setStroke(FIREFOX_STROKE1);
-      g2.drawLine(x1, y - 1, x2, y - 1);
-      g2.setStroke(FIREFOX_STROKE2);
-      g2.drawLine(x1, y - 2, x2, y - 2);
-      g2.setStroke(FIREFOX_STROKE3);
-      g2.drawLine(x1, y - 3, x2, y - 3);
-    }
-
-    private void drawZigZagLine(Graphics g, Rectangle rect) {
-      int x1 = rect.x;
-      int x2 = rect.x + rect.width;
-      int y = rect.y + rect.height;
-      Graphics2D g2 = (Graphics2D) g;
-      //g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-      g2.setStroke(ZIGZAG_STROKE1);
-      g2.drawLine(x1, y - 1, x2, y - 1);
-      g2.setStroke(ZIGZAG_STROKE2);
-      g2.drawLine(x1, y - 2, x2, y - 2);
     }
 
     private void drawLine(Graphics g, Rectangle rect) {
