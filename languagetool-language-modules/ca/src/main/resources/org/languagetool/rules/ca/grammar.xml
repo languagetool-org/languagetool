@@ -6728,6 +6728,47 @@ $Id$
             </rule>
         </rulegroup>
         <rulegroup id="CONFUSIONS_ACCENT" name="Alguns errors d'accentuació: renúncia/renuncia, nomes/només">
+            <rule id="S_ESTA" name="*s'esta/s'està">
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[mtsn]'</token>
+                        <token>esta</token>
+                    </marker>
+                </pattern>
+                <message>Falta un accent.</message>
+                <suggestion><match no="1"/>està</suggestion>
+                <short>Falta un accent</short>
+                <example type="incorrect" correction="N'està"><marker>N'esta</marker> fins al capdamunt.</example>
+                <example type="correct">Esta és la qüestió.</example>
+            </rule>
+            <rule id="LI_ESTA" name="*li esta/li està">
+                <pattern>
+                    <marker>
+                        <token regexp="yes">li|hi|ens|us|vos|ho</token>
+                        <token>esta</token>
+                    </marker>
+                </pattern>
+                <message>Falta un accent.</message>
+                <suggestion><match no="1"/> està</suggestion>
+                <short>Falta un accent</short>
+                <example type="incorrect" correction="Li està"><marker>Li esta</marker> agraït.</example>
+                <example type="correct">Esta és la qüestió.</example>
+            </rule>
+            <rule id="ESTA_FENT" name="*esta/està fent">
+                <pattern>
+                    <token><exception postag="SPS00|.*LOC_PREP.*" postag_regexp="yes"/></token>
+                    <marker>
+                        <token>esta</token>
+                    </marker>
+                    <token postag="V.G.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Probablement falta un accent.</message>
+                <suggestion>està</suggestion>
+                <short>Falta un accent</short>
+                <example type="incorrect" correction="Està"><marker>Esta</marker> escrivint la carta.</example>
+                <example type="correct">I amb esta arribant al final.</example>
+                <example type="correct">I en comptes d'esta arribant al final.</example>
+            </rule>
             <rule id="ORIGINARIA" name="originaria">
                 <pattern>
                     <token><exception postag="P.*" postag_regexp="yes"/></token>
@@ -6736,9 +6777,11 @@ $Id$
                         <token regexp="yes">de|d'</token>
                     </marker>
                 </pattern>
-                <message>¿Volíeu dir <suggestion>originària</suggestion>?</message>
+                <message>Probablement falta un accent</message>
+                <suggestion>originària</suggestion>
+                <short>Falta un accent</short>
                 <example type="incorrect"><marker>originaria de</marker> Manresa</example>
-                <example type="correct">quer s'originaria de «cariu»</example>
+                <example type="correct">que s'originaria de «cariu»</example>
                 <example type="correct">que ell originaria de manera immediata</example>
                 <example type="correct">que allò originaria de manera immediata</example>
             </rule>
@@ -6762,8 +6805,9 @@ $Id$
                     </marker>
                     <token>a</token>
                 </pattern>
-                <message>Cal accentuar: <suggestion>renúncia</suggestion>.</message>
-                <short>Cal accentuar</short>
+                <message>Probablement falta un accent</message>
+                <suggestion>renúncia</suggestion>
+                <short>Falta un accent</short>
                 <example type="incorrect">La <marker>renuncia</marker> a la corona.</example>
                 <example type="correct">La renúncia a la corona.</example>
             </rule>
@@ -6775,7 +6819,8 @@ $Id$
                     </marker>
                     <token regexp="yes">de|d'</token>
                 </pattern>
-                <message>Si és nom, cal accentuar: <suggestion>distàncies</suggestion>.</message>
+                <message>Si és nom, cal accentuar.</message>
+                <suggestion>distàncies</suggestion>
                 <short>Cal accentuar</short>
                 <example type="incorrect" correction="distàncies">Salvades les <marker>distancies</marker> de temps.</example>
                 <example type="correct">La renúncia a la corona.</example>
@@ -6788,7 +6833,8 @@ $Id$
                     </marker>
                     <token regexp="yes">de|d'</token>
                 </pattern>
-                <message>Si és nom, cal accentuar: <suggestion>distància</suggestion>.</message>
+                <message>Si és nom, cal accentuar.</message>
+                <suggestion>distància</suggestion>
                 <short>Cal accentuar</short>
                 <example type="incorrect" correction="distància">Salvada la <marker>distancia</marker> de temps.</example>
                 <example type="correct">La renúncia a la corona.</example>
@@ -6800,7 +6846,8 @@ $Id$
                         <token>noticies</token>
                     </marker>
                 </pattern>
-                <message>Si és nom, cal accentuar: <suggestion>notícies</suggestion>.</message>
+                <message>Si és nom, cal accentuar.</message>
+                <suggestion>notícies</suggestion>
                 <short>Cal accentuar</short>
                 <example type="incorrect" correction="notícies">Les <marker>noticies</marker> del temps.</example>
                 <example type="correct">Les notícies arriben tard.</example>
@@ -6812,7 +6859,8 @@ $Id$
                         <token>noticia</token>
                     </marker>
                 </pattern>
-                <message>Si és nom, cal accentuar: <suggestion>notícia</suggestion>.</message>
+                <message>Si és nom, cal accentuar.</message>
+                <suggestion>notícia</suggestion>
                 <short>Cal accentuar</short>
                 <example type="incorrect" correction="notícia">Quan vaig saber la <marker>noticia</marker>.</example>
                 <example type="correct">La notícia de la renúncia.</example>
