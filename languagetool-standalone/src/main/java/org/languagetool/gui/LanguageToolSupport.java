@@ -89,8 +89,15 @@ import org.languagetool.tools.LanguageIdentifierTools;
  */
 class LanguageToolSupport {
 
+  private static final String CONFIG_FILE = ".languagetool.cfg";
+
+  private final JFrame frame;
+  private final JTextComponent textComponent;
+  private final EventListenerList listenerList = new EventListenerList();
+  private final ResourceBundle messages;
+  private final Map<Language, ConfigurationDialog> configDialogs = new HashMap<>();
+
   private JLanguageTool languageTool;
-  private JTextComponent textComponent;
   // a red color highlight painter for marking spelling errors
   private HighlightPainter rhp;
   // a blue color highlight painter for marking grammar errors
@@ -105,13 +112,8 @@ class LanguageToolSupport {
   private AtomicInteger check;
   private boolean popupMenuEnabled = true;
   private boolean backgroundCheckEnabled = true;
-  private final ResourceBundle messages;
   private Configuration config;
   private Language currentLanguage;
-  private static final String CONFIG_FILE = ".languagetool.cfg";
-  private final Map<Language, ConfigurationDialog> configDialogs = new HashMap<>();
-  private JFrame frame;
-  private EventListenerList listenerList = new EventListenerList();
   private boolean mustDetectLanguage = false;
 
   /**
@@ -236,8 +238,8 @@ class LanguageToolSupport {
     warmUpChecker();
     rhp = new HighlightPainter(Color.red);
     bhp = new HighlightPainter(Color.blue);
-    ruleMatches = new ArrayList();
-    documentSpans = new ArrayList();
+    ruleMatches = new ArrayList<>();
+    documentSpans = new ArrayList<>();
 
     gcExecutor = new ScheduledThreadPoolExecutor(1, new ThreadFactory() {
       @Override
@@ -255,7 +257,7 @@ class LanguageToolSupport {
     this.textComponent.getDocument().addDocumentListener(documentListener = new DocumentListener() {
       @Override
       public void insertUpdate(DocumentEvent e) {
-        if (e.getDocument().getLength() == e.getLength() && config.getAutoDetect() == true) {
+        if (e.getDocument().getLength() == e.getLength() && config.getAutoDetect()) {
           mustDetectLanguage = true;
         }
         recalculateSpans(e.getOffset(), e.getLength(), false);
@@ -266,7 +268,7 @@ class LanguageToolSupport {
 
       @Override
       public void removeUpdate(DocumentEvent e) {
-        if (e.getDocument().getLength() == 0 && config.getAutoDetect() == true) {
+        if (e.getDocument().getLength() == 0 && config.getAutoDetect()) {
           mustDetectLanguage = true;
         }
         recalculateSpans(e.getOffset(), e.getLength(), true);
@@ -277,7 +279,7 @@ class LanguageToolSupport {
 
       @Override
       public void changedUpdate(DocumentEvent e) {
-        if (e.getDocument().getLength() == e.getLength() && config.getAutoDetect() == true) {
+        if (e.getDocument().getLength() == e.getLength() && config.getAutoDetect()) {
           mustDetectLanguage = true;
         }
         if (backgroundCheckEnabled) {
@@ -520,7 +522,7 @@ class LanguageToolSupport {
 
   private void applySuggestion(String str, int start, int end) {
     if (end < start) {
-      throw new IllegalArgumentException("end before start");
+      throw new IllegalArgumentException("end before start: " + end + " < " + start);
     }
     Document doc = this.textComponent.getDocument();
     if (doc != null) {
@@ -683,8 +685,8 @@ class LanguageToolSupport {
   }
 
   private void updateHighlights(String rule) {
-    ArrayList<Span> spans = new ArrayList();
-    ArrayList<RuleMatch> matches = new ArrayList();
+    ArrayList<Span> spans = new ArrayList<>();
+    ArrayList<RuleMatch> matches = new ArrayList<>();
 
     for (RuleMatch match : ruleMatches) {
       if (match.getRule().getId().equals(rule)) {
@@ -697,7 +699,7 @@ class LanguageToolSupport {
       t.msg = (match.getShortMessage() != null && !match.getShortMessage().isEmpty()) ? match.getShortMessage() : match.getMessage();
       t.msg = org.languagetool.gui.Tools.shortenComment(t.msg);
       t.desc = match.getMessage();
-      t.replacement = new ArrayList();
+      t.replacement = new ArrayList<>();
       t.replacement.addAll(match.getSuggestedReplacements());
       t.spelling = match.getRule().isSpellingRule();
       t.rule = match.getRule().getId();
@@ -712,7 +714,7 @@ class LanguageToolSupport {
   }
 
   private void updateHighlights(List<RuleMatch> matches) {
-    ArrayList<Span> spans = new ArrayList();
+    ArrayList<Span> spans = new ArrayList<>();
     for (RuleMatch match : matches) {
       Span t = new Span();
       t.start = match.getFromPos();
@@ -720,7 +722,7 @@ class LanguageToolSupport {
       t.msg = (match.getShortMessage() != null && !match.getShortMessage().isEmpty()) ? match.getShortMessage() : match.getMessage();
       t.msg = org.languagetool.gui.Tools.shortenComment(t.msg);
       t.desc = match.getMessage();
-      t.replacement = new ArrayList();
+      t.replacement = new ArrayList<>();
       t.replacement.addAll(match.getSuggestedReplacements());
       t.spelling = match.getRule().isSpellingRule();
       t.rule = match.getRule().getId();
@@ -738,8 +740,8 @@ class LanguageToolSupport {
     removeHighlights();
 
     Highlighter h = textComponent.getHighlighter();
-    ArrayList<Span> spellErrors = new ArrayList();
-    ArrayList<Span> grammarErrors = new ArrayList();
+    ArrayList<Span> spellErrors = new ArrayList<>();
+    ArrayList<Span> grammarErrors = new ArrayList<>();
 
     for (Span span : documentSpans) {
       if (span.start == span.end) {
@@ -928,7 +930,7 @@ class LanguageToolSupport {
 
   private static class ReplaceMenuItem extends JMenuItem {
 
-    private int idx;
+    private final int idx;
 
     private ReplaceMenuItem(String name, int idx) {
       super(name);
@@ -950,7 +952,7 @@ class LanguageToolSupport {
 
   private class RunnableImpl implements Runnable {
 
-    private Object caller;
+    private final Object caller;
 
     public RunnableImpl(Object caller) {
       this.caller = caller;
