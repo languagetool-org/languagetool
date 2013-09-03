@@ -104,7 +104,7 @@ class LanguageToolSupport {
   // a blue color highlight painter for marking grammar errors
   private HighlightPainter bluePainter;
   private List<RuleMatch> ruleMatches;
-  private ArrayList<Span> documentSpans;
+  private List<Span> documentSpans;
   private ScheduledExecutorService checkExecutor;
   private MouseListener mouseListener;
   private ActionListener actionListener;
@@ -522,8 +522,7 @@ class LanguageToolSupport {
   }
 
   public void checkDelayed() {
-    check.getAndIncrement();
-    checkExecutor.schedule(new RunnableImpl(null), millisecondDelay, TimeUnit.MILLISECONDS);
+    checkDelayed(null);
   }
 
   public void checkDelayed(Object caller) {
@@ -532,8 +531,7 @@ class LanguageToolSupport {
   }
 
   public void checkImmediately() {
-    check.getAndIncrement();
-    checkExecutor.schedule(new RunnableImpl(null), 0, TimeUnit.MILLISECONDS);
+    checkImmediately(null);
   }
 
   public void checkImmediately(Object caller) {
@@ -556,7 +554,7 @@ class LanguageToolSupport {
     return lang;
   }
 
-  private synchronized List<RuleMatch> _check(final Object caller) throws IOException {
+  private synchronized List<RuleMatch> checkText(final Object caller) throws IOException {
     if (this.mustDetectLanguage) {
       mustDetectLanguage = false;
       if (!this.textComponent.getText().isEmpty()) {
@@ -642,6 +640,7 @@ class LanguageToolSupport {
       } else {
         if (offset + length <= span.end) {
           if (offset > span.start) {
+            //
           } else if (offset + length <= span.start) {
             span.start -= length;
           } else {
@@ -656,51 +655,28 @@ class LanguageToolSupport {
     updateHighlights();
   }
 
-  private void updateHighlights(String rule) {
-    ArrayList<Span> spans = new ArrayList<>();
-    ArrayList<RuleMatch> matches = new ArrayList<>();
-
+  private void updateHighlights(String disabledRule) {
+    List<Span> spans = new ArrayList<>();
+    List<RuleMatch> matches = new ArrayList<>();
     for (RuleMatch match : ruleMatches) {
-      if (match.getRule().getId().equals(rule)) {
+      if (match.getRule().getId().equals(disabledRule)) {
         continue;
       }
       matches.add(match);
-      Span span = new Span();
-      span.start = match.getFromPos();
-      span.end = match.getToPos();
-      span.msg = (match.getShortMessage() != null && !match.getShortMessage().isEmpty()) ? match.getShortMessage() : match.getMessage();
-      span.msg = org.languagetool.gui.Tools.shortenComment(span.msg);
-      span.desc = match.getMessage();
-      span.replacement = new ArrayList<>();
-      span.replacement.addAll(match.getSuggestedReplacements());
-      span.spelling = match.getRule().isSpellingRule();
-      span.rule = match.getRule().getId();
-      span.url = match.getRule().getUrl();
-      spans.add(span);
+      createSpan(spans, match);
     }
-    ruleMatches.clear();
-    documentSpans.clear();
-    ruleMatches.addAll(matches);
-    documentSpans.addAll(spans);
-    updateHighlights();
+    prepareUpdateHighlights(matches, spans);
   }
 
   private void updateHighlights(List<RuleMatch> matches) {
-    ArrayList<Span> spans = new ArrayList<>();
+    List<Span> spans = new ArrayList<>();
     for (RuleMatch match : matches) {
-      Span span = new Span();
-      span.start = match.getFromPos();
-      span.end = match.getToPos();
-      span.msg = (match.getShortMessage() != null && !match.getShortMessage().isEmpty()) ? match.getShortMessage() : match.getMessage();
-      span.msg = org.languagetool.gui.Tools.shortenComment(span.msg);
-      span.desc = match.getMessage();
-      span.replacement = new ArrayList<>();
-      span.replacement.addAll(match.getSuggestedReplacements());
-      span.spelling = match.getRule().isSpellingRule();
-      span.rule = match.getRule().getId();
-      span.url = match.getRule().getUrl();
-      spans.add(span);
+      createSpan(spans, match);
     }
+    prepareUpdateHighlights(matches, spans);
+  }
+
+  private void prepareUpdateHighlights(List<RuleMatch> matches, List<Span> spans) {
     ruleMatches.clear();
     documentSpans.clear();
     ruleMatches.addAll(matches);
@@ -712,8 +688,8 @@ class LanguageToolSupport {
     removeHighlights();
 
     Highlighter h = textComponent.getHighlighter();
-    ArrayList<Span> spellErrors = new ArrayList<>();
-    ArrayList<Span> grammarErrors = new ArrayList<>();
+    List<Span> spellErrors = new ArrayList<>();
+    List<Span> grammarErrors = new ArrayList<>();
 
     for (Span span : documentSpans) {
       if (span.start == span.end) {
@@ -740,6 +716,21 @@ class LanguageToolSupport {
         ex.printStackTrace();
       }
     }
+  }
+
+  private void createSpan(List<Span> spans, RuleMatch match) {
+    Span span = new Span();
+    span.start = match.getFromPos();
+    span.end = match.getToPos();
+    span.msg = (match.getShortMessage() != null && !match.getShortMessage().isEmpty()) ? match.getShortMessage() : match.getMessage();
+    span.msg = Tools.shortenComment(span.msg);
+    span.desc = match.getMessage();
+    span.replacement = new ArrayList<>();
+    span.replacement.addAll(match.getSuggestedReplacements());
+    span.spelling = match.getRule().isSpellingRule();
+    span.rule = match.getRule().getId();
+    span.url = match.getRule().getUrl();
+    spans.add(span);
   }
 
   static void showDialog(Component parent, String title, String message, URL url) {
@@ -790,11 +781,7 @@ class LanguageToolSupport {
     private static final BasicStroke OO_STROKE1 = new BasicStroke(1.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 10.0f, new float[]{3.0f, 5.0f}, 2);
     private static final BasicStroke OO_STROKE2 = new BasicStroke(1.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 10.0f, new float[]{1.0f, 3.0f}, 3);
     private static final BasicStroke OO_STROKE3 = new BasicStroke(1.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 10.0f, new float[]{3.0f, 5.0f}, 6);
-    private static final BasicStroke FIREFOX_STROKE1 = new BasicStroke(1.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 10.0f, new float[]{2.0f, 4.0f}, 1);
-    private static final BasicStroke FIREFOX_STROKE2 = new BasicStroke(1.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 10.0f, new float[]{1.0f, 2.0f}, 2);
-    private static final BasicStroke FIREFOX_STROKE3 = new BasicStroke(1.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 10.0f, new float[]{2.0f, 4.0f}, 4);
     private static final BasicStroke ZIGZAG_STROKE1 = new BasicStroke(1.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 10.0f, new float[]{1.0f, 1.0f}, 0);
-    private static final BasicStroke ZIGZAG_STROKE2 = new BasicStroke(1.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 10.0f, new float[]{1.0f, 1.0f}, 1);
 
     public HighlightPainter(Color color) {
       super(color);
@@ -836,7 +823,6 @@ class LanguageToolSupport {
           drawCurvedLine(g, rect);
         } else if (descent > 2) {
           drawCurvedLine(g, rect);
-          //drawZigZagLine(g, rect);
         } else {
           drawLine(g, rect);
         }
@@ -864,7 +850,6 @@ class LanguageToolSupport {
       int x2 = rect.x + rect.width;
       int y = rect.y + rect.height;
       Graphics2D g2 = (Graphics2D) g;
-      //g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
       g2.setStroke(ZIGZAG_STROKE1);
       g2.drawLine(x1, y - 1, x2, y - 1);
     }
@@ -885,7 +870,7 @@ class LanguageToolSupport {
     private int end;
     private String msg;
     private String desc;
-    private ArrayList<String> replacement;
+    private List<String> replacement;
     private boolean spelling;
     private String rule;
     private URL url;
@@ -906,7 +891,7 @@ class LanguageToolSupport {
         return;
       }
       try {
-        _check(caller);
+        checkText(caller);
       } catch (IOException ex) {
         ex.printStackTrace();
       }
