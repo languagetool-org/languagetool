@@ -23,7 +23,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class SynthesizerTools {
+public final class SynthesizerTools {
   
   private SynthesizerTools() {
     // static methods only, no public constructor

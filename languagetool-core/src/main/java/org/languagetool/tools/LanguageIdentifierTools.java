@@ -28,7 +28,10 @@ import org.apache.tika.language.LanguageProfile;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 
-public class LanguageIdentifierTools {
+public final class LanguageIdentifierTools {
+
+  private LanguageIdentifierTools() {
+  }
 
   public static void addLtProfiles() {
     for (Language language : Language.REAL_LANGUAGES) {

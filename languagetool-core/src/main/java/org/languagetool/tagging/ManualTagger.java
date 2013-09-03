@@ -50,7 +50,6 @@ public class ManualTagger {
   /**
    * Look up a word's baseform and POS information.
    * 
-   * @param term
    * @return an array with the baseform (at position 0, 2, ...) and the POS
    *         information (at position 1, 3, ...) or <code>null</code> if the
    *         word is unknown
@@ -69,7 +68,7 @@ public class ManualTagger {
     if (plainResult.isEmpty()) {
       return null;
     }
-    return plainResult.toArray(new String[]{});
+    return plainResult.toArray(new String[plainResult.size()]);
   }
 
   private Map<String, List<LookedUpTerm>> loadMapping(final InputStream inputStream, final String encoding) throws IOException {

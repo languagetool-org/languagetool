@@ -183,7 +183,7 @@ public class WikipediaIndexHandler extends DefaultHandler implements AutoCloseab
   }
 
   private class DocumentLimitReachedException extends RuntimeException {
-    int limit;
+    final int limit;
     DocumentLimitReachedException(int limit) {
       this.limit = limit;
     }

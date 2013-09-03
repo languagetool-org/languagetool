@@ -51,8 +51,7 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
   }
 
   /**
-   * Indicates if the rule is case-sensitive. Default value is <code>true</code>
-   * .
+   * Indicates if the rule is case-sensitive. Default value is <code>true</code>.
    * 
    * @return true if the rule is case-sensitive, false otherwise.
    */
@@ -140,7 +139,7 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
       List<String> possibleReplacements=wrongWords.get(tokenString);     
 
       if (possibleReplacements != null && possibleReplacements.size() > 0) {
-    	List<String> replacements = new ArrayList<>();  
+        List<String> replacements = new ArrayList<>();  
         replacements.addAll(possibleReplacements);
         if (replacements.contains(originalTokenStr)) {
           replacements.remove(originalTokenStr);
