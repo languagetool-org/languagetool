@@ -148,10 +148,9 @@ public class Configuration {
     this.guiConfig = useGUIConfig;
   }
 
- public boolean getUseGUIConfig() {
+  public boolean getUseGUIConfig() {
     return guiConfig;
-}
-
+  }
   
   public void setServerPort(final int serverPort) {
     this.serverPort = serverPort;
@@ -161,9 +160,8 @@ public class Configuration {
 
     final String qualifier = getQualifier(lang);
 
-    FileInputStream fis = null;
-    try {
-      fis = new FileInputStream(configFile);
+    try (FileInputStream fis = new FileInputStream(configFile)) {
+
       final Properties props = new Properties();
       props.load(fis);
 
@@ -194,10 +192,6 @@ public class Configuration {
       
     } catch (final FileNotFoundException e) {
       // file not found: okay, leave disabledRuleIds empty
-    } finally {
-      if (fis != null) {
-        fis.close();
-      }
     }
   }
 

@@ -86,6 +86,7 @@ import org.languagetool.tools.LanguageIdentifierTools;
  * Support for associating a LanguageTool instance and a JTextComponent
  *
  * @author Panagiotis Minos
+ * @since 2.3
  */
 class LanguageToolSupport {
 
@@ -99,16 +100,15 @@ class LanguageToolSupport {
 
   private JLanguageTool languageTool;
   // a red color highlight painter for marking spelling errors
-  private HighlightPainter rhp;
+  private HighlightPainter redPainter;
   // a blue color highlight painter for marking grammar errors
-  private HighlightPainter bhp;
+  private HighlightPainter bluePainter;
   private List<RuleMatch> ruleMatches;
   private ArrayList<Span> documentSpans;
-  private ScheduledExecutorService gcExecutor;
-  private DocumentListener documentListener;
+  private ScheduledExecutorService checkExecutor;
   private MouseListener mouseListener;
   private ActionListener actionListener;
-  private int delay = 1500;//ms
+  private int millisecondDelay = 1500;//ms
   private AtomicInteger check;
   private boolean popupMenuEnabled = true;
   private boolean backgroundCheckEnabled = true;
@@ -118,9 +118,6 @@ class LanguageToolSupport {
 
   /**
    * LanguageTool support for a JTextComponent
-   *
-   * @param frame a JFrame
-   * @param textComponent a JTextComponent
    */
   public LanguageToolSupport(JFrame frame, JTextComponent textComponent) {
     this.frame = frame;
@@ -129,12 +126,12 @@ class LanguageToolSupport {
     init();
   }
 
-  void addLanguageToolListener(LanguageToolListener l) {
-    listenerList.add(LanguageToolListener.class, l);
+  void addLanguageToolListener(LanguageToolListener ltListener) {
+    listenerList.add(LanguageToolListener.class, ltListener);
   }
 
-  void removeLanguageToolListener(LanguageToolListener l) {
-    listenerList.remove(LanguageToolListener.class, l);
+  void removeLanguageToolListener(LanguageToolListener ltListener) {
+    listenerList.remove(LanguageToolListener.class, ltListener);
   }
 
   private void fireEvent(LanguageToolEvent.Type type, Object caller) {
@@ -167,12 +164,14 @@ class LanguageToolSupport {
     }
   }
 
+  /**
+   * Warm-up: we have a lot of lazy init in LT, which causes the first check to
+   * be very slow (several seconds) for languages with a lot of data and a lot of 
+   * rules. We just assume that the default language is the language that the user
+   * often uses and init the LT object for that now, not just when it's first used.
+   * This makes the first check feel much faster:
+   */
   private void warmUpChecker() {
-    // Warm-up: we have a lot of lazy init in LT, which causes the first check to
-    // be very slow (several seconds) for languages with a lot of data and a lot of 
-    // rules. We just assume that the default language is the language that the user
-    // often uses and init the LT object for that now, not just when it's first used.
-    // This makes the first check feel much faster:
     getCurrentLanguageTool();
   }
 
@@ -196,7 +195,6 @@ class LanguageToolSupport {
   }
 
   private void getCurrentLanguageTool() {
-
     try {
       config = new Configuration(new File(System.getProperty("user.home")), CONFIG_FILE, currentLanguage);
       final ConfigurationDialog configDialog = getCurrentConfigDialog();
@@ -232,16 +230,16 @@ class LanguageToolSupport {
     try {
       config = new Configuration(new File(System.getProperty("user.home")), CONFIG_FILE, null);
     } catch (IOException ex) {
-      throw new RuntimeException(ex);
+      throw new RuntimeException("Could not load configuration", ex);
     }
     currentLanguage = getDefaultLanguage();
     warmUpChecker();
-    rhp = new HighlightPainter(Color.red);
-    bhp = new HighlightPainter(Color.blue);
+    redPainter = new HighlightPainter(Color.red);
+    bluePainter = new HighlightPainter(Color.blue);
     ruleMatches = new ArrayList<>();
     documentSpans = new ArrayList<>();
 
-    gcExecutor = new ScheduledThreadPoolExecutor(1, new ThreadFactory() {
+    checkExecutor = new ScheduledThreadPoolExecutor(1, new ThreadFactory() {
       @Override
       public Thread newThread(Runnable r) {
         Thread t = new Thread(r);
@@ -254,7 +252,7 @@ class LanguageToolSupport {
 
     check = new AtomicInteger(0);
 
-    this.textComponent.getDocument().addDocumentListener(documentListener = new DocumentListener() {
+    this.textComponent.getDocument().addDocumentListener(new DocumentListener() {
       @Override
       public void insertUpdate(DocumentEvent e) {
         if (e.getDocument().getLength() == e.getLength() && config.getAutoDetect()) {
@@ -308,12 +306,9 @@ class LanguageToolSupport {
       }
 
       @Override
-      public void mouseEntered(MouseEvent me) {
-      }
-
+      public void mouseEntered(MouseEvent me) {}
       @Override
-      public void mouseExited(MouseEvent me) {
-      }
+      public void mouseExited(MouseEvent me) {}
     });
 
     actionListener = new ActionListener() {
@@ -329,34 +324,21 @@ class LanguageToolSupport {
     }
   }
 
-  /**
-   *
-   * @return
-   */
-  public int getDelay() {
-    return delay;
+  public int getMillisecondDelay() {
+    return millisecondDelay;
   }
 
   /**
-   *
-   * @param delay
+   * The text checking delay in milliseconds.
    */
-  public void setDelay(int delay) {
-    this.delay = delay;
+  public void setMillisecondDelay(int millisecondDelay) {
+    this.millisecondDelay = millisecondDelay;
   }
 
-  /**
-   *
-   * @return
-   */
   public boolean isPopupMenuEnabled() {
     return popupMenuEnabled;
   }
 
-  /**
-   *
-   * @param popupMenuEnabled
-   */
   public void setPopupMenuEnabled(boolean popupMenuEnabled) {
     if (this.popupMenuEnabled == popupMenuEnabled) {
       return;
@@ -539,30 +521,24 @@ class LanguageToolSupport {
     }
   }
 
-  /**
-   *
-   */
   public void checkDelayed() {
     check.getAndIncrement();
-    gcExecutor.schedule(new RunnableImpl(null), delay, TimeUnit.MILLISECONDS);
+    checkExecutor.schedule(new RunnableImpl(null), millisecondDelay, TimeUnit.MILLISECONDS);
   }
 
   public void checkDelayed(Object caller) {
     check.getAndIncrement();
-    gcExecutor.schedule(new RunnableImpl(caller), delay, TimeUnit.MILLISECONDS);
+    checkExecutor.schedule(new RunnableImpl(caller), millisecondDelay, TimeUnit.MILLISECONDS);
   }
 
-  /**
-   *
-   */
   public void checkImmediately() {
     check.getAndIncrement();
-    gcExecutor.schedule(new RunnableImpl(null), 0, TimeUnit.MILLISECONDS);
+    checkExecutor.schedule(new RunnableImpl(null), 0, TimeUnit.MILLISECONDS);
   }
 
   public void checkImmediately(Object caller) {
     check.getAndIncrement();
-    gcExecutor.schedule(new RunnableImpl(caller), 0, TimeUnit.MILLISECONDS);
+    checkExecutor.schedule(new RunnableImpl(caller), 0, TimeUnit.MILLISECONDS);
   }
 
   Language autoDetectLanguage(String text) {
@@ -580,10 +556,6 @@ class LanguageToolSupport {
     return lang;
   }
 
-  /**
-   *
-   * @return @throws IOException
-   */
   private synchronized List<RuleMatch> _check(final Object caller) throws IOException {
     if (this.mustDetectLanguage) {
       mustDetectLanguage = false;
@@ -648,7 +620,7 @@ class LanguageToolSupport {
 
   private void removeHighlights() {
     for (Highlighter.Highlight hl : textComponent.getHighlighter().getHighlights()) {
-      if (hl.getPainter() == rhp || hl.getPainter() == bhp) {
+      if (hl.getPainter() == redPainter || hl.getPainter() == bluePainter) {
         textComponent.getHighlighter().removeHighlight(hl);
       }
     }
@@ -756,14 +728,14 @@ class LanguageToolSupport {
 
     for (Span span : grammarErrors) {
       try {
-        h.addHighlight(span.start, span.end, bhp);
+        h.addHighlight(span.start, span.end, bluePainter);
       } catch (BadLocationException ex) {
         //Tools.showError(ex);
       }
     }
     for (Span span : spellErrors) {
       try {
-        h.addHighlight(span.start, span.end, rhp);
+        h.addHighlight(span.start, span.end, redPainter);
       } catch (BadLocationException ex) {
         //Tools.showError(ex);
       }
@@ -823,10 +795,6 @@ class LanguageToolSupport {
     private static final BasicStroke FIREFOX_STROKE3 = new BasicStroke(1.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 10.0f, new float[]{2.0f, 4.0f}, 4);
     private static final BasicStroke ZIGZAG_STROKE1 = new BasicStroke(1.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 10.0f, new float[]{1.0f, 1.0f}, 0);
     private static final BasicStroke ZIGZAG_STROKE2 = new BasicStroke(1.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 10.0f, new float[]{1.0f, 1.0f}, 1);
-
-    public HighlightPainter() {
-      super(Color.blue);
-    }
 
     public HighlightPainter(Color color) {
       super(color);
@@ -939,7 +907,6 @@ class LanguageToolSupport {
   }
 
   private static class Span {
-
     private int start;
     private int end;
     private String msg;
