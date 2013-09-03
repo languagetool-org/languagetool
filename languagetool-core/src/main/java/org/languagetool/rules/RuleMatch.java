@@ -28,6 +28,7 @@ import org.languagetool.tools.StringTools;
 
 /**
  * Information about an error rule that matches text and the position of the match.
+ * See {@link org.languagetool.tools.ContextTools} for displaying errors in their original text context.
  * 
  * @author Daniel Naber
  */

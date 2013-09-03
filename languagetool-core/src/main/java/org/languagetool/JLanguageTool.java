@@ -73,6 +73,10 @@ import org.xml.sax.SAXException;
  * Java rules only. Other rules (e.g. from XML) need to be added explicitly or
  * activated using {@link #activateDefaultPatternRules()}.
  * 
+ * <p><b>Thread-safety:</b> this class is not thread safe. Create one instance per thread,
+ * but create the language only once (e.g. {@code new English()}) and use it for all
+ * instances of JLanguageTool.</p>
+ * 
  * @see MultiThreadedJLanguageTool
  */
 @SuppressWarnings({"UnusedDeclaration"})
@@ -870,6 +874,7 @@ public class JLanguageTool {
   
   /**
    * Adds a temporary file to the internal list
+   * (internal method, you should never need to call this as a user of LanguageTool)
    * @param file the file to be added.
    */
   public static void addTemporaryFile(final File file) {
