@@ -155,10 +155,10 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
       if (attrs.getValue(ACTION) == null) {
         // default mode:
         disambigAction = DisambiguationPatternRule.DisambiguatorAction
-            .toAction("REPLACE");
+            .valueOf("REPLACE");
       } else {
         disambigAction = DisambiguationPatternRule.DisambiguatorAction
-            .toAction(attrs.getValue(ACTION).toUpperCase());
+            .valueOf(attrs.getValue(ACTION).toUpperCase());
       }
       disamb = new StringBuilder();
     } else if (qName.equals(MATCH)) {

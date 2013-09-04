@@ -39,21 +39,7 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
 
   /** Possible disambiguator actions. **/
   public enum DisambiguatorAction {
-    ADD, FILTER, REMOVE, REPLACE, UNIFY, IMMUNIZE, FILTERALL;
-
-    /**
-     * Converts string to the constant enum.
-     * 
-     * @param str String value to be converted
-     * @return DisambiguatorAction enum
-     */
-    public static DisambiguatorAction toAction(final String str) {
-      try {
-        return valueOf(str);
-      } catch (final Exception ex) {
-        return REPLACE;
-      }
-    }
+    ADD, FILTER, REMOVE, REPLACE, UNIFY, IMMUNIZE, FILTERALL
   }
   
   private final String disambiguatedPOS;
@@ -113,11 +99,6 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
   public final AnalyzedSentence replace(final AnalyzedSentence text) throws IOException {
     final DisambiguationPatternRuleReplacer replacer = new DisambiguationPatternRuleReplacer(this);
     return replacer.replace(text);
-  }
-
-  private void annotateChange(AnalyzedTokenReadings atr, final String prevValue, String prevAnot) {
-    atr.setHistoricalAnnotations(prevAnot + "\n" +
-            this.getId() + ":" + this.getSubId() + " " + prevValue + " -> " + atr.toString());
   }
   
   /**
