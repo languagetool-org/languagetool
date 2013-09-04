@@ -75,6 +75,8 @@ import org.xml.sax.SAXException;
  * Java rules only. Other rules (e.g. from XML) need to be added explicitly or
  * activated using {@link #activateDefaultPatternRules()}.
  * 
+ * <p>You will probably want to use the sub class {@link MultiThreadedJLanguageTool} for best performance.
+ * 
  * <p><b>Thread-safety:</b> this class is not thread safe. Create one instance per thread,
  * but create the language only once (e.g. {@code new English()}) and use it for all
  * instances of JLanguageTool.</p>

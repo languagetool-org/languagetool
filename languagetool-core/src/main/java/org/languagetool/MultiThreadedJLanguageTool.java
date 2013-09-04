@@ -35,6 +35,8 @@ import org.languagetool.rules.RuleMatch;
  * A variant of {@link JLanguageTool} that uses several threads for rule matching.
  * Use this if you want text checking to be fast and do not care about the 
  * high load that this might cause.
+ * 
+ * <p><b>Thread-safety:</b> See the remarks at {@link JLanguageTool}.
  */
 public class MultiThreadedJLanguageTool extends JLanguageTool {
   
