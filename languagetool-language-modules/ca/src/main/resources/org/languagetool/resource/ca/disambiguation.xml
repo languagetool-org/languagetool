@@ -83,12 +83,12 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="add"><wd pos="decimal_comma"></wd></disambig>
         </rule>
     </rulegroup>    
-    <rule id="no_noms_error_diccionari" name="no haurien de ser noms, error del diccionari">
-        <pattern> <!-- eliminat del diccionari, innecessari! -->
+    <!-- eliminat del diccionari, innecessari! <rule id="no_noms_error_diccionari" name="no haurien de ser noms, error del diccionari">
+        <pattern> 
             <token regexp="yes">empaquetat|emmotll?at</token>
         </pattern>
         <disambig action="filter" postag="[^N].*" />
-    </rule>
+    </rule> -->
     <rule id="noNomMasculi" name="no Nom masculí">
         <pattern>
             <marker>
@@ -652,6 +652,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="filter" postag="NP00000"></disambig>
         </rule>   
+    </rulegroup>
+    <rulegroup id="nomcomú_multiword" name="noms comuns en multiwords">    
+        <rule id="nomcomu2paraules" name="nom comú 2 paraules">
+            <pattern>
+                <marker>
+                    <token postag="&lt;NCFS000&gt;"/>
+                    <token postag="&lt;/NCFS000&gt;"/>
+                </marker>
+            </pattern>
+            <disambig action="replace"><wd pos="NCFS000"/><wd pos="AQ0FS0"/></disambig>
+        </rule>    
     </rulegroup>    
     <rule id="CURT" name="curt no adverbi">
         <pattern>

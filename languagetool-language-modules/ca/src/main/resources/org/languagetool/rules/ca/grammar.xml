@@ -20039,6 +20039,36 @@ $Id$
     </category>
     <category name="C6) Evita paraules incloses només en alguns diccionaris" default="on" type="style">
          <!--  verbs valencians: caquejar -->
+         <rule id="DESPRECIABLE" name="despreciable">
+            <pattern>
+                <token inflected="yes">despreciable</token>
+            </pattern>
+            <message>Paraula admesa només en alguns diccionaris.</message>
+            <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">menyspreable</match></suggestion>
+            <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">negligible</match></suggestion>
+            <example type="incorrect" correction="menyspreable|negligible">Una quantiat <marker>despreciable</marker>.</example>
+            <example type="correct">Una quantitat negligible.</example>
+        </rule>
+        <rule id="DESPRECIAR" name="despreciar">
+            <pattern>
+                <token inflected="yes">despreciar</token>
+            </pattern>
+            <message>Paraula admesa només en alguns diccionaris.</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">menysprear</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">negligir</match></suggestion>
+            <example type="incorrect" correction="menyspreïs|negligeixis">No el <marker>despreciïs</marker>.</example>
+            <example type="incorrect" correction="menyspreats|negligits">Es van sentir <marker>despreciats</marker>.</example>
+            <example type="correct">Es van veure menyspreats.</example>
+        </rule>
+        <rule id="DESPRECI" name="despreci">
+            <pattern>
+                <token inflected="yes">despreci</token>
+            </pattern>
+            <message>Paraula admesa només en alguns diccionaris.</message>
+            <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">menyspreu</match></suggestion>
+            <example type="incorrect" correction="menyspreu">Quin <marker>despreci</marker>.</example>
+            <example type="correct">Menyspreu.</example>
+        </rule>
          <rule id="XIRINGUITO" name="xiringuito">
             <pattern>
                 <token>xiringuito</token>
@@ -20101,7 +20131,7 @@ $Id$
             <example type="incorrect" correction="sotsoficials"><marker>suboficials</marker></example>
             <example type="correct">sotsoficial</example>
         </rule>
-         <rule id="QUANTIOS" name="quantiós">
+        <rule id="QUANTIOS" name="quantiós">
             <pattern>
                 <token inflected="yes">quantiós</token>
             </pattern>
@@ -20224,17 +20254,16 @@ $Id$
             <example type="incorrect" correction="habitatge">Va comprar una <marker>vivenda</marker>.</example>
             <example type="correct">Un bon habitatge.</example>
         </rule>
-                <!--<rule id="MEDIAR" name="mediar">
+        <rule id="MEDIAR" name="mediar">
             <pattern>
                 <token inflected="yes">mediar</token>
             </pattern>
             <message>Paraula admesa només en alguns diccionaris.</message>
             <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">mitjançar</match></suggestion>
             <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">intervenir</match></suggestion>
-            <example type="incorrect" correction="mitjançar|intervenir">El president hi va <marker>mediar</marker></example>
+            <example type="incorrect" correction="mitjançar|intervenir|intervindre">El president hi va <marker>mediar</marker></example>
             <example type="correct">intervenir</example>
         </rule>
--->
         <rule id="COLLISIONAR" name="col·lisionar">
             <pattern>
                 <token inflected="yes">col·lisionar</token>
