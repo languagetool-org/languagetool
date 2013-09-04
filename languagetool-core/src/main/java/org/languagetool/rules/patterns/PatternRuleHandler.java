@@ -122,10 +122,10 @@ public class PatternRuleHandler extends XMLRuleHandler {
       tokenCountForMarker = 0;
     } else if (AND.equals(qName)) {
       inAndGroup = true;
-      tokenCountForMarker++;      
+      tokenCountForMarker++;
     } else if (OR.equals(qName)) {
       inOrGroup = true;
-      tokenCountForMarker++;  
+      tokenCountForMarker++;
     } else if (UNIFY.equals(qName)) {
       inUnification = true;
       uniNegation = YES.equals(attrs.getValue(NEGATE));
@@ -156,11 +156,11 @@ public class PatternRuleHandler extends XMLRuleHandler {
       inSuggestion = false;
       message = new StringBuilder();
     } else if (SUGGESTION.equals(qName) && !inMessage) {  //suggestions outside message
-        if (YES.equals(attrs.getValue("suppress_misspelled"))) {
-          suggestionsOutMsg.append("<pleasespellme/>");
-        }
-        suggestionsOutMsg.append("<suggestion>");
-        inSuggestion = true;
+      if (YES.equals(attrs.getValue("suppress_misspelled"))) {
+        suggestionsOutMsg.append("<pleasespellme/>");
+      }
+      suggestionsOutMsg.append("<suggestion>");
+      inSuggestion = true;
     } else if ("short".equals(qName)) {
       inShortMessage = true;
       shortMessage = new StringBuilder();
@@ -310,8 +310,8 @@ public class PatternRuleHandler extends XMLRuleHandler {
         suggestionMatches.get(suggestionMatches.size() - 1).
             setLemmaString(match.toString());
       } else if (inSuggestion) {
-          suggestionMatchesOutMsg.get(suggestionMatchesOutMsg.size() - 1).
-              setLemmaString(match.toString());
+        suggestionMatchesOutMsg.get(suggestionMatchesOutMsg.size() - 1).
+                setLemmaString(match.toString());
       } else if (inToken) {
         tokenReference.setLemmaString(match.toString());
       }
@@ -320,7 +320,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
       inRuleGroup = false;
       ruleGroupIssueType = null;
     } else if (SUGGESTION.equals(qName) && inMessage) {
-      message.append("</suggestion>");      
+      message.append("</suggestion>");
       inSuggestion = false;
     } else if (MARKER.equals(qName) && inCorrectExample) {
       correctExample.append("</marker>");
@@ -362,7 +362,6 @@ public class PatternRuleHandler extends XMLRuleHandler {
    * @param tmpElements Temporary Element list being created
    * @param numElement Index of elemList being analyzed
    */  
-
   private void createRules(List<Element> elemList,
       List<Element> tmpElements, int numElement) {
     if (numElement >= elemList.size()) {

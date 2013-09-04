@@ -133,17 +133,17 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
       inAndGroup = true;
       tokenCountForMarker++;
       if (inUnification) {
-          uniCounter++;
+        uniCounter++;
       }
     } else if (qName.equals(UNIFY)) {
-      inUnification = true;           
+      inUnification = true;
       uniNegation = YES.equals(attrs.getValue(NEGATE));
       uniCounter = 0;
     } else if ("feature".equals(qName)) {
-      uFeature = attrs.getValue("id");        
-    } else if (qName.equals(TYPE)) {      
+      uFeature = attrs.getValue("id");
+    } else if (qName.equals(TYPE)) {
       uType = attrs.getValue("id");
-      uTypeList.add(uType);      
+      uTypeList.add(uType);
     } else if (qName.equals(TOKEN)) {
       setToken(attrs);
       if (!inAndGroup) {
@@ -271,7 +271,7 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
       if (newWdList != null) {
         if (disambigAction == DisambiguatorAction.ADD || disambigAction == DisambiguatorAction.REMOVE
                 || disambigAction == DisambiguatorAction.REPLACE) {
-          if ((!newWdList.isEmpty() && disambigAction == DisambiguatorAction.REPLACE) 
+          if ((!newWdList.isEmpty() && disambigAction == DisambiguatorAction.REPLACE)
                   && newWdList.size() != matchedTokenCount) {
             throw new SAXException(
                 language.getName() + " rule error. The number of interpretations specified with wd: "
@@ -285,7 +285,7 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
         }
         newWdList.clear();
       }
-      caseSensitive = false;      
+      caseSensitive = false;
       if (disambExamples != null) {
         rule.setExamples(disambExamples);
       }
@@ -318,7 +318,7 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
     } else if (qName.equals(AND)) {
       inAndGroup = false;
       andGroupCounter = 0;
-      tokenCounter++;            
+      tokenCounter++;
     } else if (qName.equals(TOKEN)) {
       if (!exceptionSet || tokenElement == null) {
         tokenElement = new Element(elements.toString(), caseSensitive,
@@ -347,12 +347,12 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
         elementList.add(tokenElement);
       }
       if (inAndGroup) {
-        andGroupCounter++;        
+        andGroupCounter++;
       }
       if (inUnification) {
         tokenElement.setUnification(equivalenceFeatures);
         if (!inAndGroup) {
-            uniCounter++;
+          uniCounter++;
         }
       }
       if (inUnificationDef) {
@@ -380,7 +380,7 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
     } else if (qName.equals(UNIFICATION) && inUnificationDef) {
       inUnificationDef = false;
       tokenCounter = 0;
-    } else if ("feature".equals(qName)) {      
+    } else if ("feature".equals(qName)) {
       equivalenceFeatures.put(uFeature, uTypeList);
       uTypeList = new ArrayList<>();
     } else if (qName.equals(UNIFY)) {
@@ -389,8 +389,8 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
       //set negation on the last token only!
       final int lastElement = elementList.size() - 1;
       elementList.get(lastElement).setLastInUnification();
-      if (uniNegation) {            
-          elementList.get(lastElement).setUniNegation();
+      if (uniNegation) {
+        elementList.get(lastElement).setUniNegation();
       }
     } else if (qName.equals(WD)) {
       addNewWord(wd.toString(), wdLemma, wdPos);
