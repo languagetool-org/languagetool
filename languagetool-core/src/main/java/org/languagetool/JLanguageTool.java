@@ -44,6 +44,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.languagetool.chunking.Chunker;
 import org.languagetool.databroker.DefaultResourceDataBroker;
 import org.languagetool.databroker.ResourceDataBroker;
+import org.languagetool.markup.AnnotatedText;
+import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
@@ -509,26 +511,42 @@ public class JLanguageTool {
   public List<RuleMatch> check(final String text) throws IOException {
     return check(text, true, ParagraphHandling.NORMAL);
   }
+
+  public List<RuleMatch> check(final String text, boolean tokenizeText, final ParagraphHandling paraMode) throws IOException {
+    return check(new AnnotatedTextBuilder().addText(text).build(), tokenizeText, paraMode);
+  }
+
+  /**
+   * The main check method. Tokenizes the text into sentences and matches these
+   * sentences against all currently active rules, adjusting error positions so they refer 
+   * to the original text <em>including</em> markup.
+   * @since 2.3
+   */
+  public List<RuleMatch> check(final AnnotatedText text) throws IOException {
+    return check(text, true, ParagraphHandling.NORMAL);
+  }
   
   /**
    * The main check method. Tokenizes the text into sentences and matches these
    * sentences against all currently active rules.
    * 
-   * @param text The text to be checked. Call this method with the complete text to be checked. If you call it
+   * @param annotatedText The text to be checked, created with {@link AnnotatedTextBuilder}. 
+   *          Call this method with the complete text to be checked. If you call it
    *          repeatedly with smaller chunks like paragraphs or sentence, those rules that work across
    *          paragraphs/sentences won't work (their status gets reset whenever this method is called).
    * @param tokenizeText If true, then the text is tokenized into sentences.
    *          Otherwise, it is assumed it's already tokenized.
    * @param paraMode Uses paragraph-level rules only if true.
    * @return a List of {@link RuleMatch} objects, describing potential errors in the text
+   * @since 2.3
    */
-  public List<RuleMatch> check(final String text, boolean tokenizeText, final ParagraphHandling paraMode) throws IOException {
+  public List<RuleMatch> check(final AnnotatedText annotatedText, boolean tokenizeText, final ParagraphHandling paraMode) throws IOException {
     final List<String> sentences;
     if (tokenizeText) { 
-      sentences = sentenceTokenize(text);
+      sentences = sentenceTokenize(annotatedText.getPlainText());
     } else {
       sentences = new ArrayList<>();
-      sentences.add(text);
+      sentences.add(annotatedText.getPlainText());
     }
     final List<Rule> allRules = getAllRules();
     printIfVerbose(allRules.size() + " rules activated for language " + language);
@@ -537,7 +555,7 @@ public class JLanguageTool {
     unknownWords = new HashSet<>();
     final List<AnalyzedSentence> analyzedSentences = analyzeSentences(sentences);    
     
-    final List<RuleMatch> ruleMatches = performCheck(analyzedSentences, sentences, allRules, paraMode);
+    final List<RuleMatch> ruleMatches = performCheck(analyzedSentences, sentences, allRules, paraMode, annotatedText);
     
     if (!ruleMatches.isEmpty() && !paraMode.equals(ParagraphHandling.ONLYNONPARA)) {
       // removing false positives in paragraph-level rules
@@ -578,8 +596,8 @@ public class JLanguageTool {
   }
   
   protected List<RuleMatch> performCheck(final List<AnalyzedSentence> analyzedSentences, final List<String> sentences,
-                                         final List<Rule> allRules, ParagraphHandling paraMode) throws IOException {
-    final Callable<List<RuleMatch>> matcher = new TextCheckCallable(allRules, sentences, analyzedSentences, paraMode, 0, 0, 1);
+                                         final List<Rule> allRules, ParagraphHandling paraMode, final AnnotatedText annotatedText) throws IOException {
+    final Callable<List<RuleMatch>> matcher = new TextCheckCallable(allRules, sentences, analyzedSentences, paraMode, annotatedText, 0, 0, 1);
     try {
       return matcher.call();
     } catch (IOException e) {
@@ -590,8 +608,17 @@ public class JLanguageTool {
   }
 
   public List<RuleMatch> checkAnalyzedSentence(final ParagraphHandling paraMode,
-      final List<Rule> allRules, int tokenCount, int lineCount,
-      int columnCount, final String sentence, AnalyzedSentence analyzedSentence)
+      final List<Rule> allRules, int charCount, int lineCount, int columnCount,
+      final String sentence, final AnalyzedSentence analyzedSentence) throws IOException {
+    return checkAnalyzedSentence(paraMode, allRules, charCount, lineCount, columnCount, sentence, analyzedSentence, null);
+  }
+  
+  /**
+   * @since 2.3
+   */
+  public List<RuleMatch> checkAnalyzedSentence(final ParagraphHandling paraMode,
+      final List<Rule> allRules, int charCount, int lineCount,
+      int columnCount, final String sentence, final AnalyzedSentence analyzedSentence, final AnnotatedText annotatedText)
         throws IOException {
     final List<RuleMatch> sentenceMatches = new ArrayList<>();
     for (final Rule rule : allRules) {
@@ -625,7 +652,7 @@ public class JLanguageTool {
       final RuleMatch[] thisMatches = rule.match(analyzedSentence);
       for (final RuleMatch element1 : thisMatches) {
         final RuleMatch thisMatch = adjustRuleMatchPos(element1,
-            tokenCount, columnCount, lineCount, sentence);
+            charCount, columnCount, lineCount, sentence, annotatedText);
         sentenceMatches.add(thisMatch);
         if (rule.isParagraphBackTrack()) {
           rule.addRuleMatch(thisMatch);
@@ -638,18 +665,23 @@ public class JLanguageTool {
 
   /**
    * Change RuleMatch positions so they are relative to the complete text,
-   * not just to the sentence: 
-   * @param match RuleMatch
-   * @param sentLen Count of characters
+   * not just to the sentence. 
+   * @param charCount Count of characters in the sentences before
    * @param columnCount Current column number
    * @param lineCount Current line number
    * @param sentence The text being checked
    * @return The RuleMatch object with adjustments.
    */
-  public RuleMatch adjustRuleMatchPos(final RuleMatch match, int sentLen,
-      int columnCount, int lineCount, final String sentence) {
+  public RuleMatch adjustRuleMatchPos(final RuleMatch match, int charCount,
+      int columnCount, int lineCount, final String sentence, final AnnotatedText annotatedText) {
+    int fromPos = match.getFromPos() + charCount;
+    int toPos = match.getToPos() + charCount;
+    if (annotatedText != null) {
+      fromPos = annotatedText.getOriginalTextPositionFor(fromPos);
+      toPos = annotatedText.getOriginalTextPositionFor(toPos - 1) + 1;
+    }
     final RuleMatch thisMatch = new RuleMatch(match.getRule(),
-        match.getFromPos() + sentLen, match.getToPos() + sentLen, match.getMessage(), match.getShortMessage());
+        fromPos, toPos, match.getMessage(), match.getShortMessage());
     thisMatch.setSuggestedReplacements(match.getSuggestedReplacements());
     final String sentencePartToError = sentence.substring(0, match.getFromPos());
     final String sentencePartToEndOfError = sentence.substring(0,match.getToPos());
@@ -673,7 +705,7 @@ public class JLanguageTool {
     thisMatch.setEndLine(lineCount + lineBreaksToEndOfError);
     thisMatch.setColumn(column);
     thisMatch.setEndColumn(endColumn);
-    thisMatch.setOffset(match.getFromPos() + sentLen);
+    thisMatch.setOffset(match.getFromPos() + charCount);
     return thisMatch;
   }
 
@@ -894,6 +926,7 @@ public class JLanguageTool {
 
     private final List<Rule> rules;
     private final ParagraphHandling paraMode;
+    private final AnnotatedText annotatedText;
     private final List<String> sentences;
     private final List<AnalyzedSentence> analyzedSentences;
     
@@ -902,7 +935,7 @@ public class JLanguageTool {
     private int columnCount;
 
     TextCheckCallable(List<Rule> rules, List<String> sentences, List<AnalyzedSentence> analyzedSentences,
-                      ParagraphHandling paraMode, int charCount, int lineCount, int columnCount) {
+                      ParagraphHandling paraMode, AnnotatedText annotatedText, int charCount, int lineCount, int columnCount) {
       this.rules = rules;
       if (sentences.size() != analyzedSentences.size()) {
         throw new IllegalArgumentException("sentences and analyzedSentences do not have the same length : " + sentences.size() + " != " + analyzedSentences.size());
@@ -910,6 +943,7 @@ public class JLanguageTool {
       this.sentences = sentences;
       this.analyzedSentences = analyzedSentences;
       this.paraMode = paraMode;
+      this.annotatedText = annotatedText;
       this.charCount = charCount;
       this.lineCount = lineCount;
       this.columnCount = columnCount;
@@ -923,7 +957,7 @@ public class JLanguageTool {
         final String sentence = sentences.get(i++);
         final List<RuleMatch> sentenceMatches =
                 checkAnalyzedSentence(paraMode, rules, charCount, lineCount,
-                        columnCount, sentence, analyzedSentence);
+                        columnCount, sentence, analyzedSentence, annotatedText);
 
         ruleMatches.addAll(sentenceMatches);
         charCount += sentence.length();

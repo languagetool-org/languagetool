@@ -219,7 +219,7 @@ public final class Tools {
       checkBitext(src, trg, srcLt, trgLt, bRules);
     final List<RuleMatch> adaptedMatches = new ArrayList<>();
     for (RuleMatch match : ruleMatches) {
-      match = trgLt.adjustRuleMatchPos(match, 0, 0, 0, trg);
+      match = trgLt.adjustRuleMatchPos(match, 0, 0, 0, trg, null);
       adaptedMatches.add(match);
     }
     if (apiFormat) {
@@ -273,7 +273,7 @@ public final class Tools {
                 reader.getSentencePosition(), 
                 reader.getColumnCount(), 
                 reader.getLineCount(), 
-                reader.getCurrentLine()));
+                reader.getCurrentLine(), null));
       }
       ruleMatches.addAll(fixedMatches);
       if (fixedMatches.size() > 0) {
@@ -320,7 +320,7 @@ public final class Tools {
    final AnalyzedSentence srcText = srcLt.getAnalyzedSentence(src);
    final AnalyzedSentence trgText = trgLt.getAnalyzedSentence(trg);
    final List<RuleMatch> ruleMatches = trgLt.checkAnalyzedSentence(JLanguageTool.ParagraphHandling.NORMAL,
-      trgLt.getAllRules(), 0, 0, 1, trg, trgText);     
+      trgLt.getAllRules(), 0, 0, 1, trg, trgText, null);
     for (BitextRule bRule : bRules) {     
       final RuleMatch[] curMatch = bRule.match(srcText, trgText);
       if (curMatch != null) {
@@ -506,7 +506,7 @@ public final class Tools {
                 0, //don't need to adjust at all, we have zero offset related to trg sentence 
                 reader.getTargetColumnCount(), 
                 reader.getLineCount(), 
-                reader.getCurrentLine()));
+                reader.getCurrentLine(), null));
       }
       if (fixedMatches.size() > 0) {
         System.out.println(correctTextFromMatches(srcAndTrg.getTarget(), fixedMatches));

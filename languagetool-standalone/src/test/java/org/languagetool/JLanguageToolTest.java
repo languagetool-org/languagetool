@@ -22,6 +22,9 @@ import org.junit.Test;
 import org.languagetool.language.AmericanEnglish;
 import org.languagetool.language.English;
 import org.languagetool.language.German;
+import org.languagetool.markup.AnnotatedText;
+import org.languagetool.markup.AnnotatedTextBuilder;
+import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 import java.util.List;
@@ -60,6 +63,72 @@ public class JLanguageToolTest {
     assertEquals(2, sentences.size());
     assertEquals("This is a sentence! ", sentences.get(0));
     assertEquals("This is another one.", sentences.get(1));
+  }
+
+  @Test
+  public void testAnnotateTextCheck() throws IOException {
+    JLanguageTool languageTool = new JLanguageTool(new English());
+    AnnotatedText annotatedText = new AnnotatedTextBuilder()
+            .addMarkup("<b>")
+            .addText("here")
+            .addMarkup("</b>")
+            .addText(" is an error")
+            .build();
+    List<RuleMatch> matches = languageTool.check(annotatedText);
+    assertThat(matches.size(), is(1));
+    assertThat(matches.get(0).getFromPos(), is(3));
+    assertThat(matches.get(0).getToPos(), is(7));
+  }
+
+  @Test
+  public void testAnnotateTextCheckMultipleSentences() throws IOException {
+    JLanguageTool languageTool = new JLanguageTool(new English());
+    AnnotatedText annotatedText = new AnnotatedTextBuilder()
+            .addMarkup("<b>")
+            .addText("here")
+            .addMarkup("</b>")
+            .addText(" is an error. And ")
+            .addMarkup("<i attr='foo'>")
+            .addText("here is also")
+            .addMarkup("</i>")
+            .addText(" a error.")
+            .build();
+    List<RuleMatch> matches = languageTool.check(annotatedText);
+    assertThat(matches.size(), is(2));
+    assertThat(matches.get(0).getFromPos(), is(3));
+    assertThat(matches.get(0).getToPos(), is(7));
+    assertThat(matches.get(1).getFromPos(), is(60));
+    assertThat(matches.get(1).getToPos(), is(61));
+  }
+
+  @Test
+  public void testAnnotateTextCheckMultipleSentencesFIXME() throws IOException {
+    JLanguageTool languageTool = new JLanguageTool(new English());
+    AnnotatedText annotatedText = new AnnotatedTextBuilder()
+            .addText("here")
+            .addText(" is an error. And ")
+            .addMarkup("<i attr='foo'>")
+            .addText("here is also")
+            .addMarkup("</i>")
+            .addText(" a error.")
+            .build();
+    List<RuleMatch> matches = languageTool.check(annotatedText);
+    assertThat(matches.size(), is(2));
+    assertThat(matches.get(0).getFromPos(), is(0));
+    assertThat(matches.get(0).getToPos(), is(4));
+    assertThat(matches.get(1).getFromPos(), is(53));
+    assertThat(matches.get(1).getToPos(), is(54));
+  }
+
+  @Test
+  public void testAnnotateTextCheckPlainText() throws IOException {
+    JLanguageTool languageTool = new JLanguageTool(new English());
+    AnnotatedText annotatedText = new AnnotatedTextBuilder()
+            .addText("A good sentence. But here's a error.").build();
+    List<RuleMatch> matches = languageTool.check(annotatedText);
+    assertThat(matches.size(), is(1));
+    assertThat(matches.get(0).getFromPos(), is(28));
+    assertThat(matches.get(0).getToPos(), is(29));
   }
 
 }

@@ -27,6 +27,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import org.languagetool.markup.AnnotatedText;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 
@@ -77,7 +78,8 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
   
   @Override
   protected List<RuleMatch> performCheck(final List<AnalyzedSentence> analyzedSentences, final List<String> sentences,
-                                         final List<Rule> allRules, ParagraphHandling paraMode) throws IOException {
+       final List<Rule> allRules, final ParagraphHandling paraMode, 
+       final AnnotatedText annotatedText) throws IOException {
     int charCount = 0;
     int lineCount = 0;
     int columnCount = 1;
@@ -88,7 +90,7 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
     final ExecutorService executorService = getExecutorService(threads);
     try {
       final List<Callable<List<RuleMatch>>> callables =
-              createTextCheckCallables(paraMode, analyzedSentences, sentences, allRules, charCount, lineCount, columnCount, threads);
+              createTextCheckCallables(paraMode, annotatedText, analyzedSentences, sentences, allRules, charCount, lineCount, columnCount, threads);
       final List<Future<List<RuleMatch>>> futures = executorService.invokeAll(callables);
       for (Future<List<RuleMatch>> future : futures) {
         ruleMatches.addAll(future.get());
@@ -103,7 +105,8 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
   }
 
   private List<Callable<List<RuleMatch>>> createTextCheckCallables(ParagraphHandling paraMode,
-      List<AnalyzedSentence> analyzedSentences, List<String> sentences, List<Rule> allRules, int charCount, int lineCount, int columnCount, int threads) {
+       AnnotatedText annotatedText, List<AnalyzedSentence> analyzedSentences, List<String> sentences, 
+       List<Rule> allRules, int charCount, int lineCount, int columnCount, int threads) {
     final int totalRules = allRules.size();
     final int chunkSize = totalRules / threads;
     int firstItem = 0;
@@ -119,7 +122,7 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
       } else {
         subRules = allRules.subList(firstItem, firstItem + chunkSize);
       }
-      callables.add(new TextCheckCallable(subRules, sentences, analyzedSentences, paraMode, charCount, lineCount, columnCount));
+      callables.add(new TextCheckCallable(subRules, sentences, analyzedSentences, paraMode, annotatedText, charCount, lineCount, columnCount));
       firstItem = firstItem + chunkSize;
     }
     return callables;

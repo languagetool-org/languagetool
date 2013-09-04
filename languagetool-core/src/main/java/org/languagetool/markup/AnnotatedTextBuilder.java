@@ -1,0 +1,95 @@
+/* LanguageTool, a natural language style checker 
+ * Copyright (C) 2013 Daniel Naber (http://www.danielnaber.de)
+ * 
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+ * USA
+ */
+package org.languagetool.markup;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * Use this builder to create input of text with markup for LanguageTool, so that it
+ * can check only the plain text parts and ignore the markup, yet still calculate the
+ * positions of errors so that they refer to the complete text, including markup.
+ * 
+ * <p>It's up to you to split the input into parts that are plain text and parts that
+ * are markup.
+ * 
+ * <p>For example, text with XML markup like</p>
+ * 
+ * <pre>
+ *   Here is &lt;b>some text&lt;/b>
+ * </pre>
+ * 
+ * <p>needs to be prepared like this:</p>
+ * 
+ * <pre>
+ * new AnnotatedTextBuilder()
+ *   .addText("Here is ").addMarkup("&lt;b>").addText("some text").addMarkup("&lt;/b>")
+ *   .build()
+ * </pre>
+ * 
+ * @since 2.3
+ */
+public class AnnotatedTextBuilder {
+  
+  private final List<TextPart> parts = new ArrayList<>();
+
+  public AnnotatedTextBuilder() {
+  }
+
+  /**
+   * Add a plain text snippet, to be checked by LanguageTool when using
+   * {@link org.languagetool.JLanguageTool#check(AnnotatedText)}.
+   */
+  public AnnotatedTextBuilder addText(String text) {
+    parts.add(new TextPart(text, TextPart.Type.TEXT));
+    return this;
+  }
+
+  /**
+   * Add a markup text snippet like {@code <b attr='something'>} or {@code <div>}. These
+   * parts will be ignored by LanguageTool when using {@link org.languagetool.JLanguageTool#check(AnnotatedText)}.
+   */
+  public AnnotatedTextBuilder addMarkup(String markup) {
+    parts.add(new TextPart(markup, TextPart.Type.MARKUP));
+    return this;
+  }
+
+  /**
+   * Create the annotated text to be passed into {@link org.languagetool.JLanguageTool#check(AnnotatedText)}.
+   */
+  public AnnotatedText build() {
+    int plainTextPosition = 0;
+    int totalPosition = 0;
+    Map<Integer,Integer> mapping = new HashMap<>();
+    mapping.put(0, 0);
+    for (TextPart part : parts) {
+      if (part.getType().equals(TextPart.Type.TEXT)) {
+        plainTextPosition += part.getPart().length();
+        totalPosition += part.getPart().length();
+      } else if (part.getType().equals(TextPart.Type.MARKUP)) {
+        totalPosition += part.getPart().length();
+      }
+      mapping.put(plainTextPosition, totalPosition);
+    }
+    return new AnnotatedText(parts, mapping);
+  }
+  
+}
