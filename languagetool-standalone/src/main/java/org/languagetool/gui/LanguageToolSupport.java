@@ -406,8 +406,11 @@ class LanguageToolSupport {
       if (span.end > span.start) {
         if ((span.start <= offset) && (offset < span.end)) {
           JPopupMenu popup = new JPopupMenu("Grammar Menu");
-          JLabel msgItem = new JLabel(span.msg);
-          msgItem.setToolTipText(span.desc);
+          JLabel msgItem = new JLabel("<html>"
+                  + span.msg.replace("<suggestion>", "<b>").replace("</suggestion>", "</b>")
+                  + "</html>");
+          msgItem.setToolTipText(
+                  span.desc.replace("<suggestion>", "").replace("</suggestion>", ""));
           msgItem.setBorder(new JMenuItem().getBorder());
           popup.add(msgItem);
           popup.add(new JSeparator());
