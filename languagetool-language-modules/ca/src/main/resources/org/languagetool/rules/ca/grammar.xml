@@ -64,6 +64,105 @@ $Id$
             <token postag="(P.|V.{3})[30].*" postag_regexp="yes"></token>
         </equivalence>
     </unification>
+   <category name="B4) Vocabulari d'ús restringit" type="style">    
+        <rulegroup id="DEMOSTRATIUS" name="demostratius 'este' i 'eixe'" >
+             <rule id="EVITA_DEMOSTRATIUS_ESTE" name="Evita els demostratius 'este'">
+                <pattern>
+                    <token inflected="yes">este<exception postag="_possible_nompropi"/></token>
+                </pattern>
+                <message>Useu demostratius reforçats.</message>
+                <suggestion><match no="1" postag="(DD.*)" postag_regexp="yes" postag_replace="$1">aquest</match></suggestion>
+                <example type="incorrect" correction="Aquest"><marker>Este</marker> home</example>
+                <example type="incorrect" correction="Aquestes"><marker>Estes</marker> dones</example>
+                <example type="correct">Carles de Borbó i d'Àustria-Este</example>
+            </rule>
+            <rule id="EVITA_DEMOSTRATIUS_EIXE" name="Evita els demostratius 'eixe'">
+                <pattern>
+                    <token postag="DD.*" postag_regexp="yes" inflected="yes">eixe</token>
+                </pattern>
+                <message>Useu demostratius reforçats.</message>
+                <suggestion><match no="1" postag="(DD.*)" postag_regexp="yes" postag_replace="$1">aquest</match></suggestion>
+                <suggestion><match no="1" postag="(DD.*)" postag_regexp="yes" postag_replace="$1">aqueix</match></suggestion>
+                <example type="incorrect"><marker>Eixe</marker> home</example>
+                <example type="incorrect" correction="Aquestos|Aquests|Aqueixos"><marker>Eixos</marker> homes</example>
+                <example type="correct">és formada per eixos longitudinals</example>
+            </rule>  
+            <rule id="EVITA_DEMOSTRATIUS_AQUEST" name="Evita els demostratius 'aquest'" default="off">
+                <pattern>
+                    <token postag="DD.*" postag_regexp="yes" inflected="yes">aquest</token>
+                </pattern>
+                <message>Useu demostratius no reforçats.</message>
+                <suggestion><match no="1" postag="(DD.*)" postag_regexp="yes" postag_replace="$1">este</match></suggestion>
+                <example type="incorrect" correction="Estos"><marker>Aquests</marker> homes</example>
+                <example type="correct">Estes cases</example>
+            </rule>  
+            <rule id="EVITA_DEMOSTRATIUS_AQUEIX" name="Evita els demostratius 'aqueix'" default="off">
+                <pattern>
+                    <token postag="DD.*" postag_regexp="yes" inflected="yes">aqueix</token>
+                </pattern>
+                <message>Useu demostratius no reforçats.</message>
+                <suggestion><match no="1" postag="(DD.*)" postag_regexp="yes" postag_replace="$1">eixe</match></suggestion>
+                <example type="incorrect" correction="Eixos"><marker>Aqueixos</marker> homes</example>
+                <example type="correct">Eixes cases</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="VOCABULARI_VALENCIA" name="Evita vocabulari valencià: mitat, depòsit, depositar">
+            <rule>
+                <pattern>
+                    <token regexp="yes">mitats?</token>
+                </pattern>
+                <message>Variant secundària de <suggestion><match no="1" regexp_match="mitat(.*)" regexp_replace="meitat$1"/></suggestion>.</message>
+                <example type="incorrect" correction="meitat">la <marker>mitat</marker> del peix.</example>
+                <example type="incorrect" correction="meitats">tres <marker>mitats</marker></example>
+                <example type="correct">La meitat del peix.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">depositar|depòsit</token>
+                </pattern>
+                <message>Variant secundària de <suggestion><match no="1" regexp_match="dep(.+)" regexp_replace="dip$1"/></suggestion>.</message>
+                <example type="incorrect" correction="dipositaren">Hi <marker>depositaren</marker>.</example>
+                <example type="incorrect" correction="dipòsits">Van omplir els <marker>depòsits</marker>.</example>
+                <example type="correct">Hi dipositarem.</example>
+            </rule>     
+        </rulegroup>
+        <rulegroup id="VOCABULARI_BALEAR" name="Evita vocabulari balear: novia, galleta">
+            <rule>
+                <pattern>
+                    <token>novia</token>
+                </pattern>
+                <message>Paraula correcta com a femení de "novii" (usada en balear).</message>
+                <suggestion>xicota</suggestion>
+                <suggestion>promesa</suggestion>
+                <suggestion>núvia</suggestion>
+                <short>Vocabulari balear</short>
+                <example type="incorrect"><marker>novia</marker></example>
+                <example type="correct">xicota</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>novies</token>
+                </pattern>
+                <message>Paraula correcta com a femení de "novii" (usada en balear).</message>
+                <suggestion>xicotes</suggestion>
+                <suggestion>promeses</suggestion>
+                <suggestion>núvies</suggestion>
+                <short>Vocabulari balear</short>
+                <example type="incorrect"><marker>novies</marker></example>
+                <example type="correct">xicotes</example>
+            </rule>  
+            <rule>
+                <pattern>
+                    <token regexp="yes">gallet(a|es)</token>
+                </pattern>
+                <message>Forma usada en balear.</message>
+                <suggestion><match no="1" regexp_match="gallet(.+)" regexp_replace="galet$1"/></suggestion>
+                <short>Vocabulari balear</short>
+                <example type="incorrect" correction="galetes"><marker>galletes</marker></example>
+                <example type="correct">galetes</example>
+            </rule>
+        </rulegroup>
+    </category>    
     <category name="Z) Concordances en grups nominals" type="grammar">
         <rulegroup id="CONCORDANCES_NUMERALS" name="concordances en numerals">
             <!-- noms, adjectius en singular  -->
@@ -21881,103 +21980,4 @@ $Id$
             </rule>         
         </rulegroup>
     </category>    
-    <category name="B4) Vocabulari d'ús restringit" type="style">    
-        <rulegroup id="DEMOSTRATIUS" name="demostratius 'este' i 'eixe'" >
-             <rule id="EVITA_DEMOSTRATIUS_ESTE" name="Evita els demostratius 'este'">
-                <pattern>
-                    <token inflected="yes">este<exception postag="_possible_nompropi"/></token>
-                </pattern>
-                <message>Useu demostratius reforçats.</message>
-                <suggestion><match no="1" postag="(DD.*)" postag_regexp="yes" postag_replace="$1">aquest</match></suggestion>
-                <example type="incorrect" correction="Aquest"><marker>Este</marker> home</example>
-                <example type="incorrect" correction="Aquestes"><marker>Estes</marker> dones</example>
-                <example type="correct">Carles de Borbó i d'Àustria-Este</example>
-            </rule>
-            <rule id="EVITA_DEMOSTRATIUS_EIXE" name="Evita els demostratius 'eixe'">
-                <pattern>
-                    <token postag="DD.*" postag_regexp="yes" inflected="yes">eixe</token>
-                </pattern>
-                <message>Useu demostratius reforçats.</message>
-                <suggestion><match no="1" postag="(DD.*)" postag_regexp="yes" postag_replace="$1">aquest</match></suggestion>
-                <suggestion><match no="1" postag="(DD.*)" postag_regexp="yes" postag_replace="$1">aqueix</match></suggestion>
-                <example type="incorrect"><marker>Eixe</marker> home</example>
-                <example type="incorrect" correction="Aquestos|Aquests|Aqueixos"><marker>Eixos</marker> homes</example>
-                <example type="correct">és formada per eixos longitudinals</example>
-            </rule>  
-            <rule id="EVITA_DEMOSTRATIUS_AQUEST" name="Evita els demostratius 'aquest'" default="off">
-                <pattern>
-                    <token postag="DD.*" postag_regexp="yes" inflected="yes">aquest</token>
-                </pattern>
-                <message>Useu demostratius no reforçats.</message>
-                <suggestion><match no="1" postag="(DD.*)" postag_regexp="yes" postag_replace="$1">este</match></suggestion>
-                <example type="incorrect" correction="Estos"><marker>Aquests</marker> homes</example>
-                <example type="correct">Estes cases</example>
-            </rule>  
-            <rule id="EVITA_DEMOSTRATIUS_AQUEIX" name="Evita els demostratius 'aqueix'" default="off">
-                <pattern>
-                    <token postag="DD.*" postag_regexp="yes" inflected="yes">aqueix</token>
-                </pattern>
-                <message>Useu demostratius no reforçats.</message>
-                <suggestion><match no="1" postag="(DD.*)" postag_regexp="yes" postag_replace="$1">eixe</match></suggestion>
-                <example type="incorrect" correction="Eixos"><marker>Aqueixos</marker> homes</example>
-                <example type="correct">Eixes cases</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="VOCABULARI_VALENCIA" name="Evita vocabulari valencià: mitat, depòsit, depositar">
-            <rule>
-                <pattern>
-                    <token regexp="yes">mitats?</token>
-                </pattern>
-                <message>Variant secundària de <suggestion><match no="1" regexp_match="mitat(.*)" regexp_replace="meitat$1"/></suggestion>.</message>
-                <example type="incorrect" correction="meitat">la <marker>mitat</marker> del peix.</example>
-                <example type="incorrect" correction="meitats">tres <marker>mitats</marker></example>
-                <example type="correct">La meitat del peix.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token inflected="yes" regexp="yes">depositar|depòsit</token>
-                </pattern>
-                <message>Variant secundària de <suggestion><match no="1" regexp_match="dep(.+)" regexp_replace="dip$1"/></suggestion>.</message>
-                <example type="incorrect" correction="dipositaren">Hi <marker>depositaren</marker>.</example>
-                <example type="incorrect" correction="dipòsits">Van omplir els <marker>depòsits</marker>.</example>
-                <example type="correct">Hi dipositarem.</example>
-            </rule>     
-        </rulegroup>
-        <rulegroup id="VOCABULARI_BALEAR" name="Evita vocabulari balear: novia, galleta">
-            <rule>
-                <pattern>
-                    <token>novia</token>
-                </pattern>
-                <message>Paraula correcta com a femení de "novii" (usada en balear).</message>
-                <suggestion>xicota</suggestion>
-                <suggestion>promesa</suggestion>
-                <suggestion>núvia</suggestion>
-                <short>Vocabulari balear</short>
-                <example type="incorrect"><marker>novia</marker></example>
-                <example type="correct">xicota</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>novies</token>
-                </pattern>
-                <message>Paraula correcta com a femení de "novii" (usada en balear).</message>
-                <suggestion>xicotes</suggestion>
-                <suggestion>promeses</suggestion>
-                <suggestion>núvies</suggestion>
-                <short>Vocabulari balear</short>
-                <example type="incorrect"><marker>novies</marker></example>
-                <example type="correct">xicotes</example>
-            </rule>  
-            <rule>
-                <pattern>
-                    <token regexp="yes">gallet(a|es)</token>
-                </pattern>
-                <message>Forma usada en balear.</message>
-                <suggestion><match no="1" regexp_match="gallet(.+)" regexp_replace="galet$1"/></suggestion>
-                <short>Vocabulari balear</short>
-                <example type="incorrect" correction="galetes"><marker>galletes</marker></example>
-                <example type="correct">galetes</example>
-            </rule>
-        </rulegroup>
-    </category>
 </rules>
