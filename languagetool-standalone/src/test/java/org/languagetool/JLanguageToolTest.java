@@ -107,10 +107,12 @@ public class JLanguageToolTest {
     AnnotatedText annotatedText = new AnnotatedTextBuilder()
             .addText("here")
             .addText(" is an error. And ")
-            .addMarkup("<i attr='foo'>")
-            .addText("here is also")
+            .addMarkup("<i attr='foo'/>")
+            .addText("here is also ")
+            .addMarkup("<i>")
+            .addText("a")
             .addMarkup("</i>")
-            .addText(" a error.")
+            .addText(" error.")
             .build();
     List<RuleMatch> matches = languageTool.check(annotatedText);
     assertThat(matches.size(), is(2));
