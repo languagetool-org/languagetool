@@ -6827,32 +6827,6 @@ $Id$
             </rule>
         </rulegroup>
         <rulegroup id="CONFUSIONS_ACCENT" name="Alguns errors d'accentuació: renúncia/renuncia, nomes/només">
-            <rule id="S_ESTA" name="*s'esta/s'està">
-                <pattern>
-                    <marker>
-                        <token regexp="yes">[mtsn]'</token>
-                        <token>esta</token>
-                    </marker>
-                </pattern>
-                <message>Falta un accent.</message>
-                <suggestion><match no="1"/>està</suggestion>
-                <short>Falta un accent</short>
-                <example type="incorrect" correction="N'està"><marker>N'esta</marker> fins al capdamunt.</example>
-                <example type="correct">Esta és la qüestió.</example>
-            </rule>
-            <rule id="LI_ESTA" name="*li esta/li està">
-                <pattern>
-                    <marker>
-                        <token regexp="yes">li|hi|ens|us|vos|ho</token>
-                        <token>esta</token>
-                    </marker>
-                </pattern>
-                <message>Falta un accent.</message>
-                <suggestion><match no="1"/> està</suggestion>
-                <short>Falta un accent</short>
-                <example type="incorrect" correction="Li està"><marker>Li esta</marker> agraït.</example>
-                <example type="correct">Esta és la qüestió.</example>
-            </rule>
             <rule id="ESTA_FENT" name="*esta/està fent">
                 <pattern>
                     <token><exception postag="SPS00|.*LOC_PREP.*" postag_regexp="yes"/></token>
@@ -6867,6 +6841,32 @@ $Id$
                 <example type="incorrect" correction="Està"><marker>Esta</marker> escrivint la carta.</example>
                 <example type="correct">I amb esta arribant al final.</example>
                 <example type="correct">I en comptes d'esta arribant al final.</example>
+            </rule>
+            <rule id="S_ESTA" name="*s'esta/s'està">
+                <pattern>
+                    <token regexp="yes">[mtsn]'</token>
+                    <marker>    
+                        <token>esta</token>
+                    </marker>
+                </pattern>
+                <message>Falta un accent.</message>
+                <suggestion>està</suggestion>
+                <short>Falta un accent</short>
+                <example type="incorrect" correction="està">N'<marker>esta</marker> fins al capdamunt.</example>
+                <example type="correct">Esta és la qüestió.</example>
+            </rule>
+            <rule id="LI_ESTA" name="*li esta/li està">
+                <pattern>
+                    <token regexp="yes">li|hi|ens|us|vos|ho</token>
+                    <marker>
+                        <token>esta</token>
+                    </marker>
+                </pattern>
+                <message>Falta un accent.</message>
+                <suggestion>està</suggestion>
+                <short>Falta un accent</short>
+                <example type="incorrect" correction="està">Li <marker>esta</marker> agraït.</example>
+                <example type="correct">Esta és la qüestió.</example>
             </rule>
             <rule id="ORIGINARIA" name="originaria">
                 <pattern>
