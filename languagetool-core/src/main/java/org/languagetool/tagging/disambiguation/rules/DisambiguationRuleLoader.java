@@ -184,28 +184,14 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
       if (inDisambiguation) {
         if (attrs.getValue(NO) != null) {
           final int refNumber = Integer.parseInt(attrs.getValue(NO));
-          if (refNumber > elementList.size()) {
-            throw new SAXException(
-                "Only backward references in match elements are possible, tried to specify token "
-                    + refNumber
-                    + "\n Line: "
-                    + pLocator.getLineNumber()
-                    + ", column: " + pLocator.getColumnNumber() + ".");
-          }
+          refNumberSanityCheck(refNumber);
           mWorker.setTokenRef(refNumber);
           posSelector = mWorker;
         }
       } else if (inToken) {
         if (attrs.getValue(NO) != null) {
           final int refNumber = Integer.parseInt(attrs.getValue(NO));
-          if (refNumber > elementList.size()) {
-            throw new SAXException(
-                "Only backward references in match elements are possible, tried to specify token "
-                    + refNumber
-                    + "\n Line: "
-                    + pLocator.getLineNumber()
-                    + ", column: " + pLocator.getColumnNumber() + ".");
-          }
+          refNumberSanityCheck(refNumber);
           mWorker.setTokenRef(refNumber);
           tokenReference = mWorker;
           elements.append('\\');
@@ -246,6 +232,14 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
       if (inPattern) {
         startPos = tokenCounter;
       }
+    }
+  }
+
+  private void refNumberSanityCheck(int refNumber) throws SAXException {
+    if (refNumber > elementList.size()) {
+      throw new SAXException("Only backward references in match elements are possible, tried to specify token "
+              + refNumber + "\n Line: " + pLocator.getLineNumber()
+              + ", column: " + pLocator.getColumnNumber() + ".");
     }
   }
 
