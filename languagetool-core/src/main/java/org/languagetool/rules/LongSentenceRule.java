@@ -50,7 +50,7 @@ public class LongSentenceRule extends Rule {
   public RuleMatch[] match(AnalyzedSentence text) throws IOException {
     final List<RuleMatch> ruleMatches = new ArrayList<>();
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
-    final String msg = "Sentence is over 40 words long, consider revising.";
+    final String msg = "Sentence is over " + MAX_WORDS + " words long, consider revising.";
     int numWords = 0;
     int pos = 0;
     if (tokens.length < MAX_WORDS + 1) {   // just a short-circuit
@@ -59,7 +59,7 @@ public class LongSentenceRule extends Rule {
       for (AnalyzedTokenReadings aToken : tokens) {
         final String token = aToken.getToken();
         pos += token.length();  // won't match the whole offending sentence, but much of it
-        if (!token.matches("[!-~]") && !aToken.isSentenceStart()) {
+        if (!token.matches("[!-~’]") && !aToken.isSentenceStart()) {
           numWords++;
         }
       }
