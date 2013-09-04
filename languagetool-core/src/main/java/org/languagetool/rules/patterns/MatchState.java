@@ -124,16 +124,14 @@ public class MatchState {
           String targetPosTag;
           for (int i = 0; i < numRead; i++) {
             final String tst = formattedToken.getAnalyzedToken(i).getPOSTag();
-            if (tst != null
-                    && pPosRegexMatch.matcher(tst).matches()) {
+            if (tst != null && pPosRegexMatch.matcher(tst).matches()) {
               targetPosTag = formattedToken.getAnalyzedToken(i).getPOSTag();
               if (posTagReplace != null) {
                 targetPosTag = pPosRegexMatch.matcher(targetPosTag).replaceAll(posTagReplace);
               }
               l.add(new AnalyzedToken(token, targetPosTag,
                       formattedToken.getAnalyzedToken(i).getLemma()));
-              l.get(l.size() - 1).setWhitespaceBefore(
-                      formattedToken.isWhitespaceBefore());
+              l.get(l.size() - 1).setWhitespaceBefore(formattedToken.isWhitespaceBefore());
             }
           }
           if (l.isEmpty()) {
@@ -144,13 +142,11 @@ public class MatchState {
         }
         if (formattedToken.isSentenceEnd()) {
           l.add(new AnalyzedToken(formattedToken.getToken(),
-                  JLanguageTool.SENTENCE_END_TAGNAME, formattedToken
-                  .getAnalyzedToken(0).getLemma()));
+                  JLanguageTool.SENTENCE_END_TAGNAME, formattedToken.getAnalyzedToken(0).getLemma()));
         }
         if (formattedToken.isParagraphEnd()) {
           l.add(new AnalyzedToken(formattedToken.getToken(),
-                  JLanguageTool.PARAGRAPH_END_TAGNAME, formattedToken
-                  .getAnalyzedToken(0).getLemma()));
+                  JLanguageTool.PARAGRAPH_END_TAGNAME, formattedToken.getAnalyzedToken(0).getLemma()));
         }
       }
     }
@@ -260,12 +256,9 @@ public class MatchState {
                 wordForms.add(formattedToken.getToken());
                 oneForm = true;
               } else {
-                if (JLanguageTool.SENTENCE_START_TAGNAME
-                        .equals(posUnique)
-                        || JLanguageTool.SENTENCE_END_TAGNAME
-                        .equals(posUnique)
-                        || JLanguageTool.PARAGRAPH_END_TAGNAME
-                        .equals(posUnique)) {
+                if (JLanguageTool.SENTENCE_START_TAGNAME.equals(posUnique)
+                        || JLanguageTool.SENTENCE_END_TAGNAME.equals(posUnique)
+                        || JLanguageTool.PARAGRAPH_END_TAGNAME.equals(posUnique)) {
                   if (!oneForm) {
                     wordForms.add(formattedToken.getToken());
                   }
@@ -317,8 +310,7 @@ public class MatchState {
     for (int i = 0; i < formattedString.length; i++) {
       formattedString[i] = convertCase(formattedString[i], original);
     }
-    // TODO should case conversion happen before or after including skipped
-    // tokens?
+    // TODO should case conversion happen before or after including skipped tokens?
     IncludeRange includeSkipped = match.getIncludeSkipped();
     if (includeSkipped != IncludeRange.NONE && skippedTokens != null
             && !"".equals(skippedTokens)) {
@@ -390,14 +382,14 @@ public class MatchState {
         final StringBuilder sb = new StringBuilder();
         final int posTagLen = posTags.size();
         int l = 0;
-        for (String lposTag : posTags) {
+        for (String lPosTag : posTags) {
           l++;
-          lposTag = pPosRegexMatch.matcher(lposTag).replaceAll(
+          lPosTag = pPosRegexMatch.matcher(lPosTag).replaceAll(
                   posTagReplace);
           if (match.setsPos()) {
-            lposTag = synthesizer.getPosTagCorrection(lposTag);
+            lPosTag = synthesizer.getPosTagCorrection(lPosTag);
           }
-          sb.append(lposTag);
+          sb.append(lPosTag);
           if (l < posTagLen) {
             sb.append('|');
           }
