@@ -178,7 +178,16 @@ public class AccentuationCheckRule extends CatalanRule {
       	        ||(matchPostagRegexp(tokens[i-1],DETERMINANT_FP) && matchPostagRegexp(relevantWords.get(token),NOM_FP)) ) )
       	{
       		replacement = relevantWords.get(token).getToken();
-      	}    
+      	}
+      	//fem la copia(correct: còpia)
+      	else if ( i>2 && matchPostagRegexp(tokens[i-2],VERB_CONJUGAT) &&
+      	         ((mArticleELMS.matches() && matchPostagRegexp(relevantWords.get(token),NOM_MS))
+      	        ||(mArticleELMP.matches() && matchPostagRegexp(relevantWords.get(token),NOM_MP))
+      	        ||(mArticleELFS.matches() && matchPostagRegexp(relevantWords.get(token),NOM_FS))
+      	        ||(mArticleELFP.matches() && matchPostagRegexp(relevantWords.get(token),NOM_FP)) ) )
+      	{
+      		replacement = relevantWords.get(token).getToken();
+      	}
       	//circumstancies d'una altra classe
       	else if  ( !matchPostagRegexp(tokens[i],PARTICIPI_MS)
       			   && !token.equals("venia") && !token.equals("venies") && !token.equals("tenia") && !token.equals("tenies")
