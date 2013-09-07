@@ -61,6 +61,8 @@ public class CatalanSentenceTokenizerTest extends TestCase {
     testSplit(new String[] { "convidar el seu heroi –del ram que sigui–… a prendre cafè." });
 
     // Abbreviations
+    testSplit(new String[] { "Vegeu el cap. 24 del llibre." });
+    testSplit(new String[] { "Vegeu el cap. IX del llibre." });
     testSplit(new String[] { "Viu al núm. 24 del carrer de l'Hort." });
     testSplit(new String[] { "El Dr. Joan no vindrà." });
     testSplit(new String[] { "Distingit Sr. Joan," });
@@ -69,6 +71,7 @@ public class CatalanSentenceTokenizerTest extends TestCase {
 
     // Exception to abbreviations
     testSplit(new String[] { "Ell és el número u. ", "Jo el dos." });
+    testSplit(new String[] { "Té un trau al cap. ", "Cal portar-lo a l'hospital." });
     // Units
     testSplit(new String[] { "1 500 m/s. ", "Neix a" });
     
