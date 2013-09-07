@@ -3339,6 +3339,28 @@ $Id$
     <!-- ====================================================================== -->
     <category name="Leicht zu verwechselnde Wörter">
         <!-- TODO emphatisch/empathisch -->
+        <rulegroup id="IN_PUNCTO" name="Mögliche Wortverwechslung: punkto/puncto">
+            <rule>
+                <pattern>
+                    <token>in</token>
+                    <token>punkto</token>
+                </pattern>
+                <message>Meinten Sie die feste Wendung <suggestion>in puncto</suggestion>?</message>
+                <example type="incorrect" correction="In puncto"><marker>In punkto</marker> Gesamtnutzung liegt sie auf Platz vier der meistgelesenen Sprachausgaben.</example>
+                <example type="correct"><marker>In puncto</marker> Gesamtnutzung liegt sie auf Platz vier der meistgelesenen Sprachausgaben.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception>in</exception></token>
+                    <marker>
+                        <token>puncto</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>punkto</suggestion>, das anders als <suggestion>in pucto</suggestion> mit k geschrieben wird?</message>
+                <example type="incorrect" correction="punkto|in pucto">Deshalb wird sich künftig <marker>puncto</marker> Versorgungssicherheit die Spreu vom Weizen der Erdgasanbieter noch deutlicher trennen</example>
+                <example type="correct">Deshalb wird sich künftig <marker>punkto</marker> Versorgungssicherheit die Spreu vom Weizen der Erdgasanbieter noch deutlicher trennen</example>
+            </rule>
+        </rulegroup>
         <rule id="SPAET_JEMANDEN_AUS" name="Mögliche Wortverwechslung: spät (späht) jemanden aus">
             <pattern>
                 <token negate="yes">zu</token>
