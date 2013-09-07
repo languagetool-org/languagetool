@@ -39,6 +39,20 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
     <!-- Possible typos -->
     <!-- ====================================================================== -->
     <category name="Possible Typos" type="misspelling">
+        <rule id="CONFUSION_OF_OUR_OUT" name="confusion of our/out">
+            <pattern>
+                <token>we</token>
+                <token postag="VBD|VB|VBP" postag_regexp="yes"><exception>take</exception></token>
+                <marker>
+                    <token>out</token>
+                </marker>
+                <token><exception postag="IN|RP|DT|SENT_END" postag_regexp="yes"/><exception>what</exception></token>
+            </pattern>
+            <message>Did you mean <suggestion>our</suggestion>?</message>
+            <example type="incorrect" correction="our">We evaluated <marker>out</marker> method by running RASP.</example>
+            <example type="correct">We evaluated our method by running RASP.</example>
+            <example type="correct">If we take out India and China...</example>
+        </rule>
         <rule id="YOUR_SHOULD" name="YOUR_SHOULD">
             <pattern case_sensitive="yes">
                 <marker>
