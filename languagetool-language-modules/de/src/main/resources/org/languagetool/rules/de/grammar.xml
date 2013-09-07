@@ -552,7 +552,7 @@ $Id$
         <rule id="WIR_WIE" name="Möglicher Tippfehler: 'im selben Stall wir (wie)' etc.">
             <pattern>
                 <token regexp="yes">gleich.*|.*selbe.*</token>
-                <token skip="1"><exception scope="next" postag="VER.*:1:PLU.*|UNKNOWN" postag_regexp="yes"></exception></token>
+                <token skip="1"><exception scope="next" postag="VER.*:1:PLU.*|UNKNOWN" postag_regexp="yes"/></token>
                 <marker>
                     <token>wir</token>
                 </marker>
@@ -566,11 +566,11 @@ $Id$
         </rule>
         <rule id="DU_DIE" name="Möglicher Tippfehler: 'du (die)'">
             <pattern>
-                <token><exception postag="VER.*:2:SIN.*" postag_regexp="yes"></exception><exception postag="UNKNOWN"></exception></token>
+                <token><exception postag="VER.*:2:SIN.*" postag_regexp="yes"/><exception postag="UNKNOWN"/></token>
                 <marker>
                     <token>du</token>
                 </marker>
-                <token skip="-1" postag="SUB:(NOM:SIN:FEM|AKK:SIN:FEM|NOM:PLU|AKK:PLU).*" postag_regexp="yes"><exception scope="next" postag="VER.*2:SIN.*" postag_regexp="yes"></exception><!--<exception scope="next" postag="UNKNOWN"/>TODO not working--><exception>Schlampe</exception></token>
+                <token skip="-1" postag="SUB:(NOM:SIN:FEM|AKK:SIN:FEM|NOM:PLU|AKK:PLU).*" postag_regexp="yes"><exception scope="next" postag="VER.*2:SIN.*" postag_regexp="yes"/><!--<exception scope="next" postag="UNKNOWN"/>TODO not working--><exception>Schlampe</exception></token>
                 <token postag="SENT_END"/>
             </pattern>
             <message>Meinten Sie <suggestion>die</suggestion>?</message>
@@ -695,7 +695,7 @@ $Id$
                 <pattern case_sensitive="yes">
                     <token>zu</token>
                     <marker>
-                        <token postag="(VER:IMP:SIN.*)|(VER:MOD:1:SIN.*)" postag_regexp="yes" regexp="yes">[a-zäöü].*<exception postag="VER.*" postag_regexp="yes" negate_pos="yes"></exception><exception scope="current" postag="VER:.*INF.*" postag_regexp="yes"></exception></token>
+                        <token postag="(VER:IMP:SIN.*)|(VER:MOD:1:SIN.*)" postag_regexp="yes" regexp="yes">[a-zäöü].*<exception postag="VER.*" postag_regexp="yes" negate_pos="yes"/><exception scope="current" postag="VER:.*INF.*" postag_regexp="yes"/></token>
                     </marker>
                     <token>,</token>
                 </pattern>
@@ -708,7 +708,7 @@ $Id$
                 <pattern case_sensitive="yes">
                     <token>zu</token>
                     <marker>
-                        <token postag="(VER:IMP:SIN.*)|(VER:MOD:1:SIN.*)" postag_regexp="yes" regexp="yes">[a-zäöü].*<exception postag="VER.*" postag_regexp="yes" negate_pos="yes"></exception><exception scope="current" postag="VER:.*INF.*" postag_regexp="yes"></exception></token>
+                        <token postag="(VER:IMP:SIN.*)|(VER:MOD:1:SIN.*)" postag_regexp="yes" regexp="yes">[a-zäöü].*<exception postag="VER.*" postag_regexp="yes" negate_pos="yes"/><exception scope="current" postag="VER:.*INF.*" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="SENT_END"/>
                 </pattern>
@@ -726,7 +726,7 @@ $Id$
                     <marker>
                         <and>
                             <token postag="VER:INF.*" postag_regexp="yes">
-                                <exception negate_pos="yes" postag="VER:(INF|[13]:PLU:KJ1|[13]:PLU:PRÄ).*" postag_regexp="yes"></exception>
+                                <exception negate_pos="yes" postag="VER:(INF|[13]:PLU:KJ1|[13]:PLU:PRÄ).*" postag_regexp="yes"/>
                             </token>
                             <token postag="VER:1:PLU:KJ1.*" postag_regexp="yes"/>
                             <token postag="VER:3:PLU:PRÄ.*" postag_regexp="yes"/>
@@ -926,13 +926,13 @@ $Id$
         <rule id="SAGT_RUFT" name="Möglicher Tippfehler: Zwei aufeinanderfolgende Verben">
             <pattern case_sensitive="yes">
                 <token postag="VER:(1|2|3):.*" postag_regexp="yes" regexp="yes">[a-zäöü].*
-                    <exception negate_pos="yes" postag="VER:(1|2|3):.*|VER:IMP:PLU.*" postag_regexp="yes"></exception>
-                    <exception postag_regexp="yes" postag="VER:AUX:.*"></exception>
+                    <exception negate_pos="yes" postag="VER:(1|2|3):.*|VER:IMP:PLU.*" postag_regexp="yes"/>
+                    <exception postag_regexp="yes" postag="VER:AUX:.*"/>
                     <exception>folgt</exception>
                 </token>
                 <token postag="VER:(1|2|3):.*" postag_regexp="yes" regexp="yes">[a-zäöü].*
-                    <exception negate_pos="yes" postag="VER:(1|2|3):.*|VER:IMP:PLU.*" postag_regexp="yes"></exception>
-                    <exception postag_regexp="yes" postag="VER:AUX:.*"></exception>
+                    <exception negate_pos="yes" postag="VER:(1|2|3):.*|VER:IMP:PLU.*" postag_regexp="yes"/>
+                    <exception postag_regexp="yes" postag="VER:AUX:.*"/>
                 </token>
             </pattern>
             <message>Möglicherweise ist hier ein Wort zu viel oder es fehlt ein Komma. Vorschläge: <suggestion>\1</suggestion>, <suggestion>\2</suggestion>, <suggestion>\1, \2</suggestion></message>
@@ -952,7 +952,7 @@ $Id$
             <pattern>
                 <token regexp="yes">ist|sind|war(st|t|en)?|bin|bist|seid</token>
                 <marker>
-                    <token postag="ADJ:.*" postag_regexp="yes"><exception postag="ADJ:PRD:KOM"></exception><exception postag="ADJ:PRD:GRU"></exception><exception regexp="yes">dehnbarer|andere|lange|höher|einige|solche|folgende[rs]?</exception></token>
+                    <token postag="ADJ:.*" postag_regexp="yes"><exception postag="ADJ:PRD:KOM"/><exception postag="ADJ:PRD:GRU"/><exception regexp="yes">dehnbarer|andere|lange|höher|einige|solche|folgende[rs]?</exception></token>
                 </marker>
                 <token postag="SENT_END"/>
             </pattern>
@@ -968,7 +968,7 @@ $Id$
                 <token><exception>auch</exception></token>
                 <token>so</token>
                 <marker>
-                    <token postag="ADJ:.*" postag_regexp="yes"><exception postag="ADJ:PRD:GRU"></exception><exception>lange</exception></token>
+                    <token postag="ADJ:.*" postag_regexp="yes"><exception postag="ADJ:PRD:GRU"/><exception>lange</exception></token>
                 </marker>
                 <token>wie</token>
                 <token><exception postag_regexp="yes" postag="ADJ.[NGDA].*"/></token>
@@ -999,7 +999,7 @@ $Id$
                     <token regexp="yes" skip="1">aber|jedoch|auch</token>
                     <token>nicht</token>
                     <marker>
-                        <token postag="ADJ:.*" postag_regexp="yes"><exception postag="ADJ:PRD:KOM"></exception><exception postag="ADJ:PRD:GRU"></exception><exception regexp="yes">dehnbarer|andere|teilweise|lange|höher|einige|solche</exception></token>
+                        <token postag="ADJ:.*" postag_regexp="yes"><exception postag="ADJ:PRD:KOM"/><exception postag="ADJ:PRD:GRU"/><exception regexp="yes">dehnbarer|andere|teilweise|lange|höher|einige|solche</exception></token>
                     </marker>
                     <token>als</token>
                 </pattern>
@@ -1012,7 +1012,7 @@ $Id$
                 <pattern>
                     <token postag="VER:(AUX:)?(1|2|3):.+" postag_regexp="yes"><exception inflected="yes">einen</exception></token>
                     <marker>
-                        <token postag="ADJ:.*" postag_regexp="yes"><exception postag="ADJ:PRD:KOM"></exception><exception postag="ADJ:PRD:GRU"></exception><exception regexp="yes">dehnbarer|andere|teilweise|lange|höher|einige|solche</exception></token>
+                        <token postag="ADJ:.*" postag_regexp="yes"><exception postag="ADJ:PRD:KOM"/><exception postag="ADJ:PRD:GRU"/><exception regexp="yes">dehnbarer|andere|teilweise|lange|höher|einige|solche</exception></token>
                     </marker>
                     <token>als</token>
                 </pattern>
@@ -1026,7 +1026,7 @@ $Id$
                 <pattern>
                     <token postag="VER:(AUX:)?(1|2|3):.+" postag_regexp="yes"><exception inflected="yes">einen</exception></token>
                     <marker>
-                        <token postag="ADJ:.*" postag_regexp="yes"><exception postag="ADJ:PRD:KOM"></exception><exception postag="ADJ:PRD:GRU"></exception><exception regexp="yes">dehnbarer|andere|teilweise|lange|höher|einige|solche</exception></token>
+                        <token postag="ADJ:.*" postag_regexp="yes"><exception postag="ADJ:PRD:KOM"/><exception postag="ADJ:PRD:GRU"/><exception regexp="yes">dehnbarer|andere|teilweise|lange|höher|einige|solche</exception></token>
                     </marker>
                     <token>als</token>
                 </pattern>
@@ -1041,7 +1041,7 @@ $Id$
                     <token postag="VER:(AUX:)?(1|2|3):.+" postag_regexp="yes"><exception inflected="yes">einen</exception></token>
                     <token regexp="yes">deutlich|eindeutig|einfach|klar|viel|zweifellos</token>
                     <marker>
-                        <token postag="ADJ:.*" postag_regexp="yes"><exception postag="ADJ:PRD:KOM"></exception><exception postag="ADJ:PRD:GRU"></exception><exception regexp="yes">dehnbarer|andere|teilweise|lange|höher|einige|solche</exception></token>
+                        <token postag="ADJ:.*" postag_regexp="yes"><exception postag="ADJ:PRD:KOM"/><exception postag="ADJ:PRD:GRU"/><exception regexp="yes">dehnbarer|andere|teilweise|lange|höher|einige|solche</exception></token>
                     </marker>
                     <token>als</token>
                 </pattern>
@@ -2247,7 +2247,7 @@ $Id$
                         <exception inflected="yes">machen</exception>
                         <exception inflected="yes">schreiben</exception>
                         <exception inflected="yes">texten</exception>
-                        <exception postag=".*KJ2.*|.*PRT.*" postag_regexp="yes"></exception>
+                        <exception postag=".*KJ2.*|.*PRT.*" postag_regexp="yes"/>
                     </token>
                 </pattern>
                 <message>Meinten Sie <suggestion>Leider</suggestion>?</message>
@@ -3863,7 +3863,7 @@ $Id$
                 <pattern>
                     <token regexp="yes">an|auf|über|in</token>
                     <token regexp="yes">den|die|das</token>
-                    <token postag="SUB:AKK:.+" postag_regexp="yes"><exception postag="SUB:DAT:PLU.+" postag_regexp="yes"></exception></token>
+                    <token postag="SUB:AKK:.+" postag_regexp="yes"><exception postag="SUB:DAT:PLU.+" postag_regexp="yes"/></token>
                     <marker>
                         <token>gehangen</token>
                     </marker>
@@ -4338,14 +4338,14 @@ $Id$
             <rule>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START" skip="-1">
-                        <exception scope="next" postag=".*NEU.*|UNKNOWN" postag_regexp="yes"></exception>
-                        <exception scope="next" postag="UNKNOWN"></exception>
+                        <exception scope="next" postag=".*NEU.*|UNKNOWN" postag_regexp="yes"/>
+                        <exception scope="next" postag="UNKNOWN"/>
                     </token>
                     <token regexp="yes" inflected="yes">sagen|berichten|meinen|glauben|schreiben|denken</token>
                     <token>,</token>
                     <marker>
                         <token skip="-1">das
-                            <exception scope="next" postag=".*NEU.*" postag_regexp="yes"></exception>
+                            <exception scope="next" postag=".*NEU.*" postag_regexp="yes"/>
                             <!-- <exception scope="next" postag="UNKNOWN"/> TODO not working -->
                             <exception scope="next">heißt</exception>
                         </token>
@@ -4386,7 +4386,7 @@ $Id$
                     <marker>
                         <token>dass</token>
                     </marker>
-                    <token postag="VER:(AUX:)?(2|3):.+" postag_regexp="yes"><exception postag="(PA2|SUB|ART|ADJ):.+" postag_regexp="yes" scope="current"></exception><exception regexp="yes" scope="current">sieben|gilt|äußerst|anstelle|einst|meinen?|tausenden?|!(hat)</exception></token>
+                    <token postag="VER:(AUX:)?(2|3):.+" postag_regexp="yes"><exception postag="(PA2|SUB|ART|ADJ):.+" postag_regexp="yes" scope="current"/><exception regexp="yes" scope="current">sieben|gilt|äußerst|anstelle|einst|meinen?|tausenden?|!(hat)</exception></token>
                 </pattern>
                 <message>Meinten Sie <suggestion>das</suggestion>? Die Subjunktion 'dass' scheint an dieser Stelle nicht zu passen.</message>
                 <url>http://www.duden.de/rechtschreibung/dass#bi-artikel-div-block_1</url>
@@ -4421,7 +4421,7 @@ $Id$
                     <token>,</token>
                     <marker>
                         <token>so</token>
-                        <token skip="-1">das<exception scope="next" postag=".*NEU.*" postag_regexp="yes"></exception></token>
+                        <token skip="-1">das<exception scope="next" postag=".*NEU.*" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="SENT_END"/>
                 </pattern>
@@ -4692,7 +4692,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="ADJ:NOM:SIN:NEU.*" postag_regexp="yes" regexp="yes">.+es<exception postag="ADJ:.+:SIN:MAS.*" postag_regexp="yes"></exception></token>
+                    <token postag="ADJ:NOM:SIN:NEU.*" postag_regexp="yes" regexp="yes">.+es<exception postag="ADJ:.+:SIN:MAS.*" postag_regexp="yes"/></token>
                     <token regexp="yes">.*(Schutz|Abfang|Abwehr)schild</token>
                 </pattern>
                 <message>'Schild' im Sinne von 'Schutzwaffe' ist ein maskulines Nomen. Vorschlag: <suggestion><match no="1" regexp_replace="er" regexp_match="es$"/> \2</suggestion></message>
@@ -6160,8 +6160,8 @@ $Id$
             <!-- TODO needs work -->
             <rule>
                 <pattern case_sensitive="no">
-                    <token postag="VER:(AUX:)?(1|2|3):.+" postag_regexp="yes"><exception postag="(PA2|SUB|ART|ADJ):.+" postag_regexp="yes" scope="current"></exception></token>
-                    <token postag="ZAL"><exception scope="previous" postag=".*ART.*" postag_regexp="yes"></exception></token>
+                    <token postag="VER:(AUX:)?(1|2|3):.+" postag_regexp="yes"><exception postag="(PA2|SUB|ART|ADJ):.+" postag_regexp="yes" scope="current"/></token>
+                    <token postag="ZAL"><exception scope="previous" postag=".*ART.*" postag_regexp="yes"/></token>
                     <marker>
                         <token>Jahrelang</token>
                     </marker>
@@ -6174,7 +6174,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="no">
-                    <token postag="VER:(AUX:)?(1|2|3):.+" postag_regexp="yes"><exception postag="(PA2|SUB|ART|ADJ):.+" postag_regexp="yes" scope="current"></exception></token>
+                    <token postag="VER:(AUX:)?(1|2|3):.+" postag_regexp="yes"><exception postag="(PA2|SUB|ART|ADJ):.+" postag_regexp="yes" scope="current"/></token>
                     <token regexp="yes">einige|viele|etliche|mehrere</token>
                     <marker>
                         <token>Jahrelang</token>
@@ -6291,7 +6291,7 @@ $Id$
                         <token postag="ZAL"/>
                         <token>mal</token>
                     </marker>
-                    <token><exception postag="ZAL"></exception></token>
+                    <token><exception postag="ZAL"/></token>
                 </pattern>
                 <message>&getrennt;: <suggestion>\1<match no="2" case_conversion="alllower"/></suggestion> sollte meist zusammen geschrieben werden, außer wenn das Wort 'Mal' besonders betont werden soll.</message>
                 <url>http://www.duden.de/rechtschreibung/mal</url>
@@ -6402,7 +6402,7 @@ $Id$
             <rule>
                 <pattern case_sensitive="yes">
                     <token inflected="yes" postag="VER:.+" postag_regexp="yes">sollen</token>
-                    <token skip="2">es<exception scope="next" postag="SENT_END"></exception></token>
+                    <token skip="2">es<exception scope="next" postag="SENT_END"/></token>
                     <marker>
                         <token>guthaben</token>
                     </marker>
@@ -6527,7 +6527,7 @@ $Id$
         <rulegroup id="ZEIT_LEBENS" name="Zusammen-/Getrenntschreibung: 'zeit Lebens (zeitlebens)'" default="on">
             <rule>
                 <pattern case_sensitive="no">
-                    <token><exception postag="SENT_START"></exception></token>
+                    <token><exception postag="SENT_START"/></token>
                     <marker>
                         <token>zeit</token>
                         <token>Lebens</token>
@@ -6595,7 +6595,7 @@ $Id$
                         <token>da</token>
                         <token regexp="yes">nach|neben|ran|rauf|runter</token>
                     </marker>
-                    <token postag="VER:(AUX:|MOD:)?(1|2|3):.+" postag_regexp="yes"><exception postag="(PA2|SUB|ART|ADJ):.+" postag_regexp="yes" scope="current"></exception><exception regexp="yes" scope="current">sieben|gilt|äußerst|einst|meinen?|tausenden?|!(hat)</exception></token>
+                    <token postag="VER:(AUX:|MOD:)?(1|2|3):.+" postag_regexp="yes"><exception postag="(PA2|SUB|ART|ADJ):.+" postag_regexp="yes" scope="current"/><exception regexp="yes" scope="current">sieben|gilt|äußerst|einst|meinen?|tausenden?|!(hat)</exception></token>
                 </pattern>
                 <message>&getrennt;: Meinten Sie <suggestion>da\2</suggestion>?</message>
                 <short>&getrennt;.</short>
@@ -6626,7 +6626,7 @@ $Id$
                         <token regexp="yes">(nach|trotz|seit|außer|in)dem</token>
                     </marker>
                     <token postag="SUB:DAT:SIN:(MAS|NEU)" postag_regexp="yes"/>
-                    <token postag="(SENT_END)|VER:(AUX:)?(1|2|3):.+" postag_regexp="yes"><exception postag="(PA2|SUB|ART|ADJ):.+" postag_regexp="yes" scope="current"></exception><exception regexp="yes" scope="current">sieben|äußerst|anstelle|einst|meinen?|tausenden?</exception></token>
+                    <token postag="(SENT_END)|VER:(AUX:)?(1|2|3):.+" postag_regexp="yes"><exception postag="(PA2|SUB|ART|ADJ):.+" postag_regexp="yes" scope="current"/><exception regexp="yes" scope="current">sieben|äußerst|anstelle|einst|meinen?|tausenden?</exception></token>
                 </pattern>
                 <message>Möglicherweise muss <suggestion><match no="1" regexp_replace="" regexp_match="dem"/> dem</suggestion> hier getrennt geschrieben werden.</message>
                 <example type="incorrect" correction="nach dem">Die Ruhe <marker>nachdem</marker> Sturm ist vollkommen.</example>
@@ -6642,7 +6642,7 @@ $Id$
                     </marker>
                     <token postag="SUB:DAT:SIN:(MAS|NEU)" postag_regexp="yes"/>
                     <!-- token>Essen</token -->
-                    <token postag="(SENT_END)|VER:(AUX:)?(1|2|3):.+" postag_regexp="yes"><exception postag="(PA2|SUB|ART|ADJ):.+" postag_regexp="yes" scope="current"></exception><exception regexp="yes" scope="current">sieben|äußerst|anstelle|einst|meinen?|tausenden?</exception></token>
+                    <token postag="(SENT_END)|VER:(AUX:)?(1|2|3):.+" postag_regexp="yes"><exception postag="(PA2|SUB|ART|ADJ):.+" postag_regexp="yes" scope="current"/><exception regexp="yes" scope="current">sieben|äußerst|anstelle|einst|meinen?|tausenden?</exception></token>
                 </pattern>
                 <message>Möglicherweise muss <suggestion><match no="1" regexp_replace="" regexp_match="dem"/> dem</suggestion> hier getrennt geschrieben werden.</message>
                 <example type="incorrect" correction="Seit dem"><marker>Seitdem</marker> Frühstück bin ich müde.</example>
@@ -6697,7 +6697,7 @@ $Id$
                     <token>nach</token>
                     <token>dem</token>
                 </marker>
-                <token><exception postag="(ADJ|SUB|PA[12]):DAT:SIN:(MAS|NEU).*|PRP.*" postag_regexp="yes"></exception></token>
+                <token><exception postag="(ADJ|SUB|PA[12]):DAT:SIN:(MAS|NEU).*|PRP.*" postag_regexp="yes"/></token>
             </pattern>
             <message>&inwend;<suggestion>je nachdem</suggestion> wird 'nachdem' in der Regel zusammengeschrieben.</message>
             <example type="correct">Man konnte traurig oder fröhlich werden, <marker>je nachdem</marker>.</example>
@@ -8419,7 +8419,7 @@ $Id$
                 <pattern case_sensitive="yes">
                     <token regexp="yes">kleine[ns]?</token>
                     <token regexp="yes" postag="SUB:[A-Z]{3}:SIN:NEU" postag_regexp="yes">[A-ZÄÖÜ][a-zäöüß]+chen
-                        <exception postag="SUB:.+:NEU" postag_regexp="yes" negate_pos="yes"></exception>
+                        <exception postag="SUB:.+:NEU" postag_regexp="yes" negate_pos="yes"/>
                         <exception regexp="yes">Mädchen|Veilchen|München</exception>
                     </token>
                 </pattern>
@@ -8436,7 +8436,7 @@ $Id$
                 <pattern case_sensitive="yes">
                     <token>weibliche</token>
                     <token regexp="yes" postag="SUB:[A-Z]{3}:SIN:FEM" postag_regexp="yes">[A-ZÄÖÜ][a-zäöüß]+in
-                        <exception postag="SUB:.+:FEM" postag_regexp="yes" negate_pos="yes"></exception>
+                        <exception postag="SUB:.+:FEM" postag_regexp="yes" negate_pos="yes"/>
                     </token>
                 </pattern>
                 <message>Die Endung '-in' beinhaltet bereits das Merkmal 'weiblich'. In manchen Kontexten kann diese Formulierung deswegen redundant erscheinen. Vorschläge: <suggestion>\2</suggestion>, <suggestion>Frau</suggestion>, <suggestion>Mädchen</suggestion></message>
@@ -8448,7 +8448,7 @@ $Id$
                 <pattern case_sensitive="yes">
                     <token regexp="yes">weiblichen?</token>
                     <token regexp="yes" postag="SUB:[A-Z]{3}:PLU:FEM" postag_regexp="yes">[A-ZÄÖÜ][a-zäöüß]+innen
-                        <exception postag="SUB:.+:FEM" postag_regexp="yes" negate_pos="yes"></exception>
+                        <exception postag="SUB:.+:FEM" postag_regexp="yes" negate_pos="yes"/>
                     </token>
                 </pattern>
                 <message>Die Endung '-innen' beinhaltet bereits das Merkmal 'weiblich'. In manchen Kontexten kann diese Formulierung deswegen redundant erscheinen. Vorschläge: <suggestion>\2</suggestion>, <suggestion>Frauen</suggestion>, <suggestion>Mädchen</suggestion></message>
@@ -17341,7 +17341,7 @@ $Id$
                         <token>recht</token>
                     </marker>
                     <token>
-                        <exception postag="ADJ:.+" postag_regexp="yes"></exception>
+                        <exception postag="ADJ:.+" postag_regexp="yes"/>
                     </token>
                 </pattern>
                 <message>&inwend;<suggestion>zu Recht</suggestion> (im Sinne von <suggestion>berechtigterweise</suggestion>) wird 'Recht' großgeschrieben, sofern es nicht als Adverb ein darauf folgendes Adjektiv näher bestimmt. Als Bestandteil von Verben wie 'zurechtkommen', '-finden' schreiben Sie bitte <suggestion>zurecht</suggestion>.</message>
@@ -25101,7 +25101,7 @@ $Id$
             <!-- NOTE es gibt viele Fehler in der Wikipedia, die auf falsche (”) oder fehlende Anführungszeichen zurückzuführen sind -->
             <rule>
                 <pattern>
-                    <token skip="-1" postag="SENT_START"></token>
+                    <token skip="-1" postag="SENT_START"/>
                     <token skip="-1">„<exception scope="next" regexp="yes">“|‚</exception></token>
                     <marker>
                         <token skip="-1" spacebefore="yes">„</token>
