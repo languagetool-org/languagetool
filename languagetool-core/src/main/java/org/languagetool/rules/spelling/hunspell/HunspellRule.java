@@ -97,7 +97,7 @@ public class HunspellRule extends SpellingCheckRule {
       if (word.length() == 1) { // hunspell dictionaries usually do not contain punctuation
         isAlphabetic = StringTools.isAlphabetic(word.charAt(0));
       }
-      if (isAlphabetic && dictionary.misspelled(word)) {
+      if (isAlphabetic && !word.equals("--") && dictionary.misspelled(word)) {
         final RuleMatch ruleMatch = new RuleMatch(this,
                 len, len + word.length(),
                 messages.getString("spelling"),

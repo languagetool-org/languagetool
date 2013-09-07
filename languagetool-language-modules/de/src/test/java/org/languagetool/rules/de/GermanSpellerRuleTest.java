@@ -20,10 +20,8 @@ package org.languagetool.rules.de;
 
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
 import org.languagetool.TestTools;
 import org.languagetool.language.AustrianGerman;
-import org.languagetool.language.German;
 import org.languagetool.language.GermanyGerman;
 import org.languagetool.language.SwissGerman;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
@@ -35,6 +33,16 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class GermanSpellerRuleTest {
+
+  @Test
+  public void testDash() throws Exception {
+    final GermanyGerman language = new GermanyGerman();
+    final HunspellRule rule = new GermanSpellerRule(TestTools.getMessages("German"), language);
+    final JLanguageTool langTool = new JLanguageTool(language);
+    commonGermanAsserts(rule, langTool);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Ist doch - gut")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Ist doch -- gut")).length);
+  }
 
   // note: copied from HunspellRuleTest
   @Test
