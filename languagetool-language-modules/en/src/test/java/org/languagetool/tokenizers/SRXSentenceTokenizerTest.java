@@ -39,70 +39,70 @@ public class SRXSentenceTokenizerTest extends TestCase {
   // have correct whitespace when appended:
   public void testTokenize() {
     // incomplete sentences, need to work for on-thy-fly checking of texts:
-    testSplit(new String[] { "Here's a" });
-    testSplit(new String[] { "Here's a sentence. ", "And here's one that's not comp" });
+    testSplit("Here's a");
+    testSplit("Here's a sentence. ", "And here's one that's not comp");
 
-    testSplit(new String[] { "This is a sentence. " });
-    testSplit(new String[] { "This is a sentence. ", "And this is another one." });
-    testSplit(new String[] { "This is a sentence.", "Isn't it?", "Yes, it is." });
-    testSplit(new String[] { "This is e.g. Mr. Smith, who talks slowly...",
-        "But this is another sentence." });
-    testSplit(new String[] { "Chanel no. 5 is blah." });
-    testSplit(new String[] { "Mrs. Jones gave Peter $4.5, to buy Chanel No 5.",
-        "He never came back." });
-    testSplit(new String[] { "On p. 6 there's nothing. ", "Another sentence." });
-    testSplit(new String[] { "Leave me alone!, he yelled. ", "Another sentence." });
-    testSplit(new String[] { "\"Leave me alone!\", he yelled." });
-    testSplit(new String[] { "'Leave me alone!', he yelled. ", "Another sentence." });
-    testSplit(new String[] { "'Leave me alone!,' he yelled. ", "Another sentence." });
-    testSplit(new String[] { "This works on the phrase level, i.e. not on the word level." });
-    testSplit(new String[] { "Let's meet at 5 p.m. in the main street." });
-    testSplit(new String[] { "James comes from the U.K. where he worked as a programmer." });
-    testSplit(new String[] { "Don't split strings like U.S.A. please." });
-    testSplit(new String[] { "Don't split strings like U. S. A. either." });
-    testSplit(new String[] { "Don't split... ", "Well you know. ", "Here comes more text." });
-    testSplit(new String[] { "Don't split... well you know. ", "Here comes more text." });
-    testSplit(new String[] { "The \".\" should not be a delimiter in quotes." });
-    testSplit(new String[] { "\"Here he comes!\" she said." });
-    testSplit(new String[] { "\"Here he comes!\", she said." });
-    testSplit(new String[] { "\"Here he comes.\" ", "But this is another sentence." });
-    testSplit(new String[] { "\"Here he comes!\". ", "That's what he said." });
-    testSplit(new String[] { "The sentence ends here. ", "(Another sentence.)" });
-    testSplit(new String[] { "The sentence (...) ends here." });
-    testSplit(new String[] { "The sentence [...] ends here." });
-    testSplit(new String[] { "The sentence ends here (...). ", "Another sentence." });
+    testSplit("This is a sentence. ");
+    testSplit("This is a sentence. ", "And this is another one.");
+    testSplit("This is a sentence.", "Isn't it?", "Yes, it is.");
+    testSplit("This is e.g. Mr. Smith, who talks slowly...",
+            "But this is another sentence.");
+    testSplit("Chanel no. 5 is blah.");
+    testSplit("Mrs. Jones gave Peter $4.5, to buy Chanel No 5.",
+            "He never came back.");
+    testSplit("On p. 6 there's nothing. ", "Another sentence.");
+    testSplit("Leave me alone!, he yelled. ", "Another sentence.");
+    testSplit("\"Leave me alone!\", he yelled.");
+    testSplit("'Leave me alone!', he yelled. ", "Another sentence.");
+    testSplit("'Leave me alone!,' he yelled. ", "Another sentence.");
+    testSplit("This works on the phrase level, i.e. not on the word level.");
+    testSplit("Let's meet at 5 p.m. in the main street.");
+    testSplit("James comes from the U.K. where he worked as a programmer.");
+    testSplit("Don't split strings like U.S.A. please.");
+    testSplit("Don't split strings like U. S. A. either.");
+    testSplit("Don't split... ", "Well you know. ", "Here comes more text.");
+    testSplit("Don't split... well you know. ", "Here comes more text.");
+    testSplit("The \".\" should not be a delimiter in quotes.");
+    testSplit("\"Here he comes!\" she said.");
+    testSplit("\"Here he comes!\", she said.");
+    testSplit("\"Here he comes.\" ", "But this is another sentence.");
+    testSplit("\"Here he comes!\". ", "That's what he said.");
+    testSplit("The sentence ends here. ", "(Another sentence.)");
+    testSplit("The sentence (...) ends here.");
+    testSplit("The sentence [...] ends here.");
+    testSplit("The sentence ends here (...). ", "Another sentence.");
     // previously known failed but not now :)
-    testSplit(new String[]{"He won't. ", "Really."});
-    testSplit(new String[]{"He will not. ", "Really."});
-    testSplit(new String[] { "He won't go. ", "Really." });
-    testSplit(new String[] { "He won't say no.", "Not really." });
-    testSplit(new String[] { "He won't say No.", "Not really." });
-    testSplit(new String[] { "He won't say no. 5 is better. ", "Not really." });
-    testSplit(new String[] { "He won't say No. 5 is better. ", "Not really." });
-    testSplit(new String[] { "They met at 5 p.m. on Thursday." });
-    testSplit(new String[] { "They met at 5 p.m. ", "It was Thursday." });
-    testSplit(new String[] { "This is it: a test." });
+    testSplit("He won't. ", "Really.");
+    testSplit("He will not. ", "Really.");
+    testSplit("He won't go. ", "Really.");
+    testSplit("He won't say no.", "Not really.");
+    testSplit("He won't say No.", "Not really.");
+    testSplit("He won't say no. 5 is better. ", "Not really.");
+    testSplit("He won't say No. 5 is better. ", "Not really.");
+    testSplit("They met at 5 p.m. on Thursday.");
+    testSplit("They met at 5 p.m. ", "It was Thursday.");
+    testSplit("This is it: a test.");
     // one/two returns = paragraph = new sentence:
     TestTools.testSplit(new String[] { "He won't\n\n", "Really." }, stokenizer2);
     TestTools.testSplit(new String[] { "He won't\n", "Really." }, stokenizer);
     TestTools.testSplit(new String[] { "He won't\n\n", "Really." }, stokenizer2);
     TestTools.testSplit(new String[] { "He won't\nReally." }, stokenizer2);
     // Missing space after sentence end:
-    testSplit(new String[] { "James is from the Ireland!", "He lives in Spain now." });
+    testSplit("James is from the Ireland!", "He lives in Spain now.");
     // From the abbreviation list:
-    testSplit(new String[] { "Jones Bros. have built a successful company." });
+    testSplit("Jones Bros. have built a successful company.");
     // parentheses:
-    testSplit(new String[] { "It (really!) works." });
-    testSplit(new String[] { "It [really!] works." });
-    testSplit(new String[] { "It works (really!). ", "No doubt." });
-    testSplit(new String[] { "It works [really!]. ", "No doubt." });
-    testSplit(new String[] { "It really(!) works well." });
-    testSplit(new String[] { "It really[!] works well." });
+    testSplit("It (really!) works.");
+    testSplit("It [really!] works.");
+    testSplit("It works (really!). ", "No doubt.");
+    testSplit("It works [really!]. ", "No doubt.");
+    testSplit("It really(!) works well.");
+    testSplit("It really[!] works well.");
 
-    testSplit(new String[] { "This is a sentence.\u0002 ", "And this is another one." });  // footnotes in LibOO/OOo look like this
+    testSplit("This is a sentence.\u0002 ", "And this is another one.");  // footnotes in LibOO/OOo look like this
   }
 
-  private void testSplit(String[] sentences) {
+  private void testSplit(String... sentences) {
     TestTools.testSplit(sentences, stokenizer);
   }
   

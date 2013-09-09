@@ -32,55 +32,55 @@ public class CatalanSentenceTokenizerTest extends TestCase {
   public final void testTokenize() {
 
     // Simple sentences
-    testSplit(new String[] { "Això és una frase. ", "Això és una altra frase." });
-    testSplit(new String[] { "Aquesta és l'egua. ", "Aquell és el cavall." });
-    testSplit(new String[] { "Aquesta és l'egua? ", "Aquell és el cavall." });
-    testSplit(new String[] { "Vols col·laborar? ", "Sí, i tant." });
-    testSplit(new String[] { "Com vas d'il·lusió? ", "Bé, bé." });
-    testSplit(new String[] { "Com vas d’il·lusió? ", "Bé, bé." });
-    testSplit(new String[] { "És d’abans-d’ahir? ", "Bé, bé." });
-    testSplit(new String[] { "És d’abans-d’ahir! ", "Bé, bé." });
-    testSplit(new String[] { "Què vols dir? ", "Ja ho tinc!" });
-    testSplit(new String[] { "Ja ho tinc! ", "Què vols dir?" });
-    testSplit(new String[] { "Us explicaré com va anar: ",
-        "»La Maria va engegar el cotxe" });
-    testSplit(new String[] { "diu que va dir. ",
-    "A mi em feia estrany." });    
+    testSplit("Això és una frase. ", "Això és una altra frase.");
+    testSplit("Aquesta és l'egua. ", "Aquell és el cavall.");
+    testSplit("Aquesta és l'egua? ", "Aquell és el cavall.");
+    testSplit("Vols col·laborar? ", "Sí, i tant.");
+    testSplit("Com vas d'il·lusió? ", "Bé, bé.");
+    testSplit("Com vas d’il·lusió? ", "Bé, bé.");
+    testSplit("És d’abans-d’ahir? ", "Bé, bé.");
+    testSplit("És d’abans-d’ahir! ", "Bé, bé.");
+    testSplit("Què vols dir? ", "Ja ho tinc!");
+    testSplit("Ja ho tinc! ", "Què vols dir?");
+    testSplit("Us explicaré com va anar: ",
+            "»La Maria va engegar el cotxe");
+    testSplit("diu que va dir. ",
+            "A mi em feia estrany.");    
 
     // Initials
-    testSplit(new String[] { "A l'atenció d'A. Comes." });
-    testSplit(new String[] { "A l'atenció d'À. Comes." });
-    testSplit(new String[] { "Núm. operació 220130000138." });
+    testSplit("A l'atenció d'A. Comes.");
+    testSplit("A l'atenció d'À. Comes.");
+    testSplit("Núm. operació 220130000138.");
 
     // Ellipsis
-    testSplit(new String[] { "el vi no és gens propi de monjos, amb tot...\" vetllant, això sí" });
-    testSplit(new String[] { "Desenganyeu-vos… ",
-        "L’únic problema seriós de l'home en aquest món és el de subsistir." });
-    testSplit(new String[] { "és clar… traduir és una feina endimoniada" });
-    testSplit(new String[] { "«El cordó del frare…» surt d'una manera desguitarrada" });
-    testSplit(new String[] { "convidar el seu heroi –del ram que sigui–… a prendre cafè." });
+    testSplit("el vi no és gens propi de monjos, amb tot...\" vetllant, això sí");
+    testSplit("Desenganyeu-vos… ",
+            "L’únic problema seriós de l'home en aquest món és el de subsistir.");
+    testSplit("és clar… traduir és una feina endimoniada");
+    testSplit("«El cordó del frare…» surt d'una manera desguitarrada");
+    testSplit("convidar el seu heroi –del ram que sigui–… a prendre cafè.");
 
     // Abbreviations
-    testSplit(new String[] { "Vegeu el cap. 24 del llibre." });
-    testSplit(new String[] { "Vegeu el cap. IX del llibre." });
-    testSplit(new String[] { "Viu al núm. 24 del carrer de l'Hort." });
-    testSplit(new String[] { "El Dr. Joan no vindrà." });
-    testSplit(new String[] { "Distingit Sr. Joan," });
-    testSplit(new String[] { "Molt Hble. Sr. President" });
-    testSplit(new String[] { "de Sant Nicolau (del s. XII; cor gòtic del s. XIV) i de Sant " });
+    testSplit("Vegeu el cap. 24 del llibre.");
+    testSplit("Vegeu el cap. IX del llibre.");
+    testSplit("Viu al núm. 24 del carrer de l'Hort.");
+    testSplit("El Dr. Joan no vindrà.");
+    testSplit("Distingit Sr. Joan,");
+    testSplit("Molt Hble. Sr. President");
+    testSplit("de Sant Nicolau (del s. XII; cor gòtic del s. XIV) i de Sant ");
 
     // Exception to abbreviations
-    testSplit(new String[] { "Ell és el número u. ", "Jo el dos." });
-    testSplit(new String[] { "Té un trau al cap. ", "Cal portar-lo a l'hospital." });
+    testSplit("Ell és el número u. ", "Jo el dos.");
+    testSplit("Té un trau al cap. ", "Cal portar-lo a l'hospital.");
     // Units
-    testSplit(new String[] { "1 500 m/s. ", "Neix a" });
+    testSplit("1 500 m/s. ", "Neix a");
     
     //Error: missing space. It is not split in order to trigger other errors. 
-    testSplit(new String[] { "s'hi enfrontà quan G.Oueddei n'esdevingué líder" });
-    testSplit(new String[] { "el jesuïta alemany J.E. Nithard" });
+    testSplit("s'hi enfrontà quan G.Oueddei n'esdevingué líder");
+    testSplit("el jesuïta alemany J.E. Nithard");
   }
 
-  private void testSplit(final String[] sentences) {
+  private void testSplit(final String... sentences) {
     TestTools.testSplit(sentences, stokenizer);
   }
 

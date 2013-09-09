@@ -45,66 +45,66 @@ public class RomanianSentenceTokenizerTest extends TestCase {
 
   public final void testTokenize() {
 
-    testSplit(new String[] { "Aceasta este o propozitie fara diacritice. " });
-    testSplit(new String[] { "Aceasta este o fraza fara diacritice. ",
-            "Propozitia a doua, tot fara diacritice. " });
-    testSplit(new String[] { "Aceasta este o propoziție cu diacritice. " });
-    testSplit(new String[] { "Aceasta este o propoziție cu diacritice. ",
-            "Propoziția a doua, cu diacritice. " });
+    testSplit("Aceasta este o propozitie fara diacritice. ");
+    testSplit("Aceasta este o fraza fara diacritice. ",
+            "Propozitia a doua, tot fara diacritice. ");
+    testSplit("Aceasta este o propoziție cu diacritice. ");
+    testSplit("Aceasta este o propoziție cu diacritice. ",
+            "Propoziția a doua, cu diacritice. ");
 
-    testSplit(new String[] { "O propoziție! ", "Și încă o propoziție. "});
-    testSplit(new String[] { "O propoziție... ", "Și încă o propoziție. "});
-    testSplit(new String[] { "La adresa http://www.archeus.ro găsiți resurse lingvistice. "});
-    testSplit(new String[] { "Data de 10.02.2009 nu trebuie să fie separator de propoziții. "});
-    testSplit(new String[] { "Astăzi suntem în data de 07.05.2007. "});
-    testSplit(new String[] { "Astăzi suntem în data de 07/05/2007. "});
-    testSplit(new String[] { "La anumărul (1) avem puține informații. "});
-    testSplit(new String[] { "To jest 1. wydanie." });
-    testSplit(new String[] { "La anumărul 1. avem puține informații. "});
-    testSplit(new String[] { "La anumărul 13. avem puține informații. "});
-    testSplit(new String[] { "La anumărul 1.3.3 avem puține informații. "});
+    testSplit("O propoziție! ", "Și încă o propoziție. ");
+    testSplit("O propoziție... ", "Și încă o propoziție. ");
+    testSplit("La adresa http://www.archeus.ro găsiți resurse lingvistice. ");
+    testSplit("Data de 10.02.2009 nu trebuie să fie separator de propoziții. ");
+    testSplit("Astăzi suntem în data de 07.05.2007. ");
+    testSplit("Astăzi suntem în data de 07/05/2007. ");
+    testSplit("La anumărul (1) avem puține informații. ");
+    testSplit("To jest 1. wydanie.");
+    testSplit("La anumărul 1. avem puține informații. ");
+    testSplit("La anumărul 13. avem puține informații. ");
+    testSplit("La anumărul 1.3.3 avem puține informații. ");
 
-    testSplit(new String[] { "O singură propoziție... "});
-    testSplit(new String[] { "Colegii mei s-au dus... "});
-    testSplit(new String[] { "O singură propoziție!!! "});
-    testSplit(new String[] { "O singură propoziție??? "});
+    testSplit("O singură propoziție... ");
+    testSplit("Colegii mei s-au dus... ");
+    testSplit("O singură propoziție!!! ");
+    testSplit("O singură propoziție??? ");
 
-    testSplit(new String[] { "Propoziții: una și alta. "});
+    testSplit("Propoziții: una și alta. ");
 
-    testSplit(new String[] { "Domnu' a plecat. "});
-    testSplit(new String[] { "Profu' de istorie tre' să predea lecția. "});
-    testSplit(new String[] { "Sal'tare! "});
-    testSplit(new String[] { "'Neaţa! "});
-    testSplit(new String[] { "Deodat'apare un urs. "});
+    testSplit("Domnu' a plecat. ");
+    testSplit("Profu' de istorie tre' să predea lecția. ");
+    testSplit("Sal'tare! ");
+    testSplit("'Neaţa! ");
+    testSplit("Deodat'apare un urs. ");
     // accente
-    testSplit(new String[] { "A făcut două cópii. "});
-    testSplit(new String[] { "Ionel adúnă acum ceea ce Maria aduná înainte să vin eu. "});
+    testSplit("A făcut două cópii. ");
+    testSplit("Ionel adúnă acum ceea ce Maria aduná înainte să vin eu. ");
 
     // incomplete sentences, need to work for on-thy-fly checking of texts:
-    testSplit(new String[] { "Domnu' a plecat" });
-    testSplit(new String[] { "Domnu' a plecat. ",
-            "El nu a plecat" });
+    testSplit("Domnu' a plecat");
+    testSplit("Domnu' a plecat. ",
+            "El nu a plecat");
 
-    testSplit(new String[] { "Se pot întâlni și abrevieri precum S.U.A. " +
-            "sau B.C.R. într-o singură propoziție." });
-    testSplit(new String[] { "Se pot întâlni și abrevieri precum S.U.A. sau B.C.R. ",
-            "Aici sunt două propoziții." });
-    testSplit(new String[] { "Același lucru aici... ", "Aici sunt două propoziții." });
-    testSplit(new String[] { "Același lucru aici... dar cu o singură propoziție." });
+    testSplit("Se pot întâlni și abrevieri precum S.U.A. " +
+            "sau B.C.R. într-o singură propoziție.");
+    testSplit("Se pot întâlni și abrevieri precum S.U.A. sau B.C.R. ",
+            "Aici sunt două propoziții.");
+    testSplit("Același lucru aici... ", "Aici sunt două propoziții.");
+    testSplit("Același lucru aici... dar cu o singură propoziție.");
 
-    testSplit(new String[] { "„O propoziție!” ", "O alta." });
-    testSplit(new String[] { "„O propoziție!!!” ", "O alta." });
-    testSplit(new String[] { "„O propoziție?” ", "O alta." });
-    testSplit(new String[] { "„O propoziție?!?” ", "O alta." });
-    testSplit(new String[] { "«O propoziție!» ", "O alta." });
-    testSplit(new String[] { "«O propoziție!!!» ", "O alta." });
-    testSplit(new String[] { "«O propoziție?» ", "O alta." });
-    testSplit(new String[] { "«O propoziție???» ", "O alta." });
-    testSplit(new String[] { "«O propoziție?!?» ", "O alta." });
-    testSplit(new String[] { "O primă propoziție. ", "(O alta.)" });
+    testSplit("„O propoziție!” ", "O alta.");
+    testSplit("„O propoziție!!!” ", "O alta.");
+    testSplit("„O propoziție?” ", "O alta.");
+    testSplit("„O propoziție?!?” ", "O alta.");
+    testSplit("«O propoziție!» ", "O alta.");
+    testSplit("«O propoziție!!!» ", "O alta.");
+    testSplit("«O propoziție?» ", "O alta.");
+    testSplit("«O propoziție???» ", "O alta.");
+    testSplit("«O propoziție?!?» ", "O alta.");
+    testSplit("O primă propoziție. ", "(O alta.)");
 
-    testSplit(new String[] { "A venit domnu' Vasile. " });
-    testSplit(new String[] { "A venit domnu' acela. " });
+    testSplit("A venit domnu' Vasile. ");
+    testSplit("A venit domnu' acela. ");
 
     // one/two returns = paragraph = new sentence:
     TestTools.testSplit(new String[] { "A venit domnul\n\n", "Vasile." }, stokenizer2);
@@ -112,62 +112,62 @@ public class RomanianSentenceTokenizerTest extends TestCase {
     TestTools.testSplit(new String[] { "A venit domnu'\n\n", "Vasile." }, stokenizer2);
     TestTools.testSplit(new String[] { "A venit domnu'\n", "Vasile." }, stokenizer);
     // Missing space after sentence end:
-    testSplit(new String[] { "El este din România!",
-            "Acum e plecat cu afaceri." });
+    testSplit("El este din România!",
+            "Acum e plecat cu afaceri.");
 
-    testSplit(new String[] { "Temperatura este de 30°C.", "Este destul de cald." });
-    testSplit(new String[] { "A alergat 50 m. ",
-            "Deja a obosit." });
+    testSplit("Temperatura este de 30°C.", "Este destul de cald.");
+    testSplit("A alergat 50 m. ",
+            "Deja a obosit.");
 
     // From the abbreviation list:
-    testSplit(new String[] { "Pentru dvs. vom face o excepție." });
-    testSplit(new String[] { "Pt. dumneavoastră vom face o excepție." });
-    testSplit(new String[] { "Pt. dvs. vom face o excepție." });
+    testSplit("Pentru dvs. vom face o excepție.");
+    testSplit("Pt. dumneavoastră vom face o excepție.");
+    testSplit("Pt. dvs. vom face o excepție.");
     // din punct de vedere
-    testSplit(new String[] { "A expus problema d.p.d.v. artistic." });
-    testSplit(new String[] { "A expus problema dpdv. artistic." });
+    testSplit("A expus problema d.p.d.v. artistic.");
+    testSplit("A expus problema dpdv. artistic.");
     // şi aşa mai departe.
-    testSplit(new String[] { "Are mere, pere, șamd. dar nu are alune." });
-    testSplit(new String[] { "Are mere, pere, ș.a.m.d. dar nu are alune." });
-    testSplit(new String[] { "Are mere, pere, ș.a.m.d. ", "În schimb, nu are alune." });
+    testSplit("Are mere, pere, șamd. dar nu are alune.");
+    testSplit("Are mere, pere, ș.a.m.d. dar nu are alune.");
+    testSplit("Are mere, pere, ș.a.m.d. ", "În schimb, nu are alune.");
     // şi celelalte
-    testSplit(new String[] { "Are mere, pere, ş.c.l. dar nu are alune." });
-    testSplit(new String[] { "Are mere, pere, ş.c.l. ", "Nu are alune." });
+    testSplit("Are mere, pere, ş.c.l. dar nu are alune.");
+    testSplit("Are mere, pere, ş.c.l. ", "Nu are alune.");
     // etc. et cetera
-    testSplit(new String[] { "Are mere, pere, etc. dar nu are alune." });
-    testSplit(new String[] { "Are mere, pere, etc. ", "Nu are alune." });
+    testSplit("Are mere, pere, etc. dar nu are alune.");
+    testSplit("Are mere, pere, etc. ", "Nu are alune.");
     // ş.a. - şi altele
-    testSplit(new String[] { "Are mere, pere, ș.a. dar nu are alune." });
+    testSplit("Are mere, pere, ș.a. dar nu are alune.");
 
     // pag, leg, art
-    testSplit(new String[] { "Lecția începe la pag. următoare și are trei pagini." });
-    testSplit(new String[] { "Lecția începe la pag. 20 și are trei pagini." });
-    testSplit(new String[] { "A acționat în conformitate cu lg. 144, art. 33." });
-    testSplit(new String[] { "A acționat în conformitate cu leg. 144, art. 33." });
-    testSplit(new String[] { "A acționat în conformitate cu legea nr. 11." });
-    testSplit(new String[] { "Lupta a avut loc în anul 2000 î.H. și a durat trei ani." });
+    testSplit("Lecția începe la pag. următoare și are trei pagini.");
+    testSplit("Lecția începe la pag. 20 și are trei pagini.");
+    testSplit("A acționat în conformitate cu lg. 144, art. 33.");
+    testSplit("A acționat în conformitate cu leg. 144, art. 33.");
+    testSplit("A acționat în conformitate cu legea nr. 11.");
+    testSplit("Lupta a avut loc în anul 2000 î.H. și a durat trei ani.");
 
     // lunile anului, abreviate
-    testSplit(new String[] { "Discuția a avut loc pe data de douăzeci aug. și a durat două ore." });
-    testSplit(new String[] { "Discuția a avut loc pe data de douăzeci ian. și a durat două ore." });
-    testSplit(new String[] { "Discuția a avut loc pe data de douăzeci feb. și a durat două ore." });
-    testSplit(new String[] { "Discuția a avut loc pe data de douăzeci ian.", "A durat două ore." });
+    testSplit("Discuția a avut loc pe data de douăzeci aug. și a durat două ore.");
+    testSplit("Discuția a avut loc pe data de douăzeci ian. și a durat două ore.");
+    testSplit("Discuția a avut loc pe data de douăzeci feb. și a durat două ore.");
+    testSplit("Discuția a avut loc pe data de douăzeci ian.", "A durat două ore.");
 
     // M.Ap.N. - Ministerul Apărării Nationale
     // there are 2 rules for this in segment.srx. Can this be done with only one rule?
-    testSplit(new String[] { "A fost și la M.Ap.N. dar nu l-au primit. " });
-    testSplit(new String[] { "A fost și la M.Ap.N. ", "Nu l-au primit. " });
+    testSplit("A fost și la M.Ap.N. dar nu l-au primit. ");
+    testSplit("A fost și la M.Ap.N. ", "Nu l-au primit. ");
 
     // sic!
-    testSplit(new String[] { "Apo' da' tulai (sic!) că mult mai e de mers." });
-    testSplit(new String[] { "Apo' da' tulai(sic!) că mult mai e de mers." });
+    testSplit("Apo' da' tulai (sic!) că mult mai e de mers.");
+    testSplit("Apo' da' tulai(sic!) că mult mai e de mers.");
 
     // […]
-    testSplit(new String[] { "Aici este o frază […] mult prescurtată." });
-    testSplit(new String[] { "Aici este o frază [...] mult prescurtată." });
+    testSplit("Aici este o frază […] mult prescurtată.");
+    testSplit("Aici este o frază [...] mult prescurtată.");
   }
 
-  private void testSplit(final String[] sentences) {
+  private void testSplit(final String... sentences) {
     TestTools.testSplit(sentences, stokenizer2);
   }
 

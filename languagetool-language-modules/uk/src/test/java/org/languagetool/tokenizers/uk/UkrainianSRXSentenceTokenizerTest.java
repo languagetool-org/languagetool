@@ -24,16 +24,13 @@ import org.languagetool.TestTools;
 import org.languagetool.language.Ukrainian;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 
-/*
- * Ukrainian SRX Sentence Tokenizer Test
- */
 public class UkrainianSRXSentenceTokenizerTest extends TestCase {
 
   private final SRXSentenceTokenizer stokenizer = new SRXSentenceTokenizer(new Ukrainian());
 
   public final void testTokenize() {
-	testSplit("Це просте речення.");
-	testSplit("Вони приїхали в Париж. ", "Але там їм геть не сподобалося.");
+    testSplit("Це просте речення.");
+    testSplit("Вони приїхали в Париж. ", "Але там їм геть не сподобалося.");
     testSplit("Панк-рок — напрям у рок-музиці, що виник у середині 1970-х рр. у США і Великобританії.");
     testSplit("Разом із втечами, вже у XV ст. почастішали збройні виступи селян.");
     testSplit("На початок 1994 р. державний борг України становив 4,8 млрд. дол.");

@@ -25,10 +25,6 @@ import org.languagetool.language.Russian;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 
-/*
- * Russian SRX Sentence Tokenizer Test
- * $Id: RussianSRXSentenceTokenizerTest.java,v 1.1 2010-02-07 14:22:38 yakovru Exp $
- */
 public class RussianSRXSentenceTokenizerTest extends TestCase {
 
   private final SentenceTokenizer stokenizer = new SRXSentenceTokenizer(new Russian());

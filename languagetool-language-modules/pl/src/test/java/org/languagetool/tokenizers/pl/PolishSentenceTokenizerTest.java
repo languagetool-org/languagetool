@@ -31,52 +31,51 @@ public class PolishSentenceTokenizerTest extends TestCase {
 
   public final void testTokenize() {
     
-    testSplit(new String[] { "To się wydarzyło 3.10.2000 i mam na to dowody." });
+    testSplit("To się wydarzyło 3.10.2000 i mam na to dowody.");
 
-    testSplit(new String[] { "To było 13.12 - nikt nie zapomni tego przemówienia." });    
-    testSplit(new String[] { "Heute ist der 13.12.2004." });
-    testSplit(new String[] { "To jest np. ten debil spod jedynki." });
-    testSplit(new String[] { "To jest 1. wydanie." });
-    testSplit(new String[] { "Dziś jest 13. rocznica powstania wąchockiego." });    
+    testSplit("To było 13.12 - nikt nie zapomni tego przemówienia.");    
+    testSplit("Heute ist der 13.12.2004.");
+    testSplit("To jest np. ten debil spod jedynki.");
+    testSplit("To jest 1. wydanie.");
+    testSplit("Dziś jest 13. rocznica powstania wąchockiego.");    
  
-    testSplit(new String[] { "Das in Punkt 3.9.1 genannte Verhalten." });
+    testSplit("Das in Punkt 3.9.1 genannte Verhalten.");
 
-    testSplit(new String[] { "To jest tzw. premier." });
-    testSplit(new String[] { "Jarek kupił sobie kurteczkę, tj. strój Marka." });
+    testSplit("To jest tzw. premier.");
+    testSplit("Jarek kupił sobie kurteczkę, tj. strój Marka.");
 
-    testSplit(new String[] { "„Prezydent jest niemądry”. ", "Tak wyszło." });
-    testSplit(new String[] { "„Prezydent jest niemądry”, powiedział premier" });
+    testSplit("„Prezydent jest niemądry”. ", "Tak wyszło.");
+    testSplit("„Prezydent jest niemądry”, powiedział premier");
 
     // from user bug reports:
-    testSplit(new String[] { "Temperatura wody w systemie wynosi 30°C.",
-        "W skład obiegu otwartego wchodzi zbiornik i armatura." });
-    testSplit(new String[] { "Zabudowano kolumny o długości 45 m. ",
-        "Woda z ujęcia jest dostarczana do zakładu." });
+    testSplit("Temperatura wody w systemie wynosi 30°C.",
+            "W skład obiegu otwartego wchodzi zbiornik i armatura.");
+    testSplit("Zabudowano kolumny o długości 45 m. ",
+            "Woda z ujęcia jest dostarczana do zakładu.");
     
     // two-letter initials:
-    testSplit(new String[] { "Najlepszym polskim reżyserem był St. Różewicz. ", "Chodzi o brata wielkiego poety." });
+    testSplit("Najlepszym polskim reżyserem był St. Różewicz. ", "Chodzi o brata wielkiego poety.");
     
     // From the abbreviation list:
-    testSplit(new String[] { "Ks. Jankowski jest prof. teologii." });
-    testSplit(new String[] { "To wydarzyło się w 1939 r.",
-        "To był burzliwy rok." });
-    testSplit(new String[] { "Prezydent jest popierany przez 20 proc. społeczeństwa." });
-    testSplit(new String[] {
-        "Moje wystąpienie ma na celu zmobilizowanie zarządu partii do działań, które umożliwią uzyskanie 40 proc.",
-        "Nie widzę dziś na scenie politycznej formacji, która lepiej by łączyła różne poglądy" });
-    testSplit(new String[] { "To jest zmienna A.", "Zaś to jest zmienna B." });
+    testSplit("Ks. Jankowski jest prof. teologii.");
+    testSplit("To wydarzyło się w 1939 r.",
+            "To był burzliwy rok.");
+    testSplit("Prezydent jest popierany przez 20 proc. społeczeństwa.");
+    testSplit("Moje wystąpienie ma na celu zmobilizowanie zarządu partii do działań, które umożliwią uzyskanie 40 proc.",
+            "Nie widzę dziś na scenie politycznej formacji, która lepiej by łączyła różne poglądy");
+    testSplit("To jest zmienna A.", "Zaś to jest zmienna B.");
     // SKROTY_BEZ_KROPKI in ENDABREVLIST
-    testSplit(new String[] { "Mam już 20 mln.", "To powinno mi wystarczyć" });
-    testSplit(new String[] { "Mam już 20 mln. buraków." });
+    testSplit("Mam już 20 mln.", "To powinno mi wystarczyć");
+    testSplit("Mam już 20 mln. buraków.");
     // ellipsis
-    testSplit(new String[] { "Rytmem tej wiecznie przemijającej światowej egzystencji […] rytmem mesjańskiej natury jest szczęście." });
+    testSplit("Rytmem tej wiecznie przemijającej światowej egzystencji […] rytmem mesjańskiej natury jest szczęście.");
     // sic!
-    testSplit(new String[] { "W gazecie napisali, że pasy (sic!) pogryzły człowieka." });
+    testSplit("W gazecie napisali, że pasy (sic!) pogryzły człowieka.");
     // Numbers with dots.
-    testSplit(new String[] { "Mam w magazynie dwie skrzynie LMD20. ", "Jestem żołnierzem i wiem, jak można ich użyć"});
+    testSplit("Mam w magazynie dwie skrzynie LMD20. ", "Jestem żołnierzem i wiem, jak można ich użyć");
   }
 
-  private void testSplit(final String[] sentences) {
+  private void testSplit(final String... sentences) {
     TestTools.testSplit(sentences, stokenizer);
   }
 
