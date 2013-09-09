@@ -60,8 +60,8 @@ public class DashRule extends GermanRule {
         // ignore
         continue;
       } 
-      if (prevToken != null && !prevToken.equals("-") && prevToken.indexOf("--") == -1 
-          && prevToken.indexOf("–-") == -1    // first char is some special kind of dash, found in Wikipedia
+      if (prevToken != null && !prevToken.equals("-") && !prevToken.contains("--") 
+          && !prevToken.contains("–-")    // first char is some special kind of dash, found in Wikipedia
           && prevToken.endsWith("-")) {
         final char firstChar = token.charAt(0);
         if (Character.isUpperCase(firstChar)) {

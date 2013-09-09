@@ -39,17 +39,17 @@ import org.languagetool.rules.RuleMatch;
  *  <li>ich + VER:[123]:.* (not VER:1:SIN): e.g. "ich bist" (incorrect) [same for du, er, wir]</li> 
  * </ul>
  * 
- * TODO
- * wenn nur ein mögliches finites Verb -> das nehmen (Max machen das.)
- * Sie (i>1)
- * bei ich/du/er/wir sofort prüfen, damit alle vorkommen geprüft werden (Ich geht jetzt nach Hause und dort gehe ich sofort unter die Dusche.) [aber: isNear]
- * Alle Verbvorkommen merken (Er präsentieren wollte und Video hätte keine Pläne.)
+ * TODO:
+ * <ul>
+ * <li>wenn nur ein mögliches finites Verb -> das nehmen (Max machen das.)
+ * <li>Sie (i>1)
+ * <li>bei ich/du/er/wir sofort prüfen, damit alle vorkommen geprüft werden (Ich geht jetzt nach Hause und dort gehe ich sofort unter die Dusche.) [aber: isNear]
+ * <li>Alle Verbvorkommen merken (Er präsentieren wollte und Video hätte keine Pläne.)
+ * </ul>
  * 
  * @author Markus Brenneis
  */
 public class VerbAgreementRule extends GermanRule {
-  
-  private AnalyzedTokenReadings finiteVerb;
   
   private static final Set<String> BIN_IGNORE = new HashSet<>(Arrays.asList(
     "Abdul",
@@ -66,7 +66,9 @@ public class VerbAgreementRule extends GermanRule {
   private static final Set<String> QUOTATION_MARKS = new HashSet<>(Arrays.asList(
     "\"", "„"
   ));
-    
+
+  private AnalyzedTokenReadings finiteVerb;
+
   public VerbAgreementRule(final ResourceBundle messages) {
     if (messages != null) {
       super.setCategory(new Category(messages.getString("category_grammar")));
@@ -185,7 +187,6 @@ public class VerbAgreementRule extends GermanRule {
     }
     
     return toRuleMatchArray(ruleMatches);
-    
   }
   
   /**
@@ -193,7 +194,7 @@ public class VerbAgreementRule extends GermanRule {
    */
   
   private boolean isNear(final int a, final int b) {
-    return ((Math.abs(a - b) < 5) && a != -1);
+    return (Math.abs(a - b) < 5) && a != -1;
   }
   
   private boolean isQuotationMark(final AnalyzedTokenReadings token) {
@@ -229,9 +230,9 @@ public class VerbAgreementRule extends GermanRule {
         || !token.hasPartialPosTag("VER")
         || token.hasPartialPosTag("PA2")
         || token.hasPartialPosTag("PRO:")
-        || token.hasPartialPosTag("ZAL"))
+        || token.hasPartialPosTag("ZAL")) {
       return false;
-    
+    }
     return (token.hasPartialPosTag(":1:") || token.hasPartialPosTag(":2:") || token.hasPartialPosTag(":3:"));
   }
   
@@ -242,8 +243,9 @@ public class VerbAgreementRule extends GermanRule {
   private boolean verbDoesMatchPersonAndNumber(final AnalyzedTokenReadings token1, final AnalyzedTokenReadings token2,
                                                final String person, final String number) {
    if (token1.getToken().equals(",") || token1.getToken().equals("und") ||
-       token2.getToken().equals(",") || token2.getToken().equals("und"))
+       token2.getToken().equals(",") || token2.getToken().equals("und")) {
     return true;
+   }
    
     boolean foundFiniteVerb = false;
     

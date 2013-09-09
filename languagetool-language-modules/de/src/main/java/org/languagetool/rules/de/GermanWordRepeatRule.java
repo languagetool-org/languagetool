@@ -19,6 +19,7 @@
 package org.languagetool.rules.de;
 
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
@@ -31,6 +32,8 @@ import org.languagetool.rules.WordRepeatRule;
  * @author Daniel Naber
  */
 public class GermanWordRepeatRule extends WordRepeatRule {
+
+  private final static Pattern PREPOSITIONS = Pattern.compile("ab|an|auf|bei|für|in|mit|nach|ohne|über|zu");
 
   public GermanWordRepeatRule(final ResourceBundle messages, final Language language) {
     super(messages, language);
@@ -50,7 +53,7 @@ public class GermanWordRepeatRule extends WordRepeatRule {
       if (position >= 2 && ",".equals(tokens[position - 2].getToken())) {
         return true;
       }
-      if (position >= 3 && ",".equals(tokens[position - 3].getToken()) &&  tokens[position - 2].getToken().matches("ab|an|auf|bei|für|in|mit|nach|ohne|über|zu")) {
+      if (position >= 3 && ",".equals(tokens[position - 3].getToken()) && PREPOSITIONS.matcher(tokens[position - 2].getToken()).matches()) {
         return true;
       }
       return false;

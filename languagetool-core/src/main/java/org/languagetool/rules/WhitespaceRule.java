@@ -34,7 +34,6 @@ import org.languagetool.tools.StringTools;
  *    
  * @author Marcin Miłkowski
  */
-
 public class WhitespaceRule extends Rule {
 
   public WhitespaceRule(final ResourceBundle messages, final Language language) {
