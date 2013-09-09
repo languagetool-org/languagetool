@@ -178,7 +178,7 @@ public class MatchState {
       case PRESERVE:
         if (StringTools.startsWithUppercase(sample)) {
           if (StringTools.isAllUppercase(sample)) {
-            token = token.toUpperCase();
+            token = token.toUpperCase(Locale.ENGLISH);
           } else {
             token = StringTools.uppercaseFirstChar(token);
           }
@@ -188,10 +188,10 @@ public class MatchState {
         token = token.substring(0, 1).toLowerCase() + token.substring(1);
         break;
       case STARTUPPER:
-        token = token.substring(0, 1).toUpperCase() + token.substring(1);
+        token = token.substring(0, 1).toUpperCase(Locale.ENGLISH) + token.substring(1);
         break;
       case ALLUPPER:
-        token = token.toUpperCase();
+        token = token.toUpperCase(Locale.ENGLISH);
         break;
       case ALLLOWER:
         token = token.toLowerCase();

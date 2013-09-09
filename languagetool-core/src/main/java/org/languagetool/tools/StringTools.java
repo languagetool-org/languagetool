@@ -28,6 +28,7 @@ import java.io.*;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 /**
@@ -139,7 +140,7 @@ public final class StringTools {
    * (ignoring characters for which no upper-/lowercase distinction exists).
    */
   public static boolean isAllUppercase(final String str) {
-    return str.equals(str.toUpperCase());
+    return str.equals(str.toUpperCase(Locale.ENGLISH));
   }
 
   /**
@@ -213,7 +214,7 @@ public final class StringTools {
       return str;
     }
     if (str.length() == 1) {
-      return toUpperCase ? str.toUpperCase() : str.toLowerCase();
+      return toUpperCase ? str.toUpperCase(Locale.ENGLISH) : str.toLowerCase();
     }
     int pos = 0;
     final int len = str.length() - 1;

@@ -330,7 +330,7 @@ public class AtdRuleConverter extends RuleConverter {
     private String getIdFromName(String name) {
     	name = name.replaceAll("\\ +", "_");
     	name = name.replaceAll("<|>|!|&|\\.|\\*|\\+|/|\\[.*?\\]","");
-    	name = name.toUpperCase();
+    	name = name.toUpperCase(Locale.ENGLISH);
     	return name;
     }
     
