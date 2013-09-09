@@ -69,7 +69,7 @@ public class MainTest extends AbstractSecurityTestCase {
 
   public void testUsageMessage() throws Exception {
     try {
-      final String[] args = new String[] {"-h"};
+      final String[] args = {"-h"};
       Main.main(args);
       fail("LT should have exited with status 0!");
     } catch (ExitException e) {
@@ -81,7 +81,7 @@ public class MainTest extends AbstractSecurityTestCase {
 
   public void testPrintLanguages() throws Exception {
     try {
-      final String[] args = new String[] {"--list"};
+      final String[] args = {"--list"};
       Main.main(args);
       fail("LT should have exited with status 0!");
     } catch (ExitException e) {
@@ -94,7 +94,7 @@ public class MainTest extends AbstractSecurityTestCase {
   }
 
   public void testEnglishFile() throws Exception {
-    final String[] args = new String[] {"-l", "en", getTestFilePath()};
+    final String[] args = {"-l", "en", getTestFilePath()};
 
     Main.main(args);
     final String output = new String(this.out.toByteArray());
@@ -103,7 +103,7 @@ public class MainTest extends AbstractSecurityTestCase {
   }
 
   public void testEnglishFileAutoDetect() throws Exception {
-    final String[] args = new String[] {"-adl", getTestFilePath()};
+    final String[] args = {"-adl", getTestFilePath()};
 
     Main.main(args);
     final String output = new String(this.out.toByteArray());
@@ -115,7 +115,7 @@ public class MainTest extends AbstractSecurityTestCase {
     final String test = "This is an test.";
     final byte[] b = test.getBytes();
     System.setIn(new ByteArrayInputStream(b));
-    final String[] args = new String[] {"-adl"};
+    final String[] args = {"-adl"};
 
     Main.main(args);
     final String output = new String(this.out.toByteArray());
@@ -125,7 +125,7 @@ public class MainTest extends AbstractSecurityTestCase {
   }
 
   public void testEnglishFileVerbose() throws Exception {
-    final String[] args = new String[] {"-l", "en", "-v", getTestFilePath()};
+    final String[] args = {"-l", "en", "-v", getTestFilePath()};
 
     Main.main(args);
     final String output = new String(this.out.toByteArray());
@@ -136,7 +136,7 @@ public class MainTest extends AbstractSecurityTestCase {
   }
 
   public void testEnglishFileApplySuggestions() throws Exception {
-    final String[] args = new String[] {"-l", "en", "--apply", getTestFilePath()};
+    final String[] args = {"-l", "en", "--apply", getTestFilePath()};
 
     Main.main(args);
     final String output = new String(this.out.toByteArray());
@@ -149,7 +149,7 @@ public class MainTest extends AbstractSecurityTestCase {
     final String test = "This is an test.";
     final byte[] b = test.getBytes();
     System.setIn(new ByteArrayInputStream(b));
-    final String[] args = new String[] {"-l", "en"};
+    final String[] args = {"-l", "en"};
 
     Main.main(args);
     final String output = new String(this.out.toByteArray());
@@ -161,7 +161,7 @@ public class MainTest extends AbstractSecurityTestCase {
     final String test = "This is an test.";
     final byte[] b = test.getBytes();
     System.setIn(new ByteArrayInputStream(b));
-    final String[] args = new String[] {"-l", "en", "-"};
+    final String[] args = {"-l", "en", "-"};
 
     Main.main(args);
     final String output = new String(this.out.toByteArray());
@@ -173,7 +173,7 @@ public class MainTest extends AbstractSecurityTestCase {
     final String test = "This is an test.";
     final byte[] b = test.getBytes();
     System.setIn(new ByteArrayInputStream(b));
-    final String[] args = new String[] {"-l", "en", "-a", "-"};
+    final String[] args = {"-l", "en", "-a", "-"};
 
     Main.main(args);
     final String output = new String(this.out.toByteArray());
@@ -182,7 +182,7 @@ public class MainTest extends AbstractSecurityTestCase {
 
   public void testEnglishStdIn4() throws Exception {
     System.setIn(new FileInputStream(enTestFile));
-    final String[] args = new String[] {"-l", "en", "--api", "-"};
+    final String[] args = {"-l", "en", "--api", "-"};
 
     Main.main(args);
     final String output = new String(this.out.toByteArray());
@@ -200,7 +200,7 @@ public class MainTest extends AbstractSecurityTestCase {
     final String test = "This is what I mean\nand you know it.";
     final byte[] b = test.getBytes();
     System.setIn(new ByteArrayInputStream(b));
-    final String[] args = new String[] {"-l", "en", "-a", "-b", "-"};
+    final String[] args = {"-l", "en", "-a", "-b", "-"};
 
     Main.main(args);
     final String output = new String(this.out.toByteArray());
@@ -212,7 +212,7 @@ public class MainTest extends AbstractSecurityTestCase {
     final String test = "This is what I mean\nand you know it.";
     final byte[] b = test.getBytes();
     System.setIn(new ByteArrayInputStream(b));
-    final String[] args = new String[] {"-l", "en", "-a", "-"};
+    final String[] args = {"-l", "en", "-a", "-"};
 
     Main.main(args);
     final String output = new String(this.out.toByteArray());
@@ -223,7 +223,7 @@ public class MainTest extends AbstractSecurityTestCase {
     final String test = "To jest test, który zrobiłem, który mi się podoba.";
     final byte[] b = test.getBytes();
     System.setIn(new ByteArrayInputStream(b));
-    final String[] args = new String[] {"-l", "pl", "-e", "PL_WORD_REPEAT", "-"};
+    final String[] args = {"-l", "pl", "-e", "PL_WORD_REPEAT", "-"};
 
     Main.main(args);
     final String output = new String(this.out.toByteArray());
@@ -236,7 +236,7 @@ public class MainTest extends AbstractSecurityTestCase {
     final String test = "Zwuasdac?";
     final byte[] b = test.getBytes();
     System.setIn(new ByteArrayInputStream(b));
-    final String[] args = new String[] {"-l", "pl", "-e", "MORFOLOGIK_RULE_PL_PL", "-"};
+    final String[] args = {"-l", "pl", "-e", "MORFOLOGIK_RULE_PL_PL", "-"};
 
     Main.main(args);
     final String output = new String(this.out.toByteArray());
@@ -246,7 +246,7 @@ public class MainTest extends AbstractSecurityTestCase {
   }
 
   public void testEnglishFileRuleDisabled() throws Exception {
-    final String[] args = new String[] {"-l", "en", "-d", "EN_A_VS_AN", getTestFilePath()};
+    final String[] args = {"-l", "en", "-d", "EN_A_VS_AN", getTestFilePath()};
 
     Main.main(args);
     final String output = new String(this.out.toByteArray());
@@ -255,7 +255,7 @@ public class MainTest extends AbstractSecurityTestCase {
   }
 
   public void testEnglishFileRuleEnabled() throws Exception {
-    final String[] args = new String[] {"-l", "en", "-e", "EN_A_VS_AN", getTestFilePath()};
+    final String[] args = {"-l", "en", "-e", "EN_A_VS_AN", getTestFilePath()};
 
     Main.main(args);
     final String output = new String(this.out.toByteArray());
@@ -267,7 +267,7 @@ public class MainTest extends AbstractSecurityTestCase {
     final String test = "Zwuasdac?";
     final byte[] b = test.getBytes();
     System.setIn(new ByteArrayInputStream(b));
-    final String[] args = new String[] {"-l", "en", "-e", "FOO_BAR_BLABLA", "-"};
+    final String[] args = {"-l", "en", "-e", "FOO_BAR_BLABLA", "-"};
 
     Main.main(args);
     final String output = new String(this.out.toByteArray());
@@ -275,7 +275,7 @@ public class MainTest extends AbstractSecurityTestCase {
   }
 
   public void testEnglishFileAPI() throws Exception {
-    final String[] args = new String[] {"-l", "en", "--api", getTestFilePath()};
+    final String[] args = {"-l", "en", "--api", getTestFilePath()};
 
     Main.main(args);
     final String output = new String(this.out.toByteArray());
@@ -289,7 +289,7 @@ public class MainTest extends AbstractSecurityTestCase {
   public void testGermanFileWithURL() throws Exception {
     final File input = writeToTempFile("Ward ihr zufrieden damit?");
 
-    final String[] args = new String[] {"-l", "de", "--api", input.getAbsolutePath()};
+    final String[] args = {"-l", "de", "--api", input.getAbsolutePath()};
 
     Main.main(args);
     final String output = new String(this.out.toByteArray());
@@ -299,7 +299,7 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(output.contains("url=\"http://www.korrekturen.de/beliebte_fehler/ward.shtml\""));
 
     //now check in normal mode and check for URL
-    final String[] args2 = new String[] {"-l", "de", input.getAbsolutePath()};
+    final String[] args2 = {"-l", "de", input.getAbsolutePath()};
     Main.main(args2);
     final String output2 = new String(this.out.toByteArray());
     assertTrue(output2.contains("More info: http://www.korrekturen.de/beliebte_fehler/ward.shtml"));
@@ -308,7 +308,7 @@ public class MainTest extends AbstractSecurityTestCase {
   public void testPolishFileAPI() throws Exception {
     final File input = writeToTempFile("To jest świnia która się ślini.");
 
-    final String[] args = new String[] {"-l", "pl", "--api", "-c", "utf-8", input.getAbsolutePath()};
+    final String[] args = {"-l", "pl", "--api", "-c", "utf-8", input.getAbsolutePath()};
 
     Main.main(args);
     final String output = new String(this.out.toByteArray(),"UTF-8");
@@ -330,7 +330,7 @@ public class MainTest extends AbstractSecurityTestCase {
                     "\n" +
                     "Test który wykaże błąd.");
 
-    final String[] args = new String[] {"-l", "pl", "-c", "utf-8", input.getAbsolutePath()};
+    final String[] args = {"-l", "pl", "-c", "utf-8", input.getAbsolutePath()};
 
     Main.main(args);
     final String output = new String(this.out.toByteArray(),"UTF-8");
@@ -339,7 +339,7 @@ public class MainTest extends AbstractSecurityTestCase {
   }
 
   public void testEnglishTagger() throws Exception {
-    final String[] args = new String[] {"-l", "en", "--taggeronly", getTestFilePath()};
+    final String[] args = {"-l", "en", "--taggeronly", getTestFilePath()};
     Main.main(args);
     final String output = new String(this.out.toByteArray());
     assertTrue(output.indexOf("Expected text language: English") == 0);
@@ -352,7 +352,7 @@ public class MainTest extends AbstractSecurityTestCase {
                     "Test\tTest\n" +
                     "ab\tVery strange data indeed, much longer than input");
 
-    final String[] args = new String[] {"-l", "pl", "--bitext", "-m", "en", input.getAbsolutePath()};
+    final String[] args = {"-l", "pl", "--bitext", "-m", "en", input.getAbsolutePath()};
     Main.main(args);
     final String output = new String(this.out.toByteArray());
     assertTrue(output.indexOf("Expected text language: Polish") == 0);
@@ -367,7 +367,7 @@ public class MainTest extends AbstractSecurityTestCase {
                     "test\tTest\n" +
                     "ab\tVery strange data indeed, much longer than input");
 
-    final String[] args = new String[] {"-l", "pl", "--bitext", "-m", "en", "-d", "UPPERCASE_SENTENCE_START,TRANSLATION_LENGTH", input.getAbsolutePath()};
+    final String[] args = {"-l", "pl", "--bitext", "-m", "en", "-d", "UPPERCASE_SENTENCE_START,TRANSLATION_LENGTH", input.getAbsolutePath()};
     Main.main(args);
     final String output = new String(this.out.toByteArray());
     assertTrue(output.indexOf("Expected text language: Polish") == 0);
@@ -382,7 +382,7 @@ public class MainTest extends AbstractSecurityTestCase {
                     "test\tTest\n" +
                     "ab\tVery strange data indeed, much longer than input");
 
-    final String[] args = new String[] {"-l", "pl", "--bitext", "-m", "en", "-e", "TRANSLATION_LENGTH", input.getAbsolutePath()};
+    final String[] args = {"-l", "pl", "--bitext", "-m", "en", "-e", "TRANSLATION_LENGTH", input.getAbsolutePath()};
     Main.main(args);
     final String output = new String(this.out.toByteArray());
     assertTrue(output.indexOf("Expected text language: Polish") == 0);
@@ -393,14 +393,14 @@ public class MainTest extends AbstractSecurityTestCase {
 
   public void testBitextModeApply() throws Exception {
     final File input = writeToTempFile("There is a dog.\tNie ma psa.");
-    final String[] args = new String[] {"-l", "pl", "--bitext", "-m", "en", "--apply", input.getAbsolutePath()};
+    final String[] args = {"-l", "pl", "--bitext", "-m", "en", "--apply", input.getAbsolutePath()};
     Main.main(args);
     final String output = new String(this.out.toByteArray());
     assertTrue(output.startsWith("Istnieje psa."));
   }
 
   public void testListUnknown() throws Exception {
-    final String[] args = new String[] {"-l", "pl", "-u", getTestFilePath()};
+    final String[] args = {"-l", "pl", "-u", getTestFilePath()};
     Main.main(args);
     final String output = new String(this.out.toByteArray());
     assertTrue(output.indexOf("Expected text language: Polish") == 0);
@@ -408,7 +408,7 @@ public class MainTest extends AbstractSecurityTestCase {
   }
 
   public void testNoListUnknown() throws Exception {
-    final String[] args = new String[] {"-l", "pl", getTestFilePath()};
+    final String[] args = {"-l", "pl", getTestFilePath()};
     Main.main(args);
     final String output = new String(this.out.toByteArray());
     assertTrue(output.indexOf("Expected text language: Polish") == 0);
@@ -417,7 +417,7 @@ public class MainTest extends AbstractSecurityTestCase {
 
   public void testLangWithCountryVariant() throws Exception {
     final File input = writeToTempFile("This is modelling.");
-    final String[] args = new String[] {"-l", "en-US", input.getAbsolutePath()};
+    final String[] args = {"-l", "en-US", input.getAbsolutePath()};
     Main.main(args);
     final String output = new String(this.out.toByteArray());
     assertTrue(output.indexOf("Expected text language: English (US)") == 0);
@@ -426,7 +426,7 @@ public class MainTest extends AbstractSecurityTestCase {
 
   public void testNoXmlFilteringByDefault() throws Exception {
     final File input = writeToTempFile("This < is is > filtered.");
-    final String[] args = new String[] {input.getAbsolutePath()};
+    final String[] args = {input.getAbsolutePath()};
     Main.main(args);
     final String output = new String(this.out.toByteArray());
     assertTrue(output.contains("ENGLISH_WORD_REPEAT_RULE"));
@@ -434,7 +434,7 @@ public class MainTest extends AbstractSecurityTestCase {
 
   public void testXmlFiltering() throws Exception {
     final File input = writeToTempFile("This < is is > filtered.");
-    final String[] args = new String[] {"--xmlfilter", input.getAbsolutePath()};
+    final String[] args = {"--xmlfilter", input.getAbsolutePath()};
     Main.main(args);
     final String output = new String(this.out.toByteArray());
     assertFalse(output.contains("ENGLISH_WORD_REPEAT_RULE"));

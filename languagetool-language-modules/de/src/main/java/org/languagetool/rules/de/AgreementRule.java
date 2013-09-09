@@ -69,7 +69,7 @@ public class AgreementRule extends GermanRule {
    * explicitly add these adjective readings to "Berliner" and to all
    * other potential city names:
    */
-  private static final String[] ADJ_READINGS = new String[] {
+  private static final String[] ADJ_READINGS = {
     // singular:
     "ADJ:NOM:SIN:MAS:GRU", "ADJ:NOM:SIN:NEU:GRU", "ADJ:NOM:SIN:FEM:GRU",    // das Berliner Auto
     "ADJ:GEN:SIN:MAS:GRU", "ADJ:GEN:SIN:NEU:GRU", "ADJ:GEN:SIN:FEM:GRU",    // des Berliner Autos 

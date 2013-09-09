@@ -86,7 +86,7 @@ public class FalseFriendRuleLoader extends DefaultHandler {
       if (suggestionMap != null) {
         final MessageFormat msgFormat = new MessageFormat(messages
             .getString("false_friend_suggestion"));
-        final Object[] msg = new Object[] { formatSuggestions(suggestionMap) };
+        final Object[] msg = { formatSuggestions(suggestionMap) };
         rule.setMessage(rule.getMessage() + " " + msgFormat.format(msg));
       }
     }
