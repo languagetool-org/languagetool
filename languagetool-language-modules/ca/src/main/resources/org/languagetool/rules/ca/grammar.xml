@@ -32,7 +32,7 @@ $Id$
     <!ENTITY dies_setmana "dilluns|dimarts|dimecres|dijous|divendres|dissabte|diumenge">
     <!ENTITY ordes "agustinià|salesià|religiós|franciscà|benedictí|templari|cavalleresc|cistercenc|escolapi|monàstic|mercedari|teutònic|cartoixà|dominic|jerònim">
     <!ENTITY ordes_invariable "militar|major|menor|marista|jesuïta|regular">
-    <!ENTITY precedits_per_TAN "cert|fort|(in)?comprensible|(in)?substancial|covard">
+    <!ENTITY precedits_per_TAN "cert|fort|(in)?comprensible|(in)?substancial|covard|arriscar">
     <!ENTITY vocabulari_menjar "aliment|all|amanida|arròs|bolet|carn|carxofa|cep|coriandre|fava|fetge|foie|formatge|gamba|j[ou]livert|llamàntol|llobregant|lluç|macarró|magret|mandonguilla|mango|menjar|mongeta|p[éè]sol|pa|pastís|porc|r[eo]nyó|safrà|tofu|verdura|vi|ànec">
 ]>
     
@@ -3816,11 +3816,11 @@ $Id$
 	        </rule>
 	        <rule>
 	            <pattern case_sensitive="yes">
-                	<token><exception regexp="yes">coordenad(a|es)|cromosom(a|es)|i|o|neuropèptids?</exception></token>
+                	<token><exception regexp="yes">de|coordenad(a|es)|cromosom(a|es)|i|o|neuropèptids?</exception></token>
                 	<marker>
                     	<token>Y</token>
                     </marker>
-                    <token><exception regexp="yes">[.,;\)\]]</exception></token>
+                    <token><exception regexp="yes">[.,;\)\]]|és|=</exception></token>
 	            </pattern>
 	            <message>Si és conjunció, cal escriure <suggestion>I</suggestion>.</message>
 	            <short>Conjunció 'i'</short>
@@ -11901,6 +11901,17 @@ $Id$
         </rulegroup>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="URBI_ET_ORBI" name="urbi et *orbe/orbi">
+            <pattern>
+                <token>urbi</token>
+                <token>et</token>
+                <token>orbe</token>
+            </pattern>
+            <message>Expressió incorrecta.</message>
+            <suggestion>urbi et orbi</suggestion>
+            <example type="incorrect"><marker>urbi et orbe</marker></example>
+            <example type="correct">urbi et orbi</example>
+        </rule>
         <rule id="A_MITJAN_TERMINI" name="a *mitjan termini">
             <pattern>
                 <token>a</token>
@@ -18962,7 +18973,19 @@ $Id$
         </rule>
     </category>
     <category name="C7) Expressions preferibles" default="on" type="style">
-        <rule id="don" name="don/senyor/en">
+        <rule id="FISSAR" name="frissar/frisar">
+            <pattern>
+                <marker>
+                    <token regexp="yes" inflected="yes">frissós|frissança|frissar|frissor</token>
+                </marker>
+            </pattern>
+            <message>Forma secundària de <suggestion><match no="1" regexp_match="(.)riss(.*)" regexp_replace="$1ris$2"/></suggestion>.</message>
+            <short>Expressió preferible</short>
+            <example type="incorrect" correction="frisoses">Estaven <marker>frissoses</marker>.</example>
+            <example type="incorrect" correction="Frisaven"><marker>Frissaven</marker> per anar-se'n.</example>
+            <example type="correct">Frisaven per arribar.</example>
+        </rule>
+        <rule id="DON" name="don/senyor/en">
             <pattern>
                 <marker>
                     <token>don</token>
@@ -19915,11 +19938,103 @@ $Id$
         </rule>
     </category>      
     <category name="C1) Evita formes impròpies d'un registre formal" type="style">
+        <rule id="CARCAMAL" name="carcamal">
+            <pattern>
+                <token>carcamal</token>
+            </pattern>
+            <message>Paraula pròpia del llenguatge col·loquial. Només admesa per alguns diccionaris.</message>
+            <suggestion>persona decrèpita</suggestion>
+            <suggestion>home inútil</suggestion>
+            <suggestion>eixelebrat</suggestion>
+            <suggestion>barroer</suggestion>
+            <suggestion>animalot</suggestion>
+            <short>Lleguatge col·loquial</short>
+            <example type="incorrect">Quin <marker>carcamal</marker>!</example>
+            <example type="correct">Quin animal!</example>
+        </rule>
+        <rule id="CARCAMALS" name="carcamals">
+            <pattern>
+                <token>carcamals</token>
+            </pattern>
+            <message>Paraula pròpia del llenguatge col·loquial. Només admesa per alguns diccionaris.</message>
+            <suggestion>persones decrèpites</suggestion>
+            <suggestion>homes inútils</suggestion>
+            <suggestion>eixelebrats</suggestion>
+            <suggestion>barroers</suggestion>
+            <suggestion>animalots</suggestion>
+            <short>Lleguatge col·loquial</short>
+            <example type="incorrect">Quins <marker>carcamals</marker>!</example>
+            <example type="correct">Són barroeres.</example>
+        </rule> 
+        <rule id="GARBO" name="garbo">
+            <pattern>
+                <token inflected="yes">garbo</token>
+            </pattern>
+            <message>Paraula pròpia del llenguatge col·loquial. Només admesa per alguns diccionaris.</message>
+            <suggestion><match no="1" postag="NCM(.).*" postag_regexp="yes" postag_replace="NC.$1.*">aire</match></suggestion>
+            <suggestion><match no="1" postag="NCM(.).*" postag_regexp="yes" postag_replace="NC.$1.*">gràcia</match></suggestion>
+            <suggestion><match no="1" postag="NCM(.).*" postag_regexp="yes" postag_replace="NC.$1.*">desimboltura</match></suggestion>
+            <suggestion><match no="1" postag="NCM(.).*" postag_regexp="yes" postag_replace="NC.$1.*">airositat</match></suggestion>
+            <short>Lleguatge col·loquial</short>
+            <example type="incorrect" correction="aire|gràcia|desimboltura|airositat">Quin <marker>garbo</marker> que té.</example>
+            <example type="correct">Són beneites</example>
+        </rule> 
+        <rule id="GARBÓS" name="garbós">
+            <pattern>
+                <token inflected="yes">garbós</token>
+            </pattern>
+            <message>Paraula pròpia del llenguatge col·loquial. Només admesa per alguns diccionaris.</message>
+            <suggestion><match no="1" postag="AQ0(..)0" postag_regexp="yes" postag_replace="AQ0$10">airós</match></suggestion>
+            <suggestion><match no="1" postag="AQ0(..)0" postag_regexp="yes" postag_replace="AQ0$10">graciós</match></suggestion>
+            <suggestion><match no="1" postag="AQ0.(.)0" postag_regexp="yes" postag_replace="AQ0C$10">gentil</match></suggestion>
+            <suggestion><match no="1" postag="AQ0.(.)0|AQ0(..)0" postag_regexp="yes" postag_replace="AQ0C$10|AQ0$10">ample</match></suggestion>            
+            <short>Lleguatge col·loquial</short>
+            <example type="incorrect" correction="airoses|gracioses|gentils|amples">Són <marker>garboses</marker>.</example>
+            <example type="correct">Són beneites</example>
+        </rule>     
+        <rule id="DESGARBAT" name="desgarbat">
+            <pattern>
+                <token inflected="yes">desgarbat</token>
+            </pattern>
+            <message>Paraula pròpia del llenguatge col·loquial. Només admesa per alguns diccionaris.</message>
+            <suggestion><match no="1" postag="AQ0(..)0" postag_regexp="yes" postag_replace="AQ0$10">desairós</match></suggestion>
+            <suggestion><match no="1" postag="AQ0(..)0" postag_regexp="yes" postag_replace="AQ0$10">desmanegat</match></suggestion>
+            <suggestion><match no="1" postag="AQ0(..)0" postag_regexp="yes" postag_replace="AQ0$10">malforjat</match></suggestion>
+            <suggestion><match no="1" postag="AQ0(..)0" postag_regexp="yes" postag_replace="AQ0$10">malgirbat</match></suggestion>
+            <suggestion><match no="1" postag="AQ0.(.)0" postag_regexp="yes" postag_replace="NCC$1000">pengim-penjam</match></suggestion>
+            <short>Lleguatge col·loquial</short>
+            <example type="incorrect" correction="desairoses|desmanegades|malforjades|malgirbades|pengim-penjams">Són <marker>desgarbades</marker>.</example>
+            <example type="correct">Són beneites</example>
+        </rule>   
+        <rule id="LELO" name="lelo, lero, alelat">
+            <pattern>
+                <token regexp="yes" inflected="yes">lero|lelo|alelat</token>
+            </pattern>
+            <message>Paraula pròpia del llenguatge col·loquial. Només admesa per alguns diccionaris.</message>
+            <suggestion><match no="1" postag="AQ0.(.)0|NC.(.).*" postag_regexp="yes" postag_replace="AQ0C$10|AQ0C$20">ximple</match></suggestion>
+            <suggestion><match no="1" postag="AQ0(..)0|NC(..).*" postag_regexp="yes" postag_replace="AQ0$10|AQ0$20">beneit</match></suggestion>
+            <suggestion><match no="1" postag="AQ0(..)0|NC(..).*" postag_regexp="yes" postag_replace="AQ0$10|AQ0$20">babau</match></suggestion>
+            <suggestion><match no="1" postag="AQ0(..)0|NC(..).*" postag_regexp="yes" postag_replace="AQ0$10|AQ0$20">ximplet</match></suggestion>
+            <short>Lleguatge col·loquial</short>
+            <example type="incorrect" correction="ximples|beneites|babaues|ximpletes">Són unes <marker>leles</marker>.</example>
+            <example type="incorrect" correction="ximples|beneits|babaus|ximplets">Estan <marker>alelats</marker>.</example>
+            <example type="correct">Són beneites</example>
+        </rule>
+        <rule id="COQUETO" name="coqueto">
+            <pattern>
+                <token regexp="yes">coquetos?|coquets?|coquet(ó|ona|ons|ones)</token>
+            </pattern>
+            <message>Paraula pròpia del llenguatge col·loquial.</message>
+            <short>Llenguatge col·loquial</short>
+            <example type="incorrect">Molt <marker>coqueto</marker></example>
+            <example type="correct">És una coqueta.</example>
+        </rule>
         <rule id="CEGO" name="cego">
             <pattern>
                 <token postag="[AN].*" postag_regexp="yes" regexp="yes">cegos?</token>
             </pattern>
             <message>En llenguatge formal, cal dir <suggestion><match no="1" regexp_match="cego(s?)" regexp_replace="cec$1"/></suggestion>.</message>
+            <short>Llenguatge col·loquial</short>
             <example type="incorrect" correction="cec">Un home <marker>cego</marker></example>
             <example type="correct">cec</example>
         </rule>
@@ -19932,6 +20047,7 @@ $Id$
                 <token postag="V.[MSI].*|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"/>
             </pattern>
             <message>En un registre formal cal dir: <suggestion>ens</suggestion></message>
+            <short>Llenguatge col·loquial</short>
             <example type="incorrect" correction="Ens"><marker>Mos</marker> agrada anar a la platja.</example>
             <example type="incorrect" correction="Ens"><marker>Mos</marker> l'hem emportat a la platja.</example>
             <example type="correct">D'un mos trencà l'os</example>
@@ -19943,7 +20059,7 @@ $Id$
 	         <message>Impropi de registres formals.</message> 
 	         <suggestion>vejam</suggestion>
 	         <suggestion>a veure</suggestion>
-	         <short>Informal</short>
+	         <short>Llenguatge col·loquial</short>
 	         <example type="incorrect"><marker>Aviam</marker> si ve.</example>
 	         <example type="correct">A veure si ve.</example>
 	    </rule>
@@ -19957,6 +20073,7 @@ $Id$
 	         <suggestion><match no="1" regexp_match="[Tt]io(.*)" regexp_replace="soci$1" /></suggestion>
 	         <suggestion><match no="1" regexp_match="[Tt]io(.*)" regexp_replace="mestre$1" /></suggestion>
 	         <suggestion><match no="1" regexp_match="[Tt]io(.*)" regexp_replace="paio$1" /></suggestion>
+             <short>Llenguatge col·loquial</short>
 	         <example type="incorrect" correction="oncle|tipus|individu|soci|mestre|paio"><marker>tio</marker></example>
 	         <example type="correct">oncle</example>
 	     </rule>
@@ -19968,6 +20085,7 @@ $Id$
 	             </marker>
 	         </pattern>
 	         <message>En registres formals val més dir: <suggestion>matí</suggestion>.</message>
+             <short>Llenguatge col·loquial</short>
 	         <example type="incorrect">al <marker>dematí</marker></example>
 	         <example type="correct">al matí</example>
 	     </rule>
@@ -19979,6 +20097,7 @@ $Id$
                 <token><exception regexp="yes">awards|and|hall</exception></token>
             </pattern>
             <message>Variant informal de <suggestion><match no="1" regexp_match="[Mm]u(.+)" regexp_replace="mú$1" /></suggestion>.</message>
+            <short>Llenguatge col·loquial</short>
             <example type="incorrect" correction="Músics">Unió de <marker>Musics</marker> Russos</example>
             <example type="correct">si tu musiques aquesta cançó</example>
             <example type="correct">universal music awards</example>
@@ -19990,6 +20109,7 @@ $Id$
 		    </pattern>
 		    <message>No s'usa en registres formals.</message>
 		    <suggestion>cap</suggestion>
+            <short>Llenguatge col·loquial</short>
 		    <example type="incorrect"><marker>ningun</marker> home</example>
 		    <example type="correct">cap home</example>
 		</rule>  
@@ -20007,6 +20127,7 @@ $Id$
 		        <token regexp="yes">parpalls?</token>
 		    </pattern>
 		    <message>En registres formals val més dir: <suggestion><match no="1" postag="NCM(.*)" postag_regexp="yes" postag_replace="NCF$1">parpella</match></suggestion>.</message>
+            <short>Llenguatge col·loquial</short>
 		    <example type="incorrect" correction="parpella"><marker>parpall</marker></example>
 		    <example type="correct">parpella</example>
 		</rule>
@@ -20015,6 +20136,7 @@ $Id$
 		        <token inflected="yes">vore</token>
 		    </pattern>
 		    <message>En registres formals val més dir: <suggestion><match no="1" postag="(VM.*)" postag_regexp="yes" postag_replace="$1">veure</match></suggestion>.</message>
+            <short>Llenguatge col·loquial</short>
 		    <example type="incorrect" correction="veuràs">Ho <marker>voràs</marker> bé</example>
 		    <example type="correct">veure</example>
 		</rule>
@@ -20023,7 +20145,8 @@ $Id$
 		        <token regexp="yes">vullg(a|ues|uem|ueu|uen)</token>
 		    </pattern>
 		    <message>En registres escrits sol usar-se la forma: <suggestion><match no="1" regexp_match="vullg(.+)" regexp_replace="vulg$1"/></suggestion>.</message>
-		    <example type="incorrect" correction="vulgues">Fes-ho com <marker>vullgues</marker>.</example>
+		    <short>Llenguatge col·loquial</short>
+            <example type="incorrect" correction="vulgues">Fes-ho com <marker>vullgues</marker>.</example>
 		    <example type="correct">Vine quan vulgues.</example>
 		</rule>  
      	<rule id="AHI" name="ahí">
@@ -20033,13 +20156,69 @@ $Id$
 		    <message>Paraula admesa només per l'AVL, que val més evitar en llenguatge formal.</message>
 		    <suggestion>ací</suggestion>
 		    <suggestion>aquí</suggestion>
+            <short>Llenguatge col·loquial</short>
 		    <example type="incorrect" correction="ací|aquí"><marker>ahí</marker></example>
 		    <example type="correct">ací</example>
 		</rule>
     </category>
     <category name="C6) Evita paraules incloses només en alguns diccionaris" default="on" type="style">
-         <!--  verbs valencians: caquejar -->
-         <rule id="DESPRECIABLE" name="despreciable">
+        <!--  verbs valencians: caquejar -->
+        <rule id="XAVACANERIA" name="xavacaneria, xavacanada, grosseria">
+            <pattern>
+                <token inflected="yes" regexp="yes">xavacaneria|xavacanada|grosseria</token>
+            </pattern>
+            <message>Paraula admesa només en alguns diccionaris.</message>
+            <suggestion><match no="1" postag="NC.(.).*" postag_regexp="yes" postag_replace="NCF$1.*">grolleria</match></suggestion> 
+            <suggestion><match no="1" postag="NC.(.).*" postag_regexp="yes" postag_replace="NCF$1.*">barroeria</match></suggestion>           
+            <suggestion><match no="1" postag="NC.(.).*" postag_regexp="yes" postag_replace="NCF$1.*">matusseria</match></suggestion>
+            <short>Forma preferible</short>
+            <example type="incorrect" correction="grolleries|barroeries|matusseries">Són <marker>xavacanades</marker>.</example>
+            <example type="correct">Són coses xarones.</example>
+        </rule>
+        <rule id="BARRICA" name="barrica">
+            <pattern>
+                <token inflected="yes">barrica</token>
+            </pattern>
+            <message>Paraula admesa només en alguns diccionaris.</message>
+            <suggestion><match no="1" postag="NC.(.).*" postag_regexp="yes" postag_replace="NCF$1.*">bóta</match></suggestion>            
+            <suggestion><match no="1" postag="NC.(.).*" postag_regexp="yes" postag_replace="NCM$1.*">barril</match></suggestion>
+            <short>Forma preferible</short>
+            <example type="incorrect" correction="bótes|barrils">Dues <marker>barriques</marker>.</example>
+            <example type="correct">Són dues bótes.</example>
+        </rule>
+        <rule id="RABO" name="rabo">
+            <pattern>
+                <token inflected="yes">rabo</token>
+            </pattern>
+            <message>Paraula admesa només en alguns diccionaris.</message>
+            <suggestion><match no="1" postag="NC.(.).*" postag_regexp="yes" postag_replace="NCF$1.*">cua</match></suggestion>            
+            <short>Forma preferible</short>
+            <example type="incorrect" correction="cua">No alcen un gat pel <marker>rabo</marker>.</example>
+            <example type="correct">Són cues de rap.</example>
+        </rule>
+        <rule id="RABET" name="rabet">
+            <pattern>
+                <token inflected="yes">rabet</token>
+            </pattern>
+            <message>Paraula admesa només en alguns diccionaris.</message>
+            <suggestion><match no="1" postag="NC.(.).*" postag_regexp="yes" postag_replace="NCF$1.*">cueta</match></suggestion>            
+            <short>Forma preferible</short>
+            <example type="incorrect" correction="cuetes">Els <marker>rabets</marker>.</example>
+            <example type="correct">Són cuetes de rap.</example>
+        </rule>
+        <rule id="IMPAR" name="impar">
+            <pattern>
+                <token inflected="yes">impar</token>
+            </pattern>
+            <message>Paraula admesa només en alguns diccionaris.</message>
+            <suggestion><match no="1" postag="AQ0.(.)0" postag_regexp="yes" postag_replace="AQ0M$10">imparell</match></suggestion>
+            <suggestion><match no="1" postag="AQ0.(.)0" postag_regexp="yes" postag_replace="AQ0F$10">imparell</match></suggestion>
+            <suggestion><match no="1" postag="AQ0.(.)0" postag_regexp="yes" postag_replace="AQ0C$10">senar</match></suggestion>
+            <short>Forma preferible</short>
+            <example type="incorrect" correction="imparells|imparelles|senars">Són <marker>impars</marker>.</example>
+            <example type="correct">Són senars.</example>
+        </rule>
+        <rule id="DESPRECIABLE" name="despreciable">
             <pattern>
                 <token inflected="yes">despreciable</token>
             </pattern>
@@ -21564,7 +21743,7 @@ $Id$
         <rulegroup id="EXIGEIX_ACCENTUACIO_GENERAL" name="Exigeix accentuació general (cafè, sotmès, conèixer, tèrbol)">
             <rule>
                 <pattern>
-                    <token postag="A.*" postag_regexp="yes" regexp="yes">.+és?<exception regexp="yes">faisandés|fulés|faisandé|fulé|buthanés|confés|exprés|inconfés|obsés|profés|revés</exception></token>
+                    <token postag="A.*" postag_regexp="yes" regexp="yes">.+és?<exception regexp="yes">bamileké|bamilekés|ciré|cirés|confés|cuixé|exprés|faisandé|faisandés|foxé|foxés|fulé|fulés|inconfés|maixé|mandé|mandés|obsés|otopamé|otopamés|perlé|perlés|profés|revés</exception></token>
                 </pattern>
                 <message>Useu accentuació general.</message>
                 <suggestion><match no="1" regexp_match="^(.+)é(s)?" regexp_replace="$1è$2"></match></suggestion>
@@ -21573,8 +21752,9 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="NC.*" postag_regexp="yes" regexp="yes">.+é(n|s)?<exception regexp="yes">melés|catipén|koiné|melé|més|abecés|abonarés|balancés|brillantés|cabriolés|calés|canalés|cartonés|clixés|consomés|dublés|elapés|fricassés|frivolités|giroflés|glacés|jaqués|karités|macramés|matinés|moarés|negligés|pagarés|patés|peronés|purés|quinqués|relés|sargés|suflés|ximpanzés|xinés|abecé|abonaré|abscés|accés|aiguavés|aprés|avés|azobé|balancé|brillanté|bé|cabriolé|calcés|calé|canalé|cartoné|carés|claqué|clixé|combés|confés|congrés|consomé|decés|dublé|elapé|excés|exprés|fricassé|frivolité|galzés|giroflé|glacé|granité|ingrés|inrevés|insuccés|jaqué|karité|macoré|macramé|matiné|moaré|negligé|obsés|ocumé|pagaré|paté|patén|peroné|piqué|plaqué|possés|praliné|procés|profés|progrés|puré|quinqué|recés|regrés|reingrés|relé|retrocés|revés|rés|sargé|succés|suflé|tacaé|teleprocés|través|vaivé|ximpanzé|xiné|Salomés|Salomé|Mamés|Efrén|Rubén|Senén</exception></token>
+                    <token postag="NC.*" postag_regexp="yes" regexp="yes">.+é(n|s)?<exception regexp="yes">abecé|abecés|abkhazoadigué|abkhazoadigués|abonaré|abonarés|abscés|accés|aiguavés|almagasén|aprés|aualé|avancé|avés|azobé|azobés|balancé|balancés|bamileké|bamilekés|bé|beté|betés|brillanté|brillantés|bulé|bulés|cabriolé|cabriolés|calcés|calé|calés|canalé|canalés|carés|cartoné|cartonés|catipén|claqué|claqués|clixé|clixés|combés|confés|congrés|consomé|consomés|crudité|crudités|decés|dublé|dublés|excés|exprés|framiré|framirés|fricassé|fricassés|frivolité|frivolités|galzés|garrés|giroflé|giroflés|glacé|glacés|granité|granités|il·lipé|il·lipés|ingrés|inrevés|insuccés|jaqué|jaqués|karité|karités|koiné|koinés|kotibé|kotibés|lamé|lamés|macoré|macorés|macramé|macramés|mandé|mandés|matiné|matinés|melé|melés|més|micvé|moaré|moarés|multiaccés|multiprocés|negligé|negligés|obsés|ocumé|ocumés|otopamé|otopamés|pagaré|pagarés|pamé|pamés|passapuré|passapurés|paté|patén|patés|perlé|perlés|peroné|peronés|piqué|piqués|plaqué|plaqués|possés|praliné|pralinés|procés|profés|progrés|puré|purés|quinqué|quinqués|recés|regrés|reingrés|relé|relés|rés|retrocés|revés|sargé|sargés|sergé|sergés|succés|suflé|suflés|tacaé|tacaés|teleprocés|tereré|tererés|tigré|tigrés|través|vaivé|xarmés|ximpanzé|ximpanzés|xiné|xinés</exception></token>
                 </pattern>
+                <!-- abecés?|abkhazoadigués?|abonarés?|abscés|accés|aiguavés|aprés|avés|azobé|balancés?|bamilekés?|bé|betés?|brillantés?|bulés?|cabriolés?|calcés|calés?|canalés?|carés|cartonés?|catipén|claqué|clixés?|combés|confés|congrés|consomés?|decés|dublés?|Efrén|elapés?|excés|exprés|fricassés?|frivolités?|galzés|giroflés?|glacés?|granité|ingrés|inrevés|insuccés|jaqués?|karités?|koinés?|macoré|macramés?|Mamés|mandés?|matinés?|melés?|més|moarés?|multiaccés|negligés?|obsés|ocumé|otopamés?|pagarés?|pamés?|patén|patés?|perlés?|peronés?|piqué|plaqué|possés|praliné|procés|profés|progrés|purés?|quinqués?|recés|regrés|reingrés|relés?|rés|retrocés|revés|Rubén|Salomés?|sargés?|Senén|sergés?|succés|suflés?|tacaé|teleprocés|tigrés?|través|vaivé|ximpanzés?|xiné|xinés| -->
                 <message>Useu accentuació general.</message>
                 <suggestion><match no="1" regexp_match="^(.+)é(n|s)?" regexp_replace="$1è$2"></match></suggestion>
                 <example type="incorrect">El <marker>café</marker>.</example>
