@@ -15953,22 +15953,6 @@ $Id$
     </category>
     <category name="C4) Construccions desaconsellades per alguns manuals d'estil" default="off" type="style">
     <!-- Expressions condemnades per alguns manuals d'estil de manera no sempre justifiada -->
-    	<rule id="ALS_EFECTES_DE" name="als efectes de">
-    		<pattern>
-    			<marker>
-	    			<token>a</token>
-	    			<token>ls</token>
-	    			<token>efectes</token>
-    			</marker>
-    			<token regexp="yes">de|d'</token>
-    			<token postag="V.N.*" postag_regexp="yes"/>
-    		</pattern>
-    		<message>Expressió incorrecta.</message>
-    		<suggestion>a l'efecte</suggestion>
-    		<short>Expressió incorrecta</short>
-    		<example type="incorrect" correction="A l'efecte"><marker>Als efectes</marker> de permetre-ho.</example>
-    		<example type="correct">Es deu als efectes de la radiació</example>
-    	</rule>
         <rulegroup id="ESTAR_DE_MES" name="*estar de més">
             <rule>
                 <pattern>
@@ -16424,8 +16408,11 @@ $Id$
                 <token regexp="yes">recolzaments?</token>
             </pattern>
             <message>Incorrecte si volíeu dir <suggestion><match no="1" postag="NCM([SP]).+" postag_regexp="yes" postag_replace="NCM$1.*">suport</match></suggestion>. Correcte en altres sentits.</message>
+            <suggestion><match no="1" postag="NCM([SP]).+" postag_regexp="yes" postag_replace="NCF$1.*">adhesió</match></suggestion>
+            <suggestion><match no="1" postag="NCM([SP]).+" postag_regexp="yes" postag_replace="NCM$1.*">acord</match></suggestion>
             <short>Possible error</short>
-            <example type="incorrect" correction="suport">Sense <marker>recolzament</marker> popular.</example>
+            <example type="incorrect" correction="suport|adhesió|acord">Sense <marker>recolzament</marker> popular.</example>
+            <example type="incorrect" correction="suports|adhesions|acords">Sense <marker>recolzaments</marker> parlamentaris.</example>
             <example type="correct">Sense suport.</example>
         </rule>
         <rule id="RECOLZAR" name="recolzar">
@@ -16437,10 +16424,15 @@ $Id$
                 <token postag="SENT_END" />
             </pattern>
             <message>Incorrecte en el sentit de "donar suport".</message>
-            <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">donar</match> suport</suggestion>
-            <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match> costat</suggestion>
+            <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">donar</match> suport a</suggestion>
+            <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match> costat a</suggestion>
+            <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">sostenir</match></suggestion>
+            <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">defensar</match></suggestion>
+            <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">ajudar</match></suggestion>
+            <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">abonar</match></suggestion>
+            <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">secundar</match></suggestion>
             <url>http://esadir.cat/lexic/entrades/entry_20030718132249_872/view</url>
-            <example type="incorrect" correction="donéssim suport|féssim costat">No volia que <marker>recolzéssim</marker> al president.</example>
+            <example type="incorrect" correction="donéssim suport a|féssim costat a|sostenguéssim|sostinguéssim|defenséssim|ajudéssim|abonéssim|secundéssim">No volia que <marker>recolzéssim</marker> al president.</example>
             <example type="correct">Una teoria que recolza sobre fets indiscutibles.</example>
             <example type="correct">Posa l'escala que recolzi a la paret.</example>
             <example type="correct">Em vaig recolzar d'esquena en un arbre.</example>
@@ -19076,7 +19068,24 @@ $Id$
         </rule>
     </category>
     <category name="C7) Expressions preferibles" default="on" type="style">
-        <rule id="FISSAR" name="frissar/frisar">
+        <rule id="ALS_EFECTES_DE" name="als efectes de">
+            <pattern>
+                <token postag="SENT_START|PUNCT.*" postag_regexp="yes"/>
+                <marker>
+                    <token>a</token>
+                    <token>ls</token>
+                    <token>efectes</token>
+                </marker>
+                <token regexp="yes">de|d'</token>
+                <token postag="V.N.*" postag_regexp="yes"/>
+            </pattern>
+            <message>Expressió preferible</message>
+            <suggestion>a l'efecte</suggestion>
+            <short>Expressió preferible</short>
+            <example type="incorrect" correction="A l'efecte"><marker>Als efectes</marker> de permetre-ho.</example>
+            <example type="correct">Es deu als efectes de la radiació</example>
+        </rule>
+        <rule id="FRISSAR" name="frissar/frisar">
             <pattern>
                 <marker>
                     <token regexp="yes" inflected="yes">frissós|frissança|frissar|frissor</token>
@@ -19436,23 +19445,25 @@ $Id$
             <rule>
                 <pattern>
                     <token inflected="yes">proper</token>
-                    <token regexp="yes" inflected="yes">futur|passat|esdeveniment</token>
+                    <token regexp="yes" inflected="yes">futur|passat|esdeveniment|temps|data</token>
                 </pattern>
                 <message>En aquest cas val més evitar l'adjectiu "<match no="1"/>".</message>
                 <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">pròxim</match> <match no="2"/></suggestion>
                 <short>Expressió preferible</short>
                 <example type="incorrect" correction="pròxim futur">En el <marker>proper futur</marker></example>
+                <example type="incorrect" correction="pròxims temps">En els <marker>propers temps</marker></example>
                 <example type="correct">L'any que ve</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes" inflected="yes">futur|passat|esdeveniment</token>
+                    <token regexp="yes" inflected="yes">futur|passat|esdeveniment|temps|data</token>
                     <token inflected="yes">proper</token>
                 </pattern>
                 <message>En aquest cas val més evitar l'adjectiu "<match no="1"/>".</message>
                 <suggestion><match no="1"/> <match no="2" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">pròxim</match></suggestion>
                 <short>Expressió preferible</short>
                 <example type="incorrect" correction="futur pròxim">En el <marker>futur proper</marker></example>
+                <example type="incorrect" correction="data pròxima">En una <marker>data propera</marker></example>
                 <example type="correct">L'any que ve</example>
             </rule>
             <rule>
