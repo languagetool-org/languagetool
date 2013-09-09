@@ -22,7 +22,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 $Id$
 -->
 <!DOCTYPE rules [
-    <!ENTITY exceptions_AL_FRONT "(?-i)matar|pelat|pelada|arruga|cabellera|cabell|cop|suor|petó|bes|besada|visera|taca|ditada|cara|mirada|lepra|cendra|marca|marcar|batalla|besar|voluntari|corona|bony|militar|enviar|caos|disparar|mocador|lligar|incorpor.*|ferir|expressió|cicatriu|exèrcit|mobilitzar|aigua|clavar|mà|co?lp|guerra|soldat|desaparèixer|afusell.*|empreson.*|reclut.*|morir|mort|vidu|orfe|viudo|traum.*">
+    <!ENTITY exceptions_AL_FRONT "(?-i)matar|pelat|pelada|arruga|cabellera|cabell|cop|suor|petó|bes|besada|visera|taca|ditada|cara|mirada|lepra|cendra|marca|marcar|batalla|besar|voluntari|corona|bony|militar|enviar|caos|disparar|mocador|lligar|incorpor.*|ferir|expressió|cicatriu|exèrcit|mobilitzar|aigua|clavar|mà|col?p|guerra|soldat|desaparèixer|afusell.*|empreson.*|reclut.*|morir|mort|vidu|orfe|viudo|traum.*">
     <!ENTITY exceptions_BE "crit|animal|porc|cabra|gallina|pastor|pastura|pasturar|bestiar|boví|vaca|gos|ramat|cleda|rabera|escorxar|escorxador|pasqual|llana">
     <!ENTITY excep_exceptions_BE "ben|prou|tan|que|si|ara|molt|per|i|o|ni|més|['-].+">
     <!ENTITY exceptions_ALS_TRES_MESOS "per|fins|arribar|corresponent|proper|pròxim|inferior|superior|referència">
@@ -1314,6 +1314,37 @@ $Id$
                 <example type="incorrect"><marker>Alguna</marker> d'aquests animals.</example>
                 <example type="correct">Algun d'aquests animals.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="DI.MP.*" postag_regexp="yes" inflected="yes" regexp="yes">molt|tant|poc<exception postag="_GN_.*" postag_regexp="yes" /></token>
+                    </marker>
+                    <token postag="SPS00" inflected="yes">de</token>
+                    <token postag="D[AD].FP.*" postag_regexp="yes"></token>
+                </pattern>
+                <message>Possible falta de concordança.</message>
+                <suggestion><match no="1" postag="DI.FP.*" postag_regexp="yes"></match></suggestion>
+                <short>Concordança dubtosa</short>
+                <example type="incorrect" correction="Moltes"><marker>Molts</marker> de les seves anàlisis.</example>
+                <example type="correct">Una de les seves cases.</example>
+                <example type="correct">tant de les institucions com de la ciutadania</example>
+                <example type="correct">Sabem ben poc de les èpoques posteriors</example>
+                <example type="correct">acostumaven a venir totes dels sectors més carques</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="DI.FP.*" postag_regexp="yes" inflected="yes" regexp="yes">molt|tant|poc<exception postag="_GN_.*" postag_regexp="yes" /></token>
+                    </marker>
+                    <token postag="SPS00" inflected="yes">de</token>
+                    <token postag="D[AD].MP.*" postag_regexp="yes"></token>
+                </pattern>
+                <message>Possible falta de concordança.</message>
+                <suggestion><match no="1" postag="DI.MP.*" postag_regexp="yes"></match></suggestion>
+                <short>Concordança dubtosa</short>
+                <example type="incorrect" correction="Pocs"><marker>Poques</marker> d'aquests animals.</example>
+                <example type="correct">Algun d'aquests animals.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="UN_ALTRE_DISTRIBUTIVES" name="Concordança dubtosa en frases distributives «un...altre»">
             <rule>
@@ -2076,6 +2107,7 @@ $Id$
                 <suggestion><match no="1"/></suggestion>
                 <short>Verb transitiu</short>
                 <example type="incorrect" correction="emprenyeu">No <marker>emprenyeu a</marker> la comissària.</example>
+                <example type="incorrect" correction="concerneix">Pel que <marker>concerneix a</marker> l'estil.</example>
                 <example type="correct">No emprenyeu la comissària</example>
                 <example type="correct">Sense que es molesti a desmentir-ho</example>
                 <example type="correct">afecten a vegades les parts toves</example>
@@ -2099,7 +2131,7 @@ $Id$
                 <suggestion><match no="1"/></suggestion>
                 <short>Verb transitiu</short>
                 <example type="incorrect" correction="afectat">No ha <marker>afectat a</marker> la relació.</example>
-                <example type="correct">No ha <marker>afectat a</marker> tots igual.</example>
+                <example type="correct">No ha afectat a tots igual.</example>
             </rule>    
         </rulegroup>
         <rulegroup id="CABRE" name="*cabre + infinitiu">
@@ -4223,7 +4255,7 @@ $Id$
                     <marker>
                         <token>com<exception postag="allow_com"/></token>
                     </marker>
-                    <token regexp="yes">instruments?|senyals?|exemples?|autors?|president[ae]?s?|representants?|actors?|actrius?</token>
+                    <token regexp="yes">correct(e|a|es)|instruments?|senyals?|exemples?|autors?|president[ae]?s?|representants?|actors?|actrius?</token>
                 </pattern>
                 <message>Probablement cal escriure <suggestion>com a</suggestion>.</message>
                 <url>http://esadir.cat/sintaxi/advcomcoma/view</url>
@@ -5230,6 +5262,36 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+        <rule id="GRAU_GREU" name="*grau/greu">
+            <pattern>
+                <or>
+                    <token postag="RG_anteposat"/>
+                    <token regexp="yes">molt|poc</token>
+                </or>
+                <marker>
+                    <token>grau</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>greu</suggestion>?</message>
+            <short>Possible confusió</short>
+            <example type="incorrect">Va ser especialment <marker>grau</marker>.</example>
+            <example type="incorrect">No va ser tan <marker>grau</marker>.</example>
+            <example type="incorrect">Va ser molt <marker>grau</marker>.</example>
+            <example type="correct">Va ser greu.</example>
+        </rule>
+        <rule id="POU_PROU" name="pou/prou">
+            <pattern>
+                <token inflected="yes" skip="2" regexp="yes">haver|tenir</token>
+                <marker>
+                    <token>pou<exception postag="_GN_MS"/></token>
+                </marker>
+                <token regexp="yes">de|d'|amb|a</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>prou</suggestion>?</message>
+            <short>Possible confusió</short>
+            <example type="incorrect">N'hi va haver <marker>pou</marker> amb això.</example>
+            <example type="correct">No tenia pou</example>
+        </rule>
         <rule id="ROSOS" name="rosos">
             <pattern>
                 <token>rosos</token>
@@ -6200,7 +6262,7 @@ $Id$
                 <marker>
                     <token regexp="yes">[ae]la</token>
                 </marker>
-                <token postag="NCFS.*" postag_regexp="yes"><exception postag="AQ.[FC][SN].*|V.P.*SF.?" postag_regexp="yes"/><exception>delta</exception></token>
+                <token postag="N.[FC][SN].*" postag_regexp="yes"><exception postag="AQ.[FC][SN].*|V.P.*SF.?" postag_regexp="yes"/><exception>delta</exception></token>
             </pattern>
             <message>¿Volíeu dir <suggestion>a la</suggestion>?</message>
             <suggestion>la</suggestion>
@@ -6213,6 +6275,7 @@ $Id$
             <!-- <example type="incorrect">sobre <marker>ela</marker> taxa de capitalització</example>-->
             <example type="incorrect">Definex <marker>ela</marker> magnitud del quilogram.</example>
             <example type="incorrect">El problema d <marker>ela</marker> gestió dels assumptes.</example>
+            <example type="incorrect" correction="A la|La"><marker>Ala</marker> Fontana de Trevi.</example>
             <example type="correct">són, ells, ala dreta dels socialistes</example>
             <example type="correct">són ala dreta dels socialistes</example>
             <example type="correct">ala delta</example>
@@ -11901,6 +11964,34 @@ $Id$
         </rulegroup>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="PRESTAT" name="prestat">
+            <pattern>
+                <token regexp="yes" inflected="yes" skip="6">demanar|agafar|agarrar|prendre</token>
+                <token regexp="yes">prestats?|prestada|prestades</token>
+            </pattern>
+            <message>Expressió incorrecta.</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">manllevar</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">amprar</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">emmanllevar</match></suggestion>
+            <example type="incorrect" correction="Manllevaren|Ampraren|Emmanllevaren"><marker>Demanaren prestat</marker></example>
+            <example type="incorrect" correction="manllevat|amprat|emmanllevat">que van poder haver <marker>pres prestat</marker> dels ibers.</example>
+            <example type="incorrect" correction="Manllevaren molts diners|Ampraren molts diners|Emmanllevaren molts diners"><marker>Agafaren molts diners prestats</marker>.</example>
+            <example type="correct">manllevar</example>
+        </rule>
+        <rule id="DEBO" name="debò">
+            <pattern>
+                <token><exception>de</exception></token>
+                <marker>
+                    <token>debò</token>
+                </marker>
+            </pattern>
+            <message>Expressió incorrecta.</message>
+            <suggestion>de bo</suggestion>
+            <suggestion>de debò</suggestion>
+            <example type="incorrect">Va <marker>debò</marker>.</example>
+            <example type="correct">Va de bo</example>
+            <example type="correct">Va de debò</example>
+        </rule>
         <rule id="URBI_ET_ORBI" name="urbi et *orbe/orbi">
             <pattern>
                 <token>urbi</token>
@@ -13658,7 +13749,10 @@ $Id$
             <!-- es pot especificar nom propi geogràfic (?) -->
             <rule>
                 <pattern>
-                    <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">&exceptions_AL_FRONT;</exception></token>
+                    <or>
+                        <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">&exceptions_AL_FRONT;</exception></token>
+                        <token skip="-1">a<exception scope="next" regexp="yes" inflected="yes">&exceptions_AL_FRONT;</exception></token>
+                    </or>
                     <marker>
                         <token>a<exception scope="previous" regexp="yes">escrits?</exception></token>
                         <token spacebefore="no">l</token>
@@ -13672,6 +13766,7 @@ $Id$
                 <suggestion>al capdavant <match no="5" /></suggestion>
                 <short>Expressió incorrecta</short>
                 <example type="incorrect"><marker>Al front de</marker> l'orquestra.</example>
+                <example type="incorrect">A ell el van posar <marker>al front de</marker> l'orquestra.</example>
                 <example type="incorrect"><marker>Al front hipotètic de</marker>l procés, hi ha el president.</example>
                 <example type="correct"><marker>Al capdavant de</marker> l'orquestra.</example>
                 <example type="correct">enviar-lo al front de Madrid.</example>
@@ -13683,7 +13778,10 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">&exceptions_AL_FRONT;</exception></token>
+                    <or>
+                        <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">&exceptions_AL_FRONT;</exception></token>
+                        <token skip="-1">a<exception scope="next" regexp="yes" inflected="yes">&exceptions_AL_FRONT;</exception></token>
+                    </or>
                     <marker>
                         <token>a<exception scope="previous" regexp="yes">escrits?|cap</exception></token>
                         <token spacebefore="no">l</token>
@@ -13718,7 +13816,10 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">&exceptions_AL_FRONT;</exception></token>
+                    <or>
+                        <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">&exceptions_AL_FRONT;</exception></token>
+                        <token skip="-1">a<exception scope="next" regexp="yes" inflected="yes">&exceptions_AL_FRONT;</exception></token>
+                    </or>
                     <marker>
                         <token>a<exception scope="previous" regexp="yes">escrits?|cap</exception></token>
                         <token spacebefore="no">l</token>
@@ -13726,9 +13827,11 @@ $Id$
                     </marker>
                     <token postag="SENT_END"/>                    
                 </pattern>
-                <message>Incorrecte si equival a <suggestion>al davant</suggestion> o <suggestion>al capdavant</suggestion>. Correcte en altres sentits.</message>
+                <message>Incorrecte si equival a <suggestion>al davant</suggestion>. Correcte en altres sentits.</message>
+                <suggestion>al capdavant</suggestion>
                 <short>Expressió incorrecta</short>
                 <example type="incorrect">Amb Fabra <marker>al front</marker>.</example>
+                <example type="incorrect">Ha exigit a Fabra un pas <marker>al front</marker>.</example>
                 <example type="correct">Va viure unes experiències traumàtiques <marker>al front</marker>.</example>
                 <example type="correct">joves desapareguts al front.</example>
                 <example type="correct">El Govern republicà segueix reclutant quintes per al front.</example>
