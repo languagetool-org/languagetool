@@ -36,13 +36,13 @@ import org.languagetool.tools.StringTools;
  */
 public class UppercaseSentenceStartRule extends Rule {
 
+  private static final Pattern NUMERALS_EN =
+          Pattern.compile("[a-z]|(m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|iv|v?i{0,3}))$");
+
   private final Language language;
 
   private String lastParagraphString = "";
   
-  private static final Pattern NUMERALS_EN =
-      Pattern.compile("[a-z]|(m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|iv|v?i{0,3}))$");
-
   public UppercaseSentenceStartRule(final ResourceBundle messages,
       final Language language) {
     super(messages);

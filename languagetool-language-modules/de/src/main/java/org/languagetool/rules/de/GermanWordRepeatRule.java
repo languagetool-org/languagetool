@@ -53,7 +53,7 @@ public class GermanWordRepeatRule extends WordRepeatRule {
       if (position >= 2 && ",".equals(tokens[position - 2].getToken())) {
         return true;
       }
-      if (position >= 3 && ",".equals(tokens[position - 3].getToken()) && PREPOSITIONS.matcher(tokens[position - 2].getToken()).matches()) {
+      if (position >= 3 && ",".equals(tokens[position - 3].getToken()) && isPreposition(tokens[position - 2])) {
         return true;
       }
       return false;
@@ -64,6 +64,10 @@ public class GermanWordRepeatRule extends WordRepeatRule {
       return true;
     }
     return false;
+  }
+
+  private boolean isPreposition(AnalyzedTokenReadings token) {
+    return PREPOSITIONS.matcher(token.getToken()).matches();
   }
 
 }
