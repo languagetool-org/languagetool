@@ -23,6 +23,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -158,7 +159,7 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
             .valueOf("REPLACE");
       } else {
         disambigAction = DisambiguationPatternRule.DisambiguatorAction
-            .valueOf(attrs.getValue(ACTION).toUpperCase());
+            .valueOf(attrs.getValue(ACTION).toUpperCase(Locale.ENGLISH));
       }
       disamb = new StringBuilder();
     } else if (qName.equals(MATCH)) {
@@ -167,12 +168,12 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
       Match.CaseConversion caseConversion = Match.CaseConversion.NONE;
       if (attrs.getValue("case_conversion") != null) {
         caseConversion = Match.CaseConversion.valueOf(attrs
-            .getValue("case_conversion").toUpperCase());
+            .getValue("case_conversion").toUpperCase(Locale.ENGLISH));
       }
       Match.IncludeRange includeRange = Match.IncludeRange.NONE;
       if (attrs.getValue("include_skipped") != null) {
         includeRange = Match.IncludeRange.valueOf(attrs
-            .getValue("include_skipped").toUpperCase());
+            .getValue("include_skipped").toUpperCase(Locale.ENGLISH));
       }
       final Match mWorker = new Match(attrs.getValue(POSTAG), attrs
           .getValue("postag_replace"), YES

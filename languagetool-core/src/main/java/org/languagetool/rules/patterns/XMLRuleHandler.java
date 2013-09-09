@@ -18,10 +18,7 @@
  */
 package org.languagetool.rules.patterns;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.languagetool.Language;
@@ -323,12 +320,12 @@ public class XMLRuleHandler extends DefaultHandler {
     Match.CaseConversion caseConversion = Match.CaseConversion.NONE;
     if (attrs.getValue("case_conversion") != null) {
       caseConversion = Match.CaseConversion.valueOf(attrs
-          .getValue("case_conversion").toUpperCase());
+          .getValue("case_conversion").toUpperCase(Locale.ENGLISH));
     }
     Match.IncludeRange includeRange = Match.IncludeRange.NONE;
     if (attrs.getValue("include_skipped") != null) {
       includeRange = Match.IncludeRange.valueOf(attrs
-          .getValue("include_skipped").toUpperCase());
+          .getValue("include_skipped").toUpperCase(Locale.ENGLISH));
     }
     final Match mWorker = new Match(attrs.getValue(POSTAG), attrs.getValue("postag_replace"), 
         YES.equals(attrs.getValue(POSTAG_REGEXP)), 
