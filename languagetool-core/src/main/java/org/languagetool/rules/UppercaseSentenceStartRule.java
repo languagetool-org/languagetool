@@ -111,24 +111,24 @@ public class UppercaseSentenceStartRule extends Rule {
     if (matchTokenPos+1 < tokens.length
         && NUMERALS_EN.matcher(tokens[matchTokenPos].getToken()).matches()
         && (tokens[matchTokenPos+1].getToken().equals(".")
-            || tokens[matchTokenPos+1].getToken().equals(")"))) {
-          preventError = true;
-        }
+         || tokens[matchTokenPos+1].getToken().equals(")"))) {
+      preventError = true;
+    }
     
     if (isUrl(checkToken)) {
       preventError = true;
     }
 
     if (checkToken.length() > 0) {
-        final char firstChar = checkToken.charAt(0);
-        if (!preventError && Character.isLowerCase(firstChar)) {
-          final RuleMatch ruleMatch = new RuleMatch(this, 
-              tokens[matchTokenPos].getStartPos(),
-              tokens[matchTokenPos].getStartPos() + tokens[matchTokenPos].getToken().length(),
-              messages.getString("incorrect_case"));
-          ruleMatch.setSuggestedReplacement(StringTools.uppercaseFirstChar(checkToken));
-          ruleMatches.add(ruleMatch);
-        }
+      final char firstChar = checkToken.charAt(0);
+      if (!preventError && Character.isLowerCase(firstChar)) {
+        final RuleMatch ruleMatch = new RuleMatch(this,
+                tokens[matchTokenPos].getStartPos(),
+                tokens[matchTokenPos].getStartPos() + tokens[matchTokenPos].getToken().length(),
+                messages.getString("incorrect_case"));
+        ruleMatch.setSuggestedReplacement(StringTools.uppercaseFirstChar(checkToken));
+        ruleMatches.add(ruleMatch);
+      }
     }
     return toRuleMatchArray(ruleMatches);
   }
