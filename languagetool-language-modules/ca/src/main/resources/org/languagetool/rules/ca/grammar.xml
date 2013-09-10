@@ -22,7 +22,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 $Id$
 -->
 <!DOCTYPE rules [
-    <!ENTITY exceptions_AL_FRONT "(?-i)matar|pelat|pelada|arruga|cabellera|cabell|cop|suor|petó|bes|besada|visera|taca|ditada|cara|mirada|lepra|cendra|marca|marcar|batalla|besar|voluntari|corona|bony|militar|enviar|caos|disparar|mocador|lligar|incorpor.*|ferir|expressió|cicatriu|exèrcit|mobilitzar|aigua|clavar|mà|col?p|guerra|soldat|desaparèixer|afusell.*|empreson.*|reclut.*|morir|mort|vidu|orfe|viudo|traum.*">
+    <!ENTITY exceptions_AL_FRONT "(?-i)picar|matar|pelat|pelada|arruga|cabellera|cabell|cop|suor|petó|bes|besada|visera|taca|ditada|cara|mirada|lepra|cendra|marca|marcar|batalla|besar|voluntari|corona|bony|militar|enviar|caos|disparar|mocador|lligar|incorpor.*|ferir|expressió|cicatriu|exèrcit|mobilitzar|aigua|clavar|mà|col?p|guerra|soldat|desaparèixer|afusell.*|empreson.*|reclut.*|morir|mort|vidu|orfe|viudo|traum.*">
     <!ENTITY exceptions_BE "crit|animal|porc|cabra|gallina|pastor|pastura|pasturar|bestiar|boví|vaca|gos|ramat|cleda|rabera|escorxar|escorxador|pasqual|llana">
     <!ENTITY excep_exceptions_BE "ben|prou|tan|que|si|ara|molt|per|i|o|ni|més|['-].+">
     <!ENTITY exceptions_ALS_TRES_MESOS "per|fins|arribar|corresponent|proper|pròxim|inferior|superior|referència">
@@ -5262,23 +5262,39 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
-        <rule id="GRAU_GREU" name="*grau/greu">
-            <pattern>
-                <or>
-                    <token postag="RG_anteposat"/>
-                    <token regexp="yes">molt|poc</token>
-                </or>
-                <marker>
-                    <token>grau</token>
-                </marker>
-            </pattern>
-            <message>¿Volíeu dir <suggestion>greu</suggestion>?</message>
-            <short>Possible confusió</short>
-            <example type="incorrect">Va ser especialment <marker>grau</marker>.</example>
-            <example type="incorrect">No va ser tan <marker>grau</marker>.</example>
-            <example type="incorrect">Va ser molt <marker>grau</marker>.</example>
-            <example type="correct">Va ser greu.</example>
-        </rule>
+        <rulegroup id="GRAU_GREU" name="*grau/greu">
+            <rule>
+                <pattern>
+                    <or>
+                        <token postag="RG_anteposat"><exception regexp="yes">més|menys</exception></token>
+                        <token regexp="yes">molt|poc</token>
+                    </or>
+                    <marker>
+                        <token>grau</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>greu</suggestion>?</message>
+                <short>Possible confusió</short>
+                <example type="incorrect">Va ser especialment <marker>grau</marker>.</example>
+                <example type="incorrect">No va ser tan <marker>grau</marker>.</example>
+                <example type="incorrect">Va ser molt <marker>grau</marker>.</example>
+                <example type="correct">Va ser greu.</example>
+                <example type="correct">En més grau.</example>
+            </rule>
+            <rule>
+                <pattern>
+                   <token><exception postag="SPS00"/></token>
+                   <token regexp="yes">més|menys</token>
+                    <marker>
+                        <token>grau</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>greu</suggestion>?</message>
+                <short>Possible confusió</short>
+                <example type="incorrect">És molt més <marker>grau</marker>.</example>
+                <example type="correct">De menys grau.</example>
+            </rule>
+        </rulegroup>    
         <rule id="POU_PROU" name="pou/prou">
             <pattern>
                 <token inflected="yes" skip="2" regexp="yes">haver|tenir</token>
@@ -6259,6 +6275,7 @@ $Id$
         </rulegroup>
         <rule id="ALA_A_LA" name="*ala ciutat/a la ciutat">
             <pattern>
+                <token><exception>l'</exception></token>
                 <marker>
                     <token regexp="yes">[ae]la</token>
                 </marker>
@@ -6283,6 +6300,7 @@ $Id$
             <example type="correct">a la dreta de l'edifici</example>
             <example type="correct">de la seva ala esquerrana</example>
             <example type="correct">amb part superior plana i ala estreta.</example>
+            <example type="correct">L'ala Nord de la ciutat.</example>
         </rule>
         <rule id="ALES_A_LES" name="*ales forces/a les forces">
             <pattern>
@@ -12296,6 +12314,14 @@ $Id$
                 <message>Cal dir <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">recompondre</match></suggestion>?</message>
                 <example type="incorrect" correction="Recompondran">¿<marker>Recomposaran</marker> l'acord?</example>
                 <example type="correct">recompondre</example>
+            </rule>
+            <rule id="REMEDIAR" name="remediar"> 
+                <pattern>
+                    <token inflected="yes">remediar</token>
+                </pattern>
+                <message>Cal dir <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">remeiar</match></suggestion>?</message>
+                <example type="incorrect" correction="remeia">Si no ho <marker>remedia</marker> ningú.</example>
+                <example type="correct">remeiar</example>
             </rule>
         </rulegroup>    
         <rule id="DE_PERDUTS_AL_RIU" name="*de perduts al riu">
@@ -19813,6 +19839,7 @@ $Id$
         <rule id="DITA_PERSONA" name="dita persona/la dita persona">
             <pattern>
                 <!-- <token><exception regexp="yes">ls?|el|la|els|les|altrament|també|meu|,</exception></token> -->
+                <token><exception inflected="yes">mà</exception></token>
                 <token postag="SPS00"/>
                 <unify>
                 <feature id="nombre"/>
@@ -19823,7 +19850,9 @@ $Id$
                     <token postag="N.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">polze|gros|índex|apuntador|assenyalador|mestre|saludador|mitger|llarg|llépol|anular|auricular|gorrí|menut|menovell|menuell|petit|xic|garranxet|corronxet|hàl·lux</exception></token>
                 </unify>
             </pattern>
-            <message>Val més dir: <suggestion><match no="3" postag="N.(..).*" postag_regexp="yes" postag_replace="DA0$10">el</match> <match no="2" case_conversion="alllower"/></suggestion></message>
+            <message>Val més usar aquesta expressió amb article.</message>
+            <suggestion><match no="4" postag="N.(..).*" postag_regexp="yes" postag_replace="DA0$10">el</match> <match no="3" case_conversion="alllower"/></suggestion>
+            <short>Expressió preferible</short>
             <example type="incorrect" correction="el dit">La cara de <marker>dit</marker> home.</example>
             <example type="incorrect" correction="les dites">Amb <marker>dites</marker> persones no aparegueren.</example>
             <example type="incorrect" correction="la dita">els drets i deures de <marker>dita</marker> ciutat</example>
@@ -19833,6 +19862,7 @@ $Id$
             <example type="correct">L'alfabet àrab, altrament dit alifat</example>
             <example type="correct">El meu dit petit</example>
             <example type="correct">en forma de dit polze </example>
+            <example type="correct">La seva mà de dits fins.</example>
         </rule>
         <rulegroup id="MONT_MUNTANYA" name="mont/muntanya">
             <!-- <rule>

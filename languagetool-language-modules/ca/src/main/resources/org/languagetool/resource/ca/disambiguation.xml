@@ -663,6 +663,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="replace"><wd pos="NCFS000"/><wd pos="AQ0FS0"/></disambig>
         </rule>    
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="&lt;NCMN000&gt;"/>
+                    <token postag="&lt;/NCMN000&gt;"/>
+                </marker>
+            </pattern>
+            <disambig action="replace"><wd pos="NCMN000"/><wd pos="AQ0MN0"/></disambig>
+        </rule> 
     </rulegroup>    
     <rule id="CURT" name="curt no adverbi">
         <pattern>
@@ -1246,12 +1255,14 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
+                <token><exception regexp="yes">em|et|li|ens|us|vos|els|el</exception></token>
                 <marker>
                     <token>sobre</token>
                 </marker>
-                <token postag="D.*" postag_regexp="yes"></token>
+                <token postag="D.*|NP.*|NC.[PN].*" postag_regexp="yes"></token>
             </pattern>
             <disambig action="filter" postag="SPS00" />
+            <example type="untouched">Que no li <marker>sobre</marker> res.</example>  
         </rule>
         <rule>
             <pattern>
@@ -1315,7 +1326,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="[^N].*"/>
     </rule>
-    <rule id="nVerbConjug" name="no sol ser verb conjugar: fer">
+    <rule id="fer_nVerbConjug" name="no sol ser verb conjugar: fer">
         <!--  paraules comunes que no solen ser verb gairebé mai -->
         <pattern>
             <marker>
@@ -1880,9 +1891,9 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <marker>
-                    <token inflected="yes" regexp="yes">balneari|desert|fonda|estany|cometa|pare|premi|cas|cursa|concurs|quadre|taula|novel·la|obra|riu|estil|programa|orquestra|escola|registre|finca</token>
+                    <token inflected="yes" regexp="yes">profeta|balneari|desert|fonda|estany|cometa|pare|premi|cas|cursa|concurs|quadre|taula|novel·la|obra|riu|estil|programa|orquestra|escola|registre|finca</token>
                 </marker>
-                <token regexp="yes">\p{Lu}[\p{Lu}\p{Ll}·]+</token>
+                <token regexp="yes">\p{Lu}.+</token>
             </pattern>
             <disambig action="filter" postag="N.*" />
         </rule>
