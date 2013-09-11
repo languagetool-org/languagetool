@@ -11984,6 +11984,49 @@ $Id$
         </rulegroup>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="A_LA_SEVA_VEGADA" name="a la seva vegada">
+            <pattern>
+                <token>a</token>
+                <token>la</token>
+                <token regexp="yes">se[uv]a</token>
+                <token>vegada</token>
+            </pattern>
+            <message>Expressió incorrecta.</message>
+            <suggestion>al seu torn</suggestion>
+            <example type="incorrect"><marker>a la seva vegada</marker></example>
+            <example type="correct">al seu torn</example>
+        </rule>
+        <rule id="A_LA_SEVA_VOLTA" name="a la seva volta">
+            <pattern>
+                <marker>
+                    <token>a</token>
+                    <token>la</token>
+                    <token regexp="yes">se[uv]a</token>
+                    <token>volta</token>
+                </marker>
+                <token><exception regexp="yes">a|de|d'|ràpida</exception></token>
+            </pattern>
+            <message>Expressió probablement incorrecta.</message>
+            <suggestion>al seu torn</suggestion>
+            <suggestion>a la <match no="3"/> tornada</suggestion>
+            <short>Probable error</short>
+            <example type="incorrect"><marker>a la seva volta</marker> se n'anà.</example>
+            <example type="correct">al seu torn</example>
+        </rule>
+        <rule id="A_LA_SEVA_VOLTA_A" name="a la seva *volta/tornada a/de">
+            <pattern>
+                <marker>
+                    <token>a</token>
+                    <token>la</token>
+                    <token regexp="yes">se[uv]a</token>
+                    <token>volta</token>
+                </marker>
+                <token regexp="yes">a|de|d'</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>a la <match no="3"/> tornada</suggestion></message>
+            <example type="incorrect" correction="A la seva tornada"><marker>A la seva volta</marker> a casa.</example>
+            <example type="correct">al seu torn</example>
+        </rule>
         <rule id="PRESTAT" name="prestat">
             <pattern>
                 <token regexp="yes" inflected="yes" skip="6">demanar|agafar|agarrar|prendre</token>
@@ -19096,6 +19139,17 @@ $Id$
         </rule>
     </category>
     <category name="C7) Expressions preferibles" default="on" type="style">
+        <rule id="DINER" name="diner/diners">
+            <pattern>
+                <token>diner</token>
+            </pattern>
+            <message>Normalment s'usa en plural.</message>
+            <suggestion>diners</suggestion>
+            <url>http://esadir.cat/morfologia/entry_20030915145619_2/view</url>
+            <short>Expressió preferible</short>
+            <example type="incorrect" correction="diners">No tinc <marker>diner</marker>.</example>
+            <example type="correct">No hi ha diners</example>
+        </rule>
         <rule id="ALS_EFECTES_DE" name="als efectes de">
             <pattern>
                 <token postag="SENT_START|PUNCT.*" postag_regexp="yes"/>
