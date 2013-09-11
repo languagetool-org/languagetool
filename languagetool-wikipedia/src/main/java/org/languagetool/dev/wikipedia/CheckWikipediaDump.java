@@ -32,6 +32,7 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.MultiThreadedJLanguageTool;
 import org.languagetool.rules.Rule;
 import org.xml.sax.SAXException;
 
@@ -113,7 +114,7 @@ public class CheckWikipediaDump {
       throw new IOException("File doesn't exist or isn't a file: " + xmlFileName);
     }
     final Language lang = Language.getLanguageForShortName(langCode);
-    final JLanguageTool languageTool = new JLanguageTool(lang);
+    final JLanguageTool languageTool = new MultiThreadedJLanguageTool(lang);
     languageTool.activateDefaultPatternRules();
     if (ruleIds != null) {
       enableSpecifiedRules(ruleIds, languageTool);

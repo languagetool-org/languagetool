@@ -32,6 +32,7 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.MultiThreadedJLanguageTool;
 import org.languagetool.language.German;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
@@ -167,7 +168,7 @@ public class WikipediaQuickCheck {
   }
 
   private JLanguageTool getLanguageTool(Language lang) throws IOException {
-    final JLanguageTool langTool = new JLanguageTool(lang);
+    final JLanguageTool langTool = new MultiThreadedJLanguageTool(lang);
     langTool.activateDefaultPatternRules();
     for (String disabledRuleId : disabledRuleIds) {
       langTool.disableRule(disabledRuleId);
