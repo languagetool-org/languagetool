@@ -43,7 +43,7 @@ import java.util.*;
  */
 public class CaseRule extends GermanRule {
 
-  private final GermanTagger tagger = (GermanTagger) new German().getTagger();
+  private final GermanTagger tagger;
 
   // wenn hinter diesen Wörtern ein Verb steht, ist es wohl ein substantiviertes Verb,
   // muss also groß geschrieben werden:
@@ -386,10 +386,12 @@ public class CaseRule extends GermanRule {
     substVerbenExceptions.add("bestätigten");
     substVerbenExceptions.add("bekommen");
   }
-
-  public CaseRule(final ResourceBundle messages) {
+  
+  public CaseRule(final ResourceBundle messages, final German german) {
     if (messages != null)
       super.setCategory(new Category(messages.getString("category_case")));
+    
+    this.tagger = (GermanTagger) german.getTagger();
   }
   
   @Override
