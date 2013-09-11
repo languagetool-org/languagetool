@@ -301,7 +301,7 @@ public class JLanguageTool {
             rules.add((Rule) constructor.newInstance(messages));
           } else if (paramTypes.length == 2
               && paramTypes[0].equals(ResourceBundle.class)
-              && paramTypes[1].equals(Language.class)) {
+              && (paramTypes[1].equals(Language.class) || Language.class.isAssignableFrom(paramTypes[1]))) {
             rules.add((Rule) constructor.newInstance(messages, language));
           } else {
             throw new RuntimeException("No matching constructor found for rule class: " + ruleClass.getName());            
