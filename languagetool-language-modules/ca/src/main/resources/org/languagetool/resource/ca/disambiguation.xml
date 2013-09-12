@@ -7497,6 +7497,30 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="[^V].*"></disambig>
     </rule>
+    <rulegroup id="mig_x_mig_y" name="mig x mig y. Ex: mig figa mig raïm">
+        <rule>
+            <pattern>
+                <marker>
+                    <token>mig</token>
+                </marker>
+                <token postag="A.*|NC.*" postag_regexp="yes"/>
+                <token>mig</token>
+                <token postag="A.*|NC.*" postag_regexp="yes"/>        
+            </pattern>
+            <disambig action="add"><wd pos="_allow_mig"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>mig</token>
+                <token postag="A.*|NC.*" postag_regexp="yes"/>
+                <marker>
+                    <token>mig</token>
+                </marker>
+                <token postag="A.*|NC.*" postag_regexp="yes"/>        
+            </pattern>
+            <disambig action="add"><wd pos="_allow_mig"/></disambig>
+        </rule>
+    </rulegroup>
     <rule id="VerbNom_noNom" name="paraules que no són verb sense pronom (verb reflexiu)"> 
         <pattern>
             <marker>
