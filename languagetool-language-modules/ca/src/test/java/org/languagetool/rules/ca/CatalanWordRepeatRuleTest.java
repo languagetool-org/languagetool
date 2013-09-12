@@ -51,6 +51,8 @@ public class CatalanWordRepeatRuleTest extends TestCase {
     //incorrect
     matches = rule.match(langTool.getAnalyzedSentence("Tots els els homes són iguals."));
     assertEquals(1, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("Maximilià i i Maria de Borgonya"));
+    assertEquals(1, matches.length);
   }
 
 }
