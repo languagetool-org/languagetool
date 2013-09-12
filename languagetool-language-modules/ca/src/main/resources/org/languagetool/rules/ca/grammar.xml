@@ -32,7 +32,7 @@ $Id$
     <!ENTITY dies_setmana "dilluns|dimarts|dimecres|dijous|divendres|dissabte|diumenge">
     <!ENTITY ordes "agustinià|salesià|religiós|franciscà|benedictí|templari|cavalleresc|cistercenc|escolapi|monàstic|mercedari|teutònic|cartoixà|dominic|jerònim">
     <!ENTITY ordes_invariable "militar|major|menor|marista|jesuïta|regular">
-    <!ENTITY precedits_per_TAN "cert|fort|(in)?comprensible|(in)?substancial|covard|arriscar">
+    <!ENTITY precedits_per_TAN "cert|fort|(in)?comprensible|(in)?substancial|covard|arriscar|decidir">
     <!ENTITY vocabulari_menjar "aliment|all|amanida|arròs|bolet|carn|carxofa|cep|coriandre|fava|fetge|foie|formatge|gamba|j[ou]livert|llamàntol|llobregant|lluç|macarró|magret|mandonguilla|mango|menjar|mongeta|p[éè]sol|pa|pastís|porc|r[eo]nyó|safrà|tofu|verdura|vi|ànec">
 ]>
     
@@ -3327,7 +3327,7 @@ $Id$
                     <marker>
                         <token>tant<exception postag="allow_tant|.*LOC_ADV.*" postag_regexp="yes"/></token>
                     </marker>
-                    <token postag="[AR].*|V.P.*" postag_regexp="yes"><exception regexp="yes">ací|aquí|allí|allà|potser|abans|ja|on|quan|que|com|menys|doncs|però|ara|emperò|ans</exception><exception postag="N.[MC][SN].*" postag_regexp="yes"/></token>
+                    <token postag="[AR].*|V.P.*" postag_regexp="yes"><exception regexp="yes">no|ací|aquí|allí|allà|potser|abans|ja|on|quan|que|com|menys|doncs|però|ara|emperò|ans</exception><exception postag="N.[MC][SN].*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Davant d'adjectiu o adverbi cal escriure <suggestion>tan</suggestion>.</message>
                 <short>Confusió</short>
@@ -3336,7 +3336,8 @@ $Id$
                 <example type="incorrect" correction="tan">No era <marker>tant</marker> important la quantitat de dividend.</example>
                 <example type="correct">És tan bonic.</example>
                 <example type="correct">Tant quan sigui així com quan no ho sigui.</example>
-                <example type="correct">De tant en tant altres qüestions apareixen</example>
+                <example type="correct">De tant en tant altres qüestions apareixen.</example>
+                <example type="correct">No fa pas tant no ho haurien fet.</example>
                 <!--No es pot resoldre: <example type="correct">Ja no s'encomana tant socialment.</example> -->
             </rule>
             <rule> 
