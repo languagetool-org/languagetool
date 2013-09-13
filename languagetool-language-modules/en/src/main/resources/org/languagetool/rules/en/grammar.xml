@@ -10215,6 +10215,18 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
         </rule>
     </category>
     <category name="Redundant Phrases" type="style">
+        <rule id="IN_A_X_MANNER" name="Wordiness: in a ... manner">
+            <pattern>
+                <token>in</token>
+                <token regexp="yes">a|an</token>
+                <token postag="JJ"><exception regexp="yes">preparatory|good|modern|christian|agglutinative|unsterile</exception></token>
+                <token>manner</token>
+            </pattern>
+            <message>Consider replacing "in a \3 manner" with adverb for "\3"; eg, "in a hasty manner" with "hastily".</message>
+            <short>Possible wordiness</short>
+            <example type="incorrect">He came <marker>in a hasty manner</marker>.</example>
+            <example type="correct">He came hastily.</example>
+        </rule>
         <rulegroup id="ATM_MACHINE" name="ATM machine (ATM)">
             <rule>
                 <pattern>
