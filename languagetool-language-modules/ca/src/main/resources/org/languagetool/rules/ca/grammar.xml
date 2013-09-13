@@ -12027,8 +12027,9 @@ $Id$
             <message>Expressió probablement incorrecta.</message>
             <suggestion>al seu torn</suggestion>
             <suggestion>a la <match no="3"/> tornada</suggestion>
+            <suggestion>a la tornada</suggestion>
             <short>Probable error</short>
-            <example type="incorrect"><marker>a la seva volta</marker> se n'anà.</example>
+            <example type="incorrect"><marker>A la seva volta</marker> s'instal·là al Born.</example>
             <example type="correct">al seu torn</example>
         </rule>
         <rule id="A_LA_SEVA_VOLTA_A" name="a la seva *volta/tornada a/de">
@@ -12042,7 +12043,8 @@ $Id$
                 <token regexp="yes">a|de|d'</token>
             </pattern>
             <message>¿Volíeu dir <suggestion>a la <match no="3"/> tornada</suggestion></message>
-            <example type="incorrect" correction="A la seva tornada"><marker>A la seva volta</marker> a casa.</example>
+            <suggestion>A la tornada</suggestion>
+            <example type="incorrect" correction="A la seva tornada|A la tornada"><marker>A la seva volta</marker> a casa.</example>
             <example type="correct">al seu torn</example>
         </rule>
         <rule id="PRESTAT" name="prestat">
@@ -15407,12 +15409,28 @@ $Id$
                 <example type="correct">poc a poc</example>
             </rule>
         </rulegroup>
+        <rule id="A_POC_QUE" name="*a/per poc que">
+            <pattern>
+                <marker>
+                    <token>a</token>
+                    <token>poc<exception postag=".*LOC.*" postag_regexp="yes"/></token>
+                </marker>
+                <token>que</token>
+            </pattern>
+            <message>Expressió incorrecta</message>
+            <suggestion>per poc</suggestion>
+            <suggestion>poc després</suggestion>
+            <suggestion>poc abans</suggestion>
+            <suggestion>al cap de poc</suggestion>
+            <example type="incorrect"><marker>A poc</marker> que s'esforce ho aconseguirà.</example>
+            <example type="correct">Va dir a poc a poc que sí.</example>
+        </rule>
         <rulegroup id="A_POC_DE" name="*a poc de">
         	<rule>
 	            <pattern>
 	                <token>a<exception postag="LOC_ADV"/></token>
 	                <token>poc</token>
-	                <token regexp="yes">de|d'|que</token>
+	                <token regexp="yes">de|d'</token>
 	            </pattern>
 	            <message>Expressió incorrecta.</message>
 	            <suggestion>poc després <match no="3"/></suggestion>
