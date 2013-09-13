@@ -108,6 +108,21 @@ $Id$
             <example type="correct"><marker>Ihm</marker> folgt Merkel.</example>
             <example type="correct"><marker>Im<marker> gleichen T-Shirt sah er besser aus.</example>
         </rule>-->
+        <rule id="SUCH_SICH" name="Möglicher Tippfehler: such(sich)">
+            <pattern>
+                <token>lassen</token>
+                <marker>
+                    <token>such</token>
+                </marker>
+                <token min="0"/>
+                <token postag="SUB:.*" postag_regexp="yes"/>
+            </pattern>
+            <message>Meinten Sie <suggestion>sich</suggestion>?</message>
+            <example type="incorrect" correction="sich">Mit viel Aufwand lassen <marker>such</marker> Texte auch kurz schreiben.</example>
+            <example type="incorrect" correction="sich">Mit viel Aufwand lassen <marker>such</marker> solche Texte auch kurz schreiben.</example>
+            <example type="correct">Mit viel Aufwand lassen <marker>sich</marker> Texte auch kurz schreiben.</example>
+            <example type="correct" correction="sich">Mit viel Aufwand lassen <marker>sich</marker> solche Texte auch kurz schreiben.</example>
+        </rule>
         <rulegroup id="DAR_DER" name="Möglicher Tippfehler: 'dar (der)'">
             <rule>
                 <pattern>
@@ -10409,6 +10424,17 @@ $Id$
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category name="Groß-/Kleinschreibung">
+        <rule id="DES_OEFTEREN" name="des öfteren(Öfteren)">
+            <pattern case_sensitive="yes">
+                <token>des</token>
+                <token regexp="yes">öfteren|öftern</token>
+            </pattern>
+            <message>In der festen Wendung <suggestion>des <match case_conversion="startupper" no="2"/></suggestion> wird '<match case_conversion="startupper" no="2"/>' großgeschrieben.</message>
+            <url>http://www.duden.de/rechtschreibung/des_Oefteren</url>
+            <example type="incorrect" correction="des Öfteren">Und <marker>des öfteren</marker> viel zu trocken</example>
+            <example type="incorrect" correction="des Öftern">Und <marker>des öftern</marker> viel zu trocken</example>
+            <example type="correct">Und des Öfteren viel zu trocken</example>
+        </rule>
         <rule id="KRAFT_MEINES_AMTES" name="Groß-/Kleinschreibung: 'Kraft (kraft) meines Amtes'">
             <pattern case_sensitive="yes">
                 <token negate_pos="yes" postag="SENT_START"/>
