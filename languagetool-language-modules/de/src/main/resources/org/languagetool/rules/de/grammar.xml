@@ -121,7 +121,7 @@ $Id$
             <example type="incorrect" correction="sich">Mit viel Aufwand lassen <marker>such</marker> Texte auch kurz schreiben.</example>
             <example type="incorrect" correction="sich">Mit viel Aufwand lassen <marker>such</marker> solche Texte auch kurz schreiben.</example>
             <example type="correct">Mit viel Aufwand lassen <marker>sich</marker> Texte auch kurz schreiben.</example>
-            <example type="correct" correction="sich">Mit viel Aufwand lassen <marker>sich</marker> solche Texte auch kurz schreiben.</example>
+            <example type="correct">Mit viel Aufwand lassen <marker>sich</marker> solche Texte auch kurz schreiben.</example>
         </rule>
         <rulegroup id="DAR_DER" name="Möglicher Tippfehler: 'dar (der)'">
             <rule>
@@ -1491,21 +1491,39 @@ $Id$
                 <example type="correct">Ich werde für dich <marker>beten</marker>!</example>
             </rule>
         </rulegroup>
-        <rule id="MIT_MIR" name="Möglicher Tippfehler: 'mit (mir) jemand sagen'">
-            <pattern>
-                <marker>
-                    <token>mit</token>
-                </marker>
-                <token postag="PRO:IND:NOM:SIN:ALG:STV"/>
-                <token postag="VER:.*" postag_regexp="yes"/>
-            </pattern>
-            <message>Meinten Sie <suggestion>mir</suggestion>?</message>
-            <short>Möglicher Tippfehler</short>
-            <example type="incorrect" correction="mir">Kann <marker>mit</marker> jemand sagen, wo er ist?</example>
-            <!-- <example type="incorrect">Kann <marker>mit</marker> bitte jemand dabei helfen.</example> TODO -->
-            <example type="correct">Kann <marker>mir</marker> jemand sagen, wo er ist?</example>
-            <example type="correct">Ich komme <marker>mit</marker> jemand anders.</example>
-        </rule>
+        <rulegroup id="MIT_MIR" name="Möglicher Tippfehler: 'mit (mir)'">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>mit</token>
+                    </marker>
+                    <token postag="PRO:IND:NOM:SIN:ALG:STV"/>
+                    <token postag="VER:.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Meinten Sie <suggestion>mir</suggestion>?</message>
+                <short>Möglicher Tippfehler</short>
+                <example type="incorrect" correction="mir">Kann <marker>mit</marker> jemand sagen, wo er ist?</example>
+                <!-- <example type="incorrect">Kann <marker>mit</marker> bitte jemand dabei helfen.</example> TODO -->
+                <example type="correct">Kann <marker>mir</marker> jemand sagen, wo er ist?</example>
+                <example type="correct">Ich komme <marker>mit</marker> jemand anders.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">gefällt|gefallen|gefiel</token>
+                    <marker>
+                        <token>mit</token>
+                    </marker>
+                    <token postag="ADJ:.*" postag_regexp="yes" min="0"/>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <message>Meinten Sie <suggestion>mir</suggestion>?</message>
+                <short>Möglicher Tippfehler</short>
+                <example type="incorrect" correction="mir">Insbesondere das Synonym-Wörterbuch gefällt <marker>mit</marker> gut.</example>
+                <example type="incorrect" correction="mir">Insbesondere das Synonym-Wörterbuch gefällt <marker>mit</marker>.</example>
+                <example type="correct">Insbesondere das Synonym-Wörterbuch gefällt <marker>mir</marker>.</example>
+                <example type="correct">Insbesondere das Synonym-Wörterbuch gefällt <marker>mir</marker> gut.</example>
+            </rule>
+        </rulegroup>
         <rule id="ER_EINZIGE" name="Möglicher Tippfehler: 'er (der) einzige'">
             <pattern>
                 <marker>
