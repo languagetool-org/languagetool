@@ -2397,6 +2397,19 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
                 <example type="correct">It's going to rain.</example>
                 <example type="incorrect" correction="It's|It is"><marker>Its</marker> going to be sunny tomorrow.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="VBG"/>
+                    <marker>
+                        <token>it</token>
+                        <token spacebefore="no" regexp="yes">['’]</token>
+                        <token>s</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>its</suggestion> (possessive pronoun) instead of 'it's' (short form of 'it is')?</message>
+                <example type="incorrect" correction="its">It does this by providing <marker>it's</marker> own open source based products.</example>
+                <example type="correct">It does this by providing <marker>its</marker> own open source based products.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="NOW" name="no/now">
             <rule>
