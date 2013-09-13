@@ -4737,8 +4737,8 @@ $Id$
                 <pattern>
                     <marker>
                         <token>malgrat<exception postag="_possible_nompropi"/></token>
-                    </marker>
-                    <token skip="8"><exception regexp="yes">tot|això|que|com</exception><exception scope="next" regexp="yes">[,-–—)]|que|quals?|què|com</exception></token>
+                    </marker> <!--  -->
+                    <token skip="9"><exception regexp="yes">tot|això|que|com</exception><exception scope="next" regexp="yes">[,–—\)\-]|que|quals?|què|com</exception></token>
                     <token postag="V.[IS].*" postag_regexp="yes"></token> <!-- <exception postag="_GN.*|V.N.*" postag_regexp="yes"/> -->
                 </pattern>
                 <message>Potser és <suggestion>malgrat que</suggestion> o falta una coma abans del verb.</message>
@@ -11299,6 +11299,15 @@ $Id$
                 <example type="correct">vós sembleu un sant</example>
             </rule>        
         </rulegroup>
+        <rule id="LEN" name="le'n">
+            <pattern>
+                <token>le</token>
+                <token>'n</token>
+            </pattern>
+            <message>Cal escriure <suggestion>l'en</suggestion>.</message>
+            <example type="incorrect"><marker>le'n</marker></example>
+            <example type="correct">l'en</example>
+        </rule>
     </category>
     <category name="«lo» neutre" type="grammar">
         <!-- es podria fer una llista molt més completa de solucions-->
@@ -15609,6 +15618,7 @@ $Id$
         </rule>
         <rule id="A_RESULTES_DE" name="a resultes de">
             <pattern>
+                <token><exception>com</exception></token>
                 <marker>
                     <token>a</token>
                     <token>resultes</token>
