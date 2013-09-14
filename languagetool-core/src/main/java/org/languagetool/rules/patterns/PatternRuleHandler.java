@@ -33,6 +33,8 @@ import org.xml.sax.SAXException;
 
 public class PatternRuleHandler extends XMLRuleHandler {
 
+  static final String PLEASE_SPELL_ME = "<pleasespellme/>";
+  
   protected Category category;
   protected String categoryIssueType;
   protected String ruleGroupIssueType;
@@ -157,7 +159,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
       message = new StringBuilder();
     } else if (SUGGESTION.equals(qName) && !inMessage) {  //suggestions outside message
       if (YES.equals(attrs.getValue("suppress_misspelled"))) {
-        suggestionsOutMsg.append("<pleasespellme/>");
+        suggestionsOutMsg.append(PLEASE_SPELL_ME);
       }
       suggestionsOutMsg.append("<suggestion>");
       inSuggestion = true;
@@ -179,7 +181,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
       }
     } else if (SUGGESTION.equals(qName) && inMessage) {
       if (YES.equals(attrs.getValue("suppress_misspelled"))) {
-        message.append("<pleasespellme/>");
+        message.append(PLEASE_SPELL_ME);
       }
       message.append("<suggestion>");
       inSuggestion = true;

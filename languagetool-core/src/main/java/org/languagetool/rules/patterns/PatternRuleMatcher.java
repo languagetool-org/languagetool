@@ -36,6 +36,7 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
 
   private static final String SUGGESTION_START_TAG = "<suggestion>";
   private static final String SUGGESTION_END_TAG = "</suggestion>";
+  private static final String MISTAKE = "<mistake/>";
   
   private final boolean useList;
 
@@ -217,8 +218,8 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
     int toPos = token.getStartPos() + token.getToken().length();
     if (fromPos < toPos) { // this can happen with some skip="-1" when the last token is not matched
       //now do some spell-checking:
-      if (!(errMessage.contains("<pleasespellme/>") && errMessage.contains("<mistake/>"))) {
-        final String clearMsg = errMessage.replaceAll("<pleasespellme/>", "").replaceAll("<mistake/>", "");
+      if (!(errMessage.contains(PatternRuleHandler.PLEASE_SPELL_ME) && errMessage.contains(MISTAKE))) {
+        final String clearMsg = errMessage.replaceAll(PatternRuleHandler.PLEASE_SPELL_ME, "").replaceAll(MISTAKE, "");
         return new RuleMatch(rule, fromPos, toPos, clearMsg,
             rule.getShortMessage(), startsWithUppercase, suggestionsOutMsg);
       }
@@ -408,7 +409,7 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
                 && finalMatch.length == 1
                 && "".equals(finalMatch[0])) {
             finalMatch = new String[1];
-            finalMatch[0] = "<mistake/>";
+            finalMatch[0] = MISTAKE;
         }
       } else {
         final List<String[]> matchList = new ArrayList<>();
