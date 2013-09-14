@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker 
- * Copyright (C) 2009 Marcin Miłkowski (http://www.languagetool.org)
+ * Copyright (C) 2013 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,12 +16,11 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.tools;
+package org.languagetool.commandline;
 
 import junit.framework.TestCase;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
-import org.languagetool.TestTools;
 import org.languagetool.rules.WordRepeatRule;
 import org.xml.sax.SAXException;
 
@@ -29,8 +28,10 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
-public class ToolsTest extends TestCase {
+public class CommandLineToolsTest extends TestCase {
 
   private ByteArrayOutputStream out;
   private PrintStream stdout;
@@ -42,7 +43,7 @@ public class ToolsTest extends TestCase {
     this.stdout = System.out;
     this.stderr = System.err;
     this.out = new ByteArrayOutputStream();
-    final ByteArrayOutputStream err = new ByteArrayOutputStream();      
+    final ByteArrayOutputStream err = new ByteArrayOutputStream();
     System.setOut(new PrintStream(this.out));
     System.setErr(new PrintStream(err));
   }
@@ -58,18 +59,24 @@ public class ToolsTest extends TestCase {
     final JLanguageTool tool = new JLanguageTool(Language.DEMO);
     tool.activateDefaultPatternRules();
     tool.activateDefaultFalseFriendRules();
- 
-    int matches = Tools.checkText("Foo.", tool);
+
+    int matches = CommandLineTools.checkText("Foo.", tool);
     String output = new String(this.out.toByteArray());
     assertEquals(0, output.indexOf("Time:"));
     assertEquals(0, matches);
 
     tool.disableRule("test_unification_with_negation");
-    tool.addRule(new WordRepeatRule(TestTools.getEnglishMessages(), Language.DEMO));
-    matches = Tools.checkText("To jest problem problem.", tool);
+    tool.addRule(new WordRepeatRule(getMessages("en"), Language.DEMO));
+    matches = CommandLineTools.checkText("To jest problem problem.", tool);
     output = new String(this.out.toByteArray());
     assertTrue(output.contains("Rule ID: WORD_REPEAT_RULE"));
     assertEquals(1, matches);
+  }
+
+  private static ResourceBundle getMessages(String language) {
+    final ResourceBundle messages = ResourceBundle.getBundle(
+            JLanguageTool.MESSAGE_BUNDLE, new Locale(language));
+    return messages;
   }
 
 }

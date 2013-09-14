@@ -20,6 +20,7 @@ package org.languagetool.tools;
 
 import junit.framework.TestCase;
 import org.languagetool.JLanguageTool;
+import org.languagetool.commandline.CommandLineTools;
 import org.languagetool.language.English;
 import org.languagetool.language.Polish;
 import org.languagetool.rules.bitext.BitextRule;
@@ -64,7 +65,7 @@ public class ToolsTest extends TestCase {
     
     final List<BitextRule> rules = Tools.getBitextRules(english, polish);
     
-    int matches = Tools.checkBitext(
+    int matches = CommandLineTools.checkBitext(
         "This is a perfectly good sentence.",
         "To jest całkowicie prawidłowe zdanie.", srcTool, trgTool, rules,
         false, StringTools.XmlPrintMode.NORMAL_XML);
@@ -72,7 +73,7 @@ public class ToolsTest extends TestCase {
     assertTrue(output.indexOf("Time:") == 0);
     assertEquals(0, matches);
 
-    matches = Tools.checkBitext(
+    matches = CommandLineTools.checkBitext(
         "This is not actual.", 
         "To nie jest aktualne.", 
         srcTool, trgTool, 

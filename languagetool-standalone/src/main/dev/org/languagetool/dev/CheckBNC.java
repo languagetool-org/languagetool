@@ -78,7 +78,7 @@ public final class CheckBNC {
         final Tokenizer sentenceTokenizer = langTool.getLanguage().getSentenceTokenizer();
         final List<String> sentences = sentenceTokenizer.tokenize(text);
         for (String sentence : sentences) {
-          Tools.checkText(sentence, langTool, false, 1000);
+          CommandLineTools.checkText(sentence, langTool, false, 1000);
         }
       } else {
         Tools.checkText(text, langTool);

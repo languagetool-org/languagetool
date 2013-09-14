@@ -171,20 +171,20 @@ class Main {
       //TODO: add parameter to set different readers
       final TabBitextReader reader = new TabBitextReader(filename, encoding);
       if (applySuggestions) {
-        Tools.correctBitext(reader, srcLt, lt, bRules);
+        CommandLineTools.correctBitext(reader, srcLt, lt, bRules);
       } else {
-        Tools.checkBitext(reader, srcLt, lt, bRules, apiFormat);
+        CommandLineTools.checkBitext(reader, srcLt, lt, bRules, apiFormat);
       }
     } else {
       final String text = getFilteredText(filename, encoding, xmlFiltering);
       if (applySuggestions) {
         System.out.print(Tools.correctText(text, lt));
       } else if (profileRules) {
-        Tools.profileRulesOnText(text, lt);
+        CommandLineTools.profileRulesOnText(text, lt);
       } else if (!taggerOnly) {
-        Tools.checkText(text, lt, apiFormat, 0);
+        CommandLineTools.checkText(text, lt, apiFormat, 0);
       } else {
-        Tools.tagText(text, lt);
+        CommandLineTools.tagText(text, lt);
       }
       if (listUnknownWords) {
         System.out.println("Unknown words: " + lt.getUnknownWords());
@@ -376,16 +376,16 @@ class Main {
           lt, currentRule);
     } else if (!taggerOnly) {
       if (matches == 0) {
-        matches += Tools.checkText(StringTools.filterXML(sb.toString()), lt,
+        matches += CommandLineTools.checkText(StringTools.filterXML(sb.toString()), lt,
             apiFormat, -1, lineOffset, matches,
             StringTools.XmlPrintMode.START_XML);
       } else {
-        matches += Tools.checkText(StringTools.filterXML(sb.toString()), lt,
+        matches += CommandLineTools.checkText(StringTools.filterXML(sb.toString()), lt,
             apiFormat, -1, lineOffset, matches,
             StringTools.XmlPrintMode.CONTINUE_XML);
       }
     } else {
-      Tools.tagText(StringTools.filterXML(sb.toString()), lt);
+      CommandLineTools.tagText(StringTools.filterXML(sb.toString()), lt);
     }
     return matches;
   }
