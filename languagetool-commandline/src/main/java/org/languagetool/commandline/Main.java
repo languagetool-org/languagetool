@@ -253,10 +253,11 @@ class Main {
               sentences += lt.sentenceTokenize(sb.toString()).size();
             }
             if (listUnknownWords && !taggerOnly) {
-              for (String word : lt.getUnknownWords())
+              for (String word : lt.getUnknownWords()) {
                 if (!unknownWords.contains(word)) {
                   unknownWords.add(word);
                 }
+              }
             }
             sb = new StringBuilder();
             lineOffset = tmpLineOffset;
@@ -268,10 +269,11 @@ class Main {
                 sentences += lt.sentenceTokenize(sb.toString()).size();
               }
               if (listUnknownWords && !taggerOnly) {
-                for (String word : lt.getUnknownWords())
+                for (String word : lt.getUnknownWords()) {
                   if (!unknownWords.contains(word)) {
                     unknownWords.add(word);
                   }
+                }
               }
               sb = new StringBuilder();
               lineOffset = tmpLineOffset;
@@ -417,7 +419,7 @@ class Main {
     if (!apiFormat && !applySuggestions) {
       System.out.println("Working on " + filename + "...");
     }
-    final String fileContents = StringTools.readFile(new FileInputStream(filename), encoding);
+    final String fileContents = StringTools.readStream(new FileInputStream(filename), encoding);
     if (xmlFiltering) {
       return StringTools.filterXML(fileContents);
     } else {

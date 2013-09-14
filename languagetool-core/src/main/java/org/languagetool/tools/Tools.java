@@ -146,6 +146,10 @@ public final class Tools {
     return rules;
   }
 
+  /**
+   * @return the number of rule matches
+   * @throws IOException
+   */
   public static int profileRulesOnLine(final String contents,
       final JLanguageTool lt, final Rule rule) throws IOException {
     int count = 0;

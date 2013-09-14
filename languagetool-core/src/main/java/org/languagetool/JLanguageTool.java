@@ -288,7 +288,7 @@ public class JLanguageTool {
 
   /**
    * Set a PrintStream that will receive verbose output. Set to
-   * <code>null</code> (which is the default) to disable verbose output.
+   * {@code null} (which is the default) to disable verbose output.
    */
   public void setOutput(final PrintStream printStream) {
     this.printStream = printStream;
@@ -337,7 +337,7 @@ public class JLanguageTool {
 
   /**
    * Loads and activates the pattern rules from
-   * <code>org/languagetool/rules/&lt;languageCode&gt;/grammar.xml</code>.
+   * {@code org/languagetool/rules/<languageCode>/grammar.xml}.
    */
   public void activateDefaultPatternRules() throws IOException {
     final List<PatternRule> patternRules = new ArrayList<>();
@@ -696,7 +696,7 @@ public class JLanguageTool {
   /**
    * Get the alphabetically sorted list of unknown words in the latest run of one of the {@link #check(String)} methods.
    * 
-   * @throws IllegalStateException if {@link #setListUnknownWords(boolean)} has been set to <code>false</code>
+   * @throws IllegalStateException if {@link #setListUnknownWords(boolean)} has been set to {@code false}
    */
   public List<String> getUnknownWords() {
     if (!listUnknownWords) {
