@@ -3434,16 +3434,18 @@ $Id$
                 <!-- tan home, tan gallet, cavaller, tan coll amunt-->
             </rule>
             <rule>
-                <pattern>
-                    <marker>
-                        <token skip="3">tan<exception postag="V.P.*" postag_regexp="yes" scope="next"/><exception postag="PP.*|P0.*|V.*|SENT_END|_GV_|_reflexiu|_perfet" scope="next" postag_regexp="yes" negate_pos="yes" /></token>
+                <pattern> 
+                    <marker> <!-- skip="3" <exception postag="V.P.*" postag_regexp="yes" scope="next"/><exception postag="PP.*|P0.*|V.*|SENT_END|_GV_|_reflexiu|_perfet|_obligacio" scope="next" postag_regexp="yes" negate_pos="yes" /> -->
+                        <token>tan</token>
                     </marker>
-                    <token postag="V.[^P].*" postag_regexp="yes"><exception postag="A.*" postag_regexp="yes"></exception></token>
+                    <token min="0" max="3" postag="PP.*|P0.*" postag_regexp="yes"/>
+                    <token postag="V.[^P].*" postag_regexp="yes"><exception postag="A.*|V.P.*" postag_regexp="yes"></exception></token>
                 </pattern>
                 <message>Davant de verb cal escriure <suggestion>tant</suggestion>.</message>
                 <short>Confusió</short>
                 <example type="incorrect">Aquesta és la cançó que <marker>tan</marker> m'agradava.</example>
                 <example type="incorrect">A ell <marker>tan</marker> se li'n fotia.</example>
+                <example type="incorrect">I per <marker>tan</marker> s'haurà de mantenir l'esforç.</example>
                 <example type="incorrect"> que <marker>tan</marker> van contribuir a l’ensorrament de la República de Weimar.</example>
                 <example type="correct">Aquesta és la cançó que tant m'agradava.</example>
                 <example type="correct">un fracàs literari tan continuat devia tenir una causa concreta</example>
