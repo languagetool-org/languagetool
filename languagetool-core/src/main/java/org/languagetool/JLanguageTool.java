@@ -30,9 +30,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-import java.util.MissingResourceException;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -83,7 +81,6 @@ import org.xml.sax.SAXException;
  * 
  * @see MultiThreadedJLanguageTool
  */
-@SuppressWarnings({"UnusedDeclaration"})
 public class JLanguageTool {
 
   public static final String VERSION = "2.3-SNAPSHOT";
@@ -185,7 +182,7 @@ public class JLanguageTool {
       throws IOException {
     this.language = Objects.requireNonNull(language, "language cannot be null");
     this.motherTongue = motherTongue;
-    final ResourceBundle messages = getMessageBundle(language);
+    final ResourceBundle messages = ResourceBundleTools.getMessageBundle(language);
     final Rule[] allBuiltinRules = getAllBuiltinRules(language, messages);
     for (final Rule element : allBuiltinRules) {
       if (element.supportsLanguage(language)) {
@@ -250,43 +247,16 @@ public class JLanguageTool {
    * Gets the ResourceBundle (i18n strings) for the default language of the user's system.
    */
   public static ResourceBundle getMessageBundle() {
-    try {
-      final ResourceBundle bundle = ResourceBundle.getBundle(MESSAGE_BUNDLE);
-      final ResourceBundle fallbackBundle = ResourceBundle.getBundle(MESSAGE_BUNDLE, Locale.ENGLISH);
-      return new ResourceBundleWithFallback(bundle, fallbackBundle);
-    } catch (final MissingResourceException e) {
-      return ResourceBundle.getBundle(MESSAGE_BUNDLE, Locale.ENGLISH);
-    }
+    return ResourceBundleTools.getMessageBundle();
   }
 
   /**
    * Gets the ResourceBundle (i18n strings) for the given user interface language.
    */
   static ResourceBundle getMessageBundle(final Language lang) {
-    try {
-      ResourceBundle bundle = ResourceBundle.getBundle(MESSAGE_BUNDLE, lang.getLocaleWithCountry());
-      if (!isValidBundleFor(lang, bundle)) {
-        bundle = ResourceBundle.getBundle(MESSAGE_BUNDLE, lang.getLocale());
-        if (!isValidBundleFor(lang, bundle)) {
-          // happens if 'xx' is requested but only a MessagesBundle_xx_YY.properties exists:
-          final Language defaultVariant = lang.getDefaultVariant();
-          if (defaultVariant != null && defaultVariant.getCountryVariants().length > 0) {
-            final Locale locale = new Locale(defaultVariant.getShortName(), defaultVariant.getCountryVariants()[0]);
-            bundle = ResourceBundle.getBundle(MESSAGE_BUNDLE, locale);
-          }
-        }
-      }
-      final ResourceBundle fallbackBundle = ResourceBundle.getBundle(MESSAGE_BUNDLE, Locale.ENGLISH);
-      return new ResourceBundleWithFallback(bundle, fallbackBundle);
-    } catch (final MissingResourceException e) {
-      return ResourceBundle.getBundle(MESSAGE_BUNDLE, Locale.ENGLISH);
-    }
+    return ResourceBundleTools.getMessageBundle(lang);
   }
-
-  private static boolean isValidBundleFor(final Language lang, final ResourceBundle bundle) {
-    return lang.getLocale().getLanguage().equals(bundle.getLocale().getLanguage());
-  }
-
+  
   private Rule[] getAllBuiltinRules(final Language language, final ResourceBundle messages) {
     final List<Rule> rules = new ArrayList<>();
     final List<Class<? extends Rule>> languageRules = language.getRelevantRules();

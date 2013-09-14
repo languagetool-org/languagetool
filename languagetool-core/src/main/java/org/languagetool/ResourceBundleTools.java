@@ -1,0 +1,75 @@
+/* LanguageTool, a natural language style checker 
+ * Copyright (C) 2013 Daniel Naber (http://www.danielnaber.de)
+ * 
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+ * USA
+ */
+package org.languagetool;
+
+import java.util.Locale;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
+
+import static org.languagetool.JLanguageTool.MESSAGE_BUNDLE;
+
+/**
+ * @since 2.3
+ */
+final class ResourceBundleTools {
+
+  private ResourceBundleTools() {
+  }
+
+  /**
+   * Gets the ResourceBundle (i18n strings) for the default language of the user's system.
+   */
+  public static ResourceBundle getMessageBundle() {
+    try {
+      final ResourceBundle bundle = ResourceBundle.getBundle(MESSAGE_BUNDLE);
+      final ResourceBundle fallbackBundle = ResourceBundle.getBundle(MESSAGE_BUNDLE, Locale.ENGLISH);
+      return new ResourceBundleWithFallback(bundle, fallbackBundle);
+    } catch (final MissingResourceException e) {
+      return ResourceBundle.getBundle(MESSAGE_BUNDLE, Locale.ENGLISH);
+    }
+  }
+
+  /**
+   * Gets the ResourceBundle (i18n strings) for the given user interface language.
+   */
+  static ResourceBundle getMessageBundle(final Language lang) {
+    try {
+      ResourceBundle bundle = ResourceBundle.getBundle(MESSAGE_BUNDLE, lang.getLocaleWithCountry());
+      if (!isValidBundleFor(lang, bundle)) {
+        bundle = ResourceBundle.getBundle(MESSAGE_BUNDLE, lang.getLocale());
+        if (!isValidBundleFor(lang, bundle)) {
+          // happens if 'xx' is requested but only a MessagesBundle_xx_YY.properties exists:
+          final Language defaultVariant = lang.getDefaultVariant();
+          if (defaultVariant != null && defaultVariant.getCountryVariants().length > 0) {
+            final Locale locale = new Locale(defaultVariant.getShortName(), defaultVariant.getCountryVariants()[0]);
+            bundle = ResourceBundle.getBundle(MESSAGE_BUNDLE, locale);
+          }
+        }
+      }
+      final ResourceBundle fallbackBundle = ResourceBundle.getBundle(MESSAGE_BUNDLE, Locale.ENGLISH);
+      return new ResourceBundleWithFallback(bundle, fallbackBundle);
+    } catch (final MissingResourceException e) {
+      return ResourceBundle.getBundle(MESSAGE_BUNDLE, Locale.ENGLISH);
+    }
+  }
+
+  private static boolean isValidBundleFor(final Language lang, final ResourceBundle bundle) {
+    return lang.getLocale().getLanguage().equals(bundle.getLocale().getLanguage());
+  }
+}
