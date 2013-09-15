@@ -1362,6 +1362,36 @@ RB => Règles Brutes
     </pattern>
     <disambig postag="N f s"/>
   </rule>
+  <rulegroup id="BITE" name="bite">
+    <rule>
+      <pattern>
+        <token regexp="yes">il|elle|on|ne</token>
+        <marker><token>bite</token></marker>
+      </pattern>
+      <disambig action="filter" postag="V.*"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token regexp="yes">tu|ne</token>
+        <marker><token>bites</token></marker>
+      </pattern>
+      <disambig action="filter" postag="V.*"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token regexp="yes">[mlts]a|belle|leur|longue|notre|votre|grande|grosse|petite</token>
+        <marker><token>bite</token></marker>
+      </pattern>
+      <disambig postag="N f s"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token regexp="yes">les|belles|leurs|longues|votres|nos|grosses|grandes|petites</token>
+        <marker><token>bites</token></marker>
+      </pattern>
+      <disambig postag="N f p"/>
+    </rule>
+  </rulegroup>
   <rule id="DON_JUAN" name="don Juan">
     <pattern>
       <token>don</token>
