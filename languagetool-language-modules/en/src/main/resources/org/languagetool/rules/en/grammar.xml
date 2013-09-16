@@ -7375,6 +7375,19 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
                 <example type="correct">He is talking of such a good friend.</example>
             </rule>
         </rulegroup>
+        <rule id="ALLOW_TO" name="allows + to">
+        <pattern>
+          <token inflected="yes">allow</token>
+          <marker>
+          <token>to</token>        
+            <token postag="VBP"></token>
+          </marker>
+        </pattern>
+        <message>Did you mean <suggestion><match no="3" postag="VBG"/></suggestion>?</message>
+        <short>Grammatical problem: use gerund</short>
+        <example type="incorrect">It allows <marker>to see</marker> better.</example>
+        <example type="correct">It allows seeing better.</example>
+        </rule>
         <rulegroup id="AFFORD_VBG" name="'afford', 'choose', 'deserve', 'pretend', 'strive' and 'struggle' used with gerund instead of infinitive">
             <rule>
                 <pattern>
