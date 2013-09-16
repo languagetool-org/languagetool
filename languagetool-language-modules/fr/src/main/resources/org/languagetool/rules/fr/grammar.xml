@@ -3262,6 +3262,38 @@ though, and has since been slightly modified)-->
         <example type="correct">Ces plantes ne sont pas <marker>vénéneuses</marker>.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="SCEAU_SEAU" name="sceau et seau">
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">sceaux?</token></marker>
+          <token>d</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+          <token regexp="yes">avoine|eau</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="c" regexp_replace=""/></suggestion> ?</message>
+        <example type="incorrect" correction="seau">Un <marker>sceau</marker> d’eau.</example>
+        <example type="correct">Un seau d’eau.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes" skip="1">sceaux?</token></marker>
+          <token regexp="yes">remplis?|percés?|vides?</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="c" regexp_replace=""/></suggestion> ?</message>
+        <example type="incorrect" correction="seau">Ton <marker>sceau</marker> est percé.</example>
+        <example type="correct">Ton seau est percé.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">seaux?</token></marker>
+          <token>du</token>
+          <token regexp="yes">roi|secret</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="^." regexp_replace="sc"/></suggestion> ?</message>
+        <example type="incorrect" correction="sceau">Le <marker>seau</marker> du secret.</example>
+        <example type="correct">Le sceau du secret.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category name="Élision">
     <!-- I find conflicting information about élision, so this needs to be reviewed.
@@ -7089,6 +7121,16 @@ though, and has since been slightly modified)-->
         <example type="correct">Que <marker>mange-t-on</marker> ?</example>
       </rule>
     </rulegroup>
+    <rule id="VA_T_EN" name="va-t-en → va-t’en">
+      <pattern>
+        <marker><token>va-t-en</token></marker>
+        <token><exception>guerre</exception></token>
+      </pattern>
+      <message>On écrit <suggestion>va-t’en</suggestion>, car t’ est le pronom réfléchi du verbe s’en aller.</message>
+      <example type="incorrect"><marker>Va-t-en</marker> !</example>
+      <example type="correct">Va-t’en !</example>
+      <example type="correct">C’est un va-t-en guerre.</example>
+    </rule>
     <rulegroup id="LA_LA" name="la → là">
       <rule>
         <pattern>
