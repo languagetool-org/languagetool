@@ -5824,6 +5824,31 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category name="Grammar" type="grammar">
+        <rule id="DID_PAST" name="'did' with past tense verb">
+            <pattern>
+                <token>did</token>
+                <!-- TODO: use chunks
+                <token chunk="B-NP-singular" min="0"/>
+                <token chunk="I-NP-singular" min="0"/>
+                <token chunk="E-NP-singular"/>
+                -->
+                <token postag="DT|PRP\$" postag_regexp="yes"/>
+                <token postag="JJ" min="0"/>
+                <token postag="NN:UN|NN:U|NNS" postag_regexp="yes"/>
+                <marker>
+                    <token postag="VBD"/>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion><match no="5" postag="VB"/></suggestion>?</message>
+            <example type="incorrect" correction="work">Did the application <marker>worked</marker>?</example>
+            <example type="incorrect" correction="work">Did the applications <marker>worked</marker>?</example>
+            <example type="incorrect" correction="work">Did your new applications <marker>worked</marker>?</example>
+            <example type="correct">Did the application work?</example>
+            <example type="correct">Did the applications work?</example>
+            <example type="correct">Did your applications work?</example>
+            <example type="correct">Did your new applications work?</example>
+        </rule>
+
         <rulegroup id="ADVERB_WORD_ORDER" name="Word order: Wrong position of adverb, e.g. 'Always I am happy. (I am always happy.)'">
             <!-- TODO cover cases with 'very' etc. -->
             <rule>
