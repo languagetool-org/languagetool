@@ -4093,7 +4093,7 @@ though, and has since been slightly modified)-->
     <rule id="VCONJ_VCONJ" name="Verbe conjugué suivi d’un verbe conjugué">
       <pattern>
         <token postag="V .*" postag_regexp="yes" skip="1">
-          <exception inflected="yes" postag="V inf|V etre .*|V avoir .*|N .*" postag_regexp="yes" regexp="yes">avoir|être|paraître|sembler|devenir|demeurer|rester</exception>
+          <exception inflected="yes" postag="V.*|N .*" postag_regexp="yes" regexp="yes">avoir|être|paraître|sembler|devenir|demeurer|rester</exception>
           <exception postag="J.*|V ppa.*" postag_regexp="yes"/>
           <exception regexp="yes" scope="current">,|tu|à</exception>
         </token>
@@ -4129,6 +4129,7 @@ though, and has since been slightly modified)-->
       <example type="correct">L’enquête ne <marker>fait</marker> que commencer.</example>
       <example type="correct">La ville, cité interdite.</example>
       <example type="correct">Puis soutenue par des bombardement, il attaqua.</example>
+      <example type="correct">Elles semblent décrites par le modèle en couches.</example>
     </rule>
     <rulegroup id="NON_V" name="pronom sujet + nom/adj">
       <!-- test failure: Did expect one error in: "Elle dix la vérité."
