@@ -57,8 +57,10 @@ public class CatalanUnpairedBracketsRuleTest extends TestCase {
     assertCorrect("—\"Club dels llagoters\" –va repetir en Ron.");
     assertCorrect("»Això em porta a demanar-t'ho.");
     assertCorrect("»Això em porta (sí) a demanar-t'ho.");
-    assertCorrect("el grau en 60 parts iguals, tenim el minut (1'):");
-    assertCorrect("el minut en 60 parts iguals, tenim el segon (1\"):");
+    assertCorrect("al capítol 12 \"Llavors i fruits oleaginosos\"");
+    assertCorrect("\"Per què serveixen les forquilles?\" i aquest respon \"per menjar\".");
+    //assertCorrect("el grau en 60 parts iguals, tenim el minut (1'):");
+    //assertCorrect("el minut en 60 parts iguals, tenim el segon (1\"):");
     
     //assertCorrect("The screen is 20\" wide.");
     assertCorrect("This is a [test] sentence...");
