@@ -50,10 +50,11 @@ abstract class BaseWikipediaDumpHandler extends DefaultHandler {
   private int maxArticles = 0;
   private int articleCount = 0;
 
-  private boolean inText = false;
+  private enum Location {TITLE, TEXT, OTHER}
+  
+  private Location location;
+  private StringBuilder title = new StringBuilder();
   private StringBuilder text = new StringBuilder();
-  private String title;
-
   private TextMapFilter textFilter = new SwebleWikipediaTextFilter();
 
   protected BaseWikipediaDumpHandler(JLanguageTool languageTool, Date dumpDate, String langCode, Language lang) {
@@ -88,9 +89,11 @@ abstract class BaseWikipediaDumpHandler extends DefaultHandler {
   public void startElement(String namespaceURI, String lName, String qName,
       Attributes attrs) throws SAXException {
     if (qName.equals("title")) {
-      inText = true;
+      title = new StringBuilder();
+      location = Location.TITLE;
     } else if (qName.equals("text")) {
-      inText = true;
+      text = new StringBuilder();
+      location = Location.TEXT;
     }
   }
 
@@ -98,18 +101,17 @@ abstract class BaseWikipediaDumpHandler extends DefaultHandler {
   @SuppressWarnings("unused")
   public void endElement(String namespaceURI, String sName, String qName) {
     if (qName.equals("title")) {
-      title = text.toString();
-      text = new StringBuilder();
+      location = Location.OTHER;
     } else if (qName.equals("text")) {
       try {
         handleEndText();
       } catch (Exception e) {
         System.err.println("Error checking text of '" + title + "', ignoring document. Stacktrace:");
         e.printStackTrace();
-        text = new StringBuilder();
       }
+      text = new StringBuilder();
+      location = Location.OTHER;
     }
-    inText = false;
   }
 
   private void handleEndText() {
@@ -126,7 +128,7 @@ abstract class BaseWikipediaDumpHandler extends DefaultHandler {
         System.out.println("Checking article " + articleCount + " (" +
                 textToCheck.length()/1024 + "KB, '" + title + "')" +
                 ", found " + ruleMatches.size() + " matches");
-        handleResult(title, ruleMatches, textToCheck, languageTool.getLanguage());
+        handleResult(title.toString(), ruleMatches, textToCheck, languageTool.getLanguage());
       } catch (ErrorLimitReachedException e) {
         throw e;
       } catch (Exception e) {
@@ -138,7 +140,9 @@ abstract class BaseWikipediaDumpHandler extends DefaultHandler {
   @Override
   public void characters(char[] buf, int offset, int len) {
     final String s = new String(buf, offset, len);
-    if (inText) {
+    if (location == Location.TITLE) {
+      title.append(s);
+    } else if (location == Location.TEXT) {
       text.append(s);
     }
   }
