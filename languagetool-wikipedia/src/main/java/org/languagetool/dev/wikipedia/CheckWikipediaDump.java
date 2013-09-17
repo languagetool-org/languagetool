@@ -94,8 +94,9 @@ public class CheckWikipediaDump {
   private static void ensureCorrectUsageOrExit(String[] args) {
     if (args.length != 7) {
       System.err.println("Usage: CheckWikipediaDump <propertyFile> <rulePropertyFile> <language> <filename> <ruleIds> <maxArticles> <maxErrors>");
-      System.err.println("  propertyFile      a file to set database access properties. Use '-' to print results to stdout.");
-      System.err.println("  rulePropertyFile  a file to set rules which should be disabled per language (e.g. en=RULE1,RULE2 or all=RULE3,RULE4). Use '-' to ignore.");
+      System.err.println("  propertyFile      A file to set database access properties. Use '-' to print results to stdout.");
+      System.err.println("                    The file needs to set dbDriver (fully qualified driver class), dbUrl ('jdbc:...'), dbUser, and dbPassword.");
+      System.err.println("  rulePropertyFile  A file to set rules which should be disabled per language (e.g. en=RULE1,RULE2 or all=RULE3,RULE4). Use '-' to ignore.");
       System.err.println("  language          language code like 'en' or 'de'");
       System.err.println("  filename          path to unpacked Wikipedia XML dump;");
       System.err.println("                    dumps are available from http://dumps.wikimedia.org/backup-index.html");
