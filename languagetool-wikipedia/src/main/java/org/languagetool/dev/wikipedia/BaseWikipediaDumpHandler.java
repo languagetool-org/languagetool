@@ -101,29 +101,38 @@ abstract class BaseWikipediaDumpHandler extends DefaultHandler {
       title = text.toString();
       text = new StringBuilder();
     } else if (qName.equals("text")) {
-      final PlainTextMapping mapping = textFilter.filter(text.toString());
-      final String textToCheck = mapping.getPlainText();
-      if (!textToCheck.contains("#REDIRECT")) {
-        articleCount++;
-        if (maxArticles > 0 && articleCount > maxArticles) {
-          throw new ArticleLimitReachedException(maxArticles);
-        }
-        try {
-          final List<RuleMatch> ruleMatches = languageTool.check(textToCheck);
-          ruleMatchCount += ruleMatches.size();
-          System.out.println("Checking article " + articleCount + " (" +
-                  textToCheck.length()/1024 + "KB, '" + title + "')" +
-                  ", found " + ruleMatches.size() + " matches");
-          handleResult(title, ruleMatches, textToCheck, languageTool.getLanguage());
-        } catch (ErrorLimitReachedException e) {
-          throw e;
-        } catch (Exception e) {
-          throw new RuntimeException("Error checking '" + title + "' (" + articleCount + ")", e);
-        }
+      try {
+        handleEndText();
+      } catch (Exception e) {
+        System.err.println("Error checking text of '" + title + "', ignoring document. Stacktrace:");
+        e.printStackTrace();
+        text = new StringBuilder();
       }
-      text = new StringBuilder();
     }
     inText = false;
+  }
+
+  private void handleEndText() {
+    final PlainTextMapping mapping = textFilter.filter(text.toString());
+    final String textToCheck = mapping.getPlainText();
+    if (!textToCheck.contains("#REDIRECT")) {
+      articleCount++;
+      if (maxArticles > 0 && articleCount > maxArticles) {
+        throw new ArticleLimitReachedException(maxArticles);
+      }
+      try {
+        final List<RuleMatch> ruleMatches = languageTool.check(textToCheck);
+        ruleMatchCount += ruleMatches.size();
+        System.out.println("Checking article " + articleCount + " (" +
+                textToCheck.length()/1024 + "KB, '" + title + "')" +
+                ", found " + ruleMatches.size() + " matches");
+        handleResult(title, ruleMatches, textToCheck, languageTool.getLanguage());
+      } catch (ErrorLimitReachedException e) {
+        throw e;
+      } catch (Exception e) {
+        throw new RuntimeException("Error checking '" + title + "' (" + articleCount + ")", e);
+      }
+    }
   }
 
   @Override

@@ -18,6 +18,7 @@
  */
 package org.languagetool.dev.wikipedia;
 
+import org.apache.commons.lang.StringUtils;
 import org.sweble.wikitext.engine.CompiledPage;
 import org.sweble.wikitext.engine.Compiler;
 import org.sweble.wikitext.engine.PageId;
@@ -55,7 +56,8 @@ public class SwebleWikipediaTextFilter implements TextMapFilter {
       final String plainText = (String) textConverter.go(compiledPage.getPage());
       return new PlainTextMapping(plainText, textConverter.getMapping());
     } catch (Exception e) {
-      throw new RuntimeException("Could not extract plain text from MediaWiki syntax: " + wikiText, e);
+      throw new RuntimeException("Could not extract plain text from MediaWiki syntax: '"
+              + StringUtils.abbreviate(wikiText, 500) + "'", e);
     }
   }
 
