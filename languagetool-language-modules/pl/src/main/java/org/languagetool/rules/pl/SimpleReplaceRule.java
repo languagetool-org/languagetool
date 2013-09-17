@@ -50,6 +50,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
 
   public SimpleReplaceRule(final ResourceBundle messages) throws IOException {
     super(messages);
+    setLocQualityIssueType("misspelling");
   }
 
   @Override
