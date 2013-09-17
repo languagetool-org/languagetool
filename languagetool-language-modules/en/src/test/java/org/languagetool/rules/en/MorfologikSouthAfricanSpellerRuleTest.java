@@ -51,7 +51,7 @@ public class MorfologikSouthAfricanSpellerRuleTest {
 
     //incorrect sentences:
 
-    final RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("behavior"));
+    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("behavior"));
     // check match positions:
     assertEquals(1, matches.length);
     assertEquals(0, matches[0].getFromPos());
@@ -60,6 +60,17 @@ public class MorfologikSouthAfricanSpellerRuleTest {
 
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("aõh")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("a")).length);
+    
+    //based on replacement pairs:
+    
+    matches = rule.match(langTool.getAnalyzedSentence("He teached us."));
+    // check match positions:
+    assertEquals(1, matches.length);
+    assertEquals(3, matches[0].getFromPos());
+    assertEquals(10, matches[0].getToPos());
+    assertEquals("taught", matches[0].getSuggestedReplacements().get(0));
+
+    
   }
 
 }
