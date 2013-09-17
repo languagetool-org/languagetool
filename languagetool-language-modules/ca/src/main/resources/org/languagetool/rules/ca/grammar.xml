@@ -16608,19 +16608,30 @@ $Id$
             <example type="correct">recolzant-se en un bastó</example>
             <example type="correct">El cap el recolzà al bagul</example>
         </rule>
+        <rule id="COBRO" name="cobro/cobrament">
+            <pattern>
+                <token postag="_GN_.*" postag_regexp="yes" regexp="yes">cobros?</token>
+            </pattern>
+            <message>Incorrecte si volíeu dir <suggestion><match no="1" postag="NC.([SP]).+" postag_regexp="yes" postag_replace="NCM$1000">cobrament</match></suggestion>. Correcte en altres sentits.</message>
+            <short>Possible error</short>
+            <example type="incorrect" correction="cobraments">No s'han produït els <marker>cobros</marker>.</example>
+            <example type="incorrect" correction="cobrament">No s'ha fet el <marker>cobro</marker>.</example>
+            <example type="correct">Cobro el quinze de cada mes.</example>
+            <example type="correct">Ho cobro al comptat.</example>
+        </rule>
         <rule id="BOBO" name="bobo">
-              <pattern>
-                      <token regexp="yes">bobos?</token>
-              </pattern>
-              <message>Incorrecte si volíeu dir <suggestion><match no="1" postag=".+([SP]).+" postag_regexp="yes" postag_replace="AQ0M$10">beneit</match></suggestion>. "Bobo" existeix com a nom d'un poble sudanès.</message>
-              <suggestion><match no="1" postag=".+([SP]).+" postag_regexp="yes" postag_replace="AQ0M$10">badoc</match></suggestion>
-              <suggestion><match no="1" postag=".+([SP]).+" postag_regexp="yes" postag_replace="AQ0M$10">babau</match></suggestion>
-              <suggestion><match no="1" postag=".+([SP]).+" postag_regexp="yes" postag_replace="AQ0M$10">bajà</match></suggestion>
-              <suggestion><match no="1" postag=".+([SP]).+" postag_regexp="yes" postag_replace="AQ0M$10">talòs</match></suggestion>
-              <short>Possible error</short>
-              <example type="incorrect" correction="beneits|badocs|babaus|bajans|talossos">Pareixen <marker>bobos</marker>.</example>
-              <example type="incorrect" correction="beneit|badoc|babau|bajà|talòs">Pareix <marker>bobo</marker>.</example>
-              <example type="correct">Ets un simple.</example>
+            <pattern>
+                <token regexp="yes">bobos?</token>
+            </pattern>
+            <message>Incorrecte si volíeu dir <suggestion><match no="1" postag=".+([SP]).+" postag_regexp="yes" postag_replace="AQ0M$10">beneit</match></suggestion>. "Bobo" existeix com a nom d'un poble sudanès.</message>
+            <suggestion><match no="1" postag=".+([SP]).+" postag_regexp="yes" postag_replace="AQ0M$10">badoc</match></suggestion>
+            <suggestion><match no="1" postag=".+([SP]).+" postag_regexp="yes" postag_replace="AQ0M$10">babau</match></suggestion>
+            <suggestion><match no="1" postag=".+([SP]).+" postag_regexp="yes" postag_replace="AQ0M$10">bajà</match></suggestion>
+            <suggestion><match no="1" postag=".+([SP]).+" postag_regexp="yes" postag_replace="AQ0M$10">talòs</match></suggestion>
+            <short>Possible error</short>
+            <example type="incorrect" correction="beneits|badocs|babaus|bajans|talossos">Pareixen <marker>bobos</marker>.</example>
+            <example type="incorrect" correction="beneit|badoc|babau|bajà|talòs">Pareix <marker>bobo</marker>.</example>
+            <example type="correct">Ets un simple.</example>
         </rule>
         <rule id="LLIURAR" name="lliurar/deslliurar">
             <pattern>
@@ -18625,10 +18636,11 @@ $Id$
                         <token regexp="yes">medis?|mig|mitjos</token>
                     </marker>
                     <token>de</token>
-                    <token regexp="yes">comunicació|pagament|transport|subsistència</token>
+                    <token regexp="yes">comunicació|pagament|transport|subsistència|producció</token>
                 </pattern>
                 <message>Paraula incorrecta en aquest context.</message>
                 <suggestion><match no="1" postag="NC(.+)" postag_regexp="yes" postag_replace="NC$1">mitjà</match></suggestion>
+                <url>http://esadir.cat/lexic/entrades/medi/view</url>
                 <short>Expressió incorrecta</short>
                 <example type="incorrect">Els <marker>medis</marker> de comunicació</example>
                 <example type="correct">Els mitjans de comunicació</example>
@@ -18642,6 +18654,7 @@ $Id$
                 </pattern>
                 <message>Paraula incorrecta en aquest context.</message>
                 <suggestion><match no="1" postag="NC(.+)" postag_regexp="yes" postag_replace="NC$1">mitjà</match></suggestion>
+                <url>http://esadir.cat/lexic/entrades/medi/view</url>
                 <short>Expressió incorrecta</short>
                 <example type="incorrect">Els <marker>medis</marker> impresos</example>
                 <example type="correct">Els mitjans impresos</example>
@@ -18666,6 +18679,7 @@ $Id$
                 </pattern>
                 <message>Expressió incorrecta.</message>
                 <suggestion>mitjà</suggestion>
+                <url>http://esadir.cat/lexic/entrades/medi/view</url>
                 <example type="incorrect" correction="mitjà">per <marker>medi</marker> de</example>
                 <example type="correct">per mitjà de</example>
             </rule>
