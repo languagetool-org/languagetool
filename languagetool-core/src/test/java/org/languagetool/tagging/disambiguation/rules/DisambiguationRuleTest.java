@@ -164,7 +164,7 @@ public class DisambiguationRuleTest extends TestCase {
               continue;
             }
             if (readings.getStartPos() == expectedMatchStart) {
-              final AnalyzedTokenReadings r[] = { readings };
+              final AnalyzedTokenReadings[] r = { readings };
               reading = new AnalyzedSentence(r).toShortString(",");
               annotations = readings.getHistoricalAnnotations();
               assertTrue(
@@ -183,7 +183,7 @@ public class DisambiguationRuleTest extends TestCase {
               continue;
             }
             if (readings.getStartPos() == expectedMatchStart) {
-              final AnalyzedTokenReadings r[] = { readings };
+              final AnalyzedTokenReadings[] r = { readings };
               reading = new AnalyzedSentence(r).toShortString(",");
               assertTrue(readings.getStartPos() == expectedMatchStart
                   && readings.getStartPos() + readings.getToken().length() == expectedMatchEnd);

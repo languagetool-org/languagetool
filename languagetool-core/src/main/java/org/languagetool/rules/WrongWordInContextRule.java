@@ -198,8 +198,8 @@ public abstract class WrongWordInContextRule extends Rule {
     
     String[] matches = {"", ""};
     String[] explanations = {"", ""};
-    Pattern words[];
-    Pattern contexts[];
+    Pattern[] words;
+    Pattern[] contexts;
     
     ContextWords() {
       words = new Pattern[2];

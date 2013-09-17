@@ -127,7 +127,7 @@ abstract class BaseWikipediaDumpHandler extends DefaultHandler {
   }
 
   @Override
-  public void characters(char buf[], int offset, int len) {
+  public void characters(char[] buf, int offset, int len) {
     final String s = new String(buf, offset, len);
     if (inText) {
       text.append(s);
