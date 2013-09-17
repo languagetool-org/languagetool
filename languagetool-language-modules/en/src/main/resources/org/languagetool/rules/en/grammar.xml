@@ -7400,20 +7400,40 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
                 <example type="correct">He is talking of such a good friend.</example>
             </rule>
         </rulegroup>
-        <rule id="ALLOW_TO" name="'allow' + 'to' + infinitive">
+        <rulegroup id="ALLOW_TO" name="'allow' + 'to' + infinitive">
+        <rule>          
         <pattern>
-          <token inflected="yes">allow</token>
+          <token inflected="yes">allow<exception postag="VBN"/></token>
           <marker>
           <token>to</token>        
             <token postag="VBP"></token>
           </marker>
         </pattern>
-        <message>Did you mean <suggestion><match no="3" postag="VBG"/></suggestion>? Or maybe you should add a pronoun?</message>
+        <message>Did you mean <suggestion><match no="3" postag="VBG"/></suggestion>? Or maybe you should add a pronoun? In active voice, 'allow' + 'to' takes an object, usually a pronoun.</message>
         <url>http://wps.ablongman.com/long_faigley_penguinhb_2/30/7853/2010580.cw/index.html</url>
         <short>Grammatical problem: use gerund</short>        
         <example type="incorrect">It allows <marker>to see</marker> better.</example>
         <example type="correct">It allows seeing better.</example>
+        <example type="correct">He was allowed to build an ambitious garden.</example>
         </rule>
+        <rule>
+        <pattern>
+          <token postag="SENT_START" skip="-1"><exception inflected="yes" postag="V.*" postag_regexp="yes" scope="next">be</exception></token>
+          <token>allowed</token>
+          <marker>
+          <token>to</token>        
+            <token postag="VBP"></token>
+          </marker>
+        </pattern>
+        <message>Did you mean <suggestion><match no="4" postag="VBG"/></suggestion>? Or maybe you should add a pronoun? In active voice, 'allow' + 'to' takes an object, usually a pronoun.</message>
+        <url>http://wps.ablongman.com/long_faigley_penguinhb_2/30/7853/2010580.cw/index.html</url>
+        <short>Grammatical problem: use gerund</short>        
+        <example type="incorrect" correction="seeing">It allowed <marker>to see</marker> better.</example>
+        <example type="correct">It allows seeing better.</example>
+        <example type="correct">He was allowed to build an ambitious garden.</example>
+        <example type="correct">He was eventually allowed to go to Tehran near the end of 1838-39.</example>
+        </rule>
+        </rulegroup>
         <rulegroup id="AFFORD_VBG" name="'afford', 'choose', 'deserve', 'pretend', 'strive' and 'struggle' used with gerund instead of infinitive">
             <rule>
                 <pattern>
