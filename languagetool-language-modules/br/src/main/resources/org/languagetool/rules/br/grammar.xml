@@ -3172,6 +3172,24 @@ $Id$
       <example type="correct">Lakaet e brezhoneg.</example>
       <example type="correct">Lenn a ra evit gwellaat e vrezhoneg.</example>
     </rule>
+    <rulegroup id="KEMM_NEVEZ" name="kemmadur goude nevez">
+      <rule>
+        <pattern>
+          <marker><token>nevez-ganet</token></marker>
+        </pattern>
+        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude «nevez». Ha fellout a rae deoc’h skrivañ <suggestion>nevez-c’hanet</suggestion>? (CHALM B3.1.2.6)</message>
+        <example type="incorrect"><marker>Nevez-ganet</marker>.</example>
+        <example type="correct"><marker>Nevez-c’hanet</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">nevez-(bet|marvet)</token></marker>
+        </pattern>
+        <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude «nevez». Ha fellout a rae deoc’h skrivañ <suggestion><match no="1" regexp_match="-." regexp_replace="-v"/></suggestion>? (CHALM B3.1.2.6)</message>
+        <example type="incorrect" correction="Nevez-vet"><marker>Nevez-bet</marker>.</example>
+        <example type="correct"><marker>Nevez-vet</marker>.</example>
+      </rule>
+    </rulegroup>
   </category>
 
   <category name="Ger-mell">
@@ -3770,7 +3788,7 @@ $Id$
         <token postag="V ppa"/>
         <token regexp="yes">u[lnr]</token>
       </pattern>
-      <message>Stag eo ar furm « eo » ouzh ar resis (an, ar, al) p’eo stag ar furm « ez eus » ouzh an amresis (un, ur, ul). Ret eo skrivañ <suggestion>eus</suggestion>.</message>
+      <message>Stag eo ar furm «eo» ouzh ar resis (an, ar, al) p’eo stag ar furm «ez eus» ouzh an amresis (un, ur, ul). Ret eo skrivañ <suggestion>eus</suggestion>.</message>
       <example type="incorrect">N’<marker>eo</marker> ket bet kavet ur skouer.</example>
       <example type="correct">N’eus ket bet kavet ur skouer.</example>
     </rule>
