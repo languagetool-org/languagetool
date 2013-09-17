@@ -1061,11 +1061,11 @@ RB => Règles Brutes
       <marker>
         <and>
           <token postag_regexp="yes" postag="V.*"/>
-          <token postag_regexp="yes" postag="N.*"/>
+          <token postag_regexp="yes" postag="[ZN].*"/>
         </and>
       </marker>
     </pattern>
-    <disambig action="filter"><match no="2" postag="N.*" postag_regexp="yes"/></disambig>
+    <disambig action="filter"><match no="2" postag="[ZN].*" postag_regexp="yes"/></disambig>
   </rule>
   
   <rule name="Cela" id="CELA">
@@ -1309,6 +1309,12 @@ RB => Règles Brutes
       <disambig postag="N m p"/>
     </rule>
   </rulegroup>
+  <rule id="JAVA" name="Java">
+    <pattern case_sensitive="yes">
+      <marker><token>Java</token></marker>
+    </pattern>
+    <disambig postag="Z m s"/>
+  </rule>
   <rule id="VIRGINIE" name="Virginie">
     <pattern case_sensitive="yes">
       <marker><token>Virginie</token></marker>
