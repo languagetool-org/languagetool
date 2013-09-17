@@ -55,6 +55,9 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
     if (wordRepetitionOf("Duran", tokens, position)) {
       return true;   // "Duran Duran"
     }
+    if (wordRepetitionOf("sapiens", tokens, position)) {
+      return true;   // "Homo sapiens sapiens"
+    }
 
     return false;
   }
