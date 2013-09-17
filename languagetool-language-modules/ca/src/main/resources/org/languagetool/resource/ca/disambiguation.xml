@@ -4417,15 +4417,26 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="V.*"></disambig>
     </rule>
-    <rule id="ens_nom" name="ens (nom)">
-    	<pattern>
-    		<marker>
-    			<token>ens</token>
-    		</marker>
-    		<token regexp="yes" inflected="yes">supramunicipal|provincial|estatal|racional|televisiu|normatiu|autonòmic|polític|institucional|abstracte</token>
-    	</pattern>
-    	<disambig action="filter" postag="N.*"/>
-    </rule>
+    <rulegroup id="ens_nom" name="ens (nom)">
+        <rule>
+        	<pattern>
+        		<marker>
+        			<token>ens</token>
+        		</marker>
+        		<token regexp="yes" inflected="yes">supramunicipal|provincial|estatal|racional|televisiu|normatiu|autonòmic|polític|institucional|abstracte</token>
+        	</pattern>
+        	<disambig action="filter" postag="N.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="SPS00|.*LOC_PREP.*" postag_regexp="yes"/>
+                <marker>
+                    <token>ens</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="N.*"/>
+        </rule>
+    </rulegroup>    
     <rule id="PronomNom" name="nom i pronom">
         <!-- jo, mi, la, te, ens. Excepció: de te.  -->
         <pattern>

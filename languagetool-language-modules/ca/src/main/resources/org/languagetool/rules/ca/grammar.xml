@@ -4237,7 +4237,7 @@ $Id$
         <!-- en quins casos es poden usar tots els temps verbals, no sols el participi? -->
             <rule>
                 <pattern>
-                    <token postag="V.P.*" skip="1" postag_regexp="yes" regexp="yes" inflected="yes">figurar|reconèixer|conèixer|definir|veure|entendre|interpretar|percebre</token>
+                    <token postag="V.P.*" skip="1" postag_regexp="yes" regexp="yes" inflected="yes">establir|figurar|reconèixer|conèixer|definir|veure|entendre|interpretar|percebre</token>
                     <marker>
                         <token>com</token>
                     </marker>
@@ -4259,7 +4259,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="V.P.*" skip="1" postag_regexp="yes" regexp="yes" inflected="yes">figurar|reconèixer|conèixer|definir|veure|entendre|interpretar|percebre</token>
+                    <token postag="V.P.*" skip="1" postag_regexp="yes" regexp="yes" inflected="yes">establir|figurar|reconèixer|conèixer|definir|veure|entendre|interpretar|percebre</token>
                     <marker>
                         <token>com</token>
                     </marker>
@@ -4278,7 +4278,7 @@ $Id$
                     <marker>
                         <token>com<exception postag="allow_com"/></token>
                     </marker>
-                    <token regexp="yes">correct(e|a|es)|instruments?|senyals?|exemples?|autors?|president[ae]?s?|representants?|actors?|actrius?</token>
+                    <token regexp="yes">titulars?|correct(e|a|es)|instruments?|senyals?|exemples?|autors?|president[ae]?s?|representants?|actors?|actrius?</token>
                 </pattern>
                 <message>Probablement cal escriure <suggestion>com a</suggestion>.</message>
                 <url>http://esadir.cat/sintaxi/advcomcoma/view</url>
@@ -5998,17 +5998,20 @@ $Id$
         </rule>
         <rule id="LAS" name="*las/les">
             <pattern>
+                <token><exception regexp="yes" inflected="yes">ai|sentir|trobar</exception></token>
                 <marker>
-                    <token>las</token>
+                    <token>las<exception postag="_GN_MS"/></token>
                 </marker>
-                <token postag="NC[FC][PN].*|_GN_FP|AQ.[FC][PN]." postag_regexp="yes"/>
+                <!-- <token postag="NC[FC][PN].*|_GN_FP|AQ.[FC][PN].|V.[SI].*|_GV_" postag_regexp="yes"/> -->
             </pattern>
             <message>¿Volíeu dir <suggestion>les</suggestion> en lloc de "las" (adj. masc. sing.)?</message>
             <short>Possible confusió</short>
             <example type="incorrect" correction="Les"><marker>Las</marker> dones són així.</example>
             <example type="incorrect" correction="Les"><marker>Las</marker> fotografies antigues.</example>
             <example type="incorrect" correction="Les"><marker>Las</marker> antigues il·lusions.</example>
-            <example type="correct">Ai las!, em trobava las.</example>
+            <example type="incorrect" correction="les">Independentment de qui <marker>las</marker> haja generades.</example>
+            <example type="correct">Ai las!, em sentia las.</example>
+            <example type="correct">Vaig veure aquell cos las.</example>
         </rule>
 <!--     MOLT DIFÍCIL DE DIFERENCIAR    
          <rule id="CA_LA" name="cala/ca la">
