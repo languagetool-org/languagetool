@@ -105,6 +105,8 @@ abstract class BaseWikipediaDumpHandler extends DefaultHandler {
     } else if (qName.equals("text")) {
       try {
         handleEndText();
+      } catch (ErrorLimitReachedException | ArticleLimitReachedException e) {
+        throw e;
       } catch (Exception e) {
         System.err.println("Error checking text of '" + title + "', ignoring document. Stacktrace:");
         e.printStackTrace();
