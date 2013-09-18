@@ -22510,7 +22510,7 @@ $Id$
           </rule>
         </rulegroup>
         -->
-        <rulegroup id="BEI_OHNE_DATIV" name="Grammatik: 'bei' ohne Dativ">
+        <rulegroup id="BEI_OHNE_DATIV" name="Grammatik: 'bei/entsprechend' ohne Dativ">
             <rule>
                 <pattern>
                     <token regexp="yes">bei|entsprechend</token>
@@ -22534,7 +22534,7 @@ $Id$
                         <token regexp="yes">mein|dein|sein|unser|euer|ihr</token>
                     </marker>
                     <!-- TODO: in den marker, sobald wir einen synthesizer haben: -->
-                    <token min="0" regexp="yes" postag_regexp="yes" postag=".*ADJ.*"/>
+                    <token min="0" postag_regexp="yes" postag=".*ADJ.*"/>
                     <token postag=".*SUB.*SIN.*" postag_regexp="yes"/>
                 </pattern>
                 <!-- TODO: 'eurem' wäre eine bessere Korrektur -->
@@ -22553,7 +22553,7 @@ $Id$
                         <token regexp="yes">meine|deine|seine|unsere|euere|eure|ihre</token>
                     </marker>
                     <!-- TODO: in den marker, sobald wir einen synthesizer haben: -->
-                    <token min="0" regexp="yes" postag_regexp="yes" postag=".*ADJ.*"/>
+                    <token min="0" postag_regexp="yes" postag=".*ADJ.*"/>
                     <token postag=".*SUB.*PLU.*" postag_regexp="yes"/>
                 </pattern>
                 <!-- TODO: braucht synthesizer für gute Vorschläge: -->
@@ -22962,6 +22962,36 @@ $Id$
                 <short>'\1' erfordert den Akkusativ</short>
                 <example type="correct">Das ist für <marker>die schönen Männer</marker>.</example>
                 <example type="incorrect">Das ist für <marker>den schönen Männern</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">betreffend|durch|für|gegen|kontra|ohne|via|wider</token>
+                    <marker>
+                        <token regexp="yes">[Ddsm]?ein|euer|Euer|ihr|Ihr|unser</token>
+                        <token postag="SUB:DAT:SIN:MAS" />
+                    </marker>
+                </pattern>
+                <message>Die Präposition '\1' erfordert in der Regel den Akkusativ.</message>
+                <url>http://www.canoo.net/services/OnlineGrammar/Wort/Praeposition/Kasus/Akkusativ.html</url>
+                <short>'\1' erfordert den Akkusativ</short>
+                <example type="correct">Das ist für <marker>meinen Mann</marker>.</example>
+                <example type="correct">Das ist für <marker>mein Auto</marker>.</example>
+                <example type="correct">Das ist für <marker>meine Frau</marker>.</example>
+                <example type="incorrect">Das ist für <marker>mein Mann</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">betreffend|durch|für|gegen|kontra|ohne|via|wider</token>
+                    <marker>
+                        <token regexp="yes">[Ddsm]?eines|eures|eueres|Eures|Eueres|ihres|Ihres|unseres</token>
+                        <token postag="SUB:GEN:SIN:NEU" />
+                    </marker>
+                </pattern>
+                <message>Die Präposition '\1' erfordert in der Regel den Akkusativ.</message>
+                <url>http://www.canoo.net/services/OnlineGrammar/Wort/Praeposition/Kasus/Akkusativ.html</url>
+                <short>'\1' erfordert den Akkusativ</short>
+                <example type="correct">Das Öl ist für <marker>mein Auto</marker>.</example>
+                <example type="incorrect">Das Öl ist für <marker>meines Autos</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ART_ADJ_SOL" name="Grammatik: Stark oder gemischt flektiertes Adjektiv nach Artikel, z.B. 'im heißem (heißen) Ofen'">
