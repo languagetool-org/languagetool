@@ -22510,6 +22510,60 @@ $Id$
           </rule>
         </rulegroup>
         -->
+        <rulegroup id="BEI_OHNE_DATIV" name="Grammatik: 'bei' ohne Dativ">
+            <rule>
+                <pattern>
+                    <token>bei</token>
+                    <marker>
+                        <token regexp="yes">meine|deine|seine|unsere|euere|eure|ihre</token>
+                    </marker>
+                    <!-- TODO: in den marker, sobald wir einen synthesizer haben: -->
+                    <token min="0" regexp="yes" postag_regexp="yes" postag=".*ADJ.*"/>
+                    <token postag=".*SUB.*SIN.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="2"/>r</suggestion> + Dativ?</message>
+                <example type="correct">Bei meiner Ankunft.</example>
+                <example correction="meiner" type="incorrect">Bei <marker>meine</marker> Ankunft.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>bei</token>
+                    <marker>
+                        <token regexp="yes">mein|dein|sein|unser|euer|ihr</token>
+                    </marker>
+                    <!-- TODO: in den marker, sobald wir einen synthesizer haben: -->
+                    <token min="0" regexp="yes" postag_regexp="yes" postag=".*ADJ.*"/>
+                    <token postag=".*SUB.*SIN.*" postag_regexp="yes"/>
+                </pattern>
+                <!-- TODO: 'eurem' wäre eine bessere Korrektur -->
+                <message>Meinten Sie <suggestion><match no="2"/>em</suggestion> + Dativ?</message>
+                <example type="correct">Bei meinem Haus.</example>
+                <example type="correct">Bei meinem schönen Haus.</example>
+                <example correction="meinem" type="incorrect">Bei <marker>mein</marker> Haus.</example>
+                <example correction="meinem" type="incorrect">Bei <marker>mein</marker> schönes Haus.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>bei</token>
+                    <marker>
+                        <token regexp="yes">meine|deine|seine|unsere|euere|eure|ihre</token>
+                    </marker>
+                    <!-- TODO: in den marker, sobald wir einen synthesizer haben: -->
+                    <token min="0" regexp="yes" postag_regexp="yes" postag=".*ADJ.*"/>
+                    <token postag=".*SUB.*PLU.*" postag_regexp="yes"/>
+                </pattern>
+                <!-- TODO: braucht synthesizer für gute Vorschläge: -->
+                <message>Meinten Sie <suggestion><match no="2"/>n</suggestion> + Dativ?</message>
+                <example type="correct">Bei meinen Häusern.</example>
+                <example type="correct">Bei meinen alten Häusern.</example>
+                <example type="correct">Bei meinen Tassen.</example>
+                <example type="correct">Bei meinen großen Tassen.</example>
+                <example correction="meinen" type="incorrect">Bei <marker>meine</marker> Häuser.</example>
+                <example correction="meinen" type="incorrect">Bei <marker>meine</marker> alten Häuser.</example>
+                <example correction="meinen" type="incorrect">Bei <marker>meine</marker> Tassen.</example>
+                <example correction="meinen" type="incorrect">Bei <marker>meine</marker> großen Tassen.</example>
+            </rule>
+        </rulegroup>
         <rule id="WIDER_BESSEREN_WISSENS" name="Grammatik: 'wider besseren Wissens (wider besseres Wissen)'">
             <!-- TODO: allgemeines Pattern -->
             <pattern>
