@@ -21038,6 +21038,36 @@ $Id$
         </rule>
     </category>
     <category name="Sintaxi" type="grammar">
+        <rulegroup id="ALGUN_CAP" name="no hi ha esperança *alguna/cap esperança">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="NCFS000"/>
+                        <token>alguna</token>
+                    </marker>
+                    <token><exception postag="NCFS000"/></token>
+                </pattern>
+                <message>Expressió incorrecta com a negació.</message>
+                <suggestion>cap <match no="1"/></suggestion>
+                <short>Possible error</short>
+                <example type="incorrect" correction="cap evidència">No n'hi ha <marker>evidència alguna</marker>.</example>
+                <example type="correct">cap evidència</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="NCMS000"/>
+                        <token>algun</token>
+                    </marker>
+                    <token><exception postag="NCMS000"/></token>
+                </pattern>
+                <message>Expressió incorrecta com a negació.</message>
+                <suggestion>cap <match no="1"/></suggestion>
+                <short>Possible error</short>
+                <example type="incorrect" correction="cap llibre">No hi ha <marker>llibre algun</marker> que ho aclarisca.</example>
+                <example type="correct">cap llibre</example>
+            </rule>
+        </rulegroup>    
     	<rulegroup id="TEMPS_VERBALS_INADEQUATS" name="Temps verbals inadequats">
     		<rule id="PRES_SUBJ_EN_CONDICIONALS" name="Present de subjuntiu en frases condicionals: *si conegueu">
     			<pattern>
