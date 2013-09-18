@@ -35,6 +35,15 @@ RB => Règles Brutes
     <disambig postag="A"/>
   </rule>
 
+  <rule name="LE_LA_PR_OBJ" id="le/la pronom objet">
+    <pattern>
+      <token regexp="yes">je|tu|ils?|ne</token>
+      <marker><token regexp="yes">l[ae]?|les</token></marker>
+      <token postag="V.*" postag_regexp="yes"/>
+    </pattern>
+    <disambig action="filter" postag="R pers.*"/>
+  </rule>
+
   <rule name="UN" id="un">
     <pattern><token>un</token></pattern>
     <disambig postag="D m s"/>
