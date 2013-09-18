@@ -117,9 +117,7 @@ public class Galician extends Language {
 
   @Override
   public Contributor[] getMaintainers() {
-    final Contributor contributor = new Contributor("Susana Sotelo Docío");
-    contributor.setUrl("http://www.linguarum.net/projects/languagetool-gl");
-    return new Contributor[] { contributor };
+    return new Contributor[] { new Contributor("Susana Sotelo Docío") };
   }
 
   @Override
