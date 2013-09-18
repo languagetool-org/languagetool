@@ -29,10 +29,7 @@ import java.io.FileFilter;
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Command line tool to list supported languages and their number of rules.
@@ -40,6 +37,9 @@ import java.util.List;
  * @author Daniel Naber
  */
 public final class RuleOverview {
+
+  private static final List<String> LANGUAGES_WITH_MAINTAINER_NEED = 
+          Arrays.asList("en", "ja");
 
   public static void main(final String[] args) throws IOException {
     if (args.length != 1) {
@@ -74,7 +74,6 @@ public final class RuleOverview {
 
     //setup false friends counting
     final String falseFriendFile = JLanguageTool.getDataBroker().getRulesDir() + File.separator + "false-friends.xml";
-    final URL falseFriendUrl = this.getClass().getResource(falseFriendFile);
     final String falseFriendRules = StringTools.readStream(Tools.getStream(falseFriendFile), "utf-8")
       .replaceAll("(?s)<!--.*?-->", "")
       .replaceAll("(?s)<rules.*?>", "");
@@ -137,19 +136,20 @@ public final class RuleOverview {
         overallJavaCount++;
       }
 
-      // false friends
-      if (falseFriendUrl == null) {
-        System.out.println("<td valign=\"top\" align=\"right\">0</td>");
+      // false friends:
+      final int count = countFalseFriendRules(falseFriendRules, lang);
+      System.out.print("<td valign=\"top\" align=\"right\">" + count + "</td>");
+      //System.out.print("<td valign=\"top\">" + (isAutoDetected(lang.getShortName()) ? "yes" : "-") + "</td>");
+      
+      // maintainer information:
+      final StringBuilder maintainerInfo = getMaintainerInfo(lang);
+      final String maintainerText; 
+      if (LANGUAGES_WITH_MAINTAINER_NEED.contains(langCode)) {
+        maintainerText = " - <span class='maintainerNeeded'><a href='http://wiki.languagetool.org/tasks-for-language-maintainers'>Looking for new maintainer</a></span>";
       } else {
-        final int count = countFalseFriendRules(falseFriendRules, lang);
-        System.out.print("<td valign=\"top\" align=\"right\">" + count + "</td>");
-
-        //System.out.print("<td valign=\"top\">" + (isAutoDetected(lang.getShortName()) ? "yes" : "-") + "</td>");
-        
-        // maintainer information:
-        final StringBuilder maintainerInfo = getMaintainerInfo(lang);
-        System.out.print("<td valign=\"top\" align=\"left\">" + maintainerInfo.toString() + "</td>");
+        maintainerText = "";
       }
+      System.out.print("<td valign=\"top\" align=\"left\">" + maintainerInfo.toString() + maintainerText + "</td>");
       
       System.out.println("</tr>");    
     }
@@ -252,23 +252,23 @@ public final class RuleOverview {
     return false;
   }*/
 
-}
+  private class JavaFilter implements FileFilter {
 
-class JavaFilter implements FileFilter {
+    private final String langName;
 
-  private final String langName;
-
-  public JavaFilter(String langName) {
-    this.langName = langName;
-  }
-
-  public boolean accept(final File f) {
-    final String filename = f.getName();
-    final boolean isAbstractTopClass = filename.endsWith(langName + "Rule.java");
-    if (filename.endsWith(".java") && !isAbstractTopClass) {
-      return true;
+    public JavaFilter(String langName) {
+      this.langName = langName;
     }
-    return false;
+
+    public boolean accept(final File f) {
+      final String filename = f.getName();
+      final boolean isAbstractTopClass = filename.endsWith(langName + "Rule.java");
+      if (filename.endsWith(".java") && !isAbstractTopClass) {
+        return true;
+      }
+      return false;
+    }
+
   }
 
 }
