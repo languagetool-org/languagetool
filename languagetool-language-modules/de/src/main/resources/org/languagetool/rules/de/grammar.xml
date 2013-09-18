@@ -22513,7 +22513,7 @@ $Id$
         <rulegroup id="BEI_OHNE_DATIV" name="Grammatik: 'bei' ohne Dativ">
             <rule>
                 <pattern>
-                    <token>bei</token>
+                    <token regexp="yes">bei|entsprechend</token>
                     <marker>
                         <token regexp="yes">meine|deine|seine|unsere|euere|eure|ihre</token>
                     </marker>
@@ -22523,11 +22523,13 @@ $Id$
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="2"/>r</suggestion> + Dativ?</message>
                 <example type="correct">Bei meiner Ankunft.</example>
+                <example type="correct">Entsprechend meiner Laune.</example>
                 <example correction="meiner" type="incorrect">Bei <marker>meine</marker> Ankunft.</example>
+                <example correction="meiner" type="incorrect">Entsprechend <marker>meine</marker> Laune.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token>bei</token>
+                    <token regexp="yes">bei|entsprechend</token>
                     <marker>
                         <token regexp="yes">mein|dein|sein|unser|euer|ihr</token>
                     </marker>
@@ -22539,12 +22541,14 @@ $Id$
                 <message>Meinten Sie <suggestion><match no="2"/>em</suggestion> + Dativ?</message>
                 <example type="correct">Bei meinem Haus.</example>
                 <example type="correct">Bei meinem schönen Haus.</example>
+                <example type="correct">Dosis entsprechend meinem Zustand angepasst.</example>
                 <example correction="meinem" type="incorrect">Bei <marker>mein</marker> Haus.</example>
                 <example correction="meinem" type="incorrect">Bei <marker>mein</marker> schönes Haus.</example>
+                <example correction="meinem" type="incorrect">Dosis entsprechend <marker>mein</marker> Zustand angepasst.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token>bei</token>
+                    <token regexp="yes">bei|entsprechend</token>
                     <marker>
                         <token regexp="yes">meine|deine|seine|unsere|euere|eure|ihre</token>
                     </marker>
@@ -22558,10 +22562,12 @@ $Id$
                 <example type="correct">Bei meinen alten Häusern.</example>
                 <example type="correct">Bei meinen Tassen.</example>
                 <example type="correct">Bei meinen großen Tassen.</example>
+                <example type="correct">Entsprechend meiner Empfehlungen.</example>
                 <example correction="meinen" type="incorrect">Bei <marker>meine</marker> Häuser.</example>
                 <example correction="meinen" type="incorrect">Bei <marker>meine</marker> alten Häuser.</example>
                 <example correction="meinen" type="incorrect">Bei <marker>meine</marker> Tassen.</example>
                 <example correction="meinen" type="incorrect">Bei <marker>meine</marker> großen Tassen.</example>
+                <example correction="meinen" type="incorrect">Entsprechend <marker>meine</marker> Empfehlungen.</example>
             </rule>
         </rulegroup>
         <rule id="WIDER_BESSEREN_WISSENS" name="Grammatik: 'wider besseren Wissens (wider besseres Wissen)'">
