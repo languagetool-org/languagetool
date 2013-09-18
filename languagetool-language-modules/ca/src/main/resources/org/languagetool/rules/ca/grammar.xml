@@ -35,6 +35,7 @@ $Id$
     <!ENTITY precedits_per_TAN "cert|fort|(in)?comprensible|(in)?substancial|covard|arriscar|decidir">
     <!ENTITY precedits_per_TANT "no|ací|aquí|allí|allà|potser|abans|ja|on|quan|que|com|menys|doncs|però|ara|emperò|ans">
     <!ENTITY vocabulari_menjar "aliment|all|amanida|arròs|bolet|carn|carxofa|cep|coriandre|fava|fetge|foie|formatge|gamba|j[ou]livert|llamàntol|llobregant|lluç|macarró|magret|mandonguilla|mango|menjar|mongeta|p[éè]sol|pa|pastís|porc|r[eo]nyó|safrà|tofu|verdura|vi|ànec">
+    <!ENTITY seguits_per_COM_A "caracteritzar|qualificar|establir|figurar|reconèixer|conèixer|definir|veure|entendre|interpretar|percebre">
 ]>
     
 <rules lang="ca" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
@@ -4237,10 +4238,11 @@ $Id$
         <!-- en quins casos es poden usar tots els temps verbals, no sols el participi? -->
             <rule>
                 <pattern>
-                    <token postag="V.P.*" skip="1" postag_regexp="yes" regexp="yes" inflected="yes">qualificar|establir|figurar|reconèixer|conèixer|definir|veure|entendre|interpretar|percebre</token>
+                    <token postag="V.P.*" skip="1" postag_regexp="yes" regexp="yes" inflected="yes">&seguits_per_COM_A;</token>
                     <marker>
                         <token>com</token>
                     </marker>
+                    <token min="0" regexp="yes">['"‘“«]</token>
                     <token postag="[AN].*|_possible_nompropi|UNKNOWN" postag_regexp="yes"><exception>a</exception><exception inflected="yes" regexp="yes">el|un|tot</exception><exception regexp="yes">['"‘“«]</exception></token>
                 </pattern>
                 <message>Probablement cal escriure <suggestion>com a</suggestion>.</message>
@@ -4256,10 +4258,13 @@ $Id$
                 <example type="correct">tant des del punt de vista teòric com pràctic</example>
                 <!-- per fer: <example type="incorrect" correction="com a">El perceben <marker>com</marker> normal.</example> -->
                 <!-- noms coneguts com Fidel García Berlanga, Miguel de Córdova -->
+                <example type="incorrect" correction="com a">Conegut <marker>com</marker> "lleonès medieval"</example>
+                <example type="correct">És conegut com "el millor pastisser del món".</example>
+                <example type="correct">Conegut com "el mirador de la comtessa".</example>
             </rule>
-            <rule>
+            <!-- <rule>
                 <pattern>
-                    <token postag="V.P.*" skip="1" postag_regexp="yes" regexp="yes" inflected="yes">qualificar|establir|figurar|reconèixer|conèixer|definir|veure|entendre|interpretar|percebre</token>
+                    <token postag="V.P.*" skip="1" postag_regexp="yes" regexp="yes" inflected="yes">&seguits_per_COM_A;</token>
                     <marker>
                         <token>com</token>
                     </marker>
@@ -4272,7 +4277,7 @@ $Id$
                 <example type="incorrect" correction="com a">Conegut <marker>com</marker> "lleonès medieval"</example>
                 <example type="correct">És conegut com "el millor pastisser del món".</example>
                 <example type="correct">Conegut com "el mirador de la comtessa".</example>
-            </rule>
+            </rule> -->
             <rule>
                 <pattern>
                     <marker>
@@ -5998,10 +6003,11 @@ $Id$
         </rule>
         <rule id="LAS" name="*las/les">
             <pattern>
-                <token><exception regexp="yes" inflected="yes">ai|sentir|trobar</exception></token>
+                <token><exception regexp="yes" inflected="yes">ai|sentir|trobar|quedar</exception></token>
                 <marker>
                     <token>las<exception postag="_GN_MS"/></token>
                 </marker>
+                <token><exception postag="_PUNCT.*" postag_regexp="yes"/></token>
                 <!-- <token postag="NC[FC][PN].*|_GN_FP|AQ.[FC][PN].|V.[SI].*|_GV_" postag_regexp="yes"/> -->
             </pattern>
             <message>¿Volíeu dir <suggestion>les</suggestion> en lloc de "las" (adj. masc. sing.)?</message>
@@ -6009,9 +6015,11 @@ $Id$
             <example type="incorrect" correction="Les"><marker>Las</marker> dones són així.</example>
             <example type="incorrect" correction="Les"><marker>Las</marker> fotografies antigues.</example>
             <example type="incorrect" correction="Les"><marker>Las</marker> antigues il·lusions.</example>
+            <example type="incorrect" correction="les">Em va agafar <marker>las</marker> mans.</example>
             <example type="incorrect" correction="les">Independentment de qui <marker>las</marker> haja generades.</example>
             <example type="correct">Ai las!, em sentia las.</example>
             <example type="correct">Vaig veure aquell cos las.</example>
+            <example type="correct">El cos li Va quedar completament las.</example>
         </rule>
 <!--     MOLT DIFÍCIL DE DIFERENCIAR    
          <rule id="CA_LA" name="cala/ca la">
@@ -20003,24 +20011,24 @@ $Id$
         </rule>
         <rule id="DITA_PERSONA" name="dita persona/la dita persona">
             <pattern>
-                <!-- <token><exception regexp="yes">ls?|el|la|els|les|altrament|també|meu|,</exception></token> -->
-                <token><exception inflected="yes">mà</exception></token>
-                <token postag="SPS00"/>
+                <!-- <token><exception inflected="yes">mà</exception></token> -->
+                <token postag="SPS00|.*LOC_.*|CS|PR.*" postag_regexp="yes"/>
                 <unify>
                 <feature id="nombre"/>
                 <feature id="genere"/>
                     <marker>
                         <token postag="V.P.*" postag_regexp="yes" inflected="yes">dir<exception postag="_GV_"/></token>
                     </marker>
-                    <token postag="N.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">polze|gros|índex|apuntador|assenyalador|mestre|saludador|mitger|llarg|llépol|anular|auricular|gorrí|menut|menovell|menuell|petit|xic|garranxet|corronxet|hàl·lux</exception></token>
+                    <token postag="N.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">polze|gros|índex|apuntador|assenyalador|mestre|saludador|mitger|llarg|llépol|anular|auricular|gorrí|menut|menovell|menuell|petit|xic|garranxet|corronxet|hàl·lux|fi</exception></token>
                 </unify>
             </pattern>
             <message>Val més usar aquesta expressió amb article.</message>
-            <suggestion><match no="4" postag="N.(..).*" postag_regexp="yes" postag_replace="DA0$10">el</match> <match no="3" case_conversion="alllower"/></suggestion>
+            <suggestion><match no="2" postag="V.P.*(.)(.)." postag_regexp="yes" postag_replace="DA0$2$10">el</match> <match no="2" case_conversion="alllower"/></suggestion>
             <short>Expressió preferible</short>
             <example type="incorrect" correction="el dit">La cara de <marker>dit</marker> home.</example>
             <example type="incorrect" correction="les dites">Amb <marker>dites</marker> persones no aparegueren.</example>
             <example type="incorrect" correction="la dita">els drets i deures de <marker>dita</marker> ciutat</example>
+            <example type="incorrect" correction="la dita">I que <marker>dita</marker> cessió tinga efectes reals.</example>
             <example type="correct">Les dites persones m'ho van confirmar.</example>
             <example type="correct">Ell no me n'ha dit res.</example>
             <example type="correct">Des del dit museu</example>
