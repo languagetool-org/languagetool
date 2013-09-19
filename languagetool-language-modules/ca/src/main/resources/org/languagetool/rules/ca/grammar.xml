@@ -5085,6 +5085,20 @@ $Id$
             <example type="incorrect">El lloc <marker>en que</marker> ho van trobar</example>
             <example type="correct">El lloc <marker>en què</marker> ho van trobar</example>
         </rule>
+        <rule id="CONSISTIR_EN_QUE" name="consistir *en què">
+            <pattern>
+                <token inflected="yes">consistir</token>
+                <token>en</token>
+                <token>què</token>
+            </pattern>
+            <message>Construcció incorrecta</message>
+            <suggestion><match no="1"/> en el fet que</suggestion>
+            <suggestion><match no="1"/> que</suggestion>
+            <suggestion><match no="1"/> a fer que</suggestion>
+            <suggestion><match no="1"/> a dir que</suggestion>
+            <example type="incorrect">Això <marker>consisteix en què</marker></example>
+            <example type="correct">consisteix que</example>
+        </rule>
         <rule id="A_QUE" name="a que">
             <pattern>
             	<token><exception regexp="yes">per|degut</exception></token>
@@ -5100,6 +5114,19 @@ $Id$
             <url>http://esadir.cat/sintaxi/prepcaiguda</url>
             <example type="incorrect">La qüestió <marker>a que</marker> es referia ell.</example>
             <example type="correct">La qüestió <marker>a què</marker> es referia ell.</example>
+        </rule>
+        <rule id="COLLABORAR_A_QUE" name="col·laborar *a què">
+            <pattern>
+                <token inflected="yes" regexp="yes">ajudar|col·laborar|contribuir</token>
+                <token regexp="yes">a|en</token>
+                <token>què</token>
+            </pattern>
+            <message>Construcció incorrecta</message>
+            <suggestion><match no="1"/> a fer que</suggestion>
+            <suggestion><match no="1"/> al fet que</suggestion>
+            <suggestion><match no="1"/> que</suggestion>
+            <example type="incorrect">Això <marker>col·labora a què</marker> millorem.</example>
+            <example type="correct">consisteix que</example>
         </rule>
         <rule id="PER_QUE" name="per que">
             <pattern>
