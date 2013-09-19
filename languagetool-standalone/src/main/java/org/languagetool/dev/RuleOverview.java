@@ -38,8 +38,10 @@ import java.util.*;
  */
 public final class RuleOverview {
 
-  private static final List<String> LANGUAGES_WITH_MAINTAINER_NEED = 
+  private static final List<String> LANGUAGES_WITH_NEW_MAINTAINER_NEED = 
           Arrays.asList("en", "ja");
+  private static final List<String> LANGUAGES_WITH_CO_MAINTAINER_NEED = 
+          Arrays.asList("da");
 
   public static void main(final String[] args) throws IOException {
     if (args.length != 1) {
@@ -144,8 +146,10 @@ public final class RuleOverview {
       // maintainer information:
       final StringBuilder maintainerInfo = getMaintainerInfo(lang);
       final String maintainerText; 
-      if (LANGUAGES_WITH_MAINTAINER_NEED.contains(langCode)) {
+      if (LANGUAGES_WITH_NEW_MAINTAINER_NEED.contains(langCode)) {
         maintainerText = " - <span class='maintainerNeeded'><a href='http://wiki.languagetool.org/tasks-for-language-maintainers'>Looking for new maintainer</a></span>";
+      } else if (LANGUAGES_WITH_CO_MAINTAINER_NEED.contains(langCode)) {
+        maintainerText = " - <span class='maintainerNeeded'><a href='http://wiki.languagetool.org/tasks-for-language-maintainers'>Looking for co-maintainer</a></span>";
       } else {
         maintainerText = "";
       }
