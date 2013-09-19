@@ -21042,24 +21042,25 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token postag="NCFS000"/>
+                        <token postag="NCFS000"><exception postag="V.[IS].*|_GV_" postag_regexp="yes"/></token>
                         <token>alguna</token>
                     </marker>
-                    <token><exception postag="NCFS000"/></token>
+                    <token><exception postag="N.[FC][SN].*" postag_regexp="yes"/><exception regexp="yes">\p{Lu}.+</exception></token>
                 </pattern>
                 <message>Expressió incorrecta com a negació.</message>
                 <suggestion>cap <match no="1"/></suggestion>
                 <short>Possible error</short>
                 <example type="incorrect" correction="cap evidència">No n'hi ha <marker>evidència alguna</marker>.</example>
                 <example type="correct">cap evidència</example>
+                <example type="correct">Si durant l'any en passa alguna de grossa.</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
-                        <token postag="NCMS000"/>
+                        <token postag="NCMS000"><exception postag="V.[IS].*|_GV_" postag_regexp="yes"/></token>
                         <token>algun</token>
                     </marker>
-                    <token><exception postag="NCMS000"/></token>
+                    <token><exception postag="N.[MC][SN].*" postag_regexp="yes"/><exception regexp="yes">\p{Lu}.+</exception></token>
                 </pattern>
                 <message>Expressió incorrecta com a negació.</message>
                 <suggestion>cap <match no="1"/></suggestion>
