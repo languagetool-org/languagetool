@@ -68,6 +68,7 @@ class LanguageComboBoxRenderer extends JLabel implements ListCellRenderer<Langua
       setForeground(list.getForeground());
     }
     setText(getTranslatedName(value));
+    //TODO Allow ca-ES-valencia -> ca-ES-valencia.png
     String langTag = value.getLocaleWithCountry().toLanguageTag();
     String country = value.getLocaleWithCountry().getCountry().toLowerCase();
     ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();

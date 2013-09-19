@@ -91,7 +91,7 @@ public class LanguageTest {
 
   @Test(expected=IllegalArgumentException.class)
   public void testIsLanguageSupportedInvalidCode() {
-    Language.isLanguageSupported("somthing-totally-invalid");
+    Language.isLanguageSupported("somthing-totally-inv-alid");
   }
 
   @Test(expected=IllegalArgumentException.class)

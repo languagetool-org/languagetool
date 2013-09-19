@@ -445,17 +445,29 @@ public abstract class Language {
         }
       }
     } else if (langCode.contains("-")) {
-      final String[] parts = langCode.split("-");
-      if (parts.length != 2) {
-        throw new IllegalArgumentException("'" + langCode + "' isn't a valid language code");
+      final String[] parts = langCode.split("-"); 
+			if (parts.length == 2) { // e. g. en-US
+				for (Language element : Language.LANGUAGES) {
+					if (parts[0].equalsIgnoreCase(element.getShortName())
+							&& element.getCountryVariants().length == 1
+							&& parts[1].equalsIgnoreCase(element.getCountryVariants()[0])) {
+						result = element;
+						break;
+					}
+				}
       }
-      for (Language element : Language.LANGUAGES) {
-        if (parts[0].equalsIgnoreCase(element.getShortName())
-            && element.getCountryVariants().length == 1
-            && parts[1].equalsIgnoreCase(element.getCountryVariants()[0])) {
-          result = element;
-          break;
+			else if (parts.length == 3) { // e. g. ca-ES-valencia
+        for (Language element : Language.LANGUAGES) {
+          if (parts[0].equalsIgnoreCase(element.getShortName())
+              && element.getCountryVariants().length == 1
+              && (parts[1]+'-'+parts[2]).equalsIgnoreCase(element.getCountryVariants()[0])) {
+            result = element;
+            break;
+          }
         }
+      }
+			else { 
+        throw new IllegalArgumentException("'" + langCode + "' isn't a valid language code");
       }
     } else {
       for (Language element : Language.LANGUAGES) {
