@@ -210,7 +210,7 @@ public class Main extends WeakBase implements XJobExecutor,
     }
         
     try {
-      return Language.getLanguageForShortName(charLocale.Language + "-" + charLocale.Variant);
+      return Language.getLanguageForShortName(charLocale.Language + "-" + charLocale.Country);
     } catch (java.lang.IllegalArgumentException e) {
       return Language.getLanguageForShortName(charLocale.Language);
     }
@@ -253,8 +253,8 @@ public class Main extends WeakBase implements XJobExecutor,
 
     if (!StringTools.isEmpty(paraText) && hasLocale(locale)) {
         Language langForShortName;
-        try {
-          langForShortName = Language.getLanguageForShortName(locale.Language + "-" + locale.Variant);
+        try { 
+          langForShortName = Language.getLanguageForShortName(locale.Language + "-" + locale.Country);
         } catch (java.lang.IllegalArgumentException e) {
           langForShortName = Language.getLanguageForShortName(locale.Language);
         }
@@ -494,8 +494,8 @@ public class Main extends WeakBase implements XJobExecutor,
       final Locale[] aLocales = new Locale[dims];
       int cnt = 0;
       for (final Language element : Language.LANGUAGES) {
-        for (final String variant : element.getCountryVariants()) {
-          aLocales[cnt] = new Locale(element.getShortName(), variant, "");
+        for (final String country : element.getCountryVariants()) {
+          aLocales[cnt] = new Locale(element.getShortName(), country, "");
           cnt++;
         }
       }
