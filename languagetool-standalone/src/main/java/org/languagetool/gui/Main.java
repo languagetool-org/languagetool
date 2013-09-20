@@ -215,7 +215,7 @@ public final class Main {
     textArea.setWrapStyleWord(true);
     textArea.addKeyListener(new ControlReturnTextCheckingListener());
     resultArea = new JTextPane();
-    undoRedo = new UndoRedoSupport(this.textArea);
+    undoRedo = new UndoRedoSupport(this.textArea, messages);
     frame.setJMenuBar(createMenuBar());
 
     final JPanel panel = new JPanel();
