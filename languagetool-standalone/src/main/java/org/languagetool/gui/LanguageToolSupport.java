@@ -552,7 +552,7 @@ class LanguageToolSupport {
     }
     if (lang.hasVariant()) {
       // UI only shows variants like "English (American)", not just "English", so use that:
-      lang = lang.getDefaultVariant();
+      lang = lang.getDefaultCountry();
     }
     return lang;
   }

@@ -65,7 +65,7 @@ public class Greek extends Language {
   }
 
   @Override
-  public final String[] getCountryVariants() {
+  public final String[] getCountries() {
     return new String[]{"GR"};
   }
 

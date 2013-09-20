@@ -210,7 +210,12 @@ public class Main extends WeakBase implements XJobExecutor,
     }
         
     try {
-      return Language.getLanguageForShortName(charLocale.Language + "-" + charLocale.Country);
+      if (!charLocale.Variant.isEmpty()) {
+        return Language.getLanguageForShortName(charLocale.Language + "-" + charLocale.Country + "-" + charLocale.Variant);
+      }
+      else {
+        return Language.getLanguageForShortName(charLocale.Language + "-" + charLocale.Country);
+      }
     } catch (java.lang.IllegalArgumentException e) {
       return Language.getLanguageForShortName(charLocale.Language);
     }
@@ -254,7 +259,12 @@ public class Main extends WeakBase implements XJobExecutor,
     if (!StringTools.isEmpty(paraText) && hasLocale(locale)) {
         Language langForShortName;
         try { 
-          langForShortName = Language.getLanguageForShortName(locale.Language + "-" + locale.Country);
+          if (!locale.Variant.isEmpty()) {
+            langForShortName = Language.getLanguageForShortName(locale.Language + "-" + locale.Country + "-" + locale.Variant);
+          }
+          else {
+            langForShortName = Language.getLanguageForShortName(locale.Language + "-" + locale.Country);
+          }
         } catch (java.lang.IllegalArgumentException e) {
           langForShortName = Language.getLanguageForShortName(locale.Language);
         }
@@ -489,13 +499,13 @@ public class Main extends WeakBase implements XJobExecutor,
     try {
       int dims = 0;
       for (final Language element : Language.LANGUAGES) {
-        dims += element.getCountryVariants().length;
+        dims += element.getCountries().length;
       }
       final Locale[] aLocales = new Locale[dims];
       int cnt = 0;
       for (final Language element : Language.LANGUAGES) {
-        for (final String country : element.getCountryVariants()) {
-          aLocales[cnt] = new Locale(element.getShortName(), country, "");
+        for (final String country : element.getCountries()) {
+          aLocales[cnt] = new Locale(element.getShortName(), country, element.getVariant());
           cnt++;
         }
       }

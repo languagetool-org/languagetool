@@ -26,7 +26,7 @@ public class GeneralCatalan extends Catalan {
   }
 
   @Override
-  public String[] getCountryVariants() {
+  public String[] getCountries() {
     return new String[]{"ES"};
   }
   

@@ -65,7 +65,7 @@ public class Catalan extends Language {
   }
 
   @Override
-  public String[] getCountryVariants() {
+  public String[] getCountries() {
     return new String[]{"ANY"};
   }
   
@@ -75,7 +75,7 @@ public class Catalan extends Language {
   }
   
   @Override
-  public Language getDefaultVariant() {
+  public Language getDefaultCountry() {
     return GENERAL_CATALAN;
   }
 

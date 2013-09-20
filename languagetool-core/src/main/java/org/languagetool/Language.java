@@ -142,7 +142,7 @@ public abstract class Language {
 
   /**
    * Get this language's two character code, e.g. <code>en</code> for English.
-   * The country variant (e.g. "US"), if any, is not returned.
+   * The country parameter (e.g. "US"), if any, is not returned.
    * @return language code
    */
   public abstract String getShortName();
@@ -155,11 +155,20 @@ public abstract class Language {
   public abstract String getName();
   
   /**
-   * Get this language's country variants, e.g. <code>US</code> (as in <code>en-US</code>) or
+   * Get this language's country options , e.g. <code>US</code> (as in <code>en-US</code>) or
    * <code>PL</code> (as in <code>pl-PL</code>).
-   * @return String[] - array of country variants for the language.
+   * @return String[] - array of country options for the language.
    */
-  public abstract String[] getCountryVariants();
+  public abstract String[] getCountries();
+
+  /**
+   * Get this language's variant , e.g. <code>valencia</code> (as in <code>ca-ES-valencia</code>).
+   * Attention: not to be confused with "country" option
+   * @return String - variant for the language.
+   */
+  public String getVariant() {
+    return "";
+  }
 
   /**
    * Get the name(s) of the maintainer(s) for this language or <code>null</code>.
@@ -185,9 +194,14 @@ public abstract class Language {
    * Get this language's Java locale, considering language code and country code (if any).
    * @since 2.1
    */
-  public Locale getLocaleWithCountry() {
-    if (getCountryVariants().length > 0) {
-      return new Locale(getShortName(), getCountryVariants()[0]);
+  public Locale getLocaleWithCountryAndVariant() {
+    if (getCountries().length > 0) {
+      if (!getVariant().isEmpty()) {
+        return new Locale(getShortName(), getCountries()[0], getVariant());
+      }
+      else {
+        return new Locale(getShortName(), getCountries()[0]);
+      }
     } else {
       return getLocale();
     }
@@ -209,9 +223,9 @@ public abstract class Language {
     final ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
     ruleFiles.add(dataBroker.getRulesDir()
             + "/" + getShortName() + "/" + JLanguageTool.PATTERN_FILE);
-    if (getShortNameWithVariant().length() > 2) {
+    if (getShortNameWithCountryAndVariant().length() > 2) {
       final String fileName = getShortName() + "/"
-              + getShortNameWithVariant()
+              + getShortNameWithCountryAndVariant()
               + "/" + JLanguageTool.PATTERN_FILE;
       if (dataBroker.ruleFileExists(fileName)) {
         ruleFiles.add(dataBroker.getRulesDir() + "/" + fileName);
@@ -225,7 +239,7 @@ public abstract class Language {
    * @return default country variant or {@code null}
    * @since 1.8
    */
-  public Language getDefaultVariant() {
+  public Language getDefaultCountry() {
     return null;
   }
 
@@ -310,7 +324,7 @@ public abstract class Language {
    */
   public final String getTranslatedName(final ResourceBundle messages) {
     try {
-      return messages.getString(getShortNameWithVariant());
+      return messages.getString(getShortNameWithCountryAndVariant());
     } catch (final MissingResourceException e) {
       try {
         return messages.getString(getShortName());
@@ -321,16 +335,19 @@ public abstract class Language {
   }
   
   /**
-   * Get the short name of the language with a country variant, if it is
-   * a single-variant language. For generic language classes, get only a two- or
+   * Get the short name of the language with country and variant (if any), if it is
+   * a single-country language. For generic language classes, get only a two- or
    * three-character code.
    * @since 1.8
    */
-  public final String getShortNameWithVariant() {
+  public final String getShortNameWithCountryAndVariant() {
     String name = getShortName();
-    if (getCountryVariants().length == 1 
+    if (getCountries().length == 1 
             && !name.contains("-x-")) {   // e.g. "de-DE-x-simple-language"
-      name += "-" + getCountryVariants()[0];
+      name += "-" + getCountries()[0];
+      if (!getVariant().isEmpty()) {   // e.g. "ca-ES-valencia"
+        name += "-" + getVariant();
+      }
     }
     return name;
   }
@@ -414,7 +431,7 @@ public abstract class Language {
     if (language == null) {
       final StringBuilder sb = new StringBuilder();
       for (Language realLanguage : LANGUAGES) {
-        sb.append(" ").append(realLanguage.getShortNameWithVariant());
+        sb.append(" ").append(realLanguage.getShortNameWithCountryAndVariant());
       }
       throw new IllegalArgumentException("'" + langCode + "' is not a language code known to LanguageTool. Supported language codes are:" + sb.toString());
     }
@@ -449,8 +466,8 @@ public abstract class Language {
 			if (parts.length == 2) { // e. g. en-US
 				for (Language element : Language.LANGUAGES) {
 					if (parts[0].equalsIgnoreCase(element.getShortName())
-							&& element.getCountryVariants().length == 1
-							&& parts[1].equalsIgnoreCase(element.getCountryVariants()[0])) {
+							&& element.getCountries().length == 1
+							&& parts[1].equalsIgnoreCase(element.getCountries()[0])) {
 						result = element;
 						break;
 					}
@@ -459,8 +476,9 @@ public abstract class Language {
 			else if (parts.length == 3) { // e. g. ca-ES-valencia
         for (Language element : Language.LANGUAGES) {
           if (parts[0].equalsIgnoreCase(element.getShortName())
-              && element.getCountryVariants().length == 1
-              && (parts[1]+'-'+parts[2]).equalsIgnoreCase(element.getCountryVariants()[0])) {
+              && element.getCountries().length == 1
+              && parts[1].equalsIgnoreCase(element.getCountries()[0])
+              && parts[2].equalsIgnoreCase(element.getVariant())) {
             result = element;
             break;
           }
@@ -498,7 +516,7 @@ public abstract class Language {
       }
     }
     for (Language aLanguage : REAL_LANGUAGES) {
-      if (aLanguage.getShortNameWithVariant().equals("en-US")) {
+      if (aLanguage.getShortNameWithCountryAndVariant().equals("en-US")) {
         return aLanguage;
       }
     }
@@ -508,7 +526,7 @@ public abstract class Language {
   private static Language getLanguageForLanguageNameAndCountry(Locale locale) {
     for (Language language : Language.REAL_LANGUAGES) {
       if (language.getShortName().equals(locale.getLanguage())) {
-        final List<String> countryVariants = Arrays.asList(language.getCountryVariants());
+        final List<String> countryVariants = Arrays.asList(language.getCountries());
         if (countryVariants.contains(locale.getCountry())) {
           return language;
         }
@@ -521,7 +539,7 @@ public abstract class Language {
     // use default variant if available:
     for (Language language : Language.REAL_LANGUAGES) {
       if (language.getShortName().equals(locale.getLanguage()) && language.hasVariant()) {
-        final Language defaultVariant = language.getDefaultVariant();
+        final Language defaultVariant = language.getDefaultCountry();
         if (defaultVariant != null) {
           return defaultVariant;
         }
@@ -577,7 +595,7 @@ public abstract class Language {
    */
   public final boolean isVariant() {
     for (Language language : LANGUAGES) {
-      final boolean skip = language.getShortNameWithVariant().equals(getShortNameWithVariant());
+      final boolean skip = language.getShortNameWithCountryAndVariant().equals(getShortNameWithCountryAndVariant());
       if (!skip && language.getClass().isAssignableFrom(getClass())) {
         return true;
       }
@@ -591,7 +609,7 @@ public abstract class Language {
    */
   public final boolean hasVariant() {
     for (Language language : LANGUAGES) {
-      final boolean skip = language.getShortNameWithVariant().equals(getShortNameWithVariant());
+      final boolean skip = language.getShortNameWithCountryAndVariant().equals(getShortNameWithCountryAndVariant());
       if (!skip && getClass().isAssignableFrom(language.getClass())) {
         return true;
       }
@@ -611,10 +629,10 @@ public abstract class Language {
    */
   public boolean equalsConsiderVariantsIfSpecified(Language otherLanguage) {
     if (getShortName().equals(otherLanguage.getShortName())) {
-      final boolean thisHasVariant = hasCountryVariant();
-      final boolean otherHasVariant = otherLanguage.hasCountryVariant();
-      if (thisHasVariant && otherHasVariant) {
-        return getShortNameWithVariant().equals(otherLanguage.getShortNameWithVariant());
+      final boolean thisHasCountry = hasCountry();
+      final boolean otherHasCountry = otherLanguage.hasCountry();
+      if (thisHasCountry && otherHasCountry) {
+        return getShortNameWithCountryAndVariant().equals(otherLanguage.getShortNameWithCountryAndVariant());
       }
       return true;
     } else {
@@ -622,8 +640,8 @@ public abstract class Language {
     }
   }
 
-  private boolean hasCountryVariant() {
-    return getCountryVariants().length == 1 && !(getCountryVariants().length == 1 && getCountryVariants()[0].equals("ANY"));
+  private boolean hasCountry() {
+    return getCountries().length == 1 && !(getCountries().length == 1 && getCountries()[0].equals("ANY"));
   }
 
   private static String listToStringWithLineBreaks(final Collection<String> l) {

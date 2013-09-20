@@ -168,8 +168,8 @@ class LanguageToolHttpHandler implements HttpHandler {
       // fall back to English
       lang = Language.getLanguageForLocale(Locale.ENGLISH);
     }
-    if (lang.getDefaultVariant() != null) {
-      lang = lang.getDefaultVariant();
+    if (lang.getDefaultCountry() != null) {
+      lang = lang.getDefaultCountry();
     }
     return lang;
   }
@@ -188,7 +188,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     final Language lang;
     if (autodetectParam != null && autodetectParam.equals("1")) {
       lang = detectLanguageOfString(text, langParam);
-      print("Auto-detected language: " + lang.getShortNameWithVariant());
+      print("Auto-detected language: " + lang.getShortNameWithCountryAndVariant());
     } else {
       lang = Language.getLanguageForShortName(langParam);
     }
@@ -246,9 +246,9 @@ class LanguageToolHttpHandler implements HttpHandler {
             CONTEXT_SIZE, StringTools.XmlPrintMode.NORMAL_XML, lang, motherTongue);
     httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);
     httpExchange.getResponseBody().write(response.getBytes(ENCODING));
-    String languageMessage = lang.getShortNameWithVariant();
+    String languageMessage = lang.getShortNameWithCountryAndVariant();
     if (motherTongue != null) {
-      languageMessage += " (mother tongue: " + motherTongue.getShortNameWithVariant() + ")";
+      languageMessage += " (mother tongue: " + motherTongue.getShortNameWithCountryAndVariant() + ")";
     }
     final String referrer = httpExchange.getRequestHeaders().getFirst("Referer");
     print("Check done: " + text.length() + " chars, " + languageMessage + ", " + referrer + ", "
@@ -351,7 +351,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     final StringBuilder xmlBuffer = new StringBuilder("<?xml version='1.0' encoding='" + ENCODING + "'?>\n<languages>\n");
     for (Language lang : languages) {
       xmlBuffer.append(String.format("\t<language name=\"%s\" abbr=\"%s\" abbrWithVariant=\"%s\"/> \n", lang.getName(),
-              lang.getShortName(), lang.getShortNameWithVariant()));
+              lang.getShortName(), lang.getShortNameWithCountryAndVariant()));
     }
     xmlBuffer.append("</languages>\n");
     return xmlBuffer.toString();

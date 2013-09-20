@@ -47,7 +47,7 @@ public class Asturian extends Language {
   }
 
   @Override
-  public String[] getCountryVariants() {
+  public String[] getCountries() {
     return new String[]{"ES"};
   }
 

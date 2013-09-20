@@ -55,7 +55,7 @@ public class Icelandic extends Language {
   }
 
   @Override
-  public String[] getCountryVariants() {
+  public String[] getCountries() {
     return new String[]{"IS"};
   }
 

@@ -48,7 +48,7 @@ public class Slovenian extends Language {
   }
   
   @Override
-  public String[] getCountryVariants() {
+  public String[] getCountries() {
     return new String[]{"SI"};
   }
 

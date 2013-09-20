@@ -518,7 +518,7 @@ class Main {
   private static void printLanguages() {
     final List<String> languages = new ArrayList<>();
     for (Language language : Language.REAL_LANGUAGES) {
-      languages.add(language.getShortNameWithVariant() + " " + language.getName());
+      languages.add(language.getShortNameWithCountryAndVariant() + " " + language.getName());
     }
     Collections.sort(languages);
     for (String s : languages) {

@@ -26,8 +26,13 @@ public class ValencianCatalan extends Catalan {
   }
 
   @Override
-  public String[] getCountryVariants() {
-    return new String[]{"ES-valencia"};
+  public String[] getCountries() {
+    return new String[]{"ES"};
+  }
+
+  @Override
+  public String getVariant() {
+    return new String("valencia");
   }
   
   @Override

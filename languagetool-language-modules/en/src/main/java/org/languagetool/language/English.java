@@ -59,7 +59,7 @@ public class English extends Language {
   private Disambiguator disambiguator;
 
   @Override
-  public Language getDefaultVariant() {
+  public Language getDefaultCountry() {
     return AMERICAN_ENGLISH;
   }
 
@@ -82,7 +82,7 @@ public class English extends Language {
   }
 
   @Override
-  public String[] getCountryVariants() {
+  public String[] getCountries() {
     return new String[]{"ANY"}; //?
   }
   

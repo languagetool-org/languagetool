@@ -26,7 +26,7 @@ public class PortugueseBrazil extends Portuguese {
 	  }
 
 	  @Override
-	  public String[] getCountryVariants() {
+	  public String[] getCountries() {
 	    return new String[]{"BR"};
 	  }
 

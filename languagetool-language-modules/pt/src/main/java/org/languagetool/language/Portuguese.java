@@ -52,12 +52,12 @@ public class Portuguese extends Language {
   }
 
   @Override
-  public String[] getCountryVariants() {
+  public String[] getCountries() {
     return new String[]{"AO", "MZ"};
   }
 
   @Override
-  public Language getDefaultVariant() {
+  public Language getDefaultCountry() {
     return new PortuguesePortugal();
   }
 

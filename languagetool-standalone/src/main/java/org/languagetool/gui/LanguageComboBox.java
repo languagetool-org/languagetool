@@ -58,7 +58,7 @@ public class LanguageComboBox extends JComboBox<Language> {
     for (Language language : Language.LANGUAGES) {
       final boolean skip = (language == Language.DEMO) || language.hasVariant();
       // TODO: "Simple German" would hide "German (Germany)" - find a proper solution
-      final boolean simpleGermanWorkaround = language.getShortNameWithVariant().equals("de-DE");
+      final boolean simpleGermanWorkaround = language.getShortNameWithCountryAndVariant().equals("de-DE");
       if (!skip || simpleGermanWorkaround) {
         languages.add(language);
       }

@@ -49,7 +49,7 @@ public class Swedish extends Language {
   }
 
   @Override
-  public final String[] getCountryVariants() {
+  public final String[] getCountries() {
     return new String[]{"SE", "FI"};
   }
   

@@ -107,7 +107,7 @@ public class TranslationTest extends TestCase {
   private File getTranslationFileWithVariant(Language lang) {
     final String langCode = lang.getShortName();
     final String name = "../languagetool-language-modules/" + langCode + "/src/main/resources/org/languagetool" 
-            + "/MessagesBundle_" + lang.getShortNameWithVariant().replace('-', '_') + ".properties";
+            + "/MessagesBundle_" + lang.getShortNameWithCountryAndVariant().replace('-', '_') + ".properties";
     return new File(name.replace("/", File.separator));
   }
 
