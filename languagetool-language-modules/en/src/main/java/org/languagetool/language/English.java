@@ -59,7 +59,7 @@ public class English extends Language {
   private Disambiguator disambiguator;
 
   @Override
-  public Language getDefaultCountry() {
+  public Language getDefaultLanguageVariant() {
     return AMERICAN_ENGLISH;
   }
 

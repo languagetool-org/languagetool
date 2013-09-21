@@ -168,8 +168,8 @@ class LanguageToolHttpHandler implements HttpHandler {
       // fall back to English
       lang = Language.getLanguageForLocale(Locale.ENGLISH);
     }
-    if (lang.getDefaultCountry() != null) {
-      lang = lang.getDefaultCountry();
+    if (lang.getDefaultLanguageVariant() != null) {
+      lang = lang.getDefaultLanguageVariant();
     }
     return lang;
   }

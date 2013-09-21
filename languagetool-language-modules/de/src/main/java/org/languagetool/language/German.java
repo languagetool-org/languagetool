@@ -56,7 +56,7 @@ public class German extends Language {
   private Disambiguator disambiguator;
 
   @Override
-  public Language getDefaultCountry() {
+  public Language getDefaultLanguageVariant() {
     return new GermanyGerman();
   }
   

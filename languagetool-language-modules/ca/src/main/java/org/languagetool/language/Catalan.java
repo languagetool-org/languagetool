@@ -75,7 +75,7 @@ public class Catalan extends Language {
   }
   
   @Override
-  public Language getDefaultCountry() {
+  public Language getDefaultLanguageVariant() {
     return GENERAL_CATALAN;
   }
 

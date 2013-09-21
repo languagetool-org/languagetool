@@ -239,7 +239,7 @@ public abstract class Language {
    * @return default country variant or {@code null}
    * @since 1.8
    */
-  public Language getDefaultCountry() {
+  public Language getDefaultLanguageVariant() {
     return null;
   }
 
@@ -490,6 +490,12 @@ public abstract class Language {
     } else {
       for (Language element : Language.LANGUAGES) {
         if (langCode.equalsIgnoreCase(element.getShortName())) {
+          /*if (element.getDefaultLanguageVariant() == null) {
+            result = element;
+          }
+          else {
+            result = element.getDefaultLanguageVariant();
+          }*/
           result = element;
           break;
         }
@@ -539,7 +545,7 @@ public abstract class Language {
     // use default variant if available:
     for (Language language : Language.REAL_LANGUAGES) {
       if (language.getShortName().equals(locale.getLanguage()) && language.hasVariant()) {
-        final Language defaultVariant = language.getDefaultCountry();
+        final Language defaultVariant = language.getDefaultLanguageVariant();
         if (defaultVariant != null) {
           return defaultVariant;
         }

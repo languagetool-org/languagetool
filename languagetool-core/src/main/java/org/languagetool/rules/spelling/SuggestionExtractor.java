@@ -164,7 +164,7 @@ public class SuggestionExtractor {
         }
       }
       System.out.println(lang + ": " + noErrorCount + " out of " + tokenCount + " words ignored because they are known to spellchecker anyway");
-      final Language noVariantLanguage = lang.getDefaultCountry() == null ? lang : lang.getDefaultCountry();
+      final Language noVariantLanguage = lang.getDefaultLanguageVariant() == null ? lang : lang.getDefaultLanguageVariant();
       final Set<String> existingTokens = langToIgnoreTokens.get(noVariantLanguage);
       if (existingTokens != null) {
         existingTokens.addAll(suggestionTokens);

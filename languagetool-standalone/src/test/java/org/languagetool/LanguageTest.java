@@ -137,7 +137,7 @@ public class LanguageTest {
 
     for (Language language : Language.LANGUAGES) {
       if (language.hasVariant()) {
-        assertNotNull("Language " + language + " needs a default variant", language.getDefaultCountry());
+        assertNotNull("Language " + language + " needs a default variant", language.getDefaultLanguageVariant());
       }
     }
   }
