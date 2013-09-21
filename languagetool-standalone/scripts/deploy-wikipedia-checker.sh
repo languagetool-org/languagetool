@@ -15,6 +15,11 @@ cd ../.. &&
   scp languagetool-wikipedia/target/LanguageTool-wikipedia-[1-9].[0-9]*.zip languagetool@languagetool.org:/home/languagetool/ltcommunity/corpus/ &&
   cd - &&
   echo "###" &&
-  echo "### NOTE: You still need to unpack the ZIP and call update-all.sh manually on the server ###" &&
+  echo "### NOTE: Now call these commands on the server (replacing X.Y): ###" &&
+  echo ""
+  echo "cd ~/ltcommunity/corpus/ && mv LanguageTool_bak/ LanguageTool_bak2 && mv LanguageTool LanguageTool_bak" &&
+  echo "unzip -d LanguageTool LanguageTool-wikipedia-X.Y-SNAPSHOT.zip && mv LanguageTool/LanguageTool-wikipedia-X.Y-SNAPSHOT/* LanguageTool/" &&
+  echo "nohup ./update-all.sh &" &&
+  echo ""
   echo "###" &&
   echo ""
