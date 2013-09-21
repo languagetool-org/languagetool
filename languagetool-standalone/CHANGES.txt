@@ -42,19 +42,19 @@ LanguageTool Change Log
   
  -Rule syntax: 
   -preliminary support for new min/max attributes that allow to match an
-  element that appears the given number of times. For example:
+   element that appears the given number of times. For example:
     <token min="0">foo</token> will match nothing or "foo", i.e. "foo" is optional
     <token max="2">foo</token> will match "foo" or "foo foo"
     <token min="0" max="2">foo</token> will match nothing, "foo", or "foo foo"
-  Use max="-1" to allow unlimited occurrences.
-  For min, only 0 or 1 is supported (1 is the default).
-  - support for OR-statements. For example:
+   Use max="-1" to allow unlimited occurrences.
+   For min, only 0 or 1 is supported (1 is the default).
+  -support for OR-statements. For example:
     <or>
       <token>a</token>
       <token postag="V"/>
     </or>
-  Internally and in run-time, rules containing OR-statements are converted into 
-  a list of rules without OR-statements.
+   Internally and in run-time, rules containing OR-statements are converted into 
+   a list of rules without OR-statements.
 
  -English now has a chunker to detect, amongst others, singular and plural noun chunks.
   This is documented at http://wiki.languagetool.org/using-chunks

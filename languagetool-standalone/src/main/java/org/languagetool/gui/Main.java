@@ -61,7 +61,6 @@ public final class Main {
   private static final String TRAY_SMALL_SERVER_ICON = "/TrayIconSmallWithServer.png";
   private static final String TRAY_TOOLTIP = "LanguageTool";
 
-  private static final String CONFIG_FILE = ".languagetool.cfg";
   private static final int WINDOW_WIDTH = 600;
   private static final int WINDOW_HEIGHT = 550;
 
@@ -72,11 +71,8 @@ public final class Main {
   private JTextPane resultArea;
   private ResultArea resultAreaHelper;
   private LanguageComboBox languageBox;
-  private JCheckBox autoDetectBox;
   private CheckboxMenuItem enableHttpServerItem;
-
   private HTTPServer httpServer;
-
 
   private TrayIcon trayIcon;
   private boolean closeHidesToTray;
@@ -106,7 +102,7 @@ public final class Main {
     }
     try {
       try (FileInputStream inputStream = new FileInputStream(file)) {
-        final String fileContents = StringTools.readFile(inputStream);
+        final String fileContents = StringTools.readStream(inputStream, null);
         textArea.setText(fileContents);
         currentFile = file;
         updateTitle();
@@ -186,12 +182,12 @@ public final class Main {
     return frame;
   }
 
-  private void updateTitle()
-  {
-    if(currentFile == null)
+  private void updateTitle() {
+    if (currentFile == null) {
       frame.setTitle("LanguageTool " + JLanguageTool.VERSION);
-    else
-      frame.setTitle(currentFile.getName() +" - LanguageTool " + JLanguageTool.VERSION);
+    } else {
+      frame.setTitle(currentFile.getName() + " - LanguageTool " + JLanguageTool.VERSION);
+    }
   }
 
   private void createGUI() {
@@ -241,8 +237,7 @@ public final class Main {
     buttonCons.gridx = 2;
     buttonCons.gridy = 0;
 
-    autoDetectBox = new JCheckBox(messages.getString("atd"));
-
+    final JCheckBox autoDetectBox = new JCheckBox(messages.getString("atd"));
     buttonCons.gridx = 1;
     buttonCons.gridy = 1;
     buttonCons.gridwidth = 2;

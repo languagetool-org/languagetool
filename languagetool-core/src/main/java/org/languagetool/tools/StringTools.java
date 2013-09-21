@@ -103,7 +103,7 @@ public final class StringTools {
    * Read the text stream using the given encoding.
    *
    * @param stream InputStream the stream to be read
-   * @param encoding the stream's character encoding, e.g. {@code utf-8}
+   * @param encoding the stream's character encoding, e.g. {@code utf-8}, or {@code null} to use the system encoding
    * @return a string with the stream's content, lines separated by {@code \n}
    * @throws IOException
    * @since LanguageTool 2.3
