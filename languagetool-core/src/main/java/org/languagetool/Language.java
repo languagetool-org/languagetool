@@ -162,12 +162,14 @@ public abstract class Language {
   public abstract String[] getCountries();
 
   /**
-   * Get this language's variant , e.g. <code>valencia</code> (as in <code>ca-ES-valencia</code>).
+   * Get this language's variant, e.g. <code>valencia</code> (as in <code>ca-ES-valencia</code>)
+   * or <code>null</code>.
    * Attention: not to be confused with "country" option
    * @return String - variant for the language.
+   * @since 2.3
    */
   public String getVariant() {
-    return "";
+    return null;
   }
 
   /**
@@ -196,7 +198,7 @@ public abstract class Language {
    */
   public Locale getLocaleWithCountryAndVariant() {
     if (getCountries().length > 0) {
-      if (!getVariant().isEmpty()) {
+      if (getVariant() != null) {
         return new Locale(getShortName(), getCountries()[0], getVariant());
       }
       else {
@@ -345,7 +347,7 @@ public abstract class Language {
     if (getCountries().length == 1 
             && !name.contains("-x-")) {   // e.g. "de-DE-x-simple-language"
       name += "-" + getCountries()[0];
-      if (!getVariant().isEmpty()) {   // e.g. "ca-ES-valencia"
+      if (getVariant() != null) {   // e.g. "ca-ES-valencia"
         name += "-" + getVariant();
       }
     }

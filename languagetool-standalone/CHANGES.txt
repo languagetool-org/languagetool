@@ -8,9 +8,11 @@ LanguageTool Change Log
   -updated POS dictionary from Apertium (svn r47282)
 
  -Catalan:
+  -added support for language code ca-ES-valencia (Catalan Valencian),
+   to be used in LibreOffice 4.2.0
+  -added a simple replace rule with hundreds of replacement suggestions
   -added/improved several rules
   -fixed false alarms
-  -added a simple replace rule with hundreds of replacement suggestions
   
  -Chinese:
   -added a workaround for a StringIndexOutOfBoundsException
@@ -53,8 +55,8 @@ LanguageTool Change Log
       <token>a</token>
       <token postag="V"/>
     </or>
-   Internally and in run-time, rules containing OR-statements are converted into 
-   a list of rules without OR-statements.
+   Internally and in run-time, a rule containing OR-statements is converted into 
+   several rules without OR-statements.
 
  -English now has a chunker to detect, amongst others, singular and plural noun chunks.
   This is documented at http://wiki.languagetool.org/using-chunks
@@ -73,6 +75,7 @@ LanguageTool Change Log
 
  -OpenOffice/LibreOffice integration:
   -fix: the "About" dialog didn't work in Apache OpenOffice 4.0
+  -fix: country specific rules (like for British English) didn't work 
 
  -API:
   -Some methods have been deprecated
@@ -102,6 +105,8 @@ LanguageTool Change Log
    <token chunk="NP-singular"></token>
   -AnalyzedTokenReadings now implements Iterable so it can be used in foreach loops
   -AnalyzedGermanTokenReadings has been removed, AnalyzedTokenReadings can be used instead
+  -In class Language, getCountryVariants has been renamed to getCountries, and a new method 
+   getVariant has been added.
 
  -Embedded HTTP server: the server now uses 10 threads instead of 1 (thanks to
   Panagiotis Minos)

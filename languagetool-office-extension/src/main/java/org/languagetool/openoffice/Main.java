@@ -111,6 +111,10 @@ public class Main extends WeakBase implements XJobExecutor,
 
   private static final ResourceBundle MESSAGES = JLanguageTool.getMessageBundle();
 
+  private static final String LIBREOFFICE_SPECIAL_LANGUAGE_TAG ="qlt";
+  // LibreOffice (since 4.2.0) special tag for locale with variant 
+  // e.g. language ="qlt" country="ES" variant="ca-ES-valencia"
+  
   private XComponentContext xContext;
 
   public Main(final XComponentContext xCompContext) {
@@ -193,7 +197,7 @@ public class Main extends WeakBase implements XJobExecutor,
       charLocale = (Locale) obj;
       boolean langIsSupported = false;
       for (Language element : Language.LANGUAGES) {
-        if (charLocale.Language.equalsIgnoreCase("qlt")
+        if (charLocale.Language.equalsIgnoreCase(LIBREOFFICE_SPECIAL_LANGUAGE_TAG)
             && element.getShortNameWithCountryAndVariant().equalsIgnoreCase(
                 charLocale.Variant)) {
           langIsSupported = true;
@@ -219,8 +223,7 @@ public class Main extends WeakBase implements XJobExecutor,
     }
 
     try {
-      if (charLocale.Language.equalsIgnoreCase("qlt")) { 
-        // language ="qlt" country="ES" variant="ca-ES-valencia"
+      if (charLocale.Language.equalsIgnoreCase(LIBREOFFICE_SPECIAL_LANGUAGE_TAG)) {
         return Language.getLanguageForShortName(charLocale.Variant);
       } else {
         return Language.getLanguageForShortName(charLocale.Language + "-"
@@ -275,7 +278,7 @@ public class Main extends WeakBase implements XJobExecutor,
     if (!StringTools.isEmpty(paraText) && hasLocale(locale)) {
       Language langForShortName;
       try {
-        if (locale.Language.equalsIgnoreCase("qlt")) {
+        if (locale.Language.equalsIgnoreCase(LIBREOFFICE_SPECIAL_LANGUAGE_TAG)) {
           langForShortName = Language.getLanguageForShortName(locale.Variant);
         } else {
           langForShortName = Language.getLanguageForShortName(locale.Language
@@ -527,8 +530,8 @@ public class Main extends WeakBase implements XJobExecutor,
       int cnt = 0;
       for (final Language element : Language.LANGUAGES) {
         for (final String country : element.getCountries()) {
-          if (!element.getVariant().isEmpty()) {
-            aLocales[cnt] = new Locale("qlt", country, element.getShortNameWithCountryAndVariant());
+          if (element.getVariant() != null) {
+            aLocales[cnt] = new Locale(LIBREOFFICE_SPECIAL_LANGUAGE_TAG, country, element.getShortNameWithCountryAndVariant());
           }
           else {
             aLocales[cnt] = new Locale(element.getShortName(), country, "");
@@ -552,7 +555,7 @@ public class Main extends WeakBase implements XJobExecutor,
   public final boolean hasLocale(final Locale locale) {
     try {
       for (final Language element : Language.LANGUAGES) {
-        if (locale.Language.equalsIgnoreCase("qlt")
+        if (locale.Language.equalsIgnoreCase(LIBREOFFICE_SPECIAL_LANGUAGE_TAG)
             && element.getShortNameWithCountryAndVariant().equals(locale.Variant)) {
           return true;
         }
