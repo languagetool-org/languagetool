@@ -97,7 +97,7 @@ public class HTTPSServerTesting {
     final Language lang = languages[rnd.nextInt(languages.length)];
     final List<ExampleSentence> sentences = provider.getRandomSentences(lang);
     final String text = getSentencesAsText(sentences);
-    final String data = "language=" + lang.getShortNameWithVariant() + "&text=" + URLEncoder.encode(text, "utf-8");
+    final String data = "language=" + lang.getShortNameWithCountryAndVariant() + "&text=" + URLEncoder.encode(text, "utf-8");
     final String resultXml = checkAtUrl(new URL(SERVER_URL), data, threadNumber);
     for (ExampleSentence sentence : sentences) {
       assertTrue("Expected " + sentence.getRuleId() + " for '" + text + "' (" + sentences.size() + " sentences)", resultXml.contains(sentence.getRuleId()));

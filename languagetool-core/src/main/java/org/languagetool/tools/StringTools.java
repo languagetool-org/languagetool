@@ -333,9 +333,9 @@ public final class StringTools {
       String languageXml;
       languageXml = "<language ";
       if (lang != null) {
-        languageXml += "shortname=\"" + lang.getShortNameWithVariant() + "\" name=\"" + lang.getName() + "\"";
+        languageXml += "shortname=\"" + lang.getShortNameWithCountryAndVariant() + "\" name=\"" + lang.getName() + "\"";
       }
-      if(null != motherTongue && (lang == null || !motherTongue.getShortName().equals(lang.getShortNameWithVariant()))) {
+      if(null != motherTongue && (lang == null || !motherTongue.getShortName().equals(lang.getShortNameWithCountryAndVariant()))) {
         languageXml += " mothertongueshortname=\"" + motherTongue.getShortName() + "\" mothertonguename=\"" + motherTongue.getName() + "\"";
       }
       languageXml += "/>\n";

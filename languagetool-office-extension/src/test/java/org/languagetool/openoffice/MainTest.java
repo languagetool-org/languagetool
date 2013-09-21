@@ -51,5 +51,32 @@ public class MainTest extends TestCase {
     assertEquals(24, paRes2.nStartOfNextSentencePosition);
     assertEquals(0, paRes2.nStartOfSentencePosition);
   }
+  
+
+  public void testVariants() {
+    final Main prog = new Main(null);
+    final String testString = "Sigui quina siga la teva intenció. Això és una prova.";
+    // LibreOffice config for languages with variants
+    final Locale cavaLoc = new Locale("qlt","ES","ca-ES-valencia"); 
+    final PropertyValue[] prop = new PropertyValue[0];
+    for (int i = 0; i<=testString.length(); i++) {
+      final ProofreadingResult paRes = prog.doProofreading("1", testString, cavaLoc, i, testString.length(), prop);
+      assertEquals("1", paRes.aDocumentIdentifier);
+      assertTrue(paRes.nStartOfNextSentencePosition >= i);
+      if (i < "Sigui quina siga la teva intenció. ".length()) {
+        assertEquals("Sigui quina siga la teva intenció. ".length(), paRes.nStartOfNextSentencePosition);
+        assertEquals(0, paRes.nStartOfSentencePosition);
+        //The test result depends on the CONFIG_FILE
+        //assertEquals(2, paRes.aErrors.length);
+      }
+    }
+    final Locale caLoc = new Locale("ca","ES","");
+    final ProofreadingResult paRes = prog.doProofreading("1", testString, caLoc, 0, testString.length(), prop);
+    assertEquals("1", paRes.aDocumentIdentifier);
+    //assertEquals(1, paRes.aErrors.length);
+
+  }
+
+  
 
 }

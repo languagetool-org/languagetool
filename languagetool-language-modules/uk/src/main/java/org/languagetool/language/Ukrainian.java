@@ -64,7 +64,7 @@ public class Ukrainian extends Language {
   }
 
   @Override
-  public String[] getCountryVariants() {
+  public String[] getCountries() {
     return new String[]{"UA"};
   }
   

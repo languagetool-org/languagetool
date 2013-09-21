@@ -198,7 +198,7 @@ public class Configuration {
   private String getQualifier(final Language lang) {
     String qualifier = "";
     if (lang != null) {
-      qualifier = "." + lang.getShortNameWithVariant();
+      qualifier = "." + lang.getShortNameWithCountryAndVariant();
     }
     return qualifier;
   }
@@ -206,7 +206,7 @@ public class Configuration {
   private void loadConfigForOtherLanguages(final Language lang, final Properties prop) {
     for (Language otherLang : Language.getAllLanguages()) {
       if (!otherLang.equals(lang)) {
-        final String languageSuffix = "." + otherLang.getShortNameWithVariant();
+        final String languageSuffix = "." + otherLang.getShortNameWithCountryAndVariant();
         storeConfigKeyFromProp(prop, DISABLED_RULES_CONFIG_KEY + languageSuffix);
         storeConfigKeyFromProp(prop, ENABLED_RULES_CONFIG_KEY + languageSuffix);
         storeConfigKeyFromProp(prop, DISABLED_CATEGORIES_CONFIG_KEY + languageSuffix);
@@ -239,7 +239,7 @@ public class Configuration {
     addListToProperties(props, ENABLED_RULES_CONFIG_KEY + qualifier, enabledRuleIds);
     addListToProperties(props, DISABLED_CATEGORIES_CONFIG_KEY + qualifier, disabledCategoryNames);
     if (language != null) {
-      props.setProperty(LANGUAGE_CONFIG_KEY, language.getShortNameWithVariant());
+      props.setProperty(LANGUAGE_CONFIG_KEY, language.getShortNameWithCountryAndVariant());
     }
     if (motherTongue != null) {
       props.setProperty(MOTHER_TONGUE_CONFIG_KEY, motherTongue.getShortName());

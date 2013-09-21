@@ -38,7 +38,7 @@ public class FakeLanguage extends Language {
   }
 
   @Override
-  public String[] getCountryVariants() {
+  public String[] getCountries() {
     return new String[] {"YY"};
   }
 

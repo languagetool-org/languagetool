@@ -147,7 +147,7 @@ public class HunspellRule extends SpellingCheckRule {
     super.init();
     final String langCountry = language.getShortName()
             + "_"
-            + language.getCountryVariants()[0];
+            + language.getCountries()[0];
     final String shortDicPath = "/"
             + language.getShortName()
             + "/hunspell/"

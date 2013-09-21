@@ -94,7 +94,7 @@ public class MultiThreadedJLanguageToolTest {
         return "Fake Language";
       }
       @Override
-      public String[] getCountryVariants() {
+      public String[] getCountries() {
         return new String[0];
       }
       @Override

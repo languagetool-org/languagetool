@@ -27,7 +27,7 @@ import java.util.List;
 public class GermanyGerman extends German {
 
   @Override
-  public String[] getCountryVariants() {
+  public String[] getCountries() {
     return new String[]{"DE"};
   }
 

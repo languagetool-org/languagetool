@@ -28,7 +28,7 @@ import org.languagetool.rules.en.MorfologikCanadianSpellerRule;
 public class CanadianEnglish extends English {
 
   @Override
-  public final String[] getCountryVariants() {
+  public final String[] getCountries() {
     return new String[]{"CA"};
   }
 

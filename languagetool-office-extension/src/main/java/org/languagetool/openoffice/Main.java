@@ -114,8 +114,8 @@ public class Main extends WeakBase implements XJobExecutor,
   private XComponentContext xContext;
 
   public Main(final XComponentContext xCompContext) {
-      changeContext(xCompContext);
-      xEventListeners = new ArrayList<>();
+    changeContext(xCompContext);
+    xEventListeners = new ArrayList<>();
   }
 
   private void prepareConfig(final Language lang) {
@@ -161,11 +161,10 @@ public class Main extends WeakBase implements XJobExecutor,
     final Locale charLocale;
     final XPropertySet xCursorProps;
     try {
-      final XModel model = (XModel) UnoRuntime.queryInterface(XModel.class,
-          xComponent);
+      final XModel model = (XModel) UnoRuntime.queryInterface(XModel.class, xComponent);
       final XTextViewCursorSupplier xViewCursorSupplier = (XTextViewCursorSupplier) UnoRuntime
-          .queryInterface(XTextViewCursorSupplier.class, model
-              .getCurrentController());
+          .queryInterface(XTextViewCursorSupplier.class,
+              model.getCurrentController());
       final XTextViewCursor xCursor = xViewCursorSupplier.getViewCursor();
       if (xCursor.isCollapsed()) { // no text selection
         xCursorProps = (XPropertySet) UnoRuntime.queryInterface(
@@ -175,8 +174,8 @@ public class Main extends WeakBase implements XJobExecutor,
         // about character under the cursor, which might be wrong
         // but it applies only to the checking dialog to be removed
         xCursorProps = (XPropertySet) UnoRuntime.queryInterface(
-            XPropertySet.class, xCursor.getText().createTextCursorByRange(
-                xCursor.getStart()));
+            XPropertySet.class,
+            xCursor.getText().createTextCursorByRange(xCursor.getStart()));
       }
 
       // The CharLocale and CharLocaleComplex properties may both be set, so we still cannot know
@@ -184,9 +183,9 @@ public class Main extends WeakBase implements XJobExecutor,
       // Thus we check the text itself:
       final KhmerDetector khmerDetector = new KhmerDetector();
       if (khmerDetector.isKhmer(xCursor.getText().getString())) {
-        return Language.getLanguageForShortName("km");  // Khmer
+        return Language.getLanguageForShortName("km"); // Khmer
       }
-      
+
       final Object obj = xCursorProps.getPropertyValue("CharLocale");
       if (obj == null) {
         return Language.getLanguageForShortName("en-US");
@@ -194,13 +193,23 @@ public class Main extends WeakBase implements XJobExecutor,
       charLocale = (Locale) obj;
       boolean langIsSupported = false;
       for (Language element : Language.LANGUAGES) {
+        if (charLocale.Language.equalsIgnoreCase("qlt")
+            && element.getShortNameWithCountryAndVariant().equalsIgnoreCase(
+                charLocale.Variant)) {
+          langIsSupported = true;
+          break;
+        }
         if (element.getShortName().equals(charLocale.Language)) {
           langIsSupported = true;
           break;
         }
       }
       if (!langIsSupported) {
-        final String message = org.languagetool.gui.Tools.makeTexti18n(MESSAGES, "language_not_supported", charLocale.Language);
+        final String message = org.languagetool.gui.Tools.makeTexti18n(
+            MESSAGES, "language_not_supported", charLocale.Language);
+        // final String message = "Language not supported. Language = "
+        // + charLocale.Language + ", Country = " + charLocale.Country
+        // + ", Variant = " + charLocale.Variant;
         JOptionPane.showMessageDialog(null, message);
         return null;
       }
@@ -208,24 +217,36 @@ public class Main extends WeakBase implements XJobExecutor,
       showError(t);
       return null;
     }
-        
+
     try {
-      return Language.getLanguageForShortName(charLocale.Language + "-" + charLocale.Variant);
+      if (charLocale.Language.equalsIgnoreCase("qlt")) { 
+        // language ="qlt" country="ES" variant="ca-ES-valencia"
+        return Language.getLanguageForShortName(charLocale.Variant);
+      } else {
+        return Language.getLanguageForShortName(charLocale.Language + "-"
+            + charLocale.Country);
+      }
     } catch (java.lang.IllegalArgumentException e) {
       return Language.getLanguageForShortName(charLocale.Language);
     }
-        
+
   }
 
   /**
    * Runs the grammar checker on paragraph text.
    * 
-   * @param docID - document ID
-   * @param paraText - paragraph text
-   * @param locale Locale - the text Locale
-   * @param startOfSentencePos start of sentence position
-   * @param nSuggestedBehindEndOfSentencePosition end of sentence position
-   * @param props - properties
+   * @param docID
+   *          - document ID
+   * @param paraText
+   *          - paragraph text
+   * @param locale
+   *          Locale - the text Locale
+   * @param startOfSentencePos
+   *          start of sentence position
+   * @param nSuggestedBehindEndOfSentencePosition
+   *          end of sentence position
+   * @param props
+   *          - properties
    * @return ProofreadingResult containing the results of the check.
    */
   @Override
@@ -252,92 +273,97 @@ public class Main extends WeakBase implements XJobExecutor,
       final String paraText, final Locale locale, final ProofreadingResult paRes) {
 
     if (!StringTools.isEmpty(paraText) && hasLocale(locale)) {
-        Language langForShortName;
-        try {
-          langForShortName = Language.getLanguageForShortName(locale.Language + "-" + locale.Variant);
-        } catch (java.lang.IllegalArgumentException e) {
-          langForShortName = Language.getLanguageForShortName(locale.Language);
+      Language langForShortName;
+      try {
+        if (locale.Language.equalsIgnoreCase("qlt")) {
+          langForShortName = Language.getLanguageForShortName(locale.Variant);
+        } else {
+          langForShortName = Language.getLanguageForShortName(locale.Language
+              + "-" + locale.Country);
         }
-        if (!langForShortName.equals(docLanguage) || langTool == null || recheck) {
-          docLanguage = langForShortName;
-          if (docLanguage == null) {
-            return paRes;
-          }
-          initLanguageTool();
+      } catch (java.lang.IllegalArgumentException e) {
+        langForShortName = Language.getLanguageForShortName(locale.Language);
+      }
+      if (!langForShortName.equals(docLanguage) || langTool == null || recheck) {
+        docLanguage = langForShortName;
+        if (docLanguage == null) {
+          return paRes;
         }
+        initLanguageTool();
+      }
 
-        final Set<String> disabledRuleIds = config.getDisabledRuleIds();
-        if (disabledRuleIds != null) {
-          // copy as the config thread may access this as well
-          final ArrayList<String> list = new ArrayList<>(disabledRuleIds);
-          for (final String id : list) {
-            langTool.disableRule(id);
-          }
+      final Set<String> disabledRuleIds = config.getDisabledRuleIds();
+      if (disabledRuleIds != null) {
+        // copy as the config thread may access this as well
+        final ArrayList<String> list = new ArrayList<>(disabledRuleIds);
+        for (final String id : list) {
+          langTool.disableRule(id);
         }
-        final Set<String> disabledCategories = config.getDisabledCategoryNames();
-        if (disabledCategories != null) {
-          // copy as the config thread may access this as well
-          final ArrayList<String> list = new ArrayList<>(disabledCategories);
-          for (final String categoryName : list) {
-            langTool.disableCategory(categoryName);
-          }
+      }
+      final Set<String> disabledCategories = config.getDisabledCategoryNames();
+      if (disabledCategories != null) {
+        // copy as the config thread may access this as well
+        final ArrayList<String> list = new ArrayList<>(disabledCategories);
+        for (final String categoryName : list) {
+          langTool.disableCategory(categoryName);
         }
-        final Set<String> enabledRuleIds = config.getEnabledRuleIds();
-        if (enabledRuleIds != null) {
-          // copy as the config thread may access this as well
-          final ArrayList<String> list = new ArrayList<>(enabledRuleIds);
-          for (String ruleName : list) {
-            langTool.enableDefaultOffRule(ruleName);
-            langTool.enableRule(ruleName);
-          }
+      }
+      final Set<String> enabledRuleIds = config.getEnabledRuleIds();
+      if (enabledRuleIds != null) {
+        // copy as the config thread may access this as well
+        final ArrayList<String> list = new ArrayList<>(enabledRuleIds);
+        for (String ruleName : list) {
+          langTool.enableDefaultOffRule(ruleName);
+          langTool.enableRule(ruleName);
         }
-        try {
-          final String sentence = getSentence(paraText,
-              paRes.nStartOfSentencePosition);
-          paRes.nStartOfSentencePosition = position;
-          paRes.nStartOfNextSentencePosition = position + sentence.length();
-          paRes.nBehindEndOfSentencePosition = paRes.nStartOfNextSentencePosition;
-          if (!StringTools.isEmpty(sentence)) {
-            final List<RuleMatch> ruleMatches = langTool.check(sentence, false,
-                JLanguageTool.ParagraphHandling.ONLYNONPARA);
-            final SingleProofreadingError[] pErrors = checkParaRules(paraText,
-                locale, paRes.nStartOfSentencePosition,
-                paRes.nStartOfNextSentencePosition, paRes.aDocumentIdentifier);
-            int pErrorCount = 0;
-            if (pErrors != null) {
-              pErrorCount = pErrors.length;
+      }
+      try {
+        final String sentence = getSentence(paraText,
+            paRes.nStartOfSentencePosition);
+        paRes.nStartOfSentencePosition = position;
+        paRes.nStartOfNextSentencePosition = position + sentence.length();
+        paRes.nBehindEndOfSentencePosition = paRes.nStartOfNextSentencePosition;
+        if (!StringTools.isEmpty(sentence)) {
+          final List<RuleMatch> ruleMatches = langTool.check(sentence, false,
+              JLanguageTool.ParagraphHandling.ONLYNONPARA);
+          final SingleProofreadingError[] pErrors = checkParaRules(paraText,
+              locale, paRes.nStartOfSentencePosition,
+              paRes.nStartOfNextSentencePosition, paRes.aDocumentIdentifier);
+          int pErrorCount = 0;
+          if (pErrors != null) {
+            pErrorCount = pErrors.length;
+          }
+          if (!ruleMatches.isEmpty()) {
+            final SingleProofreadingError[] errorArray = new SingleProofreadingError[ruleMatches
+                .size() + pErrorCount];
+            int i = 0;
+            for (final RuleMatch myRuleMatch : ruleMatches) {
+              errorArray[i] = createOOoError(myRuleMatch,
+                  paRes.nStartOfSentencePosition);
+              i++;
             }
-            if (!ruleMatches.isEmpty()) {
-              final SingleProofreadingError[] errorArray = new SingleProofreadingError[ruleMatches
-                  .size()
-                  + pErrorCount];
-              int i = 0;
-              for (final RuleMatch myRuleMatch : ruleMatches) {
-                errorArray[i] = createOOoError(myRuleMatch, paRes.nStartOfSentencePosition);
-                i++;
-              }
-              // add para matches
-              if (pErrors != null) {
-                for (SingleProofreadingError paraError : pErrors) {
-                  if (paraError != null) {
-                    errorArray[i] = paraError;
-                    i++;
-                  }
+            // add para matches
+            if (pErrors != null) {
+              for (SingleProofreadingError paraError : pErrors) {
+                if (paraError != null) {
+                  errorArray[i] = paraError;
+                  i++;
                 }
               }
-              Arrays.sort(errorArray, new ErrorPositionComparator());
-              paRes.aErrors = errorArray;
+            }
+            Arrays.sort(errorArray, new ErrorPositionComparator());
+            paRes.aErrors = errorArray;
 
-            } else {
-              if (pErrors != null) {
-                paRes.aErrors = pErrors;
-              }
+          } else {
+            if (pErrors != null) {
+              paRes.aErrors = pErrors;
             }
           }
-        } catch (final Throwable t) {
-          showError(t);
-          paRes.nBehindEndOfSentencePosition = paraText.length();
-       }      
+        }
+      } catch (final Throwable t) {
+        showError(t);
+        paRes.nBehindEndOfSentencePosition = paraText.length();
+      }
     }
     return paRes;
   }
@@ -345,7 +371,8 @@ public class Main extends WeakBase implements XJobExecutor,
   private void initLanguageTool() {
     try {
       prepareConfig(docLanguage);
-      langTool = new MultiThreadedJLanguageTool(docLanguage, config.getMotherTongue());
+      langTool = new MultiThreadedJLanguageTool(docLanguage,
+          config.getMotherTongue());
       langTool.activateDefaultPatternRules();
       langTool.activateDefaultFalseFriendRules();
       for (Rule rule : langTool.getAllActiveRules()) {
@@ -411,18 +438,20 @@ public class Main extends WeakBase implements XJobExecutor,
         }
       }
       if (!errorList.isEmpty()) {
-        final SingleProofreadingError[] errorArray = errorList.toArray(new SingleProofreadingError[errorList.size()]);
+        final SingleProofreadingError[] errorArray = errorList
+            .toArray(new SingleProofreadingError[errorList.size()]);
         Arrays.sort(errorArray, new ErrorPositionComparator());
         return errorArray;
       }
     }
     return null;
   }
-  
+
   /**
    * Creates a SingleGrammarError object for use in OOo.
    * 
-   * @param myMatch LT rule match
+   * @param myMatch
+   *          LT rule match
    * @return SingleGrammarError - object for OOo checker integration
    */
   private SingleProofreadingError createOOoError(final RuleMatch myMatch,
@@ -440,19 +469,21 @@ public class Main extends WeakBase implements XJobExecutor,
     } else {
       aError.aShortComment = aError.aFullComment;
     }
-    aError.aShortComment = org.languagetool.gui.Tools.shortenComment(aError.aShortComment);
-    
+    aError.aShortComment = org.languagetool.gui.Tools
+        .shortenComment(aError.aShortComment);
+
     aError.aSuggestions = myMatch.getSuggestedReplacements().toArray(
         new String[myMatch.getSuggestedReplacements().size()]);
     aError.nErrorStart = myMatch.getFromPos() + startIndex;
     aError.nErrorLength = myMatch.getToPos() - myMatch.getFromPos();
     aError.aRuleIdentifier = myMatch.getRule().getId();
-    // LibreOffice since version 3.5 supports an URL that provides more information about the error,
+    // LibreOffice since version 3.5 supports an URL that provides more
+    // information about the error,
     // older version will simply ignore the property:
     if (myMatch.getRule().getUrl() != null) {
-      aError.aProperties = new PropertyValue[] {
-              new PropertyValue("FullCommentURL", -1, myMatch.getRule().getUrl().toString(), PropertyState.DIRECT_VALUE)
-      };
+      aError.aProperties = new PropertyValue[] { new PropertyValue(
+          "FullCommentURL", -1, myMatch.getRule().getUrl().toString(),
+          PropertyState.DIRECT_VALUE) };
     } else {
       aError.aProperties = new PropertyValue[0];
     }
@@ -461,6 +492,7 @@ public class Main extends WeakBase implements XJobExecutor,
 
   /**
    * We leave spell checking to OpenOffice/LibreOffice.
+   * 
    * @return false
    */
   @Override
@@ -489,13 +521,18 @@ public class Main extends WeakBase implements XJobExecutor,
     try {
       int dims = 0;
       for (final Language element : Language.LANGUAGES) {
-        dims += element.getCountryVariants().length;
+        dims += element.getCountries().length;
       }
       final Locale[] aLocales = new Locale[dims];
       int cnt = 0;
       for (final Language element : Language.LANGUAGES) {
-        for (final String variant : element.getCountryVariants()) {
-          aLocales[cnt] = new Locale(element.getShortName(), variant, "");
+        for (final String country : element.getCountries()) {
+          if (!element.getVariant().isEmpty()) {
+            aLocales[cnt] = new Locale("qlt", country, element.getShortNameWithCountryAndVariant());
+          }
+          else {
+            aLocales[cnt] = new Locale(element.getShortName(), country, "");
+          }
           cnt++;
         }
       }
@@ -508,18 +545,23 @@ public class Main extends WeakBase implements XJobExecutor,
 
   /**
    * @return true if LT supports the language of a given locale
-   * @param locale The Locale to check
+   * @param locale
+   *          The Locale to check
    */
   @Override
   public final boolean hasLocale(final Locale locale) {
     try {
       for (final Language element : Language.LANGUAGES) {
+        if (locale.Language.equalsIgnoreCase("qlt")
+            && element.getShortNameWithCountryAndVariant().equals(locale.Variant)) {
+          return true;
+        }
         if (element.getShortName().equals(locale.Language)) {
           return true;
         }
       }
     } catch (final Throwable t) {
-      showError(t);    
+      showError(t);
     }
     return false;
   }
@@ -528,7 +570,8 @@ public class Main extends WeakBase implements XJobExecutor,
    * Add a listener that allow re-checking the document after changing the
    * options in the configuration dialog box.
    * 
-   * @param eventListener the listener to be added
+   * @param eventListener
+   *          the listener to be added
    * @return true if listener is non-null and has been added, false otherwise
    */
   @Override
@@ -544,7 +587,8 @@ public class Main extends WeakBase implements XJobExecutor,
   /**
    * Remove a listener from the event listeners list.
    * 
-   * @param eventListener the listener to be removed
+   * @param eventListener
+   *          the listener to be removed
    * @return true if listener is non-null and has been removed, false otherwise
    */
   @Override
@@ -615,8 +659,8 @@ public class Main extends WeakBase implements XJobExecutor,
   }
 
   public static boolean __writeRegistryServiceInfo(final XRegistryKey regKey) {
-    return Factory.writeRegistryServiceInfo(Main.class.getName(), Main
-        .getServiceNames(), regKey);
+    return Factory.writeRegistryServiceInfo(Main.class.getName(),
+        Main.getServiceNames(), regKey);
   }
 
   @Override
@@ -642,18 +686,21 @@ public class Main extends WeakBase implements XJobExecutor,
     final String version = System.getProperty("java.version");
     if (version != null
         && (version.startsWith("1.0") || version.startsWith("1.1")
-            || version.startsWith("1.2") || version.startsWith("1.3") 
-            || version .startsWith("1.4") || version.startsWith("1.5") || version.startsWith("1.6"))) {
+            || version.startsWith("1.2") || version.startsWith("1.3")
+            || version.startsWith("1.4") || version.startsWith("1.5") || version
+              .startsWith("1.6"))) {
       final DialogThread dt = new DialogThread(
-          "Error: LanguageTool requires Java 7.0 or later. Current version: " + version);
+          "Error: LanguageTool requires Java 7.0 or later. Current version: "
+              + version);
       dt.start();
       return false;
     }
     try {
       // do not set look and feel for on Mac OS X as it causes the following error:
       // soffice[2149:2703] Apple AWT Java VM was loaded on first thread -- can't start AWT.
-      if(!System.getProperty("os.name").contains("OS X")) {
-        for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+      if (!System.getProperty("os.name").contains("OS X")) {
+        for (UIManager.LookAndFeelInfo info : UIManager
+            .getInstalledLookAndFeels()) {
           if ("Nimbus".equals(info.getName())) {
             UIManager.setLookAndFeel(info.getClassName());
             break;
@@ -667,13 +714,13 @@ public class Main extends WeakBase implements XJobExecutor,
   }
 
   static void showError(final Throwable e) {
-    String msg = "An error has occurred in LanguageTool " + JLanguageTool.VERSION + ":\n" + e.toString()
-        + "\nStacktrace:\n";
+    String msg = "An error has occurred in LanguageTool "
+        + JLanguageTool.VERSION + ":\n" + e.toString() + "\nStacktrace:\n";
     msg += Tools.getFullStackTrace(e);
-    final String metaInfo = "OS: " + System.getProperty("os.name")
-      + " on " + System.getProperty("os.arch") + ", Java version "
-      + System.getProperty("java.vm.version")
-      + " from " + System.getProperty("java.vm.vendor");
+    final String metaInfo = "OS: " + System.getProperty("os.name") + " on "
+        + System.getProperty("os.arch") + ", Java version "
+        + System.getProperty("java.vm.version") + " from "
+        + System.getProperty("java.vm.vendor");
     msg += metaInfo;
     final DialogThread dt = new DialogThread(msg);
     dt.start();
@@ -682,8 +729,9 @@ public class Main extends WeakBase implements XJobExecutor,
   private File getHomeDir() {
     final String homeDir = System.getProperty("user.home");
     if (homeDir == null) {
-      @SuppressWarnings({"ThrowableInstanceNeverThrown"})
-      final RuntimeException ex = new RuntimeException("Could not get home directory");
+      @SuppressWarnings({ "ThrowableInstanceNeverThrown" })
+      final RuntimeException ex = new RuntimeException(
+          "Could not get home directory");
       showError(ex);
     }
     return new File(homeDir);
@@ -708,8 +756,8 @@ public class Main extends WeakBase implements XJobExecutor,
   }
 
   /**
-   * Called from grammar/spell checking dialog to ignore a rule (not called when "Ignore" is
-   * selected in the context menu for an error.)
+   * Called from grammar/spell checking dialog to ignore a rule (not called when
+   * "Ignore" is selected in the context menu for an error.)
    */
   @Override
   public void ignoreRule(final String ruleId, final Locale locale)
@@ -741,7 +789,7 @@ public class Main extends WeakBase implements XJobExecutor,
     }
     recheck = true;
   }
-  
+
   @Override
   public String getServiceDisplayName(Locale locale) {
     return "LanguageTool";
@@ -762,7 +810,7 @@ class ErrorPositionComparator implements Comparator<SingleProofreadingError> {
     }
     if (match2.aSuggestions.length == 0 && match1.aSuggestions.length > 0) {
       return -1;
-    }    
+    }
     final int error1pos = match1.nErrorStart;
     final int error2pos = match2.nErrorStart;
     if (error1pos > error2pos) {
@@ -770,10 +818,10 @@ class ErrorPositionComparator implements Comparator<SingleProofreadingError> {
     } else if (error1pos < error2pos) {
       return -1;
     } else {
-      if (match1.aSuggestions.length != 0
-          && match2.aSuggestions.length != 0
+      if (match1.aSuggestions.length != 0 && match2.aSuggestions.length != 0
           && match1.aSuggestions.length != match2.aSuggestions.length) {
-        return ((Integer) (match1.aSuggestions.length)).compareTo(match2.aSuggestions.length);
+        return ((Integer) (match1.aSuggestions.length))
+            .compareTo(match2.aSuggestions.length);
       }
     }
     return match1.aRuleIdentifier.compareTo(match2.aRuleIdentifier);

@@ -156,7 +156,7 @@ public abstract class SpellingCheckRule extends Rule {
           if (isComment) {
             continue;
           }
-          if (language.getShortNameWithVariant().equals("de-CH")) {
+          if (language.getShortNameWithCountryAndVariant().equals("de-CH")) {
             // hack: Swiss German doesn't use "ß" but always "ss" - replace this, otherwise
             // misspellings (from Swiss point-of-view) like "äußere" wouldn't be found:
             wordsToBeIgnored.add(line.replace("ß", "ss"));

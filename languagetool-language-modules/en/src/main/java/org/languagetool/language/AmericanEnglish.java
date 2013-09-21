@@ -28,7 +28,7 @@ import org.languagetool.rules.en.MorfologikAmericanSpellerRule;
 public class AmericanEnglish extends English {
 
   @Override
-  public final String[] getCountryVariants() {
+  public final String[] getCountries() {
     return new String[]{"US"};
   }
 

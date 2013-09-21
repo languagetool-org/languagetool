@@ -358,7 +358,7 @@ public class StringToolsTest extends TestCase {
     }
 
     @Override
-    public String[] getCountryVariants() {
+    public String[] getCountries() {
       return new String[] {"XX"};
     }
 

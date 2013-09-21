@@ -76,7 +76,7 @@ public class LanguageBuilder {
         return  parts[1].split("_")[0]; //en as in en_US
       }
       @Override
-      public String[] getCountryVariants() {
+      public String[] getCountries() {
         if (parts[1].length() == 2) {
           return new String[] {""};
         }

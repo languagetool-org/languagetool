@@ -58,7 +58,7 @@ class LanguageComboBoxRenderer extends JLabel implements ListCellRenderer<Langua
   }
 
   @Override
-  public Component getListCellRendererComponent(JList list, Language value, int index, boolean isSelected, boolean cellHasFocus) {
+  public Component getListCellRendererComponent(JList list, Language lang, int index, boolean isSelected, boolean cellHasFocus) {
     setComponentOrientation(list.getComponentOrientation());
     if (isSelected) {
       setBackground(list.getSelectionBackground());
@@ -67,9 +67,9 @@ class LanguageComboBoxRenderer extends JLabel implements ListCellRenderer<Langua
       setBackground(list.getBackground());
       setForeground(list.getForeground());
     }
-    setText(getTranslatedName(value));
-    String langTag = value.getLocaleWithCountry().toLanguageTag();
-    String country = value.getLocaleWithCountry().getCountry().toLowerCase();
+    setText(getTranslatedName(lang));
+    String langTag = lang.getLocaleWithCountryAndVariant().toLanguageTag();
+    String country = lang.getLocaleWithCountryAndVariant().getCountry().toLowerCase();
     ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
 
     String filename = "flags/bytag/" + langTag + ".png";

@@ -28,7 +28,7 @@ import org.languagetool.rules.en.MorfologikSouthAfricanSpellerRule;
 public class SouthAfricanEnglish extends English {
 
   @Override
-  public final String[] getCountryVariants() {
+  public final String[] getCountries() {
     return new String[]{"ZA"};
   }
 

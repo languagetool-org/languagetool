@@ -29,7 +29,7 @@ import org.languagetool.rules.en.MorfologikBritishSpellerRule;
 public class BritishEnglish extends English {
 
   @Override
-  public final String[] getCountryVariants() {
+  public final String[] getCountries() {
     return new String[]{"GB"};
   }
 

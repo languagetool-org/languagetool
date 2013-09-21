@@ -171,7 +171,7 @@ public class CommandLineParser {
     } catch (IllegalArgumentException e){
       final List<String> supportedLanguages = new ArrayList<>();
       for (final Language lang : Language.LANGUAGES) {
-        supportedLanguages.add(lang.getShortNameWithVariant());
+        supportedLanguages.add(lang.getShortNameWithCountryAndVariant());
       }
       Collections.sort(supportedLanguages);
       throw new IllegalArgumentException("Unknown language '" + userSuppliedLangCode

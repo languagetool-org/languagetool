@@ -62,7 +62,7 @@ public class French extends Language {
   }
 
   @Override
-  public String[] getCountryVariants() {
+  public String[] getCountries() {
     return new String[]{"FR", "", "BE", "CH", "CA", "LU", "MC", "CM",
             "CI", "HI", "ML", "SN", "CD", "MA", "RE"};
   }

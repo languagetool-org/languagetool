@@ -60,7 +60,7 @@ public class Spanish extends Language {
   }
 
   @Override
-  public String[] getCountryVariants() {
+  public String[] getCountries() {
     return new String[]{
             "ES", "", "MX", "GT", "CR", "PA", "DO",
             "VE", "PE", "AR", "EC", "CL", "UY", "PY",

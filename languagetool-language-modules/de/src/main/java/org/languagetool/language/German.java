@@ -56,7 +56,7 @@ public class German extends Language {
   private Disambiguator disambiguator;
 
   @Override
-  public Language getDefaultVariant() {
+  public Language getDefaultLanguageVariant() {
     return new GermanyGerman();
   }
   
@@ -79,7 +79,7 @@ public class German extends Language {
   }
 
   @Override
-  public String[] getCountryVariants() {
+  public String[] getCountries() {
     return new String[]{"LU", "LI", "BE"};
   }
 

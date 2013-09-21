@@ -93,7 +93,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       throw new RuntimeException("Language is not a variant of German: " + language);
     }
     try {
-      final String morfoFile = "/de/hunspell/de_" + language.getCountryVariants()[0] + ".dict";
+      final String morfoFile = "/de/hunspell/de_" + language.getCountries()[0] + ".dict";
       return new MorfologikSpeller(morfoFile, Locale.getDefault(), MAX_EDIT_DISTANCE);
     } catch (IOException e) {
       throw new RuntimeException("Could not set up morfologik spell checker", e);

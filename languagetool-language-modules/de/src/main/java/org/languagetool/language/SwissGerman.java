@@ -27,7 +27,7 @@ import java.util.List;
 public class SwissGerman extends German {
 
   @Override
-  public final String[] getCountryVariants() {
+  public final String[] getCountries() {
     return new String[]{"CH"};
   }
 

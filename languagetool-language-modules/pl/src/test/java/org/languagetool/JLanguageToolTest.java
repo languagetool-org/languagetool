@@ -31,7 +31,7 @@ public class JLanguageToolTest extends TestCase {
   public void testPolish() throws IOException {
     final Polish polish = new Polish();
     JLanguageTool tool = new JLanguageTool(polish);
-    assertEquals("[PL]", Arrays.toString(polish.getCountryVariants()));
+    assertEquals("[PL]", Arrays.toString(polish.getCountries()));
     List<RuleMatch> matches = tool.check("To jest całkowicie prawidłowe zdanie.");
     assertEquals(0, matches.size());
     matches = tool.check("To jest jest problem.");

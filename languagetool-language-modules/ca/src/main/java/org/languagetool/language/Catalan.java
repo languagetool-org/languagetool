@@ -51,6 +51,8 @@ import org.languagetool.tokenizers.ca.CatalanWordTokenizer;
 
 public class Catalan extends Language {
 
+  private static final Language GENERAL_CATALAN = new GeneralCatalan();
+  
   private Tagger tagger;
   private SentenceTokenizer sentenceTokenizer;
   private Tokenizer wordTokenizer;
@@ -63,13 +65,18 @@ public class Catalan extends Language {
   }
 
   @Override
-  public String[] getCountryVariants() {
-    return new String[]{"ES"};
+  public String[] getCountries() {
+    return new String[]{"ANY"};
   }
   
   @Override
   public String getShortName() {
     return "ca";
+  }
+  
+  @Override
+  public Language getDefaultLanguageVariant() {
+    return GENERAL_CATALAN;
   }
 
   @Override

@@ -69,7 +69,7 @@ public class Galician extends Language {
   }
 
   @Override
-  public final String[] getCountryVariants() {
+  public final String[] getCountries() {
     return new String[]{"ES"};
   }
   

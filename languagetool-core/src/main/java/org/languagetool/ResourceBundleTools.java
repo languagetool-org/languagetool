@@ -50,14 +50,14 @@ final class ResourceBundleTools {
    */
   static ResourceBundle getMessageBundle(final Language lang) {
     try {
-      ResourceBundle bundle = ResourceBundle.getBundle(MESSAGE_BUNDLE, lang.getLocaleWithCountry());
+      ResourceBundle bundle = ResourceBundle.getBundle(MESSAGE_BUNDLE, lang.getLocaleWithCountryAndVariant());
       if (!isValidBundleFor(lang, bundle)) {
         bundle = ResourceBundle.getBundle(MESSAGE_BUNDLE, lang.getLocale());
         if (!isValidBundleFor(lang, bundle)) {
           // happens if 'xx' is requested but only a MessagesBundle_xx_YY.properties exists:
-          final Language defaultVariant = lang.getDefaultVariant();
-          if (defaultVariant != null && defaultVariant.getCountryVariants().length > 0) {
-            final Locale locale = new Locale(defaultVariant.getShortName(), defaultVariant.getCountryVariants()[0]);
+          final Language defaultVariant = lang.getDefaultLanguageVariant();
+          if (defaultVariant != null && defaultVariant.getCountries().length > 0) {
+            final Locale locale = new Locale(defaultVariant.getShortName(), defaultVariant.getCountries()[0]);
             bundle = ResourceBundle.getBundle(MESSAGE_BUNDLE, locale);
           }
         }

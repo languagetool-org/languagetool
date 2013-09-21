@@ -55,7 +55,7 @@ public class PatternRuleTest extends TestCase {
   protected void runGrammarRulesFromXmlTest(Language ignoredLanguage) throws IOException {
     int count = 0;
     for (final Language lang : Language.REAL_LANGUAGES) {
-      if (ignoredLanguage.getShortNameWithVariant().equals(lang.getShortNameWithVariant())) {
+      if (ignoredLanguage.getShortNameWithCountryAndVariant().equals(lang.getShortNameWithCountryAndVariant())) {
         continue;
       }
       runGrammarRuleForLanguage(lang);
@@ -92,7 +92,7 @@ public class PatternRuleTest extends TestCase {
   }
 
   private String getGrammarFileName(Language lang) {
-    final String shortNameWithVariant = lang.getShortNameWithVariant();
+    final String shortNameWithVariant = lang.getShortNameWithCountryAndVariant();
     final String fileName;
     if (shortNameWithVariant.contains("-x-")) {
       fileName = lang.getShortName() + "/" + JLanguageTool.PATTERN_FILE;
