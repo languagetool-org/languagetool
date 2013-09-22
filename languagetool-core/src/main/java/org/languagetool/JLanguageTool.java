@@ -742,16 +742,8 @@ public class JLanguageTool {
    */
   public AnalyzedSentence getRawAnalyzedSentence(final String sentence) throws IOException {
     final List<String> tokens = wordTokenizer.tokenize(sentence);
-    final Map<Integer, String> softHyphenTokens = new HashMap<>();
+    final Map<Integer, String> softHyphenTokens = replaceSoftHyphens(tokens);
 
-    //for soft hyphens inside words, happens especially in OOo:
-    for (int i = 0; i < tokens.size(); i++) {
-      if (tokens.get(i).indexOf('\u00ad') != -1) {
-        softHyphenTokens.put(i, tokens.get(i));
-        tokens.set(i, tokens.get(i).replaceAll("\u00ad", ""));
-      }
-    }
-    
     final List<AnalyzedTokenReadings> aTokens = tagger.tag(tokens);
     if (chunker != null) {
       chunker.addChunkTags(aTokens);
@@ -799,7 +791,18 @@ public class JLanguageTool {
     }
     return new AnalyzedSentence(tokenArray);
   }
-  
+
+  private Map<Integer, String> replaceSoftHyphens(List<String> tokens) {
+    final Map<Integer, String> softHyphenTokens = new HashMap<>();
+    for (int i = 0; i < tokens.size(); i++) {
+      if (tokens.get(i).indexOf('\u00ad') != -1) {
+        softHyphenTokens.put(i, tokens.get(i));
+        tokens.set(i, tokens.get(i).replaceAll("\u00ad", ""));
+      }
+    }
+    return softHyphenTokens;
+  }
+
   /**
    * Get all rules for the current language that are built-in or that have been
    * added using {@link #addRule(Rule)}.
