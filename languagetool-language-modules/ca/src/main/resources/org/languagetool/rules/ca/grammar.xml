@@ -36,6 +36,7 @@ $Id$
     <!ENTITY precedits_per_TANT "no|ací|aquí|allí|allà|potser|abans|ja|on|quan|que|com|menys|doncs|però|ara|emperò|ans">
     <!ENTITY vocabulari_menjar "aliment|all|amanida|arròs|bolet|carn|carxofa|cep|coriandre|fava|fetge|foie|formatge|gamba|j[ou]livert|llamàntol|llobregant|lluç|macarró|magret|mandonguilla|mango|menjar|mongeta|p[éè]sol|pa|pastís|porc|r[eo]nyó|safrà|tofu|verdura|vi|ànec">
     <!ENTITY seguits_per_COM_A "caracteritzar|qualificar|establir|figurar|reconèixer|conèixer|definir|veure|entendre|interpretar|percebre">
+    <!ENTITY nombres_que_apostrofen "1{1,2}([,]\d+)?&#37;?|1[.\s]?\d{3}[.\s]?\d{3}([.]\d+)?|11[.\s]?\d{3}([,]\d+)?">
 ]>
     
 <rules lang="ca" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
@@ -7728,7 +7729,7 @@ $Id$
                 <pattern>
                     <marker>
                         <token>de</token>
-                        <token regexp="yes">(1|11)%?</token>
+                        <token regexp="yes">&nombres_que_apostrofen;</token>
                     </marker>
                     <token><exception postag="decimal_comma"/></token>
                 </pattern>
@@ -7744,7 +7745,7 @@ $Id$
                 <pattern>
                     <marker>
                         <token>el</token>
-                        <token regexp="yes">(1|11)%?</token>
+                        <token regexp="yes">&nombres_que_apostrofen;</token>
                     </marker>
                     <token><exception postag="decimal_comma"/></token>
                 </pattern>
@@ -7761,7 +7762,7 @@ $Id$
                     <marker>
                         <token regexp="yes">a|de</token>
                         <token spacebefore="no">l</token>
-                        <token regexp="yes">(1|11)%?</token>
+                        <token regexp="yes">&nombres_que_apostrofen;</token>
                     </marker>
                     <token><exception postag="decimal_comma"/></token>
                 </pattern>
@@ -7777,7 +7778,7 @@ $Id$
                     <marker>
                         <token>pe</token>
                         <token spacebefore="no">l</token>
-                        <token regexp="yes">(1|11)%?</token>
+                        <token regexp="yes">&nombres_que_apostrofen;</token>
                     </marker>
                     <token><exception postag="decimal_comma"/></token>
                 </pattern>
@@ -7906,7 +7907,7 @@ $Id$
         	  <rule>
                 <pattern>
                     <token regexp="yes">[ld]'</token>
-                    <token regexp="yes">\d.*<exception regexp="yes">1{1,2}([,.]\d+)?%?|1[,.]?\d{3}[,.]?\d{3}([,.]\d+)?</exception></token>
+                    <token regexp="yes">\d.*<exception regexp="yes">&nombres_que_apostrofen;</exception></token>
                 </pattern>
                 <message>No s'apostrofa.</message>
                 <url>http://esadir.cat/sintaxi/articles</url>
@@ -7919,7 +7920,8 @@ $Id$
                 <example type="correct">d'11%</example>
                 <example type="correct">d'11 graus</example>
                 <example type="correct">d'11,4 graus</example>    
-                <example type="correct">L'amortització hauria de ser d'1.200.000 euros.</example>         
+                <example type="correct">L'amortització hauria de ser d'1.200.000 euros.</example>     
+                <example type="correct">un total d'11 300 milions de kWh</example>    
             </rule>
             <rule>
                 <pattern>
