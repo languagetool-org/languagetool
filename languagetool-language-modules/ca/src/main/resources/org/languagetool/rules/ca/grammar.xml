@@ -8900,6 +8900,7 @@ $Id$
                     <token><exception postag="PI0MS000">tot</exception></token>
                 </pattern>
                 <message>Si és del verb "venir", cal escriure <suggestion>vénen</suggestion>. Correcte si és del verb "vendre".</message>
+                <short>Accent diacrític</short>
                 <example type="incorrect" correction="vénen">Ells <marker>venen</marker> del comunisme.</example>
                 <example type="incorrect" correction="Vénen"><marker>Venen</marker> de tot el món.</example>
                 <example type="correct">Una botiga d'aquestes que hi venen de tot.</example>
@@ -8913,6 +8914,7 @@ $Id$
                     <token postag="V.N.*" postag_regexp="yes"/> 
                 </pattern>
                 <message>¿Volíeu dir <suggestion>vénen</suggestion> (v. venir)?</message>
+                <short>Accent diacrític</short>
                 <example type="incorrect"><marker>venen</marker> a dir el mateix</example>
                 <example type="correct">vénen a dir el mateix</example>
             </rule>
@@ -8924,6 +8926,7 @@ $Id$
                     <token regexp="yes">ganes|nàusees|ois|arcades|pensaments|grans|petits|donats</token> 
                 </pattern>
                 <message>¿Volíeu dir <suggestion>vénen</suggestion> (v. venir)?</message>
+                <short>Accent diacrític</short>
                 <example type="incorrect">em <marker>venen</marker> ganes de flagel·lar-me</example>
                 <example type="correct">em vénen ganes de dir-ho</example>
             </rule>
@@ -8936,8 +8939,23 @@ $Id$
                     <token>gust</token> 
                 </pattern>
                 <message>¿Volíeu dir <suggestion>vénen</suggestion> (v. venir)?</message>
+                <short>Accent diacrític</short>
                 <example type="incorrect">em <marker>venen</marker> de gust</example>
                 <example type="correct">em vénen de gust</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>venen</token>
+                    </marker>
+                    <token min="0" postag="RG_anteposat"/>
+                    <token postag="V.P.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/></token> 
+                </pattern>
+                <message>¿Volíeu dir <suggestion>vénen</suggestion> (v. venir)?</message>
+                <short>Accent diacrític</short>
+                <example type="incorrect" correction="Vénen"><marker>Venen</marker> clarament determinats pels resultats</example>
+                <example type="correct">Vénen determinats a fer-ho.</example>
+                <example type="correct">Venen determinats objectes.</example>
             </rule>
         </rulegroup>    
         <rulegroup id="MON" name="el *mon/món">
