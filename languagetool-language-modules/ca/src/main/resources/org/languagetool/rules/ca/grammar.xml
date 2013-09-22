@@ -36,7 +36,7 @@ $Id$
     <!ENTITY precedits_per_TANT "no|ací|aquí|allí|allà|potser|abans|ja|on|quan|que|com|menys|doncs|però|ara|emperò|ans">
     <!ENTITY vocabulari_menjar "aliment|all|amanida|arròs|bolet|carn|carxofa|cep|coriandre|fava|fetge|foie|formatge|gamba|j[ou]livert|llamàntol|llobregant|lluç|macarró|magret|mandonguilla|mango|menjar|mongeta|p[éè]sol|pa|pastís|porc|r[eo]nyó|safrà|tofu|verdura|vi|ànec">
     <!ENTITY seguits_per_COM_A "caracteritzar|qualificar|establir|figurar|reconèixer|conèixer|definir|veure|entendre|interpretar|percebre">
-    <!ENTITY nombres_que_apostrofen "1{1,2}([,]\d+)?&#37;?|1[.\s]?\d{3}[.\s]?\d{3}([.]\d+)?|11[.\s]?\d{3}([,]\d+)?">
+    <!ENTITY nombres_que_apostrofen "(1{1,2}|11[.\s]?\d{3}|1\.\d{3}\.\d{3}|1\s\d{3}\s\d{3}|1\d{6})([,]\d+)?&#37;?">
 ]>
     
 <rules lang="ca" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
@@ -7756,6 +7756,7 @@ $Id$
                 <example type="incorrect" correction="l'1"><marker>el 1</marker>, el 2 i el 3 de febrer</example>
                 <example type="incorrect" correction="L'11%"><marker>El 11%</marker> dels assistents.</example>
                 <example type="correct">el 1.400</example>
+                <example type="correct">El 1900 hi havia 731 h i el 1991 263 h.</example>
             </rule>
             <rule>
                 <pattern>
