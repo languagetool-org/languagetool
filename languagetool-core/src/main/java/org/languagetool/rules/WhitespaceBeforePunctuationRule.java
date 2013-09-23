@@ -61,8 +61,6 @@ public class WhitespaceBeforePunctuationRule extends Rule {
   public final RuleMatch[] match(final AnalyzedSentence text) {
     final List<RuleMatch> ruleMatches = new ArrayList<>();
     final AnalyzedTokenReadings[] tokens = text.getTokens();
-    String prevToken = "";
-    String prevPrevToken = "";
     boolean prevWhite = false;    
     int prevLen = 0;
     for (int i = 0; i < tokens.length; i++) {
@@ -99,8 +97,6 @@ public class WhitespaceBeforePunctuationRule extends Rule {
         ruleMatch.setSuggestedReplacement(suggestionText);
         ruleMatches.add(ruleMatch);
       }
-      prevPrevToken = prevToken;
-      prevToken = token;
       prevWhite = isWhitespace && !tokens[i].isFieldCode(); //OOo code before comma/dot
       prevLen = tokens[i].getToken().length();
     }

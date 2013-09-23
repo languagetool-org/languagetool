@@ -27,13 +27,6 @@ import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 
-/*  
- * RussianSimpleReplaceRuleTest
- * @ author Yakov Reztsov
- *
- */
-
-
 public class RussianSimpleReplaceRuleTest extends TestCase {
 
   public void testRule() throws IOException {
@@ -55,4 +48,5 @@ public class RussianSimpleReplaceRuleTest extends TestCase {
     assertEquals(1, matches[0].getSuggestedReplacements().size());
     assertEquals("порвана", matches[0].getSuggestedReplacements().get(0));
   }
+
 }

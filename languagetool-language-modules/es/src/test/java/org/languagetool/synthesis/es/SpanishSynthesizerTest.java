@@ -28,7 +28,7 @@ import org.languagetool.AnalyzedToken;
 
 public class SpanishSynthesizerTest extends TestCase {
  
-  private final AnalyzedToken dummyToken(String tokenStr) {
+  private AnalyzedToken dummyToken(String tokenStr) {
     return new AnalyzedToken(tokenStr, tokenStr, tokenStr);
   }
  

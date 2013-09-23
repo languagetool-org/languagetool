@@ -67,8 +67,7 @@ public class Malayalam extends Language {
     
   @Override
   public final Contributor[] getMaintainers() {
-    return new Contributor[] {new Contributor("Jithesh.V.S")
-        };
+    return new Contributor[] { new Contributor("Jithesh.V.S") };
   }
 
   @Override

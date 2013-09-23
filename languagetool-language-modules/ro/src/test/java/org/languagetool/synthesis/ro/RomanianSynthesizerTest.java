@@ -16,7 +16,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-
 package org.languagetool.synthesis.ro;
 
 import java.io.IOException;
@@ -28,16 +27,10 @@ import org.languagetool.AnalyzedToken;
 
 public class RomanianSynthesizerTest extends TestCase {
 
-  private final AnalyzedToken dummyToken(String tokenStr) {
+  private AnalyzedToken dummyToken(String tokenStr) {
     return new AnalyzedToken(tokenStr, tokenStr, tokenStr);
   }
 
-  /**
-   * 
-   * @author Ionuț Păduraru
-   * @since 08.03.2009 18:44:25
-   * @throws IOException
-   */
   public final void testSynthesizeStringString() throws IOException {
     RomanianSynthesizer synth = new RomanianSynthesizer();
     assertEquals(synth.synthesize(dummyToken("blablabla"), "blablabla").length, 0);

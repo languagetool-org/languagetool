@@ -202,17 +202,13 @@ private JCheckBox serverSettingsCheckbox;
     cons.fill = GridBagConstraints.NONE;
     cons.weightx = 0.0f;
     if (!insideOOo) {
-    	
-      serverCheckbox = new JCheckBox(StringTools.getLabel(messages
-          .getString("guiRunOnPort")));
-      serverCheckbox.setMnemonic(StringTools.getMnemonic(messages
-          .getString("guiRunOnPort")));
+      serverCheckbox = new JCheckBox(StringTools.getLabel(messages.getString("guiRunOnPort")));
+      serverCheckbox.setMnemonic(StringTools.getMnemonic(messages.getString("guiRunOnPort")));
       serverCheckbox.setSelected(serverMode);
       portPanel.add(serverCheckbox, cons);
       serverPortField = new JTextField(Integer.toString(serverPort));
       serverPortField.setEnabled(serverCheckbox.isSelected());
-      serverSettingsCheckbox = new JCheckBox(StringTools.getLabel(messages
-          .getString("useGUIConfig")));
+      serverSettingsCheckbox = new JCheckBox(StringTools.getLabel(messages.getString("useGUIConfig")));
       // TODO: without this the box is just a few pixels small, but why??:
       serverPortField.setMinimumSize(new Dimension(100, 25));
       cons.gridx = 1;
@@ -235,15 +231,11 @@ private JCheckBox serverSettingsCheckbox;
 
     final JPanel buttonPanel = new JPanel();
     buttonPanel.setLayout(new GridBagLayout());
-    okButton = new JButton(StringTools.getLabel(messages
-        .getString("guiOKButton")));
-    okButton.setMnemonic(StringTools.getMnemonic(messages
-        .getString("guiOKButton")));
+    okButton = new JButton(StringTools.getLabel(messages.getString("guiOKButton")));
+    okButton.setMnemonic(StringTools.getMnemonic(messages.getString("guiOKButton")));
     okButton.addActionListener(this);
-    cancelButton = new JButton(StringTools.getLabel(messages
-        .getString("guiCancelButton")));
-    cancelButton.setMnemonic(StringTools.getMnemonic(messages
-        .getString("guiCancelButton")));
+    cancelButton = new JButton(StringTools.getLabel(messages.getString("guiCancelButton")));
+    cancelButton.setMnemonic(StringTools.getMnemonic(messages.getString("guiCancelButton")));
     cancelButton.addActionListener(this);
     cons = new GridBagConstraints();
     cons.insets = new Insets(0, 4, 0, 0);
@@ -486,22 +478,21 @@ private JCheckBox serverSettingsCheckbox;
     return Integer.parseInt(serverPortField.getText());
   }
 
-}
+  class CategoryComparator implements Comparator<Rule> {
 
-class CategoryComparator implements Comparator<Rule> {
-
-  @Override
-  public int compare(final Rule r1, final Rule r2) {
-    final boolean hasCat = r1.getCategory() != null && r2.getCategory() != null;
-    if (hasCat) {
-      final int res = r1.getCategory().getName().compareTo(
-          r2.getCategory().getName());
-      if (res == 0) {
-        return r1.getDescription().compareToIgnoreCase(r2.getDescription());
+    @Override
+    public int compare(final Rule r1, final Rule r2) {
+      final boolean hasCat = r1.getCategory() != null && r2.getCategory() != null;
+      if (hasCat) {
+        final int res = r1.getCategory().getName().compareTo(r2.getCategory().getName());
+        if (res == 0) {
+          return r1.getDescription().compareToIgnoreCase(r2.getDescription());
+        }
+        return res;
       }
-      return res;
+      return r1.getDescription().compareToIgnoreCase(r2.getDescription());
     }
-    return r1.getDescription().compareToIgnoreCase(r2.getDescription());
+
   }
 
 }

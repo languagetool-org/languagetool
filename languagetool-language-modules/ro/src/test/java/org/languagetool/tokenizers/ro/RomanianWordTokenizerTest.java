@@ -26,7 +26,7 @@ import junit.framework.TestCase;
 public class RomanianWordTokenizerTest extends TestCase {
 
   public void testTokenize() {
-    // basic test - simle words, no diacritics
+    // basic test - simple words, no diacritics
     RomanianWordTokenizer w = new RomanianWordTokenizer();
     List<String> testList = w.tokenize("Aceaste mese sunt bune");
     assertEquals(testList.size(), 7);

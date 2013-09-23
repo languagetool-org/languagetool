@@ -32,7 +32,7 @@ public class ValencianCatalan extends Catalan {
 
   @Override
   public String getVariant() {
-    return new String("valencia");
+    return "valencia";
   }
   
   @Override

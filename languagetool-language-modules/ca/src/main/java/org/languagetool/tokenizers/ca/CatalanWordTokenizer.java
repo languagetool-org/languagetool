@@ -40,10 +40,9 @@ public class CatalanWordTokenizer extends WordTokenizer {
   //all possible forms of "pronoms febles" after a verb.
   private static final String PF = "('en|'hi|'ho|'l|'ls|'m|'n|'ns|'s|'t|-el|-els|-em|-en|-ens|-hi|-ho|-l|-la|-les|-li|-lo|-los|-m|-me|-n|-ne|-nos|-s|-se|-t|-te|-us|-vos)";
 
-  private int maxPatterns = 11;
-  private Pattern[] patterns = new Pattern[maxPatterns];
-
-  private CatalanTagger tagger;
+  private final int maxPatterns = 11;
+  private final Pattern[] patterns = new Pattern[maxPatterns];
+  private final CatalanTagger tagger;
 
   //Patterns to avoid splitting words in certain special cases
   // allows correcting typographical errors in "ela geminada"
