@@ -65,7 +65,7 @@ public final class RuleOverview {
     System.out.println("<tr>");
     System.out.println("  <th valign='bottom' width=\"70\">Language</th>");
     System.out.println("  <th valign='bottom' align=\"left\" width=\"60\">XML<br/>rules</th>");
-    System.out.println("  <th width=\"120\"></th>");
+    System.out.println("  <th></th>");
     System.out.println("  <th align=\"left\" width=\"60\">Java<br/>rules</th>");
     System.out.println("  <th align=\"left\" width=\"60\">False<br/>friends</th>");
     //System.out.println("  <th valign='bottom' width=\"65\">Auto-<br/>detected</th>");
@@ -114,8 +114,8 @@ public final class RuleOverview {
         System.out.print("<td valign=\"top\" align=\"right\">" + (count + countInRuleGroup) + "</td>");
         System.out.print("<td valign=\"top\" align=\"right\">" +
             //"<a href=\"" + ruleBase + langCode + "/grammar.xml" + "\">Show</a> / " +
-            "<a href=\"" + ruleBase + langCode + "/grammar.xml\">XML</a> / " +
-            "<a href=\"http://community.languagetool.org/rule/list?lang=" + langCode + "\">Browse</a>" +
+            "<a href=\"http://community.languagetool.org/rule/list?lang=" + langCode + "\">Browse</a>,&nbsp;" +
+            "<a href=\"" + ruleBase + langCode + "/grammar.xml\">XML</a>" +
             "</td>");
       }
 
