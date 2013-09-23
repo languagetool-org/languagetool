@@ -5322,6 +5322,19 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+        <rule id="SOC_SON" name="*sóc/són boniques">
+            <pattern>
+                <marker>
+                    <token>sóc</token>
+                </marker>
+                <token postag="A...P.|NC.P.*|_GN_.P" postag_regexp="yes"/>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>són</suggestion>?</message>
+            <short>Error de concordança</short>
+            <example type="incorrect" correction="Són"><marker>Sóc</marker> capaços de tot.</example>
+            <example type="incorrect" correction="Són"><marker>Sóc</marker> els millors.</example>
+            <example type="correct">Sóc capaç.</example>
+        </rule>
         <rulegroup id="GRAU_GREU" name="*grau/greu">
             <rule>
                 <pattern>
