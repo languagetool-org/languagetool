@@ -36,12 +36,13 @@ import java.util.*;
  * 
  * @author Daniel Naber
  */
+@SuppressWarnings("StringConcatenationInsideStringBufferAppend")
 public final class RuleOverview {
 
   private static final List<String> LANGUAGES_WITH_NEW_MAINTAINER_NEED = 
-          Arrays.asList("en", "ja", "is", "sv", "ast", "lt", "zh", "gl", "ro");
+          Arrays.asList("en", "ja", "is", "sv", "ast", "lt", "gl", "ro");
   private static final List<String> LANGUAGES_WITH_CO_MAINTAINER_NEED = 
-          Arrays.asList("da", "be");
+          Arrays.asList("da", "be", "zh");
 
   public static void main(final String[] args) throws IOException {
     if (args.length != 1) {
@@ -145,8 +146,10 @@ public final class RuleOverview {
       
       // maintainer information:
       final StringBuilder maintainerInfo = getMaintainerInfo(lang);
-      final String maintainerText; 
-      if (LANGUAGES_WITH_NEW_MAINTAINER_NEED.contains(langCode)) {
+      final String maintainerText;
+      if (langCode.equals("pt")) {
+        maintainerText = " - <span class='maintainerNeeded'><a href='http://wiki.languagetool.org/tasks-for-language-maintainers'>Looking for a maintainer for Brazilian Portuguese</a></span>";
+      } else if (LANGUAGES_WITH_NEW_MAINTAINER_NEED.contains(langCode)) {
         maintainerText = " - <span class='maintainerNeeded'><a href='http://wiki.languagetool.org/tasks-for-language-maintainers'>Looking for new maintainer</a></span>";
       } else if (LANGUAGES_WITH_CO_MAINTAINER_NEED.contains(langCode)) {
         maintainerText = " - <span class='maintainerNeeded'><a href='http://wiki.languagetool.org/tasks-for-language-maintainers'>Looking for co-maintainer</a></span>";
