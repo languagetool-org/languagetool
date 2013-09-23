@@ -31,29 +31,28 @@ import java.util.Arrays;
 
 public class SimpleReplaceRuleTest extends TestCase {
 
-	public void testRule() throws IOException {
-		SimpleReplaceRule rule = new SimpleReplaceRule(TestTools.getEnglishMessages());
+  public void testRule() throws IOException {
+    SimpleReplaceRule rule = new SimpleReplaceRule(TestTools.getEnglishMessages());
 
-		RuleMatch[] matches;
-		JLanguageTool langTool = new JLanguageTool(new Ukrainian());
-		
-		// correct sentences:
-		matches = rule.match(langTool.getAnalyzedSentence("Ці рядки повинні збігатися."));
-		assertEquals(0, matches.length);
+    RuleMatch[] matches;
+    JLanguageTool langTool = new JLanguageTool(new Ukrainian());
 
-		// incorrect sentences:
-		matches = rule.match(langTool.getAnalyzedSentence("Ці рядки повинні співпадати."));
-		assertEquals(1, matches.length);
-		assertEquals(2, matches[0].getSuggestedReplacements().size());
-		assertEquals(Arrays.asList("збігатися", "сходитися"), matches[0].getSuggestedReplacements());
-		
-		matches = rule.match(langTool.getAnalyzedSentence("Нападаючий"));
-		assertEquals(1, matches.length);
-		assertEquals(Arrays.asList("Нападник", "Нападальний", "Нападний"), matches[0].getSuggestedReplacements());
+    // correct sentences:
+    matches = rule.match(langTool.getAnalyzedSentence("Ці рядки повинні збігатися."));
+    assertEquals(0, matches.length);
 
-		matches = rule.match(langTool.getAnalyzedSentence("Нападаючого"));
-		assertEquals(1, matches.length);
-		assertEquals(Arrays.asList("Нападник", "Нападальний", "Нападний"), matches[0].getSuggestedReplacements());
+    // incorrect sentences:
+    matches = rule.match(langTool.getAnalyzedSentence("Ці рядки повинні співпадати."));
+    assertEquals(1, matches.length);
+    assertEquals(2, matches[0].getSuggestedReplacements().size());
+    assertEquals(Arrays.asList("збігатися", "сходитися"), matches[0].getSuggestedReplacements());
 
-	}
+    matches = rule.match(langTool.getAnalyzedSentence("Нападаючий"));
+    assertEquals(1, matches.length);
+    assertEquals(Arrays.asList("Нападник", "Нападальний", "Нападний"), matches[0].getSuggestedReplacements());
+
+    matches = rule.match(langTool.getAnalyzedSentence("Нападаючого"));
+    assertEquals(1, matches.length);
+    assertEquals(Arrays.asList("Нападник", "Нападальний", "Нападний"), matches[0].getSuggestedReplacements());
+  }
 }

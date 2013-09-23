@@ -40,121 +40,121 @@ import org.languagetool.rules.RuleMatch;
  */
 public class MixedAlphabetsRule extends Rule {
 
-	private static final Pattern LIKELY_LATIN_NUMBER = Pattern.compile("[XVIХІ]{2,8}");
-	private static final Pattern LATIN_NUMBER_WITH_CYRILLICS = Pattern.compile("Х{1,3}І{1,3}|І{1,3}Х{1,3}|Х{2,3}|І{2,3}");
-	private static final Pattern MIXED_ALPHABETS = Pattern.compile(".*([a-zA-Z]'?[а-яіїєґА-ЯІЇЄҐ]|[а-яіїєґА-ЯІЇЄҐ]'?[a-zA-Z]).*");
-	private static final Pattern CYRILLIC_ONLY = Pattern.compile(".*[бвгґдєжзйїлнпфцчшщьюяБГҐДЄЖЗИЙЇЛПФЦЧШЩЬЮЯ].*");
-	private static final Pattern LATIN_ONLY = Pattern.compile(".*[bdfghjlqrsvzDFGLNQRSUVZ].*");
+  private static final Pattern LIKELY_LATIN_NUMBER = Pattern.compile("[XVIХІ]{2,8}");
+  private static final Pattern LATIN_NUMBER_WITH_CYRILLICS = Pattern.compile("Х{1,3}І{1,3}|І{1,3}Х{1,3}|Х{2,3}|І{2,3}");
+  private static final Pattern MIXED_ALPHABETS = Pattern.compile(".*([a-zA-Z]'?[а-яіїєґА-ЯІЇЄҐ]|[а-яіїєґА-ЯІЇЄҐ]'?[a-zA-Z]).*");
+  private static final Pattern CYRILLIC_ONLY = Pattern.compile(".*[бвгґдєжзйїлнпфцчшщьюяБГҐДЄЖЗИЙЇЛПФЦЧШЩЬЮЯ].*");
+  private static final Pattern LATIN_ONLY = Pattern.compile(".*[bdfghjlqrsvzDFGLNQRSUVZ].*");
 
-	public MixedAlphabetsRule(final ResourceBundle messages) throws IOException {
-		if (messages != null) {
-			super.setCategory(new Category(messages.getString("category_misc")));
-		}
-	}
+  public MixedAlphabetsRule(final ResourceBundle messages) throws IOException {
+    if (messages != null) {
+      super.setCategory(new Category(messages.getString("category_misc")));
+    }
+  }
 
-	@Override
-	public final String getId() {
-		return "UK_MIXED_ALPHABETS";
-	}
+  @Override
+  public final String getId() {
+    return "UK_MIXED_ALPHABETS";
+  }
 
-	@Override
-	public String getDescription() {
-		return "Змішування кирилиці й латиниці";
-	}
+  @Override
+  public String getDescription() {
+    return "Змішування кирилиці й латиниці";
+  }
 
-	public String getShort() {
-		return "Мішанина розкладок";
-	}
+  public String getShort() {
+    return "Мішанина розкладок";
+  }
 
-	public String getSuggestion(String word) {
-		String highlighted = word.replaceAll("([a-zA-Z])([а-яіїєґА-ЯІЇЄҐ])", "$1/$2");
-		highlighted = highlighted.replaceAll("([а-яіїєґА-ЯІЇЄҐ])([a-zA-Z])", "$1/$2");
-		return " містить суміш кирилиці та латиниці: «"+ highlighted +"», виправлення: ";
-	}
+  public String getSuggestion(String word) {
+    String highlighted = word.replaceAll("([a-zA-Z])([а-яіїєґА-ЯІЇЄҐ])", "$1/$2");
+    highlighted = highlighted.replaceAll("([а-яіїєґА-ЯІЇЄҐ])([a-zA-Z])", "$1/$2");
+    return " містить суміш кирилиці та латиниці: «"+ highlighted +"», виправлення: ";
+  }
 
-	/**
-	 * Indicates if the rule is case-sensitive. 
-	 * @return true if the rule is case-sensitive, false otherwise.
-	 */
-	public boolean isCaseSensitive() {
-		return true;  
-	}
+  /**
+   * Indicates if the rule is case-sensitive. 
+   * @return true if the rule is case-sensitive, false otherwise.
+   */
+  public boolean isCaseSensitive() {
+    return true;  
+  }
 
-	@Override
-	public final RuleMatch[] match(final AnalyzedSentence text) {
-		List<RuleMatch> ruleMatches = new ArrayList<>();
-		AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
+  @Override
+  public final RuleMatch[] match(final AnalyzedSentence text) {
+    List<RuleMatch> ruleMatches = new ArrayList<>();
+    AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
 
-		for (AnalyzedTokenReadings tokenReadings: tokens) {
-			String tokenString = tokenReadings.getToken();
+    for (AnalyzedTokenReadings tokenReadings: tokens) {
+      String tokenString = tokenReadings.getToken();
 
-			if( MIXED_ALPHABETS.matcher(tokenString).matches() ) {
-			
-				List<String> replacements = new ArrayList<>();
+      if( MIXED_ALPHABETS.matcher(tokenString).matches() ) {
+      
+        List<String> replacements = new ArrayList<>();
 
-				if( ! LATIN_ONLY.matcher(tokenString).matches() && ! LIKELY_LATIN_NUMBER.matcher(tokenString).matches() ) {
-					replacements.add( toCyrillic(tokenString) );
-				}
-				if( ! CYRILLIC_ONLY.matcher(tokenString).matches() || LIKELY_LATIN_NUMBER.matcher(tokenString).matches() ) {
-					replacements.add( toLatin(tokenString) );
-				}
+        if( ! LATIN_ONLY.matcher(tokenString).matches() && ! LIKELY_LATIN_NUMBER.matcher(tokenString).matches() ) {
+          replacements.add( toCyrillic(tokenString) );
+        }
+        if( ! CYRILLIC_ONLY.matcher(tokenString).matches() || LIKELY_LATIN_NUMBER.matcher(tokenString).matches() ) {
+          replacements.add( toLatin(tokenString) );
+        }
 
-				if ( replacements.size() > 0 ) {
-					RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, replacements);
-					ruleMatches.add(potentialRuleMatch);
-				}
-			}
-			else if( LATIN_NUMBER_WITH_CYRILLICS.matcher(tokenString).matches() ) {
-				List<String> replacements = new ArrayList<>();
-				replacements.add( toLatin(tokenString) );
+        if ( replacements.size() > 0 ) {
+          RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, replacements);
+          ruleMatches.add(potentialRuleMatch);
+        }
+      }
+      else if( LATIN_NUMBER_WITH_CYRILLICS.matcher(tokenString).matches() ) {
+        List<String> replacements = new ArrayList<>();
+        replacements.add( toLatin(tokenString) );
 
-				RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, replacements);
-				ruleMatches.add(potentialRuleMatch);
-			}
-		}
-		return toRuleMatchArray(ruleMatches);
-	}
+        RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, replacements);
+        ruleMatches.add(potentialRuleMatch);
+      }
+    }
+    return toRuleMatchArray(ruleMatches);
+  }
 
-	private RuleMatch createRuleMatch(AnalyzedTokenReadings tokenReadings, List<String> replacements) {
-		String tokenString = tokenReadings.getToken();
-		String msg = tokenString + getSuggestion(tokenString) + StringUtils.join(replacements, ", ");
-		int pos = tokenReadings.getStartPos();
+  private RuleMatch createRuleMatch(AnalyzedTokenReadings tokenReadings, List<String> replacements) {
+    String tokenString = tokenReadings.getToken();
+    String msg = tokenString + getSuggestion(tokenString) + StringUtils.join(replacements, ", ");
+    int pos = tokenReadings.getStartPos();
 
-		RuleMatch potentialRuleMatch = new RuleMatch(this, pos, pos + tokenString.length(), msg, getShort());
+    RuleMatch potentialRuleMatch = new RuleMatch(this, pos, pos + tokenString.length(), msg, getShort());
 
-		potentialRuleMatch.setSuggestedReplacements(replacements);
+    potentialRuleMatch.setSuggestedReplacements(replacements);
 
-		return potentialRuleMatch;
-	}
+    return potentialRuleMatch;
+  }
 
-	@Override
-	public void reset() {
-	}
+  @Override
+  public void reset() {
+  }
 
-	private static final HashMap<Character, Character> toLatMap = new HashMap<>();
-	private static final HashMap<Character, Character> toCyrMap = new HashMap<>();
-	private static final String cyrChars = "аеікморстухАВЕІКМНОРСТУХ";
-	private static final String latChars = "aeikmopctyxABEIKMHOPCTYX";
+  private static final HashMap<Character, Character> toLatMap = new HashMap<>();
+  private static final HashMap<Character, Character> toCyrMap = new HashMap<>();
+  private static final String cyrChars = "аеікморстухАВЕІКМНОРСТУХ";
+  private static final String latChars = "aeikmopctyxABEIKMHOPCTYX";
 
-	static {
-		for(int i=0; i<cyrChars.length(); i++) {
-			toLatMap.put(cyrChars.charAt(i), latChars.charAt(i));
-			toCyrMap.put(latChars.charAt(i), cyrChars.charAt(i));
-		}
-	}
+  static {
+    for(int i=0; i<cyrChars.length(); i++) {
+      toLatMap.put(cyrChars.charAt(i), latChars.charAt(i));
+      toCyrMap.put(latChars.charAt(i), cyrChars.charAt(i));
+    }
+  }
 
-	private static String toCyrillic(String word) {
-		for(Map.Entry<Character, Character> entry: toCyrMap.entrySet()) {
-			word = word.replace(entry.getKey(), entry.getValue());
-		}
-		return word;
-	}
+  private static String toCyrillic(String word) {
+    for(Map.Entry<Character, Character> entry: toCyrMap.entrySet()) {
+      word = word.replace(entry.getKey(), entry.getValue());
+    }
+    return word;
+  }
 
-	private static String toLatin(String word) {
-		for(Map.Entry<Character, Character> entry: toLatMap.entrySet()) {
-			word = word.replace(entry.getKey(), entry.getValue());
-		}
-		return word;
-	}
+  private static String toLatin(String word) {
+    for(Map.Entry<Character, Character> entry: toLatMap.entrySet()) {
+      word = word.replace(entry.getKey(), entry.getValue());
+    }
+    return word;
+  }
 
 }

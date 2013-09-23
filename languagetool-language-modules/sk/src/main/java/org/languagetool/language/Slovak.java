@@ -95,9 +95,9 @@ public class Slovak extends Language {
   
   @Override
   public Contributor[] getMaintainers() {
-  	final Contributor contributor = new Contributor("Zdenko Podobný");
-	  contributor.setUrl("http://sk-spell.sk.cx");
-	  return new Contributor[] { contributor };
+    final Contributor contributor = new Contributor("Zdenko Podobný");
+    contributor.setUrl("http://sk-spell.sk.cx");
+    return new Contributor[] { contributor };
   }
 
   @Override

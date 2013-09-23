@@ -140,28 +140,28 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
    * @since 2.3
    */
   public DisambiguatorAction getAction() {
-	return disAction;
+    return disAction;
   }
 
   /**
    * @since 2.3
    */
   public AnalyzedToken[] getNewTokenReadings() {
-	return newTokenReadings;
+    return newTokenReadings;
   }
 
   /**
    * @since 2.3
    */
   public Match getMatchElement() {
-	return matchElement;
+    return matchElement;
   }
 
   /**
    * @since 2.3
    */
   public String getDisambiguatedPOS() {
-	return disambiguatedPOS;
+    return disambiguatedPOS;
   }
 
 }

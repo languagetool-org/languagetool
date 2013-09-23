@@ -117,7 +117,7 @@ public class HTTPServerTest {
     //test for no changed if no options set
     final String[] nothing = new String[0];
     assertEquals(check(english, german, "We will berate you"), 
-    		checkWithOptions(english, german, "We will berate you", nothing, nothing, false));
+        checkWithOptions(english, german, "We will berate you", nothing, nothing, false));
     
     //disabling
     final String[] disableAvsAn = new String[1];

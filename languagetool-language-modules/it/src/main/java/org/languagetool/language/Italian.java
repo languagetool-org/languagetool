@@ -87,7 +87,7 @@ public class Italian extends Language {
   public List<Class<? extends Rule>> getRelevantRules() {
     return Arrays.asList(
 // 3607406 +
-    		WhitespaceBeforePunctuationRule.class,
+            WhitespaceBeforePunctuationRule.class,
 // 3607406 -
             CommaWhitespaceRule.class,
             DoublePunctuationRule.class,

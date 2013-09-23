@@ -46,8 +46,8 @@ public class CgSet {
     
     // copy constructor
     public CgSet(CgSet from) {
-    	if (from == null) {
-    		this.number = 0;
+      if (from == null) {
+        this.number = 0;
             this.line = 0;
             this.hash = 0;
             this.name = null;
@@ -61,8 +61,8 @@ public class CgSet {
             this.set_ops = new ArrayList<Integer>();
             this.tags_list = new ArrayList<CgCompositeTag.AnyTag>();
             this.ff_tags = new HashSet<CgTag>();
-    	} else {
-    		this.tags_list = from.tags_list;	// i never use this anyway
+      } else {
+        this.tags_list = from.tags_list;  // i never use this anyway
             this.tags = new HashSet<CgCompositeTag>(from.tags);
             this.single_tags = new HashSet<CgTag>(from.single_tags);
             this.single_tags_hash = from.single_tags_hash;
@@ -76,202 +76,202 @@ public class CgSet {
             this.type = from.type;
             this.line = from.line;
             this.hashContents();
-    	}
-    	
+      }
+      
     }
     
     // Get methods used by CgRuleConverter class
     
     public CgCompositeTag[] getCompositeTags() {
-    	ArrayList<CgCompositeTag> tags = new ArrayList<CgCompositeTag>();
-    	if (!this.tags.isEmpty()) {
-    		for (CgCompositeTag ctag : this.tags) {
-    			if (!CgRuleConverter.isCompositePostag(ctag)) {
-    				tags.add(ctag);
-    			}
-    		}
-    	}
-    	return tags.toArray(new CgCompositeTag[tags.size()]);
+      ArrayList<CgCompositeTag> tags = new ArrayList<CgCompositeTag>();
+      if (!this.tags.isEmpty()) {
+        for (CgCompositeTag ctag : this.tags) {
+          if (!CgRuleConverter.isCompositePostag(ctag)) {
+            tags.add(ctag);
+          }
+        }
+      }
+      return tags.toArray(new CgCompositeTag[tags.size()]);
     }
     
     public CgCompositeTag[] getCompositePostags() {
-    	ArrayList<CgCompositeTag> postags = new ArrayList<CgCompositeTag>();
-    	if (!this.tags.isEmpty()) {
-    		for (CgCompositeTag ctag : this.tags) {
-    			if (CgRuleConverter.isCompositePostag(ctag)) {
-    				postags.add(ctag);
-    			}
-    		}
-    	}
-    	return postags.toArray(new CgCompositeTag[postags.size()]);
+      ArrayList<CgCompositeTag> postags = new ArrayList<CgCompositeTag>();
+      if (!this.tags.isEmpty()) {
+        for (CgCompositeTag ctag : this.tags) {
+          if (CgRuleConverter.isCompositePostag(ctag)) {
+            postags.add(ctag);
+          }
+        }
+      }
+      return postags.toArray(new CgCompositeTag[postags.size()]);
     }
     
     public String[] getSingleTagPostagsString() {
-    	ArrayList<String> postags = new ArrayList<String>();
-    	if (!this.single_tags.isEmpty()) {
-    		for (CgTag tag : this.single_tags) {
-    			if (CgRuleConverter.isPostag(tag.tag)) {
-    				postags.add(tag.tag);
-    			}
-    		}
-    	}
-    	return postags.toArray(new String[postags.size()]);
+      ArrayList<String> postags = new ArrayList<String>();
+      if (!this.single_tags.isEmpty()) {
+        for (CgTag tag : this.single_tags) {
+          if (CgRuleConverter.isPostag(tag.tag)) {
+            postags.add(tag.tag);
+          }
+        }
+      }
+      return postags.toArray(new String[postags.size()]);
     }
     
     public CgTag[] getSingleTagPostags() {
-    	ArrayList<CgTag> postags = new ArrayList<CgTag>();
-    	if (!this.single_tags.isEmpty()) {
-    		for (CgTag tag : this.single_tags) {
-    			if (CgRuleConverter.isPostag(tag.tag)) postags.add(tag);
-    		}
-    	}
-    	return postags.toArray(new CgTag[postags.size()]);
+      ArrayList<CgTag> postags = new ArrayList<CgTag>();
+      if (!this.single_tags.isEmpty()) {
+        for (CgTag tag : this.single_tags) {
+          if (CgRuleConverter.isPostag(tag.tag)) postags.add(tag);
+        }
+      }
+      return postags.toArray(new CgTag[postags.size()]);
     }
     
     public String[] getSingleTagBaseformsString() {
-    	ArrayList<String> forms = new ArrayList<String>();
-    	if (!this.single_tags.isEmpty()) {
-    		for (CgTag tag : this.single_tags) {
-    			String tagtag = tag.tag;
-    			if (CgRuleConverter.isBaseForm(tagtag)) forms.add(tagtag);
-    		}
-    	}
-    	return forms.toArray(new String[forms.size()]);
+      ArrayList<String> forms = new ArrayList<String>();
+      if (!this.single_tags.isEmpty()) {
+        for (CgTag tag : this.single_tags) {
+          String tagtag = tag.tag;
+          if (CgRuleConverter.isBaseForm(tagtag)) forms.add(tagtag);
+        }
+      }
+      return forms.toArray(new String[forms.size()]);
     }
     
     public CgTag[] getSingleTagBaseforms() {
-    	ArrayList<CgTag> forms = new ArrayList<CgTag>();
-    	if (!this.single_tags.isEmpty()) {
-    		for (CgTag tag : this.single_tags) {
-    			if (CgRuleConverter.isBaseForm(tag.tag)) forms.add(tag);
-    		}
-    	}
-    	return forms.toArray(new CgTag[forms.size()]);
+      ArrayList<CgTag> forms = new ArrayList<CgTag>();
+      if (!this.single_tags.isEmpty()) {
+        for (CgTag tag : this.single_tags) {
+          if (CgRuleConverter.isBaseForm(tag.tag)) forms.add(tag);
+        }
+      }
+      return forms.toArray(new CgTag[forms.size()]);
     }
     
     public String[] getSingleTagSurfaceformsString() {
-    	ArrayList<String> forms = new ArrayList<String>();
-    	if (!this.single_tags.isEmpty()) {
-    		for (CgTag tag : this.single_tags) {
-    			String tagtag = tag.tag;
-    			if (CgRuleConverter.isSurfaceForm(tagtag)) forms.add(tagtag);
-    		}
-    	}
-    	return forms.toArray(new String[forms.size()]);
+      ArrayList<String> forms = new ArrayList<String>();
+      if (!this.single_tags.isEmpty()) {
+        for (CgTag tag : this.single_tags) {
+          String tagtag = tag.tag;
+          if (CgRuleConverter.isSurfaceForm(tagtag)) forms.add(tagtag);
+        }
+      }
+      return forms.toArray(new String[forms.size()]);
     }
     
     public CgTag[] getSingleTagSurfaceforms() {
-    	ArrayList<CgTag> forms = new ArrayList<CgTag>();
-    	if (!this.single_tags.isEmpty()) {
-    		for (CgTag tag : this.single_tags) {
-    			String tagtag = tag.tag;
-    			if (CgRuleConverter.isSurfaceForm(tagtag)) forms.add(tag);
-    		}
-    	}
-    	return forms.toArray(new CgTag[forms.size()]);
+      ArrayList<CgTag> forms = new ArrayList<CgTag>();
+      if (!this.single_tags.isEmpty()) {
+        for (CgTag tag : this.single_tags) {
+          String tagtag = tag.tag;
+          if (CgRuleConverter.isSurfaceForm(tagtag)) forms.add(tag);
+        }
+      }
+      return forms.toArray(new CgTag[forms.size()]);
     }
     
     public String[] getPostagsString() {
-    	ArrayList<String> tags = new ArrayList<String>();
-    	if (!this.single_tags.isEmpty()) {
-    		for (CgTag tag : this.single_tags) {
-    			if (CgRuleConverter.isPostag(tag.tag)) {
-    				tags.add(CgRuleConverter.tagToString(tag));
-    			}
-    		}
-    	}
-    	if (!this.tags.isEmpty()) {
-    		for (CgCompositeTag ctag : this.tags) {
-    			if (CgRuleConverter.isCompositePostag(ctag)) {
-    				tags.add(CgRuleConverter.compositePostagToString(ctag));
-    			}
-    		}
-    	}
-    	return tags.toArray(new String[tags.size()]);
+      ArrayList<String> tags = new ArrayList<String>();
+      if (!this.single_tags.isEmpty()) {
+        for (CgTag tag : this.single_tags) {
+          if (CgRuleConverter.isPostag(tag.tag)) {
+            tags.add(CgRuleConverter.tagToString(tag));
+          }
+        }
+      }
+      if (!this.tags.isEmpty()) {
+        for (CgCompositeTag ctag : this.tags) {
+          if (CgRuleConverter.isCompositePostag(ctag)) {
+            tags.add(CgRuleConverter.compositePostagToString(ctag));
+          }
+        }
+      }
+      return tags.toArray(new String[tags.size()]);
     }
     
     
     // these should never really be used
     
     public ArrayList<String> getSurfaceFormsString(CgGrammar grammar) {
-    	ArrayList<String> forms = new ArrayList<String>();
-    	if (!this.single_tags.isEmpty()) {
-    		for (CgTag tag : this.single_tags) {
-    			String tagtag = tag.tag;
-    			if (CgRuleConverter.isSurfaceForm(tagtag)) {
-    				forms.add(tagtag);
-    			}
-    		}
-    	}
-    	if (!this.tags.isEmpty()) {
-    		for (CgCompositeTag ctag : this.tags) {
-    			for (CgTag tag : ctag.tags) {
-    				String tagtag = tag.tag;
-    				if (CgRuleConverter.isSurfaceForm(tagtag)) {
-    					forms.add(tagtag);
-    				}
-    			}
-    		}
-    	}
-    	if (!this.sets.isEmpty()) {
-    		for (int setint : this.sets) {
-    			ArrayList<String> setForms = grammar.getSet(setint).getSurfaceFormsString(grammar);
-    			for (String setForm : setForms) {
-    				forms.add(setForm);
-    			}
-    		}
-    	}
-    	return forms;
+      ArrayList<String> forms = new ArrayList<String>();
+      if (!this.single_tags.isEmpty()) {
+        for (CgTag tag : this.single_tags) {
+          String tagtag = tag.tag;
+          if (CgRuleConverter.isSurfaceForm(tagtag)) {
+            forms.add(tagtag);
+          }
+        }
+      }
+      if (!this.tags.isEmpty()) {
+        for (CgCompositeTag ctag : this.tags) {
+          for (CgTag tag : ctag.tags) {
+            String tagtag = tag.tag;
+            if (CgRuleConverter.isSurfaceForm(tagtag)) {
+              forms.add(tagtag);
+            }
+          }
+        }
+      }
+      if (!this.sets.isEmpty()) {
+        for (int setint : this.sets) {
+          ArrayList<String> setForms = grammar.getSet(setint).getSurfaceFormsString(grammar);
+          for (String setForm : setForms) {
+            forms.add(setForm);
+          }
+        }
+      }
+      return forms;
     }
     
     public ArrayList<String> getBaseformsString(CgGrammar grammar) {
-    	ArrayList<String> forms = new ArrayList<String>();
-    	if (!this.single_tags.isEmpty()) {
-    		for (CgTag tag : this.single_tags) {
-    			String tagtag = tag.tag;
-    			if (CgRuleConverter.isBaseForm(tagtag)) {
-    				forms.add(tagtag);
-    			}
-    		}
-    	}
-    	if (!this.tags.isEmpty()) {
-    		for (CgCompositeTag ctag : this.tags) {
-    			for (CgTag tag : ctag.tags) {
-    				String tagtag = tag.tag;
-    				if (CgRuleConverter.isBaseForm(tagtag)) {
-    					forms.add(tagtag);
-    				}
-    			}
-    		}
-    	}
-    	if (!this.sets.isEmpty()) {
-    		for (int setint : this.sets) {
-    			ArrayList<String> setForms = grammar.getSet(setint).getBaseformsString(grammar);
-    			for (String setForm : setForms) {
-    				forms.add(setForm);
-    			}
-    		}
-    	}
-    	return forms;
+      ArrayList<String> forms = new ArrayList<String>();
+      if (!this.single_tags.isEmpty()) {
+        for (CgTag tag : this.single_tags) {
+          String tagtag = tag.tag;
+          if (CgRuleConverter.isBaseForm(tagtag)) {
+            forms.add(tagtag);
+          }
+        }
+      }
+      if (!this.tags.isEmpty()) {
+        for (CgCompositeTag ctag : this.tags) {
+          for (CgTag tag : ctag.tags) {
+            String tagtag = tag.tag;
+            if (CgRuleConverter.isBaseForm(tagtag)) {
+              forms.add(tagtag);
+            }
+          }
+        }
+      }
+      if (!this.sets.isEmpty()) {
+        for (int setint : this.sets) {
+          ArrayList<String> setForms = grammar.getSet(setint).getBaseformsString(grammar);
+          for (String setForm : setForms) {
+            forms.add(setForm);
+          }
+        }
+      }
+      return forms;
     }
     
     public ArrayList<String> getPostagsString(CgGrammar grammar) {
-    	ArrayList<String> postags = new ArrayList<String>();
-    	if (!this.single_tags.isEmpty()) {
-    		for (CgTag tag : this.single_tags) {
-    			if (CgRuleConverter.isPostag(tag.tag)) {
-    				postags.add(tag.tag);
-    			}
-    		}
-    	}
-    	if (!this.tags.isEmpty()) {
-    		for (CgCompositeTag ctag : this.tags) {
-    			if (CgRuleConverter.isCompositePostag(ctag)) {
-    				postags.add(ctag.toString());
-    			}
-    		}
-    	}
-    	return postags;
+      ArrayList<String> postags = new ArrayList<String>();
+      if (!this.single_tags.isEmpty()) {
+        for (CgTag tag : this.single_tags) {
+          if (CgRuleConverter.isPostag(tag.tag)) {
+            postags.add(tag.tag);
+          }
+        }
+      }
+      if (!this.tags.isEmpty()) {
+        for (CgCompositeTag ctag : this.tags) {
+          if (CgRuleConverter.isCompositePostag(ctag)) {
+            postags.add(ctag.toString());
+          }
+        }
+      }
+      return postags;
     }
     
     public String toString(CgGrammar grammar) {

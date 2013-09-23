@@ -149,7 +149,7 @@ public class GermanTaggerTest extends TestCase {
 
     List<AnalyzedTokenReadings> readings = tagger.tag(upperCaseWord);
     assertEquals("[Das[der/ART:DEF:AKK:SIN:NEU*,der/ART:DEF:NOM:SIN:NEU*," +
-    		"der/PRO:DEM:AKK:SIN:NEU*,der/PRO:DEM:NOM:SIN:NEU*,der/PRO:PER:AKK:SIN:NEU*,der/PRO:PER:NOM:SIN:NEU*]]", readings.toString());
+        "der/PRO:DEM:AKK:SIN:NEU*,der/PRO:DEM:NOM:SIN:NEU*,der/PRO:PER:AKK:SIN:NEU*,der/PRO:PER:NOM:SIN:NEU*]]", readings.toString());
     
     readings = tagger.tag(upperCaseWord, false);
     assertEquals("[Das[null/null*]]", readings.toString());
@@ -160,7 +160,7 @@ public class GermanTaggerTest extends TestCase {
     final GermanTagger tagger = new GermanTagger();
     final List<AnalyzedTokenReadings> readings = tagger.tag(Collections.singletonList("Wichtigtuerinnen"));
     assertEquals("[Wichtigtuerinnen[Wichtigtuerin/SUB:AKK:PLU:FEM*," +
-    		"Wichtigtuerin/SUB:DAT:PLU:FEM*,Wichtigtuerin/SUB:GEN:PLU:FEM*,Wichtigtuerin/SUB:NOM:PLU:FEM*]]", readings.toString());
+        "Wichtigtuerin/SUB:DAT:PLU:FEM*,Wichtigtuerin/SUB:GEN:PLU:FEM*,Wichtigtuerin/SUB:NOM:PLU:FEM*]]", readings.toString());
   }
 
   public void testDictionary() throws IOException {

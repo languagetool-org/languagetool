@@ -84,13 +84,13 @@ public class KhmerWordRepeatRule extends Rule {
         //     length of the prev token, the repetition msg, and the short version of the repetition msg
         //     This results in the specific violation of the rule being shown in the popup
         // LEN Note: not multiple rules, but multiple suggestions, therefore we need to
-        //     use RuleMatch.setSuggestedReplacements(final List<String> replacement)		
+        //     use RuleMatch.setSuggestedReplacements(final List<String> replacement)
         final RuleMatch ruleMatch = new RuleMatch(this, prevPos, pos+prevToken.length(), msg,
                 messages.getString("desc_repetition_short"));
         final List<String> replacementSuggs = new ArrayList<>(); // LEN create empty list of suggestion strings
-        replacementSuggs.add(prevToken+" "+token);	// LEN case 1: replace zero-width space w/ real space 
-        replacementSuggs.add(prevToken);			// LEN case 2: remove repeated word - same as original suggestion 
-        replacementSuggs.add(prevToken+"ៗ");			// LEN case 3: same as case 2, just add "repetition character"
+        replacementSuggs.add(prevToken+" "+token);  // LEN case 1: replace zero-width space w/ real space 
+        replacementSuggs.add(prevToken);      // LEN case 2: remove repeated word - same as original suggestion 
+        replacementSuggs.add(prevToken+"ៗ");      // LEN case 3: same as case 2, just add "repetition character"
         ruleMatch.setSuggestedReplacements(replacementSuggs); // LEN the suggestions to use
         ruleMatches.add(ruleMatch); // LEN add rule to list of rules
       }

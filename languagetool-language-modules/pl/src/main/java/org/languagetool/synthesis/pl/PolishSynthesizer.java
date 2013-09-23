@@ -90,7 +90,7 @@ public class PolishSynthesizer implements Synthesizer {
     if (posTagRegExp) {
       if (possibleTags == null) {
         possibleTags = SynthesizerTools.loadWords(JLanguageTool.getDataBroker().
-        		getFromResourceDirAsStream(TAGS_FILE_NAME));
+            getFromResourceDirAsStream(TAGS_FILE_NAME));
       }
       if (synthesizer == null) {
         final URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(RESOURCE_FILENAME);

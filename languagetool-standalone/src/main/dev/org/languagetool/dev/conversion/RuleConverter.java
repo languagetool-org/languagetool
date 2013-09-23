@@ -31,7 +31,7 @@ import org.languagetool.JLanguageTool;
 
 public abstract class RuleConverter {
 
-	// indent strings
+    // indent strings
     protected static final String firstIndent = "  ";
     protected static final String secondIndent = "    ";
     protected static final String thirdIndent = "      ";
@@ -51,7 +51,7 @@ public abstract class RuleConverter {
     protected ArrayList<List<String>> ltRules;
     protected ArrayList<List<String>> disambiguationRules;
     protected ArrayList<String> originalRuleStrings;
-    protected ArrayList<String[]> warnings;	// list as long as allLtRules containing warning strings generating during rule conversion process
+    protected ArrayList<String[]> warnings;  // list as long as allLtRules containing warning strings generating during rule conversion process
     
     // for auto-generating Id and name attributes
     protected int idIndex;
@@ -81,8 +81,8 @@ public abstract class RuleConverter {
     
     // basic constructor
     public RuleConverter() {  
-    	idIndex = 0;
-    	nameIndex = 0;
+      idIndex = 0;
+      nameIndex = 0;
     }
     
     // constructor with input and output rule files
@@ -170,58 +170,58 @@ public abstract class RuleConverter {
      * @return
      */
     protected static ArrayList<String> addToken(ArrayList<String> orig, String token, String postag, String exceptions, 
-    											boolean careful, boolean inflected, boolean negate, int skip, int indent) {
+                          boolean careful, boolean inflected, boolean negate, int skip, int indent) {
         String space = getSpace(indent);
         
         // fix the case of the "everything" token
         if (token.equals(".*")) {
-        	token = "";
+          token = "";
         }
         
         String inflectedString = "";
         if (inflected) {
-        	inflectedString = " inflected=\"yes\"";
+          inflectedString = " inflected=\"yes\"";
         }
         String skipString = "";
         if (skip == -1) {
-        	skipString = " skip=\"-1\"";
+          skipString = " skip=\"-1\"";
         }
         String regexpString = "";
         if (isRegex(token)) {
-        	regexpString = " regexp=\"yes\"";
+          regexpString = " regexp=\"yes\"";
         }
         String exceptionString = "";
         if (exceptions != null) {
-        	if (exceptions.contains("<exception")) {
-        		exceptionString = exceptions;
-        	} else {
-        		exceptionString = "<exception regexp=\"yes\">" + exceptions + "</exception>";
-        	}
+          if (exceptions.contains("<exception")) {
+            exceptionString = exceptions;
+          } else {
+            exceptionString = "<exception regexp=\"yes\">" + exceptions + "</exception>";
+          }
         }
         String postagRegexp = "";
         if (isRegex(postag)) {
-        	postagRegexp = " postag_regexp=\"yes\"";
+          postagRegexp = " postag_regexp=\"yes\"";
         }
         String postagString = "";
         if (postag != null) {
-        	if (!postag.isEmpty()) {
-        		postagString = " postag=\"" + postag + "\"";
-        	}
+          if (!postag.isEmpty()) {
+            postagString = " postag=\"" + postag + "\"";
+          }
         }
         String carefulString = "";
         if (careful) {
-        	carefulString = "<exception" + postagString + postagRegexp + " negate_pos=\"yes\"/>";
+          carefulString = "<exception" + postagString + postagRegexp + " negate_pos=\"yes\"/>";
         }
         String negateString = "";
         if (!token.isEmpty() && negate) {
-        	negateString = " negate=\"yes\"";
+          negateString = " negate=\"yes\"";
         }
         String negatePosString = "";
         if (!postagString.isEmpty() && negate) {
-        	negatePosString = " negate_pos=\"yes\"";
+          negatePosString = " negate_pos=\"yes\"";
         }
         
-       	orig.add(space + "<token" + inflectedString + skipString + regexpString + postagString + postagRegexp + negateString + negatePosString + ">" + token + carefulString + exceptionString + "</token>");
+         orig.add(space + "<token" + inflectedString + skipString + regexpString + postagString + postagRegexp + negateString + negatePosString + ">" + token + carefulString + exceptionString + "</token>");
         
         return orig;
     }
@@ -234,7 +234,7 @@ public abstract class RuleConverter {
         Scanner in = null;
         InputStream is;
         try {
-        	is = JLanguageTool.getDataBroker().getFromResourceDirAsStream(filename);
+          is = JLanguageTool.getDataBroker().getFromResourceDirAsStream(filename);
             in = new Scanner(is);
             while (in.hasNextLine()) {
                 String line = in.nextLine();
@@ -259,9 +259,9 @@ public abstract class RuleConverter {
      */
     protected static boolean isRegex(String e) {
         if (e == null) {
-        	return false;
+          return false;
         } 
-    	Matcher m = regex.matcher(e);
+      Matcher m = regex.matcher(e);
         return m.find();        
     }
     
@@ -274,49 +274,49 @@ public abstract class RuleConverter {
     }
     
     public static String getRuleStringFromList(List<String> rule) {
-    	StringBuilder sb = new StringBuilder();
-    	for (String line : rule) {
-    		sb.append(line);
-    		sb.append('\n');
-    	}
-    	return sb.toString();
+      StringBuilder sb = new StringBuilder();
+      for (String line : rule) {
+        sb.append(line);
+        sb.append('\n');
+      }
+      return sb.toString();
     }
     
     // ** Helpers to "or" sets of words together
     
     public static String glueWords(ArrayList<String> words) {
-		StringBuilder sb = new StringBuilder();
-		if (words == null) {
-			return "";
-		}
-		for (String word : words) {
-			sb.append(word);
-			sb.append("|");
-		}
-		String str = sb.toString();
-		if (str.length() > 1) {
-			return str.substring(0,str.length()-1);
-		} else {
-			return str;
-		}
-	}
-	
-	public static String glueWords(String[] words) {
-		StringBuilder sb = new StringBuilder();
-		if (words == null) {
-			return "";
-		}
-		for (String word : words) {
-			sb.append(word);
-			sb.append("|");
-		}
-		String str = sb.toString();
-		if (str.length() > 1) {
-			return str.substring(0,str.length()-1);
-		} else {
-			return str;
-		}
-	}
+    StringBuilder sb = new StringBuilder();
+    if (words == null) {
+      return "";
+    }
+    for (String word : words) {
+      sb.append(word);
+      sb.append("|");
+    }
+    String str = sb.toString();
+    if (str.length() > 1) {
+      return str.substring(0,str.length()-1);
+    } else {
+      return str;
+    }
+  }
+  
+  public static String glueWords(String[] words) {
+    StringBuilder sb = new StringBuilder();
+    if (words == null) {
+      return "";
+    }
+    for (String word : words) {
+      sb.append(word);
+      sb.append("|");
+    }
+    String str = sb.toString();
+    if (str.length() > 1) {
+      return str.substring(0,str.length()-1);
+    } else {
+      return str;
+    }
+  }
     
     
     

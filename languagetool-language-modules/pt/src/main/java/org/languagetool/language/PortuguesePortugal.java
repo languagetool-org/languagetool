@@ -20,14 +20,14 @@ package org.languagetool.language;
 
 public class PortuguesePortugal extends Portuguese {
 
-	  @Override
-	  public String getName() {
-	    return "Portuguese (Portugal)";
-	  }
+  @Override
+  public String getName() {
+    return "Portuguese (Portugal)";
+  }
 
-	  @Override
-	  public String[] getCountries() {
-	    return new String[]{"PT"};
-	  }
+  @Override
+  public String[] getCountries() {
+    return new String[]{"PT"};
+  }
 
 }

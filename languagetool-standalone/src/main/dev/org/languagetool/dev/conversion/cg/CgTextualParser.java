@@ -17,9 +17,9 @@ import org.languagetool.dev.conversion.cg.CgStrings.STRINGS;
 
 public class CgTextualParser {
     
-	// TODO: although this method mostly works, it needs a lot of cleanup and checking before it
-	// can be considered a good port of the C++ VISL CG3 TextualParser class
-	
+    // TODO: although this method mostly works, it needs a lot of cleanup and checking before it
+    // can be considered a good port of the C++ VISL CG3 TextualParser class
+  
     // variables
     private int verbosity_level;
     private int sets_counter;
@@ -53,7 +53,7 @@ public class CgTextualParser {
     public CgTextualParser(CgGrammar result, File file) {
         this.result = result;
         // must reinclude this if we decide to let it write to a file
-        // this.ux_stderr = file;	
+        // this.ux_stderr = file;
         option_vislcg_compat = false;
         in_after_sections = false;
         in_before_sections = false;
@@ -168,7 +168,7 @@ public class CgTextualParser {
             result.addSet(set_c);
         }
         
-        int error = parseFromChar(filename);	// really the main method of the parsing
+        int error = parseFromChar(filename);  // really the main method of the parsing
         if (error != 0) {
             return error;
         }
@@ -1000,7 +1000,7 @@ public class CgTextualParser {
                     ++index;
                     
                     if (tags.size() == 1) {
-                        s.addTag(tags.get(tags.size()-1));	// these methods are my own - slightly different from those in the original C++ code
+                        s.addTag(tags.get(tags.size()-1));  // these methods are my own - slightly different from those in the original C++ code
                     } else {
                         CgCompositeTag ct = result.allocateCompositeTag();
                         for (int i=0;i<tags.size();i++) {
@@ -1117,10 +1117,10 @@ public class CgTextualParser {
                     if (!set_ops.isEmpty() && (set_ops.get(set_ops.size()-1) == STRINGS.S_SET_ISECT_U.value || 
                             set_ops.get(set_ops.size()-1) == STRINGS.S_SET_SYMDIFF_U.value)) {
                         // composite sets
-                    	// sets with the intersection/symmetric different operators
-                    	// haven't really tested this.
-                    	System.out.println("Warning: intersection and symmetric difference with sets may not work correctly");
-                    	
+                      // sets with the intersection/symmetric different operators
+                      // haven't really tested this.
+                      System.out.println("Warning: intersection and symmetric difference with sets may not work correctly");
+                      
                         final HashSet<CgCompositeTag.AnyTag> a = result.getSet(sets.get(sets.size()-1)).getTagList(result);
                         final HashSet<CgCompositeTag.AnyTag> b = result.getSet(sets.get(sets.size()-2)).getTagList(result);
                     
@@ -1432,16 +1432,16 @@ public class CgTextualParser {
      */
     private CgRule parseContextualTestList(CgRule rule) {
         if (inLinkedTest) {
-        	// if there's a previous linked test, link them together and add them to the HashMap
-        	if (!linkedTests.isEmpty()) {
-        		CgContextualTest lastTest = rule.test_map.get(linkedTests.get(linkedTests.size()-1));
-        		lastTest.next = currentTest.hashCode();
-        		linkedTests.remove(linkedTests.get(linkedTests.size()-1));
-        		linkedTests.add(lastTest.hashCode());
-        		currentTest.prev = lastTest.hashCode();
-        		rule.test_map.put(currentTest.hashCode(), currentTest);
-        		rule.test_map.put(lastTest.hashCode(),lastTest);
-        	} 
+          // if there's a previous linked test, link them together and add them to the HashMap
+          if (!linkedTests.isEmpty()) {
+            CgContextualTest lastTest = rule.test_map.get(linkedTests.get(linkedTests.size()-1));
+            lastTest.next = currentTest.hashCode();
+            linkedTests.remove(linkedTests.get(linkedTests.size()-1));
+            linkedTests.add(lastTest.hashCode());
+            currentTest.prev = lastTest.hashCode();
+            rule.test_map.put(currentTest.hashCode(), currentTest);
+            rule.test_map.put(lastTest.hashCode(),lastTest);
+          } 
             linkedTests.add(currentTest.hashCode());
             rule.test_map.put(currentTest.hashCode(), currentTest);
         } else {
@@ -1486,8 +1486,8 @@ public class CgTextualParser {
             // if it's empty, there's going to be another contextual test, like in the case
             // ((NOT 1 NOUN) OR (2 VERB))
             if (parentTest != null) {
-            	System.err.println("Can't have two nested tests on line " + result.lines + "\nTry splitting it up.");
-            	System.exit(1);
+              System.err.println("Can't have two nested tests on line " + result.lines + "\nTry splitting it up.");
+              System.exit(1);
             }
             parentTest = currentTest;
             inParentTest = true;
@@ -1502,9 +1502,9 @@ public class CgTextualParser {
                 // add either the currentTest or the head of the linked tests to the 
                 // parentTest's "ors" list
                 if (linkedTests.isEmpty()) {
-                	parentTest.ors.add(currentTest.hashCode());
+                  parentTest.ors.add(currentTest.hashCode());
                 } else {
-                	parentTest.ors.add(linkedTests.get(0));
+                  parentTest.ors.add(linkedTests.get(0));
                 }
                 result.lines += SKIPWS((char)0,(char)0);
                 // OR
@@ -1521,7 +1521,7 @@ public class CgTextualParser {
         }
         else if (str.compareToIgnoreCase("[") == 0) {
             System.out.println("Warning: this feature may not work correctly in this implementation");
-        	++index;
+            ++index;
             result.lines += SKIPWS((char)0,(char)0);
             CgSet s1 = parseSetInlineWrapper();
             currentTest.offset = 1;
@@ -1624,22 +1624,22 @@ public class CgTextualParser {
         // if we're in a linked test environment, add the current test to the linkedTests
         // list and link them up correctly
         if (!linkedTests.isEmpty()) {
-        	CgContextualTest lastTest = rule.test_map.get(linkedTests.get(linkedTests.size()-1));
-        	lastTest.next = currentTest.hashCode();
-        	linkedTests.remove(linkedTests.get(linkedTests.size()-1));
-        	linkedTests.add(lastTest.hashCode());
-        	currentTest.prev = lastTest.hashCode();
-        	rule.test_map.put(currentTest.hashCode(), currentTest);
-        	rule.test_map.put(lastTest.hashCode(),lastTest);
-        	linkedTests.add(currentTest.hashCode());
-        	// if you're not in a parent test, add the first of the linked
-        	// tests to test_heads
-        	if (!inParentTest) {
-        		for (int testint : linkedTests) {
+          CgContextualTest lastTest = rule.test_map.get(linkedTests.get(linkedTests.size()-1));
+          lastTest.next = currentTest.hashCode();
+          linkedTests.remove(linkedTests.get(linkedTests.size()-1));
+          linkedTests.add(lastTest.hashCode());
+          currentTest.prev = lastTest.hashCode();
+          rule.test_map.put(currentTest.hashCode(), currentTest);
+          rule.test_map.put(lastTest.hashCode(),lastTest);
+          linkedTests.add(currentTest.hashCode());
+          // if you're not in a parent test, add the first of the linked
+          // tests to test_heads
+          if (!inParentTest) {
+            for (int testint : linkedTests) {
                     rule.all_tests.add(rule.test_map.get(testint));
                 }
                 rule.test_heads.add(rule.test_map.get(linkedTests.get(0)));
-        	}
+          }
             
         }
         // if we're in a parentTest situation, but done with the child tests
@@ -1651,7 +1651,7 @@ public class CgTextualParser {
             }
             rule.test_map.put(parentTest.hashCode(), parentTest);
             rule.test_heads.add(parentTest);    // parentTest should contain all the OR'ed child tests already
-            linkedTests = new ArrayList<Integer>();	// reset the linkedTests
+            linkedTests = new ArrayList<Integer>();  // reset the linkedTests
         } 
         
         if (!inParentTest && !inLinkedTest && parentTest == null) {
@@ -1665,12 +1665,12 @@ public class CgTextualParser {
         }
         
         if (inParentTest && !inLinkedTest) {
-        	if (option_vislcg_compat && currentTest.pos.contains(POS.POS_NOT.value)) {
+          if (option_vislcg_compat && currentTest.pos.contains(POS.POS_NOT.value)) {
                 currentTest.pos.remove(POS.POS_NOT.value);
                 currentTest.pos.add(POS.POS_NEGATE.value);
             }
-        	rule.all_tests.add(currentTest);
-        	rule.test_map.put(currentTest.hashCode(), currentTest);
+          rule.all_tests.add(currentTest);
+          rule.test_map.put(currentTest.hashCode(), currentTest);
         }
         
         return rule;
@@ -1697,7 +1697,7 @@ public class CgTextualParser {
      */
     private CgRule parseContextualDependencyTests(CgRule rule) {
         // if there are no dependency rules this shouldn't be an issue, right?
-    	System.out.println("Warning: dependency tests not tested in this implementation");
+      System.out.println("Warning: dependency tests not tested in this implementation");
         return parseContextualTestList(rule);
     }
     
@@ -2167,7 +2167,7 @@ public class CgTextualParser {
     // ** HELPER METHODS TO CHECK CHARACTER VALUES AND MOVE THE POINTER AROUND (contained in the inlines.h file) **
     
     /**
-	 * Returns true if the next characters in the array match the given string
+     * Returns true if the next characters in the array match the given string
      * @param s
      * @return
      */

@@ -90,7 +90,7 @@ public class CgGrammar {
     
     public CgSet getSet(int which) {
 
-    	// return the set if you give it the name hash
+        // return the set if you give it the name hash
         if (this.sets_by_name.containsKey(which)) {
             return this.sets_by_name.get(which);
         }
@@ -199,7 +199,7 @@ public class CgGrammar {
         }
         tag.type.add(TAGS.T_GRAMMAR.value);
         
-        int hash = tag.rehash();	// the hashing stuff isn't fully correctly supported in this implementation 
+        int hash = tag.rehash();  // the hashing stuff isn't fully correctly supported in this implementation 
         // skipped a bunch of things just to see if it runs
         this.single_tags_list.add(tag);
         this.single_tags.put(hash, tag);

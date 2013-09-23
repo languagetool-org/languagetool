@@ -323,7 +323,7 @@ public final class GreekWordTokenizerImpl {
       }     
     }
 
-	// numRead < 0
+    // numRead < 0
     return true;
   }
 

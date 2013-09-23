@@ -44,27 +44,27 @@ public class MixedAlphabetsRuleTest {
 
     //incorrect sentences:
 
-    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("смiття"));	 //latin i
+    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("смiття"));  //latin i
     // check match positions:
     assertEquals(1, matches.length);
     assertEquals(Arrays.asList("сміття"), matches[0].getSuggestedReplacements());
 
-    matches = rule.match(langTool.getAnalyzedSentence("mіхed"));	// cyrillic i and x
+    matches = rule.match(langTool.getAnalyzedSentence("mіхed"));  // cyrillic i and x
 
     assertEquals(1, matches.length);
     assertEquals(Arrays.asList("mixed"), matches[0].getSuggestedReplacements());
     
-    matches = rule.match(langTool.getAnalyzedSentence("XІ"));	// cyrillic І and latin X
+    matches = rule.match(langTool.getAnalyzedSentence("XІ")); // cyrillic І and latin X
 
     assertEquals(1, matches.length);
     assertEquals(Arrays.asList("XI"), matches[0].getSuggestedReplacements());
 
-    matches = rule.match(langTool.getAnalyzedSentence("ХI"));	// cyrillic X and latin I
+    matches = rule.match(langTool.getAnalyzedSentence("ХI")); // cyrillic X and latin I
 
     assertEquals(1, matches.length);
     assertEquals(Arrays.asList("XI"), matches[0].getSuggestedReplacements());
 
-    matches = rule.match(langTool.getAnalyzedSentence("ХІ"));	// cyrillic both X and I used for latin number
+    matches = rule.match(langTool.getAnalyzedSentence("ХІ")); // cyrillic both X and I used for latin number
 
     assertEquals(1, matches.length);
     assertEquals(Arrays.asList("XI"), matches[0].getSuggestedReplacements());

@@ -21,17 +21,12 @@ package org.languagetool.synthesis.ru;
 import org.languagetool.synthesis.BaseSynthesizer;
 
 /**
- * Russian word form synthesizer. <br/>
- * @author Yakov Reztsov	 
- *
- * Based on Dutch word form synthesizer
- * 
+ * Russian word form synthesizer.
+ * @author Yakov Reztsov
  */
-
 public class RussianSynthesizer extends BaseSynthesizer {
 
   private static final String RESOURCE_FILENAME = "/ru/russian_synth.dict";
-
   private static final String TAGS_FILE_NAME = "/ru/tags_russian.txt";
 
   public RussianSynthesizer() {

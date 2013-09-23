@@ -124,7 +124,7 @@ public class Hunspell {
                 }
             }
             //System.out.println("Loading temp lib: "+lib.getAbsolutePath());
-            hsl = (HunspellLibrary)Native.loadLibrary(lib.getAbsolutePath(), HunspellLibrary.class);			
+            hsl = (HunspellLibrary)Native.loadLibrary(lib.getAbsolutePath(), HunspellLibrary.class);
         }
     }
 
@@ -278,7 +278,7 @@ public class Hunspell {
             }
 
             hunspellDict = hsl.Hunspell_create(aff.toString(), dic.toString());
-            encoding = hsl.Hunspell_get_dic_encoding(hunspellDict);						               			
+            encoding = hsl.Hunspell_get_dic_encoding(hunspellDict);
 
             //hunspell uses non-standard names of charsets 
             if ("microsoft1251".equals(encoding)) {

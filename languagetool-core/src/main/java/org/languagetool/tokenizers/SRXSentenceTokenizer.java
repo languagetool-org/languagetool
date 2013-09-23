@@ -42,7 +42,7 @@ import org.languagetool.Language;
  * @author Jarek Lipski
  */
 public class SRXSentenceTokenizer extends SentenceTokenizer {
-	
+
   private static final String RULES = "/segment.srx";
   private static final SrxDocument document = createSrxDocument();
 

@@ -15,16 +15,16 @@ public class CgCompositeTag {
     public ArrayList<CgTag> tags = new ArrayList<CgTag>();
     
     public String toString() {
-    	StringBuilder sb = new StringBuilder();
-    	sb.append("(");
-    	for (int i=0;i<tags.size();i++) {
-    		if (i == tags.size() - 1) {
-    			sb.append(tags.get(i).tag + ")");
-    		} else {
-    			sb.append(tags.get(i).tag + " ");
-    		}
-    	}
-    	return sb.toString();
+      StringBuilder sb = new StringBuilder();
+      sb.append("(");
+      for (int i=0;i<tags.size();i++) {
+        if (i == tags.size() - 1) {
+          sb.append(tags.get(i).tag + ")");
+        } else {
+          sb.append(tags.get(i).tag + " ");
+        }
+      }
+      return sb.toString();
     }
     
     public void addTag(CgTag t) {
@@ -33,29 +33,29 @@ public class CgCompositeTag {
     }
     
     public String getPostags() {
-    	return CgRuleConverter.compositePostagToString(this);
+      return CgRuleConverter.compositePostagToString(this);
     }
     
     // should only be at most one baseform in a composite tag
     public String getBaseform() {
-    	String baseform = "";
-    	for (CgTag tag : this.tags) {
-    		if (CgRuleConverter.isBaseForm(tag.tag)) {
-    			baseform = tag.tag;
-    		}
-    	}
-    	return baseform;
+      String baseform = "";
+      for (CgTag tag : this.tags) {
+        if (CgRuleConverter.isBaseForm(tag.tag)) {
+          baseform = tag.tag;
+        }
+      }
+      return baseform;
     }
     
     // should also be at most one surfaceform
     public String getSurfaceform() {
-    	String surfaceform = "";
-    	for (CgTag tag : this.tags) {
-    		if (CgRuleConverter.isSurfaceForm(tag.tag)) {
-    			surfaceform = tag.tag;
-    		}
-    	}
-    	return surfaceform;
+      String surfaceform = "";
+      for (CgTag tag : this.tags) {
+        if (CgRuleConverter.isSurfaceForm(tag.tag)) {
+          surfaceform = tag.tag;
+        }
+      }
+      return surfaceform;
     }
     
     public enum ANYTAG_TYPE {
@@ -92,7 +92,7 @@ public class CgCompositeTag {
     }
     
     public boolean isEmpty() {
-    	return (this.tags.size() == 0);
+      return (this.tags.size() == 0);
     }
     
 }

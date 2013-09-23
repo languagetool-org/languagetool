@@ -36,38 +36,38 @@ public class CgRule {
     }
     
     public CgRule() {
-    	
+      
     }
     
     public CgRule(CgRule rule) {
-    	this.flags = new HashSet<Integer>(rule.flags);
-    	this.line = rule.line;
-    	this.type = rule.type;
-    	this.wordform = rule.wordform;
-    	this.varname = rule.varname;
-    	this.childset1 = rule.childset1;
-    	this.childset2 = rule.childset2;
-    	this.jumpstart = rule.jumpstart;
-    	this.jumpend = rule.jumpend;
-    	this.section = rule.section;
-    	this.target = rule.target;
-    	this.number = rule.number;
-    	this.sublist = new CgSet(rule.sublist);
-    	this.maplist = new CgSet(rule.maplist);
-    	this.dep_target = new CgContextualTest(rule.dep_target);
-    	this.dep_test_head = new CgContextualTest(rule.dep_test_head);
-    	this.all_tests = new HashSet<CgContextualTest>();
-    	for (CgContextualTest test : rule.all_tests) {
-    		this.all_tests.add(new CgContextualTest(test));
-    	}
-    	this.test_map = new HashMap<Integer,CgContextualTest>();
-    	for (Integer index : rule.test_map.keySet()) {
-    		this.test_map.put(index,new CgContextualTest(rule.test_map.get(index)));
-    	}
-    	this.test_heads = new HashSet<CgContextualTest>();
-    	for (CgContextualTest test : rule.test_heads) {
-    		this.test_heads.add(new CgContextualTest(test));
-    	}
+      this.flags = new HashSet<Integer>(rule.flags);
+      this.line = rule.line;
+      this.type = rule.type;
+      this.wordform = rule.wordform;
+      this.varname = rule.varname;
+      this.childset1 = rule.childset1;
+      this.childset2 = rule.childset2;
+      this.jumpstart = rule.jumpstart;
+      this.jumpend = rule.jumpend;
+      this.section = rule.section;
+      this.target = rule.target;
+      this.number = rule.number;
+      this.sublist = new CgSet(rule.sublist);
+      this.maplist = new CgSet(rule.maplist);
+      this.dep_target = new CgContextualTest(rule.dep_target);
+      this.dep_test_head = new CgContextualTest(rule.dep_test_head);
+      this.all_tests = new HashSet<CgContextualTest>();
+      for (CgContextualTest test : rule.all_tests) {
+        this.all_tests.add(new CgContextualTest(test));
+      }
+      this.test_map = new HashMap<Integer,CgContextualTest>();
+      for (Integer index : rule.test_map.keySet()) {
+        this.test_map.put(index,new CgContextualTest(rule.test_map.get(index)));
+      }
+      this.test_heads = new HashSet<CgContextualTest>();
+      for (CgContextualTest test : rule.test_heads) {
+        this.test_heads.add(new CgContextualTest(test));
+      }
     }
     
     public CgContextualTest allocateContextualTest() {
@@ -76,7 +76,7 @@ public class CgRule {
     
     public void addContextualTest(CgContextualTest t, CgContextualTest head) {
         // this method needs to be more fully defined
-    	this.all_tests.add(t);
+      this.all_tests.add(t);
     }
     
     public enum RFLAGS {

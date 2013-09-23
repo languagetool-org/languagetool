@@ -29,48 +29,48 @@ import java.io.IOException;
 
 public class PunctuationCheckRuleTest extends TestCase {
 
-	public void testRule() throws IOException {
-		PunctuationCheckRule rule = new PunctuationCheckRule(TestTools.getEnglishMessages());
+  public void testRule() throws IOException {
+    PunctuationCheckRule rule = new PunctuationCheckRule(TestTools.getEnglishMessages());
 
-		RuleMatch[] matches;
-		JLanguageTool langTool = new JLanguageTool(new Ukrainian());
-		
-		// correct sentences:
-		matches = rule.match(langTool.getAnalyzedSentence("Дві, коми. Ось: дві!!!"));
-		assertEquals(0, matches.length);
+    RuleMatch[] matches;
+    JLanguageTool langTool = new JLanguageTool(new Ukrainian());
+    
+    // correct sentences:
+    matches = rule.match(langTool.getAnalyzedSentence("Дві, коми. Ось: дві!!!"));
+    assertEquals(0, matches.length);
 
-		// correct sentences:
-		matches = rule.match(langTool.getAnalyzedSentence("- Це ваша пряма мова?!!"));
-		assertEquals(0, matches.length);
+    // correct sentences:
+    matches = rule.match(langTool.getAnalyzedSentence("- Це ваша пряма мова?!!"));
+    assertEquals(0, matches.length);
 
-		// correct sentences:
-		matches = rule.match(langTool.getAnalyzedSentence("Дві,- коми!.."));
-		assertEquals(0, matches.length);
+    // correct sentences:
+    matches = rule.match(langTool.getAnalyzedSentence("Дві,- коми!.."));
+    assertEquals(0, matches.length);
 
-		// correct sentences:
-		matches = rule.match(langTool.getAnalyzedSentence("Таке питання?.."));
-		assertEquals(0, matches.length);
+    // correct sentences:
+    matches = rule.match(langTool.getAnalyzedSentence("Таке питання?.."));
+    assertEquals(0, matches.length);
 
-		// correct sentences:
-		matches = rule.match(langTool.getAnalyzedSentence("Два  пробіли."));	// поки що ігноруємо - не царська це справа :)
-		assertEquals(0, matches.length);
+    // correct sentences:
+    matches = rule.match(langTool.getAnalyzedSentence("Два  пробіли."));  // поки що ігноруємо - не царська це справа :)
+    assertEquals(0, matches.length);
 
-		// incorrect sentences:
-		matches = rule.match(langTool.getAnalyzedSentence("Дві крапки.."));
-		assertEquals(1, matches.length);
-		assertEquals(1, matches[0].getSuggestedReplacements().size());
-		assertEquals(".", matches[0].getSuggestedReplacements().get(0));
+    // incorrect sentences:
+    matches = rule.match(langTool.getAnalyzedSentence("Дві крапки.."));
+    assertEquals(1, matches.length);
+    assertEquals(1, matches[0].getSuggestedReplacements().size());
+    assertEquals(".", matches[0].getSuggestedReplacements().get(0));
 
-		// incorrect sentences:
-		matches = rule.match(langTool.getAnalyzedSentence("Дві,, коми."));
-		assertEquals(1, matches.length);
+    // incorrect sentences:
+    matches = rule.match(langTool.getAnalyzedSentence("Дві,, коми."));
+    assertEquals(1, matches.length);
 
-		// incorrect sentences:
-		matches = rule.match(langTool.getAnalyzedSentence("Не там ,кома."));
-		assertEquals(1, matches.length);
+    // incorrect sentences:
+    matches = rule.match(langTool.getAnalyzedSentence("Не там ,кома."));
+    assertEquals(1, matches.length);
 
-		// incorrect sentences:
-		matches = rule.match(langTool.getAnalyzedSentence("Двокрапка:- з тире."));
-		assertEquals(1, matches.length);
-	}
+    // incorrect sentences:
+    matches = rule.match(langTool.getAnalyzedSentence("Двокрапка:- з тире."));
+    assertEquals(1, matches.length);
+  }
 }

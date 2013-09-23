@@ -27,47 +27,47 @@ import org.languagetool.synthesis.ManualSynthesizer;
 
 /**
  * Romanian word form synthesizer. <br/>
- * 
+ *
  * @author Ionuț Păduraru
  */
 
 public class RomanianSynthesizer extends BaseSynthesizer {
 
-	private static final String RESOURCE_FILENAME = "/ro/romanian_synth.dict";
-	private static final String TAGS_FILE_NAME = "/ro/romanian_tags.txt";
-	private static final String USER_DICT_FILENAME = "/ro/added.txt";
-	
-	private static ManualSynthesizer manualSynthesizer;
+  private static final String RESOURCE_FILENAME = "/ro/romanian_synth.dict";
+  private static final String TAGS_FILE_NAME = "/ro/romanian_tags.txt";
+  private static final String USER_DICT_FILENAME = "/ro/added.txt";
 
-	public RomanianSynthesizer() {
+  private static ManualSynthesizer manualSynthesizer;
+
+  public RomanianSynthesizer() {
     super(RESOURCE_FILENAME, TAGS_FILE_NAME);
   }
-	
-	@Override
-	protected void lookup(String lemma, String posTag, List<String> results) {
-		super.lookup(lemma, posTag, results);
-		// add words that are missing from the romanian_synth.dict file
-		final List<String> manualForms = manualSynthesizer.lookup(lemma, posTag);
-		if (manualForms != null) {
-			results.addAll(manualForms); 
-		}
-	}
-	
-	@Override
-	protected void initSynthesizer() throws IOException {
-		super.initSynthesizer();
-		if (manualSynthesizer == null) {
-			manualSynthesizer = new ManualSynthesizer(JLanguageTool.getDataBroker().getFromResourceDirAsStream(USER_DICT_FILENAME));
-		}
-	}
-	@Override
-	protected void initPossibleTags() throws IOException {
-		super.initPossibleTags();
-		// add any possible tag from manual synthesiser
-		for (String tag : manualSynthesizer.getPossibleTags()) {
-			if (!possibleTags.contains(tag)) {
-				possibleTags.add(tag);
-			}
-		}
-	}
+
+  @Override
+  protected void lookup(String lemma, String posTag, List<String> results) {
+    super.lookup(lemma, posTag, results);
+    // add words that are missing from the romanian_synth.dict file
+    final List<String> manualForms = manualSynthesizer.lookup(lemma, posTag);
+    if (manualForms != null) {
+      results.addAll(manualForms);
+    }
+  }
+
+  @Override
+  protected void initSynthesizer() throws IOException {
+    super.initSynthesizer();
+    if (manualSynthesizer == null) {
+      manualSynthesizer = new ManualSynthesizer(JLanguageTool.getDataBroker().getFromResourceDirAsStream(USER_DICT_FILENAME));
+    }
+  }
+  @Override
+  protected void initPossibleTags() throws IOException {
+    super.initPossibleTags();
+    // add any possible tag from manual synthesiser
+    for (String tag : manualSynthesizer.getPossibleTags()) {
+      if (!possibleTags.contains(tag)) {
+        possibleTags.add(tag);
+      }
+    }
+  }
 }

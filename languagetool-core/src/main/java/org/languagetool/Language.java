@@ -465,17 +465,16 @@ public abstract class Language {
       }
     } else if (langCode.contains("-")) {
       final String[] parts = langCode.split("-"); 
-			if (parts.length == 2) { // e. g. en-US
-				for (Language element : Language.LANGUAGES) {
-					if (parts[0].equalsIgnoreCase(element.getShortName())
-							&& element.getCountries().length == 1
-							&& parts[1].equalsIgnoreCase(element.getCountries()[0])) {
-						result = element;
-						break;
-					}
-				}
-      }
-			else if (parts.length == 3) { // e. g. ca-ES-valencia
+      if (parts.length == 2) { // e.g. en-US
+        for (Language element : Language.LANGUAGES) {
+          if (parts[0].equalsIgnoreCase(element.getShortName())
+              && element.getCountries().length == 1
+              && parts[1].equalsIgnoreCase(element.getCountries()[0])) {
+            result = element;
+            break;
+          }
+        }
+      } else if (parts.length == 3) { // e.g. ca-ES-valencia
         for (Language element : Language.LANGUAGES) {
           if (parts[0].equalsIgnoreCase(element.getShortName())
               && element.getCountries().length == 1
@@ -486,18 +485,12 @@ public abstract class Language {
           }
         }
       }
-			else { 
+      else { 
         throw new IllegalArgumentException("'" + langCode + "' isn't a valid language code");
       }
     } else {
       for (Language element : Language.LANGUAGES) {
         if (langCode.equalsIgnoreCase(element.getShortName())) {
-          /*if (element.getDefaultLanguageVariant() == null) {
-            result = element;
-          }
-          else {
-            result = element.getDefaultLanguageVariant();
-          }*/
           result = element;
           break;
         }

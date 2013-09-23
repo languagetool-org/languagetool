@@ -94,10 +94,10 @@ public class ElwithFemRule extends SpanishRule {
           doesRequireEl = true;
         }
 
-	// FIXME: temporal solution for "La Haya" (change)
-	if (prevToken.equals("La") && token.equals("Haya")) {
-	  doesRequireEl = false;
-	}
+        // FIXME: temporal solution for "La Haya" (change)
+        if (prevToken.equals("La") && token.equals("Haya")) {
+          doesRequireEl = false;
+        }
 
         String msg = null;        
         String replacement = null;

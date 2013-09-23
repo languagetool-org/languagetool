@@ -21,21 +21,21 @@ public class CgContextualTest {
     public ArrayList<Integer> ors = new ArrayList<Integer>();
     
     public boolean isParentTest() {
-    	return !this.ors.isEmpty();
+      return !this.ors.isEmpty();
     }
     
     public boolean isLinkedTest() {
-    	return this.next != 0;
+      return this.next != 0;
     }
     
     public boolean isNormalTest() {
-    	return (this.ors.isEmpty() && this.next == 0);
+      return (this.ors.isEmpty() && this.next == 0);
     }
     
     
     
     public void rehash() {
-    	// this doesn't currently get called, which is a good thing because it's not defined :)
+      // this doesn't currently get called, which is a good thing because it's not defined :)
     }
     
     public CgContextualTest allocateContextualTest() {
@@ -54,26 +54,26 @@ public class CgContextualTest {
     }
     
     public CgContextualTest(CgContextualTest test) {
-    	if (test == null) {
-    		this.barrier = 0;
-            this.cbarrier = 0;
-            this.line = 0;
-            this.name = 0;
-            this.offset = 0;
-            this.target = 0;
-            this.pos = new HashSet<Integer>();
-            this.relation = 0;
-    	} else {
-    		this.barrier = test.barrier;
-        	this.cbarrier = test.cbarrier;
-        	this.line = test.line;
-        	this.name = test.name;
-        	this.offset = test.offset;
-        	this.target = test.target;
-        	this.pos = new HashSet<Integer>(test.pos);
-        	this.relation = test.relation;
-        	this.ors = new ArrayList<Integer>(test.ors);
-    	}
+      if (test == null) {
+        this.barrier = 0;
+        this.cbarrier = 0;
+        this.line = 0;
+        this.name = 0;
+        this.offset = 0;
+        this.target = 0;
+        this.pos = new HashSet<Integer>();
+        this.relation = 0;
+      } else {
+        this.barrier = test.barrier;
+        this.cbarrier = test.cbarrier;
+        this.line = test.line;
+        this.name = test.name;
+        this.offset = test.offset;
+        this.target = test.target;
+        this.pos = new HashSet<Integer>(test.pos);
+        this.relation = test.relation;
+        this.ors = new ArrayList<Integer>(test.ors);
+      }
     }
     
     public enum POS {

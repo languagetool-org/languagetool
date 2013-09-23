@@ -214,41 +214,41 @@ class MainMenuBar extends JMenuBar implements ActionListener {
   @Override
   public void actionPerformed(ActionEvent e) {
     if (e.getActionCommand().equals(openText)) {
-    	prg.loadFile();
+      prg.loadFile();
     } else if (e.getActionCommand().equals(quitText)) {
-    	prg.quit();
+      prg.quit();
     } else if (e.getActionCommand().equals(writeText)) {
-    	try {
-    		prg.writeRulesToFile();
-    	} catch (IOException ex) {
-    		throw new RuntimeException("Could not write rules to file", ex);
-    	}
+      try {
+        prg.writeRulesToFile();
+      } catch (IOException ex) {
+        throw new RuntimeException("Could not write rules to file", ex);
+      }
     } else if (e.getActionCommand().equals(nextRuleText)) {
-    	prg.nextRule();
+      prg.nextRule();
     } else if (e.getActionCommand().equals(prevRuleText)) {
-    	prg.prevRule();
+      prg.prevRule();
     } else if (e.getActionCommand().equals(saveRuleText)) {
-    	prg.clickSaveButton();
+      prg.clickSaveButton();
     } else if (e.getActionCommand().equals(showRulesText)) {
-    	prg.showAllRules();
+      prg.showAllRules();
     } else if (e.getActionCommand().equals(showCoveringRulesText)) {
-    	prg.displayCoveringRules();
+      prg.displayCoveringRules();
     } else if (e.getActionCommand().equals(aboutText)) {
-    	prg.displayAboutDialog();
+      prg.displayAboutDialog();
     } else if (e.getActionCommand().equals(cutText)) {
-    	prg.cutSelectedText();
+      prg.cutSelectedText();
     } else if (e.getActionCommand().equals(copyText)) {
-    	prg.copySelectedText();
+      prg.copySelectedText();
     } else if (e.getActionCommand().equals(pasteText)) {
-    	prg.pasteText();
+      prg.pasteText();
     } else if (e.getActionCommand().equals(removeCoveringRulesText)) {
-    	prg.removeCoveringRules();
+      prg.removeCoveringRules();
     } else if (e.getActionCommand().equals(removeWarningsText)) {
-    	prg.removeWarnings();
+      prg.removeWarnings();
     } else if (e.getActionCommand().equals(showOriginalFileText)) {
-    	prg.showOriginalRuleFile();
+      prg.showOriginalRuleFile();
     } else if (e.getActionCommand().equals(allRulesExclusiveText)) {
-    	prg.makeAllRulesExclusive();
+      prg.makeAllRulesExclusive();
     }
     else {
       throw new IllegalArgumentException("Unknown action " + e);

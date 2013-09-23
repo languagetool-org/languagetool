@@ -31,31 +31,31 @@ public class JapaneseWordTokenizer implements Tokenizer {
   private StringTagger stringtagger;
 
   private void init(){
-	  if(stringtagger == null){
-		  stringtagger = SenFactory.getStringTagger(null);
-	  }
+    if(stringtagger == null){
+      stringtagger = SenFactory.getStringTagger(null);
+    }
   }
 
-  @Override	
+  @Override  
   public List<String> tokenize(String text){
-	  init();
-	  final ArrayList<String> ret = new ArrayList<>();
-	  List<Token> tokens = new ArrayList<>();
-	  String basicForm;
-	  try {
-		  stringtagger.analyze(text, tokens);
-	  } catch (Exception e) {
-		  return ret;
-	  }
-	  
-	  for(Token token : tokens){
-		  if(token.getMorpheme().getBasicForm().equalsIgnoreCase("*")){
-			  basicForm = token.getSurface();
-		  } else {
-			  basicForm = token.getMorpheme().getBasicForm();
-		  }
-		  ret.add(token.getSurface()+" "+token.getMorpheme().getPartOfSpeech()+" "+basicForm);
-	  }
-	  return ret;
+    init();
+    final ArrayList<String> ret = new ArrayList<>();
+    List<Token> tokens = new ArrayList<>();
+    String basicForm;
+    try {
+      stringtagger.analyze(text, tokens);
+    } catch (Exception e) {
+      return ret;
+    }
+    
+    for(Token token : tokens){
+      if(token.getMorpheme().getBasicForm().equalsIgnoreCase("*")){
+        basicForm = token.getSurface();
+      } else {
+        basicForm = token.getMorpheme().getBasicForm();
+      }
+      ret.add(token.getSurface()+" "+token.getMorpheme().getPartOfSpeech()+" "+basicForm);
+    }
+    return ret;
   }
 }

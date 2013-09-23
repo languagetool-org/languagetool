@@ -425,13 +425,13 @@ public class MainTest extends AbstractSecurityTestCase {
   }
 
   public void testValencianCatalan() throws Exception {
-	    final File input = writeToTempFile("Que sigui així.");
-	    final String[] args = {"-l", "ca-ES-valencia", input.getAbsolutePath()};
-	    Main.main(args);
-	    final String output = new String(this.out.toByteArray());
-	    assertTrue(output.indexOf("Expected text language: Catalan (Valencian)") == 0);
-	    assertTrue(output.contains("EXIGEIX_VERBS_VALENCIANS"));
-	  }
+    final File input = writeToTempFile("Que sigui així.");
+    final String[] args = {"-l", "ca-ES-valencia", input.getAbsolutePath()};
+    Main.main(args);
+    final String output = new String(this.out.toByteArray());
+    assertTrue(output.indexOf("Expected text language: Catalan (Valencian)") == 0);
+    assertTrue(output.contains("EXIGEIX_VERBS_VALENCIANS"));
+  }
   
   public void testNoXmlFilteringByDefault() throws Exception {
     final File input = writeToTempFile("This < is is > filtered.");

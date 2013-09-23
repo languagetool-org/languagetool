@@ -28,66 +28,66 @@ import org.languagetool.AnalyzedToken;
 
 public class RomanianSynthesizerTest extends TestCase {
 
-	private final AnalyzedToken dummyToken(String tokenStr) {
-		return new AnalyzedToken(tokenStr, tokenStr, tokenStr);
-	}
+  private final AnalyzedToken dummyToken(String tokenStr) {
+    return new AnalyzedToken(tokenStr, tokenStr, tokenStr);
+  }
 
-	/**
-	 * 
-	 * @author Ionuț Păduraru
-	 * @since 08.03.2009 18:44:25
-	 * @throws IOException
-	 */
-	public final void testSynthesizeStringString() throws IOException {
-		RomanianSynthesizer synth = new RomanianSynthesizer();
-		assertEquals(synth.synthesize(dummyToken("blablabla"), "blablabla").length, 0);
+  /**
+   * 
+   * @author Ionuț Păduraru
+   * @since 08.03.2009 18:44:25
+   * @throws IOException
+   */
+  public final void testSynthesizeStringString() throws IOException {
+    RomanianSynthesizer synth = new RomanianSynthesizer();
+    assertEquals(synth.synthesize(dummyToken("blablabla"), "blablabla").length, 0);
 
-		// a alege
-		// forma de infinitiv
-		assertEquals("[alege]", Arrays.toString(synth.synthesize(
-				dummyToken("alege"), "V000000f00")));
-		// conjunctiv, pers a doua plural
-		assertEquals("[alegeți]", Arrays.toString(synth.synthesize(
-				dummyToken("alege"), "V0p2000cz0")));
+    // a alege
+    // forma de infinitiv
+    assertEquals("[alege]", Arrays.toString(synth.synthesize(
+        dummyToken("alege"), "V000000f00")));
+    // conjunctiv, pers a doua plural
+    assertEquals("[alegeți]", Arrays.toString(synth.synthesize(
+        dummyToken("alege"), "V0p2000cz0")));
 
-		// a fi
-		assertEquals("[fi]", Arrays.toString(synth.synthesize(
-				dummyToken("fi"), "V000000f0f")));
-		// indicativ prezent, pers a doua plural
-		assertEquals("[sunteți]", Arrays.toString(synth.synthesize(
-				dummyToken("fi"), "V0p2000izf")));
-		// indicativ prezent, pers a treia plural
-		assertEquals("[sunt]", Arrays.toString(synth.synthesize(
-				dummyToken("fi"), "V0p3000izf")));
-		// indicativ prezent, pers întâi plural
-		assertEquals("[sunt]", Arrays.toString(synth.synthesize(
-				dummyToken("fi"), "V0s1000izf")));
-		// RegExp
-		// indicativ prezent, pers a doua plural SAU indicativ prezent, pers a treia plural
-		assertEquals("[sunteți, sunt]", Arrays.toString(synth.synthesize(
-				dummyToken("fi"), "V0p2000izf|V0p3000izf", true)));
+    // a fi
+    assertEquals("[fi]", Arrays.toString(synth.synthesize(
+        dummyToken("fi"), "V000000f0f")));
+    // indicativ prezent, pers a doua plural
+    assertEquals("[sunteți]", Arrays.toString(synth.synthesize(
+        dummyToken("fi"), "V0p2000izf")));
+    // indicativ prezent, pers a treia plural
+    assertEquals("[sunt]", Arrays.toString(synth.synthesize(
+        dummyToken("fi"), "V0p3000izf")));
+    // indicativ prezent, pers întâi plural
+    assertEquals("[sunt]", Arrays.toString(synth.synthesize(
+        dummyToken("fi"), "V0s1000izf")));
+    // RegExp
+    // indicativ prezent, pers a doua plural SAU indicativ prezent, pers a treia plural
+    assertEquals("[sunteți, sunt]", Arrays.toString(synth.synthesize(
+        dummyToken("fi"), "V0p2000izf|V0p3000izf", true)));
 
-		// diverse
-		// indicativ, mai mult ca perfect, persoana întâi, plural
-		assertEquals("[merseserăm]", Arrays.toString(synth.synthesize(
-				dummyToken("merge"), "V0p1000im0")));
-		// indicativ, mai mult ca perfect, persoana întâi, singular
-		assertEquals("[mersesem]", Arrays.toString(synth.synthesize(
-				dummyToken("merge"), "V0s1000im0")));
-		assertEquals("[legătura]", Arrays.toString(synth.synthesize(
-				dummyToken("legătură"), "Sfs3aac000")));
-		assertEquals("[legătură]", Arrays.toString(synth.synthesize(
-				dummyToken("legătură"), "Sfs3anc000")));
+    // diverse
+    // indicativ, mai mult ca perfect, persoana întâi, plural
+    assertEquals("[merseserăm]", Arrays.toString(synth.synthesize(
+        dummyToken("merge"), "V0p1000im0")));
+    // indicativ, mai mult ca perfect, persoana întâi, singular
+    assertEquals("[mersesem]", Arrays.toString(synth.synthesize(
+        dummyToken("merge"), "V0s1000im0")));
+    assertEquals("[legătura]", Arrays.toString(synth.synthesize(
+        dummyToken("legătură"), "Sfs3aac000")));
+    assertEquals("[legătură]", Arrays.toString(synth.synthesize(
+        dummyToken("legătură"), "Sfs3anc000")));
 
-		// user data (/ro/added.txt)
-		assertEquals("[configurați]", Arrays.toString(synth.synthesize(
-				dummyToken("configura"), "V0p2000cz0"))); // no reg exp
-		assertEquals("[configurați, configurezi]", Arrays.toString(synth.synthesize(
-				dummyToken("configura"), "V0.2000cz0", true))); // using reg exp
-		//		assertEquals("[enumăr]", Arrays.toString(synth.synthesize(
-		//			dummyToken("enumera"), "V0s1000cz0")));
-		// commented out as "a enumera" contains an extra form (.dict spelling error - "enumăm" instead of "enumăr"). To be fixed.
-		
-	}
+    // user data (/ro/added.txt)
+    assertEquals("[configurați]", Arrays.toString(synth.synthesize(
+        dummyToken("configura"), "V0p2000cz0"))); // no reg exp
+    assertEquals("[configurați, configurezi]", Arrays.toString(synth.synthesize(
+        dummyToken("configura"), "V0.2000cz0", true))); // using reg exp
+    //    assertEquals("[enumăr]", Arrays.toString(synth.synthesize(
+    //      dummyToken("enumera"), "V0s1000cz0")));
+    // commented out as "a enumera" contains an extra form (.dict spelling error - "enumăm" instead of "enumăr"). To be fixed.
+    
+  }
 
 }
