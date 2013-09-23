@@ -20,6 +20,7 @@ package org.languagetool.rules.de;
 
 import de.abelssoft.wordtools.jwordsplitter.AbstractWordSplitter;
 import de.abelssoft.wordtools.jwordsplitter.impl.GermanWordSplitter;
+import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.spelling.hunspell.CompoundAwareHunspellRule;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpeller;
@@ -94,7 +95,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     }
     try {
       final String morfoFile = "/de/hunspell/de_" + language.getCountries()[0] + ".dict";
-      return new MorfologikSpeller(morfoFile, Locale.getDefault(), MAX_EDIT_DISTANCE);
+      if (JLanguageTool.getDataBroker().resourceExists(morfoFile)) {
+        // spell data will not exist in LibreOffice/OpenOffice context 
+        return new MorfologikSpeller(morfoFile, Locale.getDefault(), MAX_EDIT_DISTANCE);
+      } else {
+        return null;
+      }
     } catch (IOException e) {
       throw new RuntimeException("Could not set up morfologik spell checker", e);
     }
