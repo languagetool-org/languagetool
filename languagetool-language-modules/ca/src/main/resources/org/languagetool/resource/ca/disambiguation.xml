@@ -8092,6 +8092,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="V.G.*"></disambig>
     </rule>
+    <rule id="mal" name="mal (adv)">
+        <pattern>
+            <marker>
+                <token postag="RG.*" postag_regexp="yes">mal<exception postag="_GN.*" postag_regexp="yes"/></token>
+            </marker>
+            <token postag="V.P.*|A.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filter" postag="RG.*"></disambig>
+    </rule>
     <rule id="Prep_NomAdv" name="prep + nom i adverbi">
         <!-- fins demà, de mal vestida-->
         <pattern>
@@ -8099,11 +8108,11 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <marker>
                 <and>
                     <token postag="R.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">llarg|tot|infinit|lli</exception><exception postag="_GN.*" postag_regexp="yes" /></token>
-                    <token postag="[NA].*" postag_regexp="yes"></token>
+                    <token postag="N.*" postag_regexp="yes"></token>
                 </and>
             </marker>
         </pattern>
-        <disambig action="filter" postag="[^NA].*"></disambig>
+        <disambig action="filter" postag="[^N].*"></disambig>
     </rule>
     <rule id="Prep_NomAltres" name="preposició + nom i altres: nom">
         <!-- problema: de gran lirisme. A petita escala -->
