@@ -28,18 +28,17 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.tools.StringTools;
 
 /**
- * A rule that matches several punctuation signs such as : ; and % preceded by whitespace.
+ * A rule that matches several punctuation signs such as {@code :} {@code ;} and {@code %} preceded by whitespace.
  * 
- * BUG ID 3607406: no space before semicolon
- * 
- * Checks for: 
- * 				<a word> : and suggests <a word>:
- * 				<a word> ; and suggests <a word>;
- * 				<a number> % and suggests <a number>%
+ * Checks for:
+ * <pre>
+ *    &lt;a word> : and suggests &lt;a word>:
+ *    &lt;a word> ; and suggests &lt;a word>;
+ *    &lt;a number> % and suggests &lt;a number>%
+ * </pre>
  * 
  * @author Paolo Bianchini
  */
-
 public class WhitespaceBeforePunctuationRule extends Rule {
 
   public WhitespaceBeforePunctuationRule(final ResourceBundle messages) {
@@ -79,15 +78,15 @@ public class WhitespaceBeforePunctuationRule extends Rule {
             // exception case for figures such as " : 0" 
             if (i + 2 < tokens.length
                 && tokens[i + 1].isWhitespace()
-            	&& Character.isDigit(tokens[i + 2].getToken().charAt(0))) {
+                && Character.isDigit(tokens[i + 2].getToken().charAt(0))) {
               msg = null;
             }
         } else if (token.equals(";")) {
             msg = messages.getString("no_space_before_semicolon");
             suggestionText = ";";
         } else if (i > 1
-        		&& token.equals("%")
-        		&& Character.isDigit(tokens[i - 2].getToken().charAt(0))) {
+              && token.equals("%")
+              && Character.isDigit(tokens[i - 2].getToken().charAt(0))) {
             msg = messages.getString("no_space_before_percentage");
             suggestionText = "%";
         }
