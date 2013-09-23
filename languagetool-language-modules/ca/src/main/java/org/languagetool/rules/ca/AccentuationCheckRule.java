@@ -38,10 +38,10 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.StringTools;
 
 /**
- * This rule checks if a word without graphical accent and with a verb POS tag should be
- * a noun or an adjective with graphical accent.  
- * It uses two lists of word pairs: verb-noun and verb-adjective.
- *   
+ * This rule checks if a word without graphical accent and with a verb POS tag
+ * should be a noun or an adjective with graphical accent. It uses two lists of
+ * word pairs: verb-noun and verb-adjective.
+ * 
  * @author Jaume Ortolà i Font
  */
 public class AccentuationCheckRule extends CatalanRule {
@@ -82,9 +82,9 @@ public class AccentuationCheckRule extends CatalanRule {
   private static final Pattern BEFORE_ADJECTIVE_MP = Pattern.compile("SPS00|D[^R].[MC][PN].*|V.[^NGP].*|PX.*");
   private static final Pattern BEFORE_ADJECTIVE_FP = Pattern.compile("SPS00|D[^R].[FC][PN].*|V.[^NGP].*|PX.*");
   private static final Pattern GN = Pattern.compile("_GN_.*|<?/?N[CP].*");
-  private static final Pattern EXCEPCIONS_DARRERE_DE = Pattern.compile("forma|manera|por|costat",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern EXCEPCIONS_DARRERE_DE = Pattern.compile("forma|manera|por|costat", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final Pattern LOCUCIONS = Pattern.compile(".*LOC.*");
-      
+
   private final Map<String, AnalyzedTokenReadings> relevantWords;
   private final Map<String, AnalyzedTokenReadings> relevantWords2;
 
@@ -96,7 +96,7 @@ public class AccentuationCheckRule extends CatalanRule {
     relevantWords = loadWords(FILE_NAME);
     relevantWords2 = loadWords(FILE_NAME2);
   }
-  
+
   @Override
   public String getId() {
     return "ACCENTUATION_CHECK";
@@ -106,30 +106,31 @@ public class AccentuationCheckRule extends CatalanRule {
   public String getDescription() {
     return "Comprova si la paraula ha de dur accent gr\u00E0fic.";
   }
-  
+
   @Override
   public RuleMatch[] match(final AnalyzedSentence text) {
     final List<RuleMatch> ruleMatches = new ArrayList<>();
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
-    for (int i = 1; i < tokens.length; i++) {   //ignoring token 0, i.e., SENT_START      
+    for (int i = 1; i < tokens.length; i++) { 
+      // ignoring token 0, i.e. SENT_START
       final String token;
       if (i == 1) {
-        token=tokens[i].getToken().toLowerCase();
+        token = tokens[i].getToken().toLowerCase();
       } else {
         token = tokens[i].getToken();
       }
-      final String prevToken = tokens[i-1].getToken();
-      String prevPrevToken="";
+      final String prevToken = tokens[i - 1].getToken();
+      String prevPrevToken = "";
       if (i > 2) {
-        prevPrevToken = tokens[i-2].getToken();
+        prevPrevToken = tokens[i - 2].getToken();
       }
-      String nextToken="";
-      if (i < tokens.length-1) {
-        nextToken = tokens[i+1].getToken();
+      String nextToken = "";
+      if (i < tokens.length - 1) {
+        nextToken = tokens[i + 1].getToken();
       }
-      String nextNextToken="";
-      if (i < tokens.length-2) {
-        nextNextToken = tokens[i+2].getToken();
+      String nextNextToken = "";
+      if (i < tokens.length - 2) {
+        nextNextToken = tokens[i + 2].getToken();
       }
       boolean isRelevantWord = false;
       boolean isRelevantWord2 = false;
@@ -151,147 +152,205 @@ public class AccentuationCheckRule extends CatalanRule {
       final Matcher mArticleELMP = ARTICLE_EL_MP.matcher(prevToken);
       final Matcher mArticleELFP = ARTICLE_EL_FP.matcher(prevToken);
 
-      // VERB WITHOUT ACCENT -> NOUN WITH ACCENT   
-      if (isRelevantWord && !matchPostagRegexp(tokens[i],GN))
-      {
-      	//amb renuncies
-        if (tokens[i-1].hasPosTag("SPS00") && !tokens[i-1].hasPosTag("RG") && !matchPostagRegexp(tokens[i-1],DETERMINANT) && !matchPostagRegexp(tokens[i],INFINITIU) )
-      	{
-      		replacement = relevantWords.get(token).getToken();
-      	}
-      	//aquestes renuncies
-      	else if (
-      	         ((matchPostagRegexp(tokens[i-1],DETERMINANT_MS) && matchPostagRegexp(relevantWords.get(token),NOM_MS)
-      	           && !token.equals("cantar") )
-      	        ||(matchPostagRegexp(tokens[i-1],DETERMINANT_MP) && matchPostagRegexp(relevantWords.get(token),NOM_MP))
-      	        ||(matchPostagRegexp(tokens[i-1],DETERMINANT_FS) && matchPostagRegexp(relevantWords.get(token),NOM_FS)
-      	           && !token.equals("venia") && !token.equals("tenia") && !token.equals("continua") && !token.equals("genera") && !token.equals("faria"))
-      	        ||(matchPostagRegexp(tokens[i-1],DETERMINANT_FP) && matchPostagRegexp(relevantWords.get(token),NOM_FP)) ) )
-      	{
-      		replacement = relevantWords.get(token).getToken();
-      	}
-      	//fumaré una faria (correct: fària)
-      	else if ( i>2 && matchPostagRegexp(tokens[i-2],VERB_CONJUGAT) &&
-      	         ((matchPostagRegexp(tokens[i-1],DETERMINANT_MS) && matchPostagRegexp(relevantWords.get(token),NOM_MS))
-      	        ||(matchPostagRegexp(tokens[i-1],DETERMINANT_MP) && matchPostagRegexp(relevantWords.get(token),NOM_MP))
-      	        ||(matchPostagRegexp(tokens[i-1],DETERMINANT_FS) && matchPostagRegexp(relevantWords.get(token),NOM_FS))
-      	        ||(matchPostagRegexp(tokens[i-1],DETERMINANT_FP) && matchPostagRegexp(relevantWords.get(token),NOM_FP)) ) )
-      	{
-      		replacement = relevantWords.get(token).getToken();
-      	}
-      	//fem la copia(correct: còpia)
-      	else if ( i>2 && matchPostagRegexp(tokens[i-2],VERB_CONJUGAT) &&
-      	         ((mArticleELMS.matches() && matchPostagRegexp(relevantWords.get(token),NOM_MS))
-      	        ||(mArticleELMP.matches() && matchPostagRegexp(relevantWords.get(token),NOM_MP))
-      	        ||(mArticleELFS.matches() && matchPostagRegexp(relevantWords.get(token),NOM_FS))
-      	        ||(mArticleELFP.matches() && matchPostagRegexp(relevantWords.get(token),NOM_FP)) ) )
-      	{
-      		replacement = relevantWords.get(token).getToken();
-      	}
-      	//circumstancies d'una altra classe
-      	else if  ( !matchPostagRegexp(tokens[i],PARTICIPI_MS)
-      			   && !token.equals("venia") && !token.equals("venies") && !token.equals("tenia") && !token.equals("tenies")
-      			   && !token.equals("faria") && !token.equals("faries") && !token.equals("espero")
-      	           && !token.equals("continua") && !token.equals("continues") && !token.equals("cantar")
-      	           && !prevToken.equals("que") && !prevToken.equals("qui") && !prevToken.equals("què")
-      	           && mPreposicioDE.matches() && !matchPostagRegexp(tokens[i-1],NOT_IN_PREV_TOKEN)
-      	           && !matchPostagRegexp(tokens[i+1],LOCUCIONS)
-      	           && (i<tokens.length-2) && !matchPostagRegexp(tokens[i+2],INFINITIU)
-      	           && !mExcepcionsDE.matches()
-      	           && !tokens[i-1].hasPosTag("RG") )
-      	{
-      		replacement = relevantWords.get(token).getToken();
-      	}
-      	//la renuncia del president.
-      	else if ( !token.equals("venia") && !token.equals("venies") && !token.equals("tenia") && !token.equals("tenies")
-      			   && !token.equals("faria") && !token.equals("faries")
-      	           && !token.equals("continua") && !token.equals("continues") && !token.equals("cantar")
-      	           && !token.equals("diferencia") && !token.equals("diferencies") && !token.equals("distancia") && !token.equals("distancies")
-      	         &&(  ( mArticleELMS.matches() && matchPostagRegexp(relevantWords.get(token),NOM_MS) )
-      	           || ( mArticleELFS.matches() && matchPostagRegexp(relevantWords.get(token),NOM_FS) )
-      	           || ( mArticleELMP.matches() && matchPostagRegexp(relevantWords.get(token),NOM_MP) )
-      	           || ( mArticleELFP.matches() && matchPostagRegexp(relevantWords.get(token),NOM_FP) ) )
+      // VERB WITHOUT ACCENT -> NOUN WITH ACCENT
+      if (isRelevantWord && !matchPostagRegexp(tokens[i], GN)) {
+        // amb renuncies
+        if (tokens[i - 1].hasPosTag("SPS00") && !tokens[i - 1].hasPosTag("RG")
+            && !matchPostagRegexp(tokens[i - 1], DETERMINANT)
+            && !matchPostagRegexp(tokens[i], INFINITIU)) {
+          replacement = relevantWords.get(token).getToken();
+        }
+        // aquestes renuncies
+        else if (((matchPostagRegexp(tokens[i - 1], DETERMINANT_MS)
+            && matchPostagRegexp(relevantWords.get(token), NOM_MS) && !token.equals("cantar"))
+            || (matchPostagRegexp(tokens[i - 1], DETERMINANT_MP) && matchPostagRegexp(relevantWords.get(token), NOM_MP))
+            || (matchPostagRegexp(tokens[i - 1], DETERMINANT_FS)
+                && matchPostagRegexp(relevantWords.get(token), NOM_FS)
+                && !token.equals("venia") && !token.equals("tenia")
+                && !token.equals("continua") && !token.equals("genera") && !token
+                  .equals("faria")) || (matchPostagRegexp(tokens[i - 1],
+            DETERMINANT_FP) && matchPostagRegexp(relevantWords.get(token),
+            NOM_FP)))) {
+          replacement = relevantWords.get(token).getToken();
+        }
+        // fumaré una faria (correct: fària)
+        else if (i > 2
+            && matchPostagRegexp(tokens[i - 2], VERB_CONJUGAT)
+            && ((matchPostagRegexp(tokens[i - 1], DETERMINANT_MS) && matchPostagRegexp(
+                relevantWords.get(token), NOM_MS))
+                || (matchPostagRegexp(tokens[i - 1], DETERMINANT_MP) && matchPostagRegexp(
+                    relevantWords.get(token), NOM_MP))
+                || (matchPostagRegexp(tokens[i - 1], DETERMINANT_FS) && matchPostagRegexp(
+                    relevantWords.get(token), NOM_FS)) || (matchPostagRegexp(
+                tokens[i - 1], DETERMINANT_FP) && matchPostagRegexp(
+                relevantWords.get(token), NOM_FP)))) {
+          replacement = relevantWords.get(token).getToken();
+        }
+        // fem la copia(correct: còpia)
+        else if (i > 2
+            && matchPostagRegexp(tokens[i - 2], VERB_CONJUGAT)
+            && ((mArticleELMS.matches() && matchPostagRegexp(
+                relevantWords.get(token), NOM_MS))
+                || (mArticleELMP.matches() && matchPostagRegexp(
+                    relevantWords.get(token), NOM_MP))
+                || (mArticleELFS.matches() && matchPostagRegexp(
+                    relevantWords.get(token), NOM_FS)) || (mArticleELFP
+                .matches() && matchPostagRegexp(relevantWords.get(token),
+                NOM_FP)))) {
+          replacement = relevantWords.get(token).getToken();
+        }
+        // circumstancies d'una altra classe
+        else if (!matchPostagRegexp(tokens[i], PARTICIPI_MS)
+            && !token.equals("venia") && !token.equals("venies")
+            && !token.equals("tenia") && !token.equals("tenies")
+            && !token.equals("faria") && !token.equals("faries")
+            && !token.equals("espero") && !token.equals("continua")
+            && !token.equals("continues") && !token.equals("cantar")
+            && !prevToken.equals("que") && !prevToken.equals("qui")
+            && !prevToken.equals("què") && mPreposicioDE.matches()
+            && !matchPostagRegexp(tokens[i - 1], NOT_IN_PREV_TOKEN)
+            && !matchPostagRegexp(tokens[i + 1], LOCUCIONS)
+            && (i < tokens.length - 2)
+            && !matchPostagRegexp(tokens[i + 2], INFINITIU)
+            && !mExcepcionsDE.matches() && !tokens[i - 1].hasPosTag("RG")) {
+          replacement = relevantWords.get(token).getToken();
+        }
+        // la renuncia del president.
+        else if (!token.equals("venia")
+            && !token.equals("venies")
+            && !token.equals("tenia")
+            && !token.equals("tenies")
+            && !token.equals("faria")
+            && !token.equals("faries")
+            && !token.equals("continua")
+            && !token.equals("continues")
+            && !token.equals("cantar")
+            && !token.equals("diferencia")
+            && !token.equals("diferencies")
+            && !token.equals("distancia")
+            && !token.equals("distancies")
+            && ((mArticleELMS.matches() && matchPostagRegexp(
+                relevantWords.get(token), NOM_MS))
+                || (mArticleELFS.matches() && matchPostagRegexp(
+                    relevantWords.get(token), NOM_FS))
+                || (mArticleELMP.matches() && matchPostagRegexp(
+                    relevantWords.get(token), NOM_MP)) || (mArticleELFP
+                .matches() && matchPostagRegexp(relevantWords.get(token),
+                NOM_FP)))
 
-      	         && mPreposicioDE.matches()
-      	         )
-      	{
-      		replacement = relevantWords.get(token).getToken();
-      	}
-      	//circumstancies extraordinàries
-      	else if ( !token.equals("pronuncia") && !token.equals("pronuncies") && !token.equals("venia") && !token.equals("venies")
-      	          && !token.equals("tenia") && !token.equals("tenies") && !token.equals("continua") && !token.equals("continues")
-      	          && !token.equals("faria") && !token.equals("faries")
-      	          && !token.equals("genera") && !token.equals("figuri")
-      	          && (i<tokens.length-1) &&
-      	          (
-      	            (matchPostagRegexp(relevantWords.get(token),NOM_MS) && matchPostagRegexp(tokens[i+1],ADJECTIU_MS))
-      	            || (matchPostagRegexp(relevantWords.get(token),NOM_FS) && matchPostagRegexp(tokens[i+1],ADJECTIU_FS))
-      	            || (matchPostagRegexp(relevantWords.get(token),NOM_MP) && matchPostagRegexp(tokens[i+1],ADJECTIU_MP))
-      	            || (matchPostagRegexp(relevantWords.get(token),NOM_FP) && matchPostagRegexp(tokens[i+1],ADJECTIU_FP))
-      	          )
-      	            )
-      	{
-      		replacement = relevantWords.get(token).getToken();
-      	}
-      	//les seves contraries
-      	else if (
-      	            (matchPostagRegexp(relevantWords.get(token),NOM_MS) && matchPostagRegexp(tokens[i-1],ADJECTIU_MS) && !matchPostagRegexp(tokens[i],VERB_3S) && !matchPostagRegexp(tokens[i],GRUP_VERBAL))
-      	            || (matchPostagRegexp(relevantWords.get(token),NOM_FS) && matchPostagRegexp(tokens[i-1],ADJECTIU_FS) && !matchPostagRegexp(tokens[i],VERB_3S))
-      	            || (matchPostagRegexp(relevantWords.get(token),NOM_MP) && matchPostagRegexp(tokens[i-1],ADJECTIU_MP))
-      	            || (matchPostagRegexp(relevantWords.get(token),NOM_FP) && matchPostagRegexp(tokens[i-1],ADJECTIU_FP))
-      	          )
-      	{
-      		replacement = relevantWords.get(token).getToken();
-      	}
-      	// les circumstancies que ens envolten
-      	else if ( nextToken.equals("que") &&
-      	           (  ( mArticleELMS.matches() && matchPostagRegexp(relevantWords.get(token),NOM_MS) )
-      	           || ( mArticleELFS.matches() && matchPostagRegexp(relevantWords.get(token),NOM_FS) )
-      	           || ( mArticleELMP.matches() && matchPostagRegexp(relevantWords.get(token),NOM_MP) )
-      	           || ( mArticleELFP.matches() && matchPostagRegexp(relevantWords.get(token),NOM_FP) ) )
-      	         )
-      	{
-      		replacement = relevantWords.get(token).getToken();
-      	}
+            && mPreposicioDE.matches()) {
+          replacement = relevantWords.get(token).getToken();
+        }
+        // circumstancies extraordinàries
+        else if (!token.equals("pronuncia")
+            && !token.equals("pronuncies")
+            && !token.equals("venia")
+            && !token.equals("venies")
+            && !token.equals("tenia")
+            && !token.equals("tenies")
+            && !token.equals("continua")
+            && !token.equals("continues")
+            && !token.equals("faria")
+            && !token.equals("faries")
+            && !token.equals("genera")
+            && !token.equals("figuri")
+            && (i < tokens.length - 1)
+            && ((matchPostagRegexp(relevantWords.get(token), NOM_MS) && matchPostagRegexp(
+                tokens[i + 1], ADJECTIU_MS))
+                || (matchPostagRegexp(relevantWords.get(token), NOM_FS) && matchPostagRegexp(
+                    tokens[i + 1], ADJECTIU_FS))
+                || (matchPostagRegexp(relevantWords.get(token), NOM_MP) && matchPostagRegexp(
+                    tokens[i + 1], ADJECTIU_MP)) || (matchPostagRegexp(
+                relevantWords.get(token), NOM_FP) && matchPostagRegexp(
+                tokens[i + 1], ADJECTIU_FP)))) {
+          replacement = relevantWords.get(token).getToken();
+        }
+        // les seves contraries
+        else if ((matchPostagRegexp(relevantWords.get(token), NOM_MS)
+            && matchPostagRegexp(tokens[i - 1], ADJECTIU_MS)
+            && !matchPostagRegexp(tokens[i], VERB_3S) && !matchPostagRegexp(
+              tokens[i], GRUP_VERBAL))
+            || (matchPostagRegexp(relevantWords.get(token), NOM_FS)
+                && matchPostagRegexp(tokens[i - 1], ADJECTIU_FS) && !matchPostagRegexp(
+                  tokens[i], VERB_3S))
+            || (matchPostagRegexp(relevantWords.get(token), NOM_MP) && matchPostagRegexp(
+                tokens[i - 1], ADJECTIU_MP))
+            || (matchPostagRegexp(relevantWords.get(token), NOM_FP) && matchPostagRegexp(
+                tokens[i - 1], ADJECTIU_FP))) {
+          replacement = relevantWords.get(token).getToken();
+        }
+        // les circumstancies que ens envolten
+        else if (nextToken.equals("que")
+            && ((mArticleELMS.matches() && matchPostagRegexp(
+                relevantWords.get(token), NOM_MS))
+                || (mArticleELFS.matches() && matchPostagRegexp(
+                    relevantWords.get(token), NOM_FS))
+                || (mArticleELMP.matches() && matchPostagRegexp(
+                    relevantWords.get(token), NOM_MP)) || (mArticleELFP
+                .matches() && matchPostagRegexp(relevantWords.get(token),
+                NOM_FP)))) {
+          replacement = relevantWords.get(token).getToken();
+        }
       }
 
       // VERB WITHOUT ACCENT -> ADJECTIVE WITH ACCENT
-      if (isRelevantWord2 && !matchPostagRegexp(tokens[i],GN))
-      {
-      	 // de manera obvia, circumstàncies extraordinaries.
-         if (    (matchPostagRegexp(relevantWords2.get(token),ADJECTIU_MS) && matchPostagRegexp(tokens[i-1],NOM_MS) && !tokens[i-1].hasPosTag("_GN_FS") && matchPostagRegexp(tokens[i],VERB_CONJUGAT) && !matchPostagRegexp(tokens[i],VERB_3S) )
-      	     || (matchPostagRegexp(relevantWords2.get(token),ADJECTIU_FS) && prevPrevToken.equalsIgnoreCase("de") && (prevToken.equals("manera")||prevToken.equals("forma")) )
-      	     || (matchPostagRegexp(relevantWords2.get(token),ADJECTIU_MP) && matchPostagRegexp(tokens[i-1],NOM_MP))
-      	     || (matchPostagRegexp(relevantWords2.get(token),ADJECTIU_FP) && matchPostagRegexp(tokens[i-1],NOM_FP))
-      	    )
-      	 {
-      	 	  replacement = relevantWords2.get(token).getToken();
-      	 }
-      	 // de continua disputa
-      	 else if ( (i < tokens.length-1) && !prevToken.equals("que") && !matchPostagRegexp(tokens[i-1],NOT_IN_PREV_TOKEN)  &&
-      	      ( (matchPostagRegexp(relevantWords2.get(token),ADJECTIU_MS) && matchPostagRegexp(tokens[i+1],NOM_MS) && matchPostagRegexp(tokens[i-1],BEFORE_ADJECTIVE_MS) )
-      	     || (matchPostagRegexp(relevantWords2.get(token),ADJECTIU_FS) && matchPostagRegexp(tokens[i+1],NOM_FS) && matchPostagRegexp(tokens[i-1],BEFORE_ADJECTIVE_FS) )
-      	     || (matchPostagRegexp(relevantWords2.get(token),ADJECTIU_MP) && matchPostagRegexp(tokens[i+1],NOM_MP) && matchPostagRegexp(tokens[i-1],BEFORE_ADJECTIVE_MP) )
-      	     || (matchPostagRegexp(relevantWords2.get(token),ADJECTIU_FP) && matchPostagRegexp(tokens[i+1],NOM_FP) && matchPostagRegexp(tokens[i-1],BEFORE_ADJECTIVE_FP) ) )
-      	    )
-      	 {
-      	 	  replacement = relevantWords2.get(token).getToken();
-      	 }
-      	 // la magnifica conservació
-      	 else if ( (i < tokens.length-1) &&
-      	      ( (matchPostagRegexp(relevantWords2.get(token),ADJECTIU_MS) && matchPostagRegexp(tokens[i+1],NOM_MS) && mArticleELMS.matches() )
-      	     || (matchPostagRegexp(relevantWords2.get(token),ADJECTIU_FS) && matchPostagRegexp(tokens[i+1],NOM_FS) && mArticleELFS.matches() )
-      	     || (matchPostagRegexp(relevantWords2.get(token),ADJECTIU_MP) && matchPostagRegexp(tokens[i+1],NOM_MP) && mArticleELMP.matches() )
-      	     || (matchPostagRegexp(relevantWords2.get(token),ADJECTIU_FP) && matchPostagRegexp(tokens[i+1],NOM_FP) && mArticleELFP.matches() ) )
-      	    )
-      	 {
-      	 	  replacement = relevantWords2.get(token).getToken();
-      	 }
+      if (isRelevantWord2 && !matchPostagRegexp(tokens[i], GN)) {
+        // de manera obvia, circumstàncies extraordinaries.
+        if ((matchPostagRegexp(relevantWords2.get(token), ADJECTIU_MS)
+            && matchPostagRegexp(tokens[i - 1], NOM_MS)
+            && !tokens[i - 1].hasPosTag("_GN_FS")
+            && matchPostagRegexp(tokens[i], VERB_CONJUGAT) && !matchPostagRegexp(
+              tokens[i], VERB_3S))
+            || (matchPostagRegexp(relevantWords2.get(token), ADJECTIU_FS)
+                && prevPrevToken.equalsIgnoreCase("de") && (prevToken
+                .equals("manera") || prevToken.equals("forma")))
+            || (matchPostagRegexp(relevantWords2.get(token), ADJECTIU_MP) && matchPostagRegexp(
+                tokens[i - 1], NOM_MP))
+            || (matchPostagRegexp(relevantWords2.get(token), ADJECTIU_FP) && matchPostagRegexp(
+                tokens[i - 1], NOM_FP))) {
+          replacement = relevantWords2.get(token).getToken();
+        }
+        // de continua disputa
+        else if ((i < tokens.length - 1)
+            && !prevToken.equals("que")
+            && !matchPostagRegexp(tokens[i - 1], NOT_IN_PREV_TOKEN)
+            && ((matchPostagRegexp(relevantWords2.get(token), ADJECTIU_MS)
+                && matchPostagRegexp(tokens[i + 1], NOM_MS) && matchPostagRegexp(
+                  tokens[i - 1], BEFORE_ADJECTIVE_MS))
+                || (matchPostagRegexp(relevantWords2.get(token), ADJECTIU_FS)
+                    && matchPostagRegexp(tokens[i + 1], NOM_FS) && matchPostagRegexp(
+                      tokens[i - 1], BEFORE_ADJECTIVE_FS))
+                || (matchPostagRegexp(relevantWords2.get(token), ADJECTIU_MP)
+                    && matchPostagRegexp(tokens[i + 1], NOM_MP) && matchPostagRegexp(
+                      tokens[i - 1], BEFORE_ADJECTIVE_MP)) || (matchPostagRegexp(
+                relevantWords2.get(token), ADJECTIU_FP)
+                && matchPostagRegexp(tokens[i + 1], NOM_FP) && matchPostagRegexp(
+                  tokens[i - 1], BEFORE_ADJECTIVE_FP)))) {
+          replacement = relevantWords2.get(token).getToken();
+        }
+        // la magnifica conservació
+        else if ((i < tokens.length - 1)
+            && ((matchPostagRegexp(relevantWords2.get(token), ADJECTIU_MS)
+                && matchPostagRegexp(tokens[i + 1], NOM_MS) && mArticleELMS
+                  .matches())
+                || (matchPostagRegexp(relevantWords2.get(token), ADJECTIU_FS)
+                    && matchPostagRegexp(tokens[i + 1], NOM_FS) && mArticleELFS
+                      .matches())
+                || (matchPostagRegexp(relevantWords2.get(token), ADJECTIU_MP)
+                    && matchPostagRegexp(tokens[i + 1], NOM_MP) && mArticleELMP
+                      .matches()) || (matchPostagRegexp(
+                relevantWords2.get(token), ADJECTIU_FP)
+                && matchPostagRegexp(tokens[i + 1], NOM_FP) && mArticleELFP
+                  .matches()))) {
+          replacement = relevantWords2.get(token).getToken();
+        }
 
       }
       if (replacement != null) {
         final String msg = "Si \u00E9s un nom o un adjectiu, ha de portar accent.";
-        final RuleMatch ruleMatch = new RuleMatch(this, tokens[i].getStartPos(), tokens[i].getStartPos()+token.length(), msg, "Falta un accent");
+        final RuleMatch ruleMatch = new RuleMatch(this,
+            tokens[i].getStartPos(), tokens[i].getStartPos() + token.length(),
+            msg, "Falta un accent");
         ruleMatch.setSuggestedReplacement(replacement);
         ruleMatches.add(ruleMatch);
       }
@@ -302,7 +361,8 @@ public class AccentuationCheckRule extends CatalanRule {
   /**
    * Match POS tag with regular expression
    */
-  private boolean matchPostagRegexp(AnalyzedTokenReadings aToken, Pattern pattern) {
+  private boolean matchPostagRegexp(AnalyzedTokenReadings aToken,
+      Pattern pattern) {
     boolean matches = false;
     for (AnalyzedToken analyzedToken : aToken) {
       final String posTag = analyzedToken.getPOSTag();
@@ -320,24 +380,28 @@ public class AccentuationCheckRule extends CatalanRule {
   /**
    * Load words.
    */
-  private Map<String, AnalyzedTokenReadings> loadWords(String fileName) throws IOException {
+  private Map<String, AnalyzedTokenReadings> loadWords(String fileName)
+      throws IOException {
     final Map<String, AnalyzedTokenReadings> map = new HashMap<>();
-    final InputStream inputStream = JLanguageTool.getDataBroker().getFromRulesDirAsStream(fileName);
+    final InputStream inputStream = JLanguageTool.getDataBroker()
+        .getFromRulesDirAsStream(fileName);
     try (Scanner scanner = new Scanner(inputStream, FILE_ENCODING)) {
       while (scanner.hasNextLine()) {
         final String line = scanner.nextLine().trim();
         if (line.length() < 1) {
           continue;
         }
-        if (line.charAt(0) == '#') {      // ignore comments
+        if (line.charAt(0) == '#') { // ignore comments
           continue;
         }
         final String[] parts = line.split(";");
         if (parts.length != 3) {
-          throw new IOException("Format error in file " + fileName + ", line: " + line + ", " +
-                  "expected 3 semicolon-separated parts, got " + parts.length);
+          throw new IOException("Format error in file " + fileName + ", line: "
+              + line + ", " + "expected 3 semicolon-separated parts, got "
+              + parts.length);
         }
-        final AnalyzedToken analyzedToken = new AnalyzedToken(parts[1], parts[2], null);
+        final AnalyzedToken analyzedToken = new AnalyzedToken(parts[1],
+            parts[2], null);
         map.put(parts[0], new AnalyzedTokenReadings(analyzedToken, 0));
       }
     }
