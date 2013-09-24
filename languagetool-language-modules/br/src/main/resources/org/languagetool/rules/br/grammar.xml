@@ -4475,7 +4475,7 @@ $Id$
         <token regexp="yes">.*-man</token>
       </pattern>
       <message>Ha fellout a rae deoc’h skrivañ <suggestion><match no="1" regexp_match=".$" regexp_replace="ñ"/></suggestion>?</message>
-      <example type="incorrect">A <marker>levr-man</marker> a blij din.</example>
+      <example type="incorrect" correction="levr-mañ">A <marker>levr-man</marker> a blij din.</example>
       <example type="correct">A levr-mañ a blij din.</example>
     </rule>
     <rule id="BED_HOLL_MAN" name="Ar bed-holl-mañ → ar bed-mañ-holl">
@@ -6038,7 +6038,7 @@ $Id$
         <token><exception postag_regexp="yes" postag="N.*"/></token>
       </pattern>
       <message>«\1» a lakaer dirak un anv. Ha fellout a rae deoc’h skrivañ <suggestion><match no="1" regexp_match="(.).*" regexp_replace="$1egen"/></suggestion>? (CHALM G2)</message>
-      <example type="incorrect"><marker>Pebezh</marker> brav!</example>
+      <example type="incorrect" correction="Pegen"><marker>Pebezh</marker> brav!</example>
       <example type="correct">Pebezh paotr!</example>
     </rule>
     <rule id="PEGEN" name="Pegen">
@@ -6049,7 +6049,7 @@ $Id$
         <token><exception postag_regexp="yes" postag="[AJ].*|V ppa"/></token>
       </pattern>
       <message>«\1» a lakaer dirak un anv-gwan pe un adverb. Ha fellout a rae deoc’h skrivañ <suggestion><match no="1" regexp_match="(.).*" regexp_replace="$1ebezh"/></suggestion>? (CHALM G2)</message>
-      <example type="incorrect"><marker>Pegen</marker> paotr!</example>
+      <example type="incorrect" correction="Pebezh"><marker>Pegen</marker> paotr!</example>
       <example type="correct">Pegen brav!</example>
       <example type="correct">Pegen nec’het e oan.</example>
     </rule>
@@ -6073,7 +6073,7 @@ $Id$
         </marker>
       </pattern>
       <message>Lakaet e vez ur bennlizherenn da anvioù ar mizioù. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" case_conversion="startupper"/></suggestion>? (CHALM A17)</message>
-      <example type="incorrect">E miz <marker>du</marker>, teñval ha du.</example>
+      <example type="incorrect" correction="Du">E miz <marker>du</marker>, teñval ha du.</example>
       <example type="correct">E miz Du, teñval ha du.</example>
     </rule>
     <rulegroup id="PENLIZH_DEIZ" name="Pennlizherennoù d’an deizioù">
@@ -6082,7 +6082,7 @@ $Id$
           <token regexp="yes">lun|merc’her|yaou|gwener|sadorn|sul</token>
         </pattern>
         <message>Lakaet e vez ur bennlizherenn da anvioù an deizioù. Ha fellout a rae deoc’h skrivañ <suggestion><match no="1" case_conversion="startupper"/></suggestion>? (CHALM A17)</message>
-        <example type="incorrect">Ar <marker>sul</marker> zo hiziv.</example>
+        <example type="incorrect" correction="Sul">Ar <marker>sul</marker> zo hiziv.</example>
         <example type="correct">Ar Sul zo hiziv.</example>
       </rule>
       <rule>
@@ -6090,7 +6090,7 @@ $Id$
           <token>meurzh<exception scope="previous">miz</exception></token>
         </pattern>
         <message>Lakaet e vez ur bennlizherenn da anvioù an deizioù. Ha fellout a rae deoc’h skrivañ <suggestion><match no="1" case_conversion="startupper"/></suggestion>? (CHALM A17)</message>
-        <example type="incorrect">Ar <marker>meurzh</marker> zo hiziv.</example>
+        <example type="incorrect" correction="Meurzh">Ar <marker>meurzh</marker> zo hiziv.</example>
         <example type="correct">Ar Meurzh zo hiziv.</example>
       </rule>
       <rule>
@@ -6099,7 +6099,7 @@ $Id$
           <marker><token regexp="yes">(?-i)Dilun|Dimeurzh|Dimerc’her|Diriaou|Digwener|Disadorn|Disul</token></marker>
         </pattern>
         <message>Ne vez ket implijet ur bennlizherenn gant a deizioù a grog gant di. Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" case_conversion="startlower"/></suggestion>? (CHAML A17)</message>
-        <example type="incorrect">Mont a rin <marker>Dilun</marker>.</example>
+        <example type="incorrect" correction="dilun">Mont a rin <marker>Dilun</marker>.</example>
         <example type="correct">Mont a rin <marker>dilun</marker>.</example>
         <example type="correct">Dilun e oa.</example>
       </rule>
@@ -6130,7 +6130,7 @@ $Id$
           <token regexp="yes">dimeurzh|dimerc’her|diriaou|digwener|disadorn|disul</token>
         </pattern>
         <message>Ha fellout a rae deoc’h skrivañ <suggestion>ar <match no="2" case_conversion="startupper" regexp_match="..(.*)" regexp_replace="$1"/></suggestion>?</message>
-        <example type="incorrect">Mont a ran d’ar skol d’<marker>an disadorn</marker>.</example>
+        <example type="incorrect" correction="ar Sadorn">Mont a ran d’ar skol d’<marker>an disadorn</marker>.</example>
         <example type="correct">Mont a ran d’ar skol d’ar Sadorn.</example>
       </rule>
       <rule>
@@ -6150,7 +6150,7 @@ $Id$
           </marker>
         </pattern>
         <message>Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" case_conversion="startupper" regexp_match="..(.*)" regexp_replace="$1"/></suggestion>?</message>
-        <example type="incorrect">Bep <marker>disadorn</marker> ez an e kêr.</example>
+        <example type="incorrect" correction="Sadorn">Bep <marker>disadorn</marker> ez an e kêr.</example>
         <example type="correct">Bep Sadorn ez an e kêr.</example>
       </rule>
     </rulegroup>
@@ -6298,7 +6298,7 @@ $Id$
           <marker><token regexp="yes">h[eo]-unan(ik)?(-penn)?</token></marker>
         </pattern>
         <message>Ret eo skrivañ <suggestion><match no="1" regexp_match="^(..)" regexp_replace="$1c’h"/></suggestion>.</message>
-        <example type="incorrect"><marker>He-unan</marker>.</example>
+        <example type="incorrect" correction="Hec’h-unan"><marker>He-unan</marker>.</example>
         <example type="correct"><marker>Hec’h-unan</marker>.</example>
       </rule>
     </rulegroup>
@@ -7503,7 +7503,7 @@ $Id$
           <token regexp="yes">a-benn|bennak(et)?|(etre)?broadel|mat|laouenn|staj|skolaj|studi</token>
         </pattern>
         <message>«devez» ’zo ur verb. Ha fellout a rae deoc’h implijout an anv <suggestion><match no="1" regexp_match="z" regexp_replace="zh"/></suggestion> kentoc’h?</message>
-        <example type="incorrect">E <marker>devez</marker> etrebroadel</example>
+        <example type="incorrect" correction="devezh">E <marker>devez</marker> etrebroadel</example>
         <example type="correct">E devezh etrebroadel</example>
       </rule>
       <rule>
@@ -7511,7 +7511,7 @@ $Id$
           <token regexp="yes">[dtz]evez-(mañ|se|hont|ara[dt]|studi)</token>
         </pattern>
         <message>«devez» ’zo ur verb. Ha fellout a rae deoc’h implijout an anv <suggestion><match no="1" regexp_match="z" regexp_replace="zh"/></suggestion> kentoc’h?</message>
-        <example type="incorrect">An <marker>devez-se</marker></example>
+        <example type="incorrect" correction="devezh-se">An <marker>devez-se</marker></example>
         <example type="correct">An devezh-se</example>
       </rule>
     </rulegroup>
@@ -7525,8 +7525,8 @@ $Id$
           </marker>
           <token regexp="yes">a[lnr]</token>
         </pattern>
-        <message>Ha fellout a rae deoc’h skrivañ <suggestion>al <match no="2" case_conversion="alllower"/> \3 eus \4</suggestion>?</message>
-        <example type="incorrect"><marker>Lodenn vrasañ</marker> ar boblañ</example>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>al <match no="2" case_conversion="alllower"/> \3 eus</suggestion>?</message>
+        <example type="incorrect" correction="Al lodenn vrasañ eus"><marker>Lodenn vrasañ</marker> ar boblañ</example>
         <example type="correct">Al lodenn vrasañ eus ar boblañ</example>
       </rule>
       <rule>
@@ -7964,7 +7964,7 @@ $Id$
         <token regexp="yes">((c’h|[kg])arr|[tdz]our|[mv]enez|c’hwil)-tann</token>
       </pattern>
       <message>Ha fellout a rae deoc’h skrivañ <suggestion><match no="1" regexp_match=".$" regexp_replace=""/></suggestion> ?</message>
-      <example type="incorrect">Ur <marker>c’harr-tann</marker> nevez am eus.</example>
+      <example type="incorrect" correction="c’harr-tan">Ur <marker>c’harr-tann</marker> nevez am eus.</example>
       <example type="correct">Ur c’harr-tan nevez am eus.</example>
     </rule>
     <rulegroup id="ENDRO" name="en-dro pe endro">
@@ -8104,7 +8104,7 @@ $Id$
           </marker>
         </pattern>
         <message>Ha fellout a rae deoc’h skrivañ <suggestion>o <match no="5" regexp_match="^." regexp_replace="k"/></suggestion>?</message>
-        <example type="incorrect">Plijadur am eus <marker>da glevout</marker> se.</example>
+        <example type="incorrect" correction="o klevout">Plijadur am eus <marker>da glevout</marker> se.</example>
         <example type="correct">Plijadur am eus o klevout se.</example>
       </rule>
       <rule>
@@ -8539,7 +8539,7 @@ $Id$
           <marker><token regexp="yes">[gk]?waz-(dour|kreiz|rinier|stêr|vor)</token></marker>
         </pattern>
         <message>Ha fellout a rae deoc’h skrivañ <suggestion><match no="1" regexp_match="-" regexp_replace="h-"/></suggestion>?</message>
-        <example type="incorrect"><marker>Gwaz-dour</marker>.</example>
+        <example type="incorrect" correction="Gwazh-dour"><marker>Gwaz-dour</marker>.</example>
         <example type="correct"><marker>Gwazh-dour</marker>.</example>
       </rule>
     </rulegroup>
