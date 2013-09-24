@@ -5112,7 +5112,7 @@ $Id$
         </rule>
         <rule id="CONSISTIR_EN_QUE" name="consistir *en què">
             <pattern>
-                <token inflected="yes">consistir</token>
+                <token inflected="yes" regexp="yes">consistir|basar</token>
                 <token>en</token>
                 <token>què</token>
             </pattern>
@@ -11780,6 +11780,21 @@ $Id$
         </rule>
     </category>
     <category name="A1) Ortotipografia" type="typographical">
+        <rulegroup id="XIFRES" name="escriptura de xifres">
+            <rule id="ANYS_SENSE_PUNT" name="anys sense punt: *1.950">
+                <pattern>
+                    <token regexp="yes">anys?|mitjan</token>
+                    <marker>
+                        <token regexp="yes">[12]\.\d{3}</token>
+                    </marker>
+                </pattern>
+                <message>Els anys s'escriuen sense punt.</message>
+                <suggestion><match no="2" regexp_match="(.)\.(...)" regexp_replace="$1$2"/></suggestion>
+                <short>Error ortotipogràfic</short>
+                <example type="incorrect" correction="1989">Ell és de l'any <marker>1.989</marker>.</example>
+                <example type="correct">Som a l'any 2000.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="PUNTUACIO_INCORRECTA" name="combinacions de puntuació incorrectes">
             <rule>
                 <pattern>
@@ -12134,11 +12149,11 @@ $Id$
     <category name="Expressions incorrectes" type="grammar">
         <rule id="INCLOENTHI" name="incloent/incloent-hi">
             <pattern>
+                <token regexp="yes">[,;(]</token>
                 <marker>
-                    <token regexp="yes">[,;]</token>
                     <token>incloent</token>
                 </marker>
-                <token><exception regexp="yes">-hi|-ne</exception></token>
+                <token><exception regexp="yes">-hi|-ne|-n</exception></token>
                 <!-- Caldria un tractament especial per a "incloent-ne" -->
             </pattern>
             <message>Probablement cal escriure <suggestion>incloent-hi</suggestion>.</message>
@@ -12146,8 +12161,8 @@ $Id$
             <suggestion>inclosa</suggestion>
             <suggestion>inclosos</suggestion>
             <suggestion>incloses</suggestion>
-            <example type="incorrect"><marker>, incloent</marker> les despeses</example>
-            <example type="correct">, incloent-hi</example>
+            <example type="incorrect">, <marker>incloent</marker> les despeses</example>
+            <example type="correct">, incloent-n'hi quatre-cents de marca blanca.</example>
         </rule>
         <rule id="A_PIT" name="*a pit / a la valenta">
             <pattern>
