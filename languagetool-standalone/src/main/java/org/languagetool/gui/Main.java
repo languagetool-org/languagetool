@@ -409,48 +409,33 @@ public final class Main {
     editMenu.add(undoRedo.redoAction);
     editMenu.addSeparator();
     
-    Action a;
-    Image img;
+    Action cutAction = this.textArea.getActionMap().get(DefaultEditorKit.cutAction);
+    cutAction.putValue(Action.SMALL_ICON, getImageIcon("sc_cut.png"));
+    cutAction.putValue(Action.LARGE_ICON_KEY, getImageIcon("lc_cut.png"));
+    cutAction.putValue(Action.NAME, getLabel("guiMenuCut"));
+    cutAction.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_T);
+    editMenu.add(cutAction);
 
-    a = this.textArea.getActionMap().get(DefaultEditorKit.cutAction);
-    img = Toolkit.getDefaultToolkit().getImage(
-            JLanguageTool.getDataBroker().getFromResourceDirAsUrl("sc_cut.png"));
-    a.putValue(Action.SMALL_ICON, new ImageIcon(img));
-    img = Toolkit.getDefaultToolkit().getImage(
-            JLanguageTool.getDataBroker().getFromResourceDirAsUrl("lc_cut.png"));
-    a.putValue(Action.LARGE_ICON_KEY, new ImageIcon(img));
-    a.putValue(Action.NAME, getLabel("guiMenuCut"));
-    a.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_T);
-    editMenu.add(a);
+    Action copyAction = textArea.getActionMap().get(DefaultEditorKit.copyAction);
+    copyAction.putValue(Action.SMALL_ICON, getImageIcon("sc_copy.png"));
+    copyAction.putValue(Action.LARGE_ICON_KEY, getImageIcon("lc_copy.png"));
+    copyAction.putValue(Action.NAME, getLabel("guiMenuCopy"));
+    copyAction.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_C);
+    editMenu.add(copyAction);
 
-    a = textArea.getActionMap().get(DefaultEditorKit.copyAction);
-    img = Toolkit.getDefaultToolkit().getImage(
-            JLanguageTool.getDataBroker().getFromResourceDirAsUrl("sc_copy.png"));
-    a.putValue(Action.SMALL_ICON, new ImageIcon(img));
-    img = Toolkit.getDefaultToolkit().getImage(
-            JLanguageTool.getDataBroker().getFromResourceDirAsUrl("lc_copy.png"));
-    a.putValue(Action.LARGE_ICON_KEY, new ImageIcon(img));
-    a.putValue(Action.NAME, getLabel("guiMenuCopy"));
-    a.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_C);
-    editMenu.add(a);
-
-    a = textArea.getActionMap().get(DefaultEditorKit.pasteAction);
-    img = Toolkit.getDefaultToolkit().getImage(
-            JLanguageTool.getDataBroker().getFromResourceDirAsUrl("sc_paste.png"));
-    a.putValue(Action.SMALL_ICON, new ImageIcon(img));
-    img = Toolkit.getDefaultToolkit().getImage(
-            JLanguageTool.getDataBroker().getFromResourceDirAsUrl("lc_paste.png"));
-    a.putValue(Action.LARGE_ICON_KEY, new ImageIcon(img));
-    a.putValue(Action.NAME, getLabel("guiMenuPaste"));
-    a.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_P);
-    editMenu.add(a);
+    Action pasteAction = textArea.getActionMap().get(DefaultEditorKit.pasteAction);
+    pasteAction.putValue(Action.SMALL_ICON, getImageIcon("sc_paste.png"));
+    pasteAction.putValue(Action.LARGE_ICON_KEY, getImageIcon("lc_paste.png"));
+    pasteAction.putValue(Action.NAME, getLabel("guiMenuPaste"));
+    pasteAction.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_P);
+    editMenu.add(pasteAction);
 
     editMenu.addSeparator();
 
-    a = textArea.getActionMap().get(DefaultEditorKit.selectAllAction);
-    a.putValue(Action.NAME, getLabel("guiMenuSelectAll"));
-    a.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_A);
-    editMenu.add(a);
+    Action selectAllAction = textArea.getActionMap().get(DefaultEditorKit.selectAllAction);
+    selectAllAction.putValue(Action.NAME, getLabel("guiMenuSelectAll"));
+    selectAllAction.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_A);
+    editMenu.add(selectAllAction);
 
     menuBar.add(fileMenu);
     menuBar.add(editMenu);
@@ -886,13 +871,8 @@ public final class Main {
       putValue(Action.LONG_DESCRIPTION, messages.getString("guiMenuOpenLongDesc"));
       putValue(Action.MNEMONIC_KEY, getMnemonic("guiMenuOpen"));
       putValue(Action.ACCELERATOR_KEY, getMenuKeyStroke(KeyEvent.VK_O));
-      Image img;
-      img = Toolkit.getDefaultToolkit().getImage(
-              JLanguageTool.getDataBroker().getFromResourceDirAsUrl("sc_open.png"));
-      putValue(Action.SMALL_ICON, new ImageIcon(img));
-      img = Toolkit.getDefaultToolkit().getImage(
-              JLanguageTool.getDataBroker().getFromResourceDirAsUrl("lc_open.png"));
-      putValue(Action.LARGE_ICON_KEY, new ImageIcon(img));
+      putValue(Action.SMALL_ICON, getImageIcon("sc_open.png"));
+      putValue(Action.LARGE_ICON_KEY, getImageIcon("lc_open.png"));
     }
 
     @Override
@@ -909,13 +889,8 @@ public final class Main {
       putValue(Action.LONG_DESCRIPTION, messages.getString("guiMenuSaveLongDesc"));
       putValue(Action.MNEMONIC_KEY, getMnemonic("guiMenuSave"));
       putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-      Image img;
-      img = Toolkit.getDefaultToolkit().getImage(
-              JLanguageTool.getDataBroker().getFromResourceDirAsUrl("sc_save.png"));
-      putValue(Action.SMALL_ICON, new ImageIcon(img));
-      img = Toolkit.getDefaultToolkit().getImage(
-              JLanguageTool.getDataBroker().getFromResourceDirAsUrl("lc_save.png"));
-      putValue(Action.LARGE_ICON_KEY, new ImageIcon(img));
+      putValue(Action.SMALL_ICON, getImageIcon("sc_save.png"));
+      putValue(Action.LARGE_ICON_KEY, getImageIcon("lc_save.png"));
     }
 
     @Override
@@ -931,13 +906,8 @@ public final class Main {
       putValue(Action.SHORT_DESCRIPTION, messages.getString("guiMenuSaveAsShortDesc"));
       putValue(Action.LONG_DESCRIPTION, messages.getString("guiMenuSaveAsLongDesc"));
       putValue(Action.MNEMONIC_KEY, getMnemonic("guiMenuSaveAs"));
-      Image img;
-      img = Toolkit.getDefaultToolkit().getImage(
-              JLanguageTool.getDataBroker().getFromResourceDirAsUrl("sc_saveas.png"));
-      putValue(Action.SMALL_ICON, new ImageIcon(img));
-      img = Toolkit.getDefaultToolkit().getImage(
-              JLanguageTool.getDataBroker().getFromResourceDirAsUrl("lc_saveas.png"));
-      putValue(Action.LARGE_ICON_KEY, new ImageIcon(img));
+      putValue(Action.SMALL_ICON, getImageIcon("sc_saveas.png"));
+      putValue(Action.LARGE_ICON_KEY, getImageIcon("lc_saveas.png"));
     }
 
     @Override
@@ -1050,13 +1020,8 @@ public final class Main {
       putValue(Action.SHORT_DESCRIPTION, messages.getString("checkTextShortDesc"));
       putValue(Action.LONG_DESCRIPTION, messages.getString("checkTextLongDesc"));
       putValue(Action.MNEMONIC_KEY, getMnemonic("checkText"));
-      Image img;
-      img = Toolkit.getDefaultToolkit().getImage(
-              JLanguageTool.getDataBroker().getFromResourceDirAsUrl("sc_spelldialog.png"));
-      putValue(Action.SMALL_ICON, new ImageIcon(img));
-      img = Toolkit.getDefaultToolkit().getImage(
-              JLanguageTool.getDataBroker().getFromResourceDirAsUrl("lc_spelldialog.png"));
-      putValue(Action.LARGE_ICON_KEY, new ImageIcon(img));
+      putValue(Action.SMALL_ICON, getImageIcon("sc_spelldialog.png"));
+      putValue(Action.LARGE_ICON_KEY, getImageIcon("lc_spelldialog.png"));
     }
 
     @Override
@@ -1074,13 +1039,8 @@ public final class Main {
       putValue(Action.SHORT_DESCRIPTION, messages.getString("autoCheckTextShortDesc"));
       putValue(Action.LONG_DESCRIPTION, messages.getString("autoCheckTextLongDesc"));
       putValue(Action.MNEMONIC_KEY, getMnemonic("autoCheckText"));
-      Image img;
-      img = Toolkit.getDefaultToolkit().getImage(
-              JLanguageTool.getDataBroker().getFromResourceDirAsUrl("sc_spellonline.png"));
-      putValue(Action.SMALL_ICON, new ImageIcon(img));
-      img = Toolkit.getDefaultToolkit().getImage(
-              JLanguageTool.getDataBroker().getFromResourceDirAsUrl("lc_spellonline.png"));
-      putValue(Action.LARGE_ICON_KEY, new ImageIcon(img));
+      putValue(Action.SMALL_ICON, getImageIcon("sc_spellonline.png"));
+      putValue(Action.LARGE_ICON_KEY, getImageIcon("lc_spellonline.png"));
       enable = initial;
       putValue(Action.SELECTED_KEY, enable);
     }
@@ -1092,4 +1052,11 @@ public final class Main {
       ltSupport.setBackgroundCheckEnabled(enable);
     }
   }
+
+  private ImageIcon getImageIcon(String filename) {
+    Image image = Toolkit.getDefaultToolkit().getImage(
+            JLanguageTool.getDataBroker().getFromResourceDirAsUrl(filename));
+    return new ImageIcon(image);
+  }
+
 }
