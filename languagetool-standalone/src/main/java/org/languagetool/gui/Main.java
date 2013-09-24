@@ -257,30 +257,30 @@ public final class Main {
     toolbar.setFloatable(false);
     contentPane.add(toolbar,cons);
 
-    JButton openbutton = new JButton(openAction);
-    openbutton.setHideActionText(true);
-    openbutton.setFocusable(false);
-    toolbar.add(openbutton);
+    JButton openButton = new JButton(openAction);
+    openButton.setHideActionText(true);
+    openButton.setFocusable(false);
+    toolbar.add(openButton);
 
-    JButton savebutton = new JButton(saveAction);
-    savebutton.setHideActionText(true);
-    savebutton.setFocusable(false);
-    toolbar.add(savebutton);
+    JButton saveButton = new JButton(saveAction);
+    saveButton.setHideActionText(true);
+    saveButton.setFocusable(false);
+    toolbar.add(saveButton);
 
-    JButton saveasbutton = new JButton(saveAsAction);
-    saveasbutton.setHideActionText(true);
-    saveasbutton.setFocusable(false);
-    toolbar.add(saveasbutton);
+    JButton saveAsButton = new JButton(saveAsAction);
+    saveAsButton.setHideActionText(true);
+    saveAsButton.setFocusable(false);
+    toolbar.add(saveAsButton);
 
-    JButton spellbutton = new JButton(this.checkAction);
-    spellbutton.setHideActionText(true);
-    spellbutton.setFocusable(false);
-    toolbar.add(spellbutton);
+    JButton spellButton = new JButton(this.checkAction);
+    spellButton.setHideActionText(true);
+    spellButton.setFocusable(false);
+    toolbar.add(spellButton);
 
-    JToggleButton autospellbutton = new JToggleButton(autoCheckAction);
-    autospellbutton.setHideActionText(true);
-    autospellbutton.setFocusable(false);
-    toolbar.add(autospellbutton);
+    JToggleButton autoSpellButton = new JToggleButton(autoCheckAction);
+    autoSpellButton.setHideActionText(true);
+    autoSpellButton.setFocusable(false);
+    toolbar.add(autoSpellButton);
 
     cons.insets = new Insets(5, 5, 5, 5);
     cons.fill = GridBagConstraints.BOTH;
@@ -311,8 +311,7 @@ public final class Main {
     languageBox.addItemListener(new ItemListener() {
       @Override
       public void itemStateChanged(ItemEvent e) {
-        if(e.getStateChange() == ItemEvent.SELECTED)
-        {
+        if(e.getStateChange() == ItemEvent.SELECTED) {
           // we cannot re-use the existing LT object anymore
           ltSupport.setLanguage((Language) languageBox.getSelectedItem());
         }

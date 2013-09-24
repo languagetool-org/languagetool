@@ -498,8 +498,7 @@ public final class StringTools {
    * @return String UI element string without mnemonics.
    */
   public static String getLabel(final String label) {
-    return label.replaceAll("&([^&])", "$1").
-    replaceAll("&&", "&");
+    return label.replaceAll("&([^&])", "$1").replaceAll("&&", "&");
   }
 
   /**
