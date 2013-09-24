@@ -24,6 +24,7 @@ import java.util.List;
 
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.en.MorfologikNewZealandSpellerRule;
+import org.languagetool.rules.en.NewZealandReplaceRule;
 
 public class NewZealandEnglish extends English {
 
@@ -43,6 +44,7 @@ public class NewZealandEnglish extends English {
     rules.addAll(super.getRelevantRules());    
     // New Zealand English speller...
     rules.add(MorfologikNewZealandSpellerRule.class);
+    rules.add(NewZealandReplaceRule.class);
     return rules;
   }
 
