@@ -70,7 +70,7 @@ git at github (https://github.com/languagetool-org/languagetool). Most
 history has been preserved. History is lost for:
  * binary files
  * branches and tags
-If you need this history, the old subversion repository will be available
+If you need this history, the old subversion repository is still available
 at http://svn.code.sf.net/p/languagetool/code/trunk/languagetool/
 
 ------------------------------------------------
@@ -80,7 +80,7 @@ License:
  Unless otherwise noted, this software is distributed under 
  the LGPL, see file COPYING.txt
  
- See README-license.txt for the copyright of the external libraries
+ See third-party-licenses/README.txt for the copyright of the external libraries
 
  Language detection (*.ngp):
  The process for automatic language detection is described at

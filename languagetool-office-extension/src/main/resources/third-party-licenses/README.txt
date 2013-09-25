@@ -25,3 +25,8 @@ swc-engine.jar: Apache License 2.0, http://sweble.org
 swc-parser-lazy.jar: Apache License 2.0, http://sweble.org
 tika-core.jar: Apache License 2.0, http://tika.apache.org
 utils.jar: part of Sweble, Apache License 2.0, http://sweble.org
+
+Other resources like dictionaries are not technically libraries, they may have 
+different licenses (including GPL) without affecting LanguageTool's licensing. 
+For the dictionaries that are used for spell checking, see
+./org/languagetool/resource/<xx>/hunspell/README* (<xx> = language code).
