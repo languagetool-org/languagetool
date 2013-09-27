@@ -1630,7 +1630,7 @@ $Id$
                 </pattern>
                 <message>¿Volíeu dir <suggestion>molta</suggestion>?</message>
                 <suggestion>molta <match no="2"/></suggestion>
-                <example type="incorrect" correction="molta|molta de">Tenia <marker>molt de</marker> son.</example>
+                <example type="incorrect" correction="molta|molta de">Tenia <marker>molt de</marker> sort.</example>
                 <example type="correct">Tenia molt de son pare.</example>
                 <example type="correct">Allò requeria molt de valor.</example>
             </rule>
@@ -19529,11 +19529,14 @@ $Id$
             <pattern>
                 <token>molt</token>
                 <token>de</token>
-                <token>por</token>
+                <token regexp="yes">por|son|barra</token>
             </pattern>
-            <message>Por (= temor) és nom femení; por (= porus) és nom masculí.</message>
-            <suggestion>molta por</suggestion>
-            <example type="incorrect" correction="molta por">Ens fa <marker>molt de por</marker></example>
+            <message>Error de concordança si s'usa com a nom femení. "<match no="3"/>" també existeix com a nom masculí.</message>
+            <suggestion>molta <match no="3"/></suggestion>
+            <suggestion>molta de <match no="3"/></suggestion>
+            <short>Possible error de concordança.</short>
+            <example type="incorrect" correction="molta por|molta de por">Ens fa <marker>molt de por</marker></example>
+            <example type="incorrect" correction="molta son|molta de son">Tenia <marker>molt de son</marker>.</example>
             <example type="correct">Ens fa molta por</example>
         </rule>
     </category>
