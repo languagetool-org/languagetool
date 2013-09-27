@@ -25,51 +25,49 @@ import junit.framework.TestCase;
 
 public class CatalanWordTokenizerTest extends TestCase {
 
-	public void testTokenize() {
-		CatalanWordTokenizer wordTokenizer = new CatalanWordTokenizer();
-		List<String> tokens;
-		tokens = wordTokenizer.tokenize("L'\"ala bastarda\".");
+  public void testTokenize() {
+    CatalanWordTokenizer wordTokenizer = new CatalanWordTokenizer();
+    List<String> tokens;
+    tokens = wordTokenizer.tokenize("L'\"ala bastarda\".");
     assertEquals(tokens.size(), 7);
     assertEquals("[L', \", ala,  , bastarda, \", .]", tokens.toString());
-    		tokens = wordTokenizer
-				.tokenize("Emporta-te'ls a l'observatori dels mars");
-		assertEquals(tokens.size(), 13);
-		assertEquals(
-				"[Emporta, -te, 'ls,  , a,  , l', observatori,  , de, ls,  , mars]",
-				tokens.toString());
-		tokens = wordTokenizer.tokenize("El tren Barcelona-València");
-		assertEquals(tokens.size(), 7);
-		assertEquals("[El,  , tren,  , Barcelona, -, València]",
-				tokens.toString());
-		tokens = wordTokenizer.tokenize("N'hi ha vint-i-quatre");
-		assertEquals(tokens.size(), 6);
-		assertEquals("[N', hi,  , ha,  , vint-i-quatre]", tokens.toString());
-		tokens = wordTokenizer.tokenize("Mont-ras");
-		assertEquals(tokens.size(), 1);
-		assertEquals("[Mont-ras]", tokens.toString());
-		tokens = wordTokenizer.tokenize("És d'1 km.");
-		assertEquals(tokens.size(), 7);
-		assertEquals("[És,  , d', 1,  , km, .]", tokens.toString());
-		tokens = wordTokenizer.tokenize("És d'1,5 km.");
-		assertEquals(tokens.size(), 7);
-		assertEquals("[És,  , d', 1,5,  , km, .]", tokens.toString());
-		tokens = wordTokenizer.tokenize("És d'5 km.");
-		assertEquals(tokens.size(), 7);
-		assertEquals("[És,  , d', 5,  , km, .]", tokens.toString());
-		tokens = wordTokenizer.tokenize("la direcció E-SE");
-		assertEquals(tokens.size(), 7);
-		assertEquals("[la,  , direcció,  , E, -, SE]", tokens.toString());
-		tokens = wordTokenizer.tokenize("la direcció NW-SE");
-		assertEquals(tokens.size(), 7);
-		assertEquals("[la,  , direcció,  , NW, -, SE]", tokens.toString());
-		tokens = wordTokenizer.tokenize("Se'n dóna vergonya");
-		assertEquals(tokens.size(), 6);
-		assertEquals("[Se, 'n,  , dóna,  , vergonya]", tokens.toString());
-		tokens = wordTokenizer.tokenize("Emília-Romanya");
-		assertEquals(tokens.size(), 3);
-		assertEquals("[Emília, -, Romanya]", tokens.toString());	
-		tokens = wordTokenizer.tokenize("L'Emília-Romanya");
-		assertEquals(tokens.size(), 4);
-		assertEquals("[L', Emília, -, Romanya]", tokens.toString());
-	}
+    tokens = wordTokenizer.tokenize("Emporta-te'ls a l'observatori dels mars");
+    assertEquals(tokens.size(), 13);
+    assertEquals(
+        "[Emporta, -te, 'ls,  , a,  , l', observatori,  , de, ls,  , mars]",
+        tokens.toString());
+    tokens = wordTokenizer.tokenize("El tren Barcelona-València");
+    assertEquals(tokens.size(), 7);
+    assertEquals("[El,  , tren,  , Barcelona, -, València]", tokens.toString());
+    tokens = wordTokenizer.tokenize("N'hi ha vint-i-quatre");
+    assertEquals(tokens.size(), 6);
+    assertEquals("[N', hi,  , ha,  , vint-i-quatre]", tokens.toString());
+    tokens = wordTokenizer.tokenize("Mont-ras");
+    assertEquals(tokens.size(), 1);
+    assertEquals("[Mont-ras]", tokens.toString());
+    tokens = wordTokenizer.tokenize("És d'1 km.");
+    assertEquals(tokens.size(), 7);
+    assertEquals("[És,  , d', 1,  , km, .]", tokens.toString());
+    tokens = wordTokenizer.tokenize("És d'1,5 km.");
+    assertEquals(tokens.size(), 7);
+    assertEquals("[És,  , d', 1,5,  , km, .]", tokens.toString());
+    tokens = wordTokenizer.tokenize("És d'5 km.");
+    assertEquals(tokens.size(), 7);
+    assertEquals("[És,  , d', 5,  , km, .]", tokens.toString());
+    tokens = wordTokenizer.tokenize("la direcció E-SE");
+    assertEquals(tokens.size(), 7);
+    assertEquals("[la,  , direcció,  , E, -, SE]", tokens.toString());
+    tokens = wordTokenizer.tokenize("la direcció NW-SE");
+    assertEquals(tokens.size(), 7);
+    assertEquals("[la,  , direcció,  , NW, -, SE]", tokens.toString());
+    tokens = wordTokenizer.tokenize("Se'n dóna vergonya");
+    assertEquals(tokens.size(), 6);
+    assertEquals("[Se, 'n,  , dóna,  , vergonya]", tokens.toString());
+    tokens = wordTokenizer.tokenize("Emília-Romanya");
+    assertEquals(tokens.size(), 3);
+    assertEquals("[Emília, -, Romanya]", tokens.toString());
+    tokens = wordTokenizer.tokenize("L'Emília-Romanya");
+    assertEquals(tokens.size(), 4);
+    assertEquals("[L', Emília, -, Romanya]", tokens.toString());
+  }
 }

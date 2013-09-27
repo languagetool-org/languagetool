@@ -143,10 +143,10 @@ public class ReflexiveVerbsRule extends CatalanRule {
   
    
   public ReflexiveVerbsRule(ResourceBundle messages) throws IOException {
-	  if (messages != null) {
-		  super.setCategory(new Category("Verbs"));
-	  }
-	  setLocQualityIssueType("grammar");
+    if (messages != null) {
+      super.setCategory(new Category("Verbs"));
+    }
+    setLocQualityIssueType("grammar");
   }
 
   
@@ -160,33 +160,33 @@ public class ReflexiveVerbsRule extends CatalanRule {
     return "Verbs reflexius: comproveu que porten el pronom adequat.";
   }
 
-	@Override
-	public RuleMatch[] match(final AnalyzedSentence text) {
-		final List<RuleMatch> ruleMatches = new ArrayList<>();
-		final AnalyzedTokenReadings[] tokens = text
-				.getTokensWithoutWhitespace();
-		loop: for (int i = 1; i < tokens.length; i++) { // ignoring token 0,
-														// i.e., SENT_START
+  @Override
+  public RuleMatch[] match(final AnalyzedSentence text) {
+    final List<RuleMatch> ruleMatches = new ArrayList<>();
+    final AnalyzedTokenReadings[] tokens = text
+        .getTokensWithoutWhitespace();
+    loop: for (int i = 1; i < tokens.length; i++) { // ignoring token 0,
+                            // i.e., SENT_START
 
-			final String token;
-			if (i == 1) {
-				token = tokens[i].getToken().toLowerCase();
-			} else {
-				token = tokens[i].getToken();
-			}
-			if (matchPostagRegexp(tokens[i], NO_VERB) 
-					|| !matchPostagRegexp(tokens[i], VERB) )
-				continue loop;
-			final Matcher mUpperCase = UPPERCASE.matcher(tokens[i]
-					.getToken());
-			if (i > 1 && mUpperCase.matches())
-				continue loop;
-			
-			//Comprova: *donar-se compte/adonar-se
-			if (i+2<tokens.length
+      final String token;
+      if (i == 1) {
+        token = tokens[i].getToken().toLowerCase();
+      } else {
+        token = tokens[i].getToken();
+      }
+      if (matchPostagRegexp(tokens[i], NO_VERB) 
+          || !matchPostagRegexp(tokens[i], VERB) )
+        continue loop;
+      final Matcher mUpperCase = UPPERCASE.matcher(tokens[i]
+          .getToken());
+      if (i > 1 && mUpperCase.matches())
+        continue loop;
+      
+      //Comprova: *donar-se compte/adonar-se
+      if (i+2<tokens.length
           && tokens[i].hasLemma("donar")
-			    && (tokens[i+1].getToken().equals("compte") 
-			        || tokens[i+2].getToken().equals("compte"))) {        
+          && (tokens[i+1].getToken().equals("compte") 
+              || tokens[i+2].getToken().equals("compte"))) {        
         if (!isThereReflexivePronoun(tokens, i)) 
           continue loop;
                 
@@ -203,192 +203,192 @@ public class ReflexiveVerbsRule extends CatalanRule {
             "Possible error");
         ruleMatches.add(ruleMatch);
       }
-			
-			// Comprova: portar-se/emportar-se
-			if (i+2<tokens.length
-					&& matchLemmaRegexp(tokens[i], VERBS_PORTAR_DUR)
-					&& ! (matchPostagRegexp(tokens[i], VERB_INF) && isThereBefore(tokens,i,LEMMA_PREP_A_PER,POSTAG_PREPOSICIO))
-					&& !hasVerbMultipleReadings(tokens[i]) //em duràs un mocador
-					&& isThereReflexivePronoun(tokens, i) // ens portem, ens hem de portar
-					&& isThereAfterWithoutPreposition(tokens, i, POSTAG_CD)
-					&& !isThereVerbBefore(tokens,i,VERBS_DEIXAR_FER) // es deixen portar
-					&& !(isThereVerbBefore(tokens,i,VERBS_POTENCIALMENT_PRONOMINALS)&&!isThereVerbBefore(tokens,i,NO_VERBS_POTENCIALMENT_PRONOMINALS))
-					&& !matchPostagRegexp(tokens[i+1], POSTAG_ADVERBI) // es porten bé
-					&& !matchPostagRegexp(tokens[i+2], POSTAG_ADVERBI) // hem de portar-nos bé
-					&& !matchLemmaRegexp(tokens[i+2], ANYMESDIA) // ens portem tres anys
-					&& !isPhraseImpersonalVerbSP(tokens, i) // Es va portar l'any passat
-					) {
-				// the rule matches
-				String suggestion;
-				if (matchLemmaRegexp(tokens[i], VERB_PORTAR)) {suggestion= "em"+token; }
-					else if (token.equalsIgnoreCase("du")) {suggestion="endú"; }
-					else {suggestion= "en"+token; }
-				final String msg="¿Volíeu dir <suggestion>"+suggestion+"</suggestion>?";
-				final RuleMatch ruleMatch = new RuleMatch(this,
-						tokens[i].getStartPos(), tokens[i].getStartPos()
-								+ token.length(), msg, "Possible error");
-				ruleMatches.add(ruleMatch);		
-				continue loop;
-			}
-			
-			//PERÍFRASI AMB VERB PRONOMINAL: el fan *agenollar-se/agenollar
-			if (i+1<tokens.length 
-					&& matchPostagRegexp(tokens[i], VERB_INF)
-					&& !matchPostagRegexp(tokens[i - 1], POSTAG_PREPOSICIO) 
-					&& isThereVerbBefore(tokens,i,VERBS_DEIXAR_FER)
-					&& isThereBefore(tokens, i, LEMMA_PRONOM_CD, POSTAG_PRONOM_CD)  
-					&& matchRegexp(tokens[i + 1].getToken(), REFLEXIU_POSPOSAT) ) {
-					// the rule matches
-					final String msg = "En aquesta perífrasi verbal el pronom reflexiu posterior és redundant.";
-					final RuleMatch ruleMatch = new RuleMatch(this,
-							tokens[i+1].getStartPos(), tokens[i+1].getStartPos()
-									+ tokens[i+1].getToken().length(), msg, "Pronom redundant");
-					ruleMatches.add(ruleMatch);
-					continue loop;
-			}
+      
+      // Comprova: portar-se/emportar-se
+      if (i+2<tokens.length
+          && matchLemmaRegexp(tokens[i], VERBS_PORTAR_DUR)
+          && ! (matchPostagRegexp(tokens[i], VERB_INF) && isThereBefore(tokens,i,LEMMA_PREP_A_PER,POSTAG_PREPOSICIO))
+          && !hasVerbMultipleReadings(tokens[i]) //em duràs un mocador
+          && isThereReflexivePronoun(tokens, i) // ens portem, ens hem de portar
+          && isThereAfterWithoutPreposition(tokens, i, POSTAG_CD)
+          && !isThereVerbBefore(tokens,i,VERBS_DEIXAR_FER) // es deixen portar
+          && !(isThereVerbBefore(tokens,i,VERBS_POTENCIALMENT_PRONOMINALS)&&!isThereVerbBefore(tokens,i,NO_VERBS_POTENCIALMENT_PRONOMINALS))
+          && !matchPostagRegexp(tokens[i+1], POSTAG_ADVERBI) // es porten bé
+          && !matchPostagRegexp(tokens[i+2], POSTAG_ADVERBI) // hem de portar-nos bé
+          && !matchLemmaRegexp(tokens[i+2], ANYMESDIA) // ens portem tres anys
+          && !isPhraseImpersonalVerbSP(tokens, i) // Es va portar l'any passat
+          ) {
+        // the rule matches
+        String suggestion;
+        if (matchLemmaRegexp(tokens[i], VERB_PORTAR)) {suggestion= "em"+token; }
+          else if (token.equalsIgnoreCase("du")) {suggestion="endú"; }
+          else {suggestion= "en"+token; }
+        final String msg="¿Volíeu dir <suggestion>"+suggestion+"</suggestion>?";
+        final RuleMatch ruleMatch = new RuleMatch(this,
+            tokens[i].getStartPos(), tokens[i].getStartPos()
+                + token.length(), msg, "Possible error");
+        ruleMatches.add(ruleMatch);    
+        continue loop;
+      }
+      
+      //PERÍFRASI AMB VERB PRONOMINAL: el fan *agenollar-se/agenollar
+      if (i+1<tokens.length 
+          && matchPostagRegexp(tokens[i], VERB_INF)
+          && !matchPostagRegexp(tokens[i - 1], POSTAG_PREPOSICIO) 
+          && isThereVerbBefore(tokens,i,VERBS_DEIXAR_FER)
+          && isThereBefore(tokens, i, LEMMA_PRONOM_CD, POSTAG_PRONOM_CD)  
+          && matchRegexp(tokens[i + 1].getToken(), REFLEXIU_POSPOSAT) ) {
+          // the rule matches
+          final String msg = "En aquesta perífrasi verbal el pronom reflexiu posterior és redundant.";
+          final RuleMatch ruleMatch = new RuleMatch(this,
+              tokens[i+1].getStartPos(), tokens[i+1].getStartPos()
+                  + tokens[i+1].getToken().length(), msg, "Pronom redundant");
+          ruleMatches.add(ruleMatch);
+          continue loop;
+      }
 
-			//VERBS PRONOMINALS: Cal que hi hagi pronom reflexiu. 
-			if (matchLemmaRegexp(tokens[i], VERBS_PRONOMINALS)) {
-				if (matchLemmaRegexp(tokens[i], NO_VERBS_PRONOMINALS)) 
-					// atengué l'administració
-					continue loop;
-				if (matchPostagRegexp(tokens[i], VERB_PARTICIPI) && !matchLemmaRegexp(tokens[i - 1], VERB_HAVER)) 
-					continue loop;
-				if (isThereVerbBefore(tokens,i,VERBS_DEIXAR_FER)  // el fa agenollar
-						&& isThereBefore(tokens, i, LEMMA_PRONOM_CD, POSTAG_PRONOM_CD) )
-					continue loop;
-				if (isThereReflexivePronoun(tokens, i)) 
-					continue loop;
-				// the rule matches
-				final String msg = "Aquest verb és pronominal. Probablement falta un pronom.";
-				final RuleMatch ruleMatch = new RuleMatch(this,
-						tokens[i].getStartPos(), tokens[i].getStartPos()
-								+ token.length(), msg,
-						"Verb pronominal: falta un pronom");
-				ruleMatches.add(ruleMatch);
-				continue loop;
-			}
-			
-			//VERBS NO PRONOMINALS: No hi ha d'haver pronom reflexiu. 
-			if (matchLemmaRegexp(tokens[i], VERBS_NO_PRONOMINALS)) {
-				if (matchLemmaRegexp(tokens[i], NO_VERBS_NO_PRONOMINALS))
-					continue loop;				
-				if (!isThereReflexivePronoun(tokens, i)) 
-					continue loop;
-				//impersonal obligació: s'ha de baixar
-				if (matchLemmaRegexp(tokens[i],VERBS_NO_PRONOMINALS_IMPERSONALS2)
-						&& isThereBefore(tokens, i, LEMMA_ES, POSTAG_ES)
-						&& isThereBefore(tokens, i, LEMMA_DE, POSTAG_DE)
-						&& isThereVerbBefore(tokens,i,VERB_HAVER) )
-						continue loop;
-				if (isThereVerbBefore(tokens,i,VERBS_SOVINT_AMB_COMPLEMENT)
-						|| (isThereVerbBefore(tokens,i,VERBS_POTENCIALMENT_PRONOMINALS)&&!isThereVerbBefore(tokens,i,NO_VERBS_POTENCIALMENT_PRONOMINALS))
-						|| isThereVerbBefore(tokens,i,VERBS_PRONOMINALS)) //et deixes caure, et fas témer, 
-					continue loop;
-				//FRASE IMPERSONAL
-				// És frase impersonal si hi ha el pronom 'es', llevat que es pugui identificar un subjecte "personal"
-				if (matchLemmaRegexp(tokens[i],VERBS_NO_PRONOMINALS_IMPERSONALS)
-						&& isPhraseImpersonalVerbS(tokens, i) )  
-					continue loop;
-				if (matchLemmaRegexp(tokens[i],VERBS_NO_PRONOMINALS_IMPERSONALS2)
-						&& isPhraseImpersonalVerbSP(tokens, i) )  
-					continue loop;
-				
-				// the rule matches
-				final String msg = "Aquest verb no és pronominal. Probablement sobra un pronom.";
-				final RuleMatch ruleMatch = new RuleMatch(this,
-						tokens[i].getStartPos(), tokens[i].getStartPos()
-								+ token.length(), msg,
-						"Verb no pronominal");
-				ruleMatches.add(ruleMatch);
-			}
-			
-			//VERBS DE MOVIMENT: si hi ha pronom reflexiu cal el pronom 'en'.
-			if (matchLemmaRegexp(tokens[i], VERBS_MOVIMENT) && !matchPostagRegexp(tokens[i], VERB_AUXILIAR)) {
-				if (matchLemmaRegexp(tokens[i], VERBS_NO_MOVIMENT)) 
-					// atengué l'administració
-					continue loop;
-				//impersonal obligació: s'ha de baixar
-				if (isThereBefore(tokens, i, LEMMA_ES, POSTAG_ES)
-						&& isThereBefore(tokens, i, LEMMA_DE, POSTAG_DE)
-						&& isThereVerbBefore(tokens,i,VERB_HAVER) )
-						continue loop;
-				if (isThereVerbBefore(tokens,i,VERBS_SOVINT_AMB_COMPLEMENT) 
-						|| (isThereVerbBefore(tokens,i,VERBS_POTENCIALMENT_PRONOMINALS)&&!isThereVerbBefore(tokens,i,NO_VERBS_POTENCIALMENT_PRONOMINALS))
-						|| isThereVerbBefore(tokens,i,VERBS_PRONOMINALS) //et deixes anar/pujar
-						|| isThereVerbAfter(tokens,i,VERBS_SOVINT_AMB_COMPLEMENT) ) // per venir-vos a veure 
-					continue loop;
-				if (matchLemmaRegexp(tokens[i], VERB_VENIR)) {
-					if (isThereAfter(tokens, i, VERB_INF))
-						continue loop;
-				}
-				if (matchLemmaRegexp(tokens[i], VERB_ANAR)) {
-					if (isThereAfter(tokens, i, VERB_GERUNDI))
-						continue loop;
-					if (isThereVerbAfter(tokens, i,
-							VERBS_POTENCIALMENT_PRONOMINALS)
-							||isThereVerbAfter(tokens,i,VERBS_PRONOMINALS))
-						continue loop;
-					if (hasVerbMultipleReadings(tokens[i]) && isThereAfter(tokens,i,POSTAG_ADVERBI))
-						continue loop;
-					//FRASE IMPERSONAL
-					if (isThereBefore(tokens, i, LEMMA_ES, POSTAG_ES)
-							&& !isThereBefore(tokens, i, LEMMA_PRONOM_CI, POSTAG_PRONOM_CI)
-							&& (!isTherePersonalSubjectBefore(tokens,i,TRENCA_COMPTE) || isThereBefore(tokens, i, LEMMA_HI, POSTAG_HI)) 
-							&& isVerbNumberPerson(tokens,i,VERB_3S))
-						continue loop;
-				}
-				else {
-					// FRASE IMPERSONAL
-					if (isThereBefore(tokens, i, LEMMA_ES, POSTAG_ES)
-							&& !isThereBefore(tokens, i, LEMMA_PRONOM_CI, POSTAG_PRONOM_CI)
-							&& !isTherePersonalSubjectBefore(tokens, i,	TRENCA_COMPTE))
-						continue loop;
-				}
-				if (isThereReflexivePronoun(tokens, i) && (!isTherePronoun(tokens, i, LEMMA_EN, POSTAG_EN))) {
-					// the rule matches
-					final String msg = "No useu com a pronominal aquest verb, o bé afegiu-hi el pronom 'en'."; //Cal canviar el missatge
-					final RuleMatch ruleMatch = new RuleMatch(this,
-							tokens[i].getStartPos(), tokens[i].getStartPos()
-									+ token.length(), msg,
-							"Falta el pronom 'en'");
-					ruleMatches.add(ruleMatch);
-				}
-			}
-		}
-		return toRuleMatchArray(ruleMatches);
-	}
+      //VERBS PRONOMINALS: Cal que hi hagi pronom reflexiu. 
+      if (matchLemmaRegexp(tokens[i], VERBS_PRONOMINALS)) {
+        if (matchLemmaRegexp(tokens[i], NO_VERBS_PRONOMINALS)) 
+          // atengué l'administració
+          continue loop;
+        if (matchPostagRegexp(tokens[i], VERB_PARTICIPI) && !matchLemmaRegexp(tokens[i - 1], VERB_HAVER)) 
+          continue loop;
+        if (isThereVerbBefore(tokens,i,VERBS_DEIXAR_FER)  // el fa agenollar
+            && isThereBefore(tokens, i, LEMMA_PRONOM_CD, POSTAG_PRONOM_CD) )
+          continue loop;
+        if (isThereReflexivePronoun(tokens, i)) 
+          continue loop;
+        // the rule matches
+        final String msg = "Aquest verb és pronominal. Probablement falta un pronom.";
+        final RuleMatch ruleMatch = new RuleMatch(this,
+            tokens[i].getStartPos(), tokens[i].getStartPos()
+                + token.length(), msg,
+            "Verb pronominal: falta un pronom");
+        ruleMatches.add(ruleMatch);
+        continue loop;
+      }
+      
+      //VERBS NO PRONOMINALS: No hi ha d'haver pronom reflexiu. 
+      if (matchLemmaRegexp(tokens[i], VERBS_NO_PRONOMINALS)) {
+        if (matchLemmaRegexp(tokens[i], NO_VERBS_NO_PRONOMINALS))
+          continue loop;        
+        if (!isThereReflexivePronoun(tokens, i)) 
+          continue loop;
+        //impersonal obligació: s'ha de baixar
+        if (matchLemmaRegexp(tokens[i],VERBS_NO_PRONOMINALS_IMPERSONALS2)
+            && isThereBefore(tokens, i, LEMMA_ES, POSTAG_ES)
+            && isThereBefore(tokens, i, LEMMA_DE, POSTAG_DE)
+            && isThereVerbBefore(tokens,i,VERB_HAVER) )
+            continue loop;
+        if (isThereVerbBefore(tokens,i,VERBS_SOVINT_AMB_COMPLEMENT)
+            || (isThereVerbBefore(tokens,i,VERBS_POTENCIALMENT_PRONOMINALS)&&!isThereVerbBefore(tokens,i,NO_VERBS_POTENCIALMENT_PRONOMINALS))
+            || isThereVerbBefore(tokens,i,VERBS_PRONOMINALS)) //et deixes caure, et fas témer, 
+          continue loop;
+        //FRASE IMPERSONAL
+        // És frase impersonal si hi ha el pronom 'es', llevat que es pugui identificar un subjecte "personal"
+        if (matchLemmaRegexp(tokens[i],VERBS_NO_PRONOMINALS_IMPERSONALS)
+            && isPhraseImpersonalVerbS(tokens, i) )  
+          continue loop;
+        if (matchLemmaRegexp(tokens[i],VERBS_NO_PRONOMINALS_IMPERSONALS2)
+            && isPhraseImpersonalVerbSP(tokens, i) )  
+          continue loop;
+        
+        // the rule matches
+        final String msg = "Aquest verb no és pronominal. Probablement sobra un pronom.";
+        final RuleMatch ruleMatch = new RuleMatch(this,
+            tokens[i].getStartPos(), tokens[i].getStartPos()
+                + token.length(), msg,
+            "Verb no pronominal");
+        ruleMatches.add(ruleMatch);
+      }
+      
+      //VERBS DE MOVIMENT: si hi ha pronom reflexiu cal el pronom 'en'.
+      if (matchLemmaRegexp(tokens[i], VERBS_MOVIMENT) && !matchPostagRegexp(tokens[i], VERB_AUXILIAR)) {
+        if (matchLemmaRegexp(tokens[i], VERBS_NO_MOVIMENT)) 
+          // atengué l'administració
+          continue loop;
+        //impersonal obligació: s'ha de baixar
+        if (isThereBefore(tokens, i, LEMMA_ES, POSTAG_ES)
+            && isThereBefore(tokens, i, LEMMA_DE, POSTAG_DE)
+            && isThereVerbBefore(tokens,i,VERB_HAVER) )
+            continue loop;
+        if (isThereVerbBefore(tokens,i,VERBS_SOVINT_AMB_COMPLEMENT) 
+            || (isThereVerbBefore(tokens,i,VERBS_POTENCIALMENT_PRONOMINALS)&&!isThereVerbBefore(tokens,i,NO_VERBS_POTENCIALMENT_PRONOMINALS))
+            || isThereVerbBefore(tokens,i,VERBS_PRONOMINALS) //et deixes anar/pujar
+            || isThereVerbAfter(tokens,i,VERBS_SOVINT_AMB_COMPLEMENT) ) // per venir-vos a veure 
+          continue loop;
+        if (matchLemmaRegexp(tokens[i], VERB_VENIR)) {
+          if (isThereAfter(tokens, i, VERB_INF))
+            continue loop;
+        }
+        if (matchLemmaRegexp(tokens[i], VERB_ANAR)) {
+          if (isThereAfter(tokens, i, VERB_GERUNDI))
+            continue loop;
+          if (isThereVerbAfter(tokens, i,
+              VERBS_POTENCIALMENT_PRONOMINALS)
+              ||isThereVerbAfter(tokens,i,VERBS_PRONOMINALS))
+            continue loop;
+          if (hasVerbMultipleReadings(tokens[i]) && isThereAfter(tokens,i,POSTAG_ADVERBI))
+            continue loop;
+          //FRASE IMPERSONAL
+          if (isThereBefore(tokens, i, LEMMA_ES, POSTAG_ES)
+              && !isThereBefore(tokens, i, LEMMA_PRONOM_CI, POSTAG_PRONOM_CI)
+              && (!isTherePersonalSubjectBefore(tokens,i,TRENCA_COMPTE) || isThereBefore(tokens, i, LEMMA_HI, POSTAG_HI)) 
+              && isVerbNumberPerson(tokens,i,VERB_3S))
+            continue loop;
+        }
+        else {
+          // FRASE IMPERSONAL
+          if (isThereBefore(tokens, i, LEMMA_ES, POSTAG_ES)
+              && !isThereBefore(tokens, i, LEMMA_PRONOM_CI, POSTAG_PRONOM_CI)
+              && !isTherePersonalSubjectBefore(tokens, i,  TRENCA_COMPTE))
+            continue loop;
+        }
+        if (isThereReflexivePronoun(tokens, i) && (!isTherePronoun(tokens, i, LEMMA_EN, POSTAG_EN))) {
+          // the rule matches
+          final String msg = "No useu com a pronominal aquest verb, o bé afegiu-hi el pronom 'en'."; //Cal canviar el missatge
+          final RuleMatch ruleMatch = new RuleMatch(this,
+              tokens[i].getStartPos(), tokens[i].getStartPos()
+                  + token.length(), msg,
+              "Falta el pronom 'en'");
+          ruleMatches.add(ruleMatch);
+        }
+      }
+    }
+    return toRuleMatchArray(ruleMatches);
+  }
 
   /**
    * Find appropiate pronoun pattern. (Troba el pronom feble apropiat)
    */ 
   private Pattern pronomPattern(AnalyzedTokenReadings aToken) {
-	if (matchPostagRegexp(aToken,VERB_1S) && matchPostagRegexp(aToken,VERB_3S))
-		return PRONOM_FEBLE_13S;
-	if (matchPostagRegexp(aToken,VERB_2S) && matchPostagRegexp(aToken,VERB_3S))
-		return PRONOM_FEBLE_23S;
-	else if (matchPostagRegexp(aToken,VERB_1S) )
-		return PRONOM_FEBLE_1S;
-	else if (matchPostagRegexp(aToken,VERB_2S) )
-		return PRONOM_FEBLE_2S;
-	else if (matchPostagRegexp(aToken,VERB_3S) )
-		return PRONOM_FEBLE_3S;
-	else if (matchPostagRegexp(aToken,VERB_1P) )
-		return PRONOM_FEBLE_1P;
-	else if (matchPostagRegexp(aToken,VERB_2P) )
-		return PRONOM_FEBLE_2P;
-	else if (matchPostagRegexp(aToken,VERB_3P) )
-		return PRONOM_FEBLE_3P;
-	else
-		return null;
+  if (matchPostagRegexp(aToken,VERB_1S) && matchPostagRegexp(aToken,VERB_3S))
+    return PRONOM_FEBLE_13S;
+  if (matchPostagRegexp(aToken,VERB_2S) && matchPostagRegexp(aToken,VERB_3S))
+    return PRONOM_FEBLE_23S;
+  else if (matchPostagRegexp(aToken,VERB_1S) )
+    return PRONOM_FEBLE_1S;
+  else if (matchPostagRegexp(aToken,VERB_2S) )
+    return PRONOM_FEBLE_2S;
+  else if (matchPostagRegexp(aToken,VERB_3S) )
+    return PRONOM_FEBLE_3S;
+  else if (matchPostagRegexp(aToken,VERB_1P) )
+    return PRONOM_FEBLE_1P;
+  else if (matchPostagRegexp(aToken,VERB_2P) )
+    return PRONOM_FEBLE_2P;
+  else if (matchPostagRegexp(aToken,VERB_3P) )
+    return PRONOM_FEBLE_3P;
+  else
+    return null;
   }
   
   /**
    * El verb té múltiples lectures
    */ 
   private boolean hasVerbMultipleReadings (AnalyzedTokenReadings aToken) {
-	return (matchPostagRegexp(aToken,VERB_1S) && matchPostagRegexp(aToken,VERB_3S))
-			|| (matchPostagRegexp(aToken,VERB_2S) && matchPostagRegexp(aToken,VERB_3S));
+  return (matchPostagRegexp(aToken,VERB_1S) && matchPostagRegexp(aToken,VERB_3S))
+      || (matchPostagRegexp(aToken,VERB_2S) && matchPostagRegexp(aToken,VERB_3S));
   }
   
   /**
@@ -409,70 +409,70 @@ public class ReflexiveVerbsRule extends CatalanRule {
     return matches;
   }
   
-	/**
-	 * Match lemma with regular expression
-	 */
-	private boolean matchLemmaRegexp(AnalyzedTokenReadings aToken,
-			Pattern pattern) {
-		boolean matches = false;
-		for (AnalyzedToken analyzedToken : aToken) {
-			final String posTag = analyzedToken.getLemma();
-			if (posTag != null) {
-				final Matcher m = pattern.matcher(posTag);
-				if (m.matches()) {
-					matches = true;
-					break;
-				}
-			}
-		}
-		return matches;
-	}
-	
-	/**
-	 * Match String with regular expression
-	 */
-	private boolean matchRegexp(String s, Pattern pattern) {
-		final Matcher m = pattern.matcher(s);
-		return m.matches();
-	}
+  /**
+   * Match lemma with regular expression
+   */
+  private boolean matchLemmaRegexp(AnalyzedTokenReadings aToken,
+      Pattern pattern) {
+    boolean matches = false;
+    for (AnalyzedToken analyzedToken : aToken) {
+      final String posTag = analyzedToken.getLemma();
+      if (posTag != null) {
+        final Matcher m = pattern.matcher(posTag);
+        if (m.matches()) {
+          matches = true;
+          break;
+        }
+      }
+    }
+    return matches;
+  }
   
-	/**
-	 * Checks if there is a reflexive pronoun near the verb
-	 * 
-	 * @param tokens
-	 * @param i
-	 * @return
-	 */
-	private boolean isThereReflexivePronoun(
-			final AnalyzedTokenReadings[] tokens, int i) {
-		Pattern pPronomBuscat = null;
-		// 1) es queixa, se li queixa, se li'n queixa
-		if (matchPostagRegexp(tokens[i], VERB_INDSUBJ)) {
-			pPronomBuscat = pronomPattern(tokens[i]);
-			if (pPronomBuscat != null) {
-				int j = 1;
-				boolean keepCounting = true;
-				while (i - j > 0 && j < 4 && keepCounting) {
-					if (matchPostagRegexp(tokens[i - j], pPronomBuscat)
-							&& matchRegexp(tokens[i -j].getToken(), REFLEXIU_ANTEPOSAT))
-						return true;
-					keepCounting = matchPostagRegexp(tokens[i - j],
-							PRONOM_FEBLE);
-					j++;
-				}
-			}
-		}
-		// 2) queixa't, queixeu-vos-hi
-		if (matchPostagRegexp(tokens[i], VERB_IMP)) {
-			pPronomBuscat = pronomPattern(tokens[i]);
-			if (pPronomBuscat != null) {
-				if (i+1<tokens.length
-						&& matchPostagRegexp(tokens[i + 1], pPronomBuscat)
-						&& matchRegexp(tokens[i + 1].getToken(), REFLEXIU_POSPOSAT))
-					return true; 
-			}
-		}
-		// 3) s'ha queixat, se li ha queixat, se li n'ha queixat.
+  /**
+   * Match String with regular expression
+   */
+  private boolean matchRegexp(String s, Pattern pattern) {
+    final Matcher m = pattern.matcher(s);
+    return m.matches();
+  }
+  
+  /**
+   * Checks if there is a reflexive pronoun near the verb
+   * 
+   * @param tokens
+   * @param i
+   * @return
+   */
+  private boolean isThereReflexivePronoun(
+      final AnalyzedTokenReadings[] tokens, int i) {
+    Pattern pPronomBuscat = null;
+    // 1) es queixa, se li queixa, se li'n queixa
+    if (matchPostagRegexp(tokens[i], VERB_INDSUBJ)) {
+      pPronomBuscat = pronomPattern(tokens[i]);
+      if (pPronomBuscat != null) {
+        int j = 1;
+        boolean keepCounting = true;
+        while (i - j > 0 && j < 4 && keepCounting) {
+          if (matchPostagRegexp(tokens[i - j], pPronomBuscat)
+              && matchRegexp(tokens[i -j].getToken(), REFLEXIU_ANTEPOSAT))
+            return true;
+          keepCounting = matchPostagRegexp(tokens[i - j],
+              PRONOM_FEBLE);
+          j++;
+        }
+      }
+    }
+    // 2) queixa't, queixeu-vos-hi
+    if (matchPostagRegexp(tokens[i], VERB_IMP)) {
+      pPronomBuscat = pronomPattern(tokens[i]);
+      if (pPronomBuscat != null) {
+        if (i+1<tokens.length
+            && matchPostagRegexp(tokens[i + 1], pPronomBuscat)
+            && matchRegexp(tokens[i + 1].getToken(), REFLEXIU_POSPOSAT))
+          return true; 
+      }
+    }
+    // 3) s'ha queixat, se li ha queixat, se li n'ha queixat.
     if (matchPostagRegexp(tokens[i], VERB_PARTICIPI)) {
       if (matchLemmaRegexp(tokens[i - 1], VERB_HAVER)) {
         if (matchPostagRegexp(tokens[i - 1], VERB_INDSUBJ)) {
@@ -506,270 +506,270 @@ public class ReflexiveVerbsRule extends CatalanRule {
           }
         }
       }
-			// *havent queixat, *haver queixat
-//			else if (!(matchLemmaRegexp(tokens[i - 1], VERB_HAVER) && matchPostagRegexp(
-//					tokens[i - 1], VERB_INFGER)))
-//				return true;
-		}
-		// 4) em vaig queixar, se li va queixar, se li'n va queixar, vas
-		// queixar-te'n,
-		// em puc queixar, ens en podem queixar, podeu queixar-vos,
-		// es va queixant, va queixant-se, comences queixant-te
-		// 5) no t'has de queixar, no has de queixar-te, pareu de queixar-vos,
-		// comenceu a queixar-vos
-		// corre a queixar-se, corre a queixar-te, vés a queixar-te
-		// no hauria pogut burlar-me
-		// 6) no podeu deixar de queixar-vos, no us podeu deixar de queixar
-		// en teniu prou amb queixar-vos, comenceu lentament a queixar-vos
-		// 7) no es va poder emportar, va decidir suïcidar-se,
-		// 8) Queixar-se, queixant-vos, podent abstenir-se
-		if (matchPostagRegexp(tokens[i], VERB_INFGER)) {
-			int k = 1;
-			boolean keepCounting = true;
-			boolean foundVerb = false;
-			while (i - k > 0 && keepCounting && !foundVerb) {
-				foundVerb = matchPostagRegexp(tokens[i - k], VERB_INDSUBJIMP);
-				keepCounting = matchPostagRegexp(tokens[i - k],
-						PREP_VERB_PRONOM);
-				if (matchPostagRegexp(tokens[i-k],VERB_INDSUBJ)
-						&& matchPostagRegexp(tokens[i-k+1],VERB_INFGER))
-					keepCounting=false;
-				k++;
-			}
-			if (foundVerb) {
-				pPronomBuscat = pronomPattern(tokens[i - k + 1]);
-				if (pPronomBuscat != null) {
-					if (i+1< tokens.length
-							&& matchPostagRegexp(tokens[i + 1], pPronomBuscat)
-							&& matchRegexp(tokens[i + 1].getToken(), REFLEXIU_POSPOSAT))
-						return true;
-					int j = 1;
-					keepCounting = true;
-					while (i - j > 0 && keepCounting) {
-						if (j==1 && matchPostagRegexp(tokens[i - j], pPronomBuscat))
-							return true;
-						if (j>1 && matchPostagRegexp(tokens[i - j], pPronomBuscat)
-								&& matchRegexp(tokens[i - j].getToken(), REFLEXIU_ANTEPOSAT))
-							return true;
-						keepCounting = matchPostagRegexp(tokens[i - j], PREP_VERB_PRONOM)
-								&& !(j>k-1 && matchPostagRegexp(tokens[i - j], VERB_PARTICIPI))
-								&& !matchPostagRegexp(tokens[i - j], TRENCA_COMPTE2);
-						if (tokens[i-j].getToken().equalsIgnoreCase("per")
-								&& tokens[i-j+1].getToken().equalsIgnoreCase("a"))
-							keepCounting=false;
-						j++;
-					}
-				}
-			} else {
-				if (i+1<tokens.length
-						&& matchPostagRegexp(tokens[i + 1], PRONOM_REFLEXIU)
-						&& matchRegexp(tokens[i + 1].getToken(), REFLEXIU_POSPOSAT))
-					return true;
-				int j = 1;
-				keepCounting = true;
-				while (i - j > 0 && keepCounting) {
-					if (matchPostagRegexp(tokens[i - j], PRONOM_REFLEXIU))
-						return true;
-					keepCounting = matchPostagRegexp(tokens[i - j],
-							PREP_VERB_PRONOM);
-					if (tokens[i-j].getToken().equalsIgnoreCase("per")
-							&& tokens[i-j+1].getToken().equalsIgnoreCase("a")) {
-						keepCounting=false;
-					}
-					j++;
-				}
-			}
-		}
-		return false;
-	}
-	
-	/**
-	 * Checks if there is a desired pronoun near the verb
-	 * 
-	 * @param tokens
-	 * @param i
-	 * @return
-	 */
-	private boolean isTherePronoun(final AnalyzedTokenReadings[] tokens, int i,
-			Pattern lemma, Pattern postag) {
-		int j = 1;
-		boolean keepCounting = true;
-		while (i - j > 0 && keepCounting) {
-			if (matchPostagRegexp(tokens[i - j], postag)
-					&& matchLemmaRegexp(tokens[i - j], lemma))
-				return true;
-			keepCounting = matchPostagRegexp(tokens[i - j], PREP_VERB_PRONOM);
-			j++;
-		}
-		j = 1;
-		keepCounting = true;
-		while (i + j < tokens.length && keepCounting) {
-			if (matchPostagRegexp(tokens[i + j], postag)
-					&& matchLemmaRegexp(tokens[i + j], lemma))
-				return true;
-			keepCounting = matchPostagRegexp(tokens[i + j], PREP_VERB_PRONOM);
-			j++;
-		}
-		return false;
-	}
+      // *havent queixat, *haver queixat
+//      else if (!(matchLemmaRegexp(tokens[i - 1], VERB_HAVER) && matchPostagRegexp(
+//          tokens[i - 1], VERB_INFGER)))
+//        return true;
+    }
+    // 4) em vaig queixar, se li va queixar, se li'n va queixar, vas
+    // queixar-te'n,
+    // em puc queixar, ens en podem queixar, podeu queixar-vos,
+    // es va queixant, va queixant-se, comences queixant-te
+    // 5) no t'has de queixar, no has de queixar-te, pareu de queixar-vos,
+    // comenceu a queixar-vos
+    // corre a queixar-se, corre a queixar-te, vés a queixar-te
+    // no hauria pogut burlar-me
+    // 6) no podeu deixar de queixar-vos, no us podeu deixar de queixar
+    // en teniu prou amb queixar-vos, comenceu lentament a queixar-vos
+    // 7) no es va poder emportar, va decidir suïcidar-se,
+    // 8) Queixar-se, queixant-vos, podent abstenir-se
+    if (matchPostagRegexp(tokens[i], VERB_INFGER)) {
+      int k = 1;
+      boolean keepCounting = true;
+      boolean foundVerb = false;
+      while (i - k > 0 && keepCounting && !foundVerb) {
+        foundVerb = matchPostagRegexp(tokens[i - k], VERB_INDSUBJIMP);
+        keepCounting = matchPostagRegexp(tokens[i - k],
+            PREP_VERB_PRONOM);
+        if (matchPostagRegexp(tokens[i-k],VERB_INDSUBJ)
+            && matchPostagRegexp(tokens[i-k+1],VERB_INFGER))
+          keepCounting=false;
+        k++;
+      }
+      if (foundVerb) {
+        pPronomBuscat = pronomPattern(tokens[i - k + 1]);
+        if (pPronomBuscat != null) {
+          if (i+1< tokens.length
+              && matchPostagRegexp(tokens[i + 1], pPronomBuscat)
+              && matchRegexp(tokens[i + 1].getToken(), REFLEXIU_POSPOSAT))
+            return true;
+          int j = 1;
+          keepCounting = true;
+          while (i - j > 0 && keepCounting) {
+            if (j==1 && matchPostagRegexp(tokens[i - j], pPronomBuscat))
+              return true;
+            if (j>1 && matchPostagRegexp(tokens[i - j], pPronomBuscat)
+                && matchRegexp(tokens[i - j].getToken(), REFLEXIU_ANTEPOSAT))
+              return true;
+            keepCounting = matchPostagRegexp(tokens[i - j], PREP_VERB_PRONOM)
+                && !(j>k-1 && matchPostagRegexp(tokens[i - j], VERB_PARTICIPI))
+                && !matchPostagRegexp(tokens[i - j], TRENCA_COMPTE2);
+            if (tokens[i-j].getToken().equalsIgnoreCase("per")
+                && tokens[i-j+1].getToken().equalsIgnoreCase("a"))
+              keepCounting=false;
+            j++;
+          }
+        }
+      } else {
+        if (i+1<tokens.length
+            && matchPostagRegexp(tokens[i + 1], PRONOM_REFLEXIU)
+            && matchRegexp(tokens[i + 1].getToken(), REFLEXIU_POSPOSAT))
+          return true;
+        int j = 1;
+        keepCounting = true;
+        while (i - j > 0 && keepCounting) {
+          if (matchPostagRegexp(tokens[i - j], PRONOM_REFLEXIU))
+            return true;
+          keepCounting = matchPostagRegexp(tokens[i - j],
+              PREP_VERB_PRONOM);
+          if (tokens[i-j].getToken().equalsIgnoreCase("per")
+              && tokens[i-j+1].getToken().equalsIgnoreCase("a")) {
+            keepCounting=false;
+          }
+          j++;
+        }
+      }
+    }
+    return false;
+  }
+  
+  /**
+   * Checks if there is a desired pronoun near the verb
+   * 
+   * @param tokens
+   * @param i
+   * @return
+   */
+  private boolean isTherePronoun(final AnalyzedTokenReadings[] tokens, int i,
+      Pattern lemma, Pattern postag) {
+    int j = 1;
+    boolean keepCounting = true;
+    while (i - j > 0 && keepCounting) {
+      if (matchPostagRegexp(tokens[i - j], postag)
+          && matchLemmaRegexp(tokens[i - j], lemma))
+        return true;
+      keepCounting = matchPostagRegexp(tokens[i - j], PREP_VERB_PRONOM);
+      j++;
+    }
+    j = 1;
+    keepCounting = true;
+    while (i + j < tokens.length && keepCounting) {
+      if (matchPostagRegexp(tokens[i + j], postag)
+          && matchLemmaRegexp(tokens[i + j], lemma))
+        return true;
+      keepCounting = matchPostagRegexp(tokens[i + j], PREP_VERB_PRONOM);
+      j++;
+    }
+    return false;
+  }
 
-	private boolean isThereBefore(final AnalyzedTokenReadings[] tokens,
-			int i, Pattern lemma, Pattern postag) {
-		int j = 1;
-		boolean keepCounting = true;
-		while (i - j > 0 && keepCounting) {
-			if (matchPostagRegexp(tokens[i - j], postag)
-					&& matchLemmaRegexp(tokens[i - j], lemma))
-				return true;
-			keepCounting = matchPostagRegexp(tokens[i - j], PREP_VERB_PRONOM);
-			j++;
-		}
-		return false;
-	}
+  private boolean isThereBefore(final AnalyzedTokenReadings[] tokens,
+      int i, Pattern lemma, Pattern postag) {
+    int j = 1;
+    boolean keepCounting = true;
+    while (i - j > 0 && keepCounting) {
+      if (matchPostagRegexp(tokens[i - j], postag)
+          && matchLemmaRegexp(tokens[i - j], lemma))
+        return true;
+      keepCounting = matchPostagRegexp(tokens[i - j], PREP_VERB_PRONOM);
+      j++;
+    }
+    return false;
+  }
 
-	private boolean isThereAfter(final AnalyzedTokenReadings[] tokens, int i, Pattern postag) {
-		int j = 1;
-		boolean keepCounting = true;
-		while (i+j<tokens.length && keepCounting) {
-			if (matchPostagRegexp(tokens[i+j], postag))
-				return true;
-			keepCounting = matchPostagRegexp(tokens[i+j],
-					PREP_VERB_PRONOM_ADV);
-			j++;
-		}
-		return false;
-	}
-	
-	private boolean isThereAfterWithoutPreposition(final AnalyzedTokenReadings[] tokens, int i, Pattern postag) {
-		int j = 1;
-		boolean keepCounting = true;
-		while (i+j<tokens.length && keepCounting) {
-			if (matchPostagRegexp(tokens[i+j], postag))
-				return true;
-			keepCounting = matchPostagRegexp(tokens[i+j],
-					VERB_PRONOM);
-			j++;
-		}
-		return false;
-	}
-	
-	private boolean isThereVerbBefore(final AnalyzedTokenReadings[] tokens, int i, Pattern lemma) {
-		int j = 1;
-		boolean keepCounting = true;
-		while (i-j>0 && keepCounting) {
-			if (matchLemmaRegexp(tokens[i-j], lemma))
-				return true;
-			keepCounting = matchPostagRegexp(tokens[i - j],
-					PREP_VERB_PRONOM);
-			if (tokens[i-j].getToken().equalsIgnoreCase("per")
-					&& tokens[i-j+1].getToken().equalsIgnoreCase("a"))
-				keepCounting=false;
-			if (matchPostagRegexp(tokens[i-j],VERB_INDSUBJ)
-					&& matchPostagRegexp(tokens[i-j+1],VERB_INFGER))
-				keepCounting=false;
-			j++;
-		}
-		return false;
-	}
-	
-	private boolean isThereVerbAfter(final AnalyzedTokenReadings[] tokens, int i, Pattern lemma) {
-		int j = 1;
-		boolean keepCounting = true;
-		while (i+j<tokens.length && keepCounting) {
-			if (matchLemmaRegexp(tokens[i+j], lemma))
-				return true;
-			keepCounting = matchPostagRegexp(tokens[i+j],
-					PREP_VERB_PRONOM);
-			j++;
-		}
-		return false;
-	}
-	
-	private boolean isTherePersonalSubjectBefore(final AnalyzedTokenReadings[] tokens, int i,
-			Pattern pTrenca) {
-		int j = 1;
-		boolean keepCounting = true;
-		while (i - j > 0 && keepCounting) {
-			if (matchRegexp(tokens[i - j].getToken(), SUBJECTE_PERSONAL_TOKEN)
-					|| matchPostagRegexp(tokens[i - j], SUBJECTE_PERSONAL_POSTAG)
-					&& !matchPostagRegexp(tokens[i - j], SUBJECTE_PERSONAL_NO_POSTAG)
-					&& !matchLemmaRegexp(tokens[i-j], SUBJECTE_PERSONAL_NO_LEMMA))
-				return true;
-			keepCounting = !matchPostagRegexp(tokens[i - j], pTrenca);
-			j++;
-		}
-		return false;
-	}
-	
-	private boolean isThereSingularPersonalSubjectBefore(final AnalyzedTokenReadings[] tokens, int i,
-			Pattern pTrenca) {
-		int j = 1;
-		boolean keepCounting = true;
-		while (i - j > 0 && keepCounting) {
-			if (matchRegexp(tokens[i - j].getToken(), SUBJECTE_PERSONAL_SING_TOKEN)
-					|| matchPostagRegexp(tokens[i - j], SUBJECTE_PERSONAL_SING_POSTAG)
-					&& !matchPostagRegexp(tokens[i - j], SUBJECTE_PERSONAL_NO_POSTAG)
-					&& !matchLemmaRegexp(tokens[i-j], SUBJECTE_PERSONAL_NO_LEMMA))
-				return true;
-			keepCounting = !matchPostagRegexp(tokens[i - j], pTrenca);
-			j++;
-		}
-		return false;
-	}
-	
-	private boolean isTherePluralPersonalSubjectBefore(final AnalyzedTokenReadings[] tokens, int i,
-			Pattern pTrenca) {
-		int j = 1;
-		boolean keepCounting = true;
-		while (i - j > 0 && keepCounting) {
-			if (matchRegexp(tokens[i - j].getToken(), SUBJECTE_PERSONAL_PL_TOKEN)
-					|| matchPostagRegexp(tokens[i - j], SUBJECTE_PERSONAL_PL_POSTAG)
-					&& !matchPostagRegexp(tokens[i - j], SUBJECTE_PERSONAL_NO_POSTAG)
-					&& !matchLemmaRegexp(tokens[i-j], SUBJECTE_PERSONAL_NO_LEMMA))
-				return true;
-			keepCounting = !matchPostagRegexp(tokens[i - j], pTrenca);
-			j++;
-		}
-		return false;
-	}
-	
-	private boolean isVerbNumberPerson(final AnalyzedTokenReadings[] tokens, int i, Pattern pVerb){
-		int j = 0; // El verb principal pot ser conjugat
-		boolean keepCounting = true;
-		while (i-j>0 && keepCounting) {
-			if (matchPostagRegexp(tokens[i-j], pVerb))
-				return true;
-			keepCounting = matchPostagRegexp(tokens[i - j],
-					PREP_VERB_PRONOM);
-			if (tokens[i-j].getToken().equalsIgnoreCase("per")
-					&& tokens[i-j+1].getToken().equalsIgnoreCase("a"))
-				keepCounting=false;
-			j++;
-		}
-		return false;
-	}
-	
-	
-	private boolean isPhraseImpersonalVerbS (final AnalyzedTokenReadings[] tokens, int i) {
-		//FRASE IMPERSONAL
-		// És frase impersonal si hi ha el pronom 'es', llevat que es pugui identificar un subjecte "personal".
-		return isThereBefore(tokens, i, LEMMA_ES, POSTAG_ES)
-		&& !isThereBefore(tokens, i, LEMMA_PRONOM_CI, POSTAG_PRONOM_CI)
-		&& (!isThereSingularPersonalSubjectBefore(tokens,i,TRENCA_COMPTE2) || isThereBefore(tokens, i, LEMMA_HI, POSTAG_HI))
-		&& isVerbNumberPerson(tokens,i,VERB_3S);  		
-	}
-	private boolean isPhraseImpersonalVerbSP (final AnalyzedTokenReadings[] tokens, int i) {
-		//FRASE IMPERSONAL
-		// És frase impersonal si hi ha el pronom 'es', llevat que es pugui identificar un subjecte "personal".
-		return isThereBefore(tokens, i, LEMMA_ES, POSTAG_ES)		
-		&& !isThereBefore(tokens, i, LEMMA_PRONOM_CI, POSTAG_PRONOM_CI)
-		&& (  (  (isVerbNumberPerson(tokens,i,VERB_3S) && !isThereSingularPersonalSubjectBefore(tokens,i,TRENCA_COMPTE))
-		      || (isVerbNumberPerson(tokens,i,VERB_3P) && !isTherePluralPersonalSubjectBefore(tokens,i,TRENCA_COMPTE)) )
-		   || isThereBefore(tokens, i, LEMMA_HI, POSTAG_HI));  		
-	}
-	
-	@Override
-	public void reset() {
-		// nothing
-	}
+  private boolean isThereAfter(final AnalyzedTokenReadings[] tokens, int i, Pattern postag) {
+    int j = 1;
+    boolean keepCounting = true;
+    while (i+j<tokens.length && keepCounting) {
+      if (matchPostagRegexp(tokens[i+j], postag))
+        return true;
+      keepCounting = matchPostagRegexp(tokens[i+j],
+          PREP_VERB_PRONOM_ADV);
+      j++;
+    }
+    return false;
+  }
+  
+  private boolean isThereAfterWithoutPreposition(final AnalyzedTokenReadings[] tokens, int i, Pattern postag) {
+    int j = 1;
+    boolean keepCounting = true;
+    while (i+j<tokens.length && keepCounting) {
+      if (matchPostagRegexp(tokens[i+j], postag))
+        return true;
+      keepCounting = matchPostagRegexp(tokens[i+j],
+          VERB_PRONOM);
+      j++;
+    }
+    return false;
+  }
+  
+  private boolean isThereVerbBefore(final AnalyzedTokenReadings[] tokens, int i, Pattern lemma) {
+    int j = 1;
+    boolean keepCounting = true;
+    while (i-j>0 && keepCounting) {
+      if (matchLemmaRegexp(tokens[i-j], lemma))
+        return true;
+      keepCounting = matchPostagRegexp(tokens[i - j],
+          PREP_VERB_PRONOM);
+      if (tokens[i-j].getToken().equalsIgnoreCase("per")
+          && tokens[i-j+1].getToken().equalsIgnoreCase("a"))
+        keepCounting=false;
+      if (matchPostagRegexp(tokens[i-j],VERB_INDSUBJ)
+          && matchPostagRegexp(tokens[i-j+1],VERB_INFGER))
+        keepCounting=false;
+      j++;
+    }
+    return false;
+  }
+  
+  private boolean isThereVerbAfter(final AnalyzedTokenReadings[] tokens, int i, Pattern lemma) {
+    int j = 1;
+    boolean keepCounting = true;
+    while (i+j<tokens.length && keepCounting) {
+      if (matchLemmaRegexp(tokens[i+j], lemma))
+        return true;
+      keepCounting = matchPostagRegexp(tokens[i+j],
+          PREP_VERB_PRONOM);
+      j++;
+    }
+    return false;
+  }
+  
+  private boolean isTherePersonalSubjectBefore(final AnalyzedTokenReadings[] tokens, int i,
+      Pattern pTrenca) {
+    int j = 1;
+    boolean keepCounting = true;
+    while (i - j > 0 && keepCounting) {
+      if (matchRegexp(tokens[i - j].getToken(), SUBJECTE_PERSONAL_TOKEN)
+          || matchPostagRegexp(tokens[i - j], SUBJECTE_PERSONAL_POSTAG)
+          && !matchPostagRegexp(tokens[i - j], SUBJECTE_PERSONAL_NO_POSTAG)
+          && !matchLemmaRegexp(tokens[i-j], SUBJECTE_PERSONAL_NO_LEMMA))
+        return true;
+      keepCounting = !matchPostagRegexp(tokens[i - j], pTrenca);
+      j++;
+    }
+    return false;
+  }
+  
+  private boolean isThereSingularPersonalSubjectBefore(final AnalyzedTokenReadings[] tokens, int i,
+      Pattern pTrenca) {
+    int j = 1;
+    boolean keepCounting = true;
+    while (i - j > 0 && keepCounting) {
+      if (matchRegexp(tokens[i - j].getToken(), SUBJECTE_PERSONAL_SING_TOKEN)
+          || matchPostagRegexp(tokens[i - j], SUBJECTE_PERSONAL_SING_POSTAG)
+          && !matchPostagRegexp(tokens[i - j], SUBJECTE_PERSONAL_NO_POSTAG)
+          && !matchLemmaRegexp(tokens[i-j], SUBJECTE_PERSONAL_NO_LEMMA))
+        return true;
+      keepCounting = !matchPostagRegexp(tokens[i - j], pTrenca);
+      j++;
+    }
+    return false;
+  }
+  
+  private boolean isTherePluralPersonalSubjectBefore(final AnalyzedTokenReadings[] tokens, int i,
+      Pattern pTrenca) {
+    int j = 1;
+    boolean keepCounting = true;
+    while (i - j > 0 && keepCounting) {
+      if (matchRegexp(tokens[i - j].getToken(), SUBJECTE_PERSONAL_PL_TOKEN)
+          || matchPostagRegexp(tokens[i - j], SUBJECTE_PERSONAL_PL_POSTAG)
+          && !matchPostagRegexp(tokens[i - j], SUBJECTE_PERSONAL_NO_POSTAG)
+          && !matchLemmaRegexp(tokens[i-j], SUBJECTE_PERSONAL_NO_LEMMA))
+        return true;
+      keepCounting = !matchPostagRegexp(tokens[i - j], pTrenca);
+      j++;
+    }
+    return false;
+  }
+  
+  private boolean isVerbNumberPerson(final AnalyzedTokenReadings[] tokens, int i, Pattern pVerb){
+    int j = 0; // El verb principal pot ser conjugat
+    boolean keepCounting = true;
+    while (i-j>0 && keepCounting) {
+      if (matchPostagRegexp(tokens[i-j], pVerb))
+        return true;
+      keepCounting = matchPostagRegexp(tokens[i - j],
+          PREP_VERB_PRONOM);
+      if (tokens[i-j].getToken().equalsIgnoreCase("per")
+          && tokens[i-j+1].getToken().equalsIgnoreCase("a"))
+        keepCounting=false;
+      j++;
+    }
+    return false;
+  }
+  
+  
+  private boolean isPhraseImpersonalVerbS (final AnalyzedTokenReadings[] tokens, int i) {
+    //FRASE IMPERSONAL
+    // És frase impersonal si hi ha el pronom 'es', llevat que es pugui identificar un subjecte "personal".
+    return isThereBefore(tokens, i, LEMMA_ES, POSTAG_ES)
+    && !isThereBefore(tokens, i, LEMMA_PRONOM_CI, POSTAG_PRONOM_CI)
+    && (!isThereSingularPersonalSubjectBefore(tokens,i,TRENCA_COMPTE2) || isThereBefore(tokens, i, LEMMA_HI, POSTAG_HI))
+    && isVerbNumberPerson(tokens,i,VERB_3S);      
+  }
+  private boolean isPhraseImpersonalVerbSP (final AnalyzedTokenReadings[] tokens, int i) {
+    //FRASE IMPERSONAL
+    // És frase impersonal si hi ha el pronom 'es', llevat que es pugui identificar un subjecte "personal".
+    return isThereBefore(tokens, i, LEMMA_ES, POSTAG_ES)    
+    && !isThereBefore(tokens, i, LEMMA_PRONOM_CI, POSTAG_PRONOM_CI)
+    && (  (  (isVerbNumberPerson(tokens,i,VERB_3S) && !isThereSingularPersonalSubjectBefore(tokens,i,TRENCA_COMPTE))
+          || (isVerbNumberPerson(tokens,i,VERB_3P) && !isTherePluralPersonalSubjectBefore(tokens,i,TRENCA_COMPTE)) )
+       || isThereBefore(tokens, i, LEMMA_HI, POSTAG_HI));      
+  }
+  
+  @Override
+  public void reset() {
+    // nothing
+  }
 }

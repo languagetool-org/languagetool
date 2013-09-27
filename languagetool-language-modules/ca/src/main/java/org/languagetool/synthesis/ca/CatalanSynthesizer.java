@@ -44,104 +44,104 @@ import org.languagetool.synthesis.BaseSynthesizer;
  */
 public class CatalanSynthesizer extends BaseSynthesizer {
 
-	private static final String RESOURCE_FILENAME = "/ca/catalan_synth.dict";
-	private static final String TAGS_FILE_NAME = "/ca/catalan_tags.txt";
+  private static final String RESOURCE_FILENAME = "/ca/catalan_synth.dict";
+  private static final String TAGS_FILE_NAME = "/ca/catalan_tags.txt";
 
-	/** A special tag to add determiner (el, la, l', els, les). **/
-//	private static final String ADD_DETERMINER = "DT";
+  /** A special tag to add determiner (el, la, l', els, les). **/
+  // private static final String ADD_DETERMINER = "DT";
 
-	/** Patterns for number and gender **/
-	private static final Pattern pMS = Pattern.compile("(N|A.).[MC][SN].*|V.P.*SM.?");
-	private static final Pattern pFS = Pattern.compile("(N|A.).[FC][SN].*|V.P.*SF.?");
-	private static final Pattern pMP = Pattern.compile("(N|A.).[MC][PN].*|V.P.*PM.?");
-	private static final Pattern pFP = Pattern.compile("(N|A.).[FC][PN].*|V.P.*PF.?");
+  /** Patterns for number and gender **/
+  private static final Pattern pMS = Pattern.compile("(N|A.).[MC][SN].*|V.P.*SM.?");
+  private static final Pattern pFS = Pattern.compile("(N|A.).[FC][SN].*|V.P.*SF.?");
+  private static final Pattern pMP = Pattern.compile("(N|A.).[MC][PN].*|V.P.*PM.?");
+  private static final Pattern pFP = Pattern.compile("(N|A.).[FC][PN].*|V.P.*PF.?");
 
-	/** Pattern for previous preposition passed in the postag **/
-	private static final Pattern pPrep = Pattern.compile("(DT)(.*)");
+  /** Pattern for previous preposition passed in the postag **/
+  private static final Pattern pPrep = Pattern.compile("(DT)(.*)");
 
-	/** Patterns for apostrophation **/
-	private static final Pattern pMascYes = Pattern.compile("h?[aeiouàèéíòóú].*",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-	private static final Pattern pMascNo = Pattern.compile("h?[ui][aeioàèéóò].+",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-	private static final Pattern pFemYes = Pattern.compile("h?[aeoàèéíòóú].*|h?[ui][^aeiouàèéíòóúüï]+[aeiou][ns]?|urbs",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-	private static final Pattern pFemNo = Pattern.compile("host|ira|inxa",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  /** Patterns for apostrophation **/
+  private static final Pattern pMascYes = Pattern.compile("h?[aeiouàèéíòóú].*",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern pMascNo = Pattern.compile("h?[ui][aeioàèéóò].+",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern pFemYes = Pattern.compile("h?[aeoàèéíòóú].*|h?[ui][^aeiouàèéíòóúüï]+[aeiou][ns]?|urbs",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern pFemNo = Pattern.compile("host|ira|inxa",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
 
-	public CatalanSynthesizer() {
-		super(RESOURCE_FILENAME, TAGS_FILE_NAME);
-	}
+  public CatalanSynthesizer() {
+    super(RESOURCE_FILENAME, TAGS_FILE_NAME);
+  }
 
-	@Override
-	public String[] synthesize(final AnalyzedToken token, final String posTag) throws IOException {
-		initSynthesizer();
-		initPossibleTags();
-		final Pattern p;
-		boolean addDt = false; 
-		String prep = ""; 
-		final Matcher mPrep = pPrep.matcher(posTag);
-		if (mPrep.matches()) {
-			addDt=true; // add definite article before token
-			if (mPrep.groupCount()>1) {
-				prep=mPrep.group(2); // add preposition before article
-			}
-		}
-		if (addDt) {
-			p = Pattern.compile("N.*|A.*|V.P.*|PX.");
-		} else {
-			p = Pattern.compile(posTag);
-		}
-		final ArrayList<String> results = new ArrayList<>();
-		for (final String tag : possibleTags) {
-			final Matcher m = p.matcher(tag);
-			if (m.matches()) {
-				if (addDt) {
-					lookupWithEl(token.getLemma(), tag, prep, results);
-				} else {
-					lookup(token.getLemma(), tag, results);
-				}
-			}
-		}
-		return results.toArray(new String[results.size()]);
-	}
+  @Override
+  public String[] synthesize(final AnalyzedToken token, final String posTag) throws IOException {
+    initSynthesizer();
+    initPossibleTags();
+    final Pattern p;
+    boolean addDt = false; 
+    String prep = ""; 
+    final Matcher mPrep = pPrep.matcher(posTag);
+    if (mPrep.matches()) {
+      addDt=true; // add definite article before token
+      if (mPrep.groupCount()>1) {
+        prep=mPrep.group(2); // add preposition before article
+      }
+    }
+    if (addDt) {
+      p = Pattern.compile("N.*|A.*|V.P.*|PX.");
+    } else {
+      p = Pattern.compile(posTag);
+    }
+    final ArrayList<String> results = new ArrayList<>();
+    for (final String tag : possibleTags) {
+      final Matcher m = p.matcher(tag);
+      if (m.matches()) {
+        if (addDt) {
+          lookupWithEl(token.getLemma(), tag, prep, results);
+        } else {
+          lookup(token.getLemma(), tag, results);
+        }
+      }
+    }
+    return results.toArray(new String[results.size()]);
+  }
 
-	/**
-	 * Lookup the inflected forms of a lemma defined by a part-of-speech tag.
-	 * Adds determiner "el" properly inflected and preposition
-	 * (prep. +) det. + noun. / adj.
-	 * @param lemma the lemma to be inflected.
-	 * @param posTag the desired part-of-speech tag.
-	 * @param results the list to collect the inflected forms.
-	 */
-	private void lookupWithEl(String lemma, String posTag, String prep, List<String> results) {
-		final List<WordData> wordForms = synthesizer.lookup(lemma + "|" + posTag);
-		final Matcher mMS = pMS.matcher(posTag);
-		final Matcher mFS = pFS.matcher(posTag);
-		final Matcher mMP = pMP.matcher(posTag);
-		final Matcher mFP = pFP.matcher(posTag);
-		for (WordData wd : wordForms) {
-			final String word = wd.getStem().toString();
-			if (mMS.matches()) {
-				final Matcher mMascYes = pMascYes.matcher(word);
-				final Matcher mMascNo = pMascNo.matcher(word);
-				if (prep.equals("per")) {	if (mMascYes.matches() && !mMascNo.matches()) {	results.add("per l'" + word);	}	else {results.add("pel " + word);	} }
-				else if (prep.isEmpty()) {	if (mMascYes.matches() && !mMascNo.matches()) {	results.add("l'" + word);	}	else {results.add("el " + word);	} }
-				else {	if (mMascYes.matches() && !mMascNo.matches()) {	results.add(prep+" l'" + word);	}	else {results.add(prep+"l " + word);	} }
-				
-			}
-			if (mFS.matches()) {
-				final Matcher mFemYes = pFemYes.matcher(word);
-				final Matcher mFemNo = pFemNo.matcher(word);
-				if (prep.equals("per")) {	if (mFemYes.matches() && !mFemNo.matches()) {	results.add("per l'" + word);	}	else {results.add("per la " + word);} }
-				else if (prep.isEmpty()) {	if (mFemYes.matches() && !mFemNo.matches()) {	results.add("l'" + word);	}	else {results.add("la " + word);} }
-				else {	if (mFemYes.matches() && !mFemNo.matches()) {	results.add(prep+" l'" + word);	}	else {results.add(prep+" la " + word);} }
-			}
-			if (mMP.matches()) {		
-				if (prep.equals("per")) { results.add("pels " + word); }
-				else if (prep.isEmpty()) { results.add("els " + word); }
-				else { results.add(prep+"ls " + word); }
-			}
-			if (mFP.matches()) { 
-				if (prep.isEmpty()) { results.add("les " + word);	} else {results.add(prep+" les " + word);	}
-			}
-		}
+  /**
+   * Lookup the inflected forms of a lemma defined by a part-of-speech tag.
+   * Adds determiner "el" properly inflected and preposition
+   * (prep. +) det. + noun. / adj.
+   * @param lemma the lemma to be inflected.
+   * @param posTag the desired part-of-speech tag.
+   * @param results the list to collect the inflected forms.
+   */
+  private void lookupWithEl(String lemma, String posTag, String prep, List<String> results) {
+    final List<WordData> wordForms = synthesizer.lookup(lemma + "|" + posTag);
+    final Matcher mMS = pMS.matcher(posTag);
+    final Matcher mFS = pFS.matcher(posTag);
+    final Matcher mMP = pMP.matcher(posTag);
+    final Matcher mFP = pFP.matcher(posTag);
+    for (WordData wd : wordForms) {
+      final String word = wd.getStem().toString();
+      if (mMS.matches()) {
+        final Matcher mMascYes = pMascYes.matcher(word);
+        final Matcher mMascNo = pMascNo.matcher(word);
+        if (prep.equals("per")) {  if (mMascYes.matches() && !mMascNo.matches()) {  results.add("per l'" + word);  }  else {results.add("pel " + word);  } }
+        else if (prep.isEmpty()) {  if (mMascYes.matches() && !mMascNo.matches()) {  results.add("l'" + word);  }  else {results.add("el " + word);  } }
+        else {  if (mMascYes.matches() && !mMascNo.matches()) {  results.add(prep+" l'" + word);  }  else {results.add(prep+"l " + word);  } }
+        
+      }
+      if (mFS.matches()) {
+        final Matcher mFemYes = pFemYes.matcher(word);
+        final Matcher mFemNo = pFemNo.matcher(word);
+        if (prep.equals("per")) {  if (mFemYes.matches() && !mFemNo.matches()) {  results.add("per l'" + word);  }  else {results.add("per la " + word);} }
+        else if (prep.isEmpty()) {  if (mFemYes.matches() && !mFemNo.matches()) {  results.add("l'" + word);  }  else {results.add("la " + word);} }
+        else {  if (mFemYes.matches() && !mFemNo.matches()) {  results.add(prep+" l'" + word);  }  else {results.add(prep+" la " + word);} }
+      }
+      if (mMP.matches()) {    
+        if (prep.equals("per")) { results.add("pels " + word); }
+        else if (prep.isEmpty()) { results.add("els " + word); }
+        else { results.add(prep+"ls " + word); }
+      }
+      if (mFP.matches()) { 
+        if (prep.isEmpty()) { results.add("les " + word);  } else {results.add(prep+" les " + word);  }
+      }
+    }
 
-	}
+  }
 }

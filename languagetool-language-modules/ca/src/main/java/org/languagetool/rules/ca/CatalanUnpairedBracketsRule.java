@@ -29,35 +29,35 @@ import org.languagetool.rules.GenericUnpairedBracketsRule;
 
 public class CatalanUnpairedBracketsRule extends GenericUnpairedBracketsRule {
 
-	private static final String[] CA_START_SYMBOLS = { "[", "(", "{", "“", "«", "\"", "'", "‘" };
-	private static final String[] CA_END_SYMBOLS   = { "]", ")", "}", "”", "»", "\"", "'", "’" };
+  private static final String[] CA_START_SYMBOLS = { "[", "(", "{", "“", "«", "\"", "'", "‘" };
+  private static final String[] CA_END_SYMBOLS   = { "]", ")", "}", "”", "»", "\"", "'", "’" };
 
-	//private static final Pattern NUMBER = Pattern.compile("[\\d,.]*\\d");
-	
-	private static final Pattern VALID_BEFORE_CLOSING_PARENTHESIS = Pattern
-			.compile("\\d+|[a-zA-Z]", Pattern.UNICODE_CASE);
+  //private static final Pattern NUMBER = Pattern.compile("[\\d,.]*\\d");
+  
+  private static final Pattern VALID_BEFORE_CLOSING_PARENTHESIS = Pattern
+      .compile("\\d+|[a-zA-Z]", Pattern.UNICODE_CASE);
 
-	public CatalanUnpairedBracketsRule(final ResourceBundle messages,
-			final Language language) {
-		super(messages, language);
-		startSymbols = CA_START_SYMBOLS;
-		endSymbols = CA_END_SYMBOLS;
-		uniqueMapInit();
-	}
+  public CatalanUnpairedBracketsRule(final ResourceBundle messages,
+      final Language language) {
+    super(messages, language);
+    startSymbols = CA_START_SYMBOLS;
+    endSymbols = CA_END_SYMBOLS;
+    uniqueMapInit();
+  }
 
-	@Override
-	public String getId() {
-		return "CA_UNPAIRED_BRACKETS";
-	}
+  @Override
+  public String getId() {
+    return "CA_UNPAIRED_BRACKETS";
+  }
 
-	@Override
-	protected boolean isNoException(final String tokenStr,
-			final AnalyzedTokenReadings[] tokens, final int i, final int j,
-			final boolean precSpace, final boolean follSpace) {
+  @Override
+  protected boolean isNoException(final String tokenStr,
+      final AnalyzedTokenReadings[] tokens, final int i, final int j,
+      final boolean precSpace, final boolean follSpace) {
 
-		if (i < 1) {
-			return true;
-		}
+    if (i < 1) {
+      return true;
+    }
 
     final boolean superException = !super.isNoException(tokenStr, tokens, i, j, precSpace, follSpace);
     if (superException) {
@@ -69,30 +69,30 @@ public class CatalanUnpairedBracketsRule extends GenericUnpairedBracketsRule {
           return false;
         }*/
     
-		if (i == 1 && tokenStr.equals("»"))
-			return false;
+    if (i == 1 && tokenStr.equals("»"))
+      return false;
 
-		if (i > 1 && tokenStr.equals(")")) {
-			boolean isThereOpeningParenthesis = false;
-			int k=1;
-			while (i-k>0) {
-				if (tokens[i-k].getToken().equals(")"))
-					break;
-				if (tokens[i-k].getToken().equals("(")) {
-					isThereOpeningParenthesis=true;
-					break;
-				}
-				k++;
-			}
-			if (!isThereOpeningParenthesis) {
-				final Matcher mValidBeforeClosingParenthesis = VALID_BEFORE_CLOSING_PARENTHESIS
-						.matcher(tokens[i - 1].getToken());
-				if (mValidBeforeClosingParenthesis.matches())
-					return false;
-			}
-		}
+    if (i > 1 && tokenStr.equals(")")) {
+      boolean isThereOpeningParenthesis = false;
+      int k=1;
+      while (i-k>0) {
+        if (tokens[i-k].getToken().equals(")"))
+          break;
+        if (tokens[i-k].getToken().equals("(")) {
+          isThereOpeningParenthesis=true;
+          break;
+        }
+        k++;
+      }
+      if (!isThereOpeningParenthesis) {
+        final Matcher mValidBeforeClosingParenthesis = VALID_BEFORE_CLOSING_PARENTHESIS
+            .matcher(tokens[i - 1].getToken());
+        if (mValidBeforeClosingParenthesis.matches())
+          return false;
+      }
+    }
 
-		return true;
-	}
+    return true;
+  }
 
 }
