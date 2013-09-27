@@ -135,7 +135,7 @@ public class CommandLineParser {
    * up-to-date if you add an option
    */
   public void printUsage(PrintStream stream) {
-    stream.println("Usage: java -jar LanguageTool.jar [OPTION]... FILE\n"
+    stream.println("Usage: java -jar languagetool-commandline.jar [OPTION]... FILE\n"
             + " FILE                      plain text file to be checked\n"
             + " Available options:\n"
             + "  -r, --recursive          work recursively on directory, not on a single file\n"

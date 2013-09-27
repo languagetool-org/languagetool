@@ -74,7 +74,7 @@ public class MainTest extends AbstractSecurityTestCase {
       fail("LT should have exited with status 0!");
     } catch (ExitException e) {
       final String output = new String(this.out.toByteArray());
-      assertTrue(output.contains("Usage: java -jar LanguageTool.jar"));
+      assertTrue(output.contains("Usage: java -jar languagetool-commandline.jar"));
       assertEquals("Exit status", 1, e.status);
     }
   }
