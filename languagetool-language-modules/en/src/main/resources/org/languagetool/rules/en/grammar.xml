@@ -34,7 +34,7 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
 -->
 
 <!--suppress CheckTagEmptyBody -->
-<rules lang="en" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<rules lang="en" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <!-- ====================================================================== -->
     <!-- Possible typos -->
     <!-- ====================================================================== -->
@@ -1228,7 +1228,6 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
             <example correction="Almost" type="incorrect"><marker>All most</marker> all the patents were rejected...</example>
             <example type="correct"><marker>Almost</marker> all the patents were rejected...</example>
         </rule>
-        <!-- TODO: make more general -->
         <rule id="ANALYSIS_IF" name="analysis if (of)">
             <pattern>
                 <token postag="DT"></token>
@@ -1891,14 +1890,6 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
             <example type="correct">Thanks again <marker>for</marker> your help.</example>
             <example type="incorrect">Thanks again <marker>fore</marker> your help.</example>
         </rule>
-        <!-- TODO
-   &lt;rule id=&quot;ADJ_THAT&quot; name=&quot;that/than&quot;&gt;
-      &lt;pattern mark_from=&quot;1&quot;&gt;&lt;token postag=&quot;(JJR|JJ)&quot; postag_regexp=&quot;yes&quot;&gt; &lt;token&gt;that&lt;/token&gt;&lt;/pattern&gt;
-      &lt;message&gt;Did you mean &lt;em&gt;than&lt;/em&gt;?&lt;/message&gt;
-      &lt;example type=&quot;correct&quot;&gt;I am not wiser &lt;em&gt;than&lt;/em&gt; you.&lt;/example&gt;
-      &lt;example type=&quot;incorrect&quot;&gt;I am not wiser &lt;em&gt;that&lt;/em&gt; you.&lt;/example&gt;
-   &lt;/rule&gt;
-   -->
         <rule id="LESS_MORE_THEN" name="less/more ... then (than)">
             <pattern>
                 <token regexp="yes">(less|more)</token>
@@ -2217,7 +2208,7 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
                 <example type="correct">Help is on <marker>its</marker> way.</example>
             </rule>
             <rule>
-                <!-- TODO: &quot;its of&quot;, &quot;its to&quot; -->
+                <!-- TODO: its of, its to -->
                 <pattern>
                     <token><exception postag="IN|CC" postag_regexp="yes"></exception></token>
                     <marker>
@@ -2435,7 +2426,7 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
                 <example type="correct">Although in no state the repression has been as great as it was in Soviet times.</example>
             </rule>
             <rule>
-                <!-- TODO: &quot;no the&quot;, &quot;no of&quot; -->
+                <!-- TODO: 'no the', 'no of' -->
                 <pattern>
                     <marker>
                         <token>no</token>
@@ -5857,7 +5848,6 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
         </rule>
 
         <rulegroup id="ADVERB_WORD_ORDER" name="Word order: Wrong position of adverb, e.g. 'Always I am happy. (I am always happy.)'">
-            <!-- TODO cover cases with 'very' etc. -->
             <rule>
                 <pattern>
                     <token postag="SENT_START"/> <!-- or but -->
@@ -6512,7 +6502,6 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
             <example correction="one hexagon|a hexagon|hexagons" type="incorrect">I drew <marker>one hexagons</marker> on my paper.</example>
             <!-- TODO: This rule doesn't detect the following errors:
                I had one shoes on my feet.
-               The ruler was one feet long.
               -->
             <example correction="one hour|a hour|hours" type="incorrect">I worked for <marker>one hours</marker>.</example>
             <example type="correct">The paper is ruined when one <marker>pencils</marker> in their name.</example>
@@ -6848,21 +6837,21 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
             </rule>
         </rulegroup>
         <!-- TODO: is this really an error? see http://www.edufind.com/english/grammar/ADVERBS10.cfm
-   &lt;rule id=&quot;ADVERBS_ORDER&quot; name=&quot;word order: adverb + auxiliary verb + main verb&quot;&gt;
-      &lt;pattern mark_from=&quot;2&quot;&gt;&lt;token regexp=&quot;yes&quot;&gt;certainly|definitely|probably|undoubtedly|surely&lt;/token&gt;&lt;token regexp=&quot;yes&quot;&gt;has|had|have|will&lt;/token&gt;&lt;token postag=&quot;VBN|VB&quot;/&gt;/pattern&gt;
-      &lt;message&gt;Place the adverb between &lt;/message&gt;
-      &lt;example type=&quot;correct&quot;&gt;He will &lt;em&gt;probably&lt;/em&gt; remember tomorrow.&lt;/example&gt;
-      &lt;example type=&quot;incorrect&quot;&gt;He &lt;em&gt;probably&lt;/em&gt; will remember tomorrow.&lt;/example&gt;
-   &lt;/rule&gt;
-   -->
-        <!-- too many false alarms, e.g. &quot;I am convinced that our suggestions...&quot;
-   &lt;rule id=&quot;I_A_NONBASE&quot; name=&quot;'I am' + non-gerund form&quot;&gt;
-      &lt;pattern mark_from=&quot;2&quot;&gt;&lt;token regexp=&quot;yes&quot;&gt;I&lt;/token&gt;&lt;token regexp=&quot;yes&quot;&gt;am&lt;/token&gt;&lt;token postag=&quot;VB|VBD|VBN|VBP|VBZ&quot;/&gt;/pattern&gt;
-      &lt;message&gt;You might need to use the gerund form of the verb here (e.g. 'learning' instead of 'learn').&lt;/message&gt;
-      &lt;example type=&quot;correct&quot;&gt;I am &lt;em&gt;searching&lt;/em&gt; through some fields.&lt;/example&gt;
-      &lt;example type=&quot;incorrect&quot;&gt;I am &lt;em&gt;searched&lt;/em&gt; through some fields.&lt;/example&gt;
-   &lt;/rule&gt;
-   -->
+        <rule id="ADVERBS_ORDER" name="word order: adverb + auxiliary verb + main verb">
+          <pattern mark_from="2"><token regexp="yes">certainly|definitely|probably|undoubtedly|surely</token><token regexp="yes">has|had|have|will</token><token postag="VBN|VB"/>/pattern>
+          <message>Place the adverb between </message>
+          <example type="correct">He will <em>probably</em> remember tomorrow.</example>
+          <example type="incorrect">He <em>probably</em> will remember tomorrow.</example>
+        </rule>
+        -->
+        <!-- TODO: too many false alarms, e.g. I am convinced that our suggestions...
+        <rule id="I_A_NONBASE" name="'I am' + non-gerund form">
+          <pattern mark_from="2"><token regexp="yes">I</token><token regexp="yes">am</token><token postag="VB|VBD|VBN|VBP|VBZ"/>/pattern>
+          <message>You might need to use the gerund form of the verb here (e.g. 'learning' instead of 'learn').</message>
+          <example type="correct">I am <em>searching</em> through some fields.</example>
+          <example type="incorrect">I am <em>searched</em> through some fields.</example>
+        </rule>
+        -->
         <!-- currently doesn't fail test case :)  -->
         <rule id="TO_NON_BASE" name="'to' + non-base form">
             <pattern>
@@ -7830,9 +7819,6 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
             <example type="correct">I must go shopping.</example>
             <example correction="must|have to" type="incorrect">I <marker>must to</marker> go shopping.</example>
         </rule>
-        <!-- TODO: support rulegroups?
-   &lt;rulegroup id=&quot;WILL_MIGHT_BASE&quot; name=&quot;Infinitive verb after auxiliary verb&quot;&gt;
-   -->
         <rule id="AS_ADJ_AS" name="Comparison with 'as'">
             <pattern>
                 <token>as</token>
@@ -7913,13 +7899,13 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
             </rule>
         </rulegroup>
         <!-- TODO
-   &lt;rule id=&quot;VB_TO_USE&quot; name=&quot;Past tense of 'used to...'&quot;&gt;
-      &lt;pattern mark_to=&quot;-2&quot;&gt;&lt;token postag=&quot;VB&quot;/&lt;token&gt;to&lt;/token&gt;&lt;token&gt;use&lt;/token&gt;&lt;/pattern&gt;
-      &lt;message&gt;Use the past tense to build a sentence with &quot;to use&quot;.&lt;/message&gt;
-      &lt;example type=&quot;correct&quot;&gt;Aethera &lt;em&gt;used&lt;/em&gt; to use this.&lt;/example&gt;
-      &lt;example type=&quot;incorrect&quot;&gt;Aethera &lt;em&gt;use&lt;/em&gt; to use this.&lt;/example&gt;
-   &lt;/rule&gt;
-   -->
+       <rule id="VB_TO_USE" name="Past tense of 'used to...'">
+          <pattern mark_to="-2"><token postag="VB"/<token>to</token><token>use</token></pattern>
+          <message>Use the past tense to build a sentence with "to use".</message>
+          <example type="correct">Aethera <em>used</em> to use this.</example>
+          <example type="incorrect">Aethera <em>use</em> to use this.</example>
+       </rule>
+       -->
         <rule id="MORE_A_JJ" name="Word order: 'more a ...' instead of 'a more ...'">
             <pattern>
                 <token>more<exception regexp="yes" scope="previous">no|much</exception></token>
@@ -8206,16 +8192,16 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
                 <example type="correct">Why has Mary done this?</example>
             </rule>
         </rulegroup>
-        <!-- TODO: fix false alarm for &quot;one of you thinks ...&quot;, &quot;even though the world around you thinks&quot;
-   &lt;rule id=&quot;I_VERB_AGR&quot; name=&quot;Agreement error: third person verb with 'I'&quot;&gt;
-      &lt;pattern mark_from=&quot;1&quot;&gt;&lt;token regexp=&quot;yes&quot;&gt;I|we|they|you&lt;/token&gt;&lt;token postag=&quot;VBZ&quot;/&gt;&lt;/pattern&gt;
-      &lt;message&gt;'I' must be used with a non-third person verb, e.g. 'I think'&lt;/message&gt;
-      &lt;example type=&quot;correct&quot;&gt;I &lt;em&gt;think&lt;/em&gt; that is quite fair.&lt;/example&gt;
-      &lt;example type=&quot;correct&quot;&gt;Don't you &lt;em&gt;think&lt;/em&gt; that is quite fair?&lt;/example&gt;
-      &lt;example type=&quot;incorrect&quot;&gt;I &lt;em&gt;thinks&lt;/em&gt; that is quite fair.&lt;/example&gt;
-      &lt;example type=&quot;incorrect&quot;&gt;Don't you &lt;em&gt;thinks&lt;/em&gt; that is quite fair?&lt;/example&gt;
-   &lt;/rule&gt;
-   -->
+        <!-- TODO: fix false alarm for 'one of you thinks ...', 'even though the world around you thinks'
+        <rule id="I_VERB_AGR" name="Agreement error: third person verb with 'I'">
+          <pattern mark_from="1"><token regexp="yes">I|we|they|you</token><token postag="VBZ"/></pattern>
+          <message>'I' must be used with a non-third person verb, e.g. 'I think'</message>
+          <example type="correct">I <em>think</em> that is quite fair.</example>
+          <example type="correct">Don't you <em>think</em> that is quite fair?</example>
+          <example type="incorrect">I <em>thinks</em> that is quite fair.</example>
+          <example type="incorrect">Don't you <em>thinks</em> that is quite fair?</example>
+        </rule>
+        -->
         <rulegroup id="PRP_PAST_PART" name="Agreement error: past participle without 'have'">
             <rule>
                 <pattern>
@@ -11348,7 +11334,6 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
                     <token>that</token>
                 </pattern>
                 <message>Consider using <suggestion>\1 disagree that</suggestion> or <suggestion>\1 agree that</suggestion>.</message>
-                <!-- TODO: Improve suggestion! -->
                 <short>Redundant phrase</short>
                 <example correction="did disagree that|did agree that" type="incorrect">We <marker>did not disagree with the fact that</marker> the sky is blue.</example>
                 <example type="correct">We did agree that the sky is blue.</example>
