@@ -3,7 +3,7 @@ The dictionary was obtained from these four sources
 http://code.google.com/p/khmer-dictionary-tools/ - Part of Speech entries and words from Chuon Nath's dictionary released by the Buddhist Institute of Cambodia under a BSD License for the LanguageTool Project
 http://sealang.net/khmer/ - Part of Speech entries and words from Robert Headley's dictionary were released by Robert Headley under a BSD License for the LanguageTool Project
 http://www.panl10n.net/english/Outputs%20Phase%202/CCs/Cambodia/MoEYS/Software/2009/KhmerCorpus.zip - Released under the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License for the LanguageTool Project
-http://www.sbbic.org - The Society for Better Books of Cambodia has made changes to all these sources, correcting, and adding new words in order to inprove the grammar checker - SBBIC releases these changes and additions under a BSD License for the LanguageTool Project
+http://www.sbbic.org - The Society for Better Books of Cambodia has made changes to all these sources, correcting, and adding new words in order to improve the grammar checker - SBBIC releases these changes and additions under a BSD License for the LanguageTool Project
 
 Grammar rules are currently being collected - if you are interested in contributing, please visit: http://www.sbbic.org/current-projects/khmer-grammar-checker-rules/
 

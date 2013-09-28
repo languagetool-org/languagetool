@@ -131,6 +131,8 @@ License:
  Noord and is released on LGPL license. Alpino is available at 
  http://www.let.rug.nl/~vannoord/alp/Alpino/. The POS tag system and values
  come mostly from OpenTaal, www.opentaal.org.
+ 
+ English: see below
 
  French:
  The French data for part-of-speech tagging are from the Dicollecte project. 
@@ -143,7 +145,7 @@ License:
  
  German:
  The German data for part-of-speech tagging is taken from Morphy
- (http://www.wolfganglezius.de/doku.php?id=public:cl:morphy)
+ (http://www.wolfganglezius.de/doku.php?id=cl:morphy)
  under Creative Commons Attribution-Share Alike 3.0
 
  Italian:
@@ -151,9 +153,23 @@ License:
  licensed under the Creative Commons Attribution ShareAlike 2.0 License 
  and the GNU Lesser General Public License (LGPL) 
  (see http://sslmitdev-online.sslmit.unibo.it/linguistics/morph-it.php).
+ 
+ Khmer:
+ The dictionary was obtained from these four sources:
+ http://code.google.com/p/khmer-dictionary-tools/ - Part of Speech entries and words from
+ * Chuon Nath's dictionary released by the Buddhist Institute of Cambodia under a BSD License
+   for the LanguageTool Project
+ * http://sealang.net/khmer/ - Part of Speech entries and words from Robert Headley's dictionary
+   were released by Robert Headley under a BSD License for the LanguageTool Project
+ * http://www.panl10n.net/english/Outputs%20Phase%202/CCs/Cambodia/MoEYS/Software/2009/KhmerCorpus.zip
+   Released under the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License
+   for the LanguageTool Project
+ * http://www.sbbic.org - The Society for Better Books of Cambodia has made changes to all 
+   these sources, correcting, and adding new words in order to improve the grammar checker -
+   SBBIC releases these changes and additions under a BSD License for the LanguageTool Project
 
  Polish:
- The Polish data for part-of-speech tagging is from Morfologik project,
+ The Polish data for part-of-speech tagging is from the Morfologik project,
  licensed on BSD (see http://morfologik.blogspot.com).
 
  Romanian:
@@ -173,8 +189,8 @@ License:
 
  Spanish:
  The dictionary was mainly obtained from the Freeling project.
-	http://devel.cpl.upc.edu/freeling/svn/latest/freeling/data/es/dicc.src
-	http://garraf.epsevg.upc.es/freeling/
+   http://devel.cpl.upc.edu/freeling/svn/latest/freeling/data/es/dicc.src
+   http://garraf.epsevg.upc.es/freeling/
  It is released under the GNU General Public License.
 
  Swedish:
@@ -257,8 +273,8 @@ License:
     grady@netcom.com
     grady@northcoast.com
 
-	For more information on wordlists used, see agid-readme.txt.
-	
+    For more information on wordlists used, see agid-readme.txt.
+
   2) Part Of Speech Database, compiled by Kevin Atkinson 
   <kevina@users.sourceforge.net>
    The part-of-speech.txt file contains is a combination of 
