@@ -378,15 +378,17 @@ $Id$
         <rulegroup id="EN_OHNE_PASSANT" name="Möglicher Tippfehler: 'en (eng, in)'">
             <rule>
                 <pattern case_sensitive="yes">
+                    <token negate="yes" regexp="yes">.*[ÁáÀàÇçÉéÈèÍíÌìÓóÒòÚúÙù].*</token>
                     <marker>
                         <token spacebefore="yes">en</token>
                     </marker>
-                    <token negate="yes" regexp="yes">bloc|gros|détail|passant|masse|vogue</token>
+                    <token negate="yes" regexp="yes">bloc|gros|passant|masse|vogue|.*[ÁáÀàÇçÉéÈèÍíÌìÓóÒòÚúÙù].*</token>
                 </pattern>
                 <message>Möglicher Tippfehler: Meinten Sie evt. <suggestion>eng</suggestion> oder <suggestion>in</suggestion>?</message>
                 <short>Möglicher Tippfehler</short>
                 <example type="correct">Das ist <marker>en</marker> vogue jetzt.</example>
                 <example type="correct">Das haben wir <marker>en</marker> passant erledigt.</example>
+                <example type="correct">Société et pouvoir <marker>en</marker> Algérie</example>
                 <example type="incorrect" correction="eng|in">Das ist zu <marker>en</marker>.</example>
             </rule>
         </rulegroup>
