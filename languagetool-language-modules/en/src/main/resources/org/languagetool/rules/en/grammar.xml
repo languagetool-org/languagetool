@@ -1903,6 +1903,7 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
             <pattern>
                 <token regexp="yes">(less|more)</token>
                 <token postag="(JJ|NN|NN:.*|NNS)" postag_regexp="yes"></token>
+                <token min="0" postag="(NN|NN:.*|NNS)" postag_regexp="yes"></token>
                 <marker>
                     <token>then</token>
                 </marker>
@@ -1910,7 +1911,10 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
             <message>Did you mean <suggestion>than</suggestion>?</message>
             <short>Possible typo</short>
             <example type="correct">It's less controversial <marker>than</marker> one would think.</example>
-            <example type="incorrect">It's less controversial <marker>then</marker> one would think.</example>
+            <example type="correct">It's a less controversial decision <marker>than</marker> one would think.</example>
+            <example type="incorrect" correction="than">It's less controversial <marker>then</marker> one would think.</example>
+            <example type="incorrect" correction="than">It's a less controversial decision <marker>then</marker> one would think.</example>
+            <!-- known false alarm: If the structure is one or more thin layers then it will reflect some wavelengths and transmit others. -->
         </rule>
         <rule id="COMMA_THAN" name="..., than (then)">
             <pattern>
