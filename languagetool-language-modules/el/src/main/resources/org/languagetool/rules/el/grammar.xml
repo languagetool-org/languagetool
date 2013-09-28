@@ -22,22 +22,21 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id$
 -->
-<rules lang="el" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-	<category name="Agreement">
-		<rule id="HAVE_INF" name="έχω_απαρέμφατο">
-			<pattern>
-				<token inflected="yes">έχω</token>
-				<marker>
-					<token postag="V"/>
-				</marker>
-			</pattern>
-			<message>Πιθανόν να χρειάζεται να χρησιμοποιήσετε τον απαρεμφατικό τύπο <suggestion><match no="2" postag="INF"/></suggestion></message>
-			<short>Πρόβλημα συμφωνίας</short>
-			<example type="incorrect">Είχα <marker>πάω</marker>.</example>
-			<example type="correct">Είχα πάει.</example>
-		</rule>
+<rules lang="el" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <category name="Agreement">
+        <rule id="HAVE_INF" name="έχω_απαρέμφατο">
+            <pattern>
+                <token inflected="yes">έχω</token>
+                <marker>
+                    <token postag="V"/>
+                </marker>
+            </pattern>
+            <message>Πιθανόν να χρειάζεται να χρησιμοποιήσετε τον απαρεμφατικό τύπο <suggestion><match no="2" postag="INF"/></suggestion></message>
+            <short>Πρόβλημα συμφωνίας</short>
+            <example type="incorrect">Είχα <marker>πάω</marker>.</example>
+            <example type="correct">Είχα πάει.</example>
+        </rule>
         <rule id="GREEK_AGREEMENT_1" name="μέθοδοι αυτές">
             <pattern>
                 <token regexp="yes">μέθοδοι|παράμετροι</token>
@@ -50,134 +49,134 @@ $Id$
             <example type="incorrect">Οι βελτιώσεις των προσεγγίσεων είναι εμφανείς και οι μέθοδοι <marker>αυτοί</marker> είναι κατάλληλοι για την κατανόηση των μεθόδων μεγαλύτερης τάξης.</example>
             <example type="correct">Οι βελτιώσεις των προσεγγίσεων είναι εμφανείς και οι μέθοδοι αυτές είναι κατάλληλοι για την κατανόηση των μεθόδων μεγαλύτερης τάξης.</example>
         </rule>
-	</category>
-	<category name="Orthography">
-		<rule id="GREEK_WHERE-" name="πού;">
-			<pattern>
-				<token postag="SENT_START" />
-				<marker>
-					<token skip="-1">που</token>
-				</marker>
-				<token>;</token>
-			</pattern>
-			<message>Στις ερωτηματικές προτάσεις το <suggestion>πού</suggestion> τονίζεται</message>
-			<short>Πρόβλημα ορθογραφίας</short>
-			<example type="incorrect"><marker>Που</marker> πας;</example>
-			<example type="correct">Πού πας;</example>
-		</rule>
-		<rule id="GREEK_HOW-" name="πώς;">
-			<pattern>
-				<token postag="SENT_START" />
-				<marker>
-					<token skip="-1">πως</token>
-				</marker>
-				<token>;</token>
-			</pattern>
-			<message>Στις ερωτηματικές προτάσεις το <suggestion>πώς</suggestion> τονίζεται</message>
-			<short>Πρόβλημα ορθογραφίας</short>
-			<example type="incorrect"><marker>Πως</marker> είσαι;</example>
-			<example type="correct">Πώς είσαι;</example>
-		</rule>
-		<rule id="GREEK_NUMERAL_ONE_WORD" name="αριθμητικά">
-			<pattern>
-				<token>δέκα</token>
-				<token regexp="yes">τρία|τριών|τέσσερα|τέσσερεις|τεσσάρων|πέντε|έξι|επτά|εφτά|οχτώ|οκτώ|εννιά|εννέα</token>
-			</pattern>
-			<message>Τα αριθμητικά από το 13 μέχρι το 19 γράφονται με μια λέξη <suggestion>δεκα\2</suggestion></message>
-			<short>Πρόβλημα ορθογραφίας</short>
-			<example type="incorrect"><marker>Δέκα τρία</marker>.</example>
-			<example type="correct">Δέκατρία.</example>
-		</rule>
-		<rule id="GREEK_COMMON_ERRORS_1" name="πώς και πώς">
-			<pattern>
-				<token>πως</token>
-				<token>και</token>
-				<token>πως</token>
-			</pattern>
-			<message><suggestion>πώς και πώς</suggestion></message>
-			<short>Πρόβλημα ορθογραφίας</short>
-			<example type="incorrect"><marker>Πως και πως</marker>.</example>
-			<example type="correct">Πώς και πώς.</example>
-		</rule>
-		<rule id="GREEK_COMMON_ERRORS_2" name="πού και πού">
-			<pattern>
-				<token>που</token>
-				<token>και</token>
-				<token>που</token>
-			</pattern>
-			<message><suggestion>πού και πού</suggestion></message>
-			<short>Πρόβλημα ορθογραφίας</short>
-			<example type="incorrect"><marker>Που και που</marker>.</example>
-			<example type="correct">Πού και πού.</example>
-		</rule>
-		<rule id="GREEK_COMMON_ERRORS_3" name="αραιά και πού">
-			<pattern>
-				<token>αραιά</token>
-				<token>και</token>
-				<token>που</token>
-			</pattern>
-			<message><suggestion>αραιά και πού</suggestion></message>
-			<short>Πρόβλημα ορθογραφίας</short>
-			<example type="incorrect"><marker>Αραιά και που</marker>.</example>
-			<example type="correct">Αραιά και πού.</example>
-		</rule>
-		<rule id="GREEK_COMMON_ERRORS_4" name="πού κι ως πού">
-			<pattern>
-				<token>που</token>
-				<token>κι</token>
-				<token>ως</token>
-				<token>που</token>
-			</pattern>
-			<message><suggestion>πού κι ως πού</suggestion></message>
-			<short>Πρόβλημα ορθογραφίας</short>
-			<example type="incorrect">Από <marker>που κι ως που</marker>.</example>
-			<example type="correct">Από πού κι ως πού.</example>
-		</rule>
-	</category>
-	<category name="Redundant Phrases">
-		<rulegroup id="GREEK_REDUNDANT_1" name="ανέκαθεν">
-			<rule>
-				<pattern>
-					<token>εξ</token>
-					<token>ανέκαθεν</token>
-				</pattern>
-				<message>Η έννοια του εξ περιέχεται ήδη στην κατάληξη -θεν. Χρησιμοποιήστε απλά την λέξη <suggestion>\2</suggestion>.</message>
-				<short>Λάθος πλεονασμού</short>
-				<example type="incorrect">Οι Έλληνες ήταν <marker>εξ ανέκαθεν</marker> οι παραδοσιακοί έμποροι της Μεσογείου.</example>
-				<example type="correct">Οι Έλληνες ήταν ανέκαθεν οι παραδοσιακοί έμποροι της Μεσογείου.</example>
-			</rule>
-			<rule>
-				<pattern>
-					<token regexp="yes">από|απο</token>
-					<token>ανέκαθεν</token>
-				</pattern>
-				<message>Η έννοια του από περιέχεται ήδη στην κατάληξη -θεν. Χρησιμοποιήστε απλά την λέξη <suggestion>\2</suggestion>.</message>
-				<short>Λάθος πλεονασμού</short>
-				<example type="incorrect">Η πολιτιστική και πνευματική ανάπτυξη του Δήμου <marker>από ανέκαθεν</marker> ήταν σε πολύ ψηλά επίπεδα.</example>
-				<example type="correct">Η πολιτιστική και πνευματική ανάπτυξη του Δήμου ανέκαθεν ήταν σε πολύ ψηλά επίπεδα.</example>
-			</rule>
-		</rulegroup>
-		<rule id="GREEK_REDUNDANT_2" name="άρα λοιπόν">
-			<pattern>
-				<token>άρα</token>
-				<token>λοιπόν</token>
-			</pattern>
-			<message>Οι λέξεις άρα και λοιπόν είναι συνώνυμες. Χρησιμοποιήστε απλά την λέξη <suggestion>\1</suggestion>.</message>
-			<short>Λάθος πλεονασμού</short>
-			<example type="incorrect"><marker>Άρα λοιπόν</marker> πρακτικά το πεδίο αυτό περιέχει τον μέγιστο αριθμό κόμβων από τους οποίους πρέπει να περάσει το πακέτο έως ότου τελικά παραδοθεί στον παραλήπτη.</example>
-			<example type="correct">Άρα πρακτικά το πεδίο αυτό περιέχει τον μέγιστο αριθμό κόμβων από τους οποίους πρέπει να περάσει το πακέτο έως ότου τελικά παραδοθεί στον παραλήπτη.</example>
-		</rule>
-		<rule id="GREEK_REDUNDANT_3" name="επιτόπια αυτοψία">
-			<pattern>
-				<token>επιτόπια</token>
-				<token>αυτοψία</token>
-			</pattern>
-			<message>Η έννοια του επιτόπια περιέχεται ήδη στην λέξη αυτοψία. Χρησιμοποιήστε απλά την λέξη <suggestion>\2</suggestion>.</message>
-			<short>Λάθος πλεονασμού</short>
-			<example type="incorrect">Στη συνέχεια ακολουθεί η <marker>επιτόπια αυτοψία</marker> αρχιτέκτονα στο κτίριο</example>
-			<example type="correct">Στη συνέχεια ακολουθεί η αυτοψία αρχιτέκτονα στο κτίριο</example>
-		</rule>
-	</category>
+    </category>
+    <category name="Orthography">
+        <rule id="GREEK_WHERE-" name="πού;">
+            <pattern>
+                <token postag="SENT_START" />
+                <marker>
+                    <token skip="-1">που</token>
+                </marker>
+                <token>;</token>
+            </pattern>
+            <message>Στις ερωτηματικές προτάσεις το <suggestion>πού</suggestion> τονίζεται</message>
+            <short>Πρόβλημα ορθογραφίας</short>
+            <example type="incorrect"><marker>Που</marker> πας;</example>
+            <example type="correct">Πού πας;</example>
+        </rule>
+        <rule id="GREEK_HOW-" name="πώς;">
+            <pattern>
+                <token postag="SENT_START" />
+                <marker>
+                    <token skip="-1">πως</token>
+                </marker>
+                <token>;</token>
+            </pattern>
+            <message>Στις ερωτηματικές προτάσεις το <suggestion>πώς</suggestion> τονίζεται</message>
+            <short>Πρόβλημα ορθογραφίας</short>
+            <example type="incorrect"><marker>Πως</marker> είσαι;</example>
+            <example type="correct">Πώς είσαι;</example>
+        </rule>
+        <rule id="GREEK_NUMERAL_ONE_WORD" name="αριθμητικά">
+            <pattern>
+                <token>δέκα</token>
+                <token regexp="yes">τρία|τριών|τέσσερα|τέσσερεις|τεσσάρων|πέντε|έξι|επτά|εφτά|οχτώ|οκτώ|εννιά|εννέα</token>
+            </pattern>
+            <message>Τα αριθμητικά από το 13 μέχρι το 19 γράφονται με μια λέξη <suggestion>δεκα\2</suggestion></message>
+            <short>Πρόβλημα ορθογραφίας</short>
+            <example type="incorrect"><marker>Δέκα τρία</marker>.</example>
+            <example type="correct">Δέκατρία.</example>
+        </rule>
+        <rule id="GREEK_COMMON_ERRORS_1" name="πώς και πώς">
+            <pattern>
+                <token>πως</token>
+                <token>και</token>
+                <token>πως</token>
+            </pattern>
+            <message><suggestion>πώς και πώς</suggestion></message>
+            <short>Πρόβλημα ορθογραφίας</short>
+            <example type="incorrect"><marker>Πως και πως</marker>.</example>
+            <example type="correct">Πώς και πώς.</example>
+        </rule>
+        <rule id="GREEK_COMMON_ERRORS_2" name="πού και πού">
+            <pattern>
+                <token>που</token>
+                <token>και</token>
+                <token>που</token>
+            </pattern>
+            <message><suggestion>πού και πού</suggestion></message>
+            <short>Πρόβλημα ορθογραφίας</short>
+            <example type="incorrect"><marker>Που και που</marker>.</example>
+            <example type="correct">Πού και πού.</example>
+        </rule>
+        <rule id="GREEK_COMMON_ERRORS_3" name="αραιά και πού">
+            <pattern>
+                <token>αραιά</token>
+                <token>και</token>
+                <token>που</token>
+            </pattern>
+            <message><suggestion>αραιά και πού</suggestion></message>
+            <short>Πρόβλημα ορθογραφίας</short>
+            <example type="incorrect"><marker>Αραιά και που</marker>.</example>
+            <example type="correct">Αραιά και πού.</example>
+        </rule>
+        <rule id="GREEK_COMMON_ERRORS_4" name="πού κι ως πού">
+            <pattern>
+                <token>που</token>
+                <token>κι</token>
+                <token>ως</token>
+                <token>που</token>
+            </pattern>
+            <message><suggestion>πού κι ως πού</suggestion></message>
+            <short>Πρόβλημα ορθογραφίας</short>
+            <example type="incorrect">Από <marker>που κι ως που</marker>.</example>
+            <example type="correct">Από πού κι ως πού.</example>
+        </rule>
+    </category>
+    <category name="Redundant Phrases">
+        <rulegroup id="GREEK_REDUNDANT_1" name="ανέκαθεν">
+            <rule>
+                <pattern>
+                    <token>εξ</token>
+                    <token>ανέκαθεν</token>
+                </pattern>
+                <message>Η έννοια του εξ περιέχεται ήδη στην κατάληξη -θεν. Χρησιμοποιήστε απλά την λέξη <suggestion>\2</suggestion>.</message>
+                <short>Λάθος πλεονασμού</short>
+                <example type="incorrect">Οι Έλληνες ήταν <marker>εξ ανέκαθεν</marker> οι παραδοσιακοί έμποροι της Μεσογείου.</example>
+                <example type="correct">Οι Έλληνες ήταν ανέκαθεν οι παραδοσιακοί έμποροι της Μεσογείου.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">από|απο</token>
+                    <token>ανέκαθεν</token>
+                </pattern>
+                <message>Η έννοια του από περιέχεται ήδη στην κατάληξη -θεν. Χρησιμοποιήστε απλά την λέξη <suggestion>\2</suggestion>.</message>
+                <short>Λάθος πλεονασμού</short>
+                <example type="incorrect">Η πολιτιστική και πνευματική ανάπτυξη του Δήμου <marker>από ανέκαθεν</marker> ήταν σε πολύ ψηλά επίπεδα.</example>
+                <example type="correct">Η πολιτιστική και πνευματική ανάπτυξη του Δήμου ανέκαθεν ήταν σε πολύ ψηλά επίπεδα.</example>
+            </rule>
+        </rulegroup>
+        <rule id="GREEK_REDUNDANT_2" name="άρα λοιπόν">
+            <pattern>
+                <token>άρα</token>
+                <token>λοιπόν</token>
+            </pattern>
+            <message>Οι λέξεις άρα και λοιπόν είναι συνώνυμες. Χρησιμοποιήστε απλά την λέξη <suggestion>\1</suggestion>.</message>
+            <short>Λάθος πλεονασμού</short>
+            <example type="incorrect"><marker>Άρα λοιπόν</marker> πρακτικά το πεδίο αυτό περιέχει τον μέγιστο αριθμό κόμβων από τους οποίους πρέπει να περάσει το πακέτο έως ότου τελικά παραδοθεί στον παραλήπτη.</example>
+            <example type="correct">Άρα πρακτικά το πεδίο αυτό περιέχει τον μέγιστο αριθμό κόμβων από τους οποίους πρέπει να περάσει το πακέτο έως ότου τελικά παραδοθεί στον παραλήπτη.</example>
+        </rule>
+        <rule id="GREEK_REDUNDANT_3" name="επιτόπια αυτοψία">
+            <pattern>
+                <token>επιτόπια</token>
+                <token>αυτοψία</token>
+            </pattern>
+            <message>Η έννοια του επιτόπια περιέχεται ήδη στην λέξη αυτοψία. Χρησιμοποιήστε απλά την λέξη <suggestion>\2</suggestion>.</message>
+            <short>Λάθος πλεονασμού</short>
+            <example type="incorrect">Στη συνέχεια ακολουθεί η <marker>επιτόπια αυτοψία</marker> αρχιτέκτονα στο κτίριο</example>
+            <example type="correct">Στη συνέχεια ακολουθεί η αυτοψία αρχιτέκτονα στο κτίριο</example>
+        </rule>
+    </category>
     <category name="Homonymy">
         <rule id="GREEK_PARTICLE_ARTICLE" name="η/ή">
             <pattern>
