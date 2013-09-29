@@ -188,8 +188,14 @@ public class PatternRule extends AbstractPatternRule {
 
   @Override
   public final RuleMatch[] match(final AnalyzedSentence text) throws IOException {
-    final PatternRuleMatcher matcher = new PatternRuleMatcher(this, useList);
-    return matcher.match(text);
+    try {
+      final PatternRuleMatcher matcher = new PatternRuleMatcher(this, useList);
+      return matcher.match(text);
+    } catch (IOException e) {
+      throw new IOException("Error analyzing sentence: '" + text + "'", e);
+    } catch (Exception e) {
+      throw new RuntimeException("Error analyzing sentence: '" + text + "'", e);
+    }
   }
 
   public final void addSuggestionMatch(final Match m) {
