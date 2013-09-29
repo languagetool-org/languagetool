@@ -104,10 +104,8 @@ class UndoRedoSupport {
     private void updateUndoState() {
       if (undoManager.canUndo()) {
         setEnabled(true);
-        putValue(Action.NAME, undoManager.getUndoPresentationName());
       } else {
         setEnabled(false);
-        putValue(Action.NAME, messages.getString("guiUndo"));
       }
     }
   }
@@ -144,10 +142,8 @@ class UndoRedoSupport {
     private void updateRedoState() {
       if (undoManager.canRedo()) {
         setEnabled(true);
-        putValue(Action.NAME, undoManager.getRedoPresentationName());
       } else {
         setEnabled(false);
-        putValue(Action.NAME, messages.getString("guiRedo"));
       }
     }
   }
