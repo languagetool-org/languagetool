@@ -148,6 +148,10 @@ License:
  (http://www.wolfganglezius.de/doku.php?id=cl:morphy)
  under Creative Commons Attribution-Share Alike 3.0
 
+ Greek:
+ The Greek dictionary only contains very few test entries for now,
+ added by Panagiotis Minos. They are made available here under LGPL.
+
  Italian:
  The Italian data for part-of-speech tagging is taken from Morph-it!, 
  licensed under the Creative Commons Attribution ShareAlike 2.0 License 
