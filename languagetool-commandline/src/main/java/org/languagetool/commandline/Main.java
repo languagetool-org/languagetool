@@ -393,17 +393,21 @@ class Main {
   }
 
   private void runRecursive(final String filename, final String encoding,
-      final boolean listUnknown, final boolean xmlFiltering) throws IOException, ParserConfigurationException, SAXException {
+      final boolean listUnknown, final boolean xmlFiltering) {
     final File dir = new File(filename);
-    if (!dir.isDirectory()) {
+    final File[] files = dir.listFiles();
+    if (files == null) {
       throw new IllegalArgumentException(dir.getAbsolutePath() + " is not a directory, cannot use recursion");
     }
-    final File[] files = dir.listFiles();
     for (final File file : files) {
-      if (file.isDirectory()) {
-        runRecursive(file.getAbsolutePath(), encoding, listUnknown, xmlFiltering);
-      } else {
-        runOnFile(file.getAbsolutePath(), encoding, listUnknown, xmlFiltering);
+      try {
+        if (file.isDirectory()) {
+          runRecursive(file.getAbsolutePath(), encoding, listUnknown, xmlFiltering);
+        } else {
+          runOnFile(file.getAbsolutePath(), encoding, listUnknown, xmlFiltering);
+        }
+      } catch (Exception e) {
+        throw new RuntimeException("Could not check text in file " + file, e);
       }
     }    
   }
