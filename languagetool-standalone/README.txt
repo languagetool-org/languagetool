@@ -172,6 +172,10 @@ License:
    these sources, correcting, and adding new words in order to improve the grammar checker -
    SBBIC releases these changes and additions under a BSD License for the LanguageTool Project
 
+ Malayalam:
+ The data has been collected by Jithesh.V.S. from public sources like newspapers, magazines,
+ and novels. It is made available here under GPL. 
+ 
  Polish:
  The Polish data for part-of-speech tagging is from the Morfologik project,
  licensed on BSD (see http://morfologik.blogspot.com).
