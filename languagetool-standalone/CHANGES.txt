@@ -84,6 +84,8 @@ LanguageTool Change Log
   -fix: country specific rules (like for British English) didn't work 
 
  -API:
+  -In class Language, getCountryVariants() has been renamed to getCountries(), and a new method 
+   getVariant has been added.
   -Some methods have been deprecated
   -Some methods have been moved from the Tools class (languagetool-core) to the
    new CommandLineTools class (languagetool-commandline)
@@ -98,9 +100,6 @@ LanguageTool Change Log
    instances. This changed the API of some public classes, but for the standard
    use case of checking texts with the JLanguageTool object it shouldn't make a
    difference. (patch by Stefan Lotties)
-  -The new class MultiThreadedJLanguageTool makes use of as many threads
-   as the computer has processors. In our tests this has improved text checking
-   time by about 70% on an Intel i7 processor when used on 30KB text.
   -JLanguageTool.loadFalseFriendRules() now behaves like JLanguageTool.loadPatternRules():
    it looks in the class path first, and then, if the given file is not found there, in
    the filesystem
@@ -109,10 +108,11 @@ LanguageTool Change Log
    an 'NP-singular' (noun phrase, singular) chunk to each of the tokens in that phrase. 
    In the grammar.xml, such a token can then be matched with this syntax:
    <token chunk="NP-singular"></token>
+  -The new class MultiThreadedJLanguageTool makes use of as many threads
+   as the computer has processors. In our tests this has improved text checking
+   time by about 70% on an Intel i7 processor when used on 30KB text.
   -AnalyzedTokenReadings now implements Iterable so it can be used in foreach loops
   -AnalyzedGermanTokenReadings has been removed, AnalyzedTokenReadings can be used instead
-  -In class Language, getCountryVariants has been renamed to getCountries, and a new method 
-   getVariant has been added.
 
  -Embedded HTTP server: the server now uses 10 threads instead of 1 (thanks to
   Panagiotis Minos)
