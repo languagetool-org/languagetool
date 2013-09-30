@@ -438,10 +438,6 @@ public class ReflexiveVerbsRule extends CatalanRule {
   
   /**
    * Checks if there is a reflexive pronoun near the verb
-   * 
-   * @param tokens
-   * @param i
-   * @return
    */
   private boolean isThereReflexivePronoun(
       final AnalyzedTokenReadings[] tokens, int i) {
@@ -585,10 +581,6 @@ public class ReflexiveVerbsRule extends CatalanRule {
   
   /**
    * Checks if there is a desired pronoun near the verb
-   * 
-   * @param tokens
-   * @param i
-   * @return
    */
   private boolean isTherePronoun(final AnalyzedTokenReadings[] tokens, int i,
       Pattern lemma, Pattern postag) {
