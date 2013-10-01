@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * @author Stefan Lotties
@@ -42,8 +44,9 @@ public class UnifierConfiguration {
   private final Map<String, List<String>> equivalenceFeatures;
 
   public UnifierConfiguration() {
-    equivalenceTypes = new HashMap<>();
-    equivalenceFeatures = new HashMap<>();
+    // FIXME: workaround for issue #13
+    equivalenceTypes = new ConcurrentHashMap<>();
+    equivalenceFeatures = new ConcurrentHashMap<>();
   }
 
   /**
@@ -57,18 +60,22 @@ public class UnifierConfiguration {
    */
   public final void setEquivalence(final String feature, final String type,
                                    final Element elem) {
-    if (equivalenceTypes.containsKey(new EquivalenceTypeLocator(feature, type))) {
+    
+    EquivalenceTypeLocator typeKey = new EquivalenceTypeLocator(feature, type);
+    if (equivalenceTypes.containsKey(typeKey)) {
       return;
     }
-    equivalenceTypes.put(new EquivalenceTypeLocator(feature, type), elem);
+    equivalenceTypes.put(typeKey, elem);
+    
     final List<String> lTypes;
     if (equivalenceFeatures.containsKey(feature)) {
       lTypes = equivalenceFeatures.get(feature);
     } else {
-      lTypes = new ArrayList<>();
+      // FIXME: workaround for issue #13
+      lTypes = new CopyOnWriteArrayList<>();
+      equivalenceFeatures.put(feature, lTypes);
     }
     lTypes.add(type);
-    equivalenceFeatures.put(feature, lTypes);
   }
 
   public Map<String, List<String>> getEquivalenceFeatures() {
