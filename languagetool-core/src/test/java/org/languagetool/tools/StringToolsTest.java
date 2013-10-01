@@ -276,23 +276,6 @@ public class StringToolsTest extends TestCase {
     assertEquals("", StringTools.addSpace("!", new FakeLanguage("de")));
   }
   
-  public void testGetLabel() {
-    assertEquals("This is a Label", StringTools.getLabel("This is a &Label"));
-    assertEquals("Bits & Pieces", StringTools.getLabel("Bits && Pieces"));
-  }
-  
-  public void testGetOOoLabel() {    
-    assertEquals("This is a ~Label", StringTools.getOOoLabel("This is a &Label"));
-    assertEquals("Bits & Pieces", StringTools.getLabel("Bits && Pieces"));
-  }
-  
-  public void testGetMnemonic() {
-    assertEquals('F', StringTools.getMnemonic("&File"));
-    assertEquals('O', StringTools.getMnemonic("&OK"));
-    assertEquals('\u0000', StringTools.getMnemonic("File && String operations"));
-    assertEquals('O', StringTools.getMnemonic("File && String &Operations"));
-  }
-  
   public void testIsWhitespace() {
     assertEquals(true, StringTools.isWhitespace("  "));
     assertEquals(true, StringTools.isWhitespace("\t"));

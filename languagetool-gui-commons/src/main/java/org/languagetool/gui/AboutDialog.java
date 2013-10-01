@@ -25,7 +25,6 @@ import javax.swing.JOptionPane;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
-import org.languagetool.tools.StringTools;
 
 /**
  * A dialog with version and copyright information.
@@ -44,7 +43,7 @@ public class AboutDialog {
   }
   
   public void show() {
-    final String aboutText = StringTools.getLabel(messages.getString("guiMenuAbout"));
+    final String aboutText = Tools.getLabel(messages.getString("guiMenuAbout"));
     JOptionPane.showMessageDialog(parent, getAboutText(),
         aboutText, JOptionPane.INFORMATION_MESSAGE);
   }

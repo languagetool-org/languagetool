@@ -37,4 +37,21 @@ public class ToolsTest extends TestCase {
     assertEquals(testVeryLongStringShortened, shortenedVeryLongString);
   }
 
+  public void testGetLabel() {
+    assertEquals("This is a Label", Tools.getLabel("This is a &Label"));
+    assertEquals("Bits & Pieces", Tools.getLabel("Bits && Pieces"));
+  }
+
+  public void testGetOOoLabel() {
+    assertEquals("This is a ~Label", Tools.getOOoLabel("This is a &Label"));
+    assertEquals("Bits & Pieces", Tools.getLabel("Bits && Pieces"));
+  }
+
+  public void testGetMnemonic() {
+    assertEquals('F', Tools.getMnemonic("&File"));
+    assertEquals('O', Tools.getMnemonic("&OK"));
+    assertEquals('\u0000', Tools.getMnemonic("File && String operations"));
+    assertEquals('O', Tools.getMnemonic("File && String &Operations"));
+  }
+
 }

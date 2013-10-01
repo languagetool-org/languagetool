@@ -170,4 +170,45 @@ public class Tools {
     }
     return comment;
   }
+
+  /**
+   * Returns translation of the UI element without the control character "&". To
+   * have "&" in the UI, use "&&".
+   *
+   * @param label Label to convert.
+   * @return String UI element string without mnemonics.
+   */
+  public static String getLabel(final String label) {
+    return label.replaceAll("&([^&])", "$1").replaceAll("&&", "&");
+  }
+
+  /**
+   * Returns the UI element string with mnemonics encoded in OpenOffice.org
+   * convention (using "~").
+   *
+   * @param label Label to convert
+   * @return String UI element with {@code ~} replacing {@code &}.
+   */
+  public static String getOOoLabel(final String label) {
+    return label.replaceAll("&([^&])", "~$1").replaceAll("&&", "&");
+  }
+
+  /**
+   * Returns mnemonic of a UI element.
+   *
+   * @param label String Label of the UI element
+   * @return @char Mnemonic of the UI element, or \u0000 in case of no mnemonic set.
+   */
+  public static char getMnemonic(final String label) {
+    int mnemonicPos = label.indexOf('&');
+    while (mnemonicPos != -1 && mnemonicPos == label.indexOf("&&")
+            && mnemonicPos < label.length()) {
+      mnemonicPos = label.indexOf('&', mnemonicPos + 2);
+    }
+    if (mnemonicPos == -1 || mnemonicPos == label.length()) {
+      return '\u0000';
+    }
+    return label.charAt(mnemonicPos + 1);
+  }
+
 }

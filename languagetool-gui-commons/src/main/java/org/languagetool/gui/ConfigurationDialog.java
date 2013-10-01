@@ -21,7 +21,6 @@ package org.languagetool.gui;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.Rule;
-import org.languagetool.tools.StringTools;
 
 import javax.swing.*;
 import java.awt.*;
@@ -202,13 +201,13 @@ private JCheckBox serverSettingsCheckbox;
     cons.fill = GridBagConstraints.NONE;
     cons.weightx = 0.0f;
     if (!insideOOo) {
-      serverCheckbox = new JCheckBox(StringTools.getLabel(messages.getString("guiRunOnPort")));
-      serverCheckbox.setMnemonic(StringTools.getMnemonic(messages.getString("guiRunOnPort")));
+      serverCheckbox = new JCheckBox(Tools.getLabel(messages.getString("guiRunOnPort")));
+      serverCheckbox.setMnemonic(Tools.getMnemonic(messages.getString("guiRunOnPort")));
       serverCheckbox.setSelected(serverMode);
       portPanel.add(serverCheckbox, cons);
       serverPortField = new JTextField(Integer.toString(serverPort));
       serverPortField.setEnabled(serverCheckbox.isSelected());
-      serverSettingsCheckbox = new JCheckBox(StringTools.getLabel(messages.getString("useGUIConfig")));
+      serverSettingsCheckbox = new JCheckBox(Tools.getLabel(messages.getString("useGUIConfig")));
       // TODO: without this the box is just a few pixels small, but why??:
       serverPortField.setMinimumSize(new Dimension(100, 25));
       cons.gridx = 1;
@@ -222,7 +221,7 @@ private JCheckBox serverSettingsCheckbox;
       portPanel.add(serverPortField, cons);
       cons.gridx = 0;
       cons.gridy = 10;      
-      serverSettingsCheckbox.setMnemonic(StringTools.getMnemonic(messages
+      serverSettingsCheckbox.setMnemonic(Tools.getMnemonic(messages
           .getString("useGUIConfig")));
       serverSettingsCheckbox.setSelected(useGUIConfig);
       serverSettingsCheckbox.setEnabled(serverMode);
@@ -231,11 +230,11 @@ private JCheckBox serverSettingsCheckbox;
 
     final JPanel buttonPanel = new JPanel();
     buttonPanel.setLayout(new GridBagLayout());
-    okButton = new JButton(StringTools.getLabel(messages.getString("guiOKButton")));
-    okButton.setMnemonic(StringTools.getMnemonic(messages.getString("guiOKButton")));
+    okButton = new JButton(Tools.getLabel(messages.getString("guiOKButton")));
+    okButton.setMnemonic(Tools.getMnemonic(messages.getString("guiOKButton")));
     okButton.addActionListener(this);
-    cancelButton = new JButton(StringTools.getLabel(messages.getString("guiCancelButton")));
-    cancelButton.setMnemonic(StringTools.getMnemonic(messages.getString("guiCancelButton")));
+    cancelButton = new JButton(Tools.getLabel(messages.getString("guiCancelButton")));
+    cancelButton.setMnemonic(Tools.getMnemonic(messages.getString("guiCancelButton")));
     cancelButton.addActionListener(this);
     cons = new GridBagConstraints();
     cons.insets = new Insets(0, 4, 0, 0);

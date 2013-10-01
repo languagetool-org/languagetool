@@ -359,11 +359,11 @@ public final class Main {
   }
 
   private String getLabel(String key) {
-    return StringTools.getLabel(messages.getString(key));
+    return Tools.getLabel(messages.getString(key));
   }
 
   private int getMnemonic(String key) {
-    return StringTools.getMnemonic(messages.getString(key));
+    return Tools.getMnemonic(messages.getString(key));
   }
   
   private KeyStroke getMenuKeyStroke(int keyEvent) {
@@ -460,21 +460,21 @@ public final class Main {
     final PopupMenu popup = new PopupMenu();
     final ActionListener rmbListener = new TrayActionRMBListener();
     // Enable or disable embedded HTTP server:
-    enableHttpServerItem = new CheckboxMenuItem(StringTools.getLabel(messages.getString("tray_menu_enable_server")));
+    enableHttpServerItem = new CheckboxMenuItem(Tools.getLabel(messages.getString("tray_menu_enable_server")));
     enableHttpServerItem.setState(httpServer != null && httpServer.isRunning());
     enableHttpServerItem.addItemListener(new TrayActionItemListener());
     popup.add(enableHttpServerItem);
     // Check clipboard text:
     final MenuItem checkClipboardItem =
-            new MenuItem(StringTools.getLabel(messages.getString("guiMenuCheckClipboard")));
+            new MenuItem(Tools.getLabel(messages.getString("guiMenuCheckClipboard")));
     checkClipboardItem.addActionListener(rmbListener);
     popup.add(checkClipboardItem);
     // Open main window:
-    final MenuItem restoreItem = new MenuItem(StringTools.getLabel(messages.getString("guiMenuShowMainWindow")));
+    final MenuItem restoreItem = new MenuItem(Tools.getLabel(messages.getString("guiMenuShowMainWindow")));
     restoreItem.addActionListener(rmbListener);
     popup.add(restoreItem);
     // Exit:
-    final MenuItem exitItem = new MenuItem(StringTools.getLabel(messages.getString("guiMenuQuit")));
+    final MenuItem exitItem = new MenuItem(Tools.getLabel(messages.getString("guiMenuQuit")));
     exitItem.addActionListener(rmbListener);
     popup.add(exitItem);
     return popup;
@@ -795,7 +795,7 @@ public final class Main {
     }
 
     private boolean isCommand(ActionEvent e, String label) {
-      return e.getActionCommand().equalsIgnoreCase(StringTools.getLabel(messages.getString(label)));
+      return e.getActionCommand().equalsIgnoreCase(Tools.getLabel(messages.getString(label)));
     }
 
   }
