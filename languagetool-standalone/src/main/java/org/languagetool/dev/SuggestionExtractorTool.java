@@ -109,7 +109,7 @@ public class SuggestionExtractorTool {
     if (dir.exists()) {
       return dir;
     } else {
-      // during development (in SVN):
+      // during development (in git):
       return new File(langCode + "/src/main/resources/org/languagetool/resource/", langCode);
     }
   }

@@ -172,8 +172,8 @@ public class Tools {
   }
 
   /**
-   * Returns translation of the UI element without the control character "&". To
-   * have "&" in the UI, use "&&".
+   * Returns translation of the UI element without the control character {@code &}. To
+   * have {@code &} in the UI, use {@code &&}.
    *
    * @param label Label to convert.
    * @return String UI element string without mnemonics.
@@ -184,7 +184,7 @@ public class Tools {
 
   /**
    * Returns the UI element string with mnemonics encoded in OpenOffice.org
-   * convention (using "~").
+   * convention (using {@code ~}).
    *
    * @param label Label to convert
    * @return String UI element with {@code ~} replacing {@code &}.
@@ -197,7 +197,7 @@ public class Tools {
    * Returns mnemonic of a UI element.
    *
    * @param label String Label of the UI element
-   * @return @char Mnemonic of the UI element, or \u0000 in case of no mnemonic set.
+   * @return Mnemonic of the UI element, or {@code \u0000} in case of no mnemonic set.
    */
   public static char getMnemonic(final String label) {
     int mnemonicPos = label.indexOf('&');
