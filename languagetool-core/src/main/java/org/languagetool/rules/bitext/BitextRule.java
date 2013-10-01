@@ -63,7 +63,7 @@ public abstract class BitextRule extends Rule {
   public abstract void reset();
 
   /**
-   * This method makes no sense for bitext, return null??
+   * This method makes no sense for bitext, thus it always returns {@code null}.
    */
   @Override
   public RuleMatch[] match(AnalyzedSentence text) throws IOException {
