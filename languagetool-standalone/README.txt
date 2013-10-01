@@ -173,8 +173,9 @@ License:
    SBBIC releases these changes and additions under a BSD License for the LanguageTool Project
 
  Malayalam:
- The data has been collected by Jithesh.V.S. from public sources like newspapers, magazines,
- and novels. It is made available here under GPL. 
+ The data has been collected by Jithesh.V.S. of the Centre For Development of Imaging Technology (C-DIT),
+ Thiruvananthapuram, Kerala, India (http://www.cdit.org). It comes from public sources like newspapers, 
+ magazines, and novels. It is made available here under GPL. 
  
  Polish:
  The Polish data for part-of-speech tagging is from the Morfologik project,
