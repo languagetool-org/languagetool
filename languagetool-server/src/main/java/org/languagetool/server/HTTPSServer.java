@@ -146,18 +146,24 @@ public class HTTPSServer extends Server {
       System.exit(1);
     }
     final boolean runInternal = false;
-    final HTTPSServerConfig config = new HTTPSServerConfig(args);
     try {
-      final HTTPSServer server;
-      if (config.isPublicAccess()) {
-        System.out.println("WARNING: running in public mode, LanguageTool API can be accessed without restrictions!");
-        server = new HTTPSServer(config, runInternal, null, null);
-      } else {
-        server = new HTTPSServer(config, runInternal, DEFAULT_HOST, DEFAULT_ALLOWED_IPS);
+      final HTTPSServerConfig config = new HTTPSServerConfig(args);
+      try {
+        final HTTPSServer server;
+        if (config.isPublicAccess()) {
+          System.out.println("WARNING: running in public mode, LanguageTool API can be accessed without restrictions!");
+          server = new HTTPSServer(config, runInternal, null, null);
+        } else {
+          server = new HTTPSServer(config, runInternal, DEFAULT_HOST, DEFAULT_ALLOWED_IPS);
+        }
+        server.run();
+      } catch (Exception e) {
+        throw new RuntimeException("Could not start LanguageTool HTTPS server on " + HTTPServerConfig.DEFAULT_HOST + ", port " + config.getPort(), e);
       }
-      server.run();
-    } catch (Exception e) {
-      throw new RuntimeException("Could not start LanguageTool HTTPS server on " + HTTPServerConfig.DEFAULT_HOST + ", port " + config.getPort(), e);
+    } catch (IllegalConfigurationException e) {
+      System.out.println(e.getMessage());
+      System.out.println("Note: this is the HTTPS server - if you want to use plain HTTP instead, please see http://languagetool.org/http-server/");
+      System.exit(1);
     }
   }
 

@@ -84,7 +84,7 @@ public class HTTPSServerConfig extends HTTPServerConfig {
       }
     }
     if (config == null) {
-      throw new IllegalArgumentException("Parameter --config must be set and point to a property file");
+      throw new IllegalConfigurationException("Parameter --config must be set and point to a property file");
     }
     try {
       final Properties props = new Properties();
@@ -132,7 +132,7 @@ public class HTTPSServerConfig extends HTTPServerConfig {
   private String getProperty(Properties props, String propertyName, File config) {
     final String propertyValue = (String)props.get(propertyName);
     if (propertyValue == null || propertyValue.trim().isEmpty()) {
-      throw new IllegalArgumentException("Property '" + propertyName + "' must be set in " + config);
+      throw new IllegalConfigurationException("Property '" + propertyName + "' must be set in " + config);
     }
     return propertyValue;
   }

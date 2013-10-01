@@ -31,7 +31,7 @@ public class HTTPSServerConfigTest {
     try {
       new HTTPSServerConfig(new String[]{});
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalConfigurationException expected) {}
 
     final String propertyFile = HTTPSServerConfigTest.class.getResource("/org/languagetool/server/https-server.properties").getFile();
 
@@ -79,7 +79,7 @@ public class HTTPSServerConfigTest {
     try {
       new HTTPSServerConfig(("--config " + propertyFile).split(" "));
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalConfigurationException expected) {}
   }
 
 }
