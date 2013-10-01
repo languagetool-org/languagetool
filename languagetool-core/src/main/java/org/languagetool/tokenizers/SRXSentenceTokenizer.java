@@ -73,8 +73,7 @@ public class SRXSentenceTokenizer extends SentenceTokenizer {
       try {
         srxReader.close();
       } catch (IOException e) {
-        // can't throw exception in final block, so logging an error.
-        System.err.println("Error closing SRX file reader.");
+        // can't do anything useful
       }
     }
   }

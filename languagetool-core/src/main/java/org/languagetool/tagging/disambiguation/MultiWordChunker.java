@@ -24,7 +24,6 @@ import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 
@@ -35,11 +34,11 @@ import java.util.*;
  */
 public class MultiWordChunker implements Disambiguator {
 
+  private final String filename;
+
   private Map<String, Integer> mStartSpace;
   private Map<String, Integer> mStartNoSpace;
   private Map<String, String> mFull;
-
-  private final String filename;
 
   public MultiWordChunker(final String filename) {
     super();
