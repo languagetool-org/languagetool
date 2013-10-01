@@ -55,7 +55,7 @@ public class PolishSynthesizer implements Synthesizer {
 
   private IStemmer synthesizer;
 
-  private ArrayList<String> possibleTags;
+  private List<String> possibleTags;
   
   @Override
   public final String[] synthesize(final AnalyzedToken token,
@@ -166,15 +166,15 @@ public class PolishSynthesizer implements Synthesizer {
           + posTag.replaceFirst(NEGATION_TAG, POTENTIAL_NEGATION_TAG));
       if (wordForms != null) {                      
         for (WordData wd : wordForms) {
-          forms.add("nie" + wd.getStem().toString());           
+          forms.add("nie" + wd.getStem().toString());
         }
-      }                                      
+      }
     } else {
-      wordForms = synthesizer.lookup(token.getLemma() + "|" + posTag);      
+      wordForms = synthesizer.lookup(token.getLemma() + "|" + posTag);
       for (WordData wd : wordForms) {
-          if (wd.getStem() != null) {
-              forms.add(wd.getStem().toString());
-          }
+        if (wd.getStem() != null) {
+          forms.add(wd.getStem().toString());
+        }
       }      
     }
     

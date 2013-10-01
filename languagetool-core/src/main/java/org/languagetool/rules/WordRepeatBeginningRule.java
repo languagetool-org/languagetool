@@ -60,7 +60,7 @@ public class WordRepeatBeginningRule extends Rule {
   public boolean isException(String token) {
     // avoid warning when having lists like "2007: ..." or the like
     if (token.equals(":") || token.equals("–") || token.equals("-")) {
-        return true;
+      return true;
     }
     return false;
   }

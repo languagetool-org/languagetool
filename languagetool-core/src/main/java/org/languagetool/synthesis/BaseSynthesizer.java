@@ -36,7 +36,7 @@ import org.languagetool.JLanguageTool;
 public class BaseSynthesizer implements Synthesizer {
  
   protected IStemmer synthesizer;
-  protected ArrayList<String> possibleTags;
+  protected List<String> possibleTags;
 
   private final String tagFileName;
   private final String resourceFileName;

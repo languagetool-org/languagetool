@@ -59,10 +59,12 @@ public class ItalianWordRepeatRule extends WordRepeatRule {
   }
 
   private boolean wordRepetitionOf(String word, AnalyzedTokenReadings[] tokens, int position) {
-    if (position > 2)
+    if (position > 2) {
       return (tokens[position - 1].getToken().equals(word) && tokens[position].getToken().equals(word));
-    if (position == 2)
+    }
+    if (position == 2) {
       return (tokens[1].getToken().equalsIgnoreCase(word) && tokens[2].getToken().equals(word));
+    }
     return false;
   }
 

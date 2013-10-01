@@ -38,8 +38,9 @@ public class Category {
    * @param priority a value between 0 and 100 (inclusive)
    */
   public Category(final String name, final int priority) {
-    if (priority < 0 || priority > 100)
-      throw new IllegalArgumentException("priority must be in range 0 - 100");
+    if (priority < 0 || priority > 100) {
+      throw new IllegalArgumentException("priority must be in range 0 - 100: " + priority);
+    }
     this.name = name;
     this.priority = priority;
   }

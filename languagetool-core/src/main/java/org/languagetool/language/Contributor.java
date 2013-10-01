@@ -31,19 +31,14 @@ public class Contributor {
   private String remark;
   private String url;
 
-  Contributor(String name) {
-    this.name = Objects.requireNonNull(name, "name cannot be null");
+  Contributor(String fullName) {
+    this.name = Objects.requireNonNull(fullName, "name cannot be null");
   }
   
   public String getName() {
     return name;
   }
   
-  @Override
-  public final String toString() {
-    return getName();
-  }
-
   public String getRemark() {
     return remark;
   }
@@ -58,6 +53,11 @@ public class Contributor {
 
   public void setUrl(final String url) {
     this.url = url;
+  }
+
+  @Override
+  public final String toString() {
+    return getName();
   }
 
 }

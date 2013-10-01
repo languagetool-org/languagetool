@@ -244,7 +244,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
   @Override
   public int compareTo(final RuleMatch other) {
     if (other == null) {
-      throw new ClassCastException();
+      throw new NullPointerException();
     }
     return Integer.compare(getFromPos(), other.getFromPos());
   }

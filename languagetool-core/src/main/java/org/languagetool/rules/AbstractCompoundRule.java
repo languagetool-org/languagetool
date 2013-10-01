@@ -203,19 +203,16 @@ public abstract class AbstractCompoundRule extends Rule {
     return false;
   }
 
-  private int countParts(final String str) {    
-    return str.split(" ").length;
-  }
-
   private String mergeCompound(final String str) {
     final String[] stringParts = str.split(" ");
     final StringBuilder sb = new StringBuilder();
     for (int k = 0; k < stringParts.length; k++) {
       if (isHyphenIgnored() || !"-".equals(stringParts[k])) {
-        if (k == 0)
+        if (k == 0) {
           sb.append(stringParts[k]);
-        else
+        } else {
           sb.append(stringParts[k].toLowerCase());
+        }
       }  
     }
     return sb.toString();

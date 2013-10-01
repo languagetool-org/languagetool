@@ -32,7 +32,6 @@ import org.languagetool.tools.StringTools;
  * 
  * @author Daniel Naber
  */
-
 public class CommaWhitespaceRule extends Rule {
 
   public CommaWhitespaceRule(final ResourceBundle messages) {

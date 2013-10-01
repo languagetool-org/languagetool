@@ -23,7 +23,7 @@ package org.languagetool.tools;
  *
  * @since 2.2
  */
-public class JnaTools {
+public final class JnaTools {
 
   private JnaTools() {
   }

@@ -23,10 +23,6 @@ import junit.framework.TestCase;
 
 public class UnsyncStackTest extends TestCase {
 
-  public UnsyncStackTest(String name) {
-    super(name);
-  }
-
   public void testStack() {
     final UnsyncStack<String> stack = new UnsyncStack<>();
     assertTrue(stack.empty());

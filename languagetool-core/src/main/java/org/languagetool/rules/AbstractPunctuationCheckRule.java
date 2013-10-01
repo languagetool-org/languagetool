@@ -65,12 +65,12 @@ public abstract class AbstractPunctuationCheckRule extends Rule {
 
       if (isPunctuation(tokenStr)) {
         tkns += tokenStr;
-
-        if (startTokenIdx == -1)
+        if (startTokenIdx == -1) {
           startTokenIdx = i;
-
-        if (i < tokens.length - 1)
+        }
+        if (i < tokens.length - 1) {
           continue;
+        }
       }
 
       if (tkns.length() >= 2 && !isPunctsJoinOk(tkns)) {

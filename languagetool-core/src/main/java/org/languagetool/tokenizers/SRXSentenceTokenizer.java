@@ -44,7 +44,7 @@ import org.languagetool.Language;
 public class SRXSentenceTokenizer extends SentenceTokenizer {
 
   private static final String RULES = "/segment.srx";
-  private static final SrxDocument document = createSrxDocument();
+  private static final SrxDocument DOCUMENT = createSrxDocument();
 
   private final String languageCode;
 
@@ -87,7 +87,7 @@ public class SRXSentenceTokenizer extends SentenceTokenizer {
   @Override
   public final List<String> tokenize(final String text) {
     final List<String> segments = new ArrayList<>();
-    final TextIterator textIterator = new SrxTextIterator(document, languageCode + parCode, text);
+    final TextIterator textIterator = new SrxTextIterator(DOCUMENT, languageCode + parCode, text);
     while (textIterator.hasNext()) {
       segments.add(textIterator.next());
     }

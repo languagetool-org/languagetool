@@ -40,21 +40,21 @@ public final class LanguageIdentifierTools {
   }
 
   private static void addProfile(Language language) {
-    final String PROFILE_SUFFIX = ".ngp";
-    final String PROFILE_ENCODING = "UTF-8";
+    final String profileSuffix = ".ngp";
+    final String profileEncoding = "UTF-8";
 
     try {
       final LanguageProfile profile = new LanguageProfile();
 
       final String languageCode = language.getShortName();
-      final String detectionFile = "/" + languageCode + "/" + languageCode + PROFILE_SUFFIX;
+      final String detectionFile = "/" + languageCode + "/" + languageCode + profileSuffix;
       if (!JLanguageTool.getDataBroker().resourceExists(detectionFile)) {
         // that's okay, not every language comes with its own detection file,
         // as Tika supports most languages out of the box.
         return;
       }
       try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(detectionFile)) {
-        final InputStreamReader in = new InputStreamReader(stream, PROFILE_ENCODING);
+        final InputStreamReader in = new InputStreamReader(stream, profileEncoding);
         final BufferedReader reader =
                 new BufferedReader(in);
         String line = reader.readLine();

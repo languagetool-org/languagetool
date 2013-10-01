@@ -23,7 +23,6 @@ import java.util.List;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
-import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.languagetool.rules.patterns.Element;

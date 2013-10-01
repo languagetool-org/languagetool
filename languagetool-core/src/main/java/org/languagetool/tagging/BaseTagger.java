@@ -157,7 +157,7 @@ public abstract class BaseTagger implements Tagger {
   }
 
   public void dontTagLowercaseWithUppercase() {
-    tagLowercaseWithUppercase=false;
+    tagLowercaseWithUppercase = false;
   }
 
   /*

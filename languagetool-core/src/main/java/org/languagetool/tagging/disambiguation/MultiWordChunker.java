@@ -49,7 +49,7 @@ public class MultiWordChunker implements Disambiguator {
   /*
    * Lazy init, thanks to Artur Trzewik
    */
-  private void lazyInit() throws IOException {
+  private void lazyInit() {
 
     if (mStartSpace != null) {
       return;
@@ -100,10 +100,9 @@ public class MultiWordChunker implements Disambiguator {
    *
    * @param input The tokens to be chunked.
    * @return AnalyzedSentence with additional markers.
-   * @throws IOException
    */
   @Override
-  public final AnalyzedSentence disambiguate(final AnalyzedSentence input) throws IOException {
+  public final AnalyzedSentence disambiguate(final AnalyzedSentence input) {
 
       lazyInit();
 
@@ -195,7 +194,7 @@ public class MultiWordChunker implements Disambiguator {
       return sb.toString();
   }
 
-  private List<String> loadWords(final InputStream stream) throws IOException {
+  private List<String> loadWords(final InputStream stream) {
     final List<String> lines = new ArrayList<>();
     try (Scanner scanner = new Scanner(stream, "UTF-8")) {
       while (scanner.hasNextLine()) {

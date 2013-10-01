@@ -18,9 +18,9 @@
  */
 package org.languagetool.synthesis;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public final class SynthesizerTools {
@@ -29,18 +29,18 @@ public final class SynthesizerTools {
     // static methods only, no public constructor
   }
 
-  public static ArrayList<String> loadWords(final InputStream stream) throws IOException {
-    final ArrayList<String> set = new ArrayList<>();
+  public static List<String> loadWords(final InputStream stream) {
+    final List<String> result = new ArrayList<>();
     try (Scanner scanner = new Scanner(stream, "UTF-8")) {
       while (scanner.hasNextLine()) {
         final String line = scanner.nextLine().trim();
         if (line.length() < 1 || line.charAt(0) == '#') {  // ignore empty lines and comments
           continue;
         }
-        set.add(line);
+        result.add(line);
       }
     }
-    return set;
+    return result;
   }
 
 }

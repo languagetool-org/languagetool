@@ -255,7 +255,7 @@ public class GenericUnpairedBracketsRule extends Rule {
 }
 
 class RuleMatchLocator extends SymbolLocator {
-  public int myIndex;
+  int myIndex;
 
   RuleMatchLocator(final String symbol, final int index, final int myIndex) {
     super(symbol, index);

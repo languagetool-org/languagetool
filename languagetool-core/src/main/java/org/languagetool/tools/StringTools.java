@@ -32,7 +32,7 @@ import java.util.Locale;
 import java.util.regex.Pattern;
 
 /**
- * Tools for reading files etc.
+ * Tools for working with strings.
  * 
  * @author Daniel Naber
  */
@@ -92,7 +92,6 @@ public final class StringTools {
 
   /**
    * Read the text stream using the given encoding.
-   *
    * @deprecated use {@link #readStream(java.io.InputStream, String)} instead (deprecated since LT 2.3)
    */
   public static String readFile(final InputStream stream, final String encoding) throws IOException {
@@ -569,12 +568,12 @@ public final class StringTools {
    * @return True if the character is a Unicode alphabetic character.
    */
   public static boolean isAlphabetic(int codePoint) {
-      return (((((1 << Character.UPPERCASE_LETTER) |
-          (1 << Character.LOWERCASE_LETTER) |
-          (1 << Character.TITLECASE_LETTER) |
-          (1 << Character.MODIFIER_LETTER) |
-          (1 << Character.OTHER_LETTER) |
-          (1 << Character.LETTER_NUMBER)) >> Character.getType(codePoint)) & 1) != 0);
+    return (((((1 << Character.UPPERCASE_LETTER) |
+        (1 << Character.LOWERCASE_LETTER) |
+        (1 << Character.TITLECASE_LETTER) |
+        (1 << Character.MODIFIER_LETTER) |
+        (1 << Character.OTHER_LETTER) |
+        (1 << Character.LETTER_NUMBER)) >> Character.getType(codePoint)) & 1) != 0);
   }
 
 }

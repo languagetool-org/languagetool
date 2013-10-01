@@ -18,14 +18,13 @@
  */
 package org.languagetool.rules.nl;
 
-import java.io.IOException;
 import java.util.ResourceBundle;
 
 import org.languagetool.rules.WrongWordInContextRule;
 
 public class DutchWrongWordInContextRule extends WrongWordInContextRule {
   
-  public DutchWrongWordInContextRule(final ResourceBundle messages) throws IOException {
+  public DutchWrongWordInContextRule(final ResourceBundle messages) {
     super(messages);
   }
   

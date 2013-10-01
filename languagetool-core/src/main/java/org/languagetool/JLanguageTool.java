@@ -274,7 +274,7 @@ public class JLanguageTool {
               && (paramTypes[1].equals(Language.class) || Language.class.isAssignableFrom(paramTypes[1]))) {
             rules.add((Rule) constructor.newInstance(messages, language));
           } else {
-            throw new RuntimeException("No matching constructor found for rule class: " + ruleClass.getName());            
+            throw new RuntimeException("No matching constructor found for rule class: " + ruleClass.getName());
           }
         } else {
           throw new RuntimeException("No public constructor for rule class: " + ruleClass.getName());

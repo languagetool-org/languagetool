@@ -37,7 +37,6 @@ import org.languagetool.rules.RuleMatch;
  * 
  * @author Marcin Miłkowski
  */
-
 public abstract class BitextRule extends Rule {
 
   public static List<Class<? extends BitextRule>> getRelevantRules() {
@@ -74,7 +73,7 @@ public abstract class BitextRule extends Rule {
   /**
    * Set the source language. If the language is not supported
    * by LT, you need to use the default tokenizers etc.
-   * @param lang - Source Language
+   * @param lang Source Language
    */
   public final void setSourceLang(final Language lang) {
     sourceLanguage = lang;

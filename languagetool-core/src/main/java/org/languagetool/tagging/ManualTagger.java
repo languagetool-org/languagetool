@@ -63,7 +63,7 @@ public class ManualTagger {
     for (final Object element : l) {
       final LookedUpTerm lookedUpTerm = (LookedUpTerm) element;
       plainResult.add(lookedUpTerm.baseform);
-      plainResult.add(lookedUpTerm.postags);
+      plainResult.add(lookedUpTerm.posTags);
     }
     if (plainResult.isEmpty()) {
       return null;
@@ -99,11 +99,11 @@ public class ManualTagger {
 class LookedUpTerm {
 
   String baseform;
-  String postags;
+  String posTags;
 
-  LookedUpTerm(final String baseform, final String postags) {
+  LookedUpTerm(final String baseform, final String posTags) {
     this.baseform = baseform;
-    this.postags = postags;
+    this.posTags = posTags;
   }
 
 }

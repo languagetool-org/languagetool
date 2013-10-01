@@ -18,13 +18,9 @@
  */
 package org.languagetool;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
-import org.languagetool.chunking.ChunkTag;
 
 /**
  * A word (or punctuation, or whitespace) and its part-of-speech tag.

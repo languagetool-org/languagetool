@@ -50,7 +50,7 @@ public class TabBitextReader implements BitextReader {
       nextLine = in.readLine();
       prevLine = "";
       nextPair = tab2StringPair(nextLine);
-    } catch(IOException e) { 
+    } catch (IOException e) { 
       throw new IllegalArgumentException(e); 
     }
   }
@@ -126,7 +126,5 @@ public class TabBitextReader implements BitextReader {
   public String getCurrentLine() {
     return prevLine;
   }
-
-
 
 }

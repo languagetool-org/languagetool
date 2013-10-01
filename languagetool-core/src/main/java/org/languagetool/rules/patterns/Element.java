@@ -33,7 +33,7 @@ import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tools.StringTools;
 
 /**
- * A part of a pattern, represents the 'token' element of the grammar.xml.
+ * A part of a pattern, represents the 'token' element of the {@code grammar.xml}.
  * 
  * @author Daniel Naber
  */

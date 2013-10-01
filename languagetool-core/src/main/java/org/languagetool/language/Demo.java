@@ -29,6 +29,9 @@ import org.languagetool.rules.Rule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.xx.DemoTagger;
 
+/**
+ * A demo language that is part of languagetool-core and thus always available.
+ */
 public class Demo extends Language {
 
   public static final String SHORT_NAME = "xx";
