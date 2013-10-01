@@ -145,6 +145,7 @@ class ResultArea {
     sb.append(getDisabledRulesHtml());
     final String checkDone = Tools.makeTexti18n(messages, "checkDone", ruleMatches.size(), runTime);
     sb.append("<br>\n").append(checkDone);
+    sb.append("<br>\n").append(messages.getString("makeLanguageToolBetter"));
     sb.append(Main.HTML_FONT_END).append("<br>\n");
     return sb.toString();
   }
