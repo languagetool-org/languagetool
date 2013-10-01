@@ -1102,9 +1102,9 @@ $Id$
     <rulegroup id="Opremsningskomma" name="Mangler opremsningskomma" default="off"> <!-- Kan IKKE bruges før analyse af navneord er på plads (så falske positiver som "jeg spørger" [et jeg, en spørger] ikke forekommer). Mangler fyldestgørende tags! -->
       <rule>
         <pattern>
-          <token postag_regexp="yes" postag="sub:.*:nom"></token>
+          <token postag_regexp="yes" postag="sub:.*:nom"/>
           <token spacebefore="no">,</token>
-          <token postag_regexp="yes" postag="sub:.*:nom"></token>
+          <token postag_regexp="yes" postag="sub:.*:nom"/>
           <token spacebefore="no">,</token>
           <marker>
             <token postag_regexp="yes" postag="sub:.*:nom"><exception negate_pos="yes" postag_regexp="yes" postag="sub:.*:nom"/></token>
@@ -1119,10 +1119,10 @@ $Id$
       </rule>
       <rule>
         <pattern>
-          <token postag_regexp="yes" postag="sub:.*:nom"></token>
+          <token postag_regexp="yes" postag="sub:.*:nom"/>
           <token spacebefore="no">,</token>
           <token postag_regexp="yes" postag="sub:.*:gen|adj:.*" skip="-1"><exception scope="next" negate_pos="yes" postag_regexp="yes" postag="sub:.*|adj:.*"/></token>
-          <token postag_regexp="yes" postag="sub:.*:nom"></token>
+          <token postag_regexp="yes" postag="sub:.*:nom"/>
           <token spacebefore="no">,</token>
           <token postag_regexp="yes" postag="sub:.*:gen|adj:.*" skip="-1"><exception scope="next" negate_pos="yes" postag_regexp="yes" postag="sub:.*|adj:.*"/></token>
           <marker>
@@ -1140,12 +1140,12 @@ $Id$
       </rule>
       <rule> <!-- Opremsningskomma før og -->
         <pattern>
-          <token postag_regexp="yes" postag="sub:.*"></token>
+          <token postag_regexp="yes" postag="sub:.*"/>
           <token spacebefore="no">,</token>
-          <token postag_regexp="yes" postag="sub:.*"></token>
+          <token postag_regexp="yes" postag="sub:.*"/>
           <token spacebefore="no">,</token>
           <marker>
-            <token postag_regexp="yes" postag="sub:.*"></token>
+            <token postag_regexp="yes" postag="sub:.*"/>
             <token spacebefore="no">,</token>
             <token regexp="yes">og|eller</token>
           </marker>
@@ -1159,10 +1159,10 @@ $Id$
       </rule>
       <rule>
         <pattern>
-          <token postag_regexp="yes" postag="sub:.*:nom"></token>
+          <token postag_regexp="yes" postag="sub:.*:nom"/>
           <token spacebefore="no">,</token>
           <token postag_regexp="yes" postag="sub:.*:gen|adj:.*" skip="-1"><exception scope="next" negate_pos="yes" postag_regexp="yes" postag="sub:.*|adj:.*"/></token>
-          <token postag_regexp="yes" postag="sub:.*:nom"></token>
+          <token postag_regexp="yes" postag="sub:.*:nom"/>
           <token spacebefore="no">,</token>
           <token postag_regexp="yes" postag="sub:.*:gen|adj:.*" skip="-1"><exception scope="next" negate_pos="yes" postag_regexp="yes" postag="sub:.*|adj:.*"/></token>
           <marker>
