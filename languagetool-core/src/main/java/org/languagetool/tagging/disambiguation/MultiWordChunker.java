@@ -104,94 +104,92 @@ public class MultiWordChunker implements Disambiguator {
   @Override
   public final AnalyzedSentence disambiguate(final AnalyzedSentence input) {
 
-      lazyInit();
+    lazyInit();
 
-      final AnalyzedTokenReadings[] anTokens = input.getTokens();
-      final AnalyzedTokenReadings[] output = anTokens;
+    final AnalyzedTokenReadings[] anTokens = input.getTokens();
+    final AnalyzedTokenReadings[] output = anTokens;
 
-      for (int i = 0; i < anTokens.length; i++) {
-          final String tok = output[i].getToken();
-          final StringBuilder tokens = new StringBuilder();
+    for (int i = 0; i < anTokens.length; i++) {
+      final String tok = output[i].getToken();
+      final StringBuilder tokens = new StringBuilder();
 
-          int finalLen = 0;
-          if (mStartSpace.containsKey(tok)) {
-              final int len = mStartSpace.get(tok);
-              int j = i;
-              int lenCounter = 0;
-              while (j < anTokens.length) {
-                  if (!anTokens[j].isWhitespace()) {
-                      tokens.append(anTokens[j].getToken());
-                      final String toks = tokens.toString();
-                      if (mFull.containsKey(toks)) {
-                          output[i] = prepareNewReading(toks, tok, output[i], false);
-                          output[finalLen] = prepareNewReading(toks, anTokens[finalLen].getToken(), 
-                                  output[finalLen], true);              
-                      }
-                      lenCounter++;
-                      if (lenCounter == len) {
-                          break;
-                      }
-                      tokens.append(' ');
-                  }
-                  j++;
-                  finalLen = j;
-              }
+      int finalLen = 0;
+      if (mStartSpace.containsKey(tok)) {
+        final int len = mStartSpace.get(tok);
+        int j = i;
+        int lenCounter = 0;
+        while (j < anTokens.length) {
+          if (!anTokens[j].isWhitespace()) {
+            tokens.append(anTokens[j].getToken());
+            final String toks = tokens.toString();
+            if (mFull.containsKey(toks)) {
+              output[i] = prepareNewReading(toks, tok, output[i], false);
+              output[finalLen] = prepareNewReading(toks, anTokens[finalLen].getToken(),
+                      output[finalLen], true);
+            }
+            lenCounter++;
+            if (lenCounter == len) {
+              break;
+            }
+            tokens.append(' ');
           }
+          j++;
+          finalLen = j;
+        }
+      }
 
-          if (mStartNoSpace.containsKey(tok)) {
-              final int len = mStartNoSpace.get(tok);
-              if (i + len <= anTokens.length) {
-                  for (int j = i; j < i + len; j++) {
-                      tokens.append(anTokens[j].getToken());
-                      final String toks = tokens.toString();
-                      if (mFull.containsKey(toks)) {
-                          output[i] = prepareNewReading(toks, tok, output[i], false);
-                          output[i + len - 1] = prepareNewReading(toks, anTokens
-                                  [i + len - 1].getToken(), output[i + len -1], true);                          
-                          
-                      }
-                  }
-              }
+      if (mStartNoSpace.containsKey(tok)) {
+        final int len = mStartNoSpace.get(tok);
+        if (i + len <= anTokens.length) {
+          for (int j = i; j < i + len; j++) {
+            tokens.append(anTokens[j].getToken());
+            final String toks = tokens.toString();
+            if (mFull.containsKey(toks)) {
+              output[i] = prepareNewReading(toks, tok, output[i], false);
+              output[i + len - 1] = prepareNewReading(toks, anTokens
+                      [i + len - 1].getToken(), output[i + len -1], true);
+
+            }
           }
+        }
       }
-      return new AnalyzedSentence(output);
+    }
+    return new AnalyzedSentence(output);
   }
-  
-  
-  private AnalyzedTokenReadings prepareNewReading(final String tokens, final String tok,
-             final AnalyzedTokenReadings token, final boolean isLast) {
-      final StringBuilder sb = new StringBuilder();
-      sb.append("<");
-      if (isLast) {
-          sb.append("/");
-      }
-      sb.append(mFull.get(tokens));
-      sb.append(">");
-      final AnalyzedToken tokenStart = new AnalyzedToken(tok, sb.toString(), tokens);
-      return setAndAnnotate(token, tokenStart);      
+
+
+  private AnalyzedTokenReadings prepareNewReading(final String tokens, final String tok, final AnalyzedTokenReadings token, final boolean isLast) {
+    final StringBuilder sb = new StringBuilder();
+    sb.append("<");
+    if (isLast) {
+      sb.append("/");
+    }
+    sb.append(mFull.get(tokens));
+    sb.append(">");
+    final AnalyzedToken tokenStart = new AnalyzedToken(tok, sb.toString(), tokens);
+    return setAndAnnotate(token, tokenStart);
   }
-  
-  private AnalyzedTokenReadings setAndAnnotate(final AnalyzedTokenReadings oldReading, 
-          final AnalyzedToken newReading) {      
-      final String old = oldReading.toString();
-      final String prevAnot = oldReading.getHistoricalAnnotations();
-      final AnalyzedTokenReadings newAtr = new AnalyzedTokenReadings(oldReading.getReadings(), 
-              oldReading.getStartPos());
-      newAtr.setWhitespaceBefore(oldReading.isWhitespaceBefore());
-      newAtr.addReading(newReading);
-      newAtr.setHistoricalAnnotations(
-              annotateToken(prevAnot, old, newAtr.toString()));
-      return newAtr;
+
+  private AnalyzedTokenReadings setAndAnnotate(final AnalyzedTokenReadings oldReading, final AnalyzedToken newReading) {
+    final String old = oldReading.toString();
+    final String prevAnot = oldReading.getHistoricalAnnotations();
+    final AnalyzedTokenReadings newAtr = new AnalyzedTokenReadings(oldReading.getReadings(),
+            oldReading.getStartPos());
+    newAtr.setWhitespaceBefore(oldReading.isWhitespaceBefore());
+    newAtr.addReading(newReading);
+    newAtr.setHistoricalAnnotations(
+            annotateToken(prevAnot, old, newAtr.toString()));
+    return newAtr;
   }
   
   private String annotateToken(final String prevAnot, final String oldReading, final String newReading) {
-      final StringBuilder sb = new StringBuilder();
-      sb.append(prevAnot);
-      sb.append("\nMULTIWORD_CHUNKER: ");
-      sb.append(oldReading);
-      sb.append(" -> ");
-      sb.append(newReading);
-      return sb.toString();
+    final StringBuilder sb = new StringBuilder();
+    sb.append(prevAnot);
+    sb.append("\nMULTIWORD_CHUNKER: ");
+    sb.append(oldReading);
+    sb.append(" -> ");
+    sb.append(newReading);
+    return sb.toString();
   }
 
   private List<String> loadWords(final InputStream stream) {
