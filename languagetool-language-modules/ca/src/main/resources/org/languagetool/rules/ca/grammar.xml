@@ -20474,14 +20474,28 @@ $Id$
 	            <example type="incorrect" correction="etc.|…">Tres, quatre, cinc, <marker>etc...</marker></example>
 	            <example type="correct">Un, dos, etc.</example>
 	        </rule>
-	    </rulegroup>    
+	    </rulegroup>
+        <rule id="AIXI_COM_TAMBE" name="així com també">
+            <pattern>
+                <token>així</token>
+                <token>com</token>
+                <token>també</token>
+            </pattern>
+            <message>Redundància.</message>
+            <suggestion>i també</suggestion>
+            <suggestion>així com</suggestion>
+            <short>Redundància</short>
+            <example type="incorrect" correction="i també|així com">La música <marker>així com també</marker> la literatura.</example>
+            <example type="correct">La música i també la literatura.</example>
+        </rule> 
         <rule id="ANYS_D_EDAT" name="anys d'edat">
             <pattern>
                 <token regexp="yes">anys?</token>
                 <token>d'</token>
                 <token>edat</token>
             </pattern>
-            <message>Redundància. Val més dir: <suggestion><match no="1"/></suggestion></message>
+            <message>Redundància.</message>
+            <suggestion><match no="1"/></suggestion>
             <short>Redundància</short>
             <example type="incorrect" correction="anys">Té 30 <marker>anys d'edat</marker>.</example>
             <example type="correct">Té 30 anys.</example>
