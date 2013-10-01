@@ -27,7 +27,7 @@ $Id$
     <!ENTITY excep_exceptions_BE "ben|prou|tan|que|si|ara|molt|per|i|o|ni|més|['-].+">
     <!ENTITY exceptions_ALS_TRES_MESOS "per|fins|arribar|corresponent|proper|pròxim|inferior|superior|referència">
     <!ENTITY exceptions_RECOLZAR "cap|espatll?a|cara|punta|marc|porta|contra|banc|mà|genoll|cama|colze|peu|braç|butaca|en|sobre|damunt|paret|escala|arbre|mur|esquena">   
-    <!ENTITY exceptions_ASSENTAR_ASSEURE "geològi.*|pilar|bàvar|eslau|roca|ciutat|pedra|morter|tossal|muralla|castell|fonament|sòcol|plana|agricultor|poblat|sedentari.*|mite|història|sistema|producció|cultura|creença|judici|juí|teoria|illa|sobirania|fet|austral|base|categoria|colon|colonitz.*|colònia|comarca|comunitat|errant|est|fermament|habitant|hàbitat|medi|meridional|natural|nord|nord-est|nord-oest|nucli|nòmada|occident|occidental|oest|organització|orient|oriental|península|població|poblador|poblament|poblar|poble|província|puig|recurs|regió|regne|residència|rural|septentrional|societat|sud|sud-est|sud-oest|terra|territori|tribu|turó|tècnica|vall|vida|zona|ètnia|ètnic|principi|conducta|establir|distribució|genital|estructura|recinte|esplanada|pla|superfície">
+    <!ENTITY exceptions_ASSENTAR_ASSEURE "suport|geològi.*|pilar|bàvar|eslau|roca|ciutat|pedra|morter|tossal|muralla|castell|fonament|sòcol|plana|agricultor|poblat|sedentari.*|mite|història|sistema|producció|cultura|creença|judici|juí|teoria|illa|sobirania|fet|austral|base|categoria|colon|colonitz.*|colònia|comarca|comunitat|errant|est|fermament|habitant|hàbitat|medi|meridional|natural|nord|nord-est|nord-oest|nucli|nòmada|occident|occidental|oest|organització|orient|oriental|península|població|poblador|poblament|poblar|poble|província|puig|recurs|regió|regne|residència|rural|septentrional|societat|sud|sud-est|sud-oest|terra|territori|tribu|turó|tècnica|vall|vida|zona|ètnia|ètnic|principi|conducta|establir|distribució|genital|estructura|recinte|esplanada|pla|superfície">
     <!ENTITY exceptions_A_DIT_HA_DIT "concedir|crèdit|selecció|subvenció|atorgar|designar|designació|contractar|contractació|plaça|assignar|assignació|nomenar|nomenament|col·locar|col·locació|ajudicar|adjudicació|càrrec">
     <!ENTITY dies_setmana "dilluns|dimarts|dimecres|dijous|divendres|dissabte|diumenge">
     <!ENTITY ordes "agustinià|salesià|religiós|franciscà|benedictí|templari|cavalleresc|cistercenc|escolapi|monàstic|mercedari|teutònic|cartoixà|dominic|jerònim">
@@ -885,6 +885,7 @@ $Id$
                 <example type="correct">dibuixos animats realitzats fotograma per fotograma</example>
                 <example type="correct">com a figures més destacades Anselm, Abelard,</example>
                 <example type="correct">havien actuat i gravat discs acompanyant</example>
+                <example type="correct">Mai no havia vist vidres de color.</example>
             </rule>
             <rule>
                 <pattern>
@@ -1013,6 +1014,7 @@ $Id$
                 <message>Error de concordança.</message>
                 <short>Error de concordança</short>
                 <example type="incorrect"><marker>Acabada les</marker> festes, se n'anaren</example>
+                <example type="incorrect">duraran tot el matí, <marker>vist la</marker> quantitat de gent que hi havia.</example>  
                 <example type="correct">Acabada la festa, se n'anaren.</example>
                 <example type="correct">Admeses la constant gravitacional G i la constant de Planck,</example>
                 <example type="correct">Donats un segment rectilini i un punt qualssevol</example>
@@ -4087,7 +4089,7 @@ $Id$
             <pattern>
                 <token><exception postag="V.[SI].*|_GV_" postag_regexp="yes" inflected="yes" regexp="yes">ser|estar|anar|quedar|restar</exception></token>
                 <marker>
-                    <token skip="3">conforme<exception postag="_PUNCT" scope="next"/><exception scope="next">,</exception></token> <!-- <exception postag="_GN_.*" postag_regexp="yes"/> -->
+                    <token skip="3">conforme<exception postag="_PUNCT" scope="next"/><exception scope="next" regexp="yes">,|a</exception></token> <!-- <exception postag="_GN_.*" postag_regexp="yes"/> -->
                 </marker>
                 <token postag="V.[SI].*|_GV_" postag_regexp="yes"/>
             </pattern>
@@ -4101,6 +4103,7 @@ $Id$
             <example type="incorrect">El camí de la política catalana dibuixa una espiral cònica i s'accelera a gran velocitat <marker>conforme</marker> s'apropa al vèrtex.</example>
             <example type="correct">La projecció de Mercator és una projecció cartogràfica cilíndrica conforme (manté les formes i els angles localment).</example>
             <example type="correct">però no és conforme perquè distorsiona les formes i els angles.</example>
+            <example type="correct">haurà de determinar-se conforme al que disposi la legislació belga</example>
         </rule>
         <rulegroup id="SINO_SI_NO" name="sinó/si no">
             <rule>
@@ -4362,7 +4365,7 @@ $Id$
         			</marker>
         			<token regexp="yes">la|les</token>
         			<token postag="DN.*" postag_regexp="yes"></token>
-        			<token><exception postag="N.FP.*" postag_regexp="yes"/></token>
+        			<token><exception postag="N.FP.*|A..FP." postag_regexp="yes"/></token>
         			<token><exception postag="AQ.FP.*" postag_regexp="yes"/></token>
         		</pattern>
         		<message>Incorrecte amb valor aproximatiu. Correcte en altres sentits.</message>
@@ -4373,6 +4376,7 @@ $Id$
         		<example type="incorrect" correction="al voltant de|cap a|vora"><marker>sobre</marker> les dues de la nit.</example>
         		<example type="correct">sobre les tres cadires</example>
         		<example type="correct">sobre les dues més antigues</example>
+                <example type="correct">Que es pronuncie sobre les quatre primeres qüestions.</example>
         	</rule>
         </rulegroup>
         <rule id="A_LINREVES_DE_AL_REVES_DE" name="*a l'inrevés de/al revés de">
@@ -4480,7 +4484,7 @@ $Id$
             Caldria separar verbs i noms per a tractar-los de manera lleugerament diferent:
             una tarda, en sortir de classe-->
                 <pattern>
-                    <token inflected="yes" regexp="yes" skip="3">primer|encaparrar|obcec.+|estar|raure|afany|afanyar|basar|centrar|complaença|complaure|confiar|consisitir|consistir|convertir|creença|creure|delit|delitar|entestar|entossudir|entretenir|equivocar|esforçar|especialitzar|especialista|excel·lir|exercitar|incórrer|influir|influència|insistir|insistència|interessar|interès|invertir|obsessi.+|obstinar|part|participació|participant|participar|pensar|tardança|tardar|tossud.*|treballar|trigança|trigar|vacil·lació|vacil·lar<exception scope="next" postag="V.P.*|C.*|AQ.*" postag_regexp="yes"/><exception postag="V.G.*" postag_regexp="yes" scope="next"/><exception scope="next">lloc</exception></token>
+                    <token inflected="yes" regexp="yes" skip="3">primer|encaparrar|obcec.+|estar|raure|afany|afanyar|basar|centrar|complaença|complaure|confiar|consisitir|consistir|convertir|creença|creure|delit|delitar|entestar|entossudir|entretenir|equivocar|esforçar|especialitzar|especialista|excel·lir|exercitar|incórrer|influir|influència|insistir|insistència|interessar|interès|invertir|obsessi.+|obstinar|part|participació|participant|participar|pensar|tardança|tardar|tossud.*|treballar|trigança|trigar|vacil·lació|vacil·lar<exception scope="next" postag="V.P.*|C.*|AQ.*" postag_regexp="yes"/><exception postag="V.G.*" postag_regexp="yes" scope="next"/><exception scope="next">lloc</exception><exception regexp="yes">\d.*</exception></token>
                     <marker>
                         <token>en</token>
                     </marker>
@@ -4778,7 +4782,7 @@ $Id$
                         <token>malgrat<exception postag="_possible_nompropi"/></token>
                     </marker> <!--  -->
                     <token skip="9"><exception regexp="yes">tot|això|que|com</exception><exception scope="next" regexp="yes">[;,–—\(\)\-]|que|quals?|què|com</exception></token>
-                    <token postag="V.[IS].*" postag_regexp="yes"></token> <!-- <exception postag="_GN.*|V.N.*" postag_regexp="yes"/> -->
+                    <token postag="V.[IS].*" postag_regexp="yes"><exception postag="_possible_nompropi"/></token> <!-- <exception postag="_GN.*|V.N.*" postag_regexp="yes"/>-->
                 </pattern>
                 <message>Potser és <suggestion>malgrat que</suggestion> o falta una coma abans del verb.</message>
                 <short>Expressió incorrecta</short>
@@ -5680,12 +5684,13 @@ $Id$
                 <marker>
                     <token>conseqüentment</token>
                 </marker>
+                <token><exception>amb</exception></token>
             </pattern>
             <message>¿Volíeu dir <suggestion>per consegüent</suggestion>? Correcte si vol dir "de manera conseqüent, lògica".</message>
             <suggestion>en conseqüència</suggestion>
             <suggestion>consegüentment</suggestion>
             <example type="incorrect" correction="Per consegüent|En conseqüència|Consegüentment"><marker>Conseqüentment</marker>, cal aprovar-ho.</example>
-            <example type="correct">Del consegüent debat</example>
+            <example type="correct">Conseqüentment amb això, cal estimar el recurs.</example>
         </rule>
         <rule id="CONSEQUENT_CONSEGUENT" name="conseqüent/consegüent">
             <pattern>
@@ -6019,9 +6024,9 @@ $Id$
         </rule>
         <rule id="LLIURAMENT_LLIUREMENT" name="lliurament/lliurement">
             <pattern>
-                <token><exception>de</exception></token>         
+                <token><exception regexp="yes">de|amb|en</exception></token>         
                 <marker>
-                        <token>lliurament<exception postag="_GN_MS"/></token>
+                    <token>lliurament<exception postag="_GN_MS"/></token>
                 </marker>
                 <token><exception regexp="yes">de|d'</exception></token>
             </pattern>
@@ -6030,6 +6035,7 @@ $Id$
             <example type="incorrect" correction="lliurement">Aquests significats són <marker>lliurament</marker> mesclats.</example>
             <example type="correct">El lliurament es va fer amb normalitat.</example>
             <example type="correct">Va negociar el lliurament de Granada.</example>
+            <example type="correct">Curs de fotografia amb lliurament de premis </example>
         </rule>
         <rule id="EM_VIST" name="em vist">
         <!-- La regla general no troba error perquè s'interpreta que 'vist' és del verb vestir: jo em vist = jo em vestisc -->
@@ -6090,7 +6096,7 @@ $Id$
             <pattern>
                 <token><exception regexp="yes" inflected="yes">ai|sentir|trobar|quedar</exception></token>
                 <marker>
-                    <token>las<exception postag="_GN_MS"/></token>
+                    <token>las<exception postag="_GN_MS|.*NP.*" postag_regexp="yes"/></token>
                 </marker>
                 <token><exception postag="_PUNCT.*" postag_regexp="yes"/></token>
                 <!-- <token postag="NC[FC][PN].*|_GN_FP|AQ.[FC][PN].|V.[SI].*|_GV_" postag_regexp="yes"/> -->
@@ -6104,7 +6110,8 @@ $Id$
             <example type="incorrect" correction="les">Independentment de qui <marker>las</marker> haja generades.</example>
             <example type="correct">Ai las!, em sentia las.</example>
             <example type="correct">Vaig veure aquell cos las.</example>
-            <example type="correct">El cos li Va quedar completament las.</example>
+            <example type="correct">El cos li va quedar completament las.</example>
+            <example type="correct">Ve de Las Palmas o de Las Vegas.</example>
         </rule>
 <!--     MOLT DIFÍCIL DE DIFERENCIAR    
          <rule id="CA_LA" name="cala/ca la">
@@ -12170,14 +12177,14 @@ $Id$
             <pattern>
                 <marker>
                     <token inflected="yes" skip="2">apretar</token>
+                    <token>a</token>
+                    <token>córrer</token>
                 </marker>
-                <token>a</token>
-                <token>córrer</token>
             </pattern>
             <message>Expressió incorrecta</message>
-            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">arrencar</match></suggestion>
-            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">arrancar</match></suggestion>
-            <example type="incorrect" correction="arrenca|arranca">Llavors <marker>apreta</marker> a córrer.</example>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">arrencar</match> a córrer</suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">arrancar</match> a córrer</suggestion>
+            <example type="incorrect" correction="arrenca a córrer|arranca a córrer">Llavors <marker>apreta a córrer</marker>.</example>
             <example type="correct">Llavors arranca a córrer</example>
         </rule>
         <rule id="INCLOENTHI" name="incloent/incloent-hi">
@@ -12558,7 +12565,7 @@ $Id$
                 <marker>
                     <token>el</token>
                     <token>més</token>
-                    <token regexp="yes">aviat|prompte</token>
+                    <token regexp="yes">aviat|prompte|ràpidament</token>
                     <token>possible</token>
                 </marker>
             </pattern>
@@ -13123,7 +13130,7 @@ $Id$
             </rule>
             <rule>
                 <pattern> 
-                    <token><exception inflected="yes" regexp="yes">portar|acostumar</exception></token>
+                    <token><exception inflected="yes" regexp="yes">portar|acostumar|fins|per</exception></token>
                     <token>a</token>
                     <marker>
                         <token>acabar</token>
@@ -15421,10 +15428,15 @@ $Id$
         </rule>
         <rule id="A_MODE_DE" name="a mode de">
             <pattern>
-                <token>a</token>
-                <token>mode</token>
+                <marker>
+                    <token>a</token>
+                    <token>mode</token>
+                </marker>
+                <token regexp="yes">de|d'</token>
             </pattern>
-            <message>Cal dir <suggestion>a tall</suggestion>, <suggestion>a manera</suggestion>.</message>
+            <message>Expressió incorrecta.</message>
+            <suggestion>a tall</suggestion>
+            <suggestion>a manera</suggestion>
             <example type="incorrect"><marker>a mode</marker> de prova</example>
             <example type="correct">a tall de prova</example>
         </rule>
@@ -16894,7 +16906,7 @@ $Id$
         <rule id="LLIURAR" name="lliurar/deslliurar">
             <pattern>
                 <marker>
-                    <token inflected="yes">lliurar<exception postag="_GN_F." postag_regexp="yes" regexp="yes">lliura|lliures</exception></token>
+                    <token inflected="yes">lliurar<exception postag="_GN_F." postag_regexp="yes" regexp="yes">lliura|lliures</exception><exception scope="previous">no</exception></token>
                 </marker>
                 <token regexp="yes">de|d'</token>
             </pattern>
@@ -16905,6 +16917,7 @@ $Id$
             <example type="correct">Es van lliurar a la beguda.</example>
             <example type="correct">preneu una lliura de vidre blanc</example>
             <example type="correct">per a la secreció de cada lliura de cera</example>
+            <example type="correct">del romanent no lliurat del preu</example>
         </rule>
         <rule id="GEMA_GEMMA" name="gema/gemma">
             <pattern>
@@ -17762,6 +17775,7 @@ $Id$
             <example type="correct">S'assenten sobre un fet comunicatiu.</example>
             <example type="correct">on s'assentaren els primers colonitzadors</example>
             <example type="correct">assentí</example>
+            <example type="correct">tal negació s'assenta en un suport purament fàctic</example>
         </rule>
         <rulegroup id="BOMBEJAR" name="bombejar / bombar">
             <!-- es pot completar amb més paraules -->
@@ -18391,7 +18405,7 @@ $Id$
         <rulegroup id="DESCONTENT" name="descontent (adj. no subst.)"> <!-- Però: el descontent = la persona descontenta -->
             <rule>
                 <pattern>
-                    <token><exception postag="N.*|RG|V.[MSI].*|_GV_|C[CS]|SENT_START|_PUNCT.*|PR.*" postag_regexp="yes"/></token>
+                    <token><exception postag="N.*|RG|V.[MSI].*|_GV_|C[CS]|SENT_START|_PUNCT.*|PR.*|_possible_nompropi" postag_regexp="yes"/><exception regexp="yes">\p{Lu}.+</exception></token>
                     <marker>
                         <token>descontent</token>
                     </marker>
@@ -20571,8 +20585,8 @@ $Id$
             <example type="correct">Són barroeres.</example>
         </rule> 
         <rule id="GARBO" name="garbo">
-            <pattern>
-                <token inflected="yes">garbo</token>
+            <pattern case_sensitive="yes">
+                <token regexp="yes">garbos?</token>
             </pattern>
             <message>Paraula pròpia del llenguatge col·loquial. Només admesa per alguns diccionaris.</message>
             <suggestion><match no="1" postag="NCM(.).*" postag_regexp="yes" postag_replace="NC.$1.*">aire</match></suggestion>
@@ -20582,6 +20596,7 @@ $Id$
             <short>Lleguatge col·loquial</short>
             <example type="incorrect" correction="aire|gràcia|desimboltura|airositat">Quin <marker>garbo</marker> que té.</example>
             <example type="correct">Són beneites</example>
+            <example type="correct">De Greta Garbo.</example>
         </rule> 
         <rule id="GARBÓS" name="garbós">
             <pattern>
@@ -22030,6 +22045,7 @@ $Id$
                 <example type="correct">–Ja som a França –criden unes veus dins l'autocar.</example>
                 <!-- <example type="correct">El passallís del Fluvià era molt poc som.</example> -->
                 <example type="correct">han aparegut no sé d'on</example>
+                <example type="correct">Li arrencaria la pell en viu</example>
             </rule>
             <rule> <!-- verb forma simple a l'inici de frase (en majúscula) -->
                 <pattern>

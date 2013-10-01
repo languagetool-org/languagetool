@@ -60,6 +60,10 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
 	      han estat de fet exterminades
 	   */
 	  // (en especial si hi ha un adverbi entremig: en algun grau més distintes
+	  assertCorrect("no s'atorguen drets de visita tret que ho consenta el progenitor");
+	  assertCorrect("La meua filla viu amb mi la major part del temps");
+	  assertCorrect("que en l'actualitat viu a la ciutat de Santa Cruz");
+	  assertCorrect("són submarines i la nostra gent viu al fons del mar.");
 	  assertCorrect("la meitat mascles i la meitat femelles");
 	  assertCorrect("És força amarg");
 	  assertCorrect("Era poderós, força estrabul·lat");
