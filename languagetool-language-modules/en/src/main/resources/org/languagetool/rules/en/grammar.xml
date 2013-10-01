@@ -7909,14 +7909,22 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
                 <example type="correct">This palace was used later as a prison.</example>
             </rule>
         </rulegroup>
-        <!-- TODO
-       <rule id="VB_TO_USE" name="Past tense of 'used to...'">
-          <pattern mark_to="-2"><token postag="VB"/<token>to</token><token>use</token></pattern>
-          <message>Use the past tense to build a sentence with "to use".</message>
-          <example type="correct">Aethera <em>used</em> to use this.</example>
-          <example type="incorrect">Aethera <em>use</em> to use this.</example>
-       </rule>
-       -->
+        <rule id="USE_TO_VERB" name="Missing past tense for 'used to...'">
+            <pattern>
+                <token><exception postag="MD"/></token>
+                <marker>
+                    <token>use</token>
+                </marker>
+                <token>to</token>
+                <token postag="VB"/>
+            </pattern>
+            <message>Did you mean <suggestion>used</suggestion>?</message>
+            <example type="correct">He <marker>used</marker> to believe this.</example>
+            <example type="correct">Aethera <marker>used</marker> to use this.</example>
+            <example type="correct">It can be used to save lives</example>
+            <example type="incorrect" correction="used">He <marker>use</marker> to believe this.</example>
+            <example type="incorrect" correction="used">Aethera <marker>use</marker> to use this.</example>
+        </rule>
         <rule id="MORE_A_JJ" name="Word order: 'more a ...' instead of 'a more ...'">
             <pattern>
                 <token>more<exception regexp="yes" scope="previous">no|much</exception></token>
