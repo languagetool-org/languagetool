@@ -17,18 +17,17 @@
  * USA
  */
 
-package org.languagetool.tools;
+package org.languagetool.rules;
 
 /**
  * Helper class for GenericUnpairedBracketsRule to identify
  * symbols indexed with integers.
  * 
  * @author Marcin Miłkowski
- *
  */
-public class SymbolLocator {
-  public String symbol;
-  public int index;
+class SymbolLocator {
+  String symbol;
+  int index;
 
   public SymbolLocator(final String symbol, final int index) {
     this.symbol = symbol;
