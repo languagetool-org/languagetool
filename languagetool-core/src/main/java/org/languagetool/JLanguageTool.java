@@ -360,10 +360,10 @@ public class JLanguageTool {
     if (enabledRules != null || disabledRules !=null) {
       for (PatternRule patternRule : patternRules) {
         if (enabledRules != null && enabledRules.contains(patternRule.getId())) {
-          patternRule.setDefaultOff();
+          patternRule.setDefaultOn();
         }
         if (disabledRules != null && disabledRules.contains(patternRule.getId())) {
-          patternRule.setDefaultOn();
+          patternRule.setDefaultOff();
         }
       }
     }

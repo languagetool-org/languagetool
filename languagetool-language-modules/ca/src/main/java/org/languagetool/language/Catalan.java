@@ -57,6 +57,8 @@ public class Catalan extends Language {
   private Synthesizer synthesizer;
   private Disambiguator disambiguator;
 
+  private static final Language GENERAL_CATALAN = new GeneralCatalan();
+  
   @Override
   public String getName() {
     return "Catalan";
@@ -64,7 +66,7 @@ public class Catalan extends Language {
 
   @Override
   public String[] getCountries() {
-    return new String[]{"ES"};
+    return new String[]{"ANY"};
   }
   
   @Override
@@ -72,6 +74,11 @@ public class Catalan extends Language {
     return "ca";
   }
 
+  @Override
+  public Language getDefaultLanguageVariant() {
+    return GENERAL_CATALAN;
+  }
+  
   @Override
   public Contributor[] getMaintainers() {
     return new Contributor[] {new Contributor("Ricard Roca"), new Contributor("Jaume Ortolà") };
