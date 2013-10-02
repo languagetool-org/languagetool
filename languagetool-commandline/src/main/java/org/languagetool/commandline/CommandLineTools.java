@@ -300,7 +300,7 @@ public final class CommandLineTools {
     final long[] workTime = new long[10];
     final List<Rule> rules = lt.getAllActiveRules();
     final int ruleCount = rules.size();
-    System.out.printf("Testing %d rules\n", ruleCount);
+    System.out.printf("Testing %d rules%n", ruleCount);
     System.out.println("Rule ID\tTime\tSentences\tMatches\tSentences per sec.");
     final List<String> sentences = lt.sentenceTokenize(contents);
     for (Rule rule : rules) {
