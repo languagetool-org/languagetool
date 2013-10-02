@@ -241,6 +241,13 @@ public abstract class Rule {
   }
 
   /**
+   * Turns the rule on by default.
+   */
+  public final void setDefaultOn() {
+    defaultOff = false;
+  }
+  
+  /**
    * An URL describing the rule match in more detail. Typically points to a dictionary or grammar website
    * with explanations and examples.
    * @since 1.8
