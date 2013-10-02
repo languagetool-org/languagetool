@@ -171,7 +171,26 @@ public abstract class Language {
   public String getVariant() {
     return null;
   }
+  
+  /**
+   * Get enabled rules different from the default ones for this language variant. 
+   * 
+   * @return List<String> - enabled rules for the language variant.
+   * @since 2.4
+   */
+  public List<String> getEnabledRules() {
+    return null;
+  }
 
+  /**
+   * Get disabled rules different from the default ones for this language variant. 
+   * 
+   * @return List<String> - disabled rules for the language variant.
+   * @since 2.4
+   */
+  public List<String> getDisabledRules() {
+    return null;
+  }
   /**
    * Get the name(s) of the maintainer(s) for this language or <code>null</code>.
    */

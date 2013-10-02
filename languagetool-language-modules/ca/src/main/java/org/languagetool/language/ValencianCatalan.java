@@ -18,6 +18,9 @@
  */
 package org.languagetool.language;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class ValencianCatalan extends Catalan {
 
   @Override
@@ -38,6 +41,22 @@ public class ValencianCatalan extends Catalan {
   @Override
   public String getShortName() {
     return "ca";
+  }
+  
+  @Override
+  public List<String> getEnabledRules() {
+    List<String> rules = Arrays.asList("EXIGEIX_VERBS_VALENCIANS",
+        "EXIGEIX_ACCENTUACIO_VALENCIANA", "EXIGEIX_POSSESSIUS_U",
+        "EXIGEIX_VERBS_EIX", "EXIGEIX_VERBS_ISC");
+    return rules;
+  }
+
+  @Override
+  public List<String> getDisabledRules() {
+    List<String> rules = Arrays.asList("EXIGEIX_VERBS_CENTRAL",
+        "EXIGEIX_ACCENTUACIO_GENERAL", "EXIGEIX_POSSESSIUS_V",
+        "EVITA_PRONOMS_VALENCIANS");
+    return rules;
   }
   
 }
