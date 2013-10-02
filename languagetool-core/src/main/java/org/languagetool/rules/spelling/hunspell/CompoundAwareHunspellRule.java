@@ -18,9 +18,9 @@
  */
 package org.languagetool.rules.spelling.hunspell;
 
-import de.abelssoft.wordtools.jwordsplitter.AbstractWordSplitter;
 import org.languagetool.Language;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpeller;
+import org.languagetool.tokenizers.CompoundWordTokenizer;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
@@ -35,10 +35,10 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
 
   private static final int MAX_SUGGESTIONS = 20;
   
-  private final AbstractWordSplitter wordSplitter;
+  private final CompoundWordTokenizer wordSplitter;
   private final MorfologikSpeller morfoSpeller;
   
-  public CompoundAwareHunspellRule(ResourceBundle messages, Language language, AbstractWordSplitter wordSplitter, MorfologikSpeller morfoSpeller) {
+  public CompoundAwareHunspellRule(ResourceBundle messages, Language language, CompoundWordTokenizer wordSplitter, MorfologikSpeller morfoSpeller) {
     super(messages, language);
     this.wordSplitter = wordSplitter;
     this.morfoSpeller = morfoSpeller;
@@ -72,7 +72,7 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
       }
     }
 
-    final Collection<String> parts = wordSplitter.splitWord(word);
+    final Collection<String> parts = wordSplitter.tokenize(word);
     int partCount = 0;
     for (String part : parts) {
       if (dictionary.misspelled(part)) {

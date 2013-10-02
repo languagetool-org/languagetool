@@ -24,6 +24,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.spelling.hunspell.CompoundAwareHunspellRule;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpeller;
+import org.languagetool.tokenizers.CompoundWordTokenizer;
 
 import java.io.IOException;
 import java.util.*;
@@ -78,12 +79,17 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     return RULE_ID;
   }
   
-  private static AbstractWordSplitter getCompoundSplitter() {
+  private static CompoundWordTokenizer getCompoundSplitter() {
     try {
       final AbstractWordSplitter wordSplitter = new GermanWordSplitter(false);
       wordSplitter.setStrictMode(false); // there's a spelling mistake in (at least) one part, so strict mode wouldn't split the word
       ((GermanWordSplitter)wordSplitter).setMinimumWordLength(3);
-      return wordSplitter;
+      return new CompoundWordTokenizer() {
+        @Override
+        public List<String> tokenize(String word) {
+          return new ArrayList<>(wordSplitter.splitWord(word));
+        }
+      };
     } catch (IOException e) {
       throw new RuntimeException("Could not set up German compound splitter", e);
     }
