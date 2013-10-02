@@ -53,9 +53,21 @@ public class PolishSynthesizer implements Synthesizer {
   private static final String COMP_TAG = "com";
   private static final String SUP_TAG = "sup";
 
-  private IStemmer synthesizer;
-
+  private Dictionary dictionary;
   private List<String> possibleTags;
+  
+  protected Dictionary getDictionary() throws IOException {
+    if (this.dictionary == null) {
+      synchronized (this) {
+        if (this.dictionary == null) {
+          final URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(RESOURCE_FILENAME);
+          this.dictionary = Dictionary.read(url);
+        }
+      }
+    }
+    
+    return this.dictionary;
+  }
   
   @Override
   public final String[] synthesize(final AnalyzedToken token,
@@ -63,10 +75,7 @@ public class PolishSynthesizer implements Synthesizer {
     if (posTag == null) {
       return null;
     }
-    if (synthesizer == null) {
-      final URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(RESOURCE_FILENAME);
-      synthesizer = new DictionaryLookup(Dictionary.read(url));
-    }
+    final IStemmer synthesizer = new DictionaryLookup(getDictionary());
     boolean isNegated = false;
     if (token.getPOSTag() != null) {
       isNegated = posTag.indexOf(NEGATION_TAG) > 0
@@ -76,7 +85,7 @@ public class PolishSynthesizer implements Synthesizer {
     if (posTag.indexOf('+') > 0) {
       return synthesize(token, posTag, true);
     }
-    final List<String> forms = getWordForms(token, posTag, isNegated);
+    final List<String> forms = getWordForms(token, posTag, isNegated, synthesizer);
     return forms.toArray(new String[forms.size()]);
   }
 
@@ -92,10 +101,7 @@ public class PolishSynthesizer implements Synthesizer {
         possibleTags = SynthesizerTools.loadWords(JLanguageTool.getDataBroker().
             getFromResourceDirAsStream(TAGS_FILE_NAME));
       }
-      if (synthesizer == null) {
-        final URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(RESOURCE_FILENAME);
-        synthesizer = new DictionaryLookup(Dictionary.read(url));
-      }
+      final IStemmer synthesizer = new DictionaryLookup(getDictionary());
       final ArrayList<String> results = new ArrayList<>();
 
       boolean isNegated = false;
@@ -115,7 +121,7 @@ public class PolishSynthesizer implements Synthesizer {
       for (final String tag : possibleTags) {
         final Matcher m = p.matcher(tag);
         if (m.matches()) {
-          final List<String> wordForms = getWordForms(token, tag, isNegated);
+          final List<String> wordForms = getWordForms(token, tag, isNegated, synthesizer);
           if (wordForms != null) {
             results.addAll(wordForms);
           }
@@ -158,7 +164,7 @@ public class PolishSynthesizer implements Synthesizer {
   }
 
   private List<String> getWordForms(final AnalyzedToken token, final String posTag,
-      final boolean isNegated) {
+      final boolean isNegated, final IStemmer synthesizer) {
     final List<String> forms = new ArrayList<>();
     final List<WordData> wordForms;
     if (isNegated) {
