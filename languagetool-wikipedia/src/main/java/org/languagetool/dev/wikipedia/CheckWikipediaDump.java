@@ -30,6 +30,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.apache.commons.cli.*;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.MultiThreadedJLanguageTool;
@@ -52,18 +53,18 @@ public class CheckWikipediaDump {
   
   public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException {
     final CheckWikipediaDump prg = new CheckWikipediaDump();
-    ensureCorrectUsageOrExit(args);
+    final CommandLine commandLine = ensureCorrectUsageOrExit(args);
     File propFile = null;
-    if (!"-".equals(args[0])) {
-      propFile = new File(args[0]);
+    if (commandLine.hasOption('d')) {
+      propFile = new File(commandLine.getOptionValue('d'));
       if (!propFile.exists() || propFile.isDirectory()) {
         throw new IOException("File not found or isn't a file: " + propFile.getAbsolutePath());
       }
     }
-    final String languageCode = args[2];
+    final String languageCode = commandLine.getOptionValue('l');
     final Set<String> disabledRuleIds = new HashSet<>();
-    if (!"-".equals(args[1])) {
-      final File disabledRulesPropFile = new File(args[1]);
+    if (commandLine.hasOption("rule-properties")) {
+      final File disabledRulesPropFile = new File(commandLine.getOptionValue("rule-properties"));
       if (!disabledRulesPropFile.exists() || disabledRulesPropFile.isDirectory()) {
         throw new IOException("File not found or isn't a file: " + disabledRulesPropFile.getAbsolutePath());
       }
@@ -74,13 +75,13 @@ public class CheckWikipediaDump {
         addDisabledRules(languageCode, disabledRuleIds, disabledRules);
       }
     }
-    final int maxArticles = Integer.parseInt(args[5]);
-    final int maxErrors = Integer.parseInt(args[6]);
+    final int maxArticles = Integer.parseInt(commandLine.getOptionValue("max-articles", "0"));
+    final int maxErrors = Integer.parseInt(commandLine.getOptionValue("max-errors", "0"));
     String[] ruleIds = null;
-    if (!"-".equals(args[4])) {
-      ruleIds = args[4].split(",");
+    if (commandLine.hasOption('r')) {
+      ruleIds = commandLine.getOptionValue('r').split(",");
     }
-    prg.run(propFile, disabledRuleIds, languageCode, args[3], ruleIds, maxArticles, maxErrors);
+    prg.run(propFile, disabledRuleIds, languageCode, commandLine.getOptionValue('f'), ruleIds, maxArticles, maxErrors);
   }
 
   private static void addDisabledRules(String languageCode, Set<String> disabledRuleIds, Properties disabledRules) {
@@ -91,20 +92,45 @@ public class CheckWikipediaDump {
     }
   }
 
-  private static void ensureCorrectUsageOrExit(String[] args) {
-    if (args.length != 7) {
-      System.err.println("Usage: CheckWikipediaDump <propertyFile> <rulePropertyFile> <language> <filename> <ruleIds> <maxArticles> <maxErrors>");
-      System.err.println("  propertyFile      A file to set database access properties. Use '-' to print results to stdout.");
-      System.err.println("                    The file needs to set dbDriver (fully qualified driver class), dbUrl ('jdbc:...'), dbUser, and dbPassword.");
-      System.err.println("  rulePropertyFile  A file to set rules which should be disabled per language (e.g. en=RULE1,RULE2 or all=RULE3,RULE4). Use '-' to ignore.");
-      System.err.println("  language          language code like 'en' or 'de'");
-      System.err.println("  filename          path to unpacked Wikipedia XML dump;");
-      System.err.println("                    dumps are available from http://dumps.wikimedia.org/backup-index.html");
-      System.err.println("  ruleIds           comma-separated list of rule-ids to activate. Use '-' to activate the default rules.");
-      System.err.println("  maxArticles       maximum number of articles to check, 0 for no limit");
-      System.err.println("  maxErrors         stop when reaching this many errors, 0 for no limit");
+  @SuppressWarnings("AccessStaticViaInstance")
+  private static CommandLine ensureCorrectUsageOrExit(String[] args) {
+    Options options = new Options();
+    options.addOption(OptionBuilder.withLongOpt("language").withArgName("code").hasArg()
+            .withDescription("language code like 'en' or 'de'")
+            .isRequired()
+            .create("l"));
+    options.addOption(OptionBuilder.withLongOpt("db-properties").withArgName("file").hasArg()
+            .withDescription("A file to set database access properties. If not set, the output will be written to STDOUT. " +
+                    "The file needs to set dbDriver (fully qualified driver class), dbUrl ('jdbc:...'), dbUser, and dbPassword.")
+            .create("d"));
+    options.addOption(OptionBuilder.withLongOpt("rule-properties").withArgName("file").hasArg()
+            .withDescription("A file to set rules which should be disabled per language (e.g. en=RULE1,RULE2 or all=RULE3,RULE4)")
+            .create());
+    options.addOption(OptionBuilder.withLongOpt("rule-ids").withArgName("id").hasArg()
+            .withDescription("comma-separated list of rule-ids to activate")
+            .create("r"));
+    options.addOption(OptionBuilder.withLongOpt("file").withArgName("xmlfile").hasArg()
+            .withDescription("an unpacked Wikipedia XML dump; dumps are available from http://dumps.wikimedia.org/backup-index.html")
+            .isRequired()
+            .create("f"));
+    options.addOption(OptionBuilder.withLongOpt("max-articles").withArgName("number").hasArg()
+            .withDescription("maximum number of articles to check")
+            .create());
+    options.addOption(OptionBuilder.withLongOpt("max-errors").withArgName("number").hasArg()
+            .withDescription("maximum number of errors, stop when finding more")
+            .create());
+    try {
+      CommandLineParser parser = new GnuParser();
+      return parser.parse(options, args);
+    } catch (org.apache.commons.cli.ParseException e) {
+      System.err.println("Error: " + e.getMessage());
+      HelpFormatter formatter = new HelpFormatter();
+      formatter.setWidth(80);
+      formatter.setSyntaxPrefix("Usage: ");
+      formatter.printHelp(CheckWikipediaDump.class.getSimpleName() + " [OPTION]... --file <xmlfile> --language <code>", options);
       System.exit(1);
     }
+    return null;
   }
 
   private void run(File propFile, Set<String> disabledRules, String langCode, String xmlFileName, String[] ruleIds, int maxArticles, int maxErrors)
