@@ -19,16 +19,13 @@
 package org.languagetool.synthesis.en;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import morfologik.stemming.Dictionary;
-import morfologik.stemming.DictionaryLookup;
+import morfologik.stemming.IStemmer;
 import morfologik.stemming.WordData;
 
 import org.languagetool.AnalyzedToken;
-import org.languagetool.JLanguageTool;
 import org.languagetool.rules.en.AvsAnRule;
 import org.languagetool.synthesis.BaseSynthesizer;
 
@@ -83,10 +80,7 @@ public class EnglishSynthesizer extends BaseSynthesizer {
       final AvsAnRule rule = new AvsAnRule(null);
       return new String[] { rule.suggestAorAn(token.getToken()) };
     } else {
-      if (synthesizer == null) {
-        final URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(RESOURCE_FILENAME);
-        synthesizer = new DictionaryLookup(Dictionary.read(url));
-      }
+      final IStemmer synthesizer = createStemmer();
       final List<WordData> wordData = synthesizer.lookup(token.getLemma() + "|" + posTag);
       final List<String> wordForms = new ArrayList<>();
       for (WordData wd : wordData) {

@@ -35,17 +35,58 @@ import org.languagetool.JLanguageTool;
 
 public class BaseSynthesizer implements Synthesizer {
  
-  protected IStemmer synthesizer;
+  private Dictionary dictionary;
   protected List<String> possibleTags;
 
   private final String tagFileName;
   private final String resourceFileName;
   
+  /**
+   * @param resourceFileName The dictionary file name.
+   * @param tagFileName The name of a file containing all possible tags.
+   */
   public BaseSynthesizer(final String resourceFileName, final String tagFileName) {
     this.resourceFileName = resourceFileName;  
     this.tagFileName = tagFileName;
   }
+  
+  /**
+   * Returns the {@link Dictionary} used for this synthesizer.
+   * The dictionary file can be defined in the {@link #BaseSynthesizer(String, String) constructor}.
+   * 
+   * @return
+   * @throws IOException In case the dictionary cannot be loaded.
+   */
+  protected Dictionary getDictionary() throws IOException {
+    if (this.dictionary == null) {
+      synchronized (this) {
+        if (this.dictionary == null) {
+          final URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(resourceFileName);
+          this.dictionary = Dictionary.read(url);
+        }
+      }
+    }
+    
+    return this.dictionary;
+  }
 
+  /**
+   * Creates a new {@link IStemmer} based on the configured {@link #getDictionary() dictionary}.
+   * 
+   * The result must not be shared among threads.
+   * 
+   * @return
+   * @since 2.3
+   */
+  protected IStemmer createStemmer() {
+    try {
+      final Dictionary dict = getDictionary();
+      return new DictionaryLookup(dict);
+    } catch (IOException e) {
+      throw new RuntimeException("Could not load dictionary", e);
+    }   
+  }
+  
   /**
    * Lookup the inflected forms of a lemma defined by a part-of-speech tag.
    * @param lemma the lemma to be inflected.
@@ -53,7 +94,10 @@ public class BaseSynthesizer implements Synthesizer {
    * @param results the list to collect the inflected forms.
    */
   protected void lookup(String lemma, String posTag, List<String> results) {
-    final List<WordData> wordForms = synthesizer.lookup(lemma + "|" + posTag);
+    // TODO: add IStemmer to the signature of lookup() so it mustn't be re-created every single lookup.
+    final IStemmer stemmer = createStemmer();
+    final List<WordData> wordForms = stemmer.lookup(lemma + "|" + posTag);
+    
     for (WordData wd : wordForms) {
       results.add(wd.getStem().toString());
     }
@@ -83,6 +127,7 @@ public class BaseSynthesizer implements Synthesizer {
       initPossibleTags();
       final Pattern p = Pattern.compile(posTag);
       final ArrayList<String> results = new ArrayList<>();
+      
       for (final String tag : possibleTags) {
         final Matcher m = p.matcher(tag);
         if (m.matches()) {
@@ -101,15 +146,18 @@ public class BaseSynthesizer implements Synthesizer {
 
   protected void initPossibleTags() throws IOException {
     if (possibleTags == null) {
-      possibleTags = SynthesizerTools.loadWords(JLanguageTool.getDataBroker().getFromResourceDirAsStream(tagFileName));
+      synchronized (this) {
+        if (this.possibleTags == null) {
+          possibleTags = SynthesizerTools.loadWords(JLanguageTool.getDataBroker().getFromResourceDirAsStream(tagFileName));          
+        }
+      }
     }
   }
 
+  // TODO: mark as @deprecated or simply remove?
   protected void initSynthesizer() throws IOException {
-    if (synthesizer == null) {
-      final URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(resourceFileName);
-      synthesizer = new DictionaryLookup(Dictionary.read(url));
-    }
+    // The base implementation does no longer need this method, but extended classes may still rely on it.
+    // Dictionary-loading is implemented in getDictionary().
   }
 
 }

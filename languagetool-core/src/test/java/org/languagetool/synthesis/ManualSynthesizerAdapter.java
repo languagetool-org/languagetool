@@ -22,9 +22,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import morfologik.stemming.IStemmer;
-import morfologik.stemming.WordData;
-
 /**
  *  Adapter from {@link ManualSynthesizer} to {@link Synthesizer}. <br/> 
  *  Note: It resides in "test" package because for now it is only used on unit testing.
@@ -36,16 +33,6 @@ public class ManualSynthesizerAdapter extends BaseSynthesizer implements Synthes
   public ManualSynthesizerAdapter(ManualSynthesizer manualSynthesizer) {
     super(null, null); // no file
     this.manualSynthesizer = manualSynthesizer;
-  }
-
-  @Override
-  protected void initSynthesizer() throws IOException {
-    synthesizer = new IStemmer() { // null synthesiser 
-      @Override
-      public List<WordData> lookup(CharSequence word) {
-        return new ArrayList<>();
-      }
-    };
   }
 
   @Override
