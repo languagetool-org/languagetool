@@ -259,6 +259,18 @@ public class AccentuationCheckRule extends CatalanRule {
             || (matchPostagRegexp(relevantWords.get(token), NOM_FP) && matchPostagRegexp(tokens[i - 1], ADJECTIU_FP))) {
           replacement = relevantWords.get(token).getToken();
         }
+     // una nova formula que (fórmula)
+        else if (nextToken.equals("que") && i>2
+            && ((matchPostagRegexp(relevantWords.get(token), NOM_MS) && tokens[i - 1].hasPosTag("_GN_MS")
+                && matchPostagRegexp(tokens[i - 2], DETERMINANT_MS))
+            || (matchPostagRegexp(relevantWords.get(token), NOM_FS) && tokens[i - 1].hasPosTag("_GN_FS")
+                && matchPostagRegexp(tokens[i - 2], DETERMINANT_FS))
+            || (matchPostagRegexp(relevantWords.get(token), NOM_MP) && tokens[i - 1].hasPosTag("_GN_MP")
+                && matchPostagRegexp(tokens[i - 2], DETERMINANT_MP))
+            || (matchPostagRegexp(relevantWords.get(token), NOM_FP) && tokens[i - 1].hasPosTag("_GN_FP")
+                && matchPostagRegexp(tokens[i - 2], DETERMINANT_FP)))) {
+          replacement = relevantWords.get(token).getToken();
+        }
         // les circumstancies que ens envolten
         else if (nextToken.equals("que")
             && ((mArticleELMS.matches() && matchPostagRegexp(relevantWords.get(token), NOM_MS))

@@ -40,7 +40,7 @@ public class AccentuationCheckRuleTest extends TestCase {
   }
 
   public void testRule() throws IOException {
-	  
+
     // correct sentences:
     assertCorrect("Carrega de nou l'arxiu.");
     assertCorrect("Espero d'ell moltes coses");
@@ -84,7 +84,7 @@ public class AccentuationCheckRuleTest extends TestCase {
     assertCorrect("La magnífica conservació del palau.");
 
     // errors:
-    //assertIncorrect("Cal una nova formula que substitueixi el caduc Estat del benestar.");
+    assertIncorrect("Cal una nova formula que substitueixi el caduc Estat del benestar.");
     assertIncorrect("Porta-la i nosaltres fem la copia i la compulsem.");
     assertIncorrect("Carrega d'arxius.");
     assertIncorrect("Vaig arribar a fer una radio que no va funcionar mai.");
@@ -99,8 +99,7 @@ public class AccentuationCheckRuleTest extends TestCase {
     assertIncorrect("De manera obvia.");
     assertIncorrect("Ell fa tasques especifiques.");
     assertIncorrect("Un home adulter.");
-    // assertIncorrect("Va deixar els nens atonits."); del v. "atonir"
-    // (=esbalair)
+    // assertIncorrect("Va deixar els nens atonits."); del v. "atonir" (=esbalair)
     assertIncorrect("La sureda ocupa amplies extensions en la muntanya.");
     assertIncorrect("Féu una magnifica digitació.");
     assertIncorrect("Els habitats de la comarca.");
