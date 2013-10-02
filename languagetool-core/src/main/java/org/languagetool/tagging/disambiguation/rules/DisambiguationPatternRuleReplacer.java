@@ -217,6 +217,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
         for (int i = 0; i < matchingTokens - startPositionCorrection + endPositionCorrection; i++) {
           whTokens[text.getOriginalPosition(firstMatchToken + correctedStPos + i)].immunize();
         }
+        break;
       case FILTER:
         if (matchElement == null) { // same as REPLACE if using <match>
           final Match tmpMatchToken = new Match(disambiguatedPOS, null,
