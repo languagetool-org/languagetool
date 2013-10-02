@@ -59,7 +59,7 @@ public class LongSentenceRule extends Rule {
       for (AnalyzedTokenReadings aToken : tokens) {
         final String token = aToken.getToken();
         pos += token.length();  // won't match the whole offending sentence, but much of it
-        if (!token.matches("[!-~’]") && !aToken.isSentenceStart()) {
+        if (!token.matches("[?!:;,~’-]") && !aToken.isSentenceStart()) {
           numWords++;
         }
       }
