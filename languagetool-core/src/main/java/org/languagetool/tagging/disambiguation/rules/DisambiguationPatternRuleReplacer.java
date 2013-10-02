@@ -232,6 +232,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
           annotateChange(whTokens[fromPos], prevValue, prevAnot);
           filtered = true;
         }
+        //fallthrough
       case REPLACE:
       default:
         if (!filtered) {
