@@ -26,19 +26,36 @@ import java.util.ResourceBundle;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 
+/**
+ * A rule that warns on long sentences.
+ */
 public class LongSentenceRule extends Rule {
 
-  private static final int MAX_WORDS = 40;
-
+  private static final int DEFAULT_MAX_WORDS = 40;
+  
+  private final int maxWords;
+  
   public LongSentenceRule(final ResourceBundle messages) {
+    this(DEFAULT_MAX_WORDS, messages);
+  }
+
+  /**
+   * @param maxSentenceLength the maximum sentence length that does not yet trigger a match
+   * @since 2.4
+   */
+  public LongSentenceRule(int maxSentenceLength, final ResourceBundle messages) {
     super(messages);
     super.setCategory(new Category(messages.getString("category_misc")));
+    if (maxSentenceLength <= 0) {
+      throw new IllegalArgumentException("maxSentenceLength must be > 0: " + maxSentenceLength);
+    }
+    maxWords = maxSentenceLength;
     setDefaultOff();
   }
 
   @Override
   public String getDescription() {
-    return "Readability: sentence over " + MAX_WORDS + " words";
+    return "Readability: sentence over " + maxWords + " words";
   }
 
   @Override
@@ -50,21 +67,21 @@ public class LongSentenceRule extends Rule {
   public RuleMatch[] match(AnalyzedSentence text) throws IOException {
     final List<RuleMatch> ruleMatches = new ArrayList<>();
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
-    final String msg = "Sentence is over " + MAX_WORDS + " words long, consider revising.";
+    final String msg = "Sentence is over " + maxWords + " words long, consider revising.";
     int numWords = 0;
     int pos = 0;
-    if (tokens.length < MAX_WORDS + 1) {   // just a short-circuit
+    if (tokens.length < maxWords + 1) {   // just a short-circuit
       return toRuleMatchArray(ruleMatches);
     } else {
       for (AnalyzedTokenReadings aToken : tokens) {
         final String token = aToken.getToken();
         pos += token.length();  // won't match the whole offending sentence, but much of it
-        if (!token.matches("[?!:;,~’-]") && !aToken.isSentenceStart()) {
+        if (!token.matches("[?!:;,~’-]") && !aToken.isSentenceStart() && !aToken.isSentenceEnd()) {
           numWords++;
         }
       }
     }
-    if (numWords > MAX_WORDS) {
+    if (numWords > maxWords) {
       final RuleMatch ruleMatch = new RuleMatch(this, 0, pos, msg);
       ruleMatches.add(ruleMatch);
     }
