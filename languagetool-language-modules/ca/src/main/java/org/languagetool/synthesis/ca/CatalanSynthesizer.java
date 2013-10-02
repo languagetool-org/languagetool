@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import morfologik.stemming.IStemmer;
 import morfologik.stemming.WordData;
 
 import org.languagetool.AnalyzedToken;
@@ -89,11 +90,13 @@ public class CatalanSynthesizer extends BaseSynthesizer {
       p = Pattern.compile(posTag);
     }
     final ArrayList<String> results = new ArrayList<>();
+    final IStemmer synthesizer = createStemmer();
+    
     for (final String tag : possibleTags) {
       final Matcher m = p.matcher(tag);
       if (m.matches()) {
         if (addDt) {
-          lookupWithEl(token.getLemma(), tag, prep, results);
+          lookupWithEl(token.getLemma(), tag, prep, results, synthesizer);
         } else {
           lookup(token.getLemma(), tag, results);
         }
@@ -109,8 +112,9 @@ public class CatalanSynthesizer extends BaseSynthesizer {
    * @param lemma the lemma to be inflected.
    * @param posTag the desired part-of-speech tag.
    * @param results the list to collect the inflected forms.
+   * @param synthesizer the stemmer to use.
    */
-  private void lookupWithEl(String lemma, String posTag, String prep, List<String> results) {
+  private void lookupWithEl(String lemma, String posTag, String prep, List<String> results, IStemmer synthesizer) {
     final List<WordData> wordForms = synthesizer.lookup(lemma + "|" + posTag);
     final Matcher mMS = pMS.matcher(posTag);
     final Matcher mFS = pFS.matcher(posTag);
