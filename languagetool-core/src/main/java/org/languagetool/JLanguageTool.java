@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -264,16 +265,8 @@ public class JLanguageTool {
       final Constructor[] constructors = ruleClass.getConstructors();
       try {
         if (constructors.length > 0) {
-          final Constructor constructor = constructors[0];
-          final Class[] paramTypes = constructor.getParameterTypes();
-          if (paramTypes.length == 1
-              && paramTypes[0].equals(ResourceBundle.class)) {
-            rules.add((Rule) constructor.newInstance(messages));
-          } else if (paramTypes.length == 2
-              && paramTypes[0].equals(ResourceBundle.class)
-              && (paramTypes[1].equals(Language.class) || Language.class.isAssignableFrom(paramTypes[1]))) {
-            rules.add((Rule) constructor.newInstance(messages, language));
-          } else {
+          boolean constructorFound = addNewlyConstructedRules(language, messages, rules, constructors);
+          if (!constructorFound) {
             throw new RuntimeException("No matching constructor found for rule class: " + ruleClass.getName());
           }
         } else {
@@ -284,6 +277,24 @@ public class JLanguageTool {
       }
     }
     return rules.toArray(new Rule[rules.size()]);
+  }
+
+  private boolean addNewlyConstructedRules(Language language, ResourceBundle messages, List<Rule> rules, Constructor[] constructors) 
+          throws InstantiationException, IllegalAccessException, InvocationTargetException {
+    for (Constructor constructor : constructors) {
+      final Class[] paramTypes = constructor.getParameterTypes();
+      if (paramTypes.length == 1
+              && paramTypes[0].equals(ResourceBundle.class)) {
+        rules.add((Rule) constructor.newInstance(messages));
+        return true;
+      } else if (paramTypes.length == 2
+              && paramTypes[0].equals(ResourceBundle.class)
+              && (paramTypes[1].equals(Language.class) || Language.class.isAssignableFrom(paramTypes[1]))) {
+        rules.add((Rule) constructor.newInstance(messages, language));
+        return true;
+      }
+    }
+    return false;
   }
 
   /**
