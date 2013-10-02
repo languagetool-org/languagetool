@@ -35,15 +35,11 @@ public class LongSentenceRule extends Rule {
   
   private final int maxWords;
   
-  public LongSentenceRule(final ResourceBundle messages) {
-    this(DEFAULT_MAX_WORDS, messages);
-  }
-
   /**
    * @param maxSentenceLength the maximum sentence length that does not yet trigger a match
    * @since 2.4
    */
-  public LongSentenceRule(int maxSentenceLength, final ResourceBundle messages) {
+  public LongSentenceRule(final ResourceBundle messages, int maxSentenceLength) {
     super(messages);
     super.setCategory(new Category(messages.getString("category_misc")));
     if (maxSentenceLength <= 0) {
@@ -53,6 +49,10 @@ public class LongSentenceRule extends Rule {
     setDefaultOff();
   }
 
+  public LongSentenceRule(final ResourceBundle messages) {
+    this(messages, DEFAULT_MAX_WORDS);
+  }
+  
   @Override
   public String getDescription() {
     return "Readability: sentence over " + maxWords + " words";

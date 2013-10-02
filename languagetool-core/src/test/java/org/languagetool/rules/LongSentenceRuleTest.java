@@ -38,7 +38,7 @@ public class LongSentenceRuleTest {
             "a a a a a a a a a a a " +
             "a a a a a a a a a a a " +
             "rather that short text.")).length, is(1));
-    LongSentenceRule shortRule = new LongSentenceRule(6, TestTools.getEnglishMessages());
+    LongSentenceRule shortRule = new LongSentenceRule(TestTools.getEnglishMessages(), 6);
     assertThat(shortRule.match(languageTool.getAnalyzedSentence("This is a rather short text.")).length, is(0));
     assertThat(shortRule.match(languageTool.getAnalyzedSentence("This is also a rather short text.")).length, is(1));
   }
