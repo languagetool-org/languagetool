@@ -9429,7 +9429,7 @@ $Id$
                     <marker>
                         <token>mes</token>
                     </marker>
-                    <token regexp="yes">de|d'|que|,</token>
+                    <token regexp="yes">de|d'|que|[,;]</token>
                 </pattern>
                 <message>Quan és adjectiu o adverbi cal accentuar.</message>
                  <suggestion>més</suggestion>
@@ -9439,12 +9439,12 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">finals?|fi</token>
+                    <token><exception regexp="yes">finals?|fi</exception></token>
                     <token>de</token>
                     <marker>
                         <token>mes</token>
                     </marker>
-                    <token regexp="yes">de|d'|que|,</token>
+                    <token regexp="yes">de|d'|que|[,;]</token>
                 </pattern>
                 <message>Quan és adjectiu o adverbi cal accentuar.</message>
                  <suggestion>més</suggestion>
@@ -22039,8 +22039,8 @@ $Id$
             <rule>
                 <pattern>
                     <or>
-                        <token postag="V.[^NGP].*|SENT_START" postag_regexp="yes" skip="-1"><exception postag="_possible_nompropi"/><exception postag="PR.*|PT.*|DT.*|.*LOC_CONJ.*|CS" postag_regexp="yes" scope="next"/><exception postag="PR.*|PT.*|DT.*|.*LOC_CONJ.*|CS" postag_regexp="yes" scope="previous"/><exception scope="next" regexp="yes">perquè|com</exception></token>
-                        <token regexp="yes" skip="-1">[,;]<exception postag="PR.*|PT.*|DT.*|.*LOC_CONJ.*|CS" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">perquè|com</exception></token>
+                        <token postag="V.[^NGP].*|SENT_START" postag_regexp="yes" skip="-1"><exception postag="_possible_nompropi"/><exception postag="PR.*|PT.*|DT.*|.*LOC_CONJ.*|C." postag_regexp="yes" scope="next"/><exception postag="PR.*|PT.*|DT.*|.*LOC_CONJ.*|CS|_loc_unavegada" postag_regexp="yes" scope="previous"/><exception scope="next" regexp="yes">perquè|com</exception></token>
+                        <token regexp="yes" skip="-1">(?-i);|I|O|Ni|Però<exception postag="PR.*|PT.*|DT.*|.*LOC_CONJ.*|CS" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">perquè|com</exception></token>
                     </or>
                     <marker>
                         <token postag="V.[^NGP].*" postag_regexp="yes" skip="-1"><exception postag="_GN_.*|N.*|A.*|V.[NGP].*|_loc_nosequi|.*LOC_ADV.*|RG|_possible_nompropi" postag_regexp="yes"/><exception>di</exception><exception scope="next" regexp="yes">,|com|perquè|que</exception><exception postag="_PUNCT.*|C.*|PR.*|PT.*|DT.*|.*LOC_CONJ.*|_loc_unavegada" postag_regexp="yes" scope="next"/></token>
@@ -22052,19 +22052,19 @@ $Id$
                 <example type="incorrect">Ens <marker>ha comunicat una cosa és</marker> clara.</example>
                 <example type="incorrect">Això <marker>inclou tota una gama</marker> de coses.</example>
                 <example type="incorrect">Joan <marker>fa quatre anys es va</marker> casar.</example>
-                <example type="incorrect">Quan va arribar, i ho <marker>va veure se'n va</marker> anar.</example>
-                <example type="incorrect">Va arribar i ho <marker>va veure se'n va</marker> anar.</example>
+                <!-- <example type="incorrect">Quan va arribar, i ho <marker>va veure se'n va</marker> anar.</example> -->
+                <!-- <example type="incorrect">Va arribar i ho <marker>va veure se'n va</marker> anar.</example> -->
                 <example type="correct">Quan va arribar i ho va veure se'n va anar.</example>
                 <example type="correct">Quan va arribar i ho va veure, se'n va anar.</example>
-                <example type="incorrect">Toquen diana i <marker>demanen buscar una nova formula</marker></example>
+                <!-- <example type="incorrect">Toquen diana i <marker>demanen buscar una nova formula</marker></example> -->
                 <!-- <example type="incorrect">És on toquen diana i <marker>demanen buscar una nova formula</marker></example> -->
-                <example type="incorrect">És on les anàlisis toquen diana i <marker>demanen buscar una nova formula</marker></example>
+                <!-- <example type="incorrect">És on les anàlisis toquen diana i <marker>demanen buscar una nova formula</marker></example> -->
                 <example type="correct">Això inclou tota una gamma de coses.</example>
                 <example type="correct">Hi ha una cosa que és clara.</example>
                 <example type="correct">Hi ha una cosa i és clara.</example>
                 <example type="correct">Hi ha una cosa, és clara.</example>
                 <example type="correct">Hi ha una cosa en què som clars.</example>
-                <example type="incorrect">El camí de la política catalana dibuixa una espiral cònica i s'<marker>accelera a gran velocitat conforme s'apropa</marker> al vèrtex.</example>
+                <!-- <example type="incorrect">El camí de la política catalana dibuixa una espiral cònica i s'<marker>accelera a gran velocitat conforme s'apropa</marker> al vèrtex.</example> -->
                 <example type="correct">El camí de la política catalana dibuixa una espiral cònica i s'accelera a gran velocitat a mesura que s'apropa al vèrtex.</example>
                 <example type="correct">I encara no li ha passat.</example>
                 <example type="correct">No ho diu d'aquesta manera encara que ho pensi així.</example> 
