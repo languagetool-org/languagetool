@@ -1315,15 +1315,17 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token postag="DI.M.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes" /><exception inflected="yes" regexp="yes">molt|tant|poc</exception></token>
+                        <token postag="D[IN].M.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes" /><exception inflected="yes" regexp="yes">molt|tant|poc</exception></token>
                     </marker>
                     <token postag="SPS00" inflected="yes">de</token>
                     <token postag="D[AD].FP.*" postag_regexp="yes"></token>
                 </pattern>
                 <message>Possible falta de concordança.</message>
-                <suggestion><match no="1" postag="DI.F.*" postag_regexp="yes"></match></suggestion>
+                <suggestion><match no="1" postag="D[IN].F.*" postag_regexp="yes"></match></suggestion>
                 <short>Concordança dubtosa</short>
-                <example type="incorrect"><marker>Un</marker> de les seves cases.</example>
+                <example type="incorrect" correction="Una|Unes"><marker>Un</marker> de les seves cases.</example>
+                <example type="incorrect" correction="Dues"><marker>Dos</marker> de les seves anàlisis.</example>
+                <example type="correct">Tres de les seves cases.</example>
                 <example type="correct">Una de les seves cases.</example>
                 <example type="correct">tant de les institucions com de la ciutadania</example>
                 <example type="correct">Sabem ben poc de les èpoques posteriors</example>
@@ -1332,15 +1334,18 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token postag="DI.F.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes" /><exception inflected="yes" regexp="yes">molt|tant|poc</exception></token>
+                        <token postag="D[IN].F.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes" /><exception inflected="yes" regexp="yes">molt|tant|poc</exception></token>
                     </marker>
                     <token postag="SPS00" inflected="yes">de</token>
                     <token postag="D[AD].MP.*" postag_regexp="yes"></token>
                 </pattern>
                 <message>Possible falta de concordança.</message>
-                <suggestion><match no="1" postag="DI.M.*" postag_regexp="yes"></match></suggestion>
+                <suggestion><match no="1" postag="D[IN].M.*" postag_regexp="yes"></match></suggestion>
                 <short>Concordança dubtosa</short>
-                <example type="incorrect"><marker>Alguna</marker> d'aquests animals.</example>
+                <example type="incorrect" correction="Algun|Alguns"><marker>Alguna</marker> d'aquests animals.</example>
+                <example type="incorrect" correction="Un|Uns"><marker>Una</marker> d'aquests animals.</example>
+                <example type="incorrect" correction="Dos"><marker>Dues</marker> d'aquests animals.</example>
+                <example type="correct">Tres d'aquests animals.</example>
                 <example type="correct">Algun d'aquests animals.</example>
             </rule>
             <rule>
