@@ -47,14 +47,17 @@ public class ReflexiveVerbsRuleTest extends TestCase {
     //assertCorrect("la festa de Rams es commemora anant a l'església a beneir el palmó");
     //assertCorrect("les circumstàncies m'obliguen a gloriar-me"); Cal buscar la concordança amb (m')
     //assertCorrect("es van agenollar i prosternar");
+    //assertCorrect("Una equivocació tan gran no es pot callar.");
+    //assertCorrect(" és del tot necessari si no es vol caure en una religió alienant");
     assertCorrect("m'aniria bé probablement posar els quilos");
-    //assertCorrect("tot m'havia anat bé");
     assertCorrect("tot m'aniria bé");
-    assertCorrect("el cor m'anava a cent per hora."); 
-    //Però: "Jo m'anava a cent per hora". La qüestió no és si hi ha adverbi, 
-    // sinó determinar el subjecte (que no és possible al 100%)
+    assertCorrect("tot m'havia anat bé");
+    assertCorrect("tot m'havia anat molt bé fins que m'ha passat");
+    assertCorrect("el cor m'anava a cent per hora.");
+    assertIncorrect("Jo m'anava a cent per hora.");
+    assertIncorrect("M'anava a casa a cent per hora.");
     
-    //potser em vindria de gust fer un mossec
+    assertCorrect("potser em vindria de gust fer un mossec");
     
     //donar-se compte
     assertCorrect("D'aquest Decret se n'ha donat compte al Ple de l'Ajuntament");
@@ -66,8 +69,10 @@ public class ReflexiveVerbsRuleTest extends TestCase {
     assertIncorrect("Joan es va donar compte de l'error");
     assertIncorrect("Algú se n'hauria de donar compte.");
     assertIncorrect("Vas donar-te compte de l'error");
+    assertIncorrect("llavors comenten discretament l'afer i es callen, tanmateix, els noms");
     //
-    
+    assertCorrect("el qui amb mi delira està lliure");
+    assertCorrect("per venir-vos a veure ");
     assertCorrect("No li ho ensenyis, que el faràs delir.");
     assertCorrect("per a portar-te aigua");
     assertCorrect("que no em costi d'anar al llit");
@@ -253,6 +258,10 @@ public class ReflexiveVerbsRuleTest extends TestCase {
     assertIncorrect("Aleshores ell es va anar a estudiar a Barcelona"); //-->va anar a fer introspecció :-)
     assertIncorrect("Joan es va anar a estudiar a Barcelona.");
     assertIncorrect("se'ns va anar la mà");
+    assertIncorrect("A Joan se li va anar la mà");  
+    assertIncorrect("Al pare se li va anar la mà");  
+    assertIncorrect("Escriu que quan era mosso «se li anaven els ulls»");
+    
     assertIncorrect("Es van caure en la trampa.");
     assertIncorrect("Aleshores es van anar a la ciutat a presentar una queixa.");
     assertIncorrect("Va entrar l'avi que pujava del taller i es va seure.");
@@ -277,9 +286,7 @@ public class ReflexiveVerbsRuleTest extends TestCase {
     //assertIncorrect("Es pujà al cel"); ->indecidible
     assertIncorrect("El berenar es pujà al cel");
     assertIncorrect("Va baixar-se del cotxe en marxa.");
-    assertIncorrect("A Joan se li va anar la mà");  
-    assertIncorrect("Al pare se li va anar la mà");  
-     assertIncorrect("Escriu que quan era mosso «se li anaven els ulls»");
+    
     assertIncorrect("comencen queixant");
     assertIncorrect("comenceu a queixar-nos");
     assertIncorrect("et puc queixar");
