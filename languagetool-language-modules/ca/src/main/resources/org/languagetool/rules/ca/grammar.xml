@@ -9425,7 +9425,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">a|de</token>
+                    <token>a</token>
                     <marker>
                         <token>mes</token>
                     </marker>
@@ -9436,6 +9436,21 @@ $Id$
                 <short>Accent diacrític</short>
                 <example type="incorrect">A <marker>mes</marker> de cantar, balla.</example>
                 <example type="correct">a més</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">finals?|fi</token>
+                    <token>de</token>
+                    <marker>
+                        <token>mes</token>
+                    </marker>
+                    <token regexp="yes">de|d'|que|,</token>
+                </pattern>
+                <message>Quan és adjectiu o adverbi cal accentuar.</message>
+                 <suggestion>més</suggestion>
+                <short>Accent diacrític</short>
+                <example type="incorrect">De <marker>mes</marker> de 100 kg</example>
+                <example type="correct">Per a poder arribar a final de mes, a la tarda treballa.</example>
             </rule>
             <rule>
                 <pattern>

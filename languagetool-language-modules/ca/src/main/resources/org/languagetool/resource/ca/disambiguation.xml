@@ -683,6 +683,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="replace"><wd pos="NCMN000"/><wd pos="AQ0MN0"/><wd pos="AQ0MN0"/></disambig>
         </rule> 
     </rulegroup>    
+    <rule id="RIU_AMUNT" name="riu amunt/avall">
+        <pattern>
+            <marker>
+                <token postag="NC.*" postag_regexp="yes" regexp="yes">riu|costa</token>
+            </marker>
+            <token regexp="yes">amunt|avall</token>
+        </pattern>
+        <disambig action="filter" postag="NC.*"/>
+    </rule>
     <rule id="CURT" name="curt no adverbi">
         <pattern>
             <token><exception postag="V.[MSI].*|_GV_" postag_regexp="yes"/></token>
@@ -1532,16 +1541,29 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="filter" postag="A.*" /> 
         </rule>
     </rulegroup>
-    <rule id="en_veu" name="en veu baixa">
-        <pattern>
-            <token>en</token>
-            <marker>
-                <token>veu</token>
-            </marker>
-            <token postag="AQ.[FC][SN]." postag_regexp="yes"/>
-        </pattern>
-        <disambig action="filter" postag="N.*" /> 
-    </rule>    
+    <rulegroup id="en_veu" name="en veu baixa">
+        <rule>
+            <pattern>
+                <token>en</token>
+                <marker>
+                    <token>veu</token>
+                </marker>
+                <token postag="AQ.[FC][SN]." postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="N.*" /> 
+        </rule>   
+        <rule>
+            <pattern>
+                <token>en</token>
+                <marker>
+                    <token>veu</token>
+                </marker>
+               <token postag="RG_anteposat"/>
+                <token postag="AQ.[FC][SN]." postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="N.*" /> 
+        </rule>
+    </rulegroup> 
     <rule id="en_persona" name="en persona"> <!-- Exception to next rule -->
         <pattern>
             <token>en</token>
