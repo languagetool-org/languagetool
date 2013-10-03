@@ -352,17 +352,17 @@ public class JLanguageTool {
    */
   public void activateDefaultPatternRules() throws IOException {
     final List<PatternRule> patternRules = new ArrayList<>();
-    final List<String> enabledRules=language.getEnabledRules();
-    final List<String> disabledRules=language.getDisabledRules();
+    final List<String> enabledRules = language.getDefaultEnabledRulesForVariant();
+    final List<String> disabledRules = language.getDefaultDisabledRulesForVariant();
     for (String patternRuleFileName : language.getRuleFileNames()) {
       patternRules.addAll(loadPatternRules(patternRuleFileName));
     }
-    if (enabledRules != null || disabledRules !=null) {
+    if (!enabledRules.isEmpty() || !disabledRules.isEmpty()) {
       for (PatternRule patternRule : patternRules) {
-        if (enabledRules != null && enabledRules.contains(patternRule.getId())) {
+        if (enabledRules.contains(patternRule.getId())) {
           patternRule.setDefaultOn();
         }
-        if (disabledRules != null && disabledRules.contains(patternRule.getId())) {
+        if (disabledRules.contains(patternRule.getId())) {
           patternRule.setDefaultOff();
         }
       }
