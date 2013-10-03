@@ -6098,18 +6098,32 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="AQ.*|_GN_.*"/>
     </rule>    
-    <rule id="NoAdj" name="no adjectiu si no han concordat">
+    <rulegroup id="NoAdj" name="no adjectiu si no han concordat">
         <!-- no són adj si no han concordat amb determinants. Mogut per "ens ensenya"-->
-        <pattern>
-            <marker>
-                <and>
-                    <token postag="A.*" postag_regexp="yes" regexp="yes">muntà|corredors?|sabeu|xiquets?|muntés|som|accepta|envolta|tornés|seré|escolta|tens<exception postag="_GN.*" postag_regexp="yes" /></token>
-                    <token postag="A.*" postag_regexp="yes" negate_pos="yes"></token>
-                </and>
-            </marker>
-        </pattern>
-        <disambig action="filter" postag="[^A].*"></disambig>
-    </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <and>
+                        <token postag="A.*" postag_regexp="yes" regexp="yes">muntà|corredors?|sabeu|xiquets?|muntés|accepta|envolta|tornés|seré|escolta<exception postag="_GN.*" postag_regexp="yes" /></token>
+                        <token postag="A.*" postag_regexp="yes" negate_pos="yes"></token>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="[^A].*"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token><exception regexp="yes" postag="RG_anteposat"/></token>
+                <marker>
+                    <and>
+                        <token postag="A.*" postag_regexp="yes" regexp="yes">som|tens<exception postag="_GN.*" postag_regexp="yes" /></token>
+                        <token postag="A.*" postag_regexp="yes" negate_pos="yes"></token>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="[^A].*"></disambig>
+        </rule>
+    </rulegroup>    
     <rulegroup id="determinants_numerals" name="deternimants numerals">
         <rule>
             <pattern>
