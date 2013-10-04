@@ -1,47 +1,67 @@
 #!/bin/bash
 if [ ! $# -eq 2 ] && [ ! $# -eq 3 ]; then
   echo Usage: ./ltdiff.bash old_tag new_tag\|trunk [lang]
-  echo e.g. ./ltdiff.bash V_2_0 languagetool-2.1
+  echo e.g. ./ltdiff.bash languagetool-2.2 languagetool-parent-2.3
+  echo "     ./ltdiff.bash V_2_0 languagetool-2.1"
   echo "     ./ltdiff.bash V_1_6 V_1_7"
   echo "     ./ltdiff.bash V_1_7 trunk en"
-  echo "see http://sourceforge.net/p/languagetool/code/HEAD/tree/tags/ for a list of available tags"
+  echo "see https://github.com/languagetool-org/languagetool/tags and http://sourceforge.net/p/languagetool/code/HEAD/tree/tags for a list of available tags"
   exit -1
 fi
 
-path_old="http://sourceforge.net/p/languagetool/code/HEAD/tree/tags/$1/languagetool-language-modules/en/src/main/resources/org/languagetool/rules"
+path_old="https://raw.github.com/languagetool-org/languagetool/$1/languagetool-language-modules/en/src/main/resources/org/languagetool/rules"
 if [ $2 == "trunk" ]; then
   path_new="https://raw.github.com/languagetool-org/languagetool/master/languagetool-language-modules/en/src/main/resources/org/languagetool/rules"
 else
-  path_new="http://sourceforge.net/p/languagetool/code/HEAD/tree/tags/$2/languagetool-language-modules/en/src/main/resources/org/languagetool/rules"
+  path_new="https://raw.github.com/languagetool-org/languagetool/$2/languagetool-language-modules/en/src/main/resources/org/languagetool/rules"
 fi
 
 # check whether the path exists; if it's not the case, we probably have to use the old paths
 response=`curl -o /dev/null --silent --head --write-out '%{http_code}\n' $path_old/en/grammar.xml`
 if [[ $response == "404" || $response == "500" ]]; then
-  path_old="http://sourceforge.net/p/languagetool/code/HEAD/tree/tags/$1/src/main/resources/org/languagetool/rules"
+  path_old="http://sourceforge.net/p/languagetool/code/HEAD/tree/tags/$1/languagetool-language-modules/en/src/main/resources/org/languagetool/rules"
   response=`curl -o /dev/null --silent --head --write-out '%{http_code}\n' $path_old/en/grammar.xml`
   if [[ $response == "404" || $response == "500" ]]; then
-    path_old="http://sourceforge.net/p/languagetool/code/HEAD/tree/tags/$1/src/rules"
+    path_old="http://sourceforge.net/p/languagetool/code/HEAD/tree/tags/$1/src/main/resources/org/languagetool/rules"
+    response=`curl -o /dev/null --silent --head --write-out '%{http_code}\n' $path_old/en/grammar.xml`
+    if [[ $response == "404" || $response == "500" ]]; then
+      path_old="http://sourceforge.net/p/languagetool/code/HEAD/tree/tags/$1/src/rules"
+      response=`curl -o /dev/null --silent --head --write-out '%{http_code}\n' $path_old/en/grammar.xml`
+      if [[ $response == "404" || $response == "500" ]]; then
+        echo -e "\033[40;1;31m ERROR \033[0m Could not find valid old_path for $1"
+        exit -2
+      fi
+    fi
   fi
 fi
+
 response=`curl -o /dev/null --silent --head --write-out '%{http_code}\n' $path_new/en/grammar.xml`
 if [[ $response == "404" || $response == "500" ]]; then
-  path_new="http://sourceforge.net/p/languagetool/code/HEAD/tree/tags/$2/src/main/resources/org/languagetool/rules"
+  path_new="http://sourceforge.net/p/languagetool/code/HEAD/tree/tags/$2/languagetool-language-modules/en/src/main/resources/org/languagetool/rules"
   response=`curl -o /dev/null --silent --head --write-out '%{http_code}\n' $path_new/en/grammar.xml`
   if [[ $response == "404" || $response == "500" ]]; then
-    path_new="http://sourceforge.net/p/languagetool/code/HEAD/tree/tags/$2/src/rules"
+    path_new="http://sourceforge.net/p/languagetool/code/HEAD/tree/tags/$2/src/main/resources/org/languagetool/rules"
+    response=`curl -o /dev/null --silent --head --write-out '%{http_code}\n' $path_new/en/grammar.xml`
+    if [[ $response == "404" || $response == "500" ]]; then
+      path_new="http://sourceforge.net/p/languagetool/code/HEAD/tree/tags/$2/src/rules"
+      response=`curl -o /dev/null --silent --head --write-out '%{http_code}\n' $path_new/en/grammar.xml`
+      if [[ $response == "404" || $response == "500" ]]; then
+        echo -e "\033[40;1;31m ERROR \033[0m Could not find valid new_path for $2"
+        exit -3
+      fi
+    fi
   fi
 fi
 
 javac VersionDiffGenerator.java -Xlint:deprecation
 
 if [ ! $? -eq 0 ]; then
-  echo javac failed
+  echo -e "\033[40;1;31m ERROR \033[0m javac failed"
   exit 1
 fi
 
-oldv=`echo $1 | sed "s/_/./g" | sed "s/V.//g" | sed "s/languagetool-//g"`
-newv=`echo $2 | sed "s/_/./g" | sed "s/V.//g" | sed "s/languagetool-//g"`
+oldv=`echo $1 | sed "s/_/./g" | sed "s/V.//g" | sed "s/languagetool-//g" | sed "s/parent-//g"`
+newv=`echo $2 | sed "s/_/./g" | sed "s/V.//g" | sed "s/languagetool-//g" | sed "s/parent-//g"`
 
 folder=${1}_to_${2}
 
@@ -99,7 +119,7 @@ do
   java tools.ltdiff.VersionDiffGenerator $l_variant
   
   if [ ! $? -eq 0 ]; then
-    echo ltdiff failed
+    echo  "\033[40;1;31m ERROR \033[0m ltdiff failed"
     exit 2
   fi
   
