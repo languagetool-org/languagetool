@@ -52,7 +52,7 @@ public class ReflexiveVerbsRule extends CatalanRule {
   private static final List<String> excepVerbsPronominals = Arrays.asList("delirar", "atendre", "escollir", "assolir","autografiar","automatitzar","autoritzar");  
   
   private static final List<String> verbsNoPronominals = Arrays.asList("baixar","caure","callar","marxar","albergar","olorar","seure"); 
-  private static final List<String> verbsNoPronominalsImpersonals = Arrays.asList("caure","callar","marxar");
+  private static final List<String> verbsNoPronominalsImpersonals = Arrays.asList("caure", "callar", "marxar", "olorar");
   private static final List<String> verbsNoPronominalsImpersonals2 = Arrays.asList("témer","albergar","baixar");
   private static final List<String> excepVerbsNoPronominals = Arrays.asList("segar");
   
@@ -81,9 +81,10 @@ public class ReflexiveVerbsRule extends CatalanRule {
   private static final Pattern VERB_GERUNDI = Pattern.compile("V.G.*");
   private static final Pattern VERB_PARTICIPI = Pattern.compile("V.P.*");
   private static final Pattern VERB_AUXILIAR = Pattern.compile("VA.*");
-  private static final Pattern PREP_VERB_PRONOM = Pattern.compile("RN|_PUNCT_CONT|SPS00|V.*|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00");
-  private static final Pattern PREP_VERB_PRONOM_ADV = Pattern.compile("RG.*|.*LOC_ADV.*|_PUNCT_CONT|SPS00|V.*|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00");
+  private static final Pattern PREP_VERB_PRONOM = Pattern.compile("RN|SPS00|V.*|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00");
+  private static final Pattern PREP_VERB_PRONOM_ADV = Pattern.compile("RG.*|.*LOC_ADV.*|SPS00|V.*|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00");
   //potser convé diferenciar la coma(,) de les cometes(") en _PUNCT_CONT -> no incloure la coma
+  private static final List<String> cometes = Arrays.asList("\"", "'", "‘", "’", "“", "”", "«", "»");
   private static final Pattern VERB_PRONOM = Pattern.compile("V.*|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00");
   //cal restringir les preposicions  
   
@@ -102,6 +103,8 @@ public class ReflexiveVerbsRule extends CatalanRule {
   private static final Pattern PRONOM_FEBLE_3P = Pattern.compile("P0300000");
   private static final Pattern PRONOM_FEBLE_13S = Pattern.compile("P010S000|P0300000");
   private static final Pattern PRONOM_FEBLE_23S = Pattern.compile("P020S000|P0300000");
+  
+  private static final Pattern PRONOM_FEBLE_3S_TOTS = Pattern.compile("P.3.[^PN].*");
   
   private static final Pattern PRONOM_FEBLE = Pattern.compile("P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00"); // tots els pronoms febles
   private static final Pattern PRONOM_REFLEXIU = Pattern.compile("P0.0.*"); //me te se ens us (i variants)
@@ -130,6 +133,8 @@ public class ReflexiveVerbsRule extends CatalanRule {
   //private static final Pattern REFLEXIU_ANTEPOSAT = Pattern.compile("e[mts]|[mts]e|ens|us|-[mts]|-[mts]e|'[mts]|[mts]'|-nos|'ns|-vos|-us",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final Pattern REFLEXIU_ANTEPOSAT = Pattern.compile("e[mts]|[mts]e|ens|us|vos|'[mts]|[mts]'|'ns",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   
+  private static final Pattern PRONOMFEBLE_POSPOSAT = Pattern.compile("['-].+");
+  
   private static final Pattern SUBJECTE_PERSONAL_POSTAG = Pattern.compile("NC.*|NP.*|_GN_.*|PI.*");
   private static final Pattern SUBJECTE_PERSONAL_NO_POSTAG = Pattern.compile("complement.*|D.*|A.*|PX.*");
   private static final Pattern SUBJECTE_PERSONAL_TOKEN = Pattern.compile("algú|algun|jo|mi|tu|ella?|nosaltres|vosaltres|elle?s|vost[èé]s?|vós",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
@@ -150,6 +155,9 @@ public class ReflexiveVerbsRule extends CatalanRule {
   private static final Pattern TRENCA_COMPTE = Pattern.compile("PR.*|CS|CC|_PUNCT.*|.*LOC_CONJ.*");
   private static final Pattern TRENCA_COMPTE2 = Pattern.compile("SENT_START|CC|_PUNCT.*|.*LOC_CONJ.*");
   
+  private static final List<String> partsCos = Arrays.asList("pit", "galta", "cap", "cor", "cara", "ull", "front", "mà", "peu", "braç", "colze", "genoll", "cabell");
+  
+  private static final List<String> pronomJo = Arrays.asList("jo");
  // <token postag="P0.*|PP.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/><exception regexp="yes">jo|mi|tu|ella?|nosaltres|vosaltres|elle?s|vost[èé]s?|vós</exception><exception postag="allow_saxon_genitive">'s</exception></token>
   
    
@@ -206,7 +214,7 @@ public class ReflexiveVerbsRule extends CatalanRule {
         ruleMatches.add(ruleMatch);
       }
       
-      // Comprova: portar-se/emportar-se
+      // COMPROVA: portar-se/emportar-se
       if (i+2<tokens.length
           && matchLemmaList(tokens[i], verbsPortarDur)
           && !(matchPostagRegexp(tokens[i], VERB_INF) && isThereBefore(tokens,i,LEMMA_PREP_A_PER,POSTAG_PREPOSICIO))
@@ -220,6 +228,10 @@ public class ReflexiveVerbsRule extends CatalanRule {
           && !matchLemmaRegexp(tokens[i+2], ANYMESDIA) // ens portem tres anys
           && !isPhraseImpersonalVerbSP(tokens, i) // Es va portar l'any passat
           ) {
+        if (isVerbNumberPerson(tokens,i,VERB_3S)  //el vent m'ha portat les rondalles 
+            && !isThereBefore(tokens, i, LEMMA_ES, POSTAG_ES)
+            && isThereSubject3SBefore(tokens,i,TRENCA_COMPTE))
+          continue loop;
         // the rule matches
         String suggestion;
         if (tokens[i].hasLemma("portar")) {suggestion = "em"+token; }
@@ -233,11 +245,12 @@ public class ReflexiveVerbsRule extends CatalanRule {
         continue loop;
       }
       
-      //PERÍFRASI AMB VERB PRONOMINAL: el fan *agenollar-se/agenollar
+      //COMPROVA: PERÍFRASI AMB VERB PRONOMINAL: el fan *agenollar-se/agenollar
       if (i+1<tokens.length 
           && matchPostagRegexp(tokens[i], VERB_INF)
           && !matchPostagRegexp(tokens[i - 1], POSTAG_PREPOSICIO) 
-          && isThereVerbBeforeList(tokens,i, verbsDeixarFer)
+          && isThereVerbBeforeListLimit(tokens,i, verbsDeixarFer,3)
+          && isThereRedundantPronoun(tokens,i)
           && isThereBefore(tokens, i, LEMMA_PRONOM_CD, POSTAG_PRONOM_CD)  
           && matchRegexp(tokens[i + 1].getToken(), REFLEXIU_POSPOSAT) ) {
           // the rule matches
@@ -257,7 +270,8 @@ public class ReflexiveVerbsRule extends CatalanRule {
           continue loop;
         if (isThereVerbBeforeList(tokens,i, verbsDeixarFer)  // el fa agenollar
             && (isThereBefore(tokens, i, LEMMA_PRONOM_CD, POSTAG_PRONOM_CD)
-                || isThereBefore(tokens, i, LEMMA_PRONOM_CI, POSTAG_PRONOM_CI)))
+                || isThereBefore(tokens, i, LEMMA_PRONOM_CI, POSTAG_PRONOM_CI)
+                || isThereAfterWithoutPreposition(tokens, i, POSTAG_CD))) //van fer agenollar els presos
           continue loop;
         if (isThereReflexivePronoun(tokens, i)) 
           continue loop;
@@ -296,6 +310,8 @@ public class ReflexiveVerbsRule extends CatalanRule {
         if (matchLemmaList(tokens[i],verbsNoPronominalsImpersonals2)
             && isPhraseImpersonalVerbSP(tokens, i) )  
           continue loop;
+        if (tokens[i].hasLemma("olorar") && isThereNearLemma (tokens, i, partsCos))
+          continue loop;
         
         // the rule matches
         final String msg = "Aquest verb no és pronominal. Probablement sobra un pronom.";
@@ -316,16 +332,31 @@ public class ReflexiveVerbsRule extends CatalanRule {
             && isThereBefore(tokens, i, LEMMA_DE, POSTAG_DE)
             && isThereVerbBeforeList(tokens,i,verbHaver) )
             continue loop;
-        if (isThereVerbBeforeList(tokens,i,verbsSovintAmbComplement)
+        if (isThereVerbBeforeList(tokens,i,verbsSovintAmbComplement) // per venir-vos a veure
             || (isThereVerbBeforeList(tokens,i,verbsPotencialmentPronominals)&&!isThereVerbBeforeList(tokens,i,excepVerbsPotencialmentPronominals))
             || isThereVerbBefore(tokens,i,VERB_AUTO)
-            || isThereVerbBeforeList(tokens,i,verbsPronominals) //et deixes anar/pujar
-            || isThereVerbAfterList(tokens,i,verbsSovintAmbComplement) ) // per venir-vos a veure 
+            || isThereVerbBeforeList(tokens,i,verbsPronominals)) //et deixes anar/pujar  
           continue loop;
+        if (isVerbNumberPerson(tokens,i,VERB_3S)  //em puja al cap 
+            && !isThereBefore(tokens, i, LEMMA_ES, POSTAG_ES)
+            && isThereNearLemma(tokens, i, partsCos))
+          continue loop;
+        if (tokens[i].hasLemma("venir") || tokens[i].hasLemma("anar")) { //Em va bé
+          if (isVerbNumberPerson(tokens,i,VERB_3S) 
+              && !isThereBefore(tokens, i, LEMMA_ES, POSTAG_ES)
+              && matchPostagRegexp(tokens[i+1],POSTAG_ADVERBI)
+              && !isThereNearWord(tokens, i, pronomJo) )
+            continue loop;        
+        }
         if (tokens[i].hasLemma("venir")) {
           if (i+2<tokens.length 
               && tokens[i+1].getToken().equals("de") && tokens[i+2].getToken().equals("gust"))
             continue loop;
+          if (isVerbNumberPerson(tokens,i,VERB_3S) //em vingui la inspiració
+              && !isThereBefore(tokens, i, LEMMA_ES, POSTAG_ES)
+              && isThereAfterWithoutPreposition(tokens, i, POSTAG_CD)
+              && !isThereNearWord(tokens, i, pronomJo) )
+            continue loop; 
           if (isThereAfter(tokens, i, VERB_INF))
             continue loop;
         }
@@ -336,7 +367,6 @@ public class ReflexiveVerbsRule extends CatalanRule {
               || isThereVerbAfter(tokens,i,VERB_AUTO)
               || isThereVerbAfterList(tokens,i,verbsPronominals))
             continue loop;
-          //hasVerbMultipleReadings(tokens[i])
           if (isVerbNumberPerson(tokens,i,VERB_3S) 
               && !isThereBefore(tokens, i, LEMMA_ES, POSTAG_ES)
               && isThereSubject3SBefore(tokens,i,TRENCA_COMPTE))
@@ -553,10 +583,16 @@ public class ReflexiveVerbsRule extends CatalanRule {
         if (matchPostagRegexp(tokens[i-k],VERB_INDSUBJ)
             && matchPostagRegexp(tokens[i-k+1],VERB_INFGER))
           keepCounting=false;
+        if (matchPostagRegexp(tokens[i - k], VERB_INFGER) //pertanyen a grups verbals diferents
+            && matchPostagRegexp(tokens[i - k + 1], PRONOM_FEBLE)
+            && !matchRegexp(tokens[i - k + 1].getToken(), PRONOMFEBLE_POSPOSAT)) {
+          keepCounting=false;
+        }
         k++;
       }
       if (foundVerb) {
-        pPronomBuscat = pronomPattern(tokens[i - k + 1]);
+        k--;
+        pPronomBuscat = pronomPattern(tokens[i - k]);
         if (pPronomBuscat != null) {
           if (i+1< tokens.length
               && matchPostagRegexp(tokens[i + 1], pPronomBuscat)
@@ -568,14 +604,20 @@ public class ReflexiveVerbsRule extends CatalanRule {
             if (j==1 && matchPostagRegexp(tokens[i - j], pPronomBuscat))
               return true;
             if (j>1 && matchPostagRegexp(tokens[i - j], pPronomBuscat)
-                && matchRegexp(tokens[i - j].getToken(), REFLEXIU_ANTEPOSAT))
+                && !(matchRegexp(tokens[i - j].getToken(), REFLEXIU_POSPOSAT) && j>k))
               return true;
             keepCounting = matchPostagRegexp(tokens[i - j], PREP_VERB_PRONOM)
                 && !(j>k-1 && matchPostagRegexp(tokens[i - j], VERB_PARTICIPI))
                 && !matchPostagRegexp(tokens[i - j], TRENCA_COMPTE2);
             if (tokens[i-j].getToken().equalsIgnoreCase("per")
-                && tokens[i-j+1].getToken().equalsIgnoreCase("a"))
+                && tokens[i-j+1].getToken().equalsIgnoreCase("a")) {
               keepCounting=false;
+            }
+            if (matchPostagRegexp(tokens[i - j], VERB_INFGER) //pertanyen a grups verbals diferents
+                && matchPostagRegexp(tokens[i - j + 1], PRONOM_FEBLE)
+                && !matchRegexp(tokens[i - j + 1].getToken(), PRONOMFEBLE_POSPOSAT)) {
+              keepCounting=false;
+            }
             j++;
           }
         }
@@ -593,6 +635,11 @@ public class ReflexiveVerbsRule extends CatalanRule {
               PREP_VERB_PRONOM);
           if (tokens[i-j].getToken().equalsIgnoreCase("per")
               && tokens[i-j+1].getToken().equalsIgnoreCase("a")) {
+            keepCounting=false;
+          }
+          if (matchPostagRegexp(tokens[i - j], VERB_INFGER) //pertanyen a grups verbals diferents
+              && matchPostagRegexp(tokens[i - j + 1], PRONOM_FEBLE)
+              && !matchRegexp(tokens[i - j + 1].getToken(), PRONOMFEBLE_POSPOSAT)) {
             keepCounting=false;
           }
           j++;
@@ -641,6 +688,19 @@ public class ReflexiveVerbsRule extends CatalanRule {
     }
     return false;
   }
+  
+  private boolean isThereBeforePostag(final AnalyzedTokenReadings[] tokens,
+      int i, Pattern postag) {
+    int j = 1;
+    boolean keepCounting = true;
+    while (i - j > 0 && keepCounting) {
+      if (matchPostagRegexp(tokens[i - j], postag))
+        return true;
+      keepCounting = matchPostagRegexp(tokens[i - j], PREP_VERB_PRONOM);
+      j++;
+    }
+    return false;
+  }
 
   private boolean isThereAfter(final AnalyzedTokenReadings[] tokens, int i, Pattern postag) {
     int j = 1;
@@ -648,8 +708,8 @@ public class ReflexiveVerbsRule extends CatalanRule {
     while (i+j<tokens.length && keepCounting) {
       if (matchPostagRegexp(tokens[i+j], postag))
         return true;
-      keepCounting = matchPostagRegexp(tokens[i+j],
-          PREP_VERB_PRONOM_ADV);
+      keepCounting = matchPostagRegexp(tokens[i+j], PREP_VERB_PRONOM_ADV) 
+          || cometes.contains(tokens[i+j].getToken());
       j++;
     }
     return false;
@@ -661,8 +721,8 @@ public class ReflexiveVerbsRule extends CatalanRule {
     while (i+j<tokens.length && keepCounting) {
       if (matchPostagRegexp(tokens[i+j], postag))
         return true;
-      keepCounting = matchPostagRegexp(tokens[i+j],
-          VERB_PRONOM);
+      keepCounting = matchPostagRegexp(tokens[i+j], VERB_PRONOM)
+          || cometes.contains(tokens[i+j].getToken());
       j++;
     }
     return false;
@@ -701,9 +761,13 @@ public class ReflexiveVerbsRule extends CatalanRule {
   }
 
   private boolean isThereVerbBeforeList(final AnalyzedTokenReadings[] tokens, int i, List<String> lemmas) {
+    return isThereVerbBeforeListLimit(tokens,i,lemmas,10);
+  }
+  
+  private boolean isThereVerbBeforeListLimit(final AnalyzedTokenReadings[] tokens, int i, List<String> lemmas, int limit) {
     int j = 1;
     boolean keepCounting = true;
-    while (i-j>0 && keepCounting) {
+    while (i-j>0 && keepCounting && j<limit) {
       if (matchLemmaList(tokens[i-j], lemmas))
         return true;
       keepCounting = matchPostagRegexp(tokens[i - j],
@@ -727,6 +791,57 @@ public class ReflexiveVerbsRule extends CatalanRule {
         return true;
       keepCounting = matchPostagRegexp(tokens[i+j],
           PREP_VERB_PRONOM);
+      j++;
+    }
+    return false;
+  }
+  
+  private boolean isThereRedundantPronoun(final AnalyzedTokenReadings[] tokens, int i) {
+    if ( (isThereAfterWithoutPreposition(tokens,i,PRONOM_FEBLE_1S) && isThereBeforePostag(tokens,i,PRONOM_FEBLE_1S))
+        || (isThereAfterWithoutPreposition(tokens,i,PRONOM_FEBLE_2S) && isThereBeforePostag(tokens,i,PRONOM_FEBLE_2S))
+        || (isThereAfterWithoutPreposition(tokens,i,PRONOM_FEBLE_3S_TOTS) && isThereBeforePostag(tokens,i,PRONOM_FEBLE_3S_TOTS))
+        || (isThereAfterWithoutPreposition(tokens,i,PRONOM_FEBLE_1P) && isThereBeforePostag(tokens,i,PRONOM_FEBLE_1P))
+        || (isThereAfterWithoutPreposition(tokens,i,PRONOM_FEBLE_2P) && isThereBeforePostag(tokens,i,PRONOM_FEBLE_2P))
+        || (isThereAfterWithoutPreposition(tokens,i,PRONOM_FEBLE_3P) && isThereBeforePostag(tokens,i,PRONOM_FEBLE_3P))) 
+      return true;
+    return false;
+  }
+  
+  private boolean isThereNearLemma(final AnalyzedTokenReadings[] tokens, int i, List<String> lemmas) {
+    int j = 1;
+    boolean keepCounting = true;
+    while (i+j<tokens.length && keepCounting) {
+      if (matchLemmaList(tokens[i+j], lemmas))
+        return true;
+      keepCounting = !matchPostagRegexp(tokens[i+j], TRENCA_COMPTE);
+      j++;
+    }
+    j = 1;
+    keepCounting = true;
+    while (i-j>0 && keepCounting) {
+      if (matchLemmaList(tokens[i-j], lemmas))
+        return true;
+      keepCounting = !matchPostagRegexp(tokens[i-j], TRENCA_COMPTE);
+      j++;
+    }
+    return false;
+  }
+  
+  private boolean isThereNearWord(final AnalyzedTokenReadings[] tokens, int i, List<String> words) {
+    int j = 1;
+    boolean keepCounting = true;
+    while (i+j<tokens.length && keepCounting) {
+      if (words.contains(tokens[i+j].getToken().toLowerCase()))
+        return true;
+      keepCounting = !matchPostagRegexp(tokens[i+j], TRENCA_COMPTE);
+      j++;
+    }
+    j = 1;
+    keepCounting = true;
+    while (i-j>0 && keepCounting) {
+      if (words.contains(tokens[i-j].getToken().toLowerCase()))
+        return true;
+      keepCounting = !matchPostagRegexp(tokens[i-j], TRENCA_COMPTE);
       j++;
     }
     return false;

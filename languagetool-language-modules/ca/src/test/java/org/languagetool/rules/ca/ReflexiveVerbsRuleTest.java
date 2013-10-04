@@ -43,7 +43,7 @@ public class ReflexiveVerbsRuleTest extends TestCase {
 
     //TODO: se'n vola / s'envola
     // correct sentences:
-    // Deixa'm dir-t'ho a l'orella
+    
     //assertCorrect("la festa de Rams es commemora anant a l'església a beneir el palmó");
     //assertCorrect("les circumstàncies m'obliguen a gloriar-me"); Cal buscar la concordança amb (m')
     //assertCorrect("es van agenollar i prosternar");
@@ -56,13 +56,46 @@ public class ReflexiveVerbsRuleTest extends TestCase {
     assertCorrect("el cor m'anava a cent per hora.");
     assertIncorrect("Jo m'anava a cent per hora.");
     assertIncorrect("M'anava a casa a cent per hora.");
+    assertCorrect("Sempre li havia anat bé");
+    assertCorrect("Em va bé");
+    assertIncorrect("Sempre t'havies anat bé");
+    assertCorrect("Sempre m'havia vingut bé");
+    assertCorrect("Sempre m'havia anat bé");
+    assertCorrect("T'agraeixo molt que m'hagis deixat robar-te una mica del teu temp");
+    assertCorrect("sense haver-s'hi d'esforçar gaire");
+    assertCorrect("cosa que li permetia, sense haver-s'hi d'esforçar gaire, seguir entre classe i classe");
+    assertCorrect("fins que no em vingui la inspiració");
+    assertCorrect("Si no ho trobes bé, vés-te a queixar al director");
+    
     assertCorrect("potser em vindria de gust fer un mossec");
     assertCorrect("li ho va fer empassar de cop");
     //assertCorrect("del lloc on m'havia caigut"); correcte o incorrecte segons quin sigui el subjecte
     assertCorrect("i matar-se caient de més de vuitanta peus d'altura");
     assertCorrect("Deixa de portar-me la contra.");
     //assertIncorrect("No deixis de portar-te el menjar.");
-    
+    assertCorrect("quan ja es tornava a envolar li va caure aquest");
+    assertCorrect("Van fer agenollar els presos");
+    assertCorrect("Deixa'm dir-t'ho a l'orella");
+    assertCorrect("Em deixes demanar-te una cosa?");
+    assertCorrect("havien fet desbocar un cavall sense brida");
+    assertCorrect("quan el vent ja m'hauria portat les rondalles");
+    assertCorrect("Llavors m'oloro les mans"); 
+    assertCorrect("Hem de poder-nos queixar");
+    assertCorrect("Ens hem de poder queixar");
+    assertCorrect("Després d'acomiadar-nos vam pujar a la nau");
+    assertCorrect("li havia impedit defensar-se.");
+    assertCorrect("L'instant que havia trigat a fer-lo li havia impedit defensar-se.");
+    assertCorrect("quan ja s’olorava en l’aire la primavera");
+    assertCorrect("que la vergonya em pugés a les galtes");
+    //assertCorrect("per on volia portar-me el mestre");
+    //assertCorrect("¿De què m’havia d’haver adonat?");
+    //assertCorrect("i et costa empassar-te la saliva.");
+    //assertCorrect("la recança que em feia haver-me d’allunyar d’ella");
+    assertCorrect("En Feliu em fa dir-te que el dispensis");
+    assertCorrect("i que ja em vindria la son");
+    assertCorrect("La mort del pare m’havia portat la imatge d’aquests morts");
+    assertCorrect("Una onada de foc em pujava del pit a la cara.");
+
     //donar-se compte
     assertCorrect("D'aquest Decret se n'ha donat compte al Ple de l'Ajuntament");
     assertCorrect("Encara em cal donar compte d'un altre recull");
@@ -96,7 +129,6 @@ public class ReflexiveVerbsRuleTest extends TestCase {
     assertCorrect("Em queia bé.");
     assertCorrect("Els qui s'havien dispersat van anar pertot arreu");
     assertCorrect("Els qui volen enriquir-se cauen en temptacions");
-    assertCorrect("Després d'acomiadar-nos vam pujar a la nau");
     assertCorrect("Després d'acomiadar-nos, vam pujar a la nau");
     assertCorrect("que em vingui a ajudar");
     assertCorrect("fins i tot us vendríeu un amic");
@@ -228,6 +260,8 @@ public class ReflexiveVerbsRuleTest extends TestCase {
     assertCorrect("A escola no es va a plorar.");
     assertCorrect("Al nostre pis de la Torre es pujava per aquella llarga escala");
     assertCorrect("Joan no es va a jugar la feina.");  
+    assertCorrect("I aquella flaire que em pujava al cap");
+    assertCorrect("el que no s'olora, el que no es tasta");
        
     // errors:
     assertIncorrect("Delia per menjar-ne.");
@@ -237,6 +271,10 @@ public class ReflexiveVerbsRuleTest extends TestCase {
     assertIncorrect("Ens hem portat massa material al campament");
     assertIncorrect("Hem de dur-nos tot això.");
     assertIncorrect("L'has fet tornar-se vermell.");
+    assertIncorrect("El fan agenollar-se.");
+    assertIncorrect("Fes-lo agenollar-se.");
+    assertIncorrect("Deixa'm agenollar-me.");
+    assertIncorrect("l'havia fet ufanejar-se obertament");
     assertIncorrect("un dels pocs moviments que poden fer és intentar pujar-se al carro de la indignació.");
     assertIncorrect("és intentar pujar-se al carro de la indignació.");
     assertIncorrect("Pujar-se al carro de la indignació.");
