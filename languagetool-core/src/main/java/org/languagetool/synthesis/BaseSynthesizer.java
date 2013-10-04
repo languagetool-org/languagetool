@@ -54,7 +54,6 @@ public class BaseSynthesizer implements Synthesizer {
    * Returns the {@link Dictionary} used for this synthesizer.
    * The dictionary file can be defined in the {@link #BaseSynthesizer(String, String) constructor}.
    * 
-   * @return
    * @throws IOException In case the dictionary cannot be loaded.
    */
   protected Dictionary getDictionary() throws IOException {
@@ -72,10 +71,8 @@ public class BaseSynthesizer implements Synthesizer {
 
   /**
    * Creates a new {@link IStemmer} based on the configured {@link #getDictionary() dictionary}.
-   * 
    * The result must not be shared among threads.
    * 
-   * @return
    * @since 2.3
    */
   protected IStemmer createStemmer() {
