@@ -6,13 +6,14 @@
   <parent>
     <groupId>org.languagetool</groupId>
     <artifactId>languagetool-parent</artifactId>
-    <version>2.2-SNAPSHOT</version>
+    <version>2.3.1-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
   <!-- Note: I include the version and groups in each pom, because they will 
     become archetypes -->
   <artifactId>languagetool-webstart</artifactId>
+  <packaging>pom</packaging>
   <name>LanguageTool WebStart version</name>
 
   <build>
@@ -54,14 +55,14 @@
         </executions>
         <configuration>
 
-          <excludeTransitive>true</excludeTransitive>
+          <excludeTransitive>false</excludeTransitive>
 
           <jnlp>
             <!-- we play with the resource path and template relative path to test MOJO-391 -->
-            <!--inputTemplateResourcePath>${project.basedir}/src/</inputTemplateResourcePath> -->
+            <inputTemplateResourcePath>${project.basedir}/src/</inputTemplateResourcePath>
             <inputTemplate>jnlp/template_standalone.vm</inputTemplate>
             <outputFile>LanguageTool.jnlp</outputFile>
-            <mainClass>/src/main/java/org/languagetool/gui/Main.java</mainClass>
+            <mainClass>org.languagetool.gui.Main</mainClass>
           </jnlp>
 
           <!-- SIGNING -->
@@ -73,14 +74,6 @@
             <!--sigfile>m2m2m2</sigfile-->
             <alias>alias</alias>
             <validity>180</validity>
-
-            <dnameCn>www.example.com</dnameCn>
-            <dnameOu>None</dnameOu>
-            <dnameO>ExampleOrg</dnameO>
-            <dnameL>Seattle</dnameL>
-            <dnameSt>Washington</dnameSt>
-            <dnameC>US</dnameC>
-
             <verify>true</verify>
 
             <keystoreConfig>
@@ -90,7 +83,13 @@
 
           </sign>
 
-          <verbose>false</verbose>
+		  <pack200>true</pack200>
+          <gzip>true</gzip> <!-- default force when pack200 false, true when pack200 selected ?? -->
+
+          <!-- causes a version attribute to be output in each jar resource element, optional, default is false -->
+          <outputJarVersions>true</outputJarVersions>
+		  
+          <verbose>true</verbose>
         </configuration>
       </plugin>
       <plugin>
@@ -125,10 +124,9 @@
     <dependency>
       <groupId>org.languagetool</groupId>
       <artifactId>languagetool-standalone</artifactId>
-      <version>2.2-SNAPSHOT</version>
+      <version>2.3.1-SNAPSHOT</version>
     </dependency>
   </dependencies>
-
-  <packaging>pom</packaging>
+  
 </project>
 
