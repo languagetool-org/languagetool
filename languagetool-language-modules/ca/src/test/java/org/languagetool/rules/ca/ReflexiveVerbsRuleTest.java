@@ -56,8 +56,12 @@ public class ReflexiveVerbsRuleTest extends TestCase {
     assertCorrect("el cor m'anava a cent per hora.");
     assertIncorrect("Jo m'anava a cent per hora.");
     assertIncorrect("M'anava a casa a cent per hora.");
-    
     assertCorrect("potser em vindria de gust fer un mossec");
+    assertCorrect("li ho va fer empassar de cop");
+    //assertCorrect("del lloc on m'havia caigut"); correcte o incorrecte segons quin sigui el subjecte
+    assertCorrect("i matar-se caient de més de vuitanta peus d'altura");
+    assertCorrect("Deixa de portar-me la contra.");
+    //assertIncorrect("No deixis de portar-te el menjar.");
     
     //donar-se compte
     assertCorrect("D'aquest Decret se n'ha donat compte al Ple de l'Ajuntament");
