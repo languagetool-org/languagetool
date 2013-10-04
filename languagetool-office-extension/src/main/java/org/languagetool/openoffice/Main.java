@@ -145,8 +145,7 @@ public class Main extends WeakBase implements XJobExecutor,
       final XMultiComponentFactory xMCF = xContext.getServiceManager();
       final Object desktop = xMCF.createInstanceWithContext(
           "com.sun.star.frame.Desktop", xContext);
-      final XDesktop xDesktop = (XDesktop) UnoRuntime.queryInterface(
-          XDesktop.class, desktop);
+      final XDesktop xDesktop = UnoRuntime.queryInterface(XDesktop.class, desktop);
       return xDesktop.getCurrentComponent();
     } catch (final Throwable t) {
       showError(t);
@@ -165,19 +164,18 @@ public class Main extends WeakBase implements XJobExecutor,
     final Locale charLocale;
     final XPropertySet xCursorProps;
     try {
-      final XModel model = (XModel) UnoRuntime.queryInterface(XModel.class, xComponent);
-      final XTextViewCursorSupplier xViewCursorSupplier = (XTextViewCursorSupplier) UnoRuntime
+      final XModel model = UnoRuntime.queryInterface(XModel.class, xComponent);
+      final XTextViewCursorSupplier xViewCursorSupplier = UnoRuntime
           .queryInterface(XTextViewCursorSupplier.class,
               model.getCurrentController());
       final XTextViewCursor xCursor = xViewCursorSupplier.getViewCursor();
       if (xCursor.isCollapsed()) { // no text selection
-        xCursorProps = (XPropertySet) UnoRuntime.queryInterface(
-            XPropertySet.class, xCursor);
+        xCursorProps = UnoRuntime.queryInterface(XPropertySet.class, xCursor);
       } else { // text is selected, need to create another cursor
         // as multiple languages can occur here - we care only
         // about character under the cursor, which might be wrong
         // but it applies only to the checking dialog to be removed
-        xCursorProps = (XPropertySet) UnoRuntime.queryInterface(
+        xCursorProps = UnoRuntime.queryInterface(
             XPropertySet.class,
             xCursor.getText().createTextCursorByRange(xCursor.getStart()));
       }
@@ -690,8 +688,8 @@ public class Main extends WeakBase implements XJobExecutor,
     if (version != null
         && (version.startsWith("1.0") || version.startsWith("1.1")
             || version.startsWith("1.2") || version.startsWith("1.3")
-            || version.startsWith("1.4") || version.startsWith("1.5") || version
-              .startsWith("1.6"))) {
+            || version.startsWith("1.4") || version.startsWith("1.5")
+            || version .startsWith("1.6"))) {
       final DialogThread dt = new DialogThread(
           "Error: LanguageTool requires Java 7.0 or later. Current version: "
               + version);
@@ -732,9 +730,8 @@ public class Main extends WeakBase implements XJobExecutor,
   private File getHomeDir() {
     final String homeDir = System.getProperty("user.home");
     if (homeDir == null) {
-      @SuppressWarnings({ "ThrowableInstanceNeverThrown" })
-      final RuntimeException ex = new RuntimeException(
-          "Could not get home directory");
+      @SuppressWarnings("ThrowableInstanceNeverThrown")
+      final RuntimeException ex = new RuntimeException("Could not get home directory");
       showError(ex);
     }
     return new File(homeDir);

@@ -35,12 +35,12 @@ public class SingletonFactory implements XSingleComponentFactory, XServiceInfo {
 
   @Override
   public final Object createInstanceWithArgumentsAndContext(final Object[] arguments, 
-      final XComponentContext xContext) throws com.sun.star.uno.Exception {    
+      final XComponentContext xContext) {
     return createInstanceWithContext(xContext);
   }
 
   @Override
-  public final Object createInstanceWithContext(final XComponentContext xContext) throws com.sun.star.uno.Exception {    
+  public final Object createInstanceWithContext(final XComponentContext xContext) {    
     if (instance == null) {     
       instance = new org.languagetool.openoffice.Main(xContext);      
     } else {  
