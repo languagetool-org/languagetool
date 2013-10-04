@@ -49,6 +49,8 @@ public class ReflexiveVerbsRuleTest extends TestCase {
     //assertCorrect("es van agenollar i prosternar");
     //assertCorrect("Una equivocació tan gran no es pot callar.");
     //assertCorrect(" és del tot necessari si no es vol caure en una religió alienant");
+    assertCorrect("cada zona més meridional esdevingué adient per als éssers àrtics");
+    assertCorrect("cereals, garrofers, vinya i olivar.");
     assertCorrect("m'aniria bé probablement posar els quilos");
     assertCorrect("tot m'aniria bé");
     assertCorrect("tot m'havia anat bé");

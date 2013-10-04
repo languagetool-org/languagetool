@@ -2664,7 +2664,7 @@ $Id$
                 <pattern>
                     <token>va<exception postag="_GN_MS|_GN_FP|complement|.*LOC_ADV.*" postag_regexp="yes"/></token>
                     <marker>
-                        <token postag="V.P.*SM." postag_regexp="yes" regexp="yes">.+[aiï]t<exception regexp="yes">acompanyat|adreçat|afaitat|afegit|aparellat|armat|associat|calçat|classificat|col·locat|connectat|datat|decidit|dedicat|descordat|desesperat|destinat|dirigit|disfressat|dotat|embolicat|encaminat|encapçalat|enferit|enviat|equivocat|errat|esgarriat|esverat|fet|fixat|igualat|inclinat|indicat|integrat|lligat|marcat|muntat|ocupat|orientat|precedit|proveït|regit|relacionat|representat|seguit|servit|situat|unit|vestit</exception></token>
+                        <token postag="V.P.*SM." postag_regexp="yes" regexp="yes">.+[aiï]t<exception regexp="yes">acompanyat|adreçat|afaitat|afegit|aparellat|armat|associat|calçat|classificat|col·locat|connectat|datat|decidit|dedicat|descordat|desesperat|destinat|dirigit|disfressat|dotat|embolicat|encaminat|encapçalat|enferit|enviat|equivocat|errat|esgarriat|esverat|fet|fixat|igualat|inclinat|indicat|integrat|introduït|lligat|marcat|muntat|ocupat|orientat|precedit|proveït|regit|relacionat|representat|seguit|servit|situat|unit|vestit</exception></token>
                     </marker>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="2" postag="V.N.*" postag_regexp="yes"/></suggestion>?</message>
@@ -11060,7 +11060,7 @@ $Id$
                 <pattern>
                     <token postag="SENT_START" skip="-1"><exception postag="PP3CN000" scope="next" inflected="yes">en</exception></token>
                     <marker>
-                        <token postag="V[^S][SI].*" postag_regexp="yes"><exception regexp="yes">tema|taula|mapa|figura</exception><exception regexp="yes">(?-i)Mateu|Romans</exception><exception inflected="yes" regexp="yes">ser|fer|sumar</exception></token>
+                        <token postag="V[^S][SI].*" postag_regexp="yes"><exception regexp="yes">tema|taula|mapa|figura|vegeu</exception><exception regexp="yes">(?-i)Mateu|Romans</exception><exception inflected="yes" regexp="yes">ser|fer|sumar</exception></token>
                         <token postag="DN.*" postag_regexp="yes"><exception regexp="yes">zero|set</exception></token>
                     </marker>
                     <token regexp="yes">[.;?!]</token>
@@ -11083,7 +11083,7 @@ $Id$
                 <pattern>
                     <token postag="SENT_START" skip="-1"><exception postag="PP3CN000" scope="next" inflected="yes">en</exception></token>
                     <marker>
-                        <token postag="V[^S][SI].*" postag_regexp="yes"><exception regexp="yes">tema|taula|mapa|figura</exception><exception regexp="yes">(?-i)Mateu|Romans</exception><exception inflected="yes" regexp="yes">ser|fer|sumar</exception></token>
+                        <token postag="V[^S][SI].*" postag_regexp="yes"><exception regexp="yes">tema|taula|mapa|figura|vegeu/exception><exception regexp="yes">(?-i)Mateu|Romans</exception><exception inflected="yes" regexp="yes">ser|fer|sumar</exception></token>
                         <token postag="DN.*" postag_regexp="yes"><exception regexp="yes">zero|set</exception></token>
                     </marker>
                     <token>,</token>
@@ -16985,6 +16985,7 @@ $Id$
                 </pattern>
                 <message>Quan significa "passar a un nivell més baix", 'baixar' és intransitiu (La marea ha baixat). Com a verb transitiu, cal usar: <suggestion>a<match no="1"/></suggestion> (El govern abaixa els imposts).</message>
                 <url>http://esadir.cat/sintaxi/entry_20030820190348_1</url>
+                <short>Possible error</short>
                 <example type="incorrect" correction="abaixar">Llavors va <marker>baixar</marker> la vista</example>
                 <example type="correct">Baixar la roba eixuta del terrat.</example>
                 <example type="correct">La vitalitat baixava de to.</example>
@@ -16999,9 +17000,41 @@ $Id$
                 </pattern>
                 <message>En el sentit de "portar (algú o alguna cosa) de dalt a baix", cal dir: <suggestion><match no="1" regexp_match="a(.+)" regexp_replace="$1"/></suggestion>.</message>
                 <url>http://esadir.cat/sintaxi/entry_20030820190348_1</url>
+                <short>Possible error</short>
                 <example type="incorrect" correction="baixaren">les <marker>abaixaren</marker> al traster</example>
                 <example type="correct">El tribut també es va abaixar a 14.000 ducats l'any.</example>
                 <example type="correct">un déu que s’abaixa a plorar com els mortals</example>
+            </rule>
+        </rulegroup> 
+        <rulegroup id="PUJAR_APUJAR" name="Comprova: apujar/pujar">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes" skip="3">pujar<exception postag="_GN_FS"/></token>
+                    </marker>
+                    <token postag="NC.*" postag_regexp="yes" regexp="yes" inflected="yes">impost|sou|salari|guàrdia|vela|persiana|cap|braç|veu|to|preu|pressupost|ràdio|volum|tele|televisió|música|teló|vista<exception scope="previous" regexp="yes">de|en</exception><exception postag="complement"/></token>
+                </pattern>
+                <message>Quan significa "passar a un nivell més alt", 'pujar' és intransitiu (La marea ha pujat). Com a verb transitiu, cal usar: <suggestion>a<match no="1"/></suggestion> (El govern apuja els imposts).</message>
+                <url>http://esadir.cat/sintaxi/entry_20030820190348_1</url>
+                <short>Possible error</short>
+                <example type="incorrect" correction="apujar">Llavors varen <marker>pujar</marker> els impostos.</example>
+                <example type="incorrect" correction="apujar">aprofiten l’augment de demanda per a <marker>pujar</marker> preus</example>
+                <example type="correct">Puja la roba eixuta del terrat.</example>
+                <example type="correct">La vitalitat pujava de to.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">apujar</token>
+                    </marker>
+                    <token>a</token>
+                    <token><exception regexp="yes">[\d\-., %]+</exception><exception postag="V.N.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>En el sentit de "portar (algú o alguna cosa) de baix a dalt", cal dir: <suggestion><match no="1" regexp_match="a(.+)" regexp_replace="$1"/></suggestion>.</message>
+                <url>http://esadir.cat/sintaxi/entry_20030820190348_1</url>
+                <short>Possible error</short>
+                <example type="incorrect" correction="pujaren">les <marker>apujaren</marker> al traster</example>
+                <example type="correct">El tribut també es va apujar a 14.000 ducats l'any.</example>
             </rule>
         </rulegroup> 
         <rule id="ALBERGAR_ABRIGAR" name="Evita: albergar/abrigar esperances/dubtes">
@@ -22854,12 +22887,13 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="(V.IP1S0|V.SP...|VMM03.0)[VZ]" postag_regexp="yes" regexp="yes">.+[^aeiouü]e(sc|sca|sques|squen)</token>
+                    <token postag="(V.IP1S0|V.SP...|VMM03.0)[VZ]" postag_regexp="yes" regexp="yes">.+[^aeiouü]e(sc|sca|sques|squen)<exception inflected="yes" regexp="yes">.*créixer</exception></token>
                 </pattern>
                 <message>Esteu usant terminacions verbals en -isc.</message>
                 <suggestion><match no="1" regexp_match="(.+[^aeiou])e(sc|sca|sques|squen)" regexp_replace="$1i$2" /></suggestion>
                 <example type="incorrect" correction="oferisca">Que ell ens ho <marker>oferesca</marker>.</example>
                 <example type="correct">Servisca.</example>
+                <example type="correct">Que cresca, acresquen i sobrecresques.</example>
                 <example type="correct">Argüesca.</example>
             </rule>
             <rule>
