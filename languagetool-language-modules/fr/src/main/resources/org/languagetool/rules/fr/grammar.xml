@@ -2136,7 +2136,7 @@ though, and has since been slightly modified)-->
     </rulegroup>
     <rule id="QUELQUE_PART" name="quelle que part → quelque part">
       <pattern>
-        <marker>>
+        <marker>
           <token regexp="yes">quelles?|quels?</token>
           <token>que</token>
         </marker>
@@ -7151,13 +7151,15 @@ though, and has since been slightly modified)-->
     </rulegroup>
     <rule id="VA_T_EN" name="va-t-en → va-t’en">
       <pattern>
-        <marker><token>va-t-en</token></marker>
+        <marker><token regexp="yes">.*-[tm]-en</token></marker>
         <token><exception>guerre</exception></token>
       </pattern>
-      <message>On écrit <suggestion>va-t’en</suggestion>, car t’ est le pronom réfléchi du verbe s’en aller.</message>
-      <example type="incorrect"><marker>Va-t-en</marker> !</example>
+      <message>On écrit <suggestion><match no="1" regexp_match="(.*[tm])-(en)$" regexp_replace="$1’$2"/></suggestion>, car t’ ou m’ sont des pronoms réfléchis.</message>
+      <example type="incorrect" correction="Va-t’en"><marker>Va-t-en</marker> !</example>
       <example type="correct">Va-t’en !</example>
       <example type="correct">C’est un va-t-en guerre.</example>
+      <example type="incorrect" correction="Donne-m’en"><marker>Donne-m-en</marker> un peu.</example>
+      <example type="correct">Donne-m’en un peu.</example>
     </rule>
     <rulegroup id="LA_LA" name="la → là">
       <rule>
