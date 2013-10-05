@@ -37,6 +37,7 @@ $Id$
     <!ENTITY vocabulari_menjar "aliment|all|amanida|arròs|bolet|carn|carxofa|cep|coriandre|fava|fetge|foie|formatge|gamba|j[ou]livert|llamàntol|llobregant|lluç|macarró|magret|mandonguilla|mango|menjar|mongeta|p[éè]sol|pa|pastís|porc|r[eo]nyó|safrà|tofu|verdura|vi|ànec">
     <!ENTITY seguits_per_COM_A "caracteritzar|qualificar|establir|figurar|reconèixer|conèixer|definir|veure|entendre|interpretar|percebre">
     <!ENTITY nombres_que_apostrofen "(1{1,2}|11[.\s]?\d{3}|1\.\d{3}\.\d{3}|1\s\d{3}\s\d{3}|1\d{6})([,]\d+)?&#37;?">
+    <!ENTITY noms_ABAIXAR_APUJAR "calefacció|impost|sou|salari|guàrdia|vela|persiana|cap|braç|veu|to|preu|pressupost|ràdio|volum|tele|televisió|música|teló|vista">
 ]>
     
 <rules lang="ca" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
@@ -16979,9 +16980,9 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token inflected="yes" skip="3">baixar<exception postag="_GN_FS"/></token>
+                        <token inflected="yes" skip="3">baixar<exception scope="previous" regexp="yes" inflected="yes">que|fer</exception><exception postag="_GN_FS"/></token>
                     </marker>
-                    <token postag="NC.*" postag_regexp="yes" regexp="yes" inflected="yes">impost|sou|salari|guàrdia|vela|persiana|cap|braç|veu|to|preu|pressupost|ràdio|volum|tele|televisió|música|teló|vista<exception scope="previous" regexp="yes">de|en</exception><exception postag="complement"/></token>
+                    <token postag="NC.*" postag_regexp="yes" regexp="yes" inflected="yes">&noms_ABAIXAR_APUJAR;<exception scope="previous" regexp="yes">de|en</exception><exception postag="complement"/></token>
                 </pattern>
                 <message>Quan significa "passar a un nivell més baix", 'baixar' és intransitiu (La marea ha baixat). Com a verb transitiu, cal usar: <suggestion>a<match no="1"/></suggestion> (El govern abaixa els imposts).</message>
                 <url>http://esadir.cat/sintaxi/entry_20030820190348_1</url>
@@ -16989,6 +16990,8 @@ $Id$
                 <example type="incorrect" correction="abaixar">Llavors va <marker>baixar</marker> la vista</example>
                 <example type="correct">Baixar la roba eixuta del terrat.</example>
                 <example type="correct">La vitalitat baixava de to.</example>
+                <example type="correct">Que feien baixar els preus</example>
+                <example type="correct">No li agrada que baixin els preus.</example>
             </rule>
             <rule>
                 <pattern>
@@ -17010,17 +17013,20 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token inflected="yes" skip="3">pujar<exception postag="_GN_FS"/></token>
+                        <token inflected="yes" skip="3">pujar<exception postag="_GN_FS"/><exception scope="previous" regexp="yes" inflected="yes">que|fer</exception><exception scope="next" regexp="yes">a|per|de</exception></token>
                     </marker>
-                    <token postag="NC.*" postag_regexp="yes" regexp="yes" inflected="yes">impost|sou|salari|guàrdia|vela|persiana|cap|braç|veu|to|preu|pressupost|ràdio|volum|tele|televisió|música|teló|vista<exception scope="previous" regexp="yes">de|en</exception><exception postag="complement"/></token>
+                    <token postag="NC.*" postag_regexp="yes" regexp="yes" inflected="yes">&noms_ABAIXAR_APUJAR;<exception scope="previous" regexp="yes">de|en</exception><exception postag="complement"/></token>
                 </pattern>
                 <message>Quan significa "passar a un nivell més alt", 'pujar' és intransitiu (La marea ha pujat). Com a verb transitiu, cal usar: <suggestion>a<match no="1"/></suggestion> (El govern apuja els imposts).</message>
-                <url>http://esadir.cat/sintaxi/entry_20030820190348_1</url>
+                <url>http://esadir.cat/sintaxi/entry_20031030191706_1</url>
                 <short>Possible error</short>
                 <example type="incorrect" correction="apujar">Llavors varen <marker>pujar</marker> els impostos.</example>
                 <example type="incorrect" correction="apujar">aprofiten l’augment de demanda per a <marker>pujar</marker> preus</example>
                 <example type="correct">Puja la roba eixuta del terrat.</example>
                 <example type="correct">La vitalitat pujava de to.</example>
+                <example type="correct">La fama li va pujar al cap.</example>
+                <example type="correct">No m'agrada que pugin els preus.</example>
+                <example type="correct">Feien pujar els preus.</example>
             </rule>
             <rule>
                 <pattern>
@@ -17031,7 +17037,7 @@ $Id$
                     <token><exception regexp="yes">[\d\-., %]+</exception><exception postag="V.N.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>En el sentit de "portar (algú o alguna cosa) de baix a dalt", cal dir: <suggestion><match no="1" regexp_match="a(.+)" regexp_replace="$1"/></suggestion>.</message>
-                <url>http://esadir.cat/sintaxi/entry_20030820190348_1</url>
+                <url>http://esadir.cat/sintaxi/entry_20031030191706_1</url>
                 <short>Possible error</short>
                 <example type="incorrect" correction="pujaren">les <marker>apujaren</marker> al traster</example>
                 <example type="correct">El tribut també es va apujar a 14.000 ducats l'any.</example>
