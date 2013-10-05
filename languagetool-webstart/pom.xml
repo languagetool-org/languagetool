@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
@@ -13,13 +13,14 @@
   <!-- Note: I include the version and groups in each pom, because they will 
     become archetypes -->
   <artifactId>languagetool-webstart</artifactId>
-  <packaging>pom</packaging>
-  <name>LanguageTool WebStart version</name>
+  <packaging>pom</packaging>  
+
+  <name>LanguageTool WebStart app</name>
 
   <build>
     <resources>
       <resource>
-        <directory>src/main/resources</directory>
+        <directory>src/main/resources</directory>        
       </resource>
       <resource>
         <directory>${basedir}</directory>
@@ -54,9 +55,7 @@
           </execution>
         </executions>
         <configuration>
-
           <excludeTransitive>false</excludeTransitive>
-
           <jnlp>
             <!-- we play with the resource path and template relative path to test MOJO-391 -->
             <inputTemplateResourcePath>${project.basedir}/src/</inputTemplateResourcePath>
@@ -64,56 +63,28 @@
             <outputFile>LanguageTool.jnlp</outputFile>
             <mainClass>org.languagetool.gui.Main</mainClass>
           </jnlp>
-
           <!-- SIGNING -->
-          <!-- defining this will automatically sign the jar and its dependencies -->
           <sign>
-            <keystore>/myalias.p12</keystore>
+            <keystore>/myalias.p12</keystore> <!-- the key is the main directory outside the git directory -->
             <keypass>blabla</keypass>
             <storepass>blabla</storepass>
-			<storetype>pkcs12</storetype>			
+            <storetype>pkcs12</storetype>
             <alias>270e0367-a1de-11e1-b19d-8c89a57cdeaa</alias>
             <validity>180</validity>
-            <verify>true</verify>            
+            <verify>true</verify>
           </sign>
-
           <verbose>true</verbose>
         </configuration>
       </plugin>
-      <plugin>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <version>2.4</version>
-        <configuration>
-          <descriptor>src/main/assembly/jnlp.xml</descriptor>
-          <finalName>LanguageTool-${project.version}</finalName>
-          <appendAssemblyId>false</appendAssemblyId>
-          <archive>
-            <manifest>
-              <addClasspath>true</addClasspath>
-              <addExtensions>false</addExtensions>
-            </manifest>
-          </archive>
-        </configuration>
-        <executions>
-          <execution>
-            <id>make-assembly</id>
-            <phase>package</phase>
-            <goals>
-              <goal>single</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
+      </plugins>
+    </build>
 
-    </plugins>
-  </build>
-
-  <dependencies>
-    <dependency>
-      <groupId>org.languagetool</groupId>
-      <artifactId>languagetool-standalone</artifactId>
-      <version>2.3.1-SNAPSHOT</version>
-    </dependency>
+    <dependencies>
+        <dependency>
+            <groupId>org.languagetool</groupId>
+            <artifactId>languagetool-standalone</artifactId>
+           <version>2.3.1-SNAPSHOT</version>
+        </dependency>
   </dependencies>
   
 </project>
