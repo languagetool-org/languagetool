@@ -330,6 +330,11 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
         tokenElement.setPosElement(posToken, posRegExp, posNegation);
         posToken = null;
       }
+      
+      if (chunkTag != null) {
+          tokenElement.setChunkElement(chunkTag);
+          chunkTag = null;
+        }
 
       if (tokenReference != null) {
         tokenElement.setMatch(tokenReference);

@@ -76,7 +76,7 @@ public abstract class AbstractPatternRulePerformer {
       }
       if (rule.isGroupsOrUnification()) {
         thisMatched &= testUnificationAndGroups(thisMatched,
-                l + 1 == numberOfReadings, matchToken, elem);
+                l + 1 == numberOfReadings, matchToken, elem);        
       }
     }
     if (thisMatched) {
@@ -90,8 +90,15 @@ public abstract class AbstractPatternRulePerformer {
       }
     }
     if (elem.getElement().getChunkTag() != null) {
-      return tokens[tokenNo].getChunkTags().contains(elem.getElement().getChunkTag());
+      return thisMatched & tokens[tokenNo].getChunkTags().contains(elem.getElement().getChunkTag());
     }
+    if (elem.getElement().hasAndGroup()) {
+        for (Element e : elem.getElement().getAndGroup()) {
+            if (e.getChunkTag() != null) {
+                return thisMatched & tokens[tokenNo].getChunkTags().contains(e.getChunkTag());
+            }
+        }
+    }    
     return thisMatched;
   }
 
@@ -131,7 +138,7 @@ public abstract class AbstractPatternRulePerformer {
     elemMatcher.addMemberAndGroup(matchToken);
     if (lastReading) {
       thisMatched &= elemMatcher.checkAndGroup(thisMatched);
-    }
+    }    
     return thisMatched;
   }
 
