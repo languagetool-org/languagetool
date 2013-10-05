@@ -133,10 +133,10 @@ public class AvsAnRuleTest extends TestCase {
     assertEquals(0, matches[0].getFromPos());
     assertEquals(1, matches[0].getToPos());
   
-    //I don't think this is necessary a mistake? Is it? 
-//    matches = rule.match(langTool.getAnalyzedSentence("a - industry standard\"."));
-//    assertEquals(0, matches[0].getFromPos());
-//    assertEquals(1, matches[0].getToPos());
+
+    matches = rule.match(langTool.getAnalyzedSentence("a - industry standard\"."));
+    assertEquals(0, matches[0].getFromPos());
+    assertEquals(1, matches[0].getToPos());
     
     matches = rule.match(langTool.getAnalyzedSentence("This is a \"industry standard\"."));
     assertEquals(8, matches[0].getFromPos());
