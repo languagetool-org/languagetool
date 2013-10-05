@@ -692,7 +692,9 @@ public final class Main {
   }
   
   public static void main(final String[] args) {
-    JnaTools.setBugWorkaroundProperty();
+      if (System.getSecurityManager() == null) {
+          JnaTools.setBugWorkaroundProperty();
+      }
     final Main prg = new Main();
     if (args.length == 1 && (args[0].equals("-t") || args[0].equals("--tray"))) {
       // dock to systray on startup
