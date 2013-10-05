@@ -1419,6 +1419,34 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
 		<example type="untouched">Pigs know that.</example>
 		<example type="ambiguous" inputform="know[know/VB,know/VBP]" outputform="know[know/VBP]">We <marker>know</marker> that.</example>     
     </rule>
+    <rule id="PRP_NN_VBP" name="vb->vbp">    
+    <pattern>
+        <token postag="PRP"><exception postag="RB"/></token>
+        <marker>
+        <and>
+        <token postag="NN:UN"/>
+        <token postag="VBP"/>
+        </and>
+        </marker>
+    </pattern>
+    <disambig postag="VBP"/>
+    <example type="untouched">Pigs know that.</example>
+    <example type="ambiguous" inputform="claim[claim/NN:UN,claim/VB,claim/VBP]" outputform="claim[claim/VBP]">We <marker>claim</marker> that this is true.</example>
+    </rule>
+    <rule id="E_NP_NN_VBP" name="noun phrase end -> NN">
+    <pattern>
+      <marker>
+        <and>
+        <token postag="NN:UN"/>
+        <token chunk="E-NP-singular"/>
+        <token postag="VBP"/>
+        </and>
+        </marker>
+    </pattern>
+    <disambig postag="NN:UN"/>
+      <example type="untouched">They disputed a claim.</example>
+      <example type="ambiguous" inputform="claim[claim/NN:UN,claim/VB,claim/VBP]" outputform="claim[claim/NN:UN]">Morroco's disputed <marker>claim</marker> to portions of Algeria.</example>
+    </rule>
     <rulegroup id="VBP_VBZ_NNS" name="VBZ/NN->VBZ">
       <rule>
     	<pattern>
@@ -1436,7 +1464,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
       </rule>
       <rule>
         <pattern>
-          <token inflected="yes" regexp="yes">agree|aim|appear|arrange|ask|attempt|beg|afford|wait|choose|claim|decide|demand|desire|expect|fail|guarantee|happen|help|hope|manage|offer|plan|prepare|pretend|promise|prove|refuse|seem|tend|threaten|undertake|want|wish|begin|bother|continue|intend|propose|start|forget|like|mean|need|regret|remember|stop|try</token>                    
+          <token inflected="yes" regexp="yes" postag="VB.*" postag_regexp="yes">agree|aim|appear|arrange|ask|attempt|beg|afford|wait|choose|claim|decide|demand|desire|expect|fail|guarantee|happen|help|hope|manage|offer|plan|prepare|pretend|promise|prove|refuse|seem|tend|threaten|undertake|want|wish|begin|bother|continue|intend|propose|start|forget|like|mean|need|regret|remember|stop|try</token>                    
           <token>to</token>          
           <marker>
           <and>
@@ -1451,7 +1479,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
       </rule>
       <rule>
         <pattern>
-          <token inflected="yes" regexp="yes">agree|aim|appear|arrange|ask|attempt|beg|afford|wait|choose|claim|decide|demand|desire|expect|fail|guarantee|happen|help|hope|manage|offer|plan|prepare|pretend|promise|prove|refuse|seem|tend|threaten|undertake|want|wish|begin|bother|continue|intend|propose|start|forget|like|mean|need|regret|remember|stop|try</token>
+          <token inflected="yes" regexp="yes" postag="VB.*" postag_regexp="yes">agree|aim|appear|arrange|ask|attempt|beg|afford|wait|choose|claim|decide|demand|desire|expect|fail|guarantee|happen|help|hope|manage|offer|plan|prepare|pretend|promise|prove|refuse|seem|tend|threaten|undertake|want|wish|begin|bother|continue|intend|propose|start|forget|like|mean|need|regret|remember|stop|try</token>
           <token>not</token>                    
           <token>to</token>          
           <marker>
