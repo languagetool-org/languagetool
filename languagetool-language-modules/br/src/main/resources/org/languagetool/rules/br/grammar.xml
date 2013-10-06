@@ -362,14 +362,14 @@ $Id$
         <!-- <example type="incorrect">E <marker>zad</marker> zo kozh.</example> -->
         <!-- <example type="incorrect">E <marker>tad</marker> zo kozh.</example> -->
         <example type="correct">E dad zo kozh.</example>
-        <example type="incorrect">E <marker>zad</marker> ’zo kozh.</example>
-        <example type="incorrect">E <marker>tad</marker> ’zo kozh.</example>
+        <example type="incorrect" correction="dad">E <marker>zad</marker> ’zo kozh.</example>
+        <example type="incorrect" correction="dad">E <marker>tad</marker> ’zo kozh.</example>
         <example type="correct">E dad ’zo kozh.</example>
-        <example type="incorrect">E <marker>zad</marker> a zo kozh.</example>
-        <example type="incorrect">E <marker>tad</marker> a zo kozh.</example>
+        <example type="incorrect" correction="dad">E <marker>zad</marker> a zo kozh.</example>
+        <example type="incorrect" correction="dad">E <marker>tad</marker> a zo kozh.</example>
         <example type="correct">E dad a zo kozh.</example>
-        <example type="incorrect">Pegement a <marker>tud</marker> a zo amañ?</example>
-        <example type="incorrect">Pegement a <marker>zud</marker> a zo amañ?</example>
+        <example type="incorrect" correction="dud">Pegement a <marker>tud</marker> a zo amañ?</example>
+        <example type="incorrect" correction="dud">Pegement a <marker>zud</marker> a zo amañ?</example>
         <example type="correct">Pegement a dud a zo amañ?</example>
       </rule>
       <rule>
@@ -408,8 +408,8 @@ $Id$
         <example type="incorrect" correction="blij">Un den hag a <marker>flij</marker> dezhañ ar sportoù.</example>
         <example type="incorrect" correction="blij">Un den hag a <marker>plij</marker> dezhañ ar sportoù.</example>
         <example type="correct">Un den hag a <marker>blij</marker> dezhañ ar sportoù.</example>
-        <example type="incorrect">Ur bihan a <marker>paotr</marker>.</example>
-        <example type="incorrect">Ur bihan a <marker>faotr</marker>.</example>
+        <example type="incorrect" correction="baotr">Ur bihan a <marker>paotr</marker>.</example>
+        <example type="incorrect" correction="baotr">Ur bihan a <marker>faotr</marker>.</example>
         <example type="correct">Ur bihan a baotr.</example>
       </rule>
       <rule>
@@ -4465,7 +4465,7 @@ $Id$
         <token regexp="yes">se|mañ|hont</token>
       </pattern>
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
-      <example type="incorrect">Koant eo ar <marker>plac’h mañ</marker>.</example>
+      <example type="incorrect" correction="plac’h-mañ">Koant eo ar <marker>plac’h mañ</marker>.</example>
       <example type="correct">Koant eo ar plac’h-mañ.</example>
       <example type="correct">Echu gant se.</example>
       <example type="correct">Ne c’hallan ket ober se.</example>
@@ -4493,9 +4493,9 @@ $Id$
         <token regexp="yes">kenañ|mat|meurbet|tre</token>
       </pattern>
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
-      <example type="incorrect"><marker>Fentus tre</marker> eo.</example>
+      <example type="incorrect" correction="Fentus-tre"><marker>Fentus tre</marker> eo.</example>
       <example type="correct">Fentus-tre eo.</example>
-      <example type="incorrect"><marker>Brudet mat</marker> eo.</example>
+      <example type="incorrect" correction="Brudet-mat"><marker>Brudet mat</marker> eo.</example>
       <example type="correct"><marker>Brudet-mat</marker> eo.</example>
       <example type="correct">Pe mat pe fall e oa.</example>
       <example type="correct">Gouzout a <marker>rez mat</marker> n’omp ket pinvidik.</example>
@@ -4507,7 +4507,7 @@ $Id$
         <token><match no="0"/></token>
       </pattern>
       <message>Ha fellout a rae deoc’h skrivañ <suggestion>\1-\2-\3</suggestion>? (CHALM Sa)</message>
-      <example type="incorrect"><marker>Tamm ha tamm</marker> e vez graet e vragoù da Yann.</example>
+      <example type="incorrect" correction="Tamm-ha-tamm"><marker>Tamm ha tamm</marker> e vez graet e vragoù da Yann.</example>
       <example type="correct">Tamm-ha-tamm e vez graet e vragoù da Yann.</example>
     </rule>
     <rule id="A_WALCH" name="just-a-walc’h → just a-walc’h (hag all)">
@@ -4524,7 +4524,7 @@ $Id$
         <token regexp="yes">me|te|eñ|hi|ni|c’hwi|int|i</token>
       </pattern>
       <message>Implijit <suggestion>\1-\2</suggestion>. (CHALM M1.3.3)</message>
-      <example type="incorrect"><marker>Setu me</marker> o komz brezhoneg.</example>
+      <example type="incorrect" correction="Setu-me"><marker>Setu me</marker> o komz brezhoneg.</example>
       <example type="correct">Setu-me o komz brezhoneg.</example>
     </rule>
     <rulegroup id="GANIN_ME" name="ganin me → ganin-me (hag all)">
@@ -4534,7 +4534,7 @@ $Id$
           <token>me</token>
         </pattern>
         <message>Implijit <suggestion>\1-\2</suggestion>. (CHALM M1.3.5)</message>
-        <example type="incorrect"><marker>Ganin me</marker></example>
+        <example type="incorrect" correction="Ganin-me"><marker>Ganin me</marker></example>
         <example type="correct"><marker>Ganin-me</marker></example>
       </rule>
       <rule>
@@ -4543,7 +4543,7 @@ $Id$
           <token>te</token>
         </pattern>
         <message>Implijit <suggestion>\1-\2</suggestion> (CHALM M1.3.5).</message>
-        <example type="incorrect"><marker>Ganit te</marker></example>
+        <example type="incorrect" correction="Ganit-te"><marker>Ganit te</marker></example>
         <example type="correct"><marker>Ganit-te</marker></example>
       </rule>
       <rule>
@@ -4644,7 +4644,7 @@ $Id$
         <token regexp="yes">abominapl|bras|brein|daonet|divi|kaer|lip|marv|naet|spontus</token>
       </pattern>
       <message>Ha fellout a rae deoc’h skrivañ <suggestion>\1-\2</suggestion>?</message>
-      <example type="incorrect"><marker>Skuizh marv</marker> on.</example>
+      <example type="incorrect" correction="Skuizh-marv"><marker>Skuizh marv</marker> on.</example>
       <example type="correct"><marker>Skuizh-marv</marker> on.</example>
     </rule>
     <rule id="TOUR_TAN" name="tour tan → tour-tan">
@@ -4653,7 +4653,7 @@ $Id$
         <token regexp="yes">(dour|iliz|meur|tan)(-(mañ|se|hont))?</token>
       </pattern>
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
-      <example type="incorrect">Uhel eo an <marker>tour tan</marker>.</example>
+      <example type="incorrect" correction="tour-tan">Uhel eo an <marker>tour tan</marker>.</example>
       <example type="correct">Uhel eo an <marker>tour-tan</marker>.</example>
     </rule>
     <rule id="DOR_DAL" name="dor dal → dor-dal (hag all)">
@@ -4662,7 +4662,7 @@ $Id$
         <token regexp="yes">(dal|volz)?(-(mañ|se|hont))?</token>
       </pattern>
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
-      <example type="incorrect">Serr an <marker>nor dal</marker>.</example>
+      <example type="incorrect" correction="nor-dal">Serr an <marker>nor dal</marker>.</example>
       <example type="correct">Serr an <marker>nor-dal</marker>.</example>
     </rule>
     <rule id="BLEIZ_MOR" name="bleiz mor → bleiz-mor">
@@ -4671,7 +4671,7 @@ $Id$
         <token regexp="yes">(bouzel|broc’h(ed)?|garv|koad|mor|noz|piz|teil|yod)(-(mañ|se|hont))?</token>
       </pattern>
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
-      <example type="incorrect">Ur <marker>bleiz mor</marker> am eus gwelet.</example>
+      <example type="incorrect" correction="bleiz-mor">Ur <marker>bleiz mor</marker> am eus gwelet.</example>
       <example type="correct">Ur bleiz-mor am eus gwelet.</example>
     </rule>
     <rule id="GRILH_MOR" name="grilh mor → grilh-mor">
@@ -4680,7 +4680,7 @@ $Id$
         <token regexp="yes">(douar|dour|koad|maen|mor|oaled|prad|saoz|traezh)(-(mañ|se|hont))?</token>
       </pattern>
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
-      <example type="incorrect">Ur <marker>grilh mor</marker> am eus tapet.</example>
+      <example type="incorrect" correction="grilh-mor">Ur <marker>grilh mor</marker> am eus tapet.</example>
       <example type="correct">Ur grilh-mor am eus tapet.</example>
     </rule>
     <rule id="ANV_BIHAN" name="anv bihan → anv-bihan (hag all)">
@@ -4689,7 +4689,7 @@ $Id$
         <token regexp="yes">(badez|bihan|familh|gwan|kadarn|pluenn|stroll|stiegezh|verb)(-(mañ|se|hont))?</token>
       </pattern>
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
-      <example type="incorrect">Petra zo da <marker>anv bihan</marker>?</example>
+      <example type="incorrect" correction="anv-bihan">Petra zo da <marker>anv bihan</marker>?</example>
       <example type="correct">Petra zo da <marker>anv-bihan</marker>?</example>
     </rule>
     <rule id="HOCH_GOUEZ" name="hoc’h gouez → hoc’h-gouez (hag all)">
@@ -4698,7 +4698,7 @@ $Id$
         <token>gouez</token>
       </pattern>
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
-      <example type="incorrect">An <marker>hoc’h gouez</marker></example>
+      <example type="incorrect" correction="hoc’h-gouez">An <marker>hoc’h gouez</marker></example>
       <example type="correct">An <marker>hoc’h-gouez</marker></example>
     </rule>
     <rule id="GER_MELL" name="ger mell → ger-mell (hag all)">
@@ -4707,7 +4707,7 @@ $Id$
         <token regexp="yes">mell|rener|stur|tremen</token>
       </pattern>
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
-      <example type="incorrect">Ar <marker>ger mell</marker>.</example>
+      <example type="incorrect" correction="ger-mell">Ar <marker>ger mell</marker>.</example>
       <example type="correct">Ar <marker>ger-mell</marker>.</example>
     </rule>
     <rule id="EVEL_JUST" name="evel just → evel-just">
@@ -5217,7 +5217,7 @@ $Id$
         <token>benn</token>
       </pattern>
       <message>Implijit <suggestion>\1-\2-\3</suggestion>.</message>
-      <example type="incorrect">Troet <marker>penn da benn</marker></example>
+      <example type="incorrect" correction="penn-da-benn">Troet <marker>penn da benn</marker></example>
       <example type="correct">Troet <marker>penn-da-benn</marker></example>
     </rule>
     <rule id="PENN_OUZH_PENN" name="penn ouzh penn → penn-ouzh-penn">
@@ -5227,7 +5227,7 @@ $Id$
         <token>penn</token>
       </pattern>
       <message>Implijit <suggestion>\1-\2-\3</suggestion>.</message>
-      <example type="incorrect">Troet <marker>penn ouzh penn</marker></example>
+      <example type="incorrect" correction="penn-ouzh-penn">Troet <marker>penn ouzh penn</marker></example>
       <example type="correct">Troet <marker>penn-ouzh-penn</marker></example>
     </rule>
     <rule id="PENN_SKANV" name="penn skañv → penn-skañv">
@@ -5236,7 +5236,7 @@ $Id$
         <token>skañv</token>
       </pattern>
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
-      <example type="incorrect">Hennezh zo ur <marker>penn skañv</marker></example>
+      <example type="incorrect" correction="penn-skañv">Hennezh zo ur <marker>penn skañv</marker></example>
       <example type="correct">Hennezh zo ur <marker>penn-skañv</marker></example>
     </rule>
     <rule id="DISKAR_AMZER" name="diskar amzer → diskar-amzer">
@@ -5245,7 +5245,7 @@ $Id$
         <token>amzer</token>
       </pattern>
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
-      <example type="incorrect">Deuet eo an <marker>diskar amzer</marker>.</example>
+      <example type="incorrect" correction="diskar-amzer">Deuet eo an <marker>diskar amzer</marker>.</example>
       <example type="correct">Deuet eo an <marker>diskar-amzer</marker>.</example>
     </rule>
     <rule id="DIBENN_SIZHUN" name="dibenn sizhun → dibenn-sizhun">
@@ -5254,7 +5254,7 @@ $Id$
         <token regexp="yes">pred|sizhun</token>
       </pattern>
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
-      <example type="incorrect">Penaos e oa da <marker>zibenn sizhun</marker>?</example>
+      <example type="incorrect" correction="zibenn-sizhun">Penaos e oa da <marker>zibenn sizhun</marker>?</example>
       <example type="correct">Penaos e oa da <marker>zibenn-sizhun</marker>?</example>
     </rule>
     <rulegroup id="A_BEP_SEURT" name="a bep-seurt → a bep seurt">
@@ -5264,7 +5264,7 @@ $Id$
           <token>bep-seurt</token>
         </pattern>
         <message>Implijit <suggestion>\1 bep seurt</suggestion>.</message>
-        <example type="incorrect"><marker>A bep-seurt</marker></example>
+        <example type="incorrect" correction="A bep seurt"><marker>A bep-seurt</marker></example>
         <example type="correct">A bep seurt</example>
       </rule>
       <rule>
@@ -5409,7 +5409,7 @@ $Id$
           <token>ordinal</token>
         </pattern>
         <message>Implijit <suggestion>\1\2</suggestion>.</message>
-        <example type="incorrect">Un dra <marker>dreist ordinal</marker> zo c’hoarvezet.</example>
+        <example type="incorrect" correction="dreistordinal">Un dra <marker>dreist ordinal</marker> zo c’hoarvezet.</example>
         <example type="correct">Un dra <marker>dreistordinal</marker> zo c’hoarvezet.</example>
       </rule>
       <rule>
@@ -6112,8 +6112,8 @@ $Id$
           <token>a</token>
           <token>zeu</token>
         </pattern>
-        <message>Un adverb eo ar ger «\1» e brezhoneg. Ha fellout a rae deoc’h neuze skrivañ <suggestion><match no="1" case_conversion="startupper" regexp_match="^.." regexp_replace=""/></suggestion> hep «a zeu»?</message>
-        <example type="incorrect">Mont a rin <marker>dilun a zeu</marker>.</example>
+        <message>Un adverb eo ar ger «\1» e brezhoneg. Ha fellout a rae deoc’h neuze skrivañ <suggestion>\1</suggestion> hep «a zeu»?</message>
+        <example type="incorrect" correction="dilun">Mont a rin <marker>dilun a zeu</marker>.</example>
         <example type="correct">Mont a rin <marker>dilun</marker>.</example>
       </rule>
       <rule>
@@ -6121,8 +6121,8 @@ $Id$
           <token regexp="yes">dilun|dimeurzh|dimerc’her|diriaou|digwener|disadorn|disul</token>
           <token>tremenet</token>
         </pattern>
-        <message>Un adverb eo ar ger «\1» e brezhoneg. Ha fellout a rae deoc’h neuze skrivañ <suggestion><match no="1" case_conversion="startupper" regexp_match="..(.*)" regexp_replace="$1"/></suggestion> hep «tremenet»?</message>
-        <example type="incorrect">Deuet eo <marker>dilun tremenet</marker>.</example>
+        <message>Un adverb eo ar ger «\1» e brezhoneg. Ha fellout a rae deoc’h neuze skrivañ <suggestion>\1</suggestion> hep «tremenet»?</message>
+        <example type="incorrect" correction="dilun">Deuet eo <marker>dilun tremenet</marker>.</example>
         <example type="correct">Deuet eo <marker>dilun</marker>.</example>
       </rule>
       <rule>
@@ -6924,8 +6924,8 @@ $Id$
           <token>nemeur</token>
           <token>a</token>
         </pattern>
-        <message>Ret eo implijout «ket» gant «nemeur». Ha fellout a rae deoc’h skrivañ <suggestion>\1 \2 ket \3 \4</suggestion>?</message>
-        <example type="incorrect"><marker>N’eus nemeur a</marker> girri.</example>
+        <message>Ret eo implijout «ket» gant «nemeur». Ha fellout a rae deoc’h skrivañ <suggestion>\1\2 ket \3 \4</suggestion>?</message>
+        <example type="incorrect" correction="N’eus ket nemeur a"><marker>N’eus nemeur a</marker> girri.</example>
         <example type="correct">N’eus ket nemeur a girri.</example>
       </rule>
     </rulegroup>
@@ -6937,8 +6937,8 @@ $Id$
         </marker>
         <token postag="N . p.*" postag_regexp="yes"/>
       </pattern>
-      <message>Gallekadur: e brezhoneg e lakaer «\1» etre ar ger-perc’hennañ «\2» hag an dra berc’hennet «\3». Ha fellout a rae deoc’h skrivañ <suggestion>\2 \1</suggestion>?</message>
-      <example type="incorrect"><marker>Holl ma</marker> levrioù</example>
+      <message>Gallekadur: e brezhoneg e lakaer «\1» etre ar ger-perc’hennañ «\2» hag an dra berc’hennet «\3». Ha fellout a rae deoc’h skrivañ <suggestion>\2 holl</suggestion>?</message>
+      <example type="incorrect" correction="Ma holl"><marker>Holl ma</marker> levrioù</example>
       <example type="correct">Ma holl levrioù</example>
     </rule>
     <rulegroup id="KET_EBET" name="n’eus ket kudenn → n’eus ket kudenn ebet.">
@@ -8079,7 +8079,7 @@ $Id$
           </marker>
         </pattern>
         <message>Ha fellout a rae deoc’h skrivañ <suggestion>oc’h \5</suggestion>?</message>
-        <example type="incorrect">Plijadur am bez <marker>d’ober</marker> se.</example>
+        <example type="incorrect" correction="oc’h ober">Plijadur am bez <marker>d’ober</marker> se.</example>
         <example type="correct">Plijadur am bez <marker>och d’ober</marker> se.</example>
       </rule>
       <rule>
@@ -8552,7 +8552,7 @@ $Id$
       <example type="incorrect" correction="Koshoc’h"><marker>Kozhoc’h</marker> eo ma gwreg egedon.</example>
       <example type="correct">Koshoc’h eo ma gwreg egedon.</example>
       <example type="correct">C’hwi a gozhoc’h.</example>
-      <example type="incorrect"><marker>Ruzoc’h</marker> eo an aval-mañ.</example>
+      <example type="incorrect" correction="Rusoc’h"><marker>Ruzoc’h</marker> eo an aval-mañ.</example>
       <example type="correct">Rusoc’h eo an aval-mañ.</example>
       <example type="correct">C’hwi a ruzoc’c.</example>
       <example type="correct">Kozhañ a ran</example>
