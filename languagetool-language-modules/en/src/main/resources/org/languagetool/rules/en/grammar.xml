@@ -8568,8 +8568,8 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
                     <exception spacebefore="no" scope="previous">.</exception>
                 </token>
                 <token chunk="I-NP-singular" min="0" max="-1">
-                    <exception regexp="yes">Pound|Dollar|percent|minute|megapixel|bit</exception>
-                    <exception regexp="yes">[,;()]</exception>
+                    <exception regexp="yes">Pound|Dollar|percent|minute|megapixel|bit|cm|BC|^[^a-zA-Z]+</exception>
+                    <exception regexp="yes">[,;()]</exception>                    
                 </token>
                 <marker>
                     <token chunk="E-NP-singular">
@@ -8585,13 +8585,16 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
                 </marker>
             </pattern>
             <message>Possible agreement error. The noun '<match no="3"/>' seems to be countable, so consider using: <suggestion suppress_misspelled="yes" ><match no="3" suppress_misspelled="yes" postag="NNS|NNPS" postag_regexp="yes"></match></suggestion>.</message>
-            <short>Grammatical problem</short>
+            <short>Grammatical problem</short>            
             <example type="incorrect" correction="books">I have five <marker>book</marker>.</example>
             <example type="incorrect" correction="chapters">Additionally, there are over 500 college and university <marker>chapter</marker>.</example>
             <example type="incorrect" correction="chapters">There are 500 college and university <marker>chapter</marker>.</example>
+            <example type="correct">1777 舑 American Revolutionary War: British forces abandon the Siege of Fort Stanwix...</example>
             <example type="correct">I have <marker>ten books</marker>.</example>
             <example type="correct">I have <marker>one bottle</marker> of wine.</example>
             <example type="correct">Exactly 1 hour!</example>
+            <example type="correct">It was 30 cm long.</example>
+            <example type="correct">By 700 BC war between the two Empires became inevitable.</example>
             <example type="correct">I have two book readers in my palmtop.</example>
             <example type="correct">US$10,000 for a single 25 minute episode.</example>
             <example type="correct">Thomas Watson at 333 Grant Avenue in San Francisco.</example>
