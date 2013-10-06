@@ -1438,7 +1438,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     <pattern>
       <marker>
         <and>
-        <token postag="NN:UN"/>
+        <token postag="NN:UN"><exception scope="previous" postag="NNS|NNPS" postag_regexp="yes"/></token> 
         <token chunk="E-NP-singular"/>
         <token postag="VBP"/>
         </and>
@@ -1446,12 +1446,9 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     </pattern>
     <disambig postag="NN:UN"/>
       <example type="untouched">They disputed a claim.</example>
-      <example type="ambiguous" inputform="claim[claim/NN:UN,claim/VB,claim/VBP]" outputform="claim[claim/NN:UN]">Morroco's disputed <marker>claim</marker> to portions of Algeria.</example>
-      <!-- TODO -->
-      <!-- exclude sentences like 
-      "Doubled consonants count as two consonants" 
-      The Beatles play to nearly 60,000 fans at Shea Stadium in New
-      -->
+      <example type="untouched">Doubled consonants count as two consonants.</example>
+      <example type="untouched">The Beatles play to nearly 60,000 fans at Shea Stadium.</example>
+      <example type="ambiguous" inputform="claim[claim/NN:UN,claim/VB,claim/VBP]" outputform="claim[claim/NN:UN]">Morroco's disputed <marker>claim</marker> to portions of Algeria.</example>      
     </rule>
     <rulegroup id="VBP_VBZ_NNS" name="VBZ/NN->VBZ">
       <rule>
