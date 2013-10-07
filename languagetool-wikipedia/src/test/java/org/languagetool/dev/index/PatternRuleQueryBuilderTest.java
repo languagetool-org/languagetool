@@ -191,6 +191,12 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
     assertMatches(patternRule, 2);
   }
 
+  public void testOnlyInflected() throws Exception {
+    assertMatches(makeRule("<token inflected=\"yes\">think</token>"), 0);
+    assertMatches(makeRule("<token inflected=\"yes\">LanguageTool</token>"), 1);
+    assertMatches(makeRule("<token inflected=\"yes\">checker</token>"), 1);
+  }
+
   public void testSeveralElements() throws Exception {
 
     // See setup() for the texts we can match

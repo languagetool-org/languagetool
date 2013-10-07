@@ -18,6 +18,7 @@
  */
 package org.languagetool.dev.index;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.sandbox.queries.regex.JavaUtilRegexCapabilities;
 import org.apache.lucene.sandbox.queries.regex.RegexQuery;
@@ -26,10 +27,13 @@ import org.apache.lucene.search.spans.SpanMultiTermQueryWrapper;
 import org.apache.lucene.search.spans.SpanNearQuery;
 import org.apache.lucene.search.spans.SpanQuery;
 import org.apache.lucene.search.spans.SpanTermQuery;
+import org.languagetool.AnalyzedToken;
 import org.languagetool.Language;
 import org.languagetool.rules.patterns.Element;
 import org.languagetool.rules.patterns.PatternRule;
+import org.languagetool.synthesis.Synthesizer;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -131,7 +135,18 @@ public class PatternRuleQueryBuilder {
     final Term termQueryTerm = getTermQueryTerm(element, termStr);
     if (element.isInflected() && element.isRegularExpression()) {
       // TODO: support this, e.g. "walk|climb|run"
-      // language.getSynthesizer().synthesize(..., ".*")
+      return null;
+    } else if (element.isInflected() && !element.isRegularExpression()) {
+      final Synthesizer synthesizer = language.getSynthesizer();
+      if (synthesizer != null) {
+        try {
+          final String[] synthesized = synthesizer.synthesize(new AnalyzedToken(termStr, null, termStr), ".*", true);
+          final RegexpQuery regexpQuery = new RegexpQuery(new Term(FIELD_NAME, StringUtils.join(synthesized, "|")));
+          return new BooleanClause(regexpQuery, BooleanClause.Occur.MUST);
+        } catch (IOException e) {
+          throw new RuntimeException("Could not build Lucene query for '" + element + "' and '" + termStr + "'", e);
+        }
+      }
       return null;
     } else if (element.isRegularExpression()) {
       termQuery = getRegexQuery(termQueryTerm, termStr);
@@ -207,10 +222,6 @@ public class PatternRuleQueryBuilder {
       throws UnsupportedPatternRuleException {
     if (patternElement.isUnified()) {
       throw new UnsupportedPatternRuleException("Elements with unified tokens are not supported.");
-    }
-    // TODO: inflect tokens to an OR Boolean Query to support them:
-    if (patternElement.isInflected()) {
-      throw new UnsupportedPatternRuleException("Elements with inflected tokens are not supported");
     }
     if (patternElement.getString().contains("\\d")) {
       throw new UnsupportedPatternRuleException("Elements with regex containing \\d are not supported.");
