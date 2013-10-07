@@ -12195,6 +12195,18 @@ $Id$
         </rulegroup>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="IMESD" name="I+D/R+D">
+            <pattern>
+                <token regexp="yes">I\+D(\+I)?</token>
+            </pattern>
+            <message>Sigles de "Recerca i desenvolupament".</message>
+            <suggestion><match no="1" regexp_match=".(.+)" regexp_replace="R$1"/></suggestion>
+            <url>http://esadir.cat/tipografia/abreviacions/sigles</url>
+            <short>Sigles incorrectes</short>
+            <example type="incorrect" correction="R+D">La inversió en <marker>I+D</marker>.</example>
+            <example type="incorrect" correction="R+D+I">La inversió en <marker>I+D+I</marker>.</example>
+            <example type="correct">R+D</example>
+        </rule>
         <rule id="APRETAR_A_CORRER" name="apretar a córrer">
             <pattern>
                 <marker>
