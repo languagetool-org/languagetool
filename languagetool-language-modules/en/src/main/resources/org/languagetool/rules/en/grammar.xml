@@ -11725,30 +11725,107 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
             <example correction="unique" type="incorrect">Walk until you see the <marker>very unique</marker> building on your right.</example>
             <example type="correct">Walk until you see a unique building on your right.</example>
         </rule>
-        <rule id="AS_TO_WHETHER_OR_NOT" name="as to whether or not (whether or not)">
-            <pattern>
-                <token>as</token>
-                <token>to</token>
-                <token>whether</token>
-                <token>or</token>
-                <token>not</token>
-            </pattern>
-            <message>Shorten this phrase to just <suggestion>as to whether</suggestion>.</message>
-            <short>Wordiness</short>
-            <example type="incorrect" correction="As to whether"><marker>As to whether or not</marker> he lives...</example>
-            <example type="correct">As to whether he lives...</example>
-        </rule>
-        <rule default="off" id="WHETHER_OR_NOT" name="whether or not (whether)">
-            <pattern>
-                <token>whether</token>
-                <token>or</token>
-                <token>not</token>
-            </pattern>
-            <message>Perhaps you can shorten this phrase to just <suggestion>\1</suggestion>. It is correct though if you mean 'regardless of whether'.</message>
-            <short>Redundant phrase</short>
-            <example correction="whether" type="incorrect">What the government decides to do depends on <marker>whether or not</marker> the bill passes.</example>
-            <example type="correct">What the government decides to do depends on whether the bill passes.</example>
-        </rule>
+        <rulegroup id="WHETHER" name="Shorten to 'whether'">
+            <rule>
+                <pattern>
+                    <token>the</token>
+                    <token>question</token>
+                    <token>as</token>
+                    <token>to</token>
+                    <token>whether</token>
+                    <token>or</token>
+                    <token>not</token>
+                </pattern>
+                <message>Shorten this phrase.</message>
+                <suggestion>\5</suggestion>
+                <suggestion>\5 \6 \7</suggestion>
+                <suggestion>\3 \4 \5</suggestion>
+                <suggestion>\1 \2 \5</suggestion>
+                <suggestion>\3 \4 \5 \6 \7</suggestion>
+                <short>Wordiness</short>
+                <example type="incorrect"><marker>The question as to whether or not</marker> it is difficult is not our concern.</example>
+                <example type="correct">Whether it is difficult is not our concern.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>the</token>
+                    <token>question</token>
+                    <token>as</token>
+                    <token>to</token>
+                    <token>whether</token>
+                </pattern>
+                <message>Shorten this phrase.</message>
+                <suggestion>\5</suggestion>
+                <suggestion>\1 \2 \5</suggestion>
+                <short>Wordiness</short>
+                <example type="incorrect"><marker>The question as to whether</marker> it is difficult is not our concern.</example>
+                <example type="correct">Whether it is difficult is not our concern.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>the</token>
+                    <token>question</token>
+                    <token>of</token>
+                    <token>whether</token>
+                </pattern>
+                <message>Shorten this phrase.</message>
+                <suggestion>\4</suggestion>
+                <suggestion>\1 \2 \4</suggestion>
+                <short>Wordiness</short>
+                <example type="incorrect"><marker>The question of whether</marker> it is difficult is not our concern.</example>
+                <example type="correct">Whether it is difficult is not our concern.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>as</token>
+                    <token>to</token>
+                    <token>whether</token>
+                    <token>or</token>
+                    <token>not</token>
+                </pattern>
+                <message>Shorten this phrase.</message>
+                <suggestion>\3</suggestion>
+                <suggestion>\3 \4 \5</suggestion>
+                <suggestion>\1 \2 \3</suggestion>
+                <short>Wordiness</short>
+                <example type="incorrect">We are not concern <marker>as to whether or not</marker> it is difficult.</example>
+                <example type="correct">We are not concern whether it is difficult.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>the</token>
+                    <token>question</token>
+                    <token>whether</token>
+                </pattern>
+                <message>Shorten this phrase to just <suggestion>\3</suggestion>, or rephrase the sentence to avoid "\1 \2".</message>
+                <short>Possible wordiness</short>
+                <example correction="Whether" type="incorrect"><marker>The question whether</marker> it is difficult is not our concern.</example>
+                <example type="correct">Whether it is difficult is not our concern.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>as</token>
+                    <token>to</token>
+                    <token>whether</token>
+                </pattern>
+                <message>Shorten this phrase to just <suggestion>\3</suggestion>, or rephrase the sentence to avoid "\1 \2".</message>
+                <short>Possible wordiness</short>
+                <example correction="Whether" type="incorrect"><marker>As to whether</marker> it is difficult, we are not concern.</example>
+                <example type="correct">Whether it is difficult is not our concern.</example>
+                <example type="correct">We are not concern whether it is difficult.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>whether</token>
+                    <token>or</token>
+                    <token>not</token>
+                </pattern>
+                <message>Perhaps you can shorten this phrase to just <suggestion>\1</suggestion>. It is correct though if you mean 'regardless of whether'.</message>
+                <short>Possible wordiness</short>
+                <example correction="whether" type="incorrect">What the government decides to do depends on <marker>whether or not</marker> the bill passes.</example>
+                <example type="correct">What the government decides to do depends on whether the bill passes.</example>
+            </rule>
+        </rulegroup>
     </category>
     <category name="Bad style" type="style">
         <rule default="off" id="SENT_START_NUM" name="Number starting a sentence">
