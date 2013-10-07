@@ -204,6 +204,8 @@ public class TextConverter extends Visitor {
     String ch = EntityReferences.resolve(er.getName());
     if ("nbsp".equals(er.getName())) {
       write(' ');
+    } else if ("ndash".equals(er.getName()) || "mdash".equals(er.getName())) {
+      write('-');
     } else if (ch == null) {
       write('&');
       write(er.getName());
