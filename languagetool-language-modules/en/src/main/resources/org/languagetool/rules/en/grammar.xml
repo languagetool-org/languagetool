@@ -11748,11 +11748,14 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
             </rule>
             <rule>
                 <pattern>
+                    <marker>
                     <token>the</token>
                     <token>question</token>
                     <token>as</token>
                     <token>to</token>
                     <token>whether</token>
+                    </marker>
+                    <token><exception>or</exception></token>
                 </pattern>
                 <message>Wordiness: Shorten this phrase to the shortest possible suggestion.</message>
                 <suggestion>\5</suggestion>
@@ -11804,9 +11807,12 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
             </rule>
             <rule>
                 <pattern>
+                    <marker>
                     <token>as</token>
                     <token>to</token>
                     <token>whether</token>
+                    </marker>
+                    <token><exception>or</exception></token>
                 </pattern>
                 <message>Can you shorten this phrase to just <suggestion>\3</suggestion>, or rephrase the sentence to avoid "\1 \2"?</message>
                 <short>Possible wordiness</short>
@@ -11816,7 +11822,7 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
             </rule>
             <rule>
                 <pattern>
-                    <token>whether</token>
+                    <token>whether<exception scope="previous" regexp="yes">to|question</exception></token>
                     <token>or</token>
                     <token>not</token>
                 </pattern>
