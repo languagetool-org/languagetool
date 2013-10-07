@@ -90,13 +90,16 @@ public abstract class AbstractPatternRulePerformer {
       }
     }
     if (elem.getElement().getChunkTag() != null) {
-      return thisMatched & tokens[tokenNo].getChunkTags().contains(elem.getElement().getChunkTag());
+      thisMatched &= 
+          tokens[tokenNo].getChunkTags().contains(elem.getElement().getChunkTag())
+          ^ elem.getElement().getNegation();
     }
     if (elem.getElement().hasAndGroup()) {
-        for (Element e : elem.getElement().getAndGroup()) {
+        for (Element e : elem.getElement().getAndGroup()) {          
             if (e.getChunkTag() != null) {
-                return thisMatched & tokens[tokenNo].getChunkTags().contains(e.getChunkTag());
-            }
+                thisMatched &= tokens[tokenNo].getChunkTags().contains(e.getChunkTag())
+                    ^ e.getNegation();
+            }            
         }
     }    
     return thisMatched;
