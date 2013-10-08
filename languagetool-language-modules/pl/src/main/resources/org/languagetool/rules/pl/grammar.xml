@@ -1051,7 +1051,7 @@ $Id$
                     <pattern>
                       <marker>
                       <token inflected="yes" regexp="yes">pytanie|zagadnienie|problem</token>
-                      <token regexp="yes" inflected="yes">co|kto|skąd|dokąd|czyj|gdzie|jak|dlaczego</token>
+                      <token regexp="yes" inflected="yes">co|czy|kto|skąd|dokąd|czyj|gdzie|jak|dlaczego</token>
                       </marker>
                       <token><exception postag="SENT_END"></exception></token>
                     </pattern>
@@ -1059,6 +1059,21 @@ $Id$
                     <short>Błąd interpunkcyjny</short>
                     <example type="correct">Pytanie jak!</example>
                     <example type="incorrect" correction="pytanie, co">Dlatego też odpowiedź filozoficzna na <marker>pytanie co</marker> jest nam dane w akcie percepcyjnym</example>
+                  </rule>
+                  <rule>
+                  <pattern>                      
+                      <token postag="prep:acc.*|&lt;/PREP:ACC&gt;" postag_regexp="yes"/>
+                      <marker>
+                      <token>to</token>                    
+                      <token regexp="yes" inflected="yes">co|czy|kto|skąd|dokąd|czyj|gdzie|jak|dlaczego</token>
+                      </marker>
+                      <token><exception postag="SENT_END"></exception></token>
+                    </pattern>
+                    <message>Prawdopodobnie brak przecinka. Powinno być: <suggestion>\2, \3</suggestion></message>
+                    <short>Błąd interpunkcyjny</short>
+                    <example type="correct">Pytanie jak!</example>
+                    <example type="incorrect" correction="to, gdzie">Jest ono prawdziwe bez względu na <marker>to gdzie</marker>, kiedy i przez kogo zostało wypowiedziane.</example>
+                    <example type="incorrect" correction="to, czy">Bez względu na <marker>to czy</marker> i jakie posiadam na ten temat przekonania.</example>
                   </rule>
                 </rulegroup>
 				<rulegroup id="KTOS_CZYJ" name="Brak przecinka przed „czyj”">
@@ -11056,6 +11071,71 @@ $Id$
 				</rule>
 		</category>
 		<category name="Prawdopodobne literówki" type="misspelling">
+        <rulegroup id="STAD_TEZ" name="„stad też” (stąd też)">
+        <rule>
+          <pattern>
+            <marker>
+              <token>stad</token>
+            </marker>
+            <token regexp="yes">też|wynika|ni</token>            
+          </pattern>
+          <message>Prawdopodobna literówka. Czy chodziło o <suggestion>stąd</suggestion>?</message>
+          <short>Prawdopodobna literówka</short>
+          <example type="correct">Widzę wiele stad zwierząt.</example>
+          <example type="incorrect">Jest to prawda, <marker>stad</marker> też nie jest to fałsz.</example>
+        </rule>
+        <rule>
+          <pattern>
+            <marker>
+              <token>stad</token>
+            </marker>
+            <token>,</token>
+            <token>ni</token>            
+          </pattern>
+          <message>Prawdopodobna literówka. Czy chodziło o <suggestion>stąd</suggestion>?</message>
+          <short>Prawdopodobna literówka</short>
+          <example type="correct">Widzę wiele stad zwierząt.</example>
+          <example type="incorrect" correction="stąd">Powiedział to ni <marker>stad</marker>, ni zowąd.</example>
+        </rule>
+        </rulegroup>
+        <rulegroup id="NIE_ZOWAD" name="„nie zowąd” (ni zowąd)">
+          <rule>
+            <pattern>
+              <marker>
+                <token>nie</token>
+              </marker>
+              <token>zowąd</token>
+            </pattern>
+            <message>Prawdopodobna literówka. Czy chodziło o <suggestion>ni</suggestion> w wyrażeniu „ni stąd, ni zowąd”?</message>
+            <short>Prawdopodobna literówka</short>
+            <example type="correct">Odezwał się ni stąd, ni zowąd.</example>
+            <example type="incorrect" correction="ni">Odezwał się ni stąd, <marker>nie</marker> zowąd.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <marker>
+                <token><exception>nie</exception><exception>ni</exception></token>
+              </marker>
+              <token>zowąd</token>
+            </pattern>
+            <message>Prawdopodobna literówka. Czy chodziło o <suggestion>ni</suggestion> w wyrażeniu „ni stąd, ni zowąd”?</message>
+            <short>Prawdopodobna literówka</short>
+            <example type="correct">Odezwał się ni stąd, ni zowąd.</example>
+            <example type="incorrect" correction="ni">Odezwał się ni stąd, <marker>n</marker> zowąd.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token>stąd<exception scope="previous">ni</exception></token>
+              <token>,</token>
+              <token>ni</token>
+              <token>zowąd</token>
+            </pattern>
+            <message>Prawdopodobna literówka. Czy chodziło o <suggestion>ni \1, \3 \4</suggestion>?</message>
+            <short>Prawdopodobna literówka</short>
+            <example type="correct">Odezwał się ni stąd, ni zowąd.</example>
+            <example type="incorrect" correction="ni stąd, ni zowąd">Odezwał się <marker>stąd, ni zowąd</marker>.</example>
+          </rule>          
+        </rulegroup>
 		<rulegroup id="PRZESTAWIONO_ZARZUTY" name="„przestawić zarzuty” (przedstawić zarzuty)">
 			<rule>
 			<pattern>
@@ -11065,7 +11145,8 @@ $Id$
 				<token regexp="yes">zarzuty?</token>
 			</pattern>
 			<message>Prawdopodobna literówka. Czy chodziło o<suggestion><match no="1" regexp_match="(prze)(.*)" regexp_replace="$1d$2"></match></suggestion>?</message>
-			<example type="correct">Przedstawiono mu zarzut nieumyślnego spowodowania śmierci.</example>
+		    <short>Prawdopodobna literówka</short>	
+            <example type="correct">Przedstawiono mu zarzut nieumyślnego spowodowania śmierci.</example>
 			<example type="incorrect" correction="przedstawiono">Winnym <marker>przestawiono</marker> już zarzuty.</example>
 			</rule>
 			<rule>
