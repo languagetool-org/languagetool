@@ -154,6 +154,13 @@
 			<xs:attribute name="chunk" use="optional">
 				<xs:simpleType>
 					<xs:restriction base="xs:NMTOKEN">
+						<!--
+						For English, the Penn treebank has been used to train the OpenNLP models we use internally:
+						http://bulba.sdsu.edu/jeanette/thesis/PennTags.html#Phrase
+						The first character is used to fit these phrases to our token-based system:
+						B = beginning of phrase, I = inside phrase, E = end of phrase (only for noun phrases)
+						Feel free to add others provided by OpenNLP if you need them.
+						-->
 						<!-- start of noun phrases: -->
 						<xs:enumeration value="B-NP-singular" />
 						<xs:enumeration value="B-NP-plural" />
@@ -163,6 +170,12 @@
 						<!-- end of noun phrases: -->
 						<xs:enumeration value="E-NP-singular" />
 						<xs:enumeration value="E-NP-plural" />
+						<!-- verb phrases: -->
+						<xs:enumeration value="B-VP" />
+						<xs:enumeration value="I-VP" />
+						<!-- prepositional phrases: -->
+						<xs:enumeration value="B-PP" />
+						<xs:enumeration value="I-PP" />
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
