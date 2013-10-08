@@ -342,7 +342,8 @@ public class ReflexiveVerbsRule extends CatalanRule {
             && isThereNearLemma(tokens, i, partsCos))
           continue loop;
         if (tokens[i].hasLemma("venir") || tokens[i].hasLemma("anar")) { //Em va bé
-          if (isVerbNumberPerson(tokens,i,VERB_3S) 
+          if (i+1<tokens.length 
+              && isVerbNumberPerson(tokens,i,VERB_3S) 
               && !isThereBefore(tokens, i, LEMMA_ES, POSTAG_ES)
               && matchPostagRegexp(tokens[i+1],POSTAG_ADVERBI)
               && !isThereNearWord(tokens, i, pronomJo) )
