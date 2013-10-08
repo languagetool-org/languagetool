@@ -1015,7 +1015,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <token inflected="yes" regexp="yes">estany|cometa|mont|pare|premi|cas|cursa|concurs|quadre|taula|novel·la|obra|riu|estil|programa|orquestra|escola|registre|finca</token>
                 <marker>
-                    <token regexp="yes">\p{Lu}.+</token>
+                    <and>
+                        <token postag="V.*" postag_regexp="yes" regexp="yes">\p{Lu}.+</token>
+                        <token postag="V.*" postag_regexp="yes" negate_pos="yes"/>
+                    </and>
                 </marker>
             </pattern>
             <disambig action="filter" postag="[^V].*" />
