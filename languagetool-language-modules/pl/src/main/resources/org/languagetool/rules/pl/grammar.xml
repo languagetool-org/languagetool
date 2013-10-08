@@ -3820,6 +3820,18 @@ $Id$
 								<example type="correct">On mówił przez <marker>nos</marker>.</example>
 								<example type="correct">Pisze się o literaturze.</example>
 						</rule>
+                        <rule>
+                          <pattern>                          
+                            <token regexp="yes">ze?</token>
+                            <marker>
+                            <token><exception postag=".*(inst|acc|gen).*" postag_regexp="yes"/></token>
+                           </marker>
+                          </pattern>
+                          <message>Przyimek „\1” jest używany z biernikiem, dopełniaczem lub narzędnikiem.</message>
+                          <short>Przyimek wymaga biernika, dopełniacza lub narzędnika</short>
+                          <example type="correct">Wszystko z pewnością jest w porządku.</example>
+                        <example type="incorrect">Wszystko z <marker>pewnościach</marker> jest w porządku.</example>                         
+                        </rule>            
 						<rule>
 							<pattern>
 								<marker><token regexp="yes" inflected="yes">godzina|rok|miesiąc|tydzień|minuta|chwila|moment|wiek|stulecie<exception postag_regexp="yes" postag=".*acc.*"/></token></marker>
