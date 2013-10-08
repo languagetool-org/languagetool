@@ -73,7 +73,7 @@ public final class RuleOverview {
     System.out.println("</tr>");
     System.out.println("</thead>");
     System.out.println("<tbody>");
-    final List<String> sortedLanguages = getSortedLanguages();
+    final List<Language> sortedLanguages = getSortedLanguages();
 
     //setup false friends counting
     final String falseFriendFile = JLanguageTool.getDataBroker().getRulesDir() + File.separator + "false-friends.xml";
@@ -83,8 +83,7 @@ public final class RuleOverview {
 
     int overallJavaCount = 0;
     int langSpecificWebsiteCount = 0;
-    for (final String langName : sortedLanguages) {
-      final Language lang = Language.getLanguageForName(langName);
+    for (final Language lang : sortedLanguages) {
       if (lang.isVariant()) {
         continue;
       }
@@ -125,7 +124,7 @@ public final class RuleOverview {
       if (!dir.exists()) {
         System.out.print("<td valign=\"top\" align=\"right\">0</td>");
       } else {
-        final File[] javaRules = dir.listFiles(new JavaFilter(langName));
+        final File[] javaRules = dir.listFiles(new JavaFilter(lang.getName()));
         final int javaCount = javaRules.length;
         if (javaCount > 0) {
           final String sourceCodeLink = 
@@ -173,15 +172,14 @@ public final class RuleOverview {
     System.out.println("</table>");
   }
 
-  private List<String> getSortedLanguages() {
-    final List<String> sortedLanguages = new ArrayList<>();
-    for (Language element : Language.LANGUAGES) {
-      if (element == Language.DEMO) {
-        continue;
+  private List<Language> getSortedLanguages() {
+    final List<Language> sortedLanguages = Arrays.asList(Language.REAL_LANGUAGES);
+    Collections.sort(sortedLanguages, new Comparator<Language>() {
+      @Override
+      public int compare(Language o1, Language o2) {
+        return o1.getName().compareTo(o2.getName());
       }
-      sortedLanguages.add(element.getName());
-    }
-    Collections.sort(sortedLanguages);
+    });
     return sortedLanguages;
   }
 
