@@ -3523,6 +3523,20 @@ $Id$
             <example type="correct">Man nehme drei <marker>passierte</marker> Tomaten.</example>
             <example type="incorrect" correction="passierte">Man nehme drei <marker>passionierte</marker> Tomaten.</example>
         </rule>
+        <rule id="KONISCH_KOMISCH" name="Mögliche Wortverwechslung: konisch/komisch">
+            <pattern>
+                <marker>
+                    <token inflected="yes">konisch</token>
+                </marker>
+                <token regexp="yes" inflected="yes">Ding|Effekt|Einfall|Einlage|Episode|Figur|Frisur|Gedicht|Gedanke|Gefühl|Geräusch|Geschichte|Heiliger|Held|Hut|Kauz|Kerl|Kontrast|Moment|Name|Nummer|Oper|Roman|Sache|Seite|Situation|Szene|Typ|Verzweiflung|Vogel|Wirkung|Zufall|Zug</token>
+            </pattern>
+            <message>&verw;Meinten Sie <suggestion><match no="1" regexp_match="kon" regexp_replace="kom"/></suggestion> (lustig, seltsam) statt konisch (kegelförmig, spitz zulaufend)?</message>
+            <short>Mögliche Wortverwechslung</short>
+            <example type="correct">Er ist schon ein <marker>komischer</marker> Kauz.</example>
+            <example type="correct">Das Werkstück hat eine <marker>konische</marker> Bohrung.</example>
+            <example type="incorrect" correction="komischer">Er ist schon ein <marker>konischer</marker> Kauz.</example>
+            <example type="incorrect" correction="komisches">Ich habe ein <marker>konisches</marker> Gefühl bei der Sache.</example>
+        </rule>
         <rulegroup id="WAISE_WEISE" name="Mögliche Wortverwechslung: Waise/Weise/Wiese">
             <rule>
                 <pattern case_sensitive="yes">
@@ -20404,6 +20418,19 @@ $Id$
             </rule>
         </rulegroup>
         <rulegroup id="RAEUMEN_SUBST" name="Groß-/Kleinschreibung: 'räumen (Räumen)'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[Ii]n</token>
+                    <token>geschlossenen</token>
+                    <marker>
+                        <token regexp="yes">räumen|zimmern</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="correct">Nicht in geschlossenen <marker>Räumen</marker> verwenden!</example>
+                <example type="incorrect" correction="Räumen">Nicht in geschlossenen <marker>räumen</marker> verwenden!</example>
+            </rule>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[Ii]n</token>
