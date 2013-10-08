@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet type="text/xsl" href="../print.xsl" ?>
-<?xml-stylesheet type="text/css" href="../rules.css"
-				title="Easy editing stylesheet" ?>
+<?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" title="Pretty print" ?>
+<?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css" title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2012 Marcin Miłkowski
@@ -27,7 +26,7 @@ $Id$
 <!ENTITY interp "[\p{Punct}\-–—―„«»…’]+">
 ]>
 
-<rules lang="pl" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<rules lang="pl" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 		<unification feature="number">
 				<equivalence type="sg">
 						<token postag=".*:sg:.*" postag_regexp="yes"></token>
@@ -208,6 +207,20 @@ $Id$
 								<example type="correct">Było trzeba kupić wino, było można narwać owoców w ogrodzie.</example>
 								<example type="incorrect"><marker>Trzeba kupić wino można narwać owoców w ogrodzie.</marker></example>
 						</rule>
+                        <rule>
+                              <pattern>                   
+                                <token postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.[\.:][mn\.:].*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|conj|comp" postag_regexp="yes" scope="current"></exception><exception regexp="yes" scope="current">może|było|byłoby</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"/></token>
+                                <token postag="pred" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:.*|prep.*|qub|conj|comp|&lt;/TO_(ZNACZY|JEST)&gt;" postag_regexp="yes" scope="current"></exception><exception scope="current">może</exception></token>
+                                <phraseref idref="INTERPUNKCJA"></phraseref>
+                               </pattern>
+                              <message>W tym zdaniu złożonym brakuje przecinka lub spójnika między jednym zdaniem a drugim.</message>
+                              <short>Błąd interpunkcyjny</short>
+                              <example type="correct">Trzeba kupić wino, można narwać owoców w ogrodzie.</example>
+                              <example type="correct">Trzeba było kupić wino, można było narwać owoców w ogrodzie.</example>
+                              <example type="correct">Trzeba byłoby kupić wino, można byłoby narwać owoców w ogrodzie.</example>
+                              <example type="correct">Było trzeba kupić wino, było można narwać owoców w ogrodzie.</example>
+                              <example type="incorrect">Teorię, która <marker>opisywałoby wszystkie jego własności można znaleźć tylko w podręcznikach.</marker></example>
+                        </rule>
 						<rule>
 								<pattern>
 										<token postag="verb:bedzie.*|pcon:imperf.*" postag_regexp="yes" regexp="yes" skip="-1">będ.*<exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"></exception></token>
@@ -699,6 +712,17 @@ $Id$
 								<example type="correct">Zrobię omleta, nawet jeśli nie poprosisz.</example>
 								<example correction="omleta, nawet gdybyś" type="incorrect">Zrobię <marker>omleta nawet gdybyś</marker> nie poprosił.</example>
 						</rule>
+                        <rule>
+                          <pattern>
+                            <token negate="yes" regexp="yes">&interp;<exception postag="SENT_START|conj|comp" postag_regexp="yes"></exception></token>
+                            <token>to</token>
+                            <token regexp="yes">(jeśli|jeżeli|jeżeliby|jeśliby|zanim)(ś|śmy|ście|m)*</token>
+                          </pattern>
+                        <message>Jeśli „to” użyto w funkcji spójnika, przecinek stawiamy przed całym spójnikiem złożonym: <suggestion>\1, \2 \3</suggestion>. Jeśli w funkcji zaimka, to piszemy: <suggestion>\1 \2, \3</suggestion>.</message>
+                      <short>Błąd interpunkcyjny</short>
+                      <example type="correct">Wiemy to, zanim zaczniemy ją oceniać jako teorię.</example>
+                      <example correction="Wiemy, to zanim|Wiemy to, zanim" type="incorrect"><marker>Wiemy to zanim</marker> zaczniemy ją oceniać jako teorię.</example>
+                      </rule>            
 				</rulegroup>
 				<rulegroup id="BRAK_PRZECINKA_ZEBY" name="Brak przecinka przed „żeby”, „aby”, „ażeby”, „iżby”">
 						<rule>
@@ -1022,6 +1046,21 @@ $Id$
 								<example type="correct">Jest o czym pisać.</example>
 						</rule>
 				</rulegroup>
+                <rulegroup id="PYTANIE_CO" name="Brak przecinka w „pytanie, co...”">
+                  <rule>
+                    <pattern>
+                      <marker>
+                      <token inflected="yes" regexp="yes">pytanie|zagadnienie|problem</token>
+                      <token regexp="yes" inflected="yes">co|kto|skąd|dokąd|czyj|gdzie|jak|dlaczego</token>
+                      </marker>
+                      <token><exception postag="SENT_END"></exception></token>
+                    </pattern>
+                    <message>Prawdopodobnie brak przecinka. Powinno być: <suggestion>\1, \2</suggestion></message>
+                    <short>Błąd interpunkcyjny</short>
+                    <example type="correct">Pytanie jak!</example>
+                    <example type="incorrect" correction="pytanie, co">Dlatego też odpowiedź filozoficzna na <marker>pytanie co</marker> jest nam dane w akcie percepcyjnym</example>
+                  </rule>
+                </rulegroup>
 				<rulegroup id="KTOS_CZYJ" name="Brak przecinka przed „czyj”">
 						<rule>
 								<pattern case_sensitive="no">

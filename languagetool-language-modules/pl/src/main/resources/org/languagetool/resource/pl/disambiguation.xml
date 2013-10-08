@@ -4,7 +4,7 @@
 $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     -->
 <rules lang="pl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:noNamespaceSchemaLocation="../disambiguation.xsd">
+       xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd">
     <unification feature="number">
         <equivalence type="sg">
             <token postag=".*:sg:.*" postag_regexp="yes"/>
@@ -143,6 +143,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
 		<example type="untouched">To litera a jest pierwsza.</example>  
     </rule>
  -->
+
     <rule name="tym" id="tym">
         <pattern>
             <marker>
@@ -1271,6 +1272,21 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     	<disambig postag="pred"/>
     	<example type="ambiguous" inputform="wiadomo[wiadomo/adv:pos,wiadomo/pred]" outputform="wiadomo[wiadomo/pred]">Jak <marker>wiadomo</marker>, nie tylko Marsjanie lubili pierogi.</example>    	
     </rule>
+    
+    <rule name="można" id="mozna">
+    <pattern>
+      <marker>
+      <and>
+        <token postag="pred" skip="1">można</token>
+        <token postag="adj:sg:nom.voc:f:pos"/>
+      </and>
+      <token postag="verb:inf.*" postag_regexp="yes"/> 
+      </marker>
+    </pattern>
+    <disambig postag="pred"/>
+    <example type="untouched">Jest to można kobieta.</example>
+    <example type="ambiguous" inputform="można[można/pred,możny/adj:sg:nom.voc:f:pos]" outputform="można[można/pred]"><marker>Można</marker> spotkać go w lasach.</example>
+   </rule>
     
         
 </rules>
