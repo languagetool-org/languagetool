@@ -18,6 +18,7 @@
  */
 package org.languagetool.dev;
 
+import org.apache.commons.lang.StringUtils;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.language.Contributor;
@@ -63,7 +64,7 @@ public final class RuleOverview {
     System.out.println("<table class=\"tablesorter sortable\">");
     System.out.println("<thead>");
     System.out.println("<tr>");
-    System.out.println("  <th valign='bottom' width=\"70\">Language</th>");
+    System.out.println("  <th valign='bottom' width=\"200\">Language</th>");
     System.out.println("  <th valign='bottom' align=\"left\" width=\"60\">XML<br/>rules</th>");
     System.out.println("  <th></th>");
     System.out.println("  <th align=\"left\" width=\"60\">Java<br/>rules</th>");
@@ -90,11 +91,16 @@ public final class RuleOverview {
       System.out.print("<tr>");
       final String langCode = lang.getShortName();
       final File langSpecificWebsite = new File(webRoot, langCode);
+      final List<String> variants = getVariants(sortedLanguages, lang);
+      String variantsText = "";
+      if (variants.size() > 0) {
+        variantsText = "<br/><span class='langVariants'>Variants for: " + StringUtils.join(variants, ", ") + "</span>";
+      }
       if (langSpecificWebsite.isDirectory()) {
-        System.out.print("<td valign=\"top\"><a href=\"../" + langCode + "/\">" + lang.getName() + "</a></td>");
+        System.out.print("<td valign=\"top\"><a href=\"../" + langCode + "/\">" + lang.getName() + "</a>" + variantsText + "</td>");
         langSpecificWebsiteCount++;
       } else {
-        System.out.print("<td valign=\"top\">" + lang.getName() + "</td>");
+        System.out.print("<td valign=\"top\">" + lang.getName() + " " + variantsText + "</td>");
       }
       //FIXME: this does not work for en-GB and en-US
       final String xmlFile = JLanguageTool.getDataBroker().getRulesDir() + File.separator + langCode + File.separator + "grammar.xml";
@@ -170,6 +176,16 @@ public final class RuleOverview {
 
     System.out.println("</tbody>");
     System.out.println("</table>");
+  }
+
+  private List<String> getVariants(List<Language> allLanguages, Language lang) {
+    List<String> variants = new ArrayList<>();
+    for (Language sortedLanguage : allLanguages) {
+      if (sortedLanguage.isVariant() && lang.getShortName().equals(sortedLanguage.getShortName())) {
+        variants.add(sortedLanguage.getName().replaceAll(".*\\((.*?)\\).*", "$1").trim());
+      }
+    }
+    return variants;
   }
 
   private List<Language> getSortedLanguages() {
