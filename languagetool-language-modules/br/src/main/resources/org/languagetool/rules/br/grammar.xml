@@ -4910,17 +4910,31 @@ $Id$
     <rulegroup id="MA_UNAN" name="ma unan → ma-unan (hag all)">
       <rule>
         <pattern>
-          <token regexp="yes">ma|da|e|he|hec’h|hon|hoc’h|o</token>
-          <token regexp="yes">unan(i[gk])?(-penn)?
-            <exception postag="X A_UNAN_DA_UNAN"/>
-          </token>
+          <token regexp="yes">ma|e|he|hec’h|hon|hoc’h|o</token>
+          <token regexp="yes">unan(i[gk])?(-penn)?</token>
         </pattern>
         <message>Implijit <suggestion>\1-\2</suggestion>. (CHALM M1.4.2.1)</message>
-        <example type="incorrect">Desket em eus <marker>ma unan</marker>.</example>
-        <example type="incorrect">Desket em eus <marker>ma unan-penn</marker>.</example>
+        <example type="incorrect" correction="ma-unan">Desket em eus <marker>ma unan</marker>.</example>
+        <example type="incorrect" correction="ma-unan-penn">Desket em eus <marker>ma unan-penn</marker>.</example>
         <example type="correct">Desket em eus <marker>ma-unan</marker>.</example>
         <example type="correct">Desket em eus <marker>ma-unan-penn</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token>da</token>
+            <token regexp="yes">unan(i[gk])?(-penn)?
+              <exception postag="X A_UNAN_DA_UNAN"/>
+            </token>
+          </marker>
+          <token><exception>bennak</exception></token>
+        </pattern>
+        <message>Implijit <suggestion>\1-\2</suggestion>. (CHALM M1.4.2.1)</message>
+        <example type="incorrect" correction="da-unan">Gra an traoù <marker>da unan</marker>.</example>
+        <example type="correct">Gra an traoù da-unan.</example>
+        <example type="correct">Roit da unan bennak.</example>
         <example type="correct">A unan da unan.</example>
+        <example type="correct">Stad zo ennon en dije talvezet da unan bennak.</example>
       </rule>
       <rule>
         <pattern>
@@ -4928,8 +4942,8 @@ $Id$
           <token regexp="yes">unan(i[gk])?</token>
           <token>penn</token>
         </pattern>
-        <message>Implijit <suggestion>\1-\2\-3</suggestion>.</message>
-        <example type="incorrect">Desket em eus <marker>ma unan penn</marker>.</example>
+        <message>Implijit <suggestion>\1-\2-\3</suggestion>.</message>
+        <example type="incorrect" correction="ma-unan-penn">Desket em eus <marker>ma unan penn</marker>.</example>
         <example type="correct">Desket em eus <marker>ma-unan-penn</marker>.</example>
       </rule>
       <rule>
@@ -4937,8 +4951,8 @@ $Id$
           <token regexp="yes">(ma|da|e|he|hec’h|hon|hoc’h|o)-unan(ik)?</token>
           <token>penn</token>
         </pattern>
-        <message>Implijit <suggestion>\1\-3</suggestion>.</message>
-        <example type="incorrect">Desket em eus <marker>ma-unan penn</marker>.</example>
+        <message>Implijit <suggestion>\1-\2</suggestion>.</message>
+        <example type="incorrect" correction="ma-unan-penn">Desket em eus <marker>ma-unan penn</marker>.</example>
         <example type="correct">Desket em eus <marker>ma-unan-penn</marker>.</example>
       </rule>
     </rulegroup>
