@@ -30,7 +30,7 @@ import java.io.InputStream;
 import java.util.*;
 
 /**
- * A rule that matches words or phrases which should not be used and suggests
+ * A rule that matches words which should not be used and suggests
  * correct ones instead. Loads the relevant words from
  * <code>rules/XX/replace.txt</code>, where XX is a code of the language.
  * 
@@ -119,7 +119,7 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
     for (AnalyzedTokenReadings tokenReadings : tokens) {
       String originalTokenStr = tokenReadings.getToken();
       if (ignoreTaggedWords && tokenReadings.isTagged()) {
-          continue;
+        continue;
       }
       String tokenString = cleanup(originalTokenStr);
 
@@ -136,7 +136,7 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
         }
       }
 
-      List<String> possibleReplacements=wrongWords.get(tokenString);     
+      List<String> possibleReplacements = wrongWords.get(tokenString);     
 
       if (possibleReplacements != null && possibleReplacements.size() > 0) {
         List<String> replacements = new ArrayList<>();  
@@ -157,11 +157,10 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
   private RuleMatch createRuleMatch(AnalyzedTokenReadings tokenReadings,
       List<String> replacements) {
     String tokenString = tokenReadings.getToken();
-    String origToken = tokenString;
     int pos = tokenReadings.getStartPos();
 
     RuleMatch potentialRuleMatch = new RuleMatch(this, pos, pos
-        + origToken.length(), getMessage(tokenString, replacements), getShort());
+        + tokenString.length(), getMessage(tokenString, replacements), getShort());
 
     if (!isCaseSensitive() && StringTools.startsWithUppercase(tokenString)) {
       for (int i = 0; i < replacements.size(); i++) {
@@ -185,11 +184,6 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
         if (line.length() < 1 || line.charAt(0) == '#') { // # = comment
           continue;
         }
-
-        /*if (!isCaseSensitive()) {
-          line = line.toLowerCase(getLocale());
-        }*/
-
         String[] parts = line.split("=");
         if (parts.length != 2) {
           throw new IOException("Format error in file "
