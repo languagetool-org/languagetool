@@ -32,7 +32,7 @@ public class SimpleGerman extends GermanyGerman {
 
   @Override
   public String getShortName() {
-    return "de-DE-x-simple-language";
+    return "de-DE-x-simple-language";  // a "private use tag" according to http://tools.ietf.org/html/bcp47
   }
 
   @Override
