@@ -4932,7 +4932,7 @@ $Id$
                         <token>fins</token>
                         <token>a</token>
                     </marker>
-                    <token postag="RG"><exception regexp="yes">ben|quelcom|tal|on|sota|sobre|dalt|baix|damunt|davall|dins|dintre|fora|prop|quasi|gairebé</exception></token>
+                    <token postag="RG"><exception regexp="yes">menys|ben|quelcom|tal|on|sota|sobre|dalt|baix|damunt|davall|dins|dintre|fora|prop|quasi|gairebé</exception></token>
                 </pattern>
                 <message>Escrivim <suggestion>fins</suggestion> davant d'alguns adverbis de temps i de lloc.</message>
                 <example type="incorrect"><marker>Fins a</marker> avui.</example>
@@ -6481,21 +6481,46 @@ $Id$
         <rulegroup id="DARRERA" name="darrera/darrere">
             <rule>
                 <pattern>
-                    <token postag="N.FS.*|D..FS.*" postag_regexp="yes" negate_pos="yes"><exception postag="N.FS.*|D..FS.*" postag_regexp="yes"></exception></token>
+                    <token><exception postag="N.FS.*|D..FS.*|PX.FS.*" postag_regexp="yes"/></token>
                     <marker>
-                        <token>darrera</token>
+                        <token>darrera<exception postag="_allow_darrera"/></token>
                     </marker>
-                    <token postag="N.FS.*|NCCS.*" postag_regexp="yes" negate_pos="yes"><exception postag="N.FS.*|NCCS.*" postag_regexp="yes"></exception><exception>que</exception></token>
+                    <token><exception postag="N.FS.*|NCCS.*|AQ.[FC]S.|V.P.*SF." postag_regexp="yes"/><exception postag="_GN_FS">gran</exception></token>
                 </pattern>
                 <message>Cal escriure <suggestion>darrere</suggestion>. Correcte si equival a 'última'.</message>
                 <short>Possible confusió</short>
                 <example type="incorrect">Anava <marker>darrera</marker> la merla blava.</example>
                 <example type="correct">Anava <marker>darrere</marker> la merla blava.</example>
                 <example type="correct">Joana, darrera representant de la línia</example>
+                <example type="correct">Aquesta branca, darrera subsistent dels</example>
                 <example type="correct">la capitulació de Cardona, darrera que signava al Principat</example>
+                <example type="correct">Darrera gran batalla dels almogàvers</example>
+                <example type="correct">I darrera gran obra de Bach.</example>
+                <example type="correct">La seua darrera gran obra.</example>
+                <example type="correct">fou la tercera i darrera de les guerres celtiberes</example>
+                <example type="correct">la 5a i darrera Inter-AMA</example>
+                <example type="correct">la primera i darrera a més eren municipalitats</example>
+                <example type="correct">la seva darrera nisba Al-Muttawàkkil ibn al-Àftas</example>
+                <example type="correct">i per la seva darrera El llibre negre</example>
+                <example type="correct">La seva darrera final fou aquella</example>
+                <example type="correct">aleshores aquesta serà la meua darrera.</example>
+                <example type="correct">aleshores aquesta serà la meua darrera.</example>
+                <example type="correct">va ser la tercera (i darrera) esposa</example>
+                <example type="correct">fins a la següent (i darrera) línia</example>
+                <example type="correct">fou la cinquena, i darrera, victòria</example>
+                <example type="correct">va ser la tercera (i darrera) esposa</example>
+                <example type="correct">fins a la següent (i darrera) línia</example>
+                <example type="correct">fou la cinquena, i darrera, victòria</example>
+                <example type="correct">i la VI i darrera</example>
+                <example type="correct">i la VIª i darrera</example>
+                <example type="correct">als estils de la dinastia saïta, darrera abans de la primera conquesta</example>        
+                <example type="correct">La seva obra mestra i darrera estrenada en vida</example>
+                <example type="correct">Darrera posada al dia de la nissaga</example>
+                <!-- marbre, darrera de les quatre versions realitzades-->
             </rule>
             <rule>
                 <pattern>
+                    <token><exception>la</exception></token>
                     <marker>
                         <token>darrera</token>
                     </marker>
@@ -6504,7 +6529,8 @@ $Id$
                 <message>Cal escriure <suggestion>darrere</suggestion>.</message>
                 <short>Possible confusió</short>
                 <example type="incorrect">Anava <marker>darrera</marker> seu .</example>
-                <example type="correct">Anava <marker>darrere</marker> seu.</example>
+                <example type="correct">Anava darrere seu.</example>
+                <example type="correct">Fou la darrera seu del govern revolucionari.</example>
             </rule>         
         </rulegroup>
         <rule id="ES_VA_FA_CARREC" name="es *va/fa càrrec"> <!--  es va/fa servir/sentir? -->
