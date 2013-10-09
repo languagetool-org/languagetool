@@ -235,6 +235,21 @@ $Id$
 								<example type="correct">Trzeba będzie to zrobić.</example>
 								<example type="incorrect">Marek <marker>będzie szukać okularów a Jurek pomoże Romanowi odrabiać lekcje.</marker></example>
 						</rule>
+              <rule>
+                <pattern>                
+                    <token postag="verb:bedzie.*|pcon:imperf.*" postag_regexp="yes" regexp="yes" skip="3">będ.*<exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"/></token>
+                    <token postag="verb:inf.*" postag_regexp="yes" skip="-1"><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"/></token>
+                    <token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|adv:.*|prep.*|qub|conj|comp" postag_regexp="yes" scope="current"/></token>                
+                    <phraseref idref="INTERPUNKCJA"></phraseref>
+                </pattern>
+                <message>W tym zdaniu złożonym brakuje przecinka lub spójnika między jednym zdaniem a drugim.</message>
+                <short>Błąd interpunkcyjny</short>
+                <example type="correct">Marek pomagał będzie Jurkowi odrabiać lekcje za Romana.</example>
+                <example type="correct">Marek będzie pomagał Jurkowi odrabiać lekcje za Romana.</example>
+                <example type="correct">Trzeba będzie pomóc Jurkowi odrabiać lekcje za Romana.</example>
+                <example type="correct">Trzeba będzie to zrobić.</example>
+                <example type="incorrect">Partie, które oni <marker>będą popierać przegrywały wybory.</marker></example>
+            </rule>
 						<rule>
 								<pattern>
 										<token postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|adv:.*|prep.*|qub|conj|comp|verb:praet.*|verb:inf.*|&lt;/TO_(ZNACZY|JEST)&gt;" postag_regexp="yes" scope="current"></exception><exception regexp="yes" scope="current">może|trzeba|można|wolno</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"></exception></token>
@@ -1067,7 +1082,7 @@ $Id$
                     <pattern>
                       <marker>
                       <token inflected="yes" regexp="yes">pytanie|zagadnienie|problem</token>
-                      <token regexp="yes" inflected="yes">co|czy|kto|skąd|dokąd|czyj|gdzie|jak|dlaczego</token>
+                      <token regexp="yes" inflected="yes">co|czy|kto|skąd|dokąd|czyj|gdzie|jak|dlaczego|którędy</token>
                       </marker>
                       <token><exception postag="SENT_END"></exception></token>
                     </pattern>
