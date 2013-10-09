@@ -994,7 +994,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     <!-- conjunctions that take a comma -->
     <rule name="Spójniki wymagające przecinka lub zastępujące go" id="COMP_COMMA">
         <pattern>
-            <token inflected="yes" regexp="yes">aby|acz|aczkolwiek|albo|albowiem|ale|aleć|aliści|ani|azali|ażeby|bo|byleby|bądź|czy|czyli|czyliż|dlaczego|dopóki|dopóty|gdy|gdyby|gdyż|gdyżby|i|ilekolwiek|ilekroć|iż|iżby|jaki|jeśli|jeżeli|kiedy|który|którędy|lecz|lub|oraz|ponieważ|póki|wszelako|zanim|że|żeby</token>
+            <token inflected="yes" regexp="yes">aby|acz|aczkolwiek|albo|albowiem|ale|aleć|aliści|ani|azali|ażeby|bo|byleby|bądź|choć|chociaż|chociażby|czy|czyli|czyliż|dlaczego|dopóki|dopóty|gdy|gdyby|gdyż|gdyżby|i|ilekolwiek|ilekroć|iż|iżby|jaki|jeśli|jeżeli|kiedy|który|którędy|lecz|lub|oraz|ponieważ|póki|wszelako|zanim|że|żeby</token>
         </pattern>
         <disambig action="add"><wd pos="comp:comma"/></disambig>
         <example type="untouched">To jest krowa.</example>
@@ -1296,6 +1296,18 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     <disambig postag="verb:fin:sg:ter:imperf:refl.nonrefl"/>
     <example type="untouched">Stanowi niższemu nie działa się krzywda.</example>
     <example type="ambiguous" inputform="stanowi[stan/subst:sg:dat:m3,stanowić/verb:fin:sg:ter:imperf:refl.nonrefl,stanowy/adj:pl:nom.voc:m1.p1:pos]" outputform="stanowi[stanowić/verb:fin:sg:ter:imperf:refl.nonrefl]">To, co <marker>stanowi</marker> treść ich wyobraźni ma charakter intersubiektywny i postrzegalny także przez innych.</example>
+    </rule>
+    
+    <rule name="chociaż/choć jako kublik" id="CHOC">
+      <pattern>
+        <marker>
+          <token regexp="yes">chociaż|choć</token>
+        </marker>
+        <token regexp="yes" inflected="yes">raz|trochę|jeden|przez</token>
+      </pattern>
+      <disambig postag="qub"/>
+      <example type="untouched">Dziewczyna jest bystra, choć nieładna.</example>
+      <example type="ambiguous" inputform="chociaż[chociaż/comp,chociaż/comp:comma,chociaż/qub]" outputform="chociaż[chociaż/qub]">Każdy człowiek <marker>chociaż</marker> raz w życiu chciałby zjeść krowę.</example>
     </rule>
             
 </rules>

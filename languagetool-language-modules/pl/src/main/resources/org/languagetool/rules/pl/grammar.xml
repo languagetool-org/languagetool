@@ -939,6 +939,22 @@ $Id$
 								<example type="correct">Był głupi, ale <marker>zanim</marker> się zorientował, kupił książkę.</example>
 								<example type="correct">Był głupi (ale <marker>zanim</marker> się zorientował, kupił książkę).</example>
 						</rule>
+                        <rule>
+                          <pattern>
+                          <token><exception regexp="yes">&interp;</exception><exception postag="SENT_START|conj|comp" postag_regexp="yes"></exception><exception>no</exception></token>
+                          <and>
+                          <token regexp="yes">chociaż(by)?|choć<exception negate_pos="yes" postag="comp|qub|comp:comma" postag_regexp="yes"/></token>
+                          <token postag="comp"/>
+                          </and>
+                        </pattern>
+                        <message>Przed tym spójnikiem zwykle stawiamy przecinek: <suggestion>\1, \2</suggestion> (chyba że ten wyraz jest użyty jako synonim „bodaj”, „przynajmniej”).</message>
+                        <short>Błąd interpunkcyjny</short>
+                        <example type="correct">Lubię cię, choć musisz mi oddać pieniądze.</example>
+                        <example correction="cię, chociaż" type="incorrect">Lubię <marker>cię chociaż</marker> musisz mi oddać pieniądze.</example>
+                        <example type="correct">No chociaż zapytałeś o „dać dyla”.</example>
+                        <example type="correct">Odezwij się choć raz!</example>                        
+            </rule>
+            
 				</rulegroup>
 				<rulegroup id="BRAK_PRZECINKA_TEN_CO" name="Brak przecinka przed „kto” i „co”">
 						<rule>
