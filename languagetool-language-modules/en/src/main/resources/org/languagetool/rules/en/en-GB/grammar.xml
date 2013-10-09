@@ -21,12 +21,10 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
 USA
-
-$Id: grammar.xml 7145 2012-06-01 10:52:39Z milek_pl $
 -->
 <!--suppress CheckTagEmptyBody -->
 <rules lang="en-GB" xsi:noNamespaceSchemaLocation="../../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<!-- ====================================================================== -->
 	<!-- Possible typos -->
 	<!-- ====================================================================== -->
@@ -45,7 +43,7 @@ $Id: grammar.xml 7145 2012-06-01 10:52:39Z milek_pl $
 		</rule>
 		<rule id="APARTMENT-FLAT" name="apartment/flat">
 			<pattern>
-				<token>apartment</token>				
+				<token>apartment</token>
 			</pattern>
 			<message>
 				This word is common for American English. Did you mean <suggestion>flat</suggestion>?
@@ -56,7 +54,7 @@ $Id: grammar.xml 7145 2012-06-01 10:52:39Z milek_pl $
 		</rule>
 		<rule id="BAND-AID_PLASTER" name="band-aid/plaster">
 			<pattern>
-				<token>band-aid</token>				
+				<token>band-aid</token>
 			</pattern>
 			<message>
 				This word is common for American English. Did you mean <suggestion>plaster</suggestion>?
@@ -68,9 +66,9 @@ $Id: grammar.xml 7145 2012-06-01 10:52:39Z milek_pl $
 		<rule id="GROUND_VS_MINCED" name="ground beef/minced beef">
 			<pattern>
 				<marker>
-				<token>ground</token>
+					<token>ground</token>
 				</marker>
-				<token>beef</token>				
+				<token>beef</token>
 			</pattern>
 			<message>
 				This word is common for American English. Did you mean <suggestion>minced</suggestion>?
@@ -82,9 +80,9 @@ $Id: grammar.xml 7145 2012-06-01 10:52:39Z milek_pl $
 		<rule id="FIRST_GROUND_FLOOR" name="first floor/ground floor">
 			<pattern>
 				<marker>
-				<token>first</token>
+					<token>first</token>
 				</marker>
-				<token>floor</token>				
+				<token>floor</token>
 			</pattern>
 			<message>
 				This word is common for American English. Did you mean <suggestion>ground</suggestion>?
@@ -95,10 +93,8 @@ $Id: grammar.xml 7145 2012-06-01 10:52:39Z milek_pl $
 		</rule>
 		<rule id="VACUUM_CLEANER_HOOVER" name="vacuum cleaner/hoover">
 			<pattern>
-				<marker>
-				<token>vacuum</token>				
+				<token>vacuum</token>
 				<token inflected="yes">cleaner</token>
-				</marker>				
 			</pattern>
 			<message>
 				This expression is common for American English. Did you mean <suggestion>hoover</suggestion>?
@@ -109,10 +105,8 @@ $Id: grammar.xml 7145 2012-06-01 10:52:39Z milek_pl $
 		</rule>
 		<rule id="MOVIE_THEATER_CINEMA" name="movie theater/cinema">
 			<pattern>
-				<marker>
-				<token>movie</token>				
+				<token>movie</token>
 				<token inflected="yes">theater</token>
-				</marker>				
 			</pattern>
 			<message>
 				This expression is common for American English. Did you mean <suggestion>cinema</suggestion>?
@@ -123,7 +117,9 @@ $Id: grammar.xml 7145 2012-06-01 10:52:39Z milek_pl $
 		</rule>		
 		<rule id="GOT_GOTTEN" name="gotten/got">
 			<pattern>
-				<marker><token>gotten</token></marker>
+				<marker>
+					<token>gotten</token>
+				</marker>
 				<token><exception>up</exception></token>
 			</pattern>
 			<message>In the UK, the word 'gotten' is usually no longer used. Did you mean <suggestion>got</suggestion>?</message>
@@ -131,6 +127,6 @@ $Id: grammar.xml 7145 2012-06-01 10:52:39Z milek_pl $
 			<example type="correct">He's gotten up on the wrong side of bed.</example>
 			<example type="incorrect" correction="got">He has <marker>gotten</marker> some food.</example>
 		</rule>
-				
+
 	</category>
 </rules>
