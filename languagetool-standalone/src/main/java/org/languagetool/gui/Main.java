@@ -60,6 +60,7 @@ public final class Main {
   private static final String TRAY_SMALL_ICON = "/TrayIconSmall.png";
   private static final String TRAY_SMALL_SERVER_ICON = "/TrayIconSmallWithServer.png";
   private static final String TRAY_TOOLTIP = "LanguageTool";
+  private static final String TAG_COLOR = "#888888";
 
   private static final int WINDOW_WIDTH = 600;
   private static final int WINDOW_HEIGHT = 550;
@@ -676,8 +677,10 @@ public final class Main {
     try {
       for (String sent : sentences) {
         final AnalyzedSentence analyzedText = langTool.getAnalyzedSentence(sent);
-        final String analyzedTextString = StringTools.escapeHTML(analyzedText.toString(", ")).
-                replace("[", "<font color='#888888'>[").replace("]", "]</font>");
+        final String analyzedTextString = StringTools.escapeHTML(analyzedText.toString(",")).
+                replace("&lt;S&gt;", "&lt;S&gt;<br>").
+                replace("[", "<font color='" + TAG_COLOR + "'>[").
+                replace("]", "]</font><br>");
         sb.append(analyzedTextString).append("\n");
       }
     } catch (Exception e) {
