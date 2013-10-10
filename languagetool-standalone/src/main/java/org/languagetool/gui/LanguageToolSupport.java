@@ -143,7 +143,7 @@ class LanguageToolSupport {
     for (int i = listeners.length - 2; i >= 0; i -= 2) {
       if (listeners[i] == LanguageToolListener.class) {
         // Lazily create the event:
-        ((LanguageToolListener) listeners[i + 1]).languageToolEventOccured(event);
+        ((LanguageToolListener) listeners[i + 1]).languageToolEventOccurred(event);
       }
     }
   }

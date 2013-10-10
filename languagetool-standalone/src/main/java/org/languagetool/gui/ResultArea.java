@@ -70,7 +70,7 @@ class ResultArea {
     statusPane.setTransferHandler(new RetainLineBreakTransferHandler());
     ltSupport.addLanguageToolListener(new LanguageToolListener() {
       @Override
-      public void languageToolEventOccured(LanguageToolEvent event) {
+      public void languageToolEventOccurred(LanguageToolEvent event) {
         if (event.getType() == LanguageToolEvent.Type.CHECKING_STARTED) {
           final Language lang = ltSupport.getLanguageTool().getLanguage();
           final String langName;

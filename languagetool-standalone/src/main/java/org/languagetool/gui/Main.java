@@ -332,7 +332,7 @@ public final class Main {
     });    
     ltSupport.addLanguageToolListener(new LanguageToolListener() {
       @Override
-      public void languageToolEventOccured(LanguageToolEvent event) {
+      public void languageToolEventOccurred(LanguageToolEvent event) {
         if (event.getType() == LanguageToolEvent.Type.CHECKING_STARTED) {
           if(event.getCaller() == getFrame()) {
             startTime = System.currentTimeMillis();
