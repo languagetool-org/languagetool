@@ -6499,9 +6499,9 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
                 <pattern>
                     <token><exception regexp="yes">’|'|division|class|category|zone|formula|type|influenza|hepatitis|series</exception><exception postag="CD"></exception></token>
                     <token regexp="yes">a|an</token>
-                    <token postag="JJ"><exception>few</exception></token>
+                    <token postag="JJ"><exception regexp="yes">few|dozen|time</exception></token>
                     <marker>
-                        <token postag="NNS|NNPS" postag_regexp="yes"><exception postag="NN:.*|NN|VBZ|NNP|CC|CD" postag_regexp="yes"></exception></token>
+                        <token postag="NNS|NNPS" postag_regexp="yes"><exception postag="NN:.*|NN|VBZ|NNP|CC|CD" postag_regexp="yes"/><exception>sometimes</exception></token>
                     </marker>
                     <token><exception postag="NN.*" postag_regexp="yes"></exception><exception regexp="yes">['’]</exception></token>
                 </pattern>
@@ -6509,6 +6509,7 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
                 <short>Possible agreement error</short>
                 <example correction="milestone" type="incorrect">The Syria resolution was a major <marker>milestones</marker> for the United Nations.</example>
                 <example type="correct">The Syria resolution was a major <marker>milestone</marker> for the United Nations.</example>
+                <example type="correct">Only half a dozen asteroids are larger than 87 Sylvia.</example>
             </rule>
         </rulegroup>
         <rule id="ONE_PLURAL" name="Agreement: 'one' + plural word">
