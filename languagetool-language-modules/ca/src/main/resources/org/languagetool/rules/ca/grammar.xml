@@ -2733,7 +2733,7 @@ $Id$
                 <token postag="N.[MC][SN].*" postag_regexp="yes"><exception postag="V.[SI].*|DN.*|NCCN.*" postag_regexp="yes"/><exception>possible</exception></token>
                 <token postag="RG_anteposat"><exception regexp="yes">tot|també|només</exception></token>
                 <marker>
-                    <token postag="V.[GN].*" postag_regexp="yes" regexp="yes">.+(nt|r)<exception postag="A.*|V.P.*" postag_regexp="yes"/><exception>dient</exception></token>
+                    <token postag="V.[GN].*" postag_regexp="yes" regexp="yes">.+(nt|r)<exception postag="A.*|V.P.*" postag_regexp="yes"/><exception regexp="yes">dient|dur</exception></token>
                 </marker>
                 <token><exception spacebefore="no" regexp="yes">['-].+</exception></token>
             </pattern>
@@ -18226,9 +18226,12 @@ $Id$
         <rulegroup id="A_L_ACTUALITAT" name="a l'actualitat">
             <rule>
                 <pattern>
-                    <token postag="SENT_START|_PUNCT.*|SPS00" postag_regexp="yes" skip="-1"><exception scope="next" regexp="yes">de|d'</exception><exception regexp="yes">de|d'</exception></token>
+                    <or>
+                        <token postag="SENT_START|_PUNCT.*" postag_regexp="yes" skip="-1"><exception scope="next" regexp="yes" inflected="yes">origen|any|segle</exception><exception scope="next" regexp="yes">\d{3,4}</exception><exception scope="next" inflected="yes" regexp="yes">portar|saltar|tornar|remetre|arribar|transportar|traslladar|dedicar|repàs|repassada|aplicable|aplicar|referent|referir|anterior|referència|transcendir|corresponent|atent</exception></token>
+                        <token skip="-1">a<exception scope="next" regexp="yes" inflected="yes">origen|any|segle</exception><exception scope="next" regexp="yes">\d{3,4}</exception><exception scope="next" inflected="yes" regexp="yes">portar|saltar|tornar|remetre|arribar|transportar|traslladar|dedicar|repàs|repassada|aplicable|aplicar|referent|referir|anterior|referència|transcendir|corresponent|atent</exception></token>
+                    </or>
                     <marker>
-                        <token>a<exception scope="previous" regexp="yes">per|fins</exception><exception scope="previous" inflected="yes" regexp="yes">tornar|remetre</exception></token>
+                        <token>a<exception scope="previous" regexp="yes">per|fins|cap|degut</exception></token>
                         <token>l'</token>
                         <token>actualitat</token>
                     </marker>
@@ -18239,12 +18242,16 @@ $Id$
                 <example type="incorrect">No fa res <marker>a l'actualitat</marker>.</example>
                 <example type="incorrect"><marker>A l'actualitat</marker> no fa res.</example>
                 <example type="incorrect">Ni al seu temps ni <marker>a l'actualitat</marker>.</example>
-                <example type="correct">Dels origens a l'actualitat.</example>
+                <example type="incorrect">La situació del català <marker>a l'actualitat</marker>.</example>
+                <example type="correct">Dels orígens a l'actualitat.</example>
+                <example type="correct">Dels anys 50 a l'actualitat.</example>
+                <example type="correct">Del segle XV a l'actualitat.</example>
+                <example type="correct">De 1920 a l'actualitat.</example>
                 <example type="correct">Ha sobreviscut fins a l'actualitat.</example>
                 <example type="correct">Ara tornem a l'actualitat.</example>
                 <example type="correct">Una lliçó per a l'actualitat</example>
                 <example type="correct">Que remet a l'actualitat que viu el país.</example>
-                <example type="correct">La situació del català a l'actualitat</example> <!-- hauria de marcar error -->
+                <example type="correct">que transportava Romeo i Julieta a l'actualitat</example>
             </rule>    
         </rulegroup>
         <rulegroup id="ADICIO_ADDICIO" name="adició/addicció/addició">
