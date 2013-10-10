@@ -2388,6 +2388,18 @@ $Id$
 						<example type="correct">„Całe zdanie jest w nawiasie”.</example>
 						<example type="correct">Skrót „gr.”</example>
 				</rule>
+                <rule id="KROPKA_PRZED_PRZECINKIEM" name="Zbędna kropka przed przecinkiem">
+                  <pattern>
+                    <token><exception postag="brev:pun"/></token>
+                    <token>.</token>
+                    <token>,</token>
+                  </pattern>
+                  <message>Czy na pewno tu ma być kropka? Może chodziło o <suggestion>\1\3</suggestion>?</message>
+                  <short>Zbędny przecinek</short>
+                  <example type="incorrect">To jest <marker>przykład.,</marker> który znamy.</example>
+                  <example type="correct">Grabski Andrzej Feliks – Polska w opiniach obcych X-XIII w., Warszawa 1964.</example>
+                  <example type="correct">Dziwny to przykład.</example>
+                  </rule>
 		</category>
 		<category name="Błędy odmiany" type="grammar">
 				<rule id="BALI_BALOW" name="„bali maskowych” (balów)">

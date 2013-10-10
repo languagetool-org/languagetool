@@ -433,12 +433,13 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
 		
 	<rule name="W wiek" id="w_wiek">
 			<pattern>
-			<token regexp="yes">M*(D?C{0,3}|C[DM])(L?X{0,3}|X[LC])(V?I{0,3}|I[VX])|\d+</token>
+			<token regexp="yes">((X{0,3}|X)(V?I{0,3}|I[VX]))(-((X{0,3}|X)(V?I{0,3}|I[VX])))?</token>
 			<marker><token>w</token></marker>
 			<token>.</token>
 			</pattern>
 			<disambig postag="brev:pun"/>
 			<example type="ambiguous" inputform="w[w/prep:acc:nwok,w/prep:loc:nwok,wiek/brev:pun]" outputform="w[wiek/brev:pun]">Dziwny był ten XX <marker>w</marker>.</example>
+            <example type="ambiguous" inputform="w[w/prep:acc:nwok,w/prep:loc:nwok,wiek/brev:pun]" outputform="w[wiek/brev:pun]">Polska w opiniach obcych X-XII <marker>w</marker>.</example>
 			<example type="untouched">Mam to w szufladzie.</example>
 	</rule>
 	<rule name="W prep" id="w_prep">
@@ -1356,5 +1357,16 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
       <example type="untouched">Dziewczyna jest bystra, choć nieładna.</example>
       <example type="ambiguous" inputform="chociaż[chociaż/comp,chociaż/comp:comma,chociaż/qub]" outputform="chociaż[chociaż/qub]">Każdy człowiek <marker>chociaż</marker> raz w życiu chciałby zjeść krowę.</example>
     </rule>
-            
+        
+    <rule name="potencjalne brev" id="heuristic_brev_pun">
+    <pattern>
+    <marker>
+      <token postag="UNKNOWN" regexp="yes">[\p{Ll}&amp;&amp;[^aeouiyęąó]][\p{Ll}&amp;&amp;[^aeouiyęąó]]+</token>
+    </marker>
+      <token>.</token>
+    </pattern>
+    <disambig postag="brev:pun"/>
+    <example type="untouched">To był XX w.</example>
+    <example type="ambiguous" inputform="mghr[mghr]" outputform="mghr[mghr/brev:pun]">To jest <marker>mghr</marker>. Lubiwicz.</example>
+    </rule>    
 </rules>
