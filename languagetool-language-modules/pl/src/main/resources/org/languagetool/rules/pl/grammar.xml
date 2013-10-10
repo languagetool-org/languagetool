@@ -1092,10 +1092,10 @@ $Id$
                     <example type="incorrect" correction="pytanie, co">Dlatego też odpowiedź filozoficzna na <marker>pytanie co</marker> jest nam dane w akcie percepcyjnym</example>
                   </rule>
                   <rule>
-                  <pattern>                      
-                      <token postag="prep:acc.*|&lt;/PREP:ACC&gt;" postag_regexp="yes"/>
+                  <pattern>                                          
+                      <token/>
                       <marker>
-                      <token>to</token>                    
+                      <token postag="subst:sg.*" postag_regexp="yes" inflected="yes">to<exception postag="qub|conj" postag_regexp="yes"></exception></token>                                       
                       <token regexp="yes" inflected="yes">co|czy|kto|skąd|dokąd|czyj|gdzie|jak|dlaczego</token>
                       </marker>
                       <token><exception postag="SENT_END"></exception></token>
@@ -1103,6 +1103,7 @@ $Id$
                     <message>Prawdopodobnie brak przecinka. Powinno być: <suggestion>\2, \3</suggestion></message>
                     <short>Błąd interpunkcyjny</short>
                     <example type="correct">Pytanie jak!</example>
+                    <example type="incorrect" correction="tego, czy">Zależy od <marker>tego czy</marker> faktycznie dzisiaj przed południem znajduję się w Krakowie.</example>                    
                     <example type="incorrect" correction="to, gdzie">Jest ono prawdziwe bez względu na <marker>to gdzie</marker>, kiedy i przez kogo zostało wypowiedziane.</example>
                     <example type="incorrect" correction="to, czy">Bez względu na <marker>to czy</marker> i jakie posiadam na ten temat przekonania.</example>
                   </rule>

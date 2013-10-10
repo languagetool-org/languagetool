@@ -1,4 +1,4 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2007 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
@@ -45,7 +45,7 @@ public class PolishHybridDisambiguator implements Disambiguator {
   @Override
   public final AnalyzedSentence disambiguate(AnalyzedSentence input)
       throws IOException {
-    return disambiguator.disambiguate(chunker.disambiguate(input));
+    return chunker.disambiguate(disambiguator.disambiguate(input));
   }
 
 }

@@ -323,7 +323,42 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     		<example type="untouched">Porozmawiajmy o literaturze.</example>
     		<example type="ambiguous" inputform="O[o/interj,o/prep:acc,o/prep:loc,ocean/brev:pun,ojciec/brev:pun]" outputform="O[ojciec/brev:pun]"><marker>O</marker>. Pio nie jadał pierogów.</example>
     	</rule>
-    </rulegroup>
+      <rule>
+        <pattern>
+        <marker>
+        <token postag="prep.*" postag_regexp="yes">o</token>
+        </marker>
+        <token><exception regexp="yes">.|\p{Lu}\p{Ll}.*</exception></token>
+      </pattern>
+      <disambig action="filter" postag="^(?!brev:pun|interj).*"/>
+      <example type="untouched">To jest o. Pio.</example>
+      <example type="ambiguous" inputform="o[o/interj,o/prep:acc,o/prep:loc,ocean/brev:pun,ojciec/brev:pun]" outputform="o[o/prep:acc,o/prep:loc]">Spotykamy się <marker>o</marker> dwunastej</example> 
+    </rule>
+  </rulegroup>      
+    
+    <rulegroup name="Na - dezambiguacja" id="na_interj_prep">
+      <rule>
+        <pattern>
+        <marker><token>na</token></marker>
+        <token regexp="yes">[,!]|tu</token>
+        </pattern>
+        <disambig postag="interj"/>
+        <example type="untouched">Na Filipinach są gwoździe.</example>
+        <example type="ambiguous" inputform="Na[na/interj,na/prep:acc,na/prep:loc]" outputform="Na[na/interj]"><marker>Na</marker>, masz pismo, czytaj.</example>
+      </rule>
+      <rule>
+        <pattern>
+        <marker>
+        <token postag="prep.*" postag_regexp="yes">na</token>
+        </marker>
+        <token><exception regexp="yes">[,!]|tu</exception></token>
+      </pattern>
+      <disambig action="filter" postag="^(?!interj).*"/>
+      <example type="untouched">Na tu, piesku</example>
+      <example type="ambiguous" inputform="na[na/interj,na/prep:acc,na/prep:loc]" outputform="na[na/prep:acc,na/prep:loc]">Spotykamy się <marker>na</marker> parterze.</example> 
+    </rule>
+  </rulegroup>      
+    
     
     <rule name="głosować przeciw" id="glosowac_przeciw">
     	<pattern>
@@ -378,8 +413,8 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
        	<pattern>
        		<unify>
        			<feature id="case"/>
-       			<token postag="prep:.*" postag_regexp="yes"><exception postag="&lt;/?[\p{Lu}:]+&gt;" postag_regexp="yes"/><exception postag="prep.*" negate_pos="yes" postag_regexp="yes"/></token>       			
-                <token postag_regexp="yes" postag="(adj|subst|ppron).*"><exception postag="&lt;/?[\p{Lu}:]+&gt;" postag_regexp="yes"/><exception>pewne</exception></token>
+       			<token postag="prep:.*" postag_regexp="yes"><exception postag="prep.*" negate_pos="yes" postag_regexp="yes"/></token>       			
+                <token postag_regexp="yes" postag="(adj|subst|ppron).*"><exception>pewne</exception></token>
        		</unify>
        	</pattern>
        	<disambig action="unify"/>
@@ -414,14 +449,13 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
 			<example type="ambiguous" inputform="w[w/prep:acc:nwok,w/prep:loc:nwok,wiek/brev:pun]" outputform="w[w/prep:acc:nwok,w/prep:loc:nwok]">Mam to <marker>w</marker> szufladzie.</example>
 			<example type="untouched">Dziwny XIX w.</example>
 	</rule>
-	
-	
+	    
     <rulegroup name="Przyimek z rzeczownikiem" id="PREP_SUBST">
     <rule>
         <pattern>
             <unify> <feature id="case"/>
-                <token postag="prep.*" postag_regexp="yes"><exception postag="prep.*" negate_pos="yes" postag_regexp="yes"/><exception>co</exception><exception postag="&lt;/?[\p{Lu}:]+&gt;" postag_regexp="yes"/></token>
-                <token postag="(adj|subst|ppron.*|ppas|pact):.*" postag_regexp="yes"><exception>co</exception><exception postag="&lt;/?[\p{Lu}:]+&gt;|qub" postag_regexp="yes"/></token>
+                <token postag="prep.*" postag_regexp="yes"><exception postag="prep.*" negate_pos="yes" postag_regexp="yes"/><exception>co</exception></token>
+                <token postag="(adj|subst|ppron.*|ppas|pact):.*" postag_regexp="yes"><exception>co</exception><exception postag="qub"/></token>
             </unify>
         </pattern>
         <disambig action="unify"></disambig>
@@ -432,8 +466,21 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     <rule>
         <pattern>
             <unify> <feature id="case"/>
+                <token postag="prep.*" postag_regexp="yes"><exception postag="prep.*|brev.*" negate_pos="yes" postag_regexp="yes"/><exception>co</exception></token>
+                <token inflected="yes">to</token>
+            </unify>
+        </pattern>
+        <disambig action="unify"></disambig>
+        <example type="untouched">Tu mamy piękny przykład.</example>
+        <example type="untouched">Łaciny używamy na co dzień.</example>
+                        
+        <!-- example type="ambiguous" inputform="mamy[mama/subst:pl:acc:f,mama/subst:pl:nom:f,mama/subst:pl:voc:f,mama/subst:sg:gen:f]" outputform="mamy[mama/subst:sg:gen:f]">Idę do <marker>mamy</marker>.</example>  -->
+    </rule>    
+    <rule>
+        <pattern>
+            <unify> <feature id="case"/>
                 <token>przeciw</token>
-                <token postag="(adj|subst|ppron.*|ppas|pact):.*" postag_regexp="yes"><exception>co</exception><exception postag="&lt;/?[\p{Lu}:]+&gt;|qub" postag_regexp="yes"/></token>
+                <token postag="(adj|subst|ppron.*|ppas|pact):.*" postag_regexp="yes"><exception>co</exception><exception postag="qub"/></token>
             </unify>
         </pattern>
         <disambig action="unify"></disambig>
@@ -445,7 +492,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     <rule>
     	<pattern>
     		<marker><token regexp="yes">jako?|a|niż|niczym</token></marker> <!-- jeśli a, jak, jako, niczym, niż nie występuje z mianownikiem, to nie jest przyimkiem -->
-    		<token postag="subst:.*" postag_regexp="yes"><exception postag=".*nom.*|conj|adv.*" postag_regexp="yes"></exception><exception regexp="yes">.*um</exception><exception postag="&lt;/ADV&gt;"></exception></token>
+    		<token postag="subst:.*" postag_regexp="yes"><exception postag=".*nom.*|conj|adv.*" postag_regexp="yes"></exception><exception regexp="yes">.*um</exception></token>
     	</pattern>
     	<disambig><match no="1" postag="^(?!prep:nom).*" postag_regexp="yes"></match></disambig> 
     	<example type="untouched">Mówię dziś jako rzecznik samorządu przedszkolnego.</example>
@@ -826,7 +873,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             </pattern>
             <disambig action="add"><wd lemma="co" pos="czym_innym">czym</wd></disambig>
             <example type="untouched">To było coś innego.</example>
-            <example type="ambiguous" inputform="czym[co/subst:sg:inst:n2,co/subst:sg:loc:n2,czym/conj]" outputform="czym[co/czym_innym,co/subst:sg:inst:n2,co/subst:sg:loc:n2,czym/conj]">Mowa o <marker>czym</marker> innym.</example>
+            <example type="ambiguous" inputform="czym[co/subst:sg:loc:n2]" outputform="czym[co/czym_innym,co/subst:sg:loc:n2]">Mowa o <marker>czym</marker> innym.</example>
         </rule>
     </rulegroup>
 
@@ -930,7 +977,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <pattern>
             <token skip="5" regexp="yes" inflected="yes">uważać|dziękować|przepraszać|uchodzić|przeprosić|uznać|uznawać|odpowiadać<exception scope="next" regexp="yes">[\p{Punct}—–„«»…&amp;&amp;[^\.]]+</exception></token>
             <marker>
-                <token>za<exception postag="&lt;/PREP:ACC&gt;"></exception></token>
+                <token>za</token>
             </marker>
         </pattern>
         <disambig action="add"><wd lemma="za" pos="DEP">za</wd></disambig>
