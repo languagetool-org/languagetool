@@ -19,12 +19,10 @@
 package org.languagetool.gui;
 
 import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -60,7 +58,7 @@ public class LanguageManagerDialog implements ActionListener {
   private final ResourceBundle messages;
 
   private JDialog dialog;
-  private JList list;
+  private JList<File> list;
   private JButton addButton;
   private JButton removeButton;
   private JButton closeButton;
@@ -68,9 +66,9 @@ public class LanguageManagerDialog implements ActionListener {
   public LanguageManagerDialog(Frame owner, List<Language> languages) {
     this.owner = owner;
     for (Language lang : languages) {
-        for (final String ruleFile : lang.getRuleFileNames()) {
-            ruleFiles.add(new File(ruleFile));
-        }
+      for (final String ruleFile : lang.getRuleFileNames()) {
+        ruleFiles.add(new File(ruleFile));
+      }
     }
     messages = JLanguageTool.getMessageBundle();
   }
@@ -95,7 +93,7 @@ public class LanguageManagerDialog implements ActionListener {
     final Container contentPane = dialog.getContentPane();
     contentPane.setLayout(new GridBagLayout());
 
-    list = new JList<>(ruleFiles.toArray());
+    list = new JList<>(ruleFiles.toArray(new File[ruleFiles.size()]));
     GridBagConstraints cons = new GridBagConstraints();
     cons.insets = new Insets(4, 4, 4, 4);
     cons.gridx = 0;
@@ -161,7 +159,7 @@ public class LanguageManagerDialog implements ActionListener {
     } else if (e.getSource() == closeButton) {
       dialog.setVisible(false);
     } else {
-      throw new IllegalArgumentException("Don't know how to handle " + e); //$NON-NLS-1$
+      throw new IllegalArgumentException("Don't know how to handle " + e);
     }
   }
   
@@ -183,14 +181,14 @@ public class LanguageManagerDialog implements ActionListener {
     @Override
     public boolean accept(final File f) {
       if (f.getName().startsWith("rules") && f.getName().toLowerCase().endsWith(".xml") 
-              || f.isDirectory()) { //$NON-NLS-1$
+              || f.isDirectory()) {
         return true;
       }
       return false;
     }
     @Override
     public String getDescription() {
-      return "rules*.xml"; //$NON-NLS-1$
+      return "rules*.xml";
     }
   }
 

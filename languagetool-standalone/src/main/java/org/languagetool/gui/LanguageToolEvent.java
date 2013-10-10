@@ -25,16 +25,16 @@ package org.languagetool.gui;
 class LanguageToolEvent {
 
   public enum Type {
-
     CHECKING_STARTED,
     CHECKING_FINISHED,
     LANGUAGE_CHANGED,
     RULE_DISABLED,
     RULE_ENABLED
   }
-  private LanguageToolSupport source;
-  private Type type;
-  private Object caller;
+  
+  private final LanguageToolSupport source;
+  private final Type type;
+  private final Object caller;
 
   LanguageToolEvent(LanguageToolSupport source, Type type, Object caller) {
     this.source = source;

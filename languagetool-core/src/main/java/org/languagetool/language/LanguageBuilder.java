@@ -29,7 +29,7 @@ import org.languagetool.rules.Rule;
  * 
  * @author Daniel Naber
  */
-public class LanguageBuilder {
+public final class LanguageBuilder {
 
   private LanguageBuilder() {
   }
@@ -48,7 +48,7 @@ public class LanguageBuilder {
     if (!file.getName().endsWith(".xml")) {
       throw new RuleFilenameException(file);
     }
-    final String[] parts = file.getName().split("-");    
+    final String[] parts = file.getName().split("-");
     final boolean startsWithRules = parts[0].equals("rules");
     final boolean secondPartHasCorrectLength = parts.length == 3 &&
             (parts[1].length() == "en".length() || parts[1].length() == "ast".length() || parts[1].length() == "en_US".length());
@@ -92,9 +92,9 @@ public class LanguageBuilder {
       }
       @Override
       public List<String> getRuleFileNames() {
-          final List<String> ruleFiles = new ArrayList<>();
-          ruleFiles.add(file.getAbsolutePath());
-          return ruleFiles;
+        final List<String> ruleFiles = new ArrayList<>();
+        ruleFiles.add(file.getAbsolutePath());
+        return ruleFiles;
       }
       @Override
       public boolean isExternal() {
