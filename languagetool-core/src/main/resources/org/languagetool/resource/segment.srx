@@ -5106,6 +5106,25 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <afterbreak>\p{Lu}\p{Ll}</afterbreak>
 </rule>
 </languagerule>
+<languagerule languagerulename="Breton">
+<rule break="no">
+<beforebreak>\b[dD]\.l\.e\.?</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!-- Break rules -->
+<rule break="yes">
+<beforebreak>[\.!?…][\u0002|'|"|«|\)|\]|\}]?\s+</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="yes">
+<beforebreak>[\.!?…]['"\p{Pe}\u00BB\u201D]?</beforebreak>
+<afterbreak>\p{Lu}[^\p{Lu}]</afterbreak>
+</rule>
+<rule break="yes">
+<beforebreak>\s\p{L}[\.!?…]\s</beforebreak>
+<afterbreak>\p{Lu}\p{Ll}</afterbreak>
+</rule>
+</languagerule>
 </languagerules>
 <maprules>
 <languagemap languagepattern="[a-z]{2}_one" languagerulename="ByLineBreak"></languagemap>
@@ -5129,6 +5148,7 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <languagemap languagepattern="(BE|be).*" languagerulename="Belarusian"></languagemap>
 <languagemap languagepattern="(GL|gl).*" languagerulename="Galician"></languagemap>
 <languagemap languagepattern="(JA|ja).*" languagerulename="Japanese"></languagemap>
+<languagemap languagepattern="(BR|br).*" languagerulename="Breton"></languagemap>
 <languagemap languagepattern=".*" languagerulename="Default"></languagemap>
 </maprules>
 </body>

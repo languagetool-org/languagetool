@@ -36,15 +36,26 @@ import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
 import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.br.BretonWordTokenizer;
+import org.languagetool.tokenizers.SRXSentenceTokenizer;
+import org.languagetool.tokenizers.SentenceTokenizer;
 
 /** 
  * @author Dominique Pelle
  */
 public class Breton extends Language {
 
+  private SentenceTokenizer sentenceTokenizer;
   private Tagger tagger;
   private Tokenizer wordTokenizer;
   private Disambiguator disambiguator;
+
+  @Override
+  public final SentenceTokenizer getSentenceTokenizer() {
+    if (sentenceTokenizer == null) {
+      sentenceTokenizer = new SRXSentenceTokenizer(this);
+    }
+    return sentenceTokenizer;
+  }
 
   @Override
   public final Tokenizer getWordTokenizer() {

@@ -653,12 +653,24 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
       <disambig action="immunize"/>
     </rule>
   </rulegroup>
-  <rule id="DA_LAVARET_EO" name="Da lavaret eo">
-    <pattern>
-      <token>da</token>
-      <token>lavaret</token>
-      <marker><token>eo</token></marker>
-    </pattern>
-    <disambig action="add"><wd lemma="bezañ" pos="X DA_LAVARET_EO"/></disambig>
-  </rule>
+  <rulegroup id="DA_LAVARET_EO" name="Da lavaret eo">
+    <rule>
+      <pattern>
+        <token>da</token>
+        <token>lavaret</token>
+        <marker><token>eo</token></marker>
+      </pattern>
+      <disambig action="add"><wd lemma="bezañ" pos="X DA_LAVARET_EO"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <token>d</token>
+        <token>.</token>
+        <token>l</token>
+        <token>.</token>
+        <marker><token>e</token></marker>
+      </pattern>
+      <disambig><wd lemma="bezañ" pos="X DA_LAVARET_EO"/></disambig>
+    </rule>
+  </rulegroup>
 </rules>
