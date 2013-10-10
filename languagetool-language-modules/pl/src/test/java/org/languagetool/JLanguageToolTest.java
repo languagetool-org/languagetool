@@ -1,4 +1,4 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
@@ -18,13 +18,14 @@
  */
 package org.languagetool;
 
-import junit.framework.TestCase;
-import org.languagetool.language.Polish;
-import org.languagetool.rules.RuleMatch;
-
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+
+import junit.framework.TestCase;
+
+import org.languagetool.language.Polish;
+import org.languagetool.rules.RuleMatch;
 
 public class JLanguageToolTest extends TestCase {
 
@@ -52,7 +53,7 @@ public class JLanguageToolTest extends TestCase {
     matches = tool.check("This is not a Polish text.");
     assertEquals(3, matches.size());
     assertEquals("[Polish, This, is, text]", tool.getUnknownWords().toString());
-    //check positions relative to sentence ends    
+    //check positions relative to sentence ends
     matches = tool.check("To jest tekst.\nTest 1. To jest linia w której nie ma przecinka.");
     assertEquals(17, matches.get(0).getColumn());
     //with a space...
@@ -71,16 +72,18 @@ public class JLanguageToolTest extends TestCase {
     assertEquals(17, matches.get(0).getColumn());
     matches = tool.check("To jest tekst. To jest linia w której nie ma przecinka.");
     assertEquals(24, matches.get(0).getColumn());
-    
+
     //and let's test other feats
     AnalyzedSentence sent = tool.getAnalyzedSentence("Z powodu pogody dobre buty są wskazane.");
-    assertEquals("Disambiguator log: \n" +
-            "\n" +
-            "MULTIWORD_CHUNKER: Z[z/prep:acc:nwok*,z/prep:gen:nwok*,z/prep:inst:nwok*] -> Z[z/prep:acc:nwok*,z/prep:gen:nwok*,z/prep:inst:nwok*,Z powodu/<PREP:GEN>*]\n" +            
-            "\n" +
-            "MULTIWORD_CHUNKER: powodu[powód/subst:sg:gen:m3] -> powodu[powód/subst:sg:gen:m3,Z powodu/</PREP:GEN>]\n",
-            sent.getAnnotations());
-       
+    assertEquals("Disambiguator log: \n\n"+
+        "prep_verb:2 Z[z/prep:acc:nwok*,z/prep:gen:nwok*,z/prep:inst:nwok*] -> Z[z/prep:gen:nwok*]\n"+
+        "PREP_SUBST:1 Z[z/prep:gen:nwok*] -> Z[z/prep:gen:nwok*]\n"+
+        "MULTIWORD_CHUNKER: Z[z/prep:gen:nwok*] -> Z[z/prep:gen:nwok*,Z powodu/<PREP:GEN>*]\n\n"+
+        "prep_verb:2 powodu[powód/subst:sg:gen:m3] -> powodu[powód/subst:sg:gen:m3]\n"+
+        "PREP_SUBST:1 powodu[powód/subst:sg:gen:m3] -> powodu[powód/subst:sg:gen:m3]\n"+
+        "MULTIWORD_CHUNKER: powodu[powód/subst:sg:gen:m3] -> powodu[powód/subst:sg:gen:m3,Z powodu/</PREP:GEN>]\n",
+        sent.getAnnotations());
+
   }
-  
+
 }
