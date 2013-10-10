@@ -232,13 +232,12 @@ public class Configuration {
 
   public void saveConfiguration(final Language lang) throws IOException {
     final Properties props = new Properties();
-    
     final String qualifier = getQualifier(lang);
     
     addListToProperties(props, DISABLED_RULES_CONFIG_KEY + qualifier, disabledRuleIds);
     addListToProperties(props, ENABLED_RULES_CONFIG_KEY + qualifier, enabledRuleIds);
     addListToProperties(props, DISABLED_CATEGORIES_CONFIG_KEY + qualifier, disabledCategoryNames);
-    if (language != null) {
+    if (language != null && !language.isExternal()) {  // external languages won't be known at startup, so don't save them
       props.setProperty(LANGUAGE_CONFIG_KEY, language.getShortNameWithCountryAndVariant());
     }
     if (motherTongue != null) {
