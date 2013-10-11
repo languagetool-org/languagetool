@@ -1,4 +1,4 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
@@ -48,6 +48,7 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -74,6 +75,7 @@ import javax.swing.text.Highlighter;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.Position;
 import javax.swing.text.View;
+
 import org.apache.tika.language.LanguageIdentifier;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
@@ -166,7 +168,7 @@ class LanguageToolSupport {
 
   /**
    * Warm-up: we have a lot of lazy init in LT, which causes the first check to
-   * be very slow (several seconds) for languages with a lot of data and a lot of 
+   * be very slow (several seconds) for languages with a lot of data and a lot of
    * rules. We just assume that the default language is the language that the user
    * often uses and init the LT object for that now, not just when it's first used.
    * This makes the first check feel much faster:
@@ -319,7 +321,7 @@ class LanguageToolSupport {
     };
 
     mustDetectLanguage = config.getAutoDetect();
-    if ((!this.textComponent.getText().isEmpty()) && backgroundCheckEnabled) {
+    if (!this.textComponent.getText().isEmpty() && backgroundCheckEnabled) {
       checkImmediately(null);
     }
   }
@@ -404,13 +406,13 @@ class LanguageToolSupport {
     for (int i = 0; i < documentSpans.size(); i++) {
       final Span span = documentSpans.get(i);
       if (span.end > span.start) {
-        if ((span.start <= offset) && (offset < span.end)) {
+        if (span.start <= offset && offset < span.end) {
           JPopupMenu popup = new JPopupMenu("Grammar Menu");
           JLabel msgItem = new JLabel("<html>"
-                  + span.msg.replace("<suggestion>", "<b>").replace("</suggestion>", "</b>")
-                  + "</html>");
+              + span.msg.replace("<suggestion>", "<b>").replace("</suggestion>", "</b>")
+              + "</html>");
           msgItem.setToolTipText(
-                  span.desc.replace("<suggestion>", "").replace("</suggestion>", ""));
+              span.desc.replace("<suggestion>", "").replace("</suggestion>", ""));
           msgItem.setBorder(new JMenuItem().getBorder());
           popup.add(msgItem);
           popup.add(new JSeparator());
@@ -423,7 +425,7 @@ class LanguageToolSupport {
             }
           });
           popup.add(moreItem);
-          
+
           JMenuItem ignoreItem = new JMenuItem(messages.getString("guiOOoIgnoreButton"));
           ignoreItem.addActionListener(new ActionListener() {
             @Override
@@ -707,14 +709,18 @@ class LanguageToolSupport {
 
     for (Span span : grammarErrors) {
       try {
-        h.addHighlight(span.start, span.end, bluePainter);
+        if (span.start < span.end) { //to avoid the BadLocationException
+          h.addHighlight(span.start, span.end, bluePainter);
+        }
       } catch (BadLocationException ex) {
         ex.printStackTrace();
       }
     }
     for (Span span : spellErrors) {
       try {
-        h.addHighlight(span.start, span.end, redPainter);
+        if (span.start < span.end) { //to avoid the BadLocationException
+          h.addHighlight(span.start, span.end, redPainter);
+        }
       } catch (BadLocationException ex) {
         ex.printStackTrace();
       }
@@ -725,7 +731,7 @@ class LanguageToolSupport {
     Span span = new Span();
     span.start = match.getFromPos();
     span.end = match.getToPos();
-    span.msg = (match.getShortMessage() != null && !match.getShortMessage().isEmpty()) ? match.getShortMessage() : match.getMessage();
+    span.msg = match.getShortMessage() != null && !match.getShortMessage().isEmpty() ? match.getShortMessage() : match.getMessage();
     span.msg = Tools.shortenComment(span.msg);
     span.desc = match.getMessage();
     span.replacement = new ArrayList<>();
@@ -745,7 +751,7 @@ class LanguageToolSupport {
     textPane.setOpaque(false);
     textPane.setBackground(new Color(0, 0, 0, 0));
     message = message.replaceAll("<suggestion>", "<b>")
-            .replaceAll("</suggestion>", "</b>");
+        .replaceAll("</suggestion>", "</b>");
     textPane.addHyperlinkListener(new HyperlinkListener() {
       @Override
       public void hyperlinkUpdate(HyperlinkEvent e) {
@@ -764,11 +770,11 @@ class LanguageToolSupport {
     textPane.setText("<html>" + message + formatURL(url) + "</html>");
     JScrollPane scrollPane = new JScrollPane(textPane);
     scrollPane.setPreferredSize(
-            new Dimension(dialogWidth, textPane.getPreferredSize().height));
+        new Dimension(dialogWidth, textPane.getPreferredSize().height));
     scrollPane.setBorder(BorderFactory.createEmptyBorder());
 
     JOptionPane.showMessageDialog(parent, scrollPane, title,
-            JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.INFORMATION_MESSAGE);
   }
 
   private static String formatURL(URL url) {
@@ -776,7 +782,7 @@ class LanguageToolSupport {
       return "";
     }
     return String.format("<br/><br/><a href=\"%s\">%s</a>",
-            url.toExternalForm(), "external link");
+        url.toExternalForm(), "external link");
   }
 
   private static class HighlightPainter extends DefaultHighlighter.DefaultHighlightPainter {
@@ -803,7 +809,7 @@ class LanguageToolSupport {
       } else {
         try {
           Shape shape = view.modelToView(offs0, Position.Bias.Forward, offs1, Position.Bias.Backward, bounds);
-          rect = (shape instanceof Rectangle) ? (Rectangle) shape : shape.getBounds();
+          rect = shape instanceof Rectangle ? (Rectangle) shape : shape.getBounds();
         } catch (BadLocationException e) {
           rect = null;
         }
