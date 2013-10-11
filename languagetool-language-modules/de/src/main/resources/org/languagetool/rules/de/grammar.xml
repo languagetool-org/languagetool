@@ -297,6 +297,19 @@ $Id$
             <example type="correct">Der Text wurde <marker>aus</marker> der Aufgabenstellung auf dem Blatt entfernt.</example>
             <example type="correct">Es wird <marker>auf</marker> diesen entfernten Block zugegriffen.</example>
         </rule>
+        <rule id="WAS_WAR" name="Möglicher Tippfehler: 'ich was (war) ein' etc.">
+            <pattern>
+                <token postag_regexp="yes" postag="(EIG|SUB:NOM|PRO:PER:NOM).*SIN.*"/>
+                <marker>
+                    <token>was</token>
+                </marker>
+                <token regexp="yes">eine?</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>war</suggestion>?</message>
+            <example type="incorrect" correction="war">Ich <marker>was</marker> ein Idiot.</example>
+            <example type="correct">Ich <marker>war</marker> ein Idiot.</example>
+            <example type="correct">Ich fand die Idee gut, <marker>was</marker> ein Fehler war.</example>
+        </rule>
         <rule id="ETWAS_ZAHL" name="Möglicher Tippfehler: 'etwas (etwa) [Zahl]'">
             <pattern>
                 <marker>
@@ -5299,6 +5312,44 @@ $Id$
                 <example type="incorrect" correction="OpenStreetMap">Bei <marker>Open-Street-Map</marker> handelt es sich um eine freie Geodatenbank.</example>
                 <example type="incorrect" correction="OpenStreetMap">Bei <marker>Openstreetmap</marker> handelt es sich um eine freie Geodatenbank.</example>
                 <example type="incorrect" correction="OpenStreetMap">Bei <marker>Openstreetmaps</marker> handelt es sich um eine freie Geodatenbank.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="IF_SCHLEIFE" name="'if-Schleife (if-Bedingung)'">
+            <rule>
+                <pattern>
+                    <token regexp="yes">if-Schleifen?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>if-Bedingung</suggestion>?</message>
+                <example type="correct">Hier muss man eine <marker>if-Bedingung</marker> verwenden.</example>
+                <example type="incorrect" correction="if-Bedingung">Hier muss man eine <marker>if-Schleife</marker> verwenden.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>if</token>
+                    <token regexp="yes">Schleifen?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>if-Bedingung</suggestion>?</message>
+                <example type="correct">Hier muss man eine <marker>if-Bedingung</marker> verwenden.</example>
+                <example type="incorrect" correction="if-Bedingung">Hier muss man eine <marker>if Schleife</marker> verwenden.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="JAVASCRIPT_APPLET" name="'JavaScript-Applet (Java-Applet)'">
+            <rule>
+                <pattern>
+                    <token regexp="yes">JavaScript-Applets?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Java-Applet</suggestion> oder <suggestion>JavaScript</suggestion>?</message>
+                <example type="correct">Das ist ein <marker>Java-Applet</marker>.</example>
+                <example type="incorrect" correction="Java-Applet|JavaScript">Das ist ein <marker>JavaScript-Applet</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>JavaScript</token>
+                    <token>Applet</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Java-Applet</suggestion> oder <suggestion>JavaScript</suggestion>?</message>
+                <example type="correct">Das ist ein <marker>Java-Applet</marker>.</example>
+                <example type="incorrect" correction="Java-Applet|JavaScript">Das ist ein <marker>JavaScript Applet</marker>.</example>
             </rule>
         </rulegroup>
         <!-- Prominente -->
