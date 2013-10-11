@@ -9086,6 +9086,7 @@ $Id$
             </rule>
             <rule>
             <pattern>
+                <token>és</token>
                 <marker>
                     <token>mon</token>
                 </marker>
@@ -15059,7 +15060,7 @@ $Id$
                         <token>en</token>
                         <token>ocasions</token>
                     </marker>
-                    <token><exception postag="AQ.[FC][PN].|RG_anteposat" postag_regexp="yes"/><exception>com</exception></token>
+                    <token><exception postag="AQ.[FC][PN].|RG_anteposat" postag_regexp="yes"/><exception regexp="yes">de|d'|com|assenyalades|determinades|comptades</exception></token>
                 </pattern>
                 <message>Expressió incorrecta si equival a <suggestion>a vegades</suggestion>.</message>
                 <suggestion>a voltes</suggestion>
@@ -15067,8 +15068,11 @@ $Id$
                 <suggestion>sovint</suggestion>
                 <short>Expressió incorrecta</short>
                 <example type="incorrect"><marker>en ocasions</marker> veig fantasmes</example>
+                <example type="incorrect">foren <marker>en ocasions</marker> assassinades.</example>
                 <example type="correct">només ho fa en ocasions especials</example>
                 <example type="correct">només ho fa en ocasions molt especials</example>
+                <example type="correct">en ocasions de cerimònia</example>
+                <example type="correct">en ocasions determinades</example>
             </rule>
             <rule>
                 <pattern>
@@ -15077,7 +15081,7 @@ $Id$
                         <token>ocasions</token>
                     </marker>
                     <token postag="RG_anteposat"/>
-                    <token><exception postag="AQ.[FC][PN]." postag_regexp="yes"/></token>
+                    <token><exception postag="AQ.[FC][PN]." postag_regexp="yes"/><exception regexp="yes">assenyalades|determinades|comptades</exception></token>
                 </pattern>
                 <message>Expressió incorrecta si equival a <suggestion>a vegades</suggestion>.</message>
                 <suggestion>a voltes</suggestion>
@@ -15088,6 +15092,7 @@ $Id$
                 <example type="correct">només ho fa en ocasions especials</example>
                 <example type="correct">només ho fa en ocasions molt especials</example>
                 <example type="correct">En ocasions com aquesta</example>
+                <example type="correct">En ocasions molt assenyalades</example>
             </rule>
             <rule>
                 <pattern>
@@ -15095,8 +15100,9 @@ $Id$
                         <token>en</token>
                         <token>ocasions</token>
                     </marker>
-                    <token>com</token>
-                    <token><exception postag="DD0F.0" postag_regexp="yes"/></token>
+                    <token regexp="yes">com|de|d'</token>
+                    <token><exception postag="DD0F.0" postag_regexp="yes"/><exception inflected="yes" regexp="yes">cerimònia|festa|celebració|gala|esdeveniment</exception></token>
+                    <token><exception inflected="yes" regexp="yes">cerimònia|festa|celebració|gala|esdeveniment</exception></token>
                 </pattern>
                 <message>Expressió incorrecta si equival a <suggestion>a vegades</suggestion>.</message>
                 <suggestion>a voltes</suggestion>
@@ -15106,6 +15112,8 @@ $Id$
                 <example type="incorrect">Es comporta <marker>en ocasions</marker> com un idiota</example>
                 <example type="correct">En ocasions com aquesta no té rival</example>
                 <example type="correct">En ocasions com aquelles no té rival</example>
+                <example type="correct">En ocasions de cerimònia</example>
+                <example type="correct">En ocasions de grans esdeveniments</example>
             </rule>
         </rulegroup>
         <rule id="A_LENSEMS" name="a l'ensems">
