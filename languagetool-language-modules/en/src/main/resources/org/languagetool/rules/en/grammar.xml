@@ -6484,7 +6484,7 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
                     </marker>
                     <token><exception postag="NN.*" postag_regexp="yes"></exception><exception regexp="yes">['’]</exception></token>
                 </pattern>
-                <message>Don't use indefinite articles with plural words. Did you mean <suggestion><match no="2"></match> <match no="3" postag="NN" postag_regexp="yes"></match></suggestion> or simply <suggestion><match no="3"></match></suggestion>?</message>
+                <message>Don't use indefinite articles with plural words. Did you mean <suggestion><match no="2"></match> <match no="3" postag="NN(:UN?)?" postag_regexp="yes"></match></suggestion> or simply <suggestion><match no="3"></match></suggestion>?</message>
                 <short>Possible agreement error</short>
                 <example correction="a criterion|criteria" type="incorrect">I needed to use a text line as <marker>a criteria</marker> to select users for a list.</example>
                 <example type="correct">It is a criteria list that we prepared last night.</example>
@@ -6505,11 +6505,12 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
                     </marker>
                     <token><exception postag="NN.*" postag_regexp="yes"></exception><exception regexp="yes">['’]</exception></token>
                 </pattern>
-                <message>Don't use indefinite articles with plural words. Did you mean <suggestion><match no="4" postag="NN" postag_regexp="yes"/></suggestion>?</message>
+                <message>Don't use indefinite articles with plural words. Did you mean <suggestion><match no="4" postag="NN(:UN?)?" postag_regexp="yes"/></suggestion>?</message>
                 <short>Possible agreement error</short>
                 <example correction="milestone" type="incorrect">The Syria resolution was a major <marker>milestones</marker> for the United Nations.</example>
                 <example type="correct">The Syria resolution was a major <marker>milestone</marker> for the United Nations.</example>
                 <example type="correct">Only half a dozen asteroids are larger than 87 Sylvia.</example>
+                <example type="incorrect" correction="woman">The average figure of a Korean <marker>women</marker> in her twenties</example>
             </rule>
         </rulegroup>
         <rule id="ONE_PLURAL" name="Agreement: 'one' + plural word">
