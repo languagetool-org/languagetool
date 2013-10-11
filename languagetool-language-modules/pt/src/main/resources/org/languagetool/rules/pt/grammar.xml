@@ -21,7 +21,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.061 2013-09-12 14:20:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.062 2013-10-11 16:45:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -1434,6 +1434,20 @@ $Id: grammar.xml,v 1.061 2013-09-12 14:20:00 marcoagpinto Exp $
       <example type="incorrect">Tenho <marker>um terrível dor</marker> de cabeça.</example>
       <example type="correct">Tenho <marker>uma terrível dor</marker> de cabeça.</example>
     </rule>
+
+
+
+    <!-- VESTIR calçar -->
+	<rule id="CONFUSÃO_VESTIR_CALÇAR" name="confusão vestir/calçar">
+	  <pattern>
+        <token regexp="yes">vestir|vestiu|veste|vestiste</token>
+        <token regexp="yes">os|o|a|as</token>
+        <token regexp="yes">sapato|sapatos|chinelo|chinelos|meia|meias|luva|luvas|bota|botas</token>
+      </pattern>
+      <message>Usa o verbo calçar</message>
+      <example type="incorrect"><marker>Vestir os sapatos</marker>.</example>
+	  <example type="correct"><marker>Calçar os sapatos</marker>.</example>
+	</rule>
 
 
 
