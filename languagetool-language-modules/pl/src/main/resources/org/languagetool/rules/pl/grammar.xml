@@ -2390,7 +2390,7 @@ $Id$
 				</rule>
                 <rule id="KROPKA_PRZED_PRZECINKIEM" name="Zbędna kropka przed przecinkiem">
                   <pattern>
-                    <token><exception postag="brev:pun"/></token>
+                    <token regexp="yes" spacebefore="yes">\p{L}\p{L}+<exception postag="brev:pun"/><exception scope="previous">.</exception></token>
                     <token>.</token>
                     <token>,</token>
                   </pattern>
@@ -2399,6 +2399,12 @@ $Id$
                   <example type="incorrect">To jest <marker>przykład.,</marker> który znamy.</example>
                   <example type="correct">Grabski Andrzej Feliks – Polska w opiniach obcych X-XIII w., Warszawa 1964.</example>
                   <example type="correct">Dziwny to przykład.</example>
+                  <example type="correct">Używane było najczęściej w latach 70. i 80., wraz z pierwszą i drugą falą fandomu.</example>
+                  <example type="correct">Bibliografia  Goodman M., Sherwood J. 1997.</example>
+                  <example type="correct">... wychowywanych w szkole narodowej polskiej..., Paryż 1852</example>
+                  <example type="correct">Stan ten przezwyciężono dopiero na początku lat 90., kiedy wprowadzono stabilizację waluty.</example>
+                  <example type="incorrect">Kotula T., Septymiusz Sewerus, cesarz z Lepcis <marker>Magna.,</marker> Ossolineum, Wrocław 1987.</example>
+                  <example type="correct">Molesta Ewenement, Tewu, DonGuralesko, O.S.T.R., Jamal, Natural Dread Killaz</example>
                   </rule>
 		</category>
 		<category name="Błędy odmiany" type="grammar">
@@ -3883,19 +3889,20 @@ $Id$
                           <pattern>                          
                             <token regexp="yes">ze?</token>
                             <marker>
-                            <token><exception postag=".*(inst|acc|gen).*" postag_regexp="yes"/></token>
+                            <token postag="subst:.*" postag_regexp="yes"><exception postag=".*(inst|acc|gen).*" postag_regexp="yes"/></token>
                            </marker>
                           </pattern>
                           <message>Przyimek „\1” jest używany z biernikiem, dopełniaczem lub narzędnikiem.</message>
                           <short>Przyimek wymaga biernika, dopełniacza lub narzędnika</short>
                           <example type="correct">Wszystko z pewnością jest w porządku.</example>
-                        <example type="incorrect">Wszystko z <marker>pewnościach</marker> jest w porządku.</example>                         
+                          <example type="incorrect">Wszystko z <marker>pewnościach</marker> jest w porządku.</example>
+                          <example type="correct">Według spisu z 2010 roku 68,5% mieszkańców stanowiła ludność biała.</example>                         
                         </rule>            
 						<rule>
 							<pattern>
 								<marker><token regexp="yes" inflected="yes">godzina|rok|miesiąc|tydzień|minuta|chwila|moment|wiek|stulecie<exception postag_regexp="yes" postag=".*acc.*"/></token></marker>
-						<token postag="prep:acc">temu</token>
-							</pattern>
+						        <token postag="prep:acc">temu</token>
+							     </pattern>
 							<message>Przyimek „\1” jest używany z biernikiem.</message>
 								<short>Przyimek wymaga biernika</short>
 								<example type="correct">To było godzinę temu.</example>
