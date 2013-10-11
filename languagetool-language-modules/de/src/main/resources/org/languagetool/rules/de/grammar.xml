@@ -5352,6 +5352,35 @@ $Id$
                 <example type="incorrect" correction="Java-Applet|JavaScript">Das ist ein <marker>JavaScript Applet</marker>.</example>
             </rule>
         </rulegroup>
+        <rule id="UBUNTU_12_4" name="Eigenname: 'Ubuntu 12.4 (12.04)' etc.">
+            <pattern>
+                <token regexp="yes">.*buntu</token>
+                <marker>
+                    <token regexp="yes">1?[0-9]</token>
+                    <token>.</token>
+                    <token regexp="yes">[46]</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie \1 <suggestion>\2\30\4</suggestion>?</message>
+            <example type="correct">Ich benutze Ubuntu <marker>12.04</marker>.</example>
+            <example type="correct">Ich benutze Ubuntu <marker>12.04.1</marker>.</example>
+            <example type="incorrect" correction="12.04">Ich benutze Ubuntu <marker>12.4</marker>.</example>
+            <example type="incorrect" correction="12.04">Ich benutze Kubuntu <marker>12.4</marker>.1.</example>
+        </rule>
+        <rulegroup id="MP_3" name="Eigenname: 'MP-3 (MP3)' etc.">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">([mM][pP]\-3|Mp3).*</token>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="1" regexp_match=".*3(.*)" regexp_replace="MP3$1"/></suggestion>?</message>
+                <url>https://de.wikipedia.org/wiki/MP3</url>
+                <example type="correct">Ich habe einen neuen <marker>MP3-Player</marker>.</example>
+                <example type="incorrect" correction="MP3-Player">Ich habe einen neuen <marker>MP-3-Player</marker>.</example>
+                <example type="correct"><marker>MP3</marker> ist ein weit verbreitetes Format.</example>
+                <example type="incorrect" correction="MP3"><marker>Mp3</marker> ist ein weit verbreitetes Format.</example>
+                <example type="incorrect" correction="MP3"><marker>Mp-3</marker> ist ein weit verbreitetes Format.</example>
+            </rule>
+        </rulegroup>
         <!-- Prominente -->
         <rule id="ALEXIUS_MEINONG" name="Eigenname: 'Alexius Meinung (Meinong)'">
             <pattern case_sensitive="yes">
