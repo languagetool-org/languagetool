@@ -3928,7 +3928,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token postag="V.N.*" postag_regexp="yes"></token>
         </pattern>
         <disambig action="remove"><wd pos="VMIP1S0B"></wd></disambig>
-    </rule>   
+    </rule>
+    <rule id="NoParticipi" name="no participi, és nom">
+        <pattern>
+            <token regexp="yes" inflected="yes">accedir|accés|equivaler|equivalent|duel|quant|lluita|lluitar</token>
+            <token>a</token>
+            <marker>
+                <token regexp="yes">delegats?|morts?|llibertats?|capacitats?|continguts?<exception postag="_GV_" postag_regexp="yes"/></token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="[^V].*"/>
+    </rule>
     <!-- verb aux seguit d'infinitiu: va donar-->
     <rulegroup id="VauxInf" name="Verb auxiliar seguit d'infinitiu">
         <rule> <!--  desambigua "va encendre" i semblants -->
@@ -7254,7 +7264,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rulegroup>
     <rule id="NoVerb" name="no verb si no és en grup verbal">
         <pattern>
-            <token>afectes<exception postag="_GV_"/></token>
+            <token regexp="yes">afectes|diputats?|diputad(a|es)<exception postag="_GV_"/></token>
         </pattern>
         <disambig action="filter" postag="[^V].*"/>
     </rule>
