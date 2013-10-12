@@ -38,6 +38,8 @@ public class PolishWordRepeatRuleTest extends TestCase {
     //correct
     matches = rule.match(langTool.getAnalyzedSentence("To jest zdanie próbne."));
     assertEquals(0, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("On tak się bardzo nie martwił, bo przecież musiał się umyć."));
+    assertEquals(0, matches.length);
     //repeated prepositions, don't count'em
     matches = rule.match(langTool.getAnalyzedSentence("Na dyskotece tańczył jeszcze, choć był na bani."));
     assertEquals(0, matches.length);
