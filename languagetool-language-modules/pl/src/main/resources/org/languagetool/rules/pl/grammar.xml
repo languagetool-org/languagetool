@@ -2047,6 +2047,33 @@ $Id$
 						</rule>
 				</rulegroup>
 		</category>
+    <category name="Formatowanie liczb" type="numbers">
+    <rulegroup id="FORMAT_DZIESIETNY" name="Kropka zamiast przecinka w liczbach">
+    <rule>
+      <pattern>
+      <marker>
+        <token regexp="yes">\d+</token>
+        <token>.</token>
+        <token regexp="yes">\d\d</token>
+      </marker>
+        <token>zł</token>
+      </pattern>
+      <message>Prawdopodobnie niepoprawny format liczby dziesiętnej. Czy powinno być <suggestion>\1,\3</suggestion>?</message>
+      <short>Zły format liczby</short>
+      <example type="correct">300.000 zł</example>
+      <example type="incorrect" correction="312,12"><marker>312.12</marker> zł</example>
+    </rule>
+    </rulegroup>
+    <rule id="JEDNOSTKA_LICZBA" name="Brak spacji przed jednostką, np. 12 kg">
+      <pattern>
+        <token regexp="yes">\d+([mkc]m|[Mk]Hz|[MKT]B|V)</token>
+      </pattern>
+      <message>Brak spacji po wartości liczbowej. Powinno być: <suggestion><match no="1" regexp_match="(\d+)(.*)" regexp_replace="$1 $2"></match></suggestion>.</message>
+      <short>Zły format liczby</short>
+      <example type="correct">Ten dysk ma wielkość 120 MB.</example>
+      <example type="incorrect" correction="500 MHz">Częstotliwość nośna to <marker>500MHz</marker>.</example>
+    </rule>
+    </category>
 		<category name="Błędy typograficzne" type="typographical">
 				<rulegroup id="BRAK_SPACJI" name="Brak spacji po znakach interpunkcyjnych">
 						<rule>
