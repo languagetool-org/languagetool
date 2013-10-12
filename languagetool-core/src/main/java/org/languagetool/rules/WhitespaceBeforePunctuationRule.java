@@ -1,4 +1,4 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2013 Daniel Naber (http://www.danielnaber.de)
  *                    Paolo Bianchini
  * 
@@ -44,7 +44,7 @@ public class WhitespaceBeforePunctuationRule extends Rule {
   public WhitespaceBeforePunctuationRule(final ResourceBundle messages) {
     super(messages);
     super.setCategory(new Category(messages.getString("category_misc")));
-    setLocQualityIssueType("typographical");
+    setLocQualityIssueType("whitespace");
   }
 
   @Override
@@ -61,32 +61,32 @@ public class WhitespaceBeforePunctuationRule extends Rule {
   public final RuleMatch[] match(final AnalyzedSentence text) {
     final List<RuleMatch> ruleMatches = new ArrayList<>();
     final AnalyzedTokenReadings[] tokens = text.getTokens();
-    boolean prevWhite = false;    
+    boolean prevWhite = false;
     int prevLen = 0;
     for (int i = 0; i < tokens.length; i++) {
       final String token = tokens[i].getToken();
       final boolean isWhitespace = tokens[i].isWhitespace() || StringTools.isNonBreakingWhitespace(token)
-              || tokens[i].isFieldCode();
+          || tokens[i].isFieldCode();
       String msg = null;
       String suggestionText = null;
       if (prevWhite) {
         if (token.equals(":")) {
-            msg = messages.getString("no_space_before_colon");
-            suggestionText = ":";
-            // exception case for figures such as " : 0" 
-            if (i + 2 < tokens.length
-                && tokens[i + 1].isWhitespace()
-                && Character.isDigit(tokens[i + 2].getToken().charAt(0))) {
-              msg = null;
-            }
+          msg = messages.getString("no_space_before_colon");
+          suggestionText = ":";
+          // exception case for figures such as " : 0"
+          if (i + 2 < tokens.length
+              && tokens[i + 1].isWhitespace()
+              && Character.isDigit(tokens[i + 2].getToken().charAt(0))) {
+            msg = null;
+          }
         } else if (token.equals(";")) {
-            msg = messages.getString("no_space_before_semicolon");
-            suggestionText = ";";
+          msg = messages.getString("no_space_before_semicolon");
+          suggestionText = ";";
         } else if (i > 1
-              && token.equals("%")
-              && Character.isDigit(tokens[i - 2].getToken().charAt(0))) {
-            msg = messages.getString("no_space_before_percentage");
-            suggestionText = "%";
+            && token.equals("%")
+            && Character.isDigit(tokens[i - 2].getToken().charAt(0))) {
+          msg = messages.getString("no_space_before_percentage");
+          suggestionText = "%";
         }
       }
       if (msg != null) {

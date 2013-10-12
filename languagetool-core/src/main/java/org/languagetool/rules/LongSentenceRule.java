@@ -32,9 +32,9 @@ import org.languagetool.AnalyzedTokenReadings;
 public class LongSentenceRule extends Rule {
 
   private static final int DEFAULT_MAX_WORDS = 40;
-  
+
   private final int maxWords;
-  
+
   /**
    * @param maxSentenceLength the maximum sentence length that does not yet trigger a match
    * @since 2.4
@@ -47,12 +47,13 @@ public class LongSentenceRule extends Rule {
     }
     maxWords = maxSentenceLength;
     setDefaultOff();
+    setLocQualityIssueType("style");
   }
 
   public LongSentenceRule(final ResourceBundle messages) {
     this(messages, DEFAULT_MAX_WORDS);
   }
-  
+
   @Override
   public String getDescription() {
     return "Readability: sentence over " + maxWords + " words";

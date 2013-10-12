@@ -1,4 +1,4 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2012 Marcin Miłkowski (http://www.languagetool.org)
  * 
  * This library is free software; you can redistribute it and/or
@@ -19,15 +19,6 @@
 
 package org.languagetool.rules.spelling.morfologik;
 
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.rules.Category;
-import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.spelling.SpellingCheckRule;
-import org.languagetool.AnalyzedToken;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,6 +27,14 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.rules.Category;
+import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 
 public abstract class MorfologikSpellerRule extends SpellingCheckRule {
 
@@ -54,6 +53,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     super.setCategory(new Category(messages.getString("category_typo")));
     this.conversionLocale = conversionLocale != null ? conversionLocale : Locale.getDefault();
     init();
+    setLocQualityIssueType("misspelling");
   }
 
   @Override
@@ -117,7 +117,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
           ruleMatches.addAll(getRuleMatch(word, token.getStartPos()));
         } else {
           ruleMatches.addAll(getRuleMatch(word.subSequence(
-                  index, word.length()).toString(), token.getStartPos() + index));
+              index, word.length()).toString(), token.getStartPos() + index));
         }
       }
     }
@@ -134,8 +134,8 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     if (isMisspelled(speller, word)) {
       final RuleMatch ruleMatch = new RuleMatch(this, startPos, startPos
           + word.length(), messages.getString("spelling"),
-          messages.getString("desc_spelling_short")); 
-      //If lower case word is not a misspelled word, return it as the only suggestion 
+          messages.getString("desc_spelling_short"));
+      //If lower case word is not a misspelled word, return it as the only suggestion
       if (!isMisspelled(speller, word.toLowerCase(conversionLocale))) {
         List<String> suggestion = Arrays.asList(word.toLowerCase(conversionLocale));
         ruleMatch.setSuggestedReplacements(suggestion);
@@ -162,11 +162,11 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   public Pattern tokenizingPattern() {
     return null;
   }
-  
+
   protected List<String> getAdditionalSuggestions(List<String> suggestions, String word) {
     return suggestions;
   }
-  
+
   protected List<String> orderSuggestions(List<String> suggestions, String word) {
     return suggestions;
   }
