@@ -470,7 +470,7 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
             <example correction="for sale" type="incorrect">Current Michigan homes <marker>for sell</marker></example>
             <example type="correct">Current Michigan homes for sale</example>
         </rule>
-        <rulegroup id="FROM_FORM" name="from (form)">
+        <rulegroup id="FROM_FORM" name="from/form">
             <rule>
                 <pattern>
                     <token>in</token>
@@ -504,6 +504,21 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
                 <short>Possible typo</short>
                 <example correction="the form" type="incorrect">Fill in <marker>the from</marker> as shown below.</example>
                 <example type="correct">Fill in the form as shown below.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="NN.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>form</token>
+                    </marker>
+                    <token postag="PRP\$|DT" postag_regexp="yes"/>
+                    <token postag="NN.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Did you mean <suggestion>from</suggestion>?</message>
+                <short>Possible typo</short>
+                <example type="incorrect" correction="from">I got a letter <marker>form</marker> my friend.</example>
+                <example type="correct">I got a letter <marker>from</marker> my friend.</example>
+                <example type="correct">I got a letter <marker>form</marker> from my friend.</example>
             </rule>
         </rulegroup>
         <rule id="THERE_EXITS" name="there exits (there exists)">
