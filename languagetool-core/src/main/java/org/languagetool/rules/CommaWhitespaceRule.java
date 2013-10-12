@@ -1,4 +1,4 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
@@ -37,7 +37,7 @@ public class CommaWhitespaceRule extends Rule {
   public CommaWhitespaceRule(final ResourceBundle messages) {
     super(messages);
     super.setCategory(new Category(messages.getString("category_misc")));
-    setLocQualityIssueType("typographical");
+    setLocQualityIssueType("whitespace");
   }
 
   @Override
@@ -56,12 +56,12 @@ public class CommaWhitespaceRule extends Rule {
     final AnalyzedTokenReadings[] tokens = text.getTokens();
     String prevToken = "";
     String prevPrevToken = "";
-    boolean prevWhite = false;    
+    boolean prevWhite = false;
     int prevLen = 0;
     for (int i = 0; i < tokens.length; i++) {
       final String token = tokens[i].getToken();
       final boolean isWhitespace = tokens[i].isWhitespace() || StringTools.isNonBreakingWhitespace(token)
-              || tokens[i].isFieldCode();
+          || tokens[i].isFieldCode();
       String msg = null;
       int fixLen = 0;
       String suggestionText = null;
@@ -69,9 +69,9 @@ public class CommaWhitespaceRule extends Rule {
         msg = messages.getString("no_space_after");
         suggestionText = prevToken;
         fixLen = 1;
-      } else if (!isWhitespace && prevToken.equals(",") 
-          && isNotQuoteOrHyphen(token) 
-          && containsNoNumber(prevPrevToken) 
+      } else if (!isWhitespace && prevToken.equals(",")
+          && isNotQuoteOrHyphen(token)
+          && containsNoNumber(prevPrevToken)
           && containsNoNumber(token)
           && !",".equals(prevPrevToken)) {
         msg = messages.getString("missing_space_after_comma");
@@ -87,8 +87,8 @@ public class CommaWhitespaceRule extends Rule {
           fixLen = 1;
           //exception for duplicated comma (we already have another rule for that)
           if (i + 1 < tokens.length
-             && ",".equals(tokens[i + 1].getToken())) {
-           msg = null; 
+              && ",".equals(tokens[i + 1].getToken())) {
+            msg = null;
           }
         } else if (token.equals(".")) {
           msg = messages.getString("no_space_before_dot");
@@ -121,9 +121,9 @@ public class CommaWhitespaceRule extends Rule {
   static boolean isNotQuoteOrHyphen(final String str) {
     if (str.length() == 1) {
       final char c = str.charAt(0);
-      if (c =='\'' || c == '-' || c == '”' 
-        || c =='’' || c == '"' || c == '“'
-        || c == ',') {
+      if (c =='\'' || c == '-' || c == '”'
+          || c =='’' || c == '"' || c == '“'
+          || c == ',') {
         return false;
       }
     } else {
@@ -134,7 +134,7 @@ public class CommaWhitespaceRule extends Rule {
 
   static boolean isNumberOrDot(final String str) {
     final char c = str.charAt(0);
-    return (c == '.' || Character.isDigit(c)); 
+    return c == '.' || Character.isDigit(c);
   }
 
   static boolean isLeftBracket(final String str) {
@@ -142,7 +142,7 @@ public class CommaWhitespaceRule extends Rule {
       return false;
     }
     final char c = str.charAt(0);
-    return (c == '(' || c == '[' || c == '{');
+    return c == '(' || c == '[' || c == '{';
   }
 
   static boolean isRightBracket(final String str) {
@@ -150,17 +150,17 @@ public class CommaWhitespaceRule extends Rule {
       return false;
     }
     final char c = str.charAt(0);
-    return (c == ')' || c == ']' || c == '}');
+    return c == ')' || c == ']' || c == '}';
   }
 
-  static boolean containsNoNumber(final String str) {    
+  static boolean containsNoNumber(final String str) {
     for (int i = 0; i < str.length(); i++) {
       if (Character.isDigit(str.charAt(i))) {
         return false;
       }
     }
     return true;
-  }   
+  }
 
   @Override
   public void reset() {

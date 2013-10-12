@@ -1,4 +1,4 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
@@ -31,7 +31,7 @@ import org.languagetool.tools.StringTools;
 /**
  * Check if there is duplicated whitespace in a sentence.
  * Considers two spaces as incorrect, and proposes a single space instead.
- *    
+ * 
  * @author Marcin Miłkowski
  */
 public class WhitespaceRule extends Rule {
@@ -39,7 +39,7 @@ public class WhitespaceRule extends Rule {
   public WhitespaceRule(final ResourceBundle messages, final Language language) {
     super(messages);
     super.setCategory(new Category(messages.getString("category_misc")));
-    setLocQualityIssueType("typographical");
+    setLocQualityIssueType("whitespace");
   }
 
   @Override
@@ -65,11 +65,11 @@ public class WhitespaceRule extends Rule {
     while (i < tokens.length) {
       final boolean tokenIsTab = tokens[i].getToken().equals("\t");
       final boolean prevTokenIsLinebreak = tokens[i -1].isLinebreak();
-      if ((tokens[i].isWhitespace() || 
-              StringTools.isNonBreakingWhitespace(tokens[i].getToken())) && prevWhite && !tokenIsTab && !prevTokenIsLinebreak) {
+      if ((tokens[i].isWhitespace() ||
+          StringTools.isNonBreakingWhitespace(tokens[i].getToken())) && prevWhite && !tokenIsTab && !prevTokenIsLinebreak) {
         final int pos = tokens[i -1].getStartPos();
-        while (i < tokens.length && (tokens[i].isWhitespace() || 
-                StringTools.isNonBreakingWhitespace(tokens[i].getToken()))) {
+        while (i < tokens.length && (tokens[i].isWhitespace() ||
+            StringTools.isNonBreakingWhitespace(tokens[i].getToken()))) {
           prevLen += tokens[i].getToken().length();
           i++;
         }
