@@ -1,4 +1,4 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
@@ -18,10 +18,13 @@
  */
 package org.languagetool.rules.ru;
 
-import org.languagetool.rules.AdvancedWordRepeatRule;
-
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.ResourceBundle;
+import java.util.Set;
 import java.util.regex.Pattern;
+
+import org.languagetool.rules.AdvancedWordRepeatRule;
 
 /**
  * @author Yakov Reztsov, based on code by Marcin Miłkowski
@@ -31,10 +34,16 @@ public class RussianWordRepeatRule extends AdvancedWordRepeatRule {
   /**
    * Excluded dictionary words.
    */
-  private static final Pattern EXC_WORDS = Pattern
-      .compile("не|ни|а|"
-          + "на|в");
-
+  private static final Set<String> EXC_WORDS;
+  static{
+    final Set<String> tempSet = new HashSet<String>();
+    tempSet.add("не");
+    tempSet.add("ни");
+    tempSet.add("а");
+    tempSet.add("на");
+    tempSet.add("в");
+    EXC_WORDS = Collections.unmodifiableSet(tempSet);
+  }
   /**
    * Excluded part of speech classes.
    */
@@ -62,7 +71,7 @@ public class RussianWordRepeatRule extends AdvancedWordRepeatRule {
   }
 
   @Override
-  protected Pattern getExcludedWordsPattern() {
+  protected Set<String> getExcludedWordsPattern() {
     return EXC_WORDS;
   }
 

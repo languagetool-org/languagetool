@@ -21,6 +21,7 @@ package org.languagetool.rules;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -46,7 +47,7 @@ public abstract class AdvancedWordRepeatRule extends Rule {
     setLocQualityIssueType("style");
   }
 
-  protected abstract Pattern getExcludedWordsPattern();
+  protected abstract Set<String> getExcludedWordsPattern();
   protected abstract Pattern getExcludedNonWordsPattern();
   protected abstract Pattern getExcludedPos();
   protected abstract String getMessage();
@@ -87,8 +88,8 @@ public abstract class AdvancedWordRepeatRule extends Rule {
             hasLemma = false;
             break;
           }
-          final Matcher m1 = getExcludedWordsPattern().matcher(lemma);
-          if (m1.matches()) {
+
+          if (getExcludedWordsPattern().contains(lemma)) {
             isWord = false;
             break;
           }
@@ -105,7 +106,7 @@ public abstract class AdvancedWordRepeatRule extends Rule {
       }
 
       final Matcher m1 = getExcludedNonWordsPattern().matcher(tokens[i].getToken());
-      if (m1.matches()) {
+      if (isWord && m1.matches()) {
         isWord = false;
       }
 
