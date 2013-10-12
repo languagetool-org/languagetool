@@ -10097,7 +10097,7 @@ $Id$
 						</rule>
 						<rule>
 							<pattern>
-				<token regexp="yes">M*(D?C{0,3}|C[DM])(L?X{0,3}|X[LC])(V?I{0,3}|I[VX])|\d+<exception postag="SENT_START"/><exception>i</exception></token>
+				<token regexp="yes">((X{0,3}|X)(V?I{0,3}|I[VX]))(-((X{0,3}|X)(V?I{0,3}|I[VX])))?<exception postag="SENT_START"/><exception>i</exception></token>
 				<marker><token>w</token></marker>
 				<token><exception>.</exception></token>
 			</pattern>
@@ -10106,6 +10106,7 @@ $Id$
 			<example type="correct">Działo się to w XVII w.</example>
 			<example type="correct">To środowisko, które widzi użytkownik i w którym pracuje.</example>
 			<example type="incorrect" correction="w.">Na początku XVII <marker>w</marker> chłopi byli warstwą uciskaną.</example>
+            <example type="correct">Pan młody prawie dał mi w twarz.</example>
 						</rule>
 				</rulegroup>
 				<rule id="POD_KONTEM" name="„pod kontem czegoś” (pod kątem)">
