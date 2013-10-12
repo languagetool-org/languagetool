@@ -35,7 +35,7 @@ public class PolishWordRepeatRule extends AdvancedWordRepeatRule {
       .compile("nie|tuż|aż|to|siebie|być|ani|ni|albo|"
           + "lub|czy|bądź|jako|zł|np|coraz"
           + "|bardzo|bardziej|proc|ten|jak|mln|tys|swój|mój|"
-          + "twój|nasz|wasz|i|zbyt");
+          + "twój|nasz|wasz|i|zbyt|się");
 
   /**
    * Excluded part of speech classes.
