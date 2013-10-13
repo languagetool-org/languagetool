@@ -1017,7 +1017,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">pas|plus|.+-(ce|je|tu|ils?|elles?|[nv]ous)</token>
+          <token regexp="yes">pas|plus|sans|.+-(ce|je|tu|ils?|elles?|[nv]ous)</token>
           <marker>
             <token>forcement</token>
           </marker>
@@ -1027,6 +1027,8 @@ though, and has since been slightly modified)-->
         <example type="correct">Vous n’avez pas forcément raison.</example>
         <example type="incorrect">Est-ce <marker>forcement</marker> grave ?</example>
         <example type="correct">Est-ce <marker>forcément</marker> grave ?</example>
+        <example type="incorrect">S’exprimer sans <marker>forcement</marker> parler.</example>
+        <example type="correct">S’exprimer sans forcément parler.</example>
       </rule>
     </rulegroup>
     <rulegroup id="AMENDE_AMANDE" name="Amende ou amande">
@@ -3307,11 +3309,8 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
     <rule id="CONTRE" name="contre/contres">
-      <pattern>
-        <token>contres
-          <exception scope="previous" regexp="yes">[dl]es|tu|de</exception>
-          <exception regexp="yes">(?-i)Contres</exception>
-        </token>
+      <pattern case_sensitive="yes">
+        <token>contres<exception scope="previous" regexp="yes">(?i)[dl]es|tu|de</exception></token>
       </pattern>
       <message>Le mot <suggestion>contre</suggestion> en tant que préposition est invariable.</message>
       <example type="incorrect">Elles sont <marker>contres</marker> cette idée.</example>
@@ -4106,7 +4105,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">comment|pour|pouquoi|quand|où</token>
+          <token regexp="yes">comment|pour|pourquoi|quand|où</token>
           <token postag="A"/>
           <marker>
             <token postag="V.* ppa.*" postag_regexp="yes" regexp="yes">.*é</token>
@@ -9124,7 +9123,7 @@ though, and has since been slightly modified)-->
       <example type="incorrect"><marker>froidure</marker></example>
       <example type="correct"><marker>froid</marker></example>
     </rule>
-    <rule id="JOURNALIEMENT" name="journalièrement">
+    <rule id="JOURNALIERMENT" name="journalièrement">
       <pattern>
         <token>journalièrement</token>
       </pattern>
@@ -15709,7 +15708,7 @@ though, and has since been slightly modified)-->
         <token skip="2">dans</token>
         <token regexp="yes">estomacs?</token>
       </pattern>
-      <message>« Avoir/ressentir/sentir/ des papillons dans son estomac » est un anglicisme (to have butteflies in the stomach). Employez <suggestion>être nerveux</suggestion>, <suggestion>avoir le trac</suggestion> (familier), <suggestion>avoir l’estomac noué</suggestion> (familier), <suggestion>avoir une boule dans l’estomac</suggestion> (familier).</message>
+      <message>« Avoir/ressentir/sentir des papillons dans son estomac » est un anglicisme (to have butterflies in the stomach). Employez <suggestion>être nerveux</suggestion>, <suggestion>avoir le trac</suggestion> (familier), <suggestion>avoir l’estomac noué</suggestion> (familier), <suggestion>avoir une boule dans l’estomac</suggestion> (familier).</message>
       <example type="incorrect">avoir des <marker>papillons dans l’estomac</marker></example>
       <example type="correct"><marker>être nerveux</marker></example>
     </rule>
