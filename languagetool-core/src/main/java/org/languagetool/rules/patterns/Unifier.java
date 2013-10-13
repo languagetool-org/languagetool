@@ -1,4 +1,4 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2006 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
@@ -68,12 +68,12 @@ public class Unifier {
    * For checking the current token.
    */
   private List<Boolean> tmpFeaturesFound;
-  
+
   /**
    * Maps that store equivalences to be removed or kept after every next token has been analyzed
    */
-  private Map<String, Set<String>> equivalencesToBeRemoved; 
-  private Map<String, Set<String>> equivalencesToBeKept;
+  private final Map<String, Set<String>> equivalencesToBeRemoved;
+  private final Map<String, Set<String>> equivalencesToBeKept;
 
   /**
    * Internal flag for checking whether the first token in tokSequence has to be
@@ -123,20 +123,20 @@ public class Unifier {
     List<String> types;
 
     if (allFeatsIn) {
-      unified &= checkNext(aToken, uFeatures);      
+      unified &= checkNext(aToken, uFeatures);
     } else {
       tokCnt++;
       while (equivalencesMatched.size() <= tokCnt) {
         equivalencesMatched.add(new HashMap<String, Set<String>>());
-      }      
-      for (final Map.Entry<String, List<String>> feat : uFeatures.entrySet()) {        
+      }
+      for (final Map.Entry<String, List<String>> feat : uFeatures.entrySet()) {
         types = feat.getValue();
         if (types == null || types.isEmpty()) {
           types = equivalenceFeatures.get(feat.getKey());
         }
         for (final String typeName : types) {
           final Element testElem = equivalenceTypes
-          .get(new EquivalenceTypeLocator(feat.getKey(), typeName));
+              .get(new EquivalenceTypeLocator(feat.getKey(), typeName));
           if (testElem == null) {
             return false;
           }
@@ -167,7 +167,7 @@ public class Unifier {
   }
 
   private boolean checkNext(final AnalyzedToken aToken,
-                            final Map<String, List<String>> uFeatures) {
+      final Map<String, List<String>> uFeatures) {
     boolean unifiedNext = true;
     boolean anyFeatUnified = false;
     List<String> types;
@@ -183,8 +183,8 @@ public class Unifier {
           }
           for (final String typeName : types) {
             if (featuresFound.get(i)
-                    && equivalencesMatched.get(i).containsKey(feat.getKey())
-                    && equivalencesMatched.get(i).get(feat.getKey()).contains(typeName)) {
+                && equivalencesMatched.get(i).containsKey(feat.getKey())
+                && equivalencesMatched.get(i).get(feat.getKey()).contains(typeName)) {
               final Element testElem = equivalenceTypes.get(new EquivalenceTypeLocator(feat.getKey(), typeName));
               featUnified = featUnified || testElem.isMatched(aToken);
               //Stores equivalences to be removed and kept
@@ -243,9 +243,9 @@ public class Unifier {
         types = feat.getValue();
         for (final String typeName : types) {
           if (featuresFound.get(i)
-                  && equivalencesToBeRemoved.containsKey(feat.getKey())
-                  && equivalencesToBeRemoved.get(feat.getKey()).contains(typeName)
-                  && !(equivalencesToBeKept.containsKey(feat.getKey())
+              && equivalencesToBeRemoved.containsKey(feat.getKey())
+              && equivalencesToBeRemoved.get(feat.getKey()).contains(typeName)
+              && !(equivalencesToBeKept.containsKey(feat.getKey())
                   && equivalencesToBeKept.get(feat.getKey()).contains(typeName))
                   && equivalencesMatched.get(i).containsKey(feat.getKey())
                   && equivalencesMatched.get(i).get(feat.getKey()).contains(typeName)) {
@@ -265,10 +265,10 @@ public class Unifier {
     allFeatsIn = true;
     for (int i = 0; i <= tokCnt; i++) {
       featuresFound.add(true);
-    } 
+    }
     tmpFeaturesFound = new ArrayList<>(featuresFound);
   }
-  
+
   /**
    * Resets after use of unification. Required.
    */
@@ -307,8 +307,8 @@ public class Unifier {
       if (first >= tmpFeaturesFound.size()) {
         return null;
       }
-      // FIXME: why this happens??
-      final int numRead = tokSequence.get(0).getReadingsLength(); 
+      // FIXME: why this happens?
+      final int numRead = tokSequence.get(0).getReadingsLength();
       if (first < numRead) {
         tmpATR = new AnalyzedTokenReadings(tokSequence.get(0).getAnalyzedToken(
             first), 0);
@@ -322,7 +322,7 @@ public class Unifier {
       firstUnified = true;
     }
     final AnalyzedTokenReadings[] atr =
-            tokSequence.toArray(new AnalyzedTokenReadings[tokSequence.size()]);
+        tokSequence.toArray(new AnalyzedTokenReadings[tokSequence.size()]);
     return atr;
   }
 
@@ -331,11 +331,11 @@ public class Unifier {
    * 
    * Usage note: to test if the sequence of tokens is unified (i.e.,
    * shares a group of features, such as the same gender, number,
-   * grammatical case etc.), you need to test all tokens but the last one 
+   * grammatical case etc.), you need to test all tokens but the last one
    * in the following way: call {@code isUnified()} for every reading of a token,
    * and set {@code lastReading} to {@code true}. For the last token, check the
    * truth value returned by this method. In previous cases, it may actually be
-   * discarded before the final check. See {@link AbstractPatternRule} for 
+   * discarded before the final check. See {@link AbstractPatternRule} for
    * an example. <p/>
    * 
    * To make it work in XML rules, the Elements built based on {@code <token>}s inside
@@ -351,9 +351,9 @@ public class Unifier {
   public final boolean isUnified(final AnalyzedToken matchToken,
       final Map<String, List<String>> uFeatures, final boolean lastReading, final boolean isMatched) {
     if (inUnification) {
-       if (isMatched) {
-          uniMatched |= isSatisfied(matchToken, uFeatures); 
-       }
+      if (isMatched) {
+        uniMatched |= isSatisfied(matchToken, uFeatures);
+      }
       uniAllMatched = uniMatched;
       if (lastReading) {
         startNextToken();
@@ -363,7 +363,7 @@ public class Unifier {
       return uniAllMatched;
     }
     if (isMatched) {
-       isSatisfied(matchToken, uFeatures);
+      isSatisfied(matchToken, uFeatures);
     }
     if (lastReading) {
       inUnification = true;
@@ -372,7 +372,7 @@ public class Unifier {
     }
     return true;
   }
-  
+
   public final boolean isUnified(final AnalyzedToken matchToken,
       final Map<String, List<String>> uFeatures, final boolean lastReading) {
     return this.isUnified(matchToken, uFeatures, lastReading, true);
@@ -406,8 +406,8 @@ class EquivalenceTypeLocator {
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + ((feature == null) ? 0 : feature.hashCode());
-    result = prime * result + ((type == null) ? 0 : type.hashCode());
+    result = prime * result + (feature == null ? 0 : feature.hashCode());
+    result = prime * result + (type == null ? 0 : type.hashCode());
     return result;
   }
 
