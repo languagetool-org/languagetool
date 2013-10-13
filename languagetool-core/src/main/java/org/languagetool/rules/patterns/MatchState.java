@@ -20,7 +20,11 @@
 package org.languagetool.rules.patterns;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+import java.util.TreeSet;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
@@ -87,7 +91,7 @@ public class MatchState {
       }
       for (int k = index + 1; k < index + next; k++) {
         if (tokens[k].isWhitespaceBefore()
-                && !(k == index + 1 && includeSkipped == IncludeRange.FOLLOWING)) {
+            && !(k == index + 1 && includeSkipped == IncludeRange.FOLLOWING)) {
           sb.append(' ');
         }
         sb.append(tokens[k].getToken());
@@ -103,7 +107,7 @@ public class MatchState {
     if (formattedToken != null) {
       if (match.isStaticLemma()) {
         matchedToken.leaveReading(new AnalyzedToken(matchedToken
-                .getToken(), match.getPosTag(), formattedToken.getToken()));
+            .getToken(), match.getPosTag(), formattedToken.getToken()));
         formattedToken = matchedToken;
       }
       String token = formattedToken.getToken();
@@ -130,7 +134,7 @@ public class MatchState {
                 targetPosTag = pPosRegexMatch.matcher(targetPosTag).replaceAll(posTagReplace);
               }
               l.add(new AnalyzedToken(token, targetPosTag,
-                      formattedToken.getAnalyzedToken(i).getLemma()));
+                  formattedToken.getAnalyzedToken(i).getLemma()));
               l.get(l.size() - 1).setWhitespaceBefore(formattedToken.isWhitespaceBefore());
             }
           }
@@ -142,21 +146,25 @@ public class MatchState {
         }
         if (formattedToken.isSentenceEnd()) {
           l.add(new AnalyzedToken(formattedToken.getToken(),
-                  JLanguageTool.SENTENCE_END_TAGNAME, formattedToken.getAnalyzedToken(0).getLemma()));
+              JLanguageTool.SENTENCE_END_TAGNAME, formattedToken.getAnalyzedToken(0).getLemma()));
         }
         if (formattedToken.isParagraphEnd()) {
           l.add(new AnalyzedToken(formattedToken.getToken(),
-                  JLanguageTool.PARAGRAPH_END_TAGNAME, formattedToken.getAnalyzedToken(0).getLemma()));
+              JLanguageTool.PARAGRAPH_END_TAGNAME, formattedToken.getAnalyzedToken(0).getLemma()));
         }
+
       }
     }
     if (l.isEmpty()) {
       return formattedToken;
     }
     final AnalyzedTokenReadings anTkRead = new AnalyzedTokenReadings(
-            l.toArray(new AnalyzedToken[l.size()]),
-            formattedToken.getStartPos());
+        l.toArray(new AnalyzedToken[l.size()]),
+        formattedToken.getStartPos());
     anTkRead.setWhitespaceBefore(formattedToken.isWhitespaceBefore());
+    if (!formattedToken.getChunkTags().isEmpty()) {
+      anTkRead.setChunkTags(formattedToken.getChunkTags());
+    }
     return anTkRead;
   }
 
@@ -173,31 +181,31 @@ public class MatchState {
     }
     String token = s;
     switch (match.getCaseConversionType()) {
-      case NONE:
-        break;
-      case PRESERVE:
-        if (StringTools.startsWithUppercase(sample)) {
-          if (StringTools.isAllUppercase(sample)) {
-            token = token.toUpperCase(Locale.ENGLISH);
-          } else {
-            token = StringTools.uppercaseFirstChar(token);
-          }
+    case NONE:
+      break;
+    case PRESERVE:
+      if (StringTools.startsWithUppercase(sample)) {
+        if (StringTools.isAllUppercase(sample)) {
+          token = token.toUpperCase(Locale.ENGLISH);
+        } else {
+          token = StringTools.uppercaseFirstChar(token);
         }
-        break;
-      case STARTLOWER:
-        token = token.substring(0, 1).toLowerCase() + token.substring(1);
-        break;
-      case STARTUPPER:
-        token = token.substring(0, 1).toUpperCase(Locale.ENGLISH) + token.substring(1);
-        break;
-      case ALLUPPER:
-        token = token.toUpperCase(Locale.ENGLISH);
-        break;
-      case ALLLOWER:
-        token = token.toLowerCase();
-        break;
-      default:
-        break;
+      }
+      break;
+    case STARTLOWER:
+      token = token.substring(0, 1).toLowerCase() + token.substring(1);
+      break;
+    case STARTUPPER:
+      token = token.substring(0, 1).toUpperCase(Locale.ENGLISH) + token.substring(1);
+      break;
+    case ALLUPPER:
+      token = token.toUpperCase(Locale.ENGLISH);
+      break;
+    case ALLLOWER:
+      token = token.toLowerCase();
+      break;
+    default:
+      break;
     }
     return token;
   }
@@ -209,7 +217,7 @@ public class MatchState {
     for (int j = 0; j < numRead; j++) {
       if (formattedToken.getAnalyzedToken(j).getPOSTag() != null) {
         if (formattedToken.getAnalyzedToken(j).getPOSTag().equals(posTag)
-                && (formattedToken.getAnalyzedToken(j).getLemma() != null)) {
+            && formattedToken.getAnalyzedToken(j).getLemma() != null) {
           lemma = formattedToken.getAnalyzedToken(j).getLemma();
         }
         if (StringTools.isEmpty(lemma)) {
@@ -217,7 +225,7 @@ public class MatchState {
         }
         list.add(new AnalyzedToken(token, posTag, lemma));
         list.get(list.size() - 1).setWhitespaceBefore(
-                formattedToken.isWhitespaceBefore());
+            formattedToken.isWhitespaceBefore());
       }
     }
     return list;
@@ -251,14 +259,14 @@ public class MatchState {
           for (int k = 0; k < readingCount; k++) {
             if (formattedToken.getAnalyzedToken(k).getLemma() == null) {
               final String posUnique = formattedToken
-                      .getAnalyzedToken(k).getPOSTag();
+                  .getAnalyzedToken(k).getPOSTag();
               if (posUnique == null) {
                 wordForms.add(formattedToken.getToken());
                 oneForm = true;
               } else {
                 if (JLanguageTool.SENTENCE_START_TAGNAME.equals(posUnique)
-                        || JLanguageTool.SENTENCE_END_TAGNAME.equals(posUnique)
-                        || JLanguageTool.PARAGRAPH_END_TAGNAME.equals(posUnique)) {
+                    || JLanguageTool.SENTENCE_END_TAGNAME.equals(posUnique)
+                    || JLanguageTool.PARAGRAPH_END_TAGNAME.equals(posUnique)) {
                   if (!oneForm) {
                     wordForms.add(formattedToken.getToken());
                   }
@@ -273,7 +281,7 @@ public class MatchState {
           if (!oneForm) {
             for (int i = 0; i < readingCount; i++) {
               final String[] possibleWordForms = synthesizer.synthesize(
-                              formattedToken.getAnalyzedToken(i), targetPosTag, true);
+                  formattedToken.getAnalyzedToken(i), targetPosTag, true);
               if (possibleWordForms != null) {
                 wordForms.addAll(Arrays.asList(possibleWordForms));
               }
@@ -292,7 +300,7 @@ public class MatchState {
           final TreeSet<String> wordForms = new TreeSet<>();
           for (int i = 0; i < readingCount; i++) {
             final String[] possibleWordForms = synthesizer
-                    .synthesize(formattedToken.getAnalyzedToken(i), posTag);
+                .synthesize(formattedToken.getAnalyzedToken(i), posTag);
             if (possibleWordForms != null) {
               wordForms.addAll(Arrays.asList(possibleWordForms));
             }
@@ -313,7 +321,7 @@ public class MatchState {
     // TODO should case conversion happen before or after including skipped tokens?
     IncludeRange includeSkipped = match.getIncludeSkipped();
     if (includeSkipped != IncludeRange.NONE && skippedTokens != null
-            && !"".equals(skippedTokens)) {
+        && !"".equals(skippedTokens)) {
       final String[] helper = new String[formattedString.length];
       for (int i = 0; i < formattedString.length; i++) {
         if (formattedString[i] == null) {
@@ -325,15 +333,15 @@ public class MatchState {
     }
     if (match.checksSpelling() && lang != null) {
       final List<String> formattedStringElements = Arrays
-              .asList(formattedString);
+          .asList(formattedString);
       // tagger-based speller
       final List<AnalyzedTokenReadings> analyzed = lang.getTagger().tag(
-              formattedStringElements);
+          formattedStringElements);
       for (int i = 0; i < formattedString.length; i++) {
         final AnalyzedToken analyzedToken = analyzed.get(i)
-                .getAnalyzedToken(0);
+            .getAnalyzedToken(0);
         if (analyzedToken.getLemma() == null
-                && analyzedToken.hasNoTag()) {
+            && analyzedToken.hasNoTag()) {
           formattedString[i] = "";
         }
       }
@@ -365,7 +373,7 @@ public class MatchState {
 
       if (pPosRegexMatch != null && posTagReplace != null) {
         targetPosTag = pPosRegexMatch.matcher(targetPosTag).replaceAll(
-                posTagReplace);
+            posTagReplace);
       }
     } else {
       for (AnalyzedToken analyzedToken : formattedToken) {
@@ -385,7 +393,7 @@ public class MatchState {
         for (String lPosTag : posTags) {
           l++;
           lPosTag = pPosRegexMatch.matcher(lPosTag).replaceAll(
-                  posTagReplace);
+              posTagReplace);
           if (match.setsPos()) {
             lPosTag = synthesizer.getPosTagCorrection(lPosTag);
           }
