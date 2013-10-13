@@ -2064,7 +2064,8 @@ $Id$
       <example type="incorrect" correction="312,12"><marker>312.12</marker> zł</example>
     </rule>
     </rulegroup>
-    <rule id="JEDNOSTKA_LICZBA" name="Brak spacji przed jednostką, np. 12 kg">
+    <rulegroup id="JEDNOSTKA_LICZBA" name="Brak spacji przed jednostką, np. 12 kg">
+    <rule>
       <pattern>
         <token regexp="yes">\d+([mkc]m|[Mk]Hz|[MKT]B|V)</token>
       </pattern>
@@ -2073,9 +2074,32 @@ $Id$
       <example type="correct">Ten dysk ma wielkość 120 MB.</example>
       <example type="incorrect" correction="500 MHz">Częstotliwość nośna to <marker>500MHz</marker>.</example>
     </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+        <token regexp="yes">\d+{1,4}r</token>
+        <token>.</token>
+      </pattern>
+      <message>Brak spacji po dacie rocznej. Powinno być: <suggestion><match no="1" regexp_match="(\d+)(.*)" regexp_replace="$1 $2"/>.</suggestion>.</message>
+      <url>http://poradnia.pwn.pl/lista.php?id=6475</url>
+      <short>Zły format liczby</short>
+      <example type="correct">Zdarzyło się to w 2000 r.</example>
+      <example type="incorrect" correction="2000 r.">Zdarzyło się to w <marker>2000r.</marker></example>
+    </rule>    
+    </rulegroup>
+    <rule name="Spacja przed znakiem procenta" id="SPACJA_PROCENT">
+      <pattern>
+        <token regexp="yes">±?\d+</token>
+        <token spacebefore="yes">%</token>
+      </pattern>
+      <message>Przed znakiem procenta nie stawia się spacji. Poprawnie: <suggestion>\1\2</suggestion>.</message>
+      <url>http://poradnia.pwn.pl/lista.php?id=2029</url>
+      <short>Zbędna spacja</short>
+      <example type="correct">10%</example>
+      <example type="incorrect" correction="10%"><marker>10 %</marker></example>
+    </rule>
     </category>
 		<category name="Błędy typograficzne" type="typographical">
-				<rulegroup id="BRAK_SPACJI" name="Brak spacji po znakach interpunkcyjnych">
+				<rulegroup type="whitespace" id="BRAK_SPACJI" name="Brak spacji po znakach interpunkcyjnych">
 						<rule>
 								<pattern case_sensitive="yes">
 										<marker>
@@ -2124,7 +2148,7 @@ $Id$
 								<example type="correct">To jest wyraz – jak sądzę – niepoprawny.</example>
 						</rule>
 				</rulegroup>
-				<rule id="ZBEDNA_SPACJA" name="Zbędna spacja po znaku interpunkcyjnym">
+				<rule id="ZBEDNA_SPACJA" type="whitespace" name="Zbędna spacja po znaku interpunkcyjnym">
 						<pattern>
 								<token regexp="yes">[„\[]</token>
 								<token spacebefore="yes"></token>
@@ -2433,6 +2457,63 @@ $Id$
                   <example type="incorrect">Kotula T., Septymiusz Sewerus, cesarz z Lepcis <marker>Magna.,</marker> Ossolineum, Wrocław 1987.</example>
                   <example type="correct">Molesta Ewenement, Tewu, DonGuralesko, O.S.T.R., Jamal, Natural Dread Killaz</example>
                   </rule>
+                  <rulegroup type="whitespace" id="SPACJA_W_SKROCIE" name="Zbędna spacja w skrócie „m.in.” i „z o.o.”">
+                    <rule>
+                      <pattern>
+                        <token>m</token>
+                        <token>.</token>
+                        <token spacebefore="yes">in</token>
+                        <token>.</token>
+                      </pattern>
+                      <message>Ten skrót zapisuje się bez spacji: <suggestion>\1\2\3\4</suggestion>.</message>
+                      <url>http://poradnia.pwn.pl/lista.php?id=11869</url>
+                      <short>Zbędna spacja</short>                      
+                      <example type="correct">To m.in. Jurek.</example>
+                      <example type="incorrect" correction="m.in.">To <marker>m. in.</marker> Jurek.</example>
+                    </rule>
+                    <rule>
+                      <pattern>
+                        <token>z</token>
+                        <token>o</token>
+                        <token>.</token>
+                        <token spacebefore="yes">o</token>
+                        <token>.</token>
+                      </pattern>
+                      <message>Ten skrót zapisuje się bez spacji: <suggestion>\1 \2\3\4\5</suggestion>.</message>
+                      <url>http://poradnia.pwn.pl/lista.php?id=11869</url>
+                      <short>Zbędna spacja</short>                      
+                      <example type="correct">Spółka z o.o.</example>
+                      <example type="incorrect" correction="z o.o.">Spółka <marker>z o. o.</marker> Jurek.</example>
+                    </rule>
+                  </rulegroup>
+                  <rulegroup type="whitespace" id="BRAK_SPACJI_W_SKROCIE" name="Brak spacji w skrócie „dz.cyt” i „op.cit.”">
+                    <rule>
+                      <pattern>                      
+                        <token>dz</token>
+                        <token>.</token>
+                        <token spacebefore="no">cyt</token>
+                        <token>.</token>
+                      </pattern>
+                      <message>Brak spacji w skrócie. Zapisujemy go tak: <suggestion>\1\2 \3\4</suggestion>.</message>
+                      <url>http://poradnia.pwn.pl/lista.php?id=10285</url>
+                      <short>Brak spacji</short>
+                      <example type="correct">dz. cyt., s. 123</example>
+                      <example type="incorrect" correction="dz. cyt."><marker>dz.cyt.</marker></example>
+                    </rule>
+                    <rule>
+                      <pattern>                      
+                        <token>op</token>
+                        <token>.</token>
+                        <token spacebefore="no">cit</token>
+                        <token>.</token>
+                      </pattern>
+                      <message>Brak spacji w skrócie. Zapisujemy go tak: <suggestion>\1\2 \3\4</suggestion>.</message>
+                      <url>http://poradnia.pwn.pl/lista.php?id=10285</url>
+                      <short>Brak spacji</short>
+                      <example type="correct">op. cit., s. 123</example>
+                      <example type="incorrect" correction="op. cit."><marker>op.cit.</marker></example>
+                    </rule>                    
+                  </rulegroup>
 		</category>
 		<category name="Błędy odmiany" type="grammar">
 				<rule id="BALI_BALOW" name="„bali maskowych” (balów)">
@@ -4612,7 +4693,7 @@ $Id$
 						<example correction="Informacje poufne|Informacje o szczególnym znaczeniu" type="incorrect"><marker>Informacje sensytywne</marker> odnoszące się do inspekcji należy traktować jako informacje niejawne.</example>
 						<example type="correct">Informacje poufne traktujemy ze szczególną ostrożnością.</example>
 				</rule>
-				<rule id="INFORMACJE_WRAZLIWE" name="„informacje wrażliwe” (informacje poufne)">
+				<rule type="terminology" id="INFORMACJE_WRAZLIWE" name="„informacje wrażliwe” (informacje poufne)">
 						<pattern>
 								<unify>
 										<feature id="number"></feature>
@@ -4623,6 +4704,7 @@ $Id$
 								</unify>
 						</pattern>
 						<message>To wyrażenie jest niepoprawną kalką z języka angielskiego. Poprawnie:<suggestion><match no="1"></match> <match no="2" postag="adj.*" postag_regexp="yes">poufny</match></suggestion> lub <suggestion><match no="1"></match> o szczególnym znaczeniu</suggestion>.</message>
+                        <url>http://poradnia.pwn.pl/lista.php?id=8332</url>
 						<short>Błąd leksykalny</short>
 						<example correction="Informacje poufne|Informacje o szczególnym znaczeniu" type="incorrect"><marker>Informacje wrażliwe</marker> odnoszące się do inspekcji należy traktować jako informacje niejawne.</example>
 						<example type="correct">Informacje poufne traktujemy ze szczególną ostrożnością.</example>
@@ -7218,7 +7300,7 @@ $Id$
 				<rulegroup id="LICZBA_PROC" name="liczba słownie + „%” (proc.)">
 						<rule>
 								<pattern>
-										<token negate="yes" regexp="yes">±?\d</token>
+										<token negate="yes" regexp="yes">±?\d+</token>
 										<marker>
 												<token>%</token>
 										</marker>
@@ -7231,7 +7313,7 @@ $Id$
 						</rule>
 						<rule>
 								<pattern>
-										<token negate="yes" regexp="yes">±?\d</token>
+										<token negate="yes" regexp="yes">±?\d+</token>
 										<marker>
 												<token>%</token>
 										</marker>
@@ -10096,17 +10178,18 @@ $Id$
 								<example type="correct">To samodzielna praca dr. Kowalskiego.</example>
 						</rule>
 						<rule>
-							<pattern>
-				<token regexp="yes">((X{0,3}|X)(V?I{0,3}|I[VX]))(-((X{0,3}|X)(V?I{0,3}|I[VX])))?<exception postag="SENT_START"/><exception>i</exception></token>
-				<marker><token>w</token></marker>
-				<token><exception>.</exception></token>
-			</pattern>
-			<message>Prawdopodobnie brak kropki: <suggestion>\2.</suggestion></message>
-			<short>Brak kropki</short>
-			<example type="correct">Działo się to w XVII w.</example>
-			<example type="correct">To środowisko, które widzi użytkownik i w którym pracuje.</example>
-			<example type="incorrect" correction="w.">Na początku XVII <marker>w</marker> chłopi byli warstwą uciskaną.</example>
-            <example type="correct">Pan młody prawie dał mi w twarz.</example>
+							<pattern case_sensitive="yes">
+				            <token regexp="yes">((X{0,2})(V?I{0,2}|I[VX]))(-(X{0,2})(V?I{0,3}|I[VX]))?<exception postag="SENT_START"/><exception>-</exception></token>
+				            <marker><token>w</token></marker>
+				            <token><exception>.</exception></token>
+			                 </pattern>
+			                 <message>Prawdopodobnie brak kropki: <suggestion>\2.</suggestion></message>
+			               <short>Brak kropki</short>
+			               <example type="correct">Działo się to w XVII w.</example>
+			               <example type="correct">To środowisko, które widzi użytkownik i w którym pracuje.</example>
+			               <example type="incorrect" correction="w.">Na początku XVII <marker>w</marker> chłopi byli warstwą uciskaną.</example>
+                           <example type="correct">Pan młody prawie dał mi w twarz.</example>
+                           <example type="correct">ACM zatrudnia też CEO - w tej chwili to John White.</example>   
 						</rule>
 				</rulegroup>
 				<rule id="POD_KONTEM" name="„pod kontem czegoś” (pod kątem)">
