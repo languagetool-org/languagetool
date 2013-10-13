@@ -10034,8 +10034,8 @@ $Id$
                 <pattern>
                     <marker>
                         <token>és</token>
-                    </marker>
-                    <token regexp="yes">bada|balla|balma|banya|baralla|barri|basa|basi|bat|batega|belluga|bolca|bufa|bull|busca|cala|calca|calça|calcina|captura|cargola|clausura|clava|clivella|cobra|cofa|colga|col·loqui|comporta|compra|conquista|conserva|consigna|consulta|contesta|conversa|corseca|crema|creu|cria|deixa|diu|fes|finança|fon|formi|fot|gira|gita|glaça|lleva|lliga|lliura|lloga|millora|mulla|munta|muntà|neteja|nota|notaria|parla|passa|passi|patí|pensa|perllonga|plany|plasma|plega|pobla|poblà|porta|posa|pot|pren|puja|punxa|quadra|queda|rasca|rebaixa|recompensa|recull|refina|rega|remunta|reserva|ret|revenja|revolta|riu|sap|talla|tanca|tem|tira|tirà|tiri|toca|tomba|torna|tornés|tortura|traça|tracte|tragina|trau|travessa|trena|trenca|treu|troba|val|venera|venja|veu|vol|xifra</token>
+                    </marker> <!-- Eliminat: reserva -->
+                    <token regexp="yes">(?-i)bada|balla|balma|banya|baralla|barri|basa|basi|bat|batega|belluga|bolca|bufa|bull|busca|cala|calca|calça|calcina|captura|cargola|clausura|clava|clivella|cobra|cofa|colga|col·loqui|comporta|compra|conquista|conserva|consigna|consulta|contesta|conversa|corseca|crema|creu|cria|deixa|diu|fes|finança|fon|formi|fot|gira|gita|glaça|lleva|lliga|lliura|lloga|millora|mulla|munta|muntà|neteja|nota|notaria|parla|passa|passi|patí|pensa|perllonga|plany|plasma|plega|pobla|poblà|porta|posa|pot|pren|puja|punxa|quadra|queda|rasca|rebaixa|recompensa|recull|refina|rega|remunta|ret|revenja|revolta|riu|sap|talla|tanca|tem|tira|tirà|tiri|toca|tomba|torna|tornés|tortura|traça|tracte|tragina|trau|travessa|trena|trenca|treu|troba|val|venera|venja|veu|vol|xifra</token>
                 </pattern>
                 <message>Només s'accentua quan és del verb "ser".</message>
                 <suggestion>es</suggestion>
@@ -10045,6 +10045,10 @@ $Id$
                 <example type="correct">es pot fer</example>
                 <example type="correct">es veu que</example>
                 <example type="correct">avui és cau de nombrosos limícoles</example>
+                <example type="correct">És reserva de la biosfera</example>
+                <example type="correct">La ciutat és Fes.</example>
+                <!-- és crema salmó (color), és plasma (física), és creu llatina
+                és veu principal -->
             </rule>
             <rule id="ES_CAU" name="es cau">
                 <pattern>
@@ -18726,9 +18730,9 @@ $Id$
         </rule>
         <rule id="COMPLERT_COMPLET" name="complert/complet">
             <pattern>
-            	<token postag="SENT_START|_PUNCT.*" postag_regexp="yes" skip="-1"><exception scope="next" regexp="yes">disposici(ó|ons)|lleis?|terminis?|pronòstics?|deures?|obligaci(ó|ons)|promes(a|es)|objectius?|anys?|missió|desigs?|desitjos|mes|mesos|setman(a|es)|tràmits?</exception></token>
+            	<token postag="SENT_START|_PUNCT.*" postag_regexp="yes" skip="-1"><exception scope="next" regexp="yes">disposici(ó|ons)|lleis?|terminis?|pronòstics?|deures?|obligaci(ó|ons)|promes(a|es)|objectius?|anys?|missió|desigs?|desitjos|mes|mesos|setman(a|es)|tràmits?</exception><exception scope="next" postag="_PUNCT.*" postag_regexp="yes"/></token>
                 <marker>
-                    <token regexp="yes" skip="-1">(in)?complert(a|s|es)?<exception inflected="yes" scope="previous" regexp="yes">haver|considerar</exception><exception postag="_C_TEMPS"/><exception regexp="yes" scope="next">disposici(ó|ons)|lleis?|terminis?|pronòstics?|deures?|obligaci(ó|ons)|promes(a|es)|objectius?|anys?|missió|desigs?|desitjos|mes|mesos|setman(a|es)|tràmits</exception></token>
+                    <token regexp="yes" skip="-1">(in)?complert(a|s|es)?<exception inflected="yes" scope="previous" regexp="yes">haver|considerar|-ne</exception><exception postag="_C_TEMPS"/><exception regexp="yes" scope="next">disposici(ó|ons)|lleis?|terminis?|pronòstics?|deures?|obligaci(ó|ons)|promes(a|es)|objectius?|anys?|missió|desigs?|desitjos|mes|mesos|setman(a|es)|tràmits</exception></token>
                 </marker>
                 <token postag="SENT_END"/>
             </pattern>
@@ -18736,6 +18740,7 @@ $Id$
             <example type="incorrect" correction="completa">La família <marker>complerta</marker>.</example>
             <example type="incorrect" correction="incomplet">és un llibre <marker>incomplert</marker>.</example>
             <example type="incorrect" correction="complet">Any platònic: període de temps en el qual l'eix de la terra descriu un cercle <marker>complert</marker>.</example>
+            <example type="incorrect" correction="completes"> una de les més <marker>complertes</marker> i ben conservades</example>
             <example type="correct">que no hagin complert vuitanta anys.</example>
             <example type="correct">consideraven complert el seu deure.</example>
             <example type="correct">han incomplert el seu deure.</example>
