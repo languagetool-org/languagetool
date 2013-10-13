@@ -4961,7 +4961,7 @@ $Id$
     <rule id="E_KREIZ" name="e kreiz → e-kreiz (hag all)">
       <pattern>
         <token>e</token>
-        <token regexp="yes">barzh|douare|giz(-(all|mañ|se|hon))?|harz|hunan|keit(-se)?|kerz|kichen|krec’h|kreiz|leizh|maez|sell|ser|tailh|tal|touez|tro</token>
+        <token regexp="yes">barzh|douare|giz(-(all|mañ|se|hon))?|harz|hunan|keit(-se)?|kerz|kichen|krec’h|kreiz|leizh|maez|ser|tailh|tal|touez|tro</token>
       </pattern>
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
       <example type="incorrect" correction="E-kichen"><marker>E kichen</marker> Gwitalmeze emañ o chom.</example>
@@ -4971,7 +4971,50 @@ $Id$
       <example type="correct">E breizh hag <marker>e lec’h</marker> all.</example>
       <example type="correct">Pegeit <marker>e pad</marker>?</example>
     </rule>
-
+    <rulegroup id="E_SELL" name="e sell → e-sell">
+      <rule>
+        <pattern>
+          <marker>
+            <token>e</token>
+            <token>sell</token>
+          </marker>
+          <token regexp="yes">d[a’']</token>
+        </pattern>
+        <message>Implijit <suggestion>\1-\2</suggestion>.</message>
+        <example type="incorrect" correction="e-sell">Peseurt micher emaout <marker>e sell</marker> da ober?</example>
+        <example type="incorrect" correction="e-sell">Peserut micher emaout <marker>e sell</marker> d’ober?</example>
+        <example type="correct">Peseurt micher emaout e-sell da ober?</example>
+        <example type="correct">Peseurt micher emaout e-sell d’ober?</example>
+        <example type="correct">Atav e sell ouzh antalvoudoù uelañ.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token>e</token>
+            <token>sell</token>
+          </marker>
+          <token regexp="yes">on|out|eo|omp|oc’h|int|eur</token>
+          <token regexp="yes">d[a’']</token>
+        </pattern>
+        <message>Implijit <suggestion>\1-\2</suggestion>.</message>
+        <example type="incorrect" correction="E-sell"><marker>E sell</marker> on da vont kuit.</example>
+        <example type="correct">E-sell on da vont kuit.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token>e</token>
+            <token>sell</token>
+          </marker>
+          <token>e</token>
+          <token regexp="yes">oan|oas|oa|oamp|oac’h|oant|oad|vin|vi|vo|vimp|viot|vioc’h|vint|vior|vezan|vezez|vez|vezomp|vezit|vezont|vezer|vezen|vezes|veze|vezemp|vezec’h|vezent|vezed|vezin|vezi|vezo|vezimp|vezoc’h|vezint|vezor|vefen|vefes|vefemp|vefec’h|vefent|vefed|vijen|vijes|vije|vijemp|vijec’h|vijent|vijed</token>
+          <token regexp="yes">d[a’']</token>
+        </pattern>
+        <message>Implijit <suggestion>\1-\2</suggestion>.</message>
+        <example type="incorrect" correction="E-sell"><marker>E sell</marker> e oan da vont kuit.</example>
+        <example type="correct">E-sell e oan da vont kuit.</example>
+      </rule>
+    </rulegroup>
     <rule id="DIWAR_BENN" name="diwar benn → diwar-benn (hag all)">
       <pattern>
         <token>diwar</token>
