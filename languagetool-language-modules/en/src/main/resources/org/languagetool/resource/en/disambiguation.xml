@@ -22,7 +22,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <marker>
                 <and>
                     <token postag="VB"></token>
-                    <token postag="NN"></token>
+                    <token postag="NN(:UN?)?" postag_regexp="yes"/>
                 </and>
             </marker>
         </pattern>
@@ -249,7 +249,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <token regexp="yes">I|you|we|they</token>
             <marker>
                 <and>
-                    <token postag="NN"></token>
+                    <token postag="NN(:UN?)?" postag_regexp="yes"></token>
                     <token postag="VBP"></token>
                 </and>
             </marker>
@@ -352,12 +352,12 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <marker>
                 <and>
                     <token postag="VB"></token>
-                    <token postag="NN"></token>
+                    <token postag="NN(:UN?)?" postag_regexp="yes"></token>
                 </and>
             </marker>
             <token postag="SENT_END"></token>
         </pattern>
-        <disambig postag="NN"></disambig>
+        <disambig action="filter" postag="NN.*"/>
     </rule>
 
     <!-- 'an' is part of a proper name here -->
@@ -1432,7 +1432,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     <disambig postag="VBP"/>
     <example type="untouched">Pigs know that.</example>
     <example type="untouched">He set up several dojo.</example>
-    <example type="ambiguous" inputform="claim[claim/NN:UN,claim/VB,claim/VBP]" outputform="claim[claim/VBP]">We <marker>claim</marker> that this is true.</example>
+    <example type="ambiguous" inputform="claim[claim/NN:UN,claim/VB,claim/VBP]" outputform="claim[claim/VBP]">Yes, we <marker>claim</marker> that this is true.</example>
     </rule>
     <rule id="E_NP_NN_VBP" name="noun phrase end -> NN">
     <pattern>
@@ -1450,6 +1450,20 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
       <example type="untouched">The Beatles play to nearly 60,000 fans at Shea Stadium.</example>
       <example type="ambiguous" inputform="claim[claim/NN:UN,claim/VB,claim/VBP]" outputform="claim[claim/NN:UN]">Morroco's disputed <marker>claim</marker> to portions of Algeria.</example>      
     </rule>
+    <rule id="E_NP_VBP" name="noun/verb after a plural NP -> verb">
+      <pattern>
+        <token chunk="E-NP-plural"/>
+        <marker>
+        <and>
+          <token postag="VBP"/>
+          <token postag="NN(:UN)?" postag_regexp="yes"/>
+        </and>
+        </marker>
+      </pattern>
+      <disambig postag="VBP"/>
+      <example type="untouched">The application form</example>
+      <example type="ambiguous" inputform="form[form/NN:UN,form/VB,form/VBP]" outputform="form[form/VBP]">The leaves <marker>form</marker> a rosette.</example>
+    </rule>
     <rulegroup id="VBP_VBZ_NNS" name="VBZ/NN->VBZ">
       <rule>
     	<pattern>
@@ -1457,7 +1471,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     		<marker>
     		<and>
     			<token postag="VBZ"/>
-    			<token postag="NN"/>
+    			<token postag="NN(:UN?)?" postag_regexp="yes"/>
     		</and>
     		</marker>
     	</pattern>
@@ -1550,7 +1564,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
 		<marker>
 		<and>		
 			<token postag="VB"/>
-			<token postag="NN"/>
+			<token postag="NN(:UN?)?" postag_regexp="yes"/>
 		</and>
 		</marker>
 		<token postag="DT"/>

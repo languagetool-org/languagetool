@@ -507,9 +507,9 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
             </rule>
             <rule>
                 <pattern>
-                    <token postag="NN.*" postag_regexp="yes"/>
+                    <token postag="NN.*" postag_regexp="yes"><exception postag="JJ"/></token>
                     <marker>
-                        <token>form</token>
+                        <token postag="NN:UN">form</token>
                     </marker>
                     <token postag="PRP\$|DT" postag_regexp="yes"/>
                     <token postag="NN.*" postag_regexp="yes"/>
@@ -519,6 +519,10 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
                 <example type="incorrect" correction="from">I got a letter <marker>form</marker> my friend.</example>
                 <example type="correct">I got a letter <marker>from</marker> my friend.</example>
                 <example type="correct">I got a letter <marker>form</marker> from my friend.</example>
+                <example type="correct">It may form a raceme or a spike.</example>
+                <example type="correct">The leaves form a rosette at the base of the plant.</example>
+                <example type="correct">In full form the theorem was given in 1825.</example>
+                <example type="correct">These results of Cauchy's still form the core of complex function theory.</example>
             </rule>
         </rulegroup>
         <rule id="THERE_EXITS" name="there exits (there exists)">
@@ -2174,7 +2178,7 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
                         <token postag="SENT_START"></token>
                         <token>Lets</token>
                     </marker>
-                    <token postag="VB|RB?" postag_regexp="yes"></token>
+                    <token postag="VBP?|RB?" postag_regexp="yes"></token>
                 </pattern>
                 <message>Did you mean <suggestion>Let's</suggestion>?</message>
                 <short>Possible typo</short>
@@ -5990,7 +5994,7 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
             </rule>
             <rule>
                 <pattern>
-                    <token postag="VB[DPZ]" postag_regexp="yes"><exception inflected="yes" regexp="yes">have|be|will</exception><exception postag="NNS?" postag_regexp="yes"/></token>
+                    <token postag="VB[DPZ]?" postag_regexp="yes"><exception inflected="yes" regexp="yes">have|be|will</exception><exception postag="NNS?" postag_regexp="yes"/></token>
                     <marker>
                         <token regexp="yes">always|hardly|never|often|rarely|seldom|sometimes|usually</token>
                     </marker>
@@ -6010,7 +6014,7 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
                         <token regexp="yes">always|hardly|never|often|rarely|seldom|sometimes|usually</token>
                     </marker>
                     <token inflected="yes" regexp="yes">be|have|will</token>
-                    <token postag="VB[DPZ]" postag_regexp="yes"><exception inflected="yes" regexp="yes">have|be</exception><exception postag="JJ.*" postag_regexp="yes"/></token>
+                    <token postag="VB[DPZ]?" postag_regexp="yes"><exception inflected="yes" regexp="yes">have|be</exception><exception postag="JJ.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>The adverb '\2' is usually put between '\3' and '\4'.</message>
                 <url>http://faculty.washington.edu/marynell/grammar/AdverbPl.html</url>
