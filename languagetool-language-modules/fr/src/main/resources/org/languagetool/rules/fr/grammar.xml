@@ -2588,10 +2588,19 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token regexp="yes">Jimm?y|Jimmi</token>
-          <token regexp="yes">Hendrix|Hendricks</token>
+          <token regexp="yes">Hendrix|Hendric?ks</token>
         </pattern>
         <message>Écrivez <suggestion>Jimi Hendrix</suggestion> s’il s’agit du guitariste.</message>
         <example type="incorrect" correction="Jimi Hendrix"><marker>Jimmy Hendrix</marker> est né à Seattle.</example>
+        <example type="correct">Jimi Hendrix est né à Seattle.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>Jimi</token>
+          <token regexp="yes">Hendric?ks</token>
+        </pattern>
+        <message>Écrivez <suggestion>Jimi Hendrix</suggestion> s’il s’agit du guitariste.</message>
+        <example type="incorrect" correction="Jimi Hendrix"><marker>Jimi Hendricks</marker> est né à Seattle.</example>
         <example type="correct">Jimi Hendrix est né à Seattle.</example>
       </rule>
       <rule>
@@ -2620,6 +2629,33 @@ though, and has since been slightly modified)-->
         <message>Écrivez <suggestion>Karl Marx</suggestion> s’il s’agit du philosophe/économiste allemand.</message>
         <example type="incorrect"><marker>Karl Max</marker> était un philosophe/économiste allemand.</example>
         <example type="correct">Karl Marx était un philosophe/économiste allemand.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>Siegmund</token>
+          <token>Freud</token>
+        </pattern>
+        <message>Écrivez <suggestion>Sigmund Freud</suggestion> s’il s’agit du fondateur de la psychanalyze.</message>
+        <example type="incorrect"><marker>Siegmund Freud</marker> est le fondateur de la psychanalyse.</example>
+        <example type="correct"><marker>Sigmund Freud</marker> est le fondateur de la psychanalyse.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>Bertrand</token>
+          <token>Russel</token>
+        </pattern>
+        <message>Écrivez <suggestion>\1 Russell</suggestion> s’il s’agit du philosophe/mathématicien britannique.</message>
+        <example type="incorrect" correction="Bertrand Russell"><marker>Bertrand Russel</marker> est né en 1872.</example>
+        <example type="correct">Bertrand Russell est né en 1872.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">Will?[iy]<exception>Willy</exception></token>
+          <token regexp="yes">Brand?t</token>
+        </pattern>
+        <message>Écrivez <suggestion>Willy Brandt</suggestion> s’il s’agit du politicien allemand.</message>
+        <example type="incorrect"><marker>Willi Brandt</marker> était un politicien allemand.</example>
+        <example type="correct">Willy Brandt était un politicien allemand.</example>
       </rule>
       <rule>
         <pattern>
@@ -2758,7 +2794,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token>Jane</token>
+          <token regexp="yes">J[eo]?ane?</token>
           <token>Austin</token>
         </pattern>
         <message>Écrivez <suggestion>Jane Austen</suggestion> s’il s’agit de l’écrivain anglaise.</message>
