@@ -1582,7 +1582,7 @@ though, and has since been slightly modified)-->
           <exception postag="[NR].*|V ppa [fe] sp?" postag_regexp="yes"/>
         </token>
       </pattern>
-      <message>Voulez-vous écrire <suggestion>m’a</suggestion>?</message>
+      <message>Voulez-vous écrire <suggestion>m’a</suggestion> ?</message>
       <example type="incorrect">Il <marker>ma</marker> répondu.</example>
       <example type="correct">Il <marker>m’a</marker> répondu.</example>
       <example type="correct">C’est ma voiture.</example>
@@ -1682,7 +1682,7 @@ though, and has since been slightly modified)-->
         </marker>
         <token postag="N.*" postag_regexp="yes"><exception regexp="yes">pas|dommage|grâce|monsieur|madame|mademoiselle|oui|non|lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche|bidon|bonnet|la</exception><exception postag="[^N].*" postag_regexp="yes"/></token>
       </pattern>
-      <message>Voulez-vous écrire <suggestion>ces</suggestion>, <suggestion>cet</suggestion> ou <suggestion>cette</suggestion> au lieu de « \1\2\3 »?</message>
+      <message>Voulez-vous écrire <suggestion>ces</suggestion>, <suggestion>cet</suggestion> ou <suggestion>cette</suggestion> au lieu de « \1\2\3 » ?</message>
       <example type="incorrect"><marker>C’est</marker> école est grande.</example>
       <example type="correct"><marker>Cette</marker> école est réputée.</example>
       <example type="correct">C’est dommage de partir si tôt.</example>
@@ -2042,7 +2042,7 @@ though, and has since been slightly modified)-->
           <token>de</token>
           <token regexp="yes">fées?|traditions?</token>
         </pattern>
-        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="(.*)mp(.*)" regexp_replace="$1n$2"/></suggestion>?</message>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="(.*)mp(.*)" regexp_replace="$1n$2"/></suggestion> ?</message>
         <example type="incorrect" correction="contes">Elle aime les <marker>comptes</marker> de fées.</example>
         <example type="correct">Elle aime les contes de fées.</example>
       </rule>
@@ -2055,7 +2055,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">[’´'‛′‘]</token>
           <token regexp="yes">amour|horreur</token>
         </pattern>
-        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="(.*)mp(.*)" regexp_replace="$1n$2"/></suggestion>?</message>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="(.*)mp(.*)" regexp_replace="$1n$2"/></suggestion> ?</message>
         <example type="incorrect" correction="contes">Elle aime les <marker>comptes</marker> d’horreur.</example>
         <example type="correct">Elle aime les contes d’horreur.</example>
       </rule>
@@ -2066,7 +2066,7 @@ though, and has since been slightly modified)-->
           </marker>
           <token regexp="yes">allégoriques?|fantastiques?|littéraires?|merveilleux|morals?|oral|oraux|écrits?|populaires?|satiriques?|véhiculés?</token>
         </pattern>
-        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="(.*)mp(.*)" regexp_replace="$1n$2"/></suggestion>?</message>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="(.*)mp(.*)" regexp_replace="$1n$2"/></suggestion> ?</message>
         <example type="incorrect" correction="contes">Elle aime les <marker>comptes</marker> fantastiques.</example>
         <example type="correct">Elle aime les contes fantastiques.</example>
       </rule>
@@ -2080,7 +2080,7 @@ though, and has since been slightly modified)-->
           <token>marcher</token>
         </marker>
       </pattern>
-      <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="er" regexp_replace="é"/></suggestion>?</message>
+      <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="er" regexp_replace="é"/></suggestion> ?</message>
       <example type="incorrect" correction="marché">Elle va au <marker>marcher</marker>.</example>
       <example type="correct">Elle va au marché.</example>
     </rule>
@@ -2093,7 +2093,7 @@ though, and has since been slightly modified)-->
             <token regexp="yes">décrépie?s?</token>
           </marker>
         </pattern>
-        <message>« \2 » signifie « avoir perdu son crépi ». Voulez-vous écrire <suggestion><match no="2" regexp_match="i" regexp_replace="it"/></suggestion>?</message>
+        <message>« \2 » signifie « avoir perdu son crépi ». Voulez-vous écrire <suggestion><match no="2" regexp_match="i" regexp_replace="it"/></suggestion> ?</message>
         <example type="incorrect" correction="décrépit">Son visage était <marker>décrépi</marker>.</example>
         <example type="correct">Son visage était décrépit.</example>
       </rule>
@@ -2106,7 +2106,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes" skip="1">les?|l|son</token>
           <token regexp="yes">années|ans|temps|âge</token>
         </pattern>
-        <message>« \1 » signifie « avoir perdu son crépi ». Voulez-vous écrire <suggestion><match no="1" regexp_match="i" regexp_replace="it"/></suggestion>?</message>
+        <message>« \1 » signifie « avoir perdu son crépi ». Voulez-vous écrire <suggestion><match no="1" regexp_match="i" regexp_replace="it"/></suggestion> ?</message>
         <example type="incorrect" correction="décrépite">Elle semblait <marker>décrépie</marker> par les années.</example>
         <example type="correct">Elle semblait décrépite par les années.</example>
       </rule>
@@ -2605,6 +2605,24 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
+          <token>Barbara</token>
+          <token regexp="yes">Hendrix|Hendric?ks?<exception>Hendricks</exception></token>
+        </pattern>
+        <message>Écrivez <suggestion>Barbara Hendricks</suggestion> s’il s’agit de la cantatrice.</message>
+        <example type="incorrect" correction="Barbara Hendricks"><marker>Barbara Hendrix</marker> est une cantatrice soprano.</example>
+        <example type="correct">Barbara Hendricks est une cantatrice soprano.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>Barbra</token>
+          <token regexp="yes">Hendrix|Hendric?ks?</token>
+        </pattern>
+        <message>Écrivez <suggestion>Barbara Hendricks</suggestion> s’il s’agit de la cantatrice.</message>
+        <example type="incorrect" correction="Barbara Hendricks"><marker>Barbra Hendricks</marker> est une cantatrice soprano.</example>
+        <example type="correct">Barbara Hendricks est une cantatrice soprano.</example>
+      </rule>
+      <rule>
+        <pattern>
           <token regexp="yes">Harpo|Chico|Groucho|Gummo|Zeppo|Léonard|Arthur|Julius|Milton|Herbert</token>
           <token>Max</token>
         </pattern>
@@ -2659,6 +2677,24 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
+          <token>Steve</token>
+          <token regexp="yes">Carr?ell?<exception>Carell</exception></token>
+        </pattern>
+        <message>Écrivez <suggestion>Steve Carell</suggestion> s’il s’agit de l’acteur américain.</message>
+        <example type="incorrect"><marker>Steve Carrell</marker> est né en 1962.</example>
+        <example type="correct"><marker>Steve Carell</marker> est né en 1962.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>Will</token>
+          <token regexp="yes">Ferr?ell?<exception>Ferrell</exception></token>
+        </pattern>
+        <message>Écrivez <suggestion>Will Ferrell</suggestion> s’il s’agit de l’acteur américain.</message>
+        <example type="incorrect"><marker>Will Ferrel</marker> est né en 1967.</example>
+        <example type="correct"><marker>Will Ferrell</marker> est né en 1967.</example>
+      </rule>
+      <rule>
+        <pattern>
           <token regexp="yes">Jimm?[iy]</token>
           <token>Page</token>
         </pattern>
@@ -2674,6 +2710,33 @@ though, and has since been slightly modified)-->
         <message>Écrivez <suggestion>Ozzy Osbourne</suggestion> s’il s’agit du chanteur de Black Sabbath.</message>
         <example type="incorrect">Connais-tu <marker>Ozzy Osbourn</marker> ?</example>
         <example type="correct">Connais-tu Ozzy Osbourne ?</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>Eddie</token>
+          <token regexp="yes">Rabb?itt?<exception>Rabbitt</exception></token>
+        </pattern>
+        <message>Écrivez <suggestion>Eddie Rabbitt</suggestion> s’il s’agit du chanteur américain.</message>
+        <example type="incorrect">Connais-tu <marker>Eddie Rabbit</marker> ?</example>
+        <example type="correct">Connais-tu Eddie Rabbitt ?</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>Billy</token>
+          <token>Squire</token>
+        </pattern>
+        <message>Écrivez <suggestion>Billy Squier</suggestion> s’il s’agit du chanteur américain.</message>
+        <example type="incorrect">Connais-tu <marker>Billy Squire</marker> ?</example>
+        <example type="correct">Connais-tu Billy Squier ?</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>Bonnie</token>
+          <token regexp="yes">Rate|Rait</token>
+        </pattern>
+        <message>Écrivez <suggestion>Bonnie Raitt</suggestion> s’il s’agit de la chanteuse américaine.</message>
+        <example type="incorrect">Connais-tu <marker>Bonnie Rate</marker> ?</example>
+        <example type="correct">Connais-tu Bonnie Raitt ?</example>
       </rule>
       <rule>
         <pattern>
@@ -2712,12 +2775,75 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
+          <token>Led</token>
+          <token regexp="yes">Zepp?e?ll?inn?e?<exception>Zeppelin</exception></token>
+        </pattern>
+        <message>Écrivez <suggestion>Led Zeppelin</suggestion> s’il s’agit du groupe rock.</message>
+        <example type="incorrect">Un disque de <marker>Led Zepelin</marker>.</example>
+        <example type="correct">Un disque de <marker>Led Zeppelin</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>Lead</token>
+          <token regexp="yes">Zepp?e?ll?inn?e?</token>
+        </pattern>
+        <message>Écrivez <suggestion>Led Zeppelin</suggestion> s’il s’agit du groupe rock.</message>
+        <example type="incorrect">Un disque de <marker>Lead Zeppelin</marker>.</example>
+        <example type="correct">Un disque de <marker>Led Zeppelin</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>Deaf</token>
+          <token regexp="yes">Leo?pp?ard</token>
+        </pattern>
+        <message>Écrivez <suggestion>Def Leppard</suggestion> s’il s’agit du groupe rock.</message>
+        <example type="incorrect">Un disque de <marker>Deaf Leppard</marker>.</example>
+        <example type="correct">Un disque de Def Leppard.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>Def</token>
+          <token regexp="yes">Leo?pp?ard<exception>Leppard</exception></token>
+        </pattern>
+        <message>Écrivez <suggestion>Def Leppard</suggestion> s’il s’agit du groupe rock.</message>
+        <example type="incorrect">Un disque de <marker>Def Leopard</marker>.</example>
+        <example type="correct">Un disque de Def Leppard.</example>
+      </rule>
+      <rule>
+        <pattern>
           <token>Greatful</token>
           <token>Dead</token>
         </pattern>
         <message>Écrivez <suggestion>Grateful Dead</suggestion> s’il s’agit du groupe rock.</message>
         <example type="incorrect">Un disque des <marker>Greatful Dead</marker>.</example>
         <example type="correct">Un disque des <marker>Grateful Dead</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>Roger</token>
+          <token>Hogson</token>
+        </pattern>
+        <message>Écrivez <suggestion>Roger Hodgson</suggestion> s’il s’agit du membre du groupe Supertramp.</message>
+        <example type="incorrect"><marker>Roger Hogson</marker> est né en 1950.</example>
+        <example type="correct">Roger Hodgson est né en 1950.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>Cheryl</token>
+          <token>Crow</token>
+        </pattern>
+        <message>Écrivez <suggestion>Sheryl Crow</suggestion> s’il s’agit de la chanteuse américaine.</message>
+        <example type="incorrect"><marker>Cheryl Crow</marker> est né en 1962.</example>
+        <example type="correct">Sheryl Crow est né en 1962.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>Keith</token>
+          <token>Richard</token>
+        </pattern>
+        <message>Écrivez <suggestion>Keith Richards</suggestion> s’il s’agit guitariste des Rolling Stones.</message>
+        <example type="incorrect"><marker>Keith Richard</marker> est né en 1943.</example>
+        <example type="correct">Keith Richards est né en 1943.</example>
       </rule>
       <rule>
         <pattern>
@@ -3330,7 +3456,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes" skip="1">(serpent|araignée|tarentule|scorpion|vipère|cobra|crapaud|grenouille|dendrobate|poulpe|guêpe|abeille|méduse|raie|morsure|piqûre|dard|dent|croc|crochet)s?</token>
           <marker><token regexp="yes">v[ée]n[ée][nm]eu(x|ses?)</token></marker>
         </pattern>
-        <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="^....." regexp_replace="venim"/></suggestion>?</message>
+        <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="^....." regexp_replace="venim"/></suggestion> ?</message>
         <example type="incorrect" correction="venimeuses">Des araignées <marker>vénéneuses</marker>.</example>
         <example type="correct">Des araignées <marker>venimeuses</marker>.</example>
         <example type="correct">Un champignon <marker>vénéneux</marker>.</example>
@@ -3341,7 +3467,7 @@ though, and has since been slightly modified)-->
           <token postag="V etre.*" postag_regexp="yes" skip="1"/>
           <marker><token regexp="yes">v[ée]n[ée][nm]eu(x|ses?)</token></marker>
         </pattern>
-        <message>Voulez-vous écrire <suggestion><match no="3" regexp_match="^....." regexp_replace="venim"/></suggestion>?</message>
+        <message>Voulez-vous écrire <suggestion><match no="3" regexp_match="^....." regexp_replace="venim"/></suggestion> ?</message>
         <example type="incorrect" correction="venimeuses">Les couleuvres ne sont pas <marker>vénéneuses</marker>.</example>
         <example type="correct">Les couleuvres ne sont pas <marker>venimeuses</marker>.</example>
       </rule>
@@ -3350,7 +3476,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes" skip="1">(plante|champignon|lépiote|fruit|herbe|fleur|chair|moule|substance)s?|humus|végétaux|végétal</token>
         <marker><token regexp="yes">v[eé][nm]i[mn]eu(x|ses?)</token></marker>
         </pattern>
-        <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="^....." regexp_replace="vénén"/></suggestion>?</message>
+        <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="^....." regexp_replace="vénén"/></suggestion> ?</message>
         <example type="incorrect" correction="vénéneux">Des champignons non <marker>venimeux</marker>.</example>
         <example type="correct">Des champignons non <marker>vénéneux</marker>.</example>
         <example type="correct">Un cobra très <marker>venimeux</marker>.</example>
@@ -3361,7 +3487,7 @@ though, and has since been slightly modified)-->
           <token postag="V etre.*" postag_regexp="yes" skip="1"/>
         <marker><token regexp="yes">v[eé][nm]i[mn]eu(x|ses?)</token></marker>
         </pattern>
-        <message>Voulez-vous écrire <suggestion><match no="3" regexp_match="^....." regexp_replace="vénén"/></suggestion>?</message>
+        <message>Voulez-vous écrire <suggestion><match no="3" regexp_match="^....." regexp_replace="vénén"/></suggestion> ?</message>
         <example type="incorrect" correction="vénéneuses">Ces plantes ne sont pas <marker>venimeuses</marker>.</example>
         <example type="correct">Ces plantes ne sont pas <marker>vénéneuses</marker>.</example>
       </rule>
@@ -22453,7 +22579,7 @@ though, and has since been slightly modified)-->
         <token>qu</token>
         <token regexp="yes">[aàâeéêioôuhy].*</token>
       </pattern>
-      <message>Voulez-vous écrire <suggestion>\1’\2</suggestion>?</message>
+      <message>Voulez-vous écrire <suggestion>\1’\2</suggestion> ?</message>
       <example type="incorrect" correction="qu’il">Je pense <marker>qu il</marker> ment.</example>
       <example type="correct">Je pense qu’il ment.</example>
     </rule>
