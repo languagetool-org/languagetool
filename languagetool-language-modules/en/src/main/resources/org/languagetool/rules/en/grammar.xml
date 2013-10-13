@@ -497,13 +497,18 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
             </rule>
             <rule>
                 <pattern>
-                    <token>the</token>
-                    <token>from</token>
+                    <token regexp="yes">a|the</token>
+                    <!--most determiners are OK, this way it's shorter-->
+                    <marker>
+                        <token>from</token>
+                    </marker>
                 </pattern>
-                <message>Did you mean <suggestion>the form</suggestion>?</message>
+                <message>Did you mean <suggestion>form</suggestion>?</message>
                 <short>Possible typo</short>
-                <example correction="the form" type="incorrect">Fill in <marker>the from</marker> as shown below.</example>
+                <example type="correct">Type in the <marker>form</marker> on the web page.</example>
+                <example type="incorrect" correction="form">Type in the <marker>from</marker> on the web page.</example>
                 <example type="correct">Fill in the form as shown below.</example>
+                <example type="incorrect" correction="form">Fill in the <marker>from</marker> as shown below.</example>
             </rule>
             <rule>
                 <pattern>
@@ -2128,19 +2133,6 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
             <short>Possible typo</short>
             <example type="correct">I have been out with the <marker>flu</marker> for the past 3 days.</example>
             <example type="incorrect">I have been out with the <marker>flew</marker> for the past 3 days.</example>
-        </rule>
-        <rule id="DT_FORM" name="from (form)">
-            <pattern>
-                <token regexp="yes">a|the</token>
-                <!--most determiners are OK, this way it's shorter-->
-                <marker>
-                    <token>from</token>
-                </marker>
-            </pattern>
-            <message>Did you mean <suggestion>form</suggestion>?</message>
-            <short>Possible typo</short>
-            <example type="correct">Type in the <marker>form</marker> on the web page.</example>
-            <example type="incorrect">Type in the <marker>from</marker> on the web page.</example>
         </rule>
         <rule default="off" id="CAN_NOT" name="can not (cannot)">
             <pattern>
