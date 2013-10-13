@@ -303,13 +303,12 @@ public class Unifier {
       while (!tmpFeaturesFound.get(first)) {
         first++;
       }
-      tmpFeaturesFound.remove(tmpFeaturesFound.size() - 1);
-      if (first >= tmpFeaturesFound.size()) {
+      if (first > tmpFeaturesFound.size() - 1) {
         return null;
       }
-      // FIXME: why this happens?
+      tmpFeaturesFound.remove(tmpFeaturesFound.size() - 1);
       final int numRead = tokSequence.get(0).getReadingsLength();
-      if (first < numRead) {
+      if (numRead > 1) { // no need to filter if there is just one reading
         tmpATR = new AnalyzedTokenReadings(tokSequence.get(0).getAnalyzedToken(
             first), 0);
         for (int i = first + 1; i <= Math.min(numRead - 1, tokCnt); i++) {
