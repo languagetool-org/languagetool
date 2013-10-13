@@ -2596,6 +2596,33 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
+          <token regexp="yes">Harpo|Chico|Groucho|Gummo|Zeppo|Léonard|Arthur|Julius|Milton|Herbert</token>
+          <token>Max</token>
+        </pattern>
+        <message>Écrivez <suggestion>\1 Marx</suggestion> s’il s’agit du comédien américain.</message>
+        <example type="incorrect" correction="Groucho Marx"><marker>Groucho Max</marker> était un comédien américain.</example>
+        <example type="correct">Groucho Marx était un comédien américain.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>Max</token>
+          <token>Brothers</token>
+        </pattern>
+        <message>Écrivez <suggestion>Marx Brothers</suggestion> s’il s’agit des comédiens américains.</message>
+        <example type="incorrect">Un film des <marker>Max Brothers</marker>.</example>
+        <example type="correct">Un film des Marx Brothers.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">[CK]arl</token>
+          <token>Max</token>
+        </pattern>
+        <message>Écrivez <suggestion>Karl Marx</suggestion> s’il s’agit du philosophe/économiste allemand.</message>
+        <example type="incorrect"><marker>Karl Max</marker> était un philosophe/économiste allemand.</example>
+        <example type="correct">Karl Marx était un philosophe/économiste allemand.</example>
+      </rule>
+      <rule>
+        <pattern>
           <token regexp="yes">Jimm?[iy]</token>
           <token>Page</token>
         </pattern>
@@ -2633,7 +2660,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token>Donna</token>
-          <token regexp="yes">S[uo]mmers</token>
+          <token regexp="yes">S[uo]mmers?<exception>Summer</exception></token>
         </pattern>
         <message>Écrivez <suggestion>Donna Summer</suggestion> s’il s’agit de la chanteuse américaine.</message>
         <example type="incorrect"><marker>Donna Summers</marker></example>
@@ -2641,7 +2668,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">Megg?a-?death</token>
+          <token regexp="yes">Megg?a-?dea?th<exception>Megadeth</exception></token>
         </pattern>
         <message>Écrivez <suggestion>Megadeth</suggestion> s’il s’agit du groupe métal américain.</message>
         <example type="incorrect">J’aime beaucoup <marker>Megadeath</marker>.</example>
@@ -2753,7 +2780,7 @@ though, and has since been slightly modified)-->
           <token>Cohen</token>
         </pattern>
         <message>Écrivez <suggestion>\1 Coen</suggestion> s’il s’agit du cinéaste américain.</message>
-        <example type="incorrect">Joel and <marker>Ethan Cohen</marker></example>
+        <example type="incorrect" correction="Ethan Coen">Joel and <marker>Ethan Cohen</marker></example>
         <example type="correct">Joel and <marker>Ethan Coen</marker></example>
       </rule>
       <rule>
@@ -2865,7 +2892,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token>Charles</token>
+          <token regexp="yes">Charles|Général</token>
           <token>de</token>
           <marker><token regexp="yes">Gaules?|Gaulles</token></marker>
         </pattern>
@@ -2922,7 +2949,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token>Allan</token>
-          <token>Stivell</token>
+          <token regexp="yes">Stivell?</token>
         </pattern>
         <message>Écrivez <suggestion>Alan Stivell</suggestion> s’il s’agit du musicien breton.</message>
         <example type="incorrect"><marker>Allan Stivell</marker></example>
@@ -2930,8 +2957,17 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
+          <token>Alan</token>
+          <token>Stivel</token>
+        </pattern>
+        <message>Écrivez <suggestion>Alan Stivell</suggestion> s’il s’agit du musicien breton.</message>
+        <example type="incorrect"><marker>Alan Stivel</marker></example>
+        <example type="correct"><marker>Alan Stivell</marker></example>
+      </rule>
+      <rule>
+        <pattern>
           <token regexp="yes">Britt?ann?(y|ie?)|Brittney</token>
-          <token>Spears</token>
+          <token regexp="yes">Spears?</token>
         </pattern>
         <message>Écrivez <suggestion>Britney Spears</suggestion> s’il s’agit de la chanteuse américaine.</message>
         <example type="incorrect"><marker>Brittany Spears</marker></example>
@@ -2948,6 +2984,15 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
+          <token>Carl</token>
+          <token>Lagerfeld</token>
+        </pattern>
+        <message>Écrivez <suggestion>Karl Lagerfeld</suggestion> s’il s’agit du couturier allemand.</message>
+        <example type="incorrect"><marker>Carl Lagerfeld</marker></example>
+        <example type="correct"><marker>Karl Lagerfeld</marker></example>
+      </rule>
+      <rule>
+        <pattern>
           <token>Merryl</token>
           <token>Streep</token>
         </pattern>
@@ -2958,11 +3003,20 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token regexp="yes">C[iy]nd[yi]e<exception>Cyndi</exception></token>
-          <token>Lauper</token>
+          <token regexp="yes">Laupers?</token>
         </pattern>
         <message>Écrivez <suggestion>Cyndi Lauper</suggestion> s’il s’agit de l’actrice américaine.</message>
         <example type="incorrect"><marker>Cyndie Lauper</marker></example>
         <example type="correct"><marker>Cyndi Lauper</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">Albert|Docteur</token>
+          <marker><token>Schweizer</token></marker>
+        </pattern>
+        <message>Écrivez <suggestion>Schweitzer</suggestion> s’il s’agit du philosophe/médecin alsacien.</message>
+        <example type="incorrect">Albert <marker>Schweizer</marker> fut lauréat du prix Nobel de la paix.</example>
+        <example type="correct">Albert Schweitzer fut lauréat du prix Nobel de la paix.</example>
       </rule>
     </rulegroup>
     <rulegroup id="ABYME_ABIME" name="abyme et abîme">
