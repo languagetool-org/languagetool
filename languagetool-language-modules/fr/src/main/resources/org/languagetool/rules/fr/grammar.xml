@@ -3027,12 +3027,41 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">Fran[cç]ois</token>
-          <token>Holland</token>
+          <token>Henri</token>
+          <marker><token regexp="yes">Point?carr?é<exception>Poincaré</exception></token></marker>
         </pattern>
-        <message>Écrivez <suggestion>François Hollande</suggestion> s’il s’agit du président de la république.</message>
-        <example type="incorrect"><marker>François Holland</marker></example>
-        <example type="correct"><marker>François Hollande</marker></example>
+        <message>Écrivez <suggestion>Poincaré</suggestion> s’il s’agit du mathématicien français.</message>
+        <example type="incorrect">Henri <marker>Pointcaré</marker></example>
+        <example type="correct">Henri Poincaré</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>Raymond</token>
+          <marker><token regexp="yes">Point?carr?é<exception>Poincaré</exception></token></marker>
+        </pattern>
+        <message>Écrivez <suggestion>Poincaré</suggestion> s’il s’agit du président de la république.</message>
+        <example type="incorrect">Raymond <marker>Pointcaré</marker></example>
+        <example type="correct">Raymond Poincaré</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">Charles|Général</token>
+          <token>de</token>
+          <marker><token regexp="yes">Gaules?|Gaulles</token></marker>
+        </pattern>
+        <message>Écrivez <suggestion>Gaulle</suggestion> s’il s’agit du président de la république.</message>
+        <example type="incorrect">Charles de <marker>Gaule</marker></example>
+        <example type="correct">Charles de <marker>Gaulle</marker></example>
+        <example type="correct">Rome importait de Gaule essentiellement du sel.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">Vall?[eé]r[iy]e?<exception>Valéry</exception></token></marker>
+          <token>Giscard</token>
+        </pattern>
+        <message>Écrivez <suggestion>Valéry</suggestion> s’il s’agit du prénom du président de la république.</message>
+        <example type="incorrect"><marker>Valérie</marker> Giscard d’Estaing</example>
+        <example type="correct">Valéry Giscard d’Estaing</example>
       </rule>
       <rule>
         <pattern>
@@ -3054,14 +3083,12 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">Charles|Général</token>
-          <token>de</token>
-          <marker><token regexp="yes">Gaules?|Gaulles</token></marker>
+          <token regexp="yes">Fran[cç]ois</token>
+          <token>Holland</token>
         </pattern>
-        <message>Écrivez <suggestion>Gaulle</suggestion> s’il s’agit du président de la république.</message>
-        <example type="incorrect">Charles de <marker>Gaule</marker></example>
-        <example type="correct">Charles de <marker>Gaulle</marker></example>
-        <example type="correct">Rome importait de Gaule essentiellement du sel.</example>
+        <message>Écrivez <suggestion>François Hollande</suggestion> s’il s’agit du président de la république.</message>
+        <example type="incorrect"><marker>François Holland</marker></example>
+        <example type="correct"><marker>François Hollande</marker></example>
       </rule>
       <rule>
         <pattern>
