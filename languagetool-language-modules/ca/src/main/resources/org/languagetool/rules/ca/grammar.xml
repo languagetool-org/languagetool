@@ -5579,15 +5579,18 @@ $Id$
         </rule>
     	<rule id="EXERCIT" name="exercit/exèrcit">
             <pattern>
-                <token postag="SENT_START" skip="-1"><exception scope="next" inflected="yes" regexp="yes">paper|càrrec</exception></token>
+                <token postag="SENT_START" skip="-1"><exception scope="next" inflected="yes" regexp="yes">paper|càrrec|monopoli|apostolat|mandat</exception></token>
                 <marker>
                 	<token regexp="yes">exercits?<exception postag="_GV_"/></token>
                 </marker>
+                <token><exception postag="SPS00" regexp="yes">per|pe</exception></token>
             </pattern>
             <message>¿Volíeu dir <suggestion><match no="2" regexp_match="exercit(.?)" regexp_replace="exèrcit$1"/></suggestion>? Correcte com a participi de "exercir".</message>
             <example type="incorrect" correction="exèrcit">No volen tenir <marker>exercit</marker> propi.</example>
             <example type="correct">Ha exercit un paper important.</example>
             <example type="correct">restava poders al càrrec de president, exercit des del 1975 per D. Ratsiraka</example>
+            <example type="correct">sobre el proselitisme exercit pels judaïtzants</example> 
+            <example type="correct">Des del 1968 ha exercit la docència</example>
         </rule>
     	<rule id="CIRCUIT" name="circuït/circuit">
             <pattern>
