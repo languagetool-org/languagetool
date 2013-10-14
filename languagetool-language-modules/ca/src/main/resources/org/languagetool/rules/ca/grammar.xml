@@ -4286,9 +4286,9 @@ $Id$
         <!-- en quins casos es poden usar tots els temps verbals, no sols el participi? -->
             <rule>
                 <pattern>
-                    <token postag="V.P.*" skip="1" postag_regexp="yes" regexp="yes" inflected="yes">&seguits_per_COM_A;<exception scope="previous">tan</exception><exception scope="next" regexp="yes">,|;</exception><exception scope="next" postag="[NAV].*" postag_regexp="yes"/></token>
+                    <token postag="V.P.*" skip="1" postag_regexp="yes" regexp="yes" inflected="yes">&seguits_per_COM_A;<exception scope="previous" regexp="yes">tan|tants?</exception><exception scope="next" postag="[NAV].*|_PUNCT.*" postag_regexp="yes"/></token>
                     <marker>
-                        <token>com<exception scope="previous" regexp="yes">tals?</exception></token>
+                        <token>com<exception scope="previous" regexp="yes">tals?|molt</exception></token>
                     </marker>
                     <token min="0" regexp="yes">['"‘“«]</token>
                     <token postag="[AN].*|_possible_nompropi|UNKNOWN" postag_regexp="yes"><exception>a</exception><exception inflected="yes" regexp="yes">el|un|tot|il|gli|los|le|the</exception><exception regexp="yes">['"‘“«]</exception></token>
@@ -4315,9 +4315,15 @@ $Id$
                 <example type="correct">conegut com Il Duce</example>
                 <example type="correct">Altres exploradors europeus menys coneguts, com a Jean de Plan Carpin,</example>
                 <example type="correct">coneguts èxits com Bohemian Rhapsody</example>
+                <example type="correct">centres de recerca de reconegut prestigi com PERA</example>
+                <example type="correct">amb altres reconeguts pintors com Carle van Loo</example>
+                <example type="correct">tant des del punt de vista legal com doctrinal,</example>
             </rule>
             <!-- marques de prestigi reconegudes com Lancôme, Chanel i Versace. 
-            artistes ja coneguts com ...-->
+            artistes ja coneguts com ...
+            altres teatres d'òpera reconeguts com Tòquio, París, Buenos Aires
+            espanyols més reconeguts internacionalment com Pau Gasol, Fernando Alonso,
+            amb nombrosos autors molt coneguts com Bo Carpelan, Christer Kihlman i Tove Jansson-->
             
             <!-- <rule>
                 <pattern>
@@ -4351,7 +4357,8 @@ $Id$
                 <example type="correct">Hi ha tant gent de l'esquerra més cultivada com representants de l'Espanya cañí.</example>
                 <example type="correct">i demostra ser tan bon escriptor com actor</example>
                 <example type="correct">En pel·lícules com Ciutadà Kane</example>
-                <!-- atragué grans personalitats, com actors, actrius, escriptors o polítics. -->
+                <!-- atragué grans personalitats, com actors, actrius, escriptors o polítics. 
+                es varen trobar evidències d'habitatge com instruments d'os-->
             </rule>
         </rulegroup>
         <rule id="PER_A_DESPRES" name="per a després">
