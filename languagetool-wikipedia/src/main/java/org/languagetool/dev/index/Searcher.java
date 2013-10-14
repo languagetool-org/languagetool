@@ -148,7 +148,13 @@ public class Searcher {
       final List<MatchingSentence> matchingSentences = runnable.getMatchingSentences();
       final int sentencesChecked = getSentenceCheckCount(query, indexSearcher);
       final SearcherResult searcherResult = new SearcherResult(matchingSentences, sentencesChecked, query);
-      searcherResult.setDocCount(getDocCount(indexSearcher));
+      searcherResult.setHasTooManyLuceneMatches(runnable.hasTooManyLuceneMatches());
+      if (runnable.hasTooManyLuceneMatches()) {
+        // more potential matches than we can check in an acceptable time :-(
+        searcherResult.setDocCount(maxHits);
+      } else {
+        searcherResult.setDocCount(getDocCount(indexSearcher));
+      }
       //TODO: the search itself could also timeout, don't just ignore that:
       //searcherResult.setResultIsTimeLimited(limitedTopDocs.resultIsTimeLimited);
       return searcherResult;
@@ -268,6 +274,7 @@ public class Searcher {
 
     private List<MatchingSentence> matchingSentences;
     private Exception exception;
+    private boolean tooManyLuceneMatches;
 
     SearchRunnable(IndexSearcher indexSearcher, Query query, Language language, PatternRule rule) {
       this.indexSearcher = indexSearcher;
@@ -287,6 +294,11 @@ public class Searcher {
         final PossiblyLimitedTopDocs limitedTopDocs = getTopDocs(query, sort);
         final long luceneTime = System.currentTimeMillis() - t2;
         final long t3 = System.currentTimeMillis();
+        if (limitedTopDocs.topDocs.scoreDocs.length >= maxHits) {
+          tooManyLuceneMatches = true;
+        } else {
+          tooManyLuceneMatches = false;
+        }
         matchingSentences = findMatchingSentences(indexSearcher, limitedTopDocs.topDocs, languageTool);
         System.out.println("Check done in " + langToolCreationTime + "/" + luceneTime + "/" + (System.currentTimeMillis() - t3) 
                 + "ms (LT creation/Lucene/matching) for " + limitedTopDocs.topDocs.scoreDocs.length + " docs, query " + query.toString(FIELD_NAME_LOWERCASE));
@@ -297,6 +309,14 @@ public class Searcher {
 
     Exception getException() {
       return exception;
+    }
+
+    /**
+     * There were more Lucene matches than we can actually check with LanguageTool in
+     * an acceptable time, so real matches might be lost.
+     */
+    boolean hasTooManyLuceneMatches() {
+      return tooManyLuceneMatches;
     }
 
     List<MatchingSentence> getMatchingSentences() {
