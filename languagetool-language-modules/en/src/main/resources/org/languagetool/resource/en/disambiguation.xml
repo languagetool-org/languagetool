@@ -1455,7 +1455,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <token chunk="E-NP-plural"/>
         <marker>
         <and>
-          <token postag="VBP"/>
+          <token postag="VBP"><exception postag="VBD"/><exception postag="IN"/></token>
           <token postag="NN(:UN)?" postag_regexp="yes"/>
         </and>
         </marker>
@@ -1463,6 +1463,8 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
       <disambig postag="VBP"/>
       <example type="untouched">The application form</example>
       <example type="ambiguous" inputform="form[form/NN:UN,form/VB,form/VBP]" outputform="form[form/VBP]">The leaves <marker>form</marker> a rosette.</example>
+      <example type="untouched">So Rand fell into a severe depression.</example>
+      <example type="untouched">...was assigned to duty in northern Virginia while the Army of the Potomac conducted the Peninsula.</example>
     </rule>
     <rulegroup id="VBP_VBZ_NNS" name="VBZ/NN->VBZ">
       <rule>
