@@ -1,4 +1,4 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
@@ -253,7 +253,7 @@ public class UnifierTest extends TestCase {
     assertEquals(false, satisfied);
     uni.reset();
 
-    //now test the simplified interface    
+    //now test the simplified interface
     uni.isUnified(sing1, equiv, false);
     uni.isUnified(sing1a, equiv, false);
     uni.isUnified(sing1b, equiv, true);
@@ -285,7 +285,7 @@ public class UnifierTest extends TestCase {
     assertEquals("[osobiste[osobisty/adj:sg:nom.acc.voc:n:pos:aff*], godło[godło/subst:sg:nom.acc.voc:n*]]", Arrays.toString(uni.getFinalUnified()));
     uni.reset();
 
-    //check if two features are left out correctly (both match) 
+    //check if two features are left out correctly (both match)
     AnalyzedToken plur1 = new AnalyzedToken("zgarbieni", "adj:pl:foobar:m", "zgarbiony");
     AnalyzedToken plur2 = new AnalyzedToken("zgarbieni", "adj:pl:blabla:m", "zgarbiony");
 
@@ -297,8 +297,31 @@ public class UnifierTest extends TestCase {
     uni.isUnified(plur3, equiv, false);
     assertTrue(uni.isUnified(plur4, equiv, true));
     assertEquals("[zgarbieni[zgarbiony/adj:pl:foobar:m*,zgarbiony/adj:pl:blabla:m*], " +
-            "ludzie[człowiek/subst:pl:blabla:m*,człowiek/subst:pl:pampam:m*]]", Arrays.toString(uni.getFinalUnified()));
+        "ludzie[człowiek/subst:pl:blabla:m*,człowiek/subst:pl:pampam:m*]]", Arrays.toString(uni.getFinalUnified()));
 
+    //check with a sequence of many tokens
+
+    uni.reset();
+
+    AnalyzedToken case1a = new AnalyzedToken("xx", "abc:sg:f", "xx");
+    AnalyzedToken case1b = new AnalyzedToken("xx", "cde:pl:f", "xx");
+
+    AnalyzedToken case2a = new AnalyzedToken("yy", "abc:pl:f", "yy");
+    AnalyzedToken case2b = new AnalyzedToken("yy", "cde:as:f", "yy");
+    AnalyzedToken case2c = new AnalyzedToken("yy", "cde:pl:c", "yy");
+    AnalyzedToken case2d = new AnalyzedToken("yy", "abc:sg:f", "yy");
+    AnalyzedToken case2e = new AnalyzedToken("yy", "efg:aa:e", "yy");
+
+    uni.isUnified(case1a, equiv, false);
+    uni.isUnified(case1b, equiv, true);
+
+    uni.isUnified(case2a, equiv, false);
+    uni.isUnified(case2b, equiv, false);
+    uni.isUnified(case2c, equiv, false);
+    uni.isUnified(case2d, equiv, false);
+    assertTrue(uni.isUnified(case2e, equiv, true));
+    assertEquals(Arrays.toString(uni.getFinalUnified()),
+        "[xx[xx/abc:sg:f*,xx/cde:pl:f*], yy[yy/abc:pl:f*,yy/abc:sg:f*]]");
   }
 
   public void testNegation() {

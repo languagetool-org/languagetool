@@ -459,7 +459,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                 <token postag="(adj|subst|ppron.*|ppas|pact):.*" postag_regexp="yes"><exception>co</exception><exception postag="qub"/></token>
             </unify>
         </pattern>
-        <disambig action="unify"></disambig>
+        <disambig action="unify"/>        
         <example type="untouched">Tu mamy piękny przykład.</example>
         <example type="untouched">Łaciny używamy na co dzień.</example>        
         <!-- example type="ambiguous" inputform="mamy[mama/subst:pl:acc:f,mama/subst:pl:nom:f,mama/subst:pl:voc:f,mama/subst:sg:gen:f]" outputform="mamy[mama/subst:sg:gen:f]">Idę do <marker>mamy</marker>.</example>  -->
@@ -560,6 +560,20 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </rule>
 
     </rulegroup>
+
+  <!-- specjalnie robimy to drugi raz... to jest kaskada! -->
+    <rule name="Przyimek z rzeczownikiem po unifikacji" id="PREP_SUBST_2">    
+        <pattern>
+            <unify> <feature id="case"/>
+                <token postag="prep.*" postag_regexp="yes"><exception postag="prep.*" negate_pos="yes" postag_regexp="yes"/><exception>co</exception></token>
+                <token postag="(adj|subst|ppron.*|ppas|pact):.*" postag_regexp="yes"><exception>co</exception><exception postag="qub"/></token>
+            </unify>
+        </pattern>
+        <disambig action="unify"/>        
+        <example type="untouched">Tu mamy piękny przykład.</example>
+        <example type="untouched">Łaciny używamy na co dzień.</example>        
+        <!-- example type="ambiguous" inputform="mamy[mama/subst:pl:acc:f,mama/subst:pl:nom:f,mama/subst:pl:voc:f,mama/subst:sg:gen:f]" outputform="mamy[mama/subst:sg:gen:f]">Idę do <marker>mamy</marker>.</example>  -->
+    </rule>
 
     <!--  too greedy!
      <rule name="uzgadniamy dwa przymiotniki" id="ADJ_ADJ_UNIFY">
@@ -995,7 +1009,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </pattern>
         <disambig action="unify"/>
         <example type="untouched">Za pewne tak uważam.</example>
-        <example type="ambiguous" inputform="pewne[pewien/adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos,pewien/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos,pewien/adj:sg:acc:n1.n2:pos,pewien/adj:sg:nom.voc:n1.n2:pos,pewne/qub,pewne/subst:pl:acc:n2,pewne/subst:pl:nom:n2,pewne/subst:pl:voc:n2,pewne/subst:sg:acc:n2,pewne/subst:sg:nom:n2,pewne/subst:sg:voc:n2,pewny/adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos,pewny/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos,pewny/adj:sg:acc:n1.n2:pos,pewny/adj:sg:nom.voc:n1.n2:pos]" outputform="pewne[pewien/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos,pewny/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos]">Za <marker>pewne</marker> kwoty można kupić nawet krowę.</example>
+        <example type="ambiguous" inputform="pewne[pewien/adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos,pewien/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos,pewien/adj:sg:acc:n1.n2:pos,pewien/adj:sg:nom.voc:n1.n2:pos,pewne/qub,pewne/subst:pl:acc:n2,pewne/subst:pl:nom:n2,pewne/subst:pl:voc:n2,pewne/subst:sg:acc:n2,pewne/subst:sg:nom:n2,pewne/subst:sg:voc:n2,pewny/adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos,pewny/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos,pewny/adj:sg:acc:n1.n2:pos,pewny/adj:sg:nom.voc:n1.n2:pos]" outputform="pewne[pewien/adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos,pewien/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos,pewien/adj:sg:acc:n1.n2:pos,pewien/adj:sg:nom.voc:n1.n2:pos,pewne/subst:pl:acc:n2,pewne/subst:pl:nom:n2,pewne/subst:pl:voc:n2,pewne/subst:sg:acc:n2,pewne/subst:sg:nom:n2,pewne/subst:sg:voc:n2,pewny/adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos,pewny/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos,pewny/adj:sg:acc:n1.n2:pos,pewny/adj:sg:nom.voc:n1.n2:pos]">Za <marker>pewne</marker> kwoty można kupić nawet krowę.</example>
     </rule>
 
     <!--  useful for removing false alarms for non-detected sentence-ends (note: it doesn't break the sentence for real) -->

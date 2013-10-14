@@ -209,7 +209,7 @@ public class Unifier {
           }
           allFeatsUnified &= featUnified;
         }
-        tokenFeaturesFound.set(i, allFeatsUnified);
+        tokenFeaturesFound.set(i, tokenFeaturesFound.get(i) & allFeatsUnified);
         anyFeatUnified = anyFeatUnified || allFeatsUnified;
       }
       unifiedNext &= anyFeatUnified;
@@ -308,7 +308,7 @@ public class Unifier {
       }
       tmpFeaturesFound.remove(tmpFeaturesFound.size() - 1);
       final int numRead = tokSequence.get(0).getReadingsLength();
-      if (numRead > 1) { // no need to filter if there is just one reading
+      if (numRead > 1 && first < numRead) { // no need to filter if there is just one reading
         tmpATR = new AnalyzedTokenReadings(tokSequence.get(0).getAnalyzedToken(
             first), 0);
         for (int i = first + 1; i <= Math.min(numRead - 1, tokCnt); i++) {

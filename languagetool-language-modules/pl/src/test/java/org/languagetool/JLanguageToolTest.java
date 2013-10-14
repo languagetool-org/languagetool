@@ -78,9 +78,13 @@ public class JLanguageToolTest extends TestCase {
     assertEquals("Disambiguator log: \n\n"+
         "prep_verb:2 Z[z/prep:acc:nwok*,z/prep:gen:nwok*,z/prep:inst:nwok*] -> Z[z/prep:gen:nwok*]\n"+
         "PREP_SUBST:1 Z[z/prep:gen:nwok*] -> Z[z/prep:gen:nwok*]\n"+
-        "MULTIWORD_CHUNKER: Z[z/prep:gen:nwok*] -> Z[z/prep:gen:nwok*,Z powodu/<PREP:GEN>*]\n\n"+
+        "PREP_SUBST_2:1 Z[z/prep:gen:nwok*] -> Z[z/prep:gen:nwok*]\n"+
+        "MULTIWORD_CHUNKER: Z[z/prep:gen:nwok*] -> Z[z/prep:gen:nwok*,Z powodu/<PREP:GEN>*]\n\n" +
+
         "prep_verb:2 powodu[powód/subst:sg:gen:m3] -> powodu[powód/subst:sg:gen:m3]\n"+
         "PREP_SUBST:1 powodu[powód/subst:sg:gen:m3] -> powodu[powód/subst:sg:gen:m3]\n"+
+        "PREP_SUBST_2:1 powodu[powód/subst:sg:gen:m3] -> powodu[powód/subst:sg:gen:m3]\n"+
+
         "MULTIWORD_CHUNKER: powodu[powód/subst:sg:gen:m3] -> powodu[powód/subst:sg:gen:m3,Z powodu/</PREP:GEN>]\n",
         sent.getAnnotations());
 
