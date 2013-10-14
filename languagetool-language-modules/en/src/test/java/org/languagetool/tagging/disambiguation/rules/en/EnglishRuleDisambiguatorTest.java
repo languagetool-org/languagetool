@@ -26,6 +26,7 @@ import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationRuleTest;
 import org.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
 import org.languagetool.tagging.en.EnglishTagger;
+import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.WordTokenizer;
 
@@ -41,7 +42,7 @@ public class EnglishRuleDisambiguatorTest extends DisambiguationRuleTest {
   public void setUp() {
     tagger = new EnglishTagger();
     tokenizer = new WordTokenizer();
-    sentenceTokenizer = new SentenceTokenizer();
+    sentenceTokenizer = new SRXSentenceTokenizer(new English());
     disambiguator = new XmlRuleDisambiguator(new English());
     disamb2 = new DemoDisambiguator(); 
   }
