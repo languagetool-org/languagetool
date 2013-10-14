@@ -31,7 +31,7 @@ import static org.junit.Assert.assertThat;
 public class WikipediaQuickCheckTest extends TestCase {
 
   // only for interactive use, as it accesses a remote API
-  public void noTestCheckPage() throws IOException {
+  public void noTestCheckPage() throws IOException, PageNotFoundException {
     final WikipediaQuickCheck check = new WikipediaQuickCheck();
     //final String url = "http://de.wikipedia.org/wiki/Benutzer_Diskussion:Dnaber";
     //final String url = "http://de.wikipedia.org/wiki/OpenThesaurus";

@@ -91,11 +91,14 @@ public class WikipediaQuickCheck {
     return disabledRuleIds;
   }
 
-  public MarkupAwareWikipediaResult checkPage(URL url) throws IOException {
+  public MarkupAwareWikipediaResult checkPage(URL url) throws IOException, PageNotFoundException {
     validateWikipediaUrl(url);
     final WikipediaQuickCheck check = new WikipediaQuickCheck();
     final String xml = check.getMediaWikiContent(url);
     final MediaWikiContent wikiContent = getRevisionContent(xml);
+    if (wikiContent.getContent().trim().isEmpty() || wikiContent.getContent().toLowerCase().contains("#redirect")) {
+      throw new PageNotFoundException("No content found at " + url);
+    }
     return checkWikipediaMarkup(url, wikiContent, getLanguage(url));
   }
 
