@@ -36,7 +36,7 @@ public class PolishWordRepeatRule extends AdvancedWordRepeatRule {
    */
   private static final Set<String> EXC_WORDS;
   static {
-    final Set<String> tempSet = new HashSet<String>();
+    final Set<String> tempSet = new HashSet<>();
     tempSet.add("nie");
     tempSet.add("tuż");
     tempSet.add("aż");

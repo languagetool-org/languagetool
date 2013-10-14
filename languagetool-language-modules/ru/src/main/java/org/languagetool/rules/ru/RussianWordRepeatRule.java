@@ -35,8 +35,8 @@ public class RussianWordRepeatRule extends AdvancedWordRepeatRule {
    * Excluded dictionary words.
    */
   private static final Set<String> EXC_WORDS;
-  static{
-    final Set<String> tempSet = new HashSet<String>();
+  static {
+    final Set<String> tempSet = new HashSet<>();
     tempSet.add("не");
     tempSet.add("ни");
     tempSet.add("а");

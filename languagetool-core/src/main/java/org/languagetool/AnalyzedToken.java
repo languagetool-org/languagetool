@@ -89,7 +89,7 @@ public class AnalyzedToken {
   
   /**
    * @param an AnalyzedToken to test
-   * @return true if all of the non-null values (lemma, POS, token, chunk) of AnalyzedToken match this token
+   * @return true if all of the non-null values (lemma, POS, token) of AnalyzedToken match this token
    * @since 1.5
    */
   public final boolean matches(final AnalyzedToken an) {

@@ -180,7 +180,7 @@ public abstract class Language {
    * @since 2.4
    */
   public List<String> getDefaultEnabledRulesForVariant() {
-    return new ArrayList<String>();
+    return new ArrayList<>();
   }
 
   /**
@@ -190,7 +190,7 @@ public abstract class Language {
    * @since 2.4
    */
   public List<String> getDefaultDisabledRulesForVariant() {
-    return new ArrayList<String>();
+    return new ArrayList<>();
   }
   /**
    * Get the name(s) of the maintainer(s) for this language or <code>null</code>.
