@@ -2726,7 +2726,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token>Axl</token>
-          <token regexp="yes">Roses</token>
+          <token>Roses</token>
         </pattern>
         <message>Écrivez <suggestion>Axl Rose</suggestion> s’il s’agit du chanteur de Gun N' Roses.</message>
         <example type="incorrect"><marker>Axl Roses</marker> est né en 1962.</example>
@@ -3119,6 +3119,46 @@ though, and has since been slightly modified)-->
         <message>Écrivez <suggestion>François Hollande</suggestion> s’il s’agit du président de la république.</message>
         <example type="incorrect"><marker>François Holland</marker></example>
         <example type="correct"><marker>François Hollande</marker></example>
+      </rule>
+      <!-- See http://www.liberation.fr/societe/2012/11/23/sarkozy-les-juges-ont-ils-confondu-bettencourt-et-betancourt_862496
+           to see how LanguageTool can be useful. -->
+      <rule>
+        <pattern>
+          <token>Liliane</token>
+          <token regexp="yes">Bett?[ae]ncc?our[ts]?<exception>Bettencourt</exception></token>
+        </pattern>
+        <message>Écrivez <suggestion>Liliane Bettencourt</suggestion> s’il s’agit de la femme d’affaires française.</message>
+        <example type="incorrect"><marker>Liliane Betencourt</marker> est née en 1922.</example>
+        <example type="correct">Liliane Bettencourt est née en 1922.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">Lill?iann?e<exception>Liliane</exception></token>
+          <token regexp="yes">Bett?[ae]ncc?our[ts]?</token>
+        </pattern>
+        <message>Écrivez <suggestion>Liliane Bettencourt</suggestion> s’il s’agit de la femme d’affaires française.</message>
+        <example type="incorrect"><marker>Lilianne Bettencourt</marker> est née en 1922.</example>
+        <example type="correct">Liliane Bettencourt est née en 1922.</example>
+      </rule>
+      <!-- See http://www.liberation.fr/societe/2012/11/23/sarkozy-les-juges-ont-ils-confondu-bettencourt-et-betancourt_862496
+           to see how LanguageTool can be useful. -->
+      <rule>
+        <pattern>
+          <token>Ingrid</token>
+          <token regexp="yes">Bett?[ae]ncc?our[ts]?<exception>Betancourt</exception></token>
+        </pattern>
+        <message>Écrivez <suggestion>Ingrid Betancourt</suggestion> s’il s’agit de la femme politique franco-colombienne.</message>
+        <example type="incorrect"><marker>Ingrid Bettencourt</marker> est née en 1961.</example>
+        <example type="correct">Ingrid Betancourt est née en 1961.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>Ingride</token>
+          <token regexp="yes">Bett?[ae]ncc?our[ts]?</token>
+        </pattern>
+        <message>Écrivez <suggestion>Ingrid Betancourt</suggestion> s’il s’agit de la femme politique franco-colombienne.</message>
+        <example type="incorrect"><marker>Ingride Betancourt</marker> est née en 1961.</example>
+        <example type="correct">Ingrid Betancourt est née en 1961.</example>
       </rule>
       <rule>
         <pattern>
