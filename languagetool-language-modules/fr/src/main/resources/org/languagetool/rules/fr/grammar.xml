@@ -1680,7 +1680,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">[’´'‛′‘]</token>
           <token>est</token>
         </marker>
-        <token postag="N.*" postag_regexp="yes"><exception regexp="yes">pas|dommage|grâce|monsieur|madame|mademoiselle|oui|non|lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche|bidon|bonnet|la</exception><exception postag="[^N].*" postag_regexp="yes"/></token>
+        <token postag="N.*" postag_regexp="yes"><exception regexp="yes">pas|dommage|grâce|monsieur|madame|mademoiselle|oui|non|lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche|bidon|bonnet|la|suite|incognito|face</exception><exception postag="[^N].*" postag_regexp="yes"/></token>
       </pattern>
       <message>Voulez-vous écrire <suggestion>ces</suggestion>, <suggestion>cet</suggestion> ou <suggestion>cette</suggestion> au lieu de « \1\2\3 » ?</message>
       <example type="incorrect"><marker>C’est</marker> école est grande.</example>
@@ -1691,6 +1691,9 @@ though, and has since been slightly modified)-->
       <example type="correct">C’est dimanche qu’il arrive.</example>
       <example type="correct">Comme c’est romantique.</example>
       <example type="correct">C’est la fin.</example>
+      <example type="correct">C’est suite à cette victoire qu’il fut élu.</example>
+      <example type="correct">C’est incognito qu’il reporta le prix.</example>
+      <example type="correct">C’est face à la monté en pouissance</example>
     </rule>
     <rule id="EN_TANT_QUE" name="EN TEMPS QUE au lieu de EN TANT QUE">
       <pattern>
@@ -2696,11 +2699,20 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token regexp="yes">Jimm?[iy]</token>
+          <token>Paige</token>
+        </pattern>
+        <message>Écrivez <suggestion>Jimmy Page</suggestion> s’il s’agit du guitariste de Led Zeppelin.</message>
+        <example type="incorrect"><marker>Jimmy Paige</marker> est le guitariste de Led Zeppelin.</example>
+        <example type="correct">Jimmy Page est le guitariste de Led Zeppelin.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">Jimm?[iy]<exception>Jimmy</exception></token>
           <token>Page</token>
         </pattern>
-        <message>Écrivez <suggestion>Jimmy Paige</suggestion> s’il s’agit du guitariste de Led Zeppelin.</message>
-        <example type="incorrect"><marker>Jimmy Page</marker> est le guitariste de Led Zeppelin.</example>
-        <example type="correct">Jimmy Paige est le guitariste de Led Zeppelin.</example>
+        <message>Écrivez <suggestion>Jimmy Page</suggestion> s’il s’agit du guitariste de Led Zeppelin.</message>
+        <example type="incorrect"><marker>Jimmi Page</marker> est le guitariste de Led Zeppelin.</example>
+        <example type="correct">Jimmy Page est le guitariste de Led Zeppelin.</example>
       </rule>
       <rule>
         <pattern>
@@ -4844,7 +4856,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">(est|était|fût|serait|sera-t)-elle</token>
+          <token regexp="yes">(est|était|fut|serait|sera-t)-elle</token>
           <marker>
             <token postag="[VJ] .*" postag_regexp="yes">
               <exception postag="V ppa [fe] sp?|[JNZ] [fe] sp?" postag_regexp="yes"/>
@@ -4890,7 +4902,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">(est|était|fût|serait|sera-t)-il</token>
+          <token regexp="yes">(est|était|fut|serait|sera-t)-il</token>
           <marker>
             <token postag="[VJ] .*" postag_regexp="yes">
               <exception postag="V ppa [me] sp?|[JNZ] [me] sp?" postag_regexp="yes"/>
@@ -4936,7 +4948,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">(est|était|fût|serait|sera-t)-elle</token>
+          <token regexp="yes">(est|était|fut|serait|sera-t)-elle</token>
           <token regexp="yes">assez|beaucoup|bien|déjà|encore|enfin|juste|mieux|moins|parfois|pas|peut-être|plus|presque|toujours|trop</token>
           <marker>
             <token postag="[VJ] .*" postag_regexp="yes">
@@ -4984,7 +4996,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">(est|était|fût|serait|sera-t)-il</token>
+          <token regexp="yes">(est|était|fut|serait|sera-t)-il</token>
           <token regexp="yes">assez|beaucoup|bien|déjà|encore|enfin|juste|mieux|moins|parfois|pas|peut-être|plus|presque|toujours|trop</token>
           <marker>
             <token postag="[VJ] .*" postag_regexp="yes">
