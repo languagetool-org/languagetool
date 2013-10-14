@@ -24,9 +24,9 @@ import java.util.List;
 import org.ictclas4j.bean.Sentence;
 import org.ictclas4j.segment.SentenceSeg;
 import org.ictclas4j.utility.Utility;
-import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.RegexSentenceTokenizer;
 
-public class ChineseSentenceTokenizer extends SentenceTokenizer {
+public class ChineseSentenceTokenizer extends RegexSentenceTokenizer {
 
   @Override
   public List<String> tokenize(String text) {

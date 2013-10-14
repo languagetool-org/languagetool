@@ -32,11 +32,15 @@ LanguageTool Change Log
  in filtering tokens with chunk annotations
 
 -API:
+	-SentenceTokenizer is now an interface, the implementation has been moved to
+		RegexSentenceTokenizer, but this is deprecated and SRXSentenceTokenizer
+		should be used instead
 	-Some methods from org.languagetool.tools.StringTools have been moved to
 	 the org.languagetool.gui.Tools class in the languagetool-gui-commons project
 	-LanguageToolListener.languageToolEventOccured() has been renamed to
 	 LanguageToolListener.languageToolEventOccurred()
 	-org.languagetool.tools.SymbolLocator isn't public anymore (shouldn't affect anybody)
+	-removed DanishSentenceTokenizer which had been deprecated for three years
 
 -languagetool-wikipedia: the command line options for checking a Wikipedia dump
 	have been simplified. The command can now be called like this:

@@ -22,6 +22,7 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.FieldType;
 import org.apache.lucene.store.Directory;
+import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.RAMDirectory;
 import org.apache.lucene.util.LuceneTestCase;
 import org.junit.Ignore;
@@ -181,14 +182,14 @@ public class IndexerSearcherTest extends LuceneTestCase {
     return ruleCount;
   }
 
-  /** for manual debugging only */
-  public void IGNOREtestForDebugging() throws Exception {
+  @Ignore("manual debugging only")
+  public void testForDebugging() throws Exception {
     // Note that the second sentence ends with "lid" instead of "lids" (the inflated one)
-    createIndex("I thin so");
+    //createIndex("I thin so");
+    useRealIndex();
     final PatternRule rule = getRule("I_THIN", ruleFile);
     final SearcherResult searcherResult = errorSearcher.findRuleMatchesOnIndex(rule, new German());
     System.out.println("Matches: " + searcherResult.getMatchingSentences());
-    assertEquals(1, searcherResult.getMatchingSentences().size());
   }
 
   public void testIndexerSearcherWithEnglish() throws Exception {
@@ -343,6 +344,11 @@ public class IndexerSearcherTest extends LuceneTestCase {
     directory = new RAMDirectory();
     //directory = FSDirectory.open(new File("/tmp/lucenetest"));  // for debugging
     Indexer.run(content, directory, new English(), false);
+    errorSearcher = new Searcher(directory);
+  }
+
+  private void useRealIndex() throws IOException {
+    directory = FSDirectory.open(new File("/home/languagetool/corpus/en/"));  // for debugging with more data
     errorSearcher = new Searcher(directory);
   }
 

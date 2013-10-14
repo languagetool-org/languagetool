@@ -27,6 +27,7 @@ import org.languagetool.language.French;
 import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
 import org.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
 import org.languagetool.tagging.fr.FrenchTagger;
+import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.WordTokenizer;
 
@@ -41,17 +42,14 @@ public class FrenchRuleDisambiguatorTest extends TestCase {
   private JLanguageTool lt; 
   
   @Override
-  public void setUp() {
+  public void setUp() throws IOException {
     tagger = new FrenchTagger();
     tokenizer = new WordTokenizer();
-    sentenceTokenizer = new SentenceTokenizer();
-    disambiguator = new XmlRuleDisambiguator(new French());
+    French language = new French();
+    sentenceTokenizer = new SRXSentenceTokenizer(language);
+    disambiguator = new XmlRuleDisambiguator(language);
     disamb2 = new DemoDisambiguator();    
-    try {
-      lt = new JLanguageTool(new French());
-    } catch (IOException e) {
-      fail(e.getMessage());
-    }
+    lt = new JLanguageTool(language);
   }
 
   public void testChunker() throws IOException {

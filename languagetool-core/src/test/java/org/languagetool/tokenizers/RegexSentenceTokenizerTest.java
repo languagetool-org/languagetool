@@ -25,12 +25,12 @@ import org.languagetool.TestTools;
 /**
  * @author Daniel Naber
  */
-public class SentenceTokenizerTest extends TestCase {
+public class RegexSentenceTokenizerTest extends TestCase {
 
   // accept \n as paragraph:
-  private final SentenceTokenizer stokenizer = new SentenceTokenizer();
+  private final SentenceTokenizer stokenizer = new RegexSentenceTokenizer();
   // accept only \n\n as paragraph:
-  private final SentenceTokenizer stokenizer2 = new SentenceTokenizer();
+  private final SentenceTokenizer stokenizer2 = new RegexSentenceTokenizer();
   
   @Override
   public void setUp() {

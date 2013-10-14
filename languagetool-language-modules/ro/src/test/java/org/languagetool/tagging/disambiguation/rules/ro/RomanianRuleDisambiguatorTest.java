@@ -27,6 +27,7 @@ import org.languagetool.language.Romanian;
 import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
 import org.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
 import org.languagetool.tagging.ro.RomanianTagger;
+import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.ro.RomanianWordTokenizer;
 
@@ -42,8 +43,9 @@ public class RomanianRuleDisambiguatorTest extends TestCase {
   public void setUp() {
     tagger = new RomanianTagger();
     tokenizer = new RomanianWordTokenizer();
-    sentenceTokenizer = new SentenceTokenizer();
-    disambiguator = new XmlRuleDisambiguator(new Romanian());
+    Romanian language = new Romanian();
+    sentenceTokenizer = new SRXSentenceTokenizer(language);
+    disambiguator = new XmlRuleDisambiguator(language);
     disamb2 = new DemoDisambiguator();
   }
 

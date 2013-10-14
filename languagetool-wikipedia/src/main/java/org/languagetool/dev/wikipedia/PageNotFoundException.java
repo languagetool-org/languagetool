@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker
- * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
- *
+/* LanguageTool, a natural language style checker 
+ * Copyright (C) 2013 Daniel Naber (http://www.danielnaber.de)
+ * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -16,27 +16,16 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.tokenizers;
-
-import java.util.List;
+package org.languagetool.dev.wikipedia;
 
 /**
- * Tokenizes text into sentences.
+ * Thrown when a Wikipedia page was not found and the text content of the API response was thus empty,
+ * or because it's just a redirect page.
  */
-public interface SentenceTokenizer extends Tokenizer {
+public class PageNotFoundException extends Exception {
 
-  /**
-   * Tokenize the given string to sentences.
-   */
-  @Override
-  public List<String> tokenize(String text);
-
-  /**
-   * @param lineBreakParagraphs if <code>true</code>, single line breaks are assumed to end a paragraph,
-   *  with <code>false</code>, only two ore more consecutive line breaks end a paragraph
-   */
-  public void setSingleLineBreaksMarksParagraph(final boolean lineBreakParagraphs);
-
-  public boolean singleLineBreaksMarksPara();
+  public PageNotFoundException(String message) {
+    super(message);
+  }
 
 }

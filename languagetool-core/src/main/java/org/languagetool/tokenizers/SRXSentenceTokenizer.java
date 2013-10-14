@@ -41,7 +41,7 @@ import org.languagetool.Language;
  * @author Marcin Miłkowski
  * @author Jarek Lipski
  */
-public class SRXSentenceTokenizer extends SentenceTokenizer {
+public class SRXSentenceTokenizer implements SentenceTokenizer {
 
   private static final String RULES = "/segment.srx";
   private static final SrxDocument DOCUMENT = createSrxDocument();
