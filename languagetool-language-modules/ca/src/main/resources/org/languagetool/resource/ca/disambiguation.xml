@@ -3934,7 +3934,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token regexp="yes" inflected="yes">accedir|accés|equivaler|equivalent|duel|quant|lluita|lluitar</token>
             <token>a</token>
             <marker>
-                <token regexp="yes">delegats?|morts?|llibertats?|capacitats?|continguts?<exception postag="_GV_" postag_regexp="yes"/></token>
+                <token regexp="yes">delegats?|morts?|llibertats?|capacitats?|continguts?<exception postag="_GV_"/></token>
             </marker>
         </pattern>
         <disambig action="filter" postag="[^V].*"/>
@@ -6179,7 +6179,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token><exception regexp="yes" postag="RG_anteposat"/></token>
+                <token><exception postag="RG_anteposat"/></token>
                 <marker>
                     <and>
                         <token postag="A.*" postag_regexp="yes" regexp="yes">som|tens<exception postag="_GN.*" postag_regexp="yes" /></token>
@@ -9244,7 +9244,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token>tant</token>
+                <token regexp="yes" skip="1">tant?</token>
                 <token postag="N.*" postag_regexp="yes" skip="20"/>
                 <marker>
                     <token>com</token>

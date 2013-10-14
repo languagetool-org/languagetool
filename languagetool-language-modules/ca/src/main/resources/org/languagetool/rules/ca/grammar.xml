@@ -4286,18 +4286,19 @@ $Id$
         <!-- en quins casos es poden usar tots els temps verbals, no sols el participi? -->
             <rule>
                 <pattern>
-                    <token postag="V.P.*" skip="1" postag_regexp="yes" regexp="yes" inflected="yes">&seguits_per_COM_A;</token>
+                    <token postag="V.P.*" skip="1" postag_regexp="yes" regexp="yes" inflected="yes">&seguits_per_COM_A;<exception scope="previous">tan</exception><exception scope="next" regexp="yes">,|;</exception><exception scope="next" postag="[NAV].*" postag_regexp="yes"/></token>
                     <marker>
-                        <token>com</token>
+                        <token>com<exception scope="previous" regexp="yes">tals?</exception></token>
                     </marker>
                     <token min="0" regexp="yes">['"‘“«]</token>
-                    <token postag="[AN].*|_possible_nompropi|UNKNOWN" postag_regexp="yes"><exception>a</exception><exception inflected="yes" regexp="yes">el|un|tot</exception><exception regexp="yes">['"‘“«]</exception></token>
+                    <token postag="[AN].*|_possible_nompropi|UNKNOWN" postag_regexp="yes"><exception>a</exception><exception inflected="yes" regexp="yes">el|un|tot|il|gli|los|le|the</exception><exception regexp="yes">['"‘“«]</exception></token>
                 </pattern>
                 <message>Probablement cal escriure <suggestion>com a</suggestion>.</message>
                 <url>http://esadir.cat/sintaxi/advcomcoma/view</url>
                 <short>Possible error</short>
                 <example type="incorrect" correction="com a">Francesc Sabaté Llopart, conegut <marker>com</marker> Quico Sabaté</example>
                 <example type="incorrect" correction="com a">també conegut <marker>com</marker> baudrier</example>
+                <example type="incorrect" correction="com a">també conegut popularment <marker>com</marker> Bean</example>
                 <example type="correct">És conegut com el millor pastisser del món.</example>
                 <example type="correct">És reconegut com un dels millors</example>
                 <example type="correct">Conegut com "el mirador de la comtessa".</example>
@@ -4309,7 +4310,15 @@ $Id$
                 <example type="incorrect" correction="com a">Conegut <marker>com</marker> "lleonès medieval"</example>
                 <example type="correct">És conegut com "el millor pastisser del món".</example>
                 <example type="correct">Conegut com "el mirador de la comtessa".</example>
+                <example type="correct">amb llenguatges interpretats tals com PHP, Perl, Ruby i Java</example>
+                <example type="correct">amb actors tan coneguts com a Carlos Latorre</example>
+                <example type="correct">conegut com Il Duce</example>
+                <example type="correct">Altres exploradors europeus menys coneguts, com a Jean de Plan Carpin,</example>
+                <example type="correct">coneguts èxits com Bohemian Rhapsody</example>
             </rule>
+            <!-- marques de prestigi reconegudes com Lancôme, Chanel i Versace. 
+            artistes ja coneguts com ...-->
+            
             <!-- <rule>
                 <pattern>
                     <token postag="V.P.*" skip="1" postag_regexp="yes" regexp="yes" inflected="yes">&seguits_per_COM_A;</token>
@@ -4328,10 +4337,11 @@ $Id$
             </rule> -->
             <rule>
                 <pattern>
+                    <token><exception regexp="yes">així|tant|tals?</exception></token>
                     <marker>
                         <token>com<exception postag="allow_com"/></token>
                     </marker>
-                    <token regexp="yes">ciutad(à|ans|anes|ana)|objectius?|resultats?|titulars?|correct(e|a|es)|instruments?|senyals?|exemples?|autors?|president[ae]?s?|representants?|actors?|actrius?</token>
+                    <token regexp="yes">ciutad(à|ans|anes|ana)|objectius?|resultats?|titulars?|correct(e|a|es)|instruments?|senyals?|exemples?|autors?|president[ae]?s?|representants?|actors?|actrius?<exception regexp="yes">(?-i)Ciutadà|Ciutadans</exception></token>
                 </pattern>
                 <message>Probablement cal escriure <suggestion>com a</suggestion>.</message>
                 <url>http://esadir.cat/sintaxi/advcomcoma/view</url>
@@ -4339,6 +4349,9 @@ $Id$
                 <example type="incorrect" correction="com a">Hi va acudir <marker>com</marker> representant del sindicat.</example>
                 <example type="incorrect" correction="com a">Els usen <marker>com</marker> instruments de pressió.</example>
                 <example type="correct">Hi ha tant gent de l'esquerra més cultivada com representants de l'Espanya cañí.</example>
+                <example type="correct">i demostra ser tan bon escriptor com actor</example>
+                <example type="correct">En pel·lícules com Ciutadà Kane</example>
+                <!-- atragué grans personalitats, com actors, actrius, escriptors o polítics. -->
             </rule>
         </rulegroup>
         <rule id="PER_A_DESPRES" name="per a després">
@@ -9956,7 +9969,7 @@ $Id$
                     <marker>
                         <token>és</token>
                     </marker>
-                    <token postag="V.[^NPG].3.*" postag_regexp="yes"><exception postag="V.[NPG].*|VS.*" postag_regexp="yes"/><exception regexp="yes">[\p{Lu}aeiouàèéíòóú].*|cal</exception></token>
+                    <token postag="V.[^NPG].3.*" postag_regexp="yes"><exception postag="V.[NPG].*|VS.*" postag_regexp="yes"/><exception regexp="yes">\p{Lu}.*|h?[aeiouàèéíòóú].*|cal|semi|da</exception></token>
                 </pattern>
                 <message>Només s'accentua quan és del verb "ser".</message>
                 <suggestion>es</suggestion>
@@ -9967,9 +9980,20 @@ $Id$
                 <example type="correct">Comprova si el correu d'entrada és brossa.</example>
                 <example type="correct">El nom del poble és Caçà.</example>
                 <example type="correct">Allà és cal sabater.</example>
+                <example type="correct">El clima és semi-àrid.</example>
                 <!-- <example type="correct">La bèstia que era i no és serà el vuitè rei</example> 
                 Però: Es serà, No es serà ?
-                la tonalitat homònima és fa major.-->
+                la tonalitat homònima és fa major
+                és fa sostingut major.
+                és fa menor.
+                és cante jondo
+                Filosofia: no es pot admetre que del que (no) és sorgeixi alguna cosa que existeixi
+                ha, va (no en _GV_)
+                 ***Amb altres errors:
+                 és para, funcionaria, fixe, prefixe, originaria, secundaria, primaria, binaria, pressent, subsidiaria, 
+                 valida, invalida, complexe, celebre, critica, contraria, continua, discontinua, 
+                 
+                 -->
             </rule>
             <rule>
                 <pattern>
