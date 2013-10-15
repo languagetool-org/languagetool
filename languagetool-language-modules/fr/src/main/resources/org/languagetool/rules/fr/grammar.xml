@@ -3694,6 +3694,15 @@ though, and has since been slightly modified)-->
       <example type="correct">Dans la ville de Contres.</example>
       <example type="correct">Tu contres son coup de poing.</example>
     </rule>
+    <rule id="DIAGNOSTIQUE" name="diagnostique → diagnostic">
+      <pattern>
+        <token regexp="yes">du|des?|un|en|[nv]otre|[nv]os|[mts]on|leurs?|bons?|mauvais</token>
+        <marker><token regexp="yes">diagnostiques?</token></marker>
+      </pattern>
+      <message>«\2» est un adjectif ou un verbe. Voulez-vous employer le nom <suggestion><match no="1" regexp_match="que" regexp_replace="c"/></suggestion> ?</message>
+      <example type="incorrect">Quel est votre <marker>diagnostique</marker> ?</example>
+      <example type="correct">Quel est votre diagnostic ?</example>
+    </rule>
   </category>
   <category name="Élision">
     <!-- I find conflicting information about élision, so this needs to be reviewed.
