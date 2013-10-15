@@ -3694,15 +3694,40 @@ though, and has since been slightly modified)-->
       <example type="correct">Dans la ville de Contres.</example>
       <example type="correct">Tu contres son coup de poing.</example>
     </rule>
-    <rule id="DIAGNOSTIQUE" name="diagnostique → diagnostic">
-      <pattern>
-        <token regexp="yes">du|des?|un|en|[nv]otre|[nv]os|[mts]on|leurs?|bons?|mauvais</token>
-        <marker><token regexp="yes">diagnostiques?</token></marker>
-      </pattern>
-      <message>«\2» est un adjectif ou un verbe. Voulez-vous employer le nom <suggestion><match no="1" regexp_match="que" regexp_replace="c"/></suggestion> ?</message>
-      <example type="incorrect">Quel est votre <marker>diagnostique</marker> ?</example>
-      <example type="correct">Quel est votre diagnostic ?</example>
-    </rule>
+    <rulegroup id="DIAGNOSTIQUE" name="diagnostique → diagnostic">
+      <rule>
+        <pattern>
+          <token regexp="yes">du|des?|un|en|[nv]otre|[nv]os|[mts]on|leurs?|bons?|mauvais</token>
+          <marker><token regexp="yes">diagnostiques?</token></marker>
+        </pattern>
+        <message>«\2» est un adjectif ou un verbe. Voulez-vous employer le nom <suggestion><match no="2" regexp_match="que" regexp_replace="c"/></suggestion> ?</message>
+        <example type="incorrect" correction="diagnostic">Quel est votre <marker>diagnostique</marker> ?</example>
+        <example type="correct">Quel est votre diagnostic ?</example>
+        <example type="correct">On le diagnostique tôt.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>le<exception scope="previous" postag="[NJZR].*" postag_regexp="yes"/></token>
+          <marker><token>diagnostique</token></marker>
+        </pattern>
+        <message>«\2» est un adjectif ou un verbe. Voulez-vous employer le nom <suggestion><match no="2" regexp_match="que" regexp_replace="c"/></suggestion> ?</message>
+        <example type="incorrect" correction="diagnostic">Le <marker>diagnostique</marker> prénatal.</example>
+        <example type="correct">Le diagnostic prénatal.</example>
+        <example type="correct">On le diagnostique facilement.</example>
+        <example type="incorrect">Méthode pour le <marker>diagnostique</marker>.</example>
+        <example type="correct">Méthode pour le diagnostic.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>les<exception scope="previous">tu</exception></token>
+          <marker><token>diagnostiques</token></marker>
+        </pattern>
+        <message>«\2» est un adjectif ou un verbe. Voulez-vous employer le nom <suggestion><match no="2" regexp_match="que" regexp_replace="c"/></suggestion> ?</message>
+        <example type="incorrect" correction="diagnostics">Les <marker>diagnostiques</marker> sont fiables.</example>
+        <example type="correct">Les <marker>diagnostics</marker> sont fiables.</example>
+        <example type="correct">Tu les <marker>diagnostiques</marker> facilement.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category name="Élision">
     <!-- I find conflicting information about élision, so this needs to be reviewed.
