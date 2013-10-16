@@ -5370,20 +5370,27 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token>vint</token>
-                    <token>i</token>
-                    <token regexp="yes">u|un|una|dos|dues|tres|quatre|cinc|sis|set|vuit|huit|nou</token>
+                    <token><exception>anys</exception></token>
+                    <marker>
+                        <token>vint</token>
+                        <token>i</token>
+                        <token regexp="yes">u|un|una|dos|dues|tres|quatre|cinc|sis|set|vuit|huit|nou</token>
+                    </marker>
                 </pattern>
                 <message>Falten els guionets.</message>
-                <suggestion><match no="1"></match>-<match no="2"></match>-<match no="3"></match></suggestion>
+                <suggestion><match no="2"></match>-<match no="3"></match>-<match no="4"></match></suggestion>
                 <short>Falta un guionet</short>
                 <example type="incorrect" correction="Vint-i-u"><marker>Vint i u</marker>.</example>
                 <example type="correct"><marker>Vint-i-u</marker>.</example>
+                <example type="correct">un interès pel disseny dels anys vint i un allunyament de les convencions</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">dues|dos|tres|quatre|cinc|sis|set|vuit|huit|nou</token>
-                    <token regexp="yes">cents|centes</token>
+                    <marker>
+                        <token regexp="yes">dues|dos|tres|quatre|cinc|sis|set|vuit|huit|nou</token>
+                        <token regexp="yes">cents|centes</token>
+                    </marker>
+                    <token><exception>coups</exception></token>
                 </pattern>
                 <message>Falta un guionet.</message>
                 <suggestion><match no="1"></match>-<match no="2"></match></suggestion>
@@ -5393,7 +5400,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="DN.*" postag_regexp="yes"/>
+                    <token postag="DN.*" postag_regexp="yes"><exception regexp="yes">.*\d.*</exception></token>
                     <token>-</token>
                     <token regexp="yes">(mil|milions)</token>
                 </pattern>
@@ -5407,7 +5414,7 @@ $Id$
                 <pattern>
                     <token regexp="yes">cents?</token>
                     <token>-</token>
-                    <token postag="DN.*" postag_regexp="yes"/>
+                    <token postag="DN.*" postag_regexp="yes"><exception regexp="yes">.*\d.*</exception></token>
                 </pattern>
                 <message>Sobra un guionet.</message>
                 <suggestion><match no="1"/> <match no="3"/></suggestion>
@@ -10214,6 +10221,7 @@ $Id$
                 </pattern>
                 <message>S'accentua quan és del verb "donar".</message>
                 <suggestion>dónes</suggestion>
+                <suggestion>donés</suggestion>
                 <short>Accent diacrític</short>
                 <example type="incorrect">Ho <marker>dones</marker> al barquer.</example>
                 <example type="correct">Ho <marker>dónes</marker> al barquer.</example>
@@ -10231,6 +10239,7 @@ $Id$
                 </pattern>
                 <message>S'accentua quan és del verb "donar".</message>
                 <suggestion>dónes</suggestion>
+                <suggestion>donés</suggestion>
                 <short>Accent diacrític</short>
                 <example type="incorrect">Li les <marker>dones</marker> al barquer.</example>
                 <example type="correct">Solen agradar-se'n les dones.</example>
