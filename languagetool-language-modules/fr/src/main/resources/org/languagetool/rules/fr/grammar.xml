@@ -916,7 +916,7 @@ though, and has since been slightly modified)-->
         <example type="correct"><marker>Peu</marker> de gens.</example>
         <example type="incorrect"><marker>Peut</marker> d’amis.</example>
         <example type="correct"><marker>Peu</marker> d’amis.</example>
-        <example type="correct">Je veux m'éloigner autant que faire se peut d'ici.</example>
+        <example type="correct">Je veux m’éloigner autant que faire se peut d’ici.</example>
       </rule>
     </rulegroup>
     <rule id="FOR_INTERIEUR" name="fort intérieur au lieu de for intérieur">
@@ -3698,29 +3698,33 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token regexp="yes">du|des?|un|en|[nv]otre|[nv]os|[mts]on|leurs?|bons?|mauvais</token>
-          <marker><token regexp="yes">diagnostiques?</token></marker>
+          <marker><token regexp="yes">diagnostiques?|pronostiques?</token></marker>
         </pattern>
         <message>«\2» est un adjectif ou un verbe. Voulez-vous employer le nom <suggestion><match no="2" regexp_match="que" regexp_replace="c"/></suggestion> ?</message>
         <example type="incorrect" correction="diagnostic">Quel est votre <marker>diagnostique</marker> ?</example>
         <example type="correct">Quel est votre diagnostic ?</example>
         <example type="correct">On le diagnostique tôt.</example>
+        <example type="incorrect" correction="pronostic">L’équipe m’a demandé mon <marker>pronostique</marker> pour le match de demain.</example>
+        <example type="correct">L’équipe m’a demandé mon pronostic pour le match de demain.</example>
       </rule>
       <rule>
         <pattern>
           <token>le<exception scope="previous" postag="[NJZR].*" postag_regexp="yes"/></token>
-          <marker><token>diagnostique</token></marker>
+          <marker><token regexp="yes">diagnostique|pronostique</token></marker>
         </pattern>
         <message>«\2» est un adjectif ou un verbe. Voulez-vous employer le nom <suggestion><match no="2" regexp_match="que" regexp_replace="c"/></suggestion> ?</message>
         <example type="incorrect" correction="diagnostic">Le <marker>diagnostique</marker> prénatal.</example>
         <example type="correct">Le diagnostic prénatal.</example>
         <example type="correct">On le diagnostique facilement.</example>
-        <example type="incorrect">Méthode pour le <marker>diagnostique</marker>.</example>
+        <example type="incorrect" correction="diagnostic">Méthode pour le <marker>diagnostique</marker>.</example>
         <example type="correct">Méthode pour le diagnostic.</example>
+        <example type="incorrect" correction="pronostic">Le <marker>pronostique</marker> du match.</example>
+        <example type="correct">Le pronostic du match.</example>
       </rule>
       <rule>
         <pattern>
           <token>les<exception scope="previous">tu</exception></token>
-          <marker><token>diagnostiques</token></marker>
+          <marker><token regexp="yes">diagnostiques|pronostiques</token></marker>
         </pattern>
         <message>«\2» est un adjectif ou un verbe. Voulez-vous employer le nom <suggestion><match no="2" regexp_match="que" regexp_replace="c"/></suggestion> ?</message>
         <example type="incorrect" correction="diagnostics">Les <marker>diagnostiques</marker> sont fiables.</example>
