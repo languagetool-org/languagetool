@@ -10133,7 +10133,7 @@ $Id$
                 <pattern>
                     <token postag="_GN_.*" postag_regexp="yes"/>
                     <marker>
-                        <token>dona<exception postag="_GN_FS"/></token>
+                        <token>dona<exception postag="_GN_FS|_possible_nompropi" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="_GN_.*" postag_regexp="yes"/>
                 </pattern>
@@ -10174,10 +10174,11 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="PP.*" postag_regexp="yes"></token>
+                    <token postag="PP.*" postag_regexp="yes"><exception regexp="yes">['-].+</exception></token>
                     <marker>
-                        <token>dona</token>
+                        <token>dona<exception postag="_possible_nompropi"/></token>
                     </marker>
+                    <token><exception regexp="yes">nobis|ferentes</exception></token>
                 </pattern>
                 <message>S'accentua quan és del verb "donar".</message>
                 <suggestion>dóna</suggestion>
@@ -10185,6 +10186,9 @@ $Id$
                 <example type="incorrect">Ho <marker>dona</marker> al barquer.</example>
                 <example type="correct">Ho <marker>dóna</marker> al barquer.</example>
                 <example type="correct">La dona del barquer</example>
+                <example type="correct">et dona nobis pacem</example>
+                <example type="correct">D'elegir-la Dona de l'Any.</example>
+                <!--  De tu dona jo sempre m'he queixat -->
             </rule>
             <rule>
                 <pattern>
@@ -10203,7 +10207,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="PP.*" postag_regexp="yes"><exception regexp="yes">['-].+</exception></token>
+                    <token postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"><exception regexp="yes">['-].+</exception></token>
                     <marker>
                         <token>dones</token>
                     </marker>
@@ -10215,10 +10219,11 @@ $Id$
                 <example type="correct">Ho <marker>dónes</marker> al barquer.</example>
                 <example type="correct">Les dones joves i solteres.</example>
                 <example type="correct">podeu entrar-hi dones, nens i gent menuda</example>
+                <example type="correct">Vuit d'ells dones</example>
             </rule>
             <rule>
                 <pattern>
-                    <token postag="PP.*" postag_regexp="yes"><exception regexp="yes">['-].+</exception></token>
+                    <token postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"><exception regexp="yes">['-].+</exception></token>
                     <token>les</token>
                     <marker>
                         <token>dones</token>
@@ -10229,6 +10234,7 @@ $Id$
                 <short>Accent diacrític</short>
                 <example type="incorrect">Li les <marker>dones</marker> al barquer.</example>
                 <example type="correct">Solen agradar-se'n les dones.</example>
+                <example type="correct">En elles les dones escollien marti.</example>
             </rule>
             <rule default="off">
                 <pattern>
