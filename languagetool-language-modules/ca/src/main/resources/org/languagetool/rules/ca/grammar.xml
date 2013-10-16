@@ -5788,11 +5788,12 @@ $Id$
         </rule>
         <rule id="VESAR" name="vesar/avesar/vessar">
             <pattern>
-                <token inflected="yes">vesar</token>
+                <token inflected="yes">vesar<exception postag="_possible_nompropi"/><exception regexp="yes">(?-i)VESA|ves</exception></token>
             </pattern>
             <message>¿Volíeu dir <suggestion><match no="1" regexp_match=".es(.*)" regexp_replace="vess$1" case_conversion="alllower"/></suggestion>? Correcte com a forma secundària de <suggestion>a<match no="1" case_conversion="alllower"/></suggestion>.</message>
             <example type="incorrect" correction="vessaren|avesaren"><marker>vesaren</marker></example>
-            <example type="correct">vessar</example>
+            <example type="correct">És un bus VESA</example>
+            <example type="correct">Sant Martí de Veses.</example>
         </rule>
         <rule id="HAM_DIT" name="*ham dit/hem dit">
             <pattern>
