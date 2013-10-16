@@ -24197,7 +24197,7 @@ though, and has since been slightly modified)-->
         <pattern case_sensitive="yes">
           <token negate_pos="yes" postag="SENT_START"/>
           <marker>
-            <token regexp="yes">Janvier|Février|Avril|Mai|Juin|Juillet|Ao[uû]t|Septembre|Octobre|Novembre|Décembre|Vendémiaire|Brumaire|Frimaire|Nivôse|Pluviôse|Ventôse|Germinal|Floréal|Prairial|Messidor|Thermidor|Fructidor</token>
+            <token regexp="yes">Janvier|Février|Avril|Mai|Juillet|Ao[uû]t|Septembre|Octobre|Novembre|Décembre|Vendémiaire|Brumaire|Frimaire|Nivôse|Pluviôse|Ventôse|Germinal|Floréal|Prairial|Messidor|Thermidor|Fructidor</token>
           </marker>
         </pattern>
         <message>Les mois de l’année n’ont pas de majuscule.</message>
@@ -24205,6 +24205,20 @@ though, and has since been slightly modified)-->
         <example type="incorrect">Cette année, <marker>Avril</marker> a été chaud.</example>
         <example type="correct">Cette année, <marker>avril</marker> a été chaud.</example>
         <example type="correct">Février est le mois le plus froid.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token negate_pos="yes" postag="SENT_START"/>
+          <token><exception regexp="yes">général|maréchal|Alphonse|André|Hubert</exception></token>
+          <marker><token>Juin</token></marker>
+        </pattern>
+        <message>Les mois de l’année n’ont pas de majuscule.</message>
+        <url>http://www.academie-francaise.fr/la-langue-francaise/questions-de-langue#42_strong-em-jours-de-la-semaine-pluriel-et-majuscules-em-strong</url>
+        <example type="incorrect">Cette année, <marker>Juin</marker> a été chaud.</example>
+        <example type="correct">Cette année, juin a été chaud.</example>
+        <example type="correct">Juin est le sixième mois.</example>
+        <example type="correct">André Juin était un sculpteur français.</example>
+        <example type="correct">La bataille de Monte-Cassino révèle le génie militaire du général Juin.</example>
       </rule>
       <rule>
         <pattern>
