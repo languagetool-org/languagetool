@@ -1,7 +1,7 @@
-<?xml-stylesheet type="text/xsl" href="../print.xsl" 
-title="Pretty print" ?>
-<?xml-stylesheet type="text/css" href="../rules.css" 
-title="Easy editing stylesheet" ?>
+<?xml-stylesheet type="text/xsl" href="../print.xsl"
+        title="Pretty print" ?>
+<?xml-stylesheet type="text/css" href="../rules.css"
+        title="Easy editing stylesheet" ?>
 <!--
 A demo rule file for LanguageTool
 Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
@@ -22,472 +22,473 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
 $Id$
 --><rules lang="xx" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../rules.xsd">
-  <!-- tests for phrase syntax -->
-  <unification feature="case_sensitivity">
-    <equivalence type="startupper">
-      <token regexp="yes">\p{Lu}\p{Ll}+</token>
-    </equivalence>
-    <equivalence type="lowercase">
-      <token regexp="yes">\p{Ll}+</token>
-    </equivalence>
-  </unification>
-  <unification feature="gender">
-    <equivalence type="masc">
-      <token regexp="yes">.*_masc</token>
-    </equivalence>
-    <equivalence type="fem">
-      <token regexp="yes">.*_fem</token>
-    </equivalence>  
-  </unification>
-  <unification feature="number">
-    <equivalence type="plur">
-      <token regexp="yes">.*_plur_.*</token>
-    </equivalence>
-    <equivalence type="sing">
-      <token regexp="yes">.*_sing_.*</token>
-    </equivalence>
-  </unification>
 
-  <phrases>
-    <phrase id="UNIFICATION_PHRASE">
-      <unify>
-      <feature id="case_sensitivity">
-      	<type id="startupper"></type>
-      </feature>
-        <token></token>
-        <token>York</token>
-      </unify>
-    </phrase>
-    <phrase id="NP">
-      <token>trivial</token>
-      <token>phrase</token>
-      <token>demo</token>
-      <token><exception>exception</exception></token>
-    </phrase>
-    <phrase id="COMPLEX_PHRASE">
-      <token>complex</token>
-      <includephrases>
-        <phraseref idref="NP"></phraseref>
-      </includephrases>
-      <token>another</token>
-    </phrase>
-    <phrase id="DUMMY_VB1">
-      <token regexp="yes">go|goa</token>
-    </phrase>
-    <phrase id="DUMMY_VB2">
-      <token>goes</token>
-    </phrase>
-    <phrase id="DUMMY_VB3">
-      <token>went</token>
-    </phrase>
-    <phrase id="COMPLEX_MULTIPLE">
-      <token>first</token>
-      <includephrases>
-        <phraseref idref="DUMMY_VB1"></phraseref>
-        <phraseref idref="DUMMY_VB2"></phraseref>
-        <phraseref idref="DUMMY_VB3"></phraseref>
-      </includephrases>
-      <token>last</token>
-    </phrase>
-    <phrase id="SINGLE_TOKEN">
-      <token>single</token>
-    </phrase>
-    <phrase id="TEST_INCLUDE">
-      <token>beginning</token>
-      <includephrases>
-        <phraseref idref="COMPLEX_MULTIPLE"></phraseref>
-        <phraseref idref="SINGLE_TOKEN"></phraseref>
-      </includephrases>
-      <token>end</token>
-    </phrase>
-    <phrase id="trivial_include">
-      <includephrases>
-        <phraseref idref="DUMMY_VB1"></phraseref>
-      </includephrases>
-      <includephrases>
-        <phraseref idref="DUMMY_VB2"></phraseref>
-      </includephrases>
-    </phrase>
-  </phrases>
+    <!-- tests for phrase syntax -->
+    <unification feature="case_sensitivity">
+        <equivalence type="startupper">
+            <token regexp="yes">\p{Lu}\p{Ll}+</token>
+        </equivalence>
+        <equivalence type="lowercase">
+            <token regexp="yes">\p{Ll}+</token>
+        </equivalence>
+    </unification>
+    <unification feature="gender">
+        <equivalence type="masc">
+            <token regexp="yes">.*_masc</token>
+        </equivalence>
+        <equivalence type="fem">
+            <token regexp="yes">.*_fem</token>
+        </equivalence>
+    </unification>
+    <unification feature="number">
+        <equivalence type="plur">
+            <token regexp="yes">.*_plur_.*</token>
+        </equivalence>
+        <equivalence type="sing">
+            <token regexp="yes">.*_sing_.*</token>
+        </equivalence>
+    </unification>
 
-  <category name="misc">   
-    <rule id="DEMO_RULE" name="Find 'foo bar'">
-      <!-- a trivial demo rule that matches "foo" followed by "bar" -->
-      <pattern case_sensitive="no">
-        <token>foo</token>
-        <token>bar</token>
-      </pattern>
-      <message>Did you mean <suggestion><match no="1"></match> fuu bah</suggestion>?</message>
-      <url>http://fake-server.org/foo-bar-error-explained</url>
-      <example type="correct">This is <marker>fuu bah</marker>.</example>
-      <example correction="foo fuu bah" type="incorrect">This is <marker>foo bar</marker>.</example>
-    </rule>
-    <rulegroup id="OR_GROUPS" name="OR groups">
-      <rule>
-        <pattern>
-          <or>
-            <token>a</token>
-            <token>b</token>
-            <token>c</token>
-          </or>
-          <token>d</token>
-        </pattern>
-        <message>Incorrect expression.</message>
-        <example type="incorrect"><marker>a d</marker></example>
-        <example type="incorrect"><marker>b d</marker></example>
-        <example type="incorrect"><marker>c d</marker></example> 
-        <example type="incorrect">a <marker>b d</marker></example>
-        <example type="correct">d a</example>
-        <example type="correct">c a</example>
-        <example type="correct">c b</example>
-      </rule>
-      <rule>
-        <pattern>
-          <or>
-            <token>a</token>
-            <token>b</token>
-            <token>c</token>
-          </or>
-          <token/>
-          <or>
-            <token>x</token>
-            <token>y</token>
-            <token>z</token>
-          </or>
-        </pattern>
-        <message>Incorrect expression.</message>
-        <example type="incorrect"><marker>b f x</marker></example>
-        <example type="incorrect"><marker>a g z</marker></example> 
-        <example type="incorrect"><marker>b d y</marker></example>
-        <example type="incorrect">a <marker>b h z</marker></example>
-        <example type="correct">d a d</example>
-        <example type="correct">c a c</example>
-        <example type="correct">y b y</example>
-        <example type="correct">z b a</example>
-      </rule>
-    </rulegroup>
-    <rule id="DEMO_CHUNK_RULE" name="Rule with chunk attribute">
-      <pattern case_sensitive="no">
-        <token>foo</token>
-        <token chunk="B-NP-singular"></token>
-      </pattern>
-      <message>Did you mean <suggestion>foo bar</suggestion>?</message>
-      <example type="correct">This is <marker>foo bar</marker>.</example>
-      <example type="incorrect">This is <marker>foo chunkbar</marker>.</example>
-    </rule>
-    <rule id="API_OUTPUT_TEST_RULE" name="Find 'foo bar'">
-      <pattern case_sensitive="no">
-        <token>ach</token>
-        <marker>
-            <token>thosnaíos-sa</token>
-        </marker>
-      </pattern>
-      <message>Did you mean <suggestion>fuu bah</suggestion>?</message>
-      <example type="correct">This is ach <marker>fuu bah</marker>.</example>
-      <example type="incorrect">This is ach <marker>thosnaíos-sa</marker>.</example>
-    </rule>
-    <rule id="NEGATION_TOKEN" name="test negation">
-      <pattern>
-        <token>small</token>
-        <marker>
-            <token negate="yes">test</token>
-        </marker>
-      </pattern>
-      <message>test</message>
-      <example type="correct">a small <marker>test</marker></example>
-      <example type="incorrect">a small <marker>toast</marker></example>
-    </rule>
-  </category>
+    <phrases>
+        <phrase id="UNIFICATION_PHRASE">
+            <unify>
+                <feature id="case_sensitivity">
+                    <type id="startupper"></type>
+                </feature>
+                <token></token>
+                <token>York</token>
+            </unify>
+        </phrase>
+        <phrase id="NP">
+            <token>trivial</token>
+            <token>phrase</token>
+            <token>demo</token>
+            <token><exception>exception</exception></token>
+        </phrase>
+        <phrase id="COMPLEX_PHRASE">
+            <token>complex</token>
+            <includephrases>
+                <phraseref idref="NP"></phraseref>
+            </includephrases>
+            <token>another</token>
+        </phrase>
+        <phrase id="DUMMY_VB1">
+            <token regexp="yes">go|goa</token>
+        </phrase>
+        <phrase id="DUMMY_VB2">
+            <token>goes</token>
+        </phrase>
+        <phrase id="DUMMY_VB3">
+            <token>went</token>
+        </phrase>
+        <phrase id="COMPLEX_MULTIPLE">
+            <token>first</token>
+            <includephrases>
+                <phraseref idref="DUMMY_VB1"></phraseref>
+                <phraseref idref="DUMMY_VB2"></phraseref>
+                <phraseref idref="DUMMY_VB3"></phraseref>
+            </includephrases>
+            <token>last</token>
+        </phrase>
+        <phrase id="SINGLE_TOKEN">
+            <token>single</token>
+        </phrase>
+        <phrase id="TEST_INCLUDE">
+            <token>beginning</token>
+            <includephrases>
+                <phraseref idref="COMPLEX_MULTIPLE"></phraseref>
+                <phraseref idref="SINGLE_TOKEN"></phraseref>
+            </includephrases>
+            <token>end</token>
+        </phrase>
+        <phrase id="trivial_include">
+            <includephrases>
+                <phraseref idref="DUMMY_VB1"></phraseref>
+            </includephrases>
+            <includephrases>
+                <phraseref idref="DUMMY_VB2"></phraseref>
+            </includephrases>
+        </phrase>
+    </phrases>
 
-  <category name="otherCategory" type="addition">
-    <rule id="TEST_GO" name="another test of phrases">
-      <pattern>
-        <token>foo</token>
-        <phraseref idref="DUMMY_VB1"></phraseref>
-      </pattern>
-      <message>Error!</message>
-      <example type="correct">foo bar</example>
-      <example type="incorrect"><marker>foo go</marker></example>
-      <example type="incorrect"><marker>foo go</marker> bar</example>
-      <example type="incorrect"><marker>foo goa</marker> bar</example>
-    </rule>
-    <rule id="TEST_PHRASES1" name="test phrases mechanism" type="uncategorized">
-      <pattern>
-        <phraseref idref="COMPLEX_MULTIPLE"></phraseref>
-        <token>there</token>
-      </pattern>
-      <message>This is the matched text: <match no="1"></match><match no="2"></match></message>
-      <example type="correct">go here</example>
-      <example type="incorrect"><marker>first goes last there</marker>, please!</example>
-    </rule>
-    <rule id="test_include" name="test two includeblocks" type="characters">
-      <pattern>
-        <phraseref idref="TEST_INCLUDE"></phraseref>
-      </pattern>
-      <message>Matched: <suggestion>test <match no="1"></match>trala</suggestion></message>
-      <example type="correct">Any string.</example>
-      <example type="incorrect">Some words, <marker>beginning first go last end</marker></example>
-    </rule>
-    <rule id="test_include_and_skip" name="test two includeblocks">
-      <pattern>
-        <token skip="2">any</token>
-        <phraseref idref="TEST_INCLUDE"></phraseref>
-        <token>word</token>
-      </pattern>
-      <message>Matched: <suggestion><match no="1"></match> test</suggestion></message>
-      <example type="correct">Any string.</example>
-      <example type="incorrect">Some words, <marker>any word beginning first go last end word</marker></example>
-    </rule>
-    <!--  why should this work this way? two phraserefs generate a logical
-		disjunction for some obscure reason! -->
-    <rule id="test_two_phrases" name="test two phrases">
-      <pattern>
-        <phraseref idref="COMPLEX_MULTIPLE"></phraseref>
-        <phraseref idref="SINGLE_TOKEN"></phraseref>
-      </pattern>
-      <message>Matched: <match no="1"></match></message>
-      <example type="correct">Any string.</example>
-      <example type="incorrect">First words and <marker>first go last</marker></example>
-    </rule>
-    <rule id="test_and_operator" name="test logical AND">
-      <pattern>
-        <marker>
-        <and>
-            <token regexp="yes">A.*</token>
-          <token regexp="yes">[A-Z]B.*</token>
-          <token negate="yes">ABC</token>
-          <token regexp="yes">.*D<exception>ABED</exception></token>
-        </and>
-        </marker>
-        <token>test</token>
-      </pattern>
-      <message>Matched: <match no="1"></match></message>
-      <example type="correct">CB test</example>
-      <example type="correct">ABC test</example>
-      <example type="incorrect"><marker>ABCD</marker> test</example>
-      <example type="incorrect"><marker>ABEED</marker> test</example>
-      <example type="correct"><marker>ABED</marker> test</example>
-    </rule>
-    <rule id="test_match_ref" name="testing match element...">
-      <pattern>
-        <token></token>
-        <token>by</token>
-        <token><match no="0"></match></token>
-      </pattern>
-      <message>Found \1 \2 \3.</message>
-      <example type="incorrect"><marker>Step by step</marker>.</example>
-      <example type="correct">blabla</example>
-      <example type="correct">Steb by step</example>
-    </rule>
-    <rule id="test_match_ref_superb" name="testing match element on steroids...">
-      <pattern>
-        <token></token>
-        <token>by</token>
-        <token><match no="0"></match>on</token>
-      </pattern>
-      <message>Found \1 \2 \3.</message>
-      <example type="correct"><marker>Step by step</marker>.</example>
-      <example type="incorrect"><marker>Step by stepon</marker>.</example>
-      <example type="correct">blabla</example>
-      <example type="correct">Steb by step</example>
-    </rule>
-    <rulegroup id="test_matching_tokens" name="test parseInt conversion1">
-      <rule>
-        <pattern>
-          <token>1</token>
-          <token>2</token>
-          <token>3</token>
-          <token>4</token>
-          <token>5</token>
-          <token></token>
-          <token>7</token>
-          <token>8</token>
-          <token></token>
-          <token>10</token>
-        </pattern>
-        <message>I suggest: <suggestion><match no="10"></match> blahblah</suggestion>.</message>
-        <example type="correct">blah</example>
-        <example correction="10 blahblah" type="incorrect"><marker>1 2 3 4 5 6 7 8 9 10</marker>.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>1</token>
-          <token>2</token>
-          <token>3</token>
-          <token>4</token>
-          <token>5</token>
-          <token></token>
-          <token>7</token>
-          <token>8</token>
-          <token></token>
-          <token>10</token>
-        </pattern>
-        <message>I suggest: <suggestion>\10 blahblah</suggestion>.</message>
-        <example type="correct">blah</example>
-        <example correction="10 blahblah" type="incorrect"><marker>1 2 3 4 5 6 7 8 9 10</marker>.</example>
-      </rule>
-    </rulegroup>
-    <rule id="test_match_conv" name="example of case conversion">
-      <pattern case_sensitive="yes">
-        <token>new-york</token>
-        <token>cafe</token>
-      </pattern>
-      <message>This name should be uppercase: <suggestion>New <match case_conversion="startupper" no="1" regexp_match="[Nn]ew-(.*)" regexp_replace="$1"></match> Cafe</suggestion></message>
-      <example type="correct">New York Cafe</example>
-      <example correction="New York Cafe" type="incorrect">This is a new coffeshop in the middle of nowhere called <marker>new-york cafe</marker>.</example>
-    </rule>
-    <rule id="test_unification" name="Test unification of character case">
-      <pattern case_sensitive="yes">
-        <token>abc</token>
-        <marker>
-        <unify> <feature id="case_sensitivity">
-        		<type id="startupper"></type>
-        		</feature>
-          <token></token>
-          <token>York</token>
-        </unify>
-        </marker>
-      </pattern>
-      <message>Warning: \1 \2 \3!</message>
-      <example type="incorrect">abc <marker>New York</marker></example>
-      <example type="correct">abc new York</example>
-    </rule>
-    <rule id="test_unification_negate" name="Test negated unification of character case">
-      <pattern case_sensitive="yes">
-        <token>abc</token>
-        <marker>
-        <unify negate="yes">
-        	<feature id="case_sensitivity">
-        		<type id="startupper"></type>
-        	</feature>        
-            <token></token>
-            <token regexp="yes">[yY]ork</token>
-        </unify>
-        </marker>
-      </pattern>
-      <message>Warning: \1 \2 \3!</message>
-      <example type="incorrect">abc <marker>new York</marker></example>
-      <example type="incorrect">abc <marker>New york</marker></example>
-      <example type="incorrect">abc <marker>new york</marker></example>
-      <example type="correct">abc New York</example>
-    </rule>
-    <rule id="test_unification_phrase" name="Test unification of characters' case via phrase">
-      <pattern case_sensitive="yes">
-        <token>abc</token>
-        <marker>
-            <phraseref idref="UNIFICATION_PHRASE"></phraseref>
-        </marker>
-      </pattern>
-      <message>Warning: \1 \2 \3!</message>
-      <example type="incorrect">abc <marker>New York</marker></example>
-      <example type="correct">abc new York</example>
-    </rule>
-    <rule id="test_include_skipped" name="Test inclusion of skipped tokens">
-    	<pattern>
-    		<token skip="-1">abc</token>
-    		<token>end</token>
-    	</pattern>
-    	<message>Warning: <suggestion><match no="1" include_skipped="all"></match> xyz</suggestion></message>
-    	<example type="incorrect" correction="abc def ghi xyz">This is <marker>abc def ghi end</marker>.</example>
-    	<example type="correct">foobar</example>
-    </rule>
-    <rule id="test_unification_skipping" name="Test unification and skipping"> 
-    <pattern case_sensitive="yes">
-    	<token>Test1</token>
-    	<unify>
-    		<feature id="case_sensitivity"></feature>    			        	
-    		<token skip="-1"><exception scope="next">Ghj</exception></token>
-    		<token regexp="yes">[xX]yz</token> 		
-    	</unify>
-    	<token>end</token>
-    </pattern>
-    <message>This is not visible anyway<suggestion><match no="2" include_skipped="all"></match></suggestion>.</message>
-    <example type="incorrect" correction="Abc">This is <marker>Test1 Abc Xyz end</marker>.</example>
-    <example type="incorrect" correction="Abc Def">This is <marker>Test1 Abc Def Xyz end</marker>.</example>
-    <!-- skipped elements are NOT unified -->
-    <example type="incorrect" correction="Abc def">This is <marker>Test1 Abc def Xyz end</marker>.</example>
-    <example type="correct">This is Test1 abc Cde End.</example>
-    </rule>
-    <rulegroup id="test_spacebefore" name="Test spacebefore on exceptions">
-        <rule>
-            <pattern>
-                <token>blah<exception scope="previous" spacebefore="no">'</exception></token>
-                <token>blah</token>
+    <category name="misc">
+        <rule id="DEMO_RULE" name="Find 'foo bar'">
+            <!-- a trivial demo rule that matches "foo" followed by "bar" -->
+            <pattern case_sensitive="no">
+                <token>foo</token>
+                <token>bar</token>
             </pattern>
-            <message>This is a dummy message 1.</message>
-            <example type="correct">Dogs' blah blah</example>
-            <example type="incorrect">Dogs <marker>blah blah</marker></example>
+            <message>Did you mean <suggestion><match no="1"></match> fuu bah</suggestion>?</message>
+            <url>http://fake-server.org/foo-bar-error-explained</url>
+            <example type="correct">This is <marker>fuu bah</marker>.</example>
+            <example correction="foo fuu bah" type="incorrect">This is <marker>foo bar</marker>.</example>
         </rule>
-        <rule type="duplication">
-            <pattern>
-                <token regexp="yes">blah.*<exception spacebefore="no">blah</exception></token>
-                <token>blah</token>
+        <rulegroup id="OR_GROUPS" name="OR groups">
+            <rule>
+                <pattern>
+                    <or>
+                        <token>a</token>
+                        <token>b</token>
+                        <token>c</token>
+                    </or>
+                    <token>d</token>
+                </pattern>
+                <message>Incorrect expression.</message>
+                <example type="incorrect"><marker>a d</marker></example>
+                <example type="incorrect"><marker>b d</marker></example>
+                <example type="incorrect"><marker>c d</marker></example>
+                <example type="incorrect">a <marker>b d</marker></example>
+                <example type="correct">d a</example>
+                <example type="correct">c a</example>
+                <example type="correct">c b</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <or>
+                        <token>a</token>
+                        <token>b</token>
+                        <token>c</token>
+                    </or>
+                    <token/>
+                    <or>
+                        <token>x</token>
+                        <token>y</token>
+                        <token>z</token>
+                    </or>
+                </pattern>
+                <message>Incorrect expression.</message>
+                <example type="incorrect"><marker>b f x</marker></example>
+                <example type="incorrect"><marker>a g z</marker></example>
+                <example type="incorrect"><marker>b d y</marker></example>
+                <example type="incorrect">a <marker>b h z</marker></example>
+                <example type="correct">d a d</example>
+                <example type="correct">c a c</example>
+                <example type="correct">y b y</example>
+                <example type="correct">z b a</example>
+            </rule>
+        </rulegroup>
+        <rule id="DEMO_CHUNK_RULE" name="Rule with chunk attribute">
+            <pattern case_sensitive="no">
+                <token>foo</token>
+                <token chunk="B-NP-singular"></token>
             </pattern>
-            <message>This is a dummy message 2.</message>
-            <example type="correct">Dogs 'blah blah</example>
-            <example type="incorrect">Dogs <marker>blah blah</marker></example>
+            <message>Did you mean <suggestion>foo bar</suggestion>?</message>
+            <example type="correct">This is <marker>foo bar</marker>.</example>
+            <example type="incorrect">This is <marker>foo chunkbar</marker>.</example>
         </rule>
-    </rulegroup>
-    <rulegroup id="test_unification_with_negation" name="Test unification with negation" type="grammar">
-    	<rule>
-    		<pattern>
-    			<unify negate="yes">
-    				<feature id="gender"/>
-    				<feature id="number"/>
-    				<token><exception postag="SENT_START"/></token>
-    				<token/>
-    				<token/>
-    			</unify>
-    		</pattern>
-    		<message>blabla</message>
-    		<example type="correct">det_sing_masc</example>
-    		<example type="incorrect"><marker>det_sing_masc adj_sing_masc subst_plur_fem</marker></example>
-    		<example type="incorrect"><marker>det_sing_fem adj_sing_masc subst_plur_fem</marker></example>
-    		<example type="incorrect"><marker>det_sing_fem adj_sing_fem subst_plur_fem</marker></example>
-    		<example type="incorrect"><marker>det_plur_fem adj_sing_fem subst_plur_fem</marker></example>
-    	</rule>
-    </rulegroup>    
-    <rulegroup id="suggestions_outside_message" name="Test suggestions written outside message">
-    	<rule>
-	    	<pattern>
-	    		<marker>
-		    		<token>blah</token>
-		    		<token>and</token>
-	    		</marker>
-	    		<token>blah</token>    	
-	    	</pattern>
-	    	<message>Incorrect expression</message>
-	    	<suggestion>blah or</suggestion>
-	    	<suggestion>blah xor</suggestion>
-	    	<example type="incorrect" correction="blah or|blah xor"><marker>blah and</marker> blah</example>
-	    	<example type="correct">blah or blah</example>
-	    </rule>
-	    <rule>
-	    	<pattern>
-	    		<marker>
-		    		<token>blah</token>
-		    		<token>and</token>
-	    		</marker>
-	    		<token>blah</token>    	
-	    	</pattern>
-	    	<message>Incorrect expression: <suggestion>blah or</suggestion></message>
-	    	<suggestion>blah xor</suggestion>
-	    	<example type="incorrect" correction="blah or|blah xor"><marker>blah and</marker> blah</example>
-	    	<example type="correct">blah or blah</example>
-	    </rule>
-	    <rule>
-	    	<pattern>
-	    		<marker>
-		    		<token>blah</token>
-		    		<token>and</token>
-	    		</marker>
-	    		<token>blah</token>    	
-	    	</pattern>
-	    	<message>Incorrect expression: <suggestion><match no="1"/> or</suggestion></message>
-	    	<suggestion>blah <match no="1"/></suggestion>
-	    	<example type="incorrect" correction="blah or|blah blah"><marker>blah and</marker> blah</example>
-	    	<example type="correct">blah or blah</example>
-	    </rule>
-	</rulegroup>
-  </category>
+        <rule id="API_OUTPUT_TEST_RULE" name="Find 'foo bar'">
+            <pattern case_sensitive="no">
+                <token>ach</token>
+                <marker>
+                    <token>thosnaíos-sa</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>fuu bah</suggestion>?</message>
+            <example type="correct">This is ach <marker>fuu bah</marker>.</example>
+            <example type="incorrect">This is ach <marker>thosnaíos-sa</marker>.</example>
+        </rule>
+        <rule id="NEGATION_TOKEN" name="test negation">
+            <pattern>
+                <token>small</token>
+                <marker>
+                    <token negate="yes">test</token>
+                </marker>
+            </pattern>
+            <message>test</message>
+            <example type="correct">a small <marker>test</marker></example>
+            <example type="incorrect">a small <marker>toast</marker></example>
+        </rule>
+    </category>
+
+    <category name="otherCategory" type="addition">
+        <rule id="TEST_GO" name="another test of phrases">
+            <pattern>
+                <token>foo</token>
+                <phraseref idref="DUMMY_VB1"></phraseref>
+            </pattern>
+            <message>Error!</message>
+            <example type="correct">foo bar</example>
+            <example type="incorrect"><marker>foo go</marker></example>
+            <example type="incorrect"><marker>foo go</marker> bar</example>
+            <example type="incorrect"><marker>foo goa</marker> bar</example>
+        </rule>
+        <rule id="TEST_PHRASES1" name="test phrases mechanism" type="uncategorized">
+            <pattern>
+                <phraseref idref="COMPLEX_MULTIPLE"></phraseref>
+                <token>there</token>
+            </pattern>
+            <message>This is the matched text: <match no="1"></match><match no="2"></match></message>
+            <example type="correct">go here</example>
+            <example type="incorrect"><marker>first goes last there</marker>, please!</example>
+        </rule>
+        <rule id="test_include" name="test two includeblocks" type="characters">
+            <pattern>
+                <phraseref idref="TEST_INCLUDE"></phraseref>
+            </pattern>
+            <message>Matched: <suggestion>test <match no="1"></match>trala</suggestion></message>
+            <example type="correct">Any string.</example>
+            <example type="incorrect">Some words, <marker>beginning first go last end</marker></example>
+        </rule>
+        <rule id="test_include_and_skip" name="test two includeblocks">
+            <pattern>
+                <token skip="2">any</token>
+                <phraseref idref="TEST_INCLUDE"></phraseref>
+                <token>word</token>
+            </pattern>
+            <message>Matched: <suggestion><match no="1"></match> test</suggestion></message>
+            <example type="correct">Any string.</example>
+            <example type="incorrect">Some words, <marker>any word beginning first go last end word</marker></example>
+        </rule>
+        <!--  why should this work this way? two phraserefs generate a logical
+            disjunction for some obscure reason! -->
+        <rule id="test_two_phrases" name="test two phrases">
+            <pattern>
+                <phraseref idref="COMPLEX_MULTIPLE"></phraseref>
+                <phraseref idref="SINGLE_TOKEN"></phraseref>
+            </pattern>
+            <message>Matched: <match no="1"></match></message>
+            <example type="correct">Any string.</example>
+            <example type="incorrect">First words and <marker>first go last</marker></example>
+        </rule>
+        <rule id="test_and_operator" name="test logical AND">
+            <pattern>
+                <marker>
+                    <and>
+                        <token regexp="yes">A.*</token>
+                        <token regexp="yes">[A-Z]B.*</token>
+                        <token negate="yes">ABC</token>
+                        <token regexp="yes">.*D<exception>ABED</exception></token>
+                    </and>
+                </marker>
+                <token>test</token>
+            </pattern>
+            <message>Matched: <match no="1"></match></message>
+            <example type="correct">CB test</example>
+            <example type="correct">ABC test</example>
+            <example type="incorrect"><marker>ABCD</marker> test</example>
+            <example type="incorrect"><marker>ABEED</marker> test</example>
+            <example type="correct"><marker>ABED</marker> test</example>
+        </rule>
+        <rule id="test_match_ref" name="testing match element...">
+            <pattern>
+                <token></token>
+                <token>by</token>
+                <token><match no="0"></match></token>
+            </pattern>
+            <message>Found \1 \2 \3.</message>
+            <example type="incorrect"><marker>Step by step</marker>.</example>
+            <example type="correct">blabla</example>
+            <example type="correct">Steb by step</example>
+        </rule>
+        <rule id="test_match_ref_superb" name="testing match element on steroids...">
+            <pattern>
+                <token></token>
+                <token>by</token>
+                <token><match no="0"></match>on</token>
+            </pattern>
+            <message>Found \1 \2 \3.</message>
+            <example type="correct"><marker>Step by step</marker>.</example>
+            <example type="incorrect"><marker>Step by stepon</marker>.</example>
+            <example type="correct">blabla</example>
+            <example type="correct">Steb by step</example>
+        </rule>
+        <rulegroup id="test_matching_tokens" name="test parseInt conversion1">
+            <rule>
+                <pattern>
+                    <token>1</token>
+                    <token>2</token>
+                    <token>3</token>
+                    <token>4</token>
+                    <token>5</token>
+                    <token></token>
+                    <token>7</token>
+                    <token>8</token>
+                    <token></token>
+                    <token>10</token>
+                </pattern>
+                <message>I suggest: <suggestion><match no="10"></match> blahblah</suggestion>.</message>
+                <example type="correct">blah</example>
+                <example correction="10 blahblah" type="incorrect"><marker>1 2 3 4 5 6 7 8 9 10</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>1</token>
+                    <token>2</token>
+                    <token>3</token>
+                    <token>4</token>
+                    <token>5</token>
+                    <token></token>
+                    <token>7</token>
+                    <token>8</token>
+                    <token></token>
+                    <token>10</token>
+                </pattern>
+                <message>I suggest: <suggestion>\10 blahblah</suggestion>.</message>
+                <example type="correct">blah</example>
+                <example correction="10 blahblah" type="incorrect"><marker>1 2 3 4 5 6 7 8 9 10</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rule id="test_match_conv" name="example of case conversion">
+            <pattern case_sensitive="yes">
+                <token>new-york</token>
+                <token>cafe</token>
+            </pattern>
+            <message>This name should be uppercase: <suggestion>New <match case_conversion="startupper" no="1" regexp_match="[Nn]ew-(.*)" regexp_replace="$1"></match> Cafe</suggestion></message>
+            <example type="correct">New York Cafe</example>
+            <example correction="New York Cafe" type="incorrect">This is a new coffeshop in the middle of nowhere called <marker>new-york cafe</marker>.</example>
+        </rule>
+        <rule id="test_unification" name="Test unification of character case">
+            <pattern case_sensitive="yes">
+                <token>abc</token>
+                <marker>
+                    <unify> <feature id="case_sensitivity">
+                        <type id="startupper"></type>
+                    </feature>
+                        <token></token>
+                        <token>York</token>
+                    </unify>
+                </marker>
+            </pattern>
+            <message>Warning: \1 \2 \3!</message>
+            <example type="incorrect">abc <marker>New York</marker></example>
+            <example type="correct">abc new York</example>
+        </rule>
+        <rule id="test_unification_negate" name="Test negated unification of character case">
+            <pattern case_sensitive="yes">
+                <token>abc</token>
+                <marker>
+                    <unify negate="yes">
+                        <feature id="case_sensitivity">
+                            <type id="startupper"></type>
+                        </feature>
+                        <token></token>
+                        <token regexp="yes">[yY]ork</token>
+                    </unify>
+                </marker>
+            </pattern>
+            <message>Warning: \1 \2 \3!</message>
+            <example type="incorrect">abc <marker>new York</marker></example>
+            <example type="incorrect">abc <marker>New york</marker></example>
+            <example type="incorrect">abc <marker>new york</marker></example>
+            <example type="correct">abc New York</example>
+        </rule>
+        <rule id="test_unification_phrase" name="Test unification of characters' case via phrase">
+            <pattern case_sensitive="yes">
+                <token>abc</token>
+                <marker>
+                    <phraseref idref="UNIFICATION_PHRASE"></phraseref>
+                </marker>
+            </pattern>
+            <message>Warning: \1 \2 \3!</message>
+            <example type="incorrect">abc <marker>New York</marker></example>
+            <example type="correct">abc new York</example>
+        </rule>
+        <rule id="test_include_skipped" name="Test inclusion of skipped tokens">
+            <pattern>
+                <token skip="-1">abc</token>
+                <token>end</token>
+            </pattern>
+            <message>Warning: <suggestion><match no="1" include_skipped="all"></match> xyz</suggestion></message>
+            <example type="incorrect" correction="abc def ghi xyz">This is <marker>abc def ghi end</marker>.</example>
+            <example type="correct">foobar</example>
+        </rule>
+        <rule id="test_unification_skipping" name="Test unification and skipping">
+            <pattern case_sensitive="yes">
+                <token>Test1</token>
+                <unify>
+                    <feature id="case_sensitivity"></feature>
+                    <token skip="-1"><exception scope="next">Ghj</exception></token>
+                    <token regexp="yes">[xX]yz</token>
+                </unify>
+                <token>end</token>
+            </pattern>
+            <message>This is not visible anyway<suggestion><match no="2" include_skipped="all"></match></suggestion>.</message>
+            <example type="incorrect" correction="Abc">This is <marker>Test1 Abc Xyz end</marker>.</example>
+            <example type="incorrect" correction="Abc Def">This is <marker>Test1 Abc Def Xyz end</marker>.</example>
+            <!-- skipped elements are NOT unified -->
+            <example type="incorrect" correction="Abc def">This is <marker>Test1 Abc def Xyz end</marker>.</example>
+            <example type="correct">This is Test1 abc Cde End.</example>
+        </rule>
+        <rulegroup id="test_spacebefore" name="Test spacebefore on exceptions">
+            <rule>
+                <pattern>
+                    <token>blah<exception scope="previous" spacebefore="no">'</exception></token>
+                    <token>blah</token>
+                </pattern>
+                <message>This is a dummy message 1.</message>
+                <example type="correct">Dogs' blah blah</example>
+                <example type="incorrect">Dogs <marker>blah blah</marker></example>
+            </rule>
+            <rule type="duplication">
+                <pattern>
+                    <token regexp="yes">blah.*<exception spacebefore="no">blah</exception></token>
+                    <token>blah</token>
+                </pattern>
+                <message>This is a dummy message 2.</message>
+                <example type="correct">Dogs 'blah blah</example>
+                <example type="incorrect">Dogs <marker>blah blah</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="test_unification_with_negation" name="Test unification with negation" type="grammar">
+            <rule>
+                <pattern>
+                    <unify negate="yes">
+                        <feature id="gender"/>
+                        <feature id="number"/>
+                        <token><exception postag="SENT_START"/></token>
+                        <token/>
+                        <token/>
+                    </unify>
+                </pattern>
+                <message>blabla</message>
+                <example type="correct">det_sing_masc</example>
+                <example type="incorrect"><marker>det_sing_masc adj_sing_masc subst_plur_fem</marker></example>
+                <example type="incorrect"><marker>det_sing_fem adj_sing_masc subst_plur_fem</marker></example>
+                <example type="incorrect"><marker>det_sing_fem adj_sing_fem subst_plur_fem</marker></example>
+                <example type="incorrect"><marker>det_plur_fem adj_sing_fem subst_plur_fem</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="suggestions_outside_message" name="Test suggestions written outside message">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>blah</token>
+                        <token>and</token>
+                    </marker>
+                    <token>blah</token>
+                </pattern>
+                <message>Incorrect expression</message>
+                <suggestion>blah or</suggestion>
+                <suggestion>blah xor</suggestion>
+                <example type="incorrect" correction="blah or|blah xor"><marker>blah and</marker> blah</example>
+                <example type="correct">blah or blah</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>blah</token>
+                        <token>and</token>
+                    </marker>
+                    <token>blah</token>
+                </pattern>
+                <message>Incorrect expression: <suggestion>blah or</suggestion></message>
+                <suggestion>blah xor</suggestion>
+                <example type="incorrect" correction="blah or|blah xor"><marker>blah and</marker> blah</example>
+                <example type="correct">blah or blah</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>blah</token>
+                        <token>and</token>
+                    </marker>
+                    <token>blah</token>
+                </pattern>
+                <message>Incorrect expression: <suggestion><match no="1"/> or</suggestion></message>
+                <suggestion>blah <match no="1"/></suggestion>
+                <example type="incorrect" correction="blah or|blah blah"><marker>blah and</marker> blah</example>
+                <example type="correct">blah or blah</example>
+            </rule>
+        </rulegroup>
+    </category>
 </rules>
