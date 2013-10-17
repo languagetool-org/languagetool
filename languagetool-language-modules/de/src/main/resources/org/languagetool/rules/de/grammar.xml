@@ -5352,21 +5352,36 @@ $Id$
                 <example type="incorrect" correction="Java-Applet|JavaScript">Das ist ein <marker>JavaScript Applet</marker>.</example>
             </rule>
         </rulegroup>
-        <rule id="UBUNTU_12_4" name="Eigenname: 'Ubuntu 12.4 (12.04)' etc.">
-            <pattern>
-                <token regexp="yes">.*buntu</token>
-                <marker>
-                    <token regexp="yes">1?[0-9]</token>
-                    <token>.</token>
-                    <token regexp="yes">[46]</token>
-                </marker>
-            </pattern>
-            <message>Meinten Sie \1 <suggestion>\2\30\4</suggestion>?</message>
-            <example type="correct">Ich benutze Ubuntu <marker>12.04</marker>.</example>
-            <example type="correct">Ich benutze Ubuntu <marker>12.04.1</marker>.</example>
-            <example type="incorrect" correction="12.04">Ich benutze Ubuntu <marker>12.4</marker>.</example>
-            <example type="incorrect" correction="12.04">Ich benutze Kubuntu <marker>12.4</marker>.1.</example>
-        </rule>
+        <rulegroup id="UBUNTU_12_4" name="Eigenname: 'Ubuntu 12.4 (12.04)' etc.">
+            <rule>
+                <pattern>
+                    <token regexp="yes">.*buntu</token>
+                    <marker>
+                        <token regexp="yes">1?[0-9]</token>
+                        <token>.</token>
+                        <token regexp="yes">[46]</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie \1 <suggestion>\2\30\4</suggestion>?</message>
+                <example type="correct">Ich benutze Ubuntu <marker>12.04</marker>.</example>
+                <example type="correct">Ich benutze Ubuntu <marker>12.04.1</marker>.</example>
+                <example type="incorrect" correction="12.04">Ich benutze Ubuntu <marker>12.4</marker>.</example>
+                <example type="incorrect" correction="12.04">Ich benutze Kubuntu <marker>12.4</marker>.1.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">.*buntu</token>
+                    <marker>
+                        <token regexp="yes">1?[0-9]</token>
+                        <token>.</token>
+                        <token>1</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie \1 <suggestion>\2\3\40</suggestion>?</message>
+                <example type="correct">Ich benutze Ubuntu <marker>13.10</marker>.</example>
+                <example type="incorrect" correction="13.10">Ich benutze Ubuntu <marker>13.1</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="MP_3" name="Eigenname: 'MP-3 (MP3)' etc.">
             <rule>
                 <pattern case_sensitive="yes">
