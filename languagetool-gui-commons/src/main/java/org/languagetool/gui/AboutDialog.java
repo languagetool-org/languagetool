@@ -66,7 +66,6 @@ public class AboutDialog {
             + "<p>LanguageTool %s (%s)<br>"
             + "Copyright (C) 2005-2013 Daniel Naber<br>"
             + "This software is licensed under the GNU Lesser General Public License.<br>"
-            + "LanguageTool Homepage: "
             + "<a href=\"http://www.languagetool.org\">http://www.languagetool.org</a></p>"
             + "<p>Maintainers of the language modules:</p>"
             + "</html>", JLanguageTool.VERSION, JLanguageTool.BUILD_DATE));
@@ -95,10 +94,10 @@ public class AboutDialog {
 
     maintainersPane.setText(getMaintainers());
 
-    int maxheight = java.awt.Toolkit.getDefaultToolkit().getScreenSize().height / 2;
-    if(maintainersPane.getPreferredSize().height > maxheight) {
-        maintainersPane.setPreferredSize(
-                new Dimension(maintainersPane.getPreferredSize().width, maxheight));
+    int maxHeight = java.awt.Toolkit.getDefaultToolkit().getScreenSize().height / 2;
+    if(maintainersPane.getPreferredSize().height > maxHeight) {
+      maintainersPane.setPreferredSize(
+                new Dimension(maintainersPane.getPreferredSize().width, maxHeight));
     }
 
     JScrollPane scrollPane = new JScrollPane(maintainersPane);
@@ -114,11 +113,11 @@ public class AboutDialog {
   private String getMaintainers() {
     final TreeMap<String, Language> list = new TreeMap<>();
     for (final Language lang : Language.REAL_LANGUAGES) {
-        if (!lang.isVariant()) {
-            if (lang.getMaintainers() != null) {
-                list.put(messages.getString(lang.getShortName()), lang);
-            }
+      if (!lang.isVariant()) {
+        if (lang.getMaintainers() != null) {
+          list.put(messages.getString(lang.getShortName()), lang);
         }
+      }
     }
     final StringBuilder maintainersInfo = new StringBuilder();
     maintainersInfo.append("<table border=0 cellspacing=0 cellpadding=0>");
@@ -130,7 +129,7 @@ public class AboutDialog {
       for (Contributor contributor : list.get(lang).getMaintainers()) {
         if (i > 0) {
           maintainersInfo.append(", ");
-          if (0 == (i % 3)) {
+          if (i % 3 == 0) {
             maintainersInfo.append("<br>");
           }
         }
@@ -141,15 +140,6 @@ public class AboutDialog {
     }
     maintainersInfo.append("</table>");
     return maintainersInfo.toString();
-  }
-
-  protected String getAboutText() {
-    return "LanguageTool " + JLanguageTool.VERSION + " (" + JLanguageTool.BUILD_DATE + ")\n"
-        + "Copyright (C) 2005-2013 Daniel Naber\n"
-        + "This software is licensed under the GNU Lesser General Public License.\n"
-        + "LanguageTool Homepage: http://www.languagetool.org\n\n"
-        + "Maintainers of the language modules:\n\n"
-        + Language.getAllMaintainers(messages);
   }
 
 }
