@@ -67,7 +67,7 @@ public class AboutDialog {
             + "Copyright (C) 2005-2013 Daniel Naber<br>"
             + "This software is licensed under the GNU Lesser General Public License.<br>"
             + "<a href=\"http://www.languagetool.org\">http://www.languagetool.org</a></p>"
-            + "<p>Maintainers of the language modules:</p>"
+            + "<p>Maintainers of the language modules:</p><br>"
             + "</html>", JLanguageTool.VERSION, JLanguageTool.BUILD_DATE));
 
     aboutPane.addHyperlinkListener(new HyperlinkListener() {
@@ -101,6 +101,7 @@ public class AboutDialog {
     }
 
     JScrollPane scrollPane = new JScrollPane(maintainersPane);
+    scrollPane.setBorder(BorderFactory.createEmptyBorder());
     JPanel panel = new JPanel();
     panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
     panel.add(aboutPane);
@@ -124,7 +125,9 @@ public class AboutDialog {
     for(String lang : list.keySet()) {
       maintainersInfo.append("<tr valign=\"top\"><td>");
       maintainersInfo.append(lang);
-      maintainersInfo.append(":</td><td>");
+      maintainersInfo.append(":</td>");
+      maintainersInfo.append("<td>&nbsp;</td>");
+      maintainersInfo.append("<td>");
       int i = 0;
       for (Contributor contributor : list.get(lang).getMaintainers()) {
         if (i > 0) {
