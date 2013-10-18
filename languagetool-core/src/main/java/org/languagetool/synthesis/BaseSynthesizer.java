@@ -34,13 +34,14 @@ import org.languagetool.AnalyzedToken;
 import org.languagetool.JLanguageTool;
 
 public class BaseSynthesizer implements Synthesizer {
- 
-  private Dictionary dictionary;
+
   protected List<String> possibleTags;
 
   private final String tagFileName;
   private final String resourceFileName;
-  
+
+  private Dictionary dictionary;
+
   /**
    * @param resourceFileName The dictionary file name.
    * @param tagFileName The name of a file containing all possible tags.
@@ -65,7 +66,6 @@ public class BaseSynthesizer implements Synthesizer {
         }
       }
     }
-    
     return this.dictionary;
   }
 
@@ -106,7 +106,7 @@ public class BaseSynthesizer implements Synthesizer {
    * 
    * @param token AnalyzedToken to be inflected.
    * @param posTag The desired part-of-speech tag.
-   * @return String value - inflected word.
+   * @return inflected words, or an empty array if no forms were found
    */
   @Override
   public String[] synthesize(final AnalyzedToken token, final String posTag) throws IOException {
