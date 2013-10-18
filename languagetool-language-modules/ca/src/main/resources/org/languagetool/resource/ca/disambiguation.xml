@@ -2016,11 +2016,22 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <token inflected="yes">nota</token>
                 <marker>
-                    <token regexp="yes">do|re|mi|fa|sol|la|si</token>
+                    <token regexp="yes">do|re|mi|sol|si</token>
                 </marker>
             </pattern>
-            <disambig action="replace" postag="AQ0FS0" />
+            <disambig action="filter" postag="N.*" />
         </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes">nota</token>
+                <marker>
+                    <token regexp="yes">la|fa</token>
+                </marker>
+                <token><exception>que</exception><exception postag="V.[MSI].*" postag_regexp="yes"/></token>
+            </pattern>
+            <disambig action="filter" postag="N.*" />
+        </rule>
+        
         <rule>
             <pattern>
                 <token>carta</token>

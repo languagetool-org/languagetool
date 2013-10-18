@@ -13497,16 +13497,19 @@ $Id$
         </rule>
         <rule id="COM_SON_ARA" name="*com són ara">
             <pattern>
-                <token>com</token>
-                <token>són</token>
-                <token>ara</token>
+                <marker>
+                    <token>com</token>
+                    <token>són</token>
+                    <token>ara</token>
+                </marker>
+                <token><exception regexp="yes">[.,;]</exception></token>
             </pattern>
             <message>Construcció redundant.</message>
             <suggestion>com són</suggestion>
             <suggestion>com ara</suggestion>
-            <short>Expressió incorrecta</short>
-            <example type="incorrect"><marker>com són ara</marker></example>
-            <example type="correct">com ara</example>
+            <short>redundància</short>
+            <example type="incorrect"><marker>com són ara</marker> les províncies.</example>
+            <example type="correct">M'agraden com són ara, no com eren abans.</example>
         </rule>
         <rule id="ESTA_VOSTE_EN_EL_CERT" name="*està vostè en el cert">
             <pattern>
