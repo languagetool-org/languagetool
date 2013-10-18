@@ -6467,16 +6467,17 @@ $Id$
         </rulegroup>
         <rule id="ALA_A_LA" name="*ala ciutat/a la ciutat">
             <pattern>
-                <token><exception>l'</exception></token>
+                <token><exception regexp="yes">[dl]'|cada</exception></token>
                 <marker>
-                    <token regexp="yes">[ae]la</token>
+                    <token regexp="yes">[ae]la<exception postag="_possible_nompropi"/></token>
                 </marker>
-                <token postag="N.[FC][SN].*" postag_regexp="yes"><exception postag="AQ.[FC][SN].*|V.P.*SF.?" postag_regexp="yes"/><exception>delta</exception></token>
+                <token postag="N.[FC][SN].*" postag_regexp="yes"><exception postag="AQ.[FC][SN].*|V.P.*SF.?" postag_regexp="yes"/><exception regexp="yes">delta|nord|sud|est|oest|pivot|nord-est|nord-oest|sud-est|sud-oest|Tudor|Lluís|Francesc</exception></token>
             </pattern>
             <message>¿Volíeu dir <suggestion>a la</suggestion>?</message>
             <suggestion>la</suggestion>
             <short>Possible confusió</short>
             <example type="incorrect" correction="a la|la"><marker>ala</marker> ciutat</example>
+            <example type="incorrect" correction="a la|la"><marker>ala</marker> Barcelona</example>
             <example type="incorrect">és situat <marker>ala</marker> zona septentrional de la comarca</example>
             <example type="incorrect">resistència <marker>ala</marker> cisalla,</example>
             <example type="incorrect">En occità com <marker>ala</marker> resta de llengües romàniques</example>
@@ -6493,6 +6494,8 @@ $Id$
             <example type="correct">de la seva ala esquerrana</example>
             <example type="correct">amb part superior plana i ala estreta.</example>
             <example type="correct">L'ala Nord de la ciutat.</example>
+            <example type="correct">L'ala nord de la ciutat.</example>
+            <example type="correct">Ala Lluís XIV.</example>
         </rule>
         <rule id="ALES_A_LES" name="*ales forces/a les forces">
             <pattern>
