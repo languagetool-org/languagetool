@@ -152,8 +152,8 @@ public class CatalanWordTokenizer extends WordTokenizer {
               .replace("##CA_DECIMALPOINT##", ".")
               .replace("##CA_DECIMALCOMMA##", ",")
               .replace("##CA_SPACE##", " ")
-              .replace("##ELA_GEMINADA##", "l-l")
-              .replace("##ELA_GEMINADA_UPPERCASE##", "L-L");
+              .replace("##ELA_GEMINADA##", "l.l")
+              .replace("##ELA_GEMINADA_UPPERCASE##", "L.L");
       boolean matchFound = false;
       int j = 0;
       while (j < maxPatterns && !matchFound) {
@@ -185,7 +185,7 @@ public class CatalanWordTokenizer extends WordTokenizer {
           l.add(s);
         } 
         // words with "ela geminada" with typo: col-legi (col·legi)
-        else if (tagger.existsWord(s.replace("-", "·"))) {
+        else if (tagger.existsWord(s.replace("l-l", "l·l"))) {
           l.add(s);
         }
         else {
