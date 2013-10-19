@@ -46,7 +46,8 @@ public class CatalanWordTokenizer extends WordTokenizer {
 
   //Patterns to avoid splitting words in certain special cases
   // allows correcting typographical errors in "ela geminada"
-  private static final Pattern ELA_GEMINADA = Pattern.compile("([aeiouàéèíóòúïü])l[.\u2022-]l([aeiouàéèíóòúïü])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern ELA_GEMINADA = Pattern.compile("([aeiouàéèíóòúïü])l[.\u2022]l([aeiouàéèíóòúïü])",Pattern.UNICODE_CASE);
+  private static final Pattern ELA_GEMINADA_UPPERCASE = Pattern.compile("([AEIOUÀÈÉÍÒÓÚÏÜ])L[.\u2022]L([AEIOUÀÈÉÍÒÓÚÏÜ])",Pattern.UNICODE_CASE);
   // apostrophe 
   private static final Pattern APOSTROPHE = Pattern.compile("([\\p{L}])['’]([\\p{L}\"‘“«])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   // apostrophe before number 1. Ex.: d'1 km, és l'1 de gener, és d'1.4 kg
@@ -115,6 +116,8 @@ public class CatalanWordTokenizer extends WordTokenizer {
 
     Matcher matcher=ELA_GEMINADA.matcher(auxText);
     auxText = matcher.replaceAll("$1##ELA_GEMINADA##$2");
+    matcher=ELA_GEMINADA_UPPERCASE.matcher(auxText);
+    auxText = matcher.replaceAll("$1##ELA_GEMINADA_UPPERCASE##$2");
     matcher=APOSTROPHE.matcher(auxText);
     auxText = matcher.replaceAll("$1##CA_APOS##$2");
     matcher=APOSTROPHE_1.matcher(auxText);
@@ -149,7 +152,8 @@ public class CatalanWordTokenizer extends WordTokenizer {
               .replace("##CA_DECIMALPOINT##", ".")
               .replace("##CA_DECIMALCOMMA##", ",")
               .replace("##CA_SPACE##", " ")
-              .replace("##ELA_GEMINADA##", "l.l");
+              .replace("##ELA_GEMINADA##", "l-l")
+              .replace("##ELA_GEMINADA_UPPERCASE##", "L-L");
       boolean matchFound = false;
       int j = 0;
       while (j < maxPatterns && !matchFound) {
@@ -179,7 +183,12 @@ public class CatalanWordTokenizer extends WordTokenizer {
         // words containing hyphen (-) are looked up in the dictionary
         if (tagger.existsWord(s)) {
           l.add(s);
-        } else {
+        } 
+        // words with "ela geminada" with typo: col-legi (col·legi)
+        else if (tagger.existsWord(s.replace("-", "·"))) {
+          l.add(s);
+        }
+        else {
           // if not found, the word is split
           final StringTokenizer st2 = new StringTokenizer(s, "-", true);
           while (st2.hasMoreElements()) {
