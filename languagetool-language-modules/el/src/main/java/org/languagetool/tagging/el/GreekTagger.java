@@ -30,7 +30,7 @@ public class GreekTagger extends BaseTagger {
 
   @Override
   public final String getFileName() {
-    return "/el/el.dict";
+    return "/el/greek.dict";
   }
 
   public GreekTagger() {
