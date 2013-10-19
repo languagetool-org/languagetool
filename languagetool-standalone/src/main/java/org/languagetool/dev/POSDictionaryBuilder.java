@@ -18,74 +18,35 @@
  */
 package org.languagetool.dev;
 
-import morfologik.tools.FSABuildTool;
-import morfologik.tools.Launcher;
-
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Properties;
 
 /**
  * Create a Morfologik binary dictionary from plain text data.
  */
-final class POSDictionaryBuilder {
+final class POSDictionaryBuilder extends DictionaryBuilder {
 
-  public static void main(String[] args) throws Exception {
-    if (args.length != 2) {
-      System.out.println("Usage: " + POSDictionaryBuilder.class.getSimpleName() + " <dictionary> <infoFile>");
-      System.out.println("   <dictionary> is a plain text dictionary file");
-      System.out.println("   <infoFile> is the properties file, see http://wiki.languagetool.org/developing-a-tagger-dictionary");
-      System.exit(1);
-    }
-    POSDictionaryBuilder builder = new POSDictionaryBuilder();
-    builder.build(new File(args[0]), new File(args[1]));
+  POSDictionaryBuilder(File infoFile) throws IOException {
+    super(infoFile);
   }
 
-  File build(File dictFile, File infoFile) throws Exception {
+  public static void main(String[] args) throws Exception {
+    checkUsageOrExit(POSDictionaryBuilder.class.getSimpleName(), args);
+    POSDictionaryBuilder builder = new POSDictionaryBuilder(new File(args[1]));
+    builder.build(new File(args[0]));
+  }
+
+  File build(File dictFile) throws Exception {
     File tempFile = File.createTempFile(POSDictionaryBuilder.class.getSimpleName(), ".txt");
     try {
-      if (!dictFile.exists()) {
-        throw new IOException("File does not exist: " + dictFile);
-      }
-      List<String> tab2morphOptions = getTab2MorphOptions(dictFile, infoFile, tempFile);
-      System.out.println("Running Morfologik Launcher.main with these options: " + tab2morphOptions);
-      Launcher.main(tab2morphOptions.toArray(new String[]{}));
-      
-      File resultFile = File.createTempFile(POSDictionaryBuilder.class.getSimpleName(), ".dict");
-      String[] buildToolOptions = {"-f", "cfsa2", "-i", tempFile.getAbsolutePath(), "-o", resultFile.getAbsolutePath()};
-      System.out.println("Running Morfologik FSABuildTool.main with these options: " + Arrays.toString(buildToolOptions));
-      FSABuildTool.main(buildToolOptions);
-      System.out.println("Done. The binary dictionary has been written to " + resultFile.getAbsolutePath());
-      return resultFile;
+      List<String> tab2morphOptions = getTab2MorphOptions(dictFile, tempFile);
+      tab2morphOptions.add(0, "tab2morph");
+      prepare(tab2morphOptions);
+      return buildDict(tempFile);
     } finally {
       tempFile.delete();
     }
-  }
-
-  private List<String> getTab2MorphOptions(File dictFile, File infoFile, File tempFile) throws IOException {
-    List<String> tab2morphOptions = new ArrayList<>();
-    tab2morphOptions.add("tab2morph");
-    if (hasOption(infoFile, "fsa.dict.uses-prefixes")) {
-      tab2morphOptions.add("-pre");
-    }
-    if (hasOption(infoFile, "fsa.dict.uses-infixes")) {
-      tab2morphOptions.add("-inf");
-    }
-    tab2morphOptions.add("-i");
-    tab2morphOptions.add(dictFile.getAbsolutePath());
-    tab2morphOptions.add("-o");
-    tab2morphOptions.add(tempFile.getAbsolutePath());
-    return tab2morphOptions;
-  }
-
-  private boolean hasOption(File infoFile, String option) throws IOException {
-    Properties props = new Properties();
-    props.load(new FileInputStream(infoFile));
-    return props.getProperty(option).trim().equals("true");
   }
 
 }
