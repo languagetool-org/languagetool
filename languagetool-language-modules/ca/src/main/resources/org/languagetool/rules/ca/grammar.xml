@@ -9006,16 +9006,16 @@ $Id$
             </rule>
             <rule>    
                 <pattern>
-                    <token>a</token>
-                    <token>l</token>
                     <marker>
+                        <token>a</token>
+                        <token>l</token>
                         <token>sí</token>
                     </marker>
                     <token regexp="yes">de|d'</token>
                 </pattern>
                 <message>Només s'accentua si és una afirmació</message>
-                <suggestion>si</suggestion>
-                <example type="incorrect">I al <marker>sí</marker> del partit</example>
+                <suggestion>en el si</suggestion>
+                <example type="incorrect" correction="en el si">I <marker>al sí</marker> del partit</example>
                 <example type="correct">I al si del partit</example>
             </rule>
             <rule>    
@@ -9034,16 +9034,16 @@ $Id$
             </rule>
             <rule>    
                 <pattern>
-                    <token>a</token>
-                    <token>l</token>
-                    <token postag="PX.*" postag_regexp="yes"/>
                     <marker>
+                        <token>a</token>
+                        <token>l</token>
+                        <token postag="PX.*" postag_regexp="yes"/>
                         <token>sí</token>
                     </marker>
                 </pattern>
                 <message>Només s'accentua si és una afirmació</message>
-                <suggestion>si</suggestion>
-                <example type="incorrect">I al seu <marker>sí</marker> es formà un partit.</example>
+                <suggestion>en el <match no="3"/> si</suggestion>
+                <example type="incorrect" correction="en el seu si">I <marker>al seu sí</marker> es formà un partit.</example>
                 <example type="correct">I al seu si es formà un partit.</example>
             </rule>
         </rulegroup>    
@@ -9281,12 +9281,11 @@ $Id$
         <rulegroup id="MA" name="ma/mà">
             <rule>
                 <pattern>
-                    <!--<token regexp="yes">a|en</token>
-                    Ma. Teresa Moragues-->
+                    <token><exception>-</exception><exception postag="DN.*" postag_regexp="yes"/></token>
                     <marker>
-                        <token>ma</token>
+                        <token regexp="yes">(?-i)ma</token>
                     </marker>
-                    <token><exception postag="N.[FC]S.*|A..[FC]S.*" postag_regexp="yes"/></token>
+                    <token><exception postag="N.[FC]S.*|A..[FC]S.*" postag_regexp="yes"/><exception regexp="yes">non|-</exception></token>
                 </pattern>
                 <message>S'accentua quan és nom.</message>
                 <suggestion>mà</suggestion>
@@ -9295,18 +9294,34 @@ $Id$
                 <example type="incorrect" correction="mà">Dioscòrides en <marker>ma</marker>.</example>
                 <example type="incorrect">Aquella <marker>ma</marker>.</example>
                 <example type="correct">A ma mare.</example>
-                <example type="incorrect"><marker>Ma</marker> d'obra barata.</example>
                 <example type="incorrect">De primera <marker>ma</marker> a les festes.</example>
                 <example type="correct">Aquella mà.</example>
                 <example type="correct">Estimava moltíssim ma mare.</example>   
                 <example type="correct">En tota ma vida.</example>
+                <example type="correct">Allegro ma non tropo.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">(?-i)Ma</token>
+                    </marker>
+                    <token regexp="yes">de|d'</token>
+                    <token regexp="yes">guido|argent|obra</token>
+                </pattern>
+                <message>S'accentua quan és nom.</message>
+                <suggestion>mà</suggestion>
+                <short>Accent diacrític</short>
+                <example type="incorrect" correction="Mà">La <marker>Ma</marker> de Guido.</example>
+                <example type="incorrect" correction="Mà"><marker>Ma</marker> d'obra barata.</example>
+                <example type="correct">Van atacar Ma Yuan.</example>
+                <example type="correct">És Ma. Teresa.</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
                         <token>ma</token>
                     </marker>
-                    <token regexp="yes">esquerra|dreta</token>
+                    <token regexp="yes">esquerr[ea]|dreta|guidoniana</token>
                 </pattern>
                 <message>S'accentua quan és nom.</message>
                 <suggestion>mà</suggestion>
@@ -9331,6 +9346,18 @@ $Id$
                 <example type="correct">A ma estimada mare.</example>
                 <example type="correct">A ma mare.</example>
                 <example type="correct">Fou ma venerada besàvia.</example>
+            </rule>
+            <rule id="MA_ABREVIATURA" name="abreviatures: Ma, mA">
+                <pattern>
+                    <token postag="DN.*" postag_regexp="yes"/>
+                    <marker>
+                        <token regexp="yes">(?-i)ma</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>Ma</suggestion> (milions d'anys) o <suggestion>mA</suggestion> (mil·liamperes)?</message>
+                <short>Possible confusió</short>
+                <example type="incorrect" correction="Ma|mA">És de fa 3.000 <marker>ma</marker>.</example>
+                <example type="correct">Allegro ma non tropo.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SI" name="si/sí">
