@@ -7058,7 +7058,7 @@ $Id$
                 <pattern>
                     <token><exception postag="D[DAI]0[MC]S0" postag_regexp="yes"/><exception regexp="yes">breu|extens|curt|llarg</exception></token>
                     <marker>
-                        <token>apart</token>
+                        <token>apart<exception postag="_possible_nompropi"/></token>
                     </marker>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>a part</suggestion>?</message>
@@ -7072,8 +7072,9 @@ $Id$
             <pattern>
                 <token><exception postag="(A.|D[DAI]).[MC]S." postag_regexp="yes"/><exception regexp="yes">breu|extens|curt|llarg</exception></token>
                 <marker>
-                    <token>apunt</token>
+                    <token>apunt<exception postag="_possible_nompropi"/></token>
                 </marker>
+                <token><exception>biogràfic</exception></token>
                 </pattern>
             <message>¿Volíeu dir <suggestion>a punt</suggestion>?</message>
             <short>Possible confusió</short>
@@ -17103,16 +17104,27 @@ $Id$
         <rulegroup id="NOMBRE_NUMERO" name="nombre/número">
             <rule>
                 <pattern>
+                    <token><exception postag="AO.*" postag_regexp="yes"/></token>
                     <marker>
                         <token skip="1">número</token>
                     </marker>
-                    <token regexp="yes">de|d'</token>
-                    <token postag="N..P.*" postag_regexp="yes"/>
+                    <token regexp="yes">de|d'<exception scope="previous" postag="DN.*" postag_regexp="yes"/></token>
+                    <token postag="N..P.*" postag_regexp="yes"><exception regexp="yes">urgències|emergències|varietats|varietés|pallassos|\p{Lu}.*</exception></token>
                 </pattern>
                 <message>En el sentit de "quantitat" cal dir <suggestion>nombre</suggestion>.</message>
                 <example type="incorrect" correction="nombre">un gran <marker>número</marker> de ciutadans</example>
                 <example type="incorrect" correction="nombre">És preferible un <marker>número</marker> reduït de regidors.</example>
                 <example type="correct">el número de la seguretat social</example>
+                <example type="correct">El llibre fou número 1 de vendes.</example>
+                <example type="correct">Va ser nombre u de vendes.</example>
+                <example type="correct">En el primer número de Pobles i fronteres</example>
+                <example type="correct">avinguda Fiter i Rosell número 4 d'Escaldes-Engordany</example>
+                <example type="correct">és un número de varietats que fa l'artista</example>
+                <example type="correct">en el número 26 de Lletres Asturianes</example>
+                <example type="correct">oferien al públic un número de pallassos notable</example>
+                <example type="correct">el jugador número 4 de Gal·les</example>
+                <example type="correct">amb cada número de Súpers!</example>
+                <example type="correct">L'últim número de Visions</example>
             </rule>
         </rulegroup>
         <rulegroup id="BAIXAR_ABAIXAR" name="Comprova: abaixar/baixar ">
