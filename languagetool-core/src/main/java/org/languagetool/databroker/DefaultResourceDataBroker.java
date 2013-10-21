@@ -18,13 +18,8 @@
  */
 package org.languagetool.databroker;
 
-import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
-import java.security.Permission;
 
 import org.languagetool.JLanguageTool;
 
@@ -33,7 +28,7 @@ import org.languagetool.JLanguageTool;
  * directories. This default data broker assumes that they are accessible
  * directly via class-path and the directory names are like specified in:
  *
- * <ul style="list-type: circle">
+ * <ul>
  * <li>{@link ResourceDataBroker#RESOURCE_DIR}</li>
  * <li>{@link ResourceDataBroker#RULES_DIR}</li>
  * </ul>
@@ -44,7 +39,7 @@ import org.languagetool.JLanguageTool;
  * Assuming your {@code /rules} and {@code /resource} directories are accessible
  * via class-path with following path information:
  *
- * <ul style="list-type: circle">
+ * <ul>
  * <li>{@code /res/grammarchecker/rulesdirname}</li>
  * <li>{@code /res/grammarchecker/resourcedirname}</li>
  * </ul>
@@ -53,7 +48,7 @@ import org.languagetool.JLanguageTool;
  * {@link ResourceDataBroker#setRulesDir(String)} and
  * {@link ResourceDataBroker#setResourceDir(String)} with following arguments:
  *
- * <ul style="list-type: circle">
+ * <ul>
  * <li>{@code /res/grammarchecker/rulesdirname}</li>
  * <li>{@code /res/grammarchecker/resourcedirname}</li>
  * </ul>
@@ -159,7 +154,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
     final String completePath = this.getCompleteResourceUrl(path);
     final URL resource = ResourceDataBroker.class.getResource(completePath);
     assertNotNull(resource, path, completePath);
-    return getFixedJarURL(resource);
+    return resource;
   }
 
   /**
@@ -225,7 +220,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
     final String completePath = this.getCompleteRulesUrl(path);
     final URL resource = ResourceDataBroker.class.getResource(completePath);
     assertNotNull(resource, path, completePath);
-    return getFixedJarURL(resource);
+    return resource;
   }
 
   private void assertNotNull(Object object, String path, String completePath) {
@@ -332,68 +327,6 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
   @Override
   public void setRulesDir(final String rulesDir) {
     this.rulesDir = (rulesDir == null) ? "" : rulesDir;
-  }
-
-  /**
-   * Fixes the getResource bug if you want to obtain any resource from a JAR file under Java
-   * 1.5.0_16 Webstart. (Workaround by {@code mevanclark} from http://forums.sun.com)
-   *
-   * @param url The {@link URL} to be fixed.
-   * @return The fixed version if necessary.
-   */
-  private static URL getFixedJarURL(URL url) {
-    if (url == null) {
-      return url;
-    }
-
-    final String originalURLProtocol = url.getProtocol();
-    if (!"jar".equalsIgnoreCase(originalURLProtocol)) {
-      return url;
-    }
-
-    final String originalURLString = url.toString();
-    final int bangSlashIndex = originalURLString.indexOf("!/");
-    if (bangSlashIndex > -1) {
-      return url;
-    }
-
-    final String originalURLPath = url.getPath();
-    final URLConnection urlConnection;
-    try {
-      urlConnection = url.openConnection();
-      if (urlConnection == null) {
-        throw new IOException("urlConnection is null");
-      }
-    } catch (IOException e) {
-      return url;
-    }
-
-    final Permission urlConnectionPermission;
-    try {
-      urlConnectionPermission = urlConnection.getPermission();
-      if (urlConnectionPermission == null) {
-        throw new IOException("urlConnectionPermission is null");
-      }
-    } catch (IOException e) {
-      return url;
-    }
-
-    final String urlConnectionPermissionName = urlConnectionPermission.getName();
-    if (urlConnectionPermissionName == null) {
-      return url;
-    }
-
-    final File file = new File(urlConnectionPermissionName);
-    if (!file.exists()) {
-      return url;
-    }
-
-    try {
-      final String newURLStr = "jar:" + file.toURI().toURL().toExternalForm() + "!/" + originalURLPath;
-      return new URL(newURLStr);
-    } catch (MalformedURLException e) {
-      return url;
-    }
   }
 
 }
