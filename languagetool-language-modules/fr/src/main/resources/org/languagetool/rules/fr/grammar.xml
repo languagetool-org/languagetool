@@ -50,9 +50,9 @@ though, and has since been slightly modified)-->
         <token regexp="yes">[’´'‛′‘]</token>
         <token>hui</token>
       </pattern>
-      <message>« Au jour d’aujourd’hui » est un pléonasme. Employez <suggestion>à ce jour</suggestion> ou <suggestion>aujourd’hui</suggestion>.</message>
+      <message>« Au jour d’aujourd’hui » est un pléonasme. Employez <suggestion>à ce jour</suggestion> ou <suggestion>aujourd\6hui</suggestion>.</message>
       <url>http://www.academie-francaise.fr/langue/questions.html#au_jour</url>
-      <example type="incorrect"><marker>au jour d’aujourd’hui</marker>.</example>
+      <example type="incorrect" correction="à ce jour|aujourd’hui"><marker>au jour d’aujourd’hui</marker>.</example>
       <example type="correct"><marker>à ce jour</marker>.</example>
     </rule>
     <rule id="PERSPECTIVE_D_AVENIR" name="perspective d’avenir">
@@ -172,9 +172,9 @@ though, and has since been slightly modified)-->
           <token inflected="yes" skip="2">avérer</token>
           <token regexp="yes">vraie?s?</token>
         </pattern>
-        <message>« S’avérer vrai » est un pléonasme. Employez <suggestion>s’\1 exact</suggestion>.</message>
+        <message>« avérer vrai » est un pléonasme. Employez <suggestion>\1 exact</suggestion>.</message>
         <example type="incorrect">s’<marker>avérer vrai</marker></example>
-        <example type="correct"><marker>s’avérer exact</marker></example>
+        <example type="correct">s’avérer exact</example>
       </rule>
     </rulegroup>
     <rule id="ABOLIR_ENTIEREMENT" name="abolir entièrement">
@@ -361,8 +361,8 @@ though, and has since been slightly modified)-->
         <token regexp="yes">[’´'‛′‘]</token>
         <token regexp="yes">autres?</token>
       </pattern>
-      <message>« De d’autres » est un pléonasme. Employez <suggestion>d’autres</suggestion>.</message>
-      <example type="incorrect"><marker>de d’autres</marker></example>
+      <message>« De d’autres » est un pléonasme. Employez <suggestion>d\3autres</suggestion>.</message>
+      <example type="incorrect" correction="d’autres"><marker>de d’autres</marker></example>
       <example type="correct"><marker>d’autres</marker></example>
     </rule>
     <rule id="CAR_EN_EFFET" name="car en effet">
@@ -542,7 +542,7 @@ though, and has since been slightly modified)-->
         <token>avance</token>
       </pattern>
       <message>« Réserver d’avance » est un pléonasme. Employez <suggestion>\1</suggestion>.</message>
-      <example type="incorrect"><marker>réserver d’avance</marker></example>
+      <example type="incorrect" correction="réserver"><marker>réserver d’avance</marker></example>
       <example type="correct"><marker>réserver</marker></example>
     </rule>
     <rule id="RESERVER_A_LAVANCE" name="réserver à l’avance">
@@ -554,7 +554,7 @@ though, and has since been slightly modified)-->
         <token>avance</token>
       </pattern>
       <message>« Réserver à l’avance » est un pléonasme. Employez <suggestion>\1</suggestion>.</message>
-      <example type="incorrect"><marker>réserver à l’avance</marker></example>
+      <example type="incorrect" correction="réserver"><marker>réserver à l’avance</marker></example>
       <example type="correct"><marker>réserver</marker></example>
     </rule>
   </category>
@@ -6345,10 +6345,10 @@ though, and has since been slightly modified)-->
           </marker>
           <token><exception postag="V.* inf" postag_regexp="yes"/></token>
         </pattern>
-        <message>Voulez-vous écrire <suggestion>\1-\2’\4</suggestion> ?</message>
-        <example type="incorrect"><marker>Donne m’en</marker> un peu.</example>
+        <message>Voulez-vous écrire <suggestion>\1-\2\3\4</suggestion> ?</message>
+        <example type="incorrect" correction="Donne-m’en"><marker>Donne m’en</marker> un peu.</example>
         <example type="correct">Donne-m’en un peu.</example>
-        <example type="incorrect"><marker>Trouve t’en</marker> toi-même !</example>
+        <example type="incorrect" correction="Trouve-t’en"><marker>Trouve t’en</marker> toi-même !</example>
         <example type="correct">Trouve-t’en toi-même !</example>
         <example type="correct">Veuillez m’en montrer un autre.</example>
       </rule>
@@ -7576,8 +7576,8 @@ though, and has since been slightly modified)-->
           <token>ce</token>
           <token>pas</token>
         </pattern>
-        <message>Voulez-vous dire <suggestion>\1\2 \3-\4 \5</suggestion> ?</message>
-        <example type="incorrect">Il vient, <marker>n’est ce pas</marker> ?</example>
+        <message>Voulez-vous dire <suggestion>\1\2\3-\4 \5</suggestion> ?</message>
+        <example type="incorrect" correction="n’est-ce pas">Il vient, <marker>n’est ce pas</marker> ?</example>
         <example type="correct">Il vient, n’est-ce pas ?</example>
       </rule>
     </rulegroup>
@@ -8368,8 +8368,8 @@ though, and has since been slightly modified)-->
           </marker>
           <token negate="yes" regexp="yes">mal|moins</token>
         </pattern>
-        <message>Voulez-vous écrire <suggestion>je n’\3 \4</suggestion> ?</message>
-        <example type="incorrect"><marker>J’ai pas</marker> compris.</example>
+        <message>Voulez-vous écrire <suggestion>je n\2\3 \4</suggestion> ?</message>
+        <example type="incorrect" correction="Je n’ai pas"><marker>J’ai pas</marker> compris.</example>
         <example type="correct">Je n’ai pas compris.</example>
       </rule>
       <rule>
@@ -8382,8 +8382,8 @@ though, and has since been slightly modified)-->
           </marker>
           <token negate="yes" regexp="yes">mal|moins</token>
         </pattern>
-        <message>Voulez-vous écrire <suggestion>tu n’\3 \4</suggestion> ?</message>
-        <example type="incorrect"><marker>T’as pas</marker> compris.</example>
+        <message>Voulez-vous écrire <suggestion>tu n\2\3 \4</suggestion> ?</message>
+        <example type="incorrect" correction="Tu n’as pas"><marker>T’as pas</marker> compris.</example>
         <example type="correct">Tu n’as pas compris.</example>
         <example type="correct">Ne t’inquiète pas.</example>
       </rule>
@@ -8647,8 +8647,8 @@ though, and has since been slightly modified)-->
         <token regexp="yes">[’´'‛′‘]</token>
         <token regexp="yes">arrosages?</token>
       </pattern>
-      <message>« Boyau d’arrosage » est un régionalisme (Québec). Employez <suggestion>tuyau d’arrosage</suggestion>.</message>
-      <example type="incorrect"><marker>boyau d’arrosage</marker></example>
+      <message>« Boyau d’arrosage » est un régionalisme (Québec). Employez <suggestion>tuyau d\3arrosage</suggestion>.</message>
+      <example type="incorrect" correction="tuyau d’arrosage"><marker>boyau d’arrosage</marker></example>
       <example type="correct"><marker>tuyau d’arrosage</marker></example>
     </rule>
     <rule id="BEIGNE" name="beigne">
@@ -22255,7 +22255,8 @@ though, and has since been slightly modified)-->
         <token>dire</token>
       </pattern>
       <message>« C’est à dire » est une faute de typographie. Employez <suggestion>c\2est-à-dire</suggestion>.</message>
-      <example type="incorrect"><marker>C’est à dire</marker></example>
+      <example type="incorrect" correction="C’est-à-dire"><marker>C’est à dire</marker></example>
+      <example type="incorrect" correction="C'est-à-dire"><marker>C'est à dire</marker></example>
       <example type="correct"><marker>C’est-à-dire</marker></example>
     </rule>
     <rule id="PARCE_QUE" name="parce-que → parce que">
@@ -22273,7 +22274,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">[’´'‛′‘]</token>
           <token regexp="yes">il-(te|vous)-pla[îi]t</token>
         </pattern>
-        <message>Employez <suggestion>\1’<match no="3" regexp_match="-" regexp_replace=" "/></suggestion>.</message>
+        <message>Employez <suggestion>\1\2<match no="3" regexp_match="-" regexp_replace=" "/></suggestion>.</message>
         <example type="incorrect" correction="S’il te plaît"><marker>S’il-te-plaît</marker>, dessine-moi un mouton.</example>
         <example type="correct">S’il te plaît, dessine-moi un mouton.</example>
       </rule>
@@ -22284,7 +22285,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">il-(te|vous)</token>
           <token regexp="yes">pla[îi]t</token>
         </pattern>
-        <message>Employez <suggestion>\1’<match no="3" regexp_match="-" regexp_replace=" "/> \4</suggestion>.</message>
+        <message>Employez <suggestion>\1\2<match no="3" regexp_match="-" regexp_replace=" "/> \4</suggestion>.</message>
         <example type="incorrect" correction="S’il te plaît"><marker>S’il-te plaît</marker>, dessine-moi un mouton.</example>
         <example type="correct">S’il te plaît, dessine-moi un mouton.</example>
       </rule>
@@ -22295,7 +22296,7 @@ though, and has since been slightly modified)-->
           <token>il</token>
           <token regexp="yes">(te|vous)-pla[iî]t</token>
         </pattern>
-        <message>Employez <suggestion>\1’il <match no="4" regexp_match="-" regexp_replace=" "/></suggestion>.</message>
+        <message>Employez <suggestion>\1\2il <match no="4" regexp_match="-" regexp_replace=" "/></suggestion>.</message>
         <example type="incorrect" correction="S’il te plaît"><marker>S’il te-plaît</marker>, dessine-moi un mouton.</example>
         <example type="correct">S’il te plaît, dessine-moi un mouton.</example>
       </rule>
@@ -22409,8 +22410,8 @@ though, and has since been slightly modified)-->
           <token regexp="yes">[’´'‛′‘]</token>
           <token>égout</token>
         </pattern>
-        <message>Voulez-vous dire <suggestion>\1-à-l’égout</suggestion> ?</message>
-        <example type="incorrect">Avez-vous le <marker>tout à l’égout</marker> ?</example>
+        <message>Voulez-vous dire <suggestion>\1-à-l\4égout</suggestion> ?</message>
+        <example type="incorrect" correction="tout-à-l’égout">Avez-vous le <marker>tout à l’égout</marker> ?</example>
         <example type="correct">Avez-vous le tout-à-l’égout ?</example>
       </rule>
       <rule>
@@ -22669,8 +22670,8 @@ though, and has since been slightly modified)-->
           <token regexp="yes">[’´'‛′‘]</token>
           <token regexp="yes">(oe|œ)uvres?</token>
         </pattern>
-        <message>Voulez-vous dire <suggestion>\1-d’œuvre</suggestion> ?</message>
-        <example type="incorrect">C’est un <marker>chef d’œuvre</marker>.</example>
+        <message>Voulez-vous dire <suggestion>\1-d\3œuvre</suggestion> ?</message>
+        <example type="incorrect" correction="chef-d’œuvre">C’est un <marker>chef d’œuvre</marker>.</example>
         <example type="correct">C’est un chef-d’œuvre.</example>
       </rule>
       <rule>
@@ -23546,8 +23547,8 @@ though, and has since been slightly modified)-->
         <token regexp="yes">[’´'‛′‘]</token>
         <token regexp="yes">ondes?</token>
       </pattern>
-      <message>« Payer rubis sur l’ongle » est une expression fautive. Employez <suggestion>payer rubis sur l’ongle</suggestion>.</message>
-      <example type="incorrect"><marker>payer rubis sur l’onde</marker></example>
+      <message>« Payer rubis sur l’ongle » est une expression fautive. Employez <suggestion>payer rubis sur l\5ongle</suggestion>.</message>
+      <example type="incorrect" correction="payer rubis sur l’ongle"><marker>payer rubis sur l’onde</marker></example>
       <example type="correct"><marker>payer rubis sur l’ongle</marker></example>
     </rule>
     <rule id="LEVEE_DU_RIDEAU" name="levée de rideau">
@@ -23602,8 +23603,8 @@ though, and has since been slightly modified)-->
         <token>en</token>
         <token inflected="yes">falloir</token>
       </pattern>
-      <message>« Loin s’en faut » est une expression fautive. Employez <suggestion>tant s’en faut</suggestion>, <suggestion>loin de là</suggestion>.</message>
-      <example type="incorrect"><marker>loin s’en faut</marker></example>
+      <message>« Loin s’en faut » est une expression fautive. Employez <suggestion>tant s\3en faut</suggestion>, <suggestion>loin de là</suggestion>.</message>
+      <example type="incorrect" correction="tant s’en faut|loin de là"><marker>loin s’en faut</marker></example>
       <example type="correct"><marker>loin de là</marker></example>
     </rule>
     <rule id="MOUSSER_UNE_CANDIDATURE" name="mousser une candidature">
@@ -23715,8 +23716,8 @@ though, and has since been slightly modified)-->
         <token>sans</token>
         <token>ignorer</token>
       </pattern>
-      <message>« N’être pas sans ignorer » est une expression fautive. Employez <suggestion>n’être pas sans savoir</suggestion>.</message>
-      <example type="incorrect"><marker>n’être pas sans ignorer</marker></example>
+      <message>« N’être pas sans ignorer » est une expression fautive. Employez <suggestion>n\2être pas sans savoir</suggestion>.</message>
+      <example type="incorrect" correction="n’être pas sans savoir"><marker>n’être pas sans ignorer</marker></example>
       <example type="correct"><marker>n’être pas sans savoir</marker>.</example>
     </rule>
     <rule id="EN_MOTO" name="en moto(cyclette)">
@@ -24116,8 +24117,8 @@ though, and has since been slightly modified)-->
         <token regexp="yes">['´‘’′]</token>
         <token>abris</token>
       </pattern>
-      <message>« À l’abris » est une expression fautive (expression invariable). Employez <suggestion>à l’abri</suggestion>.</message>
-      <example type="incorrect"><marker>à l’abris</marker></example>
+      <message>« À l’abris » est une expression fautive (expression invariable). Employez <suggestion>à l\3abri</suggestion>.</message>
+      <example type="incorrect" correction="à l’abri"><marker>à l’abris</marker></example>
       <example type="correct"><marker>à l’abri</marker></example>
     </rule>
     <rule id="SUPER" name="supers">
