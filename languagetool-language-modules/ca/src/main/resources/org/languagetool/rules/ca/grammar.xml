@@ -10394,7 +10394,7 @@ $Id$
         </rulegroup>
         <rulegroup id="SOC" name="soc/sóc">    
             <rule>
-                <pattern>
+                <pattern case_sensitive="yes">
                     <token><exception postag="D[^R].*" postag_regexp="yes"/></token>
                     <marker>
                         <token>soc</token>
@@ -10409,6 +10409,30 @@ $Id$
             </rule>
             <rule>
                 <pattern>
+                    <or>
+                        <token postag="SENT_START"/>
+                        <token>:</token>
+                    </or>
+                    <token min="0" max="2" regexp="yes">[—–"'‘“«¡¿(\-]</token>
+                    <marker>
+                        <token regexp="yes">(?-i)Soc</token>
+                    </marker>
+                    <or>
+                        <token min="0" regexp="yes" spacebefore="yes">[,—–"'‘“«¡¿(\-]</token>
+                        <token spacebefore="no">,</token>
+                    </or>
+                    <token postag="[ANDSCPVR].*|.*LOC.*" postag_regexp="yes"></token>
+                </pattern>
+                <message>S'accentua si és del verb "ser".</message>
+                <suggestion>Sóc</suggestion>
+                <short>Accent diacrític</short>
+                <example type="incorrect" correction="Sóc"><marker>Soc</marker>, certament, la persona adequada.</example>
+                <example type="incorrect" correction="Sóc">-¿<marker>Soc</marker> jo la persona adequada?</example>
+                <example type="correct">the Am. Soc. Microbiology</example>
+                <example type="correct">Bot. J. Linnean Soc. 133:381–461.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
                     <token postag="D[^R].*" postag_regexp="yes"/>
                     <marker>
                         <token>soc</token>
@@ -10427,7 +10451,7 @@ $Id$
                     <marker>
                         <token>sóc</token>
                     </marker>
-                    <token negate="yes">jo</token>
+                    <token><exception>jo</exception></token>
                 </pattern>
                 <message>No s'accentua si no és del verb "ser".</message>
                 <suggestion>soc</suggestion>
