@@ -40,6 +40,7 @@ $Id$
     <!ENTITY noms_ABAIXAR_APUJAR "calefacció|impost|sou|salari|guàrdia|vela|persiana|cap|braç|veu|to|preu|pressupost|ràdio|volum|tele|televisió|música|teló|vista">
     <!ENTITY adjectius_TE_INFUSIO "xin[èé]s|amargant|sud-americà|instantani|lleuger|indi|roquer|dolç|fals|bord|tradicional|gal·l[éè]s|pudent|salvatge|àrab|angl[éè]s|fosc|negre|verd|vermell|blanc|gelat|fred|calent|turc">
     <!ENTITY verbs_TE_INFUSIO "prendre|servir|preparar|voler|beure|consumir">
+    <!ENTITY exceptions_MES "draconític|lunar|mitjà|tròpic|anomalístic|dedicat|vinent|entrant|propvinent|passat|proppassat|intercalar|anterior|següent">
 ]>
     
 <rules lang="ca" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
@@ -6993,7 +6994,7 @@ $Id$
         <!--  Possible false alarms: és molt desprès (generós); un home desprès... -->
             <rule>
                 <pattern>
-                    <token><exception inflected="yes">haver</exception><exception postag="P.*" postag_regexp="yes" regexp="yes">['-].+</exception></token>
+                    <token><exception inflected="yes">haver</exception><exception postag="P.*" postag_regexp="yes" regexp="yes">['-].+</exception><exception>gas</exception></token>
                     <marker>
                         <token>desprès</token>
                     </marker>
@@ -9460,16 +9461,18 @@ $Id$
         <rulegroup id="MES" name="mes/més">    
             <rule>
                 <pattern>
-                    <token postag="V.*" postag_regexp="yes"><exception postag="_GN_MS"/></token>
+                    <token postag="V.[^P].*|_GV_" postag_regexp="yes"><exception postag="_GN_MS"/></token>
                     <marker>
                         <token>mes<exception postag=".*LOC_ADV.*" postag_regexp="yes"/></token>
                     </marker>
+                    <token><exception regexp="yes">&exceptions_MES;</exception></token>
                 </pattern>
                 <message>S'accentua quan és adjectiu o adverbi.</message>
                 <suggestion>més</suggestion>
                 <short>Accent diacrític</short>
                 <example type="incorrect">Tu hi entens <marker>mes</marker>.</example>
                 <example type="correct">El passat mes de gener.</example>
+                <example type="correct">S'anomena mes lunar.</example>
             </rule>
             <rule>
                 <pattern>
@@ -9477,7 +9480,7 @@ $Id$
                     <marker>
                         <token>mes</token>
                     </marker>
-                    <token postag="AQ.[MC][SN0].*|V.P..SM.?|PX.[MC][SN0].*" postag_regexp="yes"><exception regexp="yes">dedicat|vinent|entrant|propvinent|passat|proppassat|intercalar|anterior|següent</exception></token>
+                    <token postag="AQ.[MC][SN0].*|V.P..SM.?|PX.[MC][SN0].*" postag_regexp="yes"><exception regexp="yes">&exceptions_MES;</exception></token>
                 </pattern>
                 <message>S'accentua quan és adjectiu o adverbi.</message>
                 <suggestion>més</suggestion>
@@ -9534,13 +9537,13 @@ $Id$
                 <example type="incorrect">Les <marker>mes</marker> valentes són elles.</example>
                 <example type="correct">Les més valentes són elles.</example>
             </rule>    
-            <rule>
+            <rule> <!--  -->
                 <pattern>
                     <token><exception regexp="yes">cada|un|altre|algun|cert</exception></token>
                     <marker>
                         <token>mes</token>
                     </marker>
-                    <token postag="NC.*|AQ.*|V.P.*" postag_regexp="yes"><exception regexp="yes">dedicat|vinent|propvinent|passat|proppassat|intercalar|anterior|següent</exception></token>
+                    <token postag="NC.*|AQ.*|V.P.*" postag_regexp="yes"><exception regexp="yes">&exceptions_MES;</exception></token>
                 </pattern>
                 <message>S'accentua quan és adjectiu o adverbi.</message>
                 <suggestion>més</suggestion>
