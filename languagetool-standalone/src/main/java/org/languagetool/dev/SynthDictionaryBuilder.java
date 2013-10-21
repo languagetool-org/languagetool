@@ -23,10 +23,14 @@ import java.util.*;
 import java.util.regex.Pattern;
 
 /**
- * Create a Morfologik binary dictionary from plain text data.
+ * Create a Morfologik binary synthesizer dictionary from plain text data.
  */
 final class SynthDictionaryBuilder extends DictionaryBuilder {
 
+  /**
+   * It makes sense to remove all forms from the synthesizer dict where POS tags indicate "unknown form",
+   * "foreign word" etc., as they only take space. Probably nobody will ever use them:
+   */
   private static final String POLISH_IGNORE_REGEX = ":neg|qub|depr";
 
   public SynthDictionaryBuilder(File infoFile) throws IOException {

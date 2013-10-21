@@ -44,7 +44,7 @@ class DictionaryBuilder {
     if (args.length != 2) {
       System.out.println("Usage: " + className + " <dictionary> <infoFile>");
       System.out.println("   <dictionary> is a plain text dictionary file");
-      System.out.println("   <infoFile> is the properties file, see http://wiki.languagetool.org/developing-a-tagger-dictionary");
+      System.out.println("   <infoFile> is the *.info properties file, see http://wiki.languagetool.org/developing-a-tagger-dictionary");
       System.exit(1);
     }
     File dictFile = new File(args[0]);
