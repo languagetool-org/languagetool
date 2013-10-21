@@ -39,6 +39,7 @@ $Id$
     <!ENTITY nombres_que_apostrofen "(1{1,2}|11[.\s]?\d{3}|1\.\d{3}\.\d{3}|1\s\d{3}\s\d{3}|1\d{6})([,]\d+)?&#37;?">
     <!ENTITY noms_ABAIXAR_APUJAR "calefacció|impost|sou|salari|guàrdia|vela|persiana|cap|braç|veu|to|preu|pressupost|ràdio|volum|tele|televisió|música|teló|vista">
     <!ENTITY adjectius_TE_INFUSIO "xin[èé]s|amargant|sud-americà|instantani|lleuger|indi|roquer|dolç|fals|bord|tradicional|gal·l[éè]s|pudent|salvatge|àrab|angl[éè]s|fosc|negre|verd|vermell|blanc|gelat|fred|calent|turc">
+    <!ENTITY verbs_TE_INFUSIO "prendre|servir|preparar|voler|beure|consumir">
 ]>
     
 <rules lang="ca" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
@@ -3119,15 +3120,15 @@ $Id$
         <rule id="VARIS" name="varis com a determinant">
             <pattern>
                 <marker>
-                    <token inflected="yes">vari</token>
+                    <token regexp="yes">varis|vàries</token>
                 </marker>
                 <token postag="N.*" postag_regexp="yes"></token>
             </pattern>
             <message>Incorrecte amb valor quantitatiu o indefinit.</message>
-            <suggestion><match no="1" postag="AQ0(..)0" postag_regexp="yes" postag_replace="AQ0$10" setpos="yes">divers</match></suggestion>
-            <suggestion><match no="1" postag="AQ0(..)0" postag_regexp="yes" postag_replace="DI0$10" setpos="yes">algun</match></suggestion>
-            <suggestion><match no="1" postag="AQ0(..)0" postag_regexp="yes" postag_replace="DI0$10" setpos="yes">un</match> <match no="1" postag="AQ0(..)0" postag_regexp="yes" postag_replace="DI0$10" setpos="yes">quant</match></suggestion>
-            <suggestion><match no="1" postag="AQ0.(.)0" postag_regexp="yes" postag_replace="AQ0C$10" setpos="yes">diferent</match></suggestion>
+            <suggestion><match no="1" postag="AQ.(.).." postag_regexp="yes" postag_replace="AQ0$1P0" setpos="yes">divers</match></suggestion>
+            <suggestion><match no="1" postag="AQ.(.).." postag_regexp="yes" postag_replace="DI0$1P0" setpos="yes">algun</match></suggestion>
+            <suggestion><match no="1" postag="AQ.(.).." postag_regexp="yes" postag_replace="DI0$1P0" setpos="yes">un</match> <match no="1" postag="AQ0(.).0" postag_regexp="yes" postag_replace="DI0$1P0" setpos="yes">quant</match></suggestion>
+            <suggestion>diferents</suggestion>
             <example type="incorrect" correction="diverses|algunes|unes quantes|diferents">Hi ha <marker>vàries</marker> solucions.</example>
             <example type="correct">Hi ha <marker>diverses</marker> solucions.</example>
             <!-- Val a dir que varis d'aquests apartaments
@@ -9971,7 +9972,10 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="SENT_START"/>
+                    <or>
+                        <token postag="SENT_START"/>
+                        <token>:</token>
+                    </or>
                     <token min="0" max="2" regexp="yes">[—–"'‘“«¡¿(\-]</token>
                     <marker>
                         <token regexp="yes">(?-i)Te</token>
@@ -9980,7 +9984,7 @@ $Id$
                         <token min="0" regexp="yes" spacebefore="yes">[,—–"'‘“«¡¿(\-]</token>
                         <token spacebefore="no">,</token>
                     </or>
-                    <token postag="[ANDSCPVR].*|.*LOC.*" postag_regexp="yes"><exception regexp="yes">(?-i)Tai</exception><exception regexp="yes">&adjectius_TE_INFUSIO;</exception></token>
+                    <token postag="[ANDSCPVR].*|.*LOC.*" postag_regexp="yes"><exception regexp="yes">(?-i)Tai</exception><exception regexp="yes">&adjectius_TE_INFUSIO;</exception><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|V.[SI].*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>S'accentua si és del verb "tenir".</message>
                 <suggestion>Té</suggestion>
@@ -9991,17 +9995,19 @@ $Id$
                 <example type="incorrect" correction="Té"><marker>Te</marker> 35.489 habitants.</example>
                 <example type="incorrect" correction="Té"><marker>Te</marker>, certament, molt d'interès.</example>
                 <example type="incorrect" correction="Té">«<marker>Te</marker> raó», va pensar ell.</example>
+                <example type="incorrect" correction="Té">Llavors va dir: «<marker>Te</marker> raó».</example>
                 <example type="incorrect" correction="Té"><marker>Te</marker> «raó».</example>
                 <example type="incorrect" correction="Té"><marker>Te</marker> com a objectiu arribar a la lluna.</example>
+                <example type="correct">¿Te n'adones?</example>
                 <example type="correct">Te Tai Tonga també es considera una circumscripció</example>
             </rule>
             <rule>
                 <pattern>
-                    <token><exception postag="SPS00|.*LOC_PREP.*|D[^R].*" postag_regexp="yes"/></token>
+                    <token><exception postag="SPS00|.*LOC_PREP.*|D[^R].*" postag_regexp="yes"/><exception regexp="yes" inflected="yes">&verbs_TE_INFUSIO;</exception></token>
                     <marker>
                         <token postag="_GN_MS" regexp="yes">(?-i)te</token>
                     </marker>
-                    <token><exception regexp="yes">&adjectius_TE_INFUSIO;</exception></token>
+                    <token postag="A.*|_GN_.*" postag_regexp="yes"><exception regexp="yes">&adjectius_TE_INFUSIO;</exception></token>
                 </pattern>
                 <message>S'accentua si és del verb "tenir".</message>
                 <suggestion>té</suggestion>
@@ -10015,12 +10021,12 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token><exception postag="SPS00|.*LOC_PREP.*" postag_regexp="yes"/></token>
+                    <token><exception postag="SPS00|.*LOC_PREP.*" postag_regexp="yes"/><exception regexp="yes" inflected="yes">&verbs_TE_INFUSIO;</exception></token>
                     <token postag="D[^R].*" postag_regexp="yes"/>
                     <marker>
                         <token postag="_GN_MS" regexp="yes">(?-i)te</token>
                     </marker>
-                    <token><exception regexp="yes">&adjectius_TE_INFUSIO;</exception></token>
+                    <token postag="[AN].*|_GN_.*" postag_regexp="yes"><exception regexp="yes">&adjectius_TE_INFUSIO;</exception></token>
                 </pattern>
                 <message>S'accentua si és del verb "tenir".</message>
                 <suggestion>té</suggestion>
@@ -10031,6 +10037,13 @@ $Id$
                 <example type="correct">un ric comerciant del te Tang Jishan</example>
                 <example type="correct">El jardí del te japonès</example>
                 <example type="correct">un boicot al té provinent de la Xina</example>
+                <example type="correct">quan prenguem el te, no has pas de patir</example>
+                <example type="correct">preparant el te amb la seva enorme tetera</example>
+                <example type="correct">els cítrics, el tabac, el te i el moresc</example>
+                <example type="correct">L'hora típica per prendre el te anglès.</example>
+                <example type="correct">de la cerimònia del te japonesa</example>
+                <example type="correct">El te és conreat en petites àrees marginals</example>
+                <example type="correct">petites herbes com el te de roca</example>
             </rule>
             <rule>
                 <pattern>
@@ -10049,7 +10062,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token><exception regexp="yes" inflected="yes">prendre|servir|preparar|voler|beure|consumir</exception></token>
+                    <token><exception regexp="yes" inflected="yes">&verbs_TE_INFUSIO;</exception></token>
                     <token>el</token>
                     <marker>
                         <token regexp="yes">(?-i)te</token>
