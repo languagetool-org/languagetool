@@ -8980,16 +8980,21 @@ $Id$
         </rulegroup>    
         <rule id="DEU" name="*Deu/Déu">
             <pattern>
-                <token><exception postag="SENT_START"/><exception regexp="yes">[¿¡"«»—–:\-]</exception></token>
+                <token><exception postag="SENT_START|D[^R]..P.|D[^R].FS." postag_regexp="yes"/><exception regexp="yes">[¿¡"«»—–:\-]|can|mas|museu</exception></token>
                 <marker>
                     <token regexp="yes">(?-i)Deu</token>
                 </marker>
+                <token><exception postag="NC.P.*" postag_regexp="yes"/><exception>mil</exception></token>
             </pattern>
             <message>¿Volíeu dir <suggestion>Déu</suggestion> (= ésser suprem)?</message>
             <example type="incorrect">perquè <marker>Deu</marker> no va voler</example>
             <example type="correct">perquè Déu no va voler</example>
             <example type="correct">Deu ser això</example>
             <example type="correct">Sí, deu ser això</example>
+            <example type="correct">Dels Deu manaments</example>
+            <example type="correct">Guerra dels Deu Anys</example>
+            <example type="correct">la plataforma Deu Mil a Brussel·les</example>
+            <example type="correct">En el pla de la Deu</example>
         </rule>
         <rulegroup id="EN_EL_SI_DE" name="en el/al *sí/si de">
             <rule>    
