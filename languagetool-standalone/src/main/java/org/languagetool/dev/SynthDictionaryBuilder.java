@@ -20,11 +20,14 @@ package org.languagetool.dev;
 
 import java.io.*;
 import java.util.*;
+import java.util.regex.Pattern;
 
 /**
  * Create a Morfologik binary dictionary from plain text data.
  */
 final class SynthDictionaryBuilder extends DictionaryBuilder {
+
+  private static final String POLISH_IGNORE_REGEX = ":neg|qub|depr";
 
   public SynthDictionaryBuilder(File infoFile) throws IOException {
     super(infoFile);
@@ -38,11 +41,12 @@ final class SynthDictionaryBuilder extends DictionaryBuilder {
   }
   
   File build(File plainTextDictFile, File infoFile) throws Exception {
-    File reversedFile = File.createTempFile(SynthDictionaryBuilder.class.getSimpleName() + "_reversed", ".txt");
     File tempFile = File.createTempFile(SynthDictionaryBuilder.class.getSimpleName(), ".txt");
+    File reversedFile = null;
     try {
       Set<String> itemsToBeIgnored = getIgnoreItems(new File(infoFile.getParent(), "filter-archaic.txt"));
-      reverseLineContent(plainTextDictFile, reversedFile, itemsToBeIgnored);
+      Pattern ignorePosRegex = getPosTagIgnoreRegex(infoFile);
+      reversedFile = reverseLineContent(plainTextDictFile, itemsToBeIgnored, ignorePosRegex);
       List<String> tab2morphOptions = getTab2MorphOptions(reversedFile, tempFile);
       tab2morphOptions.add(0, "tab2morph");
       tab2morphOptions.add(1, "-nw");  // no warnings, needed for synth dicts
@@ -51,7 +55,9 @@ final class SynthDictionaryBuilder extends DictionaryBuilder {
       return buildDict(tempFile);
     } finally {
       tempFile.delete();
-      reversedFile.delete();
+      if (reversedFile != null) {
+        reversedFile.delete();
+      }
     }
   }
 
@@ -73,8 +79,23 @@ final class SynthDictionaryBuilder extends DictionaryBuilder {
     return result;
   }
 
-  private void reverseLineContent(File plainTextDictFile, File reversedFile, Set<String> itemsToBeIgnored) throws IOException {
+  private Pattern getPosTagIgnoreRegex(File infoFile) {
+    String fileName = infoFile.getName();
+    int underscorePos = fileName.indexOf('_');
+    if (underscorePos == -1) {
+      throw new IllegalArgumentException("Please specify an .info file for a synthesizer as the second parameter, named '<xyz>_synth.info', with <xyz> being a language'");
+    }
+    String baseName = fileName.substring(0, underscorePos);
+    if (baseName.equals("polish")) {
+      return Pattern.compile(POLISH_IGNORE_REGEX);
+    }
+    return null;
+  }
+
+  private File reverseLineContent(File plainTextDictFile, Set<String> itemsToBeIgnored, Pattern ignorePosRegex) throws IOException {
+    File reversedFile = File.createTempFile(SynthDictionaryBuilder.class.getSimpleName() + "_reversed", ".txt");
     String encoding = getOption("fsa.dict.encoding");
+    int posIgnoreCount = 0;
     Scanner scanner = new Scanner(plainTextDictFile, encoding);
     try (Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(reversedFile), encoding))) {
       while (scanner.hasNextLine()) {
@@ -85,7 +106,12 @@ final class SynthDictionaryBuilder extends DictionaryBuilder {
         }
         String[] parts = line.split("\t");
         if (parts.length == 3) {
-          out.write(parts[1] + "|" + parts[2] + "\t" + parts[0]);
+          String posTag = parts[2];
+          if (ignorePosRegex != null && ignorePosRegex.matcher(posTag).find()) {
+            posIgnoreCount++;
+            continue;
+          }
+          out.write(parts[1] + "|" + posTag + "\t" + parts[0]);
           out.write("\n");
         } else {
           System.err.println("Invalid input, expected three tab-separated columns in " + plainTextDictFile + ": " + line + " => ignoring");
@@ -93,6 +119,8 @@ final class SynthDictionaryBuilder extends DictionaryBuilder {
       }
       scanner.close();
     }
+    System.out.println("Number of lines ignored due to POS tag filter ('" + ignorePosRegex + "'): " + posIgnoreCount);
+    return reversedFile;
   }
 
   private File getTagFile(File tempFile) {

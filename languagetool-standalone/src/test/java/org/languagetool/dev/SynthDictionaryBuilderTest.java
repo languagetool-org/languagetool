@@ -30,10 +30,6 @@ public class SynthDictionaryBuilderTest extends DictionaryBuilderTestHelper {
   @Ignore("for interactive use only")
   public void testExportPosDictAndCreateSynth() throws Exception {
     for (Language language : Language.REAL_LANGUAGES) {
-      if (language.getShortName().equals("pl")) {
-        System.out.println("WARN: skipping Polish. TODO: make it work for Polish, too (problem: synth file is too large: 36MB!)");  // TODO
-        continue;
-      }
       String langCode = language.getShortName();
       File dir = new File("./languagetool-language-modules/" + langCode + "/src/main/resources/org/languagetool/resource/" + langCode);
       File oldBinarySynthFile = new File(dir, language.getName().toLowerCase() + "_synth.dict");
