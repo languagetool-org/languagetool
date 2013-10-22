@@ -9058,20 +9058,25 @@ $Id$
         <rulegroup id="VENEN" name="*venen/vénen a dir">
             <rule>
                 <pattern>
+                    <token><exception regexp="yes">es|se|'n</exception></token>
                     <marker>
                         <token>venen</token>
                     </marker>
-                    <token regexp="yes">de|des|d'</token>
-                    <token><exception postag="PI0MS000">tot</exception></token>
+                    <token regexp="yes">de|des|d'<exception postag=".*LOC.*" postag_regexp="yes"/></token>
+                    <token><exception postag="PI0MS000">tot</exception><exception>nou</exception></token>
                 </pattern>
                 <message>Si és del verb "venir", cal escriure <suggestion>vénen</suggestion>. Correcte si és del verb "vendre".</message>
                 <short>Accent diacrític</short>
                 <example type="incorrect" correction="vénen">Ells <marker>venen</marker> del comunisme.</example>
                 <example type="incorrect" correction="Vénen"><marker>Venen</marker> de tot el món.</example>
                 <example type="correct">Una botiga d'aquestes que hi venen de tot.</example>
+                <example type="correct">els principals aliments que es venen d'aquesta manera.</example>
+                <example type="correct">tot i que també se'n vénen de ja usades</example>
+                <example type="correct">les plomes es venen d’una en una</example>
             </rule>
             <rule>
                 <pattern>
+                    <token><exception regexp="yes">es|se</exception></token>
                     <marker>
                         <token>venen</token>
                     </marker>
@@ -9085,15 +9090,19 @@ $Id$
             </rule>
             <rule>
                 <pattern>
+                    <token><exception regexp="yes">es|se</exception></token>
                     <marker>
                         <token skip="1">venen</token>
                     </marker>
-                    <token regexp="yes">ganes|nàusees|ois|arcades|pensaments|grans|petits|donats</token> 
+                    <token regexp="yes">ganes|nàusees|ois|arcades|pensaments|grans|petits|donats<exception scope="previous" regexp="yes">en|a</exception></token> 
                 </pattern>
                 <message>¿Volíeu dir <suggestion>vénen</suggestion> (v. venir)?</message>
                 <short>Accent diacrític</short>
                 <example type="incorrect">em <marker>venen</marker> ganes de flagel·lar-me</example>
                 <example type="correct">em vénen ganes de dir-ho</example>
+                <example type="correct">que es venen en grans caixes</example>
+                <example type="correct">per a les PIME que venen a grans empreses</example>
+                <example type="correct">ja que es venen grans quantitats dels productor produïts</example>
             </rule>
             <rule>
                 <pattern>
@@ -9110,11 +9119,12 @@ $Id$
             </rule>
             <rule>
                 <pattern>
+                    <token><exception regexp="yes">es|se</exception></token>
                     <marker>
                         <token>venen</token>
                     </marker>
-                    <token min="0" postag="RG_anteposat"/>
-                    <token postag="V.P.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/></token>
+                    <token min="0" postag="RG_anteposat"><exception>quelcom</exception></token>
+                    <token postag="V.P.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/><exception regexp="yes">batuts|entrades|preparats|publicitat</exception></token>
                     <token postag="SPS00"/> 
                 </pattern>
                 <message>¿Volíeu dir <suggestion>vénen</suggestion> (v. venir)?</message>
@@ -9123,6 +9133,9 @@ $Id$
                 <example type="incorrect" correction="Vénen"><marker>Venen</marker> determinats a fer-ho.</example>
                 <example type="correct">Venen determinats objectes.</example>
                 <example type="correct">Les venen cuites.</example>
+                <example type="correct">Actualment es venen també congelades</example>
+                <example type="correct">També venen entrades de concerts</example>
+                <example type="correct">tots els qui venen quelcom relacionat amb ella</example>
             </rule>
         </rulegroup>    
         <rulegroup id="MON" name="el *mon/món">
