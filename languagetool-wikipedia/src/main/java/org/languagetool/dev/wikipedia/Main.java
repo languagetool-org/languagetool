@@ -65,6 +65,7 @@ public class Main {
     System.out.println("   check-dump - check a Wikipedia XML dump,");
     System.out.println("                like those available from http://dumps.wikimedia.org/backup-index.html");
     System.out.println("   wiki-index - index a Wikipedia XML dump");
+    System.out.println("   data-index - index a Wikipedia XML dump and/or a Tatoeba file");
     System.out.println("   wiki-check - check a single Wikipedia page, fetched via the Mediawiki API");
     System.out.println("   index      - index a plain text file, putting the analysis in a Lucene index for faster rule match search");
     System.out.println("   search     - search for rule matches in an index created with 'index' or 'wiki-index'");
