@@ -71,7 +71,7 @@ class SentenceSourceIndexer extends DefaultHandler implements AutoCloseable {
       }
       indexer.index(sentence.getSentence(), sentence.getSource(), true, sentenceCount);
       sentenceCount++;
-      if (sentenceCount > maxDocs) {
+      if (sentenceCount >= maxDocs) {
         throw new DocumentLimitReachedException(maxDocs);
       }
     }
