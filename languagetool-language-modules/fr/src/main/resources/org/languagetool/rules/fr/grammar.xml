@@ -251,18 +251,18 @@ though, and has since been slightly modified)-->
         <token>les</token>
         <token>autres</token>
       </pattern>
-      <message>« S’enchevêtrer les uns dans les autres » est un pléonasme. Employez <suggestion>s’\1</suggestion>.</message>
-      <example type="correct"><marker>s’enchevêtrer</marker></example>
-      <example type="incorrect">s’<marker>enchevêtrer les uns dans les autres</marker></example>
+      <message>« enchevêtrer les uns dans les autres » est un pléonasme. Employez <suggestion>\1</suggestion>.</message>
+      <example type="incorrect" correction="enchevêtrer">s’<marker>enchevêtrer les uns dans les autres</marker></example>
+      <example type="correct"><marker>enchevêtrer</marker></example>
     </rule>
     <rule id="SENTRAIDER_MUTUELLEMENT" name="s’entraider mutuellement">
       <pattern>
         <token inflected="yes" skip="2">entraider</token>
         <token>mutuellement</token>
       </pattern>
-      <message>« S’entraider mutuellement » est un pléonasme. Employez <suggestion>s’\1</suggestion>.</message>
-      <example type="correct"><marker>s’entraider</marker></example>
+      <message>« S’entraider mutuellement » est un pléonasme. Employez <suggestion>\1</suggestion>.</message>
       <example type="incorrect">s’<marker>entraider mutuellement</marker></example>
+      <example type="correct">s’<marker>entraider</marker></example>
     </rule>
     <rule id="CONTRAINT_MALGRE_SOI" name="contraint malgré soi">
       <pattern>
@@ -16846,8 +16846,8 @@ though, and has since been slightly modified)-->
         <token>impression</token>
         <token regexp="yes">que?</token>
       </pattern>
-      <message>« Être sous l’impression que » est un anglicisme (to be under the impression that). Employez <suggestion>avoir l’impression que</suggestion>.</message>
-      <example type="incorrect"><marker>sous l’impression que</marker></example>
+      <message>« Être sous l’impression que » est un anglicisme (to be under the impression that). Employez <suggestion>avoir l\3impression que</suggestion>.</message>
+      <example type="incorrect" correction="avoir l’impression que"><marker>sous l’impression que</marker></example>
       <example type="correct"><marker>avoir l’impression que</marker></example>
     </rule>
     <rule id="ETRE_EN_AMOUR" name="être en amour">
@@ -16994,8 +16994,8 @@ though, and has since been slightly modified)-->
         <token regexp="yes">oeil|œil</token>
         <token>sur</token>
       </pattern>
-      <message>« Garder l’œil sur quelqu’un ou quelque chose » est un anglicisme (to keep an eye on). Employez <suggestion>surveiller</suggestion>, <suggestion>avoir à l’œil</suggestion>.</message>
-      <example type="incorrect"><marker>garder l’œil sur</marker></example>
+      <message>« Garder l’œil sur quelqu’un ou quelque chose » est un anglicisme (to keep an eye on). Employez <suggestion>surveiller</suggestion>, <suggestion>avoir à l\3œil</suggestion>.</message>
+      <example type="incorrect" correction="surveiller|avoir à l’œil"><marker>garder l’œil sur</marker></example>
       <example type="correct"><marker>avoir à l’œil</marker></example>
     </rule>
     <rulegroup id="LAISSER_SAVOIR" name="laisser savoir">
@@ -17111,8 +17111,8 @@ though, and has since been slightly modified)-->
         <token>emphase</token>
         <token>sur</token>
       </pattern>
-      <message>« Mettre l’emphase sur » est un anglicisme (to put the emphasis on). Employez <suggestion>mettre l’accent sur</suggestion>, <suggestion>insister sur</suggestion>.</message>
-      <example type="incorrect"><marker>mettre l’emphase sur</marker></example>
+      <message>« Mettre l’emphase sur » est un anglicisme (to put the emphasis on). Employez <suggestion>mettre l\3accent sur</suggestion>, <suggestion>insister sur</suggestion>.</message>
+      <example type="incorrect" correction="mettre l’accent sur|insister sur"><marker>mettre l’emphase sur</marker></example>
       <example type="correct"><marker>mettre l’accent sur</marker></example>
     </rule>
     <rulegroup id="A_CAPACITE" name="à (pleine) capacité">
@@ -18273,8 +18273,8 @@ though, and has since been slightly modified)-->
     <rulegroup id="EYE-LINER" name="eye-liner">
       <rule>
         <pattern>
-          <token regexp="yes">eye|eyes</token>
-          <token regexp="yes">liner|liners</token>
+          <token regexp="yes">eyes?</token>
+          <token regexp="yes">liners?</token>
         </pattern>
         <message>« Eye liner » est un anglicisme. Employez <suggestion>crayon</suggestion>.</message>
         <example type="incorrect"><marker>eye liner</marker></example>
@@ -18282,7 +18282,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">eye-liner|eye-liners|eyes-liners|eyes-liner</token>
+          <token regexp="yes">eyes?-?liners?</token>
         </pattern>
         <message>« Eye-liner » est un anglicisme. Employez <suggestion>crayon</suggestion>.</message>
         <example type="incorrect"><marker>eye-liner</marker></example>
@@ -18292,8 +18292,8 @@ though, and has since been slightly modified)-->
     <rulegroup id="CRUISE_CONTROL" name="cruise control">
       <rule>
         <pattern>
-          <token regexp="yes">cruise|cruises</token>
-          <token regexp="yes">control|controls</token>
+          <token regexp="yes">cruises?</token>
+          <token regexp="yes">controls?</token>
         </pattern>
         <message>« Cruise control » est un anglicisme. Employez <suggestion>régulateur de vitesse</suggestion>.</message>
         <example type="incorrect"><marker>cruise control</marker></example>
@@ -18301,7 +18301,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">cruise-control|cruise-controls|cruisecontrol|cruise|controls</token>
+          <token regexp="yes">cruise-?controls?</token>
         </pattern>
         <message>« Cruise control » est un anglicisme. Employez <suggestion>régulateur de vitesse</suggestion>.</message>
         <example type="incorrect"><marker>cruise-control</marker></example>
@@ -19231,7 +19231,7 @@ though, and has since been slightly modified)-->
     <rulegroup id="FOREMAN" name="foreman">
       <rule>
         <pattern>
-          <token regexp="yes">fore-man|fore-men|fore-mans|foreman|foremans|foremen</token>
+          <token regexp="yes">fore-?m[ae]ns?</token>
         </pattern>
         <message>« Foreman » est un anglicisme. Employez <suggestion>contremaître</suggestion>, <suggestion>chef d’équipe</suggestion>, <suggestion>chef d’atelier</suggestion>, <suggestion>chef de chantier</suggestion>, <suggestion>agent de maîtrise</suggestion>.</message>
         <example type="incorrect"><marker>foreman</marker></example>
@@ -19250,7 +19250,7 @@ though, and has since been slightly modified)-->
     <rulegroup id="LINE-UP" name="line-up">
       <rule>
         <pattern>
-          <token regexp="yes">lineup|lineups|lines-ups|line-ups|line-up</token>
+          <token regexp="yes">lines?-?ups?</token>
         </pattern>
         <message>« Line-up » est un anglicisme. Pour éviter la critique, employez plutôt (boutique, restaurant) <suggestion>file d’attente</suggestion>, <suggestion>queue</suggestion> (ordre de présentation d’une émission de télévision) <suggestion>mise en page</suggestion>, <suggestion>titres</suggestion>.</message>
         <example type="incorrect"><marker>line-up</marker></example>
@@ -19258,7 +19258,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">line|lines</token>
+          <token regexp="yes">lines?</token>
           <token regexp="yes">up|ups</token>
         </pattern>
         <message>« Line-up » est un anglicisme. Pour éviter la critique, employez plutôt (boutique, restaurant) <suggestion>file d’attente</suggestion>, <suggestion>queue</suggestion> (ordre de présentation d’une émission de télévision) <suggestion>mise en page</suggestion>, <suggestion>titres</suggestion>.</message>
@@ -19269,7 +19269,7 @@ though, and has since been slightly modified)-->
     <rulegroup id="COVER-UP" name="cover-up">
       <rule>
         <pattern>
-          <token regexp="yes">coverup|coverups|covers-ups|cover-ups|cover-up</token>
+          <token regexp="yes">covers?-?ups?</token>
         </pattern>
         <message>« Cover-up » est un anglicisme. Employez <suggestion>étouffement</suggestion>, <suggestion>dissimulation</suggestion>, <suggestion>étouffement</suggestion>.</message>
         <example type="incorrect"><marker>cover-up</marker></example>
@@ -19327,7 +19327,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="STUCCO" name="stucco">
       <pattern>
-        <token regexp="yes">stucco|stuco|stuccos|stucos</token>
+        <token regexp="yes">stucc?os?</token>
       </pattern>
       <message>« Stucco » est un anglicisme. Employez <suggestion>stuc</suggestion>, <suggestion>marbre artificiel</suggestion>, <suggestion>faux marbre</suggestion>.</message>
       <example type="incorrect"><marker>stucco</marker></example>
@@ -19335,7 +19335,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="SUBPOENA" name="subpoena">
       <pattern>
-        <token regexp="yes">subpoena|subpoenas</token>
+        <token regexp="yes">subpoenas?</token>
       </pattern>
       <message>« Subpoena » est un anglicisme. Employez <suggestion>citation à comparaître</suggestion>, <suggestion>citation</suggestion>.</message>
       <example type="incorrect"><marker>subpoena</marker></example>
@@ -19343,7 +19343,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="DIMMER" name="dimmer">
       <pattern>
-        <token regexp="yes">dimmer|dimmers</token>
+        <token regexp="yes">dimmers?</token>
       </pattern>
       <message>« Dimmer » est un anglicisme. Employez <suggestion>gradateur</suggestion>, <suggestion>variateur de lumière</suggestion>, <suggestion>variateur</suggestion>, <suggestion>variateur d’ambiance</suggestion>.</message>
       <example type="incorrect"><marker>dimmer</marker></example>
@@ -19468,8 +19468,8 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="TRACTION_AID" name="traction aid">
       <pattern>
-        <token regexp="yes">traction|tractions</token>
-        <token regexp="yes">aid|aids</token>
+        <token regexp="yes">tractions?</token>
+        <token regexp="yes">aids?</token>
       </pattern>
       <message>« Traction aid » est un anglicisme. Employez <suggestion>plaque d’adhérence</suggestion>.</message>
       <example type="incorrect"><marker>traction aid</marker></example>
@@ -19511,7 +19511,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="PICKLE" name="pickle">
       <pattern>
-        <token regexp="yes">pickle|pickles</token>
+        <token regexp="yes">pickles?</token>
       </pattern>
       <message>« Pickle » est un anglicisme. Employez <suggestion>cornichon mariné</suggestion>, <suggestion>cornichon à l’aneth</suggestion>.</message>
       <example type="incorrect"><marker>pickle</marker></example>
@@ -19536,7 +19536,7 @@ though, and has since been slightly modified)-->
     <rulegroup id="CRASH_TEST" name="crash test">
       <rule>
         <pattern>
-          <token regexp="yes">crashtest|crashtests|crash-test|crash-tests</token>
+          <token regexp="yes">crash-?tests?</token>
         </pattern>
         <message>« Crash test » est un anglicisme. Employez <suggestion>simulation d’accident</suggestion>.</message>
         <example type="incorrect"><marker>crash-test</marker></example>
@@ -19545,7 +19545,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token>crash</token>
-          <token regexp="yes">test|tests</token>
+          <token regexp="yes">tests?</token>
         </pattern>
         <message>« Crash test » est un anglicisme. Employez <suggestion>simulation d’accident</suggestion>.</message>
         <example type="incorrect"><marker>crash test</marker></example>
@@ -19555,7 +19555,7 @@ though, and has since been slightly modified)-->
     <rulegroup id="ANYTIME" name="anytime">
       <rule>
         <pattern>
-          <token regexp="yes">anytime|anytimes|any-time|any-times</token>
+          <token regexp="yes">any-?times?</token>
         </pattern>
         <message>« Anytime » est un anglicisme. Employez <suggestion>n’importe quand</suggestion>.</message>
         <example type="incorrect"><marker>anytime</marker></example>
@@ -19564,7 +19564,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token>any</token>
-          <token regexp="yes">time|times</token>
+          <token regexp="yes">times?</token>
         </pattern>
         <message>« Anytime » est un anglicisme. Employez <suggestion>n’importe quand</suggestion>.</message>
         <example type="incorrect"><marker>any time</marker></example>
@@ -19574,7 +19574,7 @@ though, and has since been slightly modified)-->
     <rulegroup id="ANYWAY" name="anyway">
       <rule>
         <pattern>
-          <token regexp="yes">anyway|anyways|any-way|any-ways</token>
+          <token regexp="yes">any-?ways?</token>
         </pattern>
         <message>« Anyway » est un anglicisme. Employez <suggestion>de toute façon</suggestion>, <suggestion>quand même</suggestion>, <suggestion>en tout cas</suggestion>.</message>
         <example type="incorrect"><marker>anyway</marker></example>
@@ -19583,7 +19583,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token>any</token>
-          <token regexp="yes">way|ways</token>
+          <token regexp="yes">ways?</token>
         </pattern>
         <message>« Anyway » est un anglicisme. Employez <suggestion>de toute façon</suggestion>, <suggestion>quand même</suggestion>, <suggestion>en tout cas</suggestion>.</message>
         <example type="incorrect"><marker>any way</marker></example>
@@ -21767,7 +21767,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <token>ie</token>
         </pattern>
-        <message>« i.e. » » est un anglicisme. Employez <suggestion>c’est-à-dire</suggestion>, <suggestion>c.-à-d.</suggestion>.</message>
+        <message>« i.e. » est un anglicisme. Employez <suggestion>c’est-à-dire</suggestion>, <suggestion>c.-à-d.</suggestion>.</message>
         <example type="incorrect"><marker>ie</marker></example>
         <example type="correct"><marker>c-à-d.</marker></example>
       </rule>
