@@ -31,7 +31,7 @@ $Id$
     <!ENTITY exceptions_A_DIT_HA_DIT "concedir|crèdit|selecció|subvenció|atorgar|designar|designació|contractar|contractació|plaça|assignar|assignació|nomenar|nomenament|col·locar|col·locació|ajudicar|adjudicació|càrrec">
     <!ENTITY dies_setmana "dilluns|dimarts|dimecres|dijous|divendres|dissabte|diumenge">
     <!ENTITY ordes "agustinià|salesià|religiós|franciscà|benedictí|templari|cavalleresc|cistercenc|escolapi|monàstic|mercedari|teutònic|cartoixà|dominic|jerònim">
-    <!ENTITY ordes_invariable "militar|major|menor|marista|jesuïta|regular">
+    <!ENTITY ordes_invariable "conventual|mendicant|militar|major|menor|marista|jesuïta|regular">
     <!ENTITY precedits_per_TAN "cert|fort|(in)?comprensible|(in)?substancial|covard|arriscar|decidir">
     <!ENTITY precedits_per_TANT "no|ací|aquí|allí|allà|potser|abans|ja|on|quan|que|com|menys|doncs|però|ara|emperò|ans">
     <!ENTITY vocabulari_menjar "xocolata|xocolate|allioli|aliment|all|amanida|arròs|bolet|carn|carxofa|cep|coriandre|fava|fetge|foie|formatge|gamba|j[ou]livert|llamàntol|llobregant|lluç|macarró|magret|mandonguilla|mango|menjar|mongeta|p[éè]sol|pa|pastís|porc|r[eo]nyó|safrà|tofu|verdura|vi|ànec">
@@ -9489,6 +9489,23 @@ $Id$
             </rule>
             <rule>
                 <pattern>
+                    <token><exception regexp="yes">cada|un|altre|algun|cert|mateix</exception><exception postag="D[^R].MS.|A..[MC][SN]." postag_regexp="yes"/></token>
+                    <marker>
+                        <token>mes</token>
+                    </marker>
+                    <token postag="V.[^P].*|_GV_" postag_regexp="yes"><exception postag="_GN_MS"/></token>
+                </pattern>
+                <message>S'accentua quan és adjectiu o adverbi.</message>
+                <suggestion>més</suggestion>
+                <short>Accent diacrític</short>
+                <example type="incorrect" correction="més">Com <marker>mes</marker> especifiques millor.</example>
+                <example type="correct">Aquell mateix mes fou despatxat.</example>
+                <example type="correct">El mes era la fracció major</example>
+                <example type="correct">el primer mes corresponia a una data entre febrer i març</example>
+                <example type="correct">que el mes tingui un nombre enter de setmanes</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token postag="DA0MS0"/>
                     <marker>
                         <token>mes</token>
@@ -9550,20 +9567,19 @@ $Id$
                 <example type="incorrect">Les <marker>mes</marker> valentes són elles.</example>
                 <example type="correct">Les més valentes són elles.</example>
             </rule>    
-            <rule> <!--  -->
+            <rule>
                 <pattern>
                     <token><exception regexp="yes">cada|un|altre|algun|cert|mateix</exception></token>
                     <marker>
                         <token>mes</token>
                     </marker>
-                    <token postag="NC.*|AQ.*|V.P.*|V.*" postag_regexp="yes"><exception regexp="yes">&exceptions_MES;</exception></token>
+                    <token postag="NC.*|AQ.*|V.P.*" postag_regexp="yes"><exception regexp="yes">&exceptions_MES;</exception></token>
                 </pattern>
                 <message>S'accentua quan és adjectiu o adverbi.</message>
                 <suggestion>més</suggestion>
                 <short>Accent diacrític</short>
                 <example type="incorrect" correction="més">Necessita <marker>mes</marker> temps.</example>
                 <example type="incorrect" correction="més">un dels edificis <marker>mes</marker> emblemàtics de la vila</example>
-                <example type="incorrect" correction="més">Com <marker>mes</marker> especifiques millor.</example>
                 <example type="correct">Ha estat un mes fantàstic</example>
                 <example type="correct">cada mes coincident amb artell</example>
                 <example type="correct">a la fi del mes Grècia estava</example>
