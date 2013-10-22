@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.dev.wikipedia;
+package org.languagetool.dev.dumpcheck;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -51,7 +51,7 @@ class TatoebaSentenceSource extends SentenceSource {
     if (sentences.size() == 0) {
       throw new NoSuchElementException();
     }
-    return new Sentence(sentences.remove(0), getSource());
+    return new Sentence(sentences.remove(0), getSource(), "<Tatoeba>", "http://tatoeba.org");
   }
 
   @Override

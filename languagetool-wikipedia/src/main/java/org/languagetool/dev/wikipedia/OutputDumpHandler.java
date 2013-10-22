@@ -18,21 +18,24 @@
  */
 package org.languagetool.dev.wikipedia;
 
-import java.util.Date;
-import java.util.List;
-
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.dev.dumpcheck.ErrorLimitReachedException;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.tools.ContextTools;
 import org.languagetool.tools.StringTools;
 
+import java.util.Date;
+import java.util.List;
+
 /**
  * Writes result of LanguageTool check to stdout.
  *  
  * @author Daniel Naber
+ * @deprecated use {@link org.languagetool.dev.dumpcheck.StdoutHandler} instead (deprecated since 2.4)
  */
+@Deprecated
 class OutputDumpHandler extends BaseWikipediaDumpHandler {
 
     private static final ContextTools contextTools = new ContextTools();

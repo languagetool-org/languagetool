@@ -29,6 +29,7 @@ import java.util.Properties;
 import org.apache.commons.lang.StringUtils;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.dev.dumpcheck.ErrorLimitReachedException;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.PatternRule;
@@ -38,7 +39,9 @@ import org.languagetool.tools.ContextTools;
  * Writes result of LanguageTool check to database. Used for community.languagetool.org.
  *  
  * @author Daniel Naber
+ * @deprecated use {@link org.languagetool.dev.dumpcheck.DatabaseHandler} instead (deprecated since 2.4)
  */
+@Deprecated
 class DatabaseDumpHandler extends BaseWikipediaDumpHandler {
 
     private final Connection conn;

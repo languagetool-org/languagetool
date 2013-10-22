@@ -16,10 +16,13 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.dev.wikipedia;
+package org.languagetool.dev.dumpcheck;
 
 import org.junit.Test;
+import org.languagetool.language.English;
 
+import javax.xml.stream.XMLStreamException;
+import java.io.IOException;
 import java.io.InputStream;
 
 import static junit.framework.TestCase.assertFalse;
@@ -27,16 +30,20 @@ import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class TatoebaSentenceSourceTest {
+public class WikipediaSentenceSourceTest {
   
   @Test
-  public void testTatoebaSource() {
-    InputStream stream = WikipediaSentenceSourceTest.class.getResourceAsStream("/org/languagetool/dev/wikipedia/tatoeba-en.txt");
-    TatoebaSentenceSource source = new TatoebaSentenceSource(stream);
+  public void testWikipediaSource() throws XMLStreamException, IOException {
+    InputStream stream = WikipediaSentenceSourceTest.class.getResourceAsStream("/org/languagetool/dev/wikipedia/wikipedia-en.xml");
+    WikipediaSentenceSource source = new WikipediaSentenceSource(stream, new English());
     assertTrue(source.hasNext());
-    assertThat(source.next().getSentence(), is("\"What is your wish?\" asked the little white rabbit."));
-    assertThat(source.next().getSentence(), is("The mother wakes up her daughter."));
-    assertThat(source.next().getSentence(), is("Ken beat me at chess."));
+    assertThat(source.next().getText(), is("This is the first document."));
+    assertThat(source.next().getText(), is("It has three sentences."));
+    assertThat(source.next().getText(), is("Here's the last sentence."));
+    
+    assertThat(source.next().getText(), is("This is the second document."));
+    assertThat(source.next().getText(), is("It has two sentences."));
     assertFalse(source.hasNext());
   }
+  
 }

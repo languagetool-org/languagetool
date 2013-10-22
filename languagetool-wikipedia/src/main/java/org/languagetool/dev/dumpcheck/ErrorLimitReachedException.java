@@ -16,13 +16,13 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.dev.wikipedia;
+package org.languagetool.dev.dumpcheck;
 
-class ErrorLimitReachedException extends RuntimeException {
+public class ErrorLimitReachedException extends RuntimeException {
 
   private final int limit;
 
-  ErrorLimitReachedException(int limit) {
+  public ErrorLimitReachedException(int limit) {
     this.limit = limit;
   }
 

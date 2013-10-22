@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.dev.wikipedia;
+package org.languagetool.dev.dumpcheck;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -29,10 +29,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import javax.xml.stream.XMLStreamException;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -40,7 +37,7 @@ import java.util.List;
  * Creates a Lucene index of a {@link SentenceSource}.
  * @since 2.4
  */
-class SentenceSourceIndexer extends DefaultHandler implements AutoCloseable {
+public class SentenceSourceIndexer extends DefaultHandler implements AutoCloseable {
 
   private static final String MAX_DOC_COUNT_VALUE = "maxDocCountValue";
   private static final String MAX_DOC_COUNT_FIELD = "maxDocCount";
@@ -62,35 +59,19 @@ class SentenceSourceIndexer extends DefaultHandler implements AutoCloseable {
   }
 
   private void run(List<String> dumpFilesNames, Language language) throws IOException, XMLStreamException {
-    MixingSentenceSource mixingSource = getMixingSource(dumpFilesNames, language);
+    MixingSentenceSource mixingSource = MixingSentenceSource.create(dumpFilesNames, language);
     while (mixingSource.hasNext()) {
       Sentence sentence = mixingSource.next();
       if (sentenceCount % 100 == 0) {
         System.out.println("Indexing sentence #" + sentenceCount + ":");
         System.out.println("  " + sentence);
       }
-      indexer.index(sentence.getSentence(), sentence.getSource(), true, sentenceCount);
+      indexer.index(sentence.getText(), sentence.getSource(), true, sentenceCount);
       sentenceCount++;
       if (sentenceCount >= maxDocs) {
         throw new DocumentLimitReachedException(maxDocs);
       }
     }
-  }
-
-  private MixingSentenceSource getMixingSource(List<String> dumpFileNames, Language language) throws XMLStreamException, FileNotFoundException {
-    List<SentenceSource> sources = new ArrayList<>();
-    for (String dumpFileName : dumpFileNames) {
-      File file = new File(dumpFileName);
-      if (file.getName().endsWith(".xml")) {
-        sources.add(new WikipediaSentenceSource(new FileInputStream(dumpFileName), language));
-      } else if (file.getName().startsWith("tatoeba-")) {
-        sources.add(new TatoebaSentenceSource(new FileInputStream(dumpFileName)));
-      } else {
-        throw new RuntimeException("Could not find a source handler for " + dumpFileName +
-                " - Wikipedia files must be named '*.xml', Tatoeba files must be named 'tatoeba-*'");
-      }
-    }
-    return new MixingSentenceSource(sources);
   }
 
   private void writeMetaDocuments() throws IOException {

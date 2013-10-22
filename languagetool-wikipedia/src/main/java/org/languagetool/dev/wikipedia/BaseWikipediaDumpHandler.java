@@ -23,6 +23,8 @@ import java.util.List;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.dev.dumpcheck.ArticleLimitReachedException;
+import org.languagetool.dev.dumpcheck.ErrorLimitReachedException;
 import org.languagetool.rules.RuleMatch;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;

@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker 
- * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+ * Copyright (C) 2013 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,47 +16,33 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.dev.wikipedia;
+package org.languagetool.dev.dumpcheck;
 
 import org.apache.commons.cli.*;
+import org.apache.commons.lang.StringUtils;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.MultiThreadedJLanguageTool;
-import org.languagetool.dev.dumpcheck.ArticleLimitReachedException;
-import org.languagetool.dev.dumpcheck.ErrorLimitReachedException;
 import org.languagetool.rules.Rule;
-import org.xml.sax.SAXException;
+import org.languagetool.rules.RuleMatch;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 /**
- * Command-line tool that checks texts from Wikipedia (download "pages-articles.xml.bz2" from
- * http://download.wikimedia.org/backup-index.html, e.g.
- * http://download.wikimedia.org/dewiki/latest/dewiki-latest-pages-articles.xml.bz2)
- * and stores the result in a database.
- * 
- * @author Daniel Naber
- * @deprecated use {@link org.languagetool.dev.dumpcheck.SentenceSourceChecker} instead (deprecated since 2.4)
+ * Checks texts from one or more {@link org.languagetool.dev.dumpcheck.SentenceSource}s.
+ * @since 2.4
  */
-@Deprecated
-public class CheckWikipediaDump {
+public class SentenceSourceChecker {
 
-  private CheckWikipediaDump() {
+  private SentenceSourceChecker() {
     // no public constructor
   }
-  
-  public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException {
-    System.err.println("*** Note: this class has been deprecated - please use option 'check-data' instead");
-    final CheckWikipediaDump prg = new CheckWikipediaDump();
+
+  public static void main(String[] args) throws IOException {
+    final SentenceSourceChecker prg = new SentenceSourceChecker();
     final CommandLine commandLine = ensureCorrectUsageOrExit(args);
     File propFile = null;
     if (commandLine.hasOption('d')) {
@@ -79,13 +65,14 @@ public class CheckWikipediaDump {
         addDisabledRules(languageCode, disabledRuleIds, disabledRules);
       }
     }
-    final int maxArticles = Integer.parseInt(commandLine.getOptionValue("max-articles", "0"));
+    final int maxArticles = Integer.parseInt(commandLine.getOptionValue("max-sentences", "0"));
     final int maxErrors = Integer.parseInt(commandLine.getOptionValue("max-errors", "0"));
     String[] ruleIds = null;
     if (commandLine.hasOption('r')) {
       ruleIds = commandLine.getOptionValue('r').split(",");
     }
-    prg.run(propFile, disabledRuleIds, languageCode, commandLine.getOptionValue('f'), ruleIds, maxArticles, maxErrors);
+    String[] fileNames = commandLine.getOptionValues('f');
+    prg.run(propFile, disabledRuleIds, languageCode, Arrays.asList(fileNames), ruleIds, maxArticles, maxErrors);
   }
 
   private static void addDisabledRules(String languageCode, Set<String> disabledRuleIds, Properties disabledRules) {
@@ -113,12 +100,13 @@ public class CheckWikipediaDump {
     options.addOption(OptionBuilder.withLongOpt("rule-ids").withArgName("id").hasArg()
             .withDescription("comma-separated list of rule-ids to activate")
             .create("r"));
-    options.addOption(OptionBuilder.withLongOpt("file").withArgName("xmlfile").hasArg()
-            .withDescription("an unpacked Wikipedia XML dump; dumps are available from http://dumps.wikimedia.org/backup-index.html")
+    options.addOption(OptionBuilder.withLongOpt("file").withArgName("file").hasArg()
+            .withDescription("an unpacked Wikipedia XML dump; (must be named *.xml, dumps are available from http://dumps.wikimedia.org/backup-index.html) " +
+                    "or a Tatoeba CSV file filtered to contain only one language (must be named tatoeba-*). You can specify this option more than once.")
             .isRequired()
             .create("f"));
-    options.addOption(OptionBuilder.withLongOpt("max-articles").withArgName("number").hasArg()
-            .withDescription("maximum number of articles to check")
+    options.addOption(OptionBuilder.withLongOpt("max-sentences").withArgName("number").hasArg()
+            .withDescription("maximum number of sentences to check")
             .create());
     options.addOption(OptionBuilder.withLongOpt("max-errors").withArgName("number").hasArg()
             .withDescription("maximum number of errors, stop when finding more")
@@ -131,19 +119,14 @@ public class CheckWikipediaDump {
       HelpFormatter formatter = new HelpFormatter();
       formatter.setWidth(80);
       formatter.setSyntaxPrefix("Usage: ");
-      formatter.printHelp(CheckWikipediaDump.class.getSimpleName() + " [OPTION]... --file <xmlfile> --language <code>", options);
+      formatter.printHelp(SentenceSourceChecker.class.getSimpleName() + " [OPTION]... --file <file> --language <code>", options);
       System.exit(1);
     }
     return null;
   }
 
-  private void run(File propFile, Set<String> disabledRules, String langCode, String xmlFileName, String[] ruleIds, int maxArticles, int maxErrors)
-      throws IOException, SAXException, ParserConfigurationException {
-    //final long startTime = System.currentTimeMillis();
-    final File file = new File(xmlFileName);
-    if (!file.exists() || !file.isFile()) {
-      throw new IOException("File doesn't exist or isn't a file: " + xmlFileName);
-    }
+  private void run(File propFile, Set<String> disabledRules, String langCode, List<String> fileNames, String[] ruleIds, int maxSentences, int maxErrors)
+          throws IOException {
     final Language lang = Language.getLanguageForShortName(langCode);
     final JLanguageTool languageTool = new MultiThreadedJLanguageTool(lang);
     languageTool.activateDefaultPatternRules();
@@ -153,31 +136,40 @@ public class CheckWikipediaDump {
       applyRuleDeactivation(languageTool, disabledRules);
     }
     disableSpellingRules(languageTool);
-    final Date dumpDate = getDumpFileDate(file);
-    System.out.println("Dump date: " + dumpDate + ", language: " + langCode);
-    System.out.println("Article limit: " + (maxArticles > 0 ? maxArticles : "no limit"));
+    System.out.println("Working on: " + StringUtils.join(fileNames, ", "));
+    System.out.println("Sentence limit: " + (maxSentences > 0 ? maxSentences : "no limit"));
     System.out.println("Error limit: " + (maxErrors > 0 ? maxErrors : "no limit"));
-    BaseWikipediaDumpHandler xmlHandler = null;
+
+    ResultHandler resultHandler = null;
+    int ruleMatchCount = 0;
+    int sentenceCount = 0;
     try {
       if (propFile != null) {
-        xmlHandler = new DatabaseDumpHandler(languageTool, dumpDate, langCode, propFile, lang);
+        resultHandler = new DatabaseHandler(propFile, maxSentences, maxErrors);
       } else {
-        xmlHandler = new OutputDumpHandler(languageTool, dumpDate, langCode, lang);
+        resultHandler = new StdoutHandler(maxSentences, maxErrors);
       }
-      xmlHandler.setMaximumArticles(maxArticles);
-      xmlHandler.setMaximumErrors(maxErrors);
-      final SAXParserFactory factory = SAXParserFactory.newInstance();
-      final SAXParser saxParser = factory.newSAXParser();
-      saxParser.parse(file, xmlHandler);
-    } catch (ErrorLimitReachedException | ArticleLimitReachedException e) {
+      JLanguageTool langTool = new JLanguageTool(lang);
+      MixingSentenceSource mixingSource = MixingSentenceSource.create(fileNames, lang);
+      while (mixingSource.hasNext()) {
+        Sentence sentence = mixingSource.next();
+        List<RuleMatch> matches = langTool.check(sentence.getText());
+        resultHandler.handleResult(sentence, matches, lang);
+        sentenceCount++;
+        ruleMatchCount += matches.size();
+      }
+    } catch (ErrorLimitReachedException | DocumentLimitReachedException e) {
       System.out.println(e);
     } finally {
-      if (xmlHandler != null) {
-        final float matchesPerDoc = (float)xmlHandler.getRuleMatchCount() / xmlHandler.getArticleCount();
-        System.out.printf(lang + ": %d total matches\n", xmlHandler.getRuleMatchCount());
-        System.out.printf(lang + ": ø%.2f rule matches per document\n", matchesPerDoc);
-        //System.out.printf(lang + ": %s total runtime\n", getRunTime(startTime));
-        xmlHandler.close();
+      if (resultHandler != null) {
+        final float matchesPerSentence = (float)ruleMatchCount / sentenceCount;
+        System.out.printf(lang + ": %d total matches\n", ruleMatchCount);
+        System.out.printf(lang + ": ø%.2f rule matches per sentence\n", matchesPerSentence);
+        try {
+          resultHandler.close();
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
       }
     }
   }
@@ -198,8 +190,8 @@ public class CheckWikipediaDump {
       boolean found = false;
       for (Rule rule : languageTool.getAllRules()) {
         if (rule.getId().equals(ruleId)) {
-            found = true;
-            break;
+          found = true;
+          break;
         }
       }
       if (!found) {
@@ -225,28 +217,6 @@ public class CheckWikipediaDump {
       }
     }
     System.out.println("All spelling rules are disabled");
-  }
-
-  private Date getDumpFileDate(File file) throws IOException {
-    final String filename = file.getName();
-    final String[] parts = filename.split("-");
-    if (parts.length < 3) {
-      throw new IOException("Unexpected filename format: " + file.getName() + ", must be like ??wiki-????????-pages-articles.xml");
-    }
-    final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-    try {
-      return sdf.parse(parts[1]);
-    } catch (ParseException e) {
-      throw new IOException("Unexpected date format '" + parts[1] + "', must be yyyymmdd", e);
-    }
-  }
-
-  private String getRunTime(long startTime) {
-    final long runtime = System.currentTimeMillis() - startTime;
-    return String.format("%02d:%02d",
-            TimeUnit.MILLISECONDS.toMinutes(runtime),
-            TimeUnit.MILLISECONDS.toSeconds(runtime) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(runtime))
-    );
   }
 
 }

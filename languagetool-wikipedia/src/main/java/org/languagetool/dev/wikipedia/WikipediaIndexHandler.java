@@ -18,30 +18,32 @@
  */
 package org.languagetool.dev.wikipedia;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.languagetool.Language;
+import org.languagetool.dev.dumpcheck.DocumentLimitReachedException;
 import org.languagetool.dev.index.Indexer;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 /**
  * Wikipedia handler for indexing. See {@link org.languagetool.dev.index.Searcher} for a
  * class that lets you use this index.
  * 
  * @author Tao Lin
+ * @deprecated use {@link org.languagetool.dev.dumpcheck.SentenceSourceIndexer} instead (deprecated since 2.4)
  */
+@Deprecated
 public class WikipediaIndexHandler extends DefaultHandler implements AutoCloseable {
 
   public static final String MAX_DOC_COUNT_VALUE = "maxDocCountValue";

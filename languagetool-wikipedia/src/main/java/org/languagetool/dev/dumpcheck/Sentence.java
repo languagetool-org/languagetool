@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker
- * Copyright (C) 2012 Daniel Naber (http://www.danielnaber.de)
+ * Copyright (C) 2013 Daniel Naber (http://www.danielnaber.de)
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,19 +16,45 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.dev.wikipedia;
+package org.languagetool.dev.dumpcheck;
 
-class ArticleLimitReachedException extends RuntimeException {
+/**
+ * A single sentence to be indexed/checked.
+ * @since 2.4
+ */
+class Sentence {
 
-  private final int limit;
+  private final String sentence;
+  private final String source;
+  private final String title;
+  private final String url;
 
-  ArticleLimitReachedException(int limit) {
-    this.limit = limit;
+  Sentence(String sentence, String source, String title, String url) {
+    this.sentence = sentence.trim();
+    this.source = source;
+    this.title = title;
+    this.url = url;
+  }
+
+  String getText() {
+    return sentence;
+  }
+
+  String getSource() {
+    return source;
+  }
+
+  String getTitle() {
+    return title;
+  }
+
+  String getUrl() {
+    return url;
   }
 
   @Override
-  public String getMessage() {
-    return "Maximum number of articles (" + limit + ") reached";
+  public String toString() {
+    return sentence;
   }
-
+  
 }

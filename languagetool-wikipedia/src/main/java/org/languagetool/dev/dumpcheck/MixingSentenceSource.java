@@ -16,10 +16,15 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.dev.wikipedia;
+package org.languagetool.dev.dumpcheck;
 
 import org.apache.commons.lang.StringUtils;
+import org.languagetool.Language;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -33,7 +38,23 @@ class MixingSentenceSource extends SentenceSource {
   
   private int count;
 
-  MixingSentenceSource(List<SentenceSource> sources) {
+  static MixingSentenceSource create(List<String> dumpFileNames, Language language) throws IOException {
+    List<SentenceSource> sources = new ArrayList<>();
+    for (String dumpFileName : dumpFileNames) {
+      File file = new File(dumpFileName);
+      if (file.getName().endsWith(".xml")) {
+        sources.add(new WikipediaSentenceSource(new FileInputStream(dumpFileName), language));
+      } else if (file.getName().startsWith("tatoeba-")) {
+        sources.add(new TatoebaSentenceSource(new FileInputStream(dumpFileName)));
+      } else {
+        throw new RuntimeException("Could not find a source handler for " + dumpFileName +
+                " - Wikipedia files must be named '*.xml', Tatoeba files must be named 'tatoeba-*'");
+      }
+    }
+    return new MixingSentenceSource(sources);
+  }
+
+  private MixingSentenceSource(List<SentenceSource> sources) {
     this.sources = sources;
   }
 
@@ -64,6 +85,6 @@ class MixingSentenceSource extends SentenceSource {
 
   @Override
   public String getSource() {
-    return "mixing:" + StringUtils.join(sources, ", ");
+    return StringUtils.join(sources, ", ");
   }
 }

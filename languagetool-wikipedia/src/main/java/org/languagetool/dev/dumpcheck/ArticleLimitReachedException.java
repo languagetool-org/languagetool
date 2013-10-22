@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
- * Copyright (C) 2013 Daniel Naber (http://www.danielnaber.de)
- * 
+/* LanguageTool, a natural language style checker
+ * Copyright (C) 2012 Daniel Naber (http://www.danielnaber.de)
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -16,18 +16,19 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.dev.wikipedia;
+package org.languagetool.dev.dumpcheck;
 
-class DocumentLimitReachedException extends RuntimeException {
+public class ArticleLimitReachedException extends RuntimeException {
 
   private final int limit;
 
-  DocumentLimitReachedException(int limit) {
+  public ArticleLimitReachedException(int limit) {
     this.limit = limit;
   }
 
-  int getLimit() {
-    return limit;
+  @Override
+  public String getMessage() {
+    return "Maximum number of articles (" + limit + ") reached";
   }
 
 }

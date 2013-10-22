@@ -19,6 +19,8 @@
 package org.languagetool.dev.wikipedia;
 
 import org.languagetool.JLanguageTool;
+import org.languagetool.dev.dumpcheck.SentenceSourceChecker;
+import org.languagetool.dev.dumpcheck.SentenceSourceIndexer;
 import org.languagetool.dev.index.Indexer;
 import org.languagetool.dev.index.Searcher;
 import org.languagetool.tools.JnaTools;
@@ -40,10 +42,12 @@ public class Main {
       final String command = args[0];
       if (command.equals("check-dump")) {
         CheckWikipediaDump.main(remainingArgs);
-      } else if (command.equals("data-index")) {
-        SentenceSourceIndexer.main(remainingArgs);
       } else if (command.equals("wiki-index")) {
         WikipediaIndexHandler.main(remainingArgs);
+      } else if (command.equals("check-data")) {
+        SentenceSourceChecker.main(remainingArgs);
+      } else if (command.equals("index-data")) {
+        SentenceSourceIndexer.main(remainingArgs);
       } else if (command.equals("wiki-check")) {
         WikipediaQuickCheck.main(remainingArgs);
       } else if (command.equals("index")) {
@@ -62,13 +66,16 @@ public class Main {
   private static void printUsageAndExit() {
     System.out.println("Usage: " + Main.class.getName() + " <command> <command-specific-arguments>");
     System.out.println("Where <command> is one of:");
-    System.out.println("   check-dump - check a Wikipedia XML dump,");
-    System.out.println("                like those available from http://dumps.wikimedia.org/backup-index.html");
-    System.out.println("   wiki-index - index a Wikipedia XML dump");
-    System.out.println("   data-index - index a Wikipedia XML dump and/or a Tatoeba file");
+    System.out.println("   check-data - check a Wikipedia XML dump like those available from");
+    System.out.println("                http://dumps.wikimedia.org/backup-index.html");
+    System.out.println("                and/or a Tatoeba file (http://tatoeba.org)");
+    System.out.println("   index-data - fulltext-index a Wikipedia XML dump and/or a Tatoeba file");
     System.out.println("   wiki-check - check a single Wikipedia page, fetched via the Mediawiki API");
     System.out.println("   index      - index a plain text file, putting the analysis in a Lucene index for faster rule match search");
     System.out.println("   search     - search for rule matches in an index created with 'index' or 'wiki-index'");
+    System.out.println("   check-dump - check a Wikipedia XML dump (deprecated),");
+    System.out.println("                like those available from http://dumps.wikimedia.org/backup-index.html");
+    System.out.println("   wiki-index - index a Wikipedia XML dump (deprecated)");
     System.out.println("   version    - print LanguageTool version number and build date");
     System.out.println("");
     System.out.println("All commands have different usages. Call them without arguments to get help.");

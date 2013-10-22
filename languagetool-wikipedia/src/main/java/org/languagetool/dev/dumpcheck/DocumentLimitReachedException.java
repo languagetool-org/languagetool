@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker
+/* LanguageTool, a natural language style checker 
  * Copyright (C) 2013 Daniel Naber (http://www.danielnaber.de)
- *
+ * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -16,33 +16,23 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.dev.wikipedia;
+package org.languagetool.dev.dumpcheck;
 
-/**
- * A single sentence to be indexed/checked.
- * @since 2.4
- */
-class Sentence {
+public class DocumentLimitReachedException extends RuntimeException {
 
-  private final String sentence;
-  private final String source;
+  private final int limit;
 
-  Sentence(String sentence, String source) {
-    this.sentence = sentence.trim();
-    this.source = source;
+  public DocumentLimitReachedException(int limit) {
+    this.limit = limit;
   }
 
-  String getSentence() {
-    return sentence;
-  }
-
-  String getSource() {
-    return source;
+  public int getLimit() {
+    return limit;
   }
 
   @Override
-  public String toString() {
-    return sentence;
+  public String getMessage() {
+    return "Maximum number of documents (" + limit + ") reached";
   }
-  
+
 }
