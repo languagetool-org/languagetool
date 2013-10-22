@@ -171,7 +171,7 @@ public class WikipediaIndexHandler extends DefaultHandler implements AutoCloseab
       try {
         saxParser.parse(new FileInputStream(dumpFile), handler);
       } catch (DocumentLimitReachedException e) {
-        System.out.println("Document limit (" + e.limit + ") reached, stopping indexing");
+        System.out.println("Document limit (" + e.getLimit() + ") reached, stopping indexing");
       } finally {
         handler.writeMetaDocuments();
         handler.close();
@@ -180,13 +180,6 @@ public class WikipediaIndexHandler extends DefaultHandler implements AutoCloseab
     final long end = System.currentTimeMillis();
     final float minutes = (end - start) / (float)(1000 * 60);
     System.out.printf("Indexing took %.2f minutes\n", minutes);
-  }
-
-  private class DocumentLimitReachedException extends RuntimeException {
-    final int limit;
-    DocumentLimitReachedException(int limit) {
-      this.limit = limit;
-    }
   }
 
 }

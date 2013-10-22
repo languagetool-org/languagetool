@@ -51,6 +51,7 @@ import static org.languagetool.dev.index.LanguageToolFilter.POS_PREFIX;
 public class PatternRuleQueryBuilder {
 
   public static final String FIELD_NAME = "field";
+  public static final String SOURCE_FIELD_NAME = "source";
   public static final String FIELD_NAME_LOWERCASE = "fieldLowercase";
   
   private final Language language;
