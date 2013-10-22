@@ -61,28 +61,6 @@ class SentenceSourceIndexer extends DefaultHandler implements AutoCloseable {
     indexer.close();
   }
 
-  private void writeMetaDocuments() throws IOException {
-    final Document doc = new Document();
-    doc.add(new StringField(MAX_DOC_COUNT_FIELD, MAX_DOC_COUNT_FIELD_VAL, Field.Store.YES));
-    doc.add(new StringField(MAX_DOC_COUNT_VALUE, sentenceCount + "", Field.Store.YES));
-    indexer.add(doc);
-  }
-
-  private MixingSentenceSource getMixingSource(List<String> dumpFilesNames, Language language) throws XMLStreamException, FileNotFoundException {
-    List<SentenceSource> sources = new ArrayList<>();
-    for (String dumpFilesName : dumpFilesNames) {
-      if (dumpFilesName.endsWith(".xml")) {
-        sources.add(new WikipediaSentenceSource(new FileInputStream(dumpFilesName), language));
-      } else if (dumpFilesName.startsWith("tatoeba")) {
-        //TODO
-        throw new RuntimeException("Could not find a source handler for " + dumpFilesName);
-      } else {
-        throw new RuntimeException("Could not find a source handler for " + dumpFilesName);
-      }
-    }
-    return new MixingSentenceSource(sources);
-  }
-
   private void run(List<String> dumpFilesNames, Language language) throws IOException, XMLStreamException {
     MixingSentenceSource mixingSource = getMixingSource(dumpFilesNames, language);
     while (mixingSource.hasNext()) {
@@ -97,6 +75,29 @@ class SentenceSourceIndexer extends DefaultHandler implements AutoCloseable {
         throw new DocumentLimitReachedException(maxDocs);
       }
     }
+  }
+
+  private MixingSentenceSource getMixingSource(List<String> dumpFileNames, Language language) throws XMLStreamException, FileNotFoundException {
+    List<SentenceSource> sources = new ArrayList<>();
+    for (String dumpFileName : dumpFileNames) {
+      File file = new File(dumpFileName);
+      if (file.getName().endsWith(".xml")) {
+        sources.add(new WikipediaSentenceSource(new FileInputStream(dumpFileName), language));
+      } else if (file.getName().startsWith("tatoeba-")) {
+        sources.add(new TatoebaSentenceSource(new FileInputStream(dumpFileName)));
+      } else {
+        throw new RuntimeException("Could not find a source handler for " + dumpFileName +
+                " - Wikipedia files must be named '*.xml', Tatoeba files must be named 'tatoeba-*'");
+      }
+    }
+    return new MixingSentenceSource(sources);
+  }
+
+  private void writeMetaDocuments() throws IOException {
+    final Document doc = new Document();
+    doc.add(new StringField(MAX_DOC_COUNT_FIELD, MAX_DOC_COUNT_FIELD_VAL, Field.Store.YES));
+    doc.add(new StringField(MAX_DOC_COUNT_VALUE, sentenceCount + "", Field.Store.YES));
+    indexer.add(doc);
   }
 
   public static void main(String... args) throws Exception {
