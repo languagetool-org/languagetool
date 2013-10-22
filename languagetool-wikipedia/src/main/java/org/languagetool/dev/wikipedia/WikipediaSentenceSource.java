@@ -29,7 +29,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 /**
- * Provides access to the sentences of a Wikipedia XML dump.
+ * Provides access to the sentences of a Wikipedia XML dump. Note that
+ * conversion exceptions are logged to STDERR and are otherwise ignored.
  * @since 2.4
  */
 class WikipediaSentenceSource extends SentenceSource {
@@ -84,12 +85,15 @@ class WikipediaSentenceSource extends SentenceSource {
           sb.append(event.asCharacters().getData());
           event = reader.nextEvent();
         }
-        
-        String textToCheck = textFilter.filter(sb.toString()).getPlainText();
-        for (String sentence : sentenceTokenizer.tokenize(textToCheck)) {
-          if (acceptSentence(sentence)) {
-            sentences.add(sentence);
+        try {
+          String textToCheck = textFilter.filter(sb.toString()).getPlainText();
+          for (String sentence : sentenceTokenizer.tokenize(textToCheck)) {
+            if (acceptSentence(sentence)) {
+              sentences.add(sentence);
+            }
           }
+        } catch (Exception e) {
+          System.err.println("Could not extract text, skipping document: " + e.toString());
         }
       }
     }
