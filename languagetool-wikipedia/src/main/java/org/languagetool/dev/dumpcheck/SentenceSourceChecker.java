@@ -150,6 +150,7 @@ public class SentenceSourceChecker {
         resultHandler = new StdoutHandler(maxSentences, maxErrors);
       }
       JLanguageTool langTool = new JLanguageTool(lang);
+      langTool.activateDefaultPatternRules();
       MixingSentenceSource mixingSource = MixingSentenceSource.create(fileNames, lang);
       while (mixingSource.hasNext()) {
         Sentence sentence = mixingSource.next();
