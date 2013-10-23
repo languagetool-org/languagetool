@@ -73,8 +73,8 @@ class DatabaseHandler extends ResultHandler {
   protected void handleResult(Sentence sentence, List<RuleMatch> ruleMatches, Language language) {
     final String sql = "INSERT INTO corpus_match " +
             "(version, language_code, ruleid, rule_subid, rule_description, message, error_context, corpus_date, " +
-            "check_date, sourceuri, is_visible) "+
-            "VALUES (0, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)";
+            "check_date, sourceuri, source_type, is_visible) "+
+            "VALUES (0, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)";
     try (PreparedStatement prepSt = conn.prepareStatement(sql)) {
       final java.sql.Date nowDate = new java.sql.Date(new Date().getTime());
       for (RuleMatch match : ruleMatches) {
@@ -98,6 +98,7 @@ class DatabaseHandler extends ResultHandler {
         prepSt.setDate(7, nowDate);  // should actually be the dump's date, but isn't really used anyway...
         prepSt.setDate(8, nowDate);
         prepSt.setString(9, sentence.getUrl());
+        prepSt.setString(10, sentence.getSource());
         prepSt.executeUpdate();
         checkMaxErrors(++errorCount);
         if (errorCount % 100 == 0) {
