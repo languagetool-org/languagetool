@@ -17,7 +17,7 @@ cd ../.. &&
   echo "###" &&
   echo "### NOTE: Now call these commands on the server (replacing X.Y): ###" &&
   echo ""
-  echo "cd ~/ltcommunity/corpus/ && mv LanguageTool_bak/ LanguageTool_bak2 && mv LanguageTool LanguageTool_bak" &&
+  echo "cd ~/ltcommunity/corpus/ && rm -rf LanguageTool_bak2 && mv LanguageTool_bak LanguageTool_bak2 && mv LanguageTool LanguageTool_bak" &&
   echo "unzip -d LanguageTool LanguageTool-wikipedia-X.Y-SNAPSHOT.zip && mv LanguageTool/LanguageTool-wikipedia-X.Y-SNAPSHOT/* LanguageTool/" &&
   echo "nohup ./update-all.sh &" &&
   echo ""
