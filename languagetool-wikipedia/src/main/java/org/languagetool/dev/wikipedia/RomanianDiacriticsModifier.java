@@ -20,24 +20,26 @@ package org.languagetool.dev.wikipedia;
 
 /**
  * Helper class for romanian diacritics correction. Many romanian texts
- * (including Romanian wikipedia) contains wrong diacritics: <b>ş</b> instead of
+ * (including Romanian wikipedia) contain wrong diacritics: <b>ş</b> instead of
  * <b>ș</b> and <b>ţ</b> instead of <b>ț</b>.
  * 
  * @author Ionuț Păduraru
  */
 public final class RomanianDiacriticsModifier {
 
+  private static final int REPLACEMENT_BUFF_SIZE = 10 * 1024;
+  
+  private static char[] cCorrectDiacritics = null;
+  private static char[] replacementBuff = null;
+
   private RomanianDiacriticsModifier() {
     // private constructor
   }
-  private static final int REPLACEMENT_BUFF_SIZE = 10 * 1024;
-  private static char[] cCorrectDiacritics = null;
-  private static char[] replacementBuff = null;
 
   /**
    * Initialize internal buffers
    */
-  private synchronized static void initCharMap() {
+  private static synchronized void initCharMap() {
     if (cCorrectDiacritics == null) {
       replacementBuff = new char[REPLACEMENT_BUFF_SIZE];
       cCorrectDiacritics = new char[Character.MAX_VALUE - Character.MIN_VALUE];
@@ -80,8 +82,8 @@ public final class RomanianDiacriticsModifier {
    * <b>ţ</b> with <b>ț</b> (including upper-case variants).<br/>
    * Thread-safe method.
    */
-  public static synchronized String correctDiacritics(String s) {
-    if (null == s) {
+  static synchronized String correctDiacritics(String s) {
+    if (s == null) {
       return null;
     }
     initCharMap();
