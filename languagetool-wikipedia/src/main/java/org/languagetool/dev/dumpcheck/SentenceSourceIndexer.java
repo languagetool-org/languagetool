@@ -43,13 +43,13 @@ public class SentenceSourceIndexer extends DefaultHandler implements AutoCloseab
   private static final String MAX_DOC_COUNT_FIELD_VAL = "1";
 
   private final Indexer indexer;
-  private final int maxDocs;
+  private final int maxSentences;
   
   private int sentenceCount = 0;
   
-  SentenceSourceIndexer(Directory dir, Language language, int maxDocs) {
+  SentenceSourceIndexer(Directory dir, Language language, int maxSentences) {
     this.indexer = new Indexer(dir, language);
-    this.maxDocs = maxDocs;
+    this.maxSentences = maxSentences;
   }
 
   @Override
@@ -57,8 +57,8 @@ public class SentenceSourceIndexer extends DefaultHandler implements AutoCloseab
     indexer.close();
   }
 
-  private void run(List<String> dumpFilesNames, Language language) throws IOException {
-    MixingSentenceSource mixingSource = MixingSentenceSource.create(dumpFilesNames, language);
+  private void run(List<String> dumpFileNames, Language language) throws IOException {
+    MixingSentenceSource mixingSource = MixingSentenceSource.create(dumpFileNames, language);
     while (mixingSource.hasNext()) {
       Sentence sentence = mixingSource.next();
       if (sentenceCount % 100 == 0) {
@@ -67,8 +67,8 @@ public class SentenceSourceIndexer extends DefaultHandler implements AutoCloseab
       }
       indexer.index(sentence.getText(), sentence.getSource(), true, sentenceCount);
       sentenceCount++;
-      if (sentenceCount >= maxDocs) {
-        throw new DocumentLimitReachedException(maxDocs);
+      if (sentenceCount >= maxSentences) {
+        throw new DocumentLimitReachedException(maxSentences);
       }
     }
   }
@@ -82,33 +82,33 @@ public class SentenceSourceIndexer extends DefaultHandler implements AutoCloseab
 
   public static void main(String... args) throws Exception {
     if (args.length != 4) {
-      System.out.println("Usage: " + SentenceSourceIndexer.class.getSimpleName() + " <dataFile...> <indexDir> <languageCode> <maxDocs>");
+      System.out.println("Usage: " + SentenceSourceIndexer.class.getSimpleName() + " <dataFile...> <indexDir> <languageCode> <maxSentences>");
       System.out.println("\t<dataFiles> comma-separated list of a Wikipedia XML dumps (*.xml) and/or Tatoeba files (tatoeba-*)");
       System.out.println("\t<indexDir> directory where Lucene index will be written to, existing index content will be removed");
       System.out.println("\t<languageCode> short code like en for English, de for German etc");
-      System.out.println("\t<maxDocs> maximum number of documents to be indexed, use 0 for no limit");
+      System.out.println("\t<maxSentences> maximum number of sentences to be indexed, use 0 for no limit");
       System.exit(1);
     }
     final List<String> dumpFilesNames = Arrays.asList(args[0].split(","));
     final File indexDir = new File(args[1]);
     final String languageCode = args[2];
-    final int maxDocs = Integer.parseInt(args[3]);
+    final int maxSentences = Integer.parseInt(args[3]);
 
     final Language language = Language.getLanguageForShortName(languageCode);
-    if (maxDocs == 0) {
+    if (maxSentences == 0) {
       System.out.println("Going to index contents from " + dumpFilesNames);
     } else {
-      System.out.println("Going to index up to " + maxDocs + " documents from " + dumpFilesNames);
+      System.out.println("Going to index up to " + maxSentences + " sentences from " + dumpFilesNames);
     }
     System.out.println("Output index dir: " + indexDir);
     
     final long start = System.currentTimeMillis();
     try (FSDirectory fsDirectory = FSDirectory.open(indexDir)) {
-      final SentenceSourceIndexer indexer = new SentenceSourceIndexer(fsDirectory, language, maxDocs);
+      final SentenceSourceIndexer indexer = new SentenceSourceIndexer(fsDirectory, language, maxSentences);
       try {
         indexer.run(dumpFilesNames, language);
       } catch (DocumentLimitReachedException e) {
-        System.out.println("Document limit (" + e.getLimit() + ") reached, stopping indexing");
+        System.out.println("Sentence limit (" + e.getLimit() + ") reached, stopping indexing");
       } finally {
         indexer.writeMetaDocuments();
         indexer.close();
