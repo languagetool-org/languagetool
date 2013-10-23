@@ -92,7 +92,7 @@ public class SentenceSourceChecker {
             .create("l"));
     options.addOption(OptionBuilder.withLongOpt("db-properties").withArgName("file").hasArg()
             .withDescription("A file to set database access properties. If not set, the output will be written to STDOUT. " +
-                    "The file needs to set dbDriver (fully qualified driver class), dbUrl ('jdbc:...'), dbUser, and dbPassword.")
+                    "The file needs to set the properties dbUrl ('jdbc:...'), dbUser, and dbPassword.")
             .create("d"));
     options.addOption(OptionBuilder.withLongOpt("rule-properties").withArgName("file").hasArg()
             .withDescription("A file to set rules which should be disabled per language (e.g. en=RULE1,RULE2 or all=RULE3,RULE4)")

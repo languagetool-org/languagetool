@@ -47,13 +47,11 @@ class DatabaseHandler extends ResultHandler {
     final Properties dbProperties = new Properties();
     try (FileInputStream inStream = new FileInputStream(propertiesFile)) {
       dbProperties.load(inStream);
-      final String dbDriver = getProperty(dbProperties, "dbDriver");
       final String dbUrl = getProperty(dbProperties, "dbUrl");
       final String dbUser = getProperty(dbProperties, "dbUser");
       final String dbPassword = getProperty(dbProperties, "dbPassword");
-      Class.forName(dbDriver);
       conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
-    } catch (ClassNotFoundException | SQLException | IOException e) {
+    } catch (SQLException | IOException e) {
       throw new RuntimeException(e);
     }
     contextTools = new ContextTools();
