@@ -18,7 +18,11 @@
  */
 package org.languagetool.dev.dumpcheck;
 
+import org.languagetool.Language;
+import org.languagetool.tokenizers.Tokenizer;
+
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Source of sentences to be checked/indexed. Sub classes provide access to XML files
@@ -28,8 +32,14 @@ import java.util.Iterator;
 abstract class SentenceSource implements Iterator<Sentence> {
 
   private static final int MIN_SENTENCE_SIZE = 10;
-  private static final int MIN_SENTENCE_WORD_COUNT = 3;
+  private static final int MIN_SENTENCE_TOKEN_COUNT = 3;
   private static final int MAX_SENTENCE_LENGTH = 300;
+
+  private final Tokenizer wordTokenizer;
+
+  SentenceSource(Language language) {
+    wordTokenizer = language.getWordTokenizer();
+  }
 
   @Override
   public abstract boolean hasNext();
@@ -56,11 +66,18 @@ abstract class SentenceSource implements Iterator<Sentence> {
   protected boolean acceptSentence(String sentence) {
     String trimSentence = sentence.trim();
     return trimSentence.length() >= MIN_SENTENCE_SIZE && trimSentence.length() <= MAX_SENTENCE_LENGTH
-            && countWords(trimSentence) >= MIN_SENTENCE_WORD_COUNT;
+            && countTokens(trimSentence) >= MIN_SENTENCE_TOKEN_COUNT;
   }
 
-  private int countWords(String sentence) {
-    return sentence.split("\\s+").length;
+  private int countTokens(String sentence) {
+    int realTokens = 0;
+    List<String> allTokens = wordTokenizer.tokenize(sentence);
+    for (String token : allTokens) {
+      if (token.trim().isEmpty()) {
+        realTokens++;
+      }
+    }
+    return realTokens;
   }
 
 }

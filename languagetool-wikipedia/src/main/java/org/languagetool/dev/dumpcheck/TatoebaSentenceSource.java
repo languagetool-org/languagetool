@@ -18,6 +18,8 @@
  */
 package org.languagetool.dev.dumpcheck;
 
+import org.languagetool.Language;
+
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +36,8 @@ class TatoebaSentenceSource extends SentenceSource {
   private final List<String> sentences;
   private final Scanner scanner;
   
-  TatoebaSentenceSource(InputStream textInput) {
+  TatoebaSentenceSource(InputStream textInput, Language language) {
+    super(language);
     scanner = new Scanner(textInput);
     sentences = new ArrayList<>();
   }

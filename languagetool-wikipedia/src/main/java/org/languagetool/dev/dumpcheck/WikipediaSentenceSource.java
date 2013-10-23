@@ -51,6 +51,7 @@ class WikipediaSentenceSource extends SentenceSource {
   private final Language language;
 
   WikipediaSentenceSource(InputStream xmlInput, Language language) {
+    super(language);
     try {
       XMLInputFactory factory = XMLInputFactory.newInstance();
       reader = factory.createXMLEventReader(xmlInput);

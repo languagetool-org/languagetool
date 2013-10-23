@@ -19,6 +19,7 @@
 package org.languagetool.dev.dumpcheck;
 
 import org.junit.Test;
+import org.languagetool.language.English;
 
 import java.io.InputStream;
 
@@ -32,7 +33,7 @@ public class TatoebaSentenceSourceTest {
   @Test
   public void testTatoebaSource() {
     InputStream stream = WikipediaSentenceSourceTest.class.getResourceAsStream("/org/languagetool/dev/wikipedia/tatoeba-en.txt");
-    TatoebaSentenceSource source = new TatoebaSentenceSource(stream);
+    TatoebaSentenceSource source = new TatoebaSentenceSource(stream, new English());
     assertTrue(source.hasNext());
     assertThat(source.next().getText(), is("\"What is your wish?\" asked the little white rabbit."));
     assertThat(source.next().getText(), is("The mother wakes up her daughter."));

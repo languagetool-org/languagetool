@@ -45,16 +45,17 @@ class MixingSentenceSource extends SentenceSource {
       if (file.getName().endsWith(".xml")) {
         sources.add(new WikipediaSentenceSource(new FileInputStream(dumpFileName), language));
       } else if (file.getName().startsWith("tatoeba-")) {
-        sources.add(new TatoebaSentenceSource(new FileInputStream(dumpFileName)));
+        sources.add(new TatoebaSentenceSource(new FileInputStream(dumpFileName), language));
       } else {
         throw new RuntimeException("Could not find a source handler for " + dumpFileName +
                 " - Wikipedia files must be named '*.xml', Tatoeba files must be named 'tatoeba-*'");
       }
     }
-    return new MixingSentenceSource(sources);
+    return new MixingSentenceSource(sources, language);
   }
 
-  private MixingSentenceSource(List<SentenceSource> sources) {
+  private MixingSentenceSource(List<SentenceSource> sources, Language language) {
+    super(language);
     this.sources = sources;
   }
 

@@ -27,7 +27,6 @@ import org.languagetool.Language;
 import org.languagetool.dev.index.Indexer;
 import org.xml.sax.helpers.DefaultHandler;
 
-import javax.xml.stream.XMLStreamException;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
@@ -58,7 +57,7 @@ public class SentenceSourceIndexer extends DefaultHandler implements AutoCloseab
     indexer.close();
   }
 
-  private void run(List<String> dumpFilesNames, Language language) throws IOException, XMLStreamException {
+  private void run(List<String> dumpFilesNames, Language language) throws IOException {
     MixingSentenceSource mixingSource = MixingSentenceSource.create(dumpFilesNames, language);
     while (mixingSource.hasNext()) {
       Sentence sentence = mixingSource.next();
