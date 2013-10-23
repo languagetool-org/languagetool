@@ -26,9 +26,6 @@ import org.languagetool.rules.RuleMatch;
 import java.io.IOException;
 import java.util.List;
 
-/**
- * @author Daniel Naber
- */
 public class WordCoherencyRuleTest extends TestCase {
 
   public void testRule() throws IOException {
@@ -87,9 +84,20 @@ public class WordCoherencyRuleTest extends TestCase {
     //assertError("Testketchup und Testketschup", langTool);
   }
 
+  public void testCallIndependence() throws IOException {
+    final JLanguageTool langTool = new JLanguageTool(new German());
+    assertGood("Das ist aufwendig.", langTool);
+    assertGood("Aber nicht zu aufwändig.", langTool);  // this won't be noticed, the calls are independent of each other
+  }
+
   private void assertError(String s, JLanguageTool langTool) throws IOException {
     final WordCoherencyRule rule = new WordCoherencyRule(null);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence(s)).length);
+  }
+
+  private void assertGood(String s, JLanguageTool langTool) throws IOException {
+    final WordCoherencyRule rule = new WordCoherencyRule(null);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence(s)).length);
   }
 
   public void testRuleCompleteTexts() throws IOException {
