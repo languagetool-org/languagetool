@@ -8699,6 +8699,17 @@ though, and has since been slightly modified)-->
       <example type="correct">Vous y arriverez vous-mêmes.</example>
       <example type="correct">Monsieur, vous y arriverez vous-même.</example>
     </rule>
+    <rule id="AU_MOIS_AU_MOINS" name="au mois → au moins">
+      <pattern>
+        <token>au</token>
+        <marker><token>mois</token></marker>
+        <token regexp="yes">\d+|(une?|deux|trois|quatre|cinq|six|sept|huit|neuf|dix|vingt|trente|quarante|cinquante|soixante|septante|octante|huitante|nonante)(-.*)?|onze|douze|treize|quatorze|quinze|seize|cent</token>
+      </pattern>
+      <message>Voulez-vous écrire <suggestion>moins</suggestion> ?</message>
+      <example type="incorrect" correction="moins">L’accident a fait au <marker>mois</marker> trois morts.</example>
+      <example type="incorrect" correction="moins">L’accident a fait au <marker>mois</marker> 3 morts.</example>
+      <example type="correct">L’accident a fait au moins trois morts.</example>
+    </rule>
   </category>
   <category default="off" name="Régionalismes">
     <!--The following rules were created by Hugo Voisard-->
@@ -18311,8 +18322,8 @@ though, and has since been slightly modified)-->
     <rulegroup id="CLAPBOARD" name="clapboard">
       <rule>
         <pattern>
-          <token regexp="yes">clap|claps</token>
-          <token regexp="yes">board|boards</token>
+          <token regexp="yes">claps?</token>
+          <token regexp="yes">boards?</token>
         </pattern>
         <message>« Clapboard » est un anglicisme. Employez <suggestion>clin d’aluminium</suggestion>.</message>
         <example type="incorrect"><marker>clap board</marker></example>
@@ -18320,7 +18331,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">clapboard|clapboards|clap-board|clap-boards</token>
+          <token regexp="yes">clap-?boards?</token>
         </pattern>
         <message>« Clapboard » est un anglicisme. Employez <suggestion>clin d’aluminium</suggestion>.</message>
         <example type="incorrect"><marker>clapboard</marker></example>
@@ -18330,8 +18341,8 @@ though, and has since been slightly modified)-->
     <rulegroup default="off" id="FAST_FOOD" name="fast food">
       <rule>
         <pattern>
-          <token regexp="yes">fast|fasts</token>
-          <token regexp="yes">food|foods</token>
+          <token regexp="yes">fasts?</token>
+          <token regexp="yes">foods?</token>
         </pattern>
         <message>« Fast food » est un anglicisme. Employez <suggestion>repas-minute</suggestion>, <suggestion>restaurant-minute</suggestion>, <suggestion>cuisine-minute</suggestion>, <suggestion>plat-minute</suggestion>, <suggestion>prêt-à-manger</suggestion>, <suggestion>restauration-minute</suggestion>.</message>
         <example type="incorrect"><marker>fast food</marker></example>
@@ -18339,7 +18350,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">fastfood|fast-food|fast-foods|fastfoods</token>
+          <token regexp="yes">fast-?foods?</token>
         </pattern>
         <message>« Fast food » est un anglicisme. Employez <suggestion>repas-minute</suggestion>, <suggestion>restaurant-minute</suggestion>, <suggestion>cuisine-minute</suggestion>, <suggestion>plat-minute</suggestion>, <suggestion>prêt-à-manger</suggestion>, <suggestion>restauration-minute</suggestion>.</message>
         <example type="incorrect"><marker>fast-food</marker></example>
@@ -18349,8 +18360,8 @@ though, and has since been slightly modified)-->
     <rulegroup id="BURNOUT" name="burnout">
       <rule>
         <pattern>
-          <token regexp="yes">burn|burns</token>
-          <token regexp="yes">out|outs</token>
+          <token regexp="yes">burns?</token>
+          <token regexp="yes">outs?</token>
         </pattern>
         <message>« Burnout » est un anglicisme. Employez <suggestion>surmenage</suggestion>, <suggestion>épuisement professionnel</suggestion>.</message>
         <example type="incorrect"><marker>burn out</marker></example>
@@ -18358,7 +18369,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">burnout|burnouts|burn-out|burn-outs</token>
+          <token regexp="yes">burn-?outs?</token>
         </pattern>
         <message>« Burnout » est un anglicisme. Employez <suggestion>surmenage</suggestion>, <suggestion>épuisement professionnel</suggestion>.</message>
         <example type="incorrect"><marker>burn-out</marker></example>
@@ -18368,9 +18379,9 @@ though, and has since been slightly modified)-->
     <rulegroup id="BED_AND_BREAKFAST" name="bed and breakfast">
       <rule>
         <pattern>
-          <token regexp="yes">bed|beds</token>
+          <token regexp="yes">beds?</token>
           <token>and</token>
-          <token regexp="yes">breakfast|breakfasts</token>
+          <token regexp="yes">breakfasts?</token>
         </pattern>
         <message>« Bed and breakfast » est un anglicisme. Employez <suggestion>chambre d’hôte</suggestion>, <suggestion>maison d’hôte</suggestion>.</message>
         <example type="incorrect"><marker>bed and breakfast</marker></example>
