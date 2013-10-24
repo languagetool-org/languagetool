@@ -7859,23 +7859,64 @@ though, and has since been slightly modified)-->
         <token><exception>guerre</exception></token>
       </pattern>
       <message>On écrit <suggestion><match no="1" regexp_match="(.*[tm])-(en)$" regexp_replace="$1’$2"/></suggestion>, car t’ ou m’ sont des pronoms réfléchis.</message>
-      <url>http://www.visezjuste.uottawa.ca/pages/orthographe/t_euphonique.html</url>
+      <url>http://66.46.185.79/bdl/gabarit_bdl.asp?T1=t+euphonique</url>
       <example type="incorrect" correction="Va-t’en"><marker>Va-t-en</marker> !</example>
       <example type="correct">Va-t’en !</example>
       <example type="correct">C’est un va-t-en guerre.</example>
       <example type="incorrect" correction="Donne-m’en"><marker>Donne-m-en</marker> un peu.</example>
       <example type="correct">Donne-m’en un peu.</example>
     </rule>
-    <rule id="T_EUPHONIQUE" name="t euphonique">
-      <pattern>
-        <token regexp="yes">.*[dt]-t-(ils?|elles?|on)</token>
-      </pattern>
-      <message>Si le verbe se termine part t ou d, la liaison se fait sans t euphonique.</message>
-      <suggestion><match no="1" regexp_match="-t-" regexp_replace="-"/></suggestion>
-      <url>http://leconjugueur.lefigaro.fr/uktraitunionquestion.php</url>
-      <example type="incorrect" correction="faut-il">Que <marker>faut-t-il</marker> faire ?</example>
-      <example type="correct">Que faut-il faire ?</example>
-    </rule>
+    <rulegroup id="T_EUPHONIQUE" name="t euphonique">
+      <rule>
+        <pattern>
+          <token regexp="yes">.*[dt]-t-(il|elle|on)</token>
+        </pattern>
+        <message>Si le verbe se termine part t ou d, la liaison se fait sans t euphonique.</message>
+        <suggestion><match no="1" regexp_match="-t-" regexp_replace="-"/></suggestion>
+        <url>http://66.46.185.79/bdl/gabarit_bdl.asp?T1=t+euphonique</url>
+        <example type="incorrect" correction="faut-il">Que <marker>faut-t-il</marker> faire ?</example>
+        <example type="correct">Que faut-il faire ?</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">.*[^ae]-t-(il|elle|on)<exception regexp="yes">convainc-t-.*</exception></token>
+        </pattern>
+        <message>Le -t- ephonique n’est possibe qu’avec les verbes se terminant en a ou e et avec le verbe convaincre.</message>
+        <url>http://66.46.185.79/bdl/gabarit_bdl.asp?T1=t+euphonique</url>
+        <example type="incorrect">Quand <marker>ariveras-t-il</marker> ?</example>
+        <example type="correct">Quand arrivera-t-il ?</example>
+        <example type="correct">Quand arrive-t-il ?</example>
+        <example type="correct">Vous convainc-t-il par ses arguments ?</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">.*-t-(je|tu|[nv]ous|ils|elles)</token>
+        </pattern>
+        <message>Le -t- ephonique n’est possibe qu’avec un pronon sujet de troisième personne (il, elle on).</message>
+        <url>http://66.46.185.79/bdl/gabarit_bdl.asp?T1=t+euphonique</url>
+        <example type="incorrect">Quand <marker>ariveras-t-tu</marker> ?</example>
+        <example type="correct">Quand <marker>arivera-tu</marker> ?</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">(.*[ae]|convainc)-(il|elle|on)</token>
+        </pattern>
+        <message>Il manque un -t- euphonique.</message>
+        <suggestion><match no="1" regexp_match="(.*)-(il|elle|on)" regexp_replace="$1-t-$2"/></suggestion>
+        <url>http://66.46.185.79/bdl/gabarit_bdl.asp?T1=t+euphonique</url>
+        <example type="incorrect" correction="Va-t-il"><marker>Va-il</marker> venir ?</example>
+        <example type="correct">Va-t-il venir ?</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">.*-t-(je|tu|[nv]ous|ils|elles)</token>
+        </pattern>
+        <message>Le -t- ephonique n’est possible qu’avec un pronon sujet de troisième personne (il, elle on).</message>
+        <url>http://66.46.185.79/bdl/gabarit_bdl.asp?T1=t+euphonique</url>
+        <example type="incorrect">Quand <marker>ariveras-t-tu</marker> ?</example>
+        <example type="correct">Quand <marker>arivera-tu</marker> ?</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="LA_LA" name="la → là">
       <rule>
         <pattern>
