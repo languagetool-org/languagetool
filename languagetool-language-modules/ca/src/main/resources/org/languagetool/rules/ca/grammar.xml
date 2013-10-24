@@ -18381,7 +18381,34 @@ $Id$
                 <example type="incorrect" correction="enverinen|atien|exasperen">Els problemes s'<marker>enconen</marker>.</example>
                 <example type="correct">Va enconar el meu fill.</example>
             </rule>
-        </rulegroup>       
+        </rulegroup>
+        <rulegroup id="AMASSAR_PASTAR" name="amassar / pastar">
+            <!-- es pot completar amb més paraules -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes" skip="7">amassar</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">ingredient|farina|massa|cera|bol|sucre|ou|oli|mantega|canyella|llimona|aigua|llet|min|minuts|dit|mà|llevat|panificadora</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">pastar</match></suggestion>?</message>
+                <short>Possible confusió</short>
+                <example type="incorrect" correction="Pasteu"><marker>Amasseu</marker> els ingredients.</example>
+                <example type="correct">Va amassar una gran fortuna</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes" skip="7">ingredient|farina|massa|cera|bol|sucre|ou|oli|mantega|canyella|llimona|aigua|llet|min|minuts|dit|mà|llevat|panificadora</token>
+                    <marker>
+                        <token inflected="yes">amassar</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">pastar</match></suggestion>?</message>
+                <short>Possible confusió</short>
+                <example type="incorrect" correction="pastar">Els ingredients s'han d'<marker>amassar</marker> durant cinc minuts.</example>
+                <example type="correct">Una gran fortuna, va amssar.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ASSECAR_EIXUGAR" name="assecar / eixugar">
             <!-- es pot completar amb més paraules -->
             <rule>
