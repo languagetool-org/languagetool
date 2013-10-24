@@ -7859,11 +7859,22 @@ though, and has since been slightly modified)-->
         <token><exception>guerre</exception></token>
       </pattern>
       <message>On écrit <suggestion><match no="1" regexp_match="(.*[tm])-(en)$" regexp_replace="$1’$2"/></suggestion>, car t’ ou m’ sont des pronoms réfléchis.</message>
+      <url>http://www.visezjuste.uottawa.ca/pages/orthographe/t_euphonique.html</url>
       <example type="incorrect" correction="Va-t’en"><marker>Va-t-en</marker> !</example>
       <example type="correct">Va-t’en !</example>
       <example type="correct">C’est un va-t-en guerre.</example>
       <example type="incorrect" correction="Donne-m’en"><marker>Donne-m-en</marker> un peu.</example>
       <example type="correct">Donne-m’en un peu.</example>
+    </rule>
+    <rule id="T_EUPHONIQUE" name="t euphonique">
+      <pattern>
+        <token regexp="yes">.*[dt]-t-(ils?|elles?|on)</token>
+      </pattern>
+      <message>Si le verbe se termine part t ou d, la liaison se fait sans t euphonique.</message>
+      <suggestion><match no="1" regexp_match="-t-" regexp_replace="-"/></suggestion>
+      <url>http://leconjugueur.lefigaro.fr/uktraitunionquestion.php</url>
+      <example type="incorrect" correction="faut-il">Que <marker>faut-t-il</marker> faire ?</example>
+      <example type="correct">Que faut-il faire ?</example>
     </rule>
     <rulegroup id="LA_LA" name="la → là">
       <rule>
