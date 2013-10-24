@@ -802,6 +802,27 @@ $Id$
                 <!-- <example type="correct">influí molt Assíria</example> -->
                 <!-- <example type="correct">ser admesos com a tals Alemanya, el Japó,</example> -->
             </rule>
+            <rule>
+                <pattern>
+                    <token><exception postag="DN.*" postag_regexp="yes" /></token>
+                    <marker>
+                        <unify negate="yes">
+                            <feature id="nombre" />
+                            <token postag="D[^ARN].*" postag_regexp="yes"><exception postag="_GN_.*|allow_tant|contraccio" postag_regexp="yes" /><exception postag="allow_masculine">tot</exception><exception postag="complement.*" postag_regexp="yes" regexp="yes">tot(a|s|es)?</exception></token>
+                            <token postag="N.C.*" postag_regexp="yes"><exception postag="N.CN.*|_GN_.*|V.[IS].*" postag_regexp="yes" /></token>
+                        </unify>
+                    </marker>
+                </pattern>
+                <message>Error de concordança.</message>
+                <suggestion><match no="2" postag="D..[MC][SN].*" postag_regexp="yes" /> <match no="3" postag="N.C[SN].*" postag_regexp="yes" /></suggestion>
+                <suggestion><match no="2" postag="D..[MC][PN].*" postag_regexp="yes" /> <match no="3" postag="N.C[PN].*" postag_regexp="yes" /></suggestion>
+                <suggestion><match no="2" postag="D..[FC][SN].*" postag_regexp="yes" /> <match no="3" postag="N.C[SN].*" postag_regexp="yes" /></suggestion>
+                <suggestion><match no="2" postag="D..[FC][PN].*" postag_regexp="yes" /> <match no="3" postag="N.C[PN].*" postag_regexp="yes" /></suggestion>
+                <short>Error de concordança</short>                
+                <example type="incorrect" correction="Un èmfasi|Uns èmfasis|Una èmfasi|Unes èmfasis"><marker>Un èmfasis</marker></example>
+                <example type="incorrect" correction="Un recepcionista|Uns recepcionistes|Una recepcionista|Unes recepcionistes"><marker>Uns recepcionista</marker>.</example>
+                <example type="correct">Un èmfasi especial.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="CONCORDANCES_ADJ_NOM" name="Concordances adjectiu i nom"> <!-- cas especial per a ordinals AO.* ? -->
             <rule>
