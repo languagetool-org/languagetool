@@ -12471,6 +12471,21 @@ $Id$
         </rulegroup>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="MA_DE_SANT" name="mà de sant">
+            <pattern>
+                <token><exception postag="[DA].*" postag_regexp="yes"></exception></token>
+                <marker>
+                    <token>mà</token>
+                    <token>de</token>
+                    <token>sant</token>
+                </marker>
+            </pattern>
+            <message>Expressió incorrecta.</message>
+            <suggestion>oli en un llum</suggestion>
+            <suggestion>oli en un cresol</suggestion>
+            <example type="incorrect">Ha sigut <marker>mà de sant</marker></example>
+            <example type="correct">Va besar la mà de sant Josep.</example>
+        </rule>
         <rule id="IMESD" name="I+D/R+D">
             <pattern>
                 <token regexp="yes">I\+D(\+I)?</token>
