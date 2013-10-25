@@ -662,17 +662,6 @@ RB => Règles Brutes
       <disambig postag="V avoir inf"/>
     </rule>
   </rulegroup>
-  <!-- 
-  <rule name="RP : Det + Nom + Adj" id="RP-D_N_AMBIG_J">
-    <pattern>
-      <unify>  <feature id="number"/> <feature id="gender"/>
-        <token postag="D.*" postag_regexp="yes"/>
-        <token postag="N.*" postag_regexp="yes"/>
-        <token postag="J.*|V ppa .*" postag_regexp="yes"/>
-      </unify>
-    </pattern>
-    <disambig action="filterall"/>
-  </rule> -->
   <rule name="RP : Det + Adj + Nom" id="RP-D_J_AMBIG_N">
     <pattern>
       <unify>  <feature id="number"/> <feature id="gender"/>
@@ -683,11 +672,12 @@ RB => Règles Brutes
     </pattern>
     <disambig action="filterall"/>
   </rule>
+  !
   <rule name="RP : Det + Nom ambigu" id="RP-D_N_AMBIG">
     <pattern>
       <unify> <feature id="number"/> <feature id="gender"/>
         <token postag="D.*" postag_regexp="yes"/>
-        <token postag="N.*|J.*" postag_regexp="yes"><exception regexp="yes">a|dans|envers</exception></token>
+        <token postag="N.*|J.*" postag_regexp="yes"><exception regexp="yes">a|dans|envers|si</exception></token>
       </unify>
     </pattern>
     <disambig action="filterall"/>
