@@ -420,6 +420,9 @@ public class PatternRuleHandler extends XMLRuleHandler {
     if (defaultOff) {
       rule.setDefaultOff();
     }
+    if (category == null) {
+      throw new RuntimeException("Cannot activate rule '" + id + "', it is outside of a <category>...</category>");
+    }
     if (category.isDefaultOff() && !defaultOn) {
       rule.setDefaultOff();
     }
