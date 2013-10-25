@@ -6043,7 +6043,6 @@ though, and has since been slightly modified)-->
             <exception regexp="yes">ce|celle</exception>
             <exception scope="previous" postag="&lt;/DE&gt;"/>
             <exception scope="previous" postag="P"/>
-            <exception scope="previous">comme</exception>
           </token>
           <token regexp="yes">[lmnst]e|la|les|[nv]vous|leur|lui|en|y</token>
           <token postag="V .*" postag_regexp="yes"><exception postag="V .* 3 s" postag_regexp="yes"/></token>
@@ -6063,7 +6062,6 @@ though, and has since been slightly modified)-->
             <exception regexp="yes">ça|cela|ceci|ce|celle</exception>
             <exception scope="previous" postag="&lt;/DE&gt;"/>
             <exception scope="previous" postag="P"/>
-            <exception scope="previous">comme</exception>
           </token>
           <!-- Not all combinations of 2 tokens between il/elle/on and verb are actually possible -->
           <token regexp="yes">[lmnst]|[mnst]e|la|les?|[nv]ous|lui|leur</token>
@@ -6074,6 +6072,8 @@ though, and has since been slightly modified)-->
         <example type="incorrect"><marker>Il ne me veux</marker> pas.</example>
         <example type="correct"><marker>Il ne me veut</marker> pas.</example>
         <example type="correct">Pour cela nous en parlons à notre mère.</example>
+        <example type="incorrect">Comme <marker>il n’avais</marker> plus de voiture, il prenait le bus.</example>
+        <example type="correct">Comme il n’avait plus de voiture, il prenait le bus.</example>
       </rule>
       <rule name="il/elle/on + 2 tokens + Verbe">
         <pattern>
@@ -6093,7 +6093,6 @@ though, and has since been slightly modified)-->
           <token postag="R pers suj 3 .* s|R dem . s" postag_regexp="yes">
             <exception scope="previous" postag="&lt;/DE&gt;"/>
             <exception scope="previous" postag="P"/>
-            <exception scope="previous">comme</exception>
           </token>
           <!-- Not all combinations of 3 tokens between il/elle/on and verb are actually possible -->
           <token regexp="yes">[mnst]e?</token>
@@ -6115,7 +6114,6 @@ though, and has since been slightly modified)-->
           <token postag="R pers suj 3 .* s|R dem . s" postag_regexp="yes">
             <exception scope="previous" postag="&lt;/DE&gt;"/>
             <exception scope="previous" postag="P"/>
-            <exception scope="previous">comme</exception>
           </token>
           <!-- Not all combinations of 4 tokens between il/elle/on and verb are actually possible -->
           <token>ne</token>
@@ -6219,7 +6217,6 @@ though, and has since been slightly modified)-->
             <exception regexp="yes">celles|ceux</exception>
             <exception scope="previous" postag="&lt;/DE&gt;"/>
             <exception scope="previous" postag="P"/>
-            <exception scope="previous">comme</exception>
           </token>
           <token postag="V .*" postag_regexp="yes">
             <exception postag="V .* 3 p" postag_regexp="yes"/>
@@ -6239,7 +6236,6 @@ though, and has since been slightly modified)-->
           <token postag="R pers suj 3 .* p|R dem . p" postag_regexp="yes">
             <exception scope="previous" postag="&lt;/DE&gt;"/>
             <exception scope="previous" postag="P"/>
-            <exception scope="previous">comme</exception>
           </token>
           <token regexp="yes">[lmnst]e|la|les|[nv]vous|leur|lui|en|y</token>
           <token postag="V .*" postag_regexp="yes">
@@ -6257,7 +6253,6 @@ though, and has since been slightly modified)-->
           <token postag="R pers suj 3 .* p|R dem . p" postag_regexp="yes">
             <exception scope="previous" postag="&lt;/DE&gt;"/>
             <exception scope="previous" postag="P"/>
-            <exception scope="previous">comme</exception>
           </token>
           <!-- Not all combinations of 2 tokens between ils/elles and verb are actually possible -->
           <token regexp="yes">[lmnst]|[mnst]e|la|les?|[nv]ous|lui|leur</token>
@@ -6277,7 +6272,6 @@ though, and has since been slightly modified)-->
           <token postag="R pers suj 3 .* p|R dem . p" postag_regexp="yes">
             <exception scope="previous" postag="&lt;/DE&gt;"/>
             <exception scope="previous" postag="P"/>
-            <exception scope="previous">comme</exception>
           </token>
           <!-- Not all combinations of 3 tokens between ils/elles and verb are actually possible -->
           <token regexp="yes">[mnst]e?</token>
@@ -6297,7 +6291,6 @@ though, and has since been slightly modified)-->
           <token postag="R pers suj 3 .* p|R dem . p" postag_regexp="yes">
             <exception scope="previous" postag="&lt;/DE&gt;"/>
             <exception scope="previous" postag="P"/>
-            <exception scope="previous">comme</exception>
           </token>
           <!-- Not all combinations of 4 tokens between ils/elles and verb are actually possible -->
           <token>ne</token>
@@ -7906,8 +7899,8 @@ though, and has since been slightly modified)-->
         <url>http://66.46.185.79/bdl/gabarit_bdl.asp?T1=t+euphonique</url>
         <example type="incorrect" correction="Va-t-il"><marker>Va-il</marker> venir ?</example>
         <example type="correct">Va-t-il venir ?</example>
-        <example type="incorrect" correction="convainc-t-il">Vous <marker>convainc-il</marker> ?</example>
-        <example type="correct">Vous convainc-t-il ?</example>
+        <example type="incorrect" correction="convainc-t-il">Vous <marker>convainc-il</marker> ?</example>
+        <example type="correct">Vous convainc-t-il ?</example>
       </rule>
       <rule>
         <pattern>
@@ -8763,6 +8756,15 @@ though, and has since been slightly modified)-->
       <example type="incorrect" correction="moins">L’accident a fait au <marker>mois</marker> trois morts.</example>
       <example type="incorrect" correction="moins">L’accident a fait au <marker>mois</marker> 3 morts.</example>
       <example type="correct">L’accident a fait au moins trois morts.</example>
+    </rule>
+    <rule id="TRES" name="très + adjectif/adverbe/participe passé">
+      <pattern>
+        <token>très</token>
+        <marker><token><exception postag="[JA].*|V ppa.*" postag_regexp="yes"/></token></marker>
+      </pattern>
+      <message>Le mot après « très » devrait être un adjectif, adverbe ou participe passé.</message>
+      <example type="incorrect">C’est très <marker>importent</marker>.</example>
+      <example type="correct">C’est très <marker>important</marker>.</example>
     </rule>
   </category>
   <category default="off" name="Régionalismes">
@@ -14973,7 +14975,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="PAYEZ_ET_EMPORTEZ" name="payez et emportez">
       <pattern>
-        <token regexp="yes">payez|payé|payer</token>
+        <token regexp="yes">paye[rz]|payé</token>
         <token>et</token>
         <token regexp="yes">emportez|emporté|emporter</token>
       </pattern>
@@ -22500,7 +22502,7 @@ though, and has since been slightly modified)-->
           <token>et</token>
           <token>vient</token>
         </pattern>
-        <message>Il manque les traits d’union : <suggestion>va-et-vient</suggestion>.</message>
+        <message>Il manque les traits d’union : <suggestion>va-et-vient</suggestion>.</message>
         <example type="incorrect">Il y a un <marker>va et vient</marker> dans cette maison.</example>
         <example type="correct">Il y a un va-et-vient dans cette maison.</example>
       </rule>
