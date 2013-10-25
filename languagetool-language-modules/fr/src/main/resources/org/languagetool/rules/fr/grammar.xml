@@ -6706,7 +6706,7 @@ though, and has since been slightly modified)-->
             <token postag="V.*" postag_regexp="yes"><exception postag="V.* 2 p" postag_regexp="yes"/></token>
           </marker>
         </pattern>
-        <message>Le verbe « \2 » devrait être à la 2e personne plurielle.</message>
+        <message>Le verbe « \3 » devrait être à la 2e personne plurielle.</message>
         <example type="incorrect">Vous qui <marker>travailler</marker> ici</example>
         <example type="correct">Vous qui travaillez ici</example>
         <example type="correct">Y a-t-il quelqu’un parmi vous qui a un briquet ?</example>
@@ -8760,11 +8760,21 @@ though, and has since been slightly modified)-->
     <rule id="TRES" name="très + adjectif/adverbe/participe passé">
       <pattern>
         <token>très</token>
-        <marker><token><exception postag="[JA].*|V ppa.*" postag_regexp="yes"/></token></marker>
+        <marker>
+          <token>
+            <exception postag="[JAM].*|V ppa.*" postag_regexp="yes"/>
+            <exception regexp="yes">à|au|en|classe|envie|faim|peur|soif|sommeil|demandeur| </exception>
+          </token>
+        </marker>
       </pattern>
       <message>Le mot après « très » devrait être un adjectif, adverbe ou participe passé.</message>
       <example type="incorrect">C’est très <marker>importent</marker>.</example>
       <example type="correct">C’est très <marker>important</marker>.</example>
+      <example type="correct">J’ai très faim.</example>
+      <example type="correct">Il est très à l’aise.</example>
+      <example type="correct">Je suis très en retard.</example>
+      <example type="correct">Très, très loin.</example>
+      <example type="correct">Tu aimes beaucoup ? Très !</example>
     </rule>
   </category>
   <category default="off" name="Régionalismes">
@@ -24878,7 +24888,7 @@ though, and has since been slightly modified)-->
             <exception postag="N m s">est</exception>
           </token>
           <token spacebefore="yes">
-            <exception regexp="yes">vous|nous|mieux|faire|en|donnant|couvent</exception><match no="0"/>
+            <exception regexp="yes">vous|nous|mieux|faire|en|donnant|couvent|ho</exception><match no="0"/>
           </token>
         </pattern>
         <message>Faute de frappe possible : un mot est répété : \1 \2. Correction : <suggestion>\1</suggestion>.</message>
