@@ -54,9 +54,9 @@ public class MultiWordChunker implements Disambiguator {
       return;
     }
 
-    mStartSpace = new HashMap<>();
-    mStartNoSpace = new HashMap<>();
-    mFull = new HashMap<>();
+    Map<String, Integer> mStartSpace = new HashMap<>();
+    Map<String, Integer> mStartNoSpace = new HashMap<>();
+    Map<String, String> mFull = new HashMap<>();
 
     final List<String> posTokens = loadWords(JLanguageTool.getDataBroker().getFromResourceDirAsStream(filename));
     for (String posToken : posTokens) {
@@ -91,6 +91,10 @@ public class MultiWordChunker implements Disambiguator {
       }
       mFull.put(tokenAndTag[0], tokenAndTag[1]);
     }
+    
+    this.mStartSpace = mStartSpace;
+    this.mStartNoSpace = mStartNoSpace;
+    this.mFull = mFull;
   }
 
   /**
