@@ -4009,6 +4009,38 @@ though, and has since been slightly modified)-->
         <example type="correct">Tu les <marker>diagnostiques</marker> facilement.</example>
       </rule>
     </rulegroup>
+    <rule id="DEBOUCHONNER" name="débouchonner → déboucher">
+      <pattern>
+        <token regexp="yes">d[ée]bouchonn?.*</token>
+      </pattern>
+      <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="d[ée]bouchonn?(.*)" regexp_replace="débouch$1"/></suggestion> ?</message>
+      <example type="incorrect" correction="débouchera">Il <marker>débouchonnera</marker> la bouteille.</example>
+      <example type="correct">Il débouchera la bouteille.</example>
+    </rule>
+    <rulegroup id="AVARE_AVAR" name="avare et avar">
+      <rule>
+        <pattern>
+          <token regexp="yes">assez|gens|homme|plus|très|trop|moins|personnage|si|tellement|vieux</token>
+          <marker><token regexp="yes">avars?</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion><match  no="2" regexp_match="r" regexp_replace="re"/></suggestion> ?</message>
+        <example type="incorrect" correction="avares">Ils sont très <marker>avars</marker>.</example>
+        <example type="correct">Ils sont très avares.</example>
+        <example type="correct">L’avar est une langue caucasienne.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">avars?</token></marker>
+          <token inflected="yes" regexp="yes">à|comme|de?|amasser|dépenser|économiser</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="r" regexp_replace="re"/></suggestion> ?</message>
+        <example type="incorrect" correction="avares">Ils sont <marker>avars</marker> de bonnes paroles.</example>
+        <example type="correct">Ils sont avares de bonnes paroles.</example>
+        <example type="incorrect" correction="avare">Un <marker>avar</marker> amasse de l’argent non pas parce qu’il est prudent mais parce qu’il est avide.</example>
+        <example type="correct">Un avare amasse de l’argent non pas parce qu’il est prudent mais parce qu’il est avide.</example>
+        <example type="correct">L’avar est une langue caucasienne.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category name="Élision">
     <!-- I find conflicting information about élision, so this needs to be reviewed.
@@ -8773,7 +8805,9 @@ though, and has since been slightly modified)-->
         <marker>
           <token>
             <exception postag="[JAM].*|V ppa.*|UNKNOWN" postag_regexp="yes"/>
-            <exception regexp="yes">à|au|en|classe|envie|faim|limite|peur|près|proche|soif|sommeil|demandeur|dommage|tendance| </exception>
+            <!-- A few words below can be removed when upgrading to the next
+                 version of Dicollecte (they were not marked as adjective -->
+            <exception regexp="yes">à|au|en|cosmopolite|économique|classe|envie|faim|limite|peur|près|proche|soif|sommeil|demandeur|dommage|tendance|Cloîtres</exception>
           </token>
         </marker>
       </pattern>
@@ -8786,6 +8820,7 @@ though, and has since been slightly modified)-->
       <example type="correct">Très, très loin.</example>
       <example type="correct">Tu aimes beaucoup ? Très !</example>
       <example type="correct">Je me sentirais très seul si tu venais à disparaître.</example>
+      <example type="correct">le vieux quartier Très Cloîttres à Grenoble.</example>
     </rule>
   </category>
   <category default="off" name="Régionalismes">
