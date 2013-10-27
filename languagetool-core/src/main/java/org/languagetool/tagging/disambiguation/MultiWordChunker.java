@@ -24,7 +24,10 @@ import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.*;
 
 /**
@@ -163,12 +166,12 @@ public class MultiWordChunker implements Disambiguator {
 
   private AnalyzedTokenReadings prepareNewReading(final String tokens, final String tok, final AnalyzedTokenReadings token, final boolean isLast) {
     final StringBuilder sb = new StringBuilder();
-    sb.append("<");
+    sb.append('<');
     if (isLast) {
-      sb.append("/");
+      sb.append('/');
     }
     sb.append(mFull.get(tokens));
-    sb.append(">");
+    sb.append('>');
     final AnalyzedToken tokenStart = new AnalyzedToken(tok, sb.toString(), tokens);
     return setAndAnnotate(token, tokenStart);
   }
@@ -197,10 +200,11 @@ public class MultiWordChunker implements Disambiguator {
 
   private List<String> loadWords(final InputStream stream) {
     final List<String> lines = new ArrayList<>();
-    try (Scanner scanner = new Scanner(stream, "UTF-8")) {
-      while (scanner.hasNextLine()) {
-        final String line = scanner.nextLine().trim();
-        if (line.length() < 1) {
+    try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream, "UTF-8"))) {
+      String line;
+      while ((line = reader.readLine()) != null) {
+        line = line.trim();
+        if (line.isEmpty()) {
           continue;
         }
         if (line.charAt(0) == '#') { // ignore comments
@@ -208,6 +212,8 @@ public class MultiWordChunker implements Disambiguator {
         }
         lines.add(line);
       }
+    } catch (IOException e) {
+      // ignore and return the partially loaded lines, or an empty list.
     }
     return lines;
   }
