@@ -7,7 +7,9 @@ Copyright (C) 2012 Jaume Ortolà i Font
 -->
 
 <!DOCTYPE rules [
-    <!ENTITY exceptions_QUE_COMPARATIU "pretensió|algun|objectiu|vocació|missió|sortida|eixida|alternativa|recurs|remei|solució|opció|camí">    
+    <!ENTITY exceptions_QUE_COMPARATIU "pretensió|algun|objectiu|vocació|missió|sortida|eixida|alternativa|recurs|remei|solució|opció|camí">
+    <!ENTITY exceptions_TE "aigua|arròs|cacau|cacauet|caf[èé]|cautxú|cervesa|cítric|coca-cola|cotó|espècies|farigola|fruita|infusió|llet|malta?|melmelada|mill|oli|ordi|pastes|pastís|pastisset|poliol|quina|raïm|sucre|tabac|torrada|xocolat[ae]|">
+    <!ENTITY verbs_TE_INFUSIO "produir|prendre|servir|preparar|voler|beure|consumir|importar|vendre|exportar|llançar">    
 ]>
 <rules lang="ca" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <unification feature="nombre">
@@ -2398,7 +2400,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rulegroup id="te_infusio_lletra" name="te (nom d'infusió, lletra te)">
         <rule>
             <pattern>
-                <token regexp="yes" skip="1" inflected="yes">prendre|servir|preparar|voler|beure|consumir</token>
+                <token regexp="yes" skip="1" inflected="yes">&verbs_TE_INFUSIO;</token>
                 <marker>
                     <token>te</token>
                 </marker>
@@ -2445,7 +2447,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token regexp="yes">caf[èé]|coca-cola|cacau|llet|cervesa|malta?|espècies|pastes|arròs|raïm|tabac|cítrics|oli</token>
+                <token inflected="yes" regexp="yes">&exceptions_TE;</token>
                 <token regexp="yes">,|i|o|ni</token>
                 <marker>
                     <token>te</token>
@@ -2459,7 +2461,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <token>te</token>
                 </marker>
                 <token regexp="yes">,|i|o|ni</token>
-                <token regexp="yes">caf[èé]|coca-cola|cacau|llet|cervesa|malta?|espècies|pastes|arròs|raïm|tabac|cítrics|oli</token>
+                <token inflected="yes" regexp="yes">&exceptions_TE;</token>
             </pattern>
             <disambig action="filter" postag="NCMS.*"></disambig>
         </rule>

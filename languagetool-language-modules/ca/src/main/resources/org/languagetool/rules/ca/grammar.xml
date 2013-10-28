@@ -38,8 +38,8 @@ $Id$
     <!ENTITY seguits_per_COM_A "caracteritzar|qualificar|establir|figurar|reconèixer|conèixer|definir|veure|entendre|interpretar|percebre">
     <!ENTITY nombres_que_apostrofen "(1{1,2}|11[.\s]?\d{3}|1\.\d{3}\.\d{3}|1\s\d{3}\s\d{3}|1\d{6})([,]\d+)?&#37;?">
     <!ENTITY noms_ABAIXAR_APUJAR "calefacció|impost|sou|salari|guàrdia|vela|persiana|cap|braç|veu|to|preu|pressupost|ràdio|volum|tele|televisió|música|teló|vista">
-    <!ENTITY adjectius_TE_INFUSIO "xin[èé]s|amargant|sud-americà|instantani|lleuger|indi|roquer|dolç|fals|bord|tradicional|gal·l[éè]s|pudent|salvatge|àrab|angl[éè]s|fosc|negre|verd|vermell|blanc|gelat|fred|calent|turc">
-    <!ENTITY verbs_TE_INFUSIO "prendre|servir|preparar|voler|beure|consumir">
+    <!ENTITY adjectius_TE_INFUSIO "descafeïnat|mòlt|jove|conegut|preparat|empaquetat|xin[èé]s|amargant|sud-americà|instantani|lleuger|indi|roquer|dolç|fals|bord|tradicional|gal·l[éè]s|pudent|salvatge|àrab|angl[éè]s|fosc|negre|verd|vermell|blanc|gelat|fred|calent|turc">
+    <!ENTITY verbs_TE_INFUSIO "produir|prendre|servir|preparar|voler|beure|consumir|importar|vendre|exportar|llançar">
     <!ENTITY exceptions_MES "draconític|lunar|mitjà|tròpic|anomalístic|dedicat|vinent|entrant|propvinent|passat|proppassat|intercalar|anterior|següent">
 ]>
     
@@ -9320,14 +9320,14 @@ $Id$
                 <example type="correct">El nét d'ell.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="MA" name="ma/mà">
+        <rulegroup id="MA" name="ma/mà"> <!-- exigir context: davant: article, adjectiu, preposició. O darrere: preposició... -->
             <rule>
                 <pattern>
-                    <token><exception>-</exception><exception postag="DN.*" postag_regexp="yes"/></token>
+                    <token postag="[ASPD].*" postag_regexp="yes"><exception postag="DN.*" postag_regexp="yes"/></token>
                     <marker>
                         <token regexp="yes">(?-i)ma</token>
                     </marker>
-                    <token><exception postag="N.[FC]S.*|A..[FC]S.*" postag_regexp="yes"/><exception regexp="yes">non|-</exception></token>
+                    <token><exception postag="N.[FC]S.*|A..[FC]S.*" postag_regexp="yes"/><exception>non</exception></token>
                 </pattern>
                 <message>S'accentua quan és nom.</message>
                 <suggestion>mà</suggestion>
@@ -9337,6 +9337,23 @@ $Id$
                 <example type="incorrect">Aquella <marker>ma</marker>.</example>
                 <example type="correct">A ma mare.</example>
                 <example type="incorrect">De primera <marker>ma</marker> a les festes.</example>
+                <example type="correct">Aquella mà.</example>
+                <example type="correct">Estimava moltíssim ma mare.</example>   
+                <example type="correct">En tota ma vida.</example>
+                <example type="correct">Allegro ma non tropo.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">(?-i)ma</token>
+                    </marker>
+                    <token postag="S.*" postag_regexp="yes"></token>
+                </pattern>
+                <message>S'accentua quan és nom.</message>
+                <suggestion>mà</suggestion>
+                <short>Accent diacrític</short>
+                <example type="incorrect" correction="mà">Arribarà <marker>ma</marker> d'obra barata.</example>
+                <example type="correct">A ma mare.</example>
                 <example type="correct">Aquella mà.</example>
                 <example type="correct">Estimava moltíssim ma mare.</example>   
                 <example type="correct">En tota ma vida.</example>
@@ -9378,7 +9395,7 @@ $Id$
                         <token>ma</token>
                     </marker>
                     <token postag="AQ.FS.*|V.P..SF." postag_regexp="yes"/>
-                    <token><exception regexp="yes">iaia|mare|cosina|tia|germana|àvia|besàvia|rebesàvia|bestia|néta|besnéta|rebesnéta</exception></token>
+                    <token><exception regexp="yes">pàtria|iaia|mare|cosina|tia|germana|àvia|besàvia|rebesàvia|bestia|néta|besnéta|rebesnéta</exception></token>
                 </pattern>
                 <message>S'accentua quan és nom.</message>
                 <suggestion>mà</suggestion>
@@ -10006,17 +10023,20 @@ $Id$
         <rulegroup id="TE" name="te/té">
             <rule>
                 <pattern>
+                    <token postag="[ANDSCPVR].*|.*LOC.*|_PUNCT.*" postag_regexp="yes" />
                     <marker>
                         <token postag="P020S000|PP2CS000" postag_regexp="yes" regexp="yes">(?-i)te</token>
                     </marker>
-                    <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|V.[SI].*" postag_regexp="yes"/></token>
+                    <token postag="[ANDSCPVR].*|.*LOC.*|_PUNCT.*" postag_regexp="yes"><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|V.[SI].*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>S'accentua si és del verb "tenir".</message>
                 <suggestion>té</suggestion>
                 <short>Accent diacrític</short>
                 <example type="incorrect">Joan <marker>te</marker> mala sort.</example>
+                <example type="incorrect">Joan, <marker>te</marker>, sens dubte bona sort.</example>
                 <!--<example type="incorrect">Joan em <marker>te</marker> negre.</example>  Activa la regla de pronoms febles solts --> 
                 <example type="correct">Jo vull te negre</example>
+                <example type="correct">Prenen te, cafè i pastes.</example>
                 <example type="correct">Joan té mala sort.</example>
                 <example type="correct">No te l'emportis</example>
                 <example type="correct">¿Te n'adones?</example>
@@ -10044,7 +10064,7 @@ $Id$
                         <token min="0" regexp="yes" spacebefore="yes">[,—–"'‘“«¡¿(\-]</token>
                         <token spacebefore="no">,</token>
                     </or>
-                    <token postag="[ANDSCPVR].*|.*LOC.*" postag_regexp="yes"><exception regexp="yes">(?-i)Tai</exception><exception regexp="yes">&adjectius_TE_INFUSIO;</exception><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|V.[SI].*" postag_regexp="yes"/></token>
+                    <token postag="[ANDSCPVR].*|.*LOC.*" postag_regexp="yes"><exception regexp="yes">(?-i)Tai|Deum</exception><exception regexp="yes">&adjectius_TE_INFUSIO;</exception><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|V.[SI].*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>S'accentua si és del verb "tenir".</message>
                 <suggestion>Té</suggestion>
@@ -10060,6 +10080,7 @@ $Id$
                 <example type="incorrect" correction="Té"><marker>Te</marker> com a objectiu arribar a la lluna.</example>
                 <example type="correct">¿Te n'adones?</example>
                 <example type="correct">Te Tai Tonga també es considera una circumscripció</example>
+                <example type="correct">Te Deum.</example>
             </rule>
             <rule>
                 <pattern>
@@ -10122,7 +10143,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token><exception regexp="yes" inflected="yes">&verbs_TE_INFUSIO;</exception></token>
+                    <token><exception postag="SPS00|.*LOC_PREP.*" postag_regexp="yes"/><exception regexp="yes" inflected="yes">&verbs_TE_INFUSIO;</exception></token>
                     <token>el</token>
                     <marker>
                         <token regexp="yes">(?-i)te</token>
@@ -18577,7 +18598,7 @@ $Id$
                 <pattern>
                     <token postag="SENT_START|_PUNCT.*|SPS00" postag_regexp="yes" skip="-1"><exception scope="next" regexp="yes" inflected="yes">origen|any|segle</exception><exception scope="next" regexp="yes">\d{3,4}</exception><exception scope="next" inflected="yes" regexp="yes">portar|saltar|tornar|remetre|arribar|transportar|traslladar|dedicar|repàs|repassada|aplicable|aplicar|referent|referir|anterior|referència|transcendir|corresponent|atent</exception></token>
                     <marker>
-                        <token>a<exception scope="previous" regexp="yes">per|fins|cap|degut</exception></token>
+                        <token>a<exception scope="previous" regexp="yes">per|fins|cap|degut|ullada|ull</exception></token>
                         <token>l'</token>
                         <token>actualitat</token>
                     </marker>
@@ -18598,6 +18619,7 @@ $Id$
                 <example type="correct">Una lliçó per a l'actualitat</example>
                 <example type="correct">Que remet a l'actualitat que viu el país.</example>
                 <example type="correct">que transportava Romeo i Julieta a l'actualitat</example>
+                <example type="correct">Dóna una ullada a l'actualitat.</example>
             </rule>    
         </rulegroup>
         <rulegroup id="ADICIO_ADDICIO" name="adició/addicció/addició">
