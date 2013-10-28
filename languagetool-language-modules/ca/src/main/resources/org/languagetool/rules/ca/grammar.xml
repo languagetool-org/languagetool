@@ -4765,10 +4765,9 @@ $Id$
             <example type="correct">donar una ullada per sobre als diaris</example>
         </rule>
         <rulegroup id="CAP_ELS_CAP_ALS" name="*cap el/cap al">
-        <!-- Falten excepcions!! -->
         	<rule>
 	            <pattern>
-	                <token><exception regexp="yes">a|hi</exception><exception postag="V.*" postag_regexp="yes" inflected="yes">fer</exception></token>
+	                <token><exception regexp="yes">a|hi|els</exception><exception postag="V.*" postag_regexp="yes" inflected="yes">fer</exception><exception postag="S.*|.*LOC_PREP.*" postag_regexp="yes"/></token>
 	                <marker>
 	                    <token>cap<exception postag="_GN_.*" postag_regexp="yes"/></token>
 	                    <token regexp="yes">els?</token>
@@ -4786,10 +4785,17 @@ $Id$
 	            <example type="correct">que tingué com a cap el Comte d'Espanya</example>
 	            <example type="correct">on fa cap el Comte</example>
 	            <example type="correct">la Colònia del Cap el 1788</example>
+                <example type="correct">Fou conseller en cap el 1340</example>
+                <example type="correct">Va marcar de cap el 2-0</example>
+                <example type="correct">van prendre per cap un burgès molt popular</example>
+                <example type="correct">Porta de cap els seus servents</example>
 	        </rule>
+            <!-- 2 el [[PSOE]], i cap el [[PP]]
+             _possible_nompropi
+             la tribu de la qual Segestes era cap el va forçar -->
 	        <rule>
 	            <pattern>
-	                <token><exception regexp="yes">a|hi</exception><exception postag="V.*" postag_regexp="yes" inflected="yes">fer</exception></token>
+	                <token><exception regexp="yes">a|hi|els</exception><exception postag="V.*" postag_regexp="yes" inflected="yes">fer</exception><exception postag="S.*|.*LOC_PREP.*" postag_regexp="yes"/></token>
 	                <marker>
 	                    <token>cap<exception postag="_GN_.*" postag_regexp="yes"/></token>
 	                    <token regexp="yes">la|les</token>
@@ -4802,7 +4808,7 @@ $Id$
 	        </rule>
 	        <rule>
 	            <pattern>
-	                <token><exception regexp="yes">a|hi</exception><exception postag="V.*" postag_regexp="yes" inflected="yes">fer</exception></token>
+	                <token><exception regexp="yes">a|hi|els</exception><exception postag="V.*" postag_regexp="yes" inflected="yes">fer</exception><exception postag="S.*|.*LOC_PREP.*" postag_regexp="yes"/></token>
 	                <marker>
 	                    <token>cap<exception postag="_GN_.*" postag_regexp="yes"/></token>    
 	                <token postag="DI.*" postag_regexp="yes" inflected="yes" regexp="yes">un|algun</token>
@@ -4814,6 +4820,23 @@ $Id$
 	            <example type="correct">Ací no hi cap un bou</example>
 	            <!-- <example type="correct">Ací cap un bou?</example> -->
 	        </rule>
+            <rule>
+                <pattern>
+                    <token>de</token>
+                    <marker>
+                        <token>cap</token>
+                        <token regexp="yes">els?</token>
+                    </marker>
+                    <token regexp="yes">[\d.]+|anys?|segles?|s|[XVI]+</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>cap <match no="3" regexp_match="e(ls?)" regexp_replace="a$1"/></suggestion>?</message>
+                <example type="incorrect" correction="cap als">Era de <marker>cap els</marker> anys 20</example>
+                <example type="incorrect" correction="cap al">Era de <marker>cap el</marker> s. XIII</example>
+                <example type="incorrect" correction="cap al">Era de <marker>cap el</marker> 1560</example>
+                <example type="incorrect" correction="cap al">Era de <marker>cap el</marker> XVIII</example>
+                <example type="correct">la confiança cap als partits</example>
+                <example type="correct">la Colònia del Cap el 1788</example>
+            </rule>
 	    </rulegroup>    
         <rulegroup id="DACI_A" name="d'ací a">
             <rule>
