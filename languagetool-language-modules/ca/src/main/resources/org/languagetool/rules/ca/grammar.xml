@@ -9002,11 +9002,11 @@ $Id$
         </rulegroup>    
         <rule id="DEU" name="*Deu/Déu">
             <pattern>
-                <token><exception postag="SENT_START|D[^R]..P.|D[^R].FS." postag_regexp="yes"/><exception regexp="yes">[¿¡"«»—–:\-]|can|mas|museu</exception></token>
+                <token><exception postag="SENT_START|D[^R]..P.|D[^R].FS." postag_regexp="yes"/><exception regexp="yes">[¿¡"«»—–:\-]|can|mas|museu|n</exception></token>
                 <marker>
                     <token regexp="yes">(?-i)Deu</token>
                 </marker>
-                <token><exception postag="NC.P.*" postag_regexp="yes"/><exception>mil</exception></token>
+                <token><exception postag="NC.P.*" postag_regexp="yes"/><exception regexp="yes">mil|pometes</exception></token>
             </pattern>
             <message>¿Volíeu dir <suggestion>Déu</suggestion> (= ésser suprem)?</message>
             <example type="incorrect">perquè <marker>Deu</marker> no va voler</example>
@@ -9017,6 +9017,8 @@ $Id$
             <example type="correct">Guerra dels Deu Anys</example>
             <example type="correct">la plataforma Deu Mil a Brussel·les</example>
             <example type="correct">En el pla de la Deu</example>
+            <example type="correct">El bosc de Can Deu.</example>
+            <example type="correct">Deu pometes té el pomer</example>
         </rule>
         <rulegroup id="EN_EL_SI_DE" name="en el/al *sí/si de">
             <rule>    
@@ -10494,7 +10496,7 @@ $Id$
                         <token regexp="yes">(?-i)Soc</token>
                     </marker>
                     <or>
-                        <token min="0" regexp="yes" spacebefore="yes">[,—–"'‘“«¡¿(\-]</token>
+                        <token min="0" regexp="yes" spacebefore="yes">[—–"'‘“«¡¿(\-]</token>
                         <token spacebefore="no">,</token>
                     </or>
                     <token postag="[ANDSCPVR].*|.*LOC.*" postag_regexp="yes"></token>
@@ -10506,6 +10508,8 @@ $Id$
                 <example type="incorrect" correction="Sóc">-¿<marker>Soc</marker> jo la persona adequada?</example>
                 <example type="correct">the Am. Soc. Microbiology</example>
                 <example type="correct">Bot. J. Linnean Soc. 133:381–461.</example>
+                <example type="correct">Proc. Zool. Soc. Lond.</example>
+                <example type="correct">Am. Fish. Soc. Spec. Pub</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
