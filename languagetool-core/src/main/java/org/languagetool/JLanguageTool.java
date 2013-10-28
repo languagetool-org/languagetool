@@ -418,11 +418,21 @@ public class JLanguageTool {
 
   /**
    * Disable a given rule so the check methods like {@link #check(String)} won't use it.
-   * 
+   * Use {@link #disableRules(java.util.List)} if you want to disable more than one rule.
    * @param ruleId the id of the rule to disable - no error will be thrown if the id does not exist
    */
   public void disableRule(final String ruleId) {
     disabledRules.add(ruleId);
+    reInitSpellCheckIgnoreWords();
+  }
+
+  /**
+   * Disable the given rules so the check methods like {@link #check(String)} won't use them.
+   * @param ruleIds the ids of the rules to disable - no error will be thrown if the id does not exist
+   * @since 2.4
+   */
+  public void disableRules(final List<String> ruleIds) {
+    disabledRules.addAll(ruleIds);
     reInitSpellCheckIgnoreWords();
   }
 

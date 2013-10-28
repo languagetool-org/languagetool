@@ -241,7 +241,7 @@ public final class Tools {
    * @param enabledRules ids of the rules to be enabled
    */
   public static void selectRules(final JLanguageTool lt, final String[] disabledRules, final String[] enabledRules) {
-    selectRules (lt, disabledRules, enabledRules, true);
+    selectRules(lt, disabledRules, enabledRules, true);
   }
 
   /**
@@ -278,11 +278,13 @@ public final class Tools {
       }
       // disable all rules except those enabled explicitly, if any:
       if (useEnabledOnly) {
+        List<String> rulesToBeDisabled = new ArrayList<>();
         for (Rule rule : lt.getAllRules()) {
           if (!enabledRuleIDs.contains(rule.getId())) {
-            lt.disableRule(rule.getId());
+            rulesToBeDisabled.add(rule.getId());
           }
         }
+        lt.disableRules(rulesToBeDisabled);
       }
     }
   }
