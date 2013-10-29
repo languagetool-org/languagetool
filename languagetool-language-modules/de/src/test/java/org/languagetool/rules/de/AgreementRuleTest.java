@@ -93,6 +93,9 @@ public class AgreementRuleTest extends TestCase {
 
     assertGood("... wo Krieg den Unschuldigen Leid und Tod bringt.");
     assertGood("Der Abschuss eines Papageien.");
+    
+    assertGood("Die Beibehaltung des Art. 1 ist geplant.");
+    assertGood("Die Verschiebung des bisherigen Art. 1 ist geplant.");
 
     // relative clauses:
     assertGood("Das Recht, das Frauen eingeräumt wird.");

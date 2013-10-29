@@ -205,6 +205,13 @@ public class AgreementRule extends GermanRule {
         ignore = true;
       }
 
+      // avoid false alarm on "Art. 1" and "bisherigen Art. 1" (Art. = Artikel):
+      boolean detAbbrev = i < tokens.length-2 && tokens[i+1].getToken().equals("Art") && tokens[i+2].getToken().equals(".");
+      boolean detAdjAbbrev = i < tokens.length-3 && tokens[i+2].getToken().equals("Art") && tokens[i+3].getToken().equals(".");
+      if (detAbbrev || detAdjAbbrev) {
+        ignore = true;
+      }
+
       if ((GermanHelper.hasReadingOfType(tokenReadings, POSType.DETERMINER) || relevantPronoun) && !ignore) {
         int tokenPos = i + 1; 
         if (tokenPos >= tokens.length)
