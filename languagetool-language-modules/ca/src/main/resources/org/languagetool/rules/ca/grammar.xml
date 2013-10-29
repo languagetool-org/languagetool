@@ -4767,7 +4767,7 @@ $Id$
         <rulegroup id="CAP_ELS_CAP_ALS" name="*cap el/cap al">
         	<rule>
 	            <pattern>
-	                <token><exception regexp="yes">a|hi|els</exception><exception postag="V.*" postag_regexp="yes" inflected="yes">fer</exception><exception postag="S.*|.*LOC_PREP.*" postag_regexp="yes"/></token>
+	                <token><exception regexp="yes">a|hi|els|en|amb|de|per</exception><exception postag="V.*" postag_regexp="yes" inflected="yes">fer</exception><exception postag=".*LOC_PREP.*" postag_regexp="yes"/></token>
 	                <marker>
 	                    <token>cap<exception postag="_GN_.*" postag_regexp="yes"/></token>
 	                    <token regexp="yes">els?</token>
@@ -4775,7 +4775,8 @@ $Id$
 	            </pattern>
 	            <message>¿Volíeu dir <suggestion>cap <match no="3" regexp_match="e(ls?)" regexp_replace="a$1"/></suggestion>?</message>
 	            <example type="incorrect" correction="cap als">la confiança <marker>cap els</marker> partits</example>
-	            <example type="correct">la confiança cap als partits</example>
+	            <example type="incorrect" correction="Cap al"><marker>Cap el</marker> 1984 va passar això.</example>
+                <example type="correct">la confiança cap als partits</example>
 	            <example type="correct">que portaren a cap els comtes</example>
 	            <example type="correct">on fan cap els comtes</example>
 	            <example type="correct">tocar amb el cap els esquís de la gent</example>
@@ -4790,12 +4791,13 @@ $Id$
                 <example type="correct">van prendre per cap un burgès molt popular</example>
                 <example type="correct">Porta de cap els seus servents</example>
 	        </rule>
-            <!-- 2 el [[PSOE]], i cap el [[PP]]
+            <!--  
+            2 el [[PSOE]], i cap el [[PP]]
              _possible_nompropi
              la tribu de la qual Segestes era cap el va forçar -->
 	        <rule>
 	            <pattern>
-	                <token><exception regexp="yes">a|hi|els</exception><exception postag="V.*" postag_regexp="yes" inflected="yes">fer</exception><exception postag="S.*|.*LOC_PREP.*" postag_regexp="yes"/></token>
+	                <token><exception regexp="yes">a|hi|els|en|amb|de|per</exception><exception postag="V.*" postag_regexp="yes" inflected="yes">fer</exception><exception postag=".*LOC_PREP.*" postag_regexp="yes"/></token>
 	                <marker>
 	                    <token>cap<exception postag="_GN_.*" postag_regexp="yes"/></token>
 	                    <token regexp="yes">la|les</token>
@@ -4808,7 +4810,7 @@ $Id$
 	        </rule>
 	        <rule>
 	            <pattern>
-	                <token><exception regexp="yes">a|hi|els</exception><exception postag="V.*" postag_regexp="yes" inflected="yes">fer</exception><exception postag="S.*|.*LOC_PREP.*" postag_regexp="yes"/></token>
+	                <token><exception regexp="yes">a|hi|els|en|amb|de|per</exception><exception postag="V.*" postag_regexp="yes" inflected="yes">fer</exception><exception postag=".*LOC_PREP.*" postag_regexp="yes"/></token>
 	                <marker>
 	                    <token>cap<exception postag="_GN_.*" postag_regexp="yes"/></token>    
 	                <token postag="DI.*" postag_regexp="yes" inflected="yes" regexp="yes">un|algun</token>
