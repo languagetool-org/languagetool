@@ -23446,6 +23446,7 @@ though, and has since been slightly modified)-->
           </token>
         </pattern>
         <message>« Se rappelle de » est une impropriété. On se rappelle quelque chose, ou on se souvient de quelque chose. Employez <suggestion>\1</suggestion>.</message>
+        <url>http://www.académie-française.fr/se-rappeler-quelque-chose-se-souvenir-de-quelque-chose</url>
         <example type="incorrect">Je me <marker>rappelle de</marker> ce moment.</example>
         <example type="correct">Je me rappelle ce moment.</example>
         <example type="correct">J’ai reçu le rappel de la facture.</example>
@@ -23931,18 +23932,33 @@ though, and has since been slightly modified)-->
       <example type="incorrect"><marker>assisez-vous</marker></example>
       <example type="correct"><marker>asseyez-vous</marker>.</example>
     </rule>
-    <rule id="NETRE_PAS_SANS_IGNORER" name="n’être pas sans ignorer">
-      <pattern>
-        <token>n</token>
-        <token regexp="yes">[’´'‛′‘]</token>
-        <token inflected="yes" skip="3">être</token>
-        <token>sans</token>
-        <token>ignorer</token>
-      </pattern>
-      <message>« N’être pas sans ignorer » est une expression fautive. Employez <suggestion>n\2être pas sans savoir</suggestion>.</message>
-      <example type="incorrect" correction="n’être pas sans savoir"><marker>n’être pas sans ignorer</marker></example>
-      <example type="correct"><marker>n’être pas sans savoir</marker>.</example>
-    </rule>
+    <rulegroup id="NETRE_PAS_SANS_IGNORER" name="n’être pas sans ignorer">
+      <rule>
+        <pattern>
+          <token>n</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+          <token inflected="yes" skip="3">être</token>
+          <token>sans</token>
+          <token>ignorer</token>
+        </pattern>
+        <message>« N’être pas sans ignorer » est une expression fautive. Employez « n\2être pas sans savoir ».</message>
+        <url>http://www.académie-française.fr/vous-netes-pas-sans-ignorer-que</url>
+        <example type="incorrect"><marker>n’être pas sans ignorer</marker></example>
+        <example type="correct"><marker>n’être pas sans savoir</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>ne</token>
+          <token inflected="yes" skip="3">être</token>
+          <token>sans</token>
+          <token>ignorer</token>
+        </pattern>
+        <message>« ne pas être pas sans ignorer » est une expression fautive. Employez « ne pas être pas sans savoir ».</message>
+        <url>http://www.académie-française.fr/vous-netes-pas-sans-ignorer-que</url>
+        <example type="incorrect">Je <marker>ne suis pas sans ignorer</marker></example>
+        <example type="correct">Je <marker>ne suis pas sans savoir</marker></example>
+      </rule>
+    </rulegroup>
     <rule id="EN_MOTO" name="en moto(cyclette)">
       <pattern>
         <token>en</token>
