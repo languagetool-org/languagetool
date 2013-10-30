@@ -38,6 +38,10 @@ public class UppercaseSentenceStartRule extends Rule {
 
   private static final Pattern NUMERALS_EN =
           Pattern.compile("[a-z]|(m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|iv|v?i{0,3}))$");
+  private static final Pattern WHITESPACE_OR_QUOTE = Pattern.compile("[ \"'„»«“\\n]");
+  private static final Pattern SENTENCE_END1 = Pattern.compile("[.?!…]|");
+  private static final Pattern SENTENCE_END2 = Pattern.compile("[.?!…]");
+  private static final Pattern DUTCH_SPECIAL_CASE = Pattern.compile("k|m|n|r|s|t");
 
   private final Language language;
 
@@ -92,16 +96,16 @@ public class UppercaseSentenceStartRule extends Rule {
     }
 
     String lastToken = tokens[tokens.length - 1].getToken();
-    if (lastToken.matches("[ \"'„»«“\\n]") && tokens.length >= 2) {
+    if (tokens.length >= 2 && WHITESPACE_OR_QUOTE.matcher(lastToken).matches()) {
       // ignore trailing whitespace or quote
       lastToken = tokens[tokens.length - 2].getToken();
     }
     
     boolean preventError = false;
-    if (lastParagraphString.matches("[;,]")) {
+    if (lastParagraphString.equals(",") || lastParagraphString.equals(";")) {
       preventError = true;
     }
-    if (!lastParagraphString.matches("[.?!…]|") && !lastToken.matches("[.?!…]")) {
+    if (!SENTENCE_END1.matcher(lastParagraphString).matches() && !SENTENCE_END2.matcher(lastToken).matches()) {
       preventError = true;
     }
     
@@ -139,7 +143,7 @@ public class UppercaseSentenceStartRule extends Rule {
       return null;
     }
     if (tokens.length >= 3 && firstToken.equals("'")
-        && secondToken.matches("k|m|n|r|s|t")) {
+        && DUTCH_SPECIAL_CASE.matcher(secondToken).matches()) {
       return tokens[3].getToken();
     }
     return null;
