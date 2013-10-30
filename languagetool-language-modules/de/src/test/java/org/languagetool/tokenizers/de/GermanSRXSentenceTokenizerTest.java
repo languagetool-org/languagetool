@@ -35,6 +35,7 @@ public class GermanSRXSentenceTokenizerTest extends TestCase {
     // have correct whitespace when appended:
     testSplit("Dies ist ein Satz.");
     testSplit("Dies ist ein Satz. ", "Noch einer.");
+    testSplit("Dies ist ein Satz.¹ ", "Noch einer.");
     testSplit("Ein Satz! ", "Noch einer.");
     testSplit("Ein Satz... ", "Noch einer.");
     testSplit("Unter http://www.test.de gibt es eine Website.");

@@ -406,12 +406,19 @@ public class Main extends WeakBase implements XJobExecutor,
       return "";
     }
     currentPara = paraText;
-    tokenizedSentences = langTool.sentenceTokenize(paraText);
+    tokenizedSentences = langTool.sentenceTokenize(cleanFootnotes(paraText));
     position = 0;
     if (!tokenizedSentences.isEmpty()) {
       return tokenizedSentences.get(0);
     }
     return "";
+  }
+
+  // Fix numbers that are (probably) foot notes. 
+  // See https://bugs.freedesktop.org/show_bug.cgi?id=69416
+  // non-private for test case
+  String cleanFootnotes(String paraText) {
+    return paraText.replaceAll("([.!?])\\d ", "$1¹ ");
   }
 
   private synchronized SingleProofreadingError[] checkParaRules(
