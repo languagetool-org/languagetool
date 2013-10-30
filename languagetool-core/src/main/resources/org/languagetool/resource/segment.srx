@@ -4419,21 +4419,6 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 </languagerule>
 
 <languagerule languagerulename="German">
-<!-- Split e.g.: He won't. Really. -->
-<rule break="yes">
-<beforebreak>'\p{L}[\.!?…]\s</beforebreak>
-<afterbreak>\p{Lu}</afterbreak>
-</rule>
-<!-- Split e.g.: He won't say no. Not really. -->
-<rule break="yes">
-<beforebreak>\sno[\.!?…]\s</beforebreak>
-<afterbreak>\p{Lu}</afterbreak>
-</rule>
-<!-- Split at "a.m." or "p.m." followed by a capital letter. -->
-<rule break="yes">
-<beforebreak>[ap]\.m\.\s</beforebreak>
-<afterbreak>\p{Lu}</afterbreak>
-</rule>
 <!-- Split at e.g. "1a. Und ..." -->
 <rule break="yes">
 <beforebreak>\d+[a-z]\.\s</beforebreak>
@@ -4460,7 +4445,7 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <beforebreak>[\[\(]?\.\.\.[\]\)]?\s</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
-<!-- Don't split [.?!] when the're quoted -->
+<!-- Don't split [.?!] when they're quoted -->
 <rule break="no">
 <beforebreak>['"][\.!?…]['"]\s</beforebreak>
 <afterbreak/>
@@ -4604,7 +4589,7 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <beforebreak>[\[\(]?\.\.\.[\]\)]?\s</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
-<!-- Don't split [.?!] when the're quoted -->
+<!-- Don't split [.?!] when they're quoted -->
 <rule break="no">
 <beforebreak>['"][\.!?…]['"]\s</beforebreak>
 <afterbreak/>
@@ -5061,7 +5046,7 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <beforebreak>\bet [aá]l\.\s?</beforebreak>
 <afterbreak>[\p{Ll}\p{N}]</afterbreak>
 </rule>
-<!-- Don't split [.?!] when the're quoted -->
+<!-- Don't split [.?!] when they're quoted -->
 <rule break="no">
 <beforebreak>['"\(][\.!?…]['"\)]\s</beforebreak>
 <afterbreak/>
