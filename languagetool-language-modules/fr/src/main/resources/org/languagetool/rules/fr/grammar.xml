@@ -22383,6 +22383,7 @@ though, and has since been slightly modified)-->
         <token regexp="yes">desso?us</token>
       </pattern>
       <message>« \1 \2 » est une faute de typographie. Employez <suggestion>\1-\2</suggestion>.</message>
+      <url>http://www.langue-fr.net/spip.php?article247</url>
       <example type="incorrect" correction="Au-dessous"><marker>Au dessous</marker></example>
       <example type="correct"><marker>Au-dessous</marker></example>
       <example type="incorrect" correction="Au-dessus"><marker>Au dessus</marker></example>
@@ -23119,6 +23120,7 @@ though, and has since been slightly modified)-->
         <token>.</token>
       </pattern>
       <message>« Etc... » est une faute de typographie. Employez <suggestion>etc.</suggestion>, <suggestion>...</suggestion>, et non les deux à la fois.</message>
+      <url>http://www.langue-fr.net/spip.php?article142</url>
       <example type="incorrect"><marker>etc...</marker></example>
       <example type="correct"><marker>etc.</marker></example>
     </rule>
@@ -23557,6 +23559,7 @@ though, and has since been slightly modified)-->
         <token regexp="yes">coiffeur|coiffeuse|médecin|dentiste|boulanger|boulangère|boucher|bouchère|pharmacien|pharmacienne</token>
       </pattern>
       <message>« \1 \2 \3 » est une expression fautive. Employez <suggestion>chez</suggestion>.</message>
+      <url>http://www.langue-fr.net/spip.php?article120</url>
       <example type="incorrect">Il va <marker>au</marker> coiffeur tous les mois.</example>
       <example type="correct">Il va chez le coiffeur tous les mois.</example>
     </rule>
@@ -24018,6 +24021,18 @@ though, and has since been slightly modified)-->
         <example type="correct">As-tu <marker>la fièvre</marker> ?</example>
       </rule>
     </rulegroup>
+    <rule id="ECHAPEE_BELLE" name="échapée belle → échapé belle">
+      <pattern>
+        <token inflected="yes">avoir</token>
+        <marker><token regexp="yes">échapp?ée?s?<exception>échappé</exception></token></marker>
+        <token>belle</token>
+      </pattern>
+      <message>Dans l’expression « avoir échapé belle » le participe passé <suggestion>échappé</suggestion> reste invariable.</message>
+      <url>http://www.langue-fr.net/spip.php?article275</url>
+      <example type="incorrect">Elle l’a <marker>échappée</marker> belle.</example>
+      <example type="correct">Elle l’a <marker>échappé</marker> belle.</example>
+      <example type="correct">L’échappée belle d’un coureur cycliste.</example>
+    </rule>
     <rule id="EN_MOTO" name="en moto(cyclette)">
       <pattern>
         <token>en</token>
@@ -24331,16 +24346,29 @@ though, and has since been slightly modified)-->
       <example type="incorrect"><marker>noir comme geai</marker></example>
       <example type="correct"><marker>noir comme jais</marker></example>
     </rule>
-    <rule id="SANS_DESSUS_DESSOUS" name="sans dessus dessous">
-      <pattern>
-        <token>sans</token>
-        <token>dessus</token>
-        <token>dessous</token>
-      </pattern>
-      <message>« Sans dessus dessous » est une expression fautive. Employez <suggestion>sens dessus dessous</suggestion> (mais on prononce bien « sens » comme « sans » dans cette locution, d’où l’erreur).</message>
-      <example type="incorrect"><marker>sans dessus dessous</marker></example>
-      <example type="correct"><marker>sens dessus dessous</marker></example>
-    </rule>
+    <rulegroup id="SANS_DESSUS_DESSOUS" name="sans dessus dessous">
+      <rule>
+        <pattern>
+          <token>sans</token>
+          <token>dessus</token>
+          <token>dessous</token>
+        </pattern>
+        <message>« Sans dessus dessous » est une expression fautive. Employez <suggestion>sens dessus dessous</suggestion> (mais on prononce bien « sens » comme « sans » dans cette locution, d’où l’erreur).</message>
+        <url>http://66.46.185.79/bdl/gabarit_bdl.asp?id=2259</url>
+        <example type="incorrect"><marker>sans dessus dessous</marker></example>
+        <example type="correct"><marker>sens dessus dessous</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">s[ae]ns</token>
+          <token>dessus-dessous</token>
+        </pattern>
+        <message>« \1 \2 » est une expression fautive. Employez <suggestion>sens dessus dessous</suggestion> (mais on prononce bien « sens » comme « sans » dans cette locution, d’où l’erreur).</message>
+        <url>http://66.46.185.79/bdl/gabarit_bdl.asp?id=2259</url>
+        <example type="incorrect"><marker>sans dessus-dessous</marker></example>
+        <example type="correct"><marker>sens dessus dessous</marker></example>
+      </rule>
+    </rulegroup>
     <rule id="MORDRE_A_PLEINE_DENT" name="mort à pleine dent">
       <pattern>
         <token inflected="yes">mordre</token>
