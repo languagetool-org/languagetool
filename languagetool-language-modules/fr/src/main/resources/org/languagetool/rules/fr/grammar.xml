@@ -23988,6 +23988,36 @@ though, and has since been slightly modified)-->
         <example type="correct">Je <marker>ne suis pas sans savoir</marker></example>
       </rule>
     </rulegroup>
+    <rulegroup id="AVOIR_DE_LA_TEMPERATURE" name="avoir de la température → avoir la fièvre">
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">avoir|faire</token>
+          <marker>
+            <token>de</token>
+            <token>la</token>
+            <token regexp="yes">temp[ée]rature</token>
+          </marker>
+        </pattern>
+        <message>« Avoir/faire de la température » est un emploi fautif. Voulez-vous écrire <suggestion>la fièvre</suggestion> ?</message>
+        <url>http://www.académie-française.fr/la-temperature-est-chaude</url>
+        <example type="incorrect" correction="la fièvre">J’ai <marker>de la température</marker> ?</example>
+        <example type="correct">J’ai la fièvre ?</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">.*-(je|tu|ils?|elles?|on|[vn]ous)</token>
+          <marker>
+            <token>de</token>
+            <token>la</token>
+            <token regexp="yes">temp[ée]rature</token>
+          </marker>
+        </pattern>
+        <message>« Avoir/faire de la température » est un emploi fautif. Voulez-vous écrire <suggestion>la fièvre</suggestion> ?</message>
+        <url>http://www.académie-française.fr/la-temperature-est-chaude</url>
+        <example type="incorrect" correction="la fièvre">As-tu <marker>de la température</marker> ?</example>
+        <example type="correct">As-tu <marker>la fièvre</marker> ?</example>
+      </rule>
+    </rulegroup>
     <rule id="EN_MOTO" name="en moto(cyclette)">
       <pattern>
         <token>en</token>
