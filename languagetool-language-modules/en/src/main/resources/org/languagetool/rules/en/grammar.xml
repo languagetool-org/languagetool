@@ -6893,23 +6893,37 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
           <example type="correct">I am <em>searching</em> through some fields.</example>
           <example type="incorrect">I am <em>searched</em> through some fields.</example>
         </rule>
-        -->
-        <!-- currently doesn't fail test case :)  -->
+        -->        
         <rule id="TO_NON_BASE" name="'to' + non-base form">
-            <pattern>
+            <pattern>            
+                <token postag_regexp="yes" postag="VB[DGNPZ]?"/>
+                <token min="0">not</token>                
                 <token>to</token>
                 <marker>
                     <token postag="VBZ"><exception>is</exception><exception postag="NNS|NNP|NNPS" postag_regexp="yes"></exception></token>
                 </marker>
             </pattern>
-            <message>You might need to use the base form of the verb here: <suggestion><match no="2" postag="VBP"></match></suggestion>.</message>
+            <message>The verb after "to" should be in the base form: <suggestion><match no="4" postag="VB"></match></suggestion>.</message>
             <short>Grammatical problem</short>
             <example type="correct">I was surprised to <marker>learn</marker> this.</example>
             <example type="correct">He spoke to chosen people.</example>
             <example type="correct">Morocco's disputed claim to portions of western Algeria</example>
             <example correction="learn" type="incorrect">I was surprised to <marker>learns</marker> this.</example>
-            <example type="incorrect" correction="laugh">He tried not to <marker>laughs</marker>.</example>
-        </rule>
+            <example type="incorrect" correction="laugh">He tried not to <marker>laughs</marker>.</example>                 
+            <example type="correct">I was surprised to <marker>learn</marker> this.</example>
+            <example type="correct">He spoke to chosen people.</example>
+            <example type="correct">You are to report at 5am.</example>
+            <example type="correct">It is important to make this explicit.</example>
+            <example type="correct">I've been trying to call you.</example>
+            <example type="correct">She wants you to go.</example>
+            <example type="correct">He has been wanting very much to meet you.</example>
+            <example type="correct">Whichever college he wants to go to is fine with me.</example>
+            <!-- FIXME: 'says' is NNS -->
+            <!--  example correction="say" type="incorrect">What would it have to <marker>says</marker>?</example -->
+            <example correction="learn" type="incorrect">I was surprised to <marker>learns</marker> this.</example>
+            <!-- 'gets' is NNS
+            example correction="get" type="incorrect">She is manipulating her father to <marker>gets</marker> her way.</example -->
+         </rule>         
         <rulegroup id="MANY_FEW_UNCOUNTABLE" name="'many/few' + uncountable noun, e.g. 'many (much) food'">
             <rule>
                 <pattern>
