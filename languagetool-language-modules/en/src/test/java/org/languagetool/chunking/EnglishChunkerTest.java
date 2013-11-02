@@ -26,6 +26,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.language.English;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -61,6 +62,14 @@ public class EnglishChunkerTest {
     assertThat(tokens[2].getChunkTags().size(), is(0));  // "'" cannot be mapped as we tokenize differently
     assertThat(tokens[3].getChunkTags().size(), is(0));  // "ll" cannot be mapped as we tokenize differently
     assertThat(tokens[5].getChunkTags().get(0), is(new ChunkTag("I-VP")));
+  }
+
+  @Test
+  public void testTokenize() throws Exception {
+    EnglishChunker chunker = new EnglishChunker();
+    String expected = "[I, 'm, going, to, London]";
+    assertThat(Arrays.toString(chunker.tokenize("I'm going to London")), is(expected));
+    assertThat(Arrays.toString(chunker.tokenize("I’m going to London")), is(expected));  // different apostrophe char
   }
 
   private List<AnalyzedTokenReadings> createReadingsList(String sentence) {

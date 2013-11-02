@@ -80,17 +80,31 @@ public class EnglishChunker implements Chunker {
 
   private List<ChunkTaggedToken> getChunkTagsForReadings(List<AnalyzedTokenReadings> tokenReadings) {
     // these are not thread-safe, so create them here, not as members:
-    TokenizerME tokenizer = new TokenizerME(tokenModel);
-    POSTaggerME posTagger = new POSTaggerME(posModel);
-    ChunkerME chunker = new ChunkerME(chunkerModel);
     String sentence = getSentence(tokenReadings);
-    String[] tokens = tokenizer.tokenize(sentence);
-    String[] posTags = posTagger.tag(tokens);
-    String[] chunkTags = chunker.chunk(tokens, posTags);
+    String[] tokens = tokenize(sentence);
+    String[] posTags = posTag(tokens);
+    String[] chunkTags = chunk(tokens, posTags);
     if (tokens.length != posTags.length || tokens.length != chunkTags.length) {
       throw new RuntimeException("Length of results must be the same: " + tokens.length + ", " + posTags.length + ", " + chunkTags.length);
     }
     return getTokensWithTokenReadings(tokenReadings, tokens, chunkTags);
+  }
+
+  // non-private for test cases
+  String[] tokenize(String sentence) {
+    TokenizerME tokenizer = new TokenizerME(tokenModel);
+    String cleanString = sentence.replace('’', '\'');  // this is the type of apostrophe that OpenNLP expects
+    return tokenizer.tokenize(cleanString);
+  }
+
+  private String[] posTag(String[] tokens) {
+    POSTaggerME posTagger = new POSTaggerME(posModel);
+    return posTagger.tag(tokens);
+  }
+
+  private String[] chunk(String[] tokens, String[] posTags) {
+    ChunkerME chunker = new ChunkerME(chunkerModel);
+    return chunker.chunk(tokens, posTags);
   }
 
   private List<ChunkTaggedToken> getTokensWithTokenReadings(List<AnalyzedTokenReadings> tokenReadings, String[] tokens, String[] chunkTags) {
