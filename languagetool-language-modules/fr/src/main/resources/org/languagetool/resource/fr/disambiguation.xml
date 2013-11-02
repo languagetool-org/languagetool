@@ -1440,4 +1440,12 @@ RB => Règles Brutes
     </pattern>
     <disambig action="immunize"/>
   </rule>
+  <rule id="MUSTANG" name="Mustang, Jaquar">
+    <!-- With an upppercase, it is the name of a car and not the animal. -->
+    <pattern>
+       <token><exception postag="SENT_START"/></token>
+      <token regexp="yes">(?-i)Mustang|Jaguar</token>
+    </pattern>
+    <disambig postag="N f s"/>
+  </rule>
 </rules>
