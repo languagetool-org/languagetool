@@ -840,6 +840,7 @@ though, and has since been slightly modified)-->
           <marker><token>gène</token></marker>
         </pattern>
         <message>Voulez-vous écrire <suggestion>gêne</suggestion> ?</message>
+        <url>http://www.academie-francaise.fr/gene-et-gene</url>
         <example type="incorrect">Il est sans <marker>gène</marker>.</example>
         <example type="correct">Il est sans gêne.</example>
       </rule>
@@ -849,6 +850,7 @@ though, and has since been slightly modified)-->
           <marker><token>gênes</token></marker>
         </pattern>
         <message>Voulez-vous écrire <suggestion>gènes</suggestion> ?</message>
+        <url>http://www.academie-francaise.fr/gene-et-gene</url>
         <example type="incorrect">Nos <marker>gênes</marker> déterminent ce que nous sommes.</example>
         <example type="correct">Nos <marker>gènes</marker> déterminent ce que nous sommes.</example>
       </rule>
@@ -8828,19 +8830,37 @@ though, and has since been slightly modified)-->
       <example type="correct">Je me sentirais très seul si tu venais à disparaître.</example>
       <example type="correct">le vieux quartier Très Cloîttres à Grenoble.</example>
     </rule>
-    <rule id="AVOIR_FAIT_V_INF" name="fait + verbe infinitif">
-      <pattern>
-        <token postag="V avoir.*" postag_regexp="yes"/>
-        <marker><token regexp="yes">faite?s|faite</token></marker>
-        <token postag="V inf"/>
-      </pattern>
-      <message>Quand le participe passé du verbe faire, construit avec l’auxiliaire avoir, est suivi d’un infinitif, il reste toujours invariable.</message>
-      <suggestion>fait</suggestion>
-      <url>http://www.academie-francaise.fr/la-dinde-il-la-fait-cuire-les-oiseaux-il-les-fait-fuir</url>
-      <example type="incorrect">Il les a <marker>faits</marker> fuir.</example>
-      <example type="incorrect">Vous l’avez <marker>faite</marker> souffrir.</example>
-      <example type="correct">Vous l’avez fait souffrir.</example>
-    </rule>
+    <rulegroup id="AVOIR_FAIT_V_INF" name="fait + verbe infinitif">
+      <rule>
+        <pattern>
+          <token postag="V avoir.*" postag_regexp="yes"/>
+          <marker><token regexp="yes">faite?s|faite</token></marker>
+          <token postag="V inf"/>
+        </pattern>
+        <message>Quand le participe passé du verbe faire, construit avec l’auxiliaire avoir, est suivi d’un infinitif, il reste toujours invariable.</message>
+        <suggestion>fait</suggestion>
+        <url>http://www.academie-francaise.fr/la-dinde-il-la-fait-cuire-les-oiseaux-il-les-fait-fuir</url>
+        <example type="incorrect">Il les a <marker>faits</marker> fuir.</example>
+        <example type="correct">Il les a fait fuir.</example>
+        <example type="incorrect">Vous l’avez <marker>faite</marker> souffrir.</example>
+        <example type="correct">Vous l’avez fait souffrir.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="V avoir.*" postag_regexp="yes"/>
+          <token regexp="yes">bien|beaucoup|encore|énormément|jamais|toujours|parfois|pas|guerre|plus|moins|trop</token>
+          <marker><token regexp="yes">faite?s|faite</token></marker>
+          <token postag="V inf"/>
+        </pattern>
+        <message>Quand le participe passé du verbe faire, construit avec l’auxiliaire avoir, est suivi d’un infinitif, il reste toujours invariable.</message>
+        <suggestion>fait</suggestion>
+        <url>http://www.academie-francaise.fr/la-dinde-il-la-fait-cuire-les-oiseaux-il-les-fait-fuir</url>
+        <example type="incorrect">Il ne les a pas <marker>faits</marker> fuir.</example>
+        <example type="correct">Il ne les a pas fait fuir.</example>
+        <example type="incorrect">Vous l’avez encore <marker>faite</marker> souffrir.</example>
+        <example type="correct">Vous l’avez encore fait souffrir.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category default="off" name="Régionalismes">
     <!--The following rules were created by Hugo Voisard-->
