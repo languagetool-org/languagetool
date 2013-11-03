@@ -8828,6 +8828,19 @@ though, and has since been slightly modified)-->
       <example type="correct">Je me sentirais très seul si tu venais à disparaître.</example>
       <example type="correct">le vieux quartier Très Cloîttres à Grenoble.</example>
     </rule>
+    <rule id="AVOIR_FAIT_V_INF" name="fait + verbe infinitif">
+      <pattern>
+        <token postag="V avoir.*" postag_regexp="yes"/>
+        <marker><token regexp="yes">faite?s|faite</token></marker>
+        <token postag="V inf"/>
+      </pattern>
+      <message>Quand le participe passé du verbe faire, construit avec l’auxiliaire avoir, est suivi d’un infinitif, il reste toujours invariable.</message>
+      <suggestion>fait</suggestion>
+      <url>http://www.academie-francaise.fr/la-dinde-il-la-fait-cuire-les-oiseaux-il-les-fait-fuir</url>
+      <example type="incorrect">Il les a <marker>faits</marker> fuir.</example>
+      <example type="incorrect">Vous l’avez <marker>faite</marker> souffrir.</example>
+      <example type="correct">Vous l’avez fait souffrir.</example>
+    </rule>
   </category>
   <category default="off" name="Régionalismes">
     <!--The following rules were created by Hugo Voisard-->
