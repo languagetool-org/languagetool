@@ -2761,10 +2761,32 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
+          <token regexp="yes">Guns?</token>
+          <token>And</token>
+          <token regexp="yes">Roses?</token>
+        </pattern>
+        <message>Écrivez <suggestion>Guns N’ Roses</suggestion> s’il s’agit du groupe de hard rock américain.</message>
+        <url>https://fr.wikipedia.org/wiki/Guns_N'_Roses</url>
+        <example type="incorrect"><marker>Guns And Roses</marker> est un groupe de hard rock américain.</example>
+        <example type="correct"><marker>Guns N’ Roses</marker> est un groupe de hard rock américain.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>Gun</token>
+          <token skip="1" regexp="yes">And|N</token>
+          <token regexp="yes">Roses?</token>
+        </pattern>
+        <message>Écrivez <suggestion>Guns N’ Roses</suggestion> s’il s’agit du groupe de hard rock américain.</message>
+        <url>https://fr.wikipedia.org/wiki/Guns_N'_Roses</url>
+        <example type="incorrect"><marker>Gun N’ Roses</marker> est un groupe de hard rock américain.</example>
+        <example type="correct"><marker>Guns N’ Roses</marker> est un groupe de hard rock américain.</example>
+      </rule>
+      <rule>
+        <pattern>
           <token>Axle</token>
           <token regexp="yes">Roses?</token>
         </pattern>
-        <message>Écrivez <suggestion>Axl Rose</suggestion> s’il s’agit du chanteur de Gun N' Roses.</message>
+        <message>Écrivez <suggestion>Axl Rose</suggestion> s’il s’agit du chanteur de Guns N' Roses.</message>
         <url>https://fr.wikipedia.org/wiki/Axl_Rose</url>
         <example type="incorrect"><marker>Axle Rose</marker> est né en 1962.</example>
         <example type="correct">Axl Rose est né en 1962.</example>
@@ -2774,7 +2796,7 @@ though, and has since been slightly modified)-->
           <token>Axl</token>
           <token>Roses</token>
         </pattern>
-        <message>Écrivez <suggestion>Axl Rose</suggestion> s’il s’agit du chanteur de Gun N' Roses.</message>
+        <message>Écrivez <suggestion>Axl Rose</suggestion> s’il s’agit du chanteur de Guns N' Roses.</message>
         <url>https://fr.wikipedia.org/wiki/Axl_Rose</url>
         <example type="incorrect"><marker>Axl Roses</marker> est né en 1962.</example>
         <example type="correct">Axl Rose est né en 1962.</example>
@@ -2791,12 +2813,62 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
+          <token>Randy</token>
+          <token regexp="yes">Rh?oa?de?s?<exception>Rhoads</exception></token>
+        </pattern>
+        <message>Écrivez <suggestion>Randy Rhoads</suggestion> s’il s’agit du guitariste américain.</message>
+        <url>https://fr.wikipedia.org/wiki/Randy_Rhoads</url>
+        <example type="incorrect">Connais-tu <marker>Randy Roads</marker> ?</example>
+        <example type="correct">Connais-tu Randy Rhoads ?</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>Justin</token>
+          <token>Beiber</token>
+        </pattern>
+        <message>Écrivez <suggestion>Justin Bieber</suggestion> s’il s’agit du chanteur canadien.</message>
+        <url>https://fr.wikipedia.org/wiki/Justin_Bieber</url>
+        <example type="incorrect"><marker>Justin Beiber</marker> est né en 1994.</example>
+        <example type="correct"><marker>Justin Bieber</marker> est né en 1994.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>Lionel</token>
+          <token regexp="yes">Rit?chie?<exception>Richie</exception></token>
+        </pattern>
+        <message>Écrivez <suggestion>Lionel Richie</suggestion> s’il s’agit du chanteur soul américain.</message>
+        <url>https://fr.wikipedia.org/wiki/Lionel_Richie</url>
+        <example type="incorrect"><marker>Lionel Ritchie</marker> est né en 1949.</example>
+        <example type="correct">Lionel Richie est né en 1949.</example>
+      </rule>
+      <rule>
+        <pattern>
           <token>Eddie</token>
           <token regexp="yes">Rabb?itt?<exception>Rabbitt</exception></token>
         </pattern>
         <message>Écrivez <suggestion>Eddie Rabbitt</suggestion> s’il s’agit du chanteur américain.</message>
         <example type="incorrect">Connais-tu <marker>Eddie Rabbit</marker> ?</example>
         <example type="correct">Connais-tu Eddie Rabbitt ?</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">Bill?y|Bill?ie?<exception>Billie</exception></token>
+          <token regexp="yes">Holl?idays?</token>
+        </pattern>
+        <message>Écrivez <suggestion>Billie Holiday</suggestion> s’il s’agit de la chanteuse de jazz américaine.</message>
+        <url>http://fr.wikipedia.org/wiki/Billie_Holiday</url>
+        <example type="incorrect">Connais-tu <marker>Billy Holiday</marker> ?</example>
+        <example type="correct">Connais-tu Billie Holiday ?</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>Billie</token>
+          <token regexp="yes">Holl?idays?<exception>Holiday</exception></token>
+        </pattern>
+        <message>Écrivez <suggestion>Billie Holiday</suggestion> s’il s’agit de la chanteuse de jazz américaine.</message>
+        <url>http://fr.wikipedia.org/wiki/Billie_Holiday</url>
+        <example type="incorrect">Connais-tu <marker>Billie Holidays</marker> ?</example>
+        <example type="correct">Connais-tu Billie Holiday ?</example>
       </rule>
       <rule>
         <pattern>
@@ -2963,6 +3035,16 @@ though, and has since been slightly modified)-->
         <url>https://fr.wikipedia.org/wiki/Keith_Richards</url>
         <example type="incorrect"><marker>Keith Richard</marker> est né en 1943.</example>
         <example type="correct">Keith Richards est né en 1943.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>Cliff</token>
+          <token>Richards</token>
+        </pattern>
+        <message>Écrivez <suggestion>Cliff Richard</suggestion> s’il s’agit du musicien anglais.</message>
+        <url>https://fr.wikipedia.org/wiki/Cliff_Richard</url>
+        <example type="incorrect"><marker>Cliff Richards</marker> est né en 1940.</example>
+        <example type="correct">Cliff Richard est né en 1940.</example>
       </rule>
       <rule>
         <pattern>
@@ -3617,6 +3699,16 @@ though, and has since been slightly modified)-->
         <url>https://fr.wikipedia.org/wiki/Albert_Schweitzer</url>
         <example type="incorrect">Albert <marker>Schweizer</marker> fut lauréat du prix Nobel de la paix.</example>
         <example type="correct">Albert Schweitzer fut lauréat du prix Nobel de la paix.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>Bob</token>
+          <token regexp="yes">Sa?inclai?re?|(St|Saint)-?Clai?re?<exception>Sinclar</exception></token>
+        </pattern>
+        <message>Écrivez <suggestion>Bob Sinclar</suggestion> s’il s’agit du musicien DJ français.</message>
+        <url>http://en.wikipedia.org/wiki/Bob_Sinclar</url>
+        <example type="incorrect"><marker>Bob Sinclair</marker> est un DJ français.</example>
+        <example type="correct">Bob Sinclar est un DJ français.</example>
       </rule>
     </rulegroup>
     <rulegroup id="ABYME_ABIME" name="abyme et abîme">
