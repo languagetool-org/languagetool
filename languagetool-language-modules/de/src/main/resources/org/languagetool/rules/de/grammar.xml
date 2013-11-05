@@ -3333,6 +3333,14 @@ $Id$
             <example type="correct">Sie haben <marker>Mittelohrentzündungen</marker>.</example>
             <example type="incorrect" correction="Mittelohrentzündungen">Sie haben <marker>Mittelohrenzündungen</marker>.</example>
         </rule>
+        <rule id="WALDNUSSÖL" name="Möglicher Tippfehler: 'Waldnussöl (Walnussöl)'">
+            <pattern>
+                <token regexp="yes">Waldnussöl(e)?</token>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="1" regexp_match="Waldnuss" regexp_replace="Walnuss"/></suggestion>, das Öl aus Walnüssen?</message>
+            <example type="correct">Hier gibt es leckeres <marker>Walnussöl</marker>.</example>
+            <example type="incorrect" correction="Walnussöl">Hier gibt es leckeres <marker>Waldnussöl</marker>.</example>
+        </rule>
         <rule id="VON_WIEDER_VON" name="Möglicher Tippfehler: 'von (schon) wieder von'">
             <pattern>
                 <marker>
