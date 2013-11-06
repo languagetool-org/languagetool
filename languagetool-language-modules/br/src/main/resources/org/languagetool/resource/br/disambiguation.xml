@@ -304,15 +304,22 @@ Copyright (C) 2011 Dominique Pellé <dominique.pelle@gmail.com>
       <disambig action="remove"><wd lemma="an" pos="D e sp"/></disambig>
     </rule>
   </rulegroup>
-  <rule id="EN_EM" name="en em">
-    <pattern>
-      <token regexp="yes">e?n</token>
-      <marker>
+  <rulegroup id="EN_EM" name="en em">
+    <rule>
+      <pattern>
+        <marker><token regexp="yes">e?n</token></marker>
         <token>em</token>
-      </marker>
-    </pattern>
-    <disambig postag="X EN_EM"/>
-  </rule>
+      </pattern>
+      <disambig postag="X EN_EM"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token regexp="yes">e?n</token>
+        <marker><token>em</token></marker>
+      </pattern>
+      <disambig postag="X EN_EM"/>
+    </rule>
+  </rulegroup>
   <rulegroup id="EZ_A" name="ez a">
     <rule>
       <pattern>
