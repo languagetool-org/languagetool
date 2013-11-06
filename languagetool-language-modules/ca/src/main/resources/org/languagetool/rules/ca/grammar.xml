@@ -5475,6 +5475,14 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+        <rule id="PLAN_PLA" name="Plan/Pla">
+            <pattern case_sensitive="yes">
+                <token>Plan</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>Pla</suggestion>?</message>
+            <example type="incorrect" correction="Pla"><marker>Plan</marker> general comptable</example>
+            <example type="correct">Pla</example>
+        </rule>
         <rule id="SOC_SON" name="*sóc/són boniques">
             <pattern>
                 <marker>
@@ -9435,7 +9443,7 @@ $Id$
                     <marker>
                         <token>ma</token>
                     </marker>
-                    <token postag="AQ.FS.*|V.P..SF." postag_regexp="yes"/>
+                    <token postag="AQ.[FC]S.*|V.P..SF." postag_regexp="yes"/>
                     <token><exception regexp="yes">pàtria|iaia|mare|cosina|tia|germana|àvia|besàvia|rebesàvia|bestia|néta|besnéta|rebesnéta</exception></token>
                 </pattern>
                 <message>S'accentua quan és nom.</message>
@@ -9443,6 +9451,7 @@ $Id$
                 <short>Accent diacrític</short>
                 <example type="incorrect" correction="mà">De <marker>ma</marker> humana.</example>
                 <example type="incorrect" correction="mà">Amb <marker>ma</marker> decidida.</example>
+                <example type="incorrect" correction="mà">Aixecada la <marker>ma</marker> rectoral.</example>
                 <example type="correct">A ma estimada mare.</example>
                 <example type="correct">A ma mare.</example>
                 <example type="correct">Fou ma venerada besàvia.</example>
