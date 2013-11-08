@@ -8914,6 +8914,28 @@ though, and has since been slightly modified)-->
       <example type="incorrect" correction="moins">L’accident a fait au <marker>mois</marker> 3 morts.</example>
       <example type="correct">L’accident a fait au moins trois morts.</example>
     </rule>
+    <rulegroup id="MISES_A_JOUR" name="mises à jours → mises à jour">
+      <rule>
+        <pattern>
+          <token regexp="yes">mises?</token>
+          <token regexp="yes">[aà]</token>
+          <token>jours</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>mises à jour</suggestion> ?</message>
+        <url>http://fr.wiktionary.org/wiki/mise_%C3%A0_jour</url>
+        <example type="incorrect">Je reçois des <marker>mises à jours</marker> régulièrement.</example>
+        <example type="correct">Je reçois des mises à jour régulièrement.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">mises?[-‑][àa][-‑]jours?</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="([^-‑]+).*" regexp_replace="$1"/> à jour</suggestion> ?</message>
+        <url>http://fr.wiktionary.org/wiki/mise_%C3%A0_jour</url>
+        <example type="incorrect" correction="mises à jour">Je reçois des <marker>mises-à-jour</marker> régulièrement.</example>
+        <example type="correct">Je reçois des mises à jour régulièrement.</example>
+      </rule>
+    </rulegroup>
     <rule id="TRES" name="très + adjectif/adverbe/participe passé">
       <pattern>
         <token>très</token>
