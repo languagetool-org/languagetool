@@ -7235,7 +7235,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token negate="yes" regexp="yes">plus|moins|de|à|appareil|[’´'‛′‘]/</token>
-          <token postag="N . p" postag_regexp="yes"/>
+          <token postag="N . p" postag_regexp="yes"><exception>fois</exception></token>
           <token regexp="yes" skip="2">que?</token>
           <marker>
             <token postag="V avoir ind.*" postag_regexp="yes" skip="2"/>
@@ -7247,6 +7247,7 @@ though, and has since been slightly modified)-->
         <example type="incorrect">Les documents qu’ils <marker>ont acheté</marker>.</example>
         <example type="correct">Les parties de poker qu’il <marker>a jouées</marker>.</example>
         <example type="correct">Le sac à main que j’ai acheté.</example>
+        <example type="correct">Une fois que vous avez goûté au plaisir des jeux d'argent.</example>
       </rule>
       <rule>
         <pattern>
@@ -22747,6 +22748,16 @@ though, and has since been slightly modified)-->
         <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
         <example type="incorrect">C’est un <marker>franc maçon</marker>.</example>
         <example type="correct">C’est un <marker>franc-maçon</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>science</token>
+          <token>fiction</token>
+        </pattern>
+        <message>Il manque le traits d’union : <suggestion>science-fiction</suggestion>.</message>
+        <url>http://fr.wikipedia.org/wiki/Science-fiction</url>
+        <example type="incorrect">Un film de <marker>science fiction</marker>.</example>
+        <example type="correct">Un film de <marker>science-fiction</marker>.</example>
       </rule>
       <rule>
         <pattern>
