@@ -3711,6 +3711,14 @@ though, and has since been slightly modified)-->
         <example type="correct">Bob Sinclar est un DJ français.</example>
       </rule>
     </rulegroup>
+    <rule id="WIKIPEDIA" name="Wikipedia → Wikipédia">
+      <pattern>
+        <token>Wikipedia</token>
+      </pattern>
+      <message>On écrit <suggestion>Wikipédia</suggestion> avec un accent aigu en français.</message>
+      <example type="incorrect">Je consulte <marker>Wikipedia</marker>.</example>
+      <example type="correct">Je consulte Wikipédia.</example>
+    </rule>
     <rulegroup id="ABYME_ABIME" name="abyme et abîme">
       <rule>
         <pattern>
@@ -6196,6 +6204,22 @@ though, and has since been slightly modified)-->
         <example type="correct">Ce ne sont pas des histoires.</example>
         <example type="incorrect"><marker>Elle se demandent</marker>.</example>
         <example type="correct">Elle se demande.</example>
+      </rule>
+      <rule name="ça + 1 tokens + Verbe">
+        <pattern>
+          <marker>
+            <token regexp="yes">ça|(celui|celle)[-‑]là|personne</token>
+            <token>ne</token>
+            <token postag="V .*" postag_regexp="yes">
+              <exception postag="V .* 3 s" postag_regexp="yes"/>
+            </token>
+          </marker>
+        </pattern>
+        <message>Vérifiez l’accord entre « \1 » et le verbe « \3 ».</message>
+        <example type="incorrect"><marker>Ça ne fonctionnent</marker> pas.</example>
+        <example type="correct">Ça ne fonctionne pas.</example>
+        <example type="incorrect"><marker>Personne ne peux</marker> me le dire.</example>
+        <example type="correct"><marker>Personne ne peut</marker> me le dire.</example>
       </rule>
       <rule name="il/elle/on + 2 tokens + Verbe">
         <pattern>
