@@ -4152,6 +4152,41 @@ though, and has since been slightly modified)-->
       <example type="incorrect" correction="CO2">Le <marker>C02</marker> est un gaz à effet de serre.</example>
       <example type="correct">Le CO2 est un gaz à effet de serre.</example>
     </rule>
+    <rulegroup id="ARRIVEE" name="arrivé → arrivée">
+      <rule>
+        <pattern>
+          <token regexp="yes">[mts]on|[nv]otre|leur|une|en</token>
+          <marker><token>arrivé</token></marker>
+        </pattern>
+        <message>Confusion probable entre le nom <suggestion>arrivée</suggestion> et le participe passé.</message>
+        <url>http://fr.wiktionary.org/wiki/arriv%C3%A9e</url>
+        <example type="incorrect">Son <marker>arrivé</marker> m’a fait plaisir.</example>
+        <example type="correct">Son arrivée m’a fait plaisir.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">[nv]os|leurs|[dl]es</token>
+          <marker><token>arrivés</token></marker>
+        </pattern>
+        <message>Confusion probable entre le nom <suggestion>arrivées</suggestion> et le participe passé.</message>
+        <url>http://fr.wiktionary.org/wiki/arriv%C3%A9e</url>
+        <example type="incorrect">Leurs <marker>arrivés</marker> m’ont fait plaisir.</example>
+        <example type="correct">Leurs arrivées m’ont fait plaisir.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">[ld]</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+          <marker><token>arrivé</token></marker>
+        </pattern>
+        <message>Confusion probable entre le nom <suggestion>arrivée</suggestion> et le participe passé.</message>
+        <url>http://fr.wiktionary.org/wiki/arriv%C3%A9e</url>
+        <example type="incorrect">L’<marker>arrivé</marker> du tour de France.</example>
+        <example type="correct">L’arrivée du tour de France.</example>
+        <example type="incorrect">La ligne d’<marker>arrivé</marker> du tour de France.</example>
+        <example type="correct">La ligne d’<marker>arrivée</marker> du tour de France.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category name="Élision">
     <!-- I find conflicting information about élision, so this needs to be reviewed.
@@ -25060,7 +25095,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <!-- Obviously, the list of gentilés could be expanded here. -->
-          <token regexp="yes">beaucoup|énomément|nombre|peu|poignée|groupes?|associations?|cars?|bus|équipes?|plus|moins|pas|trop|majorité|millions?|centaines?|dizaines?|douzaines|combien|photos?|complots?|enlèvements?|témoignages?|viols?|meutres?|duels?|tièrs|quarts?|poucentages?|proportion|générations?|portraits?|rencontres?|reportages?|communautés?|vies?|rassemblements?|bataillons|armées?|émigrations?|immigrations?|invasions?|trios?|couples?|familles|descendante?s?|souhaits?|désirs?|attentes?|vôtes?|\d+%|%</token>
+          <token regexp="yes">beaucoup|énomément|nombre|poignée|groupes?|associations?|cars?|bus|équipes?|plus|moins|pas|trop|majorité|millions?|centaines?|dizaines?|douzaines|combien|photos?|complots?|enlèvements?|témoignages?|viols?|meutres?|duels?|tièrs|quarts?|poucentages?|proportion|générations?|portraits?|rencontres?|reportages?|communautés?|vies?|rassemblements?|bataillons|armées?|émigrations?|immigrations?|invasions?|trios?|couples?|familles|descendante?s?|souhaits?|désirs?|attentes?|vôtes?|\d+%|%</token>
           <token regexp="yes" skip="1">de?|des</token>
           <marker>
             <token regexp="yes">(?-iu:(afghan|algérien|arménien|australien|autrichien|bahaméen|bahreïnien|barbadien|bélizien|breton|bolivien|bosnien|brésilien|brunéien|cambodgien|canadien|capverdien|chilien|colombien|comorien|costaricien|djiboutien|équatorien|équato-guinéen|érythréen|estonien|états-?unien|étasunien|éthiopien|fidjien|gambien|guyanien|haïtien|hondurien|indien|ivoirien|égyptien|ghanéen|géorgien|guadeloupéen|grenadien|guinéen|indonésien|irakien|italien|iranien|israélien|jordanien|koweïtien|laotien|letton|libérien|lituanien|libyen|macédonien|malaisien|maldivien|malien|mauricien|mauritanien|namibien|nicaraguayen|nord-coréen|niouéen|nigérien|norvégien|micronésien|palestinien|panaméen|papouasien|paraguayen|parisien|péruvien|polynésien|qatarien|saint-lucien|salvadorien|santoméen|saoudien|singapourien|somalien|sud-coréen|surinamien|syrien|tahitien|tanzanien|tchadien|tonguien|trinidadien|tunisien|ukrainien|uruguayen|vénézuélien|vietnamien|zambien|zimbabwéen)(s|nes)|(albanais|allemand|angolais|anglais|antiguais|azerbaïdjanais|bâlois|bangladais|béninois|bhoutanais|bordelais|birman|botswanais|brestois|bruxellois|burkinais|burundais|camerounais|chinois|congolais|danois|dominiquais|finlandais|français|gabonais|genévois|hollandais|hongrois|indochinois|irlandais|islandais|lapon|libanais|liechtensteinois|lillois|luxembourgeois|japonais|lyonnais|maltais|marseillais|marshallais|myanmarais|nantais|nauruan|néerlandais|néo-zélandais|népalais|omanais|ougandais|pakistanais|paluan|polonais|portugais|rwandais|sénégalais|soudanais|srilankais|suédois|strasbourgeois|seychellois|taïwanais|thaïlandais|togolais|zaïrois|zurichois)(es)?|(andorran|américain|argentin|burkinab[èé]|centrafricain|cubain|dominicain|espagnol|jamaïcain|kényan|kosovar|maori|marocain|mexicain|mongol|monpelliérain|monténégrin|mozambicain|omani|philippin|roumain|sud-africain|toulousain|tuvaluan)e?s|(basque|belge|biélorusse|britannique|bulgare|chypriote|corse|croate|guatémaltèque|malgache|malawite|moldave|monégasque|russe|slovaque|slovène|suisse|scandinave|serbe|soviétique|tchèque|turkmène|yéménite|yougoslave)s|bahreïni|émirati|formosans|grec(que)?s|kazakhs|sothos|ouzbeks|qatariotes|swazi|tadjiks|turcs|turques|vanuatuans)</token>
@@ -25073,6 +25108,7 @@ though, and has since been slightly modified)-->
         <example type="incorrect" correction="Suisses">Beaucoup de <marker>suisses</marker> partent en vacances à l’étranger.</example>
         <example type="correct">Beaucoup de <marker>Suisses</marker> partent en vacances à l’étranger.</example>
         <example type="correct">Une leçon de français.</example>
+        <example type="correct">J'ai appris un peu de français ici et là.</example>
       </rule>
     </rulegroup>
     <rule id="MOYEN_AGE" name="Moyen Âge">
