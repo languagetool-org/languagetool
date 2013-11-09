@@ -22787,6 +22787,31 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
+          <token regexp="yes">bo[îi]tes?[-‑]aux[-‑]lettres</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="[-‑]" regexp_replace=" "/></suggestion>.</message>
+        <example type="incorrect" correction="boîte aux lettres">Où est la <marker>boîte-aux-lettres</marker> ?</example>
+        <example type="correct">Où est la <marker>boîte aux lettres</marker> ?</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">bo[îi]tes?[-‑][aà][-‑](bac|bacho|gant|idée|malice|musique|outil|rythme)s?</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="[-‑]" regexp_replace=" "/></suggestion>.</message>
+        <example type="incorrect" correction="boîte à outils">Où est la <marker>boîte-à-outils</marker> ?</example>
+        <example type="correct">Où est la <marker>boîte à outils</marker> ?</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>taille</token>
+          <token regexp="yes">crayons?</token>
+        </pattern>
+        <message>Il manque le traits d’union : <suggestion>\1-\2</suggestion>.</message>
+        <example type="incorrect" correction="taille-crayon">As-tu un <marker>taille crayon</marker> ?</example>
+        <example type="correct">As-tu un <marker>taille-crayon</marker> ?</example>
+      </rule>
+      <rule>
+        <pattern>
           <token>science</token>
           <token>fiction</token>
         </pattern>
