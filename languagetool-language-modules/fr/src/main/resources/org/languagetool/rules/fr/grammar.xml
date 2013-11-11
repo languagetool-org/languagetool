@@ -4197,6 +4197,37 @@ though, and has since been slightly modified)-->
         <example type="correct">La ligne d’<marker>arrivée</marker> du tour de France.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="EMPRUNT_EMPREINT" name="emprunt, empreint">
+      <rule>
+        <pattern>
+          <token regexp="yes">un|[mts]on|leur|cet|[’´'‛′‘]</token>
+          <marker><token>empreint</token></marker>
+          <token><exception regexp="yes">digitale|écologique|carbone|CO2</exception></token>
+        </pattern>
+        <message>Confusion problable : voulez-vous écrire <suggestion>emprunt</suggestion> ?</message>
+        <example type="incorrect">J’ai fait un <marker>empreint</marker> à la banque.</example>
+        <example type="correct">J’ai fait un emprunt à la banque.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">empreints?|emprunte?s?</token></marker>
+          <token regexp="yes">digitales?|écologique?|carbone|CO2</token>
+        </pattern>
+        <message>Confusion problable : voulez-vous écrire <suggestion><match no="1" regexp_match="[^s]+(s?)$" regexp_replace="empreinte$1"/></suggestion> ?</message>
+        <example type="incorrect" correction="empreinte">Mon <marker>emprunte</marker> carbone.</example>
+        <example type="correct">Mon empreinte carbone.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">[cdlmts]es|leurs</token>
+          <marker><token>empreints</token></marker>
+          <token><exception regexp="yes">digitales?|écologiques?|carbone|CO2</exception></token>
+        </pattern>
+        <message>Confusion problable : voulez-vous écrire <suggestion>emprunts</suggestion> ?</message>
+        <example type="incorrect">Les <marker>empreints</marker> à la banque.</example>
+        <example type="correct">Les emprunts à la banque.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category name="Élision">
     <!-- I find conflicting information about élision, so this needs to be reviewed.
