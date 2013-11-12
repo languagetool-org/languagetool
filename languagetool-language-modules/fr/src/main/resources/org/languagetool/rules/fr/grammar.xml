@@ -23472,6 +23472,16 @@ though, and has since been slightly modified)-->
         <example type="incorrect">Il faisait <marker>vis à vis</marker> à son épouse.</example>
         <example type="correct">Il faisait <marker>vis-à-vis</marker> à son épouse.</example>
       </rule>
+      <rule>
+        <pattern>
+          <token>trait-d</token>
+          <token regexp="yes">['´‘’′]</token>
+          <token regexp="yes">unions?</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>trait d’union</suggestion> ?</message>
+        <example type="incorrect">Un <marker>trait-d’union</marker>.</example>
+        <example type="correct">Un trait d’union.</example>
+      </rule>
     </rulegroup>
     <rule id="QUASI_NOM" name="Quasi + nom">
       <pattern>
@@ -25001,8 +25011,11 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="AU_FINAL" name="au final → finalement">
       <pattern>
-        <token>au</token>
-        <token>final</token>
+        <marker>
+          <token>au</token>
+          <token>final</token>
+        </marker>
+        <token><exception>de</exception></token>
       </pattern>
       <message>« au final » est une expression grammaticalement fautive.</message>
       <suggestion>finalement</suggestion>
@@ -25013,6 +25026,7 @@ though, and has since been slightly modified)-->
       <url>http://www.académie-française.fr/au-final</url>
       <example type="incorrect"><marker>Au final</marker>, il a gagné.</example>
       <example type="correct">Finalement, il a gagné.</example>
+      <example type="correct">Au final de cette sonate.</example>
     </rule>
     <rule id="EXPLOSER" name="exploser transitif">
       <pattern>
