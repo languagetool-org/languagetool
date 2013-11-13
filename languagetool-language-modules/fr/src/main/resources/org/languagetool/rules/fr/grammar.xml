@@ -4228,119 +4228,6 @@ though, and has since been slightly modified)-->
         <example type="correct">Les emprunts à la banque.</example>
       </rule>
     </rulegroup>
-  </category>
-  <category name="Élision">
-    <!-- I find conflicting information about élision, so this needs to be reviewed.
-    <rulegroup id="PARCE_QUE" name="Élision de parce que">
-      <rule>
-        <pattern>
-          <token>parce</token>
-          <token>que</token>
-          <token regexp="yes">à|ils?|elles?|on|une?</token>
-        </pattern>
-        <message>« \1 \2 \3 » s’élide en <suggestion>\1 qu’\3</suggestion>.</message>
-        <example type="incorrect"><marker>Parce que il</marker> fait froid.</example>
-        <example type="correct">Parce qu’il fait froid.</example>
-        <example type="correct">Parce que en février il fait froid.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>parce</token>
-          <token>qu</token>
-          <token regexp="yes">[’´'‛′‘]</token>
-          <token negate="yes" regexp="yes">à|ils?|elles?|on|une?</token>
-        </pattern>
-        <message>« Parce que » ne s’élide que devant à, il, ils, elle, elles, on, un, une. Employez <suggestion>\1 que \4</suggestion>.</message>
-        <example type="incorrect"><marker>Parce qu’en</marker> février il fait froid.</example>
-        <example type="correct">Parce que en février il fait froid.</example>
-        <example type="correct">Parce qu’il est malade.</example>
-      </rule>
-    </rulegroup>
-    <rulegroup id="PUISQUE" name="Élision de puisque">
-      <rule>
-        <pattern>
-          <token regexp="yes">puisque|lorsque</token>
-          <token regexp="yes">ils?|elles?|on|en|une?</token>
-        </pattern>
-        <message>« \1 \2 » s’élide en <suggestion>puisqu’\2</suggestion>.</message>
-        <example type="incorrect"><marker>Puisque en</marker> février il fait froid.</example>
-        <example type="correct"><marker>Puisqu’en</marker> février il fait froid.</example>
-        <example type="correct">Puisque aussitôt il partit.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token regexp="yes">puisqu|lorsqu</token>
-          <token regexp="yes">[’´'‛′‘]</token>
-          <token negate="yes" regexp="yes">ils?|elles?|on|en|une?</token>
-        </pattern>
-        <message>« \1e » ne s’élide que devant il, ils, elle, elles, on, en, un, une. Employez <suggestion>\1e \3</suggestion>.</message>
-        <example type="incorrect"><marker>Puisqu’aussitôt</marker> il partit.</example>
-        <example type="correct">Puisque aussitôt il partit.</example>
-        <example type="correct">Puisque en février il fait froid.</example>
-      </rule>
-    </rulegroup>
-    <rulegroup id="QUOIQUE" name="Élision de quoique">
-      <rule>
-        <pattern>
-          <token>quoique</token>
-          <token regexp="yes">ils?|elles?|on</token>
-        </pattern>
-        <message>« \1 \2 » s’élide en <suggestion>puisqu’\2</suggestion>.</message>
-        <example type="incorrect"><marker>Quoique on</marker> en dise</example>
-        <example type="correct"><marker>Quoiqu’on</marker> en dise</example>
-      </rule>
-    </rulegroup>
-    -->
-    <rulegroup id="EL_PRESQUE" name="Élision de presque">
-      <rule>
-        <pattern>
-          <token>presque</token>
-          <token regexp="yes">[îi]les?</token>
-        </pattern>
-        <message>« \1 \2 » s’élide en <suggestion>presqu’\2</suggestion>.</message>
-        <example type="incorrect" correction="presqu’île">Une <marker>presque île</marker></example>
-        <example type="correct">Une presqu’île</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>presqu</token>
-          <token regexp="yes">[’´'‛′‘]</token>
-          <token negate="yes" regexp="yes">[îi]les?</token>
-        </pattern>
-        <message>« presque » ne s’élide que dans le nom « presqu’île ». Employez <suggestion>\1e \3</suggestion>.</message>
-        <example type="incorrect" correction="presque exacte">La réponse est <marker>presqu’exacte</marker>.</example>
-        <example type="correct">La réponse est presque exacte.</example>
-      </rule>
-    </rulegroup>
-    <rule id="EL_LE" name="Élision de le, la…">
-      <pattern>
-        <token regexp="yes">[dljmnst]e|la|jusque</token>
-        <token regexp="yes">[àâaéêèeiîou].*<exception regexp="yes">onze|onzièmes?|une?|au?|oui|énième|.*\d.*|o[ùu]|[IVXLCM]+e?</exception></token>
-      </pattern>
-      <message>« \1 \2 » s’élide en <suggestion><match no="1" regexp_match=".$" regexp_replace=""/>’\2</suggestion>.</message>
-      <example type="incorrect" correction="L’île"><marker>La île</marker> est encore loin.</example>
-      <example type="correct">L’île est encore loin.</example>
-      <example type="correct">Il connait l’histoire de A à Z.</example>
-      <example type="correct">Il a appris ça en un jour.</example>
-      <example type="correct">Il semble que oui.</example>
-      <example type="correct">Le oui l’a emporté.</example>
-      <example type="correct">Est-ce que Oscar est ici ?</example>
-      <example type="correct">J’ai suivi la A40.</example>
-      <example type="correct">À la une de la presse.</example>
-      <example type="correct">Là où ça ne va plus.</example>
-      <example type="correct">Le IIe siècle.</example>
-      <example type="correct">Dépose-le au courrier.</example>
-      <example type="correct">Dépose-la au courrier.</example>
-    </rule>
-    <rule id="EL_SI" name="Élision de si">
-      <pattern>
-        <token>si</token>
-        <token regexp="yes">ils?</token>
-      </pattern>
-      <message>« \1 \2 » s’élide en <suggestion><match no="1" regexp_match=".$" regexp_replace=""/>’\2</suggestion>.</message>
-      <example type="incorrect" correction="S’il"><marker>Si il</marker> pleut, je reste ici.</example>
-      <example type="correct">S’il pleut, je reste ici.</example>
-    </rule>
     <rulegroup id="A_FAIRE_AFFAIRE" name="à faire, affaire">
       <rule>
         <pattern>
@@ -4385,6 +4272,59 @@ though, and has since been slightly modified)-->
       <message>Voulez-vous écrire <suggestion>fins</suggestion> ?</message>
       <example type="incorrect">Il a été construit à des <marker>faims</marker> militaires.</example>
       <example type="correct">Il a été construit à des fins militaires.</example>
+    </rule>
+  </category>
+  <category name="Élision">
+    <rulegroup id="EL_PRESQUE" name="Élision de presque">
+      <rule>
+        <pattern>
+          <token>presque</token>
+          <token regexp="yes">[îi]les?</token>
+        </pattern>
+        <message>« \1 \2 » s’élide en <suggestion>presqu’\2</suggestion>.</message>
+        <example type="incorrect" correction="presqu’île">Une <marker>presque île</marker></example>
+        <example type="correct">Une presqu’île</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>presqu</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+          <token negate="yes" regexp="yes">[îi]les?</token>
+        </pattern>
+        <message>« presque » ne s’élide que dans le nom « presqu’île ». Employez <suggestion>\1e \3</suggestion>.</message>
+        <example type="incorrect" correction="presque exacte">La réponse est <marker>presqu’exacte</marker>.</example>
+        <example type="correct">La réponse est presque exacte.</example>
+      </rule>
+    </rulegroup>
+    <rule id="ELISION" name="Élision de le, la…">
+      <pattern>
+        <token regexp="yes">[dljmnst]e|la|jusque|que</token>
+        <token regexp="yes">[àâaéêèeiîou][^0-9].*<exception regexp="yes">onze|onzièmes?|une?|au?|oui|énième|o[ùu]|[IVXLCM]+e?</exception></token>
+      </pattern>
+      <message>« \1 \2 » s’élide en <suggestion><match no="1" regexp_match=".$" regexp_replace=""/>’\2</suggestion>.</message>
+      <url>http://66.46.185.79/bdl/gabarit_bdl.asp?Th=2&amp;t1=&amp;id=1737</url>
+      <example type="incorrect" correction="L’île"><marker>La île</marker> est encore loin.</example>
+      <example type="correct">L’île est encore loin.</example>
+      <example type="correct">Il connait l’histoire de A à Z.</example>
+      <example type="correct">Il a appris ça en un jour.</example>
+      <example type="correct">Il semble que oui.</example>
+      <example type="correct">Le oui l’a emporté.</example>
+      <example type="correct">J’ai suivi la A40.</example>
+      <example type="correct">À la une de la presse.</example>
+      <example type="correct">Là où ça ne va plus.</example>
+      <example type="correct">Le IIe siècle.</example>
+      <example type="correct">Dépose-le au courrier.</example>
+      <example type="correct">Dépose-la au courrier.</example>
+    </rule>
+    <rule id="EL_SI" name="Élision de si">
+      <pattern>
+        <token>si</token>
+        <token regexp="yes">ils?</token>
+      </pattern>
+      <message>« \1 \2 » s’élide en <suggestion><match no="1" regexp_match=".$" regexp_replace=""/>’\2</suggestion>.</message>
+      <url>http://fr.wikipedia.org/wiki/%C3%89lision</url>
+      <example type="incorrect" correction="S’il"><marker>Si il</marker> pleut, je reste ici.</example>
+      <example type="correct">S’il pleut, je reste ici.</example>
     </rule>
   </category>
   <category name="Grammaire">
