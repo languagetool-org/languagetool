@@ -213,7 +213,7 @@ public class MultiWordChunker implements Disambiguator {
         lines.add(line);
       }
     } catch (IOException e) {
-      // ignore and return the partially loaded lines, or an empty list.
+      throw new RuntimeException(e);
     }
     return lines;
   }
