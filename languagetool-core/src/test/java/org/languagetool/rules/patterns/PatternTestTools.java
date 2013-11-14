@@ -91,23 +91,37 @@ public class PatternTestTools {
                     + " Did you forget skip=\"...\"?");
               }
 
-              // Detect exception that can't possibly be matched. Example:
-              // <token>foo<exception>bar</exception></token>
-              // This could be improved to detect for example useless
-              // exception in :
-              // <token regexp="yes">foo|bar<exception>xxx</exception></token>
-              if (!element.isRegularExpression()
-                && !element.getString().isEmpty()
+              // Detect exception that can't possibly be matched.
+              if ( !element.getString().isEmpty()
                 && !element.getNegation()
                 && !element.isInflected()
                 && element.getSkipNext() == 0
                 && element.getPOStag() == null
                 && exception.getPOStag() == null
+                && !exception.isRegularExpression()
                 && element.isCaseSensitive() == exception.isCaseSensitive()) {
-                System.err.println("The " + lang.toString() + " rule: "
-                    + ruleId + ":" + ruleSubId
-                    + " exception in token [" + i + "] seems useless."
-                    + " Did you forget skip=\"...\" or scope=\"previous\"?");
+                if (element.isRegularExpression()) {
+                  // An exception that cannot match a token regexp is useless.
+                  // Example: <token regexp="yes">foo|bar<exception>xxx</exception></token>
+                  // Here exception word xxx cannot possibly match the regexp "foo|bar".
+                  if (!exception.getString().matches(
+                      (exception.isCaseSensitive() ? "" : "(?i)") +  element.getString())) {
+                    System.err.println("The " + lang.toString() + " rule: "
+                        + ruleId + ":" + ruleSubId
+                        + " exception word [" +  exception.getString() 
+                        + "] cannot match the regexp token [" + i + "] [" + element.getString() 
+                        + "] so exception seems useless. "
+                        + "Did you forget skip=\"...\" or scope=\"previous\"?");
+                  }
+                } else {
+                  // An exception that cannot match a token string is useless,
+                  // Example: <token>foo<exception>bar</exception></token>
+                  System.err.println("The " + lang.toString() + " rule: "
+                      + ruleId + ":" + ruleSubId
+                      + " exception word [" + exception.getString() 
+                      + "] in token word [" + i + "] [" + element.getString() 
+                      + "] seems useless. Did you forget skip=\"...\" or scope=\"previous\"?");
+                }
               }
 
               // Check whether exception value is consistent with regexp="..."
