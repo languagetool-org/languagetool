@@ -97,30 +97,67 @@ public class PatternTestTools {
                 && !element.isInflected()
                 && element.getSkipNext() == 0
                 && element.getPOStag() == null
-                && exception.getPOStag() == null
-                && !exception.isRegularExpression()
-                && element.isCaseSensitive() == exception.isCaseSensitive()) {
-                if (element.isRegularExpression()) {
-                  // An exception that cannot match a token regexp is useless.
-                  // Example: <token regexp="yes">foo|bar<exception>xxx</exception></token>
-                  // Here exception word xxx cannot possibly match the regexp "foo|bar".
-                  if (!exception.getString().matches(
-                      (exception.isCaseSensitive() ? "" : "(?i)") +  element.getString())) {
+                && exception.getPOStag() == null) {
+                if (exception.isRegularExpression()) {
+                  if (element.isRegularExpression()) {
+                    // Both exception and token are regexp.  In that case, we only
+                    // check sanity when exception regexp is a simple disjunction as
+                    // in this example:
+                    // <token regexp="yes">...some regexp...<exception regexp="yes">foo|bar|xxx</exception></token>
+                    // All the words foo, bar, xxx should match the token regexp, or else they
+                    // are useless.
+                    if ( exception.getString().contains("|")
+                      && exception.getString().matches("[^()]*")) {
+                      final String[] alt = exception.getString().split("\\|");
+                      for (final String part : alt) {
+                        if (part.matches("[^.*?{}\\[\\]]+")) {
+                          if (!part.matches("(?i)" + element.getString())) {
+                            System.err.println("The " + lang.toString() + " rule: "
+                                + ruleId + ":" + ruleSubId
+                                + " has exception regexp [" + exception.getString() 
+                                + "] which contains disjunction part [" + part + "] "
+                                + "which seems useless since it does not match "
+                                + "the regexp of token word [" + i + "] [" + element.getString() 
+                                + "]. Did you forget skip=\"...\" or scope=\"previous\"?");
+                          }
+                        }
+                      }
+                    }
+                  } else {
+                    // It does not make sense to to have a regexp exception
+                    // with a token which is not a regexp!?
+                    // Example <token>foo<exception regexp="xxx|yyy"/></token>
                     System.err.println("The " + lang.toString() + " rule: "
                         + ruleId + ":" + ruleSubId
-                        + " exception word [" +  exception.getString() 
-                        + "] cannot match the regexp token [" + i + "] [" + element.getString() 
-                        + "] so exception seems useless. "
+                        + " has exception regexp [" + exception.getString() 
+                        + "] in token word [" + i + "] [" + element.getString() 
+                        + "] which seems useless. "
                         + "Did you forget skip=\"...\" or scope=\"previous\"?");
                   }
                 } else {
-                  // An exception that cannot match a token string is useless,
-                  // Example: <token>foo<exception>bar</exception></token>
-                  System.err.println("The " + lang.toString() + " rule: "
-                      + ruleId + ":" + ruleSubId
-                      + " exception word [" + exception.getString() 
-                      + "] in token word [" + i + "] [" + element.getString() 
-                      + "] seems useless. Did you forget skip=\"...\" or scope=\"previous\"?");
+                  if (element.isRegularExpression()) {
+                    // An exception that cannot match a token regexp is useless.
+                    // Example: <token regexp="yes">foo|bar<exception>xxx</exception></token>
+                    // Here exception word xxx cannot possibly match the regexp "foo|bar".
+                    if (!exception.getString().matches(
+                        (exception.isCaseSensitive() ? "" : "(?i)") +  element.getString())) {
+                      System.err.println("The " + lang.toString() + " rule: "
+                          + ruleId + ":" + ruleSubId
+                          + " has exception word [" +  exception.getString() 
+                          + "] which cannot match the regexp token [" + i + "] [" + element.getString() 
+                          + "] so exception seems useless. "
+                          + "Did you forget skip=\"...\" or scope=\"previous\"?");
+                    }
+                  } else {
+                    // An exception that cannot match a token string is useless,
+                    // Example: <token>foo<exception>bar</exception></token>
+                    System.err.println("The " + lang.toString() + " rule: "
+                        + ruleId + ":" + ruleSubId
+                        + " has exception word [" + exception.getString() 
+                        + "] in token word [" + i + "] [" + element.getString() 
+                        + "] which seems useless. "
+                        + "Did you forget skip=\"...\" or scope=\"previous\"?");
+                  }
                 }
               }
 
