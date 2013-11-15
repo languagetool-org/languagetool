@@ -980,6 +980,24 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
                 <example correction="hear" type="incorrect">I can almost <marker>here</marker> you crying.</example>
                 <example type="correct">I can almost hear you crying.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <or>
+                        <token>t</token>
+                        <token>not</token>
+                    </or>
+                    <marker>
+                        <token>here</token>
+                    </marker>
+                    <token regexp="yes">from|of</token>
+                </pattern>
+                <message>Did you mean <suggestion>hear</suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="hear" type="incorrect">If you don't <marker>here</marker> from me in a day...</example>
+                <example correction="hear" type="incorrect">If you do not <marker>here</marker> from me in a day...</example>
+                <example type="correct">If you don't <marker>hear</marker> from me in a day...</example>
+                <example type="correct">If you do not <marker>hear</marker> from me in a day...</example>
+            </rule>
         </rulegroup>
         <rule id="HEAR_HERE" name="hear (here)">
             <pattern>
