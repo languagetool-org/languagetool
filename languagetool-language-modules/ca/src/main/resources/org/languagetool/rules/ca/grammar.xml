@@ -12566,6 +12566,32 @@ $Id$
         </rulegroup>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="TIRAR_A_FALTAR" name="tirar*/trobar a faltar">
+            <pattern>
+                <marker>
+                    <token inflected="yes">tirar</token>
+                </marker>
+                <token>a</token>
+                <token>faltar</token>
+            </pattern>
+            <message>Expressió incorrecta.</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">trobar</match></suggestion>
+            <example type="incorrect" correction="trobar">va <marker>tirar</marker> a faltar</example>
+            <example type="correct">va trobar a faltar</example>
+        </rule>
+        <rule id="TIRAR_EN_FALTA" name="*tirar en falta/trobar a faltar">
+            <pattern>
+                <marker>
+                    <token inflected="yes">tirar</token>
+                    <token>en</token>
+                    <token>falta</token>
+                </marker>
+            </pattern>
+            <message>Expressió incorrecta.</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">trobar</match> a faltar</suggestion>
+            <example type="incorrect" correction="Trobàrem a faltar"><marker>Tiràrem en falta</marker></example>
+            <example type="correct">va trobar a faltar</example>
+        </rule>
         <rule id="MA_DE_SANT" name="mà de sant">
             <pattern>
                 <token><exception postag="[DA].*" postag_regexp="yes"></exception></token>
