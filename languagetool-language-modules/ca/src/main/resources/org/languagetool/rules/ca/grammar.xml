@@ -41,7 +41,8 @@ $Id$
     <!ENTITY adjectius_TE_INFUSIO "descafeïnat|mòlt|jove|conegut|preparat|empaquetat|xin[èé]s|amargant|sud-americà|instantani|lleuger|indi|roquer|dolç|fals|bord|tradicional|gal·l[éè]s|pudent|salvatge|àrab|angl[éè]s|fosc|negre|verd|vermell|blanc|gelat|fred|calent|turc">
     <!ENTITY verbs_TE_INFUSIO "produir|prendre|servir|preparar|voler|beure|consumir|importar|vendre|exportar|llançar">
     <!ENTITY exceptions_MES "draconític|lunar|mitjà|tròpic|anomalístic|dedicat|vinent|entrant|propvinent|passat|proppassat|intercalar|anterior|següent">
-    <!ENTITY mots_HAC_ASPIRADA "Haifa|halar|hall.*|Halloweens?|Hamada|Hamas|Hamàs|hamilton.*|Hamlet.*|Hampton|handicaps?|Hannover|Hans|Hansa|hardware|harolds?|Harrison|harrods?|harry|Hartmann?|Haruki|Harvard|Havilland|hawai.*|hawk.*|Haydn|Hayworth|Heard|hearst|heav.*|hegel.*|Heidelberg|Heiden.*|Heilig.*|hein.*|Heisen.*|Heitz|Helen|Heming.*|henna|hennes|Henry|Hepburn|herbert.*|Hereford|Hesse|Hessen|Hezboll.+|Higgs|high|high.*|hilbert.*|Hilda|Hill|hinden.*|hippies|hippy|Hirado|His|Hitch.*|hitler.*|Hohen.*|holdings?|hollywood.*|Holmes.*|Holstein|Hong|hongk.+|Honolu.+|h[òo]bbits?|h[oò]ldings?|hoover.*|hopkins|Hork.*|horst|H[ou]f.*|Houston|Howard|Hubble|Hubei|Hudson|humbold.*|Hume|Hunter|hunting.*|husseinit.+|Husserl|Utah">
+    <!ENTITY mots_HAC_ASPIRADA "Haifa|halar|hall.*|Halloweens?|Hamada|Hamas|Hamàs|hamilton.*|Hamlet.*|Hampton|handicaps?|Hannover|Hans|Hansa|hardware|harolds?|Harrison|harrods?|harry|Hartmann?|Haruki|Harvard|Havilland|hawai.*|hawk.*|Haydn|Hayworth|Heard|hearst|heav.*|hegel.*|Heidelberg|Heiden.*|Heilig.*|hein.*|Heisen.*|Heitz|Helen|Heming.*|henna|hennes|Henry|Hepburn|herbert.*|Hereford|Hesse|Hessen|Hezboll.+|high.*|hilbert.*|Hilda|hinden.*|Hitch.*|hitler.*|Hohen.*|holdings?|hollywood.*|Holmes.*|Holstein|Hong|hongk.+|Honolu.+|h[òo]bbits?|h[oò]ldings?|hoover.*|hopkins|Hork.*|horst|H[ou]f.*|Houston|Howard|Hubble|Hudson|humbold.*|Hume|hunting.*|husseinit.+">
+    <!ENTITY mots_HAC_ASPIRADA2 "Higgs|high|Hill|hippies|hippy|Hirado|His|Hubei|Hunter|Husserl|Utah">
 ]>
     
 <rules lang="ca" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
@@ -8005,7 +8006,7 @@ $Id$
             <rule>
                 <pattern>
                     <token>de</token>
-                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].*|hosts?|el|els|a|e|i|o|u|efa|ef|efe|hac|ela|ele|ema|eme|em|ena|ene|erra|erre|essa|esse|ics|iure|&mots_HAC_ASPIRADA;</exception><exception inflected="yes">ordinal</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|V.[MSI].*|NP..000" postag_regexp="yes"/></token>
+                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].*|hosts?|el|els|a|e|i|o|u|efa|ef|efe|hac|ela|ele|ema|eme|em|ena|ene|erra|erre|essa|esse|ics|iure|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;</exception><exception inflected="yes">ordinal</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|V.[MSI].*|NP..000" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Cal apostrofar.</message>
                 <suggestion>d'<match no="2"></match></suggestion>
@@ -8023,7 +8024,7 @@ $Id$
             <rule>
                 <pattern>
                     <token>el<exception postag="(&lt;)?NP.*" postag_regexp="yes"/></token>
-                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+|o|i|host|&mots_HAC_ASPIRADA;</exception><exception inflected="yes">ordinal</exception><exception inflected="yes" regexp="yes">halar|io[dt]itzar</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
+                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+|o|i|host|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;</exception><exception inflected="yes">ordinal</exception><exception inflected="yes" regexp="yes">halar|io[dt]itzar</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Cal apostrofar.</message>
                 <suggestion>l'<match no="2"></match></suggestion>
@@ -8043,7 +8044,7 @@ $Id$
                     <token postag="SENT_START" skip="10"><exception scope="next" inflected="yes" regexp="yes">trobar|tenir|fixar|culminar|aturar</exception></token>
                     <marker>
                         <token postag="DA0MS0">en</token>
-                        <token postag="NPMSSP0" regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+|&mots_HAC_ASPIRADA;</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/><exception regexp="yes">Aristòtil|Homer|Empèdocles|Horaci|Abraham|Orestes|Adam|Ezequiel</exception></token>
+                        <token postag="NPMSSP0" regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/><exception regexp="yes">Aristòtil|Homer|Empèdocles|Horaci|Abraham|Orestes|Adam|Ezequiel</exception></token>
                     </marker>
                     <token postag="V...[12].." postag_regexp="yes" negate_pos="yes" />
                 </pattern>
@@ -8062,7 +8063,7 @@ $Id$
                     <marker>
                         <token>de</token>
                         <token spacebefore="no">l</token>
-                        <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+|o|i|host|&mots_HAC_ASPIRADA;</exception><exception inflected="yes">ordinal</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
+                        <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+|o|i|host|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;</exception><exception inflected="yes">ordinal</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Cal apostrofar.</message>
@@ -8079,7 +8080,7 @@ $Id$
                 <pattern>
                     <token>a</token>
                     <token spacebefore="no">l</token>
-                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+|o|i|host|&mots_HAC_ASPIRADA;</exception><exception inflected="yes">ordinal</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
+                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+|o|i|host|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;</exception><exception inflected="yes">ordinal</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Cal apostrofar.</message>
                 <suggestion>a l'<match no="3"></match></suggestion>
@@ -8095,7 +8096,7 @@ $Id$
                 <pattern>
                     <token>pe</token>
                     <token spacebefore="no">l</token>
-                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+|o|i|host|&mots_HAC_ASPIRADA;</exception><exception inflected="yes">ordinal</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
+                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+|o|i|host|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;</exception><exception inflected="yes">ordinal</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Cal apostrofar.</message>
                 <suggestion>per l'<match no="3"></match></suggestion>
@@ -8158,7 +8159,7 @@ $Id$
                     <token>d'</token>
                     <or>
                         <token postag="hac_aspirada"/>
-                        <token regexp="yes">&mots_HAC_ASPIRADA;</token>
+                        <token regexp="yes">&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;</token>
                     </or>    
                 </pattern>
                 <message>No s'apostrofa davant de hac aspirada.</message>
@@ -8174,7 +8175,7 @@ $Id$
                     <token>l'</token>
                     <or>
                         <token postag="hac_aspirada"/>
-                        <token regexp="yes">&mots_HAC_ASPIRADA;</token>
+                        <token regexp="yes">&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;</token>
                     </or>
                 </pattern>
                 <message>No s'apostrofa davant de hac aspirada.</message>
@@ -8190,7 +8191,7 @@ $Id$
                     <token>n'</token>
                     <or>
                         <token postag="hac_aspirada"/>
-                        <token regexp="yes">&mots_HAC_ASPIRADA;</token>
+                        <token regexp="yes">&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;</token>
                     </or>
                 </pattern>
                 <message>No s'apostrofa davant de hac aspirada.</message>
@@ -8204,7 +8205,7 @@ $Id$
             <rule>
                 <pattern>
                     <token>d'</token>
-                    <token regexp="yes">h?[ui][aeoiàèéóòu].*<exception regexp="yes">ió|ions|ionitza.+|h?uix.+|Iowa|Uialfàs|&mots_HAC_ASPIRADA;|(?-i)IU</exception></token>
+                    <token regexp="yes">h?[ui][aeoiàèéóòu].*<exception regexp="yes">ió|ions|ionitza.+|h?uix.+|Iowa|Uialfàs|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;|(?-i)IU</exception></token>
                 </pattern>
                 <message>No s'apostrofa.</message>
                 <suggestion>de <match no="2"></match></suggestion>
@@ -8221,7 +8222,7 @@ $Id$
             <rule>
                 <pattern>
                     <token>l'</token>
-                    <token postag="N.M.*|A..M.*" postag_regexp="yes" regexp="yes">h?[ui][aeoiàèéóòu].*<exception regexp="yes">ió|uix.+|&mots_HAC_ASPIRADA;</exception><exception regexp="yes">(?-i)IEC</exception> </token>
+                    <token postag="N.M.*|A..M.*" postag_regexp="yes" regexp="yes">h?[ui][aeoiàèéóòu].*<exception regexp="yes">ió|uix.+|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;</exception><exception regexp="yes">(?-i)IEC</exception> </token>
                 </pattern>
                 <message>No s'apostrofa.</message>
                 <suggestion>el <match no="2"></match></suggestion>
@@ -8334,7 +8335,7 @@ $Id$
             <rule>
                 <pattern>
                     <token>la<exception postag="(&lt;)?NP.*" postag_regexp="yes"/></token>
-                    <token regexp="yes">h?[aeoàèéíòóú].*|h?[ui][^aeiouàèéíòóúüï]+[aeiou][ns]?|urbs|URSS<exception regexp="yes">host|ira|inxa|[aeiou]|efa|hac|ela|ema|en|ena|ene|er|erra|erre|essa|ics|una|&mots_HAC_ASPIRADA;</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/><exception regexp="yes">(?-i)Haia</exception></token>
+                    <token regexp="yes">h?[aeoàèéíòóú].*|h?[ui][^aeiouàèéíòóúüï]+[aeiou][ns]?|urbs|URSS<exception regexp="yes">host|ira|inxa|[aeiou]|efa|hac|ela|ema|en|ena|ene|er|erra|erre|essa|una|&mots_HAC_ASPIRADA;</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/><exception regexp="yes">(?-i)Haia</exception></token>
                 </pattern>
                 <message>Cal apostrofar.</message>
                 <suggestion>l'<match no="2"></match></suggestion>
@@ -8373,7 +8374,7 @@ $Id$
             <rule>
                 <pattern>
                     <token>na</token>
-                    <token postag="N.FS.*" postag_regexp="yes" regexp="yes">h?[aeoàèéíòóú].*|h?[ui][^aeiouàèéíòóúüï]+[aeiou][ns]?|urbs<exception regexp="yes">host|ira|inxa|&mots_HAC_ASPIRADA;</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
+                    <token postag="N.FS.*" postag_regexp="yes" regexp="yes">h?[aeoàèéíòóú].*|h?[ui][^aeiouàèéíòóúüï]+[aeiou][ns]?|urbs<exception regexp="yes">host|ira|inxa|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Cal apostrofar.</message>
                 <suggestion>n'<match no="2"></match></suggestion>
@@ -8383,11 +8384,11 @@ $Id$
                 <example type="correct">Na és el símbol del</example>
             </rule>
         </rulegroup>
-        <rulegroup id="CAL_APOSTROFAT" name="apostrofació: ca l'Enric, de ca l'ample">    
+        <rulegroup id="CAL_APOSTROFAR" name="apostrofació: ca l'Enric, de ca l'ample">    
             <rule>
                 <pattern>
                     <token>cal</token>
-                    <token postag="NPMSSP0" regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóò].+|&mots_HAC_ASPIRADA;</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
+                    <token postag="NPMSSP0" regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóò].+|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Cal apostrofar.</message>
                 <suggestion>ca l'<match no="2"></match></suggestion>
@@ -8398,7 +8399,7 @@ $Id$
             <rule>
                 <pattern>
                     <token postag="contraccio">cal</token>
-                    <token postag="N.[MC][SN].*|AQ.[MC][SN]." postag_regexp="yes" regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóò].+|&mots_HAC_ASPIRADA;</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
+                    <token postag="N.[MC][SN].*|AQ.[MC][SN]." postag_regexp="yes" regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóò].+|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Cal apostrofar.</message>
                 <suggestion>ca l'<match no="2"></match></suggestion>
