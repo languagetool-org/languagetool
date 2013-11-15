@@ -5476,6 +5476,19 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+        <rule id="A_MI_EN_DIUEN" name="a mi *en/em diuen">
+            <pattern>
+                <token>a</token>
+                <token>mi</token>
+                <marker>
+                    <token>en</token>
+                </marker>
+                <token postag="V.[ISM].*" postag_regexp="yes"/>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>em</suggestion>?</message>
+            <example type="incorrect" correction="em">a mi <marker>en</marker> diuen</example>
+            <example type="correct">a mi em diuen</example>
+        </rule>
         <rule id="PLAN_PLA" name="Plan/Pla">
             <pattern case_sensitive="yes">
                 <token>Plan</token>
