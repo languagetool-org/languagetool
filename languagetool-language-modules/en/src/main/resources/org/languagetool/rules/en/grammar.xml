@@ -5844,6 +5844,39 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category name="Grammar" type="grammar">
+        <rulegroup id="DOES_YOU" name="does (do) I/you/we/they">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token>does</token>
+                    </marker>
+                    <token regexp="yes">I|you|we|they</token>
+                </pattern>
+                <message>Did you mean <suggestion>do</suggestion>? 'does' is only used for the third person singular (he/she/it).</message>
+                <example type="incorrect"><marker>Does</marker> you have your glasses?</example>
+                <example type="correct">Do you have your glasses?</example>
+                <example type="correct">Smoking does you harm.</example>
+                <example type="incorrect"><marker>Does</marker> I have to go there?</example>
+                <example type="correct">Do I have to go there?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception postag="VBG"/></token>
+                    <marker>
+                        <token>does</token>
+                    </marker>
+                    <token regexp="yes">I|you|we|they</token>
+                </pattern>
+                <message>Did you mean <suggestion>do</suggestion>? 'does' is only used for the third person singular (he/she/it).</message>
+                <example type="incorrect">But <marker>Does</marker> you have your glasses?</example>
+                <example type="correct">But do you have your glasses?</example>
+                <example type="correct">Smoking does you harm.</example>
+                <example type="correct">But Smoking does you harm.</example>
+                <example type="incorrect">But  <marker>does</marker> I have to go there?</example>
+                <example type="correct">But do I have to go there?</example>
+            </rule>
+        </rulegroup>
         <rule id="DID_PAST" name="'did' with past tense verb">
             <pattern>
                 <token>did</token>
