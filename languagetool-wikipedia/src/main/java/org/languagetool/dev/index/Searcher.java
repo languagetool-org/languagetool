@@ -135,7 +135,7 @@ public class Searcher {
         throw new RuntimeException("Search thread got interrupted for query " + query, e);
       }
       if (searchThread.isInterrupted()) {
-        throw new SearchTimeoutException("Search timeout of " + maxSearchTimeMillis + "ms reached");
+        throw new SearchTimeoutException("Search timeout of " + maxSearchTimeMillis + "ms reached for query " + query);
       }
       final Exception exception = runnable.getException();
       if (exception != null) {
