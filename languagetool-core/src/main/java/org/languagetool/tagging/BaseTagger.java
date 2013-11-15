@@ -35,7 +35,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.tools.StringTools;
 
 /**
- * Base tagger using Lametyzator.
+ * Base tagger using Morfologik binary dictionaries.
  *
  * @author Marcin Milkowski
  */
@@ -47,7 +47,7 @@ public abstract class BaseTagger implements Tagger {
   private Dictionary dictionary;
 
   /**
-   * Get the filename, e.g., <tt>/resource/fr/french.dict</tt>.
+   * Get the filename, e.g., {@code /en/english.dict}.
    */
   public abstract String getFileName();
 

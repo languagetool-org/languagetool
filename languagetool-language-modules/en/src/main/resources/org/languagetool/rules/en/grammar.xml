@@ -2213,13 +2213,13 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
                 <example type="correct">It lets you quickly search for the product,</example>
             </rule>
         </rulegroup>
-        <rulegroup id="IT_IS" name="its (it's)">
+        <rulegroup id="IT_IS" name="its vs. it's">
             <rule>
                 <pattern>
                     <token>on</token>
                     <marker>
                         <token>it</token>
-                        <token>'</token>
+                        <token spacebefore="no" regexp="yes">['’]</token>
                         <token>s</token>
                     </marker>
                     <token>way</token>
@@ -2236,7 +2236,7 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
                     <marker>
                         <token>its</token>
                     </marker>
-                    <token postag="(CC|DT|IN|MD|POS|PP|RB|WDT|WP|WRB)" postag_regexp="yes"><exception>many</exception><exception postag="NN.*" postag_regexp="yes"></exception></token>
+                    <token postag="CC|DT|IN|MD|POS|PP|RB|WDT|WP|WRB" postag_regexp="yes"><exception>many</exception><exception postag="NN.*" postag_regexp="yes"></exception></token>
                     <token><exception postag="VBN|JJ" postag_regexp="yes"></exception></token>
                 </pattern>
                 <message>Did you mean <suggestion>it's</suggestion> (=<suggestion>it is</suggestion>) instead of 'its' (possessive pronoun)?</message>
@@ -2270,7 +2270,7 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
                         <token spacebefore="no" regexp="yes">['’]</token>
                         <token>s</token>
                     </marker>
-                    <token postag="NN"><exception  postag="JJ"></exception></token>
+                    <token postag="NN"><exception postag="JJ"></exception></token>
                 </pattern>
                 <message>Did you mean <suggestion>its</suggestion> (possessive pronoun) instead of 'it's' (=it is)?</message>
                 <short>Possible typo</short>
@@ -2318,7 +2318,7 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
                         <token spacebefore="no" regexp="yes">['’]</token>
                         <token>s</token>
                     </marker>
-                    <token regexp="yes">approach|idea</token>
+                    <token regexp="yes">approach|idea|own</token>
                 </pattern>
                 <message>Did you mean <suggestion>its</suggestion> (possessive pronoun) instead of 'it's' (=it is)?</message>
                 <short>Possible typo</short>
@@ -2387,8 +2387,7 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[wW]ith|[Ii]n|[Ww]ithout|[Ff]rom|[Uu]nder|[Oo]ver|[Aa]bove</token>
-                    <!-- not using postag=&quot;IN&quot; because of &quot;like&quot; and &quot;to&quot;, 
-          not sure about other prepositions -->
+                    <!-- not using postag="IN" because of "like" and "to", not sure about other prepositions -->
                     <marker>
                         <token>it</token>
                         <token spacebefore="no" regexp="yes">['’]</token>
@@ -2429,6 +2428,20 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
                 <message>Did you mean <suggestion>its</suggestion> (possessive pronoun) instead of 'it's' (short form of 'it is')?</message>
                 <example type="incorrect" correction="its">It does this by providing <marker>it's</marker> own open source based products.</example>
                 <example type="correct">It does this by providing <marker>its</marker> own open source based products.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="VBZ"/>
+                    <marker>
+                        <token>it</token>
+                        <token spacebefore="no" regexp="yes">['’]</token>
+                        <token>s</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="NN.*"/>
+                </pattern>
+                <message>Did you mean <suggestion>its</suggestion> (possessive pronoun) instead of 'it's' (short form of 'it is')?</message>
+                <example type="incorrect" correction="its">This is an opportunity to see how SAP addresses <marker>it's</marker> internal developers.</example>
+                <example type="correct">This is an opportunity to see how SAP addresses <marker>its</marker> internal developers.</example>
             </rule>
         </rulegroup>
         <rulegroup id="NOW" name="no/now">
