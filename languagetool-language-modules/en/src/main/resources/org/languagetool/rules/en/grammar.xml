@@ -5932,6 +5932,23 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
                 <example type="correct">But do I have to go there?</example>
             </rule>
         </rulegroup>
+        <rule id="DOES_NP_VBZ" name="does ... 3rd person verb">
+            <pattern>
+                <token>does</token>
+                <token chunk="B-NP-singular" min="0"/>
+                <token chunk="I-NP-singular" min="0"/>
+                <token chunk="E-NP-singular"/>
+                <marker>
+                    <token postag="VBZ" />
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion><match no="5" postag="VB"/></suggestion>?</message>
+            <short>Possible typo</short>
+            <example correction="grow" type="incorrect">Does your memory usage <marker>grows</marker> during processing?</example>
+            <example correction="grow" type="incorrect">Does memory usage <marker>grows</marker> during processing?</example>
+            <example type="correct">Does your memory usage <marker>grow</marker> during processing?</example>
+            <example type="correct">Does memory usage <marker>grow</marker> during processing?</example>
+        </rule>
         <rule id="DID_PAST" name="'did' with past tense verb">
             <pattern>
                 <token>did</token>
