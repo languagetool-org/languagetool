@@ -5844,6 +5844,19 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category name="Grammar" type="grammar">
+        <rule id="ALL_THE_SINGULAR" name="all the + singular (plural) noun + verb">
+            <pattern>
+                <token>all</token>
+                <token>the</token>
+                <marker>
+                    <token postag="NN"></token>
+                </marker>
+                <token postag="VBN"></token>
+            </pattern>
+            <message>Did you mean <suggestion><match no="3" postag="NNS" /></suggestion>?</message>
+            <example type="incorrect">All the <marker>report</marker> written look good.</example>
+            <example type="correct">All the reports written look good.</example>
+        </rule>
         <rulegroup id="DOES_YOU" name="does (do) I/you/we/they">
             <rule>
                 <pattern>
