@@ -8758,13 +8758,24 @@ $Id$
         	</rule>
         	<rule id="CONEIXO" name="*coneixo/conec">
         		<pattern>
-        			<token regexp="yes">(des)?apareixo|(des)?coneixo</token>
+        			<token regexp="yes">(des)?apareixo|(des|re)?coneixo</token>
         		</pattern>
         		<message>La 1a persona del present d'indicatiu és <suggestion><match no="1" regexp_match="(.*)eixo" regexp_replace="$1ec"/></suggestion>.</message>
         		<short>Error ortogràfic</short>
                 <example type="incorrect" correction="desconec">Ho <marker>desconeixo</marker>.</example>
                 <example type="correct">El conec.</example>
         	</rule>
+            <rule id="CONEIXIN" name="*coneixin/coneguin">
+                <pattern>
+                    <token regexp="yes">(des)?apareixin?|(des|re)?coneixin?</token>
+                </pattern>
+                <message>Forma incorrecta de subjuntiu.</message>
+                <suggestion><match no="1" regexp_match="(.*)eixi(n?)" regexp_replace="$1egui$2"/></suggestion>
+                <short>Error ortogràfic</short>
+                <example type="incorrect" correction="coneguin">Sembla que el <marker>coneixin</marker>.</example>
+                <example type="incorrect" correction="desaparegui">I quan <marker>desapareixi</marker>?</example>
+                <example type="correct">El conec.</example>
+            </rule>
         </rulegroup>
     </category>
     <category name="Z) Accents diacrítics" type="grammar">
