@@ -5952,10 +5952,10 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
         <rule id="IT_VBZ" name="'it' + 3rd person verb (base verb)">
             <pattern>
                 <!-- 't': from "doesn't" etc -->
-                <token><exception regexp="yes">can|must|might|shall|does|will|would|should|may|t</exception></token>
+                <token><exception regexp="yes">can|must|might|shall|does|will|would|should|may|t|let|makes?|did</exception></token>
                 <token>it</token>
                 <marker>
-                    <token postag="VB" />
+                    <token postag="VB"><exception postag_regexp="yes" postag="VBN|RP|IN"/></token>
                 </marker>
             </pattern>
             <message>Did you mean <suggestion><match no="3" postag="VBZ"/></suggestion>?</message>
@@ -5964,6 +5964,10 @@ http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_
             <example type="correct">It <marker>supports</marker> transparency.</example>
             <example type="correct">Does it <marker>support</marker> transparency?</example>
             <example type="correct">Doesn't it <marker>support</marker> transparency?</example>
+            <example type="correct">The American publisher let it go out of print.</example>
+            <example type="correct">How did it come about?</example>
+            <example type="correct">He immediately wrote it down.</example>
+            <example type="correct">You may take this book as long as you keep it clean.</example>            
         </rule>
         <rule id="DID_PAST" name="'did' with past tense verb">
             <pattern>

@@ -1689,6 +1689,20 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
 			<example type="untouched">I used my saw.</example>
 			<example type="ambiguous" inputform="saw[saw/NN,saw/VB,saw/VBP,see/VBD]" outputform="saw[see/VBD]">This is what he <marker>saw</marker>.</example>
 		</rule>
+    
+        <rule name="keep + it + adj" id="KEEP_JJ">
+          <pattern>
+            <token>keep</token>
+            <token>it</token>
+            <marker><and><token postag="VB"/>
+              <token postag_regexp="yes" postag="JJ.?"></token>
+            </and>
+            </marker>
+          </pattern>
+          <disambig action="filter" postag="JJ.*"/>
+          <example type="untouched">Let's keep it simple.</example>
+          <example type="ambiguous" inputform="clean[clean/JJ,clean/NN,clean/VB,clean/VBP]" outputform="clean[clean/JJ]">Let's keep it <marker>clean</marker>.</example>
+        </rule>
 	
 </rules>
  
