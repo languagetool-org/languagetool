@@ -108,10 +108,12 @@ public class PatternTestTools {
                     // </token>
                     // All the words foo, bar, xxx should match the token regexp, or else they
                     // are useless.
-                    if (exception.getString().indexOf('|') >= 0
-                      && exception.getString().matches("[^()]*")) {
+                    if (exception.getString().indexOf('|') >= 0) {
                       final String[] alt = exception.getString().split("\\|");
                       for (final String part : alt) {
+                        if (exception.getString().indexOf('(') >= 0) {
+                          break;
+                        }
                         if (part.matches("[^.*?{}\\[\\]]+")) {
                           if (!part.matches("(?i)" + element.getString())) {
                             System.err.println("The " + lang.toString() + " rule: "
