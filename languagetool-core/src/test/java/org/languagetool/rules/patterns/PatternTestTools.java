@@ -103,10 +103,12 @@ public class PatternTestTools {
                     // Both exception and token are regexp.  In that case, we only
                     // check sanity when exception regexp is a simple disjunction as
                     // in this example:
-                    // <token regexp="yes">...some regexp...<exception regexp="yes">foo|bar|xxx</exception></token>
+                    // <token regexp="yes">...some arbitrary regexp...
+                    //      <exception regexp="yes">foo|bar|xxx</exception>
+                    // </token>
                     // All the words foo, bar, xxx should match the token regexp, or else they
                     // are useless.
-                    if ( exception.getString().contains("|")
+                    if (exception.getString().indexOf('|') >= 0
                       && exception.getString().matches("[^()]*")) {
                       final String[] alt = exception.getString().split("\\|");
                       for (final String part : alt) {
@@ -114,10 +116,11 @@ public class PatternTestTools {
                           if (!part.matches("(?i)" + element.getString())) {
                             System.err.println("The " + lang.toString() + " rule: "
                                 + ruleId + ":" + ruleSubId
-                                + " has exception regexp [" + exception.getString() 
-                                + "] which contains disjunction part [" + part + "] "
-                                + "which seems useless since it does not match "
-                                + "the regexp of token word [" + i + "] [" + element.getString() 
+                                + " has exception regexp [" + exception.getString()
+                                + "] which contains disjunction part [" + part
+                                + "] which seems useless since it does not match "
+                                + "the regexp of token word [" + i + "] "
+                                + "[" + element.getString()
                                 + "]. Did you forget skip=\"...\" or scope=\"previous\"?");
                           }
                         }
@@ -129,8 +132,8 @@ public class PatternTestTools {
                     // Example <token>foo<exception regexp="xxx|yyy"/></token>
                     System.err.println("The " + lang.toString() + " rule: "
                         + ruleId + ":" + ruleSubId
-                        + " has exception regexp [" + exception.getString() 
-                        + "] in token word [" + i + "] [" + element.getString() 
+                        + " has exception regexp [" + exception.getString()
+                        + "] in token word [" + i + "] [" + element.getString()
                         + "] which seems useless. "
                         + "Did you forget skip=\"...\" or scope=\"previous\"?");
                   }
@@ -143,8 +146,8 @@ public class PatternTestTools {
                         (exception.isCaseSensitive() ? "" : "(?i)") +  element.getString())) {
                       System.err.println("The " + lang.toString() + " rule: "
                           + ruleId + ":" + ruleSubId
-                          + " has exception word [" +  exception.getString() 
-                          + "] which cannot match the regexp token [" + i + "] [" + element.getString() 
+                          + " has exception word [" +  exception.getString()
+                          + "] which cannot match the regexp token [" + i + "] [" + element.getString()
                           + "] so exception seems useless. "
                           + "Did you forget skip=\"...\" or scope=\"previous\"?");
                     }
@@ -153,8 +156,8 @@ public class PatternTestTools {
                     // Example: <token>foo<exception>bar</exception></token>
                     System.err.println("The " + lang.toString() + " rule: "
                         + ruleId + ":" + ruleSubId
-                        + " has exception word [" + exception.getString() 
-                        + "] in token word [" + i + "] [" + element.getString() 
+                        + " has exception word [" + exception.getString()
+                        + "] in token word [" + i + "] [" + element.getString()
                         + "] which seems useless. "
                         + "Did you forget skip=\"...\" or scope=\"previous\"?");
                   }
@@ -358,7 +361,7 @@ public class PatternTestTools {
                 }
               }
             }
-            if (stringValue.contains("|")) {
+            if (stringValue.indexOf('|') >= 0) {
               if ( stringValue.indexOf("||") >= 0
                 || stringValue.charAt(0) == '|'
                 || stringValue.charAt(stringValue.length() - 1) == '|') {
