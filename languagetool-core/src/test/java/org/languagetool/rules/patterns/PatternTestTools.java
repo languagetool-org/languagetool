@@ -93,11 +93,10 @@ public class PatternTestTools {
 
               // Detect exception that can't possibly be matched.
               if ( !element.getString().isEmpty()
+                && !exception.getString().isEmpty()
                 && !element.getNegation()
                 && !element.isInflected()
-                && element.getSkipNext() == 0
-                && element.getPOStag() == null
-                && exception.getPOStag() == null) {
+                && element.getSkipNext() == 0) {
                 if (exception.isRegularExpression()) {
                   if (element.isRegularExpression()) {
                     // Both exception and token are regexp.  In that case, we only
@@ -285,7 +284,7 @@ public class PatternTestTools {
             final String ruleId,
             final int tokenIndex) {
 
-          // Use a different regexp to check for probably regexp in Polish POS tags
+          // Use a different regexp to check for probable regexp in Polish POS tags
           // since Polish uses dot '.' in POS tags. So a dot does not indicate that
           // it's a probable regexp for Polish POS tags.
           final Pattern regexPattern = (isPos && lang.getShortName().equals("pl"))
