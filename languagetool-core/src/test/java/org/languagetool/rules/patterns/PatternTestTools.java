@@ -94,11 +94,11 @@ public class PatternTestTools {
               // Detect exception that can't possibly be matched.
               if ( !element.getString().isEmpty()
                 && !exception.getString().isEmpty()
-                && element.getNegation() == exception.getNegation()
-                && element.isInflected() == exception.isInflected()
+                && element.getNegation()   == false
+                && element.isInflected()   == false 
+                && exception.getNegation() == false
+                && exception.isInflected() == false
                 && element.getSkipNext() == 0) {
-                String inflectedNegated = element.isInflected() ? " inflected" : "";
-                inflectedNegated       += element.getNegation() ? " negated "  : " ";
 
                 if (exception.isRegularExpression()) {
                   if (element.isRegularExpression()) {
@@ -120,10 +120,8 @@ public class PatternTestTools {
                           if (!part.matches("(?i)" + element.getString())) {
                             System.err.println("The " + lang.toString() + " rule: "
                                 + ruleId + ":" + ruleSubId
-                                + " has" + inflectedNegated + "exception regexp ["
-                                + exception.getString()
-                                + "] which contains" + inflectedNegated
-                                + "disjunction part [" + part
+                                + " has exception regexp [" + exception.getString()
+                                + "] which contains disjunction part [" + part
                                 + "] which seems useless since it does not match "
                                 + "the regexp of token word [" + i + "] "
                                 + "[" + element.getString()
@@ -138,9 +136,8 @@ public class PatternTestTools {
                     // Example <token>foo<exception regexp="xxx|yyy"/></token>
                     System.err.println("The " + lang.toString() + " rule: "
                         + ruleId + ":" + ruleSubId
-                        + " has" + inflectedNegated + "exception regexp ["
-                        + exception.getString() + "] in" + inflectedNegated
-                        + "token word [" + i +"] [" + element.getString()
+                        + " has exception regexp [" + exception.getString()
+                        + "] in token word [" + i +"] [" + element.getString()
                         + "] which seems useless, or "
                         + "did you forget skip=\"...\" or scope=\"previous\"?");
                   }
@@ -152,20 +149,18 @@ public class PatternTestTools {
                     if (!exception.getString().matches(
                         (exception.isCaseSensitive() ? "" : "(?i)") +  element.getString())) {
                       System.err.println("The " + lang.toString() + " rule: "
-                          + ruleId + ":" + ruleSubId + " has" + inflectedNegated
-                          + "exception word [" +  exception.getString()
-                          + "] which cannot match the"
-                          + inflectedNegated + "regexp token [" + i + "] ["
-                          + element.getString() + "] so exception seems useless, "
+                          + ruleId + ":" + ruleSubId + " has exception word ["
+                          +  exception.getString() + "] which cannot match the"
+                          + "regexp token [" + i + "] [" + element.getString()
+                          + "] so exception seems useless, "
                           + "or did you forget skip=\"...\" or scope=\"previous\"?");
                     }
                   } else {
                     // An exception that cannot match a token string is useless,
                     // Example: <token>foo<exception>bar</exception></token>
                     System.err.println("The " + lang.toString() + " rule: "
-                        + ruleId + ":" + ruleSubId + " has" + inflectedNegated
-                        + "exception word [" + exception.getString()
-                        + "] in" + inflectedNegated + "token word [" + i
+                        + ruleId + ":" + ruleSubId + " has exception word ["
+                        + exception.getString() + "] in token word [" + i
                         + "] [" + element.getString() + "] which seems useless, "
                         + "or did you forget skip=\"...\" or scope=\"previous\"?");
                   }
