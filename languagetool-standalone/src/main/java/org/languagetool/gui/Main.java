@@ -68,6 +68,8 @@ public final class Main {
   private final ResourceBundle messages;
 
   private JFrame frame;
+  private JDialog taggerDialog;
+  private JTextPane taggerArea;
   private JTextArea textArea;
   private JTextPane resultArea;
   private ResultArea resultAreaHelper;
@@ -686,8 +688,34 @@ public final class Main {
     } catch (Exception e) {
       sb.append(getStackTraceAsHtml(e));
     }
-    // This method is thread safe
-    resultArea.setText(HTML_FONT_START + sb.toString() + HTML_FONT_END);
+    SwingUtilities.invokeLater(new Runnable() {
+      @Override
+      public void run() {
+        if (taggerDialog == null) {
+          taggerDialog = new JDialog(frame);
+          taggerDialog.setTitle(messages.getString("taggerWindowTitle"));
+          taggerDialog.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+          taggerDialog.setResizable(true);
+          taggerDialog.setSize(640, 480);
+          taggerDialog.setLocationRelativeTo(frame);
+          JPanel panel = new JPanel(new GridBagLayout());
+          taggerDialog.add(panel);
+          taggerArea = new JTextPane();
+          taggerArea.setContentType("text/html");
+          taggerArea.setEditable(false);
+          GridBagConstraints c = new GridBagConstraints();
+          c.gridx = 0;
+          c.gridy = 0;
+          c.weightx = 1.0;
+          c.weighty = 1.0;
+          c.insets = new Insets(8,8,8,8);
+          c.fill = GridBagConstraints.BOTH;
+          panel.add(new JScrollPane(taggerArea),c);
+        }
+        taggerDialog.setVisible(true);
+        taggerArea.setText(HTML_FONT_START + sb.toString() + HTML_FONT_END);
+      }
+    });
   }
 
   private void setTrayMode(boolean trayMode) {
