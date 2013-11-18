@@ -3424,6 +3424,7 @@ $Id$
         </rule>
         <rule id="DIES_DIE" name="Möglicher Tippfehler: 'dies (die)">
             <pattern>
+                <token negate_pos="yes" postag_regexp="yes" postag="VER:[123].*"/>
                 <marker>
                     <token>dies</token>
                 </marker>
@@ -3431,6 +3432,7 @@ $Id$
                 <token postag_regexp="yes" postag="SUB:(NOM|AKK):(PLU|(SIN:FEM)).*"/>
             </pattern>
             <message>Meinten Sie <suggestion>die</suggestion></message>
+            <example type="correct">Als er die Kritik äußerte, rief <marker>dies</marker> Kritik hervor.</example>
             <example type="correct"><marker>Die</marker> ersten beiden Zuweisungen sind korrekt.</example>
             <!-- TODO warum ist "beiden" nicht als ADJ:SFT getagged? -->
             <example type="incorrect" correction="Die"><marker>Dies</marker> ersten beiden Zuweisungen sind korrekt.</example>
