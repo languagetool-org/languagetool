@@ -698,6 +698,15 @@ public final class Main {
           taggerDialog.setResizable(true);
           taggerDialog.setSize(640, 480);
           taggerDialog.setLocationRelativeTo(frame);
+          KeyStroke stroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
+          ActionListener actionListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+              taggerDialog.setVisible(false);
+            }
+          };
+          taggerDialog.getRootPane().registerKeyboardAction(actionListener,
+                  stroke, JComponent.WHEN_IN_FOCUSED_WINDOW);
           JPanel panel = new JPanel(new GridBagLayout());
           taggerDialog.add(panel);
           taggerArea = new JTextPane();
@@ -708,9 +717,20 @@ public final class Main {
           c.gridy = 0;
           c.weightx = 1.0;
           c.weighty = 1.0;
-          c.insets = new Insets(8,8,8,8);
+          c.insets = new Insets(8,8,4,8);
           c.fill = GridBagConstraints.BOTH;
           panel.add(new JScrollPane(taggerArea),c);
+          c.gridx = 0;
+          c.gridy = 1;
+          c.weightx = 0.0;
+          c.weighty = 0.0;
+          c.insets = new Insets(4,8,8,8);
+          c.fill = GridBagConstraints.NONE;
+          c.anchor = GridBagConstraints.EAST;
+          JButton closeButton = new JButton(
+                  messages.getString("guiCloseButton"));
+          closeButton.addActionListener(actionListener);
+          panel.add(closeButton,c);
         }
         taggerDialog.setVisible(true);
         taggerArea.setText(HTML_FONT_START + sb.toString() + HTML_FONT_END);
