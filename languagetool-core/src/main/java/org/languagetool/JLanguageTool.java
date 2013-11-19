@@ -644,6 +644,11 @@ public class JLanguageTool {
         continue;
       }
       
+      if (rule instanceof PatternRule && ((PatternRule)rule).canBeIgnoredFor(analyzedSentence)) {
+        // this is a performance optimization, it should have no effect on matching logic
+        continue;
+      }
+
       switch (paraMode) {
         case ONLYNONPARA: {
           if (rule.isParagraphBackTrack()) {

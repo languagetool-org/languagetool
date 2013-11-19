@@ -19,8 +19,7 @@
 package org.languagetool.rules.patterns;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.Language;
@@ -51,6 +50,8 @@ public class PatternRule extends AbstractPatternRule {
   
   /** Formatted suggestion elements outside message. **/
   private List<Match> suggestionMatchesOutMsg;
+
+  private Set<String> tokenSet;
 
   /**
    * This property is used for short-circuiting evaluation of the elementNo list
@@ -217,6 +218,41 @@ public class PatternRule extends AbstractPatternRule {
    */
   public final List<Element> getElements() {
     return patternElements;
+  }
+
+  /**
+   * A fast check whether this rule can be ignored for the given sentence
+   * because it can never match. Used internally for performance optimization.
+   * @since 2.4
+   */
+  public boolean canBeIgnoredFor(AnalyzedSentence sentence) {
+    Set<String> simpleRuleTokens = getSimpleTokens();
+    if (simpleRuleTokens.isEmpty()) {
+      // this is one of the rules too complicated for this pre-check
+      return false;
+    }
+    if (!sentence.getTokenSet().containsAll(simpleRuleTokens)) {
+      // this rule can never match for the given sentence
+      return true;
+    }
+    return false;
+  }
+
+  // tokens that just refer to a word - no regex, no inflection etc.
+  private synchronized Set<String> getSimpleTokens() {
+    if (tokenSet == null) {
+      tokenSet = new HashSet<>();
+      for (Element element : patternElements) {
+        if (!element.getNegation() && !element.isRegularExpression() 
+                && !element.isReferenceElement() && !element.isInflected() && element.getMinOccurrence() > 0) {
+          String str = element.getString();
+          if (!str.isEmpty()) {
+            tokenSet.add(str.toLowerCase());
+          }
+        }
+      }
+    }
+    return tokenSet;
   }
 
   List<Integer> getElementNo() {

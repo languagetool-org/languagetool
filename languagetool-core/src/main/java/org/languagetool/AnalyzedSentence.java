@@ -20,10 +20,7 @@ package org.languagetool;
 
 import org.apache.commons.lang.StringUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * A sentence that has been tokenized and analyzed.
@@ -35,6 +32,7 @@ public class AnalyzedSentence {
   private final AnalyzedTokenReadings[] tokens;
 
   private AnalyzedTokenReadings[] nonBlankTokens;
+  private Set<String> tokenSet;
 
   /**
    * Array mapping positions of tokens as returned with
@@ -201,6 +199,21 @@ public class AnalyzedSentence {
    */
   public void setNonBlankTokens(AnalyzedTokenReadings[] nonBlankTokens) {
     this.nonBlankTokens = nonBlankTokens;
+  }
+
+  /**
+   * Get the lowercase tokens of this sentence in a set.
+   * Used internally for performance optimization.
+   * @since 2.4
+   */
+  public synchronized Set<String> getTokenSet() {
+    if (tokenSet == null) {
+      tokenSet = new HashSet<>();
+      for (AnalyzedTokenReadings token : tokens) {
+        tokenSet.add(token.getToken().toLowerCase());
+      }
+    }
+    return tokenSet;
   }
 
   @Override
