@@ -55,8 +55,8 @@ Usage:
   Please see http://www.languagetool.org/issues/ if you
   experience problems
   
- -To use the simple demo GUI, double click on the languagetool-standalone.jar file
-  or call 'java -jar languagetool-standalone.jar'
+ -To use the simple demo GUI, double click on the languagetool.jar file
+  or call 'java -jar languagetool.jar'
 
  -To check plain text files from the command line:
   java -jar languagetool-commandline.jar <filename>

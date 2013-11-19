@@ -30,6 +30,6 @@ mvn clean package -DskipTests &&
  # the result using grep:
  grep -v "^#" | grep -v "/" | grep -v "-" | recode latin1..utf8 >$TEMP_FILE
 
-java -cp languagetool-standalone/target/LanguageTool-*/LanguageTool-*/languagetool-standalone.jar org.languagetool.dev.SpellDictionaryBuilder ${LANG_CODE}-${COUNTRY_CODE} $TEMP_FILE $INFO_FILE
+java -cp languagetool-standalone/target/LanguageTool-*/LanguageTool-*/languagetool.jar org.languagetool.dev.SpellDictionaryBuilder ${LANG_CODE}-${COUNTRY_CODE} $TEMP_FILE $INFO_FILE
 
 rm $TEMP_FILE
