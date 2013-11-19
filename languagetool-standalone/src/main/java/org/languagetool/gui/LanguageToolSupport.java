@@ -397,97 +397,111 @@ class LanguageToolSupport {
     checkImmediately(null);
   }
 
+  private Span getSpan(final int offset) {
+    for (int i = 0; i < documentSpans.size(); i++) {
+        final Span cur = documentSpans.get(i);
+        if (cur.end > cur.start && cur.start <= offset && offset < cur.end) {
+            return cur;
+        }
+    }
+    return null;
+  }
+
   private void showPopup(MouseEvent event) {
-    if (documentSpans.isEmpty()) {
+    if(documentSpans.isEmpty() && languageTool.getDisabledRules().isEmpty()) {
+      //No errors and no disabled Rules
       return;
     }
 
     int offset = this.textComponent.viewToModel(event.getPoint());
-    for (int i = 0; i < documentSpans.size(); i++) {
-      final Span span = documentSpans.get(i);
-      if (span.end > span.start) {
-        if (span.start <= offset && offset < span.end) {
-          JPopupMenu popup = new JPopupMenu("Grammar Menu");
-          JLabel msgItem = new JLabel("<html>"
-              + span.msg.replace("<suggestion>", "<b>").replace("</suggestion>", "</b>")
-              + "</html>");
-          msgItem.setToolTipText(
-              span.desc.replace("<suggestion>", "").replace("</suggestion>", ""));
-          msgItem.setBorder(new JMenuItem().getBorder());
-          popup.add(msgItem);
-          popup.add(new JSeparator());
+    final Span span = getSpan(offset);
+    JPopupMenu popup = new JPopupMenu("Grammar Menu");
+    if(span != null) {
+      JLabel msgItem = new JLabel("<html>"
+            + span.msg.replace("<suggestion>", "<b>").replace("</suggestion>", "</b>")
+            + "</html>");
+      msgItem.setToolTipText(
+            span.desc.replace("<suggestion>", "").replace("</suggestion>", ""));
+      msgItem.setBorder(new JMenuItem().getBorder());
+      popup.add(msgItem);
 
-          JMenuItem moreItem = new JMenuItem(messages.getString("guiMore"));
-          moreItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-              showDialog(textComponent, span.msg, span.desc, span.url);
-            }
-          });
-          popup.add(moreItem);
+      popup.add(new JSeparator());
 
-          JMenuItem ignoreItem = new JMenuItem(messages.getString("guiOOoIgnoreButton"));
-          ignoreItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-              disableRule(span.rule);
-            }
-          });
-          popup.add(ignoreItem);
-
-          if (!this.languageTool.getDisabledRules().isEmpty()) {
-            JMenu activateRuleItem = new JMenu(messages.getString("guiActivateRule"));
-            int count = 0;
-            for (String ruleId : languageTool.getDisabledRules()) {
-              Rule rule = getRuleForId(ruleId);
-              if (rule == null) {
-                continue;
-              }
-              if (rule.isDefaultOff()) {
-                continue;
-              }
-              final String id = rule.getId();
-              JMenuItem ruleItem = new JMenuItem(rule.getDescription());
-              ruleItem.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                  enableRule(id);
-                }
-              });
-              activateRuleItem.add(ruleItem);
-              count++;
-            }
-            if (count > 0) {
-              popup.add(activateRuleItem);
-            }
+      JMenuItem moreItem = new JMenuItem(messages.getString("guiMore"));
+      moreItem.addActionListener(new ActionListener() {
+        @Override
+          public void actionPerformed(ActionEvent e) {
+            showDialog(textComponent, span.msg, span.desc, span.url);
           }
-          popup.add(new JSeparator());
+        });
+      popup.add(moreItem);
 
-          for (String r : span.replacement) {
-            ReplaceMenuItem item = new ReplaceMenuItem(r, i);
-            popup.add(item);
-            item.addActionListener(actionListener);
-          }
-          textComponent.setCaretPosition(span.start);
-          textComponent.moveCaretPosition(span.end);
-          popup.addPopupMenuListener(new PopupMenuListener() {
-            @Override
-            public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
-            }
-
-            @Override
-            public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
-            }
-
-            @Override
-            public void popupMenuCanceled(PopupMenuEvent e) {
-              textComponent.setCaretPosition(span.start);
-            }
-          });
-          popup.show(textComponent, event.getPoint().x, event.getPoint().y);
+      JMenuItem ignoreItem = new JMenuItem(messages.getString("guiOOoIgnoreButton"));
+      ignoreItem.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+          disableRule(span.rule);
         }
+      });
+      popup.add(ignoreItem);
+    }
+
+    if (!this.languageTool.getDisabledRules().isEmpty()) {
+      JMenu activateRuleItem = new JMenu(messages.getString("guiActivateRule"));
+      int count = 0;
+      for (String ruleId : languageTool.getDisabledRules()) {
+        Rule rule = getRuleForId(ruleId);
+        if (rule == null) {
+          continue;
+        }
+        if (rule.isDefaultOff()) {
+          continue;
+        }
+        final String id = rule.getId();
+        JMenuItem ruleItem = new JMenuItem(rule.getDescription());
+        ruleItem.addActionListener(new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {
+            enableRule(id);
+          }
+        });
+        activateRuleItem.add(ruleItem);
+        count++;
+      }
+      if (count > 0) {
+        popup.add(activateRuleItem);
       }
     }
+    popup.add(new JSeparator());
+
+    if(span != null) {
+      for (String r : span.replacement) {
+        ReplaceMenuItem item = new ReplaceMenuItem(r, span);
+        popup.add(item);
+        item.addActionListener(actionListener);
+      }
+      textComponent.setCaretPosition(span.start);
+      textComponent.moveCaretPosition(span.end);
+    }
+
+    popup.addPopupMenuListener(new PopupMenuListener() {
+      @Override
+      public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+      }
+
+      @Override
+      public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+      }
+
+      @Override
+      public void popupMenuCanceled(PopupMenuEvent e) {
+        if(span != null) {
+          textComponent.setCaretPosition(span.start);
+        }
+      }
+    });
+    popup.show(textComponent, event.getPoint().x, event.getPoint().y);
+
   }
 
   Rule getRuleForId(String ruleId) {
@@ -503,8 +517,8 @@ class LanguageToolSupport {
   private void _actionPerformed(ActionEvent e) {
     ReplaceMenuItem src = (ReplaceMenuItem) e.getSource();
 
-    Span xs = this.documentSpans.remove(src.idx);
-    applySuggestion(e.getActionCommand(), xs.start, xs.end);
+    this.documentSpans.remove(src.span);
+    applySuggestion(e.getActionCommand(), src.span.start, src.span.end);
   }
 
   private void applySuggestion(String str, int start, int end) {
@@ -866,11 +880,11 @@ class LanguageToolSupport {
 
   private static class ReplaceMenuItem extends JMenuItem {
 
-    private final int idx;
+    private final Span span;
 
-    private ReplaceMenuItem(String name, int idx) {
+    private ReplaceMenuItem(String name, Span span) {
       super(name);
-      this.idx = idx;
+      this.span = span;
     }
   }
 
