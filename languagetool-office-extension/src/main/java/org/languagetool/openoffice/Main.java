@@ -86,9 +86,7 @@ public class Main extends WeakBase implements XJobExecutor,
 
   private List<XLinguServiceEventListener> xEventListeners;
 
-  /**
-   * Make another instance of JLanguageTool and assign it to langTool if true.
-   */
+  // Make another instance of JLanguageTool and assign it to langTool if true.
   private boolean recheck;
 
   /**
@@ -99,9 +97,7 @@ public class Main extends WeakBase implements XJobExecutor,
   private int position;
   private List<RuleMatch> paragraphMatches;
 
-  /**
-   * Service name required by the OOo API && our own name.
-   */
+  // Service name required by the OOo API && our own name.
   private static final String[] SERVICE_NAMES = {
       "com.sun.star.linguistic2.Proofreader",
       "org.languagetool.openoffice.Main" };
@@ -111,9 +107,9 @@ public class Main extends WeakBase implements XJobExecutor,
 
   private static final ResourceBundle MESSAGES = JLanguageTool.getMessageBundle();
 
-  private static final String LIBREOFFICE_SPECIAL_LANGUAGE_TAG ="qlt";
   // LibreOffice (since 4.2.0) special tag for locale with variant 
-  // e.g. language ="qlt" country="ES" variant="ca-ES-valencia"
+  // e.g. language ="qlt" country="ES" variant="ca-ES-valencia":
+  private static final String LIBREOFFICE_SPECIAL_LANGUAGE_TAG = "qlt";
   
   private XComponentContext xContext;
 
@@ -156,7 +152,6 @@ public class Main extends WeakBase implements XJobExecutor,
   /**
    * Checks the language under the cursor. Used for opening the configuration
    * dialog.
-   * 
    * @return Language the language under the visible cursor
    */
   private Language getLanguage() {
@@ -209,9 +204,6 @@ public class Main extends WeakBase implements XJobExecutor,
       if (!langIsSupported) {
         final String message = org.languagetool.gui.Tools.makeTexti18n(
             MESSAGES, "language_not_supported", charLocale.Language);
-        // final String message = "Language not supported. Language = "
-        // + charLocale.Language + ", Country = " + charLocale.Country
-        // + ", Variant = " + charLocale.Variant;
         JOptionPane.showMessageDialog(null, message);
         return null;
       }
@@ -236,25 +228,18 @@ public class Main extends WeakBase implements XJobExecutor,
   /**
    * Runs the grammar checker on paragraph text.
    * 
-   * @param docID
-   *          - document ID
-   * @param paraText
-   *          - paragraph text
-   * @param locale
-   *          Locale - the text Locale
-   * @param startOfSentencePos
-   *          start of sentence position
-   * @param nSuggestedBehindEndOfSentencePosition
-   *          end of sentence position
-   * @param props
-   *          - properties
+   * @param docID document ID
+   * @param paraText paragraph text
+   * @param locale Locale the text Locale
+   * @param startOfSentencePos start of sentence position
+   * @param nSuggestedBehindEndOfSentencePosition end of sentence position
    * @return ProofreadingResult containing the results of the check.
    */
   @Override
   public final ProofreadingResult doProofreading(final String docID,
       final String paraText, final Locale locale, final int startOfSentencePos,
       final int nSuggestedBehindEndOfSentencePosition,
-      final PropertyValue[] props) {
+      final PropertyValue[] propertyValues) {
     final ProofreadingResult paRes = new ProofreadingResult();
     try {
       paRes.nStartOfSentencePosition = startOfSentencePos;
@@ -262,7 +247,7 @@ public class Main extends WeakBase implements XJobExecutor,
       paRes.aLocale = locale;
       paRes.aDocumentIdentifier = docID;
       paRes.aText = paraText;
-      paRes.aProperties = props;
+      paRes.aProperties = propertyValues;
       return doGrammarCheckingInternal(paraText, locale, paRes);
     } catch (final Throwable t) {
       showError(t);
@@ -456,41 +441,37 @@ public class Main extends WeakBase implements XJobExecutor,
   }
 
   /**
-   * Creates a SingleGrammarError object for use in OOo.
-   * 
-   * @param myMatch
-   *          LT rule match
-   * @return SingleGrammarError - object for OOo checker integration
+   * Creates a SingleGrammarError object for use in LO/OO.
    */
-  private SingleProofreadingError createOOoError(final RuleMatch myMatch,
+  private SingleProofreadingError createOOoError(final RuleMatch ruleMatch,
       final int startIndex) {
     final SingleProofreadingError aError = new SingleProofreadingError();
     aError.nErrorType = com.sun.star.text.TextMarkupType.PROOFREADING;
     // the API currently has no support for formatting text in comments
-    final String comment = myMatch.getMessage()
+    final String comment = ruleMatch.getMessage()
         .replaceAll("<suggestion>", "\"").replaceAll("</suggestion>", "\"")
         .replaceAll("([\r]*\n)", " "); // convert line ends to spaces
     aError.aFullComment = comment;
     // not all rules have short comments
-    if (!StringTools.isEmpty(myMatch.getShortMessage())) {
-      aError.aShortComment = myMatch.getShortMessage();
+    if (!StringTools.isEmpty(ruleMatch.getShortMessage())) {
+      aError.aShortComment = ruleMatch.getShortMessage();
     } else {
       aError.aShortComment = aError.aFullComment;
     }
     aError.aShortComment = org.languagetool.gui.Tools
         .shortenComment(aError.aShortComment);
 
-    aError.aSuggestions = myMatch.getSuggestedReplacements().toArray(
-        new String[myMatch.getSuggestedReplacements().size()]);
-    aError.nErrorStart = myMatch.getFromPos() + startIndex;
-    aError.nErrorLength = myMatch.getToPos() - myMatch.getFromPos();
-    aError.aRuleIdentifier = myMatch.getRule().getId();
+    aError.aSuggestions = ruleMatch.getSuggestedReplacements().toArray(
+        new String[ruleMatch.getSuggestedReplacements().size()]);
+    aError.nErrorStart = ruleMatch.getFromPos() + startIndex;
+    aError.nErrorLength = ruleMatch.getToPos() - ruleMatch.getFromPos();
+    aError.aRuleIdentifier = ruleMatch.getRule().getId();
     // LibreOffice since version 3.5 supports an URL that provides more
     // information about the error,
     // older version will simply ignore the property:
-    if (myMatch.getRule().getUrl() != null) {
+    if (ruleMatch.getRule().getUrl() != null) {
       aError.aProperties = new PropertyValue[] { new PropertyValue(
-          "FullCommentURL", -1, myMatch.getRule().getUrl().toString(),
+          "FullCommentURL", -1, ruleMatch.getRule().getUrl().toString(),
           PropertyState.DIRECT_VALUE) };
     } else {
       aError.aProperties = new PropertyValue[0];
@@ -500,7 +481,6 @@ public class Main extends WeakBase implements XJobExecutor,
 
   /**
    * We leave spell checking to OpenOffice/LibreOffice.
-   * 
    * @return false
    */
   @Override
@@ -528,21 +508,20 @@ public class Main extends WeakBase implements XJobExecutor,
   public final Locale[] getLocales() {
     try {
       List<Locale> locales = new ArrayList<>();
-      for (final Language element : Language.LANGUAGES) {
-        if (element.getCountries().length == 0) {
+      for (final Language lang : Language.LANGUAGES) {
+        if (lang.getCountries().length == 0) {
           // e.g. Esperanto
-          if (element.getVariant() != null) {
-            locales.add(new Locale(LIBREOFFICE_SPECIAL_LANGUAGE_TAG, "", element.getShortNameWithCountryAndVariant()));
+          if (lang.getVariant() != null) {
+            locales.add(new Locale(LIBREOFFICE_SPECIAL_LANGUAGE_TAG, "", lang.getShortNameWithCountryAndVariant()));
           } else {
-            locales.add(new Locale(element.getShortName(), "", ""));
+            locales.add(new Locale(lang.getShortName(), "", ""));
           }
         } else {
-          for (final String country : element.getCountries()) {
-            if (element.getVariant() != null) {
-              locales.add(new Locale(LIBREOFFICE_SPECIAL_LANGUAGE_TAG, country, element.getShortNameWithCountryAndVariant()));
-            }
-            else {
-              locales.add(new Locale(element.getShortName(), country, ""));
+          for (final String country : lang.getCountries()) {
+            if (lang.getVariant() != null) {
+              locales.add(new Locale(LIBREOFFICE_SPECIAL_LANGUAGE_TAG, country, lang.getShortNameWithCountryAndVariant()));
+            } else {
+              locales.add(new Locale(lang.getShortName(), country, ""));
             }
           }
         }
@@ -556,8 +535,7 @@ public class Main extends WeakBase implements XJobExecutor,
 
   /**
    * @return true if LT supports the language of a given locale
-   * @param locale
-   *          The Locale to check
+   * @param locale The Locale to check
    */
   @Override
   public final boolean hasLocale(final Locale locale) {
@@ -581,8 +559,7 @@ public class Main extends WeakBase implements XJobExecutor,
    * Add a listener that allow re-checking the document after changing the
    * options in the configuration dialog box.
    * 
-   * @param eventListener
-   *          the listener to be added
+   * @param eventListener the listener to be added
    * @return true if listener is non-null and has been added, false otherwise
    */
   @Override
@@ -598,8 +575,7 @@ public class Main extends WeakBase implements XJobExecutor,
   /**
    * Remove a listener from the event listeners list.
    * 
-   * @param eventListener
-   *          the listener to be removed
+   * @param eventListener the listener to be removed
    * @return true if listener is non-null and has been removed, false otherwise
    */
   @Override
