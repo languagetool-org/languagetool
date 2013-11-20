@@ -28,6 +28,9 @@ import java.util.List;
  */
 public interface Chunker {
 
-  void addChunkTags(List<AnalyzedTokenReadings> tokenReadings);
+  /**
+   * @param sentenceTokenReadings the analyzed tokens of one sentence
+   */
+  void addChunkTags(List<AnalyzedTokenReadings> sentenceTokenReadings);
 
 }
