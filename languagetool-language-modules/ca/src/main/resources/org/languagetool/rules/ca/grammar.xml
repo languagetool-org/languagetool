@@ -2702,7 +2702,7 @@ $Id$
                 <pattern>
                     <token>va<exception postag="_GN_MS|_GN_FP|complement|.*LOC_ADV.*" postag_regexp="yes"/></token>
                     <marker>
-                        <token postag="V.P.*SM." postag_regexp="yes" regexp="yes">.+[aiï]t<exception regexp="yes">acompanyat|adreçat|afaitat|afegit|aparellat|armat|associat|calçat|classificat|col·locat|connectat|datat|decidit|dedicat|descordat|desesperat|destinat|dirigit|disfressat|dotat|embolicat|encaminat|encapçalat|enferit|enviat|equivocat|errat|esgarriat|esverat|fet|fixat|igualat|inclinat|indicat|integrat|introduït|lligat|marcat|muntat|ocupat|orientat|precedit|proveït|regit|relacionat|representat|seguit|servit|situat|unit|vestit</exception></token>
+                        <token postag="V.P.*SM." postag_regexp="yes" regexp="yes">.+[aiï]t<exception regexp="yes">acompanyat|adreçat|afaitat|afegit|aparellat|armat|associat|calçat|classificat|col·locat|connectat|datat|decidit|dedicat|descordat|desesperat|destinat|dirigit|disfressat|dotat|embolicat|encaminat|encapçalat|enferit|enviat|equivocat|errat|esgarriat|esverat|fixat|igualat|inclinat|indicat|integrat|introduït|lligat|marcat|muntat|ocupat|orientat|precedit|proveït|regit|relacionat|representat|seguit|servit|situat|unit|vestit</exception></token>
                     </marker>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="2" postag="V.N.*" postag_regexp="yes"/></suggestion>?</message>
@@ -2715,7 +2715,7 @@ $Id$
                 <pattern>
                     <token regexp="yes">vaig|vas<exception postag="_GN_MS|_GN_FP|complement|.*LOC_ADV.*" postag_regexp="yes"/></token>
                     <marker>
-                        <token postag="V.P.*SM." postag_regexp="yes" regexp="yes">.+[aiï]t<exception regexp="yes">acompanyat|afaitat|armat|calçat|col·locat|decidit|descordat|desesperat|destinat|dirigit|disfressat|embolicat|encaminat|enviat|equivocat|errat|esgarriat|esverat|fet|igualat|inclinat|integrat|lligat|marcat|muntat|ocupat|orientat|precedit|proveït|servit|situat|unit|vestit</exception></token>
+                        <token postag="V.P.*SM." postag_regexp="yes" regexp="yes">.+[aiï]t<exception regexp="yes">acompanyat|afaitat|armat|calçat|col·locat|decidit|descordat|desesperat|destinat|dirigit|disfressat|embolicat|encaminat|enviat|equivocat|errat|esgarriat|esverat|igualat|inclinat|integrat|lligat|marcat|muntat|ocupat|orientat|precedit|proveït|servit|situat|unit|vestit</exception></token>
                     </marker>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="2" postag="V.N.*" postag_regexp="yes"/></suggestion>?</message>
@@ -8236,8 +8236,8 @@ $Id$
             </rule> 
             <rule>
                 <pattern>
-                    <token>l'</token>
-                    <token postag="N.M.*|A..M.*" postag_regexp="yes" regexp="yes">h?[ui][aeoiàèéóòu].*<exception regexp="yes">ió|uix.+|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;</exception><exception regexp="yes">(?-i)IEC</exception> </token>
+                    <token>l'</token> <!-- exceptions: |&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2; -->
+                    <token postag="N.M.*|A..M.*" postag_regexp="yes" regexp="yes">h?[ui][aeoiàèéóòu].*<exception regexp="yes">ió|uix.+</exception><exception regexp="yes">(?-i)IEC</exception> </token>
                 </pattern>
                 <message>No s'apostrofa.</message>
                 <suggestion>el <match no="2"></match></suggestion>
@@ -8388,8 +8388,8 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token>na</token>
-                    <token postag="N.FS.*" postag_regexp="yes" regexp="yes">h?[aeoàèéíòóú].*|h?[ui][^aeiouàèéíòóúüï]+[aeiou][ns]?|urbs<exception regexp="yes">host|ira|inxa|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
+                    <token>na</token> <!-- Exceptions: |&mots_HAC_ASPIRADA2; -->
+                    <token postag="N.FS.*" postag_regexp="yes" regexp="yes">h?[aeoàèéíòóú].*|h?[ui][^aeiouàèéíòóúüï]+[aeiou][ns]?|urbs<exception regexp="yes">host|ira|inxa|&mots_HAC_ASPIRADA;</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Cal apostrofar.</message>
                 <suggestion>n'<match no="2"></match></suggestion>
@@ -10871,7 +10871,7 @@ $Id$
             <rule>
                 <pattern>
                     <token postag="PP3CN000" regexp="yes">['-](ne|en)</token>
-                    <token postag="P0.*|PP.*" postag_regexp="yes" regexp="yes">['-].+<exception postag="PP3CN000" inflected="yes">hi</exception><exception regexp="yes">jo|mi|tu|ella?|nosaltres|vosaltres|elle?s|vost[èé]s?|vós</exception></token>
+                    <token postag="P0.*|PP.*" postag_regexp="yes" regexp="yes">['-].+<exception postag="PP3CN000" inflected="yes">hi</exception></token>
                 </pattern>
                 <message>Combinació incorrecta de pronoms febles.</message>
                 <short>Combinació incorrecta de pronoms</short>
