@@ -71,8 +71,12 @@ public class SentenceSourceChecker {
     if (commandLine.hasOption('r')) {
       ruleIds = commandLine.getOptionValue('r').split(",");
     }
+    String[] categoryIds = null;
+    if (commandLine.hasOption("also-enable-categories")) {
+      categoryIds = commandLine.getOptionValue("also-enable-categories").split(",");
+    }
     String[] fileNames = commandLine.getOptionValues('f');
-    prg.run(propFile, disabledRuleIds, languageCode, Arrays.asList(fileNames), ruleIds, maxArticles, maxErrors);
+    prg.run(propFile, disabledRuleIds, languageCode, Arrays.asList(fileNames), ruleIds, categoryIds, maxArticles, maxErrors);
   }
 
   private static void addDisabledRules(String languageCode, Set<String> disabledRuleIds, Properties disabledRules) {
@@ -100,6 +104,9 @@ public class SentenceSourceChecker {
     options.addOption(OptionBuilder.withLongOpt("rule-ids").withArgName("id").hasArg()
             .withDescription("comma-separated list of rule-ids to activate")
             .create("r"));
+    options.addOption(OptionBuilder.withLongOpt("also-enable-categories").withArgName("categories").hasArg()
+            .withDescription("comma-separated list of categories to activate, additionally to rules activated anyway")
+            .create());
     options.addOption(OptionBuilder.withLongOpt("file").withArgName("file").hasArg()
             .withDescription("an unpacked Wikipedia XML dump; (must be named *.xml, dumps are available from http://dumps.wikimedia.org/backup-index.html) " +
                     "or a Tatoeba CSV file filtered to contain only one language (must be named tatoeba-*). You can specify this option more than once.")
@@ -125,8 +132,8 @@ public class SentenceSourceChecker {
     return null;
   }
 
-  private void run(File propFile, Set<String> disabledRules, String langCode, List<String> fileNames, String[] ruleIds, int maxSentences, int maxErrors)
-          throws IOException {
+  private void run(File propFile, Set<String> disabledRules, String langCode, List<String> fileNames, String[] ruleIds, 
+                   String[] additionalCategoryIds, int maxSentences, int maxErrors) throws IOException {
     final Language lang = Language.getLanguageForShortName(langCode);
     final JLanguageTool languageTool = new MultiThreadedJLanguageTool(lang);
     languageTool.activateDefaultPatternRules();
@@ -135,6 +142,7 @@ public class SentenceSourceChecker {
     } else {
       applyRuleDeactivation(languageTool, disabledRules);
     }
+    activateAdditionalCategories(additionalCategoryIds, languageTool);
     disableSpellingRules(languageTool);
     System.out.println("Working on: " + StringUtils.join(fileNames, ", "));
     System.out.println("Sentence limit: " + (maxSentences > 0 ? maxSentences : "no limit"));
@@ -210,6 +218,19 @@ public class SentenceSourceChecker {
       languageTool.disableRule(disabledRuleId);
     }
     System.out.println("These rules are disabled: " + languageTool.getDisabledRules());
+  }
+
+  private void activateAdditionalCategories(String[] additionalCategoryIds, JLanguageTool languageTool) {
+    if (additionalCategoryIds != null) {
+      for (String categoryId : additionalCategoryIds) {
+        for (Rule rule : languageTool.getAllRules()) {
+          if (rule.getCategory().getName().equals(categoryId)) {
+            System.out.println("Activating " + rule.getId() + " in category " + categoryId);
+            languageTool.enableDefaultOffRule(rule.getId());
+          }
+        }
+      }
+    }
   }
 
   private void disableSpellingRules(JLanguageTool languageTool) {
