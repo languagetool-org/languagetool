@@ -662,7 +662,7 @@ public abstract class Language {
   }
 
   private boolean hasCountry() {
-    return getCountries().length == 1 && !(getCountries().length == 1 && getCountries()[0].equals("ANY"));
+    return getCountries().length == 1;
   }
 
   private static String listToStringWithLineBreaks(final Collection<String> l) {

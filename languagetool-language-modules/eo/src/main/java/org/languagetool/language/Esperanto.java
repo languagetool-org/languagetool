@@ -73,8 +73,7 @@ public class Esperanto extends Language {
 
   @Override
   public String[] getCountries() {
-    /* return "ANY" country code as a "country-less" placeholder for OOo: */
-    return new String[] {"ANY"};
+    return new String[]{};
   }
   
   @Override

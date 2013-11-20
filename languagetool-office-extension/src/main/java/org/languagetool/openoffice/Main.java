@@ -529,19 +529,27 @@ public class Main extends WeakBase implements XJobExecutor,
     try {
       int dims = 0;
       for (final Language element : Language.LANGUAGES) {
-        dims += element.getCountries().length;
+        dims += element.getCountries().length == 0 ? 1 : element.getCountries().length;
       }
       final Locale[] aLocales = new Locale[dims];
       int cnt = 0;
       for (final Language element : Language.LANGUAGES) {
-        for (final String country : element.getCountries()) {
+        if (element.getCountries().length == 0) {
+          // e.g. Esperanto
           if (element.getVariant() != null) {
-            aLocales[cnt] = new Locale(LIBREOFFICE_SPECIAL_LANGUAGE_TAG, country, element.getShortNameWithCountryAndVariant());
+            aLocales[cnt++] = new Locale(LIBREOFFICE_SPECIAL_LANGUAGE_TAG, "", element.getShortNameWithCountryAndVariant());
+          } else {
+            aLocales[cnt++] = new Locale(element.getShortName(), "", "");
           }
-          else {
-            aLocales[cnt] = new Locale(element.getShortName(), country, "");
+        } else {
+          for (final String country : element.getCountries()) {
+            if (element.getVariant() != null) {
+              aLocales[cnt++] = new Locale(LIBREOFFICE_SPECIAL_LANGUAGE_TAG, country, element.getShortNameWithCountryAndVariant());
+            }
+            else {
+              aLocales[cnt++] = new Locale(element.getShortName(), country, "");
+            }
           }
-          cnt++;
         }
       }
       return aLocales;

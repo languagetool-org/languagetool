@@ -66,7 +66,7 @@ public class Catalan extends Language {
 
   @Override
   public String[] getCountries() {
-    return new String[]{"ANY"};
+    return new String[]{};
   }
   
   @Override
