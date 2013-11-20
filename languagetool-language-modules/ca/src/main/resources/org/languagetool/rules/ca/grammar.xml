@@ -7273,6 +7273,17 @@ $Id$
                 <example type="incorrect">Un gran silenci <marker>nomes</marker> trencat per la brisa.</example>
                 <example type="correct">Un gran silenci <marker>només</marker> trencat per la brisa.</example>
             </rule>
+            <rule id="RADIO" name="radio/ràdio">
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>Radio</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>Ràdio</suggestion>?</message>
+                <short>Possible confusió</short>
+                <example type="incorrect" correction="Ràdio">Sentíem <marker>Radio</marker> Andorra.</example>
+                <example type="correct">Sentíem Ràdio Andorra.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token>la</token>
@@ -8633,6 +8644,17 @@ $Id$
                 <example type="incorrect" correction="compravenda">La <marker>compra-venda</marker> de vehicles.</example>
                 <example type="incorrect" correction="compravenda">La <marker>compra venda</marker> de vehicles.</example>
                 <example type="correct">La compravenda de vehicles.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>guarda</token>
+                    <token>-</token>
+                    <token regexp="yes">agulles|barrera|barreres|boscos|boscs?|braç|braços|cadena|cadenes|cadenot|cadenots|cantó|cantons|caps|cors|costes|cotxes|espatlles|focs?|freds?|frens|fusells?|infants?|joies|llança|llances|mà|mans|marencs?|menjars?|mobles|nassos|obencs|pesca|pesques|pit|pits|pols|punys|termes|veles</token>
+                </pattern>
+                <message>S'escriu junt sense guionet.</message>
+                <suggestion><match no="1"/><match no="3"/></suggestion>
+                <example type="incorrect" correction="guardaagulles">El <marker>guarda-agulles</marker>.</example>
+                <example type="correct">El guardaboscos.</example>
             </rule>
             <rule>
                 <pattern>
@@ -12294,6 +12316,19 @@ $Id$
                 <example type="incorrect" correction="—">Vine<marker>, —</marker>va dir Joan.</example>
                 <example type="correct">Vine, digué.</example>
                 <example type="correct">indiqueu els punts A(-2, -6)</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[¿¡]</token>
+                        <token spacebefore="yes"/>
+                    </marker>
+                </pattern>
+                <message>Sobra un espai.</message>
+                <suggestion><match no="1"/><match no="2"/></suggestion>
+                <short>Error de puntuació</short>
+                <example type="incorrect" correction="¿Estàs"><marker>¿ Estàs</marker> segur?</example>
+                <example type="correct">¿Estàs segur?</example>
             </rule>
     	</rulegroup>
         <rule id="ELA_GEMINADA" name="Errors en la ela geminada." type="misspelling">
