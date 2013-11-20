@@ -527,32 +527,27 @@ public class Main extends WeakBase implements XJobExecutor,
   @Override
   public final Locale[] getLocales() {
     try {
-      int dims = 0;
-      for (final Language element : Language.LANGUAGES) {
-        dims += element.getCountries().length == 0 ? 1 : element.getCountries().length;
-      }
-      final Locale[] aLocales = new Locale[dims];
-      int cnt = 0;
+      List<Locale> locales = new ArrayList<>();
       for (final Language element : Language.LANGUAGES) {
         if (element.getCountries().length == 0) {
           // e.g. Esperanto
           if (element.getVariant() != null) {
-            aLocales[cnt++] = new Locale(LIBREOFFICE_SPECIAL_LANGUAGE_TAG, "", element.getShortNameWithCountryAndVariant());
+            locales.add(new Locale(LIBREOFFICE_SPECIAL_LANGUAGE_TAG, "", element.getShortNameWithCountryAndVariant()));
           } else {
-            aLocales[cnt++] = new Locale(element.getShortName(), "", "");
+            locales.add(new Locale(element.getShortName(), "", ""));
           }
         } else {
           for (final String country : element.getCountries()) {
             if (element.getVariant() != null) {
-              aLocales[cnt++] = new Locale(LIBREOFFICE_SPECIAL_LANGUAGE_TAG, country, element.getShortNameWithCountryAndVariant());
+              locales.add(new Locale(LIBREOFFICE_SPECIAL_LANGUAGE_TAG, country, element.getShortNameWithCountryAndVariant()));
             }
             else {
-              aLocales[cnt++] = new Locale(element.getShortName(), country, "");
+              locales.add(new Locale(element.getShortName(), country, ""));
             }
           }
         }
       }
-      return aLocales;
+      return locales.toArray(new Locale[locales.size()]);
     } catch (final Throwable t) {
       showError(t);
       return new Locale[0];
