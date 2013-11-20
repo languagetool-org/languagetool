@@ -131,7 +131,7 @@ public class SentenceSourceChecker {
     final JLanguageTool languageTool = new MultiThreadedJLanguageTool(lang);
     languageTool.activateDefaultPatternRules();
     if (ruleIds != null) {
-      enableSpecifiedRules(ruleIds, languageTool);
+      enableOnlySpecifiedRules(ruleIds, languageTool);
     } else {
       applyRuleDeactivation(languageTool, disabledRules);
     }
@@ -173,7 +173,7 @@ public class SentenceSourceChecker {
     }
   }
 
-  private void enableSpecifiedRules(String[] ruleIds, JLanguageTool languageTool) {
+  private void enableOnlySpecifiedRules(String[] ruleIds, JLanguageTool languageTool) {
     for (Rule rule : languageTool.getAllRules()) {
       languageTool.disableRule(rule.getId());
     }
@@ -185,6 +185,11 @@ public class SentenceSourceChecker {
         languageTool.enableDefaultOffRule(rule.getId());
       }
     }
+    warnOnNonExistingRuleIds(ruleIds, languageTool);
+    System.out.println("Only these rules are enabled: " + Arrays.toString(ruleIds));
+  }
+
+  private void warnOnNonExistingRuleIds(String[] ruleIds, JLanguageTool languageTool) {
     for (String ruleId : ruleIds) {
       boolean found = false;
       for (Rule rule : languageTool.getAllRules()) {
@@ -197,7 +202,6 @@ public class SentenceSourceChecker {
         System.out.println("WARNING: Could not find rule '" + ruleId + "'");
       }
     }
-    System.out.println("Only these rules are enabled: " + Arrays.toString(ruleIds));
   }
 
   private void applyRuleDeactivation(JLanguageTool languageTool, Set<String> disabledRules) {
