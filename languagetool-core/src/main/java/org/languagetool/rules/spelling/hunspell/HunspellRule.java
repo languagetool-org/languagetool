@@ -145,9 +145,12 @@ public class HunspellRule extends SpellingCheckRule {
   @Override
   protected void init() throws IOException {
     super.init();
-    final String langCountry = language.getShortName()
-            + "_"
-            + language.getCountries()[0];
+    final String langCountry;
+    if (language.getCountries().length > 0) {
+      langCountry = language.getShortName() + "_" + language.getCountries()[0];
+    } else {
+      langCountry = language.getShortName();
+    }
     final String shortDicPath = "/"
             + language.getShortName()
             + "/hunspell/"
