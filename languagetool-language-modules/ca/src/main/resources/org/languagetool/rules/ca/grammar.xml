@@ -5478,6 +5478,32 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+        <rule id="LA_SUA_SEUA" name="la *sua/seua">
+            <pattern>
+                <token>la</token>
+                <marker>
+                    <token>sua</token>
+                </marker>
+                <token postag="N.[FC][SN].*" postag_regexp="yes"/>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>seua</suggestion>?</message>
+            <suggestion>seva</suggestion>
+            <example type="incorrect" correction="seua|seva">La <marker>sua</marker> metodologia</example>
+            <example type="correct">La samarreta ell la sua.</example>
+        </rule>
+        <rule id="LES_SUES_SEUES" name="les *sues/seues">
+            <pattern>
+                <token>les</token>
+                <marker>
+                    <token>sues</token>
+                </marker>
+                <token postag="N.[FC][PN].*" postag_regexp="yes"/>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>seues</suggestion>?</message>
+            <suggestion>seves</suggestion>
+            <example type="incorrect" correction="seues|seves">Les <marker>sues</marker> coses</example>
+            <example type="correct">Sempre les sues.</example>
+        </rule>
         <rule id="A_MI_EN_DIUEN" name="a mi *en/em diuen">
             <pattern>
                 <token>a</token>
@@ -14280,6 +14306,20 @@ $Id$
             <example type="incorrect">anar <marker>de capa caiguda</marker></example>
             <example type="correct">anar de baixa</example>
         </rule>
+        <rule id="DE_CAP_A_CAIGUDA" name="*de capa caiguda">
+            <pattern>
+                <token>de</token>
+                <token>cap</token>
+                <token>a</token>
+                <token>caiguda</token>
+            </pattern>
+            <message>Expressió incorrecta, quan vol dir <suggestion>de baixa</suggestion></message>
+            <suggestion>a mal borràs</suggestion>
+            <suggestion>de mal borràs</suggestion>
+            <suggestion>de mal en pitjor</suggestion>
+            <example type="incorrect">anar <marker>de cap a caiguda</marker></example>
+            <example type="correct">anar de baixa</example>
+        </rule>
         <rule id="CARA_A" name="*cara a/de cara a">    
             <pattern>
                 <token><exception inflected="yes" regexp="yes">plantar|fer|tenir</exception><exception regexp="yes">de|la|tan|seva|seua|aquesta|aquella|aqueixa|esta|eixa</exception></token>
@@ -17287,9 +17327,20 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
-        <rule id="PECO" name="peçó">
+        <rule id="MINORISTA" name="minorista/detallista">
             <pattern>
-                <token regexp="yes">peçó|peçons</token>
+                <token inflected="yes">minorista</token>
+            </pattern>
+            <message>Incorrecte en el sentit de <suggestion><match no="1" regexp_match=".*(a|es)" regexp_replace="detallist$1"/></suggestion>. "Minorista" existeix com a terme eclesiàstic.</message>            
+            <suggestion>al detall</suggestion>
+            <suggestion>a la menuda</suggestion>
+            <short>Paraula dubtosa</short>
+            <example type="incorrect" correction="detallista|al detall|a la menuda">Del comerç <marker>minorista</marker>.</example>
+            <example type="correct">Treballen en el comerça al detall.</example>
+        </rule>
+        <rule id="PECO" name="peçó/mugró/peduncle/lòbul">
+            <pattern>
+                <token inflected="yes">peçó</token>
             </pattern>
             <message>Incorrecte en el sentit de <suggestion><match no="1" postag="NCM(.).*" postag_regexp="yes" postag_replace="NCM$1.*">mugró</match></suggestion>. Correcte en el sentit de <suggestion><match no="1" postag="NCM(.).*" postag_regexp="yes" postag_replace="NCM$1.*">peduncle</match></suggestion> (d'una planta) o <suggestion><match no="1" postag="NCM(.).*" postag_regexp="yes" postag_replace="NCM$1.*">lòbul</match></suggestion> de l'orella.</message>            
             <short>Paraula dubtosa</short>
