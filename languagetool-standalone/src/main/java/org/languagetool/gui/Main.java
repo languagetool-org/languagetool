@@ -91,7 +91,8 @@ public final class Main {
   private File currentFile;
   private UndoRedoSupport undoRedo;
   private long startTime;
-  
+  private final JLabel statusLabel = new JLabel(" ", null, SwingConstants.RIGHT);
+
   private Main() {
     LanguageIdentifierTools.addLtProfiles();
     messages = JLanguageTool.getMessageBundle();
@@ -217,35 +218,38 @@ public final class Main {
     undoRedo = new UndoRedoSupport(this.textArea, messages);
     frame.setJMenuBar(createMenuBar());
 
-    final JPanel panel = new JPanel();
-    panel.setOpaque(false);    // to get rid of the gray background
-    panel.setLayout(new GridBagLayout());
     final GridBagConstraints buttonCons = new GridBagConstraints();
+
     final JPanel insidePanel = new JPanel();
     insidePanel.setOpaque(false);
     insidePanel.setLayout(new GridBagLayout());
+
     buttonCons.gridx = 0;
     buttonCons.gridy = 0;
-    buttonCons.anchor = GridBagConstraints.WEST;
-    insidePanel.add(new JLabel(" " + messages.getString("textLanguage") + " "), buttonCons);
+    buttonCons.anchor = GridBagConstraints.LINE_START;
+    insidePanel.add(new JLabel(messages.getString("textLanguage") + " "), buttonCons);
+
     languageBox = new LanguageComboBox(messages, EXTERNAL_LANGUAGE_SUFFIX);
     languageBox.setRenderer(new LanguageComboBoxRenderer(messages, EXTERNAL_LANGUAGE_SUFFIX));
-
     buttonCons.gridx = 1;
     buttonCons.gridy = 0;
+    buttonCons.anchor = GridBagConstraints.LINE_START;
     insidePanel.add(languageBox, buttonCons);
-    buttonCons.gridx = 0;
-    buttonCons.gridy = 0;
-    panel.add(insidePanel);
-    buttonCons.gridx = 2;
-    buttonCons.gridy = 0;
 
     final JCheckBox autoDetectBox = new JCheckBox(messages.getString("atd"));
-    buttonCons.gridx = 1;
-    buttonCons.gridy = 1;
-    buttonCons.gridwidth = 2;
-    buttonCons.anchor = GridBagConstraints.WEST;
+    buttonCons.gridx = 2;
+    buttonCons.gridy = 0;
+    buttonCons.gridwidth = GridBagConstraints.REMAINDER;
+    buttonCons.anchor = GridBagConstraints.LINE_START;
     insidePanel.add(autoDetectBox, buttonCons);
+
+    buttonCons.gridx = 0;
+    buttonCons.gridy = 1;
+    buttonCons.gridwidth = GridBagConstraints.REMAINDER;
+    buttonCons.fill = GridBagConstraints.HORIZONTAL;
+    buttonCons.anchor = GridBagConstraints.LINE_END;
+    buttonCons.weightx = 1.0;
+    insidePanel.add(statusLabel, buttonCons);
 
     final Container contentPane = frame.getContentPane();
     final GridBagLayout gridLayout = new GridBagLayout();
@@ -297,13 +301,13 @@ public final class Main {
     splitPane.setDividerLocation(200);
     contentPane.add(splitPane, cons);
 
-    cons.fill = GridBagConstraints.NONE;
+    cons.fill = GridBagConstraints.HORIZONTAL;
     cons.gridx = 0;
-    cons.gridy = 2;
-    cons.weighty = 0.0f;
-    cons.insets = new Insets(1, 10, 10, 1);
     cons.gridy = 3;
-    contentPane.add(panel, cons);
+    cons.weightx = 1.0f;
+    cons.weighty = 0.0f;
+    cons.insets = new Insets(4, 12, 4, 12);
+    contentPane.add(insidePanel, cons);
 
     ltSupport = new LanguageToolSupport(this.frame, this.textArea);
     resultAreaHelper = new ResultArea(messages, ltSupport, resultArea);
@@ -336,6 +340,8 @@ public final class Main {
       @Override
       public void languageToolEventOccurred(LanguageToolEvent event) {
         if (event.getType() == LanguageToolEvent.Type.CHECKING_STARTED) {
+          final String msg = Tools.makeTexti18n(messages, "checkStart");
+          statusLabel.setText(msg);
           if(event.getCaller() == getFrame()) {
             startTime = System.currentTimeMillis();
             setWaitCursor();
@@ -347,6 +353,11 @@ public final class Main {
             unsetWaitCursor();
             resultAreaHelper.setRunTime(System.currentTimeMillis() - startTime);
             resultAreaHelper.displayResult();
+            final String msg = Tools.makeTexti18n(messages, "checkDone", event.getSource().getMatches().size(), System.currentTimeMillis() - startTime);
+            statusLabel.setText(msg);
+          } else {
+            final String msg = Tools.makeTexti18n(messages, "checkDoneNoTime", event.getSource().getMatches().size());
+            statusLabel.setText(msg);              
           }
         }
         else if (event.getType() == LanguageToolEvent.Type.LANGUAGE_CHANGED) {
