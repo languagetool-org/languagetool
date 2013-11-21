@@ -26,11 +26,11 @@ Usage:
   
   Close and restart OpenOffice.org/LibreOffice Writer. Remember to close
   the QuickStarter as well if you use it. Type text with
-  an error, e.g. "This is an test." - make sure the text language 
+  an error, e.g. "Feel tree to do so." - make sure the text language 
   is set to English for this example.
-  You should see a blue underline under the word "an". Opening
-  the context menu with the right mouse button offers you a
-  description of the error and, if available, a correction.
+  You should see a blue underline under the word "tree" after about a second.
+  Opening the context menu with the right mouse button on that word
+  offers you a short description of the error and a correction ("free").
 
   If you are using LibreOffice 3.5+ and you want to check English texts:
   Use Options -> Language Settings -> Writing Aids -> Edit... to disable
