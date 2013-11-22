@@ -12670,6 +12670,23 @@ $Id$
         </rulegroup>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="A_LES_CLARES" name="*a les clares">
+            <pattern>
+                <marker>
+                    <token>a</token>
+                    <token>les</token>
+                    <token>clares</token>
+                </marker>
+                <token><exception postag="NC[FC][PN].*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Expressió incorrecta</message>
+            <suggestion>clar i ras</suggestion>
+            <suggestion>clar i català</suggestion>
+            <suggestion>a la clara</suggestion>
+            <suggestion>clarament</suggestion>
+            <example type="incorrect">Parla <marker>a les clares</marker>.</example>
+            <example type="correct">Es refereix a les clares acusacions del jutge.</example>
+        </rule>
         <rule id="NO_SER_DE_REBUT" name="*no ser de rebut">
             <pattern>
                 <marker>
