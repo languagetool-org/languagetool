@@ -12416,6 +12416,7 @@ $Id$
             <example type="incorrect" correction=". Sempre">És així<marker>.sempre</marker>.</example>
             <example type="incorrect" correction=". Com">Vine<marker>.Com</marker> t'agrada?</example>
             <example type="incorrect" correction=". ¿">Vine<marker>.¿</marker>Com t'agrada?</example>
+            <example type="incorrect" correction="? Sempre">És així<marker>?Sempre</marker>.</example>
             <example type="correct">És així. Sempre.</example>
             <example type="correct">És així.</example>
             <example type="correct">És així...</example>
@@ -17385,6 +17386,19 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="POST_DE_LA_LLUM" name="*post/pal de la llum">
+            <pattern>
+                <marker>
+                    <token regexp="yes">post|posts|postes</token>
+                </marker>
+                <token>de</token>
+                <token>la</token>
+                <token>llum</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="poste?(s?)" regexp_replace="pal$1"/></suggestion>?</message>
+            <example type="incorrect" correction="pals">Mira els <marker>postes</marker> de la llum</example>
+            <example type="correct">pal de la llum</example>
+        </rule>
         <rule id="MINORISTA" name="minorista/detallista">
             <pattern>
                 <marker>
