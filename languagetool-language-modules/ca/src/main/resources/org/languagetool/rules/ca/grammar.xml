@@ -4884,8 +4884,8 @@ $Id$
                     <marker>
                         <token>malgrat<exception postag="_possible_nompropi"/></token>
                     </marker> <!--  -->
-                    <token skip="9"><exception regexp="yes">tot|això|que|com</exception><exception scope="next" regexp="yes">[;,–—\(\)\-]|que|quals?|què|com</exception></token>
-                    <token postag="V.[IS].*" postag_regexp="yes"><exception postag="_possible_nompropi"/></token> <!-- <exception postag="_GN.*|V.N.*" postag_regexp="yes"/>-->
+                    <token skip="9"><exception regexp="yes">tot|això|que|com</exception><exception scope="next" regexp="yes">[;,–—\(\)\-]|que|quals?|què|com|perquè</exception></token>
+                    <token postag="V.[IS].*" postag_regexp="yes"><exception postag="_possible_nompropi|.*LOC_ADV.*" postag_regexp="yes"/></token> <!-- <exception postag="_GN.*|V.N.*" postag_regexp="yes"/>-->
                 </pattern>
                 <message>Potser és <suggestion>malgrat que</suggestion> o falta una coma abans del verb.</message>
                 <short>Expressió incorrecta</short>
@@ -4901,6 +4901,8 @@ $Id$
                 <example type="correct">malgrat ésser tan bon indici de romanització com he raonat, no corresponen a la densitat</example>
                 <example type="correct">Ell, malgrat mantenir la calma, restà bocabadat.</example>
                 <example type="correct">malgrat el predomini de barcelonins (ço és de català oriental),</example>
+                <example type="correct">malgrat una llista que és francament limitadora</example>
+                <example type="correct">malgrat l'aprovació fa dos anys de la llei</example>
             </rule>
             <rule id="MALGRAT_MALGRAT_TOT" name="malgrat / malgrat tot">
                 <pattern>
