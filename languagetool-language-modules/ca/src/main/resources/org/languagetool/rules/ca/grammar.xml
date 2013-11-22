@@ -17343,14 +17343,17 @@ $Id$
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
         <rule id="MINORISTA" name="minorista/detallista">
             <pattern>
-                <token inflected="yes">minorista</token>
+                <marker>
+                    <token inflected="yes">minorista</token>
+                </marker>
+                <token><exception inflected="yes" regexp="yes">&ordes;</exception></token>
             </pattern>
             <message>Incorrecte en el sentit de <suggestion><match no="1" regexp_match=".*(a|es)" regexp_replace="detallist$1"/></suggestion>. "Minorista" existeix com a terme eclesiàstic.</message>            
             <suggestion>al detall</suggestion>
             <suggestion>a la menuda</suggestion>
             <short>Paraula dubtosa</short>
             <example type="incorrect" correction="detallista|al detall|a la menuda">Del comerç <marker>minorista</marker>.</example>
-            <example type="correct">Treballen en el comerça al detall.</example>
+            <example type="correct">Un minorista franciscà.</example>
         </rule>
         <rule id="PECO" name="peçó/mugró/peduncle/lòbul">
             <pattern>
