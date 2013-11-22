@@ -20155,7 +20155,7 @@ $Id$
                 <example type="incorrect">és <marker>depenent</marker></example>
                 <example type="correct">és dependent</example>
             </rule>
-             <rule>
+            <rule>
                 <pattern>
                     <token>és</token>
                     <token postag="RG_anteposat"/>
@@ -20166,6 +20166,19 @@ $Id$
                 <message>Si no és gerundi, cal dir <suggestion>dependent</suggestion>.</message>
                 <example type="incorrect">és totalment <marker>depenent</marker></example>
                 <example type="correct">és dependent</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="VS.*|_PUNCT.*" postag_regexp="yes"/>
+                    <token>molt</token>
+                    <marker>
+                        <token>depenent</token>
+                    </marker>
+                </pattern>
+                <message>Si no és gerundi, cal dir <suggestion>dependent</suggestion>.</message>
+                <example type="incorrect">una agricultura molt diversificada, molt <marker>depenent</marker> de la ramaderia.</example>
+                <example type="incorrect">que és molt <marker>depenent</marker> de l comerç exterior</example>
+                <example type="correct">variava molt depenent de la importància de l'oficial</example>
             </rule>
             <!-- <rule>
                 <pattern>
