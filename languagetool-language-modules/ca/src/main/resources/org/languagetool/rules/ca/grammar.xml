@@ -5602,13 +5602,25 @@ $Id$
         <!-- podria anar en WrongWordInContext? -->
             <pattern>
                 <marker>
-                    <token regexp="yes">rent(a|es)?</token>
+                    <token regexp="yes">rent(a|es)</token>
                 </marker>
                 <token inflected="yes" regexp="yes">pagar|cobrar|distribuir|parcial|total|percebre</token>
             </pattern>
             <message>¿Volíeu dir <suggestion><match no="1" regexp_match="rent(a|es)" regexp_replace="rend$1"/></suggestion> en lloc de <match no="1"/> (del v. rentar)?</message>
             <example type="incorrect" correction="renda">La <marker>renta</marker> pagada</example>
             <example type="correct">renda pagada</example>
+        </rule>
+        <rule id="RENTA_RENDA_PER_CAPITA" name="*renta/renda per càpita">
+            <pattern>
+                <marker>
+                    <token regexp="yes">renta|rentes</token>
+                </marker>
+                <token>per</token>
+                <token regexp="yes">càpita|capita</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="rent(a|es)" regexp_replace="rend$1"/></suggestion> en lloc de "renta" (v. rentar)?</message>
+            <example type="incorrect" correction="renda"><marker>renta</marker> per càpita.</example>
+            <example type="correct">renda per càpita</example>
         </rule>
         <rule id="A_LLARG_DE" name="a llarg de">
             <pattern>
