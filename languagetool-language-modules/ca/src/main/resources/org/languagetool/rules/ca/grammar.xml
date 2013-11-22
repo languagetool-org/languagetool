@@ -7482,6 +7482,28 @@ $Id$
                 <example type="incorrect">En <marker>presencia</marker> del Senyor.</example>
                 <example type="correct">en presència de</example>
             </rule>
+            <rule id="AVIA" name="avia/àvia">
+                <pattern>
+                    <token><exception regexp="yes">[mts]'|hi|ens|us|vos|els|les</exception></token>
+                    <marker>
+                        <token>avia</token>
+                    </marker>
+                </pattern>
+                <message>Si és nom, cal escriure <suggestion>àvia</suggestion>. Correcte si és del v. aviar.</message>
+                <example type="incorrect" correction="àvia">És la nostra <marker>avia</marker>.</example>
+                <example type="correct">Els avia al carrer.</example>
+            </rule>
+            <rule id="AVIES" name="avies/àvies">
+                <pattern>
+                    <token><exception regexp="yes">[mtsl]'|hi|ens|us|vos|els</exception></token>
+                    <marker>
+                        <token>avies</token>
+                    </marker>
+                </pattern>
+                <message>Si és nom, cal escriure <suggestion>àvies</suggestion>. Correcte si és del v. aviar.</message>
+                <example type="incorrect" correction="àvies">Són les nostres <marker>avies</marker>.</example>
+                <example type="correct">Els avies al carrer.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="COMA_COM_A" name="coma / com a">
             <!--alguna falsa alarma?-->
