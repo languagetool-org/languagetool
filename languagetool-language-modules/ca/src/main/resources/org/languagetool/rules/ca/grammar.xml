@@ -23682,6 +23682,40 @@ $Id$
                 <example type="incorrect" correction="argüesca">Que ell ens ho <marker>arguïsca</marker>.</example>
                 <example type="correct">Que ens argüesquen.</example>
             </rule> 
-        </rulegroup>    
+        </rulegroup>
+        <rulegroup id="EVITA_ARTICLE_SALAT" name="Evita article salat: es moix, es plats" default="on">
+        <!-- Normalment hi ha altres regles que detecten error: pronom feble solt... -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <and>
+                            <token postag="DA.*" postag_regexp="yes" regexp="yes">es|s'</token>
+                            <token postag="_GN_MS"/>
+                        </and>
+                    </marker>
+                    <token><exception postag="NP.*|_possible_nompropi" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Eviteu l'article salat.</message>
+                <suggestion><match no="1" regexp_match="(e?)s('?)" regexp_replace="$1l$2"/></suggestion>
+                <example type="incorrect" correction="l'">És de <marker>s'</marker>home.</example>
+                <example type="incorrect" correction="el">Amb <marker>es</marker> moix.</example>
+                <example type="correct">S'informaren bé.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <and>
+                            <token postag="DA.*" postag_regexp="yes">es</token>
+                            <token postag="_GN_MP"/>
+                        </and>
+                    </marker>
+                    <token><exception postag="NP.*|_possible_nompropi" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Eviteu l'article salat.</message>
+                <suggestion>els</suggestion>
+                <example type="incorrect" correction="els">Amb <marker>es</marker> moixos.</example>
+                <example type="correct">Es portaren bé.</example>
+            </rule>
+        </rulegroup>
     </category> 
 </rules>
