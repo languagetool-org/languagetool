@@ -793,6 +793,7 @@ $Id$
                 <example type="incorrect" correction="aquella metgessa|aquelles metgesses"><marker>aquell metgesses</marker></example>
                 <example type="incorrect" correction="Aquella metgessa|Aquelles metgesses"><marker>Aquells metgessa</marker>.</example>
                 <example type="incorrect" correction="aquella olor|aquelles olors">Amb <marker>aquell olor</marker> tan agradable.</example>
+                <example type="incorrect" correction="una tesi|unes tesis">Es doctorà en filosofia amb <marker>un tesi</marker> sobre Plotí</example>
                 <example type="correct">Aquestes metgesses.</example>
                 <example type="correct">Aqueixa metgessa.</example>
                 <example type="correct">Eixes metgesses.</example>
@@ -803,6 +804,7 @@ $Id$
                 <example type="correct">en tot ordenada i segura</example>
                 <example type="correct">on té molt poc pes</example>
                 <example type="correct">Per a ambdues fou decisiva la seva intervenció</example>
+                <example type="correct">I per tant resta una tasca de recopilació</example>
                 <!-- <example type="correct">influí molt Assíria</example> -->
                 <!-- <example type="correct">ser admesos com a tals Alemanya, el Japó,</example> -->
             </rule>
@@ -3479,7 +3481,7 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token inflected="yes">tant</token>
+                        <token regexp="yes">tant|tants|tanta|tantes</token>
                     </marker>
                     <token inflected="yes">poc</token>
                     <token postag="N.*" postag_regexp="yes"></token>
@@ -17420,11 +17422,12 @@ $Id$
                     <token regexp="yes">post|posts|postes</token>
                 </marker>
                 <token>de</token>
-                <token>la</token>
+                <token min="0">la</token>
                 <token>llum</token>
             </pattern>
             <message>¿Volíeu dir <suggestion><match no="1" regexp_match="poste?(s?)" regexp_replace="pal$1"/></suggestion>?</message>
             <example type="incorrect" correction="pals">Mira els <marker>postes</marker> de la llum</example>
+            <example type="incorrect" correction="pals">Mira els <marker>postes</marker> de llum</example>
             <example type="correct">pal de la llum</example>
         </rule>
         <rule id="MINORISTA" name="minorista/detallista">
@@ -22889,6 +22892,7 @@ $Id$
                 <example type="incorrect">I el cas <marker>és Mirabeau va</marker> tenir èxit.</example>
                 <example type="correct">I el cas és que Mirabeau va tenir èxit.</example>
                 <example type="correct">Hauria fet falta un coet.</example>
+                <example type="correct">usà el recurs del deus ex machina.</example>
             </rule>
         </rulegroup>
         <rule id="FALTA_COMA_FRASE_CONDICIONAL" name="Coma en frase condicional" type="style">

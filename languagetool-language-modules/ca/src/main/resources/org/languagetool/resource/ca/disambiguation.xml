@@ -284,7 +284,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <token>de</token>
                     <token>nou</token>
                 </marker>
-                <token><exception postag="NC[MC][SN].*" postag_regexp="yes"></exception></token>
+                <token><exception postag="NC[MC][SN].*" postag_regexp="yes"/></token>
             </pattern>
             <disambig action="add"><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/></disambig>
             <example type="untouched">Amb la proposta <marker>de nou</marker> servidor</example>
@@ -299,6 +299,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="add"><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/></disambig>
             <example type="untouched">Va dir que sí <marker>a canvi</marker> de diners.</example>
+        </rule>
+        <rule id="per_tant" name="per tant">
+            <pattern>
+                <marker>
+                    <token>per</token>
+                    <token>tant</token>
+                </marker>
+                <token><exception regexp="yes">de|d'</exception><exception postag="NC[MC][SN].*" postag_regexp="yes"/></token>
+            </pattern>
+            <disambig action="add"><wd lemma="per tant" pos="LOC_CONJ"/><wd lemma="per tant" pos="LOC_CONJ"/></disambig>
+            <example type="untouched">I <marker>per tant</marker> honor.</example>
         </rule>
         <rule id="de_fiar" name="de fiar">
             <pattern>
@@ -4167,19 +4178,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <!-- pels projectes, malgrat una llista -->
         <pattern>
             <token postag="SPS00|.*LOC_PREP.*" postag_regexp="yes"><exception postag="RG"/></token>
-            <unify>
-            <feature id="nombre"/>
-            <feature id="genere"/>
-                <token postag="D[AI].*" postag_regexp="yes"/>
-                <marker>
-                    <and>
-                        <token postag="NC.*" postag_regexp="yes"/>
-                        <token postag="V.[MSI].*" postag_regexp="yes"><exception regexp="yes">era|fou</exception></token>
-                    </and>
-                </marker>
-            </unify>
+            <token postag="D[AI].*" postag_regexp="yes"/> <!-- ¿Exigir unificació o no? (Ex. amb un tesi)-->
+            <marker>
+                <and>
+                    <token postag="NC.*" postag_regexp="yes"/>
+                    <token postag="V.[MSI].*" postag_regexp="yes"><exception regexp="yes">era|fou</exception></token>
+                </and>
+            </marker>
         </pattern>
         <disambig action="filter" postag="[^V].*"></disambig>
+        <example type="untouched">Per a ambdues <marker>fou</marker> decisiva la seva negativa.</example>
+        <example type="untouched">i per tant <marker>resta</marker> una tasca de recopilació</example>
     </rule>
     <rule id="prep_art_adj_nomverb" name="preposició + article + adj + nom/verb">
     <!-- amb la mateixa pasta -->
