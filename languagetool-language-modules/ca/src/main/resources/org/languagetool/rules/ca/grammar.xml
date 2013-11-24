@@ -11961,6 +11961,23 @@ $Id$
             <example type="incorrect"><marker>le'n</marker></example>
             <example type="correct">l'en</example>
         </rule>
+        <rulegroup id="ASSEGURAR_TEN" name="Errors ortogràfics: *assegurar-tel/assegurar-te'l">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="V.[NGM].*" postag_regexp="yes"/>
+                        <token spacebefore="no">-</token>
+                        <token spacebefore="no" regexp="yes">[tms]e[nl]</token>
+                    </marker>
+                </pattern>
+                <message>Error ortogràfic.</message>
+                <suggestion><match no="1"/>-<match no="3" regexp_match="(.)e(.)" regexp_replace="$1e'$2"/></suggestion>
+                <example type="incorrect" correction="assegurar-te'n">Per a <marker>assegurar-ten</marker></example>
+                <example type="incorrect" correction="Porta-me'l"><marker>Porta-mel</marker></example>
+                <example type="incorrect" correction="emportar-se'l">Hen d'<marker>emportar-sel</marker></example>
+                <example type="correct">Enduu-te'l</example>
+            </rule>
+        </rulegroup>
     </category>
     <category name="«lo» neutre" type="grammar">
         <!-- es podria fer una llista molt més completa de solucions-->
