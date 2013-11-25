@@ -1984,6 +1984,21 @@ $Id$
 						<example correction="Dodatkowo miałem" type="incorrect"><marker>Dodatkowo, miałem</marker> rację.</example>
 						<example type="correct">Dodatkowo, jak już mówiłem, miałem rację.</example>
 				</rule>
+                <rule id="ITP_ITD" name="Zbędny przecinek przed „itp.” i „itd.”">
+                  <pattern>
+                    <token><exception scope="previous" regexp="yes">it[pd]</exception></token>
+                    <marker>
+                    <token>,</token>
+                    <token regexp="yes">it[dp]</token>
+                    <token>.</token>
+                    </marker>
+                  </pattern>
+                  <message>Prawdopodobnie zbędny przecinek. Poprawnie: <suggestion>\3\4</suggestion>.</message>
+                  <url>http://poradnia.pwn.pl/lista.php?id=7774</url>
+                  <short>Błąd interpunkcyjny</short>                  
+                  <example type="correct">To były garnki, talerze, łyżki itp., itd.</example>
+                  <example type="incorrect" correction="itd.">To były garnki, talerze, łyżki<marker>, itd.</marker></example>
+                </rule>
 				<rulegroup id="BRAK_ZNAKU_ZAPYTANIA" name="Brak pytajnika na końcu pytania">
 						<rule>
 								<pattern>
