@@ -7334,7 +7334,7 @@ though, and has since been slightly modified)-->
         <example type="incorrect">Les documents qu’ils <marker>ont acheté</marker>.</example>
         <example type="correct">Les parties de poker qu’il <marker>a jouées</marker>.</example>
         <example type="correct">Le sac à main que j’ai acheté.</example>
-        <example type="correct">Une fois que vous avez goûté au plaisir des jeux d'argent.</example>
+        <example type="correct">Une fois que vous avez goûté au plaisir des jeux d’argent.</example>
       </rule>
       <rule>
         <pattern>
@@ -7457,7 +7457,53 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
     <rulegroup id="ACCORD_NOM_VERBE">
-      <rule name="sujet singulier + verbe pluriel">
+      <rule name="l’ + nom + token + verbe 3e personne singulier">
+        <pattern>
+          <token postag="SENT_START|C coor| R rel .*" postag_regexp="yes">
+            <exception regexp="yes">et|ou|ni</exception>
+          </token>
+          <token>l</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+          <token postag="N . s" postag_regexp="yes"/>
+          <token regexp="yes" min="0" max="1">[lmnt]e|la|les|leur|lui|en|y</token>
+          <marker>
+            <token postag="V.*" postag_regexp="yes">
+              <exception postag="V .* 3 s|V ppa . s|V.* ppr|[NJ].*" postag_regexp="yes"/>
+            </token>
+          </marker>
+        </pattern>
+        <message>Le verbe « \6 » devrait être à la 3e personne du singulier.</message>
+        <example type="incorrect">L’enfant lui <marker>dis</marker> merci.</example>
+        <example type="correct">L’enfant lui dit merci.</example>
+        <example type="incorrect">L’enfant <marker>dis</marker> merci.</example>
+        <example type="correct">L’enfant dit merci.</example>
+        <example type="correct">Le père et l’enfant lui disent merci.</example>
+        <example type="correct">Les parents de l’enfant lui disent merci.</example>
+      </rule>
+      <rule name="nom propre + token + verbe 3e personne singulier">
+        <pattern>
+          <token postag="SENT_START|C coor| R rel .*" postag_regexp="yes">
+            <exception regexp="yes">et|ou|ni</exception>
+          </token>
+          <token min="0" max="1" regexp="yes">l[ea]</token>
+          <token postag="Z . sp?" postag_regexp="yes" regexp="yes">(?-i)\p{Lu}.*</token>
+          <token regexp="yes" min="0" max="1">[lmnt]e|la|les|leur|lui|en|y</token>
+          <marker>
+            <token postag="V.*" postag_regexp="yes">
+              <exception postag="V .* 3 s|V ppa . s|V.* ppr|[NJ].*" postag_regexp="yes"/>
+            </token>
+          </marker>
+        </pattern>
+        <message>Le verbe « \4 » devrait être à la 3e personne du singulier.</message>
+        <example type="incorrect">Dominique <marker>peux</marker> venir.</example>
+        <example type="correct">Dominique peut venir.</example>
+        <example type="incorrect">Dominique ne <marker>peux</marker> pas venir.</example>
+        <example type="incorrect">La Corée <marker>peux</marker> gagner.</example>
+        <example type="correct">La Corée <marker>peut</marker> gagner.</example>
+        <example type="incorrect">La Corée ne <marker>peux</marker> pas gagner.</example>
+        <example type="correct">La Corée ne <marker>peut</marker> pas gagner.</example>
+      </rule>
+      <rule name="sujet singulier + verbe 3e personne singulier">
         <pattern>
           <token postag="SENT_START|C coor|R rel .*" postag_regexp="yes">
             <exception regexp="yes">et|ou|ni</exception>
@@ -7471,6 +7517,7 @@ though, and has since been slightly modified)-->
           <marker>
             <token postag="V.*" postag_regexp="yes">
               <exception postag="V .* 3 s|V ppa . s|V.* ppr|[NJ].*" postag_regexp="yes"/>
+              <exception>être</exception>
             </token>
           </marker>
         </pattern>
@@ -7489,8 +7536,9 @@ though, and has since been slightly modified)-->
         <example type="correct">Quel âge ont vos enfants ?</example>
         <example type="correct">Ni la Terre, ni son orbite ne sont parfaitement circulaires.</example>
         <example type="correct">Un petit sourire.</example>
+        <example type="correct">Un seul <marker>être</marker> vous manque.</example>
       </rule>
-      <rule name="sujet singulier + 1 token + verbe pluriel">
+      <rule name="sujet singulier + 1 token + verbe 3e personne singulier">
         <pattern>
           <token postag="SENT_START|C coor|R rel .*" postag_regexp="yes">
             <exception regexp="yes">et|ou|ni</exception>
@@ -7580,16 +7628,16 @@ though, and has since been slightly modified)-->
       </rule>
       <rule name="sujet pluriel + verbe singulier">
         <pattern>
-          <token postag="SENT_START|C coor|R rel .*" postag_regexp="yes">
+          <token postag="SENT_START|C coor" postag_regexp="yes">
             <exception regexp="yes">et|ou|ni|lequel</exception>
           </token>
-          <token postag="D.*" postag_regexp="yes"/>
-          <token postag="N . p" postag_regexp="yes">
+          <token postag="D.*" postag_regexp="yes"><exception regexp="yes">du|des|quels|quelles</exception></token>
+          <token postag="[NZ] . p" postag_regexp="yes">
             <exception negate_pos="yes" postag="N . p" postag_regexp="yes"/>
           </token>
           <marker>
             <token postag="V.*" postag_regexp="yes">
-              <exception postag="V .* 3 p|V ppa . s?p|V.* ppr|J . s?p" postag_regexp="yes"/>
+              <exception postag="V .* 3 p|V ppa . s?p|V.* ppr|[JN] . s?p" postag_regexp="yes"/>
             </token>
           </marker>
         </pattern>
@@ -7604,31 +7652,36 @@ though, and has since been slightly modified)-->
         <example type="correct">Lequel des élèves est sorti ?</example>
         <example type="correct">Les quartiers conquis par l’armée.</example>
         <example type="correct">Des petites <marker>bites</marker>.</example>
+        <example type="correct">Des petites <marker>zones</marker> favorables à la biodiversité.</example>
+        <example type="correct">Du tronc poussent les branches.</example>
+        <example type="correct">Quels changements attendre de la réalité augmentée ?</example>
       </rule>
       <rule name="sujet pluriel + 1 token + verbe singulier">
         <pattern>
           <token postag="SENT_START|C coor|R rel .*" postag_regexp="yes"/>
           <token postag="D.*" postag_regexp="yes"/>
-          <token postag="N . p" postag_regexp="yes">
+          <token postag="[NZ] . p" postag_regexp="yes">
             <exception postag="N . sp?" postag_regexp="yes"/>
           </token>
-          <token regexp="yes">[lmnt]e|la|les|leur|lui|en|y</token>
+          <token regexp="yes">[lmnts]e|la|les|leur|lui|en|y</token>
           <marker>
             <token postag="V.*" postag_regexp="yes">
               <exception postag="V .* 3 p|V ppa . s?p|V.* ppr|[NJ].*" postag_regexp="yes"/>
             </token>
           </marker>
         </pattern>
-        <message>Le verbe « \5 » devrait être à la 3e personne du pluriel.</message>
+        <message>Le verbe « \6 » devrait être à la 3e personne du pluriel.</message>
         <example type="incorrect">Les enfants en <marker>manges</marker>.</example>
         <example type="correct">Les enfants en mangent.</example>
         <example type="correct">Mon fils ne passera pas.</example>
+        <example type="incorrect">Les États-Unis se <marker>compose</marker> de 50 états.</example>
+        <example type="correct">Les États-Unis se composent de 50 états.</example>
       </rule>
       <rule name="sujet pluriel + 2 tokens + verbe singulier">
         <pattern>
           <token postag="SENT_START|C coor|R rel .*" postag_regexp="yes"/>
           <token postag="D.*" postag_regexp="yes"/>
-          <token postag="N . p" postag_regexp="yes">
+          <token postag="[NZ] . p" postag_regexp="yes">
             <exception postag="N . sp?" postag_regexp="yes"/>
           </token>
           <!-- Not all combinations of tokens are actually possible -->
@@ -7651,7 +7704,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <token postag="SENT_START|C coor|R rel .*" postag_regexp="yes"/>
           <token postag="D.*" postag_regexp="yes"/>
-          <token postag="N . p" postag_regexp="yes"/>
+          <token postag="[NZ] . p" postag_regexp="yes"/>
           <!-- Not all combinations of tokens are actually possible -->
           <token regexp="yes">[mnt]|ne</token>
           <token regexp="yes">[’´'‛′‘]|[lmt]e?|[vn]ous|lui|leur</token>
@@ -7670,7 +7723,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <token postag="SENT_START|C coor|R rel .*" postag_regexp="yes"/>
           <token postag="D.*" postag_regexp="yes"/>
-          <token postag="N . p" postag_regexp="yes"/>
+          <token postag="[NZ] . p" postag_regexp="yes"/>
           <!-- Not all combinations of tokens are actually possible -->
           <token>ne</token>
           <token regexp="yes">[lmt]</token>
@@ -8209,7 +8262,7 @@ though, and has since been slightly modified)-->
             <exception>est</exception>
             <exception postag="V.*" postag_regexp="yes"/>
           </token>
-          <token regexp="yes">l[àa]</token>
+          <token regexp="yes" >l[àa]</token>
           <token postag="M .*" postag_regexp="yes"/>
         </pattern>
         <message>Voulez-vous dire <suggestion>\1-là</suggestion> ?</message>
@@ -25218,8 +25271,8 @@ though, and has since been slightly modified)-->
         </pattern>
         <message>Les gentilés (noms des habitants) ont une majuscule (mais pas les noms des langues). Voulez-vous écrire <suggestion><match no="4" case_conversion="startupper"/></suggestion> ?</message>
         <url>http://www.academie-francaise.fr/la-langue-francaise/questions-de-langue#6_strong-em-adjectif-ou-nom-de-nationalit-il-est-franais-ou-il-est-franais-em-strong</url>
-        <example type="incorrect" correction="Anglais">Beaucoup d'<marker>anglais</marker> partent en vacances à l’étranger.</example>
-        <example type="correct">Beaucoup d'Anglais partent en vacances à l’étranger.</example>
+        <example type="incorrect" correction="Anglais">Beaucoup d’<marker>anglais</marker> partent en vacances à l’étranger.</example>
+        <example type="correct">Beaucoup d’Anglais partent en vacances à l’étranger.</example>
       </rule>
     </rulegroup>
     <rule id="MOYEN_AGE" name="Moyen Âge">
