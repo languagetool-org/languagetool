@@ -72,33 +72,34 @@ class DatabaseHandler extends ResultHandler {
   @Override
   protected void handleResult(Sentence sentence, List<RuleMatch> ruleMatches, Language language) {
     final String sql = "INSERT INTO corpus_match " +
-            "(version, language_code, ruleid, rule_subid, rule_description, message, error_context, corpus_date, " +
+            "(version, language_code, ruleid, rule_category, rule_subid, rule_description, message, error_context, corpus_date, " +
             "check_date, sourceuri, source_type, is_visible) "+
-            "VALUES (0, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)";
+            "VALUES (0, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)";
     try (PreparedStatement prepSt = conn.prepareStatement(sql)) {
       final java.sql.Date nowDate = new java.sql.Date(new Date().getTime());
       for (RuleMatch match : ruleMatches) {
         prepSt.setString(1, language.getShortName());
         final Rule rule = match.getRule();
         prepSt.setString(2, rule.getId());
+        prepSt.setString(3, rule.getCategory().getName());
         if (rule instanceof PatternRule) {
           final PatternRule patternRule = (PatternRule) rule;
-          prepSt.setString(3, patternRule.getSubId());
+          prepSt.setString(4, patternRule.getSubId());
         } else {
-          prepSt.setNull(3, Types.VARCHAR);
+          prepSt.setNull(4, Types.VARCHAR);
         }
-        prepSt.setString(4, rule.getDescription());
-        prepSt.setString(5, StringUtils.abbreviate(match.getMessage(), 255));
+        prepSt.setString(5, rule.getDescription());
+        prepSt.setString(6, StringUtils.abbreviate(match.getMessage(), 255));
         final String context = contextTools.getContext(match.getFromPos(), match.getToPos(), sentence.getText());
         if (context.length() > 255) {
           // let's skip these strange cases, as shortening the text might leave us behind with invalid markup etc
           continue;
         }
-        prepSt.setString(6, context);
-        prepSt.setDate(7, nowDate);  // should actually be the dump's date, but isn't really used anyway...
-        prepSt.setDate(8, nowDate);
-        prepSt.setString(9, sentence.getUrl());
-        prepSt.setString(10, sentence.getSource());
+        prepSt.setString(7, context);
+        prepSt.setDate(8, nowDate);  // should actually be the dump's date, but isn't really used anyway...
+        prepSt.setDate(9, nowDate);
+        prepSt.setString(10, sentence.getUrl());
+        prepSt.setString(11, sentence.getSource());
         prepSt.executeUpdate();
         checkMaxErrors(++errorCount);
         if (errorCount % 100 == 0) {
