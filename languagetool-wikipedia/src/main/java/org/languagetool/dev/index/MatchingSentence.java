@@ -29,17 +29,23 @@ import org.languagetool.rules.RuleMatch;
 public class MatchingSentence {
 
   private final String sentence;
+  private final String source;
   private final AnalyzedSentence analyzedSentence;
   private final List<RuleMatch> ruleMatches;
 
-  MatchingSentence(String sentence, AnalyzedSentence analyzedSentence, List<RuleMatch> ruleMatches) {
+  MatchingSentence(String sentence, String source, AnalyzedSentence analyzedSentence, List<RuleMatch> ruleMatches) {
     this.sentence = sentence;
+    this.source = source;
     this.analyzedSentence = analyzedSentence;
     this.ruleMatches = ruleMatches;
   }
 
   public String getSentence() {
     return sentence;
+  }
+
+  public String getSource() {
+    return source;
   }
 
   public AnalyzedSentence getAnalyzedSentence() {

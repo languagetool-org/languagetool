@@ -227,8 +227,9 @@ public class Searcher {
       final String sentence = doc.get(FIELD_NAME);
       final List<RuleMatch> ruleMatches = languageTool.check(sentence);
       if (ruleMatches.size() > 0) {
+        final String source = doc.get(SOURCE_FIELD_NAME);
         final AnalyzedSentence analyzedSentence = languageTool.getAnalyzedSentence(sentence);
-        final MatchingSentence matchingSentence = new MatchingSentence(sentence, analyzedSentence, ruleMatches);
+        final MatchingSentence matchingSentence = new MatchingSentence(sentence, source, analyzedSentence, ruleMatches);
         matchingSentences.add(matchingSentence);
       }
     }
@@ -342,7 +343,7 @@ public class Searcher {
         System.out.println("[no matches]");
       }
       for (MatchingSentence ruleMatch : searcherResult.getMatchingSentences()) {
-        System.out.println(i + ": " + ruleMatch.getSentence());
+        System.out.println(i + ": " + ruleMatch.getSentence() + " (Source: " + ruleMatch.getSource() + ")");
         i++;
       }
       System.out.println("Time: " + (System.currentTimeMillis() - ruleStartTime) + "ms");
