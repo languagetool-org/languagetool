@@ -23704,6 +23704,16 @@ $Id$
         <!-- Normalment hi ha altres regles que detecten error: pronom feble solt... -->
             <rule>
                 <pattern>
+                        <token>d'</token>
+                        <token>es</token>
+                </pattern>
+                <message>Eviteu l'article salat.</message>
+                <suggestion>del</suggestion>
+                <example type="incorrect" correction="del">És <marker>d'es</marker> Cap Negre.</example>
+                <example type="correct">S'informaren bé.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <marker>
                         <and>
                             <token postag="DA.*" postag_regexp="yes" regexp="yes">es|s'</token>
@@ -23716,6 +23726,7 @@ $Id$
                 <suggestion><match no="1" regexp_match="(e?)s('?)" regexp_replace="$1l$2"/></suggestion>
                 <example type="incorrect" correction="l'">És de <marker>s'</marker>home.</example>
                 <example type="incorrect" correction="el">Amb <marker>es</marker> moix.</example>
+                <example type="incorrect" correction="l'">Amb <marker>s'</marker>Eixample.</example>
                 <example type="correct">S'informaren bé.</example>
             </rule>
             <rule>
