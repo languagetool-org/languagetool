@@ -109,18 +109,31 @@ public class ContextTools {
     return sb.toString();
   }
 
+  /**
+   * Set the string used to mark the beginning of an error, e.g. {@code <span class="error">}
+   */
   public void setErrorMarkerStart(String errorMarkerStart) {
     this.errorMarkerStart = errorMarkerStart;
   }
 
+  /**
+   * Set the string used to mark the end of an error, e.g. {@code </span>}
+   */
   public void setErrorMarkerEnd(String errorMarkerEnd) {
     this.errorMarkerEnd = errorMarkerEnd;
   }
 
+  /**
+   * The context size of the error. This many characters of the original text will be used
+   * from the left and from the right context of the error.
+   */
   public void setContextSize(int contextSize) {
     this.contextSize = contextSize;
   }
 
+  /**
+   * Whether HTML special characters should be escaped.
+   */
   public void setEscapeHtml(boolean escapeHtml) {
     this.escapeHtml = escapeHtml;
   }
