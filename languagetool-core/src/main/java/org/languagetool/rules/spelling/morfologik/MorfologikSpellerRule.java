@@ -37,11 +37,12 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 
 public abstract class MorfologikSpellerRule extends SpellingCheckRule {
-
   protected MorfologikSpeller speller;
   protected Locale conversionLocale;
 
   private boolean ignoreTaggedWords = false;
+  private boolean checkCompound = false;
+  private String compoundChar = "-";
 
   /**
    * Get the filename, e.g., <tt>/resource/pl/spelling.dict</tt>.
@@ -125,8 +126,29 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   }
 
 
+  /**
+   * @param speller
+   * @param word
+   * @return Returns true if the word is misspelled
+   * @since 2.4
+   */
   protected boolean isMisspelled(MorfologikSpeller speller, String word) {
-    return speller.isMisspelled(word);
+	if (! speller.isMisspelled(word))
+	  return false;
+
+	if (checkCompound ) {
+	  if (word.contains(compoundChar)) {
+		  String[] words = word.split(compoundChar);
+		  for (String singleWord: words) {
+			  if (speller.isMisspelled(singleWord)) {
+				  return true;
+			  }
+		  }
+		  return false;
+	  }
+	}
+
+	return true;
   }
 
   private List<RuleMatch> getRuleMatch(final String word, final int startPos) {
@@ -169,6 +191,24 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
 
   protected List<String> orderSuggestions(List<String> suggestions, String word) {
     return suggestions;
+  }
+
+  /**
+   * @param checkCompound If true and the word is not in the dictionary 
+   * it will be split by {@link #compoundChar} 
+   * and each component will be checked separately
+   * @since 2.4 
+   */
+  protected void setCheckCompound(boolean checkCompound) {
+	  this.checkCompound = checkCompound;
+  }
+
+  /**
+   * @param compoundChar @see {@link #setCheckCompound(boolean)}
+   * @since 2.4
+   */
+  protected void setCompoundChar(String compoundChar) {
+	  this.compoundChar = compoundChar;
   }
 
 }

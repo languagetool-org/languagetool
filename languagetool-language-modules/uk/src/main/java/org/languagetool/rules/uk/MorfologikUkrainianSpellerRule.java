@@ -26,18 +26,18 @@ import java.util.regex.Pattern;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
-import org.languagetool.rules.spelling.morfologik.MorfologikSpeller;
 
 public final class MorfologikUkrainianSpellerRule extends MorfologikSpellerRule {
 
   private static final String ABBREVIATION_CHAR = ".";
-  private static final String COMPOUND_CHAR = "-";
   private static final String RESOURCE_FILENAME = "/uk/hunspell/uk_UA.dict";
   private static final Pattern UKRAINIAN_LETTERS = Pattern.compile(".*[а-яіїєґА-ЯІЇЄҐ].*");
 
   public MorfologikUkrainianSpellerRule(ResourceBundle messages,
                                         Language language) throws IOException {
     super(messages, language);
+    
+    setCheckCompound(true);
   }
 
   @Override
@@ -73,22 +73,5 @@ public final class MorfologikUkrainianSpellerRule extends MorfologikSpellerRule 
     return false;
   }
 
-  @Override
-  protected boolean isMisspelled(MorfologikSpeller speller, String word) {
-    if (! super.isMisspelled(speller, word))
-      return false;
-
-    if (word.contains(COMPOUND_CHAR)) {
-      String[] words = word.split(COMPOUND_CHAR);
-      for (String singleWord: words) {
-        if (speller.isMisspelled(singleWord)) {
-          return true;
-        }
-      }
-      return false;
-    }
-
-    return true;
-  }
 
 }
