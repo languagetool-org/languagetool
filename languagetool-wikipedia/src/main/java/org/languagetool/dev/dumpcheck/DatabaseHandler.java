@@ -39,6 +39,8 @@ import java.util.Properties;
  */
 class DatabaseHandler extends ResultHandler {
 
+  private static final int MAX_CONTEXT_LENGTH = 500;
+  
   private final Connection conn;
   private final ContextTools contextTools;
 
@@ -55,7 +57,7 @@ class DatabaseHandler extends ResultHandler {
       throw new RuntimeException(e);
     }
     contextTools = new ContextTools();
-    contextTools.setContextSize(CONTEXT_SIZE);
+    contextTools.setContextSize(MAX_CONTEXT_LENGTH);
     contextTools.setErrorMarkerStart(MARKER_START);
     contextTools.setErrorMarkerEnd(MARKER_END);
     contextTools.setEscapeHtml(false);
@@ -91,7 +93,7 @@ class DatabaseHandler extends ResultHandler {
         prepSt.setString(5, rule.getDescription());
         prepSt.setString(6, StringUtils.abbreviate(match.getMessage(), 255));
         final String context = contextTools.getContext(match.getFromPos(), match.getToPos(), sentence.getText());
-        if (context.length() > 255) {
+        if (context.length() > MAX_CONTEXT_LENGTH) {
           // let's skip these strange cases, as shortening the text might leave us behind with invalid markup etc
           continue;
         }
