@@ -4583,7 +4583,7 @@ though, and has since been slightly modified)-->
             <exception postag="Z [fe] .*" postag_regexp="yes" regexp="yes">(?-i)\p{Lu}.*</exception>
             <exception scope="previous" regexp="yes">des?</exception>
             <exception scope="previous" postag="&lt;/DE&gt;"/>
-            <exception>sauf</exception>
+            <exception scope="next" regexp="yes">sauf|moins</exception>
           </token>
           <token postag="[JNZ] f .*" postag_regexp="yes">
             <exception postag="V .*|[NJZ] [em] .*" postag_regexp="yes"/>
@@ -4618,6 +4618,7 @@ though, and has since been slightly modified)-->
         <example type="correct">Le numéro un des ventes de Noël.</example>
         <example type="correct"><marker>Ce putain</marker> de temps.</example>
         <example type="correct">J’ai grand faim.</example>
+        <example type="correct">Il sait <marker>au moins lire</marker>.</example>
         <!-- FIXME
                 <example type="correct">Je n’ai pas du <marker>tout peur</marker> des serpents.</example> -->
       </rule>
