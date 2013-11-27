@@ -4672,7 +4672,7 @@ though, and has since been slightly modified)-->
           </token>
           <token postag="[JNZ] m .*" postag_regexp="yes">
             <exception postag="V .*|C coor|[NJZ] e .*" postag_regexp="yes"/>
-            <exception regexp="yes">.|fait|non</exception>
+            <exception regexp="yes">.|fait|non|pas</exception>
           </token>
         </pattern>
         <message>« \1 » et « \2 » ne semblent pas bien accordés en genre.</message>
@@ -4707,6 +4707,7 @@ though, and has since been slightly modified)-->
         <example type="incorrect"><marker>La jaguar</marker> est un mamifère.</example>
         <example type="correct"><marker>Le jaguar</marker> est un mamifère.</example>
         <example type="correct"><marker>La Jaguar</marker> est une voiture.</example>
+        <example type="correct">L'histoire d'<marker>une enfant pas</marker> si sage.</example>
       </rule>
       <rule name="nom féminin suivi du masculin">
         <pattern>
@@ -19373,11 +19374,12 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="JOB" name="job">
       <pattern>
-        <token regexp="yes">job|jobs</token>
+        <token regexp="yes">job|jobs<exception scope="previous">Steve</exception></token>
       </pattern>
       <message>« Job » est un anglicisme. Employez <suggestion>emploi</suggestion>, <suggestion>boulot</suggestion>, <suggestion>tâche</suggestion>, <suggestion>ouvrage</suggestion>.</message>
       <example type="incorrect"><marker>job</marker></example>
       <example type="correct"><marker>boulot</marker></example>
+      <example type="correct">Steve <marker>Jobs</marker>, le pionnier de l’ordinateur conçu comme une prison cool, mise au point pour supprimer leur liberté aux idiots, est mort.</example>
     </rule>
     <rule id="ORIENTERING" name="orientering">
       <pattern>
