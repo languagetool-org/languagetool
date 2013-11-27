@@ -124,7 +124,8 @@ public class AgreementRule extends GermanRule {
     // TODO: add more
   }
   
-  final GermanTagger tagger = (GermanTagger) new German().getTagger();
+  private final German german = new German();
+  private final GermanTagger tagger = (GermanTagger) german.getTagger();
 
   private static final Set<String> PRONOUNS_TO_BE_IGNORED = new HashSet<>(Arrays.asList(
     "ich",
@@ -342,9 +343,12 @@ public class AgreementRule extends GermanRule {
       final String errorDetails = errorCategories.size() > 0 ? StringTools.listToString(errorCategories, " und ") : "Kasus, Genus oder Numerus";
       final String msg = "Möglicherweise fehlende grammatische Übereinstimmung zwischen Artikel und Nomen " +
             "bezüglich " + errorDetails + ".";
+      final AgreementSuggestor suggestor = new AgreementSuggestor(german.getSynthesizer(), token1, token2);
+      final List<String> suggestions = suggestor.getSuggestions();
       final String shortMsg = "Möglicherweise keine Übereinstimmung bezüglich " + errorDetails;
       ruleMatch = new RuleMatch(this, token1.getStartPos(), 
           token2.getStartPos() + token2.getToken().length(), msg, shortMsg);
+      ruleMatch.setSuggestedReplacements(suggestions);
     }
     return ruleMatch;
   }

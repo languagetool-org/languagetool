@@ -19,14 +19,17 @@
 package org.languagetool.rules.de;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 import junit.framework.TestCase;
 
 import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
 import org.languagetool.language.German;
 import org.languagetool.rules.RuleMatch;
+
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
 
 /**
  * @author Daniel Naber
@@ -124,32 +127,35 @@ public class AgreementRuleTest extends TestCase {
     assertGood("Die Ereignisse dieses einen Jahres waren sehr schlimm.");
 
     // incorrect sentences:
-    assertBad("Es sind die Tisch.");
-    assertBad("Es sind das Tisch.");
-    assertBad("Es sind die Haus.");
-    assertBad("Es sind der Haus.");
-    assertBad("Es sind das Frau.");
-    assertBad("Das Auto des Mann.");
-    assertBad("Das interessiert das Mann.");
-    assertBad("Das interessiert die Mann.");
-    assertBad("Das Auto ein Mannes.");
-    assertBad("Das Auto einem Mannes.");
-    assertBad("Das Auto einer Mannes.");
-    assertBad("Das Auto einen Mannes.");
+    assertBad("Es sind die Tisch.", "dem Tisch", "den Tisch", "der Tisch", "die Tische");
+    assertBad("Es sind das Tisch.", "dem Tisch", "den Tisch", "der Tisch");
+    assertBad("Es sind die Haus.", "das Haus", "dem Haus", "die Häuser");
+    assertBad("Es sind der Haus.", "das Haus", "dem Haus", "der Häuser");
+    assertBad("Es sind das Frau.", "der Frau", "die Frau");
+    assertBad("Das Auto des Mann.", "dem Mann", "den Mann", "der Mann", "des Mannes", "des Manns");
+    assertBad("Das interessiert das Mann.", "dem Mann", "den Mann", "der Mann");
+    assertBad("Das interessiert die Mann.", "dem Mann", "den Mann", "der Mann", "die Männer");
+    assertBad("Das Auto ein Mannes.", "ein Mann", "eines Mannes");
+    assertBad("Das Auto einem Mannes.", "einem Mann", "einem Manne", "eines Mannes");
+    assertBad("Das Auto einer Mannes.", "eines Mannes");
+    assertBad("Das Auto einen Mannes.", "einen Mann", "eines Mannes");
     
     assertBad("Des großer Mannes.");
 
-    assertBad("Das Dach von meine Auto.");
-    assertBad("Das Dach von meinen Auto.");
+    assertBad("Das Dach von meine Auto.", "mein Auto", "meine Autos", "meinem Auto");
+    assertBad("Das Dach von meinen Auto.", "mein Auto", "meinem Auto", "meinen Autos");
     
-    assertBad("Das Dach mein Autos.");
-    assertBad("Das Dach meinem Autos.");
+    assertBad("Das Dach mein Autos.", "mein Auto", "meine Autos", "meinen Autos", "meiner Autos", "meines Autos");
+    assertBad("Das Dach meinem Autos.", "meine Autos", "meinem Auto", "meinen Autos", "meiner Autos", "meines Autos");
 
     assertBad("Das Dach meinem großen Autos.");
     assertBad("Das Dach mein großen Autos.");
 
-    assertBad("Das Klientel der Partei.");  // gender used to be wrong in Morphy data
+    assertBad("Das Klientel der Partei.", "Der Klientel", "Die Klientel");  // gender used to be wrong in Morphy data
     assertGood("Die Klientel der Partei.");
+
+    assertBad("Der Haus ist groß", "Das Haus", "Dem Haus", "Der Häuser");
+    assertBad("Aber der Haus ist groß", "das Haus", "dem Haus", "der Häuser");
 
     // TODO: not yet detected:
     //assertBad("Erst recht wir fleißiges Arbeiter.");
@@ -166,13 +172,13 @@ public class AgreementRuleTest extends TestCase {
 
   public void testDetNounRuleErrorMessages() throws IOException {
     // check detailed error messages:
-    assertBad("Das Fahrrads.", "bezüglich Kasus");
-    assertBad("Der Fahrrad.", "bezüglich Genus");
-    assertBad("Das Fahrräder.", "bezüglich Numerus");
-    assertBad("Die Tischen sind ecking.", "bezüglich Kasus");
-    assertBad("Die Tischen sind ecking.", "und Genus");
+    assertBadWithMessage("Das Fahrrads.", "bezüglich Kasus");
+    assertBadWithMessage("Der Fahrrad.", "bezüglich Genus");
+    assertBadWithMessage("Das Fahrräder.", "bezüglich Numerus");
+    assertBadWithMessage("Die Tischen sind ecking.", "bezüglich Kasus");
+    assertBadWithMessage("Die Tischen sind ecking.", "und Genus");
     //TODO: input is actually correct
-    assertBad("Bei dem Papierabzüge von Digitalbildern bestellte werden.", "bezüglich Kasus, Genus oder Numerus.");
+    assertBadWithMessage("Bei dem Papierabzüge von Digitalbildern bestellte werden.", "bezüglich Kasus, Genus oder Numerus.");
   }
   
   public void testRegression() throws IOException {
@@ -211,11 +217,17 @@ public class AgreementRuleTest extends TestCase {
     assertEquals("Found unexpected match in sentence '" + s + "'", 0, rule.match(langTool.getAnalyzedSentence(s)).length);
   }
 
-  private void assertBad(String s) throws IOException {
-    assertEquals("Did not find one match in sentence '" + s + "'", 1, rule.match(langTool.getAnalyzedSentence(s)).length);
+  private void assertBad(String s, String... expectedSuggestions) throws IOException {
+    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(s));
+    assertEquals("Did not find one match in sentence '" + s + "'", 1, matches.length);
+    if (expectedSuggestions.length > 0) {
+      RuleMatch match = matches[0];
+      List<String> suggestions = match.getSuggestedReplacements();
+      assertThat(suggestions, is(Arrays.asList(expectedSuggestions)));
+    }
   }
 
-  private void assertBad(String s, String expectedErrorSubstring) throws IOException {
+  private void assertBadWithMessage(String s, String expectedErrorSubstring) throws IOException {
     assertEquals(1, rule.match(langTool.getAnalyzedSentence(s)).length);
     final String errorMessage = rule.match(langTool.getAnalyzedSentence(s))[0].getMessage();
     assertTrue("Got error '" + errorMessage + "', expected substring '" + expectedErrorSubstring + "'",
