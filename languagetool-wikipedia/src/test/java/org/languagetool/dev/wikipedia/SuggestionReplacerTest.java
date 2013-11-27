@@ -70,14 +70,14 @@ public class SuggestionReplacerTest extends TestCase {
   public void testReference1() throws Exception {
     SwebleWikipediaTextFilter filter = new SwebleWikipediaTextFilter();
     String markup = "Hier <ref name=isfdb>\n" +
-            "Retrieved 2012-07-31.</ref> steht der Haus.";
-    applySuggestion(langTool, filter, markup, markup.replace("steht der Haus.", "<s>steht der Haus.</s>"));
+            "Retrieved 2012-07-31.</ref> steht,, das Haus.";
+    applySuggestion(langTool, filter, markup, markup.replace("steht,, das Haus.", "<s>steht,</s> das Haus."));
   }
 
   public void testReference2() throws Exception {
     SwebleWikipediaTextFilter filter = new SwebleWikipediaTextFilter();
-    String markup = "Hier <ref name=\"NPOVxxx\" /> steht der Haus.";
-    applySuggestion(langTool, filter, markup, markup.replace("steht der Haus.", "steht <s>der Haus.</s>"));
+    String markup = "Hier <ref name=\"NPOVxxx\" /> steht,, das Haus.";
+    applySuggestion(langTool, filter, markup, markup.replace("steht,, das Haus.", "<s>steht, das</s> Haus."));
   }
 
   public void testErrorAtTextBeginning() throws Exception {

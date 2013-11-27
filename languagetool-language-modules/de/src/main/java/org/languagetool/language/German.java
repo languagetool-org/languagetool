@@ -38,6 +38,8 @@ import org.languagetool.rules.de.GermanWrongWordInContextRule;
 import org.languagetool.rules.de.VerbAgreementRule;
 import org.languagetool.rules.de.WiederVsWiderRule;
 import org.languagetool.rules.de.WordCoherencyRule;
+import org.languagetool.synthesis.GermanSynthesizer;
+import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.de.GermanTagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
@@ -52,6 +54,7 @@ import org.languagetool.tokenizers.SentenceTokenizer;
 public class German extends Language {
 
   private Tagger tagger;
+  private Synthesizer synthesizer;
   private SentenceTokenizer sentenceTokenizer;
   private Disambiguator disambiguator;
 
@@ -103,6 +106,14 @@ public class German extends Language {
       }
     }
     return tagger;
+  }
+
+  @Override
+  public Synthesizer getSynthesizer() {
+    if (synthesizer == null) {
+      synthesizer = new GermanSynthesizer();
+    }
+    return synthesizer;
   }
 
   @Override
