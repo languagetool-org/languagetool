@@ -25285,11 +25285,9 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <marker>
-                        <token regexp="yes">[vV]o[nm]</token>
-                        <token regexp="yes">Band|Blatt|Seite|Zeile</token>
-                        <token regexp="yes">([0-9]{1,5})(\-|–)([0-9]{1,5})</token>
-                    </marker>
+                    <token regexp="yes">[vV]o[nm]</token>
+                    <token regexp="yes">Band|Blatt|Seite|Zeile</token>
+                    <token regexp="yes">([0-9]{1,5})(\-|–)([0-9]{1,5})</token>
                 </pattern>
                 <message>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus: <suggestion><match no="1"/> <match no="2"/> <match no="3" regexp_match="([0-9]{1,5})(\-|–)([0-9]{1,5})" regexp_replace="$1 bis $3"/></suggestion>.</message>
                 <url>http://de.wikipedia.org/wiki/Halbgeviertstrich#Bis-Strich</url>
@@ -25300,13 +25298,11 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <marker>
-                        <token regexp="yes">[vV]o[nm]</token>
-                        <token regexp="yes">Band|Bänden?|Blatt|Blättern?|Seiten?|Zeilen?</token>
-                        <token regexp="yes">[0-9]{1,5}</token>
-                        <token regexp="yes">\-|–</token>
-                        <token regexp="yes">[0-9]{1,5}</token>
-                    </marker>
+                    <token regexp="yes">[vV]o[nm]</token>
+                    <token regexp="yes">Band|Bänden?|Blatt|Blättern?|Seiten?|Zeilen?</token>
+                    <token regexp="yes">[0-9]{1,5}</token>
+                    <token regexp="yes">\-|–</token>
+                    <token regexp="yes">[0-9]{1,5}</token>
                 </pattern>
                 <message>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus: <suggestion>\1 \2 \3 bis \5</suggestion>.</message>
                 <url>http://de.wikipedia.org/wiki/Halbgeviertstrich#Bis-Strich</url>
@@ -25435,11 +25431,9 @@ $Id$
             <!-- TODO: default="off"? An geraden Anführungszeichen ist ja nichts falsch, sie sind bloß hässlich. -->
             <rule>
                 <pattern>
-                    <marker>
-                        <token regexp="yes">'|`|´|’|‘|′</token>
-                        <token spacebefore="no"><match no="0"/></token>
-                        <token spacebefore="no"><match no="0"/></token>
-                    </marker>
+                    <token regexp="yes">'|`|´|’|‘|′</token>
+                    <token spacebefore="no"><match no="0"/></token>
+                    <token spacebefore="no"><match no="0"/></token>
                 </pattern>
                 <message>Wollen Sie das Triple-Prime-Zeichen (<suggestion>‴</suggestion>; dritte Ableitung, dreigestrichene Oktave) verwenden?</message>
                 <example type="correct">f<marker>‴</marker> ist einfach zu berechnen.</example>
@@ -25447,10 +25441,8 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <marker>
-                        <token regexp="yes">'|`|´|’|‘|′</token>
-                        <token spacebefore="no"><match no="0"/></token>
-                    </marker>
+                    <token regexp="yes">'|`|´|’|‘|′</token>
+                    <token spacebefore="no"><match no="0"/></token>
                 </pattern>
                 <message>Wollen Sie ein typografisches Anführungszeichen (<suggestion>„</suggestion> <suggestion>“</suggestion>, <suggestion>»</suggestion> <suggestion>«</suggestion>) oder das Sekunden-/Zollzeichen (<suggestion>″</suggestion>) verwenden?</message>
                 <example type="correct">f<marker>″</marker> ist einfach zu berechnen.</example>
@@ -25459,9 +25451,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <marker>
-                        <token>"</token>
-                    </marker>
+                    <token>"</token>
                 </pattern>
                 <message>Wollen Sie statt des Ersatzzeichens (") ein typografisches Anführungszeichen (<suggestion>„</suggestion> <suggestion>“</suggestion>, <suggestion>»</suggestion> <suggestion>«</suggestion>) oder das Sekunden-/Zollzeichen (<suggestion>″</suggestion>) verwenden?</message>
                 <example type="correct">Der Bildschirm ist 7<marker>″</marker> groß.</example>
@@ -25469,9 +25459,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <marker>
-                        <token>'</token>
-                    </marker>
+                    <token>'</token>
                 </pattern>
                 <message>Wollen Sie statt des Ersatzzeichens (') einen Apostroph (<suggestion>’</suggestion>), typografische Anführungszeichen (<suggestion>‚</suggestion> <suggestion>‘</suggestion>, <suggestion>›</suggestion> <suggestion>‹</suggestion>) oder das Minutenzeichen (<suggestion>′</suggestion>) verwenden?</message>
                 <example type="correct">Felix<marker>’</marker> Hausaufgaben sind gut.</example>
@@ -25481,11 +25469,9 @@ $Id$
         <rulegroup id="GROESSER_KLEINER_ANFUEHRUNG" name="Zeichensetzung/Typographie: Größer-/Kleiner-Zeichen statt frz. Anführungszeichen">
             <rule>
                 <pattern>
-                    <marker>
-                        <token spacebefore="yes">&gt;</token>
-                        <token skip="-1" spacebefore="no" regexp="yes">[a-zäöüßáàâêéèëíìîïòóôõûçñšž]+</token>
-                        <token spacebefore="no">&lt;</token>
-                    </marker>
+                    <token spacebefore="yes">&gt;</token>
+                    <token skip="-1" spacebefore="no" regexp="yes">[a-zäöüßáàâêéèëíìîïòóôõûçñšž]+</token>
+                    <token spacebefore="no">&lt;</token>
                 </pattern>
                 <message>Wollen Sie statt Größer-/Kleiner-Zeichen einfache französische Anführungszeichen verwenden? Vorschlag: <suggestion>›<match no="2" include_skipped="all"/>‹</suggestion></message>
                 <short>Größer-/Kleiner-Zeichen statt frz. Anführungszeichen?</short>
@@ -25494,13 +25480,11 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <marker>
-                        <token spacebefore="yes">&gt;</token>
-                        <token spacebefore="no">&gt;</token>
-                        <token skip="-1" spacebefore="no" regexp="yes">[a-zäöüßáàâêéèëíìîïòóôõûçñšž]+</token>
-                        <token spacebefore="no">&lt;</token>
-                        <token spacebefore="no">&lt;</token>
-                    </marker>
+                    <token spacebefore="yes">&gt;</token>
+                    <token spacebefore="no">&gt;</token>
+                    <token skip="-1" spacebefore="no" regexp="yes">[a-zäöüßáàâêéèëíìîïòóôõûçñšž]+</token>
+                    <token spacebefore="no">&lt;</token>
+                    <token spacebefore="no">&lt;</token>
                 </pattern>
                 <message>Wollen Sie statt Größer-/Kleiner-Zeichen doppelte französische Anführungszeichen verwenden? Vorschlag: <suggestion>»<match no="3" include_skipped="all"/>«</suggestion></message>
                 <short>Größer-/Kleiner-Zeichen statt frz. Anführungszeichen?</short>
