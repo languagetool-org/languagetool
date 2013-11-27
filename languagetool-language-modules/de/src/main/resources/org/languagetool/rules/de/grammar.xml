@@ -24589,35 +24589,65 @@ $Id$
             <example type="correct">Ich gehe <marker>montags</marker> gerne ins Kino.</example>
             <example type="incorrect" correction="montags">Ich gehe <marker>montag’s</marker> gerne ins Kino.</example>
         </rule>
-        <rule id="ANS_OHNE_APOSTROPH" name="Zeichensetzung: Kein Apostroph bei 'ans', 'ins', 'aufs' usw.">
-            <pattern>
-                <token regexp="yes">an|in|für|auf|durch|hinter|über|um|unter|vor</token>
-                <token regexp="yes">['’´`‘]</token>
-                <token>s</token>
-            </pattern>
-            <message>Das Wort <suggestion>\1s</suggestion> wird standardsprachlich ohne Apostroph geschrieben.</message>
-            <url>http://www.canoo.net/services/OnlineGrammar/Wort/Artikel/Prep-Art/Form.html</url>
-            <short>'Ans' und 'ins' sollten ohne Apostroph geschrieben werden.</short>
-            <example type="correct">Ich ging <marker>ans</marker> Fenster.</example>
-            <example type="correct">Ich hab’s <marker>ins</marker> Klo geschmissen.</example>
-            <example type="incorrect" correction="ins">Ich hab’s <marker>in’s</marker> Klo geschmissen.</example>
-            <example type="incorrect" correction="ins">Ich hab's <marker>in's</marker> Klo geschmissen.</example>
-            <example type="incorrect" correction="aufs">Ich hab's <marker>auf's</marker> Dach geschmissen.</example>
-            <example type="incorrect" correction="ans">Ich trat <marker>an's</marker> Fenster.</example>
-            <example type="incorrect" correction="hinters">Er wurde <marker>hinter's</marker> Licht geführt!</example>
-        </rule>
-        <rulegroup id="PLURAL_APOSTROPH" name="Zeichensetzung: AGB's (AGBs)">
-            <!-- TODO extend to Apostroph vor Plural-s -->
+        <rulegroup id="ANS_OHNE_APOSTROPH" name="Zeichensetzung: Kein Apostroph bei 'ans', 'ins', 'aufs' usw.">
             <rule>
                 <pattern>
-                    <token>AGB</token>
+                    <token regexp="yes">an|in|für|auf|durch|hinter|über|um|unter|vor</token>
+                    <token regexp="yes">['’´`‘]</token>
+                    <token>s</token>
+                </pattern>
+                <message>Das Wort <suggestion>\1s</suggestion> wird ohne Apostroph geschrieben.</message>
+                <url>http://www.canoo.net/services/OnlineGrammar/Wort/Artikel/Prep-Art/Form.html</url>
+                <short>'Ans', 'ins' usw. sollten ohne Apostroph geschrieben werden.</short>
+                <example type="correct">Ich ging <marker>ans</marker> Fenster.</example>
+                <example type="correct">Ich hab’s <marker>ins</marker> Klo geschmissen.</example>
+                <example type="incorrect" correction="ins">Ich hab’s <marker>in’s</marker> Klo geschmissen.</example>
+                <example type="incorrect" correction="ins">Ich hab's <marker>in's</marker> Klo geschmissen.</example>
+                <example type="incorrect" correction="aufs">Ich hab's <marker>auf's</marker> Dach geschmissen.</example>
+                <example type="incorrect" correction="ans">Ich trat <marker>an's</marker> Fenster.</example>
+                <example type="incorrect" correction="hinters">Er wurde <marker>hinter's</marker> Licht geführt!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">hinter|über|unter</token>
+                    <token regexp="yes">['’´`‘]</token>
+                    <token regexp="yes">n|m</token>
+                </pattern>
+                <message>Das umgangssprachliche Wort <suggestion>\1\3</suggestion> wird ohne Apostroph geschrieben.</message>
+                <url>http://www.canoo.net/services/OnlineGrammar/Wort/Artikel/Prep-Art/Form.html</url>
+                <short>'übern', 'untern' usw. sollten ohne Apostroph geschrieben werden.</short>
+                <example type="correct">Ich bin <marker>übern</marker> Berg.</example>
+                <example type="incorrect" correction="übern">Ich bin <marker>über'n</marker> Berg.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>vor</token>
+                    <token regexp="yes">['’´`‘]</token>
+                    <token regexp="yes">m|n</token>
+                </pattern>
+                <message>Das Wort <suggestion>vor\3</suggestion> wird ohne Apostroph geschrieben.</message>
+                <url>http://www.canoo.net/services/OnlineGrammar/Wort/Artikel/Prep-Art/Form.html</url>
+                <short>'vorm' und 'vorn' sollten ohne Apostroph geschrieben werden.</short>
+                <example type="correct">Ich bin <marker>vorm</marker> Supermarkt stehen geblieben.</example>
+                <example type="incorrect" correction="vorm">Ich bin <marker>vor'm</marker> Supermarkt stehen geblieben.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="PLURAL_APOSTROPH" name="Zeichensetzung: AGB's (AGBs) usw.">
+            <rule>
+                <pattern>
+                    <or>
+                        <token>AGB</token>
+                        <token postag_regexp="yes" postag="SUB:.*"><exception>Halt</exception></token>
+                    </or>
                     <token regexp="yes">'|’|`|´|‘</token>
                     <token>s</token>
                 </pattern>
-                <message>Meinten Sie <suggestion>AGBs</suggestion> oder <suggestion>AGB</suggestion>? Normalerweise wird im Deutschen vor einem Plural-s kein Apostroph gesetzt</message>
+                <message>Meinten Sie <suggestion>\1\3</suggestion> oder <suggestion>\1</suggestion>? Normalerweise wird im Deutschen vor einem Plural-s kein Apostroph gesetzt</message>
                 <short>Normalerweise wird im Deutschen vor einem Plural-s kein Apostroph gesetzt</short>
                 <example type="incorrect" correction="AGBs|AGB">Es gelten die <marker>AGB`s</marker>.</example>
                 <example type="incorrect" correction="AGBs|AGB">Es gelten die <marker>AGB’s</marker>.</example>
+                <example type="incorrect" correction="Hits|Hit">Die Gruppe hatte viele <marker>Hit’s</marker>.</example>
+                <example type="correct">Die Gruppe hatte viele <marker>Hits</marker>.</example>
                 <!-- vgl. http://web.archive.org/web/20110214064020/http://www.duden.de/deutsche_sprache/sprachberatung/newsletter/archiv.php?id=54 -->
                 <example type="correct">Es gelten die <marker>AGBs</marker>.</example>
                 <example type="correct">Es gelten die <marker>AGB</marker>.</example>
@@ -24628,13 +24658,15 @@ $Id$
                 <pattern>
                     <token postag="EIG:.*" postag_regexp="yes">
                         <exception>McDonald</exception>
+                        <exception>Andrea</exception>
                     </token>
                     <token regexp="yes">'|’</token>
                     <token>s</token>
                 </pattern>
-                <message>Normalerweise wird im Deutschen vor einem Genitiv-s kein Apostroph gesetzt: <suggestion>\1s</suggestion>. In Ausnahmefällen wie bei dem Firmennamen 'McDonald’s' kann der Apostroph aber richtig sein.</message>
+                <message>Normalerweise wird im Deutschen vor einem Genitiv-s kein Apostroph gesetzt: <suggestion>\1s</suggestion>. In Ausnahmefällen wie bei dem Firmennamen 'McDonald’s' oder 'Andrea’s Blumenladen' kann der Apostroph aber richtig sein.</message>
                 <short>Normalerweise wird im Deutschen vor einem Genitiv-s kein Apostroph gesetzt.</short>
                 <example type="correct"><marker>Peters</marker> Bude.</example>
+                <example type="correct"><marker>Andrea's</marker> Blumenladen</example>
                 <example type="incorrect" correction="Peters"><marker>Peter's</marker> Bude.</example>
                 <example type="incorrect" correction="Peters"><marker>Peter’s</marker> Bude.</example>
             </rule>
