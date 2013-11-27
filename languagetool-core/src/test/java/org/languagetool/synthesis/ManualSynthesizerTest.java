@@ -24,8 +24,6 @@ import java.io.IOException;
 import junit.framework.TestCase;
 
 /**
- * Test class for {@link ManualSynthesizer}.
- * 
  * @author Ionuț Păduraru
  */
 public class ManualSynthesizerTest extends TestCase {
@@ -44,9 +42,6 @@ public class ManualSynthesizerTest extends TestCase {
     synthesizer = new ManualSynthesizer(new ByteArrayInputStream(data.getBytes("UTF-8")));
   }
 
-  /**
-   * Lookup values that do not exist in the dictionary.
-   */
   public void testLookupNonExisting() throws IOException {
     assertNull(synthesizer.lookup("", ""));
     assertNull(synthesizer.lookup("", null));

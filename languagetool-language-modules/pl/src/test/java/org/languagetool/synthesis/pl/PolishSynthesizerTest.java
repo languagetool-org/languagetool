@@ -27,10 +27,7 @@ import junit.framework.TestCase;
 import org.languagetool.AnalyzedToken;
 
 public class PolishSynthesizerTest extends TestCase {
-  private AnalyzedToken dummyToken(String tokenStr) {
-    return new AnalyzedToken(tokenStr, tokenStr, tokenStr);
-  }
-
+  
   public final void testSynthesizeString() throws IOException {
     PolishSynthesizer synth = new PolishSynthesizer();
     assertEquals(synth.synthesize(dummyToken("blablabla"), "blablabla").length, 0);
@@ -50,10 +47,14 @@ public class PolishSynthesizerTest extends TestCase {
                   getSortedArray(synth.synthesize(dummyToken("mieć"), ".*praet:sg.*", true))));
   }
 
+  private AnalyzedToken dummyToken(String tokenStr) {
+    return new AnalyzedToken(tokenStr, tokenStr, tokenStr);
+  }
+
   private String[] getSortedArray(String[] ar) {
-      String[] newAr = ar.clone();
-      Arrays.sort(newAr);
-      return newAr;
+    String[] newAr = ar.clone();
+    Arrays.sort(newAr);
+    return newAr;
   }
   
 }

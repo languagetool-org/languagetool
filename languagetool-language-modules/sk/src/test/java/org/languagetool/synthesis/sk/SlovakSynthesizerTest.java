@@ -28,9 +28,6 @@ import org.languagetool.AnalyzedToken;
 
 public class SlovakSynthesizerTest extends TestCase {
 
-  private final AnalyzedToken dummyToken(String tokenStr) {
-    return new AnalyzedToken(tokenStr, tokenStr, tokenStr);
-  }
   public final void testSynthesizeStringString() throws IOException {
     SlovakSynthesizer synth = new SlovakSynthesizer();
     assertEquals(synth.synthesize(dummyToken("blablabla"), 
@@ -39,6 +36,10 @@ public class SlovakSynthesizerTest extends TestCase {
     assertEquals("[časopisu]", Arrays.toString(synth.synthesize(dummyToken("časopis"), "SSis2")));    
     //with regular expressions
     assertEquals("[časopisy, časopisov, časopisom, časopisy, časopisy, časopisoch, časopismi, časopis, časopisu, časopisu, časopis, časopis, časopise, časopisom]", Arrays.toString(synth.synthesize(dummyToken("časopis"), "SS.*", true)));    
+  }
+  
+  private AnalyzedToken dummyToken(String tokenStr) {
+    return new AnalyzedToken(tokenStr, tokenStr, tokenStr);
   }
 
 }

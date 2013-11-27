@@ -28,9 +28,6 @@ import org.languagetool.AnalyzedToken;
 
 public class DutchSynthesizerTest extends TestCase {
 
-  private final AnalyzedToken dummyToken(String tokenStr) {
-    return new AnalyzedToken(tokenStr, tokenStr, tokenStr);
-  }
   public final void testSynthesizeStringString() throws IOException {
     DutchSynthesizer synth = new DutchSynthesizer();
     assertEquals(synth.synthesize(dummyToken("blablabla"), 
@@ -42,6 +39,10 @@ public class DutchSynthesizerTest extends TestCase {
     //with regular expressions
     assertEquals("[doorgeseind]", Arrays.toString(synth.synthesize(dummyToken("doorseinen"), "VBp", true)));    
     assertEquals("[doorsein, doorseint, doorseinden, doorseinde, doorseinen, doorgeseind, doorgeseinde]", Arrays.toString(synth.synthesize(dummyToken("doorseinen"), "VB.*", true)));
+  }
+
+  private AnalyzedToken dummyToken(String tokenStr) {
+    return new AnalyzedToken(tokenStr, tokenStr, tokenStr);
   }
 
 }

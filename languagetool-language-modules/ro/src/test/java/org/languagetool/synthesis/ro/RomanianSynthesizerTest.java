@@ -27,10 +27,6 @@ import org.languagetool.AnalyzedToken;
 
 public class RomanianSynthesizerTest extends TestCase {
 
-  private AnalyzedToken dummyToken(String tokenStr) {
-    return new AnalyzedToken(tokenStr, tokenStr, tokenStr);
-  }
-
   public final void testSynthesizeStringString() throws IOException {
     RomanianSynthesizer synth = new RomanianSynthesizer();
     assertEquals(synth.synthesize(dummyToken("blablabla"), "blablabla").length, 0);
@@ -81,6 +77,10 @@ public class RomanianSynthesizerTest extends TestCase {
     //      dummyToken("enumera"), "V0s1000cz0")));
     // commented out as "a enumera" contains an extra form (.dict spelling error - "enumăm" instead of "enumăr"). To be fixed.
     
+  }
+
+  private AnalyzedToken dummyToken(String tokenStr) {
+    return new AnalyzedToken(tokenStr, tokenStr, tokenStr);
   }
 
 }

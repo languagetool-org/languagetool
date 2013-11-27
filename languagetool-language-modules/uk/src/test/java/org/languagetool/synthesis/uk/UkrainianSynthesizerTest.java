@@ -48,9 +48,9 @@ public class UkrainianSynthesizerTest extends TestCase {
   }
 
   private String[] getSortedArray(String[] ar) {
-      String[] newAr = ar.clone();
-      Arrays.sort(newAr);
-      return newAr;
+    String[] newAr = ar.clone();
+    Arrays.sort(newAr);
+    return newAr;
   }
 
 }

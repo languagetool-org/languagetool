@@ -28,10 +28,6 @@ import org.languagetool.AnalyzedToken;
 
 public class SpanishSynthesizerTest extends TestCase {
  
-  private AnalyzedToken dummyToken(String tokenStr) {
-    return new AnalyzedToken(tokenStr, tokenStr, tokenStr);
-  }
- 
   public final void testSynthesizeStringString() throws IOException {
     SpanishSynthesizer synth = new SpanishSynthesizer();
     assertEquals(synth.synthesize(dummyToken("blablabla"),
@@ -46,4 +42,9 @@ public class SpanishSynthesizerTest extends TestCase {
     assertEquals("[probado]", Arrays.toString(synth.synthesize(dummyToken("probar"), "VMP00SM", true)));
     assertEquals("[probando, probado]", Arrays.toString(synth.synthesize(dummyToken("probar"), "VMP00SM|VMG0000", true)));
   }
+
+  private AnalyzedToken dummyToken(String tokenStr) {
+    return new AnalyzedToken(tokenStr, tokenStr, tokenStr);
+  }
+
 }
