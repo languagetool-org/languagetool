@@ -40,15 +40,16 @@ import org.languagetool.tools.StringTools;
  * from an external file. These words enforce the use of 'el' as determiner
  * instead of 'la' (also with 'un', 'algun' and 'ningun').
  *
- * Sample
+ * <p>Example:
  *
- *   *la alma    -> el alma
- *   *la hambre  -> el hambre
+ * <ul>
+ *  <li>la alma    -> el alma
+ *  <li>la hambre  -> el hambre
+ * </ul>
  *
- * http://blog.lengua-e.com/2007/el-arma-determinante-masculino-ante-nombre-femenino/
+ * <p>http://blog.lengua-e.com/2007/el-arma-determinante-masculino-ante-nombre-femenino/
  * http://tinyurl.com/m9uzte
  *
- *   
  * @author Susana Sotelo Docio
  *
  * based on English AvsAnRule rule
@@ -99,36 +100,26 @@ public class ElwithFemRule extends SpanishRule {
           doesRequireEl = false;
         }
 
-        String msg = null;        
         String replacement = null;
-        if (prevToken.equalsIgnoreCase("la") && doesRequireEl)
-        {
+        if (prevToken.equalsIgnoreCase("la") && doesRequireEl) {
           replacement = "el";
           if (prevToken.equals("La")) { replacement = "El"; }
-        }
-        else if (prevToken.equalsIgnoreCase("una") && doesRequireEl)
-        {
+        } else if (prevToken.equalsIgnoreCase("una") && doesRequireEl) {
           replacement = "un";
           if (prevToken.equals("Una")) { replacement = "Un"; }
-        }
-        else if (prevToken.equalsIgnoreCase("alguna") && doesRequireEl)
-        {
+        } else if (prevToken.equalsIgnoreCase("alguna") && doesRequireEl) {
           replacement = "alg\u00fan";
           if (prevToken.equals("Alguna")) { replacement = "Alg\u00fan"; }
-        }
-        else if (prevToken.equalsIgnoreCase("ninguna") && doesRequireEl)
-        {
+        } else if (prevToken.equalsIgnoreCase("ninguna") && doesRequireEl) {
           replacement = "ning\u00fan";
           if (prevToken.equals("Ninguna")) { replacement = "Ning\u00fan"; }
         }
 
-        msg = "Use <suggestion>" +replacement+ "</suggestion> en lugar de '" +prevToken+ "' si la siguiente "+
-          "palabra comienza por 'a' o 'ha' t\u00f3nicas, por ejemplo 'el hampa', "
-          + "'un agua'";
-
-
         if (replacement != null) {
-          final RuleMatch ruleMatch = new RuleMatch(this, prevPos, prevPos+prevToken.length(), msg, "Art\u00edculo incorrecto");
+          String msg = "Use <suggestion>" +replacement+ "</suggestion> en lugar de '" +prevToken+ "' si la siguiente "+
+                  "palabra comienza por 'a' o 'ha' t\u00f3nicas, por ejemplo 'el hampa', "
+                  + "'un agua'";
+          RuleMatch ruleMatch = new RuleMatch(this, prevPos, prevPos+prevToken.length(), msg, "Art\u00edculo incorrecto");
           ruleMatches.add(ruleMatch);
         }
         if (tokens[i].hasPosTag("DA0FS0") || tokens[i].hasPosTag("DI0FS0")  ) {          

@@ -27,8 +27,6 @@ import java.io.IOException;
 
 /**
  * @author Susana Sotelo Docio
- *
- * based on English tests
  */
 public class ElwithFemRuleTest extends TestCase {
 
