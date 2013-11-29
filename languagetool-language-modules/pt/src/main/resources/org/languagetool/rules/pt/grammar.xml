@@ -21,7 +21,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.066 2013-10-25 19:43:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.067 2013-11-29 12:23:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -33,6 +33,30 @@ $Id: grammar.xml,v 1.066 2013-10-25 19:43:00 marcoagpinto Exp $
 -->
 
 <category name="Gramática">
+
+    <!-- DET_FEM_MAS words that use "o" instead of "a" -->
+    <rule id="DET_FEM_MAS" name="words a-o">
+      <pattern case_sensitive="no">
+         <token>a</token>
+         <token regexp="yes">herpes|mármore|cônjuge|espécime</token>
+      </pattern>
+      <message>Erro de género.</message>
+      <example type="incorrect">Temos de curar <marker>a herpes</marker>.</example>
+      <example type="correct">Temos de curar <marker>o herpes</marker>.</example>
+    </rule>
+
+
+
+    <!-- DET_MAS_FEM words that use "a" instead of "o" -->
+    <rule id="DET_MAS_FEM" name="words o-a">
+      <pattern case_sensitive="no">
+         <token>o</token>
+         <token regexp="yes">mascote|celeuma|acne|entorce|síndrome|sentinela</token>
+      </pattern>
+      <message>Erro de género.</message>
+      <example type="incorrect">Temos de mostrar <marker>o mascote</marker>.</example>
+      <example type="correct">Temos de mostrar <marker>a mascote</marker>.</example>
+    </rule>
 
 
 
