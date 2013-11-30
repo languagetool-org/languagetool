@@ -35,7 +35,7 @@ $Id$
     <!ENTITY precedits_per_TAN "cert|fort|(in)?comprensible|(in)?substancial|covard|arriscar|decidir">
     <!ENTITY precedits_per_TANT "no|ací|aquí|allí|allà|potser|abans|ja|on|quan|que|com|menys|doncs|però|ara|emperò|ans">
     <!ENTITY vocabulari_menjar "xocolata|xocolate|allioli|aliment|all|amanida|arròs|bolet|carn|carxofa|cep|coriandre|fava|fetge|foie|formatge|gamba|j[ou]livert|llamàntol|llobregant|lluç|macarró|magret|mandonguilla|mango|menjar|mongeta|p[éè]sol|pa|pastís|porc|r[eo]nyó|safrà|tofu|verdura|vi|ànec">
-    <!ENTITY seguits_per_COM_A "caracteritzar|qualificar|establir|figurar|reconèixer|conèixer|definir|veure|entendre|interpretar|percebre">
+    <!ENTITY seguits_per_COM_A "acceptar|justificar|caracteritzar|qualificar|establir|figurar|reconèixer|conèixer|definir|veure|entendre|interpretar|percebre">
     <!ENTITY nombres_que_apostrofen "(1{1,2}|11[.\s]?\d{3}|1{1,2}\.\d{3}\.\d{3}|1{1,2}\s\d{3}\s\d{3}|1{1,2}\d{6})([,]\d+)?(&#37;|[èé])?">
     <!ENTITY noms_ABAIXAR_APUJAR "calefacció|impost|sou|salari|guàrdia|vela|persiana|cap|braç|veu|to|preu|pressupost|ràdio|volum|tele|televisió|música|teló|vista">
     <!ENTITY adjectius_TE_INFUSIO "descafeïnat|mòlt|jove|conegut|preparat|empaquetat|xin[èé]s|amargant|sud-americà|instantani|lleuger|indi|roquer|dolç|fals|bord|tradicional|gal·l[éè]s|pudent|salvatge|àrab|angl[éè]s|fosc|negre|verd|vermell|blanc|gelat|fred|calent|turc">
@@ -5292,7 +5292,7 @@ $Id$
         <rule id="POR_A_QUE" name="por *a què">
             <pattern>
                 <marker>
-                    <token postag="N.*" postag_regexp="yes" inflected="yes" regexp="yes">por|temor|pànic</token>
+                    <token postag="N.*" postag_regexp="yes" inflected="yes" regexp="yes">por|temor|pànic|vistiplau</token>
                     <token regexp="yes">a|de</token>
                     <token>què</token>
                 </marker>
@@ -8676,6 +8676,34 @@ $Id$
                 <example type="incorrect" correction="vistiplau">El <marker>vist-i-plau</marker> del president</example>
                 <example type="correct">El vistiplau del president</example>
             </rule>
+            <rule id="PREFIXOS_SENSE_GUIONET_NOMSADJECTIUS" name="prefixos sense guionet: *vice-president">
+                <pattern>
+                    <token regexp="yes">arxi|bes|ex|plus|per|pre|pro|pseudo|quasi|semi|sobre|sots|sub|ultra|vice|auto|greco</token>
+                    <token>-</token>
+                    <token postag="[NA].*|V.P.*" postag_regexp="yes"><exception regexp="yes">\p{Lu}.*</exception></token>
+                </pattern>
+                <message>S'escriu sense guionet.</message>
+                <suggestion><match no="1"/><match no="3"/></suggestion>
+                <url>http://www.iecat.net/institucio/seccions/Filologica/llenguacatalana/documentsnormatius/docsf5.htm</url>
+                <short>Sense guionet</short>
+                <example type="incorrect" correction="besnét">Del meu <marker>bes-nét</marker>.</example>
+                <example type="incorrect" correction="grecoromanes">Les aportacions <marker>greco-romanes</marker> a l'art.</example>
+                <example type="correct">L'ex-Iugoslàvia.</example>
+                <example type="correct">És pro-Israel.</example>
+            </rule>
+            <rule id="PREFIXOS_SENSE_GUIONET_VERBS" name="prefixos sense guionet: *auto-anomenava *re-dirigia">
+                <pattern>
+                    <token regexp="yes">auto|re</token>
+                    <token>-</token>
+                    <token postag="V.*" postag_regexp="yes"><exception regexp="yes">\p{Lu}.*</exception></token>
+                </pattern>
+                <message>S'escriu sense guionet.</message>
+                <suggestion><match no="1"/><match no="3"/></suggestion>
+                <url>http://www.iecat.net/institucio/seccions/Filologica/llenguacatalana/documentsnormatius/docsf5.htm</url>
+                <short>Sense guionet</short>
+                <example type="incorrect" correction="autoanomenava">Ell s'<marker>auto-anomenava</marker> el millor.</example>
+                <example type="correct">S'autoanomenava així.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="MOTS_NO_SEPARATS" name="mots no separats: *súper heroi/*súper-heroi/superheroi">
             <rule>
@@ -8770,6 +8798,17 @@ $Id$
             </rule>
             <rule>
                 <pattern>
+                    <token>vice</token>
+                    <token min="0">-</token>
+                    <token>versa</token>
+                </pattern>
+                <message>S'escriu junt sense guionet.</message>
+                <suggestion>viceversa</suggestion>
+                <example type="incorrect" correction="viceversa">I <marker>vice-versa</marker>.</example>
+                <example type="correct">I viceversa</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token>guarda</token>
                     <token>-</token>
                     <token regexp="yes">agulles|barrera|barreres|boscos|boscs?|braç|braços|cadena|cadenes|cadenot|cadenots|cantó|cantons|caps|cors|costes|cotxes|espatlles|focs?|freds?|frens|fusells?|infants?|joies|llança|llances|mà|mans|marencs?|menjars?|mobles|nassos|obencs|pesca|pesques|pit|pits|pols|punys|termes|veles</token>
@@ -8803,20 +8842,6 @@ $Id$
                 <example type="incorrect" correction="superherois">Tres <marker>súper herois</marker>.</example>
                 <example type="incorrect" correction="superherois">Tres <marker>súper-herois</marker>.</example>
                 <example type="correct">El superheroi</example>
-            </rule>
-            <rule id="PREFIXOS_SENSE_GUIONET" name="prefixos sense guionet: *vice-president">
-                <pattern>
-                    <token regexp="yes">arxi|bes|ex|plus|per|pre|pro|pseudo|quasi|semi|sobre|sots|sub|ultra|vice</token>
-                    <token>-</token>
-                    <token postag="[NA].*|V.P.*" postag_regexp="yes"><exception regexp="yes">\p{Lu}.*</exception></token>
-                </pattern>
-                <message>S'escriu sense guionet.</message>
-                <suggestion><match no="1"/><match no="3"/></suggestion>
-                <url>http://www.iecat.net/institucio/seccions/Filologica/llenguacatalana/documentsnormatius/docsf5.htm</url>
-                <short>Sense guionet</short>
-                <example type="incorrect" correction="besnét">Del meu <marker>bes-nét</marker>.</example>
-                <example type="correct">L'ex-Iugoslàvia.</example>
-                <example type="correct">És pro-Israel.</example>
             </rule>
         </rulegroup>      
         <rulegroup id="CONTRACCIONS" name="contraccions">
@@ -17496,7 +17521,7 @@ $Id$
             <rule>
                 <pattern>
                     <and>
-                        <token inflected="yes" skip="1" postag="_GV_"/>
+                        <token skip="1" postag="_GV_"/>
                         <token postag="_reflexiu"/>
                     </and>
                     <marker>

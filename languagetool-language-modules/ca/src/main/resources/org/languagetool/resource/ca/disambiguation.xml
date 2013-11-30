@@ -701,7 +701,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <marker>
                 <token>van</token>
             </marker>    
-            <token regexp="yes">(?-i)Aartsen|Agt|Allen|Asperen|Baaren|Basten|Beethoven|Beinum|Belin|Bommel|Bree|Buren|Campen|Dam|Delden|der|Dijk|Dine|Dong|Dyck|Egmond|Eyck|Gaal|Goethem|Gogh|Halen|Hauwe|Hemel|Immersel|Kempen|Lier|Maldere|Marwijk|Mill|Morrison|Nieuwkerk|Nistelrooy|Otterloo|Persie|Petegem|Ragin|Rensburg|Rompuy|Schalkwyk|Vaart|Val|Valen|Van|Vliet|Vlijmen|Wassenaer</token>
+            <token regexp="yes">(?-i)Aartsen|Agt|Allen|Asperen|Baaren|Basten|Beethoven|Beinum|Belin|Bommel|Bree|Buren|Campen|Dam|Delden|der|Dijk|Dine|Dong|Dyck|Egmond|Eyck|Gaal|Goethem|Gogh|Halen|Hauwe|Hemel|Immersel|Kempen|Lier|Maldere|Marwijk|Mill|Morrison|Nieuwkerk|Nistelrooy|Otterloo|Persie|Petegem|Ragin|Rensburg|Rompuy|Schalkwyk|Someren|Vaart|Val|Valen|Van|Vliet|Vlijmen|Wassenaer</token>
         </pattern>
         <disambig action="replace"><wd pos="NPCNSP0"/></disambig>
     </rule>
@@ -3906,6 +3906,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </marker>
         </pattern>
         <disambig action="replace" postag="AQ0CN0"/>
+    </rule>
+    <rule id="causa_efecte" name="causa-efecte (nom no verb)">
+        <pattern>
+            <marker>
+                <token>causa</token>
+            </marker>
+            <token regexp="yes">-|i</token>
+            <token>efecte</token>
+        </pattern>
+        <disambig action="filter" postag="[^V].*"></disambig>
     </rule>
     <rule id="nVerb" name="no verb">
         <pattern>
