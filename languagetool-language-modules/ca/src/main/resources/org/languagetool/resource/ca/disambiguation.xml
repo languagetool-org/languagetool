@@ -4647,13 +4647,23 @@ Copyright (C) 2012 Jaume Ortolà i Font
         		<marker>
         			<token>ens</token>
         		</marker>
-        		<token postag="V.P.*|A.*" postag_regexp="yes" regexp="yes" inflected="yes">local|metropolità|administratiu|representar|supramunicipal|provincial|estatal|racional|televisiu|normatiu|autonòmic|polític|institucional|abstracte</token>
+        		<token postag="V.P.*|A.*" postag_regexp="yes" regexp="yes" inflected="yes">públic|local|metropolità|administratiu|representar|supramunicipal|provincial|estatal|racional|televisiu|normatiu|autonòmic|polític|institucional|abstracte</token>
         	</pattern>
         	<disambig action="filter" postag="N.*"/>
         </rule>
         <rule>
             <pattern>
                 <token postag="SPS00|.*LOC_PREP.*" postag_regexp="yes"/>
+                <marker>
+                    <token>ens</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="N.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="SPS00|.*LOC_PREP.*" postag_regexp="yes"/>
+                <token postag="D[^R].[CM][SP]." postag_regexp="yes"/>
                 <marker>
                     <token>ens</token>
                 </marker>
