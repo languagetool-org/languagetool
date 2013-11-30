@@ -9808,6 +9808,25 @@ Copyright (C) 2012 Jaume Ortolà i Font
   	 	</pattern>
   	 	<disambig action="remove"><wd lemma="caldre" pos="VMIP3P00"></wd></disambig>
   	 </rule>
+    <rulegroup id="marca_passat" name="marca de passat (ahir, l'any passat...)">
+        <rule>
+            <pattern>
+                <token regexp="yes" inflected="yes">any|mes|setmana|dècada</token>
+                <marker>
+                    <token postag="V.P.*" postag_regexp="yes" inflected="yes">passar</token>
+                </marker>
+            </pattern>
+            <disambig action="add"><wd pos="_marca_passat"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">.*ahir</token>
+                </marker>
+            </pattern>
+            <disambig action="add"><wd pos="_marca_passat"/></disambig>
+        </rule>
+    </rulegroup>
      <rulegroup id="lo_admissible" name="Tirant lo Blanc">
         <rule>
             <pattern case_sensitive="yes">

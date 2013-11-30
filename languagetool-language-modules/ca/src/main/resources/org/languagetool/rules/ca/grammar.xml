@@ -7282,7 +7282,7 @@ $Id$
                     <marker>
                         <token postag="V.IF[12]P.." postag_regexp="yes" regexp="yes" skip="7">.+(arem|areu)</token>
                     </marker>
-                    <token regexp="yes">.*ahir|passats?|passada|passades</token>
+                    <token postag="_marca_passat"/>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(.+)a(rem|reu)" regexp_replace="$1à$2"/></suggestion> (passat en comptes de futur)?.</message> 
                 <short>Possible confusió</short>
@@ -7292,7 +7292,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes" skip="7">.*ahir|passats?|passada|passades</token>
+                    <token postag="_marca_passat" skip="7"/>
                     <marker>
                         <token postag="V.IF[12]P.." postag_regexp="yes" regexp="yes" skip="7">.+(arem|areu)</token>
                     </marker>
@@ -7300,6 +7300,7 @@ $Id$
                 <message>¿Volíeu dir <suggestion><match no="2" regexp_match="(.+)a(rem|reu)" regexp_replace="$1à$2"/></suggestion> (passat en comptes de futur)?.</message>
                 <short>Possible confusió</short>
                 <example type="incorrect" correction="enviàrem">Ahir l'<marker>enviarem</marker>.</example>
+                <example type="incorrect" correction="enviàrem">L'any passat l'<marker>enviarem</marker>.</example>
                 <example type="correct">Demà l'enviarem</example>
             </rule>
         </rulegroup>
