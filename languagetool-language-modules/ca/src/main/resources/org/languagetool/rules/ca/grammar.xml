@@ -17476,19 +17476,39 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
-        <rule id="TORNAR_GIRAR" name="*tornar/girar la vista">
-            <pattern>
-                <marker>
-                    <token inflected="yes" skip="1">tornar</token>
-                </marker>
-                <token inflected="yes" regexp="yes">vista|ull|contra</token>
-            </pattern>
-            <message>Possible castellanisme.</message>
-            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">girar</match></suggestion>
-            <example type="incorrect" correction="girar">No va voler <marker>tornar</marker> la vista.</example>
-            <example type="incorrect" correction="girar">Es va <marker>tornar</marker> contra nosaltres.</example>
-            <example type="correct">Va girar els ulls.</example>
-        </rule>
+        <rulegroup id="TORNAR_GIRAR" name="*tornar/girar la vista">
+            <rule>
+                <pattern>
+                    <marker>
+                        <and>
+                            <token inflected="yes" skip="1">tornar</token>
+                            <token postag="_reflexiu"/>
+                        </and>
+                    </marker>
+                    <token>contra</token>
+                </pattern>
+                <message>Possible castellanisme.</message>
+                <suggestion><match no="1" regexp_match="torn(.*)" regexp_replace="gir$1"/></suggestion>
+                <example type="incorrect" correction="giraren">Es <marker>tornaren</marker> contra nosaltres.</example>
+                <example type="correct">Va girar els ulls.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <and>
+                        <token inflected="yes" skip="1" postag="_GV_"/>
+                        <token postag="_reflexiu"/>
+                    </and>
+                    <marker>
+                        <token inflected="yes" skip="1" postag="V.[NP].*" postag_regexp="yes">tornar</token>
+                    </marker>
+                    <token>contra</token>
+                </pattern>
+                <message>Possible castellanisme.</message>
+                <suggestion><match no="2" regexp_match="torn(.*)" regexp_replace="gir$1"/></suggestion>
+                <example type="incorrect" correction="girar">Es va <marker>tornar</marker> contra nosaltres.</example>
+                <example type="correct">Després va tornar contra Pomepu.</example>
+            </rule>
+        </rulegroup>    
         <rule id="POST_DE_LA_LLUM" name="*post/pal de la llum">
             <pattern>
                 <marker>
