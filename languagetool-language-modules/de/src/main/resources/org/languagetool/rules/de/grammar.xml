@@ -24687,6 +24687,30 @@ $Id$
             </rule>
             <rule>
                 <pattern>
+                    <marker>
+                        <token postag="EIG:.*" postag_regexp="yes" regexp="yes">.*(ss|ß|tz|z|x|ce|cz|ć)<exception>Greenpeace</exception></token>
+                    </marker>
+                    <token postag="SUB:.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Handelt es sich um einen Genitiv? Wörter auf -s usw. enden im Genitiv mit einem Apostroph.</message>
+                <suggestion>\1’</suggestion>
+                <short>Wörter auf -s usw. enden im Genitiv mit einem Apostroph.</short>
+                <example type="correct"><marker>Wagners</marker> Musik</example>
+                <example type="correct"><marker>Grass’</marker> Blechtrommel</example>
+                <example type="correct">Hans <marker>Sachs’</marker> Gedichte</example>
+                <example type="correct"><marker>Schultheiß’</marker> Pläne</example>
+                <example type="correct"><marker>Strauß’</marker> Politik</example>
+                <example type="incorrect" correction="Grass’"><marker>Grass</marker> Blechtrommel</example>
+                <example type="incorrect" correction="Schultheiß’"><marker>Schultheiß</marker> Pläne</example>
+                <!--
+                können wir nicht rausfinden, ohne bei "Wagners Musik" einen Fehlalarm zu haben:
+                <example type="incorrect" correction="Sachs’"><marker>Sachs</marker> Gedichte</example>
+                Strauß kein Eigenname:
+                <example type="incorrect" correction="Strauß’"><marker>Strauß</marker> Politik</example>
+                -->
+            </rule>
+            <rule>
+                <pattern>
                     <token postag="SENT_START" skip="-1"><exception scope="next" spacebefore="yes">'</exception></token>
                     <token>des</token>
                     <marker>
