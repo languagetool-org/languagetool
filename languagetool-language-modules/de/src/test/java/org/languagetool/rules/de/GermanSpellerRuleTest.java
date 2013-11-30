@@ -46,13 +46,15 @@ public class GermanSpellerRuleTest {
 
   // note: copied from HunspellRuleTest
   @Test
-  public void testRuleWithGerman() throws Exception {
+  public void testRuleWithGermanyGerman() throws Exception {
     final GermanyGerman language = new GermanyGerman();
     final HunspellRule rule = new GermanSpellerRule(TestTools.getMessages("German"), language);
     final JLanguageTool langTool = new JLanguageTool(language);
     commonGermanAsserts(rule, langTool);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Der äußere Übeltäter.")).length);  // umlauts
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Der äussere Übeltäter.")).length);
+    // TODO: this is a false alarm:
+    //assertEquals(0, rule.match(langTool.getAnalyzedSentence("Die Mozart'sche Sonate.")).length);
   }
 
   // note: copied from HunspellRuleTest
