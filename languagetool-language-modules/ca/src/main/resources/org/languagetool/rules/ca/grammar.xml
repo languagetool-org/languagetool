@@ -1840,20 +1840,6 @@ $Id$
 			    <example type="correct">caldrien accions</example>
 			</rule>
 		</rulegroup>
-        <rule id="VENIR_GERUNDI" name="*venir + gerundi">
-            <pattern>
-                <token>es</token>
-                <marker>
-                    <token inflected="yes">venir</token>
-                    <token postag="V.G.*" postag_regexp="yes"/>
-                </marker>
-            </pattern>
-            <message>Construcció incorrecta. Cal usar el verb principal conjugat sense la perífrasi amb 'venir'.</message>
-            <short>Construcció incorrecta</short>
-            <example type="incorrect">Es <marker>venia dient</marker> això.</example>
-            <example type="correct">Es deia això.</example>
-            <example type="correct">Venia cantant ben content.</example>
-        </rule>
         <rulegroup id="DORMIR_ADORMIRSE" name="*dormir-se / adormir-se">
             <rule>
                 <pattern>
@@ -2234,6 +2220,86 @@ $Id$
                 <example type="correct">No m'ha passat pel cap matar-vos</example>
             </rule>
         </rulegroup>
+        <rulegroup id="VENIR_GERUNDI" name="*venim dient/anem dient/hem dit">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="V.[IS].*" postag_regexp="yes" inflected="yes">venir<exception postag="V.[IS].3S.*" postag_regexp="yes"/></token>
+                        <token postag="V.G.*" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>Perífrasi verbal incorrecta.</message>
+                <suggestion><match no="1" postag="(VM.+)" postag_regexp="yes" postag_replace="$1">anar</match> <match no="2"/></suggestion>
+                <suggestion><match no="1" postag="V.(.+)" postag_regexp="yes" postag_replace="VA$1">haver</match> <match no="2" postag="V.G(.+)" postag_regexp="yes" postag_replace="V.P..SM."/></suggestion>
+                <url>http://esadir.cat/entrades/fitxa/node/venir_gerundi</url>
+                <example type="incorrect" correction="anem dient|havem dit|hem dit">Com <marker>venim dient</marker>.</example>
+                <example type="correct">Hem dit.</example>
+                <example type="correct">Venia cantant ben content.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="VA[IS].*" postag_regexp="yes"><exception postag="VA[IS].3S.*" postag_regexp="yes"/></token>
+                        <token postag="V.P.*" postag_regexp="yes" inflected="yes">venir</token>
+                        <token postag="V.G.*" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>Perífrasi verbal incorrecta.</message>
+                <suggestion><match no="1"/> <match no="2" postag="(VM.+)" postag_regexp="yes" postag_replace="$1">anar</match> <match no="3"/></suggestion>
+                <suggestion><match no="1"/> <match no="3" postag="V.G(.+)" postag_regexp="yes" postag_replace="V.P..SM."/></suggestion>
+                <url>http://esadir.cat/entrades/fitxa/node/venir_gerundi</url>
+                <example type="incorrect" correction="han anat fent|han fet">Les reunions que s'<marker>han vingut fent</marker>.</example>
+                <example type="correct">Ha vingut cantant.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>es</token>
+                    <marker>
+                        <token postag="V.[IS].3S.*" postag_regexp="yes" inflected="yes">venir</token>
+                        <token postag="V.G.*" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>Perífrasi verbal incorrecta.</message>
+                <suggestion><match no="2" postag="(VM.+)" postag_regexp="yes" postag_replace="$1">anar</match> <match no="3"/></suggestion>
+                <suggestion><match no="2" postag="V.(.+)" postag_regexp="yes" postag_replace="VA$1">haver</match> <match no="3" postag="V.G(.+)" postag_regexp="yes" postag_replace="V.P..SM."/></suggestion>
+                <url>http://esadir.cat/entrades/fitxa/node/venir_gerundi</url>
+                <example type="incorrect" correction="anava dient|havia dit">Es <marker>venia dient</marker> això.</example>
+                <example type="incorrect" correction="va desenvolupant|ha desenvolupat">Es <marker>ve desenvolupant</marker>.</example>
+                <example type="correct">Venia cantant ben content.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>s'</token>
+                    <marker>
+                        <token postag="VA[IS].3S.*" postag_regexp="yes"></token>
+                        <token postag="V.P.*" postag_regexp="yes" inflected="yes">venir</token>
+                        <token postag="V.G.*" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>Perífrasi verbal incorrecta.</message>
+                <suggestion><match no="2"/> <match no="3" postag="(VM.+)" postag_regexp="yes" postag_replace="$1">anar</match> <match no="4"/></suggestion>
+                <suggestion><match no="2"/> <match no="4" postag="V.G(.+)" postag_regexp="yes" postag_replace="V.P..SM."/></suggestion>
+                <url>http://esadir.cat/entrades/fitxa/node/venir_gerundi</url>
+                <example type="incorrect" correction="ha anat dient|ha dit">Com s'<marker>ha vingut dient</marker></example>
+                <example type="correct">Ha vingut cantant ben content.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="VA[IS].3S.*" postag_regexp="yes"></token>
+                        <token postag="V.P.*" postag_regexp="yes" inflected="yes">venir</token>
+                        <token postag="V.G.*" postag_regexp="yes"/>
+                        <token regexp="yes">'s|-se</token>
+                    </marker>
+                </pattern>
+                <message>Perífrasi verbal incorrecta.</message>
+                <suggestion><match no="1"/> <match no="2" postag="(VM.+)" postag_regexp="yes" postag_replace="$1">anar</match> <match no="3"/><match no="4"/></suggestion>
+                <suggestion>s'<match no="1"/> <match no="3" postag="V.G(.+)" postag_regexp="yes" postag_replace="V.P..SM."/></suggestion>
+                <url>http://esadir.cat/entrades/fitxa/node/venir_gerundi</url>
+                <example type="incorrect" correction="ha anat dient-se|s'ha dit">Com <marker>ha vingut dient-se</marker>.</example>
+                <example type="correct">Ha vingut cantant ben content.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="PERIFRASIS" name="Perífrasis d'obligació i de dubte">
             <rule id="ACABAR_GERUNDI" name="*acabà fer/acabà fent">
                 <pattern>
@@ -2242,7 +2308,8 @@ $Id$
                         <token postag="V.N.*" postag_regexp="yes"></token>
                     </marker>
                 </pattern>
-                <message>Perífrasi verbal incorrecta: <suggestion><match no="2" postag="(..)(.+)" postag_regexp="yes" postag_replace="$1G0000"></match></suggestion>.</message>
+                <message>Falta un gerundi.</message>
+                <suggestion><match no="2" postag="(..)(.+)" postag_regexp="yes" postag_replace="$1G0000"></match></suggestion>
                 <example type="incorrect">Va acabar <marker>dedicar</marker>-li l'obra.</example>
                 <example type="correct">Acabà dedicant-li l'obra.</example>
                 <example type="correct">Per acabar farem això.</example>
