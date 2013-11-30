@@ -17503,6 +17503,22 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="NO_AIXI" name="no així/però no">
+            <pattern>
+                <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
+                <marker>
+                    <token>no</token>
+                    <token>així</token>
+                </marker>
+                <token><exception postag="_PUNCT.*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Possible construcció incorrecta.</message>
+            <suggestion>però no</suggestion>
+            <suggestion>però no gens</suggestion>
+            <example type="incorrect">Els professionals, <marker>no així</marker> els addictes,</example>
+            <example type="correct">Però no així.</example>
+            <example type="correct">No així.</example>
+        </rule>
         <rulegroup id="TORNAR_GIRAR" name="*tornar/girar la vista">
             <rule>
                 <pattern>
