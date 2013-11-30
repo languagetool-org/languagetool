@@ -1193,10 +1193,11 @@ $Id$
                 <token regexp="yes">,|\.</token>
             </pattern>
             <message>Bitte prüfen Sie, ob hier der Infinitiv verwendet werden muss.</message>
+            <suggestion><match no="1" postag="VER:INF:.*" postag_regexp="yes" /></suggestion>
             <short>Möglicher Tippfehler</short>
-            <example type="incorrect">Ich frage mich, wie es dazu <marker>gekommen</marker> konnte.</example>
+            <example type="incorrect" correction="kommen">Ich frage mich, wie es dazu <marker>gekommen</marker> konnte.</example>
             <example type="correct">Ich frage mich, wie es dazu <marker>kommen</marker> konnte.</example>
-            <example type="incorrect">Ich frage mich, wie du zur Burg <marker>gegangen</marker> willst.</example>
+            <example type="incorrect" correction="gehen">Ich frage mich, wie du zur Burg <marker>gegangen</marker> willst.</example>
             <example type="correct">Ich frage mich, wie du zur Burg <marker>gehen</marker> willst.</example>
             <example type="correct">Als er <marker>gekommen</marker> war, war ich glücklich.</example>
             <example type="correct">Besser <marker>ausgerüstet konnte</marker> er in der nächsten Nacht bessert schlafen.</example>
@@ -2505,8 +2506,9 @@ $Id$
                     </marker>
                 </pattern>
                 <message>Meinten Sie ein Partizip, z.B. 'genügend' statt 'genügen'?</message>
+                <suggestion><match no="3" postag="VER:PA1:.*" postag_regexp="yes" /></suggestion>
                 <example type="correct">Es gibt <marker>genügend</marker> davon.</example>
-                <example type="incorrect">Es gibt <marker>genügen</marker> davon.</example>
+                <example type="incorrect" correction="genügend">Es gibt <marker>genügen</marker> davon.</example>
             </rule>
             <rule>
                 <pattern>
@@ -2517,8 +2519,9 @@ $Id$
                     </marker>
                 </pattern>
                 <message>Meinten Sie ein Partizip, z.B. 'genügend' statt 'genügen'?</message>
+                <suggestion><match no="3" postag="VER:PA1:.*" postag_regexp="yes" /></suggestion>
                 <example type="correct">Gibt es <marker>genügend</marker> davon?</example>
-                <example type="incorrect">Gibt es <marker>genügen</marker> davon?</example>
+                <example type="incorrect" correction="genügend">Gibt es <marker>genügen</marker> davon?</example>
             </rule>
             <rule>
                 <pattern>
@@ -2530,8 +2533,9 @@ $Id$
                     </marker>
                 </pattern>
                 <message>Meinten Sie ein Partizip, z.B. 'genügend' statt 'genügen'?</message>
+                <suggestion><match no="4" postag="VER:PA1:.*" postag_regexp="yes" /></suggestion>
                 <example type="correct">Gibt es nicht <marker>genügend</marker> davon?</example>
-                <example type="incorrect">Gibt es nicht <marker>genügen</marker> davon?</example>
+                <example type="incorrect" correction="genügend">Gibt es nicht <marker>genügen</marker> davon?</example>
             </rule>
         </rulegroup>
         <rulegroup id="MIR_ZIEMLICH_SICH" name="Möglicher Tippfehler: 'mir ziemlich sich (sicher)'">
@@ -23013,10 +23017,11 @@ $Id$
                 <token regexp="yes">w[ou]rden</token>
             </pattern>
             <message>Bitte prüfen Sie, ob hier das Partizip Perfekt verwendet werden muss.</message>
+            <suggestion><match no="2" postag="VER:PA2:.*" postag_regexp="yes"/></suggestion>
             <url>http://www.canoo.net/services/OnlineGrammar/Wort/Verb/Finit-Infinit/Part2.html#Anchor-Das-49575</url>
-            <example type="incorrect">Er ist <marker>schlagen</marker> worden.</example>
+            <example type="incorrect" correction="geschlagen">Er ist <marker>schlagen</marker> worden.</example>
             <example type="correct">Er ist <marker>geschlagen</marker> worden.</example>
-            <example type="incorrect">Es ist nach Einbrechern <marker>fahndet</marker> worden.</example>
+            <example type="incorrect" correction="gefahndet">Es ist nach Einbrechern <marker>fahndet</marker> worden.</example>
             <example type="correct">Es ist nach Einbrechern <marker>gefahndet</marker> worden.</example>
             <example type="correct">Waren sie in der Stimmung zu <marker>schlagen</marker>, wurden die geschlagen.</example>
             <example type="correct">Der Platz war nie <marker>überbaut</marker> worden.</example>
@@ -23082,11 +23087,12 @@ $Id$
                     <token postag="SENT_END"/>
                 </pattern>
                 <message>Die Präposition '\1' erfordert in der Regel den Akkusativ.</message>
+                <suggestion><match no="1"/> <match no="2" postag=".*AKK.*" postag_regexp="yes"/></suggestion>
                 <url>http://www.canoo.net/services/OnlineGrammar/Wort/Praeposition/Kasus/Akkusativ.html</url>
                 <short>'\1' erfordert den Akkusativ</short>
                 <example type="correct">Döner <marker>mit allem</marker>.</example>
                 <example type="correct">Döner <marker>ohne alles</marker>.</example>
-                <example type="incorrect">Döner <marker>ohne allem</marker>?</example>
+                <example type="incorrect" correction="ohne alles">Döner <marker>ohne allem</marker>?</example>
             </rule>
             <!-- Please note that 'um' is omitted intentionally because it generates false positives. -->
             <rule>
@@ -23296,9 +23302,11 @@ $Id$
                     <token>,</token>
                 </pattern>
                 <message>Die Subjunktion 'nachdem' drückt standardsprachlich Vorzeitigkeit aus und kann daher nicht mit dem Präteritum verwendet werden. Verwenden Sie das Perfekt (Präsens im Hauptsatz) oder Plusquamperfekt (Präteritum im Hauptsatz) oder die Subjunktion 'als' zum Ausdrücken von Gleichzeitigkeit.</message>
+                <suggestion><match no="2" postag="VER:PA2:.*" postag_regexp="yes"/> war</suggestion>
+                <suggestion><match no="2" postag="VER:PA2:.*" postag_regexp="yes"/> hatte</suggestion>
                 <short>'Nachdem' kann standardsprachlich nicht mit dem Präteritum verwendet werden. Verwenden Sie Perfekt bzw. Plusquamperfekt.</short>
                 <example type="correct">Nachdem der Brief <marker>gekommen war</marker>, ging ich nach Hause.</example>
-                <example type="incorrect">Nachdem der Brief <marker>kam</marker>, ging ich nach Hause.</example>
+                <example type="incorrect" correction="gekommen war|gekommen hatte">Nachdem der Brief <marker>kam</marker>, ging ich nach Hause.</example>
                 <example type="correct">Nachdem sich jedes Teilchen in einem <marker>Zustand</marker>, der nicht gut war, befunden hatte, ging es weiter.</example>
             </rule>
             <rule>
@@ -23311,9 +23319,11 @@ $Id$
                     <token postag="SENT_END"/>
                 </pattern>
                 <message>Die Subjunktion 'nachdem' drückt standardsprachlich Vorzeitigkeit aus und kann daher nicht mit dem Präteritum verwendet werden. Verwenden Sie das Perfekt (Präsens im Hauptsatz) oder Plusquamperfekt (Präteritum im Hauptsatz) oder die Subjunktion 'als' zum Ausdrücken von Gleichzeitigkeit.</message>
+                <suggestion><match no="3" postag="VER:PA2:.*" postag_regexp="yes"/> war</suggestion>
+                <suggestion><match no="3" postag="VER:PA2:.*" postag_regexp="yes"/> hatte</suggestion>
                 <short>'Nachdem' kann standardsprachlich nicht mit dem Präteritum verwendet werden. Verwenden Sie Perfekt bzw. Plusquamperfekt.</short>
                 <example type="correct">Ich ging nach Hause, nachdem der Brief <marker>gekommen war</marker>.</example>
-                <example type="incorrect">Ich ging nach Hause, nachdem der Brief <marker>kam</marker>.</example>
+                <example type="incorrect" correction="gekommen war|gekommen hatte">Ich ging nach Hause, nachdem der Brief <marker>kam</marker>.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
