@@ -8155,6 +8155,22 @@ $Id$
         </rulegroup> -->
     </category>
     <category name="Y) Apostrofació" type="grammar">
+        <rulegroup id="APOSTROFACIO_SIGLES" name="apostrofació de sigles: l'R+D">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">de|el|la</token>
+                        <token regexp="yes">R\+D(\+I)?</token>
+                    </marker>
+                </pattern>
+                <message>Cal apostrofar.</message>
+                <suggestion><match no="1" regexp_match=".?([dl]).?" regexp_replace="$1'"/><match no="2"></match></suggestion>
+                <url>http://esadir.cat/Nomspropis/Entitats/Societat/RD</url>
+                <short>Apostrofació</short>
+                <example type="incorrect" correction="l'R+D+I">La necessitat de <marker>la R+D+I</marker></example>
+                <example type="correct">d'R+D+I</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="DE_EL_S_APOSTROFEN" name="apostrofació: de, el">
             <rule>
                 <pattern>
