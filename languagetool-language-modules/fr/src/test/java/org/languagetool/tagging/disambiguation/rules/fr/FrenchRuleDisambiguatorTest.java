@@ -78,14 +78,6 @@ public class FrenchRuleDisambiguatorTest extends TestCase {
         "/[null]SENT_START Je/[je]R pers suj 1 s  /[null]null suis/[suivre]V imp pres 2 s|suis/[suivre]V ind pres 1 s|suis/[suivre]V ind pres 2 s|suis/[être]V etre ind pres 1 s  /[null]null petite/[petit]J f s|petite/[petit]N f s ./[null]null", 
         tokenizer, sentenceTokenizer, tagger, disamb2);
   }
-
-  public void testAnnotations() throws IOException {
-     final AnalyzedSentence sent = lt.getAnalyzedSentence("Les avions");
-     assertEquals(sent.getAnnotations(), "Disambiguator log: \n\n" +
-        "RP-D_N_AMBIG:1 Les[le/D e p*,les/R pers obj 3 p*] -> Les[le/D e p*]"+
-             "\nRB-LE_LA_LES:1 Les[le/D e p*] -> Les[le/D e p*]" +
-        "\n\nRP-D_N_AMBIG:1 avions[avoir/V avoir ind impa 1 p,avion/N m p,avoir/SENT_END] -> avions[avion/N m p,avoir/SENT_END]\n");
-  }
   
 }
 

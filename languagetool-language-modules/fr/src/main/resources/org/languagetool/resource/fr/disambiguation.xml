@@ -26,7 +26,16 @@ RB => Règles Brutes
       <token postag=".* [fe] [sp][sp]?" postag_regexp="yes"/>
     </equivalence>
   </unification>
-  
+
+  <rule name="nom" id="NOM">
+    <pattern>
+      <token postag="SENT_START"/>
+      <token regexp="yes">Les?|La</token>
+      <marker><token postag="[NJZ].*" postag_regexp="yes"/></marker>
+    </pattern>
+    <disambig action="filter" postag="[NJZ].*"/>
+  </rule>
+
   <!-- Words not tagged in dicollecte -->
   <rule name="adverbes" id="ADVERBES">
     <pattern>
