@@ -5802,6 +5802,19 @@ $Id$
         <example type="incorrect">Te zo bet <marker>da</marker> Iwerzhon c’hoazh?</example>
         <example type="correct">Te zo bet en Iwerzhon c’hoazh?</example>
       </rule>
+      <rule>
+        <pattern>
+          <token>bet</token>
+          <token inflected="yes">bezañ</token>
+          <marker>
+            <token>da</token>
+          </marker>
+          <token postag="V inf( M.*:4:.*)?" postag_regexp="yes"/>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>o</suggestion>?</message>
+        <example type="incorrect">Bet on <marker>da</marker> welout ma zad.</example>
+        <example type="correct">Bet on <marker>o</marker> welout ma zad.</example>
+      </rule>
     </rulegroup>
 
     <rulegroup id="E_KICHEN_ME" name="e-kichen me → em c’hichen">
