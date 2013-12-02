@@ -6822,7 +6822,19 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="filter" postag="N.*|_GN_.*"></disambig>
         </rule>
-    </rulegroup>    
+    </rulegroup>
+    <rule id="nNom0b" name="no Nom">
+        <!-- no són noms si no han concordat amb determinants. -->
+        <pattern>
+            <marker>
+                <and>
+                    <token postag="N.*" postag_regexp="yes" regexp="yes">mostra|mostres<exception postag="_GN.*" postag_regexp="yes" /></token>
+                    <token postag="N.*" postag_regexp="yes" negate_pos="yes"></token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="[^N].*"></disambig>
+    </rule>
     <rulegroup id="NomAdj" name="nom + adj">
         <!-- falta participi+nom: requereix tractament especial -->
         <!--  QUÈ PASSA: en les seves múltiples disciplines. -->
