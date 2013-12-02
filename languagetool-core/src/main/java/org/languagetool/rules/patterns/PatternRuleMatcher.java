@@ -178,6 +178,8 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
     final PatternRule rule = (PatternRule) this.rule;
     final String errMessage = formatMatches(tokens, tokenPositions,
         firstMatchToken, rule.getMessage(), rule.getSuggestionMatches());
+    final String shortErrMessage = formatMatches(tokens, tokenPositions,
+        firstMatchToken, rule.getShortMessage(), rule.getSuggestionMatches());
     final String suggestionsOutMsg = formatMatches(tokens, tokenPositions,
         firstMatchToken, rule.getSuggestionsOutMsg(), rule.getSuggestionMatchesOutMsg());
     int correctedStPos = 0;
@@ -221,7 +223,7 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
       if (!(errMessage.contains(PatternRuleHandler.PLEASE_SPELL_ME) && errMessage.contains(MISTAKE))) {
         final String clearMsg = errMessage.replaceAll(PatternRuleHandler.PLEASE_SPELL_ME, "").replaceAll(MISTAKE, "");
         return new RuleMatch(rule, fromPos, toPos, clearMsg,
-            rule.getShortMessage(), startsWithUppercase, suggestionsOutMsg);
+                shortErrMessage, startsWithUppercase, suggestionsOutMsg);
       }
     } // failed to create any rule match...
     return null;
