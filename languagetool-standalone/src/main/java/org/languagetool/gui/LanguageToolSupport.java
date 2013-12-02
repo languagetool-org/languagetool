@@ -76,6 +76,7 @@ import javax.swing.text.JTextComponent;
 import javax.swing.text.Position;
 import javax.swing.text.View;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.tika.language.LanguageIdentifier;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
@@ -796,7 +797,7 @@ class LanguageToolSupport {
       return "";
     }
     return String.format("<br/><br/><a href=\"%s\">%s</a>",
-        url.toExternalForm(), "external link");
+        url.toExternalForm(), StringUtils.abbreviate(url.toString(), 50));
   }
 
   private static class HighlightPainter extends DefaultHighlighter.DefaultHighlightPainter {
