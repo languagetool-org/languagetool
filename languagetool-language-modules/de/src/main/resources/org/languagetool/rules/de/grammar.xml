@@ -23343,7 +23343,7 @@ $Id$
                 <pattern case_sensitive="yes">
                     <token skip="-1" regexp="yes">[Nn]achdem<exception scope="next" regexp="yes">,|–|\-|;|\:|&klam;|&anf;</exception></token>
                     <marker>
-                        <token postag_regexp="yes" postag="VER:.*:PRT:.*" regexp="yes">[a-zäüö].*<exception scope="current" postag_regexp="yes" postag=".*AUX.*"/></token>
+                        <token postag_regexp="yes" postag="VER:.*:SIN:PRT:.*" regexp="yes">[a-zäüö].*<exception scope="current" postag_regexp="yes" postag=".*AUX.*"/></token>
                     </marker>
                     <token>,</token>
                 </pattern>
@@ -23357,10 +23357,26 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
+                    <token skip="-1" regexp="yes">[Nn]achdem<exception scope="next" regexp="yes">,|–|\-|;|\:|&klam;|&anf;</exception></token>
+                    <marker>
+                        <token postag_regexp="yes" postag="VER:.*:PLU:PRT:.*" regexp="yes">[a-zäüö].*<exception scope="current" postag_regexp="yes" postag=".*AUX.*"/></token>
+                    </marker>
+                    <token>,</token>
+                </pattern>
+                <message>Die Subjunktion 'nachdem' drückt standardsprachlich Vorzeitigkeit aus und kann daher nicht mit dem Präteritum verwendet werden. Verwenden Sie das Perfekt (Präsens im Hauptsatz) oder Plusquamperfekt (Präteritum im Hauptsatz) oder die Subjunktion 'als' zum Ausdrücken von Gleichzeitigkeit.</message>
+                <suggestion><match no="2" postag="VER:PA2:.*" postag_regexp="yes"/> waren</suggestion>
+                <suggestion><match no="2" postag="VER:PA2:.*" postag_regexp="yes"/> hatten</suggestion>
+                <short>'Nachdem' kann standardsprachlich nicht mit dem Präteritum verwendet werden. Verwenden Sie Perfekt bzw. Plusquamperfekt.</short>
+                <example type="correct">Nachdem die Briefe <marker>gekommen waren</marker>, ging ich nach Hause.</example>
+                <example type="incorrect" correction="gekommen waren|gekommen hatten">Nachdem die Briefe <marker>kamen</marker>, ging ich nach Hause.</example>
+                <example type="correct">Nachdem sich jedes Teilchen in einem <marker>Zustand</marker>, der nicht gut war, befunden hatte, ging es weiter.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
                     <token>,</token>
                     <token skip="-1">nachdem<exception scope="next" regexp="yes">,|–|\-|;|\:|&klam;|&anf;</exception></token>
                     <marker>
-                        <token postag_regexp="yes" postag="VER:.*:PRT:.*" regexp="yes">[a-zäüö].*<exception scope="current" postag_regexp="yes" postag=".*AUX.*"/></token>
+                        <token postag_regexp="yes" postag="VER:.*:SIN:PRT:.*" regexp="yes">[a-zäüö].*<exception scope="current" postag_regexp="yes" postag=".*AUX.*"/></token>
                     </marker>
                     <token postag="SENT_END"/>
                 </pattern>
@@ -23370,6 +23386,22 @@ $Id$
                 <short>'Nachdem' kann standardsprachlich nicht mit dem Präteritum verwendet werden. Verwenden Sie Perfekt bzw. Plusquamperfekt.</short>
                 <example type="correct">Ich ging nach Hause, nachdem der Brief <marker>gekommen war</marker>.</example>
                 <example type="incorrect" correction="gekommen war|gekommen hatte">Ich ging nach Hause, nachdem der Brief <marker>kam</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>,</token>
+                    <token skip="-1">nachdem<exception scope="next" regexp="yes">,|–|\-|;|\:|&klam;|&anf;</exception></token>
+                    <marker>
+                        <token postag_regexp="yes" postag="VER:.*:PLU:PRT:.*" regexp="yes">[a-zäüö].*<exception scope="current" postag_regexp="yes" postag=".*AUX.*"/></token>
+                    </marker>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <message>Die Subjunktion 'nachdem' drückt standardsprachlich Vorzeitigkeit aus und kann daher nicht mit dem Präteritum verwendet werden. Verwenden Sie das Perfekt (Präsens im Hauptsatz) oder Plusquamperfekt (Präteritum im Hauptsatz) oder die Subjunktion 'als' zum Ausdrücken von Gleichzeitigkeit.</message>
+                <suggestion><match no="3" postag="VER:PA2:.*" postag_regexp="yes"/> waren</suggestion>
+                <suggestion><match no="3" postag="VER:PA2:.*" postag_regexp="yes"/> hatten</suggestion>
+                <short>'Nachdem' kann standardsprachlich nicht mit dem Präteritum verwendet werden. Verwenden Sie Perfekt bzw. Plusquamperfekt.</short>
+                <example type="correct">Ich ging nach Hause, nachdem die Briefe <marker>gekommen waren</marker>.</example>
+                <example type="incorrect" correction="gekommen waren|gekommen hatten">Ich ging nach Hause, nachdem die Briefe <marker>kamen</marker>.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
