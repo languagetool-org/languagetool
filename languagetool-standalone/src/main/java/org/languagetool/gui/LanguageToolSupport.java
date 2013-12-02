@@ -754,7 +754,7 @@ class LanguageToolSupport {
     spans.add(span);
   }
 
-  static void showDialog(Component parent, String title, String message, Rule rule) {
+  private void showDialog(Component parent, String title, String message, Rule rule) {
     int dialogWidth = 320;
     JTextPane textPane = new JTextPane();
     textPane.setEditable(false);
@@ -762,8 +762,6 @@ class LanguageToolSupport {
     textPane.setBorder(BorderFactory.createEmptyBorder());
     textPane.setOpaque(false);
     textPane.setBackground(new Color(0, 0, 0, 0));
-    message = message.replaceAll("<suggestion>", "<b>")
-        .replaceAll("</suggestion>", "</b>");
     textPane.addHyperlinkListener(new HyperlinkListener() {
       @Override
       public void hyperlinkUpdate(HyperlinkEvent e) {
@@ -779,7 +777,8 @@ class LanguageToolSupport {
       }
     });
     textPane.setSize(dialogWidth, Short.MAX_VALUE);
-    textPane.setText("<html>" + message + formatURL(rule.getUrl()) + "</html>");
+    String messageWithBold = message.replaceAll("<suggestion>", "<b>").replaceAll("</suggestion>", "</b>");
+    textPane.setText("<html>" + messageWithBold + formatURL(rule.getUrl()) + "</html>");
     JScrollPane scrollPane = new JScrollPane(textPane);
     scrollPane.setPreferredSize(
         new Dimension(dialogWidth, textPane.getPreferredSize().height));
