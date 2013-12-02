@@ -8792,6 +8792,17 @@ $Id$
         <rulegroup id="MOTS_NO_SEPARATS" name="mots no separats: *súper heroi/*súper-heroi/superheroi">
             <rule>
                 <pattern>
+                    <token>en</token>
+                    <token regexp="yes">davant|darrere</token>
+                </pattern>
+                <message>S'escriu junt.</message>
+                <suggestion>en<match no="2"/></suggestion>
+                <short>Error ortogràfic</short>
+                <example type="incorrect" correction="endavant">Tireu <marker>en davant</marker></example>
+                <example type="correct">Anem endarrere</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token>poca</token>
                     <token min="0">-</token>
                     <token>vergonyes</token>
@@ -9110,7 +9121,7 @@ $Id$
         	<!-- Cal millorar la regla, perquè ja no es considera determinant i no funciona la regla de concordança per a detectar error-->
             <rule>
                 <pattern>
-                	<token><exception postag="SPS00|.*LOC_PREP.*" postag_regexp="yes"/><exception inflected="yes">tenir</exception></token>
+                    <token><exception postag="SPS00|.*LOC_PREP.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">tenir|venir|agafar|produir</exception></token>
                     <marker>
                         <token>son<exception postag="_GN_.S" postag_regexp="yes"/></token>
                     </marker>
@@ -9145,8 +9156,15 @@ $Id$
                 <example type="correct">aquella son era irresistible</example>
                 <example type="correct">Tinc molta son, me'n vaig.</example>
                 <example type="correct">una restricció sostinguda del son de quatre hores al dia</example>
-                <!-- Converses sobre els aliments, begudes, vestits, son i descans, jocs ;
+                <example type="correct">per fer-li venir son</example>
+                <!-- 
+                     Sa mare era professora de piano i son pare professor de cant
+                     Converses sobre els aliments, begudes, vestits, son i descans, jocs ;
                      estrès, son, cansament, fatiga
+                     alegria, mareig, son
+                     sonambulisme, son,
+                     esabarjo o son
+                     produint son i anorèxia
                      ES POT FER IGUAL QUE AMB: cafè, te, ...-->
             </rule>
         </rulegroup>
