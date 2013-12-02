@@ -398,12 +398,11 @@ class LanguageToolSupport {
     checkImmediately(null);
   }
 
-  private Span getSpan(final int offset) {
-    for (int i = 0; i < documentSpans.size(); i++) {
-        final Span cur = documentSpans.get(i);
-        if (cur.end > cur.start && cur.start <= offset && offset < cur.end) {
-            return cur;
-        }
+  private Span getSpan(int offset) {
+    for (final Span cur : documentSpans) {
+      if (cur.end > cur.start && cur.start <= offset && offset < cur.end) {
+        return cur;
+      }
     }
     return null;
   }
@@ -432,7 +431,7 @@ class LanguageToolSupport {
       moreItem.addActionListener(new ActionListener() {
         @Override
           public void actionPerformed(ActionEvent e) {
-            showDialog(textComponent, span.msg, span.desc, span.url);
+            showDialog(textComponent, span.msg, span.desc, span.rule);
           }
         });
       popup.add(moreItem);
@@ -441,7 +440,7 @@ class LanguageToolSupport {
       ignoreItem.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-          disableRule(span.rule);
+          disableRule(span.rule.getId());
         }
       });
       popup.add(ignoreItem);
@@ -715,7 +714,7 @@ class LanguageToolSupport {
       if (span.start == span.end) {
         continue;
       }
-      if (span.spelling) {
+      if (span.rule.isSpellingRule()) {
         spellErrors.add(span);
       } else {
         grammarErrors.add(span);
@@ -751,13 +750,11 @@ class LanguageToolSupport {
     span.desc = match.getMessage();
     span.replacement = new ArrayList<>();
     span.replacement.addAll(match.getSuggestedReplacements());
-    span.spelling = match.getRule().isSpellingRule();
-    span.rule = match.getRule().getId();
-    span.url = match.getRule().getUrl();
+    span.rule = match.getRule();
     spans.add(span);
   }
 
-  static void showDialog(Component parent, String title, String message, URL url) {
+  static void showDialog(Component parent, String title, String message, Rule rule) {
     int dialogWidth = 320;
     JTextPane textPane = new JTextPane();
     textPane.setEditable(false);
@@ -782,7 +779,7 @@ class LanguageToolSupport {
       }
     });
     textPane.setSize(dialogWidth, Short.MAX_VALUE);
-    textPane.setText("<html>" + message + formatURL(url) + "</html>");
+    textPane.setText("<html>" + message + formatURL(rule.getUrl()) + "</html>");
     JScrollPane scrollPane = new JScrollPane(textPane);
     scrollPane.setPreferredSize(
         new Dimension(dialogWidth, textPane.getPreferredSize().height));
@@ -895,9 +892,7 @@ class LanguageToolSupport {
     private String msg;
     private String desc;
     private List<String> replacement;
-    private boolean spelling;
-    private String rule;
-    private URL url;
+    private Rule rule;
   }
 
   private class RunnableImpl implements Runnable {
