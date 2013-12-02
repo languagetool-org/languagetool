@@ -2856,7 +2856,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">Holl?idays?</token>
         </pattern>
         <message>Écrivez <suggestion>Billie Holiday</suggestion> s’il s’agit de la chanteuse de jazz américaine.</message>
-        <url>http://fr.wikipedia.org/wiki/Billie_Holiday</url>
+        <url>https://fr.wikipedia.org/wiki/Billie_Holiday</url>
         <example type="incorrect">Connais-tu <marker>Billy Holiday</marker> ?</example>
         <example type="correct">Connais-tu Billie Holiday ?</example>
       </rule>
@@ -2866,7 +2866,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">Holl?idays?<exception>Holiday</exception></token>
         </pattern>
         <message>Écrivez <suggestion>Billie Holiday</suggestion> s’il s’agit de la chanteuse de jazz américaine.</message>
-        <url>http://fr.wikipedia.org/wiki/Billie_Holiday</url>
+        <url>https://fr.wikipedia.org/wiki/Billie_Holiday</url>
         <example type="incorrect">Connais-tu <marker>Billie Holidays</marker> ?</example>
         <example type="correct">Connais-tu Billie Holiday ?</example>
       </rule>
@@ -3626,7 +3626,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">Tangu[iy]|Tangy</token>
         </pattern>
         <message>Écrivez <suggestion>Bernez Tangi</suggestion> s’il s’agit du poète breton.</message>
-        <url>http://fr.wikipedia.org/wiki/Bernez_Tangi</url>
+        <url>https://fr.wikipedia.org/wiki/Bernez_Tangi</url>
         <example type="incorrect"><marker>Bernez Tanguy</marker> est un poète en langue bretonne.</example>
         <example type="correct">Bernez Tangi est un poète en langue bretonne.</example>
       </rule>
@@ -3716,7 +3716,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">Sa?inclai?re?|(St|Saint)-?Clai?re?<exception>Sinclar</exception></token>
         </pattern>
         <message>Écrivez <suggestion>Bob Sinclar</suggestion> s’il s’agit du musicien DJ français.</message>
-        <url>http://en.wikipedia.org/wiki/Bob_Sinclar</url>
+        <url>https://en.wikipedia.org/wiki/Bob_Sinclar</url>
         <example type="incorrect"><marker>Bob Sinclair</marker> est un DJ français.</example>
         <example type="correct">Bob Sinclar est un DJ français.</example>
       </rule>
@@ -4158,7 +4158,7 @@ though, and has since been slightly modified)-->
         <token>C02</token>
       </pattern>
       <message>Voulez-vous écrire <suggestion>CO2</suggestion> avec la lettre O and non avec le chiffre 0 s’il s’agit du dioxyde de carbone ?</message>
-      <url>http://fr.wikipedia.org/wiki/Dioxyde_de_carbone</url>
+      <url>https://fr.wikipedia.org/wiki/Dioxyde_de_carbone</url>
       <example type="incorrect" correction="CO2">Le <marker>C02</marker> est un gaz à effet de serre.</example>
       <example type="correct">Le CO2 est un gaz à effet de serre.</example>
     </rule>
@@ -4322,7 +4322,7 @@ though, and has since been slightly modified)-->
         <token regexp="yes">ils?</token>
       </pattern>
       <message>« \1 \2 » s’élide en <suggestion><match no="1" regexp_match=".$" regexp_replace=""/>’\2</suggestion>.</message>
-      <url>http://fr.wikipedia.org/wiki/%C3%89lision</url>
+      <url>https://fr.wikipedia.org/wiki/%C3%89lision</url>
       <example type="incorrect" correction="S’il"><marker>Si il</marker> pleut, je reste ici.</example>
       <example type="correct">S’il pleut, je reste ici.</example>
     </rule>
@@ -4578,7 +4578,7 @@ though, and has since been slightly modified)-->
       <rule name="masculin suivi du féminin">
         <pattern>
           <token postag="[DJ] m .*" postag_regexp="yes" skip="1">
-            <exception postag="V .*" postag_regexp="yes"/>
+            <exception postag="K|V .*" postag_regexp="yes"/>
             <!-- Following exception is to skip an adverb or epicene word -->
             <exception negate_pos="yes" postag="A|[JNZ] [fe] .*|SENT_END" postag_regexp="yes" scope="next"/>
             <exception postag="N [fe] .*" postag_regexp="yes"/>
@@ -5825,6 +5825,32 @@ though, and has since been slightly modified)-->
         <example type="correct">Il nous a donné du pain.</example>
       </rule>
     </rulegroup>
+    <!-- <rule id="VU_DE_MES_YEUX_VU" name="vu de mes yeux vu">
+      <pattern>
+        <token inflected="yes">avoir</token>
+        <marker>
+          <token regexp="yes">vue?s?</token>
+          <token min="0" max="1">,</token>
+          <token>de</token>
+          <token>mes</token>
+          <token>yeux</token>
+          <token regexp="yes">vue?s?<exception>\2></exception></token>
+        </marker>
+      </pattern>
+      <message>Le second mot « \2 » répété doit suivre ici le même accord que le premier mot <suggestion>\2</suggestion>.</message>
+      <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=4532</url>
+      <example type="incorrect">Je suis sûr de l’avoir <marker>vu, de mes yeux vus</marker>.</example>
+      <example type="incorrect">Je suis sûr de l’avoir <marker>vu de mes yeux vus</marker>.</example>
+      <example type="incorrect">Je suis sûr de l’avoir <marker>vue, de mes yeux vus</marker>.</example>
+      <example type="incorrect">Je suis sûr de l’avoir <marker>vue, de mes yeux vu</marker>.</example>
+      <example type="incorrect">Je suis sûr de l’avoir <marker>vue de mes yeux vu</marker>.</example>
+      <example type="correct">Je suis sûr de l’avoir vu, de mes yeux <marker>vu</marker>.</example>
+      <example type="correct">Je suis sûr de l’avoir vue, de mes yeux <marker>vue</marker>.</example>
+      <example type="incorrect">Je suis sûr de les avoir <marker>vus, de mes yeux vu</marker>.</example>
+      <example type="incorrect">Je suis sûr de les avoir <marker>vus de mes yeux vu</marker>.</example>
+      <example type="correct">Je suis sûr de les avoir vus, de mes yeux <marker>vus</marker>.</example>
+      <example type="correct">Je suis sûr de les avoir vus de mes yeux <marker>vus</marker>.</example>
+    </rule> -->
     <rulegroup id="PEUT_ETRE_VPPA_OU_ADJ" name="peut être + participe présent">
       <rule>
         <pattern>
@@ -22674,7 +22700,7 @@ though, and has since been slightly modified)-->
         <token regexp="yes">\d+%</token>
       </pattern>
       <message>Il faut utiliser une espace insécable avant le symbole des pourcentages. Voulez-vous écrire <suggestion><match no="1" regexp_match="(\d+)%" regexp_replace="$1 %"/></suggestion> ?</message>
-      <url>http://fr.wikipedia.org/wiki/%25</url>
+      <url>https://fr.wikipedia.org/wiki/%25</url>
       <example type="incorrect" correction="8 %">Une croissance de <marker>8%</marker>.</example>
       <example type="correct">Une croissance de <marker>8 %</marker>.</example>
     </rule>
@@ -22939,7 +22965,7 @@ though, and has since been slightly modified)-->
           <token>fiction</token>
         </pattern>
         <message>Il manque le traits d’union : <suggestion>science-fiction</suggestion>.</message>
-        <url>http://fr.wikipedia.org/wiki/Science-fiction</url>
+        <url>https://fr.wikipedia.org/wiki/Science-fiction</url>
         <example type="incorrect">Un film de <marker>science fiction</marker>.</example>
         <example type="correct">Un film de <marker>science-fiction</marker>.</example>
       </rule>
