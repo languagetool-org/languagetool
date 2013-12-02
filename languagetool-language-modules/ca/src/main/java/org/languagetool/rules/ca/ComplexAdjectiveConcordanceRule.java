@@ -280,8 +280,8 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
           //stop searching if there is some of these combinations: 
           //adverb+comma, adverb+conjunction, comma+conjunction
           adverbAppeared |= matchPostagRegexp(tokens[i - j], ADVERBI);
-          conjunctionAppeared |= matchPostagRegexp(tokens[i - j], CONJUNCIO);;
-          punctuationAppeared |= matchPostagRegexp(tokens[i - j], PUNTUACIO);;
+          conjunctionAppeared |= matchPostagRegexp(tokens[i - j], CONJUNCIO);
+          punctuationAppeared |= matchPostagRegexp(tokens[i - j], PUNTUACIO);
           if ((adverbAppeared && conjunctionAppeared) 
               || (adverbAppeared && punctuationAppeared)
               || (conjunctionAppeared && punctuationAppeared)) {
