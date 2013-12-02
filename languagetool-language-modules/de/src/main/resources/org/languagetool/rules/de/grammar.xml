@@ -16355,6 +16355,19 @@ $Id$
                 <example type="correct">Im <marker>Deutschen</marker> Bund ist nichts los.</example>
                 <example type="incorrect" correction="Deutschen">Im <marker>deutschen</marker> Bund ist nichts los.</example>
             </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes" inflected="yes">rot|schwarz</token>
+                    </marker>
+                    <token regexp="yes">Johannisbeeren?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion><match case_conversion="startupper" no="1"/></suggestion>? &namengross;</message>
+                <url>http://www.duden.de/rechtschreibung/Johannisbeere</url>
+                <short>&namengross;</short>
+                <example type="correct">Ich esse gerne <marker>Rote</marker> Johannisbeeren.</example>
+                <example type="incorrect" correction="Rote">Ich esse gerne <marker>rote</marker> Johannisbeeren.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="GROSSSCHREIBUNG_EHRENBEZEICHNUNG" name="Groß-/Kleinschreibung: Titel und Ehrenbezeichnungen 'heiliger (Heiliger) Vater etc.'">
             <rule>
