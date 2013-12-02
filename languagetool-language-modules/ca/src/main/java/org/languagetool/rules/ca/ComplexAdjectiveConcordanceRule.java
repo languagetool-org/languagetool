@@ -84,6 +84,8 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
   private static final Pattern ADJECTIU_S = Pattern.compile("A...[SN].*|V.P..S..?|PX..S.*");
   private static final Pattern ADJECTIU_P = Pattern.compile("A...[PN].*|V.P..P..?|PX..P.*");
   private static final Pattern ADVERBI = Pattern.compile("R.|.*LOC_ADV.*");
+  private static final Pattern CONJUNCIO = Pattern.compile("C.|.*LOC_CONJ.*");
+  private static final Pattern PUNTUACIO = Pattern.compile("_PUNCT.*");
   private static final Pattern LOC_ADV = Pattern.compile(".*LOC_ADV.*");
   private static final Pattern ADVERBIS_ACCEPTATS = Pattern.compile("RG_anteposat");
   private static final Pattern CONCORDA = Pattern.compile("_GN_.*|ignore_concordance");
@@ -184,6 +186,9 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
         int level = 0;
         j = 1;
         boolean keepCounting = true;
+        boolean adverbAppeared=false;
+        boolean conjunctionAppeared=false;
+        boolean punctuationAppeared=false;
         while (keepCounting && i - j > 0 && level < maxLevels) {
           if (!isPrevNoun) { // els noms neutres caldria comptabilitzar-los
                              // d'acord amb l'etiqueta _GN_
@@ -269,9 +274,19 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
           }
           j++;
           keepCounting = (matchPostagRegexp(tokens[i - j], KEEP_COUNT)
-              || matchRegexp(tokens[i - j].getToken(), KEEP_COUNT2) || matchPostagRegexp(
-                tokens[i - j], ADVERBIS_ACCEPTATS))
+              || matchRegexp(tokens[i - j].getToken(), KEEP_COUNT2) 
+              || matchPostagRegexp(tokens[i - j], ADVERBIS_ACCEPTATS))
               && !matchRegexp(tokens[i - j].getToken(), STOP_COUNT);
+          //stop searching if there is some of these combinations: 
+          //adverb+comma, adverb+conjunction, comma+conjunction
+          adverbAppeared |= matchPostagRegexp(tokens[i - j], ADVERBI);
+          conjunctionAppeared |= matchPostagRegexp(tokens[i - j], CONJUNCIO);;
+          punctuationAppeared |= matchPostagRegexp(tokens[i - j], PUNTUACIO);;
+          if ((adverbAppeared && conjunctionAppeared) 
+              || (adverbAppeared && punctuationAppeared)
+              || (conjunctionAppeared && punctuationAppeared)) {
+            keepCounting=false;
+          }
         }
         level++;
         if (level > maxLevels) {

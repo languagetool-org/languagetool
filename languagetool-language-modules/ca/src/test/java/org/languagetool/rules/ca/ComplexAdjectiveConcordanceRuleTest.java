@@ -60,6 +60,8 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
 	      han estat de fet exterminades
 	   */
 	  // (en especial si hi ha un adverbi entremig: en algun grau més distintes
+	  assertCorrect("a la infermeria, d'allò més interessat");
+	  assertCorrect("el record, i absolutament fascinats"); 
 	  assertCorrect("no s'atorguen drets de visita tret que ho consenta el progenitor");
 	  assertCorrect("La meua filla viu amb mi la major part del temps");
 	  assertCorrect("que en l'actualitat viu a la ciutat de Santa Cruz");
@@ -153,8 +155,9 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
 		assertIncorrect("amb un rendiment del 5,62%, més alta que el 5,44%");
 		//assertIncorrect("un a baix i un altre a dalt identificada amb el símbol");
 		//assertIncorrect("un a baix i un altre a dalt identificades amb el símbol");
-		assertIncorrect("En efecte, hi ha consideracions, llavors força comuns");
- 		assertIncorrect("En efecte, hi ha consideracions racistes, llavors força comuns");
+		//assertIncorrect("En efecte, hi ha consideracions, llavors força comuns");
+		assertIncorrect("En efecte, hi ha consideracions llavors força comuns");
+		//assertIncorrect("En efecte, hi ha consideracions racistes, llavors força comuns");
 		assertIncorrect("amb una alineació impròpiament habituals");
 		assertIncorrect("amb una alineació poc habituals");
 		assertIncorrect("amb una alineació molt poc habituals");
