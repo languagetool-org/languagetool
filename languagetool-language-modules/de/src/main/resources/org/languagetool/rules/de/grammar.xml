@@ -24803,6 +24803,22 @@ $Id$
             </rule>
             <rule>
                 <pattern>
+                    <token postag="SUB:.*" postag_regexp="yes" regexp="yes">.*(s|ß|tz|z|x|ce|cz|ć)</token>
+                    <token regexp="yes">'|’</token>
+                </pattern>
+                <message>Sofern es sich nicht um einen Eigennamen handelt, wird der Genitiv normalerweise nicht mit einem Apostroph gekennzeichnet.</message>
+                <suggestion><match no="1" postag_regexp="yes" postag="(.*):(DAT|NOM|AKK):(.*)" postag_replace="$1:GEN:$3" /></suggestion>
+                <short>Kein Apostroph für den Genitiv (außer bei Eigennamen)</short>
+                <example type="correct"><marker>Wagners</marker> Musik</example>
+                <example type="correct"><marker>Grass’</marker> Blechtrommel</example>
+                <example type="correct">Hans <marker>Sachs’</marker> Gedichte</example>
+                <example type="correct"><marker>Schultheiß’</marker> Pläne</example>
+                <example type="triggers_error"><marker>Strauß’</marker> Politik</example>
+                <example type="incorrect" correction="Zirkus">Der Direktor des <marker>Zirkus'</marker> Krone</example>
+                <example type="incorrect" correction="Hauses">Der Direktor des <marker>Haus'</marker> Krone</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token postag="SENT_START" skip="-1"><exception scope="next" spacebefore="yes">'</exception></token>
                     <token>des</token>
                     <marker>
