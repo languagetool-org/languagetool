@@ -318,7 +318,7 @@ public final class Main {
     languageBox.addItemListener(new ItemListener() {
       @Override
       public void itemStateChanged(ItemEvent e) {
-        if(e.getStateChange() == ItemEvent.SELECTED) {
+        if (e.getStateChange() == ItemEvent.SELECTED) {
           // we cannot re-use the existing LT object anymore
           ltSupport.setLanguage((Language) languageBox.getSelectedItem());
         }
@@ -342,13 +342,13 @@ public final class Main {
         if (event.getType() == LanguageToolEvent.Type.CHECKING_STARTED) {
           final String msg = Tools.makeTexti18n(messages, "checkStart");
           statusLabel.setText(msg);
-          if(event.getCaller() == getFrame()) {
+          if (event.getCaller() == getFrame()) {
             startTime = System.currentTimeMillis();
             setWaitCursor();
             checkAction.setEnabled(false);
           }
         } else if (event.getType() == LanguageToolEvent.Type.CHECKING_FINISHED) {
-          if(event.getCaller() == getFrame()) {
+          if (event.getCaller() == getFrame()) {
             checkAction.setEnabled(true);
             unsetWaitCursor();
             resultAreaHelper.setRunTime(System.currentTimeMillis() - startTime);
