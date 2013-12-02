@@ -108,14 +108,12 @@ $Id$
             <example type="correct"><marker>Ihm</marker> folgt Merkel.</example>
             <example type="correct"><marker>Im<marker> gleichen T-Shirt sah er besser aus.</example>
         </rule>-->
-        <rule id="SUCH_SICH" name="Möglicher Tippfehler: such (sich)">
+        <rule id="SUCH_SICH" name="Möglicher Tippfehler: lasst/lässt such (sich)">
             <pattern>
-                <token>lassen</token>
+                <token regexp="yes">lassen|lässt|wird|kann|darf|mag</token>
                 <marker>
                     <token>such</token>
                 </marker>
-                <token min="0"/>
-                <token postag="SUB:.*" postag_regexp="yes"/>
             </pattern>
             <message>Meinten Sie <suggestion>sich</suggestion>?</message>
             <example type="incorrect" correction="sich">Mit viel Aufwand lassen <marker>such</marker> Texte auch kurz schreiben.</example>
