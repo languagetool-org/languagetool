@@ -652,6 +652,9 @@ public class Main extends WeakBase implements XJobExecutor,
 
   @Override
   public void trigger(final String sEvent) {
+    if(Thread.currentThread().getContextClassLoader() == null) {
+      Thread.currentThread().setContextClassLoader(Main.class.getClassLoader());
+    }
     if (!javaVersionOkay()) {
       return;
     }
