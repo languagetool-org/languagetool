@@ -794,19 +794,15 @@ class LanguageToolSupport {
   private String getExampleSentences(Rule rule) {
     StringBuilder examples = new StringBuilder();
     List<IncorrectExample> incorrectExamples = rule.getIncorrectExamples();
-    if (incorrectExamples != null) {
-      for (IncorrectExample incorrectExample : incorrectExamples) {
-        String sentence = incorrectExample.getExample()
-                .replace("<marker>", "<span style='color:red'>").replace("</marker>", "</span>");
-        examples.append("<br/>").append(sentence).append("&nbsp;<span style='color:red'>⨯</span>");
-      }
+    for (IncorrectExample incorrectExample : incorrectExamples) {
+      String sentence = incorrectExample.getExample()
+              .replace("<marker>", "<span style='color:red'>").replace("</marker>", "</span>");
+      examples.append("<br/>").append(sentence).append("&nbsp;<span style='color:red'>⨯</span>");
     }
     List<String> correctExamples = rule.getCorrectExamples();
-    if (correctExamples != null) {
-      for (String correctExample : correctExamples) {
-        String sentence = correctExample.replace("<marker>", "<span style='color:green'>").replace("</marker>", "</span>");
-        examples.append("<br/>").append(sentence).append("&nbsp;<span style='color:green'>✓</span>");
-      }
+    for (String correctExample : correctExamples) {
+      String sentence = correctExample.replace("<marker>", "<span style='color:green'>").replace("</marker>", "</span>");
+      examples.append("<br/>").append(sentence).append("&nbsp;<span style='color:green'>✓</span>");
     }
     if (examples.length() > 0) {
       examples.insert(0, "<br/><br/>" + messages.getString("guiExamples"));

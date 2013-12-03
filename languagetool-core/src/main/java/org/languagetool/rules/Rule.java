@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 import org.languagetool.AnalyzedSentence;
@@ -38,8 +39,8 @@ public abstract class Rule {
 
   protected final ResourceBundle messages;
 
-  private List<String> correctExamples;
-  private List<IncorrectExample> incorrectExamples;
+  private List<String> correctExamples = new ArrayList<>();
+  private List<IncorrectExample> incorrectExamples = new ArrayList<>();
   private String locQualityIssueType = "uncategorized";
   private Category category;
   private URL url;
@@ -120,7 +121,7 @@ public abstract class Rule {
    * Set the examples that are correct and thus do not trigger the rule.
    */
   public final void setCorrectExamples(final List<String> correctExamples) {
-    this.correctExamples = correctExamples;
+    this.correctExamples = Objects.requireNonNull(correctExamples);
   }
 
   /**
@@ -135,7 +136,7 @@ public abstract class Rule {
    */
   public final void setIncorrectExamples(
       final List<IncorrectExample> incorrectExamples) {
-    this.incorrectExamples = incorrectExamples;
+    this.incorrectExamples = Objects.requireNonNull(incorrectExamples);
   }
 
   /**
