@@ -127,28 +127,27 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
 
 
   /**
-   * @param speller
-   * @param word
-   * @return Returns true if the word is misspelled
+   * @return true if the word is misspelled
    * @since 2.4
    */
   protected boolean isMisspelled(MorfologikSpeller speller, String word) {
-	if (! speller.isMisspelled(word))
-	  return false;
+    if (!speller.isMisspelled(word)) {
+      return false;
+    }
 
-	if (checkCompound ) {
-	  if (word.contains(compoundChar)) {
-		  String[] words = word.split(compoundChar);
-		  for (String singleWord: words) {
-			  if (speller.isMisspelled(singleWord)) {
-				  return true;
-			  }
-		  }
-		  return false;
-	  }
-	}
+    if (checkCompound ) {
+      if (word.contains(compoundChar)) {
+        String[] words = word.split(compoundChar);
+        for (String singleWord: words) {
+          if (speller.isMisspelled(singleWord)) {
+            return true;
+          }
+        }
+        return false;
+      }
+    }
 
-	return true;
+    return true;
   }
 
   private List<RuleMatch> getRuleMatch(final String word, final int startPos) {
@@ -195,20 +194,20 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
 
   /**
    * @param checkCompound If true and the word is not in the dictionary 
-   * it will be split by {@link #compoundChar} 
+   * it will be split (see {@link #setCompoundChar(String)}) 
    * and each component will be checked separately
    * @since 2.4 
    */
   protected void setCheckCompound(boolean checkCompound) {
-	  this.checkCompound = checkCompound;
+    this.checkCompound = checkCompound;
   }
 
   /**
-   * @param compoundChar @see {@link #setCheckCompound(boolean)}
+   * @param compoundChar see {@link #setCheckCompound(boolean)}
    * @since 2.4
    */
   protected void setCompoundChar(String compoundChar) {
-	  this.compoundChar = compoundChar;
+    this.compoundChar = compoundChar;
   }
 
 }
