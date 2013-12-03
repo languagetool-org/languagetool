@@ -746,7 +746,7 @@ class LanguageToolSupport {
     Span span = new Span();
     span.start = match.getFromPos();
     span.end = match.getToPos();
-    span.msg = match.getShortMessage() != null && !match.getShortMessage().isEmpty() ? match.getShortMessage() : match.getMessage();
+    span.msg = StringUtils.isNotEmpty(match.getShortMessage()) ? match.getShortMessage() : match.getMessage();
     span.msg = Tools.shortenComment(span.msg);
     span.desc = match.getMessage();
     span.replacement = new ArrayList<>();
@@ -786,7 +786,8 @@ class LanguageToolSupport {
         new Dimension(dialogWidth, textPane.getPreferredSize().height));
     scrollPane.setBorder(BorderFactory.createEmptyBorder());
 
-    JOptionPane.showMessageDialog(parent, scrollPane, title,
+    String cleanTitle = title.replace("<suggestion>", "'").replace("</suggestion>", "'");
+    JOptionPane.showMessageDialog(parent, scrollPane, cleanTitle,
         JOptionPane.INFORMATION_MESSAGE);
   }
 
