@@ -1008,6 +1008,18 @@ though, and has since been slightly modified)-->
         <example type="incorrect">J’ai fait de la voile dans le <marker>golf</marker> du Morbihan.</example>
         <example type="correct">J’ai fait de la voile dans le <marker>golfe</marker> du Morbihan.</example>
       </rule>
+      <rule>
+        <pattern>
+          <marker><token>golf<exception scope="previous">club</exception></token></marker>
+          <token>d</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+          <token regexp="yes">Aden|Ajaccio|Alaska|Hammamet</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>golfe</suggestion> ?</message>
+        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2210</url>
+        <example type="incorrect">Le <marker>golf</marker> d'Aden est la baie située entre la corne de l'Afrique et la péninsule Arabique.</example>
+        <example type="correct">Le golfe d'Aden est la baie située entre la corne de l'Afrique et la péninsule Arabique.</example>
+      </rule>
     </rulegroup>
     <rule id="GOLF_DU_LION" name="golfe du Lion">
       <pattern>
