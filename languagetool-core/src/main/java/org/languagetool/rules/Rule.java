@@ -67,7 +67,7 @@ public abstract class Rule {
   }
 
   /**
-   * An ASCII-only string used to identify the rule in e.g. configuration files.
+   * A string used to identify the rule in e.g. configuration files.
    * This string is supposed to be unique and to stay the same in all upcoming
    * versions of LanguageTool.
    */
