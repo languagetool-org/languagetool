@@ -81,6 +81,7 @@ import org.apache.tika.language.LanguageIdentifier;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.MultiThreadedJLanguageTool;
+import org.languagetool.rules.IncorrectExample;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.LanguageIdentifierTools;
@@ -778,7 +779,8 @@ class LanguageToolSupport {
     });
     textPane.setSize(dialogWidth, Short.MAX_VALUE);
     String messageWithBold = message.replaceAll("<suggestion>", "<b>").replaceAll("</suggestion>", "</b>");
-    textPane.setText("<html>" + messageWithBold + formatURL(rule.getUrl()) + "</html>");
+    String exampleSentences = getExampleSentences(rule);
+    textPane.setText("<html>" + messageWithBold + exampleSentences + formatURL(rule.getUrl()) + "</html>");
     JScrollPane scrollPane = new JScrollPane(textPane);
     scrollPane.setPreferredSize(
         new Dimension(dialogWidth, textPane.getPreferredSize().height));
@@ -786,6 +788,29 @@ class LanguageToolSupport {
 
     JOptionPane.showMessageDialog(parent, scrollPane, title,
         JOptionPane.INFORMATION_MESSAGE);
+  }
+
+  private String getExampleSentences(Rule rule) {
+    StringBuilder examples = new StringBuilder();
+    List<IncorrectExample> incorrectExamples = rule.getIncorrectExamples();
+    if (incorrectExamples != null) {
+      for (IncorrectExample incorrectExample : incorrectExamples) {
+        String sentence = incorrectExample.getExample()
+                .replace("<marker>", "<span style='color:red'>").replace("</marker>", "</span>");
+        examples.append("<br/>").append(sentence).append("&nbsp;<span style='color:red'>⨯</span>");
+      }
+    }
+    List<String> correctExamples = rule.getCorrectExamples();
+    if (correctExamples != null) {
+      for (String correctExample : correctExamples) {
+        String sentence = correctExample.replace("<marker>", "<span style='color:green'>").replace("</marker>", "</span>");
+        examples.append("<br/>").append(sentence).append("&nbsp;<span style='color:green'>✓</span>");
+      }
+    }
+    if (examples.length() > 0) {
+      examples.insert(0, "<br/><br/>" + messages.getString("guiExamples"));
+    }
+    return examples.toString();
   }
 
   private static String formatURL(URL url) {
