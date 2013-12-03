@@ -223,10 +223,13 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
           if (matchPostagRegexp(tokens[i - j], NOM)) {
             cNt[level]++;
             isPrevNoun = true;
+            adverbAppeared=false;
+            conjunctionAppeared=false;
+            punctuationAppeared=false;
           } else {
             isPrevNoun = false;
           }
-          ; // avoid two consecutive nouns
+          // avoid two consecutive nouns
           if (matchPostagRegexp(tokens[i - j], DET_CS)) {
             if (matchPostagRegexp(tokens[i - j + 1], NOM_MS)) {
               cDMS[level]++;

@@ -60,6 +60,10 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
 	      han estat de fet exterminades
 	   */
 	  // (en especial si hi ha un adverbi entremig: en algun grau més distintes
+	  assertCorrect("amb la veu i el posat cada cop més agressius");
+	  assertCorrect("l'experiència sensitiva i la raó, degudament combinades.");
+	  //i predisposició natural, perfectament utilitzables per la ciència
+	  //forcallat blanca i messeguera, més pròpies del terme de Monòver
 	  assertCorrect("a la infermeria, d'allò més interessat");
 	  assertCorrect("el record, i absolutament fascinats"); 
 	  assertCorrect("no s'atorguen drets de visita tret que ho consenta el progenitor");
