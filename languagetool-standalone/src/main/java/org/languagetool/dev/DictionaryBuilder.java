@@ -60,12 +60,25 @@ class DictionaryBuilder {
       tab2morphOptions.add("--annotation");
       tab2morphOptions.add(separator);
     }
-    if (hasOption("fsa.dict.uses-prefixes")) {
-      tab2morphOptions.add("-pre");
+    
+    if ((isOptionTrue("fsa.dict.uses-prefixes") || isOptionTrue("fsa.dict.uses-infixes")) &&
+         hasOption("fsa.dict.encoder")) {
+        throw new IOException(".info file must specify either fsa.dict.encoder (preferred) or fsa.dict.uses-* properties.");
     }
-    if (hasOption("fsa.dict.uses-infixes")) {
-      tab2morphOptions.add("-inf");
+
+    if (hasOption("fsa.dict.encoder")) {
+        tab2morphOptions.add("--encoder");
+        tab2morphOptions.add(getOption("fsa.dict.encoder"));
+    } else {
+        if (isOptionTrue("fsa.dict.uses-prefixes")) {
+          tab2morphOptions.add("--encoder");
+          tab2morphOptions.add("prefix");
+        } else if (isOptionTrue("fsa.dict.uses-infixes")) {
+            tab2morphOptions.add("--encoder");
+            tab2morphOptions.add("infix");
+        }
     }
+
     tab2morphOptions.add("-i");
     tab2morphOptions.add(dictFile.getAbsolutePath());
     tab2morphOptions.add("-o");
@@ -92,7 +105,10 @@ class DictionaryBuilder {
   }
 
   private boolean hasOption(String option) {
-    return "true".equals(getOption(option));
+    return props.getProperty(option) != null; 
   }
-
+  
+  private boolean isOptionTrue(String option) {
+    return hasOption(option) && "true".equals(getOption(option));
+  }
 }
