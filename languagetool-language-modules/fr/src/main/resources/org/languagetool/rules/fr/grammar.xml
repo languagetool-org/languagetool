@@ -951,6 +951,64 @@ though, and has since been slightly modified)-->
         <example type="correct">La pale de l’hélice est cassée.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="GOLF_GOLFE" name="golf et golfe">
+      <rule>
+        <pattern>
+          <token regexp="yes">guerre|émirs?</token>
+          <token>du</token>
+          <marker><token>Golf</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>Golfe</suggestion> ?</message>
+        <example type="incorrect">Il a réalisé un documentaire sur la guerre du <marker>Golf</marker>.</example>
+        <example type="correct">Il a réalisé un documentaire sur la guerre du <marker>Golfe</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">jouer|pratiquer|enseigner|apprendre|mettre|exceller|débuter|perdre|gagner|battre|progresser|entraîner|essayer</token>
+          <token min="0" max="1" regexp="yes">moins|plus|pas|souvent|jamais|parfois|bien|mal</token>
+          <token>au</token>
+          <marker><token>golfe</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>golf</suggestion> ?</message>
+        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2210</url>
+        <example type="incorrect">Je joue au <marker>golfe</marker> depuis un an.</example>
+        <example type="correct">Je joue au golf depuis un an.</example>
+        <example type="incorrect">Je joue souvent au <marker>golfe</marker> le dimanche.</example>
+        <example type="correct">Je joue souvent au golf le dimanche.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">champions?|championnats?|clubs?|joueurs?|joueuses?|parcours|jeux?|vêtements?|sacs?|balles?|chaussures?|pantalons?|chariots?|voiture(tte)?s?|carts?|terrains?|tournois?|compétitions?|passionnée?s?|écoles?|professeurs?|parties?|professionel(le)?s?|amateure?s?|stages?|journées?|après-midi|matinées?|heures?|fédérations?|fans?|swing|putt</token>
+          <token>de</token>
+          <marker><token>golfe</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>golf</suggestion> ?</message>
+        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2210</url>
+        <example type="incorrect">C’est un bon joueur de <marker>golfe</marker>.</example>
+        <example type="correct">C’est un bon joueur de golf.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token>golf</token></marker>
+          <token>Persique</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>golfe</suggestion> ?</message>
+        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2210</url>
+        <example type="incorrect">Le <marker>golf</marker> persique est presque une mer fermée.</example>
+        <example type="correct">Le golfe Persique est presque une mer fermée.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token>golf<exception scope="previous">club</exception></token></marker>
+          <token regexp="yes">d[eu]</token>
+          <token regexp="yes">Bengale|Botnie|Gascogne|Gabès|Guinée|Lion|Morbihan|Mexique|Porto|Saint-Laurent|Thaïlande|Tonkin|Tunis|Winam</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>golfe</suggestion> ?</message>
+        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2210</url>
+        <example type="incorrect">J’ai fait de la voile dans le <marker>golf</marker> du Morbihan.</example>
+        <example type="correct">J’ai fait de la voile dans le <marker>golfe</marker> du Morbihan.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="REPERE_REPAIRE" name="repère et repaire">
       <rule>
         <pattern>
@@ -959,6 +1017,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">bandits?|brigants?|cambrioleur?|corsaires?|criminels?|dragons?|escrocs?|filous?|flibustiers?|flibuste|gangsters?|lions?|loups?|maff?iosi|maff?ioso|maff?ia|malfaiteurs?|malfrats?|maraudeurs?|monstres?|murènes?|ours|pick-?pockets?|pillards?|pirates?|scélérats?|taupes?|tigres?|truands?|voleurs?|voleuses?|voyous?|yéti</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>repaire<match no="1" regexp_match=".*(s?)$" regexp_replace="$1"/></suggestion> ?</message>
+        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2224</url>
         <example type="incorrect" correction="repaire">Le <marker>repère</marker> des pirates.</example>
         <example type="correct">Le repaire des pirates.</example>
       </rule>
@@ -1477,6 +1536,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">que?|et|[!;:.»…]</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="(.).(.*)" regexp_replace="$1û$2"/></suggestion> ?</message>
+        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2232</url>
         <example type="incorrect" correction="sûr">J’en suis <marker>sur</marker>.</example>
         <example type="correct">J’en suis sûr.</example>
         <example type="incorrect" correction="Sûr"><marker>Sur</marker> et certain.</example>
@@ -1494,20 +1554,43 @@ though, and has since been slightly modified)-->
           <token><exception postag_regexp="yes" postag="J .*p|V ppa .*p"/></token>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="(.).(.*)" regexp_replace="$1û$2"/></suggestion> ?</message>
-        <example type="incorrect">Il est <marker>sur</marker> de lui.</example>
+        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2232</url>
+        <example type="incorrect" correction="sûr">Il est <marker>sur</marker> de lui.</example>
         <example type="correct">Il est <marker>sûr</marker> de lui.</example>
-        <example type="incorrect">Nous nous sentions toujours <marker>surs</marker> de nous.</example>
+        <example type="incorrect" correction="sûrs">Nous nous sentions toujours <marker>surs</marker> de nous.</example>
         <example type="correct">Nous nous sentions toujours <marker>sûr</marker> de nous.</example>
         <example type="correct">Il est <marker>sûr</marker> de lui.</example>
         <example type="correct">Tout repose sur de vagues accusations.</example>
         <example type="correct">Il compte sur d’autres personnes.</example>
         <example type="correct">Des relations bâties sur l’argent.</example>
-        <example type="incorrect">Il est <marker>sur</marker> d’arriver à l’heure.</example>
+        <example type="incorrect" correction="sûr">Il est <marker>sur</marker> d’arriver à l’heure.</example>
         <example type="correct">Il est <marker>sûr</marker> d’arriver à l’heure.</example>
-        <example type="incorrect">Elle est <marker>sure</marker> d’elle</example>
+        <example type="incorrect" correction="sûre">Elle est <marker>sure</marker> d’elle</example>
         <example type="correct">Elle est <marker>sûre</marker> d’elle</example>
         <example type="correct">Il compte sur d’autres personnes.</example>
         <example type="correct">Un moratoire a <marker>été établi sur</marker> de telles pratiques.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>à</token>
+          <token>coup</token>
+          <marker><token>sur</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion><match no="3" regexp_match="(.).(.)" regexp_replace="$1û$2"/></suggestion> ?</message>
+        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2232</url>
+        <example type="incorrect" correction="sûr">Il réussira à coup <marker>sur</marker> son examen.</example>
+        <example type="correct">Il réussira à coup sûr son examen.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>en</token>
+          <token>lieu</token>
+          <marker><token>sur</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion><match no="3" regexp_match="(.).(.)" regexp_replace="$1û$2"/></suggestion> ?</message>
+        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2232</url>
+        <example type="incorrect" correction="sûr">Il a mis en lieu <marker>sur</marker> son butin.</example>
+        <example type="correct">Il a mis en lieu <marker>sûr</marker> son butin.</example>
       </rule>
     </rulegroup>
     <rulegroup id="SE_CE" name="SE au lieu de CE">
@@ -1862,6 +1945,7 @@ though, and has since been slightly modified)-->
         </marker>
       </pattern>
       <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="(.).*e(s?)" regexp_replace="$1alade$2"/></suggestion> ?</message>
+      <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2049</url>
       <example type="incorrect" correction="balade">Je pars faire une <marker>ballade</marker> pour me relaxer.</example>
       <example type="correct">Je pars faire une <marker>balade</marker> pour me relaxer.</example>
     </rule>
