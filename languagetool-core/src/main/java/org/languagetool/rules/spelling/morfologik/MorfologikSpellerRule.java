@@ -42,7 +42,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
 
   private boolean ignoreTaggedWords = false;
   private boolean checkCompound = false;
-  private String compoundChar = "-";
+  private Pattern compoundRegex = Pattern.compile("-");
 
   /**
    * Get the filename, e.g., <tt>/resource/pl/spelling.dict</tt>.
@@ -135,9 +135,9 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       return false;
     }
 
-    if (checkCompound ) {
-      if (word.contains(compoundChar)) {
-        String[] words = word.split(compoundChar);
+    if (checkCompound) {
+      if (compoundRegex.matcher(word).find()) {
+        String[] words = compoundRegex.split(word);
         for (String singleWord: words) {
           if (speller.isMisspelled(singleWord)) {
             return true;
@@ -194,7 +194,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
 
   /**
    * @param checkCompound If true and the word is not in the dictionary 
-   * it will be split (see {@link #setCompoundChar(String)}) 
+   * it will be split (see {@link #setCompoundRegex(String)}) 
    * and each component will be checked separately
    * @since 2.4 
    */
@@ -203,11 +203,11 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   }
 
   /**
-   * @param compoundChar see {@link #setCheckCompound(boolean)}
+   * @param compoundRegex see {@link #setCheckCompound(boolean)}
    * @since 2.4
    */
-  protected void setCompoundChar(String compoundChar) {
-    this.compoundChar = compoundChar;
+  protected void setCompoundRegex(String compoundRegex) {
+    this.compoundRegex = Pattern.compile(compoundRegex);
   }
 
 }
