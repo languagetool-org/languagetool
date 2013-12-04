@@ -4381,6 +4381,61 @@ though, and has since been slightly modified)-->
       <example type="incorrect">Il a été construit à des <marker>faims</marker> militaires.</example>
       <example type="correct">Il a été construit à des fins militaires.</example>
     </rule>
+    <rulegroup id="RODE_RODE" name="roder et rôder">
+      <rule>
+        <pattern>
+          <token>où</token>
+          <marker><token inflected="yes">roder</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="^(.).(.*)" regexp_replace="$1ô$2"/></suggestion> ?</message>
+        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2225</url>
+        <example type="incorrect" correction="rôdent">Dans le cimetière où <marker>rodent</marker> les fantômes.</example>
+        <example type="correct">Dans le cimetière où <marker>rôdent</marker> les fantômes.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token inflected="yes">roder</token></marker>
+          <token>sans</token>
+          <token>but</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="^(.).(.*)" regexp_replace="$1ô$2"/></suggestion> ?</message>
+        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2225</url>
+        <example type="incorrect" correction="rôde">Il <marker>rode</marker> sans but.</example>
+        <example type="correct">Il rôde sans but.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token inflected="yes">roder</token></marker>
+          <token regexp="yes">autour|près</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="^(.).(.*)" regexp_replace="$1ô$2"/></suggestion> ?</message>
+        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2225</url>
+        <example type="incorrect" correction="rôdent">Les malfaiteurs <marker>rodent</marker> autour de la maison.</example>
+        <example type="correct" correction="rôdent">Les malfaiteurs rôdent autour de la maison.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token inflected="yes">roder</token></marker>
+          <token>en</token>
+          <token regexp="yes">qu[êe]te</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="^(.).(.*)" regexp_replace="$1ô$2"/></suggestion> ?</message>
+        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2225</url>
+        <example type="incorrect" correction="rôdent">Ils <marker>rodent</marker> en quête de bagarre.</example>
+        <example type="correct">Ils rôdent en quête de bagarre.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token inflected="yes">rôder</token></marker>
+          <token postag="D.*" postag_regexp="yes"/>
+          <token regexp="yes">(moteur|soupape|voiture|bouchon)s?</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="^(.).(.*)" regexp_replace="$1o$2"/></suggestion> ?</message>
+        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2225</url>
+        <example type="incorrect" correction="roder">Ils faut <marker>rôder</marker> le moteur.</example>
+        <example type="correct">Ils faut roder le moteur.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="FILTRE_PHILTRE" name="filtre → philtre">
       <rule>
         <pattern>
@@ -4391,7 +4446,7 @@ though, and has since been slightly modified)-->
         <message>Voulez-vous écrire <suggestion><match no="3" regexp_match="^." regexp_replace="ph"/></suggestion> ?</message>
         <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=3785</url>
         <example type="incorrect" correction="philtre">Tristan et Iseult tombèrent amoureux en buvant un <marker>filtre</marker>.</example>
-        <example type="correct" correction="philtre">Tristan et Iseult tombèrent amoureux en buvant un philtre.</example>
+        <example type="correct">Tristan et Iseult tombèrent amoureux en buvant un philtre.</example>
       </rule>
       <rule>
         <pattern>
