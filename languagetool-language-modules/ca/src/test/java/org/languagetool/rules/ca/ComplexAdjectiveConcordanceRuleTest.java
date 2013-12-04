@@ -60,10 +60,9 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
 	      han estat de fet exterminades
 	   */
 	  // (en especial si hi ha un adverbi entremig: en algun grau més distintes
+	  assertCorrect("durant tot l'any, i del sud-est, més notoris a la primavera");
 	  assertCorrect("amb la veu i el posat cada cop més agressius");
 	  assertCorrect("l'experiència sensitiva i la raó, degudament combinades.");
-	  //i predisposició natural, perfectament utilitzables per la ciència
-	  //forcallat blanca i messeguera, més pròpies del terme de Monòver
 	  assertCorrect("a la infermeria, d'allò més interessat");
 	  assertCorrect("el record, i absolutament fascinats"); 
 	  assertCorrect("no s'atorguen drets de visita tret que ho consenta el progenitor");
@@ -156,7 +155,7 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
 		assertIncorrect("fets moltes vegades inexplicable.");
 		assertIncorrect("eren uns fets cada volta més inexplicable");
 		assertIncorrect("Unes explotacions ramaderes porcina.");
-		assertIncorrect("amb un rendiment del 5,62%, més alta que el 5,44%");
+		//assertIncorrect("amb un rendiment del 5,62%, més alta que el 5,44%");
 		//assertIncorrect("un a baix i un altre a dalt identificada amb el símbol");
 		//assertIncorrect("un a baix i un altre a dalt identificades amb el símbol");
 		//assertIncorrect("En efecte, hi ha consideracions, llavors força comuns");

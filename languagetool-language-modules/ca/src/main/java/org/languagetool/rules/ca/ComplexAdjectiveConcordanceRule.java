@@ -275,6 +275,9 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
               k++;
             }
           }
+          adverbAppeared |= matchPostagRegexp(tokens[i - j], ADVERBI);
+          conjunctionAppeared |= matchPostagRegexp(tokens[i - j], CONJUNCIO);
+          punctuationAppeared |= matchPostagRegexp(tokens[i - j], PUNTUACIO);
           j++;
           keepCounting = (matchPostagRegexp(tokens[i - j], KEEP_COUNT)
               || matchRegexp(tokens[i - j].getToken(), KEEP_COUNT2) 
@@ -282,9 +285,6 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
               && !matchRegexp(tokens[i - j].getToken(), STOP_COUNT);
           //stop searching if there is some of these combinations: 
           //adverb+comma, adverb+conjunction, comma+conjunction
-          adverbAppeared |= matchPostagRegexp(tokens[i - j], ADVERBI);
-          conjunctionAppeared |= matchPostagRegexp(tokens[i - j], CONJUNCIO);
-          punctuationAppeared |= matchPostagRegexp(tokens[i - j], PUNTUACIO);
           if ((adverbAppeared && conjunctionAppeared) 
               || (adverbAppeared && punctuationAppeared)
               || (conjunctionAppeared && punctuationAppeared)) {
