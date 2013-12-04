@@ -1440,15 +1440,27 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <match no="1" postag_regexp="yes" postag="[^N].*"></match>
         </disambig>
     </rule>
-    <rule id="notes_musicals" name="notes musicals (nom)">
-        <pattern>
-            <marker>
-                <token regexp="yes">do|re|mi|fa|sol|la|si</token>
-            </marker>
-            <token regexp="yes">menor|major|sostingut|bemoll|diesi|becaire</token>
-        </pattern>
-        <disambig action="filter" postag="N.*"/>
-    </rule>
+    <rulegroup id="notes_musicals" name="notes musicals (nom)">
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">do|re|mi|fa|sol|si</token>
+                </marker>
+                <token regexp="yes">menor|major|sostingut|bemoll|diesi|becaire</token>
+            </pattern>
+            <disambig action="filter" postag="N.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>la</token>
+                </marker>
+                <token regexp="yes">sostingut|bemoll|diesi|becaire</token>
+            </pattern>
+            <disambig action="filter" postag="N.*"/>
+            <example type="untouched">És <marker>la</marker> major concentració mundial de cotxes.</example>
+        </rule>
+    </rulegroup>
     <rule id="noNom2" name="FA LA no nom">
         <pattern>
             <token><exception postag="D[DAI]0MS0" postag_regexp="yes" regexp="yes">el|un|aquest|algun</exception></token>
