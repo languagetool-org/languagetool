@@ -959,6 +959,7 @@ though, and has since been slightly modified)-->
           <marker><token>Golf</token></marker>
         </pattern>
         <message>Voulez-vous écrire <suggestion>Golfe</suggestion> ?</message>
+        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2210</url>
         <example type="incorrect">Il a réalisé un documentaire sur la guerre du <marker>Golf</marker>.</example>
         <example type="correct">Il a réalisé un documentaire sur la guerre du <marker>Golfe</marker>.</example>
       </rule>
@@ -6272,8 +6273,8 @@ though, and has since been slightly modified)-->
         <example type="correct"><marker>Je n’y crois</marker> pas</example>
         <example type="incorrect"><marker>Je t’en parles</marker></example>
         <example type="correct"><marker>Je t’en parle</marker></example>
-        <example type="incorrect"><marker>Je ne vous en parles</marker></example>
-        <example type="correct"><marker>Je ne vous en parle</marker></example>
+        <example type="incorrect"><marker>Je ne vous en parles</marker> pas.</example>
+        <example type="correct"><marker>Je ne vous en parle</marker> pas.</example>
         <example type="incorrect"><marker>Je ne leur en veut</marker> pas.</example>
         <example type="correct"><marker>Je ne leur en veux</marker> pas.</example>
         <example type="incorrect"><marker>Je ne le lui achètes</marker> pas.</example>
@@ -6292,10 +6293,10 @@ though, and has since been slightly modified)-->
           <token postag="V .*" postag_regexp="yes"><exception postag="V .* 1 s" postag_regexp="yes"/></token>
         </pattern>
         <message>Vérifiez l’accord entre le pronom « \1 » et le verbe « \6 ».</message>
-        <example type="incorrect"><marker>Je ne m’en souvient</marker> pas</example>
-        <example type="correct"><marker>Je ne m’en souviens</marker> pas</example>
-        <example type="incorrect"><marker>Je ne l’y ait</marker> pas vu pas</example>
-        <example type="correct"><marker>Je ne l’y ai</marker> pas vu</example>
+        <example type="incorrect"><marker>Je ne m’en souvient</marker> pas.</example>
+        <example type="correct"><marker>Je ne m’en souviens</marker> pas.</example>
+        <example type="incorrect"><marker>Je ne l’y ait</marker> pas vu.</example>
+        <example type="correct"><marker>Je ne l’y ai</marker> pas vu.</example>
       </rule>
 
       <rule name="tu + 0 token + verbe">
@@ -9306,6 +9307,60 @@ though, and has since been slightly modified)-->
         <example type="correct">Il ne les a pas fait fuir.</example>
         <example type="incorrect">Vous l’avez encore <marker>faite</marker> souffrir.</example>
         <example type="correct">Vous l’avez encore fait souffrir.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="NI_VU_NI_CONNU" name="Ni vu ni connu (participe passé invariable)">
+      <rule>
+        <pattern>
+          <token>ni</token>
+          <token regexp="yes">vue?s?<exception>vu</exception></token>
+          <token>ni</token>
+          <token regexp="yes">connue?s?</token>
+        </pattern>
+        <message>Les participes « vu » et « connu » sont invariables dans l’expression <suggestion>ni vu ni connu</suggestion>.</message>
+        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=574</url>
+        <example type="incorrect">Ils sont passés <marker>ni vus ni connu</marker>.</example>
+        <example type="incorrect">Ils sont passés <marker>ni vus ni connus</marker>.</example>
+        <example type="correct">Ils sont passés <marker>ni vu ni connu</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>ni</token>
+          <token regexp="yes">vue?s?</token>
+          <token>ni</token>
+          <token regexp="yes">connue?s?<exception>connu</exception></token>
+        </pattern>
+        <message>Les participes « vu » et « connu » sont invariables dans l’expression <suggestion>ni vu ni connu</suggestion>.</message>
+        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=574</url>
+        <example type="incorrect">Ils sont passés <marker>ni vu ni connus</marker>.</example>
+        <example type="correct">Ils sont passés <marker>ni vu ni connu</marker>.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="PAS_VU_PAS_PRIS" name="Pas vu pas pris (participe passé invariable)">
+      <rule>
+        <pattern>
+          <token>pas</token>
+          <token regexp="yes">vue?s?<exception>vu</exception></token>
+          <token>pas</token>
+          <token regexp="yes">prises?|pris</token>
+        </pattern>
+        <message>Les participes « vu » et « pris » sont invariables dans l’expression <suggestion>pas vu pas pris</suggestion>.</message>
+        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=574</url>
+        <example type="incorrect"><marker>Pas vue pas pris</marker> !</example>
+        <example type="incorrect"><marker>Pas vue pas prise</marker> !</example>
+        <example type="correct"><marker>Pas vu pas pris</marker> !</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>pas</token>
+          <token regexp="yes">vue?s?</token>
+          <token>pas</token>
+          <token regexp="yes">prises?</token>
+        </pattern>
+        <message>Les participes « vu » et « pris » sont invariables dans l’expression <suggestion>pas vu pas pris</suggestion>.</message>
+        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=574</url>
+        <example type="incorrect"><marker>Pas vu pas prise</marker> !</example>
+        <example type="correct"><marker>Pas vu pas pris</marker> !</example>
       </rule>
     </rulegroup>
   </category>
