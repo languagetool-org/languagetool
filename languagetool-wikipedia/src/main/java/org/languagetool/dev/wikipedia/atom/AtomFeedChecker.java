@@ -44,13 +44,23 @@ import java.util.List;
 public class AtomFeedChecker {
 
   private final JLanguageTool langTool;
+  private final MatchDatabase matchDatabase;
   private final TextMapFilter textFilter = new SwebleWikipediaTextFilter();
   private final ContextTools contextTools = new ContextTools();
   
-  public AtomFeedChecker(Language language) throws IOException {
+  AtomFeedChecker(Language language) throws IOException {
+    this(language, null);
+  }
+  
+  AtomFeedChecker(Language language, DatabaseConfig dbConfig) throws IOException {
     langTool = new JLanguageTool(language);
     langTool.activateDefaultPatternRules();
     langTool.disableRule("UNPAIRED_BRACKETS");  // too many false alarms
+    if (dbConfig != null) {
+      matchDatabase = new MatchDatabase(dbConfig.getUrl(), dbConfig.getUser(), dbConfig.getPassword());
+    } else {
+      matchDatabase = null;
+    }
     contextTools.setContextSize(60);
     contextTools.setErrorMarkerStart("<err>");
     contextTools.setErrorMarkerEnd("</err>");
@@ -83,7 +93,7 @@ public class AtomFeedChecker {
               latestDiffId = item.getDiffId();
             }
           } catch (Exception e) {
-            e.printStackTrace();  // don't just stop because of Sweble problems etc.
+            e.printStackTrace();  // don't just stop because of Sweble conversion problems etc.
           }
         }
       }
@@ -98,7 +108,7 @@ public class AtomFeedChecker {
     for (String oldContent : item.getOldContent()) {
       PlainTextMapping filteredContent = textFilter.filter(oldContent);
       List<RuleMatch> ruleMatches = langTool.check(filteredContent.getPlainText());
-      oldMatches.addAll(toWikipediaRuleMatches(oldContent, filteredContent, ruleMatches));
+      oldMatches.addAll(toWikipediaRuleMatches(oldContent, filteredContent, ruleMatches, item));
     }
     return oldMatches;
   }
@@ -108,12 +118,12 @@ public class AtomFeedChecker {
     for (String newContent : item.getNewContent()) {
       PlainTextMapping filteredContent = textFilter.filter(newContent);
       List<RuleMatch> ruleMatches = langTool.check(filteredContent.getPlainText());
-      newMatches.addAll(toWikipediaRuleMatches(newContent, filteredContent, ruleMatches));
+      newMatches.addAll(toWikipediaRuleMatches(newContent, filteredContent, ruleMatches, item));
     }
     return newMatches;
   }
 
-  private List<WikipediaRuleMatch> toWikipediaRuleMatches(String content, PlainTextMapping filteredContent, List<RuleMatch> ruleMatches) {
+  private List<WikipediaRuleMatch> toWikipediaRuleMatches(String content, PlainTextMapping filteredContent, List<RuleMatch> ruleMatches, AtomFeedItem item) {
     List<WikipediaRuleMatch> result = new ArrayList<>();
     for (RuleMatch ruleMatch : ruleMatches) {
       Location fromPos = filteredContent.getOriginalTextPositionFor(ruleMatch.getFromPos() + 1);
@@ -121,7 +131,7 @@ public class AtomFeedChecker {
       int origFrom = LocationHelper.absolutePositionFor(fromPos, content);
       int origTo = LocationHelper.absolutePositionFor(toPos, content);
       String errorContext = contextTools.getContext(origFrom, origTo, content);
-      result.add(new WikipediaRuleMatch(ruleMatch, errorContext));
+      result.add(new WikipediaRuleMatch(ruleMatch, errorContext, item.getTitle(), item.getDate()));
     }
     return result;
   }
@@ -130,10 +140,39 @@ public class AtomFeedChecker {
     return (InputStream) atomFeedUrl.getContent();
   }
 
+  private CheckResult runCheck(String url, long latestDiffId, Language language) throws IOException {
+    CheckResult checkResult = checkChanges(new URL(url), latestDiffId);
+    List<ChangeAnalysis> checkResults = checkResult.getCheckResults();
+    System.out.println("Check results:");
+    for (ChangeAnalysis result : checkResults) {
+      List<WikipediaRuleMatch> addedMatches = result.getAddedMatches();
+      List<WikipediaRuleMatch> removedMatches = result.getRemovedMatches();
+      if (addedMatches.size() > 0 || removedMatches.size() > 0) {
+        System.out.println("'" + result.getTitle() + "' new and removed matches:");
+        for (WikipediaRuleMatch match : addedMatches) {
+          System.out.println("    [+] " + match.getRule().getId() + ": " +  match.getErrorContext());
+          if (matchDatabase != null) {
+            matchDatabase.add(match);
+          }
+        }
+        for (WikipediaRuleMatch match : removedMatches) {
+          System.out.println("    [-] " + match.getRule().getId() + ": " +  match.getErrorContext());
+          if (matchDatabase != null) {
+            matchDatabase.markedFixed(match);
+          }
+        }
+        String diffLink = "https://" + language.getShortName() + ".wikipedia.org/w/index.php?title="
+                + URLEncoder.encode(result.getTitle().replace(" ", "_"), "UTF-8") + "&diff=" + result.getDiffId();
+        System.out.println("    " + diffLink);
+      }
+    }
+    return checkResult;
+  }
+
   public static void main(String[] args) throws IOException, InterruptedException {
     boolean loopMode = true;
-    if (args.length != 1) {
-      System.out.println("Usage: " + AtomFeedChecker.class.getSimpleName() + " <atomFeedUrl>");
+    if (args.length != 1 && args.length != 2) {
+      System.out.println("Usage: " + AtomFeedChecker.class.getSimpleName() + " <atomFeedUrl> [database.properties]");
       System.out.println("  <atomFeedUrl> is a Wikipedia URL to the latest changes, for example:");
       System.out.println("  https://de.wikipedia.org/w/index.php?title=Spezial:Letzte_%C3%84nderungen&feed=atom&namespace=0");
       System.exit(1);
@@ -144,44 +183,27 @@ public class AtomFeedChecker {
     String langCode = url.substring(url.indexOf("//") + 2, url.indexOf("."));
     System.out.println("Using URL: " + url);
     System.out.println("Language code: " + langCode);
+    DatabaseConfig databaseConfig = null;
+    if (args.length == 2) {
+      String propFile = args[1];
+      databaseConfig = new DatabaseConfig(propFile);
+      System.out.println("Writing results to database at: " + databaseConfig.getUrl());
+    }
     Language language = Language.getLanguageForShortName(langCode);
-    AtomFeedChecker atomFeedChecker = new AtomFeedChecker(language);
+    AtomFeedChecker atomFeedChecker = new AtomFeedChecker(language, databaseConfig);
     long latestDiffId = 0;
     if (loopMode) {
       System.out.println("Running in loop mode until stopped...");
       while (true) {
         System.out.println("\nRunning with latestDiffId " + latestDiffId);
-        CheckResult checkResult = runCheck(url, atomFeedChecker, latestDiffId, language);
+        CheckResult checkResult = atomFeedChecker.runCheck(url, latestDiffId, language);
         latestDiffId = checkResult.getLatestDiffId();
         Thread.sleep(60*1000);
       }
     } else {
-      CheckResult checkResult = runCheck(url, atomFeedChecker, 0, language);
+      CheckResult checkResult = atomFeedChecker.runCheck(url, 0, language);
     }
     // TODO: store lastDiffId to properties file
-  }
-
-  private static CheckResult runCheck(String url, AtomFeedChecker atomFeedChecker, long latestDiffId, Language language) throws IOException {
-    CheckResult checkResult = atomFeedChecker.checkChanges(new URL(url), latestDiffId);
-    List<ChangeAnalysis> checkResults = checkResult.getCheckResults();
-    System.out.println("Check results:");
-    for (ChangeAnalysis result : checkResults) {
-      List<WikipediaRuleMatch> addedMatches = result.getAddedMatches();
-      List<WikipediaRuleMatch> removedMatches = result.getRemovedMatches();
-      if (addedMatches.size() > 0 || removedMatches.size() > 0) {
-        System.out.println("'" + result.getTitle() + "' new and removed matches:");
-        for (WikipediaRuleMatch match : addedMatches) {
-          System.out.println("    [+] " + match.getRule().getId() + ": " +  match.getErrorContext());
-        }
-        for (WikipediaRuleMatch match : removedMatches) {
-          System.out.println("    [-] " + match.getRule().getId() + ": " +  match.getErrorContext());
-        }
-        String diffLink = "https://" + language.getShortName() + ".wikipedia.org/w/index.php?title="
-                + URLEncoder.encode(result.getTitle().replace(" ", "_"), "UTF-8") + "&diff=" + result.getDiffId();
-        System.out.println("    " + diffLink);
-      }
-    }
-    return checkResult;
   }
 
 }

@@ -18,29 +18,31 @@
  */
 package org.languagetool.dev.wikipedia.atom;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.languagetool.rules.RuleMatch;
-
 import java.util.Date;
 import java.util.Objects;
 
 /**
- * A wrapper around a {@link RuleMatch} with an {@link Object#equals(Object)} implementation
- * that only considers the rule id. This is done so the diff algorithm can compare before/after
- * list of errors without getting confused by changes in character position.
+ * A rule match retrieved from the database.
  * @since 2.4
  */
-class WikipediaRuleMatch extends RuleMatch {
+class StoredWikipediaRuleMatch {
 
+  private final String ruleId;
   private final String errorContext;
   private final String title;
   private final Date editDate;
+  private final Date fixDate;
   
-  WikipediaRuleMatch(RuleMatch ruleMatch, String errorContext, String title, Date editDate) {
-    super(ruleMatch.getRule(), ruleMatch.getFromPos(), ruleMatch.getToPos(), ruleMatch.getMessage());
+  StoredWikipediaRuleMatch(String ruleId, String errorContext, String title, Date editDate, Date fixDate) {
+    this.ruleId = Objects.requireNonNull(ruleId);
     this.errorContext = Objects.requireNonNull(errorContext);
     this.title = Objects.requireNonNull(title);
     this.editDate = Objects.requireNonNull(editDate);
+    this.fixDate = fixDate;
+  }
+
+  String getRuleId() {
+    return ruleId;
   }
 
   String getErrorContext() {
@@ -55,21 +57,15 @@ class WikipediaRuleMatch extends RuleMatch {
     return editDate;
   }
 
+  /**
+   * May be null (if error is not fixed yet).
+   */
+  Date getFixDate() {
+    return fixDate;
+  }
+
   @Override
   public String toString() {
-    return getRule().getId() + ":" + getFromPos() + "-" + getToPos();
-  }
-
-  @Override
-  public int hashCode() {
-    return getRule().getId().hashCode();
-  }
-
-  @Override
-  public boolean equals(Object other) {
-    if (other instanceof WikipediaRuleMatch) {
-      return new EqualsBuilder().append(getRule().getId(), ((WikipediaRuleMatch) other).getRule().getId()).isEquals();
-    }
-    return false;
+    return ruleId;
   }
 }

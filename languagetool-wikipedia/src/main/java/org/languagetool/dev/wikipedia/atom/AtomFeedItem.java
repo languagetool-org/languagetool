@@ -19,6 +19,7 @@
 package org.languagetool.dev.wikipedia.atom;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
@@ -35,11 +36,13 @@ class AtomFeedItem {
   private final String id;
   private final String title;
   private final String summary;
+  private final Date date;
 
-  AtomFeedItem(String id, String title, String summary) {
+  AtomFeedItem(String id, String title, String summary, Date date) {
     this.id = Objects.requireNonNull(id);
     this.title = Objects.requireNonNull(title);
     this.summary = Objects.requireNonNull(summary);
+    this.date = Objects.requireNonNull(date);
   }
 
   String getId() {
@@ -52,6 +55,10 @@ class AtomFeedItem {
 
   String getSummary() {
     return summary;
+  }
+
+  Date getDate() {
+    return date;
   }
 
   List<String> getOldContent() {

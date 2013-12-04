@@ -23,7 +23,11 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
 import java.io.InputStream;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -36,8 +40,10 @@ class AtomFeedParser {
     List<AtomFeedItem> items = new ArrayList<>();
     String id = null;
     String title = null;
+    Date date = null;
     XMLInputFactory inputFactory = XMLInputFactory.newInstance();
     XMLEventReader eventReader = inputFactory.createXMLEventReader(xml);
+    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");  // e.g. 2013-12-03T09:48:29Z
     while (eventReader.hasNext()) {
       XMLEvent event = eventReader.nextEvent();
       if (event.isStartElement()) {
@@ -49,13 +55,22 @@ class AtomFeedParser {
           case "title":
             title = getCharacterData(eventReader);
             break;
-          case "summary":
-            if (id == null || title == null) {
-              throw new RuntimeException("id and/or title is null: id=" + id + ", title=" + title);
+          case "updated":
+            String dateString = getCharacterData(eventReader);
+            try {
+              date = dateFormat.parse(dateString);
+            } catch (ParseException e) {
+              throw new RuntimeException("Could not parse date string '" + dateString + "'", e);
             }
-            items.add(new AtomFeedItem(id, title, getCharacterData(eventReader)));
+            break;
+          case "summary":
+            if (id == null || title == null || date == null) {
+              throw new RuntimeException("id, title and/or date is null: id=" + id + ", title=" + title + ", date=" + date);
+            }
+            items.add(new AtomFeedItem(id, title, getCharacterData(eventReader), date));
             id = null;
             title = null;
+            date = null;
             break;
         }
       }

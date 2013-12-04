@@ -19,12 +19,10 @@
 package org.languagetool.dev.wikipedia.atom;
 
 import org.junit.Test;
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -67,19 +65,9 @@ public class ChangeAnalysisTest {
     List<WikipediaRuleMatch> matches = new ArrayList<>();
     for (int id : ids) {
       RuleMatch ruleMatch = new RuleMatch(new FakeRule(id), 10, 20, "error1");
-      matches.add(new WikipediaRuleMatch(ruleMatch, "error context"));
+      matches.add(new WikipediaRuleMatch(ruleMatch, "error context", "Article Title", new Date(100000)));
     }
     return matches;
   }
   
-  class FakeRule extends Rule {
-    private final int id;
-    FakeRule(int id) {
-      this.id = id;
-    }
-    @Override public String getId() { return "ID_" + id; }
-    @Override public String getDescription() { return "A fake rule"; }
-    @Override public RuleMatch[] match(AnalyzedSentence text) throws IOException { throw new RuntimeException("not implemented"); }
-    @Override public void reset() {}
-  }
 }

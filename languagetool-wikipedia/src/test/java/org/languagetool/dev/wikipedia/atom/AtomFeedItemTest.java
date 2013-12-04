@@ -24,6 +24,7 @@ import org.languagetool.tools.Tools;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Date;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -61,7 +62,7 @@ public class AtomFeedItemTest {
 
   private AtomFeedItem getSummary(String filename) throws IOException {
     InputStream stream = Tools.getStream("/org/languagetool/dev/wikipedia/atom/" + filename);
-    return new AtomFeedItem("fakeId", "fakeTitle", StringTools.streamToString(stream, "UTF-8"));
+    return new AtomFeedItem("fakeId", "fakeTitle", StringTools.streamToString(stream, "UTF-8"), new Date(100000));
   }
 
 }
