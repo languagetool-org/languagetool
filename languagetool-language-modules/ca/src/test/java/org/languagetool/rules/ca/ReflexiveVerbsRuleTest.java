@@ -296,6 +296,7 @@ public class ReflexiveVerbsRuleTest extends TestCase {
     assertIncorrect("tot l'auditori es callà");
     assertIncorrect("les gotes que es van caure fora"); 
     assertIncorrect("Ells s'han baixat del tren.");
+    assertIncorrect("Ximo Puig i Rubalcaba no s'han baixat del cotxe oficial des del 79.");
     assertIncorrect("Se'ns va callar.");
     assertIncorrect("Tothom es va callar.");
     assertIncorrect("Els nens van poder-se caure");  

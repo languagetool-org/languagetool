@@ -141,9 +141,9 @@ public class ReflexiveVerbsRule extends CatalanRule {
   private static final Pattern SUBJECTE_PERSONAL_NO_LEMMA = Pattern.compile("dia|any|mes|segle|dilluns|dimarts|dimecres|dijous|divendres|dissabte|diumenge|gener|febrer|març|abril|maig|juny|juliol|agost|setembre|octubre|novembre|desembre");
   // en general expressió temporal
   
-  private static final Pattern SUBJECTE_PERSONAL_SING_POSTAG = Pattern.compile("N..[SN].*|_GN_.S|PI..[SN].*");
+  private static final Pattern SUBJECTE_PERSONAL_SING_POSTAG = Pattern.compile("N..[SN].*|_GN_.S|PI..[SN].*|_possible_nompropi|UNKNOWN");
   private static final Pattern SUBJECTE_PERSONAL_SING_TOKEN = Pattern.compile("algú|algun|jo|mi|tu|ella?|vost[èé]|vós",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-  private static final Pattern SUBJECTE_PERSONAL_PL_POSTAG = Pattern.compile("N..[PN].*|_GN_.P|PI..[PN].*");
+  private static final Pattern SUBJECTE_PERSONAL_PL_POSTAG = Pattern.compile("N..[PN].*|_GN_.P|PI..[PN].*|_possible_nompropi|UNKNOWN");
   private static final Pattern SUBJECTE_PERSONAL_PL_TOKEN = Pattern.compile("alguns|nosaltres|vosaltres|elle?s|vost[èé]s",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
 
   private static final Pattern SUBJECTE_3S_POSTAG = Pattern.compile("N..[SN].*|_GN_.S|PI..[SN].*");
@@ -436,13 +436,14 @@ public class ReflexiveVerbsRule extends CatalanRule {
   private boolean matchPostagRegexp(AnalyzedTokenReadings aToken, Pattern pattern) {
     boolean matches = false;
     for (AnalyzedToken analyzedToken : aToken) {
-      final String posTag = analyzedToken.getPOSTag();
-      if (posTag != null) {
-        final Matcher m = pattern.matcher(posTag);
-        if (m.matches()) {
-          matches = true;
-          break;
-        }
+      String posTag = analyzedToken.getPOSTag();
+      if (posTag == null) {
+        posTag = "UNKNOWN";
+      }
+      final Matcher m = pattern.matcher(posTag);
+      if (m.matches()) {
+        matches = true;
+        break;
       }
     }
     return matches;
