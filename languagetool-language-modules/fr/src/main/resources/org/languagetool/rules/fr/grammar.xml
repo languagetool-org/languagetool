@@ -8492,9 +8492,10 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token>là</token>
-          <token regexp="yes">bas|dedans|dessous|devant|derrière|haut</token>
+          <token regexp="yes">bas|dedans|dessous|dessus|devant|derrière|haut</token>
         </pattern>
         <message>Voulez-vous dire <suggestion>là-\2</suggestion> ?</message>
+        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=1732</url>
         <example type="incorrect">Je vais <marker>là bas</marker>.</example>
         <example type="correct">Je vais <marker>là-bas</marker>.</example>
       </rule>
@@ -23077,12 +23078,31 @@ though, and has since been slightly modified)-->
     <rulegroup id="PAS_DE_TRAIT_UNION" name="en-bas → en bas (etc.)">
       <rule>
         <pattern>
-          <token regexp="yes">ici-(même|dedans|dehors|dessus)</token>
+          <token regexp="yes">ici[-‑‐](même|dedans|dehors|dessus)</token>
         </pattern>
         <message>L’expression <suggestion><match no="1" regexp_match="[-‑‐]" regexp_replace=" "/></suggestion> s’écrit sans trait d’union.</message>
         <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=1732</url>
         <example type="incorrect" correction="ici même">Je l’ai vu <marker>ici-même</marker> hier.</example>
         <example type="correct">Je l’ai vu ici même hier.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">rectos?[-‑‐]versos?</token>
+        </pattern>
+        <message>La locution adverbiale <suggestion>recto verso</suggestion> s’écrit sans trait d’union et est invariable.</message>
+        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?Th=2&amp;t1=&amp;id=3626</url>
+        <example type="incorrect" correction="recto verso">Des impressions <marker>recto-verso</marker>.</example>
+        <example type="correct">Des impressions recto verso.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">rectos?</token>
+          <token>versos</token>
+        </pattern>
+        <message>La locution adverbiale <suggestion>recto verso</suggestion> s’écrit sans trait d’union et est invariable.</message>
+        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?Th=2&amp;t1=&amp;id=3626</url>
+        <example type="incorrect" correction="recto verso">Des impressions <marker>rectos versos</marker>.</example>
+        <example type="correct">Des impressions recto verso.</example>
       </rule>
       <rule>
         <pattern>
