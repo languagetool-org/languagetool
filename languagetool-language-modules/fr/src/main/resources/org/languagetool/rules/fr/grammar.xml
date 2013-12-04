@@ -4381,6 +4381,41 @@ though, and has since been slightly modified)-->
       <example type="incorrect">Il a été construit à des <marker>faims</marker> militaires.</example>
       <example type="correct">Il a été construit à des fins militaires.</example>
     </rule>
+    <rulegroup id="FILTRE_PHILTRE" name="filtre → philtre">
+      <rule>
+        <pattern>
+          <token inflected="yes">boire</token>
+          <token postag="D.*" postag_regexp="yes"/>
+          <marker><token regexp="yes">filtres?</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion><match no="3" regexp_match="^." regexp_replace="ph"/></suggestion> ?</message>
+        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=3785</url>
+        <example type="incorrect" correction="philtre">Tristan et Iseult tombèrent amoureux en buvant un <marker>filtre</marker>.</example>
+        <example type="correct" correction="philtre">Tristan et Iseult tombèrent amoureux en buvant un philtre.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">filtres?</token></marker>
+          <token>d</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+          <token>amour</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="^." regexp_replace="ph"/></suggestion> ?</message>
+        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=3785</url>
+        <example type="incorrect" correction="philtre">Il prépara un <marker>filtre</marker> d’amour.</example>
+        <example type="correct">Il prépara un philtre d’amour.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">filtres?</token></marker>
+          <token regexp="yes">(aphrodisiaque|empoisonneur|guérisseur|léthargique|magique|narcotique)s?</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="^." regexp_replace="ph"/></suggestion> ?</message>
+        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=3785</url>
+        <example type="incorrect" correction="philtre">Il prépara un <marker>filtre</marker> aphrodisiaque.</example>
+        <example type="correct">Il prépara un philtre aphrodisiaque.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category name="Élision">
     <rulegroup id="EL_PRESQUE" name="Élision de presque">
