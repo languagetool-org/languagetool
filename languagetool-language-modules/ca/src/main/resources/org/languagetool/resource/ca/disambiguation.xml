@@ -1440,6 +1440,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <match no="1" postag_regexp="yes" postag="[^N].*"></match>
         </disambig>
     </rule>
+    <rule id="notes_musicals" name="notes musicals (nom)">
+        <pattern>
+            <marker>
+                <token regexp="yes">do|re|mi|fa|sol|la|si</token>
+            </marker>
+            <token regexp="yes">menor|major|sostingut|bemoll|diesi|becaire</token>
+        </pattern>
+        <disambig action="filter" postag="N.*"/>
+    </rule>
     <rule id="noNom2" name="FA LA no nom">
         <pattern>
             <token><exception postag="D[DAI]0MS0" postag_regexp="yes" regexp="yes">el|un|aquest|algun</exception></token>
@@ -4844,6 +4853,73 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter"  postag="V.*"/>
     </rule>
+    <rule id="en_conserva" name="en conserva (no verb)">
+        <pattern>
+            <token>en</token>
+            <marker>
+                <token>conserva</token>
+            </marker>
+            <token><exception postag="D[^R].*" postag_regexp="yes"/></token>
+        </pattern>
+        <disambig action="filter"  postag="[^V].*"/>
+    </rule>
+    <rule id="nova" name="nova (adjectiu)">
+        <pattern>
+            <unify>
+            <feature id="nombre"/>
+            <feature id="genere"/>
+                <marker>
+                    <token postag="AQ.*" postag_regexp="yes" regexp="yes">nova|noves</token> 
+                </marker>
+                <token postag="NC.*" postag_regexp="yes"></token>
+            </unify>
+        </pattern>
+        <disambig action="filter" postag="AQ.*"></disambig>
+        <example type="untouched">la cara <marker>era</marker> d'un color gris</example>
+    </rule>
+    <rulegroup id="verbnom_de" name="art+verb_nom+de">
+        <!-- L'era de... No va bé per a verbs que regeixen "de" -->
+        <rule>
+            <pattern>
+                <unify>
+                <feature id="nombre"/>
+                <feature id="genere"/>
+                    <token postag="DA.*|AQ.*" postag_regexp="yes"><exception postag="N.*" postag_regexp="yes"/></token> 
+                    <marker>
+                        <and>
+                            <token postag="NC.*" postag_regexp="yes"></token>
+                            <token postag="V.[SI].*" postag_regexp="yes"><exception inflected="yes">prendre</exception></token>
+                        </and>
+                    </marker>
+                </unify>
+                <token regexp="yes">de|d'</token>
+            </pattern>
+            <disambig action="filter" postag="N.*"></disambig>
+            <example type="untouched">la cara <marker>era</marker> d'un color gris</example>
+        </rule>
+        <rule> <!-- a l'altre punta de carrer -->
+            <pattern>
+                <token inflected="yes">altre</token>
+                <marker>
+                    <and>
+                        <token postag="V.[SI].*" postag_regexp="yes"><exception inflected="yes">prendre</exception><exception>era</exception></token>
+                        <token postag="NC.*" postag_regexp="yes"></token>
+                    </and>
+                </marker>
+                <token regexp="yes">de|d'</token>
+            </pattern>
+            <disambig action="filter" postag="N.*"></disambig>
+        </rule>
+        <rule id="objecte_de" name="objecte de"><!-- es pot generalitzar? -->
+            <pattern>
+                <marker>
+                    <token regexp="yes">objectes?|creus?</token>
+                </marker>
+                <token regexp="yes">de|d'<exception postag=".*LOC_.*" postag_regexp="yes"/></token>
+            </pattern> 
+            <disambig action="filter" postag="[^V].*"/>
+        </rule>
+    </rulegroup>
     <rulegroup id="DDN" name="Det + Det + nom">
         <rule>
             <pattern>
@@ -5878,48 +5954,6 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="A.*"></disambig>
     </rule>
-    <rulegroup id="verbnom_de" name="art+verb_nom+de">
-        <!-- L'era de... No va bé per a verbs que regeixen "de" -->
-        <rule>
-            <pattern>
-                <unify>
-                <feature id="nombre"/>
-                <feature id="genere"/>
-                    <token postag="DA.*|AQ.*" postag_regexp="yes" />
-                    <marker>
-                        <and>
-                            <token postag="NC.*" postag_regexp="yes"></token>
-                            <token postag="V.[SI].*" postag_regexp="yes"><exception inflected="yes">prendre</exception></token>
-                        </and>
-                    </marker>
-                </unify>
-                <token regexp="yes">de|d'</token>
-            </pattern>
-            <disambig action="filter" postag="N.*"></disambig>
-        </rule>
-        <rule> <!-- a l'altre punta de carrer -->
-            <pattern>
-                <token inflected="yes">altre</token>
-                <marker>
-                    <and>
-                        <token postag="V.[SI].*" postag_regexp="yes"><exception inflected="yes">prendre</exception></token>
-                        <token postag="NC.*" postag_regexp="yes"></token>
-                    </and>
-                </marker>
-                <token regexp="yes">de|d'</token>
-            </pattern>
-            <disambig action="filter" postag="N.*"></disambig>
-        </rule>
-        <rule id="objecte_de" name="objecte de"><!-- es pot generalitzar? -->
-            <pattern>
-                <marker>
-                    <token regexp="yes">objectes?|creus?</token>
-                </marker>
-                <token regexp="yes">de|d'<exception postag=".*LOC_.*" postag_regexp="yes"/></token>
-            </pattern> 
-            <disambig action="filter" postag="[^V].*"/>
-        </rule>
-    </rulegroup>
     <rulegroup id="verbnom_verb" name="verb/nom + verb">
         <!-- verb/nom + verb  El diu és un dispostiu, Aquella era havia estat -->
         <rule>
