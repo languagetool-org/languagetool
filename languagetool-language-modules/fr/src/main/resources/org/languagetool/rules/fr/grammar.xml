@@ -23077,6 +23077,15 @@ though, and has since been slightly modified)-->
     <rulegroup id="PAS_DE_TRAIT_UNION" name="en-bas → en bas (etc.)">
       <rule>
         <pattern>
+          <token regexp="yes">ici-(même|dedans|dehors|dessus)</token>
+        </pattern>
+        <message>L’expression <suggestion><match no="1" regexp_match="[-‑‐]" regexp_replace=" "/></suggestion> s’écrit sans trait d’union.</message>
+        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=1732</url>
+        <example type="incorrect" correction="ici même">Je l’ai vu <marker>ici-même</marker> hier.</example>
+        <example type="correct">Je l’ai vu ici même hier.</example>
+      </rule>
+      <rule>
+        <pattern>
           <token regexp="yes">deux[-‑‐]tiers|en[-‑‐](bas|haut|dessous|deça)</token>
         </pattern>
         <message>« \1 » est une faute de typographie. Employez <suggestion><match no="1" regexp_match="[-‑‐]" regexp_replace=" "/></suggestion>.</message>
@@ -23562,6 +23571,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">villes?</token>
         </pattern>
         <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=1479</url>
         <example type="incorrect">Le magasin est en <marker>centre ville</marker>.</example>
         <example type="correct">Le magasin est en centre-ville.</example>
       </rule>
