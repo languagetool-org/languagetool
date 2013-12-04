@@ -38,10 +38,11 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Command line tools to check the changes from a Wikipedia Atom feed with LanguageTool.
+ * Check the changes from a Wikipedia Atom feed with LanguageTool, only getting
+ * the errors that have been introduced by that change.
  * @since 2.4
  */
-public class AtomFeedChecker {
+class AtomFeedChecker {
 
   private final JLanguageTool langTool;
   private final MatchDatabase matchDatabase;
@@ -67,7 +68,7 @@ public class AtomFeedChecker {
     contextTools.setEscapeHtml(false);
   }
 
-  public CheckResult checkChanges(URL atomFeedUrl, long lastCheckedDiffId) throws IOException {
+  CheckResult checkChanges(URL atomFeedUrl, long lastCheckedDiffId) throws IOException {
     System.out.println("Getting atom feed from " + atomFeedUrl);
     InputStream xml = getXmlStream(atomFeedUrl);
     return checkChanges(xml, lastCheckedDiffId);
@@ -85,8 +86,8 @@ public class AtomFeedChecker {
         } else {
           try {
             System.out.println("Checking "  + item.getTitle() + ", diff id " + item.getDiffId());
-            List<WikipediaRuleMatch> oldMatches = getOldMatches(item);
-            List<WikipediaRuleMatch> newMatches = getNewMatches(item);
+            List<WikipediaRuleMatch> oldMatches = getMatches(item, item.getOldContent());
+            List<WikipediaRuleMatch> newMatches = getMatches(item, item.getNewContent());
             ChangeAnalysis changeAnalysis = new ChangeAnalysis(item.getTitle(), item.getDiffId(), oldMatches, newMatches);
             result.add(changeAnalysis);
             if (item.getDiffId() > latestDiffId) {
@@ -103,24 +104,14 @@ public class AtomFeedChecker {
     return new CheckResult(result, latestDiffId);
   }
 
-  private List<WikipediaRuleMatch> getOldMatches(AtomFeedItem item) throws IOException {
+  private List<WikipediaRuleMatch> getMatches(AtomFeedItem item, List<String> texts) throws IOException {
     List<WikipediaRuleMatch> oldMatches = new ArrayList<>();
-    for (String oldContent : item.getOldContent()) {
-      PlainTextMapping filteredContent = textFilter.filter(oldContent);
+    for (String text : texts) {
+      PlainTextMapping filteredContent = textFilter.filter(text);
       List<RuleMatch> ruleMatches = langTool.check(filteredContent.getPlainText());
-      oldMatches.addAll(toWikipediaRuleMatches(oldContent, filteredContent, ruleMatches, item));
+      oldMatches.addAll(toWikipediaRuleMatches(text, filteredContent, ruleMatches, item));
     }
     return oldMatches;
-  }
-
-  private List<WikipediaRuleMatch> getNewMatches(AtomFeedItem item) throws IOException {
-    List<WikipediaRuleMatch> newMatches = new ArrayList<>();
-    for (String newContent : item.getNewContent()) {
-      PlainTextMapping filteredContent = textFilter.filter(newContent);
-      List<RuleMatch> ruleMatches = langTool.check(filteredContent.getPlainText());
-      newMatches.addAll(toWikipediaRuleMatches(newContent, filteredContent, ruleMatches, item));
-    }
-    return newMatches;
   }
 
   private List<WikipediaRuleMatch> toWikipediaRuleMatches(String content, PlainTextMapping filteredContent, List<RuleMatch> ruleMatches, AtomFeedItem item) {
@@ -136,11 +127,7 @@ public class AtomFeedChecker {
     return result;
   }
 
-  private InputStream getXmlStream(URL atomFeedUrl) throws IOException {
-    return (InputStream) atomFeedUrl.getContent();
-  }
-
-  private CheckResult runCheck(String url, long latestDiffId, Language language) throws IOException {
+  CheckResult runCheck(String url, long latestDiffId, Language language) throws IOException {
     CheckResult checkResult = checkChanges(new URL(url), latestDiffId);
     List<ChangeAnalysis> checkResults = checkResult.getCheckResults();
     System.out.println("Check results:");
@@ -169,41 +156,8 @@ public class AtomFeedChecker {
     return checkResult;
   }
 
-  public static void main(String[] args) throws IOException, InterruptedException {
-    boolean loopMode = true;
-    if (args.length != 1 && args.length != 2) {
-      System.out.println("Usage: " + AtomFeedChecker.class.getSimpleName() + " <atomFeedUrl> [database.properties]");
-      System.out.println("  <atomFeedUrl> is a Wikipedia URL to the latest changes, for example:");
-      System.out.println("  https://de.wikipedia.org/w/index.php?title=Spezial:Letzte_%C3%84nderungen&feed=atom&namespace=0");
-      System.exit(1);
-    }
-    // TODO: load lastDiffId from properties file
-    // TODO: print currentDiffId - lastDiffId (if it's large, content might have been missed)
-    String url = args[0];
-    String langCode = url.substring(url.indexOf("//") + 2, url.indexOf("."));
-    System.out.println("Using URL: " + url);
-    System.out.println("Language code: " + langCode);
-    DatabaseConfig databaseConfig = null;
-    if (args.length == 2) {
-      String propFile = args[1];
-      databaseConfig = new DatabaseConfig(propFile);
-      System.out.println("Writing results to database at: " + databaseConfig.getUrl());
-    }
-    Language language = Language.getLanguageForShortName(langCode);
-    AtomFeedChecker atomFeedChecker = new AtomFeedChecker(language, databaseConfig);
-    long latestDiffId = 0;
-    if (loopMode) {
-      System.out.println("Running in loop mode until stopped...");
-      while (true) {
-        System.out.println("\nRunning with latestDiffId " + latestDiffId);
-        CheckResult checkResult = atomFeedChecker.runCheck(url, latestDiffId, language);
-        latestDiffId = checkResult.getLatestDiffId();
-        Thread.sleep(60*1000);
-      }
-    } else {
-      CheckResult checkResult = atomFeedChecker.runCheck(url, 0, language);
-    }
-    // TODO: store lastDiffId to properties file
+  private InputStream getXmlStream(URL atomFeedUrl) throws IOException {
+    return (InputStream) atomFeedUrl.getContent();
   }
 
 }
