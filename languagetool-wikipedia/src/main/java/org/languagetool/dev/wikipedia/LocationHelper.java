@@ -20,7 +20,7 @@ package org.languagetool.dev.wikipedia;
 
 import xtc.tree.Location;
 
-class LocationHelper {
+public class LocationHelper {
 
   private LocationHelper() {
   }
@@ -28,7 +28,7 @@ class LocationHelper {
   /**
    * Get an absolute position (character-based) for a line/column-based location.
    */
-  static int absolutePositionFor(Location location, String text) {
+  public static int absolutePositionFor(Location location, String text) {
     int line = 1;
     int col = 1;
     int pos = 0;
