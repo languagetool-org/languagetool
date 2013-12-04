@@ -36,6 +36,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Check the changes from a Wikipedia Atom feed with LanguageTool, only getting
@@ -44,7 +45,10 @@ import java.util.List;
  */
 class AtomFeedChecker {
 
+  private static final int CONTEXT_SIZE = 60;
+  
   private final JLanguageTool langTool;
+  private final Language language;
   private final MatchDatabase matchDatabase;
   private final TextMapFilter textFilter = new SwebleWikipediaTextFilter();
   private final ContextTools contextTools = new ContextTools();
@@ -54,6 +58,7 @@ class AtomFeedChecker {
   }
   
   AtomFeedChecker(Language language, DatabaseConfig dbConfig) throws IOException {
+    this.language = Objects.requireNonNull(language);
     langTool = new JLanguageTool(language);
     langTool.activateDefaultPatternRules();
     langTool.disableRule("UNPAIRED_BRACKETS");  // too many false alarms
@@ -62,10 +67,39 @@ class AtomFeedChecker {
     } else {
       matchDatabase = null;
     }
-    contextTools.setContextSize(60);
+    contextTools.setContextSize(CONTEXT_SIZE);
     contextTools.setErrorMarkerStart("<err>");
     contextTools.setErrorMarkerEnd("</err>");
     contextTools.setEscapeHtml(false);
+  }
+
+  CheckResult runCheck(String url, long latestDiffId) throws IOException {
+    CheckResult checkResult = checkChanges(new URL(url), latestDiffId);
+    List<ChangeAnalysis> checkResults = checkResult.getCheckResults();
+    System.out.println("Check results:");
+    for (ChangeAnalysis result : checkResults) {
+      List<WikipediaRuleMatch> addedMatches = result.getAddedMatches();
+      List<WikipediaRuleMatch> removedMatches = result.getRemovedMatches();
+      if (addedMatches.size() > 0 || removedMatches.size() > 0) {
+        System.out.println("'" + result.getTitle() + "' new and removed matches:");
+        for (WikipediaRuleMatch match : addedMatches) {
+          System.out.println("    [+] " + match.getRule().getId() + ": " +  match.getErrorContext());
+          if (matchDatabase != null) {
+            matchDatabase.add(match);
+          }
+        }
+        for (WikipediaRuleMatch match : removedMatches) {
+          System.out.println("    [-] " + match.getRule().getId() + ": " +  match.getErrorContext());
+          if (matchDatabase != null) {
+            matchDatabase.markedFixed(match);
+          }
+        }
+        String diffLink = "https://" + language.getShortName() + ".wikipedia.org/w/index.php?title="
+                + URLEncoder.encode(result.getTitle().replace(" ", "_"), "UTF-8") + "&diff=" + result.getDiffId();
+        System.out.println("    " + diffLink);
+      }
+    }
+    return checkResult;
   }
 
   CheckResult checkChanges(URL atomFeedUrl, long lastCheckedDiffId) throws IOException {
@@ -94,6 +128,7 @@ class AtomFeedChecker {
               latestDiffId = item.getDiffId();
             }
           } catch (Exception e) {
+            //noinspection CallToPrintStackTrace
             e.printStackTrace();  // don't just stop because of Sweble conversion problems etc.
           }
         }
@@ -125,35 +160,6 @@ class AtomFeedChecker {
       result.add(new WikipediaRuleMatch(ruleMatch, errorContext, item.getTitle(), item.getDate()));
     }
     return result;
-  }
-
-  CheckResult runCheck(String url, long latestDiffId, Language language) throws IOException {
-    CheckResult checkResult = checkChanges(new URL(url), latestDiffId);
-    List<ChangeAnalysis> checkResults = checkResult.getCheckResults();
-    System.out.println("Check results:");
-    for (ChangeAnalysis result : checkResults) {
-      List<WikipediaRuleMatch> addedMatches = result.getAddedMatches();
-      List<WikipediaRuleMatch> removedMatches = result.getRemovedMatches();
-      if (addedMatches.size() > 0 || removedMatches.size() > 0) {
-        System.out.println("'" + result.getTitle() + "' new and removed matches:");
-        for (WikipediaRuleMatch match : addedMatches) {
-          System.out.println("    [+] " + match.getRule().getId() + ": " +  match.getErrorContext());
-          if (matchDatabase != null) {
-            matchDatabase.add(match);
-          }
-        }
-        for (WikipediaRuleMatch match : removedMatches) {
-          System.out.println("    [-] " + match.getRule().getId() + ": " +  match.getErrorContext());
-          if (matchDatabase != null) {
-            matchDatabase.markedFixed(match);
-          }
-        }
-        String diffLink = "https://" + language.getShortName() + ".wikipedia.org/w/index.php?title="
-                + URLEncoder.encode(result.getTitle().replace(" ", "_"), "UTF-8") + "&diff=" + result.getDiffId();
-        System.out.println("    " + diffLink);
-      }
-    }
-    return checkResult;
   }
 
   private InputStream getXmlStream(URL atomFeedUrl) throws IOException {

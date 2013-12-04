@@ -55,12 +55,12 @@ final class AtomFeedCheckerCmd {
       System.out.println("Running in loop mode until stopped...");
       while (true) {
         System.out.println("\nRunning with latestDiffId " + latestDiffId);
-        CheckResult checkResult = atomFeedChecker.runCheck(url, latestDiffId, language);
+        CheckResult checkResult = atomFeedChecker.runCheck(url, latestDiffId);
         latestDiffId = checkResult.getLatestDiffId();
         Thread.sleep(60*1000);
       }
     } else {
-      CheckResult checkResult = atomFeedChecker.runCheck(url, 0, language);
+      CheckResult checkResult = atomFeedChecker.runCheck(url, 0);
     }
     // TODO: store lastDiffId to properties file
   }
