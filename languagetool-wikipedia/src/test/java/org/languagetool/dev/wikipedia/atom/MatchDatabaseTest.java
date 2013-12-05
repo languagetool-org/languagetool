@@ -20,6 +20,7 @@ package org.languagetool.dev.wikipedia.atom;
 
 import org.junit.Test;
 import org.languagetool.Language;
+import org.languagetool.rules.Category;
 import org.languagetool.rules.RuleMatch;
 
 import java.sql.SQLException;
@@ -38,7 +39,9 @@ public class MatchDatabaseTest {
     database.drop();
     database.createTable();
     assertThat(database.list().size(), is(0));
-    RuleMatch ruleMatch = new RuleMatch(new FakeRule(1), 5, 10, "my message");
+    FakeRule rule1 = new FakeRule(1);
+    rule1.setCategory(new Category("My Category"));
+    RuleMatch ruleMatch = new RuleMatch(rule1, 5, 10, "my message");
     AtomFeedItem feedItem1 = new AtomFeedItem("//id1?diff=123", "title", "summary1", new Date(10000));
     WikipediaRuleMatch wikiRuleMatch1 = new WikipediaRuleMatch(language, ruleMatch, "my context", feedItem1);
     database.add(wikiRuleMatch1);

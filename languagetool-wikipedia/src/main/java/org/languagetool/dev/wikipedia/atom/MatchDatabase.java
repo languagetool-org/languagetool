@@ -41,15 +41,21 @@ class MatchDatabase {
   }
 
   void add(WikipediaRuleMatch ruleMatch) {
-    String sql = "INSERT INTO feed_matches (title, language_code, rule_id, rule_message, error_context, edit_date, diff_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    String sql = "INSERT INTO feed_matches (title, language_code, rule_id, rule_message, rule_category, error_context, edit_date, diff_id) " +
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     try (PreparedStatement prepSt = conn.prepareStatement(sql)) {
       prepSt.setString(1, StringUtils.abbreviate(ruleMatch.getTitle(), 255));
       prepSt.setString(2, ruleMatch.getLanguage().getShortName());
       prepSt.setString(3, ruleMatch.getRule().getId());
       prepSt.setString(4, StringUtils.abbreviate(ruleMatch.getMessage(), 255));
-      prepSt.setString(5, ruleMatch.getErrorContext());
-      prepSt.setTimestamp(6, new Timestamp(ruleMatch.getEditDate().getTime()));
-      prepSt.setLong(7, ruleMatch.getDiffId());
+      if (ruleMatch.getRule().getCategory() != null) {
+        prepSt.setString(5, StringUtils.abbreviate(ruleMatch.getRule().getCategory().getName(), 255));
+      } else {
+        prepSt.setString(5, "<no category>");
+      }
+      prepSt.setString(6, ruleMatch.getErrorContext());
+      prepSt.setTimestamp(7, new Timestamp(ruleMatch.getEditDate().getTime()));
+      prepSt.setLong(8, ruleMatch.getDiffId());
       prepSt.execute();
     } catch (SQLException e) {
       throw new RuntimeException("Could not add rule match " + ruleMatch + " to database", e);
@@ -84,6 +90,7 @@ class MatchDatabase {
             "  title VARCHAR(255) NOT NULL," +
             "  rule_id VARCHAR(255) NOT NULL," +
             "  rule_message VARCHAR(255) NOT NULL," +
+            "  rule_category VARCHAR(255) NOT NULL," +
             "  error_context VARCHAR(500) NOT NULL," +
             "  edit_date TIMESTAMP NOT NULL," +
             "  diff_id INT NOT NULL," +
