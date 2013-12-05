@@ -33,10 +33,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Check the changes from a Wikipedia Atom feed with LanguageTool, only getting
@@ -49,6 +46,7 @@ class AtomFeedChecker {
   
   private final JLanguageTool langTool;
   private final Language language;
+  private final Date lastDateOfPreviousRun;
   private final MatchDatabase matchDatabase;
   private final TextMapFilter textFilter = new SwebleWikipediaTextFilter();
   private final ContextTools contextTools = new ContextTools();
@@ -64,8 +62,10 @@ class AtomFeedChecker {
     langTool.disableRule("UNPAIRED_BRACKETS");  // too many false alarms
     if (dbConfig != null) {
       matchDatabase = new MatchDatabase(dbConfig.getUrl(), dbConfig.getUser(), dbConfig.getPassword());
+      lastDateOfPreviousRun = matchDatabase.getLatestDate();
     } else {
       matchDatabase = null;
+      lastDateOfPreviousRun = null;
     }
     contextTools.setContextSize(CONTEXT_SIZE);
     contextTools.setErrorMarkerStart("<err>");
@@ -73,8 +73,19 @@ class AtomFeedChecker {
     contextTools.setEscapeHtml(false);
   }
 
-  CheckResult runCheck(String url, long latestDiffId) throws IOException {
-    CheckResult checkResult = checkChanges(new URL(url), latestDiffId);
+  CheckResult runCheck(InputStream feedStream) throws IOException {
+    CheckResult checkResult = checkChanges(feedStream);
+    storeResults(checkResult);
+    return checkResult;
+  }
+  
+  CheckResult runCheck(String url) throws IOException {
+    CheckResult checkResult = checkChanges(new URL(url));
+    storeResults(checkResult);
+    return checkResult;
+  }
+  
+  private void storeResults(CheckResult checkResult) throws IOException {
     List<ChangeAnalysis> checkResults = checkResult.getCheckResults();
     System.out.println("Check results:");
     for (ChangeAnalysis result : checkResults) {
@@ -99,27 +110,37 @@ class AtomFeedChecker {
         System.out.println("    " + diffLink);
       }
     }
-    return checkResult;
   }
 
-  CheckResult checkChanges(URL atomFeedUrl, long lastCheckedDiffId) throws IOException {
+  CheckResult checkChanges(URL atomFeedUrl) throws IOException {
     System.out.println("Getting atom feed from " + atomFeedUrl);
     InputStream xml = getXmlStream(atomFeedUrl);
-    return checkChanges(xml, lastCheckedDiffId);
+    return checkChanges(xml);
   }
 
-  CheckResult checkChanges(InputStream xml, long lastCheckedDiffId) throws IOException {
+  CheckResult checkChanges(InputStream xml) throws IOException {
     List<ChangeAnalysis> result = new ArrayList<>();
     long latestDiffId = 0;
     try {
       List<AtomFeedItem> items = new AtomFeedParser().getAtomFeedItems(xml);
       Collections.reverse(items);   // older items must come first so we iterate in the order in which the changes were made
+      int i = 0;
       for (AtomFeedItem item : items) {
-        if (lastCheckedDiffId > 0 && item.getDiffId() < lastCheckedDiffId) {
-          System.out.println("Skipping "  + item.getTitle() + ", diff id " + item.getDiffId() + " < " + lastCheckedDiffId);
+        if (i++ == 0) {
+          System.out.println("First date in Atom Feed: " + item.getDate());
+          System.out.println("Latest date in database: " + lastDateOfPreviousRun);
+          item.getDate();
+        }
+        // Note: this skipping is not exact for two reasons:
+        // 1) We only have the latest date of a change that actually led to a rule match (this kind of doesn't
+        //    matter, because a new check won't find any matches either)
+        // 2) A resolution of one second may not be enough, considering the amount of changes happening,
+        //    but I didn't find an id that's constantly increasing (diff=... often but not always increases)
+        if (lastDateOfPreviousRun != null && (item.getDate().before(lastDateOfPreviousRun) || item.getDate().equals(lastDateOfPreviousRun))) {
+          System.out.println("Skipping " + item.getTitle() + ", date " + item.getDate() + " <= " + lastDateOfPreviousRun);
         } else {
           try {
-            System.out.println("Checking "  + item.getTitle() + ", diff id " + item.getDiffId());
+            System.out.println("Checking " + item.getTitle() + ", diff id " + item.getDiffId());
             List<WikipediaRuleMatch> oldMatches = getMatches(item, item.getOldContent());
             List<WikipediaRuleMatch> newMatches = getMatches(item, item.getNewContent());
             ChangeAnalysis changeAnalysis = new ChangeAnalysis(item.getTitle(), item.getDiffId(), oldMatches, newMatches);

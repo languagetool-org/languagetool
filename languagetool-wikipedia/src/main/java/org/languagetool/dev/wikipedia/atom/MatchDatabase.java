@@ -20,8 +20,14 @@ package org.languagetool.dev.wikipedia.atom;
 
 import org.apache.commons.lang.StringUtils;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -99,6 +105,33 @@ class MatchDatabase {
             ")")) {
       prepSt.executeUpdate();
     }
+  }
+
+  /**
+   * @return the latest edit date, or a date as of {@code 1970-01-01} if no data is in the database
+   */
+  Date getLatestDate() {
+    Date editDate = getLatestDate("edit_date");
+    Date fixDate = getLatestDate("fix_date");
+    if (editDate.after(fixDate)) {
+      return editDate;
+    }
+    return fixDate;
+  }
+  
+  private Date getLatestDate(String dateField) {
+    try {
+      String sql = "SELECT " + dateField + " FROM feed_matches ORDER BY " + dateField + " DESC";
+      try (PreparedStatement prepSt = conn.prepareStatement(sql)) {
+        ResultSet resultSet = prepSt.executeQuery();
+        if (resultSet.next() && resultSet.getTimestamp(dateField) != null) {
+          return new Date(resultSet.getTimestamp(dateField).getTime());
+        }
+      }
+    } catch (Exception e) {
+      throw new RuntimeException("Could not get latest " + dateField + " from database", e);
+    }
+    return new Date(0);
   }
 
   /**

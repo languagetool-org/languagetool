@@ -41,6 +41,12 @@ class DatabaseConfig {
     this.password = getRequiredProperty(properties, "dbPassword");
   }
 
+  DatabaseConfig(String dbUrl, String dbUser, String dbPassword) {
+    this.url = dbUrl;
+    this.user = dbUser;
+    this.password = dbPassword;
+  }
+
   private String getRequiredProperty(Properties properties, String propName) {
     String value = properties.getProperty(propName);
     if (value == null) {

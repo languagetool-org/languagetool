@@ -38,6 +38,7 @@ public class MatchDatabaseTest {
     MatchDatabase database = new MatchDatabase("jdbc:derby:atomFeedChecksDB;create=true", "user", "pass");
     database.drop();
     database.createTable();
+    assertThat(database.getLatestDate(), is(new Date(0)));
     assertThat(database.list().size(), is(0));
     FakeRule rule1 = new FakeRule(1);
     rule1.setCategory(new Category("My Category"));
@@ -49,6 +50,7 @@ public class MatchDatabaseTest {
     assertNull(database.list().get(0).getFixDate());
     assertThat(database.list().get(0).getDiffId(), is(123L));
     assertThat(database.list().get(0).getFixDiffId(), is(0L));
+    assertThat(database.getLatestDate(), is(new Date(10000)));
 
     RuleMatch ruleMatch2 = new RuleMatch(new FakeRule(1), 9, 11, "my message");  // same ID, different character positions
     AtomFeedItem feedItem2 = new AtomFeedItem("//id2?diff=124", "title", "summary2", new Date(9000000000L));
@@ -58,6 +60,7 @@ public class MatchDatabaseTest {
     assertThat(database.list().get(0).getFixDate(), is(new Date(9000000000L)));
     assertThat(database.list().get(0).getDiffId(), is(123L));
     assertThat(database.list().get(0).getFixDiffId(), is(124L));
+    assertThat(database.getLatestDate(), is(new Date(9000000000L)));
   }
   
 }
