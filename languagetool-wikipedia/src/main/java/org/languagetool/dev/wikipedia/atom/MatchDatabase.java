@@ -41,13 +41,12 @@ class MatchDatabase {
   }
 
   void add(WikipediaRuleMatch ruleMatch) {
-    String sql = "INSERT INTO feed_matches (id, title, rule_id, error_context, edit_date) VALUES (?, ?, ?, ?, ?)";
+    String sql = "INSERT INTO feed_matches (title, rule_id, error_context, edit_date) VALUES (?, ?, ?, ?)";
     try (PreparedStatement prepSt = conn.prepareStatement(sql)) {
-      prepSt.setInt(1, idCounter++);
-      prepSt.setString(2, ruleMatch.getTitle());
-      prepSt.setString(3, ruleMatch.getRule().getId());
-      prepSt.setString(4, ruleMatch.getErrorContext());
-      prepSt.setTimestamp(5, new Timestamp(ruleMatch.getEditDate().getTime()));
+      prepSt.setString(1, ruleMatch.getTitle());
+      prepSt.setString(2, ruleMatch.getRule().getId());
+      prepSt.setString(3, ruleMatch.getErrorContext());
+      prepSt.setTimestamp(4, new Timestamp(ruleMatch.getEditDate().getTime()));
       prepSt.execute();
     } catch (SQLException e) {
       throw new RuntimeException("Could not add rule match " + ruleMatch + " to database", e);
@@ -70,9 +69,12 @@ class MatchDatabase {
     }
   }
 
+  /**
+   * Use this only for test cases - it's Derby-specific.
+   */
   void createTable() throws SQLException {
     try (PreparedStatement prepSt = conn.prepareStatement("CREATE TABLE feed_matches (" +
-            "  id SMALLINT NOT NULL," +
+            "  id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1)," +
             "  title VARCHAR(255) NOT NULL," +
             "  rule_id VARCHAR(255) NOT NULL," +
             "  error_context VARCHAR(500) NOT NULL," +
@@ -81,21 +83,20 @@ class MatchDatabase {
             ")")) {
       prepSt.executeUpdate();
     } catch (SQLException e) {
-      if (!e.getSQLState().equals("X0Y32")) {
+      if (!e.getSQLState().equals("X0Y32")) {  // Derby code for 'Table/View already exists'
         throw e;
       }
     }
   }
 
+  /**
+   * Drop database - use this only for test cases.
+   */
   void drop() throws SQLException {
     try (PreparedStatement prepSt = conn.prepareStatement("DROP TABLE feed_matches")) {
       prepSt.execute();
-    }
-  }
-
-  void clear() throws SQLException {
-    try (PreparedStatement prepSt = conn.prepareStatement("DELETE FROM feed_matches")) {
-      prepSt.execute();
+    } catch (SQLException e){
+      System.err.println("Note: could not drop table 'feed_matches' - this is okay on the first run: " + e.toString());
     }
   }
 

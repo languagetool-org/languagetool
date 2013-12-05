@@ -32,10 +32,9 @@ public class MatchDatabaseTest {
   
   @Test
   public void test() throws SQLException, ClassNotFoundException {
-    MatchDatabase database = new MatchDatabase("jdbc:derby:languageToolAtomChecks;create=true", "user", "pass");
-    //database.drop();  // comment in if database structure has been changed
+    MatchDatabase database = new MatchDatabase("jdbc:derby:atomFeedChecksDB;create=true", "user", "pass");
+    database.drop();
     database.createTable();
-    database.clear();
     assertThat(database.list().size(), is(0));
     RuleMatch ruleMatch = new RuleMatch(new FakeRule(1), 5, 10, "my message");
     WikipediaRuleMatch wikiRuleMatch1 = new WikipediaRuleMatch(ruleMatch, "my context", "my article title", new Date(10000));
