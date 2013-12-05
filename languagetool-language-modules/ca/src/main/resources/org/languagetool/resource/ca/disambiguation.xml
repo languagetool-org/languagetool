@@ -4459,15 +4459,26 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="V.*"></disambig>
     </rule>
-    <rule id="informe_estima" name="l'informe estima">
-        <pattern>
-            <token>informe</token>
-            <marker>
-                <token>estima</token>
-            </marker>
-        </pattern>
-        <disambig action="filter" postag="V.*"></disambig>
-    </rule>
+    <rulegroup id="estima" name="l'informe estima, estima provat">
+        <rule>
+            <pattern>
+                <token>informe</token>
+                <marker>
+                    <token>estima</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="V.*"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>estima</token>
+                </marker>
+                <token regexp="yes">provats?|demostrats?</token>
+            </pattern>
+            <disambig action="filter" postag="V.*"></disambig>
+        </rule>
+    </rulegroup>    
     <rule id="son_pare" name="son pare">
         <pattern>
             <token><exception postag="D[^R].*" postag_regexp="yes"/></token>
