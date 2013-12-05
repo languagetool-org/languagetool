@@ -2861,6 +2861,17 @@ $Id$
             <example type="correct">pot ser millor incidir en la zona supurada</example>
             <example type="correct">he acomplert a l'acte només aparèixer.</example>
         </rule>
+        <rule id="DONAR_QUE_PENSAR" name="donar que pensar">
+            <pattern>
+                <token inflected="yes" skip="1">donar</token>
+                <token regexp="yes">que|què</token>
+                <token>pensar</token>
+            </pattern>
+            <message>Expressió incorrecta.</message>
+            <suggestion><match no="1" postag="(V.[IS].*)" postag_regexp="yes" postag_replace="$1">fer</match> pensar</suggestion>
+            <example type="incorrect" correction="fa pensar"><marker>dóna molt què pensar</marker></example>
+            <example type="correct">Això fa pensar molt.</example>
+        </rule>
         <rulegroup id="DONAR_FER" name="donar/fer">
             <rule>
                 <pattern>
@@ -12901,6 +12912,19 @@ $Id$
         </rulegroup>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="ACUS_DE_REBUT" name="acus de rebut">
+            <pattern>
+                <token>acús</token>
+                <token>de</token>
+                <token>rebut</token>
+            </pattern>
+            <message>Expressió incorrecta</message>
+            <suggestion>justificant de recepció</suggestion>
+            <suggestion>confirmació de recepció</suggestion>
+            <suggestion>acusament de recepció</suggestion>
+            <example type="incorrect"><marker>acús de rebut</marker></example>
+            <example type="correct">acusament de recepció</example>
+        </rule>
         <rule id="A_LES_CLARES" name="*a les clares">
             <pattern>
                 <marker>
@@ -14235,7 +14259,7 @@ $Id$
             <suggestion>no <match no="3" postag="VA(.+)" postag_regexp="yes" postag_replace="VM$1">caldre</match> preocupar-se'n</suggestion>
             <suggestion>no <match no="3" postag="VA(.+)" postag_regexp="yes" postag_replace="VM$1">caldre</match> amoïnar-s'hi</suggestion>
             <url>http://esadir.cat/lexic/entrades/nohihadequepreocuparse/view</url>
-            <example type="incorrect"><marker>no hi ha de què preocupar-se</marker></example>
+            <example type="incorrect" correction="no cal preocupar-se'n|no cal amoïnar-s'hi"><marker>no hi ha de què preocupar-se</marker></example>
             <example type="correct">no cal preocupar-se'n</example>
         </rule>
         <rulegroup id="VAQUES_GORDES_FLAQUES" name="vaques grasses / vaques magres ">
@@ -17608,6 +17632,21 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="VAL" name="val!/entesos!">
+            <pattern>
+                <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
+                <marker>
+                    <token>val</token>
+                </marker>
+                <token postag="SENT_END|_PUNCT.*" postag_regexp="yes"/>
+            </pattern>
+            <message>Expressió incorrecta si equival a <suggestion>d'acord</suggestion>.</message>
+            <suggestion>entesos</suggestion>
+            <suggestion>conforme</suggestion>
+            <suggestion>bé</suggestion>
+            <example type="incorrect"><marker>Val</marker>, ho farem.</example>
+            <example type="correct">D'acord, ho farem.</example>
+        </rule>
         <rule id="NO_AIXI" name="no així/però no">
             <pattern>
                 <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
