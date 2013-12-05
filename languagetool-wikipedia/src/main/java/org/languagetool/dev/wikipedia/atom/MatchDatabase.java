@@ -18,6 +18,8 @@
  */
 package org.languagetool.dev.wikipedia.atom;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,14 +41,15 @@ class MatchDatabase {
   }
 
   void add(WikipediaRuleMatch ruleMatch) {
-    String sql = "INSERT INTO feed_matches (title, language_code, rule_id, error_context, edit_date, diff_id) VALUES (?, ?, ?, ?, ?, ?)";
+    String sql = "INSERT INTO feed_matches (title, language_code, rule_id, rule_message, error_context, edit_date, diff_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
     try (PreparedStatement prepSt = conn.prepareStatement(sql)) {
-      prepSt.setString(1, ruleMatch.getTitle());
+      prepSt.setString(1, StringUtils.abbreviate(ruleMatch.getTitle(), 255));
       prepSt.setString(2, ruleMatch.getLanguage().getShortName());
       prepSt.setString(3, ruleMatch.getRule().getId());
-      prepSt.setString(4, ruleMatch.getErrorContext());
-      prepSt.setTimestamp(5, new Timestamp(ruleMatch.getEditDate().getTime()));
-      prepSt.setLong(6, ruleMatch.getDiffId());
+      prepSt.setString(4, StringUtils.abbreviate(ruleMatch.getMessage(), 255));
+      prepSt.setString(5, ruleMatch.getErrorContext());
+      prepSt.setTimestamp(6, new Timestamp(ruleMatch.getEditDate().getTime()));
+      prepSt.setLong(7, ruleMatch.getDiffId());
       prepSt.execute();
     } catch (SQLException e) {
       throw new RuntimeException("Could not add rule match " + ruleMatch + " to database", e);
@@ -80,6 +83,7 @@ class MatchDatabase {
             "  language_code VARCHAR(5) NOT NULL," +
             "  title VARCHAR(255) NOT NULL," +
             "  rule_id VARCHAR(255) NOT NULL," +
+            "  rule_message VARCHAR(255) NOT NULL," +
             "  error_context VARCHAR(500) NOT NULL," +
             "  edit_date TIMESTAMP NOT NULL," +
             "  diff_id INT NOT NULL," +
@@ -107,6 +111,7 @@ class MatchDatabase {
       List<StoredWikipediaRuleMatch> result = new ArrayList<>();
       while (resultSet.next()) {
         String ruleId = resultSet.getString("rule_id");
+        String ruleMessage = resultSet.getString("rule_message");
         String errorContext = resultSet.getString("error_context");
         String title = resultSet.getString("title");
         Date editDate = new Date(resultSet.getTimestamp("edit_date").getTime());
@@ -114,7 +119,7 @@ class MatchDatabase {
         Date fixDate = fixTimeStamp != null ? new Date(resultSet.getTimestamp("fix_date").getTime()) : null;
         long diffId = resultSet.getLong("diff_id");
         long fixDiffId = resultSet.getLong("fix_diff_id");
-        result.add(new StoredWikipediaRuleMatch(ruleId, errorContext, title, editDate, fixDate, diffId, fixDiffId));
+        result.add(new StoredWikipediaRuleMatch(ruleId, ruleMessage, errorContext, title, editDate, fixDate, diffId, fixDiffId));
       }
       return result;
     }
