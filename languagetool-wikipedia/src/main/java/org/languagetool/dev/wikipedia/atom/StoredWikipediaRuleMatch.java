@@ -32,13 +32,17 @@ class StoredWikipediaRuleMatch {
   private final String title;
   private final Date editDate;
   private final Date fixDate;
+  private final long diffId;
+  private final long fixDiffId;
   
-  StoredWikipediaRuleMatch(String ruleId, String errorContext, String title, Date editDate, Date fixDate) {
+  StoredWikipediaRuleMatch(String ruleId, String errorContext, String title, Date editDate, Date fixDate, long diffId, long fixDiffId) {
     this.ruleId = Objects.requireNonNull(ruleId);
     this.errorContext = Objects.requireNonNull(errorContext);
     this.title = Objects.requireNonNull(title);
     this.editDate = Objects.requireNonNull(editDate);
     this.fixDate = fixDate;
+    this.diffId = diffId;
+    this.fixDiffId = fixDiffId;
   }
 
   String getRuleId() {
@@ -62,6 +66,16 @@ class StoredWikipediaRuleMatch {
    */
   Date getFixDate() {
     return fixDate;
+  }
+
+  /** Wikipedia ID of the change. */
+  long getDiffId() {
+    return diffId;
+  }
+
+  /** Wikipedia ID of the change if this fixes an error. Will be {@code 0} if not set. */
+  long getFixDiffId() {
+    return fixDiffId;
   }
 
   @Override

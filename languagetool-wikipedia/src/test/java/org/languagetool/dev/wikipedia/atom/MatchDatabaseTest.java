@@ -37,16 +37,22 @@ public class MatchDatabaseTest {
     database.createTable();
     assertThat(database.list().size(), is(0));
     RuleMatch ruleMatch = new RuleMatch(new FakeRule(1), 5, 10, "my message");
-    WikipediaRuleMatch wikiRuleMatch1 = new WikipediaRuleMatch(ruleMatch, "my context", "my article title", new Date(10000));
+    AtomFeedItem feedItem1 = new AtomFeedItem("//id1?diff=123", "title", "summary1", new Date(10000));
+    WikipediaRuleMatch wikiRuleMatch1 = new WikipediaRuleMatch(ruleMatch, "my context", feedItem1);
     database.add(wikiRuleMatch1);
     assertThat(database.list().size(), is(1));
     assertNull(database.list().get(0).getFixDate());
+    assertThat(database.list().get(0).getDiffId(), is(123L));
+    assertThat(database.list().get(0).getFixDiffId(), is(0L));
 
     RuleMatch ruleMatch2 = new RuleMatch(new FakeRule(1), 9, 11, "my message");  // same ID, different character positions
-    WikipediaRuleMatch wikiRuleMatch2 = new WikipediaRuleMatch(ruleMatch2, "my context", "my article title", new Date(9000000000L));
+    AtomFeedItem feedItem2 = new AtomFeedItem("//id2?diff=124", "title", "summary2", new Date(9000000000L));
+    WikipediaRuleMatch wikiRuleMatch2 = new WikipediaRuleMatch(ruleMatch2, "my context", feedItem2);
     int affected = database.markedFixed(wikiRuleMatch2);
     assertThat(affected, is(1));
     assertThat(database.list().get(0).getFixDate(), is(new Date(9000000000L)));
+    assertThat(database.list().get(0).getDiffId(), is(123L));
+    assertThat(database.list().get(0).getFixDiffId(), is(124L));
   }
   
 }

@@ -35,12 +35,14 @@ class WikipediaRuleMatch extends RuleMatch {
   private final String errorContext;
   private final String title;
   private final Date editDate;
+  private final long diffId;
   
-  WikipediaRuleMatch(RuleMatch ruleMatch, String errorContext, String title, Date editDate) {
+  WikipediaRuleMatch(RuleMatch ruleMatch, String errorContext, AtomFeedItem feedItem) {
     super(ruleMatch.getRule(), ruleMatch.getFromPos(), ruleMatch.getToPos(), ruleMatch.getMessage());
     this.errorContext = Objects.requireNonNull(errorContext);
-    this.title = Objects.requireNonNull(title);
-    this.editDate = Objects.requireNonNull(editDate);
+    this.title = Objects.requireNonNull(feedItem.getTitle());
+    this.editDate = Objects.requireNonNull(feedItem.getDate());
+    this.diffId = feedItem.getDiffId();
   }
 
   String getErrorContext() {
@@ -53,6 +55,10 @@ class WikipediaRuleMatch extends RuleMatch {
 
   Date getEditDate() {
     return editDate;
+  }
+
+  long getDiffId() {
+    return diffId;
   }
 
   @Override

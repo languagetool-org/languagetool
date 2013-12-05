@@ -30,8 +30,6 @@ class MatchDatabase {
 
   private final Connection conn;
   
-  private int idCounter;
-  
   MatchDatabase(String dbUrl, String dbUser, String dbPassword) {
     try {
       conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
@@ -41,12 +39,13 @@ class MatchDatabase {
   }
 
   void add(WikipediaRuleMatch ruleMatch) {
-    String sql = "INSERT INTO feed_matches (title, rule_id, error_context, edit_date) VALUES (?, ?, ?, ?)";
+    String sql = "INSERT INTO feed_matches (title, rule_id, error_context, edit_date, diff_id) VALUES (?, ?, ?, ?, ?)";
     try (PreparedStatement prepSt = conn.prepareStatement(sql)) {
       prepSt.setString(1, ruleMatch.getTitle());
       prepSt.setString(2, ruleMatch.getRule().getId());
       prepSt.setString(3, ruleMatch.getErrorContext());
       prepSt.setTimestamp(4, new Timestamp(ruleMatch.getEditDate().getTime()));
+      prepSt.setLong(5, ruleMatch.getDiffId());
       prepSt.execute();
     } catch (SQLException e) {
       throw new RuntimeException("Could not add rule match " + ruleMatch + " to database", e);
@@ -57,12 +56,13 @@ class MatchDatabase {
    * @return the number of affected rows, thus {@code 0} means the error was not found in the database
    */
   int markedFixed(WikipediaRuleMatch ruleMatch) {
-    String sql = "UPDATE feed_matches SET fix_date = ? WHERE title = ? AND rule_id = ? AND error_context = ?";
+    String sql = "UPDATE feed_matches SET fix_date = ?, fix_diff_id = ? WHERE title = ? AND rule_id = ? AND error_context = ?";
     try (PreparedStatement prepSt = conn.prepareStatement(sql)) {
       prepSt.setTimestamp(1, new Timestamp(ruleMatch.getEditDate().getTime()));
-      prepSt.setString(2, ruleMatch.getTitle());
-      prepSt.setString(3, ruleMatch.getRule().getId());
-      prepSt.setString(4, ruleMatch.getErrorContext());
+      prepSt.setLong(2, ruleMatch.getDiffId());
+      prepSt.setString(3, ruleMatch.getTitle());
+      prepSt.setString(4, ruleMatch.getRule().getId());
+      prepSt.setString(5, ruleMatch.getErrorContext());
       return prepSt.executeUpdate();
     } catch (SQLException e) {
       throw new RuntimeException("Could not make rule match " + ruleMatch + " as fixed in database", e);
@@ -79,13 +79,11 @@ class MatchDatabase {
             "  rule_id VARCHAR(255) NOT NULL," +
             "  error_context VARCHAR(500) NOT NULL," +
             "  edit_date TIMESTAMP NOT NULL," +
-            "  fix_date TIMESTAMP" +
+            "  diff_id INT NOT NULL," +
+            "  fix_date TIMESTAMP," +
+            "  fix_diff_id INT" +
             ")")) {
       prepSt.executeUpdate();
-    } catch (SQLException e) {
-      if (!e.getSQLState().equals("X0Y32")) {  // Derby code for 'Table/View already exists'
-        throw e;
-      }
     }
   }
 
@@ -111,7 +109,9 @@ class MatchDatabase {
         Date editDate = new Date(resultSet.getTimestamp("edit_date").getTime());
         Timestamp fixTimeStamp = resultSet.getTimestamp("fix_date");
         Date fixDate = fixTimeStamp != null ? new Date(resultSet.getTimestamp("fix_date").getTime()) : null;
-        result.add(new StoredWikipediaRuleMatch(ruleId, errorContext, title, editDate, fixDate));
+        long diffId = resultSet.getLong("diff_id");
+        long fixDiffId = resultSet.getLong("fix_diff_id");
+        result.add(new StoredWikipediaRuleMatch(ruleId, errorContext, title, editDate, fixDate, diffId, fixDiffId));
       }
       return result;
     }

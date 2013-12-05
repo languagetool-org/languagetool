@@ -32,6 +32,7 @@ import java.util.regex.Pattern;
 class AtomFeedItem {
 
   private static final Pattern TABLE_DATA_CONTENT = Pattern.compile("<td.*?>(.*)</td>");
+  private static final Pattern DIFF_ID_PATTERN = Pattern.compile("diff=(\\d+)");
 
   private final String id;
   private final String title;
@@ -96,8 +97,7 @@ class AtomFeedItem {
    * Get the diff id from the 'id' element, or {@code 0} if the diff is the creation of a new article.
    */
   public long getDiffId() {
-    Pattern idPattern = Pattern.compile("diff=(\\d+)");
-    Matcher matcher = idPattern.matcher(id);
+    Matcher matcher = DIFF_ID_PATTERN.matcher(id);
     if (matcher.find()) {
       return Long.parseLong(matcher.group(1));
     } else {
