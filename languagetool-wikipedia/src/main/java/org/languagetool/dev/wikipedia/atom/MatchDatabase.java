@@ -39,13 +39,14 @@ class MatchDatabase {
   }
 
   void add(WikipediaRuleMatch ruleMatch) {
-    String sql = "INSERT INTO feed_matches (title, rule_id, error_context, edit_date, diff_id) VALUES (?, ?, ?, ?, ?)";
+    String sql = "INSERT INTO feed_matches (title, language_code, rule_id, error_context, edit_date, diff_id) VALUES (?, ?, ?, ?, ?, ?)";
     try (PreparedStatement prepSt = conn.prepareStatement(sql)) {
       prepSt.setString(1, ruleMatch.getTitle());
-      prepSt.setString(2, ruleMatch.getRule().getId());
-      prepSt.setString(3, ruleMatch.getErrorContext());
-      prepSt.setTimestamp(4, new Timestamp(ruleMatch.getEditDate().getTime()));
-      prepSt.setLong(5, ruleMatch.getDiffId());
+      prepSt.setString(2, ruleMatch.getLanguage().getShortName());
+      prepSt.setString(3, ruleMatch.getRule().getId());
+      prepSt.setString(4, ruleMatch.getErrorContext());
+      prepSt.setTimestamp(5, new Timestamp(ruleMatch.getEditDate().getTime()));
+      prepSt.setLong(6, ruleMatch.getDiffId());
       prepSt.execute();
     } catch (SQLException e) {
       throw new RuntimeException("Could not add rule match " + ruleMatch + " to database", e);
@@ -56,13 +57,14 @@ class MatchDatabase {
    * @return the number of affected rows, thus {@code 0} means the error was not found in the database
    */
   int markedFixed(WikipediaRuleMatch ruleMatch) {
-    String sql = "UPDATE feed_matches SET fix_date = ?, fix_diff_id = ? WHERE title = ? AND rule_id = ? AND error_context = ?";
+    String sql = "UPDATE feed_matches SET fix_date = ?, fix_diff_id = ? WHERE language_code = ? AND title = ? AND rule_id = ? AND error_context = ?";
     try (PreparedStatement prepSt = conn.prepareStatement(sql)) {
       prepSt.setTimestamp(1, new Timestamp(ruleMatch.getEditDate().getTime()));
       prepSt.setLong(2, ruleMatch.getDiffId());
-      prepSt.setString(3, ruleMatch.getTitle());
-      prepSt.setString(4, ruleMatch.getRule().getId());
-      prepSt.setString(5, ruleMatch.getErrorContext());
+      prepSt.setString(3, ruleMatch.getLanguage().getShortName());
+      prepSt.setString(4, ruleMatch.getTitle());
+      prepSt.setString(5, ruleMatch.getRule().getId());
+      prepSt.setString(6, ruleMatch.getErrorContext());
       return prepSt.executeUpdate();
     } catch (SQLException e) {
       throw new RuntimeException("Could not make rule match " + ruleMatch + " as fixed in database", e);
@@ -75,6 +77,7 @@ class MatchDatabase {
   void createTable() throws SQLException {
     try (PreparedStatement prepSt = conn.prepareStatement("CREATE TABLE feed_matches (" +
             "  id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1)," +
+            "  language_code VARCHAR(5) NOT NULL," +
             "  title VARCHAR(255) NOT NULL," +
             "  rule_id VARCHAR(255) NOT NULL," +
             "  error_context VARCHAR(500) NOT NULL," +

@@ -157,7 +157,7 @@ class AtomFeedChecker {
       int origFrom = LocationHelper.absolutePositionFor(fromPos, content);
       int origTo = LocationHelper.absolutePositionFor(toPos, content);
       String errorContext = contextTools.getContext(origFrom, origTo, content);
-      result.add(new WikipediaRuleMatch(ruleMatch, errorContext, item));
+      result.add(new WikipediaRuleMatch(language, ruleMatch, errorContext, item));
     }
     return result;
   }

@@ -19,6 +19,7 @@
 package org.languagetool.dev.wikipedia.atom;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
+import org.languagetool.Language;
 import org.languagetool.rules.RuleMatch;
 
 import java.util.Date;
@@ -32,17 +33,23 @@ import java.util.Objects;
  */
 class WikipediaRuleMatch extends RuleMatch {
 
+  private final Language language;
   private final String errorContext;
   private final String title;
   private final Date editDate;
   private final long diffId;
   
-  WikipediaRuleMatch(RuleMatch ruleMatch, String errorContext, AtomFeedItem feedItem) {
+  WikipediaRuleMatch(Language language, RuleMatch ruleMatch, String errorContext, AtomFeedItem feedItem) {
     super(ruleMatch.getRule(), ruleMatch.getFromPos(), ruleMatch.getToPos(), ruleMatch.getMessage());
+    this.language = Objects.requireNonNull(language);
     this.errorContext = Objects.requireNonNull(errorContext);
     this.title = Objects.requireNonNull(feedItem.getTitle());
     this.editDate = Objects.requireNonNull(feedItem.getDate());
     this.diffId = feedItem.getDiffId();
+  }
+
+  Language getLanguage() {
+    return language;
   }
 
   String getErrorContext() {

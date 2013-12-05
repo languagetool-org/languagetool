@@ -19,6 +19,7 @@
 package org.languagetool.dev.wikipedia.atom;
 
 import org.junit.Test;
+import org.languagetool.Language;
 import org.languagetool.rules.RuleMatch;
 
 import java.sql.SQLException;
@@ -32,13 +33,14 @@ public class MatchDatabaseTest {
   
   @Test
   public void test() throws SQLException, ClassNotFoundException {
+    Language language = Language.getLanguageForShortName("de");
     MatchDatabase database = new MatchDatabase("jdbc:derby:atomFeedChecksDB;create=true", "user", "pass");
     database.drop();
     database.createTable();
     assertThat(database.list().size(), is(0));
     RuleMatch ruleMatch = new RuleMatch(new FakeRule(1), 5, 10, "my message");
     AtomFeedItem feedItem1 = new AtomFeedItem("//id1?diff=123", "title", "summary1", new Date(10000));
-    WikipediaRuleMatch wikiRuleMatch1 = new WikipediaRuleMatch(ruleMatch, "my context", feedItem1);
+    WikipediaRuleMatch wikiRuleMatch1 = new WikipediaRuleMatch(language, ruleMatch, "my context", feedItem1);
     database.add(wikiRuleMatch1);
     assertThat(database.list().size(), is(1));
     assertNull(database.list().get(0).getFixDate());
@@ -47,7 +49,7 @@ public class MatchDatabaseTest {
 
     RuleMatch ruleMatch2 = new RuleMatch(new FakeRule(1), 9, 11, "my message");  // same ID, different character positions
     AtomFeedItem feedItem2 = new AtomFeedItem("//id2?diff=124", "title", "summary2", new Date(9000000000L));
-    WikipediaRuleMatch wikiRuleMatch2 = new WikipediaRuleMatch(ruleMatch2, "my context", feedItem2);
+    WikipediaRuleMatch wikiRuleMatch2 = new WikipediaRuleMatch(language, ruleMatch2, "my context", feedItem2);
     int affected = database.markedFixed(wikiRuleMatch2);
     assertThat(affected, is(1));
     assertThat(database.list().get(0).getFixDate(), is(new Date(9000000000L)));

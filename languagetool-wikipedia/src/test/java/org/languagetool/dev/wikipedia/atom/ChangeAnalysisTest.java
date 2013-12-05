@@ -19,6 +19,7 @@
 package org.languagetool.dev.wikipedia.atom;
 
 import org.junit.Test;
+import org.languagetool.Language;
 import org.languagetool.rules.RuleMatch;
 
 import java.util.ArrayList;
@@ -29,6 +30,8 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 public class ChangeAnalysisTest {
+  
+  private static final Language LANGUAGE = Language.getLanguageForShortName("de");
   
   @Test
   public void testAdd() {
@@ -66,7 +69,7 @@ public class ChangeAnalysisTest {
     for (int id : ids) {
       RuleMatch ruleMatch = new RuleMatch(new FakeRule(id), 10, 20, "error1");
       AtomFeedItem feedItem = new AtomFeedItem("id1", "title1", "summary1", new Date(10000));
-      matches.add(new WikipediaRuleMatch(ruleMatch, "error context", feedItem));
+      matches.add(new WikipediaRuleMatch(LANGUAGE, ruleMatch, "error context", feedItem));
     }
     return matches;
   }
