@@ -17676,6 +17676,22 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="A_MANS_DE" name="a mans de/en mans de">
+            <pattern>
+                <token postag="SENT_START" skip="-1"><exception scope="next" inflected="yes" regexp="yes">passar|arribar|tornar</exception></token>
+                <marker>
+                    <token>a</token>
+                    <token>mans</token>
+                </marker>
+                <token regexp="yes">de|d'</token>
+            </pattern>
+            <message>Expressió probablement incorrecta.</message>
+            <suggestion>en mans</suggestion>
+            <suggestion>a les mans</suggestion>
+            <suggestion>en poder</suggestion>
+            <example type="incorrect">La ciutat va caure <marker>a mans de</marker> l'enemic.</example>
+            <example type="correct">La fortuna va passar a mans del fill.</example>
+        </rule>
         <rule id="MADRINA" name="madrina/padrina">
             <pattern>
                 <token regexp="yes">madrin(a|es)</token>
@@ -19066,6 +19082,24 @@ $Id$
                 <example type="correct">Va enconar el meu fill.</example>
             </rule>
         </rulegroup>
+        <!-- <rulegroup id="MALESA" name="malesa / brossa, males herbes">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes" skip="7">malesa<exception postag="_possible_nompropi"/></token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">bosc|arbre|matoll|agricultor|cultiu|conreu|envair|pedra|conservació|forestal|àrid|ruïna|cobrir|neteja|netejar|vegetal|zona|vessant|rocós|net|humit|sembra|selva|forest</token>
+                </pattern>
+                <message>Incorrecte si volíeu dir <suggestion>brossa</suggestion>. Correcte si vol dir "maldat" o "entremaliadura".</message>
+                <suggestion>males herbes</suggestion>
+                <suggestion>bardissa</suggestion>
+                <suggestion>farda</suggestion>
+                <suggestion>bosquina</suggestion>
+                <short>Possible confusió</short>
+                <example type="incorrect" correction="Pasteu">La <marker>malesa</marker> del bosc.</example>
+                <example type="correct">El nen va fer una malesa.</example>
+            </rule>
+        </rulegroup> -->
         <rulegroup id="AMASSAR_PASTAR" name="amassar / pastar">
             <!-- es pot completar amb més paraules -->
             <rule>
