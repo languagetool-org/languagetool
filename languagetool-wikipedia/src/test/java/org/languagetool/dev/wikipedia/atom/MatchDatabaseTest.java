@@ -48,6 +48,7 @@ public class MatchDatabaseTest {
     database.add(wikiRuleMatch1);
     assertThat(database.list().size(), is(1));
     assertThat(database.list().get(0).getRuleId(), is("ID_1"));
+    assertThat(database.list().get(0).getRuleDescription(), is("A fake rule"));
     assertThat(database.list().get(0).getRuleMessage(), is("my message"));
     assertThat(database.list().get(0).getTitle(), is("title"));
     assertThat(database.list().get(0).getErrorContext(), is("my context"));
