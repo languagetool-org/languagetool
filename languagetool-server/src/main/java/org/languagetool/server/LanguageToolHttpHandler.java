@@ -51,6 +51,8 @@ class LanguageToolHttpHandler implements HttpHandler {
 
   private int maxTextLength = Integer.MAX_VALUE;
   private String allowOriginUrl;
+  
+  private static int handleCount = 0;
 
   /**
    * @param verbose print the input text in case of exceptions
@@ -79,6 +81,7 @@ class LanguageToolHttpHandler implements HttpHandler {
 
   @Override
   public void handle(HttpExchange httpExchange) throws IOException {
+    handleCount++;
     String text = null;
     try {
       final URI requestedUri = httpExchange.getRequestURI();
@@ -120,6 +123,7 @@ class LanguageToolHttpHandler implements HttpHandler {
       final String response = "Error: " + StringTools.escapeXML(Tools.getFullStackTrace(e));
       sendError(httpExchange, HttpURLConnection.HTTP_INTERNAL_ERROR, response);
     } finally {
+      handleCount--;
       httpExchange.close();
     }
   }
@@ -252,7 +256,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     }
     final String referrer = httpExchange.getRequestHeaders().getFirst("Referer");
     print("Check done: " + text.length() + " chars, " + languageMessage + ", " + referrer + ", "
-            + (System.currentTimeMillis() - timeStart) + "ms");
+            + "handlers:" + handleCount + ", " + matches.size() + " matches, " + (System.currentTimeMillis() - timeStart) + "ms");
   }
 
   private Map<String, String> parseQuery(String query) throws UnsupportedEncodingException {
