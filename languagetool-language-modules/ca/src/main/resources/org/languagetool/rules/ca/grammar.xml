@@ -12912,6 +12912,46 @@ $Id$
         </rulegroup>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="SI_MAL_NO_RECORDO" name="si mal no recordo">
+            <pattern>
+                <token>si</token>
+                <token>mal</token>
+                <token>no</token>
+                <token regexp="yes">recordo|record|recorde</token>
+            </pattern>
+            <message>Expressió incorrecta</message>
+            <suggestion>si no <match no="4"/> malament</suggestion>
+            <example type="incorrect" correction="si no recordo malament"><marker>si mal no recordo</marker></example>
+            <example type="correct">si no recordo malament</example>
+        </rule>
+        <rule id="A_MAJOR_ABUNDAMENT" name="a major abundament">
+            <pattern>
+                <token>a</token>
+                <token>major</token>
+                <token>abundament</token>
+            </pattern>
+            <message>Expressió incorrecta</message>
+            <suggestion>per si de cas</suggestion>
+            <suggestion>per si calia</suggestion>
+            <suggestion>a més a més</suggestion>
+            <suggestion>de més a més</suggestion>
+            <suggestion>per si això encara fos poc</suggestion>
+            <suggestion>si encara no n'hi hagués prou</suggestion>
+            <example type="incorrect"><marker>a major abundament</marker></example>
+            <example type="correct">per si de cas</example>
+        </rule>
+        <rule id="AL_PER_MAJOR" name="al per major">
+            <pattern>
+                <token>a</token>
+                <token>l</token>
+                <token>per</token>
+                <token>major</token>
+            </pattern>
+            <message>Expressió incorrecta</message>
+            <suggestion>a l'engròs</suggestion>
+            <example type="incorrect"><marker>al per major</marker></example>
+            <example type="correct">a l'engròs</example>
+        </rule>
         <rule id="ACUS_DE_REBUT" name="acus de rebut">
             <pattern>
                 <token>acús</token>
@@ -17636,11 +17676,20 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="MADRINA" name="madrina/padrina">
+            <pattern>
+                <token regexp="yes">madrin(a|es)</token>
+            </pattern>
+            <message>Incorrecte en el sentit de <suggestion><match no="1" regexp_match="madrin(.+)" regexp_replace="padrin$1"/></suggestion>. "Madrina" és un tipus de corretja.</message>
+            <short>Possible confusió</short>
+            <example type="incorrect" correction="padrina">La <marker>madrina</marker> del nen.</example>
+            <example type="correct">Ella és la padrina.</example>
+        </rule>
         <rule id="VAL" name="val!/entesos!">
             <pattern>
                 <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
                 <marker>
-                    <token>val</token>
+                    <token>val<exception postag="_possible_nompropi"></exception></token>
                 </marker>
                 <token postag="SENT_END|_PUNCT.*" postag_regexp="yes"/>
             </pattern>
