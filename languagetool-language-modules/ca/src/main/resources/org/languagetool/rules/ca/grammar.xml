@@ -9135,7 +9135,7 @@ $Id$
                 <pattern>
                     <token><exception postag="SPS00|.*LOC_PREP.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">tenir|venir|agafar|produir</exception></token>
                     <marker>
-                        <token>son<exception postag="_GN_.S" postag_regexp="yes"/></token>
+                        <token>son<exception postag="_GN_.S|_possible_nompropi" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Si és del verb 'ser', cal accentuar.</message>
@@ -9177,7 +9177,9 @@ $Id$
                      sonambulisme, son,
                      esabarjo o son
                      son o estupor
+                     fatiga, son, gana
                      produint son i anorèxia
+                     vigília i son
                      ES POT FER IGUAL QUE AMB: cafè, te, ...-->
             </rule>
         </rulegroup>
@@ -17689,8 +17691,17 @@ $Id$
             <suggestion>en mans</suggestion>
             <suggestion>a les mans</suggestion>
             <suggestion>en poder</suggestion>
-            <example type="incorrect">La ciutat va caure <marker>a mans de</marker> l'enemic.</example>
+            <example type="incorrect">La ciutat va caure <marker>a mans</marker> de l'enemic.</example>
             <example type="correct">La fortuna va passar a mans del fill.</example>
+        </rule>
+        <rule id="CARGA" name="carga/càrrega">
+            <pattern>
+                <token regexp="yes">carg(a|ues)</token>
+            </pattern>
+            <message>Incorrecte en el sentit de <suggestion><match no="1" regexp_match="carg(.+)" regexp_replace="càrreg$1"/></suggestion>. "Carga" és el nom d'algunes unitats de mesura.</message>
+            <short>Possible confusió</short>
+            <example type="incorrect" correction="càrregues">Totes les <marker>cargues</marker>.</example>
+            <example type="correct">És una càrrega.</example>
         </rule>
         <rule id="MADRINA" name="madrina/padrina">
             <pattern>
