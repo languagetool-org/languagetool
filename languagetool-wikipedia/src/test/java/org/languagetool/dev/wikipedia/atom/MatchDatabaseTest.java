@@ -47,10 +47,16 @@ public class MatchDatabaseTest {
     WikipediaRuleMatch wikiRuleMatch1 = new WikipediaRuleMatch(language, ruleMatch, "my context", feedItem1);
     database.add(wikiRuleMatch1);
     assertThat(database.list().size(), is(1));
-    assertNull(database.list().get(0).getFixDate());
+    assertThat(database.list().get(0).getRuleId(), is("ID_1"));
+    assertThat(database.list().get(0).getRuleMessage(), is("my message"));
+    assertThat(database.list().get(0).getTitle(), is("title"));
+    assertThat(database.list().get(0).getErrorContext(), is("my context"));
     assertThat(database.list().get(0).getDiffId(), is(123L));
     assertThat(database.list().get(0).getFixDiffId(), is(0L));
+    assertThat(database.list().get(0).getEditDate(), is(new Date(10000)));
     assertThat(database.getLatestDate(), is(new Date(10000)));
+    assertNull(database.list().get(0).getRuleSubId());
+    assertNull(database.list().get(0).getFixDate());
 
     RuleMatch ruleMatch2 = new RuleMatch(new FakeRule(1), 9, 11, "my message");  // same ID, different character positions
     AtomFeedItem feedItem2 = new AtomFeedItem("//id2?diff=124", "title", "summary2", new Date(9000000000L));

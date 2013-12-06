@@ -24,7 +24,9 @@ import org.languagetool.dev.wikipedia.LocationHelper;
 import org.languagetool.dev.wikipedia.PlainTextMapping;
 import org.languagetool.dev.wikipedia.SwebleWikipediaTextFilter;
 import org.languagetool.dev.wikipedia.TextMapFilter;
+import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.tools.ContextTools;
 import xtc.tree.Location;
 
@@ -94,13 +96,13 @@ class AtomFeedChecker {
       if (addedMatches.size() > 0 || removedMatches.size() > 0) {
         System.out.println("'" + result.getTitle() + "' new and removed matches:");
         for (WikipediaRuleMatch match : addedMatches) {
-          System.out.println("    [+] " + match.getRule().getId() + ": " +  match.getErrorContext());
+          System.out.println("    [+] " + getId(match.getRule()) + ": " +  match.getErrorContext());
           if (matchDatabase != null) {
             matchDatabase.add(match);
           }
         }
         for (WikipediaRuleMatch match : removedMatches) {
-          System.out.println("    [-] " + match.getRule().getId() + ": " +  match.getErrorContext());
+          System.out.println("    [-] " + getId(match.getRule()) + ": " +  match.getErrorContext());
           if (matchDatabase != null) {
             matchDatabase.markedFixed(match);
           }
@@ -109,6 +111,14 @@ class AtomFeedChecker {
                 + URLEncoder.encode(result.getTitle().replace(" ", "_"), "UTF-8") + "&diff=" + result.getDiffId();
         System.out.println("    " + diffLink);
       }
+    }
+  }
+
+  private String getId(Rule rule) {
+    if (rule instanceof PatternRule) {
+      return rule.getId() + "[" + ((PatternRule) rule).getSubId() + "]";
+    } else {
+      return rule.getId();
     }
   }
 

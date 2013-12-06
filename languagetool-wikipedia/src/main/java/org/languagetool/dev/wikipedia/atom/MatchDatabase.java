@@ -19,6 +19,7 @@
 package org.languagetool.dev.wikipedia.atom;
 
 import org.apache.commons.lang.StringUtils;
+import org.languagetool.rules.patterns.PatternRule;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -47,21 +48,26 @@ class MatchDatabase {
   }
 
   void add(WikipediaRuleMatch ruleMatch) {
-    String sql = "INSERT INTO feed_matches (title, language_code, rule_id, rule_message, rule_category, error_context, edit_date, diff_id) " +
-            "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    String sql = "INSERT INTO feed_matches (title, language_code, rule_id, rule_sub_id, rule_message, rule_category, error_context, edit_date, diff_id) " +
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     try (PreparedStatement prepSt = conn.prepareStatement(sql)) {
       prepSt.setString(1, StringUtils.abbreviate(ruleMatch.getTitle(), 255));
       prepSt.setString(2, ruleMatch.getLanguage().getShortName());
       prepSt.setString(3, ruleMatch.getRule().getId());
-      prepSt.setString(4, StringUtils.abbreviate(ruleMatch.getMessage(), 255));
-      if (ruleMatch.getRule().getCategory() != null) {
-        prepSt.setString(5, StringUtils.abbreviate(ruleMatch.getRule().getCategory().getName(), 255));
+      if (ruleMatch.getRule() instanceof PatternRule) {
+        prepSt.setString(4, ((PatternRule)ruleMatch.getRule()).getSubId());
       } else {
-        prepSt.setString(5, "<no category>");
+        prepSt.setString(4, null);
       }
-      prepSt.setString(6, ruleMatch.getErrorContext());
-      prepSt.setTimestamp(7, new Timestamp(ruleMatch.getEditDate().getTime()));
-      prepSt.setLong(8, ruleMatch.getDiffId());
+      prepSt.setString(5, StringUtils.abbreviate(ruleMatch.getMessage(), 255));
+      if (ruleMatch.getRule().getCategory() != null) {
+        prepSt.setString(6, StringUtils.abbreviate(ruleMatch.getRule().getCategory().getName(), 255));
+      } else {
+        prepSt.setString(6, "<no category>");
+      }
+      prepSt.setString(7, ruleMatch.getErrorContext());
+      prepSt.setTimestamp(8, new Timestamp(ruleMatch.getEditDate().getTime()));
+      prepSt.setLong(9, ruleMatch.getDiffId());
       prepSt.execute();
     } catch (SQLException e) {
       throw new RuntimeException("Could not add rule match " + ruleMatch + " to database", e);
@@ -79,6 +85,7 @@ class MatchDatabase {
       prepSt.setString(3, ruleMatch.getLanguage().getShortName());
       prepSt.setString(4, ruleMatch.getTitle());
       prepSt.setString(5, ruleMatch.getRule().getId());
+      // TODO: consider sub id?
       prepSt.setString(6, ruleMatch.getErrorContext());
       return prepSt.executeUpdate();
     } catch (SQLException e) {
@@ -95,6 +102,7 @@ class MatchDatabase {
             "  language_code VARCHAR(5) NOT NULL," +
             "  title VARCHAR(255) NOT NULL," +
             "  rule_id VARCHAR(255) NOT NULL," +
+            "  rule_sub_id VARCHAR(255)," +
             "  rule_message VARCHAR(255) NOT NULL," +
             "  rule_category VARCHAR(255) NOT NULL," +
             "  error_context VARCHAR(500) NOT NULL," +
@@ -151,6 +159,7 @@ class MatchDatabase {
       List<StoredWikipediaRuleMatch> result = new ArrayList<>();
       while (resultSet.next()) {
         String ruleId = resultSet.getString("rule_id");
+        String ruleSubId = resultSet.getString("rule_sub_id");
         String ruleMessage = resultSet.getString("rule_message");
         String errorContext = resultSet.getString("error_context");
         String title = resultSet.getString("title");
@@ -159,7 +168,7 @@ class MatchDatabase {
         Date fixDate = fixTimeStamp != null ? new Date(resultSet.getTimestamp("fix_date").getTime()) : null;
         long diffId = resultSet.getLong("diff_id");
         long fixDiffId = resultSet.getLong("fix_diff_id");
-        result.add(new StoredWikipediaRuleMatch(ruleId, ruleMessage, errorContext, title, editDate, fixDate, diffId, fixDiffId));
+        result.add(new StoredWikipediaRuleMatch(ruleId, ruleSubId, ruleMessage, errorContext, title, editDate, fixDate, diffId, fixDiffId));
       }
       return result;
     }

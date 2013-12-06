@@ -28,6 +28,7 @@ import java.util.Objects;
 class StoredWikipediaRuleMatch {
 
   private final String ruleId;
+  private final String ruleSubId;
   private final String ruleMessage;
   private final String errorContext;
   private final String title;
@@ -36,8 +37,9 @@ class StoredWikipediaRuleMatch {
   private final long diffId;
   private final long fixDiffId;
   
-  StoredWikipediaRuleMatch(String ruleId, String ruleMessage, String errorContext, String title, Date editDate, Date fixDate, long diffId, long fixDiffId) {
+  StoredWikipediaRuleMatch(String ruleId, String ruleSubId, String ruleMessage, String errorContext, String title, Date editDate, Date fixDate, long diffId, long fixDiffId) {
     this.ruleId = Objects.requireNonNull(ruleId);
+    this.ruleSubId = ruleSubId;
     this.ruleMessage = Objects.requireNonNull(ruleMessage);
     this.errorContext = Objects.requireNonNull(errorContext);
     this.title = Objects.requireNonNull(title);
@@ -49,6 +51,11 @@ class StoredWikipediaRuleMatch {
 
   String getRuleId() {
     return ruleId;
+  }
+
+  /** * May be null. */
+  String getRuleSubId() {
+    return ruleSubId;
   }
 
   String getRuleMessage() {
@@ -67,9 +74,7 @@ class StoredWikipediaRuleMatch {
     return editDate;
   }
 
-  /**
-   * May be null (if error is not fixed yet).
-   */
+  /** May be null (if error is not fixed yet). */
   Date getFixDate() {
     return fixDate;
   }
