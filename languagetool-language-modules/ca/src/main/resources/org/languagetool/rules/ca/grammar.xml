@@ -17689,9 +17689,12 @@ $Id$
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
         <rule id="A_MANS_DE" name="a mans de/en mans de">
             <pattern>
-                <token postag="SENT_START" skip="-1"><exception scope="next" inflected="yes" regexp="yes">passar|arribar|tornar</exception></token>
+                <or>
+                    <token postag="SENT_START" skip="-1"><exception scope="next" inflected="yes" regexp="yes">passar|arribar|tornar|perdre|morir|pèrdua|mort|patir|vexació|tortura|derrota|derrotar|fi</exception></token>
+                    <token skip="-1">a<exception scope="next" inflected="yes" regexp="yes">passar|arribar|tornar|perdre|morir|pèrdua|mort|patir|vexació|tortura|derrota|derrotar|fi</exception></token>
+                </or>
                 <marker>
-                    <token>a</token>
+                    <token>a<exception scope="previous" inflected="yes">fer</exception></token>
                     <token>mans</token>
                 </marker>
                 <token regexp="yes">de|d'</token>
@@ -17702,6 +17705,8 @@ $Id$
             <suggestion>en poder</suggestion>
             <example type="incorrect">La ciutat va caure <marker>a mans</marker> de l'enemic.</example>
             <example type="correct">La fortuna va passar a mans del fill.</example>
+            <!-- <example type="correct">Van perdre la majoria al Palarment a mans de l'oposició.</example> -->
+            <example type="correct">Van perdre la majoria en el Palarment a mans de l'oposició.</example>
         </rule>
         <rule id="CARGA" name="carga/càrrega">
             <pattern>
