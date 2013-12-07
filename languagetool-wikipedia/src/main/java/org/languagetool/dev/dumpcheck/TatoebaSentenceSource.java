@@ -35,6 +35,9 @@ class TatoebaSentenceSource extends SentenceSource {
 
   private final List<String> sentences;
   private final Scanner scanner;
+
+  // Each sentence is one article, but count anyway so it's coherent with what the Wikipedia code does:
+  private int articleCount = 0;
   
   TatoebaSentenceSource(InputStream textInput, Language language) {
     super(language);
@@ -54,7 +57,7 @@ class TatoebaSentenceSource extends SentenceSource {
     if (sentences.size() == 0) {
       throw new NoSuchElementException();
     }
-    return new Sentence(sentences.remove(0), getSource(), "<Tatoeba>", "http://tatoeba.org");
+    return new Sentence(sentences.remove(0), getSource(), "<Tatoeba>", "http://tatoeba.org", ++articleCount);
   }
 
   @Override

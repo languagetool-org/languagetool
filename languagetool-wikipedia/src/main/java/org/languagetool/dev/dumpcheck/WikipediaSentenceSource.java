@@ -50,6 +50,8 @@ class WikipediaSentenceSource extends SentenceSource {
   private final List<WikipediaSentence> sentences;
   private final Language language;
 
+  private int articleCount = 0;
+
   WikipediaSentenceSource(InputStream xmlInput, Language language) {
     super(language);
     try {
@@ -82,7 +84,7 @@ class WikipediaSentenceSource extends SentenceSource {
       }
       WikipediaSentence wikiSentence = sentences.remove(0);
       String url = "http://" + language.getShortName() + ".wikipedia.org/wiki/" + wikiSentence.title;
-      return new Sentence(wikiSentence.sentence, getSource(), wikiSentence.title, url);
+      return new Sentence(wikiSentence.sentence, getSource(), wikiSentence.title, url, wikiSentence.articleCount);
     } catch (XMLStreamException e) {
       throw new RuntimeException(e);
     }
@@ -102,14 +104,15 @@ class WikipediaSentenceSource extends SentenceSource {
         if (elementName.equals("title")) {
           event = reader.nextEvent();
           title = event.asCharacters().getData();
+          articleCount++;
         } else if (elementName.equals("text")) {
-          handleTextElement(title);
+          handleTextElement(title, articleCount);
         }
       }
     }
   }
 
-  private void handleTextElement(String title) throws XMLStreamException {
+  private void handleTextElement(String title, int articleCount) throws XMLStreamException {
     XMLEvent event = reader.nextEvent();
     StringBuilder sb = new StringBuilder();
     while (event.isCharacters()) {
@@ -120,7 +123,7 @@ class WikipediaSentenceSource extends SentenceSource {
       String textToCheck = textFilter.filter(sb.toString()).getPlainText();
       for (String sentence : sentenceTokenizer.tokenize(textToCheck)) {
         if (acceptSentence(sentence)) {
-          sentences.add(new WikipediaSentence(sentence, title));
+          sentences.add(new WikipediaSentence(sentence, title, articleCount));
         }
       }
     } catch (Exception e) {
@@ -132,9 +135,11 @@ class WikipediaSentenceSource extends SentenceSource {
   private class WikipediaSentence {
     final String sentence;
     final String title;
-    WikipediaSentence(String sentence, String title) {
+    final int articleCount;
+    WikipediaSentence(String sentence, String title, int articleCount) {
       this.sentence = sentence;
       this.title = title;
+      this.articleCount = articleCount;
     }
   }
 }

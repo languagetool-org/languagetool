@@ -28,12 +28,14 @@ class Sentence {
   private final String source;
   private final String title;
   private final String url;
+  private final int articleCount;
 
-  Sentence(String sentence, String source, String title, String url) {
+  Sentence(String sentence, String source, String title, String url, int articleCount) {
     this.sentence = sentence.trim();
     this.source = source;
     this.title = title;
     this.url = url;
+    this.articleCount = articleCount;
   }
 
   String getText() {
@@ -50,6 +52,10 @@ class Sentence {
 
   String getUrl() {
     return url;
+  }
+
+  int getArticleCount() {
+    return articleCount;
   }
 
   @Override

@@ -105,7 +105,8 @@ class DatabaseHandler extends ResultHandler {
         prepSt.executeUpdate();
         checkMaxErrors(++errorCount);
         if (errorCount % 100 == 0) {
-          System.out.println("Storing error #" + errorCount + " for text:");
+          System.out.println("Storing error #" + errorCount + " for text from " + sentence.getSource()
+                  + " article #" + sentence.getArticleCount() + ":");
           System.out.println("  " + sentence.getText());
         }
       }
