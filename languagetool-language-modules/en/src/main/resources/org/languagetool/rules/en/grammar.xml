@@ -556,7 +556,7 @@ USA
                 </marker>
                 <token>that</token>
             </pattern>
-            <message>Did you mean <suggestion>ensure </suggestion>(=make sure)? 'Insure' means 'pay money to insurance company'.</message>
+            <message>Did you mean <suggestion>ensure</suggestion> (=make sure)? 'Insure' means 'pay money to insurance company'.</message>
             <short>Possible typo</short>
             <example type="incorrect">Please <marker>insure</marker> that you are registered with us.</example>
             <example type="correct">Please insure your car against theft.</example>
@@ -1027,7 +1027,7 @@ USA
             <example correction="without" type="incorrect">We must take the bus before it leaves <marker>with out</marker> us.</example>
             <example type="correct">We must take the bus before it leaves without us.</example>
         </rule>
-        <rulegroup id="IT_IS_NO" name="It is no (It is not/It is now)">
+        <rulegroup id="IT_IS_NO" name="it is no (not/now)">
             <rule>
                 <pattern>
                     <token>it</token>
@@ -1607,7 +1607,7 @@ USA
         </rulegroup>
         <rule id="THINK_YOU_A" name="think you a/an (are)">
             <pattern>
-                <token>think</token>
+                <token regexp="yes">think|thinks|thought</token>
                 <token>you</token>
                 <marker>
                     <token regexp="yes">a|an</token>
@@ -1694,7 +1694,7 @@ USA
             <example type="correct">He noticed that <marker>there</marker> is a new test.</example>
             <example correction="there" type="incorrect">He noticed that <marker>their</marker> is a new test.</example>
         </rule>
-        <rule id="I_A" name="I a/an (I am)">
+        <rule id="I_A" name="I a/an (am)">
             <!--added exception for: 'Am I an annoyance' -->
             <pattern>
                 <token><exception scope="previous">am</exception>I</token>
@@ -1875,8 +1875,8 @@ USA
             <example type="correct">I <marker>think</marker> that's a good idea.</example>
             <example correction="think|thinks" type="incorrect">I <marker>thing</marker> that's a good idea.</example>
         </rule>
-        <!--FIXME: this is a very crude rule, should be refined.-->
         <rulegroup id="WERE_VBB" name="were (where/we)">
+            <!--FIXME: this is a very crude rule, should be refined.-->
             <rule>
                 <pattern>
                     <token><exception postag="CC"></exception></token>
@@ -1967,7 +1967,7 @@ USA
             <example correction="then" type="incorrect">If we want to eat, <marker>than</marker> we need to get some money.</example>
             <example type="correct">If we want to eat, <marker>then</marker> we need to get some money.</example>
         </rule>
-        <rule id="FROM_THAN_ON" name="from than on (from then on)">
+        <rule id="FROM_THAN_ON" name="from than (then) on">
             <pattern>
                 <token>from</token>
                 <token>than</token>
@@ -2501,7 +2501,7 @@ USA
             </rule>
         </rulegroup>
 
-        <rule id="TURNED_OFF" name="turned of (turned off)">
+        <rule id="TURNED_OFF" name="turned of (off)">
             <pattern>
                 <token regexp="yes">turned|switched</token>
                 <marker>
@@ -2534,7 +2534,7 @@ USA
             <example type="incorrect">She was the first <marker>female waiter</marker>.</example>
             <example type="correct">She was the first <marker>waitress</marker>.</example>
         </rule>
-        <rule id="FIRST_WOMAN_NOUN" name="first woman president (first female president)">
+        <rule id="FIRST_WOMAN_NOUN" name="first woman president (female president)">
             <pattern>
                 <token regexp="yes">first|second|third</token>
                 <marker>
@@ -2547,7 +2547,7 @@ USA
             <example type="incorrect">She was the first <marker>woman</marker> president.</example>
             <example type="correct">She was the first <marker>female</marker> president.</example>
         </rule>
-        <rule id="FIRST_MAN_NOUN" name="first man president (first male president)">
+        <rule id="FIRST_MAN_NOUN" name="first man president (male president)">
             <pattern>
                 <token regexp="yes">first|second|third</token>
                 <marker>
@@ -2600,8 +2600,7 @@ USA
             </rule>
         </rulegroup>
 
-
-        <rulegroup id="SCENE_SEEN" name="seen or scene">
+        <rulegroup id="SCENE_SEEN" name="seen/scene">
             <rule>
                 <pattern>
                     <token regexp="yes">this|another|opening|final|music</token>
@@ -2830,7 +2829,7 @@ USA
                 <example type="correct">I paid (maybe) an exorbitant price.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ONCE_AND_A_WHILE" name="once and a while (once in a while)">
+        <rulegroup id="ONCE_AND_A_WHILE" name="once and (in) a while">
             <rule>
                 <pattern>
                     <token>once</token>
@@ -2855,7 +2854,7 @@ USA
                 <example type="correct">My computer starts up only <marker>once in a while</marker>.</example>
             </rule>
         </rulegroup>
-        <rule id="SPARKING_WINE" name="sparking wine (sparkling wine)">
+        <rule id="SPARKING_WINE" name="sparking (sparkling) wine">
             <pattern>
                 <token>sparking</token>
                 <token regexp="yes">wine|wines</token>
@@ -2865,7 +2864,7 @@ USA
             <example correction="sparkling wine" type="incorrect">I love <marker>sparking wine</marker>.</example>
             <example type="correct">I hate sparkling wine.</example>
         </rule>
-        <rule id="VERY_MATCH" name="very match (very much)">
+        <rule id="VERY_MATCH" name="very match (much)">
             <pattern>
                 <token>you</token>
                 <marker>
@@ -2891,7 +2890,7 @@ USA
             <example correction="very" type="incorrect">Thank you <marker>vary</marker> much.</example>
             <example type="correct">Thank you <marker>very</marker> much.</example>
         </rule>
-        <rule id="ZERO-SUM_GAIN" name="zero-sum gain (zero-sum game)">
+        <rule id="ZERO-SUM_GAIN" name="zero-sum gain (game)">
             <pattern>
                 <token>zero-sum</token>
                 <token>gain</token>
@@ -2902,7 +2901,7 @@ USA
             <example type="correct">It is a zero-sum game when wages are held flat...</example>
         </rule>
         <!-- hasn't &amp;irregular_verb::word=\0 \1:participle::pivots=\1,\1:participle -->
-        <rule id="HASNT_IRREGULAR_VERB" name="hasn't followed by irregular past tense verb">
+        <rule id="HASNT_IRREGULAR_VERB" name="'hasn't' + irregular past tense verb">
             <pattern>
                 <token regexp="yes">hasn|weren|hadn|haven</token>
                 <token spacebefore="no" regexp="yes">['’]</token>
@@ -2914,7 +2913,7 @@ USA
             <example type="correct">They haven't awoken before nine in a long time.</example>
         </rule>
         <!-- could've &amp;irregular_verb::word=\0 \1:participle::pivots=\1,\1:participle -->
-        <rule id="COULDVE_IRREGULAR_VERB" name="Could've followed by irregular past tense verb">
+        <rule id="COULDVE_IRREGULAR_VERB" name="'Could've' + irregular past tense verb">
             <pattern>
                 <token regexp="yes">could|would|should|you|i|we|they</token>
                 <token spacebefore="no" regexp="yes">['’]</token>
@@ -3590,7 +3589,7 @@ USA
                 <token>comprised</token>
                 <token>of</token>
             </pattern>
-            <message>Did you mean <suggestion>band composed of</suggestion> or <suggestion> band comprising</suggestion>?</message>
+            <message>Did you mean <suggestion>band composed of</suggestion> or <suggestion>band comprising</suggestion>?</message>
             <example type="incorrect">The Beatles were a <marker>band comprised of</marker> great musicians.</example>
             <example type="correct">The Beatles were a band composed of great musicians.</example>
         </rule>
@@ -3643,7 +3642,7 @@ USA
                 <token>comprising</token>
                 <token>of</token>
             </pattern>
-            <message>Did you mean <suggestion>comprising</suggestion> or <suggestion> consisting of</suggestion>?</message>
+            <message>Did you mean <suggestion>comprising</suggestion> or <suggestion>consisting of</suggestion>?</message>
             <example type="incorrect">This is a country <marker>comprising of</marker> independent people.</example>
             <example type="correct">This is a country consisting of independent people.</example>
         </rule>
@@ -3653,7 +3652,7 @@ USA
                 <token>comprise</token>
                 <token>of</token>
             </pattern>
-            <message>Did you mean <suggestion>comprise</suggestion> or <suggestion> consist of</suggestion>?</message>
+            <message>Did you mean <suggestion>comprise</suggestion> or <suggestion>consist of</suggestion>?</message>
             <example type="incorrect">It's tough to think you <marker>comprise of</marker> mostly water.</example>
             <example type="correct">It's tough to think you consist of mostly water.</example>
         </rule>
@@ -3664,7 +3663,7 @@ USA
                 <token>comprised</token>
                 <token>of</token>
             </pattern>
-            <message>Did you mean <suggestion>comprised</suggestion> or <suggestion> consisted of</suggestion> or <suggestion> was composed of</suggestion>?</message>
+            <message>Did you mean <suggestion>comprised</suggestion> or <suggestion>consisted of</suggestion> or <suggestion>was composed of</suggestion>?</message>
             <example type="incorrect">The proposal <marker>was comprised of</marker> faulty assumptions.</example>
             <example type="correct">The proposal consisted of faulty assumptions.</example>
         </rule>
@@ -3675,7 +3674,7 @@ USA
                 <token>comprised</token>
                 <token>of</token>
             </pattern>
-            <message>Did you mean <suggestion>comprised</suggestion> or <suggestion> were composed of</suggestion>?</message>
+            <message>Did you mean <suggestion>comprised</suggestion> or <suggestion>were composed of</suggestion>?</message>
             <example type="incorrect">The missiles <marker>were comprised of</marker> nuclear warheads.</example>
             <example type="correct">The missiles were composed of nuclear warheads.</example>
         </rule>
@@ -3686,7 +3685,7 @@ USA
                 <token>comprised</token>
                 <token>of</token>
             </pattern>
-            <message>Did you mean <suggestion>which comprised</suggestion> or <suggestion> which consisted of</suggestion> or <suggestion> which was composed of</suggestion>?</message>
+            <message>Did you mean <suggestion>which comprised</suggestion> or <suggestion>which consisted of</suggestion> or <suggestion>which was composed of</suggestion>?</message>
             <example type="incorrect">The ants, <marker>which comprised of</marker> the colony, were asleep.</example>
             <example type="correct">The any, which comprised the colony, were asleep.</example>
         </rule>
@@ -3698,7 +3697,7 @@ USA
                 <token>comprised</token>
                 <token>of</token>
             </pattern>
-            <message>Did you mean <suggestion>will be composed of</suggestion> or <suggestion> will comprise</suggestion> or <suggestion> will consist of</suggestion>?</message>
+            <message>Did you mean <suggestion>will be composed of</suggestion> or <suggestion>will comprise</suggestion> or <suggestion>will consist of</suggestion>?</message>
             <example type="incorrect">The album <marker>will be comprised of</marker> synthetic sounds.</example>
             <example type="correct">The album will be composed of synthetic sounds.</example>
         </rule>
@@ -3709,7 +3708,7 @@ USA
                 <token>comprise</token>
                 <token>of</token>
             </pattern>
-            <message>Did you mean <suggestion>will be composed of</suggestion> or <suggestion> will comprise</suggestion> or <suggestion> will consist of</suggestion>?</message>
+            <message>Did you mean <suggestion>will be composed of</suggestion> or <suggestion>will comprise</suggestion> or <suggestion>will consist of</suggestion>?</message>
             <example type="incorrect">The ants <marker>will comprise of</marker> the colony.</example>
             <example type="correct">The ants will comprise the colony.</example>
         </rule>
@@ -3720,7 +3719,7 @@ USA
                 <token>comprise</token>
                 <token>of</token>
             </pattern>
-            <message>Did you mean <suggestion>would comprise</suggestion> or <suggestion> would consist of</suggestion>?</message>
+            <message>Did you mean <suggestion>would comprise</suggestion> or <suggestion>would consist of</suggestion>?</message>
             <example type="incorrect">The ants <marker>would comprise of</marker> the colony.</example>
             <example type="correct">The ants would comprise the colony.</example>
         </rule>
@@ -3731,7 +3730,7 @@ USA
                 <token>comprised</token>
                 <token>of</token>
             </pattern>
-            <message>Did you mean <suggestion>government composed of</suggestion> or <suggestion> government consisting of</suggestion>?</message>
+            <message>Did you mean <suggestion>government composed of</suggestion> or <suggestion>government consisting of</suggestion>?</message>
             <example type="incorrect">Theirs was a <marker>government comprised of</marker> warring factions.</example>
             <example type="correct">Theirs was a government consisting of warring factions.</example>
         </rule>
@@ -3743,7 +3742,7 @@ USA
                 <token>mostly</token>
                 <token>of</token>
             </pattern>
-            <message>Did you mean <suggestion>comprises mostly</suggestion> or <suggestion> consists mostly of</suggestion> or <suggestion> is composed mostly of</suggestion>?</message>
+            <message>Did you mean <suggestion>comprises mostly</suggestion> or <suggestion>consists mostly of</suggestion> or <suggestion>is composed mostly of</suggestion>?</message>
             <example type="incorrect">The government <marker>is comprised mostly of</marker> idiots.</example>
             <example type="correct">The government consists mostly of idiots.</example>
         </rule>
@@ -3754,7 +3753,7 @@ USA
                 <token>comprised</token>
                 <token>of</token>
             </pattern>
-            <message>Did you mean <suggestion>comprises</suggestion> or <suggestion> consists of</suggestion> or <suggestion> is composed of</suggestion>?</message>
+            <message>Did you mean <suggestion>comprises</suggestion> or <suggestion>consists of</suggestion> or <suggestion>is composed of</suggestion>?</message>
             <example type="incorrect">The government <marker>is comprised of</marker> idiots.</example>
             <example type="correct">The government consists of great guys.</example>
         </rule>
@@ -5419,7 +5418,7 @@ USA
                 <token>the</token>
                 <token>contraire</token>
             </pattern>
-            <message>Did you mean <suggestion>au contraire</suggestion> or <suggestion> on the contrary</suggestion>?</message>
+            <message>Did you mean <suggestion>au contraire</suggestion> or <suggestion>on the contrary</suggestion>?</message>
             <example type="incorrect"><marker>On the contraire</marker>, you've been following me home!</example>
             <example type="correct">On the contrary, you've been following me home!</example>
         </rule>
@@ -6339,7 +6338,7 @@ USA
                 <example type="correct">They <marker>want them to</marker> send him an email.</example>
             </rule>
         </rulegroup>
-        <rule id="THE_SENT_END" name="Sentence ending with 'the.' or 'a.'">
+        <rule id="THE_SENT_END" name="Sentence ending with 'the' or 'a'">
             <pattern case_sensitive="yes">
                 <token><exception regexp="yes">’|'|\.</exception><exception postag="SENT_START"></exception></token>
                 <marker>
@@ -6387,7 +6386,6 @@ USA
             <example type="correct">He applied himself fairly seriously to his work.</example>
             <example type="correct">He joined them there a few days later.</example>
         </rule>
-
 
         <rule id="DONT_WILL" name="don't will (won't)">
             <pattern>
@@ -6735,7 +6733,7 @@ USA
             <example correction="woman" type="incorrect">A <marker>women</marker> walked in to the room.</example>
             <example type="correct">A <marker>woman</marker> walked into the room.</example>
         </rule>
-        <rulegroup id="HAVE_PART_AGREEMENT" name="Agreement: have + past/present tense">
+        <rulegroup id="HAVE_PART_AGREEMENT" name="Agreement: 'have' + past/present tense">
             <rule>
                 <pattern>
                     <token regexp="yes">has|have|had</token>
@@ -7115,7 +7113,7 @@ USA
   currently the last exception in all rules is a simplification,
   it should be more recursive, i.e., there one more rule for all current rules, structured like this: 
   ... NN !NN.*|JJ.*, ... NN JJ !NN.*|JJ.* -->
-        <rulegroup id="ARTICLE_MISSING" name="Articles: article missing before a countable noun" default="off">
+        <rulegroup default="off" id="ARTICLE_MISSING" name="Articles: article missing before a countable noun">
             <rule>
                 <pattern>
                     <token><exception postag="DT|WDT|JJ|NN.*" postag_regexp="yes"></exception></token>
@@ -9073,7 +9071,7 @@ USA
             <example type="correct">This is important – as far as I know.</example>
             <example correction="…" type="incorrect">This is important<marker>...</marker> as far as I know.</example>
         </rule>
-        <rule id="WRONG_APOSTROPHE" name="shouldn´t">
+        <rule id="WRONG_APOSTROPHE" name="Wrong apostrophe character">
             <pattern>
                 <token regexp="yes">(ain|aren|can|couldn|didn|doesn|don|hadn|hasn|haven|isn|mayn|mightn|mustn|needn|oughtn|shan|shouldn|wasn|weren|won|wouldn)</token>
                 <token regexp="yes">(´|`)</token>
@@ -9166,7 +9164,7 @@ USA
             <example correction="the world" type="incorrect">He didn't like <marker>the world around him</marker>.</example>
             <example type="correct">He didn't like the world.</example>
         </rule>
-        <rulegroup default="off" id="PASSIVE_VOICE" name="Flag passive voice">
+        <rulegroup default="off" id="PASSIVE_VOICE" name="Passive voice">
             <rule> <!-- Passive infinitive (1/2) -->
                 <pattern>
                     <marker>
@@ -9342,7 +9340,7 @@ USA
                 <example type="correct">The Thames was once a much broader river.</example>
             </rule>
         </rulegroup>
-        <rule id="AN_ANOTHER" name="an another (an / another)">
+        <rule id="AN_ANOTHER" name="an another (an/another)">
             <pattern>
                 <token>an</token>
                 <token>another</token>
@@ -9552,8 +9550,6 @@ USA
                 <example correction="pencil and" type="incorrect">The pen, <marker>pencil, and</marker> book are on the desk.</example>
             </rule>
         </rulegroup>
-
-
     </category>
     <category name="Commonly Confused Words" type="misspelling">
         <rule id="DIFFUSE_TENSIONS" name="diffuse (defuse) tensions">
@@ -10141,7 +10137,7 @@ USA
                 <example type="correct">The experiment didn't obey the laws of cause and effect.</example>
             </rule>
         </rulegroup>
-        <rule id="ECONOMICAL_ECONOMIC" name="'econonomical growth' etc. (economic)">
+        <rule id="ECONOMICAL_ECONOMIC" name="'econonomical (economic) growth' etc.">
             <pattern>
                 <marker>
                     <token>economical</token>
@@ -10196,7 +10192,7 @@ USA
                 <example type="correct">Mr Brown is our new school principal.</example>
             </rule>
         </rulegroup>
-        <rule id="ECONOMIC_ECONOMICAL" name="'econonomic car' etc. (economical)">
+        <rule id="ECONOMIC_ECONOMICAL" name="'econonomic (economical) car' etc.">
             <pattern>
                 <marker>
                     <token>economic</token>
@@ -11452,7 +11448,7 @@ USA
             <example correction="graduate" type="incorrect">I am a <marker>former graduate</marker> of the school.</example>
             <example type="correct">I am a graduate of the school.</example>
         </rule>
-        <rulegroup id="OVER_EXAGGERATED" name="over exaggerated (exaggerrated)">
+        <rulegroup id="OVER_EXAGGERATED" name="over exaggerated (exaggerated)">
             <rule>
                 <pattern>
                     <token>over</token>
@@ -12046,7 +12042,7 @@ USA
             <example type="incorrect"><marker>Hopefully</marker>, this will be a great grammar checker.</example>
             <example type="correct">The prisoner thought hopefully about the prospect for escape.</example>
         </rule>
-        <rule id="THREE_NN" name="Readability: Three nouns in a row" default="off">
+        <rule default="off" id="THREE_NN" name="Readability: Three nouns in a row">
             <pattern>
                 <token postag="NN|NN:.*" postag_regexp="yes" regexp="yes">.{2,}<exception regexp="yes">today|yesterday|tomorrow|now|in|are</exception><exception postag="VBG|VB|VBP|VBD|VBN|RB|MD|IN|JJ.*|CC|DT" postag_regexp="yes"></exception></token>
                 <token postag="NN|NN:.*" postag_regexp="yes" regexp="yes">.{2,}<exception regexp="yes">today|yesterday|tomorrow|now|in|are</exception><exception postag="VBG|VB|VBP|VBD|VBN|RB|MD|IN|JJ.*|CC" postag_regexp="yes"></exception></token>
