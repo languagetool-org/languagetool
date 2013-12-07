@@ -131,6 +131,7 @@ class AtomFeedChecker {
   CheckResult checkChanges(InputStream xml) throws IOException {
     List<ChangeAnalysis> result = new ArrayList<>();
     long latestDiffId = 0;
+    int skipCount = 0;
     try {
       List<AtomFeedItem> items = new AtomFeedParser().getAtomFeedItems(xml);
       Collections.reverse(items);   // older items must come first so we iterate in the order in which the changes were made
@@ -148,6 +149,7 @@ class AtomFeedChecker {
         //    but I didn't find an id that's constantly increasing (diff=... often but not always increases)
         if (lastDateOfPreviousRun != null && (item.getDate().before(lastDateOfPreviousRun) || item.getDate().equals(lastDateOfPreviousRun))) {
           System.out.println("Skipping " + item.getTitle() + ", date " + item.getDate() + " <= " + lastDateOfPreviousRun);
+          skipCount++;
         } else {
           try {
             System.out.println("Checking " + item.getTitle() + ", diff id " + item.getDiffId());
@@ -166,6 +168,9 @@ class AtomFeedChecker {
       }
     } catch (XMLStreamException e) {
       throw new RuntimeException(e);
+    }
+    if (lastDateOfPreviousRun != null && skipCount == 0) {
+      System.err.println("Warning: no items from the Atom feed were skipped - this means that changes might be missing");
     }
     return new CheckResult(result, latestDiffId);
   }
