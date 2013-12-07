@@ -2514,65 +2514,6 @@ USA
             <example type="correct">The light was switched <marker>off</marker></example>
             <example type="correct">The light was turned <marker>off</marker></example>
         </rule>
-        <rule id="FEMALE_ACTOR" name="female actor (actress)">
-            <pattern>
-                <token regexp="yes">female|woman|women</token>
-                <token regexp="yes">actor|actress</token>
-            </pattern>
-            <message>Did you mean <suggestion>actress</suggestion>?</message>
-            <short>Redundant phrase</short>
-            <example type="incorrect">She was the first <marker>female actor</marker>.</example>
-            <example type="correct">She was the first <marker>actress</marker>.</example>
-        </rule>
-        <rule id="FEMALE_WAITER" name="female waiter (waitress)">
-            <pattern>
-                <token regexp="yes">female|woman|women</token>
-                <token regexp="yes">waiter|waitress</token>
-            </pattern>
-            <message>Did you mean <suggestion>waitress</suggestion>?</message>
-            <short>Redundant phrase</short>
-            <example type="incorrect">She was the first <marker>female waiter</marker>.</example>
-            <example type="correct">She was the first <marker>waitress</marker>.</example>
-        </rule>
-        <rule id="FIRST_WOMAN_NOUN" name="first woman president (female president)">
-            <pattern>
-                <token regexp="yes">first|second|third</token>
-                <marker>
-                    <token regexp="yes">woman|women</token>
-                </marker>
-                <token regexp="yes">officer|commander|minister|player|graduate|engineer|doctor|dentist|teacher|professor|speaker|president|senator|representative|employee|athlete|instructor|nominee|judge</token>
-            </pattern>
-            <message>We wouldn't say "\1 man \3". Use <suggestion>female</suggestion>.</message>
-            <short>Incorrect phrase</short>
-            <example type="incorrect">She was the first <marker>woman</marker> president.</example>
-            <example type="correct">She was the first <marker>female</marker> president.</example>
-        </rule>
-        <rule id="FIRST_MAN_NOUN" name="first man president (male president)">
-            <pattern>
-                <token regexp="yes">first|second|third</token>
-                <marker>
-                    <token>man</token>
-                </marker>
-                <token regexp="yes">officer|commander|minister|player|graduate|engineer|doctor|dentist|teacher|professor|speaker|president|senator|representative|employee|athlete|instructor|nominee|judge</token>
-            </pattern>
-            <message>Use <suggestion>male</suggestion>.</message>
-            <short>Incorrect phrase</short>
-            <example type="incorrect">He was the first <marker>man</marker> employee of the company.</example>
-            <example type="correct">He was the first male employee of the company.</example>
-            <example type="correct">He was the first man Sarah ever kissed.</example>
-        </rule>
-        <rule id="LITTLE_BIT" name="little bit">
-            <pattern>
-                <marker>
-                    <token>little</token>
-                    <token>bit</token>
-                </marker>
-            </pattern>
-            <message>Reduce redundancy by using <suggestion>little</suggestion> or <suggestion>bit</suggestion>.</message>
-            <short>Redundant phrase</short>
-            <example correction="little|bit" type="incorrect">He was a <marker>little bit</marker> late.</example>
-            <example type="correct">He was a little late.</example>
-        </rule>
         <rulegroup id="SCENT_SENT" name="seen or scene">
             <rule>
                 <pattern>
@@ -10149,6 +10090,18 @@ USA
             <example correction="economic" type="incorrect">This article deals with <marker>economical</marker> development of the Third World.</example>
             <example type="correct">This article deals with <marker>economic</marker> development of the Third World.</example>
         </rule>
+        <rule id="ECONOMIC_ECONOMICAL" name="'econonomic (economical) car' etc.">
+            <pattern>
+                <marker>
+                    <token>economic</token>
+                </marker>
+                <token regexp="yes">way|use|repair|means|methods|method|price|proposition|manner|basis|car|cooking|design|heating|motoring|shopper</token>
+            </pattern>
+            <message>Did you mean <suggestion>economical</suggestion> (=affordable, cheap)?</message>
+            <short>Commonly confused word</short>
+            <example correction="economical" type="incorrect">This is a very <marker>economic</marker> car.</example>
+            <example type="correct">This is a very <marker>economical</marker> car.</example>
+        </rule>
         <rulegroup id="IN_PRINCIPAL" name="principal (principle)">
             <rule>
                 <pattern>
@@ -10192,18 +10145,6 @@ USA
                 <example type="correct">Mr Brown is our new school principal.</example>
             </rule>
         </rulegroup>
-        <rule id="ECONOMIC_ECONOMICAL" name="'econonomic (economical) car' etc.">
-            <pattern>
-                <marker>
-                    <token>economic</token>
-                </marker>
-                <token regexp="yes">way|use|repair|means|methods|method|price|proposition|manner|basis|car|cooking|design|heating|motoring|shopper</token>
-            </pattern>
-            <message>Did you mean <suggestion>economical</suggestion> (=affordable, cheap)?</message>
-            <short>Commonly confused word</short>
-            <example correction="economical" type="incorrect">This is a very <marker>economic</marker> car.</example>
-            <example type="correct">This is a very <marker>economical</marker> car.</example>
-        </rule>
         <rulegroup id="SAY_TELL" name="say (tell)">
             <rule>
                 <pattern>
@@ -10949,7 +10890,6 @@ USA
                 <example type="correct">I ordered a <marker>Blu-ray</marker> with their software.</example>
             </rule>
         </rulegroup>
-
         <rule id="CLOSE_SCRUTINY" name="close scrutiny/proximity (scrutiny/proximity)">
             <pattern>
                 <token>close</token>
@@ -11437,7 +11377,6 @@ USA
             <example correction="discovered" type="incorrect">He <marker>originally discovered</marker> gold.</example>
             <example type="correct">He discovered gold.</example>
         </rule>
-
         <rule id="FORMER_GRADUATE" name="former graduate (graduate)">
             <pattern>
                 <token>former</token>
@@ -11913,7 +11852,7 @@ USA
             <example correction="unique" type="incorrect">Walk until you see the <marker>very unique</marker> building on your right.</example>
             <example type="correct">Walk until you see a unique building on your right.</example>
         </rule>
-        <rulegroup id="WHETHER" name="Shorten to 'whether'">
+        <rulegroup id="WHETHER" name="the question whether (whether) etc.">
             <rule>
                 <pattern>
                     <token>the</token>
@@ -12020,6 +11959,65 @@ USA
                 <example type="correct">What the government decides to do depends on whether the bill passes.</example>
             </rule>
         </rulegroup>
+        <rule id="FEMALE_ACTOR" name="female actor (actress)">
+            <pattern>
+                <token regexp="yes">female|woman|women</token>
+                <token regexp="yes">actor|actress</token>
+            </pattern>
+            <message>Did you mean <suggestion>actress</suggestion>?</message>
+            <short>Redundant phrase</short>
+            <example type="incorrect">She was the first <marker>female actor</marker>.</example>
+            <example type="correct">She was the first <marker>actress</marker>.</example>
+        </rule>
+        <rule id="FEMALE_WAITER" name="female waiter (waitress)">
+            <pattern>
+                <token regexp="yes">female|woman|women</token>
+                <token regexp="yes">waiter|waitress</token>
+            </pattern>
+            <message>Did you mean <suggestion>waitress</suggestion>?</message>
+            <short>Redundant phrase</short>
+            <example type="incorrect">She was the first <marker>female waiter</marker>.</example>
+            <example type="correct">She was the first <marker>waitress</marker>.</example>
+        </rule>
+        <rule id="FIRST_WOMAN_NOUN" name="first woman president (female president)">
+            <pattern>
+                <token regexp="yes">first|second|third</token>
+                <marker>
+                    <token regexp="yes">woman|women</token>
+                </marker>
+                <token regexp="yes">officer|commander|minister|player|graduate|engineer|doctor|dentist|teacher|professor|speaker|president|senator|representative|employee|athlete|instructor|nominee|judge</token>
+            </pattern>
+            <message>We wouldn't say "\1 man \3". Use <suggestion>female</suggestion>.</message>
+            <short>Incorrect phrase</short>
+            <example type="incorrect">She was the first <marker>woman</marker> president.</example>
+            <example type="correct">She was the first <marker>female</marker> president.</example>
+        </rule>
+        <rule id="FIRST_MAN_NOUN" name="first man president (male president)">
+            <pattern>
+                <token regexp="yes">first|second|third</token>
+                <marker>
+                    <token>man</token>
+                </marker>
+                <token regexp="yes">officer|commander|minister|player|graduate|engineer|doctor|dentist|teacher|professor|speaker|president|senator|representative|employee|athlete|instructor|nominee|judge</token>
+            </pattern>
+            <message>Use <suggestion>male</suggestion>.</message>
+            <short>Incorrect phrase</short>
+            <example type="incorrect">He was the first <marker>man</marker> employee of the company.</example>
+            <example type="correct">He was the first male employee of the company.</example>
+            <example type="correct">He was the first man Sarah ever kissed.</example>
+        </rule>
+        <rule id="LITTLE_BIT" name="little bit">
+            <pattern>
+                <marker>
+                    <token>little</token>
+                    <token>bit</token>
+                </marker>
+            </pattern>
+            <message>Reduce redundancy by using <suggestion>little</suggestion> or <suggestion>bit</suggestion>.</message>
+            <short>Redundant phrase</short>
+            <example correction="little|bit" type="incorrect">He was a <marker>little bit</marker> late.</example>
+            <example type="correct">He was a little late.</example>
+        </rule>
     </category>
     <category name="Bad style" type="style">
         <rule default="off" id="SENT_START_NUM" name="Number starting a sentence">
