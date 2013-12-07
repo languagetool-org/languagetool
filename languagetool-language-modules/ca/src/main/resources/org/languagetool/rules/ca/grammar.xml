@@ -17687,6 +17687,37 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rulegroup id="ANULLAR" name="anul·lar/anular">
+            <rule>
+                <pattern>
+                    <token postag="SPS00|.*LOC_PREP.*|V.M.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>anular</token>
+                    </marker>
+                </pattern>
+                <message>Si és un verb, cal dir <suggestion>anul·lar</suggestion>. Correcte com a adjectiu (=relatiu a l'anell).</message>
+                <example type="incorrect" correction="anul·lar">Vingué a <marker>anular</marker> la decisió anterior.</example>
+                <example type="incorrect" correction="anul·lar">Li va <marker>anular</marker> el gol.</example>
+                <example type="correct">el dit anular</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes">dits?|eclipsis?|índex|cor</exception></token>
+                    <marker>
+                        <token>anular<exception postag="_GN_.S" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Si és un verb, cal dir <suggestion>anul·lar</suggestion>. Correcte com a adjectiu (=relatiu a l'anell).</message>
+                <example type="incorrect" correction="anul·lar">Vingué a <marker>anular</marker> la decisió anterior.</example>
+                <example type="incorrect" correction="anul·lar">Li va <marker>anular</marker> el gol.</example>
+                <example type="incorrect" correction="anul·lar">Joan va <marker>anular</marker> els articles dels estatuts.</example> 
+                <example type="incorrect" correction="anul·lar">Vol suspendre i <marker>anular</marker> totes les regles.</example>
+                <example type="correct">el dit anular</example>
+                <example type="correct">amb els dits mig i anular</example>
+                <!-- <example type="correct">fusió de forma cilíndrica i anular</example> 
+                 un sistema nerviós més o menys anular,-->
+            </rule>
+        </rulegroup>
         <rule id="A_MANS_DE" name="a mans de/en mans de">
             <pattern>
                 <or>
