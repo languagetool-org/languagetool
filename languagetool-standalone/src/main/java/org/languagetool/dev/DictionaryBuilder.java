@@ -41,8 +41,8 @@ class DictionaryBuilder {
   }
 
   protected static void checkUsageOrExit(String className, String[] args) throws IOException {
-    if (args.length != 2) {
-      System.out.println("Usage: " + className + " <dictionary> <infoFile>");
+    if (args.length < 2 || args.length >3) {
+      System.out.println("Usage: " + className + " <dictionary> <infoFile> (<frequencyList>)");
       System.out.println("   <dictionary> is a plain text dictionary file");
       System.out.println("   <infoFile> is the *.info properties file, see http://wiki.languagetool.org/developing-a-tagger-dictionary");
       System.exit(1);
