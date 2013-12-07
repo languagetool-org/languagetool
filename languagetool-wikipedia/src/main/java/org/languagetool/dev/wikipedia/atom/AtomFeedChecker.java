@@ -62,6 +62,7 @@ class AtomFeedChecker {
     langTool = new JLanguageTool(language);
     langTool.activateDefaultPatternRules();
     langTool.disableRule("UNPAIRED_BRACKETS");  // too many false alarms
+    activateCategory("Wikipedia", langTool);
     if (dbConfig != null) {
       matchDatabase = new MatchDatabase(dbConfig.getUrl(), dbConfig.getUser(), dbConfig.getPassword());
       lastDateOfPreviousRun = matchDatabase.getLatestDate();
@@ -73,6 +74,15 @@ class AtomFeedChecker {
     contextTools.setErrorMarkerStart("<err>");
     contextTools.setErrorMarkerEnd("</err>");
     contextTools.setEscapeHtml(false);
+  }
+
+  private void activateCategory(String categoryName, JLanguageTool langTool) {
+    for (Rule rule : langTool.getAllRules()) {
+      if (rule.getCategory().getName().equals(categoryName)) {
+        System.out.println("Activating " + rule.getId() + " in category " + categoryName);
+        langTool.enableDefaultOffRule(rule.getId());
+      }
+    }
   }
 
   CheckResult runCheck(InputStream feedStream) throws IOException {
