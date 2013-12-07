@@ -32,7 +32,9 @@ final class AtomFeedCheckerCmd {
     if (args.length != 1 && args.length != 2) {
       System.out.println("Usage: " + AtomFeedCheckerCmd.class.getSimpleName() + " <atomFeedUrl> [database.properties]");
       System.out.println("  <atomFeedUrl> is a Wikipedia URL to the latest changes, for example:");
-      System.out.println("  https://de.wikipedia.org/w/index.php?title=Spezial:Letzte_%C3%84nderungen&feed=atom&namespace=0");
+      System.out.println("    https://de.wikipedia.org/w/index.php?title=Spezial:Letzte_%C3%84nderungen&feed=atom&namespace=0");
+      System.out.println("  [database.properties] (optional) is a file that defines dbUrl, dbUser, and dbPassword,");
+      System.out.println("    used to write the results to an database via JDBC");
       System.exit(1);
     }
     String url = args[0];
