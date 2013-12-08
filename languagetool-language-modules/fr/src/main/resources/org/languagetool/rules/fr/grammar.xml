@@ -4491,6 +4491,30 @@ though, and has since been slightly modified)-->
       <example type="incorrect">Çela ira <marker>s’en</marker> dire !</example>
       <example type="correct">Çela ira <marker>sans</marker> dire !</example>
     </rule>
+    <rulegroup id="DETONER_DETONNER" name="détoner et détonner">
+      <rule>
+        <pattern>
+          <token regexp="yes">(bombe|arme|explosif|grenade|poudre|dynamite|nitroglycérine)s?</token>
+          <marker><token inflected="yes" skip="5">détonner</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="nn" regexp_replace="n"/></suggestion> ?</message>
+        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=4673</url>
+        <example type="incorrect" correction="détonera">La bombe <marker>détonnera</marker> à midi.</example>
+        <example type="correct">La bombe <marker>détonera</marker> à midi.</example>
+        <example type="correct">Sa chemise à carreaux détonne avec son pantalonr rayé.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token inflected="yes" skip="6">détonner</token></marker>
+          <token regexp="yes">(bombe|arme|explosif|grenade|poudre|dynamite)s?</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="nn" regexp_replace="n"/></suggestion> ?</message>
+        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=4673</url>
+        <example type="incorrect" correction="détona">Il <marker>détonna</marker> la bombe à distance.</example>
+        <example type="correct">Il <marker>détona</marker> la bombe à distance.</example>
+        <example type="correct">Sa chemise à carreaux détonne avec son pantalonr rayé.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category name="Élision">
     <rulegroup id="EL_PRESQUE" name="Élision de presque">
