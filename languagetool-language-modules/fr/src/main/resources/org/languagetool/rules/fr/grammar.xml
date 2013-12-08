@@ -1476,7 +1476,7 @@ though, and has since been slightly modified)-->
             <token>à</token>
           </marker>
           <token postag="V.*ppa.*" postag_regexp="yes">
-            <exception regexp="yes">fait|forfait|partie|pointe?s?|coté|portée|mort|vue|revenus?</exception>
+            <exception regexp="yes">fait|forfait|partie|pointe?s?|coté|portée|mort|vue|revenus?|tapis</exception>
           </token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>a</suggestion> ?</message>
@@ -1488,6 +1488,7 @@ though, and has since been slightly modified)-->
         <example type="correct">Un crayon à pointe fine.</example>
         <example type="correct">Les familles à revenus modestes</example>
         <example type="correct">Il n’a pas manqué l’occasion de prendre à partie son prédécesseur.</example>
+        <example type="correct">Une tapette à tapis.</example>
       </rule>
     </rulegroup>
     <rulegroup id="OU" name="Ou au lieux de où">
@@ -4775,8 +4776,6 @@ though, and has since been slightly modified)-->
         <example type="correct">Un catalogue des animaux commode à consulter</example>
         <example type="incorrect">J’aime jouer <marker>aux carte</marker>.</example>
         <example type="correct">J’aime jouer <marker>aux cartes</marker>.</example>
-        <example type="incorrect"><marker>Dix gros poulet</marker> fermiers</example>
-        <example type="correct"><marker>Dix gros poulets</marker> fermiers</example>
         <example type="correct">Pauvres du monde</example>
         <example type="correct">Quarante pour cent des femmes</example>
         <example type="correct">Vos nom et prénom, s’il vous plaît.</example>
@@ -4797,7 +4796,7 @@ though, and has since been slightly modified)-->
       <rule name="masculin suivi du féminin">
         <pattern>
           <token postag="[DJ] m .*" postag_regexp="yes">
-            <exception scope="previous" regexp="yes">des?</exception>
+            <exception scope="previous" regexp="yes">des?|du</exception>
             <exception scope="previous" postag="&lt;/DE&gt;" postag_regexp="yes"/>
             <exception postag="K|[NJ] [fe] .*|V.*" postag_regexp="yes"/>
             <exception postag="Z [fe] .*" postag_regexp="yes" regexp="yes">(?-i)\p{Lu}.*</exception>
@@ -4805,7 +4804,7 @@ though, and has since been slightly modified)-->
           </token>
           <token postag="A" min="0" max="1"><exception>moins</exception></token>
           <token postag="[JNZ] f .*" postag_regexp="yes">
-            <exception postag="V.* (ppa [em]|inf|ppr|ind|con|sub|imp).*|[NJZ] [em] .*" postag_regexp="yes"/>
+            <exception postag="V.* (ppa [em]|inf|ppr|ind|con|sub|imp).*|[NJZ] [em].*" postag_regexp="yes"/>
             <exception scope="previous">peu</exception>
             <exception regexp="yes">face|grâce</exception>
           </token>
@@ -4845,6 +4844,7 @@ though, and has since been slightly modified)-->
         <example type="correct">Je ne peux pas <marker>le lire</marker>.</example>
         <example type="correct">Je n’ai pas du <marker>tout peur</marker> des serpents.</example>
         <example type="correct">Nous faisons <marker>tous partie</marker> de la même équipe.</example>
+        <example type="correct">La variété du catalan parlée en Andorre.</example>
       </rule>
       <rule name="nom masculin suivi du féminin">
         <pattern>
@@ -5352,6 +5352,7 @@ though, and has since been slightly modified)-->
         <example type="correct">Je ne <marker>donne</marker> rien.</example>
         <example type="incorrect">Je ne <marker>dix</marker> rien.</example>
         <example type="correct">Je ne <marker>dis</marker> rien.</example>
+        <example type="correct">Il me causa un grand tord.</example>
       </rule>
       <rule>
         <pattern>
@@ -5389,10 +5390,19 @@ though, and has since been slightly modified)-->
         <example type="correct">Il ne l’<marker>est</marker> que durant l’élection.</example>
       </rule>
     </rulegroup>
+    <rule id="PARCE" name="parce + que">
+      <pattern>
+        <marker><token>parce</token></marker>
+        <token><exception regexp="yes">que?</exception></token>
+      </pattern>
+      <message>Il manque « que » ou « qu’ » après le mot « parce ».</message>
+      <example type="incorrect">Je suis en retard <marker>parce</marker> j’ai raté mon bus.</example>
+      <example type="correct">Je suis en retard parce que j’ai raté mon bus.</example>
+    </rule>
     <rulegroup id="N_V" name="pas de verbe après : au, de, du…">
       <rule>
         <pattern>
-          <token regexp="yes">aux|des|du</token>
+          <token regexp="yes">aux|[cdmts]es|du|[mts]on|[mts]a|[nv]otre|[nv]os|leurs|cettes?|celles?|quelque|avec|dans|chez</token>
           <marker>
             <token postag="V.*" postag_regexp="yes">
               <exception postag="N.*|V pp[ar].*" postag_regexp="yes"/>
@@ -5406,6 +5416,8 @@ though, and has since been slightly modified)-->
         <example type="correct">Au revoir.</example>
         <example type="correct">Partir aux USA.</example>
         <example type="correct">Les montagnes du <marker>Jura</marker>.</example>
+        <example type="incorrect">Mes <marker>démêles</marker> avec X.</example>
+        <example type="correct">Mes <marker>démêlés</marker> avec X.</example>
       </rule>
       <rule>
         <pattern>
