@@ -38,6 +38,9 @@ final class POSDictionaryBuilder extends DictionaryBuilder {
   Hashtable<String, Integer> freqList = new Hashtable<String, Integer>();
   Pattern pFreqEntry = Pattern.compile(".*<w f=\"(\\d+)\" flags=\"(.*)\">(.+)</w>.*");
   Pattern pTaggerEntry = Pattern.compile("^(.+)\\t(.+)\\t(.+)$");
+  final static int FREQ_RANGES_IN = 256;
+  final static int FREQ_RANGES_OUT = 10;
+  final static int FIRST_RANGE_CODE = 65; // character 'A', less frequent words
   
   POSDictionaryBuilder(File infoFile) throws IOException {
     super(infoFile);
@@ -90,10 +93,14 @@ final class POSDictionaryBuilder extends DictionaryBuilder {
   }
   
   File addFreqData(File dictFile) throws Exception {
+    if (!isOptionTrue("fsa.dict.frequency-included")) {
+      throw new IOException("In order to use frequency data add the line 'dict.fsa.frequency-included=true' to the dictionary info file.");
+    }
     File tempFile = File.createTempFile(POSDictionaryBuilder.class.getSimpleName(), "WithFrequencies.txt");
     BufferedReader br;
     FileWriter fw = new FileWriter(tempFile.getAbsoluteFile());
     BufferedWriter bw = new BufferedWriter(fw);
+    int freqValuesApplied = 0;
     try {
       br = new BufferedReader(new FileReader(dictFile));
       String line;
@@ -104,12 +111,16 @@ final class POSDictionaryBuilder extends DictionaryBuilder {
           String key=m.group(1);
           if (freqList.containsKey(key)) {
             freq = freqList.get(key);
+            freqValuesApplied++;
           }
-          bw.write(line+"\t"+freq+"\n");
+          // Convert integers 0-255 to ranges A-J, and write output 
+          String freqChar = Character.toString((char) (FIRST_RANGE_CODE + freq*FREQ_RANGES_OUT/FREQ_RANGES_IN));
+          bw.write(line + freqChar + "\n");
         }
       }
       br.close();
       bw.close();
+      System.out.println(freqList.size()+" frequency values applied in "+freqValuesApplied+" word forms.");
     } catch (FileNotFoundException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();

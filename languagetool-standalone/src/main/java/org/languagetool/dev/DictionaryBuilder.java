@@ -108,7 +108,7 @@ class DictionaryBuilder {
     return props.getProperty(option) != null; 
   }
   
-  private boolean isOptionTrue(String option) {
+  protected boolean isOptionTrue(String option) {
     return hasOption(option) && "true".equals(getOption(option));
   }
 }
