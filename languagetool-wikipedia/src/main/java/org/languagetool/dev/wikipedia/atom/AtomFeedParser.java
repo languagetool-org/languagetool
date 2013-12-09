@@ -18,14 +18,12 @@
  */
 package org.languagetool.dev.wikipedia.atom;
 
+import javax.xml.datatype.DatatypeFactory;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
 import java.io.InputStream;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -43,7 +41,6 @@ class AtomFeedParser {
     Date date = null;
     XMLInputFactory inputFactory = XMLInputFactory.newInstance();
     XMLEventReader eventReader = inputFactory.createXMLEventReader(xml);
-    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");  // e.g. 2013-12-03T09:48:29Z
     while (eventReader.hasNext()) {
       XMLEvent event = eventReader.nextEvent();
       if (event.isStartElement()) {
@@ -58,8 +55,10 @@ class AtomFeedParser {
           case "updated":
             String dateString = getCharacterData(eventReader);
             try {
-              date = dateFormat.parse(dateString);
-            } catch (ParseException e) {
+              // e.g. 2013-12-03T09:48:29Z - got this from http://stackoverflow.com/questions/6038136,
+              // with SimpleDateParser the hour is off by one:
+              date = DatatypeFactory.newInstance().newXMLGregorianCalendar(dateString).toGregorianCalendar().getTime();
+            } catch (Exception e) {
               throw new RuntimeException("Could not parse date string '" + dateString + "'", e);
             }
             break;
