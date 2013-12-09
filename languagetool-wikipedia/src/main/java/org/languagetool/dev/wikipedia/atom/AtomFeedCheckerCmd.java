@@ -35,6 +35,15 @@ final class AtomFeedCheckerCmd {
       System.out.println("    https://de.wikipedia.org/w/index.php?title=Spezial:Letzte_%C3%84nderungen&feed=atom&namespace=0");
       System.out.println("  [database.properties] (optional) is a file that defines dbUrl, dbUser, and dbPassword,");
       System.out.println("    used to write the results to an database via JDBC");
+      System.out.println("");
+      System.out.println("  When the database.properties file is specified, this command will store all feed changes that");
+      System.out.println("  cause LanguageTool rule matches to the database. If an error is then fixed later, this will");
+      System.out.println("  usually also be detected and the rule match in the database will be marked as fixed. One case");
+      System.out.println("  where this does not work is if the context of the error gets modified before the error is fixed.");
+      System.out.println("");
+      System.out.println("  Run this command regularly so that you don't miss any changes from the feed.");
+      System.out.println("  As the feed may contain only the latest 50 changes, running it more often than");
+      System.out.println("  once per minute may be needed for active Wikipedias.");
       System.exit(1);
     }
     String url = args[0];
