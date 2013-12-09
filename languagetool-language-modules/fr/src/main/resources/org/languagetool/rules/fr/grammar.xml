@@ -4494,7 +4494,7 @@ though, and has since been slightly modified)-->
     <rulegroup id="DETONER_DETONNER" name="détoner et détonner">
       <rule>
         <pattern>
-          <token regexp="yes">(bombe|arme|explosif|explosive|grenade|charge|poudre|missile|dynamite|nitroglycérine|nitrate|terroriste|kamikaze|télécommande)s?</token>
+          <token regexp="yes">(bombe|arme|explosif|explosive|grenade|charge|poudre|missile|dynamite|nitroglycérine|nitrate|pétard|terroriste|kamikaze|télécommande)s?</token>
           <marker><token inflected="yes" skip="5">détonner</token></marker>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="nn" regexp_replace="n"/></suggestion> ?</message>
@@ -4506,7 +4506,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <marker><token inflected="yes" skip="6">détonner</token></marker>
-          <token regexp="yes">(bombe|arme|explosif|explosive|grenade|charge|poudre|missile|dynamite|nitroglycérine|nitrate|terroriste|kamikaze|télécommande)s?</token>
+          <token regexp="yes">(bombe|arme|explosif|explosive|grenade|charge|poudre|missile|dynamite|nitroglycérine|nitrate|pétard|terroriste|kamikaze|télécommande)s?</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="nn" regexp_replace="n"/></suggestion> ?</message>
         <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=4673</url>
@@ -4541,7 +4541,7 @@ though, and has since been slightly modified)-->
     <rule id="ELISION" name="Élision de le, la…">
       <pattern>
         <token regexp="yes">[dljmnst]e|la|jusque|que</token>
-        <token regexp="yes">[àâaéêèeiîou][^0-9].*|à<exception regexp="yes">onze|onzièmes?|une?|au?|oui|énième|o[ùu]|[IVXLCM]+e?</exception></token>
+        <token regexp="yes">[àâaéêèeiîou]\D.*|à<exception regexp="yes">onze|onzièmes?|une?|au?|oui|énième|o[ùu]|[IVXLCM]+e?</exception></token>
       </pattern>
       <message>« \1 \2 » s’élide en <suggestion><match no="1" regexp_match=".$" regexp_replace=""/>’\2</suggestion>.</message>
       <url>http://66.46.185.79/bdl/gabarit_bdl.asp?Th=2&amp;t1=&amp;id=1737</url>
