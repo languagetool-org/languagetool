@@ -260,8 +260,9 @@ public class JLanguageTool {
 
   /**
    * Gets the ResourceBundle (i18n strings) for the given user interface language.
+   * @since 2.4 (public since 2.4)
    */
-  static ResourceBundle getMessageBundle(final Language lang) {
+  public static ResourceBundle getMessageBundle(final Language lang) {
     return ResourceBundleTools.getMessageBundle(lang);
   }
   

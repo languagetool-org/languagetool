@@ -365,7 +365,8 @@ public final class Main {
         }
       }
     });
-    textArea.setText(messages.getString("guiDemoText"));
+    ResourceBundle textLanguageMessageBundle = JLanguageTool.getMessageBundle(ltSupport.getLanguageTool().getLanguage());
+    textArea.setText(textLanguageMessageBundle.getString("guiDemoText"));
     frame.pack();
     frame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
     frame.setLocationByPlatform(true);
