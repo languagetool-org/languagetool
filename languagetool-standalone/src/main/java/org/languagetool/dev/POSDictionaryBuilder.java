@@ -25,8 +25,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -35,12 +36,13 @@ import java.util.regex.Pattern;
  */
 final class POSDictionaryBuilder extends DictionaryBuilder {
 
-  Hashtable<String, Integer> freqList = new Hashtable<String, Integer>();
-  Pattern pFreqEntry = Pattern.compile(".*<w f=\"(\\d+)\" flags=\"(.*)\">(.+)</w>.*");
-  Pattern pTaggerEntry = Pattern.compile("^(.+)\\t(.+)\\t(.+)$");
-  final static int FREQ_RANGES_IN = 256;
-  final static int FREQ_RANGES_OUT = 10;
-  final static int FIRST_RANGE_CODE = 65; // character 'A', less frequent words
+  private static final int FREQ_RANGES_IN = 256;
+  private static final int FREQ_RANGES_OUT = 10;
+  private static final int FIRST_RANGE_CODE = 65; // character 'A', less frequent words
+
+  private final Map<String, Integer> freqList = new HashMap<>();
+  private final Pattern pFreqEntry = Pattern.compile(".*<w f=\"(\\d+)\" flags=\"(.*)\">(.+)</w>.*");
+  private final Pattern pTaggerEntry = Pattern.compile("^(.+)\\t(.+)\\t(.+)$");
   
   POSDictionaryBuilder(File infoFile) throws IOException {
     super(infoFile);
@@ -49,14 +51,12 @@ final class POSDictionaryBuilder extends DictionaryBuilder {
   public static void main(String[] args) throws Exception {
     checkUsageOrExit(POSDictionaryBuilder.class.getSimpleName(), args);
     POSDictionaryBuilder builder = new POSDictionaryBuilder(new File(args[1]));
-    if (args.length==3) {
+    if (args.length == 3) {
       builder.readFreqList(new File(args[2]));
       builder.build(builder.addFreqData(new File(args[0])));
-    }
-    else {
+    } else {
       builder.build(new File(args[0]));
     }
-    
   }
 
   File build(File dictFile) throws Exception {
@@ -108,7 +108,7 @@ final class POSDictionaryBuilder extends DictionaryBuilder {
         Matcher m = pTaggerEntry.matcher(line);
         if (m.matches()) {
           int freq = 0;
-          String key=m.group(1);
+          String key = m.group(1);
           if (freqList.containsKey(key)) {
             freq = freqList.get(key);
             freqValuesApplied++;
