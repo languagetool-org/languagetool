@@ -5583,6 +5583,22 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+        <rule id="NA" name="na (sense nom): per na altra banda">
+            <pattern case_sensitive="yes">
+                <marker>
+                    <token>na</token>
+                </marker>
+                <token><exception postag="N.[FC][SN].*" postag_regexp="yes"/><exception regexp="yes">\p{Lu}.*</exception></token>
+            </pattern>
+            <message>L'article 'na' ha d'anar seguit per un nom femení.</message>
+            <suggestion>una</suggestion>
+            <suggestion>ona</suggestion>
+            <suggestion>en</suggestion>
+            <example type="incorrect">Per <marker>na</marker> altra banda</example>
+            <example type="incorrect">Establint u <marker>na</marker> nova aliança</example>
+            <example type="correct">Ve na Maria.</example>
+            <example type="correct">És na Margarideta.</example>
+        </rule>
         <rule id="LLUNYA" name="llunya/llunyà">
             <pattern>
                 <marker>
