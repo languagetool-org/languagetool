@@ -115,7 +115,7 @@ class DatabaseHandler extends ResultHandler {
           continue;
         }
         insertSt.setString(7, context);
-        insertSt.setString(8, smallContext);
+        insertSt.setString(8, StringUtils.abbreviate(smallContext, 255));
         
         insertSt.setDate(9, nowDate);  // should actually be the dump's date, but isn't really used anyway...
         insertSt.setDate(10, nowDate);
