@@ -40,9 +40,11 @@ import java.util.Properties;
 class DatabaseHandler extends ResultHandler {
 
   private static final int MAX_CONTEXT_LENGTH = 500;
+  private static final int SMALL_CONTEXT_LENGTH = 40;  // do not modify - it would break lookup of errors marked as 'false alarm'
   
   private final Connection conn;
   private final ContextTools contextTools;
+  private final ContextTools smallContextTools;
 
   DatabaseHandler(File propertiesFile, int maxSentences, int maxErrors) {
     super(maxSentences, maxErrors);
@@ -61,6 +63,11 @@ class DatabaseHandler extends ResultHandler {
     contextTools.setErrorMarkerStart(MARKER_START);
     contextTools.setErrorMarkerEnd(MARKER_END);
     contextTools.setEscapeHtml(false);
+    smallContextTools = new ContextTools();
+    smallContextTools.setContextSize(SMALL_CONTEXT_LENGTH);
+    smallContextTools.setErrorMarkerStart(MARKER_START);
+    smallContextTools.setErrorMarkerEnd(MARKER_END);
+    smallContextTools.setEscapeHtml(false);
   }
 
   private String getProperty(Properties prop, String key) {
@@ -73,40 +80,51 @@ class DatabaseHandler extends ResultHandler {
 
   @Override
   protected void handleResult(Sentence sentence, List<RuleMatch> ruleMatches, Language language) {
-    final String sql = "INSERT INTO corpus_match " +
-            "(version, language_code, ruleid, rule_category, rule_subid, rule_description, message, error_context, corpus_date, " +
+    final String lookupSql = "SELECT id FROM corpus_match_hidden WHERE " +
+            "language_code = ? AND sourceuri = ? AND ruleid = ? AND small_error_context = ?";
+    final String insertSql = "INSERT INTO corpus_match " +
+            "(version, language_code, ruleid, rule_category, rule_subid, rule_description, message, error_context, small_error_context, corpus_date, " +
             "check_date, sourceuri, source_type, is_visible) "+
-            "VALUES (0, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)";
-    try (PreparedStatement prepSt = conn.prepareStatement(sql)) {
+            "VALUES (0, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)";
+    try (PreparedStatement lookupSt = conn.prepareStatement(lookupSql);
+         PreparedStatement insertSt = conn.prepareStatement(insertSql)) {
       final java.sql.Date nowDate = new java.sql.Date(new Date().getTime());
       for (RuleMatch match : ruleMatches) {
-        prepSt.setString(1, language.getShortName());
+        final String smallContext = smallContextTools.getContext(match.getFromPos(), match.getToPos(), sentence.getText());
+        if (ruleIsMarkedHidden(language, sentence.getUrl(), match, smallContext, lookupSt)) {
+          System.out.println("Skipping match " + match.getRule().getId() + " for " + sentence.getTitle() + " as it is hidden");
+          continue;
+        }
+        
+        insertSt.setString(1, language.getShortName());
         final Rule rule = match.getRule();
-        prepSt.setString(2, rule.getId());
-        prepSt.setString(3, rule.getCategory().getName());
+        insertSt.setString(2, rule.getId());
+        insertSt.setString(3, rule.getCategory().getName());
         if (rule instanceof PatternRule) {
           final PatternRule patternRule = (PatternRule) rule;
-          prepSt.setString(4, patternRule.getSubId());
+          insertSt.setString(4, patternRule.getSubId());
         } else {
-          prepSt.setNull(4, Types.VARCHAR);
+          insertSt.setNull(4, Types.VARCHAR);
         }
-        prepSt.setString(5, rule.getDescription());
-        prepSt.setString(6, StringUtils.abbreviate(match.getMessage(), 255));
+        insertSt.setString(5, rule.getDescription());
+        insertSt.setString(6, StringUtils.abbreviate(match.getMessage(), 255));
+
         final String context = contextTools.getContext(match.getFromPos(), match.getToPos(), sentence.getText());
         if (context.length() > MAX_CONTEXT_LENGTH) {
           // let's skip these strange cases, as shortening the text might leave us behind with invalid markup etc
           continue;
         }
-        prepSt.setString(7, context);
-        prepSt.setDate(8, nowDate);  // should actually be the dump's date, but isn't really used anyway...
-        prepSt.setDate(9, nowDate);
-        prepSt.setString(10, sentence.getUrl());
-        prepSt.setString(11, sentence.getSource());
-        prepSt.executeUpdate();
+        insertSt.setString(7, context);
+        insertSt.setString(8, smallContext);
+        
+        insertSt.setDate(9, nowDate);  // should actually be the dump's date, but isn't really used anyway...
+        insertSt.setDate(10, nowDate);
+        insertSt.setString(11, sentence.getUrl());
+        insertSt.setString(12, sentence.getSource());
+        insertSt.executeUpdate();
         checkMaxErrors(++errorCount);
         if (errorCount % 100 == 0) {
-          System.out.println("Storing error #" + errorCount + " for text from " + sentence.getSource()
-                  + " article #" + sentence.getArticleCount() + ":");
+          System.out.println("Storing error #" + errorCount + " for text:");
           System.out.println("  " + sentence.getText());
         }
       }
@@ -115,6 +133,19 @@ class DatabaseHandler extends ResultHandler {
       throw e;
     } catch (Exception e) {
       throw new RuntimeException("Error storing matches for '" + sentence.getTitle() + "'", e);
+    }
+  }
+
+  // Whether a match has been marked as 'false alarm' or 'already fixed' by a user - in that
+  // case, we don't want to re-insert it into the list of matches.
+  private boolean ruleIsMarkedHidden(Language language, String url, RuleMatch match, String smallContext, PreparedStatement lookupSt) throws SQLException {
+    // TODO: should we consider the subid?
+    lookupSt.setString(1, language.getShortName());
+    lookupSt.setString(2, url);
+    lookupSt.setString(3, match.getRule().getId());
+    lookupSt.setString(4, smallContext);
+    try (ResultSet resultSet = lookupSt.executeQuery()) {
+      return resultSet.first();
     }
   }
 
