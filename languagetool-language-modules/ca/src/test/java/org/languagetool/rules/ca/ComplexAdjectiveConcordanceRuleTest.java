@@ -145,6 +145,7 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
 		assertCorrect("Era un home força misteriós");
 		
 		// errors:
+		assertIncorrect("hi ha hagut una certa recuperació (3,2%), efecte en part de la descongestió madrilenya cap a les províncies limítrofs de Toledo i Guadalajara.");
 		assertIncorrect("Son molt boniques");
 		assertIncorrect("La casa destrossat");
 		assertIncorrect("pantalons curt o llargs");

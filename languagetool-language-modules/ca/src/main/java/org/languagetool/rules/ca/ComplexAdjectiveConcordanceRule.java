@@ -284,10 +284,11 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
               || matchPostagRegexp(tokens[i - j], ADVERBIS_ACCEPTATS))
               && !matchRegexp(tokens[i - j].getToken(), STOP_COUNT);
           //stop searching if there is some of these combinations: 
-          //adverb+comma, adverb+conjunction, comma+conjunction
+          //adverb+comma, adverb+conjunction, comma+conjunction, punctuation + punctuation
           if ((adverbAppeared && conjunctionAppeared) 
               || (adverbAppeared && punctuationAppeared)
-              || (conjunctionAppeared && punctuationAppeared)) {
+              || (conjunctionAppeared && punctuationAppeared)
+              || (punctuationAppeared && matchPostagRegexp(tokens[i - j], PUNTUACIO))) {
             keepCounting=false;
           }
         }
