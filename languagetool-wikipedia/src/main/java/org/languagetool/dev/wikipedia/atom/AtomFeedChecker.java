@@ -48,11 +48,10 @@ class AtomFeedChecker {
   
   private final JLanguageTool langTool;
   private final Language language;
-  private final Date lastDateOfPreviousRun;
   private final MatchDatabase matchDatabase;
   private final TextMapFilter textFilter = new SwebleWikipediaTextFilter();
   private final ContextTools contextTools = new ContextTools();
-  
+
   AtomFeedChecker(Language language) throws IOException {
     this(language, null);
   }
@@ -65,10 +64,8 @@ class AtomFeedChecker {
     activateCategory("Wikipedia", langTool);
     if (dbConfig != null) {
       matchDatabase = new MatchDatabase(dbConfig.getUrl(), dbConfig.getUser(), dbConfig.getPassword());
-      lastDateOfPreviousRun = matchDatabase.getLatestDate();
     } else {
       matchDatabase = null;
-      lastDateOfPreviousRun = null;
     }
     contextTools.setContextSize(CONTEXT_SIZE);
     contextTools.setErrorMarkerStart("<err>");
@@ -139,6 +136,7 @@ class AtomFeedChecker {
   }
 
   CheckResult checkChanges(InputStream xml) throws IOException {
+    Date lastDateOfPreviousRun = matchDatabase != null ? matchDatabase.getLatestDate() : null;
     List<ChangeAnalysis> result = new ArrayList<>();
     long latestDiffId = 0;
     int skipCount = 0;
@@ -150,7 +148,6 @@ class AtomFeedChecker {
         if (i++ == 0) {
           System.out.println("First date in Atom Feed: " + item.getDate());
           System.out.println("Latest date in database: " + lastDateOfPreviousRun);
-          item.getDate();
         }
         // Note: this skipping is not exact for two reasons:
         // 1) We only have the latest date of a change that actually led to a rule match (this kind of doesn't
@@ -158,11 +155,11 @@ class AtomFeedChecker {
         // 2) A resolution of one second may not be enough, considering the amount of changes happening,
         //    but I didn't find an id that's constantly increasing (diff=... often but not always increases)
         if (lastDateOfPreviousRun != null && (item.getDate().before(lastDateOfPreviousRun) || item.getDate().equals(lastDateOfPreviousRun))) {
-          System.out.println("Skipping " + item.getTitle() + ", date " + item.getDate() + " <= " + lastDateOfPreviousRun);
+          System.out.println("Skipping " + item.getTitle() + ", date " + item.getDate());
           skipCount++;
         } else {
           try {
-            System.out.println("Checking " + item.getTitle() + ", diff id " + item.getDiffId());
+            System.out.println("Checking " + item.getTitle() + ", diff #" + item.getDiffId());
             List<WikipediaRuleMatch> oldMatches = getMatches(item, item.getOldContent());
             List<WikipediaRuleMatch> newMatches = getMatches(item, item.getNewContent());
             ChangeAnalysis changeAnalysis = new ChangeAnalysis(item.getTitle(), item.getDiffId(), oldMatches, newMatches);

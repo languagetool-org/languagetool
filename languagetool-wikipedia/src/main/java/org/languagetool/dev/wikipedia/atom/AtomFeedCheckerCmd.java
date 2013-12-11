@@ -29,10 +29,12 @@ import java.io.IOException;
 final class AtomFeedCheckerCmd {
 
   public static void main(String[] args) throws IOException, InterruptedException {
-    if (args.length != 1 && args.length != 2) {
-      System.out.println("Usage: " + AtomFeedCheckerCmd.class.getSimpleName() + " <atomFeedUrl> [database.properties]");
+    if (args.length != 2 && args.length != 3) {
+      System.out.println("Usage: " + AtomFeedCheckerCmd.class.getSimpleName() + " <atomFeedUrl> <sleepTime> [database.properties]");
       System.out.println("  <atomFeedUrl> is a Wikipedia URL to the latest changes, for example:");
       System.out.println("    https://de.wikipedia.org/w/index.php?title=Spezial:Letzte_%C3%84nderungen&feed=atom&namespace=0");
+      System.out.println("  <sleepTime> -1: don't loop at all (run once), 0: run in loop, other number: run in loop and");
+      System.out.println("    wait this many milliseconds between runs");
       System.out.println("  [database.properties] (optional) is a file that defines dbUrl, dbUser, and dbPassword,");
       System.out.println("    used to write the results to an database via JDBC");
       System.out.println("");
@@ -50,15 +52,28 @@ final class AtomFeedCheckerCmd {
     String langCode = url.substring(url.indexOf("//") + 2, url.indexOf("."));
     System.out.println("Using URL: " + url);
     System.out.println("Language code: " + langCode);
+    int sleepTimeMillis = Integer.parseInt(args[1]);
+    System.out.println("Sleep time: " + sleepTimeMillis + "ms (-1 = don't loop)");
     DatabaseConfig databaseConfig = null;
-    if (args.length == 2) {
-      String propFile = args[1];
+    if (args.length == 3) {
+      String propFile = args[2];
       databaseConfig = new DatabaseConfig(propFile);
       System.out.println("Writing results to database at: " + databaseConfig.getUrl());
     }
     Language language = Language.getLanguageForShortName(langCode);
     AtomFeedChecker atomFeedChecker = new AtomFeedChecker(language, databaseConfig);
-    atomFeedChecker.runCheck(url);
+    while (true) {
+      long startTime = System.currentTimeMillis();
+      atomFeedChecker.runCheck(url);
+      System.out.println("Run time: " + (System.currentTimeMillis() - startTime) + "ms");
+      if (sleepTimeMillis == -1) {
+        // don't loop at all
+        break;
+      } else {
+        System.out.println("Sleeping " + sleepTimeMillis + "ms...");
+        Thread.sleep(sleepTimeMillis);
+      }
+    }
   }
 
 }
