@@ -35,9 +35,9 @@ final class DictionaryExporter {
     }
     String filename = args[0];
     if (new File(filename).getAbsolutePath().contains("hunspell")) {
-      FSADumpTool.main(new String[]{"--raw-data", "-d", args[0]});
+      FSADumpTool.main("--raw-data", "-d", args[0]);
     } else {
-      FSADumpTool.main(new String[]{"--raw-data", "-x", "-d", args[0]});
+      FSADumpTool.main("--raw-data", "-x", "-d", args[0]);
     }
   }
 
