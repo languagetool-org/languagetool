@@ -1674,6 +1674,19 @@ $Id$
                 <example type="correct">Tenia molt de son pare.</example>
                 <example type="correct">Allò requeria molt de valor.</example>
             </rule>
+             <rule id="GRIS_COMU" name="errors freqüents: gris/grisa, comú/comuna">
+                <pattern>
+                    <token postag="N.[FC][SN].*|_GN_FS" postag_regexp="yes"/>
+                    <marker>
+                        <token regexp="yes">gris|comú</token>
+                    </marker> 
+                </pattern>
+                <message>Possible error de concordança.</message>
+                <suggestion><match no="3" postag="AQ.*" postag_regexp="yes" postag_replace="AQ.[FC][SN]."/></suggestion>
+                <example type="incorrect" correction="grisa">Un lloc de gent <marker>gris</marker>.</example>
+                <example type="incorrect" correction="comuna">Un cau de gent <marker>comú</marker>.</example>
+                <example type="correct">La substància grisa.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="CONCORDANCES_ADJECTIUS_NEUTRES" name="concordances amb adjectius neutres">
             <rule>
