@@ -5483,14 +5483,14 @@ $Id$
             </rule>
             <rule id="DEGUT_A_LA" name="*degut a la">
                 <pattern>
-                    <token><exception inflected="yes" regexp="yes">ser|semblar|parèixer|haver</exception></token>
+                    <token><exception inflected="yes" regexp="yes">ser|semblar|parèixer|haver</exception><exception postag="CC|RG_anteposat|.*LOC_ADV.*" postag_regexp="yes"/></token>
                     <marker>
                         <token>degut<exception postag="_GN_MS"/></token>
                         <token>a</token>
                     </marker>
                     <token><exception regexp="yes">que|què|l|ls</exception></token>
                 </pattern>
-                <message>Incorrecte si equival a <suggestion>a causa de</suggestion>. Correcte si 'degut' concorda amb un nom.</message>
+                <message>Incorrecte si equival a <suggestion>a causa de</suggestion>. Correcte si 'degut' concorda amb un nom o és participi ('és degut a').</message>
                 <suggestion>per</suggestion>
                 <suggestion>per culpa de</suggestion>
                 <suggestion>gràcies a</suggestion>
@@ -5500,8 +5500,10 @@ $Id$
                 <!-- <example type="incorrect" correction="per|a causa de|per culpa de">Es va suspendre el partit <marker>degut a</marker> la pluja</example> -->
                 <example type="correct">Això és degut a la crisi econòmica.</example>
                 <example type="correct">un creixement demogràfic degut a la immigració</example>
-                <!-- un tema probablement degut a Thomas Kyd 
-                dut a Ripoll i degut a diverses mans, 
+                <example type="correct">un tema probablement degut a Thomas Kyd</example>
+                <example type="correct">dut a Ripoll i degut a diverses mans,</example>
+                <example type="correct">sembla ésser directament degut a aquestes condicions</example>
+                <!-- 
                 poc reeixida, en part degut a les infiltracions 
                 fou en una bona part degut a l'impuls
                  sembla ésser directament degut a aquestes condicions
@@ -5509,14 +5511,14 @@ $Id$
             </rule>
             <rule id="DEGUT_AL" name="*degut al">
                 <pattern>
-                    <token><exception inflected="yes" regexp="yes">ser|semblar|parèixer|haver</exception></token>
+                    <token><exception inflected="yes" regexp="yes">ser|semblar|parèixer|haver</exception><exception postag="CC|RG_anteposat|.*LOC_ADV.*" postag_regexp="yes"/></token>
                     <marker>
                         <token>degut<exception postag="_GN_MS"/></token>
                         <token>a</token>
                         <token regexp="yes">ls?</token>
                     </marker>
                 </pattern>
-                <message>Incorrecte si equival a <suggestion>a causa de<match no="4"/></suggestion>. Correcte si 'degut' concorda amb un nom.</message>
+                <message>Incorrecte si equival a <suggestion>a causa de<match no="4"/></suggestion>. Correcte si 'degut' concorda amb un nom o és participi ('és degut a').</message>
                 <suggestion>pe<match no="4"/></suggestion>
                 <suggestion>per culpa de<match no="4"/></suggestion>
                 <suggestion>gràcies a<match no="4"/></suggestion>
