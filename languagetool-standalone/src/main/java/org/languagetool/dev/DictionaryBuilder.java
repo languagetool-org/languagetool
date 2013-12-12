@@ -21,13 +21,22 @@ package org.languagetool.dev;
 import morfologik.tools.FSABuildTool;
 import morfologik.tools.Launcher;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Create a Morfologik binary dictionary from plain text data.
@@ -35,6 +44,15 @@ import java.util.Properties;
 class DictionaryBuilder {
 
   private final Properties props = new Properties();
+
+  private static final int FREQ_RANGES_IN = 256;
+  private static final int FREQ_RANGES_OUT = 26; // (A-Z)
+  private static final int FIRST_RANGE_CODE = 65; // character 'A', less frequent words
+
+  private final Map<String, Integer> freqList = new HashMap<>();
+  private final Pattern pFreqEntry = Pattern.compile(".*<w f=\"(\\d+)\" flags=\"(.*)\">(.+)</w>.*");
+  // Valid for tagger dictionaries (wordform_TAB_lemma_TAB_postag) or spelling dictionaries (wordform)
+  private final Pattern pTaggerEntry = Pattern.compile("^([^\\t]+).*$");
 
   protected DictionaryBuilder(File infoFile) throws IOException {
     props.load(new FileInputStream(infoFile));
@@ -45,6 +63,7 @@ class DictionaryBuilder {
       System.out.println("Usage: " + className + " <dictionary> <infoFile> [frequencyList]");
       System.out.println("   <dictionary> is a plain text dictionary file");
       System.out.println("   <infoFile> is the *.info properties file, see http://wiki.languagetool.org/developing-a-tagger-dictionary");
+      System.out.println("   [frequencyList] is the *.xml file with a frequency wordlist, see http://wiki.languagetool.org/developing-a-tagger-dictionary");
       System.exit(1);
     }
     File dictFile = new File(args[0]);
@@ -108,7 +127,67 @@ class DictionaryBuilder {
     return props.getProperty(option) != null; 
   }
   
-  protected boolean isOptionTrue(String option) {
+  private boolean isOptionTrue(String option) {
     return hasOption(option) && "true".equals(getOption(option));
+  }
+  
+  protected void readFreqList(File freqListFile) {
+    BufferedReader br;
+    try {
+      br = new BufferedReader(new FileReader(freqListFile));
+      String line;
+      while ((line = br.readLine()) != null) {
+        Matcher m = pFreqEntry.matcher(line);
+        if (m.matches()) {
+          freqList.put(m.group(3), Integer.parseInt(m.group(1)));
+        }
+      }
+      br.close();
+    } catch (FileNotFoundException e) {
+      System.out.println("Frequencies wordlist file does not exist: " + freqListFile.getAbsolutePath().toString());
+    } catch (IOException e) {
+      System.out.println("Cannot read file: " + freqListFile.getAbsolutePath().toString());    }
+  }
+  
+  protected File addFreqData(File dictFile) throws Exception {
+    if (!isOptionTrue("fsa.dict.frequency-included")) {
+      throw new IOException("In order to use frequency data add the line 'dict.fsa.frequency-included=true' to the dictionary info file.");
+    }
+    String separator = getOption("fsa.dict.separator");
+    if (separator == null || separator.trim().isEmpty()) {
+      throw new IOException("A separator character must be defined in the dictionary info file.");
+    }
+    File tempFile = File.createTempFile(POSDictionaryBuilder.class.getSimpleName(), "WithFrequencies.txt");
+    BufferedReader br;
+    FileWriter fw = new FileWriter(tempFile.getAbsoluteFile());
+    BufferedWriter bw = new BufferedWriter(fw);
+    int freqValuesApplied = 0;
+    try {
+      br = new BufferedReader(new FileReader(dictFile));
+      String line;
+      while ((line = br.readLine()) != null) {
+        Matcher m = pTaggerEntry.matcher(line);
+        if (m.matches()) {
+          int freq = 0;
+          String key = m.group(1);
+          if (freqList.containsKey(key)) {
+            freq = freqList.get(key);
+            freqValuesApplied++;
+          }
+          // Convert integers 0-255 to ranges A-Z, and write output 
+          String freqChar = Character.toString((char) (FIRST_RANGE_CODE + freq*FREQ_RANGES_OUT/FREQ_RANGES_IN));
+          bw.write(line + separator + freqChar + "\n");
+        }
+      }
+      br.close();
+      bw.close();
+      System.out.println(freqList.size()+" frequency values applied in "+freqValuesApplied+" word forms.");
+    } catch (FileNotFoundException e) {
+      System.out.println("File not found: " + dictFile.getAbsolutePath().toString());
+    } catch (IOException e) {
+      System.out.println("Cannot read file: " + dictFile.getAbsolutePath().toString());
+    }
+    tempFile.deleteOnExit();
+    return tempFile;
   }
 }

@@ -18,31 +18,16 @@
  */
 package org.languagetool.dev;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Create a Morfologik binary dictionary from plain text data.
  */
 final class POSDictionaryBuilder extends DictionaryBuilder {
 
-  private static final int FREQ_RANGES_IN = 256;
-  private static final int FREQ_RANGES_OUT = 10;
-  private static final int FIRST_RANGE_CODE = 65; // character 'A', less frequent words
 
-  private final Map<String, Integer> freqList = new HashMap<>();
-  private final Pattern pFreqEntry = Pattern.compile(".*<w f=\"(\\d+)\" flags=\"(.*)\">(.+)</w>.*");
-  private final Pattern pTaggerEntry = Pattern.compile("^(.+)\\t(.+)\\t(.+)$");
   
   POSDictionaryBuilder(File infoFile) throws IOException {
     super(infoFile);
@@ -70,65 +55,7 @@ final class POSDictionaryBuilder extends DictionaryBuilder {
       tempFile.delete();
     }
   }
-  
-  void readFreqList(File freqListFile) {
-    BufferedReader br;
-    try {
-      br = new BufferedReader(new FileReader(freqListFile));
-      String line;
-      while ((line = br.readLine()) != null) {
-        Matcher m = pFreqEntry.matcher(line);
-        if (m.matches()) {
-          freqList.put(m.group(3), Integer.parseInt(m.group(1)));
-        }
-      }
-      br.close();
-    } catch (FileNotFoundException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } catch (IOException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-  }
-  
-  File addFreqData(File dictFile) throws Exception {
-    if (!isOptionTrue("fsa.dict.frequency-included")) {
-      throw new IOException("In order to use frequency data add the line 'dict.fsa.frequency-included=true' to the dictionary info file.");
-    }
-    File tempFile = File.createTempFile(POSDictionaryBuilder.class.getSimpleName(), "WithFrequencies.txt");
-    BufferedReader br;
-    FileWriter fw = new FileWriter(tempFile.getAbsoluteFile());
-    BufferedWriter bw = new BufferedWriter(fw);
-    int freqValuesApplied = 0;
-    try {
-      br = new BufferedReader(new FileReader(dictFile));
-      String line;
-      while ((line = br.readLine()) != null) {
-        Matcher m = pTaggerEntry.matcher(line);
-        if (m.matches()) {
-          int freq = 0;
-          String key = m.group(1);
-          if (freqList.containsKey(key)) {
-            freq = freqList.get(key);
-            freqValuesApplied++;
-          }
-          // Convert integers 0-255 to ranges A-J, and write output 
-          String freqChar = Character.toString((char) (FIRST_RANGE_CODE + freq*FREQ_RANGES_OUT/FREQ_RANGES_IN));
-          bw.write(line + freqChar + "\n");
-        }
-      }
-      br.close();
-      bw.close();
-      System.out.println(freqList.size()+" frequency values applied in "+freqValuesApplied+" word forms.");
-    } catch (FileNotFoundException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } catch (IOException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-    return tempFile;
-  }
+ 
+
 
 }

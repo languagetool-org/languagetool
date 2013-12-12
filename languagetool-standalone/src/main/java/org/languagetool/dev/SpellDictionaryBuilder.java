@@ -40,15 +40,23 @@ final class SpellDictionaryBuilder extends DictionaryBuilder {
     String plainTextFile = args[1];
     String infoFile = args[2];
     SpellDictionaryBuilder builder = new SpellDictionaryBuilder(new File(infoFile));
-    builder.build(languageCode, new File(plainTextFile));
+    
+    if (args.length == 4) {
+      String freqListFile= args[3];
+      builder.readFreqList(new File(freqListFile));
+      builder.build(languageCode, builder.addFreqData(new File(plainTextFile)));
+    } else {
+      builder.build(languageCode, new File(plainTextFile));
+    }
   }
 
   protected static void checkUsageOrExit(String className, String[] args) throws IOException {
-    if (args.length != 3) {
-      System.out.println("Usage: " + className + " <languageCode> <dictionary> <infoFile>");
+    if (args.length < 3 || args.length > 4) {
+      System.out.println("Usage: " + className + " <languageCode> <dictionary> [frequencyList]");
       System.out.println("   <languageCode> like 'en-US' or 'de-DE'");
       System.out.println("   <dictionary> is a plain text dictionary file, e.g. created from a Hunspell dictionary by 'unmunch'");
       System.out.println("   <infoFile> is the *.info properties file, see http://wiki.languagetool.org/developing-a-tagger-dictionary");
+      System.out.println("   [frequencyList] is the *.xml file with a frequency wordlist, see http://wiki.languagetool.org/developing-a-tagger-dictionary");
       System.exit(1);
     }
     File dictFile = new File(args[2]);
