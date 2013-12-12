@@ -82,20 +82,20 @@ class DictionaryBuilder {
     
     if ((isOptionTrue("fsa.dict.uses-prefixes") || isOptionTrue("fsa.dict.uses-infixes")) &&
          hasOption("fsa.dict.encoder")) {
-        throw new IOException(".info file must specify either fsa.dict.encoder (preferred) or fsa.dict.uses-* properties.");
+      throw new IOException(".info file must specify either fsa.dict.encoder (preferred) or fsa.dict.uses-* properties.");
     }
 
     if (hasOption("fsa.dict.encoder")) {
-        tab2morphOptions.add("--encoder");
-        tab2morphOptions.add(getOption("fsa.dict.encoder"));
+      tab2morphOptions.add("--encoder");
+      tab2morphOptions.add(getOption("fsa.dict.encoder"));
     } else {
-        if (isOptionTrue("fsa.dict.uses-prefixes")) {
-          tab2morphOptions.add("--encoder");
-          tab2morphOptions.add("prefix");
-        } else if (isOptionTrue("fsa.dict.uses-infixes")) {
-            tab2morphOptions.add("--encoder");
-            tab2morphOptions.add("infix");
-        }
+      if (isOptionTrue("fsa.dict.uses-prefixes")) {
+        tab2morphOptions.add("--encoder");
+        tab2morphOptions.add("prefix");
+      } else if (isOptionTrue("fsa.dict.uses-infixes")) {
+        tab2morphOptions.add("--encoder");
+        tab2morphOptions.add("infix");
+      }
     }
 
     tab2morphOptions.add("-i");
@@ -144,9 +144,10 @@ class DictionaryBuilder {
       }
       br.close();
     } catch (FileNotFoundException e) {
-      System.out.println("Frequencies wordlist file does not exist: " + freqListFile.getAbsolutePath().toString());
+      System.out.println("Frequencies wordlist file does not exist: " + freqListFile.getAbsolutePath());
     } catch (IOException e) {
-      System.out.println("Cannot read file: " + freqListFile.getAbsolutePath().toString());    }
+      System.out.println("Cannot read file: " + freqListFile.getAbsolutePath());
+    }
   }
   
   protected File addFreqData(File dictFile) throws Exception {
@@ -155,9 +156,9 @@ class DictionaryBuilder {
     }
     String separator = getOption("fsa.dict.separator");
     if (separator == null || separator.trim().isEmpty()) {
-      throw new IOException("A separator character must be defined in the dictionary info file.");
+      throw new IOException("A separator character (fsa.dict.separator) must be defined in the dictionary info file.");
     }
-    File tempFile = File.createTempFile(POSDictionaryBuilder.class.getSimpleName(), "WithFrequencies.txt");
+    File tempFile = File.createTempFile(DictionaryBuilder.class.getSimpleName(), "WithFrequencies.txt");
     BufferedReader br;
     FileWriter fw = new FileWriter(tempFile.getAbsoluteFile());
     BufferedWriter bw = new BufferedWriter(fw);
@@ -181,11 +182,11 @@ class DictionaryBuilder {
       }
       br.close();
       bw.close();
-      System.out.println(freqList.size()+" frequency values applied in "+freqValuesApplied+" word forms.");
+      System.out.println(freqList.size() + " frequency values applied in " + freqValuesApplied + " word forms.");
     } catch (FileNotFoundException e) {
-      System.out.println("File not found: " + dictFile.getAbsolutePath().toString());
+      System.out.println("File not found: " + dictFile.getAbsolutePath());
     } catch (IOException e) {
-      System.out.println("Cannot read file: " + dictFile.getAbsolutePath().toString());
+      System.out.println("Cannot read file: " + dictFile.getAbsolutePath());
     }
     tempFile.deleteOnExit();
     return tempFile;
