@@ -1674,18 +1674,21 @@ $Id$
                 <example type="correct">Tenia molt de son pare.</example>
                 <example type="correct">Allò requeria molt de valor.</example>
             </rule>
-             <rule id="GRIS_COMU" name="errors freqüents: gris/grisa, comú/comuna">
-                <pattern>
-                    <token postag="N.[FC][SN].*|_GN_FS" postag_regexp="yes"/>
+             <rule id="CONCORDANCA_GRIS" name="errors freqüents: gris/grisa">
+                <pattern case_sensitive="yes">
+                    <token postag="N.F[SN].*|_GN_FS" postag_regexp="yes"/>
                     <marker>
-                        <token regexp="yes">gris|comú</token>
+                        <token>gris</token>
                     </marker> 
                 </pattern>
                 <message>Possible error de concordança.</message>
                 <suggestion><match no="3" postag="AQ.*" postag_regexp="yes" postag_replace="AQ.[FC][SN]."/></suggestion>
                 <example type="incorrect" correction="grisa">Un lloc de gent <marker>gris</marker>.</example>
-                <example type="incorrect" correction="comuna">Un cau de gent <marker>comú</marker>.</example>
+                <!-- <example type="incorrect" correction="comuna">Un cau de gent <marker>comú</marker>.</example> -->
                 <example type="correct">La substància grisa.</example>
+                <example type="correct">Voltor comú.</example>
+                <!-- provenen d'un lloc de naixença comú 
+                per un ideal d'emancipació comú-->
             </rule>
         </rulegroup>
         <rulegroup id="CONCORDANCES_ADJECTIUS_NEUTRES" name="concordances amb adjectius neutres">
@@ -5445,7 +5448,7 @@ $Id$
         <rulegroup id="DEGUT_A" name="degut a">
             <rule id="DEGUT_A_QUE" name="*degut a que">
                 <pattern>
-                    <token><exception inflected="yes" regexp="yes">ser|semblar|parèixer</exception></token>
+                    <token><exception inflected="yes" regexp="yes">ser|semblar|parèixer|haver</exception></token>
                     <marker>
                         <token>degut</token>
                         <token>a</token>
@@ -5458,51 +5461,83 @@ $Id$
                 <suggestion>ja que</suggestion>
                 <suggestion>pel fet que</suggestion>
                 <suggestion>a causa del fet que</suggestion>
+                <suggestion>gràcies al fet que</suggestion>
                 <url>http://esadir.cat/gramatica/sintaxi/acausadegut</url>
                 <example type="incorrect"><marker>degut a que</marker></example>
                 <example type="correct">a causa que</example>
             </rule>
-            <rule id="DEGUT_A_LA" name="*degut a la">
+            <rule id="ES_DEGUT_A_QUE" name="*és degut a que">
                 <pattern>
-                    <token><exception inflected="yes" regexp="yes">ser|semblar|parèixer</exception></token>
+                    <token inflected="yes" regexp="yes">ser|semblar|parèixer|haver</token>
                     <marker>
                         <token>degut</token>
+                        <token>a</token>
+                        <token>que</token>
+                    </marker>
+                </pattern>
+                <message>Expressió incorrecta.</message>
+                <suggestion>degut al fet que</suggestion>
+                <url>http://esadir.cat/gramatica/sintaxi/acausadegut</url>
+                <example type="incorrect" correction="degut al fet que">Això és <marker>degut a que</marker> sempre ve tard.</example>
+                <example type="correct">a causa que</example>
+            </rule>
+            <rule id="DEGUT_A_LA" name="*degut a la">
+                <pattern>
+                    <token><exception inflected="yes" regexp="yes">ser|semblar|parèixer|haver</exception></token>
+                    <marker>
+                        <token>degut<exception postag="_GN_MS"/></token>
                         <token>a</token>
                     </marker>
                     <token><exception regexp="yes">que|què|l|ls</exception></token>
                 </pattern>
-                <message>Expressió incorrecta.</message>
+                <message>Incorrecte si equival a <suggestion>a causa de</suggestion>. Correcte si 'degut' concorda amb un nom.</message>
                 <suggestion>per</suggestion>
-                <suggestion>a causa de</suggestion>
                 <suggestion>per culpa de</suggestion>
+                <suggestion>gràcies a</suggestion>
                 <url>http://esadir.cat/gramatica/sintaxi/acausadegut</url>
-                <example type="incorrect" correction="per|a causa de|per culpa de">Es va suspendre el partit <marker>degut a</marker> la pluja</example>
+                <short>Possible error</short>
+                <example type="incorrect" correction="a causa de|per|per culpa de|gràcies a">Es va suspendre l'actuació <marker>degut a</marker> la pluja</example>
+                <!-- <example type="incorrect" correction="per|a causa de|per culpa de">Es va suspendre el partit <marker>degut a</marker> la pluja</example> -->
                 <example type="correct">Això és degut a la crisi econòmica.</example>
+                <example type="correct">un creixement demogràfic degut a la immigració</example>
+                <!-- un tema probablement degut a Thomas Kyd 
+                dut a Ripoll i degut a diverses mans, 
+                poc reeixida, en part degut a les infiltracions 
+                fou en una bona part degut a l'impuls
+                 sembla ésser directament degut a aquestes condicions
+                 mostra el descens de població degut a la guerra civil -->
             </rule>
             <rule id="DEGUT_AL" name="*degut al">
                 <pattern>
-                    <token><exception inflected="yes" regexp="yes">ser|semblar|parèixer</exception></token>
+                    <token><exception inflected="yes" regexp="yes">ser|semblar|parèixer|haver</exception></token>
                     <marker>
-                        <token>degut</token>
+                        <token>degut<exception postag="_GN_MS"/></token>
                         <token>a</token>
                         <token regexp="yes">ls?</token>
                     </marker>
                 </pattern>
-                <message>Expressió incorrecta.</message>
+                <message>Incorrecte si equival a <suggestion>a causa de<match no="4"/></suggestion>. Correcte si 'degut' concorda amb un nom.</message>
                 <suggestion>pe<match no="4"/></suggestion>
-                <suggestion>a causa de<match no="4"/></suggestion>
                 <suggestion>per culpa de<match no="4"/></suggestion>
+                <suggestion>gràcies a<match no="4"/></suggestion>
                 <url>http://esadir.cat/gramatica/sintaxi/acausadegut</url>
-                <example type="incorrect">Es va suspendre el partit <marker>degut al</marker> mal oratge.</example>
+                <short>Possible error</short>
+                <example type="incorrect" correction="a causa del|pel|per culpa del|gràcies al">Es va suspendre l'actuació <marker>degut al</marker> mal oratge.</example>
+                <!-- <example type="incorrect" correction="a causa del|pel|per culpa del">Es va suspendre el partit <marker>degut al</marker> mal oratge.</example> -->
                 <example type="correct">És degut als esforços de tots.</example>
+                <example type="correct">només el respecte degut als ancians</example>
+                <example type="correct">hauria degut al rei</example>
             </rule>
         </rulegroup>
         <rulegroup id="EN_LA_QUE" name="*en la què/en què/en la qual">
             <rule>
                 <pattern>
-                    <token postag="SPS00"/>
-                    <token postag="DA.*" postag_regexp="yes"><exception regexp="yes">ls?</exception></token>
-                    <token>què</token>
+                    <marker>
+                        <token postag="SPS00"/>
+                        <token postag="DA.*" postag_regexp="yes"><exception regexp="yes">ls?</exception></token>
+                        <token>què</token>
+                    </marker>
+                    <token><exception regexp="yes">\?|i|o</exception></token>
                 </pattern>
                 <message>Error de sintaxi.</message>
                 <suggestion><match no="1"/> què</suggestion>
@@ -5512,12 +5547,16 @@ $Id$
                 <example type="incorrect" correction="en què|en el qual">El lloc <marker>en el què</marker> el van trobar.</example>
                 <example type="incorrect" correction="a què|a la qual">La feina <marker>a la què</marker> em referia.</example>
                 <example type="correct">El lloc en què el van trobar.</example>
+                <example type="correct">—Amb els què?</example> 
             </rule>
             <rule>
                 <pattern>
-                    <token postag="SPS00"/>
-                    <token spacebefore="no" regexp="yes">ls?</token>
-                    <token>què</token>
+                    <marker>
+                        <token postag="SPS00"><exception>pe</exception></token>
+                        <token spacebefore="no" regexp="yes">ls?</token>
+                        <token>què</token>
+                    </marker>
+                    <token><exception regexp="yes">\?|i|o</exception></token>
                 </pattern>
                 <message>Error de sintaxi.</message>
                 <suggestion><match no="1"/> què</suggestion>
@@ -5527,6 +5566,25 @@ $Id$
                 <example type="incorrect" correction="de què|del qual">El lloc <marker>del què</marker> parlàvem.</example>
                 <example type="incorrect"  correction="de què|dels quals">Els llocs <marker>dels què</marker> parlàvem.</example>
                 <example type="correct">El lloc del qual parlàvem.</example>
+                <example type="correct">al com, al què i al quant</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="SPS00">pe</token>
+                        <token spacebefore="no" regexp="yes">ls?</token>
+                        <token>què</token>
+                    </marker>
+                    <token><exception regexp="yes">\?|i|o|fa</exception></token>
+                </pattern>
+                <message>Error de sintaxi.</message>
+                <suggestion><match no="1"/><match no="2"/> <match no="2" postag="DA..(.)." postag_regexp="yes" postag_replace="PR0C$1000">qual</match></suggestion>
+                <suggestion>per què</suggestion>
+                <suggestion><match no="1"/><match no="2"/> que</suggestion>
+                <url>http://esadir.cat/entrades/fitxa/node/pronrel</url>
+                <short>Error de sintaxi</short>
+                <example type="incorrect" correction="pel qual|per què|pel que">El tema <marker>pel què</marker> pregunta.</example>
+                <example type="correct">Pregunta pel què i pel com</example>
             </rule>
         </rulegroup>
     </category>
@@ -9165,7 +9223,7 @@ $Id$
 			<rule>
 			    <pattern>
 			    	<token regexp="yes">tot|pe</token>
-				    <token regexp="yes">i|el|l</token>
+				    <token regexp="yes">i|el|ls?</token>
 				    <marker>    
 				        <token>què</token>
 			        </marker>
@@ -17812,7 +17870,7 @@ $Id$
         <rulegroup id="A_MANS_DE" name="a mans de/en mans de">
             <rule>
                 <pattern>
-                    <token postag="SENT_START" skip="-1"><exception scope="next" postag="V[^A].*" postag_regexp="yes" inflected="yes" regexp="yes">&exceptions_A_MANS_DE;</exception></token>
+                    <token postag="SENT_START" skip="-1"><exception scope="next" postag="V[^A].*|N.*" postag_regexp="yes" inflected="yes" regexp="yes">&exceptions_A_MANS_DE;</exception></token>
                     <marker>
                         <token>a<exception scope="previous" inflected="yes">fer</exception></token>
                         <token>mans</token>
@@ -17825,10 +17883,11 @@ $Id$
                 <example type="correct">La fortuna va passar a mans del fill.</example>
                 <example type="correct">Van perdre la majoria al Palarment a mans de l'oposició.</example>
                 <example type="correct">La majoria va anar a parar a mans de l'oposició.</example>
+                <example type="correct">la pèrdua d'una gran part de Borgonya a mans de França</example>
             </rule>
             <rule>
                 <pattern>
-                    <token postag="SENT_START" skip="-1"><exception scope="next" postag="V[^A].*" postag_regexp="yes" inflected="yes" regexp="yes">&exceptions_A_MANS_DE;</exception></token>
+                    <token postag="SENT_START" skip="-1"><exception scope="next" postag="V[^A].*|N.*" postag_regexp="yes" inflected="yes" regexp="yes">&exceptions_A_MANS_DE;</exception></token>
                     <token skip="-1">a<exception scope="next" postag="V[^A].*" postag_regexp="yes" inflected="yes" regexp="yes">&exceptions_A_MANS_DE;</exception></token>
                     <marker>
                         <token>a<exception scope="previous" inflected="yes">fer</exception></token>
