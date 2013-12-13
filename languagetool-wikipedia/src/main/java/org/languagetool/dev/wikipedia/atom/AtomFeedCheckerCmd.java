@@ -64,12 +64,19 @@ final class AtomFeedCheckerCmd {
     AtomFeedChecker atomFeedChecker = new AtomFeedChecker(language, databaseConfig);
     while (true) {
       long startTime = System.currentTimeMillis();
-      atomFeedChecker.runCheck(url);
-      System.out.println("Run time: " + (System.currentTimeMillis() - startTime) + "ms");
-      if (sleepTimeMillis == -1) {
-        // don't loop at all
-        break;
-      } else {
+      try {
+        atomFeedChecker.runCheck(url);
+        System.out.println("Run time: " + (System.currentTimeMillis() - startTime) + "ms");
+        if (sleepTimeMillis == -1) {
+          // don't loop at all
+          break;
+        } else {
+          System.out.println("Sleeping " + sleepTimeMillis + "ms...");
+          Thread.sleep(sleepTimeMillis);
+        }
+      } catch (IOException e) {
+        // e.g. 50x HTTP errors
+        e.printStackTrace();
         System.out.println("Sleeping " + sleepTimeMillis + "ms...");
         Thread.sleep(sleepTimeMillis);
       }
