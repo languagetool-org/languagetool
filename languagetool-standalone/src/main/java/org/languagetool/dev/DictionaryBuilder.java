@@ -152,7 +152,7 @@ class DictionaryBuilder {
   
   protected File addFreqData(File dictFile) throws Exception {
     if (!isOptionTrue("fsa.dict.frequency-included")) {
-      throw new IOException("In order to use frequency data add the line 'dict.fsa.frequency-included=true' to the dictionary info file.");
+      throw new IOException("In order to use frequency data add the line 'fsa.dict.frequency-included=true' to the dictionary info file.");
     }
     String separator = getOption("fsa.dict.separator");
     if (separator == null || separator.trim().isEmpty()) {
