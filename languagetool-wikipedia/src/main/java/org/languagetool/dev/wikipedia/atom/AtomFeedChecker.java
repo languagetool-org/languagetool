@@ -34,6 +34,7 @@ import javax.xml.stream.XMLStreamException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.*;
 
@@ -45,6 +46,7 @@ import java.util.*;
 class AtomFeedChecker {
 
   private static final int CONTEXT_SIZE = 60;
+  private static final String USER_AGENT = "http://community.languagetool.org bot, contact: naber[@]danielnaber.de";
   
   private final JLanguageTool langTool;
   private final Language language;
@@ -210,8 +212,10 @@ class AtomFeedChecker {
     return result;
   }
 
-  private InputStream getXmlStream(URL atomFeedUrl) throws IOException {
-    return (InputStream) atomFeedUrl.getContent();
+  private InputStream getXmlStream(URL url) throws IOException {
+    URLConnection conn = url.openConnection();
+    conn.setRequestProperty("User-Agent", USER_AGENT);
+    return conn.getInputStream();
   }
 
 }
