@@ -7491,8 +7491,8 @@ $Id$
                 <example type="correct">Quants mols de diòxid de carboni es formaran?</example>
             </rule>
         </rulegroup>
-        <rulegroup id="CONFUSIONS_B_V" name="confusions b/v (proba/prova)">
-            <rule>
+        <rulegroup id="CONFUSIONS_B_V" name="confusions b/v: proba/prova">
+            <rule id="PROBA" name="proba/prova">
                 <pattern>
                     <token>proba</token>
                 </pattern>
@@ -7500,6 +7500,43 @@ $Id$
                 <short>Possible confusió</short>
                 <example type="incorrect">Ell ho <marker>proba</marker> tot.</example>
                 <example type="correct">Ell ho <marker>prova</marker> tot.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="BABA_BAVA" name="baba/bava">
+            <rule>
+                <pattern>
+                    <token>mala</token>
+                    <marker>
+                        <token>baba</token>
+                    </marker>
+                </pattern>
+                <message>En el sentit de "saliva" cal escriure <suggestion>bava</suggestion>. Correcte en el sentit d'"àvia".</message>
+                <short>Possible confusió</short>
+                <example type="incorrect" correction="bava">Tenia molt mala <marker>baba</marker>.</example>
+                <example type="correct">Té molt mala bava.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="3">caure</token>
+                    <marker>
+                        <token>baba</token>
+                    </marker>
+                </pattern>
+                <message>En el sentit de "saliva" cal escriure <suggestion>bava</suggestion>. Correcte en el sentit d'"àvia".</message>
+                <short>Possible confusió</short>
+                <example type="incorrect" correction="bava">Li queia la <marker>baba</marker> en sentir-lo.</example>
+                <example type="correct">Li queia la bava.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>babes</token>
+                    </marker>
+                </pattern>
+                <message>En el sentit de "saliva" cal escriure <suggestion>baves</suggestion>. Correcte en el sentit d'"àvies".</message>
+                <short>Possible confusió</short>
+                <example type="incorrect" correction="baves">Mira quantes <marker>babes</marker>.</example>
+                <example type="correct">Mullat de baves.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ACCENTUACIO_FUTUR_PASSAT" name="confusió futur/passat: enviarem/enviàrem">
