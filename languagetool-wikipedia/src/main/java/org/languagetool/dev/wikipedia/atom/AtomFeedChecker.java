@@ -143,12 +143,8 @@ class AtomFeedChecker {
     try {
       List<AtomFeedItem> items = new AtomFeedParser().getAtomFeedItems(xml);
       Collections.reverse(items);   // older items must come first so we iterate in the order in which the changes were made
-      int i = 0;
+      printDates(items, lastDateOfPreviousRun);
       for (AtomFeedItem item : items) {
-        if (i++ == 0) {
-          System.out.println("First date in Atom Feed: " + item.getDate());
-          System.out.println("Latest date in database: " + lastDateOfPreviousRun);
-        }
         // Note: this skipping is not exact for two reasons:
         // 1) We only have the latest date of a change that actually led to a rule match (this kind of doesn't
         //    matter, because a new check won't find any matches either)
@@ -180,6 +176,15 @@ class AtomFeedChecker {
       System.err.println("Warning: no items from the Atom feed were skipped - this means that changes might be missing");
     }
     return new CheckResult(result, latestDiffId);
+  }
+
+  private void printDates(List<AtomFeedItem> items, Date lastDateOfPreviousRun) {
+    if (items.size() > 0) {
+      Date firstDate = items.get(0).getDate();
+      Date lastDate = items.get(items.size()-1).getDate();
+      System.out.println("Latest date in database: " + lastDateOfPreviousRun);
+      System.out.println("Dates in Atom Feed:      " + firstDate + " - " + lastDate);
+    }
   }
 
   private List<WikipediaRuleMatch> getMatches(AtomFeedItem item, List<String> texts) throws IOException {
