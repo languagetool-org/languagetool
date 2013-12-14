@@ -19405,6 +19405,35 @@ $Id$
                 <example type="correct">El nen va fer una malesa.</example>
             </rule>
         </rulegroup> -->
+        <rulegroup id="FEINEJAR_PESCAR" name="feinejar, faenejar / pescar ">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes" skip="7" regexp="yes">faenejar|feinejar</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">vaixell|barca|embarcació|aigua|costa|jurisdiccional|jurisdicció|Marroc|Galícia|marroquí|gallec|atlàntic|pacífic|mediterrani|Mediterrània</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">pescar</match></suggestion>?</message>
+                <url>http://esadir.cat/entrades/fitxa/id/2574</url>
+                <short>Possible confusió</short>
+                <example type="incorrect" correction="pescava">L'embarcació <marker>feinejava</marker> en aigües del Marroc.</example>
+                <example type="incorrect" correction="Pescaven"><marker>Feinejaven</marker> al Mediterrani.</example>
+                <example type="correct">Va amassar una gran fortuna</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes" skip="7">vaixell|barca|embarcació|aigua|costa|jurisdiccional|jurisdicció|Marroc|Galícia|marroquí|gallec|atlàntic|pacífic|mediterrani|Mediterrània</token>
+                    <marker>
+                        <token inflected="yes" regexp="yes">faenejar|feinejar</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">pescar</match></suggestion>?</message>
+                <url>http://esadir.cat/entrades/fitxa/id/2574</url>
+                <short>Possible confusió</short>
+                <example type="incorrect" correction="pescava">L'embarcació <marker>faenejava</marker> en aigües marroquines.</example>
+                <example type="correct">Una gran fortuna, va amssar.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AMASSAR_PASTAR" name="amassar / pastar">
             <!-- es pot completar amb més paraules -->
             <rule>
