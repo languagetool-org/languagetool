@@ -138,7 +138,7 @@ class AtomFeedChecker {
   }
 
   CheckResult checkChanges(InputStream xml) throws IOException {
-    Date lastDateOfPreviousRun = matchDatabase != null ? matchDatabase.getLatestDate() : null;
+    Date lastDateOfPreviousRun = matchDatabase != null ? matchDatabase.getLatestDate(language) : null;
     List<ChangeAnalysis> result = new ArrayList<>();
     long latestDiffId = 0;
     int skipCount = 0;

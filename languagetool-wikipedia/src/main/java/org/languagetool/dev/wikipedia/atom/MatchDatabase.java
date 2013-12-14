@@ -19,6 +19,7 @@
 package org.languagetool.dev.wikipedia.atom;
 
 import org.apache.commons.lang.StringUtils;
+import org.languagetool.Language;
 import org.languagetool.rules.patterns.PatternRule;
 
 import java.sql.Connection;
@@ -121,19 +122,20 @@ class MatchDatabase {
   /**
    * @return the latest edit date, or a date as of {@code 1970-01-01} if no data is in the database
    */
-  Date getLatestDate() {
-    Date editDate = getLatestDate("edit_date");
-    Date fixDate = getLatestDate("fix_date");
+  Date getLatestDate(Language language) {
+    Date editDate = getLatestDate("edit_date", language);
+    Date fixDate = getLatestDate("fix_date", language);
     if (editDate.after(fixDate)) {
       return editDate;
     }
     return fixDate;
   }
   
-  private Date getLatestDate(String dateField) {
+  private Date getLatestDate(String dateField, Language language) {
     try {
-      String sql = "SELECT " + dateField + " FROM feed_matches ORDER BY " + dateField + " DESC";
+      String sql = "SELECT " + dateField + " FROM feed_matches WHERE language_code = ? ORDER BY " + dateField + " DESC";
       try (PreparedStatement prepSt = conn.prepareStatement(sql)) {
+        prepSt.setString(1, language.getShortName());
         ResultSet resultSet = prepSt.executeQuery();
         if (resultSet.next() && resultSet.getTimestamp(dateField) != null) {
           return new Date(resultSet.getTimestamp(dateField).getTime());
