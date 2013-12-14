@@ -67,7 +67,7 @@ class MatchDatabase {
       } else {
         prepSt.setString(7, "<no category>");
       }
-      prepSt.setString(8, ruleMatch.getErrorContext());
+      prepSt.setString(8, StringUtils.abbreviate(ruleMatch.getErrorContext(), 500));
       prepSt.setTimestamp(9, new Timestamp(ruleMatch.getEditDate().getTime()));
       prepSt.setLong(10, ruleMatch.getDiffId());
       prepSt.execute();
