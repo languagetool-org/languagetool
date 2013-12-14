@@ -11612,6 +11612,18 @@ $Id$
                 <example type="incorrect" correction="es hala">Això <marker>se hala</marker> una barra.</example>
                 <example type="correct">Això s'ionitza.</example>       
             </rule>
+            <rule>
+                <pattern>
+                    <token>li</token>
+                    <token regexp="yes">en|el|els</token>
+                </pattern>
+                <message>Cal apostrofar.</message>
+                <suggestion>li'<match no="2" regexp_match="[Ee](.+)" regexp_replace="$1"></match></suggestion>
+                <short>Cal apostrofar</short>
+                <example type="incorrect" correction="Li'n"><marker>Li en</marker> compraré quatre.</example>
+                <example type="incorrect" correction="Li'ls"><marker>Li els</marker> portaré demà.</example>
+                <example type="correct">Li'n dec una.</example>
+            </rule>
             <!-- darrere del verb-->
         </rulegroup>
         <rulegroup id="PRONOMS_FEBLES_DARRERE_VERB" name="Formes incorrectes darrere de verb: *veure-lo, *emporteu-vos-ne">
