@@ -2758,7 +2758,6 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="add"><wd pos="_GV_"></wd></disambig>
         </rule>
-        
        <!--  <rule>
             <pattern>
                 <token postag="VA.*" postag_regexp="yes" inflected="yes" skip="5">anar<exception scope="next" postag="_GV_|_PUNCT_CONT|R.*|.*LOC_ADV.*|V.N.*|SENT_END|[NA].*|complement" postag_regexp="yes" negate_pos="yes"/></token>
@@ -2769,6 +2768,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="add"><wd pos="_GV_"></wd>
             </disambig>
         </rule> -->
+        <rule id="degut_participi" name="degut (participi)">
+            <pattern>
+                <token inflected="yes" skip="5" regexp="yes">ser|semblar|parèixer<exception scope="next" postag="V.[GN].*" postag_regexp="yes"/><exception scope="next" regexp="yes">de|d'</exception></token>
+                <marker>
+                    <token postag="V.P.*" postag_regexp="yes">degut</token>
+                </marker>
+            </pattern>
+            <disambig action="add"><wd pos="_GV_"></wd></disambig>
+        </rule>
         <!-- encadena amb conjunció -->
         <rule id="haver_participi_i_participi" name="haver + participi + i/o/ni + participi">
             <pattern>
