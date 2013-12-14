@@ -1945,7 +1945,7 @@ $Id$
 								<token postag="SENT_START"></token>
 								<token>w</token>
 								<marker>
-										<token regexp="yes" skip="-1"><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" scope="next"></exception>przypadku|razie|myśl|miarę|celu</token>
+										<token regexp="yes" skip="-1"><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">[\[\(]</exception>przypadku|razie|myśl|miarę|celu</token>
 										<token>,</token>
 										<phraseref idref="NIE_SPOJNIK_PRZECINKOWY"></phraseref>
 								</marker>
@@ -1955,6 +1955,7 @@ $Id$
 						<example correction="razie pożaru zbić" type="incorrect">W <marker>razie pożaru, zbić</marker> szybkę.</example>
 						<example correction="myśl tej teorii miałem" type="incorrect">W <marker>myśl tej teorii, miałem</marker> rację.</example>
 						<example type="correct">W myśl tej teorii, którą już opisałem, miałem rację.</example>
+                        <example type="correct">W przypadku reprezentacji abstrakcyjnych w ujęciu pluralistycznym (i klasycznym, czysto symbolicznym) można mówić o nośniku informacji semantycznych, który nie informuje o żadnym czasoprzestrzennym przedmiocie, ale ma strukturę, która pozwala na przeprowadzanie różnych operacji obliczeniowych i modyfikuje gotowość do działania.</example>
 				</rule>
 				<rule id="POZA_TYM" name="Zbędny przecinek po „poza”, „dla”, „dzięki”, „mimo” itp. na początku zdania">
 						<pattern>
@@ -2133,7 +2134,7 @@ $Id$
 										<marker>
 												<token regexp="yes"><exception postag="SENT_END"></exception>[\)\]\}”]</token>
 										</marker>
-										<token negate_pos="yes" postag="SENT_END" spacebefore="no"><exception regexp="yes">[”&quot;,;:\)\]\}\.\?!…\u0002\u0001]</exception></token>
+										<token negate_pos="yes" postag="SENT_END" spacebefore="no"><exception regexp="yes">[”&quot;,;:\)\]\}\.\?!…\u0002\u00011-9]+</exception></token>
 								</pattern>
 								<message>Brak spacji po tym znaku. Powinno być: <suggestion>\1 </suggestion>.</message>
 								<short>Brak spacji</short>
@@ -2141,6 +2142,8 @@ $Id$
 								<example type="correct">To jest wiadome (od dawna), więc nie gadaj.</example>
 								<example type="correct">Ja to wiem (a ty nie) od dawna.</example>
 								<example type="correct">To jest („test”).</example>
+                                <!--  in LO, footnote/endnote numbers are simply numbers -->
+                                <example type="correct">To jest „test”1.</example>
 								<example type="correct">Cytuję: „test (dziwny)”.</example>
 								<example correction=") " type="incorrect">To jest wiadome (od dawna<marker>)</marker>odpowiednim służbom.</example>
 						</rule>
@@ -11925,7 +11928,7 @@ $Id$
 								<pattern>
 										<token regexp="yes">jest|była|będzie</token>
 										<marker>
-												<token postag="adj.*:f.*|subst.*:f" postag_regexp="yes" regexp="yes"><exception regexp="yes">zainteresowana|przerażona|zdziwiona|oburzona|wstrząśnięta</exception>.*ą</token>
+												<token postag="adj.*:f.*|subst.*:f" postag_regexp="yes" regexp="yes"><exception regexp="yes">zainteresowaną|przerażoną|zdziwioną|oburzoną|wstrząśniętą</exception>.*ą</token>
 												<token postag="adj.*:f.*|subst.*:f" postag_regexp="yes" regexp="yes">.*a</token>
 										</marker>
 								</pattern>
@@ -12068,7 +12071,7 @@ $Id$
 						<rule>
 								<pattern>
 										<token>wraz</token>
-										<token postag=".*inst.*" postag_regexp="yes" regexp="yes"><exception regexp="yes">ze|z</exception>s[wftśsrłndwpgklcbmżń].+|[zśźż][wftśsrłndwpgklzcbmżń].+|[rs]z[wftśsrłndwpgklzcbmżń].+|[wf][wftśwpgzcbmżń].+|wk[^ł].+|f[dsk].+|wd[^zię].+|ws[^ze].+|Lwowa|mną|mnie|snu</token>
+										<token postag=".*inst.*" postag_regexp="yes" regexp="yes">s[wftśsrłndwpgklcbmżń].+|[zśźż][wftśsrłndwpgklzcbmżń].+|[rs]z[wftśsrłndwpgklzcbmżń].+|[wf][wftśwpgzcbmżń].+|wk[^ł].+|f[dsk].+|wd[^zię].+|ws[^ze].+|Lwowa|mną|mnie|snu</token>
 								</pattern>
 								<message>Prawdopodobna literówka. Czy chodziło o <suggestion>\1 ze \2</suggestion>?</message>
 								<short>Prawdopodobna literówka</short>
