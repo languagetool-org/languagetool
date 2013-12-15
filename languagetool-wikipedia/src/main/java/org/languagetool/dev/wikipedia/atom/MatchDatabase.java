@@ -73,7 +73,14 @@ class MatchDatabase {
       prepSt.setLong(10, ruleMatch.getDiffId());
       prepSt.execute();
     } catch (SQLException e) {
-      throw new RuntimeException("Could not add rule match " + ruleMatch + " to database", e);
+      if (e.toString().contains("Incorrect string value")) {
+        // Let's accept this - i.e. not crash - for now:
+        // See http://stackoverflow.com/questions/1168036/ and http://stackoverflow.com/questions/10957238/
+        System.err.println("Could not add rule match " + ruleMatch + " to database - stacktrace follows:");
+        e.printStackTrace();
+      } else {
+        throw new RuntimeException("Could not add rule match " + ruleMatch + " to database", e);
+      }
     }
   }
 
