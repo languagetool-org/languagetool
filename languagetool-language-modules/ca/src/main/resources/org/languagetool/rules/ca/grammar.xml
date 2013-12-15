@@ -5209,6 +5209,51 @@ $Id$
             <example type="correct">Ho farem l'endemà.</example>
             <example type="correct">Fa de tot per a arribar a l'endemà.</example>
         </rule>
+        <rule id="AL_1996" name="*al 1996/el 1996">
+            <pattern>
+                <token postag="SENT_START" skip="-1"><exception scope="next" inflected="yes" regexp="yes">remuntar|correspondre</exception></token>
+                <marker>
+                    <token>a<exception scope="previous" regexp="yes">fins|per|cap|respecte|\d+</exception><exception scope="previous" postag="DN.*" postag_regexp="yes"/><exception scope="previous" inflected="yes" regexp="yes">atribuir|arribar|posposar|passar|traslladar|posterior.*|anterior.*|correspondre|corresponent|remuntar|any|avançar</exception></token>
+                    <token spacebefore="no">l</token>
+                    <token regexp="yes">[12]\d{3}</token>
+                </marker>
+            </pattern>
+            <message>Els anys s'escriuen sense la preposició 'a'.</message>
+            <suggestion>el <match no="4"/></suggestion>
+            <suggestion>en <match no="4"/></suggestion>
+            <suggestion>l'any <match no="4"/></suggestion>
+            <url>http://esadir.cat/gramatica/sintaxi/prepatemporal</url>
+            <short>Sobra la preposició 'a'</short>
+            <example type="incorrect" correction="El 1992|En 1992|L'any 1992"><marker>Al 1992</marker> foren les olimpíades de Barcelona.</example>
+            <example type="correct">Va néixer el 2004.</example>
+            <example type="correct">Del 1734 al 1756.</example>
+            <example type="correct">Es remunta, pel cap baix, al 2800 aC. </example>
+            <example type="correct">que es remuntava, en un cas, al 1943 i, en l'altre, al 1949</example>
+            <example type="correct">correspon en bona part al 1980</example>
+            <example type="correct">dels anys vuitanta al 1992</example>
+        </rule>
+        <rule id="A_L_ANY_1996" name="*al 1996/el 1996">
+            <pattern>
+                <token postag="SENT_START" skip="-1"><exception scope="next" inflected="yes" regexp="yes">remuntar|correspondre</exception></token>
+                <marker>
+                    <token>a<exception scope="previous" regexp="yes">fins|per|cap|respecte|\d+</exception><exception scope="previous" postag="DN.*" postag_regexp="yes"/><exception scope="previous" inflected="yes" regexp="yes">atribuir|arribar|posposar|passar|traslladar|posterior.*|anterior.*|correspondre|corresponent|remuntar|any|avançar</exception></token>
+                    <token>l'</token>
+                    <token>any</token>
+                    <token regexp="yes">[12]\d{3}</token>
+                </marker>
+            </pattern>
+            <message>Els anys s'escriuen sense la preposició 'a'.</message>
+            <suggestion>l'any <match no="5"/></suggestion>
+            <url>http://esadir.cat/gramatica/sintaxi/prepatemporal</url>
+            <short>Sobra la preposició 'a'</short>
+            <example type="incorrect" correction="L'any 1992"><marker>A l'any 1992</marker> foren les olimpíades de Barcelona.</example>
+            <example type="correct">Va néixer el 2004.</example>
+            <example type="correct">De l'any 1734 a l'any 1756.</example>
+            <example type="correct">Es remunta, pel cap baix, a l'any 2800 aC. </example>
+            <example type="correct">que es remuntava, en un cas, a l'any 1943 i, en l'altre, a l'any 1949</example>
+            <example type="correct">correspon en bona part a l'any 1980</example>
+            <example type="correct">dels anys vuitanta a l'any 1992</example>
+        </rule>
         <rule id="SENSE_CAP_NI_UN_SENSE_CAP" name="sense cap ni un/sense cap">
             <pattern>
                 <token>sense</token>
@@ -13434,6 +13479,18 @@ $Id$
             <example type="incorrect">Va <marker>debò</marker>.</example>
             <example type="correct">Va de bo</example>
             <example type="correct">Va de debò</example>
+        </rule>
+        <rule id="DE_MOTU_PROPIO" name="*de motu propio/motu proprio">
+            <pattern>
+                <token regexp="yes">de|per</token>
+                <token>motu</token>
+                <token regexp="yes">propr?io</token>
+            </pattern>
+            <message>Expressió incorrecta.</message>
+            <suggestion>motu proprio</suggestion>
+            <url>http://esadir.cat/entrades/fitxa/id/3355</url>
+            <example type="incorrect"><marker>de motu proprio</marker></example>
+            <example type="correct">motu proprio</example>
         </rule>
         <rule id="URBI_ET_ORBI" name="urbi et *orbe/orbi">
             <pattern>
