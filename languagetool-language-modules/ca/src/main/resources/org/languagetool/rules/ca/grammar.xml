@@ -13164,6 +13164,18 @@ $Id$
         </rulegroup>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="AMPLE_DE_BANDA" name="*ample/amplada de banda">
+            <pattern>
+                <token inflected="yes">ample</token>
+                <token>de</token>
+                <token>banda</token>
+            </pattern>
+            <message>Expressió incorrecta.</message>
+            <suggestion><match no="1" postag="[NA].*[MFC]([SP]).+" postag_regexp="yes" postag_replace="NCF$1000">amplada</match> de banda</suggestion>
+            <example type="incorrect" correction="amplades de banda">Diferents <marker>amples de banda</marker></example>
+            <example type="incorrect" correction="amplada de banda">L'<marker>ample de banda</marker></example>
+            <example type="correct">L'amplada de banda</example>
+        </rule>
         <rule id="DE_PRESTAT" name="*de prestat">
             <pattern>
                 <token>de</token>
@@ -13448,7 +13460,7 @@ $Id$
                 <token regexp="yes">a|de|d'</token>
             </pattern>
             <message>¿Volíeu dir <suggestion>a la <match no="3"/> tornada</suggestion></message>
-            <suggestion>A la tornada</suggestion>
+            <suggestion>a la tornada</suggestion>
             <example type="incorrect" correction="A la seva tornada|A la tornada"><marker>A la seva volta</marker> a casa.</example>
             <example type="correct">al seu torn</example>
         </rule>
