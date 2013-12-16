@@ -4578,8 +4578,9 @@ $Id$
                 <token inflected="yes">participar</token>
                 <marker>
                     <token>a</token>
-                    <token postag="D[AID].*|NC.P.*" postag_regexp="yes"/>
+                    <token postag="D[AID].*|NC.P.*" postag_regexp="yes"><exception regexp="yes">parts|instàncies|principis?|finals?|començaments?</exception></token>
                 </marker>
+                <token><exception postag="NP..G.*" postag_regexp="yes"/><exception regexp="yes">edat|\d+|principi|final|començament</exception></token>
             </pattern>
             <message>El verb "participar" regeix normalment la preposició "en".</message>
             <suggestion>en <match no="3" postag="(D.*|NC.P.*)" postag_regexp="yes" postag_replace="$1"/></suggestion>
@@ -4587,6 +4588,12 @@ $Id$
             <example type="incorrect" correction="en el">Joan va participar <marker>al</marker> debat.</example>
             <example type="incorrect" correction="en reunions">Mai no participà <marker>a reunions</marker> clandestines.</example>
             <example type="correct">Ell no hi participà a Barcelona.</example>
+            <example type="correct">participà a l'Iraq en la campanya decisiva </example>
+            <example type="correct">participen a parts iguals</example>
+            <example type="correct">va participar a finals del 38 en el debat</example>
+            <example type="correct">Hi va participar a l'edat de 30 anys</example>
+            <example type="correct">participà als 25 anys en els Jocs Olímpics</example>
+            <!-- no deixen participar (a) menors d'edat (professionals, aficionats, arquitectes) -->
         </rule>
         <rule id="CUINA_A_GAS" name="*cuina a gas/cuina de gas ">
             <pattern>
