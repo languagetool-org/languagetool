@@ -5211,9 +5211,12 @@ $Id$
         </rule>
         <rule id="AL_1996" name="*al 1996/el 1996">
             <pattern>
-                <token postag="SENT_START" skip="-1"><exception scope="next" inflected="yes" regexp="yes">remuntar|correspondre</exception></token>
+                <or>
+                    <token postag="SENT_START" skip="-1"><exception scope="next" inflected="yes" regexp="yes">remuntar|correspondre</exception></token>
+                    <token skip="-1">a<exception scope="next" inflected="yes" regexp="yes">remuntar|correspondre</exception></token>
+                </or>
                 <marker>
-                    <token>a<exception scope="previous" regexp="yes">fins|per|cap|respecte|\d+</exception><exception scope="previous" postag="DN.*" postag_regexp="yes"/><exception scope="previous" inflected="yes" regexp="yes">atribuir|arribar|posposar|passar|traslladar|posterior.*|anterior.*|correspondre|corresponent|remuntar|any|avançar</exception></token>
+                    <token>a<exception scope="previous" regexp="yes">ací|aquí|quant|fins|per|cap|respecte|\d+</exception><exception scope="previous" postag="DN.*" postag_regexp="yes"/><exception scope="previous" inflected="yes" regexp="yes">atribuir|arribar|posposar|passar|traslladar|posterior.*|anterior.*|correspondre|corresponent|remuntar|any|avançar|entrar|referir</exception></token>
                     <token spacebefore="no">l</token>
                     <token regexp="yes">[12]\d{3}</token>
                 </marker>
@@ -5228,18 +5231,22 @@ $Id$
             <example type="correct">Va néixer el 2004.</example>
             <example type="correct">Del 1734 al 1756.</example>
             <example type="correct">Es remunta, pel cap baix, al 2800 aC. </example>
-            <example type="correct">que es remuntava, en un cas, al 1943 i, en l'altre, al 1949</example>
+            <!-- <example type="correct">que es remuntava, en un cas, al 1943 i, en l'altre, al 1949</example> -->
             <example type="correct">correspon en bona part al 1980</example>
             <example type="correct">dels anys vuitanta al 1992</example>
+            <example type="correct">D'aquí al 2030</example>
         </rule>
         <rule id="A_L_ANY_1996" name="*al 1996/el 1996">
             <pattern>
-                <token postag="SENT_START" skip="-1"><exception scope="next" inflected="yes" regexp="yes">remuntar|correspondre</exception></token>
+                <or>
+                    <token postag="SENT_START" skip="-1"><exception scope="next" inflected="yes" regexp="yes">remuntar|correspondre</exception></token>
+                    <token skip="-1">a<exception scope="next" inflected="yes" regexp="yes">remuntar|correspondre</exception></token>
+                </or>
                 <marker>
-                    <token>a<exception scope="previous" regexp="yes">fins|per|cap|respecte|\d+</exception><exception scope="previous" postag="DN.*" postag_regexp="yes"/><exception scope="previous" inflected="yes" regexp="yes">atribuir|arribar|posposar|passar|traslladar|posterior.*|anterior.*|correspondre|corresponent|remuntar|any|avançar</exception></token>
+                    <token>a<exception scope="previous" regexp="yes">ací|aquí|quant|fins|per|cap|respecte|\d+</exception><exception scope="previous" postag="DN.*" postag_regexp="yes"/><exception scope="previous" inflected="yes" regexp="yes">atribuir|arribar|posposar|passar|traslladar|posterior.*|anterior.*|correspondre|corresponent|remuntar|any|avançar|entrar|referir</exception></token>
                     <token>l'</token>
                     <token>any</token>
-                    <token regexp="yes">[12]\d{3}</token>
+                    <token regexp="yes">\d{1,4}</token>
                 </marker>
             </pattern>
             <message>Els anys s'escriuen sense la preposició 'a'.</message>
@@ -5247,12 +5254,14 @@ $Id$
             <url>http://esadir.cat/gramatica/sintaxi/prepatemporal</url>
             <short>Sobra la preposició 'a'</short>
             <example type="incorrect" correction="L'any 1992"><marker>A l'any 1992</marker> foren les olimpíades de Barcelona.</example>
+            <example type="incorrect" correction="l'any 1801">quan va emigrar a Amèrica es va endur <marker>a l'any 1801</marker> quatre mascles.</example>
             <example type="correct">Va néixer el 2004.</example>
             <example type="correct">De l'any 1734 a l'any 1756.</example>
             <example type="correct">Es remunta, pel cap baix, a l'any 2800 aC. </example>
-            <example type="correct">que es remuntava, en un cas, a l'any 1943 i, en l'altre, a l'any 1949</example>
+            <!-- <example type="correct">que es remuntava, en un cas, a l'any 1943 i, en l'altre, a l'any 1949</example> -->
             <example type="correct">correspon en bona part a l'any 1980</example>
             <example type="correct">dels anys vuitanta a l'any 1992</example>
+            <!-- A l'any 1965 remunta igualment -->
         </rule>
         <rule id="SENSE_CAP_NI_UN_SENSE_CAP" name="sense cap ni un/sense cap">
             <pattern>
@@ -12779,8 +12788,8 @@ $Id$
         </rule>
     </category>
     <category name="A1) Ortotipografia" type="typographical">
-        <rulegroup id="XIFRES" name="escriptura de xifres">
-            <rule id="ANYS_SENSE_PUNT" name="anys sense punt: *1.950">
+        <rulegroup id="ANYS_SENSE_PUNT" name="anys sense punt: *1.950">
+            <rule>
                 <pattern>
                     <token regexp="yes">anys?|mitjan</token>
                     <marker>
@@ -12791,6 +12800,19 @@ $Id$
                 <suggestion><match no="2" regexp_match="(.)\.(...)" regexp_replace="$1$2"/></suggestion>
                 <short>Error ortotipogràfic</short>
                 <example type="incorrect" correction="1989">Ell és de l'any <marker>1.989</marker>.</example>
+                <example type="correct">Som a l'any 2000.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">\d{1,3}\.\d{3}</token>
+                    </marker>
+                    <token regexp="yes">aC|dC</token>
+                </pattern>
+                <message>Els anys s'escriuen sense punt.</message>
+                <suggestion><match no="1" regexp_match="(.*)\.(...)" regexp_replace="$1$2"/></suggestion>
+                <short>Error ortotipogràfic</short>
+                <example type="incorrect" correction="1989">Ell és de <marker>1.989</marker> aC.</example>
                 <example type="correct">Som a l'any 2000.</example>
             </rule>
         </rulegroup>
