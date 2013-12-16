@@ -173,11 +173,21 @@ public class WikipediaQuickCheck {
   private JLanguageTool getLanguageTool(Language lang) throws IOException {
     final JLanguageTool langTool = new MultiThreadedJLanguageTool(lang);
     langTool.activateDefaultPatternRules();
+    enableWikipediaRules(langTool);
     for (String disabledRuleId : disabledRuleIds) {
       langTool.disableRule(disabledRuleId);
     }
     disableSpellingRules(langTool);
     return langTool;
+  }
+
+  private void enableWikipediaRules(JLanguageTool langTool) {
+    List<Rule> allRules = langTool.getAllRules();
+    for (Rule rule : allRules) {
+      if (rule.getCategory().getName().equals("Wikipedia")) {
+        langTool.enableDefaultOffRule(rule.getId());
+      }
+    }
   }
 
   private void disableSpellingRules(JLanguageTool languageTool) {
