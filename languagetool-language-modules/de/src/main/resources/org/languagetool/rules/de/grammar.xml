@@ -25244,17 +25244,18 @@ $Id$
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START" skip="-1"/>
                     <token skip="-1" postag=".*VER.*" postag_regexp="yes"><exception scope="next" regexp="yes">(,|und|oder)</exception></token>
-                    <token skip="-1" regexp="yes">(nicht|kein.*|kaum|nie)<exception scope="next" regexp="yes">(,|und|oder|—|\-|\–|\()</exception></token>
                     <marker>
+                        <token skip="-1" regexp="yes">(nicht|kein.*|kaum|nie)<exception scope="next" regexp="yes">(,|und|oder|—|\-|\–|\()</exception></token>
                         <token>sondern</token>
                     </marker>
                 </pattern>
                 <message>Vor der Konjunktion 'sondern' steht immer ein Komma.</message>
+                <suggestion><match no="3" include_skipped="all"/>, \4</suggestion>
                 <url>http://www.duden.de/sprachwissen/sprachratgeber/besonderheiten-von--em-sondern--em-</url>
                 <short>Vor der Konjunktion 'sondern' steht immer ein Komma.</short>
                 <example type="correct">Sie geht nicht, <marker>sondern</marker> schwimmt.</example>
                 <example type="correct">Sie laufen nicht und <marker>sondern</marker> trotzdem Schweiß ab.</example>
-                <example type="incorrect">Sie geht nicht <marker>sondern</marker> sie schwimmt.</example>
+                <example type="incorrect" correction="nicht, sondern">Sie geht <marker>nicht sondern</marker> sie schwimmt.</example>
                 <example type="correct">Sie geht nicht — <marker>sondern</marker> schwimmt</example>
             </rule>
             <rule>
@@ -25262,47 +25263,50 @@ $Id$
                     <token postag="SENT_START" skip="-1"/>
                     <token skip="-1">,</token>
                     <token skip="-1" postag=".*VER.*" postag_regexp="yes"><exception scope="next" regexp="yes">(,|und|oder)</exception></token>
-                    <token skip="-1" regexp="yes">(nicht|kein.*|kaum|nie)<exception scope="next" regexp="yes">(,|und|oder|—|\-|\–|\()</exception></token>
                     <marker>
+                        <token skip="-1" regexp="yes">(nicht|kein.*|kaum|nie)<exception scope="next" regexp="yes">(,|und|oder|—|\-|\–|\()</exception></token>
                         <token>sondern</token>
                     </marker>
                 </pattern>
                 <message>Vor der Konjunktion 'sondern' steht immer ein Komma.</message>
+                <suggestion><match no="4" include_skipped="all"/>, \5</suggestion>
                 <url>http://www.duden.de/sprachwissen/sprachratgeber/besonderheiten-von--em-sondern--em-</url>
                 <short>Vor der Konjunktion 'sondern' steht immer ein Komma.</short>
                 <example type="correct">Sie läuft nicht, sie geht nicht, <marker>sondern</marker> schwimmt.</example>
                 <example type="correct">Sie schwimmt nicht, sie laufen nicht und <marker>sondern</marker> trotzdem Schweiß ab.</example>
-                <example type="incorrect">Sie läuft nicht, sie geht nicht <marker>sondern</marker> sie schwimmt.</example>
+                <example type="incorrect" correction="nicht, sondern">Sie läuft nicht, sie geht <marker>nicht sondern</marker> sie schwimmt.</example>
                 <example type="correct">Sie läuft nicht, sie geht nicht — <marker>sondern</marker> schwimmt</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START" skip="-1"/>
                     <token skip="-1" regexp="yes">(?iu)(nicht|kein.*|kaum|nie)<exception scope="next" regexp="yes">(,|und|oder)</exception></token>
-                    <token skip="-1" postag=".*VER.*" postag_regexp="yes"><exception scope="next" regexp="yes">(,|und|oder|—|\-|\–|\()</exception></token>
                     <marker>
+                        <token skip="-1" postag=".*VER.*" postag_regexp="yes"><exception scope="next" regexp="yes">(,|und|oder|—|\-|\–|\()</exception></token>
                         <token>sondern</token>
                     </marker>
                 </pattern>
                 <message>Vor der Konjunktion 'sondern' steht immer ein Komma.</message>
+                <suggestion><match no="3" include_skipped="all"/>, \4</suggestion>
                 <example type="correct">Kein Bisschen hat er getan, <marker>sondern</marker> nur herumgelegen.</example>
                 <example type="correct">Sie sind nicht auf Jagd gegangen und <marker>sondern</marker> trotzdem Schweiß ab.</example>
-                <example type="incorrect">Kein Bisschen hat er getan <marker>sondern</marker> nur herumgelegen.</example>
+                <example type="incorrect" correction="hat er getan, sondern">Kein Bisschen <marker>hat er getan sondern</marker> nur herumgelegen.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START" skip="-1"/>
                     <token skip="-1">,</token>
                     <token skip="-1" regexp="yes">(?iu)(nicht|kein.*|kaum|nie)<exception scope="next" regexp="yes">(,|und|oder)</exception></token>
-                    <token skip="-1" postag=".*VER.*" postag_regexp="yes"><exception scope="next" regexp="yes">(,|und|oder|—|\-|\–|\()</exception></token>
                     <marker>
+                        <token skip="-1" postag=".*VER.*" postag_regexp="yes"><exception scope="next" regexp="yes">(,|und|oder|—|\-|\–|\()</exception></token>
                         <token>sondern</token>
                     </marker>
                 </pattern>
                 <message>Vor der Konjunktion 'sondern' steht immer ein Komma.</message>
+                <suggestion><match no="4" include_skipped="all"/>, \5</suggestion>
                 <example type="correct">Er ist nie faul, kein Bisschen hat er getan, <marker>sondern</marker> nur herumgelegen.</example>
                 <example type="correct">Sie sind nie faul, sie sind nicht auf Jagd gegangen und <marker>sondern</marker> trotzdem Schweiß ab.</example>
-                <example type="incorrect">Er ist nie faul, kein Bisschen hat er getan <marker>sondern</marker> nur herumgelegen.</example>
+                <example type="incorrect" correction="hat er getan, sondern">Er ist nie faul, kein Bisschen <marker>hat er getan sondern</marker> nur herumgelegen.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SUBJUNKTION_KOMMA" name="Zeichensetzung: Fehlendes Komma bei Subjunktion">
