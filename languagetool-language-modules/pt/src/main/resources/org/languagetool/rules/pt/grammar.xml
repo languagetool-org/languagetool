@@ -21,7 +21,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.069 2013-11-29 13:17:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.070 2013-12-16 13:00:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -35,7 +35,7 @@ $Id: grammar.xml,v 1.069 2013-11-29 13:17:00 marcoagpinto Exp $
 <category name="Gramática">
 
     <!-- DET_FEM_MAS words that use "o" instead of "a" -->
-    <rule id="DET_FEM_MAS" name="words a-o">
+    <rule id="DET_FEM_MAS" name="palavras a-o">
       <pattern case_sensitive="no">
 		 <marker>
             <token>a</token>
@@ -50,7 +50,7 @@ $Id: grammar.xml,v 1.069 2013-11-29 13:17:00 marcoagpinto Exp $
 
 
     <!-- DET_MAS_FEM words that use "a" instead of "o" -->
-    <rule id="DET_MAS_FEM" name="words o-a">
+    <rule id="DET_MAS_FEM" name="palavras o-a">
       <pattern case_sensitive="no">
 		 <marker>
             <token>o</token>
@@ -873,6 +873,34 @@ $Id: grammar.xml,v 1.069 2013-11-29 13:17:00 marcoagpinto Exp $
 
 
 
+<!-- RULES TU/TI -> EU/MIM *START* -->
+
+    <!-- A TU a ti -->
+    <rule id="A_TU" name="a ti">
+      <pattern>
+        <token>a</token>
+        <token>tu</token>
+      </pattern>
+      <message>Substituir «a tu» por <suggestion>a ti</suggestion>.</message>
+      <example type="incorrect">Isto deve-se <marker>a tu</marker>.</example>
+      <example type="correct">Isto deve-se <marker>a ti</marker>.</example>
+    </rule>
+
+
+
+    <!-- DE EU de mim -->
+    <rule id="DE_EU" name="de mim">
+      <pattern>
+        <token>de</token>
+        <token>eu</token>
+      </pattern>
+      <message>Substituir «de eu» por <suggestion>de mim</suggestion>.</message>
+      <example type="incorrect">Isto é <marker>de eu</marker> para o Rui.</example>
+      <example type="correct">Isto é <marker>de mim</marker> para o Rui.</example>
+    </rule>
+
+
+
     <!-- ENTRE EU entre mim -->
     <rule id="ENTRE_EU" name="entre mim">
       <pattern>
@@ -883,6 +911,49 @@ $Id: grammar.xml,v 1.069 2013-11-29 13:17:00 marcoagpinto Exp $
       <example type="incorrect">O que se passou <marker>entre eu</marker> e o Rui?</example>
       <example type="correct">O que se passou <marker>entre mim</marker> e o Rui?</example>
     </rule>
+
+
+
+    <!-- ENTRE TU E EU entre ti e mim -->
+    <rule id="ENTRE_TU_E_EU" name="entre ti e mim">
+      <pattern>
+        <token>entre</token>
+        <token>tu</token>
+        <token>e</token>
+        <token>eu</token>        
+      </pattern>
+      <message>Substituir «entre tu e eu» por <suggestion>entre ti e mim</suggestion>.</message>
+      <example type="incorrect">O que se passou <marker>entre tu e eu</marker>?</example>
+      <example type="correct">O que se passou <marker>entre ti e mim</marker>?</example>
+    </rule>
+
+
+
+    <!-- PARA TU para ti -->
+    <rule id="PARA_TU" name="para ti">
+      <pattern>
+        <token>para</token>
+        <token>tu</token>
+      </pattern>
+      <message>Substituir «para tu» por <suggestion>para ti</suggestion>.</message>
+      <example type="incorrect">Isto é <marker>para tu</marker>.</example>
+      <example type="correct">Isto é <marker>para ti</marker>.</example>
+    </rule>
+
+
+
+    <!-- SEM TU sem ti -->
+    <rule id="SEM_TU" name="sem ti">
+      <pattern>
+        <token>sem</token>
+        <token>tu</token>
+      </pattern>
+      <message>Substituir «sem tu» por <suggestion>sem ti</suggestion>.</message>
+      <example type="incorrect">Isto não é o mesmo <marker>sem tu</marker>.</example>
+      <example type="correct">Isto não é o mesmo <marker>sem ti</marker>.</example>
+    </rule>
+
+<!-- RULES TU/TI -> EU/MIM *END* -->
 
 
 
