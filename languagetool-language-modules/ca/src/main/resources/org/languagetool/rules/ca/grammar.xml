@@ -178,9 +178,9 @@ $Id$
             <!-- noms, adjectius en singular  -->
             <rule>
                 <pattern>
-                    <token postag="DN..P.*" postag_regexp="yes"><exception postag="A...S.*|N..S.*|.*LOC_ADV.*" postag_regexp="yes" /><exception inflected="yes">ordinal</exception><exception>1</exception></token>
+                    <token postag="DN..P.*" postag_regexp="yes"><exception postag="A...S.*|N..S.*|.*LOC_ADV.*|AO.*" postag_regexp="yes" /><exception>1</exception></token>
                     <marker>
-                        <token postag="NC.S.*" postag_regexp="yes"><exception postag="N..[PN].*|V.[^P].*|_possible_nompropi" postag_regexp="yes" /><exception inflected="yes">ordinal</exception><exception regexp="yes">gener|febrer|març|abril|maig|juny|juliol|agost|setembre|octubre|novembre|desembre</exception><exception regexp="yes">(?-i)CE</exception></token>
+                        <token postag="NC.S.*" postag_regexp="yes"><exception postag="N..[PN].*|V.[^P].*|_possible_nompropi|AO.*" postag_regexp="yes" /><exception regexp="yes">gener|febrer|març|abril|maig|juny|juliol|agost|setembre|octubre|novembre|desembre</exception><exception regexp="yes">(?-i)CE</exception></token>
                     </marker>
                 </pattern>
                 <message>Error de concordança.</message>
@@ -199,9 +199,9 @@ $Id$
             <!-- <example type="correct">la comissió de vint-i-quatre encarregada</example>-->
             <rule>
                 <pattern>
-                    <token postag="DN..P.*" postag_regexp="yes"><exception postag="A...S.*|N..S.*|.*LOC_ADV.*" postag_regexp="yes" /><exception inflected="yes">ordinal</exception><exception regexp="yes">[\d ,.]+</exception></token>
+                    <token postag="DN..P.*" postag_regexp="yes"><exception postag="A...S.*|N..S.*|.*LOC_ADV.*|AO.*" postag_regexp="yes" /><exception regexp="yes">[\d ,.]+</exception></token>
                     <marker>
-                        <token postag="A...S.*|V.P..S." postag_regexp="yes"><exception postag="A...[PN].*|V.P..P.|_possible_nompropi" postag_regexp="yes" /><exception inflected="yes">ordinal</exception></token>
+                        <token postag="A...S.*|V.P..S." postag_regexp="yes"><exception postag="A...[PN].*|V.P..P.|_possible_nompropi|AO.*" postag_regexp="yes" /></token>
                     </marker>
                 </pattern>
                 <message>Error de concordança.</message>
@@ -614,6 +614,7 @@ $Id$
                 <suggestion><match no="3" postag="DTde" /></suggestion>
                 <short>Error de concordança</short>
                 <example type="incorrect" correction="de l'únic|de l'única|de les úniques|dels únics"><marker>dels únic</marker></example>
+                <example type="incorrect" correction="de la 1a|de les 1es|del 1r|dels 1rs"><marker>dels 1a</marker></example>
                 <example type="correct">dels únics</example>
                 <example type="correct">a la Sala dels Nou del Palazzo</example>
             </rule>
@@ -8504,7 +8505,7 @@ $Id$
             <rule>
                 <pattern>
                     <token>de</token>
-                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].*|hosts?|el|els|a|e|i|o|u|efa|ef|efe|hac|ela|ele|ema|eme|em|ena|ene|erra|erre|essa|esse|ics|iure|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;</exception><exception inflected="yes">ordinal</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|V.[MSI].*|NP..000" postag_regexp="yes"/></token>
+                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].*|hosts?|el|els|a|e|i|o|u|efa|ef|efe|hac|ela|ele|ema|eme|em|ena|ene|erra|erre|essa|esse|ics|iure|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;</exception><exception postag="AO.*|hac_aspirada|mot_foraster|UNKNOWN|V.[MSI].*|NP..000" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Cal apostrofar.</message>
                 <suggestion>d'<match no="2"></match></suggestion>
@@ -8522,7 +8523,7 @@ $Id$
             <rule>
                 <pattern>
                     <token>el<exception postag="(&lt;)?NP.*" postag_regexp="yes"/></token>
-                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+|o|i|host|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;</exception><exception inflected="yes">ordinal</exception><exception inflected="yes" regexp="yes">halar|io[dt]itzar</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
+                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+|o|i|host|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;</exception><exception inflected="yes" regexp="yes">halar|io[dt]itzar</exception><exception postag="AO.*|hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Cal apostrofar.</message>
                 <suggestion>l'<match no="2"></match></suggestion>
@@ -8561,7 +8562,7 @@ $Id$
                     <marker>
                         <token>de</token>
                         <token spacebefore="no">l</token>
-                        <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+|o|i|host|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;</exception><exception inflected="yes">ordinal</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
+                        <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+|o|i|host|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;</exception><exception postag="AO.*|hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Cal apostrofar.</message>
@@ -8578,7 +8579,7 @@ $Id$
                 <pattern>
                     <token>a</token>
                     <token spacebefore="no">l</token>
-                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+|o|i|host|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;</exception><exception inflected="yes">ordinal</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
+                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+|o|i|host|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;</exception><exception postag="AO.*|hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Cal apostrofar.</message>
                 <suggestion>a l'<match no="3"></match></suggestion>
@@ -8594,7 +8595,7 @@ $Id$
                 <pattern>
                     <token>pe</token>
                     <token spacebefore="no">l</token>
-                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+|o|i|host|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;</exception><exception inflected="yes">ordinal</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
+                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+|o|i|host|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;</exception><exception postag="AO.*|hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Cal apostrofar.</message>
                 <suggestion>per l'<match no="3"></match></suggestion>
@@ -8998,6 +8999,15 @@ $Id$
 			    <example type="correct">El boca-orella sempre és efectiu.</example>
 			</rule>
         </rulegroup>
+        <rule id="VERBS_INCORRECTES" name="verbs incorrectes: objectivitzar">
+            <pattern>
+                <token regexp="yes">objectivitz.*</token>
+            </pattern>
+            <message>Cal dir <suggestion><match no="1" regexp_match="objectivitz(.*)" regexp_replace="objectiv$1"/></suggestion></message>
+            <example type="incorrect" correction="objectivem">Cal que ho <marker>objectivitzem</marker>.</example>
+            <example type="correct">El boca-orella sempre és efectiu.</example>
+        </rule>
+        
         <rulegroup id="MOTS_SENSE_GUIONETS" name="mots sense guionets: *vist-i-plau,...">
         <!-- This rulegroup would be unnecessary if LibreOffice/OpenOffice tokenized the words containing hyphens like LanguageTool -->
             <rule>

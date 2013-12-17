@@ -3525,10 +3525,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <marker>
-                    <token regexp="yes">[1234567890]+[èé]</token>
+                    <token regexp="yes">[1234567890]+[èé]<exception postag="AO.*" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
-            <disambig action="add"><wd lemma="ordinal" pos="AO0MS0"/></disambig>
+            <disambig action="add"><wd pos="AO0MS0"/></disambig>
         </rule>
         <rule>
             <pattern>
@@ -3537,15 +3537,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <token regexp="yes">[1234567890]+</token>
                 </marker>
             </pattern>
-            <disambig action="add"><wd lemma="ordinal" pos="AO0MS0"/></disambig>
+            <disambig action="add"><wd pos="AO0MS0"/></disambig>
         </rule>
         <rule>
             <pattern>
                 <marker>
-                    <token regexp="yes">[1234567890]+(ena|a)</token>
+                    <token regexp="yes">[1234567890]+a<exception postag="AO.*" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
-            <disambig action="add"><wd lemma="ordinal" pos="AO0FS0"/></disambig>
+            <disambig action="add"><wd pos="AO0FS0"/></disambig>
         </rule>
         <rule>
             <pattern>
@@ -3554,15 +3554,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <token regexp="yes">[1234567890]+</token>
                 </marker>
             </pattern>
-            <disambig action="add"><wd lemma="ordinal" pos="AO0FS0"/></disambig>
+            <disambig action="add"><wd pos="AO0FS0"/></disambig>
         </rule>
         <rule>
             <pattern>
                 <marker>
-                    <token regexp="yes">[1234567890]+(n|r)s</token>
+                    <token regexp="yes">[1234567890]+ns<exception postag="AO.*" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
-            <disambig action="add"><wd lemma="ordinal" pos="AO0MP0"/></disambig>
+            <disambig action="add"><wd pos="AO0MP0"/></disambig>
         </rule>
         <rule>
             <pattern>
@@ -3571,15 +3571,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <token regexp="yes">[1234567890]+</token>
                 </marker>
             </pattern>
-            <disambig action="add"><wd lemma="ordinal" pos="AO0MP0"/></disambig>
+            <disambig action="add"><wd pos="AO0MP0"/></disambig>
         </rule>
         <rule>
             <pattern>
                 <marker>
-                    <token regexp="yes">[1234567890]+es</token>
+                    <token regexp="yes">[1234567890]+es<exception postag="AO.*" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
-            <disambig action="add"><wd lemma="ordinal" pos="AO0FP0"/></disambig>
+            <disambig action="add"><wd pos="AO0FP0"/></disambig>
         </rule>
         <rule>
             <pattern>
@@ -3588,7 +3588,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <token regexp="yes">[1234567890]+</token>
                 </marker>
             </pattern>
-            <disambig action="add"><wd lemma="ordinal" pos="AO0FP0"/></disambig>
+            <disambig action="add"><wd pos="AO0FP0"/></disambig>
         </rule>
         <!-- romans-->
         <rule>
@@ -3597,7 +3597,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <token regexp="yes">(?=.)M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})</token>
                 </marker>
             </pattern>
-            <disambig action="add"><wd lemma="ordinal" pos="AO0CN0"/></disambig>
+            <disambig action="add"><wd pos="AO0CN0"/></disambig>
         </rule>
         <rule>
             <pattern case_sensitive="yes">
@@ -3605,7 +3605,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <token regexp="yes" spacebefore="yes">(?=.)m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|iv|v?i{0,3})</token>
                 </marker>
             </pattern>
-            <disambig action="add"><wd lemma="ordinal" pos="AO0CN0"/></disambig>
+            <disambig action="add"><wd pos="AO0CN0"/></disambig>
         </rule>
         <rule>
             <pattern case_sensitive="yes">
@@ -3614,7 +3614,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <token regexp="yes">(?=.)m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|iv|v?i{0,3})</token>
                 </marker>
             </pattern>
-            <disambig action="add"><wd lemma="ordinal" pos="AO0CN0"/></disambig>
+            <disambig action="add"><wd pos="AO0CN0"/></disambig>
         </rule>
         <!-- excepcions als numerals romans -->
         <rule>
@@ -3624,7 +3624,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <token>I</token>
                 </marker>
             </pattern>
-            <disambig action="remove"><wd lemma="ordinal" pos="AO0CN0"/></disambig>
+            <disambig action="remove"><wd pos="AO0CN0"/></disambig>
         </rule>
         <rule>
             <pattern case_sensitive="yes">
@@ -3632,7 +3632,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <token regexp="yes">i|li|mi</token>
                 </marker>
             </pattern>
-            <disambig action="remove"><wd lemma="ordinal" pos="AO0CN0"/></disambig>
+            <disambig action="remove"><wd pos="AO0CN0"/></disambig>
         </rule>
         <rule>
             <pattern>
