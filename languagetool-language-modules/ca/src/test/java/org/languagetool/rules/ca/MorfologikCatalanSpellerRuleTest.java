@@ -187,9 +187,9 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals(1, matches.length);
         assertEquals("especialitzats", matches[0].getSuggestedReplacements().get(0));
 
-        matches = rule.match(langTool.getAnalyzedSentence("matitzava"));
+        matches = rule.match(langTool.getAnalyzedSentence("matitzàrem"));
         assertEquals(1, matches.length);
-        assertEquals("matisava", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("matisàrem", matches[0].getSuggestedReplacements().get(0));
         
         //capitalized wrong words
         matches = rule.match(langTool.getAnalyzedSentence("En la Pecra"));
