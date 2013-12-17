@@ -26,9 +26,12 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -52,7 +55,7 @@ class DictionaryBuilder {
   private final Map<String, Integer> freqList = new HashMap<>();
   private final Pattern pFreqEntry = Pattern.compile(".*<w f=\"(\\d+)\" flags=\"(.*)\">(.+)</w>.*");
   // Valid for tagger dictionaries (wordform_TAB_lemma_TAB_postag) or spelling dictionaries (wordform)
-  private final Pattern pTaggerEntry = Pattern.compile("^([^\\t]+).*$");
+  private final Pattern pTaggerEntry = Pattern.compile("^([^\t]+).*$");
 
   protected DictionaryBuilder(File infoFile) throws IOException {
     props.load(new FileInputStream(infoFile));
@@ -132,9 +135,10 @@ class DictionaryBuilder {
   }
   
   protected void readFreqList(File freqListFile) {
-    BufferedReader br;
     try {
-      br = new BufferedReader(new FileReader(freqListFile));
+      BufferedReader br = new BufferedReader(new InputStreamReader(
+          new FileInputStream(freqListFile.getAbsoluteFile()),
+          "utf-8"));
       String line;
       while ((line = br.readLine()) != null) {
         Matcher m = pFreqEntry.matcher(line);
@@ -159,12 +163,14 @@ class DictionaryBuilder {
       throw new IOException("A separator character (fsa.dict.separator) must be defined in the dictionary info file.");
     }
     File tempFile = File.createTempFile(DictionaryBuilder.class.getSimpleName(), "WithFrequencies.txt");
-    BufferedReader br;
-    FileWriter fw = new FileWriter(tempFile.getAbsoluteFile());
-    BufferedWriter bw = new BufferedWriter(fw);
+    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(
+        new FileOutputStream(tempFile.getAbsoluteFile()),
+        getOption("fsa.dict.encoding")));
     int freqValuesApplied = 0;
     try {
-      br = new BufferedReader(new FileReader(dictFile));
+      BufferedReader br = new BufferedReader(new InputStreamReader(
+          new FileInputStream(dictFile.getAbsoluteFile()),
+          getOption("fsa.dict.encoding")));
       String line;
       while ((line = br.readLine()) != null) {
         Matcher m = pTaggerEntry.matcher(line);
