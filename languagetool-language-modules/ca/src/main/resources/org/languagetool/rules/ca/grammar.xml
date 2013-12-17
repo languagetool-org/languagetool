@@ -4575,12 +4575,12 @@ $Id$
         </rule>
         <rule id="PARTICIPAR_A_EN" name="participar *a/en">
             <pattern>
-                <token inflected="yes">participar</token>
+                <token inflected="yes">participar<exception regexp="yes">participada|participats|participades</exception></token>
                 <marker>
                     <token>a</token>
-                    <token postag="D[AID].*|NC.P.*" postag_regexp="yes"><exception regexp="yes">parts|instàncies|principis?|finals?|començaments?</exception></token>
+                    <token postag="D[AID].*|NC.P.*" postag_regexp="yes"><exception regexp="yes">parts|instàncies|inicis?|principis?|finals?|començaments?</exception></token>
                 </marker>
-                <token><exception postag="NP..G.*" postag_regexp="yes"/><exception regexp="yes">edat|\d+|principi|final|començament</exception></token>
+                <token><exception postag="NP..G.*" postag_regexp="yes"/><exception regexp="yes">edat|zona|\d+|inicis?|principis?|finals?|començaments?</exception></token>
             </pattern>
             <message>El verb "participar" regeix normalment la preposició "en".</message>
             <suggestion>en <match no="3" postag="(D.*|NC.P.*)" postag_regexp="yes" postag_replace="$1"/></suggestion>
