@@ -52,7 +52,7 @@ final class SpellDictionaryBuilder extends DictionaryBuilder {
 
   protected static void checkUsageOrExit(String className, String[] args) throws IOException {
     if (args.length < 3 || args.length > 4) {
-      System.out.println("Usage: " + className + " <languageCode> <dictionary> [frequencyList]");
+      System.out.println("Usage: " + className + " <languageCode> <dictionary> <infoFile> [frequencyList]");
       System.out.println("   <languageCode> like 'en-US' or 'de-DE'");
       System.out.println("   <dictionary> is a plain text dictionary file, e.g. created from a Hunspell dictionary by 'unmunch'");
       System.out.println("   <infoFile> is the *.info properties file, see http://wiki.languagetool.org/developing-a-tagger-dictionary");
