@@ -4583,7 +4583,7 @@ $Id$
                     <token postag="D[AID].*|NC.P.*" postag_regexp="yes"><exception regexp="yes">parts|instàncies|inicis?|principis?|finals?|començaments?</exception></token>
                 </marker>
                 <token><exception postag="NP..G.*" postag_regexp="yes"/><exception regexp="yes">edat|zona|\d+|inicis?|principis?|finals?|començaments?</exception></token>
-            </pattern>
+            </pattern> 
             <message>El verb "participar" regeix normalment la preposició "en".</message>
             <suggestion>en <match no="3" postag="(D.*|NC.P.*)" postag_regexp="yes" postag_replace="$1"/></suggestion>
             <short>Preposició inadequada</short>
@@ -4595,7 +4595,9 @@ $Id$
             <example type="correct">va participar a finals del 38 en el debat</example>
             <example type="correct">Hi va participar a l'edat de 30 anys</example>
             <example type="correct">participà als 25 anys en els Jocs Olímpics</example>
-            <!-- no deixen participar (a) menors d'edat (professionals, aficionats, arquitectes) -->
+            <!-- no deixen participar (a) menors d'edat (professionals, aficionats, arquitectes)
+            Després de participar a/en la Volta
+            participà al Salon d'Automne -->
         </rule>
         <rule id="CUINA_A_GAS" name="*cuina a gas/cuina de gas ">
             <pattern>
@@ -17598,10 +17600,12 @@ $Id$
                     <token postag="NCMS000"/>
                 </pattern>
                 <message>Expressió incorrecta.</message>
+                <suggestion>algun <match no="4"/></suggestion>
+                <suggestion>uns quants <match no="4" postag="NCMP000"/></suggestion>
                 <suggestion>alguns <match no="4" postag="NCMP000"/></suggestion>
-                <suggestion>algun <match no="4"/> o altre</suggestion>
+                <url>http://esadir.cat/entrades/fitxa/id/1555</url>
                 <short>Expressió incorrecta</short>
-                <example type="incorrect"><marker>algun que altre home</marker></example>
+                <example type="incorrect" correction="algun home|uns quants homes|uns quants hòmens|alguns homes|alguns hòmens"><marker>algun que altre home</marker></example>
                 <example type="correct">alguns homes</example>
             </rule>        
             <rule>
@@ -17612,10 +17616,12 @@ $Id$
                     <token postag="NCFS000"/>
                 </pattern>
                 <message>Expressió incorrecta.</message>
+                <suggestion>alguna <match no="4"/></suggestion>
+                <suggestion>unes quantes <match no="4" postag="NCFP000"/></suggestion>
                 <suggestion>algunes <match no="4" postag="NCFP000"/></suggestion>
-                <suggestion>alguna <match no="4"/> o altra</suggestion>
+                <url>http://esadir.cat/entrades/fitxa/id/1555</url>
                 <short>Expressió incorrecta</short>
-                <example type="incorrect"><marker>alguna que altra dona</marker></example>
+                <example type="incorrect" correction="alguna dona|unes quantes dones|algunes dones"><marker>alguna que altra dona</marker></example>
                 <example type="correct">algunes dones</example>
             </rule>
             <rule>
@@ -17627,8 +17633,9 @@ $Id$
                 </pattern>
                 <message>Expressió incorrecta.</message>
                 <suggestion>algun <match no="4"/></suggestion>
+                <url>http://esadir.cat/entrades/fitxa/id/1555</url>
                 <short>Expressió incorrecta</short>
-                <example type="incorrect"><marker>algun que altre breu</marker> text</example>
+                <example type="incorrect" correction="algun breu"><marker>algun que altre breu</marker> text</example>
                 <example type="correct">alguns homes</example>
             </rule>        
             <rule>
@@ -17640,8 +17647,9 @@ $Id$
                 </pattern>
                 <message>Expressió incorrecta.</message>
                 <suggestion>alguna <match no="4"/></suggestion>
+                <url>http://esadir.cat/entrades/fitxa/id/1555</url>
                 <short>Expressió incorrecta</short>
-                <example type="incorrect"><marker>alguna que altra bonica</marker> dona</example>
+                <example type="incorrect" correction="alguna bonica"><marker>alguna que altra bonica</marker> dona</example>
                 <example type="correct">algunes dones</example>
             </rule>
             
@@ -22249,6 +22257,58 @@ $Id$
         </rule>
     </category>      
     <category name="C1) Evita formes impròpies d'un registre formal" type="style">
+        <rule id="NOVIO" name="nòvio"> <!-- es pot afegit al diccionari, cal diferenciar accentuació general/valenciana nòvio/nóvio -->
+            <pattern>
+                <token regexp="yes">(ex)?n[òó]vio</token>
+            </pattern>
+            <message>Paraula només admesa per alguns diccionaris.</message>
+            <suggestion>xicot</suggestion>
+            <suggestion>promès</suggestion>
+            <suggestion>nuvi</suggestion>
+            <suggestion>pretendent</suggestion>
+            <short>Lleguatge col·loquial</short>
+            <example type="incorrect"><marker>nòvio</marker>!</example>
+            <example type="correct">xicot</example>
+        </rule>
+        <rule id="NOVIOS" name="nòvios">
+            <pattern>
+                <token regexp="yes">(ex)?n[òó]vios</token>
+            </pattern>
+            <message>Paraula només admesa per alguns diccionaris.</message>
+            <suggestion>xicots</suggestion>
+            <suggestion>promesos</suggestion>
+            <suggestion>nuvis</suggestion>
+            <suggestion>pretendents</suggestion>
+            <short>Lleguatge col·loquial</short>
+            <example type="incorrect"><marker>nòvios</marker>!</example>
+            <example type="correct">xicots</example>
+        </rule>
+        <rule id="NOVIA" name="nòvia">
+            <pattern>
+                <token regexp="yes">(ex)?n[òó]via</token>
+            </pattern>
+            <message>Paraula només admesa per alguns diccionaris.</message>
+            <suggestion>xicota</suggestion>
+            <suggestion>promesa</suggestion>
+            <suggestion>núvia</suggestion>
+            <suggestion>pretendent</suggestion>
+            <short>Lleguatge col·loquial</short>
+            <example type="incorrect"><marker>nòvia</marker>!</example>
+            <example type="correct">xicota</example>
+        </rule>
+        <rule id="NOVIES" name="nòvies">
+            <pattern>
+                <token regexp="yes">(ex)?n[òó]vies</token>
+            </pattern>
+            <message>Paraula només admesa per alguns diccionaris.</message>
+            <suggestion>xicotes</suggestion>
+            <suggestion>promeses</suggestion>
+            <suggestion>núvies</suggestion>
+            <suggestion>pretendents</suggestion>
+            <short>Lleguatge col·loquial</short>
+            <example type="incorrect"><marker>nòvies</marker>!</example>
+            <example type="correct">xicotes</example>
+        </rule>
         <rule id="ENRECORDAR" name="enrecordar">
             <pattern>
                 <token inflected="yes">enrecordar</token>
