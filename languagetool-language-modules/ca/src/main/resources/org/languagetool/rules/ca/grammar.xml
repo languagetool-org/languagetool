@@ -22262,7 +22262,7 @@ $Id$
                 <token regexp="yes">(ex)?n[òó]vio</token>
             </pattern>
             <message>Paraula només admesa per alguns diccionaris.</message>
-            <suggestion>xicot</suggestion>
+            <suggestion>xicot</suggestion> <!-- ex-xicot ? -->
             <suggestion>promès</suggestion>
             <suggestion>nuvi</suggestion>
             <suggestion>pretendent</suggestion>
@@ -24372,6 +24372,15 @@ $Id$
                 <example type="incorrect">El <marker>terratrémol</marker>.</example>
                 <example type="correct">El <marker>terratrèmol</marker>.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">(ex)?nóvi(os?|a|es)</token>
+                </pattern>
+                <message>Useu accentuació general.</message> 
+                <suggestion><match no="1" regexp_match="^(.+)ó(.+)" regexp_replace="$1ò$2"></match></suggestion>
+                <example type="incorrect" correction="exnòvios">Els meus <marker>exnóvios</marker>.</example>
+                <example type="correct">El meu nòvio.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="EXIGEIX_ACCENTUACIO_VALENCIANA" name="Exigeix accentuació valenciana (café, sotmés, conéixer, térbol)" default="off">
             <rule>
@@ -24415,6 +24424,15 @@ $Id$
                 <short>Accentuació valenciana</short>
                 <example type="incorrect">El <marker>terratrèmol</marker>.</example>
                 <example type="correct">El <marker>terratrémol</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">(ex)?nòvi(os?|a|es)</token>
+                </pattern>
+                <message>Useu accentuació valenciana.</message> 
+                <suggestion><match no="1" regexp_match="^(.+)ò(.+)" regexp_replace="$1ó$2"></match></suggestion>
+                <example type="incorrect" correction="exnòvios">Els meus <marker>exnóvios</marker>.</example>
+                <example type="correct">El meu nòvio.</example>
             </rule>
         </rulegroup>
         <rule id="EXIGEIX_POSSESSIUS_U" name="Exigeix els possessius amb u (meua, teua,...)" default="off">
