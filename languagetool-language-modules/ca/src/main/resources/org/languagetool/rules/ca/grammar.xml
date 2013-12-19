@@ -4577,7 +4577,7 @@ $Id$
         </rule>
         <rule id="PARTICIPAR_A_EN" name="participar *a/en">
             <pattern>
-                <token inflected="yes">participar<exception regexp="yes">participada|participats|participades</exception></token>
+                <token inflected="yes" regexp="yes">participar|participació|participant<exception regexp="yes">participada|participats|participades</exception></token>
                 <marker>
                     <token>a</token>
                     <token postag="D[AID].*|NC.P.*" postag_regexp="yes"><exception regexp="yes">parts|instàncies|inicis?|principis?|finals?|començaments?</exception></token>
@@ -5774,6 +5774,18 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+        <rule id="PER_MITJA_DE" name="per *mitja/mitjà de">
+            <pattern>
+                <token>per</token>
+                <marker>
+                    <token>mitja</token>
+                </marker>
+                <token regexp="yes">de|d'</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>mitjà</suggestion>?</message>
+            <example type="incorrect" correction="mitjà">Per <marker>mitja</marker> d'intercanvis</example>
+            <example type="correct">per mitjà de</example>
+        </rule>
         <rule id="BULLINT_BULLENT" name="bullint/bullent">
             <pattern>
                 <token regexp="yes">aigua|oli|llet|sang|lava</token>
@@ -20685,10 +20697,11 @@ $Id$
                     <marker>
                         <token inflected="yes" skip="2">ratllar<exception scope="next" postag="_PUNCT.*" postag_regexp="yes"/><exception postag="_GN_.*" postag_regexp="yes"/></token>
                     </marker>
-                    <token postag="NCFS000" regexp="yes">.+ència|.+ància|.+itat|.+etat|.+ió|.+úria|.+itud|.+etud|amenaça|majoria</token> <!--  noms abstractes -->
+                    <token postag="NC[FM]S000" postag_regexp="yes" regexp="yes">.+ència|.+ància|.+itat|.+etat|.+ió|.+úria|.+itud|.+etud|amenaça|majoria|.+[aiï]sme</token> <!--  noms abstractes -->
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="1" postag="(.+)" postag_regexp="yes" postag_replace="$1">vorejar</match></suggestion>?</message>
                 <example type="incorrect" correction="vorejava">allò <marker>ratllava</marker> la indecència</example>
+                <example type="incorrect" correction="vorejant"><marker>ratllant</marker> el sarcasme</example>
                 <example type="correct">ratllava una poma</example>
                 <example type="correct">ratlles (passió)</example>
             </rule>
