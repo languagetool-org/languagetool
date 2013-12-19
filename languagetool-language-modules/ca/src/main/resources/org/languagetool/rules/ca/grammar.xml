@@ -7985,7 +7985,10 @@ $Id$
                 <example type="correct">tractaven sense respecte els sacrificis</example>
                 <example type="correct">oferir al respecte una imatge prou vàlida</example>
                 <!-- <example type="correct">obeïu amb temor i respecte els vostres amos</example> 
-                molt més lligada al respecte del medi explotat          
+                molt més lligada al respecte del medi explotat 
+                tenia poc respecte tant pel seu cosí com per altres parents
+                 es va guanyar el respecte tant de la gent comuna
+                 sempre el màxim respecte cap al dojo         
                 -->
             </rule>
             <rule>
@@ -15615,10 +15618,13 @@ $Id$
         </rule>
         <rule id="ARREL_DE" name="arrel de">
             <pattern>
-                <token regexp="yes">arrel|rel|raïl<exception postag="_GN_FS"/></token>
-                <token regexp="yes">de|d'</token>
+                <token><exception regexp="yes">d'|de</exception></token>
+                <marker>
+                    <token regexp="yes">arrel|rel|raïl<exception postag="_GN_FS"/></token>
+                    <token regexp="yes">de|d'</token>
+                </marker>
             </pattern>
-            <message>Expressió incorrecta quan equival a <suggestion>arran <match no="2"></match></suggestion>.</message>
+            <message>Expressió incorrecta quan equival a <suggestion>arran <match no="3"></match></suggestion>.</message>
             <example type="incorrect"><marker>arrel de</marker> la situació, ja no es parlen</example>
             <example type="correct"><marker>arran de</marker> la situació, ja no es parlen</example>
             <example type="correct">una arrel de pi</example>
@@ -15626,6 +15632,7 @@ $Id$
             <example type="incorrect">a <marker>rel de</marker> la victòria socialista</example>
             <example type="correct">que aquest vici sigui extirpat de soca-rel del monestir</example>
             <example type="correct">El que es pot anomenar l'arrel d'una planta</example>
+            <example type="correct">Un àpex d'arrel de ceba.</example>
             <!-- Tallava arrel de valeriana-->
         </rule>
         <rule id="ATEMPTAT_A" name="atemptat a">
