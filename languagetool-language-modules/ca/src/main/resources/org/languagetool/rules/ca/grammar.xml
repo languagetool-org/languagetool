@@ -7972,6 +7972,7 @@ $Id$
         <rulegroup id="RESPECTE" name="respecte a/de">
             <rule>
                 <pattern>
+                    <token><exception postag="DA0MS0|AQ0[MC]S0" postag_regexp="yes"/></token>
                     <marker>
                         <token postag="N.*" postag_regexp="yes">respecte<exception postag="complement.*" postag_regexp="yes"/></token>
                     </marker>
@@ -7984,12 +7985,10 @@ $Id$
                 <example type="correct">Què penses <marker>respecte a</marker> la pujada d'impostos.</example>
                 <example type="correct">tractaven sense respecte els sacrificis</example>
                 <example type="correct">oferir al respecte una imatge prou vàlida</example>
-                <!-- <example type="correct">obeïu amb temor i respecte els vostres amos</example> 
-                molt més lligada al respecte del medi explotat 
-                tenia poc respecte tant pel seu cosí com per altres parents
-                 es va guanyar el respecte tant de la gent comuna
-                 sempre el màxim respecte cap al dojo         
-                -->
+                <example type="correct">tenia poc respecte tant pel seu cosí com per altres parents</example>
+                <example type="correct">sempre el màxim respecte cap al president</example>
+                <example type="correct">molt més lligada al respecte del medi explotat</example>
+                <!-- <example type="correct">obeïu amb temor i respecte els vostres amos</example> -->
             </rule>
             <rule>
                 <pattern>
@@ -15618,13 +15617,13 @@ $Id$
         </rule>
         <rule id="ARREL_DE" name="arrel de">
             <pattern>
-                <token><exception regexp="yes">d'|de</exception></token>
+                <token><exception regexp="yes" inflected="yes">de|tallar|recollir|arreplegar</exception></token>
                 <marker>
                     <token regexp="yes">arrel|rel|raïl<exception postag="_GN_FS"/></token>
                     <token regexp="yes">de|d'</token>
                 </marker>
             </pattern>
-            <message>Expressió incorrecta quan equival a <suggestion>arran <match no="3"></match></suggestion>.</message>
+            <message>Expressió incorrecta quan equival a <suggestion>arran <match no="3"/></suggestion>.</message>
             <example type="incorrect"><marker>arrel de</marker> la situació, ja no es parlen</example>
             <example type="correct"><marker>arran de</marker> la situació, ja no es parlen</example>
             <example type="correct">una arrel de pi</example>
@@ -15633,7 +15632,7 @@ $Id$
             <example type="correct">que aquest vici sigui extirpat de soca-rel del monestir</example>
             <example type="correct">El que es pot anomenar l'arrel d'una planta</example>
             <example type="correct">Un àpex d'arrel de ceba.</example>
-            <!-- Tallava arrel de valeriana-->
+            <example type="correct">Tallava arrel de valeriana</example>
         </rule>
         <rule id="ATEMPTAT_A" name="atemptat a">
             <pattern>
