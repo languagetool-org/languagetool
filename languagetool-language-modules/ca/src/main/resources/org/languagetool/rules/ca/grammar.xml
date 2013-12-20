@@ -42,9 +42,9 @@ $Id$
     <!ENTITY adjectius_TE_INFUSIO "descafeïnat|mòlt|jove|conegut|preparat|empaquetat|xin[èé]s|amargant|sud-americà|instantani|lleuger|indi|roquer|dolç|fals|bord|tradicional|gal·l[éè]s|pudent|salvatge|àrab|angl[éè]s|fosc|negre|verd|vermell|blanc|gelat|fred|calent|turc">
     <!ENTITY verbs_TE_INFUSIO "produir|prendre|servir|preparar|voler|beure|consumir|importar|vendre|exportar|llançar">
     <!ENTITY exceptions_MES "draconític|lunar|mitjà|tròpic|anomalístic|dedicat|vinent|entrant|propvinent|passat|proppassat|intercalar|anterior|següent">
-    <!ENTITY mots_HAC_ASPIRADA "Haifa|haikus?|halar|hall.*|Halloweens?|Hamada|Hamas|Hamàs|hamilton.*|Hamlet.*|Hampton|handicaps?|Hannover|Hanoi|Hans|Hansa|hardware|harolds?|Harrison|harrods?|harry|Hartmann?|Haruki|Harvard|Havilland|hawai.*|hawk.*|Haydn|Hayworth|Heard|hearst|heav.*|hegel.*|Heidelberg|Heiden.*|Heilig.*|hein.*|Heisen.*|Heitz|Helen|Heming.*|henna|hennes|Henry|Hepburn|herbert.*|Hereford|Hesse|Hessen|Hezboll.+|high.*|hilbert.*|Hilda|hinden.*|hinterlands?|Hitch.*|hitler.*|Hohen.*|holdings?|hollywood.*|Holmes.*|Holstein|Hong|hongk.+|Honolu.+|h[òo]bbits?|hoover.*|hopkins|Hork.*|horst|H[ou]f.*|Houston|Howard|Hubble|Hudson|humbold.*|Hume|hunting.*|husseinit.+">
+    <!ENTITY mots_HAC_ASPIRADA "Haarlem|Harlem|Haifa|haikus?|halar|hall.*|Halloweens?|Hamada|Hamas|Hamàs|hamilton.*|Hamlet.*|Hampton|handicaps?|Hannover|Hanoi|Hans|Hansa|hardware|harolds?|Harrison|harrods?|harry|Hartmann?|Haruki|Harvard|Havilland|hawai.*|hawk.*|Haydn|Hayworth|Heard|hearst|heav.*|hegel.*|Heidelberg|Heiden.*|Heilig.*|hein.*|Heisen.*|Heitz|Helen|Heming.*|henna|hennes|Henry|Hepburn|herbert.*|Hereford|Hesse|Hessen|Hezboll.+|high.*|hilbert.*|Hilda|hinden.*|hinterlands?|Hitch.*|hitler.*|Hohen.*|holdings?|hollywood.*|Holmes.*|Holstein|Hong|hongk.+|Honolu.+|h[òo]bbits?|hoover.*|hopkins|Hork.*|horst|H[ou]f.*|Houston|Howard|Hubble|Hudson|humbold.*|Hume|hunting.*|husseinit.+">
     <!ENTITY mots_HAC_ASPIRADA2 "Higgs|high|Hill|hippies|hippy|Hirado|His|Hubei|Hunter|Husserl|Utah">
-    <!ENTITY exceptions_A_MANS_DE "anar|sotmetre|submissió|desapoderar|desapoderament|sofrir|vèncer|pallissa|apallissar|desgastar|parar|passar|arribar|tornar|perdre|morir|pèrdua|mort|patir|vexació|vexar|tortura|torturar|derrota|derrotar|fi|assassinar|assassinat|saqueig|saquejar">
+    <!ENTITY exceptions_A_MANS_DE "anar|sotmetre|submissió|desapoderar|desapoderament|sofrir|vèncer|pallissa|apallissar|desgastar|parar|passar|arribar|tornar|perdre|morir|pèrdua|matança|mort|patir|vexació|vexar|tortura|torturar|derrota|derrotar|fi|assassinar|assassinat|saqueig|saquejar">
 ]>
     
 <rules lang="ca" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
@@ -4596,7 +4596,8 @@ $Id$
             <example type="correct">va participar a finals del 38 en el debat</example>
             <example type="correct">Hi va participar a l'edat de 30 anys</example>
             <example type="correct">participà als 25 anys en els Jocs Olímpics</example>
-            <!-- no deixen participar (a) menors d'edat (professionals, aficionats, arquitectes)-->
+            <!-- no deixen participar (a) menors d'edat (professionals, aficionats, arquitectes)
+            ambigu:  però el 1976 fou traspassada la seva participació a l'INI;-->
         </rule>
         <rule id="CUINA_A_GAS" name="*cuina a gas/cuina de gas ">
             <pattern>
@@ -16888,7 +16889,7 @@ $Id$
         </rule>
         <rule id="AL_TERRA" name="al terra">
             <pattern>
-                <token><exception>per</exception></token>
+                <token><exception regexp="yes">per|relació|quant</exception></token>
                 <marker>
                     <token>a</token>
                     <token spacebefore="no">l</token>
@@ -18708,7 +18709,15 @@ $Id$
                 <example type="correct">és llavors embotellat i llançat al mercat</example>
                 <example type="correct">la comercialització de vi embotellat amb les firmes comercials</example>
                 <example type="correct">eixia al mercat el vi blanc embotellat amb la marca</example>
-                <example type="correct">que arribi a un equilibrat matrimoni</example>       
+                <example type="correct">que arribi a un equilibrat matrimoni</example>
+                <!--  el liderat per Kerensky recolzat per les forces polítiques 
+                 sector enfrontat al liderat pel qui havia estat secretari general
+                 en dos grups, un liderat per
+                 liderats per [[Ria Beckers]]
+                 És un cafè amb molt de cos i molt equilibrat.
+                 i per tant etiquetat com a observat
+                  Molt equilibrat en les seves característiques
+                  filtrat per [[Wikileaks]]-->
             </rule>
             <rule>
                 <pattern>
@@ -18736,6 +18745,20 @@ $Id$
                 <example type="incorrect" correction="processament">El <marker>processat</marker> de les imatges.</example>
                 <example type="correct">Han processat l'acusat.</example>
                 <example type="correct">greix processat de pollastre</example>
+                <!--  Un cop processat
+                |Formatge processat en un supermercat actual
+                 per tal que el processat confessés 
+                  Processat i condemnat,
+                   a un tribunal civil processat com a part que d'una
+                   acabat de produir (no processat)
+                    una vegada processat completament
+                     que el processat continués en presó
+                     Processat en absència per la [[Inquisició espanyola]],
+                  al final processament i condemnat.
+                  l'últim processat segons aquest mètode va ser
+                  un ésser humà processat en criònica.
+                  esdevé processat
+                  van resultar processats-->
             </rule>
             <rule>
                 <pattern>
@@ -23122,6 +23145,47 @@ $Id$
         </rule>
     </category>
     <category name="Sintaxi" type="grammar">
+        <rule id="TOT_I_QUE_SUBJUNTIU" name="tot i que + *subjuntiu/indicatiu">
+            <pattern>
+                <token>tot</token>
+                <token>i</token>
+                <token skip="8">que<exception scope="next" postag="V.I.*" postag_regexp="yes"/></token>
+                <token postag="V.S.*" postag_regexp="yes"><exception postag="V.I.*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>La locució "tot i que" s'usa en mode indicatiu.</message>
+            <suggestion>encara <match no="3" include_skipped="all"/> <match no="4"/></suggestion>
+            <suggestion>tot i <match no="3" include_skipped="all"/> <match no="4" postag="(V.)S(.*)." postag_regexp="yes" postag_replace="$1I$2."/></suggestion>
+            <example type="incorrect" correction="Encara que algunes siguin|Tot i que algunes són"><marker>Tot i que algunes siguin</marker> diferents.</example>
+            <example type="correct">Tot i que són diferents</example>
+        </rule>
+        <rule id="PER_BE_QUE_SUBJUNTIU" name="per bé que + *subjuntiu/indicatiu">
+            <pattern>
+                <token>per</token>
+                <token>bé</token>
+                <token skip="8">que<exception scope="next" postag="V.I.*" postag_regexp="yes"/></token>
+                <token postag="V.S.*" postag_regexp="yes"><exception postag="V.I.*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>La locució "tot i que" s'usa en mode indicatiu.</message>
+            <suggestion>encara <match no="3" include_skipped="all"/> <match no="4"/></suggestion>
+            <suggestion>per bé <match no="3" include_skipped="all"/> <match no="4" postag="(V.)S(.*)." postag_regexp="yes" postag_replace="$1I$2."/></suggestion>
+            <example type="incorrect" correction="Encara que algunes siguin|Per bé que algunes són"><marker>Per bé que algunes siguin</marker> diferents.</example>
+            <example type="correct">Per bé que són diferents</example>
+        </rule>
+        <rule id="BE_QUE_SUBJUNTIU" name="bé que + *subjuntiu/indicatiu">
+            <pattern>
+                <token><exception>per</exception></token>
+                <marker>
+                    <token>bé</token>
+                    <token skip="8">que<exception scope="next" postag="V.I.*" postag_regexp="yes"/></token>
+                    <token postag="V.S.*" postag_regexp="yes"><exception postag="V.I.*" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <message>La locució "bé que" s'usa en mode indicatiu.</message>
+            <suggestion>encara <match no="3" include_skipped="all"/> <match no="4"/></suggestion>
+            <suggestion>bé <match no="3" include_skipped="all"/> <match no="4" postag="(V.)S(.*)." postag_regexp="yes" postag_replace="$1I$2."/></suggestion>
+            <example type="incorrect" correction="Encara que algunes siguin|Bé que algunes són"><marker>Bé que algunes siguin</marker> diferents.</example>
+            <example type="correct">Bé que són diferents</example>
+        </rule>
         <rulegroup id="ALGUN_CAP" name="no hi ha esperança *alguna/cap esperança">
             <rule>
                 <pattern>
