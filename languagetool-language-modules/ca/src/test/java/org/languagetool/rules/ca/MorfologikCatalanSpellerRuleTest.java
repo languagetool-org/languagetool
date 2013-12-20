@@ -191,6 +191,11 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals(1, matches.length);
         assertEquals("matisàrem", matches[0].getSuggestedReplacements().get(0));
         
+        matches = rule.match(langTool.getAnalyzedSentence("adquireixquen"));
+        assertEquals(1, matches.length);
+        assertEquals("adquirisquen", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("adquiresquen", matches[0].getSuggestedReplacements().get(1));
+        
         //capitalized wrong words
         matches = rule.match(langTool.getAnalyzedSentence("En la Pecra"));
         assertEquals(1, matches.length);
