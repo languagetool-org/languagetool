@@ -13236,6 +13236,46 @@ $Id$
         </rulegroup>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="ESTAR_DELS_NERVIS" name="estar dels nervis">
+            <pattern>
+                <marker>
+                    <token inflected="yes">estar</token>
+                    <token>de</token>
+                    <token>ls</token>
+                    <token>nervis</token>
+                </marker>
+            </pattern>
+            <message>Expressió incorrecta</message>
+            <suggestion><match no="1"/> nerviós com una mala cosa</suggestion>
+            <suggestion><match no="1"/> molt nerviós</suggestion>
+            <suggestion><match no="1"/> fet un sac de nervis</suggestion>
+            <suggestion><match no="1" postag="V.(.*)" postag_regexp="yes" postag_replace="VM$1">tenir</match> els nervis de punta</suggestion>
+            <suggestion><match no="1"/> crispat</suggestion>
+            <suggestion><match no="1"/> alterat</suggestion>
+            <suggestion><match no="1"/> histèric</suggestion>
+            <suggestion><match no="1"/> sulfurat</suggestion>
+            <example type="incorrect"><marker>estava dels nervis</marker></example>
+            <example type="correct">estar molt nerviós</example>
+        </rule>
+        <rule id="POSAR_DELS_NERVIS" name="estar dels nervis">
+            <pattern>
+                <marker>
+                    <token inflected="yes">posar</token>
+                    <token>de</token>
+                    <token>ls</token>
+                    <token>nervis</token>
+                </marker>
+            </pattern>
+            <message>Expressió incorrecta</message>
+            <suggestion><match no="1"/> nerviós com una mala cosa</suggestion>
+            <suggestion><match no="1"/> molt nerviós</suggestion>
+            <suggestion><match no="1"/> els nervis de punta</suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">crispar</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">sulfurar</match></suggestion>
+            <suggestion><match no="1"/> histèric</suggestion>
+            <example type="incorrect" correction="posava nerviós com una mala cosa|posava molt nerviós|posava els nervis de punta|crispava|sulfurava|posava histèric">Em <marker>posava dels nervis</marker>.</example>
+            <example type="correct">Em posava molt nerviós.</example>
+        </rule>
         <rule id="AMPLE_DE_BANDA" name="*ample/amplada de banda">
             <pattern>
                 <token inflected="yes">ample</token>
