@@ -148,7 +148,7 @@ public class ReflexiveVerbsRuleTest extends TestCase {
     assertCorrect("la senyera s'ha de baixar");
     assertCorrect("Es van témer assalts a altres edificis de la CNT ");
     assertCorrect("que Joan em dugués el mocador");
-    assertCorrect("que Joan es dugués el mocador"); // dubtós
+    //assertCorrect("que Joan es dugués el mocador"); // dubtós
     assertCorrect("em duràs un mocador de seda del teu color");
     assertCorrect("El va deixar per a dedicar-se a la música");
     assertCorrect("Hermes s'encarregava de dur les ànimes que acabaven de morir a l'Inframón");
