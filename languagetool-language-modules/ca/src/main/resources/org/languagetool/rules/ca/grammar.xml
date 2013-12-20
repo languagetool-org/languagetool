@@ -23175,7 +23175,7 @@ $Id$
         </rule>
         <rule id="BE_QUE_SUBJUNTIU" name="bé que + *subjuntiu/indicatiu">
             <pattern>
-                <token><exception>per</exception></token>
+                <token><exception inflected="yes" regexp="yes">per|estar|semblar|parèixer</exception></token>
                 <marker>
                     <token>bé</token>
                     <token skip="8">que<exception scope="next" postag="V.I.*" postag_regexp="yes"/></token>
@@ -23188,6 +23188,7 @@ $Id$
             <short>Error de sintaxi</short>
             <example type="incorrect" correction="Encara que algunes siguin|Bé que algunes són"><marker>Bé que algunes siguin</marker> diferents.</example>
             <example type="correct">Bé que són diferents</example>
+            <example type="correct">Estaria bé que vinguessis.</example>
         </rule>
         <rulegroup id="ALGUN_CAP" name="no hi ha esperança *alguna/cap esperança">
             <rule>
