@@ -5732,7 +5732,20 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </marker>
         </pattern>
         <disambig action="filter" postag="R.*"></disambig>
-    </rule>  
+    </rule>
+    <rule id="prep_mesmenys_nom" name="preposició + més/menys + nom">
+        <pattern>
+            <token postag="SPS00|.*LOC_PREP.*" postag_regexp="yes"/>
+            <token regexp="yes">més|menys</token>
+            <marker>
+                <and>
+                    <token postag="N..P.*" postag_regexp="yes"/>
+                    <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="N.*|_GN_.*"></disambig>
+    </rule>
     <rulegroup id="nom_adv_adj" name="nom + adverbi + adjectiu que concorden">
         <rule id="aa2" name="aa1: Era la feina més dura ">
             <pattern>
