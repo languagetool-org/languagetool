@@ -94,6 +94,9 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     int idx = -1;
     for (AnalyzedTokenReadings token : tokens) {
       idx++;
+      if (token.isSentenceStart()) {
+        continue;
+      }
       if (isUrl(token.getToken())) {
         continue;
       }
@@ -193,10 +196,10 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   }
 
   /**
-   * @param checkCompound If true and the word is not in the dictionary 
-   * it will be split (see {@link #setCompoundRegex(String)}) 
+   * @param checkCompound If true and the word is not in the dictionary
+   * it will be split (see {@link #setCompoundRegex(String)})
    * and each component will be checked separately
-   * @since 2.4 
+   * @since 2.4
    */
   protected void setCheckCompound(boolean checkCompound) {
     this.checkCompound = checkCompound;
