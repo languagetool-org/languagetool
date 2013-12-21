@@ -3090,13 +3090,13 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="RG"></disambig>
     </rule>
-    <rule id="el_país" name="el país (nom)"> 
+    <rule id="el_país" name="el país, el domini (nom)"> 
         <pattern>
             <token>el</token>
             <marker>
-                <token postag="NCMS000">país</token>
+                <token postag="NCMS000" regexp="yes">país|domini</token>
             </marker>
-            <token postag="V.*" postag_regexp="yes"/>
+            <token postag="V.*|AQ0[MC][SN]0" postag_regexp="yes"/>
         </pattern>
         <disambig action="filter" postag="NCMS000"/>
     </rule>
@@ -3971,7 +3971,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <pattern>
             <marker>
                 <and>
-                    <token postag="V.*" postag_regexp="yes" regexp="yes">sola|soles|suau|descontent|carro|així|mes|pas|espasa|aroma|sorra|nom|sols?|via|vies|arbres?|tres|des|dos|com|res|tal|millor|pitjor|nombres?|entorn|davall|només</token>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes">escasses|sola|soles|suau|descontent|carro|així|mes|pas|espasa|aroma|sorra|nom|sols?|via|vies|arbres?|tres|des|dos|com|res|tal|millor|pitjor|nombres?|entorn|davall|només</token>
                     <token postag="V.*" postag_regexp="yes" negate_pos="yes" />
                 </and>
             </marker>
