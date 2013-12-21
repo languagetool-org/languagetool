@@ -2500,6 +2500,8 @@ $Id$
                 <example type="correct">Ells han realitzat.</example>
                 <example type="correct">No l'han pas abandonat</example>
                 <example type="correct">No n'hagué esment</example>
+                <example type="correct">S'havia d'assegurar del seu valor.</example>
+                <example type="correct">S'havia engrescat força.</example>
             </rule>                   
             <!-- Error de picatge comú amb infinitiu o gerundi -->
             <rule>
@@ -23189,7 +23191,7 @@ $Id$
             <pattern>
                 <token>tot</token>
                 <token>i</token>
-                <token skip="8">que<exception scope="next" postag="V.I.*" postag_regexp="yes"/></token>
+                <token skip="8">que<exception scope="next" postag="V.I.*|PR.*|CS|.*LOC_CONJ.*" postag_regexp="yes"/></token>
                 <token postag="V.S.*" postag_regexp="yes"><exception postag="V.I.*" postag_regexp="yes"/></token>
             </pattern>
             <message>La locució "tot i que" s'usa amb verbs en mode indicatiu.</message>
@@ -23199,12 +23201,13 @@ $Id$
             <example type="incorrect" correction="Encara que algunes siguin|Tot i que algunes són"><marker>Tot i que algunes siguin</marker> diferents.</example>
             <example type="incorrect" correction="Encara que se'l consideri|Tot i que se'l considera"><marker>Tot i que se'l consideri</marker> així.</example>
             <example type="correct">Tot i que són diferents</example>
+            <example type="correct">Era possible, tot i que poc probable, que Joan fos un d'ells.</example>
         </rule>
         <rule id="PER_BE_QUE_SUBJUNTIU" name="per bé que + *subjuntiu/indicatiu">
             <pattern>
                 <token>per</token>
                 <token>bé</token>
-                <token skip="8">que<exception scope="next" postag="V.I.*" postag_regexp="yes"/></token>
+                <token skip="8">que<exception scope="next" postag="V.I.*|PR.*|CS|.*LOC_CONJ.*" postag_regexp="yes"/></token>
                 <token postag="V.S.*" postag_regexp="yes"><exception postag="V.I.*" postag_regexp="yes"/></token>
             </pattern>
             <message>La locució "per bé que" s'usa amb verbs en mode indicatiu.</message>
@@ -23216,10 +23219,10 @@ $Id$
         </rule>
         <rule id="BE_QUE_SUBJUNTIU" name="bé que + *subjuntiu/indicatiu">
             <pattern>
-                <token><exception inflected="yes" regexp="yes">per|estar|semblar|parèixer</exception></token>
+                <token><exception>o</exception><exception postag="SPS00|RG_anteposat|PR.*|.*LOC_CONJ.*|.*LOC_ADV.*|_GV_|V.[^P].*" postag_regexp="yes"/></token>
                 <marker>
-                    <token>bé</token>
-                    <token skip="8">que<exception scope="next" postag="V.I.*" postag_regexp="yes"/></token>
+                    <token>bé<exception postag="_GN_MS"/></token>
+                    <token skip="8">que<exception scope="next" postag="V.I.*|PR.*|CS|.*LOC_CONJ.*" postag_regexp="yes"/></token>
                     <token postag="V.S.*" postag_regexp="yes"><exception postag="V.I.*" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
@@ -23230,6 +23233,9 @@ $Id$
             <example type="incorrect" correction="Encara que algunes siguin|Bé que algunes són"><marker>Bé que algunes siguin</marker> diferents.</example>
             <example type="correct">Bé que són diferents</example>
             <example type="correct">Estaria bé que vinguessis.</example>
+            <example type="correct">Que bé que hàgiu vingut.</example>
+            <example type="correct">no va veure ben bé que fos ella</example>
+            <!-- I sobretot a preocupar-nos tots de treballar, bé que es rebaixin les hores de treball, bé que el treballador es pugui jubilar més jove que no pas ara, bé que els sous siguin suficients -->
         </rule>
         <rulegroup id="ALGUN_CAP" name="no hi ha esperança *alguna/cap esperança">
             <rule>

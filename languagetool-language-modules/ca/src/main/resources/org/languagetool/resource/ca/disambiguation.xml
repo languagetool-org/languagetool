@@ -4803,7 +4803,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <token postag="RG">força</token>
                 </marker>
-                <token postag="AQ.*|V.P.*" postag_regexp="yes"/>
+                <token postag="AQ.*|V.P.*|RG" postag_regexp="yes"/>
             </pattern>
             <disambig action="filter" postag="R.*"/>
         </rule>
@@ -9849,7 +9849,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rulegroup id="primera_tercera_persona" name="verb primera o tercera persona">
         <rule>
             <pattern>
-                <token regexp="yes">es|se|s'</token>
+                <token regexp="yes">es|se|s'|hom|ella?</token>
                 <marker>
                     <and>
                         <token postag="V...1S.." postag_regexp="yes"/>
@@ -9857,11 +9857,11 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     </and>
                 </marker>
             </pattern>
-            <disambig action="filter" postag="....[^1]...|_GV_"/>
+            <disambig action="filter" postag="V...[^1]...|_.*"/>
         </rule>
         <rule>
             <pattern>
-                <token regexp="yes">se|s'</token>
+                <token regexp="yes">se|s'|hom|ella?</token>
                 <token postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|PP[12]C[SP]000" postag_regexp="yes"/>
                 <marker>
                     <and>
@@ -9870,7 +9870,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     </and>
                 </marker>
             </pattern>
-            <disambig action="filter" postag="....[^1]...|_GV_"/>
+            <disambig action="filter" postag="V...[^1]...|_.*"/>
         </rule>
     </rulegroup>
     <rulegroup id="HAC_ASPIRADA" name="hac aspirada inicial">
