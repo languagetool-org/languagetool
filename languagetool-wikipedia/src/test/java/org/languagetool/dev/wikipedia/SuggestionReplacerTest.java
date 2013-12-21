@@ -121,7 +121,7 @@ public class SuggestionReplacerTest extends TestCase {
 
   public void testCompleteText() throws Exception {
     InputStream stream = SuggestionReplacerTest.class.getResourceAsStream("/org/languagetool/dev/wikipedia/wikipedia.txt");
-    String origMarkup = IOUtils.toString(stream);
+    String origMarkup = IOUtils.toString(stream, "utf-8");
     JLanguageTool langTool = new JLanguageTool(new GermanyGerman());
     langTool.disableRule(GermanSpellerRule.RULE_ID);
     langTool.disableRule("DE_AGREEMENT");
@@ -154,7 +154,7 @@ public class SuggestionReplacerTest extends TestCase {
 
   public void testCompleteText2() throws Exception {
     InputStream stream = SuggestionReplacerTest.class.getResourceAsStream("/org/languagetool/dev/wikipedia/wikipedia2.txt");
-    String origMarkup = IOUtils.toString(stream);
+    String origMarkup = IOUtils.toString(stream, "utf-8");
     JLanguageTool langTool = new JLanguageTool(new GermanyGerman());
     langTool.activateDefaultPatternRules();
     SwebleWikipediaTextFilter filter = new SwebleWikipediaTextFilter();
