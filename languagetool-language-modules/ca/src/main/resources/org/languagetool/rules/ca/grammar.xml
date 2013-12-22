@@ -18748,11 +18748,11 @@ $Id$
             <rule>
                 <pattern>
                     <!-- <token><exception postag="RG_anteposat|N.*|AQ.*|CC|_PUNCT.*|SENT_START|.*LOC_ADV.*" postag_regexp="yes"/></token> -->
-                    <token postag="D[^R].*|PX.*|SPS00" postag_regexp="yes"/>
+                    <token postag="D[^R].*|PX.*|SPS00" postag_regexp="yes"><exception>molt</exception><exception postag="_loc_unavegada|RN" postag_regexp="yes"/></token>
                     <marker>
                         <token regexp="yes">etiquetats?|liderats?|filtrats?|empaquetats?|equilibrats?|embotellats?<exception postag="_GV_" /></token>
                     </marker>
-                    <token><exception postag="N.*" postag_regexp="yes"/></token>
+                    <token><exception inflected="yes" regexp="yes">per|com</exception><exception postag="N.*" postag_regexp="yes"/></token>
                     <!-- <token><exception regexp="yes">per|pe|des|després</exception><exception postag="N.*" postag_regexp="yes"/></token> -->
                 </pattern>
                 <message>Quan indica un procés, una condició, cal dir: <suggestion><match no="2" regexp_match="(.+)t(s?)" regexp_replace="$1tge$2"/></suggestion>.</message>
@@ -18781,18 +18781,20 @@ $Id$
                 <example type="correct">la comercialització de vi embotellat amb les firmes comercials</example>
                 <example type="correct">eixia al mercat el vi blanc embotellat amb la marca</example>
                 <example type="correct">que arribi a un equilibrat matrimoni</example>
-                <!--  el liderat per Kerensky recolzat per les forces polítiques 
-                 sector enfrontat al liderat pel qui havia estat secretari general
-                 en dos grups, un liderat per
-                 liderats per [[Ria Beckers]]
-                 És un cafè amb molt de cos i molt equilibrat.
-                 i per tant etiquetat com a observat
-                  Molt equilibrat en les seves característiques
-                  filtrat per [[Wikileaks]]-->
+                <example type="correct">el liderat per Kerensky</example> 
+                <example type="correct">sector enfrontat al liderat pel qui havia estat secretari general</example>
+                <example type="correct">en dos grups, un liderat per</example>
+                <example type="correct">liderats per Ria Beckers</example>
+                <example type="correct">És un cafè amb molt de cos i molt equilibrat.</example>
+                <example type="correct">i per tant etiquetat com a observat</example>
+                <example type="correct">Molt equilibrat en les seves característiques</example>
+                <example type="correct">filtrat per Wikileaks</example>
+                <example type="correct">una vegada filtrat</example>
+                <example type="correct">no equilibrat</example>
             </rule>
             <rule>
                 <pattern>
-                    <token><exception postag="RG_anteposat|N.*|CC|_PUNCT.*" postag_regexp="yes"/><exception inflected="yes">tenir</exception></token>
+                    <token><exception postag="RG_anteposat|N.*|CC|_PUNCT.*|_loc_unavegada|RN" postag_regexp="yes"/><exception inflected="yes">tenir</exception></token>
                     <marker>
                         <token regexp="yes">emmotll?at<exception postag="_GV_|_GN_MS" postag_regexp="yes"/></token>
                     </marker>
@@ -18804,28 +18806,27 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token><exception postag="RG_anteposat|N.*|CC|_PUNCT.*" postag_regexp="yes"/><exception inflected="yes">tenir</exception></token>
+                    <token><exception postag="RG_anteposat|N.*|CC|_PUNCT.*|_loc_unavegada|RN" postag_regexp="yes"/><exception inflected="yes">tenir</exception></token>
                     <marker>
                         <token>processat<exception postag="_GV_" /></token>
                     </marker>
                     <token><exception regexp="yes">per|pe|des</exception></token>
-                    <!-- <token regexp="yes">de|d'|digital|homomòrfic|multicanal|cognitiu</token> -->
                 </pattern>
                 <message>Quan indica un procés cal dir: <suggestion><match no="2" regexp_match="(.+)t(s?)" regexp_replace="$1ment$2"/></suggestion>.</message>
                 <short>Possible error</short>
                 <example type="incorrect" correction="processament">El <marker>processat</marker> de les imatges.</example>
                 <example type="correct">Han processat l'acusat.</example>
                 <example type="correct">greix processat de pollastre</example>
-                <!--  Un cop processat
-                |Formatge processat en un supermercat actual
-                 per tal que el processat confessés 
+                <example type="correct">Un cop processat</example>
+                <example type="correct">Formatge processat en un supermercat actual</example>
+                <example type="correct">una vegada processat completament</example>
+                <example type="correct">acabat de produir (no processat)</example>
+                 <!-- per tal que el processat confessés 
                   Processat i condemnat,
-                   a un tribunal civil processat com a part que d'una
-                   acabat de produir (no processat)
-                    una vegada processat completament
-                     que el processat continués en presó
-                     Processat en absència per la [[Inquisició espanyola]],
-                  al final processament i condemnat.
+                  a un tribunal civil processat com a part que d'una      
+                  que el processat continués en presó
+                  Processat en absència per la [[Inquisició espanyola]],
+                  al final processat i condemnat.
                   l'últim processat segons aquest mètode va ser
                   un ésser humà processat en criònica.
                   esdevé processat
