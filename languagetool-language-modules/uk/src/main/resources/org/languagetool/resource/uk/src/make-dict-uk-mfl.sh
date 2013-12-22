@@ -1,5 +1,7 @@
 #/bin/sh
 
+export PATH=$PATH:~/bin
+
 function encode() {
     iconv -f utf-8 -t cp1251
 #    cat

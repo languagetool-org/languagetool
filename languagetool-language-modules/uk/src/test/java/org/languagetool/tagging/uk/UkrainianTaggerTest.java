@@ -42,7 +42,7 @@ public class UkrainianTaggerTest extends TestCase {
   
   public void testTagger() throws IOException {
     TestTools.myAssert("300 р. до н. е.", 
-      "300/[300]numr -- р/[null]null -- до/[до]noun:n:nv|до/[до]pryim:rv_rod -- н/[null]null -- е/[null]null",
+      "300/[300]numr -- р/[р]todo -- до/[до]noun:n:nv|до/[до]pryim:rv_rod -- н/[null]null -- е/[null]null",
        tokenizer, tagger);
     
   

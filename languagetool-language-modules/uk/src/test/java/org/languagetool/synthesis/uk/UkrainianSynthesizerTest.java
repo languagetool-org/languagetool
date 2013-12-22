@@ -38,9 +38,9 @@ public class UkrainianSynthesizerTest extends TestCase {
 
     //with regular expressions
     assertEquals("[червоної]", Arrays.toString(
-            getSortedArray(synth.synthesize(dummyToken("червоний"), "adj:f:v_rod*", true))));
+            getSortedArray(synth.synthesize(dummyToken("червоний"), "adj:f:v_rod.*", true))));
     assertEquals("[червоним, червоним, червоними, червоною]", Arrays.toString(
-            getSortedArray(synth.synthesize(dummyToken("червоний"), "adj:.:v_oru", true))));
+            getSortedArray(synth.synthesize(dummyToken("червоний"), "adj:.:v_oru.*", true))));
   }
 
   private AnalyzedToken dummyToken(String tokenStr) {

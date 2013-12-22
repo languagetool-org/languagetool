@@ -1,5 +1,7 @@
 #/bin/sh
 
+export PATH=$PATH:~/bin
+
 WORD="$1"
 
 if [ "$WORD" = "" ]; then
