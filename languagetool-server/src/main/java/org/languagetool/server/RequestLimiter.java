@@ -18,9 +18,10 @@
  */
 package org.languagetool.server;
 
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Limit the maximum number of request per IP address for a given time range.
@@ -29,7 +30,7 @@ class RequestLimiter {
 
   private static final int API_REQUEST_QUEUE_SIZE = 1000;
 
-  private final List<RequestEvent> requestEvents = new ArrayList<>();
+  private final List<RequestEvent> requestEvents = new CopyOnWriteArrayList<>();
   private final int requestLimit;
   private final int requestLimitPeriodInSeconds;
 
@@ -71,8 +72,10 @@ class RequestLimiter {
   private boolean limitReached(String ipAddress) {
     int requestsByIp = 0;
     // all requests before this date are considered old:
-    final Date thresholdDate = new Date(System.currentTimeMillis() - requestLimitPeriodInSeconds * 1000);
-    for (RequestEvent requestEvent : requestEvents) {
+    Date thresholdDate = new Date(System.currentTimeMillis() - requestLimitPeriodInSeconds * 1000);
+    Iterator<RequestEvent> iterator = requestEvents.iterator();
+    while (iterator.hasNext()) {
+      RequestEvent requestEvent = iterator.next();
       if (requestEvent.ip.equals(ipAddress) && requestEvent.date.after(thresholdDate)) {
         requestsByIp++;
         if (requestsByIp > requestLimit) {
