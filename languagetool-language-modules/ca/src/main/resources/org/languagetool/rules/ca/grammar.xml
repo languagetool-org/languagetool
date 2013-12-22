@@ -13238,6 +13238,35 @@ $Id$
         </rulegroup>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="DUN_TEMPS_A_AQUESTA_PART" name="d'un temps *a aquesta part/ençà">
+            <pattern>
+                <token>d'</token>
+                <token regexp="yes" inflected="yes">un|algun</token>
+                <token min="0" inflected="yes">quant</token>
+                <token regexp="yes" inflected="yes">temps|dia|setmana|mes|any|dècada</token>
+                <marker>
+                <token>a</token>
+                <token>aquesta</token>
+                <token>part</token>
+                </marker>
+            </pattern>
+            <message>Expressió incorrecta</message>
+            <suggestion>ençà</suggestion>
+            <example type="incorrect">d'un temps <marker>a aquesta part</marker></example>
+            <example type="incorrect">d'uns quants dies <marker>a aquesta part</marker></example>
+            <example type="correct">d'un temps ençà</example>
+        </rule>
+        <rule id="SI_A_CAS" name="si a cas">
+            <pattern>
+                <token>si</token>
+                <token>a</token>
+                <token>cas</token>
+            </pattern>
+            <message>Expressió incorrecta</message>
+            <suggestion>si de cas</suggestion>
+            <example type="incorrect"><marker>si a cas</marker></example>
+            <example type="correct">si de cas</example>
+        </rule>
         <rule id="ESTAR_DELS_NERVIS" name="estar dels nervis">
             <pattern>
                 <marker>
@@ -22633,6 +22662,18 @@ $Id$
     </category>
     <category name="C6) Evita paraules incloses només en alguns diccionaris" default="on" type="style">
         <!--  verbs valencians: caquejar -->
+        <rule id="TACANYERIA" name="tacanyeria">
+            <pattern>
+                <token inflected="yes">tacanyeria</token>
+            </pattern>
+            <message>Paraula només admesa per alguns diccionaris.</message>
+            <suggestion><match no="1" postag="(NCF.*)" postag_regexp="yes" postag_replace="$1">gasiveria</match></suggestion>
+            <suggestion><match no="1" postag="(NCF.*)" postag_regexp="yes" postag_replace="$1">mesquinesa</match></suggestion>
+            <suggestion><match no="1" postag="(NCF.*)" postag_regexp="yes" postag_replace="$1">garreperia</match></suggestion>
+            <suggestion><match no="1" postag="(NCF.*)" postag_regexp="yes" postag_replace="$1">avarícia</match></suggestion>
+            <example type="incorrect" correction="gasiveries|mesquineses|garreperies|avarícies"><marker>tacanyeries</marker></example>
+            <example type="correct">gasiveria</example>
+        </rule>
         <rule id="XAVACANERIA" name="xavacaneria, xavacanada, grosseria">
             <pattern>
                 <token inflected="yes" regexp="yes">xavacaneria|xavacanada|grosseria</token>
