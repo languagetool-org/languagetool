@@ -62,7 +62,12 @@ class AtomFeedChecker {
     this.language = Objects.requireNonNull(language);
     langTool = new JLanguageTool(language);
     langTool.activateDefaultPatternRules();
-    langTool.disableRule("UNPAIRED_BRACKETS");  // too many false alarms
+    // disable because they create too many false alarms:
+    langTool.disableRule("UNPAIRED_BRACKETS");
+    langTool.disableRule("EN_UNPAIRED_BRACKETS");
+    langTool.disableRule("EN_QUOTES");
+    langTool.disableRule("COMMA_PARENTHESIS_WHITESPACE");
+    langTool.disableRule("UPPERCASE_SENTENCE_START");
     activateCategory("Wikipedia", langTool);
     if (dbConfig != null) {
       matchDatabase = new MatchDatabase(dbConfig.getUrl(), dbConfig.getUser(), dbConfig.getPassword());
