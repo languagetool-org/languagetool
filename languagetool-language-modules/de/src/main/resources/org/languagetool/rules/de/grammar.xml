@@ -3428,7 +3428,7 @@ $Id$
         </rule>
         <rule id="DIES_DIE" name="Möglicher Tippfehler: 'dies (die)">
             <pattern>
-                <token negate_pos="yes" postag_regexp="yes" postag="VER:[123].*"/>
+                <token><exception postag_regexp="yes" postag="VER:[123].*"/></token>
                 <marker>
                     <token>dies</token>
                 </marker>
@@ -3438,6 +3438,7 @@ $Id$
             <message>Meinten Sie <suggestion>die</suggestion>?</message>
             <example type="correct">Als er die Kritik äußerte, rief <marker>dies</marker> Kritik hervor.</example>
             <example type="correct"><marker>Die</marker> ersten beiden Zuweisungen sind korrekt.</example>
+            <example type="correct">Zum großen Teil waren <marker>dies</marker> Krebsvorstufen.</example>
             <!-- TODO warum ist "beiden" nicht als ADJ:SFT getagged? -->
             <example type="incorrect" correction="Die"><marker>Dies</marker> ersten beiden Zuweisungen sind korrekt.</example>
         </rule>
@@ -16780,16 +16781,18 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
+                    <token><exception>,</exception></token>
                     <token postag="ART.*GEN.*MAS.*" postag_regexp="yes"/>
                     <marker>
                         <token regexp="yes">montags|dienstags|mittwochs|donnerstags|freitags|samstags|sonntags</token>
                     </marker>
                 </pattern>
-                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
+                <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example type="incorrect" correction="Montags">Der Laden hat des <marker>montags</marker> geschlossen.</example>
                 <example type="correct">Der Laden hat des <marker>Montags</marker> geschlossen.</example>
                 <example type="correct">Der Laden hat <marker>montags</marker> geschlossen.</example>
+                <example type="correct">Der Laden, der <marker>montags</marker> geschlossen ist, ist weg.</example>
                 <example type="incorrect" correction="Dienstags">Eines <marker>dienstags</marker> kam er wieder zur Arbeit.</example>
                 <example type="incorrect" correction="Sonntags">Er hat eines <marker>sonntags</marker> den Zug verpasst.</example>
             </rule>
@@ -18089,6 +18092,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
+                    <token><exception postag_regexp="yes" postag=".*GEN.*"/></token>
                     <marker>
                         <token>wegen</token>
                     </marker>
@@ -18098,6 +18102,7 @@ $Id$
                 <short>&prgk;.</short>
                 <example type="incorrect" correction="Wegen">Viel Glück und viel Segen auf all deinen <marker>wegen</marker>.</example>
                 <example type="correct">Viel Glück und viel Segen auf all deinen <marker>Wegen</marker>.</example>
+                <example type="correct">Sie tat es des Geldes <marker>wegen</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AUF_SCHRITT_UND_TRITT" name="Groß-/Kleinschreibung: 'auf Schritt und Tritt'">
@@ -23552,7 +23557,7 @@ $Id$
             <rule>
                 <pattern case_sensitive="yes">
                     <token postag="VER:AUX.+" postag_regexp="yes" inflected="yes" skip="4">haben<exception scope="next" postag="SENT_END"/></token>
-                    <token postag="VER:INF:.+" postag_regexp="yes"/>
+                    <token postag="VER:INF:.+" postag_regexp="yes" regexp="yes">[a-zöäü].*</token>
                     <marker>
                         <token regexp="yes">gesehen|gelassen</token>
                     </marker>
@@ -23562,6 +23567,7 @@ $Id$
                 <url>http://www.magazin.institut1.de/690_Sprache_heissen_machen_lassen_als_Hilfsverben.html</url>
                 <short>Evt. Ersatzinfinitiv statt Partizip Perfekt erforderlich.</short>
                 <example type="correct">Ich habe es kommen <marker>sehen</marker>.</example>
+                <example type="correct">Ich habe die Übertragung im Fernsehen <marker>gesehen</marker>.</example>
                 <example type="incorrect" correction="sehen">Ich habe es schon lange kommen <marker>gesehen</marker>.</example>
                 <example type="incorrect" correction="sehen">Ich habe es ja kommen <marker>gesehen</marker>.</example>
                 <example type="incorrect" correction="lassen">Ich habe dich am ausgestreckten Arm verhungern <marker>gelassen</marker>.</example>
@@ -24775,37 +24781,41 @@ $Id$
                 <example type="incorrect" correction="Kaisers">Des <marker>Kaiser's</marker> neue Kleider.</example>
                 <example type="incorrect" correction="Müllers">Das Wandern ist des <marker>Müller’s</marker> Lust.</example>
             </rule>
-            <rule>
+<!--        <rule> TODO zu viele Fehlalarme bei Eigennamen
                 <pattern>
                     <marker>
                         <token postag="EIG:.*" postag_regexp="yes" regexp="yes">.*(ss|ß|tz|z|x|ce|cz|ć)<exception>Greenpeace</exception></token>
                     </marker>
-                    <token postag="SUB:.*" postag_regexp="yes"/>
+                    <token postag="SUB:.*"><exception regexp="yes">[Aa-ZzÄÖÜäöü]</exception><exception postag="EIG:.*" postag_regexp="yes"/></token>
                 </pattern>
-                <message>Handelt es sich um einen Genitiv? Wörter auf -s usw. enden im Genitiv mit einem Apostroph.</message>
+                <message>Handelt es sich um einen Genitiv? Wörter, die mit einem S-Laut enden, werden im Genitiv mit einem Apostroph markiert.</message>
                 <suggestion>\1’</suggestion>
+                <url>http://www.korrekturen.de/regelwerk/zeichensetzung4.shtml#P96</url>
                 <short>Wörter auf -s usw. enden im Genitiv mit einem Apostroph.</short>
                 <example type="correct"><marker>Wagners</marker> Musik</example>
                 <example type="correct"><marker>Grass’</marker> Blechtrommel</example>
                 <example type="correct">Hans <marker>Sachs’</marker> Gedichte</example>
                 <example type="correct"><marker>Schultheiß’</marker> Pläne</example>
                 <example type="correct"><marker>Strauß’</marker> Politik</example>
+                <example type="correct"><marker>Max</marker> Lenz</example>
+                <example type="correct"><marker>Max</marker> A. ist nett.</example>
                 <example type="incorrect" correction="Grass’"><marker>Grass</marker> Blechtrommel</example>
-                <example type="incorrect" correction="Schultheiß’"><marker>Schultheiß</marker> Pläne</example>
+                <example type="incorrect" correction="Schultheiß’"><marker>Schultheiß</marker> Pläne</example>-->
                 <!--
                 können wir nicht rausfinden, ohne bei "Wagners Musik" einen Fehlalarm zu haben:
                 <example type="incorrect" correction="Sachs’"><marker>Sachs</marker> Gedichte</example>
                 Strauß kein Eigenname:
                 <example type="incorrect" correction="Strauß’"><marker>Strauß</marker> Politik</example>
                 -->
-            </rule>
+<!--             </rule> -->
             <rule>
                 <pattern>
                     <token negate="yes" regexp="yes">'|’</token>
                     <marker>
                         <token postag="SUB:.*" postag_regexp="yes" regexp="yes">.*(s|ß|tz|z|x|ce|cz|ć)</token>
-                        <token regexp="yes">'|’</token>
+                        <token regexp="yes" spacebefore="no">'|’</token>
                     </marker>
+                    <token negate="yes" regexp="yes">schen?</token>
                 </pattern>
                 <message>Sofern es sich nicht um einen Eigennamen handelt, wird der Genitiv normalerweise nicht mit einem Apostroph gekennzeichnet.</message>
                 <suggestion><match no="2" postag_regexp="yes" postag="(.*):(DAT|NOM|AKK):(.*)" postag_replace="$1:GEN:$3" /></suggestion>
@@ -24815,6 +24825,7 @@ $Id$
                 <example type="correct">Hans <marker>Sachs’</marker> Gedichte</example>
                 <example type="correct"><marker>Schultheiß’</marker> Pläne</example>
                 <example type="correct">Das nennt die Regierung jetzt '<marker>Versorgungsgesetz'</marker>.</example>
+                <example type="correct">Die <marker>Lenz'</marker>sche Regel ist wichtig.</example>
                 <example type="triggers_error"><marker>Strauß’</marker> Politik</example>
                 <example type="incorrect" correction="Zirkus">Der Direktor des <marker>Zirkus'</marker> Krone</example>
                 <example type="incorrect" correction="Hauses">Der Direktor des <marker>Haus'</marker> Krone</example>
@@ -25861,7 +25872,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes" negate="yes" negate_pos="yes" postag="SENT_START">&nbsp;|&nnbsp;|&thinsp;|&klamauf;|&anfauf;|[a-zäöü]</token>
+                    <token regexp="yes" negate="yes" negate_pos="yes" postag="SENT_START">&nbsp;|&nnbsp;|&thinsp;|&klamauf;|&anfauf;|[a-zäöü]|.*\+</token>
                     <marker>
                         <token spacebefore="no">…</token>
                     </marker>
@@ -25873,6 +25884,7 @@ $Id$
                 <example type="correct">Er geht nach Hause&nbsp;…</example>
                 <example type="correct">Du bist ein A…!</example>
                 <example type="correct">… Nein.</example>
+                <example type="correct">(A+B+<marker>…</marker>+Z)</example>
                 <example type="incorrect" correction="&nbsp;…">Er geht nach Hause<marker>…</marker></example>
             </rule>
         </rulegroup>

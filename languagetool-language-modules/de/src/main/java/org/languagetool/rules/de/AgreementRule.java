@@ -121,6 +121,8 @@ public class AgreementRule extends GermanRule {
     PREPOSITIONS.add("bei");
     PREPOSITIONS.add("nach");
     PREPOSITIONS.add("über");
+    PREPOSITIONS.add("von");
+    PREPOSITIONS.add("mit");
     // TODO: add more
   }
   

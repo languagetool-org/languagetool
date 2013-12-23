@@ -124,6 +124,9 @@ public class VerbAgreementRuleTest extends TestCase {
     assertGood("Wobei wir benutzt haben, dass der Satz gilt.");
     assertGood("Wünschst du dir mehr Zeit?");
     assertGood("Wyrjtjbst du?"); // make sure that "UNKNOWN" is handled correctly
+    assertGood("Wenn ich du wäre, würde ich das nicht machen.");
+//     assertGood("Angenommen, du wärst ich."); TODO
+//     assertGood("Ich denke, dass das Haus, in das er gehen will, heute Morgen gestrichen worden ist."); TODO
     // incorrect sentences:
     assertBad("Auch morgen leben du.");
     assertBad("Auch morgen leben du"); // do not segfault because "du" is the last token

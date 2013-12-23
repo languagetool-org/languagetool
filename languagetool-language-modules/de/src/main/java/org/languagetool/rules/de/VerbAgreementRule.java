@@ -128,8 +128,8 @@ public class VerbAgreementRule extends GermanRule {
           posVer2Sin = i;
         } else if (hasUnambiguouslyPersonAndNumber(tokens[i], "1", "PLU")) {
           posVer1Plu = i;
-//        } else if (hasUnambiguouslyPersonAndNumber(tokens[i], "2", "PLU")) {
-//          posVer2Plu = i;
+//      } else if (hasUnambiguouslyPersonAndNumber(tokens[i], "2", "PLU")) {
+//        posVer2Plu = i;
         }
         
         if (tokens[i].hasPartialPosTag(":1:SIN"))
@@ -140,8 +140,8 @@ public class VerbAgreementRule extends GermanRule {
           posPossibleVer3Sin = i;
         if (tokens[i].hasPartialPosTag(":1:PLU"))
           posPossibleVer1Plu = i;
-//        if (tokens[i].hasPartialPosTag(":2:PLU"))
-//          posPossibleVer2Plu = i;
+//      if (tokens[i].hasPartialPosTag(":2:PLU"))
+//        posPossibleVer2Plu = i;
         
       }
            
@@ -165,7 +165,9 @@ public class VerbAgreementRule extends GermanRule {
       ruleMatches.add(ruleMatchWrongVerb(tokens[posVer2Sin]));
     } else if (posDu > 0 && !isNear(posPossibleVer2Sin, posDu) && !isQuotationMark(tokens[posDu-1])) {
       final int plus1 = ((posDu + 1) == tokens.length) ? 0 : +1;
-      if (!verbDoesMatchPersonAndNumber(tokens[posDu-1], tokens[posDu+plus1], "2", "SIN")) {
+      if (!verbDoesMatchPersonAndNumber(tokens[posDu-1], tokens[posDu+plus1], "2", "SIN") &&
+          !tokens[posDu+plus1].hasPartialPosTag("VER:1:SIN:KJ2") && // "Wenn ich du wäre"
+          !tokens[posDu-1].hasPartialPosTag("VER:1:SIN:KJ2")) {
         ruleMatches.add(ruleMatchWrongVerbSubject(tokens[posDu], finiteVerb));
       }
     }
