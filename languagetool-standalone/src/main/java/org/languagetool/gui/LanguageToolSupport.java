@@ -419,10 +419,10 @@ class LanguageToolSupport {
     JPopupMenu popup = new JPopupMenu("Grammar Menu");
     if (span != null) {
       JLabel msgItem = new JLabel("<html>"
-            + span.msg.replace("<suggestion>", "<b>").replace("</suggestion>", "</b>")
-            + "</html>");
+          + span.msg.replace("<suggestion>", "<b>").replace("</suggestion>", "</b>")
+          + "</html>");
       msgItem.setToolTipText(
-            span.desc.replace("<suggestion>", "").replace("</suggestion>", ""));
+          span.desc.replace("<suggestion>", "").replace("</suggestion>", ""));
       msgItem.setBorder(new JMenuItem().getBorder());
       popup.add(msgItem);
 
@@ -439,10 +439,10 @@ class LanguageToolSupport {
       JMenuItem moreItem = new JMenuItem(messages.getString("guiMore"));
       moreItem.addActionListener(new ActionListener() {
         @Override
-          public void actionPerformed(ActionEvent e) {
-            showDialog(textComponent, span.msg, span.desc, span.rule);
-          }
-        });
+        public void actionPerformed(ActionEvent e) {
+          showDialog(textComponent, span.msg, span.desc, span.rule);
+        }
+      });
       popup.add(moreItem);
 
       JMenuItem ignoreItem = new JMenuItem(messages.getString("guiOOoIgnoreButton"));
@@ -799,7 +799,7 @@ class LanguageToolSupport {
     if (incorrectExamples.size() > 0) {
       String incorrectExample = incorrectExamples.iterator().next().getExample();
       String sentence = incorrectExample.replace("<marker>", "<span style='color:red'>").replace("</marker>", "</span>");
-      examples.append("<br/>").append(sentence).append("&nbsp;<span style='color:red'>x</span>");
+      examples.append("<br/>").append(sentence).append("&nbsp;<span style='color:red;font-style:italic;font-weight:bold'>x</span>");
     }
     List<String> correctExamples = rule.getCorrectExamples();
     if (correctExamples.size() > 0) {
