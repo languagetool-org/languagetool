@@ -53,7 +53,7 @@ if [[ $response == "404" || $response == "500" ]]; then
   fi
 fi
 
-javac VersionDiffGenerator.java -Xlint:deprecation
+javac VersionDiffGenerator.java
 
 if [ ! $? -eq 0 ]; then
   echo -e "\033[40;1;31m ERROR \033[0m javac failed"
