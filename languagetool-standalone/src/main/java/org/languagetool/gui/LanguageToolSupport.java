@@ -417,7 +417,7 @@ class LanguageToolSupport {
     int offset = this.textComponent.viewToModel(event.getPoint());
     final Span span = getSpan(offset);
     JPopupMenu popup = new JPopupMenu("Grammar Menu");
-    if(span != null) {
+    if (span != null) {
       JLabel msgItem = new JLabel("<html>"
             + span.msg.replace("<suggestion>", "<b>").replace("</suggestion>", "</b>")
             + "</html>");
@@ -425,6 +425,14 @@ class LanguageToolSupport {
             span.desc.replace("<suggestion>", "").replace("</suggestion>", ""));
       msgItem.setBorder(new JMenuItem().getBorder());
       popup.add(msgItem);
+
+      popup.add(new JSeparator());
+
+      for (String r : span.replacement) {
+        ReplaceMenuItem item = new ReplaceMenuItem(r, span);
+        popup.add(item);
+        item.addActionListener(actionListener);
+      }
 
       popup.add(new JSeparator());
 
@@ -473,14 +481,8 @@ class LanguageToolSupport {
         popup.add(activateRuleItem);
       }
     }
-    popup.add(new JSeparator());
 
-    if(span != null) {
-      for (String r : span.replacement) {
-        ReplaceMenuItem item = new ReplaceMenuItem(r, span);
-        popup.add(item);
-        item.addActionListener(actionListener);
-      }
+    if (span != null) {
       textComponent.setCaretPosition(span.start);
       textComponent.moveCaretPosition(span.end);
     }
