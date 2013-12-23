@@ -4759,7 +4759,7 @@ though, and has since been slightly modified)-->
         <example type="correct">Parmi les <marker>mieux cotés</marker>.</example>
         <example type="correct">Ils sont à la fois grands et minces.</example>
         <example type="correct">En 1779 débute la première des <marker>neuf guerres</marker>.</example>
-	<example type="correct">Des erreurs même très graves.</example>
+        <example type="correct">Des erreurs même très graves.</example>
         <example type="correct">J’ai au moins quelques dollars.</example>
       </rule>
       <rule name="pluriel suivi du singulier">
@@ -23929,23 +23929,52 @@ though, and has since been slightly modified)-->
         <pattern case_sensitive="yes">
           <token regexp="yes">([IVXLCM]+|\d+)[-‑‐]?(i?[eèé]mes?|è)</token>
         </pattern>
-        <message>« \1 » est un faut de typographie. Employez <suggestion><match no="1" regexp_match="(.*?)[-‑‐]?(i?[eèéê]mes?|è)" regexp_replace="$1e"/></suggestion>.</message>
+        <message>« \1 » est une faute de typographie. Employez <suggestion><match no="1" regexp_match="(.*?)[-‑‐]?(i?[eèéê]me(s?)|è)" regexp_replace="$1e$3"/></suggestion>.</message>
+        <url>http://www.langue-fr.net/spip.php?article239</url>
         <example type="incorrect" correction="XIXe">Un écrivain du <marker>XIX-ième</marker> siècle</example>
         <example type="incorrect" correction="XIXe">Un écrivain du <marker>XIXè</marker> siècle</example>
         <example type="correct">Un écrivain du XIXe siècle</example>
         <example type="incorrect" correction="2e">La <marker>2eme</marker> à droite</example>
         <example type="correct">La 2e à droite</example>
+        <example type="incorrect" correction="2es">Les <marker>2ièmes</marker>.</example>
+        <example type="correct">Les <marker>2es</marker>.</example>
       </rule>
       <rule>
         <pattern case_sensitive="yes">
           <token regexp="yes">[IVXLCM]+|\d+</token>
           <token regexp="yes">i?[eèé]mes?|è</token>
         </pattern>
-        <message>« \1 \2 » est un faut de typographie. Employez <suggestion>\1e</suggestion>.</message>
+        <message>« \1 \2 » est une faute de typographie. Employez <suggestion>\1<match no="2" regexp_match="i?[eèé]me(s?)|è" regexp_replace="e$1"/></suggestion>.</message>
+        <url>http://www.langue-fr.net/spip.php?article239</url>
         <example type="incorrect" correction="XIXe">Un écrivain du <marker>XIX ième</marker> siècle</example>
         <example type="correct">Un écrivain du XIXe siècle</example>
         <example type="incorrect" correction="2e">La <marker>2 eme</marker> à droite</example>
         <example type="correct">La 2e à droite</example>
+        <example type="incorrect" correction="2es">Les <marker>2 èmes</marker>.</example>
+        <example type="correct">Les 2es.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token regexp="yes">(2|II)nde?s?</token>
+        </pattern>
+        <message>« \1 » est une faute de typographie. Employez <suggestion><match no="1" regexp_match="n" regexp_replace=""/></suggestion></message>
+        <url>http://www.langue-fr.net/spip.php?article239</url>
+        <example type="incorrect" correction="2d">Le <marker>2nd</marker>.</example>
+        <example type="incorrect" correction="2des">Le <marker>2ndes</marker>.</example>
+        <example type="correct">Le 2d.</example>
+        <example type="correct">Les 2des.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token regexp="yes">2|II</token>
+          <token regexp="yes">nde?s?</token>
+        </pattern>
+        <message>« \1 \2 » est une faute de typographie. Employez <suggestion>\1<match no="2" regexp_match="n" regexp_replace=""/></suggestion></message>
+        <url>http://www.langue-fr.net/spip.php?article239</url>
+        <example type="incorrect" correction="2d">Le <marker>2 nd</marker>.</example>
+        <example type="incorrect" correction="2des">Les <marker>2 ndes</marker>.</example>
+        <example type="correct">Le 2d.</example>
+        <example type="correct">Le 2des.</example>
       </rule>
     </rulegroup>
     <rule id="EX" name="ex + trait d’union">
