@@ -465,6 +465,20 @@ $Id$
                 <example type="correct">dos o tres mascles</example>
                 <example type="correct">són dos, les bengales i les rodes</example>
             </rule>
+            <rule id="UN_O_MES" name="un o més *llibre/llibres">
+                <pattern>
+                    <token>o</token>
+                    <token>més</token>
+                    <marker>
+                        <token postag="NC.S.*" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>Error de concordança.</message>
+                <suggestion><match no="3" postag="NC.S.*" postag_regexp="yes" postag_replace="NC.P.*"/></suggestion>
+                <short>Error de concordança</short>
+                <example type="incorrect" correction="ornitòlegs">un o més <marker>ornitòleg</marker></example>
+                <example type="correct">un o més ornitòlegs</example>
+            </rule>
             <rule id="AL_ANYS" name="al/als 34 anys">
                 <pattern>
                     <marker>
@@ -23781,7 +23795,8 @@ $Id$
                 </marker>
                 <token><exception regexp="yes">major|menor|bemoll|sostingut|\d+|/</exception><exception postag="_PUNCT.*" postag_regexp="yes"/></token>
             </pattern>
-            <message>Falta algun element: <suggestion>a mi</suggestion>, <suggestion>de mi</suggestion>, <suggestion>en mi</suggestion>, <suggestion>per mi</suggestion>, <suggestion>amb mi</suggestion>, <suggestion>m'hi</suggestion>...</message>
+            <message>Falta algun element.</message>
+            <suggestion>a mi</suggestion><suggestion>de mi</suggestion><suggestion>en mi</suggestion><suggestion>per mi</suggestion><suggestion>amb mi</suggestion><suggestion>m'hi</suggestion>
             <short>Falta algun element</short>
             <example type="incorrect">quan ho faig <marker>mi</marker> trobo bé.</example>
             <example type="correct">a mi m'agrada</example>
