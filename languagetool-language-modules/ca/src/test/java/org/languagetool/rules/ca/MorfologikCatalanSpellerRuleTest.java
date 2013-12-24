@@ -191,6 +191,10 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals(1, matches.length);
         assertEquals("matisàrem", matches[0].getSuggestedReplacements().get(0));
         
+        matches = rule.match(langTool.getAnalyzedSentence("tamitzéssim"));
+        assertEquals(1, matches.length);
+        assertEquals("tamiséssim", matches[0].getSuggestedReplacements().get(0));
+        
         matches = rule.match(langTool.getAnalyzedSentence("adquireixquen"));
         assertEquals(1, matches.length);
         assertEquals("adquirisquen", matches[0].getSuggestedReplacements().get(0));
