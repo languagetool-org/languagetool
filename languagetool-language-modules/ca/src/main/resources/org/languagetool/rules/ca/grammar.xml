@@ -5792,6 +5792,19 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+        <rule id="INTENTAT_VEURE" name="*intentat/intentant veure">
+            <pattern>
+                <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
+                <marker>
+                    <token postag="V.P..SM." postag_regexp="yes"><exception postag="_GV_"/></token>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="2" postag="V.P.*" postag_regexp="yes" postag_replace="V.G.*"/></suggestion>?</message>
+            <short>Possible confusió</short>
+            <example type="incorrect" correction="intentant">Va córrer, <marker>intentat veure</marker> què passava.</example>
+            <example type="correct">Ha, ràpidament, intentat saber què passava.</example>
+        </rule>
         <rule id="PER_MITJA_DE" name="per *mitja/mitjà de">
             <pattern>
                 <token>per</token>
