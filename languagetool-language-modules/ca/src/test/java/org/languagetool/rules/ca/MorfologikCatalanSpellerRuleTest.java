@@ -205,9 +205,14 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals(1, matches.length);
         assertEquals("para", matches[0].getSuggestedReplacements().get(0));
         assertEquals("pare", matches[0].getSuggestedReplacements().get(1));
+        
+        // deprecated characters of "ela geminada"
+        assertEquals(0, rule.match(langTool.getAnalyzedSentence("S'hi havien instaŀlat.")).length);
+        assertEquals(0, rule.match(langTool.getAnalyzedSentence("S'HI HAVIEN INSTAĿLAT.")).length);
 
         assertEquals(1, rule.match(langTool.getAnalyzedSentence("aõh")).length);
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("a")).length);
+
     }
     
 }

@@ -2579,6 +2579,7 @@ $Id$
             <example type="incorrect">Quan ho <marker>haguem</marker> fet.</example>
             <example type="correct">Quan ho hàgiu portat</example>
             <example type="correct">Si ho haguéssiu portat</example>
+            <example type="correct">Hi havien instaŀlat una antena.</example> <!-- Using deprecated char for ela geminada-->
         </rule>
         <rulegroup id="HAVER_SENSE_HAC" name="Haver sense hac: *eu/feu fet">    
             <rule>
@@ -12998,6 +12999,18 @@ $Id$
             <example type="correct">al-Ladjdjun</example>
             <example type="correct">en un estat sindical-laborista</example>
             <example type="correct">en un estat sindical.La classe obrera</example>
+        </rule>
+        <rule id="ELA_GEMINADA_2CHAR" name="Ela geminada: evita codificació de dos caràcters" type="misspelling">
+            <pattern case_sensitive="no">
+                <marker>
+                    <token regexp="yes">.*ŀl.*</token>
+                </marker>
+            </pattern>
+            <message>Error de codificació.</message>
+            <suggestion><match no="1" regexp_match="(.+)ŀl(.+)" regexp_replace="$1l·l$2"/></suggestion>
+            <short>Error tipogràfic</short>
+            <example type="incorrect" correction="sol·licitud">La <marker>soŀlicitud</marker>.</example>
+            <example type="correct">la sol·licitud</example>
         </rule>
         <rule id="ESPAI_DESPRES_DE_PUNT" name="Comprova que hi ha espai deprés de punt.">
             <pattern>

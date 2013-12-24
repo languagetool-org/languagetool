@@ -134,6 +134,15 @@ public class CatalanTagger extends BaseTagger {
       }
       return additionalTaggedTokens;
     }
+    // Interpret deprecated characters of "ela geminada"
+    // U+013F LATIN CAPITAL LETTER L WITH MIDDLE DOT
+    // U+0140 LATIN SMALL LETTER L WITH MIDDLE DOT
+    if (word.contains("\u0140") || word.contains("\u013f")) {
+    	final String lowerWord = word.toLowerCase(conversionLocale);
+        final String possibleWord = lowerWord.replaceAll("\u0140", "l·");
+        List<AnalyzedToken> taggerTokens = asAnalyzedTokenList(word,dictLookup.lookup(possibleWord));
+        return taggerTokens;
+    }
     return null;
   }
 
