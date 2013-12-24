@@ -12443,7 +12443,7 @@ $Id$
             <example type="incorrect"><marker>le'n</marker></example>
             <example type="correct">l'en</example>
         </rule>
-        <rulegroup id="ASSEGURAR_TEN" name="Errors ortogràfics: *assegurar-tel/assegurar-te'l">
+        <rulegroup id="ASSEGURAR_TEN" name="Errors ortogràfics: *assegurar-tel/-te'l acostar-si/-s'hi">
             <rule>
                 <pattern>
                     <marker>
@@ -12458,6 +12458,20 @@ $Id$
                 <example type="incorrect" correction="Porta-me'l"><marker>Porta-mel</marker></example>
                 <example type="incorrect" correction="emportar-se'l">Hen d'<marker>emportar-sel</marker></example>
                 <example type="correct">Enduu-te'l</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="V.[NGM].*" postag_regexp="yes"/>
+                        <token spacebefore="no">-</token>
+                        <token spacebefore="no" regexp="yes">[tmsn]i</token>
+                    </marker>
+                </pattern>
+                <message>Error ortogràfic.</message>
+                <suggestion><match no="1"/>-<match no="3" regexp_match="(.)i" regexp_replace="$1'hi"/></suggestion>
+                <example type="incorrect" correction="acostar-s'hi">Per a <marker>acostar-si</marker></example>
+                <example type="incorrect" correction="Porta-m'hi"><marker>Porta-mi</marker></example>
+                <example type="correct">Porta-l'hi</example>
             </rule>
         </rulegroup>
     </category>
