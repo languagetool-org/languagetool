@@ -13000,6 +13000,17 @@ $Id$
             <example type="correct">en un estat sindical-laborista</example>
             <example type="correct">en un estat sindical.La classe obrera</example>
         </rule>
+        <rule id="ELA_GEMINADA_AMB_ESPAIS" name="ela geminada amb espais">
+            <pattern>
+                <token regexp="yes">.*[aeiouàèéíòóúïü]l</token>
+                <token regexp="yes">[·•]</token>
+                <token regexp="yes">l[aeiouàèéíòóúïü].*</token>
+            </pattern>
+            <message>Error tipogràfic</message>
+            <suggestion><match no="1"/>·<match no="3"/></suggestion>
+            <example type="incorrect" correction="col·laboració"><marker>col · laboració</marker></example>
+            <example type="correct">col·laboració</example>
+        </rule>
         <rule id="ELA_GEMINADA_2CHAR" name="Ela geminada: evita codificació de dos caràcters" type="misspelling">
             <pattern case_sensitive="no">
                 <marker>
