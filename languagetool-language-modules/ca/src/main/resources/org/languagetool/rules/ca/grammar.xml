@@ -12873,13 +12873,14 @@ $Id$
                 <pattern>
                     <marker>
                         <token><exception regexp="yes">[-–—]</exception></token>
-                        <token spacebefore="yes" regexp="yes">[?!]</token>
+                        <token spacebefore="yes" regexp="yes">[?!:;]</token>
                     </marker>
                 </pattern>
                 <message>Sobra un espai.</message>
                 <suggestion><match no="1"/><match no="2"/></suggestion>
                 <short>Error de puntuació</short>
                 <example type="incorrect" correction="dir?">¿Vols <marker>dir ?</marker></example>
+                <example type="incorrect" correction="dir:">Ell va <marker>dir :</marker> vine!</example>
                 <example type="correct">¿què importa?...</example>
             </rule>
             <rule>
@@ -12938,6 +12939,19 @@ $Id$
                 <short>Error de puntuació</short>
                 <example type="incorrect" correction="¿Estàs"><marker>¿ Estàs</marker> segur?</example>
                 <example type="correct">¿Estàs segur?</example>
+            </rule>
+             <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[:;]</token>
+                        <token spacebefore="no"/>
+                    </marker>
+                </pattern>
+                <message>Falta un espai.</message>
+                <suggestion><match no="1"/> <match no="2"/></suggestion>
+                <short>Error de puntuació</short>
+                <example type="incorrect" correction=": Vine">Llavors va dir<marker>:Vine</marker>!</example>
+                <example type="correct">Digué: Vine!</example>
             </rule>
     	</rulegroup>
         <rule id="ELA_GEMINADA" name="Errors en la ela geminada." type="misspelling">
