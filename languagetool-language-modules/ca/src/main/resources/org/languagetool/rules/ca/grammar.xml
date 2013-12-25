@@ -13010,18 +13010,48 @@ $Id$
                 <example type="incorrect" correction="¿Estàs"><marker>¿ Estàs</marker> segur?</example>
                 <example type="correct">¿Estàs segur?</example>
             </rule>
-             <rule>
+            <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">[:;]</token>
+                        <token>;</token>
                         <token spacebefore="no"/>
                     </marker>
                 </pattern>
                 <message>Falta un espai.</message>
                 <suggestion><match no="1"/> <match no="2"/></suggestion>
                 <short>Error de puntuació</short>
+                <example type="incorrect" correction="; però">Vingué<marker>;però</marker> se n'anà!</example>
+                <example type="correct">Vingué; però se n'anà!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception regexp="yes">[\d ,.]+</exception></token>
+                    <marker>
+                        <token regexp="yes">:</token>
+                        <token spacebefore="no"/>
+                    </marker>
+                </pattern>
+                <message>Falta un espai.</message>
+                <suggestion><match no="2"/> <match no="3"/></suggestion>
+                <short>Error de puntuació</short>
                 <example type="incorrect" correction=": Vine">Llavors va dir<marker>:Vine</marker>!</example>
-                <example type="correct">Digué: Vine!</example>
+                <example type="correct">Escala 10.000:1</example>
+                <example type="correct">Escala 2,55:1</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[\d ,.]+</token>
+                    <marker>
+                        <token regexp="yes">:</token>
+                        <token spacebefore="no"><exception regexp="yes">[\d ,.]+</exception></token>
+                    </marker>
+                </pattern>
+                <message>Falta un espai.</message>
+                <suggestion><match no="2"/> <match no="3"/></suggestion>
+                <short>Error de puntuació</short>
+                <example type="incorrect" correction=": alguns">En van venir 10.000<marker>:alguns</marker> de bonics!</example>
+                <example type="correct">Escala 10.000:1</example>
+                <example type="correct">Escala 2,55:1</example>
             </rule>
     	</rulegroup>
         <rulegroup id="ELA_GEMINADA" name="Errors en la ela geminada" type="misspelling">
@@ -23842,9 +23872,9 @@ $Id$
         </rulegroup>
         <rule id="JA_QUE" name="'ja que' va precedit de coma">
             <pattern>
-                <token><exception postag="SENT_START"/><exception regexp="yes">[,;:]</exception></token>
+                <token><exception postag="SENT_START"/><exception regexp="yes">[,;:(]</exception></token>
                 <marker>
-                    <token><exception postag="SENT_START"/><exception regexp="yes">[,;:]</exception></token>
+                    <token><exception postag="SENT_START"/><exception regexp="yes">[,;:(]</exception></token>
                     <token>ja</token>
                     <token>que</token>
                 </marker>
@@ -23857,6 +23887,7 @@ $Id$
             <example type="incorrect" correction="ell, ja que|ell perquè">No és <marker>ell ja que</marker> no vol.</example>
             <example type="incorrect" correction="», ja que|» perquè">Era un ocell «rar<marker>» ja que</marker> feia dies que no sortia.</example>
             <example type="correct">Però ja que venia ho aprofitava.</example>
+            <example type="correct">són un angle recte (ja que l'angle central és de 180 graus)</example>
         </rule>
         <rule id="MI" name="mi/m'hi">
             <pattern case_sensitive="yes">
