@@ -1844,31 +1844,31 @@ $Id$
         </rulegroup>
     </category>
     <category name="Verbs" type="grammar">
-        <rulegroup id="VERBS_NO_INCOATIUS" name="verbs no incoatius: ajupir, consentir..." type="misspelling">
-            <rule><!-- ajupir, consentir -->
+        <rulegroup id="VERBS_NO_INCOATIUS" name="verbs no incoatius: ajupir, admetre..." type="misspelling">
+            <rule><!-- ajupir, consentir, bullir, collir, escopir, munyir, esmunyir, grunyir -->
                 <pattern>
-                   <token regexp="yes">(ajup|consent)[ei]?(ix|sc|squ|ixc|ixqu)([ieoa]?)([ns]?)</token>
+                   <token regexp="yes">(ajup|consent|bull|cull|escup|muny|esmuny|gruny)([ei]sc|[ei]squ|e?ixc|e?ixqu|e?ix)([ieoa]?)([ns]?)</token>
                 </pattern>
                 <message>Aquest verb no és incoatiu.</message>
-                <suggestion><match no="1" regexp_match="(ajup|consent)[ei]?(ix|sc|squ|ixc|ixqu)([ieoa]?)([ns]?)" regexp_replace="$1$3$4"/></suggestion>
+                <suggestion><match no="1" regexp_match="(ajup|consent|bull|cull|escup|muny|esmuny|gruny)([ei]sc|[ei]squ|e?ixc|e?ixqu|e?ix)([ieoa]?)([ns]?)" regexp_replace="$1$3$4"/></suggestion>
                 <example type="incorrect" correction="consentin"><marker>consenteixin</marker></example>
                 <example type="incorrect" correction="consento"><marker>consenteixo</marker></example>
-                <example type="incorrect" correction="consent"><marker>consentesc</marker></example>
+                <example type="incorrect" correction="gruny"><marker>grunyeix</marker></example>
                 <example type="incorrect" correction="consentin"><marker>consentesquin</marker></example>
-                <example type="incorrect" correction="ajupen"><marker>ajupisquen</marker></example>
+                <example type="incorrect" correction="ajupen"><marker>ajupixquen</marker></example>
                 <example type="correct">ajupin</example>
             </rule>
-            <rule> <!-- admetre, emetre, ometre i transmetre  -->
+            <rule> <!-- admetre, emetre, ometre i transmetre, remetre  -->
                 <pattern>
-                   <token regexp="yes">(ad|e|o|trans)m[ei]t[ei]?(ix|sc|squ|ixc|ixqu)([ieoa]?)([ns]?)</token>
+                   <token regexp="yes">(ad|e|o|trans|re)m[ei]t([ei]sc|[ei]squ|e?ixc|e?ixqu|e?ix)([ieoa]?)([ns]?)</token>
                 </pattern>
                 <message>Aquest verb no és incoatiu.</message>
-                <suggestion><match no="1" regexp_match="(ad|e|o|trans)m[ei]t[ei]?(ix|sc|squ|ixc|ixqu)([ieoa]?)([ns]?)" regexp_replace="$1met$3$4"/></suggestion>
+                <suggestion><match no="1" regexp_match="(ad|e|o|trans|re)m[ei]t([ei]sc|[ei]squ|e?ixc|e?ixqu|e?ix)([ieoa]?)([ns]?)" regexp_replace="$1met$3$4"/></suggestion>
                 <example type="incorrect" correction="admetin"><marker>admiteixin</marker></example>
                 <example type="incorrect" correction="emet"><marker>emitisc</marker></example>
                 <example type="incorrect" correction="ometi"><marker>omiteixi</marker></example>
-                <example type="incorrect" correction="emetin"><marker>emetesquin</marker></example>
-                <example type="incorrect" correction="admeten"><marker>admitisquen</marker></example>
+                <example type="incorrect" correction="remetin"><marker>remetesquin</marker></example>
+                <example type="incorrect" correction="admeten"><marker>admiteixquen</marker></example>
                 <example type="correct">ometin</example>
             </rule>
         </rulegroup>
