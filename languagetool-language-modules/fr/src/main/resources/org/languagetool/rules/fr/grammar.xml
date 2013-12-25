@@ -4015,13 +4015,22 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">mal|maux|terrines?|pâtés?|radios?|cancers?|maladies?|malades?</token>
+          <token regexp="yes">huile|mal|maux|terrines?|pâtés?|radios?|cancers?|maladies?|malades?</token>
           <token regexp="yes">au|d[eu]</token>
           <marker><token regexp="yes">fois?</token></marker>
         </pattern>
         <message>Voulez-vous écrire <suggestion>foie</suggestion> (l’organe) ?</message>
         <example type="incorrect">Il a mal au <marker>foi</marker>.</example>
         <example type="correct">Il a mal au <marker>foie</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token>foi</token></marker>
+          <token>gras</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>foie</suggestion> (l’organe) ?</message>
+        <example type="incorrect">Un réveillon avec <marker>foi</marker> gras et champagne.</example>
+        <example type="correct">Un réveillon avec foie gras et champagne.</example>
       </rule>
       <rule>
         <pattern>
