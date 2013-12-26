@@ -5832,6 +5832,20 @@ $Id$
             <short>Possible confusió</short>
             <example type="incorrect" correction="intentant">Va córrer, <marker>intentat veure</marker> què passava.</example>
             <example type="correct">Ha, ràpidament, intentat saber què passava.</example>
+            <!-- manat construir -->
+        </rule>
+        <rule id="EN_SAP_GREU" name="*en/em/ens sap greu">
+            <pattern>
+                <marker>
+                    <token skip="1">en</token>
+                </marker>
+                <token inflected="yes" skip="1">saber</token>
+                <token>greu</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>em</suggestion>?</message>
+            <suggestion>ens</suggestion>
+            <example type="incorrect"><marker>en</marker> va saber molt greu</example>
+            <example type="correct">em sap greu</example>
         </rule>
         <rule id="PER_MITJA_DE" name="per *mitja/mitjà de">
             <pattern>
@@ -23584,7 +23598,7 @@ $Id$
         <rulegroup id="RELATIUS" name="Comprova les contruccions de relatiu: amb el que/amb el qual" default="on">
             <rule>
                 <pattern>
-                    <token postag="NCMS.*|_GN_MS" postag_regexp="yes"><exception postag="_GV_"/></token>
+                    <token postag="NC[CM]S.*|_GN_MS" postag_regexp="yes"><exception postag="_GV_"/></token>
                     <marker>
                         <token postag="SPS00"><exception postag="_no_relatiu"/></token>
                         <token>el</token>
@@ -23602,7 +23616,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="NCMS.*|_GN_MS" postag_regexp="yes"><exception postag="_GV_"/></token>
+                    <token postag="NC[CM]S.*|_GN_MS" postag_regexp="yes"><exception postag="_GV_"/></token>
                     <marker>
                         <token postag="SPS00"><exception postag="_no_relatiu"/><exception>pe</exception></token>
                         <token spacebefore="no">l</token>
@@ -23621,7 +23635,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="NCMS.*|_GN_MS" postag_regexp="yes"><exception postag="_GV_"/></token>
+                    <token postag="NC[CM]S.*|_GN_MS" postag_regexp="yes"><exception postag="_GV_"/></token>
                     <marker>
                         <token postag="SPS00">pe<exception postag="_no_relatiu"/></token>
                         <token spacebefore="no">l</token>
@@ -23638,7 +23652,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="NCFS.*|_GN_FS" postag_regexp="yes"><exception postag="_GV_"/></token>
+                    <token postag="NC[CF]S.*|_GN_FS" postag_regexp="yes"><exception postag="_GV_"/></token>
                     <marker>
                         <token postag="SPS00"><exception postag="_no_relatiu"/></token>
                         <token>la</token>
@@ -23659,7 +23673,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="NCMP.*|_GN_MP" postag_regexp="yes"><exception postag="_GV_"/></token>
+                    <token postag="NC[CM]P.*|_GN_MP" postag_regexp="yes"><exception postag="_GV_"/></token>
                     <marker>
                         <token postag="SPS00"><exception postag="_no_relatiu"/></token>
                         <token>els</token>
@@ -23672,12 +23686,13 @@ $Id$
                 <suggestion><match no="2" /> qui</suggestion>
                 <short>Reviseu la construcció de relatiu</short>
                 <example type="incorrect" correction="amb els quals|amb què|amb qui">els homes <marker>amb els que</marker> vaig parlar</example>
+                <example type="incorrect" correction="entre els quals|entre què|entre qui">5 milions d'habitants <marker>entre els que</marker> destaca</example>
                 <example type="correct">els homes amb els quals vaig parlar</example>
                 <example type="correct">aquests són semblants als que va trobar ell</example>
             </rule>
             <rule>
                 <pattern>
-                    <token postag="NCMP.*|_GN_MP" postag_regexp="yes"><exception postag="_GV_"/></token>
+                    <token postag="NC[CM]P.*|_GN_MP" postag_regexp="yes"><exception postag="_GV_"/></token>
                     <marker>
                         <token postag="SPS00"><exception postag="_no_relatiu"/><exception>pe</exception></token>
                         <token spacebefore="no">ls</token>
@@ -23694,7 +23709,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="NCMP.*|_GN_MP" postag_regexp="yes"><exception postag="_GV_"/></token>
+                    <token postag="NC[CM]P.*|_GN_MP" postag_regexp="yes"><exception postag="_GV_"/></token>
                     <marker>
                         <token postag="SPS00">pe<exception postag="_no_relatiu"/></token>
                         <token spacebefore="no">ls</token>
@@ -23711,7 +23726,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="NCFP.*|_GN_FP" postag_regexp="yes"><exception postag="_GV_"/></token>
+                    <token postag="NC[CF]P.*|_GN_FP" postag_regexp="yes"><exception postag="_GV_"/></token>
                     <marker>
                         <token postag="SPS00"><exception postag="_no_relatiu"/></token>
                         <token>les</token>
@@ -23731,7 +23746,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="NCMS.*|_GN_MS" postag_regexp="yes"><exception postag="_GV_"/></token>
+                    <token postag="NC[CM]S.*|_GN_MS" postag_regexp="yes"><exception postag="_GV_"/></token>
                     <token postag="SPS00|.*LOC_PREP.*" postag_regexp="yes" skip="4"><exception postag="_no_relatiu"/><exception postag="RG|SPS00|.*LOC_PREP.*|DA.*|SENT_END" scope="next" postag_regexp="yes" negate_pos="yes" /></token>
                     <token regexp="yes">el|l</token>
                     <marker>
@@ -23746,7 +23761,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="NCFS.*|_GN_FS" postag_regexp="yes"><exception postag="_GV_"/></token>
+                    <token postag="NC[CF]S.*|_GN_FS" postag_regexp="yes"><exception postag="_GV_"/></token>
                     <token postag="SPS00|.*LOC_PREP.*" postag_regexp="yes" skip="4"><exception postag="_no_relatiu"/><exception postag="RG|SPS00|.*LOC_PREP.*|DA.*|SENT_END" scope="next" postag_regexp="yes" negate_pos="yes" /></token>
                     <token>la</token>
                     <marker>
@@ -23761,7 +23776,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="NCMP.*|_GN_MP" postag_regexp="yes"><exception postag="_GV_"/></token>
+                    <token postag="NC[CM]P.*|_GN_MP" postag_regexp="yes"><exception postag="_GV_"/></token>
                     <token postag="SPS00|.*LOC_PREP.*" postag_regexp="yes" skip="4"><exception postag="_no_relatiu"/><exception postag="RG|SPS00|.*LOC_PREP.*|DA.*|SENT_END" scope="next" postag_regexp="yes" negate_pos="yes" /></token>
                     <token regexp="yes">els|ls</token>
                     <marker>
@@ -23776,7 +23791,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="NCFP.*|_GN_FP" postag_regexp="yes"><exception postag="_GV_"/></token>
+                    <token postag="NC[CF]P.*|_GN_FP" postag_regexp="yes"><exception postag="_GV_"/></token>
                     <token postag="SPS00|.*LOC_PREP.*" postag_regexp="yes" skip="4"><exception postag="_no_relatiu"/><exception postag="RG|SPS00|.*LOC_PREP.*|DA.*|SENT_END" scope="next" postag_regexp="yes" negate_pos="yes" /></token>
                     <token>les</token>
                     <marker>
