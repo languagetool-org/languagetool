@@ -5881,12 +5881,19 @@ $Id$
         </rule>
         <rule id="A_TRAVES" name="a traves">
             <pattern>
-                <token>a</token>
-                <token>traves</token>
+                <token><exception regexp="yes">degut|quant|fins|per</exception></token>
+                <marker>
+                    <token>a<exception postag=".*LOC_PREP.*" postag_regexp="yes"/></token>
+                    <token regexp="yes">(?-i)traves</token>
+                </marker>
+                <token><exception postag="AQ.[CF]P." postag_regexp="yes"/></token>
             </pattern>
             <message>¿Volíeu dir <suggestion>a través</suggestion>?</message>
-            <example type="incorrect"><marker>a traves</marker></example>
-            <example type="correct">a través</example>
+            <example type="incorrect" correction="A través"><marker>A traves</marker> de l'espill</example>
+            <example type="incorrect" correction="a través">Corria camps <marker>a traves</marker>.</example>
+            <example type="correct">És degut a traves burocràtiques</example>
+            <example type="correct">Pel que fa a traves institucionals</example>
+            <example type="correct">Vivien a Traves.</example>
         </rule>
         <rule id="BULLINT_BULLENT" name="bullint/bullent">
             <pattern>
