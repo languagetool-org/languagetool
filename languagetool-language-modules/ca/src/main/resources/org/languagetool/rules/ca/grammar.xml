@@ -11156,24 +11156,11 @@ $Id$
                 <example type="correct">Solen agradar-se'n les dones.</example>
                 <example type="correct">En elles les dones escollien marti.</example>
             </rule>
-            <rule default="off">
-                <pattern>
-                    <token postag="SENT_START" skip="-1"><exception scope="next" postag="V.[^NPG].*" postag_regexp="yes"></exception></token>
-                    <marker>
-                        <token skip="-1" regexp="yes">dona|dones<exception scope="next" postag="V.[^NPG].*" postag_regexp="yes"></exception></token>
-                    </marker>
-                    <token postag="SENT_END"></token>
-                </pattern>
-                <message>No hi ha cap verb en la frase. Potser és: <suggestion><match no="2" regexp_match=".+(a|es)" regexp_replace="dón$1"></match></suggestion>.</message>
-                <short>Accent diacrític (v. donar)?</short>
-                <example type="incorrect">La <marker>dona</marker> al barquer.</example>
-                <example type="correct">La <marker>dóna</marker> al barquer.</example>
-            </rule>
             <rule>
                 <pattern>
                     <token>no</token>
                     <marker>
-                        <token skip="-1" regexp="yes">dona|dones</token>
+                        <token regexp="yes">dona|dones</token>
                     </marker>
                 </pattern>
                 <message>S'accentua quan és del verb "donar".</message>
@@ -11196,6 +11183,34 @@ $Id$
                 <short>Accent diacrític</short>
                 <example type="incorrect">Ell <marker>dona</marker> compte al banquer.</example>
                 <example type="correct">Ell <marker>dóna</marker> compte al banquer.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">dona|dones<exception postag="_GN_F.|_possible_nompropi" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="RG|.*LOC_ADV.*" postag_regexp="yes"/>
+                    <token><exception postag="AQ.[CF].." postag_regexp="yes"/></token>
+                </pattern>
+                <message>S'accentua quan és del verb "donar".</message>
+                <suggestion><match no="1" regexp_match=".+(a|es)" regexp_replace="dón$1"/></suggestion>
+                <short>Accent diacrític</short>
+                <example type="incorrect" correction="Dóna"><marker>Dona</marker> molt a pensar.</example>
+                <example type="correct">Una dona molt bonica.</example>
+                <example type="correct">Dones molt boniques.</example>
+            </rule>
+            <rule default="off">
+                <pattern>
+                    <token postag="SENT_START" skip="-1"><exception scope="next" postag="V.[^NPG].*" postag_regexp="yes"></exception></token>
+                    <marker>
+                        <token skip="-1" regexp="yes">dona|dones<exception scope="next" postag="V.[^NPG].*" postag_regexp="yes"></exception></token>
+                    </marker>
+                    <token postag="SENT_END"></token>
+                </pattern>
+                <message>No hi ha cap verb en la frase. Potser és: <suggestion><match no="2" regexp_match=".+(a|es)" regexp_replace="dón$1"/></suggestion>.</message>
+                <short>Accent diacrític (v. donar)?</short>
+                <example type="incorrect">La <marker>dona</marker> al barquer.</example>
+                <example type="correct">La <marker>dóna</marker> al barquer.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SOC" name="soc/sóc">    
@@ -21483,16 +21498,31 @@ $Id$
         </rule>
     </category>
     <category name="C7) Expressions preferibles" default="on" type="style">
+        <rule id="DONAR_COMENCAMENT" name="donar començament">
+            <pattern>
+                <token inflected="yes">donar</token>
+                <token>començament</token>
+            </pattern>
+            <message>Val més usar una altra expressió.</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">començar</match></suggestion>
+            <suggestion><match no="1"/> principi</suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">iniciar</match></suggestion>
+            <url>http://esadir.cat/entrades/fitxa/node/donarcomencament</url>
+            <short>Expressió preferible</short>
+            <example type="incorrect" correction="començo|dono principi|inicio"><marker>dono començament</marker></example>
+            <example type="incorrect" correction="començàrem|donàrem principi|iniciàrem"><marker>donàrem començament</marker></example>
+            <example type="correct">començar</example>
+        </rule>
         <rule id="PUNT_I_FINAL" name="punt i final">
-	  <pattern>
-	    <token>punt</token>
-	    <token>i</token>
-	    <token>final</token>
-	  </pattern>
-          <message>Expressió preferible.</message>
-	  <suggestion>punt final</suggestion>
-	  <example type="incorrect">Hi van posar <marker>punt i final</marker>.</example>
-	  <example type="correct">Hi van posar punt final.</example>
+            <pattern>
+                <token>punt</token>
+                <token>i</token>
+                <token>final</token>
+            </pattern>
+            <message>Expressió preferible.</message>
+            <suggestion>punt final</suggestion>
+            <example type="incorrect">Hi van posar <marker>punt i final</marker>.</example>
+        <example type="correct">Hi van posar punt final.</example>
         </rule>
         <rule id="DE_LA_NIT_AL_MATI" name="de la nit al matí">
             <pattern>
