@@ -23953,9 +23953,9 @@ $Id$
         </rulegroup>
         <rule id="JA_QUE" name="'ja que' va precedit de coma">
             <pattern>
-                <token><exception postag="SENT_START"/><exception regexp="yes">[,;:(]</exception></token>
+                <token><exception postag="SENT_START"/><exception regexp="yes">[,;:(]</exception><exception regexp="yes" spacebefore="yes">[—–-]</exception></token>
                 <marker>
-                    <token><exception postag="SENT_START"/><exception regexp="yes">[,;:(]</exception></token>
+                    <token><exception postag="SENT_START"/><exception regexp="yes">[,;:(]</exception><exception regexp="yes" spacebefore="yes">[—–-]</exception></token>
                     <token>ja</token>
                     <token>que</token>
                 </marker>
@@ -23966,7 +23966,9 @@ $Id$
             <url>http://www.ara.cat/premium/opinio/Ja-que-vol-dir-perque_0_675532448.html</url>
             <short>Falta una coma</short>
             <example type="incorrect" correction="ell, ja que|ell perquè">No és <marker>ell ja que</marker> no vol.</example>
+            <example type="incorrect" correction="—, ja que|— perquè">No és ell<marker>— ja que</marker> no vol.</example>
             <example type="incorrect" correction="», ja que|» perquè">Era un ocell «rar<marker>» ja que</marker> feia dies que no sortia.</example>
+            <example type="correct">No és ell —ja que no vol.</example>
             <example type="correct">Però ja que venia ho aprofitava.</example>
             <example type="correct">són un angle recte (ja que l'angle central és de 180 graus)</example>
         </rule>
