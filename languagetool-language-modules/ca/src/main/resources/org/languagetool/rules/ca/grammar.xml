@@ -467,6 +467,7 @@ $Id$
             </rule>
             <rule id="UN_O_MES" name="un o més *llibre/llibres">
                 <pattern>
+                    <token inflected="yes">un</token>
                     <token>o</token>
                     <token>més</token>
                     <marker>
@@ -474,10 +475,29 @@ $Id$
                     </marker>
                 </pattern>
                 <message>Error de concordança.</message>
-                <suggestion><match no="3" postag="NC.S.*" postag_regexp="yes" postag_replace="NC.P.*"/></suggestion>
+                <suggestion><match no="4" postag="NC.S.*" postag_regexp="yes" postag_replace="NC.P.*"/></suggestion>
                 <short>Error de concordança</short>
                 <example type="incorrect" correction="ornitòlegs">un o més <marker>ornitòleg</marker></example>
                 <example type="correct">un o més ornitòlegs</example>
+                <example type="correct">tant o més marcada</example>
+                <example type="correct">més rica o més pobra</example>
+            </rule>
+            <rule id="DOS_O_MES" name="dos o més *llibre/llibres">
+                <pattern>
+                    <token postag="DN.*" postag_regexp="yes"/>
+                    <token>o</token>
+                    <token>més</token>
+                    <marker>
+                        <token postag="NC.S.*" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>Error de concordança.</message>
+                <suggestion><match no="4" postag="NC.S.*" postag_regexp="yes" postag_replace="NC.P.*"/></suggestion>
+                <short>Error de concordança</short>
+                <example type="incorrect" correction="ornitòlegs">tres o més <marker>ornitòleg</marker></example>
+                <example type="correct">un o més ornitòlegs</example>
+                <example type="correct">tant o més marcada</example>
+                <example type="correct">més rica o més pobra</example>
             </rule>
             <rule id="AL_ANYS" name="al/als 34 anys">
                 <pattern>
