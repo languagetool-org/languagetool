@@ -4797,6 +4797,23 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="[^AV].*"/>
     </rule>
+    <rule id="general_nonom" name="general/fiscal no noms darrere de nom">
+        <pattern> <!-- de caràcter general -->
+            <token postag="SPS00|.*LOC_PREP.*" postag_regexp="yes"/>
+            <unify>
+                <feature id="nombre"/>
+                <feature id="genere"/>
+                <token postag="N.*" postag_regexp="yes"/>
+                <marker>
+                    <and>
+                        <token postag="AQ.C.*" postag_regexp="yes" regexp="yes"/>
+                        <token postag="NCC.*" postag_regexp="yes" regexp="yes"/>
+                    </and>
+                </marker>
+            </unify>
+        </pattern>
+        <disambig action="filter" postag="[^N].*"/>
+    </rule>
     <rule id="vers" name="vers (preposició)">
         <pattern>
             <marker>

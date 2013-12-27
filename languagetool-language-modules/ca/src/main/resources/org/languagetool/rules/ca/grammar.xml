@@ -13075,11 +13075,11 @@ $Id$
                 <example type="incorrect" correction="¿Estàs"><marker>¿ Estàs</marker> segur?</example>
                 <example type="correct">¿Estàs segur?</example>
             </rule>
-            <rule>
+            <rule id="ESPAI_DARRERE_PUNTICOMA" name="espai darrere de punt i coma">
                 <pattern>
                     <marker>
                         <token>;</token>
-                        <token spacebefore="no"/>
+                        <token spacebefore="no"><exception regexp="yes">\s+</exception></token>
                     </marker>
                 </pattern>
                 <message>Falta un espai.</message>
@@ -13088,12 +13088,14 @@ $Id$
                 <example type="incorrect" correction="; però">Vingué<marker>;però</marker> se n'anà!</example>
                 <example type="correct">Vingué; però se n'anà!</example>
             </rule>
+    	</rulegroup>
+        <rulegroup id="ESPAI_DARRERE_DOSPUNTS" name="espai darrere de dos punts">
             <rule>
                 <pattern>
                     <token><exception regexp="yes">[\d ,.]+</exception></token>
                     <marker>
                         <token regexp="yes">:</token>
-                        <token spacebefore="no"/>
+                        <token spacebefore="no"><exception regexp="yes">\s+</exception></token>
                     </marker>
                 </pattern>
                 <message>Falta un espai.</message>
@@ -13108,7 +13110,7 @@ $Id$
                     <token regexp="yes">[\d ,.]+</token>
                     <marker>
                         <token regexp="yes">:</token>
-                        <token spacebefore="no"><exception regexp="yes">[\d ,.]+</exception></token>
+                        <token spacebefore="no" regexp="yes">.+<exception regexp="yes">[\d ,.]+|\s+</exception></token>
                     </marker>
                 </pattern>
                 <message>Falta un espai.</message>
@@ -13118,7 +13120,7 @@ $Id$
                 <example type="correct">Escala 10.000:1</example>
                 <example type="correct">Escala 2,55:1</example>
             </rule>
-    	</rulegroup>
+        </rulegroup>    
         <rulegroup id="ELA_GEMINADA" name="Errors en la ela geminada" type="misspelling">
             <rule>
                 <pattern case_sensitive="no">
@@ -23736,6 +23738,7 @@ $Id$
                 <example type="correct">amb menys humitat de la que és habitual</example>
                 <example type="correct">una constant cosmològica semblant a la que va proposar Albert Einstein</example>
                 <example type="correct">en relació amb la que sofreixen les dones</example>
+                <example type="correct">en caràcter general entre la que la precedeix i la que li succeeix</example>
             </rule>
             <rule>
                 <pattern>
