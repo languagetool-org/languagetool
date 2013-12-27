@@ -54,9 +54,10 @@ public class MorfologikPolishSpellerRuleTest {
     assertEquals(4, matches[0].getToPos());
     assertEquals("żółw", matches[0].getSuggestedReplacements().get(0));
 
-    //FIXME: this is already fixed in morfologik 1.9.0 in github
-    //    assertEquals(1, rule.match(langTool.getAnalyzedSentence("aõh")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("a")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("aõh")).length);
+
+    //tokenizing on prefixes niby- and quasi-
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Niby-artysta spotkał się z quasi-opiekunem i niby-Francuzem.")).length);
   }
 
 }

@@ -1,4 +1,4 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2012 Marcin Miłkowski (http://www.languagetool.org)
  * 
  * This library is free software; you can redistribute it and/or
@@ -21,6 +21,7 @@ package org.languagetool.rules.pl;
 
 import java.io.IOException;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 import org.languagetool.Language;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
@@ -29,8 +30,10 @@ public final class MorfologikPolishSpellerRule extends MorfologikSpellerRule {
 
   private static final String RESOURCE_FILENAME = "/pl/hunspell/pl_PL.dict";
 
+  private static final Pattern POLISH_TOKENIZING_CHARS = Pattern.compile("(?:[Qq]uasi|[Nn]iby)-");
+
   public MorfologikPolishSpellerRule(ResourceBundle messages,
-                                     Language language) throws IOException {
+      Language language) throws IOException {
     super(messages, language);
   }
 
@@ -43,5 +46,11 @@ public final class MorfologikPolishSpellerRule extends MorfologikSpellerRule {
   public String getId() {
     return "MORFOLOGIK_RULE_PL_PL";
   }
+
+  @Override
+  public Pattern tokenizingPattern() {
+    return POLISH_TOKENIZING_CHARS;
+  }
+
 
 }
