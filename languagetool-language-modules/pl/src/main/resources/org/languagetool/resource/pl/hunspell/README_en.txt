@@ -6,3 +6,7 @@ This version of the dictionary was generated on 2008.12.06
 
 Dictionary maintainer: Marek Futrega (futrega@gmail.com) 
 Corrections: Marcin Miłkowski
+
+The frequency data is available on Apache License (see http://apache.org/licenses/LICENSE-2.0.html) 
+and comes from Mozilla Gaia project 
+(https://github.com/mozilla-b2g/gaia/tree/master/keyboard/dictionaries).
