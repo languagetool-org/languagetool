@@ -36,13 +36,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
@@ -455,31 +449,11 @@ class LanguageToolSupport {
       popup.add(ignoreItem);
     }
 
-    if (!this.languageTool.getDisabledRules().isEmpty()) {
-      JMenu activateRuleItem = new JMenu(messages.getString("guiActivateRule"));
-      int count = 0;
-      for (String ruleId : languageTool.getDisabledRules()) {
-        Rule rule = getRuleForId(ruleId);
-        if (rule == null) {
-          continue;
-        }
-        if (rule.isDefaultOff()) {
-          continue;
-        }
-        final String id = rule.getId();
-        JMenuItem ruleItem = new JMenuItem(rule.getDescription());
-        ruleItem.addActionListener(new ActionListener() {
-          @Override
-          public void actionPerformed(ActionEvent e) {
-            enableRule(id);
-          }
-        });
-        activateRuleItem.add(ruleItem);
-        count++;
-      }
-      if (count > 0) {
-        popup.add(activateRuleItem);
-      }
+    List<Rule> disabledRules = getDisabledRules();
+    if (!disabledRules.isEmpty()) {
+      JMenu activateRuleMenu = new JMenu(messages.getString("guiActivateRule"));
+      addDisabledRulesToMenu(disabledRules, activateRuleMenu);
+      popup.add(activateRuleMenu);
     }
 
     if (span != null) {
@@ -505,6 +479,38 @@ class LanguageToolSupport {
     });
     popup.show(textComponent, event.getPoint().x, event.getPoint().y);
 
+  }
+
+  private List<Rule> getDisabledRules() {
+    List<Rule> disabledRules = new ArrayList<>();
+    for (String ruleId : languageTool.getDisabledRules()) {
+      Rule rule = getRuleForId(ruleId);
+      if (rule == null || rule.isDefaultOff()) {
+        continue;
+      }
+      disabledRules.add(rule);
+    }
+    Collections.sort(disabledRules, new Comparator<Rule>() {
+      @Override
+      public int compare(Rule r1, Rule r2) {
+        return r1.getDescription().compareTo(r2.getDescription());
+      }
+    });
+    return disabledRules;
+  }
+
+  private void addDisabledRulesToMenu(List<Rule> disabledRules, JMenu menu) {
+    for (Rule rule : disabledRules) {
+      final String id = rule.getId();
+      JMenuItem ruleItem = new JMenuItem(rule.getDescription());
+      ruleItem.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+          enableRule(id);
+        }
+      });
+      menu.add(ruleItem);
+    }
   }
 
   Rule getRuleForId(String ruleId) {
