@@ -6206,11 +6206,11 @@ $Id$
             <pattern>
                 <token postag="SENT_START" skip="-1"><exception scope="next" inflected="yes" regexp="yes">control|paper|càrrec|monopoli|apostolat|mandat</exception></token>
                 <marker>
-                	<token regexp="yes">exercits?<exception postag="_GV_"/></token>
+                    <token regexp="yes">exercits?<exception postag="_GV_|_C_TEMPS" postag_regexp="yes"/><exception scope="previous" inflected="yes" regexp="yes">moviment|govern</exception></token>
                 </marker>
                 <token><exception postag="SPS00" regexp="yes">per|pe|sobre</exception></token>
             </pattern>
-            <message>¿Volíeu dir <suggestion><match no="2" regexp_match="exercit(.?)" regexp_replace="exèrcit$1"/></suggestion>? Correcte com a participi de "exercir".</message>
+            <message>¿Volíeu dir <suggestion><match no="2" regexp_match="([eE])xercit(.?)" regexp_replace="$1xèrcit$2"/></suggestion>? Correcte com a participi de "exercir".</message>
             <example type="incorrect" correction="exèrcit">No volen tenir <marker>exercit</marker> propi.</example>
             <example type="correct">Ha exercit un paper important.</example>
             <example type="correct">restava poders al càrrec de president, exercit des del 1975 per D. Ratsiraka</example>
