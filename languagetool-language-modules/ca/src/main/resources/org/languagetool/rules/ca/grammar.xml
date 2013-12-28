@@ -506,7 +506,7 @@ $Id$
                         <token>l</token>
                     </marker>
                     <token regexp="yes">[123456789][1234567890]{0,3}</token>
-                    <token regexp="yes">anys|dies|mesos|minuts|segons|segles</token>
+                    <token regexp="yes">anys|dies|mesos|minuts|segles</token> <!-- segons -->
                 </pattern>
                 <message>Error de concordança.</message>
                 <suggestion>als</suggestion>
@@ -4669,7 +4669,7 @@ $Id$
         </rule>
         <rule id="CUINA_A_GAS" name="*cuina a gas/cuina de gas ">
             <pattern>
-                <token regexp="yes" inflected="yes">avió|barca|camisa|camiseta|samarreta|brusa|corbata|falda|pantaló|cotxe|cuina|embarcació|fogó|gust|màquina|olor|planxa|pudor|ràdio|vaixell|vehicle|olla</token>
+                <token regexp="yes" inflected="yes">avió|barca|camisa|camiseta|samarreta|brusa|corbata|falda|pantaló|cotxe|cuina|embarcació|fogó|gust|màquina|olor|planxa|pudor|ràdio|vaixell|vehicle|olla|fragata</token>
                 <marker>
                     <token>a</token>
                 </marker>
@@ -5276,7 +5276,7 @@ $Id$
         </rulegroup>
         <rule id="A_L_ENDEMA" name="a l'endemà">
             <pattern>
-                <token><exception regexp="yes">fins|per</exception><exception inflected="yes" regexp="yes">arribar|posposar|passar|traslladar|posterior</exception></token>
+                <token><exception regexp="yes">fins|per</exception><exception inflected="yes" regexp="yes">arribar|posposar|passar|traslladar|posterior|situar|esperar</exception></token>
                 <marker>
                     <token>a</token>
                     <token>l'</token>
@@ -5288,6 +5288,7 @@ $Id$
             <example type="incorrect" correction="l'endemà">Ho farem <marker>a l'endemà</marker>.</example>
             <example type="correct">Ho farem l'endemà.</example>
             <example type="correct">Fa de tot per a arribar a l'endemà.</example>
+            <example type="correct">Esperarem a l'endemà.</example>
         </rule>
         <rule id="AL_1996" name="*al 1996/el 1996">
             <pattern>
@@ -15497,7 +15498,7 @@ $Id$
         </rulegroup> -->
         <rule id="DABRIC" name="d'abric / d'abrigar">
             <pattern>
-                <token postag="N.*" postag_regexp="yes"/>
+                <token inflected="yes" regexp="yes" skip="1">peça|roba|indumentària|vestit</token>
                 <marker>
                     <token>d'</token>
                     <token>abric</token>
@@ -15505,7 +15506,7 @@ $Id$
             </pattern>
             <message>Incorrecte si vol dir <suggestion>d'abrigar</suggestion>.</message>
             <short>Expressió incorrecta</short>
-            <example type="incorrect">Roba <marker>d'abric</marker>.</example>
+            <example type="incorrect">Una peça còmoda <marker>d'abric</marker>.</example>
             <example type="correct">Roba d'abrigar.</example>
             <example type="correct">L'utilitzen d'abric.</example>
         </rule>        
@@ -20211,24 +20212,45 @@ $Id$
                 <example type="correct">Acompliren la tasca perfectament.</example>
             </rule>
         </rulegroup>
-        <rule id="DIVISAR" name="divisar/albirar">
-            <pattern>
-                <marker>
-                    <token inflected="yes">divisar<exception postag="_GN_F.*" postag_regexp="yes"/></token>
-                </marker>
-            </pattern>
-            <message>¿Volíeu dir: <suggestion><match no="1" regexp_match="divis(.*)" regexp_replace="albir$1"/></suggestion>? "Divisar" és correcte com a terme d'heràldica.</message>
-            <suggestion><match no="1" regexp_match="divis(.*)" regexp_replace="atalai$1"/></suggestion>
-            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">veure</match></suggestion>
-            <suggestion><match no="1" regexp_match="divis(.*)" regexp_replace="endevin$1"/></suggestion>
-            <short>Possible error</short>
-            <example type="incorrect" correction="albirava|atalaiava|veia|endevinava">En la llunyania es <marker>divisava</marker> un poblet.</example>
-            <example type="correct">s'albirava un poblet.</example>
-            <example type="correct">Cotitzacions de les divises.</example>
-            <example type="correct">Volen estabilitzar les divises.</example>
-            <example type="correct">La divisa fou una gerra d'assutzenes</example>
-            <example type="correct">adoptà una divisa</example>
-        </rule>
+        <rulegroup id="DIVISAR" name="divisar/albirar">
+            <rule>
+                <pattern>
+                    <token inflected="yes">divisar<exception regexp="yes">divisa|divises</exception></token>
+                </pattern>
+                <message>¿Volíeu dir: <suggestion><match no="1" regexp_match="divis(.*)" regexp_replace="albir$1"/></suggestion>? "Divisar" és correcte com a terme d'heràldica.</message>
+                <suggestion><match no="1" regexp_match="divis(.*)" regexp_replace="atalai$1"/></suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">veure</match></suggestion>
+                <suggestion><match no="1" regexp_match="divis(.*)" regexp_replace="endevin$1"/></suggestion>
+                <short>Possible error</short>
+                <example type="incorrect" correction="albirava|atalaiava|veia|endevinava">En la llunyania es <marker>divisava</marker> un poblet.</example>
+                <example type="correct">S'albirava un poblet.</example>
+                <example type="correct">Cotitzacions de les divises.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception postag="SPS00|.*LOC_PREP.*" postag_regexp="yes"/><exception>més</exception></token>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes" regexp="yes">divisa|divises<exception postag="_GN_F.*" postag_regexp="yes"/></token>
+                    </marker>
+                    <token><exception regexp="yes" inflected="yes">heràldic|militar|de|original</exception></token>
+                </pattern>
+                <message>¿Volíeu dir: <suggestion><match no="2" regexp_match="divis(.*)" regexp_replace="albir$1"/></suggestion>? "Divisa" és correcte en altres sentits.</message>
+                <suggestion><match no="2" regexp_match="divis(.*)" regexp_replace="atalai$1"/></suggestion>
+                <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">veure</match></suggestion>
+                <suggestion><match no="2" regexp_match="divis(.*)" regexp_replace="endevin$1"/></suggestion>
+                <short>Possible error</short>
+                <example type="incorrect" correction="albira|atalaia|veu|endevina">En la llunyania es <marker>divisa</marker> un poblet.</example>
+                <example type="correct">s'albirava un poblet.</example>
+                <example type="correct">Cotitzacions de les divises.</example>
+                <example type="correct">Volen estabilitzar les divises.</example>
+                <example type="correct">La divisa fou una gerra d'assutzenes</example>
+                <example type="correct">adoptà una divisa</example>
+                <example type="correct">L'adoptà com a divisa.</example>
+                <example type="correct">La divisa de l'estat.</example>
+                <example type="correct">mentre que la divisa va situar-se al centre</example>
+                <example type="correct">En cas que la divisa original s'hagi depreciat</example>
+            </rule>
+        </rulegroup>
         <rule id="EXPRIMIR" name="exprimir/esprémer">
             <pattern>
                 <marker>
