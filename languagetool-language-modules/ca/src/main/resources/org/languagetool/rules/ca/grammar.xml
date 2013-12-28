@@ -6106,8 +6106,9 @@ $Id$
         <rule id="PODAR_PODER" name="podar/poder, volar/voler">
             <pattern>
                 <marker>
-                    <token skip="2" regexp="yes">podar|volar<exception scope="next" postag="_PUNCT.*|C.*" postag_regexp="yes"/></token>
+                    <token regexp="yes">podar|volar</token>
                 </marker>
+                <token min="0" postag="P.*" postag_regexp="yes" regexp="yes">-.+</token>
                 <token postag="V.N.*" postag_regexp="yes"/>
             </pattern>
             <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(.+)ar" regexp_replace="$1er"/></suggestion>?</message>
