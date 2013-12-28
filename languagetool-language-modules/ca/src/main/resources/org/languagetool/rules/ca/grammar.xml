@@ -6570,15 +6570,18 @@ $Id$
         </rule>
         <rule id="MILER_MILERS" name="miler/milers">
             <pattern>
+                <token><exception regexp="yes">per|un|una|1|½|el|la</exception></token>
                 <marker>
                     <token postag="NC.*" postag_regexp="yes" regexp="yes">centenar|miler|grapat|tona<exception postag="_GN_.*" postag_regexp="yes"/></token>
                 </marker>
                 <token regexp="yes">de|d'</token>
             </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" postag="(NC.).*" postag_regexp="yes" postag_replace="$1P000"/></suggestion></message>
+            <message>¿Volíeu dir <suggestion><match no="2" postag="(NC.).*" postag_regexp="yes" postag_replace="$1P000"/></suggestion></message>
             <example type="incorrect" correction="milers">hi havia <marker>miler</marker> de persones</example>
             <example type="correct">hi havia un miler de persones</example>
             <example type="correct">un bon grapat de farina</example>
+            <example type="correct">per tona de petroli</example>
+            <example type="correct">1 tona de petroli</example>
         </rule>
         <rule id="LLUSTRES" name="llustres/lustres">
             <pattern>
