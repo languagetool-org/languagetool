@@ -8027,8 +8027,12 @@ $Id$
         <rulegroup id="COMA_COM_A" name="coma / com a">
             <!--alguna falsa alarma?-->
             <rule>
-                <pattern case_sensitive="yes">
-                    <token>coma<exception postag="N.*" postag_regexp="yes"/></token>
+                <pattern>
+                    <token><exception regexp="yes">la|el</exception></token>
+                    <marker>
+                        <token regexp="yes">(?-i)coma<exception postag="N.*" postag_regexp="yes"/></token>
+                    </marker>
+                    <token><exception regexp="yes">etílic|pitagòrica</exception></token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>com a</suggestion>?</message>
                 <short>Possible confusió</short>
@@ -15699,7 +15703,8 @@ $Id$
                 <token>igual</token>
                 <token>que</token>
             </pattern>
-            <message>Cal dir <suggestion>igual que</suggestion> o <suggestion>com també</suggestion>.</message>
+            <message>Cal dir <suggestion>igual que</suggestion>.</message>
+            <suggestion>com també</suggestion>
             <short>Expressió incorrecta</short>
             <example type="incorrect"><marker>a l'igual que</marker> tu ho fas, ho faré jo també</example>
             <example type="correct"><marker>igual que</marker> tu ho fas, ho faré jo també</example>
