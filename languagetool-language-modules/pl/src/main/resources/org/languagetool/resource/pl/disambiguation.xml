@@ -1371,6 +1371,18 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
       <example type="untouched">Dziewczyna jest bystra, choć nieładna.</example>
       <example type="ambiguous" inputform="chociaż[chociaż/comp,chociaż/comp:comma,chociaż/qub]" outputform="chociaż[chociaż/qub]">Każdy człowiek <marker>chociaż</marker> raz w życiu chciałby zjeść krowę.</example>
     </rule>
+    
+    <rule name="około jako kublik" id="OKOLO">
+      <pattern>
+        <token regexp="yes">przez|na|za</token>
+        <marker>
+        <token>około</token>            
+        </marker>
+      </pattern>
+      <disambig postag="qub"/>
+      <example type="untouched">Trwało to około godziny.</example>
+      <example type="ambiguous" inputform="około[około/adv:pos,około/prep:gen,około/qub]" outputform="około[około/qub]">Ciągnęło się to przez <marker>około</marker> godzinę.</example>
+    </rule>
         
     <rule name="potencjalne brev" id="heuristic_brev_pun">
     <pattern>

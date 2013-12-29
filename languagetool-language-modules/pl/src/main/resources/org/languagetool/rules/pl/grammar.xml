@@ -4050,12 +4050,14 @@ $Id$
                         </rule>            
 						<rule>
 							<pattern>
-								<marker><token regexp="yes" inflected="yes">godzina|rok|miesiąc|tydzień|minuta|chwila|moment|wiek|stulecie<exception postag_regexp="yes" postag=".*acc.*"/></token></marker>
+								<marker><token regexp="yes" inflected="yes">godzina|rok|miesiąc|tydzień|minuta|chwila|moment|wiek|stulecie<exception postag_regexp="yes" postag=".*acc.*"/><exception scope="previous" regexp="yes">[5-9]|[1-9][0-9]+|\.|pół|parę|kilka|miliony</exception></token></marker>
 						        <token postag="prep:acc">temu</token>
 							     </pattern>
-							<message>Przyimek „\1” jest używany z biernikiem.</message>
+							<message>Przyimek „\2” jest używany z biernikiem.</message>
 								<short>Przyimek wymaga biernika</short>
 								<example type="correct">To było godzinę temu.</example>
+                                <example type="correct">To było 10 minut temu.</example>
+                                <example type="correct">Przybyły do południowej części Sachalinu oraz na Wyspy Japońskie i Kurylskie przeszło 6 tys. lat temu.</example>
 								<example type="incorrect">To było 1 <marker>godzina</marker> temu.</example>
 						</rule>
 				</rulegroup>
