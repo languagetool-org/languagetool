@@ -1,7 +1,8 @@
 #!/bin/bash
 if [ ! $# -eq 2 ] && [ ! $# -eq 3 ]; then
   echo Usage: ./ltdiff.bash old_tag new_tag\|trunk [lang]
-  echo e.g. ./ltdiff.bash languagetool-2.2 languagetool-parent-2.3
+  echo e.g. ./ltdiff.bash v2.3.1 v2.4
+  echo "     ./ltdiff.bash languagetool-2.2 languagetool-parent-2.3"
   echo "     ./ltdiff.bash V_2_0 languagetool-2.1"
   echo "     ./ltdiff.bash V_1_6 V_1_7"
   echo "     ./ltdiff.bash V_1_7 trunk en"
@@ -60,8 +61,8 @@ if [ ! $? -eq 0 ]; then
   exit 1
 fi
 
-oldv=`echo $1 | sed "s/_/./g" | sed "s/V.//g" | sed "s/languagetool-//g" | sed "s/parent-//g"`
-newv=`echo $2 | sed "s/_/./g" | sed "s/V.//g" | sed "s/languagetool-//g" | sed "s/parent-//g"`
+oldv=`echo $1 | sed "s/_/./g" | sed "s/V.//" | sed "s/v//" | sed "s/languagetool-//g" | sed "s/parent-//g"`
+newv=`echo $2 | sed "s/_/./g" | sed "s/V.//" | sed "s/v//" | sed "s/languagetool-//g" | sed "s/parent-//g"`
 
 folder=${1}_to_${2}
 
