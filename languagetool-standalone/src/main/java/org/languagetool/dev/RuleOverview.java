@@ -61,7 +61,7 @@ public final class RuleOverview {
   private void run(File webRoot) throws IOException {
     System.out.println("<b>Rules in LanguageTool " + JLanguageTool.VERSION + "</b><br />");
     System.out.println("Date: " + new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + "<br /><br />\n");
-    System.out.println("<table class=\"tablesorter sortable\">");
+    System.out.println("<table class=\"tablesorter sortable\" style=\"width: auto\">");
     System.out.println("<thead>");
     System.out.println("<tr>");
     System.out.println("  <th valign='bottom' width=\"200\">Language</th>");
