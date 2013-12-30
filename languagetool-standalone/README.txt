@@ -2,8 +2,8 @@ LanguageTool, a proof-reading tool for English, German, Polish,
 Chinese, French, Dutch, Russian, Italian, Danish and more languages
 (see http://www.languagetool.org/languages/ for a list)
 
-Copyright (C) 2005-2013 Daniel Naber (naber at danielnaber de)
-Version 2.4, 2013-12-30
+Copyright (C) 2005-2014 Daniel Naber (naber at danielnaber de)
+Version 2.5-SNAPSHOT, 2014-xx-yy
 Homepage: http://www.languagetool.org
 
 Requirements:
