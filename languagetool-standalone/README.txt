@@ -3,7 +3,7 @@ Chinese, French, Dutch, Russian, Italian, Danish and more languages
 (see http://www.languagetool.org/languages/ for a list)
 
 Copyright (C) 2005-2013 Daniel Naber (naber at danielnaber de)
-Version 2.4-SNAPSHOT, 2013-xx-yy
+Version 2.4, 2013-12-30
 Homepage: http://www.languagetool.org
 
 Requirements:
@@ -17,12 +17,12 @@ Usage:
  -To integrate LanguageTool into OpenOffice.org or LibreOffice, you
   can use two methods:
  
- 1. Double-click LanguageTool-2.3.oxt. The extension should
+ 1. Double-click LanguageTool-2.4.oxt. The extension should
   start installing. Follow the on-screen instructions.
  
  2. If the above method doesn't work, call Tools > Extension 
   Manager > Add... in OpenOffice.org/LibreOffice and browse for the
-  LanguageTool-2.3.oxt file. 
+  LanguageTool-2.4.oxt file. 
   
   Close and restart OpenOffice.org/LibreOffice Writer. Remember to close
   the QuickStarter as well if you use it. Type text with

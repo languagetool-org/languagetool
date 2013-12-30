@@ -1,6 +1,6 @@
 LanguageTool Change Log
 
-2.4-SNAPSHOT (release planned for 2013-12-30)
+2.4 (2013-12-30)
 
 -Breton:
 	-SRX sentence tokenization
@@ -14,8 +14,8 @@ LanguageTool Change Log
 	-made additions and fixes to the tagger dictionary
 	-removed some words from synthesis dictionary (see filter-archaic.txt)
 	-added frequency data to the tagger dictionary; frequency wordlist comes from the Gaia 
-	project, with Apache License, version 2.0
-	(https://github.com/mozilla-b2g/gaia/tree/master/keyboard/dictionaries).
+	 project, with Apache License, version 2.0
+	 (https://github.com/mozilla-b2g/gaia/tree/master/keyboard/dictionaries).
 
 -English:
 	-added/improved a few rules
@@ -35,7 +35,7 @@ LanguageTool Change Log
 	-added frequency information for spell-checking dictionary; 
 	 frequency wordlist comes from the Gaia	project, with Apache License, 
 	 version 2.0
-	(https://github.com/mozilla-b2g/gaia/tree/master/keyboard/dictionaries).
+	 (https://github.com/mozilla-b2g/gaia/tree/master/keyboard/dictionaries).
 	-fixed some false alarms
 
 -Portuguese:
@@ -61,28 +61,30 @@ LanguageTool Change Log
 -added support for chunk annotations in the disambiguator, and fixed one bug
  in filtering tokens with chunk annotations
 
+-updated Morfologik libraries to 1.8.2 (bug fixes, stricter input sanity checking,
+ add frequency data to dictionaries)
+
+-added the option of including frequency data to taggging or spelling dictionaries. 
+ The expected format of the frequency wordlists is the one in the Gaia 
+ project, with Apache License, version 2.0
+ (https://github.com/mozilla-b2g/gaia/tree/master/keyboard/dictionaries)
+
 -new command line tools to export and create binary dictionaries:
 	org.languagetool.dev.DictionaryExporter
 	org.languagetool.dev.POSDictionaryBuilder
 
 -LibreOffice/OpenOffice integration:
 	-added a workaround for incorrect sentence detection for the case that a
-		footnote appeared after a sentence full stop (Sourceforge bug #191) 
+	 footnote appeared after a sentence full stop (Sourceforge bug #191) 
 
 -stand-alone GUI:
 	-The dialog opened by the "More..." item in the context menu of an error
 	 will now also display correct and incorrect example sentences
 	 
--stand-alone dev:
-    -Added the option of including frequency data to taggging or spelling dictionaries. 
-    The expected format of the frequency wordlists is the one in the Gaia 
-	project, with Apache License, version 2.0
-	(https://github.com/mozilla-b2g/gaia/tree/master/keyboard/dictionaries)
-
 -API:
 	-SentenceTokenizer is now an interface, the implementation has been moved to
-		RegexSentenceTokenizer, but this is deprecated and SRXSentenceTokenizer
-		should be used instead
+	 RegexSentenceTokenizer, but this is deprecated and SRXSentenceTokenizer
+	 should be used instead
 	-Some methods from org.languagetool.tools.StringTools have been moved to
 	 the org.languagetool.gui.Tools class in the languagetool-gui-commons project
 	-LanguageToolListener.languageToolEventOccured() has been renamed to
@@ -97,15 +99,12 @@ LanguageTool Change Log
 	 mentioned in the javadoc)
 
 -languagetool-wikipedia: the command line options for checking a Wikipedia dump
-	have been simplified. The command can now be called like this:
-	java -jar languagetool-wikipedia.jar check-data -l en -f enwiki-20130621-pages-articles.xml
-	Call just "java -jar languagetool-wikipedia.jar check-data" to get a usage message.
-	More than one file can be specified with the -f option. Additionally to Wikipedia
-	XML dumps, CSV files from Tatoeba (http://tatoeba.org) are now also supported,
-	they need to be filtered first to contain only the relevant language.
-
--Updated Morfologik libraries to 1.8.2 (bug fixes, stricter input sanity checking, add frequency 
-    data to dictionaries)
+ have been simplified. The command can now be called like this:
+ java -jar languagetool-wikipedia.jar check-data -l en -f enwiki-20130621-pages-articles.xml
+ Call just "java -jar languagetool-wikipedia.jar check-data" to get a usage message.
+ More than one file can be specified with the -f option. Additionally to Wikipedia
+ XML dumps, CSV files from Tatoeba (http://tatoeba.org) are now also supported,
+ they need to be filtered first to contain only the relevant language.
 
 
 2.3.1 (2013-10-07, released on Maven Central only)
