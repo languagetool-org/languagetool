@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # helper to stage LT releases to oss.sonatype.org
 # See https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide
 # Written because the automatic process didn't work: https://issues.sonatype.org/browse/OSSRH-7363
