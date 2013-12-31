@@ -10,7 +10,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <!ENTITY exceptions_QUE_COMPARATIU "pretensió|algun|objectiu|vocació|missió|sortida|eixida|alternativa|recurs|remei|solució|opció|camí">
     <!ENTITY exceptions_TE "aigua|arròs|cacau|cacauet|caf[èé]|cautxú|cervesa|cítric|coca-cola|cotó|espècies|farigola|fruita|infusió|llet|malta?|melmelada|mill|oli|ordi|pastes|pastís|pastisset|poliol|quina|raïm|sucre|tabac|torrada|xocolat[ae]">
     <!ENTITY verbs_TE_INFUSIO "produir|prendre|servir|preparar|voler|beure|consumir|importar|vendre|exportar|llançar">
-    <!ENTITY unitats_temps "molt|poc|temps|mil·lisegon|segon|minut|hora|dia|setmana|mes|any|lustre|dècada|segle|mil·lenni">    
+    <!ENTITY unitats_temps "molt|poc|temps|temporada|jornada|estona|mil·lisegon|segon|minut|hora|dia|jorn|setmana|mes|any|lustre|dècada|decenni|segle|mil·lenni">    
 ]>
 <rules lang="ca" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <unification feature="nombre">
@@ -85,13 +85,272 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="add"><wd pos="decimal_comma"></wd></disambig>
         </rule>
-    </rulegroup>    
-    <!-- eliminat del diccionari, innecessari! <rule id="no_noms_error_diccionari" name="no haurien de ser noms, error del diccionari">
-        <pattern> 
-            <token regexp="yes">empaquetat|emmotll?at</token>
-        </pattern>
-        <disambig action="filter" postag="[^N].*" />
-    </rule> -->
+    </rulegroup>
+        <rulegroup id="NUMERALS" name="numerals i ordinals">     
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>mil</token>
+                        <token>i</token>
+                        <token>un</token>
+                    </marker>
+                </pattern>
+                <disambig action="replace"><wd pos="DN0MP0"/><wd pos="DN0MP0"/><wd pos="DN0MP0"/></disambig>
+            </rule>        
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>mil</token>
+                        <token>i</token>
+                        <token>una</token>
+                    </marker>
+                </pattern>
+                <disambig action="replace"><wd pos="DN0FP0"/><wd pos="DN0FP0"/><wd pos="DN0FP0"/></disambig>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[1234567890][1234567890., ]+[1234567890]</token>
+                    </marker>
+                </pattern>
+                <disambig action="add"><wd lemma="numeral" pos="NCCN000"></wd></disambig>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[1234567890][1234567890., ]+[1234567890]</token>
+                    </marker>
+                </pattern>
+                <disambig action="add"><wd lemma="numeral" pos="DN0CP0"></wd></disambig>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[1234567890]{1,2}</token>
+                    </marker>
+                </pattern>
+                <disambig action="add"><wd lemma="numeral" pos="NCCN000"></wd></disambig>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[1234567890]{1,2}</token>
+                    </marker>
+                </pattern>
+                <disambig action="add"><wd lemma="numeral" pos="DN0CP0"></wd></disambig>
+            </rule>  
+            <rule>
+                <pattern>
+                    <marker>
+                        <token spacebefore="yes">1</token>
+                    </marker>
+                </pattern>
+                <disambig action="add"><wd lemma="numeral" pos="DN0CS0"></wd></disambig>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token spacebefore="yes">1</token>
+                    </marker>
+                </pattern>
+                <disambig action="remove"><wd lemma="numeral" pos="DN0CP0"></wd></disambig>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[^.,]+</token>
+                    <marker>
+                        <token spacebefore="no">1</token>
+                    </marker>
+                </pattern>
+                <disambig action="add"><wd lemma="numeral" pos="DN0CS0"></wd></disambig>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[^.,]+</token>
+                    <marker>
+                        <token spacebefore="no">1</token>
+                    </marker>
+                </pattern>
+                <disambig action="remove"><wd lemma="numeral" pos="DN0CP0"></wd></disambig>
+            </rule>     
+            <!-- ordinals -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[1234567890]+[èé]<exception postag="AO.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <disambig action="add"><wd pos="AO0MS0"/></disambig>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>el</token>
+                    <marker>
+                        <token regexp="yes">[1234567890]+</token>
+                    </marker>
+                </pattern>
+                <disambig action="add"><wd pos="AO0MS0"/></disambig>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[1234567890]+a<exception postag="AO.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <disambig action="add"><wd pos="AO0FS0"/></disambig>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>la</token>
+                    <marker>
+                        <token regexp="yes">[1234567890]+</token>
+                    </marker>
+                </pattern>
+                <disambig action="add"><wd pos="AO0FS0"/></disambig>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[1234567890]+ns<exception postag="AO.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <disambig action="add"><wd pos="AO0MP0"/></disambig>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>els</token>
+                    <marker>
+                        <token regexp="yes">[1234567890]+</token>
+                    </marker>
+                </pattern>
+                <disambig action="add"><wd pos="AO0MP0"/></disambig>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[1234567890]+es<exception postag="AO.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <disambig action="add"><wd pos="AO0FP0"/></disambig>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>les</token>
+                    <marker>
+                        <token regexp="yes">[1234567890]+</token>
+                    </marker>
+                </pattern>
+                <disambig action="add"><wd pos="AO0FP0"/></disambig>
+            </rule>
+            <!-- romans-->
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes">(?=.)M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})</token>
+                    </marker>
+                </pattern>
+                <disambig action="add"><wd pos="AO0CN0"/></disambig>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes" spacebefore="yes">(?=.)m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|iv|v?i{0,3})</token>
+                    </marker>
+                </pattern>
+                <disambig action="add"><wd pos="AO0CN0"/></disambig>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token regexp="yes">(?=.)m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|iv|v?i{0,3})</token>
+                    </marker>
+                </pattern>
+                <disambig action="add"><wd pos="AO0CN0"/></disambig>
+            </rule>
+            <!-- excepcions als numerals romans -->
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token>I</token>
+                    </marker>
+                </pattern>
+                <disambig action="remove"><wd pos="AO0CN0"/></disambig>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes">i|li|mi</token>
+                    </marker>
+                </pattern>
+                <disambig action="remove"><wd pos="AO0CN0"/></disambig>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[1234567890., ]+|/|per</token>
+                    <marker>
+                        <token>m</token>
+                    </marker>
+                </pattern>
+                <disambig action="filter" postag="N.*" />
+            </rule>
+            <!-- El + any (en xifres) -->
+            <rule>
+                <pattern>
+                    <token regexp="yes">en|anys?|l|el|l'|mitjan|-</token>
+                    <marker>
+                        <token regexp="yes">[123456789][1234567890]{0,3}</token>
+                    </marker>
+                </pattern>
+                <disambig action="replace" postag="_C_TEMPS"/>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" inflected="yes">llei|mitjà|final|fi|principi|començament|inici|gener|febrer|març|abril|maig|juny|juliol|agost|setembre|octubre|novembre|desembre</token>
+                    <token>de</token>
+                    <marker>
+                        <token regexp="yes">[123456789][1234567890]{0,3}</token>
+                    </marker>
+                </pattern>
+                <disambig action="replace" postag="_C_TEMPS"/>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="DN.*" postag_regexp="yes"/>
+                    <marker>
+                        <token regexp="yes">aC|dC</token>
+                    </marker>
+                </pattern>
+                <disambig action="replace"><wd pos="RG"/></disambig>
+            </rule>
+            <rule id="en_base" name="en base + numeral">
+                <pattern>
+                    <token regexp="yes">en|de</token>
+                    <token>base</token>
+                    <marker>
+                        <token postag="DN.*" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <disambig action="filter" postag="N.*" />
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="DD.FS.*" postag_regexp="yes" />
+                    <marker>
+                        <token>deu</token>
+                    </marker>
+                </pattern>
+                <disambig action="filter" postag="NCFS.*|VMI.*" />
+            </rule>
+            <!-- Percentatges -->
+            <rule id="percentatges" name="percentatges">
+                <pattern>
+                    <token regexp="yes">[\d,.]+%</token>
+                </pattern>
+                <disambig action="add"><wd pos="NCMS000"/></disambig>
+            </rule>
+        </rulegroup>
     <rule id="noNomMasculi" name="no Nom masculí">
         <pattern>
             <marker>
@@ -558,7 +817,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
             </pattern>
             <disambig action="filter" postag=".*LOC_ADV.*"></disambig>
-        </rule>      
+        </rule>
         <!-- locucions conjuntives-->
         <rule id="loc_conj3paraules" name="locució conjuntiva 3 paraules">
             <pattern>
@@ -3531,300 +3790,6 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="A.*"></disambig>
     </rule>
-    <rulegroup id="NUMERALS" name="numerals i ordinals">     
-        <rule>
-            <pattern>
-                <marker>
-                    <token>mil</token>
-                    <token>i</token>
-                    <token>un</token>
-                </marker>
-            </pattern>
-            <disambig action="replace"><wd pos="DN0MP0"/><wd pos="DN0MP0"/><wd pos="DN0MP0"/></disambig>
-        </rule>        
-        <rule>
-            <pattern>
-                <marker>
-                    <token>mil</token>
-                    <token>i</token>
-                    <token>una</token>
-                </marker>
-            </pattern>
-            <disambig action="replace"><wd pos="DN0FP0"/><wd pos="DN0FP0"/><wd pos="DN0FP0"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token regexp="yes">[1234567890][1234567890., ]+[1234567890]</token>
-                </marker>
-            </pattern>
-            <disambig action="add"><wd lemma="numeral" pos="NCCN000"></wd></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token regexp="yes">[1234567890][1234567890., ]+[1234567890]</token>
-                </marker>
-            </pattern>
-            <disambig action="add"><wd lemma="numeral" pos="DN0CP0"></wd></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token regexp="yes">[1234567890]{1,2}</token>
-                </marker>
-            </pattern>
-            <disambig action="add"><wd lemma="numeral" pos="NCCN000"></wd></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token regexp="yes">[1234567890]{1,2}</token>
-                </marker>
-            </pattern>
-            <disambig action="add"><wd lemma="numeral" pos="DN0CP0"></wd></disambig>
-        </rule>  
-        <rule>
-            <pattern>
-                <marker>
-                    <token spacebefore="yes">1</token>
-                </marker>
-            </pattern>
-            <disambig action="add"><wd lemma="numeral" pos="DN0CS0"></wd></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token spacebefore="yes">1</token>
-                </marker>
-            </pattern>
-            <disambig action="remove"><wd lemma="numeral" pos="DN0CP0"></wd></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token regexp="yes">[^.,]+</token>
-                <marker>
-                    <token spacebefore="no">1</token>
-                </marker>
-            </pattern>
-            <disambig action="add"><wd lemma="numeral" pos="DN0CS0"></wd></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token regexp="yes">[^.,]+</token>
-                <marker>
-                    <token spacebefore="no">1</token>
-                </marker>
-            </pattern>
-            <disambig action="remove"><wd lemma="numeral" pos="DN0CP0"></wd></disambig>
-        </rule>     
-        <!-- ordinals -->
-        <rule>
-            <pattern>
-                <marker>
-                    <token regexp="yes">[1234567890]+[èé]<exception postag="AO.*" postag_regexp="yes"/></token>
-                </marker>
-            </pattern>
-            <disambig action="add"><wd pos="AO0MS0"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token>el</token>
-                <marker>
-                    <token regexp="yes">[1234567890]+</token>
-                </marker>
-            </pattern>
-            <disambig action="add"><wd pos="AO0MS0"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token regexp="yes">[1234567890]+a<exception postag="AO.*" postag_regexp="yes"/></token>
-                </marker>
-            </pattern>
-            <disambig action="add"><wd pos="AO0FS0"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token>la</token>
-                <marker>
-                    <token regexp="yes">[1234567890]+</token>
-                </marker>
-            </pattern>
-            <disambig action="add"><wd pos="AO0FS0"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token regexp="yes">[1234567890]+ns<exception postag="AO.*" postag_regexp="yes"/></token>
-                </marker>
-            </pattern>
-            <disambig action="add"><wd pos="AO0MP0"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token>els</token>
-                <marker>
-                    <token regexp="yes">[1234567890]+</token>
-                </marker>
-            </pattern>
-            <disambig action="add"><wd pos="AO0MP0"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token regexp="yes">[1234567890]+es<exception postag="AO.*" postag_regexp="yes"/></token>
-                </marker>
-            </pattern>
-            <disambig action="add"><wd pos="AO0FP0"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token>les</token>
-                <marker>
-                    <token regexp="yes">[1234567890]+</token>
-                </marker>
-            </pattern>
-            <disambig action="add"><wd pos="AO0FP0"/></disambig>
-        </rule>
-        <!-- romans-->
-        <rule>
-            <pattern case_sensitive="yes">
-                <marker>
-                    <token regexp="yes">(?=.)M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})</token>
-                </marker>
-            </pattern>
-            <disambig action="add"><wd pos="AO0CN0"/></disambig>
-        </rule>
-        <rule>
-            <pattern case_sensitive="yes">
-                <marker>
-                    <token regexp="yes" spacebefore="yes">(?=.)m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|iv|v?i{0,3})</token>
-                </marker>
-            </pattern>
-            <disambig action="add"><wd pos="AO0CN0"/></disambig>
-        </rule>
-        <rule>
-            <pattern case_sensitive="yes">
-                <token postag="SENT_START"/>
-                <marker>
-                    <token regexp="yes">(?=.)m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|iv|v?i{0,3})</token>
-                </marker>
-            </pattern>
-            <disambig action="add"><wd pos="AO0CN0"/></disambig>
-        </rule>
-        <!-- excepcions als numerals romans -->
-        <rule>
-            <pattern case_sensitive="yes">
-                <token postag="SENT_START"/>
-                <marker>
-                    <token>I</token>
-                </marker>
-            </pattern>
-            <disambig action="remove"><wd pos="AO0CN0"/></disambig>
-        </rule>
-        <rule>
-            <pattern case_sensitive="yes">
-                <marker>
-                    <token regexp="yes">i|li|mi</token>
-                </marker>
-            </pattern>
-            <disambig action="remove"><wd pos="AO0CN0"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token regexp="yes">[1234567890., ]+|/|per</token>
-                <marker>
-                    <token>m</token>
-                </marker>
-            </pattern>
-            <disambig action="filter" postag="N.*" />
-        </rule>
-        <!-- El + any (en xifres) -->
-        <rule>
-            <pattern>
-                <token regexp="yes">en|anys?|l|el|l'|mitjan|-</token>
-                <marker>
-                    <token regexp="yes">[123456789][1234567890]{0,3}</token>
-                </marker>
-            </pattern>
-            <disambig action="replace" postag="_C_TEMPS"/>
-        </rule>
-        <rule>
-            <pattern>
-                <token regexp="yes" inflected="yes">llei|mitjà|final|fi|principi|començament|inici|gener|febrer|març|abril|maig|juny|juliol|agost|setembre|octubre|novembre|desembre</token>
-                <token>de</token>
-                <marker>
-                    <token regexp="yes">[123456789][1234567890]{0,3}</token>
-                </marker>
-            </pattern>
-            <disambig action="replace" postag="_C_TEMPS"/>
-        </rule>
-        <rule>
-            <pattern>
-                <token inflected="yes">numeral</token>
-                <marker>
-                    <token regexp="yes">aC|dC</token>
-                </marker>
-            </pattern>
-            <disambig action="replace"><wd pos="RG"/></disambig>
-        </rule>
-       
-        
-        
-<!--         <rule>  aquesta i la següent es poden eliminar?
-            un cop, aquestes tres
-            <pattern>
-                <token postag="D[DIA].*" postag_regexp="yes"></token>
-                <marker>
-                    <and>
-                        <token postag="VM[IS]P1S0" postag_regexp="yes" />
-                        <token postag="VM[IS]P1S0" postag_regexp="yes" negate_pos="yes" />
-                    </and>
-                </marker>
-            </pattern>
-            <disambig action="filter" postag="[^V].*" />
-        </rule>
-        <rule>
-            dos
-            <pattern>
-                <token postag="D[DIA].*" postag_regexp="yes"></token>
-                <marker>
-                    <and>
-                        <token postag="VM[IS]P1S0" postag_regexp="yes" />
-                        <token postag="VM[IS]P1S0" postag_regexp="yes" negate_pos="yes" />
-                    </and>
-                </marker>
-            </pattern>
-            <disambig action="filter" postag="[^V].*" />
-        </rule> -->
-        <rule id="en_base" name="en base + numeral">
-            <pattern>
-                <token regexp="yes">en|de</token>
-                <token>base</token>
-                <marker>
-                    <token postag="DN.*" postag_regexp="yes"/>
-                </marker>
-            </pattern>
-            <disambig action="filter" postag="N.*" />
-        </rule>
-        <rule>
-            <pattern>
-                <token postag="DD.FS.*" postag_regexp="yes" />
-                <marker>
-                    <token>deu</token>
-                </marker>
-            </pattern>
-            <disambig action="filter" postag="NCFS.*|VMI.*" />
-        </rule>
-        <!-- Percentatges -->
-        <rule id="percentatges" name="percentatges">
-        	<pattern>
-        		<token regexp="yes">[\d,.]+%</token>
-        	</pattern>
-        	<disambig action="add"><wd pos="NCMS000"/></disambig>
-        </rule>
-    </rulegroup>
     <rule id="COP" name="cop no verb balear">
         <pattern>
             <unify>
@@ -10148,7 +10113,28 @@ Copyright (C) 2012 Jaume Ortolà i Font
 	    	</pattern>
 	    	<disambig action="immunize"/>
 	    </rule>
-	</rulegroup> 
+	</rulegroup>
+    <rule id="uns__despres" name="uns ... després">
+        <pattern>
+            <marker>
+                <token postag="D[IN].*" postag_regexp="yes" skip="3"><exception postag="LOC_ADV_TEMP"/></token>
+            </marker>
+            <token regexp="yes" inflected="yes" skip="2">&unitats_temps;</token>
+            <token regexp="yes">després|abans|(en|ar|endar)(rer[ea])</token>
+        </pattern>
+        <disambig action="add"><wd pos="LOC_ADV_TEMP"/></disambig>
+    </rule>
+    <rule id="uns__mestard" name="uns ... més tard">
+        <pattern>
+            <marker>
+                <token postag="D[IN].*" postag_regexp="yes" skip="3"><exception postag="LOC_ADV_TEMP"/></token>
+            </marker>
+            <token regexp="yes" inflected="yes" skip="2">&unitats_temps;</token>
+            <token>més</token>
+            <token regexp="yes">tard|avant|endavant|(en|ar|endar)(rer[ea])</token>
+        </pattern>
+        <disambig action="add"><wd pos="LOC_ADV_TEMP"/></disambig>
+    </rule> 
 	<rulegroup id="allowed_repetitions" name="repeticions permeses">
 	<!-- girar el cap cap a l’altra persona -->
 		<rule>

@@ -5180,36 +5180,33 @@ $Id$
                 <example type="incorrect">en cotxe <marker>fins</marker> Barcelona.</example>
                 <example type="correct">Fins a València.</example>
             </rule>
-            <rule>
+            <rule id="FINS_1996" name="*fins/fins a 1996">
                 <pattern>
                     <marker>
                         <token>fins</token>
                     </marker>
-                    <token postag="D[NI].*" postag_regexp="yes"><exception postag="RG"></exception></token>
-                    <token><exception regexp="yes">anys?|mesos|dies|temps</exception></token>
+                    <token postag="D[NI].*" postag_regexp="yes"><exception postag=".*LOC_ADV_TEMP.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Correcte si vol dir "fins i tot"; si no, cal escriure <suggestion>fins a</suggestion>.</message>
                 <example type="incorrect"><marker>Fins</marker> un 4 %.</example>
+                <example type="incorrect"><marker>Fins</marker> quatre metres.</example>
                 <example type="correct">Fins a un 4 %.</example>
                 <example type="correct">Fins molt més tard.</example>
-                <example type="incorrect"><marker>Fins</marker> quatre metres.</example>
-                <!-- fins dos anys després
-                fins molts anys deprés 
-                fins uns mesos després 
-                fins deu anys després-->
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>fins</token>
-                    </marker>
-                    <token regexp="yes">(\d[\d.,]+\d|\d+)</token>
-                </pattern>
-                <message>Correcte si vol dir "fins i tot"; si no, cal escriure <suggestion>fins a</suggestion>.</message>
+                <example type="correct">fins dos anys després</example>
+                <example type="correct">fins uns 20 anys després</example>
+                <example type="correct">fins molts anys deprés</example>
+                <example type="correct">fins uns mesos després</example>
+                <example type="correct">fins deu anys després</example>
+                <example type="correct">fins una estona després</example>
+                <example type="correct">fins un cert temps després</example>
+                <example type="correct">fins un segle i mig després</example>
+                <example type="correct">fins uns quants milions d'anys després</example>
+                <!-- <example type="correct">fins unes quantes pel·lícules després</example> -->
                 <example type="incorrect"><marker>Fins</marker> 4 metres.</example>
                 <example type="correct">Fins a 4 metres.</example>
+                <example type="correct">Fins 2,3 minuts després.</example>
             </rule>
-             <rule>
+            <rule>
                 <pattern>
                     <marker>
                         <token>fins</token>
@@ -5268,6 +5265,8 @@ $Id$
                 <example type="correct">Fins a sobre el campanar.</example>
                 <example type="correct">Fins diumenge.</example>
                 <example type="correct">Fins ben tocades les 10.</example>
+                <!-- fins gairebé un any després
+                Fins molt de temps després -->
             </rule>
             <rule id="FINS_SOTA" name="*fins sota, sobre / fins a">
                 <pattern>
@@ -5316,7 +5315,9 @@ $Id$
                 <example type="incorrect" correction="Fins"><marker>Fins a</marker> mil dies després</example>
                 <example type="incorrect" correction="Fins"><marker>Fins a</marker> un segle més tard</example>
                 <example type="incorrect" correction="Fins"><marker>Fins a</marker> havent dinat.</example>
-                <example type="correct">Fins després</example>
+                <example type="incorrect" correction="Fins"><marker>Fins a</marker> 39 segons més tard.</example>
+                <example type="incorrect" correction="Fins"><marker>Fins a</marker> uns quants milions d'anys després</example><example type="correct">Fins després</example>
+                <!-- fins a poc més de dues hores -->
             </rule>
         </rulegroup>
         <rule id="A_L_ENDEMA" name="a l'endemà">
