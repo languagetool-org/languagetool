@@ -36,7 +36,11 @@ public class AmericanEnglish extends English {
   public final String getName() {
     return "English (US)";
   }
-  
+
+  /**
+   * @deprecated was never used (deprecated since 2.5) 
+   */
+  @Deprecated
   public final String getId() {
       return "MORFOLOGIK_RULE_EN_US";
   }
