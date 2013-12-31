@@ -24,15 +24,6 @@ import org.languagetool.tagging.BaseTagger;
 
 /**
  * Danish Part-of-speech tagger.
- *
- * Based on the spellcheck dictionary Stavekontrolden
- * published by Foreningen for frit tilgængelige sprogværktøjer
- * under the terms of the GNU LGPL version 2.1 and Mozilla MPL version 1.1.
- *
- * www.stavekontrolden.dk
- *
- * Stavekontrolden is based on data from Det Danske Sprog- og Litteraturselskab
- * (The Danish Society for Language and Literature), http://www.dsl.dk.
  * 
  * @author Esben Aaberg
  */
