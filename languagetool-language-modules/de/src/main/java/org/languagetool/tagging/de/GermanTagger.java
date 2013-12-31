@@ -39,7 +39,7 @@ import org.languagetool.tools.StringTools;
 /**
  * German part-of-speech tagger, requires data file in <code>resource/de/german.dict</code>.
  * The POS tagset is described in
- * <a href="https://https://github.com/languagetool-org/languagetool/blob/master/languagetool-language-modules/de/src/main/resources/org/languagetool/resource/de/tagset.txt">tagset.txt</a>
+ * <a href="https://github.com/languagetool-org/languagetool/blob/master/languagetool-language-modules/de/src/main/resources/org/languagetool/resource/de/tagset.txt">tagset.txt</a>
  *
  * @author Marcin Milkowski, Daniel Naber
  */
