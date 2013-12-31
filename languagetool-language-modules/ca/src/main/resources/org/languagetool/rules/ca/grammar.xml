@@ -5205,19 +5205,7 @@ $Id$
                 <example type="incorrect"><marker>Fins</marker> 4 metres.</example>
                 <example type="correct">Fins a 4 metres.</example>
                 <example type="correct">Fins 2,3 minuts després.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>fins</token>
-                        <token>de</token>
-                    </marker>
-                    <token regexp="yes">(\d[\d.,]+\d|\d+)</token>
-                </pattern>
-                <message>¿Volíeu dir <suggestion>de fins a</suggestion>?</message>
-                <example type="incorrect"><marker>Fins de</marker> 4 metres.</example>
-                <example type="correct">De fins a 4 metres.</example>
-            </rule>   
+            </rule>  
             <rule id="FINS_INFINITIU" name="*fins + infinitiu / fins a">
                 <pattern>
                     <marker>
@@ -5257,7 +5245,8 @@ $Id$
                     <marker>
                         <token>fins</token>
                     </marker>
-                    <token postag="RG"><exception regexp="yes">&adverbis_temps_lloc;</exception><exception regexp="yes">quan|ben</exception></token>
+                    <token postag="RG"><exception regexp="yes">&adverbis_temps_lloc;</exception><exception regexp="yes">quan|ben</exception><exception postag=".*LOC_ADV_TEMP.*" postag_regexp="yes"/></token>
+                    <token><exception postag=".*LOC_ADV_TEMP.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Correcte si vol dir "fins i tot"; si no, cal escriure <suggestion>fins a</suggestion>.</message>             
                 <example type="incorrect" correction="Fins a"><marker>Fins</marker> gairebé el segle XIX.</example>
@@ -5265,8 +5254,8 @@ $Id$
                 <example type="correct">Fins a sobre el campanar.</example>
                 <example type="correct">Fins diumenge.</example>
                 <example type="correct">Fins ben tocades les 10.</example>
-                <!-- fins gairebé un any després
-                Fins molt de temps després -->
+                <example type="correct">fins gairebé un any després</example>
+                <example type="correct">Fins molt de temps després</example>
             </rule>
             <rule id="FINS_SOTA" name="*fins sota, sobre / fins a">
                 <pattern>
