@@ -1703,6 +1703,24 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
           <example type="untouched">Let's keep it simple.</example>
           <example type="ambiguous" inputform="clean[clean/JJ,clean/NN,clean/VB,clean/VBP]" outputform="clean[clean/JJ]">Let's keep it <marker>clean</marker>.</example>
         </rule>
-	
+
+        <rule name="or" id="REMOVE_JJ_FOR_OR">
+          <!-- work around strange dict entry -->
+          <pattern case_sensitive="yes">
+            <token>or</token>
+          </pattern>
+          <disambig action="remove"><wd pos="JJ"/></disambig>
+          <example type="ambiguous" inputform="or[or/CC,or/JJ,or/NN:U]" outputform="or[or/CC,or/NN:U]">Let's choose A <marker>or</marker> B.</example>
+        </rule>
+
+        <rule name="or" id="REMOVE_NN_FOR_OR">
+          <!-- work around strange dict entry -->
+          <pattern case_sensitive="yes">
+            <token>or</token>
+          </pattern>
+          <disambig action="remove"><wd pos="NN:U"/></disambig>
+          <example type="ambiguous" inputform="or[or/CC,or/NN:U]" outputform="or[or/CC]">Let's choose A <marker>or</marker> B.</example>
+        </rule>
+
 </rules>
  
