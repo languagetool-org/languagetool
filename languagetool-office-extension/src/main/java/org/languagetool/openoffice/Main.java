@@ -709,7 +709,7 @@ public class Main extends WeakBase implements XJobExecutor,
     msg += Tools.getFullStackTrace(e);
     final String metaInfo = "OS: " + System.getProperty("os.name") + " on "
         + System.getProperty("os.arch") + ", Java version "
-        + System.getProperty("java.vm.version") + " from "
+        + System.getProperty("java.version") + " from "
         + System.getProperty("java.vm.vendor");
     msg += metaInfo;
     final DialogThread dt = new DialogThread(msg);
