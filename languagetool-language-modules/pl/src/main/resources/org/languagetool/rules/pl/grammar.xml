@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" title="Pretty print" ?>
+<?xml-stylesheet type="text/xsl" href="http://marcinmilkowski.pl/print.xsl" title="Pretty print" ?>
 <?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css" title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
@@ -3492,7 +3492,7 @@ $Id$
 						<example correction="Trzydziestu trzech mężczyzn" type="incorrect"><marker>Trzydzieści trzej mężczyźni</marker> śpią na lekcji.</example>
 						<example type="correct">Czterdziestu pięciu policjantów użyło broni.</example>
 				</rule>
-				<rule id="NIE_ULEGA_WATPLIWOSCI" name="„nie ulega najmniejszyych wątpliwości”">
+				<rule id="NIE_ULEGA_WATPLIWOSCI" name="„nie ulega najmniejszych wątpliwości”" default="off" >
 						<pattern>
 								<token>nie</token>
 								<token>ulega</token>
@@ -3500,7 +3500,8 @@ $Id$
 								<token>wątpliwości</token>
 						</pattern>
 						<message>Błędny przypadek gramatyczny. Poprawnie <suggestion>\1 \2 najmniejszym wątpliwościom</suggestion> lub <suggestion>\1 ma \3 \4</suggestion>.</message>
-						<short>Błąd składniowy</short>
+                        <url>http://obcyjezykpolski.strefa.pl/?md=archive&amp;id=61</url>
+						<short>Błąd składniowy</short>                        
 						<example correction="Nie ulega najmniejszym wątpliwościom|Nie ma najmniejszych wątpliwości" type="incorrect"><marker>Nie ulega najmniejszych wątpliwości</marker>, że on był agentem obcego wywiadu.</example>
 						<example type="correct">Nie ma najmniejszych wątpliwości, że takie bzdury mogą zrodzić się tylko w głowie paranoika.</example>
 				</rule>
@@ -8120,6 +8121,18 @@ $Id$
 				</rulegroup>
 		</category>
 		<category name="Błędy ortograficzne" type="misspelling">
+        <rulegroup id="POPOLUDNIU" name="„popołudniu” (po południu)">
+          <rule>
+            <pattern>
+              <token>popołudniu<exception scope="previous" regexp="yes">na|[wo"„]|po</exception><exception scope="previous" postag_regexp="yes" postag="adj:sg:loc:m1.m2.m3.n1.n2:.*"/></token>              
+            </pattern>
+            <message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion>po południu</suggestion> czy o popołudnie (rzeczownik, oznaczający porę dnia)?</message>
+            <short>Błąd ortograficzny</short>
+            <example type="correct">Tego dnia po popołudniu jeszcze raz wpadli na podwórze żandarmi całym patrolem.</example>
+            <example type="incorrect" correction="po południu">Ja robiłam <marker>popołudniu</marker> i wyszedł mi zgodnie z prawdą.</example>
+            <example type="correct">Najbliższe wydanie programu poświęcone będzie "Popołudniu z dzielnicami", które odbyło się 4 maja.</example>
+          </rule>
+        </rulegroup>
 				<rule id="Z_TYMZE" name="„z tymże” (z tym że)">
 						<pattern>
 								<marker>
@@ -11282,7 +11295,7 @@ $Id$
 						<example type="correct">Józek upadł na zad.</example>
 				</rule>
 		</category>
-		<category name="Prawdopodobne literówki" type="misspelling">
+		<category name="Prawdopodobne literówki" type="misspelling">      
         <rule id="W_OBYM_W_OBCYM" name="„w obym” (w obcym)">
         <pattern>
           <token>w</token>
@@ -13294,6 +13307,18 @@ $Id$
 				</rule>
 		</category>
 		<category name="Błędy frazeologiczne" type="style">
+                <rule id="NIE_ULEGA_KWESTII" name="„nie ulega kwestii” (wątpliwości)">
+                <pattern>
+                  <token>nie</token>
+                  <token regexp="yes">ulega(ło)?</token>
+                  <marker><token>kwestii</token></marker>
+                </pattern>
+                <message>Błąd frazeologiczny. Powinno być: <suggestion>wątpliwości</suggestion> lub <suggestion>wątpliwościom</suggestion>.</message>
+                <url>http://portalwiedzy.onet.pl/140646,,,,kwestia_nie_ulega_kwestii_nie_ulega_watpliwosci,haslo.html</url>
+                <short>Błąd frazeologiczny</short>
+                <example type="correct">Nie ulega wątpliwości, że to fajna reguła.</example>
+                <example type="incorrect" correction="wątpliwości|wątpliwościom">Nie ulega <marker>kwestii</marker>, że znany aktor skutecznie odebrał premierowi i jego świcie powagę.</example>
+                </rule>
 				<rule id="KROPLA_DZIEGCIU" name="„kropla dziegciu” (łyżka dziegciu)">
 						<pattern>
 								<token inflected="yes">kropla</token>
