@@ -7,7 +7,7 @@ if [ "$(basename $CURRENT_DIR)" != 'scripts' ]; then
     exit 1;
 fi
 
-TARGET_FILE=LanguageTool-wikipedia-2.4.zip
+TARGET_FILE=LanguageTool-wikipedia-2.5-SNAPSHOT.zip
 
 cd ../..
 mvn clean package -DskipTests
