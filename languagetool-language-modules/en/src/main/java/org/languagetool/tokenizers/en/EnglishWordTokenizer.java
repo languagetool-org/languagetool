@@ -25,7 +25,7 @@
 
  /**
   * @author Marcin Milkowski
-  *
+  * @since 2.5
   */
  public class EnglishWordTokenizer extends WordTokenizer {
 
