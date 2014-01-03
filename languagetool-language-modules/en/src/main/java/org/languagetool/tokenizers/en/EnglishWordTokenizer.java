@@ -15,28 +15,28 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
- */package org.languagetool.tokenizers.en;
+ */
+package org.languagetool.tokenizers.en;
 
- import java.util.ArrayList;
- import java.util.List;
- import java.util.StringTokenizer;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
 
- import org.languagetool.tokenizers.WordTokenizer;
+import org.languagetool.tokenizers.WordTokenizer;
 
- /**
-  * @author Marcin Milkowski
-  * @since 2.5
-  */
- public class EnglishWordTokenizer extends WordTokenizer {
+/**
+ * @author Marcin Milkowski
+ * @since 2.5
+ */
+public class EnglishWordTokenizer extends WordTokenizer {
 
-   public EnglishWordTokenizer() {
+  public EnglishWordTokenizer() {
+  }
 
-   }
-
-   @Override
-   public List<String> tokenize(final String text) {
-     final List<String> l = new ArrayList<>();
-     final StringTokenizer st = new StringTokenizer(text,
+  @Override
+  public List<String> tokenize(final String text) {
+    final List<String> l = new ArrayList<>();
+    final StringTokenizer st = new StringTokenizer(text,
          "\u0020\u00A0\u115f\u1160\u1680"
              + "\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007"
              + "\u2008\u2009\u200A\u200B\u200c\u200d\u200e\u200f"
@@ -44,15 +44,15 @@
              + "\u205F\u2060\u2061\u2062\u2063\u206A\u206b\u206c\u206d"
              + "\u206E\u206F\u3000\u3164\ufeff\uffa0\ufff9\ufffa\ufffb"
              + ",.;=#()[]{}<>!?:/|\\\"'«»„”“`´‘’‛′…¿¡\t\n\r", true);
-     while (st.hasMoreElements()) {
-       final String token = st.nextToken();
-       if (token.endsWith("-")) {
-         l.add(token.substring(0, token.length() - 1));
-         l.add("-");
-       } else {
-         l.add(token);
-       }
-     }
-     return joinUrls(l);
-   }
- }
+    while (st.hasMoreElements()) {
+      final String token = st.nextToken();
+      if (token.endsWith("-")) {
+        l.add(token.substring(0, token.length() - 1));
+        l.add("-");
+      } else {
+        l.add(token);
+      }
+    }
+    return joinUrls(l);
+  }
+}
