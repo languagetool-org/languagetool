@@ -1,4 +1,4 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2007 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
@@ -32,6 +32,7 @@ import org.languagetool.rules.UppercaseSentenceStartRule;
 import org.languagetool.rules.WhitespaceRule;
 import org.languagetool.rules.en.AvsAnRule;
 import org.languagetool.rules.en.CompoundRule;
+import org.languagetool.rules.en.ContractionSpellingRule;
 import org.languagetool.rules.en.EnglishUnpairedBracketsRule;
 import org.languagetool.rules.en.EnglishWordRepeatBeginningRule;
 import org.languagetool.rules.en.EnglishWordRepeatRule;
@@ -43,6 +44,8 @@ import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
 import org.languagetool.tagging.en.EnglishTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.WordTokenizer;
+import org.languagetool.tokenizers.en.EnglishWordTokenizer;
 
 /**
  * Support for English - use the sub classes {@link BritishEnglish}, {@link AmericanEnglish},
@@ -51,12 +54,13 @@ import org.languagetool.tokenizers.SentenceTokenizer;
 public class English extends Language {
 
   private static final Language AMERICAN_ENGLISH = new AmericanEnglish();
-  
+
   private Tagger tagger;
   private Chunker chunker;
   private SentenceTokenizer sentenceTokenizer;
   private Synthesizer synthesizer;
   private Disambiguator disambiguator;
+  private WordTokenizer wordTokenizer;
 
   @Override
   public Language getDefaultLanguageVariant() {
@@ -85,7 +89,7 @@ public class English extends Language {
   public String[] getCountries() {
     return new String[]{};
   }
-  
+
   @Override
   public final Tagger getTagger() {
     if (tagger == null) {
@@ -112,7 +116,7 @@ public class English extends Language {
     }
     return synthesizer;
   }
-  
+
   @Override
   public final Disambiguator getDisambiguator() {
     if (disambiguator == null) {
@@ -121,27 +125,35 @@ public class English extends Language {
     return disambiguator;
   }
 
-  
+  @Override
+  public final WordTokenizer getWordTokenizer() {
+    if (wordTokenizer == null) {
+      wordTokenizer = new EnglishWordTokenizer();
+    }
+    return wordTokenizer;
+  }
+
   @Override
   public final Contributor[] getMaintainers() {
-      return new Contributor[] { Contributors.MARCIN_MILKOWSKI, Contributors.DANIEL_NABER };
+    return new Contributor[] { Contributors.MARCIN_MILKOWSKI, Contributors.DANIEL_NABER };
   }
 
   @Override
   public List<Class<? extends Rule>> getRelevantRules() {
     return Arrays.asList(
-            CommaWhitespaceRule.class,
-            DoublePunctuationRule.class,
-            EnglishUnpairedBracketsRule.class,
-            UppercaseSentenceStartRule.class,
-            WhitespaceRule.class,
-            LongSentenceRule.class,
-            // specific to English:
-            EnglishWordRepeatRule.class,
-            AvsAnRule.class,
-            EnglishWordRepeatBeginningRule.class,
-            CompoundRule.class
-    );
+        CommaWhitespaceRule.class,
+        DoublePunctuationRule.class,
+        EnglishUnpairedBracketsRule.class,
+        UppercaseSentenceStartRule.class,
+        WhitespaceRule.class,
+        LongSentenceRule.class,
+        // specific to English:
+        EnglishWordRepeatRule.class,
+        AvsAnRule.class,
+        EnglishWordRepeatBeginningRule.class,
+        CompoundRule.class,
+        ContractionSpellingRule.class
+        );
   }
 
 }

@@ -1,4 +1,4 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2010 Daniel Naber (http://www.languagetool.org)
  * 
  * This library is free software; you can redistribute it and/or
@@ -27,11 +27,12 @@ import org.languagetool.Language;
 import org.languagetool.rules.GenericUnpairedBracketsRule;
 
 public class EnglishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
-  
+
   private static final String[] EN_START_SYMBOLS = { "[", "(", "{", "“", "\"", "'" };
   private static final String[] EN_END_SYMBOLS   = { "]", ")", "}", "”", "\"", "'" };
-  
+
   private static final Pattern NUMBER = Pattern.compile("\\d+");
+  private static final Pattern ALPHA = Pattern.compile("\\p{L}+");
 
   public EnglishUnpairedBracketsRule(final ResourceBundle messages,
       final Language language) {
@@ -45,25 +46,35 @@ public class EnglishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
   public String getId() {
     return "EN_UNPAIRED_BRACKETS";
   }
-  
+
   @Override
   protected boolean isNoException(final String tokenStr,
       final AnalyzedTokenReadings[] tokens, final int i, final int j, final boolean precSpace,
       final boolean follSpace) {
-       
+
     //TODO: add an', o', 'till, 'tain't, 'cept, 'fore in the disambiguator
     //and mark up as contractions somehow
     // add exception for dates like '52
-   
+
     if (i <= 1) {
       return true;
     }
-    
+
+    if (i > 2) { // we need this for al-'Adad, as we tokenize on final '-'
+      if ("'".equals(tokens[i].getToken())) {
+        if ("-".equals(tokens[i - 1].getToken()) &&
+            !tokens[i - 1].isWhitespaceBefore() &&
+            ALPHA.matcher(tokens[i - 2].getToken()).matches()) {
+          return false;
+        }
+      }
+    }
+
     final boolean superException = !super.isNoException(tokenStr, tokens, i, j, precSpace, follSpace);
     if (superException) {
       return false;
     }
-    
+
     if (!precSpace && follSpace) {
       // exception for English inches, e.g., 20"
       final AnalyzedTokenReadings prevToken = tokens[i - 1];
@@ -93,5 +104,5 @@ public class EnglishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
     return true;
   }
 
-  
+
 }
