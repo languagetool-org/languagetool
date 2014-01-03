@@ -25,6 +25,8 @@ import org.languagetool.tools.Tools;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import static junit.framework.TestCase.assertTrue;
@@ -60,6 +62,7 @@ public class AtomFeedCheckerTest {
 
   @Test
   public void testCheckToDatabase() throws IOException, SQLException {
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
     initDatabase();
     DatabaseConfig databaseConfig = new DatabaseConfig(DB_URL, "user", "pass");
     AtomFeedChecker atomFeedChecker1 = new AtomFeedChecker(new German(), databaseConfig);
@@ -78,18 +81,23 @@ public class AtomFeedCheckerTest {
     assertThat(changeAnalysis.get(2).getAddedMatches().size(), is(0));
     assertThat(changeAnalysis.get(2).getRemovedMatches().size(), is(0));
 
+    Date latestCheckDate1 = atomFeedChecker1.getDatabase().getCheckDates().get("de");
+    assertThat(dateFormat.format(latestCheckDate1), is("2013-12-03 10:48"));
+
     AtomFeedChecker atomFeedChecker2 = new AtomFeedChecker(new German(), databaseConfig);
     CheckResult checkResult2 = atomFeedChecker2.runCheck(getStream());
     List<ChangeAnalysis> changeAnalysis2 = checkResult2.getCheckResults();
-    // this is actually not correct (but doesn't matter) - all articles could be skipped as they
-    // have been checked in the previous run:
-    assertThat(changeAnalysis2.size(), is(2));
+    // All articles could be skipped as they have been checked in the previous run:
+    assertThat(changeAnalysis2.size(), is(0));
+    assertThat(atomFeedChecker2.getDatabase().getCheckDates().size(), is(1));
+    Date latestCheckDate2 = atomFeedChecker2.getDatabase().getCheckDates().get("de");
+    assertThat(dateFormat.format(latestCheckDate2), is("2013-12-03 10:48"));
   }
 
   private void initDatabase() throws SQLException {
     MatchDatabase database = new MatchDatabase(DB_URL, "user", "pass");
-    database.drop();
-    database.createTable();
+    database.dropTables();
+    database.createTables();
   }
 
   private InputStream getStream() throws IOException {
