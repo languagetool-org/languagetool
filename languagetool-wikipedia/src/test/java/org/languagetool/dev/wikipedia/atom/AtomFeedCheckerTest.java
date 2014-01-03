@@ -28,6 +28,7 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.CoreMatchers.is;
@@ -63,6 +64,7 @@ public class AtomFeedCheckerTest {
   @Test
   public void testCheckToDatabase() throws IOException, SQLException {
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    dateFormat.setTimeZone(TimeZone.getTimeZone("Europe/Berlin"));
     initDatabase();
     DatabaseConfig databaseConfig = new DatabaseConfig(DB_URL, "user", "pass");
     AtomFeedChecker atomFeedChecker1 = new AtomFeedChecker(new German(), databaseConfig);
