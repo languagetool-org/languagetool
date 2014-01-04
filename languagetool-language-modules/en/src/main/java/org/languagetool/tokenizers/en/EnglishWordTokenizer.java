@@ -18,10 +18,10 @@
  */package org.languagetool.tokenizers.en;
 
  import java.util.ArrayList;
- import java.util.List;
- import java.util.StringTokenizer;
+import java.util.List;
+import java.util.StringTokenizer;
 
- import org.languagetool.tokenizers.WordTokenizer;
+import org.languagetool.tokenizers.WordTokenizer;
 
  /**
   * @author Marcin Milkowski
@@ -46,7 +46,7 @@
              + ",.;=#()[]{}<>!?:/|\\\"'«»„”“`´‘’‛′…¿¡\t\n\r", true);
      while (st.hasMoreElements()) {
        final String token = st.nextToken();
-       if (token.endsWith("-")) {
+       if (token.length() > 1 && token.endsWith("-")) {
          l.add(token.substring(0, token.length() - 1));
          l.add("-");
        } else {

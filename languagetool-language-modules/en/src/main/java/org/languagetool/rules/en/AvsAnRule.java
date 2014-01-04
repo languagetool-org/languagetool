@@ -1,4 +1,4 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
@@ -41,7 +41,7 @@ import org.languagetool.tools.StringTools;
  *   <li><i>a</i> if the next word does not start with a vowel
  * </ul>
  *  This rule loads some exceptions from external files (e.g. <i>an hour</i>).
- *   
+ * 
  * @author Daniel Naber
  */
 public class AvsAnRule extends EnglishRule {
@@ -51,7 +51,7 @@ public class AvsAnRule extends EnglishRule {
 
   private final Set<String> requiresA;
   private final Set<String> requiresAn;
-  
+
   public AvsAnRule(final ResourceBundle messages) throws IOException {
     if (messages != null) {
       super.setCategory(new Category(messages.getString("category_misc")));
@@ -60,7 +60,7 @@ public class AvsAnRule extends EnglishRule {
     requiresAn = loadWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream(FILENAME_AN));
     setLocQualityIssueType("misspelling");
   }
-  
+
   @Override
   public String getId() {
     return "EN_A_VS_AN";
@@ -88,9 +88,11 @@ public class AvsAnRule extends EnglishRule {
       if (parts.length >= 1 && !parts[0].equalsIgnoreCase("a")) {  // avoid false alarm on "A-levels are..."
         token = parts[0];
       }
-      token = token.replaceAll("[^αa-zA-Z0-9\\.;,:']", "");         // e.g. >>an "industry party"<<
-      if (StringTools.isEmpty(token)) {
-        continue;
+      if (tokens[i].isWhitespaceBefore() || !"-".equals(token)) { //e.g., 'a- or anti- are prefixes'
+        token = token.replaceAll("[^αa-zA-Z0-9\\.;,:']", "");         // e.g. >>an "industry party"<<
+        if (StringTools.isEmpty(token)) {
+          continue;
+        }
       }
       final char tokenFirstChar = token.charAt(0);
       if (requiresA.contains(token.toLowerCase()) || requiresA.contains(token)) {
@@ -111,7 +113,7 @@ public class AvsAnRule extends EnglishRule {
 
       if (!isException) {
         if (StringTools.isAllUppercase(token) || StringTools.isMixedCase(token)) {
-          // we don't know how all-uppercase and mixed case words (often abbreviations) are pronounced, 
+          // we don't know how all-uppercase and mixed case words (often abbreviations) are pronounced,
           // so never complain about these:
           doesRequireAn = false;
           doesRequireA = false;
@@ -128,14 +130,14 @@ public class AvsAnRule extends EnglishRule {
           replacement = "An";
         }
         msg = "Use <suggestion>" + replacement + "</suggestion> instead of '" + prevToken + "' if the following "+
-                "word starts with a vowel sound, e.g. 'an article', 'an hour'";
+            "word starts with a vowel sound, e.g. 'an article', 'an hour'";
       } else if (prevToken.equalsIgnoreCase("an") && doesRequireA) {
         String replacement = "a";
         if (prevToken.equals("An")) {
           replacement = "A";
         }
         msg = "Use <suggestion>" + replacement + "</suggestion> instead of '" + prevToken + "' if the following "+
-                "word doesn't start with a vowel sound, e.g. 'a sentence', 'a university'";
+            "word doesn't start with a vowel sound, e.g. 'a sentence', 'a university'";
       }
       if (msg != null) {
         final RuleMatch ruleMatch = new RuleMatch(this, prevPos, prevPos + prevToken.length(), msg, "Wrong article");
@@ -184,7 +186,7 @@ public class AvsAnRule extends EnglishRule {
     }
     if (!isException) {
       if (StringTools.isAllUppercase(word) || StringTools.isMixedCase(word)) {
-        // we don't know how all-uppercase words (often abbreviations) are pronounced, 
+        // we don't know how all-uppercase words (often abbreviations) are pronounced,
         // so never complain about these:
         doesRequireAn = false;
         doesRequireA = false;
@@ -202,12 +204,12 @@ public class AvsAnRule extends EnglishRule {
       return noun;
     }
   }
-  
+
   private static boolean isVowel(char c) {
     c = Character.toLowerCase(c);
-    return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u'; 
+    return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u';
   }
-  
+
   /**
    * Load words, normalized to lowercase unless starting with '*'.
    */
