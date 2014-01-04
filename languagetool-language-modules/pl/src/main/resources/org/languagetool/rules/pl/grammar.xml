@@ -8134,7 +8134,7 @@ $Id$
             <example type="correct">Najbliższe wydanie programu poświęcone będzie "Popołudniu z dzielnicami", które odbyło się 4 maja.</example>
           </rule>
         </rulegroup>
-				<rule id="Z_TYMZE" name="„z tymże” (z tym że)">
+        				<rule id="Z_TYMZE" name="„z tymże” (z tym że)">
 						<pattern>
 								<marker>
 										<token>z</token>
@@ -13067,6 +13067,18 @@ $Id$
 						<example correction="Bardzo" type="incorrect"><marker>Bardo</marker> się martwię.</example>
 						<example type="correct">Bardzo się martwię.</example>
 				</rule>
+                <rule id="WYZE" name="„coraz wyże” (wyżej)">
+                <pattern>
+                  <token regexp="yes" inflected="yes">coraz|wspomnieć|piętro|wymienić|opisać|cytować|omówić|przytoczyć|oczko|przedstawić|przywołać|znacznie|wzmiankować|podać|scharakteryzować|nieco|wyliczyć|szczebel|wspominać|centrymetr|nieco|zacytować|podciągnąć|metr|stopień|trochę|omawiać</token>
+                  <marker>
+                  <token>wyże</token>
+                  </marker>
+                </pattern>
+                <message>Prawdopodobna literówka. Powinno być: <suggestion>wyżej</suggestion>.</message>
+                <short>Prawdopodobna literówka</short>
+                <example correction="wyżej" type="incorrect">Ceny rosną coraz <marker>wyże</marker>.</example>
+                <example type="correct">Atlantyckie wyże nam nie są straszne.</example>                
+                </rule>
 				<rule id="ZWROTNE_BEZ_SIE" name="czasowniki zwrotne bez „się”">
 						<pattern>
 								<token postag="SENT_START" skip="-1"><exception scope="next">się</exception></token>
@@ -13139,7 +13151,8 @@ $Id$
 						<example correction="zawiera" type="incorrect">Ta strona <marker>zwiera</marker> wszystkie informacje.</example>
 						<example type="correct">Partia zwiera szeregi przed kolejnymi wyborami.</example>
 				</rule>
-				<rule id="POLWIEKU_TEMU" name="„półwieku temu” (pół wieku)">
+                <rulegroup id="POLWIEKU" name="„półwieku temu” (pół wieku)">
+				<rule>
 					<pattern>
 						<marker><token>półwieku</token></marker>
 						<token>temu</token>
@@ -13148,7 +13161,29 @@ $Id$
 					<example correction="pół wieku" type="incorrect">Było to <marker>półwieku</marker> temu.</example>
 					<example type="correct">Po półwieku Teatr Telewizji wraca do przedstawień na żywo.</example>
 				</rule>
-				<rule id="NASTAWIAC_KARKU" name="„nastawiać karku” (nadstawiać)">
+         <rule>          
+           <pattern>
+            <token>półwieku<exception scope="previous" regexp="yes">sprzed|od|po</exception></token>              
+            </pattern>
+            <message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion>pół wieku</suggestion> czy o półwiek (rzeczownik, oznaczający ilość czasu)?</message>
+            <short>Błąd ortograficzny</short>
+            <example type="correct">Żywy łańcuch szlakiem pochodu robotniczego sprzed półwieku został utworzony przez dzieci i młodzież z Poznania. </example>
+            <example type="incorrect" correction="pół wieku">Okres popularności przypadł <marker>półwieku</marker> po jego śmierci.</example>            
+          </rule>
+           </rulegroup>
+           <rule id="MIAL_MIAL" name="„miął” (miał)">
+            <pattern>
+              <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes">dłoniach|rękach|palcach|kartkę|ręku|dłoni|czapkę|palcami|kartki|koperty</exception></token>
+              <marker>
+                <token skip="-1">miął<exception scope="next" regexp="yes">dłoniach|rękach|palcach|kartkę|ręku|dłoni|czapkę|palcami|kartki|koperty</exception></token>
+              </marker>
+              <token postag="SENT_END"/>
+            </pattern>
+            <message>Prawdopodobna literówka. Czy chodziło o <suggestion>miał</suggestion>?</message>
+            <example type="correct">Grzegorz miął w dłoni papierową chusteczkę.</example>
+            <example type="incorrect" correction="miał">Profesor <marker>miął</marker> zamiar wyjechać z żoną.</example>
+           </rule>   
+        	<rule id="NASTAWIAC_KARKU" name="„nastawiać karku” (nadstawiać)">
 			<pattern>
 			<marker>
 			<token inflected="yes">nastawiać</token>
