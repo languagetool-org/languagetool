@@ -2176,6 +2176,33 @@ USA
             <example type="correct">I <marker>can't</marker> view pdf files in Explorer.</example>
             <example type="incorrect">I <marker>cant</marker> view pdf files in Explorer.</example>
         </rule>
+        <rulegroup id="HELL" name="hell/shell (he'll, she'll)">
+        <rule>
+          <pattern>
+            <marker>
+              <token><exception scope="previous" regexp="yes">does|did|would|in</exception>hell</token>
+            </marker>
+            <token postag="VB"/>
+          </pattern>
+          <message>Did you mean <suggestion>he'll</suggestion>?</message>
+          <short>Possible typo</short>
+          <example type="correct">Go to hell!</example>
+          <example type="correct">Everybody in hell know me.</example>
+          <example type="correct">Does Hell Know Who You Are?</example>
+          <example type="incorrect" correction="He'll"><marker>Hell</marker> be there.</example>
+        </rule>
+        <rule>        
+          <pattern>
+            <marker><token><exception scope="previous">the</exception>shell</token></marker>
+            <token postag="VB"/>
+          </pattern>
+          <message>Did you mean <suggestion>she'll</suggestion>?</message>
+          <short>Possible typo</short>
+          <example type="correct">This is an egg shell.</example>
+          <example type="correct">How does the shell know which directory it's in?</example>
+          <example type="incorrect" correction="She'll"><marker>Shell</marker> be there.</example>
+        </rule>       
+        </rulegroup>
         <rulegroup id="LETS_LET" name="let's (lets)">
             <rule>
                 <pattern>
