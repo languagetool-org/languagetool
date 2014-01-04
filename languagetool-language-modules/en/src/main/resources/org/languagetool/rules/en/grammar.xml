@@ -2180,20 +2180,34 @@ USA
         <rule>
           <pattern>
             <marker>
-              <token><exception scope="previous" regexp="yes">does|did|would|in</exception>hell</token>
+              <token><exception scope="previous" regexp="yes">does|did|would|in|the|and</exception>hell</token>
             </marker>
-            <token postag="VB"/>
+            <token postag="VB"><exception>fire</exception></token>
           </pattern>
           <message>Did you mean <suggestion>he'll</suggestion>?</message>
           <short>Possible typo</short>
           <example type="correct">Go to hell!</example>
           <example type="correct">Everybody in hell know me.</example>
           <example type="correct">Does Hell Know Who You Are?</example>
+          <example type="correct">He scared the hell out of me by popping a balloon right next to my ear.</example>
           <example type="incorrect" correction="He'll"><marker>Hell</marker> be there.</example>
         </rule>
+        <rule>
+          <pattern>
+          <token><exception scope="previous">heaven</exception>and</token>
+            <marker>
+              <token>hell</token>
+            </marker>
+            <token postag="VB"><exception>fire</exception></token>
+          </pattern>
+          <message>Did you mean <suggestion>he'll</suggestion>?</message>
+          <short>Possible typo</short>
+          <example type="correct">Heaven and hell exist.</example>
+          <example type="incorrect" correction="he'll">And <marker>hell</marker> be there.</example>
+        </rule>        
         <rule>        
           <pattern>
-            <marker><token><exception scope="previous">the</exception>shell</token></marker>
+            <marker><token><exception scope="previous" regexp="yes">the|a|to|this|that|Bourne</exception>shell</token></marker>
             <token postag="VB"/>
           </pattern>
           <message>Did you mean <suggestion>she'll</suggestion>?</message>
