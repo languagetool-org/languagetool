@@ -28,9 +28,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Database that keeps track of matches.
@@ -45,6 +43,25 @@ class MatchDatabase {
       conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
     } catch (SQLException e) {
       throw new RuntimeException("Could not get database connection to " + dbUrl, e);
+    }
+  }
+
+  void updateRuleMatchCheckDate(Language language, Date date) {
+    String updateSql = "UPDATE feed_checks SET check_date = ? WHERE language_code = ?";
+    try (PreparedStatement updateSt = conn.prepareStatement(updateSql)) {
+      updateSt.setTimestamp(1, new Timestamp(date.getTime()));
+      updateSt.setString(2, language.getShortName());
+      int affected = updateSt.executeUpdate();
+      if (affected == 0) {
+        String insertSql = "INSERT INTO feed_checks (language_code, check_date) VALUES (?, ?)";
+        try (PreparedStatement insertSt = conn.prepareStatement(insertSql)) {
+          insertSt.setString(1, language.getShortName());
+          insertSt.setTimestamp(2, new Timestamp(date.getTime()));
+          insertSt.execute();
+        }
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException("Could not store check date for " + language + " to database", e);
     }
   }
 
@@ -106,7 +123,13 @@ class MatchDatabase {
   /**
    * Use this only for test cases - it's Derby-specific.
    */
-  void createTable() throws SQLException {
+  void createTables() throws SQLException {
+    try (PreparedStatement prepSt = conn.prepareStatement("CREATE TABLE feed_checks (" +
+            "  language_code VARCHAR(5) NOT NULL," +
+            "  check_date TIMESTAMP NOT NULL" +
+            ")")) {
+      prepSt.executeUpdate();
+    }
     try (PreparedStatement prepSt = conn.prepareStatement("CREATE TABLE feed_matches (" +
             "  id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1)," +
             "  language_code VARCHAR(5) NOT NULL," +
@@ -130,35 +153,31 @@ class MatchDatabase {
    * @return the latest edit date, or a date as of {@code 1970-01-01} if no data is in the database
    */
   Date getLatestDate(Language language) {
-    Date editDate = getLatestDate("edit_date", language);
-    Date fixDate = getLatestDate("fix_date", language);
-    if (editDate.after(fixDate)) {
-      return editDate;
-    }
-    return fixDate;
-  }
-  
-  private Date getLatestDate(String dateField, Language language) {
     try {
-      String sql = "SELECT " + dateField + " FROM feed_matches WHERE language_code = ? ORDER BY " + dateField + " DESC";
+      String sql = "SELECT check_date FROM feed_checks WHERE language_code = ?";
       try (PreparedStatement prepSt = conn.prepareStatement(sql)) {
         prepSt.setString(1, language.getShortName());
         ResultSet resultSet = prepSt.executeQuery();
-        if (resultSet.next() && resultSet.getTimestamp(dateField) != null) {
-          return new Date(resultSet.getTimestamp(dateField).getTime());
+        if (resultSet.next() && resultSet.getTimestamp("check_date") != null) {
+          return new Date(resultSet.getTimestamp("check_date").getTime());
         }
       }
     } catch (Exception e) {
-      throw new RuntimeException("Could not get latest " + dateField + " from database", e);
+      throw new RuntimeException("Could not get check_date from database for " + language, e);
     }
     return new Date(0);
   }
-
+  
   /**
-   * Drop database - use this only for test cases.
+   * Drop database tables - use this only for test cases.
    */
-  void drop() throws SQLException {
-    try (PreparedStatement prepSt = conn.prepareStatement("DROP TABLE feed_matches")) {
+  void dropTables() throws SQLException {
+    dropTable("feed_matches");
+    dropTable("feed_checks");
+  }
+
+  private void dropTable(String tableName) {
+    try (PreparedStatement prepSt = conn.prepareStatement("DROP TABLE " + tableName)) {
       prepSt.execute();
     } catch (SQLException e){
       System.err.println("Note: could not drop table 'feed_matches' - this is okay on the first run: " + e.toString());
@@ -183,6 +202,19 @@ class MatchDatabase {
         long fixDiffId = resultSet.getLong("fix_diff_id");
         result.add(new StoredWikipediaRuleMatch(ruleId, ruleSubId, ruleDescription, ruleMessage, errorContext,
                 title, editDate, fixDate, diffId, fixDiffId));
+      }
+      return result;
+    }
+  }
+
+  Map<String,Date> getCheckDates() throws SQLException {
+    try (PreparedStatement prepSt = conn.prepareStatement("SELECT * FROM feed_checks")) {
+      Map<String,Date> result = new HashMap<>();
+      ResultSet resultSet = prepSt.executeQuery();
+      while (resultSet.next()) {
+        String langCode = resultSet.getString("language_code");
+        Date checkDate = new Date(resultSet.getTimestamp("check_date").getTime());
+        result.put(langCode, checkDate);
       }
       return result;
     }

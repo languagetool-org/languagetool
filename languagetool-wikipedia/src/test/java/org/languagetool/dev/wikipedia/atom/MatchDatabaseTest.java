@@ -36,10 +36,11 @@ public class MatchDatabaseTest {
   public void test() throws SQLException, ClassNotFoundException {
     Language language = Language.getLanguageForShortName("de");
     MatchDatabase database = new MatchDatabase("jdbc:derby:atomFeedChecksDB;create=true", "user", "pass");
-    database.drop();
-    database.createTable();
+    database.dropTables();
+    database.createTables();
     assertThat(database.getLatestDate(language), is(new Date(0)));
     assertThat(database.list().size(), is(0));
+    assertThat(database.getCheckDates().size(), is(0));
     FakeRule rule1 = new FakeRule(1);
     rule1.setCategory(new Category("My Category"));
     RuleMatch ruleMatch = new RuleMatch(rule1, 5, 10, "my message");
@@ -55,9 +56,10 @@ public class MatchDatabaseTest {
     assertThat(database.list().get(0).getDiffId(), is(123L));
     assertThat(database.list().get(0).getFixDiffId(), is(0L));
     assertThat(database.list().get(0).getEditDate(), is(new Date(10000)));
-    assertThat(database.getLatestDate(language), is(new Date(10000)));
+    assertThat(database.getLatestDate(language), is(new Date(0)));
     assertNull(database.list().get(0).getRuleSubId());
     assertNull(database.list().get(0).getFixDate());
+    assertThat(database.getCheckDates().size(), is(0));
 
     RuleMatch ruleMatch2 = new RuleMatch(new FakeRule(1), 9, 11, "my message");  // same ID, different character positions
     AtomFeedItem feedItem2 = new AtomFeedItem("//id2?diff=124", "title", "summary2", new Date(9000000000L));
@@ -67,7 +69,8 @@ public class MatchDatabaseTest {
     assertThat(database.list().get(0).getFixDate(), is(new Date(9000000000L)));
     assertThat(database.list().get(0).getDiffId(), is(123L));
     assertThat(database.list().get(0).getFixDiffId(), is(124L));
-    assertThat(database.getLatestDate(language), is(new Date(9000000000L)));
+    assertThat(database.getLatestDate(language), is(new Date(0)));
+    assertThat(database.getCheckDates().size(), is(0));
   }
   
 }

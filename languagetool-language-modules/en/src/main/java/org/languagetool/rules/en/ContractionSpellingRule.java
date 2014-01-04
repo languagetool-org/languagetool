@@ -31,6 +31,7 @@ import org.languagetool.rules.Category;
  * correct ones instead.
  *
  * @author Marcin Miłkowski
+ * @since 2.5
  */
 public class ContractionSpellingRule extends AbstractSimpleReplaceRule {
 

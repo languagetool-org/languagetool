@@ -152,15 +152,16 @@ class AtomFeedChecker {
       Collections.reverse(items);   // older items must come first so we iterate in the order in which the changes were made
       printDates(items, lastDateOfPreviousRun);
       for (AtomFeedItem item : items) {
-        // Note: this skipping is not exact for two reasons:
-        // 1) We only have the latest date of a change that actually led to a rule match (this kind of doesn't
-        //    matter, because a new check won't find any matches either)
-        // 2) A resolution of one second may not be enough, considering the amount of changes happening,
-        //    but I didn't find an id that's constantly increasing (diff=... often but not always increases)
+        // Note: this skipping is not always exact:
+        //   A resolution of one second may not be enough, considering the amount of changes happening,
+        //   but I didn't find an id that's constantly increasing (diff=... often but not always increases)
         if (lastDateOfPreviousRun != null && (item.getDate().before(lastDateOfPreviousRun) || item.getDate().equals(lastDateOfPreviousRun))) {
           System.out.println("Skipping " + item.getTitle() + ", date " + item.getDate());
           skipCount++;
         } else {
+          if (matchDatabase != null) {
+            matchDatabase.updateRuleMatchCheckDate(language, item.getDate());
+          }
           try {
             System.out.println("Checking " + item.getTitle() + ", diff #" + item.getDiffId());
             List<WikipediaRuleMatch> oldMatches = getMatches(item, item.getOldContent());
@@ -183,6 +184,11 @@ class AtomFeedChecker {
       System.err.println("Warning: no items from the Atom feed were skipped - this means that changes might be missing");
     }
     return new CheckResult(result, latestDiffId);
+  }
+
+  /** Use for test cases only. */
+  MatchDatabase getDatabase() {
+    return matchDatabase;
   }
 
   private void printDates(List<AtomFeedItem> items, Date lastDateOfPreviousRun) {

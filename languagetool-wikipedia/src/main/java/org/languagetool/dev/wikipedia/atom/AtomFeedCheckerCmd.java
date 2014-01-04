@@ -36,7 +36,7 @@ final class AtomFeedCheckerCmd {
       System.out.println("  <sleepTime> -1: don't loop at all (run once), 0: run in loop, other number: run in loop and");
       System.out.println("    wait this many milliseconds between runs");
       System.out.println("  [database.properties] (optional) is a file that defines dbUrl, dbUser, and dbPassword,");
-      System.out.println("    used to write the results to an database via JDBC");
+      System.out.println("    used to write the results to a database via JDBC");
       System.out.println("");
       System.out.println("  When the database.properties file is specified, this command will store all feed changes that");
       System.out.println("  cause LanguageTool rule matches to the database. If an error is then fixed later, this will");

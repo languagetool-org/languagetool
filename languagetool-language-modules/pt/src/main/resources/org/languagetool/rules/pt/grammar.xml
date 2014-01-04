@@ -5,7 +5,7 @@ title="Pretty print" ?>
 title="Easy editing stylesheet" ?>
 <!--
 Portuguese (Portugal - pre-reform) - Grammar and Typo Rules for LanguageTool
-Copyright (C) 2012-2013 Marco A.G.Pinto (www.marcoagpinto.com). Thanks to Juan Martorell and Daniel Naber who mentored the project.
+Copyright (C) 2012-2014 Marco A.G.Pinto (www.marcoagpinto.com). Thanks to Juan Martorell and Daniel Naber who mentored the project.
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -21,7 +21,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.070 2013-12-16 13:00:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.071 2014-01-03 18:15:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -738,6 +738,52 @@ $Id: grammar.xml,v 1.070 2013-12-16 13:00:00 marcoagpinto Exp $
       <example type="incorrect">Saiu um novo <marker>decreto de lei</marker>.</example>
       <example type="correct">Saiu um novo <marker>decreto-lei</marker>.</example>
     </rule>
+
+
+<!-- DORAVANTE - THREE POSSIBLE REPLACEMENT SUGGESTIONS ****START**** -->
+
+    <!-- DAQUI EM DIANTE doravante -->
+    <rule id="DAQUI_EM_DIANTE" name="doravante">
+      <pattern>
+        <token>daqui</token>
+        <token>em</token>
+        <token>diante</token>        
+      </pattern>
+      <message>Substituir «daqui em diante» por <suggestion>doravante</suggestion>.</message>
+      <example type="incorrect">Isto deve ser feito <marker>daqui em diante</marker>.</example>
+      <example type="correct">Isto deve ser feito <marker>doravante</marker>.</example>      
+    </rule>
+
+    <!-- DE HOJE PARA O FUTURO doravante -->
+    <rule id="DE_HOJE_PARA_O_FUTURO" name="doravante">
+      <pattern>
+        <token>de</token>
+        <token>hoje</token>
+        <token>para</token>
+        <token>o</token>
+        <token>futuro</token>   
+      </pattern>
+      <message>Substituir «de hoje para o futuro» por <suggestion>doravante</suggestion>.</message>
+      <example type="incorrect">Isto deve ser feito <marker>de hoje para o futuro</marker>.</example>
+      <example type="correct">Isto deve ser feito <marker>doravante</marker>.</example>      
+    </rule>
+
+    <!-- DE ORA AVANTE doravante -->
+    <rule id="DE_ORA_AVANTE" name="doravante">
+      <pattern>
+        <token>de</token>
+        <token>ora</token>
+        <token>avante</token>        
+      </pattern>
+      <message>Substituir «de ora avante» por <suggestion>doravante</suggestion>.</message>
+      <example type="incorrect">Isto deve ser feito <marker>de ora avante</marker>.</example>
+      <example type="correct">Isto deve ser feito <marker>doravante</marker>.</example>      
+    </rule>
+
+
+
+<!-- DORAVANTE - THREE POSSIBLE REPLACEMENT SUGGESTIONS ****END**** -->
+
 
 
 
