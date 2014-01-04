@@ -17,7 +17,7 @@
  * USA
  */
 
-package org.languagetool.tokenizers;
+package org.languagetool.rules.en;
 
 import java.util.List;
 
@@ -44,8 +44,8 @@ public class EnglishWordTokenizerTest extends TestCase {
     assertEquals("[Now,  , this,  , is-really, !, -a,  , test, .]", tokens3.toString());
     //hyphen at the end of the word
     final List <String> tokens4 = wordTokenizer.tokenize("Now this is- really!- a test.");
-    assertEquals(tokens4.size(), 15);
-    assertEquals("[Now,  , this,  , is, -,  , really, !, -,  , a,  , test, .]", tokens4.toString());
+    assertEquals(tokens4.size(), 16);
+    assertEquals("[Now,  , this,  , is, -,  , really, !, , -,  , a,  , test, .]", tokens4.toString());
   }
 
   public void testUrlTokenize() {

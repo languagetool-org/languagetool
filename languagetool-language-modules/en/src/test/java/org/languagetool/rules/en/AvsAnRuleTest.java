@@ -1,4 +1,4 @@
-/* LanguageTool, a natural language style checker
+/* LanguageTool, a natural language style checker 
  * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
@@ -18,13 +18,12 @@
  */
 package org.languagetool.rules.en;
 
-import java.io.IOException;
-
 import junit.framework.TestCase;
-
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.English;
 import org.languagetool.rules.RuleMatch;
+
+import java.io.IOException;
 
 /**
  * @author Daniel Naber
@@ -61,7 +60,6 @@ public class AvsAnRuleTest extends TestCase {
     assertCorrect("The Qur'an was translated into Polish.");
     assertCorrect("See an:Grammatica");
     assertCorrect("See http://www.an.com");
-    assertCorrect("Entscheidungsproblem was unsolvable by use of his \"a- [automatic-] machine\"");
 
     // errors:
     assertIncorrect("It was a hour ago.");
@@ -93,7 +91,7 @@ public class AvsAnRuleTest extends TestCase {
     //mixed case from general case
     assertCorrect("Anyone for an XMR-based writer?");
 
-    //Test on apostrophes
+    //Test on apostrophes    
     assertCorrect("Its name in English is a[1] (), plural A's, As, as, or a's.");
 
     // Both are correct according to Merriam Webster (http://www.merriam-webster.com/dictionary/a%5B2%5D),
@@ -117,10 +115,10 @@ public class AvsAnRuleTest extends TestCase {
     assertEquals("a string", rule.suggestAorAn("string"));
     assertEquals("a university", rule.suggestAorAn("university"));
     assertEquals("an hour", rule.suggestAorAn("hour"));
-    assertEquals("an all-terrain", rule.suggestAorAn("all-terrain"));
+    assertEquals("an all-terrain", rule.suggestAorAn("all-terrain"));    
     assertEquals("a UNESCO", rule.suggestAorAn("UNESCO"));
   }
-
+  
   public void testPositions() throws IOException {
     final AvsAnRule rule = new AvsAnRule(null);
     RuleMatch[] matches;
@@ -129,29 +127,29 @@ public class AvsAnRuleTest extends TestCase {
     matches = rule.match(langTool.getAnalyzedSentence("a industry standard."));
     assertEquals(0, matches[0].getFromPos());
     assertEquals(1, matches[0].getToPos());
-
+    
     // quotes..
     matches = rule.match(langTool.getAnalyzedSentence("a \"industry standard\"."));
     assertEquals(0, matches[0].getFromPos());
     assertEquals(1, matches[0].getToPos());
-
+  
 
     matches = rule.match(langTool.getAnalyzedSentence("a - industry standard\"."));
     assertEquals(0, matches[0].getFromPos());
     assertEquals(1, matches[0].getToPos());
-
+    
     matches = rule.match(langTool.getAnalyzedSentence("This is a \"industry standard\"."));
     assertEquals(8, matches[0].getFromPos());
     assertEquals(9, matches[0].getToPos());
-
+    
     matches = rule.match(langTool.getAnalyzedSentence("\"a industry standard\"."));
     assertEquals(1, matches[0].getFromPos());
     assertEquals(2, matches[0].getToPos());
-
+    
     matches = rule.match(langTool.getAnalyzedSentence("\"Many say this is a industry standard\"."));
     assertEquals(18, matches[0].getFromPos());
     assertEquals(19, matches[0].getToPos());
-
+    
     matches = rule.match(langTool.getAnalyzedSentence("Like many \"an desperado\" before him, Bart headed south into Mexico."));
     assertEquals(11, matches[0].getFromPos());
     assertEquals(13, matches[0].getToPos());
