@@ -17,7 +17,7 @@
  * USA
  */
 
-package org.languagetool.tokenizers;
+package org.languagetool.tokenizers.en;
 
 import java.util.List;
 
