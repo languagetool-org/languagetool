@@ -47,11 +47,21 @@ public class ContractionSpellingRuleTest extends TestCase {
 
     // incorrect sentences:
 
-    // at the beginning of a sentence (Romanian replace rule is case-sensitive)
+    // at the beginning of a sentence
+    checkSimpleReplaceRule("Wasnt this great", "Wasn't");
+    checkSimpleReplaceRule("YOURE WRONG", "YOU'RE");
+    checkSimpleReplaceRule("Dont do this", "Don't");
+    // inside sentence
     checkSimpleReplaceRule("It wasnt me", "wasn't");
     checkSimpleReplaceRule("You neednt do this", "needn't");
-    // inside sentence
-    checkSimpleReplaceRule("Wasnt this great", "Wasn't");
+    checkSimpleReplaceRule("I know Im wrong", "I'm");
+
+    //two suggestions
+    final RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("Whereve you are"));
+    assertEquals(2, matches[0].getSuggestedReplacements().size());
+    assertEquals("Where've", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("Wherever", matches[0].getSuggestedReplacements().get(1));
+
   }
 
   /**

@@ -78,11 +78,11 @@ public class ContractionSpellingRule extends AbstractSimpleReplaceRule {
   }
 
   /**
-   * use case-insensitive matching.
+   * use case-sensitive matching.
    */
   @Override
   public boolean isCaseSensitive() {
-    return false;
+    return true;
   }
 
   /**
