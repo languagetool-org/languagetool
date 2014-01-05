@@ -2516,6 +2516,90 @@ USA
                 <example type="correct">This is an opportunity to see how SAP addresses <marker>its</marker> internal developers.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="WHOS" name="who's (whose)">
+        <rule>
+        <pattern case_sensitive="yes">
+          <token postag="IN"/>
+          <marker>
+          <token>who</token>
+          <token spacebefore="no" regexp="yes">['’]</token>
+          <token>s</token>
+          </marker>
+        </pattern>
+        <message>Did you mean <suggestion>whose</suggestion>?</message>
+        <url>http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
+        <short>Possible typo</short>
+        <example type="incorrect" correction="whose">By <marker>who's</marker> standards?</example>
+        <example type="correct">Those whose money was stolen are free.</example>
+        <example type="incorrect">What do you know about <marker>who's</marker> car that is?</example>
+        <example type="correct">What do you know about whose car that is?</example>        
+        </rule>
+        <rule>
+        <pattern>
+          <token regexp="yes">those|many|some</token>
+          <marker>
+          <token>who</token>
+          <token spacebefore="no" regexp="yes">['’]</token>
+          <token>s</token>
+          </marker>
+        </pattern>
+        <message>Did you mean <suggestion>whose</suggestion>?</message>
+        <url>http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
+        <short>Possible typo</short>
+        <example type="incorrect" correction="whose">Those <marker>who's</marker> highest level of education...</example>
+        <example type="correct">Those whose money was stolen are free.</example>
+        </rule>
+        <rule>
+          <pattern>
+            <token postag_regexp="yes" postag="NN.*"/>
+            <marker>
+              <token>who</token>
+              <token spacebefore="no" regexp="yes">['’]</token>
+              <token>s</token>
+            </marker>
+            <token postag_regexp="yes" postag="NN.*"/>
+          </pattern>
+          <message>Did you mean <suggestion>whose</suggestion>?</message>
+          <url>http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
+          <short>Possible typo</short>
+          <example type="incorrect" correction="whose">These are people <marker>who's</marker> lives are important.</example>
+          <example type="correct">These are people whose lives are important.</example>
+        </rule>
+        <!-- who's .*/NN::word=whose \1::pivots=who's,whose -->
+        <rule id="WHOS_NN" name="whos NN (possessive)">
+            <pattern>
+                <token>who</token>
+                <token spacebefore="no" regexp="yes">['’]</token>
+                <token>s</token>
+                <token postag="NN|NN:UN?" postag_regexp="yes"><exception postag="NN|NN:UN?" postag_regexp="yes" negate_pos="yes"></exception></token>
+            </pattern>
+            <message>Did you mean <suggestion>whose <match no="4"></match></suggestion>?</message>
+            <example type="incorrect">Do we know <marker>who's banana</marker> this is on the table?</example>
+            <example type="correct">Do we know whose banana this is on the table?</example>
+        </rule>
+        <!-- whose .*/DT::word=who's \1::pivots=whose,who's -->
+        <rule id="WHOSE_DT" name="whose DT (possessive)">
+            <pattern>
+                <token>whose</token>
+                <token postag="DT"><exception postag="DT" negate_pos="yes"></exception></token>
+            </pattern>
+            <message>Did you mean <suggestion>who's <match no="2"></match></suggestion>?</message>
+            <example type="incorrect"><marker>Whose the</marker> boss around here?</example>
+            <example type="correct">Who's the boss around here?</example>
+        </rule>        
+        <!-- who's actual::word=whose actual::pivots=who's,whose::options=who's,whose -->
+        <rule id="WHOS_ACTUAL" name="whos actual (possessive)">
+            <pattern>
+                <token>who</token>
+                <token spacebefore="no" regexp="yes">['’]</token>
+                <token>s</token>
+                <token regexp="yes">actual|name|previous</token>
+            </pattern>
+            <message>Did you mean <suggestion>whose actual</suggestion>?</message>
+            <example type="incorrect"><marker>Who's actual</marker> job is it to make copies around here?</example>
+            <example type="correct">Whose actual job is it to get coffee around here?</example>
+        </rule>        
+        </rulegroup>
         <rulegroup id="NOW" name="no/now">
             <rule>
                 <pattern>
@@ -5817,52 +5901,6 @@ USA
             <message>Did you mean <suggestion>after all</suggestion>?</message>
             <example type="incorrect"><marker>Afterall</marker>, there isn't any food to be had in this country.</example>
             <example type="correct">After all, there isn't any food to be found in this country.</example>
-        </rule>
-        <!-- who's .*/NN::word=whose \1::pivots=who's,whose -->
-        <rule id="WHOS_NN" name="whos NN (possessive)">
-            <pattern>
-                <token>who</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
-                <token>s</token>
-                <token postag="NN|NN:UN?" postag_regexp="yes"><exception postag="NN|NN:UN?" postag_regexp="yes" negate_pos="yes"></exception></token>
-            </pattern>
-            <message>Did you mean <suggestion>whose <match no="4"></match></suggestion>?</message>
-            <example type="incorrect">Do we know <marker>who's banana</marker> this is on the table?</example>
-            <example type="correct">Do we know whose banana this is on the table?</example>
-        </rule>
-        <!-- whose .*/DT::word=who's \1::pivots=whose,who's -->
-        <rule id="WHOSE_DT" name="whose DT (possessive)">
-            <pattern>
-                <token>whose</token>
-                <token postag="DT"><exception postag="DT" negate_pos="yes"></exception></token>
-            </pattern>
-            <message>Did you mean <suggestion>who's <match no="2"></match></suggestion>?</message>
-            <example type="incorrect"><marker>Whose the</marker> boss around here?</example>
-            <example type="correct">Who's the boss around here?</example>
-        </rule>
-        <!-- about who's::word=about whose::pivots=who's,whose::options=who's,whose -->
-        <rule id="ABOUT_WHOS" name="about whos (possessive)">
-            <pattern>
-                <token>about</token>
-                <token>who</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
-                <token>s</token>
-            </pattern>
-            <message>Did you mean <suggestion>about whose</suggestion>?</message>
-            <example type="incorrect">What do you know <marker>about who's</marker> car that is?</example>
-            <example type="correct">What do you know about whose car that is?</example>
-        </rule>
-        <!-- who's actual::word=whose actual::pivots=who's,whose::options=who's,whose -->
-        <rule id="WHOS_ACTUAL" name="whos actual (possessive)">
-            <pattern>
-                <token>who</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
-                <token>s</token>
-                <token regexp="yes">actual|name|previous</token>
-            </pattern>
-            <message>Did you mean <suggestion>whose actual</suggestion>?</message>
-            <example type="incorrect"><marker>Who's actual</marker> job is it to make copies around here?</example>
-            <example type="correct">Whose actual job is it to get coffee around here?</example>
         </rule>
     </category>
     <!-- ====================================================================== -->
@@ -9552,7 +9590,8 @@ USA
         </rulegroup>
     </category>
     <category name="Commonly Confused Words" type="misspelling">
-    <rule id="CONFUSION_OF_DECENT_DESCENT" name="confusion of decent/descent">
+    <rulegroup id="CONFUSION_OF_DECENT_DESCENT" name="confusion of decent/descent">
+    <rule>
     <pattern>
         <token regexp="yes">Aboriginal|African|Albanian|American|Armenian|Asian|British|Canadian|Caribbean|Chinese|Davidic|Dutch|English|European|French|Irish|Indian|Italian|Japanese|Jewish|German|Greek|Mexican|Polish|Scottish|Spanish|common|steep|direct|high|gradual|noble</token>
         <marker>
@@ -9565,6 +9604,20 @@ USA
     <example type="incorrect" correction="descent">He is of Asian <marker>decent</marker>.</example>
     <example type="correct">He is of Asian descent</example>
     </rule>
+    <rule>
+        <pattern>
+        <token regexp="yes" inflected="yes">with|provide|few|have|really|thoroughly|halfway|get|quite|fairly|reasonably|being|still|look|relatively|some|otherwise|most|be|perfectly|offer|way|create|how|many|up|enough|pretty|somewhat|mad|just|also|fundamentally<exception>s</exception></token>
+        <marker>
+        <token>descent</token>
+        </marker>
+        <token postag="NN.*" postag_regexp="yes"/>
+    </pattern>
+    <message>Did you mean <suggestion>decent</suggestion>?</message>
+    <short>Possible typo</short>
+    <example type="incorrect">Looking for a hotel with <marker>descent</marker> rooms.</example>
+    <example type="correct">Looking for a hotel with decent rooms.</example>  
+    </rule>
+    </rulegroup>
         <rule id="DIFFUSE_TENSIONS" name="diffuse (defuse) tensions">
             <pattern>
                 <marker>
