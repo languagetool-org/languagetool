@@ -46,6 +46,62 @@ USA
             <example type="incorrect" correction="way">But is there a <marker>was</marker> to work around the problem?</example>
             <example type="correct">But is there a way to work around the problem?</example>
         </rule>
+        <rule id="AIRPLANE_HANGER" name="airplane hanger (airplane hangar)">
+            <pattern>
+             <token>airplane</token>
+             <marker>
+               <token inflected="yes">hanger</token>
+             </marker>                    
+             </pattern>
+             <message>Did you mean <suggestion><match no="2" regexp_match=".*r(.*)$" regexp_replace="hangar$1"/></suggestion>?</message>
+             <url>http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
+             <short>Possible typo</short>
+             <example type="incorrect" correction="hangars">These are airplane <marker>hangers</marker>.</example>
+              <example type="correct">They had a wedding in an airplane hangar.</example>
+        </rule>
+        <rulegroup id="ALLTHOUGH" name="all though (although)">
+          <rule>
+                <pattern>
+                <marker>
+                    <token>all<exception scope="previous" regexp="yes">in|of|not|at</exception></token>
+                    <token>though</token>
+                </marker>
+                    <token>the</token>
+                    <token regexp="yes">day|night|week|month|year</token>                                   
+                </pattern>
+                <message>Did you mean <suggestion>all through</suggestion>?</message>                
+                <short>Possible typo</short>
+                <example type="incorrect" correction="All through"><marker>All though</marker> the day: a song by Anita O'Day.</example>
+                <example type="correct">I enjoyed this all through the night.</example>
+          </rule>
+          <rule>
+                <pattern>
+                <marker>
+                    <token>all<exception scope="previous" regexp="yes">in|of|not|at</exception></token>
+                    <token>though</token>
+                </marker>                    
+                </pattern>
+                <message>Did you mean <suggestion>although</suggestion>?</message>
+                <url>http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
+                <short>Possible typo</short>
+                <example type="incorrect" correction="Although"><marker>All though</marker> I liked the book, I had to stop reading it.</example>
+                <example type="correct">Best of all though, the review will be great.</example>
+            </rule>          
+        </rulegroup>
+	    <rule id="ALSO_KNOW" name="also know (known)">
+            <pattern>
+                   <token>also</token>
+                   <marker>
+                       <token>know</token>
+                   </marker>      
+                   <token regexp="yes">as|by|for</token>
+            </pattern>
+            <message>Did you mean <suggestion>known</suggestion>?</message>
+    	    <url>http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
+        	<short>Possible typo</short>
+            <example type="incorrect" correction="known">He is also <marker>know</marker> as the first Chechen writer.</example>
+            <example type="correct">He is also known for his beautiful mustache.</example>
+        </rule>               
         <rule id="AS_OPPOSE_TO_AS_OPPOSED_TO" name="as oppose to (as opposed to)">
         <pattern>
             <token>as</token>
@@ -2287,6 +2343,38 @@ USA
         </rulegroup>
         <rulegroup id="IT_IS" name="its vs. it's">
             <rule>
+              <pattern>
+                <token regexp="yes">all|along|alongside|amid|amidst|among|amongst</token>
+                <marker>
+                        <token>it</token>
+                        <token spacebefore="no" regexp="yes">['’]</token>
+                        <token>s</token>
+                 </marker>
+                 <token chunk="B-NP-plural"/>
+              </pattern>
+              <message>Did you mean <suggestion>its</suggestion> (possessive pronoun)?</message>
+              <url>http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
+              <short>Possible typo</short>
+              <example type="correct">Above all it's important to note they're disgusting.</example>
+              <example type="incorrect" correction="its">For all <marker>it's</marker> wonderful moments of humor...</example>
+            </rule>
+            <rule>
+              <pattern>
+               <token regexp="yes">all|along|alongside|amid|amidst|among|amongst</token>
+                <marker>
+                        <token>it</token>
+                        <token spacebefore="no" regexp="yes">['’]</token>
+                        <token>s</token>
+                 </marker>
+                 <token chunk="B-NP-singular"/>
+              </pattern>
+              <message>Did you mean <suggestion>its</suggestion> (possessive pronoun)?</message>
+              <url>http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
+              <short>Possible typo</short>
+              <example type="correct">Above all it's important to note they're disgusting.</example>
+              <example type="incorrect" correction="its">For all <marker>it's</marker> perfection, I could not really like it.</example>
+            </rule>            
+            <rule>            
                 <pattern>
                     <token>on</token>
                     <marker>
@@ -4335,6 +4423,49 @@ USA
             <example type="incorrect">What do you think <marker>about who to</marker> promote?</example>
             <example type="correct">What do you think about whom to promote?</example>
         </rule>
+        <rulegroup id="THEYRE_THEIR" name="they're (their)">
+        <rule>
+              <pattern>
+              <token postag="IN"><exception>while</exception></token>
+              <marker>
+                <token>they</token>
+                <token spacebefore="no" regexp="yes">['’]</token>
+                <token>re</token>
+                </marker>
+                <token postag_regexp="yes" postag="NN.*"><exception>out</exception></token>
+              </pattern>
+              <message>Did you mean <suggestion>their</suggestion>?</message>
+            <example type="incorrect" correction="their">I'm not worried about <marker>they're</marker> problems.</example>
+            <example type="correct">I'm not worried about their problems.</example>          
+        </rule>
+        <!-- .*/VBG they're::word=\0 their::pivots=they're,their::options=they're,their -->
+        <rule id="VBG_THEYRE" name="VBG theyre (their)">
+            <pattern>
+                <token postag="VBG"><exception postag="VBG" negate_pos="yes"></exception></token>
+                <token>they</token>
+                <token spacebefore="no" regexp="yes">['’]</token>
+                <token>re</token>
+            </pattern>
+            <message>Did you mean <suggestion><match no="1"></match> their</suggestion>?</message>
+            <short>Possible typo</short>
+            <example type="incorrect">They couldn't stop <marker>conceptualizing they're</marker> own demise.</example>
+            <example type="correct">They couldn't stop conceptualizing their own demise.</example>
+        </rule>
+        <rule>
+        <pattern>
+                <marker>
+                    <token>they</token>
+                    <token spacebefore="no" regexp="yes">['’]</token>
+                    <token>re</token>
+                </marker>                    
+                    <token regexp="yes">best|final|fifth|first|fourth|new|next|second|third</token>
+                    <token postag_regexp="yes" postag="NN.*"><exception>out</exception></token>
+                </pattern>
+                <message>Did you mean <suggestion>their</suggestion>?</message>
+                <example type="incorrect" correction="their">These are <marker>they're</marker> best clothes.</example>
+                <example type="correct">These are their best clothes.</example>            
+        </rule>                
+        </rulegroup>
         <!-- they're|there own::word=their \1::pivots=\0,their::options=they're,there,their -->
         <rulegroup id="THERE_OWN" name="there (their) own">
             <rule>
@@ -4358,18 +4489,6 @@ USA
                 <example type="correct">They completed the huge project on their own.</example>
             </rule>
         </rulegroup>
-        <!-- .*/VBG they're::word=\0 their::pivots=they're,their::options=they're,their -->
-        <rule id="VBG_THEYRE" name="VBG theyre (their)">
-            <pattern>
-                <token postag="VBG"><exception postag="VBG" negate_pos="yes"></exception></token>
-                <token>they</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
-                <token>re</token>
-            </pattern>
-            <message>Did you mean <suggestion><match no="1"></match> their</suggestion>?</message>
-            <example type="incorrect">They couldn't stop <marker>conceptualizing they're</marker> own demise.</example>
-            <example type="correct">They couldn't stop conceptualizing their own demise.</example>
-        </rule>
         <!-- .*/VBG you're::word=\0 your::pivots=you're,your::options=you're,your -->
         <rule id="VBG_YOURE" name="VBG youre (your)">
             <pattern>
@@ -9590,6 +9709,47 @@ USA
         </rulegroup>
     </category>
     <category name="Commonly Confused Words" type="misspelling">
+    <rulegroup id="ALTER_BOY" name="confusion of alter/altar">
+    <rule>
+  	<pattern>
+    	<marker>
+      	<token>alter</token>
+    	</marker>
+    	<token regexp="yes">boy|server</token>
+  	</pattern>
+  	<message>Did you mean <suggestion>altar</suggestion>?</message>
+  	<url>http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
+  	<short>Possible typo</short>
+  	<example type="incorrect" correction="altar">He was an <marker>alter</marker> boy.</example>
+	<example type="correct">He was an altar boy.</example>
+	</rule>
+	<rule>
+  	<pattern>
+  		<token>at</token>
+  		<token>the</token>
+    	<marker>
+      	<token>alter</token>
+    	</marker>    	
+  	</pattern>
+  	<message>Did you mean <suggestion>altar</suggestion>?</message>
+  	<url>http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
+  	<short>Possible typo</short>
+  	<example type="incorrect" correction="altar">He was at the <marker>alter</marker>.</example>
+	<example type="correct">He was at the altar.</example>
+	</rule>
+	<rule>
+	<pattern>
+      <token regexp="yes">significantly|radically|fundamentally|dramatically|drastically|substantially</token>
+       <marker>
+        <token>altar</token>
+       </marker>      
+    </pattern>
+    <message>Did you mean <suggestion>alter</suggestion> (=change)?</message>
+    <short>Possible typo</short>
+    <example type="incorrect" correction="alter"> Forty-seven percent of executives said they were concerned that retiring Boomers will significantly <marker>altar</marker> the workforce in the next decade.</example>
+    <example type="correct">He will radically alter his work.</example>
+    </rule>
+    </rulegroup>
     <rulegroup id="CONFUSION_OF_DECENT_DESCENT" name="confusion of decent/descent">
     <rule>
     <pattern>
