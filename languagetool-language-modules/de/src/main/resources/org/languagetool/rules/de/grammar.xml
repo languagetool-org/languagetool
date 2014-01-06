@@ -8139,6 +8139,29 @@ $Id$
                 <example type="incorrect" correction="zurechtzukommen|zu Recht zukommen">Er versuchte vergeblich, damit <marker>zu recht zukommen</marker>.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="ALLE_NASE_LANG" name="alle Nase lang (naselang)">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[Aa]lle</token>
+                    <token regexp="yes">Nasen?</token>
+                    <token>lang</token>
+                </pattern>
+                <message>In der Wendung <suggestion><match no="1"/> <match no="2" case_conversion="alllower"/><match no="3"/></suggestion> wird 'naselang' klein- und zusammengeschrieben.</message>
+                <example type="incorrect" correction="Alle naselang"><marker>Alle Nase lang</marker> landen verquere Sprüche im Postfach.</example>
+                <example type="incorrect" correction="Alle nasenlang"><marker>Alle Nasen lang</marker> landen verquere Sprüche im Postfach.</example>
+                <example type="correct"><marker>Alle naselang</marker> landen verquere Sprüche im Postfach.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[Aa]lle</token>
+                    <token regexp="yes">Nasen?lang</token>
+                </pattern>
+                <message>In der Wendung <suggestion><match no="1"/> <match no="2" case_conversion="alllower"/></suggestion> wird 'naselang' klein- und zusammengeschrieben.</message>
+                <example type="incorrect" correction="Alle naselang"><marker>Alle Naselang</marker> landen verquere Sprüche im Postfach.</example>
+                <example type="incorrect" correction="Alle nasenlang"><marker>Alle Nasenlang</marker> landen verquere Sprüche im Postfach.</example>
+                <example type="correct"><marker>Alle naselang</marker> landen verquere Sprüche im Postfach.</example>
+            </rule>
+        </rulegroup>
     </category>
 
     <!-- ====================================================================== -->
