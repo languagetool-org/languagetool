@@ -2619,7 +2619,7 @@ USA
         <short>Possible typo</short>
         <example type="incorrect" correction="whose">By <marker>who's</marker> standards?</example>
         <example type="correct">Those whose money was stolen are free.</example>
-        <example type="incorrect">What do you know about <marker>who's</marker> car that is?</example>
+        <example type="incorrect" correction="whose">What do you know about <marker>who's</marker> car that is?</example>
         <example type="correct">What do you know about whose car that is?</example>        
         </rule>
         <rule>
@@ -2662,29 +2662,33 @@ USA
                 <token postag="NN|NN:UN?" postag_regexp="yes"><exception postag="NN|NN:UN?" postag_regexp="yes" negate_pos="yes"></exception></token>
             </pattern>
             <message>Did you mean <suggestion>whose <match no="4"></match></suggestion>?</message>
-            <example type="incorrect">Do we know <marker>who's banana</marker> this is on the table?</example>
+            <example type="incorrect" correction="whose banana">Do we know <marker>who's banana</marker> this is on the table?</example>
             <example type="correct">Do we know whose banana this is on the table?</example>
         </rule>
         <!-- whose .*/DT::word=who's \1::pivots=whose,who's -->
         <rule id="WHOSE_DT" name="whose DT (possessive)">
             <pattern>
-                <token>whose</token>
+                <marker>
+                    <token>whose</token>
+                </marker>
                 <token postag="DT"><exception postag="DT" negate_pos="yes"></exception></token>
             </pattern>
-            <message>Did you mean <suggestion>who's <match no="2"></match></suggestion>?</message>
-            <example type="incorrect"><marker>Whose the</marker> boss around here?</example>
+            <message>Did you mean <suggestion>who's</suggestion>?</message>
+            <example type="incorrect" correction="Who's"><marker>Whose</marker> the boss around here?</example>
             <example type="correct">Who's the boss around here?</example>
         </rule>        
         <!-- who's actual::word=whose actual::pivots=who's,whose::options=who's,whose -->
-        <rule id="WHOS_ACTUAL" name="whos actual (possessive)">
+        <rule id="WHOS_ACTUAL" name="who's actual (possessive)">
             <pattern>
-                <token>who</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
-                <token>s</token>
+                <marker>
+                    <token>who</token>
+                    <token spacebefore="no" regexp="yes">['’]</token>
+                    <token>s</token>
+                </marker>
                 <token regexp="yes">actual|name|previous</token>
             </pattern>
-            <message>Did you mean <suggestion>whose actual</suggestion>?</message>
-            <example type="incorrect"><marker>Who's actual</marker> job is it to make copies around here?</example>
+            <message>Did you mean <suggestion>whose</suggestion>?</message>
+            <example type="incorrect" correction="Whose"><marker>Who's</marker> actual job is it to make copies around here?</example>
             <example type="correct">Whose actual job is it to get coffee around here?</example>
         </rule>        
         </rulegroup>
@@ -2701,7 +2705,7 @@ USA
                 <message>Did you mean <suggestion>now</suggestion> (=at this moment) instead of 'no' (negation)?</message>
                 <short>Possible typo</short>
                 <example type="correct">There <marker>now</marker> will be a park.</example>
-                <example type="incorrect">There <marker>no</marker> will be a park.</example>
+                <example type="incorrect" correction="now">There <marker>no</marker> will be a park.</example>
                 <example type="correct">Although in no state the repression has been as great as it was in Soviet times.</example>
             </rule>
             <rule>
@@ -2716,7 +2720,7 @@ USA
                 <short>Possible typo</short>
                 <example type="correct">There's <marker>now</marker> a new building.</example>
                 <example type="correct">Get out of bed no later than ten minutes after the alarm goes off.</example>
-                <example type="incorrect">There's <marker>no</marker> a new building.</example>
+                <example type="incorrect" correction="now">There's <marker>no</marker> a new building.</example>
             </rule>
             <rule>
                 <pattern>
@@ -2728,7 +2732,7 @@ USA
                 <message>Did you mean <suggestion>now</suggestion> (=at this moment) instead of 'no' (negation)?</message>
                 <short>Possible typo</short>
                 <example type="correct"><marker>Now</marker> is the right time.</example>
-                <example type="incorrect"><marker>No</marker> is the right time.</example>
+                <example type="incorrect" correction="Now"><marker>No</marker> is the right time.</example>
             </rule>
         </rulegroup>
 
