@@ -100,9 +100,9 @@ public class French extends Language {
     final Contributor hVoisard = new Contributor("Hugo Voisard");
     hVoisard.setRemark("2006-2007");
     return new Contributor[] {
-        new Contributor("Agnes Souque"),
-        hVoisard,
         Contributors.DOMINIQUE_PELLE,
+        new Contributor("Agnes Souque"),
+        hVoisard
     };
   }
 
