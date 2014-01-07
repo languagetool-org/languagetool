@@ -33,7 +33,7 @@ $Id$
     <!ENTITY mesos_any "gener|febrer|març|abril|maig|juny|juliol|agost|setembre|octubre|novembre|desembre">
     <!ENTITY ordes "agustinià|salesià|religiós|franciscà|benedictí|templari|cavalleresc|cistercenc|escolapi|monàstic|mercedari|teutònic|cartoixà|dominic|jerònim">
     <!ENTITY ordes_invariable "conventual|mendicant|militar|major|menor|marista|jesuïta|regular">
-    <!ENTITY precedits_per_TAN "cert|fort|(in)?comprensible|(in)?substancial|covard|arriscar|decidir">
+    <!ENTITY precedits_per_TAN "alt|ample|complex|comú|divers|eficaç|efectiu|important|simple|senzill|difícil|cert|fort|(in)?comprensible|(in)?substancial|covard|arriscar|decidir|variar|desconèixer">
     <!ENTITY precedits_per_TANT "no|ací|aquí|allí|allà|potser|abans|ja|on|quan|que|com|menys|doncs|però|ara|emperò|ans">
     <!ENTITY vocabulari_menjar "xocolata|xocolate|allioli|aliment|all|amanida|arròs|bolet|carn|carxofa|cep|coriandre|fava|fetge|foie|formatge|gamba|j[ou]livert|llamàntol|llobregant|lluç|macarró|magret|mandonguilla|mango|menjar|mongeta|p[éè]sol|pa|pastís|porc|r[eo]nyó|safrà|tofu|verdura|vi|ànec">
     <!ENTITY seguits_per_COM_A "acceptar|justificar|caracteritzar|qualificar|establir|figurar|reconèixer|conèixer|definir|veure|entendre|interpretar|percebre">
@@ -3847,13 +3847,14 @@ $Id$
                     </marker>
                     <token postag="AQ.[MC][PN].*|V.P.*PM.?" postag_regexp="yes" skip="10"><exception regexp="yes" inflected="yes">&precedits_per_TAN;</exception></token>
                     <token>com</token>
-                    <token postag="AQ.[MC][PN].*|V.P.*PM.?" postag_regexp="yes"><exception>qualssevol</exception></token>
+                    <token postag="AQ.[MC][PN].*|V.P.*PM.?" postag_regexp="yes"><exception regexp="yes">qualssevol|altres</exception></token>
                 </pattern>
                 <message>En una loc. distributiva ("és tant físic com estètic") hauria de ser <suggestion>tant</suggestion>. Correcte en una loc. comparativa ("és tan covard com oportunista").</message>
                 <short>Confusió</short>
                 <example type="incorrect"><marker>tan</marker> físics com estètics.</example>
                 <example type="correct">Tant físics com estètics.</example>
-                <example type="correct">tan coneixedor com servidora</example>    
+                <example type="correct">tan coneixedor com servidora</example>
+                <example type="correct">No són tan bons com altres competidors</example>
             </rule>
             <rule>
                 <pattern>
@@ -3862,13 +3863,14 @@ $Id$
                     </marker>
                     <token postag="AQ.[FC][PN].*|V.P.*PF.?" postag_regexp="yes" skip="10"><exception regexp="yes" inflected="yes">&precedits_per_TAN;</exception></token>
                     <token>com</token>
-                    <token postag="AQ.[FC][PN].*|V.P.*PF.?" postag_regexp="yes"><exception>qualssevol</exception></token>
+                    <token postag="AQ.[FC][PN].*|V.P.*PF.?" postag_regexp="yes"><exception regexp="yes">qualssevol|altres</exception></token>
                 </pattern>
                 <message>En una loc. distributiva ("és tant físic com estètic") hauria de ser <suggestion>tant</suggestion>. Correcte en una loc. comparativa ("és tan covard com oportunista").</message>
                 <short>Confusió</short>
                 <example type="incorrect"><marker>tan</marker> físiques com estètiques.</example>
                 <example type="correct">Tant físiques com estètiques.</example>
-                <example type="correct">tan coneixedor com servidora</example>    
+                <example type="correct">tan coneixedor com servidora</example>
+                <example type="correct">No són tan elevades com altres muntanyes</example>    
             </rule>
              <rule>
                 <pattern>
@@ -4005,9 +4007,9 @@ $Id$
                     <marker>
                         <token>tan</token>
                     </marker>
-                    <token postag="RG" skip="10"><exception regexp="yes">bé|abans|ja|on|quan|que|com|menys|doncs|però|ara|emperò|ans|poc</exception></token>
+                    <token postag="RG" skip="10"><exception regexp="yes">bé|abans|ja|on|quan|que|com|menys|doncs|però|ara|emperò|ans|poc|sovint|freqüentment|mal|bon|ben</exception></token>
                     <token>com</token>
-                    <token postag="RG"><exception regexp="yes">sempre|abans|ja|on|quan|que|com|menys|doncs|però|ara|emperò|ans|poc</exception></token>
+                    <token postag="RG"><exception regexp="yes">sempre|abans|ja|on|quan|que|com|menys|doncs|però|ara|emperò|ans|poc|actualment|posteriorment|prèviament</exception></token>
                 </pattern>
                 <message>Hauria de ser: <suggestion>tant</suggestion>.</message>
                 <short>Confusió</short>
@@ -4016,6 +4018,9 @@ $Id$
                 <example type="correct">Elements tan poc comercials com clarament icònics.</example>
                 <example type="correct">És tan fort com sempre.</example>
                 <example type="correct">hauria estat tan bé com aleshores</example>
+                <example type="correct">No tan sovint com antigament</example>
+                <example type="correct">No estava tan mal defensada com inicialment crèiem.</example>
+                <example type="correct">Tan clarament diferenciats com actualment.</example>
             </rule>
             <rule>
             <!--  coneixements tant científics com de les més variades disciplines-->
