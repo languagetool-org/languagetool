@@ -1,4 +1,4 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2006 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
@@ -45,7 +45,7 @@ import org.languagetool.tools.StringTools;
 
 public abstract class AbstractCompoundRule extends Rule {
 
-  private static final int MAX_TERMS = 5;  
+  private static final int MAX_TERMS = 5;
 
   private final Set<String> incorrectCompounds = new HashSet<>();
   private final Set<String> noDashSuggestion = new HashSet<>();
@@ -63,9 +63,9 @@ public abstract class AbstractCompoundRule extends Rule {
    * See Language.getWordTokenizer()
    */
   private boolean hyphenIgnored = true;
-  
+
   public AbstractCompoundRule(final ResourceBundle messages, final String fileName,
-        final String withHyphenMessage, final String withoutHyphenMessage, final String withOrWithoutHyphenMessage) throws IOException {
+      final String withHyphenMessage, final String withoutHyphenMessage, final String withOrWithoutHyphenMessage) throws IOException {
     if (messages != null) {
       super.setCategory(new Category(messages.getString("category_misc")));
     }
@@ -77,7 +77,7 @@ public abstract class AbstractCompoundRule extends Rule {
   }
 
   @Override
-  public abstract String getId();    
+  public abstract String getId();
 
   @Override
   public abstract String getDescription();
@@ -160,7 +160,7 @@ public abstract class AbstractCompoundRule extends Rule {
           } else if (replacement.isEmpty() || replacement.size() == 2) {     // isEmpty shouldn't happen
             msg = withOrWithoutHyphenMessage;
           }
-          final RuleMatch ruleMatch = new RuleMatch(this, firstMatchToken.getStartPos(), 
+          final RuleMatch ruleMatch = new RuleMatch(this, firstMatchToken.getStartPos(),
               atr.getStartPos() + atr.getToken().length(), msg, shortDesc);
           // avoid duplicate matches:
           if (prevRuleMatch != null && prevRuleMatch.getFromPos() == ruleMatch.getFromPos()) {
@@ -176,6 +176,17 @@ public abstract class AbstractCompoundRule extends Rule {
       addToQueue(token, prevTokens);
     }
     return toRuleMatchArray(ruleMatches);
+  }
+
+  /**
+   * Display this rule as a spelling rule, i.e. with
+   * red underlines in the GUI.
+   * 
+   * @since 2.5
+   */
+  @Override
+  public boolean isSpellingRule() {
+    return true;
   }
 
   private String normalize(final String inStr) {
@@ -213,7 +224,7 @@ public abstract class AbstractCompoundRule extends Rule {
         } else {
           sb.append(stringParts[k].toLowerCase());
         }
-      }  
+      }
     }
     return sb.toString();
   }

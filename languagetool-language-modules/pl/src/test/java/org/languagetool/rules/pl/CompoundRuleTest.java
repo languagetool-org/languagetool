@@ -1,4 +1,4 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
@@ -18,11 +18,15 @@
  */
 package org.languagetool.rules.pl;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Scanner;
+
 import org.languagetool.JLanguageTool;
+import org.languagetool.TestTools;
 import org.languagetool.language.Polish;
 import org.languagetool.rules.AbstractCompoundRuleTest;
-
-import java.io.IOException;
+import org.languagetool.rules.RuleMatch;
 
 /**
  * @author Daniel Naber
@@ -35,7 +39,7 @@ public class CompoundRuleTest extends AbstractCompoundRuleTest {
     langTool = new JLanguageTool(new Polish());
     rule = new CompoundRule(null);
   }
-  
+
   public void testRule() throws IOException {
     // correct sentences:
     check(0, "Nie róbmy nic na łapu-capu.");
@@ -43,5 +47,43 @@ public class CompoundRuleTest extends AbstractCompoundRuleTest {
     // incorrect sentences:
     check(1, "bim bom", new String[]{"bim-bom"});
   }
-  
+
+  public void testCompoundFile() throws IOException {
+    final MorfologikPolishSpellerRule spellRule =
+        new MorfologikPolishSpellerRule (TestTools.getMessages("Polish"), new Polish());
+    final InputStream   file = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/pl/compounds.txt");
+    try (Scanner scanner = new Scanner(file, "UTF-8")) {
+      while (scanner.hasNextLine()) {
+        String line = scanner.nextLine().trim();
+        if (line.length() < 1 || line.charAt(0) == '#') {
+          continue;     // ignore comments
+        }
+        if (line.endsWith("+")) {
+          line = removeLastCharacter(line);
+          line = line.replace('-', ' ');
+          final RuleMatch[] ruleMatches =
+              spellRule.match(langTool.getAnalyzedSentence(line));
+          assertEquals("The entry: " + line + " is not found in the spelling dictionary!",
+              0, ruleMatches.length);
+        } else if (line.endsWith("*")) {
+          line = removeLastCharacter(line);
+          final RuleMatch[] ruleMatches =
+              spellRule.match(langTool.getAnalyzedSentence(line));
+          assertEquals("The entry: " + line + " is not found in the spelling dictionary!",
+              0, ruleMatches.length);
+        } else {
+          assertEquals("The entry: " + line + " is not found in the spelling dictionary!",
+              0, spellRule.match(langTool.getAnalyzedSentence(line)).length);
+          assertEquals("The entry: " + line.replace("-", "") + " is not found in the spelling dictionary!",
+              0, spellRule.match(langTool.getAnalyzedSentence(line.replace("-", ""))).length);
+        }
+      }
+    }
+  }
+
+  private String removeLastCharacter(String str) {
+    return str.substring(0, str.length() - 1);
+  }
+
+
 }
