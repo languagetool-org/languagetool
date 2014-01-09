@@ -745,8 +745,7 @@ public class Main extends WeakBase implements XJobExecutor,
   }
 
   /**
-   * Called from grammar/spell checking dialog to ignore a rule (not called when
-   * "Ignore" is selected in the context menu for an error.)
+   * Called when "Ignore" is selected e.g. in the context menu for an error.
    */
   @Override
   public void ignoreRule(final String ruleId, final Locale locale)
