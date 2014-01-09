@@ -124,7 +124,7 @@ class ResultArea {
         final String replacement = StringTools.listToString(match.getSuggestedReplacements(), "; ");
         sb.append("<b>").append(messages.getString("correctionMessage")).append("</b> ").append(replacement).append("<br>\n");
       }
-      if (match.getRule().isSpellingRule()) {
+      if ("misspelling".equals(match.getRule().getLocQualityIssueType())) {
         contextTools.setErrorMarkerStart(SPELL_ERROR_MARKER_START);
       } else {
         contextTools.setErrorMarkerStart(LT_ERROR_MARKER_START);

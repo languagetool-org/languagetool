@@ -36,7 +36,15 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.ResourceBundle;
+import java.util.Set;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
@@ -723,7 +731,7 @@ class LanguageToolSupport {
       if (span.start == span.end) {
         continue;
       }
-      if (span.rule.isSpellingRule()) {
+      if ("misspelling".equals(span.rule.getLocQualityIssueType())) {
         spellErrors.add(span);
       } else {
         grammarErrors.add(span);
