@@ -4290,7 +4290,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <!-- pels projectes, malgrat una llista -->
         <pattern>
             <token postag="SPS00|.*LOC_PREP.*" postag_regexp="yes"><exception postag="RG"/></token>
-            <token postag="D[AI].*" postag_regexp="yes"><exception regexp="yes">es|s'</exception></token> 
+            <token postag="D[AIP].*" postag_regexp="yes"><exception regexp="yes">es|s'</exception></token> 
             <!-- ¿Exigir unificació o no? (Ex. amb un tesi)-->
             <marker>
                 <and>
@@ -4311,7 +4311,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <unify>
             <feature id="nombre"/>
             <feature id="genere"/>
-                <token postag="D[AI].*" postag_regexp="yes"/>
+                <token postag="D[AIP].*" postag_regexp="yes"/>
                 <token postag="A.*|PX.*|V.P.*" postag_regexp="yes"><exception postag="N.*" postag_regexp="yes"/></token>
                 <marker>
                     <and>
@@ -10131,8 +10131,8 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <marker>
                 <token postag="D[IN].*" postag_regexp="yes" skip="3"><exception postag="LOC_ADV_TEMP"/></token>
             </marker>
-            <token regexp="yes" inflected="yes" skip="2">&unitats_temps;<exception scope="next" postag="C.*" postag_regexp="yes"/></token>
-            <token regexp="yes">després|abans|(en|ar|endar)(rer[ea])</token>
+            <token regexp="yes" inflected="yes" skip="2">&unitats_temps;</token>
+            <token regexp="yes">després|abans|(en|ar|endar)(rer[ea])<exception scope="previous" postag="C.*" postag_regexp="yes"/></token>
         </pattern>
         <disambig action="add"><wd pos="LOC_ADV_TEMP"/></disambig>
     </rule>
