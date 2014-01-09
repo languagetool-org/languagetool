@@ -526,7 +526,20 @@ $Id$
         <rulegroup name="asterischi di omissione (***)" id="GR_09_001">
             <rule>
                 <pattern>
-                    <token regexp="no">**</token>
+                <marker>
+                    <token spacebefore="yes" regexp="no">*</token>
+                    <token regexp="no" spacebefore="no">*</token>
+                </marker>
+                    <token><exception regexp="no">*</exception></token>
+                </pattern>
+                <message>L’asterisco si usa per un’omissione nel numero di tre consecutivi: <suggestion>***</suggestion>.</message>
+                <example type="incorrect">Preferisco non pensare a quel <marker>**</marker>.</example>
+                <example type="correct">Preferisco non pensare a quel <marker>***</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>                
+                    <token spacebefore="yes" regexp="no">*</token>
+                    <token postag="SENT_END" regexp="no" spacebefore="no">*</token>                
                 </pattern>
                 <message>L’asterisco si usa per un’omissione nel numero di tre consecutivi: <suggestion>***</suggestion>.</message>
                 <example type="incorrect">Preferisco non pensare a quel <marker>**</marker></example>
@@ -534,15 +547,36 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="no">****</token>
+                <marker>
+                    <token spacebefore="yes" regexp="no">*</token>
+                    <token regexp="no" spacebefore="no">*</token>
+                    <token regexp="no" spacebefore="no">*</token>
+                    <token regexp="no" spacebefore="no">*</token>
+                </marker>
+                    <token><exception regexp="no">*</exception></token>
+                </pattern>
+                <message>L’asterisco si usa per un’omissione nel numero di tre consecutivi: <suggestion>***</suggestion>.</message>
+                <example type="incorrect">Preferisco non pensare a quel <marker>****</marker>.</example>
+                <example type="correct">Preferisco non pensare a quel <marker>***</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>                
+                    <token spacebefore="yes" regexp="no">*</token>
+                    <token regexp="no" spacebefore="no">*</token>
+                    <token regexp="no" spacebefore="no">*</token>
+                    <token postag="SENT_END" regexp="no" spacebefore="no">*</token>                
                 </pattern>
                 <message>L’asterisco si usa per un’omissione nel numero di tre consecutivi: <suggestion>***</suggestion>.</message>
                 <example type="incorrect">Preferisco non pensare a quel <marker>****</marker></example>
                 <example type="correct">Preferisco non pensare a quel <marker>***</marker></example>
             </rule>
             <rule>
-                <pattern>
-                    <token regexp="no">*****</token>
+                <pattern>               
+                    <token spacebefore="yes" regexp="no">*</token>
+                    <token regexp="no" spacebefore="no">*</token>
+                    <token regexp="no" spacebefore="no">*</token>
+                    <token regexp="no" spacebefore="no">*</token>
+                    <token postag="SENT_END" regexp="no" spacebefore="no">*</token>                
                 </pattern>
                 <message>L’asterisco si usa per un’omissione nel numero di tre consecutivi: <suggestion>***</suggestion>.</message>
                 <example type="incorrect">Preferisco non pensare a quel <marker>*****</marker></example>

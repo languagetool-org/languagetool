@@ -1,4 +1,4 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2008 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
@@ -44,10 +44,10 @@ public class DutchWordTokenizer extends WordTokenizer {
   public List<String> tokenize(final String text) {
     // TODO: find a cleaner implementation, this is a hack
     final List<String> tokenList = super.tokenize(text.replaceAll(
-        "([\\p{L}])'([\\p{L}])", "$1##NL_APOS##$2"));
+        "([\\p{L}])'([\\p{L}])", "$1\u0001\u0001NL_APOS\u0001\u0001$2"));
     final String[] tokens = tokenList.toArray(new String[tokenList.size()]);
     for (int i = 0; i < tokens.length; i++) {
-      tokens[i] = tokens[i].replace("##NL_APOS##", "'");
+      tokens[i] = tokens[i].replace("\u0001\u0001NL_APOS\u0001\u0001", "'");
     }
     return Arrays.asList(tokens);
   }

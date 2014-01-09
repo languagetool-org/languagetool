@@ -25197,13 +25197,15 @@ $Id$
         <rule id="LEERZEICHEN_RECHENZEICHEN" name="Zeichensetzung: Leerzeichen vor Rechenzeichen">
             <!-- Zwischen Zahlen werden Rechenzeichen durch kleine, feste Zwischenräume (Duden) oder ganze Leerschritte (DIN 5008) von den Zahlen abgetrennt -->
             <pattern>
-                <token regexp="yes">([0-9]+[a-z]*)((\*|×|∗|·|\+|÷|:|=)([0-9]+[a-z]*))+</token>
+                <token regexp="yes">([0-9]+[a-z]*)</token>
+                <token spacebefore="no" regexp="yes">[\*×∗·\+÷:=]</token>
+                <token spacebefore="no" regexp="yes">(([0-9]+[a-z]*))+</token>
             </pattern>
-            <message>Rechenzeichen sollten durch (schmale, geschützte) Leerzeichen abgetrennt werden. Vorschlag: <suggestion><match no="1" regexp_match="(\*|×|∗|·|\+|÷|:|=|\-|—)" regexp_replace=" $1 "/></suggestion> (&tippformel;)</message>
+            <message>Rechenzeichen sollten durch (schmale, geschützte) Leerzeichen abgetrennt werden. Vorschlag: <suggestion>\1 \2 \3</suggestion> (&tippformel;)</message>
             <example type="correct">a = 2 · x² + 5</example>
             <example type="correct">4,5 × 2,5</example>
             <example type="incorrect" correction="3a = 2"><marker>3a=2</marker></example>
-            <example type="incorrect" correction="5 * 5 = 25"><marker>5*5=25</marker></example>
+            <example type="incorrect" correction="5 * 5"><marker>5*5</marker></example>
         </rule>
         <rulegroup id="KOMMA_AUFZAEHLUNG" name="Zeichensetzung: Falsches Komma vor Konjunktion in Aufzählung (nur wenige Fälle)">
             <rule>
