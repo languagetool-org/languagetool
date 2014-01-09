@@ -33,17 +33,20 @@ public class EnglishWordTokenizer extends WordTokenizer {
   public EnglishWordTokenizer() {
   }
 
+  /**
+   * @param text - String of words to tokenize.
+   * 
+   * Tokenizes text.
+   * The English tokenizer differs from the standard one only
+   * in one respect - it does not treat the hyphen as part of the
+   * word if the hyphen is at the end of the word.
+   * 
+   */
   @Override
   public List<String> tokenize(final String text) {
     final List<String> l = new ArrayList<>();
     final StringTokenizer st = new StringTokenizer(text,
-        "\u0020\u00A0\u115f\u1160\u1680"
-            + "\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007"
-            + "\u2008\u2009\u200A\u200B\u200c\u200d\u200e\u200f"
-            + "\u2028\u2029\u202a\u202b\u202c\u202d\u202e\u202f"
-            + "\u205F\u2060\u2061\u2062\u2063\u206A\u206b\u206c\u206d"
-            + "\u206E\u206F\u3000\u3164\ufeff\uffa0\ufff9\ufffa\ufffb"
-            + ",.;=#*()[]{}<>!?:/|\\\"'«»„”“`´‘’‛′…¿¡\t\n\r", true);
+        super.getTokenizingCharacters(), true);
     while (st.hasMoreElements()) {
       final String token = st.nextToken();
       if (token.length() > 1 && token.endsWith("-")) {

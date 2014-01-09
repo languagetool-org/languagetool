@@ -1,4 +1,4 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
@@ -33,6 +33,14 @@ public class DutchWordTokenizerTest extends TestCase {
     testList = wordTokenizer.tokenize("Bla bla oma's bla bla 'test");
     assertEquals(testList.size(), 12);
     assertEquals("[Bla,  , bla,  , oma's,  , bla,  , bla,  , ', test]",
+        testList.toString());
+    testList = wordTokenizer.tokenize("Ik zie het''");
+    assertEquals(7, testList.size());
+    assertEquals("[Ik,  , zie,  , het, ', ']",
+        testList.toString());
+    testList = wordTokenizer.tokenize("''Ik zie het");
+    assertEquals(7, testList.size());
+    assertEquals("[', ', Ik,  , zie,  , het]",
         testList.toString());
   }
 }

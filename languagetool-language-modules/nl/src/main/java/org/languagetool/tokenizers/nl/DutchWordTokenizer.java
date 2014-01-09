@@ -19,14 +19,20 @@
 
 package org.languagetool.tokenizers.nl;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import org.languagetool.tokenizers.WordTokenizer;
 
 public class DutchWordTokenizer extends WordTokenizer {
 
+  //the string used to tokenize characters
+  private final String nlTokenizing;
+
   public DutchWordTokenizer() {
+    //remove the apostrophe from the standard tokenizing characters
+    nlTokenizing = super.getTokenizingCharacters().replace("'", "");
   }
 
   /**
@@ -37,18 +43,44 @@ public class DutchWordTokenizer extends WordTokenizer {
    *          - Text to tokenize
    * @return List of tokens.
    * 
-   *         Note: a special string ##NL_APOS## is used to replace apostrophe
-   *         during tokenizing.
    */
   @Override
   public List<String> tokenize(final String text) {
-    // TODO: find a cleaner implementation, this is a hack
-    final List<String> tokenList = super.tokenize(text.replaceAll(
-        "([\\p{L}])'([\\p{L}])", "$1\u0001\u0001NL_APOS\u0001\u0001$2"));
-    final String[] tokens = tokenList.toArray(new String[tokenList.size()]);
-    for (int i = 0; i < tokens.length; i++) {
-      tokens[i] = tokens[i].replace("\u0001\u0001NL_APOS\u0001\u0001", "'");
+
+    final List<String> l = new ArrayList<>();
+    final StringTokenizer st = new StringTokenizer(text,
+        nlTokenizing, true);
+    while (st.hasMoreElements()) {
+      String token = st.nextToken();
+      if (token.length() > 1) {
+        if (token.endsWith("'")) {
+          int cnt = 0;
+          while (token.endsWith("'")) {
+            token = token.substring(0, token.length() - 1);
+            cnt++;
+          }
+          l.add(token);
+          for (int i = 0; i < cnt; i++) {
+            l.add("'");
+          }
+        } else if (token.startsWith("'")) {
+          while (token.startsWith("'")) {
+            token = token.substring(1, token.length());
+            l.add("'");
+          }
+          l.add(token);
+        } else {
+          l.add(token);
+        }
+      } else {
+        l.add(token);
+      }
     }
-    return Arrays.asList(tokens);
+    return joinUrls(l);
+  }
+
+  @Override
+  public String getTokenizingCharacters() {
+    return nlTokenizing;
   }
 }
