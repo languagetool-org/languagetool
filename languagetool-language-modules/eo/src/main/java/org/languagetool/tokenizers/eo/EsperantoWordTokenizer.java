@@ -41,7 +41,7 @@ public class EsperantoWordTokenizer extends WordTokenizer {
    *          - Text to tokenize
    * @return List of tokens.
    * 
-   *         Note: a special string ##EO_APOS## is used to replace apostrophe
+   *         Note: a special string \u0001\u0001EO_APOS\u0001\u0001 is used to replace apostrophe
    *         during tokenizing.
    */
   @Override
