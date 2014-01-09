@@ -15145,7 +15145,42 @@ $Id$
                 <example type="incorrect"><marker>no va tenir volta de full</marker></example>
                 <example type="correct">va ser irrebatible</example>
             </rule>
-        </rulegroup>    
+        </rulegroup>
+        <rulegroup id="NO_HAVER_HI_VOLTA_DE_FULL" name="no haver-hi volta de full">
+            <rule>
+                <pattern>
+                    <token skip="1">no</token>
+                    <token inflected="yes">haver</token>
+                    <token>volta</token>
+                    <token>de</token>
+                    <token regexp="yes">fulla?</token>
+                </pattern>
+                <message>Expressió incorrecta.</message>
+                <suggestion><match no="1" include_skipped="all"/> <match no="2"/> retop</suggestion>
+                <suggestion><match no="2" postag="VA([IS].+)" postag_regexp="yes" postag_replace="VS$1">ser</match> indiscutible</suggestion>
+                <suggestion><match no="2" postag="VA([IS].+)" postag_regexp="yes" postag_replace="VS$1">ser</match> irrebatible</suggestion>
+                <short>Expressió incorrecta</short>
+                <example type="incorrect" correction="no hi havia retop|era indiscutible|era irrebatible"><marker>no hi havia volta de full</marker></example>
+                <example type="correct">no té retop</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token skip="1">no</token>
+                    <token postag="VA.*" postag_regexp="yes"/>
+                    <token inflected="yes" skip="1">haver</token>
+                    <token>volta</token>
+                    <token>de</token>
+                    <token regexp="yes">fulla?</token>
+                </pattern>
+                <message>Expressió incorrecta.</message>
+                <suggestion><match no="1" include_skipped="all"/> <match no="2"/> <match no="3" include_skipped="all"/> retop</suggestion>
+                <suggestion><match no="2"/> <match no="3" postag="VA(.+)" postag_regexp="yes" postag_replace="VS$1">ser</match> indiscutible</suggestion>
+                <suggestion><match no="2"/> <match no="3" postag="VA(.+)" postag_regexp="yes" postag_replace="VS$1">ser</match> irrebatible</suggestion>
+                <short>Expressió incorrecta</short>
+                <example type="incorrect" correction="no va haver-hi retop|va ser indiscutible|va ésser indiscutible|va ser irrebatible|va ésser irrebatible"><marker>no va haver-hi volta de full</marker></example>
+                <example type="correct">va ser irrebatible</example>
+            </rule>
+        </rulegroup>   
         <rule id="POSTA_A_PUNT" name="*posta/posada a punt">
             <pattern>
                 <marker>
