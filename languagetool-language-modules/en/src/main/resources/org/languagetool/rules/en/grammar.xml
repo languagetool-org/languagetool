@@ -4600,20 +4600,7 @@ USA
             <message>Did you mean <suggestion>their <match no="4"></match> <match no="5"></match></suggestion>?</message>
             <example type="incorrect">It was <marker>they're oddest hypothesis</marker> yet.</example>
             <example type="correct">It was their oddest hypothesis yet.</example>
-        </rule>
-        <!-- it's .*/JJS .*/NN::word=its \1 \2::pivots=it's,its::options=it's,its -->
-        <rule id="ITS_JJS_NN" name="its (possessive) JJS NN">
-            <pattern>
-                <token>it</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
-                <token>s</token>
-                <token postag="JJS"><exception postag="JJS" negate_pos="yes"></exception></token>
-                <token postag="NN|NN:UN?" postag_regexp="yes"><exception postag="NN|NN:UN?" postag_regexp="yes" negate_pos="yes"></exception></token>
-            </pattern>
-            <message>Did you mean <suggestion>its <match no="4"></match> <match no="5"></match></suggestion>?</message>
-            <example type="incorrect">For the painting, <marker>it's reddest area</marker> was in the upper left.</example>
-            <example type="correct">For the painting, its reddest area was in the upper left.</example>
-        </rule>
+        </rule>        
         <!-- .*/VBZ .*/IN|DT they're .*/NNP|NN|NNS::word=\0 \1 their \3::pivots=they're,their::options=they're,their -->
         <rule id="VBZ_IN_THEYRE_NN" name="VBZ IN theyre (their) NN">
             <pattern>
@@ -4667,6 +4654,19 @@ USA
             <example type="incorrect">We're <marker>going to hypothesizing</marker> about the origins of man.</example>
             <example type="correct">We're going to hypothesize about the origins of man.</example>
         </rule>
+        <rule id="ILL_I_LL" name="Ill (I'll)">
+        <pattern case_sensitive="yes">
+          <marker>
+            <token>Ill<exception scope="previous" postag_regexp="yes" postag="DT|TO"/><exception scope="previous" inflected="yes">be</exception></token>
+          </marker>
+        <token postag_regexp="yes" postag="VB|RB"/>
+        </pattern>
+        <message>Did you mean <suggestion>I'll</suggestion>?</message>
+        <short>Possible typo</short>
+        <example type="incorrect" correction="I'll"><marker>Ill</marker> explain!</example>
+        <example type="correct">I'll never do this again!</example>
+        <example type="correct">Ill news comes apace.</example>
+        </rule>        
         <rulegroup id="ITS_RULE" name="its rule (possessive)">
             <!-- on it's own::name=it's rule::word=on its own::filter=none -->
             <rule>
@@ -4770,8 +4770,20 @@ USA
                 <example type="incorrect">And <marker>above it's veranda</marker> loomed an ominous cloud.</example>
                 <example type="correct">And above its veranda loomed an ominous cloud.</example>
             </rule>
-        </rulegroup>
-        <!-- for it's .*/JJ|NN|NNS::word=for its::pivots=\1,its -->
+            <!-- it's .*/JJS .*/NN::word=its \1 \2::pivots=it's,its::options=it's,its -->
+            <rule id="ITS_JJS_NN" name="its (possessive) JJS NN">
+              <pattern>
+                <token>it</token>
+                <token spacebefore="no" regexp="yes">['’]</token>
+                <token>s</token>
+                <token postag="JJS"><exception postag="JJS" negate_pos="yes"></exception></token>
+                <token postag="NN|NN:UN?" postag_regexp="yes"><exception postag="NN|NN:UN?" postag_regexp="yes" negate_pos="yes"></exception></token>
+              </pattern>
+            <message>Did you mean <suggestion>its <match no="4"></match> <match no="5"></match></suggestion>?</message>
+            <example type="incorrect">For the painting, <marker>it's reddest area</marker> was in the upper left.</example>
+            <example type="correct">For the painting, its reddest area was in the upper left.</example>
+            </rule>
+            <!-- for it's .*/JJ|NN|NNS::word=for its::pivots=\1,its -->
         <rule id="FOR_ITS_NN" name="for its NN (possessive)">
             <pattern>
                 <token>for</token>
@@ -4823,7 +4835,8 @@ USA
             <message>Did you mean <suggestion>its <match no="4"></match> <match no="5"></match></suggestion>?</message>
             <example type="incorrect">I appreciated <marker>it's odorless handshake</marker> by the fifth time.</example>
             <example type="correct">I appreciate its odorless handshake by the fifth time.</example>
-        </rule>
+        </rule>        
+        </rulegroup>
         <!-- laid ahead::word=lay ahead::pivots=laid,lay::options=laid,lay -->
         <rule id="LAID_AHEAD" name="laid (lay) ahead">
             <pattern>
