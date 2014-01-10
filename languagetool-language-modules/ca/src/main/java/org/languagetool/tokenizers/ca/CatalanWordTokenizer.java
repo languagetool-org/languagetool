@@ -107,8 +107,8 @@ public class CatalanWordTokenizer extends WordTokenizer {
   /**
    * @param text Text to tokenize
    * @return List of tokens.
-   *         Note: a special string ##CA_APOS## is used to replace apostrophes,
-   *         and ##CA_HYPHEN## to replace hyphens.
+   *         Note: a special string \u0001\u0001CA_APOS\u0001\u0001 is used to replace apostrophes,
+   *         and \u0001\u0001CA_HYPHEN\u0001\u0001 to replace hyphens.
    */
   @Override
   public List<String> tokenize(final String text) {
@@ -116,23 +116,23 @@ public class CatalanWordTokenizer extends WordTokenizer {
     String auxText=text;
 
     Matcher matcher=ELA_GEMINADA.matcher(auxText);
-    auxText = matcher.replaceAll("$1##ELA_GEMINADA##$2");
+    auxText = matcher.replaceAll("$1\u0001\u0001ELA_GEMINADA\u0001\u0001$2");
     matcher=ELA_GEMINADA_UPPERCASE.matcher(auxText);
-    auxText = matcher.replaceAll("$1##ELA_GEMINADA_UPPERCASE##$2");
+    auxText = matcher.replaceAll("$1\u0001\u0001ELA_GEMINADA_UPPERCASE\u0001\u0001$2");
     matcher=APOSTROPHE.matcher(auxText);
-    auxText = matcher.replaceAll("$1##CA_APOS##$2");
+    auxText = matcher.replaceAll("$1\u0001\u0001CA_APOS\u0001\u0001$2");
     matcher=APOSTROPHE_1.matcher(auxText);
-    auxText = matcher.replaceAll("$1##CA_APOS##$2");
+    auxText = matcher.replaceAll("$1\u0001\u0001CA_APOS\u0001\u0001$2");
     matcher=NEARBY_HYPHENS.matcher(auxText);
-    auxText = matcher.replaceAll("$1##CA_HYPHEN##$2##CA_HYPHEN##$3");
+    auxText = matcher.replaceAll("$1\u0001\u0001CA_HYPHEN\u0001\u0001$2\u0001\u0001CA_HYPHEN\u0001\u0001$3");
     matcher=HYPHENS.matcher(auxText);
-    auxText = matcher.replaceAll("$1##CA_HYPHEN##$2");
+    auxText = matcher.replaceAll("$1\u0001\u0001CA_HYPHEN\u0001\u0001$2");
     matcher=DECIMAL_POINT.matcher(auxText);
-    auxText = matcher.replaceAll("$1##CA_DECIMALPOINT##$2");
+    auxText = matcher.replaceAll("$1\u0001\u0001CA_DECIMALPOINT\u0001\u0001$2");
     matcher=DECIMAL_COMMA.matcher(auxText);
-    auxText = matcher.replaceAll("$1##CA_DECIMALCOMMA##$2");
+    auxText = matcher.replaceAll("$1\u0001\u0001CA_DECIMALCOMMA\u0001\u0001$2");
     matcher=SPACE_DIGITS.matcher(auxText);
-    auxText = matcher.replaceAll("$1##CA_SPACE##$2");
+    auxText = matcher.replaceAll("$1\u0001\u0001CA_SPACE\u0001\u0001$2");
 
     final StringTokenizer st = new StringTokenizer(auxText,
             "\u0020\u00A0\u115f\u1160\u1680"
@@ -142,19 +142,19 @@ public class CatalanWordTokenizer extends WordTokenizer {
                     + "\u2028\u2029\u202a\u202b\u202c\u202d\u202e\u202f"
                     + "\u205F\u2060\u2061\u2062\u2063\u206A\u206b\u206c\u206d"
                     + "\u206E\u206F\u3000\u3164\ufeff\uffa0\ufff9\ufffa\ufffb"
-                    + ",.;()[]{}<>!?:/\\\"'«»„”“‘’`´…¿¡\t\n\r-", true);
+                    + ",.;()[]{}=*#∗+×÷<>!?:/\\\"'«»„”“‘’`´…¿¡\t\n\r-", true); // Not included: middle dot (·)
     String s;
     String groupStr;
 
     while (st.hasMoreElements()) {
       s = st.nextToken()
-              .replace("##CA_APOS##", "'")
-              .replace("##CA_HYPHEN##", "-")
-              .replace("##CA_DECIMALPOINT##", ".")
-              .replace("##CA_DECIMALCOMMA##", ",")
-              .replace("##CA_SPACE##", " ")
-              .replace("##ELA_GEMINADA##", "l.l")
-              .replace("##ELA_GEMINADA_UPPERCASE##", "L.L");
+              .replace("\u0001\u0001CA_APOS\u0001\u0001", "'")
+              .replace("\u0001\u0001CA_HYPHEN\u0001\u0001", "-")
+              .replace("\u0001\u0001CA_DECIMALPOINT\u0001\u0001", ".")
+              .replace("\u0001\u0001CA_DECIMALCOMMA\u0001\u0001", ",")
+              .replace("\u0001\u0001CA_SPACE\u0001\u0001", " ")
+              .replace("\u0001\u0001ELA_GEMINADA\u0001\u0001", "l.l")
+              .replace("\u0001\u0001ELA_GEMINADA_UPPERCASE\u0001\u0001", "L.L");
       boolean matchFound = false;
       int j = 0;
       while (j < maxPatterns && !matchFound) {

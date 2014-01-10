@@ -8631,14 +8631,16 @@ $Id$
                 <pattern>
                     <marker>
                         <token regexp="yes">de|el|la</token>
-                        <token regexp="yes">R\+D(\+I)?</token>
+                        <token>R</token>
+                        <token>+</token>
+                        <token>D</token>
                     </marker>
                 </pattern>
                 <message>Cal apostrofar.</message>
-                <suggestion><match no="1" regexp_match=".?([dl]).?" regexp_replace="$1'"/><match no="2"></match></suggestion>
+                <suggestion><match no="1" regexp_match=".?([dl]).?" regexp_replace="$1'"/>R+D</suggestion>
                 <url>http://esadir.cat/Nomspropis/Entitats/Societat/RD</url>
                 <short>Apostrofació</short>
-                <example type="incorrect" correction="l'R+D+I">La necessitat de <marker>la R+D+I</marker></example>
+                <example type="incorrect" correction="l'R+D">La necessitat de <marker>la R+D</marker>+I</example>
                 <example type="correct">d'R+D+I</example>
             </rule>
         </rulegroup>
@@ -13763,19 +13765,32 @@ $Id$
             <example type="incorrect">Ha sigut <marker>mà de sant</marker></example>
             <example type="correct">Va besar la mà de sant Josep.</example>
         </rule>
-        <rule id="IMESD" name="*I+D/R+D">
-            <pattern>
-                <token regexp="yes">I\+D(\+I)?|R&amp;D</token>
-            </pattern>
-            <message>Sigles de "Recerca i desenvolupament".</message>
-            <suggestion><match no="1" regexp_match="..(.+)" regexp_replace="R+$1"/></suggestion>
-            <url>http://esadir.cat/tipografia/abreviacions/sigles</url>
-            <short>Sigles incorrectes</short>
-            <example type="incorrect" correction="R+D">La inversió en <marker>I+D</marker>.</example>
-            <example type="incorrect" correction="R+D">La inversió en <marker>R&amp;D</marker>.</example>
-            <example type="incorrect" correction="R+D+I">La inversió en <marker>I+D+I</marker>.</example>
-            <example type="correct">R+D</example>
-        </rule>
+        <rulegroup id="IMESD" name="*I+D/R+D">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>I</token>
+                    <token regexp="yes">[+&amp;]</token>
+                    <token>D</token>
+                </pattern>
+                <message>Sigles de "Recerca i desenvolupament".</message>
+                <suggestion>R+D</suggestion>
+                <url>http://esadir.cat/tipografia/abreviacions/sigles</url>
+                <short>Sigles incorrectes</short>
+                <example type="incorrect" correction="R+D">La inversió en <marker>I+D</marker>.</example>
+                <example type="correct">R+D</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[RI]&amp;D</token>
+                </pattern>
+                <message>Sigles de "Recerca i desenvolupament".</message>
+                <suggestion>R+D</suggestion>
+                <url>http://esadir.cat/tipografia/abreviacions/sigles</url>
+                <short>Sigles incorrectes</short>
+                <example type="incorrect" correction="R+D">La inversió en <marker>R&amp;D</marker>.</example>
+                <example type="correct">R+D</example>
+            </rule>
+        </rulegroup>
         <rule id="APRETAR_A_CORRER" name="apretar a córrer">
             <pattern>
                 <marker>

@@ -69,5 +69,13 @@ public class CatalanWordTokenizerTest extends TestCase {
     tokens = wordTokenizer.tokenize("L'Emília-Romanya");
     assertEquals(tokens.size(), 4);
     assertEquals("[L', Emília, -, Romanya]", tokens.toString());
+    tokens = wordTokenizer.tokenize("col·laboració");
+    assertEquals(tokens.size(), 1);
+    tokens = wordTokenizer.tokenize("col.laboració");
+    assertEquals(tokens.size(), 1);
+    tokens = wordTokenizer.tokenize("col•laboració");
+    assertEquals(tokens.size(), 1);
+    tokens = wordTokenizer.tokenize("col·Laboració");
+    assertEquals(tokens.size(), 1);
   }
 }
