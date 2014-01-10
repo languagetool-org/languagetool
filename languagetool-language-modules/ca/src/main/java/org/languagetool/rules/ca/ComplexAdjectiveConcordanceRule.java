@@ -58,11 +58,11 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
   private static final Pattern NOM_FS = Pattern.compile("N.[F][S].*");
   private static final Pattern NOM_MP = Pattern.compile("N.[M][P].*");
   private static final Pattern NOM_FP = Pattern.compile("N.[F][P].*");
-  private static final Pattern DET_CS = Pattern.compile("D[NDA0I]0CS0");
-  private static final Pattern DET_MS = Pattern.compile("D[NDA0I]0MS0");
-  private static final Pattern DET_FS = Pattern.compile("D[NDA0I]0FS0");
-  private static final Pattern DET_MP = Pattern.compile("D[NDA0I]0MP0");
-  private static final Pattern DET_FP = Pattern.compile("D[NDA0I]0FP0");
+  private static final Pattern DET_CS = Pattern.compile("D[NDA0IP]0CS0");
+  private static final Pattern DET_MS = Pattern.compile("D[NDA0IP]0MS0");
+  private static final Pattern DET_FS = Pattern.compile("D[NDA0IP]0FS0");
+  private static final Pattern DET_MP = Pattern.compile("D[NDA0IP]0MP0");
+  private static final Pattern DET_FP = Pattern.compile("D[NDA0IP]0FP0");
   private static final Pattern GN_MS = Pattern.compile("N.[MC][SN].*|D[NDA0I]0MS0");
   private static final Pattern GN_FS = Pattern.compile("N.[FC][SN].*|D[NDA0I]0FS0");
   private static final Pattern GN_MP = Pattern.compile("N.[MC][PN].*|D[NDA0I]0MP0");
@@ -92,7 +92,7 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
   private static final Pattern UPPERCASE = Pattern.compile("\\p{Lu}[\\p{Ll}\u00B7]*");
   private static final Pattern COORDINACIO = Pattern.compile(",|i|o");
   private static final Pattern COORDINACIO_IONI = Pattern.compile("i|o|ni");
-  private static final Pattern KEEP_COUNT = Pattern.compile("A.*|N.*|D[NAID].*|SPS.*|.*LOC_ADV.*|V.P.*|_PUNCT.*|.*LOC_ADJ.*|PX.*|complement");
+  private static final Pattern KEEP_COUNT = Pattern.compile("A.*|N.*|D[NAIDP].*|SPS.*|.*LOC_ADV.*|V.P.*|_PUNCT.*|.*LOC_ADJ.*|PX.*|complement");
   private static final Pattern KEEP_COUNT2 = Pattern.compile(",|i|o|ni|\\d+%?|%");
   private static final Pattern STOP_COUNT = Pattern.compile(";");
   private static final Pattern PREPOSICIONS = Pattern.compile("SPS.*");
