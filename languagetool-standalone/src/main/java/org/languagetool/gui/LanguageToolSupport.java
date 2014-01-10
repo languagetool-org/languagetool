@@ -45,6 +45,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
@@ -97,7 +98,15 @@ import org.languagetool.tools.LanguageIdentifierTools;
 class LanguageToolSupport {
 
   private static final String CONFIG_FILE = ".languagetool.cfg";
-
+  //maximum entries in the activate rule menu.
+  //If entries' number is bigger, create per category submenus
+  //can set to 0 to always create category submenus
+  private static final int MAX_RULES_NO_CATEGORY_MENU = 12;
+  //maximum rule menu entries, if more create a More submenu
+  private static final int MAX_RULES_PER_MENU = 12;
+  //maximum category menu entries, if more create a More submenu
+  private static final int MAX_CATEGORIES_PER_MENU = 12;
+  
   private final JFrame frame;
   private final JTextComponent textComponent;
   private final EventListenerList listenerList = new EventListenerList();
@@ -508,7 +517,48 @@ class LanguageToolSupport {
   }
 
   private void addDisabledRulesToMenu(List<Rule> disabledRules, JMenu menu) {
+    if (disabledRules.size() <= MAX_RULES_NO_CATEGORY_MENU) {
+      createRulesMenu(menu, disabledRules);
+      return;
+    }
+
+    TreeMap<String, ArrayList<Rule>> categories = new TreeMap<String, ArrayList<Rule>>();
     for (Rule rule : disabledRules) {
+      if (!categories.containsKey(rule.getCategory().getName())) {
+        categories.put(rule.getCategory().getName(), new ArrayList<Rule>());
+      }
+      categories.get(rule.getCategory().getName()).add(rule);
+    }
+
+    JMenu parent = menu;
+    int count = 0;
+    for (String category : categories.keySet()) {
+      count++;
+      JMenu submenu = new JMenu(category);
+      parent.add(submenu);
+      createRulesMenu(submenu, categories.get(category));
+
+      if(categories.keySet().size() <= MAX_CATEGORIES_PER_MENU) {
+        continue;
+      }
+
+      //if menu contains MAX_CATEGORIES_PER_MENU-1, add a `more` menu
+      //but only if the remain entries are more than one
+      if ((count % (MAX_CATEGORIES_PER_MENU - 1) == 0)
+              && (categories.keySet().size() - count > 1)) {
+        JMenu more = new JMenu(messages.getString("guiActivateRuleMoreCategories"));
+        parent.add(more);
+        parent = more;
+      }
+    }
+  }
+
+  private void createRulesMenu(JMenu parent, List<Rule> rules) {
+    JMenu menu = parent;
+    int count = 0;
+
+    for (Rule rule : rules) {
+      count++;
       final String id = rule.getId();
       JMenuItem ruleItem = new JMenuItem(rule.getDescription());
       ruleItem.addActionListener(new ActionListener() {
@@ -518,6 +568,19 @@ class LanguageToolSupport {
         }
       });
       menu.add(ruleItem);
+
+      if(rules.size() <= MAX_RULES_PER_MENU) {
+        continue;
+      }
+
+      //if menu contains MAX_RULES_PER_MENU-1, add a `more` menu
+      //but only if the remain entries are more than one
+      if((count % (MAX_RULES_PER_MENU - 1) == 0)
+              && (rules.size() - count > 1)) {
+        JMenu more = new JMenu(messages.getString("guiActivateRuleMoreRules"));
+        menu.add(more);
+        menu = more;
+      }
     }
   }
 
