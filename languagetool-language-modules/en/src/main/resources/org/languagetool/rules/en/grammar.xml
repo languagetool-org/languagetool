@@ -2604,6 +2604,33 @@ USA
                 <example type="correct">This is an opportunity to see how SAP addresses <marker>its</marker> internal developers.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="WED_WE_D" name="wed (we'd)">
+        <rule>      
+          <pattern>
+            <marker>
+              <token>wed</token>
+            </marker>
+           <token postag_regexp="yes" postag="VB[PN]"/>
+          </pattern>
+          <message>Did you mean <suggestion>we'd</suggestion>?</message>
+          <short>Possible typo</short>
+          <example type="incorrect" correction="We'd"><marker>Wed</marker> gone so far.</example>
+          <example type="incorrect" correction="we'd">Actually, <marker>wed</marker> love to do this!</example>
+          <example type="correct">We'd love to eat ice cream!</example>
+          </rule>
+          <rule>      
+          <pattern>
+            <marker>
+              <token>wed</token>
+            </marker>
+           <token regexp="yes">better|never|rather|probably|normally|ordinarily</token>
+          </pattern>
+          <message>Did you mean <suggestion>we'd</suggestion>?</message>
+          <short>Possible typo</short>
+          <example type="incorrect" correction="we'd">Really, <marker>wed</marker> better hurry!</example>
+          <example type="correct">We'd love to eat ice cream!</example>
+          </rule>
+        </rulegroup>
         <rulegroup id="WHOS" name="who's (whose)">
         <rule>
         <pattern case_sensitive="yes">
@@ -3295,11 +3322,12 @@ USA
         <!-- on going::word=ongoing -->
         <rule id="ON_GOING" name="on going (ongoing)">
             <pattern>
-                <token>on</token>
+                <token>on<exception scope='previous' inflected="yes">insist</exception></token>
                 <token>going</token>
             </pattern>
             <message>Did you mean <suggestion>ongoing</suggestion>?</message>
             <example type="incorrect">There is an <marker>on going</marker> investigation.</example>
+            <example type="correct">She insisted on going for a drive.</example>
             <example type="correct">There is an ongoing investigation.</example>
         </rule>
         <!-- out grow::word=outgrow -->
@@ -6107,7 +6135,7 @@ USA
         <rule id="IT_VBZ" name="'it' + 3rd person verb (base verb)">
             <pattern>
                 <!-- 't': from "doesn't" etc -->
-                <token><exception regexp="yes">can|must|might|shall|does|will|would|should|may|t|let|makes?|did</exception></token>
+                <token><exception regexp="yes">can|must|might|shall|does|will|would|should|may|t|let|makes?|did|is</exception></token>
                 <token>it</token>
                 <marker>
                     <token postag="VB"><exception postag_regexp="yes" postag="VBN|RP|IN"/></token>
@@ -6122,6 +6150,7 @@ USA
             <example type="correct">The American publisher let it go out of print.</example>
             <example type="correct">How did it come about?</example>
             <example type="correct">He immediately wrote it down.</example>
+            <example type="correct">Is it right?</example>
             <example type="correct">You may take this book as long as you keep it clean.</example>            
         </rule>
         <rule id="DID_PAST" name="'did' with past tense verb">
@@ -7072,7 +7101,7 @@ USA
                 <pattern>
                     <token postag="SENT_START"></token>
                     <token postag="DT"><exception regexp="yes">these|those</exception></token>
-                    <token postag="NN|NN:.*" postag_regexp="yes"><exception postag="JJ|MD|NNS" postag_regexp="yes"></exception><exception regexp="yes">rest|latter</exception></token>
+                    <token postag="NN|NN:.*" postag_regexp="yes"><exception postag="JJ|MD|NNS" postag_regexp="yes"></exception><exception regexp="yes">rest|latter|jury|committee|government</exception></token>
                     <marker>
                         <token postag="VB|VBP" postag_regexp="yes"><exception postag="VBZ|VBN|VBD|VBG|JJ" postag_regexp="yes"></exception></token>
                     </marker>
@@ -7085,6 +7114,7 @@ USA
                 <example type="correct">The city is an international transport hub and a popular tourist destination.</example>
                 <example type="correct">Those wanting are the Canines.</example>
                 <example type="correct">The rest are arriving later.</example>
+                <example type="correct">The committee are all against it.</example>
                 <!-- example type=&quot;incorrect&quot;&gt;The city is popular, and this marketing &lt;marker&gt;are&lt;/marker&gt; bad for you.&lt;/example -->
             </rule>
         </rulegroup>

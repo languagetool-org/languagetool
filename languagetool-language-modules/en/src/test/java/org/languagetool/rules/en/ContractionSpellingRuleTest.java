@@ -44,6 +44,8 @@ public class ContractionSpellingRuleTest extends TestCase {
 
     // correct sentences:
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("It wasn't me.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("I'm ill.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Staatszerfall im südlichen Afrika.")).length);
 
     // incorrect sentences:
 

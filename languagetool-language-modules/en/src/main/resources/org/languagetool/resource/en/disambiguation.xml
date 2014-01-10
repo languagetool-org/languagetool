@@ -334,6 +334,17 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <disambig postag="VB"></disambig>
         </rule>
     </rulegroup>
+    <rule id="LET_GO" name="let as a verb">
+      <pattern>
+        <marker>
+          <token>let</token>
+        </marker>
+        <token postag="VB"></token>
+      </pattern>
+      <disambig action="filter" postag="VB.*"/>
+      <example type="untouched">Let was an unincorporated community in Gilmer County, West Virginia, United States.</example>
+      <example type="ambiguous" inputform="Let[Let/NNP,let/NN,let/VB,let/VBD,let/VBN,let/VBP]" outputform="Let[let/VB,let/VBD,let/VBN,let/VBP]"><marker>Let</marker> go!</example>
+    </rule>
     <rule name="determiner + verb/NN -&gt; NN" id="DT_VB_NN">
         <pattern>
             <token postag="DT"><exception postag="PDT"></exception></token>
@@ -1438,7 +1449,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     <pattern>
       <marker>
         <and>
-        <token postag="NN:UN"><exception scope="previous" postag="NNS|NNPS" postag_regexp="yes"/></token> 
+        <token postag="NN:UN"><exception scope="previous" postag="NNS|NNPS" postag_regexp="yes"/><exception scope="previous">wed</exception></token> 
         <token chunk="E-NP-singular"/>
         <token postag="VBP"/>
         </and>
@@ -1448,6 +1459,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
       <example type="untouched">They disputed a claim.</example>
       <example type="untouched">Doubled consonants count as two consonants.</example>
       <example type="untouched">The Beatles play to nearly 60,000 fans at Shea Stadium.</example>
+      <example type="untouched">Wed love to hear this!</example>
       <example type="ambiguous" inputform="claim[claim/NN:UN,claim/VB,claim/VBP]" outputform="claim[claim/NN:UN]">Morroco's disputed <marker>claim</marker> to portions of Algeria.</example>      
     </rule>
     <rule id="E_NP_VBP" name="noun/verb after a plural NP -> verb">
@@ -1703,6 +1715,45 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
           <example type="untouched">Let's keep it simple.</example>
           <example type="ambiguous" inputform="clean[clean/JJ,clean/NN,clean/VB,clean/VBP]" outputform="clean[clean/JJ]">Let's keep it <marker>clean</marker>.</example>
         </rule>
+        
+        <rule name="as" id="AS_ADVERB">
+          <pattern>
+            <token postag="JJ"/>
+            <marker>
+              <token>as</token>
+            </marker>
+          </pattern>
+          <disambig postag="RB"/>
+          <example type="untouched">They are wed as gods.</example>
+          <example type="ambiguous" inputform="as[as/CC,as/IN,as/RB]" outputform="as[as/RB]">He is as tall <marker>as</marker> my friend.</example>
+        </rule>
+        
+        <rule name="as" id="AS_ADVERB_2">
+          <pattern>            
+            <marker>
+              <token>as</token>
+            </marker>
+            <token postag="JJ"/>
+            <token>as</token>
+          </pattern>
+          <disambig postag="RB"/>
+          <example type="untouched">They are wed as gods.</example>
+          <example type="ambiguous" inputform="as[as/CC,as/IN,as/RB]" outputform="as[as/RB]">He is <marker>as</marker> tall as my friend.</example>
+        </rule>
+
+        <rule name="as" id="AS_NOT_ADVERB">
+          <pattern>
+            <token><exception postag="JJ"/></token>
+            <marker>
+              <token>as</token>
+            </marker>
+            <token><exception postag="JJ"/></token>
+          </pattern>
+          <disambig action="filter" postag="CC|IN"/>
+          <example type="untouched">He is as tall as my friend.</example>
+          <example type="ambiguous" inputform="as[as/CC,as/IN,as/RB]" outputform="as[as/CC,as/IN]">They are wed <marker>as</marker> gods.</example>
+        </rule>
+
 
         <rule name="or" id="REMOVE_JJ_FOR_OR">
           <!-- work around strange dict entry -->
