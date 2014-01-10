@@ -8626,7 +8626,7 @@ $Id$
         </rulegroup> -->
     </category>
     <category name="Y) Apostrofació" type="grammar">
-        <rulegroup id="APOSTROFACIO_SIGLES" name="apostrofació de sigles: l'R+D">
+        <rulegroup id="APOSTROFACIO_SIGLES" name="apostrofació de sigles: l'R+D, la UPF">
             <rule>
                 <pattern>
                     <marker>
@@ -8989,7 +8989,7 @@ $Id$
             <rule>
                 <pattern>
                     <token>l'</token>
-                    <token postag="N.F.*|A..F.*|_GN_F." postag_regexp="yes" regexp="yes">h?[ui].+|host<exception regexp="yes">hidra|hifa|hulla|ulna|umbra|una|ungla|unça|upa|urbs|urna|urpa|idus|illa|inca|iva|URSS</exception><exception postag="_GN_M.*|_GV_" postag_regexp="yes" /></token>
+                    <token postag="N.F.*|A..F.*|_GN_F." postag_regexp="yes" regexp="yes">h?[ui].+|host<exception regexp="yes">hidra|hifa|hulla|ulna|umbra|una|ungla|unça|upa|urbs|urna|urpa|idus|illa|inca|iva|URSS|UJI</exception><exception postag="_GN_M.*|_GV_" postag_regexp="yes" /></token>
                 </pattern>
                 <message>No s'apostrofa.</message>
                 <suggestion>la <match no="2"></match></suggestion>
@@ -9001,13 +9001,18 @@ $Id$
                 <example type="correct">l'intel·lectual valencià</example>   
                 <example type="correct">Això l'indigna</example>        
                 <example type="correct">A l'URSS això no passava</example>  
+                <example type="incorrect" correction="La UPF"><marker>L'UPF</marker></example>
+                <example type="incorrect" correction="La UdA"><marker>L'UdA</marker></example>
+                <example type="correct">L'URL de la web</example>
+                <example type="correct">L'upf</example>
+                <example type="correct">L'UJI</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
                         <token>l'</token>
                         <and>
-                            <token postag="_GN_FS" regexp="yes">h?[ui].+|host<exception regexp="yes">hidra|hifa|hulla|ulna|umbra|una|ungla|unça|upa|urbs|urna|urpa|idus|illa|inca|iva</exception></token>
+                            <token postag="_GN_FS" regexp="yes">h?[ui].+|host<exception regexp="yes">hidra|hifa|hulla|ulna|umbra|una|ungla|unça|upa|urbs|urna|urpa|idus|illa|inca|iva|URSS|UJI</exception></token>
                             <token postag="_GN_MS" />
                         </and>
                     </marker>
@@ -9029,7 +9034,7 @@ $Id$
             <rule>
                 <pattern>
                     <token>n'</token>
-                    <token postag="N.F.*|A..F.*|_GN_F." postag_regexp="yes" regexp="yes">h?[ui].+|host<exception regexp="yes">hidra|hifa|hulla|ulna|umbra|una|ungla|unça|upa|urbs|urna|urpa|idus|illa|inca|iva</exception><exception postag="_GN_M.*" postag_regexp="yes" /></token>
+                    <token postag="N.F.*|A..F.*|_GN_F." postag_regexp="yes" regexp="yes">h?[ui].+|host<exception regexp="yes">hidra|hifa|hulla|ulna|umbra|una|ungla|unça|upa|urbs|urna|urpa|idus|illa|inca|iva|URSS|UJI</exception><exception postag="_GN_M.*" postag_regexp="yes" /></token>
                 </pattern>
                 <message>No s'apostrofa.</message>
                 <suggestion>na <match no="2"></match></suggestion>
@@ -9040,7 +9045,7 @@ $Id$
             <rule>
                 <pattern>
                     <token>la<exception postag="(&lt;)?NP.*" postag_regexp="yes"/></token>
-                    <token regexp="yes">h?[aeoàèéíòóú].*|h?[ui][^aeiouàèéíòóúüï]+[aeiou][ns]?|urbs|URSS<exception regexp="yes">host|ira|inxa|[aeiou]|efa|hac|ela|ema|en|ena|ene|er|erra|erre|essa|una|&mots_HAC_ASPIRADA;</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/><exception regexp="yes">(?-i)Haia</exception></token>
+                    <token regexp="yes">h?[aeoàèéíòóú].*|h?[ui][^aeiouàèéíòóúüï]+[aeiou][ns]?|urbs|URSS|UJI<exception regexp="yes">host|ira|inxa|[aeiou]|efa|hac|ela|ema|en|ena|ene|er|erra|erre|essa|una|&mots_HAC_ASPIRADA;</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/><exception regexp="yes">(?-i)Haia|UdA</exception></token>
                 </pattern>
                 <message>Cal apostrofar.</message>
                 <suggestion>l'<match no="2"></match></suggestion>
@@ -9053,6 +9058,7 @@ $Id$
                 <example type="correct">Benvinguts a la Haia.</example>
                 <example type="correct">la uixera</example>
                 <example type="correct">Era la una de la nit</example>
+                <example type="correct">Estudia a la UdA</example>
             </rule>
             <rule>
                 <pattern>
