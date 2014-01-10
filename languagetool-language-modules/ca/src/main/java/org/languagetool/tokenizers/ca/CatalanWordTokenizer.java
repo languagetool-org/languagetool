@@ -88,8 +88,9 @@ public class CatalanWordTokenizer extends WordTokenizer {
 
     // match verb+1 pronom feble. Ex: Emporta't, vés-hi, porta'm.
     // It creates 2 tokens: <token>Emporta</token><token>'t</token>
+    // ^(.+[^cbfhjkovwyzCBFHJKOVWYZ])
     patterns[6] = Pattern.compile("^([lnmtsd]')(.{2,})"+PF+"$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-    patterns[7] = Pattern.compile("^(.+[^cbfhjkovwyzCBFHJKOVWYZ])"+PF+"$",Pattern.UNICODE_CASE);
+    patterns[7] = Pattern.compile("^(.{2,})"+PF+"$",Pattern.UNICODE_CASE);
 
     // d'emportar
     patterns[8] = Pattern.compile("^([lnmtsd]')(.*)$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
