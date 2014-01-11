@@ -196,8 +196,8 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
     }
     AnalyzedTokenReadings firstMatchTokenObj = tokens[idx];
     boolean startsWithUppercase = StringTools.startsWithUppercase(firstMatchTokenObj.getToken())
-      && !matchConvertsCase(rule.getSuggestionMatches())
-      && !matchConvertsCase(rule.getSuggestionMatchesOutMsg());
+      && !matchConvertsCase(rule.getSuggestionMatches(),rule.getMessage())
+      && !matchConvertsCase(rule.getSuggestionMatchesOutMsg(), rule.getSuggestionsOutMsg());
 
     if (firstMatchTokenObj.isSentenceStart() && tokens.length > firstMatchToken + correctedStPos + 1) {
       // make uppercasing work also at sentence start:
@@ -234,13 +234,13 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
    * case. If it does, stop the default conversion to uppercase.
    * @return true, if the match converts the case of the token.
    */
-  private boolean matchConvertsCase(List<Match> suggestionMatches) {
+  private boolean matchConvertsCase(List<Match> suggestionMatches, String msg) {
     if (suggestionMatches != null && !suggestionMatches.isEmpty()) {
-      final PatternRule rule = (PatternRule) this.rule;
-      final int sugStart = rule.getMessage().indexOf(SUGGESTION_START_TAG) + SUGGESTION_START_TAG.length();
+      //final PatternRule rule = (PatternRule) this.rule;
+      final int sugStart = msg.indexOf(SUGGESTION_START_TAG) + SUGGESTION_START_TAG.length();
       for (Match sMatch : suggestionMatches) {
         if (!sMatch.isInMessageOnly() && sMatch.convertsCase()
-                && rule.getMessage().charAt(sugStart) == '\\') {
+                && msg.charAt(sugStart) == '\\') {
           return true;
         }
       }
