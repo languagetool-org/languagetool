@@ -3362,6 +3362,32 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Adverbis" type="grammar">
+        <rule id="QUANT_QUAN" name="quant/quan">
+            <pattern>
+                <token><exception regexp="yes">cada|en|a|amb|tot|de</exception><exception postag="D[^R].MS." postag_regexp="yes"/></token>
+                <marker>
+                    <token>quant</token>
+                </marker>
+                <token skip="-1"><exception regexp="yes">\?|a|de|d'|temps</exception>
+                    <exception postag="_PUNCT.*|V.P.*|AQ.*" postag_regexp="yes"/>
+                    <exception inflected="yes" regexp="yes">fer|guanyar|estimar|tenir|valer|costar|representar|voler|tardar|trigar|demanar|pagar|cobrar|donar|faltar|mancar</exception>
+                    <exception scope="next" inflected="yes" regexp="yes">guanyar|estimar|tenir|valer|costar|representar|voler|tardar|trigar|demanar|pagar|cobrar|donar|faltar|mancar</exception></token>
+                <token postag="SENT_END"/>
+                <!-- <token postag="D.*|V.*" postag_regexp="yes"/>-->
+            </pattern>
+            <message>¿Volíeu dir <suggestion>quan</suggestion> (moment en el temps) en comptes de "quant" (quantitat)?</message>
+            <short>Possible confusió</short>
+            <example type="incorrect"><marker>Quant</marker> aquesta s'acabà.</example>
+            <example type="incorrect"><marker>Quant</marker> li fa la guitza.</example>
+            <example type="correct">¿Quant em podria costar?</example>
+            <example type="correct">¿Quant val això?</example>
+            <example type="correct">¿Quant fan dos i dos?</example>
+            <example type="correct">¿Quant fa que se'n va anar?</example>
+            <example type="correct">Té tot quant necessita</example> <!-- arcaisme -->
+            <example type="correct">"Hi guanya no sé quant."</example>
+            <example type="correct">No saps quant limitada és l'àrea</example>
+            <example type="correct">referents al com, al quant i al què</example>
+        </rule>
         <rule id="CONCORDANCA_MILLOR" name="CONCORDANCA_MILLOR">
             <pattern>
                 <marker>
@@ -4130,11 +4156,13 @@ $Id$
 	                <marker>
 	                    <token>y</token>
 	                </marker>
+                    <token><exception>=</exception></token>
 	            </pattern>
 	            <message>Si és conjunció, cal escriure <suggestion>i</suggestion>.</message>
 	            <short>Conjunció 'i'</short>
 	            <example type="incorrect" correction="i">França <marker>y</marker> Itàlia.</example>
 	            <example type="correct">França i Itàlia</example>
+                <example type="correct">y=x2</example>
 	        </rule>
 	        <rule>
 	            <pattern case_sensitive="yes">
@@ -5343,7 +5371,7 @@ $Id$
                     <token skip="-1">a<exception scope="next" inflected="yes" regexp="yes">remuntar|correspondre</exception></token>
                 </or>
                 <marker>
-                    <token>a<exception scope="previous" regexp="yes">ací|aquí|quant|fins|per|cap|respecte|\d+</exception><exception scope="previous" postag="DN.*" postag_regexp="yes"/><exception scope="previous" inflected="yes" regexp="yes">atribuir|arribar|posposar|passar|traslladar|posterior.*|anterior.*|correspondre|corresponent|remuntar|any|avançar|entrar|referir</exception></token>
+                    <token>a<exception scope="previous" regexp="yes">ací|aquí|quant|fins|per|cap|respecte|\d+</exception><exception scope="previous" postag="DN.*|.*LOC_PREP.*" postag_regexp="yes"/><exception scope="previous" inflected="yes" regexp="yes">atribuir|arribar|posposar|passar|traslladar|posterior.*|anterior.*|correspondre|corresponent|remuntar|any|avançar|entrar|referir</exception></token>
                     <token spacebefore="no">l</token>
                     <token regexp="yes">[12]\d{3}</token>
                 </marker>
@@ -5362,6 +5390,7 @@ $Id$
             <example type="correct">correspon en bona part al 1980</example>
             <example type="correct">dels anys vuitanta al 1992</example>
             <example type="correct">D'aquí al 2030</example>
+            <example type="correct">De cara al 2015</example>
         </rule>
         <rule id="A_L_ANY_1996" name="*al 1996/el 1996">
             <pattern>
@@ -11454,6 +11483,10 @@ $Id$
                 <example type="correct">En direcció NW-SE</example>
                 <example type="correct">en comptes de dur-me a l’automòbil</example>
                 <example type="correct">Ho poden fer des de l'apartat: 'Fes-te amic d'Escola Valenciana'.</example>
+                <example type="correct">Collblanc-la Torrassa</example>
+                <example type="correct">Santiago-la Corunya</example>
+                <example type="correct">ICV-els Verds</example>
+                <example type="correct">Castella-la Manxa</example>
             </rule>
             <rule>
                 <pattern>
