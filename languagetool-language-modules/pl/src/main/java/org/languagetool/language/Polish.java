@@ -1,4 +1,4 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2007 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
@@ -41,11 +41,14 @@ import org.languagetool.tagging.disambiguation.pl.PolishHybridDisambiguator;
 import org.languagetool.tagging.pl.PolishTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.WordTokenizer;
+import org.languagetool.tokenizers.pl.PolishWordTokenizer;
 
 public class Polish extends Language {
 
   private Tagger tagger;
   private SentenceTokenizer sentenceTokenizer;
+  private WordTokenizer wordTokenizer;
   private Disambiguator disambiguator;
   private Synthesizer synthesizer;
 
@@ -58,12 +61,12 @@ public class Polish extends Language {
   public String getShortName() {
     return "pl";
   }
-  
+
   @Override
   public String[] getCountries() {
     return new String[]{"PL"};
   }
-  
+
   @Override
   public Tagger getTagger() {
     if (tagger == null) {
@@ -81,13 +84,22 @@ public class Polish extends Language {
   }
 
   @Override
+  public final WordTokenizer getWordTokenizer() {
+    if (wordTokenizer == null) {
+      wordTokenizer = new PolishWordTokenizer();
+    }
+    return wordTokenizer;
+  }
+
+
+  @Override
   public Disambiguator getDisambiguator() {
     if (disambiguator == null) {
       disambiguator = new PolishHybridDisambiguator();
     }
     return disambiguator;
   }
-  
+
   @Override
   public Synthesizer getSynthesizer() {
     if (synthesizer == null) {
@@ -104,20 +116,20 @@ public class Polish extends Language {
   @Override
   public List<Class<? extends Rule>> getRelevantRules() {
     return Arrays.asList(
-            CommaWhitespaceRule.class,
-            DoublePunctuationRule.class,
-            // the slowest hunspell dictionary...
-            // HunspellRule.class, 
-            UppercaseSentenceStartRule.class,
-            WordRepeatRule.class,
-            WhitespaceRule.class,
-            // specific to Polish:
-            PolishUnpairedBracketsRule.class,
-            MorfologikPolishSpellerRule.class,
-            PolishWordRepeatRule.class,
-            CompoundRule.class,
-            SimpleReplaceRule.class            
-    );
+        CommaWhitespaceRule.class,
+        DoublePunctuationRule.class,
+        // the slowest hunspell dictionary...
+        // HunspellRule.class,
+        UppercaseSentenceStartRule.class,
+        WordRepeatRule.class,
+        WhitespaceRule.class,
+        // specific to Polish:
+        PolishUnpairedBracketsRule.class,
+        MorfologikPolishSpellerRule.class,
+        PolishWordRepeatRule.class,
+        CompoundRule.class,
+        SimpleReplaceRule.class
+        );
   }
 
 }

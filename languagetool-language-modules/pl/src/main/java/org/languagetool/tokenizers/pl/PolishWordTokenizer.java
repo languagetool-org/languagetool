@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.tokenizers.en;
+package org.languagetool.tokenizers.pl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,25 +28,26 @@ import org.languagetool.tokenizers.WordTokenizer;
  * @author Marcin Milkowski
  * @since 2.5
  */
-public class EnglishWordTokenizer extends WordTokenizer {
+public class PolishWordTokenizer extends WordTokenizer {
 
-  private final String enTokenizing;
+  private final String plTokenizing;
 
-  public EnglishWordTokenizer() {
-    enTokenizing = super.getTokenizingCharacters() + "–—";
+  public PolishWordTokenizer() {
+    plTokenizing = super.getTokenizingCharacters() + "–—";
   }
 
   /**
    * @param text - String of words to tokenize.
    * 
    * Tokenizes text.
-   * The English tokenizer differs from the standard one
-   * in two respects:
+   * The Polish tokenizer differs from the standard one
+   * in the following respects:
+   * 
    * <ol>
    * <li> it does not treat the hyphen as part of the
    * word if the hyphen is at the end of the word;</li>
    * <li> it includes n-dash and m-dash as tokenizing characters,
-   * as these are used without a whitespace in English.
+   * as these are not included in the spelling dictionary.
    * </ol>
    * 
    */
@@ -54,7 +55,7 @@ public class EnglishWordTokenizer extends WordTokenizer {
   public List<String> tokenize(final String text) {
     final List<String> l = new ArrayList<>();
     final StringTokenizer st = new StringTokenizer(text,
-        enTokenizing, true);
+        plTokenizing, true);
     while (st.hasMoreElements()) {
       final String token = st.nextToken();
       if (token.length() > 1 && token.endsWith("-")) {

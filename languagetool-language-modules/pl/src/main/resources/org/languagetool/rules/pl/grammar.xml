@@ -2149,18 +2149,20 @@ $Id$
 						</rule>
 						<rule>
 								<pattern>
-										<token regexp="yes">\p{L}+[-–—]</token>
+										<token regexp="yes">\p{L}+</token>
+                                        <token spacebefore="no" regexp="yes">[-–—]</token>
 								</pattern>
-								<message>Prawdopodobnie brak spacji. Poprawnie: <suggestion><match no="1" regexp_match="(\p{L}+)([–-—])" regexp_replace="$1 $2"></match></suggestion></message>
+								<message>Prawdopodobnie brak spacji. Poprawnie: <suggestion>\1 \2</suggestion></message>
 								<short>Brak spacji</short>
 								<example correction="wyraz –" type="incorrect">To jest <marker>wyraz–</marker> jak sądzę – niepoprawny.</example>
 								<example type="correct">To jest wyraz – jak sądzę – niepoprawny.</example>
 						</rule>
 						<rule>
 								<pattern>
-										<token regexp="yes">[-–—]\p{L}+</token>
+										<token regexp="yes">[-–—]</token>
+                                        <token regexp="yes" spacebefore="no">\p{L}+</token>
 								</pattern>
-								<message>Prawdopodobnie brak spacji. Poprawnie: <suggestion><match no="1" regexp_match="([–-—])(\p{L}+)" regexp_replace="$1 $2"></match></suggestion></message>
+								<message>Prawdopodobnie brak spacji. Poprawnie: <suggestion>\1 \2</suggestion></message>
 								<short>Brak spacji</short>
 								<example correction="– jak" type="incorrect">To jest wyraz <marker>–jak</marker> sądzę – niepoprawny.</example>
 								<example type="correct">To jest wyraz – jak sądzę – niepoprawny.</example>
@@ -2260,7 +2262,8 @@ $Id$
 				</rulegroup>
 				<rule id="LACZNIK_MYSLNIK" name="„--” (—)">
 						<pattern>
-								<token>--</token>
+								<token>-</token>
+                                <token spacebefore="no">-</token>
 						</pattern>
 						<message>Te dwa łączniki lepiej zastąpić jednym myślnikiem: <suggestion>—</suggestion>.</message>
 						<short>Błąd typograficzny</short>
@@ -2282,9 +2285,11 @@ $Id$
               </rule>
                <rule id="LICZBA_BEZ_DYWIZU" name="Myślnik zamiast dywizu w przymiotniku">
                 <pattern>
-                <token regexp="yes">[0-9]+[—–]\p{L}+<exception regexp="yes">[0-9]+[–—](ok|po|przed)</exception></token>
+                <token regexp="yes">\d+</token>
+                <token regexp="yes" spacebefore="no">[—–]</token>
+                <token regexp="yes" spacebefore="no">\p{L}+<exception regexp="yes">(ok|po|przed)</exception></token>
                 </pattern>
-                <message>Myślnika nie używa się wewnątrz wyrazu: <suggestion><match no="1" regexp_match="([0-9]+)[–—](\p{L}+)" regexp_replace="$1-$2"></match></suggestion>. Jeśli ten znak jest między osobnymi wyrazami, należy napisać ze spacjami: <suggestion suppress_misspelled="yes"><match no="1" regexp_match="([0-9]+)[–—](\p{L}+)" regexp_replace="$1 — $2"></match></suggestion>.</message>
+                <message>Myślnika nie używa się wewnątrz wyrazu: <suggestion>\1-\3</suggestion>. Jeśli ten znak jest między osobnymi wyrazami, należy napisać ze spacjami: <suggestion suppress_misspelled="yes"><match no="1"/> <match no="2"/> <match no="3"/></suggestion>.</message>
                 <short>Błąd typograficzny</short>
                 <example type="incorrect" correction="5-letni|5 — letni">Okres <marker>5—letni</marker>.</example>
                 <example type="correct">Okres 5-letni</example>
@@ -10421,18 +10426,31 @@ $Id$
 								<example type="correct">To świetny krem hipoalergiczny.</example>
 						</rule>
 				</rulegroup>
-				<rule id="PRZEDROSTKI" name="Przedrostki błędnie pisane z łącznikiem: „neo”, „post”, „pre”, „eks”...">
+				<rulegroup id="PRZEDROSTKI" name="Przedrostki błędnie pisane z łącznikiem: „neo”, „post”, „pre”, „eks”...">
+                <rule>
 						<pattern>
-								<token regexp="yes"><exception>nad-ja</exception>(?:neo|pre|anty|arcy|eks|bez|beze|ekstra|hiper|infra|kontr|maksi|midi|między|mini|nad|nade|około|ponad|post|pro|przeciw|pseudo|super|śród|ultra|wice|wokół|wokoło)[-–]\p{Ll}+</token>
+								<token regexp="yes"><exception>nad-ja</exception>(?:neo|pre|anty|arcy|eks|bez|beze|ekstra|hiper|infra|kontr|maksi|midi|między|mini|nad|nade|około|ponad|post|pro|przeciw|pseudo|super|śród|ultra|wice|wokół|wokoło)-\p{Ll}+</token>
 						</pattern>
-						<message>Ten wyraz piszemy bez łącznika: <suggestion><match no="1" regexp_match="(?iu)^(neo|post|pre|anty|arcy|eks|bez|beze|ekstra|hiper|infra|kontr|maksi|midi|między|mini|nad|nade|około|ponad|post|pro|przeciw|pseudo|super|śród|ultra|wice|wokół|wokoło)[-–](.*)" regexp_replace="$1$2"></match></suggestion>.</message>
+						<message>Ten wyraz piszemy bez łącznika: <suggestion><match no="1" regexp_match="(?iu)^(neo|post|pre|anty|arcy|eks|bez|beze|ekstra|hiper|infra|kontr|maksi|midi|między|mini|nad|nade|około|ponad|post|pro|przeciw|pseudo|super|śród|ultra|wice|wokół|wokoło)-(.*)" regexp_replace="$1$2"></match></suggestion>.</message>
 						<short>Błąd ortograficzny</short>
 						<example type="correct">Tym prądem intelektualnym jest postmodernizm.</example>
 						<example type="correct">Spotkał się Polak z anty-Polakiem</example>
 						<example correction="eksmąż" type="incorrect">Wiktor to mój <marker>eks-mąż</marker>.</example>
 						<example correction="minispódniczkę" type="incorrect">Jadzia kupiła sobie <marker>mini-spódniczkę</marker>.</example>
-						<example correction="Arcyksiążę" type="incorrect"><marker>Arcy–książę</marker> Ferdynand lubił polować w tutejszych lasach.</example>
 				</rule>
+                <rule>
+                  <pattern>
+                    <token regexp="yes">(?:neo|pre|anty|arcy|eks|bez|beze|ekstra|hiper|infra|kontr|maksi|midi|między|mini|nad|nade|około|ponad|post|pro|przeciw|pseudo|super|śród|ultra|wice|wokół|wokoło)</token>
+                    <token spacebefore="no" regexp="yes">[–—]</token>
+                    <token regexp="yes" spacebefore="no">\p{Ll}+</token>
+                  </pattern>
+                  <message>Ten wyraz piszemy bez łącznika: <suggestion>\1\3</suggestion>.</message>
+                  <short>Błąd ortograficzny</short>
+                  <example type="correct">Tym prądem intelektualnym jest postmodernizm.</example>
+                  <example type="correct">Spotkał się Polak z anty-Polakiem</example>
+                  <example correction="Arcyksiążę" type="incorrect"><marker>Arcy–książę</marker> Ferdynand lubił polować w tutejszych lasach.</example>
+                </rule>       
+                </rulegroup>
 				<rule id="PRZEDROSTEK_NIBY" name="Przedrostki „niby” i „quasi” błędnie pisane bez łącznika">
 						<pattern>
 								<token postag="UNKNOWN" regexp="yes">(?:niby|quasi)[^-–].*</token>
