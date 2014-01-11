@@ -18511,7 +18511,16 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
-        <rule id="TRANSFONS_REREFONS" name="transfons_rerefons">
+        <rule id="COMO_COM" name="como/com">
+            <pattern>
+                <token>com</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>com</suggestion>? Existeix: "jo como" (del verb comar).</message>
+            <suggestion>com a</suggestion>
+            <example type="incorrect"><marker>como</marker></example>
+            <example type="correct">com</example>
+        </rule>
+        <rule id="TRANSFONS_REREFONS" name="transfons/rerefons">
             <pattern>
                 <token>transfons</token>
             </pattern>
@@ -22863,6 +22872,17 @@ $Id$
             <short>Lleguatge col·loquial</short>
             <example type="incorrect"><marker>nòvies</marker>!</example>
             <example type="correct">xicotes</example>
+        </rule>
+        <rule id="ESCLAR" name="esclar/és clar">
+            <pattern>
+                <token>esclar</token>
+            </pattern>
+            <message>Acceptat per alguns llibres d'estil com a lexicalització de <suggestion>és clar</suggestion>.</message>
+            <suggestion>asclar</suggestion>
+            <suggestion>esclat</suggestion>
+            <url>http://esadir.cat/entrades/fitxa/node/esclar</url>
+            <example type="incorrect" correction="És clar"><marker>Esclar</marker> que sí.</example>
+            <example type="correct">És clar que sí!</example>
         </rule>
         <rule id="ENRECORDAR" name="enrecordar">
             <pattern>
