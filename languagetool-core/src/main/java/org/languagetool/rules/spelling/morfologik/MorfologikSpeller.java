@@ -71,17 +71,19 @@ public class MorfologikSpeller {
   }
 
   public boolean isMisspelled(String word) {
-    boolean isAlphabetic = true;
-    if (word.length() == 1) { // dictionaries usually do not contain punctuation
-      isAlphabetic = StringTools.isAlphabetic(word.charAt(0));
-    }
-    return word.length() > 0 && isAlphabetic
-            && !containsDigit(word)
+//    boolean isAlphabetic = true;
+//    if (word.length() == 1) { // dictionaries usually do not contain punctuation
+//      isAlphabetic = StringTools.isAlphabetic(word.charAt(0));
+//    }
+    return word.length() > 0 
             && !SpellingCheckRule.LANGUAGETOOL.equals(word)
             && !SpellingCheckRule.LANGUAGETOOL_FX.equals(word)
-            && !speller.isInDictionary(word)
-            && !(!StringTools.isMixedCase(word) 
-                && speller.isInDictionary(word.toLowerCase(conversionLocale)));
+            && speller.isMisspelled(word);
+//            && isAlphabetic
+//            && !containsDigit(word)
+//            && !speller.isInDictionary(word)
+//            && !(!StringTools.isMixedCase(word) 
+//                && speller.isInDictionary(word.toLowerCase(conversionLocale)));
   }
 
   public List<String> getSuggestions(String word) {

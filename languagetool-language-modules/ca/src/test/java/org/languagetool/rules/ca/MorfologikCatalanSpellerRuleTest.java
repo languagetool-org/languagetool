@@ -68,8 +68,15 @@ public class MorfologikCatalanSpellerRuleTest {
         
         //test for "LanguageTool":
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("LanguageTool!")).length);
+        
+        //test for numbers, punctuation
         assertEquals(0, rule.match(langTool.getAnalyzedSentence(",")).length);
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("123454")).length);
+        assertEquals(0, rule.match(langTool.getAnalyzedSentence("1234,54")).length);
+        assertEquals(0, rule.match(langTool.getAnalyzedSentence("1.234,54")).length);
+        assertEquals(0, rule.match(langTool.getAnalyzedSentence("1 234,54")).length);
+        assertEquals(0, rule.match(langTool.getAnalyzedSentence("-1 234,54")).length);
+        assertEquals(1, rule.match(langTool.getAnalyzedSentence("Any2010")).length);
         
         //tests for mixed case words
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("pH")).length);
