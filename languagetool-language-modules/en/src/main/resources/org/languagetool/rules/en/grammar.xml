@@ -623,6 +623,17 @@ USA
             <example type="correct">At the beginning, I was afraid.</example>
             <example type="correct">But there was a fire burning inside him ever since he saw those pictures on her camera.</example>
         </rule>
+        <rule id="I_M_LOWERCASE" name="i'm (I'm)">
+          <pattern case_sensitive="yes">
+            <token>i</token>
+            <token spacebefore="no" regexp="yes">['’]</token>
+            <token spacebefore="no">m</token>
+          </pattern>
+          <message>Did you mean <suggestion>I\2\3</suggestion>?</message>
+          <short>Possible typo</short>
+          <example type="correct">Now I'm driving.</example>
+          <example type="incorrect" correction="I'm">No, <marker>i'm</marker> not letting you near my kids.</example>
+        </rule>
         <rule id="INSURE_THAT" name="insure that (ensure that)">
             <pattern>
                 <marker>
@@ -8403,7 +8414,7 @@ USA
         <rulegroup id="HE_VERB_AGR" name="Agreement error: Non-third person verb with 'he/she'">
             <rule>
                 <pattern>
-                    <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">hear|see|insist|prevent|of</exception>(that|has|will|must|could|can|should|would|does|did|is|may|might|t|let|was)</token>
+                    <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">feel|hear|see|insist|suggest|help|prevent|stop|of</exception>(that|ha[ds]|will|must|could|can|should|would|does|did|is|may|might|t|let|was|dare|lest|without)</token>
                     <token regexp="yes">he|she|someone|somebody|nobody|anyone</token>
                     <marker>
                         <token postag="VB|VBG|VBP" postag_regexp="yes"><exception postag="VBN|VBD|JJ.*|RB|MD" postag_regexp="yes"></exception></token>
@@ -8414,16 +8425,18 @@ USA
                 <example type="correct">He <marker>walks</marker> to the building.</example>
                 <example correction="walks" type="incorrect">He <marker>walk</marker> to the building.</example>
                 <example type="correct">He cannot hear you.</example>
+                <example type="correct">She came in through the back door lest she be seen.</example>
                 <example correction="enters" type="incorrect">Somebody <marker>enter</marker> the building.</example>
                 <example type="correct">His medics insist he rest for several more months.</example>
+                <example type="correct">He stole out of the house without anyone seeing him.</example>
                 <example type="correct">He <marker>walked</marker> to the building.</example>
                 <!-- TODO: False-positive: Nobody move! -->
             </rule>
             <rule>
                 <pattern>
-                    <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">hear|see|prevent</exception>(that|has|will|must|could|can|should|would|does|did|is|may|might|t|was)</token>
+                    <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">feel|hear|see|prevent|help|stop|suggest</exception>(that|ha[sd]|will|must|could|can|should|would|does|did|is|may|might|t|was|dare|lest|without)</token>
                     <token regexp="yes">he|she|someone|somebody|nobody|anyone</token>
-                    <token postag="RB"></token>
+                    <token postag="RB"><exception postag="VBD"/></token>
                     <marker>
                         <token postag="VB|VBG|VBP" postag_regexp="yes"><exception postag="VBN|VBD|JJ.*|RB|MD" postag_regexp="yes"></exception></token>
                     </marker>
@@ -8437,7 +8450,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">hear|see|prevent</exception>(that|has|will|must|could|can|should|would|does|did|is|may|might|t|s|let|was)</token>
+                    <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">feel|hear|see|prevent|help|stop|suggest</exception>(that|ha[ds]|will|must|could|can|should|would|does|did|is|may|might|t|s|let|was|dare|lest|without)</token>
                     <token regexp="yes">someone|somebody|nobody|anyone</token>
                     <token>else</token>
                     <marker>
@@ -8454,7 +8467,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">hear|see|prevent</exception>(that|has|will|must|could|can|should|would|does|did|is|may|might|t|let|was)</token>
+                    <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">feel|hear|see|prevent|help|stop|suggest</exception>(that|ha[ds]|will|must|could|can|should|would|does|did|is|may|might|t|let|was|dare|lest|without)</token>
                     <token regexp="yes">someone|somebody|nobody|anyone</token>
                     <token>else</token>
                     <token postag="RB"></token>
@@ -8488,7 +8501,7 @@ USA
             <!--  subjunctive without 'that' -->
             <rule>
                 <pattern>
-                    <token postag="VB.*" postag_regexp="yes"><exception regexp="yes">was|is</exception><exception inflected="yes" regexp="yes">hear|see|prevent</exception></token>
+                    <token postag="VB.*" postag_regexp="yes"><exception regexp="yes">was|is|ha[ds]</exception><exception inflected="yes" regexp="yes">feel|hear|see|help|prevent|stop</exception></token>
                     <token regexp="yes">he|she|someone|somebody|nobody|anyone</token>
                     <marker>
                         <token postag="VBG"></token>
@@ -8505,8 +8518,8 @@ USA
             <rule>
                 <pattern>
                     <token>
-                        <exception regexp="yes">(that|has|will|must|could|can|should|would|does|did|is|was|may|might|t|let)</exception>
-                        <exception inflected="yes" regexp="yes">hear|see|prevent</exception>
+                        <exception regexp="yes">(that|ha[ds]|will|must|could|can|should|would|does|did|is|was|may|might|t|let)</exception>
+                        <exception inflected="yes" regexp="yes">feel|hear|see|prevent|help|stop</exception>
                         <exception postag="CC|IN|DT|MD" postag_regexp="yes"></exception></token>
                     <token postag="NNP" regexp="yes">.{2,}<exception postag="JJ|CC|RP|DT|PRP\$|NNPS|NNS|IN|RB|WRB" postag_regexp="yes"></exception></token>
                     <marker>
@@ -9197,7 +9210,7 @@ USA
     <!-- Miscellaneous -->
     <!-- ====================================================================== -->
     <category name="Miscellaneous">
-        <rulegroup id="CURRENCY" name="Position of currency symbols: '100$' ($100)">
+        <rulegroup type="locale-violation" id="CURRENCY" name="Position of currency symbols: '100$' ($100)">
             <rule>
                 <pattern>
                     <token regexp="yes">\d+[$€£¥\u8371]</token>
@@ -9218,6 +9231,16 @@ USA
                 <example type="correct">You owe me $100.</example>
             </rule>
         </rulegroup>
+        <rule type="whitespace" id="CURRENCY_SPACE" name="Whitespace after currency symbols: '$ 100' ($100)">
+                <pattern>
+                    <token regexp="yes">[$€£¥\u8371]</token>
+                    <token regexp="yes" spacebefore="yes">\d+</token>
+                </pattern>
+                <message>The currency mark is usually written without any whitespace: <suggestion>\1\2</suggestion>.</message>
+                <short>Remove whitespace</short>
+                <example correction="$100" type="incorrect">You owe me <marker>$ 100</marker>.</example>
+                <example type="correct">You owe me $100.</example>
+        </rule>
         <rulegroup id="EN_QUOTES" name="Smart quotes (“”)">
             <rule>
                 <pattern>

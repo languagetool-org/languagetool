@@ -1754,6 +1754,25 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
           <example type="ambiguous" inputform="as[as/CC,as/IN,as/RB]" outputform="as[as/CC,as/IN]">They are wed <marker>as</marker> gods.</example>
         </rule>
 
+        <rule name="better than" id="BETTER_THAN">
+          <pattern>
+            <marker><token>better</token></marker>
+            <token>than</token>
+          </pattern>
+          <disambig action="filter" postag="..R"/>
+          <example type="untouched">This year's profits should better last year's by a wide margin.</example>
+          <example type="ambiguous" inputform="better[better/NN,better/VB,better/VBP,good/JJR,well/RBR]" outputform="better[good/JJR,well/RBR]">She likes Hiroshima <marker>better</marker> than any other city.</example>
+        </rule>
+
+        <rule id="MOST_VBP" name="most + verb in plural">
+          <pattern>
+            <marker><token>most</token></marker>
+            <token postag="VBP"></token>
+          </pattern>
+          <disambig postag="JJS"/>
+          <example type="untouched">Most of his writing is rubbish.</example>
+          <example type="ambiguous" inputform="Most[Most/NNP,most/NN:U,much/JJS,much/RBS]" outputform="Most[much/JJS]"><marker>Most</marker> are around 40-50 μm in diameter.</example>
+        </rule>
 
         <rule name="or" id="REMOVE_JJ_FOR_OR">
           <!-- work around strange dict entry -->
