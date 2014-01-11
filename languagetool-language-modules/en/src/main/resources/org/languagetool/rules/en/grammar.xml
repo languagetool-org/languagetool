@@ -8156,17 +8156,17 @@ USA
             <example type="correct">And Truly It Is <marker>a</marker> Most Glorious Thing</example>
             <example type="incorrect">Kyoto is <marker>an</marker> oldest city.</example>
         </rule>
-        <rulegroup id="DID_BASEFORM" name="Non-infinitive verb after 'did'">
+        <rulegroup id="DID_BASEFORM" name="Non-infinitive verb after modal verbs">
             <rule>
                 <pattern>
                     <token negate="yes">than</token>
                     <token><exception regexp="yes">free|that|who|which|whom|a|the</exception></token>
-                    <token regexp="yes">did|will|could|can|should|would|does</token>
+                    <token regexp="yes">did|will|could|can|should|would|does|ll</token>
                     <marker>
                         <token postag="(VBD|VBG|VBZ)" postag_regexp="yes"><exception postag="VBP|NNP" postag_regexp="yes"></exception><exception inflected="yes">be</exception></token>
                     </marker>
                 </pattern>
-                <message>The verb '<match no="3"></match>' requires base form of the verb: <suggestion><match no="4" postag="VB"></match></suggestion>.</message>
+                <message>The verb '<match no="3"></match>' requires the base form of the verb: <suggestion><match no="4" postag="VB"></match></suggestion>.</message>
                 <short>Grammatical problem</short>
                 <example type="correct">They will <marker>come</marker> home.</example>
                 <!-- 'did' is used for emphasis here: -->
@@ -8184,7 +8184,7 @@ USA
                 <pattern>
                     <token negate="yes">than</token>
                     <token><exception regexp="yes">free|that|who|which|whom|a|the</exception></token>
-                    <token regexp="yes">did|will|could|can|should|would|does</token>
+                    <token regexp="yes">did|will|could|can|should|would|does|ll</token>
                     <token>not</token>
                     <marker>
                         <token postag="(VBD|VBG|VBZ)" postag_regexp="yes"><exception postag="VBP"></exception><exception inflected="yes">be</exception></token>
