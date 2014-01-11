@@ -623,17 +623,32 @@ USA
             <example type="correct">At the beginning, I was afraid.</example>
             <example type="correct">But there was a fire burning inside him ever since he saw those pictures on her camera.</example>
         </rule>
-        <rule id="I_M_LOWERCASE" name="i'm (I'm)">
+        <rulegroup id="I_LOWERCASE" name="i'm (I'm)">
+        <rule>
           <pattern case_sensitive="yes">
             <token>i</token>
             <token spacebefore="no" regexp="yes">['’]</token>
-            <token spacebefore="no">m</token>
+            <token spacebefore="no" regexp="yes">[md]|ll|ve</token>
           </pattern>
           <message>Did you mean <suggestion>I\2\3</suggestion>?</message>
           <short>Possible typo</short>
           <example type="correct">Now I'm driving.</example>
           <example type="incorrect" correction="I'm">No, <marker>i'm</marker> not letting you near my kids.</example>
         </rule>
+        <rule>
+            <pattern case_sensitive="yes">
+            <marker>
+              <token>i</token>
+            </marker>
+            <token postag="MD|VBP" postag_regexp="yes"/>
+            </pattern>
+          <message>Did you mean <suggestion>I</suggestion>?</message>
+          <short>Possible typo</short>
+          <example type="correct">Now I am driving.</example>
+          <example type="correct">These are: (i) examples; (ii) case studies; (iii) some other things.</example>
+          <example type="incorrect" correction="I">No, <marker>i</marker> am not letting you near my kids.</example>        
+        </rule>        
+        </rulegroup>
         <rule id="INSURE_THAT" name="insure that (ensure that)">
             <pattern>
                 <marker>

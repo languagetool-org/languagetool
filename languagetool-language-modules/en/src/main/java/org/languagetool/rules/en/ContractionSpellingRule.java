@@ -69,7 +69,7 @@ public class ContractionSpellingRule extends AbstractSimpleReplaceRule {
 
   @Override
   public boolean isSpellingRule() {
-    return false; // true; I want to see if there are false positives for this rule
+    return true;
   }
 
   @Override
