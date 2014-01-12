@@ -33,12 +33,10 @@ public class EnglishWordTokenizer extends WordTokenizer {
   private final String enTokenizing;
 
   public EnglishWordTokenizer() {
-    enTokenizing = super.getTokenizingCharacters() + "–—";
+    enTokenizing = super.getTokenizingCharacters() + "–—";  // n-dash, m-dash
   }
 
   /**
-   * @param text - String of words to tokenize.
-   * 
    * Tokenizes text.
    * The English tokenizer differs from the standard one
    * in two respects:
@@ -48,7 +46,7 @@ public class EnglishWordTokenizer extends WordTokenizer {
    * <li> it includes n-dash and m-dash as tokenizing characters,
    * as these are used without a whitespace in English.
    * </ol>
-   * 
+   * @param text String of words to tokenize.
    */
   @Override
   public List<String> tokenize(final String text) {

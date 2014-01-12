@@ -33,23 +33,20 @@ public class PolishWordTokenizer extends WordTokenizer {
   private final String plTokenizing;
 
   public PolishWordTokenizer() {
-    plTokenizing = super.getTokenizingCharacters() + "–—";
+    plTokenizing = super.getTokenizingCharacters() + "–—";   // n-dash, m-dash
   }
 
   /**
-   * @param text - String of words to tokenize.
-   * 
    * Tokenizes text.
    * The Polish tokenizer differs from the standard one
    * in the following respects:
-   * 
    * <ol>
    * <li> it does not treat the hyphen as part of the
    * word if the hyphen is at the end of the word;</li>
    * <li> it includes n-dash and m-dash as tokenizing characters,
    * as these are not included in the spelling dictionary.
    * </ol>
-   * 
+   * @param text String of words to tokenize.
    */
   @Override
   public List<String> tokenize(final String text) {
