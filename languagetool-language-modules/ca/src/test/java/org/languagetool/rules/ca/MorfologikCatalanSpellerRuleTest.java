@@ -76,6 +76,7 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("1.234,54")).length);
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("1 234,54")).length);
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("-1 234,54")).length);
+        assertEquals(0, rule.match(langTool.getAnalyzedSentence("Fa una temperatura de 30°C")).length);
         assertEquals(1, rule.match(langTool.getAnalyzedSentence("Any2010")).length);
         
         //tests for mixed case words

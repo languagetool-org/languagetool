@@ -37,7 +37,7 @@ $Id$
     <!ENTITY precedits_per_TANT "no|ací|aquí|allí|allà|potser|abans|ja|on|quan|que|com|menys|doncs|però|ara|emperò|ans">
     <!ENTITY vocabulari_menjar "xocolata|xocolate|allioli|aliment|all|amanida|arròs|bolet|carn|carxofa|cep|coriandre|fava|fetge|foie|formatge|gamba|j[ou]livert|llamàntol|llobregant|lluç|macarró|magret|mandonguilla|mango|menjar|mongeta|p[éè]sol|pa|pastís|porc|r[eo]nyó|safrà|tofu|verdura|vi|ànec">
     <!ENTITY seguits_per_COM_A "acceptar|justificar|caracteritzar|qualificar|establir|figurar|reconèixer|conèixer|definir|veure|entendre|interpretar|percebre">
-    <!ENTITY nombres_que_apostrofen "(1{1,2}|11[.\s]?\d{3}|1{1,2}\.\d{3}\.\d{3}|1{1,2}\s\d{3}\s\d{3}|1{1,2}\d{6})([,]\d+)?([&#37;&#8240;&#8241;]|[èé])?">
+    <!ENTITY nombres_que_apostrofen "(1{1,2}|11[.\s]?\d{3}|1{1,2}\.\d{3}\.\d{3}|1{1,2}\s\d{3}\s\d{3}|1{1,2}\d{6})([,]\d+)?([&#37;&#8240;&#8241;]|[èé]|&#176;[CFKNSEW]?)?">
     <!ENTITY noms_ABAIXAR_APUJAR "calefacció|impost|sou|salari|guàrdia|vela|persiana|cap|braç|veu|to|preu|pressupost|ràdio|volum|tele|televisió|música|teló|vista">
     <!ENTITY adjectius_TE_INFUSIO "descafeïnat|mòlt|jove|conegut|preparat|empaquetat|xin[èé]s|amargant|sud-americà|instantani|lleuger|indi|roquer|dolç|fals|bord|tradicional|gal·l[éè]s|pudent|salvatge|àrab|angl[éè]s|fosc|negre|verd|vermell|blanc|gelat|fred|calent|turc">
     <!ENTITY verbs_TE_INFUSIO "produir|prendre|servir|preparar|voler|beure|consumir|importar|vendre|exportar|llançar">
@@ -8689,6 +8689,8 @@ $Id$
                 <short>Error ortogràfic</short>
                 <example type="incorrect" correction="d'1"><marker>de 1</marker> a 3</example>
                 <example type="incorrect" correction="d'1"><marker>de 1</marker>, de 3</example>
+                <example type="incorrect" correction="d'1%"><marker>de 1%</marker>.</example>
+                <example type="incorrect" correction="d'11°C">Per damunt <marker>de 11°C</marker>.</example>
                 <example type="correct">de 1.400 habitants</example>
                 <example type="correct">a una distància de 1 630 anys llum.</example>
             </rule>
@@ -8723,6 +8725,7 @@ $Id$
                 <short>Error ortogràfic</short>
                 <example type="incorrect" correction="a l'1">fins <marker>al 1</marker> de febrer</example>
                 <example type="incorrect" correction="a l'1">fins <marker>al 1</marker>, al 2 i al 3 de febrer</example>
+                <example type="incorrect" correction="a l'1%">fins <marker>al 1%</marker>.</example>
                 <example type="correct">del 1.400 al 1.500</example>
             </rule>
             <rule>
@@ -13085,6 +13088,63 @@ $Id$
         </rule>
     </category>
     <category name="A1) Ortotipografia" type="typographical">
+        <rulegroup id="SIMBOL_GRAU_ORDINAL" name="ordinals no estàndards (ºª); símbol de grau (°)">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">.*º<exception>nº</exception></token>
+                    </marker>
+                    <token><exception regexp="yes">[CFKNSEW]</exception></token>
+                </pattern>
+                <message>Si voleu indicar graus, useu el símbol <suggestion><match no="1" regexp_match="(.*)º" regexp_replace="$1°"/></suggestion>. Per a indicar ordinals, useu <suggestion><match no="1" regexp_match="(.*)º" regexp_replace="$1è"/></suggestion> (sing.) <suggestion><match no="1" regexp_match="(.*)º" regexp_replace="$1ns"/></suggestion> (pl.).</message>
+                <suggestion><match no="1" regexp_match="(.*)º" regexp_replace="$1é"/></suggestion>
+                <short>Error tipogràfic</short>
+                <example type="incorrect" correction="25°|25è|25ns|25é">Fa una temperatura de <marker>25º</marker>.</example>
+                <example type="correct">Fa 25°.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">.*º<exception>nº</exception></token>
+                    </marker>
+                    <token regexp="yes">[CFKNSEW]</token>
+                </pattern>
+                <message>Si voleu indicar graus, useu el símbol <suggestion><match no="1" regexp_match="(.*)º" regexp_replace="$1°"/></suggestion>.</message>
+                <short>Error tipogràfic</short>
+                <example type="incorrect" correction="25°">Fa una temperatura de <marker>25º</marker> C.</example>
+                <example type="correct">Fa 25°.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">.*º[CFKNSEW]</token>
+                    </marker>
+                </pattern>
+                <message>Si voleu indicar graus, useu el símbol <suggestion><match no="1" regexp_match="(.*)º(.*)" regexp_replace="$1°$2"/></suggestion>.</message>
+                <short>Error tipogràfic</short>
+                <example type="incorrect" correction="25°C">Fa una temperatura de <marker>25ºC</marker>.</example>
+                <example type="correct">Fa 25°C.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">.*ª</token>
+                </pattern>
+                <message> Per a indicar ordinals, useu <suggestion><match no="1" regexp_match="(.*)ª" regexp_replace="$1a"/></suggestion> (sing.) o <suggestion><match no="1" regexp_match="(.*)ª" regexp_replace="$1es"/></suggestion> (pl.).</message>
+                <short>Error tipogràfic</short>
+                <example type="incorrect" correction="25a|25es">En la posició <marker>25ª</marker>.</example>
+                <example type="correct">En la 14a posició.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\d+(ena|enes)</token>
+                </pattern>
+                <message> Per a indicar ordinals, useu <suggestion><match no="1" regexp_match="(.*)en(a|es)" regexp_replace="$1$2"/></suggestion>.</message>
+                <short>Error tipogràfic</short>
+                <example type="incorrect" correction="25a">En la posició <marker>25ena</marker>.</example>
+                <example type="incorrect" correction="25es"><marker>25enes</marker>.</example>
+                <example type="correct">En la 14a posició.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ANYS_SENSE_PUNT" name="anys sense punt: *1.950">
             <rule>
                 <pattern>
