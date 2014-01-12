@@ -2036,7 +2036,7 @@ $Id$
 										<token postag="SENT_START" skip="-1"></token>
 										<token postag="verb:.*(sg|pl).*|verb:imps.*|pred" postag_regexp="yes" skip="-1"></token>
 										<marker>
-												<token postag="SENT_END"><exception regexp="yes">[?\.!,:;…”""\02]</exception><exception scope="previous">.</exception></token>
+												<token postag="SENT_END"><exception regexp="yes">[?\.!,:;…”"\02]</exception><exception scope="previous">.</exception></token>
 										</marker>
 								</pattern>
 								<message>To zdanie nie kończy się kropką ani innym znakiem interpunkcyjnym. Powinno być: <suggestion>\3.</suggestion></message>
@@ -2149,23 +2149,25 @@ $Id$
 						</rule>
 						<rule>
 								<pattern>
-										<token regexp="yes">\p{L}+</token>
+										<token regexp="yes">\p{L}+<exception regexp="yes">[XVI]{1,4}</exception></token>
                                         <token spacebefore="no" regexp="yes">[-–—]</token>
 								</pattern>
-								<message>Prawdopodobnie brak spacji. Poprawnie: <suggestion>\1 \2</suggestion></message>
+								<message>Prawdopodobnie brak spacji. Poprawnie: <suggestion>\1 \2</suggestion>.</message>
 								<short>Brak spacji</short>
 								<example correction="wyraz –" type="incorrect">To jest <marker>wyraz–</marker> jak sądzę – niepoprawny.</example>
 								<example type="correct">To jest wyraz – jak sądzę – niepoprawny.</example>
+                                <example type="correct">Z czasów panowania chanów protobułgarskich (VII–IX wiek) pochodzą ryte w kamieniu napisy.</example>
 						</rule>
 						<rule>
 								<pattern>
 										<token regexp="yes">[-–—]</token>
-                                        <token regexp="yes" spacebefore="no">\p{L}+</token>
+                                        <token regexp="yes" spacebefore="no">\p{L}+<exception regexp="yes">[XVI]{1,4}</exception></token>
 								</pattern>
-								<message>Prawdopodobnie brak spacji. Poprawnie: <suggestion>\1 \2</suggestion></message>
+								<message>Prawdopodobnie brak spacji. Poprawnie: <suggestion>\1 \2</suggestion>.</message>
 								<short>Brak spacji</short>
 								<example correction="– jak" type="incorrect">To jest wyraz <marker>–jak</marker> sądzę – niepoprawny.</example>
 								<example type="correct">To jest wyraz – jak sądzę – niepoprawny.</example>
+                                <example type="correct">Z czasów panowania chanów protobułgarskich (VII–IX wiek) pochodzą ryte w kamieniu napisy.</example>
 						</rule>
 				</rulegroup>
 				<rule id="ZBEDNA_SPACJA" type="whitespace" name="Zbędna spacja po znaku interpunkcyjnym">
