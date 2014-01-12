@@ -59,6 +59,10 @@ public class CatalanUnpairedBracketsRuleTest extends TestCase {
     assertCorrect("»Això em porta (sí) a demanar-t'ho.");
     assertCorrect("al capítol 12 \"Llavors i fruits oleaginosos\"");
     assertCorrect("\"Per què serveixen les forquilles?\" i aquest respon \"per menjar\".");
+    assertCorrect("És a 60º 50' 23\"");
+    assertCorrect("És a 60º 50' 23'");
+    assertCorrect("60° 50' 23'");
+    assertCorrect("60° 50'");
     //assertCorrect("el grau en 60 parts iguals, tenim el minut (1'):");
     //assertCorrect("el minut en 60 parts iguals, tenim el segon (1\"):");
     

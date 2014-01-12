@@ -13088,6 +13088,36 @@ $Id$
         </rule>
     </category>
     <category name="A1) Ortotipografia" type="typographical">
+        <rulegroup id="GRAUS_MINUTS_SEGONS" name="tipografia de graus, minuts i segons: 50° 45′ 20″">
+        <!-- It is not shown because rule CA_UNPAIRED_BRACKET -->
+            <rule>
+                <pattern>
+                    <token regexp="yes">[\d., ]+[º°]</token>
+                    <token regexp="yes">[\d., ]+</token>
+                    <token regexp="yes">["'′`]</token>
+                    <token regexp="yes">[\d., ]+</token>
+                    <token regexp="yes">["'′`]</token>
+                </pattern>
+                <message>Símbols incorrectes de graus, minuts i segons.</message>
+                <suggestion><match no="1" regexp_match="(.*)[º°]" regexp_replace="$1°"/> <match no="2"/>′ <match no="4"/>″</suggestion>
+                <short>Error tipogràfic</short>
+                <example type="incorrect" correction="25° 29,1′ 49″"><marker>25º 29,1' 49"</marker>.</example>
+                <example type="incorrect" correction="25° 29′ 49″"><marker>25º 29' 49'</marker>.</example>
+                <example type="correct">25° 29′ 34″</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[\d., ]+[º°]</token>
+                    <token regexp="yes">[\d., ]+</token>
+                    <token regexp="yes">["'′`]</token>
+                </pattern>
+                <message>Símbols incorrectes de graus i minuts.</message>
+                <suggestion><match no="1" regexp_match="(.*)[º°]" regexp_replace="$1°"/> <match no="2"/>′</suggestion>
+                <short>Error tipogràfic</short>
+                <example type="incorrect" correction="25° 29′"><marker>25º 29'</marker>.</example>
+                <example type="correct">25° 29′</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="SIMBOL_GRAU_ORDINAL" name="ordinals no estàndards (ºª); símbol de grau (°)">
             <rule>
                 <pattern>

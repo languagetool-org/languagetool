@@ -413,11 +413,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </pattern>
                 <disambig action="replace"><wd pos="NCMS000"/></disambig>
             </rule>
-            <rule id="graus" name="graus">
+            <rule id="numero_graus" name="graus">
                 <pattern>
-                    <token regexp="yes">[\d,. ]+°[CFKNSEW]?</token>
+                    <token regexp="yes">[\d,. ]+[°′″‴][CFKNSEW]?</token>
                 </pattern>
                 <disambig action="replace"><wd pos="NCMP000"/></disambig>
+            </rule>
+            <rule id="graus" name="graus">
+                <pattern>
+                    <token regexp="yes">°[CFKNSEW]</token>
+                </pattern>
+                <disambig action="replace"><wd pos="NCMN000"/></disambig>
             </rule>
             <rule id="un_grau" name="1 grau">
                 <pattern>
