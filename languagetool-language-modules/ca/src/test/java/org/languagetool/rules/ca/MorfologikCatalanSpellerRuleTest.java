@@ -81,6 +81,7 @@ public class MorfologikCatalanSpellerRuleTest {
         //tests for mixed case words
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("pH")).length);
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("McDonald")).length);
+        assertEquals(1, rule.match(langTool.getAnalyzedSentence("AixòÉsUnError")).length);
 
         //incorrect words:
         
