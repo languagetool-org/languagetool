@@ -105,6 +105,16 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             </pattern>
             <disambig postag="IN"></disambig>
         </rule>
+        <rule id="IN_ADJ_NN" name="in + adjective + noun">
+          <pattern>
+            <marker><token>in</token></marker>
+            <token postag="JJ"/>
+            <token postag="NN:UN?" postag_regexp="yes"/>
+          </pattern>
+          <disambig postag="IN"/>
+          <example type="untouched">The boss made him an in.</example>
+          <example type="ambiguous" inputform="in[in/IN,in/NN,in/RP]" outputform="in[in/IN]">He's <marker>in</marker> perky form.</example>
+        </rule>        
     </rulegroup>
     <rule name="the/these... + numeral + are (noun/verb) -&gt; the... + numer + are (verb)" id="DT_CD_ARE_VB">
         <pattern>
@@ -116,6 +126,38 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         </pattern>
         <disambig><match no="3" postag="VBP" postag_regexp="yes"></match></disambig>
     </rule>
+    <rulegroup name='these/those + adj/noun singular + are → adj' id="DT_ADJNN">
+    <rule>
+      <pattern>
+        <token regexp="yes">th[eo]se</token>
+        <marker>
+        <and>
+          <token postag="JJ.?" postag_regexp="yes"/>
+          <token postag="NN.*" postag_regexp="yes"/>
+        </and>
+        </marker>
+        <token postag="VBP"/>
+      </pattern>
+      <disambig action="filter" postag="JJ.*"/>
+      <example type="untouched">These things are important.</example>
+      <example type="ambiguous" inputform="present[present/JJ,present/NN:UN,present/VB,present/VBP]" outputform="present[present/JJ]">Those <marker>present</marker> are all moved to tears.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <token regexp="yes">th[eo]se</token>
+        <marker>
+        <and>
+          <token postag="JJ.?" postag_regexp="yes"/>
+          <token postag="NN.*" postag_regexp="yes"/>
+        </and>
+        </marker>
+        <token>were</token>
+      </pattern>
+      <disambig action="filter" postag="JJ.*"/>
+      <example type="untouched">These things were important.</example>
+      <example type="ambiguous" inputform="present[present/JJ,present/NN:UN,present/VB,present/VBP]" outputform="present[present/JJ]">Those <marker>present</marker> were all moved to tears.</example>
+    </rule>
+    </rulegroup>
     <rule name="are (noun/verb)  + adjective/gerund/preposition -&gt; are (verb)" id="ARE_JJ_VBG">
         <pattern>
             <marker>
@@ -1449,7 +1491,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     <pattern>
       <marker>
         <and>
-        <token postag="NN:UN"><exception scope="previous" postag="NNS|NNPS" postag_regexp="yes"/><exception scope="previous">wed</exception></token> 
+        <token postag="NN:UN"><exception scope="previous" postag="NNS|NNPS" postag_regexp="yes"/><exception scope="previous" regexp="yes">wed|th[oe]se</exception></token> 
         <token chunk="E-NP-singular"/>
         <token postag="VBP"/>
         </and>
@@ -1715,6 +1757,21 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
           <example type="untouched">Let's keep it simple.</example>
           <example type="ambiguous" inputform="clean[clean/JJ,clean/NN,clean/VB,clean/VBP]" outputform="clean[clean/JJ]">Let's keep it <marker>clean</marker>.</example>
         </rule>
+
+        <rule id="RBNN_RB" name="adv/noun + verb -> adv">
+          <pattern>
+            <marker>
+              <and>
+              <token postag="RB"/>
+              <token postag_regexp="yes" postag="NN:UN?"/>
+              </and>
+              </marker>
+              <token postag_regexp="yes" postag="VB.?"/>
+          </pattern>
+          <disambig postag="RB"/>
+          <example type="untouched">It took them forever.</example>
+          <example type="ambiguous" inputform="forever[forever/NN:U,forever/RB]" outputform="forever[forever/RB]">You're <marker>forever</marker> making mistakes.</example>
+        </rule>  
         
         <rule name="as" id="AS_ADVERB">
           <pattern>
@@ -1774,6 +1831,16 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
           <example type="ambiguous" inputform="Most[Most/NNP,most/NN:U,much/JJS,much/RBS]" outputform="Most[much/JJS]"><marker>Most</marker> are around 40-50 μm in diameter.</example>
         </rule>
 
+        <rule id="UP_TO" name="up to - not a noun">
+          <pattern>
+            <marker><token>up</token></marker>
+            <token>to</token>
+          </pattern>
+          <disambig postag="IN"/>
+          <example type="untouched">We all have ups and downs.</example>
+          <example type="ambiguous" inputform="up[up/IN,up/JJ,up/NN,up/RP,up/VB,up/VBP]" outputform="up[up/IN]">What you're <marker>up</marker> to?</example>
+        </rule>
+        
         <rule name="or" id="REMOVE_JJ_FOR_OR">
           <!-- work around strange dict entry -->
           <pattern case_sensitive="yes">
