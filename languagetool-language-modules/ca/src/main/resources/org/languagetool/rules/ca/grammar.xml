@@ -13144,7 +13144,7 @@ $Id$
                 <example type="correct">Fa 25°.</example>
             </rule>
             <rule>
-                <pattern>
+                <pattern case_sensitive="yes">
                     <marker>
                         <token regexp="yes">.*º[CFKNSEW]</token>
                     </marker>
@@ -13155,8 +13155,8 @@ $Id$
                 <example type="correct">Fa 25°C.</example>
             </rule>
             <rule>
-                <pattern>
-                    <token regexp="yes">.*ª<exception>Mª</exception></token>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">.*ª<exception regexp="yes">[DM]ª</exception></token>
                 </pattern>
                 <message> Per a indicar ordinals, useu <suggestion><match no="1" regexp_match="(.*)ª" regexp_replace="$1a"/></suggestion> (sing.) o <suggestion><match no="1" regexp_match="(.*)ª" regexp_replace="$1es"/></suggestion> (pl.).</message>
                 <short>Error tipogràfic</short>
@@ -18604,12 +18604,13 @@ $Id$
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
         <rule id="COMO_COM" name="como/com">
             <pattern>
-                <token>como</token>
+                <token>como<exception postag="NPCSG00"/></token>
             </pattern>
             <message>¿Volíeu dir <suggestion>com</suggestion>? Existeix: "jo como" (del verb comar).</message>
             <suggestion>com a</suggestion>
             <example type="incorrect"><marker>como</marker></example>
             <example type="correct">com</example>
+            <example type="correct">El llac de Como</example>
         </rule>
         <rule id="TRANSFONS_REREFONS" name="transfons/rerefons">
             <pattern>
