@@ -13089,7 +13089,6 @@ $Id$
     </category>
     <category name="A1) Ortotipografia" type="typographical">
         <rulegroup id="GRAUS_MINUTS_SEGONS" name="tipografia de graus, minuts i segons: 50° 45′ 20″">
-        <!-- It is not shown because rule CA_UNPAIRED_BRACKET -->
             <rule>
                 <pattern>
                     <token regexp="yes">[\d., ]+[º°]</token>
@@ -13157,7 +13156,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">.*ª</token>
+                    <token regexp="yes">.*ª<exception>Mª</exception></token>
                 </pattern>
                 <message> Per a indicar ordinals, useu <suggestion><match no="1" regexp_match="(.*)ª" regexp_replace="$1a"/></suggestion> (sing.) o <suggestion><match no="1" regexp_match="(.*)ª" regexp_replace="$1es"/></suggestion> (pl.).</message>
                 <short>Error tipogràfic</short>
@@ -23728,22 +23727,40 @@ $Id$
                 <example type="correct">com que no té efectes pràctics,</example>
             </rule>
         </rulegroup>
-        <rule id="AL_INFINITIU" name="Evita: al + infinitiu">
-            <pattern>
-                <marker>
-                    <token>a</token>
-                    <token spacebefore="no">l</token>
-                </marker>
-                <token postag="V.N.*" postag_regexp="yes"><exception postag="_GN_MS" /></token>
-                <token><exception postag="V.P..SM.?|AQ.[MC][SN]." postag_regexp="yes" /></token>
-            </pattern>
-            <message>Davant d'infinitiu, com a subordinada temporal, en llenguatge formal és preferible dir: <suggestion>en</suggestion>.</message>
-            <url>http://esadir.cat/gramatica/sintaxi/enalinf</url>
-            <example type="incorrect" correction="en"><marker>al</marker> pensar en ell</example>
-            <example type="correct">contrària al pensar generalitzat</example>
-            <example type="correct">anem al pedregar</example>
-            <example type="correct">No em remuntaré als temps dels Estats Pontificis ni al poder dels Savoia.</example>
-        </rule>
+        <rulegroup id="AL_INFINITIU" name="Evita: al + infinitiu">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>a</token>
+                        <token spacebefore="no">l</token>
+                    </marker>
+                    <token postag="V.N.*" postag_regexp="yes"><exception postag="_GN_MS" /></token>
+                    <token><exception postag="V.P..SM.?|AQ.[MC][SN]." postag_regexp="yes" /></token>
+                </pattern>
+                <message>Davant d'infinitiu, com a subordinada temporal, en llenguatge formal és preferible usar "en"</message>
+                <suggestion>en</suggestion>
+                <url>http://esadir.cat/gramatica/sintaxi/enalinf</url>
+                <example type="incorrect" correction="en"><marker>al</marker> pensar en ell</example>
+                <example type="correct">contrària al pensar generalitzat</example>
+                <example type="correct">anem al pedregar</example>
+                <example type="correct">No em remuntaré als temps dels Estats Pontificis ni al poder dels Savoia.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>a</token>
+                        <token>l'</token>
+                        <token postag="V.N.*" postag_regexp="yes"><exception postag="_GN_MS" /></token>
+                    </marker>
+                    <token><exception postag="V.P..SM.?|AQ.[MC][SN]." postag_regexp="yes" /></token>
+                </pattern>
+                <message>Davant d'infinitiu, com a subordinada temporal, en llenguatge formal és preferible usar "en"</message> 
+                <suggestion>en <match no="3"/></suggestion>
+                <url>http://esadir.cat/gramatica/sintaxi/enalinf</url>
+                <example type="incorrect" correction="en observar"><marker>a l'observar</marker>-ho</example>
+                <example type="correct">contrària al pensar generalitzat</example>
+            </rule>
+        </rulegroup>
         <rule id="SE_DAVANT_SC" name="Exigeix 'se' davant verb que comença amb so de s (se sap, se celebra)">
             <pattern>
                 <marker>

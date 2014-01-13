@@ -85,6 +85,7 @@ public class CatalanUnpairedBracketsRuleTest extends TestCase {
     assertCorrect ("Porta-me'n cinquanta!");
 
     // incorrect sentences:
+    assertIncorrect("Ploraria.\"");
     assertIncorrect("Aquesta és l555’hora de les decisions.");
     assertIncorrect("Vine\", li va dir.");
     assertIncorrect("Aquesta és l‘hora de les decisions.");

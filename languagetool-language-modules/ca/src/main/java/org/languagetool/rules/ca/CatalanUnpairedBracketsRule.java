@@ -36,7 +36,7 @@ public class CatalanUnpairedBracketsRule extends GenericUnpairedBracketsRule {
   
   private static final Pattern VALID_BEFORE_CLOSING_PARENTHESIS = Pattern
       .compile("\\d+|[a-zA-Z]", Pattern.UNICODE_CASE);
-  private static final Pattern NUMBER = Pattern.compile("[\\d., ]+", Pattern.UNICODE_CASE);
+  private static final Pattern NUMBER = Pattern.compile("\\d[\\d., ]+\\d|\\d{1,2}", Pattern.UNICODE_CASE);
 
   public CatalanUnpairedBracketsRule(final ResourceBundle messages,
       final Language language) {
@@ -69,8 +69,8 @@ public class CatalanUnpairedBracketsRule extends GenericUnpairedBracketsRule {
     if (("\"".equals(tokenStr) || "'".equals(tokenStr))
         && NUMBER.matcher(tokens[i - 1].getToken()).matches()
         && !tokens[i].isWhitespaceBefore()
-        && ((i > 3 && tokens[i - 2].getToken().contains("º") || tokens[i - 2].getToken().contains("°"))
-        || (i > 5 && tokens[i - 4].getToken().contains("º") || tokens[i - 4].getToken().contains("°")))) {
+        && ((i > 2 && (tokens[i - 2].getToken().contains("º") || tokens[i - 2].getToken().contains("°")))
+        || (i > 4 && (tokens[i - 4].getToken().contains("º") || tokens[i - 4].getToken().contains("°"))))) {
       return false;
     }
 
