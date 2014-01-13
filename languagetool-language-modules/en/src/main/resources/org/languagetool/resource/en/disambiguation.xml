@@ -1744,20 +1744,6 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
 			<example type="ambiguous" inputform="saw[saw/NN,saw/VB,saw/VBP,see/VBD]" outputform="saw[see/VBD]">This is what he <marker>saw</marker>.</example>
 		</rule>
     
-        <rule name="keep + it + adj" id="KEEP_JJ">
-          <pattern>
-            <token>keep</token>
-            <token>it</token>
-            <marker><and><token postag="VB"/>
-              <token postag_regexp="yes" postag="JJ.?"></token>
-            </and>
-            </marker>
-          </pattern>
-          <disambig action="filter" postag="JJ.*"/>
-          <example type="untouched">Let's keep it simple.</example>
-          <example type="ambiguous" inputform="clean[clean/JJ,clean/NN,clean/VB,clean/VBP]" outputform="clean[clean/JJ]">Let's keep it <marker>clean</marker>.</example>
-        </rule>
-
         <rule id="RBNN_RB" name="adv/noun + verb -> adv">
           <pattern>
             <marker>
@@ -1839,6 +1825,86 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
           <disambig postag="IN"/>
           <example type="untouched">We all have ups and downs.</example>
           <example type="ambiguous" inputform="up[up/IN,up/JJ,up/NN,up/RP,up/VB,up/VBP]" outputform="up[up/IN]">What you're <marker>up</marker> to?</example>
+        </rule>
+ 
+        <rule id="RIGHT_RB" name="right + away/now => RB"><!-- do not move after VERB_IT_JJ, as right may be JJ then -->
+          <pattern>
+            <marker>
+              <token>right</token>
+            </marker>
+            <token regexp="yes">away|now|before|after</token>
+          </pattern>
+          <disambig postag="RB"/>
+          <example type="untouched">You are right.</example>
+          <example type="ambiguous" inputform="right[right/JJ,right/NN:UN,right/UH,right/VB,right/VBP]" outputform="right[right/RB]">Do it <marker>right</marker> now!</example>
+        </rule>
+ 
+        <rule id="SENT_START_IS_JJ" name="Is/was + it + verb/JJ =>JJ">
+          <pattern>
+            <token postag="SENT_START"/>
+            <token regexp="yes">is|was</token>
+            <token>it</token>
+            <marker>
+            <and>
+            <token postag="JJ.?" postag_regexp="yes"></token>
+            <token postag="VBP?" postag_regexp="yes"/>
+            </and>
+            </marker>
+          </pattern>
+          <disambig action="filter" postag="JJ.?"/>
+          <example type="untouched">Is it Monday?</example>
+          <example type="ambiguous" inputform="true[true/JJ,true/NN,true/VB,true/VBP]" outputform="true[true/JJ]">Is it <marker>true</marker>?</example>
+        </rule>
+        
+        <rule id="VERB_IT_JJ" name="make/get/do + it + verb/JJ => JJ">
+          <pattern>
+            <token regexp="yes" inflected="yes">do|find|make|get|think|like|see|consider|deem|play|believe|keep|paint</token>
+            <token>it</token>
+            <marker>
+            <and>
+            <token postag="JJ.?" postag_regexp="yes"></token>
+            <token postag="VBP?" postag_regexp="yes"/>
+            </and>
+            </marker>
+          </pattern>
+          <disambig action="filter" postag="JJ.?"/>
+          <example type="untouched">Make yourself at home.</example>
+          <example type="ambiguous" inputform="wrong[wrong/JJ,wrong/NN:UN,wrong/VB,wrong/VBP]" outputform="wrong[wrong/JJ]">We thought it <marker>wrong</marker> to leave her alone.</example>
+          <example type="untouched">Let's keep it simple.</example>
+          <example type="ambiguous" inputform="clean[clean/JJ,clean/NN,clean/VB,clean/VBP]" outputform="clean[clean/JJ]">Let's keep it <marker>clean</marker>.</example>          
+        </rule>
+                        
+        <rule id="FREE_OF_CHARGE" name="free of charge">
+          <pattern>
+            <marker><token>free</token></marker>
+            <token>of</token>
+            <token>charge</token>
+          </pattern>
+          <disambig postag="JJ"/>
+          <example type="untouched">Free yourself!</example>
+          <example type="ambiguous" inputform="free[free/JJ,free/NN,free/VB,free/VBP]" outputform="free[free/JJ]">This is <marker>free</marker> of charge.</example>
+        </rule>
+        
+        <rule id="LAST_WEEK" name="last week/month => JJ">
+          <pattern>
+          <marker><token>last</token></marker>
+          <token regexp="yes">month|week|year|Christmas</token>          
+          </pattern>
+          <disambig postag="JJ"/>
+          <example type="untouched">Nothing can last forever.</example>
+          <example type="ambiguous" inputform="Last[last/DT,last/JJ,last/NN,last/VB,last/VBP]" outputform="Last[last/JJ]"><marker>Last</marker> Christmas I gave you my heart.</example>
+        </rule>
+        
+        <rule id="STILL_RB" name="still/further + verb = rb">
+          <pattern>
+            <marker>
+            <token regexp="yes">still|further</token>
+            </marker>
+            <token postag="VB.*" postag_regexp="yes"/>            
+          </pattern>
+          <disambig postag="RB"/>          
+          <example type="untouched">Still, I need to do a lot of things.</example>
+          <example type="ambiguous" inputform="still[still/JJ,still/NN,still/RB,still/VB,still/VBP]" outputform="still[still/RB]">Much of the diet involved the use of peppers, as it <marker>still</marker> does today.</example>
         </rule>
         
         <rule name="or" id="REMOVE_JJ_FOR_OR">
