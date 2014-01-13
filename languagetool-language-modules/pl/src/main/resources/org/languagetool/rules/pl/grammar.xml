@@ -2149,18 +2149,23 @@ $Id$
 						</rule>
 						<rule>
 								<pattern>
-										<token regexp="yes">\p{L}+<exception regexp="yes">[XVI]{1,4}</exception></token>
-                                        <token spacebefore="no" regexp="yes">[-–—]</token>
+                                        <marker>
+										<token regexp="yes">\p{L}+<exception postag="UNKNOWN"/></token>
+                                        <token spacebefore="no" regexp="yes">[–—]</token>
+                                        </marker>
+                                        <token spacebefore="yes"/>
 								</pattern>
 								<message>Prawdopodobnie brak spacji. Poprawnie: <suggestion>\1 \2</suggestion>.</message>
 								<short>Brak spacji</short>
 								<example correction="wyraz –" type="incorrect">To jest <marker>wyraz–</marker> jak sądzę – niepoprawny.</example>
 								<example type="correct">To jest wyraz – jak sądzę – niepoprawny.</example>
+                                <example type="correct">Przy nazwach typu „izo–” (np izobutyl) pierwszą literą jest „i”.</example>
                                 <example type="correct">Z czasów panowania chanów protobułgarskich (VII–IX wiek) pochodzą ryte w kamieniu napisy.</example>
+                                <example type="correct">To jest przykład—błędny—ale jest.</example>
 						</rule>
 						<rule>
-								<pattern>
-										<token regexp="yes">[-–—]</token>
+								<pattern>                              
+										<token spacebefore="yes" regexp="yes">[–—]</token>
                                         <token regexp="yes" spacebefore="no">\p{L}+<exception regexp="yes">[XVI]{1,4}</exception></token>
 								</pattern>
 								<message>Prawdopodobnie brak spacji. Poprawnie: <suggestion>\1 \2</suggestion>.</message>
@@ -2168,6 +2173,7 @@ $Id$
 								<example correction="– jak" type="incorrect">To jest wyraz <marker>–jak</marker> sądzę – niepoprawny.</example>
 								<example type="correct">To jest wyraz – jak sądzę – niepoprawny.</example>
                                 <example type="correct">Z czasów panowania chanów protobułgarskich (VII–IX wiek) pochodzą ryte w kamieniu napisy.</example>
+                                <example type="correct">To jest przykład—błędny—ale jest.</example>
 						</rule>
 				</rulegroup>
 				<rule id="ZBEDNA_SPACJA" type="whitespace" name="Zbędna spacja po znaku interpunkcyjnym">
@@ -2272,6 +2278,20 @@ $Id$
 						<example correction="—" type="incorrect">Rozumiesz <marker>--</marker> przegrywasz.</example>
 						<example type="correct">Rozumiesz — przegrywasz.</example>
 				</rule>
+                <rulegroup id="DYWIZ_MYSLNIK" name="Dywiz zamiast myślnika">
+                  <rule>
+                    <pattern>
+                      <token>”</token>
+                      <token spacebefore="yes">-</token>
+                      <token spacebefore="ignore">„</token>
+                    </pattern>
+                    <message>W tym miejscu prawdodpobnie powinien być myślnik: <suggestion>\1 — \3</suggestion>.</message>
+                    <short>Błąd typograficzny</short>
+                    <example type="correct">W czerwcu 1943 „Osa” — „Kosa” uległa rozbiciu na skutek wielkiej „wsypy” w kościele św. Aleksandra w Warszawie.</example>
+                    <example type="incorrect" correction="” — „">W czerwcu 1943 „Osa<marker>” -„</marker>Kosa” uległa rozbiciu na skutek wielkiej „wsypy” w kościele św. Aleksandra w Warszawie.</example>
+                    <example type="incorrect" correction="” — „">W czerwcu 1943 „Osa<marker>” - „</marker>Kosa” uległa rozbiciu na skutek wielkiej „wsypy” w kościele św. Aleksandra w Warszawie.</example>
+                  </rule>
+                </rulegroup>
               <rule id="DYWIZ" name="Spacja wokół dywizu">
               <pattern>
                 <token regexp="yes">\p{L}+</token>
