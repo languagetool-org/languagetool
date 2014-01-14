@@ -22,8 +22,6 @@ import morfologik.speller.Speller;
 import morfologik.stemming.Dictionary;
 import org.languagetool.JLanguageTool;
 import org.languagetool.rules.spelling.SpellingCheckRule;
-import org.languagetool.tools.StringTools;
-
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.CharacterCodingException;
