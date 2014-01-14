@@ -16,6 +16,16 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <disambig action="immunize"/>
     </rule>
     
+    <rule id="GOD_SAVE_THE_QUEEN" name="God save the queen">
+      <pattern>
+        <token>God</token>
+        <token>save</token>
+        <token>the</token>
+        <token>queen</token>
+      </pattern>
+      <disambig action="immunize"/>
+    </rule>
+    
     <rule name="Modal verb + verb/noun -&gt; modal verb + verb" id="MD_VB">
         <pattern>
             <token postag="MD"></token>
@@ -203,6 +213,17 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     	</pattern>
     	<disambig postag="VBP"/>
     	<example type="ambiguous" inputform="are[are/NN,be/VBP]" outputform="are[be/VBP]">Among the things that AI needs to represent <marker>are</marker>: objects, properties, categories and relations.</example>
+    </rule>
+    <rule name="committee/jury/class + VBP => NNS" id="NN_are_NNS">
+      <pattern>
+        <marker>
+        <token regexp="yes">jury|committee|class</token>
+        </marker>
+        <token postag="VBP"><exception postag="VBZ"/></token>
+      </pattern>
+      <disambig postag="NNS"/>
+      <example type="untouched">The jury is still out.</example>
+      <example type="ambiguous" inputform="committee[committee/NN]" outputform="committee[committee/NNS]">The <marker>committee</marker> are all present.</example>
     </rule>
     <rule name="his (noun/prep) + noun -&gt; his (prep)" id="HIS_NN_PRP">
         <pattern>
@@ -2040,6 +2061,19 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
           <example type="untouched">Home, sweet home!</example>
           <example type="ambiguous" inputform="home[home/NN:UN]" outputform="home[home/RB]">Maisha had brought it <marker>home</marker>.</example>
         </rule>
+        
+        <rule id="OUT_not_VERB" name="VB_OUT => not a verb">
+          <pattern>
+            <token postag="VB.*" postag_regexp="yes"/>
+            <marker>
+            <token>out</token>
+            </marker>
+          </pattern>
+          <disambig action="filter" postag="[IN]N|R[BP]|UH"/>
+          <example type="untouched">He always left himself an out.</example>
+          <example type="ambiguous" inputform="out[out/IN,out/NN,out/RB,out/RP,out/UH,out/VB,out/VBP]" outputform="out[out/IN,out/NN,out/RB,out/RP,out/UH]">Go <marker>out</marker>!</example>
+        </rule>
+        
         
         <rule name="or" id="REMOVE_JJ_FOR_OR">
           <!-- work around strange dict entry -->
