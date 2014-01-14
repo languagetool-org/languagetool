@@ -77,5 +77,9 @@ public class CatalanWordTokenizerTest extends TestCase {
     assertEquals(tokens.size(), 1);
     tokens = wordTokenizer.tokenize("col·Laboració");
     assertEquals(tokens.size(), 1);
+//    tokens = wordTokenizer.tokenize("Sud-Est");
+//    assertEquals(tokens.size(), 3);
+//    assertEquals("[Sud, -, Est]", tokens.toString());
+    
   }
 }

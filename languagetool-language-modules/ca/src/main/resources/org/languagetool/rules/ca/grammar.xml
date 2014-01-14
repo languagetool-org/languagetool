@@ -13625,7 +13625,31 @@ $Id$
                 <example type="correct"><marker>veure's</marker> així.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="MAJUSCULES" name="Majúscules i minúscules">    	
+        <rulegroup id="MAJUSCULES" name="Majúscules i minúscules">
+            <rule id="NORD_AMÈRICA" name="*Nord-Amèrica / Nord-amèrica">
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[Nn]ord|[Ss]ud</token>
+                    <token spacebefore="no">-</token>
+                    <token spacebefore="no" regexp="yes">Amèrica|Àfrica</token> 
+                </pattern>
+                <message>Majúscula incorrecta.</message>
+                <suggestion><match no="1" case_conversion="startupper"/>-<match no="3" case_conversion="alllower"/></suggestion>
+                <short>Majúscula incorrecta</short>
+                <example type="incorrect" correction="Nord-amèrica">A <marker>Nord-Amèrica</marker>.</example>
+                <example type="correct">A Sud-àfrica</example>
+            </rule>
+            <!-- <rule id="SUD_EST" name="*Sud-Est / Sud-est">
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[Nn]ord|[Ss]ud</token>
+                    <token spacebefore="no">-</token>
+                    <token spacebefore="no" regexp="yes">Oest|Est</token> 
+                </pattern>
+                <message>Majúscula incorrecta.</message>
+                <suggestion><match no="1"/>-<match no="3" case_conversion="alllower"/></suggestion>
+                <short>Majúscula incorrecta</short>
+                <example type="incorrect" correction="Sud-est">Al <marker>Sud-Est</marker> asiàtic.</example>
+                <example type="correct">Al sud-est</example>
+            </rule> -->
             <rule id="MESOS_ANY" name="Exigeix mesos de l'any en minúscula en dates">
                 <pattern>
                     <token regexp="yes">\d{1,2}|des</token>
@@ -23738,7 +23762,7 @@ $Id$
                     <token postag="V.N.*" postag_regexp="yes"><exception postag="_GN_MS" /></token>
                     <token><exception postag="V.P..SM.?|AQ.[MC][SN]." postag_regexp="yes" /></token>
                 </pattern>
-                <message>Davant d'infinitiu, com a subordinada temporal, en llenguatge formal és preferible usar "en"</message>
+                <message>Davant d'infinitiu, com a subordinada temporal, en llenguatge formal és preferible usar "en".</message>
                 <suggestion>en</suggestion>
                 <url>http://esadir.cat/gramatica/sintaxi/enalinf</url>
                 <example type="incorrect" correction="en"><marker>al</marker> pensar en ell</example>
@@ -23755,7 +23779,7 @@ $Id$
                     </marker>
                     <token><exception postag="V.P..SM.?|AQ.[MC][SN]." postag_regexp="yes" /></token>
                 </pattern>
-                <message>Davant d'infinitiu, com a subordinada temporal, en llenguatge formal és preferible usar "en"</message> 
+                <message>Davant d'infinitiu, com a subordinada temporal, en llenguatge formal és preferible usar "en".</message> 
                 <suggestion>en <match no="3"/></suggestion>
                 <url>http://esadir.cat/gramatica/sintaxi/enalinf</url>
                 <example type="incorrect" correction="en observar"><marker>a l'observar</marker>-ho</example>
