@@ -7098,7 +7098,7 @@ USA
         <rulegroup id="BEEN_PART_AGREEMENT" name="Agreement: 'been' or 'was' + past tense">
             <rule>
                 <pattern>
-                    <token regexp="yes">been|was|were|is|are|am<exception scope="previous" postag_regexp="yes" postag="VBP?" negate="yes" regexp="yes">have|has</exception></token>
+                    <token regexp="yes">been|was|were|is|are|am<exception scope="previous" postag_regexp="yes" postag="VBP?" negate="yes" regexp="yes">have|has</exception><exception postag='NNP'/></token>
                     <marker>
                         <token postag="VBD|VBP|VB" postag_regexp="yes"><exception postag="VBN|NN:U.*|JJ.*|RB|IN" postag_regexp="yes"></exception><exception regexp="yes">are|am</exception></token>
                     </marker>
@@ -7117,8 +7117,8 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">been|was|were|is|are|am<exception scope="previous" postag_regexp="yes" postag="VBP?" negate="yes" regexp="yes">have|has</exception></token>
-                    <token postag="RB"><exception>in</exception><exception postag="VBN|JJ.*|CC" postag_regexp="yes"></exception></token>
+                    <token regexp="yes">been|was|were|is|are|am<exception scope="previous" postag_regexp="yes" postag="VBP?" negate="yes" regexp="yes">have|has</exception><exception postag='NNP'/></token>
+                    <token postag="RB"><exception regexp="yes">in|t?here</exception><exception postag="VBN|JJ.*|CC" postag_regexp="yes"></exception></token>
                     <marker>
                         <token postag="VBD|VBP|VB" postag_regexp="yes"><exception postag="VBN|JJ.*|IN|RB" postag_regexp="yes"></exception></token>
                     </marker>
@@ -7127,6 +7127,7 @@ USA
                 <message>Consider using a past participle here: <suggestion><match no="3" postag="VBN"></match></suggestion>.</message>
                 <short>Possible agreement error</short>
                 <example type="correct">It has always been hated.</example>
+                <example type="correct">The area the center of which is here was bombed.</example>
                 <example correction="written" type="incorrect">I must have been always <marker>wrote</marker> that.</example>
                 <example correction="hated" type="incorrect">The president was always <marker>hate</marker> in Moscow.</example>
                 <example type="correct">It has always been liked.</example>

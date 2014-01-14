@@ -168,6 +168,17 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
       <example type="ambiguous" inputform="present[present/JJ,present/NN:UN,present/VB,present/VBP]" outputform="present[present/JJ]">Those <marker>present</marker> were all moved to tears.</example>
     </rule>
     </rulegroup>
+    <rule name="AM as NNP" id="AM_NNP">
+      <pattern case_sensitive="yes">
+        <marker>
+        <token postag="NNP">AM<exception scope="previous">I</exception></token>
+        </marker>
+        <token inflected="yes">be</token>
+      </pattern>
+      <disambig postag="NNP"/>
+      <example type="untouched">I AM HAPPY.</example>
+      <example type="ambiguous" inputform="AM[AM/NNP,be/VBP]" outputform="AM[AM/NNP]"><marker>AM</marker> was the earliest modulation method.</example>
+    </rule>
     <rule name="are (noun/verb)  + adjective/gerund/preposition -&gt; are (verb)" id="ARE_JJ_VBG">
         <pattern>
             <marker>
@@ -354,6 +365,18 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     	<example type="untouched">-ve is added in front of verbs</example>
     	<example type="ambiguous" inputform="ve[ve]" outputform="ve[have/VBP]">They'<marker>ve</marker> made a mistake.</example>
     </rule>
+    <rule name="ll -> will" id="ll_MD">
+      <pattern>
+        <token regexp="yes">I|s?he|they|we|what|who|you</token>
+        <token regexp="yes">['’]</token>
+        <marker>
+          <token spacebefore="no">ll</token>
+        </marker>
+      </pattern>
+      <disambig action="replace"><wd lemma="will" pos="MD">ll</wd></disambig>
+      <example type="untouched">-ll is added in front of verbs</example>
+      <example type="ambiguous" inputform="ll[ll]" outputform="ll[will/MD]">They'<marker>ll</marker> make a mistake.</example>
+    </rule>
     <rule name="don't they" id='dont'>
     	<pattern>
     		<marker>
@@ -408,6 +431,70 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
       <example type="untouched">Let was an unincorporated community in Gilmer County, West Virginia, United States.</example>
       <example type="ambiguous" inputform="Let[Let/NNP,let/NN,let/VB,let/VBD,let/VBN,let/VBP]" outputform="Let[let/VB,let/VBD,let/VBN,let/VBP]"><marker>Let</marker> go!</example>
     </rule>
+    <rulegroup name="was/is + verb/NN -> NN" id="was_is_VB_NN">
+    <rule>
+      <pattern>
+        <token regexp="yes">are|is|was|been</token>
+            <marker>
+                <and>
+                    <token postag_regexp="yes" postag="VBP?"></token>
+                    <token postag_regexp="yes" postag="NN.*"><exception negate_pos="yes" postag="VBP?|NN|NN:UN|NN:U" postag_regexp="yes"></exception></token>
+                </and>
+            </marker>
+      </pattern>
+      <disambig action="filter" postag="NN.*"/>
+      <example type="untouched">He was fine.</example>
+      <example type="ambiguous" inputform="founder[founder/NN,founder/VB,founder/VBP]" outputform="founder[founder/NN]">He was <marker>founder</marker> of the Chemical Society of London in 1841, being its first Treasurer and second President.</example>
+    </rule>
+    <!-- rule>
+      <pattern>
+        <token regexp="yes">are|is|was|been</token>
+        <token postag="RB"><exception>in</exception><exception postag="VBN|JJ.*|CC" postag_regexp="yes"></exception></token>
+            <marker>
+                <and>
+                    <token postag_regexp="yes" postag="VBP?"></token>
+                    <token postag_regexp="yes" postag="NN.*"><exception negate_pos="yes" postag="VBP?|NN|NN:UN|NN:U" postag_regexp="yes"></exception></token>
+                </and>
+            </marker>
+      </pattern>
+      <disambig action="filter" postag="NN.*"/>
+      <example type="untouched">He was fine.</example>
+      <example type="ambiguous" inputform="founder[founder/NN,founder/VB,founder/VBP]" outputform="founder[founder/NN]">He was always <marker>founder</marker> of the Chemical Society of London in 1841, being its first Treasurer and second President.</example>
+    </rule -->
+    </rulegroup>
+    <rulegroup name="was/is + verb/NN -> NN" id="was_is_not_VB_NN">
+    <rule>
+      <pattern>
+        <token regexp="yes">are|is|was|been</token>
+        <token>not</token>
+            <marker>
+                <and>
+                    <token postag_regexp="yes" postag="VBP?"></token>
+                    <token postag_regexp="yes" postag="NN.*"><exception negate_pos="yes" postag="VBP?|NN|NN:UN|NN:U" postag_regexp="yes"></exception></token>
+                </and>
+            </marker>
+      </pattern>
+      <disambig action="filter" postag="NN.*"/>
+      <example type="untouched">He was not fine.</example>
+      <example type="ambiguous" inputform="founder[founder/NN,founder/VB,founder/VBP]" outputform="founder[founder/NN]">He was not <marker>founder</marker> of the Chemical Society of London in 1841, being its first Treasurer and second President.</example>
+    </rule>
+        <rule>
+      <pattern>
+        <token regexp="yes">are|is|was|been</token>
+        <token>not</token>
+        <token postag="RB"><exception regexp="yes">in|t?here</exception><exception postag="VBN|JJ.*|CC" postag_regexp="yes"></exception></token>    
+            <marker>
+                <and>
+                    <token postag_regexp="yes" postag="VBP?"></token>
+                    <token postag_regexp="yes" postag="NN.*"><exception negate_pos="yes" postag="VBP?|NN|NN:UN|NN:U" postag_regexp="yes"></exception></token>
+                </and>
+            </marker>
+      </pattern>
+      <disambig action="filter" postag="NN.*"/>
+      <example type="untouched">He was not fine.</example>
+      <example type="ambiguous" inputform="founder[founder/NN,founder/VB,founder/VBP]" outputform="founder[founder/NN]">He was not really <marker>founder</marker> of the Chemical Society of London in 1841, being its first Treasurer and second President.</example>
+    </rule>    
+    </rulegroup>
     <rule name="determiner + verb/NN -&gt; NN" id="DT_VB_NN">
         <pattern>
             <token postag="DT"><exception postag="PDT"></exception></token>
