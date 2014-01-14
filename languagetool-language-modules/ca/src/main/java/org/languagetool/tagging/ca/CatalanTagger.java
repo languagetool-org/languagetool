@@ -59,18 +59,6 @@ public class CatalanTagger extends BaseTagger {
     dontTagLowercaseWithUppercase();
   }
 
-  public boolean existsWord(String word) throws IOException {
-    final IStemmer dictLookup = new DictionaryLookup(getDictionary());
-    final String lowerWord = word.toLowerCase(conversionLocale);
-    List<WordData> posTagsFromDict = dictLookup.lookup(lowerWord);
-    if (posTagsFromDict.isEmpty()) {
-      posTagsFromDict = dictLookup.lookup(word);
-      if (posTagsFromDict.isEmpty())
-        return false;
-    }
-    return true;
-  }
-
   @Override
   public List<AnalyzedToken> additionalTags(String word) {
     final IStemmer dictLookup;

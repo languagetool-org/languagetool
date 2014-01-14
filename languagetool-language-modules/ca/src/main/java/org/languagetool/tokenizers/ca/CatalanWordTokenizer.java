@@ -72,12 +72,11 @@ public class CatalanWordTokenizer extends WordTokenizer {
     // lazy init
     if (speller == null) {
       if (JLanguageTool.getDataBroker().resourceExists(DICT_FILENAME)) {
-          try {
-            speller = new MorfologikSpeller(DICT_FILENAME);
-          } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-          }
+        try {
+          speller = new MorfologikSpeller(DICT_FILENAME);
+        } catch (IOException e) {
+          throw new RuntimeException(e);
+        }
       }
     }
 
