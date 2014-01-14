@@ -6182,7 +6182,7 @@ USA
         <rule id="IT_VBZ" name="'it' + 3rd person verb (base verb)">
             <pattern>
                 <!-- 't': from "doesn't" etc -->
-                <token><exception regexp="yes">can|could|must|might|shall|does|will|would|should|may|t|lets?|makes?|did|be|is|were|was|about|lest</exception><exception regexp="yes" inflected="yes">hear|feel|see|insist|call</exception></token>
+                <token><exception regexp="yes">can|could|must|might|shall|does|will|ll|would|should|may|t|lets?|makes?|did|be|is|were|was|about|lest|whether</exception><exception regexp="yes" inflected="yes">hear|feel|see|insist|call|claim</exception></token>
                 <token>it</token>
                 <marker>
                     <token postag="VB"><exception postag_regexp="yes" postag="VBD|R[BP]|IN"/></token>
@@ -6203,7 +6203,8 @@ USA
             <example type="correct">Do it well.</example>
             <example type="correct">All my doubts about it have been driven away.</example>
             <example type="correct">It fell without resistance to Union forces under Brig.</example>
-            <example type="correct">You may take this book as long as you keep it clean.</example>            
+            <example type="correct">You may take this book as long as you keep it clean.</example>
+            <example type="correct">Embrace life whether it be a moment or, an eternity.</example>            
         </rule>
         <rule id="DID_PAST" name="'did' with past tense verb">
             <pattern>
@@ -8976,15 +8977,15 @@ USA
                     <exception spacebefore="no" scope="previous">.</exception>
                 </token>
                 <token chunk="I-NP-singular" min="0" max="-1">
-                    <exception regexp="yes">Pound|Dollar|percent|minute|megapixel|bit|cm|BC|^[^a-zA-Z]+</exception>
+                    <exception regexp="yes">Pound|Dollar|percent|minute|megapixel|bit|cm|BC|[KMGk]B|^[^a-zA-Z]+</exception>
                     <exception regexp="yes">[,;()]</exception>                    
                 </token>
                 <marker>
                     <token chunk="E-NP-singular">
-                        <exception postag="NN:U|NNS|NNPS|JJ.*|IN" postag_regexp="yes"/>
+                        <exception postag="NN:UN?|NNS|NNPS|JJ.*|IN" postag_regexp="yes"/>
                         <exception>will</exception>
                         <exception>are</exception> <!-- chunker treats it as E-NP-singular at times... -->
-                        <exception regexp="yes">mm|lb|yd|ft|Msec|km|cm|mg|kg|gm|cc|stat|kc|hr|min|m3|mcg|cpu|KB|MB|GB|saw</exception>
+                        <exception regexp="yes">lb|yd|ft|Msec|[kcm]m|[km]g|gm|stat|[ck]c|hr|min|m3|mcg|cpu|[KMGk]B|saw</exception>
                         <exception regexp="yes">January|February|March|April|May|June|July|August|September|October|November|December|size|\$\d+|\d+|\)</exception>
                         <exception>year</exception><!-- "16 year old Ahmad" -->
                         <exception>trained</exception><!-- "300 to 400 being trained each year" - mistagging by OpenNLP -->
@@ -9019,6 +9020,7 @@ USA
             <example type="correct">This is 3 H2O.</example>
             <example type="correct">A dramatic series in 1956 saw a record that will probably never be beaten.</example>
             <example type="correct">Those with five or six are most common.</example>
+            <example type="correct">I'll be in my office from ten tomorrow.</example>
             <!-- TODO: while the right half is split into two sliver and black triangles -->
         </rule>
         <rule id="MUCH_COUNTABLE" name="'much' + countable noun, e.g. 'much (many) children'">

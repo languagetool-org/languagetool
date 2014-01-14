@@ -1888,23 +1888,157 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <rule id="LAST_WEEK" name="last week/month => JJ">
           <pattern>
           <marker><token>last</token></marker>
-          <token regexp="yes">month|week|year|Christmas</token>          
+          <token regexp="yes">month|week|year|Christmas|night</token>          
           </pattern>
           <disambig postag="JJ"/>
           <example type="untouched">Nothing can last forever.</example>
           <example type="ambiguous" inputform="Last[last/DT,last/JJ,last/NN,last/VB,last/VBP]" outputform="Last[last/JJ]"><marker>Last</marker> Christmas I gave you my heart.</example>
         </rule>
+                        
+        <rule id="EVEN_VB" name="even as a verb">          
+            <pattern>
+              <marker><token>even</token></marker>
+              <token regexp="yes">out|up</token>
+            </pattern>
+            <disambig action="filter" postag="VB.*"/>
+            <example type="untouched">Even if you're right, we need to do this.</example>
+            <example type="ambiguous" inputform="even[even/JJ,even/NN,even/RB,even/VB,even/VBP]" outputform="even[even/VB,even/VBP]">Even if you're right, we need to <marker>even</marker> out accounts.</example>
+          </rule>          
+        <rulegroup id="EVEN_RB" name="even as RB">
+          <rule>
+            <pattern>
+              <token regexp="yes" inflected="yes">get|break</token>
+              <marker><token>even</token></marker>
+            </pattern>
+            <disambig postag="RB"/>
+            <example type="untouched">Even if you're right, we need to do this.</example>
+            <example type="ambiguous" inputform="even[even/JJ,even/NN,even/RB,even/VB,even/VBP]" outputform="even[even/RB]">Even if you're right, he wants to get <marker>even</marker> for the insult.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <marker><token>even</token></marker>
+              <token>to</token>
+              <token>death</token>
+            </pattern>
+            <disambig postag="RB"/>
+          </rule>
+          <rule>
+            <pattern>
+              <marker><token>even</token></marker>
+              <token postag="VB.*" postag_regexp="yes"/>            
+            </pattern>
+            <disambig postag="RB"/>
+            <example type="untouched">Even if you're right, we need to do this.</example>
+            <example type="ambiguous" inputform="even[even/JJ,even/NN,even/RB,even/VB,even/VBP]" outputform="even[even/RB]">It <marker>even</marker> made an appearance at the Woodstock Music Festival.</example>            
+          </rule>
+          <rule>
+            <pattern>
+              <marker><token>even</token></marker>
+              <token regexp="yes">if|at|for</token>            
+            </pattern>
+            <disambig postag="RB"/>
+            <example type="ambiguous" inputform="Even[Even/NNP,even/JJ,even/NN,even/RB,even/VB,even/VBP]" outputform="Even[even/RB]"><marker>Even</marker> if you're right, we need to do this.</example>
+            <example type="untouched">It <marker>even</marker> made an appearance at the Woodstock Music Festival.</example>            
+          </rule>
+        </rulegroup>
+                
+        <rule id="LONG_AGO" name="long as JJ">
+          <pattern>
+          <marker><token skip="1">long</token></marker>
+          <token>ago<exception scope="previous" regexp="yes" negate="yes">long|time</exception></token>
+          </pattern>
+          <disambig postag="JJ"/>
+          <example type="untouched">I long for you.</example>
+          <example type="ambiguous" inputform="long[long/JJ,long/NN:UN,long/VB,long/VBP]" outputform="long[long/JJ]">You should have completed it <marker>long</marker> ago.</example>
+          <example type="ambiguous" inputform="long[long/JJ,long/NN:UN,long/VB,long/VBP]" outputform="long[long/JJ]">You should have completed it <marker>long</marker> time ago.</example>
+        </rule>
         
-        <rule id="STILL_RB" name="still/further + verb = rb">
+        <rule id="LIVE_IN_NNP" name="live as JJ">
+          <pattern>
+            <token regexp="yes" inflected="yes" skip="3">perform|show|have</token>            
+            <marker>
+            <token>live</token>
+            </marker>
+            <token regexp="yes">in|at</token>
+            <token postag="NNP"/>
+          </pattern>
+          <disambig postag="JJ"/>
+          <example type="untouched">I can live in Stockholm.</example>
+          <example type="ambiguous" inputform="live[live/JJ,live/VB,live/VBP]" outputform="live[live/JJ]">He performed it <marker>live</marker> in Stockholm.</example>
+        </rule>
+
+        <rule id="STILL_RB" name="still/further/long + verb = rb">
           <pattern>
             <marker>
-            <token regexp="yes">still|further</token>
+            <token regexp="yes">still|further|long</token>
             </marker>
             <token postag="VB.*" postag_regexp="yes"/>            
           </pattern>
           <disambig postag="RB"/>          
           <example type="untouched">Still, I need to do a lot of things.</example>
           <example type="ambiguous" inputform="still[still/JJ,still/NN,still/RB,still/VB,still/VBP]" outputform="still[still/RB]">Much of the diet involved the use of peppers, as it <marker>still</marker> does today.</example>
+        </rule>
+        
+        <rule id="BEST_RBS" name="best + verb = rb"> <!-- a bit more greedy -->
+          <pattern>
+            <marker>
+            <and>
+            <token postag="RBS"/>
+            <token postag="VB.*|NN.*" postag_regexp="yes"/>
+            </and>
+            </marker>
+            <token postag="VB.*" postag_regexp="yes"/>            
+          </pattern>
+          <disambig postag="RBS"/>          
+          <example type="untouched">Still, I need to do a lot of things.</example>
+          <example type="ambiguous" inputform="best[best/NN:U,best/VB,best/VBP,good/JJS,well/RBS]" outputform="best[well/RBS]">This <marker>best</marker> exhibits the features of the snake oil.</example>
+        </rule>
+        
+        <rulegroup id='STEP_BY_STEP' name="Phrases of the form similar to: step by step">
+          <rule>
+          <pattern>
+            <marker><token regexp="yes">step|bit|year|month|week|day|hour|minute|second</token></marker>
+            <token>by</token>
+            <token><match no="0"/></token>
+          </pattern>
+          <disambig postag="NN"/>
+          <example type="untouched">These are the steps you need to make.</example>          
+          <example type="ambiguous" inputform="step[step/NN,step/VB,step/VBP]" outputform="step[step/NN]">Study it <marker>step</marker> by step.</example>
+          </rule>
+          <rule>
+          <pattern>
+            <token regexp="yes">step|bit|year|month|week|day|hour|minute|second</token>
+            <token>by</token>            
+            <marker><token><match no="0"/></token></marker>
+          </pattern>
+          <disambig postag="NN"/>
+          <example type="untouched">These are the steps you need to make.</example>
+          <example type="ambiguous" inputform="step[step/NN,step/VB,step/VBP]" outputform="step[step/NN]">Study it step by <marker>step</marker>.</example>
+          </rule>                   
+        </rulegroup>
+        
+        <rule id="FORWARD_RB" name="forward as adverb">
+          <pattern>
+            <token regexp="yes" inflected="yes" skip="3">pay|move|take|carry|look|put|drive|bring|push</token>
+            <marker>
+            <token postag="VB">forward</token>
+            </marker>
+          </pattern>
+          <disambig postag="RB"/>
+          <example type="untouched">She was a rude, forward child.</example>
+          <example type="ambiguous" inputform="forward[forward/JJ,forward/NN,forward/VB,forward/VBP]" outputform="forward[forward/RB]">Push it <marker>forward</marker>!</example>
+        </rule>
+        
+        <rule id="HOME_RB" name="home as adverb"> <!-- different taggers see 'home' differently here -->
+          <pattern>
+            <token>it</token>            
+             <marker>
+              <token>home</token>
+            </marker>
+          </pattern>
+          <disambig postag="RB"/>
+          <example type="untouched">Home, sweet home!</example>
+          <example type="ambiguous" inputform="home[home/NN:UN]" outputform="home[home/RB]">Maisha had brought it <marker>home</marker>.</example>
         </rule>
         
         <rule name="or" id="REMOVE_JJ_FOR_OR">
@@ -1926,4 +2060,5 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         </rule>
 
 </rules>
+ 
  
