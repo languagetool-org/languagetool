@@ -24,8 +24,9 @@ import java.util.List;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.languagetool.tagging.ca.CatalanTagger;
 
+import org.languagetool.JLanguageTool;
+import org.languagetool.rules.spelling.morfologik.MorfologikSpeller;
 import org.languagetool.tokenizers.WordTokenizer;
 
 
@@ -42,7 +43,9 @@ public class CatalanWordTokenizer extends WordTokenizer {
 
   private final int maxPatterns = 11;
   private final Pattern[] patterns = new Pattern[maxPatterns];
-  private final CatalanTagger tagger;
+  
+  private static final String DICT_FILENAME = "/ca/catalan.dict";
+  protected MorfologikSpeller speller;
 
   //Patterns to avoid splitting words in certain special cases
   // allows correcting typographical errors in "ela geminada"
@@ -66,7 +69,17 @@ public class CatalanWordTokenizer extends WordTokenizer {
 
   public CatalanWordTokenizer() {
 
-    tagger = new CatalanTagger();
+    // lazy init
+    if (speller == null) {
+      if (JLanguageTool.getDataBroker().resourceExists(DICT_FILENAME)) {
+          try {
+            speller = new MorfologikSpeller(DICT_FILENAME);
+          } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+          }
+      }
+    }
 
     // Apostrophe at the beginning of a word. Ex.: l'home, s'estima, n'omple, hivern, etc.
     // It creates 2 tokens: <token>l'</token><token>home</token>
@@ -177,27 +190,24 @@ public class CatalanWordTokenizer extends WordTokenizer {
   /* Splits a word containing hyphen(-) if it doesn't exist in the dictionary. */
   private List<String> wordsToAdd(String s) {
     final List<String> l = new ArrayList<>();
-    if (!s.contains("-") && !s.isEmpty()) {
-      l.add(s);
-    } else {
-      try {
+    if (!s.isEmpty()) {
+      if (!s.contains("-")) {
+        l.add(s);
+      } else {
         // words containing hyphen (-) are looked up in the dictionary
-        if (tagger.existsWord(s)) {
-          l.add(s);
-        } 
-        // words with "ela geminada" with typo: col-legi (col·legi)
-        else if (tagger.existsWord(s.replace("l-l", "l·l"))) {
+        if (!speller.isMisspelled(s)) {
           l.add(s);
         }
-        else {
+        // words with "ela geminada" with typo: col-legi (col·legi)
+        else if (!speller.isMisspelled(s.replace("l-l", "l·l"))) {
+          l.add(s);
+        } else {
           // if not found, the word is split
           final StringTokenizer st2 = new StringTokenizer(s, "-", true);
           while (st2.hasMoreElements()) {
             l.add(st2.nextToken());
           }
         }
-      } catch (IOException e) {
-        throw new RuntimeException(e);
       }
     }
     return l;
