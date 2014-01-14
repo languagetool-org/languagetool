@@ -91,13 +91,4 @@ public class MorfologikSpeller {
     return suggestions;
   }
 
-  private boolean containsDigit(final String s) {
-    for (int k = 0; k < s.length(); k++) {
-      if (Character.isDigit(s.charAt(k))) {
-        return true;
-      }
-    }
-    return false;
-  }
-
 }
