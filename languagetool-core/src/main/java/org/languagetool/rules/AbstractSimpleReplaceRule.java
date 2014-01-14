@@ -136,7 +136,11 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
         }
       }
 
-      List<String> possibleReplacements = wrongWords.get(tokenString);     
+      // try first with the original word, then with the all lower-case version 
+      List<String> possibleReplacements = wrongWords.get(originalTokenStr);   
+      if (possibleReplacements == null) {
+        possibleReplacements = wrongWords.get(tokenString);
+      }
 
       if (possibleReplacements != null && possibleReplacements.size() > 0) {
         List<String> replacements = new ArrayList<>();  

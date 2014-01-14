@@ -27,8 +27,6 @@ import java.util.regex.Pattern;
 
 import morfologik.stemming.DictionaryLookup;
 import morfologik.stemming.IStemmer;
-import morfologik.stemming.WordData;
-
 import org.languagetool.AnalyzedToken;
 import org.languagetool.tagging.BaseTagger;
 

@@ -49,11 +49,19 @@ public class SimpleReplaceRuleTest extends TestCase {
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Joan Navarro no és de Navarra ni de Jerez.")).length);
 
     // incorrect sentences:
-    final RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("El recader fa huelga."));
+    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("El recader fa huelga."));
     assertEquals(2, matches.length);
     assertEquals("ordinari", matches[0].getSuggestedReplacements().get(0));
     assertEquals("transportista", matches[0].getSuggestedReplacements().get(1));
     assertEquals("vaga", matches[1].getSuggestedReplacements().get(0));
+    
+    matches = rule.match(langTool.getAnalyzedSentence("EEUU"));
+    assertEquals(1, matches.length);
+    assertEquals("EUA", matches[0].getSuggestedReplacements().get(0));
+    
+    matches = rule.match(langTool.getAnalyzedSentence("Aconteixements"));
+    assertEquals(1, matches.length);
+    assertEquals("Esdeveniments", matches[0].getSuggestedReplacements().get(0));
     
   }
 
