@@ -41,7 +41,7 @@ $Id$
     <!ENTITY noms_ABAIXAR_APUJAR "calefacció|impost|sou|salari|guàrdia|vela|persiana|cap|braç|veu|to|preu|pressupost|ràdio|volum|tele|televisió|música|teló|vista">
     <!ENTITY adjectius_TE_INFUSIO "descafeïnat|mòlt|jove|conegut|preparat|empaquetat|xin[èé]s|amargant|sud-americà|instantani|lleuger|indi|roquer|dolç|fals|bord|tradicional|gal·l[éè]s|pudent|salvatge|àrab|angl[éè]s|fosc|negre|verd|vermell|blanc|gelat|fred|calent|turc">
     <!ENTITY verbs_TE_INFUSIO "produir|prendre|servir|preparar|voler|beure|consumir|importar|vendre|exportar|llançar">
-    <!ENTITY exceptions_MES "draconític|lunar|mitjà|tròpic|anomalístic|dedicat|vinent|entrant|propvinent|passat|proppassat|intercalar|anterior|següent">
+    <!ENTITY exceptions_MES "anomalístic|draconític|lunar|mitjà|tròpic|anomalístic|dedicat|vinent|entrant|propvinent|passat|proppassat|intercalar|anterior|següent">
     <!ENTITY mots_HAC_ASPIRADA "Haarlem|Harlem|Haifa|haikus?|halar|hall.*|Halloweens?|Hamada|Hamas|Hamàs|hamilton.*|Hamlet.*|Hammond|Hampton|handicaps?|Hannover|Hanoi|Hans|Hansa|hardware|harolds?|Harrison|harrods?|harry|Hartmann?|Haruki|Harvard|Havilland|hawai.*|hawk.*|Haydn|Hayworth|Heard|hearst|heav.*|hegel.*|Heidelberg|Heiden.*|Heilig.*|hein.*|Heisen.*|Heitz|Helen|Heming.*|henna|hennes|Henry|Hepburn|herbert.*|Hereford|Hesse|Hessen|Hezboll.+|high.*|hilbert.*|Hilda|hinden.*|hinterlands?|Hitch.*|hitler.*|Hohen.*|holdings?|hollywood.*|Holmes.*|Holstein|Hong|hongk.+|Honolu.+|Honsh[uū]|h[òo]bbits?|hoover.*|hopkins|Hork.*|horst|H[ou]f.*|Houston|Howard|Hubble|Hudson|humbold.*|Hume|hunting.*|husseinit.+">
     <!ENTITY mots_HAC_ASPIRADA2 "Higgs|high|Hill|hippies|hippy|Hirado|His|Hubei|Hunter|Husserl|Utah">
     <!ENTITY exceptions_A_MANS_DE "anar|sotmetre|submissió|desapoderar|desapoderament|sofrir|vèncer|pallissa|apallissar|desgastar|parar|passar|arribar|tornar|perdre|morir|pèrdua|matança|mort|patir|vexació|vexar|tortura|torturar|derrota|derrotar|fi|assassinar|assassinat|saqueig|saquejar">
@@ -10419,6 +10419,7 @@ $Id$
                 <example type="correct">El mes era la fracció major</example>
                 <example type="correct">el primer mes corresponia a una data entre febrer i març</example>
                 <example type="correct">que el mes tingui un nombre enter de setmanes</example>
+                <!-- a finals de mes arriba... -->
             </rule>
             <rule>
                 <pattern>
@@ -10684,19 +10685,23 @@ $Id$
                     <marker>    
                         <token>més</token>
                     </marker>
-                    <token regexp="yes">de|d'</token>
-                    <token><exception inflected="yes">mig</exception></token>
+                    <token regexp="yes">de|d'<exception postag=".*LOC_.*" postag_regexp="yes"/></token>
+                    <token><exception inflected="yes" regexp="yes">mig|acord|un|dreta|esquerra</exception><exception postag="DN.*" postag_regexp="yes"/></token>
                     <!-- <token regexp="yes">&mesos_any;</token> -->                
                 </pattern>
                 <message>No s'accentua si és un nom (<suggestion>mes</suggestion> de l'any).</message>
                 <short>Sobra l'accent diacrític</short>                
                 <example type="incorrect" correction="mes">Aquest <marker>més</marker> de novembre.</example>
                 <example type="incorrect" correction="mes">El <marker>més</marker> de Maria.</example>
-                <example type="correct">el més de mig segle que havia passat</example>    
+                <example type="correct">el més de mig segle que havia passat</example>
+                <example type="correct">pel més d'1 milió d'immigrants nord-americans</example>
+                <example type="correct">pel més d'un milió d'immigrants nord-americans</example>
+                <example type="correct">el més de pressa possible</example>
+                <example type="correct">pel més de tres milions d'immigrants nord-americans</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">vegada|volta|cop|pic</token>
+                    <token regexp="yes">vegada|volta|cop|pic<exception postag=".*LOC_ADV.*" postag_regexp="yes"/></token>
                     <token>el</token>
                     <marker>    
                         <token>més</token>
@@ -10706,11 +10711,11 @@ $Id$
                 <short>Sobra l'accent diacrític</short>                
                 <example type="incorrect" correction="mes">Ho fan un cop el <marker>més</marker>.</example>
                 <example type="incorrect" correction="mes">Una volta el <marker>més</marker> fan vacances.</example>
-                <example type="correct">és el més bonic</example>    
+                <example type="correct">Tal vegada el més bonic</example>    
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">vegada|volta|cop|pic</token>
+                    <token regexp="yes">vegada|volta|cop|pic<exception postag=".*LOC_ADV.*" postag_regexp="yes"/></token>
                     <token>a</token>
                     <token>l</token>
                     <marker>    
@@ -10727,15 +10732,28 @@ $Id$
                 <pattern>
                     <token postag="D[AD]0MS0" postag_regexp="yes"/>
                     <marker>    
-                        <token skip="1">més</token>
+                        <token>més</token>
                     </marker>
-                    <token regexp="yes">dedicat|vinent|propvinent|passat|proppassat|intercalar|anterior|següent|ve</token>                
+                    <token regexp="yes">dedicat|vinent|propvinent|passat|proppassat|intercalar|anterior|següent</token>                
+                </pattern>
+                <message>No s'accentua si és un nom (<suggestion>mes</suggestion> de l'any).</message>
+                <short>Sobra l'accent diacrític</short>
+                <example type="incorrect" correction="mes">El <marker>més</marker> propvinent.</example>
+                <example type="correct">El més gran dedicat a sant Llorenç</example>    
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="D[AD]0MS0" postag_regexp="yes"/>
+                    <marker>    
+                        <token>més</token>
+                    </marker>
+                    <token>que</token>
+                    <token>ve</token>                
                 </pattern>
                 <message>No s'accentua si és un nom (<suggestion>mes</suggestion> de l'any).</message>
                 <short>Sobra l'accent diacrític</short>                
                 <example type="incorrect" correction="mes">El <marker>més</marker> que ve.</example>
-                <example type="incorrect" correction="mes">El <marker>més</marker> propvinent.</example>
-                <example type="correct">és el més bonic</example>    
+                <example type="correct">El més gran dedicat a sant Llorenç</example>    
             </rule>
         </rulegroup>
         <rulegroup id="RES" name="res/rés">
