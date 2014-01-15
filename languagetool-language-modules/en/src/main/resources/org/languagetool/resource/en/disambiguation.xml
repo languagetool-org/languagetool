@@ -25,6 +25,25 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
       </pattern>
       <disambig action="immunize"/>
     </rule>
+
+    <rule id="SIDE_TO_SIDE" name="side to side"> <!-- PHRASE_REPETITION false alarm: side to side to avoid... -->
+      <pattern>
+        <token>side</token>
+        <token>to</token>
+        <token>side</token>
+      </pattern>
+      <disambig action="immunize"/>
+    </rule>
+
+     <rule id="LAST_WEEK" name="last week/month => JJ">
+         <pattern>
+         <marker><token>last</token></marker>
+         <token regexp="yes">month|week|year|Christmas|night|minute|time|season|thing|weekend|decade|day|couple|summer|resort|century|name|word|chance|spring</token>          
+         </pattern>
+          <disambig postag="JJ"/>
+         <example type="untouched">Nothing can last forever.</example>
+         <example type="ambiguous" inputform="Last[last/DT,last/JJ,last/NN,last/VB,last/VBP]" outputform="Last[last/JJ]"><marker>Last</marker> Christmas I gave you my heart.</example>
+     </rule>
     
     <rule name="Modal verb + verb/noun -&gt; modal verb + verb" id="MD_VB">
         <pattern>
@@ -228,12 +247,13 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     <rule name="committee/jury/class + VBP => NNS" id="NN_are_NNS">
       <pattern>
         <marker>
-        <token regexp="yes">jury|committee|class</token>
+        <token regexp="yes">jury|committee|class<exception scope="previous">a</exception></token>
         </marker>
         <token postag="VBP"><exception postag="VBZ"/></token>
       </pattern>
       <disambig postag="NNS"/>
       <example type="untouched">The jury is still out.</example>
+      <example type="untouched">Traditionally, amphibians as a class are defined as all tetrapods with a larval stage.</example>
       <example type="ambiguous" inputform="committee[committee/NN]" outputform="committee[committee/NNS]">The <marker>committee</marker> are all present.</example>
     </rule>
     <rule name="his (noun/prep) + noun -&gt; his (prep)" id="HIS_NN_PRP">
@@ -979,16 +999,31 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     </rule>
     <rule name="DT|JJ + JJ/NN + NN -&gt; JJ" id="DT_JJ_NN_JJ">
         <pattern>
-            <token postag_regexp="yes" postag="DT|JJ"></token>
+            <token postag_regexp="yes" postag="DT|JJ|PRP\$"></token>
             <marker>
                 <and>
-                    <token postag="JJ"><exception postag_regexp="yes" negate_pos="yes" postag="JJ|NN.*"></exception></token>
-                    <token postag_regexp="yes" postag="NN.*"></token>
+                    <token postag="JJ"><exception postag_regexp="yes" negate_pos="yes" postag="JJ|NN.*|VB.*"></exception></token>
+                    <token postag_regexp="yes" postag="NN.*|VBP"></token>
                 </and>
             </marker>
             <token postag_regexp="yes" postag="NN.*"></token>
         </pattern>
         <disambig><match no="2" postag_regexp="yes" postag="JJ"></match></disambig>
+    </rule>
+    <rule name="DT|JJ + JJ + NN/VBP -&gt; NN" id="DT_JJ_NN_NN">
+        <pattern>
+            <token postag_regexp="yes" postag="DT|JJ|PRP\$"></token>
+            <token postag="JJ.*" postag_regexp="yes"/>
+            <marker>
+                <and>
+                    <token postag="VBP"><exception postag_regexp="yes" negate_pos="yes" postag="NN.*|VB.*"></exception></token>
+                    <token postag_regexp="yes" postag="NN.*"></token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig><match no="2" postag_regexp="yes" postag="NN.*"></match></disambig>
+        <example type="untouched">His friend is now in England.</example>
+        <example type="ambiguous" inputform="nose[nose/NN,nose/VB,nose/VBP]" outputform="nose[nose/NN]">The elephant swings its long <marker>nose</marker>.</example>
     </rule>
     <rule name="till (verb) -&gt; till/IN" id="TILL_IN">
         <pattern>
@@ -1992,17 +2027,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
           <example type="untouched">Free yourself!</example>
           <example type="ambiguous" inputform="free[free/JJ,free/NN,free/VB,free/VBP]" outputform="free[free/JJ]">This is <marker>free</marker> of charge.</example>
         </rule>
-        
-        <rule id="LAST_WEEK" name="last week/month => JJ">
-          <pattern>
-          <marker><token>last</token></marker>
-          <token regexp="yes">month|week|year|Christmas|night</token>          
-          </pattern>
-          <disambig postag="JJ"/>
-          <example type="untouched">Nothing can last forever.</example>
-          <example type="ambiguous" inputform="Last[last/DT,last/JJ,last/NN,last/VB,last/VBP]" outputform="Last[last/JJ]"><marker>Last</marker> Christmas I gave you my heart.</example>
-        </rule>
-                        
+                                
         <rule id="EVEN_VB" name="even as a verb">          
             <pattern>
               <marker><token>even</token></marker>
@@ -2078,7 +2103,10 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <rule id="STILL_RB" name="still/further/long + verb = rb">
           <pattern>
             <marker>
+            <and>
             <token regexp="yes">still|further|long</token>
+            <token postag="NN.*|VB.*" postag_regexp="yes"/>
+            </and>
             </marker>
             <token postag="VB.*" postag_regexp="yes"/>            
           </pattern>
@@ -2160,8 +2188,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
           <example type="untouched">He always left himself an out.</example>
           <example type="ambiguous" inputform="out[out/IN,out/NN,out/RB,out/RP,out/UH,out/VB,out/VBP]" outputform="out[out/IN,out/NN,out/RB,out/RP,out/UH]">Go <marker>out</marker>!</example>
         </rule>
-        
-        
+               
         <rule name="or" id="REMOVE_JJ_FOR_OR">
           <!-- work around strange dict entry -->
           <pattern case_sensitive="yes">
