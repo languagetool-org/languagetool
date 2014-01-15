@@ -33,6 +33,7 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -423,7 +424,8 @@ class Main {
     if (!apiFormat && !applySuggestions) {
       System.out.println("Working on " + filename + "...");
     }
-    final String fileContents = StringTools.readStream(new FileInputStream(filename), encoding);
+    // don't use StringTools.readStream() as that might add newlines which aren't there:
+    final String fileContents = StringTools.streamToString(new FileInputStream(filename), encoding != null ? encoding : Charset.defaultCharset().name());
     if (xmlFiltering) {
       return StringTools.filterXML(fileContents);
     } else {
