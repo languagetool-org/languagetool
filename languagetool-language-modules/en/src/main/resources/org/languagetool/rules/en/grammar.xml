@@ -6105,7 +6105,23 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category name="Grammar" type="grammar">
-        <rule id="WORST_THAN" name="worst (worse) than">
+    <rule id="IF_WOULD_HAVE_VBN" name="if I would have (if I had)">
+    <pattern>
+        <token skip="5">if<exception scope="next">had</exception><exception scope="next" postag="VBD"/></token>
+        <marker>
+        <token>would</token>
+        <token>have</token>
+        <token postag="VBN"></token>
+        </marker>
+    </pattern>
+    <message>Did you mean <suggestion>had \4</suggestion>?</message>
+    <url>http://www3.telus.net/linguisticsissues/commonerrorsinenglish.html</url>
+    <short>Grammatical mistake</short>
+    <example type="incorrect">If I <marker>would have known</marker> about the party, I would have gone to it.</example>
+    <example type="correct">If I had known about the party, I would have gone to it.</example>
+    <example type="correct">If I were you, I would have done the same thing.</example>
+    </rule>
+          <rule id="WORST_THAN" name="worst (worse) than">
             <pattern>
                 <marker>
                     <token>worst</token>
