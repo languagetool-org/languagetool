@@ -220,7 +220,7 @@ public class CheckWikipediaDump {
   private void disableSpellingRules(JLanguageTool languageTool) {
     final List<Rule> allActiveRules = languageTool.getAllActiveRules();
     for (Rule rule : allActiveRules) {
-      if (rule.isSpellingRule()) {
+      if (rule.isDictionaryBasedSpellingRule()) {
         languageTool.disableRule(rule.getId());
       }
     }

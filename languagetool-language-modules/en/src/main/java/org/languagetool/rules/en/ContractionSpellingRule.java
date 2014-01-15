@@ -73,6 +73,11 @@ public class ContractionSpellingRule extends AbstractSimpleReplaceRule {
   }
 
   @Override
+  public boolean isDictionaryBasedSpellingRule() {
+    return true;
+  }
+
+  @Override
   public String getMessage(String tokenStr, List<String> replacements) {
     return "Possible spelling mistake found";
   }

@@ -78,6 +78,11 @@ public abstract class SpellingCheckRule extends Rule {
   }
 
   @Override
+  public boolean isDictionaryBasedSpellingRule() {
+    return true;
+  }
+
+  @Override
   public void reset() {
   }
 

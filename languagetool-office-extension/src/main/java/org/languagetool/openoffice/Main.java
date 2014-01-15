@@ -362,7 +362,7 @@ public class Main extends WeakBase implements XJobExecutor,
       langTool.activateDefaultPatternRules();
       langTool.activateDefaultFalseFriendRules();
       for (Rule rule : langTool.getAllActiveRules()) {
-        if (rule.isSpellingRule()) {
+        if (rule.isDictionaryBasedSpellingRule()) {
           langTool.disableRule(rule.getId());
         }
       }

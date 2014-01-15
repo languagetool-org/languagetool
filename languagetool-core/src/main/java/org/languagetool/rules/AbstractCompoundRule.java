@@ -178,17 +178,6 @@ public abstract class AbstractCompoundRule extends Rule {
     return toRuleMatchArray(ruleMatches);
   }
 
-  /**
-   * Display this rule as a spelling rule, i.e. with
-   * red underlines in the GUI.
-   * 
-   * @since 2.5
-   */
-  @Override
-  public boolean isSpellingRule() {
-    return true;
-  }
-
   private String normalize(final String inStr) {
     String str = inStr.trim().toLowerCase();
     if (str.indexOf('-') != -1 && str.indexOf(' ') != -1) {

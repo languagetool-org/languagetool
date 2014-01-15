@@ -109,11 +109,23 @@ public abstract class Rule {
   }
 
   /**
-   * Whether this is a spelling rule. Used e.g. by the LanguageTool GUI to mark
-   * spelling errors with a different color.
+   * Whether this is a spelling rule.
    * @since 1.8
+   * @deprecated use {@link #isDictionaryBasedSpellingRule()} instead
    */
+  @Deprecated
   public boolean isSpellingRule() {
+    return false;
+  }
+
+  /**
+   * Whether this is a spelling rule that uses a dictionary.
+   * Rules that return {@code true} here are basically rules that work like
+   * a simple hunspell-like spellchecker: they check words without considering
+   * the words' context.
+   * @since 2.5
+   */
+  public boolean isDictionaryBasedSpellingRule() {
     return false;
   }
 

@@ -56,7 +56,7 @@ public class JLanguageToolTest extends TestCase {
   public void spellCheckerDemoCodeForHomepage() throws IOException {
     JLanguageTool langTool = new JLanguageTool(new BritishEnglish());
     for (Rule rule : langTool.getAllRules()) {
-      if (!rule.isSpellingRule()) {
+      if (!rule.isDictionaryBasedSpellingRule()) {
         langTool.disableRule(rule.getId());
       }
     }
