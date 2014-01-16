@@ -1,4 +1,4 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
@@ -45,8 +45,8 @@ public class MainTest extends AbstractSecurityTestCase {
   public MainTest(String testName) throws IOException {
     super(testName);
     enTestFile = writeToTempFile("This is an test.\n\n" +
-            "This is a test of of language tool.\n\n" +
-            "This is is a test of language tool.");
+        "This is a test of of language tool.\n\n" +
+        "This is is a test of language tool.");
   }
 
   @Override
@@ -140,9 +140,9 @@ public class MainTest extends AbstractSecurityTestCase {
 
     Main.main(args);
     final String output = new String(this.out.toByteArray());
-    assertEquals("This is a test.\n\n" +
-            "This is a test of language tool.\n\n" +
-            "This is a test of language tool.\n", output);
+    assertTrue(output.contains("This is a test.\n\n" +
+        "This is a test of language tool.\n\n" +
+        "This is a test of language tool.")); // \r\n in Windows tests at the end...
   }
 
   public void testEnglishStdIn1() throws Exception {
@@ -187,9 +187,9 @@ public class MainTest extends AbstractSecurityTestCase {
     Main.main(args);
     final String output = new String(this.out.toByteArray());
     assertTrue("Got: " + output, output.contains("<error fromy=\"4\" fromx=\"5\" toy=\"4\" tox=\"10\" " +
-            "ruleId=\"ENGLISH_WORD_REPEAT_RULE\" msg=\"Possible typo: you repeated a word\" replacements=\"is\" " +
-            "context=\"This is is a test of language tool. \" contextoffset=\"5\" offset=\"5\" errorlength=\"5\" " +
-            "category=\"Miscellaneous\" locqualityissuetype=\"duplication\"/>"));
+        "ruleId=\"ENGLISH_WORD_REPEAT_RULE\" msg=\"Possible typo: you repeated a word\" replacements=\"is\" " +
+        "context=\"This is is a test of language tool. \" contextoffset=\"5\" offset=\"5\" errorlength=\"5\" " +
+        "category=\"Miscellaneous\" locqualityissuetype=\"duplication\"/>"));
     // note: the offset is relative to the sentence... this seems wrong - it happens because of the way
     // the command line client feeds the data into the check() methods.
   }
@@ -281,9 +281,9 @@ public class MainTest extends AbstractSecurityTestCase {
     final String output = new String(this.out.toByteArray());
     assertTrue(output.indexOf("<?xml version=\"1.0\" encoding=\"UTF-8\"?>") == 0);
     assertTrue(output.contains("<error fromy=\"0\" fromx=\"8\" toy=\"0\" tox=\"10\" ruleId=\"EN_A_VS_AN\" " +
-            "msg=\"Use 'a' instead of 'an' if the following word doesn't start with a vowel sound, e.g. 'a sentence', " +
-            "'a university'\" replacements=\"a\" context=\"This is an test.  This is a test of of language tool.  ...\" " +
-            "contextoffset=\"8\" offset=\"8\" errorlength=\"2\" category=\"Miscellaneous\" locqualityissuetype=\"misspelling\"/>"));
+        "msg=\"Use 'a' instead of 'an' if the following word doesn't start with a vowel sound, e.g. 'a sentence', " +
+        "'a university'\" replacements=\"a\" context=\"This is an test.  This is a test of of language tool.  ...\" " +
+        "contextoffset=\"8\" offset=\"8\" errorlength=\"2\" category=\"Miscellaneous\" locqualityissuetype=\"misspelling\"/>"));
   }
 
   public void testGermanFileWithURL() throws Exception {
@@ -316,19 +316,19 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(output.contains("<error fromy=\"0\" fromx=\"8\" toy=\"0\" tox=\"20\" ruleId=\"BRAK_PRZECINKA_KTORY\""));
     //This tests whether XML encoding is actually UTF-8:
     assertTrue(output.contains("msg=\"Brak przecinka w tym fragmencie zdania. Przecinek prawdopodobnie należy postawić tak: 'świnia, która'.\" replacements=\"świnia, która\" "));
-    assertTrue(output.contains("context=\"To jest świnia która się ślini. \" contextoffset=\"8\" offset=\"8\" errorlength=\"12\" category=\"Błędy interpunkcyjne\""));
+    assertTrue(output.contains("context=\"To jest świnia która się ślini.  \" contextoffset=\"8\" offset=\"8\" errorlength=\"12\" category=\"Błędy interpunkcyjne\""));
   }
 
   public void testPolishLineNumbers() throws Exception {
     final File input = writeToTempFile(
+        "Test.\n" +
             "Test.\n" +
-                    "Test.\n" +
-                    "Test.\n" +
-                    "Test.\n" +
-                    "Test.\n" +
-                    "Test.\n" +
-                    "\n" +
-                    "Test który wykaże błąd.");
+            "Test.\n" +
+            "Test.\n" +
+            "Test.\n" +
+            "Test.\n" +
+            "\n" +
+        "Test który wykaże błąd.");
 
     final String[] args = {"-l", "pl", "-c", "utf-8", input.getAbsolutePath()};
 
@@ -348,9 +348,9 @@ public class MainTest extends AbstractSecurityTestCase {
 
   public void testBitextMode() throws Exception {
     final File input = writeToTempFile(
-            "This is not actual.\tTo nie jest aktualne.\n" +
-                    "Test\tTest\n" +
-                    "ab\tVery strange data indeed, much longer than input");
+        "This is not actual.\tTo nie jest aktualne.\n" +
+            "Test\tTest\n" +
+        "ab\tVery strange data indeed, much longer than input");
 
     final String[] args = {"-l", "pl", "--bitext", "-m", "en", input.getAbsolutePath()};
     Main.main(args);
@@ -363,9 +363,9 @@ public class MainTest extends AbstractSecurityTestCase {
 
   public void testBitextModeWithDisabledRule() throws Exception {
     final File input = writeToTempFile(
-            "this is not actual.\tTo nie jest aktualne.\n" +
-                    "test\tTest\n" +
-                    "ab\tVery strange data indeed, much longer than input");
+        "this is not actual.\tTo nie jest aktualne.\n" +
+            "test\tTest\n" +
+        "ab\tVery strange data indeed, much longer than input");
 
     final String[] args = {"-l", "pl", "--bitext", "-m", "en", "-d", "UPPERCASE_SENTENCE_START,TRANSLATION_LENGTH", input.getAbsolutePath()};
     Main.main(args);
@@ -378,9 +378,9 @@ public class MainTest extends AbstractSecurityTestCase {
 
   public void testBitextModeWithEnabledRule() throws Exception {
     final File input = writeToTempFile(
-            "this is not actual.\tTo nie jest aktualne.\n" +
-                    "test\tTest\n" +
-                    "ab\tVery strange data indeed, much longer than input");
+        "this is not actual.\tTo nie jest aktualne.\n" +
+            "test\tTest\n" +
+        "ab\tVery strange data indeed, much longer than input");
 
     final String[] args = {"-l", "pl", "--bitext", "-m", "en", "-e", "TRANSLATION_LENGTH", input.getAbsolutePath()};
     Main.main(args);
@@ -432,7 +432,7 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(output.indexOf("Expected text language: Catalan (Valencian)") == 0);
     assertTrue(output.contains("EXIGEIX_VERBS_VALENCIANS"));
   }
-  
+
   public void testCatalan() throws Exception {
     File input = writeToTempFile("Que siga així.");
     String[] args = {"-l", "ca-ES", input.getAbsolutePath()};
@@ -441,7 +441,7 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(output.indexOf("Expected text language: Catalan") == 0);
     assertTrue(output.contains("EXIGEIX_VERBS_CENTRAL"));
   }
-  
+
   public void testCatalan2() throws Exception {
     File input = writeToTempFile("Que siga així.");
     String[] args = {"-l", "ca", input.getAbsolutePath()};
@@ -450,7 +450,7 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(output.indexOf("Expected text language: Catalan") == 0);
     assertTrue(output.contains("EXIGEIX_VERBS_CENTRAL"));
   }
-  
+
   public void testNoXmlFilteringByDefault() throws Exception {
     final File input = writeToTempFile("This < is is > filtered.");
     final String[] args = {input.getAbsolutePath()};
