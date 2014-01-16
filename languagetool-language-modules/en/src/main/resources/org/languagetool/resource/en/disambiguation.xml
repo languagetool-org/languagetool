@@ -1013,7 +1013,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     <rule name="DT|JJ + JJ + NN/VBP -&gt; NN" id="DT_JJ_NN_NN">
         <pattern>
             <token postag_regexp="yes" postag="DT|JJ|PRP\$"></token>
-            <token postag="JJ.*" postag_regexp="yes"/>
+            <token postag="JJ.*" postag_regexp="yes"><exception postag="RB"></exception></token>
             <marker>
                 <and>
                     <token postag="VBP"><exception postag_regexp="yes" negate_pos="yes" postag="NN.*|VB.*"></exception></token>
