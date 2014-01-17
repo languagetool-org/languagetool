@@ -21,7 +21,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.071 2014-01-03 18:15:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.072 2014-01-17 23:12:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -595,6 +595,19 @@ $Id: grammar.xml,v 1.071 2014-01-03 18:15:00 marcoagpinto Exp $
 
 
 
+    <!-- DE CALCULO de cálculo -->
+    <rule id="DE_CALCULO" name="de cálculo">
+      <pattern>
+        <token>de</token>
+        <token>calculo</token>
+      </pattern>
+      <message>Substituir «de calculo» por <suggestion>de cálculo</suggestion>.</message>
+      <example type="incorrect">Isto é <marker>de calculo</marker> difícil.</example>
+      <example type="correct">Isto é <marker>de cálculo</marker> difícil.</example>
+    </rule>
+
+
+
     <!-- DE CIMA ABAIXO de cima a baixo -->
     <rule id="DE_CIMA_ABAIXO" name="de cima a baixo">
       <pattern>
@@ -753,6 +766,23 @@ $Id: grammar.xml,v 1.071 2014-01-03 18:15:00 marcoagpinto Exp $
       <example type="incorrect">Isto deve ser feito <marker>daqui em diante</marker>.</example>
       <example type="correct">Isto deve ser feito <marker>doravante</marker>.</example>      
     </rule>
+
+
+
+    <!-- DE ALMA E CORAÇÃO informal -->
+	<rule id="DE_ALMA_E_CORAÇÃO" name="de alma e coração (informal)">
+	  <pattern>
+		<token>de</token>
+		<token>alma</token>
+		<token>e</token>
+		<token>coração</token>
+      </pattern>
+      <message>Linguagem informal. Pondera usar uma expressão alternativa.</message>
+      <example type="incorrect">Sou um gestor <marker>de alma e coração</marker>.</example>
+      <example type="correct">Sou um gestor <marker>com determinação</marker>.</example>      
+	</rule>
+	
+
 
     <!-- DE HOJE PARA O FUTURO doravante -->
     <rule id="DE_HOJE_PARA_O_FUTURO" name="doravante">
@@ -1348,6 +1378,21 @@ $Id: grammar.xml,v 1.071 2014-01-03 18:15:00 marcoagpinto Exp $
       <example type="incorrect">A Ana é uma <marker>mulher músico</marker>.</example>
       <example type="correct">A Ana é uma <marker>música</marker>.</example>
     </rule>
+
+
+
+    <!-- NA MEDIDA DO POSSÍVEL informal -->
+	<rule id="NA_MEDIDA_DO_POSSÍVEL" name="na medida do possível (informal)">
+	  <pattern>
+		<token>na</token>
+		<token>medida</token>
+		<token>do</token>
+		<token>possível</token>
+      </pattern>
+      <message>Linguagem informal. Pondera usar uma expressão alternativa.</message>
+      <example type="incorrect">Isto deve ser feito <marker>na medida do possível</marker>.</example>
+      <example type="correct">Isto deve ser feito <marker>dentro do possível</marker>.</example>            
+	</rule>
 
 
 
