@@ -191,6 +191,62 @@ USA
             <example type="correct">I asked whether it was true.</example>
             <example type="incorrect">Don't ask me <marker>wether</marker> it is already decided!</example>
         </rule>
+        <rule id="BRAKE_AWAY_BREAK_AWAY" name="brake away (break away)">
+        <pattern>
+          <token>brake<exception scope="previous" postag="DT|NN.*" postag_regexp="yes"/></token>
+          <token>away</token>
+        </pattern>        
+        <message>Did you mean <suggestion>break away</suggestion>?</message>
+        <url>http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
+        <short>Possible typo</short>
+        <example type="incorrect">The should <marker>brake away</marker> from Russia.</example>
+        <example type="correct">They should break away from Russia.</example>
+        <example type="correct">When you take the hand brake away, the car will stay still if the clutch is in the right position.</example>
+        </rule>
+        <rulegroup id="BREATHE_BREATH" name="breath (breathe)">
+        <rule>
+            <pattern>
+            <token regexp="yes">could|can|they</token>
+            <marker>
+                <token>breath</token>
+            </marker>
+            </pattern>
+            <message>Did you mean <suggestion>breathe</suggestion>? '\2' is a noun.</message>
+            <url>http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
+            <short>Possible grammatical error</short>
+            <example type="incorrect" correction="breathe">I could <marker>breath</marker>.</example>
+            <example type="correct">They breathe slowly.</example>    
+            </rule>
+         <rule>
+            <pattern>
+            <token regexp="yes">couldn|can</token>
+            <token>'</token>
+            <token>t</token>
+            <marker>
+                <token>breath</token>
+            </marker>
+            </pattern>
+            <message>Did you mean <suggestion>breathe</suggestion>? '\4' is a noun.</message>
+            <url>http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
+            <short>Possible grammatical error</short>
+            <example type="incorrect" correction="breathe">I couldn't <marker>breath</marker>.</example>
+            <example type="correct">They breathe slowly.</example>
+            <example correction="breathe" type="incorrect">We can't <marker>breath</marker> under water.</example>
+            <example type="correct">We can't breathe under water.</example>    
+         </rule>
+             <rule>
+                <pattern>
+                    <token regexp="yes">can|could</token>
+                    <token>not</token>
+                    <token>breath</token>
+                </pattern>
+                <message>Did you mean <suggestion>can not breathe</suggestion>?</message>
+                <url>http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
+                <short>Possible grammatical error</short>
+                <example correction="can not breathe" type="incorrect">We <marker>can not breath</marker> under water.</example>
+                <example type="correct">We can not breathe under water.</example>
+            </rule>                   
+        </rulegroup>
         <rule id="UP_TO_DATA" name="up to data (date)">
             <pattern case_sensitive="yes">
                 <token>up</token>
@@ -649,6 +705,21 @@ USA
           <example type="incorrect" correction="I">No, <marker>i</marker> am not letting you near my kids.</example>        
         </rule>        
         </rulegroup>
+        <rule id="IN_JANUARY" name="in January 1 (on January 1)">
+        <pattern>
+            <marker>
+            <token>in</token>
+                <token regexp="yes">January|February|March|April|May|June|July|August|September|October|November|December</token>
+            </marker>
+            <token regexp="yes">[1-3][0-9]</token>
+            </pattern>
+            <message>Did you mean <suggestion>on \2</suggestion>? This seems to be a day date.</message>
+            <url>http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
+            <short>Possible grammatical error</short>
+            <example type="incorrect" correction="On February"><marker>In February</marker> 21, we ate the poison.</example>
+            <example type="correct">Cuba Gooding Jr. was born on January 2, 1968.</example>    
+            <example type="correct">The following events occurred in January 1900.</example>
+         </rule>
         <rule id="INSURE_THAT" name="insure that (ensure that)">
             <pattern>
                 <marker>
@@ -2184,7 +2255,7 @@ USA
         <rule id="OF_CAUSE" name="of cause (course)">
             <pattern>
                 <marker>
-                    <token>of</token>
+                    <token>of<exception scope="previous" regexp="yes">kind|relation|laws?|concept|chains?|principle|understanding|process|idea|sequence|notion|style|definition|knowledge|certificate|conception|cycle|system|world|nature|sort|theory|matter</exception></token>
                     <token>cause</token>
                 </marker>
                 <token negate="yes" regexp="yes">(and|to)</token>
@@ -2264,16 +2335,6 @@ USA
             <short>Possible typo</short>
             <example type="correct">You <marker>cannot</marker> use the keyboard to select an item.</example>
             <example type="incorrect">You <marker>can not</marker> use the keyboard to select an item.</example>
-        </rule>
-        <rule id="CAN_BEEN" name="can been (can be)">
-            <pattern>
-                <token>can</token>
-                <token>been</token>
-            </pattern>
-            <message>Did you mean <suggestion>can be</suggestion> or <suggestion>has been</suggestion>?</message>
-            <short>Possible typo</short>
-            <example correction="can be|has been" type="incorrect">It <marker>can been</marker> seen at night.</example>
-            <example type="correct">It has been seen at night.</example>
         </rule>
         <rule id="CANT" name="cant (can't)">
             <pattern>
@@ -4054,30 +4115,7 @@ USA
             <message>Did you mean <suggestion>alluded to</suggestion>?</message>
             <example type="incorrect">He <marker>eluded to</marker> to engagement at the party.</example>
             <example type="correct">He alluded to the engagement at the party.</example>
-        </rule>
-        <rulegroup id="CANT_BREATHE" name="can't breath (breathe)">
-            <rule>
-                <pattern>
-                    <token>can</token>
-                    <token>'</token>
-                    <token>t</token>
-                    <token>breath</token>
-                </pattern>
-                <message>Did you mean <suggestion>can't breathe</suggestion>?</message>
-                <example correction="can't breathe" type="incorrect">We <marker>can't breath</marker> under water.</example>
-                <example type="correct">We can't breathe under water.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>can</token>
-                    <token>not</token>
-                    <token>breath</token>
-                </pattern>
-                <message>Did you mean <suggestion>can not breathe</suggestion>?</message>
-                <example correction="can not breathe" type="incorrect">We <marker>can not breath</marker> under water.</example>
-                <example type="correct">We can not breathe under water.</example>
-            </rule>
-        </rulegroup>
+        </rule>        
         <!-- baited breath::word=bated breath::pivots=baited,bated::options=baited,bated -->
         <rule id="BAITED_BREATH" name="baited (bated) breath">
             <pattern>
@@ -6107,7 +6145,7 @@ USA
     <category name="Grammar" type="grammar">
     <rule id="IF_WOULD_HAVE_VBN" name="if I would have (if I had)">
     <pattern>
-        <token skip="5">if<exception scope="next">had</exception><exception scope="next" postag="VBD"/></token>
+        <token skip="5">if<exception scope="next" regexp="yes">had|could</exception><exception scope="next" postag="VBD"/></token>
         <marker>
         <token>would</token>
         <token>have</token>
@@ -6120,6 +6158,7 @@ USA
     <example type="incorrect">If I <marker>would have known</marker> about the party, I would have gone to it.</example>
     <example type="correct">If I had known about the party, I would have gone to it.</example>
     <example type="correct">If I were you, I would have done the same thing.</example>
+    <example type="correct">And if looks could kill, Wally would have been dead.</example>
     </rule>
     <rulegroup id="FEWER_LESS" name="fewer with countable nouns (less)">
     <rule>
@@ -6142,13 +6181,14 @@ USA
         <marker>
         <token>less</token>
         </marker>
-        <token postag="NNS"/>
+        <token postag="NNS"><exception postag="JJ"/></token>
     </pattern>
     <message>Did you mean <suggestion>fewer</suggestion>? The noun \2 is countable.</message>
     <url>http://www3.telus.net/linguisticsissues/commonerrorsinenglish.html</url>
     <short>Grammatical error</short>
     <example type="incorrect">He has <marker>less</marker> items</example>
     <example type="correct">He has fewer items.</example>
+    <example type="correct">Present-day students are more or less religious.</example>
     </rule>
     </rulegroup>
           <rule id="WORST_THAN" name="worst (worse) than">
@@ -6264,7 +6304,7 @@ USA
                 <token postag="JJ" min="0"/>
                 <token postag="NN:UN|NN:U|NNS" postag_regexp="yes"/>
                 <marker>
-                    <token postag="VBD"/>
+                    <token postag="VBD"><exception postag="VB"></exception></token>
                 </marker>
             </pattern>
             <message>Did you mean <suggestion><match no="5" postag="VB"/></suggestion>?</message>
@@ -6275,6 +6315,7 @@ USA
             <example type="correct">Did the applications work?</example>
             <example type="correct">Did your applications work?</example>
             <example type="correct">Did your new applications work?</example>
+            <example type="correct">If it were not that I knew who it was I could have mistaken it for my Aunt so well did her clothes fit him.</example>
         </rule>
 
         <rulegroup id="ADVERB_WORD_ORDER" name="Word order: Wrong position of adverb, e.g. 'Always I am happy. (I am always happy.)'">
@@ -6896,7 +6937,7 @@ USA
         <rule id="A_HUNDREDS" name="a hundreds (hundred)">
             <pattern>
                 <marker>
-                    <token postag="CD|DT" postag_regexp="yes"><exception regexp="yes">many|either|some|the|these</exception></token>
+                    <token regexp="yes">a|one</token>
                     <token regexp="yes">hundreds|thousands|millions|billions|trillions|quadrillions</token>
                 </marker>
             </pattern>
@@ -6907,7 +6948,7 @@ USA
             <example type="correct"><marker>A hundred</marker> people were in the store.</example>
             <example type="correct">The dinosaurs began dying <marker>either thousands</marker> or millions of years ago.</example>
             <example type="correct"><marker>The thousands</marker> of students on campus when protesting.</example>
-
+            <example type="correct">It would go up to 21 millions by 1966.</example>
         </rule>
         <rulegroup id="A_PLURAL" name="Agreement: 'a' + plural word">
             <rule>
@@ -6915,7 +6956,7 @@ USA
                     <token><exception regexp="yes">’|'|division|class|category|zone|formula|type|influenza|hepatitis|series</exception><exception postag="CD"></exception></token>
                     <marker>
                         <token regexp="yes">a|an</token>
-                        <token postag="NNS|NNPS" postag_regexp="yes"><exception postag="NN:.*|NN|VBZ|NNP|CC|CD" postag_regexp="yes"></exception></token>
+                        <token postag="NNS|NNPS" postag_regexp="yes"><exception postag="NN:.*|NN|VBZ|NNP|CC|CD" postag_regexp="yes"/><exception>savings</exception></token> <!-- savings has singular concord according to OED -->
                     </marker>
                     <token><exception postag="NN.*" postag_regexp="yes"></exception><exception regexp="yes">['’]</exception></token>
                 </pattern>
@@ -8251,15 +8292,14 @@ USA
         </rule>
         <rulegroup id="DID_BASEFORM" name="Non-infinitive verb after modal verbs">
             <rule>
-                <pattern>
-                    <token negate="yes">than</token>
-                    <token><exception regexp="yes">free|that|who|which|whom|a|the</exception></token>
-                    <token regexp="yes">did|will|could|can|should|would|does|ll</token>
+                <pattern>                    
+                    <token><exception scope="previous" regexp="yes">than|what</exception><exception regexp="yes">free|tha[nt]|who|which|whom|a|the</exception></token>
+                    <token regexp="yes" postag="MD|VBD" postag_regexp="yes">did|will|could|can|should|would|does|ll</token>
                     <marker>
                         <token postag="(VBD|VBG|VBZ)" postag_regexp="yes"><exception postag="VBP|NNP" postag_regexp="yes"></exception><exception inflected="yes">be</exception></token>
                     </marker>
                 </pattern>
-                <message>The verb '<match no="3"></match>' requires the base form of the verb: <suggestion><match no="4" postag="VB"></match></suggestion>.</message>
+                <message>The verb '<match no="2"></match>' requires the base form of the verb: <suggestion><match no="3" postag="VB"></match></suggestion>.</message>
                 <short>Grammatical problem</short>
                 <example type="correct">They will <marker>come</marker> home.</example>
                 <!-- 'did' is used for emphasis here: -->
@@ -8272,26 +8312,25 @@ USA
                 <example correction="come" type="incorrect">They will <marker>comes</marker> home.</example>
                 <example correction="walk" type="incorrect">He did <marker>walks</marker> to his house.</example>
                 <example correction="come" type="incorrect">They will <marker>came</marker> home.</example>
+                <example type="correct">Confederate commanders would need it should troops pass that way in retreat.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token negate="yes">than</token>
-                    <token><exception regexp="yes">free|that|who|which|whom|a|the</exception></token>
+                    <token><exception scope="previous" regexp="yes">than|what</exception><exception regexp="yes">free|tha[nt]|who|which|whom|a|the</exception></token>
                     <token regexp="yes">did|will|could|can|should|would|does|ll</token>
                     <token>not</token>
                     <marker>
                         <token postag="(VBD|VBG|VBZ)" postag_regexp="yes"><exception postag="VBP"></exception><exception inflected="yes">be</exception></token>
                     </marker>
                 </pattern>
-                <message>The verb '<match no="3"></match>' requires base form of the verb: <suggestion><match no="5" postag="VB"></match></suggestion>.</message>
+                <message>The verb '<match no="2"></match>' requires base form of the verb: <suggestion><match no="4" postag="VB"></match></suggestion>.</message>
                 <short>Grammatical problem</short>
                 <example type="correct">Since he does not <marker>have</marker> any connection with us...</example>
                 <example correction="have" type="incorrect">Since he does not <marker>has</marker> any connection with us...</example>
             </rule>
             <rule>
                 <pattern>
-                    <token negate="yes">than</token>
-                    <token><exception regexp="yes">free|that|who|which|whom|a|the</exception></token>
+                    <token><exception scope="previous" regexp="yes">than|what</exception><exception regexp="yes">free|tha[nt]|who|which|whom|a|the</exception></token>
                     <token regexp="yes">didn|won|couldn|can|shouldn|wouldn|doesn</token>
                     <token spacebefore="no" regexp="yes">['’]</token>
                     <token>t</token>
@@ -8299,7 +8338,7 @@ USA
                         <token postag="(VBD|VBG|VBZ)" postag_regexp="yes"><exception postag="VBP"></exception><exception inflected="yes">be</exception></token>
                     </marker>
                 </pattern>
-                <message>The verb '<match no="3"></match>'t' requires base form of this verb: <suggestion><match no="6" postag="VB"></match></suggestion>.</message>
+                <message>The verb '<match no="2"></match>'t' requires base form of this verb: <suggestion><match no="5" postag="VB"></match></suggestion>.</message>
                 <short>Grammatical problem</short>
                 <example type="correct">Since he doesn't <marker>have</marker> any connection with us...</example>
                 <example correction="have" type="incorrect">Since he doesn't <marker>has</marker> any connection with us...</example>
@@ -8430,18 +8469,46 @@ USA
   i.e., she recommended that he use his money... -->
         <rulegroup id="NON3PRS_VERB" name="Agreement error: Third person verb with a non-third person pronoun">
             <rule>
-                <pattern>
-                    <token negate="yes">Phase</token>
-                    <token regexp="yes">I|we|you|they</token>
+                <pattern>                    
+                    <token>I<exception scope="previous" regexp="yes">Phase|Am</exception></token>
                     <marker>
-                        <token postag="VBZ"></token>
+                        <token postag="VBZ"/>
                     </marker>
                 </pattern>
-                <message>The pronoun '<match no="2"></match>' must be used with a non-third-person form of a verb: <suggestion><match no="3" postag="VB"></match></suggestion></message>
+                <message>The pronoun '<match no="1"/>' must be used with a non-third-person form of a verb: <suggestion><match no="2" postag="VB"></match></suggestion></message>
                 <short>Grammatical problem</short>
                 <example correction="work" type="incorrect">I <marker>works</marker> here.</example>
-                <example type="correct">You <marker>make</marker> a lot of mistakes.</example>
+                <example type="correct">We <marker>make</marker> a lot of mistakes.</example>
                 <example type="correct">Phase I corresponds to the small-deformation regime.</example>
+                <example type="correct">Am I nuts?</example>                
+            </rule>
+            <rule>
+                <pattern>                    
+                    <token regexp="yes" postag="PRP">we|they</token>
+                    <marker>
+                        <token postag="VBZ"/>
+                    </marker>
+                </pattern>
+                <message>The pronoun '<match no="1"></match>' must be used with a non-third-person form of a verb: <suggestion><match no="2" postag="VB"></match></suggestion></message>
+                <short>Grammatical problem</short>
+                <example correction="work" type="incorrect">They <marker>works</marker> here.</example>
+                <example type="correct">We <marker>make</marker> a lot of mistakes.</example>
+                <example type="correct">Phase I corresponds to the small-deformation regime.</example>                
+            </rule>
+            <rule>
+                <pattern>                    
+                    <token postag="PRP">you<exception scope="previous" postag="IN"/></token>
+                    <marker>
+                        <token postag="VBZ"/>
+                    </marker>
+                </pattern>
+                <message>The pronoun '<match no="1"></match>' must be used with a non-third-person form of a verb: <suggestion><match no="2" postag="VB"></match></suggestion></message>
+                <short>Grammatical problem</short>
+                <example correction="work" type="incorrect">You <marker>works</marker> here.</example>
+                <example type="correct">You <marker>make</marker> a lot of mistakes.</example>                
+                <example type="correct">One of you thinks that this is possible.</example>
+                <example type="correct">Be sure the man nearest you is awake.</example>
+                <example type="correct">You guys remember that.</example> 
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -8522,7 +8589,7 @@ USA
         <rulegroup id="HE_VERB_AGR" name="Agreement error: Non-third person verb with 'he/she'">
             <rule>
                 <pattern>
-                    <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">feel|hear|see|insist|suggest|help|prevent|stop|of</exception>(that|ha[ds]|will|must|could|can|should|would|does|did|is|may|might|t|let|was|dare|lest|without)</token>
+                    <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">feel|hear|see|insist|suggest|help|prevent|stop|of|have|be</exception>(that|how|will|must|could|can|should|would|does|did|may|might|t|let|dare|lest|without|into)</token>
                     <token regexp="yes">he|she|someone|somebody|nobody|anyone</token>
                     <marker>
                         <token postag="VB|VBG|VBP" postag_regexp="yes"><exception postag="VBN|VBD|JJ.*|RB|MD" postag_regexp="yes"></exception></token>
@@ -8538,6 +8605,9 @@ USA
                 <example type="correct">His medics insist he rest for several more months.</example>
                 <example type="correct">He stole out of the house without anyone seeing him.</example>
                 <example type="correct">He <marker>walked</marker> to the building.</example>
+                <example type="correct">I find it hard to understand how anyone seeking a position in public life could demonstrate...</example>
+                <example type="correct">He was busy, he said, in having someone submit to a monkey-gland operation.</example>
+                <example type="correct">What's he going to do?</example>
                 <!-- TODO: False-positive: Nobody move! -->
             </rule>
             <rule>
@@ -8609,7 +8679,7 @@ USA
             <!--  subjunctive without 'that' -->
             <rule>
                 <pattern>
-                    <token postag="VB.*" postag_regexp="yes"><exception regexp="yes">was|is|ha[ds]</exception><exception inflected="yes" regexp="yes">feel|hear|see|help|prevent|stop</exception></token>
+                    <token postag="VB.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">feel|hear|see|help|prevent|stop|be|have</exception></token>
                     <token regexp="yes">he|she|someone|somebody|nobody|anyone</token>
                     <marker>
                         <token postag="VBG"></token>
@@ -8622,14 +8692,17 @@ USA
                 <example type="correct">He <marker>walked</marker> to the building.</example>
                 <example type="correct">What is he doing here at this hour?</example>
                 <example type="correct">And why was she crying?</example>
+                <example type="correct">What's he going to do?</example>
             </rule>
             <rule>
                 <pattern>
                     <token>
-                        <exception regexp="yes">(that|ha[ds]|will|must|could|can|should|would|does|did|is|was|may|might|t|let)</exception>
-                        <exception inflected="yes" regexp="yes">feel|hear|see|prevent|help|stop</exception>
-                        <exception postag="CC|IN|DT|MD" postag_regexp="yes"></exception></token>
-                    <token postag="NNP" regexp="yes">.{2,}<exception postag="JJ|CC|RP|DT|PRP\$|NNPS|NNS|IN|RB|WRB" postag_regexp="yes"></exception></token>
+                        <exception regexp="yes">(that|ha[ds]|will|must|could|can|should|would|does|did|may|might|t|let)</exception>
+                        <exception inflected="yes" regexp="yes">feel|hear|see|watch|prevent|help|stop|be</exception>
+                        <exception postag="C[CD]|IN|DT|MD|NNP|\." postag_regexp="yes"></exception>
+                        <exception scope="previous" postag="PRP$"/>
+                        </token>                        
+                    <token postag="NNP" regexp="yes">.{2,}<exception postag="JJ|CC|RP|DT|PRP\$?|NNPS|NNS|IN|RB|WRB|VBN" postag_regexp="yes"></exception></token>
                     <marker>
                         <token postag="VB|VBP" postag_regexp="yes" regexp="yes">\p{Lower}+<exception postag="VBN|VBD|JJ|IN|MD" postag_regexp="yes"></exception></token>
                     </marker>
@@ -8644,7 +8717,11 @@ USA
                 <example type="correct">Boys are at higher risk for autism than girls.</example>
                 <example type="correct">In reply, he said he was too old for this.</example>
                 <example type="correct">I can see Bill looking through the window.</example>
+                <example type="correct">Richard J. Hughes made his Morris County debut in his bid for the Democratic gubernatorial elections.</example>
+                <example type="correct">... last night got its seven-concert Beethoven cycle at Carnegie Hall off to a good start.</example>
+                <example type="correct">... and through knowing Him better to become happier and more effective people.</example>
                 <!-- TODO: Fix false-positive: The library and Medical Center are to the north.-->
+                <!-- The present Federal program of vocational education began in 1917. -->
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -8700,22 +8777,12 @@ USA
                 <example correction="has" type="incorrect">When <marker>have</marker> Mary bought a ticket?</example>
                 <example type="correct">Why has Mary done this?</example>
             </rule>
-        </rulegroup>
-        <!-- TODO: fix false alarm for 'one of you thinks ...', 'even though the world around you thinks'
-        <rule id="I_VERB_AGR" name="Agreement error: third person verb with 'I'">
-          <pattern mark_from="1"><token regexp="yes">I|we|they|you</token><token postag="VBZ"/></pattern>
-          <message>'I' must be used with a non-third person verb, e.g. 'I think'</message>
-          <example type="correct">I <em>think</em> that is quite fair.</example>
-          <example type="correct">Don't you <em>think</em> that is quite fair?</example>
-          <example type="incorrect">I <em>thinks</em> that is quite fair.</example>
-          <example type="incorrect">Don't you <em>thinks</em> that is quite fair?</example>
-        </rule>
-        -->
+        </rulegroup>        
         <rulegroup id="PRP_PAST_PART" name="Agreement error: past participle without 'have'">
             <rule>
                 <pattern>
                     <token postag="SENT_START" skip="-1"><exception inflected="yes" postag="V.*" postag_regexp="yes" regexp="yes" scope="next">have|be</exception></token>
-                    <token postag="PRP"></token>
+                    <token regexp="yes">I|you|he|she|we|they</token>
                     <marker>
                         <token postag="VBN"><exception postag="VBD|VBP" postag_regexp="yes"></exception></token>
                     </marker>
@@ -8723,6 +8790,57 @@ USA
                 <message>Possible grammatical error. You used a past participle without using any required verb ('be' or 'have'). Did you mean <suggestion><match no="3" postag="VBD" postag_regexp="yes"></match></suggestion>?</message>
                 <example correction="did" type="incorrect">He <marker>done</marker> it.</example>
                 <example type="correct">It was done by him.</example>
+            </rule>
+            <rule>
+            <pattern>
+            <token regexp="yes">([wc]|sh)ould|might|must</token>
+            <marker>
+                <token postag="VBN"><exception postag="VB[PD]" postag_regexp="yes"/></token>
+            </marker>
+            </pattern>
+            <message>Did you mean <suggestion>have <match no="2"/></suggestion> or <suggestion><match no="2" postag="VB"/></suggestion>?</message>
+            <short>Possible grammatical error</short>
+            <example type="incorrect" correction="have been|be">You could <marker>been</marker> from Russia.</example>
+            <example type="correct">They should break away from Russia.</example>    
+            </rule>
+            <rule>
+            <pattern>
+            <token regexp="yes" postag="MD">can|may|shall|will</token>
+            <marker>
+                <token postag="VBN"><exception postag="VB[PD]" postag_regexp="yes"/><exception>been</exception></token>
+            </marker>
+            </pattern>
+            <message>Did you mean <suggestion><match no="2" postag="VB"/></suggestion> or <suggestion>be <match no="2"/></suggestion>?</message>
+            <short>Possible grammatical error</short>
+            <example type="incorrect" correction="go|be gone">You can <marker>gone</marker> from Russia.</example>
+            <example type="correct">They shall break away from Russia.</example>
+            <example type="correct">I knew almost exactly what the will had said.</example>    
+            </rule>
+            <rule>
+            <pattern>
+            <marker>
+            <token regexp="yes">can|may|shall|will</token>            
+            <token>been</token>
+            </marker>
+            </pattern>
+            <message>Did you mean <suggestion>\1 be</suggestion> or <suggestion>has \2</suggestion>?</message>
+            <short>Possible grammatical error</short>
+            <example type="incorrect" correction="can be|has been">You <marker>can been</marker> gone from Russia.</example>
+            <example correction="can be|has been" type="incorrect">It <marker>can been</marker> seen at night.</example>            
+            <example type="correct">They shall break away from Russia.</example>    
+            </rule>
+            <rule>
+            <pattern>
+            <token regexp="yes">ought|need|used</token>
+            <token>to</token>
+            <marker>
+                <token postag="VBN"><exception postag="VB[PD]" postag_regexp="yes"/></token>
+            </marker>
+            </pattern>
+            <message>Did you mean <suggestion><match no="3" postag="VB"/></suggestion>?</message>
+            <short>Possible grammatical error</short>
+            <example type="incorrect" correction="be">You used to <marker>been</marker> stupid.</example>
+            <example type="correct">They need to do this.</example>    
             </rule>
         </rulegroup>
         <rule id="EQUALLY_AS" name="equally+as (equally)">
@@ -8908,12 +9026,13 @@ USA
                     <token>there</token>
                     <token spacebefore="no" regexp="yes">['’]</token>
                     <token>s</token>
-                    <token postag="NNS|NNPS" postag_regexp="yes"><exception postag="NN:.*|NN|NNP|JJ.*|DT" postag_regexp="yes"></exception></token>
+                    <token postag="NNS|NNPS" postag_regexp="yes"><exception postag="NN:.*|NN|NNP|JJ.*|DT" postag_regexp="yes"></exception><exception>lots</exception></token>
                 </pattern>
                 <message>Did you mean <suggestion>\1're \4</suggestion>?</message>
                 <short>Possible agreement error</short>
                 <example correction="There're problems" type="incorrect"><marker>There's problems</marker> in Iraq but it is not a terrible situation.</example>
                 <example type="correct">There're problems in Iraq.</example>
+                <example type="correct">There's lots of time left.</example>
             </rule>
             <rule>
                 <pattern>
@@ -8994,9 +9113,10 @@ USA
                     <token chunk="B-NP-singular" min="0" max="1"></token>                    
                     <token chunk="I-NP-singular" min="0" max="-1"></token>
                     <marker>
-                        <token chunk="E-NP-singular">
+                        <token chunk="E-NP-singular" postag_regexp="yes" postag="NNP?">
                             <exception postag="NNPS"/>
-                            <exception regexp="yes">variety|number|couple|litany|lot</exception><!-- there are a number of -->
+                            <exception postag="CD"/>
+                            <exception regexp="yes">variety|number|couple|pair|litany|lot</exception><!-- there are a number of -->
                         </token>
                     </marker>
                 </pattern>
@@ -9012,6 +9132,8 @@ USA
                 <!--TODO: <example type="correct">Though there are several volunteer and semi-professional organizations.</example>-->
                 <example correction="problems" type="incorrect">There are a lot <marker>problem</marker> in Iraq but it is not a terrible situation.</example>
                 <example type="correct">There is a whole lot of problems in Iraq.</example>
+                <example type="correct">There are never fewer than eight of them on stage.</example>
+                <example type="correct">There are some even now.</example>
             </rule>
         </rulegroup>
         <rule id="A_LOT_OF_NN" name="Possible agreement error: 'a lot/bunch/couple of' + singular countable noun">
@@ -9634,7 +9756,18 @@ USA
                 <example correction="The|'An" type="incorrect"><marker>The 'an</marker> international movie' is interesting.</example>
                 <example type="correct">The Thames was once a much broader river.</example>
             </rule>
-        </rulegroup>
+        </rulegroup>        
+          <rule id="DT_PRP" name="The you (you)"> 
+            <pattern case_sensitive="yes">
+              <token spacebefore="yes" regexp="yes">a|an|the</token>
+              <token postag="PRP"><exception regexp="yes">US|[Oo][Nn][Ee]</exception></token>
+            </pattern>
+            <message>Possible typo. Did you mean <suggestion>\1</suggestion> or <suggestion>\2</suggestion>?</message>            
+            <short>Possible typo</short>
+            <example type="correct">The cat is on the mat.</example>
+            <example type="incorrect" correction="the|he">Strode past the now frightened man, entered <marker>the he</marker> house.</example>
+            <example type="correct">It was an impulse when she was here in Me'a She'arim.</example>
+          </rule>      
         <rule id="AN_ANOTHER" name="an another (an/another)">
             <pattern>
                 <token>an</token>
@@ -9921,7 +10054,8 @@ USA
                 <marker>
                     <token>diffuse</token>
                 </marker>
-                <token inflected="yes">tension</token>
+                <token min="0">the</token>
+                <token inflected="yes" regexp="yes">tension|situation</token>
             </pattern>
             <message>Did you mean <suggestion>defuse</suggestion>, as in removing the fuse from a bomb? "Diffuse" as a verb means to spread out.</message>
             <url>http://afterdeadline.blogs.nytimes.com/2013/10/08/close-but-not-quite-4/</url>

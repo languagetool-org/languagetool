@@ -45,6 +45,31 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
          <example type="ambiguous" inputform="Last[last/DT,last/JJ,last/NN,last/VB,last/VBP]" outputform="Last[last/JJ]"><marker>Last</marker> Christmas I gave you my heart.</example>
      </rule>
     
+    <rulegroup id="EVEN_NOW" name="even now">
+    <rule>
+      <pattern>
+      <marker>
+        <token>even<exception scope="previous" regexp="yes" inflected="yes">break|get</exception></token>
+      </marker>
+        <token>now</token>       
+      </pattern>      
+      <disambig postag="RB"/>
+      <example type="untouched">The even is approaching.</example>
+      <example type="ambiguous" inputform="even[even/JJ,even/NN,even/RB,even/VB,even/VBP]" outputform="even[even/RB]">The rainbow mural persevered, <marker>even</marker> now, thirty years later.</example>
+    </rule>
+    <rule>
+      <pattern>      
+        <token>even<exception scope="previous" regexp="yes" inflected="yes">break|get</exception></token>
+      <marker>
+        <token>now</token>
+      </marker>       
+      </pattern>      
+      <disambig postag="RB"/>
+      <example type="untouched">The even is approaching.</example>
+      <example type="ambiguous" inputform="now[now/CC,now/JJ,now/NN:U,now/RB]" outputform="now[now/RB]">The rainbow mural persevered, even <marker>now</marker>, thirty years later.</example>
+    </rule>    
+    </rulegroup>
+    
     <rule name="Modal verb + verb/noun -&gt; modal verb + verb" id="MD_VB">
         <pattern>
             <token postag="MD"></token>
@@ -56,7 +81,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             </marker>
         </pattern>
         <disambig postag="VB"></disambig>
-    </rule>
+    </rule>    
     <rule name="be + to + verb/... -&gt;be + to + verb" id="BE_TO_VB">
         <pattern>
             <token inflected="yes">be</token>
@@ -322,7 +347,68 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <example type="ambiguous" inputform="mine[mine/NN,mine/PRP$,mine/VB,mine/VBP]" outputform="mine[mine/PRP$]">This is <marker>mine</marker>.</example>
         <example type="ambiguous" inputform="mine[mine/NN,mine/PRP$,mine/VB,mine/VBP]" outputform="mine[mine/PRP$]">This is entirely <marker>mine</marker>.</example>
     </rule>
-
+    
+    <rulegroup id="CAN_WILL_MD" name="can/will as a modal verb">
+    <rule>
+    <pattern>
+      <marker><token regexp="yes">can|will</token></marker>
+      <token postag="VB"/>      
+    </pattern>
+    <disambig postag="MD"/>
+    <example type="untouched">It is a can of soup.</example>
+    <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/MD]">This <marker>can</marker> be eliminated.</example>
+  </rule>
+   <rule>
+    <pattern>
+      <marker><token regexp="yes">can|will</token></marker>
+      <token postag="RB"/>
+      <token postag="VB"/>      
+    </pattern>
+    <disambig postag="MD"/>
+    <example type="untouched">It is a can of soup.</example>
+    <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/MD]">This <marker>can</marker> only be eliminated.</example>
+    </rule>
+    <rule>
+    <pattern>
+            <token postag="SENT_START|[:;,]" postag_regexp="yes"/>
+            <token regexp="yes">I|you|he|she|we|they</token>
+            <marker><token regexp="yes">can|will</token></marker>
+        </pattern>
+        <disambig postag="MD"/>
+    <example type="untouched">It is a can of soup.</example>
+    <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/MD]">We <marker>can</marker>!</example>
+    <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/MD]">Yes, we <marker>can</marker>!</example>
+     </rule>
+    </rulegroup>
+  
+    <rulegroup id="CAN_NN" name="can as a noun">
+    <rule>
+      <pattern>
+      <token regexp="yes">(\d+-)?oz</token>
+      <marker>
+        <token>can</token>
+      </marker>
+      </pattern>
+      <disambig postag="NN"/>
+      <example type="untouched">You can!</example>
+      <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/NN]">8 oz <marker>can</marker> pineapple</example>
+      <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/NN]">8-oz <marker>can</marker> pineapple</example>
+    </rule>
+    <rule>
+      <pattern>
+      <token regexp="yes">(\d+-)?oz</token>
+      <token>.</token>
+      <marker>
+        <token>can</token>
+      </marker>
+      </pattern>
+      <disambig postag="NN"/>
+      <example type="untouched">You can!</example>
+      <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/NN]">8 oz. <marker>can</marker> pineapple</example>
+      <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/NN]">8-oz. <marker>can</marker> pineapple</example>
+    </rule>
+  </rulegroup>
+  
     <!-- useful for this/these rule, e.g., in this circumstances -->
     <rule name="preposition + 'this' + verb 3sg/NNS -&gt; nns" id="IN_VBZ_NNS">
         <pattern>
@@ -339,7 +425,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     </rule>
     <rule name="SENT_START + pronoun + verb/NN -&gt; verb" id="SENT_START_PRP_VB_NN">
         <pattern>
-            <token postag="SENT_START"></token>
+            <token postag="SENT_START|[:;,]" postag_regexp="yes"/>
             <token regexp="yes">I|you|we|they</token>
             <marker>
                 <and>
@@ -520,8 +606,8 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <token postag="DT"><exception postag="PDT"></exception></token>
             <marker>
                 <and>
-                    <token postag_regexp="yes" postag="VBP?"></token>
-                    <token postag_regexp="yes" postag="NN.*"><exception negate_pos="yes" postag="VBP?|NN|NN:UN|NN:U" postag_regexp="yes"></exception></token>
+                    <token postag_regexp="yes" postag="VBP?|MD"></token>
+                    <token postag_regexp="yes" postag="NN.*"><exception negate_pos="yes" postag="VBP?|NN|NN:UN|NN:U|MD" postag_regexp="yes"></exception></token>
                 </and>
             </marker>
         </pattern>
@@ -540,7 +626,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         </pattern>
         <disambig action="filter" postag="NN.*"/>
     </rule>
-
+    
     <!-- 'an' is part of a proper name here -->
     <rule name="Qur'an" id="QUARAN">
         <pattern>
@@ -657,13 +743,15 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <pattern case_sensitive="yes">
             <and>
                 <marker>
-                    <token regexp="yes">\p{Lu}\p{Ll}+<exception scope="previous" postag="SENT_START"></exception></token>
+                    <token regexp="yes">\p{Lu}\p{Ll}+<exception scope="previous" postag="SENT_START"/><exception postag="JJ" inflected="yes" regexp="yes">\p{Lu}\p{Ll}+</exception></token>
                 </marker>
                 <token inflected="yes" regexp="yes" postag="NNP">\p{Lu}\p{Ll}+</token>
                 <token inflected="yes" regexp="yes" postag_regexp="yes" postag="NN|NN:.*">\p{Ll}+</token>
             </and>
         </pattern>
         <disambig postag="NNP"></disambig>
+        <example type="untouched">They looked at the ruins of the old Roman wall on the lower Via Veneto.</example>
+        <example type="ambiguous" inputform="Bobby[Bobby/NNP,bobby/NN]" outputform="Bobby[Bobby/NNP]">His name was <marker>Bobby</marker> Brown and he acted as a clerk.</example>
     </rule>
     <rule name="NNP + Uppercase NN -&gt; NNP" id="UPPER_NN_NNP">
         <pattern case_sensitive="yes">
@@ -1009,6 +1097,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <token postag_regexp="yes" postag="NN.*"></token>
         </pattern>
         <disambig><match no="2" postag_regexp="yes" postag="JJ"></match></disambig>
+        <example type="untouched">Peter the great</example>
     </rule>
     <rule name="DT|JJ + JJ + NN/VBP -&gt; NN" id="DT_JJ_NN_NN">
         <pattern>
@@ -1016,7 +1105,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <token postag="JJ.*" postag_regexp="yes"><exception postag="RB"></exception></token>
             <marker>
                 <and>
-                    <token postag="VBP"><exception postag_regexp="yes" negate_pos="yes" postag="NN.*|VB.*"></exception></token>
+                    <token postag="VBP|MD" postag_regexp="yes"><exception postag_regexp="yes" negate_pos="yes" postag="NN.*|VB.*|MD"></exception></token>
                     <token postag_regexp="yes" postag="NN.*"></token>
                 </and>
             </marker>
@@ -1024,6 +1113,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <disambig><match no="2" postag_regexp="yes" postag="NN.*"></match></disambig>
         <example type="untouched">His friend is now in England.</example>
         <example type="ambiguous" inputform="nose[nose/NN,nose/VB,nose/VBP]" outputform="nose[nose/NN]">The elephant swings its long <marker>nose</marker>.</example>
+        <example type="ambiguous" inputform="will[will/MD,will/NN:UN]" outputform="will[will/NN:UN]">The general <marker>will</marker> is an important notion in Rousseau.</example>
     </rule>
     <rule name="till (verb) -&gt; till/IN" id="TILL_IN">
         <pattern>
@@ -1628,7 +1718,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     <disambig postag="VBP"/>
     <example type="untouched">Pigs know that.</example>
     <example type="untouched">He set up several dojo.</example>
-    <example type="ambiguous" inputform="claim[claim/NN:UN,claim/VB,claim/VBP]" outputform="claim[claim/VBP]">Yes, we <marker>claim</marker> that this is true.</example>
+    <example type="ambiguous" inputform="claim[claim/NN:UN,claim/VB,claim/VBP]" outputform="claim[claim/VBP]">Yes, actually we <marker>claim</marker> that this is true.</example>
     </rule>
     <rule id="E_NP_NN_VBP" name="noun phrase end -> NN">
     <pattern>
@@ -1710,7 +1800,25 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <example type="untouched">He tried not to laugh.</example>
         <example type="ambiguous" inputform="laughs[laugh/NNS,laugh/VBZ]" outputform="laughs[laugh/VBZ]">He tried not to <marker>laughs</marker>.</example>
       </rule>
-    </rulegroup>
+     </rulegroup>
+     <rule name="Modal verb + plural noun/vbz + plural verb => NNS" id="MD_NNSVBZ_NNS">
+      <pattern>
+        <token postag="MD"/>
+        <marker>
+          <and>
+            <token postag="NNS"/>
+            <token postag="VBZ"/>
+          </and>
+          <token postag="VBP?" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="VBP?"></exception></token>
+        </marker>
+      </pattern>
+      <disambig postag="NNS"/>
+      <example type="untouched">They should pass the waters.</example>
+      <example type="ambiguous" inputform="taxis[taxi/NNS,taxi/VBZ,taxis/NN]" outputform="taxis[taxi/NNS]">Would <marker>taxis</marker> be cheaper?</example>
+      <example type="ambiguous" inputform="troops[troop/NNS,troop/VBZ]" outputform="troops[troop/NNS]">Confederate commanders would need it should <marker>troops</marker> pass that way in retreat.</example>
+    </rule>
+    
+    
         
     <!--  This is a special cascade, do not change the order of these rules! -->
     <rulegroup id="POS" name="Else's -> POS">
@@ -1813,28 +1921,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
 		<example type="untouched">Apollo is beautiful.</example>
 		<example type="ambiguous" inputform="12[12/CD]" outputform="12[12/CD,12/NNP]">Apollo <marker>12</marker> was beatiful.</example>
 	</rule>
-	
-	<rulegroup id="CAN_MD" name="can as a modal verb">
-	<rule>
-		<pattern>
-			<marker><token>can</token></marker>
-			<token postag="VB"/>			
-		</pattern>
-		<disambig postag="MD"/>
-		<example type="untouched">It is a can of soup.</example>
-		<example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/MD]">This <marker>can</marker> be eliminated.</example>
-	</rule>
-	<rule>
-		<pattern>
-			<marker><token>can</token></marker>
-			<token postag="RB"/>
-			<token postag="VB"/>			
-		</pattern>
-		<disambig postag="MD"/>
-		<example type="untouched">It is a can of soup.</example>
-		<example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/MD]">This <marker>can</marker> only be eliminated.</example>
-	</rule>
-	</rulegroup>
+		
 		<rule id="VBN_VBD" name="Past Participle">
 		<pattern>
 			<token inflected="yes" regexp="yes">be|have</token>
@@ -2109,7 +2196,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <token postag="NN.*|VB.*" postag_regexp="yes"/>
             </and>
             </marker>
-            <token postag="VB.*" postag_regexp="yes"/>            
+            <token postag="VB.*|IN" postag_regexp="yes"/>            
           </pattern>
           <disambig postag="RB"/>          
           <example type="untouched">Still, I need to do a lot of things.</example>
@@ -2189,6 +2276,74 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
           <example type="untouched">He always left himself an out.</example>
           <example type="ambiguous" inputform="out[out/IN,out/NN,out/RB,out/RP,out/UH,out/VB,out/VBP]" outputform="out[out/IN,out/NN,out/RB,out/RP,out/UH]">Go <marker>out</marker>!</example>
         </rule>
+        
+        <rule id="EXCEPT_NOT_VERB" name="VB_EXCEPT => not a verb">
+          <pattern>
+            <marker>
+            <token postag="VBP?" postag_regexp="yes">except</token>
+            </marker>
+            <token><exception regexp="yes">to|against</exception></token>
+          </pattern>
+          <disambig postag="IN"/>
+          <example type="ambiguous" inputform="except[except/IN,except/VB,except/VBP]" outputform="except[except/IN]">On Thursday nobody <marker>except</marker> Charlie Coe was thinking of Charlie Coe.</example>
+          <example type="untouched">He insisted to except against a witness.</example>
+        </rule>
+        
+        <rule id="SORT_OF" name="sort + of => not a verb">
+          <pattern>
+          <marker><token>sort</token></marker>
+          <token>of</token>
+          </pattern>
+          <disambig postag="NN"/>
+          <example type="untouched">I sort the entries in the dictionary.</example>
+          <example type="ambiguous" inputform="sort[sort/VBP]" outputform="sort[sort/NN]">But he <marker>sort</marker> of acted like he didn't care.</example>
+        </rule>
+        
+        <rule id="I_PRP_NNP" name="I. as an abbreviation">
+          <pattern case_sensitive="yes">
+            <token regexp="yes">[Tt]he|[Aa]n</token>
+            <marker><token>I</token></marker>
+            <token>.</token>
+          </pattern>
+          <disambig postag="NNP"/>
+          <example type="untouched">I am glad!</example>
+          <example type="ambiguous" inputform="I[I/PRP]" outputform="I[I/NNP]">The <marker>I</marker>. A. P. A. is a reflection of the problems.</example>
+        </rule>
+        
+        <rule id="I_CHING" name="I Ching">
+          <pattern case_sensitive="yes">
+            <marker><token>I</token></marker>
+            <token>Ching</token>
+          </pattern>
+          <disambig postag="NNP"/>
+          <example type="untouched">I am glad!</example>
+          <example type="ambiguous" inputform="I[I/PRP]" outputform="I[I/NNP]">But a tossing of coins, with perhaps the added safeguard of reference to the oracles of the <marker>I</marker> Ching, the Chinese Book Of Changes, dictates the handling of the chosen materials.</example>
+        </rule>
+        
+        <rule name="You guys =>NNS" id="YOU_GUYS">
+        <pattern>
+          <token>you</token>
+          <marker>
+          <and>
+            <token postag="NNS" regexp="yes">guys|doctors|bitches</token>
+            <token postag="VBZ"/>
+          </and>
+          </marker>
+        </pattern>
+        <disambig postag="NNS"/>
+        <example type="untouched">You are fine.</example>
+        <example type="ambiguous" inputform="guys[guy/NNS,guy/VBZ]" outputform="guys[guy/NNS]">You <marker>guys</marker> remember that.</example>
+        </rule>
+        
+        <rule name="Do washing" id="DID_WASHING">
+          <pattern>
+            <token inflected="yes">do</token>
+            <marker><token>washing</token></marker>
+          </pattern>
+          <disambig postag="NN:U"/>
+          <example type="untouched">I like washing dishes.</example>
+          <example type="ambiguous" inputform="washing[wash/VBG,washing/NN:U]" outputform="washing[washing/NN:U]">They did <marker>washing</marker>.</example>
+        </rule>
                
         <rule name="or" id="REMOVE_JJ_FOR_OR">
           <!-- work around strange dict entry -->
@@ -2197,7 +2352,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
           </pattern>
           <disambig action="remove"><wd pos="JJ"/></disambig>
           <example type="ambiguous" inputform="or[or/CC,or/JJ,or/NN:U]" outputform="or[or/CC,or/NN:U]">Let's choose A <marker>or</marker> B.</example>
-        </rule>
+        </rule>                
 
         <rule name="or" id="REMOVE_NN_FOR_OR">
           <!-- work around strange dict entry -->
