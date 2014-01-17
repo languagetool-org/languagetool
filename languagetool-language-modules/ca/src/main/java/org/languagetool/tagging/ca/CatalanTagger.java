@@ -27,8 +27,13 @@ import java.util.regex.Pattern;
 
 import morfologik.stemming.DictionaryLookup;
 import morfologik.stemming.IStemmer;
+
 import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
 import org.languagetool.tagging.BaseTagger;
+import org.languagetool.tagging.ManualTagger;
+import org.languagetool.tools.StringTools;
 
 /**
  * Catalan Tagger
@@ -40,6 +45,10 @@ import org.languagetool.tagging.BaseTagger;
 public class CatalanTagger extends BaseTagger {
 
   private static final String DICT_FILENAME = "/ca/catalan.dict";
+  private static final String USER_DICT_FILENAME = "/ca/manual-tagger.txt";
+  
+  private ManualTagger manualTagger;
+  
   private static final Pattern ADJ_PART_FS = Pattern.compile("VMP00SF.|A[QO].[FC][SN].");
   private static final Pattern VERB = Pattern.compile("V.+");
   private static final Pattern NOUN = Pattern.compile("NC.+");
@@ -55,6 +64,66 @@ public class CatalanTagger extends BaseTagger {
     super();
     setLocale(new Locale("ca"));
     dontTagLowercaseWithUppercase();
+  }
+ 
+  private void initializeIfRequired() throws IOException {
+    // Lazy initialize fields when needed and only once.
+    if (manualTagger == null) {
+      synchronized (this) {
+        if (manualTagger == null) {
+          manualTagger = new ManualTagger(JLanguageTool.getDataBroker().getFromResourceDirAsStream(USER_DICT_FILENAME));
+        }
+      }
+    }
+  }
+  
+  @Override
+  public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens)
+          throws IOException {
+    initializeIfRequired();
+
+    final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
+    int pos = 0;
+    final IStemmer dictLookup = new DictionaryLookup(getDictionary()); 
+
+    for (String word : sentenceTokens) {
+      final List<AnalyzedToken> l = new ArrayList<>();
+      final String lowerWord = word.toLowerCase(conversionLocale);
+      final boolean isLowercase = word.equals(lowerWord);
+      final boolean isMixedCase = StringTools.isMixedCase(word);
+      List<AnalyzedToken> manualTaggerTokens=manualTagsAsAnalyzedTokenList(word, manualTagger.lookup(word));
+      List<AnalyzedToken> manualLowerTaggerTokens=manualTagsAsAnalyzedTokenList(lowerWord, manualTagger.lookup(lowerWord));
+
+      // normal case, manual tagger
+      addTokens(manualTaggerTokens, l);
+      // normal case, tagger dictionary
+      if (manualTaggerTokens.isEmpty()) {
+        addTokens(asAnalyzedTokenList(word, dictLookup.lookup(word)), l);
+      }
+      // tag non-lowercase words (alluppercase or startuppercase but not mixedcase)
+      // with lowercase word tags
+      if (!isLowercase && !isMixedCase) {
+        // manual tagger
+        addTokens(manualLowerTaggerTokens, l);
+        // tagger dictionary
+        if (manualLowerTaggerTokens.isEmpty()) {
+          addTokens(asAnalyzedTokenList(word, dictLookup.lookup(lowerWord)), l);
+        }
+      }
+      // additional tagging with prefixes
+      if (l.isEmpty() && !isMixedCase) {
+        addTokens(additionalTags(word), l);
+      }
+
+      if (l.isEmpty()) {
+        l.add(new AnalyzedToken(word, null, null));
+      }
+
+      tokenReadings.add(new AnalyzedTokenReadings(l, pos));
+      pos += word.length();
+    }
+
+    return tokenReadings;
   }
 
   @Override
@@ -130,6 +199,17 @@ public class CatalanTagger extends BaseTagger {
         return taggerTokens;
     }
     return null;
+  }
+  
+  private List<AnalyzedToken> manualTagsAsAnalyzedTokenList(final String word, String[] lemmasAndTags) {
+    final List<AnalyzedToken> aTokenList = new ArrayList<>();
+    if (lemmasAndTags != null) {
+      for (int i = 0; i < lemmasAndTags.length - 1; i = i + 2) {
+        AnalyzedToken aToken = new AnalyzedToken(word, lemmasAndTags[i + 1], lemmasAndTags[i]);
+        aTokenList.add(aToken);
+      }
+    }
+    return aTokenList;
   }
 
 }

@@ -144,7 +144,7 @@ public abstract class BaseTagger implements Tagger {
         StringTools.asString(wd.getStem()));
   }
 
-  private void addTokens(final List<AnalyzedToken> taggedTokens, final List<AnalyzedToken> l) {
+  protected void addTokens(final List<AnalyzedToken> taggedTokens, final List<AnalyzedToken> l) {
     if (taggedTokens != null) {
       for (AnalyzedToken at : taggedTokens) {
         l.add(at);
