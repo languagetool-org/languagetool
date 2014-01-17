@@ -1,4 +1,4 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2006 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
@@ -69,7 +69,7 @@ public abstract class BaseTagger implements Tagger {
 
   @Override
   public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens)
-          throws IOException {
+      throws IOException {
     List<AnalyzedToken> taggerTokens;
     List<AnalyzedToken> lowerTaggerTokens;
     List<AnalyzedToken> upperTaggerTokens;
@@ -106,7 +106,7 @@ public abstract class BaseTagger implements Tagger {
         }
       }
 
-      // Additional language-dependent-tagging 
+      // Additional language-dependent-tagging
       if (l.isEmpty()) {
         List<AnalyzedToken> additionalTaggedTokens = additionalTags(word);
         addTokens(additionalTaggedTokens, l);
@@ -144,7 +144,8 @@ public abstract class BaseTagger implements Tagger {
         StringTools.asString(wd.getStem()));
   }
 
-  protected void addTokens(final List<AnalyzedToken> taggedTokens, final List<AnalyzedToken> l) {
+  //please do not make protected, this breaks other languages
+  private void addTokens(final List<AnalyzedToken> taggedTokens, final List<AnalyzedToken> l) {
     if (taggedTokens != null) {
       for (AnalyzedToken at : taggedTokens) {
         l.add(at);

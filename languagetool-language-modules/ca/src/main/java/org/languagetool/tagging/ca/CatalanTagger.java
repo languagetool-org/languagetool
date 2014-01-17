@@ -1,4 +1,4 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2006 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
@@ -46,13 +46,13 @@ public class CatalanTagger extends BaseTagger {
 
   private static final String DICT_FILENAME = "/ca/catalan.dict";
   private static final String USER_DICT_FILENAME = "/ca/manual-tagger.txt";
-  
+
   private ManualTagger manualTagger;
-  
+
   private static final Pattern ADJ_PART_FS = Pattern.compile("VMP00SF.|A[QO].[FC][SN].");
   private static final Pattern VERB = Pattern.compile("V.+");
   private static final Pattern NOUN = Pattern.compile("NC.+");
-  
+
   private static final Pattern PREFIXES_FOR_VERBS = Pattern.compile("(auto|re)(.+)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
 
   @Override
@@ -65,7 +65,7 @@ public class CatalanTagger extends BaseTagger {
     setLocale(new Locale("ca"));
     dontTagLowercaseWithUppercase();
   }
- 
+
   private void initializeIfRequired() throws IOException {
     // Lazy initialize fields when needed and only once.
     if (manualTagger == null) {
@@ -76,15 +76,15 @@ public class CatalanTagger extends BaseTagger {
       }
     }
   }
-  
+
   @Override
   public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens)
-          throws IOException {
+      throws IOException {
     initializeIfRequired();
 
     final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
     int pos = 0;
-    final IStemmer dictLookup = new DictionaryLookup(getDictionary()); 
+    final IStemmer dictLookup = new DictionaryLookup(getDictionary());
 
     for (String word : sentenceTokens) {
       final List<AnalyzedToken> l = new ArrayList<>();
@@ -153,7 +153,7 @@ public class CatalanTagger extends BaseTagger {
         }
       }
     }
-    //Any well-formed verb with prefixes is tagged as a verb copying the original tags   
+    //Any well-formed verb with prefixes is tagged as a verb copying the original tags
     Matcher matcher=PREFIXES_FOR_VERBS.matcher(word);
     if (matcher.matches()) {
       final String possibleVerb = matcher.group(2).toLowerCase();
@@ -193,14 +193,14 @@ public class CatalanTagger extends BaseTagger {
     // U+013F LATIN CAPITAL LETTER L WITH MIDDLE DOT
     // U+0140 LATIN SMALL LETTER L WITH MIDDLE DOT
     if (word.contains("\u0140") || word.contains("\u013f")) {
-    	final String lowerWord = word.toLowerCase(conversionLocale);
-        final String possibleWord = lowerWord.replaceAll("\u0140", "l·");
-        List<AnalyzedToken> taggerTokens = asAnalyzedTokenList(word,dictLookup.lookup(possibleWord));
-        return taggerTokens;
+      final String lowerWord = word.toLowerCase(conversionLocale);
+      final String possibleWord = lowerWord.replaceAll("\u0140", "l·");
+      List<AnalyzedToken> taggerTokens = asAnalyzedTokenList(word,dictLookup.lookup(possibleWord));
+      return taggerTokens;
     }
     return null;
   }
-  
+
   private List<AnalyzedToken> manualTagsAsAnalyzedTokenList(final String word, String[] lemmasAndTags) {
     final List<AnalyzedToken> aTokenList = new ArrayList<>();
     if (lemmasAndTags != null) {
@@ -210,6 +210,14 @@ public class CatalanTagger extends BaseTagger {
       }
     }
     return aTokenList;
+  }
+
+  private void addTokens(final List<AnalyzedToken> taggedTokens, final List<AnalyzedToken> l) {
+    if (taggedTokens != null) {
+      for (AnalyzedToken at : taggedTokens) {
+        l.add(at);
+      }
+    }
   }
 
 }
