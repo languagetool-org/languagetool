@@ -210,6 +210,10 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals("adquirisquen", matches[0].getSuggestedReplacements().get(0));
         assertEquals("adquiresquen", matches[0].getSuggestedReplacements().get(1));
         
+        matches = rule.match(langTool.getAnalyzedSentence("calificar"));
+        assertEquals(1, matches.length);
+        assertEquals("qualificar", matches[0].getSuggestedReplacements().get(0));
+        
         //capitalized wrong words
         matches = rule.match(langTool.getAnalyzedSentence("En la Pecra"));
         assertEquals(1, matches.length);
