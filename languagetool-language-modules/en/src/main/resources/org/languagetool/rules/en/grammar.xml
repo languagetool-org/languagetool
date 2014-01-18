@@ -245,6 +245,16 @@ USA
                 <short>Possible grammatical error</short>
                 <example correction="can not breathe" type="incorrect">We <marker>can not breath</marker> under water.</example>
                 <example type="correct">We can not breathe under water.</example>
+            </rule>
+            <rule>
+              <pattern>
+                <token postag="PRP$"/>
+                <marker><token>breathe</token></marker>
+              </pattern>
+              <message>Did you mean <suggestion>breath</suggestion>? 'Breathe' is a verb.</message>
+              <short>Possible grammatical error</short>
+              <example type="correct">I can't hold my breath.</example>
+              <example type="incorrect" correction="breath">I am not going to hold my <marker>breathe</marker> that he will do anything</example>
             </rule>                   
         </rulegroup>
         <rule id="UP_TO_DATA" name="up to data (date)">
@@ -7940,17 +7950,18 @@ USA
         <rulegroup id="ALLOW_TO" name="'allow' + 'to' + infinitive">
         <rule>          
         <pattern>
-          <token inflected="yes">allow<exception postag="VBN"/></token>
+          <token inflected="yes" regexp="yes" postag_regexp="yes" postag="VB.*">allow|advise|authorize|cause|challenge|convince|encourage|force|hire|inform|instruct|invite|order|permit|persuade|remind|require|teach|tell|train|urge<exception postag="VBN"/><exception scope="previous" postag="PRP\$|JJ" postag_regexp="yes"/></token>
           <marker>
           <token>to</token>        
             <token postag="VBP"></token>
           </marker>
         </pattern>
-        <message>Did you mean <suggestion><match no="3" postag="VBG"/></suggestion>? Or maybe you should add a pronoun? In active voice, 'allow' + 'to' takes an object, usually a pronoun.</message>
+        <message>Did you mean <suggestion><match no="3" postag="VBG"/></suggestion>? Or maybe you should add a pronoun? In active voice, '<match no="1" postag="VB"/>' + 'to' takes an object, usually a pronoun.</message>
         <url>http://wps.ablongman.com/long_faigley_penguinhb_2/30/7853/2010580.cw/index.html</url>
         <short>Grammatical problem: use gerund</short>        
         <example type="incorrect" correction="seeing">It allows <marker>to see</marker> better.</example>
         <example type="correct">It allows seeing better.</example>
+        <example type="correct">They are forbidden to fly without specific orders to proceed to their targets.</example>
         <example type="correct">He was allowed to build an ambitious garden.</example>
         </rule>
         <rule>
@@ -8002,9 +8013,9 @@ USA
         <rulegroup id="ADMIT_ENJOY_VB" name="'admit', 'appreciate', 'avoid', 'enjoy' etc. with a base form of a verb">
         <rule>
           <pattern>
-            <marker><token inflected="yes" regexp="yes" postag="VB.*" postag_regexp="yes">admit|appreciate|avoid|delay|practice|risk|deny|discuss|imagine|recommend|suggest|dislike|keep|regret|tolerate|enjoy|mind|report|understand|miss|resent|consider|finish|postpone|resist|enjoy<exception scope="previous" regexp="yes" inflected="yes">of|be</exception></token>
+            <marker><token inflected="yes" regexp="yes" postag="VB.*" postag_regexp="yes">admit|appreciate|avoid|delay|practice|risk|deny|discuss|imagine|recommend|suggest|dislike|keep|tolerate|enjoy|mind|understand|miss|resent|finish|postpone|resist<exception scope="previous" regexp="yes" inflected="yes">of|be</exception></token>
             <token>to</token>
-            <token postag="VB"/>
+            <token postag="VB"><exception postag="NN:UN?" postag_regexp="yes"/></token>
             </marker>            
           </pattern>
           <message>This verb is used with the gerund form: <suggestion><match no="1"/> <match no="3" postag="VBG"/></suggestion>.</message>
@@ -8012,21 +8023,101 @@ USA
           <short>Grammatical problem</short>
           <example type="correct">I enjoy running.</example>
           <example type="incorrect" correction="enjoy running">I <marker>enjoy to run</marker>.</example>
+          <example type="correct">A three-man committee has recommended to Commission Chairman Charles O. Emmerich...</example>
+        </rule>
+        <rule>
+          <pattern>
+            <marker><token inflected="yes" postag="VB.*" postag_regexp="yes">regret</token>
+            <token>to</token>
+            <token postag="VB"><exception postag="NN:UN?" postag_regexp="yes"/><exception regexp="yes">say|inform|tell|announce|state|learn|report|note|hear|mention|advise</exception></token>
+            </marker>            
+          </pattern>
+          <message>This verb is used with the gerund form: <suggestion><match no="1"/> <match no="3" postag="VBG"/></suggestion>.</message>
+          <url>http://wps.ablongman.com/long_faigley_penguinhb_2/30/7853/2010580.cw/index.html</url>
+          <short>Grammatical problem</short>
+          <example type="correct">I regret saying this.</example>
+          <example type="incorrect" correction="regret reading">I <marker>regret to read</marker> this book.</example>
+          <example type="correct">Dear Madam, I regret to say that you are dead.</example>
+        </rule>        
+        <rule>        
+          <pattern>
+            <marker><token inflected="yes" postag="VB.*" regexp="yes" postag_regexp="yes">consider|report<exception scope="previous" regexp="yes" inflected="yes">be</exception></token>
+            <token>to</token>
+            <token postag="VB"><exception postag="NN:UN?" postag_regexp="yes"/><exception regexp="yes">be|have</exception></token>
+            </marker>            
+          </pattern>
+          <message>This verb is used with the gerund form: <suggestion><match no="1"/> <match no="3" postag="VBG"/></suggestion>.</message>
+          <url>http://wps.ablongman.com/long_faigley_penguinhb_2/30/7853/2010580.cw/index.html</url>
+          <short>Grammatical problem</short>
+          <example type="correct">I consider running.</example>
+          <example type="correct">They were a vagabond lot and considered to be shady and undesirable characters.</example>
+          <example type="correct">The lethal dose for adult zebrafish has been reported to be as high as 40 Gy.</example>
+          <example type="incorrect" correction="consider running">I <marker>consider to run</marker>.</example>          
         </rule>
         <rule>
           <pattern>
           <token inflected="yes" regexp="yes">be|get</token>
             <marker>
-            <token regexp="yes">used|accustomed</token>
+            <token>accustomed</token>
             <token>to</token>
             <token postag="VB"/>
             </marker>            
           </pattern>
           <message>This verb is used with the gerund form: <suggestion><match no="2"/> <match no="3"/> <match no="4" postag="VBG"/></suggestion>.</message>
           <url>http://wps.ablongman.com/long_faigley_penguinhb_2/30/7853/2010580.cw/index.html</url>
+          <short>Grammatical problem</short>          
+          <example type="correct">I am accustomed to hearing non-sense.</example>
+          <example type="incorrect" correction="accustomed to running">I am <marker>accustomed to run</marker>.</example>
+        </rule>
+        <rule>
+          <pattern>
+          <token regexp="yes">I|you|s?he|we|they</token>
+          <token inflected="yes" regexp="yes">be|get</token>
+            <marker>
+            <token>used</token>
+            <token>to</token>
+            <token postag="VB"/>
+            </marker>            
+          </pattern>
+          <message>This verb is used with the gerund form: <suggestion><match no="3"/> <match no="4"/> <match no="5" postag="VBG"/></suggestion>.</message>
+          <url>http://wps.ablongman.com/long_faigley_penguinhb_2/30/7853/2010580.cw/index.html</url>
           <short>Grammatical problem</short>
           <example type="correct">I used to enjoy running.</example>
-          <example type="incorrect" correction="accustomed to running">I am <marker>accustomed to run</marker>.</example>
+          <example type="correct">When used with the infinitive, however, these verbs can be used to speak about something that hasn't happened yet.</example>
+          <example type="incorrect" correction="used to running">I am <marker>used to run</marker>.</example>
+        </rule>
+        <rule>
+          <pattern>
+          <token regexp="yes">I|you|s?he|we|they</token>
+          <token spacebefore="no" regexp="yes">['’]</token>
+          <token regexp="yes">[sm]|re</token>
+            <marker>
+            <token>used</token>
+            <token>to</token>
+            <token postag="VB"/>
+            </marker>            
+          </pattern>
+          <message>This verb is used with the gerund form: <suggestion><match no="4"/> <match no="5"/> <match no="6" postag="VBG"/></suggestion>.</message>
+          <url>http://wps.ablongman.com/long_faigley_penguinhb_2/30/7853/2010580.cw/index.html</url>
+          <short>Grammatical problem</short>
+          <example type="correct">I used to enjoy running.</example>
+          <example type="correct">When used with the infinitive, however, these verbs can be used to speak about something that hasn't happened yet.</example>
+          <example type="incorrect" correction="used to running">I'm <marker>used to run</marker>.</example>
+        </rule>
+        <rule>
+          <pattern>
+           <token inflected="yes">look</token>
+           <token>forward</token>
+            <marker>            
+            <token>to</token>
+            <token postag="VB"/>
+            </marker>            
+          </pattern>
+          <message>This verb is used with the gerund form: <suggestion><match no="3"/> <match no="4" postag="VBG"/></suggestion>.</message>
+          <url>http://wps.ablongman.com/long_faigley_penguinhb_2/30/7853/2010580.cw/index.html</url>
+          <short>Grammatical problem</short>
+          <example type="correct">I look forward to seeing you.</example>          
+          <example type="incorrect" correction="to seeing">I look forward <marker>to see</marker> you.</example>
         </rule>
         </rulegroup>        
         <rulegroup id="ADVISE_VBG" name="'advise', 'help' and 'remind' used with gerund instead of infinitive">
@@ -9067,7 +9158,7 @@ USA
           <rule>
                 <pattern>
                   <marker>
-                    <token regexp="yes">s?he<exception scope="previous" regexp="yes">is|was|made</exception></token>
+                    <token regexp="yes">s?he|it<exception scope="previous" regexp="yes">is|was|made</exception></token>
                     <token>afraid</token>
                   </marker>
                     <token regexp="yes">of|to</token>
@@ -9112,7 +9203,7 @@ USA
           <rule>
                 <pattern>
                   <marker>
-                    <token regexp="yes">s?he</token>
+                    <token regexp="yes">s?he|it</token>
                     <token>doesn</token>
                     <token>'</token>
                     <token>t</token>

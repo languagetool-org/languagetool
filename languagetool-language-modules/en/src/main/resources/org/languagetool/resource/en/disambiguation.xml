@@ -1707,7 +1707,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     </rule>
     <rule id="PRP_NN_VBP" name="vb->vbp">    
     <pattern>
-        <token postag="PRP"><exception postag="RB"/></token>
+        <token postag="PRP"><exception postag="RB|PRP\$" postag_regexp="yes"/></token>
         <marker>
         <and>
         <token postag="NN:UN"/>
@@ -2037,6 +2037,21 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
           <example type="untouched">This year's profits should better last year's by a wide margin.</example>
           <example type="ambiguous" inputform="better[better/NN,better/VB,better/VBP,good/JJR,well/RBR]" outputform="better[good/JJR,well/RBR]">She likes Hiroshima <marker>better</marker> than any other city.</example>
         </rule>
+        
+        <rule id="PRPPOSS_VB_NN" name="Possesive pronoun + verb/noun =>noun">
+          <pattern>
+            <token postag="PRP$"/>
+            <marker>
+            <and>
+              <token postag="NN.*" postag_regexp="yes"/>
+              <token postag="VB[PZ]?" postag_regexp="yes"/>
+            </and>
+            </marker>
+          </pattern>
+          <disambig action="filter" postag="NN.*"/>
+          <example type="untouched">I do what I want to.</example>
+          <example type="ambiguous" inputform="minds[mind/NNS,mind/VBZ]" outputform="minds[mind/NNS]">They should make up their <marker>minds</marker>!</example>
+        </rule>
 
         <rule id="MOST_VBP" name="most + verb in plural">
           <pattern>
@@ -2275,6 +2290,17 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
           <disambig action="filter" postag="[IN]N|R[BP]|UH"/>
           <example type="untouched">He always left himself an out.</example>
           <example type="ambiguous" inputform="out[out/IN,out/NN,out/RB,out/RP,out/UH,out/VB,out/VBP]" outputform="out[out/IN,out/NN,out/RB,out/RP,out/UH]">Go <marker>out</marker>!</example>
+        </rule>
+        
+        <rule id="IN_ORDER_TO" name="in order to => order is a noun">
+        <pattern>
+          <token>in</token>
+          <marker><token>order</token></marker>
+          <token>to</token>
+        </pattern>
+        <disambig postag="NN:UN"/>
+        <example type="untouched">Order!</example>
+        <example type="ambiguous" inputform="order[order/NN:UN,order/UH,order/VB,order/VBP]" outputform="order[order/NN:UN]">The taxpayer testified that in <marker>order</marker> to retain the account</example>        
         </rule>
         
         <rule id="EXCEPT_NOT_VERB" name="VB_EXCEPT => not a verb">
