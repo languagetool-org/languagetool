@@ -7949,7 +7949,7 @@ USA
         <message>Did you mean <suggestion><match no="3" postag="VBG"/></suggestion>? Or maybe you should add a pronoun? In active voice, 'allow' + 'to' takes an object, usually a pronoun.</message>
         <url>http://wps.ablongman.com/long_faigley_penguinhb_2/30/7853/2010580.cw/index.html</url>
         <short>Grammatical problem: use gerund</short>        
-        <example type="incorrect">It allows <marker>to see</marker> better.</example>
+        <example type="incorrect" correction="seeing">It allows <marker>to see</marker> better.</example>
         <example type="correct">It allows seeing better.</example>
         <example type="correct">He was allowed to build an ambitious garden.</example>
         </rule>
@@ -7999,6 +7999,36 @@ USA
                 <example correction="to spend" type="incorrect">We cannot afford not <marker>spending</marker> the whole month in Alps.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="ADMIT_ENJOY_VB" name="'admit', 'appreciate', 'avoid', 'enjoy' etc. with a base form of a verb">
+        <rule>
+          <pattern>
+            <marker><token inflected="yes" regexp="yes" postag="VB.*" postag_regexp="yes">admit|appreciate|avoid|delay|practice|risk|deny|discuss|imagine|recommend|suggest|dislike|keep|regret|tolerate|enjoy|mind|report|understand|miss|resent|consider|finish|postpone|resist|enjoy<exception scope="previous" regexp="yes" inflected="yes">of|be</exception></token>
+            <token>to</token>
+            <token postag="VB"/>
+            </marker>            
+          </pattern>
+          <message>This verb is used with the gerund form: <suggestion><match no="1"/> <match no="3" postag="VBG"/></suggestion>.</message>
+          <url>http://wps.ablongman.com/long_faigley_penguinhb_2/30/7853/2010580.cw/index.html</url>
+          <short>Grammatical problem</short>
+          <example type="correct">I enjoy running.</example>
+          <example type="incorrect" correction="enjoy running">I <marker>enjoy to run</marker>.</example>
+        </rule>
+        <rule>
+          <pattern>
+          <token inflected="yes" regexp="yes">be|get</token>
+            <marker>
+            <token regexp="yes">used|accustomed</token>
+            <token>to</token>
+            <token postag="VB"/>
+            </marker>            
+          </pattern>
+          <message>This verb is used with the gerund form: <suggestion><match no="2"/> <match no="3"/> <match no="4" postag="VBG"/></suggestion>.</message>
+          <url>http://wps.ablongman.com/long_faigley_penguinhb_2/30/7853/2010580.cw/index.html</url>
+          <short>Grammatical problem</short>
+          <example type="correct">I used to enjoy running.</example>
+          <example type="incorrect" correction="accustomed to running">I am <marker>accustomed to run</marker>.</example>
+        </rule>
+        </rulegroup>        
         <rulegroup id="ADVISE_VBG" name="'advise', 'help' and 'remind' used with gerund instead of infinitive">
             <rule>
                 <pattern>
@@ -9006,6 +9036,95 @@ USA
                 <example type="incorrect">I'm afraid of <marker>dark</marker>.</example>
                 <example type="correct">I'm afraid of <marker>the dark</marker>.</example>
             </rule>
+        </rulegroup>
+        <rulegroup id="I_AFRAID" name="'I afraid of' (I'm afraid of)">
+          <rule>
+                <pattern>
+                  <marker>
+                    <token>I<exception scope="previous" regexp="yes">am|was</exception></token>
+                    <token>afraid</token>
+                  </marker>
+                    <token regexp="yes">of|to</token>
+                </pattern>
+                <message>You miss the verb here. You should rather write: <suggestion>\1'm \2</suggestion>.</message>
+                <short>Grammatical problem</short>
+                <example type="correct">I'm afraid of the dark.</example>
+                <example type="incorrect" correction="I'm afraid"><marker>I afraid</marker> of the dark.</example>
+          </rule>
+          <rule>
+                <pattern>
+                  <marker>
+                    <token regexp="yes">you|we|they<exception scope="previous" regexp="yes">are|were|made</exception></token>
+                    <token>afraid</token>
+                  </marker>
+                    <token regexp="yes">of|to</token>
+                </pattern>
+                <message>You miss the verb here. You should rather write: <suggestion>\1're \2</suggestion>.</message>
+                <short>Grammatical problem</short>
+                <example type="correct">You're afraid of the dark.</example>
+                <example type="incorrect" correction="You're afraid"><marker>You afraid</marker> of the dark.</example>
+          </rule>
+          <rule>
+                <pattern>
+                  <marker>
+                    <token regexp="yes">s?he<exception scope="previous" regexp="yes">is|was|made</exception></token>
+                    <token>afraid</token>
+                  </marker>
+                    <token regexp="yes">of|to</token>
+                </pattern>
+                <message>You miss the verb here. You should rather write: <suggestion>\1's \2</suggestion>.</message>
+                <short>Grammatical problem</short>
+                <example type="correct">He's afraid of the dark.</example>
+                <example type="incorrect" correction="He's afraid"><marker>He afraid</marker> of the dark.</example>
+          </rule>
+          <rule>
+                <pattern>
+                  <marker>
+                    <token regexp="yes">you|we|they</token>
+                    <token>don</token>
+                    <token>'</token>
+                    <token>t</token>
+                    <token>afraid</token>
+                  </marker>
+                    <token regexp="yes">of|to</token>
+                </pattern>
+                <message>'\5' is not a verb. You should rather write: <suggestion>\1're not \5</suggestion>.</message>
+                <short>Grammatical problem</short>
+                <example type="correct">You're afraid of the dark.</example>
+                <example type="incorrect" correction="You're not afraid"><marker>You don't afraid</marker> of the dark.</example>
+          </rule>
+          <rule>
+                <pattern>
+                  <marker>
+                    <token>I</token>
+                    <token>don</token>
+                    <token>'</token>
+                    <token>t</token>
+                    <token>afraid</token>
+                  </marker>
+                    <token regexp="yes">of|to</token>
+                </pattern>
+                <message>'\5' is not a verb. You should rather write: <suggestion>\1'm not \5</suggestion>.</message>
+                <short>Grammatical problem</short>
+                <example type="correct">I'm afraid of the dark.</example>
+                <example type="incorrect" correction="I'm not afraid"><marker>I don't afraid</marker> of the dark.</example>
+          </rule>
+          <rule>
+                <pattern>
+                  <marker>
+                    <token regexp="yes">s?he</token>
+                    <token>doesn</token>
+                    <token>'</token>
+                    <token>t</token>
+                    <token>afraid</token>
+                  </marker>
+                    <token regexp="yes">of|to</token>
+                </pattern>
+                <message>'\5' is not a verb. You should rather write: <suggestion>\1's not \5</suggestion>.</message>
+                <short>Grammatical problem</short>
+                <example type="correct">He's afraid of the dark.</example>
+                <example type="incorrect" correction="She's not afraid"><marker>She doesn't afraid</marker> of the dark.</example>
+          </rule>                   
         </rulegroup>
         <rule id="DOES_XX_CAN" name="Wrong usage of modal verbs in questions">
             <pattern>
@@ -10549,6 +10668,19 @@ USA
                 <message>Did you mean <suggestion>affect</suggestion>?</message>
                 <short>Commonly confused word</short>
                 <example correction="affect" type="incorrect">That might <marker>effect</marker> the bottom line.</example>
+                <example type="correct">That might affect the bottom line.</example>
+            </rule>
+            <rule> <!-- may effect, might effect, would effect, etc -->
+                <pattern>
+                    <token regexp="yes">might|may|often|could|would|will|did|does|not|typically</token>
+                    <token postag="RB"/>
+                    <marker>
+                        <token>effect</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>affect</suggestion>?</message>
+                <short>Commonly confused word</short>
+                <example correction="affect" type="incorrect">That might adversely <marker>effect</marker> the bottom line.</example>
                 <example type="correct">That might affect the bottom line.</example>
             </rule>
             <rule> <!-- couldn't effect, shouldn't effect, didn't effect, etc. -->
