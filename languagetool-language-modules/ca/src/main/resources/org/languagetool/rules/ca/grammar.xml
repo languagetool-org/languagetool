@@ -9576,6 +9576,14 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Accents diacrítics" type="grammar">
+        <rule id="COM_OBI" name="cóm/com">
+            <pattern>
+                <token>cóm</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>com</suggestion>? S'accentua "cóm" quan és sinònim de "obi".</message>
+            <example type="incorrect" correction="Com"><marker>Cóm</marker>?</example>
+            <example type="correct">com</example>
+        </rule>
     	<rulegroup id="QUE_QUE" name="què/que">
     		<rule>
 			    <pattern>
@@ -10143,7 +10151,10 @@ $Id$
                 <example type="correct">Ves per on, això m'agrada.</example>
             </rule>
             </rulegroup>
-        <rulegroup id="NET" name="net/nét">     
+        <rulegroup id="NET" name="net/nét">
+        <!-- numeral + net/neta
+        la seva neta contribució/memòria, netes aigües
+              -->
             <!-- net/nét : podria ser com "pendent, corrent"? -->       
             <rule>
                 <pattern>
@@ -10152,7 +10163,7 @@ $Id$
                     <marker>
                         <token inflected="yes">net</token>
                     </marker>
-                    <token><exception>patrimonial</exception></token>
+                    <token><exception regexp="yes" inflected="yes">patrimonial|contribució|memòria|aigua</exception></token>
                 </pattern>
                 <message>S'accentua quan és nom: <suggestion><match no="3" regexp_match="ne(.+)" regexp_replace="né$1"/></suggestion>.</message>
                 <short>S'accentua quan és nom</short>
@@ -10160,6 +10171,7 @@ $Id$
                 <example type="incorrect">Les vostres <marker>netes</marker>.</example>
                 <example type="correct">El meu nét.</example>
                 <example type="correct">El seu net patrimonial.</example>
+                <example type="correct">Les seves netes aigües.</example>
             </rule>
             <rule>
                 <pattern>
@@ -10176,15 +10188,23 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="DN.*" postag_regexp="yes" />
-                    <marker>
-                        <token inflected="yes">net</token>
-                    </marker>
+                    <unify>
+                    <feature id="nombre"/>
+                    <feature id="genere"/>
+                        <token postag="DN.*" postag_regexp="yes" />
+                        <marker>
+                            <token inflected="yes">net</token>
+                        </marker>
+                    </unify>
                 </pattern>
                 <message>S'accentua quan és nom: <suggestion><match no="3" regexp_match="ne(.+)" regexp_replace="né$1"/></suggestion>.</message>
                 <short>S'accentua quan és nom</short>
                 <example type="incorrect">Tinc quatre <marker>nets</marker>.</example>
+                <example type="incorrect">Tinc 5 <marker>netes</marker>.</example>
+                <example type="incorrect">Tinc dues <marker>netes</marker>.</example>
                 <example type="correct">Tinc quatre néts.</example>
+                <example type="correct">Un castell de 3 de 9 net.</example>
+                <example type="correct">Un quinze net, trenta net.</example>
             </rule>
             <rule>
                 <pattern>
@@ -18663,6 +18683,17 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="ABRAC_ABRACADA" name="abraç/abraçada">
+            <pattern>
+                <marker>
+                    <token inflected="yes">abraç</token>
+                </marker>
+            </pattern>
+            <message>Incorrecte en el sentit de <suggestion><match no="1" postag="NCM(.)000" postag_regexp="yes" postag_replace="NCF$1000">abraçada</match></suggestion>. "Abraç" existeix com a terme d'heràldica.</message>
+            <short>Paraula dubtosa</short>
+            <example type="incorrect" correction="abraçades">Van repartir <marker>abraços</marker> per a tothom.</example>
+            <example type="correct">una forta abraçada</example>
+        </rule>
         <rule id="COMO_COM" name="como/com">
             <pattern>
                 <token>como<exception postag="NPCSG00"/></token>
