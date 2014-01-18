@@ -806,7 +806,6 @@ $Id$
                 <short>Error de concordança</short>
                 <example type="incorrect" correction="aquell camió|aquells camions">Porta <marker>aquell camions</marker>.</example>
                 <example type="incorrect" correction="tant home|tants homes|tants hòmens">Per què hi ha <marker>tant homes</marker>?</example>
-                <example type="incorrect" correction="algun error|alguns errors">Per a <marker>algunes errors</marker> que detecta.</example>
                 <example type="incorrect" correction="poc any|pocs anys">Fins a <marker>poc anys</marker> després</example>
                 <!-- <example type="incorrect" correction="Aquell pi|Aquell pis|Aquells pins|Aquells pisos"><marker>Aquells pis</marker>.</example> -->
                 <example type="correct">Aquests pisos.</example>
@@ -22588,16 +22587,62 @@ $Id$
             <example type="incorrect"><marker>alter ego</marker></example>
             <example type="correct">àlter ego</example>
         </rule>
-        <rule id="COLOR" name="color (en femení)">
-            <pattern>
-                <token postag="_GN_F." postag_regexp="yes" regexp="yes">colors?<exception postag="_GN_M." postag_regexp="yes" /></token>
-            </pattern>
-            <message>És més normal usar "color" com a nom masculí.</message>
-            <short>Nom habitualment masculí</short>
-            <example type="incorrect">Amb aquelles <marker>colors</marker> de cara</example>
-            <example type="correct">Amb aquell color de cara</example>
-            <example type="correct">N'hi havia de tres colors.</example>
-        </rule>
+        <rulegroup id="COLOR" name="amor, color, sabor... (normalment en masculí)">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="D[^RAN].F.*" postag_regexp="yes"/>
+                        <token regexp="yes">(amor|ardor|candor|clamor|color|dolor|error|estridor|estupor|fervor|fragor|fulgor|furor|honor|horror|humor|rigor|rubor|rumor|sabor|sopor|temor|terror|valor|vigor)s?</token>
+                    </marker>
+                </pattern>
+                <message>És més habitual usar "<match no="2"/>" com a nom masculí.</message>
+                <suggestion><match no="1" postag="D..[MC][SN].*" postag_regexp="yes" /> <match no="2" postag="N.[MC][SN].*" postag_regexp="yes" /></suggestion>
+                <suggestion><match no="1" postag="D..[MC][PN].*" postag_regexp="yes" /> <match no="2" postag="N.[MC][PN].*" postag_regexp="yes" /></suggestion>
+                <short>Nom habitualment masculí</short>
+                <example type="incorrect" correction="algun error|alguns errors">Per a <marker>algunes errors</marker> que detecta.</example>
+                <example type="correct">Hi ha algun error</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="DA.F.*" postag_regexp="yes"/>
+                        <token regexp="yes">(amor|ardor|candor|clamor|color|dolor|error|estridor|estupor|fervor|fragor|fulgor|furor|honor|horror|humor|rigor|rubor|rumor|sabor|sopor|temor|terror|valor|vigor)s?</token>
+                    </marker>
+                </pattern>
+                <message>És més habitual usar "<match no="2"/>" com a nom masculí.</message>
+                <suggestion><match no="3" postag="DT" /></suggestion>
+                <short>Nom habitualment masculí</short>
+                <example type="incorrect" correction="els errors|l'error">Per a <marker>les errors</marker> que detecta.</example>
+                <example type="correct">Els errors</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="DN.F.*" postag_regexp="yes"/>
+                        <token regexp="yes">(amor|ardor|candor|clamor|color|dolor|error|estridor|estupor|fervor|fragor|fulgor|furor|honor|horror|humor|rigor|rubor|rumor|sabor|sopor|temor|terror|valor|vigor)s?</token>
+                    </marker>
+                </pattern>
+                <message>És més habitual usar "<match no="2"/>" com a nom masculí.</message>
+                <suggestion><match no="1" postag="DN.M.*" postag_regexp="yes" /> <match no="3"/></suggestion>
+                <short>Nom habitualment masculí</short>
+                <example type="incorrect" correction="trenta-dos errors">Ha comès <marker>trenta-dues errors</marker>.</example>
+                <example type="correct">Dos amors</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception postag="D[^RAN].F.*" postag_regexp="yes"/></token>
+                    <marker>
+                        <token postag="_GN_F." postag_regexp="yes" regexp="yes">(amor|ardor|candor|clamor|color|dolor|error|estridor|estupor|fervor|fragor|fulgor|furor|honor|horror|humor|rigor|rubor|rumor|sabor|sopor|temor|terror|valor|vigor)s?<exception postag="_GN_M." postag_regexp="yes" /></token>
+                    </marker>
+                </pattern>
+                <message>És més habitual usar "<match no="2"/>" com a nom masculí.</message>
+                <short>Nom habitualment masculí</short>
+                <example type="incorrect">Eren <marker>colors</marker> boniques</example>
+                <example type="correct">Amb colors transparents.</example>
+                <example type="correct">Amb aquell color de cara</example>
+                <example type="correct">N'hi havia de tres colors.</example>
+            </rule>
+        </rulegroup>
         <rule id="POSAR_DE_RELLEU" name="posar de/en relleu">
             <pattern>
                 <token inflected="yes" skip="1">posar</token>
