@@ -7502,7 +7502,7 @@ USA
             <example type="correct"><marker>An intelligence</marker> service is known to be corrupt here.</example>
             <example correction="Very nice accommodation" type="incorrect"><marker>A very nice accommodation</marker> is too expensive.</example>
         </rule>        
-        </rulegroup>
+        </rulegroup>        
         <rule id="MOST_SOME_OF_NNS" name="Articles: 'most/some of' + plural noun">
             <pattern>
                 <token regexp="yes">most|some</token>
@@ -7516,7 +7516,7 @@ USA
             <example correction="Most of the students|Most students" type="incorrect"><marker>Most of students</marker> do their homework.</example>
             <example type="correct">Buy a collection of most of Rand's works in a CD-ROM format.</example>
             <example type="correct"><marker>Some of the students</marker> do their homework.</example>
-        </rule>
+        </rule>                
         <!--  needs more and more tweaking; 
   currently the last exception in all rules is a simplification,
   it should be more recursive, i.e., there one more rule for all current rules, structured like this: 
@@ -9680,6 +9680,7 @@ USA
                 <example correction="anything" type="incorrect">Nobody told me <marker>nothing</marker>.</example>
                 <example type="correct">Nobody told me anything.</example>
                 <example type="incorrect" correction="anybody">I'm not speaking to <marker>nobody</marker> in this class.</example>
+                <example type="incorrect" correction="anything">I didn't notice <marker>nothing</marker> wrong.</example>
             </rule>
         </rulegroup>
     </category>
@@ -12068,6 +12069,21 @@ USA
             <example type="correct">She is going to all the parks.</example>
             <example type="correct">She is going some or all of the parks.</example>
         </rule>
+        <rule id="SOME_OF_THE" name="some of the (some)">
+            <pattern>
+                <token negate="yes">or</token>
+                <marker>
+                    <token>some</token>
+                    <token>of</token>
+                    <token>the</token>
+                </marker>                
+            </pattern>
+            <message>Simply use <suggestion>some</suggestion>.</message>
+            <short>Redundant phrase</short>
+            <example correction="Some" type="incorrect"><marker>Some of the</marker> parks are in the area.</example>
+            <example type="correct">She is going to buy some parks.</example>
+            <example type="correct">She is going all or some of the parks.</example>
+        </rule>        
         <rule id="TRY_AND" name="try and (try to)">
             <pattern>
                 <token>try</token>

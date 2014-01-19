@@ -95,6 +95,52 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         </pattern>
         <disambig postag="VB"></disambig>
     </rule>
+    <rule id="DO_VBNN_VB" name="do/did/does + verb/noun -> VB">
+      <pattern>
+        <token regexp="yes">do|did|does</token>
+            <marker>
+                <and>
+                    <token postag="VB"></token>
+                    <token postag_regexp="yes" postag="JJ|NN.*"></token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig postag="VB"></disambig>       
+        <example type="untouched">I did my homework.</example>
+        <example type="ambiguous" inputform="notice[notice/NN:UN,notice/VB,notice/VBP]" outputform="notice[notice/VB]">I did <marker>notice</marker> what you said.</example>
+    </rule>
+    <rule id="DO_not_VBNN_VB" name="do/did/does + not + verb/noun -> VB">
+      <pattern>
+        <token regexp="yes">do|did|does</token>
+        <token>not</token>
+            <marker>
+                <and>
+                    <token postag="VB"></token>
+                    <token postag_regexp="yes" postag="JJ|NN.*"></token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig postag="VB"></disambig>       
+        <example type="untouched">I did my homework.</example>
+        <example type="ambiguous" inputform="notice[notice/NN:UN,notice/VB,notice/VBP]" outputform="notice[notice/VB]">I did not <marker>notice</marker> what you said.</example>
+    </rule>
+    <rule id="DONT_VBNN_VB" name="don't/didn't/doesn't + verb/noun -> VB">
+      <pattern>
+        <token regexp="yes">don|didn|doesn</token>
+        <token spacebefore="no" regexp="yes">['’]</token>
+        <token>t</token>
+            <marker>
+                <and>
+                    <token postag="VB"></token>
+                    <token postag_regexp="yes" postag="JJ|NN.*"></token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig postag="VB"></disambig>       
+        <example type="untouched">I did my homework.</example>
+        <example type="ambiguous" inputform="notice[notice/NN:UN,notice/VB,notice/VBP]" outputform="notice[notice/VB]">I didn't <marker>notice</marker> what you said.</example>
+    </rule>
+    
     <!--
      <rule name="have as verb/noun + past participle -> have/modal" id="HAVE_VBN">
          <pattern mark="0">
