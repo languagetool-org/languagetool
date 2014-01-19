@@ -603,7 +603,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     </rulegroup>
     <rule name="determiner + verb/NN -&gt; NN" id="DT_VB_NN">
         <pattern>
-            <token postag="DT"><exception postag="PDT"></exception></token>
+            <token postag="DT"><exception postag="PDT"/><exception regexp="yes">th[eo]se</exception></token>
             <marker>
                 <and>
                     <token postag_regexp="yes" postag="VBP?|MD"></token>
@@ -612,6 +612,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             </marker>
         </pattern>
         <disambig postag="NN"></disambig>
+        <example type="untouched">These may be to bring about political change.</example>
     </rule>
     <rule name="determiner + verb/NN -&gt; NN (2)" id="DT_VB_NN_SENTEND">
         <pattern>
@@ -1757,7 +1758,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     <rulegroup id="VBP_VBZ_NNS" name="VBZ/NN->VBZ">
       <rule>
     	<pattern>
-    		<token postag="VBP"/>
+    		<token postag="VBP?" postag_regexp="yes"/>
     		<marker>
     		<and>
     			<token postag="VBZ"/>
@@ -1809,8 +1810,8 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <token postag="NNS"/>
             <token postag="VBZ"/>
           </and>
-          <token postag="VBP?" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="VBP?"></exception></token>
-        </marker>
+          </marker>
+          <token postag="VBP?" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="VBP?"></exception></token>        
       </pattern>
       <disambig postag="NNS"/>
       <example type="untouched">They should pass the waters.</example>
@@ -2052,6 +2053,23 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
           <example type="untouched">I do what I want to.</example>
           <example type="ambiguous" inputform="minds[mind/NNS,mind/VBZ]" outputform="minds[mind/NNS]">They should make up their <marker>minds</marker>!</example>
         </rule>
+        
+        <rule id="JJ_VBZ_NNS" name="Adjective + verb singular/plural noun => noun">
+        <pattern>
+            <token postag="JJ"><exception scope="previous" regexp="yes">s?he|it</exception><exception postag="RB"/></token>
+            <marker>
+            <and>
+            <token postag="VBZ"><exception regexp="yes">is|does</exception></token>
+            <token postag="NNS"/>
+            </and>
+            </marker>
+            <token><exception postag="RB"/></token>            
+          </pattern>
+          <disambig postag="NNS"/>
+          <example type="untouched">I enjoy running.</example>
+          <example type="ambiguous" inputform="forces[force/NNS,force/VBZ]" outputform="forces[force/NNS]">I like military <marker>forces</marker>.</example>
+        </rule>
+        
 
         <rule id="MOST_VBP" name="most + verb in plural">
           <pattern>
@@ -2371,6 +2389,29 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
           <example type="ambiguous" inputform="washing[wash/VBG,washing/NN:U]" outputform="washing[washing/NN:U]">They did <marker>washing</marker>.</example>
         </rule>
                
+        <rule name="orders > noun" id="ORDERS_NN">
+          <pattern>
+            <token regexp="yes" inflected="yes">give|take|stand|follow|place|make|receive|issue|obey|have|be|purchase|bark|get|disobey|accept|limit|cancel|await|deliver|pass</token>
+            <marker><token>orders</token></marker>
+          </pattern>
+          <disambig postag="NNS"/>
+          <example type="untouched">These are my orders.</example>
+          <example type="ambiguous" inputform="orders[order/NNS,order/VBZ]" outputform="orders[order/NNS]">You cannot disobey <marker>orders</marker>!</example>
+        </rule>
+        
+        <rule id="IN_TRAINING" name="preposition + training =>noun">
+          <pattern>
+            <token postag="IN"/>
+            <marker>
+              <token>training</token>
+            </marker>
+          </pattern>
+          <disambig postag="NN:U"/>
+          <example type="untouched">I'm training now.</example>
+          <example type="ambiguous" inputform="training[train/VBG,training/NN:U]" outputform="training[training/NN:U]">We need to to pay for <marker>training</marker> to meet national skilled manpower needs.</example>
+        </rule>                 
+        
+               
         <rule name="or" id="REMOVE_JJ_FOR_OR">
           <!-- work around strange dict entry -->
           <pattern case_sensitive="yes">
@@ -2378,8 +2419,8 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
           </pattern>
           <disambig action="remove"><wd pos="JJ"/></disambig>
           <example type="ambiguous" inputform="or[or/CC,or/JJ,or/NN:U]" outputform="or[or/CC,or/NN:U]">Let's choose A <marker>or</marker> B.</example>
-        </rule>                
-
+        </rule>
+        
         <rule name="or" id="REMOVE_NN_FOR_OR">
           <!-- work around strange dict entry -->
           <pattern case_sensitive="yes">

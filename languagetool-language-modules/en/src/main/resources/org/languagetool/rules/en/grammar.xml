@@ -7951,7 +7951,7 @@ USA
         <rulegroup id="ALLOW_TO" name="'allow' + 'to' + infinitive">
         <rule>          
         <pattern>
-          <token inflected="yes" regexp="yes" postag_regexp="yes" postag="VB.*">allow|advise|authorize|cause|challenge|convince|encourage|force|hire|inform|instruct|invite|order|permit|persuade|remind|require|teach|tell|train|urge<exception postag="VBN"/><exception scope="previous" postag="PRP\$|JJ" postag_regexp="yes"/></token>
+          <token inflected="yes" regexp="yes" postag_regexp="yes" postag="VB.*">allow|advise|authorize|cause|challenge|convince|encourage|force|hire|inform|instruct|invite|order|permit|persuade|remind|require|teach|tell|train|urge<exception postag="VBN"/><exception scope="previous" postag="PRP\$|JJ|VBN" postag_regexp="yes"/></token>
           <marker>
           <token>to</token>        
             <token postag="VBP"></token>
@@ -7964,6 +7964,7 @@ USA
         <example type="correct">It allows seeing better.</example>
         <example type="correct">They are forbidden to fly without specific orders to proceed to their targets.</example>
         <example type="correct">He was allowed to build an ambitious garden.</example>
+        <example type="correct">General Don Carlos Buell likewise refused orders to move the Army of the Ohio against rebel forces.</example>
         </rule>
         <rule>
         <pattern>
@@ -8014,7 +8015,7 @@ USA
         <rulegroup id="ADMIT_ENJOY_VB" name="'admit', 'appreciate', 'avoid', 'enjoy' etc. with a base form of a verb">
         <rule>
           <pattern>
-            <marker><token inflected="yes" regexp="yes" postag="VB.*" postag_regexp="yes">admit|appreciate|avoid|delay|practice|risk|deny|discuss|imagine|recommend|suggest|dislike|keep|tolerate|enjoy|mind|understand|miss|resent|finish|postpone|resist<exception scope="previous" regexp="yes" inflected="yes">of|be</exception></token>
+            <marker><token inflected="yes" regexp="yes" postag="VB.*" postag_regexp="yes">admit|appreciate|avoid|delay|practice|risk|deny|discuss|imagine|recommend|suggest|dislike|keep|tolerate|enjoy|mind|miss|resent|finish|postpone|resist<exception scope="previous" regexp="yes" inflected="yes">of|be</exception></token>
             <token>to</token>
             <token postag="VB"><exception postag="NN:UN?" postag_regexp="yes"/></token>
             </marker>            
@@ -8042,9 +8043,9 @@ USA
         </rule>        
         <rule>        
           <pattern>
-            <marker><token inflected="yes" postag="VB.*" regexp="yes" postag_regexp="yes">consider|report<exception scope="previous" regexp="yes" inflected="yes">be</exception></token>
+            <marker><token inflected="yes" postag="VB.*" regexp="yes" postag_regexp="yes">consider|report|understand<exception scope="previous" regexp="yes" inflected="yes">be|,</exception></token>
             <token>to</token>
-            <token postag="VB"><exception postag="NN:UN?" postag_regexp="yes"/><exception regexp="yes">be|have</exception></token>
+            <token postag="VB"><exception postag="NN:UN?" postag_regexp="yes"/><exception regexp="yes">be|have|include</exception></token>
             </marker>            
           </pattern>
           <message>This verb is used with the gerund form: <suggestion><match no="1"/> <match no="3" postag="VBG"/></suggestion>.</message>
@@ -8053,6 +8054,7 @@ USA
           <example type="correct">I consider running.</example>
           <example type="correct">They were a vagabond lot and considered to be shady and undesirable characters.</example>
           <example type="correct">The lethal dose for adult zebrafish has been reported to be as high as 40 Gy.</example>
+          <example type="correct">"Anthropology" is from the Greek anthrōpos, "man", understood to mean humankind or humanity, and -logia (-λογία).</example>
           <example type="incorrect" correction="consider running">I <marker>consider to run</marker>.</example>          
         </rule>
         <rule>
@@ -8111,13 +8113,14 @@ USA
            <token>forward</token>
             <marker>            
             <token>to</token>
-            <token postag="VB"/>
+            <token postag="VB"><exception postag="NN:UN?" postag_regexp="yes"/></token>
             </marker>            
           </pattern>
           <message>This verb is used with the gerund form: <suggestion><match no="3"/> <match no="4" postag="VBG"/></suggestion>.</message>
           <url>http://wps.ablongman.com/long_faigley_penguinhb_2/30/7853/2010580.cw/index.html</url>
           <short>Grammatical problem</short>
-          <example type="correct">I look forward to seeing you.</example>          
+          <example type="correct">I look forward to seeing you.</example>
+          <example type="correct">But he was looking forward to snow.</example>          
           <example type="incorrect" correction="to seeing">I look forward <marker>to see</marker> you.</example>
         </rule>
         </rulegroup>        
@@ -8301,6 +8304,28 @@ USA
                 <example type="correct">All he did was to help us not to stay calm.</example>
                 <example correction="to stay" type="incorrect">All he did was to help us not <marker>staying</marker> calm.</example>
             </rule>
+        </rulegroup>
+        <rulegroup id="PROGRESSIVE_VERBS" name="Progressive forms of non-progressive verbs (doubt, believe, understand)">
+        <rule>
+        <pattern>
+            <token inflected="yes">be</token>
+            <token inflected="yes" postag="VBG" regexp="yes">doubt|believe|imagine|know|(dis)?like|love|hate|prefer|reali[zs]e|recogni[sz]e|remember|suppose|understand|want|wish|appear|hear|seem|smell|sound|taste|agree|deny|disagree|impress|mean|please|promise|satisfy|belong|concern|consist|contain|depend|deserve|involve|matter|need|own|possess</token>
+          </pattern>
+          <message>This verb is normally not used in the progressive form. Try a simple form instead.</message>
+          <short>Grammatical problem</short>
+          <example type="correct">I doubt.</example>
+          <example type="incorrect">I <marker>am doubting</marker>.</example>
+        </rule>
+        <rule>
+        <pattern>
+            <token>am</token>
+            <token regexp="yes">astonishing|surprising|lacking|fitting</token>
+          </pattern>
+          <message>This verb is normally not used in the progressive form. Try a simple form instead.</message>
+          <short>Grammatical problem</short>
+          <example type="correct">I am surprised.</example>
+          <example type="incorrect">I <marker>am surprising</marker>.</example>
+        </rule>
         </rulegroup>
         <rulegroup id="THIS_NNS" name="'this' vs. 'these'">
             <rule>
@@ -9216,6 +9241,40 @@ USA
                 <short>Grammatical problem</short>
                 <example type="correct">He's afraid of the dark.</example>
                 <example type="incorrect" correction="She's not afraid"><marker>She doesn't afraid</marker> of the dark.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <marker><token>afraid</token>
+              <token>the</token>
+              <token regexp="yes">dark|wind|rain</token>
+              </marker>
+            </pattern>
+            <message>The adjective \1 is used with 'of': <suggestion>\1 of \2 \3</suggestion>.</message>
+            <short>Grammatical problem</short>
+            <example type="correct">I'm afraid of the dark.</example>
+            <example type="incorrect" correction="afraid of the rain">I'm <marker>afraid the rain</marker>.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <marker><token>afraid</token>
+              <token postag="NNS"/>
+              </marker>
+            </pattern>
+            <message>The adjective \1 is used with 'of': <suggestion>\1 of \2</suggestion>.</message>
+            <short>Grammatical problem</short>
+            <example type="correct">I'm afraid of spiders.</example>
+            <example type="incorrect" correction="afraid of spiders">I'm <marker>afraid spiders</marker>.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <marker><token>afraid</token>
+              <token postag="VB"><exception regexp="yes">wind|rain</exception></token>
+              </marker>
+            </pattern>
+            <message>The adjective \1 is used with 'to': <suggestion>\1 to \2</suggestion>.</message>
+            <short>Grammatical problem</short>
+            <example type="correct">I'm afraid to eat spiders.</example>
+            <example type="incorrect" correction="afraid to eat">I'm <marker>afraid eat</marker> spiders.</example>
           </rule>                   
         </rulegroup>
         <rule id="DOES_XX_CAN" name="Wrong usage of modal verbs in questions">
