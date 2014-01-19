@@ -13747,6 +13747,18 @@ $Id$
         </rulegroup>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="MES_ALLA" name="més *allà/enllà">
+            <pattern>
+                <marker>
+                    <token regexp="yes">més|mes</token>
+                    <token>allà</token>
+                </marker>
+                <token><exception>on</exception></token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>més enllà</suggestion>?</message>
+            <example type="incorrect"><marker>Més allà</marker> de l'horitzó.</example>
+            <example type="correct">més allà on més n'hi ha</example>
+        </rule>
         <rule id="DUN_TEMPS_A_AQUESTA_PART" name="d'un temps *a aquesta part/ençà">
             <pattern>
                 <token>d'</token>
@@ -16994,6 +17006,7 @@ $Id$
                 <example type="incorrect" correction="entorn del"><marker>entorn al</marker> mercat hi ha molta gent</example>
                 <example type="correct">entorn dels mercats hi ha molta gent</example>
                 <example type="correct">Pot alterar l'entorn al seu gust</example>
+                <example type="correct">en l'entorn a través de vies específiques</example>
             </rule>
         </rulegroup>
         <rulegroup id="A_L_ENTORN_DE" name="a l'entorn de">
@@ -20952,9 +20965,9 @@ $Id$
         </rule>
         <rule id="COMPLERT_COMPLET" name="complert/complet">
             <pattern>
-            	<token postag="SENT_START|_PUNCT.*" postag_regexp="yes" skip="-1"><exception scope="next" regexp="yes">disposici(ó|ons)|lleis?|terminis?|pronòstics?|deures?|obligaci(ó|ons)|promes(a|es)|objectius?|anys?|missió|desigs?|desitjos|mes|mesos|setman(a|es)|tràmits?</exception><exception scope="next" postag="_PUNCT.*" postag_regexp="yes"/></token>
+                <token postag="SENT_START|_PUNCT.*" postag_regexp="yes" skip="-1"><exception scope="next" regexp="yes">disposici(ó|ons)|lleis?|terminis?|pronòstics?|deures?|obligaci(ó|ons)|promes(a|es)|objectius?|anys?|missió|desigs?|desitjos|mes|mesos|setman(a|es)|tràmits?|somnis?</exception><exception scope="next" postag="_PUNCT.*" postag_regexp="yes"/></token>
                 <marker>
-                    <token regexp="yes" skip="-1">(in)?complert(a|s|es)?<exception inflected="yes" scope="previous" regexp="yes">haver|considerar|-ne</exception><exception postag="_C_TEMPS"/><exception regexp="yes" scope="next">disposici(ó|ons)|lleis?|terminis?|pronòstics?|deures?|obligaci(ó|ons)|promes(a|es)|objectius?|anys?|missió|desigs?|desitjos|mes|mesos|setman(a|es)|tràmits</exception></token>
+                    <token regexp="yes" skip="-1">(in)?complert(a|s|es)?<exception inflected="yes" scope="previous" regexp="yes">haver|considerar|-ne</exception><exception postag="_C_TEMPS"/><exception regexp="yes" scope="next">disposici(ó|ons)|lleis?|terminis?|pronòstics?|deures?|obligaci(ó|ons)|promes(a|es)|objectius?|anys?|missió|desigs?|desitjos|mes|mesos|setman(a|es)|tràmits?|somnis?</exception></token>
                 </marker>
                 <token postag="SENT_END"/>
             </pattern>
@@ -20972,6 +20985,7 @@ $Id$
             <example type="correct">Complerts els desitjos</example>
             <example type="correct">és a dir, lleis concretes complertes amb un autèntic goig.</example>
             <example type="correct">Haven complert les seves obligacions,</example>
+            <!-- un cop complerta la condemna -->
         </rule>
         <rulegroup id="MODALS" name="modals">
         <!-- En alguns casos cal informació contextual -->
