@@ -11876,13 +11876,17 @@ $Id$
         <rulegroup id="PRONOMS_FEBLES_DAVANT_VERB" name="Formes incorrectes davant de verb: *se omple, *se'l emporta">
             <rule>
                 <pattern>
-                    <token postag="P0.*|PP.*" postag_regexp="yes" regexp="yes">-?[stm]'?</token>
+                    <token postag="P0.*|PP.*" postag_regexp="yes" regexp="yes">-?[stmln]'?</token>
                     <token postag="P0.*|PP.*" postag_regexp="yes"><exception regexp="yes">'?(hi|ho)</exception></token>
                 </pattern>
                 <message>Apostrofació incorrecta.</message>
                 <short>Apostrofació incorrecta</short>
                 <example type="incorrect"><marker>s'et</marker> diu.</example>
+                <example type="incorrect">Afegir<marker>-s-hi</marker>.</example>
+                <example type="incorrect">Afegir<marker>-n-hi</marker>.</example>
                 <example type="correct">se't diu.</example>
+                <example type="correct">S'hi afegeix.</example>
+                <example type="correct">Afegir-s'hi.</example>
             </rule>
             <rule>
                 <pattern>
@@ -12078,7 +12082,6 @@ $Id$
                     <marker>
                         <token postag="P0.*|PP.*" postag_regexp="yes" regexp="yes">-(me|te|se|nos|lo|los|ne)</token>
                     </marker>
-                    <token postag="V.[^NGP].*|P0.*|PP.*" postag_regexp="yes" negate_pos="yes"></token>
                 </pattern>
                 <message>Forma de pronom feble incorrecta.</message>
                 <suggestion><match no="2" regexp_match="-([mntsl])[eo](s?)" regexp_replace="'$1$2"/></suggestion>
@@ -12093,7 +12096,6 @@ $Id$
                     <marker>
                         <token postag="P0.*|PP.*" postag_regexp="yes">-vos</token>
                     </marker>
-                    <token postag="V.[^NGP].*|P0.*|PP.*" postag_regexp="yes" negate_pos="yes"></token>
                 </pattern>
                 <message>Forma de pronom incorrecta.</message>
                 <suggestion>-us</suggestion>
@@ -12104,13 +12106,14 @@ $Id$
                 <pattern>
                     <token postag="V.[MNG].*" postag_regexp="yes" regexp="yes">.+[^aei]<exception postag="V.[^MNG].*" postag_regexp="yes"></exception></token>
                     <marker>
-                        <token postag="P0.*|PP.*" postag_regexp="yes" regexp="yes">[^-].+<exception regexp="yes">jo|mi|tu|ella?|nosaltres|vosaltres|elle?s|vost[èé]s?|vós</exception><exception postag="_G.*" postag_regexp="yes" /></token>
+                        <token postag="P0.*|PP.*" postag_regexp="yes" regexp="yes">'.+</token>
                     </marker>
-                    <token><exception postag="V.[MSI].*|_GV_|P0.*|PP.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Falta un guionet.</message>
+                <suggestion><match no="2" regexp_match="'(.+)" regexp_replace="-$1"/></suggestion>
                 <short>Falta un guionet</short>
                 <example type="incorrect">Portar<marker>'ls</marker>.</example>
+                <example type="incorrect" correction="-s">afegir<marker>'s</marker>-hi.</example>
                 <example type="correct">Portar-los.</example>
                 <example type="correct">Quan vaig entrar em va preguntar si jo sabia qui era en Marx.</example>
                 <example type="correct">En fer-lo girar se'n podia observar</example>
@@ -12121,7 +12124,6 @@ $Id$
                     <marker>
                         <token postag="P0.*|PP.*" postag_regexp="yes" regexp="yes">-e.+</token>
                     </marker>
-                    <token postag="V.[^NGP].*|P0.*|PP.*" postag_regexp="yes" negate_pos="yes"></token>
                 </pattern>
                 <message>Forma de pronom feble incorrecta.</message>
                 <short>Forma de pronom feble incorrecta</short>
@@ -12148,7 +12150,7 @@ $Id$
                     <marker>
                         <token postag="P0.*|PP.*" postag_regexp="yes" regexp="yes">'.*<exception regexp="yes">'ns|'ls</exception></token>
                     </marker>
-                    <token postag="P0.*|PP.*" postag_regexp="yes"><exception regexp="yes">jo|mi|tu|ella?|nosaltres|vosaltres|elle?s|vost[èé]s?|vós</exception></token>
+                    <token postag="P0.*|PP.*" postag_regexp="yes" regexp="yes">['-].+</token>
                     <token><exception postag="V.[^NGP].*|P0.*|PP.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Combinació incorrecta d'apòstrofs i guionets.</message>
