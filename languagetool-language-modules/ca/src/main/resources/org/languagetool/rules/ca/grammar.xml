@@ -12082,13 +12082,15 @@ $Id$
                     <marker>
                         <token postag="P0.*|PP.*" postag_regexp="yes" regexp="yes">-(me|te|se|nos|lo|los|ne)</token>
                     </marker>
+                    <token><exception postag="P0.*|PP.*" postag_regexp="yes" regexp="yes">['-].+</exception></token>
                 </pattern>
                 <message>Forma de pronom feble incorrecta.</message>
                 <suggestion><match no="2" regexp_match="-([mntsl])[eo](s?)" regexp_replace="'$1$2"/></suggestion>
                 <example type="incorrect" correction="'l">Veure<marker>-lo</marker>.</example>
                 <example type="incorrect" correction="'ns">Veure<marker>-nos</marker>.</example>
                 <example type="incorrect" correction="'n">Veure<marker>-ne</marker>.</example>
-                <example type="correct">Veure'l.</example>
+                <example type="correct">Envia-me-la ara mateix.</example>
+                <example type="correct">Envia-me'ls ara mateix.</example>
             </rule>
             <rule>
                 <pattern>
@@ -18706,6 +18708,34 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="IMMEDIACIONS" name="immediacions">
+            <pattern>
+                <marker>
+                    <token>immediacions</token>
+                </marker>
+            </pattern>
+            <message>Incorrecte en el sentit de <suggestion>voltants</suggestion>. "Immediació" existeix com a terme de dret civil.</message>
+            <suggestion>encontorns</suggestion>
+            <suggestion>rodalia</suggestion>
+            <short>Paraula dubtosa</short>
+            <example type="incorrect" correction="voltants|encontorns|rodalia">Els van trobar per les <marker>immediacions</marker>.</example>
+            <example type="correct">pels voltants</example>
+        </rule>
+        <rule id="ESTANCIA" name="estància">
+            <pattern>
+                <marker>
+                    <token inflected="yes">estància</token>
+                </marker>
+            </pattern>
+            <message>Incorrecte en el sentit de <suggestion><match no="1" postag="NCF(.)000" postag_regexp="yes" postag_replace="NCF$1000">estança</match></suggestion>. "Estància" existeix com a terme usat a Menorca.</message>
+            <suggestion><match no="1" postag="NCF(.)000" postag_regexp="yes" postag_replace="NCF$1000">cambra</match></suggestion>
+            <suggestion><match no="1" postag="NCF(.)000" postag_regexp="yes" postag_replace="NCF$1000">habitació</match></suggestion>
+            <suggestion><match no="1" postag="NCF(.)000" postag_regexp="yes" postag_replace="NCF$1000">estada</match></suggestion>
+            <suggestion><match no="1" postag="NCF(.)000" postag_regexp="yes" postag_replace="NCM$1000">sojorn</match></suggestion>
+            <short>Paraula dubtosa</short>
+            <example type="incorrect" correction="estances|cambres|habitacions|estades|sojorns">en aquelles <marker>estàncies</marker></example>
+            <example type="correct">En aquella estada</example>
+        </rule>
         <rule id="ABRAC_ABRACADA" name="abraç/abraçada">
             <pattern>
                 <marker>
