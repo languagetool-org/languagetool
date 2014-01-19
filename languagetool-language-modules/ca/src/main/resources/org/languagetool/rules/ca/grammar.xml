@@ -10154,6 +10154,9 @@ $Id$
         <rulegroup id="NET" name="net/nét">
         <!-- numeral + net/neta
         la seva neta contribució/memòria, netes aigües
+        
+        era neta/néta del vicepresident
+        un net, algun net, 
               -->
             <!-- net/nét : podria ser com "pendent, corrent"? -->       
             <rule>
@@ -13945,7 +13948,7 @@ $Id$
         <rule id="TIRAR_EN_FALTA" name="*tirar en falta/trobar a faltar">
             <pattern>
                 <marker>
-                    <token inflected="yes">tirar</token>
+                    <token inflected="yes" regexp="yes">tirar|trobar</token>
                     <token>en</token>
                     <token>falta</token>
                 </marker>
@@ -16961,6 +16964,7 @@ $Id$
         <rulegroup id="ENTORN_A" name="entorn a">
             <rule>
                 <pattern>
+                    <token><exception postag="D.*|PX.*" postag_regexp="yes"/></token>
                 	<marker>
 	                    <token>entorn</token>
 	                    <token>a</token>
@@ -16975,15 +16979,19 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token>entorn</token>
-                    <token>a</token>
-                    <token spacebefore="no" regexp="yes">ls?</token>
+                    <token><exception postag="D.*|PX.*" postag_regexp="yes"/></token>
+                    <marker>
+                        <token>entorn</token>
+                        <token>a</token>
+                        <token spacebefore="no" regexp="yes">ls?</token>
+                    </marker>
                 </pattern>
-                <message>Cal dir <suggestion>entorn de<match no="3"/></suggestion>.</message>
+                <message>Cal dir <suggestion>entorn de<match no="4"/></suggestion>.</message>
                 <short>Expressió incorrecta</short>
                 <example type="incorrect" correction="entorn dels"><marker>entorn als</marker> mercats hi ha molta gent</example>
                 <example type="incorrect" correction="entorn del"><marker>entorn al</marker> mercat hi ha molta gent</example>
                 <example type="correct">entorn dels mercats hi ha molta gent</example>
+                <example type="correct">Pot alterar l'entorn al seu gust</example>
             </rule>
         </rulegroup>
         <rulegroup id="A_L_ENTORN_DE" name="a l'entorn de">
