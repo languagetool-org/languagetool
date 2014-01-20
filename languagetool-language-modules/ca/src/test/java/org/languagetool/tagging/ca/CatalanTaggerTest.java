@@ -41,6 +41,7 @@ public class CatalanTaggerTest extends TestCase {
   }
 
   public void testTagger() throws IOException {
+    TestTools.myAssert("Color", "Color/[color]NCFS000|Color/[color]NCMS000", tokenizer, tagger);
     TestTools.myAssert("UPF", "UPF/[UPF]NPFSO00", tokenizer, tagger);
     TestTools
         .myAssert(

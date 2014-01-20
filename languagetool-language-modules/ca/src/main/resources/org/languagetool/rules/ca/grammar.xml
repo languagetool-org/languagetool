@@ -11753,12 +11753,13 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="PP3CN000" regexp="yes">['-](ne|en)</token>
+                    <token postag="PP3CN000" inflected="yes">en</token>
                     <token postag="P0.*|PP.*" postag_regexp="yes" regexp="yes">['-].+<exception postag="PP3CN000" inflected="yes">hi</exception></token>
                 </pattern>
                 <message>Combinació incorrecta de pronoms febles.</message>
                 <short>Combinació incorrecta de pronoms</short>
                 <example type="incorrect">portar<marker>-ne'l</marker> i tot.</example>
+                <example type="incorrect">Vull eportar<marker>-n'ho</marker> avui.</example>
                 <example type="correct">Ens el porten.</example>
                 <example type="correct">Per exemple, comprar-ne es pronuncia.</example>
             </rule>
@@ -11876,17 +11877,15 @@ $Id$
         <rulegroup id="PRONOMS_FEBLES_DAVANT_VERB" name="Formes incorrectes davant de verb: *se omple, *se'l emporta">
             <rule>
                 <pattern>
-                    <token postag="P0.*|PP.*" postag_regexp="yes" regexp="yes">-?[stmln]'?</token>
-                    <token postag="P0.*|PP.*" postag_regexp="yes"><exception regexp="yes">'?(hi|ho)</exception></token>
+                    <token postag="P0.*|PP.*" postag_regexp="yes" regexp="yes">[stm]'</token>
+                    <token postag="P0.*|PP.*" postag_regexp="yes"><exception regexp="yes">(hi|ho)</exception></token>
                 </pattern>
                 <message>Apostrofació incorrecta.</message>
                 <short>Apostrofació incorrecta</short>
                 <example type="incorrect"><marker>s'et</marker> diu.</example>
-                <example type="incorrect">Afegir<marker>-s-hi</marker>.</example>
-                <example type="incorrect">Afegir<marker>-n-hi</marker>.</example>
                 <example type="correct">se't diu.</example>
                 <example type="correct">S'hi afegeix.</example>
-                <example type="correct">Afegir-s'hi.</example>
+                <example type="correct">l'en nomenà governador</example>
             </rule>
             <rule>
                 <pattern>
@@ -12215,6 +12214,29 @@ $Id$
                 <short>Forma de pronom feble incorrecta</short>
                 <example type="incorrect" correction="-l'hi">Quan podrem tenir<marker>-lo-hi</marker>?</example>
                 <example type="correct">Quan l'hi podrem tenir?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="P0.*|PP.*" postag_regexp="yes" regexp="yes">-[stmn]</token>
+                    <token postag="P0.*|PP.*" postag_regexp="yes" regexp="yes">-.+</token>
+                </pattern>
+                <message>Apostrofació incorrecta.</message>
+                <short>Apostrofació incorrecta</short>
+                <example type="incorrect">Afegir<marker>-s-hi</marker>.</example>
+                <example type="incorrect">Afegir<marker>-n-hi</marker>.</example>
+                <example type="correct">Afegir-s'hi.</example>
+                <example type="correct">separar-l'en.</example>
+            </rule>
+             <rule>
+                <pattern>
+                    <token postag="P0.*|PP.*" postag_regexp="yes">-l</token>
+                    <token postag="P0.*|PP.*" postag_regexp="yes" regexp="yes">-.+</token>
+                </pattern>
+                <message>Apostrofació incorrecta.</message>
+                <short>Apostrofació incorrecta</short>
+                <example type="incorrect">Afegir<marker>-l-hi</marker>.</example>
+                <example type="correct">separar-l'en.</example>
+                <example type="correct">l'en nomenà governador</example>
             </rule>
         </rulegroup>
         <rulegroup id="PRONOMS_FEBLES_LIS" name="Formes incorrectes: *lis">
@@ -13751,6 +13773,7 @@ $Id$
     <category name="Expressions incorrectes" type="grammar">
         <rule id="MES_ALLA" name="més *allà/enllà">
             <pattern>
+                <token><exception inflected="yes">aguantar</exception><exception postag="DN.*" postag_regexp="yes"/></token>
                 <marker>
                     <token regexp="yes">més|mes</token>
                     <token>allà</token>
@@ -13760,6 +13783,8 @@ $Id$
             <message>¿Volíeu dir <suggestion>més enllà</suggestion>?</message>
             <example type="incorrect"><marker>Més allà</marker> de l'horitzó.</example>
             <example type="correct">més allà on més n'hi ha</example>
+            <example type="correct">Ja no aguantava més allà.</example>
+            <example type="correct">I dues més allà.</example>
         </rule>
         <rule id="DUN_TEMPS_A_AQUESTA_PART" name="d'un temps *a aquesta part/ençà">
             <pattern>
@@ -22677,7 +22702,7 @@ $Id$
                 <pattern>
                     <marker>
                         <token postag="D[^RAN].F.*" postag_regexp="yes"/>
-                        <token regexp="yes">(amor|ardor|candor|clamor|color|dolor|error|estridor|estupor|fervor|fragor|fulgor|furor|honor|horror|humor|rigor|rubor|rumor|sabor|sopor|temor|terror|valor|vigor)s?</token>
+                        <token regexp="yes">(amor|ardor|candor|clamor|color|dolor|error|estridor|estupor|fervor|fragor|fulgor|furor|honor|horror|humor|rigor|rubor|rumor|sabor|sopor|temor|terror|valor|vigor)s?<exception postag="NP.*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>És més habitual usar "<match no="2"/>" com a nom masculí.</message>
@@ -22686,12 +22711,13 @@ $Id$
                 <short>Nom habitualment masculí</short>
                 <example type="incorrect" correction="algun error|alguns errors">Per a <marker>algunes errors</marker> que detecta.</example>
                 <example type="correct">Hi ha algun error</example>
+                <example type="correct">Li ho va dir a aquella Dolors</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
                         <token postag="DA.F.*" postag_regexp="yes"/>
-                        <token regexp="yes">(amor|ardor|candor|clamor|color|dolor|error|estridor|estupor|fervor|fragor|fulgor|furor|honor|horror|humor|rigor|rubor|rumor|sabor|sopor|temor|terror|valor|vigor)s?</token>
+                        <token regexp="yes">(amor|ardor|candor|clamor|color|dolor|error|estridor|estupor|fervor|fragor|fulgor|furor|honor|horror|humor|rigor|rubor|rumor|sabor|sopor|temor|terror|valor|vigor)s?<exception postag="NP.*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>És més habitual usar "<match no="2"/>" com a nom masculí.</message>
@@ -22699,6 +22725,7 @@ $Id$
                 <short>Nom habitualment masculí</short>
                 <example type="incorrect" correction="els errors|l'error">Per a <marker>les errors</marker> que detecta.</example>
                 <example type="correct">Els errors</example>
+                <example type="correct">La Dolors no ha vingut</example>
             </rule>
             <rule>
                 <pattern>
@@ -22726,6 +22753,7 @@ $Id$
                 <example type="correct">Amb colors transparents.</example>
                 <example type="correct">Amb aquell color de cara</example>
                 <example type="correct">N'hi havia de tres colors.</example>
+                <!-- la Legió d'Honor francesa -->
             </rule>
         </rulegroup>
         <rule id="POSAR_DE_RELLEU" name="posar de/en relleu">

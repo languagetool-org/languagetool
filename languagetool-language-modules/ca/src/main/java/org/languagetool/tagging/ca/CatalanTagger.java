@@ -92,7 +92,7 @@ public class CatalanTagger extends BaseTagger {
       final boolean isLowercase = word.equals(lowerWord);
       final boolean isMixedCase = StringTools.isMixedCase(word);
       List<AnalyzedToken> manualTaggerTokens=manualTagsAsAnalyzedTokenList(word, manualTagger.lookup(word));
-      List<AnalyzedToken> manualLowerTaggerTokens=manualTagsAsAnalyzedTokenList(lowerWord, manualTagger.lookup(lowerWord));
+      List<AnalyzedToken> manualLowerTaggerTokens=manualTagsAsAnalyzedTokenList(word, manualTagger.lookup(lowerWord));
 
       // normal case, manual tagger
       addTokens(manualTaggerTokens, l);
