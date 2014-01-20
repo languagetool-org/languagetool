@@ -7,6 +7,24 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
 <rules lang="en" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd">
 
+       <rule name="or" id="REMOVE_JJ_FOR_OR">
+          <!-- work around strange dict entry -->
+          <pattern case_sensitive="yes">
+            <token>or</token>
+          </pattern>
+          <disambig action="remove"><wd pos="JJ"/></disambig>
+          <example type="ambiguous" inputform="or[or/CC,or/JJ,or/NN:U]" outputform="or[or/CC,or/NN:U]">Let's choose A <marker>or</marker> B.</example>
+        </rule>
+        
+        <rule name="or" id="REMOVE_NN_FOR_OR">
+          <!-- work around strange dict entry -->
+          <pattern case_sensitive="yes">
+            <token>or</token>
+          </pattern>
+          <disambig action="remove"><wd pos="NN:U"/></disambig>
+          <example type="ambiguous" inputform="or[or/CC,or/NN:U]" outputform="or[or/CC]">Let's choose A <marker>or</marker> B.</example>
+        </rule>
+
     <rule id="AULD_LANG_SYNE" name="Auld Lang Syne - title of a famous song">
         <pattern>
             <token>auld</token>
@@ -2551,26 +2569,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
           <example type="untouched">I'm training now.</example>
           <example type="ambiguous" inputform="training[train/VBG,training/NN:U]" outputform="training[training/NN:U]">We need to to pay for <marker>training</marker> to meet national skilled manpower needs.</example>
         </rule>                 
-        
-               
-        <rule name="or" id="REMOVE_JJ_FOR_OR">
-          <!-- work around strange dict entry -->
-          <pattern case_sensitive="yes">
-            <token>or</token>
-          </pattern>
-          <disambig action="remove"><wd pos="JJ"/></disambig>
-          <example type="ambiguous" inputform="or[or/CC,or/JJ,or/NN:U]" outputform="or[or/CC,or/NN:U]">Let's choose A <marker>or</marker> B.</example>
-        </rule>
-        
-        <rule name="or" id="REMOVE_NN_FOR_OR">
-          <!-- work around strange dict entry -->
-          <pattern case_sensitive="yes">
-            <token>or</token>
-          </pattern>
-          <disambig action="remove"><wd pos="NN:U"/></disambig>
-          <example type="ambiguous" inputform="or[or/CC,or/NN:U]" outputform="or[or/CC]">Let's choose A <marker>or</marker> B.</example>
-        </rule>
-
+                       
 </rules>
  
  
