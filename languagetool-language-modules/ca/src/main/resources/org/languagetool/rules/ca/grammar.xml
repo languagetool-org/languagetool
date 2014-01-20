@@ -11881,9 +11881,10 @@ $Id$
                     <token postag="P0.*|PP.*" postag_regexp="yes"><exception regexp="yes">(hi|ho)</exception></token>
                 </pattern>
                 <message>Apostrofació incorrecta.</message>
+                <suggestion><match no="1" regexp_match="([stmSTM])'" regexp_replace="$1e"/>'<match no="2" regexp_match="e(.+)" regexp_replace="$1"/></suggestion>
                 <short>Apostrofació incorrecta</short>
-                <example type="incorrect"><marker>s'et</marker> diu.</example>
-                <example type="correct">se't diu.</example>
+                <example type="incorrect" correction="Se't"><marker>S'et</marker> diu.</example>
+                <example type="incorrect" correction="Se'ns"><marker>S'ens</marker> diu.</example>
                 <example type="correct">S'hi afegeix.</example>
                 <example type="correct">l'en nomenà governador</example>
             </rule>
