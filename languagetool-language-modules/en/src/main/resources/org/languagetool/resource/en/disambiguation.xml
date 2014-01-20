@@ -394,6 +394,8 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <example type="ambiguous" inputform="mine[mine/NN,mine/PRP$,mine/VB,mine/VBP]" outputform="mine[mine/PRP$]">This is entirely <marker>mine</marker>.</example>
     </rule>
     
+    
+    
     <rulegroup id="CAN_WILL_MD" name="can/will as a modal verb">
     <rule>
     <pattern>
@@ -469,6 +471,20 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         </pattern>
         <disambig postag="NNS"></disambig>
     </rule>
+    
+    <rule id="MEANS_OF" name="means/verb + of =>noun">
+      <pattern>
+        <marker>
+          <token postag="VBZ">means</token>
+        </marker>
+        <token>of</token>
+        <token postag="NN(:UN?)?" postag_regexp="yes"/>
+      </pattern>
+      <disambig postag="NN"/>
+      <example type="untouched">What does it mean?</example>
+      <example type="ambiguous" inputform="means[mean/NNS,mean/VBZ,means/NN,means/NNS]" outputform="means[means/NN]">The car is still the main <marker>means</marker> of transport.</example>      
+    </rule>
+    
     <rule name="SENT_START + pronoun + verb/NN -&gt; verb" id="SENT_START_PRP_VB_NN">
         <pattern>
             <token postag="SENT_START|[:;,]" postag_regexp="yes"/>
@@ -661,6 +677,36 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <example type="untouched">These may be to bring about political change.</example>
         <example type="ambiguous" inputform="dogs[dog/NNS,dog/VBZ]" outputform="dogs[dog/NNS]">The <marker>dogs</marker> barks loudly.</example>
     </rule>
+    <rule name="a/an + adj/nn + verb sing -&gt; NN" id="AN_JJ_VB_NN">    
+        <pattern>
+            <token regexp="yes">an?</token>
+            <marker>
+                <and>
+                <token postag="JJ"/>
+                <token postag="NN(:UN?)?" postag_regexp="yes"></token>            
+                </and>
+            </marker>
+            <token postag="VBZ"/>
+        </pattern>
+        <disambig action="filter" postag="NN.*"></disambig>
+        <example type="untouched">These may be to bring about political change.</example>
+        <example type="ambiguous" inputform="chance[chance/JJ,chance/NN:UN,chance/VB,chance/VBP]" outputform="chance[chance/NN:UN]">A <marker>chance</marker> remains.</example>        
+    </rule>
+    <rule name="a/an + nn + verb sing/noun pl -> verb sing" id="AN_NN_VBZNNS">
+        <pattern>
+            <token regexp="yes">an?</token>
+            <token postag="NN(:UN?)?" postag_regexp="yes"><exception postag="NN(:UN?)?" negate_pos="yes" postag_regexp="yes"></exception></token>
+            <marker>
+                <and>
+                  <token postag="VBZ"/>
+                  <token postag="NNS"></token>                  
+                </and>
+            </marker>
+        </pattern>
+        <disambig postag="VBZ"></disambig>
+        <example type="untouched">These may be to bring about political change.</example>
+        <example type="ambiguous" inputform="remains[remain/VBZ,remains/NNS]" outputform="remains[remain/VBZ]">A chance <marker>remains</marker>.</example>        
+    </rule>       
     <rule name="determiner + adj + verb/NN -&gt; NN" id="DT_JJ_VB_NN">
         <pattern>
             <token postag="DT"><exception postag="PDT"/><exception regexp="yes">th[eo]se</exception></token>

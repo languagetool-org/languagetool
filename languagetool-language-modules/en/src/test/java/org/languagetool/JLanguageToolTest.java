@@ -73,6 +73,14 @@ public class JLanguageToolTest extends TestCase {
   public void testEnglish() throws IOException {
     final JLanguageTool tool = new JLanguageTool(new English());
     assertEquals(0, tool.check("A test that should not give errors.").size());
+    //more error-free sentences to deal with possible regressions
+    assertEquals(0, tool.check("As long as you have hope, a chance remains.").size());
+    assertEquals(0, tool.check("A rolling stone gathers no moss.").size());
+    assertEquals(0, tool.check("Hard work causes fitness.").size());
+    assertEquals(0, tool.check("Gershwin overlays the slow blues theme from section B in the final “Grandioso.”").size());
+    assertEquals(0, tool.check("Making ingroup membership more noticeable increases cooperativeness.").size());
+    assertEquals(0, tool.check("Dog mushing is more of a sport than a true means of transportation.").size());
+
     assertEquals(1, tool.check("A test test that should give errors.").size());
     assertEquals(0, tool.check("I can give you more a detailed description.").size());
     assertEquals(11, tool.getAllRules().size());

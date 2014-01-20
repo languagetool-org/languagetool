@@ -7464,7 +7464,7 @@ USA
             <pattern>
                 <marker>
                     <token regexp="yes">an?</token>                    
-                    <token regexp="yes">accommodation|advice|access|baggage|bread|damage|equipment|garbage|luggage|money|cattle|knowledge|sand|furniture|meat|food|news|pasta|progress|research|water|freedom|maturity|intelligence|travel|pollution|traffic|transport|patience</token>
+                    <token regexp="yes">accommodation|advice|access|baggage|bread|damage|equipment|garbage|luggage|money|cattle|sand|furniture|meat|food|news|pasta|progress|research|water|freedom|maturity|intelligence|travel|pollution|traffic|transport|patience</token>
                 </marker>
                 <token postag="RP|VBZ|IN|SENT_END" postag_regexp="yes"></token>
             </pattern>
@@ -7473,6 +7473,20 @@ USA
             <example type="correct"><marker>The information</marker> in your files is correct.</example>
             <example type="correct"><marker>An intelligence</marker> service is known to be corrupt here.</example>
             <example correction="Accommodation" type="incorrect"><marker>An accommodation</marker> is too expensive.</example>
+        </rule>
+        <rule> <!-- only for 'knowledge', but not 'knowledge of', which occasionally takes an article -->
+            <pattern>
+                <marker>
+                    <token>a</token>                    
+                    <token>knowledge</token>
+                </marker>
+                <token postag="RP|VBZ|IN|SENT_END" postag_regexp="yes"><exception regexp="yes">of|about</exception></token>
+            </pattern>
+            <message>Uncountable nouns are usually not used with an indefinite article. Use simply <suggestion>\2</suggestion>.</message>
+            <short>Uncountable noun with an article</short>
+            <example type="correct">Knowledge is power.</example>
+            <example type="correct">A knowledge of accounting was necessary for the job.</example>
+            <example correction="Knowledge" type="incorrect"><marker>A knowledge</marker> is power.</example>
         </rule>
         <rule>
             <pattern>
@@ -7491,6 +7505,22 @@ USA
             <example type="correct"><marker>An intelligence</marker> service is known to be corrupt here.</example>
             <example correction="Nice accommodation" type="incorrect"><marker>A nice accommodation</marker> is too expensive.</example>
         </rule>
+        <rule> 
+        <!-- only for 'knowledge', but not 'knowledge of', which occasionally takes an article -->
+            <pattern>
+                <marker>
+                    <token>a</token>
+                    <token postag="JJ"><exception>little</exception></token>                                               
+                    <token>knowledge</token>
+                </marker>
+                <token postag="RP|VBZ|IN|SENT_END" postag_regexp="yes"><exception regexp="yes">of|about</exception></token>
+            </pattern>
+            <message>Uncountable nouns are usually not used with an indefinite article. Use simply <suggestion>\2 \3</suggestion>.</message>
+            <short>Uncountable noun with an article</short>
+            <example type="correct">Knowledge is power.</example>
+            <example type="correct">A little knowledge of accounting was necessary for the job.</example>
+            <example correction="Good knowledge" type="incorrect"><marker>A good knowledge</marker> is power.</example>
+        </rule>        
         <rule>
             <pattern>
                 <marker>
@@ -7506,6 +7536,22 @@ USA
             <example type="correct"><marker>The information</marker> in your files is correct.</example>
             <example type="correct"><marker>An intelligence</marker> service is known to be corrupt here.</example>
             <example correction="Very nice accommodation" type="incorrect"><marker>A very nice accommodation</marker> is too expensive.</example>
+        </rule>
+        <rule>
+        <!-- only for 'knowledge', but not 'knowledge of', which occasionally takes an article -->
+            <pattern>
+                <marker>
+                    <token>a</token>
+                    <token postag="JJ|RB" postag_regexp="yes"/>
+                    <token postag="JJ"/>                    
+                    <token>knowledge</token>
+                </marker>
+                <token postag="RP|VBZ|IN|SENT_END" postag_regexp="yes"><exception regexp="yes">of|about</exception></token>
+            </pattern>
+            <message>Uncountable nouns are usually not used with an indefinite article. Use simply <suggestion>\2 \3 \4</suggestion>.</message>
+            <short>Uncountable noun with an article</short>
+            <example type="correct">A very little knowledge of accounting was necessary for the job.</example>            
+            <example correction="Very good knowledge" type="incorrect"><marker>A very good knowledge</marker> is too time-consuming.</example>
         </rule>        
         </rulegroup>        
         <rule id="MOST_SOME_OF_NNS" name="Articles: 'most/some of' + plural noun">
