@@ -6967,7 +6967,7 @@ USA
                     <token><exception regexp="yes">’|'|division|class|category|zone|formula|type|influenza|hepatitis|series</exception><exception postag="CD"></exception></token>
                     <marker>
                         <token regexp="yes">a|an</token>
-                        <token postag="NNS|NNPS" postag_regexp="yes"><exception postag="NN:.*|NN|VBZ|NNP|CC|CD" postag_regexp="yes"/><exception>savings</exception></token> <!-- savings has singular concord according to OED -->
+                        <token postag="NNS|NNPS" postag_regexp="yes"><exception postag="NN:.*|NN|VBZ|NNP|CC|CD" postag_regexp="yes"/><exception regexp="yes">savings|headquarters</exception></token> <!-- savings has singular concord according to OED; headquarters may as well -->
                     </marker>
                     <token><exception postag="NN.*" postag_regexp="yes"></exception><exception regexp="yes">['’]</exception></token>
                 </pattern>
@@ -6986,9 +6986,9 @@ USA
                 <pattern>
                     <token><exception regexp="yes">’|'|division|class|category|zone|formula|type|influenza|hepatitis|series</exception><exception postag="CD"></exception></token>
                     <token regexp="yes">a|an</token>
-                    <token postag="JJ"><exception regexp="yes">few|dozen|time</exception></token>
+                    <token postag="JJ"><exception regexp="yes">few|dozen|time</exception><exception postag="CD"></exception></token>
                     <marker>
-                        <token postag="NNS|NNPS" postag_regexp="yes"><exception postag="NN:.*|NN|VBZ|NNP|CC|CD" postag_regexp="yes"/><exception>sometimes</exception></token>
+                        <token postag="NNS|NNPS" postag_regexp="yes"><exception postag="NN:.*|NN|VBZ|NNP|CC|CD" postag_regexp="yes"/><exception regexp="yes">sometimes|savings|headquarters</exception></token>
                     </marker>
                     <token><exception postag="NN.*" postag_regexp="yes"></exception><exception regexp="yes">['’]</exception></token>
                 </pattern>
@@ -6997,6 +6997,7 @@ USA
                 <example correction="milestone" type="incorrect">The Syria resolution was a major <marker>milestones</marker> for the United Nations.</example>
                 <example type="correct">The Syria resolution was a major <marker>milestone</marker> for the United Nations.</example>
                 <example type="correct">Only half a dozen asteroids are larger than 87 Sylvia.</example>
+                <example type="correct">It's a ten minutes walk to the bus stop.</example>
                 <example type="incorrect" correction="woman">The average figure of a Korean <marker>women</marker> in her twenties</example>
             </rule>
         </rulegroup>
@@ -7475,7 +7476,7 @@ USA
             <pattern>
                 <marker>
                     <token regexp="yes">an?</token>
-                    <token postag="JJ"/>                    
+                    <token postag="JJ"><exception>little</exception></token>                    
                     <token regexp="yes">accommodation|advice|access|baggage|bread|damage|equipment|garbage|luggage|money|cattle|knowledge|sand|furniture|meat|food|news|pasta|progress|research|water|freedom|maturity|intelligence|travel|pollution|traffic|transport|patience</token>
                 </marker>
                 <token postag="RP|VBZ|IN|SENT_END" postag_regexp="yes"></token>
@@ -7483,6 +7484,7 @@ USA
             <message>Uncountable nouns are usually not used with an indefinite article. Use simply <suggestion>\2 \3</suggestion>.</message>
             <short>Uncountable noun with an article</short>
             <example type="correct"><marker>The information</marker> in your files is correct.</example>
+            <example type="correct">I have a little money.</example>
             <example type="correct"><marker>An intelligence</marker> service is known to be corrupt here.</example>
             <example correction="Nice accommodation" type="incorrect"><marker>A nice accommodation</marker> is too expensive.</example>
         </rule>
@@ -9281,10 +9283,12 @@ USA
               <token>the</token>
               <token regexp="yes">dark|wind|rain</token>
               </marker>
+              <token postag="SENT_END|[,;:]" postag_regexp="yes"/>
             </pattern>
             <message>The adjective \1 is used with 'of': <suggestion>\1 of \2 \3</suggestion>.</message>
             <short>Grammatical problem</short>
             <example type="correct">I'm afraid of the dark.</example>
+            <example type="correct">From the look of the sky I'm afraid the rain won't let up for a while.</example>
             <example type="incorrect" correction="afraid of the rain">I'm <marker>afraid the rain</marker>.</example>
           </rule>
           <rule>
@@ -12076,13 +12080,15 @@ USA
                     <token>some</token>
                     <token>of</token>
                     <token>the</token>
-                </marker>                
+                </marker>
+                <token><exception postag="JJS"/></token>                
             </pattern>
             <message>Simply use <suggestion>some</suggestion>.</message>
             <short>Redundant phrase</short>
             <example correction="Some" type="incorrect"><marker>Some of the</marker> parks are in the area.</example>
             <example type="correct">She is going to buy some parks.</example>
             <example type="correct">She is going all or some of the parks.</example>
+            <example type="correct">An expert is someone who knows some of the worst mistakes that can be made in his field.</example>
         </rule>        
         <rule id="TRY_AND" name="try and (try to)">
             <pattern>
