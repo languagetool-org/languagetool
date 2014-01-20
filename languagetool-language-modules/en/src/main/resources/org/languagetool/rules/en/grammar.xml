@@ -3029,6 +3029,7 @@ USA
                 <example type="correct">Universities A and B are old universities...</example>
                 <example correction="presidents'|president's" type="incorrect">This is a transcript of the <marker>presidents</marker> oration from March.</example>
                 <example type="correct">Legalized Abortion on Crime, authored by the economists Steven D. Levitt and John Donohue.</example>
+                <example type="correct">Gershwin overlays the slow blues theme from section B in the final “Grandioso.”</example>
             </rule>
             <rule>
                 <pattern>
@@ -6212,20 +6213,7 @@ USA
             <message>Did you mean <suggestion>worse</suggestion>?</message>
             <example type="incorrect" correction="worse">That's <marker>worst</marker> than before!</example>
             <example type="correct">That's worse than before!</example>
-        </rule>
-        <rule id="ALL_THE_SINGULAR" name="all the + singular (plural) noun + verb">
-            <pattern>
-                <token>all</token>
-                <token>the</token>
-                <marker>
-                    <token postag="NN(:UN?)?" postag_regexp="yes"/>
-                </marker>
-                <token postag="VBN"></token>
-            </pattern>
-            <message>Did you mean <suggestion><match no="3" postag="NNS" /></suggestion>?</message>
-            <example type="incorrect">All the <marker>report</marker> written look good.</example>
-            <example type="correct">All the reports written look good.</example>
-        </rule>
+        </rule>        
         <rulegroup id="DOES_YOU" name="does (do) I/you/we/they">
             <rule>
                 <pattern>
@@ -7477,7 +7465,8 @@ USA
                 <marker>
                     <token regexp="yes">an?</token>
                     <token postag="JJ"><exception>little</exception></token>                    
-                    <token regexp="yes">accommodation|advice|access|baggage|bread|damage|equipment|garbage|luggage|money|cattle|knowledge|sand|furniture|meat|food|news|pasta|progress|research|water|freedom|maturity|intelligence|travel|pollution|traffic|transport|patience</token>
+                    <!-- note: 'food' is not included here, as 'a particular food' is considered standard English, see http://www.ldoceonline.com/dictionary/taste_1 -->
+                    <token regexp="yes">accommodation|advice|access|baggage|bread|damage|equipment|garbage|luggage|money|cattle|knowledge|sand|furniture|meat|news|pasta|progress|research|water|freedom|maturity|intelligence|travel|pollution|traffic|transport|patience</token>
                 </marker>
                 <token postag="RP|VBZ|IN|SENT_END" postag_regexp="yes"></token>
             </pattern>

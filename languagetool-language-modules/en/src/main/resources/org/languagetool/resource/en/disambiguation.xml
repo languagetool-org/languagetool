@@ -652,13 +652,30 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <token postag="DT"><exception postag="PDT"/><exception regexp="yes">th[eo]se</exception></token>
             <marker>
                 <and>
-                    <token postag_regexp="yes" postag="VBP?|MD"></token>
-                    <token postag_regexp="yes" postag="NN.*"><exception negate_pos="yes" postag="VBP?|NN|NN:UN|NN:U|MD" postag_regexp="yes"></exception></token>
+                    <token postag_regexp="yes" postag="VB[PZ]?|MD"></token>
+                    <token postag_regexp="yes" postag="NN.*"><exception negate_pos="yes" postag="VB[ZP]?|NNS?|NN:UN|NN:U|MD" postag_regexp="yes"></exception></token>
                 </and>
             </marker>
         </pattern>
         <disambig action="filter" postag="NN.*"></disambig>
         <example type="untouched">These may be to bring about political change.</example>
+        <example type="ambiguous" inputform="dogs[dog/NNS,dog/VBZ]" outputform="dogs[dog/NNS]">The <marker>dogs</marker> barks loudly.</example>
+    </rule>
+    <rule name="determiner + adj + verb/NN -&gt; NN" id="DT_JJ_VB_NN">
+        <pattern>
+            <token postag="DT"><exception postag="PDT"/><exception regexp="yes">th[eo]se</exception></token>
+            <token postag="JJ"><exception postag="RB"></exception></token>            
+            <marker>
+                <and>
+                    <token postag_regexp="yes" postag="VB[PZ]?|MD"></token>
+                    <token postag_regexp="yes" postag="NN.*"><exception negate_pos="yes" postag="VB[ZP]?|NNS?|NN:UN|NN:U|MD" postag_regexp="yes"></exception></token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="NN.*"></disambig>
+        <example type="untouched">These may be to bring about political change.</example>
+        <example type="ambiguous" inputform="dogs[dog/NNS,dog/VBZ]" outputform="dogs[dog/NNS]">The black <marker>dogs</marker> barks loudly.</example>
+        <example type="ambiguous" inputform="will[will/MD,will/NN:UN]" outputform="will[will/NN:UN]">The general <marker>will</marker> is an important notion in Rousseau.</example>
     </rule>
     <rule name="determiner + verb/NN -&gt; NN (2)" id="DT_VB_NN_SENTEND">
         <pattern>
@@ -1137,30 +1154,30 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <token postag_regexp="yes" postag="DT|JJ|PRP\$"></token>
             <marker>
                 <and>
-                    <token postag="JJ"><exception postag_regexp="yes" negate_pos="yes" postag="JJ|NN.*|VB.*"></exception></token>
-                    <token postag_regexp="yes" postag="NN.*|VBP"></token>
+                    <token postag="JJ|VBG" postag_regexp="yes"><exception postag_regexp="yes" negate_pos="yes" postag="JJ|NN.*|VB.*"></exception></token>
+                    <token postag_regexp="yes" postag="VBP"></token>
                 </and>
             </marker>
             <token postag_regexp="yes" postag="NN.*"></token>
         </pattern>
-        <disambig><match no="2" postag_regexp="yes" postag="JJ"></match></disambig>
+        <disambig action="filter" postag="^(?!VBP?).*"/>
         <example type="untouched">Peter the great</example>
     </rule>
     <rule name="DT|JJ + JJ + NN/VBP -&gt; NN" id="DT_JJ_NN_NN">
         <pattern>
             <token postag_regexp="yes" postag="DT|JJ|PRP\$"></token>
-            <token postag="JJ.*" postag_regexp="yes"><exception postag="RB"></exception></token>
+            <token postag="JJ.*|VBG" postag_regexp="yes"><exception postag="RB"></exception></token>
             <marker>
                 <and>
-                    <token postag="VBP|MD" postag_regexp="yes"><exception postag_regexp="yes" negate_pos="yes" postag="NN.*|VB.*|MD"></exception></token>
+                    <token postag="VBP|MD" postag_regexp="yes"><exception postag_regexp="yes" negate_pos="yes" postag="NN.*|VB.*|MD|JJ"></exception></token>
                     <token postag_regexp="yes" postag="NN.*"></token>
                 </and>
             </marker>
         </pattern>
         <disambig><match no="2" postag_regexp="yes" postag="NN.*"></match></disambig>
         <example type="untouched">His friend is now in England.</example>
-        <example type="ambiguous" inputform="nose[nose/NN,nose/VB,nose/VBP]" outputform="nose[nose/NN]">The elephant swings its long <marker>nose</marker>.</example>
-        <example type="ambiguous" inputform="will[will/MD,will/NN:UN]" outputform="will[will/NN:UN]">The general <marker>will</marker> is an important notion in Rousseau.</example>
+        <example type="ambiguous" inputform="nose[nose/NN,nose/VB,nose/VBP]" outputform="nose[nose/NN]">The elephant swings its long <marker>nose</marker>.</example> 
+        <example type="ambiguous" inputform="stone[stone/JJ,stone/NN:UN,stone/NNS,stone/VB,stone/VBP]" outputform="stone[stone/NN:UN,stone/NNS]">A rolling <marker>stone</marker> gathers no moss.</example>
     </rule>
     <rule name="till (verb) -&gt; till/IN" id="TILL_IN">
         <pattern>
@@ -2100,6 +2117,37 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
           <example type="ambiguous" inputform="minds[mind/NNS,mind/VBZ]" outputform="minds[mind/NNS]">They should make up their <marker>minds</marker>!</example>
         </rule>
         
+        <rule id="VBZNNS_DT_NN" name="verb singular/noun + det + noun => verb">
+          <pattern>
+            <marker>
+            <and>
+            <token postag="NNS"/>
+            <token postag="VBZ"/>
+            </and>
+            </marker>
+            <token postag="DT"/>
+            <token postag="NN(:UN?)?" postag_regexp="yes"/>
+          </pattern>
+          <disambig postag="VBZ"/>
+          <example type="untouched">This is work.</example>
+          <example type="ambiguous" inputform="causes[cause/NNS,cause/VBZ]" outputform="causes[cause/VBZ]">Hard work <marker>causes</marker> an event.</example>
+        </rule>
+        
+        <rule id="VBZNNS_DT_NNS" name="verb singular/noun + det + noun plural or uncountable => verb">
+          <pattern>
+            <marker>
+            <and>
+            <token postag="NNS"/>
+            <token postag="VBZ"/>
+            </and>
+            </marker>
+            <token postag="NN(S|:UN?)" postag_regexp="yes"/>
+          </pattern>
+          <disambig postag="VBZ"/>
+          <example type="untouched">This is work.</example>
+          <example type="ambiguous" inputform="causes[cause/NNS,cause/VBZ]" outputform="causes[cause/VBZ]">Hard work <marker>causes</marker> fitness.</example>
+        </rule>
+        
         <rule id="JJ_VBZ_NNS" name="Adjective + verb singular/plural noun => noun">
         <pattern>
             <token postag="JJ"><exception scope="previous" regexp="yes">s?he|it</exception><exception postag="RB"/></token>
@@ -2113,6 +2161,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
           </pattern>
           <disambig postag="NNS"/>
           <example type="untouched">I enjoy running.</example>
+          <example type="untouched">Hard work causes fitness and vice versa.</example>
           <example type="ambiguous" inputform="forces[force/NNS,force/VBZ]" outputform="forces[force/NNS]">I like military <marker>forces</marker>.</example>
         </rule>
         
