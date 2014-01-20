@@ -69,6 +69,7 @@ class AtomFeedChecker {
     langTool.disableRule("COMMA_PARENTHESIS_WHITESPACE");
     langTool.disableRule("UPPERCASE_SENTENCE_START");
     langTool.disableRule("HUNSPELL_NO_SUGGEST_RULE");  // fr
+    langTool.disableRule("FRENCH_WHITESPACE");  // fr
     activateCategory("Wikipedia", langTool);
     if (dbConfig != null) {
       matchDatabase = new MatchDatabase(dbConfig.getUrl(), dbConfig.getUser(), dbConfig.getPassword());
