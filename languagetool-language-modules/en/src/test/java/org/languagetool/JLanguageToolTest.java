@@ -80,6 +80,7 @@ public class JLanguageToolTest extends TestCase {
     assertEquals(0, tool.check("Gershwin overlays the slow blues theme from section B in the final “Grandioso.”").size());
     assertEquals(0, tool.check("Making ingroup membership more noticeable increases cooperativeness.").size());
     assertEquals(0, tool.check("Dog mushing is more of a sport than a true means of transportation.").size());
+    assertEquals(0, tool.check("Criminal cases may lead to fines or other punishment, such as imprisonment.").size());
 
     assertEquals(1, tool.check("A test test that should give errors.").size());
     assertEquals(0, tool.check("I can give you more a detailed description.").size());
