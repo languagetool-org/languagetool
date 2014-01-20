@@ -2400,8 +2400,8 @@ USA
         <rulegroup id="LETS_LET" name="let's (lets)">
             <rule>
                 <pattern>
-                    <marker>
-                        <token postag="SENT_START"></token>
+                    <token postag="SENT_START"></token>
+                    <marker>                    
                         <token>Lets</token>
                     </marker>
                     <token postag="VBP?|RB?" postag_regexp="yes"></token>
@@ -2409,6 +2409,20 @@ USA
                 <message>Did you mean <suggestion>Let's</suggestion>?</message>
                 <short>Possible typo</short>
                 <example correction="Let's" type="incorrect"><marker>Lets</marker> go home.</example>
+                <example type="correct">It lets you sleep all night.</example>
+            </rule>
+            <rule>
+                <pattern>
+                <token postag="SENT_START"></token>
+                    <marker>                        
+                        <token>Lets</token>
+                    </marker>
+                    <token>all</token>
+                    <token postag="VBP?|RB?" postag_regexp="yes"></token>
+                </pattern>
+                <message>Did you mean <suggestion>Let's</suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="Let's" type="incorrect"><marker>Lets</marker> all go home.</example>
                 <example type="correct">It lets you sleep all night.</example>
             </rule>
             <rule>
