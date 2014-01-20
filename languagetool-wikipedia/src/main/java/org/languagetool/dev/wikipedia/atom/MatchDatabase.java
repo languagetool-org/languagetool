@@ -116,7 +116,7 @@ class MatchDatabase {
       prepSt.setString(6, ruleMatch.getErrorContext());
       return prepSt.executeUpdate();
     } catch (SQLException e) {
-      throw new RuntimeException("Could not make rule match " + ruleMatch + " as fixed in database", e);
+      throw new RuntimeException("Could not mark rule match " + ruleMatch + " as fixed in database", e);
     }
   }
 
