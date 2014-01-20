@@ -9576,6 +9576,38 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Accents diacrítics" type="grammar">
+        <rulegroup id="US" name="us/ús">
+            <rule>
+                <pattern>
+                    <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|V.[MNG].*" postag_regexp="yes"/><exception regexp="yes">l'|d'</exception></token>
+                    <marker>
+                        <token>us<exception regexp="yes">(?-i)US</exception></token>
+                    </marker>
+                    <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|V.[SI].*" postag_regexp="yes"/><exception regexp="yes">["‘“«]</exception></token>
+                </pattern>
+                <message>Si és nom, s'accentua.</message>
+                <suggestion>ús</suggestion>
+                <short>Accent diacrític</short>
+                <example type="incorrect" correction="ús">En fa un <marker>us</marker> correcte.</example>
+                <example type="correct">Se us farà tard.</example>
+                <example type="correct">Us "agradaria"?</example>
+                <example type="correct">US Open</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[ld]'</token>
+                    <marker>
+                        <token>us</token>
+                    </marker>
+                </pattern>
+                <message>Si és nom, s'accentua.</message>
+                <suggestion>ús</suggestion>
+                <short>Accent diacrític</short>
+                <example type="incorrect" correction="ús">Amb l'<marker>us</marker></example>
+                <example type="incorrect" correction="ús">Manual d'<marker>us</marker></example>
+                <example type="correct">Se us farà tard emà els els porta.</example>
+            </rule>
+        </rulegroup>    
         <rule id="COM_OBI" name="cóm/com">
             <pattern>
                 <token>cóm</token>
@@ -11531,7 +11563,7 @@ $Id$
                 <pattern>
                     <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|V.[MNG].*" postag_regexp="yes"/><exception regexp="yes">digue|espreme|convence|(re)?coneixe|ve</exception></token>
                     <marker>
-                        <token postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"><exception postag="_GV_|_possible_nompropi" postag_regexp="yes"/><exception postag="allow_saxon_genitive"/><exception regexp="yes">te|es</exception><exception regexp="yes">(?-i)SE</exception></token>
+                        <token postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"><exception postag="_GV_|_possible_nompropi" postag_regexp="yes"/><exception postag="allow_saxon_genitive"/><exception regexp="yes">te|es|us</exception><exception regexp="yes">(?-i)SE</exception></token>
                     </marker>
                     <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|V.[SI].*" postag_regexp="yes"/><exception regexp="yes">["‘“«]</exception></token>
                 </pattern>
@@ -13203,6 +13235,31 @@ $Id$
                 <example type="incorrect" correction="25° 29′"><marker>25º 29'</marker>.</example>
                 <example type="correct">25° 29′</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[\d., ]+[º°][\d., ]+</token>
+                    <token regexp="yes">["'′`]</token>
+                    <token regexp="yes">[\d., ]+</token>
+                    <token regexp="yes">["'′`]</token>
+                </pattern>
+                <message>Símbols incorrectes de graus, minuts i segons.</message>
+                <suggestion><match no="1" regexp_match="(.*)[º°](.*)" regexp_replace="$1° $2"/>′ <match no="3"/>″</suggestion>
+                <short>Error tipogràfic</short>
+                <example type="incorrect" correction="25° 29,1′ 49″"><marker>25º29,1' 49"</marker>.</example>
+                <example type="incorrect" correction="25° 29′ 49″"><marker>25º29' 49'</marker>.</example>
+                <example type="correct">25° 29′ 34″</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[\d., ]+[º°][\d., ]+</token>
+                    <token regexp="yes">["'′`]</token>
+                </pattern>
+                <message>Símbols incorrectes de graus i minuts.</message>
+                <suggestion><match no="1" regexp_match="(.*)[º°](.*)" regexp_replace="$1° $2"/>′</suggestion>
+                <short>Error tipogràfic</short>
+                <example type="incorrect" correction="25° 29′"><marker>25º29'</marker>.</example>
+                <example type="correct">25° 29′</example>
+            </rule>
         </rulegroup>
         <rulegroup id="SIMBOL_GRAU_ORDINAL" name="ordinals no estàndards (ºª); símbol de grau (°)">
             <rule>
@@ -13699,7 +13756,7 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token></token>
+                        <token regexp="yes">.+[a-zàéèíòóúïü]</token>
                         <token regexp="yes">['’]</token>
                         <token spacebefore="yes" regexp="yes">([lmnst]|ns)</token>
                     </marker>
@@ -13708,8 +13765,8 @@ $Id$
                 </pattern>
                 <message>Sobra un espai: <suggestion><match no="1" /><match no="2" /><match no="3" /></suggestion>.</message>
                 <short>Sobra un espai</short>
-                <example type="incorrect"><marker>veure' s</marker> així.</example>
-                <example type="correct"><marker>veure's</marker> així.</example>
+                <example type="incorrect" correction="veure's"><marker>veure' s</marker> així.</example>
+                <example type="correct">4º 5' N</example>
             </rule>
         </rulegroup>
         <rulegroup id="MAJUSCULES" name="Majúscules i minúscules">
