@@ -46,7 +46,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>webstart-maven-plugin</artifactId>
-        <version>1.0-beta-3</version>
+        <version>1.0-beta-4</version>
         <executions>
           <execution>
             <goals>
@@ -63,6 +63,10 @@
             <outputFile>LanguageTool.jnlp</outputFile>
             <mainClass>org.languagetool.gui.Main</mainClass>
           </jnlp>
+          <updateManifestEntries>
+            <Permissions>all-permissions</Permissions>
+            <Codebase>*</Codebase>
+          </updateManifestEntries>
           <!-- SIGNING -->
           <sign>
             <keystore>/myalias.p12</keystore> <!-- the key is the main directory outside the git directory -->
