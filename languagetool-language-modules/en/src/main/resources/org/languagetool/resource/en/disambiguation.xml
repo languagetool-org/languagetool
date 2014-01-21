@@ -2248,6 +2248,39 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
           <example type="ambiguous" inputform="minds[mind/NNS,mind/VBZ]" outputform="minds[mind/NNS]">They should make up their <marker>minds</marker>!</example>
         </rule>
         
+        <rule id="PRPPOSS_VB_NN_VBZ" name="Possesive pronoun + verb/noun + verb sing =>noun">
+          <pattern>
+            <token postag="PRP$"/>
+            <marker>
+            <and>
+              <token postag="NN.*" postag_regexp="yes"/>
+              <token postag="VBG" postag_regexp="yes"/>
+            </and>
+            </marker>
+            <token postag="VBZ"/>
+          </pattern>
+          <disambig action="filter" postag="NN.*"/>
+          <example type="untouched">I do what I want to.</example>
+          <example type="ambiguous" inputform="singing[sing/VBG,singe/VBG,singing/JJ,singing/NN:U]" outputform="singing[singing/NN:U]">Your <marker>singing</marker> puts professional singers to shame.</example>
+        </rule>
+        
+        <rule id="PRPPOSS_VBG_JJ_NN" name="Possesive pronoun + verb/noun + verb sing =>noun">
+          <pattern>
+            <token postag="PRP$"/>
+            <marker>
+            <and>
+              <token postag="JJ"/>
+              <token postag="VBG" postag_regexp="yes"/>
+            </and>
+            </marker>
+            <token postag="NN"/>
+          </pattern>
+          <disambig postag="JJ"/>
+          <example type="untouched">I do what I want to.</example>
+          <example type="ambiguous" inputform="loving[love/VBG,loving/JJ,loving/NN:UN]" outputform="loving[loving/JJ]">Your <marker>loving</marker> friend</example>
+        </rule>
+        
+        
         <rule id="VBZNNS_DT_NN" name="verb singular/noun + det + noun => verb">
           <pattern>
             <marker>
