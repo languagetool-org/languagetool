@@ -42,15 +42,18 @@ public class BaseSynthesizer implements Synthesizer {
 
   private Dictionary dictionary;
 
+  private final IStemmer stemmer;
+
   /**
    * @param resourceFileName The dictionary file name.
    * @param tagFileName The name of a file containing all possible tags.
    */
   public BaseSynthesizer(final String resourceFileName, final String tagFileName) {
-    this.resourceFileName = resourceFileName;  
+    this.resourceFileName = resourceFileName;
     this.tagFileName = tagFileName;
+    this.stemmer = createStemmer();
   }
-  
+
   /**
    * Returns the {@link Dictionary} used for this synthesizer.
    * The dictionary file can be defined in the {@link #BaseSynthesizer(String, String) constructor}.
@@ -81,9 +84,9 @@ public class BaseSynthesizer implements Synthesizer {
       return new DictionaryLookup(dict);
     } catch (IOException e) {
       throw new RuntimeException("Could not load dictionary", e);
-    }   
+    }
   }
-  
+
   /**
    * Lookup the inflected forms of a lemma defined by a part-of-speech tag.
    * @param lemma the lemma to be inflected.
@@ -91,15 +94,12 @@ public class BaseSynthesizer implements Synthesizer {
    * @param results the list to collect the inflected forms.
    */
   protected void lookup(String lemma, String posTag, List<String> results) {
-    // TODO: add IStemmer to the signature of lookup() so it mustn't be re-created every single lookup.
-    final IStemmer stemmer = createStemmer();
     final List<WordData> wordForms = stemmer.lookup(lemma + "|" + posTag);
-    
     for (WordData wd : wordForms) {
       results.add(wd.getStem().toString());
     }
   }
-  
+
   /**
    * Get a form of a given AnalyzedToken, where the form is defined by a
    * part-of-speech tag.
@@ -115,7 +115,7 @@ public class BaseSynthesizer implements Synthesizer {
     lookup(token.getLemma(), posTag, wordForms);
     return wordForms.toArray(new String[wordForms.size()]);
   }
-      
+
   @Override
   public String[] synthesize(final AnalyzedToken token, final String posTag,
       final boolean posTagRegExp) throws IOException {
@@ -124,7 +124,7 @@ public class BaseSynthesizer implements Synthesizer {
       initPossibleTags();
       final Pattern p = Pattern.compile(posTag);
       final ArrayList<String> results = new ArrayList<>();
-      
+
       for (final String tag : possibleTags) {
         final Matcher m = p.matcher(tag);
         if (m.matches()) {
@@ -141,11 +141,20 @@ public class BaseSynthesizer implements Synthesizer {
     return posTag;
   }
 
+  /**
+   * @since 2.5
+   * 
+   * @return the stemmer interface to be used.
+   */
+  public IStemmer getStemmer() {
+    return stemmer;
+  }
+
   protected void initPossibleTags() throws IOException {
     if (possibleTags == null) {
       synchronized (this) {
         if (this.possibleTags == null) {
-          possibleTags = SynthesizerTools.loadWords(JLanguageTool.getDataBroker().getFromResourceDirAsStream(tagFileName));          
+          possibleTags = SynthesizerTools.loadWords(JLanguageTool.getDataBroker().getFromResourceDirAsStream(tagFileName));
         }
       }
     }

@@ -7,6 +7,15 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
 <rules lang="en" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd">
 
+<!--  these just add temporary entries to the dictionary -->
+
+      <rule name="someone" id="SOMEONE">
+        <pattern><token>someone</token></pattern>
+        <disambig action="add"><wd lemma="someone" pos="PRP"/></disambig>
+      </rule>
+      
+<!-- end of temporary entries -->
+
        <rule name="or" id="REMOVE_JJ_FOR_OR">
           <!-- work around strange dict entry -->
           <pattern case_sensitive="yes">
@@ -43,6 +52,16 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
       </pattern>
       <disambig action="immunize"/>
     </rule>
+    
+    <!-- oficially not written with the apostrophe -->
+    <rule id="HUMAN_RIGHTS_COUNCIL" name="Human Rights Council">
+      <pattern case_sensitive="yes">
+        <token>Human</token>
+        <token>Rights</token>
+        <token>Council</token>
+      </pattern>
+      <disambig action="immunize"/>
+    </rule>
 
     <rule id="SIDE_TO_SIDE" name="side to side"> <!-- PHRASE_REPETITION false alarm: side to side to avoid... -->
       <pattern>
@@ -62,6 +81,17 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
          <example type="untouched">Nothing can last forever.</example>
          <example type="ambiguous" inputform="Last[last/DT,last/JJ,last/NN,last/VB,last/VBP]" outputform="Last[last/JJ]"><marker>Last</marker> Christmas I gave you my heart.</example>
      </rule>
+    
+    <rule id="SPORTS_ADJ" name="'sports' as adjective">
+      <pattern>
+        <token postag="DT"></token>
+        <marker><token>sports</token></marker>
+        <token regexp="yes">bra|car|centre|center|coat|day|jacket|shirt</token>
+      </pattern>
+      <disambig action="replace"><wd lemma="sports" pos="JJ"/></disambig>
+      <example type="untouched">I enjoy winter sports.</example>
+      <example type="ambiguous" inputform="sports[sport/NNS,sport/VBZ]" outputform="sports[sports/JJ]">Getting a <marker>sports</marker> car is easy.</example>
+    </rule>
     
     <rulegroup id="EVEN_NOW" name="even now">
     <rule>
@@ -87,7 +117,72 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
       <example type="ambiguous" inputform="now[now/CC,now/JJ,now/NN:U,now/RB]" outputform="now[now/RB]">The rainbow mural persevered, even <marker>now</marker>, thirty years later.</example>
     </rule>    
     </rulegroup>
-    
+
+    <rulegroup name="CD/NN + NNS -&gt; CD" id="CD_NN">
+        <rule>
+            <pattern>
+                <marker>
+                    <and>
+                        <token postag="CD"><exception>one</exception></token>
+                        <token postag="NN"></token>
+                    </and>
+                </marker>
+                <token postag="NNS"></token>
+            </pattern>
+            <disambig postag="CD"></disambig>
+            <example type="ambiguous" inputform="two[two/CD,two/JJ,two/NN]" outputform="two[two/CD]">These <marker>two</marker> things are important.</example>
+            <example type="untouched">These are those two.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <and>
+                        <token postag="CD"><exception>one</exception></token>
+                        <token postag="NN"></token>
+                    </and>
+                </marker>
+                <token postag="JJ"></token>
+                <token postag="NNS"></token>
+            </pattern>
+            <disambig postag="CD"></disambig>
+            <example type="ambiguous" inputform="two[two/CD,two/JJ,two/NN]" outputform="two[two/CD]">These <marker>two</marker> bad things are important.</example>
+            <example type="untouched">These are those bad two.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="CD">one<exception scope="previous">no</exception></token>
+                </marker>                
+                <token postag="NN"/>
+            </pattern>
+            <disambig postag="CD"></disambig>
+            <example type="ambiguous" inputform="one[one/CD,one/JJ,one/NN,one/PRP]" outputform="one[one/CD]">I have <marker>one</marker> dog.</example>
+            <example type="untouched">No one trusts him any more.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="CD">one<exception scope="previous">no</exception></token>
+                </marker>                
+                <token postag="JJ"></token>
+                <token postag="NN"/>
+            </pattern>
+            <disambig postag="CD"></disambig>
+            <example type="ambiguous" inputform="one[one/CD,one/JJ,one/NN,one/PRP]" outputform="one[one/CD]">I have <marker>one</marker> black dog.</example>
+            <example type="untouched">No one trusts him any more.</example>
+        </rule>
+    </rulegroup>
+    <rule id="NO_ONE" name="No one as personal pronoun">
+      <pattern>
+        <token>no</token>
+        <marker>
+        <token>one</token>
+        </marker>
+      </pattern>
+      <disambig postag="PRP"/>
+      <example type="untouched">One car, two dogs, seven cats</example>
+      <example type="ambiguous" inputform="one[one/CD,one/JJ,one/NN,one/PRP]" outputform="one[one/PRP]">No <marker>one</marker> trusts him any more.</example>
+    </rule>    
     <rule name="Modal verb + verb/noun -&gt; modal verb + verb" id="MD_VB">
         <pattern>
             <token postag="MD"></token>
@@ -727,7 +822,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     </rule>       
     <rule name="determiner + adj + verb/NN -&gt; NN" id="DT_JJ_VB_NN">
         <pattern>
-            <token postag="DT"><exception postag="PDT"/><exception regexp="yes">th[eo]se</exception></token>
+            <token postag="DT"><exception postag="PDT"/><exception regexp="yes">th[eo]se|one</exception></token>
             <token postag="JJ"><exception postag="RB"></exception></token>            
             <marker>
                 <and>
@@ -738,6 +833,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         </pattern>
         <disambig action="filter" postag="NN.*"></disambig>
         <example type="untouched">These may be to bring about political change.</example>
+        <example type="untouched">No one trusts him any more.</example>
         <example type="ambiguous" inputform="dogs[dog/NNS,dog/VBZ]" outputform="dogs[dog/NNS]">The black <marker>dogs</marker> barks loudly.</example>
         <example type="ambiguous" inputform="will[will/MD,will/NN:UN]" outputform="will[will/NN:UN]">The general <marker>will</marker> is an important notion in Rousseau.</example>
     </rule>
@@ -1493,7 +1589,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     </rule>
     <rule name="PRP + VBZ/NNS -&gt; VBZ" id="PRP_VBZ">
         <pattern>
-            <token regexp="yes">it|he|she</token>
+            <token regexp="yes" postag="PRP">it|he|she|(some)?one|nobody</token>
             <marker>
                 <and>
                     <token postag="VBZ"></token>
@@ -1502,6 +1598,8 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             </marker>
         </pattern>
         <disambig><match no="2" postag="VBZ" postag_regexp="yes"></match></disambig>
+        <example type="untouched">He was determined to be someone.</example>
+        <example type="ambiguous" inputform="trusts[trust/NNS,trust/VBZ]" outputform="trusts[trust/VBZ]">No one <marker>trusts</marker> him any more.</example>
     </rule>
     <rule name="PRP + MD/NN -&gt; MD" id="PRP_MD">
         <pattern>
@@ -1570,38 +1668,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <disambig postag="WP"></disambig>
         <example type="ambiguous" inputform="What[what/UH,what/WDT,what/WP]" outputform="What[what/WP]"><marker>What</marker> are you doing?</example>
         <example type="untouched">What kind of bread is this?</example>
-    </rule>
-    <rulegroup name="CD/NN + NNS -&gt; CD" id="CD_NN">
-        <rule>
-            <pattern>
-                <marker>
-                    <and>
-                        <token postag="CD"></token>
-                        <token postag="NN"></token>
-                    </and>
-                </marker>
-                <token postag="NNS"></token>
-            </pattern>
-            <disambig postag="CD"></disambig>
-            <example type="ambiguous" inputform="two[two/CD,two/JJ,two/NN]" outputform="two[two/CD]">These <marker>two</marker> things are important.</example>
-            <example type="untouched">These are those two.</example>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <and>
-                        <token postag="CD"></token>
-                        <token postag="NN"></token>
-                    </and>
-                </marker>
-                <token postag="JJ"></token>
-                <token postag="NNS"></token>
-            </pattern>
-            <disambig postag="CD"></disambig>
-            <example type="ambiguous" inputform="two[two/CD,two/JJ,two/NN]" outputform="two[two/CD]">These <marker>two</marker> bad things are important.</example>
-            <example type="untouched">These are those bad two.</example>
-        </rule>
-    </rulegroup>
+    </rule>    
     <rulegroup name="Quotation marks" id="QUOT">
         <rule>
             <pattern>

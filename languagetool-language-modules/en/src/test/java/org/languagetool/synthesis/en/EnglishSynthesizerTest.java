@@ -1,4 +1,4 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
@@ -28,26 +28,34 @@ import org.languagetool.AnalyzedToken;
 
 public class EnglishSynthesizerTest extends TestCase {
 
+  private AnalyzedToken dummyToken(String tokenStr, String tokenLemma) {
+    return new AnalyzedToken(tokenStr, tokenStr, tokenLemma);
+  }
+
   private AnalyzedToken dummyToken(String tokenStr) {
     return new AnalyzedToken(tokenStr, tokenStr, tokenStr);
   }
-  
+
   public final void testSynthesizeStringString() throws IOException {
     EnglishSynthesizer synth = new EnglishSynthesizer();
-    assertEquals(synth.synthesize(dummyToken("blablabla"), 
+    assertEquals(synth.synthesize(dummyToken("blablabla"),
         "blablabla").length, 0);
-        
+
     assertEquals("[was, were]", Arrays.toString(synth.synthesize(dummyToken("be"), "VBD")));
     assertEquals("[presidents]", Arrays.toString(synth.synthesize(dummyToken("president"), "NNS")));
     assertEquals("[tested]", Arrays.toString(synth.synthesize(dummyToken("test"), "VBD")));
     assertEquals("[tested]", Arrays.toString(synth.synthesize(dummyToken("test"), "VBD", false)));
     //with regular expressions
-    assertEquals("[tested]", Arrays.toString(synth.synthesize(dummyToken("test"), "VBD", true)));    
+    assertEquals("[tested]", Arrays.toString(synth.synthesize(dummyToken("test"), "VBD", true)));
     assertEquals("[tested, testing]", Arrays.toString(synth.synthesize(dummyToken("test"), "VBD|VBG", true)));
     //with special indefinite article
     assertEquals("[a university, the university]", Arrays.toString(synth.synthesize(dummyToken("university"), "+DT", false)));
     assertEquals("[an hour, the hour]", Arrays.toString(synth.synthesize(dummyToken("hour"), "+DT", false)));
     assertEquals("[an hour]", Arrays.toString(synth.synthesize(dummyToken("hour"), "+INDT", false)));
+    //indefinite article and other changes...
+    assertEquals("[an hour]", Arrays.toString(synth.synthesize(dummyToken("hours", "hour"), "NN\\+INDT", true)));
+    //indefinite article and other changes...
+    assertEquals("[the hour]", Arrays.toString(synth.synthesize(dummyToken("hours", "hour"), "NN\\+DT", true)));
   }
 
 }
