@@ -598,6 +598,17 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
       <example type="ambiguous" inputform="means[mean/NNS,mean/VBZ,means/NN,means/NNS]" outputform="means[means/NN]">The car is still the main <marker>means</marker> of transport.</example>      
     </rule>
     
+    <rule id="MERE_MEANS" name="mere means => noun">
+      <pattern>
+        <token>a</token>
+        <token>mere</token>
+        <marker><token>means</token></marker>      
+      </pattern>
+      <disambig postag="NN"/>
+      <example type="untouched">I don't know what it all means.</example>
+      <example type="ambiguous" inputform="means[mean/NNS,mean/VBZ,means/NN,means/NNS]" outputform="means[means/NN]">The money is a mere <marker>means</marker>.</example>
+    </rule>
+    
     <rule name="SENT_START + pronoun + verb/NN -&gt; verb" id="SENT_START_PRP_VB_NN">
         <pattern>
             <token postag="SENT_START|[:;,]" postag_regexp="yes"/>
@@ -822,7 +833,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     </rule>       
     <rule name="determiner + adj + verb/NN -&gt; NN" id="DT_JJ_VB_NN">
         <pattern>
-            <token postag="DT"><exception postag="PDT"/><exception regexp="yes">th[eo]se|one</exception></token>
+            <token postag="DT"><exception postag="PDT"/><exception regexp="yes">th[eo]se|one</exception><exception scope="previous">of</exception></token>
             <token postag="JJ"><exception postag="RB"></exception></token>            
             <marker>
                 <and>
@@ -834,6 +845,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <disambig action="filter" postag="NN.*"></disambig>
         <example type="untouched">These may be to bring about political change.</example>
         <example type="untouched">No one trusts him any more.</example>
+        <example type="untouched">Panovsky's notion of the dialectic makes history follow a predetermined course.</example>
         <example type="ambiguous" inputform="dogs[dog/NNS,dog/VBZ]" outputform="dogs[dog/NNS]">The black <marker>dogs</marker> barks loudly.</example>
         <example type="ambiguous" inputform="will[will/MD,will/NN:UN]" outputform="will[will/NN:UN]">The general <marker>will</marker> is an important notion in Rousseau.</example>
     </rule>
@@ -2278,8 +2290,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
           <disambig postag="JJ"/>
           <example type="untouched">I do what I want to.</example>
           <example type="ambiguous" inputform="loving[love/VBG,loving/JJ,loving/NN:UN]" outputform="loving[loving/JJ]">Your <marker>loving</marker> friend</example>
-        </rule>
-        
+        </rule>        
         
         <rule id="VBZNNS_DT_NN" name="verb singular/noun + det + noun => verb">
           <pattern>

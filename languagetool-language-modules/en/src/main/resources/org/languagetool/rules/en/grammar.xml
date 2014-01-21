@@ -6986,6 +6986,7 @@ USA
                 <example type="correct">The league created two A divisions.</example>
                 <example type="correct">Division A teams are the best.</example>
                 <example type="correct">Atlas District, an arts and entertainment district in the Near Northeast</example>
+                <example type="correct">"The murderer," wrote Schopenhauer, "who is condemned to death according to the law must, it is true, be now used as a mere means, and with complete right."</example>
             </rule>
             <rule>
                 <pattern>
@@ -7003,6 +7004,7 @@ USA
                 <example type="correct">The Syria resolution was a major <marker>milestone</marker> for the United Nations.</example>
                 <example type="correct">Only half a dozen asteroids are larger than 87 Sylvia.</example>
                 <example type="correct">It's a ten minutes walk to the bus stop.</example>
+                <example type="correct">The only exception to this is that if a defendant appeals a conviction for a crime.</example>
                 <example type="incorrect" correction="woman">The average figure of a Korean <marker>women</marker> in her twenties</example>
             </rule>
         </rulegroup>
@@ -7528,15 +7530,16 @@ USA
             <pattern>
                 <marker>
                     <token regexp="yes">an?</token>
-                    <token postag="JJ|RB" postag_regexp="yes"/>
+                    <token postag="JJ|RB" postag_regexp="yes"><exception>little</exception></token>
                     <token postag="JJ"/>                    
-                    <token regexp="yes">accommodation|advice|access|baggage|bread|damage|equipment|garbage|luggage|money|cattle|knowledge|sand|furniture|meat|food|news|pasta|progress|research|water|freedom|maturity|intelligence|travel|pollution|traffic|transport|patience</token>
+                    <token regexp="yes">accommodation|advice|access|baggage|bread|damage|equipment|garbage|luggage|money|cattle|sand|furniture|meat|food|news|pasta|progress|research|water|freedom|maturity|intelligence|travel|pollution|traffic|transport|patience</token>
                 </marker>
                 <token postag="RP|VBZ|IN|SENT_END" postag_regexp="yes"></token>
             </pattern>
             <message>Uncountable nouns are usually not used with an indefinite article. Use simply <suggestion>\2 \3 \4</suggestion>.</message>
             <short>Uncountable noun with an article</short>
             <example type="correct"><marker>The information</marker> in your files is correct.</example>
+            <example type="correct">My wife's part-time job brings in a little extra money.</example>
             <example type="correct"><marker>An intelligence</marker> service is known to be corrupt here.</example>
             <example correction="Very nice accommodation" type="incorrect"><marker>A very nice accommodation</marker> is too expensive.</example>
         </rule>
