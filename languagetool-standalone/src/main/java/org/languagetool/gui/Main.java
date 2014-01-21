@@ -289,6 +289,11 @@ public final class Main {
     autoSpellButton.setFocusable(false);
     toolbar.add(autoSpellButton);
 
+    JButton clearTextButton = new JButton(new ClearTextAction());
+    clearTextButton.setHideActionText(true);
+    clearTextButton.setFocusable(false);
+    toolbar.add(clearTextButton);
+
     cons.insets = new Insets(5, 5, 5, 5);
     cons.fill = GridBagConstraints.BOTH;
     cons.weightx = 10.0f;
@@ -1114,6 +1119,21 @@ public final class Main {
       enable = !enable;
       putValue(Action.SELECTED_KEY, enable);
       ltSupport.setBackgroundCheckEnabled(enable);
+    }
+  }
+
+  class ClearTextAction extends AbstractAction {
+
+    public ClearTextAction() {
+      super(getLabel("clearText"));
+      putValue(Action.SHORT_DESCRIPTION, messages.getString("clearText"));
+      putValue(Action.SMALL_ICON, getImageIcon("sc_closedoc.png"));
+      putValue(Action.LARGE_ICON_KEY, getImageIcon("lc_closedoc.png"));
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      ltSupport.getTextComponent().setText("");
     }
   }
 
