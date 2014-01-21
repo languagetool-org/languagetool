@@ -14,6 +14,11 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <disambig action="add"><wd lemma="someone" pos="PRP"/></disambig>
       </rule>
       
+      <rule name="sometimes" id="SOMETIMES">
+        <pattern><token>sometimes</token></pattern>
+        <disambig action="remove"><wd pos="NNS"/></disambig>
+      </rule>
+      
 <!-- end of temporary entries -->
 
        <rule name="or" id="REMOVE_JJ_FOR_OR">
@@ -607,6 +612,21 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
       <disambig postag="NN"/>
       <example type="untouched">I don't know what it all means.</example>
       <example type="ambiguous" inputform="means[mean/NNS,mean/VBZ,means/NN,means/NNS]" outputform="means[means/NN]">The money is a mere <marker>means</marker>.</example>
+    </rule>
+    
+    <rule id="TO_VB_MEANS_TO_VB" name="to ... means to ... => verb">
+      <pattern>
+        <token>to</token>
+        <token postag="VB" skip="-1"/>
+        <marker>
+          <token postag="VBZ">means</token>
+        </marker>
+        <token>to</token>
+        <token postag="VB"></token>
+      </pattern>
+      <disambig postag="VBZ"/>
+      <example type="untouched">What it all means, I don't know.</example>
+      <example type="ambiguous" inputform="means[mean/NNS,mean/VBZ,means/NN,means/NNS]" outputform="means[mean/VBZ]">To be a Christian <marker>means</marker> to say yes where I otherwise say no.</example>
     </rule>
     
     <rule name="SENT_START + pronoun + verb/NN -&gt; verb" id="SENT_START_PRP_VB_NN">
@@ -1324,7 +1344,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     </rule>
     <rule name="DT|JJ + JJ/NN + NN -&gt; JJ" id="DT_JJ_NN_JJ">
         <pattern>
-            <token postag_regexp="yes" postag="DT|JJ|PRP\$"></token>
+            <token postag_regexp="yes" postag="DT|JJ|PRP\$"><exception postag="WDT"></exception></token>
             <marker>
                 <and>
                     <token postag="JJ|VBG" postag_regexp="yes"><exception postag_regexp="yes" negate_pos="yes" postag="JJ|NN.*|VB.*"></exception></token>
@@ -1351,6 +1371,21 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <example type="untouched">His friend is now in England.</example>
         <example type="ambiguous" inputform="nose[nose/NN,nose/VB,nose/VBP]" outputform="nose[nose/NN]">The elephant swings its long <marker>nose</marker>.</example> 
         <example type="ambiguous" inputform="stone[stone/JJ,stone/NN:UN,stone/NNS,stone/VB,stone/VBP]" outputform="stone[stone/NN:UN,stone/NNS]">A rolling <marker>stone</marker> gathers no moss.</example>
+    </rule>
+    <rule name="plural noun + that/which etc. + plural verb/nn => verb" id="NNS_WDT_VBNNS_VBP">
+      <pattern>
+        <token postag="NNS"/>
+        <token postag="WDT"/>
+        <marker>
+        <and>
+        <token postag='VB[PD]' postag_regexp="yes"/>
+        <token postag="NN"></token>
+        </and>
+        </marker>
+      </pattern>
+      <disambig action="filter" postag="VB[PD]"/>
+      <example type="untouched">I didn't know that they were happy.</example>
+      <example type="ambiguous" inputform="lay[lay/JJ,lay/NN,lay/VB,lay/VBP,lie/VBD]" outputform="lay[lay/VBP,lie/VBD]">Certain frogs that <marker>lay</marker> eggs underground have unpigmented eggs.</example>
     </rule>
     <rule name="till (verb) -&gt; till/IN" id="TILL_IN">
         <pattern>

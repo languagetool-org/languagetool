@@ -84,6 +84,7 @@ public class JLanguageToolTest extends TestCase {
     assertEquals(0, tool.check("No one trusts him any more.").size());
     assertEquals(0, tool.check("A member of the United Nations since 1992, Azerbaijan was elected to membership in the newly established Human Rights Council by the United Nations General Assembly on May 9, 2006 (the term of office began on June 19, 2006).").size());
     assertEquals(0, tool.check("Anatomy and geometry are fused in one, and each does something to the other.").size());
+    assertEquals(0, tool.check("Certain frogs that lay eggs underground have unpigmented eggs.").size());
 
     assertEquals(1, tool.check("A test test that should give errors.").size());
     assertEquals(0, tool.check("I can give you more a detailed description.").size());
