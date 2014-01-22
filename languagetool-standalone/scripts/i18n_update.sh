@@ -10,7 +10,7 @@ fi
 
 # Transifex username and password
 USERNAME=dnaber
-PASSWORD=fixme
+PASSWORD=`cat ~/.transifex_password`
 
 rm -I i18n-temp
 mkdir i18n-temp
