@@ -4276,8 +4276,8 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <afterbreak/>
 </rule>
 <!-- Abbreviations that cannot finish sentences-->
-<rule break="no"> <!-- removed from abbreviations: u, s, dir, cap, cant -->
-<beforebreak>\b(?iu)(C|Dr|Dra|E|Emm|Emma|Excm|Excma|H|Hble|I|Il·lm|Il·lma|Il·ltre|Im|Ima|M|Mgfc|Mgfca|Mn|R|Rev|Sr|Sra|Sres|Srs|St|Sta|a|abr|abs|acad|add|adj|adm|admdor|admdora|admtiu|admtiva|adv|ag|agl|agr|agron|agròn|aj|ajud|al|alim|alt|amb|ampl|ant|ap|apmt|apnt|apr|aprox|apt|arm|arq|arqueol|arquit|art|assign|assoc|atm|aut|aux|av|b|batx|bda|bibl|bl|bnc|butll|bxs|c|calef|cartogr|cast|cat|catedr|catol|cert|cf|cia|cin|cint|circul|cit|climat|col|col·l|com|compt|cons|constr|cont|contr|conv|corp|corr|cpl|cpt|cró|ct|cte|ctra|cts|d|dc|dept|derog|des|desp|dg|dip|disp|distr|div|dj|dl|doc|drec|ds|dt|dta|dte|dupl|dv|e|econ|ed|ef|entl|esc|esp|espf|esq|etc|ex|exc|exp|exped|ext|f|fac|fca|febr|fig|figs|fra|g|gen|gov|gr|gral|h|i|imp|impr|impt|inc|insp|inst|int|inv|j|jul|jur|jurispr|leg|llic|loc|ltda|làm|m|merc|mil·l|màx|mín|n|neg|nom|nov|nre|núm|o|oct|op|p|pp|pàg|pàgs|paq|par|parc|part|pda|pg|pl|pobl|pol|ppda|ppt|pral|pres|prev|prof|progr|prov|pta|ptes|ptge|pvt|pàg|quadr|quint|r|rbla|ref|reg|rev|secr|serv|set|sgt|sotsp|subsp|supl|supt|t|tel|telegr|tit|trad|trans|transcr|transf|trav|tripl|trv|tt|tèc|univ|urb|v|var|veg|venc|vid|vig|vocab|vol|vs|x|àt|íd)\.\s</beforebreak>
+<rule break="no"> <!-- removed from abbreviations: u, s, dir, cap, cant, art -->
+<beforebreak>\b(?iu)(C|Dr|Dra|E|Emm|Emma|Excm|Excma|H|Hble|I|Il·lm|Il·lma|Il·ltre|Im|Ima|M|Mgfc|Mgfca|Mn|R|Rev|Sr|Sra|Sres|Srs|St|Sta|a|abr|abs|acad|add|adj|adm|admdor|admdora|admtiu|admtiva|adv|ag|agl|agr|agron|agròn|aj|ajud|al|alim|alt|amb|ampl|ant|ap|apmt|apnt|apr|aprox|apt|arm|arq|arqueol|arquit|assign|assoc|atm|aut|aux|av|b|batx|bda|bibl|bl|bnc|butll|bxs|c|calef|cartogr|cast|cat|catedr|catol|cert|cf|cia|cin|cint|circul|cit|climat|col|col·l|com|compt|cons|constr|cont|contr|conv|corp|corr|cpl|cpt|cró|ct|cte|ctra|cts|d|dc|dept|derog|des|desp|dg|dip|disp|distr|div|dj|dl|doc|drec|ds|dt|dta|dte|dupl|dv|e|econ|ed|ef|entl|esc|esp|espf|esq|etc|ex|exc|exp|exped|ext|f|fac|fca|febr|fig|figs|fra|g|gen|gov|gr|gral|h|i|imp|impr|impt|inc|insp|inst|int|inv|j|jul|jur|jurispr|leg|llic|loc|ltda|làm|m|merc|mil·l|màx|mín|n|neg|nom|nov|nre|núm|o|oct|op|p|pp|pàg|pàgs|paq|par|parc|part|pda|pg|pl|pobl|pol|ppda|ppt|pral|pres|prev|prof|progr|prov|pta|ptes|ptge|pvt|pàg|quadr|quint|r|rbla|ref|reg|rev|secr|serv|set|sgt|sotsp|subsp|supl|supt|t|tel|telegr|tit|trad|trans|transcr|transf|trav|tripl|trv|tt|tèc|univ|urb|v|var|veg|venc|vid|vig|vocab|vol|vs|x|àt|íd)\.\s</beforebreak>
 <afterbreak/>
 </rule>
 <!-- Abbreviations that can finish sentences -->
@@ -4285,12 +4285,12 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <beforebreak>\bs\.\s</beforebreak>
 <afterbreak>[XIV]+\b</afterbreak>
 </rule>
-<rule break="no"> <!-- cap. 6, cap. XIX -->
-<beforebreak>\bcap\.\s</beforebreak>
+<rule break="no"> <!-- cap. 6, cap. XIX, art. 5 -->
+<beforebreak>\b(cap|arts?)\.\s</beforebreak>
 <afterbreak>[XIV\d]+\b</afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(u|s|dir|cap|cant|Sr|Jr|Admón|Adm|Inc|Co|Hnos|Vda|[VU]d[s]?)\.[\p{Pe}\p{Pf}\p{Pd}"']*\s</beforebreak>
+<beforebreak>\b(u|s|dir|cant|Sr|Jr|Admón|Adm|Inc|Co|Hnos|Vda|[VU]d[s]?)\.[\p{Pe}\p{Pf}\p{Pd}"']*\s</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
 <!-- Any word in acronyms like U.S.A.F or F. B. I. or C. or c.s.p. or p. e. -->

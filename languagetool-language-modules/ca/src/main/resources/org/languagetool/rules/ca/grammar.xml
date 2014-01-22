@@ -46,6 +46,7 @@ $Id$
     <!ENTITY mots_HAC_ASPIRADA2 "Higgs|high|Hill|hippies|hippy|Hirado|His|Hubei|Hunter|Husserl|Utah">
     <!ENTITY exceptions_A_MANS_DE "anar|sotmetre|submissió|desapoderar|desapoderament|sofrir|vèncer|pallissa|apallissar|desgastar|parar|passar|arribar|tornar|perdre|morir|pèrdua|matança|mort|patir|vexació|vexar|tortura|torturar|derrota|derrotar|fi|assassinar|assassinat|saqueig|saquejar">
     <!ENTITY adverbis_temps_lloc "entra(t|ts|da|des)|passa(t|ts|da|des)|tocad(a|es)|arran|enfront|per|durant|llavors|tard|aviat|pròximament|properament|prompte|avui|abans|després|hui|ara|demà|despús-ahir|despús-demà|aquí|ací|allí|allà|ahí|aleshores|recentment|posteriorment">
+    <!ENTITY mots_femenins_apostrofen "hidra|hifa|hulla|ulna|umbra|una|ungla|unça|umma|upa|urbs|urca|urna|urpa|idus|illa|inca|iva|URSS|UJI|(?-i)ICONA|ICS|Ingrid|IRA">
 ]>
     
 <rules lang="ca" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
@@ -5719,7 +5720,7 @@ $Id$
         <rulegroup id="DEGUT_A" name="*degut a" type="style">
             <rule>
                 <pattern>
-                    <token><exception inflected="yes" regexp="yes">ser|semblar|parèixer|haver</exception><exception postag="RG_anteposat|.*LOC_ADV.*" postag_regexp="yes"/><exception regexp="yes">respecte|honor</exception></token>
+                    <token><exception inflected="yes" regexp="yes">ser|semblar|parèixer|haver</exception><exception postag="RG_anteposat|.*LOC_ADV.*" postag_regexp="yes"/><exception regexp="yes">respecte|honor|culte</exception></token>
                     <marker>
                         <token>degut<exception postag="_GV_"/></token>
                         <token>a</token>
@@ -5750,7 +5751,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token><exception inflected="yes" regexp="yes">ser|semblar|parèixer|haver</exception><exception postag="RG_anteposat|.*LOC_ADV.*" postag_regexp="yes"/><exception regexp="yes">respecte|honor</exception></token>
+                    <token><exception inflected="yes" regexp="yes">ser|semblar|parèixer|haver</exception><exception postag="RG_anteposat|.*LOC_ADV.*" postag_regexp="yes"/><exception regexp="yes">respecte|honor|culte</exception></token>
                     <marker>
                         <token>degut<exception postag="_GV_"/></token>
                         <token>a</token>
@@ -9031,7 +9032,7 @@ $Id$
             <rule>
                 <pattern>
                     <token>l'</token>
-                    <token postag="N.F.*|A..F.*|_GN_F." postag_regexp="yes" regexp="yes">h?[ui].+|host<exception regexp="yes">hidra|hifa|hulla|ulna|umbra|una|ungla|unça|upa|urbs|urna|urpa|idus|illa|inca|iva|URSS|UJI</exception><exception postag="_GN_M.*|_GV_" postag_regexp="yes" /></token>
+                    <token postag="N.F.*|A..F.*|_GN_F." postag_regexp="yes" regexp="yes">h?[ui].+|host<exception regexp="yes">&mots_femenins_apostrofen;</exception><exception postag="_GN_M.*|_GV_" postag_regexp="yes" /></token>
                 </pattern>
                 <message>No s'apostrofa.</message>
                 <suggestion>la <match no="2"></match></suggestion>
@@ -9040,6 +9041,7 @@ $Id$
                 <example type="incorrect" correction="la uixera"><marker>l'uixera</marker></example>
                 <example type="incorrect" correction="la iodització"><marker>l'iodització</marker></example>
                 <example type="incorrect" correction="la ionització"><marker>l'ionització</marker></example>
+                <example type="incorrect" correction="la icona"><marker>l'icona</marker></example>
                 <example type="correct">l'intel·lectual valencià</example>   
                 <example type="correct">Això l'indigna</example>        
                 <example type="correct">A l'URSS això no passava</example>  
@@ -9048,13 +9050,14 @@ $Id$
                 <example type="correct">L'URL de la web</example>
                 <example type="correct">L'upf</example>
                 <example type="correct">L'UJI</example>
+                <example type="correct">L'ICONA</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
                         <token>l'</token>
                         <and>
-                            <token postag="_GN_FS" regexp="yes">h?[ui].+|host<exception regexp="yes">hidra|hifa|hulla|ulna|umbra|una|ungla|unça|upa|urbs|urna|urpa|idus|illa|inca|iva|URSS|UJI</exception></token>
+                            <token postag="_GN_FS" regexp="yes">h?[ui].+|host<exception regexp="yes">&mots_femenins_apostrofen;</exception></token>
                             <token postag="_GN_MS" />
                         </and>
                     </marker>
@@ -9076,7 +9079,7 @@ $Id$
             <rule>
                 <pattern>
                     <token>n'</token>
-                    <token postag="N.F.*|A..F.*|_GN_F." postag_regexp="yes" regexp="yes">h?[ui].+|host<exception regexp="yes">hidra|hifa|hulla|ulna|umbra|una|ungla|unça|upa|urbs|urna|urpa|idus|illa|inca|iva|URSS|UJI</exception><exception postag="_GN_M.*" postag_regexp="yes" /></token>
+                    <token postag="N.F.*|A..F.*|_GN_F." postag_regexp="yes" regexp="yes">h?[ui].+|host<exception regexp="yes">&mots_femenins_apostrofen;</exception><exception postag="_GN_M.*" postag_regexp="yes" /></token>
                 </pattern>
                 <message>No s'apostrofa.</message>
                 <suggestion>na <match no="2"></match></suggestion>
@@ -9092,7 +9095,10 @@ $Id$
                 <message>Cal apostrofar.</message>
                 <suggestion>l'<match no="2"></match></suggestion>
                 <short>Error ortogràfic</short>
-                <example type="incorrect"><marker>la ombra</marker></example>
+                <example type="incorrect" correction="l'ombra"><marker>la ombra</marker></example>
+                <example type="incorrect" correction="l'umma"><marker>la umma</marker></example>
+                <example type="incorrect" correction="l'urca"><marker>la urca</marker></example>
+                <example type="incorrect" correction="l'UJI"><marker>la UJI</marker></example>
                 <example type="correct">l'ombra</example>
                 <example type="correct">la efa suau</example>
                 <example type="correct">la orfebrería española</example>
@@ -9578,12 +9584,12 @@ $Id$
     <category name="Z) Accents diacrítics" type="grammar">
         <rulegroup id="US" name="us/ús">
             <rule>
-                <pattern>
+                <pattern case_sensitive="yes">
                     <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|V.[MNG].*" postag_regexp="yes"/><exception regexp="yes">l'|d'</exception></token>
                     <marker>
-                        <token>us<exception regexp="yes">(?-i)US</exception></token>
+                        <token regexp="yes">us|Us<exception postag="_GV_"/></token>
                     </marker>
-                    <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|V.[SI].*" postag_regexp="yes"/><exception regexp="yes">["‘“«]</exception></token>
+                    <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|V.[SI].*" postag_regexp="yes"/><exception regexp="yes">["‘“«]|sia</exception></token>
                 </pattern>
                 <message>Si és nom, s'accentua.</message>
                 <suggestion>ús</suggestion>
@@ -9591,6 +9597,7 @@ $Id$
                 <example type="incorrect" correction="ús">En fa un <marker>us</marker> correcte.</example>
                 <example type="correct">Se us farà tard.</example>
                 <example type="correct">Us "agradaria"?</example>
+                <example type="correct">Us ben asseguro que sí.</example>
                 <example type="correct">US Open</example>
             </rule>
             <rule>
@@ -17633,6 +17640,7 @@ $Id$
             <short>Expressió incorrecta</short>
             <example type="incorrect">Hi ha coses <marker>al terra</marker>.</example>
             <example type="correct">Els taulons per al terra.</example>
+            <!-- al terra que trepitgem en caminar -->
         </rule>
         <rule id="PER_DE_PROMPTE" name="per de prompte">
             <pattern>
@@ -22800,7 +22808,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token><exception postag="D[^RAN].F.*" postag_regexp="yes"/></token>
+                    <token><exception postag="D[RAN].F.*" postag_regexp="yes"/></token>
                     <marker>
                         <token postag="_GN_F." postag_regexp="yes" regexp="yes">(amor|ardor|candor|clamor|color|dolor|error|estridor|estupor|fervor|fragor|fulgor|furor|honor|horror|humor|rigor|rubor|rumor|sabor|sopor|temor|terror|valor|vigor)s?<exception postag="_GN_M." postag_regexp="yes" /></token>
                     </marker>
@@ -22811,6 +22819,7 @@ $Id$
                 <example type="correct">Amb colors transparents.</example>
                 <example type="correct">Amb aquell color de cara</example>
                 <example type="correct">N'hi havia de tres colors.</example>
+                <example type="correct">de la Dolors Umbridge</example>
                 <!-- la Legió d'Honor francesa -->
             </rule>
         </rulegroup>
@@ -25212,7 +25221,7 @@ $Id$
         <rulegroup id="EXIGEIX_VERBS_VALENCIANS" name="Exigeix formes verbals valencianes" default="off">
             <rule>
                 <pattern>
-                    <token postag="V.{6}[CBY24]" postag_regexp="yes"><exception postag="V.{6}[0VXZ13567]|_possible_nompropi|N.*|AQ.*" postag_regexp="yes"/><exception>vinga</exception></token>
+                    <token postag="V.{6}[CBY24]" postag_regexp="yes"><exception postag="V.{6}[0VXZ13567]|_possible_nompropi|N.*|AQ.*" postag_regexp="yes"/><exception regexp="yes">aixo|aixi</exception></token>
                 </pattern>
                 <message>Useu formes verbals valencianes.</message>
                 <suggestion><match no="1" postag="(V.+)." postag_regexp="yes" postag_replace="$1[0VXZ13567]"/></suggestion>
@@ -25251,13 +25260,15 @@ $Id$
                 <example type="incorrect" correction="vinga"><marker>véngui</marker>.</example>
                 <example type="incorrect" correction="tindria"><marker>tendria</marker>.</example>
                 <example type="incorrect" correction="convinga"><marker>convengui</marker>.</example>
-                <example type="correct">escórrec</example>          
+                <example type="correct">escórrec</example>
+                <example type="correct">s'entén que el termini expira l'últim dia</example>
+                <example type="correct">Aixo és aixi</example> <!-- errors detectats per altres regles -->
             </rule>
         </rulegroup>
         <rulegroup id="EXIGEIX_VERBS_BALEARS" name="Exigeix formes verbals balears" default="off">
             <rule>
                 <pattern>
-                    <token postag="V.{6}[CVX356]" postag_regexp="yes"><exception postag="V.{6}[0BYZ1247]|_possible_nompropi|N.*|AQ.*|SPS00" postag_regexp="yes"/><exception>vinga</exception></token>
+                    <token postag="V.{6}[CVX356]" postag_regexp="yes"><exception postag="V.{6}[0BYZ1247]|_possible_nompropi|N.*|AQ.*|SPS00" postag_regexp="yes"/><exception regexp="yes">vinga|aixo</exception></token>
                 </pattern>
                 <message>Useu formes verbals balears.</message>
                 <suggestion><match no="1" postag="(V.+)." postag_regexp="yes" postag_replace="$1[0BYZ1247]"/></suggestion>
