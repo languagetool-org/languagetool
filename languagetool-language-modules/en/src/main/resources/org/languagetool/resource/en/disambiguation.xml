@@ -91,7 +91,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
       <pattern>
         <token postag="DT"></token>
         <marker><token>sports</token></marker>
-        <token regexp="yes">bra|car|centre|center|coat|day|jacket|shirt</token>
+        <token regexp="yes" inflected="yes">bra|car|centre|center|coat|day|jacket|shirt</token>
       </pattern>
       <disambig action="replace"><wd lemma="sports" pos="JJ"/></disambig>
       <example type="untouched">I enjoy winter sports.</example>
@@ -1631,7 +1631,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <marker>
                 <token>no</token>
             </marker>
-            <token postag_regexp="yes" postag="NN|JJ.*"></token>
+            <token postag_regexp="yes" postag="NN.*|JJ.*"></token>
         </pattern>
         <disambig postag="DT"></disambig>
     </rule>
