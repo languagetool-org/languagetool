@@ -19,6 +19,11 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <disambig action="remove"><wd pos="NNS"/></disambig>
       </rule>
       
+      <rule name="overhead" id="OVERHEAD">
+        <pattern><token>overhead</token></pattern>
+        <disambig action="add"><wd lemma="overhead" pos="RB"/></disambig>
+      </rule>
+      
 <!-- end of temporary entries -->
 
        <rule name="or" id="REMOVE_JJ_FOR_OR">
@@ -88,8 +93,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
      </rule>
     
     <rule id="SPORTS_ADJ" name="'sports' as adjective">
-      <pattern>
-        <token postag="DT"></token>
+      <pattern>        
         <marker><token>sports</token></marker>
         <token regexp="yes" inflected="yes">bra|car|centre|center|coat|day|jacket|shirt</token>
       </pattern>
@@ -177,7 +181,8 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <example type="untouched">No one trusts him any more.</example>
         </rule>
     </rulegroup>
-    <rule id="NO_ONE" name="No one as personal pronoun">
+    <rulegroup id="NO_ONE" name="No one as personal pronoun">
+    <rule>
       <pattern>
         <token>no</token>
         <marker>
@@ -187,7 +192,20 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
       <disambig postag="PRP"/>
       <example type="untouched">One car, two dogs, seven cats</example>
       <example type="ambiguous" inputform="one[one/CD,one/JJ,one/NN,one/PRP]" outputform="one[one/PRP]">No <marker>one</marker> trusts him any more.</example>
-    </rule>    
+    </rule>
+    <rule>
+      <pattern>
+      <marker>
+        <token>no</token>
+      </marker>
+        <token>one</token>       
+      </pattern>
+      <disambig postag="DT"/>
+      <example type="untouched">One car, two dogs, seven cats</example>
+      <example type="ambiguous" inputform="No[No/NNP,no/DT,no/NN]" outputform="No[no/DT]"><marker>No</marker> one trusts him any more.</example>
+    </rule>
+    </rulegroup>
+        
     <rule name="Modal verb + verb/noun -&gt; modal verb + verb" id="MD_VB">
         <pattern>
             <token postag="MD"></token>
@@ -821,9 +839,9 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <example type="untouched">These may be to bring about political change.</example>
         <example type="ambiguous" inputform="dogs[dog/NNS,dog/VBZ]" outputform="dogs[dog/NNS]">The <marker>dogs</marker> barks loudly.</example>
     </rule>
-    <rule name="a/an + adj/nn + verb sing -&gt; NN" id="AN_JJ_VB_NN">    
+    <rule name="a/an/each + adj/nn + verb sing -&gt; NN" id="AN_JJ_VB_NN">    
         <pattern>
-            <token regexp="yes">an?</token>
+            <token regexp="yes">an?|each</token>
             <marker>
                 <and>
                 <token postag="JJ"/>
@@ -836,9 +854,9 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <example type="untouched">These may be to bring about political change.</example>
         <example type="ambiguous" inputform="chance[chance/JJ,chance/NN:UN,chance/VB,chance/VBP]" outputform="chance[chance/NN:UN]">A <marker>chance</marker> remains.</example>        
     </rule>
-    <rule name="a/an + nn + verb sing/noun pl -> verb sing" id="AN_NN_VBZNNS">
+    <rule name="a/an/each + nn + verb sing/noun pl -> verb sing" id="AN_NN_VBZNNS">
         <pattern>
-            <token regexp="yes">an?</token>
+            <token regexp="yes">an?|each</token>
             <token postag="NN(:UN?)?" postag_regexp="yes"><exception postag="NN(:UN?)?" negate_pos="yes" postag_regexp="yes"></exception></token>
             <marker>
                 <and>
@@ -850,7 +868,28 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <disambig postag="VBZ"></disambig>
         <example type="untouched">These may be to bring about political change.</example>
         <example type="ambiguous" inputform="remains[remain/VBZ,remains/NNS]" outputform="remains[remain/VBZ]">A chance <marker>remains</marker>.</example>        
-    </rule>       
+    </rule>
+            
+    <rule name="SENT_START + the + nn/jj + verb sing => nn" id="SENT_START_the_NNJJ_VBZ">
+      <pattern>
+        <token postag="SENT_START"/>
+        <token>the</token>
+        <marker>
+        <and>
+          <token postag="NNP?(:UN?)?" postag_regexp="yes"/>
+          <token postag="JJ"/>
+        </and>
+        </marker>
+        <token postag="VBZ"/>
+        <token postag="NN(S|:UN?)|DT" postag_regexp="yes"><exception postag="VBZ"/></token>
+      </pattern>
+      <disambig action="filter" postag="NN.*"/>
+      <example type="untouched">The dogs eat dogs.</example>
+      <!-- don't change the sentence with error here: -->
+      <example type="untouched">The black dogs barks loudly.</example>
+      <example type="ambiguous" inputform="Boss[boss/JJ,boss/NN,boss/VB,boss/VBP]" outputform="Boss[boss/NN]">The <marker>Boss</marker> wants performance, not gripes.</example>      
+    </rule>
+     
     <rule name="determiner + adj + verb/NN -&gt; NN" id="DT_JJ_VB_NN">
         <pattern>
             <token postag="DT"><exception postag="PDT"/><exception regexp="yes">th[eo]se|one</exception><exception scope="previous">of</exception></token>
@@ -867,8 +906,8 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <example type="untouched">No one trusts him any more.</example>
         <example type="untouched">The Atlantic harbors petroleum and gas fields.</example>
         <example type="untouched">Panovsky's notion of the dialectic makes history follow a predetermined course.</example>
-        <example type="ambiguous" inputform="dogs[dog/NNS,dog/VBZ]" outputform="dogs[dog/NNS]">The black <marker>dogs</marker> barks loudly.</example>
-        <example type="ambiguous" inputform="will[will/MD,will/NN:UN]" outputform="will[will/NN:UN]">The general <marker>will</marker> is an important notion in Rousseau.</example>
+        <example type="ambiguous" inputform="dogs[dog/NNS,dog/VBZ]" outputform="dogs[dog/NNS]">Today, the black <marker>dogs</marker> barks loudly.</example>
+        <example type="ambiguous" inputform="will[will/MD,will/NN:UN]" outputform="will[will/NN:UN]">Undoubtedly, the general <marker>will</marker> is an important notion in Rousseau.</example>
     </rule>
     <rule name="determiner + verb/NN -&gt; NN (2)" id="DT_VB_NN_SENTEND">
         <pattern>
