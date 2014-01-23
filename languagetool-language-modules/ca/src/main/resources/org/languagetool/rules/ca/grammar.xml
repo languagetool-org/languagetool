@@ -9273,15 +9273,24 @@ $Id$
 			    <example type="correct">El boca-orella sempre és efectiu.</example>
 			</rule>
         </rulegroup>
-        <rule id="VERBS_INCORRECTES" name="verbs incorrectes: objectivitzar">
-            <pattern>
-                <token regexp="yes">objectivitz.*</token>
-            </pattern>
-            <message>Cal dir <suggestion><match no="1" regexp_match="objectivitz(.*)" regexp_replace="objectiv$1"/></suggestion></message>
-            <example type="incorrect" correction="objectivem">Cal que ho <marker>objectivitzem</marker>.</example>
-            <example type="correct">El boca-orella sempre és efectiu.</example>
-        </rule>
-        
+        <rulegroup id="VERBS_INCORRECTES" name="verbs incorrectes: objectivitzar, pormenoritzar">
+            <rule>
+                <pattern>
+                    <token regexp="yes">objectivitz.*</token>
+                </pattern>
+                <message>Cal dir <suggestion><match no="1" regexp_match="objectivitz(.*)" regexp_replace="objectiv$1"/></suggestion></message>
+                <example type="incorrect" correction="objectivem">Cal que ho <marker>objectivitzem</marker>.</example>
+                <example type="correct">El boca-orella sempre és efectiu.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">pormenoritz.*</token>
+                </pattern>
+                <message>Cal dir <suggestion><match no="1" regexp_match="pormenoritz(.*)" regexp_replace="detall$1"/></suggestion></message>
+                <example type="incorrect" correction="detallem">Cal que ho <marker>pormenoritzem</marker>.</example>
+                <example type="correct">Ho detallarem.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="MOTS_SENSE_GUIONETS" name="mots sense guionets: *vist-i-plau,...">
         <!-- This rulegroup would be unnecessary if LibreOffice/OpenOffice tokenized the words containing hyphens like LanguageTool -->
             <rule>
@@ -18182,6 +18191,16 @@ $Id$
             <short>Expressió incorrecta</short>
             <example type="incorrect">No <marker>dono a l'abast</marker></example>
             <example type="correct">No <marker>dono l'abast</marker></example>
+        </rule>
+        <rule id="DONAR_ABAST" name="*donar abast/donar l'abast">
+            <pattern>
+                <token inflected="yes" skip="2">donar</token>
+                <token>abast<exception scope="previous">l'</exception></token>
+            </pattern>
+            <message>Cal dir <suggestion><match no="1" include_skipped="all"></match> l'<match no="2"/></suggestion>.</message>
+            <short>Expressió incorrecta</short>
+            <example type="incorrect" correction="dono mai l'abast">No <marker>dono mai abast</marker>.</example>
+            <example type="correct">No dono l'abast</example>
         </rule>
         <rule id="SORTIR_EFECTE" name="*sortir efecte">
             <pattern>
