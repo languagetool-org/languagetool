@@ -205,6 +205,16 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
       <example type="ambiguous" inputform="No[No/NNP,no/DT,no/NN]" outputform="No[no/DT]"><marker>No</marker> one trusts him any more.</example>
     </rule>
     </rulegroup>
+
+    <rule name="best as adjective" id="BEST_JJS"> <!-- very crude -->
+      <pattern>
+        <token>best</token>
+        <token postag="IN"/>
+      </pattern>
+      <disambig postag="JJS"></disambig>
+      <example type="untouched">I best my opponents.</example>
+      <example type="ambiguous" inputform="best[best/NN:U,best/VB,best/VBP,good/JJS,well/RBS]" outputform="best[good/JJS]">It's <marker>best</marker> for him.</example>
+    </rule>
         
     <rule name="Modal verb + verb/noun -&gt; modal verb + verb" id="MD_VB">
         <pattern>
@@ -217,7 +227,8 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             </marker>
         </pattern>
         <disambig postag="VB"></disambig>
-    </rule>    
+    </rule>
+        
     <rule name="be + to + verb/... -&gt;be + to + verb" id="BE_TO_VB">
         <pattern>
             <token inflected="yes">be</token>
@@ -532,19 +543,21 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     
     
     
-    <rulegroup id="CAN_WILL_MD" name="can/will as a modal verb">
+    <rulegroup id="CAN_WILL_MD" name="can/will/must as a modal verb">
     <rule>
     <pattern>
-      <marker><token regexp="yes">can|will</token></marker>
+      <marker><token regexp="yes">can|will|must</token></marker>
       <token postag="VB"/>      
     </pattern>
     <disambig postag="MD"/>
     <example type="untouched">It is a can of soup.</example>
     <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/MD]">This <marker>can</marker> be eliminated.</example>
+    <example type="untouched">It's a must.</example>
+    <example type="ambiguous" inputform="must[must/JJ,must/MD,must/NN:UN]" outputform="must[must/MD]">We <marker>must</marker> win.</example>   
   </rule>
    <rule>
     <pattern>
-      <marker><token regexp="yes">can|will</token></marker>
+      <marker><token regexp="yes">can|will|must</token></marker>
       <token postag="RB"/>
       <token postag="VB"/>      
     </pattern>
@@ -556,7 +569,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     <pattern>
             <token postag="SENT_START|[:;,]" postag_regexp="yes"/>
             <token regexp="yes">I|you|he|she|we|they</token>
-            <marker><token regexp="yes">can|will</token></marker>
+            <marker><token regexp="yes">can|will|must</token></marker>
         </pattern>
         <disambig postag="MD"/>
     <example type="untouched">It is a can of soup.</example>
@@ -717,7 +730,31 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     	</pattern>
     	<disambig postag="VBP"/>
     </rule>
-    <rulegroup name="let's" id="LETS1">
+    <rule name="didn't" id="didnt">
+      <pattern>
+      <marker>
+        <token>didn</token>
+      </marker>
+        <token regexp="yes">['’]</token>
+        <token>t</token>      
+      </pattern>
+      <disambig action="add"><wd pos="VBD" lemma="do"/></disambig>
+      <example type="untouched">He did it.</example>
+      <example type="ambiguous" inputform="didn[didn]" outputform="didn[do/VBD]">He <marker>didn</marker>'t say.</example>
+    </rule>
+    <rule name="wasn't" id="wasnt">
+      <pattern>
+      <marker>
+        <token>wasn</token>
+      </marker>
+        <token regexp="yes">['’]</token>
+        <token>t</token>      
+      </pattern>
+      <disambig action="add"><wd pos="VBD" lemma="be"/></disambig>
+      <example type="untouched">He did it.</example>
+      <example type="ambiguous" inputform="wasn[wasn]" outputform="wasn[be/VBD]">He <marker>wasn</marker>'t there.</example>
+    </rule>    
+    <rulegroup name="let's" id="LETS1">    
         <rule>
             <pattern>
                 <marker>
@@ -893,7 +930,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     <rule name="determiner + adj + verb/NN -&gt; NN" id="DT_JJ_VB_NN">
         <pattern>
             <token postag="DT"><exception postag="PDT"/><exception regexp="yes">th[eo]se|one</exception><exception scope="previous">of</exception></token>
-            <token postag="JJ"><exception postag="RB|NNPS?" postag_regexp="yes"></exception></token>            
+            <token postag="JJ"><exception postag="RB|NNPS?|PRP" postag_regexp="yes"></exception></token>            
             <marker>
                 <and>
                     <token postag_regexp="yes" postag="VB[PZ]?|MD"></token>
@@ -942,6 +979,20 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     	<disambig postag="CD"/>
     	<example type="untouched">Ten dollars</example>
     	<example type='ambiguous' inputform="10[10]" outputform="10[10/CD]"><marker>10</marker> dollars</example>
+    </rule>
+    
+    <rule id="WORLD_WAR_12" name="The World War 1/2 =>NNP">
+      <pattern>
+        <token>the</token>
+        <token>world</token>
+        <token>war</token>
+        <marker>
+          <token regexp="yes">[12]</token>
+        </marker>
+      </pattern>
+      <disambig postag="NNP"/>
+      <example type="untouched">Another world would be a catastrophe.</example>
+      <example type="ambiguous" inputform="1[1/CD]" outputform="1[1/NNP]">The World War <marker>1</marker> tank</example>
     </rule>
     
     <!-- A is not a determiner but a variable in this context -->
@@ -2441,7 +2492,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <marker>
               <token>right</token>
             </marker>
-            <token regexp="yes">away|now|before|after</token>
+            <token regexp="yes">away|now|before|after|back|here</token>
           </pattern>
           <disambig postag="RB"/>
           <example type="untouched">You are right.</example>
@@ -2467,7 +2518,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         
         <rule id="VERB_IT_JJ" name="make/get/do + it + verb/JJ => JJ">
           <pattern>
-            <token regexp="yes" inflected="yes">do|find|make|get|think|like|see|consider|deem|play|believe|keep|paint</token>
+            <token regexp="yes" inflected="yes">do|find|make|get|think|like|see|consider|deem|play|believe|keep|paint|give|leave|pound</token>
             <token>it</token>
             <marker>
             <and>
@@ -2481,6 +2532,18 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
           <example type="ambiguous" inputform="wrong[wrong/JJ,wrong/NN:UN,wrong/VB,wrong/VBP]" outputform="wrong[wrong/JJ]">We thought it <marker>wrong</marker> to leave her alone.</example>
           <example type="untouched">Let's keep it simple.</example>
           <example type="ambiguous" inputform="clean[clean/JJ,clean/NN,clean/VB,clean/VBP]" outputform="clean[clean/JJ]">Let's keep it <marker>clean</marker>.</example>          
+        </rule>
+        
+        <rule id="VERB_XX_BETTER_RBR" name='know/stand + xx + better => RBR'>
+          <pattern>
+            <token skip="3" regexp="yes" inflected="yes">know|stand</token>
+            <marker>
+              <token>better</token>
+            </marker>
+          </pattern>
+          <disambig postag="RBR"/>
+          <example type="untouched">We need to better the lot of the suburban commuter.</example>
+          <example type="ambiguous" inputform="better[better/NN,better/VB,better/VBP,good/JJR,well/RBR]" outputform="better[well/RBR]">Later, you shall know it <marker>better</marker>.</example>
         </rule>
                         
         <rule id="FREE_OF_CHARGE" name="free of charge">
@@ -2742,6 +2805,17 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
           <disambig postag="NNS"/>
           <example type="untouched">These are my orders.</example>
           <example type="ambiguous" inputform="orders[order/NNS,order/VBZ]" outputform="orders[order/NNS]">You cannot disobey <marker>orders</marker>!</example>
+        </rule>
+        
+        <rule name="husband => noun" id="HUSBAND_NN">
+          <pattern>
+          <marker><token>husband</token></marker>
+          <token>and</token>
+          <token>wife</token>
+          </pattern>
+          <disambig postag="NN"/>
+          <example type="untouched">He must husband his resources.</example>
+          <example type="ambiguous" inputform="husband[husband/NN,husband/VB,husband/VBP]" outputform="husband[husband/NN]">They were <marker>husband</marker> and wife.</example>
         </rule>
         
         <rule id="IN_TRAINING" name="preposition + training =>noun">

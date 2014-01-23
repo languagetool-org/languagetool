@@ -1409,7 +1409,7 @@ USA
         </rulegroup>
         <rule id="ADVICE_ADVISE" name="advice (advise)" type="grammar">
             <pattern>
-              <token postag="PRP"><exception postag="PRP" negate_pos="yes"/></token>
+              <token postag="PRP"><exception postag="PRP" negate_pos="yes"/><exception scope="previous" inflected="yes" regexp="yes">offer|give</exception></token>
               <marker>
                   <token regexp="yes">advices?</token>
               </marker>
@@ -1421,6 +1421,7 @@ USA
             <example type="incorrect" correction="advises">He <marker>advices</marker> you to do it.</example>
             <example type="correct">We <marker>advise</marker> you to come by public transport</example>
             <example correction="advise" type="incorrect">We <marker>advice</marker> you to come by public transport.</example>
+            <example type="correct">I could offer you advice, Tomas, but you wouldn't heed it.</example>
         </rule>
         <rulegroup id="ALL_READY" name="all ready (already)">
             <rule>
@@ -2072,11 +2073,12 @@ USA
             <rule>
                 <pattern>
                     <token><exception postag="CC"></exception></token>
-                    <token><exception postag="WP|NNS|WRB" postag_regexp="yes"></exception><exception regexp="yes">there|they|we|you</exception></token>
+                    <token><exception postag="WP|NNS|WRB" postag_regexp="yes"></exception><exception regexp="yes">there|the[ym]|we|you</exception></token>
                     <marker>
                         <token>were</token>
                     </marker>
                     <token postag="VB|VBP|PRP" postag_regexp="yes"><exception postag="JJ|VBN|IN|PRP\$" postag_regexp="yes"></exception><exception regexp="yes">there|they|we|you</exception></token>
+                    <token><exception regexp="yes">not|to</exception></token>
                 </pattern>
                 <message>Did you mean <suggestion>where</suggestion> or <suggestion>we</suggestion>?</message>
                 <short>Possible typo</short>
@@ -2086,6 +2088,8 @@ USA
                 <example type="correct">Black peppercorns were found lodged in the nostrils...</example>
                 <example type="correct">There were stage productions...</example>
                 <example type="correct">...and both the hedgehogs were out of sight.</example>
+                <example type="correct">Such mannerisms would be less worthy of remark, were it not that in Great Expectations, as in no other of Dickens' novels, hands serve as a leitmotif of plot and theme -- a kind of unifying symbol or natural metaphor for the book's complex of human interrelationships and the values and attitudes that motivate them.</example>
+                <example type="correct">Two of them were police radio cars.</example>
             </rule>
             <rule>
                 <pattern>
@@ -2149,7 +2153,8 @@ USA
         </rule>
         <rule id="COMMA_THAN" name="..., than (then)">
             <pattern>
-                <token><exception postag="JJR" postag_regexp="yes" scope="previous"></exception>,</token>
+                <token postag="SENT_START" skip="-1"><exception postag="JJR" scope="next"/></token>
+                <token>,</token>
                 <marker>
                     <token>than</token>
                 </marker>
@@ -2158,6 +2163,7 @@ USA
             <short>Possible typo</short>
             <example correction="then" type="incorrect">If we want to eat, <marker>than</marker> we need to get some money.</example>
             <example type="correct">If we want to eat, <marker>then</marker> we need to get some money.</example>
+            <example type="correct">It's not much more, in fact, than the return that is offered on U. S. Treasury bonds.</example>
         </rule>
         <rule id="FROM_THAN_ON" name="from than (then) on">
             <pattern>
@@ -2390,12 +2396,13 @@ USA
         <rule>        
           <pattern>
             <marker><token><exception scope="previous" regexp="yes">the|a|to|this|that|Bourne</exception>shell</token></marker>
-            <token postag="VB"/>
+            <token postag="VB"><exception>people</exception></token>
           </pattern>
           <message>Did you mean <suggestion>she'll</suggestion>?</message>
           <short>Possible typo</short>
           <example type="correct">This is an egg shell.</example>
           <example type="correct">How does the shell know which directory it's in?</example>
+          <example type="correct">Shell people did not, strictly speaking, breathe.</example>
           <example type="incorrect" correction="She'll"><marker>Shell</marker> be there.</example>
         </rule>       
         </rulegroup>
@@ -2514,7 +2521,7 @@ USA
             <rule>
                 <!-- TODO: its of, its to -->
                 <pattern>
-                    <token><exception postag="IN|CC" postag_regexp="yes"></exception></token>
+                    <token><exception postag="IN|CC" postag_regexp="yes"></exception><exception regexp="yes">[tw]hat</exception></token>
                     <marker>
                         <token>its</token>
                     </marker>
@@ -2527,6 +2534,7 @@ USA
                 <example type="incorrect"><marker>Its</marker> where people walk around.</example>
                 <example type="correct">It has not yet found its way either into the pharmacopoeia.</example>
                 <example type="correct">London is counting iconic landmarks such as the Houses of Parliament, Tower Bridge and Buckingham Palace amongst its many attractions.</example>
+                <example type="correct">The Service has not said what its next step will be.</example>
                 <example reason="'every' is tagged as AT0" type="triggers_error">London is a necropolis, <marker>its</marker> every corner the site of a murder, its soil a pudding of blood and tears.</example>
             </rule>
             <rule>
@@ -3030,7 +3038,7 @@ USA
                     <token><exception postag="PRP$"/><exception inflected="yes" regexp="yes">give|avail|serve</exception></token>
                     <token postag="DT|JJ.*" postag_regexp="yes"><exception postag="CD"></exception></token>
                     <marker>
-                        <token postag="NNS|NNPS" postag_regexp="yes" regexp="yes">.[^']*s<exception regexp="yes">his|ones|relations</exception><exception postag="VBZ|RB|IN|JJ|NN:.*|NN|NNP" postag_regexp="yes"></exception></token>
+                        <token postag="NNS|NNPS" postag_regexp="yes" regexp="yes">.[^']*s<exception regexp="yes">his|ones|relations|affairs</exception><exception postag="VBZ|RB|IN|JJ|NN:.*|NN|NNP" postag_regexp="yes"></exception></token>
                     </marker>
                     <token postag="NN|NN:.*" postag_regexp="yes" regexp="yes">.{2,}<exception regexp="yes">today|yesterday|tomorrow|now|in|are</exception><exception postag="VBG|VB|VBP|VBD|VBN|RB|MD|IN|JJ.*|CC|PRP|NNP.*" postag_regexp="yes"></exception></token>
                     <token><exception regexp="yes">\p{Punct}</exception></token>
@@ -3054,7 +3062,7 @@ USA
                     <token><exception postag="PRP$"></exception></token>
                     <token postag="DT|JJ.*" postag_regexp="yes"><exception postag="CD"></exception></token>
                     <marker>
-                        <token postag="NNS|NNPS" postag_regexp="yes" regexp="yes">.[^']*s<exception>his</exception><exception postag="VBZ|RB|IN|JJ|NN:.*|NN|NNP" postag_regexp="yes"></exception></token>
+                        <token postag="NNS|NNPS" postag_regexp="yes" regexp="yes">.[^']*s<exception regexp="yes">his|ones|relations|affairs</exception><exception postag="VBZ|RB|IN|JJ|NN:.*|NN|NNP" postag_regexp="yes"></exception></token>
                     </marker>
                     <token postag="NN|NN:.*" postag_regexp="yes" regexp="yes">.{2,}<exception regexp="yes">today|yesterday|tomorrow|now|in</exception><exception postag="RB|MD|IN|JJ.*|CC|VB[GDP]" postag_regexp="yes"></exception></token>
                     <token regexp="yes">\p{Punct}</token>
@@ -3109,12 +3117,13 @@ USA
                         <token regexp="yes">any|some</token>
                         <token>one</token>
                     </marker>
-                    <token><exception>of</exception></token>
+                    <token><exception>of</exception><exception postag="NN(:UN?)?" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Did you mean <suggestion>\1\2</suggestion>?</message>
                 <short>Possible typo</short>
                 <example type="correct">Anyone needs help here?</example>
                 <example type="incorrect"><marker>Any one</marker> needs help here?</example>
+                <example type="correct">But the Communists never gave sufficient provocation at any one time for the United States to want to risk a limited or an all-out war over Laos.</example>
             </rule>
             <rule>
                 <pattern>
@@ -3760,9 +3769,12 @@ USA
         <!-- .*/VB a while::word=\0 awhile::pivots=a while,awhile -->
         <rule id="VB_A_WHILE" name="VB a while (awhile)">
             <pattern>
+                <marker>
                 <token postag="VB"><exception postag="VB.*" postag_regexp="yes" negate_pos="yes"></exception></token>
                 <token>a</token>
                 <token>while</token>
+                </marker>
+                <token><exception>longer</exception></token>
             </pattern>
             <message>Did you mean <suggestion><match no="1"></match> awhile</suggestion>?</message>
             <example type="incorrect">He was expected to <marker>forget a while</marker> after the fact.</example>
@@ -6285,7 +6297,7 @@ USA
         <rule id="IT_VBZ" name="'it' + 3rd person verb (base verb)">
             <pattern>
                 <!-- 't': from "doesn't" etc -->
-                <token><exception regexp="yes">can|could|must|might|shall|does|will|ll|would|should|may|t|lets?|makes?|did|be|is|were|was|about|lest|whether</exception><exception regexp="yes" inflected="yes">hear|feel|see|insist|call|claim</exception></token>
+                <token><exception regexp="yes">can|could|must|might|shall|does|will|ll|would|should|may|t|lets?|did|be|is|were|was|that|about|of|lest|whether</exception><exception regexp="yes" inflected="yes">hear|feel|see|insist|call|claim|make</exception></token>
                 <token>it</token>
                 <marker>
                     <token postag="VB"><exception postag_regexp="yes" postag="VBD|R[BP]|IN"/></token>
@@ -6307,7 +6319,8 @@ USA
             <example type="correct">All my doubts about it have been driven away.</example>
             <example type="correct">It fell without resistance to Union forces under Brig.</example>
             <example type="correct">You may take this book as long as you keep it clean.</example>
-            <example type="correct">Embrace life whether it be a moment or, an eternity.</example>            
+            <example type="correct">Embrace life whether it be a moment or, an eternity.</example>
+            <example type="correct">But he insisted that it be housed in a special museum.</example>            
         </rule>
         <rule id="DID_PAST" name="'did' with past tense verb">
             <pattern>
@@ -6342,7 +6355,7 @@ USA
                     <marker>
                         <token regexp="yes">Always|Hardly|Never|Rarely|Seldom</token>
                     </marker>
-                    <token><exception postag="VB.*|MD|JJ" postag_regexp="yes"/></token>
+                    <token><exception postag="VB.*|MD|JJ|SENT_END" postag_regexp="yes"/></token>
                 </pattern>
                 <message>The adverb '\2' is usually not used at the beginning of a sentence.</message>
                 <url>http://faculty.washington.edu/marynell/grammar/AdverbPl.html</url>
@@ -6350,6 +6363,7 @@ USA
                 <example type="correct">I am <marker>always</marker> happy.</example>
                 <example type="correct"><marker>Always</marker> wear your helmet.</example>
                 <example type="correct"><marker>Always</marker> late, is he?</example>
+                <example type="correct">Hardly.</example>
             </rule>
             <rule>
                 <pattern>
@@ -6590,8 +6604,8 @@ USA
             <pattern>
                 <token>does</token>
                 <token>
-                    <exception regexp="yes">so|this|that|and|,</exception>
-                    <exception postag_regexp="yes" postag="VB|VBP|VBG"></exception>
+                    <exception regexp="yes">so|this|that|and|[:,]</exception>
+                    <exception postag_regexp="yes" postag="VB|VBP|VBG|NNP"></exception>
                 </token>
                 <marker>
                     <token postag="VBZ" />
@@ -6603,6 +6617,8 @@ USA
             <example type="correct">An algorithm that does so is usually considered invalid.</example>
             <example type="incorrect">He does not <marker>has</marker> expertise about that.</example>
             <example type="incorrect">Does anybody <marker>has</marker> an idea about that?</example>
+            <example type="correct">What it does: increases rate of gain and improves feed efficiency.</example>
+            <example type="correct">Does Lincoln Mills suggest that if Congress granted jurisdiction over interstate divorce cases, the federal courts would be authorized to fashion a national law for the dissolution of marriages?</example>
         </rule>
         <rulegroup id="WANT_THAT_I" name="want that I (want me to)">
             <!-- TODO: extend this rule to cover more than personal pronouns. This is actually a very common error for German speakers. -->
@@ -6732,6 +6748,7 @@ USA
             <example type="correct">He possibly could go to school.</example>
             <example type="correct">He applied himself fairly seriously to his work.</example>
             <example type="correct">He joined them there a few days later.</example>
+            <example type="correct">He really didn't know how to fly.</example>
         </rule>
 
         <rule id="DONT_WILL" name="don't will (won't)">
@@ -7226,7 +7243,7 @@ USA
                     <marker>
                         <token postag="VBD|VBP|VB" postag_regexp="yes"><exception postag="VBN|NN:U.*|JJ.*|RB|IN" postag_regexp="yes"></exception><exception regexp="yes">are|am</exception></token>
                     </marker>
-                    <token><exception>'</exception></token>
+                    <token><exception>'</exception><exception postag="NNS"/></token>
                 </pattern>
                 <message>Consider using a past participle here: <suggestion><match no="2" postag="VBN"></match></suggestion>.</message>
                 <short>Possible agreement error</short>
@@ -7238,6 +7255,7 @@ USA
                 <example type="correct">It has been love's whip.</example>
                 <example type="incorrect">He has been <marker>did</marker> this.</example>
                 <example type="correct">All you have to do is go and ask.</example>
+                <example type="correct">The other patrons were taxi drivers.</example>
             </rule>
             <rule>
                 <pattern>
@@ -9543,19 +9561,21 @@ USA
                 </token>
                 <token chunk="I-NP-singular" min="0" max="-1">
                     <exception regexp="yes">Pound|Dollar|percent|minute|megapixel|bit|cm|BC|[KMGk]B|^[^a-zA-Z]+</exception>
+                    <exception regexp="yes">one|thou|zero|1</exception>
                     <exception regexp="yes">[,;()]</exception>                    
                 </token>
                 <marker>
                     <token chunk="E-NP-singular">
-                        <exception postag="NN:UN?|NNS|NNPS|JJ.*|IN" postag_regexp="yes"/>
+                        <exception postag="NN:UN?|NNS|NNPS|JJ.*|IN|CD" postag_regexp="yes"/>
                         <exception>will</exception>
                         <exception>are</exception> <!-- chunker treats it as E-NP-singular at times... -->
                         <exception regexp="yes">lb|yd|ft|Msec|[kcm]m|[km]g|gm|stat|[ck]c|hr|min|m3|mcg|cpu|[KMGk]B|saw</exception>
                         <exception regexp="yes">January|February|March|April|May|June|July|August|September|October|November|December|size|\$\d+|\d+|\)</exception>
+                        <exception regexp="yes">Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday</exception>                        
                         <exception>year</exception><!-- "16 year old Ahmad" -->
                         <exception>trained</exception><!-- "300 to 400 being trained each year" - mistagging by OpenNLP -->
                         <exception>caused</exception>
-                        <exception regexp="yes">Avenue|Street|Terrace|Square</exception><!-- probably an address, "333 Grant Avenue" -->
+                        <exception regexp="yes">Ave|Avenue|Street|Terrace|Square</exception><!-- probably an address, "333 Grant Avenue" -->
                     </token>
                 </marker>                
             </pattern>
@@ -9586,6 +9606,10 @@ USA
             <example type="correct">A dramatic series in 1956 saw a record that will probably never be beaten.</example>
             <example type="correct">Those with five or six are most common.</example>
             <example type="correct">I'll be in my office from ten tomorrow.</example>
+            <example type="correct">Willard Olvey, 18, of 963 Ponce De Leon Ave., was there last year.</example>
+            <example type="correct">The World War 2 German bomber rolled down a runway and took off.</example>
+            <example type="correct">Volume dipped to 3.28 million shares from 3.98 million Monday.</example>
+            <example type="correct">It is five and seventeen.</example>
             <!-- TODO: while the right half is split into two sliver and black triangles -->
         </rule>
         <rule id="MUCH_COUNTABLE" name="'much' + countable noun, e.g. 'much (many) children'">
@@ -9604,7 +9628,7 @@ USA
             <pattern>
                 <marker>
                     <token regexp="yes">many|several|few</token>
-                    <token postag="NN:UN|NN|NNP" postag_regexp="yes"><exception postag="NN:U|NNS|NNPS|JJ.*|MD|CC" postag_regexp="yes"></exception><exception inflected="yes">be</exception></token>
+                    <token postag="NN:UN|NN|NNP" postag_regexp="yes"><exception postag="NN:U|NNS|NNPS|JJ.*|MD|CC|VBG" postag_regexp="yes"></exception><exception inflected="yes">be</exception></token>
                 </marker>
                 <token><exception postag="NN.*" postag_regexp="yes"></exception><exception>'</exception></token>
             </pattern>

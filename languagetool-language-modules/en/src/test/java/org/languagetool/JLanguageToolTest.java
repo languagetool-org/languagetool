@@ -86,6 +86,8 @@ public class JLanguageToolTest extends TestCase {
     assertEquals(0, tool.check("Anatomy and geometry are fused in one, and each does something to the other.").size());
     assertEquals(0, tool.check("Certain frogs that lay eggs underground have unpigmented eggs.").size());
     assertEquals(0, tool.check("It's a kind of agreement in which each party gives something to the other, Jack said.").size());
+    assertEquals(0, tool.check("Later, you shall know it better.").size());
+    assertEquals(0, tool.check("And the few must win what the many lose, for the opposite arrangement would not support markets as we know them at all, and is, in fact, unimaginable.").size());
 
     assertEquals(1, tool.check("A test test that should give errors.").size());
     assertEquals(0, tool.check("I can give you more a detailed description.").size());
