@@ -5971,7 +5971,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <!-- cas: molt comunes. Però: tal objectiu-->
         <rule id="aa6" name="aa1">
             <pattern>
-                <token postag="SPS00" negate_pos="yes"/>
+                <!-- <token postag="SPS00" negate_pos="yes"/> PROVISIONAL!!! -->
                 <marker>
                     <and>
                         <token postag="RG"></token>
@@ -9213,10 +9213,11 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <token postag="SPS00|.*LOC_PREP.*" postag_regexp="yes"><exception>a</exception></token>
                 <marker>
-                    <token postag="N.*|PI.*|PD.*" postag_regexp="yes"/>
+                    <token postag="N.*|PI.*|PD.*" postag_regexp="yes"><exception>molt</exception></token>
                 </marker>        
             </pattern>
             <disambig action="add"><wd pos="complement"></wd></disambig>
+            <example type="untouched">S'estan convertint en molt extremistes</example>
         </rule>
         <rule>
             <pattern>
@@ -9230,10 +9231,14 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <token postag="SPS00|.*LOC_PREP.*" postag_regexp="yes"><exception>a</exception></token>
-                <token postag="D[ADI].*" postag_regexp="yes"/>
-                <marker>
-                    <token postag="N.*|PI.*|PD.*" postag_regexp="yes"/>
-                </marker>        
+                <unify>
+                    <feature id="genere"/>
+                    <feature id="nombre"/>
+                    <token postag="D[ADI].*" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="N.*|PI.*|PD.*" postag_regexp="yes"/>
+                    </marker>
+                </unify>
             </pattern>
             <disambig action="add"><wd pos="complement"></wd></disambig>
         </rule>
@@ -9282,7 +9287,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <marker>
                         <token postag="A.*|V.P.*" postag_regexp="yes"/>
                     </marker>
-                </unify>        
+                </unify>
             </pattern>
             <disambig action="add"><wd pos="complement"></wd></disambig>
         </rule>

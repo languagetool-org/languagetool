@@ -5606,7 +5606,7 @@ $Id$
             <example type="incorrect">És <marker>degut a què</marker> no li agrada.</example>
             <example type="correct">Això és degut a què?</example>
         </rule>
-        <rule id="INFORMAR_DE_QUE" name="informar *de què">
+        <rule id="INFORMAR_DE_QUE" name="informar *de què/que">
             <pattern>
                 <marker>
                     <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">adonar|informar|dubtar</token>
@@ -5618,6 +5618,21 @@ $Id$
             <message>Construcció incorrecta</message>
             <suggestion><match no="1"/> que</suggestion>
             <example type="incorrect">Ens <marker>informà de què</marker> no passava res.</example>
+            <example type="correct">Dubtava de què?</example>
+        </rule>
+        <rule id="ABANS_DE_QUE" name="abans *de què/que">
+            <pattern>
+                <marker>
+                    <token regexp="yes">després|abans</token>
+                    <token>de</token>
+                    <token>què</token>
+                </marker>
+                <token><exception>?</exception></token>
+            </pattern>
+            <message>Construcció incorrecta</message>
+            <suggestion><match no="1"/> que</suggestion>
+            <example type="incorrect" correction="Després que"><marker>Després de què</marker> se n'anés.</example>
+            <example type="incorrect" correction="Abans que"><marker>Abans de què</marker> se n'anés.</example>
             <example type="correct">Dubtava de què?</example>
         </rule>
         <rule id="POR_A_QUE" name="por *a què">
@@ -16754,7 +16769,7 @@ $Id$
         <rulegroup id="DE_PEU" name="de peu">
             <rule>
                 <pattern>
-                    <token regexp="yes" inflected="yes" skip="4">posar|estar|romandre|mantenir</token>
+                    <token regexp="yes" inflected="yes" skip="4">posar|estar|romandre|mantenir|quedar|anar</token>
                     <marker>
                         <token>de</token>
                         <token>peu</token>
