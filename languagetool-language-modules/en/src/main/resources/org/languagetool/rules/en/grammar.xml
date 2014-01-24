@@ -7789,9 +7789,9 @@ USA
             <!-- and now &quot;an experienced soldier&quot; -->
             <rule default="off">
                 <pattern>
-                    <token><exception postag="PRP.*|NN.*|DT|JJ.*|RB.*|CC|IN|VBG|WRB|WDT|WP\$|WP" postag_regexp="yes"></exception><exception regexp="yes">have|has|had|s|\&quot;|\'|[0-9].*|,|\(|\[</exception></token>
+                    <token><exception postag="PRP.*|NN.*|DT|JJ.*|RB.*|CC|IN|VBG|WRB|WDT|WP\$|WP" postag_regexp="yes"></exception><exception regexp="yes">one|have|has|had|s|\&quot;|\'|[0-9].*|,|\(|\[</exception></token>
                     <marker>
-                        <token postag="VBN|JJ" postag_regexp="yes"><exception>else</exception><exception postag="VB|RP|WRB|RB|CD|IN|CC|MD|NNP|DT" postag_regexp="yes"></exception></token>
+                        <token postag="VBN|JJ" postag_regexp="yes"><exception>else</exception><exception postag="VB|RP|WRB|RB|CD|IN|CC|MD|NNP|DT" postag_regexp="yes"></exception><exception>last</exception></token>
                         <token postag="NN"><exception postag="CC|DT|RB|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNS|NNPS|NNP|WRB" postag_regexp="yes"></exception><exception>are</exception></token>
                     </marker>
                     <token><exception postag="NN.*" postag_regexp="yes"></exception></token>
@@ -7800,6 +7800,8 @@ USA
                 <short>Article missing</short>
                 <example correction="an experienced soldier|the experienced soldier" type="incorrect">He is <marker>experienced soldier</marker>.</example>
                 <example type="correct">He is <marker>an experienced soldier</marker>.</example>
+                <example type="correct">Last year Beyeler arranged to sell $1,500,000.</example>
+                <example type="correct">At least one white student at Georgia got through this ritual.</example>
             </rule>
             <!-- an extremely experienced soldier -->
             <rule>
