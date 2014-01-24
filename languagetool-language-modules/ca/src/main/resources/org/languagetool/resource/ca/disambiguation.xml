@@ -2761,6 +2761,18 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
+                <marker>
+                    <and>
+                        <token postag="N.*" postag_regexp="yes">poder</token>
+                        <token postag="V.N.*" postag_regexp="yes"></token>
+                    </and>
+                </marker>
+                <token regexp="yes">seu|de|d'</token>
+            </pattern>
+            <disambig action="filter" postag="N.*"></disambig>
+        </rule>
+        <rule>
+            <pattern>
             	<token>com</token>
                 <token>a</token>
                 <marker>
@@ -4541,8 +4553,8 @@ Copyright (C) 2012 Jaume Ortolà i Font
     	<pattern>
    			<marker>
    				<and>
-   					<token postag="V.*" postag_regexp="yes" regexp="yes">signe|barreja|mescla</token>
-   					<token postag="N.*" postag_regexp="yes"/>
+   					<token postag="V.*" postag_regexp="yes" regexp="yes"/>
+   					<token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">signe|barreja|mescla|taxa</token>
    				</and>
    			</marker>
    			<token regexp="yes">de|d'</token>
@@ -9914,7 +9926,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token regexp="yes">.*%|compliment|equivalent|part|comparació|diferents?|distint(s|a|es)?|nord|sud|oest|est|centre|doble|triple|precedent|millor|contraris?</token>
+                <token regexp="yes">.*%|abans|després|compliment|equivalent|part|comparació|diferents?|distint(s|a|es)?|nord|sud|oest|est|centre|doble|triple|precedent|millor|contraris?</token>
                 <marker>
                     <token>de</token>
                 </marker>

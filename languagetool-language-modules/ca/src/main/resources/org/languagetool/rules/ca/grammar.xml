@@ -3377,8 +3377,8 @@ $Id$
                 </marker>
                 <token skip="-1"><exception regexp="yes">\?|a|de|d'|temps</exception>
                     <exception postag="_PUNCT.*|V.P.*|AQ.*" postag_regexp="yes"/>
-                    <exception inflected="yes" regexp="yes">fer|deure|guanyar|estimar|tenir|valer|costar|representar|voler|tardar|trigar|demanar|pagar|cobrar|donar|faltar|mancar</exception>
-                    <exception scope="next" inflected="yes" regexp="yes">guanyar|deure|estimar|tenir|valer|costar|representar|voler|tardar|trigar|demanar|pagar|cobrar|donar|faltar|mancar</exception></token>
+                    <exception inflected="yes" regexp="yes">fer|durar|deure|guanyar|estimar|tenir|valer|costar|representar|voler|tardar|trigar|demanar|pagar|cobrar|donar|faltar|mancar</exception>
+                    <exception scope="next" inflected="yes" regexp="yes">guanyar|durar|deure|estimar|tenir|valer|costar|representar|voler|tardar|trigar|demanar|pagar|cobrar|donar|faltar|mancar</exception></token>
                 <token postag="SENT_END"/>
                 <!-- <token postag="D.*|V.*" postag_regexp="yes"/>-->
             </pattern>
@@ -4800,7 +4800,7 @@ $Id$
             Caldria separar verbs i noms per a tractar-los de manera lleugerament diferent:
             una tarda, en sortir de classe-->
                 <pattern>
-                    <token inflected="yes" regexp="yes" skip="3">primer|encaparrar|obcec.+|estar|raure|afany|afanyar|basar|centrar|complaença|complaure|confiar|consisitir|consistir|convertir|creença|creure|delit|delitar|entestar|entossudir|entretenir|equivocar|esforçar|especialitzar|especialista|excel·lir|exercitar|incórrer|influir|influència|insistir|insistència|interessar|interès|invertir|obsessi.+|obstinar|part|participació|participant|participar|pensar|tardança|tardar|tossud.*|treballar|trigança|trigar|vacil·lació|vacil·lar<exception scope="next" postag="V.P.*|C.*|AQ.*" postag_regexp="yes"/><exception postag="V.G.*" postag_regexp="yes" scope="next"/><exception scope="next">lloc</exception><exception regexp="yes">\d.*</exception></token>
+                    <token inflected="yes" regexp="yes" skip="3">primer|encaparrar|obcec.+|estar|raure|afany|afanyar|basar|centrar|complaença|complaure|confiar|consisitir|consistir|convertir|creença|creure|delit|delitar|entestar|entossudir|entretenir|equivocar|esforçar|especialitzar|especialista|excel·lir|exercitar|incórrer|influir|influència|insistir|insistència|interessar|interès|invertir|obsessi.+|obstinar|part|participació|participant|participar|pensar|tardança|tardar|tossud.*|treballar|trigança|trigar|vacil·lació|vacil·lar<exception scope="next" postag="V.P.*|C.*|AQ.*" postag_regexp="yes"/><exception postag="V.G.*" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">lloc|cop|volta|vegada|de|d'|per|pe|a</exception><exception regexp="yes">\d.*</exception><exception postag="_possible_nompropi"/><exception scope="next" postag="_PUNCT.*|_C_TEMPS" postag_regexp="yes"/></token>
                     <marker>
                         <token>en</token>
                     </marker>
@@ -4819,8 +4819,13 @@ $Id$
                 <example type="correct">Els israelites van creure i, en sentir que el Senyor havia decidit</example>
                 <example type="correct">que la gent estigui contenta en arribar a port</example>
                 <example type="correct">En primer lloc, en llegir les mesures,</example>
+                <example type="correct">es va equivocar de 4 anys en oblidar-se de comptar</example>
+                <example type="correct">que estan en poder seu</example>
+                <example type="correct">va estar en poder de l'enemic</example>
                 <!-- ¿quin tipus de menú ens pot interessar en dissenyar un sistema automàtic? 
-                va cometre una greu equivocació en voler alterar les pràctiques-->
+                va cometre una greu equivocació en voler alterar les pràctiques
+                convertir-se en militar/titular
+                -->
             </rule>
         </rulegroup>
         <rulegroup id="QUAN_PREPOSICIO" name="quan (com a preposició): *quan la guerra">
@@ -15034,7 +15039,7 @@ $Id$
                         <token skip="2" inflected="yes">acabar</token>
                         <token skip="4">amb</token>
                     </marker>
-                    <token regexp="yes" inflected="yes">abús|frau|plaga|pesta|infecció|situació</token>
+                    <token regexp="yes" inflected="yes">abús|frau|plaga|pesta|infecció|situació|vida</token>
                 </pattern>
                 <message>Expressió incorrecta si vol dir <suggestion>(posar fi a)</suggestion></message>
                 <suggestion>(eliminar)</suggestion>
@@ -15049,6 +15054,7 @@ $Id$
                 <short>Expressió incorrecta</short>
                 <example type="incorrect">Cal <marker>acabar amb</marker> els abusos.</example>
                 <example type="incorrect">estan <marker>acabant amb</marker> aquesta situació</example>
+                <example type="incorrect">Amenaçar d'<marker>acabar amb</marker> la seua vida.</example>
                 <example type="correct">Cal posar fi als abusos.</example>
             </rule>
             <rule>
@@ -16778,7 +16784,7 @@ $Id$
         <rulegroup id="DE_PEU" name="de peu">
             <rule>
                 <pattern>
-                    <token regexp="yes" inflected="yes" skip="4">posar|estar|romandre|mantenir|quedar|anar</token>
+                    <token postag="VM.*" postag_regexp="yes" regexp="yes" inflected="yes" skip="4">posar|estar|romandre|mantenir|quedar|anar</token>
                     <marker>
                         <token>de</token>
                         <token>peu</token>
@@ -16790,6 +16796,7 @@ $Id$
                 <example type="incorrect">cansa molt estar tant temps <marker>de peu</marker></example>
                 <example type="correct">cansa molt estar tant temps dret</example>
                 <example type="correct">em posaven una broca al filaberquí de peu,</example>
+                <example type="correct">van donar cops de peu</example>
             </rule>
             <rule>
                 <pattern>
@@ -24478,6 +24485,7 @@ $Id$
                 <short>Reviseu la construcció de relatiu</short>
                 <example type="incorrect" correction="qual">un conductor a través del <marker>que</marker> passa el corrent</example>
                 <example type="correct">l'home amb el qual vaig parlar</example>
+                <example type="correct">estava de molt bon humor després del que li havia passat</example>
             </rule>
             <rule>
                 <pattern>
