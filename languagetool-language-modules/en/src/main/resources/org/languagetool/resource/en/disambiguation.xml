@@ -1092,13 +1092,13 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
                 <marker>
                     <token regexp="yes">\p{Lu}\p{Ll}+<exception scope="previous" postag="SENT_START"/><exception postag="JJ" inflected="yes" regexp="yes">\p{Lu}\p{Ll}+</exception></token>
                 </marker>
-                <token inflected="yes" regexp="yes" postag="NNP">\p{Lu}\p{Ll}+</token>
-                <token inflected="yes" regexp="yes" postag_regexp="yes" postag="NN|NN:.*">\p{Ll}+</token>
+                <token inflected="yes" regexp="yes" postag_regexp="yes" postag="NNP?|NN:.*">\p{Lu}\p{Ll}+</token>
+                <token inflected="yes" regexp="yes" postag_regexp="yes" postag="NNP?|NN:.*">\p{Ll}+</token>
             </and>
         </pattern>
         <disambig postag="NNP"></disambig>
         <example type="untouched">They looked at the ruins of the old Roman wall on the lower Via Veneto.</example>
-        <example type="ambiguous" inputform="Bobby[Bobby/NNP,bobby/NN]" outputform="Bobby[Bobby/NNP]">His name was <marker>Bobby</marker> Brown and he acted as a clerk.</example>
+        <example type="ambiguous" inputform="Bobby[Bobby/NNP,bobby/NN]" outputform="Bobby[Bobby/NNP]">His name was <marker>Bobby</marker> Brown and he acted as a clerk.</example>        
     </rule>
     <rule name="NNP + Uppercase NN -&gt; NNP" id="UPPER_NN_NNP">
         <pattern case_sensitive="yes">
@@ -1124,6 +1124,18 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <example type="untouched">Bill's example is very good.</example>
     </rule>
 
+    <rule name="Uppercase word/no tag + uppercase word -&gt; NNP" id="UPPER_UNKNOWN_NNP_UPPERCASE_SEQ">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token regexp="yes" postag="UNKNOWN">\p{Lu}\p{Ll}+<exception scope="previous" postag="SENT_START"/></token>
+            </marker>
+            <token regexp="yes" postag_regexp="yes" postag="NNP?|NN:.*|JJ.*">\p{Lu}\p{Ll}+</token>            
+        </pattern>
+        <disambig postag="NNP"></disambig>
+        <example type="ambiguous" inputform="Wilshire[Wilshire]" outputform="Wilshire[Wilshire/NNP]">the <marker>Wilshire</marker> Country Club</example>
+        <example type="untouched">Bill's example is very good.</example>
+    </rule>
+    
     <rulegroup name="initial -&gt; NNP" id="initial_NNP">
         <rule>
             <pattern case_sensitive="yes">
