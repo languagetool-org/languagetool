@@ -7593,7 +7593,55 @@ USA
             <example correction="Most of the students|Most students" type="incorrect"><marker>Most of students</marker> do their homework.</example>
             <example type="correct">Buy a collection of most of Rand's works in a CD-ROM format.</example>
             <example type="correct"><marker>Some of the students</marker> do their homework.</example>
-        </rule>                
+        </rule>
+        
+        <rulegroup id="HAVE_A_BREAKFAST" name="Articles before nouns used normally without them">
+          <rule>
+            <pattern>
+              <marker>
+              <token inflected="yes">have</token>
+              <token regexp="yes">a|the</token>
+              <token regexp="yes">breakfast|lunch|dinner</token>
+              </marker>
+            <token><exception postag="NN.*|VBG" postag_regexp="yes"/><exception>of</exception></token>              
+            </pattern>
+            <message>When we speak of types of meals, the article is not required: <suggestion>\1 \3</suggestion>.</message>
+            <short>Grammatical problem</short>
+            <example type="correct">We had breakfast in the hotel restaurant.</example>
+            <example type="incorrect" correction="had breakfast">We <marker>had a breakfast</marker> in the hotel restaurant.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token inflected="yes" skip="-1">invite<exception scope="next" postag="[;:]" postag_regexp="yes"/></token>
+              <marker>
+              <token>to</token>
+              <token regexp="yes">a|the</token>
+              <token regexp="yes">breakfast|lunch|dinner</token>
+              </marker>
+              <token><exception postag="NN.*|VBG" postag_regexp="yes"/><exception>of</exception></token>              
+            </pattern>
+            <message>When we speak of types of meals, the article is not required: <suggestion>\2 \4</suggestion>.</message>
+            <short>Grammatical problem</short>
+            <example type="correct">We were invited today to lunch in the hotel restaurant.</example>
+            <example type="incorrect" correction="to dinner">Ray and Helen have invited us out <marker>to a dinner</marker> in the hotel restaurant.</example>
+          </rule>          
+          <rule>
+          <pattern>
+              <token inflected="yes" skip="-1">go<exception scope="next" postag="[;:,]" postag_regexp="yes"/></token>
+              <marker>
+              <token>for</token>
+              <token regexp="yes">a|the</token>
+              <token regexp="yes">breakfast|lunch|dinner</token>
+              </marker>
+              <token><exception postag="NN.*|VBG" postag_regexp="yes"/><exception>of</exception></token>              
+            </pattern>
+            <message>When we speak of types of meals, the article is not required: <suggestion>\2 \4</suggestion>.</message>
+            <short>Grammatical problem</short>
+            <example type="correct">We were invited today to lunch in the hotel restaurant.</example>
+            <example type="incorrect" correction="for dinner">Ray and Helen went with us <marker>for a dinner</marker> in the hotel restaurant.</example>
+          </rule>          
+        </rulegroup>
+                        
         <!--  needs more and more tweaking; 
   currently the last exception in all rules is a simplification,
   it should be more recursive, i.e., there one more rule for all current rules, structured like this: 
