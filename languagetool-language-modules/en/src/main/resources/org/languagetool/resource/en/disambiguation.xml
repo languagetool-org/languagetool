@@ -358,9 +358,21 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         </pattern>
         <disambig postag="NN:UN"/>
         <example type="ambiguous" inputform="word[word/NN:UN,word/VB,word/VBP]" outputform="word[word/NN:UN]">I followed it word for <marker>word</marker>.</example>
-      </rule>
-      
+      </rule>      
     </rulegroup>
+
+    <rule id="CH_IN_DYNASTY" name="'in as parts of proper names">
+      <pattern>
+        <token regexp="yes">\p{Lu}\p{Ll}+</token>
+        <token spacebefore="no" regexp="yes">['’]</token>
+        <marker>
+        <token spacebefore="no">in</token>
+        </marker>
+      </pattern>
+      <disambig postag='NNP'/>
+      <example type="untouched">This was in his youth.</example>
+      <example type="ambiguous" inputform="in[in/IN,in/NN,in/RP]" outputform="in[in/NNP]">Ch'<marker>in</marker> dynasty</example>
+    </rule>
         
     <rule id='KIND_OF_JJRB' name="kind of + adj/adv => no determiner required">
       <pattern>
