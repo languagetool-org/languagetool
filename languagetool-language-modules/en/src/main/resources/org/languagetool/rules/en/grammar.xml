@@ -7756,7 +7756,7 @@ USA
                     <token><exception postag="DT|WDT" postag_regexp="yes"></exception></token>
                     <token postag="VBP|VBZ" postag_regexp="yes"><exception postag="JJ"></exception></token>
                     <marker>
-                        <token postag="JJ"><exception>else</exception><exception postag="VB|RP|RB|CD|IN|CC|MD|VBD|VBN|VBG|DT|WRB" postag_regexp="yes"></exception></token>
+                        <token postag="JJ"><exception>else</exception><exception postag="VB|RP|RB|CD|IN|CC|MD|VBD|VBN|VBG|DT|WRB" postag_regexp="yes"/><exception regexp="yes">(?iu)\p{Lu}\p{Ll}+</exception></token>
                         <token postag="NN"><exception postag="CC|DT|RB|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NN[SP]|WRB" postag_regexp="yes"></exception><exception>are</exception></token>
                     </marker>
                     <token><exception postag="NN.*" postag_regexp="yes"></exception></token>
@@ -7774,7 +7774,7 @@ USA
                     <token regexp="yes">have|has|had</token>
                     <marker>
                         <token postag="VBN"><exception postag="VB|RP|WRB|RB|CD|IN|CC|MD" postag_regexp="yes"></exception></token>
-                        <token postag="NN"><exception postag="CC|DT|WDT|RB|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNS|NNP" postag_regexp="yes"></exception><exception>are</exception></token>
+                        <token postag="NN"><exception postag="CC|DT|WDT|RB|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NN[SP]|PRP" postag_regexp="yes"></exception><exception>are</exception></token>
                     </marker>
                     <token><exception postag="NN.*" postag_regexp="yes"></exception></token>
                 </pattern>
@@ -7782,6 +7782,7 @@ USA
                 <short>Article missing</short>
                 <example correction="experienced a problem|experienced the problem" type="incorrect">Recently I have <marker>experienced problem</marker>.</example>
                 <example type="correct">Recently I have <marker>experienced a problem</marker>.</example>
+                <example type="correct">Different as our minds are, yours has nourished mine.</example>
             </rule>
             <rule>
                 <pattern>
@@ -7846,7 +7847,7 @@ USA
                 <pattern>
                     <token>at</token>
                     <marker>
-                        <token postag="NN"><exception postag="CC|UH|DT|WDT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS" postag_regexp="yes"></exception><exception regexp="yes">first|least|(?iu)\p{Lu}\p{Ll}+</exception></token>
+                        <token postag="NN"><exception postag="CC|UH|DT|WDT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS" postag_regexp="yes"></exception><exception regexp="yes">least|(?iu)\p{Lu}\p{Ll}+</exception></token>
                     </marker>
                     <token><exception postag="NN.*|CD" postag_regexp="yes"></exception></token>
                 </pattern>
@@ -7876,7 +7877,7 @@ USA
                     <token regexp="yes">[Bb]y</token>
                     <marker>
                         <and>
-                            <token postag="NN"><exception postag="CC|UH|DT|WDT|RB|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS|VBG" postag_regexp="yes"></exception><exception regexp="yes">bit|step|way|example|dint|crook|hook|hand|machine|word|cheque|accident|day|means|mistake|name|train|rail|railway|coach|bus|boat|automobile|helicopter|taxi|ambulance|plane|airplane|foot|section|article|page|road|letter|phone|telephone|mail|storm|arrangement|satellite|decree|year-end|lot|profession|district|week|eye|covenant|fiat|ship|car|jowl|tramway|subway|\p{Lu}\p{Ll}+</exception></token>
+                            <token postag="NN"><exception postag="CC|UH|DT|WDT|RB|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS|VBG" postag_regexp="yes"></exception><exception regexp="yes">bit|step|example|\p{Lu}\p{Ll}+</exception></token>
                             <token negate="yes"><match no="0"></match></token>
                         </and>
                     </marker>
@@ -7909,7 +7910,7 @@ USA
                 <pattern>
                     <token>for</token>
                     <marker>
-                        <token postag="NN"><exception postag="UH|CC|VBD|VBG|VBN|DT|WDT|RP|JJ|IN|CD|JJS|JJR|RBS|MD|NNP|NNS|WRB|PRP\$" postag_regexp="yes"></exception><exception regexp="yes">are|instance|example|sale|word|(?iu)\p{Lu}\p{Ll}+</exception></token>
+                        <token postag="NN"><exception postag="UH|CC|VBD|VBG|VBN|DT|WDT|RP|JJ|IN|CD|JJS|JJR|RBS|MD|NNP|NNS|WRB|PRP\$" postag_regexp="yes"></exception><exception regexp="yes">are|(?iu)\p{Lu}\p{Ll}+</exception></token>
                     </marker>
                     <token><exception postag="NN.*|CD" postag_regexp="yes"></exception><exception>free</exception><exception>'</exception></token>
                 </pattern>
@@ -7995,7 +7996,7 @@ USA
                 <pattern>
                     <token>on</token>
                     <marker>
-                        <token postag="NN"><exception postag="CC|UH|DT|WDT|RP|JJ|IN|CD|JJS|JJR|RB.*|VBD|VBN|MD|NNP|NNS|WRB" postag_regexp="yes"></exception><exception regexp="yes">board|display|foot|hand|sale|affidavit|camera|cassette|chat|coach|deposit|diskette|end|file|lease|oath|offer|page|screen|site|strike|target|tour|track|exhibit|deck</exception></token>
+                        <token postag="NN"><exception postag="CC|UH|DT|WDT|RP|JJ|IN|CD|JJS|JJR|RB.*|VBD|VBN|MD|NNP|NNS|WRB" postag_regexp="yes"></exception><exception regexp="yes">board|display|foot|hand|sale|affidavit|camera|cassette|chat|coach|deposit|diskette|end|file|lease|oath|offer|page|screen|site|strike|target|tour|track|exhibit|deck|(?iu)\p{Lu}\p{Ll}+</exception></token>
                     </marker>
                     <token><exception postag="NN.*|CD" postag_regexp="yes"></exception></token>
                 </pattern>

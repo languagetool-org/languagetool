@@ -29,6 +29,17 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <disambig postag="NN:UN"/>
       </rule>
       
+      <rulegroup name="mine" id="MINE_FIX_MISTAKE">
+      <rule>
+        <pattern><token>mine</token></pattern>
+        <disambig action="filter" postag="NN|VB.*"></disambig>
+      </rule>      
+      <rule>
+        <pattern><token>mine</token></pattern>
+        <disambig action="add"><wd lemma="I" pos="PRP"/></disambig>
+      </rule>
+      </rulegroup>
+      
 <!-- end of temporary entries -->
 
        <rule name="or" id="REMOVE_JJ_FOR_OR">
@@ -244,17 +255,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
       </pattern>
       <disambig postag="NN:UN"/>    
     </rule>
-    
-    <rule id="AT_FIRST" name="at first => noun">
-      <pattern>
-      <token>at</token>
-      <marker>
-        <token>first</token>
-      </marker>
-      </pattern>
-      <disambig postag="NN:UN"/>
-    </rule>       
-    
+        
     <rule id="HAT_IN_HAND" name="hat in hand => no determiner required">
       <pattern>
       <marker>
@@ -278,13 +279,89 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     <rule id="AT_NN" name="at + nouns that require no determiner">
       <pattern>
       <token>at</token>
-      <marker><token regexp="yes">ba[yt]|breakfast|night|risk|war|home|school|work|sea|anchor|birth|fault|hand|issue|length|liberty|source|stake|table|variance|onset</token></marker>
+      <marker><token regexp="yes">ba[yt]|breakfast|first|night|risk|war|home|school|work|sea|anchor|birth|fault|hand|issue|length|liberty|source|stake|table|variance|onset</token></marker>
       </pattern>
       <disambig postag="NN:UN"/>
       <example type="untouched">We were at the university.</example>
       <example type="ambiguous" inputform="night[night/JJ,night/NN:UN]" outputform="night[night/NN:UN]">This happened at <marker>night</marker>.</example>
     </rule>
     
+    <rule id="BEYOND_NN" name="beyond + nouns that require no determiner">
+    <pattern>
+      <token>beyond</token>
+      <marker><token regexp="yes">reach|description|dispute|reproach</token></marker>
+    </pattern>
+    <disambig postag="NN:UN"/>
+    <example type="untouched">It's beyond your control.</example>
+    <example type="ambiguous" inputform="reach[reach/NN:UN,reach/VB,reach/VBP]" outputform="reach[reach/NN:UN]">It's beyond <marker>reach</marker>.</example>
+    </rule>
+    
+    <rule id="BEYOND_IN" name="beyond + nouns that require no determiner">
+    <pattern>
+    <marker>
+      <token>beyond</token>
+    </marker>
+      <token regexp="yes">reach|description|dispute|reproach</token>
+    </pattern>
+    <disambig postag="IN"/>
+    <example type="untouched">It's beyond your control.</example>
+    <example type="ambiguous" inputform="beyond[beyond/IN,beyond/JJ,beyond/NN]" outputform="beyond[beyond/IN]">It's <marker>beyond</marker> description.</example>
+    </rule>
+    
+    <rulegroup id="BY_NN" name="by + nouns that require no determiner">
+    <rule>
+      <pattern>
+        <token>by</token>
+        <marker>
+        <token regexp="yes">air|dint|crook|hook|hand|machine|word|cheque|accident|day|means|mistake|name|train|rail|railway|coach|bus|boat|automobile|helicopter|taxi|ambulance|plane|airplane|foot|section|article|page|road|letter|phone|telephone|mail|storm|arrangement|satellite|decree|year-end|lot|profession|district|week|eye|covenant|fiat|force|ship|jowl|tramway|subway|post|postcard|bicycle|bike</token>
+        </marker>
+      </pattern>
+      <disambig postag="NN:UN"/>
+      <example type="ambiguous" inputform="postcard[postcard/NN]" outputform="postcard[postcard/NN:UN]">She played chess with him by <marker>postcard</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <token>by</token>
+        <marker>
+        <token regexp="yes">means|way</token>
+        </marker>
+        <token>of</token>
+      </pattern>
+      <disambig postag="NN:UN"/>
+      <example type="ambiguous" inputform="way[way/NN:UN,way/RB]" outputform="way[way/NN:UN]">She played chess with him by <marker>way</marker> of the WWW site.</example>
+    </rule>
+    </rulegroup>
+    
+    <rulegroup id="FOR_NN" name="for + nouns that require no determiner">
+      <rule>
+        <pattern>
+          <token>for</token>
+          <marker><token regexp="yes">fun|pleasure|instance|example|sale</token></marker>
+        </pattern>
+        <disambig postag="NN:UN"/>
+        <example type="ambiguous" inputform="example[example/NN:UN,example/VB,example/VBP]" outputform="example[example/NN:UN]">For <marker>example</marker>, he plays golf.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>for</token>
+          <marker><token>fear</token></marker>
+          <token>of</token>
+        </pattern>
+        <disambig postag="NN:UN"/>
+        <example type="ambiguous" inputform="fear[fear/NN:UN,fear/VB,fear/VBP]" outputform="fear[fear/NN:UN]"> But I never sent them for <marker>fear</marker> of what I might find.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>word</token>
+          <token>for</token>
+          <marker><token>word</token></marker>          
+        </pattern>
+        <disambig postag="NN:UN"/>
+        <example type="ambiguous" inputform="word[word/NN:UN,word/VB,word/VBP]" outputform="word[word/NN:UN]">I followed it word for <marker>word</marker>.</example>
+      </rule>
+      
+    </rulegroup>
+        
     <rule id='KIND_OF_JJRB' name="kind of + adj/adv => no determiner required">
       <pattern>
         <marker><token>kind</token></marker>
@@ -701,13 +778,13 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <pattern>
             <token inflected="yes" skip="1">be</token>
             <marker>
-                <token>mine<exception scope="previous" negate_pos="yes" postag_regexp="yes">RB.*</exception></token>
+                <token>mine<exception scope="previous" negate_pos="yes" postag_regexp="yes" postag="RB.*|VB.*"/></token>
             </marker>
         </pattern>
         <disambig postag="PRP$"></disambig>
         <example type="untouched">This is a gold mine.</example>
-        <example type="ambiguous" inputform="mine[mine/NN,mine/PRP$,mine/VB,mine/VBP]" outputform="mine[mine/PRP$]">This is <marker>mine</marker>.</example>
-        <example type="ambiguous" inputform="mine[mine/NN,mine/PRP$,mine/VB,mine/VBP]" outputform="mine[mine/PRP$]">This is entirely <marker>mine</marker>.</example>
+        <example type="ambiguous" inputform="mine[I/PRP,mine/NN,mine/VB,mine/VBP]" outputform="mine[mine/PRP$]">This is <marker>mine</marker>.</example>
+        <example type="ambiguous" inputform="mine[I/PRP,mine/NN,mine/VB,mine/VBP]" outputform="mine[mine/PRP$]">This is entirely <marker>mine</marker>.</example>
     </rule>
     
     <rulegroup id="CAN_WILL_MD" name="can/will/must as a modal verb">
@@ -2089,7 +2166,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     <rulegroup name="Add possessive ending" id="POS_ADD">
         <rule>  <!--	probably verb "is": now add to some -->
             <pattern>
-                <token><exception postag_regexp="yes" postag="NN.*|VBP"></exception></token>
+                <token><exception postag_regexp="yes" postag="NN.*|VBP|CD|UNKNOWN"></exception></token>
                 <token spacebefore="no" regexp="yes">['’]</token>
                 <marker>
                     <token spacebefore="no">s</token>
@@ -2106,7 +2183,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <rule name="Remove possessive ending" id="POS_REMOVE">
             <!--  probably verb "is":remove -->
             <pattern>
-                <token><exception postag_regexp="yes" postag="NN.*|PRP\$|DT"/></token>
+                <token><exception postag_regexp="yes" postag="NN.*|PRP\$|DT|UNKNOWN|CD"/></token>
                 <token spacebefore="no" regexp="yes">['’]</token>
                 <marker>
                     <token spacebefore="no" postag="POS">s</token>
@@ -2386,7 +2463,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     	<example type="untouched">His books are nice.</example>
     	<example type="ambiguous" inputform="s[be/VBZ]" outputform="s[be/VBZ,s/POS]" >Somebody else'<marker>s</marker> hypothesis needs to be tested.</example>    	
     </rule>
-    <rule>
+    <!-- rule>
     	<pattern>
     		<token postag="UNKNOWN" regexp="yes">\p{Lu}.+</token>
     		<token>'</token>
@@ -2397,8 +2474,8 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     	</pattern>
 		<disambig action="add"><wd pos="POS" lemma="s"></wd></disambig>
     	<example type="untouched">His books are nice.</example>
-    	<example type="ambiguous" inputform="s[be/VBZ]" outputform="s[be/VBZ,s/POS]" >WD-2'<marker>s</marker> hypothesis needs to be tested.</example>    	
-    </rule>
+    	<example type="ambiguous" inputform="s[s/POS]" outputform="s[be/VBZ,s/POS]" >WD-2'<marker>s</marker> hypothesis needs to be tested.</example>    	
+    </rule >
     <rule id="ONES_POS" name="One's -> POS">
     	<pattern>
     		<token postag_regexp="yes" postag="NN|JJ|CD|UNKNOWN"/>
@@ -2414,7 +2491,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     	<example type="ambiguous" inputform="s[be/VBZ,s/POS]" outputform="s[s/POS]" >Somebody else'<marker>s</marker> hypothesis needs to be tested.</example>    	
     	<example type="ambiguous" inputform="s[be/VBZ,s/POS]" outputform="s[s/POS]" >Apollo 11'<marker>s</marker> flight needs to be tested.</example>
     	<example type="ambiguous" inputform="s[be/VBZ,s/POS]" outputform="s[s/POS]" >WD-2'<marker>s</marker> hypothesis needs to be tested.</example>
-    </rule>
+    </rule -->
     </rulegroup>
 
 	<rule id="HELP-VB-DT" name="help + verb/noun + determiner">
@@ -2500,7 +2577,22 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
 			</marker>
 		</pattern>
 		<disambig><match no="2" postag="NNP?S" postag_regexp="yes"></match></disambig>
-	</rule>
+	</rule>  
+    <rule id="VB_NNPRP_PRP" name="mine as PRP">
+      <pattern>
+        <token regexp="yes" postag="VB[ZPG]?" postag_regexp="yes" inflected="yes">be|have</token>
+        <marker>
+          <and>
+            <token postag="NN"/>
+            <token postag="PRP"></token>
+          </and>
+        </marker>
+      </pattern>
+      <disambig postag="PRP"/>
+      <example type="untouched">It's a coal mine.</example>
+      <example type="ambiguous" inputform="mine[I/PRP,mine/NN,mine/VB,mine/VBP]" outputform="mine[I/PRP]">It's <marker>mine</marker>.</example>
+    </rule>
+  
 		<rule id="VBP_NN_VBZ" name="company -> noun">
 			<pattern>
 				<token regexp="yes" postag="VB[ZPG]?" postag_regexp="yes" inflected="yes">be|have</token>
