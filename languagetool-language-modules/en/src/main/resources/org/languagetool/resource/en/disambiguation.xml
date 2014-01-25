@@ -35,7 +35,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <disambig action="filter" postag="NN|VB.*"></disambig>
       </rule>      
       <rule>
-        <pattern><token>mine</token></pattern>
+        <pattern><token>mine<exception scope="previous" regexp="yes">a|the</exception></token></pattern>
         <disambig action="add"><wd lemma="I" pos="PRP"/></disambig>
       </rule>
       </rulegroup>
@@ -378,7 +378,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     <rule>
       <pattern>
         <token>in</token>
-        <marker><token regexp="yes">conclusion|danger|detail|disgrace|doubt|fact|hand|paperback|person|retrospect|studio|summary|love|mood|name|turn|deed|outlook|favor|phase|reply|chorus|quest|series|answer|league|contradistinction|absentia|harness|peace|private|public|time|tune|place</token></marker>
+        <marker><token regexp="yes">conclusion|danger|detail|disgrace|doubt|fact|hand|paperback|person|retrospect|studio|summary|love|mood|name|turn|deed|outlook|favor|phase|reply|chorus|quest|series|answer|league|contradistinction|absentia|harness|peace|private|public|time|tune|place|order</token></marker>
       </pattern>
       <disambig postag="NN:UN"/>
       <example type="untouched">In his youth, he was very young.</example>
@@ -403,6 +403,25 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
       <disambig postag="NN:UN"/>
       <example type="untouched">In his youth, he was very young.</example>
       <example type="ambiguous" inputform="touch[touch/NN:UN,touch/UH,touch/VB,touch/VBP]" outputform="touch[touch/NN:UN]">Let's keep in <marker>touch</marker> with him.</example>
+    </rule>    
+    </rulegroup>
+    
+    <rulegroup id="ON_NN" name="on + nouns that require no determiner">
+    <rule>
+      <pattern>
+        <token>on</token>
+        <marker><token regexp="yes">fire|time|holiday|top|board|display|foot|hand|sale|affidavit|camera|cassette|chat|coach|deposit|diskette|end|file|lease|oath|offer|page|screen|site|strike|target|tour|track|exhibit|deck</token></marker>
+      </pattern>
+      <disambig postag="NN:UN"/>
+      <example type="ambiguous" inputform="time[time/JJ,time/NN:UN,time/VB,time/VBP]" outputform="time[time/NN:UN]">I'm always on <marker>time</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <token>on</token>
+        <marker><token regexp="yes">account|pain</token></marker>
+        <token>of</token>
+      </pattern>
+      <disambig postag="NN:UN"/>
     </rule>
     
     </rulegroup>
@@ -826,10 +845,10 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
                 <token>mine<exception scope="previous" negate_pos="yes" postag_regexp="yes" postag="RB.*|VB.*"/></token>
             </marker>
         </pattern>
-        <disambig postag="PRP$"></disambig>
+        <disambig postag="PRP"></disambig>
         <example type="untouched">This is a gold mine.</example>
-        <example type="ambiguous" inputform="mine[I/PRP,mine/NN,mine/VB,mine/VBP]" outputform="mine[mine/PRP$]">This is <marker>mine</marker>.</example>
-        <example type="ambiguous" inputform="mine[I/PRP,mine/NN,mine/VB,mine/VBP]" outputform="mine[mine/PRP$]">This is entirely <marker>mine</marker>.</example>
+        <example type="ambiguous" inputform="mine[I/PRP,mine/NN,mine/VB,mine/VBP]" outputform="mine[I/PRP]">This is <marker>mine</marker>.</example>
+        <example type="ambiguous" inputform="mine[I/PRP,mine/NN,mine/VB,mine/VBP]" outputform="mine[I/PRP]">This is entirely <marker>mine</marker>.</example>
     </rule>
     
     <rulegroup id="CAN_WILL_MD" name="can/will/must as a modal verb">
@@ -3060,18 +3079,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
           <example type="untouched">Home, sweet home!</example>
           <example type="ambiguous" inputform="home[home/JJ,home/NN:UN,home/VB,home/VBP]" outputform="home[home/RB]">Maisha had brought it <marker>home</marker>.</example>
         </rule>
-                
-        <rule id="IN_ORDER_TO" name="in order to => order is a noun">
-        <pattern>
-          <token>in</token>
-          <marker><token>order</token></marker>
-          <token>to</token>
-        </pattern>
-        <disambig postag="NN:UN"/>
-        <example type="untouched">Order!</example>
-        <example type="ambiguous" inputform="order[order/NN:UN,order/UH,order/VB,order/VBP]" outputform="order[order/NN:UN]">The taxpayer testified that in <marker>order</marker> to retain the account</example>        
-        </rule>
-                
+                                
         <rule id="SORT_OF" name="sort + of => not a verb">
           <pattern>
           <marker><token>sort</token></marker>
