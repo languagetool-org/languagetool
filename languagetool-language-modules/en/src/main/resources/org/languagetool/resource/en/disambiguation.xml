@@ -373,6 +373,39 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
       <example type="untouched">This was in his youth.</example>
       <example type="ambiguous" inputform="in[in/IN,in/NN,in/RP]" outputform="in[in/NNP]">Ch'<marker>in</marker> dynasty</example>
     </rule>
+    
+    <rulegroup id="IN_NN" name="in + nouns that require no determiner">
+    <rule>
+      <pattern>
+        <token>in</token>
+        <marker><token regexp="yes">conclusion|danger|detail|disgrace|doubt|fact|hand|paperback|person|retrospect|studio|summary|love|mood|name|turn|deed|outlook|favor|phase|reply|chorus|quest|series|answer|league|contradistinction|absentia|harness|peace|private|public|time|tune|place</token></marker>
+      </pattern>
+      <disambig postag="NN:UN"/>
+      <example type="untouched">In his youth, he was very young.</example>
+      <example type="ambiguous" inputform="summary[summary/JJ,summary/NN]" outputform="summary[summary/NN:UN]">In <marker>summary</marker>, we might say that this argument is valid.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <token>in</token>
+        <marker><token regexp="yes">honou?r|charge|expectation|memory|recognition|view</token></marker>
+        <token>of</token>
+      </pattern>
+      <disambig postag="NN:UN"/>
+      <example type="untouched">In his youth, he was very young.</example>
+      <example type="ambiguous" inputform="view[view/NN:UN,view/VB,view/VBP]" outputform="view[view/NN:UN]">In <marker>view</marker> of his weakness we might as well do nothing.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <token>in</token>
+        <marker><token regexp="yes">accordance|keeping|league|line|touch</token></marker>
+        <token>with</token>
+      </pattern>
+      <disambig postag="NN:UN"/>
+      <example type="untouched">In his youth, he was very young.</example>
+      <example type="ambiguous" inputform="touch[touch/NN:UN,touch/UH,touch/VB,touch/VBP]" outputform="touch[touch/NN:UN]">Let's keep in <marker>touch</marker> with him.</example>
+    </rule>
+    
+    </rulegroup>
         
     <rule id='KIND_OF_JJRB' name="kind of + adj/adv => no determiner required">
       <pattern>
