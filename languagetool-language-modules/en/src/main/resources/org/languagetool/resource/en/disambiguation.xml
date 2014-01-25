@@ -275,6 +275,16 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
       <example type="ambiguous" inputform="ground[grind/VBD,grind/VBN,ground/NN:UN,ground/VB,ground/VBP]" outputform="ground[ground/NN:UN]">The restaurant was below <marker>ground</marker>.</example>      
     </rule>
     
+    <rule id="AT_NN" name="at + nouns that require no determiner">
+      <pattern>
+      <token>at</token>
+      <marker><token regexp="yes">ba[yt]|breakfast|night|risk|war|home|school|work|sea|anchor|birth|fault|hand|issue|length|liberty|source|stake|table|variance|onset</token></marker>
+      </pattern>
+      <disambig postag="NN:UN"/>
+      <example type="untouched">We were at the university.</example>
+      <example type="ambiguous" inputform="night[night/JJ,night/NN:UN]" outputform="night[night/NN:UN]">This happened at <marker>night</marker>.</example>
+    </rule>
+    
     <rule id='KIND_OF_JJRB' name="kind of + adj/adv => no determiner required">
       <pattern>
         <marker><token>kind</token></marker>
