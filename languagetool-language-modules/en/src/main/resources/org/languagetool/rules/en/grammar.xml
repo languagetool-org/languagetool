@@ -994,6 +994,18 @@ USA
                 <example correction="for" type="incorrect">I went there <marker>fro</marker> a weekend.</example>
             </rule>
         </rulegroup>
+        <rule id="LAST_BUT_NOT_LAST" name="last but not last (least)">
+            <pattern>
+              <token>last</token>
+              <token>but</token>
+              <token>not</token>
+              <token>last</token>
+            </pattern>
+            <message>Possible typo. Did you mean: <suggestion>\1 \2 \3 least</suggestion>?</message>
+            <short>Possible typo</short>
+            <example type="correct">Last but not least, I accentuate difficulties that such theories face.</example>
+            <example type="incorrect" correction="Last but not least"><marker>Last but not last</marker>, I accentuate difficulties that such theories face.</example>
+        </rule>
         <rulegroup id="HOUR_OUR" name="half an our (half an hour)">
             <rule>
                 <pattern>
@@ -7652,15 +7664,16 @@ USA
                     <token><exception postag="DT|WDT|JJ|NN.*" postag_regexp="yes"></exception></token>
                     <token postag="VBP|VBZ" postag_regexp="yes"><exception regexp="yes">do|does|take[s]*|give[s]*|says|go|goes|becomes</exception><exception postag="NN.*|JJ.*|POS.*" postag_regexp="yes"></exception></token>
                     <marker>
-                        <token postag="NN"><exception postag="DT|RB.*|RP|JJ.*|IN|CC|CD|VBD|VBN|MD|NNP|NNS|NNPS|PRP.*|WRB" postag_regexp="yes"></exception></token>
+                        <token postag="NN"><exception postag="DT|RB.*|RP|JJ.*|IN|CC|CD|VBD|VBN|MD|NNP|NNS|NNPS|PRP.*|WRB|NN:UN?" postag_regexp="yes"></exception><exception regexp="yes">(?iu)\p{Lu}\p{Ll}+</exception></token>
                     </marker>
-                    <token><exception postag="NN.*" postag_regexp="yes"></exception></token>
+                    <token><exception postag="NN.*|CD" postag_regexp="yes"></exception></token>
                 </pattern>
                 <message>The article might be missing before the noun: <suggestion><match no="3" postag="+DT"></match></suggestion>.</message>
                 <short>Article missing</short>
                 <example correction="a friend|the friend" type="incorrect">He is <marker>friend</marker>.</example>
                 <example type="correct">He is a friend.</example>
                 <example type="correct">He is my friend.</example>
+                <example type="correct">This is Chapter 2.</example>
                 <example type="correct">Depict one's immersion with the world.</example>
             </rule>
             <rule>
@@ -7789,12 +7802,12 @@ USA
             <!-- and now &quot;an experienced soldier&quot; -->
             <rule default="off">
                 <pattern>
-                    <token><exception postag="PRP.*|NN.*|DT|JJ.*|RB.*|CC|IN|VBG|WRB|WDT|WP\$|WP" postag_regexp="yes"></exception><exception regexp="yes">one|have|has|had|s|\&quot;|\'|[0-9].*|,|\(|\[</exception></token>
+                    <token><exception postag="PRP.*|NN.*|DT|JJ.*|RB.*|CC|IN|VBG|WRB|WDT|WP\$?|UNKNOWN" postag_regexp="yes"></exception><exception regexp="yes">one|have|ha[sd]|appointed|called|s|\&quot;|[0-9].*|[,\'.\(\[]</exception></token>
                     <marker>
-                        <token postag="VBN|JJ" postag_regexp="yes"><exception>else</exception><exception postag="VB|RP|WRB|RB|CD|IN|CC|MD|NNP|DT" postag_regexp="yes"></exception><exception>last</exception></token>
-                        <token postag="NN"><exception postag="CC|DT|RB|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNS|NNPS|NNP|WRB" postag_regexp="yes"></exception><exception>are</exception></token>
+                        <token postag="VBN|JJ" postag_regexp="yes"><exception>else</exception><exception postag="VB|RP|WRB|RB|CD|IN|CC|MD|NNP|DT" postag_regexp="yes"></exception><exception>called</exception></token>
+                        <token postag="NN"><exception postag="CC|DT|RB|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNS|NNPS|NNP|WRB" postag_regexp="yes"></exception><exception>are</exception><exception regexp="yes">(?iu)\p{Lu}\p{Ll}+</exception></token>
                     </marker>
-                    <token><exception postag="NN.*" postag_regexp="yes"></exception></token>
+                    <token><exception postag="NN.*|CD" postag_regexp="yes"></exception></token>
                 </pattern>
                 <message>The article might be missing before the noun: <suggestion><match no="2" postag="+DT"></match> <match no="3"></match></suggestion>.</message>
                 <short>Article missing</short>
@@ -7802,15 +7815,19 @@ USA
                 <example type="correct">He is <marker>an experienced soldier</marker>.</example>
                 <example type="correct">Last year Beyeler arranged to sell $1,500,000.</example>
                 <example type="correct">At least one white student at Georgia got through this ritual.</example>
+                <example type="correct">In October 1944, he was appointed state warden and chief of the Forest Fire Section.</example>
+                <example type="correct">The typical U.S. daily menu, says Dr. Keys, contains 3,000 calories</example>
+                <example type="correct">I find the cleaner, less razor-edged monophonic version more interesting.</example>
+                <example type="correct">Majestic Pick comes next.</example>
             </rule>
             <!-- an extremely experienced soldier -->
             <rule>
                 <pattern>
-                    <token><exception postag="PRP|NNP|DT|JJ|PRP\$|RB.*|CC|WDT" postag_regexp="yes"></exception><exception regexp="yes">have|has|had|s|\&quot;|\'|[0-9].*|,|\(|\[</exception></token>
+                    <token><exception postag="PRP|NNP|DT|JJ|PRP\$|RB.*|CC|WDT|WP" postag_regexp="yes"></exception><exception regexp="yes">then|have|ha[sd]|s|\&quot;|[0-9].*|[\',\(\[]</exception></token>
                     <marker>
                         <token postag="RB.*" postag_regexp="yes"><exception postag="VB|RP|CD|IN|CC|MD" postag_regexp="yes"></exception><exception regexp="yes">not|only|also</exception></token>
-                        <token postag="VBN|JJ" postag_regexp="yes"><exception postag="VB|RP.*|RB|CD|IN|CC|MD|DT|WDT" postag_regexp="yes"></exception></token>
-                        <token postag="NN"><exception postag="WDT|CC|DT|RB|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNS" postag_regexp="yes"></exception><exception>are</exception></token>
+                        <token postag="VBN|JJ" postag_regexp="yes"><exception postag="VB|RP.*|RB|CD|IN|CC|MD|DT|WDT" postag_regexp="yes"></exception><exception regexp="yes">(?iu)\p{Lu}\p{Ll}+</exception></token>
+                        <token postag="NN"><exception postag="WDT|CC|DT|RB|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNS" postag_regexp="yes"></exception><exception>are</exception><exception regexp="yes">(?iu)\p{Lu}\p{Ll}+</exception></token>
                     </marker>
                     <token><exception postag="NN.*" postag_regexp="yes"></exception></token>
                 </pattern>
@@ -7819,6 +7836,8 @@ USA
                 <example correction="an extremely experienced soldier|the extremely experienced soldier" type="incorrect">He is <marker>extremely experienced soldier</marker>.</example>
                 <example type="correct">There is only one catch to this idyllic arrangement.</example>
                 <example type="correct">He is <marker>an extremely experienced soldier</marker>.</example>
+                <example type="correct">Nearby Foggy Bottom is ousting Negroes.</example>
+                <example type="correct">Cousin Emma is alone in that big old house and won't hear to parting from it.</example>
             </rule>
             <!--  this rule needs to be expanded to all prepositions
    so that exceptions could be accounted for properly, i.e.,
@@ -7827,9 +7846,9 @@ USA
                 <pattern>
                     <token>at</token>
                     <marker>
-                        <token postag="NN"><exception postag="CC|UH|DT|WDT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS" postag_regexp="yes"></exception><exception regexp="yes">anchor|bay|birth|fault|first|hand|home|issue|least|length|liberty|sea|source|stake|table|variance</exception></token>
+                        <token postag="NN"><exception postag="CC|UH|DT|WDT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS" postag_regexp="yes"></exception><exception regexp="yes">anchor|bay|birth|fault|first|hand|home|issue|least|length|liberty|sea|source|stake|table|variance|onset|(?iu)\p{Lu}\p{Ll}+</exception></token>
                     </marker>
-                    <token><exception postag="NN.*" postag_regexp="yes"></exception></token>
+                    <token><exception postag="NN.*|CD" postag_regexp="yes"></exception></token>
                 </pattern>
                 <message>The article might be missing before the noun: <suggestion><match no="2" postag="+DT"></match></suggestion>.</message>
                 <short>Article missing</short>
@@ -7843,12 +7862,13 @@ USA
                         <token postag="JJ"><exception postag="VB|WRB|RB.*|CD|IN|DT|WDT" postag_regexp="yes"></exception></token>
                         <token postag="NN"><exception postag="DT|WDT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS|CC" postag_regexp="yes"></exception><exception>glance</exception></token>
                     </marker>
-                    <token><exception postag="NN.*" postag_regexp="yes"></exception><exception>free</exception></token>
+                    <token><exception postag="NN.*|CD" postag_regexp="yes"></exception><exception>free</exception></token>
                 </pattern>
                 <message>The article might be missing before the noun: <suggestion><match no="2" postag="+DT"></match> <match no="3"></match></suggestion>.</message>
                 <short>Article missing</short>
                 <example correction="a new airport|the new airport" type="incorrect">He was waiting at <marker>new airport</marker>.</example>
                 <example type="correct">He was waiting at <marker>the new airport</marker>.</example>
+                <example type="correct">It appeared as something she could not at first cope with.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -7856,11 +7876,11 @@ USA
                     <token regexp="yes">[Bb]y</token>
                     <marker>
                         <and>
-                            <token postag="NN"><exception postag="CC|UH|DT|WDT|RB|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS|VBG" postag_regexp="yes"></exception><exception regexp="yes">bit|step|way|example|dint|crook|hook|hand|machine|word|cheque|accident|day|means|mistake|name|train|rail|railway|coach|bus|boat|automobile|helicopter|taxi|ambulance|plane|airplane|foot|section|article|page|road|letter|phone|telephone|mail|storm|arrangement|satellite|decree|year-end|lot|profession|district|week|eye|covenant|fiat|ship|car|jowl|tramway</exception></token>
+                            <token postag="NN"><exception postag="CC|UH|DT|WDT|RB|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS|VBG" postag_regexp="yes"></exception><exception regexp="yes">bit|step|way|example|dint|crook|hook|hand|machine|word|cheque|accident|day|means|mistake|name|train|rail|railway|coach|bus|boat|automobile|helicopter|taxi|ambulance|plane|airplane|foot|section|article|page|road|letter|phone|telephone|mail|storm|arrangement|satellite|decree|year-end|lot|profession|district|week|eye|covenant|fiat|ship|car|jowl|tramway|subway|\p{Lu}\p{Ll}+</exception></token>
                             <token negate="yes"><match no="0"></match></token>
                         </and>
                     </marker>
-                    <token><exception postag="NN.*" postag_regexp="yes"></exception><exception>free</exception></token>
+                    <token><exception postag="NN.*|CD" postag_regexp="yes"></exception><exception>free</exception></token>
                 </pattern>
                 <message>The article might be missing before the noun: <suggestion><match no="3" postag="+DT"></match></suggestion>.</message>
                 <short>Article missing</short>
@@ -7868,43 +7888,46 @@ USA
                 <example type="correct">He was waiting by <marker>the river</marker>.</example>
                 <example type="correct">The attack minute by minute</example>
                 <example type="correct">He works by <marker>day</marker>.</example>
+                <example type="correct">$30,000 state grant authorized by Gov. Vandiver</example>
             </rule>
             <rule>
                 <pattern>
                     <token>by</token>
                     <marker>
                         <token postag="JJ"><exception postag="VB|WRB|RB.*|CD|IN|DT|WDT" postag_regexp="yes"></exception></token>
-                        <token postag="NN"><exception postag="DT|WDT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS" postag_regexp="yes"></exception><exception>fiat</exception></token>
+                        <token postag="NN"><exception postag="DT|WDT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS" postag_regexp="yes"></exception><exception>fiat</exception><exception regexp="yes">bit|step|way|example|dint|crook|hook|hand|machine|word|cheque|accident|day|means|mistake|name|train|rail|railway|coach|bus|boat|automobile|helicopter|taxi|ambulance|plane|airplane|foot|section|article|page|road|letter|phone|telephone|mail|storm|arrangement|satellite|decree|year-end|lot|profession|district|week|eye|covenant|fiat|ship|car|jowl|tramway|(?iu)\p{Lu}\p{Ll}+</exception></token>
                     </marker>
-                    <token><exception postag="NN.*" postag_regexp="yes"></exception><exception>free</exception></token>
+                    <token><exception postag="NN.*|CD" postag_regexp="yes"></exception><exception>free</exception></token>
                 </pattern>
                 <message>The article might be missing before the noun: <suggestion><match no="2" postag="+DT"></match> <match no="3"></match></suggestion>.</message>
                 <short>Article missing</short>
                 <example correction="a small river|the small river" type="incorrect">He was waiting by <marker>small river</marker>.</example>
                 <example type="correct">He was waiting by <marker>the small river</marker>.</example>
+                <example type="correct">Guests came by chartered plane from all over the country.</example>
             </rule>
             <rule>
                 <pattern>
                     <token>for</token>
                     <marker>
-                        <token postag="NN"><exception postag="UH|CC|VBD|VBG|VBN|DT|WDT|RP|JJ|IN|CD|JJS|JJR|RBS|MD|NNP|NNS|WRB|PRP\$" postag_regexp="yes"></exception><exception regexp="yes">are|instance|example|sale|word</exception></token>
+                        <token postag="NN"><exception postag="UH|CC|VBD|VBG|VBN|DT|WDT|RP|JJ|IN|CD|JJS|JJR|RBS|MD|NNP|NNS|WRB|PRP\$" postag_regexp="yes"></exception><exception regexp="yes">are|instance|example|sale|word|(?iu)\p{Lu}\p{Ll}+</exception></token>
                     </marker>
-                    <token><exception postag="NN.*" postag_regexp="yes"></exception><exception>free</exception></token>
+                    <token><exception postag="NN.*|CD" postag_regexp="yes"></exception><exception>free</exception><exception>'</exception></token>
                 </pattern>
                 <message>The article might be missing before the noun: <suggestion><match no="2" postag="+DT"></match></suggestion>.</message>
                 <short>Article missing</short>
                 <example correction="an answer|the answer" type="incorrect">He was waiting for <marker>answer</marker>.</example>
                 <example type="correct">He was waiting for <marker>your answer</marker>.</example>
                 <example type="correct"><marker>For example</marker>, he wrote a letter to me.</example>
+                <example type="correct">The data for boy 34 appear in Figure 3.</example>
             </rule>
             <rule>
                 <pattern>
                     <token>for</token>
                     <marker>
                         <token postag="JJ"><exception postag="VBG|VB|WRB|RB.*|CD|IN|DT|WDT" postag_regexp="yes"></exception></token>
-                        <token postag="NN"><exception postag="DT|WDT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS" postag_regexp="yes"></exception></token>
+                        <token postag="NN"><exception postag="DT|WDT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS" postag_regexp="yes"/><exception regexp="yes">(?iu)\p{Lu}\p{Ll}+</exception></token>
                     </marker>
-                    <token><exception postag="NN.*" postag_regexp="yes"></exception><exception>free</exception></token>
+                    <token><exception postag="NN.*|CD" postag_regexp="yes"></exception><exception>free</exception></token>
                 </pattern>
                 <message>The article might be missing before the noun: <suggestion><match no="2" postag="+DT"></match> <match no="3"></match></suggestion>.</message>
                 <short>Article missing</short>
@@ -7915,14 +7938,14 @@ USA
             <rule>
                 <pattern>
                     <token regexp="yes">day|week</token>
-                    <token>in</token>
+                    <token spacebefore="yes">in</token>
                     <marker>
                         <and>
-                            <token postag="NN"><exception postag="VBG|DT|WDT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS" postag_regexp="yes"></exception><exception regexp="yes">fact|hand|paperback|person|retrospect|studio|summary|mood|name|turn|deed|word|outlook|favor|phase|reply|chorus|quest|series|answer|league|contradistinction|absentia|harness</exception></token>
+                            <token postag="NN"><exception postag="VBG|DT|WDT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NN[PS]|PRP\$" postag_regexp="yes"></exception><exception regexp="yes">fact|hand|paperback|person|retrospect|studio|summary|mood|name|turn|deed|word|outlook|favor|phase|reply|chorus|quest|series|answer|league|contradistinction|absentia|harness|(?iu)\p{Lu}\p{Ll}+</exception></token>
                             <token negate="yes"><match no="0"></match></token>
                         </and>
                     </marker>
-                    <token><exception postag="NN.*|JJ" postag_regexp="yes"></exception><exception regexp="yes">\d+</exception></token>
+                    <token><exception postag="NN.*|JJ|C[DC]" postag_regexp="yes"></exception><exception regexp="yes">\d+|['’]</exception></token>
                 </pattern>
                 <message>The article might be missing before the noun: <suggestion><match no="3" postag="+DT"></match></suggestion>.</message>
                 <short>Article missing</short>
@@ -7930,6 +7953,10 @@ USA
                 <example type="correct">He was waiting in the <marker>lobby</marker>.</example>
                 <example type="correct">I have exhausted myself day in day out</example>
                 <example type="correct"><marker>In fact</marker>, he wrote a letter to me.</example>
+                <example type="correct">Chinese Empire under the Ch'in dynasty (221-207 B.C.)</example>
+                <example type="correct">American technology in engine and hull design is excellent.</example>
+                <example type="correct">22% of his total list as against 3.5% in mine.</example>
+                <example type="correct">In the system shown in Fig. 7-1, the accelerometer output is amplified.</example>
             </rule>
             <rule>
                 <!-- day in day out ignored above, checking for 'day' and 'week' -->
@@ -7937,9 +7964,9 @@ USA
                     <token><exception regexp="yes">day|week</exception></token>
                     <token>in</token>
                     <marker>
-                        <token postag="NN"><exception postag="VBG|DT|WDT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS" postag_regexp="yes"></exception><exception regexp="yes">fact|hand|paperback|person|retrospect|studio|summary|mood|name|turn|deed|word|outlook|favor|phase|reply|chorus|quest|series|answer|league|contradistinction|absentia|harness</exception></token>
+                        <token postag="NN"><exception postag="VBG|DT|WDT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS" postag_regexp="yes"></exception><exception regexp="yes">fact|hand|paperback|person|retrospect|studio|summary|mood|name|turn|deed|word|outlook|favor|phase|reply|chorus|quest|series|answer|league|contradistinction|absentia|harness|(?iu)\p{Lu}\p{Ll}+</exception></token>
                     </marker>
-                    <token><exception postag="NN.*|JJ" postag_regexp="yes"></exception><exception regexp="yes">\d+</exception></token>
+                    <token><exception postag="NN.*|JJ|C[DC]" postag_regexp="yes"></exception><exception regexp="yes">\d+</exception></token>
                 </pattern>
                 <message>The article might be missing before the noun: <suggestion><match no="3" postag="+DT"></match></suggestion>.</message>
                 <short>Article missing</short>
@@ -7952,10 +7979,10 @@ USA
                 <pattern>
                     <token>in</token>
                     <marker>
-                        <token postag="JJ"><exception postag="NNP|VBG|VB|WRB|RB.*|CD|IN|DT|WDT" postag_regexp="yes"></exception></token>
+                        <token postag="JJ"><exception postag="NNP|VBG|VB|WRB|RB.*|CD|IN|DT|WDT" postag_regexp="yes"></exception><exception regexp="yes">(?iu)\p{Lu}\p{Ll}+</exception></token>
                         <token postag="NN"><exception postag="DT|WDT|RP|JJ.*|IN|CD|RB.*|VBD|VBN|MD|NNP|NNS|NNPS|PRP.*|WRB" postag_regexp="yes"></exception></token>
                     </marker>
-                    <token><exception postag="NN.*|JJ" postag_regexp="yes"></exception><exception regexp="yes">\d+</exception></token>
+                      <token><exception postag="NN.*|JJ|CD" postag_regexp="yes"></exception><exception regexp="yes">\d+</exception></token>
                 </pattern>
                 <message>The article might be missing before the noun: <suggestion><match no="2" postag="+DT"></match> <match no="3"></match></suggestion>.</message>
                 <short>Article missing</short>
@@ -7968,9 +7995,9 @@ USA
                 <pattern>
                     <token>on</token>
                     <marker>
-                        <token postag="NN"><exception postag="CC|UH|DT|WDT|RP|JJ|IN|CD|JJS|JJR|RB.*|VBD|VBN|MD|NNP|NNS|WRB" postag_regexp="yes"></exception><exception regexp="yes">board|display|foot|hand|sale|affidavit|camera|cassette|chat|coach|deposit|diskette|end|file|lease|oath|offer|page|screen|site|strike|target|tour|track|exhibit</exception></token>
+                        <token postag="NN"><exception postag="CC|UH|DT|WDT|RP|JJ|IN|CD|JJS|JJR|RB.*|VBD|VBN|MD|NNP|NNS|WRB" postag_regexp="yes"></exception><exception regexp="yes">board|display|foot|hand|sale|affidavit|camera|cassette|chat|coach|deposit|diskette|end|file|lease|oath|offer|page|screen|site|strike|target|tour|track|exhibit|deck</exception></token>
                     </marker>
-                    <token><exception postag="NN.*" postag_regexp="yes"></exception></token>
+                    <token><exception postag="NN.*|CD" postag_regexp="yes"></exception></token>
                 </pattern>
                 <message>The article might be missing before the noun: <suggestion><match no="2" postag="+DT"></match></suggestion>.</message>
                 <short>Article missing</short>
@@ -7985,7 +8012,7 @@ USA
                         <token postag="JJ"><exception postag="VBG|VB|WRB|RB.*|CD|IN|DT|WDT|NNP" postag_regexp="yes"></exception></token>
                         <token postag="NN"><exception postag="CC|DT|WDT|RP|JJ.*|IN|CD|RBS|VBD|VBN|MD|NNP|NNS|NNPS" postag_regexp="yes"></exception></token>
                     </marker>
-                    <token><exception postag="NN.*" postag_regexp="yes"></exception><exception>free</exception></token>
+                    <token><exception postag="NN.*|CD" postag_regexp="yes"></exception><exception>free</exception><exception>'</exception></token>
                 </pattern>
                 <message>The article might be missing before the noun: <suggestion><match no="2" postag="+DT"></match> <match no="3"></match></suggestion>.</message>
                 <short>Article missing</short>
@@ -8000,7 +8027,7 @@ USA
                     <token>after</token>
                     <marker>
                         <and>
-                            <token postag="NN"><exception postag="CC|UH|DT|WDT|RP|JJ.*|IN|CD|RB.*|VBD|VBZ|VBN|MD|NNP|NNS|NNPS|PRP.*|WRB" postag_regexp="yes"></exception></token>
+                            <token postag="NN"><exception postag="CC|UH|DT|WDT|RP|JJ.*|IN|CD|RB.*|VBD|VBZ|VBN|MD|NNP|NNS|NNPS|PRP.*|WRB" postag_regexp="yes"></exception><exception regexp="yes">(?iu)\p{Lu}\p{Ll}+</exception></token>
                             <token negate="yes"><match no="1"></match></token>
                         </and>
                     </marker>
@@ -8011,6 +8038,7 @@ USA
                 <example correction="a week|the week" type="incorrect">Change your filter after <marker>week</marker>.</example>
                 <example type="correct">Change your filter after one week.</example>
                 <example type="correct">He told me anecdote after anecdote of that extraordinary man.</example>
+                <example type="correct">Soon after Loper leaked the news that Frankie had ordered two...</example>
             </rule>
             <rule>
                 <pattern>
@@ -8019,14 +8047,15 @@ USA
                     <token><exception postag="VBN|VBD" postag_regexp="yes"></exception></token>
                     <token postag="IN"><exception regexp="yes">as|at|by|for|in|on|to|of|following|than|after</exception><exception postag="JJ.*" postag_regexp="yes"></exception></token>
                     <marker>
-                        <token postag="NN"><exception postag="CC|UH|DT|WDT|RP|JJ.*|IN|CD|RB.*|VBD|VBZ|VBN|MD|NNP|NNS|NNPS|PRP.*|WRB" postag_regexp="yes"></exception></token>
+                        <token postag="NN"><exception postag="CC|UH|DT|WDT|RP|JJ.*|IN|CD|RB.*|VBD|VBZ|VBN|MD|NNP|NNS|NNPS|PRP.*|WRB" postag_regexp="yes"></exception><exception regexp="yes">(?iu)\p{Lu}\p{Ll}+</exception></token>
                     </marker>
-                    <token><exception postag="NN.*" postag_regexp="yes"></exception><exception>free</exception></token>
+                    <token><exception postag="NN.*|CD" postag_regexp="yes"></exception><exception>free</exception></token>
                 </pattern>
                 <message>The article is probably missing before the noun: <suggestion><match no="4" postag="+DT"></match></suggestion>.</message>
                 <short>Article missing</short>
                 <example correction="a friend|the friend" type="incorrect">He is talking about <marker>friend</marker>.</example>
                 <example type="correct">He is talking about a friend.</example>
+                <example type="correct">Then Jesus arrived at Jordan from Galilee.</example>
             </rule>
             <rule>
                 <pattern>
@@ -8034,15 +8063,16 @@ USA
                     <token><exception postag="VBN|VBD" postag_regexp="yes"></exception></token>
                     <token postag="IN"><exception regexp="yes">as|at|by|for|in|on|to|of|following|re</exception><exception postag="JJ.*" postag_regexp="yes"></exception></token>
                     <marker>
-                        <token postag="JJ"><exception postag="VBG|VB|WRB|RB.*|CD|IN|DT|WDT|NNP" postag_regexp="yes"></exception></token>
+                        <token postag="JJ"><exception postag="VBG|VB|WRB|RB.*|CD|IN|DT|WDT|NNP" postag_regexp="yes"></exception><exception regexp="yes">(?iu)\p{Lu}\p{Ll}+</exception></token>
                         <token postag="NN"><exception postag="CC|DT|WDT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS" postag_regexp="yes"></exception></token>
                     </marker>
-                    <token><exception postag="NN.*" postag_regexp="yes"></exception><exception>free</exception></token>
+                    <token><exception postag="NN.*|CD" postag_regexp="yes"></exception><exception>free</exception><exception>'</exception></token>
                 </pattern>
                 <message>The article might be missing before the noun: <suggestion><match no="4" postag="+DT"></match> <match no="5"></match></suggestion>.</message>
                 <short>Article missing</short>
                 <example correction="a good friend|the good friend" type="incorrect">He is talking about <marker>good friend</marker>.</example>
                 <example type="correct">He is talking about a good friend.</example>
+                <example type="correct">Goodis voiced his objection before City Council's Finance Committee.</example>                 
             </rule>
             <rule>
                 <pattern>
@@ -8052,14 +8082,15 @@ USA
                     <token postag="SENT_START"></token>
                     <token postag="IN"><exception regexp="yes">as|at|by|for|in|on|to|of|following</exception><exception postag="JJ.*" postag_regexp="yes"></exception></token>
                     <marker>
-                        <token postag="NN"><exception postag="CC|UH|DT|WDT|RP|JJ.*|IN|CD|RB.*|VBD|VBN|MD|NNP|NNS|NNPS|PRP.*|WRB" postag_regexp="yes"></exception></token>
+                        <token postag="NN"><exception postag="CC|UH|DT|WDT|RP|JJ.*|IN|CD|RB.*|VBD|VBN|MD|NNP|NNS|NNPS|PRP.*|WRB" postag_regexp="yes"></exception><exception regexp="yes">(?iu)\p{Lu}\p{Ll}+</exception></token>
                     </marker>
-                    <token><exception postag="NN.*|JJ" postag_regexp="yes"></exception></token>
+                    <token><exception postag="NN.*|JJ|CD" postag_regexp="yes"></exception></token>
                 </pattern>
                 <message>The article might be missing before the noun: <suggestion><match no="3" postag="+DT"></match></suggestion>.</message>
                 <short>Article missing</short>
                 <example correction="a month|the month" type="incorrect">About <marker>month</marker> before I left it was discussed...</example>
                 <example type="correct">About <marker>a month</marker> before I left it was discussed...</example>
+                <example type="correct">During Oersted's attendance at the university, it was dull.</example>                
             </rule>
             <rule>
                 <pattern>
@@ -8070,16 +8101,17 @@ USA
                         <token postag="JJ"><exception postag="VBG|VB|WRB|RB.*|CD|IN|DT|WDT|NNP" postag_regexp="yes"></exception></token>
                         <token postag="NN"><exception postag="DT|WDT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS" postag_regexp="yes"></exception></token>
                     </marker>
-                    <token><exception postag="NN.*|JJ" postag_regexp="yes"></exception></token>
+                    <token><exception postag="NN.*|JJ|CD" postag_regexp="yes"></exception></token>
                 </pattern>
                 <message>The article might be missing before the noun: <suggestion><match no="3" postag="+DT"></match> <match no="4"></match></suggestion>.</message>
                 <short>Article missing</short>
                 <example correction="a large boat|the large boat" type="incorrect">About <marker>large boat</marker>.</example>
                 <example type="correct">About <marker>a large boat</marker>.</example>
+                <example type="correct">During fiscal year 1959, six courses were conducted.</example>                
             </rule>
             <rule>
                 <pattern>
-                    <token><exception regexp="yes">no|any</exception><exception postag="JJ.*" postag_regexp="yes"></exception></token>
+                    <token><exception regexp="yes">no|any|every</exception><exception postag="JJ.*" postag_regexp="yes"></exception></token>
                     <token>such</token>
                     <marker>
                         <token postag="NN"><exception postag="DT|WDT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS" postag_regexp="yes"></exception><exception inflected="yes" regexp="yes">be|have</exception></token>
