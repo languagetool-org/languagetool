@@ -994,6 +994,30 @@ USA
                 <example correction="for" type="incorrect">I went there <marker>fro</marker> a weekend.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="HUMANS_BEINGS" name="humans beings (human beings)">
+        <rule>
+            <pattern>
+              <token>human</token>
+              <token>'</token>
+              <token>s</token>
+              <token postag="NNS"/>
+            </pattern>
+            <message>Possible typo. Did you mean: <suggestion>\1 \4</suggestion>?</message>
+            <short>Possible typo</short>
+            <example type="correct">We are all human beings.</example>
+            <example type="incorrect" correction="human beings">We are all <marker>human's beings</marker>.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token>humans</token>
+              <token>beings</token>
+            </pattern>
+            <message>Possible typo. Did you mean: <suggestion>human \4</suggestion>?</message>
+            <short>Possible typo</short>
+            <example type="correct">We are all human beings.</example>
+            <example type="incorrect" correction="human beings">We are all <marker>humans beings</marker>.</example>
+          </rule>        
+        </rulegroup>        
         <rule id="LAST_BUT_NOT_LAST" name="last but not last (least)">
             <pattern>
               <token>last</token>
@@ -2739,7 +2763,7 @@ USA
                         <token spacebefore="no" regexp="yes">['’]</token>
                         <token>s</token>
                     </marker>
-                    <token postag_regexp="yes" postag="NN.*"/>
+                    <token postag_regexp="yes" postag="NN.*|JJ.?"/>
                 </pattern>
                 <message>Did you mean <suggestion>its</suggestion> (possessive pronoun) instead of 'it's' (short form of 'it is')?</message>
                 <example type="incorrect" correction="its">This is an opportunity to see how SAP addresses <marker>it's</marker> internal developers.</example>
@@ -8083,7 +8107,7 @@ USA
                     <token postag="SENT_START"></token>
                     <token postag="IN"><exception regexp="yes">as|at|by|for|in|on|to|of|following</exception><exception postag="JJ.*" postag_regexp="yes"></exception></token>
                     <marker>
-                        <token postag="NN"><exception postag="CC|UH|DT|WDT|RP|JJ.*|IN|CD|RB.*|VBD|VBN|MD|NNP|NNS|NNPS|PRP.*|WRB" postag_regexp="yes"></exception><exception regexp="yes">(?iu)\p{Lu}\p{Ll}+</exception></token>
+                        <token postag="NN"><exception postag="CC|UH|DT|WDT|RP|JJ.*|IN|CD|RB.*|VBD|VBN|MD|NN[PS]|NNPS|PRP.*|WRB" postag_regexp="yes"></exception><exception regexp="yes">(?iu)\p{Lu}\p{Ll}+</exception></token>
                     </marker>
                     <token><exception postag="NN.*|JJ|CD" postag_regexp="yes"></exception></token>
                 </pattern>
@@ -8127,7 +8151,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token><exception regexp="yes">no|any</exception></token>
+                    <token><exception regexp="yes">no|any|every</exception></token>
                     <token>such</token>
                     <marker>
                         <token postag="JJ"><exception postag="VBG|VB|WRB|RB.*|CD|IN|DT|WDT|NNP" postag_regexp="yes"></exception></token>
@@ -9693,6 +9717,9 @@ USA
             <example type="correct">The World War 2 German bomber rolled down a runway and took off.</example>
             <example type="correct">Volume dipped to 3.28 million shares from 3.98 million Monday.</example>
             <example type="correct">It is five and seventeen.</example>
+            <example type="correct">Last week the board, by a 4 to 3 vote, decided to ask voters.</example>
+            <example type="correct">Before he was forty Griffith had created the art of the film.</example>
+            <example type="correct">In the 1860 - 70 decade there are many poems like Revulsion.</example>
             <!-- TODO: while the right half is split into two sliver and black triangles -->
         </rule>
         <rule id="MUCH_COUNTABLE" name="'much' + countable noun, e.g. 'much (many) children'">
@@ -9781,6 +9808,53 @@ USA
             <rule>
                 <pattern>
                     <marker>
+                        <token>many</token>
+                        <token postag="JJ"><exception postag="NN:UN|NN|NNP|NNS|NNPS" postag_regexp="yes"/></token>
+                        <token postag="NN:U"><exception postag="NN:UN|NN|NNP|NNS|NNPS|JJ.*" postag_regexp="yes"></exception></token>
+                    </marker>
+                    <token><exception postag="NNS|NNPS|CC" postag_regexp="yes"></exception><exception>'</exception></token>
+                </pattern>
+                <message>Possible agreement error. The noun <match no="3"></match> seems to be uncountable; consider using: <suggestion>much <match no="2"/> <match no="3"/></suggestion>, <suggestion>a good deal of <match no="2"/> <match no="3"/></suggestion>.</message>
+                <short>Grammatical problem</short>
+                <example correction="much red wine|a good deal of red wine" type="incorrect">I have <marker>many red wine</marker>.</example>
+                <example type="correct">I have <marker>much wine</marker>.</example>
+                <example type="correct">How many wine bars are there in Cheshire?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>many</token>
+                        <token postag="JJ"><exception postag="NN:UN|NN|NNP|NNS|NNPS" postag_regexp="yes"/></token>
+                        <token postag="NN:U"><exception postag="NN:UN|NN|NNP|NNS|NNPS|JJ.*" postag_regexp="yes"></exception></token>
+                    </marker>
+                    <token postag="CC"></token>
+                    <token><exception postag="NNS|NNPS" postag_regexp="yes"></exception></token>
+                    <token><exception postag="NNS|NNPS" postag_regexp="yes"></exception></token>
+                </pattern>
+                <message>Possible agreement error. The noun <match no="3"></match> seems to be uncountable; consider using: <suggestion>much <match no="2"/> <match no="3"/></suggestion>, <suggestion>a good deal of <match no="2"/> <match no="3"/></suggestion>.</message>
+                <short>Grammatical problem</short>
+                <example correction="much red wine|a good deal of red wine" type="incorrect">I have <marker>many red wine</marker> and a lot is happening this spring.</example>
+                <example type="correct">There are many good wine and food festivals this spring.</example>
+            </rule>            
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>a</token>
+                        <token>number</token>
+                        <token>of</token>
+                        <token postag="NN:U"><exception postag="NN:UN|NN|NNP|NNS|NNPS|JJ.*" postag_regexp="yes"></exception></token>
+                    </marker>
+                    <token><exception postag="NNS|NNPS|CC" postag_regexp="yes"></exception><exception>'</exception></token>
+                </pattern>
+                <message>Possible agreement error. The noun <match no="4"></match> seems to be uncountable; consider using: <suggestion>much <match no="4"></match></suggestion>, <suggestion>a good deal of <match no="4"></match></suggestion>.</message>
+                <short>Grammatical problem</short>
+                <example correction="much wine|a good deal of wine" type="incorrect">I have <marker>a number of wine</marker>.</example>
+                <example type="correct">I have <marker>much wine</marker>.</example>
+                <example type="correct">How many wine bars are there in Cheshire?</example>
+            </rule>            
+            <rule>
+                <pattern>
+                    <marker>
                         <token>few</token>
                         <token postag="NN:U"><exception postag="NN:UN|NN|NNP|NNS|NNPS|JJ.*" postag_regexp="yes"></exception></token>
                     </marker>
@@ -9853,6 +9927,16 @@ USA
         </rulegroup>
     </category>
     <category name="Collocations" type="grammar">
+        <rule id="IN_NOWADAYS" name="Wrong phrase: 'in nowadays' (nowadays)">
+          <pattern>
+            <token>in</token>
+            <token>nowadays</token>
+          </pattern>
+          <message>\2 is used without 'in'. Use simply: <suggestion>\2</suggestion>.</message>
+          <short>Wrong phrase</short>
+          <example type="incorrect" correction="Nowadays"><marker>In nowadays</marker>, many organizations are jumping in the social websites bandwagon.</example>
+          <example type="correct">Nowadays, many organizations are jumping in the social websites bandwagon</example>
+        </rule>
         <rulegroup id="SUPERIOR_THAN" name="Wrong preposition: 'superior/inferior than' (superior/inferior to)">
             <rule>
                 <pattern>

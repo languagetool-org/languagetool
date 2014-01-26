@@ -248,6 +248,16 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
       <example type="ambiguous" inputform="ape[ape/NN,ape/VB,ape/VBP]" outputform="ape[ape/NN:UN]">He goes <marker>ape</marker>.</example>
     </rule>
     
+    <rule id="GO_TO_NN" name="go to + noun without determiner =>NN:UN">
+      <pattern>
+        <token inflected="yes">go</token>
+        <token>to</token>
+        <marker><token regexp="yes">bed|college|school|university|war</token></marker>
+      </pattern>
+      <disambig postag="NN:UN"/>
+      <example type="ambiguous" inputform="school[school/NN:UN,school/VB,school/VBP]" outputform="school[school/NN:UN]">Let's go to <marker>school</marker>.</example>
+    </rule>
+    
     <rule id="GIVE_EAR" name="give ear => NN:UN">
       <pattern>
         <token inflected="yes">give</token>
@@ -336,7 +346,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
       <rule>
         <pattern>
           <token>for</token>
-          <marker><token regexp="yes">fun|pleasure|instance|example|sale</token></marker>
+          <marker><token regexp="yes">breakfast|fun|pleasure|instance|example|sale</token></marker>
         </pattern>
         <disambig postag="NN:UN"/>
         <example type="ambiguous" inputform="example[example/NN:UN,example/VB,example/VBP]" outputform="example[example/NN:UN]">For <marker>example</marker>, he plays golf.</example>
@@ -418,13 +428,64 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     <rule>
       <pattern>
         <token>on</token>
-        <marker><token regexp="yes">account|pain</token></marker>
+        <marker><token regexp="yes">account|pain|use|part|top|condition</token></marker>
         <token>of</token>
       </pattern>
       <disambig postag="NN:UN"/>
+    </rule>    
+    </rulegroup>
+    
+    <rulegroup id="OUT_OF_NN" name="out of + nouns that require no determiner">
+      <rule>
+      <pattern>
+        <token>out</token>
+        <token>of</token>
+        <marker><token regexp="yes">bed|order|place|control|danger|envy|sympathy|greed|pocket|work|hand|reach|touch|time|fear|love|line|trouble|jail|shape</token></marker>
+       </pattern>
+       <disambig postag="NN:UN"/>
+       <example type="untouched">Control yourself!</example>
+       <example type="ambiguous" inputform="control[control/NN:UN,control/VB,control/VBP]" outputform="control[control/NN:UN]">Angela's life then spiraled out of <marker>control</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+        <marker>
+          <token>out</token>
+        </marker>
+        <token>of</token>
+        <token postag="NN.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig postag="IN"/>
+        <example type="ambiguous" inputform="out[out/IN,out/NN,out/RB,out/RP,out/UH,out/VB,out/VBP]" outputform="out[out/IN]">It's all <marker>out</marker> of kilter.</example>
+      </rule>
+    </rulegroup>
+    
+    <rule id="UNDER_NN" name="under + nouns that require no determiner">
+      <pattern>
+        <token>under</token>
+        <marker><token regexp="yes">control|discussion|oath|observation</token></marker>
+      </pattern>
+      <disambig postag="NN:UN"/>
+      <example type="ambiguous" inputform="control[control/NN:UN,control/VB,control/VBP]" outputform="control[control/NN:UN]">No worries, it's under <marker>control</marker>.</example>
     </rule>
     
-    </rulegroup>
+    <rule id="WITH_NN" name="with + nouns that require no determiner">
+      <pattern>
+        <token>with</token>
+        <marker><token regexp="yes">reference|regard|respect|intent|access</token></marker>
+        <token>to</token>
+      </pattern>
+      <disambig postag="NN:UN"/>
+      <example type="ambiguous" inputform="access[access/NN:UN,access/VB,access/VBP]" outputform="access[access/NN:UN]">This includes issues that block access or interfere with <marker>access</marker> to the Web.</example>
+    </rule>
+    
+    <rule id="WITHOUT_NN" name="without + nouns that require no determiner">
+      <pattern>
+        <token>without</token>
+        <marker><token regexp="yes">end|cause|doubt|fail|permission|notice|question|fear|power|delay|charge|pay|help</token></marker>
+      </pattern>
+      <disambig postag="NN:UN"/>
+      <example type="ambiguous" inputform="end[end/NN,end/VB,end/VBP]" outputform="end[end/NN:UN]">This is a war without <marker>end</marker>.</example>
+    </rule>
         
     <rule id='KIND_OF_JJRB' name="kind of + adj/adv => no determiner required">
       <pattern>
@@ -1151,11 +1212,11 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
           <pattern>
           <token inflected="yes" regexp="yes">be|go|get|come</token>
           <marker>
-            <token>out</token>
+            <token postag="RB">out</token>
           </marker>
           </pattern>
           <disambig postag="RB"/>
-          <example type="ambiguous" inputform="out[out/IN,out/NN,out/RB,out/RP,out/UH,out/VB,out/VBP]" outputform="out[out/RB]">That's <marker>out</marker> of play.</example>
+          <example type="ambiguous" inputform="out[out/IN,out/NN,out/RB,out/RP,out/UH]" outputform="out[out/RB]">The jury is <marker>out</marker>.</example>
           <example type="untouched">Out!</example>
     </rule>       
     
@@ -1369,8 +1430,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     </rule>
     
     <rule id="WORLD_WAR_12" name="The World War 1/2 =>NNP">
-      <pattern>
-        <token>the</token>
+      <pattern>        
         <token>world</token>
         <token>war</token>
         <marker>
@@ -1514,7 +1574,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     <rule name="Uppercase word/no tag + uppercase word -&gt; NNP" id="UPPER_UNKNOWN_NNP_UPPERCASE_SEQ">
         <pattern case_sensitive="yes">
             <marker>
-                <token regexp="yes" postag="UNKNOWN">\p{Lu}\p{Ll}+<exception scope="previous" postag="SENT_START"/></token>
+                <token regexp="yes" postag="UNKNOWN">\p{Lu}\p{Ll}+<exception scope="previous" postag="SENT_START" postag_regexp="yes"/></token>
             </marker>
             <token regexp="yes" postag_regexp="yes" postag="NNP?|NN:.*|JJ.*">\p{Lu}\p{Ll}+</token>            
         </pattern>
@@ -1522,7 +1582,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <example type="ambiguous" inputform="Wilshire[Wilshire]" outputform="Wilshire[Wilshire/NNP]">the <marker>Wilshire</marker> Country Club</example>
         <example type="untouched">Bill's example is very good.</example>
     </rule>
-    
+        
     <rulegroup name="initial -&gt; NNP" id="initial_NNP">
         <rule>
             <pattern case_sensitive="yes">
@@ -2230,10 +2290,10 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     <rulegroup name="Add possessive ending" id="POS_ADD">
         <rule>  <!--	probably verb "is": now add to some -->
             <pattern>
-                <token><exception postag_regexp="yes" postag="NN.*|VBP|CD|UNKNOWN"></exception></token>
+                <token><exception postag_regexp="yes" postag="NN.*|VBP|CD|UNKNOWN|\."></exception></token>
                 <token spacebefore="no" regexp="yes">['’]</token>
                 <marker>
-                    <token spacebefore="no">s</token>
+                    <token spacebefore="no">s<exception postag="VBZ"></exception></token>
                 </marker>
                 <token><exception postag="SENT_END"/><exception regexp="yes">[,:;]</exception></token>
             </pattern>
@@ -3169,6 +3229,61 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
           <example type="ambiguous" inputform="training[train/VBG,training/NN:U]" outputform="training[training/NN:U]">We need to to pay for <marker>training</marker> to meet national skilled manpower needs.</example>
         </rule>                 
                        
+        <rule id="NNJJ_NN_JJ" name="noun/adj + noun => adj + noun">
+          <pattern>
+            <marker>
+            <and>
+              <token postag="JJ"><exception postag="JJ|NN.*" negate_pos="yes" postag_regexp="yes"/></token>
+              <token postag="NN.*" postag_regexp="yes"><exception regexp="yes">(?iu)\p{Lu}\p{Ll}+</exception></token>
+            </and>
+            </marker>
+            <token postag="NN.*" postag_regexp="yes"/>
+            <token><exception postag="NN.*" postag_regexp="yes"></exception></token>
+          </pattern>
+          <disambig postag="JJ"/>
+          <example type="ambiguous" inputform="red[red/JJ,red/NN:UN]" outputform="red[red/JJ]">I have a lot of <marker>red</marker> wine.</example>
+          <example type="untouched">This is a nice machine.</example>
+        </rule>
+        
+   <!--  the chunker fails for addresses, we need this for CD_NN -->
+    <rule name="Number + Uppercase word/no tag + uppercase word -&gt; immunize" id="CD_UPPER_UNKNOWN_NNP_UPPERCASE_SEQ">
+        <pattern case_sensitive="yes">
+        <marker>
+            <token regexp="yes">\d+<exception regexp="yes">[01]</exception></token>
+            <token postag="NNP"/>            
+            <token regexp="yes">Ave|Avenue|Street|Terrace|Square|St|Circle|Drive</token>
+         </marker>            
+        </pattern>
+        <disambig action="immunize"></disambig>
+    </rule>        
+        
+    <rule name="Immunize votes" id="X_TO_X_VOTE">
+      <pattern>
+        <token regexp="yes">\d+</token>
+        <token>to</token>
+        <token regexp="yes">\d+</token>
+        <token>vote</token>
+      </pattern>
+      <disambig action="immunize"/>
+    </rule>
+    
+    <rule name="Immunize age" id="X_WAS_CD">
+      <pattern>
+        <token regexp="yes">s?he|you|I|we|they|it</token>
+        <token inflected="yes">be</token>
+        <token postag="CD"/>
+      </pattern>
+      <disambig action="immunize"/>
+    </rule>
+    
+    <rule name="Immunize decade" id="X0decade">
+      <pattern>
+        <token regexp="yes">\d+0</token>
+        <token>decade</token>
+      </pattern>
+      <disambig action="immunize"/>
+    </rule>
+                               
 </rules>
  
  
