@@ -9735,12 +9735,14 @@ USA
         </rule>
         <rule id="NODT_DOZEN" name="Numeral (dozen, hundred, thousand, million) without a determiner or a number">
           <pattern>
-            <token regexp="yes">dozen|hundred|thousand|[bm]illion<exception scope="previous" postag_regexp="yes" postag="CD|W?DT|PRP\$|JJ"/><exception scope="previous" regexp="yes">\$\d+|US\$.*|per|s|of|few|several</exception></token>
+            <token regexp="yes">dozen|hundred|thousand|[bm]illion<exception scope="previous" postag_regexp="yes" postag="CD|W?DT|PRP\$|JJ"/><exception scope="previous" regexp="yes">[\$€£\p{Lu}]+\d+|per|s|of|few|several|'</exception></token>
           </pattern>
           <message>Use simply: <suggestion>a <match no="1"/></suggestion>.</message>
           <short>Grammatical problem</short>
           <example type="incorrect" correction="a hundred">You need almost <marker>hundred</marker> eggs.</example>
           <example type="correct">You need almost a hundred eggs.</example>
+          <example type="correct">The U.S. government gave USD250 million to UNITA between 1986 to 1991.</example>
+          <example type="correct">It was selected as the first of Life magazine's 'hundred photos that changed the world'.</example>
         </rule>
         <rule id="MUCH_COUNTABLE" name="'much' + countable noun, e.g. 'much (many) children'">
             <pattern>
@@ -9760,14 +9762,15 @@ USA
                     <token regexp="yes">many|several|few</token>
                     <token postag="NN:UN|NN|NNP" postag_regexp="yes"><exception postag="NN:U|NNS|NNPS|JJ.*|MD|CC|VBG" postag_regexp="yes"></exception><exception inflected="yes">be</exception></token>
                 </marker>
-                <token><exception postag="NN.*" postag_regexp="yes"></exception><exception>'</exception></token>
+                <token><exception postag="NN.*|JJ.*" postag_regexp="yes"></exception><exception>'</exception></token>
             </pattern>
-            <message>Possible agreement error. The noun <match no="2"></match> seems to be countable; consider using: <suggestion><match no="1"></match> <match no="2" postag="NNS|NNPS" postag_regexp="yes"></match></suggestion>.</message>
+            <message>Possible agreement error. The noun <match no="2"></match> seems to be countable; consider using: <suggestion><match no="1"/> <match suppress_misspelled="yes" no="2" postag="NNS|NNPS" postag_regexp="yes"></match></suggestion>.</message>
             <short>Grammatical problem</short>
             <example correction="several books" type="incorrect">I have <marker>several book</marker>.</example>
             <example type="correct">I have <marker>many books</marker>.</example>
             <example type="correct">I have <marker>much wine</marker>.</example>
             <example correction="many ways" type="incorrect">... which is right in <marker>many way</marker>.</example>
+            <example type="correct">The state legislature gerrymandered the few Birmingham legislative seats.</example>
         </rule>
         <rulegroup id="DT_JJ_NO_NOUN" name="Missing noun after an adjective">
             <rule>
