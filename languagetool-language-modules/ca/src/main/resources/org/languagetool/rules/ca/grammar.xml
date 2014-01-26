@@ -4776,7 +4776,7 @@ $Id$
         <rulegroup id="CANVI_PREPOSICIONS" name="canvi de preposicions davant d'infinitiu">
             <rule>
                 <pattern>
-                    <token inflected="yes" regexp="yes" skip="1">amenaçar|conformar|somn?iar|comptar|acontentar</token>
+                    <token inflected="yes" regexp="yes" skip="1">conformar|somn?iar|comptar|acontentar</token>
                     <marker>
                         <token>amb</token>
                     </marker>
@@ -4788,7 +4788,6 @@ $Id$
                 <url>http://esadir.cat/entrades/fitxa/node/prepcancaig</url>
                 <short>Canvi de preposició</short>
                 <example type="incorrect">Es conforma <marker>amb</marker> gestionar la botiga.</example>
-                <example type="incorrect">Josephine va amenaçar <marker>amb</marker> suïcidar-se</example>
                 <example type="correct">Es conforma a gestionar.</example>
                 <example type="correct">primer mitjançant la fusta i després perfeccionats amb coure.</example>
                 <example type="correct">té més a veure amb emfasitzar gestos</example>
@@ -4796,11 +4795,27 @@ $Id$
                 <example type="correct">l'ha farcit amb menjar blanc.</example>
                 <example type="correct">L'execució d'un programa es pot comparar amb llegir un llibre.</example>
             </rule>
-            <rule> <!--  caldria posar-hi ordinals en general: primer, segon, últim en/a fer 
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="1">amenaçar</token>
+                    <marker>
+                        <token>amb</token>
+                    </marker>
+                    <token postag="V.N.*" postag_regexp="yes"><exception postag="_GN_MS"/></token>
+                </pattern>
+                <message>Cal canviar la preposició o bé canviar l’infinitiu per un gerundi.</message>
+                <suggestion>de</suggestion>
+                <url>http://esadir.cat/entrades/fitxa/node/prepcancaig</url>
+                <short>Canvi de preposició</short>
+                <example type="incorrect">Josephine va amenaçar <marker>amb</marker> suïcidar-se</example>
+                <example type="correct">Es conforma a gestionar.</example>
+            </rule>
+            <!--  caldria posar-hi ordinals en general: primer, segon, últim en/a fer 
             Caldria separar verbs i noms per a tractar-los de manera lleugerament diferent:
             una tarda, en sortir de classe-->
+            <rule> 
                 <pattern>
-                    <token inflected="yes" regexp="yes" skip="3">primer|encaparrar|obcec.+|estar|raure|afany|afanyar|basar|centrar|complaença|complaure|confiar|consisitir|consistir|convertir|creença|creure|delit|delitar|entestar|entossudir|entretenir|equivocar|esforçar|especialitzar|especialista|excel·lir|exercitar|incórrer|influir|influència|insistir|insistència|interessar|interès|invertir|obsessi.+|obstinar|part|participació|participant|participar|pensar|tardança|tardar|tossud.*|treballar|trigança|trigar|vacil·lació|vacil·lar<exception scope="next" postag="V.P.*|C.*|AQ.*" postag_regexp="yes"/><exception postag="V.G.*" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">lloc|cop|volta|vegada|de|d'|per|pe|a</exception><exception regexp="yes">\d.*</exception><exception postag="_possible_nompropi"/><exception scope="next" postag="_PUNCT.*|_C_TEMPS" postag_regexp="yes"/></token>
+                    <token inflected="yes" regexp="yes" skip="3">primer|encaparrar|obcec.+|estar|raure|afany|afanyar|basar|centrar|complaença|complaure|confiar|consisitir|consistir|convertir|creença|creure|delit|delitar|entestar|entossudir|entretenir|equivocar|esforçar|especialitzar|especialista|excel·lir|exercitar|incórrer|influir|influència|insistir|insistència|interessar|interès|invertir|obsessi.+|obstinar|part|participació|participant|participar|pensar|tardança|tardar|tossud.*|treballar|trigança|trigar|vacil·lació|vacil·lar<exception scope="next" postag="V.P.*|C.*|AQ.*|V.G.*" postag_regexp="yes"/><exception scope="next" regexp="yes">lloc|podi|victòria|premi|títol|cop|volta|vegada|de|d'|per|pe|a|-hi|[:;(,]</exception><exception regexp="yes">\d.*</exception><exception postag="_possible_nompropi"/><exception scope="next" postag="_C_TEMPS"/></token>
                     <marker>
                         <token>en</token>
                     </marker>
@@ -4822,10 +4837,26 @@ $Id$
                 <example type="correct">es va equivocar de 4 anys en oblidar-se de comptar</example>
                 <example type="correct">que estan en poder seu</example>
                 <example type="correct">va estar en poder de l'enemic</example>
+                <example type="correct">convertir-se en ésser humà</example>
                 <!-- ¿quin tipus de menú ens pot interessar en dissenyar un sistema automàtic? 
                 va cometre una greu equivocació en voler alterar les pràctiques
                 convertir-se en militar/titular
                 -->
+            </rule>
+            <rule>  <!--  menys rigorós, sense excepions --> 
+                <pattern>
+                    <token inflected="yes" regexp="yes" skip="4">consistir|insistir</token>
+                    <marker>
+                        <token>en</token>
+                    </marker>
+                    <token postag="V.N.*" postag_regexp="yes"><exception postag="_GN_MS"/></token>
+                </pattern>
+                <message>Probablement cal canviar la preposició.</message>
+                <suggestion>a</suggestion>
+                <url>http://esadir.cat/entrades/fitxa/node/prepcancaig</url>
+                <short>Canvi de preposició</short>
+                <example type="incorrect" correction="a">Consisteix, precisament, <marker>en</marker> demostrar-ho.</example>
+                <example type="correct">el corrent no augmentarà en augmentar la tensió</example>
             </rule>
         </rulegroup>
         <rulegroup id="QUAN_PREPOSICIO" name="quan (com a preposició): *quan la guerra">
