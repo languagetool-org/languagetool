@@ -9722,6 +9722,26 @@ USA
             <example type="correct">In the 1860 - 70 decade there are many poems like Revulsion.</example>
             <!-- TODO: while the right half is split into two sliver and black triangles -->
         </rule>
+        <rule id="CD_DOZENS_OF" name="Plural form of numbers in 'two dozens of' (two dozen)">
+        <pattern>
+            <token postag="CD"/>
+            <token regexp="yes">dozens|hundreds|thousands|[bm]illions</token>
+            <token>of</token>
+          </pattern>
+          <message>Use a singular form of the numeral here: <suggestion><match no="1"/> <match no="2" postag="NN"/></suggestion>.</message>
+          <short>Grammatical problem</short>
+          <example type="incorrect" correction="two dozen">You need <marker>two dozens of</marker> eggs.</example>
+          <example type="correct">You need two dozen eggs.</example>        
+        </rule>
+        <rule id="NODT_DOZEN" name="Numeral (dozen, hundred, thousand, million) without a determiner or a number">
+          <pattern>
+            <token regexp="yes">dozen|hundred|thousand|[bm]illion<exception scope="previous" postag_regexp="yes" postag="CD|DT|PRP\$"/><exception scope="previous" regexp="yes">\$\d+|US\$.*|few|several</exception></token>
+          </pattern>
+          <message>Use simply: <suggestion>a <match no="1"/></suggestion>.</message>
+          <short>Grammatical problem</short>
+          <example type="incorrect" correction="a hundred">You need almost <marker>hundred</marker> eggs.</example>
+          <example type="correct">You need almost a hundred eggs.</example>
+        </rule>
         <rule id="MUCH_COUNTABLE" name="'much' + countable noun, e.g. 'much (many) children'">
             <pattern>
                 <marker>
