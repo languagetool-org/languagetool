@@ -9982,6 +9982,16 @@ USA
                 <example type="correct">He feels inferior to them.</example>
             </rule>
         </rulegroup>
+        <rule id="OBVIOUS_FOR" name="Wrong preposition: 'obvious for' (obvious to)">
+          <pattern>
+            <token>obvious</token>
+            <token>for</token>
+            <token postag="PRP|NN.*" postag_regexp="yes"><exception regexp="yes">he|years|decades|months</exception></token>
+          </pattern>
+          <message>The adjective \1 is normally used with 'to': <suggestion>\1 to \3</suggestion>.</message>
+          <example type="correct">It's obvious to me.</example>
+          <example type="incorrect" correction="obvious to me">It's <marker>obvious for me</marker>.</example>
+        </rule>
         <rule id="TODAY_MORNING" name="Wrong phrase: 'today morning' (this morning)">
             <pattern>
                 <token>today</token>
@@ -11741,6 +11751,34 @@ USA
             <example correction="Add a Page" type="incorrect">How to <marker>Add an Additional Page</marker> to a Full Flash Site</example>
             <example type="correct">How to Add a Page to a Full Flash Site</example>
         </rule>
+        <rulegroup id="AM_PM_OCLOCK" name="7 o'clock AM (7 o'clock)">
+          <rule>
+            <pattern>
+              <token postag="CD"/>
+              <token>o</token>
+              <token>'</token>
+              <token>clock</token>
+              <token regexp="yes">[ap]</token>
+              <token>.</token>
+              <token>m</token>
+            </pattern>
+            <message>Redundant phrase. Use <suggestion>\1 \2\3\4</suggestion> or <suggestion>\1 \5\6\7</suggestion>.</message>
+            <example type="correct">It's 7 o'clock.</example>
+            <example type="incorrect" correction="7 o'clock|7 a.m">It's <marker>7 o'clock a.m</marker>.</example>
+          </rule>
+          <rule>
+          <pattern>
+              <token postag="CD"/>
+              <token>o</token>
+              <token>'</token>
+              <token>clock</token>
+              <token regexp="yes">[ap]m</token>
+            </pattern>
+            <message>Redundant phrase. Use <suggestion>\1 \2\3\4</suggestion> or <suggestion>\1 \5</suggestion>.</message>
+            <example type="correct">It's 7 o'clock.</example>
+            <example type="incorrect" correction="7 o'clock|7 AM">It's <marker>7 o'clock AM</marker>.</example>
+          </rule>
+        </rulegroup>
         <rulegroup id="AM_IN_THE_MORNING" name="AM in the morning (AM)">
             <rule>
                 <pattern case_sensitive="no">
