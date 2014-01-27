@@ -179,6 +179,66 @@ USA
             <example type="incorrect" correction="one">It's <marker>on of the most</marker> popular songs.</example>
             <example type="correct">It's <marker>one</marker> of the most popular songs.</example>
         </rule>
+        <rule id="BE_ALOUD_TO" name="aloud to (allowed to)">
+          <pattern>
+            <token inflected="yes">be</token>
+            <marker>
+            <token>aloud</token>
+            <token>to</token>
+            </marker>
+          </pattern>
+          <message>Possible typo. Did you mean <suggestion>allowed to</suggestion>?</message>
+          <url>http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
+          <short>Possible typo</short>
+          <example type="correct">We are allowed to talk.</example>
+          <example type="incorrect" correction="allowed to">Who is <marker>aloud to</marker> get information from your mail?</example>
+        </rule>
+        <rulegroup id="APART_A_PART" name="apart of (a part of, apart from)">
+        <rule>
+            <pattern>
+              <token skip="1" inflected="yes">be<exception scope="next" postag="IN"></exception></token>
+              <marker>
+              <token>apart</token>
+              <token>of</token>
+              </marker>
+              <token><exception>course</exception></token>
+            </pattern>
+            <message>Possible typo. Did you mean <suggestion>a part \3</suggestion> or <suggestion>apart from</suggestion>?</message>
+            <url>http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
+            <short>Possible typo</short>
+            <example type="correct">I'd like to be a part of your team.</example>
+            <example type="incorrect" correction="a part of|apart from">I'd like to be <marker>apart of</marker> your team.</example>
+            <example type="incorrect">Nannes is now <marker>apart of</marker> the 89.1FM ABC Grandstand Cricket commentary team.</example>
+        </rule>
+        <rule>
+            <pattern>              
+              <token><exception inflected="yes">be</exception><exception scope="previous" inflected="yes">be</exception></token>
+              <marker>
+              <token>apart</token>
+              <token>of</token>
+              </marker>
+              <token><exception>course</exception></token>
+            </pattern>
+            <message>Wrong collocation. Did you mean <suggestion>apart from</suggestion>?</message>
+            <url>http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
+            <short>Non-standard phrase</short>
+            <example type="correct">Lebanon's freedoms set it apart from other Arab states.</example>
+            <example type="incorrect" correction="apart from">We set it <marker>apart of</marker> other religions.</example>
+        </rule>
+        </rulegroup>
+        <rule id="APART_FORM" name="apart form (apart from)">
+            <pattern>              
+              <marker>
+              <token>apart</token>
+              <token>form</token>
+              </marker>
+            </pattern>
+            <message>Possible typo. Did you mean <suggestion>apart from</suggestion>?</message>
+            <url>http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
+            <short>Possible typo</short>
+            <example type="correct">Lebanon's freedoms set it apart from other Arab states.</example>
+            <example type="incorrect" correction="apart from">Christianity was set <marker>apart form</marker> other religions.</example>
+        </rule>        
         <rule id="ASK_WETHER" name="ask wether/weather (whether)">
             <pattern>
             <token inflected="yes" skip="1" regexp="yes">ask|question</token>
@@ -10423,8 +10483,9 @@ USA
                 <example correction="have three|'ve got" type="incorrect">I<marker>'ve three</marker> new cars.</example>
             </rule>
         </rulegroup>
-        <rule id="CD_00oclock" name="7:00 o'clock (7:00 or 7 o'clock)">
-        <pattern>
+        <rulegroup type="locale-violation" id="CD_00oclock" name="7:00 o'clock (7:00 or 7 o'clock)">
+           <rule>
+            <pattern>
               <token regexp="yes">\d</token>
               <token>:</token>
               <token>00</token>
@@ -10433,10 +10494,27 @@ USA
               <token>clock</token>
             </pattern>
             <message>Wrong phrase. Use <suggestion>\1\2\3</suggestion> or <suggestion>\1 \4\5\6</suggestion>.</message>
+            <url>http://esl.about.com/library/beginner/bltime.htm</url>
             <short>Non-standard phrase</short>
             <example type="correct">It's 7 o'clock.</example>
             <example type="incorrect" correction="7:00|7 o'clock">It's <marker>7:00 o'clock</marker>.</example>
           </rule>
+           <rule>
+            <pattern>
+              <token regexp="yes">\d</token>
+              <token>:</token>
+              <token regexp="yes">\d\d<exception>00</exception></token>
+              <token>o</token>
+              <token>'</token>
+              <token>clock</token>
+            </pattern>
+            <message>Wrong phrase; 'o'clock is used only at the full hour. Use simply <suggestion>\1\2\3</suggestion> instead.</message>
+            <url>http://esl.about.com/library/beginner/bltime.htm</url>
+            <short>Non-standard phrase</short>
+            <example type="correct">It's 7 o'clock.</example>
+            <example type="incorrect" correction="7:45">It's <marker>7:45 o'clock</marker>.</example>
+          </rule>          
+        </rulegroup>
     </category>
     <category name="Punctuation Errors" type="typographical">
         <rulegroup default="off" id="EG_NO_COMMA" name="'e.g.' without a comma">
