@@ -11429,21 +11429,34 @@ USA
                 <pattern>
                     <marker>
                         <token>in</token>
-                        <token>principal</token>
+                        <token inflected="yes">principal</token>
                     </marker>
                     <token negate_pos="yes" postag="NN.*" postag_regexp="yes"></token>
                 </pattern>
-                <message>Did you mean <suggestion>in principle</suggestion> (=as a rule)?</message>
+                <message>Did you mean <suggestion>\1 <match no="2" postag="NN.*" postag_regexp="yes">principle</match></suggestion> (=as a rule)?</message>
                 <short>Commonly confused word</short>
-                <example type="incorrect"><marker>In principal</marker> I don't think it will be too difficult.</example>
+                <example type="incorrect" correction="In principle"><marker>In principal</marker> I don't think it will be too difficult.</example>
                 <example type="correct">In principle, I don't think it will be too difficult.</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
+                        <token>basic</token>
+                        <token inflected="yes">principal</token>
+                    </marker>                    
+                </pattern>
+                <message>Did you mean <suggestion>\1 <match no="2" postag="NN.*" postag_regexp="yes">principle</match></suggestion> (=rule)?</message>
+                <short>Commonly confused word</short>
+                <example type="correct">In principle, I don't think it will be too difficult.</example>
+                <example type="incorrect" correction="basic principles">In this discussion we have endeavored to do this: to point out <marker>basic principals</marker> of liberty in which all people can believe.</example>
+            </rule>
+            
+            <rule>            
+                <pattern>
+                    <marker>
                         <token>principle</token>
                     </marker>
-                    <token regexp="yes">activity|use|engineer|investigator|action|source|town|effect|actor|advantage|agent|aim|area|artist|assistant|attraction|author|branch|cast|caste|cause|character|church|city|component|composer|goal|group|method|office|officer|owner</token>
+                    <token regexp="yes">activity|use|engineer|investigator|action|source|town|effect|actor|advantage|agent|aim|area|artist|assistant|attraction|author|branch|caste?|cause|character|church|city|component|composer|goal|group|method|officer?|owner|advocate|photography|student</token>
                 </pattern>
                 <message>Did you mean <suggestion>principal</suggestion> (=main)?</message>
                 <short>Commonly confused word</short>
@@ -11453,8 +11466,6 @@ USA
                 <example type="correct">Dr. Baumrind was listed as the grant's principal investigator.</example>
                 <example type="incorrect">Laundering money was the mob's <marker>principle</marker> activity.</example>
                 <example type="correct">Laundering money was the mob's principal activity.</example>
-
-
             </rule>
             <rule>
                 <pattern>

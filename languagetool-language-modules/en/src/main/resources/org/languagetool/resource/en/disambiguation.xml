@@ -38,7 +38,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <pattern><token>mine<exception scope="previous" regexp="yes">a|the</exception></token></pattern>
         <disambig action="add"><wd lemma="I" pos="PRP"/></disambig>
       </rule>
-      </rulegroup>
+      </rulegroup>           
       
 <!-- end of temporary entries -->
 
@@ -1613,9 +1613,10 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <marker>
                 <token regexp="yes">(?iu)president|captain|sergeant|general|madame|engineer|minister|chair|deputy|representative|manager|secretary|professor|bishop|attorney|vicar|treasurer|commander|archbishop|editor|principal|dean|sheriff|lieutenant</token>
             </marker>
-            <token regexp="yes">\p{Lu}\p{Ll}+|\p{Lu}$</token>
+            <token regexp="yes">\p{Lu}\p{Ll}+|\p{Lu}$<exception>I</exception></token>
         </pattern>
         <disambig postag="NNP"></disambig>
+        <example type="untouched">In principal I don't agree.</example>
     </rule>
 
     <rule name="Abbrevs" id="SEN_GEN_NNP">
