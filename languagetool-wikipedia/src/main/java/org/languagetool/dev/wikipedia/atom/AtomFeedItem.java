@@ -82,7 +82,8 @@ class AtomFeedItem {
         if (matcher.find()) {
           String cleanContent = matcher.group(1)
                   .replaceAll("<span.*?>", "").replace("</span>", "")
-                  .replaceAll("<div.*?>", "").replace("</div>", "");
+                  .replaceAll("<div.*?>", "").replace("</div>", "")
+                  .replaceAll("<!--.*?-->", "");
           result.add(cleanContent);
         } else {
           throw new RuntimeException("Expected change ('" + plusMinusMarker + "') not found in line: " + line);
