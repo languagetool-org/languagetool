@@ -25200,7 +25200,10 @@ $Id$
             <!-- Zwischen Zahlen werden Rechenzeichen durch kleine, feste Zwischenräume (Duden) oder ganze Leerschritte (DIN 5008) von den Zahlen abgetrennt -->
             <pattern>
                 <marker>
-                    <token regexp="yes">([0-9]+[a-z]*)<exception scope="previous" regexp="yes">Maßstab(e?s)?</exception></token>
+                    <token regexp="yes">([0-9]+[a-z]*)
+                        <exception scope="previous" regexp="yes">Maßstab(e?s)?</exception>
+                        <exception scope="previous" regexp="yes">\d\d\d\d-\d\d-\d\d</exception>
+                    </token>
                     <token spacebefore="no" regexp="yes">[\*×∗·\+÷:=]</token>
                     <token spacebefore="no" regexp="yes">(([0-9]+[a-z]*))+</token>
                 </marker>
@@ -25209,6 +25212,7 @@ $Id$
             <message>Rechenzeichen sollten durch (schmale, geschützte) Leerzeichen abgetrennt werden. Vorschlag: <suggestion>\1 \2 \3</suggestion> (&tippformel;)</message>
             <example type="correct">Eine Karte im Maßstab 1:80000.</example>
             <example type="correct">Ich muss um 7:00 Uhr aufstehen.</example>
+            <example type="correct">Am 2014-01-23 10:32 schrieb ich:</example>
             <example type="correct">a = 2 · x² + 5</example>
             <example type="correct">4,5 × 2,5</example>
             <example type="incorrect" correction="3a = 2"><marker>3a=2</marker>.</example>
