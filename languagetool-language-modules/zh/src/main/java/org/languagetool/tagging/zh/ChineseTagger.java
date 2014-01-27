@@ -57,13 +57,17 @@ public class ChineseTagger implements Tagger {
   }
 
   private AnalyzedToken asAnalyzedToken(final String word) {
-    if (word.indexOf("/") < 0) {
+    if (!word.contains("/")) {
       return new AnalyzedToken(" ", null, null);
     }
     String[] parts = word.split("/");
     return new AnalyzedToken(parts[0], parts[1], null);
   }
 
+  /**
+   * @deprecated deprecated since 2.5
+   */
+  @Deprecated
   public static final String arrayToString(byte[] bytes) {
     StringBuffer buff = new StringBuffer();
 
