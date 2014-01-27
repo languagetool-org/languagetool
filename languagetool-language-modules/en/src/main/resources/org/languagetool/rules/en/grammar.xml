@@ -10414,6 +10414,20 @@ USA
                 <example correction="have three|'ve got" type="incorrect">I<marker>'ve three</marker> new cars.</example>
             </rule>
         </rulegroup>
+        <rule id="CD_00oclock" name="7:00 o'clock (7:00 or 7 o'clock)">
+        <pattern>
+              <token regexp="yes">\d</token>
+              <token>:</token>
+              <token>00</token>
+              <token>o</token>
+              <token>'</token>
+              <token>clock</token>
+            </pattern>
+            <message>Wrong phrase. Use <suggestion>\1\2\3</suggestion> or <suggestion>\1 \4\5\6</suggestion>.</message>
+            <short>Non-standard phrase</short>
+            <example type="correct">It's 7 o'clock.</example>
+            <example type="incorrect" correction="7:00|7 o'clock">It's <marker>7:00 o'clock</marker>.</example>
+          </rule>
     </category>
     <category name="Punctuation Errors" type="typographical">
         <rulegroup default="off" id="EG_NO_COMMA" name="'e.g.' without a comma">
