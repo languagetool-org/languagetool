@@ -6281,6 +6281,60 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category name="Grammar" type="grammar">
+    <rulegroup id="BETWEEN_PRP" name="between he and… (between him and…)">
+      <rule>
+        <pattern>
+          <marker>
+            <token>between</token>
+            <token>he</token>
+          </marker>
+          <token>and</token>
+        </pattern>
+        <message>Incorrect form of the pronoun 'he'. Use: <suggestion>\1 him</suggestion>.</message>
+        <short>Grammatical problem</short>
+        <example type="correct">His opposition against homosexuality causes tension between him and his gay roommate, Davis.</example>
+        <example type="incorrect" correction="between him">His opposition against homosexuality causes tension <marker>between he</marker> and his gay roommate, Davis.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token>between</token>
+            <token>I</token>
+          </marker>
+          <token>and</token>
+        </pattern>
+        <message>Incorrect form of the pronoun 'I'. Use: <suggestion>\1 me</suggestion>.</message>
+        <short>Grammatical problem</short>
+        <example type="correct">His opposition against homosexuality causes tension between him and his gay roommate, Davis.</example>
+        <example type="incorrect" correction="between me">His opposition against homosexuality causes tension <marker>between I</marker> and Davis.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token>between</token>
+            <token>they</token>
+          </marker>
+          <token>and</token>
+        </pattern>
+        <message>Incorrect form of the pronoun '\2'. Use: <suggestion>\1 them</suggestion>.</message>
+        <short>Grammatical problem</short>
+        <example type="correct">His opposition against homosexuality causes tension between him and his gay roommate, Davis.</example>
+        <example type="incorrect" correction="between them">His opposition against homosexuality causes tension <marker>between they</marker> and Davis.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token>between</token>
+            <token>she</token>
+          </marker>
+          <token>and</token>
+        </pattern>
+        <message>Incorrect form of the pronoun '\2'. Use: <suggestion>\1 her</suggestion>.</message>
+        <short>Grammatical problem</short>
+        <example type="correct">His opposition against homosexuality causes tension between him and his gay roommate, Davis.</example>
+        <example type="incorrect" correction="between her">His opposition against homosexuality causes tension <marker>between she</marker> and Davis.</example>
+      </rule>      
+    </rulegroup>
     <rule id="IF_WOULD_HAVE_VBN" name="if I would have (if I had)">
     <pattern>
         <token skip="5">if<exception scope="next" regexp="yes">had|could</exception><exception scope="next" postag="VBD"/></token>
