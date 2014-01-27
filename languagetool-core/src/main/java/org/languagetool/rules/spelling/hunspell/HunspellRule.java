@@ -103,7 +103,8 @@ public class HunspellRule extends SpellingCheckRule {
                 messages.getString("spelling"),
                 messages.getString("desc_spelling_short"));
         final List<String> suggestions = getSuggestions(word);
-        if (suggestions != null) {
+        suggestions.addAll(getAdditionalSuggestions(suggestions, word));
+        if (!suggestions.isEmpty()) {
           ruleMatch.setSuggestedReplacements(suggestions);
         }
         ruleMatches.add(ruleMatch);

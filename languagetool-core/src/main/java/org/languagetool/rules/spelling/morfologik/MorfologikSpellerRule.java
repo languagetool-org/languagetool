@@ -167,7 +167,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
         return ruleMatches;
       }
       List<String> suggestions = speller.getSuggestions(word);
-      suggestions = getAdditionalSuggestions(suggestions, word);
+      suggestions.addAll(getAdditionalSuggestions(suggestions, word));
       if (!suggestions.isEmpty()) {
         ruleMatch.setSuggestedReplacements(orderSuggestions(suggestions,word));
       }
@@ -185,10 +185,6 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
    */
   public Pattern tokenizingPattern() {
     return null;
-  }
-
-  protected List<String> getAdditionalSuggestions(List<String> suggestions, String word) {
-    return suggestions;
   }
 
   protected List<String> orderSuggestions(List<String> suggestions, String word) {

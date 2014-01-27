@@ -116,6 +116,14 @@ public abstract class SpellingCheckRule extends Rule {
     return ignoreWord(tokens[idx].getToken());
   }
 
+  protected List<String> getAdditionalSuggestions(List<String> suggestions, String word) {
+    List<String> moreSuggestions = new ArrayList<>();
+    if ("Languagetool".equals(word) && !suggestions.contains(LANGUAGETOOL)) {
+      moreSuggestions.add(LANGUAGETOOL);
+    }
+    return moreSuggestions;
+  }
+
   /**
    * @throws IOException
    * @deprecated please use {@link #ignoreToken(AnalyzedTokenReadings[], int)} - deprecated since 2.2

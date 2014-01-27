@@ -19,6 +19,7 @@
 package org.languagetool.rules.spelling.hunspell;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -48,7 +49,7 @@ public class HunspellNoSuggestionRule extends HunspellRule {
 
   @Override
   public List<String> getSuggestions(String word) throws IOException {
-    return null;
+    return new ArrayList<>();
   }
   
 }
