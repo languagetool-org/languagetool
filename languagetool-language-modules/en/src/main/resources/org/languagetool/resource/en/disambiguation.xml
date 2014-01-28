@@ -84,6 +84,16 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
           <disambig action="remove"><wd pos="NN:U"/></disambig>
           <example type="ambiguous" inputform="or[or/CC,or/NN:U]" outputform="or[or/CC]">Let's choose A <marker>or</marker> B.</example>
         </rule>
+        
+        <rule id="SO_JJ" name="so + adj/rb => so/RB">
+          <pattern>
+            <marker><token>so</token></marker>
+            <token postag="JJ.?|RB.?" postag_regexp="yes"></token>
+          </pattern>
+          <disambig postag="RB"/>
+          <example type="untouched"> He checked carefully, so that the mistakes were caught.</example>
+          <example type="ambiguous" inputform="so[so/CC,so/JJ,so/NN:U]" outputform="so[so/RB]">He checked <marker>so</marker> carefully.</example>
+        </rule>
 
     <rule id="AULD_LANG_SYNE" name="Auld Lang Syne - title of a famous song">
         <pattern>
