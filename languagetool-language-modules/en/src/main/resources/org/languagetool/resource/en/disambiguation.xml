@@ -51,6 +51,20 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         </rule>
       </rulegroup>
       
+      <rule name="believes" id="BELIEVES_FIX">
+      <pattern>
+        <token>believes</token>
+      </pattern>
+      <disambig action="remove"><wd pos="NNS"/></disambig>
+      </rule>
+      
+      <rule name="gonna" id="GONNA">
+        <pattern>
+          <token>gonna</token>
+        </pattern>
+        <disambig action="add"><wd pos="VBG" lemma="go"/></disambig>
+      </rule>
+      
 <!-- end of temporary entries -->
 
        <rule name="or" id="REMOVE_JJ_FOR_OR">
@@ -1349,6 +1363,18 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     <example type="untouched">This is a well.</example>
     <example type="ambiguous" inputform="well[well/NN,well/RB,well/UH,well/VB,well/VBP]" outputform="well[well/RB]">It is <marker>well</marker> for us to remember.</example>
     </rule>
+    <rule name="be + better => .R" id='BE_BETTER'>
+      <pattern>
+        <token inflected="yes">be</token>
+        <marker>
+          <token>better</token>
+        </marker>
+    </pattern>
+    <disambig action="filter" postag="..R"/>
+    <example type="untouched">This is a well.</example>
+    <example type="ambiguous" inputform="better[better/NN,better/VB,better/VBP,good/JJR,well/RBR]" outputform="better[good/JJR,well/RBR]">It is <marker>better</marker> for us to remember.</example>
+    </rule>
+    
     <rule name="determiner + verb/NN -&gt; NN" id="DT_VB_NN">
         <pattern>
             <token postag="DT"><exception postag="PDT"/><exception regexp="yes">th[eo]se|each</exception></token>
@@ -2925,6 +2951,23 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
           <example type="ambiguous" inputform="loving[love/VBG,loving/JJ,loving/NN:UN]" outputform="loving[loving/JJ]">Your <marker>loving</marker> friend</example>
         </rule>        
         
+        <rule id="PRPPOSS_JJ_NN" name="Possesive pronoun + adj/noun =>noun">
+          <pattern>
+            <token postag="PRP$"/>
+            <marker>
+            <and>
+              <token postag="NN.*" postag_regexp="yes"/>
+              <token postag="JJ" postag_regexp="yes"/>
+            </and>
+            </marker>
+            <token postag="VB.*" postag_regexp="yes"></token>
+          </pattern>
+          <disambig action="filter" postag="NN.*"/>
+          <example type="untouched">I do what I want to.</example>
+          <example type="ambiguous" inputform="sister[sister/JJ,sister/NN]" outputform="sister[sister/NN]">My <marker>sister</marker> believes you!</example>
+        </rule>
+        
+        
         <rule id="VBZNNS_DT_NN" name="verb singular/noun + det + noun => verb">
           <pattern>
             <marker>
@@ -3378,6 +3421,15 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
       <pattern>
         <token regexp="yes">\d+0</token>
         <token>decade</token>
+      </pattern>
+      <disambig action="immunize"/>
+    </rule>
+    
+    <rule name="Immunize 'no big deal'" id="NO_BIG_DEAL">
+      <pattern>
+      <token>no</token>
+      <token>big</token>
+      <token>deal</token>
       </pattern>
       <disambig action="immunize"/>
     </rule>

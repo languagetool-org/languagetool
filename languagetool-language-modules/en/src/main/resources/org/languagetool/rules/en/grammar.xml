@@ -1342,7 +1342,7 @@ USA
                     <marker>
                         <token>no</token>
                     </marker>
-                    <token postag="JJ.*" postag_regexp="yes"><exception>longer</exception></token>
+                    <token postag="JJ.*" postag_regexp="yes"><exception regexp="yes">longer|different</exception></token>
                 </pattern>
                 <message>Did you mean <suggestion>not</suggestion> or <suggestion>now</suggestion>?</message>
                 <short>Possible typo</short>
@@ -1350,6 +1350,7 @@ USA
                 <example type="correct">It isn't possible.</example>
                 <example type="correct">It is no surprise.</example>
                 <example type="correct">It's no longer needed.</example>
+                <example type="correct">You say it's no BIG deal, but to me it is.</example>
             </rule>
         </rulegroup>
         <rule id="ALLOT_OF" name="allot of (a lot of)">
@@ -2640,6 +2641,32 @@ USA
                 <example reason="'every' is tagged as AT0" type="triggers_error">London is a necropolis, <marker>its</marker> every corner the site of a murder, its soil a pudding of blood and tears.</example>
             </rule>
             <rule>
+            <pattern>
+              <marker>
+                 <token>its</token>
+              </marker>                 
+             <token postag="VBG"><exception postag="NN.*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Did you mean <suggestion>it's</suggestion> (=<suggestion>it is</suggestion>) instead of 'its' (possessive pronoun)?</message>
+            <short>Possible typo</short>
+            <example type="incorrect" correction="It's|It is"><marker>Its</marker> frustrating.</example>
+            <example type="correct">It's frustrating.</example>
+            <example type="incorrect" correction="it's|it is">Well, <marker>its</marker> gonna take some time.</example>
+            </rule>
+            <rule>
+            <pattern>
+              <marker>
+                 <token>its</token>
+              </marker>                 
+             <token regexp="yes">ok(ay)?</token>
+            </pattern>
+            <message>Did you mean <suggestion>it's</suggestion> (=<suggestion>it is</suggestion>) instead of 'its' (possessive pronoun)?</message>
+            <short>Possible typo</short>
+            <example type="incorrect" correction="It's|It is"><marker>Its</marker> OK.</example>
+            <example type="correct">It's OK.</example>
+            <example type="incorrect" correction="it's|it is">Well, <marker>its</marker> okay.</example>
+            </rule>            
+            <rule>
                 <pattern>
                     <token regexp="yes">o[nf]</token>
                     <marker>
@@ -2825,20 +2852,23 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="VBG"/>
+                    <token postag="VBG"><exception regexp="yes">saying|hoping</exception></token>
                     <marker>
                         <token>it</token>
                         <token spacebefore="no" regexp="yes">['’]</token>
                         <token>s</token>
                     </marker>
+                    <token><exception postag="VBN"/><exception regexp="yes">not|gonna</exception></token>
                 </pattern>
                 <message>Did you mean <suggestion>its</suggestion> (possessive pronoun) instead of 'it's' (short form of 'it is')?</message>
                 <example type="incorrect" correction="its">It does this by providing <marker>it's</marker> own open source based products.</example>
                 <example type="correct">It does this by providing <marker>its</marker> own open source based products.</example>
+                <example type="correct">Well, you know, kinda strange though, considering it's not Christmas.</example>
+                <example type="correct">I've been hearing it's supposed to snow tonight.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token postag="VBZ"/>
+                    <token postag="VBZ"><exception regexp="yes">thinks|says|means|knows</exception></token>
                     <marker>
                         <token>it</token>
                         <token spacebefore="no" regexp="yes">['’]</token>
@@ -2851,6 +2881,7 @@ USA
                 <example type="correct">This is an opportunity to see how SAP addresses <marker>its</marker> internal developers.</example>
                 <example type="correct">For the first fifteen or twenty minutes it's possible to be more or less interested.</example>
                 <example type="correct">Who says it's going to be published?</example>
+                <example type="correct">He thinks it's funny too.</example>
             </rule>                        
             <!-- it's .*/JJS .*/NN::word=its \1 \2::pivots=it's,its::options=it's,its -->
             <rule id="ITS_JJS_NN" name="its (possessive) JJS NN">
@@ -10943,6 +10974,7 @@ USA
             <example type="incorrect" correction="beliefs">Are there different <marker>believes</marker>?</example>
             <example type="correct">Some <marker>believe</marker> the public should have the freedom.</example>
             <example type="correct">We all believe that it's true.</example>
+            <example type="correct">My sister believes that I'll end up with someone really generic.</example>
         </rule>
         <rule id="BELIEF_BELIEVE" name="belief (believe)">
             <pattern>
@@ -10955,7 +10987,7 @@ USA
             <message>Did you mean <suggestion><match no="2" regexp_match="ief" regexp_replace="ieve"/></suggestion> (verb) instead of <match no="2"/> (noun)?</message>
             <short>Possible typo</short>
             <example type="correct">We <marker>believe</marker> that this is wrong.</example>
-            <example type="correct">But Baptist beliefs can vary.</example>
+            <example type="correct">But Baptist beliefs can vary.</example>            
             <example type="incorrect" correction="believe">We <marker>belief</marker> that this is wrong.</example>
             <example type="incorrect" correction="believes">He <marker>beliefs</marker> that this is wrong.</example>
         </rule>
