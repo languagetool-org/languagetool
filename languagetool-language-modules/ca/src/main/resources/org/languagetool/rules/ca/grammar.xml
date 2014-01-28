@@ -930,6 +930,7 @@ $Id$
                 <example type="correct">que regnarien plegats Joana, Felip i Ferran,</example>
                 <example type="correct">pròxima a la badia i a la base aeronaval nord-americana homònimes</example>
                 <example type="correct">en una zona d'alt valor natural i paisatgístic</example>
+                <example type="correct">Primer orde reial prussià</example>
                 <!-- <example type="correct">i el Club Esportiu Lleida Basquetbol</example> 
                 a les actuals Cambodja i Cotxinxina-->
             </rule>
@@ -4815,7 +4816,7 @@ $Id$
             una tarda, en sortir de classe-->
             <rule> 
                 <pattern>
-                    <token inflected="yes" regexp="yes" skip="3">primer|encaparrar|obcec.+|estar|raure|afany|afanyar|basar|centrar|complaença|complaure|confiar|consisitir|consistir|convertir|creença|creure|delit|delitar|entestar|entossudir|entretenir|equivocar|esforçar|especialitzar|especialista|excel·lir|exercitar|incórrer|influir|influència|insistir|insistència|interessar|interès|invertir|obsessi.+|obstinar|part|participació|participant|participar|pensar|tardança|tardar|tossud.*|treballar|trigança|trigar|vacil·lació|vacil·lar<exception scope="next" postag="V.P.*|C.*|AQ.*|V.G.*" postag_regexp="yes"/><exception scope="next" regexp="yes">lloc|podi|victòria|premi|títol|cop|volta|vegada|de|d'|per|pe|a|-hi|[:;(,]</exception><exception regexp="yes">\d.*</exception><exception postag="_possible_nompropi"/><exception scope="next" postag="_C_TEMPS"/></token>
+                    <token inflected="yes" regexp="yes" skip="3">primer|insistir|encaparrar|obcec.+|estar|raure|afany|afanyar|basar|centrar|complaença|complaure|confiar|consisitir|consistir|convertir|creença|creure|delit|delitar|entestar|entossudir|entretenir|equivocar|esforçar|especialitzar|especialista|excel·lir|exercitar|incórrer|influir|influència|insistir|insistència|interessar|interès|invertir|obsessi.+|obstinar|part|participació|participant|participar|pensar|tardança|tardar|tossud.*|treballar|trigança|trigar|vacil·lació|vacil·lar<exception scope="next" postag="V.P.*|C.*|AQ.*|V.G.*" postag_regexp="yes"/><exception scope="next" regexp="yes">lloc|podi|victòria|premi|títol|cop|volta|vegada|de|d'|per|pe|a|-hi|[:;(,]</exception><exception regexp="yes">\d.*</exception><exception postag="_possible_nompropi"/><exception scope="next" postag="_C_TEMPS|V.[IS].*" postag_regexp="yes"/></token>
                     <marker>
                         <token>en</token>
                     </marker>
@@ -4838,14 +4839,16 @@ $Id$
                 <example type="correct">que estan en poder seu</example>
                 <example type="correct">va estar en poder de l'enemic</example>
                 <example type="correct">convertir-se en ésser humà</example>
+                <example type="correct">Les primeres presenten efervescència en tirar-hi un àcid.</example>
                 <!-- ¿quin tipus de menú ens pot interessar en dissenyar un sistema automàtic? 
                 va cometre una greu equivocació en voler alterar les pràctiques
                 convertir-se en militar/titular
+                 similar a la que ens interessa en abordar els fluxos 
                 -->
             </rule>
             <rule>  <!--  menys rigorós, sense excepions --> 
                 <pattern>
-                    <token inflected="yes" regexp="yes" skip="4">consistir|insistir</token>
+                    <token inflected="yes" skip="4">consistir</token>
                     <marker>
                         <token>en</token>
                     </marker>
@@ -16815,13 +16818,13 @@ $Id$
         <rulegroup id="DE_PEU" name="de peu">
             <rule>
                 <pattern>
-                    <token postag="VM.*" postag_regexp="yes" regexp="yes" inflected="yes" skip="4">posar|estar|romandre|mantenir|quedar|anar</token>
+                    <token postag="VM.*" postag_regexp="yes" regexp="yes" inflected="yes" skip="4">posar|estar|romandre|mantenir|quedar|anar|sostenir|aguantar</token>
                     <marker>
                         <token>de</token>
                         <token>peu</token>
                     </marker>
                 </pattern>
-                <message>Expressió inorrecta quan equival a <suggestion>dret</suggestion>.</message>
+                <message>Expressió incorrecta quan equival a <suggestion>dret</suggestion>.</message>
                 <suggestion>a peu dret</suggestion>
                 <short>Expressió incorrecta</short>
                 <example type="incorrect">cansa molt estar tant temps <marker>de peu</marker></example>
@@ -16831,18 +16834,19 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes" inflected="yes" skip="5">posar|estar|romandre|mantenir</token>
+                    <token postag="VM.*" postag_regexp="yes" regexp="yes" inflected="yes" skip="5">posar|estar|romandre|mantenir|quedar|anar|sostenir|aguantar</token>
                     <token skip="5">de</token>
                     <marker>
                         <token>de</token>
                         <token>peu</token>
                     </marker>
+                    <token><exception postag="AQ.[MC]S." postag_regexp="yes"/></token>
                 </pattern>
-                <message>Expressió inorrecta quan equival a <suggestion>dret</suggestion>.</message>
+                <message>Expressió incorrecta quan equival a <suggestion>dret</suggestion>.</message>
                 <suggestion>a peu dret</suggestion>
                 <short>Expressió incorrecta</short>
-                <example type="incorrect">cansa molt estar tant de temps <marker>de peu</marker></example>
-                <example type="correct">cansa molt estar tant de temps <marker>dret</marker></example>
+                <example type="incorrect">cansa molt estar tant de temps <marker>de peu</marker>.</example>
+                <example type="correct">cansa molt estar tant de temps dret.</example>
             </rule>
         </rulegroup>
         <rulegroup id="DIFERENT_A" name="diferent a">

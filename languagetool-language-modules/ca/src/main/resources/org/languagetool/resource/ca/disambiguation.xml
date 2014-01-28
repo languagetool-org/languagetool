@@ -2052,7 +2052,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <!-- cal revisar amb cura |UNKNOWN -->
-                <token postag="(DD|PD).*|V.*|P[P0].*|NP.*|NC.*" postag_regexp="yes"><exception postag="C.*|R.*|DA.*|V.N.*" postag_regexp="yes"/><exception regexp="yes">tu|e[mts]|[mts]e|ens|us|[mtsln]'|'[mtsln]|li|els?|la|les|en|hi|ho|any|dia</exception></token>
+                <token postag="(DD|PD).*|V.*|P[P0].*|NP.*|NC.*" postag_regexp="yes"><exception postag="C.*|R.*|DA.*|V.N.*" postag_regexp="yes"/><exception regexp="yes">tu|e[mts]|[mts]e|ens|us|[mtsln]'|'[mtsln]|'ls|'ns|li|els?|la|les|en|hi|ho|any|dia</exception></token>
                 <marker>
                     <and>
                         <token postag="V.[IS].2S0.?" postag_regexp="yes"><exception regexp="yes">esperes|deus|trobes|dius|vas|prens|pots|vols|sols|tens|confesses|veus</exception></token>
@@ -2061,6 +2061,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
             </pattern>
             <disambig action="filter" postag="N.*|A.*|V.P.*|PX.*" /> <!-- les ha vistes estenent la roba -->
+            <example type="untouched">Quan tingues gana te'ls menges.</example>
         </rule>
         <rule> <!-- ben paleses -->
             <pattern>
@@ -5614,6 +5615,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
+                <token><exception postag="D..F..|D...P." postag_regexp="yes"/></token>
                 <marker>
                     <token postag="N.[MC][SN0].*" postag_regexp="yes"><exception postag="DN.*" postag_regexp="yes" /></token>
                     <token postag="A..[MC][SN0].*|V.P..SM.?" postag_regexp="yes"></token>
@@ -5624,6 +5626,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
+                <token><exception postag="D..M..|D...P." postag_regexp="yes"/></token>
                 <marker>
                     <token postag="N.[FC][SN0].*" postag_regexp="yes"><exception postag="DN.*" postag_regexp="yes" /></token>
                     <token postag="A..[FC][SN0].*|V.P..SF.?" postag_regexp="yes"></token>
@@ -5732,6 +5735,30 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
             </pattern>
             <disambig action="remove"><wd pos="NCMP000"/></disambig>
+        </rule>
+        <rule> <!-- soprano -->
+            <pattern>
+                <marker>
+                    <and>
+                        <token postag="NCFS000"><exception postag="_GN_FS"/></token>
+                        <token postag="NC[MC]S000" postag_regexp="yes"/>
+                        <token postag="_GN_MS"/>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="remove"><wd pos="NCFS000"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <and>
+                        <token postag="NCMS000"><exception postag="_GN_MS"/></token>
+                        <token postag="NC[FC]S000" postag_regexp="yes"/>
+                        <token postag="_GN_FS"/>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="remove"><wd pos="NCMS000"/></disambig>
         </rule>
     </rulegroup>
     <rule id="article_adj_nom" name="article + adj neutre + nom/adj">
