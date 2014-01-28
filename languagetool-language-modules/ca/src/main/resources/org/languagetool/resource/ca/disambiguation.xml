@@ -3530,16 +3530,29 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="RG"></disambig>
     </rule>
-    <rule id="el_pais" name="el país, el domini, l'equilibri (nom)">
-        <pattern>
-            <token regexp="yes">el|l'</token>
-            <marker>
-                <token postag="NCMS000" regexp="yes">país|domini|equilibri|termini</token>
-            </marker>
-            <token postag="V.*|AQ0[MC][SN]0" postag_regexp="yes"/>
-        </pattern>
-        <disambig action="filter" postag="NCMS000"/>
-    </rule>
+    <rulegroup id="el_pais" name="el país, el domini, l'equilibri (nom)">
+        <rule>
+            <pattern>
+                <token regexp="yes">el|l'</token>
+                <marker>
+                    <token postag="NCMS000" regexp="yes">país|domini|equilibri|termini|cap</token>
+                </marker>
+                <token postag="V.*|AQ0[MC][SN]0" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="NCMS000"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">el|l'</token>
+                <marker>
+                    <token postag="NCMS000" regexp="yes">país|domini|equilibri|termini|cap</token>
+                </marker>
+                <token postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"/>
+                <token postag="V.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="NCMS000"/>
+        </rule>
+    </rulegroup>
     <rule id="SENS" name="sens + nom"> 
         <pattern>
                 <token>sens</token>

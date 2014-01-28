@@ -4726,11 +4726,11 @@ $Id$
         </rule>
         <rule id="CUINA_A_GAS" name="*cuina a gas/cuina de gas ">
             <pattern>
-                <token regexp="yes" inflected="yes">avió|barca|camisa|camiseta|samarreta|brusa|corbata|falda|pantaló|cotxe|cuina|embarcació|fogó|gust|màquina|olor|planxa|pudor|ràdio|vaixell|vehicle|olla|fragata</token>
+                <token regexp="yes" inflected="yes">avió|barca|camisa|camiseta|samarreta|brusa|corbata|falda|pantaló|cotxe|cuina|embarcació|fogó|gust|màquina|olor|planxa|pudor|ràdio|vaixell|vehicle|olla|fragata|impressora</token>
                 <marker>
                     <token>a</token>
                 </marker>
-                <token regexp="yes">pressió|butà|colònia|conyac|gas|motor|petroli|piles|quadres|ratlles|reacció|vapor|vela</token>
+                <token regexp="yes">pressió|butà|colònia|conyac|gas|motor|petroli|piles|quadres|ratlles|reacció|vapor|vela|color</token>
             </pattern>
             <message>Preposició inadequada.</message>
             <suggestion>de</suggestion>
@@ -4816,7 +4816,7 @@ $Id$
             una tarda, en sortir de classe-->
             <rule> 
                 <pattern>
-                    <token inflected="yes" regexp="yes" skip="3">primer|insistir|encaparrar|obcec.+|estar|raure|afany|afanyar|basar|centrar|complaença|complaure|confiar|consisitir|consistir|convertir|creença|creure|delit|delitar|entestar|entossudir|entretenir|equivocar|esforçar|especialitzar|especialista|excel·lir|exercitar|incórrer|influir|influència|insistir|insistència|interessar|interès|invertir|obsessi.+|obstinar|part|participació|participant|participar|pensar|tardança|tardar|tossud.*|treballar|trigança|trigar|vacil·lació|vacil·lar<exception scope="next" postag="V.P.*|C.*|AQ.*|V.G.*" postag_regexp="yes"/><exception scope="next" regexp="yes">lloc|podi|victòria|premi|títol|cop|volta|vegada|de|d'|per|pe|a|-hi|[:;(,]</exception><exception regexp="yes">\d.*</exception><exception postag="_possible_nompropi"/><exception scope="next" postag="_C_TEMPS|V.[IS].*" postag_regexp="yes"/></token>
+                    <token inflected="yes" regexp="yes" skip="3">primer|encaparrar|obcec.+|estar|raure|afany|afanyar|basar|centrar|complaença|complaure|confiar|convertir|creença|creure|delit|delitar|entestar|entossudir|entretenir|equivocar|esforçar|especialitzar|especialista|excel·lir|exercitar|incórrer|influir|influència|insistir|insistència|interessar|interès|invertir|obsessi.+|obstinar|part|participació|participant|participar|pensar|tardança|tardar|tossud.*|treballar|trigança|trigar|vacil·lació|vacil·lar<exception scope="next" postag="V.P.*|C.*|AQ.*|V.G.*" postag_regexp="yes"/><exception scope="next" regexp="yes">lloc|podi|victòria|premi|títol|cop|volta|vegada|de|d'|per|pe|a|-hi|[:;(,]</exception><exception regexp="yes">\d.*</exception><exception postag="_possible_nompropi"/><exception scope="next" postag="_C_TEMPS|V.[IS].*" postag_regexp="yes"/></token>
                     <marker>
                         <token>en</token>
                     </marker>
@@ -18222,6 +18222,23 @@ $Id$
                 <example type="correct">Ho va fer als tres anys d'edat.</example>
             </rule>
         </rulegroup>
+        <rule id="AL_POC_TEMPS" name="al poc temps">
+            <pattern>
+                <marker>
+                    <token>a</token>
+                    <token>l</token>
+                    <token>poc</token>
+                    <token>temps</token>
+                </marker>
+            </pattern>
+            <message>Expressió incorrecta</message>
+            <suggestion>al cap de poc</suggestion>
+            <suggestion>al cap de poc temps</suggestion>
+            <suggestion>poc temps després</suggestion>
+            <example type="incorrect"><marker>al poc temps</marker></example>
+            <example type="correct">al cap de poc</example>
+            <!-- <example type="correct">ho va atribuir al poc temps amb què ho prepararen</example> -->
+        </rule>
         <rule id="DONAR_LABAST" name="*donar a l'abast/donar l'abast">
             <pattern>
                 <token inflected="yes">donar</token>
@@ -22530,8 +22547,21 @@ $Id$
             </rule>
             <rule>
                 <pattern>
+                    <token postag="DD.*" postag_regexp="yes"/>
                     <token inflected="yes">proper</token>
-                    <token regexp="yes" inflected="yes">elecció|temporada|legislatura|curs|minut|hora|dia|setmana|mes|trimestre|quadrimestre|semestre|any|lustre|dècada|segel|mil·lenni|instant|moment|&dies_setmana;</token>
+                    <token regexp="yes" inflected="yes">primavera|estiu|tardor|hivern|Nadal|Pasqua|falla|&mesos_any;</token>
+                </pattern>
+                <message>En aquest cas val més evitar l'adjectiu "<match no="2"/>".</message> 
+                <suggestion><match no="3" postag="N.(..).*" postag_regexp="yes" postag_replace="DD0$10">aquest</match> <match no="3"/></suggestion>
+                <short>Expressió preferible</short>
+                <example type="incorrect" correction="Aquesta tardor"><marker>Aquesta propera tardor</marker></example>
+                <example type="incorrect" correction="Aquest estiu"><marker>Aquest proper estiu</marker></example>
+                <example type="correct">L'any que ve</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">proper</token>
+                    <token regexp="yes" inflected="yes">avaluació|elecció|temporada|legislatura|curs|minut|hora|dia|setmana|mes|trimestre|quadrimestre|semestre|any|lustre|dècada|segel|mil·lenni|instant|moment|&dies_setmana;</token>
                 </pattern>
                 <message>En aquest cas val més evitar l'adjectiu "<match no="1"/>".</message> 
                 <suggestion><match no="2"/> <match no="1" postag="AQ0.(.)." postag_regexp="yes" postag_replace="AQ0C$10">vinent</match></suggestion>
