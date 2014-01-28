@@ -2643,7 +2643,7 @@ USA
             <rule>
             <pattern>
               <marker>
-                 <token>its</token>
+                 <token>its<exception scope="previous" regexp="yes">of|all</exception><exception scope="previous" postag_regexp="yes" postag="VB.*"></exception></token>
               </marker>                 
              <token postag="VBG"><exception postag="NN.*" postag_regexp="yes"/></token>
             </pattern>
@@ -2652,6 +2652,7 @@ USA
             <example type="incorrect" correction="It's|It is"><marker>Its</marker> frustrating.</example>
             <example type="correct">It's frustrating.</example>
             <example type="incorrect" correction="it's|it is">Well, <marker>its</marker> gonna take some time.</example>
+            <example type="correct">It was mainly because of its burgeoning economy.</example>
             </rule>
             <rule>
             <pattern>
@@ -7222,7 +7223,7 @@ USA
         <rulegroup id="HAVE_PART_AGREEMENT" name="Agreement: 'have' + past/present tense">
             <rule>
                 <pattern>
-                    <token regexp="yes">has|have|had</token>
+                    <token regexp="yes">ha[ds]|have</token>
                     <marker>
                         <token postag="VBD|VBP|VB" postag_regexp="yes"><exception postag="VBN|NN:U.*|JJ.*|RB" postag_regexp="yes"></exception></token>
                     </marker>
@@ -7242,7 +7243,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">has|have|had</token>
+                    <token regexp="yes">ha[ds]|have</token>
                     <token postag="RB"><exception>no</exception><exception postag="IN|RP|CC" postag_regexp="yes"></exception></token>
                     <marker>
                         <token postag="VBD|VBP|VB" postag_regexp="yes"><exception postag="VBN|RB|JJ" postag_regexp="yes"></exception></token>
@@ -7257,7 +7258,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">has|have|had</token>
+                    <token regexp="yes">ha[ds]|have</token>
                     <marker>
                         <token postag="VBD|VBP|VB" postag_regexp="yes"><exception postag="VBN"></exception></token>
                     </marker>
@@ -7271,7 +7272,7 @@ USA
             <rule>
                 <pattern>
                     <token postag="SENT_START"></token>
-                    <token regexp="yes">has|have|had</token>
+                    <token regexp="yes">ha[ds]|have</token>
                     <token postag="PRP"></token>
                     <marker>
                         <token postag="VBD|VBP|VB" postag_regexp="yes"><exception postag="VBN"></exception></token>
@@ -7281,12 +7282,13 @@ USA
                 <example correction="liked" type="incorrect">Have you <marker>like</marker> her?</example>
                 <example type="correct">Have you liked Dutch jazz music?</example>
                 <example type="correct">Have you seen her?</example>
+                <example type="correct">Have you thought of any good plans?</example>
             </rule>
             <rule>
                 <pattern>
                     <token postag="SENT_START"></token>
                     <token postag="WRB|WP" postag_regexp="yes"></token>
-                    <token regexp="yes">has|have|had</token>
+                    <token regexp="yes">ha[ds]|have</token>
                     <token postag="PRP"></token>
                     <marker>
                         <token postag="VBD|VBP|VB" postag_regexp="yes"><exception postag="VBN"></exception></token>
@@ -7299,7 +7301,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">has|have|had</token>
+                    <token regexp="yes">ha[ds]|have</token>
                     <marker>
                         <token>went</token>
                     </marker>
@@ -7312,7 +7314,7 @@ USA
             <rule>
                 <pattern>
                     <token postag="SENT_START"></token>
-                    <token regexp="yes">has|have|had</token>
+                    <token regexp="yes">ha[ds]|have</token>
                     <token postag="PRP"></token>
                     <marker>
                         <token>went</token>
@@ -7327,7 +7329,7 @@ USA
                 <pattern>
                     <token postag="SENT_START"></token>
                     <token postag="WRB|WP" postag_regexp="yes"></token>
-                    <token regexp="yes">has|have|had</token>
+                    <token regexp="yes">ha[ds]|have</token>
                     <token postag="PRP"></token>
                     <marker>
                         <token>went</token>

@@ -1983,6 +1983,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
                     <token postag_regexp="yes" postag="NN.*"></token>
                 </and>
             </marker>
+            <token><exception postag="DT"/></token>
         </pattern>
         <disambig><match no="2" postag_regexp="yes" postag="NN.*"></match></disambig>
         <example type="untouched">His friend is now in England.</example>
@@ -2527,7 +2528,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     
     <rule id="PRP_VBNNN_VBN" name="pronoun + vbn/nn->vbn">
     <pattern>
-      <token postag="PRP"><exception regexp="yes">me|her|its|him|us|them</exception></token>
+      <token postag="PRP"><exception regexp="yes">me|her|its|him|us|them</exception><exception regexp="yes" scope="previous">have|ha[sd]</exception></token>
       <marker>
         <and>
         <token postag="NN.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="VB[ND]|NN.*"/></token>
@@ -2537,6 +2538,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     </pattern>
     <disambig postag="VBD"/>
     <example type="untouched">Pigs know that.</example>
+    <example type="untouched">Have you thought of any good plans?</example>
     <example type="ambiguous" inputform="thought[think/VBD,think/VBN,thought/NN:UN]" outputform="thought[think/VBD]">We <marker>thought</marker> about that.</example>     
     </rule>    
     
