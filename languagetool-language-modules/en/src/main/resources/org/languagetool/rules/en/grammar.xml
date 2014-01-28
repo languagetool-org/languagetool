@@ -308,13 +308,14 @@ USA
             </rule>
             <rule>
               <pattern>
-                <token postag="PRP$"/>
+                <token postag="PRP$"><exception scope="previous">had</exception></token>
                 <marker><token>breathe</token></marker>
               </pattern>
               <message>Did you mean <suggestion>breath</suggestion>? 'Breathe' is a verb.</message>
               <short>Possible grammatical error</short>
               <example type="correct">I can't hold my breath.</example>
               <example type="incorrect" correction="breath">I am not going to hold my <marker>breathe</marker> that he will do anything</example>
+              <example type="correct">Then he had her breathe on the canvas.</example>
             </rule>                   
         </rulegroup>
         <rule id="UP_TO_DATA" name="up to data (date)">
@@ -683,12 +684,13 @@ USA
                     <marker>
                         <token>from</token>
                     </marker>
-                    <token postag="SENT_END"></token>
+                    <token postag="SENT_END"><exception>?</exception></token>
                 </pattern>
                 <message>Did you mean <suggestion>form</suggestion>?</message>
                 <short>Possible typo</short>
                 <example correction="form" type="incorrect">Fill in this <marker>from</marker>.</example>
                 <example type="correct">Fill in this form.</example>
+                <example type="correct">Where is this from?</example>
             </rule>
             <rule>
                 <pattern>
@@ -1320,7 +1322,7 @@ USA
                     <marker>
                         <token>no</token>
                     </marker>
-                    <token postag="JJ.*" postag_regexp="yes"><exception regexp="yes">good|more|less|longer</exception></token>
+                    <token postag="JJ.*" postag_regexp="yes"><exception regexp="yes">good|more|less|longer|different|harder</exception></token>
                     <token><exception postag="NN.*" postag_regexp="yes"></exception></token>
                 </pattern>
                 <message>Did you mean <suggestion>not</suggestion> or <suggestion>now</suggestion>?</message>
@@ -1329,6 +1331,7 @@ USA
                 <example type="correct">It is no mystical intuition.</example>
                 <example type="correct">It is not possible.</example>
                 <example type="correct">It is no surprise.</example>
+                <example type="correct">There was the slight pain, but it was no different from the throbbing in his head.</example>
                 <example type="correct">It is no more a united nation than the Equator.</example>
             </rule>
             <rule>
@@ -1803,7 +1806,7 @@ USA
         </rule>
         <rule id="TOO_TO" name="too go (to go)">
             <pattern>
-                <token>too</token>
+                <token>too<exception scope="previous" regexp="yes">I|we|you|they</exception></token>
                 <token postag="VB"><exception postag="JJ|RB" postag_regexp="yes"></exception></token>
             </pattern>
             <message>Did you mean <suggestion>to \2</suggestion>?</message>
@@ -1812,6 +1815,7 @@ USA
             <example type="correct">I want to go abroad.</example>
             <example type="correct">He succeeded almost too well.</example>
             <example type="correct">It is too narrow.</example>
+            <example type="correct">I too have a son; he's 40 now.</example>
         </rule>
         <rulegroup id="TO_TOO" name="to/two (too) late/soon/much">
             <rule>
@@ -2357,7 +2361,7 @@ USA
             <rule>
                 <pattern>
                     <marker>
-                        <token>quite</token>
+                        <token>quite<exception scope="previous">not</exception></token>
                     </marker>
                     <token postag="SENT_END" regexp="yes">\p{Punct}</token>
                 </pattern>
@@ -2365,6 +2369,7 @@ USA
                 <short>Possible typo</short>
                 <example correction="quiet" type="incorrect">Be <marker>quite</marker>!</example>
                 <example type="correct">Be quiet!</example>
+                <example type="correct">Not quite.</example>
             </rule>
         </rulegroup>
         <rule id="OF_CAUSE" name="of cause (course)">
@@ -2464,7 +2469,7 @@ USA
         <rule>
           <pattern>
             <marker>
-              <token><exception scope="previous" regexp="yes">does|did|would|in|the|and</exception>hell</token>
+              <token><exception scope="previous" regexp="yes">does|did|would|in|the|and|be|to</exception>hell</token>
             </marker>
             <token postag="VB"><exception>fire</exception></token>
           </pattern>
@@ -2474,6 +2479,7 @@ USA
           <example type="correct">Everybody in hell know me.</example>
           <example type="correct">Does Hell Know Who You Are?</example>
           <example type="correct">He scared the hell out of me by popping a balloon right next to my ear.</example>
+          <example type="correct">That evening turned out to be hell like all the others.</example>
           <example type="incorrect" correction="He'll"><marker>Hell</marker> be there.</example>
         </rule>
         <rule>
@@ -2621,7 +2627,7 @@ USA
                     <marker>
                         <token>its</token>
                     </marker>
-                    <token postag="CC|DT|IN|MD|POS|PP|RB|WDT|WP|WRB" postag_regexp="yes"><exception>many</exception><exception postag="NN.*" postag_regexp="yes"></exception></token>
+                    <token postag="CC|DT|IN|MD|POS|PP|RB|WDT|WP|WRB" postag_regexp="yes"><exception>many</exception><exception postag="NN.*|JJ.*" postag_regexp="yes"></exception></token>
                     <token><exception postag="VBN|JJ" postag_regexp="yes"></exception></token>
                 </pattern>
                 <message>Did you mean <suggestion>it's</suggestion> (=<suggestion>it is</suggestion>) instead of 'its' (possessive pronoun)?</message>
@@ -2635,7 +2641,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">on|of</token>
+                    <token regexp="yes">o[nf]</token>
                     <marker>
                         <token>it</token>
                         <token spacebefore="no" regexp="yes">['’]</token>
@@ -2647,6 +2653,10 @@ USA
                 <short>Possible typo</short>
                 <example type="correct">New Robot Reproduces on <marker>Its</marker> Own.</example>
                 <example type="incorrect">New Robot Reproduces on <marker>It's</marker> Own.</example>
+                <example type="incorrect">The cat was on <marker>it's</marker> own in the large house.</example>
+                <example type="correct">The cat was on its own in the large house.</example>
+                <example type="incorrect">The country's crisis was of <marker>it's</marker> own making.</example>
+                <example type="correct">The country's crisis was of its own making.</example>                
             </rule>
             <rule>
                 <pattern>
@@ -2681,6 +2691,8 @@ USA
                 <short>Possible typo</short>
                 <example type="correct">RDF can also be used to express metaproperties of a thesaurus, such as <marker>its</marker> title.</example>
                 <example type="incorrect">RDF can also be used to express metaproperties of a thesaurus, such as <marker>it's</marker> title.</example>
+                <example type="incorrect">There are so many things like about Coney Island, such as <marker>it's</marker> old-school charm.</example>
+                <example type="correct">We liked a lot about the biology course, such as its pace of learning.</example>                
             </rule>
             <rule>
                 <pattern>
@@ -2696,6 +2708,10 @@ USA
                 <short>Possible typo</short>
                 <example type="correct">I would still consider assembling it from all <marker>its</marker> basic components.</example>
                 <example type="incorrect">I would still consider assembling it from all <marker>it's</marker> basic components.</example>
+                <example type="incorrect">From all <marker>it's</marker> windows streamed glorious banners.</example>
+                <example type="correct">From all its windows streamed glorious banners.</example>
+                <example type="incorrect">I was confused by all <marker>it's</marker> footnotes.</example>
+                <example type="correct">I was confused by all its footnotes.</example>                
             </rule>
             <rule>
                 <pattern>
@@ -2710,6 +2726,8 @@ USA
                 <short>Possible typo</short>
                 <example type="correct">We could borrow <marker>its</marker> approach.</example>
                 <example type="incorrect">We could borrow <marker>it's</marker> approach.</example>
+                <example type="incorrect"><marker>It's</marker> approach was signaled by crunching leaves.</example>
+                <example type="correct">I was informed of its approach by the crunching leaves.</example>                
             </rule>
             <rule>
                 <pattern>
@@ -2771,9 +2789,8 @@ USA
                 <example type="triggers_error">Currently, there are fifteen records on <marker>its</marker> A list and twenty on its B list.</example>
             </rule>
             <rule>
-                <pattern case_sensitive="yes">
-                    <token regexp="yes">[wW]ith|[Ii]n|[Ww]ithout|[Ff]rom|[Uu]nder|[Oo]ver|[Aa]bove</token>
-                    <!-- not using postag="IN" because of "like" and "to", not sure about other prepositions -->
+                <pattern>
+                <token regexp="yes">with|in|without|from|under|over|above|beneath|besides?|beyond|between|below|behind</token>
                     <marker>
                         <token>it</token>
                         <token spacebefore="no" regexp="yes">['’]</token>
@@ -2788,18 +2805,22 @@ USA
                 <example type="incorrect">This lovely and interesting area with <marker>it's</marker> friendly people will make a welcoming break</example>
                 <example type="incorrect">In <marker>it's</marker> heyday it was a bustling port.</example>
                 <example type="correct">In <marker>its</marker> heyday it was a bustling port.</example>
+                <example type="incorrect">She had trouble with <marker>it's</marker> tiny buttons.</example>
+                <example type="correct">She had trouble with its tiny buttons.</example>
+                <example type="incorrect">And above <marker>it's</marker> veranda loomed an ominous cloud.</example>
+                <example type="correct">And above its veranda loomed an ominous cloud.</example>                                
             </rule>
-            <!--  in principle, you could have a false alarm, but in Corpus of American English I couldn't find a single example of correct use (out of 1000 examples)... -->
             <rule>
                 <pattern>
                     <marker>
-                        <token>its</token>
+                        <token>its<exception scope="previous">to</exception></token>
                     </marker>
                     <token>going</token>
                 </pattern>
                 <message>Did you mean <suggestion>it's</suggestion> (=<suggestion>it is</suggestion>) instead of 'its' (possessive pronoun)?</message>
                 <short>Possible typo</short>
                 <example type="correct">It's going to rain.</example>
+                <example type="correct">It may even lead to its going out of business.</example>
                 <example type="incorrect" correction="It's|It is"><marker>Its</marker> going to be sunny tomorrow.</example>
             </rule>
             <rule>
@@ -2828,7 +2849,75 @@ USA
                 <message>Did you mean <suggestion>its</suggestion> (possessive pronoun) instead of 'it's' (short form of 'it is')?</message>
                 <example type="incorrect" correction="its">This is an opportunity to see how SAP addresses <marker>it's</marker> internal developers.</example>
                 <example type="correct">This is an opportunity to see how SAP addresses <marker>its</marker> internal developers.</example>
+                <example type="correct">For the first fifteen or twenty minutes it's possible to be more or less interested.</example>
+                <example type="correct">Who says it's going to be published?</example>
+            </rule>                        
+            <!-- it's .*/JJS .*/NN::word=its \1 \2::pivots=it's,its::options=it's,its -->
+            <rule id="ITS_JJS_NN" name="its (possessive) JJS NN">
+              <pattern>
+                <token>it</token>
+                <token spacebefore="no" regexp="yes">['’]</token>
+                <token>s</token>
+                <token postag="JJS"><exception postag="JJS" negate_pos="yes"></exception></token>
+                <token postag="NN|NN:UN?" postag_regexp="yes"><exception postag="NN|NN:UN?" postag_regexp="yes" negate_pos="yes"></exception></token>
+              </pattern>
+            <message>Did you mean <suggestion>its <match no="4"></match> <match no="5"></match></suggestion>?</message>
+            <example type="incorrect">For the painting, <marker>it's reddest area</marker> was in the upper left.</example>
+            <example type="correct">For the painting, its reddest area was in the upper left.</example>
             </rule>
+            <!-- for it's .*/JJ|NN|NNS::word=for its::pivots=\1,its -->
+        <rule id="FOR_ITS_NN" name="for its NN (possessive)">
+            <pattern>
+                <token>for</token>
+                <token>it</token>
+                <token spacebefore="no" regexp="yes">['’]</token>
+                <token>s</token>
+                <token postag="JJ|NN|NN:UN?|NNS" postag_regexp="yes"><exception postag="JJ|NN|NN:UN?|NNS" postag_regexp="yes" negate_pos="yes"></exception></token>
+            </pattern>
+            <message>Did you mean <suggestion>for its \5</suggestion>?</message>
+            <example type="incorrect">No one had any remedies <marker>for it's crazy</marker> rantings.</example>
+            <example type="correct">No one had any remedies for its crazy rantings.</example>
+        </rule>
+        <!-- at|be|about|above|across|against|along|among|around|at|behind|by|for|from|had|in|near|of|on|over|through|to|towards|under|upon|with|without it's .*/JJ|NN|NNS::word=\0 its \2::pivots=it's,its -->
+        <rule id="ABOUT_ITS_NN" name="about its NN (possessive)">
+            <pattern>
+                <token regexp="yes">be|about|above|across|against|along|among|around|at|behind|by|for|from|had|in|near|of|on|over|through|to|towards|under|upon|with|without</token>
+                <token>it</token>
+                <token spacebefore="no" regexp="yes">['’]</token>
+                <token>s</token>
+                <token postag="JJ|NN|NN:UN?|NNS" postag_regexp="yes"><exception postag="JJ|NN|NN:UN?|NNS" postag_regexp="yes" negate_pos="yes"></exception></token>
+            </pattern>
+            <message>Did you mean <suggestion><match no="1"></match> its <match no="5"></match></suggestion>?</message>
+            <example type="incorrect">The frog told a story <marker>about it's happy</marker> childhood in the river.</example>
+            <example type="correct">The frog told a story about its happy childhood in the river.</example>
+        </rule>
+        <!-- to .*/VB it's .*/NN|NNS::word=\0 \1 its \3::pivots=it's,its -->
+        <rule id="TO_VB_ITS_NN" name="to VB its NN (possessive)">
+            <pattern>
+                <token>to</token>
+                <token postag="VB"></token>
+                <token>it</token>
+                <token spacebefore="no" regexp="yes">['’]</token>
+                <token>s</token>
+                <token postag="NN|NN:UN?|NNS" postag_regexp="yes"><exception postag="NN|NN:UN?|NNS" postag_regexp="yes" negate_pos="yes"></exception></token>
+            </pattern>
+            <message>Did you mean <suggestion><match no="1"></match> <match no="2"></match> its <match no="6"></match></suggestion>?</message>
+            <example type="incorrect">I wanted so badly <marker>to take it's apple</marker> and throw it through the window.</example>
+            <example type="correct">I wanted so badly to take its apple and throw it through the window.</example>
+        </rule>
+        <!-- it's .*/JJ .*/NNS|NN::word=its \1 \2::pivots=it's,its -->
+        <rule id="ITS_JJ_NNSNN" name="its JJ NN (possessive)">
+            <pattern>
+                <token>it</token>
+                <token spacebefore="no" regexp="yes">['’]</token>
+                <token>s</token>
+                <token postag="JJ"><exception postag="JJ" negate_pos="yes"></exception></token>
+                <token postag="NNS|NN|NN:UN?" postag_regexp="yes"><exception postag="NNS|NN|NN:UN?" postag_regexp="yes" negate_pos="yes"></exception></token>
+            </pattern>
+            <message>Did you mean <suggestion>its <match no="4"></match> <match no="5"></match></suggestion>?</message>
+            <example type="incorrect">I appreciated <marker>it's odorless handshake</marker> by the fifth time.</example>
+            <example type="correct">I appreciate its odorless handshake by the fifth time.</example>
+        </rule>                
         </rulegroup>
         <rulegroup id="WED_WE_D" name="wed (we'd)">
         <rule>      
@@ -2948,7 +3037,7 @@ USA
         <rulegroup id="NOW" name="no/now">
             <rule>
                 <pattern>
-                    <token><exception postag="IN"></exception><exception regexp="yes">is|are|was|were|be|had|have|has</exception></token>
+                    <token><exception postag="IN"></exception><exception postag="VB.*" postag_regexp="yes"/></token>
                     <marker>
                         <token>no</token>
                     </marker>
@@ -2960,6 +3049,7 @@ USA
                 <example type="correct">There <marker>now</marker> will be a park.</example>
                 <example type="incorrect" correction="now">There <marker>no</marker> will be a park.</example>
                 <example type="correct">Although in no state the repression has been as great as it was in Soviet times.</example>
+                <example type="correct">There was evidently no thought of their being published.</example>
             </rule>
             <rule>
                 <!-- TODO: 'no the', 'no of' -->
@@ -3116,7 +3206,7 @@ USA
         </rule>
         <rule id="ONES" name="ones (one's)" type="typographical">
             <pattern>
-                <token><exception postag="JJ.*" postag_regexp="yes"></exception></token>
+                <token><exception postag="JJ.*|DT" postag_regexp="yes"></exception></token>
                 <marker>
                     <token>ones</token>
                 </marker>
@@ -3127,6 +3217,7 @@ USA
             <example type="correct">The common ones clashing with the noble ones</example>
             <example type="correct">One should always wash one's feet in the morning.</example>
             <example type="incorrect">One should always wash <marker>ones</marker> feet in the morning.</example>
+            <example type="correct">These were the ones Keith sought out.</example>
         </rule>
         <rulegroup id="POSSESIVE_APOSTROPHE" name="Possessive apostrophe error" type="typographical">
             <rule>
@@ -4876,177 +4967,7 @@ USA
         <example type="incorrect" correction="I'll"><marker>Ill</marker> explain!</example>
         <example type="correct">I'll never do this again!</example>
         <example type="correct">Ill news comes apace.</example>
-        </rule>        
-        <rulegroup id="ITS_RULE" name="its rule (possessive)">
-            <!-- on it's own::name=it's rule::word=on its own::filter=none -->
-            <rule>
-                <pattern>
-                    <token>on</token>
-                    <token>it</token>
-                    <token spacebefore="no" regexp="yes">['’]</token>
-                    <token>s</token>
-                    <token>own</token>
-                </pattern>
-                <message>Did you mean <suggestion>on its own</suggestion>?</message>
-                <example type="incorrect">The cat was <marker>on it's own</marker> in the large house.</example>
-                <example type="correct">The cat was on its own in the large house.</example>
-            </rule>
-            <!-- of it's own::name=it's rule::word=of its own::filter=none -->
-            <rule>
-                <pattern>
-                    <token>of</token>
-                    <token>it</token>
-                    <token spacebefore="no" regexp="yes">['’]</token>
-                    <token>s</token>
-                    <token>own</token>
-                </pattern>
-                <message>Did you mean <suggestion>of its own</suggestion>?</message>
-                <example type="incorrect">The country's crisis was <marker>of it's own</marker> making.</example>
-                <example type="correct">The country's crisis was of its own making.</example>
-            </rule>
-            <!-- such as it's::name=it's rule::word=such as its::filter=none -->
-            <rule>
-                <pattern>
-                    <token>such</token>
-                    <token>as</token>
-                    <token>it</token>
-                    <token spacebefore="no" regexp="yes">['’]</token>
-                    <token>s</token>
-                </pattern>
-                <message>Did you mean <suggestion>such as its</suggestion>?</message>
-                <example type="incorrect">There are so many things like about Coney Island, <marker>such as it's</marker> old-school charm.</example>
-                <example type="correct">We liked a lot about the biology course, such as its pace of learning.</example>
-            </rule>
-            <!-- from all it's::name=it's rule::word=from all its::filter=none -->
-            <rule>
-                <pattern>
-                    <token>from</token>
-                    <token>all</token>
-                    <token>it</token>
-                    <token spacebefore="no" regexp="yes">['’]</token>
-                    <token>s</token>
-                </pattern>
-                <message>Did you mean <suggestion>from all its</suggestion>?</message>
-                <example type="incorrect"><marker>From all it's</marker> windows streamed glorious banners.</example>
-                <example type="correct">From all its windows streamed glorious banners.</example>
-            </rule>
-            <!-- by all it's::name=it's rule::word=by all its::filter=none -->
-            <rule>
-                <pattern>
-                    <token>by</token>
-                    <token>all</token>
-                    <token>it</token>
-                    <token spacebefore="no" regexp="yes">['’]</token>
-                    <token>s</token>
-                </pattern>
-                <message>Did you mean <suggestion>by all its</suggestion>?</message>
-                <example type="incorrect">I was confused <marker>by all it's</marker> footnotes.</example>
-                <example type="correct">I was confused by all its footnotes.</example>
-            </rule>
-            <!-- it's approach::name=it's rule::word=its approach::filter=none -->
-            <rule>
-                <pattern>
-                    <token>it</token>
-                    <token spacebefore="no" regexp="yes">['’]</token>
-                    <token>s</token>
-                    <token>approach</token>
-                </pattern>
-                <message>Did you mean <suggestion>its approach</suggestion>?</message>
-                <example type="incorrect"><marker>It's approach</marker> was signaled by crunching leaves.</example>
-                <example type="correct">I was informed of its approach by the crunching leaves.</example>
-            </rule>
-            <!-- with it's::name=it's rule::word=\0 its::pivots=it's,its -->
-            <rule>
-                <pattern>
-                    <token>with</token>
-                    <token>it</token>
-                    <token spacebefore="no" regexp="yes">['’]</token>
-                    <token>s</token>
-                </pattern>
-                <message>Did you mean <suggestion><match no="1"></match> its</suggestion>?</message>
-                <example type="incorrect">She had trouble <marker>with it's</marker> tiny buttons.</example>
-                <example type="correct">She had trouble with its tiny buttons.</example>
-            </rule>
-            <!-- with/.* it's/.* .*/JJ.*|NN.*::name=it's rule::word=\0 its \2::filter=none -->
-            <rule>
-                <pattern>
-                    <token regexp="yes">with|in|without|from|under|over|above</token>
-                    <token>it</token>
-                    <token spacebefore="no" regexp="yes">['’]</token>
-                    <token>s</token>
-                    <token postag="JJ.*|NN.*" postag_regexp="yes"><exception postag="JJ.*|NN.*" postag_regexp="yes" negate_pos="yes"></exception></token>
-                </pattern>
-                <message>Did you mean <suggestion><match no="1"></match> its <match no="5"></match></suggestion>?</message>
-                <example type="incorrect">And <marker>above it's veranda</marker> loomed an ominous cloud.</example>
-                <example type="correct">And above its veranda loomed an ominous cloud.</example>
-            </rule>
-            <!-- it's .*/JJS .*/NN::word=its \1 \2::pivots=it's,its::options=it's,its -->
-            <rule id="ITS_JJS_NN" name="its (possessive) JJS NN">
-              <pattern>
-                <token>it</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
-                <token>s</token>
-                <token postag="JJS"><exception postag="JJS" negate_pos="yes"></exception></token>
-                <token postag="NN|NN:UN?" postag_regexp="yes"><exception postag="NN|NN:UN?" postag_regexp="yes" negate_pos="yes"></exception></token>
-              </pattern>
-            <message>Did you mean <suggestion>its <match no="4"></match> <match no="5"></match></suggestion>?</message>
-            <example type="incorrect">For the painting, <marker>it's reddest area</marker> was in the upper left.</example>
-            <example type="correct">For the painting, its reddest area was in the upper left.</example>
-            </rule>
-            <!-- for it's .*/JJ|NN|NNS::word=for its::pivots=\1,its -->
-        <rule id="FOR_ITS_NN" name="for its NN (possessive)">
-            <pattern>
-                <token>for</token>
-                <token>it</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
-                <token>s</token>
-                <token postag="JJ|NN|NN:UN?|NNS" postag_regexp="yes"><exception postag="JJ|NN|NN:UN?|NNS" postag_regexp="yes" negate_pos="yes"></exception></token>
-            </pattern>
-            <message>Did you mean <suggestion>for its \5</suggestion>?</message>
-            <example type="incorrect">No one had any remedies <marker>for it's crazy</marker> rantings.</example>
-            <example type="correct">No one had any remedies for its crazy rantings.</example>
-        </rule>
-        <!-- at|be|about|above|across|against|along|among|around|at|behind|by|for|from|had|in|near|of|on|over|through|to|towards|under|upon|with|without it's .*/JJ|NN|NNS::word=\0 its \2::pivots=it's,its -->
-        <rule id="ABOUT_ITS_NN" name="about its NN (possessive)">
-            <pattern>
-                <token regexp="yes">be|about|above|across|against|along|among|around|at|behind|by|for|from|had|in|near|of|on|over|through|to|towards|under|upon|with|without</token>
-                <token>it</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
-                <token>s</token>
-                <token postag="JJ|NN|NN:UN?|NNS" postag_regexp="yes"><exception postag="JJ|NN|NN:UN?|NNS" postag_regexp="yes" negate_pos="yes"></exception></token>
-            </pattern>
-            <message>Did you mean <suggestion><match no="1"></match> its <match no="5"></match></suggestion>?</message>
-            <example type="incorrect">The frog told a story <marker>about it's happy</marker> childhood in the river.</example>
-            <example type="correct">The frog told a story about its happy childhood in the river.</example>
-        </rule>
-        <!-- to .*/VB it's .*/NN|NNS::word=\0 \1 its \3::pivots=it's,its -->
-        <rule id="TO_VB_ITS_NN" name="to VB its NN (possessive)">
-            <pattern>
-                <token>to</token>
-                <token postag="VB"></token>
-                <token>it</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
-                <token>s</token>
-                <token postag="NN|NN:UN?|NNS" postag_regexp="yes"><exception postag="NN|NN:UN?|NNS" postag_regexp="yes" negate_pos="yes"></exception></token>
-            </pattern>
-            <message>Did you mean <suggestion><match no="1"></match> <match no="2"></match> its <match no="6"></match></suggestion>?</message>
-            <example type="incorrect">I wanted so badly <marker>to take it's apple</marker> and throw it through the window.</example>
-            <example type="correct">I wanted so badly to take its apple and throw it through the window.</example>
-        </rule>
-        <!-- it's .*/JJ .*/NNS|NN::word=its \1 \2::pivots=it's,its -->
-        <rule id="ITS_JJ_NNSNN" name="its JJ NN (possessive)">
-            <pattern>
-                <token>it</token>
-                <token spacebefore="no" regexp="yes">['’]</token>
-                <token>s</token>
-                <token postag="JJ"><exception postag="JJ" negate_pos="yes"></exception></token>
-                <token postag="NNS|NN|NN:UN?" postag_regexp="yes"><exception postag="NNS|NN|NN:UN?" postag_regexp="yes" negate_pos="yes"></exception></token>
-            </pattern>
-            <message>Did you mean <suggestion>its <match no="4"></match> <match no="5"></match></suggestion>?</message>
-            <example type="incorrect">I appreciated <marker>it's odorless handshake</marker> by the fifth time.</example>
-            <example type="correct">I appreciate its odorless handshake by the fifth time.</example>
-        </rule>        
-        </rulegroup>
+        </rule>                
         <!-- laid ahead::word=lay ahead::pivots=laid,lay::options=laid,lay -->
         <rule id="LAID_AHEAD" name="laid (lay) ahead">
             <pattern>
@@ -10657,9 +10578,9 @@ USA
         </rulegroup>
         <rulegroup name="abbreviations with spaces in between (e. g.)" id="EG_SPACE">
             <rule>
-                <pattern>
+                <pattern case_sensitive="yes">
                     <marker>
-                        <token>e</token>
+                        <token regexp="yes">[Ee]</token>
                         <token>.</token>
                         <token spacebefore="yes">g</token>
                         <token>.</token>
@@ -10669,6 +10590,7 @@ USA
                 <short>Punctuation error</short>
                 <example type="correct">The are several grammar checkers for English, e.g., LanguageTool.</example>
                 <example type="incorrect">The are several grammar checkers for English, <marker>e. g.</marker> LanguageTool.</example>
+                <example type="correct">E. G. Erdos, L. E. Boggs, C. D. Mackey</example>
             </rule>
             <rule>
                 <pattern>
@@ -11004,7 +10926,7 @@ USA
         </rulegroup>
         <rule id="BELIEVE_BELIEF" name="believe (belief)">
             <pattern>
-              <token postag="JJ|PRP\$" postag_regexp="yes"><exception postag="JJ|PRP\$" postag_regexp="yes" negate_pos="yes"/><exception>former</exception></token>
+              <token postag="JJ|PRP\$|W?DT" postag_regexp="yes"><exception postag="JJ|PRP\$|W?DT" postag_regexp="yes" negate_pos="yes"/><exception regexp="yes">former|th[eo]se|some|many|all</exception></token>
               <marker>
                   <token regexp="yes">believes?</token>
               </marker>
@@ -11015,10 +10937,12 @@ USA
             <example type="correct">We <marker>believe</marker> that this is wrong.</example>
             <example type="correct">an atheist <marker>believe</marker></example>
             <example type="incorrect" correction="belief">It is my strong <marker>believe</marker> that something has to be changed.</example>
-<!--             <example type="incorrect" correction="belief">It is the <marker>believe</marker> of the people.</example> TODO-->
+            <example type="correct">Mr. Kennedy, Mr. White believes, had mastered politics on so many different levels that no other American could match him.</example>
+            <example type="incorrect" correction="belief">It is the <marker>believe</marker> of the people.</example>
             <example type="correct">Are there different <marker>beliefs</marker>?</example>
             <example type="incorrect" correction="beliefs">Are there different <marker>believes</marker>?</example>
             <example type="correct">Some <marker>believe</marker> the public should have the freedom.</example>
+            <example type="correct">We all believe that it's true.</example>
         </rule>
         <rule id="BELIEF_BELIEVE" name="belief (believe)">
             <pattern>
@@ -11431,12 +11355,13 @@ USA
                         <token>in</token>
                         <token inflected="yes">principal</token>
                     </marker>
-                    <token negate_pos="yes" postag="NN.*" postag_regexp="yes"></token>
+                    <token><exception postag="NN.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Did you mean <suggestion>\1 <match no="2" postag="NN.*" postag_regexp="yes">principle</match></suggestion> (=as a rule)?</message>
                 <short>Commonly confused word</short>
                 <example type="incorrect" correction="In principle"><marker>In principal</marker> I don't think it will be too difficult.</example>
                 <example type="correct">In principle, I don't think it will be too difficult.</example>
+                <example type="correct">Each award of more than $1,000 in principal amount</example>
             </rule>
             <rule>
                 <pattern>
@@ -12526,12 +12451,13 @@ USA
                 <marker>
                     <token regexp="yes">faculty|committee|staff"</token>
                 </marker>
-                <token negate="yes">members</token>
+                <token><exception postag="NNS"/></token>
             </pattern>
             <message>Use <suggestion><match no="2"></match> members</suggestion>.</message>
             <short>Grammatical problem</short>
             <example correction="faculty members" type="incorrect">Three <marker>faculty</marker> support the change.</example>
             <example type="correct">Three committee members were present.</example>
+            <example type="correct">No faculty member has too many committee assignments.</example>
         </rule>
         <rule id="ALL_OF_THE" name="all of the (all the)">
             <pattern>
