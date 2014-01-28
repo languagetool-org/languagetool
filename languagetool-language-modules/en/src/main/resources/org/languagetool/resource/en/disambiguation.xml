@@ -2378,7 +2378,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
                 <marker>
                     <token spacebefore="no" regexp="yes">['’]</token>
                 </marker>
-                <token><exception>s</exception></token>
+                <token spacebefore="yes"><exception>s</exception></token>
             </pattern>
             <disambig action="add"><wd lemma="'" pos="POS">'</wd></disambig>
             <example type="untouched">This is Bill's house.</example>
@@ -2386,6 +2386,21 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <example type="untouched">Let's go!</example>
             <example type="ambiguous" inputform="'[']" outputform="'['/POS]">I hate Texas<marker>'</marker> big cities!</example>
         </rule>        
+        <rule> <!--  Burkes' or Stevenses' : unknown proper names -->
+            <pattern case_sensitive="yes">
+                <token postag="UNKNOWN|^(?!NN.*?).*" postag_regexp="yes" regexp="yes">\p{Lu}\p{Ll}+s<exception scope="previous">'</exception></token>
+                <marker>
+                    <token spacebefore="no" regexp="yes">['’]</token>
+                </marker>
+                <token spacebefore="yes"/>
+            </pattern>
+            <disambig action="add"><wd lemma="'" pos="POS">'</wd></disambig>
+            <example type="untouched">This is Bill's house.</example>
+            <example type="untouched">This is how 'unconscious' knowledge is posited.</example>
+            <example type="untouched">Let's go!</example>
+            <example type="ambiguous" inputform="'[']" outputform="'['/POS]">The Geraghtys<marker>'</marker> youngest daughter!</example>
+            <example type="ambiguous" inputform="'[']" outputform="'['/POS]">Burke-rostagno the Richard S. Burkes<marker>'</marker> home in Wayne may be the setting for the wedding.</example>
+        </rule>
     </rulegroup>
     <rule name="Goin'" id="VBG_IN">
         <pattern>

@@ -32,6 +32,7 @@ public class EnglishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
   private static final String[] EN_END_SYMBOLS   = { "]", ")", "}", "”", "\"", "'" };
 
   private static final Pattern NUMBER = Pattern.compile("\\d+");
+  private static final Pattern YEAR_NUMBER = Pattern.compile("\\d\\d");
   private static final Pattern ALPHA = Pattern.compile("\\p{L}+");
 
   public EnglishUnpairedBracketsRule(final ResourceBundle messages,
@@ -83,8 +84,6 @@ public class EnglishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
         return false;
       }
       // Exception for English plural Saxon genitive
-      // current disambiguation scheme is a bit too greedy
-      // for adjectives
       if ("'".equals(tokenStr) && tokens[i].hasPosTag("POS")) {
         return false;
       }
@@ -95,10 +94,15 @@ public class EnglishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
       }
     }
     if (precSpace && !follSpace) {
-      // hold 'em!
-      if ("'".equals(tokenStr) && i + 1 < tokens.length
-          && "em".equals(tokens[i + 1].getToken())) {
-        return false;
+      if ("'".equals(tokenStr) && i + 1 < tokens.length) {
+        // hold 'em!
+        if ("em".equals(tokens[i + 1].getToken())) {
+          return false;
+        }
+        // '60 campaign
+        else if (YEAR_NUMBER.matcher(tokens[i + 1].getToken()).matches()) {
+          return false;
+        }
       }
     }
     return true;

@@ -1,4 +1,4 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2010 Daniel Naber (http://www.languagetool.org)
  * 
  * This library is free software; you can redistribute it and/or
@@ -34,15 +34,15 @@ public class EnglishUnpairedBracketsRuleTest extends TestCase {
 
   private Rule rule;
   private JLanguageTool langTool;
-  
+
   @Override
   public void setUp() throws IOException {
     rule = new EnglishUnpairedBracketsRule(TestTools.getEnglishMessages(), new English());
     langTool = new JLanguageTool(new English());
   }
-  
+
   public void testRule() throws IOException {
-    
+
     // correct sentences:
     assertCorrect("(This is a test sentence).");
     assertCorrect("This is a word 'test'.");
@@ -71,8 +71,13 @@ public class EnglishUnpairedBracketsRuleTest extends TestCase {
     assertCorrect("(Ketab fi Isti'mal al-'Adad al-Hindi)");
     assertCorrect("On their 'host' societies.");
     assertCorrect("On their 'host society'.");
+    assertCorrect("Burke-rostagno the Richard S. Burkes' home in Wayne may be the setting for the wedding reception for their daughter.");
+    assertCorrect("The '49 team was off to a so-so 5-5 beginning");
+    assertCorrect("A Republican survey says Kennedy won the '60 election on the religious issue.");
+
+
     //Should be correct!
-    //assertCorrect("On their 'host societies'.");   
+    //assertCorrect("On their 'host societies'.");
 
     // incorrect sentences:
     assertIncorrect("(This is a test sentence.");
@@ -100,7 +105,7 @@ public class EnglishUnpairedBracketsRuleTest extends TestCase {
     final RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(sentence));
     assertEquals(1, matches.length);
   }
-  
+
   public void testMultipleSentences() throws IOException {
     final JLanguageTool tool = new JLanguageTool(new English());
     tool.enableRule("EN_UNPAIRED_BRACKETS");

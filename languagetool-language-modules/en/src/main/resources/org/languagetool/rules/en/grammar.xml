@@ -11320,8 +11320,19 @@ USA
                     <token>affect</token>
                 </pattern>
                 <message>Did you mean <suggestion>cause and effect</suggestion>?</message>
+                <short>Possible typo</short>
                 <example type="incorrect">The experiment didn't obey the laws of <marker>cause and affect</marker>.</example>
                 <example type="correct">The experiment didn't obey the laws of cause and effect.</example>
+            </rule>
+            <rule>
+              <pattern>
+                <token>badly</token>
+                <token>effected</token>
+              </pattern>
+              <message>Did you mean <suggestion>\1 affected</suggestion>?</message>
+              <short>Possible typo</short>
+              <example type="correct">She was badly affected.</example>
+              <example type="incorrect" correction="badly affected">She was <marker>badly effected</marker>.</example>
             </rule>
         </rulegroup>
         <rule id="ECONOMICAL_ECONOMIC" name="'econonomical (economic) growth' etc.">
