@@ -80,6 +80,8 @@ public class CaseRule extends GermanRule {
      * solution is to add all those to our Morphy data, but as a simple
      * workaround to avoid false alarms, these words can be added here.
      */
+    exceptions.add("Abs");   // Abs. = Abkürzung für Absatz, Absender, ...
+    exceptions.add("Klappe");
     exceptions.add("Vorfahre");
     exceptions.add("Mittler");
     exceptions.add("Hr");   // Hr. = Abkürzung für Herr
