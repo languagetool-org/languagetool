@@ -1074,7 +1074,7 @@ $Id$
                 <pattern>
                     <token postag="VER:(AUX:)?(1|2|3):.+" postag_regexp="yes"><exception inflected="yes">einen</exception></token>
                     <marker>
-                        <token postag="ADJ:.*" postag_regexp="yes"><exception postag="ADJ:PRD:KOM"/><exception postag="ADJ:PRD:GRU"/><exception regexp="yes">dehnbarer|andere|teilweise|lange|höher|einige|solche</exception></token>
+                        <token postag="ADJ:.*" postag_regexp="yes"><exception postag="ADJ:PRD:KOM"/><exception postag="ADJ:PRD:GRU"/><exception regexp="yes">gleicher|dehnbarer|andere|teilweise|lange|höher|einige|solche</exception></token>
                     </marker>
                     <token>als</token>
                 </pattern>
@@ -1088,7 +1088,7 @@ $Id$
                 <pattern>
                     <token postag="VER:(AUX:)?(1|2|3):.+" postag_regexp="yes"><exception inflected="yes">einen</exception></token>
                     <marker>
-                        <token postag="ADJ:.*" postag_regexp="yes"><exception postag="ADJ:PRD:KOM"/><exception postag="ADJ:PRD:GRU"/><exception regexp="yes">dehnbarer|andere|teilweise|lange|höher|einige|solche</exception></token>
+                        <token postag="ADJ:.*" postag_regexp="yes"><exception postag="ADJ:PRD:KOM"/><exception postag="ADJ:PRD:GRU"/><exception regexp="yes">gleicher|dehnbarer|andere|teilweise|lange|höher|einige|solche</exception></token>
                     </marker>
                     <token>als</token>
                 </pattern>
@@ -1103,7 +1103,7 @@ $Id$
                     <token postag="VER:(AUX:)?(1|2|3):.+" postag_regexp="yes"><exception inflected="yes">einen</exception></token>
                     <token regexp="yes">deutlich|eindeutig|einfach|klar|viel|zweifellos</token>
                     <marker>
-                        <token postag="ADJ:.*" postag_regexp="yes"><exception postag="ADJ:PRD:KOM"/><exception postag="ADJ:PRD:GRU"/><exception regexp="yes">dehnbarer|andere|teilweise|lange|höher|einige|solche</exception></token>
+                        <token postag="ADJ:.*" postag_regexp="yes"><exception postag="ADJ:PRD:KOM"/><exception postag="ADJ:PRD:GRU"/><exception regexp="yes">gleicher|dehnbarer|andere|teilweise|lange|höher|einige|solche</exception></token>
                     </marker>
                     <token>als</token>
                 </pattern>
@@ -9568,6 +9568,18 @@ $Id$
                 <message>'anders wie' ist umgangssprachlich. Verwenden Sie zum Ausdrücken von Ungleichheit <suggestion>als</suggestion>.</message>
                 <example type="incorrect" correction="als">Der ist ganz anders <marker>wie</marker> ich.</example>
                 <example type="correct">Der ist ganz anders <marker>als</marker> ich.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag=".*ADJ.*KOM.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>wie</token>
+                    </marker>
+                    <token postag="EIG:.*" postag_regexp="yes"/>
+                </pattern>
+                <message>'wie' ist hier umgangssprachlich. Verwenden Sie zum Ausdrücken von Ungleichheit <suggestion>als</suggestion>.</message>
+                <example type="incorrect" correction="als">Tom Cruise war auch viel kleiner <marker>wie</marker> Nicole Kidman.</example>
+                <example type="correct" correction="als">Tom Cruise war auch viel kleiner <marker>als</marker> Nicole Kidman.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SINN_MACHEN" name="Umgangssprache: 'Sinn machen'">
@@ -24951,7 +24963,7 @@ $Id$
                     <token regexp="yes">im|zum|beim|am</token>
                     <marker>
                         <token regexp="yes">[0-9]{1,2}</token>
-                        <token postag="SUB:DAT:SIN:(MAS|NEU)" postag_regexp="yes"><exception postag="SUB:.+:PLU:.+" postag_regexp="yes"/></token>
+                        <token postag="SUB:DAT:SIN:(MAS|NEU)" postag_regexp="yes"><exception postag="SUB:.+:PLU:.+" postag_regexp="yes"/><exception>Zoll</exception></token>
                     </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion>\2. \3</suggestion>? Möglicherweise haben Sie einen Punkt nach '\2' vergessen, oder '\3' müsste im Plural stehen.</message>
