@@ -12141,6 +12141,23 @@ USA
             <example correction="best" type="incorrect">Top ten <marker>best ever</marker> beer names.</example>
             <example type="correct">Top ten best beer names.</example>
         </rule>
+        <rule id="BIG_IN_SIZE" name="Big in size, etc">
+         <pattern>
+                 <token postag_regexp="yes" postag="JJ|JJR|JJS"><exception regexp="yes">similar|alone|religious|corresponding|equal|next|possible|autocratic|necessary|beautiful|rich</exception><exception postag="VBN"/></token>
+                  <token>in</token>
+                 <token regexp="yes">size|duration|color|colour|number|shape|height|nature|length|weight</token>
+         </pattern>
+         <message>A more concise phrase may lose no meaning and sound more powerful.</message>
+         <suggestion>\1</suggestion>
+         <short>Possible redundancy</short>
+         <example type="correct">The man is big.</example>
+         <example type="correct">His speech was briefest.</example>
+         <example type="correct">He's absorbed in thought.</example>
+         <example correction="big" type="incorrect">The man is <marker>big in size</marker>.</example>
+         <example correction="briefest" type="incorrect">His speech was <marker>briefest in duration</marker>.</example>
+         <example correction="redder" type="incorrect">My car is <marker>redder in color</marker>.</example>
+         <example correction="few" type="incorrect">Her friends were <marker>few in number</marker>.</example>
+        </rule>
         <rule id="BITTER_IN_TASTE" name="bitter in taste (bitter)">
             <pattern>
                 <token>bitter</token>
