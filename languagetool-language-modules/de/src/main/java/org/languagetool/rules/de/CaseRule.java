@@ -360,6 +360,7 @@ public class CaseRule extends GermanRule {
 
   private static final Set<String> substVerbenExceptions = new HashSet<>();
   static {
+    substVerbenExceptions.add("klar");
     substVerbenExceptions.add("heißen");
     substVerbenExceptions.add("einen");
     substVerbenExceptions.add("gehören");
