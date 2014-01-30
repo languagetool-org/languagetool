@@ -381,9 +381,9 @@ USA
                 </marker>
                 <token><exception postag="NNS?:.*" postag_regexp="yes"></exception></token>
             </pattern>
-            <message>Probably incorrect use of superlative '\3'. Consider using the comparative form instead (e.g. 'better' instead of 'best').</message>
-            <example type="incorrect">He was even <marker>worst</marker> after a year.</example>
-            <example type="incorrect">He was even <marker>worst</marker>.</example>
+            <message>Probably incorrect use of superlative '\3'. Consider using the comparative form instead: <suggestion><match suppress_misspelled="yes" no="3" postag="JJR"/></suggestion>.</message>
+            <example type="incorrect" correction="nicer">He was even <marker>nicest</marker> after a year.</example>
+            <example type="incorrect" correction="badder|iller|worse">He was even <marker>worst</marker>.</example>
             <example type="correct">He was even worse after a year.</example>
             <example type="correct">He was even best man at my wedding.</example>
             <example type="correct">He was even worse.</example>
@@ -1342,7 +1342,7 @@ USA
                     <marker>
                         <token>no</token>
                     </marker>
-                    <token postag="JJ.*" postag_regexp="yes"><exception regexp="yes">longer|different</exception></token>
+                    <token postag="JJ.*" postag_regexp="yes"><exception regexp="yes">longer|different|good</exception></token>
                 </pattern>
                 <message>Did you mean <suggestion>not</suggestion> or <suggestion>now</suggestion>?</message>
                 <short>Possible typo</short>
@@ -1350,6 +1350,7 @@ USA
                 <example type="correct">It isn't possible.</example>
                 <example type="correct">It is no surprise.</example>
                 <example type="correct">It's no longer needed.</example>
+                <example type="correct">To hit running prey, it's no good to ponder the problem for long.</example>
                 <example type="correct">You say it's no BIG deal, but to me it is.</example>
             </rule>
         </rulegroup>
